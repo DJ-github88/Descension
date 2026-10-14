@@ -264,7 +264,7 @@ const REGISTRY_ENTRIES = [
   authored('character.roster', 'Local character roster', ['mythrill-characters']),
   recoverable('character.saveDraft', 'P6 selected character save candidate', [
     { builder: 'mythrill_character_save_draft_{characterId}_{lane}' }
-  ], { notes: 'Latest canonical or personal runtime draft; owner scoped, retained on failure/logout. Not a room checkpoint or upload receipt.' }),
+  ], { notes: 'Latest canonical/personal runtime draft or separate read-only conditionRecovery source; owner/character scoped, retained on failure/logout. Recovery never executes or enters public projections. Not a room checkpoint or upload receipt.' }),
   authored('character.guestRoster', 'Guest character roster', ['mythrill-guest-characters'], [
     'mythrill-guest-character'
   ]),

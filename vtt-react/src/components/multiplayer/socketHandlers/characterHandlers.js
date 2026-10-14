@@ -3,6 +3,8 @@ import useGameStore from '../../../store/gameStore';
 import useCharacterStore from '../../../store/characterStore';
 import usePartyStore from '../../../store/partyStore';
 import useChatStore from '../../../store/chatStore';
+import { applyActorLifecycle, refreshActorSnapshot } from '../../../services/actorConsequenceService';
+import { captureActorDelivery, currentActorDelivery } from '../../../services/actorProjectionOrder';
 
 export function registerCharacterHandlers(ctx) {
   const {
@@ -11,6 +13,7 @@ export function registerCharacterHandlers(ctx) {
     setConnectedPlayers, addNotification
   } = ctx;
     if (!socket) return;
+    const registered = captureActorDelivery(socket);
 
     socket.on('character_resource_updated', (data) => {
       if (!data) return;
@@ -245,6 +248,11 @@ export function registerCharacterHandlers(ctx) {
     });
 
     socket.on('character_updated', (data) => {
+      if (data?.actorSnapshot) {
+        const context = { ...registered, room: useGameStore.getState().multiplayerRoom, roomId: useGameStore.getState().multiplayerRoom?.id };
+        if (currentActorDelivery(context, data.actorSnapshot.roomId) && !applyActorLifecycle(data, context)) refreshActorSnapshot();
+        return;
+      }
       // Only process updates from other players (not our own)
       const senderSocketId = data.character?.playerId || data.characterId;
       const serverPlayerId = data.character?.serverPlayerId; // Server-assigned UUID

@@ -1435,7 +1435,7 @@
 /* Cartographic frontispiece and quiet, engraved ledger counts. */
 .region-detail-panel .region-hero-header {
   padding: 20px 28px 28px;
-  background: linear-gradient(90deg, rgba(48, 36, 25, 0.97), rgba(48, 36, 25, 0.86)), var(--realm-atlas) center / cover;
+  background: linear-gradient(90deg, rgba(31, 43, 42, 0.97), rgba(31, 43, 42, 0.86)), var(--realm-atlas) center / cover;
   border-bottom: 1px solid #9b835e;
   color: var(--realm-paper);
 }
@@ -1455,7 +1455,7 @@
   text-shadow: none;
   transition: background-color 160ms ease, border-color 160ms ease;
 }
-.region-detail-panel .region-hero-header :is(.world-back-btn, .btn-region-hero-action):hover { background: #453326 !important; border-color: var(--realm-brass) !important; color: var(--realm-paper) !important; transform: none; }
+.region-detail-panel .region-hero-header :is(.world-back-btn, .btn-region-hero-action):hover { background: #2c3d3b !important; border-color: var(--realm-brass) !important; color: var(--realm-paper) !important; transform: none; }
 .region-detail-panel .region-hero-header :is(button, [role='button']):focus-visible { outline-color: var(--realm-paper); }
 .region-detail-panel .region-hero-icon-box { border: 1px solid #9b835e; border-radius: 3px; background: transparent; color: var(--realm-paper); box-shadow: none; }
 .region-detail-panel .region-ruler-badge { background: transparent; border: 1px solid #897455; border-radius: 2px; color: #d0bf9e; font-size: 0.68rem; }

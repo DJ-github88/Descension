@@ -948,7 +948,7 @@ Before combat, decide which cadences you want to prioritize:
  cadenceMatrix: {
   title: "Cadence Matrix",
   subtitle: "The 10 Resolvable Progressions",
-  description: `Every Minstrel can resolve any of the ten cadences provided they have banked the required notes. Cadences are not learned, they are inherent to the mathematics of stolen frequencies. Bank the notes through builder spells, then resolve the cadence to commit its atrocity.`,
+  description: `Cadences are resolver spells: you learn them as you level, like any other Minstrel spell. Each one needs an exact set of banked notes. Bank those notes through builder songs, then resolve the cadence to spend them and commit its atrocity. These ten are the classic progressions; your songbook holds only the ones you have learned.`,
   baseManaCost: 16,
   baseRange: 60,
 

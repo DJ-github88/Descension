@@ -1205,15 +1205,63 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt }) => 
   };
 
   return (
-    <div className="room-lobby">
-      <div className="fog-overlay">
+    <div
+      className="room-lobby"
+      style={{
+        '--lobby-map-url': `url("${process.env.PUBLIC_URL || ''}/assets/images/backgrounds/atlas/mythril-preview.jpg")`,
+        '--parchment-texture-url': `url("${process.env.PUBLIC_URL || ''}/assets/ui/wow-window/parchment_bg.png")`
+      }}
+    >
+      {/* Expedition Desk Surface & Living World Map Underlay */}
+      <div className="lobby-desk-surface" aria-hidden="true" />
+      <div className="lobby-map-underlay" aria-hidden="true" />
+      <div className="lobby-map-vignette" aria-hidden="true" />
+      <div className="lobby-hearth-glow" aria-hidden="true" />
+
+      {/* Gentle floating hearth embers / expedition dust motes */}
+      <div className="lobby-ambient-embers" aria-hidden="true">
+        <span className="ember ember-1" />
+        <span className="ember ember-2" />
+        <span className="ember ember-3" />
+        <span className="ember ember-4" />
+        <span className="ember ember-5" />
+        <span className="ember ember-6" />
+        <span className="ember ember-7" />
+        <span className="ember ember-8" />
+      </div>
+
+      {/* Cartographic peripheral annotations framing the voyage */}
+      <div className="lobby-expedition-peripherals" aria-hidden="true">
+        <div className="expedition-coord-tl">
+          <span className="coord-symbol">◈</span>
+          <span>CHRONICLE REGISTER · REALMS OF MYTHRILL</span>
+        </div>
+        <div className="expedition-coord-tr">
+          <span>LAT 54° 18&apos; N · LONG 12° 40&apos; E</span>
+          <span className="coord-symbol">◈</span>
+        </div>
+        <div className="expedition-footer-prompt">
+          Gather your companions, chart your course, and cross the threshold.
+        </div>
+      </div>
+
+      {/* Fog Overlay */}
+      <div className="fog-overlay" aria-hidden="true">
         <div className="fog-layer fog-1"></div>
         <div className="fog-layer fog-2"></div>
       </div>
+
+      {/* Expedition Folio Registry Box */}
       <div className="lobby-container">
+        {/* Brass Corner Plates */}
+        <div className="lobby-corner-bracket top-left" aria-hidden="true" />
+        <div className="lobby-corner-bracket top-right" aria-hidden="true" />
+        <div className="lobby-corner-bracket bottom-left" aria-hidden="true" />
+        <div className="lobby-corner-bracket bottom-right" aria-hidden="true" />
+
         <div className="lobby-top-bar">
           <div className="lobby-header-brand">
-            <h1>Mythrill D&D</h1>
+            <h1>Mythrill</h1>
             <span className="lobby-header-subtitle">Multiplayer Realm</span>
           </div>
 

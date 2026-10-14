@@ -22,6 +22,14 @@ import L from '../../store/interactiveMapStore';
 import COND from '../../store/conditionStore';
 import AUTH from '../../store/authStore';
 import CHAR from '../../store/characterStore';
+import { registerStore } from '../../store/storeRegistry';
+import { whenHandoffIdle } from '../../persistence/handoff/accountHandoffCoordinator';
+let cut = 0, testRoom = 0;
+const projection = () => ({ version: 1, roomId: G.getState().multiplayerRoom.id, epoch: 'review-runtime', cut: ++cut });
+const socketFixture = handlers => {
+  const socket = { connected: true, on: (event, handler) => { handlers[event] = handler; }, off() {}, emit: jest.fn() };
+  G.setState({ multiplayerSocket: socket }); return socket;
+};
 
 const map = (extra = {}) => ({
   id: 'default',
@@ -52,17 +60,20 @@ const state = (extra = {}) => ({
 });
 
 const applyRoom = (gameState, activeMapId = 'default') =>
-  applyRoomSnapshot({ scope: 'room', gameState, activeMapId });
+  applyRoomSnapshot({ scope: 'room', gameState: { ...gameState, actorProjection: projection() }, activeMapId, correlated: true });
 
 const flush = async() => {
   for (let index = 0; index < 20; index += 1) {await Promise.resolve();}
 };
 
-beforeEach(() => {
+beforeEach(async() => {
+  for (const [name, store] of [['gameStore', G], ['authStore', AUTH], ['characterStore', CHAR], ['creatureStore', C], ['characterTokenStore', CT], ['mapStore', M], ['conditionStore', COND]]) registerStore(name, store);
   jest.restoreAllMocks();
   jest.spyOn(console, 'log').mockImplementation(() => {});
   jest.spyOn(console, 'warn').mockImplementation(() => {});
   jest.spyOn(console, 'error').mockImplementation(() => {});
+  AUTH.setState({ user: { uid: 'review-owner' } });
+  await whenHandoffIdle();
   C.setState({ tokens: [], creatureTokens: [] });
   CT.setState({ characterTokens: [] });
   I.setState({ gridItems: [] });
@@ -76,7 +87,7 @@ beforeEach(() => {
   G.setState({
     backgrounds: [], activeBackgroundId: null, backgroundImage: null, backgroundImageUrl: '',
     activeSceneMode: 'tactical', activeLocationMapId: null, isFreeRoamAllowed: false,
-    isInMultiplayer: true, multiplayerRoom: { id: 'review' }
+    isInMultiplayer: true, multiplayerRoom: { id: `review-${testRoom++}` }, multiplayerSocket: { connected: true }
   });
   CON.setState({ containers: [] });
   A.setState({ playingTracks: [] });
@@ -139,13 +150,13 @@ test('B5.a: complete map recovery clears deleted entities from the cached map re
   applyRoom(state({ maps: { default: map({ tokens: { X: { id: 'X', mapId: 'default' } } }) } }));
   const handlers = {};
   registerAudioGameSessionHandlers({
-    socket: { on: (event, handler) => { handlers[event] = handler; }, off() {} },
+    socket: socketFixture(handlers),
     isGMRef: { current: true },
     currentPlayerRef: { current: { id: 'gm' } },
     addCreature: jest.fn(),
     updatePartyMember: jest.fn()
   });
-  handlers.full_game_state_sync({ mapId: 'default', tokens: {}, characterTokens: {}, gridItems: {}, mapData: map(), combat: null });
+  handlers.full_game_state_sync({ roomId: G.getState().multiplayerRoom.id, actorProjection: projection(), mapId: 'default', tokens: {}, characterTokens: {}, gridItems: {}, mapData: map(), combat: null });
   expect(C.getState().tokens).toEqual([]);
   expect(M.getState().maps.find((entry) => entry.id === 'default').tokens).toEqual({});
 });
@@ -161,7 +172,7 @@ test('B5.b: map switch immediately after resume replaces destination objects and
     }));
     const handlers = {};
     registerGmHandlers({
-      socket: { on: (event, handler) => { handlers[event] = handler; }, off() {} },
+      socket: socketFixture(handlers),
       currentPlayerRef: { current: { id: 'viewer' } },
       addNotification: jest.fn(),
       addNotificationRef: { current: jest.fn() },
@@ -175,6 +186,7 @@ test('B5.b: map switch immediately after resume replaces destination objects and
       showMapTransitions: false
     });
     handlers.player_map_changed({
+      roomId: G.getState().multiplayerRoom.id, actorProjection: projection(),
       playerId: 'viewer',
       newMapId: 'B',
       newMapName: 'B',
@@ -194,6 +206,7 @@ test('B5.b: map switch immediately after resume replaces destination objects and
 
 test('B5.c: real join pipeline leaves canonical map data and round zero intact after pending callbacks', async() => {
   AUTH.setState({ user: { uid: 'review-guest', isGuest: true } });
+  await whenHandoffIdle();
   jest.spyOn(E.getState(), 'applyTierFeatureFlags').mockResolvedValue(undefined);
   jest.spyOn(CHAR.getState(), 'syncWithMultiplayer').mockImplementation(() => {});
   const player = { id: 'gm', name: 'GM', currentMapId: 'default' };
@@ -202,7 +215,8 @@ test('B5.c: real join pipeline leaves canonical map data and round zero intact a
     maps: { default: map({ terrainData: { accepted: 'grass' }, drawingPaths: [{ id: 'stored' }], opaque: { key: 'preserve' } }) },
     combat: { isActive: true, currentTurnIndex: 0, turnOrder: [{ tokenId: 't' }], round: 0 }
   });
-  const room = { id: 'review', persistentRoomId: 'review', gm: player, players: [], gameState };
+  const room = { id: 'review-join', persistentRoomId: 'review', gm: player, players: [], gameState: { ...gameState,
+    actorProjection: { version: 1, roomId: 'review-join', epoch: 'review-runtime', cut: 1 } } };
   const callbacks = {
     socket,
     currentPlayerRef: { current: player },
@@ -240,13 +254,13 @@ test('B4.f: present combat:null through full_game_state_sync clears combat and p
   const maps = JSON.stringify(M.getState().maps);
   const handlers = {};
   registerAudioGameSessionHandlers({
-    socket: { on: (event, handler) => { handlers[event] = handler; }, off() {} },
+    socket: socketFixture(handlers),
     isGMRef: { current: true },
     currentPlayerRef: { current: { id: 'gm' } },
     addCreature: jest.fn(),
     updatePartyMember: jest.fn()
   });
-  handlers.full_game_state_sync({ combat: null });
+  handlers.full_game_state_sync({ roomId: G.getState().multiplayerRoom.id, combat: null });
   expect(B.getState().isInCombat).toBe(false);
   expect(B.getState().turnOrder).toEqual([]);
   expect(JSON.stringify(M.getState().maps)).toBe(maps);
@@ -270,7 +284,7 @@ test('B5.e: complete destination map change replaces cached entities so loadMapS
     }));
     const handlers = {};
     registerGmHandlers({
-      socket: { on: (event, handler) => { handlers[event] = handler; }, off() {} },
+      socket: socketFixture(handlers),
       currentPlayerRef: { current: { id: 'viewer' } },
       addNotification: jest.fn(),
       addNotificationRef: { current: jest.fn() },
@@ -284,6 +298,7 @@ test('B5.e: complete destination map change replaces cached entities so loadMapS
       showMapTransitions: false
     });
     handlers.player_map_changed({
+      roomId: G.getState().multiplayerRoom.id, actorProjection: projection(),
       playerId: 'viewer',
       newMapId: 'B',
       newMapName: 'B',

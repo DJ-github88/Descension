@@ -92,7 +92,8 @@ export const createMultiplayerSlice = (set, get) => ({
             };
             // Room common pools are actor-owned. This existing envelope keeps
             // build/presentation editing; it is never an alternate resource write.
-            for (const key of ['health', 'mana', 'actionPoints', 'tempHealth', 'tempMana', 'tempActionPoints']) delete payload.character[key];
+            for (const key of ['health', 'mana', 'actionPoints']) payload.character[key] = { max: state[key].max };
+            for (const key of ['tempHealth', 'tempMana', 'tempActionPoints']) delete payload.character[key];
             gameStore.multiplayerSocket.emit('character_updated', payload);
         }
     },

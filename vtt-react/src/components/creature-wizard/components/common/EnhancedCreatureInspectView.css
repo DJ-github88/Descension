@@ -1126,114 +1126,6 @@
   text-align: center;
 }
 
-/* Loot items grid - Item Library Style */
-.loot-items-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-  gap: 12px;
-  padding: 8px 4px;
-}
-
-.loot-item-card {
-  position: relative;
-  background: var(--adventure-page, #f8f5ee);
-  border: 1px solid var(--adventure-rule, #c4baa6);
-  border-radius: 4px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 10px 8px 8px;
-  cursor: pointer;
-  transition: border-color 0.15s ease, background-color 0.15s ease;
-  box-shadow: none;
-  font-family: 'Cinzel', Georgia, serif;
-}
-
-.loot-item-card:hover {
-  background: var(--adventure-panel, #e8e2d4);
-  border-color: var(--adventure-seal, #663c32);
-  transform: none;
-  box-shadow: none;
-  z-index: 2;
-}
-
-.loot-item-icon {
-  position: relative;
-  width: 44px;
-  height: 44px;
-  overflow: hidden;
-  margin-bottom: 6px;
-  background: var(--adventure-paper, #f1ece1);
-  border: 1px solid var(--adventure-rule, #c4baa6);
-  border-radius: 4px;
-  box-shadow: inset 0 1px 3px rgba(52, 37, 26, 0.15);
-}
-
-.loot-item-icon img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.loot-item-name {
-  text-align: center;
-  width: 100%;
-  font-family: 'Cinzel', Georgia, serif;
-  font-size: 12px;
-  font-weight: 600;
-  line-height: 1.3;
-  margin-bottom: 4px;
-  max-height: 2.6em;
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  line-clamp: 2;
-  -webkit-box-orient: vertical;
-  word-wrap: break-word;
-}
-
-.loot-item-info {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2px;
-  font-size: 11px;
-  margin-top: auto;
-  width: 100%;
-}
-
-.loot-drop-chance {
-  color: var(--adventure-muted, #68533e);
-  font-family: 'Cinzel', Georgia, serif;
-  font-weight: 600;
-  font-size: 11px;
-  background: var(--adventure-panel, #e8e2d4);
-  padding: 2px 6px;
-  border-radius: 3px;
-  border: 1px solid var(--adventure-rule, #c4baa6);
-  letter-spacing: 0.3px;
-  text-shadow: none;
-}
-
-.loot-quantity {
-  position: absolute;
-  bottom: 1px;
-  right: 1px;
-  background: var(--adventure-seal, #663c32);
-  color: #f8f5ee;
-  font-weight: 600;
-  padding: 1px 4px;
-  border-radius: 3px;
-  border: 1px solid var(--adventure-seal, #663c32);
-  font-size: 9px;
-  line-height: 1;
-  min-width: 14px;
-  text-align: center;
-  text-shadow: none;
-  box-shadow: none;
-  z-index: 1;
-}
-
 /* Legacy loot items list for backwards compatibility */
 .loot-items-list {
   display: flex;
@@ -1378,219 +1270,6 @@
   border: 2px solid #cd7f32; /* Copper color */
 }
 
-/* Pathfinder Loot Section Styling */
-/* Calm TTRPG Loot Section Styling */
-.pathfinder-loot-container {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  padding: 16px;
-  background: var(--adventure-page, #f8f5ee);
-  border-radius: 4px;
-  border: 1px solid var(--adventure-rule, #c4baa6);
-  box-shadow: none;
-  font-family: 'Cinzel', Georgia, serif;
-}
-
-.pathfinder-loot-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 14px 18px;
-  background: var(--adventure-panel, #e8e2d4);
-  border-radius: 4px;
-  border: 1px solid var(--adventure-rule, #c4baa6);
-  box-shadow: none;
-}
-
-.loot-header-content {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.loot-header-icon {
-  width: 38px;
-  height: 38px;
-  border-radius: 4px;
-  border: 1px solid var(--adventure-rule, #c4baa6);
-  box-shadow: none;
-  background: var(--adventure-paper, #f1ece1);
-}
-
-.loot-header-text {
-  color: var(--adventure-ink, #34251a);
-}
-
-.loot-header-title {
-  font-size: 18px;
-  font-weight: 700;
-  margin: 0 0 2px 0;
-  color: var(--adventure-ink, #34251a);
-  text-shadow: none;
-  font-family: 'Cinzel', serif;
-}
-
-.loot-header-description {
-  font-size: 13px;
-  margin: 0;
-  opacity: 0.85;
-  color: var(--adventure-muted, #68533e);
-  font-family: 'Crimson Text', Georgia, serif;
-  font-style: italic;
-}
-
-.pathfinder-drop-loot-button {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 16px;
-  background: var(--adventure-seal, #663c32);
-  border: 1px solid var(--adventure-seal, #663c32);
-  border-radius: 3px;
-  color: #f8f5ee;
-  font-family: 'Cinzel', serif;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  box-shadow: none;
-  text-shadow: none;
-}
-
-.pathfinder-drop-loot-button:hover {
-  background: #502e26;
-  border-color: #502e26;
-  transform: none;
-  box-shadow: none;
-}
-
-.pathfinder-drop-loot-button .button-icon {
-  width: 16px;
-  height: 16px;
-  border-radius: 2px;
-  filter: brightness(1.2);
-}
-
-.pathfinder-loot-section {
-  background: var(--adventure-paper, #f1ece1);
-  border-radius: 4px;
-  padding: 14px 16px;
-  border: 1px solid var(--adventure-rule, #c4baa6);
-  box-shadow: none;
-}
-
-.pathfinder-section-header {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 14px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid var(--adventure-rule, #c4baa6);
-}
-
-.section-header-icon {
-  width: 24px;
-  height: 24px;
-  border-radius: 3px;
-  border: 1px solid var(--adventure-rule, #c4baa6);
-  box-shadow: none;
-}
-
-.pathfinder-section-title {
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--adventure-ink, #34251a);
-  margin: 0;
-  text-shadow: none;
-  font-family: 'Cinzel', serif;
-}
-
-/* Currency Grid */
-.pathfinder-currency-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 12px;
-}
-
-.pathfinder-currency-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 10px 14px;
-  background: var(--adventure-page, #f8f5ee);
-  border: 1px solid var(--adventure-rule, #c4baa6);
-  border-radius: 4px;
-  transition: border-color 0.15s ease;
-  box-shadow: none;
-}
-
-.pathfinder-currency-item:hover {
-  transform: none;
-  box-shadow: none;
-  border-color: var(--adventure-seal, #663c32);
-}
-
-.currency-icon-container {
-  flex-shrink: 0;
-}
-
-.pathfinder-coin-icon {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  border: 1.5px solid var(--adventure-rule, #c4baa6);
-  box-shadow: none;
-}
-
-.pathfinder-coin-icon.gold {
-  border-color: #9a7b3c;
-  filter: none;
-}
-
-.pathfinder-coin-icon.silver {
-  border-color: #888888;
-  filter: grayscale(0.8);
-}
-
-.pathfinder-coin-icon.copper {
-  border-color: #b87333;
-  filter: none;
-}
-
-.currency-details {
-  display: flex;
-  flex-direction: column;
-  gap: 1px;
-}
-
-.currency-type {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--adventure-muted, #68533e);
-  font-family: 'Cinzel', serif;
-}
-
-.currency-amount {
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--adventure-ink, #34251a);
-  font-family: 'Cinzel', serif;
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .pathfinder-currency-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .pathfinder-loot-header {
-    flex-direction: column;
-    gap: 12px;
-    text-align: center;
-  }
-}
-
 /* Creature Lore & Legends Sections */
 .creature-lore-section {
   margin: 20px 0;
@@ -1687,35 +1366,29 @@
 
 .creature-lore-portrait-frame {
   position: relative;
-  border: 1px solid var(--illum-edge, #8a7356);
-  background: var(--illum-corners), #f8f5ee;
-  padding: 6px;
-  border-radius: 4px;
-  box-shadow: inset 0 0 0 2px #f8f5ee, inset 0 0 0 3px rgba(102, 60, 50, 0.25), 0 2px 8px rgba(52, 37, 26, 0.16);
+  border: 1px solid var(--adventure-rule, #c4baa6);
+  background: var(--adventure-page, #f8f5ee);
+  padding: 8px;
+  border-radius: 3px;
+  box-shadow: none;
   overflow: hidden;
   aspect-ratio: 4 / 5;
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
+  box-sizing: border-box;
 }
 
-/* inner vignette for a painted-portrait feel */
-.creature-lore-portrait-frame::after {
-  content: '';
-  position: absolute;
-  inset: 6px;
-  border-radius: 3px;
-  border: 1px solid rgba(138, 115, 86, 0.3);
-  pointer-events: none;
-}
+.creature-lore-portrait-frame::after { content: none; }
 
 .creature-lore-portrait-frame img {
   width: 100%;
   height: 100%;
   object-fit: contain;
-  border-radius: 2px;
-  background: #f1ece1;
+  border-radius: 0;
+  background: transparent;
+  mix-blend-mode: multiply;
 }
 
 .creature-lore-caption {
@@ -1732,11 +1405,8 @@
   gap: 0.4rem;
 }
 
-.creature-lore-caption i {
-  color: var(--adventure-seal, #663c32);
-  font-style: normal;
-  font-size: 0.8em;
-}
+.creature-lore-caption i { display: none; }
+.creature-lore-caption { border-top: 1px solid var(--adventure-rule, #c4baa6); padding-top: 6px; width: 100%; }
 
 /* ---------- Lead block (meta chips + intro paragraph) ---------- */
 .creature-lore-lead {
@@ -1876,4 +1546,112 @@
   .creature-lore-grid {
     grid-template-columns: 1fr;
   }
+}
+
+/* ==========================================================================
+   Calm loot tab: flat ruled lists on the page, no cards or filled headers
+   ========================================================================== */
+.calm-loot { padding: 4px 6px 12px; color: #34251a; }
+.calm-loot-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; padding-bottom: 8px; border-bottom: 1px solid #c4baa6; margin-bottom: 14px; }
+.calm-loot-title { margin: 0; font-family: 'Cinzel', Georgia, serif; font-size: 1.15rem; font-weight: 700; letter-spacing: 0.04em; color: #34251a; }
+.calm-loot-sub { margin: 2px 0 0; font-family: 'Crimson Text', Georgia, serif; font-style: italic; font-size: 0.95rem; color: #68533e; }
+.calm-loot-roll { background: transparent; border: 1px solid #663c32; border-radius: 3px; color: #663c32; font-family: 'Cinzel', Georgia, serif; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 6px 12px; cursor: pointer; }
+.calm-loot-roll:hover { background: #663c32; color: #f8f5ee; }
+.calm-loot-block { margin-bottom: 16px; }
+.calm-loot-label { margin: 0 0 6px; font-family: 'Cinzel', Georgia, serif; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #663c32; }
+.calm-coin-list, .calm-loot-list { list-style: none; margin: 0; padding: 0; }
+.calm-coin-row { display: flex; align-items: center; gap: 10px; padding: 6px 2px; border-bottom: 1px dotted #c4baa6; font-family: 'Crimson Text', Georgia, serif; font-size: 1rem; }
+.calm-coin-dot { width: 12px; height: 12px; border-radius: 50%; border: 1px solid rgba(52, 37, 26, 0.45); flex: none; }
+.calm-coin-dot.gold { background: #c9a24a; }
+.calm-coin-dot.silver { background: #b3b3ad; }
+.calm-coin-dot.copper { background: #b06a3b; }
+.calm-coin-name { flex: 1; color: #34251a; }
+.calm-coin-amt { font-weight: 700; color: #34251a; font-variant-numeric: tabular-nums; }
+.calm-loot-row { display: flex; align-items: center; gap: 10px; padding: 6px 2px; border-bottom: 1px dotted #c4baa6; cursor: default; }
+.calm-loot-row:hover { background: rgba(102, 60, 50, 0.05); }
+.calm-loot-icon { width: 28px; height: 28px; object-fit: contain; flex: none; }
+.calm-loot-name { flex: 1; min-width: 0; font-family: 'Crimson Text', Georgia, serif; font-size: 1.02rem; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.calm-loot-qty { font-family: 'Crimson Text', Georgia, serif; font-size: 0.9rem; color: #68533e; }
+.calm-loot-chance { display: flex; align-items: center; gap: 8px; flex: none; width: 190px; }
+.calm-loot-bar { flex: 1; height: 4px; background: #e2dbc9; border-radius: 2px; overflow: hidden; }
+.calm-loot-bar > span { display: block; height: 100%; background: #663c32; }
+.calm-loot-pct { width: 34px; text-align: right; font-family: 'Crimson Text', Georgia, serif; font-weight: 700; font-size: 0.95rem; color: #34251a; font-variant-numeric: tabular-nums; }
+.calm-loot-word { width: 62px; font-family: 'Cinzel', Georgia, serif; font-size: 0.6rem; letter-spacing: 0.06em; text-transform: uppercase; color: #68533e; }
+@media (max-width: 640px) { .calm-loot-chance { width: 120px; } .calm-loot-word { display: none; } }
+
+/* ==========================================================================
+   Calm tab dropdowns for the creature window (portaled .adventurer-menu)
+   Quiet list: ruled, seal-ink hover, active = left rule not a filled bar.
+   ========================================================================== */
+.adventurer-menu.creature-tab-menu {
+  min-width: 210px !important;
+  max-width: 280px !important;
+  max-height: min(70vh, 420px) !important;
+  padding: 4px 0 !important;
+  border: 1px solid var(--adventure-rule, #c4baa6) !important;
+  border-radius: 3px !important;
+  box-shadow: 0 6px 16px rgba(52, 37, 26, 0.22) !important;
+  animation: none !important;
+  gap: 0 !important;
+}
+.adventurer-menu.creature-tab-menu .tab-dropdown-item {
+  gap: 0 !important;
+  padding: 7px 14px !important;
+  font-size: 0.78rem !important;
+  letter-spacing: 0.05em !important;
+  font-weight: 600 !important;
+  border-radius: 0 !important;
+  border-left: 3px solid transparent !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+.adventurer-menu.creature-tab-menu .tab-dropdown-item:hover {
+  background: rgba(102, 60, 50, 0.07) !important;
+  color: var(--adventure-seal, #663c32) !important;
+}
+.adventurer-menu.creature-tab-menu .tab-dropdown-item.active,
+.adventurer-menu.creature-tab-menu .tab-dropdown-section-header.active {
+  background: rgba(102, 60, 50, 0.09) !important;
+  color: var(--adventure-seal, #663c32) !important;
+  border-left: 3px solid var(--adventure-seal, #663c32) !important;
+  font-weight: 700 !important;
+}
+.adventurer-menu.creature-tab-menu .tab-dropdown-item.active i,
+.adventurer-menu.creature-tab-menu .tab-dropdown-item:hover i { color: var(--adventure-seal, #663c32) !important; }
+.adventurer-menu.creature-tab-menu .tab-dropdown-item i { width: 18px !important; margin-right: 10px !important; opacity: 0.85; font-size: 0.8rem; }
+.adventurer-menu.creature-tab-menu .tab-dropdown-item-wrapper + .tab-dropdown-item-wrapper { border-top: 1px dotted rgba(139, 115, 85, 0.25); }
+.adventurer-menu.creature-tab-menu .tab-dropdown-skill-item { padding-left: 30px !important; font-size: 0.74rem !important; }
+
+/* Lore tab: quiet meta chips (outline only) and plain reading text */
+.creature-lore-meta .lore-meta-chip {
+  background: transparent !important;
+  border: 1px solid var(--adventure-rule, #c4baa6) !important;
+  border-radius: 3px !important;
+  color: var(--adventure-ink, #34251a) !important;
+  letter-spacing: 0.08em;
+  padding: 3px 9px;
+}
+.creature-lore-meta .lore-meta-chip i { color: var(--adventure-seal, #663c32); }
+.creature-lore-meta .lore-meta-chip.danger.high,
+.creature-lore-meta .lore-meta-chip.danger.extreme { color: var(--adventure-seal, #663c32) !important; border-color: var(--adventure-seal, #663c32) !important; }
+.creature-lore-lead-text { font-family: 'Crimson Text', Georgia, serif; font-size: 1.05rem; line-height: 1.65; text-align: left; color: var(--adventure-ink, #34251a); }
+.creature-lore-lead-text::first-letter { font-size: 2.8em; color: var(--adventure-seal, #663c32); }
+
+/* Creature window section headers: ruled title line, no filled plate */
+.wow-window.adventurer-window .creature-inspect-container .creature-section-header {
+  background: transparent !important;
+  border: 0 !important;
+  border-bottom: 1px solid var(--adventure-rule, #c4baa6) !important;
+  border-radius: 0 !important;
+  padding: 8px 6px !important;
+  margin-bottom: 10px !important;
+  gap: 10px !important;
+}
+.wow-window.adventurer-window .creature-inspect-container .creature-section-icon {
+  width: 24px; height: 24px; min-width: 24px; min-height: 24px; max-width: 24px; max-height: 24px;
+  border: 0; border-radius: 0; opacity: 0.9;
+}
+.wow-window.adventurer-window .creature-inspect-container .creature-section-title {
+  font-size: 1.05rem !important;
+  letter-spacing: 0.05em;
 }

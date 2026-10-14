@@ -7,11 +7,13 @@ import useAuthStore from '../../../store/authStore';
 import usePartyStore from '../../../store/partyStore';
 import useChatStore from '../../../store/chatStore';
 import optimisticUpdatesService from '../../../services/optimisticUpdatesService';
+import { applyActorLifecycle, refreshActorSnapshot } from '../../../services/actorConsequenceService';
+import { captureActorDelivery, currentActorDelivery } from '../../../services/actorProjectionOrder';
 
 export function registerTokenHandlers(ctx) {
   const {
     socket, isGMRef, currentPlayerRef,
-    removeToken, addCreature, addToken, updateCreatureTokenPosition,
+    updateCreatureTokenPosition,
     addNotification, setPendingControlOffer,
     tokenUpdateThrottleRef, updateBatchRef, batchTimeoutRef,
     GM_THROTTLE_MS, PLAYER_THROTTLE_MS,
@@ -20,36 +22,25 @@ export function registerTokenHandlers(ctx) {
     if (!socket) return;
 
     const deltaSyncTokensEnabled = () => useDeltaSyncTokensRef?.current === true;
+    const registered = captureActorDelivery(socket);
+    const lifecycle = data => {
+      const context = { ...registered, room: useGameStore.getState().multiplayerRoom, roomId: useGameStore.getState().multiplayerRoom?.id };
+      if (!currentActorDelivery(context, data?.actorSnapshot?.roomId || data?.roomId)) return;
+      if (!applyActorLifecycle(data, context)) refreshActorSnapshot();
+    };
 
     socket.on('tokens_delta', (data) => {
       if (!deltaSyncTokensEnabled()) return;
-      const creatureTokens = data.tokens || [];
-      const characterTokens = data.characterTokens || [];
-      const creatureStore = useCreatureStore.getState();
-      creatureStore.setTokens(creatureTokens);
-      const charTokenStore = useCharacterTokenStore.getState();
-      if (charTokenStore.setCharacterTokens) {
-        charTokenStore.setCharacterTokens(characterTokens);
-      }
+      lifecycle(data);
     });
 
     socket.on('character_token_created', (data) => {
-      if (deltaSyncTokensEnabled()) return;
-      if (data && data.position) {
-        // CRITICAL: Pass mapId for proper map isolation (+ character snapshot for portraits)
-        useCharacterTokenStore.getState().addCharacterTokenFromServer(
-          data.tokenId,
-          data.position,
-          data.playerId,
-          data.mapId,
-          data.token?.character || data.character || null,
-          data.token?.name || data.name || null
-        );
-      }
+      lifecycle(data);
     });
 
     // Another player refreshed their token (portrait/name edit in their sheet or condition/state change)
     socket.on('character_token_updated', (data) => {
+      if (data?.actorSnapshot) { lifecycle(data); return; }
       if (deltaSyncTokensEnabled()) return;
       if (data && data.tokenId) {
         if (data.character || data.name) {
@@ -77,24 +68,15 @@ export function registerTokenHandlers(ctx) {
     });
 
     socket.on('token_removed', (data) => {
-      if (deltaSyncTokensEnabled()) return;
-      if (data && data.tokenId) {
-        removeToken(data.tokenId, false); // false = don't send back to server
-      }
+      lifecycle(data);
     });
 
     socket.on('token_dismissed', (data) => {
-      if (deltaSyncTokensEnabled()) return;
-      if (data && data.tokenId) {
-        removeToken(data.tokenId, false);
-      }
+      lifecycle(data);
     });
 
     socket.on('character_token_removed', (data) => {
-      if (deltaSyncTokensEnabled()) return;
-      if (data && data.tokenId) {
-        useCharacterTokenStore.getState().removeCharacterToken(data.tokenId, false); // false = don't send back to server
-      }
+      lifecycle(data);
     });
 
     socket.on('token_moved', (data) => {
@@ -249,6 +231,7 @@ export function registerTokenHandlers(ctx) {
     });
 
     socket.on('creature_updated', (data) => {
+      if (data?.actorSnapshot) { lifecycle(data); return; }
       const { tokenId, stateUpdates, updatedBy, mapId } = data;
 
       // Skip if we are the one who sent it
@@ -261,6 +244,7 @@ export function registerTokenHandlers(ctx) {
     });
 
     socket.on('token_updated', (data) => {
+      if (data?.actorSnapshot) { lifecycle(data); return; }
       if (deltaSyncTokensEnabled()) return;
       const { tokenId, updates, stateUpdates, updatedBy, mapId } = data;
 
@@ -318,34 +302,7 @@ export function registerTokenHandlers(ctx) {
       }
     });
 
-    socket.on('creature_added', (data) => {
-      const { id, creatureId, position, createdBy, mapId, token, state } = data;
-
-      // Skip if we are the one who added it (GM adding creature)
-      if (createdBy === socket?.id) return;
-
-      const creatureStore = require('../../../store/creatureStore').default.getState();
-
-      // CRITICAL: Use included state to preserve token state across clients
-      // If state is provided (new behavior), use it; otherwise fall back to library data
-      let creatureData;
-      if (token && state) {
-        // Use the full token data from server including state
-        creatureData = token;
-      } else {
-        // Fallback: Find creature data in library or use minimal data
-        const libraryCreatures = creatureStore.creatures || [];
-        creatureData = libraryCreatures.find(c => c.id === creatureId) || {
-          id: creatureId,
-          name: `Creature ${creatureId.substring(0, 8)}...`,
-          isPlaceholder: true
-        };
-      }
-
-      // Add creature token locally without re-emitting to server
-      creatureStore.addCreatureToken(creatureData, position, false, id, true, mapId);
-      console.log('ðŸ‰ Received creature_added:', { id, creatureId, position, mapId, hasState: !!state });
-    });
+    socket.on('creature_added', lifecycle);
 
     socket.on('character_moved', (data) => {
       // FIXED: Use tokenId or characterId consistently for character tokens
@@ -470,71 +427,7 @@ export function registerTokenHandlers(ctx) {
       }
     });
 
-    socket.on('token_created', (data) => {
-      if (deltaSyncTokensEnabled()) return;
-      const myRole = isGMRef.current ? 'GM' : 'Player';
-      console.log(`ðŸ“¨ [${myRole}] Received token_created:`, {
-        creatureName: data.creature?.name,
-        creatureId: data.creature?.id,
-        tokenId: data.token?.id,
-        position: data.position,
-        fromPlayer: data.playerName,
-        isSync: data.isSync,
-        isFromSelf: data.playerId === socket?.id,
-        tokenMapId: data.mapId
-      });
-      const isSync = data.isSync;
-      const myPlayerId = socket?.id; // Use socket.id for reliable self-identification
-
-      // CRITICAL FIX: Check if this is our own token creation being echoed back
-      const isOwnTokenCreation = data.playerId === myPlayerId;
-
-      if (isOwnTokenCreation && !isSync) {
-        // This is our own token creation being echoed back by server
-        // DON'T add it to the store again - we already added it when we created it
-        console.log('ðŸ”„ Skipping duplicate token from own creation');
-        return;
-      }
-
-      // CRITICAL FIX: Filter by current map - only add tokens on the same map
-      const currentMapId = useMapStore.getState().currentMapId || 'default';
-      const tokenMapId = data.mapId || data.token?.targetMapId || 'default';
-
-      if (tokenMapId !== currentMapId) {
-        console.log(`ðŸŽ­ Skipping token_created - different map (token: ${tokenMapId}, current: ${currentMapId})`);
-        return;
-      }
-
-      // Only add token for sync events, and for new creations from other players
-      if (data.token) {
-        // First ensure that creature exists in the store
-        const creatureData = data.creature || data.token.creature;
-        if (creatureData) {
-          addCreature(creatureData);
-        }
-
-        // Then add the token without sending back to server (avoid infinite loop)
-        // CRITICAL FIX: Ensure position is robustly extracted from multiple sources
-        const position = data.position || data.token?.position || data.token?.gridPosition || { x: 0, y: 0 };
-        const tokenId = data.token.id || data.tokenId;
-        const creatureId = data.creature?.id || data.token.creatureId;
-
-        console.log(`ðŸ”· [${myRole}] Adding/Updating token: ${tokenId} at`, position);
-        addToken(creatureData || creatureId, position, false, tokenId, data.token.state || true, tokenMapId);
-      } else {
-        console.warn('âš ï¸ Received token_created event without token data:', data);
-      }
-
-      // Show notification in chat only for new creations from other players, not syncs or own creations
-      if (!isSync && data.playerId !== myPlayerId) {
-        addNotification('social', {
-          sender: { name: 'System', class: 'system', level: 0 },
-          content: `${data.playerName || 'Player'} placed ${data.creature?.name || data.character?.name || 'a token'} on the grid`,
-          type: 'system',
-          timestamp: new Date().toISOString()
-        });
-      }
-    });
+    socket.on('token_created', lifecycle);
 
     socket.on('token_create_confirmed', (data) => {
       console.log('âœ… [Token Creation] Token confirmed by server:', {

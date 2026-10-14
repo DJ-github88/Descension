@@ -894,8 +894,8 @@
 .spellbook-tab-button,
 .tabbed-modal-tab,
 .tk-tab {
-    background: #e8e2d4 !important;
-    border: 1px solid #8a7356 !important;
+    background: transparent !important;
+    border: 1px solid transparent !important;
     border-bottom: none !important;
     outline: none !important;
     color: #68533e !important;
@@ -912,11 +912,10 @@
     align-items: center !important;
     justify-content: center !important;
     cursor: pointer !important;
-    transition: background-color 0.15s ease, color 0.15s ease !important;
-    /* illuminated tab: thin inner ink rule inside a linen border */
-    box-shadow: inset 0 0 0 2px #e8e2d4, inset 0 0 0 3px rgba(102, 60, 50, 0.28) !important;
+    transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease !important;
+    box-shadow: none !important;
     margin: 0 2px !important;
-    border-radius: 3px 3px 0 0 !important;
+    border-radius: 6px 6px 0 0 !important;
     position: relative !important;
     z-index: 10 !important;
     opacity: 0.95 !important;
@@ -932,10 +931,11 @@
 .spellbook-tab-button:hover:not(.active),
 .tabbed-modal-tab:hover:not(.active),
 .tk-tab:hover:not(.active) {
-    background: #f1ece1 !important;
+    background: rgba(102, 60, 50, 0.08) !important;
     color: #663c32 !important;
+    border-color: transparent !important;
     text-shadow: none !important;
-    box-shadow: inset 0 0 0 2px #f1ece1, inset 0 0 0 3px rgba(102, 60, 50, 0.4) !important;
+    box-shadow: none !important;
     transform: none !important;
     z-index: 30 !important;
     filter: none !important;
@@ -947,14 +947,17 @@
 .tabbed-modal-tab.active,
 .tk-tab.active {
     background: #f8f5ee !important;
+    border: 1px solid rgba(138, 115, 86, 0.35) !important;
+    border-bottom: none !important;
+    border-radius: 6px 6px 0 0 !important;
     color: #34251a !important;
     font-weight: 800 !important;
     text-shadow: none !important;
     transform: translateY(1px) !important; /* merges with the window body */
     z-index: 40 !important;
     filter: none !important;
-    /* burgundy ribbon along the top, inner rule below it */
-    box-shadow: inset 0 3px 0 #663c32, inset 0 0 0 2px #f8f5ee, inset 0 0 0 3px rgba(102, 60, 50, 0.3) !important;
+    /* clean burgundy ribbon along the top edge, without boxy inner outlines */
+    box-shadow: inset 0 3px 0 #663c32 !important;
     opacity: 1 !important;
 }
 
@@ -1000,25 +1003,25 @@
     overflow-y: auto;
     overflow-x: hidden;
     scrollbar-width: thin;
-    scrollbar-color: #c4baa6 transparent;
+    scrollbar-color: rgba(102, 60, 50, 0.22) transparent;
+    padding-right: 2px;
 }
 
 .tab-dropdown-menu-scrollable::-webkit-scrollbar {
-    width: 6px;
+    width: 4px;
 }
 
 .tab-dropdown-menu-scrollable::-webkit-scrollbar-track {
     background: transparent;
-    border-radius: 3px;
 }
 
 .tab-dropdown-menu-scrollable::-webkit-scrollbar-thumb {
-    background: #c4baa6;
-    border-radius: 3px;
+    background: rgba(102, 60, 50, 0.22);
+    border-radius: 4px;
 }
 
 .tab-dropdown-menu-scrollable::-webkit-scrollbar-thumb:hover {
-    background: #8a7356;
+    background: rgba(102, 60, 50, 0.45);
 }
 
 @keyframes tabDropdownFadeIn {
@@ -1042,10 +1045,21 @@
     width: 100%;
 }
 
+.tab-dropdown-item i,
+.tab-dropdown-item .tab-icon-glyph {
+    color: #663c32;
+    transition: color 0.15s ease;
+}
+
 .tab-dropdown-item:hover {
     background: #e8e2d4;
     color: #663c32;
     padding-left: 18px;
+}
+
+.tab-dropdown-item:hover i,
+.tab-dropdown-item:hover .tab-icon-glyph {
+    color: #663c32;
 }
 
 .tab-dropdown-item.active {
@@ -1053,6 +1067,15 @@
     color: #663c32;
     font-weight: 700;
     border-left: 2px solid #663c32;
+}
+
+.tab-dropdown-item.active i,
+.tab-dropdown-item.active .tab-icon-glyph {
+    color: #663c32;
+}
+
+.tab-chevron {
+    color: #663c32;
 }
 
 .tab-dropdown-item-wrapper {
@@ -1063,9 +1086,15 @@
 .tab-dropdown-section {
     display: flex;
     flex-direction: column;
-    border-bottom: 1px solid rgba(212, 175, 55, 0.15);
-    padding-bottom: 4px;
-    margin-bottom: 4px;
+    border-bottom: none;
+    padding-bottom: 2px;
+    margin-bottom: 2px;
+}
+
+.tab-dropdown-section:not(:first-child) {
+    border-top: 1px solid rgba(139, 115, 85, 0.18);
+    margin-top: 4px;
+    padding-top: 4px;
 }
 
 .tab-dropdown-section:last-child {
@@ -1078,30 +1107,45 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    padding: 7px 12px;
-    background: rgba(212, 175, 55, 0.08);
-    color: #dfba5c;
+    padding: 8px 12px 4px 12px;
+    background: transparent;
+    color: #663c32;
     font-family: 'Cinzel', serif;
     font-size: 11px;
     font-weight: 700;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
     cursor: pointer;
     user-select: none;
     transition: all 0.15s ease;
-    border-left: 3px solid transparent;
+    border: none;
+    border-left: none;
+}
+
+.tab-dropdown-section-header i {
+    color: #663c32;
+    font-size: 11px;
+    opacity: 0.85;
 }
 
 .tab-dropdown-section-header:hover {
-    background: rgba(212, 175, 55, 0.18);
-    color: #ffffff;
-    border-left-color: #dfba5c;
+    background: rgba(102, 60, 50, 0.05);
+    color: #421e16;
+    border-left: none;
+}
+
+.tab-dropdown-section-header:hover i {
+    color: #8b2b1d;
 }
 
 .tab-dropdown-section-header.active {
-    background: rgba(212, 175, 55, 0.22);
-    color: #ffffff;
-    border-left-color: #dfba5c;
+    background: rgba(102, 60, 50, 0.08);
+    color: #663c32;
+    border-left: none;
+}
+
+.tab-dropdown-section-header.active i {
+    color: #663c32;
 }
 
 .tab-dropdown-section-title {
@@ -1125,16 +1169,24 @@
 }
 
 .tab-dropdown-skill-item:hover {
-    background: rgba(212, 175, 55, 0.22);
-    color: #ffd700;
+    background: rgba(102, 60, 50, 0.1);
+    color: #663c32;
     padding-left: 28px;
 }
 
-.tab-dropdown-skill-item.active {
-    background: #f1ece1;
+.tab-dropdown-skill-item:hover i {
     color: #663c32;
+}
+
+.tab-dropdown-skill-item.active {
+    background: #663c32;
+    color: #f8f5ee;
     font-weight: 700;
     border-left: 2px solid #663c32;
+}
+
+.tab-dropdown-skill-item.active i {
+    color: #f8f5ee;
 }
 
 /* Remove default border lines or indicators that conflict with asset graphics */

@@ -19,6 +19,8 @@
 const { isDeltaSyncEnabled } = require('../services/deltaSyncCapabilities');
 const { ackFailure } = require('../utils/socketAck');
 const roomAccess = require('../services/roomAccessService');
+const actorProjection = require('../services/actorProjection');
+const actorConsequences = require('../services/actorConsequences');
 
 function projectTokenForClient(token) {
   return roomAccess.projectTokenForClient(token);
@@ -38,6 +40,12 @@ const deltaDebounces = new Map();
  * never inherits a successor lifecycle for the same room ID.
  */
 function debouncedEmitTokenDelta(io, roomId, gameState, authorityService = null, authorityToken = null) {
+  const actorSnapshot = JSON.parse(JSON.stringify({ roomId, actorProjection: gameState.actorProjection,
+    maps: Object.fromEntries(Object.entries(gameState.maps || {}).map(([id, map]) => {
+      const projected = roomAccess.projectMapDataForClient(map);
+      return [id, { id, tokens: projected.tokens || {}, creatures: projected.creatures || {},
+        characterTokens: projected.characterTokens || {}, actorProjection: gameState.actorProjection }];
+    })) }));
   const existing = deltaDebounces.get(roomId);
   if (existing) {
     clearTimeout(existing.timer);
@@ -58,6 +66,7 @@ function debouncedEmitTokenDelta(io, roomId, gameState, authorityService = null,
     const tokens = Object.values(gameState.tokens || {}).map(projectTokenForClient);
     const characterTokens = Object.values(gameState.characterTokens || {}).map(projectTokenForClient);
     io.to(roomId).emit('tokens_delta', {
+      roomId, actorSnapshot,
       tokens,
       characterTokens,
       timestamp: Date.now()
@@ -255,11 +264,13 @@ function registerTokenHandlers(ctx) {
         createdAt: Date.now()
       };
 
+      actorProjection.advance(room, room.gameState, [token]);
       map.tokens[tokenId] = token;
       room.gameState.tokens[tokenId] = token;
 
       if (!isTokensDeltaEnabled()) {
         io.to(room.id).emit('token_created', {
+          roomId: room.id, actorSnapshot: actorProjection.snapshot(room),
           tokenId,
           token: projectTokenForClient(token),
           mapId,
@@ -323,7 +334,7 @@ function registerTokenHandlers(ctx) {
     }
   });
 
-  socket.on('token_updated', async(data) => {
+  socket.on('token_updated', async(data, ackCallback) => {
     try {
       const validation = validateRoomMembership(socket, data.roomId);
       if (!validation.valid) {return;}
@@ -343,6 +354,7 @@ function registerTokenHandlers(ctx) {
       const protectedKey = findProtectedKey(updates);
       if (protectedKey) {
         logger.warn('[token_updated] Protected token field update blocked', { tokenId: data.tokenId, key: protectedKey });
+        ackFailure(ackCallback, { success: false, code: 'protected_field', error: 'Protected token field' });
         return;
       }
 
@@ -352,19 +364,18 @@ function registerTokenHandlers(ctx) {
       const authority = resolveTokenAuthority(room, player, data.tokenId, record.token, mapId, uid);
       if (authority === 'none') {
         logger.warn('[token_updated] Unauthorized token update blocked', { tokenId: data.tokenId, playerId: player?.id });
+        ackFailure(ackCallback, { success: false, code: 'forbidden', error: 'Not permitted to edit this token' });
         return;
       }
 
-      record.store[data.tokenId] = {
-        ...record.store[data.tokenId],
-        ...updates,
-        ...(updates.state ? { state: { ...record.token.state, ...updates.state } } : {}),
-        ...(updates.character ? { character: { ...record.token.character, ...updates.character } } : {}),
-        updatedAt: Date.now()
-      };
+      const prepared = actorConsequences.prepareBuildUpdate(record.token, updates, record.kind === 'character_token' ? 'character' : 'creature');
+      prepared.token.updatedAt = Date.now();
+      const field = record.kind === 'character_token' ? 'characterTokens' : record.kind === 'creature' ? 'creatures' : 'tokens';
+      actorConsequences.installBuildUpdate(room, map, field, data.tokenId, prepared);
 
       if (!isTokensDeltaEnabled()) {
         io.to(room.id).emit('token_updated', {
+          roomId: room.id, actorSnapshot: actorProjection.snapshot(room),
           tokenId: data.tokenId,
           updates: roomAccess.projectTokenUpdateForClient(updates),
           mapId,
@@ -377,8 +388,11 @@ function registerTokenHandlers(ctx) {
       firebaseBatchWriter.queueWrite(room.id, sanitizedState);
       if (isTokensDeltaEnabled()) {debouncedEmitTokenDelta(io, room.id, room.gameState, authorityService, room.authorityToken || null);}
 
+      if (typeof ackCallback === 'function') {ackCallback({ success: true });}
+
     } catch (error) {
       logger.error('[token_updated] Error:', { error: error.message });
+      ackFailure(ackCallback, { success: false, code: error.code || 'invalid_bounds', error: error.message });
     }
   });
 
@@ -559,11 +573,13 @@ function registerTokenHandlers(ctx) {
         createdAt: Date.now()
       };
 
+      actorProjection.advance(room, room.gameState, [token]);
       map.characterTokens[tokenId] = token;
       room.gameState.characterTokens[tokenId] = token; // Legacy support
 
       if (!isTokensDeltaEnabled()) {
         io.to(room.id).emit('character_token_created', {
+          roomId: room.id, actorSnapshot: actorProjection.snapshot(room),
           tokenId,
           token: projectTokenForClient(token),
           mapId,
@@ -583,7 +599,7 @@ function registerTokenHandlers(ctx) {
   // Player updated their character token (portrait snapshot refresh or
   // conditions state). Merged into the stored token and relayed so other
   // clients (e.g. the GM's screen) render the current portrait.
-  socket.on('character_token_updated', async(data) => {
+  socket.on('character_token_updated', async(data, ackCallback) => {
     try {
       const validation = validateRoomMembership(socket, data?.roomId);
       if (!validation.valid) {return;}
@@ -604,6 +620,7 @@ function registerTokenHandlers(ctx) {
       }
       if (record.token.state?.actorContract && data.character?.id !== undefined && data.character.id !== record.token.state.actorContract.characterId) {
         socket.emit('room_error', { code: 'actor_binding_conflict', event: 'character_token_updated', message: 'A bound canonical character cannot be replaced by a snapshot refresh' });
+        ackFailure(ackCallback, { success: false, code: 'actor_binding_conflict', error: 'Bound canonical identity cannot change' });
         return;
       }
 
@@ -615,12 +632,14 @@ function registerTokenHandlers(ctx) {
         || findProtectedKey(data.character, 0, '', { excludeIdentity: true });
       if (protectedKey) {
         logger.warn('[character_token_updated] Protected field update blocked', { tokenId, key: protectedKey });
+        ackFailure(ackCallback, { success: false, code: 'protected_field', error: 'Protected token field' });
         return;
       }
 
       const authority = resolveTokenAuthority(room, player, tokenId, record.token, mapId, uid);
       if (authority === 'none') {
         logger.warn('[character_token_updated] Non-owner attempted to update character token', { tokenId, playerId: player?.id });
+        ackFailure(ackCallback, { success: false, code: 'forbidden', error: 'Not permitted to edit this token' });
         return;
       }
 
@@ -632,23 +651,25 @@ function registerTokenHandlers(ctx) {
       const projectedStateUpdates = data.stateUpdates && typeof data.stateUpdates === 'object'
         ? roomAccess.projectStateUpdates(data.stateUpdates)
         : null;
-      const updated = {
-        ...record.token,
+      actorConsequences.validateBuildEnvelope('character_token_updated', data);
+      actorConsequences.prepareBuildUpdate(record.token, {
+        ...(data.character ? { character: data.character } : {}),
+        ...(data.stateUpdates ? { state: data.stateUpdates } : {})
+      }, 'character');
+      const prepared = actorConsequences.prepareBuildUpdate(record.token, {
         ...(data.name ? { name: data.name } : {}),
-        ...(projectedCharacter ? { character: { ...record.token.character, ...projectedCharacter } } : {}),
+        ...(projectedCharacter ? { character: projectedCharacter } : {}),
         ...(projectedStateUpdates && Object.keys(projectedStateUpdates).length > 0
-          ? { state: { ...(record.token.state || {}), ...projectedStateUpdates } }
+          ? { state: projectedStateUpdates }
           : {})
-      };
-      record.store[tokenId] = updated;
-      if (record.store !== room.gameState.characterTokens) {
-        if (!room.gameState.characterTokens) { room.gameState.characterTokens = {}; }
-        room.gameState.characterTokens[tokenId] = updated; // Legacy support
-      }
+      }, 'character');
+      // Validate before privacy projection can discard malformed/protected input.
+      actorConsequences.installBuildUpdate(room, map, 'characterTokens', tokenId, prepared);
 
       // Relay to everyone EXCEPT the sender (their local state is already fresh)
       if (!isTokensDeltaEnabled()) {
-        socket.to(room.id).emit('character_token_updated', {
+        io.to(room.id).emit('character_token_updated', {
+          roomId: room.id, actorSnapshot: actorProjection.snapshot(room),
           tokenId,
           mapId,
           ...(data.name ? { name: data.name } : {}),
@@ -660,9 +681,12 @@ function registerTokenHandlers(ctx) {
       }
 
       firebaseBatchWriter.queueWrite(room.id, room.gameState);
+      if (isTokensDeltaEnabled()) {debouncedEmitTokenDelta(io, room.id, room.gameState, authorityService, room.authorityToken || null);}
+      if (typeof ackCallback === 'function') {ackCallback({ success: true });}
 
     } catch (error) {
       logger.error('[character_token_updated] Error:', { error: error.message });
+      ackFailure(ackCallback, { success: false, code: error.code || 'invalid_bounds', error: error.message });
     }
   });
 
@@ -687,6 +711,7 @@ function registerTokenHandlers(ctx) {
       }
       if (record.kind === 'character_token') {socket.emit('room_error', { code: 'actor_binding_conflict', event: 'token_removed', message: 'Use character_token_removed for this exact kind' }); return;}
 
+      actorProjection.advance(room);
       delete record.store[data.tokenId];
       delete room.gameState.tokens[data.tokenId]; // Legacy support
       if (room.tokenControllers) {delete room.tokenControllers[delegationKey(room, data.tokenId, mapId)];}
@@ -694,6 +719,7 @@ function registerTokenHandlers(ctx) {
 
       if (!isTokensDeltaEnabled()) {
         io.to(room.id).emit('token_removed', {
+          roomId: room.id, actorSnapshot: actorProjection.snapshot(room),
           tokenId: data.tokenId,
           mapId,
           removedBy: socket.id,
@@ -730,6 +756,7 @@ function registerTokenHandlers(ctx) {
       }
       if (record.kind === 'character_token') {socket.emit('room_error', { code: 'actor_binding_conflict', event: 'token_dismissed', message: 'Use character_token_removed for this exact kind' }); return;}
 
+      actorProjection.advance(room);
       delete record.store[data.tokenId];
       delete room.gameState.tokens[data.tokenId];
       if (room.tokenControllers) {delete room.tokenControllers[delegationKey(room, data.tokenId, mapId)];}
@@ -737,6 +764,7 @@ function registerTokenHandlers(ctx) {
 
       if (!isTokensDeltaEnabled()) {
         io.to(room.id).emit('token_dismissed', {
+          roomId: room.id, actorSnapshot: actorProjection.snapshot(room),
           tokenId: data.tokenId,
           mapId,
           dismissedBy: socket.id,
@@ -773,6 +801,7 @@ function registerTokenHandlers(ctx) {
       }
       if (record.kind !== 'character_token') {socket.emit('room_error', { code: 'actor_binding_conflict', event: 'character_token_removed', message: 'The addressed instance is not a character token' }); return;}
 
+      actorProjection.advance(room);
       delete record.store[data.tokenId];
       delete room.gameState.characterTokens[data.tokenId]; // Legacy support
       if (room.tokenControllers) {delete room.tokenControllers[delegationKey(room, data.tokenId, mapId)];}
@@ -780,6 +809,7 @@ function registerTokenHandlers(ctx) {
 
       if (!isTokensDeltaEnabled()) {
         io.to(room.id).emit('character_token_removed', {
+          roomId: room.id, actorSnapshot: actorProjection.snapshot(room),
           tokenId: data.tokenId,
           mapId,
           removedBy: socket.id,

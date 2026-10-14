@@ -929,7 +929,7 @@
         "theme": "narrative",
         "summary": [
           "Mythrill is a premium VTT platform purpose-built for immersive, tactile TTRPG play — a full rules system and a digital tabletop in one.",
-          "20 classes, 10+ races, a custom spellcrafting wizard, and a world where the sun has been buried in volcanic stone for nearly five centuries.",
+          "21 classes, 10+ races, a custom spellcrafting wizard, and a world where the sun has been buried in volcanic stone for nearly five centuries.",
           "New player? Start here for the four-step onboarding path: quick-start primer, character creation, interface tour, and core rules."
         ],
         "content": {
@@ -941,8 +941,8 @@
               "content": "Mythrill is a **premium Virtual Tabletop (VTT)** platform purpose-built for the Mythrill TTRPG system. It combines a rich, fully-featured tabletop rules system with a beautifully designed digital platform, allowing groups of 2-8 players to run immersive, narratively rich role-playing sessions together, whether in the same room or across the world.\n\nAt its core, Mythrill consists of two interlocking parts:\n\n- **Mythrill TTRPG**: The game rules, your character's stats, how rolls work, how combat flows, how spells are cast, and how the world responds to your choices. All of these rules are documented in this very guide.\n- **Mythrill VTT**: The digital platform, the visual interface, the character sheets, the map grid, the combat tracker, and the library of tools that automate and enhance the rules above.\n\nTogether, they create an experience where the lines between the physical joy of rolling dice and the digital power of automation blur into something genuinely cinematic."
             },
             {
-              "title": "Transitioning from D&D (Key Differences)",
-              "content": "If you are coming to Mythrill from **Dungeons & Dragons (D&D 5e)**, welcome! While the spirit of epic adventure remains identical, Mythrill completely reinvents the tactical rules engine to be faster, more strategic, and far more intuitive on the digital screen. Here are the four massive differences you should know immediately:\n\n- **The Ladder of Trials (No Static DCs)**: In D&D, the DM sets a static target number (like DC 15) and you roll a d20. In Mythrill, there are no static DCs. Instead, the GM dynamically assigns a **Difficulty Die** (ranging from a d4 for very easy to a d20 for legendary trials). You roll that difficulty die, and add your Skill Rank. The roll results are color-coded in chat for instant feedback. Learn more in [Dice System](core-rules/dice-system).\n- **Unified Strike & Damage (No Double Rolling)**: D&D combat requires rolling to hit, checking if it hits, and then rolling for damage. Mythrill collapses this into a single, high-stakes moment! When you strike, you roll your weapon's damage die exactly once (**Unified Strike & Damage**). A natural 1 is a catastrophic fumble. Rolling the maximum value triggers an exploding critical hit. Any other result hits and deals that exact damage plus your Strength or Agility modifier! Learn more in [Attacks & Damage](combat-system/attacks-damage).\n- **Action Points Economy (3 AP for Ultimate Freedom)**: Forget the rigid Action, Bonus Action, and Movement system of D&D. Mythrill grants you a pool of **3 Action Points (AP)** at the start of your turn. You can spend them in *any* combination you want. Moving 30 feet costs 1 AP, attacking costs 2 AP, and casting a spell costs a variable amount of AP. You have absolute tactical freedom to decide your turn's flow. Learn more in [Combat Basics](combat-system/combat-basics).\n- **Active Soak Die (shifting Defense)**: In D&D, armor is a static AC number that makes attacks miss. In Mythrill, armor absorbs damage. Your Armor Score gives you permanent **Passive Damage Reduction (DR)** (Armor Score - 10, rounded down). If you see a heavy strike coming, you can spend AP to take the Defend action, letting you roll an **Active Soak Die** (up to a d10/d12 for heavy plate) to physically reduce incoming damage. Learn more in [Armor & Defense](combat-system/attacks-damage)."
+              "title": "What Makes Mythrill Different",
+              "content": "Mythrill reinvents the tactical rules engine to be faster, more strategic, and far more intuitive on the digital screen. Here are the four big ideas to know before your first session:\n\n- **The Ladder of Trials (No Static DCs)**: There are no fixed target numbers. Instead, the GM dynamically assigns a **Difficulty Die** (ranging from a d4 for very easy to a d20 for legendary trials). You roll that difficulty die, and add your Skill Rank. The roll results are color-coded in chat for instant feedback. Learn more in [Dice System](core-rules/dice-system).\n- **Unified Strike & Damage (One Roll)**: Combat collapses into a single, high-stakes moment! When you strike, you roll your weapon's damage die exactly once (**Unified Strike & Damage**). A natural 1 is a catastrophic fumble. Rolling the maximum value triggers an exploding critical hit. Any other result hits and deals that exact damage plus your Strength or Agility modifier! Learn more in [Attacks & Damage](combat-system/attacks-damage).\n- **Action Points Economy (3 AP for Ultimate Freedom)**: Mythrill grants you a pool of **3 Action Points (AP)** at the start of your turn. You can spend them in *any* combination you want. Moving 30 feet costs 1 AP, attacking costs 2 AP, and casting a spell costs a variable amount of AP. You have absolute tactical freedom to decide your turn's flow. Learn more in [Combat Basics](combat-system/combat-basics).\n- **Active Soak Die (Shifting Defense)**: Armor absorbs damage rather than turning blows aside. Your Armor Score gives you permanent **Passive Damage Reduction (DR)** (Armor Score - 10, rounded down). If you see a heavy strike coming, you can spend AP to take the Defend action, letting you roll an **Active Soak Die** (up to a d10/d12 for heavy plate) to physically reduce incoming damage. Learn more in [Armor & Defense](combat-system/attacks-damage)."
             },
             {
               "title": "Your Four-Step Journey",
@@ -950,7 +950,7 @@
             },
             {
               "title": "How to Use This Rulebook",
-              "content": "This is a **living, interactive rulebook** built into the VTT itself:\n\n- **Clickable Cross-Links**: Blue underlined links throughout the rules jump you directly to related sections. Look for links like [Dice System](core-rules/dice-system) or [Attacks & Damage](combat-system/attacks-damage).\n- **Quick Summary Tiles**: At the top of most sections, three bullet points give you the most important takeaways at a glance.\n- **Tables with Pagination**: Large tables are paginated so you can browse without endless scrolling.\n\n**Recommended Reading Order for New Players**:\n1. [Quick Start: Your First Session](getting-started/quick-start) ? Start here for a one-page world primer\n2. [Welcome to Mythrill](getting-started/welcome)\n3. [Transitioning from D&D 5e](getting-started/dnd-comparison)\n4. [The Interface at a Glance](getting-started/interface-overview)\n5. [Creating Your First Character](getting-started/your-first-character)\n6. [The Dice System](core-rules/dice-system)\n7. [Character Statistics](core-rules/character-statistics)\n8. [Combat Basics](combat-system/combat-basics)\n9. [Your Class](character-creation/classes)"
+              "content": "This is a **living, interactive rulebook** built into the VTT itself:\n\n- **Clickable Cross-Links**: Blue underlined links throughout the rules jump you directly to related sections. Look for links like [Dice System](core-rules/dice-system) or [Attacks & Damage](combat-system/attacks-damage).\n- **Quick Summary Tiles**: At the top of most sections, three bullet points give you the most important takeaways at a glance.\n- **Tables with Pagination**: Large tables are paginated so you can browse without endless scrolling.\n\n**Recommended Reading Order for New Players**:\n1. [Quick Start: Your First Session](getting-started/quick-start) - Start here for a one-page world primer\n2. [Welcome to Mythrill](getting-started/welcome)\n3. [How Mythrill Plays](getting-started/how-mythrill-plays)\n4. [The Interface at a Glance](getting-started/interface-overview)\n5. [Creating Your First Character](getting-started/your-first-character)\n6. [The Dice System](core-rules/dice-system)\n7. [Character Statistics](core-rules/character-statistics)\n8. [Combat Basics](combat-system/combat-basics)\n9. [Your Class](character-creation/classes)"
             }
           ]
         }
@@ -983,7 +983,7 @@
             },
             {
               "title": "Recommended First Character",
-              "content": "If you are new to Mythrill and do not want to parse 20 classes, 11 races, and 24 backgrounds, here is a safe, fun starting build:\n\n**The Fog Hunter**\n- **Race:** Human (Tallyn), You are from Greymark. You know the city, the fog, and the people.\n- **Class:** Apex, You track native creatures and Wyrd entities through the fog. You are deaf to human voices but can read the forest's vibrations.\n- **Background:** Hunter, You know the trails, the beasts, and the dangers of the Reach.\n\n**Why this works:**\n- The Apex is straightforward: mark targets, strike with precision, pursue relentlessly.\n- The Tallyn subrace ties you directly to the starting zone. You have contacts in Greymark, you understand the fog, and you have a reason to care about the missing scribe.\n\n**Alternative builds:**\n- **The Archive Guard:** Human (Tallyn), Warden class. You protect the keep and its records.\n- **The Masked Stranger:** Mimir (Broken Mimir), Shaper class. You are an outcast who fights with speed and deception.\n- **The Thorn-Born:** Florae (Briaren subrace), Martyr class. You carry the weight of the refusal. You suffer for your allies."
+              "content": "If you are new to Mythrill and do not want to parse 21 classes, 11 races, and 24 backgrounds, here is a safe, fun starting build:\n\n**The Fog Hunter**\n- **Race:** Human (Tallyn), You are from Greymark. You know the city, the fog, and the people.\n- **Class:** Apex, You track native creatures and Wyrd entities through the fog. You are deaf to human voices but can read the forest's vibrations.\n- **Background:** Hunter, You know the trails, the beasts, and the dangers of the Reach.\n\n**Why this works:**\n- The Apex is straightforward: mark targets, strike with precision, pursue relentlessly.\n- The Tallyn subrace ties you directly to the starting zone. You have contacts in Greymark, you understand the fog, and you have a reason to care about the missing scribe.\n\n**Alternative builds:**\n- **The Archive Guard:** Human (Tallyn), Warden class. You protect the keep and its records.\n- **The Masked Stranger:** Mimir (Broken Mimir), Shaper class. You are an outcast who fights with speed and deception.\n- **The Thorn-Born:** Florae (Briaren subrace), Martyr class. You carry the weight of the refusal. You suffer for your allies."
             },
             {
               "title": "The Rules You Need Right Now",
@@ -993,110 +993,101 @@
         }
       },
       {
-        "id": "dnd-comparison",
-        "name": "Transitioning from D&D 5e",
-        "icon": "fas fa-exchange-alt",
+        "id": "how-mythrill-plays",
+        "name": "How Mythrill Plays",
+        "icon": "fas fa-dice-d20",
         "theme": "narrative",
         "summary": [
-          "The four biggest mechanical shifts from D&D 5e: the Difficulty Dice Ladder replaces static DCs, unified strike-and-damage rolls eliminate double-rolling, Action Points replace the action/bonus/move economy, and active soak dice replace static AC.",
-          "Also covers the Ladder of Trials, Push Your Luck, reactions, damage modifiers, death and dying, and the conscious dying state — everything that plays differently from what you're used to.",
-          "D&D veterans: read this before anything else. It maps every familiar concept to its Mythrill equivalent so you can start playing immediately without unlearning old habits mid-session."
+          "The four big ideas: the Difficulty Dice Ladder replaces static target numbers, unified strike-and-damage rolls need only one roll, Action Points give you a free-form turn, and active soak dice make armor absorb blows.",
+          "Also covers the Ladder of Trials, conscious dying, the class system and the spatial grid inventory: everything that makes Mythrill play the way it does.",
+          "New to Mythrill? Read this early. It maps the core mechanics so you can start playing quickly without stumbling over the rules mid-session."
         ],
         "content": {
-          "title": "Transitioning from D&D 5e",
-          "description": "A complete guide to understanding the mechanical shifts and mindset changes when moving from 5e to Mythrill.",
+          "title": "How Mythrill Plays",
+          "description": "A complete guide to the core mechanics and mindset of Mythrill: dice, strikes, action points, armor, dying and inventory.",
           "sections": [
             {
-              "title": "The Great Mindset Shift",
-              "content": "Coming from D&D 5e, you might expect to roll a d20 + flat modifiers against a static Armor Class (AC) or Difficulty Class (DC) set by the GM. In Mythrill, throw that expectation out! \n\nMythrill is built to be a highly tactile, dramatic, and visual system. The core philosophy is simple: **you do not roll a d20 against the world; you roll the difficulty of the challenge itself.**\n\nInstead of static numbers, obstacles in the world have physical weight represented by polyhedral dice on the **Ladder of Trials**. In combat, you do not roll to hit and then roll for damage, you roll your weapon's damage die exactly once in a **Unified Strike & Damage** roll. Armor doesn't make you hard to hit; it absorbs the blow. And if you fall to 0 HP, you do not lose consciousness; you stand your ground in a heroic final stand. \n\nThis guide breaks down these differences so you can transition seamlessly and master the VTT immediately."
+              "title": "The Core Idea",
+              "content": "Mythrill is built to be a highly tactile, dramatic, and visual system. The core philosophy is simple: **you do not roll against a fixed number; you roll the difficulty of the challenge itself.**\n\nObstacles in the world have physical weight represented by polyhedral dice on the **Ladder of Trials**. In combat, you roll your weapon's damage die exactly once in a **Unified Strike & Damage** roll. Armor doesn't make you hard to hit; it absorbs the blow. And if you fall to 0 HP, you do not lose consciousness; you stand your ground in a heroic final stand.\n\nThis guide breaks down each of these ideas so you can master the VTT immediately."
             },
             {
-              "title": "1. The Ladder of Trials vs. Static DCs",
-              "content": "In D&D 5e, when you attempt to pick a lock, the DM checks their notes, sets a static DC (like DC 15), and you roll a d20 + your Dexterity (Sleight of Hand) modifier. \n\nIn Mythrill, there are no static DCs. Instead, the GM dynamically assigns a **Difficulty Die** representing the complexity of the challenge. You roll *that difficulty die itself* and add your Skill Rank (Untrained, Novice, Trained, Apprentice, Adept, Expert, Master) plus situational modifiers. \n\n- **d4 (Very Easy)** to **d20 (Very Difficult)**: For an easy task, you roll a d4. For a near-impossible legendary trial, you roll a d20.\n- **Why a Smaller Die is Better**: Rolling the maximum face value on your Difficulty Die (e.g., a 4 on a d4, or an 8 on a d8) is a **Critical Success**. Rolling a 1 is always a **Critical Failure**. This means on a d4, you have a **25% chance** of a critical success, whereas on a d20, you have only a **5% chance**! \n- **Milestone of Mastery (+5 Modifier)**: While raw ability modifiers are rarely added directly to skill checks, if your primary or secondary attribute modifier reaches **+5 or higher**, your mastery is so deep that you **step down the Difficulty Die by one size** (e.g., from a challenging d10 to a moderate d8). This significantly boosts your chances of success and critical triumph!"
+              "title": "1. The Ladder of Trials",
+              "content": "When you attempt to pick a lock, the GM does not consult a fixed number. Instead, the GM dynamically assigns a **Difficulty Die** representing the complexity of the challenge. You roll *that difficulty die itself* and add your Skill Rank (Untrained, Novice, Trained, Apprentice, Adept, Expert, Master) plus situational modifiers.\n\n- **d4 (Very Easy)** to **d20 (Very Difficult)**: For an easy task, you roll a d4. For a near-impossible legendary trial, you roll a d20.\n- **Why a Smaller Die is Better**: Rolling the maximum face value on your Difficulty Die (e.g., a 4 on a d4, or an 8 on a d8) is a **Critical Success**. Rolling a 1 is always a **Critical Failure**. This means on a d4, you have a **25% chance** of a critical success, whereas on a d20, you have only a **5% chance**! \n- **Milestone of Mastery (+5 Modifier)**: While raw ability modifiers are rarely added directly to skill checks, if your primary or secondary attribute modifier reaches **+5 or higher**, your mastery is so deep that you **step down the Difficulty Die by one size** (e.g., from a challenging d10 to a moderate d8). This significantly boosts your chances of success and critical triumph!"
             },
             {
-              "title": "2. Unified Strike & Damage vs. Hit & Damage Rolls",
-              "content": "In D&D, combat can feel slow: you roll a d20 to hit, wait for the DM to confirm if it beats the target's AC, and then roll your damage dice. \n\nMythrill collapses this into a single, high-stakes moment: **Unified Strike & Damage**. When you attack, you roll your weapon's damage die exactly once:\n\n- **A Natural 1**: A catastrophic combat fumble. Your blade chips, your bowstring frays, or your rifle jams, dealing direct damage to your weapon's durability. See [Durability & Repair](core-rules/durability-repair).\n- **A Natural Maximum (Exploding Critical)**: Rolling the maximum value on your weapon die (e.g., an 8 on a d8 longsword) triggers an **exploding critical hit**. You deal maximum damage, roll the die *again* to add to the total (which can explode repeatedly!), and trigger a devastating weapon-specific condition (like Bleed for Slashing, or Stun for Bludgeoning).\n- **Any Other Roll**: You hit! The exact number you roll on the die is your raw damage. You add your Strength (for melee/heavy weapons) or Agility (for ranged/light weapons) modifier directly to this number, and that is the final damage dealt. No double rolling, no slow calculations!"
+              "title": "2. Unified Strike & Damage",
+              "content": "Combat is a single, high-stakes moment: **Unified Strike & Damage**. When you attack, you roll your weapon's damage die exactly once:\n\n- **A Natural 1**: A catastrophic combat fumble. Your blade chips, your bowstring frays, or your rifle jams, dealing direct damage to your weapon's durability. See [Durability & Repair](core-rules/durability-repair).\n- **A Natural Maximum (Exploding Critical)**: Rolling the maximum value on your weapon die (e.g., an 8 on a d8 longsword) triggers an **exploding critical hit**. You deal maximum damage, roll the die *again* to add to the total (which can explode repeatedly!), and trigger a devastating weapon-specific condition (like Bleed for Slashing, or Stun for Bludgeoning).\n- **Any Other Roll**: You hit! The exact number you roll on the die is your raw damage. You add your Strength (for melee/heavy weapons) or Agility (for ranged/light weapons) modifier directly to this number, and that is the final damage dealt. No double rolling, no slow calculations!"
             },
             {
-              "title": "3. 3 Action Points (AP) vs. Rigid Action Economy",
-              "content": "D&D 5e restricts your turn to one Movement, one Action, one Bonus Action, and one Reaction. This can lead to frustrating turns where you have nothing to do with your Bonus Action, or cannot move after attacking. \n\nMythrill replaces this rigidity with ultimate tactical freedom: a **3 Action Points (AP)** economy. At the start of your turn, your Character HUD fills with 3 glowing AP orbs. You can spend them in *any* combination you see fit:\n\n- **Movement (1 AP)**: Move up to your speed ( 30 feet).\n- **Strike (2 AP)**: Swing your sword or shoot your bow. A standard turn lets you strike once and still move, or use your remaining AP for another action.\n- **Cast a Spell (Variable AP)**: Spellcasting costs AP based on the power of the spell. Weak cantrips cost 1 AP, while standard spells cost 2-3 AP.\n- **Defend (1 AP)**: Raise your shield or steel yourself, preparing to roll your Active Soak Die when attacked. \n\nThis fluid economy lets you move across the battlefield and strike an enemy in one turn, or stand your ground and cast a powerful spell."
+              "title": "3. Three Action Points (AP)",
+              "content": "Mythrill gives you tactical freedom through a **3 Action Points (AP)** economy. At the start of your turn, your Character HUD fills with 3 glowing AP orbs. You can spend them in *any* combination you see fit:\n\n- **Movement (1 AP)**: Move up to your speed ( 30 feet).\n- **Strike (2 AP)**: Swing your sword or shoot your bow. A standard turn lets you strike once and still move, or use your remaining AP for another action.\n- **Cast a Spell (Variable AP)**: Spellcasting costs AP based on the power of the spell. Weak cantrips cost 1 AP, while standard spells cost 2-3 AP.\n- **Defend (1 AP)**: Raise your shield or steel yourself, preparing to roll your Active Soak Die when attacked. \n\nThis fluid economy lets you move across the battlefield and strike an enemy in one turn, or stand your ground and cast a powerful spell."
             },
             {
-              "title": "4. Active Soak Die vs. Static AC",
-              "content": "In D&D, armor is a static number (AC) that determines whether an attack hits or misses. A plate-armored knight is hard to hit, and when an attack \"misses,\" it is narratively described as bouncing off their plate. \n\nMythrill separates dodging from absorbing blows. Dodging is handled by your Agility and reflex skills, while armor physically reduces the impact of strikes:\n\n- **Passive Damage Reduction (DR)**: Your equipped armor grants a permanent Passive DR score (calculated as your Armor Score - 10, rounded down). Whenever you take damage, this passive value is automatically subtracted from the incoming damage.\n- **Active Soak Die**: When you see a devastating blow coming, you can spend AP on your turn to take the **Defend Action**. This grants you an **Active Soak Die** (ranging from a d4 for light leather up to a d10 or d12 for heavy full-plate armor). When an enemy hits you, you roll your Soak Die and reduce the incoming damage by the rolled amount! Armor in Mythrill makes you feel like an absolute tank, physically absorbing heavy blows in real-time."
+              "title": "4. The Active Soak Die",
+              "content": "Mythrill separates dodging from absorbing blows. Dodging is handled by your Agility and reflex skills, while armor physically reduces the impact of strikes:\n\n- **Passive Damage Reduction (DR)**: Your equipped armor grants a permanent Passive DR score (calculated as your Armor Score - 10, rounded down). Whenever you take damage, this passive value is automatically subtracted from the incoming damage.\n- **Active Soak Die**: When you see a devastating blow coming, you can spend AP on your turn to take the **Defend Action**. This grants you an **Active Soak Die** (ranging from a d4 for light leather up to a d10 or d12 for heavy full-plate armor). When an enemy hits you, you roll your Soak Die and reduce the incoming damage by the rolled amount! Armor in Mythrill makes you feel like an absolute tank, physically absorbing heavy blows in real-time."
             },
             {
-              "title": "5. Conscious Dying vs. Unconscious Death Saves",
-              "content": "In D&D 5e, hitting 0 HP instantly knocks you unconscious, removing you from the game until someone heals you. You spend your turns doing nothing but rolling death saves, hoping you don't roll a natural 1. \n\nMythrill keeps you in the fight with **Conscious Dying**. When you hit 0 HP, you do **not** fall unconscious. You remain awake, on your feet, and fully aware, but you are teetering on the edge of the grave:\n\n- **Dying State**: You still roll a Death Save at the start of your turn, tracking successes and failures. \n- **Heroic Actions**: On your turn, you can still spend your Action Points (AP) to move, speak, or even attack. However, pushing your body in this state is extremely dangerous: performing heavy actions (like striking or casting spells) forces you to make an immediate, difficult Death Save or suffer internal bleeding.\n- **Dramatic Final Stands**: This allows for epic roleplay moments. Will you crawl to safety while coughing blood, use your last breath to cast a healing spell on a fallen ally, or execute one final, desperate strike to slay the boss before you collapse? The choice, and the tragedy, is yours."
+              "title": "5. Conscious Dying",
+              "content": "Mythrill keeps you in the fight with **Conscious Dying**. When you hit 0 HP, you do **not** fall unconscious. You remain awake, on your feet, and fully aware, but you are teetering on the edge of the grave:\n\n- **Dying State**: You still roll a Death Save at the start of your turn, tracking successes and failures. \n- **Heroic Actions**: On your turn, you can still spend your Action Points (AP) to move, speak, or even attack. However, pushing your body in this state is extremely dangerous: performing heavy actions (like striking or casting spells) forces you to make an immediate, difficult Death Save or suffer internal bleeding.\n- **Dramatic Final Stands**: This allows for epic roleplay moments. Will you crawl to safety while coughing blood, use your last breath to cast a healing spell on a fallen ally, or execute one final, desperate strike to slay the boss before you collapse? The choice, and the tragedy, is yours."
             },
             {
-              "title": "6. Classes vs. Single Class Archetypes",
-              "content": "In D&D, your class (like Fighter or Wizard) determines both your combat style and your roleplay identity, often requiring complex multiclassing to achieve specific character concepts. \n\nMythrill features **20 unique classes** (such as the furnace-bound Martyr, the time-bending Chronarch, the beast-taming Apex, or the chaotic Gambit). Your class dictates your health pool, weapon proficiencies, combat resource (Mana, Rage, Fortune, Necrotic Ascension), and active combat abilities. With 20 unique classes, you can find an archetype that matches your vision without multiclassing."
+              "title": "6. Twenty-One Classes",
+              "content": "Mythrill features **21 unique classes** (such as the furnace-bound Martyr, the time-bending Chronarch, the beast-taming Apex, or the chaotic Gambit). Your class dictates your health pool, weapon proficiencies, combat resource (Mana, Rage, Fortune, Necrotic Ascension), and active combat abilities. With 21 distinct archetypes, you can find a path that matches your vision without multiclassing."
             },
             {
-              "title": "7. Spatial Grid Inventory vs. Numeric Carrying Capacity",
-              "content": "D&D uses a numeric weight system (carrying capacity in pounds) that is so tedious to track that most players and DMs ignore it entirely, leading to characters carrying multiple chests, weapons, and hundreds of items without issue. \n\nMythrill introduces a highly visual and tactile **Spatial Grid Inventory** (similar to Resident Evil or Diablo):\n\n- **Geometric Packing**: Your inventory is a physical grid of columns and rows. Items have actual sizes: a simple lockpick is 1x1, a potion is 1x1, an elegant longsword is 1x4, and a massive steel shield is 2x3. You must physically arrange your pack like a puzzle to make items fit!\n- **Strength-Scaled Grid**: Your physical power dictates your carrying capacity. A character with 10 Strength starts with a 5x15 grid. For every 2 points of Strength above 10, your pack grows wider by one column (adding 15 slots of space).\n- **Encumbrance Zones**: Where you pack your gear matters. Packing heavy items in the outer columns (Columns 5-9 or 10-14) destabilizes your center of gravity, triggering automatic speed and agility penalties. Keep your heavy gear centered to move at full speed! The VTT automates these calculations, instantly updating your sheet as you drag and drop items."
+              "title": "7. Spatial Grid Inventory",
+              "content": "Mythrill uses a highly visual and tactile **Spatial Grid Inventory** instead of a bare weight number:\n\n- **Geometric Packing**: Your inventory is a physical grid of columns and rows. Items have actual sizes: a simple lockpick is 1x1, a potion is 1x1, an elegant longsword is 1x4, and a massive steel shield is 2x3. You must physically arrange your pack like a puzzle to make items fit!\n- **Strength-Scaled Grid**: Your physical power dictates your carrying capacity. A character with 10 Strength starts with a 5x15 grid. For every 2 points of Strength above 10, your pack grows wider by one column (adding 15 slots of space).\n- **Encumbrance Zones**: Where you pack your gear matters. Packing heavy items in the outer columns (Columns 5-9 or 10-14) destabilizes your center of gravity, triggering automatic speed and agility penalties. Keep your heavy gear centered to move at full speed! The VTT automates these calculations, instantly updating your sheet as you drag and drop items."
             }
           ],
           "tables": [
             {
-              "title": "Quick Comparison: Mythrill vs. D&D 5e",
-              "description": "A rapid reference comparison of the core rules and systems between D&D 5e and Mythrill.",
+              "title": "Quick Reference: Core Mechanics",
+              "description": "A rapid reference of the core rules and systems in Mythrill.",
               "headers": [
                 "System / Mechanic",
-                "D&D 5e Approach",
-                "Mythrill Approach",
+                "How It Works",
                 "Why It Matters"
               ],
               "rows": [
                 [
                   "Dice Resolution",
-                  "Player rolls d20 + modifiers vs. static DC set by DM.",
-                  "GM sets Difficulty Die (d4 to d20). Player rolls that die + Skill Rank.",
-                  "shifting checks; smaller difficulty dice make Critical Successes much more common (25% on d4)."
+                  "GM sets a Difficulty Die (d4 to d20). Player rolls that die + Skill Rank.",
+                  "Smaller difficulty dice make Critical Successes much more common (25% on a d4)."
                 ],
                 [
                   "Ability Bonuses",
-                  "High attributes (+5) add flat bonuses to d20 rolls.",
                   "Milestone of Mastery (+5) steps down the Difficulty Die by one size.",
                   "Mastery physically changes the trial, making success highly thematic and satisfying."
                 ],
                 [
                   "Combat Rolls",
-                  "Two rolls: Roll d20 to hit, then roll damage dice on success.",
-                  "One roll: Roll weapon damage die once (Unified Strike & Damage).",
+                  "One roll: weapon damage die rolled once (Unified Strike & Damage).",
                   "Combat is lightning fast; natural maximums trigger exploding damage and weapon conditions."
                 ],
                 [
                   "Action Economy",
-                  "Movement + Action + Bonus Action + Reaction.",
                   "3 Action Points (AP) pool refreshed every turn.",
                   "Complete tactical freedom to move, strike, cast, or defend in any combination."
                 ],
                 [
                   "Armor & Defense",
-                  "Static AC. Attacks below AC miss entirely; attacks equal or higher hit.",
-                  "Passive DR absorbs damage. Active Soak Die (d4 to d12) rolled via Defend action.",
+                  "Passive DR absorbs damage. Active Soak Die (d4 to d12) rolled via the Defend action.",
                   "Defenders feel physically tanky; armor behaves realistically by absorbing force."
                 ],
                 [
                   "Zero Hit Points",
-                  "Unconscious. Incapacitated, rolling death saves in place.",
                   "Conscious Dying. Awake and able to act, but heavy actions risk immediate death saves.",
                   "Enables epic final stands, dramatic sacrifices, and high-tension roleplay."
                 ],
                 [
                   "Character Setup",
-                  "Single Class choosing a subclass at level 1-3.",
-                  "20 unique classes with distinct resource systems.",
+                  "21 unique classes with distinct resource systems.",
                   "Find your archetype without multiclassing."
                 ],
                 [
-                  "Inventory Track",
-                  "Numeric weight in pounds (often ignored).",
-                  "Tactile Spatial Grid (diablo-style) with center-of-gravity encumbrance.",
-                  "Visual, interactive inventory puzzle that adds realistic, satisfying survival weight."
+                  "Inventory",
+                  "Tactile Spatial Grid with center-of-gravity encumbrance.",
+                  "A visual, interactive inventory puzzle that adds satisfying survival weight."
                 ]
               ]
             }
@@ -2172,7 +2163,7 @@
         "theme": "combat",
         "content": {
           "title": "Classes",
-          "description": "30 classes organized by thematic paths with unique resource systems. Click on a class name to view detailed information.",
+          "description": "21 classes organized by thematic paths with unique resource systems. Click on a class name to view detailed information.",
           "sections": [
             {
               "title": "Class System",
@@ -4953,7 +4944,7 @@
         "summary": [
           "Spellcasting uses mana as the primary resource. Spells are crafted through the Spellcrafting Wizard — no fixed spell lists, every spell is custom-built.",
           "Each class has unique magical abilities and resource mechanics beyond mana. The Arcanoneer juggles elemental spheres. The False Prophet harvests Madness. The Chronarch bends time itself.",
-          "This overview maps the full magic system: mana economy, spell tiers, casting AP costs, concentration rules, and how each of the 20 classes interacts with the magic system differently."
+          "This overview maps the full magic system: mana economy, spell tiers, casting AP costs, concentration rules, and how each of the 21 classes interacts with the magic system differently."
         ],
         "content": {
           "title": "Magic System Overview",
@@ -4985,7 +4976,7 @@
         "theme": "arcane",
         "content": {
           "title": "Magic Resources",
-          "description": "Action economy and class-specific resource systems used across all 20 classes",
+          "description": "Action economy and class-specific resource systems used across all 21 classes",
           "tables": [
             {
               "title": "Core Resources",
@@ -5016,7 +5007,7 @@
             },
             {
               "title": "Class Resource Systems",
-              "description": "Each of the 20 classes uses unique resource mechanics that define their playstyle and tactical options.",
+              "description": "Each of the 21 classes uses unique resource mechanics that define their playstyle and tactical options.",
               "layout": "armor-grid",
               "headers": [
                 "Resource",
@@ -5213,7 +5204,7 @@
           "sections": [
             {
               "title": "The Magic of Creation (Custom Spellcrafting)",
-              "content": "Magic in Mythrill is not a static list of predefined incantations copied from dusty spellbooks. Instead, spellcasters manipulate raw magical forces directly through our state-of-the-art **Custom Spellcrafting Wizard**. This interactive VTT engine allows you to step into the role of an arcane pioneer, combining customizable damage, direct healing, protective wards, and tactical utilities into personalized spells. \n\nEvery custom spell you weave is calculated and budgeted according to its tier level and effect weight, ensuring that customized spells remain balanced. To learn more about how resources are drawn and spent by the 20 classes, see [Magic Resources](magic-system/magic-resources)."
+              "content": "Magic in Mythrill is not a static list of predefined incantations copied from dusty spellbooks. Instead, spellcasters manipulate raw magical forces directly through our state-of-the-art **Custom Spellcrafting Wizard**. This interactive VTT engine allows you to step into the role of an arcane pioneer, combining customizable damage, direct healing, protective wards, and tactical utilities into personalized spells. \n\nEvery custom spell you weave is calculated and budgeted according to its tier level and effect weight, ensuring that customized spells remain balanced. To learn more about how resources are drawn and spent by the 21 classes, see [Magic Resources](magic-system/magic-resources)."
             },
             {
               "title": "The 9-Step Custom Spellcrafting Workflow",

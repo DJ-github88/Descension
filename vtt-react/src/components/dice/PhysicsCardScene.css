@@ -28,7 +28,7 @@
   cursor: pointer;
 }
 
-/* Floating Card Results Chip (Top Center like PhysicsDiceScene) */
+/* Floating card result: a small linen note, flat, ruled */
 .card-3d-result-area {
   position: absolute;
   top: 78px;
@@ -39,133 +39,41 @@
   align-items: center;
   gap: 16px;
   max-width: min(92vw, 680px);
-  padding: 10px 20px;
+  padding: 10px 16px;
   pointer-events: auto;
-  background: linear-gradient(155deg, rgba(24, 20, 34, 0.95), rgba(10, 10, 18, 0.92));
-  border: 1px solid rgba(219, 184, 92, 0.45);
-  border-radius: 14px;
-  box-shadow:
-    0 10px 34px rgba(0, 0, 0, 0.65),
-    0 0 24px rgba(201, 168, 76, 0.25);
-  backdrop-filter: blur(10px);
-  font-family: 'Cinzel', 'Times New Roman', serif;
-  animation: chipDropIn 0.35s cubic-bezier(0.2, 0.9, 0.3, 1.15);
+  background: #f8f5ee;
+  border: 1px solid #c4baa6;
+  border-radius: 4px;
+  box-shadow: 0 6px 18px rgba(52, 37, 26, 0.28);
+  color: #34251a;
+  font-family: 'Cinzel', Georgia, serif;
+  animation: chipDropIn 0.25s ease-out;
 }
-
 @keyframes chipDropIn {
-  from {
-    opacity: 0;
-    transform: translate(-50%, -14px) scale(0.92);
-  }
-  to {
-    opacity: 1;
-    transform: translate(-50%, 0) scale(1);
-  }
+  from { opacity: 0; transform: translate(-50%, -8px); }
+  to { opacity: 1; transform: translate(-50%, 0); }
 }
-
-.card-result-header {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.card-result-title {
-  font-size: 14px;
-  font-weight: 700;
-  color: #fff8e7;
-  letter-spacing: 0.5px;
-}
-
-.card-theme-badge {
-  font-size: 10px;
-  text-transform: uppercase;
-  letter-spacing: 0.8px;
-  color: #d4af37;
-}
-
+.card-result-header { display: flex; flex-direction: column; gap: 1px; padding-right: 14px; border-right: 1px solid #c4baa6; }
+.card-result-title { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #34251a; }
+.card-theme-badge { font-family: 'Crimson Text', Georgia, serif; font-style: italic; font-size: 0.85rem; text-transform: none; letter-spacing: 0; color: #68533e; }
 .card-reveal-all-btn {
-  font-family: 'Cinzel', 'Times New Roman', serif;
-  font-size: 11px;
-  font-weight: 700;
-  padding: 6px 12px;
-  border-radius: 6px;
-  border: 1px solid rgba(56, 189, 248, 0.6);
-  background: linear-gradient(135deg, rgba(14, 165, 233, 0.25), rgba(3, 105, 161, 0.35));
-  color: #7dd3fc;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  white-space: nowrap;
+  font-family: 'Cinzel', Georgia, serif; font-size: 0.66rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 6px 10px; border-radius: 3px; border: 1px solid #663c32; background: transparent; color: #663c32; cursor: pointer; white-space: nowrap;
 }
-
-.card-reveal-all-btn:hover {
-  background: linear-gradient(135deg, rgba(56, 189, 248, 0.4), rgba(14, 165, 233, 0.5));
-  color: #ffffff;
-  box-shadow: 0 0 10px rgba(56, 189, 248, 0.4);
-}
-
-.card-drawn-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
+.card-reveal-all-btn:hover { background: #663c32; color: #f8f5ee; box-shadow: none; }
+.card-drawn-list { display: flex; flex-wrap: wrap; gap: 6px 14px; }
 .drawn-card-pill {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 4px 10px;
-  background: rgba(201, 168, 76, 0.12);
-  border: 1px solid rgba(201, 168, 76, 0.3);
-  border-radius: 6px;
-  font-family: 'Cinzel', 'Times New Roman', serif;
-  color: #f1ece1;
-  transition: all 0.25s ease;
+  display: flex; align-items: baseline; gap: 6px; padding: 0; background: transparent; border: 0; border-radius: 0;
+  font-family: 'Crimson Text', Georgia, serif; color: #34251a; box-shadow: none;
 }
-
-.drawn-card-pill.hidden {
-  background: rgba(40, 30, 50, 0.6);
-  border-color: rgba(140, 100, 60, 0.4);
-  color: #94a3b8;
-}
-
-.drawn-card-pill.revealed {
-  background: rgba(201, 168, 76, 0.2);
-  border-color: rgba(212, 175, 55, 0.6);
-  box-shadow: 0 0 8px rgba(212, 175, 55, 0.2);
-}
-
-.card-rank {
-  font-size: 14px;
-  font-weight: 700;
-  color: #ffd700;
-}
-
-.card-suit {
-  font-size: 15px;
-}
-
-.card-title {
-  font-size: 11px;
-}
-
+.drawn-card-pill.hidden { background: transparent; border: 0; color: #8a7a62; }
+.drawn-card-pill.revealed { background: transparent; border: 0; box-shadow: none; }
+.card-rank { font-size: 1.25rem; font-weight: 700; color: #34251a; }
+.card-suit { font-size: 1.1rem; }
+.drawn-card-pill:has(.card-suit) .card-suit { color: inherit; }
+.card-title { font-size: 0.9rem; font-style: italic; color: #68533e; }
 .card-close-btn {
-  font-family: 'Cinzel', 'Times New Roman', serif;
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  padding: 8px 16px;
-  border-radius: 999px;
-  cursor: pointer;
-  border: none;
-  color: #0a0a14;
-  background: linear-gradient(135deg, #c9a84c 0%, #f0c060 50%, #c9a84c 100%);
-  box-shadow: 0 0 14px rgba(201, 168, 76, 0.35);
-  transition: all 0.2s ease;
-  pointer-events: auto;
+  font-family: 'Cinzel', Georgia, serif; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+  padding: 7px 14px; border-radius: 3px; cursor: pointer; border: 1px solid #663c32; color: #f8f5ee; background: #663c32; box-shadow: none; pointer-events: auto;
 }
-
-.card-close-btn:hover {
-  background: linear-gradient(135deg, #f0c060 0%, #ffe090 50%, #f0c060 100%);
-  transform: translateY(-1px);
-}
+.card-close-btn:hover { background: #7a4a3e; transform: none; }

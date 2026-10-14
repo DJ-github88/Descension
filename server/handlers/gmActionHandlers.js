@@ -55,12 +55,14 @@ function registerGmActionHandlers(ctx) {
           backgrounds: targetMap.backgrounds || [],
           activeBackgroundId: targetMap.activeBackgroundId || null,
           tokens: targetMap.tokens || {},
+          creatures: targetMap.creatures || {},
           characterTokens: targetMap.characterTokens || {},
           gridItems: targetMap.gridItems || {},
           gridSettings: targetMap.gridSettings || {}
         });
 
         socket.emit('gm_view_changed', {
+          roomId: room.id, actorProjection: require('../services/actorProjection').current(room),
           gmId: player.id,
           gmName: player.name,
           newMapId: targetMapId,
@@ -177,6 +179,7 @@ function registerGmActionHandlers(ctx) {
           backgrounds: targetMap.backgrounds || [],
           activeBackgroundId: targetMap.activeBackgroundId || null,
           tokens: targetMap.tokens || {},
+          creatures: targetMap.creatures || {},
           characterTokens: targetMap.characterTokens || {},
           gridItems: targetMap.gridItems || {},
           gridSettings: targetMap.gridSettings || {}
@@ -192,6 +195,7 @@ function registerGmActionHandlers(ctx) {
         });
 
         io.to(targetPlayer.socketId).emit('forced_map_transfer', {
+          roomId: room.id, actorProjection: require('../services/actorProjection').current(room),
           mapId: data.targetMapId,
           mapName: data.destinationMapName || data.targetMapId,
           reason: data.reason || 'GM transferred you',
@@ -245,6 +249,7 @@ function registerGmActionHandlers(ctx) {
       const map = maps[mapId];
 
       socket.emit('fresh_positions_received', {
+        roomId: room.id, actorProjection: require('../services/actorProjection').current(room),
         mapId,
         ...roomAccess.projectMapDataForClient({
           characterTokens: map.characterTokens || {},
@@ -324,6 +329,7 @@ function registerGmActionHandlers(ctx) {
           id: targetMapId,
           name: destinationMap.name || `Map ${targetMapId}`,
           tokens: destinationMap.tokens || {},
+          creatures: destinationMap.creatures || {},
           characterTokens: destinationMap.characterTokens || {},
           gridItems: destinationMap.gridItems || {},
           terrainData: destinationMap.terrainData || {},
@@ -343,6 +349,7 @@ function registerGmActionHandlers(ctx) {
         };
 
         const transferPayload = {
+          roomId: room.id, actorProjection: require('../services/actorProjection').current(room),
           playerId: player.id,
           playerName: player.name,
           mapId: targetMapId,

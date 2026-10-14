@@ -496,10 +496,10 @@ const ApexResourceBar = ({
                         subtitle="Apex Predator's Crosshairs & Pack"
                         state={`Marks: ${marks}/${maxMarks} · HP: ${companionHP}/${companionMaxHP}`}
                         stateTone={isApexReady ? 'good' : 'neutral'}
-                        mechanic="Marks (0–5) come only from pack synergy: coordinated strikes, companion hits and crits, Mark Quarry. A fallen companion stops generation. Spend on chains and finishers; 5 primes the ultimate."
+                        mechanic="Marks (0–5) come only from pack synergy: coordinated strikes, companion hits and crits, Mark Quarry. A fallen companion stops generation. Your Apex spells spend them."
                         status={[
                             isApexReady
-                                ? { text: '5/5 Marks — ultimate finisher primed.', tone: 'good' }
+                                ? { text: '5/5 Marks — fully primed.', tone: 'good' }
                                 : `Marks: ${marks}/${maxMarks} banked via the pack.`,
                             `${generation.generated}/${turnCap} generated in own-turn window ${generation.turn}. Spending does not refund this limit.`,
                             `Companion: ${companionStance} · ${companionHP}/${companionMaxHP} HP.`
@@ -648,7 +648,7 @@ const ApexResourceBar = ({
                                 <i className="fas fa-undo" aria-hidden="true"></i> Reset Pack
                             </button>
                             <button type="button" className="context-menu-button danger" onClick={() => { updateMarks(5); setShowControls(false); }}>
-                                <i className="fas fa-crosshairs" aria-hidden="true"></i> Apex Execution
+                                <i className="fas fa-crosshairs" aria-hidden="true"></i> Fill (5)
                             </button>
                         </div>
                     </div>

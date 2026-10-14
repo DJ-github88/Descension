@@ -2141,3 +2141,10 @@
   box-shadow: 0 4px 10px rgba(88, 24, 13, 0.35);
 }
 
+
+/* BOOK TOOLBAR TOUCH: on touch screens the toolbar is always visible, so it must not sit on top of
+   the cover footer stats. Hang it fully below the card and reserve that space in the grid. */
+@media (hover: none), (max-width: 700px) {
+  .book-archive .book-card { margin-bottom: 40px; }
+  .book-archive .book-card .book-card-toolbar { bottom: -54px; top: auto; right: 10px; }
+}

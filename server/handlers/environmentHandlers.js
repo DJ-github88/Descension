@@ -73,13 +73,16 @@ function registerEnvironmentHandlers(ctx) {
         socket.emit('room_error', { code: 'actor_binding_conflict', event: 'creature_added', message: 'An existing instance cannot be replaced by a legacy creature envelope' });
         return;
       }
-      map.creatures[creatureId] = {
+      const token = {
         ...data.creature,
         id: creatureId,
         addedAt: Date.now()
       };
+      require('../services/actorProjection').advance(room, room.gameState, [token]);
+      map.creatures[creatureId] = token;
 
       io.to(data.roomId).emit('creature_added', {
+        roomId: room.id, actorSnapshot: require('../services/actorProjection').snapshot(room),
         creature: roomAccess.projectTokenForClient(map.creatures[creatureId]),
         mapId,
         addedBy: socket.id
@@ -92,7 +95,7 @@ function registerEnvironmentHandlers(ctx) {
     }
   });
 
-  socket.on('creature_updated', async(data) => {
+  socket.on('creature_updated', async(data, ackCallback) => {
     try {
       const validation = validateRoomMembership(socket, data.roomId);
       if (!validation.valid) {return;}
@@ -116,24 +119,31 @@ function registerEnvironmentHandlers(ctx) {
         return;
       }
 
-      if (map.creatures && map.creatures[data.creatureId]) {
+      const creatureId = data.creatureId || data.tokenId;
+      if (data.creatureId && data.tokenId && data.creatureId !== data.tokenId) {require('../services/actorConsequences').fail('actor_binding_conflict');}
+      // Explicit adaptation moves a legacy creature to map.tokens. The sibling
+      // event still addresses that exact map/id; never look across maps.
+      const field = map.tokens?.[creatureId] ? 'tokens' : 'creatures';
+      if (map.tokens?.[creatureId] && map.creatures?.[creatureId] && require('../services/actorConsequences').hash(map.tokens[creatureId]) !== require('../services/actorConsequences').hash(map.creatures[creatureId])) {require('../services/actorConsequences').fail('actor_binding_conflict');}
+      if (map[field]?.[creatureId]) {
         const authority = tokenAuthority.resolveTokenAuthority(
-          room, player, data.creatureId, map.creatures[data.creatureId], mapId, uid
+          room, player, creatureId, map[field][creatureId], mapId, uid
         );
         if (authority === 'none') {
           logger.warn('[creature_updated] Unauthorized creature update blocked', {
             creatureId: data.creatureId, playerId: player && player.id
           });
+          require('../utils/socketAck').ackFailure(ackCallback, { success: false, code: 'forbidden', error: 'Not permitted to edit this creature' });
           return;
         }
 
-        map.creatures[data.creatureId] = {
-          ...map.creatures[data.creatureId],
-          ...updates
-        };
+        const actors = require('../services/actorConsequences');
+        const prepared = actors.prepareBuildUpdate(map[field][creatureId], updates, 'creature');
+        actors.installBuildUpdate(room, map, field, creatureId, prepared);
 
         io.to(data.roomId).emit('creature_updated', {
-          creatureId: data.creatureId,
+          roomId: room.id, actorSnapshot: require('../services/actorProjection').snapshot(room),
+          creatureId,
           updates: roomAccess.projectTokenUpdateForClient(updates),
           mapId,
           updatedBy: socket.id
@@ -141,10 +151,12 @@ function registerEnvironmentHandlers(ctx) {
 
         const sanitizedState = stripUndefined(room.gameState);
         firebaseBatchWriter.queueWrite(data.roomId, sanitizedState);
+        if (typeof ackCallback === 'function') {ackCallback({ success: true });}
       }
 
     } catch (error) {
       logger.error('[creature_updated] Error:', { error: error.message });
+      require('../utils/socketAck').ackFailure(ackCallback, { success: false, code: error.code || 'invalid_bounds', error: error.message });
     }
   });
 

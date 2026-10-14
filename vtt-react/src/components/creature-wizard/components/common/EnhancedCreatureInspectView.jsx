@@ -2251,211 +2251,108 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
 
   // Render the Loot section
   const renderLootSection = () => {
-    if (!processedCreature.lootTable) {
+    const loot = processedCreature.lootTable;
+    const cur = loot?.currency || {};
+    const coinRows = [
+      { key: 'gold', label: 'Gold', cls: 'gold' },
+      { key: 'silver', label: 'Silver', cls: 'silver' },
+      { key: 'copper', label: 'Copper', cls: 'copper' }
+    ].filter(c => cur[c.key]?.max > 0);
+    const rawItems = initialCreature?.lootTable?.items || [];
+    const lootItems = (loot?.items || []).map((it, i) => ({ it, raw: rawItems[i] || {} }));
+
+    if (!loot || (coinRows.length === 0 && lootItems.length === 0)) {
       return (
         <div className="creature-inspect-section empty-section">
-          <p>This creature has no loot.</p>
+          <p>This creature carries nothing of worth.</p>
         </div>
       );
     }
 
-    const hasCurrency = processedCreature.lootTable.currency?.gold?.max > 0 ||
-                        processedCreature.lootTable.currency?.silver?.max > 0 ||
-                        processedCreature.lootTable.currency?.copper?.max > 0;
-
-    const hasItems = processedCreature.lootTable.items && processedCreature.lootTable.items.length > 0;
-
-    if (!hasCurrency && !hasItems) {
-      return (
-        <div className="creature-inspect-section empty-section">
-          <p>This creature has no loot.</p>
-        </div>
-      );
-    }
+    const rangeText = (q) => {
+      if (q && typeof q === 'object' && q.max > 1) return q.min === q.max ? `×${q.max}` : `×${q.min}–${q.max}`;
+      if (typeof q === 'number' && q > 1) return `×${q}`;
+      return '';
+    };
+    const chanceWord = (c) => {
+      if (c === undefined || c === null) return '';
+      if (c >= 75) return 'Usual';
+      if (c >= 40) return 'Common';
+      if (c >= 15) return 'Uncommon';
+      if (c >= 6) return 'Rare';
+      return 'Very rare';
+    };
+    const sorted = [...lootItems].sort((a, b) => (b.it.dropChance || 0) - (a.it.dropChance || 0));
 
     return (
-      <div className="pathfinder-loot-container">
-        {/* Loot Table Header */}
-        <div className="pathfinder-loot-header">
-          <div className="loot-header-content">
-            <img
-              src={getCustomIconUrl('Social/Golden Crown', 'abilities')}
-              alt="Treasure"
-              className="loot-header-icon"
-              onError={(e) => handleImageError(e, 'Utility/Utility')}
-            />
-            <div className="loot-header-text">
-              <h2 className="loot-header-title">Treasure Hoard</h2>
-              <p className="loot-header-description">
-                Riches and artifacts that may be found upon this creature's defeat
-              </p>
-            </div>
+      <div className="calm-loot">
+        <div className="calm-loot-head">
+          <div>
+            <h3 className="calm-loot-title">Spoils</h3>
+            <p className="calm-loot-sub">What may be found on this creature when it falls.</p>
           </div>
-          <button
-            className="pathfinder-drop-loot-button"
-            onClick={handleDropLoot}
-            title="Roll for loot from this creature's treasure hoard and drop items on adjacent tiles"
-          >
-            <img
-              src={getCustomIconUrl('Social/Golden Crown', 'abilities')}
-              alt="Roll"
-              className="button-icon"
-              onError={(e) => handleImageError(e, 'Utility/Utility')}
-            />
-            <span>Roll for Loot</span>
-          </button>
+          {token && (
+            <button type="button" className="calm-loot-roll" onClick={handleDropLoot}
+              title="Roll this creature's loot and drop it on adjacent tiles">
+              Roll for loot
+            </button>
+          )}
         </div>
 
-        {/* Currency Section */}
-        {hasCurrency && (
-          <div className="pathfinder-loot-section">
-            <div className="pathfinder-section-header">
-              <img
-                src={getCustomIconUrl('Social/Golden Crown', 'abilities')}
-                alt="Currency"
-                className="section-header-icon"
-                onError={(e) => handleImageError(e, 'Utility/Utility')}
-              />
-              <h3 className="pathfinder-section-title">Currency</h3>
-            </div>
-            <div className="pathfinder-currency-grid">
-              {processedCreature.lootTable.currency.gold?.max > 0 && (
-                <div className="pathfinder-currency-item">
-                  <div className="currency-icon-container">
-                    <img
-                      src={getIconUrl('Container/Coins/golden-coin-single-isometric', 'items')}
-                      alt="Gold"
-                      className="pathfinder-coin-icon gold"
-                      onError={(e) => {
-                        e.target.onerror = null;
-                        e.target.src = getIconUrl('Misc/Books/book-brown-teal-question-mark', 'items');
-                      }}
-                    />
-                  </div>
-                  <div className="currency-details">
-                    <span className="currency-type">Gold Pieces</span>
-                    <span className="currency-amount">
-                      {processedCreature.lootTable.currency.gold.min === processedCreature.lootTable.currency.gold.max
-                        ? processedCreature.lootTable.currency.gold.min
-                        : `${processedCreature.lootTable.currency.gold.min}-${processedCreature.lootTable.currency.gold.max}`
-                      }
-                    </span>
-                  </div>
-                </div>
-              )}
-              {processedCreature.lootTable.currency.silver?.max > 0 && (
-                <div className="pathfinder-currency-item">
-                  <div className="currency-icon-container">
-                    <img
-                      src={getIconUrl('Container/Coins/golden-coin-single-isometric', 'items')}
-                      alt="Silver"
-                      className="pathfinder-coin-icon silver"
-                      onError={(e) => {
-                        e.target.onerror = null;
-                        e.target.src = getIconUrl('Misc/Books/book-brown-teal-question-mark', 'items');
-                      }}
-                    />
-                  </div>
-                  <div className="currency-details">
-                    <span className="currency-type">Silver Pieces</span>
-                    <span className="currency-amount">
-                      {processedCreature.lootTable.currency.silver.min === processedCreature.lootTable.currency.silver.max
-                        ? processedCreature.lootTable.currency.silver.min
-                        : `${processedCreature.lootTable.currency.silver.min}-${processedCreature.lootTable.currency.silver.max}`
-                      }
-                    </span>
-                  </div>
-                </div>
-              )}
-              {processedCreature.lootTable.currency.copper?.max > 0 && (
-                <div className="pathfinder-currency-item">
-                  <div className="currency-icon-container">
-                    <img
-                      src={getIconUrl('Container/Coins/golden-coin-single-isometric', 'items')}
-                      alt="Copper"
-                      className="pathfinder-coin-icon copper"
-                      onError={(e) => {
-                        e.target.onerror = null;
-                        e.target.src = getIconUrl('Misc/Books/book-brown-teal-question-mark', 'items');
-                      }}
-                    />
-                  </div>
-                  <div className="currency-details">
-                    <span className="currency-type">Copper Pieces</span>
-                    <span className="currency-amount">
-                      {processedCreature.lootTable.currency.copper.min === processedCreature.lootTable.currency.copper.max
-                        ? processedCreature.lootTable.currency.copper.min
-                        : `${processedCreature.lootTable.currency.copper.min}-${processedCreature.lootTable.currency.copper.max}`
-                      }
-                    </span>
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
+        {coinRows.length > 0 && (
+          <section className="calm-loot-block">
+            <h4 className="calm-loot-label">Coin carried</h4>
+            <ul className="calm-coin-list">
+              {coinRows.map(c => {
+                const r = cur[c.key];
+                return (
+                  <li key={c.key} className="calm-coin-row">
+                    <span className={`calm-coin-dot ${c.cls}`} aria-hidden="true" />
+                    <span className="calm-coin-name">{c.label}</span>
+                    <span className="calm-coin-amt">{r.min === r.max ? r.min : `${r.min}–${r.max}`}</span>
+                  </li>
+                );
+              })}
+            </ul>
+          </section>
         )}
 
-        {/* Items Section */}
-        {hasItems && (
-          <div className="pathfinder-loot-section">
-            <div className="pathfinder-section-header">
-              <img
-                src={getCustomIconUrl('Utility/Ornate Symbol', 'abilities')}
-                alt="Items"
-                className="section-header-icon"
-                onError={(e) => handleImageError(e, 'Utility/Utility')}
-              />
-              <h3 className="pathfinder-section-title">Magical Items & Equipment</h3>
-            </div>
-            <div className="loot-items-grid">
-              {processedCreature.lootTable.items.map((item, index) => (
-                <div
-                  key={index}
-                  className="loot-item-card"
-                  onMouseEnter={(e) => {
-                    setHoveredItem(item);
-                    setMousePosition({ x: e.clientX, y: e.clientY });
-                  }}
-                  onMouseMove={(e) => {
-                    if (hoveredItem && hoveredItem.id === item.id) {
-                      setMousePosition({ x: e.clientX, y: e.clientY });
-                    }
-                  }}
-                  onMouseLeave={() => setHoveredItem(null)}
-                >
-                  <div className="loot-item-icon">
-                    <img
-                      src={getIconUrl(item.iconId || 'Misc/Books/book-brown-teal-question-mark', 'items')}
-                      alt={item.name}
-                      onError={(e) => {
-                        e.target.onerror = null;
-                        e.target.src = getIconUrl('Misc/Books/book-brown-teal-question-mark', 'items');
-                      }}
-                    />
-                    {item.quantity && item.quantity > 1 && (
-                      <div className="loot-quantity">×{item.quantity}</div>
-                    )}
-                  </div>
-                  <div
-                    className="loot-item-name"
-                    style={{ color: getQualityColor(item.quality || item.rarity || 'common') }}
+        {sorted.length > 0 && (
+          <section className="calm-loot-block">
+            <h4 className="calm-loot-label">Items</h4>
+            <ul className="calm-loot-list">
+              {sorted.map(({ it, raw }, index) => {
+                const chance = it.dropChance ?? raw.dropChance;
+                const qty = rangeText(raw.quantity);
+                return (
+                  <li
+                    key={index}
+                    className="calm-loot-row"
+                    onMouseEnter={(e) => { setHoveredItem(it); setMousePosition({ x: e.clientX, y: e.clientY }); }}
+                    onMouseMove={(e) => { if (hoveredItem) setMousePosition({ x: e.clientX, y: e.clientY }); }}
+                    onMouseLeave={() => setHoveredItem(null)}
                   >
-                    {item.name || `Item #${index + 1}`}
-                  </div>
-
-                  {/* Drop chance info */}
-                  <div className="loot-item-info">
-                    {item.dropChance !== undefined && (
-                      <div className="loot-drop-chance">{item.dropChance}%</div>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
+                    <img
+                      className="calm-loot-icon"
+                      src={getIconUrl(it.iconId || 'Misc/Books/book-brown-teal-question-mark', 'items')}
+                      alt=""
+                      onError={(e) => { e.target.onerror = null; e.target.src = getIconUrl('Misc/Books/book-brown-teal-question-mark', 'items'); }}
+                    />
+                    <span className="calm-loot-name" style={{ color: getQualityColor(it.quality || it.rarity || 'common') }}>
+                      {it.name || `Item ${index + 1}`}
+                    </span>
+                    {qty && <span className="calm-loot-qty">{qty}</span>}
+                    <span className="calm-loot-chance" title={`${chance}% chance`}>
+                      <span className="calm-loot-bar"><span style={{ width: `${Math.min(100, chance || 0)}%` }} /></span>
+                      <span className="calm-loot-pct">{chance}%</span>
+                      <span className="calm-loot-word">{chanceWord(chance)}</span>
+                    </span>
+                  </li>
+                );
+              })}
+            </ul>
+          </section>
         )}
-
-        {/* Close the main container */}
       </div>
     );
   };
@@ -2701,7 +2598,7 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
 
                 {isDropdownOpen && section.subSections && dropdownPos && createPortal(
                   <div
-                    className="tab-dropdown-menu tab-dropdown-menu-scrollable adventurer-menu"
+                    className="tab-dropdown-menu tab-dropdown-menu-scrollable adventurer-menu creature-tab-menu"
                     style={{ position: 'fixed', left: dropdownPos.left, top: dropdownPos.top, minWidth: Math.max(220, dropdownPos.width), marginTop: 4 }}
                     onMouseEnter={cancelCloseTabDropdown}
                     onMouseLeave={scheduleCloseTabDropdown}
@@ -2823,7 +2720,7 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
           {tabOverflowOpen && hiddenTabIds.length > 0 && tabOverflowPos && createPortal(
             <div
               ref={tabOverflowMenuRef}
-              className="tab-dropdown-menu tab-dropdown-menu-scrollable tab-overflow-menu adventurer-menu"
+              className="tab-dropdown-menu tab-dropdown-menu-scrollable tab-overflow-menu adventurer-menu creature-tab-menu"
               style={{
                 position: 'fixed',
                 top: tabOverflowPos.top,

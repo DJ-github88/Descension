@@ -126,7 +126,7 @@ function registerCharacterHandlers(ctx) {
     }
   });
 
-  socket.on('character_updated', async(data) => {
+  socket.on('character_updated', async(data, ackCallback) => {
     logger.debug('character_updated received', {
       socketId: socket.id,
       characterId: data.characterId,
@@ -142,12 +142,45 @@ function registerCharacterHandlers(ctx) {
       const { room, player } = validation;
       logger.debug('character_updated validated', { playerId: player.id, roomId: room.id });
 
+      const actors = require('../services/actorConsequences');
+      actors.validateBuildEnvelope('character_updated', data);
+      const updates = data.character ? { character: data.character } : {};
+      const blocked = actors.protectedPath(data, 0, actors.buildPaths('character_updated'));
+      if (blocked) {actors.fail('actor_consequence_required');}
+      const uid = socket.data.userId;
+      const characterId = data.character?.id || data.characterId;
+      if (data.character?.id && data.characterId !== data.character.id) {actors.fail('actor_binding_conflict');}
+      const attachments = [];
+      for (const map of Object.values(room.gameState.maps || {})) {
+        for (const [id, token] of Object.entries(map.characterTokens || {})) {
+          const contract = token.state?.actorContract;
+          if (contract?.primary && contract.ownerUid === uid && contract.characterId === characterId) {
+            if (token.ownerUserId !== uid || token.character?.id !== characterId) {actors.fail('actor_binding_conflict');}
+            actors.prepareBuildUpdate(token, updates, 'character');
+            attachments.push({ map, id, token });
+          }
+        }
+      }
+      if (attachments.length > 1) {actors.fail('actor_binding_conflict');}
+      const projected = data.character ? roomAccess.projectCharacterForClient(data.character) : null;
+      const nextCharacter = projected ? { ...player.character, ...projected } : player.character;
+      for (const key of ['health', 'mana', 'actionPoints']) {
+        if (projected?.[key]) {nextCharacter[key] = { ...player.character?.[key], ...projected[key] };}
+      }
+      // All refusals precede player/attachment installation; no asynchronous gap.
+      if (attachments.length) {
+        const attachment = attachments[0];
+        attachment.prepared = actors.prepareBuildUpdate(attachment.token, { character: projected }, 'character');
+        actors.installBuildUpdate(room, attachment.map, 'characterTokens', attachment.id, attachment.prepared);
+        for (const key of ['health', 'mana', 'actionPoints', 'tempHealth', 'tempMana', 'tempActionPoints']) {
+          nextCharacter[key] = attachment.prepared.token.character[key];
+        }
+      }
       if (data.character) {
         // P4: private inventory is never stored through a shared character
         // envelope; outbound delivery is additionally projected below.
         player.character = roomAccess.projectCharacterForClient({
-          ...player.character,
-          ...data.character,
+          ...nextCharacter,
           lastUpdated: Date.now()
         });
 
@@ -169,6 +202,7 @@ function registerCharacterHandlers(ctx) {
       });
 
       io.to(broadcastRoomId).emit('character_updated', {
+        ...(attachments.length ? { roomId: room.id, actorSnapshot: require('../services/actorProjection').snapshot(room) } : {}),
         playerId: player.id,
         characterId: data.characterId,
         character: roomAccess.projectCharacterForClient(player.character),
@@ -184,9 +218,11 @@ function registerCharacterHandlers(ctx) {
       if (room.isPermanent) {
         firebaseBatchWriter.queueWrite(room.id, room.gameState);
       }
+      if (typeof ackCallback === 'function') {ackCallback({ success: true });}
 
     } catch (error) {
       logger.error('[character_updated] Error:', { error: error.message });
+      require('../utils/socketAck').ackFailure(ackCallback, { success: false, code: error.code || 'invalid_bounds', error: error.message });
     }
   });
 

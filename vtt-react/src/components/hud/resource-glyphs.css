@@ -16,9 +16,13 @@
 .resource-glyph.rg-phase-max .rg-glint { animation: rgTwinkle 2.6s ease-in-out infinite; }
 .resource-glyph.rg-phase-max .rg-glint + .rg-glint { animation-delay: 1.3s; }
 
-/* critical: the remaining charge flickers, the AP wing trembles */
+/* critical: the remaining charge flickers, the AP wing trembles, exhaustion stream sputters */
 .resource-glyph.rg-phase-critical .rg-fill { animation: rgFlicker 1.6s steps(1, end) infinite; }
 .resource-glyph.rg-ap.rg-phase-critical .rg-wing { animation: rgTremble 0.9s ease-in-out infinite; transform-box: fill-box; transform-origin: 0% 100%; }
+.resource-glyph.rg-exhaustion.rg-phase-critical .rg-stream { animation: rgFlicker 1.4s steps(1, end) infinite; }
+.resource-glyph.rg-exhaustion .rg-vitality-star { animation: rgTwinkle 2.8s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+.resource-glyph .rg-stream-flow { animation: rgSandFlow 1.2s linear infinite; }
+.resource-glyph .rg-soul-eye { animation: rgSoulPulse 2.2s ease-in-out infinite; }
 
 /* empty: shattered pieces sit still, slightly faded */
 .resource-glyph.rg-phase-empty { opacity: 0.85; }
@@ -47,6 +51,26 @@
 @keyframes rgAura {
   0%, 100% { filter: drop-shadow(0 0 2px var(--rg-aura)); }
   50% { filter: drop-shadow(0 0 7px var(--rg-aura)) drop-shadow(0 0 2px var(--rg-aura)); }
+}
+@keyframes rgSandFlow {
+  from { stroke-dashoffset: 0; }
+  to { stroke-dashoffset: -12; }
+}
+@keyframes rgSoulPulse {
+  0%, 100% { opacity: 0.45; }
+  50% { opacity: 1; }
+}
+
+.party-vial-readout .readout-stage-name {
+  display: block;
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  font-weight: 600;
+  color: #dfd3ea;
+  text-align: center;
+  white-space: nowrap;
+  letter-spacing: 0.3px;
+  margin-top: 2px;
 }
 
 @media (prefers-reduced-motion: reduce) {

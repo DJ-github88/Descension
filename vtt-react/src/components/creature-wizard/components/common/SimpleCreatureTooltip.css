@@ -1,30 +1,32 @@
-/* Creature Tooltip - Pathfinder/D&D Parchment Theme — Compact Header & Wider Layout */
+/* Creature tooltip (calm): flat linen page, ruled sections, no gradients,
+   filled badges or coloured plates. */
 
-/* ── Root ────────────────────────────────────────────── */
 .enhanced-creature-tooltip {
-  background: linear-gradient(145deg, #fdfbf7 0%, #f7f2e7 50%, #f8f5ee 100%) !important;
-  border: 2px solid #8b4513 !important;
-  border-radius: 10px !important;
+  --ct-ink: #34251a;
+  --ct-muted: #68533e;
+  --ct-page: #f8f5ee;
+  --ct-rule: #c4baa6;
+  --ct-seal: #663c32;
+  background: var(--ct-page) !important;
+  background-image: none !important;
+  border: 1px solid var(--ct-rule) !important;
+  border-radius: 4px !important;
   padding: 0 !important;
-  color: #2d1810 !important;
-  font-family: 'Cinzel', 'Bookman Old Style', serif !important;
-  font-size: 12px !important;
-  width: 380px !important;
-  min-width: 380px !important;
-  max-width: 420px !important;
+  color: var(--ct-ink) !important;
+  font-family: 'Crimson Text', Georgia, serif !important;
+  font-size: 14px !important;
+  width: 360px !important;
+  min-width: 360px !important;
+  max-width: 400px !important;
   max-height: 75vh !important;
   overflow: hidden !important;
   height: auto !important;
   position: relative !important;
   word-wrap: break-word !important;
-  overflow-wrap: break-word !important;
   white-space: normal !important;
   box-sizing: border-box !important;
-  box-shadow:
-    0 12px 36px rgba(0, 0, 0, 0.45),
-    inset 0 1px 0 rgba(255, 255, 255, 0.7),
-    0 0 0 1px rgba(139, 69, 19, 0.6) !important;
-  backdrop-filter: blur(4px) !important;
+  box-shadow: 0 6px 18px rgba(52, 37, 26, 0.25) !important;
+  backdrop-filter: none !important;
   animation: none !important;
   transform: none !important;
   opacity: 1 !important;
@@ -32,469 +34,85 @@
   flex-direction: column !important;
 }
 
-/* ── Header (Compact Horizontal Row) ─────────────────── */
+/* Header: portrait + name on one line, a single rule beneath */
 .creature-tooltip-header {
-  background: linear-gradient(180deg, #f8f5ee 0%, #ebdcc1 100%) !important;
-  border-bottom: 1.5px solid #8b4513 !important;
-  padding: 10px 14px !important;
-  position: relative !important;
-  overflow: hidden !important;
-  display: flex !important;
-  flex-direction: row !important;
-  align-items: center !important;
-  gap: 12px !important;
-  flex-shrink: 0 !important;
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 14px 10px; background: transparent !important;
+  border-bottom: 1px solid var(--ct-rule); position: relative;
 }
-
-.creature-tooltip-header::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background:
-    repeating-linear-gradient(
-      45deg,
-      transparent,
-      transparent 8px,
-      rgba(154, 123, 60, 0.05) 8px,
-      rgba(154, 123, 60, 0.05) 16px
-    );
-  pointer-events: none;
-}
-
-/* ── Avatar ──────────────────────────────────────────── */
-.creature-tooltip-avatar-wrapper {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  position: relative !important;
-  z-index: 1 !important;
-  margin: 0 !important;
-  flex-shrink: 0 !important;
-}
-
+.creature-tooltip-header::before { display: none !important; }
+.creature-tooltip-avatar-wrapper { flex: none; width: 52px; height: 52px; }
 .creature-tooltip-avatar {
-  width: 44px !important;
-  height: 44px !important;
-  border-radius: 50% !important;
-  border: 2px solid #8b4513 !important;
-  box-shadow:
-    0 0 0 1.5px #f1ece1,
-    0 2px 6px rgba(0, 0, 0, 0.3) !important;
-  background-color: rgba(44, 24, 16, 0.6) !important;
-  background-size: cover !important;
-  background-position: center !important;
-  flex-shrink: 0 !important;
+  width: 52px; height: 52px; border-radius: 50%;
+  border: 1px solid var(--ct-seal) !important; background-color: #efe8d8;
+  background-size: cover; box-shadow: none !important;
 }
-
-.creature-tooltip-header-info {
-  display: flex !important;
-  flex-direction: column !important;
-  justify-content: center !important;
-  align-items: flex-start !important;
-  gap: 3px !important;
-  flex: 1 !important;
-  min-width: 0 !important;
-  position: relative !important;
-  z-index: 1 !important;
-}
-
-/* ── Name ────────────────────────────────────────────── */
+.creature-tooltip-header-info { min-width: 0; }
 .creature-tooltip-name {
-  font-size: 15px !important;
-  font-weight: 700 !important;
-  color: #2c1810 !important;
-  margin: 0 !important;
-  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.8) !important;
-  letter-spacing: 0.4px !important;
-  line-height: 1.2 !important;
-  word-break: break-word !important;
-  font-family: 'Cinzel', serif !important;
+  font-family: 'Cinzel', Georgia, serif; font-size: 1.1rem; font-weight: 700;
+  letter-spacing: 0.04em; color: var(--ct-ink); text-shadow: none; margin: 0 0 3px;
 }
-
-/* ── Type + Size subtitle ────────────────────────────── */
-.creature-tooltip-subtitle {
-  display: flex !important;
-  justify-content: flex-start !important;
-  align-items: center !important;
-  gap: 8px !important;
-  line-height: 1 !important;
-}
-
+.creature-tooltip-subtitle { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
 .tooltip-type-badge {
-  display: inline-block !important;
-  padding: 2px 7px !important;
-  border-radius: 4px !important;
-  font-size: 9.5px !important;
-  font-weight: 700 !important;
-  color: #ffffff !important;
-  letter-spacing: 0.4px !important;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6) !important;
-  line-height: 1.2 !important;
-  text-transform: uppercase !important;
+  background: transparent !important; color: var(--ct-seal) !important; padding: 0 !important; border: 0 !important;
+  font-family: 'Cinzel', Georgia, serif; font-size: 0.64rem; font-weight: 700;
+  letter-spacing: 0.12em; text-transform: uppercase;
 }
+.tooltip-size-text { font-style: italic; font-size: 0.9rem; color: var(--ct-muted); }
 
-.tooltip-size-text {
-  font-size: 10px !important;
-  color: #6a4a35 !important;
-  font-style: italic !important;
-  text-shadow: none !important;
-  font-family: 'Crimson Text', serif !important;
-}
-
-/* ── Content area ────────────────────────────────────── */
-.creature-tooltip-content {
-  padding: 12px 14px !important;
-  max-height: calc(75vh - 70px) !important;
-  overflow-y: auto !important;
-  scrollbar-width: thin;
-  scrollbar-color: #8b4513 rgba(232, 220, 198, 0.5);
-  word-wrap: break-word !important;
-  overflow-wrap: break-word !important;
-  white-space: normal !important;
-  box-sizing: border-box !important;
-  scroll-behavior: auto !important;
-  overscroll-behavior: contain;
-  background: transparent !important;
-}
-
-.creature-tooltip-content::-webkit-scrollbar { width: 5px; }
-.creature-tooltip-content::-webkit-scrollbar-track {
-  background: rgba(232, 220, 198, 0.4);
-  border-radius: 3px;
-}
-.creature-tooltip-content::-webkit-scrollbar-thumb {
-  background: #a08060;
-  border-radius: 3px;
-}
-.creature-tooltip-content::-webkit-scrollbar-thumb:hover {
-  background: #7a3b2e;
-}
-
-/* ── Description ─────────────────────────────────────── */
+/* Body */
+.creature-tooltip-content { padding: 10px 14px 12px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: rgba(102,60,50,.25) transparent; }
+.creature-tooltip-content::-webkit-scrollbar { width: 4px; }
+.creature-tooltip-content::-webkit-scrollbar-thumb { background: rgba(102,60,50,.25); border-radius: 4px; }
 .tooltip-description-block {
-  font-size: 12px !important;
-  line-height: 1.45 !important;
-  color: #4a3320 !important;
-  font-style: italic !important;
-  margin-bottom: 10px !important;
-  padding: 8px 10px !important;
-  background: rgba(255, 255, 255, 0.55) !important;
-  border-radius: 4px !important;
-  border-left: 2px solid #8b4513 !important;
-  font-family: 'Crimson Text', serif !important;
-  word-wrap: break-word !important;
-  overflow-wrap: break-word !important;
-  box-sizing: border-box !important;
+  font-style: italic; font-size: 0.95rem; line-height: 1.35; color: var(--ct-muted);
+  background: transparent !important; border: 0 !important; padding: 0 !important; margin: 0 0 10px;
 }
 
-/* ── Stat row ────────────────────────────────────────── */
-.tooltip-stat-row {
-  display: grid !important;
-  grid-template-columns: repeat(auto-fit, minmax(65px, 1fr)) !important;
-  gap: 6px !important;
-  margin-bottom: 10px !important;
-  width: 100% !important;
-  box-sizing: border-box !important;
-}
+/* Vitals: one ruled strip of figures */
+.tooltip-stat-row { display: flex; gap: 0; padding: 6px 0; border-top: 1px solid var(--ct-rule); border-bottom: 1px solid var(--ct-rule); margin-bottom: 4px; }
+.tooltip-stat-badge { flex: 1; display: flex; flex-direction: column; align-items: center; background: transparent !important; border: 0 !important; border-radius: 0 !important; padding: 0 4px !important; box-shadow: none !important; }
+.tooltip-stat-badge + .tooltip-stat-badge { border-left: 1px solid var(--ct-rule) !important; }
+.tooltip-stat-label { font-family: 'Cinzel', Georgia, serif; font-size: 0.58rem; font-weight: 700; letter-spacing: 0.12em; color: var(--ct-muted) !important; }
+.tooltip-stat-value { font-size: 1.05rem; font-weight: 700; color: var(--ct-ink) !important; font-variant-numeric: tabular-nums; }
+.tooltip-stat-badge--hp .tooltip-stat-value { color: #7d1f1f !important; }
+.tooltip-stat-badge--mana .tooltip-stat-value { color: #274a78 !important; }
 
-.tooltip-stat-badge {
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
-  justify-content: center !important;
-  padding: 6px 4px !important;
-  border-radius: 6px !important;
-  border: 1px solid !important;
-  min-width: 0 !important;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
-  box-sizing: border-box !important;
-}
+/* Section headings */
+.tooltip-section-divider { display: flex; align-items: center; gap: 8px; margin: 12px 0 5px; background: transparent !important; border: 0 !important; }
+.tooltip-section-divider::after { content: ''; flex: 1; height: 1px; background: var(--ct-rule); }
+.tooltip-section-title { font-family: 'Cinzel', Georgia, serif; font-size: 0.64rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ct-seal); background: transparent !important; padding: 0 !important; }
 
-.tooltip-stat-label {
-  font-size: 8.5px !important;
-  font-weight: 700 !important;
-  letter-spacing: 0.6px !important;
-  text-transform: uppercase !important;
-  margin-bottom: 2px !important;
-  line-height: 1 !important;
-  font-family: 'Cinzel', serif !important;
-}
+/* Resistances: plain text rows */
+.tooltip-resist-list { display: flex; flex-direction: column; }
+.tooltip-resist-item { display: flex; justify-content: space-between; padding: 2px 0; background: transparent !important; border: 0 !important; border-radius: 0 !important; font-size: 0.95rem; }
+.tooltip-resist-type { text-transform: capitalize; font-weight: 600; color: var(--ct-ink) !important; }
+.tooltip-resist-grade { color: var(--ct-muted) !important; font-style: italic; }
+.tooltip-resist-item--vuln .tooltip-resist-grade, .tooltip-resist-item--exposed .tooltip-resist-grade, .tooltip-resist-item--susceptible .tooltip-resist-grade { color: #8b2b1d !important; }
+.tooltip-resist-item--immune .tooltip-resist-grade { color: #3d5a3a !important; font-weight: 700; }
 
-.tooltip-stat-value {
-  font-size: 13px !important;
-  font-weight: 700 !important;
-  line-height: 1.2 !important;
-  white-space: nowrap !important;
-  font-family: 'Cinzel', serif !important;
-}
+/* Abilities */
+.tooltip-ability { padding: 5px 0; border-bottom: 1px dotted var(--ct-rule); background: transparent !important; border-left: 0 !important; }
+.tooltip-ability:last-of-type { border-bottom: 0; }
+.tooltip-ability-name { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; font-family: 'Cinzel', Georgia, serif; font-size: 0.82rem; font-weight: 700; color: var(--ct-ink); }
+.tooltip-ability-roll { font-family: 'Crimson Text', Georgia, serif; font-size: 0.82rem; font-weight: 600; color: var(--ct-seal); letter-spacing: 0; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.tooltip-ability-stats { display: flex; flex-wrap: wrap; gap: 4px 10px; margin-top: 1px; }
+.tooltip-ability-stat-chip { background: transparent !important; border: 0 !important; padding: 0 !important; font-size: 0.82rem; color: var(--ct-muted); }
+.tooltip-ability-stat-chip + .tooltip-ability-stat-chip::before { content: '·'; margin-right: 10px; }
+.tooltip-ability-effects { margin-top: 1px; }
+.tooltip-ability-effect-item { font-size: 0.92rem; color: var(--ct-ink); }
+.tooltip-ability-effect-item::before { content: none; }
+.tooltip-ability-desc { margin-top: 2px; font-style: italic; font-size: 0.88rem; line-height: 1.3; color: var(--ct-muted); }
+.tooltip-more-abilities { margin-top: 4px; font-style: italic; font-size: 0.85rem; color: var(--ct-muted); text-align: right; }
 
-/* Colour variants */
-.tooltip-stat-badge--hp {
-  background: rgba(220, 53, 69, 0.08) !important;
-  border-color: rgba(220, 53, 69, 0.3) !important;
-}
-.tooltip-stat-badge--hp .tooltip-stat-label { color: #9c1c1c !important; }
-.tooltip-stat-badge--hp .tooltip-stat-value { color: #8b1515 !important; }
+/* Spoils */
+.tooltip-loot-list { display: flex; flex-direction: column; }
+.tooltip-loot-item { display: flex; align-items: baseline; gap: 8px; padding: 2px 0; background: transparent !important; border: 0 !important; }
+.tooltip-loot-dot { width: 6px; height: 6px; border-radius: 50%; flex: none; align-self: center; }
+.tooltip-loot-name { flex: 1; min-width: 0; font-size: 0.98rem; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tooltip-loot-drop { font-size: 0.88rem; font-weight: 700; color: var(--ct-muted); font-variant-numeric: tabular-nums; }
+.tooltip-loot-coin { font-style: italic; font-size: 0.95rem; color: var(--ct-muted); padding: 2px 0; }
 
-.tooltip-stat-badge--init {
-  background: rgba(154, 123, 60, 0.12) !important;
-  border-color: rgba(154, 123, 60, 0.35) !important;
-}
-.tooltip-stat-badge--init .tooltip-stat-label { color: #7a5e10 !important; }
-.tooltip-stat-badge--init .tooltip-stat-value { color: #614a08 !important; }
-
-.tooltip-stat-badge--mana {
-  background: rgba(13, 110, 253, 0.08) !important;
-  border-color: rgba(13, 110, 253, 0.25) !important;
-}
-.tooltip-stat-badge--mana .tooltip-stat-label { color: #1555a6 !important; }
-.tooltip-stat-badge--mana .tooltip-stat-value { color: #0a3d8f !important; }
-
-.tooltip-stat-badge--ap {
-  background: rgba(25, 135, 84, 0.08) !important;
-  border-color: rgba(25, 135, 84, 0.25) !important;
-}
-.tooltip-stat-badge--ap .tooltip-stat-label { color: #166e3c !important; }
-.tooltip-stat-badge--ap .tooltip-stat-value { color: #10552d !important; }
-
-/* ── Section dividers ────────────────────────────────── */
-.tooltip-section-divider {
-  display: flex !important;
-  align-items: center !important;
-  gap: 8px !important;
-  margin: 10px 0 6px !important;
-}
-
-.tooltip-section-divider::before,
-.tooltip-section-divider::after {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background: rgba(139, 69, 19, 0.25);
-}
-
-.tooltip-section-title {
-  font-size: 9.5px !important;
-  font-weight: 700 !important;
-  color: #7a3b2e !important;
-  letter-spacing: 1px !important;
-  text-transform: uppercase !important;
-  white-space: nowrap !important;
-  line-height: 1 !important;
-  font-family: 'Cinzel', serif !important;
-}
-
-/* ── Resistances ─────────────────────────────────────── */
-.tooltip-resist-list {
-  display: flex !important;
-  flex-direction: column !important;
-  gap: 4px !important;
-  margin-bottom: 8px !important;
-  width: 100% !important;
-  box-sizing: border-box !important;
-}
-
-.tooltip-resist-item {
-  display: flex !important;
-  justify-content: space-between !important;
-  align-items: center !important;
-  padding: 5px 10px !important;
-  border-radius: 4px !important;
-  font-size: 11px !important;
-  font-weight: 600 !important;
-  line-height: 1.2 !important;
-  box-sizing: border-box !important;
-}
-
-.tooltip-resist-type {
-  font-weight: 700 !important;
-  text-transform: capitalize !important;
-  font-family: 'Cinzel', serif !important;
-  font-size: 11px !important;
-}
-
-.tooltip-resist-grade {
-  font-family: 'Crimson Text', serif !important;
-  font-size: 11.5px !important;
-  font-weight: 700 !important;
-}
-
-/* Resistance grades based on reference palette */
-.tooltip-resist-item--immune {
-  background: rgba(46, 125, 50, 0.1) !important;
-  border-left: 3.5px solid #2e7d32 !important;
-  color: #1b5e20 !important;
-}
-
-.tooltip-resist-item--resist {
-  background: rgba(2, 119, 189, 0.1) !important;
-  border-left: 3.5px solid #0277bd !important;
-  color: #01579b !important;
-}
-
-.tooltip-resist-item--guarded {
-  background: rgba(0, 150, 136, 0.1) !important;
-  border-left: 3.5px solid #009688 !important;
-  color: #004d40 !important;
-}
-
-.tooltip-resist-item--susceptible {
-  background: rgba(245, 124, 0, 0.1) !important;
-  border-left: 3.5px solid #f57c00 !important;
-  color: #e65100 !important;
-}
-
-.tooltip-resist-item--exposed {
-  background: rgba(230, 81, 0, 0.12) !important;
-  border-left: 3.5px solid #e65100 !important;
-  color: #bf360c !important;
-}
-
-.tooltip-resist-item--vuln {
-  background: rgba(198, 40, 40, 0.12) !important;
-  border-left: 3.5px solid #c62828 !important;
-  color: #b71c1c !important;
-}
-
-.tooltip-resist-item--heal-2x,
-.tooltip-resist-item--heal-1x,
-.tooltip-resist-item--heal-half,
-.tooltip-resist-item--heal-quarter {
-  background: rgba(106, 27, 154, 0.1) !important;
-  border-left: 3.5px solid #6a1b9a !important;
-  color: #4a148c !important;
-}
-
-/* ── Abilities ───────────────────────────────────────── */
-.tooltip-ability {
-  margin-bottom: 6px !important;
-  padding: 8px 10px !important;
-  background: rgba(255, 255, 255, 0.5) !important;
-  border-radius: 5px !important;
-  border-left: 2px solid #8b4513 !important;
-  box-sizing: border-box !important;
-}
-
-.tooltip-ability-name {
-  font-size: 11.5px !important;
-  font-weight: 700 !important;
-  color: #3d1c08 !important;
-  margin-bottom: 3px !important;
-  font-family: 'Cinzel', serif !important;
-}
-
-.tooltip-ability-stats {
-  display: flex !important;
-  flex-wrap: wrap !important;
-  gap: 4px !important;
-  margin-bottom: 4px !important;
-}
-
-.tooltip-ability-stat-chip {
-  font-size: 9.5px !important;
-  font-weight: 700 !important;
-  padding: 1px 6px !important;
-  border-radius: 3px !important;
-  background: rgba(139, 69, 19, 0.1) !important;
-  border: 1px solid rgba(139, 69, 19, 0.25) !important;
-  color: #5a3a20 !important;
-  white-space: nowrap !important;
-  font-family: 'Cinzel', serif !important;
-}
-
-.tooltip-ability-effects {
-  font-size: 11px !important;
-  color: #4a3a2a !important;
-  line-height: 1.35 !important;
-  font-family: 'Crimson Text', serif !important;
-}
-
-.tooltip-ability-effect-item {
-  padding-left: 8px !important;
-  position: relative !important;
-}
-
-.tooltip-ability-effect-item::before {
-  content: '•';
-  position: absolute;
-  left: 0;
-  color: #8b4513;
-  font-weight: 700;
-}
-
-.tooltip-ability-desc {
-  font-size: 11px !important;
-  color: #6a503a !important;
-  font-style: italic !important;
-  line-height: 1.35 !important;
-  margin-top: 4px !important;
-  padding-top: 4px !important;
-  border-top: 1px solid rgba(139, 69, 19, 0.15) !important;
-  font-family: 'Crimson Text', serif !important;
-}
-
-/* ── Loot ────────────────────────────────────────────── */
-.tooltip-loot-item {
-  display: flex !important;
-  align-items: center !important;
-  gap: 6px !important;
-  padding: 4px 8px !important;
-  border-radius: 4px !important;
-  font-size: 11px !important;
-  line-height: 1.3 !important;
-  box-sizing: border-box !important;
-}
-
-.tooltip-loot-dot {
-  width: 6px !important;
-  height: 6px !important;
-  border-radius: 50% !important;
-  flex-shrink: 0 !important;
-}
-
-.tooltip-loot-name {
-  flex: 1 !important;
-  font-weight: 700 !important;
-  overflow: hidden !important;
-  text-overflow: ellipsis !important;
-  white-space: nowrap !important;
-  font-family: 'Cinzel', serif !important;
-  font-size: 11px !important;
-}
-
-.tooltip-loot-drop {
-  font-size: 9.5px !important;
-  font-weight: 700 !important;
-  padding: 1px 5px !important;
-  border-radius: 3px !important;
-  white-space: nowrap !important;
-}
-
-/* ── Tags ────────────────────────────────────────────── */
-.tooltip-tags {
-  display: flex !important;
-  flex-wrap: wrap !important;
-  gap: 4px !important;
-  margin-top: 6px !important;
-}
-
-.tooltip-tag {
-  padding: 2px 7px !important;
-  background: rgba(139, 69, 19, 0.12) !important;
-  color: #4a2810 !important;
-  border-radius: 6px !important;
-  font-size: 9.5px !important;
-  font-weight: 700 !important;
-  border: 1px solid rgba(139, 69, 19, 0.2) !important;
-  font-family: 'Cinzel', serif !important;
-}
-
-/* ── More abilities indicator ─────────────────────────── */
-.tooltip-more-abilities {
-  font-size: 10.5px !important;
-  color: #7a5030 !important;
-  font-style: italic !important;
-  text-align: center !important;
-  margin-top: 4px !important;
-  font-family: 'Crimson Text', serif !important;
-}
+/* Tags: quiet comma line */
+.tooltip-tags { display: flex; flex-wrap: wrap; gap: 2px 10px; margin-top: 12px; padding-top: 6px; border-top: 1px solid var(--ct-rule); }
+.tooltip-tag { background: transparent !important; border: 0 !important; padding: 0 !important; font-family: 'Cinzel', Georgia, serif; font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ct-muted); }

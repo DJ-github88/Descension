@@ -12,11 +12,13 @@ import { getBackgroundData } from '../../data/backgroundData';
 import { getCustomBackgroundData, getEnhancedPathData } from '../../data/legacyDisciplineData';
 import gameStateManager from '../../services/gameStateManager';
 import { applyRoomSnapshot } from '../../services/silentRoomHydration';
+import { captureActorDelivery } from '../../services/actorProjectionOrder';
 import {
   createSocketLifetimeGuard,
   principalKeyOfAuthState
 } from '../../persistence/handoff/socketPrincipalRetirement';
 import { getBootstrapGateState } from '../../persistence/bootstrapPrivacyGate';
+let currentJoin = 0;
 
 export async function handleJoinRoom(room, socketConnection, isGameMaster, playerObject, password, levelEditorState, gridSettings, skipSetJoiningFalse, ctx) {
   const {
@@ -57,7 +59,9 @@ export async function handleJoinRoom(room, socketConnection, isGameMaster, playe
       getAuthState: () => useAuthStore.getState(),
       getAccountGeneration: () => getBootstrapGateState()
     });
-    const admissionCurrent = () => joinGuard.isValid();
+    const join = ++currentJoin;
+    const admissionCurrent = () => joinGuard.isValid() && join === currentJoin;
+    const actorContext = { ...captureActorDelivery(socketConnection), roomId: room.id };
     if (!admissionCurrent()) return;
 
     // Declare currentUserId at the top scope of handleJoinRoom to avoid ReferenceErrors in subsequent blocks
@@ -72,8 +76,7 @@ export async function handleJoinRoom(room, socketConnection, isGameMaster, playe
 
     // Clear all stores before joining a new room to ensure a clean slate.
     // For permanent room resume, preserve map entities until authoritative payload hydration completes.
-    const isPersistentRoomResume = !!room?.persistentRoomId;
-    clearAllMultiplayerStores({ preserveMapEntities: isPersistentRoomResume });
+    clearAllMultiplayerStores({ preserveMapEntities: true });
 
     // CRITICAL: Ensure party members are cleared BEFORE we start adding new room members
     // This prevents social party members from leaking into the room HUD
@@ -127,33 +130,7 @@ export async function handleJoinRoom(room, socketConnection, isGameMaster, playe
             });
           }
 
-          // CRITICAL: Load tokens for initial sync
-          if (levelEditorState.tokens) {
-            import('../../store/creatureStore').then(({ default: useCreatureStore }) => {
-              if (!admissionCurrent()) return;
-              const creatureStore = useCreatureStore.getState();
-              Object.values(levelEditorState.tokens).forEach(tokenData => {
-                creatureStore.loadToken(tokenData);
-              });
-              console.log('Ã¢Å“"¦ Loaded tokens from initial sync:', Object.keys(levelEditorState.tokens).length);
-            }).catch(error => {
-              console.error('Failed to load tokens:', error);
-            });
-          }
-
-          // CRITICAL: Load character tokens for initial sync
-          if (levelEditorState.characterTokens) {
-            import('../../store/creatureStore').then(({ default: useCreatureStore }) => {
-              if (!admissionCurrent()) return;
-              const creatureStore = useCreatureStore.getState();
-              Object.values(levelEditorState.characterTokens).forEach(tokenData => {
-                creatureStore.loadToken(tokenData);
-              });
-              console.log('Ã¢Å“"¦ Loaded character tokens from initial sync:', Object.keys(levelEditorState.characterTokens).length);
-            }).catch(error => {
-              console.error('Failed to load character tokens:', error);
-            });
-          }
+          // Actor collections are admitted once at the ordered hydration boundary.
 
           console.log('Ã¢Å“"¦ Initial level editor state applied');
         }
@@ -624,11 +601,7 @@ export async function handleJoinRoom(room, socketConnection, isGameMaster, playe
           : (availableMapIds[0] || 'default');
       }
 
-      // Sync local map state
-      setPlayerCurrentMapId(startMapId);
-      import('../../store/mapStore').then(({ default: useMapStore }) => {
-        useMapStore.setState({ currentMapId: startMapId });
-      });
+      // Map selection is published only after ordered hydration succeeds.
 
       console.log('Ã°Å¸"Â Initializing player on map:', startMapId);
 
@@ -639,11 +612,15 @@ export async function handleJoinRoom(room, socketConnection, isGameMaster, playe
       // semantics only: no gameplay calls, RNG, resource changes or outbound
       // echo.
       if (!admissionCurrent()) return;
-      applyRoomSnapshot({
+      useGameStore.getState().setMultiplayerState(true, room, null, socketConnection, currentPlayerData);
+      const hydration = applyRoomSnapshot({
+        roomId: room.id, context: { ...actorContext, room: useGameStore.getState().multiplayerRoom }, correlated: true,
         gameState: room.gameState,
         activeMapId: startMapId,
         scope: 'room'
       });
+      if (!hydration.applied) { setCurrentRoom(room); return; }
+      setPlayerCurrentMapId(startMapId);
 
       // Presentation-only: focus own character token when present.
       try {

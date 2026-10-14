@@ -1,6 +1,7 @@
 import React from 'react';
 import { getCreatureSizeMapping } from '../../../../store/creatureStore';
 import { getCreatureTokenIconUrl } from '../../../../utils/assetManager';
+import useItemStore from '../../../../store/itemStore';
 import { normalizeDamageType } from '../../../spellcrafting-wizard/core/data/damageTypes';
 import '../../../../styles/creature-token.css';
 import '../../../../styles/wow-classic-tooltip.css';
@@ -57,6 +58,7 @@ export const formatResistanceGrade = (value) => {
 };
 
 const SimpleCreatureTooltip = ({ creature }) => {
+  const storeItems = useItemStore(state => state.items);
   if (!creature) return null;
 
   const sizeMapping = getCreatureSizeMapping(creature.size);
@@ -147,11 +149,11 @@ const SimpleCreatureTooltip = ({ creature }) => {
   const getQualityColor = (q) => {
     switch ((q || 'common').toLowerCase()) {
       case 'poor': return '#6b6b6b';
-      case 'uncommon': return '#1eff00';
-      case 'rare': return '#0070dd';
-      case 'epic': return '#a335ee';
-      case 'legendary': return '#ff8000';
-      default: return '#1a0f08';
+      case 'uncommon': return '#3d7a2a';
+      case 'rare': return '#2a5a9a';
+      case 'epic': return '#7a3fa0';
+      case 'legendary': return '#b5601a';
+      default: return '#34251a';
     }
   };
 
@@ -259,7 +261,14 @@ const SimpleCreatureTooltip = ({ creature }) => {
               const hasDesc = ability.description?.trim().length > 0;
               return (
                 <div key={index} className="tooltip-ability">
-                  <div className="tooltip-ability-name">{ability.name}</div>
+                  <div className="tooltip-ability-name">
+                    <span>{ability.name}</span>
+                    {ability.priorityRange && (
+                      <span className="tooltip-ability-roll" title="Priority roll range">
+                        {ability.priorityRange.min}–{ability.priorityRange.max}
+                      </span>
+                    )}
+                  </div>
                   {abilityStats.length > 0 && (
                     <div className="tooltip-ability-stats">
                       {abilityStats.map((s, i) => (
@@ -298,41 +307,36 @@ const SimpleCreatureTooltip = ({ creature }) => {
             </div>
             {(() => {
               const currency = creature.lootTable?.currency;
-              const sortedLoot = (creature.lootTable?.items || [])
+              const qOrder = { legendary: 5, epic: 4, rare: 3, uncommon: 2, common: 1, poor: 0 };
+              const resolved = (creature.lootTable?.items || [])
                 .filter(i => i.dropChance > 0)
-                .sort((a, b) => {
-                  const q = { legendary: 5, epic: 4, rare: 3, uncommon: 2, common: 1, poor: 0 };
-                  return (q[b.quality] || 0) - (q[a.quality] || 0) || b.dropChance - a.dropChance;
+                .map(i => {
+                  const def = i.itemId && Array.isArray(storeItems) ? storeItems.find(x => x.id === i.itemId) : null;
+                  return { ...i, name: i.name || def?.name || (i.itemId || 'Item').replace(/[-_]/g, ' '), quality: i.quality || def?.quality || 'common' };
                 })
-                .slice(0, 5);
-
+                .sort((a, b) => (qOrder[b.quality] || 0) - (qOrder[a.quality] || 0) || b.dropChance - a.dropChance);
+              const shown = resolved.slice(0, 6);
+              const coinBits = [];
+              ['gold', 'silver', 'copper'].forEach((k, n) => {
+                const c = currency?.[k];
+                if (c?.max > 0) coinBits.push(`${c.min === c.max ? c.max : `${c.min}–${c.max}`} ${['gp', 'sp', 'cp'][n]}`);
+              });
               return (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '3px' }}>
-                  {currency?.gold?.max > 0 && (
-                    <div className="tooltip-loot-item" style={{ background: 'rgba(255, 215, 0, 0.1)' }}>
-                      <span className="tooltip-loot-dot" style={{ background: '#d4af37' }} />
-                      <span className="tooltip-loot-name" style={{ color: '#8b6914' }}>
-                        {currency.gold.min}-{currency.gold.max}g
-                        {currency.silver?.max > 0 && ` ${currency.silver.min}-${currency.silver.max}s`}
-                        {currency.copper?.max > 0 && ` ${currency.copper.min}-${currency.copper.max}c`}
-                      </span>
-                    </div>
-                  )}
-                  {sortedLoot.map((item, i) => {
+                <div className="tooltip-loot-list">
+                  {coinBits.length > 0 && <div className="tooltip-loot-coin">Carries {coinBits.join(', ')}</div>}
+                  {shown.map((item, i) => {
                     const color = getQualityColor(item.quality);
-                    const chance = item.dropChance;
                     return (
-                      <div key={i} className="tooltip-loot-item" style={{ background: 'rgba(255,255,255,0.2)' }}>
+                      <div key={i} className="tooltip-loot-item">
                         <span className="tooltip-loot-dot" style={{ background: color }} />
-                        <span className="tooltip-loot-name" style={{ color }}>{item.name || 'Item'}</span>
-                        {chance < 100 && (
-                          <span className="tooltip-loot-drop" style={{ color: chance >= 50 ? '#5a4a3a' : '#8b2635' }}>
-                            {chance}%
-                          </span>
-                        )}
+                        <span className="tooltip-loot-name" style={{ color }}>{item.name}</span>
+                        <span className="tooltip-loot-drop">{item.dropChance}%</span>
                       </div>
                     );
                   })}
+                  {resolved.length > shown.length && (
+                    <div className="tooltip-more-abilities">+{resolved.length - shown.length} more</div>
+                  )}
                 </div>
               );
             })()}

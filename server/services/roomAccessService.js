@@ -964,6 +964,10 @@ function projectStateUpdates(updates) {
     const binding = require('./actorConsequences').publicContract(updates.actorContract);
     if (binding) {out.actorContract = binding;}
   }
+  if (updates.actorLifecycle?.version === 1) {
+    const { version, roomId, epoch, cut } = updates.actorLifecycle;
+    if (typeof roomId === 'string' && typeof epoch === 'string' && Number.isSafeInteger(cut) && cut >= 0) {out.actorLifecycle = { version, roomId, epoch, cut };}
+  }
   for (const key of SUPPORTED_STATE_SCALAR_KEYS) {
     if (!(key in updates)) {continue;}
     const value = updates[key];
@@ -1122,7 +1126,7 @@ function projectGameStateForClient(gameState) {
  * unsupported map fields are dropped.
  */
 const SUPPORTED_MAP_KEYS = Object.freeze([
-  'id', 'name', 'tokens', 'characterTokens', 'creatures', 'gridItems',
+  'id', 'name', 'tokens', 'characterTokens', 'creatures', 'gridItems', 'actorProjection',
   'terrainData', 'wallData', 'windowOverlays', 'drawingPaths', 'drawingLayers',
   'fogOfWarData', 'fogOfWarPaths', 'fogErasePaths', 'exploredAreas',
   'environmentalObjects', 'lightSources', 'backgrounds', 'activeBackgroundId',
@@ -1220,7 +1224,12 @@ function buildRoomProjection(room, options = {}) {
     isPermanent: !!room.isPermanent,
     createdAt: room.createdAt
   };
-  if (includeGameState) {out.gameState = projectGameStateForClient(room.gameState);}
+  if (includeGameState) {
+    const actorProjection = require('./actorProjection').current(room);
+    out.gameState = projectGameStateForClient(room.gameState);
+    out.gameState.actorProjection = actorProjection;
+    for (const map of Object.values(out.gameState.maps || {})) {map.actorProjection = actorProjection;}
+  }
   return out;
 }
 

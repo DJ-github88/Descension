@@ -6073,16 +6073,16 @@
   gap: 10px;
   margin: 0 1rem 1rem;
   padding: 0.85rem 1rem;
-  border: 1px solid rgba(212, 175, 55, 0.35);
+  border: 1px solid rgba(139, 115, 85, 0.4);
   border-radius: 8px;
-  background: rgba(212, 175, 55, 0.08);
-  color: var(--my-parchment-text, #e8dfc8);
+  background: rgba(139, 115, 85, 0.08);
+  color: #3d2b1f;
   font-size: 0.9rem;
   line-height: 1.45;
 }
 
 .account-phone-notice i {
-  color: #d4af37;
+  color: #6b3a30;
   margin-top: 2px;
   flex-shrink: 0;
 }

@@ -1330,9 +1330,12 @@
     object-fit: contain;
     image-rendering: auto;
     mix-blend-mode: normal;
-    filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.45));
+    filter: drop-shadow(0 2px 5px rgba(46, 30, 15, 0.35));
     -webkit-mask-image: none;
     mask-image: none;
+    background: transparent;
+    border: none;
+    box-shadow: none;
 }
 
 .class-detail-display.premium-theme .class-header-icon-container i {
@@ -4822,26 +4825,36 @@ div.class-detail-content::-webkit-scrollbar-thumb,
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: rgba(252, 248, 238, 0.9);
-  border: 1px solid #c8b99d;
-  border-radius: 50%;
-  width: 34px;
-  height: 34px;
+  background: var(--codex-leather, #302419);
+  border: 1px solid var(--codex-rule, #b6a080);
+  border-radius: 3px;
+  width: 44px;
+  height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #8b4513;
+  color: var(--codex-paper, #f5ecd9) !important;
   cursor: pointer;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
   transition: all 0.2s ease;
   z-index: 10;
   padding: 0;
 }
 
+.illus-nav-btn i {
+  color: var(--codex-paper, #f5ecd9) !important;
+  font-size: 1.15rem;
+  line-height: 1;
+}
+
 .illus-nav-btn:hover {
-  background: #8b4513;
-  color: #fff;
-  border-color: #8b4513;
+  background: var(--codex-seal, #663c32) !important;
+  color: #fff !important;
+  border-color: var(--codex-seal, #663c32) !important;
+}
+
+.illus-nav-btn:hover i {
+  color: #fff !important;
 }
 
 .illus-nav-btn.prev-btn {

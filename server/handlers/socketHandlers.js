@@ -796,6 +796,10 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
         }
         // P7 closes protected sibling writes at real registration, before any
         // legacy handler can mutate or relay a resource-bearing envelope.
+        if (require('../services/actorProjection').metadataPath(data)) {
+          deny('client_actor_metadata', 'Projection ordering metadata is server-owned');
+          return;
+        }
         if (['creature_added', 'token_created', 'character_token_created'].includes(event) && actorConsequences.authorityMetadataPath(data)) {
           deny('client_actor_metadata', 'Actor authority metadata is server-owned; creation requires an unbound instance');
           return;
@@ -820,7 +824,10 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
             deny('actor_consequence_required', 'A legacy envelope cannot remove the protected actor container');
             return;
           }
-          const protectedField = actorConsequences.protectedPath(data) ||
+          try {actorConsequences.validateBuildEnvelope(event, data);} catch (error) {
+            deny(error.code || 'invalid_bounds', 'Malformed maximum/build envelope'); return;
+          }
+          const protectedField = actorConsequences.protectedPath(data, 0, actorConsequences.buildPaths(event)) ||
             (event === 'buff_update' || event === 'debuff_update' ? 'condition' : null) ||
             ((event === 'character_resource_delta' || event === 'character_resource_updated') &&
               ['health', 'mana', 'actionPoints'].includes(data?.resource) ? 'resource' : null);

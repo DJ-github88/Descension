@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import './CookieConsent.css';
 
 import { safeLocalStorageItem, safeLocalStorageGet } from '../../utils/storageUtils';
@@ -62,23 +63,62 @@ export default function CookieConsent() {
   if (!visible) return null;
 
   return (
-    <div className="cookie-consent-banner" role="dialog" aria-label="Cookie consent">
-      <div className="cookie-consent-content">
-        <div className="cookie-consent-text">
-          <p>
-            We use analytics to understand how Mythrill is used and improve the experience.
-            No data is sold or shared with third parties for advertising.
-          </p>
+    <aside
+      className="cookie-consent-banner"
+      role="dialog"
+      aria-label="Analytics & Privacy Consent"
+      aria-describedby="cookie-consent-desc"
+    >
+      <div className="cookie-consent-frame">
+        <div className="cookie-consent-leading">
+          <div className="cookie-consent-seal" aria-hidden="true">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.8"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M8 2h8a2 2 0 0 1 2 2v14a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4V4a2 2 0 0 1 2-2z" />
+              <path d="M8 6h8" />
+              <path d="M8 10h8" />
+              <path d="M8 14h5" />
+            </svg>
+          </div>
+          <div className="cookie-consent-text">
+            <span className="cookie-consent-title">Telemetry &amp; Scribe Records</span>
+            <p id="cookie-consent-desc">
+              We collect anonymized session metrics to refine dice mechanics, room stability, and performance.
+              No player data is sold or shared for advertising.{' '}
+              <Link to="/privacy" className="cookie-policy-link">
+                Review our Privacy Policy
+              </Link>
+            </p>
+          </div>
         </div>
+
         <div className="cookie-consent-actions">
-          <button className="cookie-btn cookie-reject" onClick={handleReject}>
-            Reject
+          <button
+            type="button"
+            className="cookie-btn cookie-reject"
+            onClick={handleReject}
+            aria-label="Decline analytics tracking"
+          >
+            Decline
           </button>
-          <button className="cookie-btn cookie-accept" onClick={handleAccept}>
+          <button
+            type="button"
+            className="cookie-btn cookie-accept"
+            onClick={handleAccept}
+            aria-label="Accept analytics tracking"
+          >
             Accept
           </button>
         </div>
       </div>
-    </div>
+    </aside>
   );
 }

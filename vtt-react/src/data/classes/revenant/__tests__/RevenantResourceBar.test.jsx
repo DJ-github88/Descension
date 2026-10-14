@@ -155,7 +155,7 @@ describe('RevenantResourceBar Component', () => {
         expect(handleUpdate).toHaveBeenCalledWith('toll', 20);
     });
 
-    it('triggers Glacial Nova from the Tender modal', () => {
+    it('resurrects from the phylactery via the Tender modal', () => {
         const handleUpdate = jest.fn();
         const { container } = render(
             <RevenantResourceBar

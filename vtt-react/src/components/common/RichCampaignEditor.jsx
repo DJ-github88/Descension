@@ -131,7 +131,7 @@ const RichCampaignEditor = ({
             type="button"
             className={'rich-mode-btn ' + (mode === 'preview' ? 'active' : '')}
             onClick={() => setMode('preview')}
-            title="View Thematic D&D Rendered Preview"
+            title="View Thematic Rendered Preview"
           >
             <i className="fas fa-eye"></i> <span>Preview</span>
           </button>
@@ -196,7 +196,7 @@ const RichCampaignEditor = ({
               type="button"
               className="rich-tool-btn narrative-btn"
               onClick={insertReadAloud}
-              title="D&D Boxed Read-Aloud Text (:::readaloud)"
+              title="Boxed Read-Aloud Text (:::readaloud)"
             >
               <i className="fas fa-book-open-reader"></i>
               <span className="btn-label-text">Read-Aloud</span>

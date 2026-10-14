@@ -160,11 +160,14 @@ describe('P7 independent blockers registered regressions', function() {
     const valid = await ack(gm, 'actor_consequence', validCommand);
     assert.equal(valid.success, true, JSON.stringify(valid)); observations.B6.valid = valid;
   });
-  it('Bounds actual max edit refusal and explicit build replacement invalidate a pending command without stale-bound acceptance', async() => {
+  it('Bounds ordinary in-place maximum edit and explicit build replacement invalidate a pending command', async() => {
     const bound = await bind(); const peer = await member(), cmd = await command(bound.ref);
     const proposal = await ack(peer, 'actor_propose', cmd);
     const maxEdit = await ack(gm, 'token_updated', { roomId: room.id, mapId: 'default', tokenId: 'actor', updates: { state: { maxHp: 10 } } });
-    assert.equal(maxEdit.code, 'actor_consequence_required'); assert.equal(actors.locate(room, bound.ref).token.state.maxHp, 50);
+    assert.equal(maxEdit.success, true); assert.equal(actors.locate(room, bound.ref).token.state.maxHp, 10);
+    const inPlace = JSON.stringify(room.gameState);
+    const invalidated = await ack(gm, 'actor_adjudicate', { roomId: room.id, proposalId: proposal.proposalId, contentHash: proposal.contentHash });
+    assert.equal(invalidated.code, 'stale_actor_revision'); assert.equal(JSON.stringify(room.gameState), inPlace);
     gm.emit('token_removed', { roomId: room.id, mapId: 'default', tokenId: 'actor' }); await pause();
     const replacement = raw('actor'); replacement.stats.maxHp = 10; replacement.state.currentHp = 10;
     const created = await ack(gm, 'token_created', { roomId: room.id, mapId: 'default', token: replacement, creature: { stats: replacement.stats }, position: { x: 0, y: 0 } }); assert.equal(created.success, true, JSON.stringify(created));

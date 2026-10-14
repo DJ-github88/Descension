@@ -123,21 +123,42 @@ describe('SpellguardResourceBar Component (Damon Alchemical Tower Shield Apparat
         };
         const { container } = render(<Bank />);
         fireEvent.click(container.querySelector('.sg-keystone-module'));
+        // Annulled 20 energy, 18 faded: only the remainder is banked.
         fireEvent.change(screen.getByLabelText('Intake interface'), { target: { value: 'annulment' } });
-        fireEvent.change(screen.getByLabelText('Resolution receipt ID'), { target: { value: 'spell-1' } });
-        fireEvent.change(screen.getByLabelText('Captured residual'), { target: { value: '2' } });
+        fireEvent.change(screen.getByLabelText('Incoming energy'), { target: { value: '20' } });
         fireEvent.change(screen.getByLabelText('Dissipated energy'), { target: { value: '18' } });
-        fireEvent.click(screen.getByRole('button', { name: 'Record resolved intake' }));
+        fireEvent.click(screen.getByRole('button', { name: 'Bank +2 AEP' }));
         expect(resource).toMatchObject({ current: 2, max: 100, aep: 2, resonance: 2, spellguardIntake: { totals: { captured: 2, dissipated: 18 } } });
-        fireEvent.click(screen.getByRole('button', { name: 'Record resolved intake' }));
-        expect(resource.current).toBe(2);
-        expect(screen.getByRole('status')).toHaveTextContent(/already in the log/i);
+        expect(resource.spellguardIntake.receipts).toHaveLength(1);
+        expect(screen.getByRole('status')).toHaveTextContent('Banked +2 AEP');
+        // The split resets after a catch, so the next catch defaults to keeping everything.
+        expect(screen.getByLabelText('Dissipated energy')).toHaveValue(0);
+
+        // Deflected 20, sent 19 away.
         fireEvent.change(screen.getByLabelText('Intake interface'), { target: { value: 'deflection' } });
-        fireEvent.change(screen.getByLabelText('Resolution receipt ID'), { target: { value: 'spell-2' } });
-        fireEvent.change(screen.getByLabelText('Captured residual'), { target: { value: '1' } });
         fireEvent.change(screen.getByLabelText('Redirected energy'), { target: { value: '19' } });
-        fireEvent.change(screen.getByLabelText('Dissipated energy'), { target: { value: '0' } });
-        fireEvent.click(screen.getByRole('button', { name: 'Record resolved intake' }));
+        fireEvent.click(screen.getByRole('button', { name: 'Bank +1 AEP' }));
         expect(resource).toMatchObject({ current: 3, spellguardIntake: { totals: { incoming: 40, captured: 3, redirected: 19, dissipated: 18 } } });
+        expect(resource.spellguardIntake.receipts).toHaveLength(2);
+
+        // Nothing kept: the bank button refuses.
+        fireEvent.change(screen.getByLabelText('Redirected energy'), { target: { value: '20' } });
+        expect(screen.getByRole('button', { name: 'Keep at least 1 to bank' })).toBeDisabled();
+    });
+
+    it('banks a whole catch in one step and logs overflow past 100', () => {
+        let resource;
+        const Bank = () => {
+            const [value, setValue] = useState({ current: 90, max: 100 });
+            resource = value;
+            return <SpellguardResourceBar classResource={value} isOwner={true}
+                onClassResourceUpdate={(field, amount) => setValue(previous => updateManagedClassResource(previous, 'Spellguard', field, amount))} />;
+        };
+        const { container } = render(<Bank />);
+        fireEvent.click(container.querySelector('.sg-keystone-module'));
+        fireEvent.change(screen.getByLabelText('Incoming energy'), { target: { value: '15' } });
+        expect(screen.getByText(/5 won't fit/)).toBeInTheDocument();
+        fireEvent.click(screen.getByRole('button', { name: 'Bank +10 AEP' }));
+        expect(resource).toMatchObject({ current: 100, spellguardIntake: { totals: { captured: 15, banked: 10, overflow: 5 } } });
     });
 });

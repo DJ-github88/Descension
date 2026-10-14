@@ -19,6 +19,7 @@ import { MISCELLANEOUS } from './miscellaneous/index.js';
 import { RECIPE_ITEMS } from './recipes.js';
 import { CURRENCY } from './currency/index.js';
 import { ABERRANT_CURIOS } from './curios/index.js';
+import { CREATURE_DROP_ITEMS } from './creatureDrops/index.js';
 import { enrichItemsWithLore } from './enrichItemsWithLore';
 
 // Combine all items into a single array
@@ -31,7 +32,8 @@ const COMBINED_ITEMS = [
   ...MISCELLANEOUS,
   ...RECIPE_ITEMS,
   ...CURRENCY,
-  ...ABERRANT_CURIOS
+  ...ABERRANT_CURIOS,
+  ...CREATURE_DROP_ITEMS
 ];
 
 // Enrich all items with lore data
@@ -51,6 +53,7 @@ export {
   MISCELLANEOUS,
   RECIPE_ITEMS,
   CURRENCY,
-  ABERRANT_CURIOS
+  ABERRANT_CURIOS,
+  CREATURE_DROP_ITEMS
 };
 

@@ -2643,7 +2643,7 @@ const RulesSectionItem = React.memo(({ section, idx, theme, selectedSubcategory,
 
 
 
-    } else if (selectedSubcategory === 'dnd-comparison' && section.title === 'The Great Mindset Shift') {
+    } else if (selectedSubcategory === 'how-mythrill-plays' && section.title === 'The Core Idea') {
 
 
 

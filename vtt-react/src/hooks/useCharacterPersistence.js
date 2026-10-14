@@ -4,7 +4,7 @@ import { useRealtimeSync } from './useRealtimeSync';
 import { migrateArcanoneerClassResource } from '../utils/arcanoneerMigration';
 import { captureConsumerContext } from '../persistence/scopedConsumer';
 import { subscribeBootstrapGate, getBootstrapGateState } from '../persistence/bootstrapPrivacyGate';
-import { characterContextCurrent, stageCharacterDraft, getCharacterCandidate, saveCharacterDraft, isLatestCharacterDraft, importCharacterDraft } from '../persistence/characterSaveOutcome';
+import { characterContextCurrent, stageCharacterDraft, getCharacterCandidate, saveCharacterDraft, isLatestCharacterDraft, importCharacterDraft, preservePersonalConditionRecovery } from '../persistence/characterSaveOutcome';
 import { decodeCharacterShapes } from '../utils/characterShapeCodec';
 import { discardCharacterAutoSave } from '../store/characterHelpers';
 import { projectPersonalRuntime, roomResourceProjection } from '../services/actorConsequenceService';
@@ -52,12 +52,15 @@ export const useCharacterPersistence = () => {
       skillPointsAvailable: character.skillPointsAvailable || 0, version: 1
     };
     if (character.roomActorRecoveryCandidates) payload.roomActorRecoveryCandidates = character.roomActorRecoveryCandidates;
-    return projectPersonalRuntime(payload, false);
-  }, [currentCharacterId, eligible, useCharacterStore, useInventoryStore, useConditionStore, useQuestStore]);
+    const projected = projectPersonalRuntime(payload, false);
+    preservePersonalConditionRecovery(currentCharacterId, undefined, context);
+    return projected;
+  }, [currentCharacterId, eligible, context, useCharacterStore, useInventoryStore, useConditionStore, useQuestStore]);
 
   const saveCharacterState = useCallback(async (stateData = null) => {
     if (!eligible() || !currentCharacterId) return { success: false, reason: 'owner-or-character-changed' };
     const payload = projectPersonalRuntime(stateData || collectCharacterState(), false);
+    preservePersonalConditionRecovery(currentCharacterId, undefined, context);
     if (!payload) return { success: false, reason: 'no-runtime-data' };
     const entry = stageCharacterDraft(currentCharacterId, 'runtime', payload, context);
     const result = await saveCharacterDraft(entry, (data, latest) =>
@@ -73,6 +76,7 @@ export const useCharacterPersistence = () => {
     if (!eligible() || !data) return false;
     data = decodeCharacterShapes(data);
     data = projectPersonalRuntime(data);
+    preservePersonalConditionRecovery(currentCharacterId, undefined, context);
     const wasApplying = applyingRemote.current;
     applyingRemote.current = true;
     try {
@@ -91,7 +95,7 @@ export const useCharacterPersistence = () => {
       lastSaved.current = JSON.stringify(collectCharacterState());
       return true;
     } finally { applyingRemote.current = wasApplying; }
-  }, [eligible, useCharacterStore, useInventoryStore, useConditionStore, useQuestStore, collectCharacterState]);
+  }, [eligible, currentCharacterId, context, useCharacterStore, useInventoryStore, useConditionStore, useQuestStore, collectCharacterState]);
 
   const importSelectedDraft = useCallback(raw => {
     if (!eligible() || !currentCharacterId) throw new Error('Owner or selected character changed');
@@ -180,6 +184,14 @@ export const useCharacterPersistence = () => {
     };
     // Synchronous subscriptions: no dynamic-import gap can miss an edit.
     const unsubscribers = [useCharacterStore, useInventoryStore, useConditionStore, useQuestStore].map(store => store.subscribe(changed));
+    // Preserve a projection-created source synchronously, before a later personal
+    // save, account handoff or reload can lose the earlier volatile P7 cache.
+    const game = require('../store/gameStore').default;
+    const recoveryChanged = () => {
+      if (eligible()) preservePersonalConditionRecovery(currentCharacterId, undefined, context);
+    };
+    recoveryChanged();
+    unsubscribers.push(game.subscribe(recoveryChanged));
     const online = () => { if (eligible()) forceSave(); };
     window.addEventListener('online', online);
     return () => {

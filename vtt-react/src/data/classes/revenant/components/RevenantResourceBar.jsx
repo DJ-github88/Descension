@@ -621,7 +621,7 @@ const RevenantResourceBar = ({
                                 </button>
                             </div>
                             <button type="button" className="cm-btn" onClick={triggerGlacialNova} title="Drains the phylactery on lethal damage to trigger a 20 ft freeze nova">
-                                <i className="fas fa-snowflake" aria-hidden="true"></i> Glacial Nova (Resurrect)
+                                <i className="fas fa-snowflake" aria-hidden="true"></i> Resurrect from phylactery
                             </button>
                             <label className="cm-check cm-toggle">
                                 <input type="checkbox" checked={!!deathShroud} onChange={toggleDeathShroud} />

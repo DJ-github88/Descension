@@ -4,31 +4,31 @@
       "success": true,
       "receipt": {
         "version": 1,
-        "roomId": "220a05ef-7e41-49a9-8679-91cd6726f900",
-        "commandId": "12ee7e3b-aa73-48a1-a0a5-f2d5e09a4da8",
-        "submitterUid": "user-mv6rduqk-1-ummu5",
-        "contentHash": "71c165c86cd7e34caefaf6b2fba754d533d4bab1d077a455cb9596843d28d61b",
-        "admissionEpoch": "ff1a20d9-5ce8-4cf5-8aa2-0e9754dc8abc",
+        "roomId": "dd2268a5-24ce-4b94-b584-f92929bb1b5b",
+        "commandId": "0db4c688-7f87-4561-ba22-8dae1796193b",
+        "submitterUid": "user-mv82xjzt-1-4gs5t",
+        "contentHash": "f5215fbdeb39412738e1250c15ef2159f650833a37b65c49bf112ce0be55695c",
+        "admissionEpoch": "0199eee9-a957-4b4f-a484-2500347feb34",
         "commitSequence": 1,
         "checkpointRevision": 3,
-        "acceptedAt": 1791900655590,
+        "acceptedAt": 1791980516743,
         "authorization": {
           "kind": "gm",
-          "authorizerUid": "user-mv6rduqk-1-ummu5"
+          "authorizerUid": "user-mv82xjzt-1-4gs5t"
         },
         "source": {
           "kind": "creature",
-          "roomId": "220a05ef-7e41-49a9-8679-91cd6726f900",
+          "roomId": "dd2268a5-24ce-4b94-b584-f92929bb1b5b",
           "mapId": "default",
           "tokenId": "branvig-a",
-          "instanceId": "594d2b18-2ff5-474f-a63b-7216ededa63a"
+          "instanceId": "83364c28-25d2-4b11-bfcf-6061ee926e16"
         },
         "target": {
           "kind": "creature",
-          "roomId": "220a05ef-7e41-49a9-8679-91cd6726f900",
+          "roomId": "dd2268a5-24ce-4b94-b584-f92929bb1b5b",
           "mapId": "default",
           "tokenId": "branvig-b",
-          "instanceId": "433f100b-79b5-4119-9c7e-a43e61f9e11f"
+          "instanceId": "dc70613e-180c-498b-9974-ed67c547bda3"
         },
         "adjudication": {
           "definitionId": "grimmstalk_feather_slash",
@@ -39,10 +39,10 @@
           {
             "ref": {
               "kind": "creature",
-              "roomId": "220a05ef-7e41-49a9-8679-91cd6726f900",
+              "roomId": "dd2268a5-24ce-4b94-b584-f92929bb1b5b",
               "mapId": "default",
               "tokenId": "branvig-a",
-              "instanceId": "594d2b18-2ff5-474f-a63b-7216ededa63a"
+              "instanceId": "83364c28-25d2-4b11-bfcf-6061ee926e16"
             },
             "beforeRevision": 0,
             "afterRevision": 1,
@@ -68,10 +68,10 @@
           {
             "ref": {
               "kind": "creature",
-              "roomId": "220a05ef-7e41-49a9-8679-91cd6726f900",
+              "roomId": "dd2268a5-24ce-4b94-b584-f92929bb1b5b",
               "mapId": "default",
               "tokenId": "branvig-b",
-              "instanceId": "433f100b-79b5-4119-9c7e-a43e61f9e11f"
+              "instanceId": "dc70613e-180c-498b-9974-ed67c547bda3"
             },
             "beforeRevision": 0,
             "afterRevision": 1,
@@ -104,10 +104,10 @@
                 "kind": "effect",
                 "target": {
                   "kind": "creature",
-                  "roomId": "220a05ef-7e41-49a9-8679-91cd6726f900",
+                  "roomId": "dd2268a5-24ce-4b94-b584-f92929bb1b5b",
                   "mapId": "default",
                   "tokenId": "branvig-b",
-                  "instanceId": "433f100b-79b5-4119-9c7e-a43e61f9e11f"
+                  "instanceId": "dc70613e-180c-498b-9974-ed67c547bda3"
                 },
                 "targetId": "branvig-b",
                 "targetType": "creature",
@@ -124,10 +124,119 @@
           }
         ]
       },
-      "status": "accepted-live"
+      "actorSnapshot": {
+        "roomId": "dd2268a5-24ce-4b94-b584-f92929bb1b5b",
+        "actorProjection": {
+          "version": 1,
+          "roomId": "dd2268a5-24ce-4b94-b584-f92929bb1b5b",
+          "epoch": "0199eee9-a957-4b4f-a484-2500347feb34",
+          "cut": 3
+        },
+        "maps": {
+          "default": {
+            "id": "default",
+            "name": "Default Map",
+            "tokens": {
+              "branvig-a": {
+                "id": "branvig-a",
+                "state": {
+                  "actorContract": {
+                    "version": 1,
+                    "kind": "creature",
+                    "roomId": "dd2268a5-24ce-4b94-b584-f92929bb1b5b",
+                    "mapId": "default",
+                    "tokenId": "branvig-a",
+                    "instanceId": "83364c28-25d2-4b11-bfcf-6061ee926e16",
+                    "revision": 1
+                  },
+                  "maxHp": 250,
+                  "maxMana": 30,
+                  "maxAP": 5,
+                  "maxActionPoints": 5,
+                  "currentHp": 250,
+                  "currentMana": 30,
+                  "currentActionPoints": 5,
+                  "tempHealth": 4,
+                  "tempMana": 0,
+                  "tempActionPoints": 0,
+                  "conditions": []
+                },
+                "creatureId": "grimmstalk",
+                "ownerUserId": "user-mv82xjzt-1-4gs5t"
+              },
+              "branvig-b": {
+                "id": "branvig-b",
+                "state": {
+                  "actorContract": {
+                    "version": 1,
+                    "kind": "creature",
+                    "roomId": "dd2268a5-24ce-4b94-b584-f92929bb1b5b",
+                    "mapId": "default",
+                    "tokenId": "branvig-b",
+                    "instanceId": "dc70613e-180c-498b-9974-ed67c547bda3",
+                    "revision": 1
+                  },
+                  "maxHp": 250,
+                  "maxMana": 30,
+                  "maxAP": 5,
+                  "maxActionPoints": 5,
+                  "currentHp": 239,
+                  "currentMana": 30,
+                  "currentActionPoints": 5,
+                  "tempHealth": 0,
+                  "tempMana": 0,
+                  "tempActionPoints": 1,
+                  "conditions": [
+                    {
+                      "version": 1,
+                      "id": "slow-a",
+                      "recordId": "slow-a",
+                      "conditionKey": "slowed",
+                      "originalName": "slow",
+                      "name": "Slowed",
+                      "type": "debuff",
+                      "kind": "effect",
+                      "target": {
+                        "kind": "creature",
+                        "roomId": "dd2268a5-24ce-4b94-b584-f92929bb1b5b",
+                        "mapId": "default",
+                        "tokenId": "branvig-b",
+                        "instanceId": "dc70613e-180c-498b-9974-ed67c547bda3"
+                      },
+                      "targetId": "branvig-b",
+                      "targetType": "creature",
+                      "source": "arc_frost_touch",
+                      "effects": {
+                        "movementSpeed": -10
+                      },
+                      "durationType": "rounds",
+                      "durationValue": 3,
+                      "remainingRounds": 3,
+                      "sharedTiming": "manual"
+                    }
+                  ]
+                },
+                "creatureId": "grimmstalk",
+                "ownerUserId": "user-mv82xjzt-1-4gs5t"
+              }
+            },
+            "characterTokens": {},
+            "creatures": {},
+            "actorProjection": {
+              "version": 1,
+              "roomId": "dd2268a5-24ce-4b94-b584-f92929bb1b5b",
+              "epoch": "0199eee9-a957-4b4f-a484-2500347feb34",
+              "cut": 3
+            }
+          }
+        }
+      },
+      "status": "accepted-live",
+      "durability": "checkpoint-eligible",
+      "delivery": "sent"
     },
     "checkpointOperations": 3,
-    "checkpointRequestBytes": 25085,
+    "checkpointRequestBytes": 25234,
     "decoded": true
   },
   "A1": {
@@ -136,20 +245,20 @@
     "primaryReplacement": {
       "old": {
         "kind": "character",
-        "roomId": "8af44b74-4169-48a4-8936-885da92b8b37",
+        "roomId": "53d572fc-e02f-4de7-99ba-969fd0018889",
         "mapId": "default",
         "tokenId": "pc-a",
-        "instanceId": "50774d1e-ecf8-4927-8f56-139d09ee5142",
-        "ownerUid": "user-mv6rdusx-1-qqabn",
+        "instanceId": "5406987e-c41c-4e6e-b109-dc0496f3884f",
+        "ownerUid": "user-mv82xk47-1-2vv37",
         "characterId": "c-a"
       },
       "replacement": {
         "kind": "character",
-        "roomId": "8af44b74-4169-48a4-8936-885da92b8b37",
+        "roomId": "53d572fc-e02f-4de7-99ba-969fd0018889",
         "mapId": "default",
         "tokenId": "pc-extra",
-        "instanceId": "05528fdb-327a-4e45-be3f-7ea712656496",
-        "ownerUid": "user-mv6rdusx-1-qqabn",
+        "instanceId": "bc8aaf88-8713-4f92-8553-b33474598214",
+        "ownerUid": "user-mv82xk47-1-2vv37",
         "characterId": "c-a"
       },
       "sameUidDifferentCharacter": true
@@ -178,26 +287,26 @@
       "success": true,
       "receipt": {
         "version": 1,
-        "roomId": "9908e556-0d52-418a-b715-e379bf539bd6",
-        "commandId": "6352e269-bd92-4e22-9ee3-758129b5ff7e",
-        "submitterUid": "user-mv6rdurr-1-zb425",
-        "contentHash": "6769c5f87d680b956c19659b4ad1b57bd57f947f40b716a6f6721f783bd30eef",
-        "admissionEpoch": "b0edf86e-1d62-443a-83d3-9b4f9ea0928b",
+        "roomId": "e535e260-89ec-441f-a20c-cbb17424ab18",
+        "commandId": "4493df01-7242-4bb6-a9e8-cd361aa2bbb7",
+        "submitterUid": "user-mv82xk1n-1-ymz1n",
+        "contentHash": "61c56239e1e2e0f0ab34067c9b7353ca6b28730426d00f72fa83f40a82287e14",
+        "admissionEpoch": "988c8b0b-d679-4471-a83f-a5bc8016c5f3",
         "commitSequence": 1,
         "checkpointRevision": 3,
-        "acceptedAt": 1791900655628,
+        "acceptedAt": 1791980516802,
         "authorization": {
           "kind": "gm",
-          "authorizerUid": "user-mv6rdurr-1-zb425"
+          "authorizerUid": "user-mv82xk1n-1-ymz1n"
         },
         "actors": [
           {
             "ref": {
               "kind": "creature",
-              "roomId": "9908e556-0d52-418a-b715-e379bf539bd6",
+              "roomId": "e535e260-89ec-441f-a20c-cbb17424ab18",
               "mapId": "default",
               "tokenId": "branvig-a",
-              "instanceId": "81a65528-cc3c-465d-b55d-d26f9997d62f"
+              "instanceId": "07ba4a07-5cd5-4f11-bf93-95f0cef932ed"
             },
             "beforeRevision": 0,
             "afterRevision": 1,
@@ -222,33 +331,113 @@
           }
         ]
       },
-      "status": "accepted-live"
+      "actorSnapshot": {
+        "roomId": "e535e260-89ec-441f-a20c-cbb17424ab18",
+        "actorProjection": {
+          "version": 1,
+          "roomId": "e535e260-89ec-441f-a20c-cbb17424ab18",
+          "epoch": "988c8b0b-d679-4471-a83f-a5bc8016c5f3",
+          "cut": 3
+        },
+        "maps": {
+          "default": {
+            "id": "default",
+            "name": "Default Map",
+            "tokens": {
+              "branvig-a": {
+                "id": "branvig-a",
+                "state": {
+                  "actorContract": {
+                    "version": 1,
+                    "kind": "creature",
+                    "roomId": "e535e260-89ec-441f-a20c-cbb17424ab18",
+                    "mapId": "default",
+                    "tokenId": "branvig-a",
+                    "instanceId": "07ba4a07-5cd5-4f11-bf93-95f0cef932ed",
+                    "revision": 1
+                  },
+                  "maxHp": 250,
+                  "maxMana": 30,
+                  "maxAP": 5,
+                  "maxActionPoints": 5,
+                  "currentHp": 200,
+                  "currentMana": 30,
+                  "currentActionPoints": 5,
+                  "tempHealth": 4,
+                  "tempMana": 0,
+                  "tempActionPoints": 1,
+                  "conditions": []
+                },
+                "creatureId": "grimmstalk",
+                "ownerUserId": "user-mv82xk1n-1-ymz1n"
+              },
+              "branvig-b": {
+                "id": "branvig-b",
+                "state": {
+                  "actorContract": {
+                    "version": 1,
+                    "kind": "creature",
+                    "roomId": "e535e260-89ec-441f-a20c-cbb17424ab18",
+                    "mapId": "default",
+                    "tokenId": "branvig-b",
+                    "instanceId": "b48eeeae-227f-4237-9b82-995d386183d4",
+                    "revision": 0
+                  },
+                  "maxHp": 250,
+                  "maxMana": 30,
+                  "maxAP": 5,
+                  "maxActionPoints": 5,
+                  "currentHp": 250,
+                  "currentMana": 30,
+                  "currentActionPoints": 5,
+                  "tempHealth": 4,
+                  "tempMana": 0,
+                  "tempActionPoints": 1,
+                  "conditions": []
+                },
+                "creatureId": "grimmstalk",
+                "ownerUserId": "user-mv82xk1n-1-ymz1n"
+              }
+            },
+            "characterTokens": {},
+            "creatures": {},
+            "actorProjection": {
+              "version": 1,
+              "roomId": "e535e260-89ec-441f-a20c-cbb17424ab18",
+              "epoch": "988c8b0b-d679-4471-a83f-a5bc8016c5f3",
+              "cut": 3
+            }
+          }
+        }
+      },
+      "status": "accepted-live",
+      "durability": "checkpoint-eligible"
     },
     "concurrent": [
       {
         "success": true,
         "receipt": {
           "version": 1,
-          "roomId": "9908e556-0d52-418a-b715-e379bf539bd6",
-          "commandId": "76eae523-52fc-410f-a42d-833a69ff46af",
-          "submitterUid": "user-mv6rdurr-1-zb425",
-          "contentHash": "8ec3e0ff0c76a74a08ab46c5748d6f262c1cb99d5bc475dc24bc733745e1217a",
-          "admissionEpoch": "b0edf86e-1d62-443a-83d3-9b4f9ea0928b",
+          "roomId": "e535e260-89ec-441f-a20c-cbb17424ab18",
+          "commandId": "c09cb59c-85ab-41ed-a24e-1a4c7e32b9aa",
+          "submitterUid": "user-mv82xk1n-1-ymz1n",
+          "contentHash": "a1305b5dea31db2c4315790467e00403e3d6218b0f6edf1b80b1d0b0fa269eff",
+          "admissionEpoch": "988c8b0b-d679-4471-a83f-a5bc8016c5f3",
           "commitSequence": 2,
           "checkpointRevision": 4,
-          "acceptedAt": 1791900655631,
+          "acceptedAt": 1791980516808,
           "authorization": {
             "kind": "gm",
-            "authorizerUid": "user-mv6rdurr-1-zb425"
+            "authorizerUid": "user-mv82xk1n-1-ymz1n"
           },
           "actors": [
             {
               "ref": {
                 "kind": "creature",
-                "roomId": "9908e556-0d52-418a-b715-e379bf539bd6",
+                "roomId": "e535e260-89ec-441f-a20c-cbb17424ab18",
                 "mapId": "default",
                 "tokenId": "branvig-b",
-                "instanceId": "512372b4-1b92-4b72-9f1d-d159b7db4ac0"
+                "instanceId": "b48eeeae-227f-4237-9b82-995d386183d4"
               },
               "beforeRevision": 0,
               "afterRevision": 1,
@@ -273,7 +462,88 @@
             }
           ]
         },
-        "status": "accepted-live"
+        "actorSnapshot": {
+          "roomId": "e535e260-89ec-441f-a20c-cbb17424ab18",
+          "actorProjection": {
+            "version": 1,
+            "roomId": "e535e260-89ec-441f-a20c-cbb17424ab18",
+            "epoch": "988c8b0b-d679-4471-a83f-a5bc8016c5f3",
+            "cut": 4
+          },
+          "maps": {
+            "default": {
+              "id": "default",
+              "name": "Default Map",
+              "tokens": {
+                "branvig-a": {
+                  "id": "branvig-a",
+                  "state": {
+                    "actorContract": {
+                      "version": 1,
+                      "kind": "creature",
+                      "roomId": "e535e260-89ec-441f-a20c-cbb17424ab18",
+                      "mapId": "default",
+                      "tokenId": "branvig-a",
+                      "instanceId": "07ba4a07-5cd5-4f11-bf93-95f0cef932ed",
+                      "revision": 1
+                    },
+                    "maxHp": 250,
+                    "maxMana": 30,
+                    "maxAP": 5,
+                    "maxActionPoints": 5,
+                    "currentHp": 200,
+                    "currentMana": 30,
+                    "currentActionPoints": 5,
+                    "tempHealth": 4,
+                    "tempMana": 0,
+                    "tempActionPoints": 1,
+                    "conditions": []
+                  },
+                  "creatureId": "grimmstalk",
+                  "ownerUserId": "user-mv82xk1n-1-ymz1n"
+                },
+                "branvig-b": {
+                  "id": "branvig-b",
+                  "state": {
+                    "actorContract": {
+                      "version": 1,
+                      "kind": "creature",
+                      "roomId": "e535e260-89ec-441f-a20c-cbb17424ab18",
+                      "mapId": "default",
+                      "tokenId": "branvig-b",
+                      "instanceId": "b48eeeae-227f-4237-9b82-995d386183d4",
+                      "revision": 1
+                    },
+                    "maxHp": 250,
+                    "maxMana": 30,
+                    "maxAP": 5,
+                    "maxActionPoints": 5,
+                    "currentHp": 180,
+                    "currentMana": 30,
+                    "currentActionPoints": 5,
+                    "tempHealth": 4,
+                    "tempMana": 0,
+                    "tempActionPoints": 1,
+                    "conditions": []
+                  },
+                  "creatureId": "grimmstalk",
+                  "ownerUserId": "user-mv82xk1n-1-ymz1n"
+                }
+              },
+              "characterTokens": {},
+              "creatures": {},
+              "actorProjection": {
+                "version": 1,
+                "roomId": "e535e260-89ec-441f-a20c-cbb17424ab18",
+                "epoch": "988c8b0b-d679-4471-a83f-a5bc8016c5f3",
+                "cut": 4
+              }
+            }
+          }
+        },
+        "status": "accepted-live",
+        "durability": "checkpoint-eligible",
+        "delivery": "sent"
       },
       {
         "success": false,

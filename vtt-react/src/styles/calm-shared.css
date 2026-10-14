@@ -739,8 +739,8 @@ body .landing-page :is(.immersive-action-btn, .secondary-action-btn) { backgroun
 body .landing-page :is(.immersive-action-btn, .secondary-action-btn):hover { border-color: #663c32; }
 body .landing-page :is(.immersive-action-btn, .secondary-action-btn) * { color: #68533e !important; text-shadow: none !important; }
 body .landing-page :is(.immersive-action-btn, .secondary-action-btn) :is(.action-title, strong, h3, [class*="title"]) { color: #34251a !important; }
-body .landing-header i, body .landing-header svg { color: #663c32; }
-body .landing-header .logo-text, body .landing-header [class*="logo"] span { color: #34251a; text-shadow: none; }
+body .landing-header i:not(.party-indicator), body .landing-header svg { color: #f4ecd8; }
+body .landing-header .logo-text, body .landing-header [class*="logo"] span { color: #f4ecd8; text-shadow: none; }
 
 /* ---- quick item generator: same flat linen dialog as the rest ---- */
 body .qig-modal {
@@ -1255,8 +1255,10 @@ body .dialogue-toggle-btn { border-radius: 3px; }
 
 /* ---- Dice dropdown: flat linen ---- */
 body .dice-dropdown { background: var(--adventure-page, #f8f5ee); border: 1px solid var(--adventure-rule, #c4baa6); border-radius: 3px; box-shadow: 0 8px 24px rgba(52, 37, 26, .22); }
-body .dice-dropdown-header, body .dice-dropdown-drag-handle { background: var(--adventure-chrome, #e2d8c1); border-bottom: 1px solid var(--adventure-chrome-edge, #b9aa8a); color: #34251a; }
-body .dice-dropdown-footer { background: var(--adventure-chrome, #e2d8c1); border-top: 1px solid var(--adventure-chrome-edge, #b9aa8a); }
+body .dice-dropdown-drag-handle { background: transparent; border-bottom: 1px solid var(--adventure-rule, #c4baa6); color: #34251a; }
+body .dice-dropdown .dice-dropdown-header { background: transparent !important; border: 0 !important; border-bottom: 1px solid var(--adventure-rule, #c4baa6) !important; border-radius: 0 !important; box-shadow: none !important; padding: 10px 2px 8px !important; }
+body .dice-dropdown .dice-dropdown-title { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.14em; color: #663c32; }
+body .dice-dropdown-footer { background: transparent; border-top: 1px solid var(--adventure-rule, #c4baa6); }
 body :is(.dice-preset-tile, .quick-roll-button) { background: var(--adventure-page, #f8f5ee); border: 1px solid var(--adventure-rule, #c4baa6); border-radius: 3px; box-shadow: none; color: #34251a; }
 body :is(.dice-preset-tile, .quick-roll-button):hover { border-color: #663c32; background: #fff; }
 body .roll-button { background: #663c32; color: #f8f5ee; border: 1px solid #663c32; border-radius: 3px; box-shadow: none; text-shadow: none; }
@@ -4185,3 +4187,446 @@ html body .class-resource-menu.class-resource-menu.class-resource-menu.class-res
 html body .class-resource-menu.class-resource-menu.class-resource-menu.class-resource-menu[class*="menu-container"] .cm-cadence-resolve:disabled { background: transparent !important; color: #a08a66 !important; border: 1px dashed rgba(154,122,52,.55) !important; cursor: not-allowed !important; }
 html body .class-resource-menu.class-resource-menu.class-resource-menu.class-resource-menu[class*="menu-container"] .cm-cadence-bar { width: 26px !important; height: 26px !important; padding: 0 !important; display: grid !important; place-items: center !important; background: transparent !important; border: 1px solid rgba(154,122,52,.5) !important; border-radius: 2px !important; color: #6a4e30 !important; font-size: 10px !important; cursor: pointer !important; box-shadow: none !important; }
 html body .class-resource-menu.class-resource-menu.class-resource-menu.class-resource-menu[class*="menu-container"] .cm-cadence-bar:hover { background: var(--cm-wash) !important; border-color: var(--cm-accent) !important; }
+
+/* ── LANDING HEADER: ironwood ink (matches realm header), ivory type, off-white gem ──
+   Scoped to .landing-header only; the Laws/Lore bar keeps its parchment chrome and gilt gem. */
+html body .landing-header {
+  background: rgba(31, 43, 42, 0.97);
+  border-bottom: 1px solid rgba(245, 241, 230, 0.14);
+  border-image: none;
+  color: #f4ecd8;
+}
+html body .landing-header .logo { color: #f4ecd8; text-shadow: none; }
+html body .landing-header .logo-text,
+html body .landing-header [class*="logo"] span { color: #f4ecd8; text-shadow: none; }
+html body .landing-header .logo i.fa-gem,
+html body .landing-header .logo > i {
+  background: none !important;
+  -webkit-background-clip: border-box !important; background-clip: border-box !important;
+  -webkit-text-fill-color: #f5f1e6 !important;
+  color: #f5f1e6 !important;
+  filter: none !important;
+  animation: none !important;
+}
+html body .landing-header .nav-item,
+html body .landing-header .nav-overflow-btn { color: #d0bf9e; text-shadow: none; }
+html body .landing-header .nav-item:hover,
+html body .landing-header .nav-overflow-btn:hover { color: #f4ecd8; }
+html body .landing-header .nav-item.active { color: #f4ecd8; border-color: #f4ecd8; }
+html body .landing-header :is(.nav-item, .nav-overflow-btn, .community-nav-btn, .nav-overflow-item) i {
+  color: #f4ecd8 !important;
+}
+html body .landing-header :is(.privacy-btn, .login-btn, .logout-btn, .account-btn, .dev-bypass-btn) {
+  background: transparent !important;
+  color: #d0bf9e !important;
+  border: 1px solid rgba(245, 241, 230, 0.28) !important;
+  border-radius: 4px !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+  transition: all 0.2s ease !important;
+}
+html body .landing-header :is(.privacy-btn, .login-btn, .logout-btn, .account-btn, .dev-bypass-btn):hover {
+  background: #2c3d3b !important;
+  border-color: rgba(245, 241, 230, 0.5) !important;
+  color: #f4ecd8 !important;
+}
+html body .landing-header :is(.privacy-btn, .login-btn, .logout-btn, .account-btn, .dev-bypass-btn) i {
+  color: #f4ecd8 !important;
+  font-size: 12px !important;
+}
+html body .landing-header .mobile-hamburger { color: #f4ecd8; border-color: rgba(245, 241, 230, 0.28); }
+html body .landing-header .mobile-hamburger :is(span, i) { background-color: #f4ecd8; }
+
+/* CLASS CODEX TABS MOBILE: five tabs on a phone are 3 + 2. The old 3-column grid left an empty sixth
+   cell inside one boxed border. Wrap them as flex so the second row stretches to fill the width. */
+@media (max-width: 620px) {
+  html body .class-detail-display.premium-theme .class-codex-nav-wrapper .class-codex-navigation {
+    display: flex !important; flex-wrap: wrap !important; grid-template-columns: none !important; grid-auto-flow: row !important;
+  }
+  html body .class-detail-display.premium-theme .class-codex-nav-wrapper .class-codex-section-button {
+    flex: 1 1 30% !important; min-width: 0 !important;
+  }
+  html body .class-detail-display.premium-theme .class-codex-nav-wrapper .class-codex-section-button:nth-child(3) { border-right: 0 !important; }
+  html body .class-detail-display.premium-theme .class-codex-nav-wrapper .class-codex-section-button:nth-child(n+4) { border-bottom: 0 !important; }
+}
+
+/* LAWS HERO BADGE: one burgundy seal for every category. The old fill followed each category's theme color,
+   which gave cream text on mustard (~2.6:1) for gold-themed pages and an inconsistent look across Laws. */
+body .rules-page .rules-hero-badge {
+  background: #663c32;
+}
+
+/* BROWSE DRAWER INK: the sheet was repainted light but its text still used the old dark-theme cream
+   (#e8d9b8 on #f1ece1, ~1.3:1). Ink for text, walnut for icons, burgundy for the active state. */
+body .rules-browse-header { border-bottom: 1px solid var(--adventure-rule, #c4baa6); }
+body .rules-browse-title { color: #34251a; }
+body .rules-browse-title i,
+body .rules-browse-item i:first-child { color: #68533e; }
+body .rules-browse-back,
+body .rules-browse-close { color: #663c32; border: 1px solid rgba(102, 60, 50, 0.35); background: transparent; }
+body .rules-browse-item { color: #34251a; }
+body .rules-browse-item .rules-browse-chevron { color: #68533e; }
+body .rules-browse-item:hover,
+body .rules-browse-item:active { background: rgba(102, 60, 50, 0.07); }
+body .rules-browse-item.active { border-left-color: #663c32; color: #663c32; background: rgba(102, 60, 50, 0.08); }
+body .rules-browse-item.active i:first-child { color: #663c32; }
+body .rules-browse-archives-label { color: #68533e; }
+
+/* LAWS HERO ONE SYSTEM: the title plate used each category's theme color (orange, gold, burgundy...) for its
+   wash, border, top bar and diamond, so Laws pages opened differently. One burgundy seal and brass hairline everywhere. */
+body .rules-page .rules-hero-banner {
+  background:
+    linear-gradient(180deg, rgba(102, 60, 50, 0.05), transparent 85%),
+    #f8f2e2;
+  border: 1px solid rgba(154, 122, 52, 0.55);
+  border-top: 0;
+  box-shadow:
+    inset 0 4px 0 #5a3328,
+    inset 0 7px 0 #f8f2e2,
+    inset 0 8px 0 var(--folio-gilt-soft),
+    inset 0 0 0 4px #f8f2e2,
+    inset 0 0 0 5px rgba(154, 122, 52, .25),
+    0 3px 8px -3px rgba(54, 35, 15, .3);
+}
+body .rules-page .rules-hero-banner::before { background: #5a3328; }
+
+/* LANDING PHONE LEGIBILITY: the disabled Sandbox button had dark ink on dark brown, and the phone notice was
+   cream text straight over the busy hero art. Give both readable contrast. */
+html body .hero-content .secondary-action-btn.phone-disabled { background: #433b2e; border: 1px solid rgba(198,184,149,0.35); opacity: 1; }
+html body .hero-content .secondary-action-btn.phone-disabled .btn-title { color: #d9ccaa; }
+html body .hero-content .secondary-action-btn.phone-disabled .btn-text { color: #b9aa8a; }
+html body .hero-content .phone-notice-banner {
+  background: rgba(31,43,42,0.86); color: #f4ecd8; border: 1px solid rgba(245,241,230,0.18);
+  border-radius: 6px; padding: 12px 14px; text-transform: none; letter-spacing: 0.01em; line-height: 1.5;
+  font-size: 0.92rem; text-shadow: none;
+}
+html body .hero-content .phone-notice-banner i { color: #f5f1e6; margin-right: 6px; }
+body .landing-page .secondary-action-btn.phone-disabled :is(.action-title, strong, h3, [class*="title"]) { color: #d9ccaa !important; }
+body .landing-page .secondary-action-btn.phone-disabled * { color: #b9aa8a !important; }
+body .landing-page .secondary-action-btn.phone-disabled :is(.action-title, strong, h3, [class*="title"]) { color: #d9ccaa !important; }
+
+/* CALM FRAME: one frame language for cards and panels in the rules. No single-edge accent bars: every edge is
+   the same hairline, with a second inset gilt rule inside for a ruled-folio feel. Small, consistent corners. */
+html body .rules-page :is(.skill-compact-card, .skill-simple-header, .wm-distinct-callout, .rules-hero-banner, .background-card, .background-card-compact, .sub-background-card) {
+  border: 1px solid #b6a080 !important;
+  border-left-width: 1px !important;
+  border-radius: 4px !important;
+  box-shadow: inset 0 0 0 3px #f8f2e2, inset 0 0 0 4px rgba(154,122,52,0.42), 0 1px 3px rgba(52,37,26,0.12) !important;
+}
+html body .rules-page :is(.skill-compact-card, .skill-simple-header, .wm-distinct-callout) { padding-inline: clamp(14px, 4vw, 18px); }
+html body .rules-page :is(.background-card, .background-card-compact, .sub-background-card) {
+  background: linear-gradient(145deg, rgba(255, 252, 245, 0.98) 0%, rgba(250, 244, 230, 0.95) 100%) !important;
+  border-radius: 4px !important;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease !important;
+}
+html body .rules-page :is(.background-card, .background-card-compact, .sub-background-card):hover {
+  border-color: #8e3524 !important;
+  box-shadow: inset 0 0 0 3px #f8f2e2, inset 0 0 0 4px rgba(142,53,36,0.45), 0 4px 12px rgba(52,37,26,0.18) !important;
+  transform: translateY(-2px) !important;
+}
+html body .rules-page :is(.background-card, .background-card-compact, .sub-background-card):is(.active, .selected) {
+  border-color: #663c32 !important;
+  background: #fbf6e8 !important;
+  box-shadow: inset 0 0 0 3px #fbf6e8, inset 0 0 0 4px rgba(102,60,50,0.6), 0 2px 8px rgba(102,60,50,0.2) !important;
+  transform: translateY(-1px) !important;
+}
+html body .rules-page :is(.background-card, .background-card-compact, .sub-background-card)::before,
+html body .rules-page :is(.background-card, .background-card-compact, .sub-background-card)::after {
+  display: none !important;
+}
+html body .rules-page :is(.weapon-rank-chip, .skill-count-badge, .stat-badge, .scroll-tag) { border-radius: 3px !important; }
+html body .rules-page :is(.skills-rules-toggle button, .skills-rules-toggle .rpg-btn) { border-radius: 4px !important; }
+
+/* CALM FRAME, background detail subsection: description, benefits, feature, roleplaying */
+html body .rules-page :is(.background-overview, .benefits-section, .roleplaying-section) {
+  background: linear-gradient(145deg, rgba(255, 252, 245, 0.98) 0%, rgba(250, 244, 230, 0.95) 100%) !important;
+  border: 1px solid #b6a080 !important;
+  border-radius: 4px !important;
+  box-shadow: inset 0 0 0 3px #f8f2e2, inset 0 0 0 4px rgba(154, 122, 52, 0.42), 0 1px 3px rgba(52, 37, 26, 0.12) !important;
+}
+html body .rules-page :is(.background-overview, .benefits-section, .roleplaying-section) h4 {
+  color: #34251a !important;
+  border-bottom: 1px solid rgba(182, 160, 128, 0.45) !important;
+}
+html body .rules-page .benefits-section h4 {
+  border-bottom: none !important;
+}
+html body .rules-page .benefits-section h4::after {
+  background: linear-gradient(90deg, rgba(182, 160, 128, 0.7) 0%, rgba(182, 160, 128, 0.3) 60%, transparent 100%) !important;
+}
+html body .rules-page .benefits-section h4::before {
+  color: #663c32 !important;
+}
+html body .rules-page .equipment-items li {
+  background: rgba(102, 60, 50, 0.05) !important;
+  border: 1px solid rgba(182, 160, 128, 0.55) !important;
+  border-radius: 3px !important;
+  color: #34251a !important;
+  box-shadow: none !important;
+  font-family: 'Cinzel', serif !important;
+}
+html body .rules-page .equipment-items li:hover {
+  background: rgba(102, 60, 50, 0.09) !important;
+  border-color: #8e3524 !important;
+}
+html body .rules-page .equipment-items li i {
+  color: #663c32 !important;
+}
+html body .rules-page .feature-items li {
+  background: #fbf6e8 !important;
+  border: 1px solid #b6a080 !important;
+  border-radius: 4px !important;
+  box-shadow: inset 0 0 0 2px #f8f2e2, inset 0 0 0 3px rgba(154, 122, 52, 0.35), 0 1px 3px rgba(52, 37, 26, 0.08) !important;
+}
+html body .rules-page .feature-items li strong {
+  color: #34251a !important;
+}
+html body .rules-page .feature-items li i {
+  color: #663c32 !important;
+}
+
+/* CALM FRAME, languages codex: Hall of Tongues, ledger cards, detail folios */
+html body .rules-page :is(.languages-codex-guide, .languages-codex-directory, .lang-codex-card, .lang-ledger-header, .lang-ledger-card, .lang-folio-header) {
+  border: 1px solid #b6a080 !important;
+  border-radius: 4px !important;
+  box-shadow: inset 0 0 0 3px #f8f2e2, inset 0 0 0 4px rgba(154, 122, 52, 0.42), 0 1px 3px rgba(52, 37, 26, 0.12) !important;
+}
+html body .rules-page :is(.lang-codex-card, .lang-ledger-card):hover {
+  border-color: #8e3524 !important;
+  box-shadow: inset 0 0 0 3px #f8f2e2, inset 0 0 0 4px rgba(142, 53, 36, 0.45), 0 4px 12px rgba(52, 37, 26, 0.18) !important;
+  transform: translateY(-2px) !important;
+}
+html body .rules-page :is(.lang-codex-seal, .lang-ledger-seal, .lang-folio-seal, .lang-ledger-icon) {
+  border-radius: 3px !important;
+  background: rgba(102, 60, 50, 0.06) !important;
+  border: 1px solid rgba(182, 160, 128, 0.55) !important;
+  box-shadow: 0 0 0 2px #f8f2e2, 0 0 0 3px rgba(138, 116, 88, 0.35) !important;
+}
+html body .rules-page :is(.lang-codex-seal, .lang-ledger-seal, .lang-folio-seal, .lang-ledger-icon) i {
+  color: #663c32 !important;
+  filter: none !important;
+}
+html body .rules-page :is(.lang-codex-count, .lang-ledger-count, .lang-ledger-script, .lang-ledger-badge, .lang-folio-kicker) {
+  border-radius: 3px !important;
+  background: rgba(102, 60, 50, 0.06) !important;
+  border: 1px solid rgba(102, 60, 50, 0.28) !important;
+  color: #4a3626 !important;
+  box-shadow: none !important;
+}
+html body .rules-page :is(.lang-codex-script-preview, .lang-ledger-details) {
+  border-radius: 3px !important;
+  border: 1px solid rgba(182, 160, 128, 0.45) !important;
+  background: rgba(255, 252, 245, 0.7) !important;
+}
+html body .rules-page .lang-nav-btn {
+  border-radius: 3px !important;
+  border: 1px solid rgba(182, 160, 128, 0.55) !important;
+  background: rgba(102, 60, 50, 0.05) !important;
+  color: #34251a !important;
+  box-shadow: none !important;
+}
+html body .rules-page .lang-nav-btn:hover {
+  border-color: #8e3524 !important;
+  background: rgba(102, 60, 50, 0.09) !important;
+}
+html body .rules-page :is(.lang-nav-btn > i, .lang-codex-arrow, .lang-nav-position, .lang-count-label, .lang-codex-cta, .lang-divider-glyph) {
+  color: #663c32 !important;
+}
+html body .rules-page :is(.lang-codex-card::after, .lang-folio-header::before) {
+  display: none !important;
+}
+
+/* CALM FRAME, detail header: beat the older left-accent rule, drop the extra inner frame, give text room. */
+html body .rules-page .skill-detail-view .skill-simple-header,
+html body .rules-page .skills-container .skill-simple-header {
+  border: 1px solid #b6a080 !important;
+  border-radius: 4px !important;
+  padding: 18px clamp(16px, 5vw, 22px) !important;
+}
+html body .rules-page .skill-simple-header::before, html body .rules-page .skill-simple-header::after { display: none !important; }
+html body .rules-page .skill-simple-header .skill-category-label {
+  color: #663c32 !important; background: rgba(102,60,50,0.07) !important; border: 1px solid rgba(102,60,50,0.32) !important; border-radius: 3px !important;
+}
+
+/* CALM TAGS: small tags share one shape and palette (squared 3px corners, ruled outline, ink text) instead of
+   rainbow pills. */
+html body .rules-page :is(.info-badge, .class-row-role-badge, .weapon-rank-chip, .compact-badge) {
+  border-radius: 3px !important;
+  background: rgba(102,60,50,0.06) !important;
+  color: #4a3626 !important;
+  border: 1px solid rgba(102,60,50,0.28) !important;
+  box-shadow: none !important;
+}
+html body .rules-page .compact-badge i {
+  color: #663c32 !important;
+}
+html body .rules-page .category-header-compact {
+  border: 1px solid #b6a080 !important; border-radius: 4px !important;
+  box-shadow: inset 0 0 0 3px #f8f2e2, inset 0 0 0 4px rgba(154,122,52,0.42), 0 1px 3px rgba(52,37,26,0.12) !important;
+}
+html body .rules-page :is(.skills-guide-section, .skills-directory-section, .dc-reference-grid) { border-radius: 4px !important; }
+html body .rules-page .skill-category-simple-card {
+  border: 1px solid #b6a080 !important; border-radius: 4px !important;
+  box-shadow: inset 0 0 0 3px #f8f2e2, inset 0 0 0 4px rgba(154,122,52,0.42), 0 1px 3px rgba(52,37,26,0.12) !important;
+}
+html body .rules-page .skills-index-header { border-bottom: 1px solid #b6a080 !important; box-shadow: 0 2px 0 -1px rgba(154,122,52,0.35) !important; }
+html body .rules-page .skills-index-header::before, html body .rules-page .skills-index-header::after { display: none !important; }
+html body .rules-page .skill-count-badge { color: #4a3626 !important; background: rgba(102,60,50,0.06) !important; border: 1px solid rgba(102,60,50,0.28) !important; }
+
+/* NO YELLOW ICONS: icons in the rules were gold (#d4af37 / #9a7a34 / #b08d57). Gold stays out of icons, text and
+   button fills; icons take the burgundy seal ink, chevrons the muted ink, and icons on burgundy fills go ivory.
+   Class pages are excluded because their icons carry resource and damage colours on purpose. */
+html body .rules-page :is(i.fas, i.far, i.fab, i.fa-solid, i.fa-regular):not(.class-codex *):not([style*="color"]) { color: #663c32 !important; }
+html body .rules-page :is(i.fa-chevron-right, i.fa-chevron-left, i.fa-chevron-down, i.fa-angle-right, i.fa-arrow-right):not(.class-codex *) { color: #68533e !important; }
+html body .rules-page :is(.rules-hero-badge, .back-button, button.active, .skills-rules-toggle .active, [aria-pressed="true"]) :is(i.fas, i.far, i.fa-solid, i.fa-regular) { color: #f4ecd8 !important; }
+html body .rules-page .stat-badge i { color: #663c32 !important; }
+
+/* Gold text on the dark chrome (footer line, active mobile-menu item) becomes warm ivory. */
+html body :is(.landing-footer, footer, .site-footer) :is(p, span, a) { color: #cdbf9f !important; }
+html body .mobile-menu-item:is(.active, .highlight) { color: #f4ecd8 !important; }
+html body .mobile-menu-item:is(.active, .highlight) { background: rgba(245,241,230,0.10) !important; border-color: rgba(245,241,230,0.22) !important; }
+
+/* NO YELLOW, remaining spots */
+html body .landing-page :is(i.fa-dragon, i.fa-gem) { color: #e8dfc6 !important; -webkit-text-fill-color: #e8dfc6 !important; background: none !important; filter: none !important; }
+html body .rules-page .lang-script-label { color: #663c32 !important; }
+html body .rules-page .rules-summary-badge { color: #663c32 !important; }
+html body .rules-page .lore-link { color: #663c32 !important; border-bottom: 1px dotted rgba(102,60,50,0.55) !important; text-decoration: none !important; }
+html body .rules-page .lore-link:hover { color: #4a2a22 !important; border-bottom-style: solid !important; }
+html body .rules-page .rules-hero-title::after {
+  color: #663c32 !important;
+  background-image: linear-gradient(90deg, rgba(0,0,0,0), #b6a080 70%, rgba(0,0,0,0) 100%), linear-gradient(270deg, rgba(0,0,0,0), #b6a080 70%, rgba(0,0,0,0) 100%) !important;
+}
+html body .rules-page .skill-category-icon { border-color: #8a7458 !important; box-shadow: 0 0 0 2px #f8f2e2, 0 0 0 3px rgba(138,116,88,0.45) !important; }
+
+/* ==========================================================================
+   CALM TABS & DROPDOWNS: NO BOXY OUTLINES, NO YELLOW ICONS, NO YELLOW CATEGORIES
+   ========================================================================== */
+/* Tab buttons: smooth rounded tops, no harsh box outline, elegant active marker */
+:is(.wow-window .window-header, .spellbook-tab-container) :is(.window-header-tab, .spellbook-tab-button, .tabbed-modal-tab, .tk-tab) {
+  border: 1px solid transparent !important;
+  border-bottom: none !important;
+  border-radius: 6px 6px 0 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  transition: background-color 140ms ease, color 140ms ease, border-color 140ms ease !important;
+}
+:is(.wow-window .window-header, .spellbook-tab-container) :is(.window-header-tab, .spellbook-tab-button, .tabbed-modal-tab, .tk-tab):hover:not(.active) {
+  background: rgba(102, 60, 50, 0.07) !important;
+  color: var(--adventure-seal, #663c32) !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+:is(.wow-window .window-header, .spellbook-tab-container) :is(.window-header-tab, .spellbook-tab-button, .tabbed-modal-tab, .tk-tab).active {
+  background: var(--adventure-page, #f8f5ee) !important;
+  border: 1px solid rgba(138, 115, 86, 0.35) !important;
+  border-bottom: none !important;
+  border-radius: 6px 6px 0 0 !important;
+  box-shadow: inset 0 3px 0 var(--adventure-seal, #663c32) !important;
+  color: var(--adventure-ink, #34251a) !important;
+}
+
+/* Character View Standalone Ribbon Tabs */
+.character-view-page .char-tab-btn {
+  background: transparent !important;
+  border: 1px solid transparent !important;
+  border-bottom: 2px solid transparent !important;
+  border-radius: 6px 6px 0 0 !important;
+  box-shadow: none !important;
+  color: var(--adventure-muted, #7c6853) !important;
+  transition: background-color 140ms ease, color 140ms ease, border-color 140ms ease !important;
+}
+.character-view-page .char-tab-btn:hover:not(.active) {
+  background: rgba(102, 60, 50, 0.07) !important;
+  color: var(--adventure-seal, #663c32) !important;
+  border-color: transparent !important;
+  border-bottom: 2px solid transparent !important;
+  box-shadow: none !important;
+}
+.character-view-page .char-tab-btn.active {
+  background: transparent !important;
+  color: var(--adventure-seal, #663c32) !important;
+  border: 1px solid transparent !important;
+  border-bottom: 2px solid var(--adventure-seal, #663c32) !important;
+  border-radius: 6px 6px 0 0 !important;
+  box-shadow: none !important;
+  font-weight: 700 !important;
+}
+
+/* Tab dropdown categories: clean borderless headers with no left stripe */
+:is(.tab-dropdown-menu, .char-tab-dropdown-menu) :is(.tab-dropdown-section-header, .char-dropdown-section-header) {
+  background: transparent !important;
+  color: var(--adventure-seal, #663c32) !important;
+  border: none !important;
+  border-left: none !important;
+  border-top: none !important;
+  border-bottom: none !important;
+  padding: 8px 14px 4px 14px !important;
+  font-family: 'Cinzel', Georgia, serif !important;
+  letter-spacing: 0.06em !important;
+}
+:is(.tab-dropdown-menu, .char-tab-dropdown-menu) :is(.tab-dropdown-section:first-child .tab-dropdown-section-header, .char-dropdown-section:first-child .char-dropdown-section-header) {
+  border-top: 0 !important;
+}
+:is(.tab-dropdown-menu, .char-tab-dropdown-menu) :is(.tab-dropdown-section-header, .char-dropdown-section-header):hover {
+  background: rgba(102, 60, 50, 0.05) !important;
+  color: #421e16 !important;
+  border-left: none !important;
+}
+:is(.tab-dropdown-menu, .char-tab-dropdown-menu) :is(.tab-dropdown-section-header, .char-dropdown-section-header).active {
+  background: rgba(102, 60, 50, 0.08) !important;
+  color: var(--adventure-seal, #663c32) !important;
+  border-left: none !important;
+}
+:is(.tab-dropdown-menu, .char-tab-dropdown-menu) :is(.tab-dropdown-section, .char-dropdown-section) {
+  border-bottom: none !important;
+}
+:is(.tab-dropdown-menu, .char-tab-dropdown-menu) :is(.tab-dropdown-section:not(:first-child), .char-dropdown-section:not(:first-child)) {
+  border-top: 1px solid rgba(139, 115, 85, 0.18) !important;
+  margin-top: 4px !important;
+  padding-top: 4px !important;
+}
+
+/* Tab dropdown scrollbars: seamless, no ugly rail on the right side */
+:is(.tab-dropdown-menu-scrollable, .char-tab-dropdown-menu-scrollable) {
+  scrollbar-width: thin !important;
+  scrollbar-color: rgba(102, 60, 50, 0.22) transparent !important;
+  padding-right: 2px !important;
+}
+:is(.tab-dropdown-menu-scrollable, .char-tab-dropdown-menu-scrollable)::-webkit-scrollbar {
+  width: 4px !important;
+}
+:is(.tab-dropdown-menu-scrollable, .char-tab-dropdown-menu-scrollable)::-webkit-scrollbar-track {
+  background: transparent !important;
+}
+:is(.tab-dropdown-menu-scrollable, .char-tab-dropdown-menu-scrollable)::-webkit-scrollbar-thumb {
+  background: rgba(102, 60, 50, 0.22) !important;
+  border-radius: 4px !important;
+}
+:is(.tab-dropdown-menu-scrollable, .char-tab-dropdown-menu-scrollable)::-webkit-scrollbar-thumb:hover {
+  background: rgba(102, 60, 50, 0.45) !important;
+}
+
+/* Tab dropdown icons: replace yellow with calm burgundy seal ink */
+:is(.tab-dropdown-menu, .char-tab-dropdown-menu) :is(i, .char-dropdown-icon, .tab-icon-glyph) {
+  color: var(--adventure-seal, #663c32) !important;
+  transition: color 120ms ease !important;
+}
+:is(.tab-dropdown-menu, .char-tab-dropdown-menu) :is(.tab-dropdown-item, .char-dropdown-item):is(:hover, .active) :is(i, .char-dropdown-icon, .tab-icon-glyph) {
+  color: inherit !important;
+}
+:is(.tab-dropdown-menu, .char-tab-dropdown-menu) :is(.tab-dropdown-section-header, .char-dropdown-section-header):is(:hover, .active) :is(i, .char-dropdown-icon) {
+  color: inherit !important;
+}
+:is(.tab-chevron, .char-tab-chevron) {
+  color: var(--adventure-seal, #663c32) !important;
+}
+
+
+html body .class-resource-menu.class-resource-menu.class-resource-menu.class-resource-menu[class*="menu-container"] .cm-absorb { display: grid !important; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr) !important; gap: 8px !important; }
+html body .class-resource-menu.class-resource-menu.class-resource-menu.class-resource-menu[class*="menu-container"] .cm-split { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 6px 8px !important; margin-top: 6px !important; }
+html body .class-resource-menu.class-resource-menu.class-resource-menu.class-resource-menu[class*="menu-container"] .cm-split .cm-field:last-child { grid-column: 1 / -1 !important; }
+html body .class-resource-menu.class-resource-menu.class-resource-menu.class-resource-menu[class*="menu-container"] .cm-fold { border-top: 0 !important; padding-top: 0 !important; margin-top: -2px !important; }
+html body .class-resource-menu.class-resource-menu.class-resource-menu.class-resource-menu[class*="menu-container"] .cm-fold summary { font-family: 'Crimson Text', Georgia, serif !important; font-size: 13px !important; font-style: italic !important; letter-spacing: 0 !important; text-transform: none !important; color: #6a4e30 !important; }
+html body .class-resource-menu.class-resource-menu.class-resource-menu.class-resource-menu[class*="menu-container"] .cm-btn.cm-btn-primary { background: radial-gradient(circle at 40% 30%, var(--cm-accent), var(--cm-accent-deep)) !important; border-color: var(--cm-accent-deep) !important; color: #f6ecd2 !important; font-size: 13px !important; min-height: 34px !important; }
+html body .class-resource-menu.class-resource-menu.class-resource-menu.class-resource-menu[class*="menu-container"] .cm-btn.cm-btn-primary:hover:not(:disabled) { filter: brightness(1.08) !important; }
+html body .class-resource-menu.class-resource-menu.class-resource-menu.class-resource-menu[class*="menu-container"] .cm-btn.cm-btn-primary:disabled { background: transparent !important; color: #9a8466 !important; border-color: #b39a63 !important; }

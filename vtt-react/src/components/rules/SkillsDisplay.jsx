@@ -727,12 +727,12 @@ const SkillsDisplay = ({ variant = 'advanced' }) => {
                 {/* Skills Guide: full width, stacked */}
                 <div className="skills-guide-section">
                     <div className="premium-parchment-scroll">
-                        <div className="skills-rules-toggle" style={{ display: 'flex', justifyContent: 'center', gap: '12px', marginBottom: '20px', borderBottom: '1px dashed #d4af37', paddingBottom: '15px' }}>
+                        <div className="skills-rules-toggle" style={{ display: 'flex', justifyContent: 'center', gap: '12px', marginBottom: '20px', borderBottom: '1px dashed rgba(107, 58, 48, 0.35)', paddingBottom: '15px' }}>
                             <button
                                 type="button"
                                 className={`rpg-btn ${isSimple ? 'active' : ''}`}
                                 onClick={() => setIsSimple(true)}
-                                style={{ padding: '8px 16px', fontSize: '0.85rem', cursor: 'pointer', fontFamily: 'Cinzel', fontWeight: 'bold', letterSpacing: '1px', border: '1px solid #d4af37', background: isSimple ? '#d4af37' : 'transparent', color: isSimple ? '#000' : '#d4af37', borderRadius: '4px', transition: 'all 0.2s ease' }}
+                                style={{ padding: '8px 16px', fontSize: '0.85rem', cursor: 'pointer', fontFamily: 'Cinzel', fontWeight: 'bold', letterSpacing: '1px', border: '1px solid #6b3a30', background: isSimple ? '#6b3a30' : 'transparent', color: isSimple ? '#f4ecd8' : '#6b3a30', borderRadius: '4px', transition: 'all 0.2s ease' }}
                             >
                                 Standard Rules
                             </button>
@@ -740,7 +740,7 @@ const SkillsDisplay = ({ variant = 'advanced' }) => {
                                 type="button"
                                 className={`rpg-btn ${!isSimple ? 'active' : ''}`}
                                 onClick={() => setIsSimple(false)}
-                                style={{ padding: '8px 16px', fontSize: '0.85rem', cursor: 'pointer', fontFamily: 'Cinzel', fontWeight: 'bold', letterSpacing: '1px', border: '1px solid #d4af37', background: !isSimple ? '#d4af37' : 'transparent', color: !isSimple ? '#000' : '#d4af37', borderRadius: '4px', transition: 'all 0.2s ease' }}
+                                style={{ padding: '8px 16px', fontSize: '0.85rem', cursor: 'pointer', fontFamily: 'Cinzel', fontWeight: 'bold', letterSpacing: '1px', border: '1px solid #6b3a30', background: !isSimple ? '#6b3a30' : 'transparent', color: !isSimple ? '#f4ecd8' : '#6b3a30', borderRadius: '4px', transition: 'all 0.2s ease' }}
                             >
                                 Advanced Rules
                             </button>
@@ -807,13 +807,13 @@ const SkillsDisplay = ({ variant = 'advanced' }) => {
                                 <h5><i className="fas fa-layer-group"></i> Skill Ranks & Progression</h5>
                                 <p>Skills advance through seven ranks:</p>
                                 <div className="dc-reference-grid">
-                                    <div className="dc-row"><span style={{color:'#6b6b6b'}}>Untrained</span><span>d4</span><span>Baseline: no bonus</span></div>
-                                    <div className="dc-row"><span style={{color:'#8b7355'}}>Novice</span><span>d6</span><span>+1 to checks, 1 quest</span></div>
-                                    <div className="dc-row"><span style={{color:'#4a7c59'}}>Trained</span><span>d8</span><span>+2 to checks, 3 quests</span></div>
-                                    <div className="dc-row"><span style={{color:'#5d8a6b'}}>Apprentice</span><span>d10</span><span>+3 to checks, 6 quests</span></div>
-                                    <div className="dc-row"><span style={{color:'#2563eb'}}>Adept</span><span>d12</span><span>+4 to checks, 9 quests</span></div>
-                                    <div className="dc-row"><span style={{color:'#7a3b2e'}}>Expert</span><span>d20</span><span>+5 to checks, 11 quests</span></div>
-                                    <div className="dc-row"><span style={{color:'#9d4edd'}}>Master</span><span>d20</span><span>+6 to checks, 12 quests</span></div>
+                                    <div className="dc-row dc-row-rank"><span>Untrained</span><span>d4</span><span>Baseline: no bonus</span></div>
+                                    <div className="dc-row dc-row-rank"><span>Novice</span><span>d6</span><span>+1 to checks, 1 quest</span></div>
+                                    <div className="dc-row dc-row-rank"><span>Trained</span><span>d8</span><span>+2 to checks, 3 quests</span></div>
+                                    <div className="dc-row dc-row-rank"><span>Apprentice</span><span>d10</span><span>+3 to checks, 6 quests</span></div>
+                                    <div className="dc-row dc-row-rank"><span>Adept</span><span>d12</span><span>+4 to checks, 9 quests</span></div>
+                                    <div className="dc-row dc-row-rank"><span>Expert</span><span>d20</span><span>+5 to checks, 11 quests</span></div>
+                                    <div className="dc-row dc-row-rank"><span>Master</span><span>d20</span><span>+6 to checks, 12 quests</span></div>
                                 </div>
                                 <p style={{marginTop:'10px', fontSize:'0.92rem'}}><strong>Skill Quests</strong> are narrative milestones that unlock as you use abilities in the world. Completing them advances your rank and opens new proficient ability options.</p>
                             </div>
@@ -948,7 +948,7 @@ const SkillsDisplay = ({ variant = 'advanced' }) => {
                             type="button"
                             className={`rpg-btn ${isSimple ? 'active' : ''}`}
                             onClick={() => setIsSimple(true)}
-                            style={{ padding: '6px 12px', fontSize: '0.8rem', cursor: 'pointer', fontFamily: 'Cinzel', fontWeight: 'bold', border: '1px solid #d4af37', background: isSimple ? '#d4af37' : 'transparent', color: isSimple ? '#000' : '#d4af37', borderRadius: '4px' }}
+                            style={{ padding: '6px 12px', fontSize: '0.8rem', cursor: 'pointer', fontFamily: 'Cinzel', fontWeight: 'bold', border: '1px solid #6b3a30', background: isSimple ? '#6b3a30' : 'transparent', color: isSimple ? '#f4ecd8' : '#6b3a30', borderRadius: '4px' }}
                         >
                             Standard
                         </button>
@@ -956,7 +956,7 @@ const SkillsDisplay = ({ variant = 'advanced' }) => {
                             type="button"
                             className={`rpg-btn ${!isSimple ? 'active' : ''}`}
                             onClick={() => setIsSimple(false)}
-                            style={{ padding: '6px 12px', fontSize: '0.8rem', cursor: 'pointer', fontFamily: 'Cinzel', fontWeight: 'bold', border: '1px solid #d4af37', background: !isSimple ? '#d4af37' : 'transparent', color: !isSimple ? '#000' : '#d4af37', borderRadius: '4px' }}
+                            style={{ padding: '6px 12px', fontSize: '0.8rem', cursor: 'pointer', fontFamily: 'Cinzel', fontWeight: 'bold', border: '1px solid #6b3a30', background: !isSimple ? '#6b3a30' : 'transparent', color: !isSimple ? '#f4ecd8' : '#6b3a30', borderRadius: '4px' }}
                         >
                             Advanced
                         </button>
@@ -1112,12 +1112,12 @@ const SkillsDisplay = ({ variant = 'advanced' }) => {
                                 </div>
                             </div>
                             <div className="dc-reference-grid" style={{ marginTop: '16px' }}>
-                                <div className="dc-row"><span style={{color:'#6b6b6b'}}>d4</span><span>Untrained</span><span>Baseline: everyone starts here</span></div>
-                                <div className="dc-row"><span style={{color:'#8b7355'}}>d6</span><span>Novice</span><span>+1 to checks, 1 quest completed</span></div>
-                                <div className="dc-row"><span style={{color:'#4a7c59'}}>d8</span><span>Trained</span><span>+2 to checks, 3 quests completed</span></div>
-                                <div className="dc-row"><span style={{color:'#5d8a6b'}}>d10</span><span>Apprentice</span><span>+3 to checks, 6 quests completed</span></div>
-                                <div className="dc-row"><span style={{color:'#2563eb'}}>d12</span><span>Adept</span><span>+4 to checks, 9 quests completed</span></div>
-                                <div className="dc-row"><span style={{color:'#7a3b2e'}}>d20</span><span>Expert / Master</span><span>+5/+6 to checks, 11-12 quests</span></div>
+                                <div className="dc-row dc-row-rank"><span>d4</span><span>Untrained</span><span>Baseline: everyone starts here</span></div>
+                                <div className="dc-row dc-row-rank"><span>d6</span><span>Novice</span><span>+1 to checks, 1 quest completed</span></div>
+                                <div className="dc-row dc-row-rank"><span>d8</span><span>Trained</span><span>+2 to checks, 3 quests completed</span></div>
+                                <div className="dc-row dc-row-rank"><span>d10</span><span>Apprentice</span><span>+3 to checks, 6 quests completed</span></div>
+                                <div className="dc-row dc-row-rank"><span>d12</span><span>Adept</span><span>+4 to checks, 9 quests completed</span></div>
+                                <div className="dc-row dc-row-rank"><span>d20</span><span>Expert / Master</span><span>+5/+6 to checks, 11-12 quests</span></div>
                             </div>
                         </div>
 

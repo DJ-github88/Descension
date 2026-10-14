@@ -40,6 +40,7 @@ function registerMapHandlers(ctx) {
     // One positive privacy projection for every outbound map snapshot.
     const projected = roomAccess.projectGameStateForClient({ maps: { [mapId]: { ...map } } }).maps[mapId];
     return {
+      roomId: room.id, actorProjection: require('../services/actorProjection').current(room),
       mapId,
       mapIds: Object.keys((room.gameState && room.gameState.maps) || {}),
       tokens: projected.tokens || {},
@@ -151,8 +152,10 @@ function registerMapHandlers(ctx) {
         }
         const mapId = data.map.id || uuidv4();
         validateMapExists(room, mapId, data.map.name);
+        require('../services/actorProjection').advance(room);
 
         io.to(room.id).emit('map_update', {
+          roomId: room.id, actorSnapshot: require('../services/actorProjection').snapshot(room),
           action: 'create',
           map: roomAccess.projectMapDataForClient({ id: mapId, ...data.map }),
           createdBy: socket.id
@@ -164,6 +167,7 @@ function registerMapHandlers(ctx) {
           return;
         }
         const deletedMapId = data.mapId;
+        require('../services/actorProjection').advance(room);
         if (room.gameState.maps && room.gameState.maps[deletedMapId]) {
           delete room.gameState.maps[deletedMapId];
         }
@@ -210,6 +214,7 @@ function registerMapHandlers(ctx) {
         });
 
         io.to(room.id).emit('map_update', {
+          roomId: room.id, actorSnapshot: require('../services/actorProjection').snapshot(room),
           action: 'delete',
           mapId: deletedMapId,
           reassignedTo: fallbackMapId,
@@ -488,6 +493,7 @@ function registerMapHandlers(ctx) {
 
       const projectedMap = roomAccess.projectGameStateForClient({ maps: { [mapId]: { ...map } } }).maps[mapId];
       socket.emit('map_state_synced', {
+        roomId: room.id, actorProjection: require('../services/actorProjection').current(room),
         mapId,
         state: projectedMap
       });

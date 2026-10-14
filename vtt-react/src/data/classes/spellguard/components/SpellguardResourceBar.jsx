@@ -45,7 +45,6 @@ const SpellguardResourceBar = ({
     const [intakeMode, setIntakeMode] = useState('containment');
     const [receiptId, setReceiptId] = useState('');
     const [incomingEnergy, setIncomingEnergy] = useState('20');
-    const [capturedEnergy, setCapturedEnergy] = useState('20');
     const [redirectedEnergy, setRedirectedEnergy] = useState('0');
     const [dissipatedEnergy, setDissipatedEnergy] = useState('0');
     const [intakeMessage, setIntakeMessage] = useState('');
@@ -143,16 +142,21 @@ const SpellguardResourceBar = ({
 
     const handleIntake = () => {
         if (!isOwner || !onClassResourceUpdate) return;
+        const incoming = Math.max(0, Math.trunc(Number(incomingEnergy) || 0));
+        const redirected = Math.max(0, Math.trunc(Number(redirectedEnergy) || 0));
+        const dissipated = Math.max(0, Math.trunc(Number(dissipatedEnergy) || 0));
+        const note = receiptId.trim();
+        // Every catch gets its own ledger id; the optional note becomes part of it.
+        const id = `${note || 'catch'}#${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`;
         const result = recordSpellguardIntake({ ...classResource, current: localAEP }, {
-            id: receiptId.trim(), mode: intakeMode, incoming: incomingEnergy, captured: capturedEnergy,
-            redirected: redirectedEnergy, dissipated: dissipatedEnergy
+            id, mode: intakeMode, incoming, captured: incoming - redirected - dissipated, redirected, dissipated
         });
         if (!result.accepted) {
             const reasons = {
                 'unknown-interface': 'Choose how you caught the spell.',
-                'duplicate-receipt': 'That spell is already in the log. Give this catch its own name.',
+                'duplicate-receipt': 'That catch is already in the log.',
                 'invalid-or-zero-residual': 'Keep at least 1 AEP, in whole numbers.',
-                'unaccounted-energy': 'Kept, sent away and faded must add up to the spell\'s energy.'
+                'unaccounted-energy': 'Sent away and faded cannot be more than you absorbed.'
             };
             setIntakeMessage(reasons[result.reason] || 'That catch could not be logged.');
             return;
@@ -160,8 +164,11 @@ const SpellguardResourceBar = ({
         setLocalAEP(result.resource.current);
         onClassResourceUpdate('spellguardIntake', result.resource.spellguardIntake);
         onClassResourceUpdate('current', result.resource.current);
-        setIntakeMessage(`Logged ${receiptId.trim()}: +${result.banked} AEP${result.overflow ? `, ${result.overflow} overflowed` : ''}.`);
-        logClassResourceChange('reported residual AEP', result.banked, true, 'aep');
+        setIntakeMessage(`Banked +${result.banked} AEP${note ? ` from ${note}` : ''}${result.overflow ? `; ${result.overflow} overflowed` : ''}.`);
+        setReceiptId('');
+        setRedirectedEnergy(0);
+        setDissipatedEnergy(0);
+        logClassResourceChange('absorbed AEP', result.banked, true, 'aep');
     };
 
     // Keyboard accessibility
@@ -645,63 +652,74 @@ const SpellguardResourceBar = ({
                                 </button>
                             </header>
                             <div className="cm-meter" aria-hidden="true"><span style={{ width: `${maxAEP ? Math.min(100, (localAEP / maxAEP) * 100) : 0}%` }}></span></div>
-                            {localAEP >= 75 && (
-                                <div className="cm-burden is-severe">
-                                    <span className="cm-burden-label">{localAEP >= 100 ? 'Containment breach' : 'Running hot'}</span>
-                                    <p className="cm-burden-text">{localAEP >= 100 ? 'The forge is full. A breach is due: resolve its damage and reset.' : 'Spend AEP soon. At 100 the forge breaches.'}</p>
+                            {localAEP > 0 && (
+                                <div className={`cm-burden ${localAEP >= 75 ? 'is-severe' : ''}`}>
+                                    <span className="cm-burden-label">{localAEP >= 100 ? 'Containment breach' : 'Arcane radiation'}</span>
+                                    <p className="cm-burden-text">
+                                        {localAEP >= 100
+                                            ? 'The forge is full and breaches. Resolve the blast, then the forge resets to 0.'
+                                            : `Held energy burns you: ${Math.floor(localAEP / 10)} blight damage and ${Math.floor(localAEP / 10)} less max HP until you purge it.`}
+                                    </p>
                                 </div>
                             )}
 
-                            <div className="cm-section">
-                                Catch a spell
-                                <span className="cm-section-aside">{normalizedResource.spellguardIntake.receipts.length} logged</span>
-                            </div>
                             {(() => {
-                                const incoming = Number(incomingEnergy) || 0;
-                                const split = (Number(capturedEnergy) || 0) + (Number(redirectedEnergy) || 0) + (Number(dissipatedEnergy) || 0);
-                                const gap = incoming - split;
-                                const modeLabels = { containment: 'Contained it', annulment: 'Annulled it', defusal: 'Defused it', deflection: 'Deflected it', siphon: 'Siphoned it' };
+                                const incoming = Math.max(0, Math.trunc(Number(incomingEnergy) || 0));
+                                const sent = Math.max(0, Math.trunc(Number(redirectedEnergy) || 0));
+                                const faded = Math.max(0, Math.trunc(Number(dissipatedEnergy) || 0));
+                                const kept = incoming - sent - faded;
+                                const room = maxAEP - localAEP;
+                                const modeLabels = { containment: 'Contained', annulment: 'Annulled', defusal: 'Defused', deflection: 'Deflected', siphon: 'Siphoned' };
                                 return (
-                                    <div className="cm-catch">
-                                        <div className="cm-intake">
+                                    <>
+                                        <div className="cm-section">
+                                            Absorb
+                                            <span className="cm-section-aside">{normalizedResource.spellguardIntake.receipts.length ? `${normalizedResource.spellguardIntake.receipts.length} caught so far` : '+1 AEP per point absorbed'}</span>
+                                        </div>
+                                        <div className="cm-absorb">
                                             <label className="cm-field">
-                                                <span className="cm-field-label">The spell</span>
-                                                <input aria-label="Resolution receipt ID" value={receiptId} onChange={event => setReceiptId(event.target.value)} placeholder="e.g. Fireball, round 3" />
+                                                <span className="cm-field-label">Damage absorbed</span>
+                                                <input type="number" min="1" step="1" aria-label="Incoming energy" value={incomingEnergy} onChange={event => setIncomingEnergy(event.target.value)} />
                                             </label>
                                             <label className="cm-field">
-                                                <span className="cm-field-label">How you caught it</span>
+                                                <span className="cm-field-label">How</span>
                                                 <select aria-label="Intake interface" value={intakeMode} onChange={event => setIntakeMode(event.target.value)}>
                                                     {SPELLGUARD_INTAKE_MODES.map(mode => <option key={mode} value={mode}>{modeLabels[mode] || mode}</option>)}
                                                 </select>
                                             </label>
                                         </div>
-                                        <label className="cm-field cm-field-wide">
-                                            <span className="cm-field-label">Its energy</span>
-                                            <input type="number" min="0" step="1" aria-label="Incoming energy" value={incomingEnergy} onChange={event => setIncomingEnergy(event.target.value)} />
-                                        </label>
-                                        <div className="cm-split">
-                                            {[['Kept as AEP', 'Captured residual', capturedEnergy, setCapturedEnergy], ['Sent away', 'Redirected energy', redirectedEnergy, setRedirectedEnergy], ['Let fade', 'Dissipated energy', dissipatedEnergy, setDissipatedEnergy]].map(([shown, label, value, setter]) => (
-                                                <label key={label} className="cm-field">
-                                                    <span className="cm-field-label">{shown}</span>
-                                                    <input type="number" min="0" step="1" aria-label={label} value={value} onChange={event => setter(event.target.value)} />
+                                        <details className="cm-notes cm-fold">
+                                            <summary>Not all of it kept?{sent + faded > 0 ? ` (${sent + faded} not kept)` : ''}</summary>
+                                            <div className="cm-split">
+                                                <label className="cm-field">
+                                                    <span className="cm-field-label">Sent away</span>
+                                                    <input type="number" min="0" step="1" aria-label="Redirected energy" value={redirectedEnergy} onChange={event => setRedirectedEnergy(event.target.value)} />
                                                 </label>
-                                            ))}
-                                        </div>
-                                        <p className={`cm-line ${gap === 0 ? '' : 'is-warn'}`}>
-                                            {gap === 0 ? 'Balanced: every point of the spell is accounted for.' : gap > 0 ? `${gap} energy still unaccounted for.` : `${-gap} more than the spell carried.`}
-                                        </p>
-                                        <button type="button" className="cm-btn" onClick={handleIntake} disabled={!receiptId.trim()}>Record resolved intake</button>
+                                                <label className="cm-field">
+                                                    <span className="cm-field-label">Let fade</span>
+                                                    <input type="number" min="0" step="1" aria-label="Dissipated energy" value={dissipatedEnergy} onChange={event => setDissipatedEnergy(event.target.value)} />
+                                                </label>
+                                                <label className="cm-field">
+                                                    <span className="cm-field-label">Note (optional)</span>
+                                                    <input aria-label="Catch note" value={receiptId} onChange={event => setReceiptId(event.target.value)} placeholder="Fireball, round 3" />
+                                                </label>
+                                            </div>
+                                        </details>
+                                        <button type="button" className="cm-btn cm-btn-primary" onClick={handleIntake} disabled={kept < 1}>
+                                            {kept < 1 ? 'Keep at least 1 to bank' : `Bank +${Math.min(kept, room)} AEP`}
+                                        </button>
+                                        {kept > room && kept >= 1 && <p className="cm-line is-warn">{kept - room} won't fit; it is logged as overflow.</p>}
                                         {intakeMessage && <p role="status" className="cm-line">{intakeMessage}</p>}
-                                    </div>
+                                    </>
                                 );
                             })()}
 
-                            <div className="cm-section">Spend</div>
+                            <div className="cm-section">Purge</div>
                             <div className="cm-row" style={{ '--cm-cols': 4 }}>
                                 {[10, 25, 40].map((n) => (
                                     <button key={n} type="button" className="context-menu-button spend" onClick={() => handleAEPChange(-n)} disabled={localAEP < n}>-{n}</button>
                                 ))}
-                                <button type="button" className="context-menu-button quiet" onClick={() => handleAEPSet(0)} disabled={localAEP === 0} title="Vent the forge to 0">Vent</button>
+                                <button type="button" className="context-menu-button quiet" onClick={() => handleAEPSet(0)} disabled={localAEP === 0} title="Vent the forge to 0">All</button>
                             </div>
                             <ClassMenuSpells className="Spellguard" resourceTypes={['arcane_energy_points']} resourceLabel="AEP" current={localAEP} />
 
@@ -716,9 +734,9 @@ const SpellguardResourceBar = ({
                                 </div>
                             </details>
                             <details className="cm-notes">
-                                <summary>How catching works</summary>
-                                <p>When a spell hits you, log how much energy it carried and split it: what you kept becomes AEP, the rest was sent away or faded. You must keep at least 1.</p>
-                                <p>The forge holds 100 AEP. Anything past that is logged as overflow, not lost silently.</p>
+                                <summary>How the forge works</summary>
+                                <p>When magic hits you, bank what you absorbed: 1 AEP per point. If part of it was sent away or faded, open "Not all of it kept?" and the rest is worked out for you.</p>
+                                <p>Held AEP irradiates you, so purge it through your spells. The forge holds 100; past that it breaches.</p>
                             </details>
                         </div>
                     </div>,
@@ -740,7 +758,7 @@ const SpellguardResourceBar = ({
                         subtitle="Spellguard Silence-Scarred Aegis (AEP)"
                         state={`${localAEP}/100 • ${currentTier.name}`}
                         stateTone={isMeltdown ? 'bad' : isCritical ? 'warn' : 'good'}
-                        mechanic="One 0–100 AEP pool powers every interface. Report captured, redirected and dissipated energy; spell costs and gains share the pool. Decay and risk effects are resolved separately."
+                        mechanic="Absorbed magic banks 1 AEP per point (0–100); your Spellguard spells spend or build it. Held AEP irradiates you; at 100 the forge breaches."
                         status={[
                             `${currentTier.name}: ${currentTier.desc}`,
                             localAEP >= 100
@@ -754,7 +772,7 @@ const SpellguardResourceBar = ({
                                         : 'Conduits grounded and cool.',
                             'Radiation/max-HP loss, decay and specialization multipliers are authored rules awaiting their effect/lifecycle integration.'
                         ]}
-                        usage="Click chambers to set AEP · Left valve Siphon (+10) · Right valve Vent (-10) · Keystone opens the Tender."
+                        usage="Click chambers to set AEP · Left valve +10 · Right valve −10 · Keystone opens the Tender."
                         hint="Arrow keys step AEP (Shift for ±25). Press 'V' to vent, 'S' to siphon, Enter for Tender menu."
                     />
                 </div>,

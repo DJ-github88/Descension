@@ -1,25 +1,228 @@
+/* ==========================================================================
+   MYTHRILL MULTIPLAYER REALM & EXPEDITION LOBBY
+   Calm TTRPG Theme - Grounded in Cartography, Parchment & Brass
+   Strict Rule: No rounded corners (all elements use crisp 0px geometry)
+   ========================================================================== */
+
 .room-lobby {
+  --adventure-ink: #34251a;
+  --adventure-muted: #68533e;
+  --adventure-paper: #f0e3c4;
+  --adventure-page: #f1ece1;
+  --adventure-panel: #e8e2d4;
+  --adventure-rule: #b6a080;
+  --adventure-seal: #663c32;
+  --adventure-leather: #302419;
+  --adventure-brass: #c4ab79;
+  --adventure-gold: #d4af37;
+
+  position: fixed;
+  inset: 0;
   min-height: 100vh;
-  position: relative;
+  min-height: 100dvh;
   overflow: hidden;
-  background: radial-gradient(circle at center, #f4f1e8 0%, #dcd7c9 100%);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px;
-  font-family: 'Cinzel', serif;
+  padding: 24px;
+  font-family: 'Cinzel', Georgia, serif;
+  color: var(--adventure-ink);
+  user-select: none;
 }
 
-/* Mist/Fog Layers - Darkened for contrast against light background */
+/* ==========================================================================
+   OUTSIDE THE BOX: THE EXPEDITION DESK & CARTOGRAPHER'S LIVING MAP
+   ========================================================================== */
+
+/* 1. Deep antique wooden explorer's table surface */
+.lobby-desk-surface {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse at 50% 50%, rgba(35, 23, 16, 0.82) 0%, rgba(18, 12, 8, 0.96) 100%),
+    linear-gradient(135deg, #18100b 0%, #0e0906 100%);
+  pointer-events: none;
+}
+
+/* 2. Living World Map Underlay: The Grand Continent of Mythrill */
+.lobby-map-underlay {
+  position: absolute;
+  top: -20%;
+  left: -20%;
+  width: 140%;
+  height: 140%;
+  z-index: 1;
+  background-image: var(--lobby-map-url);
+  background-size: cover;
+  background-position: center 40%;
+  background-repeat: no-repeat;
+  filter: sepia(0.4) contrast(1.1) brightness(0.55);
+  opacity: 0.42;
+  pointer-events: none;
+  animation: calmMapDrift 110s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+@keyframes calmMapDrift {
+  0% {
+    transform: scale(1.02) translate(0%, 0%);
+  }
+  50% {
+    transform: scale(1.08) translate(-2%, -1.5%);
+  }
+  100% {
+    transform: scale(1.03) translate(1.5%, -2%);
+  }
+}
+
+/* 3. Atmospheric Dark Vignette: Focuses attention onto the table folio */
+.lobby-map-vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background:
+    radial-gradient(ellipse at 50% 50%, transparent 40%, rgba(12, 8, 5, 0.7) 75%, rgba(8, 5, 3, 0.95) 100%),
+    linear-gradient(to bottom, rgba(12, 8, 5, 0.5) 0%, transparent 20%, transparent 80%, rgba(10, 6, 4, 0.65) 100%);
+  pointer-events: none;
+}
+
+/* 4. Warm Hearth / Lantern Ambient Glow */
+.lobby-hearth-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 900px;
+  height: 650px;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+  background: radial-gradient(ellipse at center, rgba(235, 195, 120, 0.2) 0%, rgba(160, 95, 35, 0.1) 45%, transparent 75%);
+  pointer-events: none;
+  animation: calmHearthBreathe 9s ease-in-out infinite alternate;
+}
+
+@keyframes calmHearthBreathe {
+  0% {
+    opacity: 0.75;
+    transform: translate(-50%, -50%) scale(0.96);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.04);
+  }
+}
+
+/* 5. Ambient Floating Hearth Embers / Dust Motes */
+.lobby-ambient-embers {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.lobby-ambient-embers .ember {
+  position: absolute;
+  bottom: -20px;
+  border-radius: 0 !important;
+  background: radial-gradient(circle, rgba(255, 225, 150, 0.95) 0%, rgba(212, 175, 55, 0.4) 60%, transparent 100%);
+  box-shadow: 0 0 6px rgba(230, 185, 100, 0.8);
+  opacity: 0;
+  animation: riseAndDrift linear infinite;
+}
+
+.lobby-ambient-embers .ember-1 { left: 12%; width: 3px; height: 3px; animation-duration: 18s; animation-delay: 1s; }
+.lobby-ambient-embers .ember-2 { left: 24%; width: 4px; height: 4px; animation-duration: 22s; animation-delay: 5s; }
+.lobby-ambient-embers .ember-3 { left: 38%; width: 2.5px; height: 2.5px; animation-duration: 16s; animation-delay: 9s; }
+.lobby-ambient-embers .ember-4 { left: 52%; width: 3.5px; height: 3.5px; animation-duration: 24s; animation-delay: 2s; }
+.lobby-ambient-embers .ember-5 { left: 66%; width: 2.5px; height: 2.5px; animation-duration: 19s; animation-delay: 7s; }
+.lobby-ambient-embers .ember-6 { left: 78%; width: 4px; height: 4px; animation-duration: 21s; animation-delay: 12s; }
+.lobby-ambient-embers .ember-7 { left: 88%; width: 3px; height: 3px; animation-duration: 17s; animation-delay: 4s; }
+.lobby-ambient-embers .ember-8 { left: 95%; width: 2px; height: 2px; animation-duration: 26s; animation-delay: 10s; }
+
+@keyframes riseAndDrift {
+  0% {
+    transform: translateY(0) translateX(0);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.65;
+  }
+  50% {
+    transform: translateY(-50vh) translateX(25px);
+    opacity: 0.75;
+  }
+  85% {
+    opacity: 0.4;
+  }
+  100% {
+    transform: translateY(-105vh) translateX(-15px);
+    opacity: 0;
+  }
+}
+
+/* 6. Cartographic Peripheral Details Outside the Box */
+.lobby-expedition-peripherals {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  padding: 16px 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.expedition-coord-tl,
+.expedition-coord-tr {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.72rem;
+  letter-spacing: 2px;
+  color: #b6a080;
+  opacity: 0.65;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+.expedition-coord-tl {
+  align-self: flex-start;
+}
+
+.expedition-coord-tr {
+  align-self: flex-end;
+  position: absolute;
+  top: 16px;
+  right: 24px;
+}
+
+.coord-symbol {
+  color: #c4ab79;
+  font-size: 0.8rem;
+}
+
+.expedition-footer-prompt {
+  align-self: center;
+  text-align: center;
+  font-family: 'Crimson Text', Georgia, serif;
+  font-style: italic;
+  font-size: 0.95rem;
+  letter-spacing: 0.5px;
+  color: #d8ceba;
+  opacity: 0.75;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9);
+  padding-bottom: 2px;
+}
+
+/* 7. Gentle Mist / Fog Layers */
 .fog-overlay {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 1;
+  inset: 0;
+  z-index: 6;
   pointer-events: none;
-  mix-blend-mode: multiply;
+  mix-blend-mode: screen;
+  opacity: 0.35;
 }
 
 .fog-layer {
@@ -29,65 +232,94 @@
   width: 200%;
   height: 200%;
   background-image:
-    radial-gradient(circle at 30% 30%, rgba(139, 69, 19, 0.05) 0%, transparent 40%),
-    radial-gradient(circle at 70% 70%, rgba(212, 175, 55, 0.03) 0%, transparent 40%);
+    radial-gradient(circle at 30% 30%, rgba(212, 175, 55, 0.04) 0%, transparent 45%),
+    radial-gradient(circle at 70% 70%, rgba(139, 69, 19, 0.05) 0%, transparent 45%);
   filter: blur(60px);
-  opacity: 0.8;
 }
 
 .fog-1 {
-  animation: drift 40s linear infinite;
+  animation: drift 75s linear infinite;
 }
 
 .fog-2 {
-  animation: drift 55s linear infinite reverse;
-  opacity: 0.4;
+  animation: drift 95s linear infinite reverse;
+  opacity: 0.5;
 }
 
 @keyframes drift {
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(360deg);
-  }
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
+/* ==========================================================================
+   THE EXPEDITION FOLIO / REGISTRY TOMB (MAIN CONTAINER)
+   STRICT: 0px Border Radius, Heavy Leather Edge, Inner Brass Hairline
+   ========================================================================== */
+
 .lobby-container {
-  background: linear-gradient(135deg, #fbf7ee 0%, #f3ebd7 100%);
+  background-color: #faf5eb;
+  background-image:
+    linear-gradient(135deg, rgba(251, 247, 238, 0.95) 0%, rgba(244, 236, 220, 0.97) 100%),
+    var(--parchment-texture-url);
   border: 2px solid #5a3d28;
-  border-radius: 14px;
+  border-radius: 0 !important;
+  outline: 1px solid rgba(196, 171, 121, 0.5);
+  outline-offset: -5px;
   padding: 24px 30px;
-  max-width: 1060px;
-  width: 94vw;
-  max-height: 90vh;
+  max-width: 1080px;
+  width: 92vw;
+  max-height: 88vh;
   box-sizing: border-box;
   box-shadow:
-    0 16px 48px rgba(35, 23, 15, 0.4),
-    0 0 0 1px rgba(182, 160, 128, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.7);
+    0 24px 64px rgba(10, 6, 4, 0.75),
+    0 6px 18px rgba(10, 6, 4, 0.5),
+    inset 0 0 40px rgba(182, 160, 128, 0.12);
   position: relative;
   z-index: 10;
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  transition: transform 0.3s ease;
+  user-select: auto;
 }
 
-.lobby-container::before {
-  content: '';
+/* Brass Corner Plates for the Folio */
+.lobby-corner-bracket {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  border-radius: 11px;
-  background: radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.5) 0%, transparent 70%);
-  box-shadow: inset 0 0 40px rgba(139, 69, 19, 0.1);
+  width: 14px;
+  height: 14px;
   pointer-events: none;
-  z-index: -1;
+  z-index: 20;
+  border-color: #c4ab79;
+  border-style: solid;
 }
+
+.lobby-corner-bracket.top-left {
+  top: 2px;
+  left: 2px;
+  border-width: 2px 0 0 2px;
+}
+
+.lobby-corner-bracket.top-right {
+  top: 2px;
+  right: 2px;
+  border-width: 2px 2px 0 0;
+}
+
+.lobby-corner-bracket.bottom-left {
+  bottom: 2px;
+  left: 2px;
+  border-width: 0 0 2px 2px;
+}
+
+.lobby-corner-bracket.bottom-right {
+  bottom: 2px;
+  right: 2px;
+  border-width: 0 2px 2px 0;
+}
+
+/* ==========================================================================
+   TOP BAR: TITLE BRANDING, DOCKED TABS & RETURN BUTTON
+   ========================================================================== */
 
 .lobby-top-bar {
   display: flex;
@@ -95,8 +327,8 @@
   justify-content: space-between;
   gap: 16px;
   margin-bottom: 16px;
-  padding-bottom: 12px;
-  border-bottom: 2px solid rgba(139, 69, 19, 0.2);
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--adventure-rule);
   position: relative;
   flex-shrink: 0;
 }
@@ -107,77 +339,112 @@
 }
 
 .lobby-header-brand h1 {
-  color: #2c2416;
-  font-size: 1.8rem;
+  color: #2c1810;
+  font-size: 1.85rem;
   margin: 0;
-  text-shadow: 1px 1px 3px rgba(212, 175, 55, 0.25);
-  font-weight: bold;
-  letter-spacing: 1.5px;
+  font-weight: 700;
+  letter-spacing: 2px;
   text-transform: uppercase;
-  font-family: 'Cinzel', serif;
+  font-family: 'Cinzel', Georgia, serif;
   line-height: 1.1;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.6);
 }
 
 .lobby-header-subtitle {
   color: #8b4513;
-  font-size: 0.8rem;
-  letter-spacing: 1px;
+  font-size: 0.78rem;
+  letter-spacing: 1.5px;
   text-transform: uppercase;
-  font-weight: 600;
-  opacity: 0.85;
+  font-weight: 700;
+  opacity: 0.9;
+  font-family: 'Cinzel', Georgia, serif;
 }
 
+/* Docked Ledger Tabs */
 .lobby-top-bar .lobby-tabs {
   display: flex;
-  gap: 8px;
+  gap: 6px;
   margin: 0;
   padding: 0;
 }
 
-.lobby-top-bar .tab-button {
-  padding: 8px 18px;
+.lobby-top-bar .tab-button,
+.tab-button {
+  padding: 9px 20px;
   font-size: 0.85rem;
-  border-radius: 6px;
+  font-family: 'Cinzel', Georgia, serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-radius: 0 !important;
+  background: rgba(182, 160, 128, 0.18);
+  border: 1px solid var(--adventure-rule);
+  color: var(--adventure-muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
+.lobby-top-bar .tab-button:hover,
+.tab-button:hover {
+  background: rgba(255, 255, 255, 0.6);
+  border-color: #8b4513;
+  color: #2c1810;
+  transform: translateY(-1px);
+}
+
+.lobby-top-bar .tab-button.active,
+.tab-button.active {
+  background: #fdfbf7;
+  color: #2c1810;
+  border: 1.5px solid #5a3d28;
+  border-top: 3px solid #8b4513;
+  box-shadow: 0 2px 6px rgba(52, 37, 26, 0.1);
+  transform: none;
+}
+
+/* Square Wax Seal Return Button */
 .back-to-landing-btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
+  width: 34px;
+  height: 34px;
   padding: 0;
-  background: linear-gradient(135deg, #8b4513, #654321);
-  border: 2px solid #8b4513;
-  border-radius: 50%;
-  color: #f4f1e8;
+  background: linear-gradient(135deg, #663c32 0%, #4a2820 100%);
+  border: 1px solid #3d201a;
+  border-radius: 0 !important;
+  color: #fdfbf7;
   font-family: 'Cinzel', serif;
-  font-size: 1rem;
+  font-size: 0.95rem;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
   flex-shrink: 0;
-  box-shadow: 0 4px 10px rgba(139, 69, 19, 0.3);
+  box-shadow: 0 2px 6px rgba(52, 37, 26, 0.35);
 }
 
 .back-to-landing-btn:hover {
-  background: linear-gradient(135deg, #663c32, #4a2820);
-  border-color: #3d201a;
-  color: #fbf7ee;
-  transform: translateY(-2px) scale(1.08);
-  box-shadow: 0 6px 16px rgba(102, 60, 50, 0.4);
+  background: linear-gradient(135deg, #7a483c 0%, #583027 100%);
+  border-color: #c4ab79;
+  color: #ffffff;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(102, 60, 50, 0.45);
 }
 
+/* Error Messages */
 .error-message {
-  background: rgba(220, 53, 69, 0.15);
-  border: 2px solid #dc3545;
-  border-radius: 8px;
+  background: rgba(139, 42, 34, 0.1);
+  border: 1px solid #8b2a22;
+  border-left: 3px solid #8b2a22;
+  border-radius: 0 !important;
   padding: 10px 14px;
   margin-bottom: 14px;
-  color: #c62828;
-  font-weight: bold;
+  color: #8b2a22;
+  font-weight: 600;
+  font-family: 'Crimson Text', Georgia, serif;
+  font-size: 1rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -188,38 +455,41 @@
 .error-content {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   flex: 1;
   word-break: break-word;
 }
 
 .error-content i {
-  color: #dc3545;
-  font-size: 1.1rem;
+  color: #8b2a22;
+  font-size: 1rem;
 }
 
 .error-retry-btn {
   background: none;
-  border: 1px solid #dc3545;
-  border-radius: 4px;
-  padding: 4px 8px;
-  color: #dc3545;
+  border: 1px solid #8b2a22;
+  border-radius: 0 !important;
+  padding: 2px 6px;
+  color: #8b2a22;
   cursor: pointer;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   transition: all 0.2s ease;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 24px;
-  height: 24px;
+  width: 22px;
+  height: 22px;
 }
 
 .error-retry-btn:hover {
-  background: #dc3545;
-  color: white;
+  background: #8b2a22;
+  color: #fdfbf7;
 }
 
-/* Widescreen Split Layout for Join Room */
+/* ==========================================================================
+   JOIN ROOM VIEW: SPLIT LAYOUT (SIDEBAR & REALMS PANEL)
+   ========================================================================== */
+
 .lobby-split-layout {
   display: grid;
   grid-template-columns: 310px 1fr;
@@ -237,22 +507,23 @@
   padding-right: 4px;
 }
 
+/* Crisp Parchment Ledger Cards */
 .sidebar-card {
-  background: rgba(251, 247, 238, 0.85);
-  border: 1.5px solid #8b4513;
-  border-radius: 10px;
+  background: rgba(251, 247, 238, 0.9);
+  border: 1px solid var(--adventure-rule);
+  border-radius: 0 !important;
   padding: 14px 16px;
-  box-shadow: 0 3px 10px rgba(139, 69, 19, 0.08), inset 0 0 20px rgba(255, 255, 255, 0.4);
+  box-shadow: inset 0 0 16px rgba(182, 160, 128, 0.08);
 }
 
 .sidebar-card-title {
-  color: #2c2416;
-  font-size: 0.9rem;
+  color: #2c1810;
+  font-size: 0.88rem;
   text-transform: uppercase;
   letter-spacing: 1px;
-  margin: 0 0 10px 0;
+  margin: 0 0 12px 0;
   padding-bottom: 6px;
-  border-bottom: 1px solid rgba(139, 69, 19, 0.2);
+  border-bottom: 1px solid rgba(196, 171, 121, 0.5);
   display: flex;
   align-items: center;
   gap: 8px;
@@ -262,93 +533,232 @@
 
 .sidebar-card-title i {
   color: #8b4513;
+  font-size: 0.85rem;
 }
 
 .sidebar-card .form-input-group {
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
 
 .sidebar-card .form-input-group:last-child {
   margin-bottom: 0;
 }
 
-.sidebar-card .form-input-group label {
+.sidebar-card .form-input-group label,
+.form-input-group label {
   display: block;
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   font-weight: 700;
-  color: #3e2723;
+  color: #34251a;
   margin-bottom: 4px;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.8px;
+  font-family: 'Cinzel', serif;
 }
 
+/* Crisp Input Fields */
 .sidebar-card input.form-input,
 .sidebar-card input[type="text"],
-.sidebar-card input[type="password"] {
+.sidebar-card input[type="password"],
+.form-input-group .form-input,
+.password-modal-input {
   width: 100%;
-  padding: 8px 10px;
-  border: 1.5px solid #8b4513;
-  border-radius: 6px;
-  background: #faf5eb;
-  color: #2c2416;
-  font-size: 0.88rem;
+  padding: 9px 12px;
+  border: 1px solid var(--adventure-rule);
+  border-radius: 0 !important;
+  background: #fdfbf7;
+  color: #34251a;
+  font-size: 0.98rem;
+  font-family: 'Crimson Text', Georgia, serif;
   box-sizing: border-box;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.sidebar-card input:focus,
+.form-input-group .form-input:focus,
+.password-modal-input:focus {
+  outline: 1px solid #8b4513;
+  border-color: #8b4513;
+  box-shadow: 0 0 0 2px rgba(196, 171, 121, 0.25);
 }
 
 .sidebar-card input:-webkit-autofill,
 .form-input-group input:-webkit-autofill {
-  -webkit-box-shadow: 0 0 0 1000px #faf5eb inset !important;
-  -webkit-text-fill-color: #2c2416 !important;
+  -webkit-box-shadow: 0 0 0 1000px #fdfbf7 inset !important;
+  -webkit-text-fill-color: #34251a !important;
   caret-color: #663c32;
 }
 
+/* Randomize Name Square Button */
+.relative-input-wrapper {
+  position: relative;
+}
+
+.randomize-name-btn {
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #663c32;
+  border: 1px solid #3d201a;
+  border-radius: 0 !important;
+  color: #fdfbf7;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  z-index: 5;
+}
+
+.randomize-name-btn:hover {
+  background: #7a483c;
+  border-color: #c4ab79;
+}
+
+/* Character Selected Notice */
+.character-selected-notice {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+  padding: 5px 8px;
+  background: rgba(196, 171, 121, 0.16);
+  border: 1px solid rgba(139, 69, 19, 0.3);
+  border-radius: 0 !important;
+  font-size: 0.75rem;
+  color: #34251a;
+  font-weight: 700;
+  font-family: 'Cinzel', serif;
+}
+
+.character-selected-notice i {
+  color: #8b4513;
+  font-size: 0.75rem;
+}
+
+.no-character-notice {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+  padding: 5px 8px;
+  background: rgba(182, 160, 128, 0.12);
+  border: 1px dashed rgba(139, 69, 19, 0.3);
+  border-radius: 0 !important;
+  font-size: 0.75rem;
+  color: #68533e;
+  font-family: 'Cinzel', serif;
+}
+
+/* Chat Color Preview Badge */
+.color-picker-container.premium-preview {
+  cursor: pointer;
+  position: relative;
+  width: 100%;
+}
+
+.color-preview-v2 {
+  width: 100%;
+  height: 44px;
+  border-radius: 0 !important;
+  border: 1.5px solid #8b4513;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 14px;
+  position: relative;
+  transition: all 0.2s ease;
+  color: white;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  letter-spacing: 1px;
+  box-sizing: border-box;
+}
+
+.color-picker-container.premium-preview:hover .color-preview-v2 {
+  border-color: #c4ab79;
+  filter: brightness(1.06);
+}
+
+.player-name-preview {
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 80%;
+}
+
+.color-edit-icon {
+  position: absolute;
+  right: 12px;
+  font-size: 0.85rem;
+  opacity: 0.85;
+}
+
+.color-picker-hidden {
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+}
+
+/* Enter Portal Button */
 .join-realm-button {
   width: 100%;
-  padding: 10px 14px;
+  padding: 11px 16px;
   margin-top: 6px;
   background: linear-gradient(135deg, #663c32 0%, #4a2820 100%);
-  border: 1.5px solid #3d201a;
-  border-radius: 8px;
-  color: #fbf7ee;
+  border: 1px solid #3d201a;
+  border-radius: 0 !important;
+  color: #fdfbf7;
   font-weight: 700;
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   font-family: 'Cinzel', serif;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 1.5px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  transition: all 0.25s ease;
-  box-shadow: 0 4px 12px rgba(102, 60, 50, 0.25);
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(52, 37, 26, 0.25);
 }
 
 .join-realm-button:hover:not(:disabled) {
   background: linear-gradient(135deg, #7a483c 0%, #583027 100%);
-  box-shadow: 0 6px 16px rgba(102, 60, 50, 0.35);
+  border-color: #c4ab79;
+  box-shadow: 0 4px 12px rgba(102, 60, 50, 0.35);
   transform: translateY(-1px);
 }
 
 .join-realm-button:disabled {
-  background: #a89f91;
-  border-color: #8c8273;
-  color: #e0dcd5;
+  background: #c5bdae;
+  border-color: #a89f91;
+  color: #68533e;
   cursor: not-allowed;
   transform: none;
   box-shadow: none;
+  opacity: 0.65;
 }
 
-/* Right Main Panel for Available Rooms */
+/* ==========================================================================
+   RIGHT MAIN PANEL: ACTIVE REALMS & EMPTY TAVERN
+   ========================================================================== */
+
 .lobby-main-panel {
   display: flex;
   flex-direction: column;
   min-height: 0;
-  background: rgba(255, 255, 255, 0.55);
-  border: 2px solid #8b4513;
-  border-radius: 10px;
-  padding: 14px 18px;
-  box-shadow: inset 0 0 20px rgba(139, 69, 19, 0.05);
+  background: rgba(255, 255, 255, 0.45);
+  border: 1px solid var(--adventure-rule);
+  border-radius: 0 !important;
+  padding: 16px 20px;
+  box-shadow: inset 0 0 20px rgba(182, 160, 128, 0.06);
   overflow: hidden;
 }
 
@@ -357,8 +767,8 @@
   justify-content: space-between;
   align-items: center;
   padding-bottom: 10px;
-  border-bottom: 2px solid rgba(139, 69, 19, 0.2);
-  margin-bottom: 12px;
+  border-bottom: 1px solid rgba(182, 160, 128, 0.4);
+  margin-bottom: 14px;
   flex-shrink: 0;
 }
 
@@ -369,7 +779,7 @@
 }
 
 .rooms-header-title h3 {
-  color: #2c2416;
+  color: #2c1810;
   margin: 0;
   font-size: 1.15rem;
   font-weight: 700;
@@ -378,13 +788,40 @@
 }
 
 .rooms-count-badge {
-  background: rgba(139, 69, 19, 0.15);
-  color: #5d4037;
+  background: rgba(182, 160, 128, 0.2);
+  color: #5a3d28;
   padding: 2px 8px;
-  border-radius: 10px;
+  border-radius: 0 !important;
   font-size: 0.72rem;
   font-weight: 700;
-  border: 1px solid rgba(139, 69, 19, 0.25);
+  border: 1px solid var(--adventure-rule);
+  font-family: 'Cinzel', serif;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.refresh-button {
+  padding: 7px 14px;
+  background: #ede4d4;
+  border: 1px solid var(--adventure-rule);
+  border-radius: 0 !important;
+  color: #34251a;
+  font-weight: 700;
+  font-size: 0.78rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  font-family: 'Cinzel', serif;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.refresh-button:hover:not(:disabled) {
+  background: #fdfbf7;
+  border-color: #8b4513;
+  color: #2c1810;
 }
 
 .available-rooms-scroll-container {
@@ -394,7 +831,79 @@
   min-height: 0;
 }
 
-/* Create Room Wizard */
+/* Empty Tavern Plate - Calm Engraved Frame */
+.empty-rooms-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 44px 24px;
+  text-align: center;
+  background: rgba(247, 242, 232, 0.6);
+  border: 1px solid var(--adventure-rule);
+  outline: 1px dashed rgba(139, 69, 19, 0.35);
+  outline-offset: -8px;
+  border-radius: 0 !important;
+  margin: 20px 0;
+}
+
+.empty-rooms-icon {
+  font-size: 3.2rem;
+  color: #8b4513;
+  margin-bottom: 14px;
+  opacity: 0.85;
+  filter: drop-shadow(0 2px 6px rgba(212, 175, 55, 0.25));
+}
+
+.empty-rooms-message h4 {
+  font-family: 'Cinzel', serif;
+  font-size: 1.35rem;
+  color: #2c1810;
+  margin: 0 0 8px 0;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.empty-rooms-message p {
+  font-family: 'Crimson Text', Georgia, serif;
+  font-style: italic;
+  font-size: 1.05rem;
+  color: #68533e;
+  margin: 0 0 22px 0;
+  max-width: 380px;
+  line-height: 1.4;
+}
+
+.create-room-prompt-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 22px;
+  background: linear-gradient(135deg, #663c32 0%, #4a2820 100%);
+  border: 1px solid #3d201a;
+  border-radius: 0 !important;
+  color: #fdfbf7;
+  font-family: 'Cinzel', serif;
+  font-size: 0.88rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(52, 37, 26, 0.25);
+}
+
+.create-room-prompt-btn:hover {
+  background: linear-gradient(135deg, #7a483c 0%, #583027 100%);
+  border-color: #c4ab79;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(102, 60, 50, 0.35);
+}
+
+/* ==========================================================================
+   CREATE ROOM TAB: WIZARD & MECHANICAL BRASS TOGGLES
+   ========================================================================== */
+
 .create-room-wizard {
   flex: 1;
   min-height: 0;
@@ -405,1648 +914,105 @@
 .create-room-columns {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 20px;
+  gap: 22px;
 }
 
 .create-col-left,
 .create-col-right {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 14px;
 }
 
-.create-col-right .gm-info {
-  background: rgba(212, 175, 55, 0.12);
-  border: 1.5px solid rgba(212, 175, 55, 0.6);
-  border-radius: 8px;
-  padding: 10px 14px;
-  font-size: 0.82rem;
-  color: #3e2723;
-  margin: 2px 0 8px 0;
-}
-
-.create-col-right .gm-info p {
-  margin: 3px 0;
-}
-
-.my-rooms-section {
-  flex: 1;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-}
-
-.my-rooms-header {
-  margin-bottom: 12px;
-}
-
-.my-rooms-header h3 {
-  color: #2c2416;
-  font-size: 1.2rem;
-  margin: 0;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-@media (max-width: 860px) {
-  .lobby-container {
-    width: 96vw;
-    max-height: 94vh;
-    padding: 14px 14px;
-    overflow-y: auto;
-  }
-  .lobby-top-bar {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 12px;
-  }
-  .lobby-top-bar .lobby-tabs {
-    width: 100%;
-    justify-content: stretch;
-  }
-  .lobby-top-bar .tab-button {
-    flex: 1;
-    justify-content: center;
-    padding: 10px 8px;
-    font-size: 0.8rem;
-  }
-  .lobby-split-layout {
-    grid-template-columns: 1fr;
-    overflow-y: visible;
-    gap: 14px;
-  }
-  .create-room-columns {
-    grid-template-columns: 1fr;
-  }
-  .lobby-sidebar {
-    overflow-y: visible;
-  }
-}
-
-.color-picker-container {
-  display: flex;
-  gap: 10px;
-  align-items: stretch;
-  width: 100%;
-  flex-wrap: nowrap;
-  min-width: 0;
-  max-width: 100%;
-}
-
-.color-picker {
-  width: 50px !important;
-  height: 40px !important;
-  min-width: 50px !important;
-  min-height: 40px !important;
-  flex-shrink: 0;
-  border: 2px solid #8b4513;
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.9);
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-sizing: border-box;
-}
-
-.color-picker:hover {
-  border-color: #d4af37;
-  box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
-}
-
-.color-preview {
-  padding: 8px 10px;
-  border-radius: 6px;
-  font-weight: bold;
-  font-size: 0.85rem;
+.refresh-character-btn {
+  background: #ede4d4;
+  border: 1px solid var(--adventure-rule);
+  color: #34251a;
+  padding: 3px 8px;
+  border-radius: 0 !important;
+  margin-left: 8px;
+  font-size: 0.72rem;
   font-family: 'Cinzel', serif;
-  min-width: 80px;
-  max-width: 180px;
-  width: 180px;
-  flex: 0 0 180px;
-  text-align: center;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  line-height: 1.3;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 40px;
-  box-sizing: border-box;
-  overflow: hidden;
-  position: relative;
-}
-
-.color-picker-container.premium-preview {
-  cursor: pointer;
-  position: relative;
-  transition: transform 0.2s ease;
-  width: 100%;
-}
-
-.color-picker-container.premium-preview:hover {
-  transform: translateY(-2px);
-}
-
-.color-picker-container.premium-preview:active {
-  transform: translateY(0);
-}
-
-.color-preview-v2 {
-  width: 100%;
-  height: 48px;
-  border-radius: 8px;
-  border: 2px solid #8b4513;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 16px;
-  position: relative;
-  transition: all 0.3s ease;
-  color: white;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-  font-family: 'Cinzel', serif;
-  font-weight: bold;
-  letter-spacing: 1px;
-}
-
-.player-name-preview {
-  font-size: 1rem;
-  text-transform: uppercase;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  max-width: 85%;
-}
-
-.color-edit-icon {
-  position: absolute;
-  right: 12px;
-  font-size: 0.9rem;
-  opacity: 0.7;
-  transition: opacity 0.2s ease;
-}
-
-.color-picker-container.premium-preview:hover .color-edit-icon {
-  opacity: 1;
-}
-
-.color-picker-hidden {
-  opacity: 0;
-  pointer-events: none;
-  position: absolute;
-}
-
-.lobby-tabs {
-  display: flex;
-  margin-bottom: 32px;
-  gap: 8px;
-  padding: 8px 8px 16px 8px;
-  /* Increasded bottom padding for shadows/transforms */
-  overflow: visible;
-  /* Ensure content isn't clipped */
-}
-
-.tab-button {
-  flex: 1;
-  padding: 16px 24px;
-  background: rgba(182, 160, 128, 0.12);
-  border: 1.5px solid rgba(139, 69, 19, 0.35);
-  color: #68533e;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.25s ease;
-  border-radius: 8px;
-  position: relative;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  font-family: 'Cinzel', serif;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
 }
 
-.tab-button:hover {
-  background: rgba(255, 255, 255, 0.7);
+.refresh-character-btn:hover {
+  background: #fdfbf7;
   border-color: #8b4513;
-  color: #3e2723;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(139, 69, 19, 0.12);
-}
-
-.tab-button.active {
-  background: linear-gradient(135deg, #fbf7ee 0%, #f4ecdc 100%);
-  color: #2c2416;
-  border: 2px solid #5a3d28;
-  border-bottom-color: #5a3d28;
-  box-shadow:
-    0 4px 12px rgba(90, 61, 40, 0.18),
-    inset 0 1px 2px rgba(255, 255, 255, 0.6);
-  font-weight: 700;
-  transform: translateY(-2px);
-  text-shadow: none;
-}
-
-.my-rooms-section {
-  animation: roomSectionFadeIn 0.16s ease-out;
-}
-
-.my-rooms-section.hidden {
-  display: none;
-}
-
-@keyframes roomSectionFadeIn {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
-}
-
-/* Preselected Room Notice */
-
-.manual-join {
-  margin-bottom: 30px;
-}
-
-.manual-join label {
-  display: block;
-  color: #2c2416;
-  font-weight: bold;
-  margin-bottom: 8px;
-  font-size: 1.1rem;
-}
-
-/* Legacy room-input-group styles removed - now using form-input-group for consistency */
-
-.create-button,
-.refresh-button {
-  padding: 12px 20px;
-  background: linear-gradient(135deg, #663c32 0%, #4a2820 100%);
-  border: 1.5px solid #3d201a;
-  border-radius: 8px;
-  color: #fbf7ee;
-  font-weight: bold;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: all 0.25s ease;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  box-shadow: 0 4px 12px rgba(102, 60, 50, 0.25);
-}
-
-.create-button:hover,
-.refresh-button:hover {
-  background: linear-gradient(135deg, #7a483c 0%, #583027 100%);
-  box-shadow: 0 6px 16px rgba(102, 60, 50, 0.35);
-  transform: translateY(-1px);
-}
-
-.create-button:disabled,
-.refresh-button:disabled {
-  background: #666;
-  border-color: #666;
-  color: #999;
-  cursor: not-allowed;
-  transform: none;
-  box-shadow: none;
-}
-
-.refresh-button {
-  float: right;
-  padding: 8px 16px;
-  font-size: 0.9rem;
-}
-
-.no-rooms {
-  color: #5d4037;
-  text-align: center;
-  font-style: italic;
-  opacity: 0.9;
-  margin: 30px 0;
-  padding: 20px;
-  background: rgba(139, 69, 19, 0.05);
-  border-radius: 8px;
-  border: 1px dashed rgba(139, 69, 19, 0.2);
-}
-
-.rooms-list {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  margin-top: 20px;
-}
-
-.room-card {
-  background: rgba(255, 255, 255, 0.6);
-  border: 2px solid #8b4513;
-  border-radius: 10px;
-  padding: 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(139, 69, 19, 0.1);
-}
-
-.room-card:hover {
-  border-color: #d4af37;
-  background: rgba(212, 175, 55, 0.15);
-  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.2);
-}
-
-.room-info h4 {
-  color: #2c2416;
-  margin: 0 0 8px 0;
-  font-size: 1.2rem;
-}
-
-.room-info p {
-  color: #5d4037;
-  margin: 4px 0;
-  font-size: 0.9rem;
-}
-
-/* Form input groups for consistent styling */
-.form-input-group {
-  margin-bottom: 20px;
-}
-
-.form-input-group label {
-  display: block;
-  color: #2c2416;
-  font-weight: bold;
-  margin-bottom: 8px;
-  font-size: 1.1rem;
-}
-
-.form-input-group .form-input {
-  width: 100%;
-  padding: 12px;
-  border: 2px solid #8b4513;
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.9);
-  color: #2c2416;
-  font-size: 1rem;
-  font-family: inherit;
-  box-sizing: border-box;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .form-input-group textarea.form-input {
-  min-height: 80px;
+  min-height: 90px;
   line-height: 1.4;
   resize: vertical;
 }
 
-.form-input-group .form-input:focus {
-  outline: none;
-  border-color: #d4af37;
-  box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
-}
-
-.form-input-group .form-input:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-/* Password input with button layout */
-
-/* Legacy support for existing styles */
-
-/* Character selected notice */
-
-.color-input-group>label {
-  display: block;
-  color: #2c2416;
-  font-weight: bold;
-  margin-bottom: 8px;
-  font-size: 1.1rem;
-}
-
-/* Password field improvements */
-.form-input-group,
-.relative-input-wrapper {
-  position: relative;
-}
-
-.randomize-name-btn {
-  position: absolute;
-  right: 6px;
-  top: 50%;
-  transform: translateY(-50%);
-  background: linear-gradient(135deg, #663c32, #4a2820);
-  border: 1px solid #3d201a;
-  border-radius: 6px;
-  color: #fbf7ee;
-  width: 28px;
-  height: 28px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  z-index: 5;
-  box-shadow: 0 2px 4px rgba(52, 37, 26, 0.15);
-}
-
-.randomize-name-btn:hover {
-  background: linear-gradient(135deg, #7a483c, #583027);
-  transform: translateY(-50%) scale(1.08);
-  box-shadow: 0 0 10px rgba(102, 60, 50, 0.35);
-}
-
-.randomize-name-btn:active {
-  transform: translateY(-50%) scale(0.95);
-}
-
-.randomize-name-btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  background: #ccc;
-  border-color: #999;
-}
-
-/* Adjust input padding to make room for button */
-.form-input-group input.form-input,
-.relative-input-wrapper input {
-  padding-right: 40px !important;
-}
-
-/* Character auto-filled input styling */
-.form-input.character-auto-filled {
-  background: rgba(182, 160, 128, 0.15);
-  border-color: #8b4513;
-  color: #34251a;
-  font-weight: bold;
-  cursor: not-allowed;
-}
-
-.form-input.character-auto-filled::placeholder {
-  color: #68533e;
-  opacity: 0.8;
-  font-style: italic;
-}
-
-.character-selected-notice {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  margin-top: 6px;
-  padding: 6px 10px;
-  background: rgba(182, 160, 128, 0.2);
-  border: 1px solid rgba(139, 69, 19, 0.35);
-  border-radius: 4px;
-  font-size: 12px;
-  color: #34251a;
-  font-weight: 600;
-  white-space: nowrap;
-}
-
-.character-selected-notice i {
-  font-size: 11px;
-  flex-shrink: 0;
-  color: #8b4513;
-}
-
-.character-selected-notice span {
-  font-weight: 600;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.no-character-notice {
-  display: flex;
-  align-items: flex-start;
-  gap: 6px;
-  margin-top: 6px;
-  padding: 6px 10px;
-  background: rgba(182, 160, 128, 0.15);
-  border: 1px dashed rgba(139, 69, 19, 0.4);
-  border-radius: 4px;
-  font-size: 11px;
-  color: #5d4037;
-  font-weight: 500;
-  line-height: 1.4;
-  max-width: 100%;
-}
-
-.no-character-notice span {
-  flex: 1;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  min-width: 0;
-}
-
-.no-character-notice i {
-  font-size: 10px;
-  flex-shrink: 0;
-  margin-top: 2px;
-}
-
-.create-buttons {
-  display: flex;
-  gap: 15px;
-  margin-top: 25px;
-  padding-top: 20px;
-  border-top: 2px solid rgba(212, 175, 55, 0.3);
-  min-height: 55px;
-}
-
-.create-buttons .create-button {
-  flex: 1;
-}
-
-/* Create room section improvements */
-
-/* Password field improvements */
-
-.create-button.persistent {
-  background: linear-gradient(135deg, #2d5a27, #4a7c59);
-  border-color: #4a7c59;
-}
-
-.create-button.persistent:hover {
-  background: linear-gradient(135deg, #4a7c59, #2d5a27);
-  transform: translateY(-2px);
-}
-
-/* My Rooms Section */
-.my-rooms-section {
-  padding: 20px 0;
-  min-height: 400px;
-}
-
-.my-rooms-section h3 {
-  color: #2c2416;
-  font-size: 1.4rem;
-  margin-bottom: 20px;
-  text-align: center;
-  font-family: 'Cinzel', serif;
-}
-
-.room-card.persistent {
-  border-left: 2px solid #4a7c59;
-  background: linear-gradient(135deg, rgba(74, 124, 89, 0.1), rgba(45, 90, 39, 0.1));
-}
-
-.room-card.persistent .room-info h4 {
-  color: #2e7d32;
-}
-
-.room-description {
-  color: #5d4037;
-  font-size: 0.9rem;
-  margin: 8px 0;
-  font-style: italic;
-  line-height: 1.3;
-  opacity: 0.85;
-}
-
-.active-indicator {
-  display: inline-block;
-  margin-left: 10px;
-  font-size: 0.8rem;
-  color: #4a7c59;
-  font-weight: bold;
-}
-
-.room-actions {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  min-width: 120px;
-}
-
-.create-button {
-  width: 100%;
-  margin-bottom: 20px;
-}
-
-.gm-info {
-  background: rgba(182, 160, 128, 0.15);
-  border: 1.5px solid #b6a080;
-  border-radius: 8px;
-  padding: 15px;
-  min-height: 70px;
-}
-
-.gm-info p {
-  color: #5d4037;
-  margin: 5px 0;
-  font-size: 0.9rem;
-  line-height: 1.4;
-}
-
-.gm-info strong {
-  color: #2c2416;
-}
-
-/* Chat Window Styles */
-.chat-window {
-  background: linear-gradient(135deg, #fbf7ee 0%, #f3ebd7 100%);
-  border: 2px solid #5a3d28;
-  border-radius: 10px;
-  height: 400px;
-  display: flex;
-  flex-direction: column;
-  font-family: 'Cinzel', serif;
-  box-shadow: 0 4px 16px rgba(52, 37, 26, 0.15);
-}
-
-.chat-header {
-  background: linear-gradient(135deg, #423023 0%, #302419 100%);
-  color: #fbf7ee;
-  padding: 12px 16px;
-  border-radius: 8px 8px 0 0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.chat-header h3 {
-  margin: 0;
-  font-size: 1.2rem;
-  font-weight: bold;
-}
-
-.room-info {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  font-size: 0.8rem;
-}
-
-.room-name {
-  font-weight: bold;
-}
-
-.player-count {
-  opacity: 0.8;
-}
-
-.chat-messages {
-  flex: 1;
-  overflow-y: auto;
-  padding: 16px;
-  background: rgba(255, 255, 255, 0.3);
-}
-
-.chat-message {
-  margin-bottom: 8px;
-  padding: 8px 12px;
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.6);
-  border: 1px solid rgba(139, 69, 19, 0.15);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-  transition: all 0.2s ease;
-}
-
-.chat-message:hover {
-  background: rgba(255, 255, 255, 0.8);
-  border-color: rgba(139, 69, 19, 0.3);
-}
-
-.chat-message.gm-message {
-  background: rgba(212, 175, 55, 0.1);
-  border-color: rgba(212, 175, 55, 0.3);
-}
-
-.chat-message.own-message {
-  background: rgba(70, 130, 180, 0.1);
-  border-color: rgba(70, 130, 180, 0.3);
-}
-
-.chat-message.system-message {
-  background: rgba(128, 128, 128, 0.1);
-  border-color: rgba(128, 128, 128, 0.2);
-  font-style: italic;
-  text-align: center;
-}
-
-.message-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 4px;
-}
-
-.player-name {
-  font-weight: 800;
-  color: #5d4037;
-  font-size: 0.95rem;
-  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
-  display: flex;
-  align-items: center;
-}
-
-.player-name::after {
-  content: ':';
-  margin-left: 2px;
-  opacity: 0.8;
-}
-
-.player-name.gm {
-  color: #b8941f;
-  font-weight: 700;
-}
-
-.timestamp {
-  font-size: 0.7rem;
-  color: #5d4037;
-  opacity: 0.6;
-}
-
-.message-content {
-  color: #000000 !important;
-  line-height: 1.5;
-  word-wrap: break-word;
-  font-family: 'Bookman Old Style', 'Garamond', serif;
-  font-weight: 500;
-  margin-top: 4px;
-  display: block;
-}
-
-.typing-indicator {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: #5d4037;
-  font-style: italic;
-  font-size: 0.8rem;
-  margin-bottom: 8px;
-  opacity: 0.8;
-}
-
-.typing-dots {
-  display: flex;
-  gap: 2px;
-}
-
-.typing-dots span {
-  width: 4px;
-  height: 4px;
-  background: #5d4037;
-  border-radius: 50%;
-  animation: typing 1.4s infinite ease-in-out;
-  opacity: 0.7;
-}
-
-.typing-dots span:nth-child(1) {
-  animation-delay: -0.32s;
-}
-
-.typing-dots span:nth-child(2) {
-  animation-delay: -0.16s;
-}
-
-@keyframes typing {
-
-  0%,
-  80%,
-  100% {
-    transform: scale(0);
-    opacity: 0.5;
-  }
-
-  40% {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-
-.chat-input-form {
-  position: relative;
-  padding: 12px;
-  background: rgba(255, 255, 255, 0.6);
-  border-radius: 0 0 8px 8px;
-  border-top: 1px solid rgba(212, 175, 55, 0.3);
-}
-
-.chat-input {
-  width: 100%;
-  padding: 8px 60px 8px 12px;
-  /* Extra padding on right for send button */
-  border: 2px solid #8b4513;
-  border-radius: 6px;
-  background: rgba(255, 255, 255, 0.9);
-  color: #2c2416;
-  font-size: 0.9rem;
-}
-
-.chat-input:focus {
-  outline: none;
-  border-color: #663c32;
-  box-shadow: 0 0 0 3px rgba(102, 60, 50, 0.15);
-}
-
-.send-button {
-  position: absolute;
-  right: 16px;
-  top: 50%;
-  transform: translateY(-50%);
-  padding: 6px 14px;
-  background: linear-gradient(135deg, #663c32 0%, #4a2820 100%);
-  border: 1.5px solid #3d201a;
-  border-radius: 6px;
-  color: #fbf7ee;
-  font-weight: bold;
-  cursor: pointer;
-  transition: all 0.25s ease;
-  font-size: 0.8rem;
-  box-shadow: 0 2px 6px rgba(102, 60, 50, 0.2);
-}
-
-.send-button:hover:not(:disabled) {
-  background: linear-gradient(135deg, #7a483c 0%, #583027 100%);
-  box-shadow: 0 4px 10px rgba(102, 60, 50, 0.3);
-}
-
-.send-button:disabled {
-  background: #666;
-  border-color: #666;
-  color: #999;
-  cursor: not-allowed;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .lobby-container {
-    padding: 20px;
-    margin: 10px;
-  }
-
-  .room-card {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 15px;
-  }
-
-  .chat-window {
-    height: 300px;
-  }
-
-  .room-info {
-    display: none;
-  }
-
-  .back-to-landing-btn {
-    position: absolute;
-    top: -5px;
-    right: -5px;
-    width: 35px;
-    height: 35px;
-    font-size: 1rem;
-  }
-}
-
-/* Character Name Refresh Button */
-.refresh-character-btn {
-  background: #17a2b8;
-  border: 1px solid #138496;
-  color: white;
-  padding: 4px 8px;
-  border-radius: 4px;
-  margin-left: 8px;
-  font-size: 0.8rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 24px;
-  height: 24px;
-}
-
-.refresh-character-btn:hover {
-  background: #138496;
-  border-color: #117a8b;
-  transform: scale(1.05);
-}
-
-.refresh-character-btn:disabled {
-  background: #6c757d;
-  border-color: #6c757d;
-  cursor: not-allowed;
-  transform: none;
-}
-
-.refresh-character-btn i {
-  font-size: 0.7rem;
-}
-
-/* Available Rooms Grid */
-.multiplayer-rooms-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 20px;
-  margin-top: 20px;
-  contain: layout;
-}
-
-/* COMPLETE REWORK: Modern, polished multiplayer room cards */
-/* Override any conflicting styles from other CSS files */
-.multiplayer-rooms-grid .multiplayer-room-card,
-.multiplayer-room-card {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 245, 235, 0.98) 100%) !important;
-  border: 2px solid rgba(212, 175, 55, 0.3) !important;
-  border-radius: 12px !important;
-  padding: 20px !important;
-  box-shadow:
-    0 4px 12px rgba(139, 69, 19, 0.1),
-    0 2px 4px rgba(0, 0, 0, 0.05),
-    inset 0 1px 0 rgba(255, 255, 255, 0.8) !important;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-  display: flex !important;
-  flex-direction: column !important;
-  gap: 14px !important;
-  position: relative !important;
-  overflow: hidden !important;
-  font-family: 'Cinzel', serif !important;
-  min-height: 240px !important;
-  height: auto !important;
-  contain: layout !important;
-}
-
-.multiplayer-rooms-grid .multiplayer-room-card::before,
-.multiplayer-room-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, #d4af37 0%, #b8941f 50%, #d4af37 100%);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.multiplayer-rooms-grid .multiplayer-room-card:hover,
-.multiplayer-room-card:hover {
-  transform: translateY(-3px) !important;
-  box-shadow:
-    0 8px 20px rgba(139, 69, 19, 0.15),
-    0 4px 8px rgba(212, 175, 55, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;
-  border-color: rgba(212, 175, 55, 0.6) !important;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 1) 0%, rgba(248, 245, 235, 1) 100%) !important;
-}
-
-.multiplayer-rooms-grid .multiplayer-room-card:hover::before,
-.multiplayer-room-card:hover::before {
-  opacity: 1;
-}
-
-.multiplayer-rooms-grid .room-header,
-.multiplayer-room-card .room-header {
-  display: flex !important;
-  flex-direction: column !important;
-  gap: 10px !important;
-  padding-bottom: 12px !important;
-  border-bottom: 2px solid rgba(212, 175, 55, 0.2) !important;
-  margin: 0 !important;
-  justify-content: flex-start !important;
-  align-items: flex-start !important;
-}
-
-.multiplayer-rooms-grid .room-name,
-.multiplayer-room-card .room-name {
-  color: #2c2416 !important;
-  font-size: 1.1rem !important;
-  font-weight: 700 !important;
-  margin: 0 !important;
-  line-height: 1.3 !important;
-  letter-spacing: 0.3px !important;
-  word-wrap: break-word !important;
-  word-break: break-word !important;
-  overflow-wrap: break-word !important;
-  text-shadow: 0 1px 2px rgba(212, 175, 55, 0.1) !important;
-  font-family: 'Cinzel', serif !important;
-}
-
-.multiplayer-rooms-grid .room-role,
-.multiplayer-room-card .room-role {
-  display: flex !important;
-  align-items: center !important;
-  gap: 6px !important;
-  color: #5d4037 !important;
-  font-size: 0.75rem !important;
-  font-weight: 600 !important;
-  background: linear-gradient(135deg, rgba(212, 175, 55, 0.15) 0%, rgba(184, 148, 31, 0.1) 100%) !important;
-  padding: 5px 10px !important;
-  border-radius: 6px !important;
-  border: 1px solid rgba(212, 175, 55, 0.3) !important;
-  align-self: flex-start !important;
-  text-transform: uppercase !important;
-  letter-spacing: 0.5px !important;
-  font-family: 'Cinzel', serif !important;
-}
-
-.multiplayer-rooms-grid .room-role i,
-.multiplayer-room-card .room-role i {
-  font-size: 0.7rem !important;
-  color: #b8941f !important;
-}
-
-.multiplayer-rooms-grid .room-status,
-.multiplayer-room-card .room-status {
-  display: flex !important;
-  justify-content: space-between !important;
-  align-items: center !important;
-  gap: 12px !important;
-  padding: 10px 0 !important;
-  flex-wrap: wrap !important;
-  margin: 0 !important;
-}
-
-.multiplayer-rooms-grid .status-indicator,
-.multiplayer-room-card .status-indicator {
-  display: flex !important;
-  align-items: center !important;
-  gap: 6px !important;
-  color: #5d4037 !important;
-  font-size: 0.75rem !important;
-  font-weight: 600 !important;
-  background: rgba(255, 255, 255, 0.6) !important;
-  padding: 4px 10px !important;
-  border-radius: 6px !important;
-  border: 1px solid rgba(139, 69, 19, 0.2) !important;
-  font-family: 'Cinzel', serif !important;
-}
-
-.multiplayer-rooms-grid .status-indicator i,
-.multiplayer-room-card .status-indicator i {
-  font-size: 0.5rem !important;
-  width: 8px !important;
-  height: 8px !important;
-  border-radius: 50% !important;
-  display: inline-block !important;
-}
-
-.multiplayer-rooms-grid .member-count,
-.multiplayer-room-card .member-count {
-  display: flex !important;
-  align-items: center !important;
-  gap: 6px !important;
-  color: #5d4037 !important;
-  font-size: 0.75rem !important;
-  font-weight: 600 !important;
-  background: rgba(255, 255, 255, 0.6) !important;
-  padding: 4px 10px !important;
-  border-radius: 6px !important;
-  border: 1px solid rgba(139, 69, 19, 0.2) !important;
-  font-family: 'Cinzel', serif !important;
-}
-
-.multiplayer-rooms-grid .member-count i,
-.multiplayer-room-card .member-count i {
-  font-size: 0.7rem !important;
-  color: #8b4513 !important;
-}
-
-.multiplayer-rooms-grid .room-stats,
-.multiplayer-room-card .room-stats {
-  display: flex !important;
-  flex-direction: column !important;
-  gap: 6px !important;
-  padding: 10px 0 !important;
-  border-top: 1px solid rgba(212, 175, 55, 0.2) !important;
-  border-bottom: 1px solid rgba(212, 175, 55, 0.2) !important;
-  margin: 0 !important;
-}
-
-.multiplayer-rooms-grid .stat-item,
-.multiplayer-room-card .stat-item {
-  display: flex !important;
-  align-items: center !important;
-  gap: 8px !important;
-  color: #5d4037 !important;
-  font-size: 0.7rem !important;
-  padding: 3px 0 !important;
-  font-weight: 500 !important;
-  font-family: 'Cinzel', serif !important;
-}
-
-.multiplayer-rooms-grid .stat-item i,
-.multiplayer-room-card .stat-item i {
-  font-size: 0.7rem !important;
-  color: #8b4513 !important;
-  width: 14px !important;
-  text-align: center !important;
-  flex-shrink: 0 !important;
-}
-
-.multiplayer-rooms-grid .stat-item span:not(.stat-value):not(.stat-label),
-.multiplayer-room-card .stat-item span:not(.stat-value):not(.stat-label) {
-  color: #5d4037 !important;
-  font-weight: 500 !important;
-  flex-shrink: 0 !important;
-}
-
-.multiplayer-rooms-grid .stat-item .stat-label,
-.multiplayer-room-card .stat-item .stat-label {
-  color: #000000 !important;
-}
-
-.multiplayer-rooms-grid .stat-value,
-.multiplayer-room-card .stat-value {
-  margin-left: auto !important;
-  font-weight: 600 !important;
-  color: #2c2416 !important;
-  background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(184, 148, 31, 0.05) 100%) !important;
-  padding: 3px 8px !important;
-  border-radius: 4px !important;
-  font-size: 0.7rem !important;
-  border: 1px solid rgba(212, 175, 55, 0.2) !important;
-  white-space: nowrap !important;
-  font-family: 'Cinzel', serif !important;
-}
-
-.multiplayer-rooms-grid .room-actions,
-.multiplayer-room-card .room-actions {
-  display: flex !important;
-  justify-content: flex-end !important;
-  padding-top: 4px !important;
-  margin: 0 !important;
-  gap: 0 !important;
-}
-
-.multiplayer-rooms-grid .join-btn,
-.multiplayer-room-card .join-btn {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  gap: 6px !important;
-  padding: 10px 18px !important;
-  background: linear-gradient(135deg, #663c32 0%, #4a2820 100%) !important;
-  border: 1.5px solid #3d201a !important;
-  border-radius: 8px !important;
-  color: #fbf7ee !important;
-  font-weight: 700 !important;
-  font-size: 0.85rem !important;
-  cursor: pointer !important;
-  transition: all 0.2s ease !important;
-  box-shadow: 0 2px 6px rgba(102, 60, 50, 0.25) !important;
-  text-transform: uppercase !important;
-  letter-spacing: 0.5px !important;
-  font-family: 'Cinzel', serif !important;
-  min-width: 90px !important;
-}
-
-.multiplayer-rooms-grid .join-btn:hover:not(:disabled),
-.multiplayer-room-card .join-btn:hover:not(:disabled) {
-  background: linear-gradient(135deg, #7a483c 0%, #583027 100%) !important;
-  border-color: #3d201a !important;
-  transform: translateY(-1px) !important;
-  box-shadow: 0 4px 12px rgba(102, 60, 50, 0.35) !important;
-}
-
-.multiplayer-rooms-grid .join-btn:active:not(:disabled),
-.multiplayer-room-card .join-btn:active:not(:disabled) {
-  transform: translateY(0) !important;
-  box-shadow: 0 2px 6px rgba(102, 60, 50, 0.25) !important;
-}
-
-.multiplayer-rooms-grid .join-btn:disabled,
-.multiplayer-room-card .join-btn:disabled {
-  background: linear-gradient(135deg, #cccccc 0%, #999999 100%) !important;
-  border-color: #999999 !important;
-  color: #666666 !important;
-  cursor: not-allowed !important;
-  box-shadow: none !important;
-  transform: none !important;
-  opacity: 0.6 !important;
-}
-
-.multiplayer-rooms-grid .join-btn i,
-.multiplayer-room-card .join-btn i {
-  font-size: 0.75rem !important;
-}
-
-/* ULTRA-SPECIFIC OVERRIDES - Must be at the end to override RoomManager.css */
-/* These selectors are more specific than anything in RoomManager.css */
-.multiplayer-rooms-grid .multiplayer-room-card {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 245, 235, 0.98) 100%) !important;
-  border: 2px solid rgba(212, 175, 55, 0.3) !important;
-  border-radius: 12px !important;
-  padding: 20px !important;
-  box-shadow:
-    0 4px 12px rgba(139, 69, 19, 0.1),
-    0 2px 4px rgba(0, 0, 0, 0.05),
-    inset 0 1px 0 rgba(255, 255, 255, 0.8) !important;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-  display: flex !important;
-  flex-direction: column !important;
-  gap: 14px !important;
-  position: relative !important;
-  overflow: hidden !important;
-  font-family: 'Cinzel', serif !important;
-  margin: 0 !important;
-  min-width: 0 !important;
-  max-width: none !important;
-  width: auto !important;
-  height: auto !important;
-}
-
-.multiplayer-rooms-grid .multiplayer-room-card .room-header {
-  display: flex !important;
-  flex-direction: column !important;
-  gap: 10px !important;
-  padding-bottom: 12px !important;
-  border-bottom: 2px solid rgba(212, 175, 55, 0.2) !important;
-  margin: 0 !important;
-  justify-content: flex-start !important;
-  align-items: flex-start !important;
-}
-
-.multiplayer-rooms-grid .multiplayer-room-card .room-name {
-  color: #2c2416 !important;
-  font-size: 1.1rem !important;
-  font-weight: 700 !important;
-  margin: 0 !important;
-  line-height: 1.3 !important;
-  letter-spacing: 0.3px !important;
-  word-wrap: break-word !important;
-  word-break: break-word !important;
-  overflow-wrap: break-word !important;
-  text-shadow: 0 1px 2px rgba(212, 175, 55, 0.1) !important;
-  font-family: 'Cinzel', serif !important;
-  text-transform: none !important;
-}
-
-.multiplayer-rooms-grid .multiplayer-room-card .room-role {
-  display: flex !important;
-  align-items: center !important;
-  gap: 6px !important;
-  color: #5d4037 !important;
-  font-size: 0.75rem !important;
-  font-weight: 600 !important;
-  background: linear-gradient(135deg, rgba(212, 175, 55, 0.15) 0%, rgba(184, 148, 31, 0.1) 100%) !important;
-  padding: 5px 10px !important;
-  border-radius: 6px !important;
-  border: 1px solid rgba(212, 175, 55, 0.3) !important;
-  align-self: flex-start !important;
-  text-transform: uppercase !important;
-  letter-spacing: 0.5px !important;
-  font-family: 'Cinzel', serif !important;
-}
-
-.multiplayer-rooms-grid .multiplayer-room-card .room-status {
-  display: flex !important;
-  justify-content: space-between !important;
-  align-items: center !important;
-  gap: 12px !important;
-  padding: 10px 0 !important;
-  flex-wrap: wrap !important;
-  margin: 0 !important;
-}
-
-.multiplayer-rooms-grid .multiplayer-room-card .status-indicator {
-  display: flex !important;
-  align-items: center !important;
-  gap: 6px !important;
-  color: #5d4037 !important;
-  font-size: 0.75rem !important;
-  font-weight: 600 !important;
-  background: rgba(255, 255, 255, 0.6) !important;
-  padding: 4px 10px !important;
-  border-radius: 6px !important;
-  border: 1px solid rgba(139, 69, 19, 0.2) !important;
-  font-family: 'Cinzel', serif !important;
-}
-
-.multiplayer-rooms-grid .multiplayer-room-card .member-count {
-  display: flex !important;
-  align-items: center !important;
-  gap: 6px !important;
-  color: #5d4037 !important;
-  font-size: 0.75rem !important;
-  font-weight: 600 !important;
-  background: rgba(255, 255, 255, 0.6) !important;
-  padding: 4px 10px !important;
-  border-radius: 6px !important;
-  border: 1px solid rgba(139, 69, 19, 0.2) !important;
-  font-family: 'Cinzel', serif !important;
-}
-
-.multiplayer-rooms-grid .multiplayer-room-card .room-stats {
-  display: flex !important;
-  flex-direction: column !important;
-  gap: 6px !important;
-  padding: 10px 0 !important;
-  border-top: 1px solid rgba(212, 175, 55, 0.2) !important;
-  border-bottom: 1px solid rgba(212, 175, 55, 0.2) !important;
-  margin: 0 !important;
-}
-
-.multiplayer-rooms-grid .multiplayer-room-card .stat-item {
-  display: flex !important;
-  align-items: center !important;
-  gap: 8px !important;
-  color: #5d4037 !important;
-  font-size: 0.7rem !important;
-  padding: 3px 0 !important;
-  font-weight: 500 !important;
-  font-family: 'Cinzel', serif !important;
-}
-
-.multiplayer-rooms-grid .multiplayer-room-card .stat-value {
-  margin-left: auto !important;
-  font-weight: 600 !important;
-  color: #2c2416 !important;
-  background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(184, 148, 31, 0.05) 100%) !important;
-  padding: 3px 8px !important;
-  border-radius: 4px !important;
-  font-size: 0.7rem !important;
-  border: 1px solid rgba(212, 175, 55, 0.2) !important;
-  white-space: nowrap !important;
-  font-family: 'Cinzel', serif !important;
-}
-
-.multiplayer-rooms-grid .multiplayer-room-card .room-actions {
-  display: flex !important;
-  justify-content: flex-end !important;
-  padding-top: 4px !important;
-  margin: 0 !important;
-  gap: 0 !important;
-}
-
-.multiplayer-rooms-grid .multiplayer-room-card .join-btn {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  gap: 6px !important;
-  padding: 10px 18px !important;
-  background: linear-gradient(135deg, #663c32 0%, #4a2820 100%) !important;
-  border: 1.5px solid #3d201a !important;
-  border-radius: 8px !important;
-  color: #fbf7ee !important;
-  font-weight: 700 !important;
-  font-size: 0.85rem !important;
-  cursor: pointer !important;
-  transition: all 0.2s ease !important;
-  box-shadow: 0 2px 6px rgba(102, 60, 50, 0.25) !important;
-  text-transform: uppercase !important;
-  letter-spacing: 0.5px !important;
-  font-family: 'Cinzel', serif !important;
-  min-width: 90px !important;
-}
-
-/* Password Popup/Modal */
-.password-modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(28, 20, 14, 0.72);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 10000;
-  backdrop-filter: blur(4px);
-}
-
-.password-modal {
-  background: linear-gradient(135deg, #fbf7ee 0%, #f3ebd7 100%);
-  border: 2px solid #5a3d28;
-  border-radius: 14px;
-  padding: 30px;
-  max-width: 400px;
-  width: 90%;
-  box-shadow:
-    0 20px 50px rgba(35, 23, 15, 0.45),
-    0 0 0 1px rgba(182, 160, 128, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.6);
-  font-family: 'Cinzel', serif;
-}
-
-.password-modal-header {
-  text-align: center;
-  margin-bottom: 25px;
-  padding-bottom: 15px;
-  border-bottom: 1.5px solid #b6a080;
-}
-
-.password-modal-header h3 {
-  color: #34251a;
-  font-size: 1.5rem;
-  margin: 0 0 8px 0;
-  text-shadow: none;
-}
-
-.password-modal-header p {
-  color: #68533e;
-  font-size: 0.95rem;
-  margin: 0;
-}
-
-.password-modal-input {
-  width: 100%;
-  padding: 12px 16px;
-  border: 1.5px solid #b6a080;
-  border-radius: 8px;
-  background: #faf5eb;
-  color: #34251a;
-  font-size: 1rem;
-  font-family: 'Cinzel', serif;
-  margin-bottom: 20px;
-  box-shadow: inset 0 1px 3px rgba(52, 37, 26, 0.08);
-  transition: all 0.25s ease;
-}
-
-.password-modal-input:focus {
-  outline: none;
-  border-color: #663c32;
-  box-shadow: 0 0 0 3px rgba(102, 60, 50, 0.15);
-}
-
-.password-modal-actions {
-  display: flex;
-  gap: 15px;
-  justify-content: flex-end;
-}
-
-.password-modal-btn {
-  padding: 10px 22px;
-  border: 1.5px solid;
-  border-radius: 8px;
-  font-weight: bold;
-  font-size: 0.95rem;
-  cursor: pointer;
-  transition: all 0.25s ease;
-  font-family: 'Cinzel', serif;
-}
-
-.password-modal-btn.primary {
-  background: linear-gradient(135deg, #663c32 0%, #4a2820 100%);
-  border-color: #3d201a;
-  color: #fbf7ee;
-  box-shadow: 0 2px 8px rgba(102, 60, 50, 0.25);
-}
-
-.password-modal-btn.primary:hover {
-  background: linear-gradient(135deg, #7a483c 0%, #583027 100%);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(102, 60, 50, 0.35);
-}
-
-.password-modal-btn.secondary {
-  background: rgba(182, 160, 128, 0.18);
-  border-color: #b6a080;
-  color: #34251a;
-  box-shadow: 0 1px 4px rgba(52, 37, 26, 0.08);
-}
-
-.password-modal-btn.secondary:hover {
-  background: rgba(182, 160, 128, 0.3);
-  border-color: #68533e;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(108, 117, 125, 0.4);
-}
-
-/* Empty Rooms Message */
-.empty-rooms-message {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 40px 20px;
-  text-align: center;
-  background: linear-gradient(135deg, rgba(244, 241, 232, 0.8) 0%, rgba(232, 224, 208, 0.8) 100%);
-  border: 2px dashed rgba(139, 69, 19, 0.3);
-  border-radius: 12px;
-  margin: 20px 0;
-}
-
-.empty-rooms-icon {
-  font-size: 3.5rem;
-  color: #8b4513;
-  margin-bottom: 15px;
-  opacity: 0.7;
-}
-
-.empty-rooms-message h4 {
-  font-family: 'Cinzel', serif;
-  font-size: 1.4rem;
-  color: #2c2416;
-  margin: 0 0 10px 0;
-  text-shadow: 1px 1px 2px rgba(212, 175, 55, 0.2);
-}
-
-.empty-rooms-message p {
-  font-size: 1rem;
-  color: #5d4037;
-  margin: 0 0 20px 0;
-  max-width: 350px;
-  line-height: 1.5;
-}
-
-.create-room-prompt-btn {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 12px 24px;
-  background: linear-gradient(135deg, #663c32 0%, #4a2820 100%);
-  border: 1.5px solid #3d201a;
-  border-radius: 8px;
-  color: #fbf7ee;
-  font-family: 'Cinzel', serif;
-  font-size: 1rem;
-  font-weight: bold;
-  cursor: pointer;
-  transition: all 0.25s ease;
-  box-shadow: 0 4px 12px rgba(102, 60, 50, 0.25);
-}
-
-.create-room-prompt-btn:hover {
-  background: linear-gradient(135deg, #7a483c 0%, #583027 100%);
-  transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(102, 60, 50, 0.35);
-}
-
-/* Permanent room toggle styles */
+/* Mechanical Brass Toggle Switch (replaces iOS bubble slider) */
+.password-toggle-group,
 .permanent-toggle-group {
-  margin-bottom: 20px;
+  margin-top: 4px;
+  margin-bottom: 8px;
 }
 
+.password-toggle-label,
 .permanent-toggle-label {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  cursor: pointer;
-  user-select: none;
-}
-
-.permanent-toggle-text {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  color: #2c2416;
-  font-weight: bold;
-  font-size: 1.1rem;
-}
-
-.permanent-toggle-text i {
-  font-size: 1rem;
-}
-
-.toggle-hint {
-  font-size: 0.8rem;
-  color: #5d4037;
-  font-weight: 500;
-  opacity: 0.85;
-}
-
-.create-room-prompt-btn i {
-  font-size: 1.1rem;
-}
-
-/* Password Toggle Switch Styles */
-.password-toggle-group {
-  margin-top: 25px;
-  margin-bottom: 15px;
-  min-height: 50px;
-}
-
-.password-toggle-label {
   display: flex !important;
   align-items: center;
   justify-content: space-between;
   cursor: pointer;
-  padding: 12px 16px;
-  background: rgba(139, 69, 19, 0.05);
-  /* Very subtle background */
-  border: 1px solid rgba(139, 69, 19, 0.2);
-  border-radius: 8px;
-  transition: all 0.3s ease;
-  font-size: 1rem !important;
+  padding: 10px 14px;
+  background: rgba(182, 160, 128, 0.12);
+  border: 1px solid var(--adventure-rule);
+  border-radius: 0 !important;
+  transition: all 0.2s ease;
   margin-bottom: 0 !important;
   user-select: none;
 }
 
-.password-toggle-label:hover {
-  background: rgba(139, 69, 19, 0.1);
-  border-color: rgba(212, 175, 55, 0.5);
+.password-toggle-label:hover,
+.permanent-toggle-label:hover {
+  background: rgba(255, 255, 255, 0.6);
+  border-color: #8b4513;
 }
 
-.password-toggle-text {
+.password-toggle-text,
+.permanent-toggle-text {
   display: flex;
   align-items: center;
-  gap: 10px;
-  color: #2c2416;
-  font-weight: 600;
+  gap: 8px;
+  color: #2c1810;
+  font-weight: 700;
   font-family: 'Cinzel', serif;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
 }
 
-.password-toggle-text i {
-  font-size: 1.1rem;
+.password-toggle-text i,
+.permanent-toggle-text i {
   color: #8b4513;
-  transition: color 0.3s ease;
+  font-size: 0.95rem;
 }
 
-/* Custom Toggle Switch */
+.toggle-hint {
+  font-size: 0.75rem;
+  font-family: 'Crimson Text', serif;
+  font-style: italic;
+  color: #68533e;
+}
+
+/* Mechanical Toggle Slider Housing */
 .toggle-switch-container {
   position: relative;
-  width: 50px;
-  height: 26px;
+  width: 44px;
+  height: 22px;
+  flex-shrink: 0;
 }
 
 .toggle-switch-input {
@@ -2058,66 +1024,403 @@
 .toggle-switch-slider {
   position: absolute;
   cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #ccc;
-  transition: .4s;
-  border-radius: 34px;
-  border: 2px solid #a0a0a0;
+  inset: 0;
+  background-color: #dcd3c1;
+  transition: 0.25s ease;
+  border-radius: 0 !important;
+  border: 1.5px solid #8b4513;
 }
 
 .toggle-switch-slider:before {
   position: absolute;
   content: "";
-  height: 18px;
-  width: 18px;
+  height: 16px;
+  width: 16px;
   left: 2px;
-  bottom: 2px;
-  background-color: white;
-  transition: .4s;
-  border-radius: 50%;
+  bottom: 1.5px;
+  background: linear-gradient(135deg, #c4ab79, #9b835e);
+  border: 1px solid #785a3a;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  transition: 0.25s ease;
+  border-radius: 0 !important;
 }
 
-.toggle-switch-input:checked+.toggle-switch-slider {
-  background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%);
-  border-color: #b8941f;
+.toggle-switch-input:checked + .toggle-switch-slider {
+  background: linear-gradient(135deg, #8b4513 0%, #663c32 100%);
+  border-color: #5a3d28;
 }
 
-.toggle-switch-input:checked+.toggle-switch-slider:before {
-  transform: translateX(24px);
-}
-
-.toggle-switch-input:focus+.toggle-switch-slider {
-  box-shadow: 0 0 1px #d4af37;
-}
-
-/* Active state handling */
-.toggle-switch-input:checked~.password-toggle-text i {
-  color: #d4af37;
+.toggle-switch-input:checked + .toggle-switch-slider:before {
+  transform: translateX(20px);
+  background: linear-gradient(135deg, #f5d78e, #c4ab79);
+  border-color: #926d36;
 }
 
 .password-field {
-  animation: slideDown 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  margin-top: 15px;
-  padding: 15px;
+  margin-top: 8px;
+  padding: 12px;
   background: rgba(255, 255, 255, 0.5);
-  border: 1px dashed rgba(212, 175, 55, 0.5);
-  border-radius: 8px;
+  border: 1px dashed var(--adventure-rule);
+  border-radius: 0 !important;
 }
 
-@keyframes slideDown {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-    max-height: 0;
+/* GM Notice Banner */
+.create-col-right .gm-info,
+.gm-info {
+  background: rgba(196, 171, 121, 0.12);
+  border: 1px solid #c4ab79;
+  border-left: 3px solid #8b4513;
+  border-radius: 0 !important;
+  padding: 12px 14px;
+  font-size: 0.85rem;
+  color: #34251a;
+  font-family: 'Crimson Text', Georgia, serif;
+}
+
+.gm-info p {
+  margin: 3px 0;
+  line-height: 1.4;
+}
+
+.gm-info strong {
+  color: #2c1810;
+  font-family: 'Cinzel', serif;
+  font-size: 0.82rem;
+  letter-spacing: 0.5px;
+}
+
+.gm-info i {
+  color: #8b4513;
+  margin-right: 4px;
+}
+
+/* Create Buttons */
+.create-buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 10px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(182, 160, 128, 0.4);
+}
+
+.create-button {
+  flex: 1;
+  padding: 11px 16px;
+  background: linear-gradient(135deg, #663c32 0%, #4a2820 100%);
+  border: 1px solid #3d201a;
+  border-radius: 0 !important;
+  color: #fdfbf7;
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-family: 'Cinzel', serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 2px 6px rgba(52, 37, 26, 0.25);
+}
+
+.create-button:hover:not(:disabled) {
+  background: linear-gradient(135deg, #7a483c 0%, #583027 100%);
+  border-color: #c4ab79;
+  box-shadow: 0 4px 12px rgba(102, 60, 50, 0.35);
+  transform: translateY(-1px);
+}
+
+.create-button.persistent {
+  background: linear-gradient(135deg, #2d5a27 0%, #1e3f1a 100%);
+  border-color: #1e3f1a;
+}
+
+.create-button.persistent:hover:not(:disabled) {
+  background: linear-gradient(135deg, #3d6e36 0%, #2d5a27 100%);
+  border-color: #6da365;
+  box-shadow: 0 4px 12px rgba(45, 90, 39, 0.35);
+}
+
+.create-button:disabled {
+  background: #c5bdae;
+  border-color: #a89f91;
+  color: #68533e;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+  opacity: 0.65;
+}
+
+/* ==========================================================================
+   MY ROOMS TAB: SAVED CAMPAIGNS & PERSISTENT HALLS
+   ========================================================================== */
+
+.my-rooms-section {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.my-rooms-header {
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(182, 160, 128, 0.4);
+}
+
+.my-rooms-header h3 {
+  color: #2c1810;
+  font-size: 1.15rem;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.multiplayer-rooms-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 16px;
+  margin-top: 12px;
+}
+
+.multiplayer-rooms-grid .multiplayer-room-card,
+.multiplayer-room-card {
+  background: #faf6ee !important;
+  background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.7) 0%, rgba(244, 236, 222, 0.9) 100%) !important;
+  border: 1px solid var(--adventure-rule) !important;
+  border-radius: 0 !important;
+  padding: 16px !important;
+  box-shadow: 0 2px 6px rgba(52, 37, 26, 0.08) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 12px !important;
+  position: relative !important;
+  font-family: 'Cinzel', serif !important;
+}
+
+.multiplayer-rooms-grid .multiplayer-room-card:hover,
+.multiplayer-room-card:hover {
+  border-color: #8b4513 !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 16px rgba(52, 37, 26, 0.14) !important;
+}
+
+.multiplayer-rooms-grid .room-header,
+.multiplayer-room-card .room-header {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 8px !important;
+  padding-bottom: 8px !important;
+  border-bottom: 1px solid rgba(182, 160, 128, 0.35) !important;
+}
+
+.multiplayer-rooms-grid .room-name,
+.multiplayer-room-card .room-name {
+  color: #2c1810 !important;
+  font-size: 1.15rem !important;
+  font-weight: 700 !important;
+  margin: 0 !important;
+}
+
+.multiplayer-rooms-grid .room-role,
+.multiplayer-room-card .room-role {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  padding: 3px 8px !important;
+  background: rgba(196, 171, 121, 0.18) !important;
+  border: 1px solid #c4ab79 !important;
+  border-radius: 0 !important;
+  font-size: 0.72rem !important;
+  font-weight: 700 !important;
+  color: #68533e !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+  width: fit-content !important;
+}
+
+.multiplayer-rooms-grid .status-indicator,
+.multiplayer-room-card .status-indicator,
+.multiplayer-rooms-grid .member-count,
+.multiplayer-room-card .member-count {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  padding: 4px 8px !important;
+  background: rgba(244, 236, 222, 0.6) !important;
+  border: 1px solid rgba(182, 160, 128, 0.25) !important;
+  border-radius: 0 !important;
+  font-size: 0.75rem !important;
+  color: #34251a !important;
+}
+
+.multiplayer-rooms-grid .status-indicator i,
+.multiplayer-room-card .status-indicator i {
+  border-radius: 0 !important;
+  width: 6px !important;
+  height: 6px !important;
+  font-size: 0 !important;
+  display: inline-block !important;
+}
+
+.multiplayer-rooms-grid .join-btn,
+.multiplayer-room-card .join-btn {
+  padding: 9px 18px !important;
+  background: linear-gradient(135deg, #663c32 0%, #4a2820 100%) !important;
+  border: 1px solid #3d201a !important;
+  border-radius: 0 !important;
+  color: #fdfbf7 !important;
+  font-family: 'Cinzel', serif !important;
+  font-size: 0.82rem !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 1px !important;
+  cursor: pointer !important;
+}
+
+.multiplayer-rooms-grid .join-btn:hover:not(:disabled),
+.multiplayer-room-card .join-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #7a483c 0%, #583027 100%) !important;
+  border-color: #c4ab79 !important;
+}
+
+/* ==========================================================================
+   PASSWORD MODAL
+   ========================================================================== */
+
+.password-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(14, 9, 6, 0.78);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  backdrop-filter: blur(3px);
+}
+
+.password-modal {
+  background-color: #faf5eb;
+  background-image:
+    linear-gradient(135deg, rgba(251, 247, 238, 0.95), rgba(244, 236, 220, 0.97)),
+    var(--parchment-texture-url);
+  border: 2px solid #5a3d28;
+  border-radius: 0 !important;
+  outline: 1px solid rgba(196, 171, 121, 0.5);
+  outline-offset: -5px;
+  padding: 28px;
+  max-width: 420px;
+  width: 90%;
+  box-shadow:
+    0 24px 60px rgba(10, 6, 4, 0.8),
+    inset 0 0 24px rgba(182, 160, 128, 0.12);
+  font-family: 'Cinzel', serif;
+}
+
+.password-modal-header {
+  text-align: center;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--adventure-rule);
+}
+
+.password-modal-header h3 {
+  color: #2c1810;
+  font-size: 1.35rem;
+  margin: 0 0 6px 0;
+  letter-spacing: 1px;
+}
+
+.password-modal-header p {
+  color: #68533e;
+  font-size: 0.9rem;
+  margin: 0;
+  font-family: 'Crimson Text', serif;
+  font-style: italic;
+}
+
+.password-modal-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.password-modal-btn {
+  padding: 9px 18px;
+  border-radius: 0 !important;
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: 'Cinzel', serif;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.password-modal-btn.primary {
+  background: linear-gradient(135deg, #663c32 0%, #4a2820 100%);
+  border: 1px solid #3d201a;
+  color: #fdfbf7;
+}
+
+.password-modal-btn.primary:hover {
+  background: linear-gradient(135deg, #7a483c 0%, #583027 100%);
+  border-color: #c4ab79;
+}
+
+.password-modal-btn.secondary {
+  background: #ede4d4;
+  border: 1px solid var(--adventure-rule);
+  color: #34251a;
+}
+
+.password-modal-btn.secondary:hover {
+  background: #fdfbf7;
+  border-color: #8b4513;
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN (TABLETS & PHONES)
+   ========================================================================== */
+
+@media (max-width: 880px) {
+  .lobby-container {
+    width: 96vw;
+    max-height: 94vh;
+    padding: 18px 18px;
+    overflow-y: auto;
   }
 
-  to {
-    opacity: 1;
-    transform: translateY(0);
-    max-height: 100px;
+  .lobby-top-bar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .lobby-top-bar .lobby-tabs {
+    width: 100%;
+  }
+
+  .lobby-top-bar .tab-button {
+    flex: 1;
+    justify-content: center;
+    padding: 8px 10px;
+    font-size: 0.78rem;
+  }
+
+  .lobby-split-layout {
+    grid-template-columns: 1fr;
+    overflow-y: visible;
+    gap: 16px;
+  }
+
+  .create-room-columns {
+    grid-template-columns: 1fr;
+  }
+
+  .expedition-coord-tl,
+  .expedition-coord-tr {
+    display: none;
   }
 }

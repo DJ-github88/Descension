@@ -3,12 +3,14 @@ import useLevelEditorStore from '../../../store/levelEditorStore';
 import useMapStore from '../../../store/mapStore';
 import useCharacterTokenStore from '../../../store/characterTokenStore';
 import useSettingsStore from '../../../store/settingsStore';
+import { captureActorDelivery } from '../../../services/actorProjectionOrder';
 
 export function registerMapGridHandlers(ctx) {
   const {
     socket, isGMRef, currentPlayerRef, currentPlayer,
     playerCurrentMapIdRef, addCreature, addToken, addNotification
   } = ctx;
+    const registered = captureActorDelivery(socket);
 
     // Shared applier for per-map grid + view settings (used by both sync paths)
     const applyGridSettings = (gs) => {
@@ -182,6 +184,11 @@ export function registerMapGridHandlers(ctx) {
     });
 
     socket.on('map_update', (data) => {
+      if (data.action === 'create' || data.action === 'delete') {
+        require('../../../services/actorConsequenceService').applyActorLifecycle(data,
+          { ...registered, room: useGameStore.getState().multiplayerRoom, roomId: useGameStore.getState().multiplayerRoom?.id });
+        return;
+      }
       console.log(`ðŸ“¥ [map_updated] Received for map ${data.mapId}, I'm on ${playerCurrentMapIdRef.current}, updatedBy: ${data.updatedBy}`);
       // CRITICAL FIX: Only process updates for the map we are currently on
       // This prevents "bleeding" of changes from other maps
@@ -490,6 +497,12 @@ export function registerMapGridHandlers(ctx) {
     });
 
     socket.on('sync_tokens', (data) => {
+      if (useGameStore.getState().isInMultiplayer) {
+        require('../../../services/silentRoomHydration').applyRoomSnapshot({ scope: 'section', actorProjection: data.actorProjection,
+          context: { ...registered, room: useGameStore.getState().multiplayerRoom, roomId: useGameStore.getState().multiplayerRoom?.id },
+          roomId: data.roomId, activeMapId: data.mapId, sections: { tokens: data.tokens } });
+        return;
+      }
       const currentMapId = useMapStore.getState().currentMapId || 'default';
 
       console.log('ðŸ”„ [sync_tokens] Received token sync, currentMapId:', currentMapId, '| token count:', Object.keys(data.tokens || {}).length);
@@ -519,6 +532,12 @@ export function registerMapGridHandlers(ctx) {
     });
 
     socket.on('sync_character_tokens', (data) => {
+      if (useGameStore.getState().isInMultiplayer) {
+        require('../../../services/silentRoomHydration').applyRoomSnapshot({ scope: 'section', actorProjection: data.actorProjection,
+          context: { ...registered, room: useGameStore.getState().multiplayerRoom, roomId: useGameStore.getState().multiplayerRoom?.id },
+          roomId: data.roomId, activeMapId: data.mapId, sections: { characterTokens: data.characterTokens } });
+        return;
+      }
       const currentMapId = useMapStore.getState().currentMapId || 'default';
 
       try {

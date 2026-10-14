@@ -340,3 +340,39 @@
     font-size: 0.62rem;
   }
 }
+
+/* ==========================================================================
+   Calm result chip: flat linen note, ink numerals, quiet outline badges
+   ========================================================================== */
+.dice-3d-result-area,
+.dice-3d-result-area[class] {
+  background: #f8f5ee;
+  border: 1px solid #c4baa6;
+  border-radius: 4px;
+  box-shadow: 0 6px 18px rgba(52, 37, 26, 0.28);
+  backdrop-filter: none;
+  color: #34251a;
+  animation: chipDropIn 0.25s ease-out;
+}
+.dice-3d-result-area.crit, .dice-3d-result-area.success { border-color: #3d5a3a; box-shadow: 0 6px 18px rgba(52, 37, 26, 0.28); }
+.dice-3d-result-area.fail, .dice-3d-result-area.failure { border-color: #8b2b1d; box-shadow: 0 6px 18px rgba(52, 37, 26, 0.28); }
+.dice-3d-result-number { color: #34251a; text-shadow: none; font-weight: 700; font-size: 2.3rem; }
+.dice-3d-result-number.nat20 { color: #3d5a3a; text-shadow: none; animation: none; }
+.dice-3d-result-number.nat1 { color: #8b2b1d; text-shadow: none; }
+.dice-3d-result-label { color: #68533e; letter-spacing: 0.2em; }
+.dice-3d-mode-badge, .dice-3d-mode-badge[class] {
+  background: transparent; box-shadow: none; border: 1px solid #c4baa6; border-radius: 3px; color: #68533e; letter-spacing: 0.12em;
+}
+.dice-3d-mode-badge.dice-3d-mode-advantage, .dice-3d-mode-badge.dice-3d-mode-double-advantage { color: #3d5a3a; border-color: #3d5a3a; background: transparent; box-shadow: none; }
+.dice-3d-mode-badge.dice-3d-mode-disadvantage, .dice-3d-mode-badge.dice-3d-mode-double-disadvantage { color: #8b2b1d; border-color: #8b2b1d; background: transparent; box-shadow: none; }
+.dice-3d-result-flavor { color: #663c32; letter-spacing: 0.1em; }
+.dice-3d-result-flavor.nat20 { color: #3d5a3a; }
+.dice-3d-result-flavor.nat1 { color: #8b2b1d; }
+.dice-3d-breakdown-item { font-family: 'Crimson Text', Georgia, serif; font-size: 0.85rem; color: #68533e; background: transparent; border: 0; border-radius: 0; padding: 0; }
+.dice-3d-breakdown-item + .dice-3d-breakdown-item::before { content: '·'; margin-right: 5px; }
+.dice-3d-reroll-btn, .dice-3d-close-btn { border-radius: 3px; border: 1px solid #663c32; box-shadow: none; transform: none; }
+.dice-3d-reroll-btn { color: #f8f5ee; background: #663c32; }
+.dice-3d-reroll-btn:hover { background: #7a4a3e; transform: none; box-shadow: none; }
+.dice-3d-close-btn { color: #663c32; background: transparent; }
+.dice-3d-close-btn:hover { background: rgba(102, 60, 50, 0.08); border-color: #663c32; color: #663c32; }
+.dice-3d-rolling-text { color: #68533e; background: #f8f5ee; border: 1px solid #c4baa6; border-radius: 3px; backdrop-filter: none; letter-spacing: 0.25em; }

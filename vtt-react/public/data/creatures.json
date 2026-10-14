@@ -73,16 +73,16 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 4
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 10,
-          "max": 25
+          "min": 0,
+          "max": 0
         },
         "copper": {
-          "min": 20,
-          "max": 50
+          "min": 8,
+          "max": 30
         }
       },
       "items": [
@@ -92,6 +92,22 @@
           "quantity": {
             "min": 1,
             "max": 2
+          }
+        },
+        {
+          "itemId": "forgotten-letter",
+          "dropChance": 35,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "itemId": "memory-silt",
+          "dropChance": 10,
+          "quantity": {
+            "min": 1,
+            "max": 1
           }
         }
       ]
@@ -186,15 +202,15 @@
         },
         "gold": {
           "min": 0,
-          "max": 1
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
-          "min": 10,
-          "max": 30
+          "min": 0,
+          "max": 0
         }
       },
       "items": [
@@ -204,6 +220,14 @@
           "quantity": {
             "min": 1,
             "max": 2
+          }
+        },
+        {
+          "itemId": "silt-leech-gland",
+          "dropChance": 25,
+          "quantity": {
+            "min": 1,
+            "max": 1
           }
         }
       ]
@@ -302,15 +326,15 @@
       "currency": {
         "platinum": {
           "min": 0,
-          "max": 1
+          "max": 0
         },
         "gold": {
-          "min": 10,
-          "max": 25
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 20,
-          "max": 50
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
@@ -320,10 +344,26 @@
       "items": [
         {
           "itemId": "ironwood-bark",
-          "dropChance": 100,
+          "dropChance": 70,
           "quantity": {
             "min": 1,
             "max": 3
+          }
+        },
+        {
+          "itemId": "feather-skull-fragment",
+          "dropChance": 30,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "itemId": "canopy-down",
+          "dropChance": 55,
+          "quantity": {
+            "min": 2,
+            "max": 5
           }
         }
       ]
@@ -411,22 +451,30 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 3
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 10,
-          "max": 20
+          "min": 0,
+          "max": 0
         },
         "copper": {
-          "min": 15,
-          "max": 40
+          "min": 0,
+          "max": 0
         }
       },
       "items": [
         {
           "itemId": "braided-horsehair-necklace",
-          "dropChance": 50,
+          "dropChance": 20,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "itemId": "pooka-hoofshoe",
+          "dropChance": 8,
           "quantity": {
             "min": 1,
             "max": 1
@@ -532,8 +580,8 @@
           "max": 40
         },
         "copper": {
-          "min": 20,
-          "max": 80
+          "min": 0,
+          "max": 0
         }
       },
       "items": [
@@ -543,6 +591,14 @@
           "quantity": {
             "min": 1,
             "max": 4
+          }
+        },
+        {
+          "itemId": "skerry-sunken-pearl",
+          "dropChance": 7,
+          "quantity": {
+            "min": 1,
+            "max": 1
           }
         }
       ]
@@ -646,15 +702,15 @@
         },
         "gold": {
           "min": 0,
-          "max": 1
+          "max": 0
         },
         "silver": {
-          "min": 4,
-          "max": 10
+          "min": 0,
+          "max": 0
         },
         "copper": {
-          "min": 10,
-          "max": 30
+          "min": 0,
+          "max": 0
         }
       },
       "items": [
@@ -664,6 +720,14 @@
           "quantity": {
             "min": 1,
             "max": 3
+          }
+        },
+        {
+          "itemId": "nachtkrapp-coal-bone",
+          "dropChance": 22,
+          "quantity": {
+            "min": 1,
+            "max": 1
           }
         }
       ]
@@ -768,12 +832,12 @@
           "max": 0
         },
         "silver": {
-          "min": 2,
-          "max": 6
+          "min": 0,
+          "max": 0
         },
         "copper": {
-          "min": 5,
-          "max": 20
+          "min": 0,
+          "max": 0
         }
       },
       "items": [
@@ -783,6 +847,14 @@
           "quantity": {
             "min": 1,
             "max": 2
+          }
+        },
+        {
+          "itemId": "runic-lick-frost",
+          "dropChance": 18,
+          "quantity": {
+            "min": 1,
+            "max": 1
           }
         }
       ]
@@ -884,12 +956,12 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 10,
-          "max": 20
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
@@ -899,10 +971,18 @@
       "items": [
         {
           "itemId": "river-kelp",
-          "dropChance": 100,
+          "dropChance": 80,
           "quantity": {
             "min": 1,
             "max": 3
+          }
+        },
+        {
+          "itemId": "nokk-mist-bridle",
+          "dropChance": 3,
+          "quantity": {
+            "min": 1,
+            "max": 1
           }
         }
       ]
@@ -996,12 +1076,12 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
@@ -1010,11 +1090,19 @@
       },
       "items": [
         {
-          "itemId": "Sirvash-scale",
-          "dropChance": 100,
+          "itemId": "sirrush-scale",
+          "dropChance": 65,
           "quantity": {
             "min": 1,
             "max": 2
+          }
+        },
+        {
+          "itemId": "sirrush-talon",
+          "dropChance": 10,
+          "quantity": {
+            "min": 1,
+            "max": 1
           }
         }
       ]
@@ -1110,15 +1198,15 @@
         },
         "gold": {
           "min": 0,
-          "max": 1
+          "max": 0
         },
         "silver": {
-          "min": 2,
-          "max": 6
+          "min": 0,
+          "max": 0
         },
         "copper": {
-          "min": 5,
-          "max": 20
+          "min": 0,
+          "max": 0
         }
       },
       "items": [
@@ -1128,6 +1216,14 @@
           "quantity": {
             "min": 1,
             "max": 4
+          }
+        },
+        {
+          "itemId": "ember-spit-coal",
+          "dropChance": 30,
+          "quantity": {
+            "min": 1,
+            "max": 1
           }
         }
       ]
@@ -1247,7 +1343,15 @@
       "items": [
         {
           "itemId": "spotted-hide",
-          "dropChance": 100,
+          "dropChance": 70,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "itemId": "serpopard-neck-tendon",
+          "dropChance": 35,
           "quantity": {
             "min": 1,
             "max": 1
@@ -1353,11 +1457,11 @@
       "currency": {
         "platinum": {
           "min": 0,
-          "max": 1
+          "max": 0
         },
         "gold": {
-          "min": 10,
-          "max": 20
+          "min": 2,
+          "max": 10
         },
         "silver": {
           "min": 0,
@@ -1371,10 +1475,26 @@
       "items": [
         {
           "itemId": "basalt-stone",
-          "dropChance": 100,
+          "dropChance": 85,
           "quantity": {
             "min": 2,
             "max": 4
+          }
+        },
+        {
+          "itemId": "lamassu-crown-fragment",
+          "dropChance": 12,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "itemId": "wing-stone-pinion",
+          "dropChance": 2,
+          "quantity": {
+            "min": 1,
+            "max": 1
           }
         }
       ]
@@ -1477,21 +1597,29 @@
         },
         "gold": {
           "min": 0,
-          "max": 3
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
-          "min": 10,
-          "max": 30
+          "min": 0,
+          "max": 0
         }
       },
       "items": [
         {
           "itemId": "glowing-whisker",
           "dropChance": 30,
+          "quantity": {
+            "min": 1,
+            "max": 2
+          }
+        },
+        {
+          "itemId": "pelagos-shark-hide",
+          "dropChance": 65,
           "quantity": {
             "min": 1,
             "max": 2
@@ -1597,15 +1725,15 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 3
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 10,
-          "max": 20
+          "min": 0,
+          "max": 0
         },
         "copper": {
-          "min": 15,
+          "min": 8,
           "max": 40
         }
       },
@@ -1613,6 +1741,14 @@
         {
           "itemId": "woven-kelp-mat",
           "dropChance": 50,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "itemId": "egbere-lure-pearl",
+          "dropChance": 8,
           "quantity": {
             "min": 1,
             "max": 1
@@ -1715,21 +1851,29 @@
           "max": 0
         },
         "silver": {
-          "min": 2,
-          "max": 10
+          "min": 0,
+          "max": 0
         },
         "copper": {
-          "min": 10,
-          "max": 30
+          "min": 0,
+          "max": 0
         }
       },
       "items": [
         {
           "itemId": "obsidian-shell-shard",
-          "dropChance": 100,
+          "dropChance": 75,
           "quantity": {
             "min": 1,
             "max": 3
+          }
+        },
+        {
+          "itemId": "scylla-ice-cutter-claw",
+          "dropChance": 6,
+          "quantity": {
+            "min": 1,
+            "max": 1
           }
         }
       ]
@@ -1841,7 +1985,23 @@
       "items": [
         {
           "itemId": "rotting-wood-helm",
-          "dropChance": 100,
+          "dropChance": 85,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "itemId": "draugr-brine-coin",
+          "dropChance": 60,
+          "quantity": {
+            "min": 2,
+            "max": 6
+          }
+        },
+        {
+          "itemId": "helmsmans-wheel-spoke",
+          "dropChance": 7,
           "quantity": {
             "min": 1,
             "max": 1
@@ -1941,15 +2101,15 @@
       "currency": {
         "platinum": {
           "min": 0,
-          "max": 1
+          "max": 0
         },
         "gold": {
-          "min": 5,
-          "max": 20
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 10,
-          "max": 40
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
@@ -1959,10 +2119,18 @@
       "items": [
         {
           "itemId": "gold-ore-vein",
-          "dropChance": 100,
+          "dropChance": 60,
           "quantity": {
             "min": 1,
             "max": 2
+          }
+        },
+        {
+          "itemId": "gaki-starving-claw",
+          "dropChance": 30,
+          "quantity": {
+            "min": 1,
+            "max": 1
           }
         }
       ]
@@ -2058,24 +2226,32 @@
         },
         "gold": {
           "min": 0,
-          "max": 2
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
-          "min": 10,
-          "max": 40
+          "min": 0,
+          "max": 0
         }
       },
       "items": [
         {
           "itemId": "copper-weasel-claw",
-          "dropChance": 50,
+          "dropChance": 55,
           "quantity": {
             "min": 1,
             "max": 2
+          }
+        },
+        {
+          "itemId": "wind-gale-tail-blade",
+          "dropChance": 7,
+          "quantity": {
+            "min": 1,
+            "max": 1
           }
         }
       ]
@@ -2172,12 +2348,12 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
@@ -2187,10 +2363,18 @@
       "items": [
         {
           "itemId": "cloud-feather",
-          "dropChance": 50,
+          "dropChance": 45,
           "quantity": {
             "min": 1,
             "max": 2
+          }
+        },
+        {
+          "itemId": "kcoa-lightning-whisker",
+          "dropChance": 12,
+          "quantity": {
+            "min": 1,
+            "max": 1
           }
         }
       ]
@@ -2285,15 +2469,15 @@
         },
         "gold": {
           "min": 0,
-          "max": 1
+          "max": 0
         },
         "silver": {
-          "min": 3,
-          "max": 10
+          "min": 0,
+          "max": 0
         },
         "copper": {
-          "min": 10,
-          "max": 40
+          "min": 0,
+          "max": 0
         }
       },
       "items": [
@@ -2302,7 +2486,15 @@
           "dropChance": 60,
           "quantity": {
             "min": 1,
-            "max": 2
+            "max": 3
+          }
+        },
+        {
+          "itemId": "tengu-voice-mimic-feather",
+          "dropChance": 30,
+          "quantity": {
+            "min": 1,
+            "max": 1
           }
         }
       ]
@@ -2406,24 +2598,32 @@
         },
         "gold": {
           "min": 0,
-          "max": 1
+          "max": 0
         },
         "silver": {
-          "min": 2,
-          "max": 8
+          "min": 0,
+          "max": 0
         },
         "copper": {
-          "min": 5,
-          "max": 20
+          "min": 0,
+          "max": 0
         }
       },
       "items": [
         {
           "itemId": "horse-hair-braid",
-          "dropChance": 40,
+          "dropChance": 50,
           "quantity": {
             "min": 1,
             "max": 3
+          }
+        },
+        {
+          "itemId": "mogwai-grass-tail",
+          "dropChance": 45,
+          "quantity": {
+            "min": 1,
+            "max": 2
           }
         }
       ]
@@ -2524,18 +2724,26 @@
           "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
-          "min": 10,
-          "max": 30
+          "min": 0,
+          "max": 0
         }
       },
       "items": [
         {
           "itemId": "acid-gland",
-          "dropChance": 100,
+          "dropChance": 70,
+          "quantity": {
+            "min": 1,
+            "max": 2
+          }
+        },
+        {
+          "itemId": "death-worm-spark-scale",
+          "dropChance": 9,
           "quantity": {
             "min": 1,
             "max": 1
@@ -2633,25 +2841,33 @@
           "max": 0
         },
         "gold": {
-          "min": 2,
-          "max": 8
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 10,
-          "max": 30
+          "min": 0,
+          "max": 0
         },
         "copper": {
-          "min": 20,
-          "max": 50
+          "min": 0,
+          "max": 0
         }
       },
       "items": [
         {
           "itemId": "snake-venom-gland",
-          "dropChance": 100,
+          "dropChance": 65,
           "quantity": {
             "min": 1,
             "max": 3
+          }
+        },
+        {
+          "itemId": "grass-mimic-skin",
+          "dropChance": 10,
+          "quantity": {
+            "min": 1,
+            "max": 1
           }
         }
       ]
@@ -2738,15 +2954,15 @@
       "currency": {
         "platinum": {
           "min": 0,
-          "max": 1
+          "max": 0
         },
         "gold": {
-          "min": 3,
-          "max": 10
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 10,
-          "max": 30
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
@@ -2755,8 +2971,16 @@
       },
       "items": [
         {
+          "itemId": "qilin-blue-scale",
+          "dropChance": 40,
+          "quantity": {
+            "min": 1,
+            "max": 2
+          }
+        },
+        {
           "itemId": "starry-horn-shard",
-          "dropChance": 60,
+          "dropChance": 12,
           "quantity": {
             "min": 1,
             "max": 1
@@ -2860,15 +3084,15 @@
       "currency": {
         "platinum": {
           "min": 0,
-          "max": 1
+          "max": 0
         },
         "gold": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 10,
-          "max": 30
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
@@ -2878,10 +3102,18 @@
       "items": [
         {
           "itemId": "willow-veil",
-          "dropChance": 100,
+          "dropChance": 25,
           "quantity": {
             "min": 1,
             "max": 1
+          }
+        },
+        {
+          "itemId": "vila-storm-dancer-feather",
+          "dropChance": 45,
+          "quantity": {
+            "min": 1,
+            "max": 2
           }
         }
       ]
@@ -2977,21 +3209,29 @@
         },
         "gold": {
           "min": 0,
-          "max": 2
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 10
+          "min": 0,
+          "max": 0
         },
         "copper": {
-          "min": 10,
-          "max": 30
+          "min": 0,
+          "max": 0
         }
       },
       "items": [
         {
+          "itemId": "vodyan-stagnant-water",
+          "dropChance": 70,
+          "quantity": {
+            "min": 1,
+            "max": 2
+          }
+        },
+        {
           "itemId": "bog-moss-remedy",
-          "dropChance": 60,
+          "dropChance": 45,
           "quantity": {
             "min": 1,
             "max": 2
@@ -3101,18 +3341,26 @@
           "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 20
+          "min": 0,
+          "max": 0
         },
         "copper": {
-          "min": 10,
-          "max": 40
+          "min": 0,
+          "max": 0
         }
       },
       "items": [
         {
           "itemId": "screamer-horn",
-          "dropChance": 100,
+          "dropChance": 40,
+          "quantity": {
+            "min": 1,
+            "max": 2
+          }
+        },
+        {
+          "itemId": "bukavac-six-claw",
+          "dropChance": 55,
           "quantity": {
             "min": 1,
             "max": 2
@@ -3235,10 +3483,18 @@
       "items": [
         {
           "itemId": "hag-relic",
-          "dropChance": 100,
+          "dropChance": 45,
           "quantity": {
             "min": 1,
             "max": 1
+          }
+        },
+        {
+          "itemId": "chicken-leg-talon",
+          "dropChance": 55,
+          "quantity": {
+            "min": 1,
+            "max": 2
           }
         }
       ]
@@ -3321,12 +3577,12 @@
           "max": 0
         },
         "silver": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "copper": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         }
       },
       "items": [
@@ -3336,6 +3592,14 @@
           "quantity": {
             "min": 1,
             "max": 2
+          }
+        },
+        {
+          "itemId": "wolpertinger-pinion",
+          "dropChance": 30,
+          "quantity": {
+            "min": 1,
+            "max": 1
           }
         }
       ]
@@ -3432,15 +3696,15 @@
       "currency": {
         "platinum": {
           "min": 0,
-          "max": 1
+          "max": 0
         },
         "gold": {
-          "min": 2,
-          "max": 8
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 10,
-          "max": 20
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
@@ -3449,8 +3713,16 @@
       },
       "items": [
         {
-          "itemId": "Holdra-wood-bark",
-          "dropChance": 100,
+          "itemId": "huldra-hollow-bark",
+          "dropChance": 35,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "itemId": "huldra-cow-tail-tuft",
+          "dropChance": 60,
           "quantity": {
             "min": 1,
             "max": 2
@@ -3564,10 +3836,26 @@
       "items": [
         {
           "itemId": "terracotta-shards",
-          "dropChance": 100,
+          "dropChance": 85,
           "quantity": {
             "min": 2,
             "max": 5
+          }
+        },
+        {
+          "itemId": "ushabti-sickle-sword",
+          "dropChance": 8,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "itemId": "tomb-servant-seal",
+          "dropChance": 12,
+          "quantity": {
+            "min": 1,
+            "max": 1
           }
         }
       ]
@@ -3672,21 +3960,29 @@
           "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
-          "min": 10,
-          "max": 40
+          "min": 0,
+          "max": 0
         }
       },
       "items": [
         {
           "itemId": "seal-skin-scrap",
-          "dropChance": 100,
+          "dropChance": 70,
           "quantity": {
             "min": 1,
             "max": 2
+          }
+        },
+        {
+          "itemId": "qalupalik-amautik-strap",
+          "dropChance": 25,
+          "quantity": {
+            "min": 1,
+            "max": 1
           }
         }
       ]
@@ -3789,15 +4085,15 @@
       "currency": {
         "platinum": {
           "min": 0,
-          "max": 1
+          "max": 0
         },
         "gold": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 10,
-          "max": 30
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
@@ -3807,10 +4103,18 @@
       "items": [
         {
           "itemId": "frozen-star-crystal",
-          "dropChance": 100,
+          "dropChance": 45,
           "quantity": {
             "min": 1,
             "max": 1
+          }
+        },
+        {
+          "itemId": "mountain-echo-snow",
+          "dropChance": 60,
+          "quantity": {
+            "min": 1,
+            "max": 3
           }
         }
       ]
@@ -3909,15 +4213,15 @@
       "currency": {
         "platinum": {
           "min": 0,
-          "max": 1
+          "max": 0
         },
         "gold": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 10,
-          "max": 30
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
@@ -3926,11 +4230,19 @@
       },
       "items": [
         {
-          "itemId": "jade-stone-scales",
-          "dropChance": 100,
+          "itemId": "bixie-wing-sweep-feather",
+          "dropChance": 40,
           "quantity": {
             "min": 1,
-            "max": 3
+            "max": 2
+          }
+        },
+        {
+          "itemId": "jade-stone-scales",
+          "dropChance": 20,
+          "quantity": {
+            "min": 1,
+            "max": 2
           }
         }
       ]
@@ -4032,22 +4344,30 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
           "min": 5,
           "max": 20
         },
         "copper": {
-          "min": 100,
-          "max": 300
+          "min": 40,
+          "max": 150
         }
       },
       "items": [
         {
           "itemId": "hag-cooking-pot",
-          "dropChance": 100,
+          "dropChance": 20,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "itemId": "one-eye-misfortune-lens",
+          "dropChance": 12,
           "quantity": {
             "min": 1,
             "max": 1
@@ -4155,18 +4475,26 @@
           "max": 0
         },
         "silver": {
-          "min": 2,
-          "max": 10
+          "min": 0,
+          "max": 0
         },
         "copper": {
-          "min": 5,
-          "max": 20
+          "min": 0,
+          "max": 0
         }
       },
       "items": [
         {
           "itemId": "peat-ink",
-          "dropChance": 100,
+          "dropChance": 65,
+          "quantity": {
+            "min": 1,
+            "max": 2
+          }
+        },
+        {
+          "itemId": "moss-quill",
+          "dropChance": 35,
           "quantity": {
             "min": 1,
             "max": 2
@@ -4270,19 +4598,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 4
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
-          "min": 30,
-          "max": 60
+          "min": 0,
+          "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "alraune-root-hair",
+          "dropChance": 55,
+          "quantity": {
+            "min": 1,
+            "max": 3
+          }
+        },
+        {
+          "itemId": "cracked-porcelain-face",
+          "dropChance": 12,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-14T10:00:00Z",
     "lastModified": "2026-06-14T10:00:00Z",
@@ -4384,15 +4729,15 @@
       "currency": {
         "platinum": {
           "min": 0,
-          "max": 1
+          "max": 0
         },
         "gold": {
-          "min": 5,
-          "max": 10
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 10,
-          "max": 20
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
@@ -4402,10 +4747,18 @@
       "items": [
         {
           "itemId": "nightmare-dust",
-          "dropChance": 100,
+          "dropChance": 70,
           "quantity": {
             "min": 1,
             "max": 2
+          }
+        },
+        {
+          "itemId": "river-shroud-cloth",
+          "dropChance": 12,
+          "quantity": {
+            "min": 1,
+            "max": 1
           }
         }
       ]
@@ -4504,18 +4857,26 @@
           "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
-          "min": 20,
-          "max": 50
+          "min": 10,
+          "max": 40
         }
       },
       "items": [
         {
           "itemId": "petrified-bark-knot",
-          "dropChance": 100,
+          "dropChance": 55,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "itemId": "knocker-tap-hammer",
+          "dropChance": 6,
           "quantity": {
             "min": 1,
             "max": 1
@@ -4628,21 +4989,29 @@
           "max": 0
         },
         "silver": {
-          "min": 2,
-          "max": 8
+          "min": 0,
+          "max": 0
         },
         "copper": {
-          "min": 10,
-          "max": 30
+          "min": 0,
+          "max": 0
         }
       },
       "items": [
         {
           "itemId": "withered-ironwood-leaf",
-          "dropChance": 100,
+          "dropChance": 70,
           "quantity": {
             "min": 1,
             "max": 3
+          }
+        },
+        {
+          "itemId": "hound-whistle-bone",
+          "dropChance": 15,
+          "quantity": {
+            "min": 1,
+            "max": 1
           }
         }
       ]
@@ -4741,11 +5110,11 @@
       "currency": {
         "platinum": {
           "min": 0,
-          "max": 2
+          "max": 0
         },
         "gold": {
-          "min": 10,
-          "max": 30
+          "min": 0,
+          "max": 0
         },
         "silver": {
           "min": 0,
@@ -4759,10 +5128,18 @@
       "items": [
         {
           "itemId": "nuckel-sinew",
-          "dropChance": 100,
+          "dropChance": 90,
           "quantity": {
             "min": 2,
             "max": 4
+          }
+        },
+        {
+          "itemId": "peat-horror-hoofshoe",
+          "dropChance": 4,
+          "quantity": {
+            "min": 1,
+            "max": 1
           }
         }
       ]
@@ -4867,12 +5244,12 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
@@ -4882,10 +5259,18 @@
       "items": [
         {
           "itemId": "mossy-fur-scrap",
-          "dropChance": 100,
+          "dropChance": 60,
           "quantity": {
             "min": 1,
             "max": 2
+          }
+        },
+        {
+          "itemId": "blood-milk-vial",
+          "dropChance": 9,
+          "quantity": {
+            "min": 1,
+            "max": 1
           }
         }
       ]
@@ -4990,12 +5375,12 @@
           "max": 0
         },
         "gold": {
-          "min": 2,
-          "max": 10
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 10,
-          "max": 30
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
@@ -5005,7 +5390,15 @@
       "items": [
         {
           "itemId": "ironwood-splinter-shield",
-          "dropChance": 100,
+          "dropChance": 12,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "itemId": "fachan-truth-stone",
+          "dropChance": 18,
           "quantity": {
             "min": 1,
             "max": 1
@@ -5113,18 +5506,26 @@
           "max": 0
         },
         "silver": {
-          "min": 2,
-          "max": 10
+          "min": 0,
+          "max": 0
         },
         "copper": {
-          "min": 50,
-          "max": 150
+          "min": 15,
+          "max": 60
         }
       },
       "items": [
         {
           "itemId": "forget-mead-flask",
-          "dropChance": 100,
+          "dropChance": 45,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "itemId": "cask-cork-tooth",
+          "dropChance": 40,
           "quantity": {
             "min": 1,
             "max": 1
@@ -5233,21 +5634,29 @@
           "max": 0
         },
         "silver": {
-          "min": 2,
-          "max": 10
+          "min": 0,
+          "max": 0
         },
         "copper": {
-          "min": 50,
-          "max": 100
+          "min": 6,
+          "max": 30
         }
       },
       "items": [
         {
           "itemId": "compounded-peat-clod",
-          "dropChance": 100,
+          "dropChance": 70,
           "quantity": {
             "min": 1,
             "max": 3
+          }
+        },
+        {
+          "itemId": "hearth-ledger-scrap",
+          "dropChance": 40,
+          "quantity": {
+            "min": 1,
+            "max": 2
           }
         }
       ]
@@ -5350,15 +5759,15 @@
       "currency": {
         "platinum": {
           "min": 0,
-          "max": 1
+          "max": 0
         },
         "gold": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 10,
-          "max": 20
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
@@ -5368,10 +5777,18 @@
       "items": [
         {
           "itemId": "shroud-remnant",
-          "dropChance": 100,
+          "dropChance": 65,
           "quantity": {
             "min": 1,
             "max": 2
+          }
+        },
+        {
+          "itemId": "banshee-tear-glass",
+          "dropChance": 10,
+          "quantity": {
+            "min": 1,
+            "max": 1
           }
         }
       ]
@@ -5475,19 +5892,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 3
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 10
+          "min": 0,
+          "max": 0
         },
         "copper": {
-          "min": 20,
-          "max": 50
+          "min": 0,
+          "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "raven-pinion-black",
+          "dropChance": 45,
+          "quantity": {
+            "min": 1,
+            "max": 3
+          }
+        },
+        {
+          "itemId": "spectral-feather-ash",
+          "dropChance": 60,
+          "quantity": {
+            "min": 1,
+            "max": 2
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -5591,12 +6025,12 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 10,
-          "max": 20
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
@@ -5605,8 +6039,16 @@
       },
       "items": [
         {
+          "itemId": "fossegrim-ice-rosin",
+          "dropChance": 35,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
           "itemId": "ram-skull-fiddle-bow",
-          "dropChance": 100,
+          "dropChance": 6,
           "quantity": {
             "min": 1,
             "max": 1
@@ -5705,12 +6147,12 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
@@ -5720,10 +6162,18 @@
       "items": [
         {
           "itemId": "condensed-nightmare-frost",
-          "dropChance": 100,
+          "dropChance": 60,
           "quantity": {
             "min": 1,
-            "max": 1
+            "max": 2
+          }
+        },
+        {
+          "itemId": "mare-hoofprint-ice",
+          "dropChance": 40,
+          "quantity": {
+            "min": 1,
+            "max": 2
           }
         }
       ]
@@ -5841,15 +6291,15 @@
       "currency": {
         "platinum": {
           "min": 0,
-          "max": 2
+          "max": 0
         },
         "gold": {
-          "min": 10,
-          "max": 20
+          "min": 2,
+          "max": 12
         },
         "silver": {
-          "min": 0,
-          "max": 0
+          "min": 10,
+          "max": 40
         },
         "copper": {
           "min": 0,
@@ -5859,10 +6309,18 @@
       "items": [
         {
           "itemId": "frozen-iron-chain-link",
-          "dropChance": 100,
+          "dropChance": 90,
           "quantity": {
             "min": 2,
             "max": 5
+          }
+        },
+        {
+          "itemId": "krampus-birch-switch",
+          "dropChance": 7,
+          "quantity": {
+            "min": 1,
+            "max": 1
           }
         }
       ]
@@ -5966,19 +6424,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "hunt-archive-page",
+          "dropChance": 20,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "itemId": "hunt-rider-spur",
+          "dropChance": 12,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -6074,19 +6549,28 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "peat-pool-dew",
+          "dropChance": 60,
+          "quantity": {
+            "min": 1,
+            "max": 2
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -6176,19 +6660,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
-        },
-        "silver": {
-          "min": 5,
-          "max": 15
-        },
-        "copper": {
           "min": 0,
           "max": 0
+        },
+        "silver": {
+          "min": 0,
+          "max": 0
+        },
+        "copper": {
+          "min": 3,
+          "max": 18
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "root-garden-seed",
+          "dropChance": 70,
+          "quantity": {
+            "min": 2,
+            "max": 5
+          }
+        },
+        {
+          "itemId": "secret-toll-token",
+          "dropChance": 20,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -6279,19 +6780,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "spun-fog-thread",
+          "dropChance": 40,
+          "quantity": {
+            "min": 1,
+            "max": 2
+          }
+        },
+        {
+          "itemId": "winter-distaff",
+          "dropChance": 4,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -6392,19 +6910,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
           "min": 5,
-          "max": 15
+          "max": 30
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "dullahan-lantern-wick",
+          "dropChance": 25,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "itemId": "fog-steed-bridle",
+          "dropChance": 3,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -6495,19 +7030,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "moss-touched-fang",
+          "dropChance": 45,
+          "quantity": {
+            "min": 1,
+            "max": 2
+          }
+        },
+        {
+          "itemId": "green-hound-pelt",
+          "dropChance": 14,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -6581,19 +7133,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "pixie-dust-pinch",
+          "dropChance": 70,
+          "quantity": {
+            "min": 1,
+            "max": 2
+          }
+        },
+        {
+          "itemId": "moth-wing-scale",
+          "dropChance": 50,
+          "quantity": {
+            "min": 1,
+            "max": 3
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -6683,19 +7252,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "red-moss-cap",
+          "dropChance": 60,
+          "quantity": {
+            "min": 1,
+            "max": 2
+          }
+        },
+        {
+          "itemId": "riddle-rune-slate",
+          "dropChance": 15,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -6785,19 +7371,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
-        },
-        "silver": {
-          "min": 5,
-          "max": 15
-        },
-        "copper": {
           "min": 0,
           "max": 0
+        },
+        "silver": {
+          "min": 0,
+          "max": 0
+        },
+        "copper": {
+          "min": 10,
+          "max": 40
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "foam-sealed-tallow",
+          "dropChance": 60,
+          "quantity": {
+            "min": 1,
+            "max": 3
+          }
+        },
+        {
+          "itemId": "klabater-caulk-mallet",
+          "dropChance": 8,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -6873,19 +7476,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "procession-bell-chip",
+          "dropChance": 28,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "itemId": "perchten-frozen-mask",
+          "dropChance": 3,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -6986,19 +7606,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "plague-hoof-chip",
+          "dropChance": 45,
+          "quantity": {
+            "min": 1,
+            "max": 2
+          }
+        },
+        {
+          "itemId": "helhest-bone-hoof",
+          "dropChance": 3,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -7072,19 +7709,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "myling-rune-ice",
+          "dropChance": 50,
+          "quantity": {
+            "min": 1,
+            "max": 2
+          }
+        },
+        {
+          "itemId": "hearth-warmed-swaddle",
+          "dropChance": 40,
+          "quantity": {
+            "min": 1,
+            "max": 2
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -7185,19 +7839,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "iron-toll-tithe",
+          "dropChance": 75,
+          "quantity": {
+            "min": 2,
+            "max": 5
+          }
+        },
+        {
+          "itemId": "jutul-granite-heart",
+          "dropChance": 12,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -7288,19 +7959,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "lindwyrm-glacier-scale",
+          "dropChance": 45,
+          "quantity": {
+            "min": 1,
+            "max": 2
+          }
+        },
+        {
+          "itemId": "lindwyrm-fang-sabre",
+          "dropChance": 3,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -7401,19 +8089,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "root-worm-rune-bark",
+          "dropChance": 40,
+          "quantity": {
+            "min": 1,
+            "max": 2
+          }
+        },
+        {
+          "itemId": "foundation-gnaw-grit",
+          "dropChance": 65,
+          "quantity": {
+            "min": 1,
+            "max": 4
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -7514,19 +8219,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
-        },
-        "silver": {
-          "min": 5,
-          "max": 15
-        },
-        "copper": {
           "min": 0,
           "max": 0
+        },
+        "silver": {
+          "min": 0,
+          "max": 0
+        },
+        "copper": {
+          "min": 15,
+          "max": 80
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "strand-barnacle-crust",
+          "dropChance": 60,
+          "quantity": {
+            "min": 1,
+            "max": 3
+          }
+        },
+        {
+          "itemId": "drowned-sailor-purse",
+          "dropChance": 25,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -7601,19 +8323,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "landvaettir-granite-heart",
+          "dropChance": 20,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "itemId": "avalanche-snow-crystal",
+          "dropChance": 40,
+          "quantity": {
+            "min": 1,
+            "max": 2
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -7686,19 +8425,28 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "vettir-storm-whisper",
+          "dropChance": 20,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -7789,19 +8537,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
           "min": 5,
-          "max": 15
+          "max": 25
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "glacier-crystal-cut",
+          "dropChance": 40,
+          "quantity": {
+            "min": 1,
+            "max": 2
+          }
+        },
+        {
+          "itemId": "bergfolk-chisel",
+          "dropChance": 10,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -7892,19 +8657,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "wolf-cub-fang",
+          "dropChance": 55,
+          "quantity": {
+            "min": 1,
+            "max": 2
+          }
+        },
+        {
+          "itemId": "fenris-gleipnir-fibre",
+          "dropChance": 4,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -7995,19 +8777,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "ancestral-hair-lock",
+          "dropChance": 55,
+          "quantity": {
+            "min": 1,
+            "max": 3
+          }
+        },
+        {
+          "itemId": "disir-spindle-whorl",
+          "dropChance": 12,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -8081,19 +8880,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "valravn-wing-feather",
+          "dropChance": 50,
+          "quantity": {
+            "min": 1,
+            "max": 2
+          }
+        },
+        {
+          "itemId": "valravn-heart-shard",
+          "dropChance": 10,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -8210,19 +9026,44 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "kraken-tentacle-ice",
+          "dropChance": 60,
+          "quantity": {
+            "min": 1,
+            "max": 2
+          }
+        },
+        {
+          "itemId": "kraken-ink-vial",
+          "dropChance": 30,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "itemId": "kraken-beak-tip",
+          "dropChance": 5,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -8312,19 +9153,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "merman-bone-harp-string",
+          "dropChance": 30,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "itemId": "captured-melody-vial",
+          "dropChance": 9,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -8398,19 +9256,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
           "min": 5,
-          "max": 15
+          "max": 30
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "scrimshaw-necklace",
+          "dropChance": 16,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "itemId": "serpent-scale-frost",
+          "dropChance": 40,
+          "quantity": {
+            "min": 1,
+            "max": 2
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -8526,19 +9401,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "pazuzu-ash-wind",
+          "dropChance": 25,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "itemId": "basalt-scorpion-sting",
+          "dropChance": 40,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -8613,19 +9505,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "caldera-black-glass",
+          "dropChance": 70,
+          "quantity": {
+            "min": 1,
+            "max": 3
+          }
+        },
+        {
+          "itemId": "tyrant-molten-fang",
+          "dropChance": 2,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -8700,19 +9609,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "anzu-obsidian-talon",
+          "dropChance": 20,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "itemId": "anzu-storm-feather",
+          "dropChance": 45,
+          "quantity": {
+            "min": 1,
+            "max": 2
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -8834,19 +9760,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "basalt-gate-key",
+          "dropChance": 18,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "itemId": "scorpion-man-pincer",
+          "dropChance": 35,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -8962,19 +9905,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "ammit-croc-tooth",
+          "dropChance": 50,
+          "quantity": {
+            "min": 1,
+            "max": 2
+          }
+        },
+        {
+          "itemId": "ammit-judging-heart",
+          "dropChance": 3,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -9065,19 +10025,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "copper-weeping-tear",
+          "dropChance": 20,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "itemId": "donkey-shriek-reed",
+          "dropChance": 55,
+          "quantity": {
+            "min": 1,
+            "max": 2
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -9168,19 +10145,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "bes-tambourine",
+          "dropChance": 9,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "itemId": "nursery-guard-charm",
+          "dropChance": 12,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -9255,19 +10249,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "cobra-hood-ember",
+          "dropChance": 55,
+          "quantity": {
+            "min": 1,
+            "max": 2
+          }
+        },
+        {
+          "itemId": "ifrit-coal-heart",
+          "dropChance": 4,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -9342,19 +10353,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "ghul-ash-bone",
+          "dropChance": 55,
+          "quantity": {
+            "min": 1,
+            "max": 2
+          }
+        },
+        {
+          "itemId": "ghul-green-ember",
+          "dropChance": 14,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -9429,19 +10457,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "cooling-magma-clump",
+          "dropChance": 75,
+          "quantity": {
+            "min": 1,
+            "max": 3
+          }
+        },
+        {
+          "itemId": "gugalanna-obsidian-horn",
+          "dropChance": 14,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -9532,19 +10577,28 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "peri-wing-powder",
+          "dropChance": 18,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -9636,19 +10690,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "daeva-jackal-fang",
+          "dropChance": 45,
+          "quantity": {
+            "min": 1,
+            "max": 2
+          }
+        },
+        {
+          "itemId": "daeva-lie-shadow",
+          "dropChance": 14,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -9740,19 +10811,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "simurgh-copper-mane",
+          "dropChance": 30,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "itemId": "simurgh-healing-feather",
+          "dropChance": 6,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -9855,19 +10943,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "azi-obsidian-hide",
+          "dropChance": 30,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "itemId": "azi-venom-gland",
+          "dropChance": 6,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -9942,19 +11047,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "edimmu-sulfur-wisp",
+          "dropChance": 55,
+          "quantity": {
+            "min": 1,
+            "max": 2
+          }
+        },
+        {
+          "itemId": "edimmu-afterimage-glass",
+          "dropChance": 14,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -10046,19 +11168,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "asag-weeping-pumice",
+          "dropChance": 60,
+          "quantity": {
+            "min": 1,
+            "max": 2
+          }
+        },
+        {
+          "itemId": "asag-boil-stone",
+          "dropChance": 14,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -10133,19 +11272,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "nisroch-bronze-talon",
+          "dropChance": 45,
+          "quantity": {
+            "min": 1,
+            "max": 2
+          }
+        },
+        {
+          "itemId": "nisroch-wedjat-eye",
+          "dropChance": 3,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -10221,19 +11377,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "abzu-cooling-shard",
+          "dropChance": 55,
+          "quantity": {
+            "min": 1,
+            "max": 2
+          }
+        },
+        {
+          "itemId": "abzu-glyph-water",
+          "dropChance": 15,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -10305,19 +11478,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "kur-murmuring-ash",
+          "dropChance": 60,
+          "quantity": {
+            "min": 1,
+            "max": 3
+          }
+        },
+        {
+          "itemId": "kur-underworld-rune",
+          "dropChance": 5,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -10407,19 +11597,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "mushussu-horn-nub",
+          "dropChance": 40,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "itemId": "mushussu-life-breath",
+          "dropChance": 12,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -10520,19 +11727,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
           "min": 5,
-          "max": 15
+          "max": 20
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "cowrie-crown-shell",
+          "dropChance": 40,
+          "quantity": {
+            "min": 1,
+            "max": 2
+          }
+        },
+        {
+          "itemId": "siren-bone-comb",
+          "dropChance": 8,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -10633,19 +11857,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "maelstrom-spotted-scale",
+          "dropChance": 35,
+          "quantity": {
+            "min": 1,
+            "max": 2
+          }
+        },
+        {
+          "itemId": "maelstrom-heart-water",
+          "dropChance": 4,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -10737,19 +11978,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "ketos-blubber-oil",
+          "dropChance": 70,
+          "quantity": {
+            "min": 1,
+            "max": 3
+          }
+        },
+        {
+          "itemId": "ketos-tusk-fragment",
+          "dropChance": 3,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -10839,19 +12097,44 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
-        },
-        "silver": {
-          "min": 5,
-          "max": 15
-        },
-        "copper": {
           "min": 0,
           "max": 0
+        },
+        "silver": {
+          "min": 0,
+          "max": 0
+        },
+        "copper": {
+          "min": 5,
+          "max": 25
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "harpy-vulture-feather",
+          "dropChance": 70,
+          "quantity": {
+            "min": 1,
+            "max": 3
+          }
+        },
+        {
+          "itemId": "harpy-iron-hook-foot",
+          "dropChance": 30,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "itemId": "stolen-sailors-trinket",
+          "dropChance": 45,
+          "quantity": {
+            "min": 1,
+            "max": 2
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -10941,19 +12224,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "estuary-pure-water",
+          "dropChance": 60,
+          "quantity": {
+            "min": 1,
+            "max": 2
+          }
+        },
+        {
+          "itemId": "hippocampus-fin-silk",
+          "dropChance": 30,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -11028,19 +12328,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "gorgon-eel-hair",
+          "dropChance": 35,
+          "quantity": {
+            "min": 1,
+            "max": 2
+          }
+        },
+        {
+          "itemId": "gorgon-crystal-blood",
+          "dropChance": 12,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -11130,19 +12447,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
-        },
-        "silver": {
-          "min": 5,
-          "max": 15
-        },
-        "copper": {
           "min": 0,
           "max": 0
+        },
+        "silver": {
+          "min": 0,
+          "max": 0
+        },
+        "copper": {
+          "min": 3,
+          "max": 15
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "bilge-sprite-scrapings",
+          "dropChance": 85,
+          "quantity": {
+            "min": 1,
+            "max": 3
+          }
+        },
+        {
+          "itemId": "tokoloshe-pebble",
+          "dropChance": 7,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -11242,19 +12576,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "coral-plated-scale",
+          "dropChance": 45,
+          "quantity": {
+            "min": 1,
+            "max": 2
+          }
+        },
+        {
+          "itemId": "lamia-pearl-tear",
+          "dropChance": 18,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -11345,19 +12696,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "storm-watch-charm",
+          "dropChance": 40,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "itemId": "empusa-brass-leg",
+          "dropChance": 3,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -11458,11 +12826,11 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
+          "min": 3,
           "max": 15
         },
         "copper": {
@@ -11470,7 +12838,24 @@
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "deep-sea-ice-ingot",
+          "dropChance": 25,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "itemId": "telkhine-whalebone-hammer",
+          "dropChance": 5,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -11544,19 +12929,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "stymphalian-bronze-quill",
+          "dropChance": 70,
+          "quantity": {
+            "min": 2,
+            "max": 6
+          }
+        },
+        {
+          "itemId": "bronze-plume-shard",
+          "dropChance": 30,
+          "quantity": {
+            "min": 1,
+            "max": 2
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -11631,19 +13033,28 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "nereid-sea-light",
+          "dropChance": 22,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -11718,19 +13129,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "graeae-prophet-tooth",
+          "dropChance": 30,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "itemId": "graeae-obsidian-eye",
+          "dropChance": 3,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -11821,19 +13249,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
           "min": 5,
-          "max": 15
+          "max": 30
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "prehensile-mane-lock",
+          "dropChance": 35,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "itemId": "triton-conch-horn",
+          "dropChance": 3,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -11934,19 +13379,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "nandi-hyena-pelt",
+          "dropChance": 45,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "itemId": "nandi-skull-crusher-tooth",
+          "dropChance": 12,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -12021,19 +13483,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "shame-silence-cloth",
+          "dropChance": 35,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "itemId": "popobawa-bruised-eye",
+          "dropChance": 12,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -12124,19 +13603,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "reef-garden-spore",
+          "dropChance": 60,
+          "quantity": {
+            "min": 1,
+            "max": 3
+          }
+        },
+        {
+          "itemId": "abada-horn",
+          "dropChance": 4,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -12208,19 +13704,28 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "graia-grey-water",
+          "dropChance": 20,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -12326,19 +13831,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "ichthya-wave-forge-ingot",
+          "dropChance": 22,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "itemId": "ichthya-trident-tip",
+          "dropChance": 10,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -12413,19 +13935,28 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "safe-harbor-light",
+          "dropChance": 40,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -12526,19 +14057,44 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "river-stone-hurl",
+          "dropChance": 55,
+          "quantity": {
+            "min": 1,
+            "max": 3
+          }
+        },
+        {
+          "itemId": "kappa-bowl-water",
+          "dropChance": 16,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "itemId": "sump-scrab-bowl",
+          "dropChance": 10,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -12612,19 +14168,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "kitsune-fox-fire",
+          "dropChance": 22,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "itemId": "kitsune-white-tail",
+          "dropChance": 2,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -12740,19 +14313,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "tsuchinoko-glacier-scale",
+          "dropChance": 45,
+          "quantity": {
+            "min": 1,
+            "max": 2
+          }
+        },
+        {
+          "itemId": "sake-breath-flask",
+          "dropChance": 22,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -12822,19 +14412,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "faceless-wrap",
+          "dropChance": 60,
+          "quantity": {
+            "min": 1,
+            "max": 2
+          }
+        },
+        {
+          "itemId": "stolen-span-fat",
+          "dropChance": 30,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -12904,19 +14511,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "tribute-ore-chunk",
+          "dropChance": 80,
+          "quantity": {
+            "min": 2,
+            "max": 5
+          }
+        },
+        {
+          "itemId": "ice-ogre-club-core",
+          "dropChance": 6,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -13007,19 +14631,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 3,
+          "max": 12
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 10,
+          "max": 40
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "needle-fang",
+          "dropChance": 25,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "itemId": "jorogumo-gold-silk",
+          "dropChance": 6,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -13094,19 +14735,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "kodama-quartz-eye",
+          "dropChance": 40,
+          "quantity": {
+            "min": 1,
+            "max": 2
+          }
+        },
+        {
+          "itemId": "mountain-echo-snow",
+          "dropChance": 45,
+          "quantity": {
+            "min": 1,
+            "max": 2
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -13181,19 +14839,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "nurikabe-cliff-block",
+          "dropChance": 55,
+          "quantity": {
+            "min": 1,
+            "max": 2
+          }
+        },
+        {
+          "itemId": "nurikabe-copper-sand",
+          "dropChance": 12,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -13269,19 +14944,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "nue-chimera-hide",
+          "dropChance": 40,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "itemId": "nue-black-cloud",
+          "dropChance": 14,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -13372,19 +15064,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "kasha-funeral-miniature",
+          "dropChance": 30,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "itemId": "kasha-blue-flame",
+          "dropChance": 10,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -13458,19 +15167,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
-        },
-        "silver": {
-          "min": 5,
-          "max": 15
-        },
-        "copper": {
           "min": 0,
           "max": 0
+        },
+        "silver": {
+          "min": 0,
+          "max": 0
+        },
+        "copper": {
+          "min": 10,
+          "max": 60
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "tanuki-leaf-hat",
+          "dropChance": 70,
+          "quantity": {
+            "min": 1,
+            "max": 3
+          }
+        },
+        {
+          "itemId": "tanuki-stone-carving",
+          "dropChance": 25,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -13572,19 +15298,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "ushioni-sulfur-web",
+          "dropChance": 55,
+          "quantity": {
+            "min": 1,
+            "max": 2
+          }
+        },
+        {
+          "itemId": "ushioni-bull-horn",
+          "dropChance": 10,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -13675,19 +15418,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "baku-glowing-hide",
+          "dropChance": 35,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "itemId": "baku-nightmare-ink",
+          "dropChance": 12,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -13788,19 +15548,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "nekomata-static-whisker",
+          "dropChance": 65,
+          "quantity": {
+            "min": 1,
+            "max": 3
+          }
+        },
+        {
+          "itemId": "nekomata-twin-tail",
+          "dropChance": 30,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -13891,19 +15668,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "devoured-ration-crumb",
+          "dropChance": 60,
+          "quantity": {
+            "min": 1,
+            "max": 3
+          }
+        },
+        {
+          "itemId": "futakuchi-second-mouth-lock",
+          "dropChance": 10,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -13979,19 +15773,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "cold-fire-cinder",
+          "dropChance": 55,
+          "quantity": {
+            "min": 1,
+            "max": 2
+          }
+        },
+        {
+          "itemId": "wanyudo-soul-wheel-spoke",
+          "dropChance": 3,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -14083,19 +15894,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "molten-gold-silk",
+          "dropChance": 20,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "itemId": "tsuchigumo-gem-eye",
+          "dropChance": 4,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -14200,19 +16028,28 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "akaname-copper-tongue",
+          "dropChance": 45,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -14304,19 +16141,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "blue-hound-fur",
+          "dropChance": 45,
+          "quantity": {
+            "min": 1,
+            "max": 2
+          }
+        },
+        {
+          "itemId": "inugami-hair-collar",
+          "dropChance": 4,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -14391,19 +16245,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "ittan-embroidery-scrap",
+          "dropChance": 55,
+          "quantity": {
+            "min": 1,
+            "max": 2
+          }
+        },
+        {
+          "itemId": "chasm-message-ribbon",
+          "dropChance": 14,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -14493,19 +16364,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "almas-silent-fur",
+          "dropChance": 40,
+          "quantity": {
+            "min": 1,
+            "max": 2
+          }
+        },
+        {
+          "itemId": "almas-root-club-chip",
+          "dropChance": 60,
+          "quantity": {
+            "min": 1,
+            "max": 2
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -14596,19 +16484,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "tulpar-sky-memory-mane",
+          "dropChance": 20,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "itemId": "tulpar-star-hoof",
+          "dropChance": 3,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -14710,19 +16615,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 5,
+          "max": 25
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "half-bone-hand",
+          "dropChance": 22,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "itemId": "erlik-ancestral-bone-throne-chip",
+          "dropChance": 4,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -14794,19 +16716,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "burkhan-breathing-grass",
+          "dropChance": 60,
+          "quantity": {
+            "min": 1,
+            "max": 2
+          }
+        },
+        {
+          "itemId": "burkhan-wind-ribbon",
+          "dropChance": 14,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -14907,19 +16846,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "nian-red-fur",
+          "dropChance": 55,
+          "quantity": {
+            "min": 1,
+            "max": 2
+          }
+        },
+        {
+          "itemId": "nian-iron-horn",
+          "dropChance": 12,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -15021,19 +16977,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
+          "min": 3,
           "max": 15
         },
         "copper": {
-          "min": 0,
-          "max": 0
+          "min": 10,
+          "max": 60
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "hopping-riding-sash",
+          "dropChance": 50,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "itemId": "jiangshi-paper-talisman",
+          "dropChance": 20,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -15125,19 +17098,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "spiral-tooth",
+          "dropChance": 50,
+          "quantity": {
+            "min": 1,
+            "max": 3
+          }
+        },
+        {
+          "itemId": "taotie-hungry-jaw",
+          "dropChance": 4,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -15228,19 +17218,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "baize-crown-horn",
+          "dropChance": 20,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "itemId": "baize-nine-eye",
+          "dropChance": 3,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -15330,19 +17337,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "zilant-rooster-comb",
+          "dropChance": 45,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "itemId": "zilant-resonance-feather",
+          "dropChance": 14,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -15433,19 +17457,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "susulu-healing-spring-water",
+          "dropChance": 50,
+          "quantity": {
+            "min": 1,
+            "max": 2
+          }
+        },
+        {
+          "itemId": "river-dragonling-scale",
+          "dropChance": 12,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -15536,19 +17577,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "dijiang-crimson-sac",
+          "dropChance": 45,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "itemId": "chaos-drum-skin",
+          "dropChance": 10,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -15623,19 +17681,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "migration-calendar-bead",
+          "dropChance": 25,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "itemId": "fenghuang-plume",
+          "dropChance": 4,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -15725,19 +17800,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "qiongqi-boar-tusk",
+          "dropChance": 45,
+          "quantity": {
+            "min": 1,
+            "max": 2
+          }
+        },
+        {
+          "itemId": "blood-furred-tiger-pelt",
+          "dropChance": 14,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -15838,19 +17930,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "oil-slick-feather",
+          "dropChance": 55,
+          "quantity": {
+            "min": 1,
+            "max": 2
+          }
+        },
+        {
+          "itemId": "zhenniao-acid-tear",
+          "dropChance": 14,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -15951,19 +18060,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "aquifer-mud",
+          "dropChance": 65,
+          "quantity": {
+            "min": 1,
+            "max": 3
+          }
+        },
+        {
+          "itemId": "ubagan-crystal-fist",
+          "dropChance": 3,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -16055,19 +18181,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "storm-raising-pearl",
+          "dropChance": 25,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "itemId": "qoraigarash-gem-scale",
+          "dropChance": 3,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -16159,19 +18302,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "independent-mouth-fang",
+          "dropChance": 22,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "itemId": "ajina-entropy-shadow",
+          "dropChance": 3,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -16288,19 +18448,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "lu-wu-season-claw",
+          "dropChance": 15,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "itemId": "lu-wu-human-face-mask",
+          "dropChance": 2,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -16376,19 +18553,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "bura-dust-devil",
+          "dropChance": 50,
+          "quantity": {
+            "min": 1,
+            "max": 2
+          }
+        },
+        {
+          "itemId": "broken-oath-wind-knot",
+          "dropChance": 12,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -16464,19 +18658,28 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "tengri-star-thread",
+          "dropChance": 5,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -16593,19 +18796,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "forest-fungus-crown",
+          "dropChance": 45,
+          "quantity": {
+            "min": 1,
+            "max": 2
+          }
+        },
+        {
+          "itemId": "leshara-heartwood",
+          "dropChance": 4,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -16707,19 +18927,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "bog-nymph-tear",
+          "dropChance": 45,
+          "quantity": {
+            "min": 1,
+            "max": 2
+          }
+        },
+        {
+          "itemId": "rusalka-bone-comb",
+          "dropChance": 8,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -16811,19 +19048,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "fever-touch-dust",
+          "dropChance": 50,
+          "quantity": {
+            "min": 1,
+            "max": 2
+          }
+        },
+        {
+          "itemId": "strigoi-canopy-fang",
+          "dropChance": 14,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -16897,19 +19151,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
-        },
-        "silver": {
-          "min": 5,
-          "max": 15
-        },
-        "copper": {
           "min": 0,
           "max": 0
+        },
+        "silver": {
+          "min": 0,
+          "max": 0
+        },
+        "copper": {
+          "min": 10,
+          "max": 50
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "domovoi-hearth-tuft",
+          "dropChance": 40,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "itemId": "household-ledger-page",
+          "dropChance": 10,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -17035,19 +19306,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "kikimora-silk-tangle",
+          "dropChance": 50,
+          "quantity": {
+            "min": 1,
+            "max": 2
+          }
+        },
+        {
+          "itemId": "mischief-spindle",
+          "dropChance": 10,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -17174,19 +19462,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 5,
+          "max": 20
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "lost-contract-fragment",
+          "dropChance": 35,
+          "quantity": {
+            "min": 1,
+            "max": 2
+          }
+        },
+        {
+          "itemId": "zmey-triple-scale",
+          "dropChance": 6,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -17277,19 +19582,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "canopy-warm-ember",
+          "dropChance": 55,
+          "quantity": {
+            "min": 1,
+            "max": 2
+          }
+        },
+        {
+          "itemId": "firebird-glow-feather",
+          "dropChance": 4,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -17381,19 +19703,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "naga-root-scale",
+          "dropChance": 30,
+          "quantity": {
+            "min": 1,
+            "max": 2
+          }
+        },
+        {
+          "itemId": "naga-water-venom",
+          "dropChance": 20,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -17510,19 +19849,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
-        },
-        "silver": {
-          "min": 5,
-          "max": 15
-        },
-        "copper": {
           "min": 0,
           "max": 0
+        },
+        "silver": {
+          "min": 2,
+          "max": 12
+        },
+        "copper": {
+          "min": 20,
+          "max": 80
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "preta-hunger-bead",
+          "dropChance": 45,
+          "quantity": {
+            "min": 1,
+            "max": 2
+          }
+        },
+        {
+          "itemId": "hollow-greed-coin",
+          "dropChance": 65,
+          "quantity": {
+            "min": 2,
+            "max": 6
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -17614,19 +19970,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "gamayun-sorrow-song-vial",
+          "dropChance": 14,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "itemId": "gamayun-prophetic-feather",
+          "dropChance": 4,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -17702,19 +20075,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
           "min": 5,
-          "max": 15
+          "max": 25
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "chort-cloven-hoof",
+          "dropChance": 40,
+          "quantity": {
+            "min": 1,
+            "max": 2
+          }
+        },
+        {
+          "itemId": "crossroads-wager-token",
+          "dropChance": 12,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -17806,19 +20196,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "drekavra-claw-husk",
+          "dropChance": 45,
+          "quantity": {
+            "min": 1,
+            "max": 2
+          }
+        },
+        {
+          "itemId": "unfulfilled-dead-scream",
+          "dropChance": 12,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -17919,19 +20326,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "bannik-soot-clump",
+          "dropChance": 70,
+          "quantity": {
+            "min": 1,
+            "max": 3
+          }
+        },
+        {
+          "itemId": "bathhouse-divining-ember",
+          "dropChance": 10,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -18001,19 +20425,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "bone-calcium-powder",
+          "dropChance": 65,
+          "quantity": {
+            "min": 1,
+            "max": 3
+          }
+        },
+        {
+          "itemId": "psoglav-iron-tooth",
+          "dropChance": 10,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -18089,19 +20530,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
-        },
-        "silver": {
-          "min": 5,
-          "max": 15
-        },
-        "copper": {
           "min": 0,
           "max": 0
+        },
+        "silver": {
+          "min": 0,
+          "max": 0
+        },
+        "copper": {
+          "min": 10,
+          "max": 60
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "vourdalak-kin-lock",
+          "dropChance": 45,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "itemId": "blood-debt-ledger",
+          "dropChance": 10,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -18202,19 +20660,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "mavka-willow-leaf",
+          "dropChance": 50,
+          "quantity": {
+            "min": 1,
+            "max": 2
+          }
+        },
+        {
+          "itemId": "hollow-back-bark",
+          "dropChance": 55,
+          "quantity": {
+            "min": 1,
+            "max": 2
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -18289,19 +20764,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "alkonost-dawn-feather",
+          "dropChance": 18,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "itemId": "forgotten-joy-bead",
+          "dropChance": 40,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -18376,19 +20868,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "changeling-straw-doll",
+          "dropChance": 30,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "itemId": "thorn-whip-fibre",
+          "dropChance": 65,
+          "quantity": {
+            "min": 1,
+            "max": 3
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -18490,19 +20999,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "forest-life-sap",
+          "dropChance": 30,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "itemId": "upir-root-tendril",
+          "dropChance": 6,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -18577,19 +21103,36 @@
           "max": 0
         },
         "gold": {
-          "min": 1,
-          "max": 5
+          "min": 0,
+          "max": 0
         },
         "silver": {
-          "min": 5,
-          "max": 15
+          "min": 0,
+          "max": 0
         },
         "copper": {
           "min": 0,
           "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "healing-tear-bead",
+          "dropChance": 14,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "itemId": "sirin-melancholy-feather",
+          "dropChance": 4,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
@@ -18665,18 +21208,35 @@
         },
         "gold": {
           "min": 0,
-          "max": 2
+          "max": 0
         },
         "silver": {
-          "min": 2,
-          "max": 10
+          "min": 0,
+          "max": 0
         },
         "copper": {
-          "min": 10,
-          "max": 50
+          "min": 0,
+          "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "oathless-fetter",
+          "dropChance": 20,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "itemId": "gambrel-rib-splinter",
+          "dropChance": 55,
+          "quantity": {
+            "min": 1,
+            "max": 2
+          }
+        }
+      ]
     },
     "dateCreated": "2026-07-14T20:33:48.619Z",
     "lastModified": "2026-07-14T20:33:48.619Z",
@@ -18754,18 +21314,35 @@
         },
         "gold": {
           "min": 0,
-          "max": 2
+          "max": 0
         },
         "silver": {
-          "min": 2,
-          "max": 10
+          "min": 0,
+          "max": 0
         },
         "copper": {
-          "min": 10,
-          "max": 50
+          "min": 0,
+          "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "revel-puppet-limb",
+          "dropChance": 65,
+          "quantity": {
+            "min": 1,
+            "max": 3
+          }
+        },
+        {
+          "itemId": "revel-dance-bell",
+          "dropChance": 10,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-07-14T20:33:48.620Z",
     "lastModified": "2026-07-14T20:33:48.620Z",
@@ -18843,18 +21420,35 @@
         },
         "gold": {
           "min": 0,
-          "max": 2
+          "max": 0
         },
         "silver": {
-          "min": 2,
-          "max": 10
+          "min": 0,
+          "max": 0
         },
         "copper": {
-          "min": 10,
+          "min": 8,
           "max": 50
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "drowned-fjord-rime",
+          "dropChance": 55,
+          "quantity": {
+            "min": 1,
+            "max": 3
+          }
+        },
+        {
+          "itemId": "frost-fever-vial",
+          "dropChance": 22,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-07-14T20:33:48.621Z",
     "lastModified": "2026-07-14T20:33:48.621Z",
@@ -18932,18 +21526,35 @@
         },
         "gold": {
           "min": 0,
-          "max": 2
+          "max": 0
         },
         "silver": {
-          "min": 2,
-          "max": 10
+          "min": 0,
+          "max": 0
         },
         "copper": {
-          "min": 10,
-          "max": 50
+          "min": 0,
+          "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "warmth-thief-husk",
+          "dropChance": 60,
+          "quantity": {
+            "min": 1,
+            "max": 3
+          }
+        },
+        {
+          "itemId": "stolen-hearth-ember",
+          "dropChance": 9,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-07-14T20:33:48.622Z",
     "lastModified": "2026-07-14T20:33:48.622Z",
@@ -19022,18 +21633,35 @@
         },
         "gold": {
           "min": 0,
-          "max": 2
+          "max": 0
         },
         "silver": {
-          "min": 2,
-          "max": 10
+          "min": 0,
+          "max": 0
         },
         "copper": {
-          "min": 10,
-          "max": 50
+          "min": 0,
+          "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "glacier-echo-ice",
+          "dropChance": 45,
+          "quantity": {
+            "min": 1,
+            "max": 2
+          }
+        },
+        {
+          "itemId": "stel-death-scream-shard",
+          "dropChance": 12,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-07-14T20:33:48.623Z",
     "lastModified": "2026-07-14T20:33:48.623Z",
@@ -19111,18 +21739,27 @@
         },
         "gold": {
           "min": 0,
-          "max": 2
+          "max": 0
         },
         "silver": {
-          "min": 2,
-          "max": 10
+          "min": 0,
+          "max": 0
         },
         "copper": {
-          "min": 10,
-          "max": 50
+          "min": 0,
+          "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "cinder-liar-ash",
+          "dropChance": 60,
+          "quantity": {
+            "min": 1,
+            "max": 2
+          }
+        }
+      ]
     },
     "dateCreated": "2026-07-14T20:33:48.623Z",
     "lastModified": "2026-07-14T20:33:48.623Z",
@@ -19200,18 +21837,35 @@
         },
         "gold": {
           "min": 0,
-          "max": 2
+          "max": 0
         },
         "silver": {
-          "min": 2,
-          "max": 10
+          "min": 0,
+          "max": 0
         },
         "copper": {
-          "min": 10,
-          "max": 50
+          "min": 0,
+          "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "oracle-ash-prophecy",
+          "dropChance": 60,
+          "quantity": {
+            "min": 1,
+            "max": 2
+          }
+        },
+        {
+          "itemId": "ash-oracle-soot-seer-veil",
+          "dropChance": 12,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-07-14T20:33:48.623Z",
     "lastModified": "2026-07-14T20:33:48.623Z",
@@ -19290,18 +21944,35 @@
         },
         "gold": {
           "min": 0,
-          "max": 2
+          "max": 0
         },
         "silver": {
-          "min": 2,
-          "max": 10
+          "min": 0,
+          "max": 0
         },
         "copper": {
-          "min": 10,
-          "max": 50
+          "min": 0,
+          "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "husque-void-leak",
+          "dropChance": 6,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "itemId": "breach-silhouette-cloth",
+          "dropChance": 20,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-07-14T20:33:48.624Z",
     "lastModified": "2026-07-14T20:33:48.624Z",
@@ -19379,18 +22050,35 @@
         },
         "gold": {
           "min": 0,
-          "max": 2
+          "max": 0
         },
         "silver": {
-          "min": 2,
-          "max": 10
+          "min": 0,
+          "max": 0
         },
         "copper": {
-          "min": 10,
-          "max": 50
+          "min": 0,
+          "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "spume-memory-foam",
+          "dropChance": 55,
+          "quantity": {
+            "min": 1,
+            "max": 2
+          }
+        },
+        {
+          "itemId": "drowned-sailor-ice",
+          "dropChance": 60,
+          "quantity": {
+            "min": 1,
+            "max": 3
+          }
+        }
+      ]
     },
     "dateCreated": "2026-07-14T20:33:48.625Z",
     "lastModified": "2026-07-14T20:33:48.625Z",
@@ -19468,18 +22156,35 @@
         },
         "gold": {
           "min": 0,
-          "max": 2
+          "max": 0
         },
         "silver": {
-          "min": 2,
-          "max": 10
+          "min": 0,
+          "max": 0
         },
         "copper": {
-          "min": 10,
-          "max": 50
+          "min": 0,
+          "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "contract-ice-parchment",
+          "dropChance": 45,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "itemId": "runic-terms-seal",
+          "dropChance": 12,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-07-14T20:33:48.626Z",
     "lastModified": "2026-07-14T20:33:48.626Z",
@@ -19558,18 +22263,35 @@
         },
         "gold": {
           "min": 0,
-          "max": 2
+          "max": 0
         },
         "silver": {
-          "min": 2,
-          "max": 10
+          "min": 0,
+          "max": 0
         },
         "copper": {
-          "min": 10,
-          "max": 50
+          "min": 0,
+          "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "storm-crow-feather",
+          "dropChance": 70,
+          "quantity": {
+            "min": 1,
+            "max": 3
+          }
+        },
+        {
+          "itemId": "storm-crow-stolen-voice",
+          "dropChance": 16,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-07-14T20:33:48.626Z",
     "lastModified": "2026-07-14T20:33:48.626Z",
@@ -19647,18 +22369,35 @@
         },
         "gold": {
           "min": 0,
-          "max": 2
+          "max": 0
         },
         "silver": {
-          "min": 2,
-          "max": 10
+          "min": 0,
+          "max": 0
         },
         "copper": {
-          "min": 10,
-          "max": 50
+          "min": 0,
+          "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "boiler-tick-shell",
+          "dropChance": 70,
+          "quantity": {
+            "min": 1,
+            "max": 3
+          }
+        },
+        {
+          "itemId": "stolen-steam-pearl",
+          "dropChance": 18,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-07-14T20:33:48.627Z",
     "lastModified": "2026-07-14T20:33:48.627Z",
@@ -19737,18 +22476,35 @@
         },
         "gold": {
           "min": 0,
-          "max": 2
+          "max": 0
         },
         "silver": {
-          "min": 2,
-          "max": 10
+          "min": 5,
+          "max": 30
         },
         "copper": {
-          "min": 10,
-          "max": 50
+          "min": 0,
+          "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "unpaid-promise-wrap",
+          "dropChance": 65,
+          "quantity": {
+            "min": 1,
+            "max": 3
+          }
+        },
+        {
+          "itemId": "lien-debt-scroll",
+          "dropChance": 16,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-07-14T20:33:48.627Z",
     "lastModified": "2026-07-14T20:33:48.627Z",
@@ -19827,18 +22583,27 @@
         },
         "gold": {
           "min": 0,
-          "max": 2
+          "max": 0
         },
         "silver": {
-          "min": 2,
-          "max": 10
+          "min": 0,
+          "max": 0
         },
         "copper": {
-          "min": 10,
-          "max": 50
+          "min": 0,
+          "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "story-eater-star-crumb",
+          "dropChance": 55,
+          "quantity": {
+            "min": 1,
+            "max": 2
+          }
+        }
+      ]
     },
     "dateCreated": "2026-07-14T20:33:48.628Z",
     "lastModified": "2026-07-14T20:33:48.628Z",
@@ -19917,18 +22682,35 @@
         },
         "gold": {
           "min": 0,
-          "max": 2
+          "max": 0
         },
         "silver": {
-          "min": 2,
-          "max": 10
+          "min": 5,
+          "max": 25
         },
         "copper": {
-          "min": 10,
-          "max": 50
+          "min": 0,
+          "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "skeletal-judge-bridle",
+          "dropChance": 18,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "itemId": "sere-khan-trial-gavel",
+          "dropChance": 3,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-07-14T20:33:48.629Z",
     "lastModified": "2026-07-14T20:33:48.629Z",
@@ -20005,19 +22787,36 @@
           "max": 0
         },
         "gold": {
-          "min": 0,
-          "max": 2
+          "min": 1,
+          "max": 6
         },
         "silver": {
-          "min": 2,
-          "max": 10
+          "min": 8,
+          "max": 30
         },
         "copper": {
-          "min": 10,
-          "max": 50
+          "min": 0,
+          "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "bog-moss-mantle",
+          "dropChance": 8,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "itemId": "bog-hag-lent-year",
+          "dropChance": 3,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-07-14T20:33:48.630Z",
     "lastModified": "2026-07-14T20:33:48.630Z",
@@ -20096,18 +22895,35 @@
         },
         "gold": {
           "min": 0,
-          "max": 2
+          "max": 0
         },
         "silver": {
-          "min": 2,
-          "max": 10
+          "min": 5,
+          "max": 25
         },
         "copper": {
-          "min": 10,
-          "max": 50
+          "min": 0,
+          "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "peat-preserved-contract",
+          "dropChance": 22,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "itemId": "debtors-iron-ring",
+          "dropChance": 10,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-07-14T20:33:48.630Z",
     "lastModified": "2026-07-14T20:33:48.630Z",
@@ -20186,18 +23002,35 @@
         },
         "gold": {
           "min": 0,
-          "max": 2
+          "max": 0
         },
         "silver": {
-          "min": 2,
-          "max": 10
+          "min": 0,
+          "max": 0
         },
         "copper": {
-          "min": 10,
-          "max": 50
+          "min": 0,
+          "max": 0
         }
       },
-      "items": []
+      "items": [
+        {
+          "itemId": "cycle-eater-husk",
+          "dropChance": 60,
+          "quantity": {
+            "min": 1,
+            "max": 2
+          }
+        },
+        {
+          "itemId": "reincarnation-mote",
+          "dropChance": 5,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ]
     },
     "dateCreated": "2026-07-14T20:33:48.631Z",
     "lastModified": "2026-07-14T20:33:48.631Z",

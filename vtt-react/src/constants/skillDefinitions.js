@@ -20,7 +20,7 @@ export const SKILL_CATEGORIES = {
   ARCANE: {
     name: 'Arcane Studies',
     icon: 'Arcane/Ebon Blaze',
-    description: 'search into magical mysteries and forbidden knowledge'
+    description: 'Delve into magical mysteries and forbidden knowledge'
   }
 };
 

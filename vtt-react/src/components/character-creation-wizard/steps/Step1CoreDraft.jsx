@@ -1136,7 +1136,15 @@ const Step1CoreDraft = () => {
 
     const handleRandomName = () => {
         setNameTouched(true);
-        dispatch(wizardActionCreators.updateBasicInfo({ name: getRandomCharacterName(race) }));
+        dispatch(wizardActionCreators.updateBasicInfo({
+            name: getRandomCharacterName({
+                race,
+                subrace,
+                characterClass: characterData.class,
+                background: characterData.background,
+                gender: characterData.gender
+            })
+        }));
     };
 
 
@@ -2287,7 +2295,7 @@ const Step1CoreDraft = () => {
 
                                 />
 
-                                <button type="button" className="dice-randomizer-btn" onClick={handleRandomName} title="Roll a name" aria-label="Roll a random name">
+                                <button type="button" className="dice-randomizer-btn" onClick={handleRandomName} title="Roll a thematic name based on your race, subrace, class & background" aria-label="Roll a thematic name">
 
                                     <i className="fas fa-dice"></i>
 

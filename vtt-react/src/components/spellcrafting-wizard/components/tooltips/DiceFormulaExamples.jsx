@@ -47,32 +47,32 @@ const DiceFormulaExamples = () => {
           <div className="formula-description">Roll two six-sided dice, add one four-sided die, then subtract 1</div>
         </div>
         <div className="formula-example">
-          <div className="formula-name">Advantage (D&D)</div>
+          <div className="formula-name">Advantage</div>
           <div className="formula-code">2d20k1</div>
           <div className="formula-description">Roll two twenty-sided dice and keep the highest (advantage)</div>
         </div>
         <div className="formula-example">
-          <div className="formula-name">Disadvantage (D&D)</div>
+          <div className="formula-name">Disadvantage</div>
           <div className="formula-code">2d20k1l</div>
           <div className="formula-description">Roll two twenty-sided dice and keep the lowest (disadvantage)</div>
         </div>
         <div className="formula-example">
-          <div className="formula-name">Sneak Attack (D&D)</div>
+          <div className="formula-name">Sneak Attack</div>
           <div className="formula-code">2d6+4d6</div>
           <div className="formula-description">Weapon damage (2d6) plus sneak attack damage (4d6)</div>
         </div>
         <div className="formula-example">
-          <div className="formula-name">Fireball (D&D)</div>
+          <div className="formula-name">Fireball</div>
           <div className="formula-code">8d6</div>
           <div className="formula-description">Classic fireball spell damage</div>
         </div>
         <div className="formula-example">
-          <div className="formula-name">Healing Word (D&D)</div>
+          <div className="formula-name">Healing Word</div>
           <div className="formula-code">1d4+3</div>
           <div className="formula-description">Basic healing spell with modifier</div>
         </div>
         <div className="formula-example">
-          <div className="formula-name">Critical Hit (D&D)</div>
+          <div className="formula-name">Critical Hit</div>
           <div className="formula-code">4d6</div>
           <div className="formula-description">Double dice on critical hit (2d6 → 4d6)</div>
         </div>

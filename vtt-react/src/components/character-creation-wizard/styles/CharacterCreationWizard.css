@@ -2199,57 +2199,40 @@ button.gender-option.selected {
 
 .character-wizard-container .background-card {
     all: initial;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(254, 252, 248, 0.9) 100%) !important;
-    border: 2px solid #d4af37 !important;
-    border-radius: 12px !important;
+    background: linear-gradient(145deg, rgba(255, 252, 245, 0.98) 0%, rgba(250, 244, 230, 0.95) 100%) !important;
+    border: 1px solid #b6a080 !important;
+    border-radius: 4px !important;
     padding: 0.75rem 1rem !important;
     cursor: pointer !important;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
     display: flex !important;
     flex-direction: column !important;
     gap: 0.5rem !important;
     min-height: 200px !important;
     font-family: 'Cinzel', serif !important;
     box-sizing: border-box !important;
-    box-shadow: 0 4px 12px rgba(139, 69, 19, 0.12), 0 2px 4px rgba(139, 69, 19, 0.08) !important;
+    box-shadow: inset 0 0 0 3px #f8f2e2, inset 0 0 0 4px rgba(154, 122, 52, 0.42), 0 1px 3px rgba(52, 37, 26, 0.12) !important;
     position: relative !important;
 }
 
-.character-wizard-container .background-card::before {
-    content: '' !important;
-    position: absolute !important;
-    top: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    height: 3px !important;
-    background: linear-gradient(90deg, transparent, #d4af37, transparent) !important;
-    opacity: 0 !important;
-    transition: opacity 0.3s ease !important;
-}
-
-.character-wizard-container .background-card:hover::before {
-    opacity: 1 !important;
+.character-wizard-container .background-card::before,
+.character-wizard-container .background-card::after {
+    display: none !important;
 }
 
 .character-wizard-container .background-card:hover {
-    background: linear-gradient(135deg, rgba(254, 252, 248, 0.98) 0%, rgba(244, 241, 232, 0.95) 100%) !important;
-    border-color: #b8941f !important;
-    box-shadow: 0 8px 24px rgba(139, 69, 19, 0.18), 0 4px 8px rgba(139, 69, 19, 0.12) !important;
-    transform: translateY(-4px) !important;
-}
-
-.character-wizard-container .background-card.selected {
-    background: linear-gradient(135deg, rgba(212, 175, 55, 0.15) 0%, rgba(244, 241, 232, 0.9) 100%) !important;
-    border-color: #b8941f !important;
-    border-width: 3px !important;
-    box-shadow: 0 12px 32px rgba(212, 175, 55, 0.35), 0 6px 12px rgba(212, 175, 55, 0.25) !important;
+    background: linear-gradient(145deg, rgba(255, 250, 240, 1) 0%, rgba(248, 240, 225, 0.98) 100%) !important;
+    border-color: #8e3524 !important;
+    box-shadow: inset 0 0 0 3px #f8f2e2, inset 0 0 0 4px rgba(142, 53, 36, 0.45), 0 4px 12px rgba(52, 37, 26, 0.18) !important;
     transform: translateY(-2px) !important;
 }
 
-.character-wizard-container .background-card.selected::before {
-    opacity: 1 !important;
-    height: 4px !important;
-    background: linear-gradient(90deg, transparent, #b8941f, #d4af37, #b8941f, transparent) !important;
+.character-wizard-container .background-card.selected {
+    background: #fbf6e8 !important;
+    border-color: #663c32 !important;
+    border-width: 1px !important;
+    box-shadow: inset 0 0 0 3px #fbf6e8, inset 0 0 0 4px rgba(102, 60, 50, 0.6), 0 2px 8px rgba(102, 60, 50, 0.2) !important;
+    transform: translateY(-1px) !important;
 }
 
 .character-wizard-container .background-card-header-section {
@@ -7891,80 +7874,40 @@ button.gender-option.selected {
 /* Compact Background Cards for Wizard */
 .character-wizard-container .background-card-compact {
     background: linear-gradient(145deg, rgba(255, 252, 245, 0.98) 0%, rgba(250, 244, 230, 0.95) 100%) !important;
-    border: 2px solid #c9a227 !important;
-    border-radius: 12px !important;
+    border: 1px solid #b6a080 !important;
+    border-radius: 4px !important;
     padding: 1rem 1.25rem !important;
     cursor: pointer !important;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
     display: flex !important;
     flex-direction: column !important;
     gap: 0.6rem !important;
     min-height: auto !important;
     font-family: 'Cinzel', serif !important;
     box-sizing: border-box !important;
-    box-shadow: 0 2px 8px rgba(139, 69, 19, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.6) !important;
+    box-shadow: inset 0 0 0 3px #f8f2e2, inset 0 0 0 4px rgba(154, 122, 52, 0.42), 0 1px 3px rgba(52, 37, 26, 0.12) !important;
     position: relative !important;
 }
 
-.character-wizard-container .background-card-compact::before {
-    content: '' !important;
-    position: absolute !important;
-    top: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    height: 3px !important;
-    background: linear-gradient(90deg, transparent, #d4af37, transparent) !important;
-    opacity: 0 !important;
-    transition: opacity 0.3s ease !important;
-}
-
+.character-wizard-container .background-card-compact::before,
 .character-wizard-container .background-card-compact::after {
-    content: '' !important;
-    position: absolute !important;
-    bottom: 0 !important;
-    left: 10% !important;
-    right: 10% !important;
-    height: 1px !important;
-    background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.4), transparent) !important;
-}
-
-.character-wizard-container .background-card-compact:hover::before {
-    opacity: 1 !important;
+    display: none !important;
 }
 
 .character-wizard-container .background-card-compact:hover {
     background: linear-gradient(145deg, rgba(255, 250, 240, 1) 0%, rgba(248, 240, 225, 0.98) 100%) !important;
-    border-color: #d4af37 !important;
-    box-shadow: 0 8px 24px rgba(139, 69, 19, 0.15), 0 0 0 1px rgba(212, 175, 55, 0.2) !important;
-    transform: translateY(-3px) !important;
+    border-color: #8e3524 !important;
+    box-shadow: inset 0 0 0 3px #f8f2e2, inset 0 0 0 4px rgba(142, 53, 36, 0.45), 0 4px 12px rgba(52, 37, 26, 0.18) !important;
+    transform: translateY(-2px) !important;
 }
 
-.character-wizard-container .background-card-compact.selected {
-    background: linear-gradient(145deg, rgba(255, 248, 225, 0.95) 0%, rgba(250, 240, 210, 0.9) 100%) !important;
-    border-color: #b8941f !important;
-    border-width: 2px !important;
-    box-shadow: 0 6px 20px rgba(212, 175, 55, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.8) !important;
-    transform: translateY(-1px) !important;
-}
-
-.character-wizard-container .background-card-compact.selected::before {
-    opacity: 1 !important;
-    height: 3px !important;
-    background: linear-gradient(90deg, transparent, #b8941f, #d4af37, #b8941f, transparent) !important;
-}
-
+.character-wizard-container .background-card-compact.selected,
 .character-wizard-container .background-card-compact.active {
-    background: linear-gradient(145deg, rgba(255, 248, 225, 0.95) 0%, rgba(250, 240, 210, 0.9) 100%) !important;
-    border-color: #b8941f !important;
-    border-width: 2px !important;
-    box-shadow: 0 6px 20px rgba(212, 175, 55, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.8) !important;
+    background: #fbf6e8 !important;
+    border-color: #663c32 !important;
+    border-width: 1px !important;
+    box-shadow: inset 0 0 0 3px #fbf6e8, inset 0 0 0 4px rgba(102, 60, 50, 0.6), 0 2px 8px rgba(102, 60, 50, 0.2) !important;
     transform: translateY(-1px) !important;
-}
-
-.character-wizard-container .background-card-compact.active::before {
-    opacity: 1 !important;
-    height: 3px !important;
-    background: linear-gradient(90deg, transparent, #b8941f, #d4af37, #b8941f, transparent) !important;
 }
 
 .character-wizard-container .background-compact-name {

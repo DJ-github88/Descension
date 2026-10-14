@@ -183,13 +183,8 @@ const GaolerResourceBar = ({
     };
 
     // Spend thresholds — mirrored by the studs above the rail and the ledger's ready chip.
-    const spendMarks = [
-        { cost: 2, label: 'Strike', icon: 'fa-bolt' },
-        { cost: 3, label: 'Glaive', icon: 'fa-shuriken' },
-        { cost: 4, label: 'Resolve', icon: 'fa-shield-halved' },
-        { cost: 6, label: 'Cage', icon: 'fa-lock' },
-        { cost: 10, label: 'Avatar', icon: 'fa-crown' }
-    ];
+    // Common Warden spell costs; the studs are plain cost marks, not named abilities.
+    const spendMarks = [{ cost: 2 }, { cost: 3 }, { cost: 4 }, { cost: 6 }, { cost: 10 }];
 
     // Chat logging
     const { addCombatNotification } = useChatStore();
@@ -474,7 +469,7 @@ const GaolerResourceBar = ({
                             {verticalLinks.map((link) => renderCapHit(link))}
                         </g>
 
-                        {/* Spend talismans: Strike 2 · Glaive 3 · Resolve 4 · Cage 6 · Avatar 10 */}
+                        {/* Spend talismans: cost marks at 2 · 3 · 4 · 6 · 10 */}
                         {spendMarks.map(({ cost }) => {
                             const reached = localVP >= cost;
                             const cx = linkCx(cost);
@@ -735,17 +730,9 @@ const GaolerResourceBar = ({
                         subtitle="Warden Vengeance (VP)"
                         state={`${localVP}/${maxVP} VP`}
                         stateTone={localVP >= 6 ? 'good' : 'neutral'}
-                        mechanic="Tension (VP) builds from attacks (+1, +2 vs your quarry), evasion (+1), crits (+2) and tethers. Spend on Vengeful Strike (2), Whirling Glaive (3), Hunter's Resolve (4), Cage of Vengeance (6; 4 as Jailer), Avatar (10). Each VP adds +5 ft pursuit speed."
+                        mechanic="Tension (VP) builds from attacks (+1, +2 vs your quarry), evasion (+1), crits (+2) and tethers; your Warden spells spend it. Each VP adds +5 ft pursuit speed."
                         status={[
-                            localVP >= 10
-                                ? `${localVP} banked — Avatar of Vengeance ready.`
-                                : localVP >= 6
-                                    ? `${localVP} banked — Cage of Vengeance (6) or Hunter's Resolve (4) ready.`
-                                    : localVP >= 3
-                                        ? `${localVP} banked — Whirling Glaive (3) or Vengeful Strike (2) ready.`
-                                        : localVP >= 2
-                                            ? `${localVP} banked — Vengeful Strike (2) ready.`
-                                            : 'Empty — tether and press the attack to bank VP.',
+                            localVP > 0 ? `${localVP} Tension banked for your spells.` : 'Empty — tether and press the attack to bank VP.',
                         ]}
                         usage={isOwner ? 'Click a link to wind straight to that Tension, or use − / + in the Tension Ledger. The ratchet dial opens the ledger.' : null}
                     />

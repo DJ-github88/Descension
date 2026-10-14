@@ -279,17 +279,148 @@ function stage(room, player, uid, command, authorization, confirmedRevision) {
       combatant.currentActionPoints = actor.finalResources.ap.current;
     }
   }
+  require('./actorProjection').advance(room, next);
   return { next, receipt };
 }
-function protectedPath(value, depth = 0) {
+// Only these owning-domain maximum paths may cross the legacy write guard.
+// Current/temp/conditions and authority metadata remain protected recursively.
+function buildPaths(event) {
+  const paths = [];
+  const maxima = ['maxHp', 'maxMana', 'maxAP', 'maxActionPoints'];
+  if (['token_updated', 'creature_updated'].includes(event)) {
+    for (const envelope of ['updates', 'stateUpdates']) {
+      for (const container of ['', 'state.', 'stats.', 'creature.stats.']) {
+        for (const key of maxima) {paths.push(`${envelope}.${container}${key}`);}
+      }
+      for (const key of ['health', 'mana', 'actionPoints']) {paths.push(`${envelope}.character.${key}.max`);}
+    }
+  }
+  if (['character_token_updated', 'character_updated'].includes(event)) {
+    for (const key of ['health', 'mana', 'actionPoints']) {paths.push(`character.${key}.max`);}
+  }
+  return paths;
+}
+function protectedPath(value, depth = 0, allowed = [], prefix = '') {
   if (!value || typeof value !== 'object') {return null;}
   if (depth > 20) {return 'depth_limit';}
   for (const [key, child] of Object.entries(value)) {
-    if (PROTECTED.has(key)) {return key;}
-    const found = protectedPath(child, depth + 1);
+    const path = `${prefix}${key}`;
+    if (PROTECTED.has(key) && !allowed.includes(path) &&
+      !(child && typeof child === 'object' && !Array.isArray(child) && allowed.some(candidate => candidate.startsWith(`${path}.`)))) {return key;}
+    const found = protectedPath(child, depth + 1, allowed, `${path}.`);
     if (found) {return `${key}.${found}`;}
   }
   return null;
+}
+function validateBuildEnvelope(event, data) {
+  const object = value => value && typeof value === 'object' && !Array.isArray(value) && [Object.prototype, null].includes(Object.getPrototypeOf(value));
+  const check = (value, fields) => {
+    if (!object(value)) {fail('invalid_bounds');}
+    for (const field of fields) {
+      if (!own(value, field)) {continue;}
+      if (!object(value[field])) {fail('invalid_bounds');}
+    }
+  };
+  const pairs = character => {
+    check(character, ['health', 'mana', 'actionPoints']);
+    for (const key of ['health', 'mana', 'actionPoints']) {
+      if (own(character, key)) {keys(character[key], ['max']);}
+    }
+  };
+  if (['token_updated', 'creature_updated'].includes(event)) {
+    for (const key of ['updates', 'stateUpdates']) {
+      if (!own(data, key)) {continue;}
+      check(data[key], ['state', 'stats', 'character', 'creature']);
+      if (own(data[key], 'creature')) {check(data[key].creature, ['stats']);}
+      if (own(data[key], 'character')) {pairs(data[key].character);}
+    }
+  }
+  if (['character_token_updated', 'character_updated'].includes(event)) {
+    if (own(data, 'character')) {pairs(data.character);}
+    if (own(data, 'stateUpdates')) {check(data.stateUpdates, []);}
+  }
+  for (const path of buildPaths(event)) {
+    const parts = path.split('.'); let value = data;
+    for (const key of parts.slice(0, -1)) {value = value?.[key];}
+    if (own(value, parts[parts.length - 1])) {
+      const max = value[parts[parts.length - 1]];
+      if (typeof max !== 'number' || !Number.isFinite(max) || max < 0) {fail('invalid_bounds');}
+    }
+  }
+}
+function prepareBuildUpdate(token, updates, kind) {
+  validateBuildEnvelope('token_updated', { updates });
+  const blocked = protectedPath({ updates }, 0, buildPaths('token_updated')) || authorityMetadataPath(updates) || require('./actorProjection').metadataPath(updates);
+  if (blocked) {fail('actor_consequence_required');}
+  const next = { ...token, ...updates };
+  for (const field of ['state', 'stats', 'character', 'creature']) {
+    if (own(updates, field)) {next[field] = { ...token[field], ...updates[field] };}
+  }
+  if (updates.creature?.stats) {next.creature.stats = { ...token.creature?.stats, ...updates.creature.stats };}
+  let boundsChanged = false, hasBounds = false;
+  const prior = resources(token, kind);
+  for (const [pool, [, pcKey, , maxKey]] of Object.entries(POOLS)) {
+    const values = [];
+    if (kind === 'character') {
+      if (own(updates.character, pcKey)) {
+        keys(updates.character[pcKey], ['max']);
+        next.character[pcKey] = { ...token.character?.[pcKey], ...updates.character[pcKey] };
+        if (own(updates.character[pcKey], 'max')) {values.push(updates.character[pcKey].max);}
+      }
+      // A PC's maxima never originate from creature/state aliases.
+      if ([updates, updates.state, updates.stats, updates.creature?.stats].some(value => ['maxHp', 'maxMana', 'maxAP', 'maxActionPoints'].some(key => own(value, key)))) {fail('invalid_bounds');}
+    } else {
+      if (updates.character && ['health', 'mana', 'actionPoints'].some(key => own(updates.character, key))) {fail('invalid_bounds');}
+      for (const value of [updates, updates.state, updates.stats, updates.creature?.stats]) {
+        for (const key of pool === 'ap' ? ['maxAP', 'maxActionPoints'] : [maxKey]) {
+          if (own(value, key)) {values.push(value[key]);}
+        }
+      }
+    }
+    if (!values.length) {continue;}
+    hasBounds = true;
+    if (values.some(value => value !== values[0])) {fail('invalid_bounds');}
+    boundsChanged ||= prior[pool].max !== values[0];
+    if (kind !== 'character') {
+      next.state = { ...next.state, [maxKey]: values[0] };
+      if (pool === 'ap') {next.state.maxActionPoints = values[0];}
+    }
+  }
+  const contract = token.state?.actorContract;
+  if (hasBounds && contract) {
+    if (contract.version !== 1 || !integer(contract.revision)) {fail('unsupported_actor_contract');}
+    if (kind === 'character' && !contract.primary) {fail('secondary_attachment');}
+    if (boundsChanged) {
+      if (!Number.isSafeInteger(contract.revision + 1)) {fail('revision_exhausted');}
+      next.state = { ...next.state, actorContract: { ...contract, revision: contract.revision + 1 } };
+    }
+  }
+  return { token: next, boundsChanged };
+}
+function installBuildUpdate(room, map, field, id, prepared) {
+  // Preflight exhaustion before mutation; installation and cut advance have no await.
+  const projection = require('./actorProjection');
+  if (!Number.isSafeInteger(projection.current(room).cut + 1)) {fail('projection_order_exhausted');}
+  if (checkpoint.deriveRootMirrors(room.gameState.maps).collisions.length) {fail('actor_binding_conflict');}
+  map[field][id] = prepared.token;
+  const mirrors = checkpoint.deriveRootMirrors(room.gameState.maps);
+  room.gameState.tokens = mirrors.tokens; room.gameState.characterTokens = mirrors.characterTokens;
+  const contract = prepared.token.state?.actorContract;
+  if (contract?.kind === 'character' && contract.primary) {
+    for (const player of [...room.players.values(), room.gm].filter(Boolean)) {
+      if (player.userId === contract.ownerUid && player.character?.id === contract.characterId) {
+        player.character = { ...player.character, ...prepared.token.character };
+      }
+    }
+  }
+  if (contract) {
+    const values = resources(prepared.token, contract.kind);
+    for (const combatant of room.gameState.combat?.turnOrder || []) {
+      if (hash(combatant.actorRef) !== hash(refFor(contract))) {continue;}
+      combatant.maxHp = values.hp.max; combatant.maxMana = values.mana.max; combatant.maxActionPoints = values.ap.max;
+    }
+  }
+  projection.advance(room);
 }
 function authorityMetadataPath(value, depth = 0) {
   if (!value || typeof value !== 'object') {return null;}
@@ -302,19 +433,29 @@ function authorityMetadataPath(value, depth = 0) {
   return null;
 }
 function preserveImportedActorMetadata(gameState) {
+  if (own(gameState, 'actorProjection')) {
+    gameState.actorConsequenceRecovery = { ...gameState.actorConsequenceRecovery, importedActorProjection: gameState.actorProjection, reason: 'untrusted-local-import' };
+    delete gameState.actorProjection;
+  }
   for (const map of Object.values(gameState.maps || {})) {
+    if (own(map, 'actorProjection')) {
+      map.actorProjectionRecovery = { ...map.actorProjectionRecovery, importedActorProjection: map.actorProjection, reason: 'untrusted-local-import' };
+      delete map.actorProjection;
+    }
     for (const field of ['tokens', 'characterTokens', 'creatures']) {
       for (const token of Object.values(map[field] || {})) {
-        if (!token.state?.actorContract) {continue;}
-        token.state.actorRecovery = { ...token.state.actorRecovery, importedActorContract: token.state.actorContract };
-        delete token.state.actorContract;
+        for (const [key, retained] of [['actorContract', 'importedActorContract'], ['actorLifecycle', 'importedActorLifecycle']]) {
+          if (!own(token.state, key)) {continue;}
+          token.state.actorRecovery = { ...token.state.actorRecovery, [retained]: token.state[key] };
+          delete token.state[key];
+        }
       }
     }
   }
   if (gameState.actorConsequences) {
-    gameState.actorConsequenceRecovery = { imported: gameState.actorConsequences, reason: 'untrusted-local-import' };
+    gameState.actorConsequenceRecovery = { ...gameState.actorConsequenceRecovery, imported: gameState.actorConsequences, reason: 'untrusted-local-import' };
     delete gameState.actorConsequences;
   }
   return gameState;
 }
-module.exports = { epoch, ledger, locate, permitted, resources, stage, knownReceipt, validateCommand, validateRef, refFor, hash, bytes, clone, fail, keys, own, publicCondition, publicContract, publicReceipt, protectedPath, authorityMetadataPath, preserveImportedActorMetadata, CONDITION_FIELDS, POOLS };
+module.exports = { epoch, ledger, locate, permitted, resources, stage, knownReceipt, validateCommand, validateRef, refFor, hash, bytes, clone, fail, keys, own, publicCondition, publicContract, publicReceipt, protectedPath, authorityMetadataPath, preserveImportedActorMetadata, buildPaths, validateBuildEnvelope, prepareBuildUpdate, installBuildUpdate, CONDITION_FIELDS, POOLS };

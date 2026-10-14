@@ -686,18 +686,16 @@ const CrusaderResourceBar = ({
                         title="Fervor"
                         subtitle="Crusader Solar Dynamo"
                         state={`${localFervor}/${maxFervor}`}
-                        stateTone={isJudgmentReady ? 'good' : isHarmonic ? 'good' : 'neutral'}
-                        mechanic="Fervor builds from strikes (+10–15), blocks (+10) and consecrated ground (+5/round). Spend 25 on Aegis, 50 on Harmonic Stance (+1d6 sacred), 100 on Solvan Judgment. Holding 80+ risks starlight overload."
+                        stateTone={localFervor >= 80 ? 'warn' : isHarmonic ? 'good' : 'neutral'}
+                        mechanic="Fervor builds from strikes (+10–15), blocks (+10) and consecrated ground (+5/round); your Crusader spells spend it. At 50+ you hold Harmonic Stance (+1d6 sacred). Holding 80+ scorches you."
                         status={[
-                            isJudgmentReady
-                                ? { text: 'JUDGMENT READY — unleash Solvan Judgment.', tone: 'good' }
+                            localFervor >= 80
+                                ? { text: 'Zealous Scorching — 80+ unspent Fervor burns you. Spend or vent.', tone: 'bad' }
                                 : isHarmonic
                                     ? { text: 'Harmonic Stance live — all strikes deal +1d6 sacred damage.', tone: 'good' }
-                                    : localFervor >= 25
-                                        ? 'Aegis of the Martyred Sun available (25) — keep kindling toward Harmonic (50).'
-                                        : 'Kindle Fervor to light the engine.',
+                                    : `${50 - localFervor} more Fervor to Harmonic Stance.`,
                         ]}
-                        usage={isOwner ? 'Click the bar to manage Fervor · Aegis at 25, Harmonic Stance at 50, Solvan Judgment at 100.' : null}
+                        usage={isOwner ? 'Click the bar to manage Fervor.' : null}
                     />
                 </div>,
                 document.body

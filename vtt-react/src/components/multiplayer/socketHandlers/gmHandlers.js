@@ -5,6 +5,9 @@ import useGameStore from '../../../store/gameStore';
 import useMapStore from '../../../store/mapStore';
 import usePartyStore from '../../../store/partyStore';
 import { TRANSITION_TIMINGS } from '../UnifiedTransitionOverlay';
+import { applyRoomSnapshot } from '../../../services/silentRoomHydration';
+import { captureActorDelivery, currentActorDelivery, prepareActorProjection } from '../../../services/actorProjectionOrder';
+import { refreshActorSnapshot } from '../../../services/actorConsequenceService';
 
 export function registerGmHandlers(ctx) {
   const {
@@ -13,6 +16,31 @@ export function registerGmHandlers(ctx) {
     clearCreatureTokens, clearCharacterTokens, addCreature, addToken,
     showMapTransitions
   } = ctx;
+    const registered = captureActorDelivery(socket);
+    const delivery = () => ({ ...registered, room: useGameStore.getState().multiplayerRoom, roomId: useGameStore.getState().multiplayerRoom?.id });
+    const orderedMapTransfer = (data, mapId) => {
+      const context = delivery();
+      if (!currentActorDelivery(context, data.roomId)) return;
+      const options = { scope: 'map', context, roomId: data.roomId, actorProjection: data.actorProjection,
+        mapId, activeMapId: mapId, mapData: data.mapData };
+      const validation = prepareActorProjection({ [mapId]: data.mapData }, options);
+      if (!data.mapData || !validation.ok) { refreshActorSnapshot(); return; }
+      const transition = !isInitialMapLoadRef.current && showMapTransitions;
+      if (transition) setMapTransition({ isActive: true, mapName: data.newMapName || data.mapName || mapId, transferredByGM: !!data.transferredByGM });
+      const apply = () => {
+        if (!currentActorDelivery(context, data.roomId)) return;
+        const result = applyRoomSnapshot(options);
+        if (!result.applied) return;
+        setPlayerCurrentMapId(mapId); isInitialMapLoadRef.current = false;
+        usePartyStore.getState().setPlayerMapAssignment(currentPlayerRef.current?.id, mapId);
+        if (Number.isFinite(data.centerPosition?.x) && Number.isFinite(data.centerPosition?.y)) {
+          const game = useGameStore.getState();
+          game.markTransferCameraAuthoritative?.(data.centerPosition, 2500, 'multiplayer-ordered-map-transfer');
+          game.setCameraPosition?.(data.centerPosition.x, data.centerPosition.y);
+        }
+      };
+      if (transition) setTimeout(apply, TRANSITION_TIMINGS.SAFE_SWAP_MS); else apply();
+    };
     socket.on('gm_action', (data) => {
       if (!data) return;
       const { type, amount, targetPlayerId, targetUserId, targetPlayerIds } = data;
@@ -159,6 +187,7 @@ export function registerGmHandlers(ctx) {
     });
 
     socket.on('forced_map_transfer', (data) => {
+      if (useGameStore.getState().isInMultiplayer) { orderedMapTransfer(data, data.mapId); return; }
       // DETAILED LOGGING: Log full transfer data
       console.log('ðŸ”„ [forced_map_transfer] Received from server', {
         mapId: data.mapId,
@@ -340,6 +369,10 @@ export function registerGmHandlers(ctx) {
     });
 
     socket.on('gm_view_changed', (data) => {
+      if (useGameStore.getState().isInMultiplayer) {
+        if (currentPlayerRef.current?.id === data.gmId) orderedMapTransfer(data, data.newMapId);
+        return;
+      }
       console.log('[GM VIEW CHANGED] Received event:', {
         gmId: data.gmId,
         gmName: data.gmName,
@@ -653,6 +686,11 @@ export function registerGmHandlers(ctx) {
     });
 
     socket.on('fresh_positions_received', (data) => {
+      if (useGameStore.getState().isInMultiplayer) {
+        applyRoomSnapshot({ scope: 'section', context: delivery(), roomId: data.roomId, actorProjection: data.actorProjection,
+          activeMapId: data.mapId, sections: { tokens: data.tokens, characterTokens: data.characterTokens } });
+        return;
+      }
       console.log('ðŸ“¡ [fresh_positions_received] Hydrating authoritative GM token positions:', data.mapId);
 
       const { tokens, characterTokens } = data;
@@ -677,6 +715,11 @@ export function registerGmHandlers(ctx) {
     });
 
     socket.on('player_map_changed', (data) => {
+      if (useGameStore.getState().isInMultiplayer) {
+        if (data.playerId === currentPlayerRef.current?.id) orderedMapTransfer(data, data.newMapId || data.mapId);
+        else if (currentActorDelivery(delivery(), data.roomId)) usePartyStore.getState().setPlayerMapAssignment(data.playerId, data.newMapId || data.mapId);
+        return;
+      }
       console.log('ðŸ-ºï¸ Player map changed:', data);
 
       // CRITICAL: Block outgoing updates during map switch

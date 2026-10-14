@@ -156,7 +156,7 @@ describe('ApexResourceBar Component (The Predator Kill-Ledger)', () => {
         const bar = container.querySelector('.apex-resource-bar');
         fireEvent.click(bar);
         expect(screen.getByText('The Silent Hunt: Pack Codex')).toBeInTheDocument();
-        const execBtn = screen.getByText(/Apex Execution/i);
+        const execBtn = screen.getByText(/Fill \(5\)/);
         fireEvent.click(execBtn);
         expect(onUpdate).toHaveBeenCalledWith('current', 5);
         fireEvent.click(bar);

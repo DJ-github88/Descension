@@ -14,6 +14,7 @@ import { ENCHANTING_RECIPES } from './enchanting.js';
 import { ENGINEERING_RECIPES } from './engineering.js';
 import { JEWELCRAFTING_RECIPES } from './jewelcrafting.js';
 import { MASONRY_RECIPES } from './masonry.js';
+import { CREATURE_CRAFTING_RECIPES } from './creatureCrafting.js';
 
 // Combine all recipes into a single array
 export const ALL_RECIPES = [
@@ -25,7 +26,8 @@ export const ALL_RECIPES = [
   ...ENCHANTING_RECIPES,
   ...ENGINEERING_RECIPES,
   ...JEWELCRAFTING_RECIPES,
-  ...MASONRY_RECIPES
+  ...MASONRY_RECIPES,
+  ...CREATURE_CRAFTING_RECIPES
 ];
 
 // Export individual categories for use elsewhere if needed
@@ -38,6 +40,7 @@ export {
   ENCHANTING_RECIPES,
   ENGINEERING_RECIPES,
   JEWELCRAFTING_RECIPES,
-  MASONRY_RECIPES
+  MASONRY_RECIPES,
+  CREATURE_CRAFTING_RECIPES
 };
 

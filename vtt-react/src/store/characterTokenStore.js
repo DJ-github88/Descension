@@ -396,7 +396,10 @@ const useCharacterTokenStore = create(
           roomId: gameStore.multiplayerRoom?.id,
           mapId: currentMapId,
           tokenId,
-           character: Object.fromEntries(Object.entries(fresh).filter(([key]) => !['health', 'mana', 'actionPoints', 'tempHealth', 'tempMana', 'tempActionPoints'].includes(key))),
+           character: {
+            ...Object.fromEntries(Object.entries(fresh).filter(([key]) => !['health', 'mana', 'actionPoints', 'tempHealth', 'tempMana', 'tempActionPoints'].includes(key))),
+            health: { max: fresh.health.max }, mana: { max: fresh.mana.max }, actionPoints: { max: fresh.actionPoints.max }
+           },
           name: fresh.name
          });
         });

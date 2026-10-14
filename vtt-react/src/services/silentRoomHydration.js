@@ -18,7 +18,8 @@ import useContainerStore from '../store/containerStore';
 import useTravelStore from '../store/travelStore';
 import useMapStore from '../store/mapStore';
 import { enterRoomProjection } from '../persistence/mapProjectionBoundary';
-import { hydrateActorConditions, validateActorSnapshot } from './actorConsequenceService';
+import { hydrateActorConditions, reconcileActorMirrors } from './actorConsequenceService';
+import { prepareActorProjection, retainActorProjectionCandidate } from './actorProjectionOrder';
 
 export const ROOT_ENTITY_MIRRORS = ['tokens', 'characterTokens', 'gridItems'];
 
@@ -368,9 +369,15 @@ const applyGlobalOptionalDomains = (global, options = {}) => {
   const debuffsRaw = global.debuffs !== undefined
     ? global.debuffs
     : (isPlainRecord(global.buffsAndDebuffs) ? global.buffsAndDebuffs.debuffs : undefined);
-  if (buffsRaw !== undefined || debuffsRaw !== undefined || full) {
-    const nextBuffs = buffsRaw !== undefined ? asArray(buffsRaw) : (full ? [] : conditions.activeBuffs);
-    const nextDebuffs = debuffsRaw !== undefined ? asArray(debuffsRaw) : (full ? [] : conditions.activeDebuffs);
+  // A shared full snapshot owns actor records, not the selected personal lists.
+  // Keep their source until hydrateActorConditions scopes/preserves it below;
+  // clearing omitted globals first loses local records and ambiguous raw bytes.
+  if ((buffsRaw !== undefined || debuffsRaw !== undefined || full) && !(full && useGameStore.getState().isInMultiplayer)) {
+    const sharedSection = useGameStore.getState().isInMultiplayer && !full;
+    const protectRoom = (incoming, current) => sharedSection
+      ? [...incoming.filter(record => !record.target?.roomId), ...current.filter(record => record.target?.roomId)] : incoming;
+    const nextBuffs = buffsRaw !== undefined ? protectRoom(asArray(buffsRaw), conditions.activeBuffs) : (full ? [] : conditions.activeBuffs);
+    const nextDebuffs = debuffsRaw !== undefined ? protectRoom(asArray(debuffsRaw), conditions.activeDebuffs) : (full ? [] : conditions.activeDebuffs);
     if (!sameJson(conditions.activeBuffs, nextBuffs) || !sameJson(conditions.activeDebuffs, nextDebuffs)) {
       useConditionStore.setState({ activeBuffs: nextBuffs, activeDebuffs: nextDebuffs });
     }
@@ -478,12 +485,14 @@ const applyGlobalOptionalDomains = (global, options = {}) => {
 export function applyRoomSnapshot(options = {}) {
   const scope = options.scope || 'room';
   const mapId = options.mapId || options.activeMapId || useMapStore.getState().currentMapId;
-  const maps = scope === 'room' ? options.gameState?.maps : { [mapId]: scope === 'map' ? options.mapData || options.gameState?.maps?.[mapId] : options.sections };
-  const actorValidation = validateActorSnapshot(maps, options.roomId || useGameStore.getState().multiplayerRoom?.id);
+  const maps = scope === 'room' ? normalizeRoomSnapshot(options.gameState).maps : { [mapId]: scope === 'map' ? options.mapData || options.gameState?.maps?.[mapId] : options.sections };
+  const ownsActors = scope !== 'section' || ['tokens', 'creatures', 'characterTokens'].some(key => options.sections?.[key] !== undefined);
+  const actorValidation = ownsActors ? prepareActorProjection(maps, { ...options,
+    actorProjection: options.actorProjection || options.gameState?.actorProjection }) : { ok: true, commit() {} };
   if (!actorValidation.ok) {
-    useGameStore.setState({ actorRecoverySnapshot: { result: { roomId: options.roomId || useGameStore.getState().multiplayerRoom?.id, maps: JSON.parse(JSON.stringify(maps)) },
-      uid: require('../store/authStore').default.getState().user?.uid, accountGeneration: require('../persistence/bootstrapPrivacyGate').getBootstrapGateState().accountGeneration,
-      readOnly: actorValidation.code === 'actor_binding_metadata_missing', reason: actorValidation.code } });
+    retainActorProjectionCandidate({ roomId: options.actorProjection?.roomId || options.gameState?.actorProjection?.roomId || options.roomId,
+      actorProjection: options.actorProjection || options.gameState?.actorProjection || Object.values(maps || {}).find(map => map?.actorProjection)?.actorProjection,
+      maps: maps || {} }, actorValidation.code, options.context);
     return { applied: false, scope, reason: actorValidation.code };
   }
   const previousReceiving = typeof window !== 'undefined' ? window._isReceivingMapUpdate : undefined;
@@ -498,20 +507,22 @@ export function applyRoomSnapshot(options = {}) {
   }
 
   try {
+    actorValidation.commit();
     if (scope === 'room') {
       const snapshot = normalizeRoomSnapshot(options.gameState);
       return applyNormalizedSnapshot(snapshot, options, 'room');
     }
 
     if (scope === 'map') {
-      const mapId = options.mapId || options.activeMapId;
+      const mapId = options.mapId || options.activeMapId || useMapStore.getState().currentMapId;
       const mapData = options.mapData !== undefined ? options.mapData : (options.gameState?.maps?.[mapId]);
       return applyMapRecords({ [mapId]: normalizeMapSnapshot(mapId, mapData) }, options, 'map');
     }
 
     return applySections(options.sections || {}, options);
   } finally {
-    hydrateActorConditions();
+    if (ownsActors) hydrateActorConditions();
+    reconcileActorMirrors();
     if (typeof window !== 'undefined') { window._isReceivingMapUpdate = previousReceiving; }
   }
 }
@@ -531,8 +542,8 @@ function applyNormalizedSnapshot(snapshot, options, scope) {
   });
 
   const mirrors = deriveRootMirrors(snapshot.maps);
-  const tokenList = Object.values(mirrors.tokens);
-  const characterTokenList = Object.values(mirrors.characterTokens);
+  const tokenList = Object.entries(snapshot.maps).flatMap(([mapId, map]) => Object.values({ ...map.creatures, ...map.tokens }).map(token => ({ ...token, mapId })));
+  const characterTokenList = Object.entries(snapshot.maps).flatMap(([mapId, map]) => Object.values(map.characterTokens || {}).map(token => ({ ...token, mapId })));
   useCreatureStore.setState({ creatureTokens: tokenList, tokens: tokenList });
   useCharacterTokenStore.setState({ characterTokens: characterTokenList });
   useGridItemStore.setState({ gridItems: normalizeGridItems(Object.values(mirrors.gridItems)) });
@@ -561,8 +572,12 @@ function applyMapRecords(mapRecords, options, scope) {
 
   if (activeMap && scope === 'map') {
     const mirrors = deriveRootMirrors({ [activeId]: activeMap });
-    useCreatureStore.setState({ creatureTokens: Object.values(mirrors.tokens), tokens: Object.values(mirrors.tokens) });
-    useCharacterTokenStore.setState({ characterTokens: Object.values(mirrors.characterTokens) });
+    const creatureTokens = [...useCreatureStore.getState().creatureTokens.filter(token => (token.mapId || 'default') !== activeId),
+      ...Object.values({ ...activeMap.creatures, ...activeMap.tokens }).map(token => ({ ...token, mapId: activeId }))];
+    const characterTokens = [...useCharacterTokenStore.getState().characterTokens.filter(token => (token.mapId || 'default') !== activeId),
+      ...Object.values(activeMap.characterTokens || {}).map(token => ({ ...token, mapId: activeId }))];
+    useCreatureStore.setState({ creatureTokens, tokens: creatureTokens });
+    useCharacterTokenStore.setState({ characterTokens });
     const currentItems = useGridItemStore.getState().gridItems || [];
     const otherItems = currentItems.filter((item) => (item?.mapId || 'default') !== activeId);
     useGridItemStore.setState({
@@ -584,13 +599,18 @@ function applySections(sections, options) {
     applyGridAndBackgrounds(normalizeMapSnapshot(activeMapId, sections.mapData), {}, { full: false });
     touched = true;
   }
-  if (sections.tokens !== undefined || sections.characterTokens !== undefined) {
+  if (sections.tokens !== undefined || sections.creatures !== undefined || sections.characterTokens !== undefined) {
+    useMapStore.setState(current => ({ maps: current.maps.map(map => map.id === activeMapId ? { ...map,
+      ...(sections.tokens !== undefined ? { tokens: sections.tokens } : {}),
+      ...(sections.creatures !== undefined ? { creatures: sections.creatures } : {}),
+      ...(sections.characterTokens !== undefined ? { characterTokens: sections.characterTokens } : {}) } : map) }));
     const currentTokens = useCreatureStore.getState().tokens || [];
     const otherTokens = currentTokens.filter((token) => (token?.mapId || 'default') !== activeMapId);
-    const nextTokens = sections.tokens !== undefined
-      ? [...otherTokens, ...Object.values(sections.tokens || {}).map((token) => ({ ...token, mapId: token.mapId || activeMapId }))]
+    const map = useMapStore.getState().maps.find(map => map.id === activeMapId);
+    const nextTokens = sections.tokens !== undefined || sections.creatures !== undefined
+      ? [...otherTokens, ...Object.values({ ...(map?.creatures || {}), ...(map?.tokens || {}) }).map((token) => ({ ...token, mapId: token.mapId || activeMapId }))]
       : currentTokens;
-    if (sections.tokens !== undefined) { useCreatureStore.setState({ creatureTokens: nextTokens, tokens: nextTokens }); }
+    if (sections.tokens !== undefined || sections.creatures !== undefined) { useCreatureStore.setState({ creatureTokens: nextTokens, tokens: nextTokens }); }
 
     const currentCharTokens = useCharacterTokenStore.getState().characterTokens || [];
     const otherCharTokens = currentCharTokens.filter((token) => (token?.mapId || 'default') !== activeMapId);

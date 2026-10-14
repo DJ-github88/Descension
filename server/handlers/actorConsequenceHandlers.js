@@ -29,7 +29,7 @@ function registerActorConsequenceHandlers(ctx) {
   };
   const confirmed = room => Math.max(room.checkpointRevision || 0, writer?.getStatus?.(room.id)?.confirmedRevision || 0);
   const liveOnly = room => room.isPermanent !== true && !room.persistentRoomId;
-  const resultFor = (room, receipt) => ({ success: true, receipt: actors.publicReceipt(receipt),
+  const resultFor = (room, receipt) => ({ success: true, receipt: actors.publicReceipt(receipt), actorSnapshot: require('../services/actorProjection').snapshot(room),
     status: Number.isSafeInteger(receipt.checkpointRevision) && receipt.checkpointRevision > 0 && receipt.checkpointRevision <= confirmed(room) ? 'checkpoint-confirmed' : 'accepted-live',
     durability: receipt.checkpointRevision === null ? 'live-only' : 'checkpoint-eligible' });
   const entitledSession = (room, sid, player) => {
@@ -98,9 +98,7 @@ function registerActorConsequenceHandlers(ctx) {
     actors.keys(data, ['roomId']);
     const { room } = context(data.roomId);
     const state = actors.ledger(room);
-    respond(ack, { success: true, roomId: room.id, actionEpoch: actors.epoch(room), commitSequence: state.commitSequence, replayFloor: state.replayFloor,
-      maps: Object.fromEntries(Object.entries(room.gameState.maps || {}).map(([mapId, map]) => [mapId,
-        access.projectMapDataForClient({ id: mapId, tokens: map.tokens || {}, creatures: map.creatures || {}, characterTokens: map.characterTokens || {} })])),
+    respond(ack, { success: true, ...require('../services/actorProjection').snapshot(room), actionEpoch: actors.epoch(room), commitSequence: state.commitSequence, replayFloor: state.replayFloor,
       bindings: Object.entries(room.gameState.maps || {}).flatMap(([mapId, map]) => ['tokens', 'creatures', 'characterTokens'].flatMap(field =>
         Object.entries(map[field] || {}).map(([tokenId, token]) => ({ mapId, tokenId, kind: field === 'characterTokens' ? 'character' : 'creature', snapshotHash: actors.hash(token) })))) });
   });
@@ -198,8 +196,9 @@ function registerActorConsequenceHandlers(ctx) {
     next.actorConsequences = { ...actors.clone(state), admissionEpoch: actors.epoch(room) };
     const mirrors = require('../services/roomCheckpoint').deriveRootMirrors(next.maps);
     next.tokens = mirrors.tokens; next.characterTokens = mirrors.characterTokens;
+    require('../services/actorProjection').advance(room, next);
     admit(room, { next });
-    const payload = { success: true, roomId: room.id, ref: actors.refFor(binding), revision: 0, mapId: data.ref.mapId, token: access.projectTokenForClient(token), invalidated,
+    const payload = { success: true, roomId: room.id, actorSnapshot: require('../services/actorProjection').snapshot(room), ref: actors.refFor(binding), revision: 0, mapId: data.ref.mapId, token: access.projectTokenForClient(token), invalidated,
       durability: liveOnly(room) ? 'live-only' : 'checkpoint-eligible' };
     publishInstalled(room, 'actor_bound', payload, ack);
   });

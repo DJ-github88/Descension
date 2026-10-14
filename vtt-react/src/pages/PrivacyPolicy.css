@@ -1,88 +1,441 @@
+/* Mythrill Calm TTRPG Privacy Policy Codex */
+
 .privacy-policy-page {
   min-height: 100vh;
-  background: linear-gradient(135deg, #0a0a1a 0%, #1a1a2e 50%, #16213e 100%);
-  color: #e0e0e0;
-  padding: 40px 20px;
+  /* Ambient dark mahogany / ironwood tavern desk backdrop */
+  background-color: #140d09;
+  background-image: radial-gradient(circle at 50% 10%, #22160e 0%, #130905 60%, #0a0402 100%);
+  color: #34251a;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  overflow-x: hidden;
 }
 
-.privacy-policy-container {
-  max-width: 800px;
+.privacy-policy-page ::selection {
+  background: #cfbd99;
+  color: #34251a;
+}
+
+/* Top ambient navigation ribbon */
+.privacy-top-bar {
+  max-width: 960px;
   margin: 0 auto;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  line-height: 1.7;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  border-bottom: 1px solid rgba(196, 186, 166, 0.2);
 }
 
 .privacy-back-btn {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: #e0e0e0;
-  padding: 8px 16px;
-  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(248, 245, 238, 0.08);
+  border: 1px solid rgba(196, 186, 166, 0.3);
+  color: #f1ece1;
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 7px 16px;
+  border-radius: 3px;
   cursor: pointer;
-  font-size: 14px;
-  margin-bottom: 24px;
-  transition: all 0.2s ease;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  outline: none;
 }
 
 .privacy-back-btn:hover {
-  background: rgba(255, 255, 255, 0.2);
-}
-
-.privacy-policy-container h1 {
+  background: rgba(248, 245, 238, 0.16);
+  border-color: #c4ab79;
   color: #ffffff;
-  font-size: 2rem;
-  margin-bottom: 4px;
 }
 
-.privacy-effective-date {
-  color: #888;
-  font-size: 0.9rem;
+.privacy-back-btn:focus-visible {
+  outline: 2px solid #c4ab79;
+  outline-offset: 2px;
+}
+
+.privacy-breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #a77b3a;
+}
+
+.privacy-breadcrumbs .breadcrumb-segment.active {
+  color: #f8f5ee;
+}
+
+.privacy-breadcrumbs .breadcrumb-sep {
+  color: #663c32;
+  font-size: 0.6rem;
+}
+
+/* Main Folio Document Container */
+.privacy-folio-container {
+  max-width: 900px;
+  margin: 24px auto 140px auto;
+  padding: 0 20px;
+}
+
+.privacy-folio {
+  background: #f8f5ee;
+  border: 1px solid #c4baa6;
+  border-radius: 3px;
+  box-shadow: 
+    0 12px 36px rgba(18, 11, 7, 0.45), 
+    0 2px 6px rgba(18, 11, 7, 0.2);
+  padding: 48px 56px;
+  color: #34251a;
+  position: relative;
+}
+
+/* Folio Header & Seals */
+.privacy-folio-header {
+  text-align: center;
   margin-bottom: 32px;
 }
 
-.privacy-policy-container h2 {
-  color: #c9a227;
-  font-size: 1.3rem;
-  margin-top: 32px;
-  margin-bottom: 12px;
+.privacy-seal-medallion {
+  width: 52px;
+  height: 52px;
+  border-radius: 3px;
+  margin: 0 auto 14px auto;
+  background: #e8e2d4;
+  border: 1px solid #c4baa6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #663c32;
+  font-size: 1.45rem;
+  box-shadow: inset 0 1px 2px rgba(52, 37, 26, 0.12);
+}
+
+.privacy-folio-header h1 {
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: 2.3rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #34251a;
+  margin: 0 0 6px 0;
+  line-height: 1.2;
+}
+
+.privacy-subtitle {
+  font-family: 'Crimson Text', Georgia, serif;
+  font-style: italic;
+  font-size: 1.15rem;
+  color: #68533e;
+  margin: 0 0 10px 0;
+  line-height: 1.4;
+}
+
+.privacy-effective-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: 0.76rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #68533e;
+  margin-top: 4px;
+}
+
+.privacy-effective-meta i {
+  color: #663c32;
+  font-size: 0.82rem;
+}
+
+/* Ornate horizontal divider with diamond */
+.privacy-ornate-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin: 22px 0 26px 0;
+}
+
+.privacy-ornate-divider .divider-line {
+  flex: 1;
+  height: 1px;
+  background: #c4baa6;
+}
+
+.privacy-ornate-divider .divider-glyph {
+  color: #663c32;
+  font-size: 0.75rem;
+}
+
+/* Table of Contents */
+.privacy-toc {
+  background: #f1ece1;
+  border: 1px solid #c4baa6;
+  border-radius: 3px;
+  padding: 12px 18px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  text-align: left;
+}
+
+.privacy-toc-label {
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #663c32;
+}
+
+.privacy-toc-list {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  gap: 4px 8px;
+}
+
+.privacy-toc-list li a {
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  color: #68533e;
+  text-decoration: none;
+  padding: 3px 6px;
+  border-radius: 2px;
+  transition: all 0.12s ease;
+}
+
+.privacy-toc-list li a:hover {
+  color: #663c32;
+  background: #e8e2d4;
+}
+
+/* Section styling */
+.privacy-section {
+  margin-top: 36px;
+  scroll-margin-top: 24px;
+}
+
+.privacy-section h2 {
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: #663c32;
+  margin: 0 0 14px 0;
   padding-bottom: 6px;
-  border-bottom: 1px solid rgba(201, 162, 39, 0.3);
+  border-bottom: 1px solid #c4baa6;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-.privacy-policy-container h3 {
-  color: #a8d8ea;
+.privacy-section h2 .section-roman {
+  color: #a77b3a;
+  font-weight: 600;
+  font-size: 1.15rem;
+}
+
+.privacy-section p {
+  font-family: 'Crimson Text', Georgia, serif;
+  font-size: 1.08rem;
+  line-height: 1.68;
+  color: #34251a;
+  margin: 0 0 14px 0;
+}
+
+/* Scribe Callout Panel */
+.privacy-scribe-panel {
+  background: #f1ece1;
+  border: 1px solid #c4baa6;
+  border-radius: 3px;
+  padding: 14px 18px;
+  margin: 16px 0;
+}
+
+.privacy-scribe-panel p {
+  margin: 0;
+}
+
+/* Subcards Grid for data categories */
+.privacy-subcard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 14px;
+  margin: 16px 0 20px 0;
+}
+
+.privacy-subcard {
+  background: #f1ece1;
+  border: 1px solid #c4baa6;
+  border-radius: 3px;
+  padding: 16px 18px;
+}
+
+.privacy-subcard h3 {
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: 0.94rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: #34251a;
+  margin: 0 0 8px 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.privacy-subcard h3::before {
+  content: '◆';
+  color: #a77b3a;
+  font-size: 0.6rem;
+}
+
+.privacy-subcard p {
+  font-family: 'Crimson Text', Georgia, serif;
+  font-size: 1.02rem;
+  line-height: 1.55;
+  color: #34251a;
+  margin: 0;
+}
+
+/* Custom Ruled Bullet List */
+.privacy-ruled-list {
+  list-style: none;
+  padding: 0;
+  margin: 14px 0;
+}
+
+.privacy-ruled-list li {
+  font-family: 'Crimson Text', Georgia, serif;
+  font-size: 1.08rem;
+  line-height: 1.62;
+  color: #34251a;
+  margin-bottom: 10px;
+  padding-left: 22px;
+  position: relative;
+}
+
+.privacy-ruled-list li::before {
+  content: '◆';
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 0.6rem;
+  color: #663c32;
+  line-height: 1.62;
+}
+
+.privacy-ruled-list li strong {
+  color: #20140c;
+  font-weight: 600;
+}
+
+/* Links */
+.privacy-link {
+  color: #663c32;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.15s ease;
+}
+
+.privacy-link:hover {
+  color: #8b3a2a;
+}
+
+/* Scribe Colophon / Sign-off */
+.privacy-colophon {
+  margin-top: 48px;
+  padding-top: 28px;
+  border-top: 1px solid #c4baa6;
+  text-align: center;
+}
+
+.privacy-colophon-seal {
+  width: 36px;
+  height: 36px;
+  border-radius: 3px;
+  background: #e8e2d4;
+  border: 1px solid #c4baa6;
+  margin: 0 auto 10px auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #663c32;
+  font-size: 1rem;
+}
+
+.privacy-colophon-text {
+  font-family: 'Crimson Text', Georgia, serif;
+  font-style: italic;
   font-size: 1.05rem;
-  margin-top: 20px;
-  margin-bottom: 8px;
+  color: #68533e;
+  margin: 0 0 18px 0;
 }
 
-.privacy-policy-container p {
-  margin-bottom: 12px;
+.privacy-colophon-actions {
+  display: flex;
+  justify-content: center;
 }
 
-.privacy-policy-container ul {
-  margin-bottom: 12px;
-  padding-left: 24px;
+.privacy-scroll-top-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: #f1ece1;
+  border: 1px solid #c4baa6;
+  color: #34251a;
+  padding: 7px 18px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  outline: none;
 }
 
-.privacy-policy-container li {
-  margin-bottom: 8px;
+.privacy-scroll-top-btn:hover {
+  background: #e8e2d4;
+  border-color: #663c32;
+  color: #663c32;
 }
 
-.privacy-policy-container strong {
-  color: #ffffff;
+.privacy-scroll-top-btn:focus-visible {
+  outline: 2px solid #663c32;
+  outline-offset: 2px;
 }
 
-@media (max-width: 600px) {
-  .privacy-policy-page {
-    padding: 20px 12px;
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .privacy-folio {
+    padding: 32px 22px;
   }
 
-  .privacy-policy-container h1 {
-    font-size: 1.5rem;
+  .privacy-folio-header h1 {
+    font-size: 1.8rem;
   }
 
-  .privacy-policy-container h2 {
-    font-size: 1.15rem;
+  .privacy-subcard-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .privacy-breadcrumbs {
+    display: none;
   }
 }

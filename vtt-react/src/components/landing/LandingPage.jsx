@@ -10,7 +10,7 @@ import MapMakingSection from './MapMakingSection';
 import { shouldReduceMotion } from '../../utils/accessibility';
 import { getCurrentMapTransform } from '../../utils/mapTransform';
 import { getPrimaryStarterMap } from '../../data/subregionMaps';
-import { SUBSCRIPTION_TIERS } from '../../services/subscriptionService';
+import subscriptionService, { SUBSCRIPTION_TIERS } from '../../services/subscriptionService';
 import './styles/LandingPage.css';
 
 // Membership tab presentation config. Tier names, prices, limits and feature
@@ -20,13 +20,13 @@ const MEMBERSHIP_TIER_ORDER = ['GUEST', 'FREE', 'PRO', 'ULTIMATE', 'MYTHIC'];
 
 const MEMBERSHIP_CARD_META = {
   GUEST: {
-    cardClass: 'free',
+    cardClass: 'guest',
     action: 'login',
     lockedFeatures: ['No cloud save: data cleared on disconnect', 'Cannot create rooms']
   },
-  FREE: { cardClass: 'premium', action: 'register' },
-  PRO: { cardClass: 'premium', action: 'soon' },
-  ULTIMATE: { cardClass: 'legendary', action: 'soon' },
+  FREE: { cardClass: 'free', action: 'register' },
+  PRO: { cardClass: 'pro', action: 'soon' },
+  ULTIMATE: { cardClass: 'ultimate', action: 'soon' },
   MYTHIC: { cardClass: 'mythic', action: 'soon' }
 };
 
@@ -49,6 +49,26 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
   const navigate = useNavigate();
   const location = useLocation();
   const { isDevelopmentBypass, signOut, isAuthenticated: authStoreIsAuthenticated, user: authStoreUser, isDevelopmentBypass: authStoreIsDevelopmentBypass, isAdminBypass } = useAuthStore();
+  const [subscriptionStatus, setSubscriptionStatus] = useState(null);
+
+  useEffect(() => {
+    let isMounted = true;
+    const fetchSub = async () => {
+      try {
+        const uid = authStoreUser?.uid || user?.uid;
+        if (authStoreIsAuthenticated || uid) {
+          const status = await subscriptionService.getSubscriptionStatus(uid);
+          if (isMounted) setSubscriptionStatus(status);
+        } else {
+          if (isMounted) setSubscriptionStatus(null);
+        }
+      } catch (err) {
+        console.warn('Could not load subscription status:', err);
+      }
+    };
+    fetchSub();
+    return () => { isMounted = false; };
+  }, [authStoreIsAuthenticated, authStoreUser, user]);
 
   // Lord Bertil's Map Making section is only available to admin (admin/admin dev-login)
   const isAdmin = isAdminBypass || !!authStoreUser?.isAdmin;
@@ -366,76 +386,162 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
  );
 
  const renderMembershipSection = () => (
-  <div className="landing-section">
+  <div className="landing-section membership-section-wrapper">
    <div className="membership-content">
-    <h2>Membership &amp; Pricing</h2>
-    <p className="membership-subtitle">
-     Every tier plays the same game. Plans only change how much you can build, store and run.
-    </p>
-    <div className="pricing-grid">
-     {MEMBERSHIP_TIER_ORDER.map(tierKey => {
-      const tier = SUBSCRIPTION_TIERS[tierKey];
-      const meta = MEMBERSHIP_CARD_META[tierKey];
-      if (!tier || !meta) return null;
-
-      const features = meta.lockedFeatures
-       ? tier.features.filter(feature => !/^no cloud save/i.test(feature))
-       : tier.features;
-
-      return (
-       <div
-        key={tierKey}
-        className={`pricing-card ${meta.cardClass}${tier.highlight ? ' highlighted' : ''}`}
-       >
-        {tier.highlight && (
-         <div className="popular-badge">Most Popular</div>
-        )}
-        <div className="pricing-card-icon" style={{ color: tier.color }}>
-         <i className={`fas ${tier.icon}`}></i>
-        </div>
-        <h3>{tierKey === 'FREE' ? 'Free Adventurer' : tier.name}</h3>
-        <div className="price">
-         {tier.price === 0 ? (
-          tierKey === 'GUEST' ? 'Free' : <>Free<span>/forever</span></>
-         ) : (
-          <>${tier.price}<span>/month</span></>
-         )}
-        </div>
-        <p className="pricing-description">{tier.description}</p>
-        <ul>
-         {features.map((feature, idx) => (
-          <li key={idx}>✓ {feature}</li>
-         ))}
-         {meta.lockedFeatures?.map(feature => (
-          <li key={feature}>
-           <span className="locked-feature">✗ {feature}</span>
-          </li>
-         ))}
-        </ul>
-        {meta.action === 'login' && (
-         <button
-          className="pricing-btn primary-account-btn"
-          onClick={onShowLogin}
-         >
-          <i className="fas fa-sign-in-alt"></i>
-          Get Started
-         </button>
-        )}
-        {meta.action === 'register' && (
-         <button
-          className="pricing-btn primary-account-btn"
-          onClick={onShowRegister}
-         >
-          <i className="fas fa-user-plus"></i>
-          Create Free Account
-         </button>
-        )}
-        {meta.action === 'soon' && (
-         <button className="pricing-btn" disabled>Coming Soon</button>
-        )}
+    <div className="membership-plans-section">
+     <div className="membership-plans-header">
+      <h2>Membership &amp; Pricing</h2>
+      <p className="membership-plans-subtitle">
+       Every tier plays the same game. Plans only change how much you can build, store and run.
+      </p>
+      {subscriptionStatus && (
+       <div className="current-plan-indicator">
+        <span>Current plan: </span>
+        <span
+         className="current-plan-badge"
+         style={{ background: subscriptionStatus.color || '#888' }}
+        >
+         <i className={`fas ${subscriptionStatus.icon || 'fa-user'}`}></i>
+         {subscriptionStatus.displayName}
+        </span>
        </div>
-      );
-     })}
+      )}
+     </div>
+
+     <div className="membership-plans-grid">
+      {MEMBERSHIP_TIER_ORDER.map(tierKey => {
+       const tier = SUBSCRIPTION_TIERS[tierKey];
+       const meta = MEMBERSHIP_CARD_META[tierKey];
+       if (!tier || !meta) return null;
+
+       const isCurrentTier = subscriptionStatus?.tierKey === tierKey;
+
+       // Filter out features that are already summarized in plan-stats
+       const cleanFeatures = (tier.features || []).filter(feature => {
+        if (meta.lockedFeatures && /^no cloud save/i.test(feature)) return false;
+        if (tierKey !== 'GUEST') {
+         if (/^\d+\s+(character slots?|permanent rooms?|cloud storage|mb\b|gb\b)/i.test(feature)) return false;
+         if (/^unlimited character slots/i.test(feature)) return false;
+         if (/^\d+\s*gb ultra cloud/i.test(feature)) return false;
+        }
+        return true;
+       });
+
+       return (
+        <div
+         key={tierKey}
+         className={`membership-plan-card ${tierKey.toLowerCase()} ${isCurrentTier ? 'current' : ''} ${tier.highlight ? 'highlighted' : ''}`}
+        >
+         {tier.highlight && (
+          <div className="plan-popular-tag">Most Popular</div>
+         )}
+         {isCurrentTier && (
+          <div className="plan-current-tag">Current Plan</div>
+         )}
+
+         <div className="plan-icon" style={{ color: tier.color }}>
+          <i className={`fas ${tier.icon}`}></i>
+         </div>
+
+         <h3 className="plan-name">{tierKey === 'FREE' ? 'Free Adventurer' : tier.name}</h3>
+
+         <div className="plan-price">
+          {tier.price === 0 ? (
+           tierKey === 'GUEST' ? 'Free' : <>Free<span>/forever</span></>
+          ) : (
+           <>${tier.price}<span>/month</span></>
+          )}
+         </div>
+
+         <p className="plan-description">{tier.description}</p>
+
+         <div className="plan-stats">
+          <div className="plan-stat" title="Character slots">
+           <i className="fas fa-users"></i>
+           <span>{tier.characterLimit === -1 ? 'Unlimited' : tier.characterLimit} {tier.characterLimit === 1 ? 'character' : 'characters'}</span>
+          </div>
+          <div className="plan-stat" title="Permanent rooms">
+           <i className="fas fa-door-open"></i>
+           <span>{tier.roomLimit === 0 ? 'Join only' : `${tier.roomLimit} room${tier.roomLimit !== 1 ? 's' : ''}`}</span>
+          </div>
+          {tier.maxPlayersPerRoom > 0 ? (
+           <div className="plan-stat" title="Maximum players per room">
+            <i className="fas fa-user-group"></i>
+            <span>Up to {tier.maxPlayersPerRoom} players/room</span>
+           </div>
+          ) : (
+           <div className="plan-stat" title="Multiplayer participation">
+            <i className="fas fa-user-group"></i>
+            <span>Join games</span>
+           </div>
+          )}
+          <div className="plan-stat" title="Cloud storage capacity">
+           <i className="fas fa-database"></i>
+           <span>
+            {tier.storageLimit >= 1024 * 1024 * 1024
+             ? `${(tier.storageLimit / (1024 * 1024 * 1024)).toFixed(0)} GB`
+             : tier.storageLimit > 0
+               ? `${(tier.storageLimit / (1024 * 1024)).toFixed(0)} MB`
+               : 'Local only'} storage
+           </span>
+          </div>
+         </div>
+
+         <ul className="plan-features">
+          {cleanFeatures.map((feature, idx) => (
+           <li key={idx}>
+            <i className="fas fa-check"></i>
+            <span>{feature}</span>
+           </li>
+          ))}
+          {meta.lockedFeatures?.map(feature => (
+           <li key={feature} className="locked-feature-item">
+            <i className="fas fa-times"></i>
+            <span>{feature}</span>
+           </li>
+          ))}
+         </ul>
+
+         <div className="plan-action">
+          {isCurrentTier ? (
+           <button className="plan-btn current-btn" disabled>
+            <i className="fas fa-check-circle"></i>
+            Current Plan
+           </button>
+          ) : tierKey === 'GUEST' ? (
+           authStoreIsAuthenticated ? (
+            <span className="plan-note">No account needed</span>
+           ) : (
+            <button
+             className="plan-btn guest-btn"
+             onClick={onShowLogin}
+            >
+             <i className="fas fa-sign-in-alt"></i>
+             Get Started
+            </button>
+           )
+          ) : tierKey === 'FREE' ? (
+           authStoreIsAuthenticated ? (
+            <span className="plan-note">Free with account</span>
+           ) : (
+            <button
+             className="plan-btn upgrade-btn"
+             onClick={onShowRegister}
+            >
+             <i className="fas fa-user-plus"></i>
+             Create Free Account
+            </button>
+           )
+          ) : (
+           <button className="plan-btn coming-soon-btn" disabled>
+            Coming Soon
+           </button>
+          )}
+         </div>
+        </div>
+       );
+      })}
+     </div>
     </div>
    </div>
   </div>

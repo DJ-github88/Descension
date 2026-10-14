@@ -8,6 +8,7 @@ import { getClassResourceConfig } from '../../data/classResources';
 import SphereComboFinder from '../../data/classes/arcanoneer/components/SphereComboFinder';
 import TalentTreeContent from '../talent-tree/TalentTreeContent';
 import ClassIcon from '../common/ClassIcon';
+import { getClassIconUrl } from '../../utils/classIconUtils';
 import ResourceSystemTab from './resource-system/ResourceSystemTab';
 import { hasResourceSystemGuide } from '../../data/resourceSystems';
 import './ClassDetailDisplay.css';
@@ -3166,7 +3167,8 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
     <div className="class-header-left">
      <div className="class-header-icon-container">
       <ClassIcon 
-       src={`/assets/icons/classes/${classData.name.toLowerCase().replace(/ /g, '_')}.png`} 
+       src={getClassIconUrl(classData.name, { variant: 'transparent' }) || `/assets/icons/classes/transparent/${(classData.name || '').toLowerCase().replace(/ /g, '_')}.png`}
+       variant="transparent" 
        alt={classData.name} 
        size="large"
        className="header-pixel-icon" 

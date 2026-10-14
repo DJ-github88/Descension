@@ -1,7 +1,7 @@
 export const DATA_VERSIONS = {
-  creatures: '2.10.1',
-  abilities: '1.3.0',
-  rules: '2.2.2',
+  creatures: '2.11.0',
+  abilities: '1.4.0',
+  rules: '2.2.3',
   lore: '2.2.1',
 };
 

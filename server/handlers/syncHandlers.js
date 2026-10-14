@@ -236,6 +236,7 @@ function registerSyncHandlers(ctx) {
       // other full_game_state_sync payloads so the existing handler can apply it.
       // P4: outbound privacy projection; raw stored state is never altered.
       socket.emit('full_game_state_sync', {
+        roomId: room.id, actorProjection: require('../services/actorProjection').current(room),
         mapId: requestedMapId,
         legacyFallback: true,
         tokens: roomAccess.projectGameStateForClient({ tokens: gs.tokens || {} }).tokens,
@@ -266,6 +267,7 @@ function registerSyncHandlers(ctx) {
 
     const projectedMap = roomAccess.projectGameStateForClient({ maps: { [requestedMapId]: { ...ownMap } } }).maps[requestedMapId];
     socket.emit('full_game_state_sync', {
+      roomId: room.id, actorProjection: require('../services/actorProjection').current(room),
       mapId: requestedMapId,
       mapIds: Object.keys(maps),
       tokens: projectedMap.tokens || {},
@@ -352,6 +354,7 @@ function registerSyncHandlers(ctx) {
     if (!room) {return;}
 
     socket.emit('full_game_state_sync', {
+      roomId: room.id,
       combat: room.gameState.combat || null,
       players: roomAccess.projectPlayersForClient(room.players),
       gm: roomAccess.projectPlayerForClient(room.gm)

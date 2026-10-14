@@ -17,6 +17,10 @@ import { createDeck, drawCards } from '../spellcrafting-wizard/core/mechanics/ca
 import { flipMultipleCoins } from '../spellcrafting-wizard/core/mechanics/coinSystem';
 import { useCharacterSpells } from '../../hooks/useCharacterSpells';
 import { createScopedNativeFamily } from '../../persistence/scopedNativeFamily';
+import { useActionBarAsset } from '../../hooks/useActionBarAsset';
+import EquipmentActionSlot from '../ui/EquipmentActionSlot';
+import { getActionsForSlot } from '../../data/weaponActionSpells';
+import { normalizeEquipment, isOffHandDisabled as checkOffHandDisabled } from '../../utils/equipmentUtils';
 import './SpellActionBar.css';
 
 // Wave B closure: spell action bars are verified-owner scoped private authored state.
@@ -271,6 +275,38 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [assignTab, setAssignTab] = useState('all'); // 'all' | 'spells' | 'consumables'
   const dragSourceSlotRef = useRef(null);
+
+  // Illustrated Actionbar.PNG background asset
+  const actionBarBg = useActionBarAsset();
+  const rawEquipment = useCharacterStore(state => state.equipment) || {};
+  const equipment = React.useMemo(() => normalizeEquipment(rawEquipment), [rawEquipment]);
+  const isOffHandDisabled = React.useMemo(() => checkOffHandDisabled(equipment), [equipment]);
+  const mhActions = React.useMemo(() => getActionsForSlot('mainHand', equipment?.mainHand), [equipment?.mainHand]);
+  const ohActions = React.useMemo(() => getActionsForSlot('offHand', equipment?.offHand), [equipment?.offHand]);
+  const rangedActions = React.useMemo(() => getActionsForSlot('ranged', equipment?.ranged), [equipment?.ranged]);
+  const [openEquipmentSlot, setOpenEquipmentSlot] = useState(null);
+  const [equipmentTooltipItem, setEquipmentTooltipItem] = useState(null);
+  const [equipmentMousePos, setEquipmentMousePos] = useState({ x: 0, y: 0 });
+
+  const handleEquipmentActionClick = (action) => {
+    setOpenEquipmentSlot(null);
+    setPendingSpellCast({ spell: action });
+  };
+
+  const handleEquipmentSlotMouseEnter = (e, item) => {
+    if (item) {
+      setEquipmentMousePos({ x: e.clientX, y: e.clientY });
+      setEquipmentTooltipItem(item);
+    }
+  };
+
+  const handleEquipmentSlotMouseMove = (e) => {
+    setEquipmentMousePos({ x: e.clientX, y: e.clientY });
+  };
+
+  const handleEquipmentSlotMouseLeave = () => {
+    setEquipmentTooltipItem(null);
+  };
 
   // Auto-dismiss resolution toast after 8 seconds
   useEffect(() => {
@@ -1267,7 +1303,32 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
   };
 
   return (
-    <div className="spell-action-bar-container">
+    <div className="spell-action-bar-assembly">
+      {/* Left Elevated Wing: Main Hand */}
+      <div className="action-bar-wing action-bar-wing-left">
+        <EquipmentActionSlot
+          slotName="mainHand"
+          item={equipment?.mainHand}
+          actions={mhActions}
+          isOpen={openEquipmentSlot === 'mainHand'}
+          isDisabled={false}
+          onToggleOpen={(slot) => setOpenEquipmentSlot(prev => prev === slot ? null : slot)}
+          onActionClick={handleEquipmentActionClick}
+          onSlotMouseEnter={handleEquipmentSlotMouseEnter}
+          onSlotMouseMove={handleEquipmentSlotMouseMove}
+          onSlotMouseLeave={handleEquipmentSlotMouseLeave}
+        />
+      </div>
+
+      <div
+        className={`spell-action-bar-container ${actionBarBg ? 'action-bar-has-asset' : ''}`}
+        style={actionBarBg ? {
+          backgroundImage: `url(${actionBarBg})`,
+          backgroundSize: '100% 100%',
+          backgroundRepeat: 'no-repeat',
+          backgroundPosition: 'center',
+        } : undefined}
+      >
       <div className="spell-action-slots-wrapper">
         <div className="spell-action-slots-row">
           {slots.map((spell, index) => {
@@ -1347,7 +1408,39 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
             );
           })}
 
-          {/* Integrated Dice Roller Cog Button */}
+        </div>
+      </div>
+      </div>
+
+      {/* Right Elevated Wing: Off Hand & Ranged + Tool Accessories */}
+      <div className="action-bar-wing action-bar-wing-right">
+        <EquipmentActionSlot
+          slotName="offHand"
+          item={equipment?.offHand}
+          actions={ohActions}
+          isOpen={openEquipmentSlot === 'offHand'}
+          isDisabled={isOffHandDisabled}
+          onToggleOpen={(slot) => setOpenEquipmentSlot(prev => prev === slot ? null : slot)}
+          onActionClick={handleEquipmentActionClick}
+          onSlotMouseEnter={handleEquipmentSlotMouseEnter}
+          onSlotMouseMove={handleEquipmentSlotMouseMove}
+          onSlotMouseLeave={handleEquipmentSlotMouseLeave}
+        />
+        <EquipmentActionSlot
+          slotName="ranged"
+          item={equipment?.ranged}
+          actions={rangedActions}
+          isOpen={openEquipmentSlot === 'ranged'}
+          isDisabled={false}
+          onToggleOpen={(slot) => setOpenEquipmentSlot(prev => prev === slot ? null : slot)}
+          onActionClick={handleEquipmentActionClick}
+          onSlotMouseEnter={handleEquipmentSlotMouseEnter}
+          onSlotMouseMove={handleEquipmentSlotMouseMove}
+          onSlotMouseLeave={handleEquipmentSlotMouseLeave}
+        />
+
+        {/* Action Bar Accessories (Dice Roller Cog & Clear All) */}
+        <div className="spell-action-tools-cluster">
           <button
             type="button"
             className="spell-action-cog-btn"
@@ -1360,7 +1453,6 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
             <i className="fas fa-cog"></i>
           </button>
 
-          {/* Inline Clear-All Button (desktop; hidden on mobile) */}
           <button
             type="button"
             className="spell-bar-clear-inline-btn"
@@ -1374,6 +1466,22 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
           </button>
         </div>
       </div>
+
+      {/* Floating Equipment Tooltip */}
+      {equipmentTooltipItem && (
+        <div
+          className="equipment-slot-floating-tooltip"
+          style={{
+            position: 'fixed',
+            left: `${Math.min(window.innerWidth - 320, equipmentMousePos.x + 15)}px`,
+            bottom: `${Math.max(80, window.innerHeight - equipmentMousePos.y + 10)}px`,
+            pointerEvents: 'none',
+            zIndex: 99999
+          }}
+        >
+          <ItemTooltip item={equipmentTooltipItem} />
+        </div>
+      )}
 
       {/* Quick Assign Modal (Mobile & Tap friendly) */}
       {quickAssignSlotIndex !== null && (

@@ -8,6 +8,7 @@ import { useResourceBarTooltip } from '../../../../components/hud/useResourceBar
 import ClassTip from '../../../../components/hud/ClassTip';
 import SpellTooltip from '../../../../components/spellcrafting-wizard/components/common/SpellTooltip';
 import { cadenceToSpell } from '../cadenceToSpell';
+import { ALL_CLASS_SPELLS } from '../../../classSpellGenerator';
 import { MINSTREL_MAX_PER_PITCH, normalizeNoteBank, getBankSpellResourcePlan } from '../../../classResourceBanks';
 import { INK, MUTED, PAGE, PAPER, RULE, ETCH, BRASS, GOOD, inked, washed } from '../../../../components/hud/calmBarPalette';
 
@@ -58,7 +59,36 @@ const MinstrelResourceBar = ({
     // dispatcher, we don't import minstrelData directly (avoids circular deps
     // and matches the Arcanoneer pattern).
     const matrix = config?.cadenceMatrix || null;
-    const cadenceEntries = matrix?.entries || [];
+    const matrixEntries = useMemo(() => matrix?.entries || [], [matrix]);
+
+    // Cadences are spells a Minstrel learns level by level. The owner's own bar
+    // lists only the resolver spells they actually know, with the exact notes
+    // each one needs. Previews (rules page, someone else's bar, no Minstrel
+    // loaded) show the full songbook as reference instead.
+    const characterClass = useCharacterStore(state => state.class);
+    const knownSpellIds = useCharacterStore(state => state.class_spells?.known_spells);
+    const learnedMode = !showcase && isOwner && characterClass === 'Minstrel';
+    const cadenceEntries = useMemo(() => {
+        if (!learnedMode) return matrixEntries;
+        const known = new Set(Array.isArray(knownSpellIds) ? knownSpellIds : []);
+        return (ALL_CLASS_SPELLS.Minstrel || [])
+            .filter(spell => known.has(spell.id))
+            .map(spell => ({ spell, combo: spell.musicalCombo || spell.specialMechanics?.musicalCombo }))
+            .filter(({ combo }) => combo?.type === 'resolver' && Array.isArray(combo.requires) && combo.requires.length)
+            .map(({ spell, combo }) => {
+                const reference = matrixEntries.find(entry => entry.name === spell.name) || {};
+                return {
+                    ...reference,
+                    id: spell.id,
+                    name: spell.name,
+                    level: spell.level,
+                    notes: Object.fromEntries(combo.requires.map(({ note, count }) => [note, count])),
+                    sequence: reference.sequence || combo.requires.map(({ note, count }) => (count > 1 ? `${note}×${count}` : note)).join(' · '),
+                    _spell: spell
+                };
+            })
+            .sort((a, b) => (a.level || 0) - (b.level || 0) || a.name.localeCompare(b.name));
+    }, [learnedMode, knownSpellIds, matrixEntries]);
 
     const canEdit = isOwner;
     const isCompact = size === 'small' || context === 'party';
@@ -443,7 +473,7 @@ const MinstrelResourceBar = ({
 
     const renderCadenceTooltip = () => {
         if (!hoveredCadence) return null;
-        const spell = cadenceToSpell(hoveredCadence, matrix);
+        const spell = hoveredCadence._spell || cadenceToSpell(hoveredCadence, matrix);
         if (!spell) return null;
         return (
             <SpellTooltip
@@ -1003,13 +1033,16 @@ const MinstrelResourceBar = ({
                     </div>
 
                     <div className="cm-section">
-                        Cadences
-                        <span className="cm-section-aside">ready ones first</span>
+                        {learnedMode ? 'Your cadences' : 'Songbook'}
+                        <span className="cm-section-aside">{learnedMode ? `${cadenceEntries.length} learned, ready first` : 'reference: all cadences'}</span>
                     </div>
+                    {learnedMode && cadenceEntries.length === 0 && (
+                        <p className="cm-line is-quiet">You have not learned a cadence yet. Cadences are spells you pick as you level; builder songs still bank notes for them.</p>
+                    )}
                     <ul className="cm-cadences">
                         {[...cadenceEntries].sort((a, b) => Number(isCadenceReady(b)) - Number(isCadenceReady(a))).map((entry) => {
                             const ready = isCadenceReady(entry);
-                            const spell = cadenceToSpell(entry, matrix);
+                            const spell = entry._spell || cadenceToSpell(entry, matrix);
                             return (
                                 <li
                                     key={entry.id}
@@ -1074,8 +1107,8 @@ const MinstrelResourceBar = ({
                     </ul>
                     <details className="cm-notes">
                         <summary>How cadences work</summary>
-                        <p>Your songs bank notes. A cadence resolves when you hold every note it needs, and spends them.</p>
-                        <p>Every Minstrel can resolve all ten cadences; hover one to read its full effect.</p>
+                        <p>Builder songs bank notes. A cadence resolves when you hold every note it needs, and spends exactly those notes.</p>
+                        <p>Cadences are spells you learn as you level; only the ones you know appear here. Hover one to read its full effect.</p>
                     </details>
                     <div className="cm-foot">
                         {canEdit && (

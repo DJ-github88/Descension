@@ -1,21 +1,32 @@
 import React, { useState } from 'react';
 import ResourceGlyph, { getResourcePhase, legacyStateFor } from './ResourceGlyph';
 
-const TITLES = { health: 'Health', mana: 'Mana', ap: 'Action Points' };
+const TITLES = { health: 'Health', mana: 'Mana', ap: 'Action Points', exhaustion: 'Exhaustion' };
+
+export const EXHAUSTION_STAGES = [
+    'Refreshed',
+    'Disadvantage on Checks',
+    'Speed Halved',
+    'Disadvantage on Attacks & Saves',
+    'HP Max Halved',
+    'Speed Reduced to 0',
+    'Death'
+];
 
 /**
  * StatVial — corner-mounted state vial for the party HUD.
- * Draws the resource as an SVG glyph (heart flask / crystal / winged boot)
+ * Draws the resource as an SVG glyph (heart flask / crystal / winged boot / exhaustion hourglass)
  * that fills to the live value and cracks, shatters or glows by phase. No numbers on the frame itself — hovering
  * pops a big numeric readout of the exact value.
  */
 const StatVial = ({ kind = 'health', current = 0, max = 1, temp = 0, memberName = 'Character', tilt = 0 }) => {
-    const safeMax = Math.max(1, max);
-    const safeValue = Math.max(0, current);
+    const isExh = kind === 'exhaustion';
+    const safeMax = isExh ? 6 : Math.max(1, max);
+    const safeValue = isExh ? Math.min(6, Math.max(0, Math.round(Number(current) || 0))) : Math.max(0, current);
     const safeTemp = Math.max(0, temp);
     const isSurplus = safeTemp > 0;
 
-    const phase = getResourcePhase(safeValue, safeMax);
+    const phase = getResourcePhase(safeValue, safeMax, kind);
     const state = legacyStateFor(phase);
     const title = TITLES[kind] || TITLES.health;
 
@@ -37,6 +48,9 @@ const StatVial = ({ kind = 'health', current = 0, max = 1, temp = 0, memberName 
                     <span className="readout-current">{safeValue}</span>
                     <span className="readout-max">/{safeMax}</span>
                     {safeTemp > 0 && <span className="readout-temp">+{safeTemp}</span>}
+                    {isExh && (
+                        <span className="readout-stage-name">{EXHAUSTION_STAGES[safeValue]}</span>
+                    )}
                 </div>
             )}
         </div>

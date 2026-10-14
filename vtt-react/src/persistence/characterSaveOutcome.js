@@ -9,6 +9,7 @@ import { EQUIPMENT_SLOT_KEYS } from '../utils/equipmentUtils';
 
 const drafts = createScopedNativeFamily({ familyId: 'character.saveDraft' });
 // Only the latest candidate per owner/character/lane, never an action log.
+// conditionRecovery is private read-only source, never executable runtime data.
 const candidates = new Map();
 let revision = 0;
 export const characterStatusKey = (context, id, lane) =>
@@ -65,6 +66,11 @@ function publish(entry) {
 }
 
 function retain(entry) {
+  if (entry.lane === 'conditionRecovery' && entry.payload.length > 8) {
+    entry.retention = 'memory';
+    entry.message = 'Condition recovery capacity reached. Keep this page open; download the exact source.';
+    return { status: 'RECOVERY_CAPACITY', persisted: false };
+  }
   try { serialize(entry.payload); } catch (error) {
     entry.retention = 'memory';
     entry.message = `Draft serialization failed: ${error.message}. Keep this page open; source retained in memory.`;
@@ -108,6 +114,7 @@ export function stageCharacterDraft(id, lane, payload, context = captureConsumer
   const hash = fingerprint(capturedPayload);
   if (hash !== null && previous?.fingerprint === hash) {
     if (previous.retention !== 'device') retain(previous);
+    markConditionRecoveryRefusal(previous);
     publish(previous);
     return previous;
   }
@@ -116,7 +123,46 @@ export function stageCharacterDraft(id, lane, payload, context = captureConsumer
   candidates.set(key, entry);
   retain(entry);
   if (entry.retention === 'memory') entry.status = 'error';
+  markConditionRecoveryRefusal(entry);
   publish(entry);
+  return entry;
+}
+
+const recoveryMatches = (candidate, id, context) => candidate?.observedOwnerUid === context?.scope?.scopeId &&
+  candidate.observedCharacterId === id && Array.isArray(candidate.records);
+
+/** Explicit owner/character recovery read. Observation never establishes ownership
+ * of a condition target; these bytes cannot be installed as buffs/debuffs. */
+export function getPersonalConditionRecovery(id, context = captureConsumerContext().context) {
+  const entry = getCharacterCandidate(id, 'conditionRecovery', context);
+  return snapshot(Array.isArray(entry?.payload) ? entry.payload.filter(candidate => recoveryMatches(candidate, id, context)) : []);
+}
+
+function markConditionRecoveryRefusal(entry) {
+  if (entry.lane !== 'runtime') return false;
+  const recovery = getCharacterCandidate(entry.id, 'conditionRecovery', entry.context);
+  if (!recovery || recovery.retention === 'device') return false;
+  entry.status = 'error';
+  entry.message = `Private condition recovery is memory only. ${recovery.message}`;
+  return true;
+}
+
+/** Copy before projection can discard ambiguous records. Reuse the P6 scoped
+ * preservation/refusal path; union sources rather than replace them on save/load.
+ * The optional cache input permits migration of the earlier volatile P7 cache. */
+export function preservePersonalConditionRecovery(id, sources = getStore('gameStore')?.getState().personalConditionRecoveryCandidates || [],
+  context = captureConsumerContext().context) {
+  if (!id || !characterContextCurrent(context)) return null;
+  const previous = getPersonalConditionRecovery(id, context);
+  const incoming = sources.filter(candidate => recoveryMatches(candidate, id, context));
+  if (!previous.length && !incoming.length) return null;
+  for (const candidate of incoming) {
+    const hash = fingerprint(candidate);
+    if (hash === null || !previous.some(value => fingerprint(value) === hash)) previous.push(snapshot(candidate));
+  }
+  const entry = stageCharacterDraft(id, 'conditionRecovery', previous, context);
+  const runtime = getCharacterCandidate(id, 'runtime', context);
+  if (runtime && markConditionRecoveryRefusal(runtime)) publish(runtime);
   return entry;
 }
 
@@ -130,6 +176,7 @@ export function setCharacterSaveOutcome(entry, status, message = null) {
   entry.status = status;
   entry.message = message;
   if (status === 'saved') retain(entry);
+  markConditionRecoveryRefusal(entry);
   publish(entry);
   return true;
 }
@@ -139,6 +186,10 @@ export async function saveCharacterDraft(entry, write) {
   if (entry.inFlight) return entry.inFlight;
   const run = async () => {
     retain(entry);
+    if (markConditionRecoveryRefusal(entry)) {
+      publish(entry);
+      return { success: false, reason: 'condition-recovery-retention-failed' };
+    }
     if (entry.retention !== 'device') {
       setCharacterSaveOutcome(entry, 'error', entry.message);
       return { success: false, reason: 'device-retention-failed' };
@@ -151,6 +202,10 @@ export async function saveCharacterDraft(entry, write) {
     try {
       const result = await write(entry.payload, () => isLatestCharacterDraft(entry));
       const confirmed = result === true || (result?.success === true && result.localOnly !== true);
+      if (isLatestCharacterDraft(entry) && markConditionRecoveryRefusal(entry)) {
+        publish(entry);
+        return { success: false, reason: 'condition-recovery-retention-failed', runtimeCloudConfirmed: confirmed };
+      }
       setCharacterSaveOutcome(entry, confirmed ? 'saved' : result?.localOnly ? 'pending' : 'error',
         confirmed ? null : result?.error || result?.reason || 'Cloud save was not confirmed. Retry or download this draft.');
       return typeof result === 'boolean' ? { success: result } : result;
@@ -179,10 +234,12 @@ export function exportCharacterDraft(id) {
   if (!captured.ok || !characterContextCurrent(captured.context)) throw new Error('No eligible owner');
   const canonical = getCharacterCandidate(id, 'canonical', captured.context);
   const runtime = getCharacterCandidate(id, 'runtime', captured.context);
-  if (!canonical && !runtime) throw new Error('No retained draft for this character');
+  const conditionRecovery = getPersonalConditionRecovery(id, captured.context);
+  if (!canonical && !runtime && !conditionRecovery.length) throw new Error('No retained draft for this character');
   return serialize({ format: 'mythrill-character-draft', version: 1,
     owner: captured.context.scope, characterId: id,
-    canonical: canonical?.payload || null, runtime: runtime?.payload || null }, 2);
+    canonical: canonical?.payload || null, runtime: runtime?.payload || null,
+    ...(conditionRecovery.length ? { conditionRecovery } : {}) }, 2);
 }
 
 const isRecord = value => !!value && typeof value === 'object' && !Array.isArray(value);
@@ -299,7 +356,11 @@ export function importCharacterDraft(raw, id) {
     data.characterId !== id || data.owner?.scopeId !== context.scope.scopeId || data.owner?.scopeKind !== context.scope.scopeKind) {
     throw new Error('Draft version, owner or selected character does not match');
   }
-  if (!data.canonical && !data.runtime) throw new Error('Draft has no character payload');
+  if (!data.canonical && !data.runtime && !data.conditionRecovery?.length) throw new Error('Draft has no character payload');
+  if (data.conditionRecovery !== undefined && (!Array.isArray(data.conditionRecovery) || data.conditionRecovery.some(candidate =>
+    !recoveryMatches(candidate, id, context) || candidate.records.some(record => !isRecord(record))))) {
+    throw new Error('Private condition recovery owner or character does not match');
+  }
   // Validate every lane before retaining or applying any lane. A rejected file
   // stays on disk/in the file input; the current recovery candidates are intact.
   for (const lane of ['canonical', 'runtime']) {
@@ -307,12 +368,13 @@ export function importCharacterDraft(raw, id) {
   }
   for (const lane of ['canonical', 'runtime']) {
     const current = getCharacterCandidate(id, lane, context);
-    if (current && current.status !== 'saved' && current.status !== 'idle' &&
+    if ((data.canonical || data.runtime) && current && current.status !== 'saved' && current.status !== 'idle' &&
       (!data[lane] || fingerprint(data[lane]) !== current.fingerprint)) {
       throw new Error('Current unsaved work differs from this file. Retry or download it first; neither candidate was replaced. The import file is unchanged.');
     }
   }
   for (const lane of ['canonical', 'runtime']) if (data[lane]) stageCharacterDraft(id, lane, data[lane], context);
+  if (data.conditionRecovery) preservePersonalConditionRecovery(id, data.conditionRecovery, context);
   return data;
 }
 

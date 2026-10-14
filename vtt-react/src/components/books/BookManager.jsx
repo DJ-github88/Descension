@@ -277,7 +277,7 @@ const BookManager = ({
         <div className="book-manager-title-block">
           <h2 className="book-manager-title"><i className="fas fa-book-open"></i> Sourcebooks &amp; Chronicles</h2>
           <p className="book-manager-subtitle">
-            Craft beautiful D&amp;D / Pathfinder sourcebooks with chapters, pages, creature statblocks, item cards, spell formulas, map embeds, custom glossary tooltips, and interactive tables of contents.
+            Craft beautiful fantasy sourcebooks with chapters, pages, creature statblocks, item cards, spell formulas, map embeds, custom glossary tooltips, and interactive tables of contents.
           </p>
         </div>
         <div className="book-manager-actions">

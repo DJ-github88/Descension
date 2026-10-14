@@ -1,8 +1,10 @@
 /** P7 client projection/command boundary. Stores remain projections of room
  * acceptance; this module performs no dice, class-price or initiative rules. */
 import { getStore } from '../store/storeRegistry';
+import { preservePersonalConditionRecovery } from '../persistence/characterSaveOutcome';
 import { getBootstrapGateState } from '../persistence/bootstrapPrivacyGate';
 import { isSocketRetired } from '../persistence/handoff/socketPrincipalRetirement';
+import { captureActorDelivery, currentActorDelivery, prepareActorProjection, retainActorProjectionCandidate } from './actorProjectionOrder';
 
 const pools = { hp: ['currentHp', 'health', 'tempHealth'], mana: ['currentMana', 'mana', 'tempMana'], ap: ['currentActionPoints', 'actionPoints', 'tempActionPoints'] };
 const protectedKeys = new Set(['currentHp', 'currentMana', 'currentActionPoints', 'tempHealth', 'tempMana', 'tempActionPoints', 'conditions', 'health', 'mana', 'actionPoints']);
@@ -76,9 +78,10 @@ export function projectPersonalRuntime(data, preserve = true) {
   if (!data) return data;
   const uid = getStore('authStore').getState().user?.uid;
   const characterId = getStore('characterStore').getState().currentCharacterId;
+  const match = matchingActive();
   const belongs = record => {
     if (record.target?.roomId) return record.target.kind === 'character' && record.target.ownerUid === uid && record.target.characterId === characterId &&
-      (!inSharedRoom() || (record.target.roomId === state().multiplayerRoom?.id && !!findActor(record.target)));
+      (!inSharedRoom() || (!!match && sameRef(record.target, match.ref)));
     if (record.ownerUid || record.characterId) return record.ownerUid === uid && record.characterId === characterId;
     if (record.targetId === characterId && record.targetType === 'character') return true;
     return !inSharedRoom() && ['player', 'current-player', 'local-player', 'local_player'].includes(record.targetId);
@@ -86,19 +89,27 @@ export function projectPersonalRuntime(data, preserve = true) {
   const scoped = { ...data };
   for (const key of ['buffs', 'debuffs']) if (Array.isArray(data[key])) scoped[key] = data[key].filter(belongs);
   if (Array.isArray(data.roomActorRecoveryCandidates)) scoped.roomActorRecoveryCandidates = data.roomActorRecoveryCandidates.filter(candidate => candidate.ownerUid === uid && candidate.characterId === characterId);
-  if (data.roomActorProjection && (data.roomActorProjection.ref?.ownerUid !== uid || data.roomActorProjection.ref?.characterId !== characterId)) delete scoped.roomActorProjection;
+  if (data.roomActorProjection && (data.roomActorProjection.ref?.ownerUid !== uid || data.roomActorProjection.ref?.characterId !== characterId ||
+    (inSharedRoom() && (!match || !sameRef(data.roomActorProjection.ref, match.ref))))) {
+    delete scoped.roomActorProjection;
+    // A retired attachment is provenance, never an active personal projection.
+    // Preserve only the originating owner's DTO in the existing private lane.
+    if (preserve && data.roomActorProjection.ref?.ownerUid === uid && data.roomActorProjection.ref?.characterId === characterId) {
+      const store = getStore('characterStore'), prior = store.getState().roomActorRecoveryCandidates || [];
+      const candidate = { ownerUid: uid, characterId, ref: data.roomActorProjection.ref, data: clone(data) };
+      if (!prior.some(value => same(value, candidate))) {
+        if (prior.length >= 8) throw new Error('Room reconciliation candidate capacity reached; personal application refused');
+        store.setState({ roomActorRecoveryCandidates: [...prior, candidate] });
+      }
+    }
+  }
   const ambiguous = ['buffs', 'debuffs'].flatMap(key => (data[key] || []).filter(record => !belongs(record) && !record.target?.roomId));
   if (ambiguous.length) {
     // Original bytes stay manual/recovery data outside the executable payload.
     // Observation context is not proof of selected-character ownership.
-    const game = getStore('gameStore'), prior = game.getState().personalConditionRecoveryCandidates || [];
     const candidate = { observedOwnerUid: uid, observedCharacterId: characterId, records: clone(ambiguous) };
-    if (!prior.some(value => same(value, candidate))) {
-      if (prior.length >= 8) throw new Error('Condition recovery capacity reached; personal application refused');
-      game.setState({ personalConditionRecoveryCandidates: [...prior, candidate] });
-    }
+    if (!preservePersonalConditionRecovery(characterId, [candidate])) throw new Error('Condition recovery scope unavailable; personal application refused');
   }
-  const match = matchingActive();
   if (!match) return scoped;
   const projection = roomResourceProjection();
   const records = match.token.state.conditions || [];
@@ -120,7 +131,10 @@ export function projectPersonalRuntime(data, preserve = true) {
 }
 export function reconcileOwner() {
   const match = matchingActive();
-  if (!match) return;
+  if (!match) {
+    if (active) { active = null; getStore('characterStore').setState({ roomActorProjection: null }); }
+    return;
+  }
   const projection = roomResourceProjection();
   const store = getStore('characterStore');
   if (Object.entries(projection).some(([key, value]) => !same(store.getState()[key], value))) store.setState(projection);
@@ -141,15 +155,17 @@ function request(event, payload) {
   });
 }
 export async function refreshActorSnapshot() {
+  const context = captureActorDelivery();
   const result = await request('actor_snapshot', { roomId: state().multiplayerRoom?.id });
   if (result.success) {
-    const validation = validateActorSnapshot(result.maps);
+    if (!currentActorDelivery(context, result.roomId)) return error('retired_principal');
+    const validation = prepareActorProjection(result.maps, { actorProjection: result.actorProjection, context, correlated: true });
     if (!validation.ok) {
-      getStore('gameStore').setState({ actorRecoverySnapshot: { result, uid: getStore('authStore').getState().user?.uid,
-         accountGeneration: getBootstrapGateState().accountGeneration, readOnly: validation.code === 'actor_binding_metadata_missing', reason: validation.code } });
+      retainActorProjectionCandidate(result, validation.code, context);
       return error('actor_reconciliation_required');
     }
     admission = { roomId: result.roomId, actionEpoch: result.actionEpoch, commitSequence: result.commitSequence, replayFloor: result.replayFloor };
+    validation.commit();
     replaceActorSnapshot(result);
   }
   return result;
@@ -163,26 +179,51 @@ function replaceActorSnapshot(result) {
   }
   getStore('creatureStore').setState({ creatureTokens: creatures, tokens: creatures });
   getStore('characterTokenStore').setState({ characterTokens: characters });
-  getStore('mapStore').setState(current => ({ maps: current.maps.map(map => ({ ...map,
-    tokens: result.maps?.[map.id]?.tokens || {}, characterTokens: result.maps?.[map.id]?.characterTokens || {} })) }));
+  getStore('mapStore').setState(current => ({ maps: Object.entries(result.maps || {}).map(([id, map]) => ({
+    ...current.maps.find(value => value.id === id), ...map, id })),
+    currentMapId: result.maps?.[current.currentMapId] ? current.currentMapId : Object.keys(result.maps || {})[0] || null }));
   hydrateActorConditions();
+  reconcileActorMirrors();
 }
-export function acceptRecoveredActorSnapshot() {
+export function reconcileActorMirrors() {
+  const primary = tokens().filter(token => token.state?.actorContract?.primary);
+  getStore('partyStore')?.setState(current => ({ partyMembers: (current.partyMembers || []).map(member => {
+    const token = primary.find(token => token.state.actorContract.ownerUid === member.userId && token.state.actorContract.characterId === member.character?.id);
+    return token ? { ...member, character: { ...member.character, ...Object.fromEntries(['health', 'mana', 'actionPoints', 'tempHealth', 'tempMana', 'tempActionPoints'].map(key => [key, token.character[key]])) } } : member;
+  }) }));
+  getStore('combatStore')?.setState(current => ({ turnOrder: (current.turnOrder || []).map(combatant => {
+    const token = tokens().find(token => sameRef(refOf(token), combatant.actorRef));
+    if (!token) return combatant;
+    const character = token.state.actorContract.kind === 'character';
+    return { ...combatant, currentHp: character ? token.character.health.current : token.state.currentHp,
+      currentMana: character ? token.character.mana.current : token.state.currentMana,
+      currentActionPoints: character ? token.character.actionPoints.current : token.state.currentActionPoints };
+  }) }));
+}
+export async function acceptRecoveredActorSnapshot() {
   const recovery = state().actorRecoverySnapshot;
   if (!recovery || recovery.uid !== getStore('authStore').getState().user?.uid || recovery.accountGeneration !== getBootstrapGateState().accountGeneration ||
      recovery.result.roomId !== state().multiplayerRoom?.id) return error('retired_principal');
-  if (recovery.readOnly) return error('legacy_reconciliation_required');
+   // Selection never grants freshness to retained conflicts. Only a new runtime
+   // can reconcile, using a freshly correlated read rather than candidate bytes.
+   if (recovery.reason !== 'actor_runtime_reconciliation_required') return error('actor_reconciliation_required');
+   const context = captureActorDelivery();
+   const result = await request('actor_snapshot', { roomId: context.roomId });
+   if (!result.success || !currentActorDelivery(context, result.roomId)) return error('retired_principal');
+   if (result.actorProjection?.epoch !== recovery.result.actorProjection?.epoch) return error('actor_reconciliation_required');
+   const validation = prepareActorProjection(result.maps, { actorProjection: result.actorProjection, context, correlated: true, reconcileEpoch: true });
+   if (!validation.ok) return error(validation.code);
   const match = matchingActive();
   if (match) {
     const store = getStore('characterStore'), prior = store.getState().roomActorRecoveryCandidates || [];
     if (prior.length >= 8) return error('candidate_capacity');
     store.setState({ roomActorRecoveryCandidates: [...prior, { ownerUid: match.ref.ownerUid, characterId: match.ref.characterId, ref: match.ref,
-      reason: 'explicit-room-checkpoint-reconciliation', data: roomResourceProjection() }] });
+      reason: 'explicit-room-checkpoint-reconciliation', data: { ...roomResourceProjection(), conditions: clone(match.token.state.conditions || []) } }] });
   }
-  const result = recovery.result;
-  admission = { roomId: result.roomId, actionEpoch: result.actionEpoch, commitSequence: result.commitSequence, replayFloor: result.replayFloor };
+   admission = { roomId: result.roomId, actionEpoch: result.actionEpoch, commitSequence: result.commitSequence, replayFloor: result.replayFloor };
+   validation.commit();
   replaceActorSnapshot(result);
-  getStore('gameStore').setState({ actorRecoverySnapshot: null });
+   getStore('gameStore').setState({ actorRecoverySnapshot: { ...recovery, reconciled: true } });
   return status({ success: true, code: 'room_projection_reconciled' });
 }
 export async function bindActor(tokenId, kind, options = {}) {
@@ -199,24 +240,33 @@ export async function bindActor(tokenId, kind, options = {}) {
   if (result.success) applyBoundActor(result);
   return status(result);
 }
-export function applyBoundActor(payload) {
-  if (payload.roomId !== state().multiplayerRoom?.id || !payload.token) return false;
-  for (const invalidated of payload.invalidated || []) applyBoundActor(invalidated);
-  const kind = payload.ref?.kind || payload.kind || (payload.token.character ? 'character' : 'creature');
-  const store = getStore(kind === 'character' ? 'characterTokenStore' : 'creatureStore');
-  const key = kind === 'character' ? 'characterTokens' : 'creatureTokens';
-  const existing = store.getState()[key] || [];
-  const prior = existing.find(token => token.id === payload.token.id && (token.mapId || payload.mapId) === payload.mapId);
-  const merged = { ...prior, ...payload.token, mapId: payload.mapId };
-  const next = prior ? existing.map(token => token === prior ? merged : token) : [...existing, merged];
-  store.setState({ [key]: next, ...(kind === 'creature' ? { tokens: next } : {}) });
-  getStore('mapStore').setState(current => ({ maps: current.maps.map(map => map.id === payload.mapId ? { ...map,
-    [kind === 'character' ? 'characterTokens' : 'tokens']: { ...map[kind === 'character' ? 'characterTokens' : 'tokens'], [merged.id]: merged } } : map) }));
-  reconcileOwner(); return true;
+export function applyActorLifecycle(payload, context = captureActorDelivery()) {
+  const result = payload?.actorSnapshot;
+  if (!result || !currentActorDelivery(context, result.roomId)) return false;
+  const validation = prepareActorProjection(result.maps, { actorProjection: result.actorProjection, context });
+  if (!validation.ok) {
+    retainActorProjectionCandidate(result, validation.code, context);
+    return false;
+  }
+  validation.commit();
+  replaceActorSnapshot(result);
+  return true;
 }
-export function applyAcceptedConsequence(result) {
+export function applyBoundActor(payload, context = captureActorDelivery()) {
+  return applyActorLifecycle(payload, context);
+}
+export function applyAcceptedConsequence(result, context = captureActorDelivery()) {
   const receipt = result?.receipt;
   if (!receipt || receipt.version !== 1 || receipt.roomId !== state().multiplayerRoom?.id || !Array.isArray(receipt.actors)) return false;
+  if (!currentActorDelivery(context, receipt.roomId)) return false;
+  const snapshot = result.actorSnapshot;
+  const lifecycle = prepareActorProjection(snapshot?.maps, { actorProjection: snapshot?.actorProjection, context });
+  if (!lifecycle.ok) {
+    if (lifecycle.code === 'actor_projection_stale') {
+      settleCommand(receipt, result); status({ ...result, historical: true }); return true;
+    }
+    status({ success: false, code: lifecycle.code }); return false;
+  }
   if (admission?.roomId === receipt.roomId && receipt.admissionEpoch !== admission.actionEpoch) {
     if (receipt.commitSequence <= admission.commitSequence) {
       settleCommand(receipt, result);
@@ -224,9 +274,13 @@ export function applyAcceptedConsequence(result) {
     }
     status({ success: false, code: 'snapshot_required' }); return false;
   }
+  // The server provides complete coverage at this cut, so receipt gaps do not
+  // claim knowledge of unseen lifecycle state. Revision rules were checked too.
   const staged = [];
   for (const actor of receipt.actors) {
-    const token = findActor(actor.ref);
+    const field = actor.ref.kind === 'character' ? 'characterTokens' : 'tokens';
+    const raw = snapshot.maps?.[actor.ref.mapId]?.[field]?.[actor.ref.tokenId];
+    const token = raw && sameRef(refOf(raw), actor.ref) ? { ...raw, mapId: actor.ref.mapId } : null;
     if (!token) {
       if (admission?.roomId === receipt.roomId && receipt.commitSequence <= admission.commitSequence) continue;
       status({ success: false, code: 'snapshot_required' }); return false;
@@ -248,15 +302,16 @@ export function applyAcceptedConsequence(result) {
     staged.push({ actor, token, next });
   }
   // No await or gameplay mutator between the actor publications.
+  lifecycle.commit();
+  replaceActorSnapshot(snapshot);
   for (const kind of ['creature', 'character']) {
     const selected = staged.filter(value => value.actor.ref.kind === kind);
     if (!selected.length) continue;
     const store = getStore(kind === 'creature' ? 'creatureStore' : 'characterTokenStore');
     const key = kind === 'creature' ? 'creatureTokens' : 'characterTokens';
-    const next = store.getState()[key].map(token => selected.find(value => value.token === token)?.next || token);
+    const next = store.getState()[key].map(token => selected.find(value => sameRef(value.actor.ref, refOf(token)))?.next || token);
     store.setState({ [key]: next, ...(kind === 'creature' ? { tokens: next } : {}) });
   }
-  const conditionStore = getStore('conditionStore');
   getStore('mapStore').setState(current => ({ maps: current.maps.map(map => {
     const local = staged.filter(value => value.actor.ref.mapId === map.id);
     if (!local.length) return map;
@@ -267,8 +322,7 @@ export function applyAcceptedConsequence(result) {
     }
     return next;
   }) }));
-  const all = tokens().flatMap(token => (token.state?.conditions || []).filter(record => record.recordId && record.target));
-  conditionStore.setState({ activeBuffs: all.filter(record => record.type === 'buff'), activeDebuffs: all.filter(record => record.type === 'debuff') });
+  hydrateActorConditions();
   const party = getStore('partyStore');
   party.setState(current => ({ partyMembers: current.partyMembers.map(member => {
     const match = staged.find(value => value.actor.ref.kind === 'character' &&
@@ -381,14 +435,17 @@ export function setSharedResourceTotals(target, restore) {
 }
 export function registerActorHandlers({ socket }) {
   if (!socket) return () => {};
+  const registered = captureActorDelivery(socket);
+  const delivery = () => ({ ...registered, room: state().multiplayerRoom, roomId: state().multiplayerRoom?.id });
   const accepted = async result => {
-    if (isSocketRetired(socket) || state().multiplayerSocket !== socket) return;
-    if (!applyAcceptedConsequence(result)) {
+    const context = delivery();
+    if (!currentActorDelivery(context, result?.receipt?.roomId)) return;
+    if (!applyAcceptedConsequence(result, context)) {
       const snapshot = await refreshActorSnapshot();
-      if (snapshot.success && !isSocketRetired(socket) && state().multiplayerSocket === socket) applyAcceptedConsequence(result);
+      if (snapshot.success && currentActorDelivery(context, result?.receipt?.roomId)) applyAcceptedConsequence(result, context);
     }
   };
-  const bound = result => { if (!isSocketRetired(socket) && state().multiplayerSocket === socket) applyBoundActor(result); };
+  const bound = result => { applyBoundActor(result, delivery()); };
   const proposal = value => { if (!isSocketRetired(socket) && state().multiplayerSocket === socket && value.command?.roomId === state().multiplayerRoom?.id) getStore('gameStore').setState({ pendingActorProposal: value }); };
   const confirmed = value => {
     if (isSocketRetired(socket) || state().multiplayerSocket !== socket || value.roomId !== state().multiplayerRoom?.id) return;
@@ -406,32 +463,18 @@ export async function approvePendingActorProposal(proposal) {
 }
 export function hydrateActorConditions() {
   if (!inSharedRoom()) return;
-  const records = tokens().flatMap(token => (token.state?.conditions || []).filter(record => record.recordId && record.target));
-  getStore('conditionStore').setState({ activeBuffs: records.filter(record => record.type === 'buff'), activeDebuffs: records.filter(record => record.type === 'debuff') });
+  const store = getStore('conditionStore'), current = store.getState();
+  const personal = projectPersonalRuntime({
+    buffs: (current.activeBuffs || []).filter(record => !record.target?.roomId),
+    debuffs: (current.activeDebuffs || []).filter(record => !record.target?.roomId)
+  }, false);
+  const records = tokens().flatMap(token => (token.state?.conditions || []).filter(record => record.recordId && sameRef(record.target, refOf(token))));
+  store.setState({
+    activeBuffs: [...personal.buffs.filter(record => !record.target?.roomId), ...records.filter(record => record.type === 'buff')],
+    activeDebuffs: [...personal.debuffs.filter(record => !record.target?.roomId), ...records.filter(record => record.type === 'debuff')]
+  });
   reconcileOwner();
 }
-export function validateActorSnapshot(maps, roomId = state().multiplayerRoom?.id) {
-  if (!inSharedRoom()) return { ok: true };
-  for (const [mapId, map] of Object.entries(maps || {})) {
-    for (const field of ['tokens', 'characterTokens']) {
-      for (const incoming of Object.values(map?.[field] || {})) {
-        const ref = refOf(incoming);
-        if (!ref) {
-          const prior = tokens().find(token => token.id === incoming.id && refOf(token)?.roomId === roomId && refOf(token)?.mapId === mapId &&
-            refOf(token)?.kind === (field === 'characterTokens' ? 'character' : 'creature'));
-          if (prior) return { ok: false, code: 'actor_binding_metadata_missing' };
-          continue;
-        }
-        if (ref.roomId !== roomId || ref.mapId !== mapId) return { ok: false, code: 'actor_binding_conflict' };
-        const prior = findActor(ref);
-        if (!prior) continue;
-        const revision = incoming.state.actorContract.revision, current = prior.state.actorContract.revision;
-        if (revision < current) return { ok: false, code: 'actor_projection_stale' };
-        const protectedView = token => ({ values: ref.kind === 'character' ? Object.fromEntries(['health', 'mana', 'actionPoints', 'tempHealth', 'tempMana', 'tempActionPoints'].map(key => [key, token.character[key]]))
-          : Object.fromEntries(['currentHp', 'currentMana', 'currentActionPoints', 'tempHealth', 'tempMana', 'tempActionPoints'].map(key => [key, token.state[key]])), conditions: token.state.conditions || [] });
-        if (revision === current && !same(protectedView(incoming), protectedView(prior))) return { ok: false, code: 'actor_projection_conflict' };
-      }
-    }
-  }
-  return { ok: true };
+export function validateActorSnapshot(maps, options = {}) {
+  return prepareActorProjection(maps, typeof options === 'string' ? { roomId: options } : options);
 }

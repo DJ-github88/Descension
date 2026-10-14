@@ -1,11 +1,14 @@
 import useMapStore from '../../../store/mapStore';
 import { applyRoomSnapshot } from '../../../services/silentRoomHydration';
+import useGameStore from '../../../store/gameStore';
+import { captureActorDelivery, currentActorDelivery } from '../../../services/actorProjectionOrder';
 
 export function registerAudioGameSessionHandlers(ctx) {
   const {
     socket, isGMRef, currentPlayerRef, addNotification,
     setPendingGameSessionInvitations, addCreature, addToken, updatePartyMember
   } = ctx;
+    const registered = captureActorDelivery(socket);
     socket.on('game_session_launched', (data) => {
       // Show game session invitation popup for players (not GM)
       if (!isGMRef.current) {
@@ -61,11 +64,17 @@ export function registerAudioGameSessionHandlers(ctx) {
 
     socket.on('full_game_state_sync', (data) => {
       if (!data) return;
-      // CRITICAL FIX: Update mapStore currentMapId if provided
-      if (data.mapId || data.currentMapId) {
-        useMapStore.setState({ currentMapId: data.mapId || data.currentMapId });
-      }
-
+      const roomId = data.roomId || data.room?.id || data.actorProjection?.roomId;
+      const context = { ...registered, room: useGameStore.getState().multiplayerRoom, roomId: useGameStore.getState().multiplayerRoom?.id };
+      if (useGameStore.getState().isInMultiplayer && !currentActorDelivery(context, roomId)) return;
+      const activeMapId = data.mapId || data.currentMapId || useMapStore.getState().currentMapId;
+      const options = { roomId, context, actorProjection: data.actorProjection, activeMapId };
+      const applied = data.mapData && data.legacyFallback !== true
+        ? applyRoomSnapshot({ ...options, scope: 'map', mapId: activeMapId, mapData: data.mapData })
+        : applyRoomSnapshot({ ...options, scope: 'section', sections: { mapData: data.mapData,
+          tokens: data.tokens, characterTokens: data.characterTokens, gridItems: data.gridItems,
+          fogOfWar: data.fogOfWar, combat: data.combat, global: { buffs: data.buffs, debuffs: data.debuffs } } });
+      if (!applied.applied) return;
       // Creature library definitions travel with token payloads; the token
       // collections themselves are applied by the silent adapter below.
       if (data.tokens) {
@@ -79,53 +88,10 @@ export function registerAudioGameSessionHandlers(ctx) {
         });
       }
 
-      const activeMapId = data.mapId || data.currentMapId || undefined;
-      const isPlainObject = (value) => !!value && typeof value === 'object' && !Array.isArray(value);
-      const hasCompleteMapRecord = isPlainObject(data.mapData) &&
-        data.legacyFallback !== true && !!activeMapId;
-      const hasMapSections = data.tokens !== undefined || data.characterTokens !== undefined ||
-        data.gridItems !== undefined || data.fogOfWar !== undefined;
-
-      if (hasCompleteMapRecord) {
-        // Complete map recovery replaces the map record, its collections and
-        // the local map cache through the single silent adapter.
-        applyRoomSnapshot({
-          scope: 'map',
-          mapId: activeMapId,
-          mapData: data.mapData,
-          activeMapId
-        });
-      } else if (data.mapData !== undefined) {
-        applyRoomSnapshot({
-          scope: 'section',
-          activeMapId,
-          sections: { mapData: data.mapData }
-        });
-      }
-
-      if (hasMapSections) {
-        applyRoomSnapshot({
-          scope: 'section',
-          activeMapId,
-          sections: {
-            tokens: data.tokens,
-            characterTokens: data.characterTokens,
-            gridItems: data.gridItems,
-            fogOfWar: data.fogOfWar
-          }
-        });
-      }
-
-      if (data.combat !== undefined) {
-        applyRoomSnapshot({ scope: 'section', sections: { combat: data.combat || null } });
-      }
-
-      // Rehydrate buffs/debuffs by replacement, never by condition application.
-      if (data.buffs !== undefined || data.debuffs !== undefined) {
-        applyRoomSnapshot({
-          scope: 'section',
-          sections: { global: { buffs: data.buffs, debuffs: data.debuffs } }
-        });
+      if (data.mapData && data.legacyFallback !== true) {
+        applyRoomSnapshot({ ...options, scope: 'section', sections: {
+          combat: data.combat, global: { buffs: data.buffs, debuffs: data.debuffs }
+        } });
       }
 
       // IMPROVEMENT: Sync party members from server state

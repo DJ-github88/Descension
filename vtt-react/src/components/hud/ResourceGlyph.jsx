@@ -17,7 +17,15 @@ import './resource-glyphs.css';
  * `surplus` (temporary resources) adds a coloured aura on top of any phase.
  */
 
-export const getResourcePhase = (current, max) => {
+export const getResourcePhase = (current, max, kind) => {
+    if (kind === 'exhaustion') {
+        const lvl = Math.min(6, Math.max(0, Number(current) || 0));
+        if (lvl === 0) return 'max';
+        if (lvl <= 2) return 'high';
+        if (lvl <= 4) return 'low';
+        if (lvl === 5) return 'critical';
+        return 'empty';
+    }
     const safeMax = Math.max(1, Number(max) || 1);
     const value = Math.max(0, Number(current) || 0);
     if (value <= 0) return 'empty';
@@ -38,6 +46,7 @@ const PALETTE = {
     health: { hi: '#ff7a7f', fill: '#c0283c', deep: '#5e0b19', glow: '#e0485a', aura: '#ff6a5a', foam: '#ffc2c6' },
     mana: { hi: '#bfe0ff', fill: '#3a74d6', deep: '#132a66', glow: '#4f8cf0', aura: '#6fb6ff', foam: '#d8ecff' },
     ap: { hi: '#ffe39a', fill: '#d6a23c', deep: '#7c5513', glow: '#e8bf5c', aura: '#ffd36a', foam: '#fff1c4' },
+    exhaustion: { hi: '#d9c8f2', fill: '#7b4397', deep: '#250f36', glow: '#b79ae0', aura: '#9d4edd', foam: '#ffd56b' },
 };
 
 const clamp01 = (n) => Math.min(1, Math.max(0, n));
@@ -486,7 +495,328 @@ const WingedBoot = ({ ratio, phase, uid }) => {
     );
 };
 
-const ART = { health: HeartFlask, mana: ArcaneCrystal, ap: WingedBoot };
+/* ------------------------------------------------------------------ */
+/* Hourglass of Vitality (exhaustion)                                  */
+/* ------------------------------------------------------------------ */
+
+const HG_GLASS = 'M33 18 C31 32 31 46 45 60 C47 62 47 62 45 64 C31 78 31 92 33 104 H67 C69 92 69 78 55 64 C53 62 53 62 55 60 C69 46 69 32 67 18 Z';
+
+export const ExhaustionHourglass = ({ current = 0, phase, uid, stage: propStage }) => {
+    const stage = propStage !== undefined
+        ? propStage
+        : Math.min(6, Math.max(0, Math.round(Number(current) || 0)));
+    const c = PALETTE.exhaustion;
+    const shattered = stage === 6;
+
+    // Top bulb sand fill levels (y coordinate of top sand surface, draining down to waist at 62)
+    const topSandTops = [22, 28, 37, 45, 53, 61, 62];
+    const topSandY = topSandTops[stage];
+
+    // Bottom bulb sand mound levels (y coordinate of sand surface rising from 104)
+    const btmSandTops = [104, 98, 88, 78, 70, 64, 104];
+    const btmSandY = btmSandTops[stage];
+
+    // Waist bezel gem colors across stages
+    const gemColors = ['#fff59d', '#f59e0b', '#f59e0b', '#d97706', '#8b5cf6', '#7c3aed', '#180824'];
+    const gemGlows = ['#ffd56b', '#f59e0b', '#f59e0b', '#d97706', '#c084fc', '#a855f7', '#3b184a'];
+
+    return (
+        <g className={`rg-exhaustion-stage-${stage}`}>
+            <GroundShadow rx={28} />
+            {stage === 0 && (
+                <Glow id={`${uid}-g`} color={c.glow}>
+                    <path d={HG_GLASS} />
+                </Glow>
+            )}
+            {stage >= 4 && !shattered && (
+                <Glow id={`${uid}-dark`} color={c.aura}>
+                    <ellipse cx="50" cy="85" rx="16" ry="18" />
+                </Glow>
+            )}
+
+            <defs>
+                <clipPath id={`${uid}-glass-clip`}><path d={HG_GLASS} /></clipPath>
+                <BrassDefs id={`${uid}-brass`} />
+                <linearGradient id={`${uid}-brass-tarnished`} x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0" stopColor="#bfa36c" />
+                    <stop offset="0.5" stopColor="#7a6136" />
+                    <stop offset="1" stopColor="#403018" />
+                </linearGradient>
+                <linearGradient id={`${uid}-sand-gold`} x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0" stopColor="#fff3a8" />
+                    <stop offset="0.3" stopColor="#e5a828" />
+                    <stop offset="1" stopColor="#8f5713" />
+                </linearGradient>
+                <linearGradient id={`${uid}-sand-shadow`} x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0" stopColor={stage >= 4 ? '#5b2b73' : '#b27a38'} />
+                    <stop offset="0.5" stopColor={stage >= 4 ? '#38164a' : '#734418'} />
+                    <stop offset="1" stopColor="#1e0929" />
+                </linearGradient>
+                <radialGradient id={`${uid}-glass-tint`} cx="0.4" cy="0.3" r="0.75">
+                    <stop offset="0" stopColor="#ffffff" stopOpacity="0.45" />
+                    <stop offset="0.55" stopColor={stage >= 3 ? '#e0d2eb' : '#f0f4f5'} stopOpacity="0.25" />
+                    <stop offset="1" stopColor={stage >= 4 ? '#683f7a' : '#99b0aa'} stopOpacity={stage >= 4 ? '0.45' : '0.3'} />
+                </radialGradient>
+            </defs>
+
+            {/* Inner glass background */}
+            {!shattered && <path d={HG_GLASS} fill={`url(#${uid}-glass-tint)`} />}
+
+            {/* Bottom Bulb Sand (conical dune with natural slope) */}
+            {!shattered && stage > 0 && btmSandY < 104 && (
+                <g clipPath={`url(#${uid}-glass-clip)`} className="rg-fill">
+                    <path
+                        d={`M32 105 L32 ${Math.min(104, btmSandY + 12)} Q40 ${btmSandY + 3} 50 ${btmSandY} Q60 ${btmSandY + 3} 68 ${Math.min(104, btmSandY + 12)} L68 105 Z`}
+                        fill={`url(#${uid}-sand-shadow)`}
+                    />
+                    {/* Shadow skull silhouette inside lower sand at stages 4 and 5 */}
+                    {stage >= 4 && (
+                        <g opacity={stage === 5 ? '0.9' : '0.7'}>
+                            {/* Cranium */}
+                            <path d="M42 83 C42 74 58 74 58 83 C58 89 56 92 55 95 H45 C44 92 42 89 42 83 Z" fill="#160522" stroke={INK} strokeWidth="1" />
+                            {/* Eye sockets with pulsing violet soul embers */}
+                            <circle cx="46" cy="83" r="2.2" fill="#2d0b3b" stroke={INK} strokeWidth="0.8" />
+                            <circle cx="54" cy="83" r="2.2" fill="#2d0b3b" stroke={INK} strokeWidth="0.8" />
+                            <circle cx="46" cy="83" r="1.1" fill="#e0b8ff" className="rg-soul-eye" />
+                            <circle cx="54" cy="83" r="1.1" fill="#e0b8ff" className="rg-soul-eye" />
+                            {/* Nasal cavity */}
+                            <path d="M49 87 L51 87 L50 90 Z" fill="#2d0b3b" />
+                            {/* Teeth marks */}
+                            <path d="M47 93 V96 M50 92 V96 M53 93 V96" stroke={INK} strokeWidth="0.9" />
+                        </g>
+                    )}
+                </g>
+            )}
+
+            {/* Falling Sand Trickle (stages 1 to 5) with animated flowing dash */}
+            {!shattered && stage >= 1 && stage <= 4 && (
+                <g className="rg-stream">
+                    {/* Shimmer glow */}
+                    <line x1="50" y1="60" x2="50" y2={btmSandY} stroke="#e5a828" strokeWidth="2.8" opacity="0.35" />
+                    {/* Flowing center stream */}
+                    <line x1="50" y1="60" x2="50" y2={btmSandY} stroke="#fff1a8" strokeWidth="1.6" strokeDasharray="4 2" className="rg-stream-flow" />
+                    {/* Airborne falling grains */}
+                    <circle cx="49" cy={60 + (btmSandY - 60) * 0.35} r="1.1" fill="#fff5b8" opacity="0.85" />
+                    <circle cx="51.2" cy={60 + (btmSandY - 60) * 0.7} r="1" fill="#ffe285" opacity="0.8" />
+                    {/* Impact splash at dune peak */}
+                    <ellipse cx="50" cy={btmSandY} rx="3" ry="1.2" fill="#fff9c7" opacity="0.8" />
+                </g>
+            )}
+            {!shattered && stage === 5 && (
+                <g className="rg-stream" opacity="0.75">
+                    {/* Broken stream drops */}
+                    <line x1="50" y1="61" x2="50" y2="65" stroke="#ffd56b" strokeWidth="1.2" />
+                    <circle cx="50" cy="73" r="1.2" fill="#ffd56b" />
+                    <circle cx="50.4" cy="82" r="1" fill="#ffd56b" />
+                </g>
+            )}
+
+            {/* Top Bulb Sand (funnel vortex dip toward the waist) */}
+            {!shattered && stage < 5 && topSandY < 62 && (
+                <g clipPath={`url(#${uid}-glass-clip)`} className="rg-fill">
+                    <path
+                        d={`M28 ${topSandY} Q50 ${topSandY + (stage === 0 ? 0 : 5)} 72 ${topSandY} L72 63 L28 63 Z`}
+                        fill={`url(#${uid}-sand-gold)`}
+                    />
+                    {/* Top sand surface curve highlight */}
+                    <path d={`M30 ${topSandY} Q50 ${topSandY + (stage === 0 ? 0 : 4)} 70 ${topSandY}`} fill="none" stroke="#fff7c2" strokeWidth="1.2" opacity="0.65" />
+                    {/* Gold sand granular stippling */}
+                    <g fill="#ffeaa0" opacity="0.6">
+                        <circle cx="42" cy="38" r="0.8" />
+                        <circle cx="57" cy="42" r="0.7" />
+                        <circle cx="38" cy="49" r="0.8" />
+                        <circle cx="53" cy="53" r="0.7" />
+                    </g>
+                    {/* Stage 0 vitality sigil: Sun of Vitality */}
+                    {stage === 0 && (
+                        <g className="rg-vitality-star">
+                            <circle cx="50" cy="38" r="5" fill="none" stroke="#ffffff" strokeWidth="1.2" opacity="0.8" />
+                            <path d="M50 30 V46 M42 38 H58 M44 32 L56 44 M44 44 L56 32" stroke="#ffffff" strokeWidth="1.1" strokeLinecap="round" opacity="0.85" />
+                        </g>
+                    )}
+                </g>
+            )}
+            {/* Stage 5: Dying grains in top bulb */}
+            {!shattered && stage === 5 && (
+                <g fill="#ffd56b" stroke={INK} strokeWidth="0.6">
+                    <circle cx="47" cy="58" r="1.3" />
+                    <circle cx="52" cy="59" r="1.1" />
+                    <circle cx="50" cy="61" r="1.2" />
+                </g>
+            )}
+
+            {/* Glass Highlights */}
+            {!shattered && (
+                <>
+                    <path d="M35 24 C33 34 35 46 44 56" fill="none" stroke="#ffffff" strokeWidth="2.2" strokeLinecap="round" opacity="0.75" />
+                    <path d="M65 72 C67 82 66 94 58 102" fill="none" stroke="#ffffff" strokeWidth="1.8" strokeLinecap="round" opacity="0.45" />
+                    <circle cx="36" cy="22" r="1.5" fill="#ffffff" opacity="0.8" />
+                </>
+            )}
+
+            {/* Glass Outer Stroke */}
+            {!shattered && <path d={HG_GLASS} fill="none" stroke={INK} strokeWidth="2.2" strokeLinejoin="round" />}
+
+            {/* Cracks across stages */}
+            {stage === 2 && <Crack d="M36 29 L41 37 L37 45" />}
+            {stage === 3 && (
+                <>
+                    <Crack d="M36 29 L41 37 L37 45 L43 51" />
+                    <Crack d="M63 78 L59 86 L64 94" />
+                </>
+            )}
+            {stage === 4 && (
+                <>
+                    <Crack d="M34 27 L41 37 L36 46 L44 54" w={1.7} />
+                    <Crack d="M63 76 L57 85 L64 95" w={1.6} />
+                    <Crack d="M48 34 L54 41" />
+                </>
+            )}
+            {stage === 5 && (
+                <>
+                    <Crack d="M33 26 L42 36 L36 46 L45 56" w={2} />
+                    <Crack d="M64 74 L56 84 L64 96" w={1.8} />
+                    <Crack d="M46 32 L55 40 L51 48" />
+                    {/* Missing chip */}
+                    <path d="M64 36 L68 43 L61 45 Z" fill={PAGE} stroke={INK} strokeWidth="1.6" strokeLinejoin="round" />
+                </>
+            )}
+
+            {/* Stage 6 Shattered & Carved Death Skull Motif */}
+            {shattered && (
+                <>
+                    {/* Jagged glass shards clinging to rims */}
+                    <g opacity="0.8">
+                        <path d="M33 18 L38 34 L43 28 L50 38 L57 26 L63 36 L67 18 Z" fill="#e5dfd5" stroke={INK} strokeWidth="1.8" strokeLinejoin="round" />
+                        <path d="M33 104 L37 90 L43 98 L50 88 L58 100 L64 89 L67 104 Z" fill="#cfc8bd" stroke={INK} strokeWidth="1.8" strokeLinejoin="round" />
+                    </g>
+                    {/* Spilled ash & sand heap on base and ground */}
+                    <path d="M18 114 C28 108 72 108 82 114 L78 121 H22 Z" fill="#241030" stroke={INK} strokeWidth="1.8" />
+                    <ellipse cx="50" cy="114" rx="26" ry="3.5" fill="#4d2b5c" opacity="0.6" />
+
+                    {/* Escaping ghostly soul wisps */}
+                    <path d="M47 50 Q43 40 48 30 Q53 20 49 12" fill="none" stroke="#c084fc" strokeWidth="1.2" opacity="0.55" strokeDasharray="3 3" />
+                    <path d="M53 54 Q57 44 52 34 Q47 24 51 16" fill="none" stroke="#c084fc" strokeWidth="1" opacity="0.45" strokeDasharray="3 3" />
+
+                    {/* Central carved bone skull talisman of death */}
+                    <g transform="translate(0, 8)">
+                        {/* Cranium */}
+                        <path
+                            d="M39 52 C39 39 61 39 61 52 C61 60 58 64 57 70 H43 C42 64 39 60 39 52 Z"
+                            fill="#ede6d8" stroke={INK} strokeWidth="2.2" strokeLinejoin="round"
+                        />
+                        {/* Cranium brow crack */}
+                        <path d="M49 41 L52 47 L48 53" fill="none" stroke={INK} strokeWidth="1.2" />
+                        {/* Hollow Eyes */}
+                        <circle cx="45" cy="52" r="3.2" fill="#1b0824" stroke={INK} strokeWidth="1" />
+                        <circle cx="55" cy="52" r="3.2" fill="#1b0824" stroke={INK} strokeWidth="1" />
+                        {/* Nasal cavity */}
+                        <path d="M49 57 L51 57 L50 60 Z" fill="#1b0824" />
+                        {/* Teeth lines */}
+                        <path d="M46 66 V70 M50 65 V70 M54 66 V70" stroke={INK} strokeWidth="1.2" />
+                    </g>
+
+                    {/* Glass shards on floor */}
+                    <g className="rg-shards" stroke={INK} strokeWidth="1.2" strokeLinejoin="round">
+                        <path d="M18 118 L25 115 L23 121 Z" fill="#e8e2d5" />
+                        <path d="M74 117 L82 115 L79 122 Z" fill="#dcd5c8" />
+                        <path d="M58 120 L65 118 L63 122 Z" fill="#ede8dc" />
+                        <circle cx="32" cy="119" r="1.1" fill="#ffeaa0" />
+                        <circle cx="68" cy="119" r="1" fill="#2d123d" />
+                    </g>
+                </>
+            )}
+
+            {/* Brass Frame: Top Cap, Bottom Pedestal, Spindles, Rivets */}
+            {/* Top Plate */}
+            <g transform={stage === 6 ? 'rotate(-6 50 14)' : stage === 5 ? 'rotate(-2 50 14)' : undefined}>
+                <path
+                    d="M24 13 C24 9 37 7 50 7 C63 7 76 9 76 13 L72 19 H28 Z"
+                    fill={stage >= 4 ? `url(#${uid}-brass-tarnished)` : `url(#${uid}-brass)`}
+                    stroke={INK} strokeWidth="2" strokeLinejoin="round"
+                />
+                <Rivet x={30} y={15} r={1.5} />
+                <Rivet x={70} y={15} r={1.5} />
+                {/* Decorative corner acanthus brackets hugging glass */}
+                <path d="M28 18 C28 22 32 25 35 25" fill="none" stroke={INK} strokeWidth="1.4" opacity="0.6" />
+                <path d="M72 18 C72 22 68 25 65 25" fill="none" stroke={INK} strokeWidth="1.4" opacity="0.6" />
+                {/* Finial / Knob */}
+                <circle cx="50" cy="5" r="2.8" fill={`url(#${uid}-brass)`} stroke={INK} strokeWidth="1.4" />
+                <circle cx="49" cy="4" r="0.9" fill="#fff7db" />
+            </g>
+
+            {/* Bottom Pedestal */}
+            <path
+                d="M28 105 H72 L76 111 C76 115 63 117 50 117 C37 117 24 115 24 111 Z"
+                fill={stage >= 4 ? `url(#${uid}-brass-tarnished)` : `url(#${uid}-brass)`}
+                stroke={INK} strokeWidth="2" strokeLinejoin="round"
+            />
+            <Rivet x={30} y={109} r={1.5} />
+            <Rivet x={70} y={109} r={1.5} />
+            {/* Bottom corner brackets */}
+            <path d="M28 105 C28 101 32 98 35 98" fill="none" stroke={INK} strokeWidth="1.4" opacity="0.6" />
+            <path d="M72 105 C72 101 68 98 65 98" fill="none" stroke={INK} strokeWidth="1.4" opacity="0.6" />
+
+            {/* Left and Right Brass Columns / Pilasters */}
+            {/* Left Pilaster */}
+            <g transform={stage === 5 ? 'scale(1.04 1) translate(-2 0)' : undefined}>
+                <path
+                    d={stage === 6 ? 'M25 19 H29 L28 50 L24 48 Z' : 'M25 19 H29 V105 H25 Z'}
+                    fill={stage >= 4 ? `url(#${uid}-brass-tarnished)` : `url(#${uid}-brass)`}
+                    stroke={INK} strokeWidth="1.6" strokeLinejoin="round"
+                />
+                <rect x="24" y="21" width="6" height="3" rx="0.8" fill={`url(#${uid}-brass)`} stroke={INK} strokeWidth="1" />
+                <rect x="24" y="100" width="6" height="3" rx="0.8" fill={`url(#${uid}-brass)`} stroke={INK} strokeWidth="1" />
+            </g>
+
+            {/* Right Pilaster */}
+            <g>
+                <path
+                    d={stage === 6 ? 'M71 65 L75 67 V105 H71 Z' : 'M71 19 H75 V105 H71 Z'}
+                    fill={stage >= 4 ? `url(#${uid}-brass-tarnished)` : `url(#${uid}-brass)`}
+                    stroke={INK} strokeWidth="1.6" strokeLinejoin="round"
+                />
+                <rect x="70" y="21" width="6" height="3" rx="0.8" fill={`url(#${uid}-brass)`} stroke={INK} strokeWidth="1" />
+                <rect x="70" y="100" width="6" height="3" rx="0.8" fill={`url(#${uid}-brass)`} stroke={INK} strokeWidth="1" />
+                {stage === 6 && (
+                    <path d="M71 65 L73 61 L75 66" stroke={INK} strokeWidth="1.6" fill="none" />
+                )}
+            </g>
+
+            {/* Waist Collar with Heraldic Bezel Gem (shifts from vitality gold to death void) */}
+            {!shattered && (
+                <g>
+                    <path
+                        d="M43 60 H57 V64 H43 Z"
+                        fill={stage >= 4 ? `url(#${uid}-brass-tarnished)` : `url(#${uid}-brass)`}
+                        stroke={INK} strokeWidth="1.4" strokeLinejoin="round"
+                    />
+                    {/* Bezel */}
+                    <path d="M47 62 L50 59 L53 62 L50 65 Z" fill={`url(#${uid}-brass)`} stroke={INK} strokeWidth="0.8" />
+                    {/* Inset gemstone */}
+                    <circle cx="50" cy="62" r="1.8" fill={gemColors[stage]} stroke={INK} strokeWidth="0.6" />
+                    <circle cx="49.5" cy="61.5" r="0.6" fill="#ffffff" opacity="0.8" />
+                </g>
+            )}
+
+            {/* Glints on Stage 0 */}
+            {stage === 0 && (
+                <>
+                    <Glint x={50} y={5} s={0.8} />
+                    <Glint x={34} y={23} s={0.7} />
+                    <Glint x={68} y={107} s={0.6} />
+                </>
+            )}
+        </g>
+    );
+};
+
+export const ART = {
+    health: HeartFlask,
+    mana: ArcaneCrystal,
+    ap: WingedBoot,
+    exhaustion: ExhaustionHourglass,
+};
 
 const ResourceGlyph = ({ kind = 'health', current = 0, max = 1, surplus = false, className = '', title }) => {
     const rawId = useId();
@@ -494,10 +824,11 @@ const ResourceGlyph = ({ kind = 'health', current = 0, max = 1, surplus = false,
     if (serial.current === null) serial.current = ++glyphCounter;
     const uid = `rg${serial.current}${rawId.replace(/[^a-zA-Z0-9_-]/g, '')}`;
     const safeKind = ART[kind] ? kind : 'health';
-    const phase = getResourcePhase(current, max);
+    const phase = getResourcePhase(current, max, safeKind);
     const ratio = clamp01((Number(current) || 0) / Math.max(1, Number(max) || 1));
     const Art = ART[safeKind];
     const aura = PALETTE[safeKind].aura;
+    const stage = safeKind === 'exhaustion' ? Math.min(6, Math.max(0, Math.round(Number(current) || 0))) : undefined;
 
     return (
         <svg
@@ -505,13 +836,14 @@ const ResourceGlyph = ({ kind = 'health', current = 0, max = 1, surplus = false,
             viewBox="0 0 100 124"
             data-kind={safeKind}
             data-phase={phase}
+            data-stage={stage}
             role={title ? 'img' : undefined}
             aria-hidden={title ? undefined : 'true'}
             focusable="false"
             style={{ '--rg-aura': aura }}
         >
             {title && <title>{title}</title>}
-            <Art ratio={ratio} phase={phase} uid={uid} />
+            <Art ratio={ratio} phase={phase} uid={uid} current={current} max={max} stage={stage} />
         </svg>
     );
 };

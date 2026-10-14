@@ -626,6 +626,7 @@ const PhysicsCoinScene = ({
         requestedResult,
         settled: false,
         settleFrames: 0,
+        touchTime: null,
         settleAnimating: false,
         settleT: 0,
         settleDuration: 0.22,
@@ -698,7 +699,15 @@ const PhysicsCoinScene = ({
             pair.settleFrames = 0;
           }
 
-          if (pair.settleFrames > 6 || totalElapsed > pair.delay + 4.0) {
+          // First touchdown: the coin only gets a short window of real
+          // bouncing before the scripted settle takes over, so every flip
+          // resolves in about the same, brisk time instead of grinding on.
+          if (pair.touchTime === null && body.position.y < restY + 0.06 && body.velocity.y <= 0.5) {
+            pair.touchTime = totalElapsed;
+          }
+          const bouncedLongEnough = pair.touchTime !== null && totalElapsed - pair.touchTime > 0.4;
+
+          if (pair.settleFrames > 4 || bouncedLongEnough || totalElapsed > pair.delay + 3.4) {
             body.velocity.set(0, 0, 0);
             body.angularVelocity.set(0, 0, 0);
             world.removeBody(body);
@@ -762,7 +771,10 @@ const PhysicsCoinScene = ({
         if (pair.settled) {
           const screenPos = group.position.clone().project(camera);
           const px = ((screenPos.x + 1) * width) / 2;
-          const py = ((-screenPos.y + 1) * height) / 2;
+          const edgePos = group.position.clone().add(new THREE.Vector3(coinRadius, 0, 0)).project(camera);
+          const radiusPx = Math.abs(((edgePos.x - screenPos.x) * width) / 2);
+          // Sit the label just above the coin's top edge, never on its face
+          const py = ((-screenPos.y + 1) * height) / 2 - radiusPx * 0.75;
           updatedMarkers.push({
             id: pair.id,
             result: pair.finalResult,

@@ -21,7 +21,8 @@ import SpellLibrary from '../spellcrafting-wizard/components/library/SpellLibrar
 import SpellActionBar from '../character-sheet/SpellActionBar';
 import DiceThemeSelector from '../dice/DiceThemeSelector';
 import ClassResourceBar from '../hud/ClassResourceBar';
-import StatVial from '../hud/StatVial';
+import StatVial, { EXHAUSTION_STAGES } from '../hud/StatVial';
+import ResourceGlyph from '../hud/ResourceGlyph';
 import { CLASS_SPECIALIZATIONS } from '../../data/classSpellCategories';
 import TalentTreeContent from '../talent-tree/TalentTreeContent';
 import '../../styles/character-sheet.css';
@@ -567,7 +568,9 @@ const CharacterViewPage = () => {
             </div>
           </div>
           <div className="header-resource-mount exhaustion" onClick={() => setOpenVialPopup(openVialPopup === 'exhaustion' ? null : 'exhaustion')} title={`Exhaustion Level ${exhaustionLevel || 0}/6. Click to view stages & adjust.`}>
-            <i className="fas fa-face-tired"></i>
+            <div className="mount-vial">
+              <StatVial kind="exhaustion" current={exhaustionLevel || 0} max={6} memberName={name || 'Character'} tilt={-4} />
+            </div>
             <span className="mount-level">{exhaustionLevel || 0}</span>
           </div>
         </div>
@@ -685,7 +688,7 @@ const CharacterViewPage = () => {
                     {openVialPopup === 'health' && <><i className="fas fa-heart"></i> Health Points (HP)</>}
                     {openVialPopup === 'mana' && <><i className="fas fa-flask"></i> Mana Points (MP)</>}
                     {openVialPopup === 'actionPoints' && <><i className="fas fa-bolt"></i> Action Points (AP)</>}
-                    {openVialPopup === 'exhaustion' && <><i className="fas fa-face-tired"></i> Exhaustion (EXH)</>}
+                    {openVialPopup === 'exhaustion' && <><ResourceGlyph kind="exhaustion" current={exhaustionLevel || 0} max={6} className="vial-popup-glyph" /> Exhaustion (EXH)</>}
                     {openVialPopup === 'level' && <><i className="fas fa-shield-halved"></i> Character Level</>}
                   </span>
                   <button className="vial-popup-close" onClick={() => setOpenVialPopup(null)} title="Close popup">
@@ -693,29 +696,63 @@ const CharacterViewPage = () => {
                   </button>
                 </div>
 
-                {/* Resource Descriptions & Exhaustion Breakdown */}
-                <div className="vial-popup-info-section">
-                  {openVialPopup === 'health' && (
+                {/* Hero Plaque displaying live ResourceGlyph and status */}
+                <div className="vial-popup-hero-plaque">
+                  <div className="vial-popup-hero-glyph-mount">
+                    {openVialPopup === 'health' && (
+                      <ResourceGlyph kind="health" current={health?.current || 0} max={health?.max || 1} surplus={tempHealth > 0} />
+                    )}
+                    {openVialPopup === 'mana' && (
+                      <ResourceGlyph kind="mana" current={mana?.current || 0} max={mana?.max || 1} surplus={tempMana > 0} />
+                    )}
+                    {openVialPopup === 'actionPoints' && (
+                      <ResourceGlyph kind="ap" current={actionPoints?.current || 0} max={actionPoints?.max || 1} surplus={tempActionPoints > 0} />
+                    )}
+                    {openVialPopup === 'exhaustion' && (
+                      <ResourceGlyph kind="exhaustion" current={exhaustionLevel || 0} max={6} />
+                    )}
+                    {openVialPopup === 'level' && (
+                      <div className="vial-popup-hero-level-badge">{level || 1}</div>
+                    )}
+                  </div>
+                  <div className="vial-popup-hero-details">
+                    {openVialPopup === 'health' && (
+                      <>
+                        <div className="vial-popup-status-badge hp-badge">Current: {health?.current || 0} / {health?.max || 0} HP{tempHealth > 0 ? ` (+${tempHealth} Temp)` : ''} ({Math.round(healthPct)}%)</div>
+                        <p className="vial-popup-desc">Hit Points represent physical endurance and overall health. Reaching 0 HP causes unconsciousness and death saves.</p>
+                      </>
+                    )}
+                    {openVialPopup === 'mana' && (
+                      <>
+                        <div className="vial-popup-status-badge mp-badge">Current: {mana?.current || 0} / {mana?.max || 0} MP{tempMana > 0 ? ` (+${tempMana} Temp)` : ''} ({Math.round(manaPct)}%)</div>
+                        <p className="vial-popup-desc">Mana Points fuel spellcasting and magical class features.</p>
+                      </>
+                    )}
+                    {openVialPopup === 'actionPoints' && (
+                      <>
+                        <div className="vial-popup-status-badge ap-badge">Current: {actionPoints?.current || 0} / {actionPoints?.max || 0} AP{tempActionPoints > 0 ? ` (+${tempActionPoints} Temp)` : ''}</div>
+                        <p className="vial-popup-desc">Action Points are spent each turn to move, attack, and execute abilities in combat.</p>
+                      </>
+                    )}
+                    {openVialPopup === 'exhaustion' && (
+                      <>
+                        <div className="vial-popup-status-badge exh-badge">Current: Stage {exhaustionLevel || 0} of 6 — {EXHAUSTION_STAGES[exhaustionLevel || 0] || 'Refreshed'}</div>
+                        <p className="vial-popup-desc">Accumulating exhaustion degrades physical and mental combat capabilities across 6 stages.</p>
+                      </>
+                    )}
+                    {openVialPopup === 'level' && (
+                      <>
+                        <div className="vial-popup-status-badge level-badge">Current Level: <strong>{level || 1}</strong></div>
+                        <p className="vial-popup-desc">Character Level determines proficiency bonus, stat scaling, and feature unlocks.</p>
+                      </>
+                    )}
+                  </div>
+                </div>
+
+                {/* Exhaustion Stages Breakdown */}
+                {openVialPopup === 'exhaustion' && (
+                  <div className="vial-popup-info-section">
                     <div className="vial-popup-info-body">
-                      <p className="vial-popup-desc">Hit Points represent physical endurance and overall health. Reaching 0 HP causes unconsciousness and death saves.</p>
-                      <div className="vial-popup-status-badge hp-badge">Current: {health?.current || 0} / {health?.max || 0} HP{tempHealth > 0 ? ` (+${tempHealth} Temp)` : ''} ({Math.round(healthPct)}%)</div>
-                    </div>
-                  )}
-                  {openVialPopup === 'mana' && (
-                    <div className="vial-popup-info-body">
-                      <p className="vial-popup-desc">Mana Points fuel spellcasting and magical class features.</p>
-                      <div className="vial-popup-status-badge mp-badge">Current: {mana?.current || 0} / {mana?.max || 0} MP{tempMana > 0 ? ` (+${tempMana} Temp)` : ''} ({Math.round(manaPct)}%)</div>
-                    </div>
-                  )}
-                  {openVialPopup === 'actionPoints' && (
-                    <div className="vial-popup-info-body">
-                      <p className="vial-popup-desc">Action Points are spent each turn to move, attack, and execute abilities in combat.</p>
-                      <div className="vial-popup-status-badge ap-badge">Current: {actionPoints?.current || 0} / {actionPoints?.max || 0} AP{tempActionPoints > 0 ? ` (+${tempActionPoints} Temp)` : ''}</div>
-                    </div>
-                  )}
-                  {openVialPopup === 'exhaustion' && (
-                    <div className="vial-popup-info-body">
-                      <p className="vial-popup-desc">Accumulating exhaustion degrades physical and mental combat capabilities across 6 stages.</p>
                       <div className="exhaustion-stages-container">
                         <div className="exhaustion-stages-title">Exhaustion Stages & Penalties:</div>
                         {[
@@ -735,6 +772,9 @@ const CharacterViewPage = () => {
                               onClick={() => updateCharacterInfo('exhaustionLevel', stage.lvl)}
                               title="Click to set this exhaustion level"
                             >
+                              <div className="exhaustion-stage-icon-wrap">
+                                <ResourceGlyph kind="exhaustion" current={stage.lvl} max={6} />
+                              </div>
                               <span className="exhaustion-stage-level">Lvl {stage.lvl}</span>
                               <span className="exhaustion-stage-effect">{stage.effect}</span>
                               {isActive && <span className="exhaustion-active-tag">ACTIVE</span>}
@@ -743,14 +783,8 @@ const CharacterViewPage = () => {
                         })}
                       </div>
                     </div>
-                  )}
-                  {openVialPopup === 'level' && (
-                    <div className="vial-popup-info-body">
-                      <p className="vial-popup-desc">Character Level determines proficiency bonus, stat scaling, and feature unlocks.</p>
-                      <div className="vial-popup-status-badge level-badge">Current Level: <strong>{level || 1}</strong></div>
-                    </div>
-                  )}
-                </div>
+                  </div>
+                )}
 
                 <div className="vial-popup-buttons">
                   {openVialPopup === 'health' && (

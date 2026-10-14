@@ -282,7 +282,7 @@ const InquisitorResourceBar = ({
 
                             {/* Full-Height Transparent Hitbox */}
                             <rect x="2" y="2" width="28" height="52" fill="transparent" pointerEvents="all">
-                                <title>{isOwner ? 'Affix Anathema Seal (+1 Authority, Shift: Max 8, Alt: -1)' : 'Anathema Brand'}</title>
+                                <title>{isOwner ? 'Gain 1 Authority (Shift: max 8, Alt: −1)' : 'Anathema Brand'}</title>
                             </rect>
                         </g>
 
@@ -478,7 +478,7 @@ const InquisitorResourceBar = ({
 
                             {/* Full-Height Transparent Hitbox */}
                             <rect x="330" y="2" width="28" height="52" fill="transparent" pointerEvents="all">
-                                <title>{isOwner ? 'Strike Verdict / Sever (+1 Authority, Shift: Max 8, Alt: -1)' : 'Severance Cleaver'}</title>
+                                <title>{isOwner ? 'Gain 1 Authority (Shift: max 8, Alt: −1)' : 'Severance Cleaver'}</title>
                             </rect>
                         </g>
                     </svg>
@@ -495,11 +495,11 @@ const InquisitorResourceBar = ({
                         subtitle="Inquisitor Barbed Authority"
                         state={`${localAuthority}/${maxAuthority} Authority`}
                         stateTone={localAuthority >= 8 ? 'good' : localAuthority >= 4 ? 'neutral' : localAuthority > 0 ? 'warn' : 'bad'}
-                        mechanic="Counterspells, dispels and strikes on supernatural targets build Authority (max 8); −1/round without contact. Spend 5–8 on executions and anti-magic storms. At 0, The Hollow opens and bound entities make Rebellion Saves."
+                        mechanic="Counterspells, dispels and strikes on supernatural targets build Authority (max 8); −1/round without contact. Your Inquisitor spells spend it. At 0, The Hollow opens and bound entities make Rebellion Saves."
                         status={[
                             auraActive && localAuthority > 0 ? 'Null aura active: known foreign magical assistance is suppressed; self effects and nonmagical treatment remain.' : 'Null aura released: ordinary assistance is not suppressed.',
                             localAuthority >= 8
-                                ? { text: 'Judgment ready — spend 5-8 Authority on executions, anti-magic storms, or apex transformations.', tone: 'good' }
+                                ? { text: 'Authority full — the tribunal is in session.', tone: 'good' }
                                 : localAuthority >= 4
                                 ? 'Building — cold iron holds; keep the pressure on supernatural foes.'
                                 : localAuthority > 0
