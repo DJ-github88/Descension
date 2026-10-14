@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Branvig — Feather Slash physical reference (original P8)</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { max-width: 760px; margin: 24px auto; padding: 0 24px; color: #201e1a; background: white; font: 15px/1.4 Georgia, serif; }
+    h1 { font-size: 26px; margin: 0; }
+    h2 { font-size: 18px; margin: 18px 0 6px; }
+    p { margin: 6px 0; }
+    .identity, .limits { font: 12px/1.4 Arial, sans-serif; }
+    .authored { margin: 14px 0; padding: 12px; border: 2px solid #201e1a; }
+    .write { display: inline-block; min-width: 130px; min-height: 22px; border-bottom: 1px solid #555; }
+    .long { display: block; min-height: 32px; border-bottom: 1px solid #555; }
+    table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+    th, td { border: 1px solid #777; padding: 6px; text-align: left; }
+    td { height: 34px; }
+    .example { padding: 8px 10px; border-left: 3px solid #555; }
+    @page { size: letter; margin: 0.55in; }
+    @media print {
+      body { max-width: none; margin: 0; padding: 0; font-size: 11pt; }
+      h2 { margin-top: 12px; }
+      .authored, table, .example { break-inside: avoid; }
+      .limits, .identity { font-size: 9pt; }
+    }
+  </style>
+</head>
+<body>
+<main aria-label="Feather Slash physical action card" data-ability-id="grimmstalk_feather_slash" data-definition-id="grimmstalk">
+  <h1>Branvig · Feather Slash</h1>
+  <p class="identity">Original P8 reference · definition <b>grimmstalk</b> · ability <b>grimmstalk_feather_slash</b> · authored abilities version 1.4.0</p>
+  <section class="authored" aria-label="Authored ability">
+    <p><b>One enemy · melee 10 ft · immediate ACTION · somatic</b></p>
+    <p><b>Cost: 1 AP / 0 mana. Damage roll: 2d8 + 5 slicing.</b> Turn-based cooldown: 0.</p>
+    <p>Razor-edged ironwood plumage rakes across the target.</p>
+  </section>
+
+  <h2>1. Choose the exact participants</h2>
+  <p>Source instance: <span class="write"></span> Target instance: <span class="write"></span></p>
+  <p>Room / map: <span class="write"></span> Action / command ID: <span class="write"></span></p>
+  <p class="limits">Choose a distinct target. Two Branvigs are separate actors. In the VTT, both require explicit current room/map/incarnation binding; a PC target requires its exact canonical owner's primary attachment. No local-sheet or name fallback.</p>
+
+  <h2>2. Record one result and the GM ruling</h2>
+  <p>Digital or physical (circle one). d8 faces: <span class="write"></span> + <span class="write"></span> + 5 = <span class="write"></span></p>
+  <p class="limits">Each face is an integer 1–8; the unadjusted total is 7–21. Record once. Reading or checking a retained result is not another roll.</p>
+  <p>□ GM has adjudicated enemy status, range/contact/legality, defense and mitigation.</p>
+  <p><b>GM-confirmed final slicing damage:</b> <span class="write"></span> (finite, nonnegative; zero is valid)</p>
+  <p>Ruling / adjustment reason:<span class="long"></span></p>
+  <p class="limits">A changed total requires an explanation. The 10-ft line and any VTT center-distance measurement are diagnostics, not an automatic reach, line-of-effect or defense rule. Armor, evasion, resistance, location, durability, reactions and criticals remain explicitly GM-adjudicated; this card introduces none of those rules.</p>
+
+  <h2>3. Prepare both changes, then accept together</h2>
+  <p>Source must afford 1 AP using current + temporary AP. Spend temporary AP first, then current AP. Mana cost is zero. Apply the already-final damage to temporary HP first, then current HP, with current HP floor 0.</p>
+  <table aria-label="Atomic resource worksheet">
+    <thead><tr><th>Pool</th><th>Before current</th><th>Before temp</th><th>After current</th><th>After temp</th></tr></thead>
+    <tbody><tr><th>Source AP</th><td></td><td></td><td></td><td></td></tr><tr><th>Target HP</th><td></td><td></td><td></td><td></td></tr></tbody>
+  </table>
+  <p><b>Cancel or reject before acceptance: change neither actor.</b> Once submitted with an unknown outcome, check the same command ID; do not reroll, make another payment or apply the damage again.</p>
+  <p class="example"><b>Parity example:</b> faces 3 and 5 → raw 13; GM final 10, reason “GM adjudicated reduction of 3.” Source AP 2 + temp 0 → 1 + temp 0. Target HP 30 + temp 4 → 24 + temp 0. These are one combined accepted outcome, not two independently successful writes.</p>
+
+  <h2>4. Mark the accepted result</h2>
+  <p>□ No acceptance yet / no spend &nbsp; □ Refused / no spend &nbsp; □ Accepted live-only<br>□ Accepted live / checkpoint pending &nbsp; □ Checkpoint-confirmed, revision <span class="write"></span></p>
+  <p class="limits">Use the accepted receipt for the result card/chat and both observers. Temporary rooms are live-only: no crash durability. A lost unknown action in a new runtime needs manual reconciliation, not an automatic new command. Other resource/build fields and conditions are unchanged.</p>
+  <p class="limits">Unsupported abilities or changed configurations remain manual notices, not automated target effects. Offline/no-room play is manual. This printable reference and recorded parity support source verification; performed human/creator tabletop, two-device, live-backend and deployment proof remain separate gates. P5-05/07/09/10/11/12/13/31/32 remain outstanding.</p>
+  <p class="identity">Authority: <a href="MYTHRILL_PROJECT_8_CONTRACT.md">frozen original P8 contract</a>, <a href="MYTHRILL_NEXT_PHASE.md">original roadmap</a>, and current authored <code>public/data/abilities.json</code>. No broader combat proposals are runtime rules.</p>
+</main>
+</body>
+</html>

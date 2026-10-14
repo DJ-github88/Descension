@@ -111,7 +111,7 @@ const CreatureTooltip = ({
             )}
           </div>
         </div>
-        <span className={`tooltip-role-badge ${isGM ? 'gm' : 'player'}`}>
+        <span className={`tooltip-role-badge ${isGM ? 'gm' : 'player'}`} title={isGM ? 'GM view' : 'Player view'}>
           {isGM ? 'GM' : 'Player'}
         </span>
       </div>
@@ -199,8 +199,8 @@ const CreatureTooltip = ({
                   className="tt-bar-fill"
                   style={{ width: `${healthState.barFill}%`, backgroundColor: healthState.color }}
                 />
-                <span className="tt-bar-label">{healthState.label}</span>
               </div>
+                <div className="tt-bar-label">{healthState.label}</div>
             </div>
 
             {/* Resistances */}
@@ -293,8 +293,8 @@ const CreatureTooltip = ({
               </div>
               <div className="tt-bar-track">
                 <div className="tt-bar-fill" style={{ width: `${healthState.barFill}%`, backgroundColor: healthState.color }} />
-                <span className="tt-bar-label">{healthState.label}</span>
               </div>
+                <div className="tt-bar-label">{healthState.label}</div>
             </div>
           </>
         ) : playerTooltipMode === 'partial' ? (

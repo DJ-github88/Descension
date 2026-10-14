@@ -2777,7 +2777,7 @@ const CharacterToken = ({
                     }} />
                   ) : (
                     <button
-                      className="context-menu-button"
+                      className={`context-menu-button${hoveredMenuItem !== index && item.className === 'danger' ? ' context-menu-button--danger' : ''}`}
                       style={{
                         pointerEvents: 'auto',
                         display: 'flex',
@@ -2850,7 +2850,7 @@ const CharacterToken = ({
                       }} />
                     ) : (
                       <button
-                        className="context-menu-button"
+                        className={`context-menu-button${subItem.className === 'danger' ? ' context-menu-button--danger' : ''}`}
                         style={{
                           pointerEvents: 'auto',
                           display: 'flex',

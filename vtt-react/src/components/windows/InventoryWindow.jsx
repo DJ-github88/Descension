@@ -70,6 +70,52 @@ const getDisplayName = (item) => {
     return item.customName || item.name;
 };
 
+const ENCUMBRANCE_RULES = {
+    normal: {
+        title: 'Unburdened Load',
+        tier: 'Standard Capacity',
+        range: 'Columns I – IV (Slots 1–4)',
+        icon: 'fas fa-feather-pointed',
+        badge: 'Safe Capacity',
+        summary: 'Your pack is balanced and comfortably stowed. You move with complete swiftness and agility.',
+        rules: [
+            { label: 'Movement Speed', value: '100% (No penalty)', positive: true, icon: 'fas fa-person-running' },
+            { label: 'Combat & Attributes', value: 'Full effectiveness', positive: true, icon: 'fas fa-shield-halved' },
+            { label: 'Ability Checks', value: 'Unimpeded rolls', positive: true, icon: 'fas fa-dice-d20' }
+        ],
+        mechanicNote: 'Items confined within columns 1–4 cause zero movement or stat penalties.'
+    },
+    encumbered: {
+        title: 'Heavy Load',
+        tier: 'Encumbered Tier',
+        range: 'Columns V – VIII (Slots 5–8)',
+        icon: 'fas fa-weight-hanging',
+        badge: 'Cautionary Weight',
+        summary: 'Carrying gear in this zone tests your endurance. Excess bulk begins to sap your quickness.',
+        rules: [
+            { label: 'Movement Speed', value: '-25% base speed', positive: false, icon: 'fas fa-person-running' },
+            { label: 'General Attributes', value: '-5% to most stats', positive: false, icon: 'fas fa-arrow-trend-down' },
+            { label: 'STR & CON', value: '+5% physical strain', positive: true, icon: 'fas fa-dumbbell' }
+        ],
+        mechanicNote: 'Triggered when any part of an item occupies columns 5 through 8.'
+    },
+    overencumbered: {
+        title: 'Critical Burden',
+        tier: 'Overencumbered Tier',
+        range: 'Columns IX – XII (Slots 9–12)',
+        icon: 'fas fa-triangle-exclamation',
+        badge: 'Severe Hindrance',
+        summary: 'Extreme gear overload severely hampers movement and battle readiness, making defense nearly impossible.',
+        rules: [
+            { label: 'Movement Speed', value: '-75% base speed', positive: false, icon: 'fas fa-person-running' },
+            { label: 'General Attributes', value: '-15% to most stats', positive: false, icon: 'fas fa-arrow-trend-down' },
+            { label: 'STR & CON', value: '+15% sheer resistance', positive: true, icon: 'fas fa-dumbbell' },
+            { label: 'Physical Checks', value: 'Disadvantage on attacks & checks', positive: false, icon: 'fas fa-dice-d20' }
+        ],
+        mechanicNote: 'Triggered when any part of an item extends into columns 9 through 12.'
+    }
+};
+
 const InventoryWindow = memo(() => {
     // Force refresh mechanism
     const [refreshKey, setRefreshKey] = useState(0);
@@ -183,6 +229,16 @@ const InventoryWindow = memo(() => {
     const [itemActionPanel, setItemActionPanel] = useState({ visible: false, itemId: null, anchorRect: null });
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
     const { adjustedPosition, tooltipRef } = useTooltipPosition(mousePosition, showItemTooltip.visible);
+    
+    // Encumbrance section header tooltip state
+    const [sectionHeaderTooltip, setSectionHeaderTooltip] = useState({ visible: false, type: null });
+    const [sectionHeaderMousePos, setSectionHeaderMousePos] = useState({ x: 0, y: 0 });
+    const { adjustedPosition: sectionTooltipAdjustedPos, tooltipRef: sectionTooltipRef } = useTooltipPosition(
+        sectionHeaderMousePos,
+        sectionHeaderTooltip.visible,
+        { offsetX: 14, offsetY: 18, estimateWidth: 320, estimateHeight: 260 }
+    );
+
     const [totalWeight, setTotalWeight] = useState({ normal: 0, encumbered: 0, overencumbered: 0, total: 0 });
     const [draggedItem, setDraggedItem] = useState(null);
     const [selectedItemId, setSelectedItemId] = useState(null);
@@ -1737,9 +1793,57 @@ const InventoryWindow = memo(() => {
                     '--section-overencumbered-cols': GRID_SIZE.OVERENCUMBERED_SECTION
                 }}
             >
-                <div className="section-header normal">Normal</div>
-                <div className="section-header encumbered">Encumbered</div>
-                <div className="section-header overencumbered">Overencumbered</div>
+                <div
+                    className="section-header normal"
+                    title="Hover for Normal Load rules"
+                    onMouseEnter={(e) => {
+                        setSectionHeaderTooltip({ visible: true, type: 'normal' });
+                        setSectionHeaderMousePos({ x: e.clientX, y: e.clientY });
+                    }}
+                    onMouseMove={(e) => {
+                        if (sectionHeaderTooltip.visible) {
+                            setSectionHeaderMousePos({ x: e.clientX, y: e.clientY });
+                        }
+                    }}
+                    onMouseLeave={() => setSectionHeaderTooltip({ visible: false, type: null })}
+                >
+                    <i className="fas fa-feather-pointed" style={{ marginRight: '6px', opacity: 0.85 }}></i>
+                    <span>Normal</span>
+                </div>
+                <div
+                    className="section-header encumbered"
+                    title="Hover for Encumbered rules"
+                    onMouseEnter={(e) => {
+                        setSectionHeaderTooltip({ visible: true, type: 'encumbered' });
+                        setSectionHeaderMousePos({ x: e.clientX, y: e.clientY });
+                    }}
+                    onMouseMove={(e) => {
+                        if (sectionHeaderTooltip.visible) {
+                            setSectionHeaderMousePos({ x: e.clientX, y: e.clientY });
+                        }
+                    }}
+                    onMouseLeave={() => setSectionHeaderTooltip({ visible: false, type: null })}
+                >
+                    <i className="fas fa-weight-hanging" style={{ marginRight: '6px', opacity: 0.85 }}></i>
+                    <span>Encumbered</span>
+                </div>
+                <div
+                    className="section-header overencumbered"
+                    title="Hover for Overencumbered rules"
+                    onMouseEnter={(e) => {
+                        setSectionHeaderTooltip({ visible: true, type: 'overencumbered' });
+                        setSectionHeaderMousePos({ x: e.clientX, y: e.clientY });
+                    }}
+                    onMouseMove={(e) => {
+                        if (sectionHeaderTooltip.visible) {
+                            setSectionHeaderMousePos({ x: e.clientX, y: e.clientY });
+                        }
+                    }}
+                    onMouseLeave={() => setSectionHeaderTooltip({ visible: false, type: null })}
+                >
+                    <i className="fas fa-triangle-exclamation" style={{ marginRight: '6px', opacity: 0.85 }}></i>
+                    <span>Overencumbered</span>
+                </div>
             </div>
         );
 
@@ -1847,21 +1951,22 @@ const InventoryWindow = memo(() => {
 
                              const qualityBorderColors = {
                                  poor: '#8a8a8a',
-                                 common: '#c5a059',
+                                 common: '#9b835e',
                                  uncommon: '#2e7d32',
-                                 rare: '#1976d2',
-                                 epic: '#8e24aa',
-                                 legendary: '#e65100',
-                                 artifact: '#ffd700'
+                                 rare: '#21618c',
+                                 epic: '#7d3c98',
+                                 legendary: '#b9770e',
+                                 artifact: '#c99e32'
                              };
-                             const baseBorderColor = qualityColor || qualityBorderColors[qualityLower] || '#c5a059';
-                             const borderColor = selectedItemId === renderitem.id ? '#00ffff' : baseBorderColor;
-                             const borderThickness = selectedItemId === renderitem.id ? '2.5px' : '2px';
+                             const isSelected = selectedItemId === renderitem.id;
+                             const baseBorderColor = qualityColor || qualityBorderColors[qualityLower] || '#9b835e';
+                             const borderColor = isSelected ? 'var(--adventure-seal, #663c32)' : baseBorderColor;
+                             const borderThickness = isSelected ? '2px' : '1.5px';
                              const itemTop = 1;
                              const itemLeft = 1;
 
                              return (
-                                <div className={`item-wrapper ${selectedItemId === renderitem.id ? 'selected' : ''} ${isComplexCustom ? 'complex-shape' : ''}`} style={{
+                                <div className={`item-wrapper ${isSelected ? 'selected' : ''} ${isComplexCustom ? 'complex-shape' : ''}`} style={{
                                     width: bounds.width > 1 ? `calc(${bounds.width * 100}% + ${(bounds.width - 1) * 1}px - 2px)` : `calc(${bounds.width * 100}% - 2px)`,
                                     height: bounds.height > 1 ? `calc(${bounds.height * 100}% + ${(bounds.height - 1) * 1}px - 2px)` : `calc(${bounds.height * 100}% - 2px)`,
                                     position: 'absolute',
@@ -1869,9 +1974,9 @@ const InventoryWindow = memo(() => {
                                     left: `${itemLeft}px`,
                                     overflow: 'visible',
                                     pointerEvents: 'none',
-                                    filter: selectedItemId === renderitem.id 
-                                        ? 'drop-shadow(0 0 6px rgba(0, 255, 255, 0.8))' 
-                                        : isComplexCustom ? 'none' : 'drop-shadow(0 1px 3px rgba(0, 0, 0, 0.25))',
+                                    filter: isSelected 
+                                        ? 'drop-shadow(0 0 5px rgba(102, 60, 50, 0.45))' 
+                                        : isComplexCustom ? 'none' : 'drop-shadow(0 1px 3px rgba(40, 28, 18, 0.16))',
                                     zIndex: isMultiCell ? 20 : 10
                                 }}>
                                     {/* Render custom shape cells with clear outer-edge borders & tile fills */}
@@ -1888,7 +1993,7 @@ const InventoryWindow = memo(() => {
                                                 return (
                                                     <div
                                                         key={`${shapeRowIndex}-${shapeColIndex}`}
-                                                        className={`item-shape-cell ${selectedItemId === renderitem.id ? 'selected' : ''}`}
+                                                        className={`item-shape-cell ${isSelected ? 'selected' : ''}`}
                                                         data-quality={qualityLower}
                                                         style={{
                                                             position: 'absolute',
@@ -1900,13 +2005,13 @@ const InventoryWindow = memo(() => {
                                                             borderBottom: noBottom ? `${borderThickness} solid ${borderColor}` : '1px dashed rgba(139, 115, 85, 0.3)',
                                                             borderLeft: noLeft ? `${borderThickness} solid ${borderColor}` : '1px dashed rgba(139, 115, 85, 0.3)',
                                                             borderRight: noRight ? `${borderThickness} solid ${borderColor}` : '1px dashed rgba(139, 115, 85, 0.3)',
-                                                            borderRadius: `${noTop && noLeft ? 5 : 0}px ${noTop && noRight ? 5 : 0}px ${noBottom && noRight ? 5 : 0}px ${noBottom && noLeft ? 5 : 0}px`,
-                                                            background: selectedItemId === renderitem.id 
-                                                                ? 'rgba(0, 255, 255, 0.18)' 
-                                                                : 'linear-gradient(135deg, rgba(255, 255, 255, 0.35) 0%, rgba(245, 235, 215, 0.25) 100%)',
-                                                            boxShadow: selectedItemId === renderitem.id 
-                                                                ? 'inset 0 0 8px rgba(0, 255, 255, 0.4), 0 0 6px rgba(0, 255, 255, 0.6)' 
-                                                                : 'inset 0 0 6px rgba(139, 115, 85, 0.15)',
+                                                            borderRadius: `${noTop && noLeft ? 4 : 0}px ${noTop && noRight ? 4 : 0}px ${noBottom && noRight ? 4 : 0}px ${noBottom && noLeft ? 4 : 0}px`,
+                                                            background: isSelected 
+                                                                ? 'rgba(102, 60, 50, 0.12)' 
+                                                                : 'linear-gradient(135deg, rgba(255, 255, 255, 0.72) 0%, rgba(246, 240, 228, 0.6) 100%)',
+                                                            boxShadow: isSelected 
+                                                                ? 'inset 0 0 6px rgba(102, 60, 50, 0.25), 0 0 6px rgba(102, 60, 50, 0.35)' 
+                                                                : 'inset 0 0 4px rgba(139, 115, 85, 0.15)',
                                                             boxSizing: 'border-box',
                                                             cursor: 'move',
                                                             pointerEvents: 'auto',
@@ -1947,18 +2052,18 @@ const InventoryWindow = memo(() => {
                                         )
                                     ) : (
                                         <div
-                                            className={`item-border ${selectedItemId === renderitem.id ? 'selected' : ''}`}
+                                            className={`item-border ${isSelected ? 'selected' : ''}`}
                                             style={{
                                                 borderColor: borderColor,
                                                 borderWidth: borderThickness,
                                                 borderStyle: 'solid',
-                                                borderRadius: '5px',
-                                                background: selectedItemId === renderitem.id 
-                                                    ? 'rgba(0, 255, 255, 0.18)' 
-                                                    : 'linear-gradient(135deg, rgba(255, 255, 255, 0.35) 0%, rgba(245, 235, 215, 0.25) 100%)',
-                                                boxShadow: selectedItemId === renderitem.id 
-                                                    ? 'inset 0 0 8px rgba(0, 255, 255, 0.4), 0 0 8px rgba(0, 255, 255, 0.6)' 
-                                                    : `0 0 6px ${borderColor}50, inset 0 0 6px rgba(139, 115, 85, 0.15)`
+                                                borderRadius: '4px',
+                                                background: isSelected 
+                                                    ? 'rgba(102, 60, 50, 0.12)' 
+                                                    : 'linear-gradient(135deg, rgba(255, 255, 255, 0.72) 0%, rgba(246, 240, 228, 0.6) 100%)',
+                                                boxShadow: isSelected 
+                                                    ? 'inset 0 0 6px rgba(102, 60, 50, 0.25), 0 0 8px rgba(102, 60, 50, 0.35)' 
+                                                    : `0 1px 3px rgba(40, 28, 18, 0.15), inset 0 0 3px rgba(255, 255, 255, 0.5)`
                                             }}
                                             onContextMenu={(e) => {
                                                 e.preventDefault();
@@ -2340,24 +2445,38 @@ const InventoryWindow = memo(() => {
                         <div className="inventory-stat-item">
                             <i className="fas fa-gauge-high"></i>
                             <span>Encumbrance:</span>
-                            <span className={`encumbrance-pill ${encumbranceState}`}>
+                            <span
+                                className={`encumbrance-pill ${encumbranceState}`}
+                                style={{ cursor: 'help' }}
+                                title="Hover to view encumbrance rules"
+                                onMouseEnter={(e) => {
+                                    setSectionHeaderTooltip({ visible: true, type: encumbranceState });
+                                    setSectionHeaderMousePos({ x: e.clientX, y: e.clientY });
+                                }}
+                                onMouseMove={(e) => {
+                                    if (sectionHeaderTooltip.visible) {
+                                        setSectionHeaderMousePos({ x: e.clientX, y: e.clientY });
+                                    }
+                                }}
+                                onMouseLeave={() => setSectionHeaderTooltip({ visible: false, type: null })}
+                            >
                                 {encumbranceState.toUpperCase()}
                             </span>
                         </div>
                     </div>
 
-                    <div className={`encumbrance-text ${encumbranceState}`}>
-                        {encumbranceState.charAt(0).toUpperCase() + encumbranceState.slice(1)}
-                        {encumbranceState !== 'normal' && (
+                    {encumbranceState !== 'normal' && (
+                        <div className={`encumbrance-text ${encumbranceState}`}>
                             <span className="encumbrance-penalty-text">
+                                <i className="fas fa-triangle-exclamation" style={{ marginRight: '6px' }}></i>
                                 {encumbranceState === 'encumbered' ? (
-                                    ' - Speed -25%, Most Stats -5%, Strength & Constitution +5%'
+                                    'Encumbered: Speed -25%, Most Stats -5%, STR/CON +5%'
                                 ) : (
-                                    ' - Speed -75%, Most Stats -15%, Strength & Constitution +15%, Disadvantage on Attacks & Saves'
+                                    'Overencumbered: Speed -75%, Most Stats -15%, STR/CON +15%, Disadvantage'
                                 )}
                             </span>
-                        )}
-                    </div>
+                        </div>
+                    )}
                 </div>
             </div>
 
@@ -2804,6 +2923,65 @@ const InventoryWindow = memo(() => {
 
                             // Use the ItemTooltip component for consistent display
                             return <ItemTooltip item={item} />;
+                        })()}
+                    </div>
+                </TooltipPortal>
+            )}
+
+            {/* Encumbrance Section Tooltip */}
+            {sectionHeaderTooltip.visible && sectionHeaderTooltip.type && (
+                <TooltipPortal>
+                    <div
+                        ref={sectionTooltipRef}
+                        className="encumbrance-section-tooltip"
+                        style={{
+                            position: 'fixed',
+                            left: sectionTooltipAdjustedPos.x,
+                            top: sectionTooltipAdjustedPos.y,
+                            pointerEvents: 'none',
+                            zIndex: 999999999
+                        }}
+                    >
+                        {(() => {
+                            const data = ENCUMBRANCE_RULES[sectionHeaderTooltip.type];
+                            if (!data) return null;
+                            return (
+                                <div className={`encumbrance-tooltip-box ${sectionHeaderTooltip.type}`}>
+                                    <div className="encumbrance-tooltip-header">
+                                        <div className="encumbrance-tooltip-icon-wrap">
+                                            <i className={data.icon}></i>
+                                        </div>
+                                        <div className="encumbrance-tooltip-titles">
+                                            <div className="encumbrance-tooltip-title">{data.title}</div>
+                                            <div className="encumbrance-tooltip-tier">{data.tier}</div>
+                                        </div>
+                                        <span className="encumbrance-tooltip-badge">{data.badge}</span>
+                                    </div>
+                                    <div className="encumbrance-tooltip-range">
+                                        <i className="fas fa-arrows-left-right" style={{ marginRight: '5px', opacity: 0.7 }}></i>
+                                        {data.range}
+                                    </div>
+                                    <div className="encumbrance-tooltip-divider"></div>
+                                    <p className="encumbrance-tooltip-summary">{data.summary}</p>
+                                    <div className="encumbrance-tooltip-rules-heading">
+                                        <i className="fas fa-scroll" style={{ marginRight: '6px', opacity: 0.85 }}></i>
+                                        Rules &amp; Effects
+                                    </div>
+                                    <ul className="encumbrance-tooltip-rules-list">
+                                        {data.rules.map((rule, idx) => (
+                                            <li key={idx} className={`encumbrance-rule-item ${rule.positive ? 'positive' : 'negative'}`}>
+                                                <span className="rule-icon"><i className={rule.icon}></i></span>
+                                                <span className="rule-label">{rule.label}:</span>
+                                                <span className="rule-value">{rule.value}</span>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                    <div className="encumbrance-tooltip-footer">
+                                        <i className="fas fa-circle-info" style={{ marginRight: '5px', opacity: 0.7 }}></i>
+                                        {data.mechanicNote}
+                                    </div>
+                                </div>
+                            );
                         })()}
                     </div>
                 </TooltipPortal>

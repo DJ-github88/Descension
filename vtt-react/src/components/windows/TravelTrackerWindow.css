@@ -237,8 +237,8 @@
   line-height: 1.4;
   padding: 6px 8px;
   background: rgba(139, 115, 85, 0.04);
-  border-radius: 4px;
-  border-left: 2px solid var(--travel-accent, #7a3b2e);
+  border-radius: 2px;
+  border: 1px solid rgba(139, 115, 85, 0.22);
 }
 
 .tt-weather-stats {
@@ -495,7 +495,7 @@
 .tt-map-progress {
   background: rgba(139, 115, 85, 0.04);
   border: 1px solid rgba(139, 115, 85, 0.15);
-  border-radius: 8px;
+  border-radius: 3px;
   padding: 12px;
   display: flex;
   flex-direction: column;
@@ -511,7 +511,7 @@
   background: var(--travel-bg-image, none);
   opacity: 0.3;
   pointer-events: none;
-  border-radius: 8px;
+  border-radius: 3px;
 }
 
 .tt-map-header {
@@ -525,7 +525,7 @@
   position: relative;
   height: 48px;
   background: rgba(139, 115, 85, 0.08);
-  border-radius: 24px;
+  border-radius: 3px;
   border: 2px dashed rgba(139, 115, 85, 0.2);
   padding: 0 8px;
   overflow: hidden;
@@ -537,7 +537,7 @@
   left: 0;
   height: 100%;
   background: linear-gradient(90deg, var(--travel-green, #4a7a4a), var(--travel-gold, #c8a84e));
-  border-radius: 24px;
+  border-radius: 2px;
   transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
   max-width: calc(100% - 16px);
 }
@@ -550,7 +550,7 @@
   right: 0;
   height: 40%;
   background: linear-gradient(to bottom, rgba(255, 255, 255, 0.25), transparent);
-  border-radius: 24px 24px 0 0;
+  border-radius: 2px 2px 0 0;
 }
 
 .tt-map-road-marker {
@@ -662,9 +662,8 @@
   gap: 10px;
   padding: 12px;
   background: rgba(139, 115, 85, 0.05);
-  border: 1px solid rgba(139, 115, 85, 0.15);
-  border-radius: 6px;
-  border-left: 2px solid var(--travel-accent, #7a3b2e);
+  border: 1px solid rgba(139, 115, 85, 0.18);
+  border-radius: 3px;
 }
 
 .tt-hour-detail-header {
@@ -868,8 +867,8 @@
 .tt-atmosphere {
   padding: 8px 10px;
   background: rgba(139, 115, 85, 0.05);
-  border-left: 2px solid var(--travel-accent, #7a3b2e);
-  border-radius: 0 4px 4px 0;
+  border: 1px solid rgba(139, 115, 85, 0.18);
+  border-radius: 2px;
   display: flex;
   flex-direction: column;
 }

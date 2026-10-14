@@ -321,15 +321,9 @@ const CreatureAbilityFanOut = ({
         e.preventDefault();
         if (!onUseAbility) return;
 
-        let rollText = null;
-        if (ability.formula) {
-            const roll = rollDiceFormula(ability.formula);
-            if (roll) {
-                const typeLabel = ability.damageType ? ` ${ability.damageType}` : '';
-                rollText = `🎲 ${ability.formula} → ${roll.total}${typeLabel}`;
-            }
-        }
-        onUseAbility(ability, rollText, raw);
+        // Cards are presentation only. Quick-use records supported action dice
+        // only after explicit target selection; manual notices never execute.
+        onUseAbility(ability, null, raw);
     };
 
     return (

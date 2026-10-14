@@ -1,7 +1,33 @@
-import React, { useRef, useState, forwardRef, useImperativeHandle, useEffect, useCallback, useMemo } from 'react';
-import Draggable from 'react-draggable';
+import React, { useRef, useState, forwardRef, useImperativeHandle, useEffect, useLayoutEffect, useCallback, useMemo } from 'react';
+import { DraggableCore } from 'react-draggable';
 import useSettingsStore from '../../store/settingsStore';
 import '../../styles/draggable-window.css';
+
+/*
+ * PERFORMANCE: why windows are positioned through the Web Animations API
+ * instead of an inline `style.transform` / `style.zIndex`.
+ *
+ * The theme CSS (mostly styles/calm-shared.css) contains several hundred
+ * selectors with attribute matchers in an ANCESTOR position, e.g.
+ *   .game-mode [class*="character-"] *
+ *   .class-resource-menu[class*="menu-container"] :is(div, span, ...)
+ * With those present, Chrome restyles the ENTIRE subtree of any element whose
+ * `class` or `style` attribute changes. react-draggable rewrote the wrapper's
+ * inline transform on every mouse move, so a window holding the item grid
+ * (~1,000 cards / ~5,000 elements) paid ~150-200 ms of style recalculation per
+ * move. Driving transform + z-index from a single filled animation never
+ * touches an attribute: the same move costs well under 1 ms.
+ *
+ * For the same reason nothing here toggles classes on the window wrapper or on
+ * <body> while dragging (each toggle was another full-subtree restyle).
+ * DraggableCore is used only for pointer handling (handle/cancel matching,
+ * mouse + touch); positioning is done here.
+ */
+const supportsWaapi = typeof Element !== 'undefined' && typeof Element.prototype.animate === 'function';
+
+const preventSelectStart = (e) => e.preventDefault();
+
+const clamp = (value, min, max) => Math.max(min, Math.min(value, max));
 
 const DraggableWindow = forwardRef(({
     children,
@@ -11,10 +37,10 @@ const DraggableWindow = forwardRef(({
     defaultSize = null,
     className = '',
     handleClassName = 'draggable-window-handle',
-    // CSS selector (passed straight to react-draggable) that opts elements OUT
-    // of starting a window drag. Use it to keep form controls, buttons, links,
-    // canvas/maps and opt-out regions (`.window-no-drag`) interactive while the
-    // surrounding window surface stays draggable.
+    // CSS selector that opts elements OUT of starting a window drag. Use it to
+    // keep form controls, buttons, links, canvas/maps and opt-out regions
+    // (`.window-no-drag`) interactive while the surrounding window surface
+    // stays draggable.
     cancel = null,
     centered = false,
     bounds = "body",
@@ -42,24 +68,10 @@ const DraggableWindow = forwardRef(({
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
-    const lastLoggedScale = useRef(windowScale);
-    useEffect(() => {
-        lastLoggedScale.current = windowScale;
-    }, [windowScale]);
-
     const nodeRef = useRef(null);
     const windowRef = useRef(null);
-    const rafHandleRef = useRef(null); // For RAF-throttled drag updates
-
-    useEffect(() => {
-        if (document && !document.getElementById('react-draggable-style-el')) {
-            const styleEl = document.createElement('style');
-            styleEl.type = 'text/css';
-            styleEl.id = 'react-draggable-style-el';
-            styleEl.innerHTML = '.react-draggable-transparent-selection *::-moz-selection {all: inherit;}\n.react-draggable-transparent-selection *::selection {all: inherit;}\n';
-            document.head.appendChild(styleEl);
-        }
-    }, []);
+    const placementAnimRef = useRef(null); // the single filled animation that positions the window
+    const dragRef = useRef(null); // live drag session (null when idle)
 
     const getInitialPosition = useCallback(() => {
         let pos = { ...defaultPosition };
@@ -92,7 +104,10 @@ const DraggableWindow = forwardRef(({
         return defaultPosition;
     });
 
-    const [isDragging, setIsDragging] = useState(false);
+    // Where the window is visually right now (== position, except mid-drag)
+    const livePosRef = useRef(position);
+    const zIndexRef = useRef(zIndex);
+    zIndexRef.current = zIndex;
 
     const hasBeenCentered = useRef(false);
     const initialCenteredValue = useRef(centered);
@@ -146,9 +161,8 @@ const DraggableWindow = forwardRef(({
                     const vw = window.innerWidth;
                     const vh = window.innerHeight;
                     const w = nodeRef.current?.offsetWidth || defaultSize?.width || 400;
-                    const h = nodeRef.current?.offsetHeight || defaultSize?.height || 600;
                     const visualW = w * scale;
-                                        const minVisible = 100;
+                    const minVisible = 100;
                     const leftBound = Math.min(0, minVisible - visualW);
                     const rightBound = Math.max(0, vw - minVisible);
                     const bottomBound = Math.max(0, vh - minVisible);
@@ -169,24 +183,49 @@ const DraggableWindow = forwardRef(({
         };
     }, [defaultSize]);
 
-    useEffect(() => {
-        return () => {
-            document.body.classList.remove('window-dragging');
-            // Cancel any pending RAF on unmount
-            if (rafHandleRef.current) {
-                cancelAnimationFrame(rafHandleRef.current);
+    // Write translate + z-index without touching the element's style/class attributes
+    const applyPlacement = useCallback((x, y, z) => {
+        const node = nodeRef.current;
+        if (!node) return;
+        const transform = `translate(${x}px, ${y}px)`;
+        const zValue = String(z);
+
+        if (!supportsWaapi) {
+            node.style.transform = transform;
+            node.style.zIndex = zValue;
+            return;
+        }
+
+        const frame = { transform, zIndex: zValue };
+        const anim = placementAnimRef.current;
+        if (anim && anim.effect && anim.effect.target === node && anim.playState !== 'idle') {
+            anim.effect.setKeyframes([frame, frame]);
+        } else {
+            if (anim) {
+                try { anim.cancel(); } catch (_) { /* ignore */ }
             }
-        };
+            placementAnimRef.current = node.animate([frame, frame], { duration: 0, fill: 'forwards' });
+        }
     }, []);
 
-    const positionRef = useRef(position);
-    const scaleRef = useRef(windowScale);
+    const stopDragListeners = useCallback(() => {
+        document.removeEventListener('selectstart', preventSelectStart, true);
+    }, []);
+
+    useEffect(() => {
+        return () => {
+            stopDragListeners();
+            if (placementAnimRef.current) {
+                try { placementAnimRef.current.cancel(); } catch (_) { /* ignore */ }
+                placementAnimRef.current = null;
+            }
+        };
+    }, [stopDragListeners]);
 
     // Drag-vs-click bookkeeping. Tab buttons (and other clickable surfaces)
     // double as drag handles, so a real drag must not leak a "click" afterwards
     // (which would e.g. switch tabs while the user was only moving the window).
     // Movements under CLICK_SUPPRESS_THRESHOLD_PX are treated as plain clicks.
-    const dragStartPosRef = useRef(null);
     const justDraggedAtRef = useRef(0);
     const CLICK_SUPPRESS_THRESHOLD_PX = 6;
     const CLICK_SUPPRESS_WINDOW_MS = 350;
@@ -201,11 +240,6 @@ const DraggableWindow = forwardRef(({
         }
     }, []);
 
-    useEffect(() => {
-        positionRef.current = position;
-        scaleRef.current = windowScale;
-    }, [position.x, position.y, windowScale]);
-
     useImperativeHandle(ref, () => ({
         getElement: () => windowRef.current,
         centerWindow: () => {
@@ -219,9 +253,9 @@ const DraggableWindow = forwardRef(({
                 setPosition({ x: left, y: top });
             }
         },
-        getPosition: () => position,
+        getPosition: () => livePosRef.current,
         setPosition: (newPosition) => setPosition(newPosition)
-    }), [position]);
+    }), []);
 
     const normalizedHandle = useMemo(() => {
         if (!handleClassName) return '.draggable-window-handle';
@@ -233,145 +267,29 @@ const DraggableWindow = forwardRef(({
             .join(', ');
     }, [handleClassName]);
 
-    // Handle drag start. Returning false vetoes the drag (react-draggable
-    // cancels when its onStart returns false) — used to keep window moves
-    // from fighting item/token drags originating inside the window.
-    const handleDragStart = useCallback((e, data) => {
-        // Don't allow window dragging if an item is being dragged
-        if (window.isDraggingItem) {
-            return false;
-        }
-
-        dragStartPosRef.current = data && typeof data.x === 'number'
-            ? { x: data.x, y: data.y }
-            : null;
-        justDraggedAtRef.current = 0;
-
-        setIsDragging(true);
-        document.body.classList.add('window-dragging');
-
-        if (rafHandleRef.current) {
-            cancelAnimationFrame(rafHandleRef.current);
-            rafHandleRef.current = null;
-        }
-
-        if (!window.multiplayerDragState) {
-            window.multiplayerDragState = new Map();
-        }
-        window.multiplayerDragState.set(`window_${Date.now()}`, true);
-
-        if (nodeRef.current) {
-            nodeRef.current.classList.add('dragging');
-        }
-
-        if (onDragStart) {
-            // Propagate a `false` return so callers (e.g. MythrillWindow) can
-            // veto the drag and have react-draggable honour it.
-            const veto = onDragStart(e, data);
-            if (veto === false) {
-                setIsDragging(false);
-                document.body.classList.remove('window-dragging');
-                if (nodeRef.current) {
-                    nodeRef.current.classList.remove('dragging');
-                }
-                return false;
-            }
-        }
-
-        try {
-            if (e.target && typeof e.target.closest === 'function' && normalizedHandle && e.target.closest(normalizedHandle)) {
-                const isInteractive = e.target.closest('button, input, select, textarea, [role="button"], a');
-                if (!isInteractive) {
-                    e.stopPropagation();
-                }
-            }
-        } catch (_) {}
-    }, [zIndex, onDragStart, normalizedHandle]);
-
-    // Handle drag - let react-draggable translate the DOM natively without forcing a full React tree re-render every frame
-    const handleDrag = useCallback((e, data) => {
-        positionRef.current = { x: data.x, y: data.y };
-
-        if (onDrag && data && typeof data === 'object') {
-            onDrag(data);
-        }
-
-        try {
-            if (e.target && typeof e.target.closest === 'function' && normalizedHandle && e.target.closest(normalizedHandle)) {
-                const isInteractive = e.target.closest('button, input, select, textarea, [role="button"], a');
-                if (!isInteractive) {
-                    e.stopPropagation();
-                }
-            }
-        } catch (_) {}
-    }, [normalizedHandle, onDrag]);
-
-    // Handle drag stop - commit final position to React state cleanly
-    const handleDragStop = useCallback((e, data) => {
-        setIsDragging(false);
-        document.body.classList.remove('window-dragging');
-
-        // If the pointer actually travelled, arm the click guard so the
-        // mouse-up doesn't trigger whatever clickable surface we dragged from.
-        const start = dragStartPosRef.current;
-        dragStartPosRef.current = null;
-        if (start && data && typeof data.x === 'number') {
-            const dist = Math.hypot(data.x - start.x, data.y - start.y);
-            justDraggedAtRef.current = dist > CLICK_SUPPRESS_THRESHOLD_PX ? Date.now() : 0;
-        } else {
-            justDraggedAtRef.current = 0;
-        }
-
-        if (window.multiplayerDragState) {
-            window.multiplayerDragState.clear();
-        }
-
-        setPosition({ x: data.x, y: data.y });
-
-        if (nodeRef.current) {
-            nodeRef.current.style.zIndex = zIndex.toString();
-            nodeRef.current.classList.remove('dragging');
-        }
-
-        positionRef.current = { x: data.x, y: data.y };
-
-        if (onDrag && data && typeof data === 'object') {
-            onDrag(data);
-        }
-
-        if (onDragStop) {
-            onDragStop(data);
-        }
-
-        try {
-            if (e.target && typeof e.target.closest === 'function' && normalizedHandle && e.target.closest(normalizedHandle)) {
-                const isInteractive = e.target.closest('button, input, select, textarea, [role="button"], a');
-                if (!isInteractive) {
-                    e.stopPropagation();
-                }
-            }
-        } catch (_) {}
-    }, [onDrag, onDragStop, zIndex, normalizedHandle]);
-
-    if (!isOpen) return null;
-
     const effectivelyDisabled = isMobile || disableDragging;
 
-    // Compute scale-aware bounds. react-draggable's string bounds (e.g. "body")
-    // measure the node's UNSCALED offsetWidth, so when windowScale != 1 the window
-    // either can't reach the screen edges (scale < 1) or overshoots them (scale > 1).
-    // We compute explicit bounds in visual pixels so dragging is correct at any scale,
-    // and allow partial off-screen movement while keeping the header grabable.
-    const effectiveBounds = (() => {
-        if (effectivelyDisabled || !bounds) return false;
+    // Keep the visual placement in sync with React state / z-index. Mid-drag the
+    // live drag position wins so a z-index bump can't snap the window back.
+    useLayoutEffect(() => {
+        if (!isOpen) return;
+        if (!dragRef.current) {
+            livePosRef.current = effectivelyDisabled ? { x: 0, y: 0 } : position;
+        }
+        applyPlacement(livePosRef.current.x, livePosRef.current.y, zIndex);
+    }, [isOpen, position, zIndex, effectivelyDisabled, applyPlacement]);
+
+    // Scale-aware bounds in visual pixels. Allows partial off-screen movement
+    // while keeping the header grabbable. Measured once per drag.
+    const computeBounds = useCallback(() => {
+        if (!bounds) return null;
         if (typeof bounds === 'object') return bounds;
 
-        const vw = typeof window !== 'undefined' ? window.innerWidth : 1920;
-        const vh = typeof window !== 'undefined' ? window.innerHeight : 1080;
+        const vw = window.innerWidth || 1920;
+        const vh = window.innerHeight || 1080;
         const w = nodeRef.current?.offsetWidth || defaultSize?.width || 400;
-        const h = nodeRef.current?.offsetHeight || defaultSize?.height || 600;
-        const visualW = w * windowScale;
-                const minVisible = 100;
+        const visualW = w * (useSettingsStore.getState?.().windowScale ?? windowScale);
+        const minVisible = 100;
 
         return {
             left: Math.min(0, minVisible - visualW),
@@ -379,34 +297,147 @@ const DraggableWindow = forwardRef(({
             right: Math.max(0, vw - minVisible),
             bottom: Math.max(0, vh - minVisible)
         };
-    })();
+    }, [bounds, defaultSize, windowScale]);
+
+    const positionFromPointer = (session, data) => {
+        let x = Math.round(session.originX + (data.x - session.pointerX));
+        let y = Math.round(session.originY + (data.y - session.pointerY));
+        const b = session.bounds;
+        if (b) {
+            if (typeof b.left === 'number' || typeof b.right === 'number') {
+                x = clamp(x, typeof b.left === 'number' ? b.left : -Infinity, typeof b.right === 'number' ? b.right : Infinity);
+            }
+            if (typeof b.top === 'number' || typeof b.bottom === 'number') {
+                y = clamp(y, typeof b.top === 'number' ? b.top : -Infinity, typeof b.bottom === 'number' ? b.bottom : Infinity);
+            }
+        }
+        return { x, y };
+    };
+
+    const stopHandlePropagation = (e) => {
+        try {
+            if (e.target && typeof e.target.closest === 'function' && normalizedHandle && e.target.closest(normalizedHandle)) {
+                const isInteractive = e.target.closest('button, input, select, textarea, [role="button"], a');
+                if (!isInteractive) {
+                    e.stopPropagation();
+                }
+            }
+        } catch (_) { /* ignore */ }
+    };
+
+    // Returning false vetoes the drag (DraggableCore honours it) — used to keep
+    // window moves from fighting item/token drags originating inside the window.
+    const handleDragStart = (e, data) => {
+        if (window.isDraggingItem) {
+            return false;
+        }
+
+        const origin = livePosRef.current;
+        justDraggedAtRef.current = 0;
+
+        if (onDragStart) {
+            const veto = onDragStart(e, { ...data, x: origin.x, y: origin.y });
+            if (veto === false) {
+                return false;
+            }
+        }
+
+        dragRef.current = {
+            pointerX: data.x,
+            pointerY: data.y,
+            originX: origin.x,
+            originY: origin.y,
+            bounds: computeBounds()
+        };
+
+        if (!window.multiplayerDragState) {
+            window.multiplayerDragState = new Map();
+        }
+        window.multiplayerDragState.set(`window_${Date.now()}`, true);
+
+        // Block text selection for the duration of the drag without restyling
+        // <body> (react-draggable's user-select hack toggled a body class).
+        try { window.getSelection()?.removeAllRanges(); } catch (_) { /* ignore */ }
+        document.addEventListener('selectstart', preventSelectStart, true);
+
+        stopHandlePropagation(e);
+    };
+
+    const handleDrag = (e, data) => {
+        const session = dragRef.current;
+        if (!session) return;
+
+        const next = positionFromPointer(session, data);
+        livePosRef.current = next;
+        // Cheap (no attribute change), so apply immediately: Chrome already
+        // delivers mousemove once per frame, and this avoids a frame of lag.
+        applyPlacement(next.x, next.y, zIndexRef.current);
+
+        if (onDrag) {
+            onDrag({ ...data, x: next.x, y: next.y });
+        }
+
+        stopHandlePropagation(e);
+    };
+
+    const handleDragStop = (e, data) => {
+        const session = dragRef.current;
+        stopDragListeners();
+        if (!session) return;
+
+        const final = positionFromPointer(session, data);
+        dragRef.current = null;
+
+        // If the pointer actually travelled, arm the click guard so the
+        // mouse-up doesn't trigger whatever clickable surface we dragged from.
+        const dist = Math.hypot(final.x - session.originX, final.y - session.originY);
+        justDraggedAtRef.current = dist > CLICK_SUPPRESS_THRESHOLD_PX ? Date.now() : 0;
+
+        if (window.multiplayerDragState) {
+            window.multiplayerDragState.clear();
+        }
+
+        livePosRef.current = final;
+        applyPlacement(final.x, final.y, zIndexRef.current);
+        setPosition(final);
+
+        const finalData = { ...data, x: final.x, y: final.y };
+        if (onDrag) {
+            onDrag(finalData);
+        }
+        if (onDragStop) {
+            onDragStop(finalData);
+        }
+
+        stopHandlePropagation(e);
+    };
+
+    if (!isOpen) return null;
 
     return (
-        <Draggable
-            handle={effectivelyDisabled ? '' : normalizedHandle}
+        <DraggableCore
+            handle={effectivelyDisabled ? undefined : normalizedHandle}
             cancel={effectivelyDisabled ? undefined : (cancel || undefined)}
-            position={effectivelyDisabled ? { x: 0, y: 0 } : position}
             nodeRef={nodeRef}
-            bounds={effectiveBounds}
-            grid={[1, 1]}
-            onStart={effectivelyDisabled ? undefined : handleDragStart}
-            onDrag={effectivelyDisabled ? undefined : handleDrag}
-            onStop={effectivelyDisabled ? undefined : handleDragStop}
-            // Translation is on the unscaled fixed wrapper; only its child is scaled.
+            onStart={handleDragStart}
+            onDrag={handleDrag}
+            onStop={handleDragStop}
             scale={1}
-            enableUserSelectHack={!effectivelyDisabled}
+            enableUserSelectHack={false}
             disabled={effectivelyDisabled}
         >
             <div
                 ref={nodeRef}
+                className="react-draggable"
                 onClickCapture={effectivelyDisabled ? undefined : handleClickCapture}
                 style={{
                     position: 'fixed',
                     top: 0,
                     left: 0,
-                    zIndex: zIndex,
                     transformOrigin: 'top left',
                     pointerEvents: 'none',
+                    // Moved by a compositor-friendly transform animation (see top of file)
+                    willChange: isMobile ? 'auto' : 'transform',
                     ...(isMobile && {
                         width: '100vw',
                         height: '100vh',
@@ -436,7 +467,7 @@ const DraggableWindow = forwardRef(({
                     </div>
                 </div>
             </div>
-        </Draggable>
+        </DraggableCore>
     );
 });
 

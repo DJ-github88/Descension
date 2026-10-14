@@ -19,13 +19,16 @@ import { SKILL_DEFINITIONS, SKILL_CATEGORIES, SKILL_RANKS } from '../../../../co
 import { ROLLABLE_TABLES } from '../../../../constants/rollableTables';
 import BESTIARY_DATA from '../../../../data/creatureData.json';
 import { calculateStatModifier } from '../../../../utils/characterUtils';
-import useCreatureStore from '../../../../store/creatureStore';
+import useCreatureStore, { getCreatureSizeMapping } from '../../../../store/creatureStore';
 import useGridItemStore from '../../../../store/gridItemStore';
 import useInventoryStore from '../../../../store/inventoryStore';
 import useItemStore from '../../../../store/itemStore';
 import useDiceStore from '../../../../store/diceStore';
 import ChargeableRollButton from '../../../dice/ChargeableRollButton';
 import { getGridSystem } from '../../../../utils/InfiniteGridSystem';
+import { findLootDropTiles } from '../../../../utils/lootDropPlacement';
+import { getStore } from '../../../../store/storeRegistry';
+import useChatStore from '../../../../store/chatStore';
 import { processCreatureLoot } from '../../../../utils/lootItemUtils';
 import { calculateEffectiveMovementSpeed } from '../../../../utils/conditionUtils';
 import '../../../spellcrafting-wizard/styles/pathfinder/main.css';
@@ -2079,174 +2082,152 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
     );
   };
 
-  // Helper function to get adjacent tiles to a token
-  const getAdjacentTiles = (tokenPosition) => {
-    if (!tokenPosition || !gridSystem) return [];
-
-    // Convert token world position to grid coordinates
-    const gridCoords = gridSystem.worldToGrid(tokenPosition.x, tokenPosition.y);
-
-    // Get all 8 adjacent tiles (including diagonals)
-    const adjacentOffsets = [
-      { x: -1, y: -1 }, { x: 0, y: -1 }, { x: 1, y: -1 },
-      { x: -1, y: 0 },                   { x: 1, y: 0 },
-      { x: -1, y: 1 },  { x: 0, y: 1 },  { x: 1, y: 1 }
-    ];
-
-    return adjacentOffsets.map(offset => ({
-      gridX: gridCoords.x + offset.x,
-      gridY: gridCoords.y + offset.y,
-      worldPos: gridSystem.gridToWorld(gridCoords.x + offset.x, gridCoords.y + offset.y)
-    }));
-  };
-
-  // Helper function to check if a tile is empty (no existing grid items)
-  const isTileEmpty = (gridX, gridY) => {
-    const { gridItems } = useGridItemStore.getState();
-    return !gridItems.some(item =>
-      item.gridPosition &&
-      item.gridPosition.col === gridX &&
-      item.gridPosition.row === gridY
-    );
-  };
-
-  // Handle loot drop functionality
+  // Roll this creature's loot table and drop the results as loot orbs around it.
+  // Always announces the roll (GM + players) - including when nothing dropped.
   const handleDropLoot = () => {
-    if (!processedCreature.lootTable || !token) {
+    const lootTable = processedCreature?.lootTable;
+    if (!lootTable || !token) {
       return;
     }
 
-    // Find the token for this creature
-    const creatureToken = tokens.find(t => t.creatureId === creature.id);
-    if (!creatureToken || !creatureToken.position) {
+    const creatureName = creature?.name || 'creature';
+    const gameState = getStore('gameStore')?.getState?.();
+    const roller = gameState?.isGMMode === false
+      ? (useInventoryStore.getState().characterName || 'Player')
+      : 'GM';
+
+    // The token being inspected (a creature type can have several tokens on the map)
+    const creatureToken =
+      (token?.id && tokens.find(t => t.id === token.id)) ||
+      tokens.find(t => t.creatureId === creature.id) ||
+      token;
+    if (!creatureToken?.position) {
+      console.warn(`[Loot] No token position for ${creatureName}; cannot drop loot.`);
       return;
     }
 
-    // Get adjacent tiles
-    const adjacentTiles = getAdjacentTiles(creatureToken.position);
-    const emptyTiles = adjacentTiles.filter(tile => isTileEmpty(tile.gridX, tile.gridY));
-
-    if (emptyTiles.length === 0) {
-      console.log(`No empty tiles around ${creature.name} to drop loot.`);
+    let gs = gridSystem;
+    if (!gs) {
+      try { gs = getGridSystem(); } catch (e) { gs = null; }
+    }
+    if (!gs) {
+      console.warn('[Loot] Grid system not ready; cannot drop loot.');
       return;
     }
 
-    let droppedItems = [];
-    let usedTiles = [];
-    const currentUser = useInventoryStore.getState().characterName || 'Player';
+    const uniq = () => `${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
+    const rollRange = (range) => {
+      if (!range || !(range.max > 0)) return 0;
+      const min = Math.max(0, range.min || 0);
+      return Math.floor(Math.random() * (range.max - min + 1)) + min;
+    };
 
-    // Roll for currency
-    if (processedCreature.lootTable.currency) {
-      const { gold, silver, copper } = processedCreature.lootTable.currency;
-
-      if (gold && gold.max > 0) {
-        const goldAmount = Math.floor(Math.random() * (gold.max - gold.min + 1)) + gold.min;
-        if (goldAmount > 0 && usedTiles.length < emptyTiles.length) {
-          const tile = emptyTiles[usedTiles.length];
-          const goldItem = {
-            id: `gold_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`,
-            name: `${goldAmount} Gold`,
-            type: 'currency',
-            subtype: 'gold',
-            iconId: 'inv_misc_coin_01',
-            quantity: 1, // Currency orbs are always quantity 1
-            quality: 'poor',
-            value: goldAmount,
-            description: `${goldAmount} gold pieces`,
-            source: `Dropped by ${creature.name}`,
-            isCurrency: true,
-            currencyType: 'gold',
-            currencyValue: goldAmount
-          };
-
-          addItemToGrid(goldItem, {
-            x: tile.worldPos.x,
-            y: tile.worldPos.y,
-            gridPosition: { row: tile.gridY, col: tile.gridX }
-          }, true);
-
-          // Note: Currency will be added to inventory when player clicks the loot orb
-          // The loot orb system handles currency addition automatically
-
-          droppedItems.push(`${goldAmount} Gold`);
-          usedTiles.push(tile);
+    // ---- 1. Roll everything first (so we know how many orbs we need) ----
+    const drops = []; // { label, gridItem }
+    const currency = lootTable.currency || {};
+    [
+      { key: 'gold', name: 'Gold', iconId: 'inv_misc_coin_01', unitValue: 1 },
+      { key: 'silver', name: 'Silver', iconId: 'inv_misc_coin_02', unitValue: 0.1 },
+      { key: 'copper', name: 'Copper', iconId: 'inv_misc_coin_03', unitValue: 0.01 }
+    ].forEach(({ key, name, iconId, unitValue }) => {
+      const amount = rollRange(currency[key]);
+      if (amount <= 0) return;
+      drops.push({
+        label: `${amount} ${name}`,
+        gridItem: {
+          id: `${key}_${uniq()}`,
+          name: `${amount} ${name}`,
+          type: 'currency',
+          subtype: key,
+          iconId,
+          quantity: 1, // Currency orbs are always quantity 1
+          quality: 'poor',
+          value: amount * unitValue,
+          description: `${amount} ${key} pieces`,
+          source: `Dropped by ${creatureName}`,
+          isCurrency: true,
+          currencyType: key,
+          currencyValue: amount,
+          noStack: true
         }
+      });
+    });
+
+    (lootTable.items || []).forEach(item => {
+      const dropChance = item.dropChance ?? 30;
+      if (Math.random() * 100 >= dropChance) return;
+
+      // Every drop gets its own orb id. Re-using the library id made a second roll
+      // move the first orb instead of creating a new one.
+      const baseId = item.id ? String(item.id) : `inline_${uniq()}`;
+      const isInline = baseId.startsWith('inline_');
+      const quantity = typeof item.quantity === 'number' ? item.quantity : 1;
+      drops.push({
+        label: quantity > 1 ? `${item.name} ×${quantity}` : item.name,
+        gridItem: {
+          ...item,
+          id: `${baseId}__drop_${uniq()}`,
+          // Library items keep pointing at their item-store entry for looting;
+          // inline items are looked up by their own (unique) temporary id.
+          ...(isInline ? {} : { itemId: baseId, originalItemId: baseId }),
+          source: `Dropped by ${creatureName}`,
+          width: item.width || 1,
+          height: item.height || 1,
+          stackable: item.stackable || (item.type === 'miscellaneous' || item.type === 'consumable'),
+          maxStackSize: item.maxStackSize || (item.stackable ? 5 : 1),
+          weight: item.weight || 1,
+          noStack: true
+        }
+      });
+    });
+
+    // ---- 2. Place orbs around the creature ----
+    const placedLabels = [];
+    if (drops.length > 0) {
+      const mapId = getStore('mapStore')?.getState?.()?.currentMapId || 'default';
+      const blockedKeys = new Set();
+      useGridItemStore.getState().gridItems.forEach(gi => {
+        if (gi?.gridPosition && (gi.mapId || 'default') === mapId) {
+          blockedKeys.add(`${gi.gridPosition.col},${gi.gridPosition.row}`);
+        }
+      });
+      tokens.forEach(t => {
+        if (!t?.position || t.id === creatureToken.id) return;
+        if ((t.mapId || 'default') !== mapId) return;
+        const g = gs.worldToGrid(t.position.x, t.position.y);
+        blockedKeys.add(`${g.x},${g.y}`);
+      });
+
+      const sizeMapping = getCreatureSizeMapping(creature?.size);
+      const tiles = findLootDropTiles({
+        gridSystem: gs,
+        tokenWorldPos: creatureToken.position,
+        footprint: { width: sizeMapping?.width || 1, height: sizeMapping?.height || 1 },
+        count: drops.length,
+        blockedKeys
+      });
+
+      if (tiles.length < drops.length) {
+        console.warn(`[Loot] Only ${tiles.length} free tiles near ${creatureName} for ${drops.length} drops.`);
       }
 
-      if (silver && silver.max > 0) {
-        const silverAmount = Math.floor(Math.random() * (silver.max - silver.min + 1)) + silver.min;
-        if (silverAmount > 0 && usedTiles.length < emptyTiles.length) {
-          const tile = emptyTiles[usedTiles.length];
-          const silverItem = {
-            id: `silver_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`,
-            name: `${silverAmount} Silver`,
-            type: 'currency',
-            subtype: 'silver',
-            iconId: 'inv_misc_coin_02',
-            quantity: 1, // Currency orbs are always quantity 1
-            quality: 'poor',
-            value: silverAmount * 0.1,
-            description: `${silverAmount} silver pieces`,
-            source: `Dropped by ${creature.name}`,
-            isCurrency: true,
-            currencyType: 'silver',
-            currencyValue: silverAmount
-          };
-
-          addItemToGrid(silverItem, {
-            x: tile.worldPos.x,
-            y: tile.worldPos.y,
-            gridPosition: { row: tile.gridY, col: tile.gridX }
-          }, true);
-
-          // Note: Currency will be added to inventory when player clicks the loot orb
-          // The loot orb system handles currency addition automatically
-
-          droppedItems.push(`${silverAmount} Silver`);
-          usedTiles.push(tile);
-        }
-      }
-    }
-
-    // Roll for items
-    if (processedCreature.lootTable.items && processedCreature.lootTable.items.length > 0) {
-      processedCreature.lootTable.items.forEach(item => {
-        if (usedTiles.length >= emptyTiles.length) return; // No more empty tiles
-
-        // Roll for drop chance
-        const roll = Math.random() * 100;
-        const dropChance = item.dropChance || 30;
-
-        if (roll <= dropChance) {
-          const tile = emptyTiles[usedTiles.length];
-
-          // Create a copy of the item preserving the original ID for item store lookup
-          // The grid system will generate its own unique grid item ID
-          const droppedItem = {
-            ...item,
-            // IMPORTANT: Keep the original item ID so the grid system can find it in the item store
-            // The grid system will create its own unique grid item ID internally
-            source: `Dropped by ${creature.name}`,
-            // Ensure essential properties are present
-            width: item.width || 1,
-            height: item.height || 1,
-            stackable: item.stackable || (item.type === 'miscellaneous' || item.type === 'consumable'),
-            maxStackSize: item.maxStackSize || (item.stackable ? 5 : 1),
-            weight: item.weight || 1
-          };
-
-          addItemToGrid(droppedItem, {
-            x: tile.worldPos.x,
-            y: tile.worldPos.y,
-            gridPosition: { row: tile.gridY, col: tile.gridX }
-          }, true);
-
-          droppedItems.push(item.name);
-          usedTiles.push(tile);
-        }
+      drops.slice(0, tiles.length).forEach((drop, i) => {
+        const tile = tiles[i];
+        addItemToGrid(drop.gridItem, {
+          x: tile.worldPos.x,
+          y: tile.worldPos.y,
+          gridPosition: { row: tile.gridY, col: tile.gridX }
+        }, true);
+        placedLabels.push(drop.label);
       });
     }
 
+    // ---- 3. Tell the GM and players what happened (also when nothing dropped) ----
+    useChatStore.getState().addLootRollNotification({
+      creatureName,
+      dropped: placedLabels,
+      roller
+    });
   };
 
   // Render the Loot section
@@ -2538,7 +2519,7 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
       zIndex={20000} // Increased z-index to ensure it's above all other elements including the grid
       bounds="body"
       customHeader={
-        <div className="spellbook-tab-container tab-overflow-root character-sheet-tabs" ref={tabsTrackRef}>
+        <div className="spellbook-tab-container tab-overflow-root character-sheet-tabs creature-sheet-tabs" ref={tabsTrackRef}>
           {sectionKeys.filter(key => !hiddenTabIds.includes(key)).map(key => {
             const section = sections[key];
             if (!section) return null;

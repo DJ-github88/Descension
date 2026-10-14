@@ -233,14 +233,8 @@ const Step7Mechanics = ({ stepNumber, totalSteps, onNext, onPrevious, isActive }
         {/* Mechanics Configuration */}
         {selectedEffect && (
           <div className="mechanics-config-container">
-            <div className="mechanics-effect-summary">
-              <h3>Configure Spell Mechanics</h3>
-              <p className="mechanics-effect-description">
-                Add special mechanics to enhance your spell's behavior.
-              </p>
-            </div>
-
             <SimplifiedMechanicsConfig
+              key={selectedEffect.id}
               effectId={selectedEffect.id}
               effectType={selectedEffect.type}
               currentConfig={currentMechanicsConfig}

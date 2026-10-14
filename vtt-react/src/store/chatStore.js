@@ -137,6 +137,56 @@ const useChatStore = create(
     addNotification('loot', notification);
    },
 
+   // Announce that a creature's loot was rolled (and what, if anything, dropped).
+   // Shows in the Loot tab + a one-line system message in Social, and is relayed to
+   // everyone in the room so the GM and all players see it, even if nothing dropped.
+   addLootRollNotification: ({ creatureName = 'creature', dropped = [], roller = 'GM' } = {}) => {
+    const { addNotification, combatSyncSocket, combatSyncRoomId } = get();
+    const nothingDropped = !dropped || dropped.length === 0;
+    const content = nothingDropped
+     ? `Rolled for loot on ${creatureName}: nothing dropped.`
+     : `Rolled for loot on ${creatureName}: ${dropped.join(', ')}.`;
+
+    const lootEntry = {
+     type: 'loot_rolled',
+     creatureName,
+     dropped: dropped || [],
+     nothingDropped,
+     roller,
+     content,
+     sender: { name: 'Loot', class: 'system', level: 0 }
+    };
+
+    addNotification('loot', lootEntry);
+    addNotification('social', {
+     sender: { name: 'System', class: 'system', level: 0 },
+     content,
+     type: 'system'
+    });
+
+    // Relay to the rest of the room (reuses the combat_log relay; the receiving
+    // handler routes on targetTab).
+    try {
+     let socket = combatSyncSocket;
+     let roomId = combatSyncRoomId;
+     if (!socket || !socket.connected || !roomId) {
+      const gameState = getStore('gameStore')?.getState?.();
+      socket = gameState?.multiplayerSocket;
+      roomId = gameState?.multiplayerRoom?.id;
+     }
+     if (socket && socket.connected && roomId) {
+      socket.emit('combat_log', {
+       roomId,
+       playerName: roller,
+       notification: { ...lootEntry, targetTab: 'loot', mirrorToSocial: true },
+       timestamp: new Date().toISOString()
+      });
+     }
+    } catch (e) {
+     // Not in multiplayer or store unavailable
+    }
+   },
+
    // Add a combat notification
    addCombatNotification: (notification) => {
     const { addNotification, combatSyncSocket, combatSyncRoomId } = get();

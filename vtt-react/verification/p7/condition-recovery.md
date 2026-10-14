@@ -20,9 +20,10 @@ node verification/p7/condition-recovery-browser.cjs --require-collection
 ```
 
 The required collection mode additionally tests projection without a mounted
-hook and absence of the former global raw cache. The actor-file owner must
-coordinate the minimal `preservePersonalConditionRecovery` collection hunk;
-this implementer did not edit `actorConsequenceService.js`.
+hook and absence of the former global raw cache. The coordinated production
+collector now uses the owner-scoped `preservePersonalConditionRecovery` boundary.
+`owner-condition-browser.cjs` adds actual matched-owner full/repeated/map/section
+hydration and accepted-receipt preservation of personal round2/round0 records.
 
 Without `--require-collection`, the mounted hook path and old-cache migration
 run independently of that integration. `--red` asserts the original defective

@@ -121,13 +121,15 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: #2c1810;
-    border: 2px solid #8b6f47;
-    border-radius: 8px;
-    padding: 20px;
+    background: var(--adventure-page, #f8f5ee);
+    border: 1px solid #9b835e;
+    border-radius: 3px;
+    padding: 18px 20px;
     z-index: 100000;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 10px 30px rgba(30, 21, 14, 0.45);
     min-width: 300px;
+    color: var(--adventure-ink, #34251a);
+    font-family: 'Cinzel', Georgia, serif;
 }
 
 @media (max-width: 480px) {

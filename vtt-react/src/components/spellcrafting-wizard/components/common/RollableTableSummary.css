@@ -92,8 +92,8 @@
 
 .rollable-table-roll-btn:hover:not(:disabled) {
   transform: translateY(-1px) scale(1.03);
-  box-shadow: 0 4px 8px rgba(154, 123, 60, 0.35);
-  background: linear-gradient(135deg, #ffe57f 0%, #ffc107 100%);
+  box-shadow: 0 3px 6px rgba(139, 69, 19, 0.25);
+  background: linear-gradient(135deg, #b88d45 0%, #9a7230 100%);
 }
 
 .rollable-table-roll-btn:active:not(:disabled) {
@@ -464,9 +464,9 @@
 }
 
 @keyframes rollable-entry-pulse {
-  0% { box-shadow: 0 0 8px rgba(154, 123, 60, 0.2); }
-  50% { box-shadow: 0 0 16px rgba(154, 123, 60, 0.45), inset 0 0 6px rgba(154, 123, 60, 0.25); }
-  100% { box-shadow: 0 0 8px rgba(154, 123, 60, 0.2); }
+  0% { box-shadow: 0 0 4px rgba(154, 123, 60, 0.15); }
+  50% { box-shadow: 0 0 10px rgba(154, 123, 60, 0.3), inset 0 0 4px rgba(154, 123, 60, 0.15); }
+  100% { box-shadow: 0 0 4px rgba(154, 123, 60, 0.15); }
 }
 
 /* ===== RESPONSIVE ADJUSTMENTS ===== */

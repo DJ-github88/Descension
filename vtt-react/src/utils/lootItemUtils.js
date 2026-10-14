@@ -141,3 +141,57 @@ export const processCreaturesLoot = (creatures, itemStore = null) => {
 
   return creatures.map(creature => processCreatureLoot(creature, itemStore));
 };
+
+/**
+ * Extract a concise, thematic excerpt (1 sentence or summary) from an item
+ * for display in loot notifications and loot logs without rendering the full tooltip.
+ * @param {Object} item - Item object
+ * @returns {string} - Short thematic flavor or description sentence
+ */
+export const getItemThematicExcerpt = (item) => {
+  if (!item) return '';
+
+  // 1. Direct flavor text
+  const flavor = item.flavorText || item.flavor;
+  if (typeof flavor === 'string' && flavor.trim()) {
+    const cleanFlavor = flavor.trim().replace(/<[^>]*>?/gm, '');
+    const firstSentence = cleanFlavor.match(/^([^.!?]+[.!?])/);
+    return firstSentence ? firstSentence[1].trim() : (cleanFlavor.length > 85 ? cleanFlavor.slice(0, 82) + '…' : cleanFlavor);
+  }
+
+  // 2. Item description (extract first clean sentence)
+  const desc = item.description;
+  if (typeof desc === 'string' && desc.trim()) {
+    const cleanDesc = desc.trim().replace(/<[^>]*>?/gm, '');
+    const firstSentence = cleanDesc.match(/^([^.!?]+[.!?])/);
+    if (firstSentence && firstSentence[1].trim().length >= 8) {
+      return firstSentence[1].trim();
+    }
+    return cleanDesc.length > 85 ? cleanDesc.slice(0, 82) + '…' : cleanDesc;
+  }
+
+  // 3. Fallback: Thematic subtitle based on item type and stats
+  const type = (item.type || '').toLowerCase();
+  const subtype = (item.subtype || item.subType || '').replace(/_/g, ' ').toLowerCase();
+
+  if (type === 'weapon' && item.weaponStats?.baseDamage) {
+    const dmg = item.weaponStats.baseDamage;
+    const dmgStr = `${dmg.diceCount || 1}${dmg.diceType || 'd6'}${dmg.bonusDamage ? `+${dmg.bonusDamage}` : ''} ${dmg.damageType || 'physical'} damage`;
+    return subtype ? `${subtype.charAt(0).toUpperCase() + subtype.slice(1)} · ${dmgStr}` : dmgStr;
+  }
+
+  if (type === 'armor' && item.armorStats) {
+    const ac = item.armorStats.armorBonus ? `+${item.armorStats.armorBonus} AC` : '';
+    return [subtype ? subtype.charAt(0).toUpperCase() + subtype.slice(1) : 'Armor', ac].filter(Boolean).join(' · ');
+  }
+
+  if (subtype) {
+    return subtype.charAt(0).toUpperCase() + subtype.slice(1);
+  }
+
+  if (type && type !== 'miscellaneous') {
+    return type.charAt(0).toUpperCase() + type.slice(1);
+  }
+
+  return '';
+};

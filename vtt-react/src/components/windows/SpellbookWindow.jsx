@@ -143,7 +143,7 @@ const SpellbookWindow = ({ isOpen = true, onClose = () => { } }) => {
                     />
                 }
     >
-      <div className={`spellbook-content ${activeTab !== 'collections' ? 'spellbook-layout' : ''}`} style={{ position: 'relative', height: '100%' }}>
+      <div className={`spellbook-content ${activeTab !== 'collections' ? 'spellbook-layout' : ''}`} style={{ position: 'relative', height: '100%', padding: 0, margin: 0, borderRadius: 0 }}>
         {renderContent()}
       </div>
     </MythrillWindow>

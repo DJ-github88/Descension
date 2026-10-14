@@ -2976,11 +2976,11 @@
 }
 
 .character-view-content .inventory-cell.occupied.encumbered {
-  background: linear-gradient(135deg, #f5f0d4 0%, #e8e2d4 100%) !important;
+  background: linear-gradient(135deg, #f7edcb 0%, #ecdcb4 100%) !important;
 }
 
 .character-view-content .inventory-cell.occupied.overencumbered {
-  background: linear-gradient(135deg, #f0e0d4 0%, #e8d0c0 100%) !important;
+  background: linear-gradient(135deg, #f7dcd6 0%, #e9c3ba 100%) !important;
 }
 
 .character-view-content .item-icon {

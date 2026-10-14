@@ -369,34 +369,49 @@ const ProphecyStep = ({ stepNumber, totalSteps, onNext, onPrevious, isActive }) 
     return old;
   };
 
-  const [prophecyOptions, setProphecyOptions] = useState(() => {
+  const hasProphecy = Boolean(state.prophecyOptions && state.prophecyOptions.enabled !== false);
+
+  const [cachedOptions, setCachedOptions] = useState(() => {
     const raw = state.prophecyOptions;
-    if (!raw) {
-      return {
-        rangeDice: 'd8+d6',
-        resolutionDie: 'd6',
-        prophesied: emptyOutcome(3),
-        base: emptyOutcome(1),
-        outside: { ...emptyOutcome(0), backlash: '1d6 necrotic to self' }
-      };
+    if (raw && raw.rangeDice) {
+      return migrateOldFormat(raw);
     }
-    return migrateOldFormat(raw);
+    return {
+      rangeDice: 'd8+d6',
+      resolutionDie: 'd6',
+      prophesied: emptyOutcome(3),
+      base: emptyOutcome(1),
+      outside: { ...emptyOutcome(0), backlash: '1d6 necrotic to self' }
+    };
   });
 
-  useEffect(() => {
-    dispatch(actionCreators.updateProphecyConfig(prophecyOptions));
-  }, [prophecyOptions, dispatch]);
+  const activeOptions = hasProphecy && state.prophecyOptions ? state.prophecyOptions : cachedOptions;
+
+  const handleToggleProphecy = () => {
+    if (hasProphecy) {
+      dispatch(actionCreators.updateProphecyConfig(null));
+    } else {
+      const next = { ...cachedOptions, enabled: true };
+      setCachedOptions(next);
+      dispatch(actionCreators.updateProphecyConfig(next));
+    }
+  };
 
   const handleOptionChange = (field, value) => {
-    setProphecyOptions(prev => ({ ...prev, [field]: value }));
+    const next = { ...activeOptions, [field]: value, enabled: true };
+    setCachedOptions(next);
+    dispatch(actionCreators.updateProphecyConfig(next));
   };
 
   const updateOutcome = (tier, outcome) => {
-    setProphecyOptions(prev => ({ ...prev, [tier]: outcome }));
+    const next = { ...activeOptions, [tier]: outcome, enabled: true };
+    setCachedOptions(next);
+    dispatch(actionCreators.updateProphecyConfig(next));
   };
 
   const isStepValid = () => {
-    return !!prophecyOptions.rangeDice && !!prophecyOptions.resolutionDie;
+    if (!hasProphecy) return true;
+    return !!activeOptions.rangeDice && !!activeOptions.resolutionDie;
   };
 
   const handleNext = () => {
@@ -433,9 +448,32 @@ const ProphecyStep = ({ stepNumber, totalSteps, onNext, onPrevious, isActive }) 
             <h3>Doomsayer Prophecy</h3>
             <p className="mechanics-subtitle">Define the fate and resolution of this spell</p>
           </div>
+          <div className="mechanics-toggle-pathfinder">
+            <label className="pf-toggle-switch">
+              <input
+                type="checkbox"
+                checked={hasProphecy}
+                onChange={handleToggleProphecy}
+              />
+              <span className="pf-toggle-slider"></span>
+            </label>
+            <span className="pf-toggle-label">{hasProphecy ? 'Prophecy Enabled' : 'No Prophecy'}</span>
+          </div>
         </div>
 
-        <div className="mechanics-configuration-section">
+        {!hasProphecy ? (
+          <div className="prophecy-disabled-card">
+            <div className="prophecy-disabled-icon-wrapper">
+              <FontAwesomeIcon icon={faEye} className="prophecy-disabled-icon" />
+            </div>
+            <h4>Prophecy Resolution Disabled</h4>
+            <p>
+              This spell uses standard roll resolution. Toggle on above to configure
+              Doomsayer prophecy prediction windows, base/prophesied outcomes, and backlash.
+            </p>
+          </div>
+        ) : (
+          <div className="mechanics-configuration-section">
           <div className="config-section">
             <div className="config-section-header">
               <FontAwesomeIcon icon={faEye} className="config-icon" />
@@ -447,7 +485,7 @@ const ProphecyStep = ({ stepNumber, totalSteps, onNext, onPrevious, isActive }) 
               <div className="config-description">The dice combination used to determine the prophecy window</div>
               <div className="pf-select-wrapper">
                 <select
-                  value={prophecyOptions.rangeDice}
+                  value={activeOptions.rangeDice}
                   onChange={(e) => handleOptionChange('rangeDice', e.target.value)}
                   className="pf-config-select"
                 >
@@ -466,7 +504,7 @@ const ProphecyStep = ({ stepNumber, totalSteps, onNext, onPrevious, isActive }) 
               <div className="config-description">The die rolled against the prediction range</div>
               <div className="pf-select-wrapper">
                 <select
-                  value={prophecyOptions.resolutionDie}
+                  value={activeOptions.resolutionDie}
                   onChange={(e) => handleOptionChange('resolutionDie', e.target.value)}
                   className="pf-config-select"
                 >
@@ -483,7 +521,7 @@ const ProphecyStep = ({ stepNumber, totalSteps, onNext, onPrevious, isActive }) 
             <OutcomeConfigPanel
               title="Prophesied Outcome (Prediction Hit)"
               tier="prophesied"
-              outcome={prophecyOptions.prophesied || emptyOutcome(3)}
+              outcome={activeOptions.prophesied || emptyOutcome(3)}
               onChange={(o) => updateOutcome('prophesied', o)}
               tierClass="prophesied"
             />
@@ -491,7 +529,7 @@ const ProphecyStep = ({ stepNumber, totalSteps, onNext, onPrevious, isActive }) 
             <OutcomeConfigPanel
               title="Base Outcome (Prediction Miss)"
               tier="base"
-              outcome={prophecyOptions.base || emptyOutcome(1)}
+              outcome={activeOptions.base || emptyOutcome(1)}
               onChange={(o) => updateOutcome('base', o)}
               tierClass="base"
             />
@@ -503,8 +541,8 @@ const ProphecyStep = ({ stepNumber, totalSteps, onNext, onPrevious, isActive }) 
                 <label>Backlash:</label>
                 <input
                   type="text"
-                  value={prophecyOptions.outside?.backlash || ''}
-                  onChange={(e) => updateOutcome('outside', { ...(prophecyOptions.outside || emptyOutcome(0)), backlash: e.target.value })}
+                  value={activeOptions.outside?.backlash || ''}
+                  onChange={(e) => updateOutcome('outside', { ...(activeOptions.outside || emptyOutcome(0)), backlash: e.target.value })}
                   placeholder="e.g. 1d6 necrotic to self"
                   className="pf-config-input-wide"
                 />
@@ -516,8 +554,8 @@ const ProphecyStep = ({ stepNumber, totalSteps, onNext, onPrevious, isActive }) 
                   type="number"
                   min="0"
                   max="20"
-                  value={prophecyOptions.outside?.havocGain !== undefined ? prophecyOptions.outside.havocGain : 0}
-                  onChange={(e) => updateOutcome('outside', { ...(prophecyOptions.outside || emptyOutcome(0)), havocGain: parseInt(e.target.value) || 0 })}
+                  value={activeOptions.outside?.havocGain !== undefined ? activeOptions.outside.havocGain : 0}
+                  onChange={(e) => updateOutcome('outside', { ...(activeOptions.outside || emptyOutcome(0)), havocGain: parseInt(e.target.value) || 0 })}
                   className="pf-config-input-small"
                 />
               </div>
@@ -525,8 +563,8 @@ const ProphecyStep = ({ stepNumber, totalSteps, onNext, onPrevious, isActive }) 
               <div className="config-row-pf">
                 <label>Description:</label>
                 <textarea
-                  value={prophecyOptions.outside?.description || ''}
-                  onChange={(e) => updateOutcome('outside', { ...(prophecyOptions.outside || emptyOutcome(0)), description: e.target.value })}
+                  value={activeOptions.outside?.description || ''}
+                  onChange={(e) => updateOutcome('outside', { ...(activeOptions.outside || emptyOutcome(0)), description: e.target.value })}
                   placeholder="Description of the backlash..."
                   className="pf-config-textarea"
                   rows={2}
@@ -535,6 +573,7 @@ const ProphecyStep = ({ stepNumber, totalSteps, onNext, onPrevious, isActive }) 
             </div>
           </div>
         </div>
+        )}
       </div>
     </WizardStep>
   );

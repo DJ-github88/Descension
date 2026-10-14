@@ -23,44 +23,44 @@ const CombatControlPanel = () => {
             bottom: '20px',
             left: '50%',
             transform: 'translateX(-50%)',
-            background: 'linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%)',
-            border: '3px solid #8B4513',
-            borderRadius: '12px',
-            padding: '15px 20px',
+            background: 'var(--adventure-page, #f8f5ee)',
+            border: '1px solid #9b835e',
+            borderRadius: '3px',
+            padding: '14px 20px',
             zIndex: 9998,
-            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.3)',
-            minWidth: '400px',
-            textAlign: 'center'
+            boxShadow: '0 8px 24px rgba(30, 21, 14, 0.35)',
+            minWidth: '380px',
+            textAlign: 'center',
+            fontFamily: 'Cinzel, Georgia, serif'
         }}>
             <div style={{
-                color: '#5a1e12',
-                fontWeight: 'bold',
-                fontSize: '16px',
-                marginBottom: '10px'
+                color: 'var(--adventure-ink, #34251a)',
+                fontWeight: '600',
+                fontSize: '15px',
+                marginBottom: '8px',
+                letterSpacing: '0.6px'
             }}>
                 Combat Round {round}
             </div>
 
             {currentCombatant ? (
                 <div style={{
-                    color: '#5a1e12',
-                    marginBottom: '15px',
-                    fontSize: '14px'
+                    marginBottom: '12px'
                 }}>
-                    <div style={{ fontWeight: 'bold' }}>
+                    <div style={{ fontWeight: '700', fontSize: '14px', color: 'var(--adventure-seal, #663c32)' }}>
                         Current Turn: {currentCombatant.name}
                     </div>
-                    <div style={{ fontSize: '12px', marginTop: '5px' }}>
+                    <div style={{ fontSize: '13px', marginTop: '4px', fontFamily: 'Crimson Text, Georgia, serif', color: 'var(--adventure-muted, #68533e)' }}>
                         Initiative: {currentCombatant.initiative} | 
                         AP: {currentCombatant.currentActionPoints}/{currentCombatant.maxActionPoints}
                     </div>
                 </div>
             ) : (
                 <div style={{
-                    color: '#ff4444',
-                    marginBottom: '15px',
-                    fontSize: '14px',
-                    fontWeight: 'bold'
+                    color: 'var(--adventure-seal, #663c32)',
+                    marginBottom: '12px',
+                    fontSize: '13px',
+                    fontFamily: 'Crimson Text, Georgia, serif'
                 }}>
                     No combatants found!
                 </div>
@@ -75,22 +75,27 @@ const CombatControlPanel = () => {
                     <button
                         onClick={nextTurn}
                         style={{
-                            padding: '8px 16px',
-                            background: 'linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%)',
-                            border: '2px solid #8B4513',
-                            borderRadius: '6px',
-                            color: '#5a1e12',
-                            fontWeight: 'bold',
+                            padding: '6px 16px',
+                            background: 'var(--adventure-paper, #f1ece1)',
+                            border: '1px solid var(--adventure-rule, #c4baa6)',
+                            borderRadius: '3px',
+                            color: 'var(--adventure-ink, #34251a)',
+                            fontWeight: '600',
                             cursor: 'pointer',
-                            fontSize: '14px'
+                            fontSize: '12px',
+                            fontFamily: 'Cinzel, Georgia, serif',
+                            letterSpacing: '0.4px',
+                            transition: 'all 0.15s ease'
                         }}
                         onMouseOver={(e) => {
-                            e.target.style.transform = 'translateY(-2px)';
-                            e.target.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.2)';
+                            e.target.style.background = 'var(--adventure-panel, #e8e2d4)';
+                            e.target.style.borderColor = 'var(--adventure-seal, #663c32)';
+                            e.target.style.color = 'var(--adventure-seal, #663c32)';
                         }}
                         onMouseOut={(e) => {
-                            e.target.style.transform = 'translateY(0)';
-                            e.target.style.boxShadow = 'none';
+                            e.target.style.background = 'var(--adventure-paper, #f1ece1)';
+                            e.target.style.borderColor = 'var(--adventure-rule, #c4baa6)';
+                            e.target.style.color = 'var(--adventure-ink, #34251a)';
                         }}
                     >
                         Next Turn
@@ -100,22 +105,25 @@ const CombatControlPanel = () => {
                 <button
                     onClick={endCombat}
                     style={{
-                        padding: '8px 16px',
-                        background: 'linear-gradient(145deg, #ff6b6b 0%, #ff5252 30%, #f44336 70%, #d32f2f 100%)',
-                        border: '2px solid #8B0000',
-                        borderRadius: '6px',
-                        color: 'white',
-                        fontWeight: 'bold',
+                        padding: '6px 16px',
+                        background: 'var(--adventure-seal, #663c32)',
+                        border: '1px solid #4a2820',
+                        borderRadius: '3px',
+                        color: '#fdfaf3',
+                        fontWeight: '600',
                         cursor: 'pointer',
-                        fontSize: '14px'
+                        fontSize: '12px',
+                        fontFamily: 'Cinzel, Georgia, serif',
+                        letterSpacing: '0.4px',
+                        transition: 'all 0.15s ease'
                     }}
                     onMouseOver={(e) => {
-                        e.target.style.transform = 'translateY(-2px)';
-                        e.target.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.2)';
+                        e.target.style.background = '#7a463a';
+                        e.target.style.borderColor = '#5a2e24';
                     }}
                     onMouseOut={(e) => {
-                        e.target.style.transform = 'translateY(0)';
-                        e.target.style.boxShadow = 'none';
+                        e.target.style.background = 'var(--adventure-seal, #663c32)';
+                        e.target.style.borderColor = '#4a2820';
                     }}
                 >
                     End Combat
@@ -124,9 +132,10 @@ const CombatControlPanel = () => {
 
             {turnOrder.length > 0 && (
                 <div style={{
-                    marginTop: '10px',
+                    marginTop: '8px',
                     fontSize: '11px',
-                    color: '#666'
+                    fontFamily: 'Crimson Text, Georgia, serif',
+                    color: 'var(--adventure-muted, #68533e)'
                 }}>
                     Turn {currentTurnIndex + 1} of {turnOrder.length}
                 </div>

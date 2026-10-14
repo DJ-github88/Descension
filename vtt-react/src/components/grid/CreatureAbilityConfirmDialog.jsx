@@ -6,8 +6,8 @@ import './CreatureAbilityConfirmDialog.css';
 /**
  * CreatureAbilityConfirmDialog
  * Confirmation popup when the GM clicks an ability in the hover fan-out.
- * Shows the ability cost vs the creature token's live resources and deducts
- * AP + mana from that token's state on confirm.
+ * Displays authored cost and invokes the owning caller. P8 unsupported use is
+ * explicitly notice-only; this presentation component never spends resources.
  */
 const CreatureAbilityConfirmDialog = ({
   isOpen,
@@ -20,6 +20,7 @@ const CreatureAbilityConfirmDialog = ({
   maxAP = 0,
   maxMana = 0,
   rollText = null,
+  noticeOnly = false,
   onConfirm,
   onCancel
 }) => {
@@ -45,7 +46,7 @@ const CreatureAbilityConfirmDialog = ({
 
   const hasEnoughAP = effectiveAP >= apCost;
   const hasEnoughMana = effectiveMana >= manaCost;
-  const canAfford = hasEnoughAP && hasEnoughMana;
+  const canAfford = noticeOnly || (hasEnoughAP && hasEnoughMana);
 
   const costParts = [];
   if (apCost > 0) costParts.push(`${apCost} AP`);
@@ -71,7 +72,7 @@ const CreatureAbilityConfirmDialog = ({
         onMouseDown={(e) => e.stopPropagation()}
       >
         <div className="ability-confirm-header">
-          <h3>Use Ability?</h3>
+          <h3>{noticeOnly ? 'Manual ability notice' : 'Use Ability?'}</h3>
           <button
             type="button"
             className="ability-confirm-close"
@@ -84,6 +85,7 @@ const CreatureAbilityConfirmDialog = ({
         </div>
 
         <div className="ability-confirm-content">
+          {noticeOnly && <p>Manual notice only / no target consequence. This does not roll, spend resources, resolve effects or create an accepted action. Use existing manual resource controls for the GM's adjudicated outcome.</p>}
           <div className="ability-confirm-creature">
             <strong>{String(creatureName).toUpperCase()}</strong>
             <span className="ability-confirm-sub">wants to use</span>
@@ -104,7 +106,7 @@ const CreatureAbilityConfirmDialog = ({
             <div className="ability-confirm-roll">{rollText}</div>
           )}
 
-          <div className="ability-confirm-resources">
+          {!noticeOnly && <div className="ability-confirm-resources">
             <div className={`resource-row ${hasEnoughAP ? '' : 'insufficient'}`}>
               <span>Action Points:</span>
               <span>{effectiveAP} / {maxAP} {apCost > 0 ? `→ ${Math.max(0, effectiveAP - apCost)}` : ''}</span>
@@ -113,7 +115,7 @@ const CreatureAbilityConfirmDialog = ({
               <span>Mana:</span>
               <span>{effectiveMana} / {maxMana} {manaCost > 0 ? `→ ${Math.max(0, effectiveMana - manaCost)}` : ''}</span>
             </div>
-          </div>
+          </div>}
 
           {!canAfford && (
             <div className="ability-confirm-warning">
@@ -141,7 +143,7 @@ const CreatureAbilityConfirmDialog = ({
             onClick={onConfirm}
             disabled={!canAfford}
           >
-            {canAfford ? `Use ${ability.name} (${costLabel})` : 'Insufficient Resources'}
+            {noticeOnly ? 'Post manual notice only' : canAfford ? `Use ${ability.name} (${costLabel})` : 'Insufficient Resources'}
           </button>
         </div>
       </div>

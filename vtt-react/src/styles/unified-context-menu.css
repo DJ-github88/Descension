@@ -681,7 +681,9 @@
 }
 
 /* Grid buttons should still be full width */
-.unified-context-menu .menu-buttons[style*="grid"] button {
+/* (perf) was .menu-buttons[style*="grid"] button: an ancestor [style*=] matcher
+   restyles every button under any element whose inline style changes. */
+.unified-context-menu .menu-buttons.menu-buttons--grid button {
   width: 100%;
 }
 

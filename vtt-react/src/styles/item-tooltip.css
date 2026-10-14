@@ -339,10 +339,6 @@
     text-shadow: 0 1px 1px rgba(255, 255, 255, 0.2);
 }
 
-/* Override inline styles for damage displays */
-.item-tooltip div[style*="color: #ffffff"] span[style*="damage"] {
-    color: #8b0000 !important;
-}
 
 /* Description styling - Auto-adjusts size based on content */
 .item-description {
@@ -1137,10 +1133,12 @@
 }
 
 /* Override inline styles for stats and combat info - green stats should be brown */
+/* (perf) the "div[...] span" variants were dropped: a [style*=] matcher on an
+   ancestor restyles every span under any element whose inline style changes.
+   Spans inherit this colour from the div; none of the 1,022 library item
+   tooltips had a span inside a green div. */
 .item-tooltip div[style*="color: rgb(30, 255, 0)"],
-.item-tooltip div[style*="color: #1eff00"],
-.item-tooltip div[style*="color: rgb(30, 255, 0)"] span,
-.item-tooltip div[style*="color: #1eff00"] span {
+.item-tooltip div[style*="color: #1eff00"] {
     color: #5a1e12 !important;
     /* Pathfinder brown-dark for stats */
 }
@@ -1162,11 +1160,6 @@
     /* Pathfinder gold */
 }
 
-/* Override damage type colors in weapon stats */
-.item-tooltip div[style*="color"] span[style*="damage"] {
-    color: #8b0000 !important;
-    /* Deep red for damage */
-}
 
 /* Base stat and combat stat overrides */
 .base-stat,
@@ -1195,10 +1188,6 @@
     /* Rich brown */
 }
 
-.item-tooltip>div[style*="display: flex"][style*="justifyContent: space-between"] span {
-    color: #6b5230 !important;
-    /* Rich brown */
-}
 
 .item-subtype {
     color: #a08c70;

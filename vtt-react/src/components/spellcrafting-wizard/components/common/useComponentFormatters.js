@@ -331,9 +331,11 @@ const useComponentFormatters = ({ spell, library, className }) => {
       case 'COMBO_POINTS':
         systemType = 'Combo Points';
         if (config.type === 'builder') {
-          mechanicsText = 'Generates 1 combo point';
+          const genAmount = config.comboOptions?.generationAmount || 1;
+          mechanicsText = `Generates ${genAmount} combo point${Number(genAmount) === 1 ? '' : 's'}`;
         } else if (config.type === 'spender') {
-          mechanicsText = `Requires ${config.thresholdValue} combo points`;
+          const count = config.thresholdValue || 1;
+          mechanicsText = `Requires ${count} combo point${Number(count) === 1 ? '' : 's'}`;
           if (config.comboOptions?.consumptionRule === 'all') {
             mechanicsText += ' (consumes all)';
           } else if (config.comboOptions?.consumptionRule === 'none') {
@@ -448,19 +450,35 @@ const useComponentFormatters = ({ spell, library, className }) => {
           }
           break;
 
-        case 'STATE_REQUIREMENTS':
+        case 'STATE_REQUIREMENTS': {
           systemType = 'State Requirements';
-          const resourceType = config.stateOptions?.resourceType || 'health';
-          const thresholdType = config.stateOptions?.thresholdType || 'below';
-          const thresholdValue = config.stateOptions?.thresholdValue || 50;
-          const modifiedFormula = config.stateOptions?.modifiedFormula;
-          const capitalizedResource = resourceType.charAt(0).toUpperCase() + resourceType.slice(1);
+          const subject = config.stateOptions?.targetType === 'caster' ? 'caster' : 'target';
+          if (config.type === 'combat_state') {
+            const combatState = config.stateOptions?.combatState || 'in_combat';
+            const stateLabels = {
+              'in_combat': 'in combat',
+              'out_of_combat': 'out of combat',
+              'stealthed': 'stealthed',
+              'surprised': 'surprised',
+              'bloodied': 'bloodied'
+            };
+            const label = stateLabels[combatState] || combatState.replace('_', ' ');
+            mechanicsText = `Enhanced when ${subject} is ${label}`;
+          } else {
+            const isHealth = config.type === 'health_threshold';
+            const rawResource = isHealth ? 'health' : (config.stateOptions?.resourceType || 'mana');
+            const resourceType = rawResource === 'health' && !isHealth ? 'mana' : rawResource;
+            const thresholdType = config.stateOptions?.thresholdType || 'below';
+            const thresholdValue = config.stateOptions?.thresholdValue ?? (isHealth ? 20 : 50);
+            const capitalizedResource = resourceType.charAt(0).toUpperCase() + resourceType.slice(1);
 
-          mechanicsText = `Enhanced when target ${capitalizedResource} is ${thresholdType} ${thresholdValue}%`;
-          if (modifiedFormula) {
-            mechanicsText += ` (formula becomes: ${modifiedFormula})`;
+            mechanicsText = `Enhanced when ${subject} ${capitalizedResource} is ${thresholdType} ${thresholdValue}%`;
+          }
+          if (config.stateOptions?.modifiedFormula) {
+            mechanicsText += ` (formula becomes: ${config.stateOptions.modifiedFormula})`;
           }
           break;
+        }
 
         case 'FORM_SYSTEM':
           systemType = 'Form System';
@@ -491,12 +509,23 @@ const useComponentFormatters = ({ spell, library, className }) => {
           break;
 
         case 'PROPHECY':
-          return null;
+        case 'PROPHECY_SYSTEM':
+          systemType = 'Prophecy';
+          if (config.type === 'prophecy_builder') {
+            const range = config.prophecyOptions?.rangeDice || 'd8+d6';
+            const res = config.prophecyOptions?.resolutionDie || 'd6';
+            mechanicsText = `Sets Prophecy (${range} vs ${res})`;
+          } else if (config.type === 'prophecy_detonator') {
+            mechanicsText = 'Resolves active prophecies on target';
+          } else {
+            mechanicsText = 'Prophecy mechanic';
+          }
+          break;
 
         default:
-          systemType = config.system.replace('_', ' ');
-          mechanicsText = `${config.system.replace('_', ' ').toLowerCase()} mechanic`;
-    }
+          systemType = config.system ? config.system.replace('_', ' ') : 'Mechanic';
+          mechanicsText = `${systemType.toLowerCase()} mechanic`;
+      }
 
     if (mechanicsText) {
       return {

@@ -1,54 +1,66 @@
+/* ===== PROPHECY SUMMARY (Calm TTRPG Vibe) ===== */
 .prophecy-summary {
-  margin: var(--my-space-3) 0;
-  border: var(--my-border-width) solid var(--my-brown-medium);
-  border-radius: var(--my-border-radius);
-  background: var(--my-gradient-parchment-light);
-  box-shadow: var(--my-shadow-sm);
+  margin: 8px 0;
+  border: 1px solid var(--adventure-rule, #c4baa6);
+  border-radius: 3px;
+  background: var(--adventure-paper, #f1ece1);
+  box-shadow: none;
   overflow: hidden;
-  font-family: var(--my-font-body);
-  color: var(--my-text-primary);
+  font-family: 'Crimson Text', Georgia, serif;
+  color: var(--adventure-ink, #34251a);
 }
 
 .prophecy-header {
-  padding: var(--my-space-2) var(--my-space-3);
-  background: var(--my-gradient-button);
+  padding: 8px 12px;
+  background: var(--adventure-paper, #f1ece1);
   display: flex;
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
-  border-bottom: var(--my-border-width) solid var(--my-brown-medium);
+  border-bottom: 1px solid var(--adventure-rule, #c4baa6);
+  user-select: none;
+  transition: background-color 160ms ease;
+}
+
+.prophecy-header:hover {
+  background: var(--adventure-panel, #e8e2d4);
 }
 
 .prophecy-title {
   display: flex;
   align-items: center;
-  gap: var(--my-space-2);
-  font-weight: var(--my-font-bold);
-  font-size: var(--my-text-sm);
-  letter-spacing: 0.5px;
+  gap: 8px;
+  font-family: 'Cinzel', Georgia, serif;
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: var(--my-brown-dark);
+  color: var(--adventure-ink, #34251a);
 }
 
 .prophecy-icon {
-  color: var(--my-red-dark, #8b0000);
-  filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.2));
+  color: var(--adventure-seal, #663c32);
+  font-size: 12px;
 }
 
 .prophecy-die-info {
-  font-size: var(--my-text-xs);
-  color: var(--my-text-secondary);
-  font-weight: var(--my-font-normal, 400);
-  margin-left: 4px;
+  font-family: 'Crimson Text', Georgia, serif;
+  font-size: 0.85rem;
+  color: var(--adventure-muted, #68533e);
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+  margin-left: 2px;
 }
 
 .prophecy-toggle {
-  font-size: var(--my-text-xs);
-  color: var(--my-brown-medium);
+  font-size: 9px;
+  color: var(--adventure-muted, #68533e);
 }
 
 .prophecy-body {
   padding: 0;
+  background: var(--adventure-page, #f8f5ee);
 }
 
 .prophecy-track {
@@ -57,14 +69,14 @@
 }
 
 .prophecy-outcome {
-  padding: var(--my-space-2) var(--my-space-3);
-  border-bottom: var(--my-border-width) solid var(--my-brown-light);
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--adventure-rule, #c4baa6);
   display: grid;
-  grid-template-columns: 120px 1fr;
-  gap: var(--my-space-3);
+  grid-template-columns: 110px 1fr;
+  gap: 12px;
   justify-items: start;
   align-items: flex-start;
-  transition: background 0.2s ease;
+  transition: background 160ms ease;
 }
 
 .prophecy-outcome:last-child {
@@ -72,43 +84,52 @@
 }
 
 .prophecy-outcome:hover {
-  background: rgba(0, 0, 0, 0.03);
+  background: rgba(102, 60, 50, 0.03);
 }
 
 .outcome-meta {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  padding-top: 2px;
+  padding-top: 1px;
 }
 
 .outcome-label {
-  font-weight: var(--my-font-bold);
-  font-size: var(--my-text-sm);
+  font-family: 'Cinzel', Georgia, serif;
+  font-weight: 700;
+  font-size: 0.78rem;
+  letter-spacing: 0.03em;
   text-transform: uppercase;
 }
 
 .outcome-range {
-  font-size: var(--my-text-xs);
-  color: var(--my-text-muted);
+  font-family: 'Crimson Text', Georgia, serif;
+  font-size: 0.78rem;
+  color: var(--adventure-muted, #68533e);
+  font-style: italic;
+  margin-top: 1px;
 }
 
 .prophesied .outcome-label {
-  color: var(--my-gold-dark, #8a6c32);
+  color: var(--adventure-ink, #34251a);
 }
 
 .base .outcome-label {
-  color: var(--my-brown-dark);
+  color: var(--adventure-ink, #34251a);
 }
 
 .outside .outcome-label {
-  color: var(--my-red-dark, #8b0000);
+  color: var(--adventure-seal, #663c32);
+}
+
+.outside.prophecy-outcome {
+  background: rgba(102, 60, 50, 0.02);
 }
 
 .outcome-content {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 4px;
   align-items: flex-start;
   justify-content: flex-start;
   text-align: left;
@@ -119,69 +140,78 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  gap: var(--my-space-2);
-  font-size: var(--my-text-sm);
-  font-weight: var(--my-font-semibold);
+  gap: 6px;
+  font-size: 0.92rem;
+  font-family: 'Crimson Text', Georgia, serif;
   text-align: left;
+  color: var(--adventure-ink, #34251a);
 }
 
 .outcome-mechanic svg {
   font-size: 11px;
-  width: 14px;
+  width: 13px;
   text-align: center;
   flex-shrink: 0;
+  color: var(--adventure-muted, #68533e);
 }
 
 .outcome-mechanic.damage {
-  color: var(--my-red-dark);
+  color: var(--adventure-ink, #34251a);
+  font-weight: 600;
 }
 
 .outcome-mechanic.havoc {
-  color: var(--my-purple-dark, #4b0082);
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--adventure-muted, #68533e);
+  letter-spacing: 0.02em;
+}
+
+.outcome-mechanic.havoc svg {
+  color: var(--adventure-brass, #c4ab79);
 }
 
 .outcome-mechanic.backlash {
-  color: var(--my-orange-dark, #d2691e);
+  color: var(--adventure-seal, #663c32);
+  font-weight: 600;
+}
+
+.outcome-mechanic.backlash svg {
+  color: var(--adventure-seal, #663c32);
 }
 
 .outcome-mechanic.effect {
-  color: var(--my-red-dark);
+  color: var(--adventure-ink, #34251a);
   align-items: flex-start;
-  margin-top: 4px;
-  background: rgba(139, 0, 0, 0.04);
-  padding: 4px 8px;
-  border-radius: 4px;
-  border-left: 2px solid var(--my-red-dark);
-}
-
-.outcome-mechanic.effect svg {
   margin-top: 2px;
-  font-size: 11px;
+  background: transparent;
+  padding: 0;
+  border: none;
 }
 
 .effect-details {
   display: flex;
   flex-direction: column;
-  gap: 1px;
+  gap: 2px;
   align-items: flex-start;
 }
 
 .effect-name {
-  font-weight: var(--my-font-bold);
-  font-size: var(--my-text-base);
-  color: var(--my-red-dark);
+  font-family: 'Cinzel', Georgia, serif;
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--adventure-ink, #34251a);
   line-height: 1.2;
-  margin-bottom: 2px;
 }
 
 .effect-duration {
-  font-size: 11px;
-  color: var(--my-text-secondary);
-  font-weight: var(--my-font-normal);
+  font-size: 0.82rem;
+  color: var(--adventure-muted, #68533e);
   font-style: italic;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
 }
 
 .effect-stat-mods {
@@ -192,90 +222,87 @@
 }
 
 .stat-mod-badge {
-  background: var(--my-brown-dark, #3e2723);
-  color: var(--my-gold-light, #fff8e1);
+  background: var(--adventure-panel, #e8e2d4);
+  color: var(--adventure-ink, #34251a);
+  border: 1px solid var(--adventure-rule, #c4baa6);
   padding: 1px 6px;
-  border-radius: 4px;
-  font-size: 10px;
-  font-weight: var(--my-font-bold);
+  border-radius: 2px;
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: 9.5px;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+  letter-spacing: 0.3px;
+  box-shadow: none;
   display: inline-block;
 }
 
 .effect-dot {
-  font-size: 11px;
-  color: var(--my-red-medium);
-  font-weight: var(--my-font-medium);
+  font-size: 0.82rem;
+  color: var(--adventure-seal, #663c32);
   font-style: italic;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.effect-tag {
-  font-size: 10px;
-  font-weight: var(--my-font-semibold);
   display: flex;
   align-items: center;
   gap: 5px;
-  padding: 1px 6px;
-  border-radius: 3px;
-  margin-top: 1px;
+}
+
+.effect-tag {
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: 9.5px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 7px;
+  border-radius: 2px;
+  margin-top: 2px;
   letter-spacing: 0.3px;
+  border: 1px solid var(--adventure-rule, #c4baa6);
+  background: var(--adventure-panel, #e8e2d4);
+  color: var(--adventure-ink, #34251a);
 }
 
 .effect-tag.healing-block {
-  color: var(--my-red-dark, #8b0000);
-  background: rgba(139, 0, 0, 0.1);
-  border: 1px solid rgba(139, 0, 0, 0.2);
+  color: var(--adventure-seal, #663c32);
+  border-color: rgba(102, 60, 50, 0.3);
+  background: rgba(102, 60, 50, 0.05);
 }
 
 .effect-tag.bonus-damage {
-  color: var(--my-orange-dark, #d2691e);
-  background: rgba(210, 105, 30, 0.1);
-  border: 1px solid rgba(210, 105, 30, 0.2);
+  color: var(--adventure-ink, #34251a);
 }
 
 .effect-tag.save-check {
-  color: var(--my-blue-dark, #1a237e);
-  background: rgba(26, 35, 126, 0.08);
-  border: 1px solid rgba(26, 35, 126, 0.15);
+  color: var(--adventure-muted, #68533e);
 }
 
 .effect-tag.instant-kill {
-  color: var(--my-red-dark, #8b0000);
-  background: rgba(139, 0, 0, 0.15);
-  border: 1px solid rgba(139, 0, 0, 0.3);
-  font-weight: var(--my-font-bold);
-  text-transform: uppercase;
+  color: var(--adventure-seal, #663c32);
+  border-color: var(--adventure-seal, #663c32);
+  background: rgba(102, 60, 50, 0.08);
 }
 
 .effect-tag.cascade {
-  color: var(--my-purple-dark, #4b0082);
-  background: rgba(75, 0, 130, 0.08);
-  border: 1px solid rgba(75, 0, 130, 0.15);
+  color: var(--adventure-ink, #34251a);
 }
 
 .effect-detail-text {
-  font-size: 10px;
-  color: var(--my-text-muted);
+  font-size: 0.82rem;
+  color: var(--adventure-muted, #68533e);
   font-style: italic;
-  line-height: 1.3;
+  line-height: 1.35;
   margin-top: 2px;
 }
 
 .outcome-mechanic svg.detail-icon {
-  font-size: 10px;
-  width: 12px;
-  opacity: 0.7;
+  font-size: 9.5px;
+  width: 11px;
+  opacity: 0.8;
 }
 
 .outcome-description {
-  font-size: var(--my-text-xs);
+  font-size: 0.82rem;
   line-height: 1.4;
-  color: var(--my-text-secondary);
+  color: var(--adventure-muted, #68533e);
   font-style: italic;
   margin-top: 2px;
   text-align: left;
@@ -283,46 +310,22 @@
 }
 
 .prophecy-tables-section {
-  padding: var(--my-space-3);
-  background: rgba(139, 105, 60, 0.02);
-  border-top: 1px solid rgba(139, 105, 60, 0.15);
-  margin-bottom: var(--my-space-2);
+  padding: 10px 12px;
+  background: transparent;
+  border-top: 1px solid var(--adventure-rule, #c4baa6);
 }
 
 .prophecy-footer {
-  padding: var(--my-space-2) var(--my-space-3);
-  background: var(--my-gradient-parchment-dark);
-  border-top: var(--my-border-width) solid var(--my-brown-medium);
+  padding: 6px 12px;
+  background: var(--adventure-paper, #f1ece1);
+  border-top: 1px solid var(--adventure-rule, #c4baa6);
 }
 
 .prophecy-footer p {
   margin: 0;
-  font-size: var(--my-text-xs);
-  color: var(--my-text-muted);
+  font-size: 0.8rem;
+  color: var(--adventure-muted, #68533e);
+  font-style: italic;
   text-align: center;
-  line-height: 1.4;
-}
-
-/* Animations */
-@keyframes pfFadeIn {
-  from { opacity: 0; transform: translateY(-3px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.prophecy-body {
-  animation: pfFadeIn 0.3s ease-out;
-}
-
-/* Scrollbar styling for prophecy track if it gets too long */
-.prophecy-track::-webkit-scrollbar {
-  width: 6px;
-}
-
-.prophecy-track::-webkit-scrollbar-track {
-  background: var(--my-gradient-parchment-dark);
-}
-
-.prophecy-track::-webkit-scrollbar-thumb {
-  background: var(--my-brown-medium);
-  border-radius: 3px;
+  line-height: 1.35;
 }

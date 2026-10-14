@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import MythrillWindow from '../MythrillWindow';
-import MockDraggable from 'react-draggable';
+import { DraggableCore as MockDraggableCore } from 'react-draggable';
 
 // Mock Zustand stores to avoid Firebase/Socket connections during testing
 jest.mock('../../../store/windowManagerStore', () => {
@@ -41,27 +41,28 @@ jest.mock('../../../store/gameStore', () => {
   };
 });
 
-// Capture the props MythrillWindow -> DraggableWindow -> react-draggable wires up.
-// NOTE: react-resizable imports DraggableCore from this same module, so the
-// mock must preserve the real named exports and only wrap the default export.
+// Capture the props MythrillWindow -> DraggableWindow -> react-draggable's
+// DraggableCore wires up. react-resizable also renders DraggableCore (for the
+// resize handle), so only calls that carry a `handle` prop are captured, and
+// every call is forwarded to the real DraggableCore.
 jest.mock('react-draggable', () => {
   const React = require('react');
   const actual = jest.requireActual('react-draggable');
-  const Mock = (props) => <div data-testid="mock-draggable">{props.children}</div>;
-  Mock.captured = { props: null };
   const Wrapped = (props) => {
-    Wrapped.captured.props = props;
-    return <Mock {...props} />;
+    if (Object.prototype.hasOwnProperty.call(props, 'handle')) {
+      Wrapped.captured.props = props;
+    }
+    return <actual.DraggableCore {...props} />;
   };
-  Wrapped.captured = Mock.captured;
-  return { ...actual, __esModule: true, default: Wrapped };
+  Wrapped.captured = { props: null };
+  return { ...actual, __esModule: true, DraggableCore: Wrapped };
 });
 
-const getDraggableProps = () => MockDraggable.captured.props;
+const getDraggableProps = () => MockDraggableCore.captured.props;
 
 describe('MythrillWindow drag surfaces', () => {
   beforeEach(() => {
-    MockDraggable.captured.props = null;
+    MockDraggableCore.captured.props = null;
   });
 
   it('includes content + tab strips in the drag handle by default', () => {

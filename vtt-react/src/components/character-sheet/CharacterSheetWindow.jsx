@@ -29,7 +29,14 @@ function CharacterSheetWindow({ isOpen, onClose, title, inspection = false, init
     const [openDropdown, setOpenDropdown] = useState(null);
     const [dropdownPos, setDropdownPos] = useState(null);
     const closeTimerRef = useRef(null);
-    const { getWindowPosition, getWindowSize, setWindowPosition, setWindowSize } = useWindowManagerStore();
+    // Select the (stable) actions individually. A bare useWindowManagerStore() subscribes to the whole store,
+    // so every window drag start/stop re-rendered this component and everything under it.
+    // layoutVersion is subscribed on purpose so a layout reset still re-reads saved positions.
+    const getWindowPosition = useWindowManagerStore(state => state.getWindowPosition);
+    const getWindowSize = useWindowManagerStore(state => state.getWindowSize);
+    const setWindowPosition = useWindowManagerStore(state => state.setWindowPosition);
+    const setWindowSize = useWindowManagerStore(state => state.setWindowSize);
+    useWindowManagerStore(state => state.layoutVersion);
 
     const WINDOW_ID = inspection ? 'character-sheet-inspect' : 'character-sheet';
     const savedPos = getWindowPosition(WINDOW_ID, inspection ? { x: 300, y: 150 } : { x: 100, y: 100 });

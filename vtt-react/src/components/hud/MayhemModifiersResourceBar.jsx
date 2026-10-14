@@ -123,7 +123,7 @@ const MayhemModifiersResourceBar = ({
 
                                     <div className="context-menu-section">
                                         <div className="context-menu-section-title">Adjust</div>
-                                        <div className="menu-buttons" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '4px', marginBottom: '8px' }}>
+                                        <div className="menu-buttons menu-buttons--grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '4px', marginBottom: '8px' }}>
                                             <button className="context-menu-button" onClick={() => addModifiers(1)}>
                                                 <i className="fas fa-plus"></i>
                                                 <span>1</span>
@@ -145,7 +145,7 @@ const MayhemModifiersResourceBar = ({
 
                                     <div className="context-menu-section">
                                         <div className="context-menu-section-title">Random</div>
-                                        <div className="menu-buttons" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '4px' }}>
+                                        <div className="menu-buttons menu-buttons--grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '4px' }}>
                                             <button className="context-menu-button" onClick={() => addModifiers(rollDice(1, 4))}>
                                                 <i className="fas fa-dice"></i>
                                                 <span>1d4</span>
@@ -350,7 +350,7 @@ const MayhemModifiersResourceBar = ({
                                         {renderStatusFlavor()}
                                         <div className="context-menu-section">
                                             <div className="context-menu-section-title">Adjust</div>
-                                            <div className="menu-buttons" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '4px', marginBottom: '8px' }}>
+                                            <div className="menu-buttons menu-buttons--grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '4px', marginBottom: '8px' }}>
                                                 <button className="context-menu-button" onClick={() => addModifiers(1)}>
                                                     <i className="fas fa-plus"></i>
                                                     <span>1</span>
@@ -363,7 +363,7 @@ const MayhemModifiersResourceBar = ({
                                         </div>
                                         <div className="context-menu-section">
                                             <div className="context-menu-section-title">Random</div>
-                                            <div className="menu-buttons" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '4px' }}>
+                                            <div className="menu-buttons menu-buttons--grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '4px' }}>
                                                 <button className="context-menu-button" onClick={() => addModifiers(rollDice(1, 4))}>
                                                     <i className="fas fa-dice"></i>
                                                     <span>1d4</span>

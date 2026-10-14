@@ -413,21 +413,23 @@
 }
 
 .equipment-slot-helper-card {
-    background: linear-gradient(135deg, rgba(38, 28, 20, 0.96) 0%, rgba(22, 16, 11, 0.98) 100%);
-    border: 1px solid #c8aa6e;
-    border-radius: 6px;
-    padding: 12px 16px;
-    color: #f1ece1;
-    font-family: 'Cinzel', serif, sans-serif;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6), inset 0 0 10px rgba(200, 170, 110, 0.15);
-    backdrop-filter: blur(4px);
+    background: var(--adventure-paper, #f1ece1);
+    border: 1px solid var(--adventure-rule, #c4baa6);
+    border-radius: 3px;
+    padding: 10px 14px;
+    color: var(--adventure-ink, #34251a);
+    font-family: 'Cinzel', Georgia, serif;
+    box-shadow: 0 4px 16px rgba(52, 37, 26, 0.16);
+    backdrop-filter: none;
 }
 
 .helper-card-title {
     font-size: 13px;
     font-weight: 700;
-    color: #ffd700;
+    color: var(--adventure-ink, #34251a);
     margin-bottom: 6px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid var(--adventure-rule, #c4baa6);
     letter-spacing: 0.6px;
     text-transform: uppercase;
     display: flex;
@@ -436,8 +438,8 @@
 }
 
 .helper-card-desc {
-    font-size: 11px;
+    font-size: 13px;
     line-height: 1.45;
-    color: #d4c5a9;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    color: var(--adventure-muted, #68533e);
+    font-family: 'Crimson Text', Georgia, serif;
 }

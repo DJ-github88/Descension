@@ -341,7 +341,7 @@
   border-color: var(--my-gold-dark) !important;
 }
 
-.pf-toggle-slider {
+.pf-toggle-button .pf-toggle-slider {
   width: 20px !important;
   height: 20px !important;
   background: white !important;

@@ -1177,15 +1177,24 @@ function spellWizardReducer(state, action) {
   lastModified: new Date()
   };
 
- case ACTION_TYPES.UPDATE_PROPHECY_CONFIG:
+ case ACTION_TYPES.UPDATE_PROPHECY_CONFIG: {
+  if (!action.payload || action.payload.enabled === false) {
+   return {
+    ...state,
+    prophecyOptions: null,
+    lastModified: new Date()
+   };
+  }
   return {
-  ...state,
-  prophecyOptions: {
-   ...(state.prophecyOptions || {}),
-   ...action.payload
-  },
-  lastModified: new Date()
+   ...state,
+   prophecyOptions: {
+    ...(state.prophecyOptions || {}),
+    ...action.payload,
+    enabled: true
+   },
+   lastModified: new Date()
   };
+ }
 
  // Wizard navigation
  case ACTION_TYPES.SET_CURRENT_STEP:

@@ -231,10 +231,12 @@ const SimplifiedMechanicsConfig = ({ effectId, effectType, currentConfig, onConf
 
     // State requirements specific options
     stateOptions: {
-      resourceType: effectType === 'damage' ? 'health' : 'mana',
+      resourceType: recommendedType === 'health_threshold' ? 'health' : (effectType === 'damage' ? 'health' : 'mana'),
       thresholdValue: 20,
       thresholdType: 'below',
       valueType: 'percentage',
+      targetType: 'target',
+      combatState: 'in_combat',
       originalFormula: '',
       modifiedFormula: ''
     },
@@ -323,52 +325,103 @@ const SimplifiedMechanicsConfig = ({ effectId, effectType, currentConfig, onConf
     }
   });
 
-  // Update configuration when it changes
-  useEffect(() => {
-    // Create a function to update both parent and context
-    const updateConfiguration = () => {
-      // If parent component provided an update callback, use it
+  // Helper to synchronously update state and propagate immediately to parent and context
+  const updateConfig = useCallback((updater) => {
+    setConfig(prev => {
+      const nextConfig = typeof updater === 'function' ? updater(prev) : updater;
       if (onConfigUpdate) {
-        onConfigUpdate(config);
+        onConfigUpdate(nextConfig);
+      } else if (effectId) {
+        dispatch(actionCreators.updateEffectMechanicsConfig(effectId, nextConfig));
       }
+      return nextConfig;
+    });
+  }, [onConfigUpdate, effectId, dispatch]);
 
-      // Always update the context if we have an effectId
-      if (effectId) {
-        dispatch(actionCreators.updateEffectMechanicsConfig(effectId, {
-          ...config
-        }));
-      }
-    };
-
-    // Use a small timeout to ensure this runs after the current event cycle
-    const timeoutId = setTimeout(updateConfiguration, 0);
-
-    // Clean up the timeout if the component unmounts
-    return () => clearTimeout(timeoutId);
-  }, [config, onConfigUpdate, dispatch, effectId]);
+  // Sync state if currentConfig changes from outside (e.g. effect switch or parent update)
+  useEffect(() => {
+    if (currentConfig && Object.keys(currentConfig).length > 0) {
+      setConfig(prev => ({
+        ...prev,
+        ...currentConfig,
+        comboOptions: { ...prev.comboOptions, ...(currentConfig.comboOptions || {}) },
+        procOptions: { ...prev.procOptions, ...(currentConfig.procOptions || {}) },
+        stateOptions: { ...prev.stateOptions, ...(currentConfig.stateOptions || {}) },
+        formOptions: { ...prev.formOptions, ...(currentConfig.formOptions || {}) },
+        toxicOptions: { ...prev.toxicOptions, ...(currentConfig.toxicOptions || {}) },
+        chordOptions: { ...prev.chordOptions, ...(currentConfig.chordOptions || {}) },
+        prophecyOptions: { ...prev.prophecyOptions, ...(currentConfig.prophecyOptions || {}) }
+      }));
+    }
+  }, [currentConfig]);
 
   // Handle system change
   const handleSystemChange = (systemId) => {
     const system = MECHANICS_SYSTEMS[systemId];
-    setConfig(prevConfig => ({
-      ...prevConfig,
-      system: systemId,
-      type: getRecommendedMechanicType(effectType, systemId),
-      thresholdValue: system?.thresholds && system.thresholds.length > 0 ? system.thresholds[0] : 1,
-    }));
+    const newType = getRecommendedMechanicType(effectType, systemId);
+    updateConfig(prevConfig => {
+      let updatedStateOptions = { ...prevConfig.stateOptions };
+      if (systemId === 'STATE_REQUIREMENTS') {
+        if (newType === 'health_threshold') {
+          updatedStateOptions.resourceType = 'health';
+        } else if (newType === 'resource_threshold') {
+          if (!updatedStateOptions.resourceType || updatedStateOptions.resourceType === 'health') {
+            updatedStateOptions.resourceType = 'mana';
+          }
+        } else if (newType === 'combat_state') {
+          if (!updatedStateOptions.combatState) {
+            updatedStateOptions.combatState = 'in_combat';
+          }
+        }
+      }
+      return {
+        ...prevConfig,
+        system: systemId,
+        type: newType,
+        thresholdValue: system?.thresholds && system.thresholds.length > 0 ? system.thresholds[0] : 1,
+        stateOptions: updatedStateOptions
+      };
+    });
   };
 
   // Handle type change
   const handleTypeChange = (typeId) => {
-    setConfig(prevConfig => ({
-      ...prevConfig,
-      type: typeId
-    }));
+    updateConfig(prevConfig => {
+      let updatedStateOptions = { ...prevConfig.stateOptions };
+      let updatedComboOptions = { ...prevConfig.comboOptions };
+
+      if (prevConfig.system === 'STATE_REQUIREMENTS') {
+        if (typeId === 'health_threshold') {
+          updatedStateOptions.resourceType = 'health';
+          if (!updatedStateOptions.thresholdValue) updatedStateOptions.thresholdValue = 20;
+        } else if (typeId === 'resource_threshold') {
+          if (!updatedStateOptions.resourceType || updatedStateOptions.resourceType === 'health') {
+            updatedStateOptions.resourceType = 'mana';
+          }
+          if (!updatedStateOptions.thresholdValue) updatedStateOptions.thresholdValue = 50;
+        } else if (typeId === 'combat_state') {
+          if (!updatedStateOptions.combatState) {
+            updatedStateOptions.combatState = 'in_combat';
+          }
+        }
+      } else if (prevConfig.system === 'COMBO_POINTS') {
+        if (typeId === 'builder' && !updatedComboOptions.generationAmount) {
+          updatedComboOptions.generationAmount = 1;
+        }
+      }
+
+      return {
+        ...prevConfig,
+        type: typeId,
+        stateOptions: updatedStateOptions,
+        comboOptions: updatedComboOptions
+      };
+    });
   };
 
   // Handle toggle enabled
   const handleToggleEnabled = () => {
-    setConfig(prevConfig => ({
+    updateConfig(prevConfig => ({
       ...prevConfig,
       enabled: !prevConfig.enabled
     }));
@@ -376,7 +429,7 @@ const SimplifiedMechanicsConfig = ({ effectId, effectType, currentConfig, onConf
 
   // Handle threshold change
   const handleThresholdChange = (value) => {
-    setConfig(prevConfig => ({
+    updateConfig(prevConfig => ({
       ...prevConfig,
       thresholdValue: value
     }));
@@ -398,7 +451,7 @@ const SimplifiedMechanicsConfig = ({ effectId, effectType, currentConfig, onConf
 
   // Handle option change for specific systems
   const handleOptionChange = (system, option, value) => {
-    setConfig(prevConfig => {
+    updateConfig(prevConfig => {
       if (system === 'COMBO_POINTS') {
         return {
           ...prevConfig,
@@ -456,7 +509,7 @@ const SimplifiedMechanicsConfig = ({ effectId, effectType, currentConfig, onConf
 
   // Handle toxic type selection
   const handleToxicTypeSelect = (toxicType, event) => {
-    setConfig(prevConfig => {
+    updateConfig(prevConfig => {
       const selectedToxicTypes = { ...prevConfig.toxicOptions.selectedToxicTypes };
 
       // If already selected, increment count or remove if at max
@@ -481,23 +534,16 @@ const SimplifiedMechanicsConfig = ({ effectId, effectType, currentConfig, onConf
         }
       };
     });
-
-    // Tooltip removed
   };
-
-  // Handle toxic tooltip events
-  // Toxic tooltip handlers removed
 
   // Handle chord function selection
   const handleChordOptionChange = (option, value, event) => {
     handleOptionChange('CHORD_SYSTEM', option, value);
-
-    // Chord function tooltip removed
   };
 
   // Add a chord to the recipe
   const addChordToRecipe = (chordFunction, event) => {
-    setConfig(prevConfig => {
+    updateConfig(prevConfig => {
       const recipeDisplay = [...prevConfig.chordOptions.recipeDisplay];
       recipeDisplay.push(chordFunction);
 
@@ -513,13 +559,11 @@ const SimplifiedMechanicsConfig = ({ effectId, effectType, currentConfig, onConf
         }
       };
     });
-
-    // Tooltip removed
   };
 
   // Remove a chord from the recipe
   const removeChordFromRecipe = (index) => {
-    setConfig(prevConfig => {
+    updateConfig(prevConfig => {
       const recipeDisplay = [...prevConfig.chordOptions.recipeDisplay];
       recipeDisplay.splice(index, 1);
 
@@ -539,7 +583,7 @@ const SimplifiedMechanicsConfig = ({ effectId, effectType, currentConfig, onConf
 
   // Clear the entire recipe
   const clearRecipe = () => {
-    setConfig(prevConfig => ({
+    updateConfig(prevConfig => ({
       ...prevConfig,
       chordOptions: {
         ...prevConfig.chordOptions,
@@ -550,29 +594,27 @@ const SimplifiedMechanicsConfig = ({ effectId, effectType, currentConfig, onConf
     }));
   };
 
-  // Chord tooltip handlers removed
-
   // Handle toxic effects change
   const handleToxicEffectsChange = useCallback((effects) => {
-    setConfig(prevConfig => ({
+    updateConfig(prevConfig => ({
       ...prevConfig,
       toxicOptions: {
         ...prevConfig.toxicOptions,
         toxicEffects: effects
       }
     }));
-  }, [setConfig]);
+  }, [updateConfig]);
 
   // Handle chord graduated effects change
   const handleChordGraduatedEffectsChange = useCallback((effects) => {
-    setConfig(prevConfig => ({
+    updateConfig(prevConfig => ({
       ...prevConfig,
       chordOptions: {
         ...prevConfig.chordOptions,
         graduatedEffects: effects
       }
     }));
-  }, [setConfig]);
+  }, [updateConfig]);
 
   // Get the selected system with safety checks
   const systemObj = MECHANICS_SYSTEMS[config.system] || MECHANICS_SYSTEMS['COMBO_POINTS'];
@@ -613,7 +655,18 @@ const SimplifiedMechanicsConfig = ({ effectId, effectType, currentConfig, onConf
         </div>
       </div>
 
-      {config.enabled && (
+      {!config.enabled ? (
+        <div className="prophecy-disabled-card">
+          <div className="prophecy-disabled-icon-wrapper">
+            <FontAwesomeIcon icon={faCog} className="prophecy-disabled-icon" />
+          </div>
+          <h4>Spell Mechanics Disabled</h4>
+          <p>
+            Toggle on above to configure combo points, proc triggers, state requirements,
+            forms, toxins, or chord harmonies for this effect.
+          </p>
+        </div>
+      ) : (
         <div className="mechanics-content-layout-row">
           {/* Top Section - System Selection in Row */}
           <div className="mechanics-system-selection-row">
@@ -673,38 +726,59 @@ const SimplifiedMechanicsConfig = ({ effectId, effectType, currentConfig, onConf
                         <h5>Combo Point Settings</h5>
                       </div>
 
-                      <div className="config-field">
-                        <label className="config-label">Point Threshold</label>
-                        <div className="config-description">Choose how many combo points are required</div>
-                        <div className="pf-threshold-selector">
-                          {selectedSystem.thresholds.map(threshold => (
-                            <div
-                              key={threshold}
-                              className={`pf-threshold-option ${config.thresholdValue === threshold ? 'selected' : ''}`}
-                              onClick={() => handleThresholdChange(threshold)}
-                            >
-                              <div className="pf-threshold-number">{threshold}</div>
-                              <div className="pf-threshold-label">{threshold === 1 ? 'point' : 'points'}</div>
+                      {config.type === 'builder' ? (
+                        <div className="config-field">
+                          <label className="config-label">Points Generated</label>
+                          <div className="config-description">How many combo points are generated upon cast</div>
+                          <div className="pf-threshold-selector">
+                            {[1, 2, 3].map(amount => (
+                              <div
+                                key={amount}
+                                className={`pf-threshold-option ${(config.comboOptions?.generationAmount || 1) === amount ? 'selected' : ''}`}
+                                onClick={() => handleOptionChange('COMBO_POINTS', 'generationAmount', amount)}
+                              >
+                                <div className="pf-threshold-number">+{amount}</div>
+                                <div className="pf-threshold-label">{amount === 1 ? 'point' : 'points'}</div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      ) : (
+                        <>
+                          <div className="config-field">
+                            <label className="config-label">Point Threshold</label>
+                            <div className="config-description">Choose how many combo points are required</div>
+                            <div className="pf-threshold-selector">
+                              {selectedSystem.thresholds.map(threshold => (
+                                <div
+                                  key={threshold}
+                                  className={`pf-threshold-option ${config.thresholdValue === threshold ? 'selected' : ''}`}
+                                  onClick={() => handleThresholdChange(threshold)}
+                                >
+                                  <div className="pf-threshold-number">{threshold}</div>
+                                  <div className="pf-threshold-label">{threshold === 1 ? 'point' : 'points'}</div>
+                                </div>
+                              ))}
                             </div>
-                          ))}
-                        </div>
-                      </div>
+                          </div>
 
-                      <div className="config-field">
-                        <label className="config-label">Consumption Rule</label>
-                        <div className="config-description">How combo points are consumed when the spell is cast</div>
-                        <div className="pf-select-wrapper">
-                          <select
-                            value={config.comboOptions.consumptionRule}
-                            onChange={(e) => handleOptionChange('COMBO_POINTS', 'consumptionRule', e.target.value)}
-                            className="pf-config-select"
-                          >
-                            <option value="all">Consume All Points</option>
-                            <option value="threshold">Consume Threshold Amount</option>
-                            <option value="none">Don't Consume Points</option>
-                          </select>
-                        </div>
-                      </div>
+                          <div className="config-field">
+                            <label className="config-label">Consumption Rule</label>
+                            <div className="config-description">How combo points are consumed when the spell is cast</div>
+                            <div className="pf-select-wrapper">
+                              <select
+                                value={config.comboOptions?.consumptionRule || 'all'}
+                                onChange={(e) => handleOptionChange('COMBO_POINTS', 'consumptionRule', e.target.value)}
+                                className="pf-config-select"
+                              >
+                                <option value="all">Consume All Points</option>
+                                <option value="threshold">Consume Threshold Amount</option>
+                                <option value="none">Don't Consume Points</option>
+                              </select>
+                            </div>
+                          </div>
+                        </>
+                      )}
                     </div>
                   </div>
                 )}
@@ -767,116 +841,251 @@ const SimplifiedMechanicsConfig = ({ effectId, effectType, currentConfig, onConf
                 )}
 
             {config.system === 'STATE_REQUIREMENTS' && (
-              <div className="state-requirements-config">
-                <div className="config-row">
-                  <label>Resource Type:</label>
-                  <select
-                    value={config.stateOptions.resourceType}
-                    onChange={(e) => handleOptionChange('STATE_REQUIREMENTS', 'resourceType', e.target.value)}
-                  >
-                    <option value="health">Health</option>
-                    <option value="mana">Mana</option>
-                    <option value="energy">Energy</option>
-                    <option value="rage">Rage</option>
-                    <option value="focus">Focus</option>
-                  </select>
-                </div>
-                <div className="config-row">
-                  <label>Threshold:</label>
-                  <input
-                    type="number"
-                    min="1"
-                    max="100"
-                    value={config.stateOptions.thresholdValue}
-                    onChange={(e) => handleOptionChange('STATE_REQUIREMENTS', 'thresholdValue', parseInt(e.target.value))}
-                  />
-                  <span className="input-suffix">%</span>
-                </div>
-                <div className="config-row">
-                  <label>Comparison:</label>
-                  <select
-                    value={config.stateOptions.thresholdType}
-                    onChange={(e) => handleOptionChange('STATE_REQUIREMENTS', 'thresholdType', e.target.value)}
-                  >
-                    <option value="below">Below</option>
-                    <option value="above">Above</option>
-                    <option value="equal">Equal</option>
-                  </select>
-                </div>
-                <div className="config-row">
-                  <label>Original Formula:</label>
-                  <div className="original-formula-display">
-                    {getOriginalFormula()}
+              <div className="state-requirements-config-enhanced">
+                <div className="config-section">
+                  <div className="config-section-header">
+                    <FontAwesomeIcon icon={faHeartbeat} className="config-icon" />
+                    <h5>State Requirements Settings</h5>
                   </div>
-                </div>
-                <div className="config-row">
-                  <label>Modified Formula:</label>
-                  <input
-                    type="text"
-                    value={config.stateOptions.modifiedFormula || getOriginalFormula() + ' * 1.5'}
-                    onChange={(e) => handleOptionChange('STATE_REQUIREMENTS', 'modifiedFormula', e.target.value)}
-                    placeholder="Enter modified formula"
-                  />
+
+                  {config.type === 'health_threshold' && (
+                    <>
+                      <div className="config-field">
+                        <label className="config-label">Resource</label>
+                        <div className="config-description">Condition evaluates target health percentage</div>
+                        <div className="pf-static-badge">Health</div>
+                      </div>
+
+                      <div className="config-field">
+                        <label className="config-label">Comparison</label>
+                        <div className="config-description">Trigger when health is below, above, or equal</div>
+                        <div className="pf-select-wrapper">
+                          <select
+                            value={config.stateOptions.thresholdType || 'below'}
+                            onChange={(e) => handleOptionChange('STATE_REQUIREMENTS', 'thresholdType', e.target.value)}
+                            className="pf-config-select"
+                          >
+                            <option value="below">Below</option>
+                            <option value="above">Above</option>
+                            <option value="equal">Equal</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div className="config-field">
+                        <label className="config-label">Health Threshold</label>
+                        <div className="config-description">Health percentage required</div>
+                        <div className="pf-input-group">
+                          <input
+                            type="number"
+                            min="1"
+                            max="100"
+                            value={config.stateOptions.thresholdValue ?? 20}
+                            onChange={(e) => handleOptionChange('STATE_REQUIREMENTS', 'thresholdValue', parseInt(e.target.value) || 0)}
+                            className="pf-config-input"
+                          />
+                          <span className="pf-input-suffix">%</span>
+                        </div>
+                      </div>
+                    </>
+                  )}
+
+                  {config.type === 'resource_threshold' && (
+                    <>
+                      <div className="config-field">
+                        <label className="config-label">Resource Type</label>
+                        <div className="config-description">Which resource to track for threshold</div>
+                        <div className="pf-select-wrapper">
+                          <select
+                            value={config.stateOptions.resourceType === 'health' ? 'mana' : (config.stateOptions.resourceType || 'mana')}
+                            onChange={(e) => handleOptionChange('STATE_REQUIREMENTS', 'resourceType', e.target.value)}
+                            className="pf-config-select"
+                          >
+                            <option value="mana">Mana</option>
+                            <option value="energy">Energy</option>
+                            <option value="rage">Rage</option>
+                            <option value="focus">Focus</option>
+                            <option value="blood">Blood</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div className="config-field">
+                        <label className="config-label">Comparison</label>
+                        <div className="config-description">Trigger when resource is below, above, or equal</div>
+                        <div className="pf-select-wrapper">
+                          <select
+                            value={config.stateOptions.thresholdType || 'below'}
+                            onChange={(e) => handleOptionChange('STATE_REQUIREMENTS', 'thresholdType', e.target.value)}
+                            className="pf-config-select"
+                          >
+                            <option value="below">Below</option>
+                            <option value="above">Above</option>
+                            <option value="equal">Equal</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div className="config-field">
+                        <label className="config-label">Resource Threshold</label>
+                        <div className="config-description">Resource percentage required</div>
+                        <div className="pf-input-group">
+                          <input
+                            type="number"
+                            min="1"
+                            max="100"
+                            value={config.stateOptions.thresholdValue ?? 50}
+                            onChange={(e) => handleOptionChange('STATE_REQUIREMENTS', 'thresholdValue', parseInt(e.target.value) || 0)}
+                            className="pf-config-input"
+                          />
+                          <span className="pf-input-suffix">%</span>
+                        </div>
+                      </div>
+                    </>
+                  )}
+
+                  {config.type === 'combat_state' && (
+                    <div className="config-field">
+                      <label className="config-label">Required State</label>
+                      <div className="config-description">Combat state requirement</div>
+                      <div className="pf-select-wrapper">
+                        <select
+                          value={config.stateOptions.combatState || 'in_combat'}
+                          onChange={(e) => handleOptionChange('STATE_REQUIREMENTS', 'combatState', e.target.value)}
+                          className="pf-config-select"
+                        >
+                          <option value="in_combat">In Combat</option>
+                          <option value="out_of_combat">Out of Combat</option>
+                          <option value="stealthed">Stealthed / Hidden</option>
+                          <option value="surprised">Surprised / Flat-Footed</option>
+                          <option value="bloodied">Bloodied (Health Below 50%)</option>
+                        </select>
+                      </div>
+                    </div>
+                  )}
+
+                  <div className="config-field">
+                    <label className="config-label">Condition Subject</label>
+                    <div className="config-description">Who must satisfy this condition</div>
+                    <div className="pf-select-wrapper">
+                      <select
+                        value={config.stateOptions.targetType || 'target'}
+                        onChange={(e) => handleOptionChange('STATE_REQUIREMENTS', 'targetType', e.target.value)}
+                        className="pf-config-select"
+                      >
+                        <option value="target">Target</option>
+                        <option value="caster">Caster</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="config-field">
+                    <label className="config-label">Base Formula</label>
+                    <div className="original-formula-display">
+                      {getOriginalFormula()}
+                    </div>
+                  </div>
+
+                  <div className="config-field">
+                    <label className="config-label">Modified Formula (Optional)</label>
+                    <div className="config-description">Formula used when state condition is met</div>
+                    <input
+                      type="text"
+                      value={config.stateOptions.modifiedFormula || ''}
+                      onChange={(e) => handleOptionChange('STATE_REQUIREMENTS', 'modifiedFormula', e.target.value)}
+                      placeholder={`${getOriginalFormula()} * 1.5`}
+                      className="pf-config-input-wide"
+                    />
+                  </div>
                 </div>
               </div>
             )}
 
             {config.system === 'FORM_SYSTEM' && (
-              <div className="form-system-config">
-                <div className="config-row">
-                  <label>Form Type:</label>
-                  <select
-                    value={config.formOptions.formType}
-                    onChange={(e) => handleOptionChange('FORM_SYSTEM', 'formType', e.target.value)}
-                  >
-                    <option value="bear_form">Bear Form</option>
-                    <option value="cat_form">Cat Form</option>
-                    <option value="tree_form">Tree Form</option>
-                    <option value="moonkin_form">Moonkin Form</option>
-                  </select>
-                </div>
-                <div className="config-row">
-                  <label>Requires Form:</label>
-                  <div className="toggle-switch-small">
-                    <input
-                      type="checkbox"
-                      checked={config.formOptions.requiresForm}
-                      onChange={(e) => handleOptionChange('FORM_SYSTEM', 'requiresForm', e.target.checked)}
-                    />
-                    <span className="toggle-slider-small"></span>
+              <div className="form-system-config-enhanced">
+                <div className="config-section">
+                  <div className="config-section-header">
+                    <FontAwesomeIcon icon={faPaw} className="config-icon" />
+                    <h5>Form System Settings</h5>
                   </div>
-                </div>
-                <div className="config-row">
-                  <label>Bonus Type:</label>
-                  <select
-                    value={config.formOptions.bonusType}
-                    onChange={(e) => handleOptionChange('FORM_SYSTEM', 'bonusType', e.target.value)}
-                  >
-                    <option value="damage">Damage</option>
-                    <option value="healing">Healing</option>
-                    <option value="speed">Movement Speed</option>
-                    <option value="damage_reduction">Damage Reduction</option>
-                  </select>
-                </div>
-                <div className="config-row">
-                  <label>Bonus Amount:</label>
-                  <input
-                    type="number"
-                    min="1"
-                    max="100"
-                    value={config.formOptions.bonusAmount}
-                    onChange={(e) => handleOptionChange('FORM_SYSTEM', 'bonusAmount', parseInt(e.target.value))}
-                  />
-                  <span className="input-suffix">%</span>
-                </div>
-                <div className="config-row">
-                  <label>Form Spell:</label>
-                  <SpellSelector
-                    selectedSpellId={config.formOptions.formSpellId}
-                    onSelectSpell={(spellId) => handleOptionChange('FORM_SYSTEM', 'formSpellId', spellId)}
-                    filterType="form"
-                    placeholder="Select a form spell"
-                  />
+
+                  <div className="config-field">
+                    <label className="config-label">Form Type</label>
+                    <div className="config-description">Shapeshifting form required or associated</div>
+                    <div className="pf-select-wrapper">
+                      <select
+                        value={config.formOptions.formType}
+                        onChange={(e) => handleOptionChange('FORM_SYSTEM', 'formType', e.target.value)}
+                        className="pf-config-select"
+                      >
+                        <option value="bear_form">Bear Form</option>
+                        <option value="cat_form">Cat Form</option>
+                        <option value="tree_form">Tree Form</option>
+                        <option value="moonkin_form">Moonkin Form</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="config-field">
+                    <label className="config-label">Requires Form</label>
+                    <div className="config-description">Must actively be in this form to cast</div>
+                    <div className="mechanics-toggle-pathfinder" style={{ marginTop: '6px' }}>
+                      <label className="pf-toggle-switch">
+                        <input
+                          type="checkbox"
+                          checked={config.formOptions.requiresForm}
+                          onChange={(e) => handleOptionChange('FORM_SYSTEM', 'requiresForm', e.target.checked)}
+                        />
+                        <span className="pf-toggle-slider"></span>
+                      </label>
+                      <span className="pf-toggle-label">{config.formOptions.requiresForm ? 'Required' : 'Enhanced Only'}</span>
+                    </div>
+                  </div>
+
+                  <div className="config-field">
+                    <label className="config-label">Bonus Type</label>
+                    <div className="config-description">Type of bonus provided by this form</div>
+                    <div className="pf-select-wrapper">
+                      <select
+                        value={config.formOptions.bonusType}
+                        onChange={(e) => handleOptionChange('FORM_SYSTEM', 'bonusType', e.target.value)}
+                        className="pf-config-select"
+                      >
+                        <option value="damage">Damage</option>
+                        <option value="healing">Healing</option>
+                        <option value="speed">Movement Speed</option>
+                        <option value="damage_reduction">Damage Reduction</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="config-field">
+                    <label className="config-label">Bonus Amount</label>
+                    <div className="config-description">Magnitude of bonus percentage</div>
+                    <div className="pf-input-group">
+                      <input
+                        type="number"
+                        min="1"
+                        max="100"
+                        value={config.formOptions.bonusAmount}
+                        onChange={(e) => handleOptionChange('FORM_SYSTEM', 'bonusAmount', parseInt(e.target.value) || 0)}
+                        className="pf-config-input"
+                      />
+                      <span className="pf-input-suffix">%</span>
+                    </div>
+                  </div>
+
+                  <div className="config-field">
+                    <label className="config-label">Form Spell (Optional)</label>
+                    <div className="config-description">Link to specific shapeshifting spell in library</div>
+                    <SpellSelector
+                      selectedSpellId={config.formOptions.formSpellId}
+                      onSelectSpell={(spellId) => handleOptionChange('FORM_SYSTEM', 'formSpellId', spellId)}
+                      filterType="form"
+                      placeholder="Select a form spell"
+                      className="config-spell-selector"
+                    />
+                  </div>
                 </div>
               </div>
             )}

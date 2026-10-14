@@ -610,21 +610,20 @@ const SpellguardResourceBar = ({
                         onMouseOver={(e) => e.stopPropagation()}
                         style={{
                             position: 'fixed',
-                            top: (() => {
-                                if (!barRef.current) return '50%';
+                            // Open below the bar and shrink to fit; flip above only when there is more room there.
+                            // Never slide up over the bar the menu belongs to.
+                            ...(() => {
+                                if (!barRef.current) return { top: '50%' };
                                 const rect = barRef.current.getBoundingClientRect();
-                                const hudContainer = barRef.current.closest('.party-hud, .party-member-frame, .character-portrait-hud');
-                                let hudBottom = rect.bottom;
-                                let hudTop = rect.top;
-                                if (hudContainer) {
-                                    const hudRect = hudContainer.getBoundingClientRect();
-                                    hudBottom = hudRect.bottom;
-                                    hudTop = hudRect.top;
+                                const hud = barRef.current.closest('.party-hud, .party-member-frame, .character-portrait-hud, .party-portrait-frame');
+                                const box = hud ? hud.getBoundingClientRect() : rect;
+                                const below = window.innerHeight - box.bottom - 16;
+                                const above = box.top - 16;
+                                if (below >= 320 || below >= above) {
+                                    return { top: box.bottom + 8, maxHeight: Math.max(220, Math.min(600, below)) };
                                 }
-                                if (hudBottom + 360 > window.innerHeight) {
-                                    return Math.max(10, hudTop - 360);
-                                }
-                                return Math.max(12, Math.min(hudBottom + 8, window.innerHeight - Math.min(600, window.innerHeight - 24) - 12));
+                                const h = Math.min(600, above);
+                                return { top: Math.max(8, box.top - 8 - h), maxHeight: h };
                             })(),
                             left: (() => {
                                 if (!barRef.current) return '50%';
@@ -633,7 +632,6 @@ const SpellguardResourceBar = ({
                                 return Math.max(12, Math.min(rect.left + rect.width / 2 - width / 2, window.innerWidth - width - 12));
                             })(),
                             width: Math.min(360, window.innerWidth - 24),
-                            maxHeight: Math.min(600, window.innerHeight - 24),
                             overflowY: 'auto',
                             boxSizing: 'border-box',
                             zIndex: 100000
@@ -670,27 +668,33 @@ const SpellguardResourceBar = ({
                                 const kept = incoming - sent - faded;
                                 const room = maxAEP - localAEP;
                                 const modeLabels = { containment: 'Contained', annulment: 'Annulled', defusal: 'Defused', deflection: 'Deflected', siphon: 'Siphoned' };
+                                const caught = normalizedResource.spellguardIntake.receipts.length;
                                 return (
                                     <>
                                         <div className="cm-section">
-                                            Absorb
-                                            <span className="cm-section-aside">{normalizedResource.spellguardIntake.receipts.length ? `${normalizedResource.spellguardIntake.receipts.length} caught so far` : '+1 AEP per point absorbed'}</span>
+                                            Absorb magic
+                                            <span className="cm-section-aside">{caught ? `${caught} caught this session` : '1 AEP per point absorbed'}</span>
                                         </div>
-                                        <div className="cm-absorb">
+                                        <div className="cm-absorb-row">
                                             <label className="cm-field">
                                                 <span className="cm-field-label">Damage absorbed</span>
                                                 <input type="number" min="1" step="1" aria-label="Incoming energy" value={incomingEnergy} onChange={event => setIncomingEnergy(event.target.value)} />
                                             </label>
-                                            <label className="cm-field">
-                                                <span className="cm-field-label">How</span>
-                                                <select aria-label="Intake interface" value={intakeMode} onChange={event => setIntakeMode(event.target.value)}>
-                                                    {SPELLGUARD_INTAKE_MODES.map(mode => <option key={mode} value={mode}>{modeLabels[mode] || mode}</option>)}
-                                                </select>
-                                            </label>
+                                            <button type="button" className="cm-btn cm-btn-primary" onClick={handleIntake} disabled={kept < 1}>
+                                                {kept < 1 ? 'Keep at least 1 to bank' : `Bank +${Math.min(kept, room)} AEP`}
+                                            </button>
                                         </div>
+                                        {kept > room && kept >= 1 && <p className="cm-line is-warn">{kept - room} won't fit; it is logged as overflow.</p>}
+                                        {intakeMessage && <p role="status" className="cm-line">{intakeMessage}</p>}
                                         <details className="cm-notes cm-fold">
-                                            <summary>Not all of it kept?{sent + faded > 0 ? ` (${sent + faded} not kept)` : ''}</summary>
+                                            <summary>Interception details{sent + faded > 0 ? ` (${sent + faded} not kept)` : intakeMode !== 'containment' ? ` (${modeLabels[intakeMode] || intakeMode})` : ''}</summary>
                                             <div className="cm-split">
+                                                <label className="cm-field">
+                                                    <span className="cm-field-label">How you caught it</span>
+                                                    <select aria-label="Intake interface" value={intakeMode} onChange={event => setIntakeMode(event.target.value)}>
+                                                        {SPELLGUARD_INTAKE_MODES.map(mode => <option key={mode} value={mode}>{modeLabels[mode] || mode}</option>)}
+                                                    </select>
+                                                </label>
                                                 <label className="cm-field">
                                                     <span className="cm-field-label">Sent away</span>
                                                     <input type="number" min="0" step="1" aria-label="Redirected energy" value={redirectedEnergy} onChange={event => setRedirectedEnergy(event.target.value)} />
@@ -700,43 +704,32 @@ const SpellguardResourceBar = ({
                                                     <input type="number" min="0" step="1" aria-label="Dissipated energy" value={dissipatedEnergy} onChange={event => setDissipatedEnergy(event.target.value)} />
                                                 </label>
                                                 <label className="cm-field">
-                                                    <span className="cm-field-label">Note (optional)</span>
+                                                    <span className="cm-field-label">Note</span>
                                                     <input aria-label="Catch note" value={receiptId} onChange={event => setReceiptId(event.target.value)} placeholder="Fireball, round 3" />
                                                 </label>
                                             </div>
+                                            <p>Only what you kept becomes AEP. Annulling or deflecting a spell usually keeps less.</p>
                                         </details>
-                                        <button type="button" className="cm-btn cm-btn-primary" onClick={handleIntake} disabled={kept < 1}>
-                                            {kept < 1 ? 'Keep at least 1 to bank' : `Bank +${Math.min(kept, room)} AEP`}
-                                        </button>
-                                        {kept > room && kept >= 1 && <p className="cm-line is-warn">{kept - room} won't fit; it is logged as overflow.</p>}
-                                        {intakeMessage && <p role="status" className="cm-line">{intakeMessage}</p>}
                                     </>
                                 );
                             })()}
 
-                            <div className="cm-section">Purge</div>
-                            <div className="cm-row" style={{ '--cm-cols': 4 }}>
-                                {[10, 25, 40].map((n) => (
-                                    <button key={n} type="button" className="context-menu-button spend" onClick={() => handleAEPChange(-n)} disabled={localAEP < n}>-{n}</button>
-                                ))}
-                                <button type="button" className="context-menu-button quiet" onClick={() => handleAEPSet(0)} disabled={localAEP === 0} title="Vent the forge to 0">All</button>
-                            </div>
-                            <ClassMenuSpells className="Spellguard" resourceTypes={['arcane_energy_points']} resourceLabel="AEP" current={localAEP} />
+                            <ClassMenuSpells className="Spellguard" resourceTypes={['arcane_energy_points']} resourceLabel="AEP" />
 
                             <details className="cm-notes">
-                                <summary>Set AEP directly</summary>
-                                <div className="cm-row" style={{ '--cm-cols': 3, marginTop: '6px' }}>
-                                    {[[0, 'Grounded'], [25, 'Low'], [50, 'Charged'], [75, 'Overcharge'], [100, 'Meltdown']].map(([val, name]) => (
-                                        <button key={val} type="button" className={`context-menu-button ${localAEP === val ? 'active' : ''} ${val >= 75 ? 'spend' : ''}`} onClick={() => handleAEPSet(val)}>
-                                            {name} ({val})
-                                        </button>
-                                    ))}
+                                <summary>Correct AEP by hand</summary>
+                                <div className="cm-row" style={{ '--cm-cols': 4, marginTop: '6px' }}>
+                                    <button type="button" className="context-menu-button spend" onClick={() => handleAEPChange(-10)} disabled={localAEP === 0}>-10</button>
+                                    <button type="button" className="context-menu-button gain" onClick={() => handleAEPChange(10)} disabled={localAEP >= maxAEP}>+10</button>
+                                    <button type="button" className="context-menu-button quiet" onClick={() => handleAEPSet(0)} disabled={localAEP === 0} title="Vent the forge to 0">Vent to 0</button>
+                                    <button type="button" className="context-menu-button" onClick={() => handleAEPSet(75)}>Overcharge (75)</button>
                                 </div>
+                                <p>For rulings and mistakes. In play, AEP moves when you absorb magic and when you cast your spells.</p>
                             </details>
                             <details className="cm-notes">
                                 <summary>How the forge works</summary>
-                                <p>When magic hits you, bank what you absorbed: 1 AEP per point. If part of it was sent away or faded, open "Not all of it kept?" and the rest is worked out for you.</p>
-                                <p>Held AEP irradiates you, so purge it through your spells. The forge holds 100; past that it breaches.</p>
+                                <p>Absorbing magic banks 1 AEP per point you keep. Your Spellguard spells spend it, or build more.</p>
+                                <p>Every 10 AEP you hold costs 1 blight damage and 1 max HP each round. At 100 the forge breaches: a 10d6 storm blast around you, then it resets to 0.</p>
                             </details>
                         </div>
                     </div>,

@@ -40,9 +40,63 @@
   display: inline-flex !important;
 }
 
+html body .toolkit-window .tk-tab,
 .tk-tab {
-  gap: 6px !important;
+  background: transparent !important;
+  border: 1px solid transparent !important;
+  border-bottom: none !important;
+  border-radius: 2px !important;
+  color: #d9c9a3 !important;
+  font-family: 'Cinzel', 'Bookman Old Style', serif !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.6px !important;
+  padding: 6px 18px !important;
+  min-height: 34px !important;
+  height: 34px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  cursor: pointer !important;
+  transition: all 0.18s ease !important;
+  box-shadow: none !important;
+  white-space: nowrap !important;
+  opacity: 1 !important;
   pointer-events: auto !important;
+}
+
+html body .toolkit-window .tk-tab i,
+.tk-tab i {
+  font-size: 11px !important;
+  opacity: 0.85 !important;
+}
+
+html body .toolkit-window .tk-tab:hover:not(.active),
+.tk-tab:hover:not(.active) {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border-color: transparent !important;
+  color: #f3ebd7 !important;
+  box-shadow: none !important;
+}
+
+html body .toolkit-window .tk-tab.active,
+.tk-tab.active {
+  background: var(--adventure-page, #f8f5ee) !important;
+  border: 1px solid var(--adventure-rule, #c4baa6) !important;
+  color: var(--adventure-ink, #34251a) !important;
+  border-radius: 2px !important;
+  box-shadow: none !important;
+  font-weight: 800 !important;
+  transform: none !important;
+  z-index: 40 !important;
+}
+
+html body .toolkit-window .tk-tab.active i,
+.tk-tab.active i {
+  color: var(--adventure-seal, #663c32) !important;
+  opacity: 1 !important;
 }
 
 .tk-dropdown {
@@ -51,11 +105,11 @@
   left: 0 !important;
   min-width: 100% !important;
   white-space: nowrap !important;
-  background: #3a2a1a !important;
-  border: 1px solid #8b7355 !important;
+  background: #2a1b12 !important;
+  border: 1px solid rgba(196, 186, 166, 0.4) !important;
   border-top: none !important;
-  border-radius: 0 0 6px 6px !important;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35) !important;
+  border-radius: 0 0 2px 2px !important;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.45) !important;
   z-index: 50000 !important;
   padding: 4px 0 !important;
   display: flex !important;
@@ -65,15 +119,15 @@
 .tk-dropdown-item {
   background: none !important;
   border: none !important;
-  padding: 8px 20px !important;
+  padding: 8px 18px !important;
   color: #c4b8a0 !important;
   font-family: 'Cinzel', 'Bookman Old Style', serif !important;
-  font-size: 12px !important;
+  font-size: 11.5px !important;
   text-transform: uppercase !important;
-  letter-spacing: 0.8px !important;
+  letter-spacing: 0.6px !important;
   cursor: pointer !important;
   text-align: left !important;
-  transition: background 0.15s ease !important;
+  transition: all 0.15s ease !important;
   display: flex !important;
   align-items: center !important;
   gap: 8px !important;
@@ -83,10 +137,11 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 16px;
-  height: 16px;
+  width: 18px;
+  height: 18px;
   border-radius: 50%;
-  background: rgba(139, 115, 85, 0.4);
+  background: rgba(139, 115, 85, 0.35);
+  border: 1px solid rgba(196, 186, 166, 0.4);
   color: #e8d6a8;
   font-size: 10px;
   font-weight: 700;
@@ -94,18 +149,20 @@
 }
 
 .tk-dropdown-item.active .tk-dropdown-step {
-  background: #d4af37;
-  color: #2a1a0a;
+  background: #663c32;
+  border-color: #d4af37;
+  color: #fff7e0;
 }
 
 .tk-dropdown-item:hover {
   background: rgba(139, 115, 85, 0.3) !important;
-  color: #f1ece1 !important;
+  color: #ffffff !important;
 }
 
 .tk-dropdown-item.active {
-  color: #d4af37 !important;
+  color: #f0c060 !important;
   font-weight: 700 !important;
+  background: rgba(139, 115, 85, 0.2) !important;
 }
 
 /* ==========================================================================
@@ -188,41 +245,51 @@
   min-height: 0 !important;
 }
 
-/* Hide internal tab bar in toolkit — controlled by dropdown */
+/* Travel Tracker Step Wizard Bar (Calm TTRPG vibe) */
 .ctk-content .tt-tab-bar {
-  display: none !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  background: rgba(139, 115, 85, 0.08) !important;
+  border: 1px solid rgba(139, 115, 85, 0.25) !important;
+  border-radius: 2px !important;
+  padding: 6px 8px !important;
+  margin-bottom: 16px !important;
+  position: relative !important;
 }
 
-/* FIX: Added explicit height and layout centering to prevent text cutoff on sub-tabs */
 .ctk-content .tt-tab {
-  color: #6a5030 !important;
-  background: transparent !important;
-  border: 1px solid transparent !important;
-  border-bottom: none !important;
-  padding: 8px 16px !important;
-  height: 42px !important;
+  flex: 1 !important;
+  color: #68533e !important;
+  background: rgba(248, 245, 238, 0.55) !important;
+  border: 1px solid rgba(139, 115, 85, 0.22) !important;
+  border-radius: 2px !important;
+  padding: 8px 12px !important;
+  height: 38px !important;
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
   gap: 8px !important;
   font-family: 'Cinzel', serif !important;
-  font-size: 11px !important;
+  font-size: 11.5px !important;
   font-weight: 600 !important;
-  transition: all 0.2s ease !important;
+  transition: all 0.18s ease !important;
   letter-spacing: 0.5px !important;
+  cursor: pointer !important;
   box-sizing: border-box !important;
 }
 
-.ctk-content .tt-tab:hover {
-  color: #8b2515 !important;
-  background: rgba(139, 115, 85, 0.04) !important;
+.ctk-content .tt-tab:hover:not(.active) {
+  color: #34251a !important;
+  background: rgba(248, 245, 238, 0.88) !important;
+  border-color: rgba(139, 115, 85, 0.45) !important;
 }
 
 .ctk-content .tt-tab.active {
-  color: #8b2515 !important;
-  background: #f6efe2 !important;
-  border: 1px solid rgba(139, 115, 85, 0.3) !important;
-  border-bottom: 2px solid #8b2515 !important;
+  color: #34251a !important;
+  background: #f8f5ee !important;
+  border: 1px solid var(--adventure-rule, #c4baa6) !important;
+  box-shadow: none !important;
   font-weight: 700 !important;
 }
 
@@ -232,9 +299,19 @@
   justify-content: center !important;
   width: 20px !important;
   height: 20px !important;
-  font-size: 10px !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
   border-radius: 50% !important;
-  border: 1.5px solid currentColor !important;
+  background: rgba(139, 115, 85, 0.15) !important;
+  border: 1px solid rgba(139, 115, 85, 0.4) !important;
+  color: #68533e !important;
+  flex-shrink: 0 !important;
+}
+
+.ctk-content .tt-tab.active .tt-tab-step {
+  background: #663c32 !important;
+  border-color: #663c32 !important;
+  color: #f8f5ee !important;
 }
 
 .ctk-content .tt-tab-content-area {

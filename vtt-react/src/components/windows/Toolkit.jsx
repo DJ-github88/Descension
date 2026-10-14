@@ -8,9 +8,9 @@ import useGameStore from '../../store/gameStore';
 import './Toolkit.css';
 
 const TOOLKIT_TABS = [
-  { id: 'travel', label: 'Travel' },
-  { id: 'social', label: 'Social Encounter' },
-  { id: 'lutebox', label: 'Lutebox' },
+  { id: 'travel', label: 'Travel', icon: 'fas fa-compass' },
+  { id: 'social', label: 'Social Encounter', icon: 'fas fa-users' },
+  { id: 'lutebox', label: 'Lutebox', icon: 'fas fa-music' },
 ];
 
 const TRAVEL_SUB_TABS = [
@@ -78,6 +78,7 @@ export default function Toolkit({ isOpen, onClose }) {
                   className={`tk-tab ${activeTab === tab.id ? 'active' : ''}`}
                   onClick={() => setActiveTab(tab.id)}
                 >
+                  {tab.icon && <i className={tab.icon}></i>}
                   <span>{tab.label}</span>
                 </button>
                 {travelDropdownOpen && activeTab === 'travel' && (
@@ -101,6 +102,7 @@ export default function Toolkit({ isOpen, onClose }) {
                 className={`tk-tab ${activeTab === tab.id ? 'active' : ''}`}
                 onClick={() => setActiveTab(tab.id)}
               >
+                {tab.icon && <i className={tab.icon}></i>}
                 <span>{tab.label}</span>
               </button>
             )

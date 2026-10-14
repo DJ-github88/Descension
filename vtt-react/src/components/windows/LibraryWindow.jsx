@@ -954,7 +954,14 @@ const LibraryWindow = ({ isOpen, onClose }) => {
   const [hoverNote, setHoverNote] = useState(null);
   const [subTabs, setSubTabs] = useState({});
   const bookPageRef = useRef(null);
-  const { getWindowPosition, getWindowSize, setWindowPosition, setWindowSize } = useWindowStore();
+  // Select the (stable) actions individually. A bare useWindowStore() subscribes to the whole store,
+  // so every window drag start/stop re-rendered this component and everything under it.
+  // layoutVersion is subscribed on purpose so a layout reset still re-reads saved positions.
+  const getWindowPosition = useWindowStore(state => state.getWindowPosition);
+  const getWindowSize = useWindowStore(state => state.getWindowSize);
+  const setWindowPosition = useWindowStore(state => state.setWindowPosition);
+  const setWindowSize = useWindowStore(state => state.setWindowSize);
+  useWindowStore(state => state.layoutVersion);
   const isGMMode = useGameStore(state => state.isGMMode);
 
   const savedPos = getWindowPosition(WINDOW_ID, { x: 80, y: 80 });

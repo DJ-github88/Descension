@@ -547,6 +547,16 @@
   z-index: 999999999 !important;
 }
 
+/* The item picker sits over the live game canvas. A full-screen backdrop-filter
+   (inherited from the global .modal-overlay rule) forces the GPU to re-blur the
+   whole viewport whenever anything inside repaints, i.e. on every icon hover.
+   A flat dim layer looks the same at a fraction of the cost. */
+.modal-overlay.item-selector-overlay {
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
 .item-selector-modal {
   background-color: #f1ece1;
   border: 2px solid #a08c70;

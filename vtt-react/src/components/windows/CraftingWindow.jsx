@@ -13,7 +13,8 @@ function CraftingWindow({ isOpen, onClose }) {
         selectedProfession,
         setSelectedProfession,
         getProfessionLevel,
-        professionLevels
+        professionLevels,
+        craftingQueue = []
     } = useCraftingStore();
 
     // Safe wrapper for setSelectedProfession with fallback
@@ -28,10 +29,25 @@ function CraftingWindow({ isOpen, onClose }) {
 
     const handleProfessionSelect = (professionId) => {
         safeSetSelectedProfession(professionId);
+        setActiveTab('recipes');
     };
 
     const handleBackToProfessions = () => {
         safeSetSelectedProfession(null);
+        setActiveTab('recipes');
+    };
+
+    const queuedCount = selectedProfession
+        ? (craftingQueue || []).filter(item => item.status === 'queued' && item.recipe?.profession === selectedProfession).length
+        : 0;
+
+    const getProfessionIcon = (id) => {
+        switch (id) {
+            case 'alchemy': return 'fas fa-flask';
+            case 'blacksmithing': return 'fas fa-hammer';
+            case 'first-aid': return 'fas fa-heartbeat';
+            default: return 'fas fa-tools';
+        }
     };
 
     const renderContent = () => {
@@ -75,30 +91,29 @@ function CraftingWindow({ isOpen, onClose }) {
             defaultPosition={{ x: 200, y: 100 }}
             className="crafting-window"
             customHeader={
-                <div className="spellbook-tab-container" style={{ width: '100%', display: 'flex', alignItems: 'stretch', justifyContent: 'space-between', height: '100%' }}>
-                    <div style={{ display: 'flex', alignItems: 'stretch', height: '100%' }}>
-                        {selectedProfession && (
+                <div className="crafting-tab-container">
+                    {!selectedProfession ? (
+                        <button className="crafting-nav-tab active">
+                            <i className="fas fa-hammer"></i>
+                            <span>Professions</span>
+                        </button>
+                    ) : (
+                        <>
                             <button 
-                                className="spellbook-tab-button"
-                                style={{ 
-                                    flex: '0 0 auto',
-                                    minWidth: 'auto',
-                                    padding: '0 20px',
-                                    borderRight: '1px solid rgba(255, 255, 255, 0.12)',
-                                    background: 'rgba(255, 255, 255, 0.04)'
-                                }}
+                                className="crafting-nav-tab back"
                                 onClick={handleBackToProfessions}
                                 title="Back to professions list"
                             >
-                                <i className="fas fa-arrow-left" style={{ marginRight: '8px' }}></i>
-                                <span>Back</span>
+                                <i className="fas fa-arrow-left"></i>
+                                <span>Professions</span>
                             </button>
-                        )}
-                        <button className="spellbook-tab-button active" style={{ flex: '0 0 auto', minWidth: 'auto', padding: '0 24px' }}>
-                            <i className="fas fa-hammer" style={{ marginRight: '8px' }}></i>
-                            <span>
-                                {selectedProfession ? (
-                                    (() => {
+                            <button 
+                                className={`crafting-nav-tab ${activeTab === 'recipes' ? 'active' : ''}`}
+                                onClick={() => setActiveTab('recipes')}
+                            >
+                                <i className={getProfessionIcon(selectedProfession)}></i>
+                                <span>
+                                    {(() => {
                                         const profession = Object.values(PROFESSIONS).find(p => p.id === selectedProfession);
                                         const professionLevel = (typeof getProfessionLevel === 'function') 
                                             ? getProfessionLevel(selectedProfession) 
@@ -106,15 +121,20 @@ function CraftingWindow({ isOpen, onClose }) {
                                         const skillLevelInfo = Object.values(SKILL_LEVELS).find(skill => skill.level === professionLevel);
                                         const skillName = skillLevelInfo?.name || 'Untrained';
                                         return `${profession?.name || 'Profession'} (${skillName})`;
-                                    })()
-                                ) : (
-                                    'CRAFTING'
-                                )}
-                            </span>
-                        </button>
-                    </div>
+                                    })()}
+                                </span>
+                            </button>
+                            <button 
+                                className={`crafting-nav-tab ${activeTab === 'queue' ? 'active' : ''}`}
+                                onClick={() => setActiveTab('queue')}
+                            >
+                                <i className="fas fa-list-ol"></i>
+                                <span>Queue{queuedCount > 0 ? ` (${queuedCount})` : ''}</span>
+                            </button>
+                        </>
+                    )}
                 </div>
-                }
+            }
         >
             <div className="crafting-window-content">
                 {renderContent()}

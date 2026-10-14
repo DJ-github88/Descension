@@ -792,7 +792,7 @@
 
 /* ===== FORM CONTROLS ===== */
 
-[class*="-effects-container"] .form-group,
+:is(.buff-effects-container, .control-effects-container, .damage-effects-container, .debuff-effects-container, .graduated-effects-container, .healing-effects-container, .pf-effects-container, .prophecy-effects-container, .purification-effects-container, .restoration-effects-container, .spell-effects-container, .status-effects-container, .summoning-effects-container, .toxic-effects-container, .transformation-effects-container, .utility-effects-container) .form-group,
 .effect-config .form-group {
   display: flex;
   flex-direction: column;
@@ -802,9 +802,9 @@
 
 /* Removed duplicate .form-group label - using consolidated styles */
 
-[class*="-effects-container"] .form-group input,
-[class*="-effects-container"] .form-group select,
-[class*="-effects-container"] .form-group textarea,
+:is(.buff-effects-container, .control-effects-container, .damage-effects-container, .debuff-effects-container, .graduated-effects-container, .healing-effects-container, .pf-effects-container, .prophecy-effects-container, .purification-effects-container, .restoration-effects-container, .spell-effects-container, .status-effects-container, .summoning-effects-container, .toxic-effects-container, .transformation-effects-container, .utility-effects-container) .form-group input,
+:is(.buff-effects-container, .control-effects-container, .damage-effects-container, .debuff-effects-container, .graduated-effects-container, .healing-effects-container, .pf-effects-container, .prophecy-effects-container, .purification-effects-container, .restoration-effects-container, .spell-effects-container, .status-effects-container, .summoning-effects-container, .toxic-effects-container, .transformation-effects-container, .utility-effects-container) .form-group select,
+:is(.buff-effects-container, .control-effects-container, .damage-effects-container, .debuff-effects-container, .graduated-effects-container, .healing-effects-container, .pf-effects-container, .prophecy-effects-container, .purification-effects-container, .restoration-effects-container, .spell-effects-container, .status-effects-container, .summoning-effects-container, .toxic-effects-container, .transformation-effects-container, .utility-effects-container) .form-group textarea,
 .effect-config .form-group input,
 .effect-config .form-group select,
 .effect-config .form-group textarea {
@@ -818,9 +818,9 @@
   transition: border-color var(--my-transition-normal);
 }
 
-[class*="-effects-container"] .form-group input:focus,
-[class*="-effects-container"] .form-group select:focus,
-[class*="-effects-container"] .form-group textarea:focus,
+:is(.buff-effects-container, .control-effects-container, .damage-effects-container, .debuff-effects-container, .graduated-effects-container, .healing-effects-container, .pf-effects-container, .prophecy-effects-container, .purification-effects-container, .restoration-effects-container, .spell-effects-container, .status-effects-container, .summoning-effects-container, .toxic-effects-container, .transformation-effects-container, .utility-effects-container) .form-group input:focus,
+:is(.buff-effects-container, .control-effects-container, .damage-effects-container, .debuff-effects-container, .graduated-effects-container, .healing-effects-container, .pf-effects-container, .prophecy-effects-container, .purification-effects-container, .restoration-effects-container, .spell-effects-container, .status-effects-container, .summoning-effects-container, .toxic-effects-container, .transformation-effects-container, .utility-effects-container) .form-group select:focus,
+:is(.buff-effects-container, .control-effects-container, .damage-effects-container, .debuff-effects-container, .graduated-effects-container, .healing-effects-container, .pf-effects-container, .prophecy-effects-container, .purification-effects-container, .restoration-effects-container, .spell-effects-container, .status-effects-container, .summoning-effects-container, .toxic-effects-container, .transformation-effects-container, .utility-effects-container) .form-group textarea:focus,
 .effect-config .form-group input:focus,
 .effect-config .form-group select:focus,
 .effect-config .form-group textarea:focus {

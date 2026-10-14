@@ -95,7 +95,7 @@ const EntityLinkerModal = ({ isOpen, title, items = [], selectedIds = [], onTogg
                                     {item.icon ? (
                                         <img src={item.icon} alt="" className="entity-picker-thumb" onError={(e) => { e.target.style.display = 'none'; }} />
                                     ) : (
-                                        <i className={`fas ${item.faIcon || 'fa-tag'}`} style={{ color: '#d4af37', fontSize: '14px', width: '20px' }}></i>
+                                        <i className={`fas ${item.faIcon || 'fa-tag'}`} style={{ color: 'var(--adventure-seal, #663c32)', fontSize: '14px', width: '20px' }}></i>
                                     )}
                                     <div className="entity-picker-meta">
                                         <span className="entity-picker-title">{item.name || item.title}</span>
@@ -105,7 +105,7 @@ const EntityLinkerModal = ({ isOpen, title, items = [], selectedIds = [], onTogg
                             );
                         })
                     ) : (
-                        <p style={{ gridColumn: '1 / -1', color: '#8b5a1a', fontStyle: 'italic', padding: '10px 0', fontSize: '0.9rem' }}>
+                        <p style={{ gridColumn: '1 / -1', color: 'var(--adventure-muted, #68533e)', fontStyle: 'italic', padding: '10px 0', fontSize: '0.9rem' }}>
                             No entities found. Create or select custom entries in the Campaign or World tab first!
                         </p>
                     )}
@@ -6564,10 +6564,10 @@ function CampaignManagerWindow({ isOpen, onClose }) {
             <MythrillWindow
                 isOpen={isOpen}
                 onClose={onClose}
-                title=""
+                title="Campaign Manager"
                 className="campaign-manager-locked-window"
                 privateProjection
-                defaultSize={{ width: 620, height: 480 }}
+                defaultSize={{ width: 620, height: 500 }}
                 centered
             >
                 {renderCampaignManagerLockedView()}
@@ -6602,41 +6602,16 @@ function CampaignManagerWindow({ isOpen, onClose }) {
             {showInputModal && (
                 <div
                     className="campaign-modal-overlay"
-                    style={{
-                        position: 'fixed',
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        bottom: 0,
-                        backgroundColor: 'rgba(0, 0, 0, 0.7)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        zIndex: 100000,
-                        backdropFilter: 'blur(6px)',
-                        WebkitBackdropFilter: 'blur(6px)'
-                    }}
                     onClick={() => {
                         setShowInputModal(false);
                         setInputValue('');
                     }}
                 >
                     <div
-                        className="input-modal"
-                        style={{
-                            backgroundColor: '#f0e6d2',
-                            border: '3px solid #8b7355',
-                            borderRadius: '8px',
-                            padding: '20px',
-                            maxWidth: '400px',
-                            width: '90%',
-                            fontFamily: "'Bookman Old Style', 'Garamond', serif",
-                            color: '#3a2f1a',
-                            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.5)'
-                        }}
+                        className="campaign-modal-content input-modal"
                         onClick={(e) => e.stopPropagation()}
                     >
-                        <h3 style={{ margin: '0 0 15px 0', color: '#8b7355' }}>{inputModalConfig.title}</h3>
+                        <h3>{inputModalConfig.title}</h3>
                         <input
                             type="text"
                             value={inputValue}
@@ -6649,45 +6624,36 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                             placeholder={inputModalConfig.placeholder}
                             style={{
                                 width: '100%',
-                                padding: '8px',
+                                padding: '8px 12px',
                                 fontSize: '14px',
-                                border: '2px solid #8b7355',
-                                borderRadius: '4px',
-                                fontFamily: 'inherit',
-                                marginBottom: '15px',
+                                border: '1px solid var(--adventure-rule, #c4baa6)',
+                                borderRadius: '3px',
+                                background: 'var(--adventure-page, #f8f5ee)',
+                                color: 'var(--adventure-ink, #34251a)',
+                                fontFamily: "'Crimson Text', Georgia, serif",
+                                marginBottom: '16px',
                                 boxSizing: 'border-box'
                             }}
                             autoFocus
                         />
-                        <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end' }}>
+                        <div className="campaign-modal-actions">
                             <button
+                                className="campaign-modal-btn cancel"
                                 onClick={() => {
                                     setShowInputModal(false);
                                     setInputValue('');
-                                }}
-                                style={{
-                                    padding: '8px 16px',
-                                    backgroundColor: '#4a5d23',
-                                    color: 'white',
-                                    border: 'none',
-                                    borderRadius: '4px',
-                                    cursor: 'pointer',
-                                    fontFamily: 'inherit'
                                 }}
                             >
                                 Cancel
                             </button>
                             <button
+                                className="campaign-modal-btn confirm"
                                 onClick={handleInputSubmit}
                                 disabled={!inputValue.trim()}
                                 style={{
-                                    padding: '8px 16px',
-                                    backgroundColor: inputValue.trim() ? '#8b7355' : '#cccccc',
-                                    color: 'white',
-                                    border: 'none',
-                                    borderRadius: '4px',
-                                    cursor: inputValue.trim() ? 'pointer' : 'not-allowed',
-                                    fontFamily: 'inherit'
+                                    background: inputValue.trim() ? 'var(--adventure-seal, #663c32)' : '#cccccc',
+                                    borderColor: inputValue.trim() ? '#4a2820' : '#bbbbbb',
+                                    color: '#ffffff'
                                 }}
                             >
                                 Submit
@@ -6701,78 +6667,37 @@ function CampaignManagerWindow({ isOpen, onClose }) {
             {isConfirmModalOpen && (
                 <div
                     className="campaign-modal-overlay"
-                    style={{
-                        position: 'fixed',
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        bottom: 0,
-                        backgroundColor: 'rgba(0, 0, 0, 0.7)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        zIndex: 100000,
-                        backdropFilter: 'blur(6px)',
-                        WebkitBackdropFilter: 'blur(6px)'
-                    }}
                     onClick={() => {
                         setIsConfirmModalOpen(false);
                         setConfirmModalConfig({ message: '', onConfirm: null });
                     }}
                 >
                     <div
-                        className="confirm-modal"
-                        style={{
-                            backgroundColor: '#f0e6d2',
-                            border: '3px solid #8b7355',
-                            borderRadius: '8px',
-                            padding: '20px',
-                            maxWidth: '400px',
-                            textAlign: 'center',
-                            fontFamily: "'Bookman Old Style', 'Garamond', serif",
-                            color: '#3a2f1a',
-                            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.5)'
-                        }}
+                        className="campaign-modal-content confirm-modal"
                         onClick={(e) => e.stopPropagation()}
                     >
-                        <h3 style={{ margin: '0 0 15px 0', color: '#8b7355' }}>Confirm Action</h3>
-                        <p style={{ margin: '0 0 20px 0', lineHeight: '1.4' }}>
+                        <h3>Confirm Action</h3>
+                        <p>
                             {confirmModalConfig.message}
                         </p>
-                        <div style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
+                        <div className="campaign-modal-actions">
                             <button
+                                className="campaign-modal-btn cancel"
                                 onClick={() => {
                                     setIsConfirmModalOpen(false);
                                     setConfirmModalConfig({ message: '', onConfirm: null });
-                                }}
-                                style={{
-                                    padding: '8px 16px',
-                                    backgroundColor: '#4a5d23',
-                                    color: 'white',
-                                    border: 'none',
-                                    borderRadius: '4px',
-                                    cursor: 'pointer',
-                                    fontFamily: 'inherit'
                                 }}
                             >
                                 Cancel
                             </button>
                             <button
+                                className="campaign-modal-btn confirm danger"
                                 onClick={() => {
                                     if (confirmModalConfig.onConfirm) {
                                         confirmModalConfig.onConfirm();
                                     }
                                     setIsConfirmModalOpen(false);
                                     setConfirmModalConfig({ message: '', onConfirm: null });
-                                }}
-                                style={{
-                                    padding: '8px 16px',
-                                    backgroundColor: '#8b7355',
-                                    color: 'white',
-                                    border: 'none',
-                                    borderRadius: '4px',
-                                    cursor: 'pointer',
-                                    fontFamily: 'inherit'
                                 }}
                             >
                                 Confirm

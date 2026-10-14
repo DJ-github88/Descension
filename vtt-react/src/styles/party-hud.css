@@ -337,16 +337,16 @@
 
 /* Tooltip */
 .character-hud-tooltip {
-    background: linear-gradient(135deg, rgba(15, 15, 25, 0.95) 0%, rgba(25, 20, 35, 0.95) 100%);
-    border: 2px solid #a08c70;
-    border-radius: 6px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-    color: #f1ece1;
-    font-family: var(--my-font-serif);
+    background: var(--adventure-paper, #f1ece1);
+    border: 1px solid var(--adventure-rule, #c4baa6);
+    border-radius: 3px;
+    box-shadow: 0 4px 14px rgba(52, 37, 26, 0.15);
+    color: var(--adventure-ink, #34251a);
+    font-family: var(--my-font-serif, 'Cinzel', serif);
     font-size: 12px;
     padding: 8px 12px;
-    max-width: 200px;
-    backdrop-filter: blur(4px);
+    max-width: 220px;
+    backdrop-filter: none;
 }
 
 .tooltip-header {
@@ -1583,25 +1583,26 @@
 .mount-adjust-menu {
     position: fixed;
     z-index: 99999;
-    background: linear-gradient(135deg, #2b1f14, #1a120b);
-    border: 2px solid #8b7355;
-    border-radius: 6px;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.8), 0 0 10px rgba(139, 115, 85, 0.35);
+    background: var(--adventure-paper, #f1ece1);
+    border: 1px solid var(--adventure-rule, #c4baa6);
+    border-radius: 3px;
+    box-shadow: 0 4px 16px rgba(52, 37, 26, 0.16);
     padding: 8px 10px;
     min-width: 140px;
     font-family: var(--my-font-serif, 'Cinzel', serif);
     user-select: none;
-    color: #f5deb3;
+    color: var(--adventure-ink, #34251a);
 }
 
 .mount-adjust-title {
     font-size: 11px;
     font-weight: 700;
-    color: #f5deb3;
+    color: var(--adventure-ink, #34251a);
     text-align: center;
     margin-bottom: 6px;
     padding-bottom: 4px;
-    border-bottom: 1px solid rgba(139, 115, 85, 0.4);
+    border-bottom: 1px solid var(--adventure-rule, #c4baa6);
+    letter-spacing: 0.03em;
 }
 
 .mount-adjust-label {
@@ -1617,14 +1618,14 @@
     font: inherit;
     font-weight: 700;
     cursor: pointer;
-    border-radius: 3px;
-    text-decoration: underline dotted rgba(245, 222, 179, 0.5);
+    border-radius: 2px;
+    text-decoration: underline dotted var(--adventure-rule, #c4baa6);
     text-underline-offset: 2px;
 }
 
 .mount-adjust-value:hover {
-    color: #ffd8a8;
-    background: rgba(139, 115, 85, 0.35);
+    color: var(--adventure-seal, #663c32);
+    background: rgba(52, 37, 26, 0.06);
 }
 
 .mount-adjust-confirm,
@@ -1640,28 +1641,30 @@
     font-weight: 700;
     line-height: 1;
     border-radius: 3px;
-    border: 1px solid #8b7355;
     cursor: pointer;
-    background: #3a2818;
-    transition: background 0.15s ease;
+    transition: background 0.15s ease, border-color 0.15s ease;
 }
 
 .mount-adjust-confirm {
-    color: #2ecc71;
-    border-color: #27ae60;
+    color: #3f6b3a;
+    border: 1px solid rgba(63, 107, 58, 0.4);
+    background: rgba(63, 107, 58, 0.08);
 }
 
 .mount-adjust-confirm:hover {
-    background: rgba(46, 204, 113, 0.25);
+    background: rgba(63, 107, 58, 0.18);
+    border-color: #3f6b3a;
 }
 
 .mount-adjust-cancel {
-    color: #e74c3c;
-    border-color: #c0392b;
+    color: #8b3a2a;
+    border: 1px solid rgba(139, 58, 42, 0.4);
+    background: rgba(139, 58, 42, 0.08);
 }
 
 .mount-adjust-cancel:hover {
-    background: rgba(231, 76, 60, 0.25);
+    background: rgba(139, 58, 42, 0.18);
+    border-color: #8b3a2a;
 }
 
 .mount-adjust-input {
@@ -1670,16 +1673,16 @@
     font: inherit;
     font-weight: 700;
     text-align: center;
-    color: #1a120b;
-    background: #f5deb3;
-    border: 1px solid #8b7355;
+    color: var(--adventure-ink, #34251a);
+    background: var(--adventure-page, #f8f5ee);
+    border: 1px solid var(--adventure-rule, #c4baa6);
     border-radius: 3px;
     outline: none;
 }
 
 .mount-adjust-input:focus {
-    border-color: #ffd8a8;
-    box-shadow: 0 0 0 2px rgba(255, 216, 168, 0.3);
+    border-color: var(--adventure-seal, #663c32);
+    box-shadow: 0 0 0 2px rgba(102, 60, 50, 0.15);
 }
 
 .mount-adjust-input::-webkit-outer-spin-button,
@@ -1699,16 +1702,17 @@
     right: 6px;
     background: none;
     border: none;
-    color: #c5b597;
+    color: var(--adventure-muted, #68533e);
     font-size: 14px;
     cursor: pointer;
     line-height: 1;
     padding: 0;
     font-family: sans-serif;
+    transition: color 0.15s ease;
 }
 
 .mount-adjust-close:hover {
-    color: #ff6b6b;
+    color: var(--adventure-seal, #663c32);
 }
 
 .mount-adjust-row {
@@ -1723,35 +1727,39 @@
     font-size: 11px;
     font-weight: 700;
     border-radius: 3px;
-    border: 1px solid #8b7355;
+    border: 1px solid var(--adventure-rule, #c4baa6);
     cursor: pointer;
-    background: #3a2818;
-    color: #f5deb3;
-    transition: background 0.15s ease, transform 0.1s ease;
+    background: var(--adventure-page, #f8f5ee);
+    color: var(--adventure-ink, #34251a);
+    transition: background 0.15s ease, border-color 0.15s ease;
     font-family: var(--my-font-serif, 'Cinzel', serif);
 }
 
 .mount-adjust-btn:hover {
-    background: #503822;
-    transform: scale(1.05);
+    background: var(--adventure-panel, #e8e2d4);
+    border-color: var(--adventure-seal, #663c32);
 }
 
 .mount-adjust-btn.plus {
-    border-color: #27ae60;
-    color: #2ecc71;
+    border-color: rgba(63, 107, 58, 0.35);
+    color: #3f6b3a;
+    background: rgba(63, 107, 58, 0.06);
 }
 
 .mount-adjust-btn.plus:hover {
-    background: rgba(46, 204, 113, 0.2);
+    background: rgba(63, 107, 58, 0.16);
+    border-color: #3f6b3a;
 }
 
 .mount-adjust-btn.minus {
-    border-color: #c0392b;
-    color: #e74c3c;
+    border-color: rgba(139, 58, 42, 0.35);
+    color: #8b3a2a;
+    background: rgba(139, 58, 42, 0.06);
 }
 
 .mount-adjust-btn.minus:hover {
-    background: rgba(231, 76, 60, 0.2);
+    background: rgba(139, 58, 42, 0.16);
+    border-color: #8b3a2a;
 }
 
 .member-name {

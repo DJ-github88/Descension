@@ -1,6 +1,6 @@
 # Mythrill / Prism — engineering state
 
-Updated: 2026-10-13. Checkout: `D:/VTT` (the old `D:/Mythrill/Descension`
+Updated: 2026-10-14. Checkout: `D:/VTT` (the old `D:/Mythrill/Descension`
 path in CLAUDE.md is historical). Roadmap authority: [MYTHRILL_NEXT_PHASE.md](MYTHRILL_NEXT_PHASE.md).
 
 ## Accepted baseline
@@ -13,6 +13,13 @@ path in CLAUDE.md is historical). Roadmap authority: [MYTHRILL_NEXT_PHASE.md](MY
   not HEAD alone; R2/R3/R4/R5/R6 and the annotation correction carry forward.
 - Accepted journal, privacy, P5-19 and socket cases carry forward.
 - Source acceptance **is not deployment readiness**.
+- P7: **PASS — independently source-accepted 2026-10-14** at exact reviewed
+  hashes, execution HEAD `8ee079fa41714890099e3db82b06efa0701bb0cc`.
+  Source acceptance is bounded to frozen F1–F6/A1–A11; no P8/P9 approval.
+- P8: **PASS — independently source-accepted 2026-10-14**, original Branvig
+  Feather Slash only, frozen F8.1–F8.5/W1–W12. The single bounded repair closes
+  B8-1; source acceptance does not close human/tabletop/backend/deployment gates
+  or authorize P9/broader combat proposals.
 - Outstanding gates: **P5-05/07/09/10/11/12/13/31/32**. No gate is closed by P6 client simulations.
 
 ## Evidence
@@ -70,6 +77,93 @@ P5-05/07/09/10/11/12/13/31/32 remain environment-blocked. Source acceptance
 does not authorize deployment or satisfy roadmap §20 release gates.
 
 ## Current work
+
+**Current P8 verdict: PASS — independently source-accepted, 2026-10-14, cycle2.**
+Complete independent report, preserved byte-for-byte:
+[MYTHRILL_P8_SOURCE_INDEPENDENT_ACCEPTANCE_20261014.md](MYTHRILL_P8_SOURCE_INDEPENDENT_ACCEPTANCE_20261014.md).
+SHA256 `62bdda8fcc100846bbb4a6554fd29ddef3cbe5dd67e4ffc2e16b99e2324a9f92`.
+External original:
+`D:/AppData/Temp/opencode/p8-20261014/independent/final-cycle2/review-20261014-final-PASS.md`.
+
+Reviewed HEAD remains `8ee079fa41714890099e3db82b06efa0701bb0cc`; dirty concurrent
+work is preserved. Repair input packet:
+`D:/AppData/Temp/opencode/p8-20261014/repair/seal-1792005519293/source.json`,
+SHA256 `cd49b31eccc57c717ae938d89d437520b66faf2294f7a8648b758d4e53f8a07e`.
+Frozen P8 contract SHA256
+`1436f823b44405a9ecf47d41da99d8c5522dafc75acaaae6aec8243a960b5173` is unchanged.
+Independent accepted source: **527 unique inputs /2,412 loaded comparisons /0 drift**,
+`final-cycle2/accepted-source.json.gz` SHA256
+`b53b919df7f944dfbe58a7ec380c46b0af99097b437ce7d21dd01a3c58e74a0c`.
+Full hashes: `accepted-source-hashes.json` SHA256
+`46c804c60306011d1e7a83d21608557a748cb2e56559989e52ff46474b7dd5bc`.
+The focused controller's accepted SHA256 is
+`f8f5654578981e482751b4a48ebef54b4774bbe0f43db1c7cb6943614e423b09`.
+
+Fresh independent B8-1 held-ACK/same-owner real Socket.IO rejoin passes: retired
+delivery retains unknown intent/exact UUID/roll; explicit same-command checking
+returns the original accepted receipt without new payment/damage/RNG. Stable
+mounted W1–W12, fresh Node/P3 known-versus-unknown recovery using the review's own
+browser inputs, affected P7 owner/lifecycle controls and actual Chrome printed
+reference all pass. Focused **13 suites /128 tests**; scoped lint **0 errors /20
+incumbent token warnings**. Exact commands/results are in `final-cycle2/validation-summary.json`;
+raw observations, PDF, source snapshots, `publication.json` and artifact manifest
+are retained in that same external directory. Cycle1 BLOCK/failure/probe remain
+under `independent/final-cycle1/`; the sole bounded repair cycle is consumed.
+
+Actual raw loader/fan/controller/target UI, exact bound creature or primary-PC,
+GM final adjudication, temp-first affordable atomic two-actor P7 command, scoped
+latest-action custody and receipt-only GM/observer result are accepted for this
+original slice. **40/42** historical P7 seal entries are unchanged; only the
+intentional client prepared-command/principal seam and classified storage family
+extend P7. Server/schema/static data remain unchanged; P5/P6/P7 historical
+acceptance stays attached to its original reviewed identity and is not relabelled.
+
+This is source proof with declared provider/owner/lease/cloud transport and browser
+SDK/config/inert-library fixtures. **Actual human/creator/tabletop/GM-observer-PC,
+two-device, live Firestore/rules/backend lease, full-App/build, staged deployment
+and deployed crash/restart proof remain unperformed/outstanding, not waived.**
+Recorded physical faces parity and Chrome print do not claim human playtesting.
+**P5-05/07/09/10/11/12/13/31/32 and roadmap release gates remain outstanding.**
+Reviewer changed only report publication and this ledger; no production edits,
+git writes, commit, push or deployment. **Stop before P9.**
+
+### Historical P7 independent source acceptance
+
+**Current P7 verdict: PASS — independently source-accepted, 2026-10-14.**
+Complete independent report, preserved byte-for-byte:
+[MYTHRILL_P7_SOURCE_INDEPENDENT_ACCEPTANCE_20261014.md](MYTHRILL_P7_SOURCE_INDEPENDENT_ACCEPTANCE_20261014.md).
+External original:
+`D:/AppData/Temp/opencode/p7-final-20261013/independent/review-20261014-final-PASS.md`.
+
+The three remaining defects are independently closed: B5 lifecycle ordering,
+B7 reload-durable private recovery/shared-personal condition preservation, and
+ordinary F5 bounds/build editing. The cycle1 local-condition loss is closed by
+the single bounded repair; the independent original failed observation now
+passes unchanged, as do expanded matched-owner hydration/receipt controls.
+Earlier independent B1/B2/B3/B4/B6 and A2/A3/A4/A6/A8/A11 PASS carry forward.
+
+Reviewed exact seal: `D:/AppData/Temp/opencode/p7-final-20261013/combined/seal-1791980637030/source.json`.
+Execution HEAD was externally advanced to `8ee079fa41714890099e3db82b06efa0701bb0cc`;
+concurrent unrelated work was preserved. All 42 seal entries match; independent
+56-path source snapshot/hashes and 5,379-file retained evidence custody are under
+`D:/AppData/Temp/opencode/p7-final-20261013/independent/cycle2-20261014/`.
+
+Independent cycle2 results: 24 focused suites / 178 tests; original failed probe;
+matched-owner full/repeat/map/section/accepted-receipt witness; lifecycle and
+actual reload/export/isolation/storage-refusal recovery browsers; retained P5
+(3), P6 (5), container (8), remaining (4 plus 17 malformed refusals), and regression
+(14) controls all pass. Scoped lint: 0 errors / 7 retained warnings. Prior
+independently executed unchanged server evidence remains valid: 35 registered
+tests and 192 dependency passes / 1 archived opt-in P7_RED witness pending.
+Conditional unavailable-DB behavior remains unestablished.
+
+This is source acceptance with simulated provider/Firestore/lease/cloud transport
+boundaries, not full-App/two-device/deployed restart/live-backend or whole-current-
+tree build acceptance. **P5-05/07/09/10/11/12/13/31/32 remain outstanding.** P6's
+historical source acceptance stays attached to its original reviewed identity.
+No deployment, commit/push, P8/P9 or presentation work follows. Stop at P7.
+
+### Historical P7 correction handoff and pre-final BLOCK
 
 **Current P7 verdict: independent BLOCK (B1–B7); corrections implemented,
 awaiting independent acceptance.** The historical implementation claims below

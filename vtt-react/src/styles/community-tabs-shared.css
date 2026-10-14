@@ -554,12 +554,16 @@
 }
 
 /* ===== SECTION HEADERS ===== */
-.section-header {
+.community-tab-content .section-header,
+.community-modal .section-header,
+.community-layout .section-header {
   text-align: center;
   margin-bottom: 24px;
 }
 
-.section-header h3 {
+.community-tab-content .section-header h3,
+.community-modal .section-header h3,
+.community-layout .section-header h3 {
   font-family: var(--my-font-display, 'Cinzel', serif);
   font-size: 24px;
   font-weight: var(--my-font-bold, 700);

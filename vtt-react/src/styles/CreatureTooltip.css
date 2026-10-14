@@ -692,3 +692,82 @@
     max-width: 280px;
   }
 }
+
+/* ==========================================================================
+   Calm token tooltip (creatures + characters): flat linen page, ruled
+   sections, ink figures, quiet text labels. No gradients, filled chips,
+   glossy bars or badges.
+   ========================================================================== */
+.creature-tooltip {
+  --tt-ink: #34251a; --tt-muted: #68533e; --tt-rule: #c4baa6; --tt-seal: #663c32;
+  font-family: 'Crimson Text', Georgia, serif;
+  font-size: 14px;
+  color: var(--tt-ink);
+  background: #f8f5ee;
+  background-image: none;
+  border: 1px solid var(--tt-rule);
+  border-radius: 4px;
+  box-shadow: 0 6px 18px rgba(52, 37, 26, 0.25);
+  animation: none;
+  min-width: 230px;
+  max-width: 300px;
+}
+.creature-tooltip .creature-tooltip-header { background: transparent; border-bottom: 1px solid var(--tt-rule); padding: 10px 12px 8px; align-items: center; }
+.creature-tooltip .creature-tooltip-header::before { display: none; }
+.creature-tooltip .tooltip-icon { width: 42px; height: 42px; border-radius: 50%; border: 1px solid var(--tt-seal); box-shadow: none; background: #efe8d8; }
+.creature-tooltip .tooltip-name { font-size: 1rem; letter-spacing: 0.05em; color: var(--tt-ink); text-shadow: none; }
+.creature-tooltip .tooltip-subtitle { font-family: 'Crimson Text', Georgia, serif; font-style: italic; font-size: 0.9rem; color: var(--tt-muted); gap: 4px 8px; }
+.creature-tooltip :is(.tooltip-cr, .tooltip-faction) {
+  background: transparent; padding: 0; border-radius: 0; font-style: normal; font-family: 'Cinzel', Georgia, serif;
+  font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--tt-seal); font-weight: 700;
+}
+.creature-tooltip .tooltip-role-badge {
+  background: transparent !important; border: 0 !important; box-shadow: none; padding: 0; margin: 0;
+  font-family: 'Cinzel', Georgia, serif; font-size: 0.58rem; letter-spacing: 0.14em; color: var(--tt-muted) !important;
+}
+.creature-tooltip .creature-tooltip-body { padding: 8px 12px 10px; }
+
+/* Vitals strip */
+.creature-tooltip .tt-stat-grid { gap: 0; margin-bottom: 8px; padding: 6px 0; border-top: 1px solid var(--tt-rule); border-bottom: 1px solid var(--tt-rule); }
+.creature-tooltip .tt-stat-cell { background: transparent; border: 0; border-radius: 0; padding: 0 4px; gap: 1px; }
+.creature-tooltip .tt-stat-cell + .tt-stat-cell { border-left: 1px solid var(--tt-rule); }
+.creature-tooltip .tt-stat-cell:hover { background: transparent; }
+.creature-tooltip :is(.tt-stat-cell-label, .tt-row-label, .tt-health-label, .tt-vague-health-label, .tt-descriptor-label, .tt-resist-title, .tt-conditions-title, .tt-special-move-label) {
+  font-family: 'Cinzel', Georgia, serif; font-size: 0.58rem; font-weight: 700; letter-spacing: 0.12em; color: var(--tt-muted);
+}
+.creature-tooltip .tt-stat-cell-value { font-family: 'Crimson Text', Georgia, serif; font-size: 1.1rem; color: var(--tt-ink); font-variant-numeric: tabular-nums; }
+.creature-tooltip .tt-stat-cell-value span[style] { color: #274a78 !important; }
+.creature-tooltip :is(.tt-stat-cell-value .stat-unit, .tt-stat-cell-value .slash, .tt-stat-cell-value .stat-max) { color: var(--tt-muted); font-size: 0.85rem; }
+.creature-tooltip .tt-divider { background: var(--tt-rule); margin: 6px 0; }
+
+/* Rows */
+.creature-tooltip .tt-row-value { font-family: 'Crimson Text', Georgia, serif; font-size: 0.98rem; color: var(--tt-ink); }
+.creature-tooltip .tt-row-value .dice-badge { font-family: 'Crimson Text', Georgia, serif; font-size: 1rem; font-weight: 700; background: transparent; border: 0; padding: 0; color: var(--tt-ink); }
+.creature-tooltip .tt-row-value .dmg-type { font-style: italic; font-size: 0.92rem; color: var(--tt-muted); }
+.creature-tooltip .tt-special-move-value { font-size: 0.98rem; color: var(--tt-ink); }
+
+/* Health: slim flat bar, label as plain text beneath */
+.creature-tooltip .tt-health-value { font-family: 'Crimson Text', Georgia, serif; }
+.creature-tooltip .tt-health-value .hp-num { font-size: 1.05rem; }
+.creature-tooltip .tt-health-value .hp-slash, .creature-tooltip .tt-health-value .hp-max { color: var(--tt-muted); }
+.creature-tooltip .tt-health-value .hp-pct { background: transparent; border: 0; padding: 0; font-size: 0.85rem; font-style: italic; }
+.creature-tooltip .tt-bar-track { height: 5px; background: #e2dbc9; border: 0; border-radius: 3px; box-shadow: none; }
+.creature-tooltip .tt-bar-fill { border-radius: 3px; }
+.creature-tooltip .tt-bar-fill::after { display: none; }
+.creature-tooltip .tt-bar-label { position: static; display: block; margin-top: 3px; text-align: left; font-family: 'Cinzel', Georgia, serif; font-size: 0.58rem; font-weight: 700; letter-spacing: 0.12em; color: var(--tt-muted); text-shadow: none; }
+.creature-tooltip .tt-vague-health-state, .creature-tooltip .tt-descriptor-badge {
+  background: transparent !important; border: 0 !important; padding: 0; border-radius: 0; font-family: 'Crimson Text', Georgia, serif; font-size: 1rem; font-weight: 700; letter-spacing: 0;
+}
+
+/* Resistances and conditions: coloured text lists, not pills */
+.creature-tooltip :is(.tt-resist-section, .tt-conditions-section) { border-top: 1px solid var(--tt-rule); }
+.creature-tooltip :is(.tt-resist-chips, .tt-condition-chips) { gap: 2px 12px; }
+.creature-tooltip :is(.tt-chip, .tt-cond-chip, .tt-more-cond) { background: transparent !important; border: 0 !important; padding: 0 !important; border-radius: 0; font-family: 'Crimson Text', Georgia, serif; font-size: 0.95rem; font-weight: 600; letter-spacing: 0; }
+.creature-tooltip .tt-chip-icon { width: 13px; height: 13px; border-radius: 0; }
+.creature-tooltip .tt-chip.resistant, .creature-tooltip .tt-cond-chip.buff { color: #3d5a3a; }
+.creature-tooltip .tt-chip.immune { color: var(--tt-seal); }
+.creature-tooltip .tt-chip.vulnerable, .creature-tooltip .tt-cond-chip.debuff { color: #8b2b1d; }
+.creature-tooltip .tt-cond-chip.neutral, .creature-tooltip .tt-more-cond { color: var(--tt-muted); }
+.creature-tooltip .tt-cond-duration { background: transparent; padding: 0; font-size: 0.8rem; font-style: italic; }
+.creature-tooltip .tt-combat-status { background: transparent; border: 0; border-top: 1px solid var(--tt-rule); border-radius: 0; font-family: 'Cinzel', Georgia, serif; font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--tt-muted); }
+.creature-tooltip .tt-combat-status.my-turn { background: transparent; border-color: var(--tt-rule); color: var(--tt-seal); }

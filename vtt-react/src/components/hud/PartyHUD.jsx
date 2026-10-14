@@ -1939,13 +1939,13 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                     {tooltipData.effectSummary && (
                         <div style={{
                             fontSize: '12px',
-                            color: '#ffffff !important',
+                            color: '#34251a',
                             fontWeight: '600',
                             marginTop: '4px',
                             padding: '4px 8px',
-                            backgroundColor: 'rgba(122, 59, 46, 0.1)',
-                            borderRadius: '4px',
-                            borderLeft: '3px solid #7a3b2e'
+                            backgroundColor: 'rgba(102, 60, 50, 0.08)',
+                            borderRadius: '3px',
+                            borderLeft: '3px solid #663c32'
                         }}>
                             {tooltipData.effectSummary}
                         </div>
@@ -1953,13 +1953,13 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                     {tooltipData.effects && !tooltipData.effectSummary && (
                         <div style={{
                             fontSize: '12px',
-                            color: '#ffffff !important',
+                            color: '#34251a',
                             fontWeight: '600',
                             marginTop: '4px',
                             padding: '4px 8px',
-                            backgroundColor: 'rgba(122, 59, 46, 0.1)',
-                            borderRadius: '4px',
-                            borderLeft: '3px solid #7a3b2e'
+                            backgroundColor: 'rgba(102, 60, 50, 0.08)',
+                            borderRadius: '3px',
+                            borderLeft: '3px solid #663c32'
                         }}>
                             {formatBuffEffects(tooltipData.effects)}
                         </div>
@@ -1973,7 +1973,7 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                         <div style={{
                             marginTop: '8px',
                             fontSize: '12px',
-                            color: '#ffffff !important',
+                            color: '#663c32',
                             fontWeight: 'bold'
                         }}>
                             Duration: {tooltipData.duration}

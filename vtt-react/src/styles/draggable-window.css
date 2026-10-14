@@ -13,8 +13,16 @@
 }
 
 /* Global performance rules during window dragging and resizing to eliminate layout thrashing & latency */
-body.window-dragging *,
-body.window-resizing *,
+/* Scoped to the window being moved/resized. The old `body.window-dragging *` /
+   `body.window-resizing *` selectors invalidated every element on the page at the
+   start and end of each drag. user-select is inherited, so setting it on <body>
+   covers the rest of the page for free. */
+body.window-dragging,
+body.window-resizing {
+    user-select: none !important;
+    -webkit-user-select: none !important;
+}
+
 .react-draggable-dragging *,
 .draggable-window.resizing * {
     transition: none !important;

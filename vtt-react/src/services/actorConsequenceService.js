@@ -143,11 +143,14 @@ function request(event, payload) {
   const game = state(), socket = game.multiplayerSocket;
   if (!socket?.connected || isSocketRetired(socket)) return Promise.resolve(error('room_connection_unavailable'));
   const roomId = game.multiplayerRoom?.id, generation = getBootstrapGateState().accountGeneration;
+  const uid = getStore('authStore').getState().user?.uid;
+  const current = () => state().multiplayerSocket === socket && state().multiplayerRoom?.id === roomId &&
+    getBootstrapGateState().accountGeneration === generation && getStore('authStore').getState().user?.uid === uid && !isSocketRetired(socket);
   return new Promise(resolve => {
-    const timer = setTimeout(() => resolve(error('outcome_unknown')), 5000);
+    const timer = setTimeout(() => resolve(current() ? error('outcome_unknown') : { success: false, code: 'retired_principal' }), 5000);
     socket.emit(event, payload, result => {
       clearTimeout(timer);
-      if (state().multiplayerSocket !== socket || state().multiplayerRoom?.id !== roomId || getBootstrapGateState().accountGeneration !== generation || isSocketRetired(socket)) {
+      if (!current()) {
         resolve({ success: false, code: 'retired_principal' }); return;
       }
       resolve(result);
@@ -348,11 +351,29 @@ export async function submitActorEntries(entries, extra = {}) {
     const snapshot = await refreshActorSnapshot();
     if (!snapshot.success) return status(snapshot);
   }
-  const command = { version: 1, roomId: admission.roomId, commandId: crypto.randomUUID(), actionEpoch: admission.actionEpoch,
-    baseCommitSequence: admission.commitSequence, actors: clone(entries), ...extra };
+  const command = prepareActorCommand(entries, extra);
   if (pending.size >= 32) return error('command_capacity');
   pending.set(command.commandId, command);
   origins.set(command.commandId, { uid: getStore('authStore').getState().user?.uid, accountGeneration: getBootstrapGateState().accountGeneration, roomId: command.roomId });
+  return retryActorCommand(command.commandId);
+}
+/** Small P8 seam: prepare after an explicit snapshot, preserve these exact bytes,
+ * then submit/adopt them under the current principal. No rebase or new UUID. */
+export function prepareActorCommand(entries, extra = {}) {
+  if (!admission || admission.roomId !== state().multiplayerRoom?.id) throw new Error('Current actor snapshot required');
+  if (Object.keys(extra).some(key => !['source', 'target', 'adjudication'].includes(key))) throw new Error('Unsupported prepared command fields');
+  const command = clone({ version: 1, roomId: admission.roomId, commandId: crypto.randomUUID(), actionEpoch: admission.actionEpoch,
+    baseCommitSequence: admission.commitSequence, actors: entries, ...extra });
+  const freeze = value => { if (value && typeof value === 'object') { Object.values(value).forEach(freeze); Object.freeze(value); } return value; };
+  return freeze(command);
+}
+export function submitPreparedActorCommand(command) {
+  const game = state(), uid = getStore('authStore').getState().user?.uid;
+  if (!uid || command?.version !== 1 || command.roomId !== game.multiplayerRoom?.id || !command.commandId) return Promise.resolve(error('retired_principal'));
+  if (pending.has(command.commandId) && !same(pending.get(command.commandId), command)) return Promise.resolve(error('command_id_conflict'));
+  if (!pending.has(command.commandId) && pending.size >= 32) return Promise.resolve(error('command_capacity'));
+  pending.set(command.commandId, clone(command));
+  origins.set(command.commandId, { uid, accountGeneration: getBootstrapGateState().accountGeneration, roomId: command.roomId, propose: false });
   return retryActorCommand(command.commandId);
 }
 export async function retryActorCommand(commandId) {
@@ -361,12 +382,14 @@ export async function retryActorCommand(commandId) {
   const origin = origins.get(commandId);
   if (!origin || origin.uid !== getStore('authStore').getState().user?.uid || origin.accountGeneration !== getBootstrapGateState().accountGeneration || origin.roomId !== state().multiplayerRoom?.id) return error('retired_principal');
   const result = await request('actor_consequence', command);
+  // A retired ACK/timeout is not a new account's visible action status.
+  if (origin.uid !== getStore('authStore').getState().user?.uid || origin.accountGeneration !== getBootstrapGateState().accountGeneration || origin.roomId !== state().multiplayerRoom?.id || result.code === 'retired_principal') return { success: false, code: 'retired_principal' };
   if (origin.acceptedResult && ['outcome_unknown', 'room_connection_unavailable'].includes(result.code) &&
     origin.uid === getStore('authStore').getState().user?.uid && origin.accountGeneration === getBootstrapGateState().accountGeneration && origin.roomId === state().multiplayerRoom?.id) {
     return status({ ...origin.acceptedResult, commandId });
   }
   if (result.success && !applyAcceptedConsequence(result)) return status({ success: false, code: 'snapshot_required', commandId, acceptedReceipt: result.receipt, status: result.status });
-  if (result.code === 'authorization_required') {
+  if (result.code === 'authorization_required' && origin.propose !== false) {
     const proposal = await request('actor_propose', command);
     return status({ ...proposal, commandId });
   }

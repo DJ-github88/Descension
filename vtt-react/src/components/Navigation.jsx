@@ -98,7 +98,14 @@ function QuestLogWindowWrapper({ isOpen, onClose }) {
 function SettingsWindowWrapper({ isOpen, onClose }) {
     const [activeTab, setActiveTab] = useState('interface');
     const isGMMode = useGameStore(state => state.isGMMode);
-    const { getWindowPosition, getWindowSize, setWindowPosition, setWindowSize } = useWindowManagerStore();
+    // Select the (stable) actions individually. A bare useWindowManagerStore() subscribes to the whole store,
+    // so every window drag start/stop re-rendered this component and everything under it.
+    // layoutVersion is subscribed on purpose so a layout reset still re-reads saved positions.
+    const getWindowPosition = useWindowManagerStore(state => state.getWindowPosition);
+    const getWindowSize = useWindowManagerStore(state => state.getWindowSize);
+    const setWindowPosition = useWindowManagerStore(state => state.setWindowPosition);
+    const setWindowSize = useWindowManagerStore(state => state.setWindowSize);
+    useWindowManagerStore(state => state.layoutVersion);
 
     const SETTINGS_ID = 'settings';
     const savedPos = getWindowPosition(SETTINGS_ID, { x: 100, y: 100 });
@@ -995,7 +1002,8 @@ export default function Navigation({ onReturnToLanding }) {
                         <Suspense fallback={null}>
                             <MythrillWindow
                                 key={button.id}
-                                title={safeTitle}
+                                title=""
+                                ariaLabel={safeTitle || 'Inventory'}
                                 isOpen={true}
                                 onClose={() => handleButtonClick(button.id)}
                                 privateProjection
@@ -1004,13 +1012,13 @@ export default function Navigation({ onReturnToLanding }) {
                                 onDrag={(pos) => useWindowManagerStore.getState().setWindowPosition(invId, { x: pos.x, y: pos.y })}
                                 onResize={(size) => useWindowManagerStore.getState().setWindowSize(invId, size)}
                                 customHeader={
-                                    <div className="spellbook-tab-container" style={{ width: '100%', display: 'flex', alignItems: 'center' }}>
-                                        <button className="spellbook-tab-button active">
-                                            <i className="fas fa-backpack" style={{ marginRight: '8px' }}></i>
-                                            <span>INVENTORY</span>
+                                    <div className="spellbook-tab-container inventory-tab-container" style={{ width: '100%', display: 'flex', alignItems: 'center' }}>
+                                        <button className="spellbook-tab-button inventory-nav-tab active">
+                                            <i className="fas fa-backpack"></i>
+                                            <span>Inventory</span>
                                         </button>
                                         <div style={{ flex: 1 }}></div>
-                                        <div style={{ marginRight: '48px' }}>
+                                        <div style={{ marginRight: '16px', display: 'flex', alignItems: 'center' }}>
                                             <InventoryHeaderButton />
                                         </div>
                                     </div>
@@ -1696,17 +1704,14 @@ export default function Navigation({ onReturnToLanding }) {
                 {showCoordinatePopup && (
                     <div
                         className="coord-popup"
-                        style={{
-                            fontFamily: 'Bookman Old Style, Garamond, serif'
-                        }}
                         onClick={(e) => e.stopPropagation()}
                     >
-                        <div className="coord-jump-title" style={{ color: '#d4c5b9', fontWeight: '600' }}>
+                        <div className="coord-jump-title" style={{ color: 'var(--adventure-ink, #34251a)', fontWeight: '600', fontSize: '15px', marginBottom: '14px', letterSpacing: '0.5px' }}>
                             Jump to Coordinates
                         </div>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                                <label style={{ color: '#d4c5b9', minWidth: '30px', fontFamily: 'Courier New, Monaco, monospace' }}>X:</label>
+                                <label style={{ color: 'var(--adventure-muted, #68533e)', minWidth: '30px', fontFamily: "'Courier New', Monaco, monospace", fontWeight: '600' }}>X:</label>
                                 <input
                                     type="number"
                                     step="0.1"
@@ -1718,7 +1723,6 @@ export default function Navigation({ onReturnToLanding }) {
                                             const x = parseFloat(inputX) || 0;
                                             const y = parseFloat(inputY) || 0;
                                             // Convert grid coordinates to camera position
-                                            // Reverse of: gridX = -(cameraX || 0) / (gridSize || 50)
                                             const cameraXPos = -(x * (gridSize || 50));
                                             const cameraYPos = -(y * (gridSize || 50));
                                             setCameraPosition(cameraXPos, cameraYPos);
@@ -1729,19 +1733,19 @@ export default function Navigation({ onReturnToLanding }) {
                                     }}
                                     style={{
                                         flex: 1,
-                                        padding: '8px',
-                                        backgroundColor: '#1a1008',
-                                        border: '1px solid #8b6f47',
-                                        borderRadius: '4px',
-                                        color: '#d4c5b9',
-                                        fontFamily: 'Courier New, Monaco, monospace',
+                                        padding: '6px 10px',
+                                        backgroundColor: 'var(--adventure-paper, #f1ece1)',
+                                        border: '1px solid var(--adventure-rule, #c4baa6)',
+                                        borderRadius: '3px',
+                                        color: 'var(--adventure-ink, #34251a)',
+                                        fontFamily: "'Courier New', Monaco, monospace",
                                         fontSize: '14px'
                                     }}
                                     autoFocus
                                 />
                             </div>
                             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                                <label style={{ color: '#d4c5b9', minWidth: '30px', fontFamily: 'Courier New, Monaco, monospace' }}>Y:</label>
+                                <label style={{ color: 'var(--adventure-muted, #68533e)', minWidth: '30px', fontFamily: "'Courier New', Monaco, monospace", fontWeight: '600' }}>Y:</label>
                                 <input
                                     type="number"
                                     step="0.1"
@@ -1763,17 +1767,17 @@ export default function Navigation({ onReturnToLanding }) {
                                     }}
                                     style={{
                                         flex: 1,
-                                        padding: '8px',
-                                        backgroundColor: '#1a1008',
-                                        border: '1px solid #8b6f47',
-                                        borderRadius: '4px',
-                                        color: '#d4c5b9',
-                                        fontFamily: 'Courier New, Monaco, monospace',
+                                        padding: '6px 10px',
+                                        backgroundColor: 'var(--adventure-paper, #f1ece1)',
+                                        border: '1px solid var(--adventure-rule, #c4baa6)',
+                                        borderRadius: '3px',
+                                        color: 'var(--adventure-ink, #34251a)',
+                                        fontFamily: "'Courier New', Monaco, monospace",
                                         fontSize: '14px'
                                     }}
                                 />
                             </div>
-                            <div style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
+                            <div style={{ display: 'flex', gap: '10px', marginTop: '8px' }}>
                                 <button
                                     onClick={() => {
                                         const x = parseFloat(inputX) || 0;
@@ -1786,19 +1790,20 @@ export default function Navigation({ onReturnToLanding }) {
                                     }}
                                     style={{
                                         flex: 1,
-                                        padding: '10px',
-                                        backgroundColor: '#8b6f47',
-                                        border: 'none',
-                                        borderRadius: '4px',
-                                        color: '#f0e6d2',
-                                        fontFamily: 'Bookman Old Style, Garamond, serif',
-                                        fontSize: '14px',
+                                        padding: '8px 14px',
+                                        backgroundColor: 'var(--adventure-seal, #663c32)',
+                                        border: '1px solid #4a2820',
+                                        borderRadius: '3px',
+                                        color: '#fdfaf3',
+                                        fontFamily: "'Cinzel', Georgia, serif",
+                                        fontSize: '12px',
                                         fontWeight: '600',
+                                        letterSpacing: '0.5px',
                                         cursor: 'pointer',
-                                        transition: 'background-color 0.2s'
+                                        transition: 'all 0.15s ease'
                                     }}
-                                    onMouseEnter={(e) => e.target.style.backgroundColor = '#a08c70'}
-                                    onMouseLeave={(e) => e.target.style.backgroundColor = '#8b6f47'}
+                                    onMouseEnter={(e) => e.target.style.backgroundColor = '#7a463a'}
+                                    onMouseLeave={(e) => e.target.style.backgroundColor = 'var(--adventure-seal, #663c32)'}
                                 >
                                     Jump
                                 </button>
@@ -1806,19 +1811,20 @@ export default function Navigation({ onReturnToLanding }) {
                                     onClick={() => setShowCoordinatePopup(false)}
                                     style={{
                                         flex: 1,
-                                        padding: '10px',
-                                        backgroundColor: '#5a3b2e',
-                                        border: 'none',
-                                        borderRadius: '4px',
-                                        color: '#d4c5b9',
-                                        fontFamily: 'Bookman Old Style, Garamond, serif',
-                                        fontSize: '14px',
+                                        padding: '8px 14px',
+                                        backgroundColor: 'var(--adventure-paper, #f1ece1)',
+                                        border: '1px solid var(--adventure-rule, #c4baa6)',
+                                        borderRadius: '3px',
+                                        color: 'var(--adventure-ink, #34251a)',
+                                        fontFamily: "'Cinzel', Georgia, serif",
+                                        fontSize: '12px',
                                         fontWeight: '600',
+                                        letterSpacing: '0.5px',
                                         cursor: 'pointer',
-                                        transition: 'background-color 0.2s'
+                                        transition: 'all 0.15s ease'
                                     }}
-                                    onMouseEnter={(e) => e.target.style.backgroundColor = '#6b4a3a'}
-                                    onMouseLeave={(e) => e.target.style.backgroundColor = '#5a3b2e'}
+                                    onMouseEnter={(e) => e.target.style.backgroundColor = 'var(--adventure-panel, #e8e2d4)'}
+                                    onMouseLeave={(e) => e.target.style.backgroundColor = 'var(--adventure-paper, #f1ece1)'}
                                 >
                                     Cancel
                                 </button>

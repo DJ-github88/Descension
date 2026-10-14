@@ -42,6 +42,24 @@ import { INK, MUTED, PAGE, PAPER, RULE, ETCH, BRASS, GOOD, inked, washed } from 
  * Props follow the standard external resource-bar contract:
  *   { classResource, size, config, context, isOwner, onClassResourceUpdate }
  */
+// One plain line of what a cadence does, built from its spell mechanics.
+const summarizeCadenceSpell = (spell) => {
+    if (!spell) return '';
+    const parts = [];
+    const dmg = spell.damageConfig;
+    if (dmg?.formula) parts.push(`${dmg.formula}${dmg.damageTypes?.length ? ` ${dmg.damageTypes.join('/')}` : ''} damage`);
+    if (spell.healingConfig?.formula) parts.push(`heals ${spell.healingConfig.formula}`);
+    const buff = spell.buffConfig?.effects?.[0]?.name;
+    if (buff) parts.push(buff);
+    const debuff = spell.debuffConfig?.effects?.[0]?.name;
+    if (debuff) parts.push(debuff);
+    if (!parts.length) return '';
+    const t = spell.targetingConfig || {};
+    const reach = t.rangeDistance ? `${t.rangeDistance} ft` : t.targetingType === 'area' ? 'area' : t.targetingType === 'self' ? 'self' : '';
+    const line = parts.join(', ');
+    return `${line.charAt(0).toUpperCase()}${line.slice(1)}${reach ? ` · ${reach}` : ''}`;
+};
+
 const MinstrelResourceBar = ({
     classResource = {},
     size = 'normal',
@@ -89,6 +107,18 @@ const MinstrelResourceBar = ({
             })
             .sort((a, b) => (a.level || 0) - (b.level || 0) || a.name.localeCompare(b.name));
     }, [learnedMode, knownSpellIds, matrixEntries]);
+
+    // Builder songs the character knows, with the exact notes each one banks.
+    const knownSongs = useMemo(() => {
+        if (!learnedMode) return [];
+        const known = new Set(Array.isArray(knownSpellIds) ? knownSpellIds : []);
+        return (ALL_CLASS_SPELLS.Minstrel || [])
+            .filter(spell => known.has(spell.id))
+            .map(spell => ({ spell, combo: spell.musicalCombo || spell.specialMechanics?.musicalCombo }))
+            .filter(({ combo }) => combo?.type === 'builder' && Array.isArray(combo.generates) && combo.generates.length)
+            .map(({ spell, combo }) => ({ id: spell.id, name: spell.name, level: spell.level || 1, generates: combo.generates }))
+            .sort((a, b) => a.level - b.level || a.name.localeCompare(b.name));
+    }, [learnedMode, knownSpellIds]);
 
     const canEdit = isOwner;
     const isCompact = size === 'small' || context === 'party';
@@ -978,10 +1008,13 @@ const MinstrelResourceBar = ({
         if (left < 10) left = 10;
         if (left + panelWidth > window.innerWidth - 10) left = window.innerWidth - panelWidth - 10;
 
-        const spaceBelow = window.innerHeight - (frame ? frameRect.bottom : barRect.bottom);
-        const top = spaceBelow > 380
-            ? (frame ? frameRect.bottom + 4 : barRect.bottom + 8)
-            : Math.max(10, (frame ? frameRect.top : barRect.top) - 400);
+        // Open below the frame and shrink to fit; flip above only when there is more room there.
+        const anchorRect = frame ? frameRect : barRect;
+        const below = window.innerHeight - anchorRect.bottom - 16;
+        const above = anchorRect.top - 16;
+        const openBelow = below >= 320 || below >= above;
+        const maxPanelHeight = Math.max(220, Math.min(620, openBelow ? below : above));
+        const top = openBelow ? anchorRect.bottom + 6 : Math.max(8, anchorRect.top - 6 - maxPanelHeight);
 
         return ReactDOM.createPortal(
             <div
@@ -997,6 +1030,8 @@ const MinstrelResourceBar = ({
                     top: `${top}px`,
                     left: `${left}px`,
                     width: `${panelWidth}px`,
+                    maxHeight: `${maxPanelHeight}px`,
+                    overflowY: 'auto',
                     zIndex: 100000
                 }}
             >
@@ -1006,28 +1041,25 @@ const MinstrelResourceBar = ({
                         <div className="cm-titles">
                             <div className="cm-eyebrow">Minstrel Cadences</div>
                             <div className="cm-title">{readyCount > 0 ? `${readyCount} ready to resolve` : totalBanked > 0 ? 'Gathering notes' : 'Silence'}</div>
-                            <div className="cm-sub">{totalBanked} note{totalBanked === 1 ? '' : 's'} banked. Resolve a cadence, or drag one to your action bar.</div>
+                            <div className="cm-sub">{readyCount > 0 ? 'Resolve one below, or drag it to your action bar.' : totalBanked > 0 ? 'Keep singing; no cadence is complete yet.' : 'Cast your songs to bank notes.'}</div>
                         </div>
                         <button type="button" className="cm-x" aria-label="Close cadences" onClick={(e) => { e.stopPropagation(); setShowPanel(false); }}>
                             <i className="fas fa-times" aria-hidden="true"></i>
                         </button>
                     </header>
 
-                    <div className="cm-section">Banked notes</div>
-                    <div className="cm-notebank">
+                    <div className="cm-section">
+                        Banked notes
+                        <span className="cm-section-aside">{totalBanked} of {maxPerNote * notes.length}</span>
+                    </div>
+                    <div className="cm-notestaff" aria-label="Banked notes">
                         {notes.map((note, index) => {
                             const count = localNotes[index] || 0;
                             return (
-                                <div key={index} className={`cm-note ${count > 0 ? 'has-notes' : ''}`} style={{ '--note-color': note.color }}>
-                                    <span className="cm-note-numeral">{note.numeral}</span>
-                                    <span className="cm-note-count">{count}</span>
-                                    {canEdit && (
-                                        <span className="cm-note-steps">
-                                            <button type="button" onClick={(e) => { e.stopPropagation(); adjustNote(index, -1); }} disabled={count === 0} title={`Decrease ${note.numeral}`} aria-label={`Decrease ${note.numeral}`}>−</button>
-                                            <button type="button" onClick={(e) => { e.stopPropagation(); adjustNote(index, 1); }} disabled={count >= maxPerNote} title={`Increase ${note.numeral}`} aria-label={`Increase ${note.numeral}`}>+</button>
-                                        </span>
-                                    )}
-                                </div>
+                                <span key={index} className={`cm-staffnote ${count > 0 ? 'has-notes' : ''}`} style={{ '--note-color': note.color }} title={`${note.numeral} (${note.name || note.function}): ${count} banked`}>
+                                    <span className="cm-staffnote-numeral">{note.numeral}</span>
+                                    <span className="cm-staffnote-count">{count}</span>
+                                </span>
                             );
                         })}
                     </div>
@@ -1043,6 +1075,9 @@ const MinstrelResourceBar = ({
                         {[...cadenceEntries].sort((a, b) => Number(isCadenceReady(b)) - Number(isCadenceReady(a))).map((entry) => {
                             const ready = isCadenceReady(entry);
                             const spell = entry._spell || cadenceToSpell(entry, matrix);
+                            const missing = Object.entries(entry.notes).filter(([numeral, reqCount]) => (noteCountByNumeral[numeral] || 0) < reqCount)
+                                .map(([numeral, reqCount]) => `${numeral}${reqCount - (noteCountByNumeral[numeral] || 0) > 1 ? `×${reqCount - (noteCountByNumeral[numeral] || 0)}` : ''}`);
+                            const effect = (entry.effectDescription || '').split(/(?<=[.!?])\s/)[0] || summarizeCadenceSpell(entry._spell || spell);
                             return (
                                 <li
                                     key={entry.id}
@@ -1059,16 +1094,17 @@ const MinstrelResourceBar = ({
                                 >
                                     <div className="cm-cadence-main">
                                         <span className="cm-cadence-name">{entry.name}</span>
-                                        <span className="cm-cadence-seq">{entry.sequence}</span>
+                                        {effect && <span className="cm-cadence-effect">{effect}</span>}
                                         <span className="cm-cadence-needs">
                                             {Object.entries(entry.notes).map(([numeral, reqCount]) => {
                                                 const have = noteCountByNumeral[numeral] || 0;
                                                 return (
                                                     <span key={numeral} className={`cm-need ${have >= reqCount ? 'is-met' : ''}`} title={`${numeral}: ${have} of ${reqCount}`}>
-                                                        {numeral}<small>×{reqCount}</small>
+                                                        {numeral}{reqCount > 1 && <small>×{reqCount}</small>}
                                                     </span>
                                                 );
                                             })}
+                                            {!ready && missing.length > 0 && <span className="cm-cadence-missing">needs {missing.join(', ')}</span>}
                                         </span>
                                     </div>
                                     <div className="cm-cadence-actions">
@@ -1077,7 +1113,7 @@ const MinstrelResourceBar = ({
                                             className="cm-cadence-resolve"
                                             disabled={!ready || !canEdit}
                                             onClick={(e) => { e.stopPropagation(); resolveCadence(entry); }}
-                                            title={ready ? `Resolve ${entry.name}` : 'Not enough notes to resolve'}
+                                            title={ready ? `Resolve ${entry.name}` : `Missing ${missing.join(', ')}`}
                                         >
                                             Resolve
                                         </button>
@@ -1098,26 +1134,71 @@ const MinstrelResourceBar = ({
                                             title="Add to Action Bar"
                                             aria-label={`Add ${entry.name} to the action bar`}
                                         >
-                                            <i className="fas fa-plus" aria-hidden="true"></i>
+                                            To bar
                                         </button>
                                     </div>
                                 </li>
                             );
                         })}
                     </ul>
+
+                    {learnedMode && (
+                        <>
+                            <div className="cm-section">
+                                Your songs
+                                <span className="cm-section-aside">{knownSongs.length ? 'cast these to bank notes' : 'none learned yet'}</span>
+                            </div>
+                            {knownSongs.length === 0 ? (
+                                <p className="cm-line is-quiet">Builder songs you learn appear here with the notes they bank.</p>
+                            ) : (
+                                <ul className="cm-spells">
+                                    {knownSongs.map((song) => (
+                                        <li key={song.id} className="cm-spell is-builder cm-song" title={`${song.name} banks ${song.generates.map(g => `${g.count} ${g.note}`).join(' and ')}`}>
+                                            <span className="cm-spell-name">{song.name}</span>
+                                            <span className="cm-song-notes">
+                                                {song.generates.map((g) => {
+                                                    const note = notes.find(n => n.numeral === g.note);
+                                                    return <span key={g.note} className="cm-need is-met" style={note ? { '--note-color': note.color } : undefined}>{g.note}{g.count > 1 && <small>×{g.count}</small>}</span>;
+                                                })}
+                                            </span>
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
+                        </>
+                    )}
+
+                    {canEdit && (
+                        <details className="cm-notes">
+                            <summary>Adjust banked notes by hand</summary>
+                            <div className="cm-notebank">
+                                {notes.map((note, index) => {
+                                    const count = localNotes[index] || 0;
+                                    return (
+                                        <div key={index} className={`cm-note ${count > 0 ? 'has-notes' : ''}`} style={{ '--note-color': note.color }}>
+                                            <span className="cm-note-numeral">{note.numeral}</span>
+                                            <span className="cm-note-count">{count}</span>
+                                            <span className="cm-note-steps">
+                                                <button type="button" onClick={(e) => { e.stopPropagation(); adjustNote(index, -1); }} disabled={count === 0} title={`Decrease ${note.numeral}`} aria-label={`Decrease ${note.numeral}`}>−</button>
+                                                <button type="button" onClick={(e) => { e.stopPropagation(); adjustNote(index, 1); }} disabled={count >= maxPerNote} title={`Increase ${note.numeral}`} aria-label={`Increase ${note.numeral}`}>+</button>
+                                            </span>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                            <div className="cm-foot">
+                                <button type="button" className="context-menu-button quiet" onClick={(e) => { e.stopPropagation(); clearAll(); }} disabled={totalBanked === 0}>
+                                    <i className="fas fa-undo" aria-hidden="true"></i> Clear all notes
+                                </button>
+                            </div>
+                            <p>For rulings and mistakes. In play, your songs bank notes and resolving a cadence spends them.</p>
+                        </details>
+                    )}
                     <details className="cm-notes">
                         <summary>How cadences work</summary>
-                        <p>Builder songs bank notes. A cadence resolves when you hold every note it needs, and spends exactly those notes.</p>
-                        <p>Cadences are spells you learn as you level; only the ones you know appear here. Hover one to read its full effect.</p>
+                        <p>Your songs bank notes. A cadence resolves when you hold every note it needs, and spends exactly those notes.</p>
+                        <p>Cadences are spells you learn as you level; only the ones you know appear here. Hover a cadence for its full spell card, or drag it to your action bar.</p>
                     </details>
-                    <div className="cm-foot">
-                        {canEdit && (
-                            <button type="button" className="context-menu-button quiet" onClick={(e) => { e.stopPropagation(); clearAll(); }} disabled={totalBanked === 0}>
-                                <i className="fas fa-undo" aria-hidden="true"></i> Clear Notes
-                            </button>
-                        )}
-                        <button type="button" className="context-menu-button" onClick={(e) => { e.stopPropagation(); setShowPanel(false); }}>Done</button>
-                    </div>
                     {renderCadenceTooltip()}
                 </div>
             </div>,

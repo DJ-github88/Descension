@@ -948,16 +948,15 @@
 .tk-tab.active {
     background: #f8f5ee !important;
     border: 1px solid rgba(138, 115, 86, 0.35) !important;
-    border-bottom: none !important;
-    border-radius: 6px 6px 0 0 !important;
+    border-bottom: 1px solid rgba(138, 115, 86, 0.35) !important;
+    border-radius: 2px !important;
     color: #34251a !important;
     font-weight: 800 !important;
     text-shadow: none !important;
-    transform: translateY(1px) !important; /* merges with the window body */
+    transform: none !important;
     z-index: 40 !important;
     filter: none !important;
-    /* clean burgundy ribbon along the top edge, without boxy inner outlines */
-    box-shadow: inset 0 3px 0 #663c32 !important;
+    box-shadow: none !important;
     opacity: 1 !important;
 }
 

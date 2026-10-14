@@ -337,14 +337,17 @@
 /* Inventory keeps distinct load zones, using subdued ink-and-paper tones. */
 .adventurer-window .inventory-cell { border-color: var(--adventure-rule); box-shadow: none; }
 .adventurer-window .inventory-cell.normal,
-.adventurer-window .inventory-section-headers .section-header.normal { background: #e5e6d7; border-color: #a3aa89; }
+.adventurer-window .inventory-section-headers .section-header.normal { background: rgba(255, 255, 255, 0.45); border-color: rgba(138, 115, 86, 0.22); color: #27521f; }
 .adventurer-window .inventory-cell.encumbered,
-.adventurer-window .inventory-section-headers .section-header.encumbered { background: #e9ddbf; border-color: #b09a70; }
+.adventurer-window .inventory-section-headers .section-header.encumbered { background: rgba(195, 140, 30, 0.08); border-color: rgba(175, 125, 30, 0.25); color: #784803; }
 .adventurer-window .inventory-cell.overencumbered,
-.adventurer-window .inventory-section-headers .section-header.overencumbered { background: #e7d5c5; border-color: #b59483; }
-.adventurer-window .inventory-section-headers .section-header { color: var(--adventure-ink); text-shadow: none; border-bottom-width: 1px; }
+.adventurer-window .inventory-section-headers .section-header.overencumbered { background: rgba(165, 60, 40, 0.08); border-color: rgba(155, 65, 45, 0.25); color: #872012; }
+.adventurer-window .inventory-section-headers .section-header { text-shadow: none; border-bottom-width: 2px; cursor: help; }
+.adventurer-window .inventory-section-headers .section-header.normal { border-bottom-color: rgba(46, 125, 50, 0.55); }
+.adventurer-window .inventory-section-headers .section-header.encumbered { border-bottom-color: rgba(180, 130, 40, 0.60); }
+.adventurer-window .inventory-section-headers .section-header.overencumbered { border-bottom-color: rgba(165, 50, 30, 0.60); }
 .adventurer-window .inventory-cell:hover { border-color: var(--adventure-seal); box-shadow: none; }
-.adventurer-window .inventory-cell.drag-over { background: #dce3d0; border-color: #66714e; box-shadow: none; }
+.adventurer-window .inventory-cell.drag-over { background: rgba(102, 60, 50, 0.10); border-color: var(--adventure-seal); box-shadow: none; }
 .adventurer-window .inventory-cell.drag-invalid { background: #ead5ce; border-color: #875347; box-shadow: none; }
 .adventurer-window :is(.inventory-bottom-bar, .currency-display-simple) { background: var(--adventure-panel); border: 1px solid var(--adventure-rule); border-radius: 3px; box-shadow: none; }
 
@@ -512,7 +515,7 @@
 :is(.wow-window.adventurer-window, .character-view-page) .lore-book-spread { border: 0 !important; border-radius: 0 !important; background: transparent !important; }
 :is(.wow-window.adventurer-window, .character-view-page) .lore-book-page { padding: 18px 22px; }
 .character-folio-page { display: flex; flex-direction: column; height: 100%; min-height: 0; }
-.character-folio-fold { flex: 0 0 18px; height: 100%; background: linear-gradient(90deg, transparent, rgba(104, 83, 62, 0.12), transparent); }
+.character-folio-fold { flex: 0 0 14px; height: 100%; background: transparent; }
 :is(.wow-window.adventurer-window, .character-view-page) .page-footer-strip { border-top: 1px solid var(--adventure-rule); padding: 10px 0 0; margin-top: 12px; }
 @media (max-width: 600px) {
   :is(.wow-window.adventurer-window, .character-view-page) .lore-book-page { padding: 16px; }
@@ -539,7 +542,7 @@
   color: var(--adventure-muted, #7c6853) !important;
   border: 1px solid transparent !important;
   border-bottom: 2px solid transparent !important;
-  border-radius: 6px 6px 0 0 !important;
+  border-radius: 0 !important;
   box-shadow: none !important;
   text-shadow: none !important;
   transition: background-color 150ms ease, color 150ms ease, border-color 150ms ease !important;
@@ -556,7 +559,7 @@
   color: var(--adventure-seal, #663c32) !important;
   border: 1px solid transparent !important;
   border-bottom: 2px solid var(--adventure-seal, #663c32) !important;
-  border-radius: 6px 6px 0 0 !important;
+  border-radius: 0 !important;
   font-weight: 700 !important;
   box-shadow: none !important;
   transform: none;
@@ -655,13 +658,13 @@
 }
 
 .wow-window.adventurer-window :is(.creature-section-header, .stats-section-header) {
-  background: var(--adventure-panel) !important;
-  border: 1px solid var(--adventure-rule) !important;
-  border-left: 4px solid var(--adventure-seal) !important;
-  border-radius: 4px !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-bottom: 1px solid var(--adventure-rule) !important;
+  border-radius: 0 !important;
   box-shadow: none !important;
-  padding: 10px 16px !important;
-  margin-bottom: 12px !important;
+  padding: 8px 4px !important;
+  margin-bottom: 10px !important;
 }
 
 .wow-window.adventurer-window :is(.creature-section-title, .stats-section-title) {

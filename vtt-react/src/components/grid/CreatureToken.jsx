@@ -16,7 +16,7 @@ import useSettingsStore from '../../store/settingsStore';
 // Removed useEnhancedMultiplayer import - hook was removed
 import { getGridSystem } from '../../utils/InfiniteGridSystem';
 import MovementConfirmationDialog from '../combat/MovementConfirmationDialog';
-import CreatureAbilityConfirmDialog from './CreatureAbilityConfirmDialog';
+import useCreatureAbilityQuickUse from './CreatureAbilityQuickUse';
 import Button from '../common/Button';
 import optimisticUpdatesService from '../../services/optimisticUpdatesService';
 import '../../styles/creature-token.css';
@@ -1385,98 +1385,17 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     }
   }, [isHovering, token, tokenId, fovAngle, isViewingFrom, getTokenFacingDirection, setTokenFacingDirection]);
 
-  // GM quick-use of a creature ability from the hover fan-out:
-  // opens a confirmation popup; on confirm deducts AP + mana from THIS
-  // creature token's resources and logs the usage to combat chat.
-  // Must be declared before any early returns (Rules of Hooks).
-  const [pendingAbilityUse, setPendingAbilityUse] = useState(null);
-
-  const handleQuickUseAbility = useCallback((ability, rollText) => {
+  // Quick-use owns target/adjudication/receipt handling; token stays presentation.
+  const quickUse = useCreatureAbilityQuickUse({ tokenId, creature, token });
+  const handleQuickUseAbility = useCallback((ability, rollText, raw) => {
     if (!creature || !token || !ability) return;
     // Hide the fan so the confirmation dialog is unobstructed; the grace
     // close timer is cleared to avoid flicker when the dialog closes.
     clearAbilityFanOpenTimer();
     cancelAbilityFanClose();
     setShowAbilityFan(false);
-    setPendingAbilityUse({ ability, rollText });
-  }, [creature, token]);
-
-  const handleCancelAbilityUse = useCallback(() => {
-    setPendingAbilityUse(null);
-  }, []);
-
-  const handleConfirmAbilityUse = useCallback(() => {
-    if (!creature || !token || !pendingAbilityUse) return;
-    const { ability, rollText } = pendingAbilityUse;
-    const apCost = Number(ability.apCost || 0);
-    const manaCost = Number(ability.manaCost || 0);
-
-    const baseAP = Number(token.state?.currentActionPoints ?? creature.stats?.maxActionPoints ?? 0);
-    const tempAP = Number(token.state?.tempActionPoints || 0);
-    const baseMana = Number(token.state?.currentMana ?? creature.stats?.maxMana ?? 0);
-    const tempMana = Number(token.state?.tempMana || 0);
-
-    // Spend temp pools first, then base — mirrors handleResourceUpdate.
-    let remainingAP = apCost;
-    let newTempAP = tempAP;
-    let newBaseAP = baseAP;
-    if (remainingAP > 0) {
-      const fromTemp = Math.min(newTempAP, remainingAP);
-      newTempAP -= fromTemp;
-      remainingAP -= fromTemp;
-      newBaseAP = Math.max(0, newBaseAP - remainingAP);
-    }
-    let remainingMana = manaCost;
-    let newTempMana = tempMana;
-    let newBaseMana = baseMana;
-    if (remainingMana > 0) {
-      const fromTemp = Math.min(newTempMana, remainingMana);
-      newTempMana -= fromTemp;
-      remainingMana -= fromTemp;
-      newBaseMana = Math.max(0, newBaseMana - remainingMana);
-    }
-
-    const updates = {};
-    if (apCost > 0) {
-      updates.currentActionPoints = newBaseAP;
-      updates.tempActionPoints = newTempAP;
-    }
-    if (manaCost > 0) {
-      updates.currentMana = newBaseMana;
-      updates.tempMana = newTempMana;
-    }
-    if (Object.keys(updates).length > 0) {
-      updateTokenState(tokenId, updates);
-    }
-
-    // Sync to combat timeline if in combat
-    try {
-      const combatState = useCombatStore.getState();
-      if (combatState.isInCombat) {
-        if (apCost > 0 && typeof combatState.updateCombatantAP === 'function') {
-          combatState.updateCombatantAP(tokenId, newBaseAP);
-        }
-        if (manaCost > 0 && typeof combatState.updateCombatantMana === 'function') {
-          combatState.updateCombatantMana(tokenId, newBaseMana);
-        }
-      }
-    } catch (err) {
-      console.warn('Could not sync ability cost to combat store:', err);
-    }
-
-    const displayName = token.state?.customName || creature.name;
-    const costParts = [];
-    if (apCost > 0) costParts.push(`${apCost} AP`);
-    if (manaCost > 0) costParts.push(`${manaCost} MP`);
-    const costSuffix = costParts.length > 0 ? ` (${costParts.join(', ')})` : '';
-    addCombatNotification({
-      type: 'combat',
-      creature: displayName,
-      content: `⚔️ ${displayName} uses ${ability.name}${costSuffix}${rollText ? ` — ${rollText}` : ''}`,
-      timestamp: new Date().toISOString()
-    });
-    setPendingAbilityUse(null);
-  }, [creature, token, tokenId, pendingAbilityUse, updateTokenState, addCombatNotification]);
+    quickUse.open(ability, rollText, raw);
+  }, [creature, token, quickUse]);
 
   // Add wheel event listener with passive: false to allow preventDefault
   // Use capture phase to ensure it fires before Grid's document-level handler
@@ -3064,7 +2983,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
                     }} />
                   ) : (
                     <button
-                      className="context-menu-button"
+                      className={`context-menu-button${hoveredMenuItem !== index && item.className === 'danger' ? ' context-menu-button--danger' : ''}`}
                       style={{
                         pointerEvents: 'auto',
                         display: 'flex',
@@ -3137,7 +3056,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
                       }} />
                     ) : (
                       <button
-                        className="context-menu-button"
+                        className={`context-menu-button${subItem.className === 'danger' ? ' context-menu-button--danger' : ''}`}
                         style={{
                           pointerEvents: 'auto',
                           display: 'flex',
@@ -3275,20 +3194,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
       />
 
       {/* Creature ability-use confirmation (GM hover fan-out) */}
-      <CreatureAbilityConfirmDialog
-        isOpen={!!pendingAbilityUse}
-        creatureName={token?.state?.customName || creature?.name || 'Creature'}
-        ability={pendingAbilityUse?.ability || null}
-        rollText={pendingAbilityUse?.rollText || null}
-        currentAP={Number(token?.state?.currentActionPoints ?? creature?.stats?.maxActionPoints ?? 0)}
-        tempAP={Number(token?.state?.tempActionPoints || 0)}
-        maxAP={Number(creature?.stats?.maxActionPoints ?? 0)}
-        currentMana={Number(token?.state?.currentMana ?? creature?.stats?.maxMana ?? 0)}
-        tempMana={Number(token?.state?.tempMana || 0)}
-        maxMana={Number(creature?.stats?.maxMana ?? 0)}
-        onConfirm={handleConfirmAbilityUse}
-        onCancel={handleCancelAbilityUse}
-      />
+      {quickUse.dialog}
 
       {/* Conditions Window */}
       <ConditionsWindow

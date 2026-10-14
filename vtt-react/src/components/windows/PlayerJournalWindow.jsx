@@ -1400,13 +1400,13 @@ const PlayerJournalWindow = ({ isOpen, onClose }) => {
     const charCount = noteContent.length;
 
     const archetypesList = [
-      { id: 'note', label: 'Note', icon: 'fa-sticky-note', color: '#3498db' },
-      { id: 'npc', label: 'NPC', icon: 'fa-user-ninja', color: '#e74c3c' },
-      { id: 'location', label: 'Location', icon: 'fa-landmark', color: '#2ecc71' },
-      { id: 'faction', label: 'Faction', icon: 'fa-shield-halved', color: '#e67e22' },
-      { id: 'item', label: 'Item', icon: 'fa-gem', color: '#9b59b6' },
-      { id: 'lore', label: 'Lore', icon: 'fa-book-bookmark', color: '#d4af37' },
-      { id: 'quest', label: 'Quest', icon: 'fa-scroll', color: '#f39c12' }
+      { id: 'note', label: 'Note', icon: 'fa-sticky-note', color: '#5a4a3a' },
+      { id: 'npc', label: 'NPC', icon: 'fa-user-ninja', color: '#8b3a2a' },
+      { id: 'location', label: 'Location', icon: 'fa-landmark', color: '#406a46' },
+      { id: 'faction', label: 'Faction', icon: 'fa-shield-halved', color: '#8a5d30' },
+      { id: 'item', label: 'Item', icon: 'fa-gem', color: '#6e537d' },
+      { id: 'lore', label: 'Lore', icon: 'fa-book-bookmark', color: '#7a6232' },
+      { id: 'quest', label: 'Quest', icon: 'fa-scroll', color: '#9c6824' }
     ];
 
     return (
@@ -1417,7 +1417,7 @@ const PlayerJournalWindow = ({ isOpen, onClose }) => {
           <div className="notes-sidebar-header">
             <div className="notes-sidebar-title-row">
               <span className="notes-sidebar-heading">
-                <i className="fas fa-feather-pointed" style={{ color: '#d4af37' }}></i>
+                <i className="fas fa-feather-pointed" style={{ color: 'var(--adventure-brass, #c4ab79)' }}></i>
                 Chronicles
                 <span className="notes-count-badge">{filteredNotes.length}</span>
                 {journalSaveStatus && journalSaveStatus.status !== 'idle' && (
@@ -1628,21 +1628,21 @@ const PlayerJournalWindow = ({ isOpen, onClose }) => {
                   onClick={() => setShowPromoteMenu(!showPromoteMenu)}
                   title="Convert this note into a worldbuilding entity"
                 >
-                  <i className="fas fa-bolt" style={{ color: '#ffd700' }}></i>
+                  <i className="fas fa-bolt" style={{ color: 'var(--adventure-brass, #c4ab79)' }}></i>
                   <span>Promote ▾</span>
                 </button>
                 {showPromoteMenu && (
                   <div className="note-promote-menu">
                     <button onClick={() => handlePromoteNote('lineage')}>
-                      <i className="fas fa-dna" style={{ color: '#d4af37' }}></i>
+                      <i className="fas fa-dna" style={{ color: 'var(--adventure-brass, #c4ab79)' }}></i>
                       <span><strong>Custom Lineage</strong> — Open Lineage Wizard</span>
                     </button>
                     <button onClick={() => handlePromoteNote('faction')}>
-                      <i className="fas fa-shield-halved" style={{ color: '#3498db' }}></i>
+                      <i className="fas fa-shield-halved" style={{ color: '#8a5d30' }}></i>
                       <span><strong>Custom Faction</strong> — Add to Faction Web</span>
                     </button>
                     <button onClick={() => handlePromoteNote('map_pin')}>
-                      <i className="fas fa-map-location-dot" style={{ color: '#2ecc71' }}></i>
+                      <i className="fas fa-map-location-dot" style={{ color: '#406a46' }}></i>
                       <span><strong>Immerse Map Pin</strong> — Pin to World Map</span>
                     </button>
                   </div>

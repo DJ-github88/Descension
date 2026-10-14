@@ -1655,3 +1655,120 @@
   font-size: 1.05rem !important;
   letter-spacing: 0.05em;
 }
+
+/* ==========================================================================
+   Creature window tabs: square, flat, no accent bar on top
+   ========================================================================== */
+html body .wow-window .window-header .spellbook-tab-container.creature-sheet-tabs .spellbook-tab-button {
+  background: transparent !important;
+  border: 1px solid transparent !important;
+  border-bottom: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+  color: #d9c9a3 !important;
+  font-family: 'Cinzel', Georgia, serif !important;
+  letter-spacing: 0.1em !important;
+}
+html body .wow-window .window-header .spellbook-tab-container.creature-sheet-tabs .spellbook-tab-button * { color: inherit !important; }
+html body .wow-window .window-header .spellbook-tab-container.creature-sheet-tabs .spellbook-tab-button:hover:not(.active) {
+  background: rgba(255, 255, 255, 0.07) !important;
+  color: #f3ebd7 !important;
+}
+html body .wow-window .window-header .spellbook-tab-container.creature-sheet-tabs .spellbook-tab-button.active {
+  background: var(--adventure-page, #f8f5ee) !important;
+  border: 1px solid var(--adventure-rule, #c4baa6) !important;
+  border-bottom: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  color: var(--adventure-ink, #34251a) !important;
+}
+html body .wow-window .window-header .spellbook-tab-container.creature-sheet-tabs .spellbook-tab-button::before,
+html body .wow-window .window-header .spellbook-tab-container.creature-sheet-tabs .spellbook-tab-button::after { display: none !important; }
+html body .wow-window .window-header .spellbook-tab-container.creature-sheet-tabs .tab-overflow-trigger { border-radius: 0 !important; }
+
+/* Tags: plain ruled list, no rounded plate or pill chips */
+.creature-inspect-container .creature-tags-section {
+  background: transparent !important; border: 0 !important; border-top: 1px solid var(--adventure-rule, #c4baa6) !important;
+  border-radius: 0 !important; box-shadow: none !important; padding: 10px 0 0 !important; margin-top: 14px !important;
+}
+.creature-inspect-container .creature-tags-section .section-title {
+  background: transparent !important; border: 0 !important; border-radius: 0 !important; box-shadow: none !important;
+  padding: 0 0 6px !important; margin: 0 !important; font-size: 0.7rem !important; letter-spacing: 0.14em !important;
+  text-transform: uppercase; color: var(--adventure-seal, #663c32) !important;
+}
+.creature-inspect-container .creature-tag {
+  background: transparent !important; border: 1px solid var(--adventure-rule, #c4baa6) !important; border-radius: 0 !important;
+  box-shadow: none !important; color: var(--adventure-ink, #34251a) !important; font-family: 'Cinzel', Georgia, serif;
+  font-size: 0.62rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 3px 8px !important;
+}
+
+/* ==========================================================================
+   Creature stats: ruled header and ledger rows, icon / name / value aligned
+   ========================================================================== */
+.wow-window.adventurer-window .creature-inspect-container .stats-content-area { padding: 14px 22px 20px; }
+.wow-window.adventurer-window .creature-inspect-container .stats-section-header {
+  background: transparent !important; border: 0 !important; border-bottom: 1px solid var(--adventure-rule, #c4baa6) !important;
+  border-radius: 0 !important; box-shadow: none !important; padding: 0 0 8px !important; margin: 0 0 8px !important;
+  display: flex; align-items: center; gap: 12px;
+}
+.creature-inspect-container .stats-header-icon-box {
+  width: 30px; height: 30px; flex: none; background: transparent !important; border: 0 !important; border-radius: 0 !important;
+  box-shadow: none !important; padding: 0 !important; display: flex; align-items: center; justify-content: center;
+}
+.creature-inspect-container .stats-header-icon-box img { width: 28px; height: 28px; object-fit: contain; border: 0; border-radius: 0; }
+.creature-inspect-container .stats-header-text { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+.wow-window.adventurer-window .creature-inspect-container .stats-section-title {
+  margin: 0 !important; font-size: 1rem !important; letter-spacing: 0.06em; line-height: 1.2;
+}
+.creature-inspect-container .stats-section-subtitle { font-family: 'Crimson Text', Georgia, serif; font-style: italic; font-size: 0.9rem; color: var(--adventure-muted, #68533e); }
+
+.creature-inspect-container .stats-fields .stat-row.enhanced-stat-row {
+  background: transparent !important; border: 0 !important; border-bottom: 1px dotted var(--adventure-rule, #c4baa6) !important;
+  border-radius: 0 !important; box-shadow: none !important; padding: 8px 2px 8px !important; margin: 0 !important;
+}
+.creature-inspect-container .stat-row.enhanced-stat-row:hover { background: rgba(102, 60, 50, 0.04) !important; transform: none !important; }
+.creature-inspect-container .stat-row .level-experience-top-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.creature-inspect-container .stat-row .stat-label-container { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.creature-inspect-container .stat-row .stat-label-container > img {
+  width: 28px; height: 28px; flex: none; object-fit: contain; border: 0 !important; border-radius: 0 !important; box-shadow: none !important; background: transparent !important;
+}
+.creature-inspect-container .stat-row .stat-label { font-family: 'Cinzel', Georgia, serif; font-size: 0.82rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--adventure-ink, #34251a); }
+.creature-inspect-container .stat-row .stat-value {
+  background: transparent !important; border: 0 !important; box-shadow: none !important; border-radius: 0 !important; padding: 0 !important;
+  font-family: 'Crimson Text', Georgia, serif; font-size: 1.15rem; font-weight: 700; color: var(--adventure-ink, #34251a); font-variant-numeric: tabular-nums;
+}
+.creature-inspect-container .stat-row .stat-description-footer { padding: 2px 0 0 40px; text-align: left !important; }
+.creature-inspect-container .stat-row .stat-description { font-family: 'Crimson Text', Georgia, serif; font-style: italic; font-size: 0.88rem; color: var(--adventure-muted, #68533e); text-align: left !important; display: block; }
+
+/* Boosted specificity for the shared character-sheet stat rows */
+.wow-window.adventurer-window .creature-inspect-container .stat-row .stat-label-container > img {
+  width: 30px !important; height: 30px !important; min-width: 30px !important; max-width: 30px !important;
+  margin: 0 !important; border: 0 !important; border-radius: 0 !important; box-shadow: none !important; padding: 0 !important;
+}
+.wow-window.adventurer-window .creature-inspect-container .stat-row .stat-value {
+  border: 0 !important; background: transparent !important; box-shadow: none !important; padding: 0 !important; min-width: 0 !important; height: auto !important; border-radius: 0 !important;
+}
+.wow-window.adventurer-window .creature-inspect-container .stat-row .stat-label-container { gap: 12px !important; }
+.wow-window.adventurer-window .creature-inspect-container .stat-row .stat-info { width: auto !important; }
+.wow-window.adventurer-window .creature-inspect-container .stat-row .stat-description-footer { padding: 2px 0 0 42px !important; width: auto !important; text-align: left !important; }
+.wow-window.adventurer-window .creature-inspect-container .stat-row .stat-description { text-align: left !important; width: auto !important; }
+.wow-window.adventurer-window .creature-inspect-container .stat-row .stat-description-footer { margin: 0 !important; align-self: flex-start; }
+.wow-window.adventurer-window .creature-inspect-container .stat-row .level-experience-top-row { margin: 0 !important; padding: 0 !important; }
+.wow-window.adventurer-window .creature-inspect-container .stat-row.enhanced-stat-row { align-items: stretch !important; gap: 0 !important; }
+.wow-window.adventurer-window .creature-inspect-container .stat-row .stat-description-footer { align-self: stretch; width: 100% !important; box-sizing: border-box; }
+
+/* Tab bodies sit directly on the page: no tan plate or top/bottom rules */
+.wow-window.adventurer-window .creature-inspect-container .creature-inspect-section {
+  background: transparent !important; border: 0 !important; border-radius: 0 !important; box-shadow: none !important;
+}
+.wow-window.adventurer-window .creature-inspect-container .creature-section-content { background: transparent !important; border: 0 !important; }
+.wow-window.adventurer-window .creature-inspect-container .creature-tags-section {
+  background: transparent !important; border: 0 !important; border-top: 1px solid var(--adventure-rule, #c4baa6) !important;
+  border-radius: 0 !important; box-shadow: none !important; padding: 10px 0 0 !important; margin-top: 14px !important;
+}
+.wow-window.adventurer-window .creature-inspect-container .creature-tags-section .section-title {
+  background: transparent !important; border: 0 !important; border-radius: 0 !important; box-shadow: none !important;
+  padding: 0 0 6px !important; margin: 0 !important;
+}
+.wow-window.adventurer-window .creature-inspect-container .creature-tags-section .creature-tag { border-radius: 0 !important; background: transparent !important; }

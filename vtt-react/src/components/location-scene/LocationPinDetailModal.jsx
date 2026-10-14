@@ -5,7 +5,6 @@ import useCreatureStore from '../../store/creatureStore';
 import useQuestStore from '../../store/questStore';
 import useFactionStore from '../../store/factionStore';
 import useInventoryStore from '../../store/inventoryStore';
-import useItemStore from '../../store/itemStore';
 import useCharacterStore from '../../store/characterStore';
 import usePartyStore from '../../store/partyStore';
 import useMapStore from '../../store/mapStore';
@@ -110,6 +109,8 @@ const LocationPinDetailModal = ({
     }
   };
 
+  const tacticalMaps = useMapStore(state => state.maps) || [];
+
   if (!pin) return null;
 
   const linked = pin.linkedEntities || {};
@@ -117,7 +118,9 @@ const LocationPinDetailModal = ({
   const hasCreatures = (linked.creatureIds?.length || 0) > 0;
   const hasQuests = (linked.questIds?.length || 0) > 0;
   const hasItems = (linked.itemIds?.length || 0) > 0;
-  const tacticalMaps = useMapStore(state => state.maps) || [];
+  const hasLore = Boolean(linked.locationId || (linked.factionIds?.length || 0) > 0);
+  const hasNotes = Boolean(isGM && linked.journalNotes);
+  const hasMultipleTabs = Boolean(hasNpcs || hasCreatures || hasQuests || hasItems || hasLore || hasNotes);
   const targetExplorationMap = pin.targetMapId ? maps.find(m => m.id === pin.targetMapId) : null;
   const targetTacticalMap = pin.targetMapId ? tacticalMaps.find(m => m.id === pin.targetMapId) : null;
   const targetSubMap = targetExplorationMap || targetTacticalMap;

@@ -29,54 +29,33 @@
 /* Tooltip borders */
 .tooltip-top-border,
 .tooltip-bottom-border {
-  height: 3px;
-  background: linear-gradient(90deg,
-    transparent 0%,
-    #8B4513 10%,
-    #D2691E 50%,
-    #8B4513 90%,
-    transparent 100%
-  );
-  margin: 0;
-}
-
-.tooltip-top-border {
-  border-radius: 8px 8px 0 0;
-}
-
-.tooltip-bottom-border {
-  border-radius: 0 0 8px 8px;
+  display: none;
 }
 
 /* Main tooltip content container */
-.wc3-tooltip-content {
-  background: #f4f1e8;
-  border-left: 2px solid #8B4513;
-  border-right: 2px solid #8B4513;
-  padding: 12px 16px;
-  color: #5a1e12;
-  position: relative;
+.wc3-tooltip,
+.wow-classic-tooltip {
+  pointer-events: none;
+  font-family: 'Crimson Text', Georgia, serif;
+  font-size: 13px;
+  line-height: 1.4;
+  max-width: 340px;
+  min-width: 240px;
+  opacity: 1;
+  visibility: visible;
+  background: var(--adventure-paper, #f1ece1);
+  border: 1px solid var(--adventure-rule, #c4baa6);
+  border-radius: 3px;
+  box-shadow: 0 6px 20px rgba(30, 21, 14, 0.25);
   overflow: hidden;
+  animation: tooltipFadeIn 0.15s ease-out;
 }
 
-/* Subtle parchment texture */
-.wc3-tooltip-content::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background:
-    repeating-linear-gradient(
-      45deg,
-      transparent,
-      transparent 4px,
-      rgba(139, 69, 19, 0.02) 4px,
-      rgba(139, 69, 19, 0.02) 8px
-    );
-  pointer-events: none;
-  z-index: 1;
+.wc3-tooltip-content {
+  background: var(--adventure-page, #f8f5ee);
+  padding: 10px 14px;
+  color: var(--adventure-ink, #34251a);
+  position: relative;
 }
 
 .wc3-tooltip-content > * {
@@ -86,23 +65,21 @@
 
 /* Tooltip header */
 .wc3-tooltip-header {
-  background: linear-gradient(145deg, #8B4513 0%, #A0522D 50%, #8B4513 100%);
-  border-left: 2px solid #8B4513;
-  border-right: 2px solid #8B4513;
-  padding: 10px 16px;
+  background: var(--adventure-leather, #302419);
+  border-bottom: 1px solid #9b835e;
+  padding: 8px 12px;
   display: flex;
   align-items: center;
   gap: 10px;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15);
 }
 
 /* Tooltip title */
 .wc3-tooltip-title {
-  font-family: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif;
-  font-size: 15px;
-  font-weight: bold;
-  color: #f1ece1;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--adventure-paper, #f0e3c4);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
   margin: 0;
   flex: 1;
 }
@@ -113,41 +90,40 @@
 }
 
 .tooltip-icon {
-  width: 32px;
-  height: 32px;
-  border-radius: 4px;
-  border: 2px solid rgba(240, 230, 210, 0.3);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-  filter: brightness(1.1) saturate(1.1);
+  width: 28px;
+  height: 28px;
+  border-radius: 2px;
+  border: 1px solid var(--adventure-rule, #c4baa6);
 }
 
 /* Content styling */
 .wc3-tooltip-content .tooltip-stat-line {
-  margin: 6px 0;
+  margin: 4px 0;
   font-size: 13px;
-  color: #5a1e12;
+  color: var(--adventure-ink, #34251a);
   line-height: 1.4;
 }
 
 .wc3-tooltip-content .tooltip-effect {
   margin: 4px 0;
   font-size: 12px;
-  color: #2d5016;
-  font-weight: 500;
+  color: var(--adventure-seal, #663c32);
+  font-weight: 600;
+  font-family: 'Cinzel', Georgia, serif;
 }
 
 .wc3-tooltip-content .tooltip-gold {
-  color: #D2691E;
+  color: var(--adventure-seal, #663c32);
   font-weight: bold;
 }
 
 .wc3-tooltip-content .tooltip-flavor {
   margin-top: 8px;
-  padding-top: 8px;
-  border-top: 1px solid rgba(139, 69, 19, 0.25);
+  padding-top: 6px;
+  border-top: 1px solid var(--adventure-rule, #c4baa6);
   font-style: italic;
-  font-size: 11px;
-  color: #666;
+  font-size: 12px;
+  color: var(--adventure-muted, #68533e);
   text-align: center;
   line-height: 1.3;
 }
@@ -155,7 +131,7 @@
 /* Box shadow for the entire tooltip */
 .wc3-tooltip,
 .wow-classic-tooltip {
-  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.4));
+  filter: none;
 }
 
 /* Responsive adjustments */

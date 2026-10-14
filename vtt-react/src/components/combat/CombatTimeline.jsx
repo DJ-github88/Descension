@@ -191,28 +191,34 @@ const CombatTimeline = () => {
                         top: '50%',
                         left: '50%',
                         transform: 'translate(-50%, -50%)',
-                        background: 'rgba(0, 0, 0, 0.9)',
-                        color: 'white',
-                        padding: '20px',
-                        borderRadius: '8px',
+                        background: 'var(--adventure-page, #f8f5ee)',
+                        color: 'var(--adventure-ink, #34251a)',
+                        padding: '24px 32px',
+                        border: '1px solid #9b835e',
+                        borderRadius: '3px',
+                        boxShadow: '0 10px 30px rgba(30, 21, 14, 0.45)',
                         zIndex: 10000,
-                        textAlign: 'center'
+                        textAlign: 'center',
+                        fontFamily: 'Cinzel, Georgia, serif'
                     }}>
-                        <h3 style={{ color: '#ff4444', marginBottom: '15px' }}>Combat Error</h3>
-                        <p style={{ marginBottom: '15px' }}>Combat is active but no combatants found!</p>
+                        <h3 style={{ color: 'var(--adventure-seal, #663c32)', marginBottom: '10px', fontSize: '16px', fontWeight: '700' }}>Combat Notice</h3>
+                        <p style={{ marginBottom: '18px', fontFamily: 'Crimson Text, Georgia, serif', fontSize: '14px', color: 'var(--adventure-muted, #68533e)' }}>Combat is active but no combatants were found.</p>
                         <button
                             onClick={endCombat}
                             style={{
-                                padding: '10px 20px',
-                                background: '#ff4444',
-                                color: 'white',
-                                border: 'none',
-                                borderRadius: '4px',
+                                padding: '8px 18px',
+                                background: 'var(--adventure-seal, #663c32)',
+                                color: '#fdfaf3',
+                                border: '1px solid #4a2820',
+                                borderRadius: '3px',
                                 cursor: 'pointer',
-                                fontSize: '16px'
+                                fontSize: '13px',
+                                fontFamily: 'Cinzel, Georgia, serif',
+                                fontWeight: '600',
+                                letterSpacing: '0.5px'
                             }}
                         >
-                            Emergency End Combat
+                            End Combat
                         </button>
                     </div>,
                     document.body

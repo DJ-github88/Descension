@@ -2058,27 +2058,19 @@ body.resource-controls-open .character-sheet {
     background-image: linear-gradient(135deg, #f1ece1 0%, #e6dac8 50%, #d5cbb8 100%);
 }
 
-/* Scrollbar */
+/* Scrollbars: hidden to preserve clean manuscript presentation while remaining fully scrollable */
 ::-webkit-scrollbar {
-    width: 12px;
-    height: 12px;
+    width: 0;
+    height: 0;
+    display: none;
+    background: transparent;
 }
 
-::-webkit-scrollbar-track {
-    background: #d5cbb8;
-    border: 1px solid #c4baa6;
-    border-radius: 6px;
-}
-
+::-webkit-scrollbar-track,
 ::-webkit-scrollbar-thumb {
-    background: #a08c70;
-    border: 1px solid #c4baa6;
-    border-radius: 6px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: #6b5344;
-    border-color: #a08c70;
+    display: none;
+    background: transparent;
+    border: none;
 }
 
 ::-webkit-scrollbar-button {
@@ -2554,19 +2546,13 @@ body.resource-controls-open .character-sheet {
     flex-direction: column;
     min-height: 0;
     overflow-y: auto;
-    /* Subtle custom scrollbar: blends into parchment */
-    scrollbar-width: thin;
-    scrollbar-color: #c5b597 transparent;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
 }
 .book-page-content::-webkit-scrollbar {
-    width: 5px;
-}
-.book-page-content::-webkit-scrollbar-track {
-    background: transparent;
-}
-.book-page-content::-webkit-scrollbar-thumb {
-    background: #c5b597;
-    border-radius: 3px;
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
 }
 
 

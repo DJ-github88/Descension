@@ -736,10 +736,24 @@ const renderTooltipEntry = (entry, index) => {
     );
 };
 
+let sharedMeasureContext = null;
+const getTextMeasurer = () => {
+    if (!sharedMeasureContext && typeof document !== 'undefined') {
+        sharedMeasureContext = document.createElement('canvas').getContext('2d');
+    }
+    return (text, sizePx, computed) => {
+        if (!sharedMeasureContext) return 0;
+        sharedMeasureContext.font = `${computed.fontWeight} ${sizePx}px ${computed.fontFamily}`;
+        return sharedMeasureContext.measureText(text).width;
+    };
+};
+
 function ItemTooltip({ item }) {
     // Use hooks to get store data (hooks must be called before early returns)
-    const { availableRecipes } = useCraftingStore();
-    const { items: itemLibrary } = useItemStore();
+    // Narrow selectors: a bare useStore() subscribes to the entire store, so every
+    // mounted tooltip would re-render on any unrelated store update.
+    const availableRecipes = useCraftingStore(state => state.availableRecipes);
+    const itemLibrary = useItemStore(state => state.items);
 
     // All hooks must be called unconditionally at the top level
     const [titleStyle, setTitleStyle] = useState({ fontSize: '22px', needsScrolling: false, scrollDistance: 0 });
@@ -768,26 +782,15 @@ function ItemTooltip({ item }) {
             const padding = 32; // Padding on both sides (16px each)
             const availableWidth = containerWidth - iconWidth - gap - padding;
 
-            // Create a temporary element to measure text width at different font sizes
-            const tempElement = document.createElement('span');
-            tempElement.style.visibility = 'hidden';
-            tempElement.style.position = 'absolute';
-            tempElement.style.whiteSpace = 'nowrap';
-            tempElement.style.fontSize = '22px';
-            tempElement.style.fontFamily = window.getComputedStyle(textElement).fontFamily;
-            tempElement.style.fontWeight = window.getComputedStyle(textElement).fontWeight;
-            tempElement.textContent = getDisplayName(item) || 'Unknown Item';
-            document.body.appendChild(tempElement);
-
-            const textWidth22 = tempElement.offsetWidth;
-            tempElement.style.fontSize = '18px';
-            const textWidth18 = tempElement.offsetWidth;
-            tempElement.style.fontSize = '16px';
-            const textWidth16 = tempElement.offsetWidth;
-            tempElement.style.fontSize = '14px';
-            const textWidth14 = tempElement.offsetWidth;
-
-            document.body.removeChild(tempElement);
+            // Measure with a canvas instead of inserting/removing a DOM node four times:
+            // each offsetWidth read on a fresh element forced a synchronous layout.
+            const computed = window.getComputedStyle(textElement);
+            const measure = getTextMeasurer();
+            const label = getDisplayName(item) || 'Unknown Item';
+            const textWidth22 = measure(label, 22, computed);
+            const textWidth18 = measure(label, 18, computed);
+            const textWidth16 = measure(label, 16, computed);
+            const textWidth14 = measure(label, 14, computed);
 
             // Determine font size dynamically based on text width relative to availableWidth
             let fontSize = '22px';

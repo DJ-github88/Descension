@@ -371,16 +371,17 @@ describe('CreatureAbilityFanOut rendering', () => {
         expect(screen.queryByText('1 AP')).toBeNull();
     });
 
-    it('invokes onUseAbility with a roll summary for damaging abilities', () => {
+    it('passes the raw source without rolling before target selection', () => {
         const onUseAbility = jest.fn();
         render(<CreatureAbilityFanOut abilities={abilities} onUseAbility={onUseAbility} />);
 
         fireEvent.click(screen.getByAltText('Claw').closest('.action-fan-bubble'));
 
         expect(onUseAbility).toHaveBeenCalledTimes(1);
-        const [ability, rollText] = onUseAbility.mock.calls[0];
+        const [ability, rollText, raw] = onUseAbility.mock.calls[0];
         expect(ability.name).toBe('Claw');
-        expect(rollText).toMatch(/1d8 → \d+ slicing/);
+        expect(rollText).toBeNull();
+        expect(raw).toBe(abilities[0]);
     });
 
     it('passes null roll text for abilities without a damage formula', () => {

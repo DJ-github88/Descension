@@ -3,19 +3,21 @@
     bottom: calc(100% + 8px);
     left: 50%;
     transform: translateX(-50%);
-    background: rgba(8, 16, 24, 0.98);
-    border: 1px solid rgba(37, 150, 255, 0.4);
-    padding: 12px;
-    border-radius: 4px;
+    background: var(--adventure-paper, #f1ece1);
+    border: 1px solid var(--adventure-rule, #c4baa6);
+    padding: 10px 12px;
+    border-radius: 3px;
     min-width: 200px;
-    max-width: 300px;
+    max-width: 280px;
     pointer-events: none;
     opacity: 0;
     visibility: hidden;
-    transition: all 0.2s ease;
-    box-shadow: 0 2px 12px rgba(37, 150, 255, 0.25);
+    transition: all 0.15s ease;
+    box-shadow: 0 4px 16px rgba(52, 37, 26, 0.18);
     z-index: 1000;
     white-space: normal;
+    color: var(--adventure-ink, #34251a);
+    font-family: 'Crimson Text', Georgia, serif;
 }
 
 .wow-progress-tooltip .tooltip-header {
@@ -23,19 +25,20 @@
     align-items: center;
     gap: 8px;
     padding-bottom: 6px;
-    border-bottom: 1px solid rgba(37, 150, 255, 0.2);
+    border-bottom: 1px solid var(--adventure-rule, #c4baa6);
     margin-bottom: 6px;
+    font-family: 'Cinzel', Georgia, serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--adventure-ink, #34251a);
 }
 
 .wow-progress-tooltip .tooltip-icon {
-    width: 24px;
-    height: 24px;
-    border-radius: 3px;
-    border: 1px solid rgba(37, 150, 255, 0.4);
-    filter: brightness(1.1) saturate(1.1);
+    width: 22px;
+    height: 22px;
+    border-radius: 2px;
+    border: 1px solid var(--adventure-rule, #c4baa6);
 }
-
-/* Tooltip classes removed - using unified Pathfinder tooltip system */
 
 /* Show tooltip on hover */
 .wow-progress-segment:hover .wow-progress-tooltip {
@@ -55,5 +58,5 @@
     height: 0;
     border-left: 5px solid transparent;
     border-right: 5px solid transparent;
-    border-top: 5px solid rgba(37, 150, 255, 0.4);
+    border-top: 5px solid var(--adventure-rule, #c4baa6);
 }

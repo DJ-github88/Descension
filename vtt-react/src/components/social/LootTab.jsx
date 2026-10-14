@@ -9,6 +9,7 @@ import React, { useState, useRef, Suspense, useEffect } from 'react';
 import lazy from '../../utils/lazyWithRetry';
 import { createPortal } from 'react-dom';
 import useChatStore from '../../store/chatStore';
+import { getItemThematicExcerpt } from '../../utils/lootItemUtils';
 
 // Lazy load the ItemTooltip component
 const ItemTooltip = lazy(() => import('../item-generation/ItemTooltip'));
@@ -122,6 +123,7 @@ const LootTab = () => {
     if (type === 'item_looted') {
       const quality = notification.item.quality || 'common';
       const qualityColor = getQualityColor(quality);
+      const thematicSnippet = getItemThematicExcerpt(notification.item);
 
       return (
         <div
@@ -149,6 +151,18 @@ const LootTab = () => {
             )}
             {notification.source && (
               <span style={{ color: '#777', fontStyle: 'italic' }}> from {notification.source}</span>
+            )}
+            {thematicSnippet && (
+              <div className="loot-item-flavor" style={{
+                fontFamily: "'Crimson Text', Georgia, serif",
+                fontSize: '12px',
+                fontStyle: 'italic',
+                color: '#68533e',
+                marginTop: '3px',
+                lineHeight: '1.35'
+              }}>
+                {thematicSnippet}
+              </div>
             )}
           </div>
         </div>
@@ -191,6 +205,30 @@ const LootTab = () => {
             </span>
             {notification.source && (
               <span style={{ color: '#777', fontStyle: 'italic' }}> from {notification.source}</span>
+            )}
+          </div>
+        </div>
+      );
+    }
+
+    if (type === 'loot_rolled') {
+      const nothing = notification.nothingDropped || !(notification.dropped && notification.dropped.length);
+      return (
+        <div
+          key={notification.id}
+          className="chat-message loot-message loot-roll"
+          data-item-quality={nothing ? 'common' : 'currency'}
+        >
+          <div className="message-header">
+            <span className="sender-name">{notification.roller || 'GM'}</span>
+            <span className="timestamp">{formatTimestamp(timestamp)}</span>
+          </div>
+          <div className="message-content">
+            <span style={{ fontWeight: '600' }}>Rolled for loot on {notification.creatureName || 'creature'}: </span>
+            {nothing ? (
+              <span style={{ color: '#777', fontStyle: 'italic' }}>nothing dropped</span>
+            ) : (
+              <span style={{ color: '#d4af37', fontWeight: '700' }}>{notification.dropped.join(', ')}</span>
             )}
           </div>
         </div>

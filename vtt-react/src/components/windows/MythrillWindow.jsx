@@ -50,7 +50,8 @@ const MythrillWindow = forwardRef((props, ref) => {
         // P5-01: account-private window. While a handoff/retirement is active
         // the window is hidden (and unmounted) so the previous owner's portal
         // content can never remain visible under the new live principal.
-        privateProjection = false
+        privateProjection = false,
+        ariaLabel
     } = props;
 
     // Ensure title is always defined. Allow explicit empty string to suppress the title.
@@ -463,7 +464,7 @@ const MythrillWindow = forwardRef((props, ref) => {
                     ref={windowElementRef}
                     role="dialog"
                     aria-modal={modal ? true : undefined}
-                    aria-label={safeTitle}
+                    aria-label={ariaLabel || safeTitle || 'Window'}
                     tabIndex={modal ? -1 : undefined}
                     onClick={handleWindowClick}
                     onMouseDown={handleWindowMouseDown}

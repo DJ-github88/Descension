@@ -7,6 +7,7 @@ import useChatStore from './chatStore';
 import useGameStore from './gameStore';
 import { ensureArray, safeGet } from '../utils/prodDevParity';
 import { getIconUrl } from '../utils/assetManager';
+import { getItemThematicExcerpt } from '../utils/lootItemUtils';
 import '../styles/item-notification.css';
 
 // Helper to generate a unique ID
@@ -179,11 +180,14 @@ const useGridItemStore = create((set, get) => ({
    const isStackableType = item.type === 'consumable' || item.type === 'miscellaneous' || item.type === 'material';
 
    // Check if we can stack this item with an existing one
-   if (isStackableType && item.stackable !== false) {
+   // noStack: creature loot drops must always appear as their own orb next to the creature
+   // (never merged into an orb elsewhere). Stacking is also limited to the same map.
+   if (isStackableType && item.stackable !== false && item.noStack !== true) {
     const existingItemIndex = state.gridItems.findIndex(gridItem =>
      gridItem.name === item.name &&
      gridItem.type === item.type &&
-     gridItem.quality === item.quality
+     gridItem.quality === item.quality &&
+     (gridItem.mapId || 'default') === resolvedMapId
     );
 
     if (existingItemIndex >= 0) {
@@ -581,8 +585,13 @@ const useGridItemStore = create((set, get) => ({
 
       notificationHTML = `
         <div class="currency-notification-content">
-         <img src="${getIconUrl(iconId, 'items')}" alt="Currency" class="currency-coin-icon coin-${primaryCurrencyType}" />
-         <span>${parts.join('<span style="margin: 0 4px;"> </span>')}</span>
+         <div class="currency-coin-wrapper">
+          <img src="${getIconUrl(iconId, 'items')}" alt="Currency" class="currency-coin-icon coin-${primaryCurrencyType}" />
+         </div>
+         <div class="currency-notification-details">
+          <div class="currency-notification-badge">Currency Acquired</div>
+          <div class="currency-notification-values">${parts.join('<span class="currency-sep"> · </span>')}</div>
+         </div>
         </div>
        `;
      } else {
@@ -590,16 +599,23 @@ const useGridItemStore = create((set, get) => ({
       const currencyType = itemToUse.currencyType || 'gold';
       notificationHTML = `
         <div class="currency-notification-content">
-         <img src="${getIconUrl(iconId, 'items')}" alt="Currency" class="currency-coin-icon coin-${currencyType}" />
-         <span>
-          <span style="color: #2d1810; font-weight: 700; text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);">+${currencyValue}</span>
-          <span style="color: #7a3b2e; font-weight: 700; margin-left: 2px; text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8); text-transform: capitalize;">${currencyType}</span>
-         </span>
+         <div class="currency-coin-wrapper">
+          <img src="${getIconUrl(iconId, 'items')}" alt="Currency" class="currency-coin-icon coin-${currencyType}" />
+         </div>
+         <div class="currency-notification-details">
+          <div class="currency-notification-badge">Currency Acquired</div>
+          <div class="currency-notification-values">
+           <span class="currency-part">
+            <span class="currency-num">+${currencyValue}</span>
+            <span class="currency-lbl" style="text-transform: capitalize;">${currencyType}</span>
+           </span>
+          </div>
+         </div>
         </div>
        `;
      }
 
-     enqueueCurrencyNotification(notificationHTML, 2000);
+     enqueueCurrencyNotification(notificationHTML, 2400);
     }
 
     // Handle item removal from grid for currency items
@@ -749,16 +765,39 @@ const useGridItemStore = create((set, get) => ({
        const iconUrl = getIconUrl(itemIconId, 'items', true);
        const fallbackIconUrl = getIconUrl(getItemIcon(itemType, itemSubtype), 'items', true);
 
+       const thematicExcerpt = getItemThematicExcerpt(itemToUse);
+
+       const escapeHtml = (str) => {
+        if (!str) return '';
+        return String(str)
+         .replace(/&/g, '&amp;')
+         .replace(/</g, '&lt;')
+         .replace(/>/g, '&gt;')
+         .replace(/"/g, '&quot;')
+         .replace(/'/g, '&#39;');
+       };
+
+       const safeName = escapeHtml(itemName);
+       const safeQuantity = itemQuantity ? escapeHtml(itemQuantity) : '';
+       const safeExcerpt = escapeHtml(thematicExcerpt);
+
        const notificationHTML = `
          <div class="item-notification-content">
-          <img src="${iconUrl}" alt="${itemName}" onerror="this.onerror=null; this.src='${fallbackIconUrl}';" />
-          <span class="${itemQuality}">
-           ${itemName}${itemQuantity}
-          </span>
+          <div class="item-notification-icon-wrapper ${itemQuality}">
+           <img src="${iconUrl}" alt="${safeName}" onerror="this.onerror=null; this.src='${fallbackIconUrl}';" />
+          </div>
+          <div class="item-notification-details">
+           <div class="item-notification-top-row">
+            <span class="item-notification-badge">Looted</span>
+            ${safeQuantity ? `<span class="item-notification-quantity">${safeQuantity}</span>` : ''}
+           </div>
+           <div class="item-notification-name ${itemQuality}">${safeName}</div>
+           ${safeExcerpt ? `<div class="item-notification-flavor">${safeExcerpt}</div>` : ''}
+          </div>
          </div>
         `;
 
-       enqueueItemNotification(notificationHTML, itemQuality, 2500);
+       enqueueItemNotification(notificationHTML, itemQuality, 3200);
       }
 
       // Remove the grid item (this will also clean up temporary items)

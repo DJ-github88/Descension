@@ -1,11 +1,13 @@
 import React, { useEffect } from 'react';
 import { useSpellWizardState, useSpellWizardDispatch, actionCreators } from '../../context/spellWizardContext';
+import WizardStep from '../common/WizardStep';
 import { RESOLUTION_TYPES } from '../../core/mechanics/resolutionMechanics';
 import ResolutionTypeSelector from '../mechanics/ResolutionTypeSelector';
 import TableEntryEditor from '../mechanics/TableEntryEditor';
+import { FaDiceD20 } from 'react-icons/fa6';
 // Pathfinder styles imported via main.css
 
-const RollableTableStep = () => {
+const RollableTableStep = ({ stepNumber, totalSteps, onNext, onPrevious, isActive }) => {
   const state = useSpellWizardState();
   const dispatch = useSpellWizardDispatch();
   const { rollableTable } = state;
@@ -370,82 +372,128 @@ const RollableTableStep = () => {
     }));
   };
 
+  const isStepValid = () => {
+    if (!rollableTable?.enabled) return true;
+    return Boolean(rollableTable.name && rollableTable.name.trim().length > 0);
+  };
+
+  const handleNext = () => {
+    if (isStepValid() && onNext) {
+      onNext();
+    }
+  };
+
+  const hints = [
+    "Rollable tables let spells trigger secondary random magical effects upon resolution.",
+    "Choose between Dice rolls (e.g. d100), Card draws (standard/tarot), or Coin flips.",
+    "Entries can add bonus damage, healing, status conditions, or link to other spells in your library.",
+    "The spellcard live preview immediately displays the interactive table summary with live rolling."
+  ];
+
   return (
-    <div className="rollable-table-step wow-window-content">
-      <div className="step-header">
-        <h2>Rollable Table Configuration</h2>
-        <p className="step-description">
-          Create a table of random effects that can be triggered when the spell is cast.
-          These can be resolved using dice rolls, card draws, or coin flips.
-        </p>
-      </div>
-
-      <div className="toggle-section">
-        <div className="toggle-option">
-          <button
-            className={`toggle-button ${rollableTable.enabled ? 'active' : ''}`}
-            onClick={handleToggleEnabled}
-          >
-            <div className="toggle-icon">
-              {rollableTable.enabled ? '✓' : ''}
-            </div>
-            <span>Enable Rollable Table</span>
-          </button>
-        </div>
-      </div>
-
-      {rollableTable.enabled && (
-        <>
-          <div className="table-config-section">
-            <div className="form-group">
-              <label htmlFor="table-name">Table Name</label>
+    <WizardStep
+      title="Rollable Table Configuration"
+      stepNumber={stepNumber}
+      totalSteps={totalSteps}
+      isCompleted={isStepValid()}
+      isActive={isActive}
+      onNext={handleNext}
+      onPrevious={onPrevious}
+      disableNext={!isStepValid()}
+      showHints={true}
+      hints={hints}
+    >
+      <div className="rollable-table-step-container">
+        <div className="mechanics-header-pathfinder">
+          <div className="mechanics-title-section">
+            <h3>Random Effects Table</h3>
+            <p className="mechanics-subtitle">Create a table of random effects resolved via dice, cards, or coins</p>
+          </div>
+          <div className="mechanics-toggle-pathfinder">
+            <label className="pf-toggle-switch">
               <input
-                id="table-name"
-                type="text"
-                value={rollableTable.name}
-                onChange={handleNameChange}
-                placeholder="e.g., Wild Magic Surge"
-                className="wow-settings-input"
+                type="checkbox"
+                checked={rollableTable?.enabled || false}
+                onChange={handleToggleEnabled}
+              />
+              <span className="pf-toggle-slider"></span>
+            </label>
+            <span className="pf-toggle-label">{rollableTable?.enabled ? 'Table Enabled' : 'No Table'}</span>
+          </div>
+        </div>
+
+        {!rollableTable?.enabled ? (
+          <div className="prophecy-disabled-card">
+            <div className="prophecy-disabled-icon-wrapper">
+              <FaDiceD20 className="prophecy-disabled-icon" />
+            </div>
+            <h4>Rollable Table Disabled</h4>
+            <p>
+              This spell does not roll on a secondary outcome table. Toggle on above to configure
+              custom random effects resolved with dice rolls, card draws, or coin flips.
+            </p>
+          </div>
+        ) : (
+          <div className="mechanics-configuration-section">
+            <div className="config-section">
+              <div className="config-section-header">
+                <h5>Table Details</h5>
+              </div>
+
+              <div className="config-field">
+                <label className="config-label">Table Name</label>
+                <input
+                  id="table-name"
+                  type="text"
+                  value={rollableTable.name || ''}
+                  onChange={handleNameChange}
+                  placeholder="e.g., Wild Magic Surge, Chaotic Discharge"
+                  className="pf-config-input-wide"
+                />
+              </div>
+
+              <div className="config-field">
+                <label className="config-label">Description</label>
+                <textarea
+                  id="table-description"
+                  value={rollableTable.description || ''}
+                  onChange={handleDescriptionChange}
+                  placeholder="Describe what this table represents..."
+                  className="pf-config-textarea"
+                  rows={2}
+                />
+              </div>
+            </div>
+
+            <div className="config-section">
+              <div className="config-section-header">
+                <h5>Resolution Method</h5>
+              </div>
+              <ResolutionTypeSelector
+                selectedType={rollableTable.resolutionType}
+                onTypeChange={handleResolutionTypeChange}
+                config={rollableTable.resolutionConfig}
+                onConfigChange={handleResolutionConfigChange}
               />
             </div>
 
-            <div className="form-group">
-              <label htmlFor="table-description">Description</label>
-              <textarea
-                id="table-description"
-                value={rollableTable.description}
-                onChange={handleDescriptionChange}
-                placeholder="Describe what this table represents..."
-                className="wow-settings-input"
-                rows={3}
+            <div className="config-section">
+              <div className="config-section-header">
+                <h5>Table Entries ({rollableTable.entries?.length || 0})</h5>
+              </div>
+              <TableEntryEditor
+                entries={rollableTable.entries || []}
+                resolutionType={rollableTable.resolutionType}
+                resolutionConfig={rollableTable.resolutionConfig}
+                onAddEntry={handleAddEntry}
+                onUpdateEntry={handleUpdateEntry}
+                onRemoveEntry={handleRemoveEntry}
               />
             </div>
           </div>
-
-          <div className="resolution-section">
-            <h3>Resolution Method</h3>
-            <ResolutionTypeSelector
-              selectedType={rollableTable.resolutionType}
-              onTypeChange={handleResolutionTypeChange}
-              config={rollableTable.resolutionConfig}
-              onConfigChange={handleResolutionConfigChange}
-            />
-          </div>
-
-          <div className="table-entries-section">
-            <h3>Table Entries</h3>
-            <TableEntryEditor
-              entries={rollableTable.entries}
-              resolutionType={rollableTable.resolutionType}
-              resolutionConfig={rollableTable.resolutionConfig}
-              onAddEntry={handleAddEntry}
-              onUpdateEntry={handleUpdateEntry}
-              onRemoveEntry={handleRemoveEntry}
-            />
-          </div>
-        </>
-      )}
-    </div>
+        )}
+      </div>
+    </WizardStep>
   );
 };
 

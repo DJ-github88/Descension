@@ -1660,18 +1660,18 @@
   width: 360px !important;
   min-width: 300px !important;
   max-width: 420px !important;
-  border-right: 1.5px solid #d8ccb4 !important;
-  background: #fbf7ee !important;
+  border-right: 1px solid var(--adventure-rule, #c4baa6) !important;
+  background: var(--adventure-paper, #f1ece1) !important;
   display: flex !important;
   flex-direction: column !important;
   overflow: hidden !important;
-  box-shadow: 2px 0 8px rgba(70, 45, 20, 0.04) !important;
+  box-shadow: none !important;
 }
 
 .notes-sidebar-header {
   padding: 12px 14px 10px !important;
-  border-bottom: 1px solid #e5d7ba !important;
-  background: #faf4e6 !important;
+  border-bottom: 1px solid var(--adventure-rule, #c4baa6) !important;
+  background: var(--adventure-page, #f8f5ee) !important;
   display: flex !important;
   flex-direction: column !important;
   gap: 10px !important;
@@ -1686,9 +1686,10 @@
 
 .notes-sidebar-heading {
   font-family: 'Cinzel', serif !important;
-  font-size: 1.05rem !important;
+  font-size: 1rem !important;
   font-weight: 700 !important;
-  color: #58180d !important;
+  color: var(--adventure-ink, #34251a) !important;
+  letter-spacing: 0.5px !important;
   display: flex !important;
   align-items: center !important;
   gap: 8px !important;
@@ -1696,11 +1697,12 @@
 
 .notes-count-badge {
   font-size: 0.72rem !important;
-  background: #e8dbc0 !important;
-  color: #5c3e24 !important;
+  background: var(--adventure-panel, #e8e2d4) !important;
+  color: var(--adventure-muted, #68533e) !important;
   padding: 2px 7px !important;
-  border-radius: 10px !important;
-  font-family: sans-serif !important;
+  border-radius: 2px !important;
+  border: 1px solid var(--adventure-rule, #c4baa6) !important;
+  font-family: 'Cinzel', serif !important;
   font-weight: 600 !important;
 }
 
@@ -1708,37 +1710,39 @@
   display: inline-flex !important;
   align-items: center !important;
   gap: 5px !important;
-  background: linear-gradient(135deg, #58180d, #7c2616) !important;
-  border: 1.5px solid #ffd700 !important;
-  color: #ffd700 !important;
-  border-radius: 5px !important;
+  background: var(--adventure-seal, #663c32) !important;
+  border: 1px solid #4a2820 !important;
+  color: #fdfaf3 !important;
+  border-radius: 3px !important;
   padding: 5px 12px !important;
   font-family: 'Cinzel', serif !important;
   font-size: 0.75rem !important;
   font-weight: 700 !important;
+  letter-spacing: 0.5px !important;
   cursor: pointer !important;
-  box-shadow: 0 2px 6px rgba(88, 24, 13, 0.2) !important;
+  box-shadow: 0 1px 3px rgba(48, 36, 25, 0.15) !important;
   transition: all 0.15s ease !important;
 }
 
 .btn-new-note:hover {
-  background: #7c2616 !important;
+  background: #7a3a2e !important;
+  border-color: #5a1e12 !important;
   transform: translateY(-1px) !important;
-  box-shadow: 0 4px 10px rgba(88, 24, 13, 0.3) !important;
+  box-shadow: 0 2px 6px rgba(48, 36, 25, 0.2) !important;
 }
 
 .notes-search-wrapper {
   position: relative !important;
   display: flex !important;
   align-items: center !important;
-  background: #fffdf9 !important;
-  border: 1.5px solid #d4c5a9 !important;
-  border-radius: 6px !important;
+  background: var(--adventure-page, #f8f5ee) !important;
+  border: 1px solid var(--adventure-rule, #c4baa6) !important;
+  border-radius: 3px !important;
   padding: 0 10px !important;
 }
 
 .notes-search-icon {
-  color: #8b5a1a !important;
+  color: var(--adventure-muted, #68533e) !important;
   font-size: 0.85rem !important;
   margin-right: 8px !important;
 }
@@ -1747,17 +1751,17 @@
   flex: 1 !important;
   border: none !important;
   background: transparent !important;
-  padding: 7px 0 !important;
+  padding: 6px 0 !important;
   font-size: 0.84rem !important;
-  color: #2c1a0e !important;
+  color: var(--adventure-ink, #34251a) !important;
   outline: none !important;
-  font-family: inherit !important;
+  font-family: 'Crimson Text', Georgia, serif !important;
 }
 
 .notes-search-clear {
   background: transparent !important;
   border: none !important;
-  color: #8b5a1a !important;
+  color: var(--adventure-muted, #68533e) !important;
   cursor: pointer !important;
   padding: 4px !important;
   font-size: 0.8rem !important;
@@ -1774,27 +1778,33 @@
   align-items: center !important;
   gap: 4px !important;
   padding: 3px 8px !important;
-  background: #fffdfa !important;
-  border: 1px solid #d8ccb4 !important;
-  border-radius: 12px !important;
+  background: var(--adventure-page, #f8f5ee) !important;
+  border: 1px solid var(--adventure-rule, #c4baa6) !important;
+  border-radius: 3px !important;
   font-family: 'Cinzel', serif !important;
   font-size: 0.68rem !important;
   font-weight: 600 !important;
-  color: #5c3e24 !important;
+  color: var(--adventure-muted, #68533e) !important;
   cursor: pointer !important;
   transition: all 0.15s ease !important;
 }
 
-.filter-chip:hover,
+.filter-chip:hover {
+  background: var(--adventure-panel, #e8e2d4) !important;
+  border-color: var(--adventure-brass, #c4ab79) !important;
+  color: var(--adventure-ink, #34251a) !important;
+}
+
 .filter-chip.active {
-  background: #58180d !important;
-  color: #ffd700 !important;
-  border-color: #ffd700 !important;
+  background: var(--adventure-seal, #663c32) !important;
+  color: #fdfaf3 !important;
+  border-color: #4a2820 !important;
   font-weight: 700 !important;
+  box-shadow: 0 1px 3px rgba(48, 36, 25, 0.15) !important;
 }
 
 .filter-chip.active i {
-  color: #ffd700 !important;
+  color: #fdfaf3 !important;
 }
 
 /* Notes Cards List */
@@ -1827,7 +1837,7 @@
   font-family: 'Cinzel', serif !important;
   font-size: 0.95rem !important;
   font-weight: 700 !important;
-  color: #58180d !important;
+  color: var(--adventure-ink, #34251a) !important;
   margin: 0 0 6px !important;
 }
 
@@ -1838,10 +1848,10 @@
 }
 
 .btn-clear-filters {
-  background: #f0e6ce !important;
-  border: 1px solid #8b5a1a !important;
-  color: #58180d !important;
-  border-radius: 4px !important;
+  background: var(--adventure-paper, #f1ece1) !important;
+  border: 1px solid var(--adventure-rule, #c4baa6) !important;
+  color: var(--adventure-ink, #34251a) !important;
+  border-radius: 3px !important;
   padding: 4px 10px !important;
   font-family: 'Cinzel', serif !important;
   font-size: 0.72rem !important;
@@ -1853,39 +1863,39 @@
   display: flex !important;
   align-items: flex-start !important;
   gap: 10px !important;
-  background: #fffdfa !important;
-  border: 1.5px solid #dfd3bd !important;
-  border-radius: 6px !important;
-  padding: 10px 12px !important;
+  background: var(--adventure-page, #f8f5ee) !important;
+  border: 1px solid var(--adventure-rule, #c4baa6) !important;
+  border-radius: 3px !important;
+  padding: 8px 10px !important;
   cursor: pointer !important;
   transition: all 0.15s ease !important;
-  box-shadow: 0 1px 4px rgba(70, 45, 20, 0.04) !important;
+  box-shadow: 0 1px 3px rgba(48, 36, 25, 0.04) !important;
 }
 
 .note-master-card:hover {
-  background: #fbf3e4 !important;
-  border-color: #8b5a1a !important;
-  transform: translateX(2px) !important;
-  box-shadow: 0 3px 8px rgba(70, 45, 20, 0.08) !important;
+  background: var(--adventure-paper, #f1ece1) !important;
+  border-color: var(--adventure-brass, #c4ab79) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 2px 6px rgba(48, 36, 25, 0.08) !important;
 }
 
 .note-master-card.is-selected {
-  background: #fcf1de !important;
-  border-color: #58180d !important;
-  border-left: 2px solid #58180d !important;
-  box-shadow: 0 2px 10px rgba(88, 24, 13, 0.15) !important;
+  background: var(--adventure-paper, #f1ece1) !important;
+  border-color: var(--adventure-seal, #663c32) !important;
+  border-left: 3px solid var(--adventure-seal, #663c32) !important;
+  box-shadow: 0 2px 8px rgba(102, 60, 50, 0.12) !important;
 }
 
 .note-card-icon-box {
-  width: 32px !important;
-  height: 32px !important;
-  min-width: 32px !important;
-  border-radius: 6px !important;
-  border: 1.5px solid !important;
+  width: 28px !important;
+  height: 28px !important;
+  min-width: 28px !important;
+  border-radius: 3px !important;
+  border: 1px solid !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  font-size: 0.85rem !important;
+  font-size: 0.8rem !important;
   margin-top: 2px !important;
 }
 
@@ -1906,9 +1916,9 @@
 
 .note-card-title {
   font-family: 'Cinzel', serif !important;
-  font-size: 0.88rem !important;
+  font-size: 0.86rem !important;
   font-weight: 700 !important;
-  color: #58180d !important;
+  color: var(--adventure-ink, #34251a) !important;
   white-space: nowrap !important;
   overflow: hidden !important;
   text-overflow: ellipsis !important;
@@ -1917,10 +1927,10 @@
 .note-card-archetype-pill {
   font-size: 0.62rem !important;
   text-transform: uppercase !important;
-  font-weight: 800 !important;
+  font-weight: 700 !important;
   letter-spacing: 0.04em !important;
   padding: 1px 5px !important;
-  border-radius: 4px !important;
+  border-radius: 2px !important;
   border: 1px solid !important;
   background: rgba(255, 255, 255, 0.7) !important;
   flex-shrink: 0 !important;
@@ -1928,7 +1938,8 @@
 
 .note-card-snippet {
   font-size: 0.8rem !important;
-  color: #4a3422 !important;
+  color: var(--adventure-muted, #68533e) !important;
+  font-family: 'Crimson Text', Georgia, serif !important;
   line-height: 1.35 !important;
   margin: 0 !important;
   display: -webkit-box !important;
@@ -1946,7 +1957,7 @@
 
 .note-card-date {
   font-size: 0.68rem !important;
-  color: #8b6f47 !important;
+  color: var(--adventure-muted, #68533e) !important;
   font-style: italic !important;
   display: flex !important;
   align-items: center !important;
@@ -1954,13 +1965,13 @@
 }
 
 .note-card-drag-hint {
-  color: #b5a488 !important;
+  color: var(--adventure-muted, #68533e) !important;
   font-size: 0.78rem !important;
   cursor: grab !important;
 }
 
 .note-card-drag-hint:hover {
-  color: #58180d !important;
+  color: var(--adventure-seal, #663c32) !important;
 }
 
 
@@ -1969,9 +1980,9 @@
   flex: 1 !important;
   display: flex !important;
   flex-direction: column !important;
-  background: #fffdf8 !important;
+  background: var(--adventure-page, #f8f5ee) !important;
   overflow: hidden !important;
-  padding: 16px 20px 12px !important;
+  padding: 14px 18px 10px !important;
   gap: 10px !important;
 }
 
@@ -1990,22 +2001,22 @@
 
 .notes-title-input {
   width: 100% !important;
-  background: #fffdfa !important;
-  border: 1.5px solid #c8b99c !important;
-  border-radius: 6px !important;
-  padding: 8px 14px !important;
+  background: var(--adventure-paper, #f1ece1) !important;
+  border: 1px solid var(--adventure-rule, #c4baa6) !important;
+  border-radius: 3px !important;
+  padding: 7px 12px !important;
   font-family: 'Cinzel', serif !important;
-  font-size: 1.15rem !important;
+  font-size: 1.05rem !important;
   font-weight: 700 !important;
-  color: #58180d !important;
+  color: var(--adventure-ink, #34251a) !important;
   box-sizing: border-box !important;
   transition: all 0.15s ease !important;
 }
 
 .notes-title-input:focus {
-  border-color: #58180d !important;
+  border-color: var(--adventure-brass, #c4ab79) !important;
   outline: none !important;
-  box-shadow: 0 0 0 3px rgba(88, 24, 13, 0.12) !important;
+  box-shadow: 0 0 0 2px rgba(196, 171, 121, 0.2) !important;
 }
 
 .notes-header-actions {
@@ -2016,9 +2027,9 @@
 
 .notes-view-mode-toggle {
   display: flex !important;
-  background: #f0e6ce !important;
-  border: 1.5px solid #8b5a1a !important;
-  border-radius: 6px !important;
+  background: var(--adventure-panel, #e8e2d4) !important;
+  border: 1px solid var(--adventure-rule, #c4baa6) !important;
+  border-radius: 3px !important;
   padding: 2px !important;
   gap: 2px !important;
 }
@@ -2027,71 +2038,71 @@
   display: inline-flex !important;
   align-items: center !important;
   gap: 5px !important;
-  padding: 5px 12px !important;
+  padding: 4px 10px !important;
   background: transparent !important;
   border: none !important;
-  border-radius: 4px !important;
-  color: #5c3e24 !important;
+  border-radius: 2px !important;
+  color: var(--adventure-muted, #68533e) !important;
   font-family: 'Cinzel', serif !important;
-  font-size: 0.76rem !important;
+  font-size: 0.72rem !important;
   font-weight: 600 !important;
   cursor: pointer !important;
   transition: all 0.15s ease !important;
 }
 
 .mode-toggle-btn.active {
-  background: linear-gradient(135deg, #58180d, #7c2616) !important;
-  color: #ffd700 !important;
+  background: var(--adventure-seal, #663c32) !important;
+  color: #fdfaf3 !important;
   font-weight: 700 !important;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.15) !important;
+  box-shadow: 0 1px 3px rgba(48, 36, 25, 0.15) !important;
 }
 
 .btn-promote-world {
   display: inline-flex !important;
   align-items: center !important;
   gap: 6px !important;
-  background: linear-gradient(135deg, #fdf8eb 0%, #faecd0 100%) !important;
-  border: 1.5px solid #d4af37 !important;
-  color: #58180d !important;
-  padding: 6px 12px !important;
-  border-radius: 5px !important;
+  background: var(--adventure-paper, #f1ece1) !important;
+  border: 1px solid var(--adventure-rule, #c4baa6) !important;
+  color: var(--adventure-ink, #34251a) !important;
+  padding: 5px 12px !important;
+  border-radius: 3px !important;
   font-family: 'Cinzel', serif !important;
-  font-size: 0.78rem !important;
+  font-size: 0.75rem !important;
   font-weight: 700 !important;
   cursor: pointer !important;
   transition: all 0.15s ease !important;
 }
 
 .btn-promote-world:hover {
-  background: #58180d !important;
-  color: #ffd700 !important;
-  border-color: #ffd700 !important;
+  background: var(--adventure-panel, #e8e2d4) !important;
+  border-color: var(--adventure-brass, #c4ab79) !important;
+  color: var(--adventure-ink, #34251a) !important;
 }
 
 .note-promote-menu {
   position: absolute !important;
   top: calc(100% + 4px) !important;
   right: 0 !important;
-  background: #fffdf8 !important;
-  border: 1.5px solid #8b5a1a !important;
-  border-radius: 6px !important;
-  padding: 6px !important;
+  background: var(--adventure-page, #f8f5ee) !important;
+  border: 1px solid var(--adventure-rule, #c4baa6) !important;
+  border-radius: 3px !important;
+  padding: 4px !important;
   min-width: 240px !important;
   z-index: 1000 !important;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.25) !important;
+  box-shadow: 0 6px 20px rgba(48, 36, 25, 0.18) !important;
   display: flex !important;
   flex-direction: column !important;
-  gap: 4px !important;
+  gap: 3px !important;
 }
 
 .note-promote-menu button {
   width: 100% !important;
   text-align: left !important;
-  background: #fbf7ee !important;
-  border: 1px solid #e5d7ba !important;
-  border-radius: 4px !important;
-  color: #3d2314 !important;
-  padding: 8px 10px !important;
+  background: var(--adventure-paper, #f1ece1) !important;
+  border: 1px solid var(--adventure-rule, #c4baa6) !important;
+  border-radius: 2px !important;
+  color: var(--adventure-ink, #34251a) !important;
+  padding: 7px 10px !important;
   font-size: 0.78rem !important;
   cursor: pointer !important;
   display: flex !important;
@@ -2101,24 +2112,24 @@
 }
 
 .note-promote-menu button:hover {
-  background: #58180d !important;
-  color: #ffd700 !important;
-  border-color: #ffd700 !important;
+  background: var(--adventure-panel, #e8e2d4) !important;
+  border-color: var(--adventure-brass, #c4ab79) !important;
+  color: var(--adventure-ink, #34251a) !important;
 }
 
 .btn-note-danger {
-  background: #fdf2f0 !important;
-  border: 1.5px solid #d9534f !important;
-  color: #d9534f !important;
-  border-radius: 5px !important;
-  padding: 6px 10px !important;
+  background: #fbf2f0 !important;
+  border: 1px solid #d99c95 !important;
+  color: #8a3a2e !important;
+  border-radius: 3px !important;
+  padding: 5px 10px !important;
   cursor: pointer !important;
   font-size: 0.82rem !important;
   transition: all 0.15s ease !important;
 }
 
 .btn-note-danger:hover {
-  background: #d9534f !important;
+  background: #8a3a2e !important;
   color: #fff !important;
 }
 
@@ -2126,23 +2137,23 @@
   display: inline-flex !important;
   align-items: center !important;
   gap: 6px !important;
-  background: linear-gradient(135deg, #2d6a4f, #1b4332) !important;
-  border: 1.5px solid #ffd700 !important;
-  color: #fff !important;
-  border-radius: 5px !important;
-  padding: 6px 18px !important;
+  background: var(--adventure-seal, #663c32) !important;
+  border: 1px solid #4a2820 !important;
+  color: #fdfaf3 !important;
+  border-radius: 3px !important;
+  padding: 5px 16px !important;
   font-family: 'Cinzel', serif !important;
-  font-size: 0.82rem !important;
+  font-size: 0.78rem !important;
   font-weight: 700 !important;
   cursor: pointer !important;
   transition: all 0.15s ease !important;
-  box-shadow: 0 2px 6px rgba(45, 106, 79, 0.25) !important;
+  box-shadow: 0 1px 3px rgba(48, 36, 25, 0.15) !important;
 }
 
 .btn-note-save:hover:not(:disabled) {
-  background: #1b4332 !important;
+  background: #7a3a2e !important;
+  border-color: #5a1e12 !important;
   transform: translateY(-1px) !important;
-  box-shadow: 0 4px 12px rgba(45, 106, 79, 0.35) !important;
 }
 
 .btn-note-save:disabled {
@@ -2156,11 +2167,11 @@
   display: flex !important;
   align-items: center !important;
   justify-content: space-between !important;
-  gap: 10px !important;
-  background: #faf4e8 !important;
-  border: 1px solid #d8ccb4 !important;
-  border-radius: 6px !important;
-  padding: 8px 12px !important;
+  gap: 8px !important;
+  background: var(--adventure-paper, #f1ece1) !important;
+  border: 1px solid var(--adventure-rule, #c4baa6) !important;
+  border-radius: 3px !important;
+  padding: 6px 10px !important;
   flex-wrap: wrap !important;
 }
 
@@ -2172,15 +2183,16 @@
 
 .metadata-label {
   font-family: 'Cinzel', serif !important;
-  font-size: 0.74rem !important;
+  font-size: 0.72rem !important;
   font-weight: 700 !important;
-  color: #58180d !important;
+  color: var(--adventure-ink, #34251a) !important;
+  letter-spacing: 0.5px !important;
 }
 
 .archetype-buttons-group {
   display: flex !important;
   align-items: center !important;
-  gap: 5px !important;
+  gap: 4px !important;
   flex-wrap: wrap !important;
 }
 
@@ -2188,30 +2200,33 @@
   display: inline-flex !important;
   align-items: center !important;
   gap: 4px !important;
-  padding: 3px 8px !important;
-  background: #fffdfa !important;
-  border: 1.5px solid #d4c5a9 !important;
-  border-radius: 4px !important;
+  padding: 3px 7px !important;
+  background: var(--adventure-page, #f8f5ee) !important;
+  border: 1px solid var(--adventure-rule, #c4baa6) !important;
+  border-radius: 3px !important;
   font-family: 'Cinzel', serif !important;
-  font-size: 0.7rem !important;
+  font-size: 0.68rem !important;
   font-weight: 600 !important;
+  color: var(--adventure-ink, #34251a) !important;
   cursor: pointer !important;
   transition: all 0.15s ease !important;
 }
 
 .archetype-select-btn:hover {
-  border-color: var(--btn-color, #8b5a1a) !important;
+  background: var(--adventure-panel, #e8e2d4) !important;
+  border-color: var(--adventure-brass, #c4ab79) !important;
 }
 
 .archetype-select-btn.active {
-  background: #58180d !important;
-  color: #ffd700 !important;
-  border-color: #ffd700 !important;
+  background: var(--adventure-seal, #663c32) !important;
+  color: #fdfaf3 !important;
+  border-color: #4a2820 !important;
   font-weight: 700 !important;
+  box-shadow: 0 1px 3px rgba(48, 36, 25, 0.15) !important;
 }
 
 .archetype-select-btn.active i {
-  color: #ffd700 !important;
+  color: #fdfaf3 !important;
 }
 
 .notes-meta-inputs-row {
@@ -2225,15 +2240,15 @@
   display: flex !important;
   align-items: center !important;
   gap: 6px !important;
-  background: #fffdfa !important;
-  border: 1px solid #d4c5a9 !important;
-  border-radius: 4px !important;
+  background: var(--adventure-page, #f8f5ee) !important;
+  border: 1px solid var(--adventure-rule, #c4baa6) !important;
+  border-radius: 3px !important;
   padding: 0 8px !important;
   flex: 1 !important;
 }
 
 .meta-input-icon {
-  color: #8b5a1a !important;
+  color: var(--adventure-muted, #68533e) !important;
   font-size: 0.75rem !important;
 }
 
@@ -2243,9 +2258,9 @@
   background: transparent !important;
   padding: 5px 0 !important;
   font-size: 0.78rem !important;
-  color: #2c1a0e !important;
+  color: var(--adventure-ink, #34251a) !important;
   outline: none !important;
-  font-family: inherit !important;
+  font-family: 'Crimson Text', Georgia, serif !important;
 }
 
 /* Main Content Body */
@@ -2268,36 +2283,38 @@
   flex: 1 !important;
   width: 100% !important;
   height: 100% !important;
-  background: #fffdfa !important;
-  border: 1.5px solid #c8b99c !important;
-  border-radius: 6px !important;
+  background: var(--adventure-paper, #f1ece1) !important;
+  background-image: none !important;
+  border: 1px solid var(--adventure-rule, #c4baa6) !important;
+  border-radius: 3px !important;
   padding: 14px 16px !important;
-  font-family: 'Spectral', Georgia, serif !important;
-  font-size: 1.05rem !important;
-  line-height: 1.7 !important;
-  color: #1f140e !important;
+  font-family: 'Crimson Text', Georgia, serif !important;
+  font-size: 1.1rem !important;
+  line-height: 1.6 !important;
+  color: var(--adventure-ink, #34251a) !important;
   box-sizing: border-box !important;
   resize: none !important;
   outline: none !important;
+  box-shadow: inset 0 1px 3px rgba(48, 36, 25, 0.06) !important;
   transition: all 0.15s ease !important;
 }
 
 .notes-main-textarea:focus {
-  border-color: #58180d !important;
-  box-shadow: 0 0 0 3px rgba(88, 24, 13, 0.1) !important;
+  border-color: var(--adventure-brass, #c4ab79) !important;
+  box-shadow: 0 0 0 2px rgba(196, 171, 121, 0.2) !important;
 }
 
 .notes-preview-container {
   flex: 1 !important;
-  background: #faf5ea !important;
-  border: 1.5px solid #d8ccb4 !important;
-  border-radius: 6px !important;
+  background: var(--adventure-paper, #f1ece1) !important;
+  border: 1px solid var(--adventure-rule, #c4baa6) !important;
+  border-radius: 3px !important;
   padding: 18px 20px !important;
   overflow-y: auto !important;
-  font-family: 'Spectral', Georgia, serif !important;
+  font-family: 'Crimson Text', Georgia, serif !important;
   font-size: 1.05rem !important;
-  line-height: 1.7 !important;
-  color: #1f140e !important;
+  line-height: 1.6 !important;
+  color: var(--adventure-ink, #34251a) !important;
 }
 
 .notes-preview-empty {
@@ -2307,25 +2324,26 @@
   justify-content: center !important;
   height: 100% !important;
   text-align: center !important;
-  color: #8b6f47 !important;
+  color: var(--adventure-muted, #68533e) !important;
 }
 
 .notes-preview-empty i {
-  font-size: 2.5rem !important;
+  font-size: 2.2rem !important;
   margin-bottom: 12px !important;
-  color: #c4b08d !important;
+  color: var(--adventure-brass, #c4ab79) !important;
 }
 
 .notes-preview-empty p {
   font-family: 'Cinzel', serif !important;
   font-size: 1.05rem !important;
   font-weight: 700 !important;
-  color: #58180d !important;
+  color: var(--adventure-ink, #34251a) !important;
   margin: 0 0 4px !important;
 }
 
 .notes-preview-empty span {
   font-size: 0.85rem !important;
+  font-family: 'Crimson Text', Georgia, serif !important;
 }
 
 /* Footer Stats Bar */
@@ -2335,7 +2353,8 @@
   justify-content: space-between !important;
   padding: 4px 2px 0 !important;
   font-size: 0.74rem !important;
-  color: #8b6f47 !important;
+  color: var(--adventure-muted, #68533e) !important;
+  font-family: 'Crimson Text', Georgia, serif !important;
 }
 
 .notes-footer-stats {
@@ -2365,7 +2384,7 @@
    RECEIVED HANDOUTS PARCHMENT SUITE
    ========================================================================= */
 .journal-received-container {
-  background: #fbf7ee !important;
+  background: var(--adventure-page, #f8f5ee) !important;
   padding: 14px 18px !important;
   display: flex !important;
   flex-direction: column !important;
@@ -2377,10 +2396,10 @@
 .received-toolbar {
   display: flex !important;
   align-items: center !important;
-  gap: 12px !important;
-  background: #faf4e6 !important;
-  border: 1px solid #d8ccb4 !important;
-  border-radius: 6px !important;
+  gap: 10px !important;
+  background: var(--adventure-paper, #f1ece1) !important;
+  border: 1px solid var(--adventure-rule, #c4baa6) !important;
+  border-radius: 3px !important;
   padding: 8px 12px !important;
   flex-shrink: 0 !important;
 }
@@ -2390,14 +2409,14 @@
   position: relative !important;
   display: flex !important;
   align-items: center !important;
-  background: #fffdfa !important;
-  border: 1.5px solid #d4c5a9 !important;
-  border-radius: 6px !important;
+  background: var(--adventure-page, #f8f5ee) !important;
+  border: 1px solid var(--adventure-rule, #c4baa6) !important;
+  border-radius: 3px !important;
   padding: 0 10px !important;
 }
 
 .received-search-icon {
-  color: #8b5a1a !important;
+  color: var(--adventure-muted, #68533e) !important;
   font-size: 0.85rem !important;
   margin-right: 8px !important;
 }
@@ -2408,15 +2427,15 @@
   background: transparent !important;
   padding: 6px 0 !important;
   font-size: 0.84rem !important;
-  color: #2c1a0e !important;
+  color: var(--adventure-ink, #34251a) !important;
   outline: none !important;
-  font-family: inherit !important;
+  font-family: 'Crimson Text', Georgia, serif !important;
 }
 
 .received-search-clear {
   background: transparent !important;
   border: none !important;
-  color: #8b5a1a !important;
+  color: var(--adventure-muted, #68533e) !important;
   cursor: pointer !important;
   padding: 4px !important;
 }
@@ -2425,43 +2444,43 @@
   flex: 1 !important;
   overflow-y: auto !important;
   display: grid !important;
-  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)) !important;
-  gap: 14px !important;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)) !important;
+  gap: 12px !important;
   align-content: start !important;
   padding: 4px 0 !important;
 }
 
 .received-folder {
-  background: #fffdfa !important;
-  border: 1.5px solid #d8ccb4 !important;
-  border-radius: 8px !important;
-  padding: 14px !important;
-  box-shadow: 0 2px 8px rgba(70, 45, 20, 0.05) !important;
-  transition: all 0.2s ease !important;
+  background: var(--adventure-paper, #f1ece1) !important;
+  border: 1px solid var(--adventure-rule, #c4baa6) !important;
+  border-radius: 3px !important;
+  padding: 12px !important;
+  box-shadow: 0 1px 3px rgba(48, 36, 25, 0.04) !important;
+  transition: all 0.15s ease !important;
   display: flex !important;
   flex-direction: column !important;
   gap: 10px !important;
 }
 
 .received-folder:hover {
-  border-color: #8b5a1a !important;
-  box-shadow: 0 4px 14px rgba(70, 45, 20, 0.1) !important;
+  border-color: var(--adventure-brass, #c4ab79) !important;
+  box-shadow: 0 3px 8px rgba(48, 36, 25, 0.08) !important;
 }
 
 .received-folder.drag-over {
-  border-color: #58180d !important;
+  border-color: var(--adventure-seal, #663c32) !important;
   border-style: dashed !important;
-  background: #fdf1dc !important;
+  background: #fbf3e6 !important;
   transform: scale(1.01) !important;
 }
 
 .received-folder-header {
   font-family: 'Cinzel', serif !important;
-  color: #58180d !important;
-  font-size: 0.94rem !important;
+  color: var(--adventure-ink, #34251a) !important;
+  font-size: 0.92rem !important;
   font-weight: 700 !important;
-  border-bottom: 1.5px solid #e5d7ba !important;
-  padding-bottom: 8px !important;
+  border-bottom: 1px solid var(--adventure-rule, #c4baa6) !important;
+  padding-bottom: 6px !important;
   display: flex !important;
   align-items: center !important;
   justify-content: space-between !important;
@@ -2469,8 +2488,8 @@
 
 .received-folder-count {
   font-size: 0.72rem !important;
-  color: #8b6f47 !important;
-  font-family: sans-serif !important;
+  color: var(--adventure-muted, #68533e) !important;
+  font-family: 'Cinzel', serif !important;
   font-weight: 600 !important;
 }
 
@@ -2485,7 +2504,7 @@
 .received-folder-empty-hint {
   padding: 14px 10px !important;
   text-align: center !important;
-  color: #a89880 !important;
+  color: var(--adventure-muted, #68533e) !important;
   font-style: italic !important;
   font-size: 0.8rem !important;
 }
@@ -2497,43 +2516,43 @@
 
 .received-items-grid {
   display: grid !important;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)) !important;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)) !important;
   gap: 10px !important;
 }
 
 .received-item {
   display: flex !important;
   align-items: center !important;
-  gap: 12px !important;
-  background: #fdfaf3 !important;
-  border: 1.5px solid #e5d7ba !important;
-  border-radius: 6px !important;
-  padding: 10px 12px !important;
+  gap: 10px !important;
+  background: var(--adventure-page, #f8f5ee) !important;
+  border: 1px solid var(--adventure-rule, #c4baa6) !important;
+  border-radius: 3px !important;
+  padding: 8px 10px !important;
   cursor: pointer !important;
   transition: all 0.15s ease !important;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.03) !important;
+  box-shadow: 0 1px 3px rgba(48, 36, 25, 0.03) !important;
 }
 
 .received-item:hover {
-  background: #fbf0dc !important;
-  border-color: #8b5a1a !important;
+  background: var(--adventure-panel, #e8e2d4) !important;
+  border-color: var(--adventure-brass, #c4ab79) !important;
   transform: translateY(-1px) !important;
-  box-shadow: 0 3px 8px rgba(70, 45, 20, 0.1) !important;
 }
 
 .received-item-icon {
-  width: 42px !important;
-  height: 42px !important;
-  min-width: 42px !important;
-  background: #58180d !important;
-  color: #ffd700 !important;
-  border-radius: 6px !important;
+  width: 36px !important;
+  height: 36px !important;
+  min-width: 36px !important;
+  background: var(--adventure-panel, #e8e2d4) !important;
+  color: var(--adventure-seal, #663c32) !important;
+  border: 1px solid var(--adventure-rule, #c4baa6) !important;
+  border-radius: 3px !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
   overflow: hidden !important;
-  font-size: 1.1rem !important;
-  box-shadow: inset 0 0 6px rgba(0,0,0,0.4) !important;
+  font-size: 1rem !important;
+  box-shadow: none !important;
 }
 
 .received-item-icon img {
@@ -2552,9 +2571,9 @@
 
 .received-item-title {
   font-family: 'Cinzel', serif !important;
-  color: #58180d !important;
+  color: var(--adventure-ink, #34251a) !important;
   font-weight: 700 !important;
-  font-size: 0.88rem !important;
+  font-size: 0.86rem !important;
   white-space: nowrap !important;
   overflow: hidden !important;
   text-overflow: ellipsis !important;
@@ -2562,7 +2581,8 @@
 
 .received-item-date {
   font-size: 0.72rem !important;
-  color: #8b6f47 !important;
+  color: var(--adventure-muted, #68533e) !important;
+  font-family: 'Crimson Text', Georgia, serif !important;
 }
 
 /* Cloud autosave status indicator (Saving / Saved / Not saved) */

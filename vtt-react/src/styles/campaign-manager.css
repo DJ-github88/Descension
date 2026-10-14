@@ -1965,9 +1965,9 @@
 }
 
 /* Premium Gated & Restricted Styles for Campaign Manager */
-.campaign-manager-locked-window .wow-window-close-btn {
-  top: 10px !important;
-  right: 14px !important;
+/* Premium Gated & Restricted Styles for Campaign Manager */
+.campaign-manager-locked-window {
+  background: var(--adventure-page, #f8f5ee) !important;
 }
 
 .journal-locked-container {
@@ -1976,85 +1976,92 @@
   align-items: center;
   height: 100%;
   width: 100%;
-  padding: 40px 20px;
-  background: linear-gradient(135deg, #2b251f 0%, #15110e 100%);
-  color: #f1ece1;
+  padding: 30px 20px;
+  background: var(--adventure-page, #f8f5ee);
+  color: var(--adventure-ink, #34251a);
   box-sizing: border-box;
 }
 
 .journal-locked-card {
-  max-width: 500px;
+  max-width: 520px;
   width: 100%;
-  padding: 40px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(212, 175, 55, 0.15);
-  border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  padding: 32px 36px;
+  background: var(--adventure-paper, #f1ece1);
+  border: 1px solid var(--adventure-rule, #c4baa6);
+  border-radius: 4px;
+  box-shadow: 0 4px 20px rgba(48, 36, 25, 0.08);
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  backdrop-filter: blur(10px);
+  color: var(--adventure-ink, #34251a);
+  backdrop-filter: none;
 }
 
 .journal-locked-icon-wrapper {
-  width: 70px;
-  height: 70px;
+  width: 64px;
+  height: 64px;
   border-radius: 50%;
-  background: rgba(212, 175, 55, 0.1);
+  background: var(--adventure-panel, #e8e2d4);
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 20px;
-  border: 1px solid rgba(212, 175, 55, 0.3);
-  box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
+  margin-bottom: 16px;
+  border: 1px solid var(--adventure-brass, #c4ab79);
+  box-shadow: 0 2px 8px rgba(48, 36, 25, 0.1);
 }
 
 .journal-locked-icon-wrapper.basic {
-  background: rgba(74, 158, 255, 0.1);
-  border-color: rgba(74, 158, 255, 0.3);
-  box-shadow: 0 0 15px rgba(74, 158, 255, 0.2);
+  background: var(--adventure-panel, #e8e2d4);
+  border-color: var(--adventure-brass, #c4ab79);
+  box-shadow: 0 2px 8px rgba(48, 36, 25, 0.1);
 }
 
 .journal-locked-icon {
-  font-size: 32px;
-  color: #d4af37;
+  font-size: 26px;
+  color: var(--adventure-seal, #663c32);
 }
 
 .journal-locked-icon-wrapper.basic .journal-locked-icon {
-  color: #4a9eff;
+  color: var(--adventure-seal, #663c32);
 }
 
 .journal-locked-card h2 {
-  font-family: 'Cinzel', serif;
-  font-size: 26px;
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--adventure-ink, #34251a);
   margin: 0 0 10px 0;
-  letter-spacing: 1px;
+  letter-spacing: 0.8px;
 }
 
 .premium-badge {
-  font-size: 11px;
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 1.5px;
-  background: #d4af37;
-  color: #1a1512;
-  padding: 4px 12px;
-  border-radius: 20px;
-  margin-bottom: 20px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  background: var(--adventure-seal, #663c32);
+  color: #fdfaf3;
+  padding: 4px 14px;
+  border-radius: 3px;
+  margin-bottom: 18px;
+  border: 1px solid #4a2820;
+  box-shadow: 0 1px 3px rgba(48, 36, 25, 0.15);
 }
 
 .premium-badge.free {
-  background: #4a9eff;
-  color: #ffffff;
+  background: var(--adventure-panel, #e8e2d4);
+  color: var(--adventure-ink, #34251a);
+  border: 1px solid var(--adventure-rule, #c4baa6);
 }
 
 .journal-locked-subtitle {
-  font-size: 14px;
+  font-family: 'Crimson Text', Georgia, serif;
+  font-size: 15px;
   line-height: 1.5;
-  color: #c5bba7;
-  margin-bottom: 24px;
+  color: var(--adventure-muted, #68533e);
+  margin-bottom: 22px;
   text-align: center;
 }
 
@@ -2062,31 +2069,34 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  margin-bottom: 30px;
+  gap: 10px;
+  margin-bottom: 24px;
   align-items: flex-start;
-  padding-left: 20px;
+  padding-left: 12px;
 }
 
 .locked-feature-item {
   display: flex;
   align-items: center;
-  gap: 12px;
-  font-size: 13px;
-  color: #e5dec9;
+  gap: 10px;
+  font-family: 'Crimson Text', Georgia, serif;
+  font-size: 15px;
+  color: var(--adventure-ink, #34251a);
 }
 
 .locked-feature-item i {
-  color: #d4af37;
-  font-size: 14px;
+  color: var(--adventure-seal, #663c32);
+  font-size: 13px;
 }
 
 .journal-locked-hint {
-  font-size: 12px;
-  color: #8a8270;
+  font-family: 'Crimson Text', Georgia, serif;
+  font-style: italic;
+  font-size: 13px;
+  color: var(--adventure-muted, #68533e);
   line-height: 1.4;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
-  padding-top: 20px;
+  border-top: 1px solid var(--adventure-rule, #c4baa6);
+  padding-top: 18px;
   margin: 0;
   width: 100%;
 }

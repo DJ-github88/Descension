@@ -669,7 +669,7 @@ const Step5ShopConfiguration = () => {
                     onMouseEnter={(e) => handleMouseEnter(e, item)}
                     onMouseMove={(e) => handleMouseMove(e, item)}
                     onMouseLeave={handleMouseLeave}
-                    title={item.name}
+                    aria-label={item.name}
                   >
                     <img
                       className="item-icon-only"

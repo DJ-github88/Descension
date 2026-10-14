@@ -138,7 +138,20 @@ export function registerCombatHandlers(ctx) {
           timestamp: data.notification?.timestamp || data.timestamp || new Date().toISOString(),
           fromNetwork: true
         };
-        addNotification('combat', notification);
+        if (notification.targetTab === 'loot') {
+          // Loot roll announcements (including "nothing dropped") go to the Loot tab
+          addNotification('loot', notification);
+          if (notification.mirrorToSocial && notification.content) {
+            addNotification('social', {
+              sender: { name: 'System', class: 'system', level: 0 },
+              content: notification.content,
+              type: 'system',
+              timestamp: notification.timestamp
+            });
+          }
+        } else {
+          addNotification('combat', notification);
+        }
       }
     });
 

@@ -247,6 +247,9 @@ const REGISTRY_ENTRIES = [
   ]),
   selector('localRoom.activeRoomId', 'Active local room selector', 'selectedLocalRoomId'),
   selector('localRoom.activeFlag', 'Local-room mode flag', 'isLocalRoom'),
+  recoverable('room.featherSlashLatest', 'Latest original P8 Feather Slash command/result', [
+    { builder: 'mythrill_feather_slash_latest_{roomId}' }
+  ], { allowedScopeKinds: Object.freeze(['user']), notes: 'One latest immutable command/result per authenticated owner and room. Explicit same-command checking only; never an offline replay queue or checkpoint confirmation.' }),
 
   // ── Core private working projections ─────────────────────────────────────
   recoverable('core.inventory', 'Private inventory working state', ['inventory']),
@@ -601,6 +604,8 @@ export const FROZEN_SLICE1_FAMILY_IDS = Object.freeze([
   'localRoom.playerState',
   'localRoom.activeRoomId',
   'localRoom.activeFlag',
+  // P8 additive, explicitly classified latest-action custody (original families retained).
+  'room.featherSlashLatest',
   // Core working projections
   'core.inventory',
   'core.mapWorking',

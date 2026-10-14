@@ -922,7 +922,7 @@ const Step4LootTable = () => {
                     onMouseEnter={(e) => handleMouseEnter(e, item)}
                     onMouseMove={(e) => handleMouseMove(e, item)}
                     onMouseLeave={handleMouseLeave}
-                    title={item.name}
+                    aria-label={item.name}
                   >
                     <div
                       className="item-icon-only"

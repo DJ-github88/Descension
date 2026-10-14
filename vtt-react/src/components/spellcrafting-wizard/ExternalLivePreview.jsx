@@ -98,11 +98,13 @@ const ExternalLivePreview = () => {
         summoningConfig: state.summoningConfig || null,
         transformationConfig: state.transformationConfig || null,
         purificationConfig: state.purificationConfig || null,
-        restorationConfig: state.restorationConfig || null
+        restorationConfig: state.restorationConfig || null,
+        effectMechanicsConfigs: state.effectMechanicsConfigs || {},
+        mechanicsConfig: state.mechanicsConfig || null
       };
 
       // Transform Prophecy Options to prophecyConfig (Harbinger)
-      if (state.prophecyOptions) {
+      if (state.prophecyOptions && state.prophecyOptions.enabled !== false) {
         const po = state.prophecyOptions;
         const parseRangeDice = (dice) => {
           if (Array.isArray(dice)) return dice;
@@ -485,8 +487,8 @@ const ExternalLivePreview = () => {
       summonConfig: spellState.summoningConfig || null,
       summoningConfig: spellState.summoningConfig || null, // Also provide as summoningConfig for compatibility
 
-      // Resolution type - include PROPHECY when prophecyOptions are configured
-      resolution: spellState.prophecyOptions ? 'PROPHECY' : (spellState.damageConfig?.resolution || spellState.healingConfig?.resolution || 'DICE'),
+      // Resolution type - include PROPHECY when prophecyOptions are configured and enabled
+      resolution: (spellState.prophecyOptions && spellState.prophecyOptions.enabled !== false) ? 'PROPHECY' : (spellState.damageConfig?.resolution || spellState.healingConfig?.resolution || 'DICE'),
 
       // Card configuration for card-based spells - ensure proper fallback when switching resolution methods
       cardConfig: (() => {
@@ -560,7 +562,7 @@ const ExternalLivePreview = () => {
       effectTypes: spellState.effectTypes || [],
 
       // Prophecy configuration (Harbinger) - same transformation as Step10Review
-      prophecyConfig: spellState.prophecyOptions ? (() => {
+      prophecyConfig: (spellState.prophecyOptions && spellState.prophecyOptions.enabled !== false) ? (() => {
         const po = spellState.prophecyOptions;
         const parseRangeDice = (dice) => {
           if (Array.isArray(dice)) return dice;
@@ -681,10 +683,28 @@ const ExternalLivePreview = () => {
       durationValue: spellState.durationConfig?.durationValue || spellState.buffConfig?.durationValue || spellState.debuffConfig?.durationValue,
 
       // Rollable table configuration
-      rollableTable: spellState.rollableTable || null,
+      rollableTable: (spellState.rollableTable && spellState.rollableTable.enabled !== false) ? spellState.rollableTable : null,
 
-      // Mechanics configuration - THIS WAS MISSING!
+      // Mechanics configuration
       effectMechanicsConfigs: spellState.effectMechanicsConfigs || {},
+      mechanicsConfig: (() => {
+        if (!spellState.mechanicsConfig) return null;
+        if (Array.isArray(spellState.mechanicsConfig)) {
+          let list = spellState.mechanicsConfig;
+          if (!spellState.prophecyOptions || spellState.prophecyOptions.enabled === false) {
+            list = list.filter(m => m.system !== 'PROPHECY' && m.system !== 'PROPHECY_SYSTEM');
+          }
+          return list;
+        }
+        if (typeof spellState.mechanicsConfig === 'object') {
+          if (!spellState.prophecyOptions || spellState.prophecyOptions.enabled === false) {
+            const { prophecy, ...rest } = spellState.mechanicsConfig;
+            return rest;
+          }
+          return spellState.mechanicsConfig;
+        }
+        return spellState.mechanicsConfig;
+      })(),
 
       // Spell library for proc system and other mechanics
       library: library,
@@ -711,9 +731,15 @@ const ExternalLivePreview = () => {
         `}
       </style>
       {(() => {
+        const lastModifiedTimestamp = state.lastModified instanceof Date
+          ? state.lastModified.getTime()
+          : (typeof state.lastModified === 'number'
+            ? state.lastModified
+            : (state.lastModified ? new Date(state.lastModified).getTime() : 0));
+
         return (
           <SpellCardWithProcs
-            key={`preview-${state.lastModified?.getTime() || Date.now()}`}
+            key={`preview-${lastModifiedTimestamp}`}
             spell={createPreviewSpell()}
             variant="wizard"
             showActions={false}

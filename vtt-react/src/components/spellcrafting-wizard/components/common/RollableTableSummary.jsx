@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { sanitizeHtml } from '../../../../utils/sanitizeHtml';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FaDiceD20, FaClone, FaCoins, FaBullseye } from 'react-icons/fa';
-// Pathfinder styles imported via main.css
+import './RollableTableSummary.css';
 
 /**
  * Compact Rollable Table Summary Component
@@ -386,7 +386,7 @@ const RollableTableSummary = ({
                   disabled={currentPage === 1 || isRolling}
                   title="Previous Page"
                 >
-                  � - �
+                  ◀
                 </button>
                 <span className="page-info">
                   {currentPage} of {totalPages}
@@ -527,7 +527,7 @@ const RollableTableSummary = ({
                 disabled={currentPage === 1 || isRolling}
                 title="Previous Page"
               >
-                � - �
+                ◀
               </button>
               <span className="page-info">
                 {currentPage} of {totalPages}
