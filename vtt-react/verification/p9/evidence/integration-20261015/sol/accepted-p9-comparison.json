@@ -1,0 +1,176 @@
+{
+  "server/services/spellPayments.js": {
+    "expected": "b3d8194a9cb39286980b81f5b0deb2f4e4c6521e824373d4ce0d64e3ce9bd208",
+    "actualLF": "b3d8194a9cb39286980b81f5b0deb2f4e4c6521e824373d4ce0d64e3ce9bd208",
+    "actualRaw": "b3d8194a9cb39286980b81f5b0deb2f4e4c6521e824373d4ce0d64e3ce9bd208",
+    "sealLF": "b3d8194a9cb39286980b81f5b0deb2f4e4c6521e824373d4ce0d64e3ce9bd208"
+  },
+  "server/services/actorConsequences.js": {
+    "expected": "4a4f1dec2c3fcc9805dc2b20b87d15371251e1d53006b0e85ba20ede16a066ee",
+    "actualLF": "4a4f1dec2c3fcc9805dc2b20b87d15371251e1d53006b0e85ba20ede16a066ee",
+    "actualRaw": "4a4f1dec2c3fcc9805dc2b20b87d15371251e1d53006b0e85ba20ede16a066ee",
+    "sealLF": "4a4f1dec2c3fcc9805dc2b20b87d15371251e1d53006b0e85ba20ede16a066ee"
+  },
+  "server/handlers/actorConsequenceHandlers.js": {
+    "expected": "9eb38eac2a0bcd9298bbad70eae041e74c36ac4f51f5b2c346e80f5f3249874a",
+    "actualLF": "9eb38eac2a0bcd9298bbad70eae041e74c36ac4f51f5b2c346e80f5f3249874a",
+    "actualRaw": "9eb38eac2a0bcd9298bbad70eae041e74c36ac4f51f5b2c346e80f5f3249874a",
+    "sealLF": "9eb38eac2a0bcd9298bbad70eae041e74c36ac4f51f5b2c346e80f5f3249874a"
+  },
+  "server/handlers/characterHandlers.js": {
+    "expected": "a54ef8d8be311ca2becfff2080760c6111b6a9fd7d93dca15824cc3e6d595085",
+    "actualLF": "a54ef8d8be311ca2becfff2080760c6111b6a9fd7d93dca15824cc3e6d595085",
+    "actualRaw": "2f50a5ceeaf5738027b02db37a1b38bc4436f6fabdcd0fcd7ae07e6a348cc845",
+    "sealLF": "a54ef8d8be311ca2becfff2080760c6111b6a9fd7d93dca15824cc3e6d595085"
+  },
+  "server/handlers/socketHandlers.js": {
+    "expected": "9dd40c478f938f8bc651e9a191fc061fd1897229688783fba8bf8f7262a1747a",
+    "actualLF": "9dd40c478f938f8bc651e9a191fc061fd1897229688783fba8bf8f7262a1747a",
+    "actualRaw": "f3ed647d589260ef36c2ca51a5158a89cf57f1267ae4eae5732ab21d03f7b3f2",
+    "sealLF": "9dd40c478f938f8bc651e9a191fc061fd1897229688783fba8bf8f7262a1747a"
+  },
+  "server/services/rateLimitService.js": {
+    "expected": "44b1f40d330b9e730b4ee1bf6dcf8261e65b7bf7af521cefbe062e55b1ab8c0c",
+    "actualLF": "44b1f40d330b9e730b4ee1bf6dcf8261e65b7bf7af521cefbe062e55b1ab8c0c",
+    "actualRaw": "44b1f40d330b9e730b4ee1bf6dcf8261e65b7bf7af521cefbe062e55b1ab8c0c",
+    "sealLF": "44b1f40d330b9e730b4ee1bf6dcf8261e65b7bf7af521cefbe062e55b1ab8c0c"
+  },
+  "server/tests/p9SpellConsequences.production.test.js": {
+    "expected": "5a4acd5f5a9bf8e9ec64bc1b4b73118c9e5a46e442f3607b7ba6e3150f02a923",
+    "actualLF": "5a4acd5f5a9bf8e9ec64bc1b4b73118c9e5a46e442f3607b7ba6e3150f02a923",
+    "actualRaw": "5a4acd5f5a9bf8e9ec64bc1b4b73118c9e5a46e442f3607b7ba6e3150f02a923",
+    "sealLF": "5a4acd5f5a9bf8e9ec64bc1b4b73118c9e5a46e442f3607b7ba6e3150f02a923"
+  },
+  "vtt-react/src/services/spellConsequence.js": {
+    "expected": "a5b42fb52590901d9a033de3b29f408b4a922fd82d76c87a7200fdc5c6fd623c",
+    "actualLF": "a5b42fb52590901d9a033de3b29f408b4a922fd82d76c87a7200fdc5c6fd623c",
+    "actualRaw": "a5b42fb52590901d9a033de3b29f408b4a922fd82d76c87a7200fdc5c6fd623c",
+    "sealLF": "a5b42fb52590901d9a033de3b29f408b4a922fd82d76c87a7200fdc5c6fd623c"
+  },
+  "vtt-react/src/services/spellConsequenceService.js": {
+    "expected": "a582d53c5ca2b3440b429ee11a30b3ce6482ca3f8524ab56514aa80c7e0300a3",
+    "actualLF": "a582d53c5ca2b3440b429ee11a30b3ce6482ca3f8524ab56514aa80c7e0300a3",
+    "actualRaw": "a582d53c5ca2b3440b429ee11a30b3ce6482ca3f8524ab56514aa80c7e0300a3",
+    "sealLF": "a582d53c5ca2b3440b429ee11a30b3ce6482ca3f8524ab56514aa80c7e0300a3"
+  },
+  "vtt-react/src/services/spellConsequenceCustody.js": {
+    "expected": "98ac69173a4b3a436aa5b26c6133df239a0826db793a04d0f815884f9a8430ba",
+    "actualLF": "98ac69173a4b3a436aa5b26c6133df239a0826db793a04d0f815884f9a8430ba",
+    "actualRaw": "98ac69173a4b3a436aa5b26c6133df239a0826db793a04d0f815884f9a8430ba",
+    "sealLF": "98ac69173a4b3a436aa5b26c6133df239a0826db793a04d0f815884f9a8430ba"
+  },
+  "vtt-react/src/services/actorConsequenceService.js": {
+    "expected": "f014993e068a852e93ea931e8255504379cb77596ccf18638f63b230d311fd99",
+    "actualLF": "f014993e068a852e93ea931e8255504379cb77596ccf18638f63b230d311fd99",
+    "actualRaw": "f014993e068a852e93ea931e8255504379cb77596ccf18638f63b230d311fd99",
+    "sealLF": "f014993e068a852e93ea931e8255504379cb77596ccf18638f63b230d311fd99"
+  },
+  "vtt-react/src/services/__tests__/spellConsequence.test.js": {
+    "expected": "1c6dc125593ce8164d0722c4d779860076da6b75c2d204efbf919c185f0e55db",
+    "actualLF": "1c6dc125593ce8164d0722c4d779860076da6b75c2d204efbf919c185f0e55db",
+    "actualRaw": "1c6dc125593ce8164d0722c4d779860076da6b75c2d204efbf919c185f0e55db",
+    "sealLF": "1c6dc125593ce8164d0722c4d779860076da6b75c2d204efbf919c185f0e55db"
+  },
+  "vtt-react/src/components/hud/SpellConsequencePanel.jsx": {
+    "expected": "01c16539ab4ef766809dc0880a4dbf73a3eed4964b99da40c182f40477df9bb4",
+    "actualLF": "01c16539ab4ef766809dc0880a4dbf73a3eed4964b99da40c182f40477df9bb4",
+    "actualRaw": "01c16539ab4ef766809dc0880a4dbf73a3eed4964b99da40c182f40477df9bb4",
+    "sealLF": "01c16539ab4ef766809dc0880a4dbf73a3eed4964b99da40c182f40477df9bb4"
+  },
+  "vtt-react/src/components/hud/SpellConsequencePanel.css": {
+    "expected": "84c3693e9b78bd1c13557de355363c9560fcd33c2ec2bc3f8d7517aa6e04ac54",
+    "actualLF": "2f936ff2ff5bdc3f610c2c24c49015a1b935bd835a3f8f4e1dfeb2837682a68b",
+    "actualRaw": "2f936ff2ff5bdc3f610c2c24c49015a1b935bd835a3f8f4e1dfeb2837682a68b",
+    "sealLF": "84c3693e9b78bd1c13557de355363c9560fcd33c2ec2bc3f8d7517aa6e04ac54"
+  },
+  "vtt-react/src/components/hud/PartyHUD.jsx": {
+    "expected": "22db5eccba547e4e1ad4196e93589d9ff491acd15db6c3f59ea8a3562f2679fd",
+    "actualLF": "c5f2e9381c18fae3e68ec47f3f8bf2c02bca8e3be48ea72a8f6179e9e07db5d9",
+    "actualRaw": "c5f2e9381c18fae3e68ec47f3f8bf2c02bca8e3be48ea72a8f6179e9e07db5d9",
+    "sealLF": "22db5eccba547e4e1ad4196e93589d9ff491acd15db6c3f59ea8a3562f2679fd"
+  },
+  "vtt-react/src/components/ui/ActionBar.jsx": {
+    "expected": "ded1292fe423aa9fd513e57aab7895f48e55a7f53819df9449bbc9df743db3fe",
+    "actualLF": "7585d93b5b7184cca6a7a210c8e8666c205cf39f57c8924edfd913db69b72c81",
+    "actualRaw": "7a04ec3302561ae91cd495bddce4d5596235bd5b8c5916f58686b767f9000d33",
+    "sealLF": "ded1292fe423aa9fd513e57aab7895f48e55a7f53819df9449bbc9df743db3fe"
+  },
+  "vtt-react/src/components/ui/SpellCastConfirmation.jsx": {
+    "expected": "ed1c2eb6e726bbea87ef0dd56cfb642db609381c5d1978083039d1fba6bedbed",
+    "actualLF": "5eeeeae6fe2613551f057087b6dfd74e5a6ae124fe9d8ba22316878da4153d03",
+    "actualRaw": "6ecde7c06950ab7b86960018ecfaf77fb19e0c00bf2de23bc07b30cf5cd7832d",
+    "sealLF": "ed1c2eb6e726bbea87ef0dd56cfb642db609381c5d1978083039d1fba6bedbed"
+  },
+  "vtt-react/src/components/ui/__tests__/ActionBarP9Producer.test.jsx": {
+    "expected": "d9dbf2aee0e7607ee078a9fc2568b698a6e774d5b268bddcab92437b7e91c560",
+    "actualLF": "d9dbf2aee0e7607ee078a9fc2568b698a6e774d5b268bddcab92437b7e91c560",
+    "actualRaw": "d9dbf2aee0e7607ee078a9fc2568b698a6e774d5b268bddcab92437b7e91c560",
+    "sealLF": "d9dbf2aee0e7607ee078a9fc2568b698a6e774d5b268bddcab92437b7e91c560"
+  },
+  "vtt-react/src/components/character-sheet/SpellActionBar.jsx": {
+    "expected": "817756d0f2471a7f6ad1dcc8d70d31565d81a754c4f31492d2ec49e129016046",
+    "actualLF": "817756d0f2471a7f6ad1dcc8d70d31565d81a754c4f31492d2ec49e129016046",
+    "actualRaw": "817756d0f2471a7f6ad1dcc8d70d31565d81a754c4f31492d2ec49e129016046",
+    "sealLF": "817756d0f2471a7f6ad1dcc8d70d31565d81a754c4f31492d2ec49e129016046"
+  },
+  "vtt-react/src/components/character-sheet/__tests__/SpellActionBarP9Producer.test.jsx": {
+    "expected": "d9c20919f42d2d80221768c99fdec17c6348031f9123f2085deaaa8780d00985",
+    "actualLF": "d9c20919f42d2d80221768c99fdec17c6348031f9123f2085deaaa8780d00985",
+    "actualRaw": "d9c20919f42d2d80221768c99fdec17c6348031f9123f2085deaaa8780d00985",
+    "sealLF": "d9c20919f42d2d80221768c99fdec17c6348031f9123f2085deaaa8780d00985"
+  },
+  "vtt-react/src/data/classes/arcanoneer/components/ArcanoneerResourceBar.jsx": {
+    "expected": "9a50657e3326097118ecc19925f373d323ae6b3006fb0aa30182134c9e46f3c1",
+    "actualLF": "9a50657e3326097118ecc19925f373d323ae6b3006fb0aa30182134c9e46f3c1",
+    "actualRaw": "9a50657e3326097118ecc19925f373d323ae6b3006fb0aa30182134c9e46f3c1",
+    "sealLF": "9a50657e3326097118ecc19925f373d323ae6b3006fb0aa30182134c9e46f3c1"
+  },
+  "vtt-react/src/persistence/privateStorageRegistry.js": {
+    "expected": "9eaf175b8ee228ca39ea02c62e34bb1749eedb92f935937b634c544823431469",
+    "actualLF": "9eaf175b8ee228ca39ea02c62e34bb1749eedb92f935937b634c544823431469",
+    "actualRaw": "9eaf175b8ee228ca39ea02c62e34bb1749eedb92f935937b634c544823431469",
+    "sealLF": "9eaf175b8ee228ca39ea02c62e34bb1749eedb92f935937b634c544823431469"
+  },
+  "vtt-react/src/components/multiplayer/socketHandlers/registerAllHandlers.js": {
+    "expected": "0de1e420db3622cf1999cec965d2bc07f658571a2d521e5af0ce74bb243858de",
+    "actualLF": "0de1e420db3622cf1999cec965d2bc07f658571a2d521e5af0ce74bb243858de",
+    "actualRaw": "0de1e420db3622cf1999cec965d2bc07f658571a2d521e5af0ce74bb243858de",
+    "sealLF": "0de1e420db3622cf1999cec965d2bc07f658571a2d521e5af0ce74bb243858de"
+  },
+  "vtt-react/verification/p9/README.md": {
+    "expected": "34ee62ce6fb0f1b4f87206cfe2d0a31e199c5db631366b13d101961af1f3f67c",
+    "actualLF": "34ee62ce6fb0f1b4f87206cfe2d0a31e199c5db631366b13d101961af1f3f67c",
+    "actualRaw": "34ee62ce6fb0f1b4f87206cfe2d0a31e199c5db631366b13d101961af1f3f67c",
+    "sealLF": "34ee62ce6fb0f1b4f87206cfe2d0a31e199c5db631366b13d101961af1f3f67c"
+  },
+  "vtt-react/verification/p9/checks.cjs": {
+    "expected": "319185db3064474c46565faec2605d157bb02b26ae5e7f3d879e8c74f178bfcd",
+    "actualLF": "319185db3064474c46565faec2605d157bb02b26ae5e7f3d879e8c74f178bfcd",
+    "actualRaw": "319185db3064474c46565faec2605d157bb02b26ae5e7f3d879e8c74f178bfcd",
+    "sealLF": "319185db3064474c46565faec2605d157bb02b26ae5e7f3d879e8c74f178bfcd"
+  },
+  "vtt-react/verification/p9/fixture.cjs": {
+    "expected": "09f2e729853e9ebc451ecc0ae331379b9e2841570d8a4ae89ac93e5ea7867cbe",
+    "actualLF": "09f2e729853e9ebc451ecc0ae331379b9e2841570d8a4ae89ac93e5ea7867cbe",
+    "actualRaw": "09f2e729853e9ebc451ecc0ae331379b9e2841570d8a4ae89ac93e5ea7867cbe",
+    "sealLF": "09f2e729853e9ebc451ecc0ae331379b9e2841570d8a4ae89ac93e5ea7867cbe"
+  },
+  "vtt-react/verification/p9/browser.cjs": {
+    "expected": "ba8b0e858d905fe9a4ce7b80534dd5b5b1ee5bf9ea57a17d3e4b278d7fddaf81",
+    "actualLF": "ba8b0e858d905fe9a4ce7b80534dd5b5b1ee5bf9ea57a17d3e4b278d7fddaf81",
+    "actualRaw": "ba8b0e858d905fe9a4ce7b80534dd5b5b1ee5bf9ea57a17d3e4b278d7fddaf81",
+    "sealLF": "ba8b0e858d905fe9a4ce7b80534dd5b5b1ee5bf9ea57a17d3e4b278d7fddaf81"
+  },
+  "docs/MYTHRILL_PROJECT_9_CONTRACT.md": {
+    "expected": "e4d1fae6a3fb21483e707bd0f5cf16c6f9798180ed0a689d9ae9582e7a0eb311",
+    "actualLF": "e4d1fae6a3fb21483e707bd0f5cf16c6f9798180ed0a689d9ae9582e7a0eb311",
+    "actualRaw": "e4d1fae6a3fb21483e707bd0f5cf16c6f9798180ed0a689d9ae9582e7a0eb311",
+    "sealLF": "e4d1fae6a3fb21483e707bd0f5cf16c6f9798180ed0a689d9ae9582e7a0eb311"
+  },
+  "docs/MYTHRILL_PROJECT_9_IMPLEMENTATION.md": {
+    "expected": "367465776ffce9596ca9fbe56e187bdb33671d2b88eab195b451cd41bf653010",
+    "actualLF": "37f9cd95ca20454154d442ab402b60af92f4daa296dad99459489cfc33a1b6a7",
+    "actualRaw": "37f9cd95ca20454154d442ab402b60af92f4daa296dad99459489cfc33a1b6a7",
+    "sealLF": null
+  }
+}

@@ -1,0 +1,186 @@
+{
+  "command": [
+    "/opt/node22/bin/node",
+    "/home/claude/dj-github88/descension/server/node_modules/mocha/bin/mocha.js",
+    "tests/p9SpellConsequences.production.test.js",
+    "tests/characterHandlers.test.js",
+    "tests/socketHandlers.test.js",
+    "tests/productionSocketContract.test.js",
+    "tests/roomAccessPrivacyProjection.test.js",
+    "tests/roomAccessBoundary.test.js",
+    "tests/sanitizationService.test.js",
+    "tests/rateLimitService.test.js",
+    "tests/roomCheckpoint.test.js",
+    "--timeout",
+    "20000",
+    "--exit"
+  ],
+  "cwd": "/home/claude/dj-github88/descension/server",
+  "environment": {
+    "CI": "true",
+    "P9_OUTPUT": "/tmp/claude-0/p9/mirror-final/server-1792055777239",
+    "P9_CHROME": "/opt/pw-browsers/chromium-1194/chrome-linux/chrome"
+  },
+  "startedAt": "2026-10-15T09:16:17.337Z",
+  "endedAt": "2026-10-15T09:16:28.676Z",
+  "exit": 0,
+  "identity": {
+    "head": "dd445bec3a295f2a1d1aad8ec0b77e1d2f5e3334",
+    "status": " M server/handlers/actorConsequenceHandlers.js\n M server/handlers/characterHandlers.js\n M server/handlers/socketHandlers.js\n M server/services/actorConsequences.js\n M server/services/rateLimitService.js\n M vtt-react/src/components/character-sheet/SpellActionBar.jsx\n M vtt-react/src/components/hud/PartyHUD.jsx\n M vtt-react/src/components/multiplayer/socketHandlers/registerAllHandlers.js\n M vtt-react/src/components/ui/ActionBar.jsx\n M vtt-react/src/components/ui/SpellCastConfirmation.jsx\n M vtt-react/src/data/classes/arcanoneer/components/ArcanoneerResourceBar.jsx\n M vtt-react/src/persistence/privateStorageRegistry.js\n M vtt-react/src/services/actorConsequenceService.js\n?? docs/MYTHRILL_PROJECT_9_CONTRACT.md\n?? server/services/spellPayments.js\n?? server/tests/p9SpellConsequences.production.test.js\n?? vtt-react/src/components/character-sheet/__tests__/SpellActionBarP9Producer.test.jsx\n?? vtt-react/src/components/hud/SpellConsequencePanel.css\n?? vtt-react/src/components/hud/SpellConsequencePanel.jsx\n?? vtt-react/src/components/ui/__tests__/ActionBarP9Producer.test.jsx\n?? vtt-react/src/services/__tests__/spellConsequence.test.js\n?? vtt-react/src/services/spellConsequence.js\n?? vtt-react/src/services/spellConsequenceCustody.js\n?? vtt-react/src/services/spellConsequenceService.js\n?? vtt-react/verification/p9/\n",
+    "hashes": {
+      "docs/MYTHRILL_PROJECT_9_CONTRACT.md": "557f38067bb59267b5bc2fe2ef22e868ee0f8bb83001da44dbbce43163c32017",
+      "server/services/spellPayments.js": "963ee0c95724c7da54253254de758a57f71534364cbb2d36189338c406e35f45",
+      "server/services/actorConsequences.js": "a96bf17d55dfc92448f71e790f27c321de538ec87c6f098f2bac48b7bb0b7c7c",
+      "server/handlers/actorConsequenceHandlers.js": "8f3bd0e79db1812e43c7558c6cb093a0880bb398167fe83e34a9c7b32661b222",
+      "server/handlers/characterHandlers.js": "a54ef8d8be311ca2becfff2080760c6111b6a9fd7d93dca15824cc3e6d595085",
+      "server/handlers/socketHandlers.js": "9dd40c478f938f8bc651e9a191fc061fd1897229688783fba8bf8f7262a1747a",
+      "server/services/rateLimitService.js": "44b1f40d330b9e730b4ee1bf6dcf8261e65b7bf7af521cefbe062e55b1ab8c0c",
+      "server/tests/p9SpellConsequences.production.test.js": "0136ed1c4eea7c933d7cfd1595792afd82399765401a57747707eae1b58f10c4",
+      "vtt-react/src/services/spellConsequence.js": "ca3e6127b49c8325992d87ef4572e2bc2ec7336213ed8a6235bcb2e01ab505bd",
+      "vtt-react/src/services/spellConsequenceService.js": "eab6b1fba40c1d3bc366fa5ff3be70cd335eb1c45e9ce8f9301944c54b7a1d62",
+      "vtt-react/src/services/spellConsequenceCustody.js": "2816f2e1c0e97bd2f2a3c10008135b0e1ad13ad2ad4f0992037fec2ad60645bd",
+      "vtt-react/src/services/actorConsequenceService.js": "f014993e068a852e93ea931e8255504379cb77596ccf18638f63b230d311fd99",
+      "vtt-react/src/services/__tests__/spellConsequence.test.js": "256c364b17a71a09ccf9a6d7391b617c1bafe473c9873885e3873f5ffb4aebf4",
+      "vtt-react/src/components/hud/SpellConsequencePanel.jsx": "4ea15f8cbe57a38fe83be0c5eaadc1282399009f0cee23551a85aa15b2509777",
+      "vtt-react/src/components/hud/SpellConsequencePanel.css": "84c3693e9b78bd1c13557de355363c9560fcd33c2ec2bc3f8d7517aa6e04ac54",
+      "vtt-react/src/components/hud/PartyHUD.jsx": "22db5eccba547e4e1ad4196e93589d9ff491acd15db6c3f59ea8a3562f2679fd",
+      "vtt-react/src/components/ui/ActionBar.jsx": "ded1292fe423aa9fd513e57aab7895f48e55a7f53819df9449bbc9df743db3fe",
+      "vtt-react/src/components/ui/SpellCastConfirmation.jsx": "ed1c2eb6e726bbea87ef0dd56cfb642db609381c5d1978083039d1fba6bedbed",
+      "vtt-react/src/components/ui/__tests__/ActionBarP9Producer.test.jsx": "d9dbf2aee0e7607ee078a9fc2568b698a6e774d5b268bddcab92437b7e91c560",
+      "vtt-react/src/components/character-sheet/SpellActionBar.jsx": "817756d0f2471a7f6ad1dcc8d70d31565d81a754c4f31492d2ec49e129016046",
+      "vtt-react/src/components/character-sheet/__tests__/SpellActionBarP9Producer.test.jsx": "d9c20919f42d2d80221768c99fdec17c6348031f9123f2085deaaa8780d00985",
+      "vtt-react/src/data/classes/arcanoneer/components/ArcanoneerResourceBar.jsx": "9a50657e3326097118ecc19925f373d323ae6b3006fb0aa30182134c9e46f3c1",
+      "vtt-react/src/persistence/privateStorageRegistry.js": "9eaf175b8ee228ca39ea02c62e34bb1749eedb92f935937b634c544823431469",
+      "vtt-react/src/components/multiplayer/socketHandlers/registerAllHandlers.js": "0de1e420db3622cf1999cec965d2bc07f658571a2d521e5af0ce74bb243858de",
+      "vtt-react/verification/p9/README.md": "34ee62ce6fb0f1b4f87206cfe2d0a31e199c5db631366b13d101961af1f3f67c",
+      "vtt-react/verification/p9/checks.cjs": "8bcd21e4cbae0c6c84202310a21ed7716b7a142e60d4580e3f4be3d7da167417",
+      "vtt-react/verification/p9/fixture.cjs": "09f2e729853e9ebc451ecc0ae331379b9e2841570d8a4ae89ac93e5ea7867cbe",
+      "vtt-react/verification/p9/browser.cjs": "a694c3d119858f8a776c1a0ce6b214967204687907749265eafc4b1b70e2abfe",
+      "vtt-react/src/components/grid/CreatureAbilityQuickUse.jsx": "f8f5654578981e482751b4a48ebef54b4774bbe0f43db1c7cb6943614e423b09",
+      "vtt-react/src/components/grid/CreatureToken.jsx": "7d10d7d783c9d50f12bff32a0afebf9dbddc1e7e4db58742d36454e622ef2073",
+      "vtt-react/src/components/grid/CreatureAbilityFanOut.jsx": "8f3b4293d14f24fd8b1f6ac645e13f3ae4ddee2f71d537ed19e12b42eae76877",
+      "vtt-react/src/components/grid/CreatureAbilityConfirmDialog.jsx": "80ceb506b3be71966e56281a584ad4010e6f84c99f3c32d31e9e74c75439778c",
+      "vtt-react/src/services/featherSlash.js": "1a4418f1a900b29f58efc79de091cfb59dd694d42110cecf087ef6a0e481b3ae",
+      "vtt-react/src/services/featherSlashCustody.js": "2ace5b077bbd3bccdfeec666148df385927faca1766beb065d51a2e14e5abd39",
+      "docs/MYTHRILL_P8_FEATHER_SLASH_PHYSICAL_REFERENCE.html": "94b8d0154a7b86ab4e16b773f785e34e60ac471a72cc47a36b6c4756f46eea5f",
+      "vtt-react/public/data/abilities.json": "19551f0c774c86985eb80834c4af69f14671cc0bedeb3aae617e62d2968cfc83",
+      "vtt-react/public/data/creatures.json": "992882597bd289ce036353424d25892f1f02a755db4ba6c19d43f7a595d8a744",
+      "docs/MYTHRILL_PROJECT_8_CONTRACT.md": "1436f823b44405a9ecf47d41da99d8c5522dafc75acaaae6aec8243a960b5173"
+    }
+  },
+  "p8": {
+    "vtt-react/src/components/grid/CreatureAbilityQuickUse.jsx": {
+      "expected": "f8f5654578981e482751b4a48ebef54b4774bbe0f43db1c7cb6943614e423b09",
+      "actual": "f8f5654578981e482751b4a48ebef54b4774bbe0f43db1c7cb6943614e423b09",
+      "matches": true,
+      "intentionalP9Extension": false
+    },
+    "vtt-react/src/components/grid/CreatureToken.jsx": {
+      "expected": "f23be08b8af979de9b218406696a2610fa52e3b96f2d9b12e3fe2bdce616b977",
+      "actual": "7d10d7d783c9d50f12bff32a0afebf9dbddc1e7e4db58742d36454e622ef2073",
+      "matches": false,
+      "intentionalP9Extension": false
+    },
+    "vtt-react/src/components/grid/CreatureAbilityFanOut.jsx": {
+      "expected": "fcb12e3cf7ebc804c23bdb47e3ddfadbb289df869eefae1b7043214fdd262a4a",
+      "actual": "8f3b4293d14f24fd8b1f6ac645e13f3ae4ddee2f71d537ed19e12b42eae76877",
+      "matches": false,
+      "intentionalP9Extension": false
+    },
+    "vtt-react/src/components/grid/CreatureAbilityConfirmDialog.jsx": {
+      "expected": "80ceb506b3be71966e56281a584ad4010e6f84c99f3c32d31e9e74c75439778c",
+      "actual": "80ceb506b3be71966e56281a584ad4010e6f84c99f3c32d31e9e74c75439778c",
+      "matches": true,
+      "intentionalP9Extension": false
+    },
+    "vtt-react/src/services/featherSlash.js": {
+      "expected": "1a4418f1a900b29f58efc79de091cfb59dd694d42110cecf087ef6a0e481b3ae",
+      "actual": "1a4418f1a900b29f58efc79de091cfb59dd694d42110cecf087ef6a0e481b3ae",
+      "matches": true,
+      "intentionalP9Extension": false
+    },
+    "vtt-react/src/services/featherSlashCustody.js": {
+      "expected": "2ace5b077bbd3bccdfeec666148df385927faca1766beb065d51a2e14e5abd39",
+      "actual": "2ace5b077bbd3bccdfeec666148df385927faca1766beb065d51a2e14e5abd39",
+      "matches": true,
+      "intentionalP9Extension": false
+    },
+    "vtt-react/src/services/actorConsequenceService.js": {
+      "expected": "f7834a814da437c5da5aef4aaaa7ca5be484d35d24f8e833ee8935aa86da434f",
+      "actual": "f014993e068a852e93ea931e8255504379cb77596ccf18638f63b230d311fd99",
+      "matches": false,
+      "intentionalP9Extension": true
+    },
+    "vtt-react/src/persistence/privateStorageRegistry.js": {
+      "expected": "24ef9f35ec9696e7c1a199a9494b199b78e76c2724004f811576dbe2af1466a2",
+      "actual": "9eaf175b8ee228ca39ea02c62e34bb1749eedb92f935937b634c544823431469",
+      "matches": false,
+      "intentionalP9Extension": true
+    },
+    "docs/MYTHRILL_P8_FEATHER_SLASH_PHYSICAL_REFERENCE.html": {
+      "expected": "94b8d0154a7b86ab4e16b773f785e34e60ac471a72cc47a36b6c4756f46eea5f",
+      "actual": "94b8d0154a7b86ab4e16b773f785e34e60ac471a72cc47a36b6c4756f46eea5f",
+      "matches": true,
+      "intentionalP9Extension": false
+    },
+    "vtt-react/public/data/abilities.json": {
+      "expected": "19551f0c774c86985eb80834c4af69f14671cc0bedeb3aae617e62d2968cfc83",
+      "actual": "19551f0c774c86985eb80834c4af69f14671cc0bedeb3aae617e62d2968cfc83",
+      "matches": true,
+      "intentionalP9Extension": false
+    },
+    "vtt-react/public/data/creatures.json": {
+      "expected": "992882597bd289ce036353424d25892f1f02a755db4ba6c19d43f7a595d8a744",
+      "actual": "992882597bd289ce036353424d25892f1f02a755db4ba6c19d43f7a595d8a744",
+      "matches": true,
+      "intentionalP9Extension": false
+    },
+    "docs/MYTHRILL_PROJECT_8_CONTRACT.md": {
+      "expected": "1436f823b44405a9ecf47d41da99d8c5522dafc75acaaae6aec8243a960b5173",
+      "actual": "1436f823b44405a9ecf47d41da99d8c5522dafc75acaaae6aec8243a960b5173",
+      "matches": true,
+      "intentionalP9Extension": false
+    }
+  },
+  "after": {
+    "docs/MYTHRILL_PROJECT_9_CONTRACT.md": "557f38067bb59267b5bc2fe2ef22e868ee0f8bb83001da44dbbce43163c32017",
+    "server/services/spellPayments.js": "963ee0c95724c7da54253254de758a57f71534364cbb2d36189338c406e35f45",
+    "server/services/actorConsequences.js": "a96bf17d55dfc92448f71e790f27c321de538ec87c6f098f2bac48b7bb0b7c7c",
+    "server/handlers/actorConsequenceHandlers.js": "8f3bd0e79db1812e43c7558c6cb093a0880bb398167fe83e34a9c7b32661b222",
+    "server/handlers/characterHandlers.js": "a54ef8d8be311ca2becfff2080760c6111b6a9fd7d93dca15824cc3e6d595085",
+    "server/handlers/socketHandlers.js": "9dd40c478f938f8bc651e9a191fc061fd1897229688783fba8bf8f7262a1747a",
+    "server/services/rateLimitService.js": "44b1f40d330b9e730b4ee1bf6dcf8261e65b7bf7af521cefbe062e55b1ab8c0c",
+    "server/tests/p9SpellConsequences.production.test.js": "0136ed1c4eea7c933d7cfd1595792afd82399765401a57747707eae1b58f10c4",
+    "vtt-react/src/services/spellConsequence.js": "ca3e6127b49c8325992d87ef4572e2bc2ec7336213ed8a6235bcb2e01ab505bd",
+    "vtt-react/src/services/spellConsequenceService.js": "eab6b1fba40c1d3bc366fa5ff3be70cd335eb1c45e9ce8f9301944c54b7a1d62",
+    "vtt-react/src/services/spellConsequenceCustody.js": "2816f2e1c0e97bd2f2a3c10008135b0e1ad13ad2ad4f0992037fec2ad60645bd",
+    "vtt-react/src/services/actorConsequenceService.js": "f014993e068a852e93ea931e8255504379cb77596ccf18638f63b230d311fd99",
+    "vtt-react/src/services/__tests__/spellConsequence.test.js": "256c364b17a71a09ccf9a6d7391b617c1bafe473c9873885e3873f5ffb4aebf4",
+    "vtt-react/src/components/hud/SpellConsequencePanel.jsx": "4ea15f8cbe57a38fe83be0c5eaadc1282399009f0cee23551a85aa15b2509777",
+    "vtt-react/src/components/hud/SpellConsequencePanel.css": "84c3693e9b78bd1c13557de355363c9560fcd33c2ec2bc3f8d7517aa6e04ac54",
+    "vtt-react/src/components/hud/PartyHUD.jsx": "22db5eccba547e4e1ad4196e93589d9ff491acd15db6c3f59ea8a3562f2679fd",
+    "vtt-react/src/components/ui/ActionBar.jsx": "ded1292fe423aa9fd513e57aab7895f48e55a7f53819df9449bbc9df743db3fe",
+    "vtt-react/src/components/ui/SpellCastConfirmation.jsx": "ed1c2eb6e726bbea87ef0dd56cfb642db609381c5d1978083039d1fba6bedbed",
+    "vtt-react/src/components/ui/__tests__/ActionBarP9Producer.test.jsx": "d9dbf2aee0e7607ee078a9fc2568b698a6e774d5b268bddcab92437b7e91c560",
+    "vtt-react/src/components/character-sheet/SpellActionBar.jsx": "817756d0f2471a7f6ad1dcc8d70d31565d81a754c4f31492d2ec49e129016046",
+    "vtt-react/src/components/character-sheet/__tests__/SpellActionBarP9Producer.test.jsx": "d9c20919f42d2d80221768c99fdec17c6348031f9123f2085deaaa8780d00985",
+    "vtt-react/src/data/classes/arcanoneer/components/ArcanoneerResourceBar.jsx": "9a50657e3326097118ecc19925f373d323ae6b3006fb0aa30182134c9e46f3c1",
+    "vtt-react/src/persistence/privateStorageRegistry.js": "9eaf175b8ee228ca39ea02c62e34bb1749eedb92f935937b634c544823431469",
+    "vtt-react/src/components/multiplayer/socketHandlers/registerAllHandlers.js": "0de1e420db3622cf1999cec965d2bc07f658571a2d521e5af0ce74bb243858de",
+    "vtt-react/verification/p9/README.md": "34ee62ce6fb0f1b4f87206cfe2d0a31e199c5db631366b13d101961af1f3f67c",
+    "vtt-react/verification/p9/checks.cjs": "8bcd21e4cbae0c6c84202310a21ed7716b7a142e60d4580e3f4be3d7da167417",
+    "vtt-react/verification/p9/fixture.cjs": "09f2e729853e9ebc451ecc0ae331379b9e2841570d8a4ae89ac93e5ea7867cbe",
+    "vtt-react/verification/p9/browser.cjs": "a694c3d119858f8a776c1a0ce6b214967204687907749265eafc4b1b70e2abfe",
+    "vtt-react/src/components/grid/CreatureAbilityQuickUse.jsx": "f8f5654578981e482751b4a48ebef54b4774bbe0f43db1c7cb6943614e423b09",
+    "vtt-react/src/components/grid/CreatureToken.jsx": "7d10d7d783c9d50f12bff32a0afebf9dbddc1e7e4db58742d36454e622ef2073",
+    "vtt-react/src/components/grid/CreatureAbilityFanOut.jsx": "8f3b4293d14f24fd8b1f6ac645e13f3ae4ddee2f71d537ed19e12b42eae76877",
+    "vtt-react/src/components/grid/CreatureAbilityConfirmDialog.jsx": "80ceb506b3be71966e56281a584ad4010e6f84c99f3c32d31e9e74c75439778c",
+    "vtt-react/src/services/featherSlash.js": "1a4418f1a900b29f58efc79de091cfb59dd694d42110cecf087ef6a0e481b3ae",
+    "vtt-react/src/services/featherSlashCustody.js": "2ace5b077bbd3bccdfeec666148df385927faca1766beb065d51a2e14e5abd39",
+    "docs/MYTHRILL_P8_FEATHER_SLASH_PHYSICAL_REFERENCE.html": "94b8d0154a7b86ab4e16b773f785e34e60ac471a72cc47a36b6c4756f46eea5f",
+    "vtt-react/public/data/abilities.json": "19551f0c774c86985eb80834c4af69f14671cc0bedeb3aae617e62d2968cfc83",
+    "vtt-react/public/data/creatures.json": "992882597bd289ce036353424d25892f1f02a755db4ba6c19d43f7a595d8a744",
+    "docs/MYTHRILL_PROJECT_8_CONTRACT.md": "1436f823b44405a9ecf47d41da99d8c5522dafc75acaaae6aec8243a960b5173"
+  },
+  "drift": []
+}

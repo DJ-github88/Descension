@@ -1,0 +1,82 @@
+{
+  "vtt-react/src/services/featherSlash.js": {
+    "raw": "ad2b3134998a8585906bbb82a1ac3878dafecac92070a9ad81f659ed1812669a",
+    "lf": "ad2b3134998a8585906bbb82a1ac3878dafecac92070a9ad81f659ed1812669a",
+    "startingRaw": "1a4418f1a900b29f58efc79de091cfb59dd694d42110cecf087ef6a0e481b3ae"
+  },
+  "vtt-react/src/services/__tests__/featherSlash.test.js": {
+    "raw": "43eaf32fb3a87bf38cda145e9c7afc29bfbfda4f83f53585f376abd1acc2bcb9",
+    "lf": "43eaf32fb3a87bf38cda145e9c7afc29bfbfda4f83f53585f376abd1acc2bcb9",
+    "startingRaw": "6f2b32cbc753181403688a3b53e69262e3d5194fd2c72c453c4d17e72ceaf1ed"
+  },
+  "vtt-react/src/components/ui/ActionBar.jsx": {
+    "raw": "7a04ec3302561ae91cd495bddce4d5596235bd5b8c5916f58686b767f9000d33",
+    "lf": "7585d93b5b7184cca6a7a210c8e8666c205cf39f57c8924edfd913db69b72c81",
+    "startingRaw": "7a04ec3302561ae91cd495bddce4d5596235bd5b8c5916f58686b767f9000d33"
+  },
+  "vtt-react/src/components/ui/__tests__/ActionBarLegacyArcanoneerSpheres.test.jsx": {
+    "raw": "98e8afbef304b1359da67d136ae2f38e43fc002846dcee247df500d5466dbb73",
+    "lf": "98e8afbef304b1359da67d136ae2f38e43fc002846dcee247df500d5466dbb73",
+    "startingRaw": "98e8afbef304b1359da67d136ae2f38e43fc002846dcee247df500d5466dbb73"
+  },
+  "vtt-react/src/components/hud/PartyHUD.jsx": {
+    "raw": "c5f2e9381c18fae3e68ec47f3f8bf2c02bca8e3be48ea72a8f6179e9e07db5d9",
+    "lf": "c5f2e9381c18fae3e68ec47f3f8bf2c02bca8e3be48ea72a8f6179e9e07db5d9",
+    "startingRaw": "c5f2e9381c18fae3e68ec47f3f8bf2c02bca8e3be48ea72a8f6179e9e07db5d9"
+  },
+  "vtt-react/src/components/hud/SpellConsequencePanel.css": {
+    "raw": "2f936ff2ff5bdc3f610c2c24c49015a1b935bd835a3f8f4e1dfeb2837682a68b",
+    "lf": "2f936ff2ff5bdc3f610c2c24c49015a1b935bd835a3f8f4e1dfeb2837682a68b",
+    "startingRaw": "2f936ff2ff5bdc3f610c2c24c49015a1b935bd835a3f8f4e1dfeb2837682a68b"
+  },
+  "vtt-react/src/services/featherSlashCustody.js": {
+    "raw": "2ace5b077bbd3bccdfeec666148df385927faca1766beb065d51a2e14e5abd39",
+    "lf": "2ace5b077bbd3bccdfeec666148df385927faca1766beb065d51a2e14e5abd39",
+    "startingRaw": null
+  },
+  "vtt-react/src/components/grid/CreatureAbilityQuickUse.jsx": {
+    "raw": "f8f5654578981e482751b4a48ebef54b4774bbe0f43db1c7cb6943614e423b09",
+    "lf": "f8f5654578981e482751b4a48ebef54b4774bbe0f43db1c7cb6943614e423b09",
+    "startingRaw": null
+  },
+  "vtt-react/src/components/hud/ActorConsequenceControls.jsx": {
+    "raw": "50ad8862d02df681cb15303fd0495931a1bc244ce5ea4de838d9e1891ef5f231",
+    "lf": "50ad8862d02df681cb15303fd0495931a1bc244ce5ea4de838d9e1891ef5f231",
+    "startingRaw": null
+  },
+  "vtt-react/src/components/hud/SpellConsequencePanel.jsx": {
+    "raw": "01c16539ab4ef766809dc0880a4dbf73a3eed4964b99da40c182f40477df9bb4",
+    "lf": "01c16539ab4ef766809dc0880a4dbf73a3eed4964b99da40c182f40477df9bb4",
+    "startingRaw": "01c16539ab4ef766809dc0880a4dbf73a3eed4964b99da40c182f40477df9bb4"
+  },
+  "vtt-react/src/styles/party-hud.css": {
+    "raw": "df2fc87256718952a81b9f0f652b04baa143c51fb109830590199bc4708283b6",
+    "lf": "df2fc87256718952a81b9f0f652b04baa143c51fb109830590199bc4708283b6",
+    "startingRaw": null
+  },
+  "vtt-react/src/utils/arcanoneerMigration.js": {
+    "raw": "024045a51fb8ec2e11ba14e14fdceb83a02ca492345bad66ed51d76e27b35ad6",
+    "lf": "024045a51fb8ec2e11ba14e14fdceb83a02ca492345bad66ed51d76e27b35ad6",
+    "startingRaw": null
+  },
+  "vtt-react/src/data/versions.js": {
+    "raw": "d3abf2ffedebc1e6834cd8c41f47f0022b6c4d8be33db0e7de7be80fd96fc651",
+    "lf": "0afdfd0954a35e651d81ffe0a44c431e085ae45b4b7a6fdaa9535318f6989815",
+    "startingRaw": "d3abf2ffedebc1e6834cd8c41f47f0022b6c4d8be33db0e7de7be80fd96fc651"
+  },
+  "vtt-react/public/data/abilities.json": {
+    "raw": "07ffc620f0d7a08c188aff8daf4fa0bdf9e82795bcf83ee7c6e864d5d749bb15",
+    "lf": "8b49ef0b4d385c2260c9d26c7e10a42797c5b1ee7df27fe3fe300b57c0389de7",
+    "startingRaw": "07ffc620f0d7a08c188aff8daf4fa0bdf9e82795bcf83ee7c6e864d5d749bb15"
+  },
+  "vtt-react/public/data/creatures.json": {
+    "raw": "66cf07a04adfd9cd31b62e15053c2e707ec55a519e04bfdb6095b1184077fafd",
+    "lf": "60b5b8ff5f35c73db1dcf6256bb153952338258fb85cc33a1b8d8c33843ed1f1",
+    "startingRaw": "66cf07a04adfd9cd31b62e15053c2e707ec55a519e04bfdb6095b1184077fafd"
+  },
+  "vtt-react/src/App.jsx": {
+    "raw": "55ba76417fa01c2f2befa818dad5d8e102723607eb6ebda0fff18dfde6ed642c",
+    "lf": "e1ba610fb54597683957a1c6fba14844993e111da165337e0a1f9b8dbcd75c48",
+    "startingRaw": null
+  }
+}

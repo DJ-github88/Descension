@@ -1,0 +1,1563 @@
+{
+  "startedAt": "2026-10-15T19:03:20.773Z",
+  "command": [
+    "C:\\Program Files\\nodejs\\node.exe",
+    "D:\\VTT\\vtt-react\\verification\\p9\\integration\\app-browser.cjs"
+  ],
+  "kind": "production-App / optimized CRACO build",
+  "limits": [
+    "Production App/router/components/styles and compiled library bodies execute intact. Test-only webpack runtime access seeds users, exact actors and room socket; identity/provider login is simulated.",
+    "Real browser Socket.IO and registered backend stack execute; provider verification/canonical ownership/lease/cloud persistence are in-memory fixture boundaries.",
+    "Third-party network requests are refused deliberately by this witness; no live Firebase/rules, human players, physical second device or deployment claim."
+  ],
+  "errors": [
+    {
+      "uid": "app-gm",
+      "message": "Failed to fetch"
+    },
+    {
+      "uid": "app-gm",
+      "message": "Failed to fetch"
+    },
+    {
+      "uid": "app-gm",
+      "message": "Failed to fetch"
+    },
+    {
+      "uid": "app-gm",
+      "message": "Failed to fetch"
+    },
+    {
+      "uid": "app-gm",
+      "message": "Failed to fetch"
+    },
+    {
+      "uid": "app-gm",
+      "message": "Failed to fetch"
+    },
+    {
+      "uid": "app-gm",
+      "message": "Failed to fetch"
+    },
+    {
+      "uid": "app-gm",
+      "message": "Failed to fetch"
+    }
+  ],
+  "networkRefusals": [
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "font"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "font"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://firebaseinstallations.googleapis.com",
+      "resourceType": "fetch"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "font"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "font"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "font"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "font"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "font"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "font"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "font"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "font"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "font"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "font"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "font"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "font"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://firebaseinstallations.googleapis.com",
+      "resourceType": "fetch"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://firebaseinstallations.googleapis.com",
+      "resourceType": "fetch"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "font"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "font"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "font"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "font"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://firebaseinstallations.googleapis.com",
+      "resourceType": "fetch"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://firebaseinstallations.googleapis.com",
+      "resourceType": "fetch"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "font"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "font"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "font"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "font"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://firebaseinstallations.googleapis.com",
+      "resourceType": "fetch"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://firebaseinstallations.googleapis.com",
+      "resourceType": "fetch"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "font"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "font"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://firebaseinstallations.googleapis.com",
+      "resourceType": "fetch"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "font"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "font"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "font"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "font"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "font"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "font"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "font"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "font"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "font"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "font"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://firebaseinstallations.googleapis.com",
+      "resourceType": "fetch"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://firebaseinstallations.googleapis.com",
+      "resourceType": "fetch"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "font"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "font"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "font"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "font"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://firebaseinstallations.googleapis.com",
+      "resourceType": "fetch"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://firebaseinstallations.googleapis.com",
+      "resourceType": "fetch"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "font"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "font"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "font"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "font"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://firebaseinstallations.googleapis.com",
+      "resourceType": "fetch"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://firebaseinstallations.googleapis.com",
+      "resourceType": "fetch"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "font"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "font"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://firebaseinstallations.googleapis.com",
+      "resourceType": "fetch"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "font"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "font"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "font"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "font"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "font"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "font"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "font"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "font"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "font"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "font"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "font"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "font"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "font"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "font"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://firebaseinstallations.googleapis.com",
+      "resourceType": "fetch"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://firebaseinstallations.googleapis.com",
+      "resourceType": "fetch"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "font"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "font"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "font"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "font"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://firebaseinstallations.googleapis.com",
+      "resourceType": "fetch"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://firebaseinstallations.googleapis.com",
+      "resourceType": "fetch"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "font"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "font"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://firebaseinstallations.googleapis.com",
+      "resourceType": "fetch"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "font"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "font"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "font"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "font"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "font"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "font"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "font"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://cdnjs.cloudflare.com",
+      "resourceType": "font"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://fonts.googleapis.com",
+      "resourceType": "stylesheet"
+    }
+  ],
+  "witnesses": {},
+  "failure": "locator.waitFor: Timeout 60000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('.action-slot').first() to be visible\u001b[22m\n\u001b[2m    - waiting for \"http://127.0.0.1:4180/game\" navigation to finish...\u001b[22m\n\u001b[2m    - navigated to \"http://127.0.0.1:4180/game\"\u001b[22m\n\n    at setup (D:\\VTT\\vtt-react\\verification\\p9\\integration\\app-browser.cjs:18:46)\n    at async main (D:\\VTT\\vtt-react\\verification\\p9\\integration\\app-browser.cjs:60:22)",
+  "endedAt": "2026-10-15T19:04:23.364Z",
+  "buildAssetManifestSha256": "4f3011ac2b71d108e8c162b8fa1f5393076e62ede1e09242d8a112db4516a61a"
+}

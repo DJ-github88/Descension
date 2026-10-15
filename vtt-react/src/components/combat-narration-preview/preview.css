@@ -1,0 +1,82 @@
+/* Preview shell only. No selectors escape .np-page or alter the live app. */
+.np-page { --np-ink: #34251a; --np-muted: #68533e; --np-rule: #b6a080; --np-paper: #faf6ee; color: var(--np-ink); background: #f7f3ea; min-height: 100vh; font: 16px/1.5 'Crimson Text', Georgia, serif; scrollbar-color: #9b835e #eee8dc; }
+.np-page *, .np-page *::before, .np-page *::after { box-sizing: border-box; }
+.np-page ::selection { background: #cfbd99; color: #34251a; }
+.np-page :is(button, select, input, summary):focus-visible { outline: 2px solid #663c32; outline-offset: 3px; }
+.np-page :is(button, input, select) { font: inherit; }
+.np-page button { border: 1px solid var(--np-rule); border-radius: 3px; background: var(--np-paper); color: var(--np-ink); padding: 9px 14px; min-height: 44px; cursor: pointer; }
+.np-page button:hover:enabled { background: #e8e0d1; }
+.np-page button:disabled { opacity: 0.5; cursor: default; }
+.np-page .np-primary { background: #663c32; border-color: #663c32; color: #faf6ee; }
+.np-page .np-primary:hover:enabled { background: #503027; }
+.np-masthead { display: flex; flex-wrap: wrap; align-items: baseline; gap: 12px 24px; padding: 20px max(24px, calc((100vw - 1280px) / 2)); background: #302419; color: #faf6ee; }
+.np-wordmark { font: 600 24px/1.2 'Cinzel', Georgia, serif; }
+.np-preview-label { margin-left: auto; color: #d9c8a8; font-size: 14px; }
+.np-page main { max-width: 1280px; padding: 36px 24px 24px; margin: 0 auto; }
+.np-intro { display: flex; justify-content: space-between; align-items: end; flex-wrap: wrap; gap: 24px; margin-bottom: 28px; }
+.np-intro h1 { font-size: clamp(26px, 3vw, 34px); line-height: 1.2; font-weight: 400; margin: 0 0 8px; text-wrap: balance; }
+.np-intro p { margin: 0; color: var(--np-muted); }
+.np-intro label { display: grid; gap: 6px; min-width: 260px; max-width: 100%; color: var(--np-muted); font-size: 14px; }
+.np-page select, .np-countdown-input input { border: 1px solid var(--np-rule); border-radius: 3px; color: var(--np-ink); background: var(--np-paper); padding: 10px 12px; min-height: 44px; min-width: 0; max-width: 100%; caret-color: #663c32; }
+.np-workspace { display: grid; grid-template-columns: minmax(0, 1fr) 288px; gap: 32px; align-items: start; }
+.np-stage { background: #eee8dc; border: 1px solid var(--np-rule); border-radius: 3px; min-width: 0; }
+.np-stage-header { padding: 14px 22px; display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px; border-bottom: 1px solid var(--np-rule); }
+.np-stage-header h2 { font: 600 15px/1.4 'Cinzel', Georgia, serif; margin: 0; }
+.np-stage-header span { font-size: 13px; color: var(--np-muted); }
+.np-narration-slot { padding: 28px 28px 0; min-height: 218px; }
+.np-table-space { text-align: center; padding: 36px 20px 48px; color: var(--np-muted); }
+.np-party { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 26px; }
+.np-party span { padding: 4px 12px; border: 1px solid #b6a080; border-radius: 3px; font-size: 13px; }
+.np-table-space p { font-size: 21px; margin: 0 0 4px; font-style: italic; }
+.np-table-space > span { font-size: 13px; }
+.np-reactions { border-top: 1px solid var(--np-rule); background: var(--np-paper); padding: 20px 24px; }
+.np-reaction-heading { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+.np-reactions h3 { margin: 0; font-size: 17px; font-weight: 600; }
+.np-reactions p { margin: 10px 0 0; color: var(--np-muted); font-size: 13px; }
+.np-countdown { font-variant-numeric: tabular-nums; color: #1f4e69; overflow-wrap: anywhere; }
+.np-countdown small { color: var(--np-muted); font-size: 12px; }
+.np-reaction-buttons { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
+.np-director h2 { font-size: 21px; line-height: 1.3; margin: 0 0 12px; font-weight: 500; text-wrap: balance; }
+.np-director > p { color: var(--np-muted); font-size: 15px; margin: 0 0 20px; }
+.np-step-controls { display: grid; gap: 8px; }
+.np-director .np-progress { margin: 10px 0 24px; font-size: 13px; font-variant-numeric: tabular-nums; }
+.np-check { display: flex; align-items: center; gap: 8px; font-size: 14px; cursor: pointer; min-height: 32px; }
+.np-check input { accent-color: #663c32; width: 16px; height: 16px; flex: 0 0 auto; }
+.np-director .np-help { font-size: 13px; line-height: 1.5; margin: 4px 0 20px; }
+.np-countdown-input { display: grid; gap: 6px; font-size: 14px; }
+.np-key { border-top: 1px solid var(--np-rule); padding-top: 18px; }
+.np-key h3 { font-size: 15px; margin: 0 0 12px; }
+.np-key dl { margin: 0; font-size: 13px; }
+.np-key dt { font-weight: 700; margin-top: 10px; }
+.np-key dd { margin: 0; color: var(--np-muted); }
+.np-history { margin-top: 36px; border-top: 1px solid var(--np-rule); padding-top: 24px; }
+.np-history > header { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 12px 24px; }
+.np-history h2 { font-size: 24px; font-weight: 400; line-height: 1.25; margin: 0; }
+.np-history header p { color: var(--np-muted); font-size: 13px; margin: 6px 0 0; }
+.np-history ol { padding: 0; margin: 24px 0 0; list-style: none; }
+.np-history li { display: grid; grid-template-columns: 172px minmax(0, 1fr); gap: 20px; padding: 18px 0; border-top: 1px solid #d4c7b3; overflow-wrap: anywhere; }
+.np-history li p { margin: 0; max-width: 75ch; }
+.np-history details { font-size: 14px; margin-top: 6px; }
+.np-history-empty { color: var(--np-muted); padding: 24px 0; }
+.np-footer { margin-top: 32px; padding-top: 18px; border-top: 1px solid var(--np-rule); color: var(--np-muted); font-size: 13px; }
+@media (max-width: 900px) {
+  .np-workspace { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+  .np-director { max-width: 680px; }
+  .np-step-controls { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .np-key { display: none; }
+}
+@media (max-width: 480px) {
+  .np-masthead { padding: 16px; gap: 8px 16px; }
+  .np-wordmark { font-size: 20px; }
+  .np-preview-label { margin-left: 0; width: 100%; font-size: 12px; }
+  .np-page main { padding: 24px 16px; }
+  .np-intro { align-items: stretch; margin-bottom: 20px; }
+  .np-intro label { width: 100%; min-width: 0; }
+  .np-stage-header { padding: 12px 16px; }
+  .np-narration-slot { padding: 16px 14px 0; min-height: 190px; }
+  .np-table-space { padding: 28px 16px; }
+  .np-table-space p { font-size: 19px; }
+  .np-reactions { padding: 16px; }
+  .np-step-controls { grid-template-columns: minmax(0, 1fr); }
+  .np-history li { grid-template-columns: minmax(0, 1fr); gap: 6px; }
+}

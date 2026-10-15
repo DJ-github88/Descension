@@ -1,0 +1,2768 @@
+import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
+import ReactDOM from 'react-dom';
+import useInventoryStore from '../../store/inventoryStore';
+import useConditionStore from '../../store/conditionStore';
+import useCharacterStore from '../../store/characterStore';
+import useCombatStore from '../../store/combatStore';
+import useGameStore from '../../store/gameStore';
+import { RARITY_COLORS } from '../../constants/itemConstants';
+import Button from '../common/Button';
+import ItemTooltip from '../item-generation/ItemTooltip';
+import TooltipPortal from '../tooltips/TooltipPortal';
+import { useTooltipPosition } from '../common/useTooltipPosition';
+import SpellTooltip from '../spellcrafting-wizard/components/common/SpellTooltip';
+import { useSpellLibrary } from '../spellcrafting-wizard/context/SpellLibraryContext';
+import { useActionBarPersistence } from '../../hooks/useActionBarPersistence';
+import { useActionBarAsset } from '../../hooks/useActionBarAsset';
+import { useRoomContext } from '../../contexts/RoomContext';
+import HotkeyAssignmentPopup from './HotkeyAssignmentPopup';
+import SpellCastConfirmation from './SpellCastConfirmation';
+import CooldownAdjustmentMenu from './CooldownAdjustmentMenu';
+import actionBarPersistenceService from '../../services/actionBarPersistenceService';
+import ExperienceBar from './ExperienceBar';
+import { getIconUrl, getCustomIconUrl, getAbilityIconUrl } from '../../utils/assetManager';
+import EquipmentActionSlot from './EquipmentActionSlot';
+import { getActionsForSlot } from '../../data/weaponActionSpells';
+import { normalizeEquipment, isOffHandDisabled as checkOffHandDisabled } from '../../utils/equipmentUtils';
+import { normalizeManagedClassResource, getManagedSpellResourcePlan } from '../../data/classResourceContracts';
+import { routeSpellCast, isP9Routed } from '../../services/spellConsequenceService';
+import './ActionBar.css';
+
+// Spell damage types constant - used for consumable effects
+const SPELL_DAMAGE_TYPES = ['smashing', 'stabbing', 'slicing', 'ember', 'rime', 'storm', 'arcane', 'primal', 'blight', 'wyrd', 'sacred'];
+
+const ActionBar = () => {
+    // Get current room context for persistence
+    const { currentRoomId } = useRoomContext();
+
+    // Process Actionbar.PNG through chroma key for background
+    const actionBarBg = useActionBarAsset();
+
+    // Use the persistence hook instead of local state
+    const {
+        actionSlots,
+        updateSlot,
+        clearSlot,
+        updateActionSlots,
+        isLoading
+    } = useActionBarPersistence(currentRoomId);
+        const [dragOverSlot, setDragOverSlot] = useState(null);
+    const actionBarContainerRef = useRef(null);
+
+    // Tooltip state for consumables
+    const [showTooltip, setShowTooltip] = useState(false);
+    const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
+    const [tooltipItem, setTooltipItem] = useState(null);
+    const consumableHoverTimeoutRef = useRef(null);
+    const consumableHideTimeoutRef = useRef(null);
+
+    // Spell tooltip state
+    const [showSpellTooltip, setShowSpellTooltip] = useState(false);
+    const [spellTooltipPosition, setSpellTooltipPosition] = useState({ x: 0, y: 0 });
+    const [tooltipSpell, setTooltipSpell] = useState(null);
+    const [isEquipmentActionTooltip, setIsEquipmentActionTooltip] = useState(false);
+    const spellHoverTimeoutRef = useRef(null);
+    const spellHideTimeoutRef = useRef(null);
+
+    // Floating equipment slot tooltip state (no modal / no screen dimming)
+    const [equipmentTooltipItem, setEquipmentTooltipItem] = useState(null);
+    const [equipmentMousePos, setEquipmentMousePos] = useState({ x: 0, y: 0 });
+    const { adjustedPosition: equipmentTooltipPos, tooltipRef: equipmentTooltipRef } = useTooltipPosition(
+        equipmentMousePos,
+        !!equipmentTooltipItem
+    );
+
+    // Hotkey assignment state
+    const [showHotkeyPopup, setShowHotkeyPopup] = useState(false);
+    const [hotkeySlotIndex, setHotkeySlotIndex] = useState(null);
+    const [hotkeys, setHotkeys] = useState({});
+    
+    // Overheal modal state
+    const [showOverhealModal, setShowOverhealModal] = useState(false);
+    const [overhealData, setOverhealData] = useState(null); // { resourceType, amount, currentValue, maxValue, item } or array of these
+
+    // Spell cast confirmation state
+    const [showSpellConfirmation, setShowSpellConfirmation] = useState(false);
+    const [spellToCast, setSpellToCast] = useState(null);
+    const [spellSlotIndex, setSpellSlotIndex] = useState(null);
+
+    // Cooldown adjustment menu state
+    const [showCooldownMenu, setShowCooldownMenu] = useState(false);
+    const [cooldownMenuSlotIndex, setCooldownMenuSlotIndex] = useState(null);
+
+    // Get spell library for spell tooltips (hooks must be called unconditionally)
+    const spellLibrary = useSpellLibrary();
+
+    // Get inventory items to track quantities
+    const inventoryItems = useInventoryStore(state => state.items);
+    const removeItem = useInventoryStore(state => state.removeItem);
+
+    // Get condition store functions
+    const addCondition = useConditionStore(state => state.addCondition);
+
+    // Get character store functions for applying effects
+    const updateResource = useCharacterStore(state => state.updateResource);
+    const updateClassResource = useCharacterStore(state => state.updateClassResource);
+    const gainClassResource = useCharacterStore(state => state.gainClassResource);
+    const consumeClassResource = useCharacterStore(state => state.consumeClassResource);
+    const health = useCharacterStore(state => state.health);
+    const mana = useCharacterStore(state => state.mana);
+    const actionPoints = useCharacterStore(state => state.actionPoints);
+    const tempHealth = useCharacterStore(state => state.tempHealth || 0);
+    const tempMana = useCharacterStore(state => state.tempMana || 0);
+    const tempActionPoints = useCharacterStore(state => state.tempActionPoints || 0);
+    const experience = useCharacterStore(state => state.experience || 0);
+    const updateTempResource = useCharacterStore(state => state.updateTempResource);
+
+    // Get combat store for turn restrictions and cooldown progression
+    const { isInCombat, getCurrentCombatant, round, currentTurnIndex, turnOrder } = useCombatStore();
+    const currentCharacterId = useCharacterStore(state => state.currentCharacterId);
+    const rawEquipment = useCharacterStore(state => state.equipment) || {};
+    const equipment = useMemo(() => normalizeEquipment(rawEquipment), [rawEquipment]);
+
+    // Elevated equipment slot popout state
+    const [openEquipmentSlot, setOpenEquipmentSlot] = useState(null);
+
+    // Compute dynamic actions for elevated slots
+    const mhActions = useMemo(() => getActionsForSlot('mainHand', equipment), [equipment]);
+    const ohActions = useMemo(() => getActionsForSlot('offHand', equipment), [equipment]);
+    const rangedActions = useMemo(() => getActionsForSlot('ranged', equipment), [equipment]);
+    const isOffHandDisabled = useMemo(() => checkOffHandDisabled(equipment), [equipment]);
+
+    // Close fan on click outside
+    useEffect(() => {
+        if (!openEquipmentSlot) return;
+        const handleOutsideClick = () => {
+            setOpenEquipmentSlot(null);
+        };
+        window.addEventListener('click', handleOutsideClick);
+        return () => window.removeEventListener('click', handleOutsideClick);
+    }, [openEquipmentSlot]);
+    
+    // Track cooldown timers and types
+    const cooldownTimersRef = useRef({});
+    const cooldownTypesRef = useRef({});
+    const lastProcessedRoundRef = useRef(0);
+    const lastProcessedTurnRef = useRef(-1);
+
+    const setCooldownStore = useGameStore(state => state.setCooldown);
+    const clearCooldownStore = useGameStore(state => state.clearCooldown);
+    const clearAllCooldownsStore = useGameStore(state => state.clearAllCooldowns);
+    const restoreCooldownsStore = useGameStore(state => state.restoreCooldowns);
+    const activeCooldowns = useGameStore(state => state.activeCooldowns);
+
+    const restoredRef = useRef(false);
+
+    useEffect(() => {
+        restoredRef.current = false;
+    }, [currentRoomId, currentCharacterId]);
+
+    useEffect(() => {
+        if (isLoading) return;
+        if (restoredRef.current) return;
+        restoredRef.current = true;
+
+        const restored = restoreCooldownsStore();
+
+        updateActionSlots(currentSlots => {
+            const updatedSlots = [...currentSlots];
+            let hasChanges = false;
+
+            Object.entries(restored).forEach(([slotIndex, data]) => {
+                const idx = parseInt(slotIndex);
+                const item = updatedSlots[idx];
+                if (!item || item.type !== 'spell') return;
+
+                if (data.cooldownType === 'real_time' && data.expiresAt) {
+                    const remaining = Math.max(0, Math.ceil((data.expiresAt - Date.now()) / 1000));
+                    if (remaining > 0) {
+                        updatedSlots[idx] = {
+                            ...item,
+                            cooldown: remaining,
+                            maxCooldown: data.maxCooldown,
+                            cooldownType: 'real_time',
+                            cooldownEndTime: data.expiresAt
+                        };
+                        hasChanges = true;
+
+                        const timer = setInterval(() => {
+                            updateActionSlots(slots => {
+                                const s = [...slots];
+                                const slotItem = s[idx];
+                                if (slotItem && slotItem.cooldownEndTime) {
+                                    const rem = Math.max(0, Math.ceil((slotItem.cooldownEndTime - Date.now()) / 1000));
+                                    if (rem > 0) {
+                                        s[idx] = { ...slotItem, cooldown: rem };
+                                    } else {
+                                        s[idx] = { ...slotItem, cooldown: 0, cooldownEndTime: undefined };
+                                        clearInterval(timer);
+                                        delete cooldownTimersRef.current[idx];
+                                        clearCooldownStore(idx);
+                                    }
+                                }
+                                return s;
+                            });
+                        }, 1000);
+                        cooldownTimersRef.current[idx] = timer;
+                    } else {
+                        updatedSlots[idx] = { ...item, cooldown: 0, cooldownEndTime: undefined };
+                        clearCooldownStore(idx);
+                        hasChanges = true;
+                    }
+                } else if (data.cooldownType === 'turn_based') {
+                    updatedSlots[idx] = {
+                        ...item,
+                        cooldown: data.maxCooldown,
+                        maxCooldown: data.maxCooldown,
+                        cooldownType: 'turn_based'
+                    };
+                    hasChanges = true;
+                }
+            });
+
+            return hasChanges ? updatedSlots : currentSlots;
+        });
+    }, [isLoading, updateActionSlots, restoreCooldownsStore, clearCooldownStore]);
+
+    // Load hotkeys on mount and when character/room changes
+    useEffect(() => {
+        if (currentCharacterId) {
+            const loadedHotkeys = actionBarPersistenceService.loadHotkeys(currentCharacterId, currentRoomId);
+            if (loadedHotkeys) {
+                setHotkeys(loadedHotkeys);
+            } else {
+                // Set default hotkeys (1-9, 0)
+                const defaultHotkeys = {};
+                for (let i = 0; i < 10; i++) {
+                    defaultHotkeys[i] = i === 9 ? '0' : `${i + 1}`;
+                }
+                setHotkeys(defaultHotkeys);
+            }
+        }
+    }, [currentCharacterId, currentRoomId]);
+
+    useEffect(() => {
+        const handleAssignEvent = (e) => {
+            const { slotIndex, item } = e.detail || {};
+            if (slotIndex !== undefined && slotIndex >= 0 && slotIndex < 10 && item) {
+                const iconId = item.iconId || item.icon || 'inv_potion_51';
+                const newConsumableSlot = {
+                    id: item.id,
+                    name: item.name,
+                    icon: iconId,
+                    cooldown: 0,
+                    maxCooldown: 0,
+                    type: 'consumable',
+                    originalItemId: item.originalItemId || item.id,
+                    quality: item.quality || item.rarity || 'common',
+                    rarity: item.rarity || item.quality || 'common'
+                };
+                updateSlot(slotIndex, newConsumableSlot);
+            }
+        };
+        window.addEventListener('action-bar-assign-item', handleAssignEvent);
+        return () => window.removeEventListener('action-bar-assign-item', handleAssignEvent);
+    }, [updateSlot]);
+
+    // Handle turn-based cooldown progression in combat
+    useEffect(() => {
+        if (!isInCombat || !turnOrder || turnOrder.length === 0) {
+            // Outside combat: time-based cooldowns still progress via their timers
+            // Turn-based cooldowns pause (don't decrement)
+            lastProcessedTurnRef.current = -1;
+            return;
+        }
+        
+        // Check if it's a new turn (track by round + turn index combination)
+        const turnKey = `${round}-${currentTurnIndex}`;
+        const lastTurnKey = `${lastProcessedRoundRef.current}-${lastProcessedTurnRef.current}`;
+        const isNewTurn = turnKey !== lastTurnKey;
+        
+        // Process turn-based cooldowns when it's a new turn
+        if (isNewTurn) {
+            lastProcessedRoundRef.current = round;
+            lastProcessedTurnRef.current = currentTurnIndex;
+            
+            updateActionSlots(currentSlots => {
+                const updatedSlots = [...currentSlots];
+                let hasChanges = false;
+                
+                currentSlots.forEach((item, index) => {
+                    if (item && item.type === 'spell' && item.cooldown > 0 && item.cooldownType === 'turn_based') {
+                        const newCooldown = Math.max(0, item.cooldown - 1);
+                        if (newCooldown !== item.cooldown) {
+                            updatedSlots[index] = {
+                                ...item,
+                                cooldown: newCooldown
+                            };
+                            hasChanges = true;
+                            if (newCooldown === 0) {
+                                clearCooldownStore(index);
+                            }
+                        }
+                    }
+                });
+                
+                return hasChanges ? updatedSlots : currentSlots;
+            });
+        }
+    }, [round, isInCombat, currentTurnIndex, turnOrder, updateActionSlots]);
+
+    // Cleanup timers on unmount
+    useEffect(() => {
+        const timers = cooldownTimersRef.current;
+        return () => {
+            Object.values(timers).forEach(timer => {
+                if (timer) clearInterval(timer);
+            });
+        };
+    }, []);
+
+    // Helper function to get current quantity of a consumable item
+    const getItemQuantity = useCallback((itemId) => {
+        const item = inventoryItems.find(invItem =>
+            invItem.originalItemId === itemId || invItem.id === itemId
+        );
+        return item ? (item.quantity || 1) : 0;
+    }, [inventoryItems]);
+
+    // Apply resource adjustment with optional temporary resource
+    // Returns: { applied: boolean, pendingOverheal: object|null }
+    const applyResourceAdjustmentWithOverheal = useCallback((resourceType, amount, item) => {
+        const resourceMap = {
+            'health': health,
+            'mana': mana,
+            'actionPoints': actionPoints
+        };
+        const tempMap = {
+            'health': tempHealth,
+            'mana': tempMana,
+            'actionPoints': tempActionPoints
+        };
+        
+        const currentResource = resourceMap[resourceType];
+        const currentTemp = tempMap[resourceType];
+        
+        if (!currentResource) return { applied: false, pendingOverheal: null };
+        
+        const currentValue = currentResource.current || 0;
+        const maxValue = currentResource.max || 0;
+        const newValue = currentValue + amount;
+        
+        // Check for overheal (positive adjustment that would exceed max)
+        // Also check if already at max and trying to add more
+        if (amount > 0 && (newValue > maxValue || (currentValue >= maxValue && amount > 0))) {
+            const overhealAmount = newValue - maxValue;
+            return {
+                applied: false,
+                pendingOverheal: {
+                    resourceType,
+                    amount,
+                    overhealAmount,
+                    currentValue,
+                    maxValue,
+                    item
+                }
+            };
+        }
+        
+        // Normal application (no overheal or negative adjustment)
+        const finalValue = Math.max(0, Math.min(maxValue, newValue));
+        updateResource(resourceType, finalValue, maxValue);
+        return { applied: true, pendingOverheal: null };
+    }, [health, mana, actionPoints, tempHealth, tempMana, tempActionPoints, updateResource]);
+
+    // Apply remaining consumable effects (after overheal is handled)
+    const applyRemainingConsumableEffects = useCallback((inventoryItem, skipResourceType = null) => {
+        const combatStats = inventoryItem.combatStats || {};
+        const buffEffects = {};
+        const debuffEffects = {};
+        let hasBuffEffects = false;
+        let hasDebuffEffects = false;
+
+        // Collect stat effects from combatStats (both positive and negative)
+        ['strength', 'agility', 'intelligence', 'constitution', 'spirit', 'charisma'].forEach(stat => {
+            if (combatStats[stat] && combatStats[stat].value !== 0) {
+                const value = combatStats[stat].value;
+                if (value > 0) {
+                    buffEffects[stat] = value;
+                    hasBuffEffects = true;
+                } else if (value < 0) {
+                    debuffEffects[stat] = Math.abs(value);
+                    hasDebuffEffects = true;
+                }
+            }
+        });
+
+        // Collect other combat stat effects
+        ['damage', 'spellDamage', 'healingPower', 'healthRegen', 'manaRegen', 'moveSpeed'].forEach(stat => {
+            if (combatStats[stat] && combatStats[stat].value !== 0) {
+                const value = combatStats[stat].value;
+                if (value > 0) {
+                    buffEffects[stat] = value;
+                    hasBuffEffects = true;
+                } else if (value < 0) {
+                    debuffEffects[stat] = Math.abs(value);
+                    hasDebuffEffects = true;
+                }
+            }
+        });
+
+        // Collect maxHealth from combatStats
+        if (combatStats.maxHealth && combatStats.maxHealth.value !== 0) {
+            const value = combatStats.maxHealth.value;
+            if (value > 0) {
+                buffEffects.maxHealth = value;
+                hasBuffEffects = true;
+            } else if (value < 0) {
+                debuffEffects.maxHealth = Math.abs(value);
+                hasDebuffEffects = true;
+            }
+        }
+
+        // Collect effects from utilityStats (movementSpeed, etc.)
+        const utilStats = inventoryItem.utilityStats || {};
+        Object.keys(utilStats).forEach(statName => {
+            if (statName === 'duration') return;
+            const statData = utilStats[statName];
+            if (statData) {
+                const value = typeof statData === 'object' ? statData.value : statData;
+                if (value !== 0) {
+                    const statMap = { movementSpeed: 'moveSpeed', carryingCapacity: 'carryingCapacity' };
+                    const mappedStat = statMap[statName] || statName;
+                    if (value > 0) {
+                        buffEffects[mappedStat] = value;
+                        hasBuffEffects = true;
+                    } else if (value < 0) {
+                        debuffEffects[mappedStat] = Math.abs(value);
+                        hasDebuffEffects = true;
+                    }
+                }
+            }
+        });
+
+        // Handle spell damage types
+        if (combatStats.spellDamage && combatStats.spellDamage.types) {
+            Object.entries(combatStats.spellDamage.types).forEach(([spellType, spellData]) => {
+                const value = typeof spellData === 'object' ? spellData.value : spellData;
+                if (value > 0) {
+                    buffEffects[`${spellType}SpellPower`] = value;
+                    hasBuffEffects = true;
+                } else if (value < 0) {
+                    debuffEffects[`${spellType}SpellPower`] = Math.abs(value);
+                    hasDebuffEffects = true;
+                }
+            });
+        }
+
+        // Handle individual spell damage types
+        SPELL_DAMAGE_TYPES.forEach(type => {
+            const typeKey = `${type}Damage`;
+            const spellPowerKey = `${type}SpellPower`;
+
+            if (combatStats[typeKey] && combatStats[typeKey].value !== 0) {
+                const value = combatStats[typeKey].value;
+                if (value > 0) {
+                    buffEffects[spellPowerKey] = value;
+                    hasBuffEffects = true;
+                } else if (value < 0) {
+                    debuffEffects[spellPowerKey] = Math.abs(value);
+                    hasDebuffEffects = true;
+                }
+            }
+
+            if (combatStats[spellPowerKey] && combatStats[spellPowerKey].value !== 0) {
+                const value = combatStats[spellPowerKey].value;
+                if (value > 0) {
+                    buffEffects[spellPowerKey] = value;
+                    hasBuffEffects = true;
+                } else if (value < 0) {
+                    debuffEffects[spellPowerKey] = Math.abs(value);
+                    hasDebuffEffects = true;
+                }
+            }
+        });
+
+        // Also check baseStats for buff/debuff effects
+        const baseStats = inventoryItem.baseStats || {};
+        let foundDuration = null;
+        Object.keys(baseStats).forEach(statName => {
+            const statData = baseStats[statName];
+            if (statData) {
+                const value = typeof statData === 'object' ? statData.value : statData;
+                if (value > 0) {
+                    buffEffects[statName] = value;
+                    hasBuffEffects = true;
+                } else if (value < 0) {
+                    debuffEffects[statName] = Math.abs(value);
+                    hasDebuffEffects = true;
+                }
+                // Extract duration from stat data if present
+                if (typeof statData === 'object' && statData.duration && !foundDuration) {
+                    foundDuration = statData.duration;
+                }
+            }
+        });
+
+        // Check combatStats for duration (e.g., maxHealth.duration)
+        if (!foundDuration && combatStats.maxHealth && combatStats.maxHealth.duration) {
+            foundDuration = combatStats.maxHealth.duration;
+        }
+
+        // Check utilityStats for duration (e.g., movementSpeed.duration)
+        const utilityStats = inventoryItem.utilityStats || {};
+        if (!foundDuration && utilityStats.movementSpeed && utilityStats.movementSpeed.duration) {
+            foundDuration = utilityStats.movementSpeed.duration;
+        }
+
+        // Check utilityStats.duration (the main duration field for consumables)
+        if (!foundDuration && utilityStats.duration) {
+            const durationValue = utilityStats.duration.value || 1;
+            const durationType = utilityStats.duration.type || 'MINUTES';
+            // Convert to seconds: ROUNDS = value * 6, MINUTES = value * 60
+            foundDuration = durationType === 'ROUNDS' ? durationValue * 6 : durationValue * 60;
+        }
+
+        // Use found duration or default to 60 seconds (1 minute)
+        const buffDuration = foundDuration || 60;
+        const debuffDuration = foundDuration || 60;
+
+        // Apply buff effects if any exist
+        if (hasBuffEffects) {
+            const gameStore = require('../../store/gameStore').default.getState();
+            addCondition('buff', {
+                name: inventoryItem.name,
+                icon: getIconUrl(inventoryItem.iconId, 'items'),
+                description: inventoryItem.description || `Temporary enhancement from ${inventoryItem.name}`,
+                effects: buffEffects,
+                duration: buffDuration,
+                source: 'consumable',
+                stackable: false,
+                targetId: gameStore.currentPlayer?.id || useCharacterStore.getState().currentCharacterId || useCharacterStore.getState().id || 'player',
+                targetType: 'player'
+            });
+        }
+
+        // Apply debuff effects if any exist
+        if (hasDebuffEffects) {
+            const gameStore = require('../../store/gameStore').default.getState();
+            addCondition('debuff', {
+                name: inventoryItem.name,
+                icon: getIconUrl(inventoryItem.iconId, 'items'),
+                description: inventoryItem.description || `Temporary negative effect from ${inventoryItem.name}`,
+                effects: debuffEffects,
+                duration: debuffDuration,
+                source: 'consumable',
+                stackable: false,
+                targetId: gameStore.currentPlayer?.id || useCharacterStore.getState().currentCharacterId || useCharacterStore.getState().id || 'player',
+                targetType: 'player'
+            });
+        }
+    }, [addCondition]);
+
+    // Apply resource adjustment with temporary resource support
+    // Now handles both single overheal and array of overheals
+    const applyResourceWithTemporary = useCallback((asTemporary, resourceType = null) => {
+        if (!overhealData) return;
+        
+        // Handle both single object and array - ensure it's always a valid array
+        const overheals = Array.isArray(overhealData) 
+            ? overhealData.filter(oh => oh != null)
+            : (overhealData && typeof overhealData === 'object' ? [overhealData] : []);
+        
+        // Safety check: ensure we have valid overheals
+        if (!Array.isArray(overheals) || overheals.length === 0) return;
+        
+        // If resourceType is specified, only process that one (for individual buttons)
+        const overhealsToProcess = resourceType 
+            ? overheals.filter(oh => oh.resourceType === resourceType)
+            : overheals;
+        
+        const tempFieldMap = {
+            'health': 'tempHealth',
+            'mana': 'tempMana',
+            'actionPoints': 'tempActionPoints'
+        };
+        
+        overhealsToProcess.forEach(overheal => {
+            const { resourceType: resType, amount, currentValue, maxValue } = overheal;
+            const tempField = tempFieldMap[resType];
+            const currentTemp = tempField === 'tempHealth' ? tempHealth : 
+                               tempField === 'tempMana' ? tempMana : tempActionPoints;
+            
+            if (asTemporary) {
+                // Add as temporary resource
+                const overhealAmount = (currentValue + amount) - maxValue;
+                
+                // Set resource to max
+                updateResource(resType, maxValue, maxValue, undefined, true);
+                
+                // Update temporary resource
+                updateTempResource(resType, currentTemp + overhealAmount);
+            } else {
+                // Just cap at max, don't add temporary
+                updateResource(resType, maxValue, maxValue);
+            }
+        });
+        
+        // Get the item from the first overheal (they should all have the same item)
+        const firstOverheal = overheals[0];
+        const item = firstOverheal?.item;
+        
+        // Check if all overheals have been processed
+        const remainingOverheals = resourceType 
+            ? overheals.filter(oh => oh.resourceType !== resourceType)
+            : [];
+        
+        // If all overheals are processed, continue with consumable effects
+        if (remainingOverheals.length === 0) {
+            // Continue with the rest of consumable effects
+            if (item) {
+                const inventoryItem = inventoryItems.find(invItem =>
+                    invItem.originalItemId === item.originalItemId || 
+                    invItem.id === item.originalItemId
+                );
+                if (inventoryItem) {
+                    applyRemainingConsumableEffects(inventoryItem);
+                }
+            }
+            
+            // Remove the item from inventory after decision is made
+            if (item) {
+                const inventoryItem = inventoryItems.find(invItem =>
+                    invItem.originalItemId === item.originalItemId || 
+                    invItem.id === item.originalItemId
+                );
+                if (inventoryItem) {
+                    removeItem(inventoryItem.id, 1);
+                }
+            }
+            
+            setShowOverhealModal(false);
+            setOverhealData(null);
+        } else {
+            // Update overheal data to remaining overheals
+            setOverhealData(remainingOverheals.length === 1 ? remainingOverheals[0] : remainingOverheals);
+        }
+    }, [overhealData, tempHealth, tempMana, tempActionPoints, updateResource, updateTempResource, inventoryItems, applyRemainingConsumableEffects, removeItem]);
+
+    // Helper function to apply consumable effects
+    const applyConsumableEffects = useCallback((item) => {
+        // Get the full item data from inventory to access combat stats
+        const inventoryItem = inventoryItems.find(invItem =>
+            invItem.originalItemId === item.originalItemId || invItem.id === item.originalItemId
+        );
+
+        if (!inventoryItem) return;
+
+        const combatStats = inventoryItem.combatStats || {};
+        const buffEffects = {};
+        const debuffEffects = {};
+        let hasInstantEffects = false;
+        let hasBuffEffects = false;
+        let hasDebuffEffects = false;
+        const pendingOverheals = []; // Array to collect all pending overheals
+
+        // Apply instant healing effects with overheal detection
+        // IMPORTANT: Check ALL resources first before applying any, to catch all overheals
+        if (combatStats.healthRestore) {
+            const healAmount = combatStats.healthRestore.value || 0;
+            if (healAmount > 0) {
+                const result = applyResourceAdjustmentWithOverheal('health', healAmount, item);
+                if (result.applied) {
+                    hasInstantEffects = true;
+                } else if (result.pendingOverheal) {
+                    pendingOverheals.push(result.pendingOverheal);
+                }
+            } else if (healAmount < 0) {
+                hasInstantEffects = true;
+                applyResourceAdjustmentWithOverheal('health', healAmount, item);
+            }
+        }
+
+        // Apply instant mana restoration with overheal detection
+        if (combatStats.manaRestore) {
+            const manaAmount = combatStats.manaRestore.value || 0;
+            if (manaAmount > 0) {
+                const result = applyResourceAdjustmentWithOverheal('mana', manaAmount, item);
+                if (result.applied) {
+                    hasInstantEffects = true;
+                } else if (result.pendingOverheal) {
+                    pendingOverheals.push(result.pendingOverheal);
+                }
+            } else if (manaAmount < 0) {
+                hasInstantEffects = true;
+                applyResourceAdjustmentWithOverheal('mana', manaAmount, item);
+            }
+        }
+
+        // Apply action point restoration with overheal detection (if supported)
+        if (combatStats.actionPointRestore || combatStats.apRestore) {
+            const apAmount = (combatStats.actionPointRestore?.value || combatStats.apRestore?.value || 0);
+            if (apAmount > 0) {
+                const result = applyResourceAdjustmentWithOverheal('actionPoints', apAmount, item);
+                if (result.applied) {
+                    hasInstantEffects = true;
+                } else if (result.pendingOverheal) {
+                    pendingOverheals.push(result.pendingOverheal);
+                }
+            } else if (apAmount < 0) {
+                hasInstantEffects = true;
+                applyResourceAdjustmentWithOverheal('actionPoints', apAmount, item);
+            }
+        }
+
+        // If there are pending overheals, show modal with all of them
+        if (pendingOverheals.length > 0) {
+            // Set overheal data - use array if multiple, single object if one
+            setOverhealData(pendingOverheals.length === 1 ? pendingOverheals[0] : pendingOverheals);
+            setShowOverhealModal(true);
+            return { hasInstantEffects: false, hasBuffEffects: false, pendingOverheal: true };
+        }
+
+        // Collect stat effects from combatStats (both positive and negative)
+        ['strength', 'agility', 'intelligence', 'constitution', 'spirit', 'charisma'].forEach(stat => {
+            if (combatStats[stat] && combatStats[stat].value !== 0) {
+                const value = combatStats[stat].value;
+                if (value > 0) {
+                    buffEffects[stat] = value;
+                    hasBuffEffects = true;
+                } else if (value < 0) {
+                    debuffEffects[stat] = Math.abs(value);
+                    hasDebuffEffects = true;
+                }
+            }
+        });
+
+        // Collect other combat stat effects
+        ['damage', 'spellDamage', 'healingPower', 'healthRegen', 'manaRegen', 'moveSpeed'].forEach(stat => {
+            if (combatStats[stat] && combatStats[stat].value !== 0) {
+                const value = combatStats[stat].value;
+                if (value > 0) {
+                    buffEffects[stat] = value;
+                    hasBuffEffects = true;
+                } else if (value < 0) {
+                    debuffEffects[stat] = Math.abs(value);
+                    hasDebuffEffects = true;
+                }
+            }
+        });
+
+        // Handle spell damage types
+        if (combatStats.spellDamage && combatStats.spellDamage.types) {
+            Object.entries(combatStats.spellDamage.types).forEach(([spellType, spellData]) => {
+                const value = typeof spellData === 'object' ? spellData.value : spellData;
+                if (value > 0) {
+                    buffEffects[`${spellType}SpellPower`] = value;
+                    hasBuffEffects = true;
+                } else if (value < 0) {
+                    debuffEffects[`${spellType}SpellPower`] = Math.abs(value);
+                    hasDebuffEffects = true;
+                }
+            });
+        }
+
+        // Handle individual spell damage types
+        SPELL_DAMAGE_TYPES.forEach(type => {
+            const typeKey = `${type}Damage`;
+            const spellPowerKey = `${type}SpellPower`;
+
+            if (combatStats[typeKey] && combatStats[typeKey].value !== 0) {
+                const value = combatStats[typeKey].value;
+                if (value > 0) {
+                    buffEffects[spellPowerKey] = value;
+                    hasBuffEffects = true;
+                } else if (value < 0) {
+                    debuffEffects[spellPowerKey] = Math.abs(value);
+                    hasDebuffEffects = true;
+                }
+            }
+
+            if (combatStats[spellPowerKey] && combatStats[spellPowerKey].value !== 0) {
+                const value = combatStats[spellPowerKey].value;
+                if (value > 0) {
+                    buffEffects[spellPowerKey] = value;
+                    hasBuffEffects = true;
+                } else if (value < 0) {
+                    debuffEffects[spellPowerKey] = Math.abs(value);
+                    hasDebuffEffects = true;
+                }
+            }
+        });
+
+        // Collect other combat stat effects
+        ['damage', 'spellDamage', 'healingPower', 'healthRegen', 'manaRegen', 'moveSpeed'].forEach(stat => {
+            if (combatStats[stat] && combatStats[stat].value !== 0) {
+                const value = combatStats[stat].value;
+                if (value > 0) {
+                    buffEffects[stat] = value;
+                    hasBuffEffects = true;
+                } else if (value < 0) {
+                    debuffEffects[stat] = Math.abs(value);
+                    hasDebuffEffects = true;
+                }
+            }
+        });
+
+        // Handle spell damage types
+        if (combatStats.spellDamage && combatStats.spellDamage.types) {
+            Object.entries(combatStats.spellDamage.types).forEach(([spellType, spellData]) => {
+                const value = typeof spellData === 'object' ? spellData.value : spellData;
+                if (value > 0) {
+                    buffEffects[`${spellType}SpellPower`] = value;
+                    hasBuffEffects = true;
+                } else if (value < 0) {
+                    debuffEffects[`${spellType}SpellPower`] = Math.abs(value);
+                    hasDebuffEffects = true;
+                }
+            });
+        }
+
+        // Handle individual spell damage types
+        SPELL_DAMAGE_TYPES.forEach(type => {
+            const typeKey = `${type}Damage`;
+            const spellPowerKey = `${type}SpellPower`;
+
+            if (combatStats[typeKey] && combatStats[typeKey].value !== 0) {
+                const value = combatStats[typeKey].value;
+                if (value > 0) {
+                    buffEffects[spellPowerKey] = value;
+                    hasBuffEffects = true;
+                } else if (value < 0) {
+                    debuffEffects[spellPowerKey] = Math.abs(value);
+                    hasDebuffEffects = true;
+                }
+            }
+
+            if (combatStats[spellPowerKey] && combatStats[spellPowerKey].value !== 0) {
+                const value = combatStats[spellPowerKey].value;
+                if (value > 0) {
+                    buffEffects[spellPowerKey] = value;
+                    hasBuffEffects = true;
+                } else if (value < 0) {
+                    debuffEffects[spellPowerKey] = Math.abs(value);
+                    hasDebuffEffects = true;
+                }
+            }
+        });
+
+        // Also check baseStats for buff/debuff effects (this is where elixirs store their stat bonuses/penalties)
+        const baseStats = inventoryItem.baseStats || {};
+        let foundDuration = null;
+        Object.keys(baseStats).forEach(statName => {
+            const statData = baseStats[statName];
+            if (statData) {
+                const value = typeof statData === 'object' ? statData.value : statData;
+                if (value > 0) {
+                    buffEffects[statName] = value;
+                    hasBuffEffects = true;
+                } else if (value < 0) {
+                    debuffEffects[statName] = Math.abs(value);
+                    hasDebuffEffects = true;
+                }
+                // Extract duration from stat data if present
+                if (typeof statData === 'object' && statData.duration && !foundDuration) {
+                    foundDuration = statData.duration;
+                }
+            }
+        });
+
+        // Collect maxHealth from combatStats
+        if (combatStats.maxHealth && combatStats.maxHealth.value !== 0) {
+            const value = combatStats.maxHealth.value;
+            if (value > 0) {
+                buffEffects.maxHealth = value;
+                hasBuffEffects = true;
+            } else if (value < 0) {
+                debuffEffects.maxHealth = Math.abs(value);
+                hasDebuffEffects = true;
+            }
+        }
+
+        // Check combatStats for duration (e.g., maxHealth.duration)
+        if (!foundDuration && combatStats.maxHealth && combatStats.maxHealth.duration) {
+            foundDuration = combatStats.maxHealth.duration;
+        }
+
+        // Check utilityStats for duration (e.g., movementSpeed.duration)
+        const utilityStats = inventoryItem.utilityStats || {};
+        if (!foundDuration && utilityStats.movementSpeed && utilityStats.movementSpeed.duration) {
+            foundDuration = utilityStats.movementSpeed.duration;
+        }
+
+        // Check utilityStats.duration (the main duration field for consumables)
+        if (!foundDuration && utilityStats.duration) {
+            const durationValue = utilityStats.duration.value || 1;
+            const durationType = utilityStats.duration.type || 'MINUTES';
+            // Convert to seconds: ROUNDS = value * 6, MINUTES = value * 60
+            foundDuration = durationType === 'ROUNDS' ? durationValue * 6 : durationValue * 60;
+        }
+
+        // Collect utilityStats effects (movementSpeed, carryingCapacity, etc.)
+        Object.keys(utilityStats).forEach(statName => {
+            if (statName === 'duration') return;
+            const statData = utilityStats[statName];
+            if (statData) {
+                const value = typeof statData === 'object' ? statData.value : statData;
+                if (value !== 0) {
+                    const statMap = { movementSpeed: 'moveSpeed', carryingCapacity: 'carryingCapacity' };
+                    const mappedStat = statMap[statName] || statName;
+                    if (value > 0) {
+                        buffEffects[mappedStat] = value;
+                        hasBuffEffects = true;
+                    } else if (value < 0) {
+                        debuffEffects[mappedStat] = Math.abs(value);
+                        hasDebuffEffects = true;
+                    }
+                }
+            }
+        });
+
+        // Use found duration or default to 60 seconds (1 minute)
+        const buffDuration = foundDuration || 60;
+        const debuffDuration = foundDuration || 60;
+
+        // Apply buff effects if any exist
+        if (hasBuffEffects) {
+            const gameStore = require('../../store/gameStore').default.getState();
+            addCondition('buff', {
+                name: inventoryItem.name,
+                icon: getIconUrl(inventoryItem.iconId, 'items'),
+                description: inventoryItem.description || `Temporary enhancement from ${inventoryItem.name}`,
+                effects: buffEffects,
+                duration: buffDuration,
+                source: 'consumable',
+                stackable: false,
+                targetId: gameStore.currentPlayer?.id || useCharacterStore.getState().currentCharacterId || useCharacterStore.getState().id || 'player',
+                targetType: 'player'
+            });
+        }
+
+        // Apply debuff effects if any exist
+        if (hasDebuffEffects) {
+            const gameStore = require('../../store/gameStore').default.getState();
+            addCondition('debuff', {
+                name: inventoryItem.name,
+                icon: getIconUrl(inventoryItem.iconId, 'items'),
+                description: inventoryItem.description || `Temporary negative effect from ${inventoryItem.name}`,
+                effects: debuffEffects,
+                duration: debuffDuration,
+                source: 'consumable',
+                stackable: false,
+                targetId: gameStore.currentPlayer?.id || useCharacterStore.getState().currentCharacterId || useCharacterStore.getState().id || 'player',
+                targetType: 'player'
+            });
+        }
+
+        return { hasInstantEffects, hasBuffEffects, pendingOverheal: false };
+    }, [inventoryItems, applyResourceAdjustmentWithOverheal, addCondition]);
+
+    const handleEquipmentActionClick = useCallback((action, e) => {
+        setOpenEquipmentSlot(null);
+
+        if (isInCombat) {
+            const currentCombatant = getCurrentCombatant();
+            if (!currentCombatant || currentCombatant.name !== useCharacterStore.getState().name) {
+                return;
+            }
+        }
+
+        if (routeSpellCast(action, { producer: 'hud-equipment' })) return;
+        setSpellToCast(action);
+        setSpellSlotIndex('equipment-action');
+        setShowSpellConfirmation(true);
+    }, [isInCombat, getCurrentCombatant]);
+
+    const handleSlotClick = useCallback((slotIndex, e) => {
+        const item = actionSlots[slotIndex];
+        if (!item) return;
+        
+        // If spell is on cooldown and user left-clicks, show cooldown menu instead of casting
+        if (item.type === 'spell' && item.cooldown > 0 && (!e || e.button === 0)) {
+            setCooldownMenuSlotIndex(slotIndex);
+            setShowCooldownMenu(true);
+            return;
+        }
+        
+        // Don't allow casting if on cooldown
+        if (item.cooldown > 0) return;
+
+        // Check combat restrictions
+        if (isInCombat) {
+            const currentCombatant = getCurrentCombatant();
+            // For now, we'll check if the current character is the active combatant
+            // This might need adjustment based on how character IDs are handled
+            if (!currentCombatant || currentCombatant.name !== useCharacterStore.getState().name) {
+                // Cannot use action - not your turn in combat
+                return;
+            }
+        }
+
+        if (item.type === 'spell') {
+            // Try to find the spell in the library first for the most up-to-date data
+            const librarySpell = spellLibrary?.spells?.find(s => s.id === item.id);
+            const spellToDisplay = librarySpell || item;
+
+            // P9: supported spells in a shared room go to the owner approval panel.
+            if (routeSpellCast(spellToDisplay, { producer: 'hud', slotIndex })) return;
+
+            // Show confirmation popup
+            setSpellToCast(spellToDisplay);
+            setSpellSlotIndex(slotIndex);
+            setShowSpellConfirmation(true);
+        } else if (item.type === 'consumable') {
+            // Use the consumable item
+            const currentQuantity = getItemQuantity(item.originalItemId);
+
+            if (currentQuantity > 0) {
+                // Apply consumable effects
+                const result = applyConsumableEffects(item);
+
+                // Only remove item if there's no pending overheal (user will decide in modal)
+                if (result && !result.pendingOverheal) {
+                    // Remove one item from inventory
+                    const inventoryItem = inventoryItems.find(invItem =>
+                        invItem.originalItemId === item.originalItemId || invItem.id === item.originalItemId
+                    );
+
+                    if (inventoryItem) {
+                        removeItem(inventoryItem.id, 1);
+                    }
+                }
+
+                // Log effect application
+                // Effects applied (instant and buff effects handled internally)
+            }
+        }
+    }, [actionSlots, isInCombat, getCurrentCombatant, spellLibrary, getItemQuantity, applyConsumableEffects, inventoryItems, removeItem]);
+
+    // Keyboard event listener for hotkey activation
+    useEffect(() => {
+        const handleKeyDown = (e) => {
+            // Don't handle if user is typing in an input field
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.isContentEditable) {
+                return;
+            }
+
+            // Don't handle if hotkey popup is open
+            if (showHotkeyPopup) {
+                return;
+            }
+
+            // Build the pressed key combination
+            let pressedKey = '';
+            if (e.ctrlKey) pressedKey += 'Ctrl+';
+            if (e.altKey) pressedKey += 'Alt+';
+            if (e.shiftKey) pressedKey += 'Shift+';
+
+            let keyName = e.key.toUpperCase();
+            if (e.key === ' ') keyName = 'Space';
+            else if (e.key.length === 1) keyName = e.key.toUpperCase();
+            else keyName = e.key;
+
+            pressedKey += keyName;
+
+            // Find the slot with this hotkey
+            const slotIndex = Object.keys(hotkeys).find(index => hotkeys[index] === pressedKey);
+
+            if (slotIndex !== undefined) {
+                e.preventDefault();
+                handleSlotClick(parseInt(slotIndex));
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [hotkeys, showHotkeyPopup, handleSlotClick]);
+
+    const handleDragOver = (e, slotIndex) => {
+        e.preventDefault();
+        e.dataTransfer.dropEffect = 'copy';
+        setDragOverSlot(slotIndex);
+    };
+
+    const handleDragLeave = (e) => {
+        if (!e.currentTarget.contains(e.relatedTarget)) {
+            setDragOverSlot(null);
+        }
+    };
+
+    const handleDrop = (e, slotIndex) => {
+        e.preventDefault();
+        setDragOverSlot(null);
+
+        try {
+            // Try to get spell data from drag event
+            const spellData = e.dataTransfer.getData('application/json');
+
+            if (spellData) {
+                const spell = JSON.parse(spellData);
+
+                // Extract cooldown from cooldownConfig
+                const cooldownConfig = spell.cooldownConfig || {};
+                const cooldownValue = cooldownConfig.value || 0;
+                const cooldownType = cooldownConfig.type || 'none';
+                
+                // Extract icon from various possible locations to ensure it's preserved
+                const iconId = spell?.typeConfig?.icon ||
+                               spell?.icon ||
+                               spell?.damageConfig?.icon ||
+                               spell?.healingConfig?.icon ||
+                               null;
+                
+                // Update the action slot with the complete spell data
+                const newSpellSlot = {
+                    // Store complete spell data for rich tooltip display
+                    ...spell,
+                    // Ensure icon is explicitly set from extracted value
+                    icon: iconId || spell.icon || 'inv_misc_questionmark',
+                    // Ensure action bar specific fields are set correctly
+                    cooldown: 0, // Current cooldown (starts at 0)
+                    maxCooldown: cooldownValue, // Max cooldown from cooldownConfig
+                    cooldownType: cooldownType !== 'none' ? cooldownType : undefined, // Store cooldown type
+                    type: 'spell' // Ensure action bar identifies this as a spell
+                };
+                updateSlot(slotIndex, newSpellSlot);
+                return;
+            }
+
+            // Try to get inventory item data
+            const itemData = e.dataTransfer.getData('text/plain');
+            if (itemData) {
+                const data = JSON.parse(itemData);
+
+                // Check if it's an inventory item and if it's consumable
+                if (data.type === 'inventory-item' && data.item && data.item.type === 'consumable') {
+                    const item = data.item;
+
+                    // Extract icon from various possible locations
+                    const iconId = item.iconId || item.icon || 'inv_potion_51';
+
+                    // Update the action slot with the consumable item
+                    const newConsumableSlot = {
+                        id: item.id,
+                        name: item.name,
+                        icon: iconId, // Ensure icon is explicitly set
+                        cooldown: 0,
+                        maxCooldown: 0,
+                        type: 'consumable',
+                        originalItemId: item.originalItemId || item.id,
+                        quality: item.quality || item.rarity || 'common',
+                        rarity: item.rarity || item.quality || 'common'
+                    };
+                    updateSlot(slotIndex, newConsumableSlot);
+                }
+            }
+        } catch (error) {
+            console.error('Error handling drop:', error);
+        }
+    };
+
+    const handleRightClick = (e, slotIndex) => {
+        e.preventDefault();
+
+        const item = actionSlots[slotIndex];
+        
+        // Shift + Right Click = Open hotkey assignment popup
+        if (e.shiftKey) {
+            setHotkeySlotIndex(slotIndex);
+            setShowHotkeyPopup(true);
+        } else if (item && item.type === 'spell') {
+            // Check if spell has cooldown configuration
+            const hasCooldown = item.cooldown > 0 || 
+                               item.maxCooldown > 0 || 
+                               (item.cooldownConfig && item.cooldownConfig.type !== 'none' && item.cooldownConfig.value > 0);
+            
+            if (hasCooldown) {
+                // Right Click on spell with cooldown = Open cooldown adjustment menu
+                setCooldownMenuSlotIndex(slotIndex);
+                setShowCooldownMenu(true);
+            } else {
+                // Regular Right Click = Remove spell/consumable from action bar
+                clearSlot(slotIndex);
+            }
+        } else {
+            // Regular Right Click = Remove spell/consumable from action bar
+            clearSlot(slotIndex);
+        }
+    };
+
+    const handleHotkeyAssign = (newHotkey) => {
+        if (hotkeySlotIndex === null) return;
+
+        // Update hotkeys state
+        const updatedHotkeys = { ...hotkeys, [hotkeySlotIndex]: newHotkey };
+        setHotkeys(updatedHotkeys);
+
+        // Save to localStorage
+        if (currentCharacterId) {
+            actionBarPersistenceService.saveHotkeys(currentCharacterId, currentRoomId, updatedHotkeys);
+        }
+
+        // Close popup
+        setShowHotkeyPopup(false);
+        setHotkeySlotIndex(null);
+    };
+
+    const handleHotkeyPopupClose = () => {
+        setShowHotkeyPopup(false);
+        setHotkeySlotIndex(null);
+    };
+
+    // Helper function to extract spell icon from various possible locations
+    const extractSpellIcon = (spell) => {
+        if (!spell) return null;
+        
+        // Extract icon from various possible locations (same logic as SpellLibrary)
+        const iconId = spell?.typeConfig?.icon ||
+                       spell?.icon ||
+                       spell?.damageConfig?.icon ||
+                       spell?.healingConfig?.icon ||
+                       null;
+
+        return iconId;
+    };
+
+    // Helper function to map WoW icon IDs to local ability icons for spells
+    const mapSpellIcon = (wowIconId) => {
+  // Use getAbilityIconUrl from assetManager for proper icon resolution
+  // This handles WoW icon IDs including talent tree icons like ability_warrior_savageblow
+  if (!wowIconId) {
+    return getCustomIconUrl('Utility/Utility', 'abilities');
+  }
+
+  // If it already has a path format (e.g., "Utility/Icon Name"), use directly
+  if (wowIconId.includes('/') && !wowIconId.startsWith('http')) {
+    return getAbilityIconUrl(wowIconId);
+  }
+
+  // For WoW icon IDs (inv_, spell_, ability_, achievement_), use getAbilityIconUrl
+  if (wowIconId.startsWith('inv_') || wowIconId.startsWith('spell_') || 
+      wowIconId.startsWith('ability_') || wowIconId.startsWith('achievement_')) {
+    return getAbilityIconUrl(wowIconId);
+  }
+
+  // Default fallback
+  return getCustomIconUrl('Utility/Utility', 'abilities');
+};
+
+    // Helper function to get spell icon URL using local ability icons
+    const getSpellIconUrl = (spell) => {
+        // Extract icon from various possible locations
+        const iconId = extractSpellIcon(spell);
+
+        // If no icon is set, use default
+        if (!iconId) {
+            return getCustomIconUrl('Utility/Utility', 'abilities');
+        }
+
+        // If it's already a full URL (ability icon), return as-is
+        if (typeof iconId === 'string' && iconId.startsWith('/assets/')) {
+            return iconId;
+        }
+
+        // Resolve via mapSpellIcon (handles path-style icons AND WoW icon IDs,
+        // returns a fully resolved URL via getAbilityIconUrl)
+        return mapSpellIcon(iconId);
+    };
+
+    const getSlotIcon = (item) => {
+        if (!item) return null;
+
+        // Handle different icon formats for spells vs consumables
+        if (item.type === 'consumable') {
+            // Use item icon URL for consumables
+            return getIconUrl(item.icon, 'items');
+        } else if (item.type === 'spell') {
+            // Use spell icon URL helper for spells
+            return getSpellIconUrl(item);
+        } else {
+            // Fallback for other types
+            return getIconUrl(item.icon, 'items');
+        }
+    };
+
+    // Helper function to get rarity border color for consumables
+    const getRarityBorderColor = (item) => {
+        if (!item || item.type !== 'consumable') return null;
+
+        const quality = item.quality || item.rarity || 'common';
+        const qualityLower = quality.toLowerCase();
+        return RARITY_COLORS[qualityLower]?.border || RARITY_COLORS.common.border;
+    };
+
+    // Enhanced tooltip handlers for consumables with bottom-aligned positioning
+    const calculateConsumableTooltipPosition = (e, item) => {
+        const mouseX = e.clientX;
+        const mouseY = e.clientY;
+        const viewportWidth = window.innerWidth;
+        const viewportHeight = window.innerHeight;
+
+        // Tooltip dimensions (based on CSS)
+        const tooltipWidth = 300; // max-width from CSS
+        const baseTooltipHeight = 200; // Base height estimate
+
+        // Estimate tooltip height based on item content
+        let estimatedHeight = baseTooltipHeight;
+        if (item) {
+            // Add height for various item properties
+            if (item.description) estimatedHeight += 40;
+            if (item.baseStats && Object.keys(item.baseStats).length > 0) {
+                estimatedHeight += Object.keys(item.baseStats).length * 20;
+            }
+            if (item.type === 'consumable' && item.effects) {
+                estimatedHeight += 60; // For consumable effects section
+            }
+            if (item.requirements) estimatedHeight += 30;
+            if (item.value) estimatedHeight += 20;
+
+            // Cap the estimated height to reasonable bounds
+            estimatedHeight = Math.min(estimatedHeight, 500);
+            estimatedHeight = Math.max(estimatedHeight, 150);
+        }
+
+        // Calculate initial position with tooltip bottom at mouse cursor
+        let x = mouseX + 15;
+        let y = mouseY - estimatedHeight;
+
+        // Check if we're near the bottom of the screen (action bar area)
+        const isNearBottom = mouseY > viewportHeight - 150; // 150px from bottom
+
+        if (isNearBottom) {
+            // Position tooltip so its bottom aligns with mouse cursor
+            y = mouseY - estimatedHeight;
+        } else {
+            // Use standard positioning for other areas
+            y = mouseY - 10;
+        }
+
+        // Adjust horizontal position if tooltip would go off screen
+        if (x + tooltipWidth > viewportWidth - 20) {
+            x = mouseX - tooltipWidth - 15; // Position to the left of cursor
+        }
+
+        // Ensure tooltip doesn't go off the left edge
+        if (x < 20) {
+            x = 20;
+        }
+
+        // Ensure tooltip doesn't go off the top
+        if (y < 20) {
+            y = 20;
+        }
+
+        // Final check: if tooltip would still go off bottom, position it above cursor
+        if (y + estimatedHeight > viewportHeight - 20) {
+            y = mouseY - estimatedHeight - 10;
+        }
+
+        return { x, y };
+    };
+
+    const handleConsumableMouseEnter = (e, item) => {
+        if (!item || item.type !== 'consumable') return;
+
+        // Clear any existing timeouts
+        if (consumableHoverTimeoutRef.current) {
+            clearTimeout(consumableHoverTimeoutRef.current);
+        }
+        if (consumableHideTimeoutRef.current) {
+            clearTimeout(consumableHideTimeoutRef.current);
+            consumableHideTimeoutRef.current = null;
+        }
+
+        // Get the full item data from inventory
+        const inventoryItem = inventoryItems.find(invItem =>
+            invItem.originalItemId === item.originalItemId || invItem.id === item.originalItemId
+        );
+
+        if (!inventoryItem) {
+            return;
+        }
+
+        // Store the element reference to avoid null reference errors
+        const targetElement = e.currentTarget;
+        if (!targetElement) return;
+
+        // Store the current mouse position for initial tooltip placement
+        const currentMouseX = e.clientX;
+        const currentMouseY = e.clientY;
+
+        // Set hover timeout
+        consumableHoverTimeoutRef.current = setTimeout(() => {
+            // Check if element still exists
+            if (!targetElement || !document.contains(targetElement)) return;
+
+            // Use mouse position for tooltip placement
+            const tooltipX = currentMouseX;
+            const tooltipY = currentMouseY;
+
+            setTooltipPosition({ x: tooltipX, y: tooltipY });
+            setTooltipItem(inventoryItem);
+            setShowTooltip(true);
+        }, 300); // 300ms delay before showing tooltip
+    };
+
+    const handleConsumableMouseMove = (e, item) => {
+        if (!item || item.type !== 'consumable') return;
+
+        // Update tooltip position to follow the mouse cursor
+        const mouseX = e.clientX;
+        const mouseY = e.clientY;
+
+        // Position tooltip relative to mouse cursor
+        const tooltipX = mouseX;
+        const tooltipY = mouseY;
+
+        // Update position whether tooltip is showing or not (for smooth appearance at current position)
+        setTooltipPosition({ x: tooltipX, y: tooltipY });
+    };
+
+    const handleConsumableMouseLeave = () => {
+        // Clear hover timeout
+        if (consumableHoverTimeoutRef.current) {
+            clearTimeout(consumableHoverTimeoutRef.current);
+            consumableHoverTimeoutRef.current = null;
+        }
+
+        // Hide tooltip immediately when leaving the action slot
+        if (consumableHideTimeoutRef.current) {
+            clearTimeout(consumableHideTimeoutRef.current);
+        }
+        setShowTooltip(false);
+        setTooltipItem(null);
+    };
+
+    const handleConsumableTooltipMouseEnter = () => {
+        // Keep tooltip visible when hovering over it
+        if (consumableHideTimeoutRef.current) {
+            clearTimeout(consumableHideTimeoutRef.current);
+            consumableHideTimeoutRef.current = null;
+        }
+    };
+
+    const handleConsumableTooltipMouseLeave = () => {
+        // Hide tooltip immediately when leaving the tooltip
+        setShowTooltip(false);
+        setTooltipItem(null);
+    };
+
+    // Equipment slot floating tooltip handlers (no full-screen modal / no cloudy overlay)
+    const handleEquipmentSlotMouseEnter = (e, item, slotName) => {
+        // Dismiss any open spell or consumable tooltip immediately
+        if (spellHoverTimeoutRef.current) {
+            clearTimeout(spellHoverTimeoutRef.current);
+            spellHoverTimeoutRef.current = null;
+        }
+        setShowSpellTooltip(false);
+        setTooltipSpell(null);
+        setShowTooltip(false);
+        setTooltipItem(null);
+
+        const itemToDisplay = item || {
+            isPlaceholder: true,
+            name: slotName === 'mainHand' ? 'Main Hand Slot' : slotName === 'offHand' ? 'Off Hand Slot' : 'Ranged Slot',
+            description: slotName === 'offHand' && isOffHandDisabled
+                ? 'Off-hand is disabled while wielding a two-handed weapon.'
+                : slotName === 'mainHand'
+                ? 'Your primary weapon used for attacking. Click to view attack and combat options.'
+                : slotName === 'offHand'
+                ? 'Secondary weapons, shields, or magical focuses. Click to view defensive and off-hand options.'
+                : 'Bows, crossbows, wands, or thrown weapons. Click to view ranged attack options.'
+        };
+
+        const rect = e?.currentTarget?.getBoundingClientRect?.() || {
+            left: (e?.clientX || 100) - 24,
+            width: 48,
+            top: (e?.clientY || window.innerHeight - 80) - 24
+        };
+        const posX = (e?.clientX && e.clientX > 0) ? e.clientX : (rect.left + rect.width / 2);
+        const posY = (e?.clientY && e.clientY > 0) ? e.clientY : rect.top;
+
+        setEquipmentMousePos({ x: posX, y: posY });
+        setEquipmentTooltipItem(itemToDisplay);
+    };
+
+    const handleEquipmentSlotMouseMove = (e) => {
+        if (e?.clientX && e?.clientY) {
+            setEquipmentMousePos({ x: e.clientX, y: e.clientY });
+        }
+    };
+
+    const handleEquipmentSlotMouseLeave = () => {
+        setEquipmentTooltipItem(null);
+    };
+
+    // Spell tooltip handlers
+    const handleSpellMouseEnter = (e, item) => {
+        if (!item || item.type === 'consumable') {
+            return;
+        }
+
+        // Dismiss any floating equipment tooltip when hovering an action bubble or slot
+        setEquipmentTooltipItem(null);
+
+        // Clear any existing timeouts
+        if (spellHoverTimeoutRef.current) {
+            clearTimeout(spellHoverTimeoutRef.current);
+            spellHoverTimeoutRef.current = null;
+        }
+        if (spellHideTimeoutRef.current) {
+            clearTimeout(spellHideTimeoutRef.current);
+            spellHideTimeoutRef.current = null;
+        }
+
+        // Try to find the spell in the library first for the most up-to-date data
+        const librarySpell = spellLibrary?.spells?.find(s => s.id === item.id);
+
+        // Use library spell if found, otherwise use the complete spell data stored in the action slot
+        const spellToDisplay = librarySpell || item;
+
+        // Ensure we have valid spell data
+        if (!spellToDisplay || !spellToDisplay.id) {
+            return;
+        }
+
+        // Check if this action is from equipment fanout / weapon action
+        const isWeaponAction = Boolean(
+            item.source === 'weapon_discipline' ||
+            item.source === 'weapon_quirk' ||
+            item.id?.startsWith('mh_') ||
+            item.id?.startsWith('oh_') ||
+            item.id?.startsWith('ranged_') ||
+            item.id?.startsWith('spec_') ||
+            item.tags?.includes('weapon') ||
+            item.tags?.includes('shield') ||
+            item.tags?.includes('reaction')
+        );
+
+        const rect = e.currentTarget?.getBoundingClientRect?.() || {
+            left: (e.clientX || 100) - 19,
+            width: 38,
+            top: (e.clientY || window.innerHeight - 80) - 19
+        };
+        const targetX = isWeaponAction ? (rect.left + rect.width / 2) : (e.clientX || rect.left + rect.width / 2);
+        const targetY = isWeaponAction ? rect.top : (e.clientY || rect.top);
+
+        // Set hover timeout: snappy 60ms for weapon bubbles, standard for action bar slots
+        spellHoverTimeoutRef.current = setTimeout(() => {
+            setIsEquipmentActionTooltip(isWeaponAction);
+            setSpellTooltipPosition({ x: targetX, y: targetY });
+            setTooltipSpell(spellToDisplay);
+            setShowSpellTooltip(true);
+            spellHoverTimeoutRef.current = null;
+        }, isWeaponAction ? 60 : 200);
+    };
+
+    const handleSpellMouseMove = (e, item) => {
+        if (!item) return;
+
+        // Weapon actions remain anchored to the bubble without mouse jitter
+        if (item.source === 'weapon_discipline' || item.source === 'weapon_quirk' || item.id?.startsWith('spec_') || item.id?.startsWith('mh_') || item.id?.startsWith('oh_') || item.id?.startsWith('ranged_')) {
+            return;
+        }
+
+        if (item.type !== 'spell') return;
+
+        // Update tooltip position to follow the mouse cursor for regular action slots
+        const mouseX = e.clientX;
+        const mouseY = e.clientY;
+
+        setSpellTooltipPosition({ x: mouseX, y: mouseY });
+    };
+
+    const handleSpellMouseLeave = () => {
+        // Clear hover timeout
+        if (spellHoverTimeoutRef.current) {
+            clearTimeout(spellHoverTimeoutRef.current);
+            spellHoverTimeoutRef.current = null;
+        }
+
+        if (spellHideTimeoutRef.current) {
+            clearTimeout(spellHideTimeoutRef.current);
+        }
+
+        // 120ms hide delay prevents tooltip from glitching out when mouse transitions between bubble and card
+        spellHideTimeoutRef.current = setTimeout(() => {
+            setShowSpellTooltip(false);
+            setTooltipSpell(null);
+            setIsEquipmentActionTooltip(false);
+            spellHideTimeoutRef.current = null;
+        }, 120);
+    };
+
+    const handleSpellTooltipMouseEnter = () => {
+        // Keep tooltip visible when hovering over it
+        if (spellHideTimeoutRef.current) {
+            clearTimeout(spellHideTimeoutRef.current);
+            spellHideTimeoutRef.current = null;
+        }
+    };
+
+    const handleSpellTooltipMouseLeave = () => {
+        // Hide tooltip when leaving the tooltip card
+        if (spellHideTimeoutRef.current) {
+            clearTimeout(spellHideTimeoutRef.current);
+            spellHideTimeoutRef.current = null;
+        }
+        setShowSpellTooltip(false);
+        setTooltipSpell(null);
+        setIsEquipmentActionTooltip(false);
+    };
+
+    // Shared slot cooldown start: the local manual path and, for P9 supported
+    // spells, only the accepted receipt (never a pending approval).
+    const startSlotCooldown = (slotIndex, item, cooldownType, cooldownValue, spellId) => {
+        if (cooldownValue > 0 && cooldownType !== 'none' && typeof slotIndex === 'number') {
+            cooldownTypesRef.current[slotIndex] = {
+                type: cooldownType,
+                value: cooldownValue,
+                startTime: Date.now(),
+                startRound: isInCombat ? round : null
+            };
+            
+            if (cooldownType === 'turn_based') {
+                const itemWithCooldown = { 
+                    ...item, 
+                    cooldown: cooldownValue,
+                    maxCooldown: cooldownValue,
+                    cooldownType: 'turn_based',
+                    cooldownStartRound: isInCombat ? round : null
+                };
+                updateSlot(slotIndex, itemWithCooldown);
+                setCooldownStore(slotIndex, {
+                    expiresAt: null,
+                    maxCooldown: cooldownValue,
+                    cooldownType: 'turn_based',
+                    spellId: item.id || spellId
+                });
+            } else if (cooldownType === 'real_time') {
+                const endTime = Date.now() + (cooldownValue * 1000);
+                const itemWithCooldown = { 
+                    ...item, 
+                    cooldown: cooldownValue,
+                    maxCooldown: cooldownValue,
+                    cooldownType: 'real_time',
+                    cooldownEndTime: endTime
+                };
+                updateSlot(slotIndex, itemWithCooldown);
+                setCooldownStore(slotIndex, {
+                    expiresAt: endTime,
+                    maxCooldown: cooldownValue,
+                    cooldownType: 'real_time',
+                    spellId: item.id || spellId
+                });
+                
+                const timer = setInterval(() => {
+                    updateActionSlots(currentSlots => {
+                        const updatedSlots = [...currentSlots];
+                        const slotItem = updatedSlots[slotIndex];
+                        if (slotItem && slotItem.cooldownEndTime) {
+                            const remaining = Math.max(0, Math.ceil((slotItem.cooldownEndTime - Date.now()) / 1000));
+                            if (remaining > 0) {
+                                updatedSlots[slotIndex] = {
+                                    ...slotItem,
+                                    cooldown: remaining
+                                };
+                            } else {
+                                updatedSlots[slotIndex] = {
+                                    ...slotItem,
+                                    cooldown: 0,
+                                    cooldownEndTime: undefined
+                                };
+                                clearInterval(timer);
+                                delete cooldownTimersRef.current[slotIndex];
+                                clearCooldownStore(slotIndex);
+                            }
+                        }
+                        return updatedSlots;
+                    });
+                }, 1000);
+                cooldownTimersRef.current[slotIndex] = timer;
+            } else {
+                const itemWithCooldown = { 
+                    ...item, 
+                    cooldown: cooldownValue,
+                    maxCooldown: cooldownValue,
+                    cooldownType 
+                };
+                updateSlot(slotIndex, itemWithCooldown);
+            }
+        }
+
+    };
+
+    // P9: cooldowns for supported spells start only from the accepted receipt.
+    const p9CooldownRef = useRef(null);
+    p9CooldownRef.current = (detail) => {
+        const item = actionSlots[detail?.slotIndex];
+        if (!item || item.id !== detail.spellId) return;
+        startSlotCooldown(detail.slotIndex, item, detail.cooldown?.type, detail.cooldown?.value, detail.spellId);
+    };
+    useEffect(() => {
+        const onAccepted = event => p9CooldownRef.current?.(event.detail);
+        window.addEventListener('mythrill:p9-spell-accepted', onAccepted);
+        return () => window.removeEventListener('mythrill:p9-spell-accepted', onAccepted);
+    }, []);
+
+    // Handle confirmed spell cast
+    const handleSpellCastConfirm = () => {
+        // P9: a supported spell in a shared room is never spent locally.
+        if (spellToCast && isP9Routed(spellToCast)) {
+            setShowSpellConfirmation(false);
+            setSpellToCast(null);
+            setSpellSlotIndex(null);
+            return;
+        }
+        if (!spellToCast || spellSlotIndex === null) {
+            setShowSpellConfirmation(false);
+            setSpellToCast(null);
+            setSpellSlotIndex(null);
+            return;
+        }
+
+        const isEquipmentAction = spellSlotIndex === 'equipment-action';
+        const item = isEquipmentAction ? spellToCast : actionSlots[spellSlotIndex];
+        if (!item) {
+            setShowSpellConfirmation(false);
+            setSpellToCast(null);
+            setSpellSlotIndex(null);
+            return;
+        }
+
+        // Extract resource costs
+        const resourceCost = spellToCast.resourceCost || {};
+        const resourceValues = resourceCost.resourceValues || {};
+        const manaCost = resourceValues.mana || resourceCost.mana || 0;
+        const apCost = resourceCost.actionPoints || 0;
+        
+        // Managed Pyrofiend plans validate the pre-cast minimum independently
+        // of ascension and apply the complete latched transition once.
+        const infernoAscend = spellToCast.infernoAscend ?? resourceValues.inferno_ascend ?? 0;
+        const infernoDescend = spellToCast.infernoDescend ?? resourceValues.inferno_descend ?? 0;
+        const infernoRequired = spellToCast.infernoRequired ?? resourceValues.inferno_required ?? 0;
+
+        // Generic class resource costs (Tension, Authority, Ancestral Resonance, …).
+        // Chronarch Time Shards keep their dedicated time_shard_* fields.
+        const genericCr = resourceCost.classResource || {};
+        const genericCrType = genericCr.type;
+        const genericCrCost = Number(genericCr.cost || 0);
+
+        // Get fresh resource state
+        const currentMana = useCharacterStore.getState().mana;
+        const currentAP = useCharacterStore.getState().actionPoints;
+        const currentClass = useCharacterStore.getState().class;
+        const currentClassResource = normalizeManagedClassResource(useCharacterStore.getState().classResource, currentClass);
+        const managedPlan = getManagedSpellResourcePlan(spellToCast, currentClassResource, currentClass);
+        const usesGenericCr = !managedPlan.handled && genericCrCost !== 0 && !!genericCrType && genericCrType !== 'time_shards';
+        if (managedPlan.handled && !managedPlan.affordable) return;
+
+        // Check if player has enough resources (validation is now done in the popup, but double-check here)
+        // Note: infernoAscend is NOT checked - it's a gain, not a requirement
+        if (manaCost > 0 && currentMana.current < manaCost) {
+            // Not enough mana to cast spell
+            // Don't close popup - let it show the error
+            return;
+        }
+
+        if (apCost > 0 && currentAP.current < apCost) {
+            // Not enough action points to cast spell
+            // Don't close popup - let it show the error
+            return;
+        }
+
+        // Only check inferno_required - inferno_ascend does NOT block casting
+        if (!managedPlan.handled && infernoRequired > 0 && (!currentClassResource || currentClassResource.current < infernoRequired)) {
+            // Not enough Inferno required to cast spell
+            // Don't close popup - let it show the error
+            return;
+        }
+
+        // Generic class resource affordability (positive cost = spend, negative = gain)
+        if (usesGenericCr && genericCrCost > 0 && (!currentClassResource || (currentClassResource.current || 0) < genericCrCost)) {
+            // Not enough class resource to cast spell
+            // Don't close popup - let it show the error
+            return;
+        }
+
+        // Check Arcanoneer Elemental Spheres
+        const isArcanoneer = !managedPlan.bank && currentClassResource && (currentClassResource.type === 'elementalSpheres' || Array.isArray(currentClassResource.spheres));
+        const requiredSpheres = [];
+        if (isArcanoneer) {
+            if (Array.isArray(spellToCast._arcanoneerElements)) {
+                spellToCast._arcanoneerElements.forEach(el => requiredSpheres.push(migrateBlockId(el)));
+            } else if (Array.isArray(spellToCast.elements)) {
+                spellToCast.elements.forEach(el => requiredSpheres.push(migrateBlockId(el)));
+            } else if (Array.isArray(resourceCost.spheres)) {
+                resourceCost.spheres.forEach(el => requiredSpheres.push(migrateBlockId(el)));
+            } else if (resourceValues) {
+                Object.entries(resourceValues).forEach(([k, v]) => {
+                    if (k.endsWith('_sphere')) {
+                        const elem = migrateBlockId(k.replace('_sphere', ''));
+                        const cnt = Number(v) || 0;
+                        for (let i = 0; i < cnt; i++) requiredSpheres.push(elem);
+                    }
+                });
+            }
+
+            if (requiredSpheres.length > 0) {
+                const currentSpheres = Array.isArray(currentClassResource.spheres)
+                    ? currentClassResource.spheres.map(migrateBlockId)
+                    : [];
+                const sphereBankCopy = [...currentSpheres];
+                for (const req of requiredSpheres) {
+                    const idx = sphereBankCopy.indexOf(req);
+                    if (idx === -1) {
+                        // Not enough spheres
+                        return;
+                    }
+                    sphereBankCopy.splice(idx, 1);
+                }
+            }
+        }
+
+        // Apply resource costs - use updateResource with proper parameters
+        if (manaCost > 0) {
+            const newMana = Math.max(0, currentMana.current - manaCost);
+            
+            // Use updateResource - pass undefined for max to keep it unchanged
+            updateResource('mana', newMana, undefined);
+            
+            // Sync to party store for HUD updates
+            try {
+                const usePartyStore = require('../../store/partyStore').default;
+                const currentMember = usePartyStore.getState().partyMembers.find(m => m.id === 'current-player');
+                if (currentMember) {
+                    usePartyStore.getState().updatePartyMember('current-player', {
+                        character: {
+                            ...currentMember.character,
+                            mana: {
+                                current: newMana,
+                                max: currentMana.max
+                            }
+                        }
+                    });
+                }
+            } catch (error) {
+                console.warn('Failed to sync mana to party store:', error);
+            }
+        }
+
+        if (apCost > 0) {
+            const newAP = Math.max(0, currentAP.current - apCost);
+            
+            // Use updateResource - pass undefined for max to keep it unchanged
+            updateResource('actionPoints', newAP, undefined);
+            
+            // Sync to party store for HUD updates
+            try {
+                const usePartyStore = require('../../store/partyStore').default;
+                const currentMember = usePartyStore.getState().partyMembers.find(m => m.id === 'current-player');
+                if (currentMember) {
+                    usePartyStore.getState().updatePartyMember('current-player', {
+                        character: {
+                            ...currentMember.character,
+                            actionPoints: {
+                                current: newAP,
+                                max: currentAP.max
+                            }
+                        }
+                    });
+                }
+            } catch (error) {
+                console.warn('Failed to sync AP to party store:', error);
+            }
+        }
+
+        // Apply class resource changes (Inferno)
+        if (!managedPlan.handled && infernoAscend > 0 && currentClassResource) {
+            const beforeInferno = currentClassResource.current;
+            gainClassResource(infernoAscend);
+            const afterInferno = Math.min(currentClassResource.max, beforeInferno + infernoAscend);
+            
+            // Sync to party store for HUD updates
+            try {
+                const usePartyStore = require('../../store/partyStore').default;
+                const currentMember = usePartyStore.getState().partyMembers.find(m => m.id === 'current-player');
+                if (currentMember && currentMember.character?.classResource) {
+                    usePartyStore.getState().updatePartyMember('current-player', {
+                        character: {
+                            ...currentMember.character,
+                            classResource: {
+                                ...currentMember.character.classResource,
+                                current: afterInferno
+                            }
+                        }
+                    });
+                }
+            } catch (error) {
+                console.warn('Failed to sync Inferno to party store:', error);
+            }
+        }
+        if (!managedPlan.handled && infernoDescend > 0 && currentClassResource) {
+            const beforeInferno = currentClassResource.current;
+            consumeClassResource(infernoDescend);
+            const afterInferno = Math.max(0, beforeInferno - infernoDescend);
+            
+            // Sync to party store for HUD updates
+            try {
+                const usePartyStore = require('../../store/partyStore').default;
+                const currentMember = usePartyStore.getState().partyMembers.find(m => m.id === 'current-player');
+                if (currentMember && currentMember.character?.classResource) {
+                    usePartyStore.getState().updatePartyMember('current-player', {
+                        character: {
+                            ...currentMember.character,
+                            classResource: {
+                                ...currentMember.character.classResource,
+                                current: afterInferno
+                            }
+                        }
+                    });
+                }
+            } catch (error) {
+                console.warn('Failed to sync Inferno to party store:', error);
+            }
+        }
+
+        if (managedPlan.handled && currentClassResource) {
+            if (managedPlan.transition === 'infernoVeil') {
+                updateClassResource('debtCall', managedPlan.nextResource.debtCall);
+                updateClassResource('current', managedPlan.nextResource.current);
+            } else if (managedPlan.transition === 'shaper') {
+                updateClassResource('current', managedPlan.nextResource.current);
+                updateClassResource('bodyToll', managedPlan.nextResource.bodyToll);
+                if (managedPlan.targetForm) updateClassResource('stance', managedPlan.targetForm);
+            } else if (managedPlan.bank) updateClassResource(managedPlan.bank, managedPlan.nextResource[managedPlan.bank]);
+            else {
+                if (managedPlan.cost > 0) consumeClassResource(managedPlan.cost, managedPlan.resourceKey);
+                if (managedPlan.gain > 0) gainClassResource(managedPlan.gain, managedPlan.resourceKey);
+            }
+            try {
+                const usePartyStore = require('../../store/partyStore').default;
+                const member = usePartyStore.getState().partyMembers.find(m => m.id === 'current-player');
+                if (member) usePartyStore.getState().updatePartyMember('current-player', {
+                    character: { ...member.character, classResource: useCharacterStore.getState().classResource }
+                });
+            } catch (error) {
+                console.warn('Failed to sync managed class resource to party store:', error);
+            }
+        }
+
+        // Apply generic class resource spend/gain (Tension, Authority, Resonance, …)
+        if (usesGenericCr && currentClassResource) {
+            const beforeCr = currentClassResource.current || 0;
+            const maxCr = currentClassResource.max || beforeCr;
+            if (genericCrCost > 0) {
+                consumeClassResource(genericCrCost);
+            } else {
+                gainClassResource(-genericCrCost);
+            }
+            const afterCr = genericCrCost > 0
+                ? Math.max(0, beforeCr - genericCrCost)
+                : Math.min(maxCr, beforeCr - genericCrCost);
+
+            // Sync to party store for HUD updates
+            try {
+                const usePartyStore = require('../../store/partyStore').default;
+                const currentMember = usePartyStore.getState().partyMembers.find(m => m.id === 'current-player');
+                if (currentMember && currentMember.character?.classResource) {
+                    usePartyStore.getState().updatePartyMember('current-player', {
+                        character: {
+                            ...currentMember.character,
+                            classResource: {
+                                ...currentMember.character.classResource,
+                                current: afterCr
+                            }
+                        }
+                    });
+                }
+            } catch (error) {
+                console.warn('Failed to sync class resource to party store:', error);
+            }
+        }
+
+        // Deduct Arcanoneer Elemental Spheres if applicable
+        if (isArcanoneer && requiredSpheres.length > 0 && Array.isArray(currentClassResource.spheres)) {
+            const nextSpheres = [...currentClassResource.spheres];
+            requiredSpheres.forEach(req => {
+                const idx = nextSpheres.indexOf(req);
+                if (idx !== -1) nextSpheres.splice(idx, 1);
+            });
+            updateClassResource('spheres', nextSpheres);
+
+            try {
+                const usePartyStore = require('../../store/partyStore').default;
+                const currentMember = usePartyStore.getState().partyMembers.find(m => m.id === 'current-player');
+                if (currentMember && currentMember.character?.classResource) {
+                    usePartyStore.getState().updatePartyMember('current-player', {
+                        character: {
+                            ...currentMember.character,
+                            classResource: {
+                                ...currentMember.character.classResource,
+                                spheres: nextSpheres
+                            }
+                        }
+                    });
+                }
+            } catch (error) {
+                console.warn('Failed to sync spheres to party store:', error);
+            }
+        }
+
+        try {
+            const gameStore = require('../../store/gameStore').default;
+            const gameState = gameStore.getState();
+            const characterStore = require('../../store/characterStore').default;
+            const characterState = characterStore.getState();
+            
+            if (gameState.isInMultiplayer && gameState.multiplayerSocket && gameState.multiplayerSocket.connected) {
+                const spellData = spellToCast;
+                const spellId = spellData.id || item.id;
+                const spellName = spellData.name || item.name || 'Unknown Spell';
+                const casterId = characterState.currentCharacterId || characterState.id;
+                
+                gameState.multiplayerSocket.emit('spell_cast', {
+                    spellId: spellId,
+                    spellName: spellName,
+                    casterId: casterId,
+                    targetIds: [],
+                    targetPositions: [],
+                    effects: spellData.effects || [],
+                    damage: spellData.damage || 0,
+                    healing: spellData.healing || 0,
+                    timestamp: Date.now()
+                });
+            }
+
+            const cooldownConfig = spellToCast.cooldownConfig || {};
+            const cooldownType = cooldownConfig.type || item.cooldownType || 'none';
+            const cooldownValue = cooldownConfig.value || item.maxCooldown || 0;
+            startSlotCooldown(spellSlotIndex, item, cooldownType, cooldownValue, spellToCast.id);
+
+            setShowSpellConfirmation(false);
+            setSpellToCast(null);
+            setSpellSlotIndex(null);
+        } catch (effectError) {
+            console.error('Spell effect application failed, rolling back resource costs:', effectError);
+
+            if (manaCost > 0) {
+                updateResource('mana', currentMana.current, undefined);
+                try {
+                    const usePartyStore = require('../../store/partyStore').default;
+                    const currentMember = usePartyStore.getState().partyMembers.find(m => m.id === 'current-player');
+                    if (currentMember) {
+                        usePartyStore.getState().updatePartyMember('current-player', {
+                            character: {
+                                ...currentMember.character,
+                                mana: { current: currentMana.current, max: currentMana.max }
+                            }
+                        });
+                    }
+                } catch (rollbackError) {
+                    console.warn('Failed to rollback mana sync:', rollbackError);
+                }
+            }
+
+            if (apCost > 0) {
+                updateResource('actionPoints', currentAP.current, undefined);
+                try {
+                    const usePartyStore = require('../../store/partyStore').default;
+                    const currentMember = usePartyStore.getState().partyMembers.find(m => m.id === 'current-player');
+                    if (currentMember) {
+                        usePartyStore.getState().updatePartyMember('current-player', {
+                            character: {
+                                ...currentMember.character,
+                                actionPoints: { current: currentAP.current, max: currentAP.max }
+                            }
+                        });
+                    }
+                } catch (rollbackError) {
+                    console.warn('Failed to rollback AP sync:', rollbackError);
+                }
+            }
+
+            if ((infernoAscend > 0 || infernoDescend > 0 || usesGenericCr) && currentClassResource) {
+                updateResource('classResource', currentClassResource.current, currentClassResource.max);
+                try {
+                    const usePartyStore = require('../../store/partyStore').default;
+                    const currentMember = usePartyStore.getState().partyMembers.find(m => m.id === 'current-player');
+                    if (currentMember && currentMember.character?.classResource) {
+                        usePartyStore.getState().updatePartyMember('current-player', {
+                            character: {
+                                ...currentMember.character,
+                                classResource: {
+                                    ...currentMember.character.classResource,
+                                    current: currentClassResource.current
+                                }
+                            }
+                        });
+                    }
+                } catch (rollbackError) {
+                    console.warn('Failed to rollback class resource sync:', rollbackError);
+                }
+            }
+        }
+    };
+
+    // Handle cancelled spell cast
+    const handleSpellCastCancel = () => {
+        setShowSpellConfirmation(false);
+        setSpellToCast(null);
+        setSpellSlotIndex(null);
+    };
+
+    // Handle cooldown adjustment
+    const handleCooldownAdjust = (newValue) => {
+        if (cooldownMenuSlotIndex === null) return;
+
+        const item = actionSlots[cooldownMenuSlotIndex];
+        if (!item) return;
+
+        const cooldownType = item.cooldownType || item.cooldownConfig?.type || 'none';
+        
+        const updatedItem = {
+            ...item,
+            cooldown: newValue,
+            maxCooldown: newValue
+        };
+
+        if (cooldownType === 'real_time' && newValue > 0) {
+            const endTime = Date.now() + (newValue * 1000);
+            updatedItem.cooldownEndTime = endTime;
+            setCooldownStore(cooldownMenuSlotIndex, {
+                expiresAt: endTime,
+                maxCooldown: newValue,
+                cooldownType: 'real_time',
+                spellId: item.id
+            });
+        } else if (cooldownType === 'turn_based' && newValue > 0) {
+            setCooldownStore(cooldownMenuSlotIndex, {
+                expiresAt: null,
+                maxCooldown: newValue,
+                cooldownType: 'turn_based',
+                spellId: item.id
+            });
+        } else {
+            clearCooldownStore(cooldownMenuSlotIndex);
+        }
+
+        updateSlot(cooldownMenuSlotIndex, updatedItem);
+    };
+
+    // Handle cooldown menu close
+    const handleCooldownMenuClose = () => {
+        setShowCooldownMenu(false);
+        setCooldownMenuSlotIndex(null);
+    };
+
+    return (
+        <>
+            <div className="action-bar-assembly">
+                {/* Left Elevated Wing: Main Hand */}
+                <div className="action-bar-wing action-bar-wing-left">
+                    <EquipmentActionSlot
+                        slotName="mainHand"
+                        item={equipment?.mainHand}
+                        actions={mhActions}
+                        isOpen={openEquipmentSlot === 'mainHand'}
+                        isDisabled={false}
+                        onToggleOpen={(slot) => setOpenEquipmentSlot(prev => prev === slot ? null : slot)}
+                        onActionClick={handleEquipmentActionClick}
+                        onActionMouseEnter={handleSpellMouseEnter}
+                        onActionMouseLeave={handleSpellMouseLeave}
+                        onActionMouseMove={handleSpellMouseMove}
+                        onSlotMouseEnter={(e, item, slotName) => handleEquipmentSlotMouseEnter(e, item, slotName)}
+                        onSlotMouseLeave={handleEquipmentSlotMouseLeave}
+                        onSlotMouseMove={handleEquipmentSlotMouseMove}
+                    />
+                </div>
+
+                <div className={`action-bar-container ${actionBarBg ? 'action-bar-has-asset' : ''}`} ref={actionBarContainerRef} style={actionBarBg ? {
+                    backgroundImage: `url(${actionBarBg})`,
+                    backgroundSize: '100% 100%',
+                    backgroundRepeat: 'no-repeat',
+                    backgroundPosition: 'center',
+                } : undefined}>
+                <div className="action-bar">
+                {actionSlots.map((item, index) => {
+                    const isConsumable = item && item.type === 'consumable';
+                    const quantity = isConsumable ? getItemQuantity(item.originalItemId) : 0;
+                    const isOutOfStock = isConsumable && quantity === 0;
+                    const rarityBorderColor = getRarityBorderColor(item);
+
+                    // Check if action is restricted due to combat
+                    const isRestricted = isInCombat && item && (() => {
+                        const currentCombatant = getCurrentCombatant();
+                        return !currentCombatant || currentCombatant.name !== useCharacterStore.getState().name;
+                    })();
+
+                    return (
+                        <div
+                            key={index}
+                            data-slot-index={index}
+                            className={`action-slot ${item ? 'filled' : 'empty'} ${
+                                item && item.cooldown > 0 ? 'on-cooldown' : ''
+                            } ${isOutOfStock ? 'out-of-stock' : ''} ${
+                                isRestricted ? 'combat-restricted' : ''
+                            } ${
+                                dragOverSlot === index ? 'drag-over' : ''
+                            }`}
+                            style={{
+                                ...(rarityBorderColor ? { borderColor: rarityBorderColor } : {}),
+                                userSelect: 'none',
+                                WebkitUserSelect: 'none',
+                                MozUserSelect: 'none',
+                                msUserSelect: 'none'
+                            }}
+                            onDragOver={(e) => handleDragOver(e, index)}
+                            onDragLeave={handleDragLeave}
+                            onDrop={(e) => handleDrop(e, index)}
+                            onClick={(e) => handleSlotClick(index, e)}
+                            onContextMenu={(e) => handleRightClick(e, index)}
+                            onMouseEnter={(e) => {
+                                if (item && item.type === 'consumable') {
+                                    handleConsumableMouseEnter(e, item);
+                                } else if (item && item.type === 'spell') {
+                                    handleSpellMouseEnter(e, item);
+                                }
+                            }}
+                            onMouseMove={(e) => {
+                                if (item && item.type === 'consumable') {
+                                    handleConsumableMouseMove(e, item);
+                                } else if (item && item.type === 'spell') {
+                                    handleSpellMouseMove(e, item);
+                                }
+                            }}
+                            onMouseLeave={() => {
+                                if (item && item.type === 'consumable') {
+                                    handleConsumableMouseLeave();
+                                } else if (item && item.type === 'spell') {
+                                    handleSpellMouseLeave();
+                                }
+                            }}
+                        >
+                            {item && (
+                                <>
+                                    <div className="action-bar-icon">
+                                        <img
+                                            src={getSlotIcon(item)}
+                                            alt={item.name || 'Action Item'}
+                                            onLoad={() => {}}
+                                            onError={(e) => {
+                                                // Fallback to a default icon if the icon fails to load
+                                                if (item.type === 'spell') {
+                                                    e.target.src = getCustomIconUrl('Utility/Utility', 'abilities');
+                                                } else {
+                                                    e.target.src = getIconUrl('inv_potion_51', 'items');
+                                                }
+                                            }}
+                                        />
+                                </div>
+
+                                {/* Cooldown overlay for spells */}
+                                {item.cooldown > 0 && (
+                                    <div className="cooldown-overlay">
+                                        <div className="cooldown-text">
+                                            {item.cooldownType === 'turn_based' 
+                                                ? `${item.cooldown} turn${item.cooldown > 1 ? 's' : ''}`
+                                                : item.cooldownType === 'real_time'
+                                                ? (() => {
+                                                    const seconds = item.cooldown;
+                                                    const minutes = Math.floor(seconds / 60);
+                                                    const remainingSeconds = seconds % 60;
+                                                    return minutes > 0 
+                                                        ? `${minutes}m ${remainingSeconds}s`
+                                                        : `${seconds}s`;
+                                                })()
+                                                : item.cooldown
+                                            }
+                                        </div>
+                                    </div>
+                                )}
+
+                                {/* Quantity display for consumables */}
+                                {isConsumable && (
+                                    <div className="quantity-display">
+                                        {quantity}
+                                    </div>
+                                )}
+                            </>
+                        )}
+                        <div className="slot-number">{hotkeys[index] || (index + 1)}</div>
+                    </div>
+                    );
+                })}
+                </div>
+            </div>
+
+            {/* Right Elevated Wing: Off Hand & Ranged */}
+            <div className="action-bar-wing action-bar-wing-right">
+                <EquipmentActionSlot
+                    slotName="offHand"
+                    item={equipment?.offHand}
+                    actions={ohActions}
+                    isOpen={openEquipmentSlot === 'offHand'}
+                    isDisabled={isOffHandDisabled}
+                    onToggleOpen={(slot) => setOpenEquipmentSlot(prev => prev === slot ? null : slot)}
+                    onActionClick={handleEquipmentActionClick}
+                    onActionMouseEnter={handleSpellMouseEnter}
+                    onActionMouseLeave={handleSpellMouseLeave}
+                    onActionMouseMove={handleSpellMouseMove}
+                    onSlotMouseEnter={(e, item, slotName) => handleEquipmentSlotMouseEnter(e, item, slotName)}
+                    onSlotMouseLeave={handleEquipmentSlotMouseLeave}
+                    onSlotMouseMove={handleEquipmentSlotMouseMove}
+                />
+                <EquipmentActionSlot
+                    slotName="ranged"
+                    item={equipment?.ranged}
+                    actions={rangedActions}
+                    isOpen={openEquipmentSlot === 'ranged'}
+                    isDisabled={false}
+                    onToggleOpen={(slot) => setOpenEquipmentSlot(prev => prev === slot ? null : slot)}
+                    onActionClick={handleEquipmentActionClick}
+                    onActionMouseEnter={handleSpellMouseEnter}
+                    onActionMouseLeave={handleSpellMouseLeave}
+                    onActionMouseMove={handleSpellMouseMove}
+                    onSlotMouseEnter={(e, item, slotName) => handleEquipmentSlotMouseEnter(e, item, slotName)}
+                    onSlotMouseLeave={handleEquipmentSlotMouseLeave}
+                    onSlotMouseMove={handleEquipmentSlotMouseMove}
+                />
+            </div>
+        </div>
+
+            {/* Hotkey Assignment Popup */}
+            {showHotkeyPopup && hotkeySlotIndex !== null && (
+                <HotkeyAssignmentPopup
+                    slotIndex={hotkeySlotIndex}
+                    currentHotkey={hotkeys[hotkeySlotIndex]}
+                    onAssign={handleHotkeyAssign}
+                    onClose={handleHotkeyPopupClose}
+                    actionBarRef={actionBarContainerRef}
+                />
+            )}
+
+            {/* Floating Equipment Slot Tooltip - No Screen Dimming */}
+            {equipmentTooltipItem && (
+                <TooltipPortal>
+                    <div
+                        ref={equipmentTooltipRef}
+                        className="equipment-slot-floating-tooltip"
+                        style={{
+                            position: 'fixed',
+                            left: `${equipmentTooltipPos.x}px`,
+                            top: `${equipmentTooltipPos.y}px`,
+                            pointerEvents: 'none',
+                            zIndex: 999999999
+                        }}
+                    >
+                        {equipmentTooltipItem.isPlaceholder ? (
+                            <div className="equipment-slot-helper-card">
+                                <div className="helper-card-title">{equipmentTooltipItem.name}</div>
+                                <div className="helper-card-desc">{equipmentTooltipItem.description}</div>
+                            </div>
+                        ) : (
+                            <ItemTooltip item={equipmentTooltipItem} />
+                        )}
+                    </div>
+                </TooltipPortal>
+            )}
+
+            {/* Consumable Tooltip - Fullscreen Modal Mode */}
+            {showTooltip && tooltipItem && (
+                ReactDOM.createPortal(
+                    <div
+                        className="spellbook-popup-overlay action-bar-consumable-tooltip"
+                        onMouseEnter={handleConsumableTooltipMouseEnter}
+                        onMouseLeave={handleConsumableTooltipMouseLeave}
+                        style={{
+                            position: 'fixed',
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                            width: '100vw',
+                            height: '100vh',
+                            background: 'radial-gradient(circle at center, rgba(100, 100, 150, 0.4) 0%, rgba(0, 0, 0, 0.8) 100%)',
+                            backdropFilter: 'blur(10px)',
+                            WebkitBackdropFilter: 'blur(10px)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            zIndex: 9999, // Lower than action bar to keep it visible
+                            cursor: 'default',
+                            margin: 0,
+                            padding: 0,
+                            pointerEvents: 'none' // Allow clicks to pass through to action bar
+                        }}
+                    >
+                        <div
+                            className="spellbook-popup-content action-bar-consumable-content"
+                            onMouseEnter={handleConsumableTooltipMouseEnter}
+                            onMouseLeave={handleConsumableTooltipMouseLeave}
+                            style={{
+                                padding: '20px',
+                                maxWidth: '600px',
+                                width: '100%',
+                                maxHeight: '90vh',
+                                overflow: 'auto',
+                                cursor: 'default',
+                                pointerEvents: 'auto' // Re-enable pointer events for the item tooltip
+                            }}
+                        >
+                            <div className="action-bar-item-tooltip-wrapper">
+                                <ItemTooltip item={tooltipItem} />
+                            </div>
+                        </div>
+                    </div>,
+                    document.body
+                )
+            )}
+
+            {/* Spell Tooltip */}
+            {showSpellTooltip && tooltipSpell && (
+                <SpellTooltip
+                    spell={tooltipSpell}
+                    position={spellTooltipPosition}
+                    onMouseEnter={handleSpellTooltipMouseEnter}
+                    onMouseLeave={handleSpellTooltipMouseLeave}
+                    fullscreenMode={!isEquipmentActionTooltip}
+                    smartPositioning={true}
+                />
+            )}
+
+            {/* Spell Cast Confirmation */}
+            {showSpellConfirmation && spellToCast && (
+                <SpellCastConfirmation
+                    spell={spellToCast}
+                    onConfirm={handleSpellCastConfirm}
+                    onCancel={handleSpellCastCancel}
+                />
+            )}
+
+            {/* Cooldown Adjustment Menu */}
+            {showCooldownMenu && cooldownMenuSlotIndex !== null && actionSlots[cooldownMenuSlotIndex] && (
+                <CooldownAdjustmentMenu
+                    slotIndex={cooldownMenuSlotIndex}
+                    item={actionSlots[cooldownMenuSlotIndex]}
+                    onAdjust={handleCooldownAdjust}
+                    onClose={handleCooldownMenuClose}
+                    actionBarRef={actionBarContainerRef}
+                />
+            )}
+
+            {/* Overheal Confirmation Modal */}
+            {showOverhealModal && overhealData && ReactDOM.createPortal(
+                <div
+                    className="modal-overlay"
+                    style={{
+                        position: 'fixed',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        zIndex: 10001,
+                        margin: 0,
+                        padding: 0
+                    }}
+                    onClick={() => {
+                        setShowOverhealModal(false);
+                        setOverhealData(null);
+                    }}
+                >
+                    <div
+                        className="overheal-modal"
+                        style={{
+                            backgroundColor: '#f0e6d2',
+                            backgroundImage: 'url("https://www.transparenttextures.com/patterns/parchment.png")',
+                            border: '3px solid #8b4513',
+                            borderRadius: '12px',
+                            padding: '24px',
+                            boxShadow: '0 10px 30px rgba(0, 0, 0, 0.5), inset 0 0 60px rgba(139, 69, 19, 0.1)',
+                            fontFamily: "'Cinzel', serif",
+                            color: '#1a0f08',
+                            minWidth: '400px',
+                            maxWidth: '500px',
+                            textAlign: 'center',
+                            position: 'relative'
+                        }}
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        {(() => {
+                            // Ensure overhealData is valid and convert to array
+                            if (!overhealData) return null;
+                            
+                            // Defensive conversion to array with explicit type checking
+                            let overhealsArray = [];
+                            try {
+                                if (Array.isArray(overhealData)) {
+                                    overhealsArray = overhealData.filter(oh => oh != null && typeof oh === 'object');
+                                } else if (overhealData && typeof overhealData === 'object' && !Array.isArray(overhealData)) {
+                                    overhealsArray = [overhealData];
+                                } else {
+                                    // If it's not an array or object, return null
+                                    console.warn('Invalid overhealData type:', typeof overhealData, overhealData);
+                                    return null;
+                                }
+                                
+                                // Force conversion to array if somehow it's still not an array
+                                if (!Array.isArray(overhealsArray)) {
+                                    overhealsArray = [];
+                                }
+                            } catch (e) {
+                                console.error('Error processing overhealData:', e, overhealData);
+                                return null;
+                            }
+                            
+                            // Safety check: ensure overhealsArray is an array with valid entries
+                            if (!Array.isArray(overhealsArray)) {
+                                console.error('overhealsArray is not an array after processing:', typeof overhealsArray, overhealsArray);
+                                return null;
+                            }
+                            
+                            if (overhealsArray.length === 0) {
+                                return null;
+                            }
+                            
+                            // Final verification that map function exists
+                            if (typeof overhealsArray.map !== 'function') {
+                                console.error('overhealsArray.map is not a function:', typeof overhealsArray, overhealsArray);
+                                // Try to force it to be an array
+                                overhealsArray = Array.from(overhealsArray);
+                                if (typeof overhealsArray.map !== 'function') {
+                                    return null;
+                                }
+                            }
+                            
+                            const firstOverheal = overhealsArray[0];
+                            const item = firstOverheal?.item;
+                            
+                            return (
+                                <>
+                                    <h3 style={{ 
+                                        margin: '0 0 20px 0', 
+                                        fontSize: '22px', 
+                                        color: '#7a3b2e',
+                                        borderBottom: '2px solid #8b4513',
+                                        paddingBottom: '10px',
+                                        textTransform: 'uppercase',
+                                        letterSpacing: '1px'
+                                    }}>
+                                        {overhealsArray.length > 1 ? 'Overheals Detected' : 'Overheal Detected'}
+                                    </h3>
+                                    
+                                    {item && (() => {
+                                        const inventoryItem = inventoryItems.find(invItem =>
+                                            invItem.originalItemId === item.originalItemId || 
+                                            invItem.id === item.originalItemId
+                                        );
+                                        const itemName = inventoryItem?.name || item.name || 'Item';
+                                        return (
+                                            <p style={{ margin: '0 0 15px 0', fontSize: '18px', fontWeight: 'bold', color: '#4a3728' }}>
+                                                {itemName}
+                                            </p>
+                                        );
+                                    })()}
+                                    
+                                    {(() => {
+                                        // Final safety check right before rendering
+                                        if (!Array.isArray(overhealsArray) || overhealsArray.length === 0) {
+                                            return null;
+                                        }
+                                        return overhealsArray.map((overheal, index) => {
+                                            if (!overheal || typeof overheal !== 'object') return null;
+                                            const resourceLabel = overheal.resourceType === 'health' ? 'HP' : 
+                                                             overheal.resourceType === 'mana' ? 'Mana' : 'AP';
+                                            return (
+                                                <div key={index} style={{ 
+                                                    marginBottom: index < overhealsArray.length - 1 ? '15px' : '20px',
+                                                    padding: '10px',
+                                                    backgroundColor: 'rgba(160, 140, 112, 0.1)',
+                                                    borderRadius: '4px'
+                                                }}>
+                                                    <p style={{ margin: '0 0 8px 0', fontSize: '14px' }}>
+                                                        This would restore <strong>{overheal.amount}</strong> {resourceLabel}, 
+                                                        but the current value is {overheal.currentValue}/{overheal.maxValue}.
+                                                    </p>
+                                                    <p style={{ margin: '0 0 10px 0', fontSize: '13px', fontWeight: 'bold' }}>
+                                                        <strong>{overheal.overhealAmount}</strong> would exceed the maximum.
+                                                    </p>
+                                                    {Array.isArray(overhealsArray) && overhealsArray.length > 1 && (
+                                                        <div style={{ display: 'flex', gap: '8px', justifyContent: 'center', marginTop: '8px' }}>
+                                                            <button
+                                                                style={{
+                                                                    padding: '6px 12px',
+                                                                    border: '1px solid #a08c70',
+                                                                    borderRadius: '4px',
+                                                                    backgroundColor: '#d4c4a8',
+                                                                    color: 'black',
+                                                                    cursor: 'pointer',
+                                                                    fontSize: '11px'
+                                                                }}
+                                                                onClick={() => applyResourceWithTemporary(true, overheal.resourceType)}
+                                                            >
+                                                                Add {resourceLabel} as Temporary
+                                                            </button>
+                                                            <button
+                                                                style={{
+                                                                    padding: '6px 12px',
+                                                                    border: '1px solid #a08c70',
+                                                                    borderRadius: '4px',
+                                                                    backgroundColor: '#d4c4a8',
+                                                                    color: 'black',
+                                                                    cursor: 'pointer',
+                                                                    fontSize: '11px'
+                                                                }}
+                                                                onClick={() => applyResourceWithTemporary(false, overheal.resourceType)}
+                                                            >
+                                                                Cap {resourceLabel} at Max
+                                                            </button>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            );
+                                        });
+                                    })()}
+                                    
+                                    <div style={{ 
+                                        display: 'flex', 
+                                        gap: '12px', 
+                                        justifyContent: 'center', 
+                                        marginTop: '25px',
+                                        paddingTop: '20px',
+                                        borderTop: '1px solid rgba(139, 69, 19, 0.2)'
+                                    }}>
+                                        <Button
+                                            variant="game-secondary"
+                                            onClick={() => {
+                                                setShowOverhealModal(false);
+                                                setOverhealData(null);
+                                            }}
+                                        >
+                                            Cancel
+                                        </Button>
+                                        
+                                        {Array.isArray(overhealsArray) && overhealsArray.length === 1 && (
+                                            <>
+                                                <Button
+                                                    variant="game-secondary"
+                                                    onClick={() => applyResourceWithTemporary(false)}
+                                                >
+                                                    Cap at Max
+                                                </Button>
+                                                <Button
+                                                    variant="game-primary"
+                                                    onClick={() => applyResourceWithTemporary(true)}
+                                                >
+                                                    Add Temporary
+                                                </Button>
+                                            </>
+                                        )}
+                                        
+                                        {Array.isArray(overhealsArray) && overhealsArray.length > 1 && (
+                                            <>
+                                                <Button
+                                                    variant="game-secondary"
+                                                    onClick={() => {
+                                                        // Process all overheals at once
+                                                        (Array.isArray(overhealsArray) ? overhealsArray : []).forEach(oh => {
+                                                            updateResource(oh.resourceType, oh.maxValue, oh.maxValue);
+                                                        });
+                                                        
+                                                        // Continue with consumable effects
+                                                        const item = firstOverheal?.item;
+                                                        if (item) {
+                                                            const inventoryItem = inventoryItems.find(invItem =>
+                                                                invItem.originalItemId === item.originalItemId || 
+                                                                invItem.id === item.originalItemId
+                                                            );
+                                                            if (inventoryItem) {
+                                                                applyRemainingConsumableEffects(inventoryItem);
+                                                            }
+                                                        }
+                                                        
+                                                        // Remove item
+                                                        if (item) {
+                                                            const inventoryItem = inventoryItems.find(invItem =>
+                                                                invItem.originalItemId === item.originalItemId || 
+                                                                invItem.id === item.originalItemId
+                                                            );
+                                                            if (inventoryItem) {
+                                                                removeItem(inventoryItem.id, 1);
+                                                            }
+                                                        }
+                                                        
+                                                        setShowOverhealModal(false);
+                                                        setOverhealData(null);
+                                                    }}
+                                                >
+                                                    Cap All
+                                                </Button>
+                                                <Button
+                                                    variant="game-primary"
+                                                    onClick={() => {
+                                                        // Process all overheals at once
+                                                        (Array.isArray(overhealsArray) ? overhealsArray : []).forEach(oh => {
+                                                            const tempFieldMap = {
+                                                                'health': 'tempHealth',
+                                                                'mana': 'tempMana',
+                                                                'actionPoints': 'tempActionPoints'
+                                                            };
+                                                            const tempField = tempFieldMap[oh.resourceType];
+                                                            const currentTemp = tempField === 'tempHealth' ? tempHealth : 
+                                                                               tempField === 'tempMana' ? tempMana : tempActionPoints;
+                                                            const overhealAmount = (oh.currentValue + oh.amount) - oh.maxValue;
+                                                            updateResource(oh.resourceType, oh.maxValue, oh.maxValue, undefined, true);
+                                                            updateTempResource(oh.resourceType, currentTemp + overhealAmount);
+                                                        });
+                                                        
+                                                        // Continue with consumable effects
+                                                        const item = firstOverheal?.item;
+                                                        if (item) {
+                                                            const inventoryItem = inventoryItems.find(invItem =>
+                                                                invItem.originalItemId === item.originalItemId || 
+                                                                invItem.id === item.originalItemId
+                                                            );
+                                                            if (inventoryItem) {
+                                                                applyRemainingConsumableEffects(inventoryItem);
+                                                            }
+                                                        }
+                                                        
+                                                        // Remove item
+                                                        if (item) {
+                                                            const inventoryItem = inventoryItems.find(invItem =>
+                                                                invItem.originalItemId === item.originalItemId || 
+                                                                invItem.id === item.originalItemId
+                                                            );
+                                                            if (inventoryItem) {
+                                                                removeItem(inventoryItem.id, 1);
+                                                            }
+                                                        }
+                                                        
+                                                        setShowOverhealModal(false);
+                                                        setOverhealData(null);
+                                                    }}
+                                                >
+                                                    Add All Temp
+                                                </Button>
+                                            </>
+                                        )}
+                                    </div>
+                                </>
+                            );
+                        })()}
+                    </div>
+                </div>,
+                document.body
+            )}
+
+            {/* Experience Bar - Below Action Bar */}
+            <ExperienceBar currentXP={experience} />
+        </>
+    );
+};
+
+export default ActionBar;

@@ -262,8 +262,6 @@ ${item.notes ? `**Notes:**\n${item.notes}` : ''}`;
         <i className="fas fa-grip-lines-vertical"></i>
       </div>
 
-      <div className="custom-zone-sidebar-accent" style={{ background: zone.color || typeConfig.color }} />
-
       {/* Header bar */}
       <div className="custom-zone-header-top">
         <div className="custom-zone-type-badge">
@@ -832,7 +830,7 @@ Effect: Failed targets suffer 1 stack of Frost-Strain, reducing movement speed b
                 style={{
                   background: preset.stroke,
                   transform: isCurrent ? 'scale(1.2)' : 'scale(1)',
-                  boxShadow: isCurrent ? `0 0 0 2px #2b1408, 0 0 0 4.5px ${preset.stroke}` : 'none',
+                  boxShadow: isCurrent ? `0 0 0 2px #faf6ee, 0 0 0 4px ${preset.stroke}` : 'none',
                   transition: 'all 0.18s ease'
                 }}
                 onClick={() => onUpdateZone && onUpdateZone(zone.id, {

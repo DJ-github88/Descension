@@ -250,6 +250,9 @@ const REGISTRY_ENTRIES = [
   recoverable('room.featherSlashLatest', 'Latest original P8 Feather Slash command/result', [
     { builder: 'mythrill_feather_slash_latest_{roomId}' }
   ], { allowedScopeKinds: Object.freeze(['user']), notes: 'One latest immutable command/result per authenticated owner and room. Explicit same-command checking only; never an offline replay queue or checkpoint confirmation.' }),
+  recoverable('room.spellConsequenceLatest', 'Latest original P9 owner spell approval/result', [
+    { builder: 'mythrill_spell_consequence_latest_{roomId}' }
+  ], { allowedScopeKinds: Object.freeze(['user']), notes: 'One latest owner approval (exact bytes and recorded roll) per authenticated owner and room. Same-approval checking only; never an offline replay queue, reroll or checkpoint confirmation.' }),
 
   // ── Core private working projections ─────────────────────────────────────
   recoverable('core.inventory', 'Private inventory working state', ['inventory']),
@@ -606,6 +609,8 @@ export const FROZEN_SLICE1_FAMILY_IDS = Object.freeze([
   'localRoom.activeFlag',
   // P8 additive, explicitly classified latest-action custody (original families retained).
   'room.featherSlashLatest',
+  // P9 additive latest owner spell approval custody.
+  'room.spellConsequenceLatest',
   // Core working projections
   'core.inventory',
   'core.mapWorking',

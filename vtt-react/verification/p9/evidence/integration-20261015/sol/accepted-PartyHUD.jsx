@@ -1,0 +1,4521 @@
+import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
+import { createPortal } from 'react-dom';
+import { useShallow } from 'zustand/react/shallow';
+import Draggable from 'react-draggable';
+// Removed: Resizable - not used
+import usePartyStore from '../../store/partyStore';
+import useTargetingStore from '../../store/targetingStore';
+import useCharacterStore from '../../store/characterStore';
+import useGameStore from '../../store/gameStore';
+import useSettingsStore from '../../store/settingsStore';
+import useConditionStore from '../../store/conditionStore';
+import useCharacterTokenStore from '../../store/characterTokenStore';
+import { CONDITIONS } from '../../data/conditionsData';
+import useChatStore from '../../store/chatStore';
+import usePresenceStore from '../../store/presenceStore';
+import useAuthStore from '../../store/authStore'; // CRITICAL: For userId identification
+import useCreatureStore from '../../store/creatureStore';
+import { getTokensForClass, getTokensForRace, resolveClassId } from '../../data/summonableTokens';
+import ClassResourceBar from './ClassResourceBar';
+import SummonTokenBar from './SummonTokenBar';
+import StatVial from './StatVial';
+import ConditionDurationModal from '../modals/ConditionDurationModal';
+import { showPlayerLeaveNotification } from '../../utils/playerNotifications';
+import { getRaceHeritageLabel } from '../../utils/raceDisplayNames';
+import { getBackgroundData } from '../../data/backgroundData';
+import Button from '../common/Button';
+import { getCustomBackgroundData, getEnhancedPathData } from '../../data/legacyDisciplineData';
+import { getIconUrl, getCustomIconUrl } from '../../utils/assetManager';
+import { getClassIconUrl } from '../../utils/classIconUtils';
+import PortraitLightbox from './PortraitLightbox';
+import useFitText from './useFitText';
+import './PortraitLightbox.css';
+import UnifiedContextMenu from '../level-editor/UnifiedContextMenu';
+// REMOVED: import 'react-resizable/css/styles.css'; // CAUSES CSS POLLUTION - loaded centrally
+// REMOVED: import '../../styles/party-hud.css'; // CAUSES CSS POLLUTION - loaded centrally
+import ActorConsequenceControls from './ActorConsequenceControls';
+import SpellConsequenceHost from './SpellConsequencePanel';
+// REMOVED: import './styles/ClassResourceBar.css'; // CAUSES CSS POLLUTION - loaded centrally
+
+// Athien and Human bloodlines carry only the bloodline name in race data; the
+// heritage line appends the people/species (e.g. "Riven",
+// "Tallyn (Human)") so the lineage is always clear.
+const BACKGROUND_ICON_OVERRIDES = {
+    pilgrim: 'person-walking',
+    courier: 'horse',
+    scribe: 'feather-pointed',
+    'noble scion': 'crown',
+    scholar: 'book',
+    veteran: 'shield-halved',
+    negotiator: 'scale-balanced',
+    storyteller: 'masks-theater',
+    smith: 'hammer',
+    survivor: 'shield-virus',
+    mountaineer: 'mountain',
+    sailor: 'ship',
+    smuggler: 'sack-dollar',
+    urchin: 'coins',
+    'relic hunter': 'gem',
+    ranger: 'tree',
+    engineer: 'gear',
+    herder: 'wheat-awn',
+    astronomer: 'star',
+    archivist: 'book',
+    guardian: 'shield',
+    navigator: 'compass',
+    scout: 'map',
+    delver: 'mountain',
+    trader: 'sack-dollar',
+    sentry: 'shield',
+    builder: 'hammer',
+    clerk: 'feather-pointed',
+    broker: 'scale-balanced',
+    privateer: 'ship',
+    nameless: 'user-secret',
+    'crypt-keeper': 'skull',
+    cartographer: 'compass',
+    vanguard: 'meteor',
+    clockmaker: 'clock',
+    prospector: 'flask',
+    mason: 'hammer',
+    tollkeeper: 'bridge',
+    herald: 'scroll',
+    scavenger: 'sack-dollar',
+    listener: 'water',
+    envoy: 'handshake',
+    pathfinder: 'map',
+    stoker: 'fire',
+    skimmer: 'person-skating',
+    apothecary: 'mortar-pestle',
+    tracker: 'shoe-prints',
+    chanter: 'music',
+    harpooner: 'anchor',
+    gardener: 'seedling',
+    forester: 'tree',
+    arbitrator: 'gavel',
+    'hunter\'s reversal': 'crosshairs'
+};
+const DEFAULT_BACKGROUND_ICON = 'scroll';
+
+function getBackgroundArchetypeIcon(backgroundName) {
+    if (!backgroundName) return null;
+    const key = String(backgroundName).toLowerCase().trim();
+    return BACKGROUND_ICON_OVERRIDES[key] || DEFAULT_BACKGROUND_ICON;
+}
+
+
+// Helper to check if an ID belongs to the current player
+// CRITICAL FIX: Check against userId (Firebase UID) FIRST, then server UUID, then socket.io ID
+// SECURITY FIX: Return false if myIds is not populated (aggressive security)
+function isSelfId(id, userId, myIds = {}) {
+    if (!id) return false;
+    
+    // 1. Try checking against passed-in reactive IDs (tab-specific and most reliable)
+    if (myIds.serverId && id === myIds.serverId) return true;
+    if (myIds.socketId && id === myIds.socketId) return true;
+    if (myIds.userId && (id === myIds.userId || userId === myIds.userId)) return true;
+
+    // 2. Handle 'current-player' magic string
+    if (id === 'current-player') return true;
+
+    // 3. Fallback to store state (global but non-reactive)
+    try {
+        const gameSate = useGameStore.getState();
+        const serverId = gameSate.currentPlayer?.id;
+        const socketId = gameSate.multiplayerSocket?.id;
+        const authUid = useAuthStore.getState().user?.uid;
+
+        if (id === serverId || id === socketId) return true;
+        if (authUid && (id === authUid || userId === authUid)) return true;
+    } catch (e) {
+        // Silent fail on store access errors
+    }
+
+    return false;
+}
+
+const resolveBackgroundName = (bgId, bgDisplayName, loreObj) => {
+    const sanitize = (val) => {
+        if (!val || typeof val !== 'string') return '';
+        const trimmed = val.trim();
+        return (trimmed.toLowerCase() === 'none' || trimmed.toLowerCase() === 'unknown') ? '' : trimmed;
+    };
+
+    const cleanDisplayName = sanitize(bgDisplayName);
+    if (cleanDisplayName) return cleanDisplayName;
+
+    const candidateId = sanitize(bgId);
+    if (candidateId) {
+        const bgData = getBackgroundData(candidateId);
+        if (bgData) return bgData.name;
+
+        const bgDataLower = getBackgroundData(candidateId.toLowerCase());
+        if (bgDataLower) return bgDataLower.name;
+
+        const customBgData = getCustomBackgroundData(candidateId.toLowerCase());
+        if (customBgData) return customBgData.name;
+
+        return candidateId;
+    }
+
+    const loreBg = sanitize(loreObj?.background) || sanitize(loreObj?.socialBackground) || sanitize(loreObj?.backgroundDisplayName);
+    if (loreBg) {
+        const bgData = getBackgroundData(loreBg);
+        if (bgData) return bgData.name;
+
+        const customBgData = getCustomBackgroundData(loreBg.toLowerCase());
+        if (customBgData) return customBgData.name;
+
+        return loreBg;
+    }
+
+    return '';
+};
+
+const getMemberStableKey = (member, myIds) => {
+    if (!member) return 'unknown-member';
+    const isSelf = isSelfId(member.userId, member.userId, myIds) ||
+        isSelfId(member.id, member.userId, myIds) ||
+        isSelfId(member.socketId, member.userId, myIds) ||
+        member.id === 'current-player';
+    if (isSelf) return 'current-player';
+    return member.userId || member.character?.id || member.id || member.socketId || member.name || 'party-member';
+};
+
+const getMemberAliases = (member, myIds) => {
+    if (!member) return [];
+    const isSelf = isSelfId(member.userId, member.userId, myIds) ||
+        isSelfId(member.id, member.userId, myIds) ||
+        isSelfId(member.socketId, member.userId, myIds) ||
+        member.id === 'current-player';
+    const keys = new Set();
+    if (isSelf) {
+        keys.add('current-player');
+    }
+    if (member.userId) keys.add(member.userId);
+    if (member.id) keys.add(member.id);
+    if (member.socketId) keys.add(member.socketId);
+    if (member.character?.id) keys.add(member.character.id);
+    return Array.from(keys);
+};
+
+// Quick-adjust steps per corner mount (mirrors the right-click menu's
+// most-used options). Left-clicking a mount opens this; right-click menu stays.
+const MOUNT_ADJUST_STEPS = {
+    health: [-5, -1, 1, 5],
+    mana: [-5, -1, 1, 5],
+    actionPoints: [-3, -2, -1, 1, 2, 3],
+};
+const MOUNT_RESOURCE_TYPE = { health: 'health', mana: 'mana', ap: 'actionPoints' };
+const MOUNT_TITLES = { health: 'Health', mana: 'Mana', ap: 'Action Points' };
+
+const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContextMenu, onResourceAdjust, onBuffContextMenu, onClassResourceUpdate, onRegisterRefs }) => {
+    const frameRef = useRef(null);
+    const healthBarRef = useRef(null);
+    const manaBarRef = useRef(null);
+    const apBarRef = useRef(null);
+    const { setTarget, currentTarget, clearTarget } = useTargetingStore();
+    const isGMMode = useGameStore(state => state.isGMMode);
+    const showPartyManaBar = useSettingsStore(state => state.showPartyManaBar ?? true);
+    const showPartyAPBar = useSettingsStore(state => state.showPartyAPBar ?? true);
+    const updatePartyMember = usePartyStore(state => state.updatePartyMember);
+
+    // Get current player data directly from character store (always call hook, but only use if isCurrentPlayer)
+    const currentPlayerStoreData = useCharacterStore(state => ({
+        race: state.race,
+        raceDisplayName: state.raceDisplayName,
+        class: state.class,
+        background: state.background,
+        backgroundDisplayName: state.backgroundDisplayName,
+        path: state.path,
+        pathDisplayName: state.pathDisplayName,
+        alignment: state.alignment,
+        exhaustionLevel: state.exhaustionLevel,
+        lore: state.lore,
+        level: state.level
+    }));
+
+    // Subscribe to characterImage separately for reliable HUD portrait updates
+    const currentPlayerCharImage = useCharacterStore(state => state.lore?.characterImage || null);
+    const currentPlayerCharIcon = useCharacterStore(state => state.lore?.characterIcon || null);
+    const currentPlayerImgTransforms = useCharacterStore(state => state.lore?.imageTransformations || null);
+    const currentPlayerIconSettings = useCharacterStore(state => ({
+        iconBackgroundColor: state.lore?.iconBackgroundColor || null,
+        iconBorderColor: state.lore?.iconBorderColor || null,
+        iconBackgroundImage: state.lore?.iconBackgroundImage || null,
+        iconScale: state.lore?.iconScale ?? 1,
+        iconOffsetX: state.lore?.iconOffsetX ?? 0,
+        iconOffsetY: state.lore?.iconOffsetY ?? 0,
+        iconBackgroundScale: state.lore?.iconBackgroundScale ?? 2.5,
+        iconBackgroundOffsetX: state.lore?.iconBackgroundOffsetX ?? 0,
+        iconBackgroundOffsetY: state.lore?.iconBackgroundOffsetY ?? 0,
+    }));
+
+    // Only use store data if this is the current player
+    const currentPlayerData = isCurrentPlayer ? currentPlayerStoreData : null;
+    
+    // Subscribe to activeBuffs to trigger re-renders when buffs change
+    const activeBuffs = useConditionStore(state => state.activeBuffs);
+    const activeDebuffs = useConditionStore(state => state.activeDebuffs);
+    
+    const {
+        getConditionsForTarget,
+        getRemainingTime,
+        updateConditionTimers,
+        removeCondition,
+        updateConditionDuration
+    } = useConditionStore();
+    const { characterTokens, updateCharacterTokenState } = useCharacterTokenStore();
+    const [showTooltip, setShowTooltip] = useState(false);
+    const [tooltipData, setTooltipData] = useState(null);
+    const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0, transformX: -50, transformY: -100 });
+    const [forceUpdate, setForceUpdate] = useState(0);
+    const [conditionContextMenu, setConditionContextMenu] = useState({ show: false, condition: null, position: { x: 0, y: 0 } });
+    const [showDurationModal, setShowDurationModal] = useState(false);
+    const [durationModalCondition, setDurationModalCondition] = useState(null);
+    const tooltipTimeoutRef = useRef(null);
+    // Enlarged portrait popup (click portrait to zoom)
+    const [showPortraitZoom, setShowPortraitZoom] = useState(false);
+    // Quick-adjust popover for the corner mounts (HP bottle / mana crystal / AP boot)
+    const [mountMenu, setMountMenu] = useState(null);
+    const mountMenuRef = useRef(null);
+    // Inline edit of the current value inside the mount popover (null = not editing)
+    const [mountEditValue, setMountEditValue] = useState(null);
+    const mountEditCommittedRef = useRef(false);
+
+    // Long names shrink to fit the header row instead of spilling out of the
+    // frame (min-width: min-content would otherwise defeat ellipsis).
+    const nameRef = useFitText(member.name);
+
+    // Same permission gate as the right-click resource submenus (GM or self)
+    const canAdjustMounts = isCurrentPlayer || isGMMode;
+
+    const openMountMenu = (kind) => (e) => {
+        e.stopPropagation();
+        if (!canAdjustMounts) return;
+        const rect = e.currentTarget.getBoundingClientRect();
+        const menuWidth = 196;
+        const menuHeight = 104;
+        const x = Math.max(8, Math.min(rect.left + rect.width / 2 - menuWidth / 2, window.innerWidth - menuWidth - 8));
+        // AP boot sits top-left: menu drops below it; vials pop above
+        const y = kind === 'ap'
+            ? rect.bottom + 8
+            : Math.max(8, rect.top - menuHeight - 8);
+        setMountEditValue(null);
+        setMountMenu({ kind, x, y });
+    };
+
+    // Close the mount menu on outside click
+    useEffect(() => {
+        if (!mountMenu) return;
+        const onDown = (e) => {
+            if (mountMenuRef.current && !mountMenuRef.current.contains(e.target)) {
+                setMountMenu(null);
+            }
+        };
+        const id = setTimeout(() => document.addEventListener('mousedown', onDown), 0);
+        return () => { clearTimeout(id); document.removeEventListener('mousedown', onDown); };
+    }, [mountMenu]);
+
+    const isTargeted = currentTarget?.id === member.id;
+
+    // Resolved portrait URL for the enlarge-on-click lightbox (same source as the frame portrait)
+    const portraitLightboxImage = useMemo(() => {
+        const charImage = isCurrentPlayer
+            ? currentPlayerCharImage
+            : (member.character?.lore?.characterImage || null);
+        const charIcon = isCurrentPlayer
+            ? currentPlayerCharIcon
+            : (member.character?.lore?.characterIcon || null);
+        if (charImage) return charImage;
+        if (charIcon) {
+            try {
+                return getCustomIconUrl(charIcon, 'creatures');
+            } catch {
+                return null;
+            }
+        }
+        // No portrait chosen: fall back to the character's class icon
+        const className = isCurrentPlayer
+            ? (currentPlayerData?.class || '')
+            : (member.character?.class || '');
+        return getClassIconUrl(className, { variant: 'transparent' }) || getClassIconUrl(className);
+    }, [isCurrentPlayer, currentPlayerCharImage, currentPlayerCharIcon, currentPlayerData?.class, member.character?.lore?.characterImage, member.character?.lore?.characterIcon, member.character?.class]);
+
+    const portraitLightboxSubtitle = useMemo(() => {
+        const cls = member.character?.class || '';
+        const lvl = member.character?.level || member.level || '';
+        return [cls, lvl ? `Level ${lvl}` : ''].filter(Boolean).join(' • ');
+    }, [member.character?.class, member.character?.level, member.level]);
+
+    // Scene backdrop for icon portraits in the lightbox (matches the HUD's
+    // icon background; full uploaded portraits already carry their own scene)
+    const portraitLightboxBackground = useMemo(() => {
+        const charImage = isCurrentPlayer
+            ? currentPlayerCharImage
+            : (member.character?.lore?.characterImage || null);
+        const charIcon = isCurrentPlayer
+            ? currentPlayerCharIcon
+            : (member.character?.lore?.characterIcon || null);
+        const className = isCurrentPlayer
+            ? (currentPlayerData?.class || '')
+            : (member.character?.class || '');
+        const hasIconPortrait = Boolean(charIcon) || (!charImage && Boolean(getClassIconUrl(className)));
+        if (charImage || !hasIconPortrait) return null;
+        const settings = isCurrentPlayer
+            ? currentPlayerIconSettings
+            : {
+                iconBackgroundColor: member.character?.lore?.iconBackgroundColor || null,
+                iconBackgroundImage: member.character?.lore?.iconBackgroundImage || null
+            };
+        if (settings.iconBackgroundImage) {
+            return {
+                image: `/assets/Backgrounds/${encodeURIComponent(settings.iconBackgroundImage)}`,
+                color: '#1a140e'
+            };
+        }
+        // Same default parchment backdrop the HUD paints behind icons
+        return { image: null, color: settings.iconBackgroundColor || '#f8f5eb' };
+    }, [
+        isCurrentPlayer,
+        currentPlayerCharImage,
+        currentPlayerCharIcon,
+        currentPlayerData?.class,
+        currentPlayerIconSettings,
+        member.character?.lore?.characterImage,
+        member.character?.lore?.characterIcon,
+        member.character?.lore?.iconBackgroundColor,
+        member.character?.lore?.iconBackgroundImage,
+        member.character?.class
+    ]);
+
+    // Register refs with parent component
+    useEffect(() => {
+        if (onRegisterRefs) {
+            onRegisterRefs(member.id, {
+                health: healthBarRef,
+                mana: manaBarRef,
+                actionPoints: apBarRef
+            });
+        }
+    }, [member.id, onRegisterRefs]);
+
+    // Cleanup tooltip timeout on unmount
+    useEffect(() => {
+        return () => {
+            if (tooltipTimeoutRef.current) {
+                clearTimeout(tooltipTimeoutRef.current);
+            }
+        };
+    }, []);
+
+    // Timer to update buff, debuff, and condition displays every second
+    useEffect(() => {
+        // Get all relevant IDs for this member
+        const memberId = member.id;
+        const memberUserId = member.userId;
+        const memberSocketId = member.socketId;
+
+        // Get conditions from member's character token
+        const memberToken = characterTokens.find(t => 
+            t.playerId === memberId || 
+            t.playerId === memberUserId || 
+            t.playerId === memberSocketId ||
+            t.id === memberId
+        );
+        
+        // Always return a cleanup function to ensure consistent hook count
+        const interval = setInterval(() => {
+            if (document.hidden) return;
+            // Global condition cleanup only needs to run once per client; gate to the
+            // current player's interval to avoid N redundant cleanups for N party members.
+            if (isCurrentPlayer) {
+                updateConditionTimers('buff');
+                updateConditionTimers('debuff');
+                // Clean up expired conditions from character tokens
+                const { cleanupExpiredConditions } = useCharacterTokenStore.getState();
+                cleanupExpiredConditions();
+                // Clean up expired conditions from creature tokens
+                const { cleanupExpiredConditions: cleanupCreatureConditions } = useCreatureStore.getState();
+                cleanupCreatureConditions();
+            }
+            setForceUpdate(prev => prev + 1); // Force re-render to update timer displays (including conditions)
+        }, 1000);
+
+        return () => clearInterval(interval);
+    }, [isCurrentPlayer, member.id, getConditionsForTarget, updateConditionTimers, characterTokens]);
+
+    const handleRightClick = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        onContextMenu(e, member);
+    };
+
+    
+    // Calculate resource percentages and colors
+    const healthPercent = (member.character?.health?.current || 0) / (member.character?.health?.max || 1) * 100;
+    const manaPercent = (member.character?.mana?.current || 0) / (member.character?.mana?.max || 1) * 100;
+    const apPercent = (member.character?.actionPoints?.current || 0) / (member.character?.actionPoints?.max || 1) * 100;
+
+    const getHealthColor = (percent) => {
+        if (percent > 75) return '#506e30';
+        if (percent > 50) return '#7a6812';
+        if (percent > 25) return '#9a5e15';
+        return '#8b3a2a';
+    };
+
+
+    const STAT_DISPLAY_MAP = {
+        'strength': 'Strength', 'agility': 'Agility', 'constitution': 'Constitution',
+        'intelligence': 'Intelligence', 'spirit': 'Spirit', 'charisma': 'Charisma',
+        'str': 'Strength', 'agi': 'Agility', 'con': 'Constitution',
+        'int': 'Intelligence', 'spi': 'Spirit', 'spir': 'Spirit', 'cha': 'Charisma',
+        'armor': 'Armor', 'damage': 'Damage', 'spelldamage': 'Spell Damage',
+        'maxhp': 'Max Health', 'maxhealth': 'Max Health', 'max_hp': 'Max Health', 'max_health': 'Max Health',
+        'maxmana': 'Max Mana', 'max_mana': 'Max Mana', 'maxmp': 'Max Mana', 'max_mp': 'Max Mana',
+        'maxap': 'Max Action Points', 'maxactionpoints': 'Max Action Points', 'max_ap': 'Max Action Points', 'max_action_points': 'Max Action Points',
+        'healingpower': 'Healing Power', 'healthregen': 'Health Regen', 'manaregen': 'Mana Regen',
+        'movespeed': 'Movement Speed', 'move_speed': 'Movement Speed', 'movementspeed': 'Movement Speed', 'speed': 'Movement Speed',
+        'actionpoints': 'Action Points', 'action_points': 'Action Points',
+        'firespellpower': 'Fire Power', 'frostspellpower': 'Frost Power', 'arcanespellpower': 'Arcane Power',
+        'shadowspellpower': 'Shadow Power', 'holyspellpower': 'Holy Power', 'naturespellpower': 'Nature Power',
+        'lightningspellpower': 'Lightning Power', 'coldspellpower': 'Cold Power', 'acidspellpower': 'Acid Power',
+        'forcespellpower': 'Force Power', 'thunderspellpower': 'Thunder Power', 'chaosspellpower': 'Chaos Power',
+        'necroticspellpower': 'Necrotic Power', 'radiantspellpower': 'Radiant Power'
+    };
+
+    const resolveStatName = (stat) => {
+        let statName = STAT_DISPLAY_MAP[stat.toLowerCase()];
+        if (!statName) {
+            statName = stat
+                .replace(/([A-Z])/g, ' $1')
+                .replace(/_/g, ' ')
+                .split(' ')
+                .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+                .join(' ')
+                .trim();
+        }
+        return statName;
+    };
+
+    const UNIT_STATS = new Set(['movespeed', 'move_speed', 'movementspeed', 'speed', 'movement speed']);
+
+    const formatBuffEffects = (effects) => {
+        if (!effects || typeof effects !== 'object') return null;
+
+        const effectLines = [];
+        Object.entries(effects).forEach(([stat, value]) => {
+            if (value !== 0 && value !== null && value !== undefined) {
+                const statName = resolveStatName(stat);
+                const absVal = Math.abs(value);
+                const unitSuffix = UNIT_STATS.has(stat.toLowerCase()) ? ' units' : '';
+                if (value > 0) {
+                    effectLines.push(`Increases ${statName} by ${absVal}${unitSuffix}`);
+                } else {
+                    effectLines.push(`Decreases ${statName} by ${absVal}${unitSuffix}`);
+                }
+            }
+        });
+
+        return effectLines.length > 0 ? effectLines.join(', ') : null;
+    };
+
+    const formatDebuffEffects = (effects) => {
+        if (!effects || typeof effects !== 'object') return null;
+
+        const effectLines = [];
+        Object.entries(effects).forEach(([stat, value]) => {
+            if (value !== 0 && value !== null && value !== undefined) {
+                const statName = resolveStatName(stat);
+                const absVal = Math.abs(value);
+                const unitSuffix = UNIT_STATS.has(stat.toLowerCase()) ? ' units' : '';
+                effectLines.push(`Decreases ${statName} by ${absVal}${unitSuffix}`);
+            }
+        });
+
+        return effectLines.length > 0 ? effectLines.join(', ') : null;
+    };
+
+    // Buff tooltip handlers - Match TargetHUD format
+    const handleBuffMouseEnter = (e, buff) => {
+        // Clear any existing timeout
+        if (tooltipTimeoutRef.current) {
+            clearTimeout(tooltipTimeoutRef.current);
+            tooltipTimeoutRef.current = null;
+        }
+
+        const remainingTime = getRemainingTime(buff.id);
+
+        // Format time to match TargetHUD
+        const formatTime = (seconds, durationType = 'minutes') => {
+            if (seconds <= 0) return durationType === 'rounds' ? '0 rounds' : '0:00';
+            if (durationType === 'rounds') {
+                const rounds = Math.ceil(seconds / 6);
+                return rounds === 1 ? '1 round' : `${rounds} rounds`;
+            }
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = seconds % 60;
+            return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+        };
+
+        // Format effects for display
+        const formattedEffects = formatBuffEffects(buff.effects);
+        const effectSummary = formattedEffects || buff.effectSummary;
+
+        setTooltipData({
+            title: buff.name,
+            effectSummary: effectSummary,
+            description: buff.description,
+            duration: formatTime(remainingTime, buff.durationType),
+            effects: buff.effects
+        });
+
+        // Calculate position to keep tooltip on screen
+        const tooltipWidth = 350; // max-width from CSS
+        const tooltipHeight = 400; // max-height from CSS
+        const padding = 10;
+        const offset = 15; // Distance from cursor
+
+        const viewportWidth = window.innerWidth;
+        const viewportHeight = window.innerHeight;
+
+        // Start with preferred position: above and to the right of cursor
+        let x = e.clientX + offset;
+        let y = e.clientY - offset - tooltipHeight; // Position above cursor
+
+        // Check if tooltip would go off right edge
+        if (x + tooltipWidth > viewportWidth - padding) {
+            // Try left side of cursor
+            x = e.clientX - tooltipWidth - offset;
+            // If still off screen, center it
+            if (x < padding) {
+                x = Math.max(padding, (viewportWidth - tooltipWidth) / 2);
+            }
+        }
+
+        // Check if tooltip would go off left edge
+        if (x < padding) {
+            x = padding;
+        }
+
+        // Check if tooltip would go off top edge
+        if (y < padding) {
+            // Position below cursor instead
+            y = e.clientY + offset;
+            // If it would go off bottom, position it above but clamp to top
+            if (y + tooltipHeight > viewportHeight - padding) {
+                y = Math.max(padding, viewportHeight - tooltipHeight - padding);
+            }
+        }
+
+        // Check if tooltip would go off bottom edge
+        if (y + tooltipHeight > viewportHeight - padding) {
+            y = viewportHeight - tooltipHeight - padding;
+        }
+
+        // Final clamping to ensure tooltip is always within viewport
+        x = Math.max(padding, Math.min(x, viewportWidth - tooltipWidth - padding));
+        y = Math.max(padding, Math.min(y, viewportHeight - tooltipHeight - padding));
+
+        setTooltipPosition({ x, y, transformX: 0, transformY: 0 });
+        setShowTooltip(true);
+    };
+
+    const handleBuffMouseMove = (e) => {
+        if (showTooltip) {
+            // Calculate position to keep tooltip on screen
+            const tooltipWidth = 350;
+            const tooltipHeight = 400;
+            const padding = 10;
+            const offset = 15;
+
+            const viewportWidth = window.innerWidth;
+            const viewportHeight = window.innerHeight;
+
+            // Start with preferred position: above and to the right of cursor
+            let x = e.clientX + offset;
+            let y = e.clientY - offset - tooltipHeight; // Position above cursor
+
+            // Check if tooltip would go off right edge
+            if (x + tooltipWidth > viewportWidth - padding) {
+                // Try left side of cursor
+                x = e.clientX - tooltipWidth - offset;
+                // If still off screen, center it
+                if (x < padding) {
+                    x = Math.max(padding, (viewportWidth - tooltipWidth) / 2);
+                }
+            }
+
+            // Check if tooltip would go off left edge
+            if (x < padding) {
+                x = padding;
+            }
+
+            // Check if tooltip would go off top edge
+            if (y < padding) {
+                // Position below cursor instead
+                y = e.clientY + offset;
+                // If it would go off bottom, position it above but clamp to top
+                if (y + tooltipHeight > viewportHeight - padding) {
+                    y = Math.max(padding, viewportHeight - tooltipHeight - padding);
+                }
+            }
+
+            // Check if tooltip would go off bottom edge
+            if (y + tooltipHeight > viewportHeight - padding) {
+                y = viewportHeight - tooltipHeight - padding;
+            }
+
+            // Final clamping to ensure tooltip is always within viewport
+            x = Math.max(padding, Math.min(x, viewportWidth - tooltipWidth - padding));
+            y = Math.max(padding, Math.min(y, viewportHeight - tooltipHeight - padding));
+
+            setTooltipPosition({ x, y, transformX: 0, transformY: 0 });
+        }
+    };
+
+    const getExhaustionTooltipDescription = (level) => {
+        const levels = [
+            "Level 1: Disadvantage on all ability checks",
+            "Level 2: Movement speed is halved",
+            "Level 3: Disadvantage on attack rolls and saving throws",
+            "Level 4: Maximum hit points are halved",
+            "Level 5: Movement speed is reduced to 0",
+            "Level 6: Instantaneous death"
+        ];
+
+        return (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', marginTop: '6px' }}>
+                <div style={{ fontWeight: 'bold', color: '#5c4033', marginBottom: '2px', borderBottom: '1px solid rgba(139, 115, 85, 0.2)', paddingBottom: '2px' }}>Exhaustion Effects:</div>
+                {level > 0 && (
+                    <div style={{ fontSize: '10.5px', color: '#8b5a2b', fontStyle: 'italic', marginBottom: '4px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                        <i className="fas fa-info-circle" style={{ color: '#8b5a2b' }}></i>
+                        <span>Effects stack: Levels 1 to {level} are active.</span>
+                    </div>
+                )}
+                {levels.map((text, idx) => {
+                    const isCurrent = level === idx + 1;
+                    const isActive = level >= idx + 1;
+                    
+                    let icon;
+                    if (isCurrent) {
+                        if (idx === 5) {
+                            icon = <i className="fas fa-skull" style={{ color: '#b30000', fontSize: '11px' }}></i>;
+                        } else {
+                            icon = <i className="fas fa-exclamation-circle" style={{ color: '#b30000', fontSize: '11px' }}></i>;
+                        }
+                    } else if (isActive) {
+                        icon = <i className="fas fa-check" style={{ color: '#704a38', fontSize: '11px' }}></i>;
+                    } else {
+                        icon = <i className="far fa-circle" style={{ color: '#a0a0a0', fontSize: '11px' }}></i>;
+                    }
+
+                    return (
+                        <div 
+                            key={idx} 
+                            style={{ 
+                                color: isCurrent ? '#b30000' : (isActive ? '#704a38' : '#7a7a7a'),
+                                fontWeight: isCurrent ? 'bold' : 'normal',
+                                fontStyle: isActive && !isCurrent ? 'italic' : 'normal',
+                                fontSize: '11px',
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '6px'
+                            }}
+                        >
+                            <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: '14px' }}>{icon}</span>
+                            <span>{text}</span>
+                        </div>
+                    );
+                })}
+            </div>
+        );
+    };
+
+    const handleExhaustionMouseEnter = (e, level) => {
+        if (tooltipTimeoutRef.current) {
+            clearTimeout(tooltipTimeoutRef.current);
+            tooltipTimeoutRef.current = null;
+        }
+
+        const summaries = [
+            "Level 0: Active and healthy. You suffer no exhaustion penalties.",
+            "Level 1: You have disadvantage on all ability checks.",
+            "Level 2: Your movement speed is halved.",
+            "Level 3: You have disadvantage on attack rolls and saving throws.",
+            "Level 4: Your maximum hit points are halved.",
+            "Level 5: Your movement speed is reduced to 0.",
+            "Level 6: Instantaneous death."
+        ];
+
+        setTooltipData({
+            title: `Exhaustion (Level ${level})`,
+            effectSummary: summaries[level] || summaries[0],
+            description: getExhaustionTooltipDescription(level)
+        });
+
+        // Calculate position to keep tooltip on screen
+        const tooltipWidth = 350;
+        const tooltipHeight = 220; // Exhaustion list is short
+        const padding = 10;
+        const offset = 15;
+
+        const viewportWidth = window.innerWidth;
+        const viewportHeight = window.innerHeight;
+
+        let x = e.clientX + offset;
+        let y = e.clientY - offset - tooltipHeight;
+
+        if (x + tooltipWidth > viewportWidth - padding) {
+            x = e.clientX - tooltipWidth - offset;
+            if (x < padding) {
+                x = Math.max(padding, (viewportWidth - tooltipWidth) / 2);
+            }
+        }
+        if (x < padding) {
+            x = padding;
+        }
+        if (y < padding) {
+            y = e.clientY + offset;
+            if (y + tooltipHeight > viewportHeight - padding) {
+                y = Math.max(padding, viewportHeight - tooltipHeight - padding);
+            }
+        }
+        if (y + tooltipHeight > viewportHeight - padding) {
+            y = viewportHeight - tooltipHeight - padding;
+        }
+
+        setTooltipPosition({ x, y, transformX: 0, transformY: 0 });
+        setShowTooltip(true);
+    };
+
+    const handleBuffMouseLeave = () => {
+        // Add a small delay to prevent flickering when moving between elements
+        tooltipTimeoutRef.current = setTimeout(() => {
+            setShowTooltip(false);
+            setTooltipData(null);
+            tooltipTimeoutRef.current = null;
+        }, 100);
+    };
+
+    // Buff context menu handler
+    const handleBuffRightClick = (e, buff) => {
+        e.preventDefault();
+        e.stopPropagation();
+        onBuffContextMenu(e, buff);
+    };
+
+    // Debuff tooltip handlers - Match TargetHUD format
+    const handleDebuffMouseEnter = (e, debuff) => {
+        // Clear any existing timeout
+        if (tooltipTimeoutRef.current) {
+            clearTimeout(tooltipTimeoutRef.current);
+            tooltipTimeoutRef.current = null;
+        }
+
+        const remainingTime = getRemainingTime('debuff', debuff.id);
+
+        // Format time to match TargetHUD
+        const formatTime = (seconds, durationType = 'minutes') => {
+            if (seconds <= 0) return durationType === 'rounds' ? '0 rounds' : '0:00';
+            if (durationType === 'rounds') {
+                const rounds = Math.ceil(seconds / 6);
+                return rounds === 1 ? '1 round' : `${rounds} rounds`;
+            }
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = seconds % 60;
+            return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+        };
+
+        const formattedEffects = formatDebuffEffects(debuff.effects);
+        const effectSummary = formattedEffects || debuff.effectSummary;
+
+        setTooltipData({
+            title: debuff.name,
+            effectSummary: effectSummary,
+            description: debuff.description,
+            duration: formatTime(remainingTime, debuff.durationType),
+            effects: debuff.effects
+        });
+
+        // Calculate position to keep tooltip on screen
+        const tooltipWidth = 350;
+        const tooltipHeight = 400;
+        const padding = 10;
+        const offset = 15;
+
+        const viewportWidth = window.innerWidth;
+        const viewportHeight = window.innerHeight;
+
+        // Start with preferred position: above and to the right of cursor
+        let x = e.clientX + offset;
+        let y = e.clientY - offset - tooltipHeight; // Position above cursor
+
+        // Check if tooltip would go off right edge
+        if (x + tooltipWidth > viewportWidth - padding) {
+            // Try left side of cursor
+            x = e.clientX - tooltipWidth - offset;
+            // If still off screen, center it
+            if (x < padding) {
+                x = Math.max(padding, (viewportWidth - tooltipWidth) / 2);
+            }
+        }
+
+        // Check if tooltip would go off left edge
+        if (x < padding) {
+            x = padding;
+        }
+
+        // Check if tooltip would go off top edge
+        if (y < padding) {
+            // Position below cursor instead
+            y = e.clientY + offset;
+            // If it would go off bottom, position it above but clamp to top
+            if (y + tooltipHeight > viewportHeight - padding) {
+                y = Math.max(padding, viewportHeight - tooltipHeight - padding);
+            }
+        }
+
+        // Check if tooltip would go off bottom edge
+        if (y + tooltipHeight > viewportHeight - padding) {
+            y = viewportHeight - tooltipHeight - padding;
+        }
+
+        // Final clamping to ensure tooltip is always within viewport
+        x = Math.max(padding, Math.min(x, viewportWidth - tooltipWidth - padding));
+        y = Math.max(padding, Math.min(y, viewportHeight - tooltipHeight - padding));
+
+        setTooltipPosition({ x, y, transformX: 0, transformY: 0 });
+        setShowTooltip(true);
+    };
+
+    const handleDebuffMouseMove = (e) => {
+        if (showTooltip) {
+            // Calculate position to keep tooltip on screen
+            const tooltipWidth = 350;
+            const tooltipHeight = 400;
+            const padding = 10;
+            const offset = 15;
+
+            const viewportWidth = window.innerWidth;
+            const viewportHeight = window.innerHeight;
+
+            // Start with preferred position: above and to the right of cursor
+            let x = e.clientX + offset;
+            let y = e.clientY - offset - tooltipHeight; // Position above cursor
+
+            // Check if tooltip would go off right edge
+            if (x + tooltipWidth > viewportWidth - padding) {
+                // Try left side of cursor
+                x = e.clientX - tooltipWidth - offset;
+                // If still off screen, center it
+                if (x < padding) {
+                    x = Math.max(padding, (viewportWidth - tooltipWidth) / 2);
+                }
+            }
+
+            // Check if tooltip would go off left edge
+            if (x < padding) {
+                x = padding;
+            }
+
+            // Check if tooltip would go off top edge
+            if (y < padding) {
+                // Position below cursor instead
+                y = e.clientY + offset;
+                // If it would go off bottom, position it above but clamp to top
+                if (y + tooltipHeight > viewportHeight - padding) {
+                    y = Math.max(padding, viewportHeight - tooltipHeight - padding);
+                }
+            }
+
+            // Check if tooltip would go off bottom edge
+            if (y + tooltipHeight > viewportHeight - padding) {
+                y = viewportHeight - tooltipHeight - padding;
+            }
+
+            // Final clamping to ensure tooltip is always within viewport
+            x = Math.max(padding, Math.min(x, viewportWidth - tooltipWidth - padding));
+            y = Math.max(padding, Math.min(y, viewportHeight - tooltipHeight - padding));
+
+            setTooltipPosition({ x, y, transformX: 0, transformY: 0 });
+        }
+    };
+
+    const handleDebuffMouseLeave = () => {
+        // Add a small delay to prevent flickering when moving between elements
+        tooltipTimeoutRef.current = setTimeout(() => {
+            setShowTooltip(false);
+            setTooltipData(null);
+            tooltipTimeoutRef.current = null;
+        }, 100);
+    };
+
+    // Debuff context menu handler
+    const handleDebuffRightClick = (e, debuff) => {
+        e.preventDefault();
+        e.stopPropagation();
+        onBuffContextMenu(e, debuff); // Reuse the same context menu handler
+    };
+
+    // Condition context menu handler
+    
+    // Remove condition handler
+    const handleRemoveCondition = () => {
+        if (!conditionContextMenu.condition) return;
+
+        const condition = conditionContextMenu.condition;
+        const type = condition.type;
+
+        if (type === 'buff') {
+            removeCondition('buff', condition.id);
+        } else if (type === 'debuff') {
+            removeCondition('debuff', condition.id);
+        } else {
+            // Handle actual conditions from token.state.conditions
+            const memberToken = characterTokens.find(t => 
+                t.playerId === member.id || 
+                t.playerId === member.userId || 
+                t.playerId === member.socketId ||
+                t.id === member.id
+            );
+            if (memberToken?.state?.conditions) {
+                const updatedConditions = memberToken.state.conditions.filter(c =>
+                    !(c.id === condition.id || c.name === condition.name)
+                );
+                updateCharacterTokenState(memberToken.id, { conditions: updatedConditions });
+            }
+        }
+
+        setConditionContextMenu({ show: false, condition: null, position: { x: 0, y: 0 } });
+    };
+
+    // Adjust condition duration handler
+    const handleAdjustConditionTime = () => {
+        if (!conditionContextMenu.condition) return;
+
+        const condition = conditionContextMenu.condition;
+        const type = condition.type;
+
+        let currentDuration = 0;
+        if (type === 'buff') {
+            currentDuration = getRemainingTime('buff', condition.id);
+        } else if (type === 'debuff') {
+            currentDuration = getRemainingTime('debuff', condition.id);
+        } else {
+            // For conditions, calculate from appliedAt and duration
+            if (condition.appliedAt && condition.duration) {
+                currentDuration = Math.max(0, Math.floor((condition.appliedAt + condition.duration - Date.now()) / 1000));
+            }
+        }
+
+        // Calculate current values for the modal
+        const isRoundBased = condition.durationType === 'rounds';
+        let initialDurationType, initialDurationValue;
+
+        if (isRoundBased) {
+            initialDurationType = 'rounds';
+            initialDurationValue = Math.ceil(currentDuration / 6); // Convert seconds to rounds
+        } else {
+            // For time-based durations, determine the best unit
+            if (currentDuration >= 3600) {
+                initialDurationType = 'hours';
+                initialDurationValue = Math.ceil(currentDuration / 3600);
+            } else if (currentDuration >= 60) {
+                initialDurationType = 'minutes';
+                initialDurationValue = Math.ceil(currentDuration / 60);
+            } else {
+                initialDurationType = 'minutes';
+                initialDurationValue = Math.max(1, Math.ceil(currentDuration / 60));
+            }
+        }
+
+        // Store the condition data with initial values for the modal
+        setDurationModalCondition({
+            ...conditionContextMenu.condition,
+            initialDurationType,
+            initialDurationValue
+        });
+        setShowDurationModal(true);
+        setConditionContextMenu({ show: false, condition: null, position: { x: 0, y: 0 } });
+    };
+
+    const handleDurationModalApply = (durationData) => {
+        if (!durationModalCondition) return;
+
+        const condition = durationModalCondition.condition || durationModalCondition;
+        const type = condition.type;
+
+        // Convert the duration data to the format expected by the stores
+        let duration, durationType;
+
+        if (durationData.durationType === 'rounds') {
+            duration = durationData.durationValue;
+            durationType = 'rounds';
+        } else {
+            // Convert from milliseconds to seconds for the store
+            duration = Math.ceil(durationData.duration / 1000);
+            durationType = durationData.durationType;
+        }
+
+        if (type === 'buff') {
+            updateConditionDuration('buff', condition.id, duration, durationType);
+        } else if (type === 'debuff') {
+            updateConditionDuration('debuff', condition.id, duration, durationType);
+        } else {
+            // For conditions, update the token's condition
+            const memberToken = characterTokens.find(t => 
+                t.playerId === member.id || 
+                t.playerId === member.userId || 
+                t.playerId === member.socketId ||
+                t.id === member.id
+            );
+            if (memberToken?.state?.conditions) {
+                const updatedConditions = memberToken.state.conditions.map(c => {
+                    if (c.id === condition.id || c.name === condition.name) {
+                        return {
+                            ...c,
+                            duration: durationData.durationType === 'rounds' ? durationData.durationValue * 6000 : durationData.duration,
+                            durationType: durationData.durationType,
+                            appliedAt: Date.now()
+                        };
+                    }
+                    return c;
+                });
+                updateCharacterTokenState(memberToken.id, { conditions: updatedConditions });
+            }
+        }
+
+        setShowDurationModal(false);
+        setDurationModalCondition(null);
+    };
+
+    // Check if character has a class resource bar to add appropriate styling
+    const hasClassResource = member.character?.class && member.character?.classResource;
+    const classResourceType = member.character?.class?.toLowerCase().replace(/\s+/g, '-');
+
+    // Extract level and exhaustion for frame-wide use (Portrait Level Orb & Status Indicators)
+    const characterLevel = isCurrentPlayer && currentPlayerData
+        ? (currentPlayerData.level || member.character?.level || 1)
+        : (member.character?.level || member.level || 1);
+
+    const exhaustionLevel = isCurrentPlayer && currentPlayerData
+        ? (currentPlayerData.exhaustionLevel || 0)
+        : (member.character?.exhaustionLevel || 0);
+
+    const isExhaustionEditable = isCurrentPlayer || isGMMode;
+
+    // Class identity for the banner pinned under the portrait (frame-level, so
+    // it can anchor to the portrait cutout instead of the text column)
+    const frameClassName = isCurrentPlayer && currentPlayerData
+        ? (currentPlayerData.class || '')
+        : (member.character?.class || '');
+    const frameClassPath = (() => {
+        if (isCurrentPlayer && currentPlayerData) {
+            let path = currentPlayerData.pathDisplayName || '';
+            if (!path && currentPlayerData.path) {
+                const pathData = getEnhancedPathData(currentPlayerData.path);
+                if (pathData) path = pathData.name;
+            }
+            return path;
+        }
+        let path = member.character?.pathDisplayName || '';
+        if (!path && member.character?.path) {
+            const pathData = getEnhancedPathData(member.character.path);
+            if (pathData) path = pathData.name;
+        }
+        return path;
+    })();
+    const frameClassLabel = frameClassName && frameClassName.toLowerCase() !== 'unknown class'
+        ? (frameClassPath ? `${frameClassName} (${frameClassPath})` : frameClassName)
+        : '';
+
+    const alignmentStr = isCurrentPlayer && currentPlayerData
+        ? (currentPlayerData.alignment || 'Neutral')
+        : (member.character?.alignment || 'Neutral');
+
+    const alignmentTone = alignmentStr.toLowerCase().includes('good') ? 'good'
+        : alignmentStr.toLowerCase().includes('evil') ? 'evil'
+        : 'neutral';
+
+    return (
+        <>
+            <div
+                ref={frameRef}
+                data-player-id={member.id}
+                className={`party-member-frame ${isCurrentPlayer ? 'current-player' : ''} ${isTargeted ? 'targeted' : ''} ${hasClassResource ? 'has-class-resource' : ''} ${hasClassResource ? `class-${classResourceType}` : ''}`}
+                onContextMenu={handleRightClick}
+            >
+                {/* Alignment Plaque Mounted in Middle of Top Frame Border */}
+                {alignmentStr && (
+                    <div className={`member-alignment-tag ${alignmentTone}`} title={`Alignment: ${alignmentStr}`}>
+                        {alignmentStr}
+                    </div>
+                )}
+
+                {/* Portrait: absolutely positioned by CSS into the frame's portrait cutout */}
+                <div
+                    className="party-portrait"
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        setShowPortraitZoom(true);
+                    }}
+                    title={`Enlarge portrait of ${member.name || 'character'} (click to zoom)`}
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            setShowPortraitZoom(true);
+                        }
+                    }}
+                >
+                    {(() => {
+                        // For current player, use direct store subscriptions (always up to date)
+                        // For party members, fall back to member.character.lore
+                        const charImage = isCurrentPlayer
+                            ? currentPlayerCharImage
+                            : (member.character?.lore?.characterImage || null);
+                        const charIcon = isCurrentPlayer
+                            ? currentPlayerCharIcon
+                            : (member.character?.lore?.characterIcon || null);
+                        const transforms = isCurrentPlayer
+                            ? currentPlayerImgTransforms
+                            : (member.character?.lore?.imageTransformations || null);
+                        const iconSettings = isCurrentPlayer
+                            ? currentPlayerIconSettings
+                            : {
+                                iconBackgroundColor: member.character?.lore?.iconBackgroundColor || null,
+                                iconBorderColor: member.character?.lore?.iconBorderColor || null,
+                                iconBackgroundImage: member.character?.lore?.iconBackgroundImage || null,
+                                iconScale: member.character?.lore?.iconScale ?? 1,
+                                iconOffsetX: member.character?.lore?.iconOffsetX ?? 0,
+                                iconOffsetY: member.character?.lore?.iconOffsetY ?? 0,
+                                iconBackgroundScale: member.character?.lore?.iconBackgroundScale ?? 2.5,
+                                iconBackgroundOffsetX: member.character?.lore?.iconBackgroundOffsetX ?? 0,
+                                iconBackgroundOffsetY: member.character?.lore?.iconBackgroundOffsetY ?? 0,
+                            };
+
+                        // Resolve the portrait: uploaded image → chosen icon → class icon placeholder
+                        const classFallback = (!charImage && !charIcon && frameClassName && frameClassName.toLowerCase() !== 'unknown class')
+                            ? (getClassIconUrl(frameClassName, { variant: 'transparent' }) || getClassIconUrl(frameClassName))
+                            : null;
+                        const resolvedImage = charImage || (charIcon ? getCustomIconUrl(charIcon, 'creatures') : classFallback);
+
+                        if (resolvedImage) {
+                            // For icons: show scene background behind the icon, matching character sheet style
+                            const isIcon = !charImage && (charIcon || classFallback);
+                            const containerStyle = {
+                                width: '100%',
+                                height: '100%',
+                                backgroundRepeat: 'no-repeat',
+                            };
+
+                            if (isIcon) {
+                                // Scene background behind the icon
+                                containerStyle.backgroundColor = iconSettings.iconBackgroundImage
+                                    ? '#1a140e'
+                                    : (iconSettings.iconBackgroundColor || '#f8f5eb');
+                                if (iconSettings.iconBackgroundImage) {
+                                    containerStyle.backgroundImage = `url(/assets/Backgrounds/${encodeURIComponent(iconSettings.iconBackgroundImage)})`;
+                                    containerStyle.backgroundSize = 'cover';
+                                    containerStyle.backgroundPosition = `calc(50% + ${iconSettings.iconBackgroundOffsetX || 0}px) center`;
+                                }
+                                containerStyle.display = 'flex';
+                                containerStyle.alignItems = 'center';
+                                containerStyle.justifyContent = 'center';
+                            }
+
+                            return (
+                                <div style={containerStyle}>
+                                    {isIcon ? (
+                                        <img
+                                            src={resolvedImage}
+                                            style={{
+                                                display: 'block',
+                                                width: '100%',
+                                                height: '100%',
+                                                objectFit: 'cover',
+                                                objectPosition: 'center',
+                                                transformOrigin: 'center center',
+                                                transform: `scale(${(iconSettings.iconScale || 1) * 1.1}) translate(${iconSettings.iconOffsetX || 0}px, ${iconSettings.iconOffsetY || 0}px)`,
+                                            }}
+                                            draggable={false}
+                                        />
+                                    ) : (
+                                        <div style={{
+                                            width: '100%',
+                                            height: '100%',
+                                            backgroundImage: `url(${resolvedImage})`,
+                                            backgroundSize: transforms ? `${(transforms.scale || 1) * 130}%` : '140%',
+                                            backgroundPosition: transforms
+                                                ? `${50 + (transforms.positionX || 0) / 2}% ${50 - (transforms.positionY || 0) / 2}%`
+                                                : 'center 10%',
+                                            backgroundRepeat: 'no-repeat',
+                                            transform: transforms ? `rotate(${transforms.rotation || 0}deg)` : 'none',
+                                        }} />
+                                    )}
+                                </div>
+                            );
+                        }
+                        // Fallback: initial letter
+                        return (
+                            <div style={{
+                                width: '100%',
+                                height: '100%',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                fontSize: '13px',
+                                fontWeight: 'bold',
+                                color: '#c8a96b',
+                                background: 'linear-gradient(135deg, #2a1b0e, #3d2a1d)',
+                                fontFamily: "'Cinzel', serif",
+                            }}>
+                                {(member.name || '?').charAt(0).toUpperCase()}
+                            </div>
+                        );
+                    })()}
+                </div>
+
+                {/* Level chip stamped on the portrait's top-left corner (matte engraved disc) */}
+                {characterLevel && (
+                    <div className="portrait-level-chip" title={`Level ${characterLevel}`}>
+                        {characterLevel}
+                    </div>
+                )}
+
+                {/* Info Section */}
+                <div className="party-member-info">
+                    {(() => {
+                        // For current player, use character store directly (more reliable)
+                        // For other members, use member.character
+                        let race, background;
+
+                        if (isCurrentPlayer && currentPlayerData) {
+                            race = currentPlayerData.raceDisplayName || currentPlayerData.race || 'Unknown Race';
+                            background = resolveBackgroundName(
+                                currentPlayerData.background || currentPlayerData.character?.background,
+                                currentPlayerData.backgroundDisplayName || currentPlayerData.character?.backgroundDisplayName,
+                                currentPlayerData.lore || currentPlayerData.character?.lore
+                            );
+                        } else {
+                            race = member.character?.raceDisplayName || member.character?.race || 'Unknown Race';
+                            background = resolveBackgroundName(
+                                member.character?.background || member.background,
+                                member.character?.backgroundDisplayName || member.backgroundDisplayName,
+                                member.character?.lore || member.lore
+                            );
+                        }
+
+                        // Heritage label with dedup for legacy suffixes, e.g.
+                        // "Lumian (Astril)" -> "Lumian",
+                        // "Tallyn (Frostwood Reach)" -> "Tallyn (Human)".
+                        const cleanRace = getRaceHeritageLabel(race) || '';
+
+                        // Title block: name / "of the <bloodline>" / background script.
+                        // The class signs the top row next to the name so long
+                        // class names always fit, and the background keeps its icon.
+                        const raceLabel = cleanRace;
+                        const racePart = raceLabel && cleanRace.toLowerCase() !== 'unknown race'
+                            ? { label: raceLabel }
+                            : null;
+                        const backgroundIcon = background ? getBackgroundArchetypeIcon(background) : null;
+
+                        const fullArchetypeTitle = [frameClassLabel, racePart?.label, background, alignmentStr]
+                            .filter(Boolean)
+                            .join(' • ');
+
+                        return (
+                            <div className="member-header">
+                                {/* Nameplate: class as the calling above the name, a rule beneath */}
+                                <div className="member-header-top-row">
+                                    {frameClassLabel && (
+                                        <span className="member-class-text" title={`Class: ${frameClassLabel}`}>
+                                            {frameClassName}
+                                        </span>
+                                    )}
+                                    <span ref={nameRef} className="member-name-text" title={member.name}>{member.name}</span>
+                                    <span className="member-nameplate-rule" aria-hidden="true"><i></i></span>
+                                </div>
+                                {/* Sheet fields: captioned value pairs, like a paper character sheet */}
+                                <div className="member-details">
+                                    {racePart && (
+                                        <div className="member-heritage-line" title={fullArchetypeTitle}>
+                                            <span className="sheet-caption">Ancestry</span>
+                                            <span className="heritage-race">{racePart.label}</span>
+                                        </div>
+                                    )}
+                                    {background && (
+                                        <div className="member-background-line" title={fullArchetypeTitle}>
+                                            <span className="sheet-caption">Background</span>
+                                            <span className="sheet-value">
+                                                {backgroundIcon && (
+                                                    <i className={`fas fa-${backgroundIcon} archetype-icon lead`} aria-hidden="true"></i>
+                                                )}
+                                                {background}
+                                            </span>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        );
+                    })()}
+
+                    {/* Resource Bars Container (class resource lives here;
+                        HP/mana/AP ride as corner mounts below) */}
+                    <div className="resource-bars-container">
+
+                        {/* Class Resource Bar */}
+                        {member.character?.class && member.character?.class !== 'Unknown' && member.character?.classResource && (
+                            <ClassResourceBar
+                                key={`classResource-${member.id}`}
+                                characterClass={member.character.class}
+                                classResource={member.character.classResource}
+                                isGMMode={isGMMode}
+                                isOwner={isCurrentPlayer}
+                                onResourceClick={isCurrentPlayer ? ((resourceType) => onResourceAdjust(member.id, resourceType)) : null}
+                                onClassResourceUpdate={isCurrentPlayer && onClassResourceUpdate ? (field, value) => {
+                                    onClassResourceUpdate(member.id, field, value);
+                                } : null}
+                                size="small"
+                                context="party"
+                            />
+                        )}
+                    </div>
+                </div>
+
+                {/* Exhaustion Plaque: Riveted Metal Plate Mounted on the Bottom Wooden Frame Border */}
+                {(exhaustionLevel > 0 || isExhaustionEditable) && (
+                    <div
+                        className={`party-exhaustion-badge level-${exhaustionLevel} ${isExhaustionEditable ? 'editable' : ''}`}
+                        onMouseEnter={(e) => handleExhaustionMouseEnter(e, exhaustionLevel)}
+                        onMouseMove={handleBuffMouseMove}
+                        onMouseLeave={handleBuffMouseLeave}
+                        title={`Exhaustion: Level ${exhaustionLevel}${isExhaustionEditable ? ' (Click to adjust)' : ''}`}
+                    >
+                        <svg className="exhaustion-plate-svg" viewBox="0 0 120 20" preserveAspectRatio="none" aria-hidden="true">
+                            <defs>
+                                <linearGradient id={`exhPlateGrad-${member.id}`} x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0%" stopColor="#dcc795" />
+                                    <stop offset="35%" stopColor="#b49b60" />
+                                    <stop offset="72%" stopColor="#8b7442" />
+                                    <stop offset="100%" stopColor="#6a5530" />
+                                </linearGradient>
+                                <radialGradient id={`exhRivetGrad-${member.id}`} cx="0.35" cy="0.3" r="0.9">
+                                    <stop offset="0%" stopColor="#efe0b3" />
+                                    <stop offset="55%" stopColor="#a89257" />
+                                    <stop offset="100%" stopColor="#5d4a26" />
+                                </radialGradient>
+                            </defs>
+                            <path
+                                className="plate-body"
+                                d="M10 3 L110 2.3 Q114.2 2.2 113.8 6.1 L113.1 14.2 Q112.9 17.7 108.8 17.4 L11.2 17.8 Q6.9 17.9 7.3 14.1 L8 5.9 Q8.3 3.1 10 3 Z"
+                                fill={`url(#exhPlateGrad-${member.id})`}
+                                stroke="#3b2e17"
+                                strokeWidth="1.4"
+                                vectorEffect="non-scaling-stroke"
+                            />
+                            <path d="M13 5.4 L107.5 4.7" stroke="rgba(255, 243, 206, 0.42)" strokeWidth="1" fill="none" vectorEffect="non-scaling-stroke" />
+                            <path d="M13 15.1 L107.5 15.5" stroke="rgba(43, 32, 12, 0.5)" strokeWidth="1" fill="none" vectorEffect="non-scaling-stroke" />
+                            <path d="M20 9.2 L98 8.8 M24 11.4 L104 11.1" stroke="rgba(58, 44, 18, 0.12)" strokeWidth="0.8" fill="none" vectorEffect="non-scaling-stroke" />
+                            <g className="plate-rivets" stroke="#3b2e17" strokeWidth="0.8">
+                                <circle cx="12.5" cy="6" r="1.9" fill={`url(#exhRivetGrad-${member.id})`} />
+                                <circle cx="107.5" cy="5.8" r="1.9" fill={`url(#exhRivetGrad-${member.id})`} />
+                                <circle cx="12.5" cy="14.2" r="1.9" fill={`url(#exhRivetGrad-${member.id})`} />
+                                <circle cx="107.5" cy="14.4" r="1.9" fill={`url(#exhRivetGrad-${member.id})`} />
+                            </g>
+                        </svg>
+                        <span className="exhaustion-label">Exhaustion</span>
+                        <span className="exhaustion-value">{exhaustionLevel}</span>
+                        {isExhaustionEditable && (
+                            <select
+                                value={exhaustionLevel}
+                                onChange={(e) => {
+                                    const newVal = parseInt(e.target.value, 10) || 0;
+                                    if (isCurrentPlayer) {
+                                        useCharacterStore.getState().updateExhaustionLevel(newVal);
+                                    } else {
+                                        updatePartyMember(member.id, {
+                                            character: {
+                                                ...member.character,
+                                                exhaustionLevel: newVal
+                                            }
+                                        });
+                                    }
+                                }}
+                                className="party-exhaustion-select"
+                                onClick={(e) => e.stopPropagation()}
+                                title={`Exhaustion Level: ${exhaustionLevel}`}
+                            >
+                                <option value="0">0 (Normal)</option>
+                                <option value="1">1 (Disadv. Checks)</option>
+                                <option value="2">2 (Speed Halved)</option>
+                                <option value="3">3 (Disadv. Attacks/Saves)</option>
+                                <option value="4">4 (HP Max Halved)</option>
+                                <option value="5">5 (Speed 0)</option>
+                                <option value="6">6 (Death)</option>
+                            </select>
+                        )}
+                    </div>
+                )}
+
+                {/* Online Status Indicator */}
+                <div className="member-status-indicators">
+                    <div className={`status-dot ${member.status || 'online'}`} title={`Status: ${member.status || 'online'}`}></div>
+                </div>
+                {/* Corner mounts: HP bottle + mana crystal (bottom corners, tilted),
+                    AP boot (top-left). Hover any mount for exact values. */}
+                <div ref={healthBarRef} className={`party-corner-mount mount-health${canAdjustMounts ? ' adjustable' : ''}`} onClick={openMountMenu('health')}>
+                    <StatVial
+                        kind="health"
+                        current={member.character?.health?.current || 0}
+                        max={member.character?.health?.max || 1}
+                        temp={member.character?.tempHealth || 0}
+                        memberName={member.name}
+                        tilt={-12}
+                    />
+                </div>
+                {showPartyManaBar && (member.character?.mana?.max || 0) > 0 && (
+                    <div ref={manaBarRef} className={`party-corner-mount mount-mana${canAdjustMounts ? ' adjustable' : ''}`} onClick={openMountMenu('mana')}>
+                        <StatVial
+                            kind="mana"
+                            current={member.character?.mana?.current || 0}
+                            max={member.character?.mana?.max || 1}
+                            temp={member.character?.tempMana || 0}
+                            memberName={member.name}
+                            tilt={12}
+                        />
+                    </div>
+                )}
+                {showPartyAPBar && (member.character?.actionPoints?.max || 0) > 0 && (
+                    <div ref={apBarRef} className={`party-corner-mount mount-ap${canAdjustMounts ? ' adjustable' : ''}`} onClick={openMountMenu('ap')}>
+                        <StatVial
+                            kind="ap"
+                            current={member.character?.actionPoints?.current || 0}
+                            max={member.character?.actionPoints?.max || 1}
+                            temp={member.character?.tempActionPoints || 0}
+                            memberName={member.name}
+                        />
+                    </div>
+                )}
+                {mountMenu && createPortal(
+                    (() => {
+                        const kind = mountMenu.kind;
+                        const resourceType = MOUNT_RESOURCE_TYPE[kind];
+                        const pool = kind === 'ap'
+                            ? member.character?.actionPoints
+                            : member.character?.[resourceType];
+                        const tempVal = kind === 'ap'
+                            ? (member.character?.tempActionPoints || 0)
+                            : (kind === 'mana' ? (member.character?.tempMana || 0) : (member.character?.tempHealth || 0));
+                        const cur = pool?.current || 0;
+                        const maxVal = pool?.max || 1;
+                        const commitMountEdit = () => {
+                            if (mountEditCommittedRef.current) return;
+                            mountEditCommittedRef.current = true;
+                            const parsed = parseInt(mountEditValue, 10);
+                            if (!isNaN(parsed)) {
+                                const clamped = Math.max(0, parsed);
+                                const delta = clamped - cur;
+                                if (delta !== 0) onResourceAdjust(member.id, resourceType, delta);
+                            }
+                            setMountEditValue(null);
+                        };
+                        return (
+                            <div
+                                ref={mountMenuRef}
+                                className="mount-adjust-menu"
+                                style={{ left: mountMenu.x, top: mountMenu.y }}
+                                onClick={(e) => e.stopPropagation()}
+                                onMouseDown={(e) => e.stopPropagation()}
+                                onContextMenu={(e) => e.preventDefault()}
+                            >
+                                <button className="mount-adjust-close" onClick={() => { setMountEditValue(null); setMountMenu(null); }} title="Close">×</button>
+                                <div
+                                    className="mount-adjust-title"
+                                    style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px' }}
+                                >
+                                    <span className="mount-adjust-label">{MOUNT_TITLES[kind]}</span>
+                                    {mountEditValue !== null ? (
+                                        <>
+                                            <input
+                                                className="mount-adjust-input"
+                                                type="text"
+                                                inputMode="numeric"
+                                                pattern="[0-9]*"
+                                                autoFocus
+                                                value={mountEditValue}
+                                                style={{
+                                                    width: '52px',
+                                                    minWidth: '52px',
+                                                    flex: '0 0 auto',
+                                                    height: '20px',
+                                                    padding: '0 4px',
+                                                    fontSize: '11px',
+                                                    fontWeight: 700,
+                                                    textAlign: 'center',
+                                                    color: '#1a120b',
+                                                    background: '#f5deb3',
+                                                    border: '1px solid #8b7355',
+                                                    borderRadius: '3px',
+                                                    outline: 'none',
+                                                    boxSizing: 'border-box'
+                                                }}
+                                                onChange={(e) => setMountEditValue(e.target.value.replace(/[^\d]/g, ''))}
+                                                onFocus={(e) => e.target.select()}
+                                                onKeyDown={(e) => {
+                                                    if (e.key === 'Enter') commitMountEdit();
+                                                    else if (e.key === 'Escape') { mountEditCommittedRef.current = true; setMountEditValue(null); }
+                                                }}
+                                                onBlur={commitMountEdit}
+                                            />
+                                            <button
+                                                type="button"
+                                                className="mount-adjust-confirm"
+                                                title="Apply"
+                                                onMouseDown={(e) => e.preventDefault()}
+                                                onClick={commitMountEdit}
+                                            >✓</button>
+                                            <button
+                                                type="button"
+                                                className="mount-adjust-cancel"
+                                                title="Cancel"
+                                                onMouseDown={(e) => e.preventDefault()}
+                                                onClick={() => { mountEditCommittedRef.current = true; setMountEditValue(null); }}
+                                            >✕</button>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <button
+                                                type="button"
+                                                className="mount-adjust-value"
+                                                title="Click to set an exact value"
+                                                onClick={() => { mountEditCommittedRef.current = false; setMountEditValue(String(cur)); }}
+                                            >
+                                                {cur}/{maxVal}
+                                            </button>
+                                            {tempVal > 0 ? <span>(+{tempVal})</span> : null}
+                                        </>
+                                    )}
+                                </div>
+                                <div className="mount-adjust-row">
+                                    {MOUNT_ADJUST_STEPS[resourceType].map((step) => (
+                                        <button
+                                            key={step}
+                                            className={`mount-adjust-btn ${step < 0 ? 'minus' : 'plus'}`}
+                                            onClick={() => onResourceAdjust(member.id, resourceType, step)}
+                                        >
+                                            {step > 0 ? `+${step}` : step}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                        );
+                    })(),
+                    document.body
+                )}
+            </div>
+            {/* Buffs, Debuffs, and Conditions */}
+            {(() => {
+                const gameStore = useGameStore.getState();
+                const currentPlayerId = gameStore.currentPlayer?.id;
+
+                const memberId = member.id;
+                const memberUserId = member.userId;
+                const memberSocketId = member.socketId;
+
+                let rawBuffs = [...getConditionsForTarget('buff', memberId)];
+                let rawDebuffs = [...getConditionsForTarget('debuff', memberId)];
+
+                if (memberUserId) {
+                    rawBuffs = [...rawBuffs, ...getConditionsForTarget('buff', memberUserId)];
+                    rawDebuffs = [...rawDebuffs, ...getConditionsForTarget('debuff', memberUserId)];
+                }
+
+                if (memberSocketId) {
+                    rawBuffs = [...rawBuffs, ...getConditionsForTarget('buff', memberSocketId)];
+                    rawDebuffs = [...rawDebuffs, ...getConditionsForTarget('debuff', memberSocketId)];
+                }
+
+                if (isCurrentPlayer) {
+                    rawBuffs = [
+                        ...rawBuffs,
+                        ...getConditionsForTarget('buff', 'player'),
+                        ...getConditionsForTarget('buff', 'current-player')
+                    ];
+                    rawDebuffs = [
+                        ...rawDebuffs,
+                        ...getConditionsForTarget('debuff', 'player'),
+                        ...getConditionsForTarget('debuff', 'current-player')
+                    ];
+
+                    if (currentPlayerId && memberId !== currentPlayerId) {
+                         rawBuffs = [...rawBuffs, ...getConditionsForTarget('buff', currentPlayerId)];
+                         rawDebuffs = [...rawDebuffs, ...getConditionsForTarget('debuff', currentPlayerId)];
+                    }
+                }
+
+                const memberToken = characterTokens.find(t =>
+                    t.playerId === memberId ||
+                    t.playerId === memberUserId ||
+                    t.playerId === memberSocketId ||
+                    t.id === memberId
+                );
+                const rawConditions = memberToken?.state?.conditions || [];
+
+                const finalBuffs = [];
+                const finalDebuffs = [];
+                const seenBuffNames = new Set();
+                const seenDebuffNames = new Set();
+                const seenIds = new Set();
+
+                rawBuffs.forEach(b => {
+                    if (seenIds.has(b.id) || seenBuffNames.has(b.name.toLowerCase())) return;
+                    finalBuffs.push(b);
+                    seenIds.add(b.id);
+                    seenBuffNames.add(b.name.toLowerCase());
+                });
+
+                rawDebuffs.forEach(d => {
+                    if (seenIds.has(d.id) || seenDebuffNames.has(d.name.toLowerCase())) return;
+                    finalDebuffs.push(d);
+                    seenIds.add(d.id);
+                    seenDebuffNames.add(d.name.toLowerCase());
+                });
+
+                rawConditions.forEach(c => {
+                    const name = (c.name || c.id || '').toLowerCase();
+                    const conditionData = CONDITIONS[c.id] || CONDITIONS[name] || { type: c.type || 'debuff' };
+                    const condType = conditionData.type || c.type || 'debuff';
+
+                    if (condType === 'buff' && seenBuffNames.has(name)) return;
+                    if (condType !== 'buff' && seenDebuffNames.has(name)) return;
+
+                    const mergedCondition = {
+                        ...c,
+                        id: c.id || `cond_${Date.now()}_${Math.random()}`,
+                        name: c.name || c.id,
+                        icon: c.icon || conditionData.icon,
+                        color: c.color || conditionData.color,
+                        description: c.description || conditionData.description,
+                        type: condType
+                    };
+
+                    if (mergedCondition.type === 'buff') {
+                        if (!seenBuffNames.has(name)) {
+                            finalBuffs.push(mergedCondition);
+                            seenBuffNames.add(name);
+                        }
+                    } else {
+                        if (!seenDebuffNames.has(name)) {
+                            finalDebuffs.push(mergedCondition);
+                            seenDebuffNames.add(name);
+                        }
+                    }
+                });
+
+                const playerBuffs = finalBuffs;
+                const playerDebuffs = finalDebuffs;
+
+                // Format time helper for conditions
+                
+                return (
+                    <div className="character-buffs-debuffs" style={{ display: 'flex', flexDirection: 'column', gap: '4px', marginTop: '12px' }}>
+                        {/* Buffs Row */}
+                        {playerBuffs.length > 0 && (
+                            <div className="character-buffs" style={{ display: 'flex', gap: '4px', flexWrap: 'wrap' }}>
+                                {playerBuffs.map((buff) => {
+        const remainingTime = getRemainingTime('buff', buff.id);
+
+                                    // Format time to match TargetHUD
+                                    const formatTime = (seconds, durationType = 'minutes') => {
+                                        if (seconds <= 0) return durationType === 'rounds' ? '0 rounds' : '0:00';
+                                        if (durationType === 'rounds') {
+                                            const rounds = Math.ceil(seconds / 6);
+                                            return rounds === 1 ? '1 round' : `${rounds} rounds`;
+                                        }
+                                        const minutes = Math.floor(seconds / 60);
+                                        const remainingSeconds = seconds % 60;
+                                        return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+                                    };
+
+                                    return (
+                                        <div
+                                            key={buff.id}
+                                            style={{
+                                                display: 'flex',
+                                                flexDirection: 'column',
+                                                alignItems: 'center',
+                                                pointerEvents: 'auto'
+                                            }}
+                                        >
+                                            <div
+                                                className="buff-icon"
+                                                style={{
+                                                    backgroundColor: buff.color || '#32CD32',
+                                                    transition: 'transform 0.2s ease',
+                                                    cursor: 'pointer',
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    justifyContent: 'center'
+                                                }}
+                                                onMouseEnter={(e) => {
+                                                    e.currentTarget.style.transform = 'scale(1.2)';
+                                                    handleBuffMouseEnter(e, buff);
+                                                }}
+                                                onMouseMove={handleBuffMouseMove}
+                                                onMouseLeave={(e) => {
+                                                    e.currentTarget.style.transform = 'scale(1)';
+                                                    handleBuffMouseLeave();
+                                                }}
+                                                onContextMenu={(e) => {
+                                                    e.preventDefault();
+                                                    e.stopPropagation();
+                                                    handleBuffRightClick(e, buff);
+                                                }}
+                                            >
+                                                {(() => {
+                                                    // Handle icon - check if it's a function call string and evaluate it
+                                                    let iconSrc = buff.icon;
+
+                                                    // If icon is a string that looks like a function call, try to parse and call it
+                                                    if (iconSrc && typeof iconSrc === 'string' && iconSrc.includes('getIconUrl')) {
+                                                        try {
+                                                            // Extract iconId from string like "getIconUrl('icon-id', 'items')"
+                                                            const match = iconSrc.match(/getIconUrl\(['"]([^'"]+)['"]\s*,\s*['"]([^'"]+)['"]\)/);
+                                                            if (match) {
+                                                                iconSrc = getIconUrl(match[1], match[2]);
+                                                            }
+                                                        } catch (e) {
+                                                            console.warn('Failed to parse icon URL:', iconSrc);
+                                                            iconSrc = null;
+                                                        }
+                                                    }
+
+                                                    if (iconSrc && (iconSrc.startsWith('/assets/') || iconSrc.startsWith('http'))) {
+                                                        return (
+                                                            <img
+                                                                src={iconSrc}
+                                                                alt={buff.name}
+                                                                style={{
+                                                                    width: '100%',
+                                                                    height: '100%',
+                                                                    objectFit: 'contain',
+                                                                    display: 'block'
+                                                                }}
+                                                                onError={(e) => {
+                                                                    e.target.style.display = 'none';
+                                                                }}
+                                                            />
+                                                        );
+                                                    } else if (iconSrc && !iconSrc.includes('getIconUrl')) {
+                                                        return <i className={iconSrc} style={{ fontSize: '18px', color: '#fff' }}></i>;
+                                                    } else {
+                                                        return <i className="fas fa-plus" style={{ fontSize: '18px', color: '#fff' }}></i>;
+                                                    }
+                                                })()}
+                                            </div>
+                                            <div style={{
+                                                fontSize: '10px',
+                                                color: '#ffffff !important',
+                                                fontWeight: 'bold',
+                                                textShadow: '1px 1px 2px rgba(0, 0, 0, 0.9)',
+                                                marginTop: '2px',
+                                                fontFamily: 'Cinzel, serif'
+                                            }}>
+                                                {formatTime(remainingTime, buff.durationType)}
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        )}
+                        {/* Debuffs Row */}
+                        {playerDebuffs.length > 0 && (
+                            <div className="character-debuffs" style={{ display: 'flex', gap: '4px', flexWrap: 'wrap' }}>
+                                {playerDebuffs.map((debuff) => {
+                                    const remainingTime = getRemainingTime('debuff', debuff.id);
+
+                                    // Format time to match TargetHUD
+                                    const formatTime = (seconds, durationType = 'minutes') => {
+                                        if (seconds <= 0) return durationType === 'rounds' ? '0 rounds' : '0:00';
+                                        if (durationType === 'rounds') {
+                                            const rounds = Math.ceil(seconds / 6);
+                                            return rounds === 1 ? '1 round' : `${rounds} rounds`;
+                                        }
+                                        const minutes = Math.floor(seconds / 60);
+                                        const remainingSeconds = seconds % 60;
+                                        return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+                                    };
+
+                                    return (
+                                        <div
+                                            key={debuff.id}
+                                            style={{
+                                                display: 'flex',
+                                                flexDirection: 'column',
+                                                alignItems: 'center',
+                                                pointerEvents: 'auto'
+                                            }}
+                                        >
+                                            <div
+                                                className="debuff-icon"
+                                                style={{
+                                                    backgroundColor: debuff.color || '#DC143C',
+                                                    transition: 'transform 0.2s ease',
+                                                    cursor: 'pointer',
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    justifyContent: 'center'
+                                                }}
+                                                onMouseEnter={(e) => {
+                                                    e.currentTarget.style.transform = 'scale(1.2)';
+                                                    handleDebuffMouseEnter(e, debuff);
+                                                }}
+                                                onMouseMove={handleDebuffMouseMove}
+                                                onMouseLeave={(e) => {
+                                                    e.currentTarget.style.transform = 'scale(1)';
+                                                    handleDebuffMouseLeave();
+                                                }}
+                                                onContextMenu={(e) => {
+                                                    e.preventDefault();
+                                                    e.stopPropagation();
+                                                    handleDebuffRightClick(e, debuff);
+                                                }}
+                                            >
+                                                {debuff.icon && (debuff.icon.startsWith('/assets/') || debuff.icon.startsWith('http')) ? (
+                                                    <img
+                                                        src={debuff.icon}
+                                                        alt={debuff.name}
+                                                        style={{
+                                                            width: '100%',
+                                                            height: '100%',
+                                                            objectFit: 'contain',
+                                                            display: 'block'
+                                                        }}
+                                                        onError={(e) => {
+                                                            e.target.style.display = 'none';
+                                                        }}
+                                                    />
+                                                ) : debuff.icon ? (
+                                                    <i className={debuff.icon} style={{ fontSize: '18px', color: '#fff' }}></i>
+                                                ) : (
+                                                    <i className="fas fa-minus" style={{ fontSize: '18px', color: '#fff' }}></i>
+                                                )}
+                                            </div>
+                                            <div style={{
+                                                fontSize: '10px',
+                                                color: '#ffffff !important',
+                                                fontWeight: 'bold',
+                                                textShadow: '1px 1px 2px rgba(0, 0, 0, 0.9)',
+                                                marginTop: '2px',
+                                                fontFamily: 'Cinzel, serif'
+                                            }}>
+                                                {formatTime(remainingTime, debuff.durationType)}
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        )}
+                        {/* Conditions Row merged into buffs/debuffs row above */}
+                    </div>
+                );
+            })()}
+            {/* Buff/Debuff/Condition Tooltip - Match TargetHUD - Rendered via Portal to avoid transform issues */}
+            {showTooltip && tooltipData && createPortal(
+                <div
+                    className="equipment-slot-tooltip"
+                    style={{
+                        position: 'fixed',
+                        left: `${tooltipPosition.x}px`,
+                        top: `${tooltipPosition.y}px`,
+                        transform: 'none',
+                        zIndex: 10000,
+                        pointerEvents: 'none'
+                    }}
+                >
+                    <div className="equipment-slot-name">{tooltipData.title}</div>
+                    {tooltipData.effectSummary && (
+                        <div style={{
+                            fontSize: '12px',
+                            color: '#34251a',
+                            fontWeight: '600',
+                            marginTop: '4px',
+                            padding: '4px 8px',
+                            backgroundColor: 'rgba(102, 60, 50, 0.08)',
+                            borderRadius: '3px',
+                            borderLeft: '3px solid #663c32'
+                        }}>
+                            {tooltipData.effectSummary}
+                        </div>
+                    )}
+                    {tooltipData.effects && !tooltipData.effectSummary && (
+                        <div style={{
+                            fontSize: '12px',
+                            color: '#34251a',
+                            fontWeight: '600',
+                            marginTop: '4px',
+                            padding: '4px 8px',
+                            backgroundColor: 'rgba(102, 60, 50, 0.08)',
+                            borderRadius: '3px',
+                            borderLeft: '3px solid #663c32'
+                        }}>
+                            {formatBuffEffects(tooltipData.effects)}
+                        </div>
+                    )}
+                    {tooltipData.description && (
+                        <div className="equipment-slot-description" style={{ marginTop: '6px' }}>
+                            {tooltipData.description}
+                        </div>
+                    )}
+                    {tooltipData.duration && (
+                        <div style={{
+                            marginTop: '8px',
+                            fontSize: '12px',
+                            color: '#663c32',
+                            fontWeight: 'bold'
+                        }}>
+                            Duration: {tooltipData.duration}
+                        </div>
+                    )}
+                </div>,
+                document.body
+            )}
+            {/* Condition Context Menu - Rendered via Portal to avoid transform issues */}
+            {conditionContextMenu.show && createPortal(
+                <>
+                    <div
+                        className="context-menu-overlay"
+                        onClick={() => setConditionContextMenu({ show: false, condition: null, position: { x: 0, y: 0 } })}
+                    />
+                    <div
+                        className={`unified-context-menu small condition-context-menu ${conditionContextMenu.condition?.type === 'buff' ? 'buff-context-menu' : conditionContextMenu.condition?.type === 'debuff' ? 'debuff-context-menu' : ''}`}
+                        style={{
+                            position: 'fixed',
+                            left: conditionContextMenu.position.x,
+                            top: conditionContextMenu.position.y,
+                            zIndex: 10000
+                        }}
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <div className="context-menu-main">
+                            <div
+                                className="context-menu-item"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleAdjustConditionTime();
+                                }}
+                            >
+                                <i className="fas fa-clock" style={{ marginRight: '8px' }}></i>
+                                Adjust Duration
+                            </div>
+                            <div
+                                className="context-menu-item danger"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleRemoveCondition();
+                                }}
+                            >
+                                <i className="fas fa-times" style={{ marginRight: '8px' }}></i>
+                                Remove {conditionContextMenu.condition?.type === 'buff' ? 'Buff' : conditionContextMenu.condition?.type === 'debuff' ? 'Debuff' : 'Condition'}
+                            </div>
+                        </div>
+                    </div>
+                </>,
+                document.body
+            )}
+            {/* Duration Modal */}
+            {showDurationModal && durationModalCondition && (
+                <ConditionDurationModal
+                    show={showDurationModal}
+                    onClose={() => {
+                        setShowDurationModal(false);
+                        setDurationModalCondition(null);
+                    }}
+                    onApply={handleDurationModalApply}
+                    conditionName={durationModalCondition.name || durationModalCondition.title || ''}
+                    initialDurationType={durationModalCondition.initialDurationType || 'minutes'}
+                    initialDurationValue={durationModalCondition.initialDurationValue || 10}
+                />
+            )}
+            {/* Enlarged portrait popup with zoom (closes on outside click / Esc) */}
+            <PortraitLightbox
+                isOpen={showPortraitZoom}
+                imageUrl={portraitLightboxImage}
+                backgroundImage={portraitLightboxBackground?.image || ''}
+                backgroundColor={portraitLightboxBackground?.color || ''}
+                title={member.name || 'Character'}
+                subtitle={portraitLightboxSubtitle}
+                onClose={() => setShowPortraitZoom(false)}
+            />
+        </>
+    );
+};
+
+const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
+    const [showContextMenu, setShowContextMenu] = useState(false);
+    const [contextMenuPosition, setContextMenuPosition] = useState({ x: 0, y: 0 });
+    const [contextMenuMember, setContextMenuMember] = useState(null);
+    const [hoveredMenuItem, setHoveredMenuItem] = useState(null);
+    const contextMenuRef = useRef(null);
+    const [showBuffContextMenu, setShowBuffContextMenu] = useState(false);
+    const [buffContextMenuPosition, setBuffContextMenuPosition] = useState({ x: 0, y: 0 });
+    const [contextMenuBuff, setContextMenuBuff] = useState(null);
+    const [showDurationModal, setShowDurationModal] = useState(false);
+    const [durationModalCondition, setDurationModalCondition] = useState(null);
+    const [showCustomAmountModal, setShowCustomAmountModal] = useState(false);
+    const [customAmountType, setCustomAmountType] = useState(''); // 'damage', 'heal', 'mana-damage', 'mana-heal', 'xp'
+    const [showOverhealModal, setShowOverhealModal] = useState(false);
+    const [overhealData, setOverhealData] = useState(null); // { resourceType, amount, memberId }
+    const [showSummonTokenBar, setShowSummonTokenBar] = useState(false);
+    const [summonTokenBarCharacter, setSummonTokenBarCharacter] = useState(null);
+    const nodeRefs = useRef({});
+    const resourceBarRefs = useRef({}); // Store refs to resource bars for floating text positioning
+    // Measured frame heights per member: class bars vary in height, so the
+    // auto-stack uses the real rendered height instead of a fixed slot.
+    const [frameHeights, setFrameHeights] = useState({});
+
+    // Identify local player for HUD highlighting and logic
+    const currentPlayer = useGameStore(state => state.currentPlayer);
+    const myId = currentPlayer?.id || 'current-player';
+
+    // Reactive identity IDs for robust isSelfId matching - MUST be defined before useEffects
+    const myUserId = useAuthStore(state => state.user?.uid);
+    const myServerId = useGameStore(state => state.currentPlayer?.id);
+    const mySocketId = useGameStore(state => state.multiplayerSocket?.id);
+    const myIds = useMemo(() => ({
+        userId: myUserId,
+        serverId: myServerId,
+        socketId: mySocketId
+    }), [myUserId, myServerId, mySocketId]);
+
+    // Removed: Redundant internal isSelfId definition - now moved to module level
+
+
+    // Removed: Unused force update state
+
+    // Subscribe to party store changes for real-time updates
+    useEffect(() => {
+        const unsubscribeParty = usePartyStore.subscribe(
+            (state) => state.partyMembers,
+            (partyMembers) => {
+
+                // Removed: Force update call
+            }
+        );
+
+        // Also subscribe to character store for current player updates
+        const unsubscribeCharacter = useCharacterStore.subscribe(
+            (state) => ({
+                name: state.name,
+                baseName: state.baseName,
+                race: state.race,
+                subrace: state.subrace,
+                raceDisplayName: state.raceDisplayName,
+                class: state.class,
+                level: state.level,
+                background: state.background,
+                backgroundDisplayName: state.backgroundDisplayName,
+                path: state.path,
+                pathDisplayName: state.pathDisplayName,
+                // CRITICAL: Always ensure valid resource values for HUD display
+                health: (state.health?.max > 0) ? state.health : { current: 45, max: 50 },
+                mana: (state.mana?.max > 0) ? state.mana : { current: 45, max: 50 },
+                actionPoints: (state.actionPoints?.max > 0) ? state.actionPoints : { current: 1, max: 3 },
+                tempHealth: state.tempHealth || 0,
+                tempMana: state.tempMana || 0,
+                tempActionPoints: state.tempActionPoints || 0,
+                classResource: state.classResource,
+                lore: state.lore,
+                tokenSettings: state.tokenSettings
+            }),
+            (characterData) => {
+                // Update the current player in the party store when character data changes
+                const partyState = usePartyStore.getState();
+                const currentMember = partyState.partyMembers.find(m =>
+                    isSelfId(m.userId, m.userId, myIds) || isSelfId(m.id, m.userId, myIds));
+                if (currentMember) {
+                    usePartyStore.getState().updatePartyMember(currentMember.id, {
+
+                        name: characterData.name,
+                        character: {
+                            ...currentMember.character,
+                            race: characterData.race,
+                            subrace: characterData.subrace,
+                            raceDisplayName: characterData.raceDisplayName,
+                            class: characterData.class,
+                            level: characterData.level,
+                            background: characterData.background,
+                            backgroundDisplayName: characterData.backgroundDisplayName,
+                            path: characterData.path,
+                            pathDisplayName: characterData.pathDisplayName,
+                            health: characterData.health,
+                            mana: characterData.mana,
+                            actionPoints: characterData.actionPoints,
+                            tempHealth: characterData.tempHealth,
+                            tempMana: characterData.tempMana,
+                            tempActionPoints: characterData.tempActionPoints,
+                            classResource: characterData.classResource,
+                            lore: characterData.lore,
+                            tokenSettings: characterData.tokenSettings
+                        }
+                    });
+                }
+                // Removed: Force update call
+            }
+        );
+
+        return () => {
+            unsubscribeParty();
+            unsubscribeCharacter();
+        };
+    }, [myIds]);
+
+    // Handle click outside to close context menu
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (showContextMenu && contextMenuRef.current && !contextMenuRef.current.contains(event.target)) {
+                setShowContextMenu(false);
+                setHoveredMenuItem(null);
+            }
+        };
+
+        if (showContextMenu) {
+            document.addEventListener('mousedown', handleClickOutside);
+        }
+
+        // Always return a cleanup function to ensure consistent hook count
+        return () => {
+            if (showContextMenu) {
+                document.removeEventListener('mousedown', handleClickOutside);
+            }
+        };
+    }, [showContextMenu]);
+
+    const {
+        partyMembers,
+        isInParty,
+        removePartyMember,
+        updatePartyMember,
+        getMemberPosition,
+        setMemberPosition,
+        memberPositions,
+        currentParty,
+        leaderId // Get leaderId from store hook for reactivity
+    } = usePartyStore(useShallow((state) => ({
+        partyMembers: state.partyMembers,
+        isInParty: state.isInParty,
+        removePartyMember: state.removePartyMember,
+        updatePartyMember: state.updatePartyMember,
+        getMemberPosition: state.getMemberPosition,
+        setMemberPosition: state.setMemberPosition,
+        memberPositions: state.memberPositions,
+        currentParty: state.currentParty,
+        leaderId: state.leaderId
+    })));
+    const setTarget = useTargetingStore(state => state.setTarget);
+    const currentTarget = useTargetingStore(state => state.currentTarget);
+    const clearTarget = useTargetingStore(state => state.clearTarget);
+    const updateResource = useCharacterStore(state => state.updateResource);
+    const updateClassResource = useCharacterStore(state => state.updateClassResource);
+    const removeCondition = useConditionStore(state => state.removeCondition);
+    const updateConditionDuration = useConditionStore(state => state.updateConditionDuration);
+    const getRemainingTime = useConditionStore(state => state.getRemainingTime);
+    const getConditionsForTarget = useConditionStore(state => state.getConditionsForTarget);
+    const addNotification = useChatStore(state => state.addNotification);
+    const addCombatNotification = useChatStore(state => state.addCombatNotification);
+    const {
+        isGMMode,
+        toggleGMMode,
+        isInMultiplayer,
+        multiplayerRoom
+    } = useGameStore(useShallow((state) => ({
+        isGMMode: state.isGMMode,
+        toggleGMMode: state.toggleGMMode,
+        isInMultiplayer: state.isInMultiplayer,
+        multiplayerRoom: state.multiplayerRoom
+    })));
+    const currentUserPresence = usePresenceStore((state) => state.currentUserPresence);
+    const alignment = useCharacterStore(state => state.alignment);
+    const exhaustionLevel = useCharacterStore(state => state.exhaustionLevel);
+
+    const currentPlayerData = useCharacterStore(useShallow(state => ({
+        // Use baseName or name from store, but we'll override this with lobby name if needed
+        name: state.name,
+        baseName: state.baseName,
+        race: state.race,
+        raceDisplayName: state.raceDisplayName,
+        class: state.class,
+        level: state.level,
+        background: state.background,
+        backgroundDisplayName: state.backgroundDisplayName,
+        path: state.path,
+        pathDisplayName: state.pathDisplayName,
+        alignment: state.alignment,
+        exhaustionLevel: state.exhaustionLevel,
+        // CRITICAL: Always ensure valid resource values for HUD display
+        // Use fallbacks if store values are missing or invalid
+        health: (state.health?.max > 0) ? state.health : null,
+        mana: (state.mana?.max > 0) ? state.mana : null,
+        actionPoints: (state.actionPoints?.max > 0) ? state.actionPoints : { current: 0, max: 0 },
+        tempHealth: state.tempHealth || 0,
+        tempMana: state.tempMana || 0,
+        tempActionPoints: state.tempActionPoints || 0,
+        derivedStats: state.derivedStats,
+        equipmentBonuses: state.equipmentBonuses,
+        classResource: state.classResource,
+        lore: state.lore,
+        tokenSettings: state.tokenSettings
+    })));
+
+    // Context menu handlers
+    const handleContextMenu = (e, member) => {
+        console.log(`🎯 HUD CONTEXT MENU: Opening at ${e.clientX}, ${e.clientY} on ${window.location.hostname}`);
+        setContextMenuPosition({ x: e.clientX, y: e.clientY });
+        setContextMenuMember(member);
+        setShowContextMenu(true);
+    };
+
+    // Buff context menu handlers
+    const handleBuffContextMenu = (e, buff) => {
+        // Check if it's a debuff
+        const playerDebuffs = getConditionsForTarget('debuff', 'player');
+        const isDebuff = playerDebuffs.some(d => d.id === buff.id);
+
+        setBuffContextMenuPosition({ x: e.clientX, y: e.clientY });
+        setContextMenuBuff({ ...buff, type: isDebuff ? 'debuff' : 'buff' });
+        setShowBuffContextMenu(true);
+    };
+
+    const handleDismissBuff = () => {
+        if (contextMenuBuff) {
+            if (contextMenuBuff.type === 'debuff') {
+                removeCondition('debuff', contextMenuBuff.id);
+            } else {
+                removeCondition('buff', contextMenuBuff.id);
+            }
+        }
+        setShowBuffContextMenu(false);
+        setContextMenuBuff(null);
+    };
+
+    const handleAdjustBuffDuration = () => {
+        if (!contextMenuBuff) return;
+
+        const buff = contextMenuBuff;
+        const isDebuff = buff.type === 'debuff';
+        const currentDuration = getRemainingTime(isDebuff ? 'debuff' : 'buff', buff.id);
+
+        const isRoundBased = buff.durationType === 'rounds';
+        let initialDurationType, initialDurationValue;
+
+        if (isRoundBased) {
+            initialDurationType = 'rounds';
+            initialDurationValue = Math.ceil(currentDuration / 6);
+        } else {
+            if (currentDuration >= 3600) {
+                initialDurationType = 'hours';
+                initialDurationValue = Math.ceil(currentDuration / 3600);
+            } else if (currentDuration >= 60) {
+                initialDurationType = 'minutes';
+                initialDurationValue = Math.ceil(currentDuration / 60);
+            } else {
+                initialDurationType = 'minutes';
+                initialDurationValue = Math.max(1, Math.ceil(currentDuration / 60));
+            }
+        }
+
+        setDurationModalCondition({
+            ...buff,
+            type: isDebuff ? 'debuff' : 'buff',
+            initialDurationType,
+            initialDurationValue
+        });
+        setShowDurationModal(true);
+        setShowBuffContextMenu(false);
+        setContextMenuBuff(null);
+    };
+
+    const handleDurationModalApplyMain = (durationData) => {
+        if (!durationModalCondition) return;
+
+        const condition = durationModalCondition.condition || durationModalCondition;
+        const type = condition.type;
+
+        let duration, durationType;
+
+        if (durationData.durationType === 'rounds') {
+            duration = durationData.durationValue;
+            durationType = 'rounds';
+        } else {
+            duration = Math.ceil(durationData.duration / 1000);
+            durationType = durationData.durationType;
+        }
+
+        if (type === 'buff') {
+            updateConditionDuration('buff', condition.id, duration, durationType);
+        } else if (type === 'debuff') {
+            updateConditionDuration('debuff', condition.id, duration, durationType);
+        } else {
+            // For conditions, update the token's condition
+            const { characterTokens, updateCharacterTokenState } = useCharacterTokenStore.getState();
+            const playerToken = characterTokens.find(t => t.isPlayerToken);
+            if (playerToken?.state?.conditions) {
+                const updatedConditions = playerToken.state.conditions.map(c => {
+                    if (c.id === condition.id || c.name === condition.name) {
+                        return {
+                            ...c,
+                            duration: durationData.durationType === 'rounds' ? durationData.durationValue * 6000 : durationData.duration,
+                            durationType: durationData.durationType,
+                            appliedAt: Date.now()
+                        };
+                    }
+                    return c;
+                });
+                updateCharacterTokenState(playerToken.id, { conditions: updatedConditions });
+            }
+        }
+
+        setShowDurationModal(false);
+        setDurationModalCondition(null);
+    };
+
+    const handleToggleGMView = () => {
+        if (!isInMultiplayer) {
+            toggleGMMode();
+        }
+        setShowContextMenu(false);
+    };
+
+    const handleTargetMember = () => {
+        if (!contextMenuMember) return;
+
+        const isTargeted = currentTarget?.id === contextMenuMember.id;
+        if (isTargeted) {
+            clearTarget();
+        } else {
+            setTarget({
+                id: contextMenuMember.id,
+                name: contextMenuMember.name,
+                type: 'party_member',
+                data: contextMenuMember
+            }, 'party_member');
+        }
+        setShowContextMenu(false);
+    };
+
+    const handleInspectMember = () => {
+        if (!contextMenuMember) return;
+
+        // Check if inspecting self or another party member
+        // CRITICAL FIX: Use ID instead of name to avoid collisions with same-named characters
+        const isSelf = contextMenuMember.id === 'current-player';
+
+        if (onOpenCharacterSheet) {
+            // Pass the full member object, not just the character data
+            onOpenCharacterSheet(contextMenuMember, isSelf);
+        }
+
+        setShowContextMenu(false);
+    };
+
+    const handleCreateToken = () => {
+        if (!contextMenuMember) return;
+
+        // Check if this is the current player for isSelf flag
+        // CRITICAL FIX: Use isSelfId for proper identification
+        const isSelf = isSelfId(contextMenuMember.id, contextMenuMember.userId, myIds);
+
+        // Allow creating tokens for ANY party member (not just self)
+        // This lets GM create tokens for players and players create their own tokens
+        if (onCreateToken) {
+            onCreateToken(contextMenuMember, isSelf);
+        }
+
+        setShowContextMenu(false);
+    };
+
+    
+    const handleTransferLeadership = () => {
+        if (!contextMenuMember) return;
+
+        // Don't allow transferring to yourself (check userId, id, and socketId)
+        if (isSelfId(contextMenuMember.userId, contextMenuMember.userId) ||
+            isSelfId(contextMenuMember.id, contextMenuMember.userId)) {
+
+            setShowContextMenu(false);
+            return;
+        }
+
+        // Use the new setLeader action which handles sync and UI mode auto-toggle
+        usePartyStore.getState().setLeader(contextMenuMember.id);
+
+        // Add chat notification about leadership transfer
+        addNotification('social', {
+            sender: { name: 'System', class: 'system', level: 0 },
+            content: `${contextMenuMember.name} is now the party leader`,
+            type: 'system',
+            timestamp: new Date().toISOString()
+        });
+
+        setShowContextMenu(false);
+        console.log(`👑 Leadership transferred to: ${contextMenuMember.name}`);
+    };
+
+    const handleRegainLeadership = () => {
+        // Only actual GMs should be able to do this
+        const currentMember = partyMembers.find(m => m.id === 'current-player');
+        if (!currentMember?.isGM) return;
+
+        // Take back leadership
+        usePartyStore.getState().setLeader(myId);
+
+
+        // Add chat notification
+        addNotification('social', {
+            sender: { name: 'System', class: 'system', level: 0 },
+            content: `Game Master has regained leadership`,
+            type: 'system',
+            timestamp: new Date().toISOString()
+        });
+
+        setShowContextMenu(false);
+        console.log(`👑 GM regained leadership`);
+    };
+
+    // Handler for class resource updates (e.g., Inferno Veil)
+    // SMART FIX: Handles both simple resources (current/max) and nested resources (Chronarch's timeShards/temporalStrain)
+    const handleClassResourceUpdate = (memberId, field, value) => {
+        const isSelf = isSelfId(memberId, undefined, myIds) || isSelfId(memberId, memberId, myIds);
+        
+        console.log('🔥 handleClassResourceUpdate:', {
+            memberId,
+            field,
+            value,
+            isSelf,
+            myIds
+        });
+
+        if (isSelf) {
+            const characterState = useCharacterStore.getState();
+            const currentClassResource = characterState.classResource || {};
+            
+            // SMART FIX: Determine if this is a nested field update (Chronarch, Shaper) or simple field update
+            const isNestedField = ['timeShards', 'temporalStrain', 'momentum', 'flourish'].includes(field);
+            
+            if (isNestedField) {
+                // For Chronarch: update the nested object's current value
+                const updatedClassResource = {
+                    ...currentClassResource,
+                    [field]: {
+                        ...(currentClassResource[field] || { current: 0, max: 10 }),
+                        current: value,
+                        lastUpdate: Date.now()
+                    }
+                };
+                
+                // Update the entire classResource object
+                useCharacterStore.getState().updateClassResource(field, {
+                    ...(currentClassResource[field] || { current: 0, max: 10 }),
+                    current: value
+                }, false, false);
+                
+                // Manually update state to ensure reactivity
+                useCharacterStore.setState({ classResource: updatedClassResource });
+            } else {
+                // For simple resources (Pyrofiend, etc.): direct field update
+                updateClassResource(field, value);
+            }
+            
+            // Also manually emit to ensure sync happens immediately
+            const socket = useGameStore.getState().multiplayerSocket;
+            const roomId = useGameStore.getState().multiplayerRoom?.id;
+            const updatedCharacterState = useCharacterStore.getState();
+            
+            if (socket && socket.connected && roomId) {
+                console.log('📤 Emitting character_resource_updated for classResource:', {
+                    field,
+                    value,
+                    fullClassResource: updatedCharacterState.classResource
+                });
+                
+                socket.emit('character_resource_updated', {
+                    roomId: roomId,
+                    playerId: useGameStore.getState().currentPlayer?.id,
+                    userId: useAuthStore.getState().user?.uid,
+                    socketId: socket.id,
+                    playerName: updatedCharacterState.name,
+                    resource: 'classResource',
+                    current: updatedCharacterState.classResource?.current || 0,
+                    max: updatedCharacterState.classResource?.max || 0,
+                    classResource: updatedCharacterState.classResource,
+                    timestamp: Date.now()
+                });
+            }
+        } else {
+            // Update party member's class resource in party store
+            const member = findMemberById(memberId);
+            if (member && member.character?.classResource) {
+                // SMART FIX: Handle nested fields for Chronarch and Shaper
+                const isNestedField = ['timeShards', 'temporalStrain', 'momentum', 'flourish'].includes(field);
+                
+                let updatedClassResource;
+                if (isNestedField) {
+                    updatedClassResource = {
+                        ...member.character.classResource,
+                        [field]: {
+                            ...(member.character.classResource[field] || { current: 0, max: 10 }),
+                            current: value,
+                            lastUpdate: Date.now()
+                        }
+                    };
+                } else {
+                    updatedClassResource = {
+                        ...member.character.classResource,
+                        [field]: value,
+                        lastUpdate: Date.now()
+                    };
+                }
+                
+                updatePartyMember(memberId, {
+                    character: {
+                        ...member.character,
+                        classResource: updatedClassResource
+                    }
+                });
+            }
+        }
+    };
+
+    // Register resource bar refs from PartyMemberFrame
+    const handleRegisterRefs = useCallback((memberId, refs) => {
+        resourceBarRefs.current[memberId] = refs;
+    }, []);
+
+    // Helper function to find a party member by any of their IDs (id, userId, or socketId)
+    const findMemberById = (memberId, members = partyMembers) => {
+        if (memberId === 'current-player') {
+            return members.find(m => m.id === 'current-player');
+        }
+        return members.find(m =>
+            m.id === memberId ||
+            m.userId === memberId ||
+            m.socketId === memberId
+        );
+    };
+
+    // Helper function to get character name from memberId
+    const getCharacterName = (memberId) => {
+        if (memberId === 'current-player') {
+            return currentPlayerData.name || 'Player';
+        }
+        const member = findMemberById(memberId);
+        return member?.name || 'Unknown';
+    };
+
+    // Helper function to get the actor name (current player, with GM suffix if in GM mode)
+    const getActorName = () => {
+        const actorName = currentPlayerData.name || 'Player';
+        return isGMMode ? `${actorName} (GM)` : actorName;
+    };
+
+    // Helper function to log full restore/drain as a single combined message
+    const logFullResourceChange = (characterName, healthAmount, manaAmount, apAmount, isRestore) => {
+        const actorName = getActorName();
+        const parts = [];
+
+        if (manaAmount > 0) {
+            parts.push(`${manaAmount} Mana`);
+        }
+        if (healthAmount > 0) {
+            parts.push(`${healthAmount} Health`);
+        }
+        if (apAmount > 0) {
+            parts.push(`${apAmount} Action Point${apAmount > 1 ? 's' : ''}`);
+        }
+
+        if (parts.length === 0) return; // No changes to log
+
+        // Format: "x Mana, y Health and z Action Points"
+        let resourceList = '';
+        if (parts.length === 1) {
+            resourceList = parts[0];
+        } else if (parts.length === 2) {
+            resourceList = `${parts[0]} and ${parts[1]}`;
+        } else {
+            resourceList = `${parts[0]}, ${parts[1]} and ${parts[2]}`;
+        }
+
+        const actionWord = isRestore ? ['Replenished', 'Restored', 'Recovered'][Math.floor(Math.random() * 3)] : 'Drained';
+        const message = `${characterName} ${actionWord} ${resourceList}`;
+
+        addCombatNotification({
+            type: isRestore ? 'combat_heal' : 'combat_hit',
+            [isRestore ? 'healer' : 'attacker']: actorName,
+            target: characterName,
+            [isRestore ? 'healing' : 'damage']: healthAmount || manaAmount || apAmount,
+            customMessage: message
+        });
+    };
+
+    // Helper function to generate varied log messages for resource changes
+    const logResourceChange = (characterName, resourceType, amount, isPositive) => {
+        if (require('../../services/actorConsequenceService').inSharedRoom()) return; // Shared truth is the accepted receipt/status.
+        const absAmount = Math.abs(amount);
+        const actorName = getActorName();
+
+        if (resourceType === 'health') {
+            // Use existing combat_heal and combat_hit types for health
+            if (isPositive) {
+                const messages = [
+                    `Healed ${characterName} for ${absAmount} health`,
+                    `${characterName} regained ${absAmount} health`,
+                    `${characterName} recovered ${absAmount} health`,
+                    `Restored ${absAmount} health to ${characterName}`
+                ];
+                const message = messages[Math.floor(Math.random() * messages.length)];
+                addCombatNotification({
+                    type: 'combat_heal',
+                    healer: actorName,
+                    target: characterName,
+                    healing: absAmount,
+                    customMessage: message
+                });
+            } else {
+                const messages = [
+                    `Hit ${characterName} for ${absAmount} damage`,
+                    `${characterName} took ${absAmount} damage`,
+                    `Dealt ${absAmount} damage to ${characterName}`,
+                    `${characterName} suffered ${absAmount} damage`
+                ];
+                const message = messages[Math.floor(Math.random() * messages.length)];
+                addCombatNotification({
+                    type: 'combat_hit',
+                    attacker: actorName,
+                    target: characterName,
+                    damage: absAmount,
+                    customMessage: message
+                });
+            }
+        } else {
+            // For mana and action points, create custom messages
+            const resourceNames = {
+                'mana': { positive: ['mana'], negative: ['mana'] },
+                'actionPoints': { positive: ['action points', 'AP'], negative: ['action points', 'AP'] }
+            };
+            const resource = resourceNames[resourceType] || { positive: [resourceType], negative: [resourceType] };
+            const variants = isPositive ? resource.positive : resource.negative;
+            const resourceName = variants[Math.floor(Math.random() * variants.length)];
+
+            let message = '';
+            if (isPositive) {
+                const messages = [
+                    `Restored ${absAmount} ${resourceName} to ${characterName}`,
+                    `${characterName} regained ${absAmount} ${resourceName}`,
+                    `${characterName} recovered ${absAmount} ${resourceName}`,
+                    `Replenished ${absAmount} ${resourceName} for ${characterName}`
+                ];
+                message = messages[Math.floor(Math.random() * messages.length)];
+            } else {
+                const messages = [
+                    `${characterName} lost ${absAmount} ${resourceName}`,
+                    `Drained ${absAmount} ${resourceName} from ${characterName}`,
+                    `${characterName} expended ${absAmount} ${resourceName}`,
+                    `${absAmount} ${resourceName} was drained from ${characterName}`
+                ];
+                message = messages[Math.floor(Math.random() * messages.length)];
+            }
+
+            // For non-health resources, use combat_hit format but with custom message
+            addCombatNotification({
+                type: 'combat_hit',
+                attacker: actorName,
+                target: characterName,
+                damage: absAmount,
+                resourceType: resourceType,
+                customMessage: message
+            });
+        }
+    };
+
+    const handleResourceAdjust = (memberId, resourceType, adjustment, hudElementRef = null) => {
+        // Only handle positive adjustments (healing/restoring) for overheal detection
+        if (adjustment > 0) {
+            let currentValue, maxValue;
+
+            if (isSelfId(memberId, undefined, myIds)) {
+                const charState = useCharacterStore.getState();
+                currentValue = charState[resourceType]?.current || 0;
+                maxValue = charState[resourceType]?.max || 0;
+            } else {
+                const member = findMemberById(memberId);
+                if (!member) return;
+                currentValue = member.character?.[resourceType]?.current || 0;
+                maxValue = member.character?.[resourceType]?.max || 0;
+            }
+
+            // Check for overheal
+            const wouldOverheal = (currentValue + adjustment) > maxValue;
+
+            if (wouldOverheal) {
+                // Show confirmation modal for temporary resources
+                const overhealAmount = (currentValue + adjustment) - maxValue;
+                setOverhealData({
+                    memberId,
+                    resourceType,
+                    adjustment,
+                    overhealAmount,
+                    currentValue,
+                    maxValue
+                });
+                setShowOverhealModal(true);
+                return; // Don't apply yet, wait for user confirmation
+            }
+        }
+
+        // Apply the adjustment (no overheal or negative adjustment)
+        applyResourceAdjustment(memberId, resourceType, adjustment, false, false);
+    };
+
+    const applyResourceAdjustment = (memberId, resourceType, adjustment, asTemporary = false, skipLogging = false) => {
+        const boundary = require('../../services/actorConsequenceService');
+        if (boundary.inSharedRoom()) return boundary.adjustSharedResource(isSelfId(memberId, undefined, myIds) ? 'player' : memberId, resourceType, adjustment, asTemporary);
+        const tempFieldMap = {
+            'health': 'tempHealth',
+            'mana': 'tempMana',
+            'actionPoints': 'tempActionPoints'
+        };
+        const tempField = tempFieldMap[resourceType];
+
+        // Get socket for multiplayer synchronization
+        const socket = useGameStore.getState().multiplayerSocket;
+
+        console.log('💊 PartyHUD applyResourceAdjustment called:', {
+            memberId,
+            resourceType,
+            adjustment,
+            asTemporary,
+            isCurrentPlayer: memberId === 'current-player',
+            hasSocket: !!socket,
+            socketConnected: socket?.connected
+        });
+
+        // CRITICAL DEBUG: Log if socket is not available
+        if (!socket || !socket.connected) {
+            console.warn('⚠️ PartyHUD: Socket not available or not connected', {
+                hasSocket: !!socket,
+                socketConnected: socket?.connected,
+                socketId: socket?.id
+            });
+        }
+
+        if (isSelfId(memberId, undefined, myIds)) {
+
+            // Update current player's resources in character store
+            // CRITICAL: Get fresh data from store to avoid stale state in rapid updates
+            const characterState = useCharacterStore.getState();
+            const currentValue = characterState[resourceType]?.current || 0;
+            const maxValue = characterState[resourceType]?.max || 0;
+            const currentTemp = characterState[tempField] || 0;
+
+            if (asTemporary && adjustment > 0) {
+                // Add as temporary resource (overheal)
+                const overhealAmount = (currentValue + adjustment) - maxValue;
+
+                // Set resource to max and add overheal as temporary
+                updateResource(resourceType, maxValue, maxValue, undefined, true);
+                useCharacterStore.getState().updateTempResource(resourceType, currentTemp + overhealAmount);
+            } else if (adjustment < 0) {
+                // Taking damage/draining - reduce temporary resources first
+                const damageAmount = Math.abs(adjustment);
+                let remainingDamage = damageAmount;
+                let newTemp = currentTemp;
+                let newValue = currentValue;
+
+                // First, reduce temporary resources
+                if (currentTemp > 0) {
+                    if (damageAmount <= currentTemp) {
+                        // All damage absorbed by temporary resources
+                        newTemp = currentTemp - damageAmount;
+                        remainingDamage = 0;
+                    } else {
+                        // Temporary resources exhausted, remaining damage goes to actual resource
+                        remainingDamage = damageAmount - currentTemp;
+                        newTemp = 0;
+                    }
+                }
+
+                // Apply remaining damage to actual resource
+                if (remainingDamage > 0) {
+                    newValue = Math.max(0, currentValue - remainingDamage);
+                }
+
+                // Update both resource and temporary resource
+                updateResource(resourceType, newValue, maxValue, undefined, true);
+                    if (newTemp !== currentTemp) {
+                    useCharacterStore.getState().updateTempResource(resourceType, newTemp);
+                }
+            } else {
+                // Normal positive adjustment (healing/restoring, no overheal)
+                const newValue = Math.max(0, Math.min(maxValue, currentValue + adjustment));
+                updateResource(resourceType, newValue, maxValue);
+            }
+
+            // Scrolling combat text removed per user request to eliminate wild animations
+
+            // Log resource change (only log if there's an actual change and logging is not skipped)
+            if (adjustment !== 0 && !asTemporary && !skipLogging) {
+                const characterName = getCharacterName(memberId);
+                logResourceChange(characterName, resourceType, adjustment, adjustment > 0);
+            }
+
+            // Emit update for current player
+            // MULTIPLAYER SYNC: No longer needed here as characterStore.updateResource handles it
+        } else {
+            // Update party member's resources (NOT current player)
+            // CRITICAL: Get fresh data from store to avoid stale state in rapid updates
+            const partyState = usePartyStore.getState();
+            const member = findMemberById(memberId, partyState.partyMembers);
+            if (member && member.character) {
+                const currentValue = member.character[resourceType]?.current || 0;
+                const maxValue = member.character[resourceType]?.max || 0;
+                const currentTemp = member.character[tempField] || 0;
+
+                // CRITICAL FIX: Calculate new values BEFORE update, then emit those calculated values
+                // This prevents stale data issues when reading from store after async update
+                let finalCurrentValue = currentValue;
+                let finalTempValue = currentTemp;
+                const capturedPlayerName = member.name;
+
+                if (asTemporary && adjustment > 0) {
+                    // Add as temporary resource (overheal)
+                    const overhealAmount = (currentValue + adjustment) - maxValue;
+                    finalCurrentValue = maxValue;
+                    finalTempValue = currentTemp + overhealAmount;
+
+                    updatePartyMember(memberId, {
+                        character: {
+                            ...member.character,
+                            [resourceType]: {
+                                ...member.character[resourceType],
+                                current: maxValue
+                            },
+                            [tempField]: finalTempValue
+                        }
+                    });
+                } else if (adjustment < 0) {
+                    // Taking damage/draining - reduce temporary resources first
+                    const damageAmount = Math.abs(adjustment);
+                    let remainingDamage = damageAmount;
+                    let newTemp = currentTemp;
+                    let newValue = currentValue;
+
+                    // First, reduce temporary resources
+                    if (currentTemp > 0) {
+                        if (damageAmount <= currentTemp) {
+                            newTemp = currentTemp - damageAmount;
+                            remainingDamage = 0;
+                        } else {
+                            remainingDamage = damageAmount - currentTemp;
+                            newTemp = 0;
+                        }
+                    }
+
+                    // Apply remaining damage to actual resource
+                    if (remainingDamage > 0) {
+                        newValue = Math.max(0, currentValue - remainingDamage);
+                    }
+
+                    finalCurrentValue = newValue;
+                    finalTempValue = newTemp;
+
+                    updatePartyMember(memberId, {
+                        character: {
+                            ...member.character,
+                            [resourceType]: {
+                                ...member.character[resourceType],
+                                current: newValue
+                            },
+                            [tempField]: newTemp
+                        }
+                    });
+                } else {
+                    // Normal positive adjustment (healing/restoring, no overheal)
+                    finalCurrentValue = Math.max(0, Math.min(maxValue, currentValue + adjustment));
+                    finalTempValue = currentTemp;
+
+                    updatePartyMember(memberId, {
+                        character: {
+                            ...member.character,
+                            [resourceType]: {
+                                ...member.character[resourceType],
+                                current: finalCurrentValue
+                            }
+                        }
+                    });
+                }
+
+                // Scrolling combat text removed per user request to eliminate wild animations
+
+                // Log the resource change (only log if there's an actual change and logging is not skipped)
+                if (adjustment !== 0 && !asTemporary && !skipLogging) {
+                    const characterName = getCharacterName(memberId);
+                    logResourceChange(characterName, resourceType, adjustment, adjustment > 0);
+                }
+
+                // Emit update for party member (GM updating another player)
+                // CRITICAL FIX: Emit the CALCULATED values directly, not re-reading from store
+                if (socket && socket.connected && adjustment !== 0) {
+                    const gameStore = useGameStore.getState();
+                    const roomId = gameStore.multiplayerRoom?.id;
+
+                    console.log('📤 PartyHUD emitting resource update (calculated values):', {
+                        playerId: memberId,
+                        playerName: capturedPlayerName,
+                        resource: resourceType,
+                        current: finalCurrentValue,
+                        max: maxValue,
+                        temp: finalTempValue,
+                        roomId: roomId
+                    });
+
+                    socket.emit('character_resource_updated', {
+                        roomId: roomId, // CRITICAL: Required for server-side broadcasting
+                        playerId: memberId,
+                        userId: member.userId || member.uid, // Add stable ID
+                        socketId: member.socketId, // Add socket ID
+                        playerName: capturedPlayerName,
+                        resource: resourceType,
+                        current: finalCurrentValue,
+                        max: maxValue,
+                        temp: finalTempValue,
+                        adjustment: adjustment,
+                        timestamp: Date.now()
+                    });
+                    console.log('✅ PartyHUD emitted character_resource_updated');
+                }
+            }
+        }
+    };
+
+    // Handle custom amount adjustments
+    const handleCustomAmount = (type) => {
+        setCustomAmountType(type);
+        setShowCustomAmountModal(true);
+        setShowContextMenu(false);
+    };
+
+    // Handle custom amount submission
+    const handleCustomAmountSubmit = (amount) => {
+        const numAmount = parseInt(amount);
+        // Allow negative values for XP, but not for health/mana
+        if (isNaN(numAmount) || !contextMenuMember) return;
+        if (customAmountType !== 'xp' && numAmount <= 0) return;
+
+        const memberId = contextMenuMember.id;
+        const characterName = getCharacterName(memberId);
+
+        switch (customAmountType) {
+            case 'damage':
+                handleResourceAdjust(memberId, 'health', -numAmount);
+                logResourceChange(characterName, 'health', -numAmount, false);
+                break;
+            case 'heal':
+                handleResourceAdjust(memberId, 'health', numAmount);
+                logResourceChange(characterName, 'health', numAmount, true);
+                break;
+            case 'mana-damage':
+                handleResourceAdjust(memberId, 'mana', -numAmount);
+                logResourceChange(characterName, 'mana', -numAmount, false);
+                break;
+            case 'mana-heal':
+                handleResourceAdjust(memberId, 'mana', numAmount);
+                logResourceChange(characterName, 'mana', numAmount, true);
+                break;
+            case 'ap-spend':
+                handleResourceAdjust(memberId, 'actionPoints', -numAmount);
+                logResourceChange(characterName, 'actionPoints', -numAmount, false);
+                break;
+            case 'ap-restore':
+                handleResourceAdjust(memberId, 'actionPoints', numAmount);
+                logResourceChange(characterName, 'actionPoints', numAmount, true);
+                break;
+            case 'xp':
+                handleAwardXP(memberId, numAmount);
+                // XP logging is handled in handleAwardXP
+                break;
+        }
+        setShowCustomAmountModal(false);
+        setCustomAmountType('');
+    };
+
+    // Handle awarding XP to a party member
+    const handleAwardXP = (memberId, xpAmount) => {
+        const characterName = getCharacterName(memberId);
+        const absAmount = Math.abs(xpAmount);
+
+        if (isSelfId(memberId, undefined, myIds)) {
+            // Award XP to current player
+            useCharacterStore.getState().awardExperience(xpAmount);
+            console.log(`💰 ${xpAmount > 0 ? 'Awarded' : 'Removed'} ${absAmount} XP ${xpAmount > 0 ? 'to' : 'from'} current player`);
+        } else {
+            // MULTIPLAYER SYNC: Send XP award through socket
+            const socket = useGameStore.getState().multiplayerSocket;
+            if (socket && socket.connected) {
+                const member = findMemberById(memberId, partyMembers);
+                const roomId = useGameStore.getState().multiplayerRoom?.id;
+                socket.emit('gm_action', {
+                    type: 'award_xp',
+                    amount: xpAmount,
+                    targetPlayerId: memberId,
+                    targetUserId: member?.userId || memberId,
+                    playerName: characterName,
+                    roomId
+                });
+                console.log(`💰 Emitted 'award_xp' gm_action for ${characterName}: ${xpAmount} XP`);
+            } else {
+                console.warn('💰 Cannot award XP: Socket not connected');
+            }
+        }
+
+        // Log to combat tab
+        const actorName = getActorName();
+        const xpMessages = xpAmount > 0 ? [
+            `${characterName} gained ${absAmount} experience`,
+            `${characterName} earned ${absAmount} XP`,
+            `${absAmount} experience was awarded to ${characterName}`,
+            `${characterName} received ${absAmount} experience points`
+        ] : [
+            `${absAmount} experience was removed from ${characterName}`,
+            `${characterName} lost ${absAmount} XP`,
+            `${absAmount} experience was deducted from ${characterName}`
+        ];
+        const xpMessage = xpMessages[Math.floor(Math.random() * xpMessages.length)];
+        addCombatNotification({
+            type: 'combat_resource',
+            attacker: actorName,
+            target: characterName,
+            resourceType: 'experience',
+            amount: absAmount,
+            isPositive: xpAmount > 0,
+            message: xpMessage
+        });
+
+        setShowContextMenu(false);
+    };
+
+    // Handle level adjustment for a party member
+    const handleLevelAdjust = (memberId, levelChange) => {
+        const characterName = getCharacterName(memberId);
+        const absChange = Math.abs(levelChange);
+
+        if (isSelfId(memberId, undefined, myIds)) {
+            // Adjust level for current player
+            useCharacterStore.getState().adjustLevel(levelChange);
+            console.log(`📊 ${levelChange > 0 ? 'Added' : 'Removed'} ${absChange} level(s) ${levelChange > 0 ? 'to' : 'from'} current player`);
+        } else {
+            // MULTIPLAYER SYNC: Send level adjustment through socket
+            const socket = useGameStore.getState().multiplayerSocket;
+            if (socket && socket.connected) {
+                const member = findMemberById(memberId, partyMembers);
+                const roomId = useGameStore.getState().multiplayerRoom?.id;
+                socket.emit('gm_action', {
+                    type: 'adjust_level',
+                    amount: levelChange,
+                    targetPlayerId: memberId,
+                    targetUserId: member?.userId || memberId,
+                    playerName: characterName,
+                    roomId
+                });
+                console.log(`📊 Emitted 'adjust_level' gm_action for ${characterName}: ${levelChange} level(s)`);
+            } else {
+                console.warn('📊 Cannot adjust level: Socket not connected');
+            }
+        }
+
+        // Log to combat tab - get level after change
+        const actorName = getActorName();
+        const newLevel = isSelfId(memberId, undefined, myIds) ? useCharacterStore.getState().level :
+
+            (findMemberById(memberId)?.character?.level || '?');
+        const levelMessages = levelChange > 0 ? [
+            `${characterName} reached level ${newLevel}`,
+            `${characterName} leveled up!`,
+            `${characterName} gained ${absChange} level${absChange > 1 ? 's' : ''}`,
+            `${characterName} advanced ${absChange} level${absChange > 1 ? 's' : ''}`
+        ] : [
+            `${characterName} lost ${absChange} level${absChange > 1 ? 's' : ''}`,
+            `${absChange} level${absChange > 1 ? 's' : ''} ${absChange > 1 ? 'were' : 'was'} removed from ${characterName}`,
+            `${characterName} was reduced by ${absChange} level${absChange > 1 ? 's' : ''}`
+        ];
+        const levelMessage = levelMessages[Math.floor(Math.random() * levelMessages.length)];
+        addCombatNotification({
+            type: 'combat_resource',
+            attacker: actorName,
+            target: characterName,
+            resourceType: 'level',
+            amount: absChange,
+            isPositive: levelChange > 0,
+            message: levelMessage
+        });
+
+        setShowContextMenu(false);
+    };
+
+    // Handle full heal (only health)
+    const handleFullHeal = () => {
+        if (!contextMenuMember) return;
+
+        const memberId = contextMenuMember.id;
+        const characterName = getCharacterName(memberId);
+
+        if (memberId === 'current-player') {
+            const charState = useCharacterStore.getState();
+            const maxHp = charState.health?.max || 0;
+            const currentHp = charState.health?.current || 0;
+            const healAmount = maxHp - currentHp;
+            handleResourceAdjust(memberId, 'health', healAmount);
+            if (healAmount > 0) logResourceChange(characterName, 'health', healAmount, true);
+        } else {
+            const member = findMemberById(memberId, usePartyStore.getState().partyMembers);
+            if (member) {
+                const maxHp = member.character?.health?.max || 0;
+                const currentHp = member.character?.health?.current || 0;
+                const healAmount = maxHp - currentHp;
+                handleResourceAdjust(memberId, 'health', healAmount);
+                if (healAmount > 0) logResourceChange(characterName, 'health', healAmount, true);
+            }
+        }
+        setShowContextMenu(false);
+    };
+
+    // Handle full restore all (HP, mana, and AP)
+    const handleFullRestoreAll = () => {
+        if (!contextMenuMember) return;
+        const boundary = require('../../services/actorConsequenceService');
+        if (boundary.inSharedRoom()) {setShowContextMenu(false); return boundary.setSharedResourceTotals(isSelfId(contextMenuMember.id, undefined, myIds) ? 'player' : contextMenuMember, true);}
+
+        const memberId = contextMenuMember.id;
+        const characterName = getCharacterName(memberId);
+
+        // CRITICAL FIX: Use isSelfId instead of just checking 'current-player' literal
+        if (isSelfId(memberId, undefined, myIds)) {
+            const charState = useCharacterStore.getState();
+            const maxHp = charState.health?.max ?? 0;
+            const currentHp = charState.health?.current ?? 0;
+            const maxMp = charState.mana?.max ?? 0;
+            const currentMp = charState.mana?.current ?? 0;
+            const maxAp = charState.actionPoints?.max ?? 0;
+            const currentAp = charState.actionPoints?.current ?? 0;
+            const healthAmount = Math.max(0, maxHp - currentHp);
+            const manaAmount = Math.max(0, maxMp - currentMp);
+            const apAmount = Math.max(0, maxAp - currentAp);
+
+            // Skip if nothing to restore
+            if (healthAmount === 0 && manaAmount === 0 && apAmount === 0) {
+                console.log('ℹ️ handleFullRestoreAll: All resources already full, skipping');
+                setShowContextMenu(false);
+                return;
+            }
+
+            // Skip individual logging - we'll log once at the end
+            if (healthAmount > 0) applyResourceAdjustment(memberId, 'health', healthAmount, false, true);
+            if (manaAmount > 0) applyResourceAdjustment(memberId, 'mana', manaAmount, false, true);
+            if (apAmount > 0) applyResourceAdjustment(memberId, 'actionPoints', apAmount, false, true);
+
+            // Log as single combined message
+            if (healthAmount > 0 || manaAmount > 0 || apAmount > 0) {
+                logFullResourceChange(characterName, healthAmount, manaAmount, apAmount, true);
+            }
+        } else {
+            const member = findMemberById(memberId, usePartyStore.getState().partyMembers);
+            if (member && member.character) {
+                const maxHp = member.character.health?.max ?? 0;
+                const currentHp = member.character.health?.current ?? 0;
+                const maxMp = member.character.mana?.max ?? 0;
+                const currentMp = member.character.mana?.current ?? 0;
+                const maxAp = member.character.actionPoints?.max ?? 0;
+                const currentAp = member.character.actionPoints?.current ?? 0;
+                const healthAmount = Math.max(0, maxHp - currentHp);
+                const manaAmount = Math.max(0, maxMp - currentMp);
+                const apAmount = Math.max(0, maxAp - currentAp);
+
+                // Skip if nothing to restore
+                if (healthAmount === 0 && manaAmount === 0 && apAmount === 0) {
+                    console.log('ℹ️ handleFullRestoreAll: All resources already full, skipping');
+                    setShowContextMenu(false);
+                    return;
+                }
+
+                // Skip individual logging - we'll log once at the end
+                if (healthAmount > 0) applyResourceAdjustment(memberId, 'health', healthAmount, false, true);
+                if (manaAmount > 0) applyResourceAdjustment(memberId, 'mana', manaAmount, false, true);
+                if (apAmount > 0) applyResourceAdjustment(memberId, 'actionPoints', apAmount, false, true);
+
+                // Log as single combined message
+                if (healthAmount > 0 || manaAmount > 0 || apAmount > 0) {
+                    logFullResourceChange(characterName, healthAmount, manaAmount, apAmount, true);
+                }
+            }
+        }
+        setShowContextMenu(false);
+    };
+
+    // Handle full drain all (HP, mana, and AP, including temporary resources)
+    const handleFullDrainAll = () => {
+        if (!contextMenuMember) return;
+        const boundary = require('../../services/actorConsequenceService');
+        if (boundary.inSharedRoom()) {setShowContextMenu(false); return boundary.setSharedResourceTotals(isSelfId(contextMenuMember.id, undefined, myIds) ? 'player' : contextMenuMember, false);}
+
+        const memberId = contextMenuMember.id;
+        const characterName = getCharacterName(memberId);
+
+        // CRITICAL FIX: Use isSelfId instead of just checking 'current-player' literal
+        if (isSelfId(memberId, undefined, myIds)) {
+            const charState = useCharacterStore.getState();
+            const currentHp = charState.health?.current ?? 0;
+            const tempHp = charState.tempHealth ?? 0;
+            const currentMp = charState.mana?.current ?? 0;
+            const tempMp = charState.tempMana ?? 0;
+            const currentAp = charState.actionPoints?.current ?? 0;
+            const tempAp = charState.tempActionPoints ?? 0;
+            const healthAmount = currentHp + tempHp;
+            const manaAmount = currentMp + tempMp;
+            const apAmount = currentAp + tempAp;
+
+            // Skip if nothing to drain
+            if (healthAmount === 0 && manaAmount === 0 && apAmount === 0) {
+                console.log('ℹ️ handleFullDrainAll: All resources already at 0, skipping');
+                setShowContextMenu(false);
+                return;
+            }
+
+            // Drain all resources including temporary - skip individual logging
+            if (healthAmount > 0) applyResourceAdjustment(memberId, 'health', -healthAmount, false, true);
+            if (manaAmount > 0) applyResourceAdjustment(memberId, 'mana', -manaAmount, false, true);
+            if (apAmount > 0) applyResourceAdjustment(memberId, 'actionPoints', -apAmount, false, true);
+
+            // Log as single combined message
+            if (healthAmount > 0 || manaAmount > 0 || apAmount > 0) {
+                logFullResourceChange(characterName, healthAmount, manaAmount, apAmount, false);
+            }
+        } else {
+            const member = findMemberById(memberId, usePartyStore.getState().partyMembers);
+            if (member) {
+                const currentHp = member.character?.health?.current ?? 0;
+                const tempHp = member.character?.tempHealth ?? 0;
+                const currentMp = member.character?.mana?.current ?? 0;
+                const tempMp = member.character?.tempMana ?? 0;
+                const currentAp = member.character?.actionPoints?.current ?? 0;
+                const tempAp = member.character?.tempActionPoints ?? 0;
+                const healthAmount = currentHp + tempHp;
+                const manaAmount = currentMp + tempMp;
+                const apAmount = currentAp + tempAp;
+
+                // Skip if nothing to drain
+                if (healthAmount === 0 && manaAmount === 0 && apAmount === 0) {
+                    console.log('ℹ️ handleFullDrainAll: All resources already at 0, skipping');
+                    setShowContextMenu(false);
+                    return;
+                }
+
+                // Drain all resources including temporary - skip individual logging
+                if (healthAmount > 0) applyResourceAdjustment(memberId, 'health', -healthAmount, false, true);
+                if (manaAmount > 0) applyResourceAdjustment(memberId, 'mana', -manaAmount, false, true);
+                if (apAmount > 0) applyResourceAdjustment(memberId, 'actionPoints', -apAmount, false, true);
+
+                // Log as single combined message
+                if (healthAmount > 0 || manaAmount > 0 || apAmount > 0) {
+                    logFullResourceChange(characterName, healthAmount, manaAmount, apAmount, false);
+                }
+            }
+        }
+        setShowContextMenu(false);
+    };
+
+    // Handle kill (set health to 0, including temporary HP)
+    const handleKill = () => {
+        if (!contextMenuMember) return;
+
+        const memberId = contextMenuMember.id;
+
+        // CRITICAL FIX: Use isSelfId instead of just checking 'current-player' literal
+        // This handles GM's own HUD which may have a server UUID instead of 'current-player'
+        if (isSelfId(memberId, undefined, myIds)) {
+            const charState = useCharacterStore.getState();
+            const currentHp = charState.health?.current ?? 0;
+            const tempHp = charState.tempHealth ?? 0;
+            const totalDamage = currentHp + tempHp;
+
+            // Skip if already dead (no adjustment needed)
+            if (totalDamage <= 0) {
+                console.log('ℹ️ handleKill: Character already at 0 HP, skipping');
+                setShowContextMenu(false);
+                return;
+            }
+
+            // Drain both current and temporary HP
+            handleResourceAdjust(memberId, 'health', -totalDamage);
+        } else {
+            const member = findMemberById(memberId, usePartyStore.getState().partyMembers);
+            if (member) {
+                const currentHp = member.character?.health?.current ?? 0;
+                const tempHp = member.character?.tempHealth ?? 0;
+                const totalDamage = currentHp + tempHp;
+
+                // Skip if already dead (no adjustment needed)
+                if (totalDamage <= 0) {
+                    console.log('ℹ️ handleKill: Character already at 0 HP, skipping');
+                    setShowContextMenu(false);
+                    return;
+                }
+
+                // Drain both current and temporary HP
+                handleResourceAdjust(memberId, 'health', -totalDamage);
+            }
+        }
+        setShowContextMenu(false);
+    };
+
+    // Handle drain mana (set mana to 0, including temporary mana)
+    const handleDrainMana = () => {
+        if (!contextMenuMember) return;
+
+        const memberId = contextMenuMember.id;
+        
+        // CRITICAL FIX: Use isSelfId instead of just checking 'current-player' literal
+        if (isSelfId(memberId, undefined, myIds)) {
+            const charState = useCharacterStore.getState();
+            const currentMp = charState.mana?.current ?? 0;
+            const tempMp = charState.tempMana ?? 0;
+            const drainAmount = currentMp + tempMp;
+
+            // Skip if nothing to drain
+            if (drainAmount <= 0) {
+                console.log('ℹ️ handleDrainMana: Mana already at 0, skipping');
+                setShowContextMenu(false);
+                return;
+            }
+
+            // Drain both current and temporary mana
+            handleResourceAdjust(memberId, 'mana', -drainAmount);
+            // logResourceChange removed - handled by handleResourceAdjust
+        } else {
+            const member = findMemberById(memberId, usePartyStore.getState().partyMembers);
+            if (member) {
+                const currentMp = member.character?.mana?.current ?? 0;
+                const tempMp = member.character?.tempMana ?? 0;
+                const drainAmount = currentMp + tempMp;
+
+                // Skip if nothing to drain
+                if (drainAmount <= 0) {
+                    console.log('ℹ️ handleDrainMana: Mana already at 0, skipping');
+                    setShowContextMenu(false);
+                    return;
+                }
+
+                // Drain both current and temporary mana
+                handleResourceAdjust(memberId, 'mana', -drainAmount);
+                // logResourceChange removed - handled by handleResourceAdjust
+            }
+        }
+        setShowContextMenu(false);
+    };
+
+    // Handle full restore mana (set mana to max)
+    const handleFullRestoreMana = () => {
+        if (!contextMenuMember) return;
+
+        const memberId = contextMenuMember.id;
+        
+        // CRITICAL FIX: Use isSelfId instead of just checking 'current-player' literal
+        if (isSelfId(memberId, undefined, myIds)) {
+            const charState = useCharacterStore.getState();
+            const maxMp = charState.mana?.max ?? 0;
+            const currentMp = charState.mana?.current ?? 0;
+            const restoreAmount = Math.max(0, maxMp - currentMp);
+
+            // Skip if already at max
+            if (restoreAmount <= 0) {
+                console.log('ℹ️ handleFullRestoreMana: Mana already at max, skipping');
+                setShowContextMenu(false);
+                return;
+            }
+
+            handleResourceAdjust(memberId, 'mana', restoreAmount);
+            // logResourceChange removed - handled by handleResourceAdjust
+        } else {
+            const member = findMemberById(memberId, usePartyStore.getState().partyMembers);
+            if (member) {
+                const maxMp = member.character?.mana?.max ?? 0;
+                const currentMp = member.character?.mana?.current ?? 0;
+                const restoreAmount = Math.max(0, maxMp - currentMp);
+
+                // Skip if already at max
+                if (restoreAmount <= 0) {
+                    console.log('ℹ️ handleFullRestoreMana: Mana already at max, skipping');
+                    setShowContextMenu(false);
+                    return;
+                }
+
+                handleResourceAdjust(memberId, 'mana', restoreAmount);
+                // logResourceChange removed - handled by handleResourceAdjust
+            }
+        }
+        setShowContextMenu(false);
+    };
+
+    // Handle drain AP (set action points to 0, including temporary AP)
+    const handleDrainAP = () => {
+        if (!contextMenuMember) return;
+
+        const memberId = contextMenuMember.id;
+        
+        // CRITICAL FIX: Use isSelfId instead of just checking 'current-player' literal
+        if (isSelfId(memberId, undefined, myIds)) {
+            const charState = useCharacterStore.getState();
+            const currentAp = charState.actionPoints?.current ?? 0;
+            const tempAp = charState.tempActionPoints ?? 0;
+            const drainAmount = currentAp + tempAp;
+
+            // Skip if nothing to drain
+            if (drainAmount <= 0) {
+                console.log('ℹ️ handleDrainAP: AP already at 0, skipping');
+                setShowContextMenu(false);
+                return;
+            }
+
+            // Drain both current and temporary AP
+            handleResourceAdjust(memberId, 'actionPoints', -drainAmount);
+            // logResourceChange removed - handled by handleResourceAdjust
+        } else {
+            const member = findMemberById(memberId, usePartyStore.getState().partyMembers);
+            if (member) {
+                const currentAp = member.character?.actionPoints?.current ?? 0;
+                const tempAp = member.character?.tempActionPoints ?? 0;
+                const drainAmount = currentAp + tempAp;
+
+                // Skip if nothing to drain
+                if (drainAmount <= 0) {
+                    console.log('ℹ️ handleDrainAP: AP already at 0, skipping');
+                    setShowContextMenu(false);
+                    return;
+                }
+
+                // Drain both current and temporary AP
+                handleResourceAdjust(memberId, 'actionPoints', -drainAmount);
+                // logResourceChange removed - handled by handleResourceAdjust
+            }
+        }
+        setShowContextMenu(false);
+    };
+
+    // Active drag tracking refs to guarantee frames never snap back during mid-drag re-renders
+    const activeDragPositionsRef = useRef({});
+    const isDraggingRef = useRef({});
+
+    const handleMemberDragStart = useCallback((memberKey) => {
+        isDraggingRef.current[memberKey] = true;
+    }, []);
+
+    const handleMemberDrag = useCallback((memberKey, data) => {
+        activeDragPositionsRef.current[memberKey] = { x: data.x, y: data.y };
+    }, []);
+
+    const handleMemberDragStop = useCallback((member, data) => {
+        const memberKey = getMemberStableKey(member, myIds);
+        const aliases = getMemberAliases(member, myIds);
+        delete isDraggingRef.current[memberKey];
+        delete activeDragPositionsRef.current[memberKey];
+
+        // Save position under primary stable key and all member aliases (current-player, userId, character.id, etc.)
+        setMemberPosition(memberKey, { x: data.x, y: data.y }, aliases);
+    }, [myIds, setMemberPosition]);
+
+    // Removed: Test functions for buffs/debuffs
+
+    // Removed: Auto-party creation - multiplayer handles party creation
+
+    // Simple rule: Show HUDs for all room members
+    // No complex leadership - room creator is GM, others are players
+    // CRITICAL FIX: Filter to only show connected members or current-player
+    const seenMemberKeys = new Set();
+    const displayMembers = partyMembers
+        .filter(member => {
+            // Always show current player
+            const isSelf = isSelfId(member.userId, member.userId, myIds) ||
+                isSelfId(member.id, member.userId, myIds) ||
+                isSelfId(member.socketId, member.userId, myIds);
+            if (isSelf || member.id === 'current-player') return true;
+            // Only show other members if they are actually connected to the room
+            return member.isConnected === true;
+        })
+        .filter(member => {
+            const isSelf = isSelfId(member.userId, member.userId, myIds) ||
+                isSelfId(member.id, member.userId, myIds) ||
+                isSelfId(member.socketId, member.userId, myIds);
+            const dedupKey = isSelf ? 'SELF_PLAYER' : (member.userId || member.id || member.socketId || member.name);
+            if (seenMemberKeys.has(dedupKey)) return false;
+            seenMemberKeys.add(dedupKey);
+            return true;
+        })
+        .map(member => {
+            // Update current player with live character data
+            // CRITICAL FIX: Check member.userId FIRST (most reliable), then id and socketId
+            const isSelf = isSelfId(member.userId, member.userId, myIds) ||
+                isSelfId(member.id, member.userId, myIds) ||
+                isSelfId(member.socketId, member.userId, myIds);
+            if (isSelf) {
+
+
+                return {
+                    ...member, // Preserve all existing member data including isGM
+                    // CRITICAL FIX: Use the name from the lobby (member.name) if the character store name is default/generic
+                    // This ensures Guest names like "Mitch Connor" are preserved over "Character Name"
+                    name: (currentPlayerData.name === 'Character Name' || !currentPlayerData.name) ? member.name : currentPlayerData.name,
+                    status: currentUserPresence?.status || 'online', // Add status from presence
+                    character: {
+                        level: currentPlayerData.level,
+                        race: currentPlayerData.race,
+                        subrace: currentPlayerData.subrace,
+                        raceDisplayName: currentPlayerData.raceDisplayName,
+                        class: currentPlayerData.class,
+                        alignment: currentPlayerData.alignment,
+                        background: currentPlayerData.background,
+                        backgroundDisplayName: currentPlayerData.backgroundDisplayName,
+                        path: currentPlayerData.path,
+                        pathDisplayName: currentPlayerData.pathDisplayName,
+                        exhaustionLevel: currentPlayerData.exhaustionLevel,
+                        health: currentPlayerData.health,
+                        mana: currentPlayerData.mana,
+                        actionPoints: currentPlayerData.actionPoints,
+                        tempHealth: currentPlayerData.tempHealth,
+                        tempMana: currentPlayerData.tempMana,
+                        tempActionPoints: currentPlayerData.tempActionPoints,
+                        classResource: currentPlayerData.classResource,
+                        lore: currentPlayerData.lore,
+                        tokenSettings: currentPlayerData.tokenSettings
+                    }
+                };
+            }
+            // Return member data as-is: bars only render when max > 0 (see ClassResourceBar condition)
+            return { ...member };
+        });
+
+    // Fallback: If displayMembers is empty (e.g. initial cloud load before party store or socket sync),
+    // synthesize the local player frame so the HUD is ALWAYS visible.
+    const resolvedDisplayMembers = displayMembers.length > 0 ? displayMembers : [{
+        id: 'current-player',
+        userId: myUserId || 'current-player',
+        name: currentPlayerData?.name || 'Player',
+        isConnected: true,
+        isGM: isGMMode,
+        character: {
+            level: currentPlayerData?.level || 1,
+            race: currentPlayerData?.race,
+            subrace: currentPlayerData?.subrace,
+            raceDisplayName: currentPlayerData?.raceDisplayName,
+            class: currentPlayerData?.class,
+            alignment: currentPlayerData?.alignment,
+            background: currentPlayerData?.background,
+            backgroundDisplayName: currentPlayerData?.backgroundDisplayName,
+            path: currentPlayerData?.path,
+            pathDisplayName: currentPlayerData?.pathDisplayName,
+            exhaustionLevel: currentPlayerData?.exhaustionLevel || 0,
+            health: currentPlayerData?.health || { current: 50, max: 50 },
+            mana: currentPlayerData?.mana || { current: 50, max: 50 },
+            actionPoints: currentPlayerData?.actionPoints || { current: 3, max: 3 },
+            tempHealth: currentPlayerData?.tempHealth || 0,
+            tempMana: currentPlayerData?.tempMana || 0,
+            tempActionPoints: currentPlayerData?.tempActionPoints || 0,
+            classResource: currentPlayerData?.classResource,
+            lore: currentPlayerData?.lore,
+            tokenSettings: currentPlayerData?.tokenSettings
+        }
+    }];
+
+    // Keep the auto-stack tight: measure each rendered frame so members without
+    // a stored drag position sit 8px below the previous frame, whatever its
+    // class-bar height happens to be.
+    useEffect(() => {
+        let raf1 = 0;
+        let raf2 = 0;
+        const measure = () => {
+            const next = {};
+            resolvedDisplayMembers.forEach((member) => {
+                const key = getMemberStableKey(member, myIds);
+                const node = nodeRefs.current[key]?.current;
+                const el = node?.querySelector?.('.party-member-frame');
+                if (el) {
+                    const h = Math.round(el.getBoundingClientRect().height);
+                    if (h > 0) next[key] = h;
+                }
+            });
+            setFrameHeights((prev) => {
+                const nextKeys = Object.keys(next);
+                const unchanged = nextKeys.length === Object.keys(prev).length &&
+                    nextKeys.every((k) => Math.abs((prev[k] || 0) - next[k]) < 1);
+                return unchanged ? prev : next;
+            });
+        };
+        raf1 = requestAnimationFrame(() => { raf2 = requestAnimationFrame(measure); });
+        const settleTimer = setTimeout(measure, 350);
+        window.addEventListener('resize', measure);
+        return () => {
+            cancelAnimationFrame(raf1);
+            cancelAnimationFrame(raf2);
+            clearTimeout(settleTimer);
+            window.removeEventListener('resize', measure);
+        };
+    }, [partyMembers, myIds]); // eslint-disable-line react-hooks/exhaustive-deps
+
+    return (
+        <>
+
+
+            <div className="party-hud-frames">
+                <div><ActorConsequenceControls /><SpellConsequenceHost /></div>
+                {resolvedDisplayMembers.map((member, index) => {
+                    const memberKey = getMemberStableKey(member, myIds);
+                    const memberAliases = getMemberAliases(member, myIds);
+
+                    // Create or get a unique ref for this member using stable memberKey
+                    if (!nodeRefs.current[memberKey]) {
+                        nodeRefs.current[memberKey] = React.createRef();
+                    }
+                    const memberNodeRef = nodeRefs.current[memberKey];
+
+                    // Calculate dynamic spacing from the previous frames' measured
+                    // heights (class bars vary); fall back to the old slot sizes
+                    // until the first measurement lands.
+                    let yOffset = 20;
+                    for (let i = 0; i < index; i++) {
+                        const prevMember = resolvedDisplayMembers[i];
+                        const prevKey = getMemberStableKey(prevMember, myIds);
+                        const hasClassResource = prevMember?.character?.class && prevMember?.character?.classResource;
+                        const frameHeight = frameHeights[prevKey] || (hasClassResource ? 198 : 160);
+                        yOffset += frameHeight + 8;
+                    }
+
+                    // Get stored position using stable memberKey and aliases
+                    const storedPosition = getMemberPosition(memberKey, memberAliases);
+                    // If user is actively dragging this frame, prioritize live dragged position so background re-renders never revert it
+                    const activeDragPos = activeDragPositionsRef.current[memberKey];
+                    const rawPosition = activeDragPos || storedPosition || { x: 20, y: yOffset };
+
+                    // Sanitize and clamp position to current viewport bounds so corrupt/mobile localStorage cannot push HUD offscreen
+                    const maxX = typeof window !== 'undefined' ? Math.max(20, window.innerWidth - 320) : 1000;
+                    const maxY = typeof window !== 'undefined' ? Math.max(20, window.innerHeight - 160) : 800;
+                    const initialPosition = {
+                        x: typeof rawPosition.x === 'number' && !isNaN(rawPosition.x)
+                            ? Math.max(0, Math.min(rawPosition.x, maxX))
+                            : 20,
+                        y: typeof rawPosition.y === 'number' && !isNaN(rawPosition.y)
+                            ? Math.max(0, Math.min(rawPosition.y, maxY))
+                            : yOffset
+                    };
+
+                    return (
+                        <Draggable
+                            key={memberKey}
+                            handle={`.party-frame-${memberKey} .party-member-frame`}
+                            position={initialPosition}
+                            nodeRef={memberNodeRef}
+                            onStart={() => handleMemberDragStart(memberKey)}
+                            onDrag={(e, data) => handleMemberDrag(memberKey, data)}
+                            onStop={(e, data) => handleMemberDragStop(member, data)}
+                            enableUserSelectHack={true} // Enable user select hack to prevent text selection during drag
+                            disabled={false} // Ensure dragging is always enabled
+                            scale={1} // Fixed scale to prevent transform calculations
+                            cancel=".resource-bar, .buff-icon, .debuff-icon, button, input, select, textarea"
+                        >
+                            <div ref={memberNodeRef} className={`party-frame-${memberKey} party-frame-${member.id}`} style={{ display: 'flex', flexDirection: 'column' }}>
+                                <PartyMemberFrame
+                                    member={member}
+                                    isCurrentPlayer={
+                                        isSelfId(member.userId, member.userId, myIds) ||
+                                        isSelfId(member.id, member.userId, myIds) ||
+                                        isSelfId(member.socketId, member.userId, myIds)
+                                    }
+                                    leaderId={leaderId}
+                                    onContextMenu={handleContextMenu}
+                                    onResourceAdjust={handleResourceAdjust}
+                                    onBuffContextMenu={handleBuffContextMenu}
+                                    onClassResourceUpdate={handleClassResourceUpdate}
+                                    onRegisterRefs={handleRegisterRefs}
+                                />
+                            </div>
+                        </Draggable>
+                    );
+                })}
+            </div>
+
+            {/* Context Menu - Outside draggable containers */}
+            {showContextMenu && (() => {
+                const menuItems = [];
+
+                const isSelf = isSelfId(contextMenuMember?.id, contextMenuMember?.userId, myIds);
+                const leaderId = usePartyStore.getState().leaderId;
+                const isLeader = contextMenuMember?.id === leaderId || contextMenuMember?.userId === leaderId;
+                const currentUserIsLeader = isSelfId(leaderId, undefined, myIds);
+                const leaderInSession = isLeader && isInMultiplayer && multiplayerRoom;
+                const currentUserInSession = isInMultiplayer && multiplayerRoom;
+
+                // Party Management Options (always visible, context-dependent)
+                if (isSelf && isInParty) {
+                    menuItems.push({
+                        icon: <i className="fas fa-sign-out-alt"></i>,
+                        label: 'Leave Party',
+                        onClick: () => {
+                            console.log('🚪 Leaving party');
+                            usePartyStore.getState().leaveParty();
+                            setShowContextMenu(false);
+                        },
+                        className: 'danger'
+                    });
+                    menuItems.push({ type: 'separator' });
+                } else if (!isSelf) {
+                    // Join Session option (when leader is in session)
+                    if (leaderInSession) {
+                        menuItems.push({
+                            icon: <i className="fas fa-door-open"></i>,
+                            label: 'Join Session',
+                            onClick: () => {
+                                console.log('🎯 Requesting to join session:', multiplayerRoom.id);
+                                usePresenceStore.getState().requestToJoinSession(
+                                    leaderId,
+                                    multiplayerRoom.id,
+                                    myId,
+                                    currentPlayerData?.name || 'Player'
+                                );
+                                setShowContextMenu(false);
+                            },
+                            className: 'heal'
+                        });
+                    }
+
+                    // Invite to Session option (when current user is leader in session)
+                    if (currentUserIsLeader && currentUserInSession && !isLeader) {
+                        menuItems.push({
+                            icon: <i className="fas fa-user-plus"></i>,
+                            label: 'Invite to Session',
+                            onClick: () => {
+                                console.log('📨 Inviting member to session:', contextMenuMember?.id);
+                                usePresenceStore.getState().sendSessionInvitation(
+                                    contextMenuMember?.userId || contextMenuMember?.id,
+                                    multiplayerRoom.id
+                                );
+                                setShowContextMenu(false);
+                            },
+                            className: 'heal'
+                        });
+                    }
+
+                    // Whisper option
+                    menuItems.push({
+                        icon: <i className="fas fa-comment"></i>,
+                        label: 'Whisper',
+                        onClick: () => {
+                            console.log('💬 Opening whisper for:', contextMenuMember?.name);
+                            usePresenceStore.getState().openWhisperTab({
+                                userId: contextMenuMember?.userId || contextMenuMember?.id,
+                                name: contextMenuMember?.name,
+                                characterName: contextMenuMember?.name
+                            });
+                            setShowContextMenu(false);
+                        }
+                    });
+
+                    menuItems.push({ type: 'separator' });
+                }
+
+                // GM/Player View Toggle - Add at the top
+                menuItems.push({
+                    icon: <i className={`fas ${isGMMode ? 'fa-crown' : 'fa-user'}`}></i>,
+                    label: isGMMode ? 'Switch to Player View' : 'Switch to GM View',
+                    onClick: handleToggleGMView,
+                    disabled: isInMultiplayer,
+                    title: isInMultiplayer
+                        ? 'GM mode determined by room creator status'
+                        : (isGMMode ? 'Switch to Player View (fog blocks visibility)' : 'Switch to GM View (see through fog)')
+                });
+
+                menuItems.push({ type: 'separator' });
+
+                // Target/Clear Target
+                menuItems.push({
+                    icon: <i className="fas fa-crosshairs"></i>,
+                    label: currentTarget?.id === contextMenuMember?.id ? 'Clear Target' : 'Target',
+                    onClick: handleTargetMember
+                });
+
+                // Inspect
+                menuItems.push({
+                    icon: <i className="fas fa-search"></i>,
+                    label: 'Inspect',
+                    onClick: handleInspectMember
+                });
+
+                // Only show create token for current player
+                if (contextMenuMember?.name === currentPlayerData.name || isSelfId(contextMenuMember?.id, contextMenuMember?.userId, myIds)) {
+
+                    menuItems.push({
+                        icon: <i className="fas fa-plus-circle"></i>,
+                        label: 'Create Token',
+                        onClick: handleCreateToken
+                    });
+                }
+
+                // Summon Token Bar - show only for classes/races that have summonable tokens
+                {
+                    const charClass = contextMenuMember?.character?.class || contextMenuMember?.characterClass;
+                    const charRace = contextMenuMember?.character?.race || contextMenuMember?.characterRace;
+                    const charSubrace = contextMenuMember?.character?.subrace;
+                    const charLevel = contextMenuMember?.character?.level || contextMenuMember?.characterLevel || 1;
+                    if (charClass || charRace) {
+                        const resolvedClassId = resolveClassId(charClass);
+                        const classTokens = resolvedClassId ? getTokensForClass(charClass) : [];
+                        const raceTokens = charRace ? getTokensForRace(charRace, charSubrace) : [];
+                        const hasTokens = classTokens.length > 0 || raceTokens.length > 0;
+                        if (hasTokens) {
+                            menuItems.push({
+                                icon: <i className="fas fa-dragon" style={{ color: '#a78bfa' }}></i>,
+                                label: 'Summon Tokens',
+                                onClick: () => {
+                                    setSummonTokenBarCharacter({
+                                        ...contextMenuMember,
+                                        characterClass: charClass,
+                                        race: charRace,
+                                        subrace: charSubrace || charRace,
+                                        level: charLevel,
+                                        name: contextMenuMember?.name,
+                                    });
+                                    setShowSummonTokenBar(true);
+                                    setShowContextMenu(false);
+                                },
+                                className: 'summon-token-bar-item',
+                            });
+                        }
+                    }
+                }
+
+                // Health adjustment options - show for GM on anyone, or for self on own character
+                if (isGMMode || isSelf) {
+                    menuItems.push({ type: 'separator' });
+
+                    // Full Restore All button (restores HP, mana, and AP)
+                    menuItems.push({
+                        icon: <i className="fas fa-redo"></i>,
+                        label: 'Full Restore All',
+                        onClick: handleFullRestoreAll,
+                        className: 'heal'
+                    });
+
+                    // Full Drain All button (drains HP, mana, and AP including temporary)
+                    menuItems.push({
+                        icon: <i className="fas fa-battery-empty"></i>,
+                        label: 'Full Drain All',
+                        onClick: handleFullDrainAll,
+                        className: 'danger'
+                    });
+
+                    menuItems.push({ type: 'separator' });
+
+                    // Health submenu
+                    menuItems.push({
+                        icon: <i className="fas fa-heart"></i>,
+                        label: 'Health',
+                        submenu: [
+                            {
+                                icon: <i className="fas fa-minus-circle"></i>,
+                                label: 'Damage (5)',
+                                onClick: () => handleResourceAdjust(contextMenuMember.id, 'health', -5)
+                            },
+                            {
+                                icon: <i className="fas fa-minus-circle"></i>,
+                                label: 'Damage (10)',
+                                onClick: () => handleResourceAdjust(contextMenuMember.id, 'health', -10)
+                            },
+                            {
+                                icon: <i className="fas fa-edit"></i>,
+                                label: 'Custom Damage',
+                                onClick: () => handleCustomAmount('damage')
+                            },
+                            { type: 'separator' },
+                            {
+                                icon: <i className="fas fa-plus-circle"></i>,
+                                label: 'Heal (5)',
+                                onClick: () => handleResourceAdjust(contextMenuMember.id, 'health', 5)
+                            },
+                            {
+                                icon: <i className="fas fa-plus-circle"></i>,
+                                label: 'Heal (10)',
+                                onClick: () => handleResourceAdjust(contextMenuMember.id, 'health', 10)
+                            },
+                            {
+                                icon: <i className="fas fa-edit"></i>,
+                                label: 'Custom Heal',
+                                onClick: () => handleCustomAmount('heal')
+                            },
+                            { type: 'separator' },
+                            {
+                                icon: <i className="fas fa-heart"></i>,
+                                label: 'Full Heal',
+                                onClick: handleFullHeal,
+                                className: 'heal'
+                            },
+                            {
+                                icon: <i className="fas fa-skull"></i>,
+                                label: 'Kill',
+                                onClick: handleKill,
+                                className: 'danger'
+                            }
+                        ]
+                    });
+
+                    // Mana submenu
+                    menuItems.push({
+                        icon: <i className="fas fa-magic"></i>,
+                        label: 'Mana',
+                        submenu: [
+                            {
+                                icon: <i className="fas fa-minus-circle"></i>,
+                                label: 'Drain (5)',
+                                onClick: () => handleResourceAdjust(contextMenuMember.id, 'mana', -5)
+                            },
+                            {
+                                icon: <i className="fas fa-minus-circle"></i>,
+                                label: 'Drain (10)',
+                                onClick: () => handleResourceAdjust(contextMenuMember.id, 'mana', -10)
+                            },
+                            {
+                                icon: <i className="fas fa-edit"></i>,
+                                label: 'Custom Drain',
+                                onClick: () => handleCustomAmount('mana-damage')
+                            },
+                            { type: 'separator' },
+                            {
+                                icon: <i className="fas fa-plus-circle"></i>,
+                                label: 'Restore (5)',
+                                onClick: () => handleResourceAdjust(contextMenuMember.id, 'mana', 5)
+                            },
+                            {
+                                icon: <i className="fas fa-plus-circle"></i>,
+                                label: 'Restore (10)',
+                                onClick: () => handleResourceAdjust(contextMenuMember.id, 'mana', 10)
+                            },
+                            {
+                                icon: <i className="fas fa-edit"></i>,
+                                label: 'Custom Restore',
+                                onClick: () => handleCustomAmount('mana-heal')
+                            },
+                            { type: 'separator' },
+                            {
+                                icon: <i className="fas fa-magic"></i>,
+                                label: 'Full Restore',
+                                onClick: handleFullRestoreMana,
+                                className: 'heal'
+                            },
+                            {
+                                icon: <i className="fas fa-battery-empty"></i>,
+                                label: 'Drain All',
+                                onClick: handleDrainMana,
+                                className: 'danger'
+                            }
+                        ]
+                    });
+
+                    // Action Points submenu
+                    menuItems.push({
+                        icon: <i className="fas fa-bolt"></i>,
+                        label: 'Action Points',
+                        submenu: [
+                            {
+                                icon: <i className="fas fa-minus-circle"></i>,
+                                label: 'Spend (1)',
+                                onClick: () => handleResourceAdjust(contextMenuMember.id, 'actionPoints', -1)
+                            },
+                            {
+                                icon: <i className="fas fa-minus-circle"></i>,
+                                label: 'Spend (2)',
+                                onClick: () => handleResourceAdjust(contextMenuMember.id, 'actionPoints', -2)
+                            },
+                            {
+                                icon: <i className="fas fa-minus-circle"></i>,
+                                label: 'Spend (3)',
+                                onClick: () => handleResourceAdjust(contextMenuMember.id, 'actionPoints', -3)
+                            },
+                            {
+                                icon: <i className="fas fa-edit"></i>,
+                                label: 'Custom Spend',
+                                onClick: () => handleCustomAmount('ap-spend')
+                            },
+                            { type: 'separator' },
+                            {
+                                icon: <i className="fas fa-plus-circle"></i>,
+                                label: 'Restore (1)',
+                                onClick: () => handleResourceAdjust(contextMenuMember.id, 'actionPoints', 1)
+                            },
+                            {
+                                icon: <i className="fas fa-plus-circle"></i>,
+                                label: 'Restore (2)',
+                                onClick: () => handleResourceAdjust(contextMenuMember.id, 'actionPoints', 2)
+                            },
+                            {
+                                icon: <i className="fas fa-plus-circle"></i>,
+                                label: 'Restore (3)',
+                                onClick: () => handleResourceAdjust(contextMenuMember.id, 'actionPoints', 3)
+                            },
+                            {
+                                icon: <i className="fas fa-edit"></i>,
+                                label: 'Custom Restore',
+                                onClick: () => handleCustomAmount('ap-restore')
+                            },
+                            { type: 'separator' },
+                            {
+                                icon: <i className="fas fa-bolt"></i>,
+                                label: 'Full Restore',
+                                onClick: () => {
+                                    if (!contextMenuMember) return;
+                                    const memberId = contextMenuMember.id;
+                                    if (memberId === 'current-player') {
+                                        const maxAp = currentPlayerData.actionPoints?.max || 0;
+                                        const currentAp = currentPlayerData.actionPoints?.current || 0;
+                                        handleResourceAdjust(memberId, 'actionPoints', maxAp - currentAp);
+                                    } else {
+                                        const member = findMemberById(memberId);
+                                        if (member) {
+                                            const maxAp = member.character?.actionPoints?.max || 0;
+                                            const currentAp = member.character?.actionPoints?.current || 0;
+                                            handleResourceAdjust(memberId, 'actionPoints', maxAp - currentAp);
+                                        }
+                                    }
+                                    setShowContextMenu(false);
+                                },
+                                className: 'heal'
+                            },
+                            {
+                                icon: <i className="fas fa-battery-empty"></i>,
+                                label: 'Drain All',
+                                onClick: handleDrainAP,
+                                className: 'danger'
+                            }
+                        ]
+                    });
+                }
+
+                // GM-only options: Experience and Level adjustments
+                if (isGMMode) {
+                    menuItems.push({ type: 'separator' });
+
+                    // Experience submenu
+                    menuItems.push({
+                        icon: <i className="fas fa-star"></i>,
+                        label: 'Experience',
+                        submenu: [
+                            {
+                                icon: <i className="fas fa-plus-circle"></i>,
+                                label: 'Award 50 XP',
+                                onClick: () => handleAwardXP(contextMenuMember.id, 50)
+                            },
+                            {
+                                icon: <i className="fas fa-plus-circle"></i>,
+                                label: 'Award 100 XP',
+                                onClick: () => handleAwardXP(contextMenuMember.id, 100)
+                            },
+                            {
+                                icon: <i className="fas fa-plus-circle"></i>,
+                                label: 'Award 250 XP',
+                                onClick: () => handleAwardXP(contextMenuMember.id, 250)
+                            },
+                            {
+                                icon: <i className="fas fa-plus-circle"></i>,
+                                label: 'Award 500 XP',
+                                onClick: () => handleAwardXP(contextMenuMember.id, 500)
+                            },
+                            { type: 'separator' },
+                            {
+                                icon: <i className="fas fa-minus-circle"></i>,
+                                label: 'Remove 50 XP',
+                                onClick: () => handleAwardXP(contextMenuMember.id, -50)
+                            },
+                            {
+                                icon: <i className="fas fa-minus-circle"></i>,
+                                label: 'Remove 100 XP',
+                                onClick: () => handleAwardXP(contextMenuMember.id, -100)
+                            },
+                            {
+                                icon: <i className="fas fa-minus-circle"></i>,
+                                label: 'Remove 250 XP',
+                                onClick: () => handleAwardXP(contextMenuMember.id, -250)
+                            },
+                            {
+                                icon: <i className="fas fa-minus-circle"></i>,
+                                label: 'Remove 500 XP',
+                                onClick: () => handleAwardXP(contextMenuMember.id, -500)
+                            },
+                            { type: 'separator' },
+                            {
+                                icon: <i className="fas fa-edit"></i>,
+                                label: 'Custom Amount',
+                                onClick: () => handleCustomAmount('xp')
+                            }
+                        ]
+                    });
+
+                    // Level adjustment submenu
+                    menuItems.push({
+                        icon: <i className="fas fa-level-up-alt"></i>,
+                        label: 'Level',
+                        submenu: [
+                            {
+                                icon: <i className="fas fa-arrow-up"></i>,
+                                label: 'Add 1 Level',
+                                onClick: () => handleLevelAdjust(contextMenuMember.id, 1)
+                            },
+                            {
+                                icon: <i className="fas fa-arrow-up"></i>,
+                                label: 'Add 5 Levels',
+                                onClick: () => handleLevelAdjust(contextMenuMember.id, 5)
+                            },
+                            { type: 'separator' },
+                            {
+                                icon: <i className="fas fa-arrow-down"></i>,
+                                label: 'Remove 1 Level',
+                                onClick: () => handleLevelAdjust(contextMenuMember.id, -1)
+                            },
+                            {
+                                icon: <i className="fas fa-arrow-down"></i>,
+                                label: 'Remove 5 Levels',
+                                onClick: () => handleLevelAdjust(contextMenuMember.id, -5)
+                            }
+                        ]
+                    });
+                }
+
+                // Leadership transfer - show options if current player is actual GM
+                const currentMember = partyMembers.find(m => isSelfId(m.id, m.userId, myIds));
+
+                const isActualGM = currentMember?.isGM;
+
+
+                if (isActualGM) {
+                    menuItems.push({ type: 'separator' });
+
+                    if (isSelfId(contextMenuMember?.id, contextMenuMember?.userId, myIds)) {
+                        // Current player (GM) context menu
+                        if (!isSelfId(leaderId, undefined, myIds)) {
+                            menuItems.push({
+                                icon: <i className="fas fa-crown"></i>,
+                                label: 'Regain Leadership',
+                                onClick: handleRegainLeadership,
+                                className: 'leadership'
+                            });
+                        }
+                    } else if (leaderId !== contextMenuMember?.id) {
+                        // Other player context menu
+                        menuItems.push({
+                            icon: <i className="fas fa-crown"></i>,
+                            label: 'Make Leader',
+                            onClick: handleTransferLeadership,
+                            className: 'leadership'
+                        });
+                    }
+                }
+
+                return createPortal(
+                    <UnifiedContextMenu
+                        visible={showContextMenu}
+                        x={contextMenuPosition.x}
+                        y={contextMenuPosition.y}
+                        onClose={() => {
+                            setShowContextMenu(false);
+                            setContextMenuMember(null);
+                        }}
+                        items={menuItems}
+                    />,
+                    document.body
+                );
+            })()}
+
+            {/* Buff/Debuff Context Menu - Rendered via Portal to avoid transform issues */}
+            {showBuffContextMenu && createPortal(
+                <>
+                    <div
+                        className="context-menu-overlay"
+                        onClick={() => {
+                            setShowBuffContextMenu(false);
+                            setContextMenuBuff(null);
+                        }}
+                    />
+                    <div
+                        className={`unified-context-menu small buff-context-menu ${contextMenuBuff?.type === 'debuff' ? 'debuff-context-menu' : ''}`}
+                        style={{
+                            position: 'fixed',
+                            left: buffContextMenuPosition.x,
+                            top: buffContextMenuPosition.y,
+                            zIndex: 10000
+                        }}
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <div className="context-menu-main">
+                            <div
+                                className="context-menu-item"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleAdjustBuffDuration();
+                                }}
+                            >
+                                <i className="fas fa-clock" style={{ marginRight: '8px' }}></i>
+                                Adjust Duration
+                            </div>
+                            <div
+                                className="context-menu-item danger"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleDismissBuff();
+                                }}
+                            >
+                                <i className="fas fa-times" style={{ marginRight: '8px' }}></i>
+                                Dismiss {contextMenuBuff?.name || (contextMenuBuff?.type === 'debuff' ? 'Debuff' : 'Buff')}
+                            </div>
+                        </div>
+                    </div>
+                </>,
+                document.body
+            )}
+
+            {/* Duration Modal */}
+            {showDurationModal && durationModalCondition && (
+                <ConditionDurationModal
+                    show={showDurationModal}
+                    onClose={() => {
+                        setShowDurationModal(false);
+                        setDurationModalCondition(null);
+                    }}
+                    onApply={handleDurationModalApplyMain}
+                    conditionName={durationModalCondition.name || durationModalCondition.title || ''}
+                    initialDurationType={durationModalCondition.initialDurationType || 'minutes'}
+                    initialDurationValue={durationModalCondition.initialDurationValue || 10}
+                />
+            )}
+
+            {/* Custom Amount Modal */}
+            {showCustomAmountModal && (
+                <div
+                    className="modal-overlay"
+                    style={{
+                        position: 'fixed',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        zIndex: 10001
+                    }}
+                    onClick={() => {
+                        setShowCustomAmountModal(false);
+                        setCustomAmountType('');
+                    }}
+                >
+                    <div
+                        className="custom-amount-modal"
+                        style={{
+                            backgroundColor: '#f0e6d2',
+                            border: '2px solid #a08c70',
+                            borderRadius: '8px',
+                            padding: '20px',
+                            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
+                            fontFamily: "'Bookman Old Style', 'Garamond', serif",
+                            color: '#7a3b2e',
+                            minWidth: '300px',
+                            textAlign: 'center'
+                        }}
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <h3 style={{ margin: '0 0 15px 0', fontSize: '16px' }}>
+                            {customAmountType === 'damage' && 'Custom Damage Amount'}
+                            {customAmountType === 'heal' && 'Custom Heal Amount'}
+                            {customAmountType === 'mana-damage' && 'Custom Mana Drain Amount'}
+                            {customAmountType === 'mana-heal' && 'Custom Mana Restore Amount'}
+                            {customAmountType === 'ap-spend' && 'Custom Action Points Spend Amount'}
+                            {customAmountType === 'ap-restore' && 'Custom Action Points Restore Amount'}
+                            {customAmountType === 'xp' && 'Award Experience Points'}
+                        </h3>
+                        <input
+                            type="number"
+                            min={customAmountType === 'xp' ? undefined : "1"}
+                            placeholder={customAmountType === 'xp' ? 'Enter amount (+ or -)...' : 'Enter amount...'}
+                            style={{
+                                width: '100%',
+                                padding: '8px',
+                                border: '1px solid #a08c70',
+                                borderRadius: '4px',
+                                fontSize: '14px',
+                                marginBottom: '15px',
+                                textAlign: 'center'
+                            }}
+                            autoFocus
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter') {
+                                    handleCustomAmountSubmit(e.target.value);
+                                } else if (e.key === 'Escape') {
+                                    setShowCustomAmountModal(false);
+                                    setCustomAmountType('');
+                                }
+                            }}
+                        />
+                        <div style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
+                            <button
+                                style={{
+                                    padding: '8px 16px',
+                                    border: '1px solid #a08c70',
+                                    borderRadius: '4px',
+                                    backgroundColor: '#d4c4a8',
+                                    color: '#7a3b2e',
+                                    cursor: 'pointer',
+                                    fontSize: '12px'
+                                }}
+                                onClick={(e) => {
+                                    const input = e.target.parentElement.parentElement.querySelector('input');
+                                    handleCustomAmountSubmit(input.value);
+                                }}
+                            >
+                                Apply
+                            </button>
+                            <button
+                                style={{
+                                    padding: '8px 16px',
+                                    border: '1px solid #a08c70',
+                                    borderRadius: '4px',
+                                    backgroundColor: '#e8dcc0',
+                                    color: '#7a3b2e',
+                                    cursor: 'pointer',
+                                    fontSize: '12px'
+                                }}
+                                onClick={() => {
+                                    setShowCustomAmountModal(false);
+                                    setCustomAmountType('');
+                                }}
+                            >
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Overheal Confirmation Modal */}
+            {showOverhealModal && overhealData && (
+                <div
+                    className="modal-overlay"
+                    style={{
+                        position: 'fixed',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        zIndex: 10001
+                    }}
+                    onClick={() => {
+                        setShowOverhealModal(false);
+                        setOverhealData(null);
+                    }}
+                >
+                    <div
+                        className="overheal-modal"
+                        style={{
+                            backgroundColor: '#f0e6d2',
+                            backgroundImage: 'url("https://www.transparenttextures.com/patterns/parchment.png")',
+                            border: '3px solid #8b4513',
+                            borderRadius: '12px',
+                            padding: '24px',
+                            boxShadow: '0 10px 30px rgba(0, 0, 0, 0.5), inset 0 0 60px rgba(139, 69, 19, 0.1)',
+                            fontFamily: "'Cinzel', serif",
+                            color: '#1a0f08',
+                            minWidth: '400px',
+                            maxWidth: '500px',
+                            textAlign: 'center',
+                            position: 'relative'
+                        }}
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <h3 style={{ 
+                            margin: '0 0 20px 0', 
+                            fontSize: '22px', 
+                            color: '#7a3b2e',
+                            borderBottom: '2px solid #8b4513',
+                            paddingBottom: '10px',
+                            textTransform: 'uppercase',
+                            letterSpacing: '1px'
+                        }}>
+                            Overheal Detected
+                        </h3>
+                        <p style={{ margin: '0 0 15px 0', fontSize: '16px', color: '#4a3728' }}>
+                            This would restore <strong>{overhealData.adjustment}</strong> {overhealData.resourceType === 'health' ? 'HP' : overhealData.resourceType === 'mana' ? 'Mana' : 'AP'},
+                            but the current value is {overhealData.currentValue}/{overhealData.maxValue}.
+                            <br />
+                            <strong style={{ color: '#7a3b2e' }}>{overhealData.overhealAmount}</strong> would exceed the maximum.
+                        </p>
+                        
+                        <div style={{ 
+                            display: 'flex', 
+                            gap: '12px', 
+                            justifyContent: 'center', 
+                            marginTop: '25px',
+                            paddingTop: '20px',
+                            borderTop: '1px solid rgba(139, 69, 19, 0.2)'
+                        }}>
+                            <Button
+                                variant="game-secondary"
+                                onClick={() => {
+                                    setShowOverhealModal(false);
+                                    setOverhealData(null);
+                                }}
+                            >
+                                Cancel
+                            </Button>
+                            <Button
+                                variant="game-secondary"
+                                onClick={() => {
+                                    applyResourceAdjustment(overhealData.memberId, overhealData.resourceType, overhealData.maxValue - overhealData.currentValue, false);
+                                    setShowOverhealModal(false);
+                                    setOverhealData(null);
+                                }}
+                            >
+                                Cap at Max
+                            </Button>
+                            <Button
+                                variant="game-primary"
+                                onClick={() => {
+                                    applyResourceAdjustment(overhealData.memberId, overhealData.resourceType, overhealData.adjustment, true);
+                                    setShowOverhealModal(false);
+                                    setOverhealData(null);
+                                }}
+                            >
+                                Add Temporary
+                            </Button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            <SummonTokenBar
+                isOpen={showSummonTokenBar}
+                onClose={() => setShowSummonTokenBar(false)}
+                character={summonTokenBarCharacter}
+            />
+        </>
+    );
+};
+
+export default PartyHUD;

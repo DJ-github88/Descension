@@ -1,0 +1,24 @@
+/* Original P9 spell consequence panels: calm, readable, no rule logic. */
+.p9-overlay { position: fixed; inset: 0; background: rgba(20, 16, 12, 0.45); display: flex; align-items: center; justify-content: center; z-index: 10050; pointer-events: auto; }
+.p9-panel { width: min(520px, calc(100vw - 32px)); max-height: calc(100vh - 48px); overflow: auto; background: #f6efe1; color: #2b2116; border: 1px solid #8a6d45; border-radius: 8px; padding: 16px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35); font-size: 14px; }
+.p9-panel header { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.p9-panel header h3 { margin: 0; font-size: 18px; }
+.p9-panel header button { background: none; border: none; font-size: 22px; cursor: pointer; color: inherit; }
+.p9-panel label { display: block; margin: 10px 0 6px; }
+.p9-panel select, .p9-panel input[type="text"], .p9-gm input[type="text"] { width: 100%; padding: 4px 6px; }
+.p9-panel input[type="number"], .p9-gm input[type="number"] { width: 64px; padding: 4px; margin: 0 4px; }
+.p9-facts { display: grid; grid-template-columns: auto 1fr; gap: 4px 10px; margin: 10px 0; }
+.p9-facts dt { font-weight: 600; }
+.p9-facts dd { margin: 0; }
+.p9-note, .p9-meta, .p9-advisory { color: #5d4b33; font-size: 12px; }
+.p9-diagnostic { color: #8a2a1b; }
+.p9-roll { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 8px 0; }
+.p9-roll-result { background: #efe3c8; padding: 6px 8px; border-radius: 4px; }
+.p9-panel button, .p9-gm button, .p9-chip button { margin: 4px 6px 4px 0; padding: 4px 10px; cursor: pointer; }
+.p9-primary { font-weight: 600; }
+.p9-status { border-top: 1px solid #c9b48c; margin-top: 12px; padding-top: 8px; }
+.p9-gm { pointer-events: auto; max-width: 420px; }
+.p9-gm-card { background: #f6efe1; color: #2b2116; border: 1px solid #8a6d45; border-radius: 6px; padding: 10px; margin: 6px 0; font-size: 13px; }
+.p9-gm-card h4 { margin: 0 0 4px; font-size: 14px; }
+.p9-gm-card label { display: block; margin: 4px 0; }
+.p9-chip { pointer-events: auto; background: #f6efe1; color: #2b2116; border: 1px solid #8a6d45; border-radius: 6px; padding: 6px 8px; font-size: 12px; max-width: 360px; }

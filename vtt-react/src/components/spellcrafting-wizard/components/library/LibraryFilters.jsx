@@ -3,6 +3,7 @@ import { useSpellLibrary, useSpellLibraryDispatch, libraryActionCreators } from 
 import { createScopedNativeFamily } from '../../../../persistence/scopedNativeFamily';
 import { subscribeBootstrapGate } from '../../../../persistence/bootstrapPrivacyGate';
 import { captureConsumerContext, isConsumerContextCurrent } from '../../../../persistence/scopedConsumer';
+import { safeLocalStorageItem, safeLocalStorageGet } from '../../../../utils/storageUtils';
 // Pathfinder styles imported via main.css // Using the main CSS file for now
 
 // B11: named filter presets contain user-authored names and private search
@@ -21,7 +22,7 @@ const LibraryFilters = () => {
   // State for collapsed sections (load from localStorage if available)
   const [collapsedSections, setCollapsedSections] = useState(() => {
     try {
-      const saved = localStorage.getItem('spellLibraryCollapsedSections');
+      const saved = safeLocalStorageGet('spellLibraryCollapsedSections');
       return saved ? JSON.parse(saved) : {
         categories: false,
         types: false,
@@ -78,7 +79,9 @@ const LibraryFilters = () => {
 
   // Save collapsed sections to localStorage
   useEffect(() => {
-    localStorage.setItem('spellLibraryCollapsedSections', JSON.stringify(collapsedSections));
+    try {
+      safeLocalStorageItem('spellLibraryCollapsedSections', JSON.stringify(collapsedSections));
+    } catch (_) {}
   }, [collapsedSections]);
 
   // Save filter presets to verified-owner scoped storage

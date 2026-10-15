@@ -1,0 +1,31 @@
+{
+  "scope": "Isolated narration preview only; authored fixtures; no P9/live integration acceptance.",
+  "checkedAt": "2026-10-15T11:39:12.444Z",
+  "browser": "155.0.8059.41",
+  "viewports": [
+    "1440×1000",
+    "390×844",
+    "320×740"
+  ],
+  "results": [
+    "Routine hit: one banner, accepted label, optional arithmetic/source, polite status.",
+    "Counterspell: response precedes accepted collapse; supplied 0 s stays fixed and controls remain clickable.",
+    "Parry: accepted success and new supplied Riposte opportunity remain separate; mobile Riposte button unobstructed.",
+    "Unknown: pending/unknown remain unconfirmed over time; only a new confirmed fixture supplies an accepted result.",
+    "Burst: 30 history entries, 4 waiting max, 24 routine grouped, all 5 priority entries retained, 320/390 px wrap, reduced motion."
+  ],
+  "pageErrors": [],
+  "networkRequests": [
+    "http://127.0.0.1:4318/",
+    "http://127.0.0.1:4318/preview.js"
+  ],
+  "storage": "localStorage and sessionStorage empty",
+  "screenshots": [
+    "desktop-routine.png",
+    "desktop-response.png",
+    "mobile-riposte.png",
+    "desktop-unknown.png",
+    "desktop-burst.png",
+    "mobile-long-text.png"
+  ]
+}

@@ -264,67 +264,81 @@
   display: flex;
   justify-content: flex-end;
   gap: 12px;
-  padding: 16px;
-  border-top: 1px solid rgba(66, 91, 158, 0.4);
-  background-color: rgba(15, 25, 45, 0.9);
-  box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.2);
+  padding: 14px 16px;
+  border-top: 1px solid #c4baa6;
+  background-color: #f4eee2;
+  box-shadow: 0 -2px 6px rgba(45, 24, 16, 0.08);
   position: sticky;
   bottom: 0;
   z-index: 10;
 }
 
-.wow-button {
-  padding: 8px 16px;
-  border-radius: 4px;
-  font-size: 14px;
-  font-weight: 600;
+.spell-library-popup-content .wow-button {
+  padding: 8px 18px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 700;
   cursor: pointer;
-  transition: all 0.2s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+  transition: all 0.15s ease;
+  font-family: 'Cinzel', Georgia, serif;
   min-width: 100px;
   text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  border: 1px solid;
 }
 
-.wow-button.secondary {
-  background: linear-gradient(to bottom, rgba(30, 50, 90, 0.7), rgba(20, 35, 70, 0.8));
-  border: 1px solid rgba(66, 91, 158, 0.5);
-  color: #e2e8f0;
+.spell-library-popup-content .wow-button.secondary {
+  background: #e8e2d4;
+  border-color: #9c8970;
+  color: #34251a;
+  box-shadow: 0 1px 3px rgba(40, 30, 20, 0.1);
+  text-shadow: none;
 }
 
-.wow-button.secondary:hover {
-  background: linear-gradient(to bottom, rgba(40, 60, 100, 0.8), rgba(30, 45, 80, 0.9));
-  border-color: rgba(66, 91, 158, 0.7);
+.spell-library-popup-content .wow-button.secondary:hover {
+  background: #ded6c5;
+  border-color: #83725b;
+  color: #231911;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 5px rgba(40, 30, 20, 0.15);
 }
 
-.wow-button.secondary:active {
-  background: linear-gradient(to bottom, rgba(20, 35, 70, 0.8), rgba(30, 50, 90, 0.7));
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), inset 0 1px 3px rgba(0, 0, 0, 0.2);
+.spell-library-popup-content .wow-button.secondary:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px rgba(40, 30, 20, 0.1);
 }
 
-.wow-button.primary {
-  background: linear-gradient(to bottom, rgba(255, 209, 0, 0.7), rgba(200, 160, 0, 0.8));
-  border: 1px solid rgba(150, 120, 0, 0.8);
+.spell-library-popup-content .wow-button.primary {
+  background: linear-gradient(180deg, #663c32 0%, #522d25 100%);
+  border-color: #421e17;
+  color: #fdf8ee;
+  box-shadow: 0 2px 5px rgba(60, 20, 15, 0.25);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+.spell-library-popup-content .wow-button.primary:hover:not(:disabled) {
+  background: linear-gradient(180deg, #78473c 0%, #60362c 100%);
+  border-color: #4f261e;
   color: #ffffff;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(60, 20, 15, 0.35);
 }
 
-.wow-button.primary:hover {
-  background: linear-gradient(to bottom, rgba(154, 123, 60, 0.8), rgba(220, 170, 0, 0.9));
-  box-shadow: 0 2px 6px rgba(154, 123, 60, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+.spell-library-popup-content .wow-button.primary:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px rgba(60, 20, 15, 0.2);
 }
 
-.wow-button.primary:active {
-  background: linear-gradient(to bottom, rgba(200, 160, 0, 0.8), rgba(255, 209, 0, 0.7));
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), inset 0 1px 3px rgba(0, 0, 0, 0.2);
-}
-
-.wow-button.primary:disabled {
-  background: linear-gradient(to bottom, rgba(150, 120, 0, 0.4), rgba(120, 100, 0, 0.5));
-  border-color: rgba(150, 120, 0, 0.4);
-  color: rgba(255, 255, 255, 0.5);
+.spell-library-popup-content .wow-button.primary:disabled {
+  background: #b5aba0 !important;
+  border-color: #9c9186 !important;
+  color: #6e6459 !important;
   cursor: not-allowed;
-  box-shadow: none;
-  opacity: 0.7;
+  opacity: 0.65;
+  box-shadow: none !important;
+  transform: none !important;
+  text-shadow: none !important;
 }
 
 /* Grid view specific styles */

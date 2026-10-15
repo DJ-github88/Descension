@@ -1,0 +1,24 @@
+{
+  "command": [
+    "C:\\Program Files\\nodejs\\node.exe",
+    "node_modules/react-scripts/bin/react-scripts.js",
+    "test",
+    "--watchAll=false",
+    "--runInBand",
+    "--no-cache",
+    "--testTimeout=20000",
+    "--runTestsByPath",
+    "src/components/ui/__tests__/ActionBarLegacyArcanoneerSpheres.test.jsx",
+    "--transform",
+    "{\"^.+\\\\.(js|jsx|mjs|cjs|ts|tsx)$\":\"D:/VTT/vtt-react/verification/p9/evidence/integration-20261015/sol/independent-review/without-import-transform.cjs\"}"
+  ],
+  "cwd": "D:/VTT/vtt-react",
+  "started": "2026-10-15T18:52:09.385Z",
+  "ended": "2026-10-15T18:52:22.910Z",
+  "exit": 1,
+  "signal": null,
+  "sourceBefore": "7a04ec3302561ae91cd495bddce4d5596235bd5b8c5916f58686b767f9000d33",
+  "sourceAfter": "7a04ec3302561ae91cd495bddce4d5596235bd5b8c5916f58686b767f9000d33",
+  "expectedFailure": true,
+  "method": "Only import removed in Jest transform memory; no production writes."
+}

@@ -23057,5 +23057,858 @@
       "independence": "It can remain and feed after Keth Amar retreats, potentially becoming a local faction or solitary apex organism with no interest in leaving.",
       "countermeasure": "Restore the native cycle, sever the root network, protect dying life from harvest, and close the breach sustaining the worm."
     }
+  },
+  {
+    "id": "barnaby-finch",
+    "name": "Barnaby 'Quick-Pennies' Finch",
+    "description": "A cheerful, silver-bearded traveling shopkeeper laden with potions, weighing scales, and curious frontier goods.",
+    "origin": "A veteran of the frost-choked highways connecting Drunhold to the southern vales, Barnaby Finch has spent three decades steering his mule-drawn wagon through mist and bandit country alike. He trades in everything from warm wool and lantern grease to rare alchemical draughts and strange curios dredged up from sunken ruins. Barnaby adheres to the sacred Trader's Code: fair weight on the scales, clean coin on the counter, and a concealed flask of caustic flash-powder under the front seat for anyone thinking of bartering with cold iron.",
+    "nature": "A hearty, gray-bearded man with crinkled laughing eyes, wearing a durable woolen vest over sturdy linens and round brass spectacles perched upon his forehead. His fingers are stained with dried walnut ink and alchemical tinctures, and a brass jeweler's balance hangs always from his leather cross-belt. He is affable, quick with a humorous frontier rumor, but possesses lightning-fast instincts when a customer makes a sudden move toward their scabbard.",
+    "habitat": "Barnaby travels between roadside crossroads, frontier taverns, coaching inns, and temporary campsites across the Frostwood Reach and bordering valleys. He rarely stays in one settlement for more than three nights, following the rhythm of seasonal trade fairs and adventurous prospecting expeditions.",
+    "depth": "Despite his jovial exterior, Barnaby is a quietly courageous soul who has buried two apprentice drivers in the harsh northern winters. He secretly ferries medicine and correspondence to isolated hamlets that larger trade guilds deem too unprofitable to visit. He remembers every customer he has ever met and can spot a counterfeit imperial coin simply by its pitch when bounced on stone.",
+    "type": "shopkeeper",
+    "size": "medium",
+    "tags": [
+      "shopkeeper",
+      "humanoid",
+      "merchant",
+      "frostwood",
+      "traveler"
+    ],
+    "tokenIcon": "Bestiary/barnaby-finch",
+    "tokenBorder": "#d4af37",
+    "stats": {
+      "strength": 11,
+      "agility": 14,
+      "constitution": 13,
+      "intelligence": 15,
+      "spirit": 13,
+      "charisma": 17,
+      "maxHp": 180,
+      "currentHp": 180,
+      "maxMana": 60,
+      "currentMana": 60,
+      "maxActionPoints": 4,
+      "currentActionPoints": 4,
+      "initiative": 2,
+      "speed": 30,
+      "flying": 0,
+      "swimming": 0,
+      "sightRange": 40,
+      "darkvision": 60
+    },
+    "resistances": {
+      "rime": 25,
+      "wyrd": 25
+    },
+    "vulnerabilities": {
+      "ember": 20
+    },
+    "abilities": [
+      {
+        "name": "Flashbang Draught",
+        "description": "Hurls an alchemical flask that dazzles and slows foes in a 15-ft burst.",
+        "type": "spell",
+        "spellType": "ACTION",
+        "level": 1,
+        "icon": "spell_fire_selfdestruct",
+        "range": 25,
+        "actionPointCost": 2,
+        "cooldown": 2,
+        "effects": [
+          {
+            "type": "SAVE",
+            "attribute": "agility",
+            "dc": 14,
+            "onFail": {
+              "type": "CONDITION",
+              "condition": "slowed",
+              "duration": 2
+            }
+          }
+        ]
+      },
+      {
+        "name": "Heavy Coin Bag",
+        "description": "Swings a dense pouch of heavy copper and silver coins at a threatening foe.",
+        "type": "melee",
+        "spellType": "ACTION",
+        "level": 1,
+        "icon": "inv_misc_coin_02",
+        "range": 5,
+        "actionPointCost": 1,
+        "damage": {
+          "diceCount": 1,
+          "diceType": 8,
+          "bonus": 2,
+          "damageType": "smashing"
+        }
+      }
+    ],
+    "lootTable": {
+      "currency": {
+        "platinum": {
+          "min": 0,
+          "max": 2
+        },
+        "gold": {
+          "min": 18,
+          "max": 45
+        },
+        "silver": {
+          "min": 35,
+          "max": 80
+        },
+        "copper": {
+          "min": 50,
+          "max": 150
+        }
+      },
+      "items": [
+        {
+          "itemId": "healing-draught",
+          "name": "Healing Draught",
+          "type": "consumable",
+          "subtype": "potion",
+          "quality": "uncommon",
+          "iconId": "inv_potion_51",
+          "description": "A glass vial of shimmering amber liquid brewed from mountain marigold and honey, soothing flesh wounds.",
+          "dropChance": 85,
+          "quantity": {
+            "min": 1,
+            "max": 3
+          },
+          "value": {
+            "silver": 25
+          }
+        },
+        {
+          "itemId": "alchemists-flashpowder",
+          "name": "Alchemist's Flashpowder",
+          "type": "consumable",
+          "subtype": "alchemical",
+          "quality": "uncommon",
+          "iconId": "inv_misc_powder_iron",
+          "description": "A pinch of quick-igniting magnesium salts that explodes into a brilliant blinding flash.",
+          "dropChance": 70,
+          "quantity": {
+            "min": 1,
+            "max": 2
+          },
+          "value": {
+            "silver": 40
+          }
+        },
+        {
+          "itemId": "travelers-merchant-ledger",
+          "name": "Traveler's Merchant Ledger",
+          "type": "miscellaneous",
+          "subtype": "book",
+          "quality": "common",
+          "iconId": "inv_misc_book_09",
+          "description": "A weathered parchment ledger containing trade tariffs, roadside barter rates, and safe camping waypoints.",
+          "dropChance": 60,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          },
+          "value": {
+            "silver": 15
+          }
+        },
+        {
+          "itemId": "jewelers-brass-scales",
+          "name": "Jeweler's Brass Scales",
+          "type": "miscellaneous",
+          "subtype": "tools",
+          "quality": "uncommon",
+          "iconId": "inv_misc_gear_01",
+          "description": "Exquisitely balanced hanging brass scales used to verify the true weight of precious dust and gems.",
+          "dropChance": 40,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          },
+          "value": {
+            "gold": 2
+          }
+        },
+        {
+          "itemId": "curio-lucky-coin",
+          "name": "Curio Lucky Coin",
+          "type": "curio",
+          "subtype": "token",
+          "quality": "rare",
+          "iconId": "inv_misc_coin_01",
+          "description": "A pre-Binding silver drachma polished smooth by fifty years of worried thumbs; brings strange fortune in dice rolls.",
+          "dropChance": 25,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          },
+          "value": {
+            "gold": 5
+          }
+        }
+      ]
+    },
+    "dateCreated": "2026-10-15T10:00:00.000Z",
+    "lastModified": "2026-10-15T10:00:00.000Z",
+    "loreClassification": {
+      "status": "NATIVE-REVIEW",
+      "originClass": "settler-merchant",
+      "wyrdRelationship": "independent-native",
+      "agency": "Independent traveling vendor and guild quartermaster",
+      "regionRole": "Frostwood trade routes and roadside lifeline"
+    },
+    "loreNote": "A mortal traveling merchant and shopkeeper maintaining communication and supply across the Frostwood Reach; entirely uncorrupted by the Wyrd.",
+    "loreCanon": {
+      "trueOrigin": "Born into a lineage of nomadic drovers and free merchants operating along the Great Northway.",
+      "function": "Provides adventurous goods, remedies, tools, and news between isolated hamlets and traveler enclaves.",
+      "values": "Honesty in trade, hospitality on the road, punctuality, and mutual defense among wayfarers.",
+      "folklore": "Wayfarers say that hearing Barnaby's mule bells through the thick fog means safety is close at hand. A copper left on his wheel brings fair weather for the journey.",
+      "bindingEffect": "When trade routes fractured after the Binding, Barnaby modified his wagon with reinforced axles and ward-lanterns to keep essential supplies flowing.",
+      "wyrdRelationship": "Unaffected native mortal. Keeps salt and dried mountain sage in his apron pockets to deter wyrd-manifestations.",
+      "nextDecision": "Document Barnaby's connection to the Free Traders Guild and his secret trade route through the Siltmire Flats."
+    }
+  },
+  {
+    "id": "morwenna-coldforge",
+    "name": "Morwenna Coldforge",
+    "description": "A master dwarven armorer and weapon merchant whose basalt forge produces the finest runic steel in Nordhalla.",
+    "origin": "Trained in the subterranean magma vents beneath the Ironpeaks and now presiding over the High Peak Forge in Nordhalla, Morwenna Coldforge is widely considered one of the foremost weapon and armor merchants in the north. Dwarven clan law forbids selling shoddy steel, and Morwenna takes this oath to an extreme: every cuirass and battleaxe hanging in her vaulted stone shop has been hand-struck by her own hammer and quenched in mountain snow. Mercenaries, clan champions, and monster-hunters journey hundreds of miles to purchase her temper-forged warded armaments.",
+    "nature": "A broad-shouldered dwarven master smith with braids of thick auburn hair bound in etched copper rings. Her scarred arms have the density of iron oak, and her apron is heavy with burn-marks from flying slag. Despite her gruff, no-nonsense demeanor and low, rumbling voice, she possesses deep artistic appreciation for metallurgy and will enthusiastically converse for hours with any adventurer who truly understands the balance of a blade.",
+    "habitat": "The High Peak Armory & Smithy in the upper district of Nordhalla's citadel, situated over geothermal fumaroles that keep her forge blazing even in the depths of a blinding blizzard.",
+    "depth": "Morwenna's elder brother fell fighting frost-wyrms when his inferior imported armor shattered; she swore never to let another warrior die because their merchant cut corners. She refuses to sell weapons to known brigands or tyrants, regardless of how much platinum they pile on her stone counter.",
+    "type": "shopkeeper",
+    "size": "medium",
+    "tags": [
+      "shopkeeper",
+      "humanoid",
+      "merchant",
+      "nordhalla",
+      "blacksmith",
+      "dwarf"
+    ],
+    "tokenIcon": "Bestiary/morwenna-coldforge",
+    "tokenBorder": "#d4af37",
+    "stats": {
+      "strength": 17,
+      "agility": 11,
+      "constitution": 16,
+      "intelligence": 13,
+      "spirit": 14,
+      "charisma": 12,
+      "maxHp": 320,
+      "currentHp": 320,
+      "maxMana": 40,
+      "currentMana": 40,
+      "maxActionPoints": 4,
+      "currentActionPoints": 4,
+      "initiative": 1,
+      "speed": 25,
+      "flying": 0,
+      "swimming": 0,
+      "sightRange": 40,
+      "darkvision": 120
+    },
+    "resistances": {
+      "rime": 50,
+      "smashing": 30,
+      "slicing": 25
+    },
+    "vulnerabilities": {
+      "blight": 20
+    },
+    "abilities": [
+      {
+        "name": "Anvil Maul",
+        "description": "Strikes with a heavy master smithing maul, crushing defenses.",
+        "type": "melee",
+        "spellType": "ACTION",
+        "level": 2,
+        "icon": "inv_hammer_16",
+        "range": 5,
+        "actionPointCost": 2,
+        "damage": {
+          "diceCount": 2,
+          "diceType": 8,
+          "bonus": 4,
+          "damageType": "smashing"
+        }
+      },
+      {
+        "name": "Sunder Armor",
+        "description": "A calibrated blow against joint rivets that shears enemy armor protection.",
+        "type": "melee",
+        "spellType": "ACTION",
+        "level": 2,
+        "icon": "ability_warrior_sunder",
+        "range": 5,
+        "actionPointCost": 1,
+        "cooldown": 2,
+        "effects": [
+          {
+            "type": "SAVE",
+            "attribute": "strength",
+            "dc": 15,
+            "onFail": {
+              "type": "CONDITION",
+              "condition": "armor_reduced",
+              "duration": 3
+            }
+          }
+        ]
+      }
+    ],
+    "lootTable": {
+      "currency": {
+        "platinum": {
+          "min": 1,
+          "max": 4
+        },
+        "gold": {
+          "min": 30,
+          "max": 75
+        },
+        "silver": {
+          "min": 40,
+          "max": 100
+        },
+        "copper": {
+          "min": 20,
+          "max": 50
+        }
+      },
+      "items": [
+        {
+          "itemId": "basalt-war-hammer",
+          "name": "Basalt War Hammer",
+          "type": "weapon",
+          "subtype": "hammer",
+          "quality": "uncommon",
+          "iconId": "inv_hammer_16",
+          "description": "A dense obsidian hammer stamped with clan runes, quenched in alpine snow.",
+          "dropChance": 80,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          },
+          "value": {
+            "gold": 3,
+            "silver": 50
+          }
+        },
+        {
+          "itemId": "runic-cold-iron-ingot",
+          "name": "Runic Cold-Iron Ingot",
+          "type": "material",
+          "subtype": "metal",
+          "quality": "rare",
+          "iconId": "inv_ingot_iron",
+          "description": "Heavy bar of deep-mined magnetic cold-iron stamped with protective ward runes.",
+          "dropChance": 75,
+          "quantity": {
+            "min": 1,
+            "max": 3
+          },
+          "value": {
+            "gold": 2
+          }
+        },
+        {
+          "itemId": "blacksmiths-quenching-tongs",
+          "name": "Blacksmith's Quenching Tongs",
+          "type": "miscellaneous",
+          "subtype": "tools",
+          "quality": "common",
+          "iconId": "inv_misc_wrench_01",
+          "description": "Long, heat-resistant steel pincers forged to handle glowing hot ingots without slipping.",
+          "dropChance": 60,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          },
+          "value": {
+            "silver": 30
+          }
+        },
+        {
+          "itemId": "diamond-whetstone",
+          "name": "Diamond Whetstone",
+          "type": "miscellaneous",
+          "subtype": "consumable",
+          "quality": "uncommon",
+          "iconId": "inv_stone_sharpeningstone_05",
+          "description": "An ultra-fine abrasive stone laced with crushed industrial diamonds to impart razor edges.",
+          "dropChance": 50,
+          "quantity": {
+            "min": 1,
+            "max": 2
+          },
+          "value": {
+            "silver": 75
+          }
+        },
+        {
+          "itemId": "runesmiths-amulet",
+          "name": "Runesmith's Amulet",
+          "type": "accessories",
+          "subtype": "necklace",
+          "quality": "rare",
+          "iconId": "inv_jewelry_necklace_07",
+          "description": "A heavy copper medallion engraved with the twin-anvil mark of clan Coldforge; radiates comforting warmth.",
+          "dropChance": 30,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          },
+          "value": {
+            "gold": 8
+          }
+        }
+      ]
+    },
+    "dateCreated": "2026-10-15T10:00:00.000Z",
+    "lastModified": "2026-10-15T10:00:00.000Z",
+    "loreClassification": {
+      "status": "NATIVE-REVIEW",
+      "originClass": "clan-artisan",
+      "wyrdRelationship": "independent-native",
+      "agency": "Independent master weaponsmith, armorer, and clan merchant",
+      "regionRole": "Nordhalla citadel armory and expedition armaments"
+    },
+    "loreNote": "Clan weaponsmith of Nordhalla; staunchly independent of the Wyrd, relying on ancestral metallurgical disciplines.",
+    "loreCanon": {
+      "trueOrigin": "Born into the Coldforge clan in the deep iron valleys of Nordhalla.",
+      "function": "Arms and equips monster hunters, citadel garrisons, and expeditionary teams with mastercrafted equipment.",
+      "values": "Integrity of steel, clan honor, durability over ornament, and defiance against the freezing cold.",
+      "folklore": "Nordhalla warriors swear that armor stamped with Morwenna's twin-hammer mark turns aside monster claws that would shear through normal plate.",
+      "bindingEffect": "The perpetual cold of the Binding made traditional coal forging difficult; Morwenna adapted geothermal magma channels to heat her bellows.",
+      "wyrdRelationship": "Completely free of Wyrd corruption. Uses runic cold-iron grounding to protect her shop from esoteric psychic ripples.",
+      "nextDecision": "Catalog the special runic alloy recipes Morwenna can teach players with high smithing proficiency."
+    }
+  },
+  {
+    "id": "madame-vespera",
+    "name": "Madame Vespera",
+    "description": "A veiled and aristocratic antiquarian shopkeeper in Sundale dealing in rare grimoires, crystals, and occult oddities.",
+    "origin": "In the bustling, spice-scented grand bazaar of the Sundale capital, beneath arches hung with embroidered tapestries, lies the Antiquities of the Eclipse. Its proprietor, Madame Vespera, is an enigmatic merchant of aristocratic bearing who deals in things that conventional traders dare not touch: deciphered celestial charts, pre-Binding grimoires, bound soul-crystals, and forgotten dynastic curios. Scholars whisper that she was once an archivist of the Obsidian Court, while others claim she made a pact with an astral sovereign to trade memories for relics.",
+    "nature": "A poised, silver-haired woman draped in voluminous plum and midnight-violet silks, adorned with jet beadwork and silver filigree rings. Her dark eyes seem to pierce right through mortal pretenses, and she speaks in low, melodic tones punctuated by the delicate clinking of her brass magnifying loupe. She possesses an uncanny sixth sense for evaluating the magical resonance and true provenance of any object brought before her.",
+    "habitat": "The Antiquities of the Eclipse, a multi-story shop hidden in an ancient courtyard in Sundale & Emberspire, illuminated by floating candles and perfumed with burning myrrh and night-blooming jasmine.",
+    "depth": "Vespera is neither villainous nor altruistic; she regards relics as historical truth made physical. She believes that the ignorance bred by book-burning emperors is far more perilous than any cursed artifact, and she ensures that lost magical heritage remains preserved in worthy hands.",
+    "type": "shopkeeper",
+    "size": "medium",
+    "tags": [
+      "shopkeeper",
+      "humanoid",
+      "merchant",
+      "sundale",
+      "curios",
+      "occult"
+    ],
+    "tokenIcon": "Bestiary/madame-vespera",
+    "tokenBorder": "#d4af37",
+    "stats": {
+      "strength": 9,
+      "agility": 13,
+      "constitution": 12,
+      "intelligence": 18,
+      "spirit": 17,
+      "charisma": 16,
+      "maxHp": 210,
+      "currentHp": 210,
+      "maxMana": 140,
+      "currentMana": 140,
+      "maxActionPoints": 4,
+      "currentActionPoints": 4,
+      "initiative": 3,
+      "speed": 30,
+      "flying": 0,
+      "swimming": 0,
+      "sightRange": 45,
+      "darkvision": 60
+    },
+    "resistances": {
+      "arcane": 40,
+      "wyrd": 50,
+      "ember": 30
+    },
+    "vulnerabilities": {
+      "smashing": 20
+    },
+    "abilities": [
+      {
+        "name": "Hexing Coin",
+        "description": "Flicks an enchanted obsidian drachma that warps fate and saps action points.",
+        "type": "spell",
+        "spellType": "ACTION",
+        "level": 2,
+        "icon": "spell_shadow_curseofachimonde",
+        "range": 35,
+        "actionPointCost": 2,
+        "cooldown": 1,
+        "damage": {
+          "diceCount": 2,
+          "diceType": 6,
+          "bonus": 3,
+          "damageType": "wyrd"
+        }
+      },
+      {
+        "name": "Arcane Mirror",
+        "description": "Wards herself in prismatic glass, reflecting hostile sorcery.",
+        "type": "spell",
+        "spellType": "REACTION",
+        "level": 2,
+        "icon": "spell_arcane_blink",
+        "range": 0,
+        "actionPointCost": 1,
+        "cooldown": 3
+      }
+    ],
+    "lootTable": {
+      "currency": {
+        "platinum": {
+          "min": 3,
+          "max": 8
+        },
+        "gold": {
+          "min": 40,
+          "max": 90
+        },
+        "silver": {
+          "min": 20,
+          "max": 60
+        },
+        "copper": {
+          "min": 0,
+          "max": 0
+        }
+      },
+      "items": [
+        {
+          "itemId": "archmages-spellbook",
+          "name": "Archmage's Spellbook",
+          "type": "quest",
+          "subtype": "book",
+          "quality": "rare",
+          "iconId": "inv_misc_book_09",
+          "description": "A velvet and vellum grimoire containing pre-Binding incantations of celestial harmony.",
+          "dropChance": 80,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          },
+          "value": {
+            "gold": 5
+          }
+        },
+        {
+          "itemId": "astral-resonant-crystal",
+          "name": "Astral Resonant Crystal",
+          "type": "material",
+          "subtype": "gem",
+          "quality": "rare",
+          "iconId": "inv_misc_gem_diamond_01",
+          "description": "A faceted purple quartz pulsing with gentle celestial light, used in enchanting foci.",
+          "dropChance": 70,
+          "quantity": {
+            "min": 1,
+            "max": 2
+          },
+          "value": {
+            "gold": 4
+          }
+        },
+        {
+          "itemId": "jeweled-occult-loupe",
+          "name": "Jeweled Occult Loupe",
+          "type": "miscellaneous",
+          "subtype": "tools",
+          "quality": "uncommon",
+          "iconId": "inv_misc_spyglass_02",
+          "description": "A brass magnifying glass fitted with a ground amethyst lens that reveals invisible dweomers.",
+          "dropChance": 60,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          },
+          "value": {
+            "gold": 2
+          }
+        },
+        {
+          "itemId": "velvet-curio-pouch",
+          "name": "Velvet Curio Pouch",
+          "type": "container",
+          "subtype": "pouch",
+          "quality": "uncommon",
+          "iconId": "inv_misc_bag_08",
+          "description": "A midnight-black silk pouch stitched with silver thread, warded against dimensional slippage.",
+          "dropChance": 50,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          },
+          "value": {
+            "silver": 80
+          }
+        },
+        {
+          "itemId": "ring-of-astral-wards",
+          "name": "Ring of Astral Wards",
+          "type": "accessories",
+          "subtype": "ring",
+          "quality": "rare",
+          "iconId": "inv_jewelry_ring_03",
+          "description": "A thin band of astral silver set with a nightstone; hums when otherworldly entities draw near.",
+          "dropChance": 35,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          },
+          "value": {
+            "gold": 10
+          }
+        }
+      ]
+    },
+    "dateCreated": "2026-10-15T10:00:00.000Z",
+    "lastModified": "2026-10-15T10:00:00.000Z",
+    "loreClassification": {
+      "status": "NATIVE-REVIEW",
+      "originClass": "dynastic-antiquarian",
+      "wyrdRelationship": "independent-native",
+      "agency": "Independent collector, relic merchant, and esoteric appraiser",
+      "regionRole": "Sundale bazaar curiosity dealer and occult knowledge vault"
+    },
+    "loreNote": "Mortal antiquarian of ancient lineage; possesses deep knowledge of pre-Binding artifacts while remaining independent of Wyrd influence.",
+    "loreCanon": {
+      "trueOrigin": "Born into an ancient lineage of scribes and archivists in the southern desert kingdoms.",
+      "function": "Preserves and barters forgotten relics, astrological devices, and magical tomes to capable adventurers.",
+      "values": "Preservation of history, discretion, aesthetic beauty, and precise appraisal.",
+      "folklore": "Bazaar merchants claim Vespera has never bought an imitation relic in forty years, for she can taste the age of gold simply by holding it to her ear.",
+      "bindingEffect": "The disruption of ley lines after the Binding made her relics surge with unpredictable resonances, requiring specialized containment glass.",
+      "wyrdRelationship": "Studies the Wyrd as an ecological and metaphysical curiosity, keeping herself grounded through silver wards.",
+      "nextDecision": "Detail the inventory of rare curios Vespera rotates into stock based on campaign month."
+    }
+  },
+  {
+    "id": "corrick-featherquill",
+    "name": "Corrick Featherquill",
+    "description": "A sharp-witted gnome provisioner and mapmaker whose general store supplies frontier expeditions with rations, ropes, and charts.",
+    "origin": "At the windswept frontier crossroads of Sundrift Vale stands Featherquill's General Outfitting & Cartography. Corrick, an exceptionally industrious gnome with a quill tucked perpetually behind his ear, has equipped nearly every major survey, mining expedition, and mercenary party that has dared venture into the untamed valleys. His shop is a wonderland of practicality: oilcloth bedrolls, braided climbing silk, smoked meats, brass dowsing needles, and hand-inked topographic maps that detail every known creek and ravine.",
+    "nature": "A cheerful, bearded gnome wearing a leather cap, sturdy linen work-shirt, and a heavy canvas apron covered in pockets holding charcoal pencils, calipers, and measuring tape. He speaks at a rapid clip, calculating trade weights and supply days in his head faster than an abacus. Corrick is notoriously generous with practical survival advice, always warning reckless novices about sudden canyon flash floods or high-altitude blizzards.",
+    "habitat": "Featherquill's Outfitting Post, an expanded timber-and-stone trading hub at the eastern pass entrance of Sundrift Vale, complete with pack-beast stables and an outdoor equipment yard.",
+    "depth": "Corrick spent his early youth as an expedition scout and survived a week trapped on a high ledge by subsisting on moss and pure grit. He considers selling substandard survival gear to be equivalent to murder; if an explorer perishes because a rope snapped, Corrick takes it as a personal failure of honor.",
+    "type": "shopkeeper",
+    "size": "small",
+    "tags": [
+      "shopkeeper",
+      "humanoid",
+      "merchant",
+      "sundrift-vale",
+      "provisions",
+      "outfitter",
+      "gnome"
+    ],
+    "tokenIcon": "Bestiary/corrick-featherquill",
+    "tokenBorder": "#d4af37",
+    "stats": {
+      "strength": 10,
+      "agility": 16,
+      "constitution": 13,
+      "intelligence": 15,
+      "spirit": 12,
+      "charisma": 15,
+      "maxHp": 165,
+      "currentHp": 165,
+      "maxMana": 40,
+      "currentMana": 40,
+      "maxActionPoints": 4,
+      "currentActionPoints": 4,
+      "initiative": 4,
+      "speed": 35,
+      "flying": 0,
+      "swimming": 0,
+      "sightRange": 50,
+      "darkvision": 60
+    },
+    "resistances": {
+      "storm": 30,
+      "primal": 25
+    },
+    "vulnerabilities": {
+      "slicing": 20
+    },
+    "abilities": [
+      {
+        "name": "Hardtack Throw",
+        "description": "Hurls rock-hard surveyor hardtack biscuits with slingshot accuracy.",
+        "type": "ranged",
+        "spellType": "ACTION",
+        "level": 1,
+        "icon": "inv_misc_food_14",
+        "range": 30,
+        "actionPointCost": 1,
+        "damage": {
+          "diceCount": 1,
+          "diceType": 8,
+          "bonus": 3,
+          "damageType": "smashing"
+        }
+      },
+      {
+        "name": "Tangling Net",
+        "description": "Casts a weighted hemp outfitter net that restrains aggressors.",
+        "type": "ranged",
+        "spellType": "ACTION",
+        "level": 1,
+        "icon": "ability_ensnare",
+        "range": 20,
+        "actionPointCost": 2,
+        "cooldown": 2,
+        "effects": [
+          {
+            "type": "SAVE",
+            "attribute": "agility",
+            "dc": 14,
+            "onFail": {
+              "type": "CONDITION",
+              "condition": "restrained",
+              "duration": 2
+            }
+          }
+        ]
+      }
+    ],
+    "lootTable": {
+      "currency": {
+        "platinum": {
+          "min": 0,
+          "max": 1
+        },
+        "gold": {
+          "min": 15,
+          "max": 35
+        },
+        "silver": {
+          "min": 50,
+          "max": 120
+        },
+        "copper": {
+          "min": 80,
+          "max": 200
+        }
+      },
+      "items": [
+        {
+          "itemId": "cartographers-master-map",
+          "name": "Cartographer's Master Map",
+          "type": "miscellaneous",
+          "subtype": "map",
+          "quality": "uncommon",
+          "iconId": "inv_misc_map_01",
+          "description": "An annotated waterproof sheepskin chart tracing navigable ravines and natural shelters in Sundrift Vale.",
+          "dropChance": 85,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          },
+          "value": {
+            "silver": 50
+          }
+        },
+        {
+          "itemId": "iron-ration-trailpack",
+          "name": "Iron-Ration Trailpack",
+          "type": "consumable",
+          "subtype": "food",
+          "quality": "common",
+          "iconId": "inv_misc_food_54",
+          "description": "Dense dried pemmican bars, salt biscuits, and dried berries that nourish an explorer for a full week.",
+          "dropChance": 80,
+          "quantity": {
+            "min": 2,
+            "max": 4
+          },
+          "value": {
+            "silver": 12
+          }
+        },
+        {
+          "itemId": "brass-surveyors-compass",
+          "name": "Brass Surveyor's Compass",
+          "type": "miscellaneous",
+          "subtype": "tools",
+          "quality": "uncommon",
+          "iconId": "inv_misc_gear_08",
+          "description": "A precision floating-needle compass enclosed in heavy protective brass with spirit level.",
+          "dropChance": 60,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          },
+          "value": {
+            "gold": 1,
+            "silver": 50
+          }
+        },
+        {
+          "itemId": "braided-silk-climbing-rope",
+          "name": "Braided Silk Climbing Rope",
+          "type": "miscellaneous",
+          "subtype": "tools",
+          "quality": "common",
+          "iconId": "inv_misc_rope_01",
+          "description": "Fifty feet of supple mountain spider-silk cord, tested to hold three armored warriors without fraying.",
+          "dropChance": 50,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          },
+          "value": {
+            "silver": 40
+          }
+        },
+        {
+          "itemId": "expeditionary-spyglass",
+          "name": "Expeditionary Spyglass",
+          "type": "miscellaneous",
+          "subtype": "tools",
+          "quality": "rare",
+          "iconId": "inv_misc_spyglass_02",
+          "description": "A collapsible brass telescope with ground crystal lenses, granting crystal clarity over three leagues.",
+          "dropChance": 30,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          },
+          "value": {
+            "gold": 6
+          }
+        }
+      ]
+    },
+    "dateCreated": "2026-10-15T10:00:00.000Z",
+    "lastModified": "2026-10-15T10:00:00.000Z",
+    "loreClassification": {
+      "status": "NATIVE-REVIEW",
+      "originClass": "settler-merchant",
+      "wyrdRelationship": "independent-native",
+      "agency": "Independent frontier quartermaster, cartographer, and general merchant",
+      "regionRole": "Sundrift Vale outpost supply hub and survey repository"
+    },
+    "loreNote": "Frontier outfitter and geographer of Sundrift Vale; an independent mortal maintaining regional survival networks.",
+    "loreCanon": {
+      "trueOrigin": "Born in the foothill settlements of the Sundrift borderland.",
+      "function": "Supplies travelers, explorers, and surveyors with durable outdoor equipment, provisions, and maps.",
+      "values": "Preparedness, navigational accuracy, resourcefulness, and mutual survival.",
+      "folklore": "Scouts say no expedition ever perished from the elements if they bought all twelve items on Corrick's standard outfitting checklist.",
+      "bindingEffect": "When shifting mists and seismic quakes altered the Vale's topography, Corrick began regularly updating dynamic parchment charts.",
+      "wyrdRelationship": "Native gnome baseline. Carries magnetic lodestones to detect unnatural gravitational or spatial distortions.",
+      "nextDecision": "Integrate Corrick's regional maps into the party's travel mechanics for Sundrift Vale."
+    }
   }
 ]

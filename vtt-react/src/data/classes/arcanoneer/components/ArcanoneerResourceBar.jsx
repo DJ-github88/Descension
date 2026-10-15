@@ -10,6 +10,7 @@ import SpellTooltip from '../../../../components/spellcrafting-wizard/components
 import { formulationToSpell } from '../formulationToSpell';
 import { migrateBlockId } from '../../../../utils/arcanoneerMigration';
 import SpellCastConfirmation from '../../../../components/ui/SpellCastConfirmation';
+import { routeSpellCast, isP9Routed } from '../../../../services/spellConsequenceService';
 import { ARCANONEER_BANK_MAX, ARCANONEER_ROLL_COUNT, normalizeSphereBank } from '../../../classResourceBanks';
 
 import { INK, PAGE, PAPER, RULE, ETCH, inked, washed } from '../../../../components/hud/calmBarPalette';
@@ -259,6 +260,9 @@ const ArcanoneerResourceBar = ({
     const handleInitiateCast = (entry) => {
         if (!entry) return;
         const spell = formulationToSpell(entry, matrix);
+        // P9: formulation cards are presentation transforms with no original class
+        // definition, so they stay manual; any supported original routes to P9.
+        if (spell && !showcase && routeSpellCast(spell, { producer: 'arcanoneer' })) return;
         if (spell) {
             setSpellToCast(spell);
         }
@@ -266,6 +270,7 @@ const ArcanoneerResourceBar = ({
 
     const handleSpellCastConfirm = () => {
         if (!spellToCast) return;
+        if (!showcase && isP9Routed(spellToCast)) { setSpellToCast(null); return; }
 
         // 1. Extract resource costs
         const resourceCost = spellToCast.resourceCost || {};

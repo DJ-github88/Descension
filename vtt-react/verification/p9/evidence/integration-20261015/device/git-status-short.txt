@@ -1,0 +1,136 @@
+ M LORE_CANON_AND_HERITAGE_BLUEPRINT.md
+ M docs/ENGINEERING_STATE.md
+ M server/handlers/actorConsequenceHandlers.js
+ M server/handlers/characterHandlers.js
+ M server/handlers/socketHandlers.js
+ M server/services/actorConsequences.js
+ M server/services/rateLimitService.js
+ M vtt-react/public/data/abilities.json
+ M vtt-react/public/data/creatures.json
+ M vtt-react/src/App.jsx
+ M vtt-react/src/components/Navigation.jsx
+ M vtt-react/src/components/account/RoomManager.jsx
+ M vtt-react/src/components/books/BookCreaturePickerModal.jsx
+ M vtt-react/src/components/character-sheet/SpellActionBar.jsx
+ M vtt-react/src/components/combat/MovementConfirmationDialog.css
+ M vtt-react/src/components/creature-wizard/components/common/CompactCreatureCard.jsx
+ M vtt-react/src/components/creature-wizard/components/common/LibraryStyleCreatureCard.jsx
+ M vtt-react/src/components/creature-wizard/context/CreatureWizardContext.js
+ M vtt-react/src/components/dialogs/MapDeleteConfirmDialog.css
+ M vtt-react/src/components/dialogs/MapSwitchConfirmDialog.css
+ M vtt-react/src/components/hud/PartyHUD.jsx
+ M vtt-react/src/components/landing/LandingPage.jsx
+ M vtt-react/src/components/landing/styles/LandingPage.css
+ M vtt-react/src/components/level-editor/ConnectionRenameDialog.jsx
+ M vtt-react/src/components/level-editor/styles/ConnectionSelectorDialog.css
+ M vtt-react/src/components/level-editor/styles/PortalConfigDialog.css
+ M vtt-react/src/components/level-editor/styles/PortalTransferDialog.css
+ M vtt-react/src/components/level-editor/styles/TokenVisionDialog.css
+ M vtt-react/src/components/location-scene/CampaignCodexSidebar.css
+ M vtt-react/src/components/location-scene/CampaignCodexSidebar.jsx
+ M vtt-react/src/components/location-scene/LocationMapManagerModal.jsx
+ M vtt-react/src/components/location-scene/LocationPartyModal.jsx
+ M vtt-react/src/components/location-scene/LocationPinDetailModal.jsx
+ M vtt-react/src/components/location-scene/LocationPinEditorModal.jsx
+ M vtt-react/src/components/location-scene/LocationSceneStage.css
+ M vtt-react/src/components/location-scene/LocationSceneStage.jsx
+ M vtt-react/src/components/location-scene/LocationSceneToolbar.jsx
+ M vtt-react/src/components/location-scene/LocationWaypointModal.jsx
+ M vtt-react/src/components/multiplayer/RoomLobby.jsx
+ M vtt-react/src/components/multiplayer/roomJoinHandler.js
+ M vtt-react/src/components/multiplayer/socketHandlers/registerAllHandlers.js
+ M vtt-react/src/components/multiplayer/styles/MultiplayerApp.css
+ M vtt-react/src/components/multiplayer/styles/RoomLobby.css
+ M vtt-react/src/components/rules/BestiaryDisplay.css
+ M vtt-react/src/components/rules/BestiaryDisplay.jsx
+ M vtt-react/src/components/rules/ClassCodex.css
+ M vtt-react/src/components/rules/RaceEpicLore.css
+ M vtt-react/src/components/rules/RaceEpicLore.jsx
+ M vtt-react/src/components/rules/RaceSelector.css
+ M vtt-react/src/components/rules/RaceSelector.jsx
+ M vtt-react/src/components/rules/RulesPage.jsx
+ M vtt-react/src/components/spellcrafting-wizard/components/common/SpellDetailPopup.jsx
+ M vtt-react/src/components/spellcrafting-wizard/components/library/LibraryFilters.jsx
+ M vtt-react/src/components/spellcrafting-wizard/styles/SpellLibraryPopup.css
+ M vtt-react/src/components/ui/ActionBar.jsx
+ M vtt-react/src/components/ui/SpellCastConfirmation.css
+ M vtt-react/src/components/ui/SpellCastConfirmation.jsx
+ M vtt-react/src/components/ui/__tests__/SpellCastResourceContracts.test.jsx
+ M vtt-react/src/components/windows/SettingsWindow.jsx
+ M vtt-react/src/components/windows/styles/MapLibraryWindow.css
+ M vtt-react/src/data/classHeritageRegistry.js
+ M vtt-react/src/data/classRacials.js
+ M vtt-react/src/data/classes/animistData.js
+ M vtt-react/src/data/classes/apexData.js
+ M vtt-react/src/data/classes/arcanoneer/components/ArcanoneerResourceBar.jsx
+ M vtt-react/src/data/creatureData.json
+ M vtt-react/src/data/heritageEdgeContract.js
+ M vtt-react/src/data/lootItemsData.js
+ M vtt-react/src/data/races/astril.js
+ M vtt-react/src/data/races/florae.js
+ M vtt-react/src/data/versions.js
+ M vtt-react/src/game/creatures.js
+ M vtt-react/src/persistence/privateStorageRegistry.js
+ M vtt-react/src/services/actorConsequenceService.js
+ M vtt-react/src/store/creatureStore.js
+ M vtt-react/src/styles/adventurer-windows.css
+ M vtt-react/src/styles/calm-shared.css
+ M vtt-react/src/styles/character-equipment-scene.css
+ M vtt-react/src/styles/combat-config-modal.css
+ M vtt-react/src/styles/combat-system.css
+ M vtt-react/src/styles/item-wizard.css
+ M vtt-react/src/styles/recipe-wizard.css
+ M vtt-react/src/styles/settings-window.css
+ M vtt-react/src/styles/wow-classic-tooltip.css
+ M vtt-react/src/utils/__tests__/storageUtils.test.js
+ M vtt-react/src/utils/assetManager.js
+?? docs/MYTHRILL_P9_SOURCE_INDEPENDENT_ACCEPTANCE_20261015.md
+?? docs/MYTHRILL_PROJECT_9_CONTRACT.md
+?? docs/MYTHRILL_PROJECT_9_IMPLEMENTATION.md
+?? server/services/spellPayments.js
+?? server/tests/p9SpellConsequences.production.test.js
+?? vtt-react/public/assets/icons/creatures/Bestiary/barnaby-finch.png
+?? vtt-react/public/assets/icons/creatures/Bestiary/corrick-featherquill.png
+?? vtt-react/public/assets/icons/creatures/Bestiary/madame-vespera.png
+?? vtt-react/public/assets/icons/creatures/Bestiary/morwenna-coldforge.png
+?? vtt-react/public/assets/images/backgrounds/atlas/mythril-highres.jpg
+?? vtt-react/public/assets/images/classes/animist_arch_mimir.jpg
+?? vtt-react/public/assets/images/classes/animist_briaren_florae.jpg
+?? vtt-react/public/assets/images/classes/animist_broken_mimir.jpg
+?? vtt-react/public/assets/images/classes/animist_high_nethien.jpg
+?? vtt-react/public/assets/images/classes/animist_kordak_astril.jpg
+?? vtt-react/public/assets/images/classes/animist_oaken_florae.jpg
+?? vtt-react/public/assets/images/classes/apex_broken_mimir.jpg
+?? vtt-react/public/assets/images/classes/apex_deepling_myrathil.jpg
+?? vtt-react/public/assets/images/classes/apex_ordan_human.jpg
+?? vtt-react/public/assets/images/creatures/barnaby-finch.png
+?? vtt-react/public/assets/images/creatures/corrick-featherquill.png
+?? vtt-react/public/assets/images/creatures/madame-vespera.png
+?? vtt-react/public/assets/images/creatures/morwenna-coldforge.png
+?? vtt-react/public/assets/images/creatures/thumbs/barnaby-finch.jpg
+?? vtt-react/public/assets/images/creatures/thumbs/corrick-featherquill.jpg
+?? vtt-react/public/assets/images/creatures/thumbs/madame-vespera.jpg
+?? vtt-react/public/assets/images/creatures/thumbs/morwenna-coldforge.jpg
+?? vtt-react/src/components/character-sheet/__tests__/SpellActionBarP9Producer.test.jsx
+?? vtt-react/src/components/combat-narration-preview/
+?? vtt-react/src/components/combat/__tests__/
+?? vtt-react/src/components/hud/SpellConsequencePanel.css
+?? vtt-react/src/components/hud/SpellConsequencePanel.jsx
+?? vtt-react/src/components/location-scene/LocationExpeditionLedger.css
+?? vtt-react/src/components/location-scene/LocationExpeditionLedger.jsx
+?? vtt-react/src/components/location-scene/LocationPinPopup.css
+?? vtt-react/src/components/location-scene/LocationPinPopup.jsx
+?? vtt-react/src/components/location-scene/LocationWaypointPopup.css
+?? vtt-react/src/components/location-scene/LocationWaypointPopup.jsx
+?? vtt-react/src/components/location-scene/__tests__/
+?? vtt-react/src/components/rules/__tests__/RaceEpicLore.test.jsx
+?? vtt-react/src/components/rules/__tests__/RulesPageCodexRoute.test.jsx
+?? vtt-react/src/components/rules/__tests__/ShopkeepersIntegration.test.jsx
+?? vtt-react/src/components/ui/__tests__/ActionBarLegacyArcanoneerSpheres.test.jsx
+?? vtt-react/src/components/ui/__tests__/ActionBarP9Producer.test.jsx
+?? vtt-react/src/components/windows/__tests__/SettingsWindow.test.jsx
+?? vtt-react/src/services/__tests__/spellConsequence.test.js
+?? vtt-react/src/services/spellConsequence.js
+?? vtt-react/src/services/spellConsequenceCustody.js
+?? vtt-react/src/services/spellConsequenceService.js
+?? vtt-react/verification/p9/

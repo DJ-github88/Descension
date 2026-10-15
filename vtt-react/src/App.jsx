@@ -45,6 +45,7 @@ import UnifiedTransitionOverlay from "./components/multiplayer/UnifiedTransition
 import QuickSwitcher from "./components/common/QuickSwitcher";
 import QuickPeekDrawer from "./components/common/QuickPeekDrawer";
 import { clearLocalRoom } from "./utils/localRoom";
+import { safeLocalStorageItem, safeLocalStorageGet, safeLocalStorageRemove } from "./utils/storageUtils";
 import useLocalRoomAutoSave from "./hooks/useLocalRoomAutoSave";
 import initChatStore from './utils/initChatStore';
 import initCreatureStore, { removeDuplicateCreatures } from './utils/initCreatureStore';
@@ -405,7 +406,7 @@ function GameScreen() {
   const [, setCurrentLocalRoomId] = useState(null);
 
   const initializePartyForCharacter = async (character, isGM = true) => {
-    localStorage.removeItem('party-store');
+    safeLocalStorageRemove('party-store');
     await leaveParty();
 
     await createParty('Single Player Party', true, {
@@ -632,7 +633,7 @@ function GameScreen() {
       // Only use persistence service as fallback if main game state doesn't have level editor data
       // This prevents overwriting correctly loaded terrain data with potentially stale cache data
       // CRITICAL: Skip persistence service entirely for local rooms - they use localStorage directly
-      const isLocalRoom = typeof window !== 'undefined' && localStorage.getItem('isLocalRoom') === 'true';
+      const isLocalRoom = typeof window !== 'undefined' && safeLocalStorageGet('isLocalRoom') === 'true';
       if (!hasLevelEditorData && !isLocalRoom) {
         try {
           const { default: levelEditorPersistenceService } = await import('./services/levelEditorPersistenceService');
@@ -720,13 +721,13 @@ function GameScreen() {
         const startTime = Date.now();
 
         // Check for local room first
-        const isLocalRoom = localStorage.getItem('isLocalRoom') === 'true';
-        const selectedLocalRoomId = localStorage.getItem('selectedLocalRoomId');
+        const isLocalRoom = safeLocalStorageGet('isLocalRoom') === 'true';
+        const selectedLocalRoomId = safeLocalStorageGet('selectedLocalRoomId');
 
         if (isLocalRoom && selectedLocalRoomId) {
           console.log('🏠 Loading local room:', selectedLocalRoomId);
           // Clear world builder mode flag - local rooms are not world builder mode
-          localStorage.removeItem('isWorldBuilderMode');
+          safeLocalStorageRemove('isWorldBuilderMode');
           // Disable editor mode for local rooms
           const { default: useLevelEditorStore } = await import('./store/levelEditorStore');
           const levelEditorStore = useLevelEditorStore.getState();
@@ -746,7 +747,7 @@ function GameScreen() {
             if (character) {
               console.log(`✅ Character loaded: ${character.name}`);
               // Clear any existing party and create a single-player party with this character
-              localStorage.removeItem('party-store');
+              safeLocalStorageRemove('party-store');
               usePartyStore.getState().resetStore?.();
 
               // FIXED: Correct argument order - (partyName, isGM, leaderData)
@@ -775,7 +776,7 @@ function GameScreen() {
               
               // Always initialize party for active character on game screen entry to guarantee HUD hydration
               console.log('🔄 Initializing single-player party for active character...');
-              localStorage.removeItem('party-store');
+              safeLocalStorageRemove('party-store');
               usePartyStore.getState().resetStore?.();
 
               // FIXED: Correct argument order - (partyName, isGM, leaderData)
@@ -794,7 +795,7 @@ function GameScreen() {
             } else {
               console.log('No active character found');
               // Create a basic single-player party even without a character
-              localStorage.removeItem('party-store');
+              safeLocalStorageRemove('party-store');
               usePartyStore.getState().resetStore?.();
 
               // FIXED: Correct argument order - (partyName, isGM, leaderData)
@@ -1334,11 +1335,11 @@ const AppContent = ({
   const handleEnterSinglePlayer = async () => {
     // Clear any existing room flags - this is world builder mode (sandbox/testing)
     clearLocalRoom();
-    localStorage.removeItem('selectedRoomId');
-    localStorage.removeItem('isTestRoom');
+    safeLocalStorageRemove('selectedRoomId');
+    safeLocalStorageRemove('isTestRoom');
 
     // Mark this as world builder mode
-    localStorage.setItem('isWorldBuilderMode', 'true');
+    safeLocalStorageItem('isWorldBuilderMode', 'true');
 
     // Ensure GM mode for world builder (user is always GM in sandbox mode)
     const { default: gameStore } = await import('./store/gameStore');
@@ -1499,6 +1500,43 @@ const AppContent = ({
           </Suspense>
         } />
 
+        {/* Codex & Rules compendium routes - lightweight standalone pages */}
+        <Route path="/codex" element={
+          <Suspense fallback={<LoadingFallback message="Loading rules codex..." />}>
+            <ErrorBoundary name="RulesPage">
+              <RulesPage />
+            </ErrorBoundary>
+          </Suspense>
+        } />
+        <Route path="/codex/classes" element={
+          <Suspense fallback={<LoadingFallback message="Loading classes codex..." />}>
+            <ErrorBoundary name="ClassesPage">
+              <ClassesPage />
+            </ErrorBoundary>
+          </Suspense>
+        } />
+        <Route path="/codex/classes/:classId" element={
+          <Suspense fallback={<LoadingFallback message="Loading classes codex..." />}>
+            <ErrorBoundary name="ClassesPage">
+              <ClassesPage />
+            </ErrorBoundary>
+          </Suspense>
+        } />
+        <Route path="/codex/:category" element={
+          <Suspense fallback={<LoadingFallback message="Loading rules codex..." />}>
+            <ErrorBoundary name="RulesPage">
+              <RulesPage />
+            </ErrorBoundary>
+          </Suspense>
+        } />
+        <Route path="/codex/:category/:subcategory" element={
+          <Suspense fallback={<LoadingFallback message="Loading rules codex..." />}>
+            <ErrorBoundary name="RulesPage">
+              <RulesPage />
+            </ErrorBoundary>
+          </Suspense>
+        } />
+
         {/* Rules & Classes compendium routes - lightweight standalone pages */}
         <Route path="/rules" element={
           <Suspense fallback={<LoadingFallback message="Loading rules..." />}>
@@ -1518,6 +1556,20 @@ const AppContent = ({
           <Suspense fallback={<LoadingFallback message="Loading classes codex..." />}>
             <ErrorBoundary name="ClassesPage">
               <ClassesPage />
+            </ErrorBoundary>
+          </Suspense>
+        } />
+        <Route path="/rules/:category" element={
+          <Suspense fallback={<LoadingFallback message="Loading rules..." />}>
+            <ErrorBoundary name="RulesPage">
+              <RulesPage />
+            </ErrorBoundary>
+          </Suspense>
+        } />
+        <Route path="/rules/:category/:subcategory" element={
+          <Suspense fallback={<LoadingFallback message="Loading rules..." />}>
+            <ErrorBoundary name="RulesPage">
+              <RulesPage />
             </ErrorBoundary>
           </Suspense>
         } />

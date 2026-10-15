@@ -1,0 +1,48 @@
+.mn-presenter {
+  --mn-ink: var(--adventure-ink, #34251a);
+  --mn-muted: var(--adventure-muted, #68533e);
+  --mn-paper: var(--adventure-paper, #faf6ee);
+  --mn-rule: var(--adventure-rule, #b6a080);
+  color: var(--mn-ink);
+  font-family: 'Crimson Text', Georgia, serif;
+  width: 100%;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.mn-presenter *, .mn-details * { box-sizing: border-box; }
+.mn-banner {
+  background: var(--mn-paper);
+  border: 1px solid var(--mn-rule);
+  border-radius: 3px;
+  padding: 20px 24px;
+  animation: mn-arrive 180ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.mn-banner-meta { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 16px; align-items: baseline; }
+.mn-phase { font: 600 12px/1.5 'Cinzel', Georgia, serif; color: var(--mn-phase-ink, #68533e); }
+.mn-phase-opportunity { --mn-phase-ink: #1f4e69; }
+.mn-phase-response { --mn-phase-ink: #663c32; }
+.mn-phase-outcome { --mn-phase-ink: #365333; }
+.mn-phase-unresolved { --mn-phase-ink: #735016; }
+.mn-reading { color: var(--mn-muted); font-size: 13px; }
+.mn-sentence { margin: 12px 0 4px; font-size: clamp(20px, 2.1vw, 27px); line-height: 1.4; text-wrap: pretty; }
+.mn-presenter details { margin-top: 16px; font-size: 14px; }
+.mn-presenter summary, .np-history summary { cursor: pointer; color: #68533e; padding: 6px 0; width: fit-content; }
+.mn-details { margin: 8px 0 0; font-size: 14px; line-height: 1.5; }
+.mn-details dt { color: #68533e; font-size: 12px; font-weight: 700; margin-top: 8px; }
+.mn-details dd { margin: 2px 0 0; overflow-wrap: anywhere; }
+.mn-queue-controls { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-top: 12px; font-size: 13px; color: var(--mn-muted); }
+.mn-presenter button { color: var(--mn-ink); background: var(--mn-paper); border: 1px solid var(--mn-rule); border-radius: 3px; padding: 8px 12px; min-height: 40px; font: inherit; cursor: pointer; }
+.mn-presenter button:hover:enabled { background: #eee8dc; }
+.mn-presenter button:disabled { opacity: 0.55; cursor: default; }
+.mn-presenter :is(button, summary):focus-visible { outline: 2px solid #663c32; outline-offset: 3px; }
+.mn-overflow { color: var(--mn-muted); font-size: 14px; line-height: 1.5; margin: 10px 0 0; }
+.mn-empty { padding: 28px 24px; border: 1px dashed var(--mn-rule); border-radius: 3px; background: var(--mn-paper); font-size: 19px; line-height: 1.5; color: var(--mn-muted); }
+.mn-sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
+.mn-presenter ::selection { background: #cfbd99; color: #34251a; }
+@keyframes mn-arrive { from { transform: translateY(-3px); } to { transform: translateY(0); } }
+@media (prefers-reduced-motion: reduce) { .mn-banner { animation: none; } }
+@media (max-width: 480px) {
+  .mn-banner { padding: 16px; }
+  .mn-sentence { font-size: 21px; }
+  .mn-reading { font-size: 12px; }
+}

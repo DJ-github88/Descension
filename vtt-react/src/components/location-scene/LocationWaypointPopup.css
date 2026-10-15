@@ -1,0 +1,247 @@
+/* ==========================================================================
+   Calm TTRPG Expedition Waypoint Popup Docket
+   An authentic illuminated camp log preview anchored to waypoint nodes.
+   ========================================================================== */
+
+.calm-waypoint-popup-docket {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%) scale(var(--popup-scale, 1));
+  width: 250px;
+  max-width: 85vw;
+  box-sizing: border-box;
+  background: var(--adventure-page, #f7f3ea);
+  color: var(--adventure-ink, #34251a);
+  border: 1px solid var(--adventure-rule, #b6a080);
+  border-radius: 3px;
+  box-shadow: 
+    0 8px 24px rgba(35, 23, 14, 0.45),
+    0 2px 6px rgba(35, 23, 14, 0.25),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+  padding: 10px 12px 9px 12px;
+  z-index: 120;
+  pointer-events: auto !important;
+  font-family: var(--my-font-body, 'Crimson Text', Georgia, serif);
+  font-size: 13px;
+  line-height: 1.45;
+  text-align: left;
+  user-select: none;
+  animation: calmDocketFadeIn 0.18s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  backdrop-filter: blur(2px);
+}
+
+/* Positioning variants: Top vs Bottom of Waypoint with pointer-relative transform origins */
+.calm-waypoint-popup-docket.flipped-top {
+  bottom: calc(100% + 14px);
+  transform-origin: 50% calc(100% + 7px);
+}
+
+.calm-waypoint-popup-docket.flipped-bottom {
+  top: calc(100% + 14px);
+  transform-origin: 50% -7px;
+}
+
+.calm-waypoint-popup-docket.flipped-top::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 7px 7px 0 7px;
+  border-style: solid;
+  border-color: var(--adventure-rule, #b6a080) transparent transparent transparent;
+}
+
+.calm-waypoint-popup-docket.flipped-top::before {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 6px 6px 0 6px;
+  border-style: solid;
+  border-color: var(--adventure-page, #f7f3ea) transparent transparent transparent;
+  z-index: 1;
+}
+
+.calm-waypoint-popup-docket.flipped-bottom::after {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 0 7px 7px 7px;
+  border-style: solid;
+  border-color: transparent transparent var(--adventure-rule, #b6a080) transparent;
+}
+
+.calm-waypoint-popup-docket.flipped-bottom::before {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 0 6px 6px 6px;
+  border-style: solid;
+  border-color: transparent transparent var(--adventure-page, #f7f3ea) transparent;
+  z-index: 1;
+}
+
+.calm-waypoint-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--adventure-rule, #b6a080);
+}
+
+.calm-waypoint-identity {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.calm-waypoint-medallion {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--adventure-paper, #faf6ee);
+  border: 1.5px solid var(--adventure-brass, #c4ab79);
+  color: var(--adventure-ink, #34251a);
+  font-family: var(--my-font-ui, 'Cinzel', Georgia, serif);
+  font-weight: 900;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 1px 3px rgba(35, 23, 14, 0.2);
+}
+
+.calm-waypoint-titles {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.calm-waypoint-type-badge {
+  font-family: var(--my-font-ui, 'Cinzel', Georgia, serif);
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: var(--adventure-muted, #68533e);
+  line-height: 1.1;
+}
+
+.calm-waypoint-name {
+  margin: 1px 0 0 0;
+  font-family: var(--my-font-ui, 'Cinzel', Georgia, serif);
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--adventure-ink, #34251a);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.calm-waypoint-close-btn {
+  background: transparent;
+  border: none;
+  color: var(--adventure-muted, #68533e);
+  cursor: pointer;
+  padding: 2px 4px;
+  font-size: 11px;
+}
+
+.calm-waypoint-close-btn:hover {
+  color: var(--adventure-seal, #663c32);
+}
+
+.calm-waypoint-status {
+  margin-top: 4px;
+}
+
+.calm-waypoint-secret-badge {
+  font-size: 8.5px;
+  font-family: var(--my-font-ui, 'Cinzel', serif);
+  font-weight: 700;
+  color: var(--adventure-seal, #663c32);
+  background: rgba(139, 58, 42, 0.08);
+  border: 1px solid rgba(139, 58, 42, 0.3);
+  padding: 1px 5px;
+  border-radius: 2px;
+  text-transform: uppercase;
+}
+
+.calm-waypoint-excerpt {
+  margin-top: 6px;
+  padding: 4px 6px;
+  background: rgba(250, 246, 238, 0.4);
+  border: 1px solid rgba(182, 160, 128, 0.35);
+  border-radius: 2px;
+}
+
+.calm-waypoint-excerpt p {
+  margin: 0;
+  font-size: 12px;
+  color: var(--adventure-ink, #34251a);
+  font-style: italic;
+  line-height: 1.35;
+}
+
+.calm-waypoint-empty-notes {
+  margin-top: 6px;
+  font-size: 11px;
+  color: var(--adventure-muted, #68533e);
+  font-style: italic;
+}
+
+.calm-waypoint-empty-notes p {
+  margin: 0;
+}
+
+.calm-waypoint-actions {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 8px;
+  padding-top: 6px;
+  border-top: 1px solid var(--adventure-rule, #b6a080);
+}
+
+.calm-waypoint-action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 3px 8px;
+  background: var(--adventure-paper, #faf6ee);
+  border: 1px solid var(--adventure-rule, #b6a080);
+  border-radius: 2px;
+  color: var(--adventure-ink, #34251a);
+  font-family: var(--my-font-ui, 'Cinzel', Georgia, serif);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.calm-waypoint-action-btn:hover {
+  background: #ffffff;
+  border-color: var(--adventure-brass, #c4ab79);
+  color: var(--adventure-seal, #663c32);
+}
+
+.calm-waypoint-action-btn.delete {
+  color: var(--adventure-seal, #663c32);
+  margin-left: auto;
+}
+
+.calm-waypoint-action-btn.delete:hover {
+  background: rgba(139, 58, 42, 0.08);
+  border-color: #8b3a2a;
+}

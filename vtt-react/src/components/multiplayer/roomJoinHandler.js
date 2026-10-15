@@ -18,6 +18,7 @@ import {
   principalKeyOfAuthState
 } from '../../persistence/handoff/socketPrincipalRetirement';
 import { getBootstrapGateState } from '../../persistence/bootstrapPrivacyGate';
+import { safeLocalStorageGet, safeLocalStorageRemove } from '../../utils/storageUtils';
 let currentJoin = 0;
 
 export async function handleJoinRoom(room, socketConnection, isGameMaster, playerObject, password, levelEditorState, gridSettings, skipSetJoiningFalse, ctx) {
@@ -200,9 +201,9 @@ export async function handleJoinRoom(room, socketConnection, isGameMaster, playe
       }
 
       // Disable editor mode for test rooms (test rooms are not world builder mode)
-      const isTestRoom = localStorage.getItem('isTestRoom') === 'true';
+      const isTestRoom = safeLocalStorageGet('isTestRoom') === 'true';
       if (isTestRoom) {
-        localStorage.removeItem('isWorldBuilderMode');
+        safeLocalStorageRemove('isWorldBuilderMode');
         import('../../store/levelEditorStore').then(({ default: useLevelEditorStore }) => {
           if (!admissionCurrent()) return;
           const levelEditorStore = useLevelEditorStore.getState();

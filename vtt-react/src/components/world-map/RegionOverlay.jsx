@@ -32,11 +32,19 @@ const RegionOverlay = ({
   onEnterSubregionMap
 }) => {
   const handleRegionClick = (regionId) => {
-    setSelectedRegionId(regionId);
-    if (setSelectedLocationId) {
-      setSelectedLocationId(null);
+    if (selectedRegionId === regionId) {
+      setSelectedRegionId(null);
+      if (setSelectedLocationId) {
+        setSelectedLocationId(null);
+      }
+      setSidebarOpen(false);
+    } else {
+      setSelectedRegionId(regionId);
+      if (setSelectedLocationId) {
+        setSelectedLocationId(null);
+      }
+      setSidebarOpen(true);
     }
-    setSidebarOpen(true);
   };
 
   const getPolygonPoints = (points) => {

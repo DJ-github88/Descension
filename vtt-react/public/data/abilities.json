@@ -38394,5 +38394,757 @@
         }
       }
     }
+  ],
+  "barnaby-finch": [
+    {
+      "id": "barnaby_flashbang_brew",
+      "name": "Flashbang Draught",
+      "description": "Hurls an alchemical flask that dazzles and slows foes in a 15-ft burst.",
+      "level": 1,
+      "spellType": "ACTION",
+      "icon": "spell_fire_selfdestruct",
+      "typeConfig": {
+        "school": "arcane",
+        "icon": "spell_fire_selfdestruct",
+        "tags": [
+          "alchemical",
+          "control"
+        ],
+        "castTime": 1,
+        "castTimeType": "IMMEDIATE"
+      },
+      "targetingConfig": {
+        "targetingType": "area",
+        "rangeType": "ranged",
+        "rangeDistance": 25,
+        "targetRestrictions": [
+          "enemies"
+        ],
+        "areaShape": "circle",
+        "areaSize": 15
+      },
+      "resourceCost": {
+        "actionPoints": 2,
+        "mana": 10,
+        "components": [
+          "somatic"
+        ]
+      },
+      "cooldownConfig": {
+        "cooldownType": "turn_based",
+        "cooldownValue": 2
+      },
+      "tags": [
+        "alchemical",
+        "utility"
+      ],
+      "durationConfig": {
+        "durationType": "rounds",
+        "durationValue": 2,
+        "durationUnit": "rounds"
+      },
+      "effectTypes": [
+        "control"
+      ],
+      "controlConfig": {
+        "controlType": "incapacitation",
+        "duration": 2,
+        "durationUnit": "rounds",
+        "effects": [
+          {
+            "id": "dazzled",
+            "name": "Dazzled",
+            "description": "Blinded by alchemical glare and slowed.",
+            "mechanicsText": ""
+          }
+        ],
+        "savingThrow": {
+          "ability": "agility",
+          "difficultyClass": 14,
+          "saveOutcome": "negates"
+        }
+      },
+      "priorityRange": {
+        "min": 1,
+        "max": 8,
+        "resolution": "DICE"
+      }
+    },
+    {
+      "id": "barnaby_coin_barrage",
+      "name": "Heavy Coin Bag",
+      "description": "Swings a dense pouch of heavy copper and silver coins at a threatening foe.",
+      "level": 1,
+      "spellType": "ACTION",
+      "icon": "inv_misc_coin_02",
+      "typeConfig": {
+        "school": "smashing",
+        "icon": "inv_misc_coin_02",
+        "tags": [
+          "smashing",
+          "attack"
+        ],
+        "castTime": 1,
+        "castTimeType": "IMMEDIATE"
+      },
+      "targetingConfig": {
+        "targetingType": "single",
+        "rangeType": "melee",
+        "rangeDistance": 5,
+        "targetRestrictions": [
+          "enemies"
+        ]
+      },
+      "resourceCost": {
+        "actionPoints": 1,
+        "mana": 0,
+        "components": [
+          "somatic"
+        ]
+      },
+      "cooldownConfig": {
+        "cooldownType": "turn_based",
+        "cooldownValue": 1
+      },
+      "damageConfig": {
+        "damageTypes": [
+          "smashing"
+        ],
+        "damageType": "smashing",
+        "baseDamage": {
+          "diceCount": 1,
+          "diceType": 8,
+          "bonusDamage": 2
+        }
+      },
+      "tags": [
+        "smashing",
+        "attack"
+      ],
+      "effectTypes": [
+        "damage"
+      ],
+      "priorityRange": {
+        "min": 9,
+        "max": 15,
+        "resolution": "DICE"
+      }
+    },
+    {
+      "id": "barnaby_haggler_charm",
+      "name": "Haggler's Distraction",
+      "description": "Overwhelms the target with rapid barter banter, draining 1 action point on a failed Spirit save.",
+      "level": 1,
+      "spellType": "ACTION",
+      "icon": "spell_shadow_mindsteal",
+      "typeConfig": {
+        "school": "wyrd",
+        "icon": "spell_shadow_mindsteal",
+        "tags": [
+          "wyrd",
+          "social"
+        ],
+        "castTime": 1,
+        "castTimeType": "IMMEDIATE"
+      },
+      "targetingConfig": {
+        "targetingType": "single",
+        "rangeType": "ranged",
+        "rangeDistance": 25,
+        "targetRestrictions": [
+          "enemies"
+        ]
+      },
+      "resourceCost": {
+        "actionPoints": 1,
+        "mana": 15,
+        "components": [
+          "verbal"
+        ]
+      },
+      "cooldownConfig": {
+        "cooldownType": "turn_based",
+        "cooldownValue": 2
+      },
+      "tags": [
+        "wyrd",
+        "debuff"
+      ],
+      "effectTypes": [
+        "debuff"
+      ],
+      "debuffConfig": {
+        "debuffType": "statusEffect",
+        "effects": [
+          {
+            "id": "baffled",
+            "name": "Baffled",
+            "description": "Distracted by rapid barter, losing 1 AP on next turn.",
+            "mechanicsText": ""
+          }
+        ],
+        "durationType": "rounds",
+        "durationValue": 1,
+        "durationUnit": "rounds",
+        "savingThrow": {
+          "ability": "spirit",
+          "difficultyClass": 14,
+          "saveOutcome": "negates"
+        }
+      },
+      "priorityRange": {
+        "min": 16,
+        "max": 20,
+        "resolution": "DICE"
+      }
+    }
+  ],
+  "morwenna-coldforge": [
+    {
+      "id": "morwenna_anvil_maul",
+      "name": "Anvil Maul",
+      "description": "Delivers a crushing strike with a heavy basalt smithing hammer.",
+      "level": 2,
+      "spellType": "ACTION",
+      "icon": "inv_hammer_16",
+      "typeConfig": {
+        "school": "smashing",
+        "icon": "inv_hammer_16",
+        "tags": [
+          "smashing",
+          "attack"
+        ],
+        "castTime": 1,
+        "castTimeType": "IMMEDIATE"
+      },
+      "targetingConfig": {
+        "targetingType": "single",
+        "rangeType": "melee",
+        "rangeDistance": 5,
+        "targetRestrictions": [
+          "enemies"
+        ]
+      },
+      "resourceCost": {
+        "actionPoints": 2,
+        "mana": 0,
+        "components": [
+          "somatic"
+        ]
+      },
+      "cooldownConfig": {
+        "cooldownType": "turn_based",
+        "cooldownValue": 1
+      },
+      "damageConfig": {
+        "damageTypes": [
+          "smashing"
+        ],
+        "damageType": "smashing",
+        "baseDamage": {
+          "diceCount": 2,
+          "diceType": 8,
+          "bonusDamage": 4
+        }
+      },
+      "tags": [
+        "smashing",
+        "attack"
+      ],
+      "effectTypes": [
+        "damage"
+      ],
+      "priorityRange": {
+        "min": 1,
+        "max": 10,
+        "resolution": "DICE"
+      }
+    },
+    {
+      "id": "morwenna_sunder_armor",
+      "name": "Sunder Armor",
+      "description": "Strikes precisely at armor fastenings, reducing enemy armor rating.",
+      "level": 2,
+      "spellType": "ACTION",
+      "icon": "ability_warrior_sunder",
+      "typeConfig": {
+        "school": "slicing",
+        "icon": "ability_warrior_sunder",
+        "tags": [
+          "slicing",
+          "debuff"
+        ],
+        "castTime": 1,
+        "castTimeType": "IMMEDIATE"
+      },
+      "targetingConfig": {
+        "targetingType": "single",
+        "rangeType": "melee",
+        "rangeDistance": 5,
+        "targetRestrictions": [
+          "enemies"
+        ]
+      },
+      "resourceCost": {
+        "actionPoints": 1,
+        "mana": 0,
+        "components": [
+          "somatic"
+        ]
+      },
+      "cooldownConfig": {
+        "cooldownType": "turn_based",
+        "cooldownValue": 2
+      },
+      "tags": [
+        "slicing",
+        "debuff"
+      ],
+      "effectTypes": [
+        "debuff"
+      ],
+      "debuffConfig": {
+        "debuffType": "statusEffect",
+        "effects": [
+          {
+            "id": "sundered",
+            "name": "Sundered",
+            "description": "Armor rating degraded by 3 for 3 rounds.",
+            "mechanicsText": ""
+          }
+        ],
+        "durationType": "rounds",
+        "durationValue": 3,
+        "durationUnit": "rounds",
+        "savingThrow": {
+          "ability": "strength",
+          "difficultyClass": 15,
+          "saveOutcome": "negates"
+        }
+      },
+      "priorityRange": {
+        "min": 11,
+        "max": 15,
+        "resolution": "DICE"
+      }
+    },
+    {
+      "id": "morwenna_forge_ward",
+      "name": "Runic Forge Ward",
+      "description": "Summons an incandescent thermal shield from forge runes that absorbs 45 incoming damage.",
+      "level": 2,
+      "spellType": "ACTION",
+      "icon": "spell_fire_sealoffire",
+      "typeConfig": {
+        "school": "ember",
+        "icon": "spell_fire_sealoffire",
+        "tags": [
+          "ember",
+          "defense"
+        ],
+        "castTime": 1,
+        "castTimeType": "IMMEDIATE"
+      },
+      "targetingConfig": {
+        "targetingType": "single",
+        "rangeType": "self",
+        "rangeDistance": 0,
+        "targetRestrictions": [
+          "self"
+        ]
+      },
+      "resourceCost": {
+        "actionPoints": 1,
+        "mana": 15,
+        "components": [
+          "somatic"
+        ]
+      },
+      "cooldownConfig": {
+        "cooldownType": "turn_based",
+        "cooldownValue": 3
+      },
+      "tags": [
+        "ember",
+        "buff"
+      ],
+      "effectTypes": [
+        "buff"
+      ],
+      "buffConfig": {
+        "buffType": "shield",
+        "shieldAmount": 45,
+        "durationType": "rounds",
+        "durationValue": 3,
+        "durationUnit": "rounds"
+      },
+      "priorityRange": {
+        "min": 16,
+        "max": 20,
+        "resolution": "DICE"
+      }
+    }
+  ],
+  "madame-vespera": [
+    {
+      "id": "vespera_hexing_coin",
+      "name": "Hexing Coin",
+      "description": "Hurls an obsidian token imbued with wyrd dissonance, draining action points from the target.",
+      "level": 2,
+      "spellType": "ACTION",
+      "icon": "spell_shadow_curseofachimonde",
+      "typeConfig": {
+        "school": "wyrd",
+        "icon": "spell_shadow_curseofachimonde",
+        "tags": [
+          "wyrd",
+          "damage"
+        ],
+        "castTime": 1,
+        "castTimeType": "IMMEDIATE"
+      },
+      "targetingConfig": {
+        "targetingType": "single",
+        "rangeType": "ranged",
+        "rangeDistance": 35,
+        "targetRestrictions": [
+          "enemies"
+        ]
+      },
+      "resourceCost": {
+        "actionPoints": 2,
+        "mana": 15,
+        "components": [
+          "somatic",
+          "verbal"
+        ]
+      },
+      "cooldownConfig": {
+        "cooldownType": "turn_based",
+        "cooldownValue": 1
+      },
+      "damageConfig": {
+        "damageTypes": [
+          "wyrd"
+        ],
+        "damageType": "wyrd",
+        "baseDamage": {
+          "diceCount": 2,
+          "diceType": 6,
+          "bonusDamage": 3
+        }
+      },
+      "tags": [
+        "wyrd",
+        "attack"
+      ],
+      "effectTypes": [
+        "damage"
+      ],
+      "priorityRange": {
+        "min": 1,
+        "max": 10,
+        "resolution": "DICE"
+      }
+    },
+    {
+      "id": "vespera_arcane_mirror",
+      "name": "Arcane Mirror",
+      "description": "Wards herself with prismatic arcane glass that reflects hostile spell energy.",
+      "level": 2,
+      "spellType": "ACTION",
+      "icon": "spell_arcane_blink",
+      "typeConfig": {
+        "school": "arcane",
+        "icon": "spell_arcane_blink",
+        "tags": [
+          "arcane",
+          "defense"
+        ],
+        "castTime": 1,
+        "castTimeType": "IMMEDIATE"
+      },
+      "targetingConfig": {
+        "targetingType": "single",
+        "rangeType": "self",
+        "rangeDistance": 0,
+        "targetRestrictions": [
+          "self"
+        ]
+      },
+      "resourceCost": {
+        "actionPoints": 1,
+        "mana": 20,
+        "components": [
+          "somatic"
+        ]
+      },
+      "cooldownConfig": {
+        "cooldownType": "turn_based",
+        "cooldownValue": 3
+      },
+      "tags": [
+        "arcane",
+        "buff"
+      ],
+      "effectTypes": [
+        "buff"
+      ],
+      "priorityRange": {
+        "min": 11,
+        "max": 15,
+        "resolution": "DICE"
+      }
+    },
+    {
+      "id": "vespera_occult_ward",
+      "name": "Occult Ward",
+      "description": "Unleashes a radial blast of resonant arcane force, damaging and pushing away foes.",
+      "level": 2,
+      "spellType": "ACTION",
+      "icon": "spell_holy_magicalsentry",
+      "typeConfig": {
+        "school": "arcane",
+        "icon": "spell_holy_magicalsentry",
+        "tags": [
+          "arcane",
+          "area"
+        ],
+        "castTime": 1,
+        "castTimeType": "IMMEDIATE"
+      },
+      "targetingConfig": {
+        "targetingType": "area",
+        "rangeType": "self_centered",
+        "rangeDistance": 0,
+        "targetRestrictions": [
+          "enemies"
+        ],
+        "areaShape": "circle",
+        "areaSize": 15
+      },
+      "resourceCost": {
+        "actionPoints": 2,
+        "mana": 25,
+        "components": [
+          "somatic",
+          "verbal"
+        ]
+      },
+      "cooldownConfig": {
+        "cooldownType": "turn_based",
+        "cooldownValue": 2
+      },
+      "damageConfig": {
+        "damageTypes": [
+          "arcane"
+        ],
+        "damageType": "arcane",
+        "baseDamage": {
+          "diceCount": 2,
+          "diceType": 8,
+          "bonusDamage": 2
+        }
+      },
+      "tags": [
+        "arcane",
+        "damage"
+      ],
+      "effectTypes": [
+        "damage"
+      ],
+      "priorityRange": {
+        "min": 16,
+        "max": 20,
+        "resolution": "DICE"
+      }
+    }
+  ],
+  "corrick-featherquill": [
+    {
+      "id": "corrick_hardtack_throw",
+      "name": "Hardtack Throw",
+      "description": "Hurls rock-hard surveyor hardtack biscuits with slingshot accuracy, dealing smashing damage.",
+      "level": 1,
+      "spellType": "ACTION",
+      "icon": "inv_misc_food_14",
+      "typeConfig": {
+        "school": "smashing",
+        "icon": "inv_misc_food_14",
+        "tags": [
+          "smashing",
+          "attack"
+        ],
+        "castTime": 1,
+        "castTimeType": "IMMEDIATE"
+      },
+      "targetingConfig": {
+        "targetingType": "single",
+        "rangeType": "ranged",
+        "rangeDistance": 30,
+        "targetRestrictions": [
+          "enemies"
+        ]
+      },
+      "resourceCost": {
+        "actionPoints": 1,
+        "mana": 0,
+        "components": [
+          "somatic"
+        ]
+      },
+      "cooldownConfig": {
+        "cooldownType": "turn_based",
+        "cooldownValue": 1
+      },
+      "damageConfig": {
+        "damageTypes": [
+          "smashing"
+        ],
+        "damageType": "smashing",
+        "baseDamage": {
+          "diceCount": 1,
+          "diceType": 8,
+          "bonusDamage": 3
+        }
+      },
+      "tags": [
+        "smashing",
+        "attack"
+      ],
+      "effectTypes": [
+        "damage"
+      ],
+      "priorityRange": {
+        "min": 1,
+        "max": 10,
+        "resolution": "DICE"
+      }
+    },
+    {
+      "id": "corrick_tangling_net",
+      "name": "Tangling Net",
+      "description": "Casts a weighted hemp outfitter net that restrains aggressors.",
+      "level": 1,
+      "spellType": "ACTION",
+      "icon": "ability_ensnare",
+      "typeConfig": {
+        "school": "stabbing",
+        "icon": "ability_ensnare",
+        "tags": [
+          "stabbing",
+          "control"
+        ],
+        "castTime": 1,
+        "castTimeType": "IMMEDIATE"
+      },
+      "targetingConfig": {
+        "targetingType": "single",
+        "rangeType": "ranged",
+        "rangeDistance": 20,
+        "targetRestrictions": [
+          "enemies"
+        ]
+      },
+      "resourceCost": {
+        "actionPoints": 2,
+        "mana": 0,
+        "components": [
+          "somatic"
+        ]
+      },
+      "cooldownConfig": {
+        "cooldownType": "turn_based",
+        "cooldownValue": 2
+      },
+      "tags": [
+        "control",
+        "utility"
+      ],
+      "durationConfig": {
+        "durationType": "rounds",
+        "durationValue": 2,
+        "durationUnit": "rounds"
+      },
+      "effectTypes": [
+        "control"
+      ],
+      "controlConfig": {
+        "controlType": "incapacitation",
+        "duration": 2,
+        "durationUnit": "rounds",
+        "effects": [
+          {
+            "id": "restrained",
+            "name": "Restrained",
+            "description": "Ensnared by weighted outfitter net.",
+            "mechanicsText": ""
+          }
+        ],
+        "savingThrow": {
+          "ability": "agility",
+          "difficultyClass": 14,
+          "saveOutcome": "negates"
+        }
+      },
+      "priorityRange": {
+        "min": 11,
+        "max": 15,
+        "resolution": "DICE"
+      }
+    },
+    {
+      "id": "corrick_emergency_pemmican",
+      "name": "Emergency Pemmican",
+      "description": "Eats a high-protein survival ration, restoring 35 hit points.",
+      "level": 1,
+      "spellType": "ACTION",
+      "icon": "inv_misc_food_54",
+      "typeConfig": {
+        "school": "healing",
+        "icon": "inv_misc_food_54",
+        "tags": [
+          "healing",
+          "survival"
+        ],
+        "castTime": 1,
+        "castTimeType": "IMMEDIATE"
+      },
+      "targetingConfig": {
+        "targetingType": "single",
+        "rangeType": "self",
+        "rangeDistance": 0,
+        "targetRestrictions": [
+          "self"
+        ]
+      },
+      "resourceCost": {
+        "actionPoints": 1,
+        "mana": 10,
+        "components": [
+          "somatic"
+        ]
+      },
+      "cooldownConfig": {
+        "cooldownType": "turn_based",
+        "cooldownValue": 3
+      },
+      "healConfig": {
+        "healAmount": 35,
+        "healType": "flat"
+      },
+      "tags": [
+        "healing",
+        "recovery"
+      ],
+      "effectTypes": [
+        "heal"
+      ],
+      "priorityRange": {
+        "min": 16,
+        "max": 20,
+        "resolution": "DICE"
+      }
+    }
   ]
 }

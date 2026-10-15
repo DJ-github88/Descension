@@ -950,7 +950,7 @@
 
 /* Wizard Footer */
 
-.wow-button {
+.recipe-wizard .wow-button {
     background: var(--my-gradient-button);
     color: var(--my-text-primary);
     border: 2px solid var(--my-brown-light);
@@ -968,17 +968,17 @@
     min-width: 100px;
 }
 
-.wow-button:hover:not(:disabled) {
+.recipe-wizard .wow-button:hover:not(:disabled) {
     background: var(--my-gradient-button-hover);
     transform: translateY(-1px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
-.wow-button.primary {
+.recipe-wizard .wow-button.primary {
     color: var(--my-brown-darkest);
 }
 
-.wow-button.primary:hover:not(:disabled) {
+.recipe-wizard .wow-button.primary:hover:not(:disabled) {
     box-shadow: 0 0 12px rgba(212, 175, 55, 0.3), 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
@@ -991,7 +991,7 @@
   margin-bottom: var(--my-space-3, 12px) !important;
 }
 
-.wow-button:disabled {
+.recipe-wizard .wow-button:disabled {
     opacity: 0.5;
     cursor: not-allowed;
     transform: none;
@@ -999,11 +999,11 @@
     color: var(--my-text-muted);
 }
 
-.wow-button.primary {
+.recipe-wizard .wow-button.primary {
     background: linear-gradient(135deg, #ff8c00 0%, #ffa500 100%);
     border-color: #e67e00;
 }
 
-.wow-button.primary:hover:not(:disabled) {
+.recipe-wizard .wow-button.primary:hover:not(:disabled) {
     background: linear-gradient(135deg, #ffa500 0%, #ff8c00 100%);
 }

@@ -18,6 +18,7 @@ import RoomToast from './RoomToast';
 import { showPrompt, showAlert } from '../../utils/dialogService';
 import { useIsPhone } from '../../hooks/useIsPhone';
 import './styles/RoomManager.css';
+import { safeLocalStorageItem, safeLocalStorageGet, safeLocalStorageRemove } from '../../utils/storageUtils';
 import { createScopedNativeFamily } from '../../persistence/scopedNativeFamily';
 
 // Wave B closure: room metadata fallback cache is private to the verified owner.
@@ -327,10 +328,10 @@ const RoomManager = () => {
     try {
       // Store local room info for the game to load
       setLocalRoom(room.id);
-      localStorage.removeItem('selectedRoomId');
-      localStorage.removeItem('isTestRoom');
+      safeLocalStorageRemove('selectedRoomId');
+      safeLocalStorageRemove('isTestRoom');
       // Clear world builder mode flag - local rooms are not world builder mode
-      localStorage.removeItem('isWorldBuilderMode');
+      safeLocalStorageRemove('isWorldBuilderMode');
 
       navigate('/game'); // Navigate directly to game for local rooms
     } catch (error) {
@@ -642,15 +643,15 @@ const RoomManager = () => {
 
   const handleJoinRoom = (room) => {
     if (room.isTestRoom) {
-      localStorage.setItem('selectedRoomId', room.id);
-      localStorage.setItem('isTestRoom', 'true');
-      localStorage.removeItem('isWorldBuilderMode');
+      safeLocalStorageItem('selectedRoomId', room.id);
+      safeLocalStorageItem('isTestRoom', 'true');
+      safeLocalStorageRemove('isWorldBuilderMode');
       navigate('/multiplayer');
     } else if (room.userRole === 'gm') {
-      localStorage.setItem('selectedRoomId', room.id);
-      localStorage.setItem('isGMResume', 'true');
-      localStorage.setItem('resumeRoomName', room.name || 'Campaign Room');
-      localStorage.removeItem('isTestRoom');
+      safeLocalStorageItem('selectedRoomId', room.id);
+      safeLocalStorageItem('isGMResume', 'true');
+      safeLocalStorageItem('resumeRoomName', room.name || 'Campaign Room');
+      safeLocalStorageRemove('isTestRoom');
 
       logger.info('GM resuming room:', room.id);
       navigate('/multiplayer');
@@ -667,9 +668,9 @@ const RoomManager = () => {
 
     if (passwordTargetRoom && passwordInputValue.trim()) {
       // Store room selection and navigate to multiplayer
-      localStorage.setItem('selectedRoomId', passwordTargetRoom.id);
+      safeLocalStorageItem('selectedRoomId', passwordTargetRoom.id);
       sessionStorage.setItem('selectedRoomPassword', passwordInputValue.trim());
-      localStorage.removeItem('isTestRoom');
+      safeLocalStorageRemove('isTestRoom');
 
       setShowPasswordModal(false);
       setPasswordTargetRoom(null);

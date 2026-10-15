@@ -679,13 +679,6 @@ export const HERITAGE_EDGES = Object.freeze({
     edge: edge('capability', { capability: 'retune_prepared_vent_profile', condition: condition('equipment', 'salvaged_regulator') }),
     cost: cost('risk', { capability: 'extra_instability_and_repair_load' })
   },
-  'Warden|tessen_human': {
-    className: "Warden", heritageId: 'tessen_human',
-    description: "You brace a taught containment point in sealed architecture.",
-    costDescription: "You sacrifice mobility for holding power.",
-    edge: edge('capability', { capability: 'brace_architectural_containment_point', condition: condition('position', 'prepared_containment_point') }),
-    cost: cost('mobility_penalty', { magnitude: 15 })
-  },
   'Warden|drall_fexric': {
     className: "Warden", heritageId: 'drall_fexric',
     description: "You retune one chain configuration mid-combat as engineering.",
@@ -700,12 +693,12 @@ export const HERITAGE_EDGES = Object.freeze({
     edge: edge('capability', { capability: 'refract_impact_into_fervor', condition: condition('state', 'lattice_strain') }),
     cost: cost('vulnerability', { capability: 'lattice_strain_limit' })
   },
-  'Apex|florae_unified': {
-    className: "Apex", heritageId: 'florae_unified',
-    description: "You read a quarry's passage through prepared roots and wood.",
-    costDescription: "Roots are local, not a map-wide sensor.",
-    edge: edge('capability', { capability: 'read_contact_through_prepared_roots', condition: condition('terrain', 'prepared_roots') }),
-    cost: cost('obligation', { capability: 'roots_are_local_not_mapwide' })
+  'Apex|skald_human': {
+    className: "Apex", heritageId: 'skald_human',
+    description: "You read older tracks in preserved ice.",
+    costDescription: "Warm or melted surfaces remove the ice edge.",
+    edge: edge('capability', { capability: 'read_older_tracks_in_ice', condition: condition('terrain', 'preserved_ice') }),
+    cost: cost('risk', { capability: 'melted_surfaces_remove_ice_edge' })
   },
   'Lunarch|florae_unified': {
     className: "Lunarch", heritageId: 'florae_unified',
@@ -727,13 +720,6 @@ export const HERITAGE_EDGES = Object.freeze({
     costDescription: "A waterline care obligation binds the anchor.",
     edge: edge('capability', { capability: 'renew_return_at_tidal_node', condition: condition('terrain', 'tidal_node') }),
     cost: cost('obligation', { capability: 'waterline_care_obligation' })
-  },
-  'Revenant|riverling_myrathil': {
-    className: "Revenant", heritageId: 'riverling_myrathil',
-    description: "You follow a linked watercourse to a prepared weir node.",
-    costDescription: "Drought threatens maintenance, not the whole anchor.",
-    edge: edge('capability', { capability: 'follow_watercourse_to_weir_node', condition: condition('terrain', 'weir_node') }),
-    cost: cost('obligation', { capability: 'drought_threatens_maintenance' })
   },
   'Toxicologist|drun_neth': {
     className: "Toxicologist", heritageId: 'drun_neth',
@@ -791,12 +777,12 @@ export const HERITAGE_EDGES = Object.freeze({
     edge: edge('capability', { capability: 'track_by_steppe_scent', condition: condition('terrain', 'open_steppe') }),
     cost: cost('obligation', { capability: 'enclosed_terrain_limits_route' })
   },
-  'Apex|viridian_florae': {
-    className: "Apex", heritageId: 'viridian_florae',
-    description: "You read living growth disturbed by a quarry.",
-    costDescription: "Cut or sterile ground removes the edge.",
-    edge: edge('capability', { capability: 'read_disturbed_growth', condition: condition('terrain', 'living_growth') }),
-    cost: cost('risk', { capability: 'cut_ground_removes_edge' })
+  'Apex|thrask_solari': {
+    className: "Apex", heritageId: 'thrask_solari',
+    description: "You follow ash and residual heat across volcanic terrain.",
+    costDescription: "Wet or cold conditions remove the favored trace.",
+    edge: edge('capability', { capability: 'follow_ash_and_residual_heat', condition: condition('terrain', 'volcanic_ash') }),
+    cost: cost('risk', { capability: 'wet_cold_removes_heat_trace' })
   },
   'Apex|marked_vreken': {
     className: "Apex", heritageId: 'marked_vreken',

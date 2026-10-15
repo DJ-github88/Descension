@@ -18,7 +18,7 @@ const POOLS = { hp: ['currentHp', 'health', 'tempHealth', 'maxHp'], mana: ['curr
 const MODIFIERS = ['strength', 'agility', 'constitution', 'intelligence', 'spirit', 'charisma', 'armor', 'damageReduction', 'movementSpeed', 'healthRegen', 'manaRegen', 'maxHp', 'maxMana', 'maxAP', 'attackBonus', 'damageBonus', 'saveBonus'];
 const CONDITION_FIELDS = ['version', 'id', 'recordId', 'conditionKey', 'originalName', 'name', 'type', 'kind', 'target', 'targetId', 'targetType', 'source', 'sourceActor', 'sourceEntityId', 'effectOrigin', 'isMagical', 'icon', 'color', 'description', 'effectSummary', 'effects', 'duration', 'durationType', 'durationValue', 'remainingRounds', 'startTime', 'endTime', 'stackable', 'hasOverTimeEffect', 'overTimeType', 'overTimeFormula', 'overTimeElement', 'tickFrequency', 'tickFrequencyValue', 'tickFrequencyUnit', 'clockBoundary', 'sharedTiming'];
 const REF_KEYS = ['kind', 'roomId', 'mapId', 'tokenId', 'instanceId', 'ownerUid', 'characterId'];
-const PROTECTED = new Set(['actorContract', 'actorConsequences', 'health', 'mana', 'actionPoints', 'currentHp', 'currentMana', 'currentActionPoints', 'tempHealth', 'tempMana', 'tempActionPoints', 'hp', 'maxHp', 'maxMana', 'maxAP', 'maxActionPoints', 'conditions', 'buffs', 'debuffs', 'finalResources', 'expectedRevision']);
+const PROTECTED = new Set(['actorContract', 'actorConsequences', 'classPayment', 'health', 'mana', 'actionPoints', 'currentHp', 'currentMana', 'currentActionPoints', 'tempHealth', 'tempMana', 'tempActionPoints', 'hp', 'maxHp', 'maxMana', 'maxAP', 'maxActionPoints', 'conditions', 'buffs', 'debuffs', 'finalResources', 'expectedRevision']);
 const runtimeEpochs = new WeakMap();
 
 function epoch(room) {
@@ -116,13 +116,13 @@ function validateRecord(record, ref) {
   return clone(record);
 }
 function validateCommand(command) {
-  keys(command, ['version', 'roomId', 'commandId', 'actionEpoch', 'baseCommitSequence', 'source', 'target', 'actors', 'adjudication']);
+  keys(command, ['version', 'roomId', 'commandId', 'actionEpoch', 'baseCommitSequence', 'source', 'target', 'actors', 'adjudication', 'approval']);
   if (command.version !== 1 || !string(command.roomId) || !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(command.commandId || '') || !string(command.actionEpoch) || !integer(command.baseCommitSequence) ||
     !Array.isArray(command.actors) || command.actors.length < 1 || command.actors.length > 2 || bytes(command) > 65536 || !hash(command)) {fail('invalid_consequence');}
   const seen = new Set();
   let operations = 0;
   for (const actor of command.actors) {
-    keys(actor, ['ref', 'expectedRevision', 'finalResources', 'conditions']);
+    keys(actor, ['ref', 'expectedRevision', 'finalResources', 'conditions', 'classPayment']);
     validateRef(actor.ref);
     if (actor.ref.roomId !== command.roomId || !integer(actor.expectedRevision) || seen.has(hash(actor.ref))) {fail('invalid_consequence');}
     seen.add(hash(actor.ref));
@@ -143,7 +143,14 @@ function validateCommand(command) {
         if (operation.op === 'remove' && operation.record !== undefined) {fail('invalid_condition');}
       }
     }
-    if (!Object.keys(actor.finalResources || {}).length && !actor.conditions?.length) {fail('invalid_consequence');}
+    if (actor.classPayment !== undefined) {
+      // P9 named source-owned payment adapter: typed shapes only, never class math here.
+      if (actor.ref.kind !== 'character') {fail('invalid_class_payment');}
+      require('./spellPayments').validateEntry(actor.classPayment);
+      if (actor.classPayment.mode === 'spell' && !command.approval) {fail('approval_required');}
+      if (actor.classPayment.mode === 'sync' && command.actors.length !== 1) {fail('invalid_class_payment');}
+    }
+    if (!Object.keys(actor.finalResources || {}).length && !actor.conditions?.length && !actor.classPayment) {fail('invalid_consequence');}
   }
   if (operations > 32) {fail('condition_operation_limit');}
   for (const role of ['source', 'target']) {
@@ -153,6 +160,11 @@ function validateCommand(command) {
   if (command.adjudication) {
     keys(command.adjudication, ['definitionId', 'definitionVersionOrHash', 'chosenResult', 'finalAmount', 'adjustmentReason']);
     if (Object.values(command.adjudication).some(value => !['string', 'number'].includes(typeof value) || (typeof value === 'number' && !Number.isFinite(value)))) {fail('invalid_consequence');}
+  }
+  if (command.approval !== undefined) {
+    keys(command.approval, ['approvalId', 'contentHash']);
+    if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(command.approval.approvalId || '') || !/^[0-9a-f]{64}$/.test(command.approval.contentHash || '') ||
+      !command.source || !command.target || !command.adjudication) {fail('invalid_consequence');}
   }
   return command;
 }
@@ -190,7 +202,7 @@ function publicReceipt(receipt) {
   const fields = ['version', 'roomId', 'commandId', 'submitterUid', 'contentHash', 'admissionEpoch', 'commitSequence', 'checkpointRevision', 'acceptedAt'];
   const out = Object.fromEntries(fields.filter(key => typeof receipt[key] === 'string' || (typeof receipt[key] === 'number' && Number.isFinite(receipt[key]))).map(key => [key, receipt[key]]));
   if (receipt.checkpointRevision === null) {out.checkpointRevision = null;}
-  out.authorization = Object.fromEntries(['kind', 'authorizerUid', 'proposalId'].filter(key => typeof receipt.authorization?.[key] === 'string').map(key => [key, receipt.authorization[key]]));
+  out.authorization = Object.fromEntries(['kind', 'authorizerUid', 'proposalId', 'approvalHash'].filter(key => typeof receipt.authorization?.[key] === 'string').map(key => [key, receipt.authorization[key]]));
   for (const role of ['source', 'target']) {
     if (receipt[role]) {try {validateRef(receipt[role]); out[role] = clone(receipt[role]);} catch (_) {out.readOnly = true;}}
   }
@@ -201,9 +213,22 @@ function publicReceipt(receipt) {
     try {validateRef(actor.ref);} catch (_) {return { readOnly: true };}
     return { ref: clone(actor.ref), beforeRevision: integer(actor.beforeRevision) ? actor.beforeRevision : null, afterRevision: integer(actor.afterRevision) ? actor.afterRevision : null,
       finalResources: Object.fromEntries(Object.keys(POOLS).map(pool => [pool, Object.fromEntries(['current', 'temp', 'max'].filter(key => typeof actor.finalResources?.[pool]?.[key] === 'number' && Number.isFinite(actor.finalResources[pool][key])).map(key => [key, actor.finalResources[pool][key]]))])),
-      conditions: Array.isArray(actor.conditions) ? actor.conditions.map(publicCondition).filter(Boolean) : [] };
+      conditions: Array.isArray(actor.conditions) ? actor.conditions.map(publicCondition).filter(Boolean) : [],
+      ...(publicClassPayment(actor.classPayment) ? { classPayment: publicClassPayment(actor.classPayment) } : {}) };
   });
   return out;
+}
+function publicClassPayment(payment) {
+  // Only the typed public projection crosses the room boundary (Martyr ledgers and notes stay private).
+  if (!payment || !['sync', 'spell'].includes(payment.mode)) {return null;}
+  try {
+    const payments = require('./spellPayments');
+    if (!payments.DOMAINS.includes(payment.domain)) {return null;}
+    const out = { mode: payment.mode, domain: payment.domain, public: {} };
+    for (const key of ['type', 'current', 'max']) {if (typeof payment.public?.[key] === 'string' || Number.isFinite(payment.public?.[key])) {out.public[key] = payment.public[key];}}
+    if (payment.domain === 'elementalSpheres' && Array.isArray(payment.public?.spheres)) {out.public.spheres = payment.public.spheres.filter(item => payments.ELEMENTS.includes(item));}
+    return out;
+  } catch (_) {return null;}
 }
 function stage(room, player, uid, command, authorization, confirmedRevision) {
   validateCommand(command);
@@ -217,6 +242,8 @@ function stage(room, player, uid, command, authorization, confirmedRevision) {
   const validated = checkpoint.canonicalize(room.gameState, 'gameState');
   if (validated.error) {fail('CHECKPOINT_INVALID', validated.error);}
   if (!player.isGM && command.actors.length > 1) {fail('authorization_required');}
+  // P9: an owner-approved spell binds exactly one pending approval before staging.
+  const approved = command.approval ? require('./spellPayments').bindCommand(room, player, command, authorization) : null;
   const next = clone(room.gameState);
   const entries = [];
   for (const actor of command.actors) {
@@ -251,11 +278,32 @@ function stage(room, player, uid, command, authorization, confirmedRevision) {
       }
     }
     token.state.conditions = records;
+    let classPayment = null;
+    if (actor.classPayment) {
+      const payments = require('./spellPayments');
+      const home = payments.home(resolved.token);
+      if (actor.classPayment.mode === 'sync') {
+        // Owner-only publication of their own sheet value (parity with owner class edits).
+        if (uid !== actor.ref.ownerUid || command.approval) {fail('class_payment_owner_required');}
+        if (payments.pendingFor(room, actor.ref.ownerUid, actor.ref.characterId)) {fail('class_payment_pending');}
+        if (hash(home) !== hash(actor.classPayment.before)) {fail('stale_class_state');}
+        token.state.classPayment = { version: 1, domain: actor.classPayment.after.domain, value: clone(actor.classPayment.after.value) };
+      } else {
+        if (!approved || hash(approved.approval.source) !== hash(actor.ref) || approved.approval.classPayment?.domain !== actor.classPayment.domain) {fail('approval_mismatch');}
+        token.state.classPayment = { version: 1, domain: actor.classPayment.domain, value: clone(approved.approval.classPayment.after) };
+      }
+      const value = token.state.classPayment.value;
+      token.character = { ...token.character, classResource: { ...(token.character?.classResource || {}), ...clone(value) } };
+      classPayment = { mode: actor.classPayment.mode, domain: token.state.classPayment.domain, public: payments.publicValue(token.state.classPayment.domain, value) };
+    }
     token.state.actorContract.revision += 1;
-    entries.push({ ref: actor.ref, beforeRevision: actor.expectedRevision, afterRevision: actor.expectedRevision + 1, finalResources: resources(token, actor.ref.kind), conditions: clone(records) });
+    entries.push({ ref: actor.ref, beforeRevision: actor.expectedRevision, afterRevision: actor.expectedRevision + 1, finalResources: resources(token, actor.ref.kind), conditions: clone(records),
+      ...(classPayment ? { classPayment } : {}) });
   }
   const receipt = { version: 1, roomId: room.id, commandId: command.commandId, submitterUid: uid, contentHash: hash(command), admissionEpoch: epoch(room),
-    commitSequence: prior.commitSequence + 1, checkpointRevision: 0, actors: entries, authorization, acceptedAt: Date.now() };
+    commitSequence: prior.commitSequence + 1, checkpointRevision: 0, actors: entries,
+    authorization: approved ? { kind: 'owner-approval-gm', authorizerUid: uid, proposalId: approved.approval.approvalId, approvalHash: approved.contentHash } : authorization,
+    acceptedAt: Date.now() };
   if (command.source) {receipt.source = clone(command.source);}
   if (command.target) {receipt.target = clone(command.target);}
   if (command.adjudication) {receipt.adjudication = clone(command.adjudication);}
@@ -280,7 +328,7 @@ function stage(room, player, uid, command, authorization, confirmedRevision) {
     }
   }
   require('./actorProjection').advance(room, next);
-  return { next, receipt };
+  return { next, receipt, approved };
 }
 // Only these owning-domain maximum paths may cross the legacy write guard.
 // Current/temp/conditions and authority metadata remain protected recursively.
@@ -444,7 +492,7 @@ function preserveImportedActorMetadata(gameState) {
     }
     for (const field of ['tokens', 'characterTokens', 'creatures']) {
       for (const token of Object.values(map[field] || {})) {
-        for (const [key, retained] of [['actorContract', 'importedActorContract'], ['actorLifecycle', 'importedActorLifecycle']]) {
+        for (const [key, retained] of [['actorContract', 'importedActorContract'], ['actorLifecycle', 'importedActorLifecycle'], ['classPayment', 'importedClassPayment']]) {
           if (!own(token.state, key)) {continue;}
           token.state.actorRecovery = { ...token.state.actorRecovery, [retained]: token.state[key] };
           delete token.state[key];

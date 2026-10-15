@@ -264,7 +264,7 @@
 }
 
 .race-info-intro {
-    max-width: 72ch;
+    max-width: none;
     margin: 1rem 0 0;
     font-size: 1.1rem;
     line-height: 1.5;
@@ -377,7 +377,7 @@
 }
 
 .race-variant-description {
-    max-width: 68ch;
+    max-width: none;
     font-size: 1rem;
     line-height: 1.45;
     color: #5d4c3b;
@@ -453,7 +453,7 @@
 
 .race-reading-text {
     padding-bottom: 1rem;
-    max-width: 72ch;
+    max-width: none;
     font-size: 1rem;
     line-height: 1.65;
     color: #5d4037;
@@ -1728,9 +1728,8 @@
         rgba(3, 2, 0, 0.92);
     display: flex;
     align-items: center;
-    justify-content: center;
-    z-index: 9999;
-    padding: 2rem;
+    z-index: 99999;
+    padding: 1.25rem 1rem;
     backdrop-filter: blur(12px) brightness(0.4);
     animation: loreFadeIn 0.5s ease;
     overflow: hidden;

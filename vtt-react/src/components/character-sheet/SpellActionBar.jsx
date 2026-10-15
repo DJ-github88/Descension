@@ -16,6 +16,7 @@ import { RARITY_COLORS } from '../../constants/itemConstants';
 import { createDeck, drawCards } from '../spellcrafting-wizard/core/mechanics/cardSystem';
 import { flipMultipleCoins } from '../spellcrafting-wizard/core/mechanics/coinSystem';
 import { useCharacterSpells } from '../../hooks/useCharacterSpells';
+import { routeSpellCast, isP9Routed, spellDiagnostic } from '../../services/spellConsequenceService';
 import { createScopedNativeFamily } from '../../persistence/scopedNativeFamily';
 import { useActionBarAsset } from '../../hooks/useActionBarAsset';
 import EquipmentActionSlot from '../ui/EquipmentActionSlot';
@@ -290,6 +291,9 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
 
   const handleEquipmentActionClick = (action) => {
     setOpenEquipmentSlot(null);
+    // P9: weapon actions resolve no original class definition and stay manual,
+    // but every sheet producer routes through the same supported-spell gate.
+    if (routeSpellCast(action, { producer: 'sheet-equipment' })) return;
     setPendingSpellCast({ spell: action });
   };
 
@@ -924,6 +928,11 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
   const handleCastSpell = (slotSpell) => {
     if (!slotSpell) return;
     const spellData = getFullSpellData(slotSpell);
+    // P9: supported spells in a shared room are never spent locally.
+    if (isP9Routed(spellData)) {
+      routeSpellCast(spellData, { producer: 'sheet' });
+      return true;
+    }
     const charStore = useCharacterStore.getState();
     const playerName = charStore.name || 'Player';
 
@@ -1850,6 +1859,7 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
                   onClick={() => {
                     const fullSpell = getFullSpellData(inspectingSpell);
                     setInspectingSpell(null);
+                    if (routeSpellCast(fullSpell, { producer: 'sheet' })) return;
                     setPendingSpellCast({ spell: fullSpell });
                   }}
                 >
@@ -2120,6 +2130,9 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
             </div>
 
             <div className="spell-consume-confirm-body">
+              {spellDiagnostic(pendingSpellCast.spell) && (
+                <p className="spell-consume-confirm-desc spell-p9-manual" role="note">Manual — not applied to the room: {spellDiagnostic(pendingSpellCast.spell)}</p>
+              )}
               {pendingSpellCast.spell.description && (
                 <p className="spell-consume-confirm-desc">{pendingSpellCast.spell.description}</p>
               )}

@@ -61,6 +61,8 @@ const ECHO_PREVENTION_WINDOW_MS = 200;
  */
 const AUTHORITATIVE_ROOM_EVENTS = new Set([
   'actor_snapshot', 'actor_bind', 'actor_consequence', 'actor_recovery', 'actor_propose', 'actor_adjudicate',
+  // P9 owner spell approvals (same strict actor_ sanitization boundary)
+  'actor_spell_approve', 'actor_spell_withdraw', 'actor_spell_decline', 'actor_spell_list',
   // authoritative state reads
   'request_room_checkpoint',
   'request_full_sync', 'sync_tokens', 'sync_grid_items', 'sync_character_tokens', 'request_combat_sync',

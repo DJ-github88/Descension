@@ -11,6 +11,7 @@ import { beginConversionConfirmation, subscribeConversionFlow } from '../../pers
 import localRoomService from '../../services/localRoomService';
 import { captureConsumerContext, isConsumerContextCurrent } from '../../persistence/scopedConsumer';
 import { subscribeBootstrapGate } from '../../persistence/bootstrapPrivacyGate';
+import { getPrimaryStarterMap } from '../../data/subregionMaps';
 import './styles/RoomLobby.css';
 import './styles/RoomCardModern.css';
 import '../account/styles/RoomManager.css';
@@ -1204,11 +1205,23 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt }) => 
     setPasswordInput('');
   };
 
+  const lobbyMapUrl = useMemo(() => {
+    try {
+      const primary = getPrimaryStarterMap();
+      if (primary && primary.image && primary.id !== 'mythril') {
+        return primary.image;
+      }
+    } catch {
+      // ignore
+    }
+    return `${process.env.PUBLIC_URL || ''}/assets/images/backgrounds/atlas/mythril-highres.jpg`;
+  }, []);
+
   return (
     <div
       className="room-lobby"
       style={{
-        '--lobby-map-url': `url("${process.env.PUBLIC_URL || ''}/assets/images/backgrounds/atlas/mythril-preview.jpg")`,
+        '--lobby-map-url': `url("${lobbyMapUrl}")`,
         '--parchment-texture-url': `url("${process.env.PUBLIC_URL || ''}/assets/ui/wow-window/parchment_bg.png")`
       }}
     >

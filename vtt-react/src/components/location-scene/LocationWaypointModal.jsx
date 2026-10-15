@@ -49,12 +49,12 @@ const LocationWaypointModal = ({
 
   return ReactDOM.createPortal(
     <div className="location-pin-modal-backdrop" onClick={onClose}>
-      <div className="location-pin-modal" style={{ maxWidth: '580px' }} onClick={(e) => e.stopPropagation()}>
+      <div className="location-pin-modal adventurer-window" style={{ maxWidth: '580px' }} onClick={(e) => e.stopPropagation()}>
         {/* Header */}
         <div className="location-pin-modal-header">
           <div className="modal-header-identity">
-            <div className="modal-pin-icon-box" style={{ background: 'radial-gradient(circle at 35% 35%, #d4af37 0%, #3a220a 100%)', borderColor: '#d4af37' }}>
-              <span style={{ fontSize: '15px', fontWeight: 900, color: '#1a0802' }}>{day}</span>
+            <div className="modal-pin-icon-box" style={{ background: 'radial-gradient(circle at 35% 35%, var(--adventure-leather, #302419) 0%, #150f09 100%)', borderColor: 'var(--adventure-brass, #c4ab79)' }}>
+              <span style={{ fontSize: '15px', fontWeight: 900, color: 'var(--adventure-paper, #faf6ee)' }}>{day}</span>
             </div>
             <div className="modal-pin-titles">
               <span className="modal-pin-type-tag">EXPEDITION ROUTE WAYPOINT</span>
@@ -72,7 +72,7 @@ const LocationWaypointModal = ({
             <form onSubmit={handleSave} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
               <div style={{ display: 'flex', gap: '12px' }}>
                 <div style={{ flex: 1 }}>
-                  <label style={{ display: 'block', fontSize: '12px', fontWeight: 800, color: '#5c3e21', marginBottom: '4px' }}>
+                  <label style={{ display: 'block', fontSize: '12px', fontWeight: 800, color: 'var(--adventure-muted, #68533e)', marginBottom: '4px' }}>
                     Waypoint Title
                   </label>
                   <input
@@ -83,17 +83,17 @@ const LocationWaypointModal = ({
                     style={{
                       width: '100%',
                       padding: '8px 12px',
-                      background: '#fdfaf0',
-                      border: '1.5px solid #8c6738',
-                      borderRadius: '6px',
-                      color: '#2b1810',
+                      background: 'var(--adventure-page, #f1ece1)',
+                      border: '1px solid var(--adventure-rule, #b6a080)',
+                      borderRadius: '2px',
+                      color: 'var(--adventure-ink, #34251a)',
                       fontFamily: 'Cinzel, serif',
                       fontWeight: 700
                     }}
                   />
                 </div>
                 <div style={{ width: '90px' }}>
-                  <label style={{ display: 'block', fontSize: '12px', fontWeight: 800, color: '#5c3e21', marginBottom: '4px' }}>
+                  <label style={{ display: 'block', fontSize: '12px', fontWeight: 800, color: 'var(--adventure-muted, #68533e)', marginBottom: '4px' }}>
                     Day #
                   </label>
                   <input
@@ -104,10 +104,10 @@ const LocationWaypointModal = ({
                     style={{
                       width: '100%',
                       padding: '8px 12px',
-                      background: '#fdfaf0',
-                      border: '1.5px solid #8c6738',
-                      borderRadius: '6px',
-                      color: '#2b1810',
+                      background: 'var(--adventure-page, #f1ece1)',
+                      border: '1px solid var(--adventure-rule, #b6a080)',
+                      borderRadius: '2px',
+                      color: 'var(--adventure-ink, #34251a)',
                       fontWeight: 800
                     }}
                   />
@@ -116,7 +116,7 @@ const LocationWaypointModal = ({
 
               <div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
-                  <label style={{ fontSize: '12px', fontWeight: 800, color: '#5c3e21' }}>
+                  <label style={{ fontSize: '12px', fontWeight: 800, color: 'var(--adventure-muted, #68533e)' }}>
                     Camp Chronicle &amp; Encampment Notes
                   </label>
                   {/* Rich Text Format Bar */}
@@ -141,10 +141,10 @@ const LocationWaypointModal = ({
                   style={{
                     width: '100%',
                     padding: '8px 12px',
-                    background: '#fdfaf0',
-                    border: '1.5px solid #8c6738',
-                    borderRadius: '6px',
-                    color: '#2b1810',
+                    background: 'var(--adventure-page, #f1ece1)',
+                    border: '1px solid var(--adventure-rule, #b6a080)',
+                    borderRadius: '2px',
+                    color: 'var(--adventure-ink, #34251a)',
                     fontSize: '13px',
                     lineHeight: '1.5'
                   }}
@@ -185,7 +185,7 @@ const LocationWaypointModal = ({
               </div>
 
               {notes ? (
-                <div style={{ background: '#fdfbf5', padding: '14px', borderRadius: '8px', border: '1px solid #e8dcbe' }}>
+                <div style={{ background: '#fdfbf5', padding: '14px', borderRadius: '2px', border: '1px solid #e8dcbe' }}>
                   <RichLoreText text={notes} className="parchment-theme" />
                 </div>
               ) : (

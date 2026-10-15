@@ -1,0 +1,421 @@
+/* ==========================================================================
+   Calm TTRPG Location Pin Popup Docket
+   An authentic illuminated cartographic preview anchored to map pins.
+   Employs the canonical --adventure-* design system tokens.
+   ========================================================================== */
+
+.calm-pin-popup-docket {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%) scale(var(--popup-scale, 1));
+  width: 390px;
+  max-width: calc(100vw - 32px);
+  box-sizing: border-box;
+  background: var(--adventure-page, #f7f3ea);
+  color: var(--adventure-ink, #34251a);
+  border: 1px solid var(--adventure-rule, #b6a080);
+  border-radius: 2px;
+  box-shadow: 
+    0 8px 24px rgba(35, 23, 14, 0.45),
+    0 2px 6px rgba(35, 23, 14, 0.25),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+  padding: 12px 14px 10px 14px;
+  z-index: 120;
+  pointer-events: auto !important;
+  font-family: var(--my-font-body, 'Crimson Text', Georgia, serif);
+  font-size: 13px;
+  line-height: 1.45;
+  text-align: left;
+  user-select: none;
+  animation: calmDocketFadeIn 0.18s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  backdrop-filter: blur(2px);
+}
+
+/* Positioning variants: Top vs Bottom of Pin with pointer-relative transform origins */
+.calm-pin-popup-docket.flipped-top {
+  bottom: calc(100% + 14px);
+  transform-origin: 50% calc(100% + 7px);
+}
+
+.calm-pin-popup-docket.flipped-bottom {
+  top: calc(100% + 14px);
+  transform-origin: 50% -7px;
+}
+
+/* Subtle pointer triangle */
+.calm-pin-popup-docket.flipped-top::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 7px 7px 0 7px;
+  border-style: solid;
+  border-color: var(--adventure-rule, #b6a080) transparent transparent transparent;
+}
+
+.calm-pin-popup-docket.flipped-top::before {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 6px 6px 0 6px;
+  border-style: solid;
+  border-color: var(--adventure-page, #f7f3ea) transparent transparent transparent;
+  z-index: 1;
+}
+
+.calm-pin-popup-docket.flipped-bottom::after {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 0 7px 7px 7px;
+  border-style: solid;
+  border-color: transparent transparent var(--adventure-rule, #b6a080) transparent;
+}
+
+.calm-pin-popup-docket.flipped-bottom::before {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 0 6px 6px 6px;
+  border-style: solid;
+  border-color: transparent transparent var(--adventure-page, #f7f3ea) transparent;
+  z-index: 1;
+}
+
+@keyframes calmDocketFadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) scale(var(--popup-scale, 1)) translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) scale(var(--popup-scale, 1)) translateY(0);
+  }
+}
+
+/* Decorative corner brackets */
+.docket-corner {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-color: var(--adventure-rule, #b6a080);
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.docket-corner.top-left {
+  top: 2px;
+  left: 2px;
+  border-top: 1px solid var(--adventure-rule, #b6a080);
+  border-left: 1px solid var(--adventure-rule, #b6a080);
+}
+
+.docket-corner.top-right {
+  top: 2px;
+  right: 2px;
+  border-top: 1px solid var(--adventure-rule, #b6a080);
+  border-right: 1px solid var(--adventure-rule, #b6a080);
+}
+
+.docket-corner.bottom-left {
+  bottom: 2px;
+  left: 2px;
+  border-bottom: 1px solid var(--adventure-rule, #b6a080);
+  border-left: 1px solid var(--adventure-rule, #b6a080);
+}
+
+.docket-corner.bottom-right {
+  bottom: 2px;
+  right: 2px;
+  border-bottom: 1px solid var(--adventure-rule, #b6a080);
+  border-right: 1px solid var(--adventure-rule, #b6a080);
+}
+
+/* Header */
+.calm-pin-popup-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--adventure-rule, #b6a080);
+}
+
+.calm-pin-identity {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.calm-pin-mini-crest {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1.5px solid var(--adventure-brass, #c4ab79);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 12px;
+  flex-shrink: 0;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.35);
+}
+
+.calm-pin-titles {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.calm-pin-type-badge {
+  font-family: var(--my-font-ui, 'Cinzel', Georgia, serif);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: var(--adventure-muted, #68533e);
+  line-height: 1.1;
+}
+
+.calm-pin-name {
+  margin: 2px 0 0 0;
+  font-family: var(--my-font-ui, 'Cinzel', Georgia, serif);
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--adventure-ink, #34251a);
+  line-height: 1.25;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  letter-spacing: 0.2px;
+}
+
+.calm-pin-popup-close-btn {
+  background: transparent;
+  border: none;
+  color: var(--adventure-muted, #68533e);
+  cursor: pointer;
+  padding: 2px 4px;
+  font-size: 11px;
+  border-radius: 2px;
+  transition: color 0.15s ease, background 0.15s ease;
+  flex-shrink: 0;
+}
+
+.calm-pin-popup-close-btn:hover {
+  color: var(--adventure-seal, #663c32);
+  background: rgba(102, 60, 50, 0.08);
+}
+
+/* Status Badges */
+.calm-pin-status-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 5px;
+}
+
+.calm-pin-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--my-font-ui, 'Cinzel', Georgia, serif);
+  font-size: 9px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 2px;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+}
+
+.calm-pin-badge.secret {
+  background: rgba(139, 58, 42, 0.09);
+  color: var(--adventure-seal, #663c32);
+  border: 1px solid rgba(139, 58, 42, 0.3);
+}
+
+.calm-pin-badge.submap {
+  background: rgba(196, 171, 121, 0.15);
+  color: var(--adventure-ink, #34251a);
+  border: 1px solid var(--adventure-rule, #b6a080);
+}
+
+/* Lore Excerpt */
+.calm-pin-popup-excerpt {
+  margin-top: 6px;
+  padding: 4px 6px;
+  background: rgba(250, 246, 238, 0.4);
+  border: 1px solid rgba(182, 160, 128, 0.35);
+  border-radius: 2px;
+}
+
+.calm-pin-popup-excerpt p {
+  margin: 0;
+  font-size: 12px;
+  color: var(--adventure-ink, #34251a);
+  font-style: italic;
+  line-height: 1.4;
+}
+
+/* Entity Summary Pills */
+.calm-pin-entity-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 7px;
+  padding-top: 6px;
+  border-top: 1px dashed rgba(182, 160, 128, 0.5);
+}
+
+.calm-entity-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 6px;
+  border-radius: 2px;
+  font-size: 10px;
+  font-weight: 600;
+  background: var(--adventure-paper, #faf6ee);
+  border: 1px solid var(--adventure-rule, #b6a080);
+  color: var(--adventure-ink, #34251a);
+  white-space: nowrap;
+}
+
+.calm-entity-pill i {
+  font-size: 9px;
+  opacity: 0.85;
+}
+
+.calm-entity-pill.quest {
+  border-color: rgba(184, 134, 11, 0.45);
+  background: rgba(250, 246, 238, 0.65);
+}
+
+.calm-entity-pill.npc {
+  border-color: rgba(61, 90, 115, 0.4);
+}
+
+.calm-entity-pill.creature {
+  border-color: rgba(139, 58, 42, 0.4);
+  color: #663c32;
+}
+
+.calm-entity-pill.item {
+  border-color: rgba(155, 98, 43, 0.4);
+}
+
+/* Action Buttons Footer */
+.calm-pin-popup-actions {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 5px;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--adventure-rule, #b6a080);
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.calm-pin-action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 4px 6px;
+  background: var(--adventure-paper, #faf6ee);
+  border: 1px solid var(--adventure-rule, #b6a080);
+  border-radius: 2px;
+  color: var(--adventure-ink, #34251a);
+  font-family: var(--my-font-ui, 'Cinzel', Georgia, serif);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.25px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+  box-shadow: 0 1px 3px rgba(35, 23, 14, 0.1);
+  flex: 0 0 auto;
+  box-sizing: border-box;
+}
+
+.calm-pin-action-btn:hover {
+  background: #ffffff;
+  border-color: var(--adventure-brass, #c4ab79);
+  color: var(--adventure-seal, #663c32);
+}
+
+.calm-pin-action-btn:active {
+  transform: translateY(0);
+}
+
+.calm-pin-action-btn.primary {
+  background: var(--adventure-panel, #e8e2d4);
+  font-weight: 800;
+}
+
+.calm-pin-action-btn.primary:hover {
+  background: #ffffff;
+  border-color: var(--adventure-brass, #c4ab79);
+}
+
+.calm-pin-action-btn.route {
+  color: var(--adventure-ink, #34251a);
+  border-color: var(--adventure-rule, #b6a080);
+}
+
+.calm-pin-action-btn.route:hover {
+  background: #ffffff;
+  border-color: var(--adventure-brass, #c4ab79);
+  color: var(--adventure-seal, #663c32);
+}
+
+.calm-pin-action-btn.submap {
+  color: var(--adventure-ink, #34251a);
+  border-color: var(--adventure-rule, #b6a080);
+}
+
+.calm-pin-action-btn.submap:hover {
+  background: #ffffff;
+  border-color: var(--adventure-brass, #c4ab79);
+  color: var(--adventure-seal, #663c32);
+}
+
+.calm-pin-action-btn.codex {
+  color: var(--adventure-ink, #34251a);
+  border-color: var(--adventure-rule, #b6a080);
+}
+
+.calm-pin-action-btn.codex:hover {
+  background: #ffffff;
+  border-color: var(--adventure-brass, #c4ab79);
+  color: var(--adventure-seal, #663c32);
+}
+
+.calm-pin-gm-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  margin-left: auto;
+  flex: 0 0 auto;
+}
+
+.calm-pin-action-btn.gm-tool {
+  padding: 4px 6px;
+  font-size: 10px;
+  min-width: 24px;
+  height: 24px;
+  box-sizing: border-box;
+}
+
+.calm-pin-action-btn.gm-tool.is-secret {
+  color: var(--adventure-seal, #663c32);
+}

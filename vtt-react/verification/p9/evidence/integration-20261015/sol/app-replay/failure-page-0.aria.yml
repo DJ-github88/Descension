@@ -1,0 +1,8 @@
+- dialog "Analytics & Privacy Consent":
+  - text: Telemetry & Scribe Records
+  - paragraph:
+    - text: We collect anonymized session metrics to refine dice mechanics, room stability, and performance. No player data is sold or shared for advertising.
+    - link "Review our Privacy Policy":
+      - /url: /privacy
+  - button "Decline analytics tracking": Decline
+  - button "Accept analytics tracking": Accept

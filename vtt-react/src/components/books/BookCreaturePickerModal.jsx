@@ -21,6 +21,7 @@ const DANGER_FILTERS = [
 
 const TYPE_FILTERS = [
   { value: 'all', label: 'All Types' },
+  { value: 'shopkeeper', label: 'Shopkeeper' },
   { value: 'humanoid', label: 'Humanoid' },
   { value: 'undead', label: 'Undead' },
   { value: 'elemental', label: 'Elemental' },
@@ -34,6 +35,7 @@ const TYPE_FILTERS = [
 
 const getCreatureTypeIcon = (typeStr = '', name = '') => {
   const s = `${typeStr} ${name}`.toLowerCase();
+  if (s.includes('shopkeeper') || s.includes('merchant') || s.includes('peddler')) return 'fa-coins';
   if (s.includes('dragon') || s.includes('wyrm')) return 'fa-dragon';
   if (s.includes('undead') || s.includes('revenant') || s.includes('skeleton') || s.includes('zombie')) return 'fa-skull';
   if (s.includes('elemental') || s.includes('fire') || s.includes('frost') || s.includes('rime')) return 'fa-fire-flame-curved';

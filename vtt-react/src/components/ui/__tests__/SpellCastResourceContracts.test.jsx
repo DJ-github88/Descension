@@ -98,3 +98,38 @@ test('Authority confirmation cannot borrow its gain or a stale Authority alias t
   const costSection = screen.getByText('Resource Cost:').closest('.resource-costs-section');
   expect(within(costSection).getAllByText('Authority')).toHaveLength(1);
 });
+
+test('SpellCastConfirmation renders calm header, rubric spell name, resource costs, and button actions', () => {
+  const onConfirm = jest.fn();
+  const onCancel = jest.fn();
+  mockState = { class: 'Wizard', classResource: null, mana: { current: 30, max: 50 }, actionPoints: { current: 3, max: 3 } };
+
+  render(
+    <SpellCastConfirmation
+      spell={{
+        name: 'Fireball',
+        resourceCost: { resourceValues: { mana: 10 }, actionPoints: 2 },
+        cooldownConfig: { type: 'turn_based', value: 2 }
+      }}
+      onConfirm={onConfirm}
+      onCancel={onCancel}
+    />
+  );
+
+  expect(screen.getByText('Cast Spell')).toBeInTheDocument();
+  expect(screen.getByText('Fireball')).toBeInTheDocument();
+  expect(screen.getByText('Resource Cost:')).toBeInTheDocument();
+  expect(screen.getByText('Mana')).toBeInTheDocument();
+  expect(screen.getByText('Action Points')).toBeInTheDocument();
+  expect(screen.getByText('Cooldown:')).toBeInTheDocument();
+  expect(screen.getByText('2 turns')).toBeInTheDocument();
+
+  const castButton = screen.getByRole('button', { name: /Cast/i });
+  expect(castButton).not.toBeDisabled();
+  fireEvent.click(castButton);
+  expect(onConfirm).toHaveBeenCalledTimes(1);
+
+  const cancelButton = screen.getByRole('button', { name: /Cancel/i });
+  fireEvent.click(cancelButton);
+  expect(onCancel).toHaveBeenCalledTimes(1);
+});

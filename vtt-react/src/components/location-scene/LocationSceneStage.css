@@ -17,6 +17,13 @@
   font-family: 'Cinzel', 'Spectral', 'Georgia', serif;
 }
 
+/* Middle Mouse Scroll Wheel Panning active state */
+.location-scene-stage.is-middle-panning,
+.location-scene-stage.is-middle-panning * {
+  cursor: grabbing !important;
+  user-select: none !important;
+}
+
 /* Inner Transform Canvas Wrapper */
 .location-scene-transform-container {
   width: 100% !important;
@@ -57,7 +64,7 @@
   z-index: 15;
 }
 
-/* SVG Journey Trails */
+/* SVG Journey Trails: Hand-inked cartographer's expedition track */
 .location-journey-svg {
   position: absolute;
   top: 0;
@@ -68,19 +75,23 @@
   z-index: 25;
 }
 
-.journey-trail-line {
+.journey-trail-underlay {
   fill: none;
-  stroke: #ffd700;
-  stroke-width: 3.5;
-  stroke-dasharray: 8 6;
+  stroke: rgba(60, 36, 18, 0.35);
+  stroke-width: 4.5;
+  stroke-dasharray: 9 7;
   stroke-linecap: round;
   stroke-linejoin: round;
-  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.9));
-  animation: routeDash 30s linear infinite;
 }
 
-@keyframes routeDash {
-  to { stroke-dashoffset: -1000; }
+.journey-trail-line {
+  fill: none;
+  stroke: #5a3512;
+  stroke-width: 2.5;
+  stroke-dasharray: 9 7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 1px 3px rgba(35, 23, 14, 0.6));
 }
 
 /* Live Fog Brush Cursor Follower */
@@ -94,23 +105,23 @@
 }
 
 .location-fog-brush-cursor.shroud {
-  border: 2px dashed rgba(231, 76, 60, 0.9);
-  background: radial-gradient(circle, rgba(231, 76, 60, 0.3) 0%, rgba(0, 0, 0, 0) 70%);
+  border: 1.5px dashed rgba(102, 60, 50, 0.85);
+  background: radial-gradient(circle, rgba(102, 60, 50, 0.25) 0%, rgba(30, 20, 10, 0.4) 70%, transparent 100%);
 }
 
 .location-fog-brush-cursor.reveal {
-  border: 2px dashed rgba(46, 204, 113, 0.9);
-  background: radial-gradient(circle, rgba(46, 204, 113, 0.3) 0%, rgba(0, 0, 0, 0) 70%);
+  border: 1.5px dashed rgba(63, 107, 58, 0.85);
+  background: radial-gradient(circle, rgba(63, 107, 58, 0.25) 0%, rgba(250, 246, 238, 0.2) 70%, transparent 100%);
 }
 
 .location-scene-canvas-wrapper.is-drag-over {
-  box-shadow: 0 0 40px rgba(212, 175, 55, 0.8), 0 0 100px rgba(184, 134, 11, 0.6);
-  outline: 3px dashed #d4af37;
+  box-shadow: 0 0 30px rgba(196, 171, 121, 0.6), 0 0 60px rgba(52, 37, 26, 0.5);
+  outline: 2px dashed var(--adventure-brass, #c4ab79);
   outline-offset: 6px;
 }
 
 /* ==========================================================================
-   Right-Side Vertical Pathfinder GM Tool Shelf
+   Right-Side Vertical Pathfinder GM Tool Shelf — Calm TTRPG Manuscript
    ========================================================================== */
 
 .location-scene-right-shelf {
@@ -121,63 +132,65 @@
   flex-direction: column;
   align-items: center;
   gap: 6px;
-  background: linear-gradient(180deg, #f8f4ec 0%, #ede3d1 100%);
-  border: 2px solid #8c6738;
-  border-radius: 12px;
-  padding: 10px 8px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.85);
+  background: var(--adventure-page, #f1ece1);
+  border: 1px solid var(--adventure-rule, #b6a080);
+  border-radius: 4px;
+  padding: 8px 6px;
+  box-shadow: 0 6px 24px rgba(35, 23, 14, 0.4), inset 0 0 0 1px rgba(255, 255, 255, 0.5);
   z-index: 70;
   pointer-events: auto;
 }
 
 .shelf-divider {
-  width: 36px;
+  width: 32px;
   height: 1px;
-  background: rgba(140, 103, 56, 0.4);
-  margin: 3px 0;
+  background: var(--adventure-rule, #b6a080);
+  margin: 2px 0;
+  opacity: 0.7;
 }
 
 .btn-shelf-action {
-  width: 48px;
-  height: 48px;
+  width: 44px;
+  height: 44px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(180deg, #fdfaf0 0%, #ede3d1 100%);
-  border: 1.5px solid #8c6738;
-  border-radius: 8px;
-  color: #3b2410;
-  font-size: 16px;
+  background: var(--adventure-paper, #faf6ee);
+  border: 1px solid var(--adventure-rule, #b6a080);
+  border-radius: 3px;
+  color: var(--adventure-ink, #34251a);
+  font-size: 15px;
   cursor: pointer;
   transition: all 0.15s ease;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  box-shadow: 0 1px 3px rgba(35, 23, 14, 0.15);
   position: relative;
 }
 
 .btn-shelf-action:hover {
-  background: linear-gradient(180deg, #ffffff 0%, #f4edd9 100%);
-  border-color: #5c3e21;
-  color: #1a0f05;
+  background: #ffffff;
+  border-color: var(--adventure-brass, #c4ab79);
+  color: var(--adventure-seal, #663c32);
   transform: translateY(-1px);
 }
 
 .btn-shelf-action.active {
-  background: linear-gradient(180deg, #d4af37 0%, #aa8022 100%);
-  border-color: #ffd700;
-  color: #1a0f05;
-  box-shadow: 0 0 10px rgba(212, 175, 55, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  background: var(--adventure-leather, #302419);
+  border-color: var(--adventure-leather, #302419);
+  color: var(--adventure-paper, #faf6ee);
+  box-shadow: 0 2px 8px rgba(35, 23, 14, 0.35);
 }
 
 .btn-shelf-action.primary-tactical {
-  background: linear-gradient(180deg, #8a2424 0%, #541111 100%);
-  border-color: #d15656;
-  color: #fff;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  background: var(--adventure-seal, #663c32);
+  border-color: #4a2820;
+  color: var(--adventure-paper, #faf6ee);
+  box-shadow: 0 2px 6px rgba(35, 23, 14, 0.35);
 }
 
 .btn-shelf-action.primary-tactical:hover {
-  background: linear-gradient(180deg, #a82e2e 0%, #6e1717 100%);
+  background: #7a3a2e;
+  border-color: var(--adventure-brass, #c4ab79);
   border-color: #ff8888;
   box-shadow: 0 0 12px rgba(231, 76, 60, 0.6);
 }
@@ -192,26 +205,28 @@
   line-height: 1;
 }
 
-/* Slide-out Flyout Trays (Left of the Shelf) */
+/* Slide-out Flyout Trays (Left of the Shelf) — Folded Cartographic Folios */
 .shelf-flyout-tray {
   position: absolute;
-  right: 68px;
+  right: 64px;
   top: 0;
   display: flex;
   align-items: center;
   gap: 8px;
-  background: linear-gradient(180deg, #f8f4ec 0%, #ede3d1 100%);
-  border: 2px solid #8c6738;
-  border-radius: 8px;
-  padding: 8px 14px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  background: var(--adventure-page, #f1ece1);
+  border: 1px solid var(--adventure-rule, #b6a080);
+  border-radius: 4px;
+  padding: 8px 12px;
+  box-shadow: 0 8px 24px rgba(35, 23, 14, 0.45), inset 0 0 0 1px rgba(255, 255, 255, 0.6);
   white-space: nowrap;
   z-index: 75;
-  animation: flyoutSlideLeft 0.18s ease;
+  animation: flyoutSlideLeft 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+  font-family: var(--my-font-body, 'Crimson Text', Georgia, serif);
+  color: var(--adventure-ink, #34251a);
 }
 
 @keyframes flyoutSlideLeft {
-  from { opacity: 0; transform: translateX(10px); }
+  from { opacity: 0; transform: translateX(8px); }
   to { opacity: 1; transform: translateX(0); }
 }
 
@@ -220,44 +235,44 @@
   align-items: stretch;
   min-width: 220px;
   gap: 6px;
-  padding: 12px;
+  padding: 10px 12px;
 }
 
 .btn-header-action {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: linear-gradient(180deg, #fdfaf0 0%, #ede3d1 100%);
-  border: 1.5px solid #8c6738;
-  color: #3b2410;
+  background: var(--adventure-paper, #faf6ee);
+  border: 1px solid var(--adventure-rule, #b6a080);
+  color: var(--adventure-ink, #34251a);
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.3px;
   padding: 5px 10px;
-  border-radius: 6px;
+  border-radius: 2px;
   cursor: pointer;
-  transition: all 0.2s ease;
-  font-family: 'Cinzel', 'Georgia', serif;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  transition: all 0.15s ease;
+  font-family: var(--my-font-ui, 'Cinzel', 'Georgia', serif);
+  box-shadow: 0 1px 3px rgba(35, 23, 14, 0.1);
   white-space: nowrap;
 }
 
 .btn-header-action:hover {
-  background: linear-gradient(180deg, #ffffff 0%, #f4edd9 100%);
-  border-color: #5c3e21;
-  color: #1a0f05;
+  background: #ffffff;
+  border-color: var(--adventure-brass, #c4ab79);
+  color: var(--adventure-seal, #663c32);
   transform: translateY(-1px);
 }
 
 .btn-header-action.active {
-  background: linear-gradient(180deg, #d4af37 0%, #aa8022 100%);
-  border-color: #ffd700;
-  color: #1a0f05;
-  box-shadow: 0 0 10px rgba(212, 175, 55, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  background: var(--adventure-leather, #302419);
+  border-color: var(--adventure-leather, #302419);
+  color: var(--adventure-paper, #faf6ee);
+  box-shadow: 0 1px 4px rgba(35, 23, 14, 0.3);
 }
 
 /* ==========================================================================
-   Map Pins & Markers — Pathfinder Parchment Ribbon Theme
+   Map Pins & Markers — Calm TTRPG Manuscript Theme
    ========================================================================== */
 
 .location-pin-marker {
@@ -271,9 +286,10 @@
   z-index: 40;
 }
 
-.location-pin-marker:hover .location-pin-crest {
-  filter: drop-shadow(0 0 10px var(--pin-color, #8c6738)) brightness(1.15);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.85);
+.location-pin-marker:hover .location-pin-crest,
+.location-pin-marker.has-popup-open .location-pin-crest {
+  box-shadow: 0 4px 14px rgba(35, 23, 14, 0.55);
+  transform: scale(1.06);
 }
 
 .location-pin-marker.is-dragging {
@@ -283,78 +299,79 @@
 }
 
 .location-pin-marker.is-dragging .location-pin-crest {
-  filter: drop-shadow(0 0 14px #ffd700) brightness(1.25);
+  box-shadow: 0 6px 18px rgba(35, 23, 14, 0.65);
+  transform: scale(1.08);
 }
 
 .location-pin-marker.is-secret {
-  opacity: 0.75;
+  opacity: 0.8;
 }
 
 .location-pin-crest {
   position: relative;
-  width: 42px;
-  height: 42px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2.5px solid var(--pin-color, #8c6738);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.75), 0 0 10px rgba(0, 0, 0, 0.5);
-  color: #fff;
-  font-size: 17px;
+  border: 1.5px solid var(--adventure-rule, #b6a080);
+  background: var(--adventure-leather, #302419);
+  box-shadow: 0 2px 8px rgba(35, 23, 14, 0.45);
+  color: var(--adventure-paper, #faf6ee);
+  font-size: 14px;
   pointer-events: auto !important;
-  transition: filter 0.15s ease, box-shadow 0.15s ease;
+  transition: all 0.15s ease;
 }
 
 .pin-submap-badge {
   position: absolute;
-  bottom: -3px;
-  right: -3px;
-  width: 17px;
-  height: 17px;
+  bottom: -2px;
+  right: -2px;
+  width: 15px;
+  height: 15px;
   border-radius: 50%;
-  background: #1e824c;
-  border: 1.5px solid #f8f5ee;
+  background: var(--adventure-leather, #302419);
+  border: 1px solid var(--adventure-brass, #c4ab79);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 8.5px;
-  color: #fff;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.6);
+  font-size: 7.5px;
+  color: var(--adventure-paper, #faf6ee);
+  box-shadow: 0 1px 4px rgba(35, 23, 14, 0.4);
 }
 
 .pin-secret-badge {
   position: absolute;
-  top: -3px;
-  right: -3px;
-  width: 17px;
-  height: 17px;
+  top: -2px;
+  right: -2px;
+  width: 15px;
+  height: 15px;
   border-radius: 50%;
-  background: #96281b;
-  border: 1.5px solid #f8f5ee;
+  background: var(--adventure-seal, #663c32);
+  border: 1px solid var(--adventure-rule, #b6a080);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 8.5px;
-  color: #fff;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.6);
+  font-size: 7.5px;
+  color: var(--adventure-paper, #faf6ee);
+  box-shadow: 0 1px 4px rgba(35, 23, 14, 0.4);
 }
 
-/* Pathfinder Parchment Banner Ribbon */
+/* Calm Manuscript Banner Ribbon */
 .location-pin-pill {
   margin-top: 4px;
-  background: linear-gradient(180deg, #fbf7ec 0%, #ebe0c5 100%);
-  border: 1.5px solid var(--pin-color, #8c6738);
-  border-radius: 6px;
-  padding: 3px 12px;
-  font-size: 11px;
-  font-weight: 800;
-  color: #241408;
+  background: var(--adventure-page, #f1ece1);
+  border: 1px solid var(--adventure-rule, #b6a080);
+  border-radius: 2px;
+  padding: 2px 7px;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--adventure-ink, #34251a);
   white-space: nowrap;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.8);
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
-  font-family: 'Cinzel', 'Georgia', serif;
-  letter-spacing: 0.5px;
+  box-shadow: 0 1px 4px rgba(35, 23, 14, 0.2);
+  font-family: var(--my-font-ui, 'Cinzel', Georgia, serif);
+  letter-spacing: 0.4px;
   text-transform: uppercase;
   pointer-events: auto !important;
 }
@@ -371,9 +388,10 @@
   pointer-events: auto;
 }
 
-.waypoint-node-interactive:hover .waypoint-badge {
-  box-shadow: 0 0 12px #ffd700, 0 3px 10px rgba(0, 0, 0, 0.7);
-  filter: brightness(1.2);
+.waypoint-node-interactive:hover .waypoint-badge,
+.waypoint-node-interactive.has-popup-open .waypoint-badge {
+  box-shadow: 0 0 10px rgba(196, 171, 121, 0.6), 0 2px 8px rgba(35, 23, 14, 0.4);
+  transform: scale(1.08);
 }
 
 .waypoint-node-interactive.is-dragging {
@@ -383,36 +401,38 @@
 }
 
 .waypoint-node-interactive.is-dragging .waypoint-badge {
-  box-shadow: 0 0 16px #ffd700, 0 4px 12px rgba(0, 0, 0, 0.8);
-  filter: brightness(1.3);
+  box-shadow: 0 0 12px var(--adventure-brass, #c4ab79), 0 3px 8px rgba(35, 23, 14, 0.5);
 }
 
 .waypoint-badge {
-  width: 28px;
-  height: 28px;
+  width: 26px;
+  height: 26px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #d4af37 0%, #aa8022 100%);
-  border: 2px solid #5a3804;
+  background: var(--adventure-paper, #faf6ee);
+  border: 1.5px solid var(--adventure-brass, #c4ab79);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #1a0802;
+  color: var(--adventure-ink, #34251a);
+  font-family: var(--my-font-ui, 'Cinzel', Georgia, serif);
   font-weight: 900;
-  font-size: 11px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
-  transition: filter 0.15s ease, box-shadow 0.15s ease;
+  font-size: 10.5px;
+  box-shadow: 0 2px 6px rgba(35, 23, 14, 0.3);
+  transition: all 0.15s ease;
 }
 
 .waypoint-title-pill {
   margin-top: 3px;
-  background: #fbf7ec;
-  border: 1px solid #8c6738;
-  border-radius: 4px;
+  background: var(--adventure-page, #f1ece1);
+  border: 1px solid var(--adventure-rule, #b6a080);
+  border-radius: 2px;
   padding: 1px 6px;
-  font-size: 10px;
-  font-weight: 700;
-  color: #2b1810;
+  font-size: 9.5px;
+  font-family: var(--my-font-ui, 'Cinzel', Georgia, serif);
+  font-weight: 600;
+  color: var(--adventure-ink, #34251a);
   white-space: nowrap;
+  box-shadow: 0 1px 3px rgba(35, 23, 14, 0.15);
 }
 
 /* ==========================================================================
@@ -512,48 +532,48 @@
 
 .party-beacon-pulse {
   position: absolute;
-  width: 76px;
-  height: 76px;
+  width: 68px;
+  height: 68px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(212, 175, 55, 0.45) 0%, rgba(212, 175, 55, 0) 70%);
-  animation: beaconPulse 2.5s infinite ease-out;
+  background: radial-gradient(circle, rgba(196, 171, 121, 0.35) 0%, rgba(196, 171, 121, 0) 70%);
+  animation: beaconPulse 2.8s infinite ease-out;
   pointer-events: none;
 }
 
 @keyframes beaconPulse {
-  0% { transform: scale(0.6); opacity: 0.9; }
-  50% { transform: scale(1.4); opacity: 0.3; }
-  100% { transform: scale(2.0); opacity: 0; }
+  0% { transform: scale(0.6); opacity: 0.8; }
+  50% { transform: scale(1.3); opacity: 0.25; }
+  100% { transform: scale(1.8); opacity: 0; }
 }
 
 .party-beacon-shield {
-  width: 46px;
-  height: 46px;
+  width: 42px;
+  height: 42px;
   border-radius: 50%;
-  background: radial-gradient(circle at 35% 35%, #ffd700 0%, #b8860b 55%, #3a220a 100%);
-  border: 2.5px solid #fff8e7;
+  background: radial-gradient(circle at 35% 35%, var(--adventure-paper, #faf6ee) 0%, var(--adventure-leather, #302419) 100%);
+  border: 2px solid var(--adventure-brass, #c4ab79);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 20px;
-  color: #1a0f05;
-  box-shadow: 0 0 20px rgba(255, 215, 0, 0.7), 0 5px 16px rgba(0, 0, 0, 0.85);
+  font-size: 18px;
+  color: var(--adventure-paper, #faf6ee);
+  box-shadow: 0 0 16px rgba(196, 171, 121, 0.5), 0 4px 14px rgba(35, 23, 14, 0.6);
 }
 
 .party-beacon-label {
-  margin-top: 5px;
-  background: linear-gradient(180deg, #fdfaf0 0%, #ece1c3 100%);
-  border: 1.5px solid #8c6738;
-  border-radius: 12px;
-  padding: 3px 12px;
-  color: #2b180d;
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 0.5px;
+  margin-top: 4px;
+  background: var(--adventure-page, #f1ece1);
+  border: 1px solid var(--adventure-rule, #b6a080);
+  border-radius: 2px;
+  padding: 2px 8px;
+  color: var(--adventure-ink, #34251a);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
   text-transform: uppercase;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  box-shadow: 0 2px 6px rgba(35, 23, 14, 0.3);
   white-space: nowrap;
-  font-family: 'Cinzel', 'Georgia', serif;
+  font-family: var(--my-font-ui, 'Cinzel', Georgia, serif);
 }
 
 /* ==========================================================================
@@ -563,8 +583,8 @@
 .location-pin-modal-backdrop {
   position: fixed !important;
   inset: 0 !important;
-  background: rgba(15, 9, 4, 0.78) !important;
-  backdrop-filter: blur(5px) !important;
+  background: rgba(22, 14, 8, 0.72) !important;
+  backdrop-filter: blur(4px) !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
@@ -583,19 +603,20 @@
   width: 620px !important;
   max-width: 92vw !important;
   max-height: 88vh !important;
-  background: linear-gradient(180deg, #fdfaf0 0%, #ede3d1 100%) !important;
-  border: 2.5px solid #8c6738 !important;
-  border-radius: 12px !important;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;
+  background: var(--adventure-page, #f1ece1) !important;
+  border: 1.5px solid var(--adventure-rule, #b6a080) !important;
+  border-radius: 4px !important;
+  box-shadow: 0 16px 40px rgba(30, 21, 14, 0.45), 0 0 0 1px rgba(182, 160, 128, 0.35) !important;
   display: flex !important;
   flex-direction: column !important;
   overflow: hidden !important;
-  font-family: 'Cinzel', 'Spectral', 'Georgia', serif !important;
+  font-family: var(--my-font-body, 'Crimson Text', Georgia, serif) !important;
+  color: var(--adventure-ink, #34251a) !important;
   animation: modalPopIn 0.22s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 @keyframes modalPopIn {
-  from { opacity: 0; transform: scale(0.95) translateY(10px); }
+  from { opacity: 0; transform: scale(0.96) translateY(6px); }
   to { opacity: 1; transform: scale(1) translateY(0); }
 }
 
@@ -604,8 +625,8 @@
   align-items: center;
   justify-content: space-between;
   padding: 14px 18px;
-  background: linear-gradient(180deg, #f4ecd8 0%, #e6d9bf 100%);
-  border-bottom: 2px solid #8c6738;
+  background: var(--adventure-paper, #faf6ee);
+  border-bottom: 1.5px solid var(--adventure-rule, #b6a080);
 }
 
 .modal-header-identity {
@@ -615,93 +636,99 @@
 }
 
 .modal-pin-icon-box {
-  width: 44px;
-  height: 44px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 20px;
+  font-size: 18px;
   color: #fff;
-  border: 2px solid #8c6738;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+  border: 1.5px solid var(--adventure-rule, #b6a080);
+  box-shadow: 0 2px 8px rgba(30, 21, 14, 0.3);
 }
 
 .modal-pin-titles h3 {
   margin: 0;
   font-size: 18px;
-  font-weight: 800;
-  color: #2b1810;
+  font-weight: 700;
+  color: var(--adventure-ink, #34251a);
   letter-spacing: 0.5px;
+  font-family: var(--my-font-ui, 'Cinzel', Georgia, serif);
 }
 
 .modal-pin-type-tag {
-  font-size: 10px;
-  font-weight: 800;
-  color: #8c6738;
-  letter-spacing: 1px;
+  font-size: 9.5px;
+  font-weight: 700;
+  color: var(--adventure-seal, #663c32);
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  font-family: var(--my-font-ui, 'Cinzel', Georgia, serif);
 }
 
 .modal-btn-close {
   background: none;
-  border: none;
-  font-size: 18px;
-  color: #5c3e21;
+  border: 1px solid transparent;
+  font-size: 16px;
+  color: var(--adventure-muted, #68533e);
   cursor: pointer;
   padding: 4px 8px;
-  border-radius: 4px;
-  transition: all 0.15s;
+  border-radius: 3px;
+  transition: all 0.15s ease;
 }
 
 .modal-btn-close:hover {
-  color: #8a1f11;
-  background: rgba(138, 31, 17, 0.1);
+  color: var(--adventure-seal, #663c32);
+  background: rgba(102, 60, 50, 0.08);
+  border-color: var(--adventure-rule, #b6a080);
 }
 
 /* Tabs */
 .location-pin-modal-tabs {
   display: flex;
-  gap: 6px;
-  padding: 6px 18px 0 18px;
-  background: #ede3d1;
-  border-bottom: 1.5px solid #8c6738;
-  overflow: hidden;
+  gap: 4px;
+  padding: 6px 16px 0 16px;
+  background: var(--adventure-panel, #e8e2d4);
+  border-bottom: 1.5px solid var(--adventure-rule, #b6a080);
+  overflow-x: auto;
 }
 
 .pin-modal-tab {
-  background: linear-gradient(180deg, #f8f4ec 0%, #e4d8bf 100%);
-  border: 1.5px solid #8c6738;
+  background: var(--adventure-paper, #faf6ee);
+  border: 1px solid var(--adventure-rule, #b6a080);
   border-bottom: none;
-  border-radius: 6px 6px 0 0;
-  padding: 6px 14px;
-  font-size: 11.5px;
+  border-radius: 4px 4px 0 0;
+  padding: 6px 12px;
+  font-size: 11px;
   font-weight: 700;
-  color: #5c3e21;
+  color: var(--adventure-muted, #68533e);
   cursor: pointer;
-  font-family: 'Cinzel', serif;
+  font-family: var(--my-font-ui, 'Cinzel', Georgia, serif);
   display: inline-flex;
   align-items: center;
   gap: 6px;
   transition: all 0.15s;
+  letter-spacing: 0.3px;
 }
 
 .pin-modal-tab:hover {
-  background: #fff;
-  color: #2b1810;
+  background: #fdfaf3;
+  color: var(--adventure-ink, #34251a);
 }
 
 .pin-modal-tab.active {
-  background: #fdfaf0;
-  color: #8a1f11;
-  border-color: #8c6738;
+  background: var(--adventure-page, #f1ece1);
+  color: var(--adventure-seal, #663c32);
+  border-color: var(--adventure-rule, #b6a080);
+  border-bottom: 1.5px solid var(--adventure-page, #f1ece1);
   font-weight: 800;
   padding-bottom: 7px;
-  margin-bottom: -1px;
+  margin-bottom: -1.5px;
 }
 
 .pin-tab-badge {
-  background: #8c6738;
-  color: #fff;
+  background: var(--adventure-leather, #302419);
+  color: var(--adventure-paper, #faf6ee);
   font-size: 9px;
   padding: 1px 5px;
   border-radius: 8px;
@@ -712,12 +739,12 @@
   padding: 18px 22px;
   overflow-y: auto;
   max-height: 55vh;
-  color: #2b1810;
-  font-size: 14px;
+  color: var(--adventure-ink, #34251a);
+  font-size: 14.5px;
   line-height: 1.65;
-  font-family: 'Spectral', Georgia, serif;
+  font-family: var(--my-font-body, 'Crimson Text', Georgia, serif);
   scrollbar-width: thin;
-  scrollbar-color: #8c6738 #ede3d1;
+  scrollbar-color: var(--adventure-rule, #b6a080) var(--adventure-panel, #e8e2d4);
 }
 
 .location-pin-modal-body::-webkit-scrollbar {
@@ -725,56 +752,63 @@
 }
 
 .location-pin-modal-body::-webkit-scrollbar-track {
-  background: #ede3d1;
+  background: var(--adventure-panel, #e8e2d4);
   border-radius: 3px;
 }
 
 .location-pin-modal-body::-webkit-scrollbar-thumb {
-  background: #8c6738;
+  background: var(--adventure-rule, #b6a080);
   border-radius: 3px;
 }
 
-/* Cast NPC Cards */
-
+/* Cast NPC Cards & Actions */
 .btn-npc-dialogue {
-  background: linear-gradient(180deg, #d4af37 0%, #aa8022 100%);
-  border: 1px solid #5a3804;
-  color: #1a0802;
-  font-weight: 800;
+  background: var(--adventure-paper, #faf6ee);
+  border: 1px solid var(--adventure-rule, #b6a080);
+  color: var(--adventure-ink, #34251a);
+  font-weight: 700;
   font-size: 11px;
   padding: 5px 12px;
-  border-radius: 6px;
+  border-radius: 3px;
   cursor: pointer;
-  font-family: 'Cinzel', serif;
+  font-family: var(--my-font-ui, 'Cinzel', serif);
+  transition: all 0.15s ease;
+}
+
+.btn-npc-dialogue:hover {
+  background: var(--adventure-panel, #e8e2d4);
+  color: var(--adventure-seal, #663c32);
 }
 
 /* Quests */
 .pin-quest-card {
   padding: 12px 14px;
-  background: #fdfbf5;
-  border: 1.5px solid #d35400;
-  border-radius: 8px;
+  background: var(--adventure-paper, #faf6ee);
+  border: 1px solid var(--adventure-rule, #b6a080);
+  border-radius: 4px;
   margin-bottom: 8px;
 }
 
 .pin-quest-header {
   display: flex;
   justify-content: space-between;
-  font-family: 'Cinzel', serif;
-  font-weight: 800;
+  font-family: var(--my-font-ui, 'Cinzel', serif);
+  font-weight: 700;
+  color: var(--adventure-ink, #34251a);
 }
 
 .pin-quest-progress-bar {
-  height: 6px;
-  background: #e0d0b0;
-  border-radius: 3px;
+  height: 5px;
+  background: var(--adventure-panel, #e8e2d4);
+  border-radius: 2px;
   overflow: hidden;
   margin-top: 6px;
+  border: 1px solid rgba(182, 160, 128, 0.4);
 }
 
 .pin-quest-progress-fill {
   height: 100%;
-  background: #27ae60;
+  background: var(--adventure-seal, #663c32);
 }
 
 /* Footer */
@@ -783,57 +817,70 @@
   align-items: center;
   justify-content: space-between;
   padding: 12px 18px;
-  background: #ede3d1;
-  border-top: 1.5px solid #8c6738;
+  background: var(--adventure-panel, #e8e2d4);
+  border-top: 1.5px solid var(--adventure-rule, #b6a080);
 }
 
 .btn-gm-action {
-  background: linear-gradient(180deg, #fdfaf0 0%, #ede3d1 100%);
-  border: 1.5px solid #8c6738;
-  color: #3b2410;
-  font-size: 12px;
+  background: var(--adventure-paper, #faf6ee);
+  border: 1px solid var(--adventure-rule, #b6a080);
+  color: var(--adventure-ink, #34251a);
+  font-size: 11.5px;
   font-weight: 700;
   padding: 6px 12px;
-  border-radius: 6px;
+  border-radius: 3px;
   cursor: pointer;
-  font-family: 'Cinzel', serif;
-  transition: all 0.15s;
+  font-family: var(--my-font-ui, 'Cinzel', serif);
+  transition: all 0.15s ease;
+  letter-spacing: 0.3px;
 }
 
 .btn-gm-action:hover {
-  background: #fff;
-  border-color: #5c3e21;
+  background: #fdfaf3;
+  border-color: var(--adventure-muted, #68533e);
+  color: var(--adventure-seal, #663c32);
 }
 
 .btn-gm-action.active {
-  background: linear-gradient(180deg, #d4af37 0%, #aa8022 100%);
-  border-color: #5a3804;
-  color: #1a0802;
+  background: var(--adventure-brass, #c4ab79);
+  border-color: var(--adventure-muted, #68533e);
+  color: var(--adventure-leather, #302419);
 }
 
 .btn-enter-submap {
-  background: linear-gradient(180deg, #27ae60 0%, #196f3d 100%);
-  border: 1.5px solid #145a32;
-  color: #fff;
-  font-weight: 800;
-  font-size: 12px;
+  background: var(--adventure-leather, #302419);
+  border: 1px solid var(--adventure-brass, #c4ab79);
+  color: var(--adventure-paper, #faf6ee);
+  font-weight: 700;
+  font-size: 11.5px;
   padding: 6px 14px;
-  border-radius: 6px;
+  border-radius: 3px;
   cursor: pointer;
-  font-family: 'Cinzel', serif;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  font-family: var(--my-font-ui, 'Cinzel', serif);
+  box-shadow: 0 2px 6px rgba(30, 21, 14, 0.25);
+  transition: all 0.15s ease;
+  letter-spacing: 0.4px;
+}
+
+.btn-enter-submap:hover {
+  background: #463422;
+  border-color: #dfc799;
 }
 
 .btn-delete-pin {
-  color: #8a1f11 !important;
-  border-color: #c0392b !important;
+  color: var(--adventure-seal, #663c32) !important;
+  border-color: var(--adventure-rule, #b6a080) !important;
+}
+
+.btn-delete-pin:hover {
+  background: rgba(102, 60, 50, 0.1) !important;
 }
 
 /* Sub-Map Transition Fade */
 .location-submap-transition-overlay {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 50% 50%, rgba(35, 24, 15, 0.92) 0%, rgba(14, 9, 5, 0.98) 100%);
+  background: radial-gradient(circle at 50% 50%, rgba(35, 24, 15, 0.94) 0%, rgba(18, 12, 7, 0.98) 100%);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -849,21 +896,22 @@
 }
 
 .submap-transition-title {
-  color: #ffd700;
-  font-size: 22px;
-  font-weight: 800;
-  letter-spacing: 2px;
-  text-shadow: 0 0 20px rgba(212, 175, 55, 0.8);
+  color: var(--adventure-brass, #c4ab79);
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
   margin-top: 14px;
-  font-family: 'Cinzel', 'Georgia', serif;
+  font-family: var(--my-font-ui, 'Cinzel', Georgia, serif);
 }
 
 .submap-transition-subtitle {
-  color: #e2d3b5;
-  font-size: 13px;
+  color: var(--adventure-paper, #faf6ee);
+  font-size: 13.5px;
   margin-top: 6px;
-  font-family: 'Georgia', serif;
+  font-family: var(--my-font-body, 'Crimson Text', Georgia, serif);
   font-style: italic;
+  opacity: 0.85;
 }
 
 /* ==========================================================================
@@ -878,18 +926,18 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 8px 16px;
-  background: rgba(26, 15, 5, 0.88);
-  border: 1.5px solid #8c6738;
-  border-radius: 24px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(212, 175, 55, 0.4);
-  backdrop-filter: blur(8px);
+  padding: 6px 14px;
+  background: rgba(30, 21, 14, 0.92);
+  border: 1px solid var(--adventure-brass, #c4ab79);
+  border-radius: 3px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(196, 171, 121, 0.2);
+  backdrop-filter: blur(6px);
   pointer-events: auto;
 }
 
 .exploration-breadcrumb-icon {
-  color: #ffd700;
-  font-size: 14px;
+  color: var(--adventure-brass, #c4ab79);
+  font-size: 13px;
 }
 
 .exploration-breadcrumb-trail {
@@ -900,43 +948,44 @@
 }
 
 .exploration-breadcrumb-sep {
-  color: #8c6738;
-  font-size: 10px;
+  color: var(--adventure-rule, #b6a080);
+  font-size: 9px;
+  opacity: 0.7;
 }
 
 .exploration-breadcrumb-node {
   background: none;
   border: none;
-  color: #ede3d1;
-  font-family: 'Cinzel', 'Georgia', serif;
-  font-size: 13px;
+  color: var(--adventure-paper, #faf6ee);
+  font-family: var(--my-font-ui, 'Cinzel', Georgia, serif);
+  font-size: 12px;
   font-weight: 600;
   cursor: pointer;
   padding: 2px 6px;
-  border-radius: 4px;
+  border-radius: 3px;
   transition: all 0.15s ease;
   white-space: nowrap;
+  letter-spacing: 0.3px;
 }
 
 .exploration-breadcrumb-node:hover {
-  color: #ffd700;
-  background: rgba(212, 175, 55, 0.18);
+  color: var(--adventure-brass, #c4ab79);
+  background: rgba(196, 171, 121, 0.15);
 }
 
 .exploration-breadcrumb-node.active {
-  color: #ffd700;
-  font-weight: 800;
-  text-shadow: 0 0 8px rgba(255, 215, 0, 0.6);
+  color: var(--adventure-brass, #c4ab79);
+  font-weight: 700;
   cursor: default;
 }
 
 /* Embedded Item Card in Pin Detail Modal */
 .pin-modal-item-embed {
-  background: #ffffff;
-  border: 1.5px solid #c4a373;
-  border-radius: 8px;
+  background: var(--adventure-paper, #faf6ee);
+  border: 1px solid var(--adventure-rule, #b6a080);
+  border-radius: 4px;
   overflow: hidden;
-  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 6px rgba(30, 21, 14, 0.08);
 }
 
 .pin-modal-item-embed .item-tooltip {
@@ -949,13 +998,15 @@
   border-radius: 0 !important;
   border: none !important;
   box-shadow: none !important;
-  background: #ffffff !important;
+  background: var(--adventure-page, #f1ece1) !important;
+  color: var(--adventure-ink, #34251a) !important;
   max-height: none !important;
   overflow: visible !important;
   display: block !important;
   visibility: visible !important;
   opacity: 1 !important;
   padding: 16px 18px !important;
+  font-family: var(--my-font-body, 'Crimson Text', Georgia, serif) !important;
 }
 
 .pin-modal-item-embed .item-tooltip * {
@@ -964,8 +1015,8 @@
 }
 
 .pin-modal-item-footer {
-  background: #fdfbf5;
-  border-top: 1.5px solid #ede3d1;
+  background: var(--adventure-panel, #e8e2d4);
+  border-top: 1px solid var(--adventure-rule, #b6a080);
   padding: 12px 16px;
   display: flex;
   flex-direction: column;

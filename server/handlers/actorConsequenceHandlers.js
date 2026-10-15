@@ -1,5 +1,6 @@
 const actors = require('../services/actorConsequences');
 const access = require('../services/roomAccessService');
+const payments = require('../services/spellPayments');
 const proposals = new WeakMap();
 
 function registerActorConsequenceHandlers(ctx) {
@@ -147,6 +148,11 @@ function registerActorConsequenceHandlers(ctx) {
       }
     }
     token.state = token.state || {};
+    if (actors.own(token.state, 'classPayment')) {
+      // A new incarnation never inherits an unverified class home; retain it as recovery data.
+      token.state.actorRecovery = { ...token.state.actorRecovery, priorClassPayment: actors.clone(token.state.classPayment) };
+      delete token.state.classPayment;
+    }
     if (actors.own(token, 'conditions')) {
       token.state.actorRecovery = { ...token.state.actorRecovery, rootConditions: actors.clone(token.conditions) };
       if (actors.own(token.state, 'conditions') && actors.hash(token.conditions) !== actors.hash(token.state.conditions) && !data.selection) {actors.fail('legacy_reconciliation_required');}
@@ -211,15 +217,122 @@ function registerActorConsequenceHandlers(ctx) {
       respondInstalled(ack, resultFor(captured.room, old)); return;
     }
     await confirm(captured);
-    const staged = actors.stage(captured.room, captured.player, captured.uid, command,
-      { kind: captured.player.isGM ? 'gm' : 'controller', authorizerUid: captured.uid }, confirmed(captured.room));
+    let staged;
+    try {
+      staged = actors.stage(captured.room, captured.player, captured.uid, command,
+        { kind: captured.player.isGM ? 'gm' : 'controller', authorizerUid: captured.uid }, confirmed(captured.room));
+    } catch (error) {
+      // P9: a changed class home invalidates the owner's approved price/typed result.
+      if (error.code === 'owner_reapproval_required' && command.approval) {closeApproval(captured.room, command.approval.approvalId, 'owner_reapproval_required');}
+      throw error;
+    }
     if (staged.existing) {respondInstalled(ack, resultFor(captured.room, staged.existing)); return;}
     admit(captured.room, staged);
+    // Approval consumption is synchronous with installation (no await between).
+    if (staged.approved) {payments.close(captured.room, staged.approved.approval.approvalId, 'consumed');}
+    // Repair N2: the legacy room mirror takes the class home only when this command changed it.
+    for (const actor of staged.receipt.actors) {
+      if (!actor.classPayment) {continue;}
+      const home = actors.locate(captured.room, actor.ref).token.state.classPayment;
+      for (const member of new Set([...captured.room.players.values(), captured.room.gm].filter(Boolean))) {
+        if (member.userId === actor.ref.ownerUid && member.character?.id === actor.ref.characterId) {
+          member.character = { ...member.character, classResource: { ...(member.character.classResource || {}), ...actors.clone(home.value) } };
+        }
+      }
+    }
     const result = resultFor(captured.room, staged.receipt);
     publishInstalled(captured.room, 'actor_consequence_accepted', result, ack);
   });
+  const toUid = (room, uid, event, payload) => {
+    for (const [sid, member] of players) {
+      if ((member.userId === uid || (member.isGM && room.gmId === uid)) && entitledSession(room, sid, member)) {io.to(sid).emit(event, payload);}
+    }
+  };
+  const toGm = (room, event, payload) => {
+    for (const [sid, member] of players) {if (member.isGM && entitledSession(room, sid, member)) {io.to(sid).emit(event, payload);}}
+  };
+  const closeApproval = (room, approvalId, code) => {
+    const entry = payments.get(room, approvalId);
+    if (!entry) {return false;}
+    payments.close(room, approvalId, code);
+    const payload = { roomId: room.id, approvalId, contentHash: entry.contentHash, code };
+    toUid(room, entry.approval.source.ownerUid, 'actor_spell_closed', payload); toGm(room, 'actor_spell_closed', payload);
+    return true;
+  };
+  // P9 owner approval: the owner authorizes their own price/typed result; the GM
+  // later adjudicates the cross-actor outcome through one strict actor_consequence.
+  run('actor_spell_approve', async(approval, ack) => {
+    payments.validateApproval(approval);
+    const captured = context(approval.roomId);
+    const { room, player, uid } = captured;
+    const contentHash = actors.hash(approval);
+    const consumed = payments.consumedReceipt(room, approval.approvalId);
+    if (consumed) {
+      if (consumed.authorization.approvalHash !== contentHash || consumed.source?.ownerUid !== uid) {actors.fail('command_id_conflict');}
+      respondInstalled(ack, resultFor(room, consumed)); return;
+    }
+    const existing = payments.get(room, approval.approvalId);
+    if (existing) {
+      if (existing.contentHash !== contentHash) {actors.fail('command_id_conflict');}
+      respond(ack, { success: false, code: 'awaiting_gm', approvalId: approval.approvalId, contentHash }); return;
+    }
+    if (payments.closedCode(room, approval.approvalId)) {
+      // A consumed approval whose receipt was pruned cannot be re-registered or re-confirmed.
+      actors.fail(payments.closedCode(room, approval.approvalId) === 'consumed' ? 'retry_window_expired' : `approval_${payments.closedCode(room, approval.approvalId)}`);
+    }
+    if (approval.actionEpoch !== actors.epoch(room)) {actors.fail('outcome_unknown');}
+    payments.checkWindow(room, approval);
+    if (uid !== approval.source.ownerUid) {actors.fail('forbidden');}
+    const source = actors.locate(room, approval.source);
+    if (!actors.permitted(room, player, uid, approval.source, source.token) || source.token.ownerUserId !== uid) {actors.fail('forbidden');}
+    payments.checkAgainstRoom(room, approval);
+    await confirm(captured);
+    const latest = actors.locate(room, approval.source);
+    if (!actors.permitted(room, captured.player, uid, approval.source, latest.token) || latest.token.ownerUserId !== uid) {actors.fail('forbidden');}
+    payments.checkAgainstRoom(room, approval);
+    if (payments.get(room, approval.approvalId)) {respond(ack, { success: false, code: 'awaiting_gm', approvalId: approval.approvalId, contentHash }); return;}
+    const entry = payments.add(room, { approval: actors.clone(approval), contentHash, ownerUid: uid });
+    toGm(room, 'actor_spell_pending', { roomId: room.id, approval: payments.gmProjection(entry), contentHash, submitterUid: uid });
+    respond(ack, { success: false, code: 'awaiting_gm', approvalId: approval.approvalId, contentHash });
+  });
+  run('actor_spell_withdraw', async(data, ack) => {
+    actors.keys(data, ['roomId', 'approvalId']);
+    const { room, uid } = context(data.roomId);
+    const consumed = payments.consumedReceipt(room, data.approvalId);
+    if (consumed) {
+      if (consumed.source?.ownerUid !== uid) {actors.fail('forbidden');}
+      respondInstalled(ack, resultFor(room, consumed)); return;
+    }
+    const entry = payments.get(room, data.approvalId);
+    if (!entry) {actors.fail(payments.closedCode(room, data.approvalId) ? `approval_${payments.closedCode(room, data.approvalId)}` : 'outcome_unknown');}
+    if (entry.approval.source.ownerUid !== uid) {actors.fail('forbidden');}
+    closeApproval(room, data.approvalId, 'withdrawn');
+    respond(ack, { success: true, code: 'withdrawn', approvalId: data.approvalId, contentHash: entry.contentHash });
+  });
+  run('actor_spell_decline', async(data, ack) => {
+    actors.keys(data, ['roomId', 'approvalId']);
+    const captured = context(data.roomId);
+    if (!captured.player.isGM) {actors.fail('forbidden');}
+    const consumed = payments.consumedReceipt(captured.room, data.approvalId);
+    if (consumed) {respondInstalled(ack, resultFor(captured.room, consumed)); return;}
+    if (!payments.get(captured.room, data.approvalId)) {actors.fail('outcome_unknown');}
+    closeApproval(captured.room, data.approvalId, 'declined');
+    respond(ack, { success: true, code: 'declined', approvalId: data.approvalId });
+  });
+  run('actor_spell_list', async(data, ack) => {
+    actors.keys(data, ['roomId']);
+    const { room, player, uid } = context(data.roomId);
+    const pending = [];
+    for (const entry of [...(payments.pendingFor(room, uid) ? [payments.pendingFor(room, uid)] : [])]) {pending.push({ approval: actors.clone(entry.approval), contentHash: entry.contentHash, own: true });}
+    if (player.isGM) {
+      for (const entry of payments.listAll(room)) {pending.push({ approval: payments.gmProjection(entry), contentHash: entry.contentHash, submitterUid: entry.ownerUid });}
+    }
+    respond(ack, { success: true, roomId: room.id, pending });
+  });
   run('actor_propose', async(command, ack) => {
     actors.validateCommand(command);
+    // Repair B1: owner spell approvals are consumed only by the GM's direct consequence.
+    if (command.approval || command.actors.some(actor => actor.classPayment)) {actors.fail('approval_requires_gm');}
     const captured = context(command.roomId);
     const { room, player, uid } = captured;
     const old = actors.knownReceipt(room, uid, command);

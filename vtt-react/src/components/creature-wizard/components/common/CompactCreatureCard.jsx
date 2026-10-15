@@ -31,6 +31,7 @@ const getTypeColor = (type) => {
     monstrosity: '#556B2F', // Dark Olive Green
     ooze: '#32CD32', // Lime Green
     plant: '#228B22', // Forest Green
+    shopkeeper: '#D4AF37', // Gold Coin
     undead: '#4B0082', // Indigo
   };
 

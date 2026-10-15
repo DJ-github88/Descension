@@ -1,4 +1,4 @@
-﻿import {
+import {
   safeLocalStorageItem,
   safeLocalStorageGet,
   safeLocalStorageRemove,
@@ -101,6 +101,22 @@ describe('storageUtils', () => {
 
       const stored = config.storage.getItem('inventory-test');
       expect(stored).toEqual({ state: { items: [{ id: '1' }] } });
+    });
+
+    it('handles QuotaExceededError when setting isWorldBuilderMode flag', () => {
+      jest.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {
+        const error = new Error("Failed to execute 'setItem' on 'Storage': Setting the value of 'isWorldBuilderMode' exceeded the quota.");
+        error.name = 'QuotaExceededError';
+        throw error;
+      });
+
+      expect(() => {
+        const res = safeLocalStorageItem('isWorldBuilderMode', 'true');
+        expect(res.success).toBe(true);
+        expect(res.isFallback).toBe(true);
+      }).not.toThrow();
+
+      expect(safeLocalStorageGet('isWorldBuilderMode')).toBe('true');
     });
   });
 });

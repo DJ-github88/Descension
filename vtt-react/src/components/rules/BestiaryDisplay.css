@@ -870,7 +870,7 @@
 .bestiary-quick-stat-item.mana .value { color: #004494; }
 .bestiary-quick-stat-item.mana.disabled {
     border-left: 2px solid #8c8c8c;
-    background: #fafafa;
+    background: transparent;
 }
 .bestiary-quick-stat-item.mana.disabled .value { color: #8c8c8c; }
 
@@ -1134,18 +1134,21 @@
 
 .bestiary-res-pill {
     padding: 4px 10px;
-    color: #fff;
+    color: #f4ecd8;
     display: flex;
     align-items: center;
-    gap: 0.4rem;
+    gap: 0.45rem;
     font-size: 0.85rem;
     font-family: 'Cinzel', serif;
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
 
-.bestiary-res-icon {
+.bestiary-res-icon,
+.bestiary-res-pill i,
+.bestiary-display .bestiary-res-pill i {
     font-size: 0.85rem;
+    color: #f4ecd8 !important;
 }
 
 .bestiary-res-value-text {
@@ -1609,9 +1612,14 @@
     grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.35fr);
     column-gap: 2rem;
     padding: 1.5rem;
-    background-color: var(--folio-paper);
-    background-image: linear-gradient(rgba(245, 236, 217, 0.91), rgba(245, 236, 217, 0.91)), url('../../../public/assets/ui/wow-window/parchment_bg.png');
-    background-size: auto, 600px;
+    background-color: var(--folio-paper, #f1ece1);
+    background-image:
+        radial-gradient(circle at 8% 6%, rgba(139, 100, 50, 0.06), transparent 35%),
+        radial-gradient(circle at 94% 94%, rgba(139, 100, 50, 0.05), transparent 35%),
+        linear-gradient(180deg, rgba(248, 243, 233, 0.92) 0%, rgba(241, 235, 222, 0.92) 100%),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.4  0 0 0 0 0.3  0 0 0 0 0.2  0 0 0 0.03 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: auto, auto, auto, 200px 200px;
+    background-repeat: no-repeat, no-repeat, no-repeat, repeat;
     border: 1px solid var(--folio-rule);
     border-radius: 3px;
     color: var(--folio-ink);
@@ -1724,7 +1732,18 @@
 .bestiary-display .bestiary-quick-stat-item .label { color: var(--folio-muted); font-size: 0.72rem; }
 .bestiary-display .bestiary-quick-stat-item .value { color: var(--folio-ink); font-variant-numeric: tabular-nums; }
 .bestiary-display .bestiary-quick-stat-item.hp .value { color: #883d34; }
+.bestiary-display .bestiary-quick-stat-item.mana { background: transparent; border: 0; border-bottom: 1px solid #d5c5ab; box-shadow: none; }
 .bestiary-display .bestiary-quick-stat-item.mana .value { color: #39596c; }
+.bestiary-display .bestiary-quick-stat-item.mana.disabled {
+    background: transparent;
+    border: 0;
+    border-bottom: 1px solid #d5c5ab;
+    box-shadow: none;
+}
+.bestiary-display .bestiary-quick-stat-item.mana.disabled .value {
+    color: var(--folio-muted);
+    opacity: 0.65;
+}
 .bestiary-display .bestiary-quick-stat-item.initiative { flex-direction: row; align-items: center; padding: 0.75rem 0; }
 
 .bestiary-folio-chapter { scroll-margin-top: 1.5rem; }
@@ -1829,3 +1848,58 @@
 @media (prefers-reduced-motion: reduce) {
     .bestiary-display .fade-in { animation: none; }
 }
+
+/* ==========================================================================
+   CATEGORY / TYPE FILTERS & SHOPKEEPER STYLING
+   ========================================================================== */
+
+.bestiary-type-filters-row {
+    margin-bottom: 0.5rem;
+}
+
+.bestiary-card-type-badge.shopkeeper {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    background: #fef3c7;
+    color: #92400e;
+    border: 1px solid #f59e0b;
+    border-radius: 999px;
+    padding: 2px 8px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.bestiary-card-type-badge.shopkeeper i {
+    color: #d97706;
+}
+
+.bestiary-filter-pill.shopkeeper-pill {
+    border-color: #f59e0b;
+    color: #92400e;
+    background: rgba(245, 158, 11, 0.08);
+}
+
+.bestiary-filter-pill.shopkeeper-pill:hover {
+    background: rgba(245, 158, 11, 0.18);
+    border-color: #d97706;
+}
+
+.bestiary-filter-pill.shopkeeper-pill.active {
+    background: #f59e0b;
+    border-color: #d97706;
+    color: #ffffff;
+}
+
+.bestiary-filter-pill.shopkeeper-pill.active .bestiary-pill-icon {
+    color: #ffffff;
+}
+
+.bestiary-pill-icon {
+    margin-right: 4px;
+    color: #f59e0b;
+}
+

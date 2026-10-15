@@ -1,0 +1,1026 @@
+{
+  "originalCommand": {
+    "version": 1,
+    "roomId": "4fd86c18-0a84-4f74-b4ed-c6efab6827ad",
+    "commandId": "e8f7c9a5-8aba-40f9-adea-acdb7df63cd5",
+    "actionEpoch": "b30755ff-3699-46fe-9a8f-af3a558b97b6",
+    "baseCommitSequence": 0,
+    "actors": [
+      {
+        "ref": {
+          "kind": "creature",
+          "roomId": "4fd86c18-0a84-4f74-b4ed-c6efab6827ad",
+          "mapId": "p8-canopy",
+          "tokenId": "A",
+          "instanceId": "cc3530f7-ab3b-4a18-9d39-32eb4acbe8f9"
+        },
+        "expectedRevision": 0,
+        "finalResources": {
+          "ap": {
+            "current": 1,
+            "temp": 0
+          }
+        }
+      },
+      {
+        "ref": {
+          "kind": "creature",
+          "roomId": "4fd86c18-0a84-4f74-b4ed-c6efab6827ad",
+          "mapId": "p8-canopy",
+          "tokenId": "B",
+          "instanceId": "6718459f-f1aa-40d8-97a8-0e304af7b4b0"
+        },
+        "expectedRevision": 0,
+        "finalResources": {
+          "hp": {
+            "current": 24,
+            "temp": 0
+          }
+        }
+      }
+    ],
+    "source": {
+      "kind": "creature",
+      "roomId": "4fd86c18-0a84-4f74-b4ed-c6efab6827ad",
+      "mapId": "p8-canopy",
+      "tokenId": "A",
+      "instanceId": "cc3530f7-ab3b-4a18-9d39-32eb4acbe8f9"
+    },
+    "target": {
+      "kind": "creature",
+      "roomId": "4fd86c18-0a84-4f74-b4ed-c6efab6827ad",
+      "mapId": "p8-canopy",
+      "tokenId": "B",
+      "instanceId": "6718459f-f1aa-40d8-97a8-0e304af7b4b0"
+    },
+    "adjudication": {
+      "definitionId": "grimmstalk_feather_slash",
+      "definitionVersionOrHash": "feather-slash:v1/abilities:1.4.0",
+      "chosenResult": "{\"capability\":\"feather-slash:v1/abilities:1.4.0\",\"rawDefinition\":\"{\\\"cooldownConfig\\\":{\\\"cooldownType\\\":\\\"turn_based\\\",\\\"cooldownValue\\\":0},\\\"damageConfig\\\":{\\\"damageTypes\\\":[\\\"slicing\\\"],\\\"formula\\\":\\\"2d8 + 5\\\",\\\"resolution\\\":\\\"DICE\\\"},\\\"description\\\":\\\"Razor-edged ironwood plumage rakes across the target.\\\",\\\"effectTypes\\\":[\\\"damage\\\"],\\\"icon\\\":\\\"ability_rogue_findweakness\\\",\\\"id\\\":\\\"grimmstalk_feather_slash\\\",\\\"level\\\":1,\\\"name\\\":\\\"Feather Slash\\\",\\\"priorityRange\\\":{\\\"max\\\":11,\\\"min\\\":1,\\\"resolution\\\":\\\"DICE\\\"},\\\"resourceCost\\\":{\\\"actionPoints\\\":1,\\\"components\\\":[\\\"somatic\\\"],\\\"mana\\\":0},\\\"spellType\\\":\\\"ACTION\\\",\\\"tags\\\":[\\\"slicing\\\"],\\\"targetingConfig\\\":{\\\"rangeDistance\\\":10,\\\"rangeType\\\":\\\"melee\\\",\\\"targetRestrictions\\\":[\\\"enemies\\\"],\\\"targetingType\\\":\\\"single\\\"},\\\"typeConfig\\\":{\\\"castTime\\\":1,\\\"castTimeType\\\":\\\"IMMEDIATE\\\",\\\"icon\\\":\\\"ability_rogue_findweakness\\\",\\\"school\\\":\\\"slicing\\\",\\\"tags\\\":[\\\"slicing\\\"]}}\",\"mode\":\"physical\",\"faces\":[3,5],\"total\":13,\"sourceName\":\"A\",\"targetName\":\"B\",\"geometry\":\"Advisory planar center distance 5.0 ft; authored melee 10 ft. Elevation, contact, reach and line of effect require GM adjudication.\",\"gmConfirmed\":true}",
+      "finalAmount": 10,
+      "adjustmentReason": "GM ruling: defense and mitigation adjudicated"
+    }
+  },
+  "installed": {
+    "version": 1,
+    "roomId": "4fd86c18-0a84-4f74-b4ed-c6efab6827ad",
+    "commandId": "e8f7c9a5-8aba-40f9-adea-acdb7df63cd5",
+    "submitterUid": "p8-gm",
+    "contentHash": "428b0407ccdb45383462d49e3c3cd6ae0f95afa21ce2f0f94ff902dbeadefe1b",
+    "admissionEpoch": "b30755ff-3699-46fe-9a8f-af3a558b97b6",
+    "commitSequence": 1,
+    "checkpointRevision": null,
+    "actors": [
+      {
+        "ref": {
+          "kind": "creature",
+          "roomId": "4fd86c18-0a84-4f74-b4ed-c6efab6827ad",
+          "mapId": "p8-canopy",
+          "tokenId": "A",
+          "instanceId": "cc3530f7-ab3b-4a18-9d39-32eb4acbe8f9"
+        },
+        "beforeRevision": 0,
+        "afterRevision": 1,
+        "finalResources": {
+          "hp": {
+            "current": 30,
+            "temp": 4,
+            "max": 250
+          },
+          "mana": {
+            "current": 0,
+            "temp": 0,
+            "max": 30
+          },
+          "ap": {
+            "current": 1,
+            "temp": 0,
+            "max": 5
+          }
+        },
+        "conditions": []
+      },
+      {
+        "ref": {
+          "kind": "creature",
+          "roomId": "4fd86c18-0a84-4f74-b4ed-c6efab6827ad",
+          "mapId": "p8-canopy",
+          "tokenId": "B",
+          "instanceId": "6718459f-f1aa-40d8-97a8-0e304af7b4b0"
+        },
+        "beforeRevision": 0,
+        "afterRevision": 1,
+        "finalResources": {
+          "hp": {
+            "current": 24,
+            "temp": 0,
+            "max": 250
+          },
+          "mana": {
+            "current": 0,
+            "temp": 0,
+            "max": 30
+          },
+          "ap": {
+            "current": 2,
+            "temp": 0,
+            "max": 5
+          }
+        },
+        "conditions": []
+      }
+    ],
+    "authorization": {
+      "kind": "gm",
+      "authorizerUid": "p8-gm"
+    },
+    "acceptedAt": 1792055943523,
+    "source": {
+      "kind": "creature",
+      "roomId": "4fd86c18-0a84-4f74-b4ed-c6efab6827ad",
+      "mapId": "p8-canopy",
+      "tokenId": "A",
+      "instanceId": "cc3530f7-ab3b-4a18-9d39-32eb4acbe8f9"
+    },
+    "target": {
+      "kind": "creature",
+      "roomId": "4fd86c18-0a84-4f74-b4ed-c6efab6827ad",
+      "mapId": "p8-canopy",
+      "tokenId": "B",
+      "instanceId": "6718459f-f1aa-40d8-97a8-0e304af7b4b0"
+    },
+    "adjudication": {
+      "definitionId": "grimmstalk_feather_slash",
+      "definitionVersionOrHash": "feather-slash:v1/abilities:1.4.0",
+      "chosenResult": "{\"capability\":\"feather-slash:v1/abilities:1.4.0\",\"rawDefinition\":\"{\\\"cooldownConfig\\\":{\\\"cooldownType\\\":\\\"turn_based\\\",\\\"cooldownValue\\\":0},\\\"damageConfig\\\":{\\\"damageTypes\\\":[\\\"slicing\\\"],\\\"formula\\\":\\\"2d8 + 5\\\",\\\"resolution\\\":\\\"DICE\\\"},\\\"description\\\":\\\"Razor-edged ironwood plumage rakes across the target.\\\",\\\"effectTypes\\\":[\\\"damage\\\"],\\\"icon\\\":\\\"ability_rogue_findweakness\\\",\\\"id\\\":\\\"grimmstalk_feather_slash\\\",\\\"level\\\":1,\\\"name\\\":\\\"Feather Slash\\\",\\\"priorityRange\\\":{\\\"max\\\":11,\\\"min\\\":1,\\\"resolution\\\":\\\"DICE\\\"},\\\"resourceCost\\\":{\\\"actionPoints\\\":1,\\\"components\\\":[\\\"somatic\\\"],\\\"mana\\\":0},\\\"spellType\\\":\\\"ACTION\\\",\\\"tags\\\":[\\\"slicing\\\"],\\\"targetingConfig\\\":{\\\"rangeDistance\\\":10,\\\"rangeType\\\":\\\"melee\\\",\\\"targetRestrictions\\\":[\\\"enemies\\\"],\\\"targetingType\\\":\\\"single\\\"},\\\"typeConfig\\\":{\\\"castTime\\\":1,\\\"castTimeType\\\":\\\"IMMEDIATE\\\",\\\"icon\\\":\\\"ability_rogue_findweakness\\\",\\\"school\\\":\\\"slicing\\\",\\\"tags\\\":[\\\"slicing\\\"]}}\",\"mode\":\"physical\",\"faces\":[3,5],\"total\":13,\"sourceName\":\"A\",\"targetName\":\"B\",\"geometry\":\"Advisory planar center distance 5.0 ft; authored melee 10 ft. Elevation, contact, reach and line of effect require GM adjudication.\",\"gmConfirmed\":true}",
+      "finalAmount": 10,
+      "adjustmentReason": "GM ruling: defense and mitigation adjudicated"
+    }
+  },
+  "rejoin": {
+    "oldSocketId": "hCwzV0TBkM5VjJFBAAAD",
+    "newSocketId": "N6FkJ6U6Y9bZx-xKAAAJ",
+    "oldGeneration": 2,
+    "newGeneration": 2,
+    "snapshot": {
+      "success": true,
+      "roomId": "4fd86c18-0a84-4f74-b4ed-c6efab6827ad",
+      "actorProjection": {
+        "version": 1,
+        "roomId": "4fd86c18-0a84-4f74-b4ed-c6efab6827ad",
+        "epoch": "b30755ff-3699-46fe-9a8f-af3a558b97b6",
+        "cut": 5
+      },
+      "maps": {
+        "default": {
+          "id": "default",
+          "name": "Default Map",
+          "tokens": {},
+          "characterTokens": {},
+          "creatures": {},
+          "actorProjection": {
+            "version": 1,
+            "roomId": "4fd86c18-0a84-4f74-b4ed-c6efab6827ad",
+            "epoch": "b30755ff-3699-46fe-9a8f-af3a558b97b6",
+            "cut": 5
+          }
+        },
+        "p8-canopy": {
+          "id": "p8-canopy",
+          "name": "Canopy",
+          "tokens": {
+            "A": {
+              "id": "A",
+              "name": "Branvig",
+              "position": {
+                "x": 250,
+                "y": 250
+              },
+              "state": {
+                "actorContract": {
+                  "version": 1,
+                  "kind": "creature",
+                  "roomId": "4fd86c18-0a84-4f74-b4ed-c6efab6827ad",
+                  "mapId": "p8-canopy",
+                  "tokenId": "A",
+                  "instanceId": "cc3530f7-ab3b-4a18-9d39-32eb4acbe8f9",
+                  "revision": 1
+                },
+                "maxHp": 250,
+                "maxMana": 30,
+                "maxAP": 5,
+                "maxActionPoints": 5,
+                "currentHp": 30,
+                "currentMana": 0,
+                "currentActionPoints": 1,
+                "tempHealth": 4,
+                "tempMana": 0,
+                "tempActionPoints": 0,
+                "customName": "A",
+                "conditions": []
+              },
+              "creatureId": "grimmstalk",
+              "mapId": "p8-canopy"
+            },
+            "B": {
+              "id": "B",
+              "name": "Branvig",
+              "position": {
+                "x": 300,
+                "y": 250
+              },
+              "state": {
+                "actorContract": {
+                  "version": 1,
+                  "kind": "creature",
+                  "roomId": "4fd86c18-0a84-4f74-b4ed-c6efab6827ad",
+                  "mapId": "p8-canopy",
+                  "tokenId": "B",
+                  "instanceId": "6718459f-f1aa-40d8-97a8-0e304af7b4b0",
+                  "revision": 1
+                },
+                "maxHp": 250,
+                "maxMana": 30,
+                "maxAP": 5,
+                "maxActionPoints": 5,
+                "currentHp": 24,
+                "currentMana": 0,
+                "currentActionPoints": 2,
+                "tempHealth": 0,
+                "tempMana": 0,
+                "tempActionPoints": 0,
+                "customName": "B",
+                "conditions": []
+              },
+              "creatureId": "grimmstalk",
+              "mapId": "p8-canopy"
+            },
+            "C": {
+              "id": "C",
+              "name": "Branvig",
+              "position": {
+                "x": 350,
+                "y": 250
+              },
+              "state": {
+                "actorContract": {
+                  "version": 1,
+                  "kind": "creature",
+                  "roomId": "4fd86c18-0a84-4f74-b4ed-c6efab6827ad",
+                  "mapId": "p8-canopy",
+                  "tokenId": "C",
+                  "instanceId": "4535d34c-07de-4284-973f-4ffba402f2bc",
+                  "revision": 0
+                },
+                "maxHp": 250,
+                "maxMana": 30,
+                "maxAP": 5,
+                "maxActionPoints": 5,
+                "currentHp": 30,
+                "currentMana": 0,
+                "currentActionPoints": 2,
+                "tempHealth": 4,
+                "tempMana": 0,
+                "tempActionPoints": 0,
+                "customName": "C",
+                "conditions": []
+              },
+              "creatureId": "grimmstalk",
+              "mapId": "p8-canopy"
+            }
+          },
+          "characterTokens": {
+            "PC": {
+              "id": "PC",
+              "position": {
+                "x": 300,
+                "y": 250
+              },
+              "state": {
+                "actorContract": {
+                  "version": 1,
+                  "kind": "character",
+                  "roomId": "4fd86c18-0a84-4f74-b4ed-c6efab6827ad",
+                  "mapId": "p8-canopy",
+                  "tokenId": "PC",
+                  "instanceId": "0eb17124-0e22-4c20-bd41-3093a10c2b98",
+                  "ownerUid": "p8-owner",
+                  "characterId": "p8-PC",
+                  "revision": 0,
+                  "primary": true
+                },
+                "conditions": []
+              },
+              "character": {
+                "id": "p8-PC",
+                "name": "Selected PC",
+                "class": "Martyr",
+                "level": 3,
+                "health": {
+                  "current": 30,
+                  "max": 50
+                },
+                "mana": {
+                  "current": 20,
+                  "max": 30
+                },
+                "actionPoints": {
+                  "current": 2,
+                  "max": 5
+                },
+                "tempHealth": 4,
+                "tempMana": 0,
+                "tempActionPoints": 0
+              },
+              "mapId": "p8-canopy",
+              "ownerUserId": "p8-owner"
+            }
+          },
+          "creatures": {},
+          "actorProjection": {
+            "version": 1,
+            "roomId": "4fd86c18-0a84-4f74-b4ed-c6efab6827ad",
+            "epoch": "b30755ff-3699-46fe-9a8f-af3a558b97b6",
+            "cut": 5
+          }
+        }
+      },
+      "actionEpoch": "b30755ff-3699-46fe-9a8f-af3a558b97b6",
+      "commitSequence": 1,
+      "replayFloor": 0,
+      "bindings": [
+        {
+          "mapId": "p8-canopy",
+          "tokenId": "A",
+          "kind": "creature",
+          "snapshotHash": "cfb499e591fc112b9de618e7f8f4a68cb88050586dd379c564a27a43e3cb9aee"
+        },
+        {
+          "mapId": "p8-canopy",
+          "tokenId": "B",
+          "kind": "creature",
+          "snapshotHash": "810eb8cdd423f7beffc26d23d0bcf5ae572fd669b3dd693f71df7c76e6546a90"
+        },
+        {
+          "mapId": "p8-canopy",
+          "tokenId": "C",
+          "kind": "creature",
+          "snapshotHash": "81b3ed0b59392af6cb6ee360a8a16d3fbecbb1d737a563afc24d5775f7ebea62"
+        },
+        {
+          "mapId": "p8-canopy",
+          "tokenId": "PC",
+          "kind": "character",
+          "snapshotHash": "0c47378e1f86a8929bdf3ac2184fe645b7d09626c8f539074753b52dcdb3acf9"
+        }
+      ]
+    }
+  },
+  "after": {
+    "custody": {
+      "raw": {
+        "id": "grimmstalk_feather_slash",
+        "name": "Feather Slash",
+        "description": "Razor-edged ironwood plumage rakes across the target.",
+        "level": 1,
+        "spellType": "ACTION",
+        "icon": "ability_rogue_findweakness",
+        "typeConfig": {
+          "school": "slicing",
+          "icon": "ability_rogue_findweakness",
+          "tags": [
+            "slicing"
+          ],
+          "castTime": 1,
+          "castTimeType": "IMMEDIATE"
+        },
+        "targetingConfig": {
+          "targetingType": "single",
+          "rangeType": "melee",
+          "rangeDistance": 10,
+          "targetRestrictions": [
+            "enemies"
+          ]
+        },
+        "resourceCost": {
+          "actionPoints": 1,
+          "mana": 0,
+          "components": [
+            "somatic"
+          ]
+        },
+        "cooldownConfig": {
+          "cooldownType": "turn_based",
+          "cooldownValue": 0
+        },
+        "tags": [
+          "slicing"
+        ],
+        "effectTypes": [
+          "damage"
+        ],
+        "damageConfig": {
+          "formula": "2d8 + 5",
+          "damageTypes": [
+            "slicing"
+          ],
+          "resolution": "DICE"
+        },
+        "priorityRange": {
+          "min": 1,
+          "max": 11,
+          "resolution": "DICE"
+        }
+      },
+      "mapped": {
+        "id": "grimmstalk_feather_slash",
+        "name": "Feather Slash",
+        "type": "special",
+        "description": "Razor-edged ironwood plumage rakes across the target.",
+        "icon": "ability_rogue_findweakness",
+        "apCost": 1,
+        "manaCost": 0,
+        "range": 10,
+        "cooldown": 0,
+        "damageType": null,
+        "formula": "2d8 + 5"
+      },
+      "supported": true,
+      "sourceRef": {
+        "kind": "creature",
+        "roomId": "4fd86c18-0a84-4f74-b4ed-c6efab6827ad",
+        "mapId": "p8-canopy",
+        "tokenId": "A",
+        "instanceId": "cc3530f7-ab3b-4a18-9d39-32eb4acbe8f9"
+      },
+      "targetRef": {
+        "kind": "creature",
+        "roomId": "4fd86c18-0a84-4f74-b4ed-c6efab6827ad",
+        "mapId": "p8-canopy",
+        "tokenId": "B",
+        "instanceId": "6718459f-f1aa-40d8-97a8-0e304af7b4b0"
+      },
+      "roll": {
+        "mode": "physical",
+        "faces": [
+          3,
+          5
+        ],
+        "total": 13
+      },
+      "faces": [
+        "3",
+        "5"
+      ],
+      "adjudicated": true,
+      "finalInput": "10",
+      "reason": "GM ruling: defense and mitigation adjudicated",
+      "phase": "unknown",
+      "targetKey": "creature:B",
+      "command": {
+        "version": 1,
+        "roomId": "4fd86c18-0a84-4f74-b4ed-c6efab6827ad",
+        "commandId": "e8f7c9a5-8aba-40f9-adea-acdb7df63cd5",
+        "actionEpoch": "b30755ff-3699-46fe-9a8f-af3a558b97b6",
+        "baseCommitSequence": 0,
+        "actors": [
+          {
+            "ref": {
+              "kind": "creature",
+              "roomId": "4fd86c18-0a84-4f74-b4ed-c6efab6827ad",
+              "mapId": "p8-canopy",
+              "tokenId": "A",
+              "instanceId": "cc3530f7-ab3b-4a18-9d39-32eb4acbe8f9"
+            },
+            "expectedRevision": 0,
+            "finalResources": {
+              "ap": {
+                "current": 1,
+                "temp": 0
+              }
+            }
+          },
+          {
+            "ref": {
+              "kind": "creature",
+              "roomId": "4fd86c18-0a84-4f74-b4ed-c6efab6827ad",
+              "mapId": "p8-canopy",
+              "tokenId": "B",
+              "instanceId": "6718459f-f1aa-40d8-97a8-0e304af7b4b0"
+            },
+            "expectedRevision": 0,
+            "finalResources": {
+              "hp": {
+                "current": 24,
+                "temp": 0
+              }
+            }
+          }
+        ],
+        "source": {
+          "kind": "creature",
+          "roomId": "4fd86c18-0a84-4f74-b4ed-c6efab6827ad",
+          "mapId": "p8-canopy",
+          "tokenId": "A",
+          "instanceId": "cc3530f7-ab3b-4a18-9d39-32eb4acbe8f9"
+        },
+        "target": {
+          "kind": "creature",
+          "roomId": "4fd86c18-0a84-4f74-b4ed-c6efab6827ad",
+          "mapId": "p8-canopy",
+          "tokenId": "B",
+          "instanceId": "6718459f-f1aa-40d8-97a8-0e304af7b4b0"
+        },
+        "adjudication": {
+          "definitionId": "grimmstalk_feather_slash",
+          "definitionVersionOrHash": "feather-slash:v1/abilities:1.4.0",
+          "chosenResult": "{\"capability\":\"feather-slash:v1/abilities:1.4.0\",\"rawDefinition\":\"{\\\"cooldownConfig\\\":{\\\"cooldownType\\\":\\\"turn_based\\\",\\\"cooldownValue\\\":0},\\\"damageConfig\\\":{\\\"damageTypes\\\":[\\\"slicing\\\"],\\\"formula\\\":\\\"2d8 + 5\\\",\\\"resolution\\\":\\\"DICE\\\"},\\\"description\\\":\\\"Razor-edged ironwood plumage rakes across the target.\\\",\\\"effectTypes\\\":[\\\"damage\\\"],\\\"icon\\\":\\\"ability_rogue_findweakness\\\",\\\"id\\\":\\\"grimmstalk_feather_slash\\\",\\\"level\\\":1,\\\"name\\\":\\\"Feather Slash\\\",\\\"priorityRange\\\":{\\\"max\\\":11,\\\"min\\\":1,\\\"resolution\\\":\\\"DICE\\\"},\\\"resourceCost\\\":{\\\"actionPoints\\\":1,\\\"components\\\":[\\\"somatic\\\"],\\\"mana\\\":0},\\\"spellType\\\":\\\"ACTION\\\",\\\"tags\\\":[\\\"slicing\\\"],\\\"targetingConfig\\\":{\\\"rangeDistance\\\":10,\\\"rangeType\\\":\\\"melee\\\",\\\"targetRestrictions\\\":[\\\"enemies\\\"],\\\"targetingType\\\":\\\"single\\\"},\\\"typeConfig\\\":{\\\"castTime\\\":1,\\\"castTimeType\\\":\\\"IMMEDIATE\\\",\\\"icon\\\":\\\"ability_rogue_findweakness\\\",\\\"school\\\":\\\"slicing\\\",\\\"tags\\\":[\\\"slicing\\\"]}}\",\"mode\":\"physical\",\"faces\":[3,5],\"total\":13,\"sourceName\":\"A\",\"targetName\":\"B\",\"geometry\":\"Advisory planar center distance 5.0 ft; authored melee 10 ft. Elevation, contact, reach and line of effect require GM adjudication.\",\"gmConfirmed\":true}",
+          "finalAmount": 10,
+          "adjustmentReason": "GM ruling: defense and mitigation adjudicated"
+        }
+      },
+      "sourceRevision": 0,
+      "targetRevision": 0,
+      "version": 1,
+      "uid": "p8-gm",
+      "roomId": "4fd86c18-0a84-4f74-b4ed-c6efab6827ad",
+      "custody": "Device retained",
+      "result": {
+        "success": false,
+        "code": "retired_principal"
+      }
+    },
+    "rng": 0
+  },
+  "ui": "- region \"Actor attachment and consequences\":\n  - paragraph: \"Shared conditions: manual timing · overtime paused.\"\n  - text: Exact room attachment\n  - combobox \"Exact room attachment\":\n    - option \"Select a token\" [selected]\n    - option \"Selected PC · PC\"\n    - option \"Branvig · A\"\n    - option \"Branvig · B\"\n    - option \"Branvig · C\"\n- text: A\n- region \"Receipt chat\"\n- dialog \"Feather Slash adjudication\":\n  - heading \"Feather Slash\" [level=3]\n  - button \"Close Feather Slash\": Close\n  - paragraph: Branvig · grimmstalk_feather_slash · ACTION / IMMEDIATE Single enemy · melee 10 ft · somatic · 1 AP / 0 mana · 2d8 + 5 slicing · DICE · cooldown 0\n  - paragraph: \"Source: creature · 4fd86c18-0a84-4f74-b4ed-c6efab6827ad/p8-canopy/A · incarnation cc3530f7-ab3b-4a18-9d39-32eb4acbe8f9\"\n  - paragraph: Retained command e8f7c9a5-8aba-40f9-adea-acdb7df63cd5 · Device retained. Outcome unknown — no undo. Check this same command.\n  - alert: retired_principal — check the same command; no undo or automatic replay. Unknown lost runtime work needs manual reconciliation.\n  - button \"Close (no undo)\"\n  - button \"Check same Feather Slash command\"",
+  "manifest": {
+    "store/initStoreRegistry.js": "f7010fbd071c6d2a5c656cd257a764c7e79d6eaf79af7db1aaedf0da93c6742e",
+    "store/storeRegistry.js": "48fc1b80a9dcf0213b4afff81b228dd39a63040dec9f9ebc2519a9f3d498c11b",
+    "persistence/scopedStoreHandoffs.js": "d83c100987802b1ae5db6f0124ae6964f45663c53f8d29a9e3dca37ac1e8a2ff",
+    "persistence/scopedStoreStorage.js": "f1cc7cdb9fea6625d1af80aa1cd122216d325491955ae58a0c59b32260db73a6",
+    "persistence/scopedConsumer.js": "5a0066473659bd7154b7d6ecd2922078780095ba1367a745caf9a694f4613c4f",
+    "persistence/bootstrapPrivacyGate.js": "a797c9e2566abf8bb50514cf3bb8db6f7f5016e5b059b9340dc5604ab5242b3b",
+    "persistence/scopeModel.js": "4f4e32114ca7ae88de72680e20b276ced719f951582495233685d8fe00591170",
+    "persistence/accountContext.js": "819bb64e6fa8d71cd32258a444ffe44a7b8810f958463ec618292c4211aff153",
+    "persistence/safeRead.js": "ae5550bc62fa3c6640bae67db6f469d155adb536339b38f96c777c608c1aa97e",
+    "persistence/keyFormat.js": "e4b4544a6562ad5a05cbb0ca1736bfa9f494c3faeef3c5970ba48bb060312efc",
+    "persistence/draftEnvelope.js": "d0c95bba4d05b8f8d7f360a3d35110b44a6e24da6de7079dacfc1ca7f3e22f50",
+    "persistence/privateStorageRegistry.js": "9eaf175b8ee228ca39ea02c62e34bb1749eedb92f935937b634c544823431469",
+    "persistence/safeWrite.js": "3a90a1280a3453703ee3857679e392780143871c375112ea56c2f51b25287a5f",
+    "persistence/localCoordination.js": "bfb1491bcd7722c796b9bb28f378ff8a39ab7023c61b7c432726dee131577c25",
+    "persistence/preservation.js": "8c97886b02252e0a8130c490e15b6fcf040da41015013e37847c28935f33dd8b",
+    "persistence/protectedStorage.js": "ffc2e91f21a4b19f8d555518c21df2af95c9be07b9010e801a0976e59c1a9cad",
+    "persistence/globalAllowlist.js": "f75e50549ada90499721d5d04573962ce808704dc03cb7567659aae68b95fb8e",
+    "persistence/cleanupPolicy.js": "7a757cbf74a0f84e74e5d0bf40148fc1aab4ab24df834b933154a664520b2925",
+    "persistence/cleanupAdapter.js": "2e4e4755361cd49b06c5a2d3e6cfbab228ca1ada100bf6355af44ce29b1e365e",
+    "persistence/writerIdentity.js": "0c7602c90f520dcb987538a36e04e20ce0e6503cb42d71e0cd2da6d31122bacb",
+    "persistence/handoff/accountHandoffCoordinator.js": "b26df54b28beaeba86630857f83d0968ba313c803897def2f4d036abc00b0b7f",
+    "persistence/handoff/runtimeResetParticipant.js": "60dc5e148feeb2eb7a5100ff9a980bbb4b9ed36dff9836c52dd6e801dd7b276d",
+    "persistence/handoff/socketPrincipalRetirement.js": "6bde6807d2eb26745f4d379dd7cb7b75c5881b6aa63d70573e90c17fe73cf2ba",
+    "persistence/storageInvalidation.js": "3399a9115b3c5b1e3543f5da0175037dd9fb5f6287c137a1a8e582f9c7893902",
+    "persistence/characterScopedStorage.js": "0605a8c230a51f757f5d8bd8388ae83acf168e807d4d7c2976125ff34b674134",
+    "store/characterHelpers.js": "b53de7eb8c8e46b6ab85e5309b68995a28fd250821914dc188b9bc6aa0a16f06",
+    "services/firebase/characterPersistenceService.js": "47b26ec5c5901f5b8a2d2e5d35320d08a9165144185e77428ab4b87bffc17837",
+    "utils/firebaseUtils.js": "09d74b7547be0984f635e65893a07d0132293236da8d9ccfd0c35e4c26b6d275",
+    "utils/characterShapeCodec.js": "ddbd6d694e62a8a14709d058be69b14b0fcce20d32364be69564dd8303a83b37",
+    "utils/equipmentUtils.js": "b9e36ec9dc26439135b6113d2c9314d6e57f18cae055d0b29d461662c5ca417f",
+    "services/firebase/characterBackupService.js": "42b0655481cc5b3c6c64df28ee1b390a261c3b71f2bc5e13cc0033a01a13f512",
+    "persistence/characterBackupScopedStorage.js": "28589b904f98194a5eb167b70c6d2a338aa5d9d5947d8bfcf44a62426e7fa371",
+    "persistence/scopedNativeFamily.js": "d2ea66cf665c0bbb0d706a6456b9e8216a6342c5c9710e66c60826d270446a7c",
+    "services/firebase/characterStateService.js": "c382994d216924effde412717c9ad0aaa7ae2b0d924b5d1319767cc8fcad7780",
+    "services/firebase/characterSessionService.js": "3b194066b2770a83d2ab4e597acb52a29994d47eca49a5cb4f8a5fe666b50d65",
+    "persistence/characterSaveOutcome.js": "63cfd47b0e9f590b490c2fe5f19b31aae3eb45ef9ba583814b0a6d6746b66cd0",
+    "store/persistenceStatusStore.js": "19227481c470a4a37a66b8925db6204f6ad8f9f040ef1f96adb04d1310a34841",
+    "services/firebase/characterSyncService.js": "bc0d7602b3959fd517af82c141ff5eedbb175353f57923127623e09c27a06c2c",
+    "services/offlineService.js": "1309d31061accde8020f535ec7b388d1245167fd9b5d9fc8ba559f41e3283c09",
+    "store/presenceStore.js": "f7eec057bc29b48f3f2ff25fe618490d47297e11b1473747052b759ccf3ac1c0",
+    "services/firebase/presenceService.js": "0f93fd6202aa5785b11fa7d1aa10756dddce120b8d4c8775719484dff856f9c8",
+    "utils/firestoreDiagnostics.js": "7dd523574b06b4dcbbecab0381beabaf58df9033a153caf15a9ada75fb978400",
+    "utils/writeThrottle.js": "ab9ef1050bfe3ea15fb6dc58f621734ccb8b3eab7474000c1869dc2e25ae0d52",
+    "store/characterStore.js": "a5a60e92a8d3759d9c0117edb24255fd0bc9081d78930bd8c0165d0576effa73",
+    "store/characterSlices/coreSlice.js": "ba82734037295ba9e0690c65996c76a0080751f37c0bce61aac7117813766929",
+    "data/classResources.js": "51d7e4af844a3975a33ab1bddcd6e6aa6e92bb288b55fcb20df30167169ffee7",
+    "data/classResourceContracts.js": "e050444a55fedbba59aa008cef921f4c80fde6ed0e4205d5f685a0c36bc0e245",
+    "data/classResourceAliases.js": "051b060df4794bf5aa1543ad39425ca4451689ad109f870c769f56ba4978976f",
+    "data/classResourceBanks.js": "82c506571a21c910b62471b7e9413afe195d1b524a309a37508a39cb0af52cf6",
+    "utils/arcanoneerMigration.js": "024045a51fb8ec2e11ba14e14fdceb83a02ca492345bad66ed51d76e27b35ad6",
+    "data/apexResourceContract.js": "872aa181cac28941f25e96e410d53326e93da4714cccfd99e62460ea7571456f",
+    "data/pyrofiendResourceContract.js": "2548417f05d4f774819171c0fd903897862e997a3e6c327ab70e3f3c0ab50802",
+    "data/shaperResourceContract.js": "3fa487fe9c18bf220f869ae24c0a11a9c2dec7528762188a3c7b3cdcb83756e3",
+    "data/spellguardResourceContract.js": "52bf08fcdaea7d7fd6cf03369125a185f77084b575481ea5847e7db0f9304387",
+    "data/inquisitorResourceContract.js": "f8dcf0c354bad2ac259ce0c20431aba25e66cb60347b924e76369fabf6cc49af",
+    "data/berserkerResourceContract.js": "fd9dfd86316ca07e8ab14edc25b46172c1d54db42ef3aa9ef05b45109a445086",
+    "data/harbingerResourceContract.js": "0815b1525ea98f9b3ec58c343d310d594e2bcbab7a3fd8a5530f3246d7010ef3",
+    "data/crusaderResourceContract.js": "044c8f7365ba70f49bed1c50e6aa62b8eff8206cc6200854f1fca9d601739b1a",
+    "data/augurResourceContract.js": "bd17e7d7c2b3d1ca0ca76be341ff1559c3cad0a692cc202e59a3b4a85f6201fc",
+    "data/revenantResourceContract.js": "c6bcba8017305d13f4890ea1020a0d2d11ddbdf2c489ebe882af3528c2f6d123",
+    "data/animistResourceContract.js": "f65b61970fba90de3358ee5484bd4109b68fb7eab558b7bbbaf3a3390340c31f",
+    "data/falseProphetResourceContract.js": "069c38dabc8b8d6ca5b628ee5d481da5d0fc875ab5f55d49822c379c1a5f66c6",
+    "data/plaguebringerResourceContract.js": "8ac2db59a0d2c5db35c877aa5be96cfc7540771261559e0188a8e9b0e700798b",
+    "data/chronarchResourceContract.js": "3bcc946bbc2be8ccc81b34808a49a9d4683795aced921ffee7d637e1528f4f02",
+    "data/lunarchResourceContract.js": "8847b5cb9cb1444f5225fbd5c655b2ae0c04d6c53f7978d7f22310ea2eea0f33",
+    "data/toxicologistResourceContract.js": "a4bdb11c8702bc58093b689c96120b3e5fd6acaa39d519ab318e1211ad3548b1",
+    "data/wardenResourceContract.js": "66dd5bcb25571fc25c39f770332ebcf5fb2096d376d2e7a9b88264e660f9debc",
+    "data/raceData.js": "bb991c2507ee5e7e3216838d106d58d7257ba514ab9f57d728e06d13c430ba90",
+    "utils/pointBuySystem.js": "0f20ae0bf99bff0969a05785d30ce020eb55c6a4cb54c2cc126bb854b9d9b6e2",
+    "data/legacyDisciplineData.js": "1b40922c4eb8f4179275e8e5e06760ac4c09d63b6dfbfbf5fbeb66a05ad6e6d3",
+    "data/backgroundData.js": "919de61373f498c0048ab06314f02bb5f21a6aff1b3ac4465ca65e3b34345efb",
+    "data/classes/index.js": "6511efa7146619cef3308be5e843aef2a4028174a6df9f6811f4cf848de1eee2",
+    "data/classes/arcanoneerData.js": "5e23709e52d9d9af59d9925cf13bbcbe8641a825323b568535a892b5d21602c8",
+    "data/classes/berserkerData.js": "2861a312d085c198a1e11becba71e746c74976cab878e23fef70b8669189f3c8",
+    "data/classes/shaperData.js": "8ecba8787547475777877923be7a02f0db0d74c508b28f471a512dd9a656282a",
+    "data/classes/harbingerData.js": "f0106d7e78cb26e5ef1ef78c7a7da6f7878d3439e4f51d3ba04b65efad948375",
+    "data/spells/utilitySpells.js": "9ad7264af146b23407c7306da8986a9c90bd52d6e7c3806ccc466cbd5321623f",
+    "data/classes/chronarchData.js": "ba3174f49bea1619bd41982de9b04b90d8cb74c86f60cb33a6597b5b8a637ed0",
+    "data/classes/revenantData.js": "9d31153570f6639cc09904032aa191379155123c521a5e170c439e3cd554675c",
+    "data/classes/inquisitorData.js": "aea58f478861c2c0566ee54285670b556ca7a1a7272d35f3f2a2415551c91b02",
+    "data/classes/falseProphetData.js": "0b1db2f032f7cdba734ebee612881f16bc152ce4e20bfcaa20b03c22e3fc898e",
+    "data/classes/gambitData.js": "2c794a4a552f5d039a41d186b81101de5496952ae1c99705b628c317d9766232",
+    "data/classes/apexData.js": "b6ef4b242f906935b86bedba1b13453efb8ee95328b012595d304ce4ce9007d3",
+    "data/classes/lunarchData.js": "d32eb9d64032d3641ad0a6816a583683026a6b0759501a6efbf5d3014919f1c1",
+    "data/classes/martyrData.js": "d5528c8306a869d07c855e2fc0d27d81c1ada79491a4e43bcab34cb21fd96794",
+    "data/classes/minstrelData.js": "7616336a9d9236588f8983373b13e0a5079d0fb2c0aef2869b6aa63937c97063",
+    "data/classes/plaguebringerData.js": "7bad64df535ffd74a2a23fd89f33f73edf6ec4c64fcb670d2a5f76dc0578c198",
+    "data/classes/animistData.js": "2d7f31defa43c9f0226bbfc64566da9265e22f54b52d21bdd2bea45e1142bc4d",
+    "data/classes/pyrofiendData.js": "b3d61a06a337099e0e64ad83963ad38cdf95a5df5cb602b5f08e72dcefc3276a",
+    "data/classes/spellguardData.js": "b2d4f740389339f5f24e826eeb69c4e29f59ead88213a83f9ffa6fd4a5c84d71",
+    "data/classes/toxicologistData.js": "bdaa852a6f1d114fe2a0ab7ca14a7f0345a0af8adc407b76cc8d9baad5bf937b",
+    "data/classes/wardenData.js": "9f9b89f875fdaf4a554e4ebd880e12d8b2bad2aa94eea0d2d883b9aa89af13ba",
+    "data/classes/augurData.js": "39b7eb141d2e77af02781cd3b16c54ab6fcb876769d495971dbc3d0bbd68b9aa",
+    "data/classes/crusaderData.js": "130e7d6e0d620f5a5ad0cbc466cb8f655209083e269bb8df022431428b074d55",
+    "data/classHeritageRegistry.js": "c1a921226c2eff5dc88f77f9562791c3be4dbe7579aeedc497870eec9b59895b",
+    "utils/raceDisplayNames.js": "3a9d6b9e3b8c05b8194f38835e44bb2afe4dd041ccd78decf7d6de1eba932def",
+    "utils/characterClassAccess.js": "f9e5e0ec56df9fc719ab0d4007a6f784e865b134fd84467f0a00a584c335a2f1",
+    "store/customLineageStore.js": "fa19805413e85a30f2adae608270d23a1ded1f000b8c4a61a39d21f0e58e9e75",
+    "data/raceMechanics.js": "bbeb61472dbd2017df15bdb069faade47df831ab9e8acc19908189420d8dff59",
+    "data/languages.js": "1002194a75b3b0219aa29f32dc479623e00da649b9e004fb1e0e421687ec827f",
+    "data/races/myrathil.js": "9273d081a833afb2e05805e820a8578067e319bc8205d08a50ae75ddf227ccbd",
+    "data/races/mimir.js": "a39127cb27ce8620a6b056c7c141ef3cdc2f260e8d67bbeda4dc01be89209a16",
+    "data/races/florae.js": "dc7c5934318dba3607602f9a83760ceee6fa299574c89bda071556737f6f96cf",
+    "data/races/groven.js": "daa1c539033b5f16af3b4d478ea87aaf00ba660ec5c829c42ef2a889924a176a",
+    "data/races/solari.js": "83ac1ed7c406e88325435891a64042418aa3810bf8f775fa3210a160d855c478",
+    "data/races/vreken.js": "9e1ea5aa1684380bd086303804233093e9ccba4dcbbf87c18b1415c63db295bb",
+    "data/races/neth.js": "a828b2a770cc52b1e148117c20322b83d1e7a0da885c9733c64f7ff4f49616f4",
+    "data/races/astril.js": "79532e84b37e3a051e51492cd203f2e25b72508268c17f331bd4466490d79dbb",
+    "data/races/fexrick.js": "8b1020fd1d9ec66b39796d29fc032c192e6b039e162937dd7917532086e71723",
+    "data/races/human.js": "9dcf15cb1a2bd12ed7b9a974de557352b66e3de1cc2792ba4f8e705b9144ff51",
+    "utils/raceDisciplineSpellUtils.js": "360478df4601457dcb71dd1c47e2305c652042d92c23e2c713d04c85f6128cea",
+    "data/classRacials.js": "bae13ba2fd04f461f5e69d78ffa3c2072a23ad849690d460a4278546324fa4c4",
+    "components/spellcrafting-wizard/context/SpellLibraryContext.js": "2ac054747c71853f5b78ba02317d8b75765c7d98d139db6e9d7a452cd9796cee",
+    "components/spellcrafting-wizard/core/utils/libraryManager.js": "8ba60b8a52a9df5567304ea15246257b8bee5e8d6cdfb9dea16f1dc3f0d8dead",
+    "persistence/spellLibraryScopedStorage.js": "94999574f481692809a56161055f98441de6baac21aa5352ed37a49967c0e2eb",
+    "data/classSpellGenerator.js": "0beb6b90c12865e060a6c71fd43691c7cb0c954ecda0c6dcb39a5b8d8bb4732d",
+    "data/classSpellCategories.js": "c8e75223ed03a575a79377743d3c1827dc24983122a9614e879710deb5a0ab6e",
+    "data/universalCombatSpells.js": "f6a4603ff25cd540f4d32ba770e2aa6176a433ba17670c07dcd34af4dc795e10",
+    "persistence/characterHandoffPreservation.js": "eb9950459ce0d4d7fca27244f452ce3eb401366e444e8f09120253ce01ccb910",
+    "services/actorConsequenceService.js": "f014993e068a852e93ea931e8255504379cb77596ccf18638f63b230d311fd99",
+    "services/actorProjectionOrder.js": "e92b8c0efa46fe14ad03cfcd4640137df04632006eb34f124c99224807361591",
+    "store/combatStore.js": "1cbff39d85b722c799e5a1ccbc849dec58f5febfb994610c585dc1909d5bbef6",
+    "utils/conditionUtils.js": "2dc1d744f8a40d7c816b97a483ef7c7ee49fea6d6bf8f5ae5b9b5667bf6c1fa4",
+    "components/spellcrafting-wizard/core/mechanics/cooldownSystem.js": "0fff3d5785db114cd24ef955b214cc8ff9926e69fb3ded89c76f96cfc5dda40f",
+    "components/spellcrafting-wizard/core/data/cooldownTypes.js": "b44e880a1d13285bab947d641684bc47d84a3da17be8ebcadd65d54876be4bd3",
+    "components/spellcrafting-wizard/data/enhancedEffectSystemData.js": "6a98b87b8fbf7de5dda298f79dfc0365ec763cc818d0fcac6c35932b1c085172",
+    "services/effectProcessingService.js": "21a2b0e863963ea54def0cbfc6d281e4414fdeaf0088c31b06a15850534a9fb1",
+    "store/conditionStore.js": "57b516e7110db80f06e9436a4d0a04d4bde81797513c5d8e33fe9053b1386570",
+    "store/gameStore.js": "6523fbb6c8b39e17c077c036ae9a1d01eb541bfc0a0c3ea1dc4ae9e57359669d",
+    "persistence/combatScopedStorage.js": "b58c2556bff83b9b9c57449f295c5bcbf2bb24a59bee1c009a6dafe39e6acf65",
+    "services/inquisitorAssistanceService.js": "a500e9f5759d6a780594b634ee602d465c4ece2ecc4c919d5fecbec84a3b4186",
+    "store/creatureStore.js": "3d6539a35612f5a0beb122f38be67512bd96acc5795201b47a301e76d61337d5",
+    "utils/lootItemUtils.js": "979eaa597e6e32beae9c43d682eca5472abfad9098fad9e8609e4211708adb68",
+    "data/lootItemsData.js": "f8c12bdc2d80aacff84f6a95c291a5e8e80164b73f512bc106063c98bd936bec",
+    "store/itemStore.js": "cf4b5f8a6414a08c497200c01e0429edfacccd1398a9206c710e0aa28365681c",
+    "store/authStore.js": "745fa66fd73aca0e6ce69397d293d20b70ccd496093522384175f9a3da45ab33",
+    "utils/storageUtils.js": "8745d65046e54069cc7c6e7e6b43a846f79099a866059e6befe4d001d5f43327",
+    "services/authService.js": "13e9ac19087471981715ec2ccb4ad038cdfe4b6279ba9e6551f6c233d86cfe36",
+    "services/demoAuthService.js": "7140f9eaabfda4f6d060d9960a17b2b1660a5519d481d73faed912bc9f59ee06",
+    "config/env.js": "147d00f345de79807898940814cf3f4f7cb9ddcf4218bc7a960f0a5a7641fd83",
+    "persistence/authBootstrapGateBinding.js": "9eb79c25c99f38504a1a94ee15bf6201e1f4c0ee6913b606ddf037d7737e54ab",
+    "persistence/guestRetention.js": "4ae397e4fbff7ae24b6c2669eafce539674a6eb08b2a8b546cdb3939c5004bb2",
+    "data/items/index.js": "bfce16691049c4ecccdeb3581e653ffa97a29c6acdb7704d0b5ed99c73938790",
+    "data/items/weapons/index.js": "35bde977ae5d409981764f46d589a3d4f5e64fc866e9651f3f017c6cf906c85a",
+    "data/items/weapons/factionWeapons.js": "56f1194c3d2e6d5d12ffa95ff901ebe04b7adae26b8c1b244962271ef5ed13fa",
+    "data/items/weapons/enrichedWeapons.js": "b8bdbd96030c7df9b824bdf5968163ed8579dbd2ae979601af995a11abb77d63",
+    "data/items/armor/index.js": "c251e562db3219dd46276b93e921b293d5128bdc6270ed2176cbbe6acc992dab",
+    "data/items/armor/enrichedArmor.js": "bfb40ab4dcf2af3edc1d599373142d0b8479fe35f86a59af4e94decf76b34bbb",
+    "data/items/consumables/index.js": "8ea60eb136f29c9d0f73dddb5180fa0aaa786e7a42da219960aa988ec3c6f9f5",
+    "data/items/consumables/enrichedConsumables.js": "797e8d6e35e158b3c6a1597a78c99f492f5464e37e6bd77d08ae72d215b35a4d",
+    "data/items/accessories/index.js": "4c39fbc75d829aa8fee2e840c851d69085e3a51e2f80654301476f3a7c463650",
+    "data/items/accessories/enrichedAccessories.js": "67886f0c9154de9c7827f8c1b8ad3454bca5051af57fef723c28e29835f2b23d",
+    "data/items/containers/index.js": "2101a82b0612097dabc804ba0a76e5889624a953e2355e8c2a594685de0dd221",
+    "utils/containerShapeUtils.js": "0971157ca5a3fa5df6802681621660602b361b2ecc42d10698131e8983503235",
+    "utils/itemShapeUtils.js": "fbaefba31bc8cda043333aa8ea180d735d1e8637154ebac78d81829201509633",
+    "data/items/miscellaneous/index.js": "7618b2f36df61d76677c869dff0a65bf2b2de1bb3e255df9a1e1b108d51f7d84",
+    "data/items/miscellaneous/mining.js": "b7af40506c295fb3a949c27cf7ebdeccbba988dc8986812b9cd16a9db3f4f6ef",
+    "data/items/miscellaneous/gathering.js": "0e8895142320315f555b6dcc755dab75db283d0f9d478dbc92f5776299304467",
+    "data/items/miscellaneous/textiles.js": "e8621c65c494da5133dd679bb2c566b57288534036aaf329fdba9b957098fe44",
+    "data/items/miscellaneous/skins.js": "3f0ba5416dc7adaae961040d909a7e278ab8bf5771338151321617a89762bfdd",
+    "data/items/miscellaneous/crafting-components.js": "36960e96835f437195d9512f39f322a8d3eaa93ed4e3442992a5e1c005de1dd9",
+    "data/items/miscellaneous/alchemy-supplies.js": "39dd5a0b9657be2730c372ba90daf080317f7d5f532110154c61b0fa8b37c801",
+    "data/items/miscellaneous/enchanting-materials.js": "3ef29045901776e027116a397530002e701c2dc9d7820cd67feb6d2e2537ac00",
+    "data/items/miscellaneous/cooking-supplies.js": "2d642a855cfa0b48a737c22e89391c9dc300ff5f9035189c62fe54cdcf203cbb",
+    "data/items/miscellaneous/tools.js": "fc36d90500cb51630d4393d492bf62f5d8f87f2eece597fa4e991a58a44d5325",
+    "data/items/miscellaneous/trash-loot.js": "8eac8ad9214574110a48f8d815419a8a2fe7b24a9d80913a711c4cfb0d254c7d",
+    "data/items/miscellaneous/quest-items.js": "91848a825a5f5ce4750826e3a34481d8c8b97dec8f4cadea875aa2361da9a2b8",
+    "data/items/miscellaneous/keys.js": "a0768b8c7592890d88328e928da1bf15beaf072210984d59cc2bd9a2511079f6",
+    "data/items/miscellaneous/trade-goods.js": "10bac5b7f6deb8af74ab2adf9f78f79b1a6289e433af6b0fcd9f60fde20aa760",
+    "data/items/recipes.js": "9eb929a4682bc35c89a7aeaffdb473d1d2e3f4cc42c4ad1611f271f8262116f8",
+    "data/recipes/index.js": "1ff40a573bdee1777a8269accf9eb80add0d495ab20bd9e5d1b133125b2b601f",
+    "data/recipes/blacksmithing.js": "6e604f5ee18834646e2f772bf18596f66f1ccd9a947b0b2543c603875bb3adb6",
+    "data/recipes/alchemy.js": "56ff416617e1b640c31d0c191b393c5eefb54a75c9bababf4bd2f03871869554",
+    "data/recipes/tailoring.js": "144fcf90f23f9f09b49271191c7fe32d93097bbc1febf3d7b8c97402b529ea75",
+    "data/recipes/leatherworking.js": "e89dd5ec7e14955dd56c157ec682d63e0a3f613609c4c5d962e07becd3626730",
+    "data/recipes/cooking.js": "201943656350b48d042ed93d8eb5e1fb96ce159d4052a449dbe69dcb69b3313e",
+    "data/recipes/enchanting.js": "6cd64d1b25dfaacaa06f0fc56f2a89deecb9ca302435c457fad7b437c28ce124",
+    "data/recipes/engineering.js": "dde2d4c3bd5c57240a37fecddb8f8df8f7e97819276fc75f0e9702ebe445c573",
+    "data/recipes/jewelcrafting.js": "69426b0a25495d5c3f36ee5c6b439cd08ede0f08c3504b6b32c466238504ad5f",
+    "data/recipes/masonry.js": "6f2123e205ed9038eb572904e98ad46a1c9d522fd021b29ead1c1b91789bb03e",
+    "data/recipes/creatureCrafting.js": "397496dd25f1bfb9f636edd11382b5c2c32a88f1a9909ab5214d7ca95562bd22",
+    "data/items/currency/index.js": "eac21e7e76c65629f4f7229ed59e9b66db78b3c998d8aa09b19a36e7c617b2ee",
+    "data/items/curios/index.js": "1f59c46bf64d35b96f59510c99132619f8a9070ebd9deb47a56c7dda24d5ab94",
+    "data/items/curios/deck-oddities.js": "7a0b3720b289a2c39e58807c4eee159eb220bdf48c57f605b5cd54820b84d08e",
+    "data/items/curios/chance-curios.js": "38afe6d4a5bdbc4baa93ef04b1057a4814f40d3c843593c196c511a9542b490b",
+    "data/items/curios/vessels-containment.js": "354e9e71664667a7790f56066784fdd2d2c5579d5834149f8c33d30e69936c7a",
+    "data/items/curios/wardrobe.js": "69eb3df38f45183f6cef15a751c27df245174992a0cd4a2dcb914fbd37eafabc",
+    "data/items/curios/absurdist-arms.js": "d59461e5aabad576735842075a939ef78617bcd7dbbafb374496f919c9732f18",
+    "data/items/curios/living-anomalies.js": "c98cb308d0632fd4f0bae546bc27d4b7ea693041fea6055a77ed4e953df29b1a",
+    "data/items/curios/cosmic-knickknacks.js": "a22eff1963b44e35b8d24741e8c4506b35f4ac1549591da18cf08910a2688be3",
+    "data/items/creatureDrops/index.js": "8ae7f408f394f817e3cc8ee7f4c11e136c3ae452e32f117bbed59c9787eb63d3",
+    "data/items/creatureDrops/frostwood-reach.js": "beb8ef0e90a3d0a51c5eed0de0c4786d8942052df040bd66b4aa6e20a9553731",
+    "data/items/creatureDrops/nordhalla.js": "56425e7540e2007e40301a8d1a84e896bb8c44ca934d4f8195c04f6fa1d32553",
+    "data/items/creatureDrops/sundale.js": "5128822ac0e4178e2c4f4747889af88b53ac9df2e839b32d3823c7a0afbfcd31",
+    "data/items/creatureDrops/iceheart-sea.js": "4bd249ead07f9c0c05e640deeecd259340702d7c28e8f6496a5831be008b4e59",
+    "data/items/creatureDrops/cragjaw-peaks.js": "093c5d13f96d63385d9ae78f62ddfdc380e8d806f9e957f727d1a8051f5c8914",
+    "data/items/creatureDrops/sundrift-vale.js": "c679c48524831618d3553af80f4691e7b72bb56bfcc9353aa38ceda5da6bce90",
+    "data/items/creatureDrops/bryngloom-forest.js": "7cfaf0c36f4541f80fb9d5039905c2c71e2b563709db67256bd497333993f7a4",
+    "data/items/creatureDrops/crafted-from-drops.js": "92a166130fd9c4f797ac635ebbbfdd655da37fe0c81bd6e8630f320a41486105",
+    "data/items/enrichItemsWithLore.js": "74d0db7de1c4a33c253d78771f9f99b246d43d1a22b0a2c7bad7b3ed9a5c2c99",
+    "data/items/itemLoreData.js": "bcc5dfbd1dfef76f98fc67ad076b17e09d653c229283e7ed82976799406c26b1",
+    "services/firebase/userItemsService.js": "7b386144b1f799ac692fe9122ddb846c6ee88cbd15b9eab47715403a793e2ed0",
+    "services/firebase/storageLimitService.js": "1b0f7b3f897b7205be4460edd639c981707f26026c24cdf816e2eede2750a092",
+    "services/firebase/communityItemService.js": "2adcbcc7e6c0cd9537f760100c749b87aec4b9d3b00888a38ef6aaed793330ea",
+    "utils/assetManager.js": "ec69f68214ff8b239f3be1ae916e6fc418c8ee78185e3d70a98d61bb0a6c5ca4",
+    "utils/wowToLocalIconMap.js": "11c01a61afdfabe7ed6ea1f104a1a877aa966eb4773e5a7016bf5133c69592a0",
+    "services/firebase/communitySummaryService.js": "9ebc34f568749b20d03b9d534d112c49d49c7ac103488dfc48f0a9122604b473",
+    "services/firebase/uploadService.js": "eeb0cccc71f199c1b554c37cfe2b29ff8cf5d29c4440735b8dc82f5e0dd5a624",
+    "utils/imageProcessor.js": "df6893e48c902657153b2b1738eb4985a7eecbbb880e8a7550e267e7aeb0c760",
+    "utils/tokenStateUtils.js": "c36c0e3b25e1241f349daa912d85c5bf51dfabac908995540e7cb0fe9a7050ca",
+    "store/chatStore.js": "4ed57e3c0f04e94436a28cebf6b91cdd9b4da54916e2f8eab3ccbfc3409550e5",
+    "store/characterSlices/infoSlice.js": "c4bfc65988821ef481890b52a653d9d0a0ace39001a1806fc7f4f9447aa479d9",
+    "utils/experienceUtils.js": "aa3c936023ba29f8ed947bccacdcc4eddab40efd23520a492eb245111d364944",
+    "store/characterSlices/statsSlice.js": "d0d10e8c21eeb6ba90be29e893aad173ab8b1363df69115d1c3c24422a154cc8",
+    "utils/characterUtils.js": "cdcded103cbadfe2d94621b0df30bf74d644018cb9737cb4062e3207ad275bf3",
+    "store/characterSlices/resourceSlice.js": "d9af27963eb7e874f3668a20fca918ba6335d4f79c67c5d3222276956773d93a",
+    "store/characterSlices/progressionSlice.js": "f838ba7b41545d93dbda78ce3389645de40b21eb09bfd746e7ca608590d165ca",
+    "store/characterSlices/multiplayerSlice.js": "e8336aea6b850ea2f663d6cc6806e5d2228c577794b7b3c478af961b0a42487c",
+    "utils/classResourceUtils.js": "1abdb66ccdc4076f7ee1f12c8bef036c9d3c6c8bdbb0d35ec01fa7b8931525df",
+    "store/bookStore.js": "ce65605eb99a4ffafcb301edea1876f6e4c9cb6a73f2886836c3e09d3b8b61b9",
+    "store/interactiveMapStore.js": "8c6e73ea7bf4f9f8b463aa5b906ecc92bece9e42aede00c3dc2eb670c72bb509",
+    "store/worldStore.js": "770b41e9b17b836b2f9f0b392f75b24ed8ba28658e47cc749ac3b8d607a045f4",
+    "data/deepLocationData.js": "d5769a7094ea821581f95d80c30f5c13b7a6840a8e30b525ebb4cc8904ceb3e5",
+    "data/zoneData.js": "87d3ab22fa13dc423c8a699083d3c8100c11419f2b71bc5a663759612c4e57a3",
+    "store/factionStore.js": "5704f7228c4f6395ce72e21d2b45e2fa14d4f09048533da2c0a1fa76e2041601",
+    "store/timelineStore.js": "0e58d87eb2dcc754e56365e05af180b0fa3bc181f060ac7ee249d416a9509e52",
+    "store/classLoreStore.js": "acc74b7a0b7df4e45685cd840abf41c091babe9c0e76c54ae3810a6c977b4df1",
+    "store/familyTreeStore.js": "6704fa14f3764fc82b45dd16add499d405577d3404a76a64110d2be0104b3378",
+    "store/questStore.js": "c7f6ea504f1bb445a4570abdd6f85d502346cecef15b6e2bd96a6079a25a01eb",
+    "store/deityStore.js": "dff65a4d44b0066572246a4942c253c9b6c5233def49b9aac17442d8ffb9a91b",
+    "utils/mergeSeededRecords.js": "6e5be6a601bd104120f2fcf5d5a3bf16b694bceff5f4668e0883f4af6766331c",
+    "store/languageStore.js": "1d8fc30b251444181199d0cb09e4f14cf4fac2303d272b88dc84d579993299d1",
+    "data/seedLanguages.js": "291aed0266e311e161e8824f1f4ebb856f6258f123159fc4762bc98a1c615b0d",
+    "store/inventoryStore.js": "635c6d87bc32f4e25999c759bf572f1405f29e6ab20069c459168756ecbc444c",
+    "store/characterTokenStore.js": "b413cd10eee8bfbeaff958ae9827c3c48efb4b4ec1a6261f35e32c12d1ea2e68",
+    "store/levelEditorStore.js": "b70e8aaeeb96a019de73c490eaffad022656222fba7fe2b98440531e8b4617b5",
+    "utils/InfiniteGridSystem.js": "8c7426a1449237e36d1aefa1c969457e16eec98afa1230f85523d6e085ec22d7",
+    "utils/GridPathfinder.js": "34b9785212bd1cee57fe1799fbbb03c5ae462897e4d1bedc4ae256cccb5e6cf0",
+    "utils/VisibilityCalculations.js": "4945be04ea7ed77f41bc8e976282918070a03cacfdc72ee8c60d15745c1e1f88",
+    "utils/WallSpatialIndex.js": "a88c79567364cdb6ab8ca44c2ee6add101605dcaa15b2979fe1f583740f024e8",
+    "utils/WallGeometry.js": "5a89f983a159e86f1ed339327e42e2d2bab5ca6f3ca1a5ee2fa3aa2e9a632458",
+    "utils/ElevationUtils.js": "0bf80b7a33e7822c9fef9b5dc230e028a93560439b37585238692b805748bd88",
+    "utils/ProjectionSystem.js": "c5f6eb5984148a2e627fd03e0c9a7ff25672ad7b6a5578c59a225a881e3b8641",
+    "persistence/mapSavedStorage.js": "024b2985ecb96a4e6b05a6c1345adfb9f974a8b0e36cec6194ebc76545c261e0",
+    "store/mapStore.js": "d13078ce39a520dd183aa4ab6b15e540c358116f8d0049af196c77422e02dccd",
+    "store/gridItemStore.js": "d315d68948c2b9e7ced3d1749106a12e21182f13cf2ff7dc5dcf2f5e304dc7f2",
+    "utils/prodDevParity.js": "11a74bf1abf91d60227237875ec8f068ada4a161020f27c659c880383ee799df",
+    "services/subscriptionService.js": "55da62db750eb52ac131348afe08825aa72feaff81245116b79d5fa4c8b01e6c",
+    "store/partyStore.js": "8deacfafe1b08328a571f2179b58c15f28bfec03a4771aacda5a2139fd041f71",
+    "store/craftingStore.js": "63f913269c7434077a9eaf9c9e9698336d10735f5645674a9e6cba31d53f7ff8",
+    "store/customSummonStore.js": "e0febcb57e3c2c79a893d0f4dc6225acd6b04a5240383768f5870fca33c681dd",
+    "store/diceStore.js": "5f31d855641f9de6091b9c3a04b127289057c75d953bec9bc6182ffadd3398c2",
+    "utils/validationUtils.js": "b1de8baec81ac15a5dd5ecb363838c36cf01d4ca79b87a3e6ed4d471628ddd40",
+    "services/enhancedDiceService.js": "c115687f516afd325996835a450f6d3de418d447064096c3abdaa72c326f1dbf",
+    "store/effectPresetStore.js": "232a3dacb030c3a237e1de6fea579aec92cb99171d8081cf9761120f5fae6579",
+    "store/spellStore.js": "ac8b3441b40f0d7482dc8034c8b65ba5c741ee7ea8e823ff4409e5f1dd29ac36",
+    "store/shareableStore.js": "d24e3fbbb05379b597dc6323f78d87a92f9bb7e913f3f09b0b0cbc2db45e5081",
+    "services/firebase/journalService.js": "f67eaf93a19d8d9771966dde7c49a2a25298b3572d29b1d765c2f68553c36117",
+    "store/spellbookStore.js": "b579619a8429bd4b289fca26da81265919605028a82693b0b6f3fad1710ac947",
+    "data/spellUtils.js": "f2579d544848c5c71c76df26f5efefc43a90027c8f651750847bdd0b9ce9ce8a",
+    "utils/diceUtils.js": "91dd7a0f56123af1cd20fe974a8da909cbae436e2a9a5ae8097e216280f24c04",
+    "store/tagRegistryStore.js": "122dfe49f2c7a99cab05c1e7589b1ecf35c4c6ebda6aee7765208d0a0762e3a5",
+    "store/windowManagerStore.js": "56b4dac9459b06972367ec941c16ae440e8445712fbd1fe16a841583c77fd1ab",
+    "data/geometryScopeHydration.js": "3deebc54a5d44c725b7a6bf2fc5e4d87a30181d2020104299b56ea935769afec",
+    "data/regionPolygons.js": "f48d8407e4b7058ba1721f2d7933de4b9669f1fcc74f7104c59ad8f6013ccc40",
+    "data/subregions.js": "3e040027df64d019e766386f0e180b802d2152735a985cba888f55f6d6c93f48",
+    "data/locationCoordinates.js": "9c51bf744a8ccb6ed3dd4a62bd5a3dbc48e36a3621220393c1a04cb23756d58c",
+    "data/subregionMaps.js": "4b29b20ae94854273b7535525ceccfd7e54f302a1d7189ddd6f84481eff40789",
+    "persistence/customMapOwnership.js": "0a3e96b69bc4731d63e93a1fe1b2087b6c6067f1a960aed17bea3e4d890e81ca",
+    "persistence/mapGeometryScopedStorage.js": "c5948f2ee801c445ee39d394abace383f0ac110a1aab7c196b6be86e0affb740",
+    "store/notificationStore.js": "f46cffab08b49361a6a94cd44605133d8c6c83828d5c02f9018076752105a95f",
+    "store/socialStore.js": "237d086d5eb994cb169fa4b585e4ea8998b9a2eac11c8b541040f6e3102ee0df",
+    "services/socialService.js": "3c871362c29ccf237df000c60d745b011d4b77555e7e614be736ce54efab7176",
+    "components/providers/CharacterPersistenceProvider.jsx": "688dd1b68567f2c47384ffbf594fe6a3a73e26d84c847ce579a8bdd1839b6cde",
+    "components/common/ConflictResolutionModal.jsx": "51a2563321f5a3b6338b689bed810ffd0050f4b63924892662aad44b270a8611",
+    "components/character-sheet/CharacterSaveStatus.jsx": "7eeffd1aa7691dadee96d457a090a100da33e94a3ec514378ca89958f0b999f2",
+    "persistence/PrivateProjectionBoundary.jsx": "b1997a6f6e758b8a16f6c9da9bc8e0b0b8303bd218ae5322f78e6e8f65bdcbee",
+    "hooks/useCharacterPersistence.js": "997b735dd7a31b4352945c70989dab04a5ca28a53abdea08bc130f92d251f840",
+    "hooks/useRealtimeSync.js": "72112d0e3c99323ce843140eb68168141d7bc04cdb188d559d41a6f1146c63f2",
+    "services/firebase/persistenceService.js": "8a25ac05ee398e0282cf541bdba80e08e9f671eebb2b9da409f5d81f319090a1",
+    "services/firebase/roomStateService.js": "5c8232ecb7032f2116ef609d039e84e787da63bcbc72a309c9f83ece70f55f03",
+    "components/grid/CreatureToken.jsx": "7d10d7d783c9d50f12bff32a0afebf9dbddc1e7e4db58742d36454e622ef2073",
+    "store/targetingStore.js": "f54c15c74dcb62b9fcae5feed91ecf98aab1aa9c00d5b77429469b86d997322d",
+    "utils/WallOcclusion.js": "02f985a466ac6b6968aedcda39674373859b284f59d05ac837c31cde4a9a99e4",
+    "store/settingsStore.js": "98a47ee527af6a14f0608b53eb116ac5c901f1ab4ff78b8c7ec9d873008ff701",
+    "services/firebase/userSettingsService.js": "48190efddc86a91b59020330281592d154c3e2a76439692cbec3513dffa3a238",
+    "utils/hardwareDetector.js": "9942f18c4a21b6c7626d038a467f9fd466c8bde80fa8f232f75d7402e4911e1c",
+    "components/combat/MovementConfirmationDialog.jsx": "299adbf41303eada656a814a378ec5ef66b84131a989f19b3913acaeca6d8414",
+    "components/grid/CreatureAbilityQuickUse.jsx": "f8f5654578981e482751b4a48ebef54b4774bbe0f43db1c7cb6943614e423b09",
+    "components/grid/CreatureAbilityConfirmDialog.jsx": "80ceb506b3be71966e56281a584ad4010e6f84c99f3c32d31e9e74c75439778c",
+    "services/featherSlash.js": "1a4418f1a900b29f58efc79de091cfb59dd694d42110cecf087ef6a0e481b3ae",
+    "data/versions.js": "945a1a459f3b0bf915100af5012e45b123475b6940d405e17d649a87158e1f17",
+    "services/featherSlashCustody.js": "2ace5b077bbd3bccdfeec666148df385927faca1766beb065d51a2e14e5abd39",
+    "components/common/Button.jsx": "c0749a5b94442ebd2528fc58efae884221be303d32d77c388a73a6929e6827df",
+    "services/optimisticUpdatesService.js": "0ed58016deb6011eae12ec718d148d923bd749f9b003b562473c22a25141a038",
+    "store/syncStore.js": "c34ec63321b082712cb6fceb340f3276d39f29e5ff3bccfc1cf20e0522922ed0",
+    "components/windows/MythrillWindow.jsx": "b3eb89ac0207de4fc30128165d645f3b941f36b2f4f8cc39479709eaaf5132f5",
+    "components/windows/DraggableWindow.jsx": "94b2de26214d415cc96467ab0688e40d5b1aaa91f4c326eda7478bd912d6610e",
+    "components/common/TabDropdownButton.jsx": "bb198a12a10208ee02b9b06fc115bb80510ef9e05d0613d457527b6f9c872990",
+    "components/common/useTabOverflow.js": "a2a4d94d20125f1c7019fa8a38c3e8267fe6d1ad5357a93792f5518671bdeef0",
+    "utils/portalUtils.js": "fc8ba6a72b3d2aa2a1be533c9f03a82db1b674f6440ceecb7982a02a202e882a",
+    "components/windows/CreatureWindow.jsx": "4909508e3b6e7c9137f794a2c0479a345cc36f863604752094eb503ca864df17",
+    "components/common/ErrorBoundary.jsx": "608253a864d648cc632c37b86cc72c911828a7721315d3b84e506ec5e6bd989c",
+    "components/creature-wizard/context/CreatureLibraryContext.js": "a33b0cb01c46e8cdc30caef2049b23e35d383ec605b9622cf948d223cd112fca",
+    "utils/bestiaryNameSync.js": "9b0a727b88cf0536e3a0f3bfae4c7000abb9b1b522b2df486dfa78fa29542447",
+    "data/bestiaryLegacyNames.json": "6e75133823561196efc0776d2c18ce1b67562f4b56ca320984cf27af32051cb8",
+    "services/firebase/userCreaturesService.js": "9b4ac9bd868e87ddd52e012b246d4c598e051e3a185f47b4ea6b5f8cbb63a34f",
+    "services/firebase/communityCreatureService.js": "f5406290301ea0971e28fa4b1abd39fb7a353ab2a9490cea5991fef56e5dcc66",
+    "components/creature-wizard/context/CreatureWizardContext.js": "b4ade629c72cbc4f28e95cb3ef5411e0f5739036792715927af766ac5933e293",
+    "components/creature-wizard/CreatureWizardApp.jsx": "82f65e273dc94d707a9351134df9feb573fb95020cf67ad0fd864a85de002222",
+    "components/creature-wizard/components/steps/Step1BasicInfo.jsx": "489e1f0a9220d8103d8e434b90281475bd43b378d34cc391faed366822ba3c41",
+    "components/creature-wizard/components/common/CreatureIconSelector.jsx": "aaea3038914a94e12c28a81b88bc0919b5cf2f213cc249ab88ef3f95c4c822cb",
+    "components/creature-wizard/components/steps/Step2Statistics.jsx": "c99ee186addc5927980805998a58c07d6bc4b8aa11a7dffaa0d48dce3fabc692",
+    "components/spellcrafting-wizard/core/data/damageTypes.js": "8d90b88cf5353552d1c6e136c25ec3bbc4b96cbdde07fec6e8850cc83033812d",
+    "constants/skillDefinitions.js": "485c2da8182557d8d5d0538c3ff0ae0b401b1c410c058e58f662de19d4bceb21",
+    "components/common/UnifiedTooltip.jsx": "b706bad5566a64168f9fdac67461871929a23f91899b75f9d6c81ecd4e82703c",
+    "components/common/LazyImage.jsx": "7b3d67f41fa3716cb3cfff27838cbdf052ce71d6b930fb06b52c27aaa14ff3ab",
+    "components/tooltips/TooltipPortal.jsx": "44da6a4ee1ab939d646326bb093f44ed5dbfddaf576c211e3869a7e008590df9",
+    "components/common/useUnifiedTooltip.js": "af1989048d8f2e9657d5ac3712d4c1d0df2548e2d58c20263bd47beb7f749e6f",
+    "components/creature-wizard/components/steps/Step3Abilities.jsx": "42a115ed02934587859323cbb6e4d49e34fd5e9478024e5848ca1b5158b9b29d",
+    "components/creature-wizard/components/windows/BasicAbilityCreator.jsx": "ff4bf00a352d816d01a0c664793c3e664a40216240e4570e1a3b54d5052156cc",
+    "components/spellcrafting-wizard/components/common/IconSelector.jsx": "dcb3552eaa4d7b21058b4f650d8cd80d6a23409a717406425a8184cc51b6c0d2",
+    "utils/dialogService.js": "d830c8afebbf04c5ec2463cc8b17ddc4fe8e4340d5417eae8a8d9c42b7c4c1ff",
+    "store/dialogStore.js": "ed81c249825601b796a4c5bd784c2ce0358e96ed109580d367a37fb19330f6d8",
+    "components/spellcrafting-wizard/components/common/UnifiedSpellCard.jsx": "a5dd1d5732e74ffe553c6d9eadb12f770fdc59ad092175bdf3a654a106c6ce5a",
+    "components/spellcrafting-wizard/components/common/SpellCardUtils.js": "f0217f6e17c903b28139418d41fff8f9baafc5fdade9728a0a839de98ee8ccc4",
+    "components/spellcrafting-wizard/components/common/spellFormatterUtils.js": "3c80d5d7a0c461ed80a3f5ab811f08e8390098648577fa8a0aca7a26fddce9b1",
+    "components/spellcrafting-wizard/components/common/useSpellMeta.js": "246941732b148c698d841dfd13d6f2cb5f447af9dd1c19024d57f994bb2cfd3b",
+    "components/spellcrafting-wizard/components/common/useTargetingFormatters.js": "181666d3647cff9c4c27090f92fe248bef8704985e15f561e45fbb48de39260b",
+    "components/spellcrafting-wizard/components/common/useResourceFormatters.js": "35884ab84e4b8981998aa48d64b1813545f338fd30cd974e9492d83d54c144cb",
+    "components/spellcrafting-wizard/core/mechanics/resourceManager.js": "22e5829454caa24b58fff9495567df9f07deb3c8355bfb538997e297d3fe7163",
+    "components/spellcrafting-wizard/components/common/useComponentFormatters.js": "84e221d7df73ebf1083049265a2740a13fc660338150aff1fe64dcc9c4218df4",
+    "components/spellcrafting-wizard/components/common/useTriggerFormatters.js": "ab581a8b3a7681c31bfd853986a141e4cb78a66e936515f1997bea7ccaaf83a2",
+    "components/spellcrafting-wizard/components/common/useDamageHealingFormatters.js": "64f9c35cb077397c8ab03d38bdf6957e008e0ce6113f3d104fd9a2a5ed3ace01",
+    "components/spellcrafting-wizard/components/common/useStatusEffectFormatters.js": "82533de1752bbfd367e38bdea43b7340aeb0654adacfd103ee61085087ea609a",
+    "components/spellcrafting-wizard/components/common/CompactSpellCard.jsx": "3de51a4396e56049563191bcaea2ae67b601094f47ce1d9c5ea46a80299046f1",
+    "components/spellcrafting-wizard/components/common/SpellTooltip.jsx": "b9e28d019ab06c0a6013e6b2cc08ff3f206ca150f7939ee417f59f046f686769",
+    "components/spellcrafting-wizard/components/common/SpellCardHeader.jsx": "edf9eb476a2fb39868962fb2e1693bbd82490f29bc3d7396cbccd6d091f196d9",
+    "components/spellcrafting-wizard/components/common/RollableTableSummary.jsx": "c55762831fc84ca80310897fd34e68fa3ccc6a8153b6dfb2a7bf219679f6c51a",
+    "utils/sanitizeHtml.js": "58978f374853327ba5ab43873be7e2cab48f210ef884a2a81c775fdbaf783096",
+    "components/spellcrafting-wizard/components/common/ProphecySummary.jsx": "40888f5c553f540c915db89dce065e58d864961ed7acc618a23cebd2701867a2",
+    "components/spellcrafting-wizard/components/common/ProphecyRollTable.jsx": "6524f7d0d788e719ba379d421799d5bfe60c78f5875f69eb4a4738d8b30e59c4",
+    "components/spellcrafting-wizard/core/utils/spellNormalizer.js": "ac84fbb3d46d3b5d3c3b99898057f4b0320fec910b1869d598e99a3486010620",
+    "components/creature-wizard/components/steps/Step4LootTable.jsx": "7b4a20888d17977f8d95d0fefc15d62be4e79e359c0922c0a150f24398b92763",
+    "components/item-generation/ItemTooltip.jsx": "34df12c11b8de871f75ae72c9ab18454a0a89cf9f4652b40b69df52bf4f84663",
+    "components/item-generation/DieIcon.jsx": "88b0a361782e07ba90ba4b2b5a1a3a9fa14885ee01b8a14a50e8625aada30d16",
+    "constants/itemConstants.js": "6a1bf0822c9feb02376d73d2044a91ff2bc2010fc1058b9af8d7725c15726b40",
+    "data/conditionsData.js": "a487e4610da05b0c0eb9a7cddcd261860d20c7dc7d3a3fc2bd33273cc2861b17",
+    "utils/loreAutoLinker.js": "0428088921a1868bfb067241e6f67f1058fdbc34bc99c9aa158b21a3d315a315",
+    "hooks/useGameData.js": "9fd1a8a991ebc15492010d8860d6a732ff33a68fe471c2813eb2061e5b80d397",
+    "services/dataCache.js": "358feec4b3dd8bfa408cb3e83efa6be9955fbb5faef7e80b9dbaa35e3490929b",
+    "data/rulesData.js": "f79fe5974bd442946f7c3e554189accad0efe76b99aaea4ef446c001f7d775f0",
+    "components/common/LoreLink.jsx": "ca277eefa9441a244924aed493dd9ce33b52d6132971d5935c4414d502396045",
+    "components/common/LoreTooltip.jsx": "e521b59928566e2490e9ed0ac5c2b766001ca3ca4c17b1d982e21d92b2f506aa",
+    "components/creature-wizard/components/loot/ClutterLootGenerator.jsx": "709c260b3a865f3ffc58bd680cd5160f95efdbcf53aa2866f3eba643430c1255",
+    "components/creature-wizard/components/steps/Step5ShopConfiguration.jsx": "c2fe01ac3a64315e723dec0c49093bcaba22010cce6381dfb2aec60ec2698cda",
+    "components/common/useTooltipPosition.js": "cde17f317b62b3aaa9b90cc95a531829a336eab0291e1d7b6868b3a75d0425f6",
+    "components/creature-wizard/components/common/ExternalCreaturePreview.jsx": "49a75dc97961bd7adfee7371ff9e32b0bfd0873f792eb4dd7e42c3be46e9753d",
+    "components/creature-wizard/components/common/SimpleCreatureTooltip.jsx": "5ff483621d13828e38503e8c26a42b5f73b850c76b227b649a00a75188d526ef",
+    "components/books/BookTtrpgBlocks.jsx": "2b8c3d8f6b3ddb2d1252e57c90bc9dc1ae5df7c398646202745217bbbd1500ba",
+    "components/common/RichLoreText.jsx": "325752ef0d237b8dccec8a79b21121f18f953bee083ef8dabc50f0c6a5b3e4bb",
+    "components/common/EntityHovercard.jsx": "a67102513069dcbc881351de987de4d8ca3f320e984025757947ae1bf698ea36",
+    "services/universalEntityService.js": "596774517004b4361501fda97d5a65d83472d630429cb83f9eddcf950e7e5c47",
+    "services/campaignService.js": "15b045416f7509693a6b6476721d197fa64ce6dbffc3b17aac84f1f45c5d32c3",
+    "services/campaignCloudService.js": "5d9d9a0902123312a0128ebcb1d45ad8797ef3eae1dae1dcdd0befbb6ebd1119",
+    "data/creatureData.json": "da994e58ecd2ca229947d59028f1df101bb0a0c275a3929e2c6528ab6491f7b5",
+    "data/races/index.js": "1f65bad92cb775eb4afa9723e121ab8b6dee57a6115a9a5e03d81d9c7d58f89e",
+    "components/common/StylusDrawingCanvas.jsx": "0f14af67ee6b15cd242f23539c413b57871907e1fa6566be00cf1f68b7ecba3d",
+    "utils/strokeRenderer.js": "7e43624c001d137535c76e4691431761069aae395f5d4c87566f33001993e957",
+    "components/creature-wizard/components/library/CreatureLibrary.jsx": "ac0b684d8c896396196944202344a82bd1957fa8646a51948f019d16e875a1b5",
+    "components/creature-wizard/components/library/CreatureContextMenu.jsx": "2233464114a2a99038ce94211c4bc0c8171eddd7a42c35dab76a0e8f0fa17b12",
+    "components/level-editor/UnifiedContextMenu.jsx": "8a9d667af5fb38aca474d9702b7c55295d76334a34bc1470cdb02cde7933d5c6",
+    "components/creature-wizard/components/library/CreatureFilters.jsx": "0759d65f06293aa0d625805d636a132d12f15ea46f32e88d8f40ae073412c3de",
+    "components/creature-wizard/components/common/CompactCreatureCard.jsx": "f0a97d08a46e0bd8219fa982cc1d3b3b9143f89abef1db3352c5b92e61d4c558",
+    "components/creature-wizard/components/common/EnhancedCreatureInspectView.jsx": "0f8e3db71a8e4ee50854f0a49d0ac972b6cc9fc66eaa1fe916df52a298505148",
+    "components/tooltips/StatTooltip.jsx": "231989e4f3ca94d0da5d1dc149fd68d5ebeb47c3660c56eef884e55e525a762b",
+    "components/tooltips/GeneralStatTooltip.jsx": "dc81c224b50b10a5f5d4016e6f24cbb9c6e57e08bf35d0f9e83ecbcdee6a4932",
+    "components/tooltips/ResistanceTooltip.jsx": "ab510053e77dfff91bfaa78620cfa3f4b1b0dca4e2987a8c6a1980e660bdafae",
+    "components/common/SmartTabButton.jsx": "6b63472d42fc01813a2f6d3a289cd8d78f0b48d26be5c61192784951e9a265c6",
+    "components/common/InlineMarkdown.jsx": "c84f153b648dc22ab12ecad8952ea0d3e7551102c9c9b86db2cf4d1d95235b27",
+    "utils/creatureAbilityUtils.js": "c81df0467a4fa0238af12f1bf8a79337f633cabc320a9bd951d07c622b19590a",
+    "constants/rollableTables.js": "7da2c318c14419bd5010c785ad1571732357324173e2066cfd25ff1ca45c804a",
+    "constants/socialSkillTables.js": "6e5576c53b60aad99e65fb193a46dc6febbd2ca19d569f4a02f56879e070dca5",
+    "constants/insightTables.js": "f08a1c97f42e7b5d9f3ec091a00dd6d3730215e34a136b85f993123bf14ccd6a",
+    "constants/intimidationTables.js": "aafe97f368f6b8d087283e5b9df522149670a266b780b8bfeb9a2c2aadd939cf",
+    "constants/performanceTables.js": "2b39b11d1e8f85365378335af2dbdfb74ea168f1673da191e80965fa5db336b9",
+    "constants/sleightOfHandTables.js": "adb9cffa5117bf0ff1317454c3ddcc71d0358b253b1c24d08e11b418d317872b",
+    "constants/survivalTables.js": "8db42bef643457be52fb01d502272128a33ed0fdb3fe116cded267504299a0dc",
+    "constants/investigationTables.js": "31852fa9d29e5ab592ace6eab69733d74ec240bd9436a895397c794199ff8418",
+    "constants/athleticsTables.js": "ad1deb2bed531a5c09ad0cfe24cadd5b980495c1b97f485a7b3599eb0f94c8c7",
+    "constants/acrobaticsTables.js": "64005f59bb701e3d0929669ae6ff83839c30b1ed0279f7f4295b78dd3341d5a3",
+    "constants/animalHandlingTables.js": "c4116c05c6cbd579087508b8b0ee918053aa4c4d96bc60d1778b9a8b1f93d559",
+    "constants/natureTables.js": "da32700e69b3e271abbdb581e53ee23fd88e9cc421f2e08b01b1e1593a239cbd",
+    "constants/perceptionTables.js": "2ae42cbb15cb33b11b3c8d218c19ff585928144caf428303410c4a10cf91fe7e",
+    "constants/tacticalCombatTables.js": "911f3cb2bf3bd97e9e1bbf40f2156c782b3fe84e56e593d467235cc33a1dc94e",
+    "constants/alchemyTables.js": "1258a5a24d409c6e9d124f6504c48b0b04ea35f6e3abc389c62e74f2a1f20a2d",
+    "constants/medicineTables.js": "6aba4b4ca16931aab505b11e2bbf245f3cb7522230e8a70a4cc2c092ddac12bf",
+    "constants/stealthTables.js": "e792ace50af272be85f147f6b171df3b36e6df36fc9c719ef0a6ac9f9bb1b335",
+    "constants/arcaneKnowledgeTables.js": "3157c4d259a791441b0d1fd396b825293680f6dd76ae49ba40ec0de8cc592049",
+    "constants/ritualMagicTables.js": "996d349164e1584e093f415415145f56fea10996e4483d4d14400e015f6a02da",
+    "constants/arcanaTables.js": "2c541b05f6049cae2abe6f7522820aa5f694ccd3ecc6dd8494f6eaed34465e60",
+    "constants/historyTables.js": "3c4a6f7717f7baa4595b8815b65607e48a806dd03b48a0ff83b52a152f65f89b",
+    "constants/religionTables.js": "dfd9274dd308f30d7e56c0764b8764e0b80e165c5e48266acd054a43272aa87a",
+    "components/dice/ChargeableRollButton.jsx": "6c4d23a6c92211944889ffb54149edf780738e0edbba2f886ce4abb8643e84f5",
+    "utils/lootDropPlacement.js": "24eafc6e798c2df5423883f024f680c6aad596c45dfb4c944dd766f0a6d488ec",
+    "components/item-generation/ConfirmationDialog.jsx": "813605851d8afc0a932a600b817b80056772fe41757ba039068e0512ccc007d7",
+    "components/creature-wizard/components/library/ShareCreatureToCommunityDialog.jsx": "76d6f125a10d6669d6e3e3c86a0c779059dbae5bafccd5a1889b822e9005927f",
+    "components/creature-wizard/components/library/CommunityCreaturesTab.jsx": "8ca4456e9e48a726f270fc12e44d414cd498fbe6c48ef0cd491b6486f2a18cc7",
+    "hooks/useCommunityCreatures.js": "ea8c61a599c39b491627ce65a87317c83b8ec6583d99908eed4380aa2353f341",
+    "components/conditions/ConditionsWindow.jsx": "7d71d577179d3664e782a3af5f104c5013941d480aaa99b028e44266a6584ec4",
+    "components/modals/ConditionDurationModal.jsx": "c64e38b59a5052917b18acee9c274f64658797d0783a5559426eb4d6cf345bdd",
+    "utils/statusIconLoader.js": "6dfb12aeb481145235766a022adaffc4536b688486fadb99408fa43e2e65b30e",
+    "components/modals/BuffDebuffCreatorModal.jsx": "8cd8f9b8a1154370983d2c3a3e26536bd35555135361876723c7c89be9794eca",
+    "components/spellcrafting-wizard/core/data/statModifier.js": "caa81737456ec22a1639b58de0620fe6750336bba70d3fe535f2be66599e1d61",
+    "components/shop/ShopWindow.jsx": "06466081ec4aa2b274d72576cb703efef01e17752e1622b900be75223fc1a26e",
+    "components/common/QuantitySelector.jsx": "f71429effe7bf8ab41de48c99709b2cba87e8ae7d4c2446d32d118a1a432cf9b",
+    "hooks/useLongPressContextMenu.js": "c393f1ef9c5140dbc226696032b6008be2d894a70515a7c1e60e526a52807e21",
+    "utils/tokenOwnership.js": "c77e1480b9e5dd085177734eff6ad60d8ee731925f65847f5c6d1a624811c6fc",
+    "components/tooltips/CreatureTooltip.jsx": "9e58d0096287e62582bc5ca1a89909b01450b297f0ca68298068b47d11cbdd36",
+    "utils/creatureTooltipUtils.js": "66527feb157deacf692830fcb76ab4bab830524a4c96317859f454aeffa91d1a",
+    "data/damageTypes.js": "7fdb80182f6b27fda6611f3e8f6762a76bf666e6d5d222504b8eb3c63afbffa9",
+    "components/grid/CreatureAbilityFanOut.jsx": "8f3b4293d14f24fd8b1f6ac645e13f3ae4ddee2f71d537ed19e12b42eae76877",
+    "utils/initCreatureStore.js": "cfe1694bf727a3c797e5aaf91cda5bf8f63eb33dfaaaad40c6b54abc0e661815",
+    "components/hud/ActorConsequenceControls.jsx": "50ad8862d02df681cb15303fd0495931a1bc244ce5ea4de838d9e1891ef5f231"
+  },
+  "serverHashes": {
+    "server/tests/helpers/productionStackServer.js": "b79ced31df00b01511938de5b78108ddd08e792174187795250012b0196ffdc6",
+    "server/services/sanitizationService.js": "bfef593d2dd9c7eceb432b4884213dfc65ca7cd32317c73c129c75a329ec2502",
+    "server/services/logger.js": "ec37c7a2fd9d7f97d45f02bd264b3ba3f0e695ddfb5db5bb973ef6e57caaca80",
+    "server/utils/socketAck.js": "da0cda2345e21559c4809bdbec8744bd791f3b7064eb3b685fdfd2086acefcbe",
+    "server/services/validationService.js": "2a5702454792363435d671c2c0784b623af826f8db3ff06eceac282c4f9122b1",
+    "server/services/rateLimitService.js": "44b1f40d330b9e730b4ee1bf6dcf8261e65b7bf7af521cefbe062e55b1ab8c0c",
+    "server/services/rateLimitStore.js": "232aefaa38295d2a9f6b169929b40bac98c847395a88f96653d49f9694c38015",
+    "server/services/socketAuthMiddleware.js": "f7d7fd743e1045b53d6b22f124dbbd310d266c0efe0cbf30d63874f722a32ddb",
+    "server/services/syncService.js": "57bddd6403ca40159e8863d8e20bcf98558509cf2b2614f9daac86e7ccbfe756",
+    "server/services/firebaseService.js": "da6ccc67c1f37ae736b2c4b4fb88480a4abf44c3eace33949d16b0ab85035e10",
+    "server/services/roomCheckpoint.js": "3eea1acb33cfa26d9b3f401ff82c4c93e113c9d8def54a7eece70badcc5ee07f",
+    "server/services/roomCheckpointExport.js": "eb31e4159e408fa56795251873421d26baf8f0f95f08cf43f2ad6a6049e89332",
+    "server/handlers/socketHandlers.js": "9dd40c478f938f8bc651e9a191fc061fd1897229688783fba8bf8f7262a1747a",
+    "server/services/tierService.js": "b599af9db0c050c59d1710290d12b4e8db301b8ae59eb805a5b11aea180a1ce4",
+    "server/handlers/utilityHandlers.js": "dc291f652d794a802191de25be3db3edb2e436f2b71501c007a217077e508241",
+    "server/handlers/travelHandlers.js": "400e9955d795d04150c5e7046ac79bbc1e08174335da8727689e00b888537a39",
+    "server/handlers/chatHandlers.js": "b186a039edbe4f2cf4f03cc74223f34937f4eeb34863dd900b8f3e10cdafba99",
+    "server/utils/constants.js": "8582daa19dd8b852150bb79a89a732efacb45d1bab26fd61552b4822fa54367b",
+    "server/handlers/combatHandlers.js": "f848e38e57bf888d0f6da6fa0f60ddea9f9e895c7d01d6c07be2e4594bbfcfd8",
+    "server/services/combatAuthority.js": "e6e974edb1ed78edf6ff04c5a89e5b439422aa9c188ee9b639d044bb3baba7e5",
+    "server/services/roomAccessService.js": "bd0bc22cdf24ce323c1210a03f6924058810a65cf8edf55995efc493eeac098f",
+    "server/services/roomAuthorityService.js": "7395b0bb4ea0edf5fbf2767e138dadca2b123569848539568ae95b4e5660116c",
+    "server/handlers/syncHandlers.js": "f09f2bdfcb58ee11bfdd63189146651a003e79c297af5258f42f6647281992bd",
+    "server/handlers/sessionHandlers.js": "419d729801ec2c100cbf380bf035eb7d6daf3c9bd67bb8b8cc792a380484057b",
+    "server/services/deltaSyncCapabilities.js": "08173fa93143b0af4e9c7625c34ade1e810ace7f08a41ef81ccac9ed31f0e0a9",
+    "server/handlers/tokenHandlers.js": "625024f9dd1b5c30d726a5eac10bcc8797aa34fd7707b23a171c57f001647c56",
+    "server/services/actorProjection.js": "fb064c693f7554c8b9f5e6fbdab3baafe2a776f86c0bf75d1439549f1b2d1a8e",
+    "server/services/actorConsequences.js": "a96bf17d55dfc92448f71e790f27c321de538ec87c6f098f2bac48b7bb0b7c7c",
+    "server/handlers/characterHandlers.js": "a54ef8d8be311ca2becfff2080760c6111b6a9fd7d93dca15824cc3e6d595085",
+    "server/handlers/environmentHandlers.js": "b730fb4d17eff0cc9907ee7a7e7021674271fa5bb9d0af5e610dfc925f84fe75",
+    "server/handlers/mapHandlers.js": "219725d7cfda0a4f4aec27c68255aa6e4ca380fc9b11462acde93bebea69eb45",
+    "server/handlers/gmActionHandlers.js": "7a9853508735e1af458f489fd640d7ab64e7e14ed0b656b6d9e706adc186c646",
+    "server/handlers/audioHandlers.js": "1ca089e5a3ce6ba2ae74cb3d14af471ec1f25bccdbaeece2c1b34c4180eff319",
+    "server/handlers/roomLifecycleHandlers.js": "feacb65fde5aeff826d00ba707f6ee9ccc04ac3581aba874346397ab771bb9bd",
+    "server/handlers/partyHandlers.js": "872bf72bd40b25da39d6df719949df88179695f8a2ba291c7151aca8c7a4954b",
+    "server/handlers/sessionInvitationHandlers.js": "9563fbf2870f5ca979176cab40e80b30e79aae72277a24d4e0864196371ae79b",
+    "server/handlers/journalHandlers.js": "93a95d60b0d1f1295b5a0054b4c42573c1f71255cefcac9e39eea3ae48af455d",
+    "server/handlers/questHandlers.js": "481bfc925e645aed9ef233ee45b9a6f101825d6916067161f0f159c3d47955bd",
+    "server/handlers/gmToolsHandlers.js": "e8d2831a7720695298333f1da773e4c44a3253a86bdaed92fdeeb2d173186d46",
+    "server/handlers/actorConsequenceHandlers.js": "8f3bd0e79db1812e43c7558c6cb093a0880bb398167fe83e34a9c7b32661b222",
+    "server/services/spellPayments.js": "963ee0c95724c7da54253254de758a57f71534364cbb2d36189338c406e35f45",
+    "server/handlers/roomHandlers.js": "2e363733bdfa7dfd9727ef131cb2550b0f0bb4c2ec65ee58ddb86e3d4eb5824c"
+  }
+}

@@ -1,0 +1,215 @@
+{
+  "acceptedPath": "D:/AppData/Temp/opencode/p8-20261014/independent/final-cycle2/accepted-source.json.gz",
+  "acceptedPacketSha256": "b53b919df7f944dfbe58a7ec380c46b0af99097b437ce7d21dd01a3c58e74a0c",
+  "acceptedAbilitiesSha256": "19551f0c774c86985eb80834c4af69f14671cc0bedeb3aae617e62d2968cfc83",
+  "currentAbilitiesSha256": "07ffc620f0d7a08c188aff8daf4fa0bdf9e82795bcf83ee7c6e864d5d749bb15",
+  "acceptedCreaturesSha256": "992882597bd289ce036353424d25892f1f02a755db4ba6c19d43f7a595d8a744",
+  "currentCreaturesSha256": "66cf07a04adfd9cd31b62e15053c2e707ec55a519e04bfdb6095b1184077fafd",
+  "grimmstalkAbilitiesIdentical": true,
+  "grimmstalkCreatureIdentical": true,
+  "featherSlashIdentical": true,
+  "addedAbilityFamilies": [
+    "barnaby-finch",
+    "morwenna-coldforge",
+    "madame-vespera",
+    "corrick-featherquill"
+  ],
+  "changedExistingAbilityFamilies": [],
+  "addedCreatures": [
+    "barnaby-finch",
+    "morwenna-coldforge",
+    "madame-vespera",
+    "corrick-featherquill"
+  ],
+  "changedExistingCreatures": [],
+  "rawFeatherSlash": {
+    "id": "grimmstalk_feather_slash",
+    "name": "Feather Slash",
+    "description": "Razor-edged ironwood plumage rakes across the target.",
+    "level": 1,
+    "spellType": "ACTION",
+    "icon": "ability_rogue_findweakness",
+    "typeConfig": {
+      "school": "slicing",
+      "icon": "ability_rogue_findweakness",
+      "tags": [
+        "slicing"
+      ],
+      "castTime": 1,
+      "castTimeType": "IMMEDIATE"
+    },
+    "targetingConfig": {
+      "targetingType": "single",
+      "rangeType": "melee",
+      "rangeDistance": 10,
+      "targetRestrictions": [
+        "enemies"
+      ]
+    },
+    "resourceCost": {
+      "actionPoints": 1,
+      "mana": 0,
+      "components": [
+        "somatic"
+      ]
+    },
+    "cooldownConfig": {
+      "cooldownType": "turn_based",
+      "cooldownValue": 0
+    },
+    "tags": [
+      "slicing"
+    ],
+    "effectTypes": [
+      "damage"
+    ],
+    "damageConfig": {
+      "formula": "2d8 + 5",
+      "damageTypes": [
+        "slicing"
+      ],
+      "resolution": "DICE"
+    },
+    "priorityRange": {
+      "min": 1,
+      "max": 11,
+      "resolution": "DICE"
+    }
+  },
+  "rawCreature": {
+    "id": "grimmstalk",
+    "name": "Branvig",
+    "description": "A tall, wood-plated dryad with a hollow bird-skull head filled with black feathers that moves through the forest canopy.",
+    "origin": "The Branvigs are the forest's grief given form. In the deep history of the Frostwood Reach, before the first human axe touched the ironwood trees, the forest was home to a race of dryads who sang to the trees and kept them healthy through the long winters. When the long dark settled, the forest's pain at the loss of so many trees to logging and the relentless cold coalesced into the Branvigs—dark, wood-plated guardians who carry the skulls of the birds that once nested in the highest branches. They are not the dryads of old, but something born from the forest's desire for vengeance and protection. The loggers of Frostwood call them 'the hollow watchers' and know that to cut a tree marked with a Branvig's sigil is to invite death from above.",
+    "nature": "A tall, wood-plated humanoid sprite standing nearly seven feet tall, its bark-like plates fitting together like natural armor. Its head is a hollow bird-skull, inside which beats a mass of dark, rustling black feathers that create a sound like dry leaves in a windstorm. The plates of its body are made of ironwood bark, harder than steel and etched with the natural runes of the forest. It moves silently through the high canopy, its long limbs allowing it to swing between branches with the grace of an ape. When it speaks, the sound is a hollow, wind-like whistling made by forcing air through its skull-head, a warning to woodcutters before it attacks.",
+    "habitat": "The Branvigs dwell exclusively in the highest branches of the oldest ironwood and pine trees in the Frostwood Reach, particularly in the Grimmwood Proper where the trees have stood since the pre-Binding era. They never touch the ground if they can avoid it, and their territory is marked by small piles of bird bones at the base of the trees they guard. They are most active during the spring, when the sap runs and the trees are most vulnerable to cutting, and during the autumn, when the falling leaves make the forest floor noisy enough to mask their approach.",
+    "depth": "A strict and reclusive forest protector, the Branvig is not evil but uncompromising. It communicates with the forest through the roots of the trees, feeling the pain of every cut and the joy of every new growth. The black feathers inside its skull are said to be the spirits of the birds that once sang in the forest's canopy, and when a Branvig dies, the feathers scatter to the wind, carrying the forest's song to new trees. The forest's own spirit gave it a voice of anger, but the Branvigs remember the songs of joy, and some say that if the forest is ever healed, they will sing again.",
+    "type": "plant",
+    "size": "medium",
+    "tags": [
+      "plant",
+      "frostwood",
+      "dryad",
+      "guardian",
+      "wyrd-touched"
+    ],
+    "tokenIcon": "Bestiary/grimmstalk",
+    "tokenBorder": "#556B2F",
+    "stats": {
+      "strength": 16,
+      "agility": 18,
+      "constitution": 14,
+      "intelligence": 10,
+      "spirit": 14,
+      "charisma": 8,
+      "maxHp": 250,
+      "currentHp": 250,
+      "maxMana": 30,
+      "currentMana": 30,
+      "maxActionPoints": 5,
+      "currentActionPoints": 5,
+      "initiative": 4,
+      "speed": 35,
+      "flying": 0,
+      "swimming": 0,
+      "sightRange": 90,
+      "darkvision": 90
+    },
+    "resistances": {
+      "smashing": 50
+    },
+    "vulnerabilities": {
+      "ember": 50
+    },
+    "abilities": [
+      {
+        "name": "Skull Stare",
+        "description": "Forces a target to make a Spirit save or be paralyzed with fear.",
+        "type": "spell",
+        "spellType": "ACTION",
+        "level": 4,
+        "icon": "spell_holy_mindvision",
+        "range": 40,
+        "actionPointCost": 2,
+        "cooldown": 2,
+        "effects": [
+          {
+            "type": "SAVE",
+            "attribute": "spirit",
+            "dc": 14,
+            "onFail": {
+              "type": "CONDITION",
+              "condition": "slowed",
+              "duration": 1
+            }
+          }
+        ]
+      }
+    ],
+    "lootTable": {
+      "currency": {
+        "platinum": {
+          "min": 0,
+          "max": 0
+        },
+        "gold": {
+          "min": 0,
+          "max": 0
+        },
+        "silver": {
+          "min": 0,
+          "max": 0
+        },
+        "copper": {
+          "min": 0,
+          "max": 0
+        }
+      },
+      "items": [
+        {
+          "itemId": "ironwood-bark",
+          "dropChance": 70,
+          "quantity": {
+            "min": 1,
+            "max": 3
+          }
+        },
+        {
+          "itemId": "feather-skull-fragment",
+          "dropChance": 30,
+          "quantity": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "itemId": "canopy-down",
+          "dropChance": 55,
+          "quantity": {
+            "min": 2,
+            "max": 5
+          }
+        }
+      ]
+    },
+    "dateCreated": "2026-06-12T08:25:00Z",
+    "lastModified": "2026-06-12T08:25:00Z",
+    "loreClassification": {
+      "status": "HYBRID-REVIEW",
+      "originClass": "wyrd-touched-native",
+      "wyrdRelationship": "native-with-possible-wyrd-touch",
+      "agency": "It patrols old-growth canopy, marks unsafe cutting, carries bird-memory between trees, and can choose warning, expulsion, or lethal defense",
+      "regionRole": "Frostwood memory/forest boundary"
+    },
+    "loreNote": "Folklore records Branvig's native baseline rather than creates it: a native canopy guardian descended from pre-Binding dryad-like ironwood keepers; any Wyrd change belongs to an individual or branch.",
+    "loreCanon": {
+      "trueOrigin": "A native canopy guardian descended from pre-Binding dryad-like ironwood keepers; the black-feather skull can be a ritual body plan rather than forest grief made by Wyrd.",
+      "function": "It patrols old-growth canopy, marks unsafe cutting, carries bird-memory between trees, and can choose warning, expulsion, or lethal defense.",
+      "values": "Living canopy, nesting birds, root communication, and the right of a forest to refuse extraction.",
+      "folklore": "Loggers correctly fear the hollow watcher and its tree marks. The \"forest grief coalesced into it\" line should become a human interpretation of an older guardian kind. Tallyn wardens call it **Branvig**, the raven-bough; the black-feathered watcher marks the trees it has judged, and the Scribe-Cartel pays well for a rubbing of those marks.",
+      "bindingEffect": "Cold and later warm clearings compressed the guardian's range into old-growth islands; First Cracks made sap runs and thermal canopy zones contested resources.",
+      "wyrdRelationship": "Native baseline with an individual Wyrd-angry branch possible. A Wyrdspawn imitation could copy the skull and feathers, but must not replace the native guardian.",
+      "nextDecision": "Decide whether the black feathers are living bird symbionts, ancestral funerary material, or a provisional body feature."
+    }
+  }
+}

@@ -1,0 +1,261 @@
+{
+  "passed": true,
+  "packetPath": "D:/AppData/Temp/opencode/p8-20261014/independent/final-cycle2/accepted-source.json.gz",
+  "packetSha256": "b53b919df7f944dfbe58a7ec380c46b0af99097b437ce7d21dd01a3c58e74a0c",
+  "rawEquality": true,
+  "changedAbilities": [],
+  "changedCreatures": [],
+  "addedAbilities": [
+    "barnaby-finch",
+    "morwenna-coldforge",
+    "madame-vespera",
+    "corrick-featherquill"
+  ],
+  "addedCreatures": [
+    "barnaby-finch",
+    "morwenna-coldforge",
+    "madame-vespera",
+    "corrick-featherquill"
+  ],
+  "versions": [
+    {
+      "version": "1.4.0",
+      "support": true,
+      "originalPlanByteEquivalent": true,
+      "originalReceiptViewIdentical": true,
+      "refusedExecutionMutations": [
+        "id",
+        "spellType",
+        "effectTypes",
+        "priorityRange.min",
+        "priorityRange.max",
+        "priorityRange.resolution",
+        "typeConfig.school",
+        "typeConfig.icon",
+        "typeConfig.tags",
+        "typeConfig.castTime",
+        "typeConfig.castTimeType",
+        "typeConfig.extra",
+        "targetingConfig.targetingType",
+        "targetingConfig.rangeType",
+        "targetingConfig.rangeDistance",
+        "targetingConfig.targetRestrictions",
+        "targetingConfig.extra",
+        "resourceCost.actionPoints",
+        "resourceCost.mana",
+        "resourceCost.components",
+        "resourceCost.extra",
+        "cooldownConfig.cooldownType",
+        "cooldownConfig.cooldownValue",
+        "damageConfig.formula",
+        "damageConfig.damageTypes",
+        "damageConfig.resolution",
+        "damageConfig.extra",
+        "summonConfig"
+      ]
+    },
+    {
+      "version": "1.5.0",
+      "support": true,
+      "originalPlanByteEquivalent": true,
+      "originalReceiptViewIdentical": true,
+      "refusedExecutionMutations": [
+        "id",
+        "spellType",
+        "effectTypes",
+        "priorityRange.min",
+        "priorityRange.max",
+        "priorityRange.resolution",
+        "typeConfig.school",
+        "typeConfig.icon",
+        "typeConfig.tags",
+        "typeConfig.castTime",
+        "typeConfig.castTimeType",
+        "typeConfig.extra",
+        "targetingConfig.targetingType",
+        "targetingConfig.rangeType",
+        "targetingConfig.rangeDistance",
+        "targetingConfig.targetRestrictions",
+        "targetingConfig.extra",
+        "resourceCost.actionPoints",
+        "resourceCost.mana",
+        "resourceCost.components",
+        "resourceCost.extra",
+        "cooldownConfig.cooldownType",
+        "cooldownConfig.cooldownValue",
+        "damageConfig.formula",
+        "damageConfig.damageTypes",
+        "damageConfig.resolution",
+        "damageConfig.extra",
+        "summonConfig"
+      ]
+    }
+  ],
+  "unreviewedRefused": [
+    "1.3.0",
+    "1.4.1",
+    "1.5.1",
+    "1.6.0",
+    "2.0.0",
+    "1.5",
+    "1.5.0-beta",
+    "",
+    null,
+    "<undefined>",
+    1.5
+  ],
+  "inputAndReceiptUnmodified": true,
+  "originalPlan": {
+    "entries": [
+      {
+        "ref": {
+          "kind": "creature",
+          "roomId": "independent-room",
+          "mapId": "map",
+          "tokenId": "source",
+          "instanceId": "inc-source"
+        },
+        "expectedRevision": 2,
+        "finalResources": {
+          "ap": {
+            "current": 3,
+            "temp": 0
+          }
+        }
+      },
+      {
+        "ref": {
+          "kind": "creature",
+          "roomId": "independent-room",
+          "mapId": "map",
+          "tokenId": "target",
+          "instanceId": "inc-target"
+        },
+        "expectedRevision": 2,
+        "finalResources": {
+          "hp": {
+            "current": 30,
+            "temp": 0
+          }
+        }
+      }
+    ],
+    "extra": {
+      "source": {
+        "kind": "creature",
+        "roomId": "independent-room",
+        "mapId": "map",
+        "tokenId": "source",
+        "instanceId": "inc-source"
+      },
+      "target": {
+        "kind": "creature",
+        "roomId": "independent-room",
+        "mapId": "map",
+        "tokenId": "target",
+        "instanceId": "inc-target"
+      },
+      "adjudication": {
+        "definitionId": "grimmstalk_feather_slash",
+        "definitionVersionOrHash": "feather-slash:v1/abilities:1.4.0",
+        "chosenResult": "{\"capability\":\"feather-slash:v1/abilities:1.4.0\",\"rawDefinition\":\"{\\\"cooldownConfig\\\":{\\\"cooldownType\\\":\\\"turn_based\\\",\\\"cooldownValue\\\":0},\\\"damageConfig\\\":{\\\"damageTypes\\\":[\\\"slicing\\\"],\\\"formula\\\":\\\"2d8 + 5\\\",\\\"resolution\\\":\\\"DICE\\\"},\\\"description\\\":\\\"Razor-edged ironwood plumage rakes across the target.\\\",\\\"effectTypes\\\":[\\\"damage\\\"],\\\"icon\\\":\\\"ability_rogue_findweakness\\\",\\\"id\\\":\\\"grimmstalk_feather_slash\\\",\\\"level\\\":1,\\\"name\\\":\\\"Feather Slash\\\",\\\"priorityRange\\\":{\\\"max\\\":11,\\\"min\\\":1,\\\"resolution\\\":\\\"DICE\\\"},\\\"resourceCost\\\":{\\\"actionPoints\\\":1,\\\"components\\\":[\\\"somatic\\\"],\\\"mana\\\":0},\\\"spellType\\\":\\\"ACTION\\\",\\\"tags\\\":[\\\"slicing\\\"],\\\"targetingConfig\\\":{\\\"rangeDistance\\\":10,\\\"rangeType\\\":\\\"melee\\\",\\\"targetRestrictions\\\":[\\\"enemies\\\"],\\\"targetingType\\\":\\\"single\\\"},\\\"typeConfig\\\":{\\\"castTime\\\":1,\\\"castTimeType\\\":\\\"IMMEDIATE\\\",\\\"icon\\\":\\\"ability_rogue_findweakness\\\",\\\"school\\\":\\\"slicing\\\",\\\"tags\\\":[\\\"slicing\\\"]}}\",\"mode\":\"physical\",\"faces\":[2,7],\"total\":14,\"sourceName\":\"Branvig\",\"targetName\":\"target\",\"geometry\":\"GM adjudication required\",\"gmConfirmed\":true}",
+        "finalAmount": 14,
+        "adjustmentReason": ""
+      }
+    }
+  },
+  "originalReceipt": {
+    "success": true,
+    "status": "checkpoint-confirmed",
+    "receipt": {
+      "version": 1,
+      "commandId": "11111111-2222-4333-8444-555555555555",
+      "roomId": "independent-room",
+      "submitterUid": "gm",
+      "checkpointRevision": 7,
+      "source": {
+        "kind": "creature",
+        "roomId": "independent-room",
+        "mapId": "map",
+        "tokenId": "source",
+        "instanceId": "inc-source"
+      },
+      "target": {
+        "kind": "creature",
+        "roomId": "independent-room",
+        "mapId": "map",
+        "tokenId": "target",
+        "instanceId": "inc-target"
+      },
+      "actors": [
+        {
+          "ref": {
+            "kind": "creature",
+            "roomId": "independent-room",
+            "mapId": "map",
+            "tokenId": "source",
+            "instanceId": "inc-source"
+          },
+          "expectedRevision": 2,
+          "finalResources": {
+            "ap": {
+              "current": 3,
+              "temp": 0
+            }
+          }
+        },
+        {
+          "ref": {
+            "kind": "creature",
+            "roomId": "independent-room",
+            "mapId": "map",
+            "tokenId": "target",
+            "instanceId": "inc-target"
+          },
+          "expectedRevision": 2,
+          "finalResources": {
+            "hp": {
+              "current": 30,
+              "temp": 0
+            }
+          }
+        }
+      ],
+      "adjudication": {
+        "definitionId": "grimmstalk_feather_slash",
+        "definitionVersionOrHash": "feather-slash:v1/abilities:1.4.0",
+        "chosenResult": "{\"capability\":\"feather-slash:v1/abilities:1.4.0\",\"rawDefinition\":\"{\\\"cooldownConfig\\\":{\\\"cooldownType\\\":\\\"turn_based\\\",\\\"cooldownValue\\\":0},\\\"damageConfig\\\":{\\\"damageTypes\\\":[\\\"slicing\\\"],\\\"formula\\\":\\\"2d8 + 5\\\",\\\"resolution\\\":\\\"DICE\\\"},\\\"description\\\":\\\"Razor-edged ironwood plumage rakes across the target.\\\",\\\"effectTypes\\\":[\\\"damage\\\"],\\\"icon\\\":\\\"ability_rogue_findweakness\\\",\\\"id\\\":\\\"grimmstalk_feather_slash\\\",\\\"level\\\":1,\\\"name\\\":\\\"Feather Slash\\\",\\\"priorityRange\\\":{\\\"max\\\":11,\\\"min\\\":1,\\\"resolution\\\":\\\"DICE\\\"},\\\"resourceCost\\\":{\\\"actionPoints\\\":1,\\\"components\\\":[\\\"somatic\\\"],\\\"mana\\\":0},\\\"spellType\\\":\\\"ACTION\\\",\\\"tags\\\":[\\\"slicing\\\"],\\\"targetingConfig\\\":{\\\"rangeDistance\\\":10,\\\"rangeType\\\":\\\"melee\\\",\\\"targetRestrictions\\\":[\\\"enemies\\\"],\\\"targetingType\\\":\\\"single\\\"},\\\"typeConfig\\\":{\\\"castTime\\\":1,\\\"castTimeType\\\":\\\"IMMEDIATE\\\",\\\"icon\\\":\\\"ability_rogue_findweakness\\\",\\\"school\\\":\\\"slicing\\\",\\\"tags\\\":[\\\"slicing\\\"]}}\",\"mode\":\"physical\",\"faces\":[2,7],\"total\":14,\"sourceName\":\"Branvig\",\"targetName\":\"target\",\"geometry\":\"GM adjudication required\",\"gmConfirmed\":true}",
+        "finalAmount": 14,
+        "adjustmentReason": ""
+      }
+    }
+  },
+  "unchangedMetadataPolicy": [
+    {
+      "key": "name",
+      "original14": true,
+      "current15": true
+    },
+    {
+      "key": "description",
+      "original14": true,
+      "current15": true
+    },
+    {
+      "key": "level",
+      "original14": true,
+      "current15": true
+    },
+    {
+      "key": "icon",
+      "original14": true,
+      "current15": true
+    },
+    {
+      "key": "tags",
+      "original14": true,
+      "current15": true
+    }
+  ],
+  "method": "VM executes unmodified function bodies; only ES module import/export syntax removed and DATA_VERSIONS injected. Compares to exact pre-implementation source."
+}

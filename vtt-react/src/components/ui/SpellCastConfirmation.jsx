@@ -4,6 +4,7 @@ import useCharacterStore from '../../store/characterStore';
 import { migrateBlockId } from '../../utils/arcanoneerMigration';
 import { normalizeManagedClassResource, getManagedSpellResourcePlan } from '../../data/classResourceContracts';
 import { MINSTREL_PITCHES, MINSTREL_MAX_PER_PITCH } from '../../data/classResourceBanks';
+import { spellDiagnostic } from '../../services/spellConsequenceService';
 import './SpellCastConfirmation.css';
 
 const SpellCastConfirmation = ({ spell, onConfirm, onCancel, classResource: classResourceProp }) => {
@@ -16,6 +17,8 @@ const SpellCastConfirmation = ({ spell, onConfirm, onCancel, classResource: clas
     const currentClassResource = normalizeManagedClassResource(classResourceProp || storeClassResource, resourceClass);
 
     if (!spell) return null;
+    // P9: unsupported spells keep this manual path; shared rooms say why.
+    const p9Diagnostic = spellDiagnostic(spell);
 
     const handleOverlayClick = (e) => {
         // Only close if clicking directly on the overlay, not on the dialog content
@@ -173,38 +176,38 @@ const SpellCastConfirmation = ({ spell, onConfirm, onCancel, classResource: clas
     // Build resource changes display
     const resourceChanges = [];
     if (managedPlan.transition === 'shaper') {
-        resourceChanges.push({ type: 'class-resource', amount: `${managedPlan.current} → ${managedPlan.nextResource.current}`, label: 'Flux balance', color: '#34d399' });
-        resourceChanges.push({ type: 'class-resource', amount: `${managedPlan.nextResource.bodyToll}/10`, label: 'Body Toll (risk)', color: '#f87171' });
-        if (managedPlan.reason) resourceChanges.push({ type: 'class-resource', amount: 'Required', label: managedPlan.reason, color: '#f87171' });
-        if (managedPlan.targetForm) resourceChanges.push({ type: 'class-resource', amount: 'Adopt', label: managedPlan.targetForm, color: '#a78bfa' });
+        resourceChanges.push({ type: 'class-resource', amount: `${managedPlan.current} → ${managedPlan.nextResource.current}`, label: 'Flux balance', color: '#2e6027' });
+        resourceChanges.push({ type: 'class-resource', amount: `${managedPlan.nextResource.bodyToll}/10`, label: 'Body Toll (risk)', color: '#8b2b1d' });
+        if (managedPlan.reason) resourceChanges.push({ type: 'class-resource', amount: 'Required', label: managedPlan.reason, color: '#8b2b1d' });
+        if (managedPlan.targetForm) resourceChanges.push({ type: 'class-resource', amount: 'Adopt', label: managedPlan.targetForm, color: '#584485' });
     }
     if (managedPlan.transition === 'infernoVeil') {
         resourceChanges.push({ type: 'inferno', amount: `${managedPlan.current} → ${managedPlan.nextResource.current}`,
-            label: 'Veil transition', color: '#ff4500' });
+            label: 'Veil transition', color: '#9e3d23' });
         if (managedPlan.nextResource.debtCall.latched) resourceChanges.push({ type: 'class-resource',
             amount: `${managedPlan.nextResource.debtCall.turnsRemaining} own turn${managedPlan.nextResource.debtCall.turnsRemaining === 1 ? '' : 's'}`,
-            label: managedPlan.nextResource.debtCall.expired ? 'Debt Call expired — consequence due' : 'Debt Call remains latched', color: '#f87171' });
+            label: managedPlan.nextResource.debtCall.expired ? 'Debt Call expired — consequence due' : 'Debt Call remains latched', color: '#8b2b1d' });
     }
     if (managedPlan.deferredGeneration) resourceChanges.push({
-        type: 'class-resource', amount: 'Report', label: 'Resolved pack outcome (no cast-only Marks)', color: '#a78bfa'
+        type: 'class-resource', amount: 'Report', label: 'Resolved pack outcome (no cast-only Marks)', color: '#584485'
     });
     if (managedPlan.bank) {
         const keys = [...new Set(managedPlan.gains)];
         keys.forEach(key => resourceChanges.push({ type: 'class-resource',
             amount: `+${managedPlan.gains.filter(value => value === key).length}`,
-            label: managedPlan.bank === 'notes' ? `Note ${key}` : `${key} Sphere`, color: '#a78bfa' }));
+            label: managedPlan.bank === 'notes' ? `Note ${key}` : `${key} Sphere`, color: '#584485' }));
     }
     if (managedPlan.handled && !managedPlan.bank && !managedPlan.transition && managedPlan.gain > 0) resourceChanges.push({
-        type: 'class-resource', amount: `+${managedPlan.gain}`, label: managedPlan.label, color: '#a78bfa'
+        type: 'class-resource', amount: `+${managedPlan.gain}`, label: managedPlan.label, color: '#584485'
     });
     if (!managedPlan.handled && infernoAscend > 0) {
-        resourceChanges.push({ type: 'inferno', amount: `+${infernoAscend}`, label: 'Inferno', color: '#ff4500' });
+        resourceChanges.push({ type: 'inferno', amount: `+${infernoAscend}`, label: 'Inferno', color: '#9e3d23' });
     }
     if (!managedPlan.handled && infernoDescend > 0) {
-        resourceChanges.push({ type: 'inferno', amount: `-${infernoDescend}`, label: 'Inferno', color: '#4682b4' });
+        resourceChanges.push({ type: 'inferno', amount: `-${infernoDescend}`, label: 'Inferno', color: '#2d627e' });
     }
     if (usesGenericCr && genericCrCost < 0) {
-        resourceChanges.push({ type: 'class-resource', amount: `+${-genericCrCost}`, label: genericCrLabel, color: '#a78bfa' });
+        resourceChanges.push({ type: 'class-resource', amount: `+${-genericCrCost}`, label: genericCrLabel, color: '#584485' });
     }
 
     // Extract cooldown information
@@ -259,6 +262,9 @@ const SpellCastConfirmation = ({ spell, onConfirm, onCancel, classResource: clas
                 </div>
                 
                 <div className="spell-cast-confirmation-content">
+                    {p9Diagnostic && (
+                        <div className="p9-manual-diagnostic" role="note">Manual — not applied to the room: {p9Diagnostic}</div>
+                    )}
                     <div className="spell-name">{spell.name || 'Unknown Spell'}</div>
                     
                     {resourceCosts.length > 0 && (

@@ -125,7 +125,7 @@
 }
 
 /* Dialog Actions */
-.dialog-actions {
+.portal-transfer-dialog .dialog-actions {
     display: flex;
     gap: 16px;
     justify-content: center;
@@ -134,7 +134,7 @@
     margin-top: auto;
 }
 
-.wow-button {
+.portal-transfer-dialog .wow-button {
     padding: 10px 20px;
     font-size: 14px;
     font-weight: bold;
@@ -151,32 +151,32 @@
     letter-spacing: 1px;
 }
 
-.wow-button:hover:not(:disabled) {
+.portal-transfer-dialog .wow-button:hover:not(:disabled) {
     background: linear-gradient(to bottom, #f5f5dc, #eaddca);
     border-color: #8b7355;
     transform: translateY(-1px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
-.wow-button:active:not(:disabled) {
+.portal-transfer-dialog .wow-button:active:not(:disabled) {
     transform: translateY(0);
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
-.wow-button.primary {
+.portal-transfer-dialog .wow-button.primary {
     background: linear-gradient(to bottom, #7a3b2e, #5e2e23);
     border-color: #4a1c14;
     color: #f1ece1;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
 
-.wow-button.primary:hover:not(:disabled) {
+.portal-transfer-dialog .wow-button.primary:hover:not(:disabled) {
     background: linear-gradient(to bottom, #8a4b3e, #7a3b2e);
     border-color: #5e2e23;
     box-shadow: 0 4px 12px rgba(122, 59, 46, 0.4);
 }
 
-.wow-button:disabled {
+.portal-transfer-dialog .wow-button:disabled {
     opacity: 0.5;
     cursor: not-allowed;
     background: #ccc;

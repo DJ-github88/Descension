@@ -10,6 +10,9 @@ import LocationPartyModal from './LocationPartyModal';
 import LocationWaypointModal from './LocationWaypointModal';
 import LocationMapManagerModal from './LocationMapManagerModal';
 import CampaignCodexSidebar from './CampaignCodexSidebar';
+import LocationPinPopup from './LocationPinPopup';
+import LocationWaypointPopup from './LocationWaypointPopup';
+import LocationExpeditionLedger from './LocationExpeditionLedger';
 import './LocationSceneStage.css';
 
 const MAP_BASE_WIDTH = 2400;
@@ -64,7 +67,7 @@ const LocationSceneStage = ({
 
   // Initialize maps if empty
   useEffect(() => {
-    ensureStarterMaps();
+    ensureStarterMaps?.();
   }, [ensureStarterMaps]);
 
   // Sync prop activeLocationMapId if passed and different
@@ -87,7 +90,10 @@ const LocationSceneStage = ({
 
   // Breadcrumbs ancestry
   const breadcrumbs = useMemo(() => {
-    return getMapBreadcrumbs(currentMap.id);
+    if (typeof getMapBreadcrumbs === 'function') {
+      return getMapBreadcrumbs(currentMap.id) || [];
+    }
+    return [];
   }, [currentMap.id, getMapBreadcrumbs, maps]);
 
   // Current map waypoints
@@ -151,6 +157,56 @@ const LocationSceneStage = ({
   const [isCodexOpen, setIsCodexOpen] = useState(false);
   const [placingCodexEntity, setPlacingCodexEntity] = useState(null);
   const [subMapTransition, setSubMapTransition] = useState({ isActive: false, name: '' });
+  const [activePopupPinId, setActivePopupPinId] = useState(null);
+  const [activePopupWaypointId, setActivePopupWaypointId] = useState(null);
+  const pinHoverTimeoutRef = useRef(null);
+  const waypointHoverTimeoutRef = useRef(null);
+
+  const handlePinMouseEnter = useCallback((pin) => {
+    if (draggingPinId || isMapLocked) return;
+    if (pinHoverTimeoutRef.current) clearTimeout(pinHoverTimeoutRef.current);
+    pinHoverTimeoutRef.current = setTimeout(() => {
+      setActivePopupPinId(pin.id);
+    }, 120);
+  }, [draggingPinId, isMapLocked]);
+
+  const handlePinMouseLeave = useCallback(() => {
+    if (pinHoverTimeoutRef.current) clearTimeout(pinHoverTimeoutRef.current);
+    pinHoverTimeoutRef.current = setTimeout(() => {
+      setActivePopupPinId(null);
+    }, 220);
+  }, []);
+
+  const handleWaypointMouseEnter = useCallback((w, idx) => {
+    if (draggingWaypointId) return;
+    if (waypointHoverTimeoutRef.current) clearTimeout(waypointHoverTimeoutRef.current);
+    waypointHoverTimeoutRef.current = setTimeout(() => {
+      setActivePopupWaypointId(w.id || `wp-${idx}`);
+    }, 120);
+  }, [draggingWaypointId]);
+
+  const handleWaypointMouseLeave = useCallback(() => {
+    if (waypointHoverTimeoutRef.current) clearTimeout(waypointHoverTimeoutRef.current);
+    waypointHoverTimeoutRef.current = setTimeout(() => {
+      setActivePopupWaypointId(null);
+    }, 220);
+  }, []);
+
+  const handlePlotRouteToPin = useCallback((pin) => {
+    if (!pin) return;
+    addJourneyWaypoint({
+      mapId: currentMap.id,
+      x: pin.x,
+      y: pin.y,
+      title: pin.title,
+      notes: pin.description || `Expedition heading toward ${pin.title}`
+    });
+    setActivePopupPinId(null);
+  }, [addJourneyWaypoint, currentMap.id]);
+
+  const handleOpenInCodex = useCallback(() => {
+    setIsCodexOpen(true);
+  }, []);
 
   // Escape key cancels active placement tools
   useEffect(() => {
@@ -201,11 +257,160 @@ const LocationSceneStage = ({
   const [previewPlayerFog, setPreviewPlayerFog] = useState(false);
   const [isDrawingFog, setIsDrawingFog] = useState(false);
   const [cursorPos, setCursorPos] = useState({ x: -1000, y: -1000 });
+  const [currentZoomScale, setCurrentZoomScale] = useState(1.0);
 
   const transformComponentRef = useRef(null);
+  const stageContainerRef = useRef(null);
   const canvasRef = useRef(null);
   const fogCanvasRef = useRef(null);
   const currentFogStrokeRef = useRef(null);
+  const middleDragRef = useRef({
+    isDragging: false,
+    startX: 0,
+    startY: 0,
+    initialPosX: 0,
+    initialPosY: 0,
+    scale: 1,
+    latestX: 0,
+    latestY: 0,
+    rafId: null
+  });
+
+  // Universal Middle Mouse Button (Scroll Wheel Drag) Viewport Panning
+  useEffect(() => {
+    const handleDocumentMouseDown = (e) => {
+      // Middle mouse button is e.button === 1
+      if (e.button !== 1) return;
+
+      const stageEl = stageContainerRef.current;
+      const target = e.target;
+      if (!stageEl || !stageEl.contains(target)) return;
+
+      // Allow dragging over map, canvas, fog, waypoints, pins, trails, etc.,
+      // but do not hijack middle-click on buttons, text inputs, drawers, or dialog windows
+      if (target.closest && target.closest('button, input, textarea, select, a, .campaign-codex-drawer, .adventurer-modal-backdrop, .adventurer-modal-card, .location-scene-toolbar, .location-pin-popup-calm, .location-waypoint-popup-calm')) {
+        return;
+      }
+
+      // Suppress native Windows autoscroll compass
+      e.preventDefault();
+      e.stopPropagation();
+
+      const rzContext = transformComponentRef.current;
+      if (!rzContext) return;
+
+      const currentX = rzContext.state?.positionX ?? rzContext.instance?.state?.positionX ?? 0;
+      const currentY = rzContext.state?.positionY ?? rzContext.instance?.state?.positionY ?? 0;
+      const currentScale = rzContext.state?.scale ?? rzContext.instance?.state?.scale ?? 1;
+
+      middleDragRef.current = {
+        isDragging: true,
+        startX: e.clientX,
+        startY: e.clientY,
+        initialPosX: currentX,
+        initialPosY: currentY,
+        scale: currentScale,
+        latestX: currentX,
+        latestY: currentY,
+        rafId: null
+      };
+
+      document.body.style.cursor = 'grabbing';
+      stageEl.classList.add('is-middle-panning');
+
+      const handleDocumentMouseMove = (moveEvent) => {
+        if (!middleDragRef.current.isDragging) return;
+        moveEvent.preventDefault();
+
+        // Safety: if mouse was released outside window and re-entered with no buttons pressed
+        if (moveEvent.buttons === 0) {
+          stopMiddleDrag();
+          return;
+        }
+
+        const dx = moveEvent.clientX - middleDragRef.current.startX;
+        const dy = moveEvent.clientY - middleDragRef.current.startY;
+        const nextX = middleDragRef.current.initialPosX + dx;
+        const nextY = middleDragRef.current.initialPosY + dy;
+
+        middleDragRef.current.latestX = nextX;
+        middleDragRef.current.latestY = nextY;
+
+        if (middleDragRef.current.rafId === null) {
+          middleDragRef.current.rafId = requestAnimationFrame(() => {
+            middleDragRef.current.rafId = null;
+            if (!middleDragRef.current.isDragging) return;
+            transformComponentRef.current?.setTransform(
+              middleDragRef.current.latestX,
+              middleDragRef.current.latestY,
+              middleDragRef.current.scale,
+              0
+            );
+          });
+        }
+      };
+
+      const stopMiddleDrag = (upEvent) => {
+        if (upEvent && upEvent.button !== 1 && upEvent.type === 'mouseup') {
+          if (upEvent.buttons !== 0) return;
+        }
+        if (upEvent) {
+          upEvent.preventDefault();
+        }
+
+        if (middleDragRef.current.rafId !== null) {
+          cancelAnimationFrame(middleDragRef.current.rafId);
+          middleDragRef.current.rafId = null;
+        }
+
+        if (middleDragRef.current.isDragging) {
+          transformComponentRef.current?.setTransform(
+            middleDragRef.current.latestX,
+            middleDragRef.current.latestY,
+            middleDragRef.current.scale,
+            0
+          );
+        }
+
+        middleDragRef.current.isDragging = false;
+        document.body.style.cursor = '';
+        if (stageContainerRef.current) {
+          stageContainerRef.current.classList.remove('is-middle-panning');
+        }
+
+        window.removeEventListener('mousemove', handleDocumentMouseMove, { capture: true });
+        window.removeEventListener('mouseup', stopMiddleDrag, { capture: true });
+        window.removeEventListener('blur', stopMiddleDrag);
+      };
+
+      window.addEventListener('mousemove', handleDocumentMouseMove, { capture: true, passive: false });
+      window.addEventListener('mouseup', stopMiddleDrag, { capture: true });
+      window.addEventListener('blur', stopMiddleDrag);
+    };
+
+    const handleAuxClick = (e) => {
+      if (e.button === 1 && stageContainerRef.current?.contains(e.target)) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    };
+
+    document.addEventListener('mousedown', handleDocumentMouseDown, { capture: true });
+    document.addEventListener('auxclick', handleAuxClick, { capture: true });
+
+    return () => {
+      document.removeEventListener('mousedown', handleDocumentMouseDown, { capture: true });
+      document.removeEventListener('auxclick', handleAuxClick, { capture: true });
+      if (middleDragRef.current.rafId !== null) {
+        cancelAnimationFrame(middleDragRef.current.rafId);
+        middleDragRef.current.rafId = null;
+      }
+      document.body.style.cursor = '';
+      if (stageContainerRef.current) {
+        stageContainerRef.current.classList.remove('is-middle-panning');
+      }
+    };
+  }, []);
 
   // Switch to tactical battle grid
   const handleSwitchToTactical = useCallback(() => {
@@ -783,7 +988,7 @@ const LocationSceneStage = ({
     e.preventDefault();
 
     if (!isGM) {
-      setSelectedPinForDetail(pin);
+      setActivePopupPinId(prev => prev === pin.id ? null : pin.id);
       return;
     }
 
@@ -812,7 +1017,7 @@ const LocationSceneStage = ({
 
       if (!didDrag) {
         if (isFogActive && isGM) return;
-        setSelectedPinForDetail(pin);
+        setActivePopupPinId(prev => prev === pin.id ? null : pin.id);
         return;
       }
 
@@ -920,7 +1125,7 @@ const LocationSceneStage = ({
   const showPartyOnThisMap = currentPartyPosition.mapId === currentMap.id;
 
   return (
-    <div className="location-scene-stage">
+    <div ref={stageContainerRef} className="location-scene-stage">
       {/* Sub-Map Fade Transition Overlay */}
       {subMapTransition.isActive && (
         <div className="location-submap-transition-overlay">
@@ -1102,7 +1307,22 @@ const LocationSceneStage = ({
         wheel={{ step: 0.0035, smoothStep: 0.0008 }}
         pinch={{ step: 1 }}
         doubleClick={{ disabled: true }}
-        panning={{ disabled: isDroppingPin || isDroppingLabel || isDrawingRoute || Boolean(placingCodexEntity) || isDraggingPartyMarker || Boolean(draggingPinId) || Boolean(draggingWaypointId) || (isFogActive && isGM) }}
+        onTransformed={(ref, state) => {
+          if (state?.scale && Math.abs(state.scale - currentZoomScale) > 0.01) {
+            setCurrentZoomScale(state.scale);
+          }
+        }}
+        onZoom={(ref) => {
+          const s = ref?.state?.scale || ref?.instance?.state?.scale;
+          if (s && Math.abs(s - currentZoomScale) > 0.01) {
+            setCurrentZoomScale(s);
+          }
+        }}
+        panning={{
+          disabled: isDroppingPin || isDroppingLabel || isDrawingRoute || Boolean(placingCodexEntity) || isDraggingPartyMarker || Boolean(draggingPinId) || Boolean(draggingWaypointId) || (isFogActive && isGM),
+          allowMiddleClickPan: true,
+          allowLeftClickPan: true
+        }}
       >
         {() => (
           <TransformComponent wrapperClass="location-scene-transform-container">
@@ -1138,43 +1358,86 @@ const LocationSceneStage = ({
                 height={MAP_BASE_HEIGHT}
               />
 
-              {/* SVG Journey Trails */}
+              {/* SVG Journey Trails: Hand-inked cartographer's expedition track */}
               {isJourneyLayerVisible && currentMapWaypoints.length > 1 && (
                 <svg className="location-journey-svg" width={MAP_BASE_WIDTH} height={MAP_BASE_HEIGHT}>
+                  <defs>
+                    <filter id="calmInkFeather" x="-10%" y="-10%" width="120%" height="120%">
+                      <feGaussianBlur stdDeviation="0.6" result="blur" />
+                      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                    </filter>
+                  </defs>
+                  {/* Soft pen underlay track */}
+                  <polyline
+                    points={currentMapWaypoints.map(w => `${(w.x / 100) * MAP_BASE_WIDTH},${(w.y / 100) * MAP_BASE_HEIGHT}`).join(' ')}
+                    className="journey-trail-underlay"
+                  />
+                  {/* Sepia iron-gall dashed route */}
                   <polyline
                     points={currentMapWaypoints.map(w => `${(w.x / 100) * MAP_BASE_WIDTH},${(w.y / 100) * MAP_BASE_HEIGHT}`).join(' ')}
                     className="journey-trail-line"
+                    filter="url(#calmInkFeather)"
                   />
                 </svg>
               )}
 
               {/* Interactive Journey Waypoint Nodes */}
-              {isJourneyLayerVisible && currentMapWaypoints.map((w, idx) => (
-                <div
-                  key={w.id || `wp-${idx}`}
-                  className={`waypoint-node-interactive ${draggingWaypointId === w.id ? 'is-dragging' : ''}`}
-                  style={{
-                    left: `${(w.x / 100) * MAP_BASE_WIDTH}px`,
-                    top: `${(w.y / 100) * MAP_BASE_HEIGHT}px`,
-                    cursor: isGM && !isMapLocked ? 'grab' : 'pointer'
-                  }}
-                  onMouseDown={(e) => handleWaypointMouseDown(e, w, idx)}
-                  onPointerDown={(e) => e.stopPropagation()}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                  }}
-                  title={isGM ? `Day ${idx + 1} (${w.title}) — Click & Drag to reposition on map` : `Day ${idx + 1}: ${w.title}`}
-                >
-                  <div className="waypoint-badge">
-                    <span>{idx + 1}</span>
-                  </div>
-                  {areLabelsVisible && (
-                    <div className="waypoint-title-pill">
-                      <span>{w.title}</span>
+              {isJourneyLayerVisible && currentMapWaypoints.map((w, idx) => {
+                const wpKey = w.id || `wp-${idx}`;
+                const isWpPopupActive = activePopupWaypointId === wpKey;
+                const isWpTopFlipped = (w.y / 100) * MAP_BASE_HEIGHT < 180;
+
+                return (
+                  <div
+                    key={wpKey}
+                    className={`waypoint-node-interactive ${draggingWaypointId === w.id ? 'is-dragging' : ''} ${isWpPopupActive ? 'has-popup-open' : ''}`}
+                    style={{
+                      left: `${(w.x / 100) * MAP_BASE_WIDTH}px`,
+                      top: `${(w.y / 100) * MAP_BASE_HEIGHT}px`,
+                      cursor: isGM && !isMapLocked ? 'grab' : 'pointer'
+                    }}
+                    onMouseEnter={() => handleWaypointMouseEnter(w, idx)}
+                    onMouseLeave={handleWaypointMouseLeave}
+                    onMouseDown={(e) => handleWaypointMouseDown(e, w, idx)}
+                    onPointerDown={(e) => e.stopPropagation()}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setActivePopupWaypointId(prev => prev === wpKey ? null : wpKey);
+                    }}
+                    title=""
+                  >
+                    <div className="waypoint-badge">
+                      <span>{w.day || idx + 1}</span>
                     </div>
-                  )}
-                </div>
-              ))}
+                    {areLabelsVisible && (
+                      <div className="waypoint-title-pill">
+                        <span>{w.title}</span>
+                      </div>
+                    )}
+
+                    {/* Calm TTRPG Waypoint Camp Docket */}
+                    {isWpPopupActive && (
+                      <LocationWaypointPopup
+                        waypoint={w}
+                        waypointIndex={idx}
+                        isGM={isGM}
+                        isTopFlipped={isWpTopFlipped}
+                        zoomScale={currentZoomScale}
+                        onClose={() => setActivePopupWaypointId(null)}
+                        onInspect={() => {
+                          setActivePopupWaypointId(null);
+                          setSelectedWaypointForModal({ waypoint: w, index: idx });
+                        }}
+                        onDelete={() => {
+                          setActivePopupWaypointId(null);
+                          if (deleteJourneyWaypoint) deleteJourneyWaypoint(w.id);
+                          else if (removeJourneyWaypoint) removeJourneyWaypoint(w.id);
+                        }}
+                      />
+                    )}
+                  </div>
+                );
+              })}
 
               {/* Fog Brush Cursor Indicator */}
               {isFogActive && isGM && cursorPos.x >= 0 && (
@@ -1250,11 +1513,13 @@ const LocationSceneStage = ({
               {visiblePins.map((pin) => {
                 const pinScale = pin.scale !== undefined ? pin.scale : (pin.size === 'small' ? 0.75 : pin.size === 'large' ? 1.35 : pin.size === 'epic' ? 1.75 : 1.0);
                 const hasSubMap = Boolean(pin.targetMapId);
+                const isPopupActive = activePopupPinId === pin.id;
+                const isTopFlipped = (pin.y / 100) * MAP_BASE_HEIGHT < 190;
 
                 return (
                   <div
                     key={pin.id}
-                    className={`location-pin-marker ${pin.isSecretGM ? 'is-secret' : ''} ${draggingPinId === pin.id ? 'is-dragging' : ''} ${hasSubMap ? 'has-submap' : ''}`}
+                    className={`location-pin-marker ${pin.isSecretGM ? 'is-secret' : ''} ${draggingPinId === pin.id ? 'is-dragging' : ''} ${hasSubMap ? 'has-submap' : ''} ${isPopupActive ? 'has-popup-open' : ''}`}
                     style={{
                       left: `${(pin.x / 100) * MAP_BASE_WIDTH}px`,
                       top: `${(pin.y / 100) * MAP_BASE_HEIGHT}px`,
@@ -1263,6 +1528,8 @@ const LocationSceneStage = ({
                       '--pin-color': pin.color || '#8c6738',
                       cursor: isGM && !isMapLocked ? 'grab' : 'pointer'
                     }}
+                    onMouseEnter={() => handlePinMouseEnter(pin)}
+                    onMouseLeave={handlePinMouseLeave}
                     onMouseDown={(e) => handlePinMouseDown(e, pin)}
                     onPointerDown={(e) => e.stopPropagation()}
                     onDoubleClick={(e) => {
@@ -1271,8 +1538,9 @@ const LocationSceneStage = ({
                     }}
                     onClick={(e) => {
                       e.stopPropagation();
+                      setActivePopupPinId(prev => prev === pin.id ? null : pin.id);
                     }}
-                    title={`${pin.title}${hasSubMap ? ' (Contains Sub-Map — Double-click to Enter)' : ''}${pin.isSecretGM ? ' [Hidden from Players]' : ''}${isGM ? ' — Click & Drag to reposition' : ''}`}
+                    title=""
                   >
                     {/* Crest Badge */}
                     <div
@@ -1301,6 +1569,36 @@ const LocationSceneStage = ({
                       <div className="location-pin-pill">
                         <span>{pin.title}</span>
                       </div>
+                    )}
+
+                    {/* Calm TTRPG Pin Popup Docket */}
+                    {isPopupActive && (
+                      <LocationPinPopup
+                        pin={pin}
+                        isGM={isGM}
+                        isTopFlipped={isTopFlipped}
+                        zoomScale={currentZoomScale}
+                        onClose={() => setActivePopupPinId(null)}
+                        onInspect={() => {
+                          setActivePopupPinId(null);
+                          setSelectedPinForDetail(pin);
+                        }}
+                        onPlotRoute={() => handlePlotRouteToPin(pin)}
+                        onEnterSubMap={(targetMapId) => {
+                          setActivePopupPinId(null);
+                          handleEnterSubMap(targetMapId);
+                        }}
+                        onOpenInCodex={() => {
+                          handleOpenInCodex();
+                        }}
+                        onEditPin={() => {
+                          setActivePopupPinId(null);
+                          setEditingPin(pin);
+                        }}
+                        onToggleSecret={() => {
+                          togglePinPlayerVisibility(pin.id);
+                        }}
+                      />
                     )}
                   </div>
                 );
@@ -1338,6 +1636,15 @@ const LocationSceneStage = ({
         )}
       </TransformWrapper>
 
+      {/* Calm TTRPG Expedition Route Ledger & March Calculator */}
+      <LocationExpeditionLedger
+        waypoints={currentMapWaypoints}
+        currentMap={currentMap}
+        isGM={isGM}
+        onClearRoute={clearJourneyWaypoints}
+        isDrawingRoute={isDrawingRoute}
+      />
+
       {/* Landmark Pin Detail Modal (Player & GM) */}
       {selectedPinForDetail && (
         <LocationPinDetailModal
@@ -1352,6 +1659,8 @@ const LocationSceneStage = ({
           }}
           onToggleSecret={handleTogglePinSecret}
           onDeletePin={handleDeletePin}
+          onPlotRoute={handlePlotRouteToPin}
+          onOpenInCodex={handleOpenInCodex}
         />
       )}
 

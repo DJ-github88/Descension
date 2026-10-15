@@ -256,7 +256,7 @@ function registerCharacterHandlers(ctx) {
     }
   });
 
-  socket.on('character_resource_updated', async(data) => {
+  socket.on('character_resource_updated', async(data, ack) => {
     try {
       const validation = validateRoomMembership(socket, data.roomId);
       if (!validation.valid) {return;}
@@ -304,6 +304,16 @@ function registerCharacterHandlers(ctx) {
           senderId: senderPlayer?.id,
           targetId: targetPlayer.id
         });
+        return;
+      }
+
+      // P9 fence: a pending owner spell approval reserves this player's class
+      // home; legacy class-resource writes are refused before mutation/relay.
+      if (data.resource === 'classResource' &&
+        require('../services/spellPayments').pendingFor(room, targetPlayer.userId, targetPlayer.character?.id)) {
+        socket.emit('room_error', { code: 'class_payment_pending', event: 'character_resource_updated',
+          message: 'A spell payment awaiting GM adjudication reserves this class resource' });
+        if (typeof ack === 'function') {ack({ success: false, code: 'class_payment_pending' });}
         return;
       }
 

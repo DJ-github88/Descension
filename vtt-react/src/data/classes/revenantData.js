@@ -9,8 +9,7 @@ export const REVENANT_DATA = {
            "kessen_neth",
            "merryn_human",
            "shoreling_myrathil",
-           "deepling_myrathil",
-           "riverling_myrathil"
+           "deepling_myrathil"
        ],
       "hardBlocks": [
           "solari",
@@ -171,22 +170,6 @@ export const REVENANT_DATA = {
         context: 'A Pressure-Woken, speaking on land for the first time in two hundred years'
       }
     },
-
-    riverling_myrathil: {
-      subraceName: 'Ondine Myrathil',
-      title: 'The Weir-Locked',
-      reframe: `The <LoreLink termId="myrathil">Brook</LoreLink> trust their dead to the rivers, but a river does not always finish the carrying. A Brook Revenant is a body caught at a weir, a mill-dam, a winter jam, un-finished because the water never delivered it to the sea. The Weir-Locked are held by unfinished current: they rise along the river that caught them, tethered to the whole waterway, walking the banks where the flow is loudest.`,
-      signatureAbility: {
-        name: 'Weir-Hold',
-        description: `As long as the river holds the body, the host rises, and the whole watercourse is the phylactery: a Weir-Locked can surface anywhere along the river that caught them, upstream or down. The tether narrows in dry seasons and breaks if the flow is fully dammed, which is the only death-free death the tradition recognizes.`
-      },
-      currentCrisisAngle: `The rivers are failing in both directions: drought upstream, flood downstream, and the Weir-Locked are being caught and released at random. Some are pushed to the sea they were never meant to reach, where they go quiet; others are stranded in drying bends, awake and furious. The Brook are negotiating water-rights with the Athien and the Tallyn for the first time in history, not for crops, but to keep the dead moving.`,
-      signatureQuote: {
-        text: '"The river is supposed to carry me home. It has changed its mind four times this season. If the water cannot finish what it started, then I will walk, and everything between here and the sea had better be ready to hear about it."',
-        speaker: 'Weir-Locked Murr the Undelivered',
-        context: 'A Ondine Revenant, setting out upstream against his own river'
-      }
-    }
   },
 
 

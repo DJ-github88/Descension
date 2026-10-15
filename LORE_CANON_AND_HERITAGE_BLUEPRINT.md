@@ -430,16 +430,16 @@ Each dossier selects a recommended direction. Its two story routes are compatibl
 |---|---|---|---|
 | Arch Mimir — N | Hunt discipline using stable lineage archive | Distinguish a track from an identity disturbance | Protect/care for the selected anchor; no mask-induced omniscience |
 | Broken Mimir — N | Sylas's sentinel method, unmasked perception | Read a declared perimeter's disturbances | Coverage depends on an actual maintained perimeter |
-| Skald — E | Northern border exchange | Read older tracks in preserved ice | Warm/melted surfaces remove the ice edge |
+| Skald — N | Northern border exchange | Read older tracks in preserved ice | Warm/melted surfaces remove the ice edge |
 | Clean Vreken — E | Bryngloom traders learn spoor-reading | Follow readable glow traces | Damaged/dead network lacks that trace |
 | Marked Vreken — N | Mycelial tactile adaptation | Read moving quarry on connected substrate | Stationary/disconnected prey requires ordinary tracking |
 | Ordan — N | Mimir caravan contact | Long-route scent/kinetic tracking | Enclosed terrain limits the route edge |
 | Stargazer Astril — E | Steppe exchange plus alien senses | Discriminate a thermal trace | Heat clutter/occlusion counters it; no absolute invisibility |
-| Waste-Solari — E | Ash-Ranger contact with the Hunt | Follow ash and residual heat | Wet/cold conditions remove the favored trace |
+| Waste-Solari — N | Ash-Ranger contact with the Hunt | Follow ash and residual heat | Wet/cold conditions remove the favored trace |
 | Deepling Myrathil — N | Salt-Hinge contact with Hunt envoys adapts trench hunting to the Trade/pack discipline | Read a current-shear trace | Maintain an amphibious or properly supported companion for land travel |
 | Brutish Astril — E† | Ordan/Stargazer contact and crater patrols | Read a quarry's resonant disturbance | Loud/crystalline clutter masks it |
-| Viridian Florae — N | Forest-border exchanges with Sylas's hunters | Read living growth disturbed by quarry | Cut/sterile ground removes the growth edge |
-| Oken Florae — N | Grove scouts learn pack hunting | Read contact through prepared roots/wood | Roots are local, not a map-wide omnipresent sensor |
+| Viridian Florae — E | Forest-border exchanges with Sylas's hunters | Read living growth disturbed by quarry | Cut/sterile ground removes the growth edge |
+| Oken Florae — E | Grove scouts learn pack hunting | Read contact through prepared roots/wood | Roots are local, not a map-wide omnipresent sensor |
 
 **Access:** E requires the Trade, trained sensory adaptation, and a bonded companion. Remove the race-wide Solari block against the native Waste branch. Ordinary Thalren trackers can enter through the Hunt; their frontier profession alone does not waive the Trade. Match equipment/abilities to the actual glaive-pack chassis rather than old dagger-only summaries.
 
@@ -734,7 +734,7 @@ Scathrach's sealed vent was closed **after** its post-Strike emergence and servi
 | Merryn — N | Mortuary ink contracts and maritime transfer | Carry an anchor in maintained tattooed ink | Ink fades/damages; stored reserve remains finite |
 | Shoreling Myrathil — N | Mareth's recognized tide-return rite | Renew at a prepared tidal node | Waterline/care obligation; finite return reserve |
 | Deepling Myrathil — E | Marine threshold rite with pressure-resonant anchor | Maintain a protected deep-water anchor | Pressure alone cannot cause undeath; land support/care maintains baseline viability |
-| Riverling Myrathil — N | Current/return rite at a prepared weir node | Follow the linked watercourse to the declared node | No appearing anywhere along a river; drought threatens maintenance, not an unlimited geographic soul-cache |
+| Riverling Myrathil — E | Current/return rite at a prepared weir node | Follow the linked watercourse to the declared node | No appearing anywhere along a river; drought threatens maintenance, not an unlimited geographic soul-cache |
 | Nethien — N† | **Vesper's source-attested** mortuary appendix/frost method | Maintain a filed soul anchor with reliable provenance | Its existence does not release old obligations; register this missing native founder branch |
 
 **Access:** E requires a real threshold transition and compatible maintained anchor. Tessen are explicitly compatible, correcting the contradictory justification. The Cult of Forgotten Shadow's offered immortality has a real memory/identity cost and an investigated source; the cult is not automatically Keth's identical Acolyte organization.
@@ -819,7 +819,7 @@ Scathrach's sealed vent was closed **after** its post-Strike emergence and servi
 | Clean Vreken — E | Border/surgical contact, readable glow markers | Reveal a tethered target to nearby allies | Reveals the Warden too; no seeing every hidden being |
 | Marked Vreken — E | Local mycelial anchoring at prepared nodes | Route one tether through a nearby connected anchor | Normal combat range still applies; network damage causes recoil |
 | Thalren — N | Greymark garrison acquires trained surgical masters | Use a prepared gate/perimeter anchor | Position commitment; being a guard alone is not the graft |
-| Tessen — N | Heat-line workshops and controlled Cragjaw envoys | Brace a taught architectural containment point | Requires installation/maintenance and sacrifices mobility |
+| Tessen — E | Heat-line workshops and controlled Cragjaw envoys | Brace a taught architectural containment point | Acquired exception; requires extensive bone-graft surgery outside keep traditions |
 | Arch Mimir — N | Fog-sentinel training and archive lineage | Detect a defined incursion warning in mist | Warnings can be old or forged |
 
 **Access:** E requires actual graft surgery, load training and compatible anatomy. Brutish Astril and Florae may seek this receiving route; revise their racial copy to distinguish aspiration/exception from a nonexistent innate/native school. Nethien archivists need a filed compatible alteration, not a blanket theology claim. Ordinary surgery must not silently overcome an actual preserved-body restriction.
@@ -835,16 +835,16 @@ This is the inverse of §6, not a competing eligibility database. Only true nati
 | Heritage | Stable existing subrace ID | Native class paths |
 |---|---|---|
 | Thalren | `thalren_human` | Inquisitor, Toxicologist, Warden, Spellguard |
-| Skald | `skald_human` | Augur, Berserker, Harbinger, Martyr, Warden |
-| Tessen | `tessen_human` | Revenant, Chronarch, Spellguard, Warden, Harbinger |
+| Skald | `skald_human` | Augur, Berserker, Harbinger, Martyr, Warden, Apex |
+| Tessen | `tessen_human` | Revenant, Chronarch, Spellguard, Harbinger |
 | Merryn | `merryn_human` | Gambit, Minstrel, Revenant |
 | Ordan | `ordan_human` | Animist, False Prophet, Apex |
 | Stargazer Astril | `vashir_astril` | Arcanoneer, Animist, Augur, Harbinger, False Prophet |
 | Brutish Astril | `silath_astril` | Harbinger, Animist, Augur, Crusader, False Prophet |
 | Clockwork Fexric | `kethrin_fexric` | Arcanoneer, Chronarch, Pyrofiend, Spellguard, Warden |
 | Caustic Fexric | `drall_fexric` | Arcanoneer, Gambit, Spellguard, Warden |
-| Viridian Florae | `viridian_florae` | Lunarch, Toxicologist, Animist, Apex |
-| Oken Florae | `florae_unified` | Toxicologist, Animist, Apex, Lunarch |
+| Viridian Florae | `viridian_florae` | Lunarch, Toxicologist, Animist |
+| Oken Florae | `florae_unified` | Toxicologist, Animist, Lunarch |
 | Morgh Groven | `morgh_groven` | Martyr, Shaper, Warden, Berserker |
 | Ithran Groven | `ithran_groven` | Martyr, Shaper, Warden, Chronarch |
 | Arch Mimir | `veiled_mimir` | Apex, Shaper, Warden, Animist, Lunarch |
@@ -855,10 +855,10 @@ This is the inverse of §6, not a competing eligibility database. Only true nati
 | Clean Vreken | `clean_vreken` | Animist, Plaguebringer, Revenant |
 | Marked Vreken | `marked_vreken` | Inquisitor, Plaguebringer, Apex, Augur |
 | Hollow-Solari | `korr_solari` | Augur, Martyr, Pyrofiend, Spellguard |
-| Waste-Solari | `thrask_solari` | Crusader, Martyr, Pyrofiend, Spellguard |
+| Waste-Solari | `thrask_solari` | Crusader, Martyr, Pyrofiend, Spellguard, Apex |
 | Deepling Myrathil | `deepling_myrathil` | Animist, Apex, Augur, Minstrel |
 | Shoreling Myrathil | `shoreling_myrathil` | Minstrel, Augur, Revenant |
-| Riverling Myrathil | `riverling_myrathil` | Minstrel, Animist, Augur, Revenant |
+| Riverling Myrathil | `riverling_myrathil` | Minstrel, Animist, Augur |
 
 **25 rows / 21 base classes.** No active third Mimir caste, seven-Human selection census, generic Mage class, or additional base class created by a cultural prefix. Existing **Deepling Myrathil Apex/Animist/Augur** registry entries are compatibility aliases of the three base classes with selected heritage, not a twenty-second through twenty-fourth class.
 

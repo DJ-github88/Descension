@@ -36,14 +36,14 @@ const PIN_ICONS = [
 ];
 
 const PIN_COLORS = [
-  '#8c6738', // Antique Bronze
-  '#a83232', // Crimson Wax
-  '#2a52be', // Royal Blue
-  '#27ae60', // Forest Emerald
-  '#8e44ad', // Arcane Purple
-  '#d35400', // Amber Terracotta
-  '#16a085', // Sea Teal
-  '#3d2b1f'  // Dark Walnut Leather
+  '#4a3828', // Antique Bronze
+  '#783c2e', // Crimson Wax / Terracotta
+  '#a28555', // Weathered Brass
+  '#394856', // Slate Ink / Indigo
+  '#4b5e4a', // Faded Moss / Sage
+  '#825732', // Amber Leather
+  '#634456', // Dusty Plum
+  '#34251a'  // Dark Walnut
 ];
 
 const LocationPinEditorModal = ({
@@ -345,7 +345,7 @@ const LocationPinEditorModal = ({
 
   return ReactDOM.createPortal(
     <div className="location-pin-modal-backdrop" onClick={onClose}>
-      <div className="location-pin-modal" style={{ maxWidth: '700px' }} onClick={(e) => e.stopPropagation()}>
+      <div className="location-pin-modal adventurer-window" style={{ maxWidth: '700px' }} onClick={(e) => e.stopPropagation()}>
         <form onSubmit={handleFormSubmit}>
           {/* Header */}
           <div className="location-pin-modal-header">
@@ -386,9 +386,9 @@ const LocationPinEditorModal = ({
                   style={{
                     width: '100%',
                     padding: '8px 12px',
-                    background: '#fdfaf0',
-                    border: '1.5px solid #8c6738',
-                    borderRadius: '6px',
+                    background: 'var(--adventure-page, #f1ece1)',
+                    border: '1px solid var(--adventure-rule, #b6a080)',
+                    borderRadius: '2px',
                     color: '#2b1810',
                     fontSize: '14px',
                     fontFamily: 'Cinzel, Georgia, serif',
@@ -407,9 +407,9 @@ const LocationPinEditorModal = ({
                   style={{
                     width: '100%',
                     padding: '8px 12px',
-                    background: '#fdfaf0',
-                    border: '1.5px solid #8c6738',
-                    borderRadius: '6px',
+                    background: 'var(--adventure-page, #f1ece1)',
+                    border: '1px solid var(--adventure-rule, #b6a080)',
+                    borderRadius: '2px',
                     color: '#2b1810',
                     fontSize: '13px',
                     fontWeight: 600
@@ -442,7 +442,7 @@ const LocationPinEditorModal = ({
                     style={{
                       width: '36px',
                       height: '36px',
-                      borderRadius: '6px',
+                      borderRadius: '2px',
                       background: icon === p.id ? 'linear-gradient(180deg, #d4af37 0%, #aa8022 100%)' : '#f4ecd8',
                       border: icon === p.id ? '2px solid #5c3e21' : '1.5px solid #c4a373',
                       color: icon === p.id ? '#1a0f05' : '#5c3e21',
@@ -478,7 +478,7 @@ const LocationPinEditorModal = ({
             </div>
 
             {/* Element Scale & Size Slider */}
-            <div style={{ marginBottom: '14px', padding: '10px 14px', background: '#f8f3e6', borderRadius: '8px', border: '1.5px solid #8c6738' }}>
+            <div style={{ marginBottom: '14px', padding: '10px 14px', background: '#f8f3e6', borderRadius: '2px', border: '1px solid var(--adventure-rule, #b6a080)' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
                 <label style={{ fontSize: '12px', color: '#3d2614', margin: 0, fontWeight: 700 }}>
                   <i className="fas fa-up-right-and-down-left-from-center" style={{ color: '#8c6738', marginRight: '6px' }} />
@@ -501,8 +501,8 @@ const LocationPinEditorModal = ({
                         padding: '2px 7px',
                         fontSize: '10px',
                         fontWeight: 700,
-                        borderRadius: '4px',
-                        background: Math.abs(scale - p.val) < 0.05 ? '#d4af37' : '#fdfaf0',
+                        borderRadius: '2px',
+                        background: Math.abs(scale - p.val) < 0.05 ? '#d4af37' : 'var(--adventure-page, #f7f3ea)',
                         color: Math.abs(scale - p.val) < 0.05 ? '#1a0f05' : '#5c3e21',
                         border: '1px solid #8c6738',
                         cursor: 'pointer'
@@ -680,9 +680,9 @@ const LocationPinEditorModal = ({
                 style={{
                   width: '100%',
                   padding: '8px 12px',
-                  background: '#fdfaf0',
-                  border: '1.5px solid #8c6738',
-                  borderRadius: '6px',
+                  background: 'var(--adventure-page, #f1ece1)',
+                  border: '1px solid var(--adventure-rule, #b6a080)',
+                  borderRadius: '2px',
                   color: '#2b1810',
                   fontSize: '13px',
                   fontFamily: 'Bookman Old Style, Georgia, serif',
@@ -692,7 +692,7 @@ const LocationPinEditorModal = ({
             </div>
 
             {/* Universal Entity Autocomplete & Linker */}
-            <div style={{ padding: '14px', background: '#f5edd9', borderRadius: '8px', border: '1.5px solid #8c6738', marginBottom: '14px' }}>
+            <div style={{ padding: '14px', background: 'var(--adventure-panel, #e8e2d4)', borderRadius: '2px', border: '1px solid var(--adventure-rule, #b6a080)', marginBottom: '14px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
                 <label style={{ fontSize: '13px', fontWeight: 700, color: '#3d2614', margin: 0 }}>
                   <i className="fas fa-link"></i> Link Inhabitants, Quests, Factions, Relics &amp; Bestiary
@@ -722,8 +722,8 @@ const LocationPinEditorModal = ({
                       display: 'flex',
                       alignItems: 'center',
                       gap: '4px',
-                      borderRadius: '4px',
-                      background: entityFilterCategory === cat.id ? '#8c6738' : '#fdfaf0',
+                      borderRadius: '2px',
+                      background: entityFilterCategory === cat.id ? '#8c6738' : 'var(--adventure-page, #f7f3ea)',
                       color: entityFilterCategory === cat.id ? '#fff' : '#4a3018',
                       borderColor: '#8c6738',
                       cursor: 'pointer'
@@ -752,9 +752,9 @@ const LocationPinEditorModal = ({
                   style={{
                     width: '100%',
                     padding: '8px 12px',
-                    background: '#fdfaf0',
-                    border: '1.5px solid #8c6738',
-                    borderRadius: '6px',
+                    background: 'var(--adventure-page, #f1ece1)',
+                    border: '1px solid var(--adventure-rule, #b6a080)',
+                    borderRadius: '2px',
                     color: '#2b1810',
                     fontSize: '13px'
                   }}
@@ -768,9 +768,9 @@ const LocationPinEditorModal = ({
                       top: '100%',
                       left: 0,
                       right: 0,
-                      background: '#fcf8eb',
+                      background: 'var(--adventure-panel, #eee8dc)',
                       border: '2px solid #8c6738',
-                      borderRadius: '6px',
+                      borderRadius: '2px',
                       marginTop: '4px',
                       maxHeight: '240px',
                       overflowY: 'auto',
@@ -904,7 +904,7 @@ const LocationPinEditorModal = ({
                         gap: '6px',
                         padding: '4px 10px',
                         background: '#f8edd9',
-                        border: '1.5px solid #8c6738',
+                        border: '1px solid var(--adventure-rule, #b6a080)',
                         borderRadius: '16px',
                         fontSize: '12px',
                         color: '#4a3018',
@@ -996,10 +996,10 @@ const LocationPinEditorModal = ({
                       gap: '6px',
                       padding: '4px 10px',
                       background: '#e4f4ea',
-                      border: '1.5px solid #27ae60',
+                      border: '1px solid var(--adventure-rule, #b6a080)',
                       borderRadius: '16px',
                       fontSize: '12px',
-                      color: '#145a32',
+                      color: 'var(--adventure-ink, #34251a)',
                       fontWeight: 700
                     }}
                   >
@@ -1017,16 +1017,16 @@ const LocationPinEditorModal = ({
             </div>
 
             {/* Sub-Map Drilldown Linking */}
-            <div style={{ padding: '12px', background: '#eaf4ee', borderRadius: '8px', border: '1.5px solid #27ae60', marginBottom: '14px' }}>
+            <div style={{ padding: '12px', background: 'var(--adventure-panel, #e8e2d4)', borderRadius: '2px', border: '1px solid var(--adventure-rule, #b6a080)', marginBottom: '14px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-                <span style={{ fontSize: '13px', fontWeight: 700, color: '#145a32' }}>
-                  <i className="fas fa-magnifying-glass-plus"></i> Nested Sub-Map Drilldown
+                <span style={{ fontSize: '13px', fontWeight: 700, color: 'var(--adventure-ink, #34251a)' }}>
+                  <i className="fas fa-magnifying-glass-plus" style={{ color: 'var(--adventure-brass, #c4ab79)', marginRight: '6px' }}></i> Nested Sub-Map Drilldown
                 </span>
                 {!isCreatingNewSubMap && (
                   <button
                     type="button"
                     onClick={() => setIsCreatingNewSubMap(true)}
-                    style={{ background: 'none', border: 'none', color: '#1e824c', fontSize: '12px', fontWeight: 700, cursor: 'pointer', textDecoration: 'underline' }}
+                    style={{ background: 'none', border: 'none', color: 'var(--adventure-seal, #663c32)', fontSize: '12px', fontWeight: 700, cursor: 'pointer', textDecoration: 'underline' }}
                   >
                     + Create New Sub-Map
                   </button>
@@ -1040,10 +1040,10 @@ const LocationPinEditorModal = ({
                   style={{
                     width: '100%',
                     padding: '8px 12px',
-                    background: '#fdfaf0',
-                    border: '1.5px solid #27ae60',
-                    borderRadius: '6px',
-                    color: '#145a32',
+                    background: 'var(--adventure-page, #f1ece1)',
+                    border: '1px solid var(--adventure-rule, #b6a080)',
+                    borderRadius: '2px',
+                    color: 'var(--adventure-ink, #34251a)',
                     fontSize: '13px',
                     fontWeight: 600
                   }}
@@ -1073,10 +1073,10 @@ const LocationPinEditorModal = ({
                     placeholder="New Sub-Map Name (e.g. Tavern Floor 1)..."
                     style={{
                       padding: '6px 10px',
-                      background: '#fdfaf0',
-                      border: '1.5px solid #27ae60',
-                      borderRadius: '4px',
-                      color: '#145a32',
+                      background: 'var(--adventure-page, #f1ece1)',
+                      border: '1px solid var(--adventure-rule, #b6a080)',
+                      borderRadius: '2px',
+                      color: 'var(--adventure-ink, #34251a)',
                       fontSize: '13px',
                       fontWeight: 600
                     }}
@@ -1088,10 +1088,10 @@ const LocationPinEditorModal = ({
                     placeholder="Artwork URL (optional)..."
                     style={{
                       padding: '6px 10px',
-                      background: '#fdfaf0',
+                      background: 'var(--adventure-page, #f1ece1)',
                       border: '1.5px solid rgba(39, 174, 96, 0.5)',
-                      borderRadius: '4px',
-                      color: '#145a32',
+                      borderRadius: '2px',
+                      color: 'var(--adventure-ink, #34251a)',
                       fontSize: '13px'
                     }}
                   />
@@ -1116,7 +1116,7 @@ const LocationPinEditorModal = ({
             </div>
 
             {/* GM Secrets & Settings */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '14px', background: '#fcf8ee', padding: '10px 12px', borderRadius: '8px', border: '1px solid #d9c7a7' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '14px', background: 'var(--adventure-panel, #e8e2d4)', padding: '10px 12px', borderRadius: '2px', border: '1px solid var(--adventure-rule, #b6a080)' }}>
               <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', color: '#8a1f11', fontSize: '13px', fontWeight: 700 }}>
                 <input
                   type="checkbox"
@@ -1152,7 +1152,7 @@ const LocationPinEditorModal = ({
                         padding: '6px 10px',
                         background: '#ffffff',
                         border: '1.5px solid #8e44ad',
-                        borderRadius: '4px',
+                        borderRadius: '2px',
                         fontSize: '12px',
                         color: '#2b1810'
                       }}
@@ -1172,7 +1172,7 @@ const LocationPinEditorModal = ({
                         padding: '6px 10px',
                         background: '#ffffff',
                         border: '1.5px solid #8e44ad',
-                        borderRadius: '4px',
+                        borderRadius: '2px',
                         fontSize: '12px',
                         color: '#2b1810'
                       }}
@@ -1195,8 +1195,8 @@ const LocationPinEditorModal = ({
                     width: '100%',
                     padding: '6px 10px',
                     background: '#ffffff',
-                    border: '1.5px solid #c4a373',
-                    borderRadius: '4px',
+                    border: '1px solid var(--adventure-rule, #b6a080)',
+                    borderRadius: '2px',
                     fontSize: '12px',
                     color: '#2b1810'
                   }}
@@ -1218,8 +1218,8 @@ const LocationPinEditorModal = ({
                   width: '100%',
                   padding: '8px 12px',
                   background: '#fdfbf4',
-                  border: '1.5px solid #c4a373',
-                  borderRadius: '6px',
+                  border: '1px solid var(--adventure-rule, #b6a080)',
+                  borderRadius: '2px',
                   color: '#2b1810',
                   fontSize: '13px'
                 }}

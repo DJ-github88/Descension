@@ -59,7 +59,9 @@ const LocationPinDetailModal = ({
   onEnterSubMap,
   onEditPin,
   onToggleSecret,
-  onDeletePin
+  onDeletePin,
+  onPlotRoute,
+  onOpenInCodex
 }) => {
   const [activeTab, setActiveTab] = useState(() => {
     if (pin?.linkedEntities?.itemIds?.length > 0 && !pin?.linkedEntities?.npcIds?.length && !pin?.linkedEntities?.questIds?.length && !pin?.linkedEntities?.creatureIds?.length) {
@@ -128,15 +130,14 @@ const LocationPinDetailModal = ({
 
   return ReactDOM.createPortal(
     <div className="location-pin-modal-backdrop" onClick={onClose}>
-      <div className="location-pin-modal" style={{ maxWidth: '600px', minWidth: '420px' }} onClick={(e) => e.stopPropagation()}>
+      <div className="location-pin-modal adventurer-window" style={{ maxWidth: '640px', minWidth: '420px' }} onClick={(e) => e.stopPropagation()}>
         {/* Header */}
         <div className="location-pin-modal-header">
           <div className="modal-header-identity">
             <div
               className="modal-pin-icon-box"
               style={{
-                background: `radial-gradient(circle at 35% 35%, ${pin.color || '#d4af37'} 0%, #201306 100%)`,
-                borderColor: pin.color || '#d4af37'
+                background: 'radial-gradient(circle at 35% 35%, var(--adventure-leather, #302419) 0%, #150f09 100%)', borderColor: 'var(--adventure-brass, #c4ab79)', color: 'var(--adventure-brass, #c4ab79)'
               }}
             >
               <i className={`fas ${pin.icon || 'fa-location-dot'}`}></i>
@@ -235,21 +236,20 @@ const LocationPinDetailModal = ({
                   style={{
                     marginBottom: '14px',
                     padding: '12px 16px',
-                    background: 'linear-gradient(180deg, #f0f7f2 0%, #d8eee0 100%)',
-                    border: '2px solid #27ae60',
-                    borderRadius: '8px',
+                    background: 'var(--adventure-panel, #e8e2d4)',
+                    border: '1px solid var(--adventure-rule, #b6a080)',
+                    borderRadius: '2px',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'space-between',
-                    gap: '12px',
-                    boxShadow: '0 4px 12px rgba(39, 174, 96, 0.15)'
+                    gap: '12px'
                   }}
                 >
                   <div>
-                    <div style={{ fontSize: '11px', textTransform: 'uppercase', fontWeight: 800, color: isTacticalSubMap ? '#8c3838' : '#196f3d', letterSpacing: '0.5px' }}>
-                      <i className={`fas ${isTacticalSubMap ? 'fa-chess-board' : 'fa-door-open'}`} /> {isTacticalSubMap ? 'Tactical Battle Realm' : 'Connected Scene / Area'}
+                    <div style={{ fontSize: '11px', textTransform: 'uppercase', fontWeight: 800, color: 'var(--adventure-muted, #68533e)', letterSpacing: '0.5px' }}>
+                      <i className={`fas ${isTacticalSubMap ? 'fa-chess-board' : 'fa-door-open'}`} style={{ color: 'var(--adventure-brass, #c4ab79)', marginRight: '6px' }} /> {isTacticalSubMap ? 'Tactical Battle Realm' : 'Connected Scene / Area'}
                     </div>
-                    <div style={{ fontSize: '15px', fontWeight: 800, color: isTacticalSubMap ? '#641e16' : '#145a32', fontFamily: 'Cinzel, Georgia, serif' }}>
+                    <div style={{ fontSize: '15px', fontWeight: 800, color: 'var(--adventure-ink, #34251a)', fontFamily: 'Cinzel, Georgia, serif' }}>
                       {targetSubMap.name}
                     </div>
                   </div>
@@ -260,17 +260,14 @@ const LocationPinDetailModal = ({
                       onClose();
                     }}
                     style={{
-                      background: isTacticalSubMap 
-                        ? 'linear-gradient(180deg, #c0392b 0%, #962d22 100%)' 
-                        : 'linear-gradient(180deg, #27ae60 0%, #1e824c 100%)',
-                      color: '#fff',
-                      border: isTacticalSubMap ? '1.5px solid #78281f' : '1.5px solid #145a32',
+                      background: 'var(--adventure-leather, #302419)',
+                      color: 'var(--adventure-paper, #faf6ee)',
+                      border: '1px solid var(--adventure-brass, #c4ab79)',
                       padding: '8px 16px',
-                      borderRadius: '6px',
+                      borderRadius: '2px',
                       fontWeight: 800,
-                      fontSize: '13px',
+                      fontSize: '12.5px',
                       cursor: 'pointer',
-                      boxShadow: '0 2px 6px rgba(0, 0, 0, 0.25)',
                       display: 'inline-flex',
                       alignItems: 'center',
                       gap: '6px',
@@ -311,9 +308,9 @@ const LocationPinDetailModal = ({
                   <div
                     key={npcId}
                     style={{
-                      background: '#fdfbf5',
-                      border: '1.5px solid #8c6738',
-                      borderRadius: '8px',
+                      background: 'var(--adventure-page, #f1ece1)',
+                      border: '1px solid var(--adventure-rule, #b6a080)',
+                      borderRadius: '2px',
                       padding: '14px',
                       boxShadow: '0 2px 8px rgba(0, 0, 0, 0.05)'
                     }}
@@ -341,10 +338,10 @@ const LocationPinDetailModal = ({
                           <span style={{ fontSize: '15px', fontWeight: 800, color: '#2b1810', fontFamily: 'Cinzel, serif' }}>
                             {name}
                           </span>
-                          <span style={{ fontSize: '11px', background: '#ede3d1', color: '#5c3e21', padding: '2px 8px', borderRadius: '4px', fontWeight: 700 }}>
+                          <span style={{ fontSize: '11px', background: '#ede3d1', color: '#5c3e21', padding: '2px 8px', borderRadius: '2px', fontWeight: 700 }}>
                             {role}
                           </span>
-                          <span style={{ fontSize: '11px', background: '#f5edd9', color: '#6d4c28', padding: '2px 8px', borderRadius: '4px', fontStyle: 'italic' }}>
+                          <span style={{ fontSize: '11px', background: 'var(--adventure-panel, #eee8dc)', color: '#6d4c28', padding: '2px 8px', borderRadius: '2px', fontStyle: 'italic' }}>
                             {attitude}
                           </span>
                         </div>
@@ -372,7 +369,7 @@ const LocationPinDetailModal = ({
 
                     {/* GM Secret Notes */}
                     {isGM && rawNpc.secrets && (
-                      <div style={{ fontSize: '12px', color: '#8a1f11', marginTop: '6px', background: '#fdf2f2', padding: '6px 10px', borderRadius: '4px', border: '1px solid #e0a0a0' }}>
+                      <div style={{ fontSize: '12px', color: '#8a1f11', marginTop: '6px', background: '#fdf2f2', padding: '6px 10px', borderRadius: '2px', border: '1px solid #e0a0a0' }}>
                         <i className="fas fa-eye-slash" /> <strong>GM Secret:</strong> {rawNpc.secrets}
                       </div>
                     )}
@@ -399,9 +396,9 @@ const LocationPinDetailModal = ({
                   <div
                     key={cId}
                     style={{
-                      background: '#fdfbf5',
-                      border: '1.5px solid #c0392b',
-                      borderRadius: '8px',
+                      background: 'var(--adventure-page, #f1ece1)',
+                      border: '1px solid var(--adventure-rule, #b6a080)',
+                      borderRadius: '2px',
                       padding: '14px',
                       boxShadow: '0 2px 8px rgba(0, 0, 0, 0.05)'
                     }}
@@ -429,16 +426,16 @@ const LocationPinDetailModal = ({
                           <span style={{ fontSize: '15px', fontWeight: 800, color: '#2b1810', fontFamily: 'Cinzel, serif' }}>
                             {name}
                           </span>
-                          <span style={{ fontSize: '11px', background: '#fbeee6', color: '#922b21', padding: '2px 8px', borderRadius: '4px', fontWeight: 700 }}>
+                          <span style={{ fontSize: '11px', background: '#fbeee6', color: '#922b21', padding: '2px 8px', borderRadius: '2px', fontWeight: 700 }}>
                             {role}
                           </span>
-                          <span style={{ fontSize: '11px', background: '#fdf2e9', color: '#b9770e', padding: '2px 8px', borderRadius: '4px', fontWeight: 700 }}>
+                          <span style={{ fontSize: '11px', background: '#fdf2e9', color: '#b9770e', padding: '2px 8px', borderRadius: '2px', fontWeight: 700 }}>
                             Danger: {danger}
                           </span>
-                          <span style={{ fontSize: '11px', background: '#eafaf1', color: '#196f3d', padding: '2px 8px', borderRadius: '4px', fontWeight: 700 }}>
+                          <span style={{ fontSize: '11px', background: '#eafaf1', color: '#196f3d', padding: '2px 8px', borderRadius: '2px', fontWeight: 700 }}>
                             {hpVal} HP
                           </span>
-                          <span style={{ fontSize: '11px', background: '#ebf5fb', color: '#2471a3', padding: '2px 8px', borderRadius: '4px', fontWeight: 700 }}>
+                          <span style={{ fontSize: '11px', background: '#ebf5fb', color: '#2471a3', padding: '2px 8px', borderRadius: '2px', fontWeight: 700 }}>
                             Speed: {speed}
                           </span>
                         </div>
@@ -447,7 +444,7 @@ const LocationPinDetailModal = ({
 
                     {/* Combat Profile */}
                     {combatProfile && (
-                      <div style={{ fontSize: '12px', color: '#78281f', background: '#fdf2f2', padding: '6px 10px', borderRadius: '4px', border: '1px solid #f5b7b1', margin: '6px 0' }}>
+                      <div style={{ fontSize: '12px', color: '#78281f', background: '#fdf2f2', padding: '6px 10px', borderRadius: '2px', border: '1px solid #f5b7b1', margin: '6px 0' }}>
                         <strong>Combat &amp; Tactics:</strong> {combatProfile}
                       </div>
                     )}
@@ -468,15 +465,15 @@ const LocationPinDetailModal = ({
           {activeTab === 'items' && (
             <div className="tab-pane-items" style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
               {transferSuccess && (
-                <div style={{ padding: '8px 14px', background: '#eafaf1', border: '1.5px solid #27ae60', borderRadius: '6px', color: '#145a32', fontSize: '13px', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <div style={{ padding: '8px 14px', background: 'var(--adventure-panel, #e8e2d4)', border: '1px solid var(--adventure-rule, #b6a080)', borderRadius: '2px', color: 'var(--adventure-ink, #34251a)', fontSize: '13px', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '8px' }}>
                   <i className="fas fa-check-circle" /> {transferSuccess}
                 </div>
               )}
 
               {/* GM Item Veiling Status */}
               {isGM && (
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 12px', background: localIsItemHidden ? '#fdf4f4' : '#f0faf5', border: `1px solid ${localIsItemHidden ? '#c0392b' : '#27ae60'}`, borderRadius: '6px' }}>
-                  <span style={{ fontSize: '12px', fontWeight: 700, color: localIsItemHidden ? '#96281b' : '#1e8449' }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 12px', background: 'var(--adventure-panel, #e8e2d4)', border: '1px solid var(--adventure-rule, #b6a080)', borderRadius: '2px' }}>
+                  <span style={{ fontSize: '12px', fontWeight: 700, color: 'var(--adventure-ink, #34251a)' }}>
                     <i className={`fas ${localIsItemHidden ? 'fa-eye-slash' : 'fa-eye'}`} /> {localIsItemHidden ? 'Item Tooltip Hidden from Players (Unidentified / Requires Attunement)' : 'Item Tooltip Visible to Players'}
                   </span>
                   <button
@@ -500,9 +497,9 @@ const LocationPinDetailModal = ({
               {!isGM && localIsItemHidden ? (
                 <div
                   style={{
-                    background: '#fdfbf5',
-                    border: '1.5px solid #8e44ad',
-                    borderRadius: '8px',
+                    background: 'var(--adventure-page, #f1ece1)',
+                    border: '1px solid var(--adventure-rule, #b6a080)',
+                    borderRadius: '2px',
                     padding: '16px',
                     textAlign: 'center',
                     boxShadow: '0 2px 8px rgba(0, 0, 0, 0.06)'
@@ -528,7 +525,7 @@ const LocationPinDetailModal = ({
                   <h4 style={{ margin: '0 0 4px 0', color: '#4a235a', fontFamily: 'Cinzel, serif', fontSize: '16px', fontWeight: 800 }}>
                     {pin.unidentifiedName || 'Enigmatic Hidden Relic'}
                   </h4>
-                  <span style={{ display: 'inline-block', fontSize: '11px', background: '#f4ecf7', color: '#6c3483', border: '1px solid #d2b4de', padding: '2px 8px', borderRadius: '4px', fontWeight: 700, marginBottom: '10px' }}>
+                  <span style={{ display: 'inline-block', fontSize: '11px', background: '#f4ecf7', color: '#6c3483', border: '1px solid #d2b4de', padding: '2px 8px', borderRadius: '2px', fontWeight: 700, marginBottom: '10px' }}>
                     🔒 Hidden Properties • Requires Attunement or Arcana Deciphering
                   </span>
                   <p style={{ margin: '0 0 14px 0', fontSize: '13px', color: '#5b2c6f', fontStyle: 'italic', lineHeight: '1.5' }}>
@@ -561,7 +558,7 @@ const LocationPinDetailModal = ({
                       <div className="pin-modal-item-footer">
                         {/* Merchant / Shop Stand Price */}
                         {(pin.shopPrice || rawItem.value) && (
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', background: '#fef9e7', border: '1px solid #f9e79f', padding: '6px 12px', borderRadius: '6px', fontSize: '13px', color: '#7d6608', fontWeight: 700 }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', background: '#fef9e7', border: '1px solid #f9e79f', padding: '6px 12px', borderRadius: '2px', fontSize: '13px', color: '#7d6608', fontWeight: 700 }}>
                             <i className="fas fa-coins" style={{ color: '#d4af37' }} />
                             <span>Shop / Stand Price: <strong>{pin.shopPrice || formatItemPrice(rawItem.value)}</strong></span>
                           </div>
@@ -579,8 +576,8 @@ const LocationPinDetailModal = ({
                                 onChange={(e) => setSelectedCharId(e.target.value)}
                                 style={{
                                   padding: '5px 10px',
-                                  borderRadius: '6px',
-                                  border: '1.5px solid #8c6738',
+                                  borderRadius: '2px',
+                                  border: '1px solid var(--adventure-rule, #b6a080)',
                                   background: '#ffffff',
                                   fontSize: '12px',
                                   color: '#2b1810',
@@ -640,9 +637,9 @@ const LocationPinDetailModal = ({
                   <div
                     key={qId}
                     style={{
-                      background: '#fdfbf5',
-                      border: '1.5px solid #d35400',
-                      borderRadius: '8px',
+                      background: 'var(--adventure-page, #f1ece1)',
+                      border: '1px solid var(--adventure-rule, #b6a080)',
+                      borderRadius: '2px',
                       padding: '14px',
                       boxShadow: '0 2px 8px rgba(0, 0, 0, 0.05)'
                     }}
@@ -654,7 +651,7 @@ const LocationPinDetailModal = ({
                           {qTitle}
                         </span>
                       </div>
-                      <span style={{ fontSize: '11px', background: '#fbeee6', color: '#d35400', border: '1px solid #d35400', padding: '2px 8px', borderRadius: '4px', fontWeight: 800, textTransform: 'uppercase' }}>
+                      <span style={{ fontSize: '11px', background: '#fbeee6', color: '#d35400', border: '1px solid #d35400', padding: '2px 8px', borderRadius: '2px', fontWeight: 800, textTransform: 'uppercase' }}>
                         {qStatus}
                       </span>
                     </div>
@@ -708,7 +705,7 @@ const LocationPinDetailModal = ({
                     const f = (factions || []).find(fac => fac.id === fId);
                     if (!f) return null;
                     return (
-                      <div key={fId} style={{ padding: '8px 12px', background: '#fcf8eb', borderRadius: '6px', marginBottom: '6px', borderLeft: '3px solid #8c6738', border: '1px solid #e8dcbe' }}>
+                      <div key={fId} style={{ padding: '8px 12px', background: 'var(--adventure-panel, #eee8dc)', borderRadius: '2px', marginBottom: '6px', border: '1px solid var(--adventure-rule, #b6a080)' }}>
                         <strong style={{ color: '#2b1810' }}>{f.name}</strong> — <span style={{ color: '#6d4c28' }}>{f.type || 'Order'}</span>
                       </div>
                     );
@@ -721,9 +718,9 @@ const LocationPinDetailModal = ({
           {/* GM Notes Tab */}
           {activeTab === 'notes' && isGM && (
             <div className="tab-pane-notes">
-              <div style={{ padding: '12px 14px', background: '#fdf4f4', borderRadius: '8px', border: '1.5px solid #a83232' }}>
-                <h4 style={{ margin: '0 0 6px 0', color: '#8a1f11', fontSize: '13px', fontWeight: 700 }}><i className="fas fa-eye-slash"></i> GM Field Secrets</h4>
-                <p style={{ margin: 0, color: '#4a1515', fontStyle: 'italic' }}>{linked.journalNotes || 'No GM notes recorded.'}</p>
+              <div style={{ padding: '12px 14px', background: 'rgba(102, 60, 50, 0.08)', borderRadius: '2px', border: '1px solid var(--adventure-seal, #663c32)' }}>
+                <h4 style={{ margin: '0 0 6px 0', color: 'var(--adventure-seal, #663c32)', fontSize: '13px', fontWeight: 700 }}><i className="fas fa-eye-slash"></i> GM Field Secrets</h4>
+                <p style={{ margin: 0, color: 'var(--adventure-ink, #34251a)', fontStyle: 'italic' }}>{linked.journalNotes || 'No GM notes recorded.'}</p>
               </div>
             </div>
           )}
@@ -731,7 +728,35 @@ const LocationPinDetailModal = ({
 
         {/* Modal Footer */}
         <div className="location-pin-modal-footer">
-          <div>
+          <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap' }}>
+            {onPlotRoute && (
+              <button
+                type="button"
+                className="btn-gm-action btn-calm-route"
+                onClick={() => {
+                  onPlotRoute(pin);
+                  onClose();
+                }}
+                title="Plot journey route connecting party to this landmark"
+              >
+                <i className="fas fa-route"></i> Plot Route
+              </button>
+            )}
+
+            {onOpenInCodex && (
+              <button
+                type="button"
+                className="btn-gm-action btn-calm-codex"
+                onClick={() => {
+                  onOpenInCodex(pin);
+                  onClose();
+                }}
+                title="Open in Campaign Codex Drawer"
+              >
+                <i className="fas fa-book-atlas"></i> Codex
+              </button>
+            )}
+
             {isGM && (
               <div style={{ display: 'flex', gap: '8px' }}>
                 <button
@@ -741,7 +766,7 @@ const LocationPinDetailModal = ({
                   title={pin.isSecretGM ? "Reveal to Players" : "Hide from Players"}
                 >
                   <i className={`fas ${pin.isSecretGM ? 'fa-eye' : 'fa-eye-slash'}`}></i>
-                  {pin.isSecretGM ? 'Reveal to Players' : 'Hide from Players'}
+                  {pin.isSecretGM ? 'Reveal' : 'Hide'}
                 </button>
                 <button
                   type="button"
@@ -753,8 +778,9 @@ const LocationPinDetailModal = ({
                 <button
                   type="button"
                   className="btn-gm-action"
-                  style={{ color: '#ff6b6b', borderColor: '#ff6b6b' }}
+                  style={{ color: 'var(--adventure-seal, #663c32)', borderColor: 'var(--adventure-rule, #b6a080)' }}
                   onClick={() => onDeletePin(pin.id)}
+                  title="Delete pin"
                 >
                   <i className="fas fa-trash"></i>
                 </button>
@@ -766,7 +792,7 @@ const LocationPinDetailModal = ({
             {pin.targetMapId && targetSubMap && (
               <button
                 type="button"
-                className="btn-enter-submap"
+                className="btn-enter-submap" style={{ borderRadius: "2px" }}
                 onClick={() => onEnterSubMap(pin.targetMapId)}
               >
                 <i className={`fas ${isTacticalSubMap ? 'fa-chess-board' : 'fa-magnifying-glass-plus'}`}></i> {isTacticalSubMap ? `Enter Battle Grid: ${targetSubMap.name} ↗` : `Enter Sub-Map: ${targetSubMap.name} ↗`}

@@ -2,6 +2,7 @@
 import { DATA_VERSIONS } from '../data/versions';
 
 export const FEATHER_ID = 'grimmstalk_feather_slash';
+// Stable command/receipt identity: both reviewed datasets contain this exact capability.
 export const FEATHER_CAPABILITY = 'feather-slash:v1/abilities:1.4.0';
 export const canonical = value => JSON.stringify(sort(value));
 function sort(value) {
@@ -12,7 +13,7 @@ function sort(value) {
 const equal = (a, b) => canonical(a) === canonical(b);
 const keysOnly = (value, keys) => value && typeof value === 'object' && !Array.isArray(value) && Object.keys(value).every(key => keys.includes(key));
 export function supportsFeatherSlash(raw, creatureId = 'grimmstalk') {
-  return creatureId === 'grimmstalk' && DATA_VERSIONS.abilities === '1.4.0' &&
+  return creatureId === 'grimmstalk' && ['1.4.0', '1.5.0'].includes(DATA_VERSIONS.abilities) &&
     keysOnly(raw, ['id', 'name', 'description', 'level', 'spellType', 'icon', 'typeConfig', 'targetingConfig', 'resourceCost', 'cooldownConfig', 'tags', 'effectTypes', 'damageConfig', 'priorityRange']) &&
     raw.id === FEATHER_ID && raw.spellType === 'ACTION' &&
     equal(raw.typeConfig, { school: 'slicing', icon: 'ability_rogue_findweakness', tags: ['slicing'], castTime: 1, castTimeType: 'IMMEDIATE' }) &&

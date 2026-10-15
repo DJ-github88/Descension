@@ -307,6 +307,20 @@ const CampaignCodexSidebar = ({
         </button>
       </div>
 
+      {/* Rules Codex Deep Link Banner */}
+      <div className="codex-rules-route-banner">
+        <span>Campaign Archive &amp; Field Chronicle</span>
+        <a
+          href="/codex"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="codex-rules-link"
+          title="Open complete Laws &amp; Lore Codex Compendium in full screen"
+        >
+          <i className="fas fa-book" /> Laws &amp; Lore Codex ↗
+        </a>
+      </div>
+
       {/* Tabs */}
       <div className="codex-tab-nav">
         <button
@@ -552,7 +566,7 @@ const CampaignCodexSidebar = ({
 
         {/* Tab: Factions & Lore */}
         {activeTab === 'factions' && (
-          <div>
+          <div className="codex-factions-pane">
             <div className="codex-subnav-row">
               <button
                 type="button"
@@ -577,10 +591,11 @@ const CampaignCodexSidebar = ({
                   <span>No factions found.</span>
                 </div>
               ) : (
-                filteredFactions.map(f => {
+                <div className="codex-tab-pane">
+                  {filteredFactions.map(f => {
                   const placedPin = pins.find(p => (p.mapId || 'map-mythril-world') === currentMapId && p.linkedEntities?.factionIds?.includes(f.id));
                   return (
-                    <div key={f.id} className="codex-item-card" style={f.colors?.primary ? { borderLeft: `3px solid ${f.colors.primary}` } : {}}>
+                    <div key={f.id} className="codex-item-card" >
                       <div className="codex-card-head">
                         <div className="codex-avatar-badge badge-faction">
                           <i className="fas fa-shield-halved" />
@@ -610,7 +625,8 @@ const CampaignCodexSidebar = ({
                       </div>
                     </div>
                   );
-                })
+                })}
+                </div>
               )
             ) : (
               filteredLocations.length === 0 ? (
@@ -619,7 +635,8 @@ const CampaignCodexSidebar = ({
                   <span>No locations found.</span>
                 </div>
               ) : (
-                filteredLocations.map(loc => {
+                <div className="codex-tab-pane">
+                  {filteredLocations.map(loc => {
                   const placedPin = pins.find(p => (p.mapId || 'map-mythril-world') === currentMapId && p.linkedEntities?.locationId === loc.id);
                   return (
                     <div key={loc.id} className="codex-item-card">
@@ -656,7 +673,8 @@ const CampaignCodexSidebar = ({
                       </div>
                     </div>
                   );
-                })
+                })}
+                </div>
               )
             )}
           </div>

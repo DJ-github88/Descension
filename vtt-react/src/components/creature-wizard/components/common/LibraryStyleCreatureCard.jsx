@@ -33,6 +33,7 @@ const LibraryStyleCreatureCard = ({ creature }) => {
       monstrosity: '#ff9800',
       ooze: '#4caf50',
       plant: '#8bc34a',
+      shopkeeper: '#D4AF37',
       undead: '#673ab7'
     };
 

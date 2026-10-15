@@ -152,11 +152,15 @@ const LocationSceneToolbar = ({
             type="button"
             className={`btn-shelf-action ${isFogActive || activeFlyout === 'fog' ? 'active' : ''}`}
             onClick={() => {
-              const next = activeFlyout === 'fog' ? null : 'fog';
-              setActiveFlyout(next);
-              if (next === 'fog' && !isFogActive) onToggleFogTool();
+              if (isFogActive || activeFlyout === 'fog') {
+                if (isFogActive) onToggleFogTool();
+                setActiveFlyout(null);
+              } else {
+                setActiveFlyout('fog');
+                if (!isFogActive) onToggleFogTool();
+              }
             }}
-            title="Fog of War: Shroud or Reveal Map Areas"
+            title={isFogActive ? "Active: Fog of War (Click to untoggle and return to drag/zoom)" : "Fog of War: Shroud or Reveal Map Areas"}
           >
             <i className="fas fa-smog"></i>
             <span className="shelf-btn-label">Fog</span>
@@ -167,11 +171,15 @@ const LocationSceneToolbar = ({
             type="button"
             className={`btn-shelf-action ${isDrawingRoute || activeFlyout === 'route' ? 'active' : ''}`}
             onClick={() => {
-              const next = activeFlyout === 'route' ? null : 'route';
-              setActiveFlyout(next);
-              if (next === 'route' && !isDrawingRoute) onToggleRouteTool();
+              if (isDrawingRoute || activeFlyout === 'route') {
+                if (isDrawingRoute) onToggleRouteTool();
+                setActiveFlyout(null);
+              } else {
+                setActiveFlyout('route');
+                if (!isDrawingRoute) onToggleRouteTool();
+              }
             }}
-            title="Plot Expedition Waypoints & Route Trails"
+            title={isDrawingRoute ? "Active: Route Planner (Click to untoggle and return to drag/zoom)" : "Plot Expedition Waypoints & Route Trails"}
           >
             <i className="fas fa-route"></i>
             <span className="shelf-btn-label">Route</span>
@@ -391,7 +399,15 @@ const LocationSceneToolbar = ({
             <i className="fas fa-eye"></i> {previewAsPlayer ? 'Player View' : 'GM View'}
           </button>
 
-          <button type="button" onClick={() => setActiveFlyout(null)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#5c3e21' }}>
+          <button
+            type="button"
+            onClick={() => {
+              if (isFogActive) onToggleFogTool();
+              setActiveFlyout(null);
+            }}
+            style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--adventure-muted, #68533e)' }}
+            title="Dismiss Fog Brush"
+          >
             <i className="fas fa-times"></i>
           </button>
         </div>
@@ -401,10 +417,10 @@ const LocationSceneToolbar = ({
       {activeFlyout === 'route' && (
         <div className="shelf-flyout-tray" style={{ top: '175px' }}>
           <span style={{ fontSize: '11px', fontWeight: 800, color: '#3d2614', textTransform: 'uppercase' }}>
-            <i className="fas fa-route" style={{ color: '#d35400' }}></i> Route Planner:
+            <i className="fas fa-route" style={{ color: 'var(--adventure-seal, #663c32)' }}></i> Route Planner:
           </span>
 
-          <span style={{ fontSize: '11px', color: '#5c3e21' }}>
+          <span style={{ fontSize: '11px', color: 'var(--adventure-muted, #68533e)' }}>
             {isDrawingRoute ? 'Click map to place waypoint' : 'Plotting paused'}
           </span>
 
@@ -416,11 +432,19 @@ const LocationSceneToolbar = ({
             <i className="fas fa-pen"></i> {isDrawingRoute ? 'Pause' : 'Plot'}
           </button>
 
-          <button type="button" className="btn-header-action" onClick={onClearRoutes} style={{ color: '#8a1f11' }}>
+          <button type="button" className="btn-header-action" onClick={onClearRoutes} style={{ color: 'var(--adventure-seal, #663c32)' }}>
             <i className="fas fa-trash"></i> Clear
           </button>
 
-          <button type="button" onClick={() => setActiveFlyout(null)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#5c3e21' }}>
+          <button
+            type="button"
+            onClick={() => {
+              if (isDrawingRoute) onToggleRouteTool();
+              setActiveFlyout(null);
+            }}
+            style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--adventure-muted, #68533e)' }}
+            title="Dismiss Route Planner & Return to Drag/Zoom"
+          >
             <i className="fas fa-times"></i>
           </button>
         </div>

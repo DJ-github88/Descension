@@ -632,6 +632,7 @@ export const CREATURE_TYPES = {
   MONSTROSITY: 'monstrosity',
   OOZE: 'ooze',
   PLANT: 'plant',
+  SHOPKEEPER: 'shopkeeper',
   UNDEAD: 'undead'
 };
 

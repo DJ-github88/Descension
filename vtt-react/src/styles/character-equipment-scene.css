@@ -2,7 +2,7 @@
    Reuse its existing 16-bit artwork in both account view and /game character sheet. */
 .character-view-page:has(.equipment-backdrop) {
   --equipment-scene-art: url('https://img.itch.zone/aW1nLzE4NTY1MTExLmpwZw==/original/LFD1XZ.jpg');
-  --equipment-scene-text: #f0e3c4;
+  --equipment-scene-text: #faf6ee;
   --equipment-scene-muted: #d8c6a5;
   --equipment-scene-rule: rgba(196, 171, 121, 0.35);
   background: #302419 var(--equipment-scene-art) center / cover no-repeat;

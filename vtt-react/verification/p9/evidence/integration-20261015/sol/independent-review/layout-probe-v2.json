@@ -1,0 +1,569 @@
+{
+  "kind": "independent-css-integration-fixture",
+  "command": [
+    "C:\\Program Files\\nodejs\\node.exe",
+    "D:\\VTT\\vtt-react\\verification\\p9\\evidence\\integration-20261015\\sol\\independent-review\\layout-probe.cjs"
+  ],
+  "cwd": "D:\\VTT",
+  "started": "2026-10-15T18:52:46.091Z",
+  "fixtureLimits": [
+    "Source-equivalent host/controls markup with real complete party-hud.css and SpellConsequencePanel.css. No React mount, stores, App/router, backend or real receipt in this probe.",
+    "The production-App replay is owned by the implementer; evidence will be reviewed separately."
+  ],
+  "cssHashes": {
+    "src/styles/party-hud.css": "df2fc87256718952a81b9f0f652b04baa143c51fb109830590199bc4708283b6",
+    "src/components/hud/SpellConsequencePanel.css": "2f936ff2ff5bdc3f610c2c24c49015a1b935bd835a3f8f4e1dfeb2837682a68b"
+  },
+  "observations": [
+    {
+      "width": 1365,
+      "height": 900,
+      "initial": {
+        "viewport": {
+          "width": 1365,
+          "height": 900
+        },
+        "layer": {
+          "x": 929,
+          "y": 84,
+          "width": 420,
+          "height": 421,
+          "top": 84,
+          "right": 1349,
+          "bottom": 505,
+          "left": 929
+        },
+        "frame": {
+          "x": 20,
+          "y": 20,
+          "width": 300,
+          "height": 180,
+          "top": 20,
+          "right": 320,
+          "bottom": 200,
+          "left": 20
+        },
+        "position": "fixed",
+        "maxHeight": "560px",
+        "zIndex": "2",
+        "pointerEvents": "all",
+        "scrollHeight": 419,
+        "clientHeight": 419,
+        "overlapsFrame": false,
+        "controls": [
+          {
+            "text": "Select a tokenIlse · ilse",
+            "rect": {
+              "x": 1063.8125,
+              "y": 134,
+              "width": 107,
+              "height": 19,
+              "top": 134,
+              "right": 1170.8125,
+              "bottom": 153,
+              "left": 1063.8125
+            },
+            "hit": true
+          },
+          {
+            "text": "Bind primary attachment",
+            "rect": {
+              "x": 1170.8125,
+              "y": 133,
+              "width": 160.484375,
+              "height": 21,
+              "top": 133,
+              "right": 1331.296875,
+              "bottom": 154,
+              "left": 1170.8125
+            },
+            "hit": true
+          },
+          {
+            "text": "checkbox",
+            "rect": {
+              "x": 955,
+              "y": 347,
+              "width": 13,
+              "height": 13,
+              "top": 347,
+              "right": 968,
+              "bottom": 360,
+              "left": 955
+            },
+            "hit": true
+          },
+          {
+            "text": "number",
+            "rect": {
+              "x": 1028.65625,
+              "y": 368,
+              "width": 64,
+              "height": 27,
+              "top": 368,
+              "right": 1092.65625,
+              "bottom": 395,
+              "left": 1028.65625
+            },
+            "hit": true
+          },
+          {
+            "text": "text",
+            "rect": {
+              "x": 951,
+              "y": 415,
+              "width": 376,
+              "height": 27,
+              "top": 415,
+              "right": 1327,
+              "bottom": 442,
+              "left": 951
+            },
+            "hit": true
+          },
+          {
+            "text": "Accept one consequence",
+            "rect": {
+              "x": 951,
+              "y": 450,
+              "width": 173.703125,
+              "height": 27,
+              "top": 450,
+              "right": 1124.703125,
+              "bottom": 477,
+              "left": 951
+            },
+            "hit": true
+          },
+          {
+            "text": "Decline",
+            "rect": {
+              "x": 1130.703125,
+              "y": 450,
+              "width": 68.46875,
+              "height": 27,
+              "top": 450,
+              "right": 1199.171875,
+              "bottom": 477,
+              "left": 1130.703125
+            },
+            "hit": true
+          }
+        ]
+      },
+      "afterScroll": {
+        "viewport": {
+          "width": 1365,
+          "height": 900
+        },
+        "layer": {
+          "x": 929,
+          "y": 84,
+          "width": 420,
+          "height": 421,
+          "top": 84,
+          "right": 1349,
+          "bottom": 505,
+          "left": 929
+        },
+        "frame": {
+          "x": 20,
+          "y": 20,
+          "width": 300,
+          "height": 180,
+          "top": 20,
+          "right": 320,
+          "bottom": 200,
+          "left": 20
+        },
+        "position": "fixed",
+        "maxHeight": "560px",
+        "zIndex": "2",
+        "pointerEvents": "all",
+        "scrollHeight": 419,
+        "clientHeight": 419,
+        "overlapsFrame": false,
+        "controls": [
+          {
+            "text": "Select a tokenIlse · ilse",
+            "rect": {
+              "x": 1063.8125,
+              "y": 134,
+              "width": 107,
+              "height": 19,
+              "top": 134,
+              "right": 1170.8125,
+              "bottom": 153,
+              "left": 1063.8125
+            },
+            "hit": true
+          },
+          {
+            "text": "Bind primary attachment",
+            "rect": {
+              "x": 1170.8125,
+              "y": 133,
+              "width": 160.484375,
+              "height": 21,
+              "top": 133,
+              "right": 1331.296875,
+              "bottom": 154,
+              "left": 1170.8125
+            },
+            "hit": true
+          },
+          {
+            "text": "checkbox",
+            "rect": {
+              "x": 955,
+              "y": 347,
+              "width": 13,
+              "height": 13,
+              "top": 347,
+              "right": 968,
+              "bottom": 360,
+              "left": 955
+            },
+            "hit": true
+          },
+          {
+            "text": "number",
+            "rect": {
+              "x": 1028.65625,
+              "y": 368,
+              "width": 64,
+              "height": 27,
+              "top": 368,
+              "right": 1092.65625,
+              "bottom": 395,
+              "left": 1028.65625
+            },
+            "hit": true
+          },
+          {
+            "text": "text",
+            "rect": {
+              "x": 951,
+              "y": 415,
+              "width": 376,
+              "height": 27,
+              "top": 415,
+              "right": 1327,
+              "bottom": 442,
+              "left": 951
+            },
+            "hit": true
+          },
+          {
+            "text": "Accept one consequence",
+            "rect": {
+              "x": 951,
+              "y": 450,
+              "width": 173.703125,
+              "height": 27,
+              "top": 450,
+              "right": 1124.703125,
+              "bottom": 477,
+              "left": 951
+            },
+            "hit": true
+          },
+          {
+            "text": "Decline",
+            "rect": {
+              "x": 1130.703125,
+              "y": 450,
+              "width": 68.46875,
+              "height": 27,
+              "top": 450,
+              "right": 1199.171875,
+              "bottom": 477,
+              "left": 1130.703125
+            },
+            "hit": true
+          }
+        ]
+      },
+      "acceptClicked": true,
+      "outsideCanvasClicked": true,
+      "snapshot": "- region \"Actor attachment and consequences\":\n  - paragraph: \"Shared conditions: manual timing · overtime paused.\"\n  - text: Exact room attachment\n  - combobox \"Exact room attachment\":\n    - option \"Select a token\" [selected]\n    - option \"Ilse · ilse\"\n  - button \"Bind primary attachment\"\n- region \"Spell adjudication\":\n  - article:\n    - 'heading \"Ilse → Branvig: Marrow-Piercing Slug\" [level=4]'\n    - paragraph: slicing damage · physical [6] + 4 = 10\n    - paragraph: 1d8 + intelligence/4 → 1d8 + 4\n    - paragraph: \"Owner-approved price: 1 AP · 4 mana (temporary first) · class arcane, arcane, ember (3/12) → ember (1/12)\"\n    - paragraph: Advisory planar distance 15.0 ft; authored range. Line of effect and reach are GM rulings.\n    - checkbox \"I adjudicated legality, range, defense and mitigation\"\n    - text: I adjudicated legality, range, defense and mitigation Final damage\n    - spinbutton \"Final damage\"\n    - text: Reason (required if different from 10)\n    - textbox \"Reason (required if different from 10)\"\n    - button \"Accept one consequence\"\n    - button \"Decline\"\n- button \"Party frame control\"\n- button \"Canvas control\""
+    },
+    {
+      "width": 1280,
+      "height": 720,
+      "initial": {
+        "viewport": {
+          "width": 1280,
+          "height": 720
+        },
+        "layer": {
+          "x": 844,
+          "y": 84,
+          "width": 420,
+          "height": 380,
+          "top": 84,
+          "right": 1264,
+          "bottom": 464,
+          "left": 844
+        },
+        "frame": {
+          "x": 20,
+          "y": 20,
+          "width": 300,
+          "height": 180,
+          "top": 20,
+          "right": 320,
+          "bottom": 200,
+          "left": 20
+        },
+        "position": "fixed",
+        "maxHeight": "380px",
+        "zIndex": "2",
+        "pointerEvents": "all",
+        "scrollHeight": 419,
+        "clientHeight": 378,
+        "overlapsFrame": false,
+        "controls": [
+          {
+            "text": "Select a tokenIlse · ilse",
+            "rect": {
+              "x": 978.8125,
+              "y": 134,
+              "width": 107,
+              "height": 19,
+              "top": 134,
+              "right": 1085.8125,
+              "bottom": 153,
+              "left": 978.8125
+            },
+            "hit": true
+          },
+          {
+            "text": "Bind primary attachment",
+            "rect": {
+              "x": 1085.8125,
+              "y": 133,
+              "width": 160.484375,
+              "height": 21,
+              "top": 133,
+              "right": 1246.296875,
+              "bottom": 154,
+              "left": 1085.8125
+            },
+            "hit": true
+          },
+          {
+            "text": "checkbox",
+            "rect": {
+              "x": 870,
+              "y": 347,
+              "width": 13,
+              "height": 13,
+              "top": 347,
+              "right": 883,
+              "bottom": 360,
+              "left": 870
+            },
+            "hit": true
+          },
+          {
+            "text": "number",
+            "rect": {
+              "x": 943.65625,
+              "y": 368,
+              "width": 64,
+              "height": 27,
+              "top": 368,
+              "right": 1007.65625,
+              "bottom": 395,
+              "left": 943.65625
+            },
+            "hit": true
+          },
+          {
+            "text": "text",
+            "rect": {
+              "x": 866,
+              "y": 415,
+              "width": 376,
+              "height": 27,
+              "top": 415,
+              "right": 1242,
+              "bottom": 442,
+              "left": 866
+            },
+            "hit": true
+          },
+          {
+            "text": "Accept one consequence",
+            "rect": {
+              "x": 866,
+              "y": 450,
+              "width": 173.703125,
+              "height": 27,
+              "top": 450,
+              "right": 1039.703125,
+              "bottom": 477,
+              "left": 866
+            },
+            "hit": false
+          },
+          {
+            "text": "Decline",
+            "rect": {
+              "x": 1045.703125,
+              "y": 450,
+              "width": 68.46875,
+              "height": 27,
+              "top": 450,
+              "right": 1114.171875,
+              "bottom": 477,
+              "left": 1045.703125
+            },
+            "hit": false
+          }
+        ]
+      },
+      "afterScroll": {
+        "viewport": {
+          "width": 1280,
+          "height": 720
+        },
+        "layer": {
+          "x": 844,
+          "y": 84,
+          "width": 420,
+          "height": 380,
+          "top": 84,
+          "right": 1264,
+          "bottom": 464,
+          "left": 844
+        },
+        "frame": {
+          "x": 20,
+          "y": 20,
+          "width": 300,
+          "height": 180,
+          "top": 20,
+          "right": 320,
+          "bottom": 200,
+          "left": 20
+        },
+        "position": "fixed",
+        "maxHeight": "380px",
+        "zIndex": "2",
+        "pointerEvents": "all",
+        "scrollHeight": 419,
+        "clientHeight": 378,
+        "overlapsFrame": false,
+        "controls": [
+          {
+            "text": "Select a tokenIlse · ilse",
+            "rect": {
+              "x": 978.8125,
+              "y": 120,
+              "width": 107,
+              "height": 19,
+              "top": 120,
+              "right": 1085.8125,
+              "bottom": 139,
+              "left": 978.8125
+            },
+            "hit": true
+          },
+          {
+            "text": "Bind primary attachment",
+            "rect": {
+              "x": 1085.8125,
+              "y": 119,
+              "width": 160.484375,
+              "height": 21,
+              "top": 119,
+              "right": 1246.296875,
+              "bottom": 140,
+              "left": 1085.8125
+            },
+            "hit": true
+          },
+          {
+            "text": "checkbox",
+            "rect": {
+              "x": 870,
+              "y": 333,
+              "width": 13,
+              "height": 13,
+              "top": 333,
+              "right": 883,
+              "bottom": 346,
+              "left": 870
+            },
+            "hit": true
+          },
+          {
+            "text": "number",
+            "rect": {
+              "x": 943.65625,
+              "y": 354,
+              "width": 64,
+              "height": 27,
+              "top": 354,
+              "right": 1007.65625,
+              "bottom": 381,
+              "left": 943.65625
+            },
+            "hit": true
+          },
+          {
+            "text": "text",
+            "rect": {
+              "x": 866,
+              "y": 401,
+              "width": 376,
+              "height": 27,
+              "top": 401,
+              "right": 1242,
+              "bottom": 428,
+              "left": 866
+            },
+            "hit": true
+          },
+          {
+            "text": "Accept one consequence",
+            "rect": {
+              "x": 866,
+              "y": 436,
+              "width": 173.703125,
+              "height": 27,
+              "top": 436,
+              "right": 1039.703125,
+              "bottom": 463,
+              "left": 866
+            },
+            "hit": true
+          },
+          {
+            "text": "Decline",
+            "rect": {
+              "x": 1045.703125,
+              "y": 436,
+              "width": 68.46875,
+              "height": 27,
+              "top": 436,
+              "right": 1114.171875,
+              "bottom": 463,
+              "left": 1045.703125
+            },
+            "hit": true
+          }
+        ]
+      },
+      "acceptClicked": true,
+      "outsideCanvasClicked": true,
+      "snapshot": "- region \"Actor attachment and consequences\":\n  - paragraph: \"Shared conditions: manual timing · overtime paused.\"\n  - text: Exact room attachment\n  - combobox \"Exact room attachment\":\n    - option \"Select a token\" [selected]\n    - option \"Ilse · ilse\"\n  - button \"Bind primary attachment\"\n- region \"Spell adjudication\":\n  - article:\n    - 'heading \"Ilse → Branvig: Marrow-Piercing Slug\" [level=4]'\n    - paragraph: slicing damage · physical [6] + 4 = 10\n    - paragraph: 1d8 + intelligence/4 → 1d8 + 4\n    - paragraph: \"Owner-approved price: 1 AP · 4 mana (temporary first) · class arcane, arcane, ember (3/12) → ember (1/12)\"\n    - paragraph: Advisory planar distance 15.0 ft; authored range. Line of effect and reach are GM rulings.\n    - checkbox \"I adjudicated legality, range, defense and mitigation\"\n    - text: I adjudicated legality, range, defense and mitigation Final damage\n    - spinbutton \"Final damage\"\n    - text: Reason (required if different from 10)\n    - textbox \"Reason (required if different from 10)\"\n    - button \"Accept one consequence\"\n    - button \"Decline\"\n- button \"Party frame control\"\n- button \"Canvas control\""
+    }
+  ],
+  "errors": [],
+  "browser": "155.0.8059.41",
+  "failure": "locator.click: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('button', { name: 'Canvas control', exact: true })\u001b[22m\n\u001b[2m    - locator resolved to <button id=\"canvas\" onclick=\"window.canvasClicked=true\">Canvas control</button>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <div class=\"actor-consequence-layer\">…</div> from <div class=\"party-hud-frames\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <div class=\"actor-consequence-layer\">…</div> from <div class=\"party-hud-frames\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    58 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m       - element is visible, enabled and stable\u001b[22m\n\u001b[2m       - scrolling into view if needed\u001b[22m\n\u001b[2m       - done scrolling\u001b[22m\n\u001b[2m       - <div class=\"actor-consequence-layer\">…</div> from <div class=\"party-hud-frames\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m     - retrying click action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n\n    at D:\\VTT\\vtt-react\\verification\\p9\\evidence\\integration-20261015\\sol\\independent-review\\layout-probe.cjs:32:79",
+  "ended": "2026-10-15T18:53:17.705Z"
+}

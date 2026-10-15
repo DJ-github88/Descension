@@ -81,6 +81,7 @@ const ALL_CREATURES = BESTIARY_DATA.regions.flatMap(r =>
     const folk = c.folkloreInspiration || {};
     const haystack = [
       c.name,
+      c.type,
       c.role,
       c.origin,
       c.nature,
@@ -92,7 +93,7 @@ const ALL_CREATURES = BESTIARY_DATA.regions.flatMap(r =>
       folk.description,
       folk.settingAdaptation
     ].map(v => (typeof v === 'string' ? v : '')).join(' ').toLowerCase();
-    return Object.assign(c, { regionName: r.name, regionId: r.id, _haystack: haystack });
+    return Object.assign(c, { regionName: r.name, regionId: r.id, type: c.type || 'monster', _haystack: haystack });
   })
 );
 
@@ -102,6 +103,7 @@ const REGIONS_BY_ID = new Map(BESTIARY_DATA.regions.map(r => [r.id, r]));
 const BESTIARY_FUSE = new Fuse(ALL_CREATURES, {
   keys: [
     { name: 'name', weight: 0.5 },
+    { name: 'type', weight: 0.25 },
     { name: 'role', weight: 0.2 },
     { name: 'origin', weight: 0.15 },
     { name: 'heritage', weight: 0.15 },
@@ -335,6 +337,11 @@ const BestiaryCreatureCard = memo(({ creature, onSelect, regionIcon }) => {
       <div className="bestiary-card-body">
         <div className="bestiary-card-header">
           <h3>{creature.name}</h3>
+          {creature.type === 'shopkeeper' && (
+            <span className="bestiary-card-type-badge shopkeeper">
+              <i className="fas fa-coins" aria-hidden="true"></i> Shopkeeper
+            </span>
+          )}
         </div>
         <p className="bestiary-card-role">{creature.role}</p>
         <p className="bestiary-card-origin">{originSnippet}</p>
@@ -346,6 +353,7 @@ const BestiaryCreatureCard = memo(({ creature, onSelect, regionIcon }) => {
 const BestiaryDisplay = () => {
   const [selectedRegion, setSelectedRegion] = useState(BESTIARY_DATA.regions[0].id);
   const [selectedDanger, setSelectedDanger] = useState('all');
+  const [selectedType, setSelectedType] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [debouncedSearchQuery, setDebouncedSearchQuery] = useState('');
   const [visibleCount, setVisibleCount] = useState(ITEMS_PER_PAGE);
@@ -389,6 +397,10 @@ const BestiaryDisplay = () => {
       base = base.filter(c => c.dangerLevel === selectedDanger);
     }
 
+    if (selectedType !== 'all') {
+      base = base.filter(c => (c.type || 'monster') === selectedType);
+    }
+
     if (!q) {
       return base;
     }
@@ -406,7 +418,8 @@ const BestiaryDisplay = () => {
       const item = fuseResults[i].item;
       if (
         (selectedRegion === 'all' || item.regionId === selectedRegion) &&
-        (selectedDanger === 'all' || item.dangerLevel === selectedDanger)
+        (selectedDanger === 'all' || item.dangerLevel === selectedDanger) &&
+        (selectedType === 'all' || (item.type || 'monster') === selectedType)
       ) {
         filteredResults.push(item);
         addedIds.add(item.id || item.name);
@@ -417,13 +430,19 @@ const BestiaryDisplay = () => {
     exactMatches.forEach(item => {
       const key = item.id || item.name;
       if (!addedIds.has(key)) {
-        filteredResults.push(item);
-        addedIds.add(key);
+        if (
+          (selectedRegion === 'all' || item.regionId === selectedRegion) &&
+          (selectedDanger === 'all' || item.dangerLevel === selectedDanger) &&
+          (selectedType === 'all' || (item.type || 'monster') === selectedType)
+        ) {
+          filteredResults.push(item);
+          addedIds.add(key);
+        }
       }
     });
 
     return filteredResults;
-  }, [selectedRegion, selectedDanger, debouncedSearchQuery]);
+  }, [selectedRegion, selectedDanger, selectedType, debouncedSearchQuery]);
 
   // Progressive slice for low-overhead rendering
   const displayedCreatures = useMemo(() => {
@@ -458,6 +477,11 @@ const BestiaryDisplay = () => {
     setVisibleCount(ITEMS_PER_PAGE);
   }, []);
 
+  const handleTypeSelect = useCallback((type) => {
+    setSelectedType(prev => prev === type ? 'all' : type);
+    setVisibleCount(ITEMS_PER_PAGE);
+  }, []);
+
   const handleSearchChange = useCallback((e) => {
     setSearchQuery(e.target.value);
     setVisibleCount(ITEMS_PER_PAGE);
@@ -467,6 +491,7 @@ const BestiaryDisplay = () => {
     setSearchQuery('');
     setDebouncedSearchQuery('');
     setSelectedDanger('all');
+    setSelectedType('all');
     setVisibleCount(ITEMS_PER_PAGE);
   }, []);
 
@@ -551,8 +576,8 @@ const BestiaryDisplay = () => {
     const valString = typeof value === 'number' ? `${value}%` : (value === true || value === '100' ? 'Immune' : value);
     return (
       <div key={type} className={`bestiary-res-badge ${isVuln ? 'vuln' : 'resist'}`} style={style}>
-        <span className="bestiary-res-pill" style={{ backgroundColor: details.color }}>
-          <i className={`fas ${details.icon} bestiary-res-icon`}></i>
+        <span className="bestiary-res-pill" style={{ backgroundColor: details.color, color: '#f4ecd8' }}>
+          <i className={`fas ${details.icon} bestiary-res-icon`} style={{ color: '#f4ecd8' }} aria-hidden="true"></i>
           {details.label}
         </span>
         <span className="bestiary-res-value-text" style={{ color: isVuln ? '#9b2226' : '#2d6a4f' }}>
@@ -959,7 +984,7 @@ const BestiaryDisplay = () => {
                       value={searchQuery}
                       onChange={handleSearchChange}
                     />
-                    {(searchQuery || selectedDanger !== 'all') && (
+                    {(searchQuery || selectedDanger !== 'all' || selectedType !== 'all') && (
                       <button
                         type="button"
                         className="bestiary-search-clear"
@@ -970,6 +995,36 @@ const BestiaryDisplay = () => {
                       </button>
                     )}
                   </div>
+                </div>
+
+                <div className="bestiary-filters-row bestiary-type-filters-row">
+                  <span className="bestiary-filter-label">
+                    <i className="fas fa-tags"></i> Category:
+                  </span>
+                  <button
+                    type="button"
+                    className={`bestiary-filter-pill ${selectedType === 'all' ? 'active' : ''}`}
+                    onClick={() => handleTypeSelect('all')}
+                  >
+                    All
+                  </button>
+                  <button
+                    type="button"
+                    className={`bestiary-filter-pill shopkeeper-pill ${selectedType === 'shopkeeper' ? 'active' : ''}`}
+                    onClick={() => handleTypeSelect('shopkeeper')}
+                  >
+                    <i className="fas fa-coins bestiary-pill-icon" aria-hidden="true"></i> Shopkeepers
+                  </button>
+                  {['humanoid', 'beast', 'fey', 'monstrosity', 'undead', 'dragon', 'construct', 'elemental'].map(type => (
+                    <button
+                      key={type}
+                      type="button"
+                      className={`bestiary-filter-pill ${selectedType === type ? 'active' : ''}`}
+                      onClick={() => handleTypeSelect(type)}
+                    >
+                      {formatLoreLabel(type)}
+                    </button>
+                  ))}
                 </div>
 
                 <div className="bestiary-filters-row">

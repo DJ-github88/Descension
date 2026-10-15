@@ -45,36 +45,6 @@ export const APEX_DATA = {
    offHand: ['empty']
   },
 subraceVariants: {
-    viridian_florae: {
-      subraceName: 'Briaren Florae',
-      title: 'The Thorn-Tracker',
-      reframe: `The Briaren Florae learn pack hunting at the grove border, reading a quarry through the living growth it disturbs. Cut or sterile ground blinds the sense, so a thorn-tracker learns the boundary of every living grove.`,
-      signatureAbility: {
-        name: 'Thorn-Track',
-        description: `You read living growth disturbed by a quarry; cut or sterile ground removes the edge.`
-      },
-      currentCrisisAngle: `The groves are being felled, and a tracker who can only read living ground is losing the territory they learned to hunt.`,
-      signatureQuote: {
-        text: 'The thorn remembers what stepped on it. Pave it over and you have blinded me.',
-        speaker: 'Thorn-Tracker Vessa',
-        context: 'A Briaren Florae Apex at a felled grove'
-      }
-    },
-    florae_unified: {
-      subraceName: 'Oaken Florae',
-      title: 'The Grove-Scout',
-      reframe: `The Oaken Florae learn pack hunting from Sylas’s hunters at the forest’s edge, reading a quarry’s passage through prepared roots and wood. A local sense, not a map-wide one: the roots speak only where they grow, and the Oaken scout learns to listen at the grove’s boundary.`,
-      signatureAbility: {
-        name: 'Root-Trace',
-        description: `You read a quarry’s passage through prepared roots and wood; the sense is local to living substrate and fails on cut or sterile ground.`
-      },
-      currentCrisisAngle: `The groves are being felled faster than the Oaken can prepare new roots; each stump is a blind spot, and something has learned to cross the cleared ground.`,
-      signatureQuote: {
-        text: 'The root remembers a footfall the eye never saw. Cut the root, and you cut the witness.',
-        speaker: 'Branch-Scout Miro',
-        context: 'An Oaken Florae Apex at a felled grove'
-      }
-    },
   veiled_mimir: {
    subraceName: 'Arch Mimir',
    title: 'The Mask-Hunter',
@@ -273,7 +243,7 @@ The art spread from the Mimir outward. Skald glacier-hunters learned it when nor
 
 The mist is learning to hide deliberately. Something large has moved through the Frostwood Reach for months without leaving any trace, and it is teaching the fog to evade the Hunt itself. The Broken Mimir trackers who dissolve into the fog to find it are not coming back. Sylas has concluded he has become the hunted and is preparing to dissolve into the fog himself.
 
-Native only to Arch Mimir, Broken Mimir, Nereid Myrathil. Any other people named or implied above walk this path only as a rare, individually qualified exception, not a native tradition.`,
+Native to Arch Mimir, Broken Mimir, Skald, Anhur, Cromyx, Ordu, and Nereid Myrathil. Any other people walk this path only as an individually qualified exception.`,
 
  title: "The Apex",
  subtitle: "Shadow Glaive Wielder & Beast Companion",
@@ -283,7 +253,10 @@ Native only to Arch Mimir, Broken Mimir, Nereid Myrathil. Any other people named
    { url: "/assets/images/classes/apex_arch_mimir.jpg", subraceId: "veiled_mimir", caption: "Arch Mimir Apex — The Mask-Hunter, stalking in a low crouch along an ironwood log with a Shadow Glaive and bonded Frostwood mist-wolf." },
    { url: "/assets/images/classes/apex_skald_human.jpg", subraceId: "skald_human", caption: "Skald Human Apex — The Glacier-Stalker, striding across a frozen ridge in polar bear furs with a frost-etched Ice-Glaive and a shaggy white tundra war-mastiff." },
    { url: "/assets/images/classes/apex_marked_vreken.jpg", subraceId: "marked_vreken", caption: "Cromyx Apex — The Root-Stalker, drawing a bone-horned recurve bow atop gnarled roots alongside a subterranean armored burrower beast." },
-   { url: "/assets/images/classes/apex_waste_solari.jpg", subraceId: "thrask_solari", caption: "Anhur Apex — The Ash-Stalker, leaping across volcanic scoria while drawing an ember-tipped recurve bow alongside a bounding cinder-jackal." }
+   { url: "/assets/images/classes/apex_waste_solari.jpg", subraceId: "thrask_solari", caption: "Anhur Apex — The Ash-Stalker, leaping across volcanic scoria while drawing an ember-tipped recurve bow alongside a bounding cinder-jackal." },
+   { url: "/assets/images/classes/apex_ordan_human.jpg", subraceId: "ordan_human", caption: "Ordu Human Apex — The Steppe-Pursuer, nomadic hunter in windblown furs drawing a recurve horn-bow alongside his bonded steppe lynx." },
+   { url: "/assets/images/classes/apex_broken_mimir.jpg", subraceId: "tethered_mimir", caption: "Broken Mimir Apex — The Bramble-Stalker, unmasked wild fae tracker with a bone-tipped hunting spear stalking through the brush with his bonded briar-hound." },
+   { url: "/assets/images/classes/apex_deepling_myrathil.jpg", subraceId: "deepling_myrathil", caption: "Nereid Myrathil Apex — The Trench-Stalker, amphibious deep-sea hunter swimming with a three-pronged whalebone harpoon-glaive alongside an armored abyssal companion beast." }
  ],
 
  quickOverview: {

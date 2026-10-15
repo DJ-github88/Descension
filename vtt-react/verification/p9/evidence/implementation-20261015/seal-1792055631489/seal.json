@@ -1,0 +1,9 @@
+{
+  "out": "/sessions/rcw-01blq25pdzkihqzq7vcdqkak/mnt/VTT/vtt-react/verification/p9/evidence/implementation-20261015/seal-1792055631489",
+  "sourcePacketSha256": "cd051039f3eea15206bc985ce882a1c65470c0e3c50083984cf13978dba1c175",
+  "p8Drift": [],
+  "intentionalP9Extensions": [
+    "vtt-react/src/services/actorConsequenceService.js",
+    "vtt-react/src/persistence/privateStorageRegistry.js"
+  ]
+}

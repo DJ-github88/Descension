@@ -7,16 +7,16 @@ import { normalizeRaceDisplayName } from '../utils/raceDisplayNames';
 // one native class. Everything else is a rare acquired qualification (E).
 export const HERITAGE_TRADITIONS = {
   thalren_human: { name: 'Tallyn', raceId: 'human', classes: ["Inquisitor","Toxicologist","Warden","Spellguard"] },
-  skald_human: { name: 'Skald', raceId: 'human', classes: ["Augur","Berserker","Harbinger","Martyr","Warden"] },
-  tessen_human: { name: 'Tessic', raceId: 'human', classes: ["Revenant","Chronarch","Spellguard","Warden","Harbinger"] },
+  skald_human: { name: 'Skald', raceId: 'human', classes: ["Augur","Berserker","Harbinger","Martyr","Warden","Apex"] },
+  tessen_human: { name: 'Tessic', raceId: 'human', classes: ["Revenant","Chronarch","Spellguard","Harbinger"] },
   merryn_human: { name: 'Merryn', raceId: 'human', classes: ["Gambit","Minstrel","Revenant"] },
   ordan_human: { name: 'Ordu', raceId: 'human', classes: ["Animist","False Prophet","Apex"] },
   vashir_astril: { name: 'Lumian', raceId: 'astril', classes: ["Arcanoneer","Animist","Augur","Harbinger","False Prophet"] },
   silath_astril: { name: 'Kordak', raceId: 'astril', classes: ["Harbinger","Animist","Augur","Crusader","False Prophet"] },
   kethrin_fexric: { name: 'Brasskin', raceId: 'fexrick', classes: ["Arcanoneer","Chronarch","Pyrofiend","Spellguard","Warden"], aliases: ["Guild-Bound"] },
   drall_fexric: { name: 'Alchemite', raceId: 'fexrick', classes: ["Arcanoneer","Gambit","Spellguard","Warden"], aliases: ["Clan-Free"] },
-  viridian_florae: { name: 'Briaren Florae', raceId: 'florae', classes: ["Lunarch","Toxicologist","Animist","Apex"] },
-  florae_unified: { name: 'Oaken Florae', raceId: 'florae', classes: ["Toxicologist","Animist","Apex","Lunarch"], aliases: ["oken_florae","oken"] },
+  viridian_florae: { name: 'Briaren Florae', raceId: 'florae', classes: ["Lunarch","Toxicologist","Animist"] },
+  florae_unified: { name: 'Oaken Florae', raceId: 'florae', classes: ["Toxicologist","Animist","Lunarch"], aliases: ["oken_florae","oken"] },
   morgh_groven: { name: 'Morgh Groven', raceId: 'groven', classes: ["Martyr","Shaper","Warden","Berserker"] },
   ithran_groven: { name: 'Amordjin Groven', raceId: 'groven', classes: ["Martyr","Shaper","Warden","Chronarch"] },
   veiled_mimir: { name: 'Arch Mimir', raceId: 'mimir', classes: ["Apex","Shaper","Warden","Animist","Lunarch"], aliases: ["veiled","Highborne Mimir"] },
@@ -27,10 +27,10 @@ export const HERITAGE_TRADITIONS = {
   clean_vreken: { name: 'Bedel', raceId: 'vreken', classes: ["Animist","Plaguebringer","Revenant"] },
   marked_vreken: { name: 'Cromyx', raceId: 'vreken', classes: ["Inquisitor","Plaguebringer","Apex","Augur"] },
   korr_solari: { name: 'Korr', raceId: 'solari', classes: ["Augur","Martyr","Pyrofiend","Spellguard"] },
-  thrask_solari: { name: 'Anhur', raceId: 'solari', classes: ["Crusader","Martyr","Pyrofiend","Spellguard"] },
+  thrask_solari: { name: 'Anhur', raceId: 'solari', classes: ["Crusader","Martyr","Pyrofiend","Spellguard","Apex"] },
   deepling_myrathil: { name: 'Nereid Myrathil', raceId: 'myrathil', classes: ["Animist","Apex","Augur","Minstrel"] },
   shoreling_myrathil: { name: 'Corali Myrathil', raceId: 'myrathil', classes: ["Minstrel","Augur","Revenant"] },
-  riverling_myrathil: { name: 'Ondine Myrathil', raceId: 'myrathil', classes: ["Minstrel","Animist","Augur","Revenant"] },
+  riverling_myrathil: { name: 'Ondine Myrathil', raceId: 'myrathil', classes: ["Minstrel","Animist","Augur"] },
 };
 
 const provenance = (powerSource, acquisition, institution, requirements, incompatibleStates = [], heritageEffectsImplemented = false) => ({

@@ -1,78 +1,104 @@
+/* SpellCastConfirmation.css — Calm TTRPG Manuscript Codex Theme */
+
 .spell-cast-confirmation-overlay {
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.75);
+    inset: 0;
+    background-color: rgba(20, 14, 9, 0.65);
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 15000;
-    backdrop-filter: blur(2px);
+    backdrop-filter: blur(3px);
     padding: 20px;
     box-sizing: border-box;
+    animation: spellConfirmFadeIn 0.18s ease-out;
+}
+
+@keyframes spellConfirmFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
 .spell-cast-confirmation-dialog {
-    background: linear-gradient(145deg, #2a1f15 0%, #1a0f0b 50%, #0f0805 100%);
-    border: 2px solid #8b7355;
+    background: linear-gradient(180deg, #fdf8ee 0%, #f4eee2 100%);
+    border: 2px solid #8b6f47;
     border-radius: 8px;
-    padding: 20px;
+    padding: 0 20px 20px 20px;
     width: 100%;
-    max-width: 400px;
+    max-width: 420px;
     max-height: 90vh;
     overflow-y: auto;
     box-shadow:
-        0 8px 32px rgba(0, 0, 0, 0.6),
-        inset 0 1px 2px rgba(255, 255, 255, 0.1),
-        0 0 0 1px rgba(139, 115, 85, 0.3);
-    font-family: 'Cinzel', serif;
-    color: #f1ece1;
+        0 16px 40px rgba(24, 16, 10, 0.45),
+        0 2px 6px rgba(24, 16, 10, 0.25),
+        inset 0 1px 0 rgba(255, 255, 255, 0.7);
+    font-family: 'Cinzel', Georgia, serif;
+    color: #34251a;
     box-sizing: border-box;
+    animation: spellDialogSlideIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes spellDialogSlideIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95) translateY(-8px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
 }
 
 .spell-cast-confirmation-header {
-    margin-bottom: 16px;
+    background: linear-gradient(180deg, #302419 0%, #231911 100%);
+    color: #f1ece1;
+    margin: 0 -20px 16px -20px;
+    padding: 12px 20px;
+    border-bottom: 2px solid #b6a080;
+    border-radius: 6px 6px 0 0;
     text-align: center;
-    border-bottom: 1px solid #8b7355;
-    padding-bottom: 12px;
 }
 
 .spell-cast-confirmation-header h3 {
     margin: 0;
     color: #f1ece1;
-    font-size: 18px;
+    font-size: 15px;
     font-weight: 700;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-    letter-spacing: 0.5px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+    letter-spacing: 1px;
+    text-transform: uppercase;
 }
 
 .spell-cast-confirmation-content {
-    margin-bottom: 20px;
+    margin-bottom: 16px;
+}
+
+.p9-manual-diagnostic {
+    background: rgba(180, 120, 40, 0.1);
+    border: 1px solid rgba(180, 120, 40, 0.35);
+    color: #6d4b1f;
+    font-family: Georgia, serif;
+    font-size: 12px;
+    font-style: italic;
+    border-radius: 4px;
+    padding: 6px 10px;
+    margin-bottom: 12px;
+    line-height: 1.4;
 }
 
 .spell-name {
-    font-size: 18px;
+    font-size: 17px;
     font-weight: 700;
-    color: #ffd700;
+    color: #34251a;
     text-align: center;
     margin-bottom: 16px;
-    padding: 8px;
-    background: linear-gradient(135deg, rgba(139, 115, 85, 0.2) 0%, rgba(139, 115, 85, 0.1) 100%);
-    border: 1px solid rgba(139, 115, 85, 0.4);
-    border-radius: 6px;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-}
-
-.resource-cost-inferno {
-    border-color: rgba(255, 69, 0, 0.6);
-    background: linear-gradient(135deg, rgba(255, 69, 0, 0.15) 0%, rgba(139, 0, 0, 0.08) 100%);
-}
-
-.resource-cost-inferno.insufficient {
-    border-color: rgba(220, 53, 69, 0.7);
-    background: linear-gradient(135deg, rgba(220, 53, 69, 0.15) 0%, rgba(139, 0, 0, 0.15) 100%);
+    padding: 10px 14px;
+    background: rgba(255, 255, 255, 0.65);
+    border: 1px solid #c4baa6;
+    border-left: 3px solid #663c32;
+    border-radius: 4px;
+    letter-spacing: 0.5px;
+    box-shadow: inset 0 1px 2px rgba(52, 37, 26, 0.04);
 }
 
 .resource-costs-section,
@@ -81,12 +107,15 @@
 }
 
 .section-label {
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 700;
-    color: #c9aa71;
+    color: #7a6244;
     margin-bottom: 8px;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 1px;
+    font-family: 'Cinzel', Georgia, serif;
+    border-bottom: 1px solid #e0d7c7;
+    padding-bottom: 3px;
 }
 
 .resource-costs,
@@ -102,156 +131,137 @@
     flex-direction: column;
     align-items: center;
     padding: 10px 14px;
-    background: linear-gradient(135deg, rgba(139, 115, 85, 0.15) 0%, rgba(139, 115, 85, 0.08) 100%);
-    border: 1px solid rgba(139, 115, 85, 0.4);
+    background: rgba(255, 255, 255, 0.6);
+    border: 1px solid #c9beaa;
+    border-top: 3px solid #8b7355;
     border-radius: 6px;
-    min-width: 80px;
-    transition: all 0.2s ease;
+    min-width: 88px;
+    box-shadow: 0 1px 3px rgba(52, 37, 26, 0.08);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
 .resource-cost:hover {
     transform: translateY(-1px);
+    box-shadow: 0 3px 6px rgba(52, 37, 26, 0.12);
 }
 
 .resource-cost.insufficient {
-    border-color: rgba(220, 53, 69, 0.7);
-    background: linear-gradient(135deg, rgba(220, 53, 69, 0.15) 0%, rgba(139, 0, 0, 0.15) 100%);
-    animation: pulse-error 2s ease-in-out infinite;
-}
-
-@keyframes pulse-error {
-    0%, 100% { border-color: rgba(220, 53, 69, 0.7); }
-    50% { border-color: rgba(220, 53, 69, 0.9); }
+    border-color: #b54737;
+    border-top-color: #b54737;
+    background: rgba(181, 71, 55, 0.06);
 }
 
 .resource-cost-mana {
-    border-color: rgba(33, 150, 243, 0.6);
-    background: linear-gradient(135deg, rgba(33, 150, 243, 0.15) 0%, rgba(25, 118, 210, 0.08) 100%);
-}
-
-.resource-cost-mana.insufficient {
-    border-color: rgba(220, 53, 69, 0.7);
-    background: linear-gradient(135deg, rgba(220, 53, 69, 0.15) 0%, rgba(139, 0, 0, 0.15) 100%);
+    border-top-color: #3b6e8c;
 }
 
 .resource-cost-ap {
-    border-color: rgba(255, 152, 0, 0.6);
-    background: linear-gradient(135deg, rgba(255, 152, 0, 0.15) 0%, rgba(255, 111, 0, 0.08) 100%);
+    border-top-color: #b07228;
 }
 
-.resource-cost-ap.insufficient {
-    border-color: rgba(220, 53, 69, 0.7);
-    background: linear-gradient(135deg, rgba(220, 53, 69, 0.15) 0%, rgba(139, 0, 0, 0.15) 100%);
+.resource-cost-inferno {
+    border-top-color: #a8422b;
 }
 
 /* Elemental Spheres (Arcanoneer) */
 .resource-cost-sphere {
-    border-color: rgba(251, 191, 36, 0.45);
-    background: linear-gradient(135deg, rgba(30, 25, 20, 0.6) 0%, rgba(15, 12, 10, 0.8) 100%);
+    border-top-color: #b08824;
 }
 
 .resource-cost-sphere.sphere-arcane {
-    border-color: rgba(147, 112, 219, 0.65);
-    background: linear-gradient(135deg, rgba(147, 112, 219, 0.22) 0%, rgba(59, 7, 100, 0.35) 100%);
+    border-top-color: #6b4ea1;
 }
 
 .resource-cost-sphere.sphere-sacred {
-    border-color: rgba(234, 179, 8, 0.65);
-    background: linear-gradient(135deg, rgba(234, 179, 8, 0.22) 0%, rgba(113, 63, 18, 0.35) 100%);
+    border-top-color: #b08824;
 }
 
 .resource-cost-sphere.sphere-blight {
-    border-color: rgba(139, 92, 246, 0.65);
-    background: linear-gradient(135deg, rgba(139, 92, 246, 0.22) 0%, rgba(46, 16, 101, 0.35) 100%);
+    border-top-color: #5b3b8c;
 }
 
 .resource-cost-sphere.sphere-ember {
-    border-color: rgba(234, 88, 12, 0.65);
-    background: linear-gradient(135deg, rgba(234, 88, 12, 0.22) 0%, rgba(124, 45, 18, 0.35) 100%);
+    border-top-color: #b34720;
 }
 
 .resource-cost-sphere.sphere-rime {
-    border-color: rgba(2, 132, 199, 0.65);
-    background: linear-gradient(135deg, rgba(2, 132, 199, 0.22) 0%, rgba(12, 74, 110, 0.35) 100%);
+    border-top-color: #2d7196;
 }
 
 .resource-cost-sphere.sphere-primal {
-    border-color: rgba(22, 163, 74, 0.65);
-    background: linear-gradient(135deg, rgba(22, 163, 74, 0.22) 0%, rgba(20, 83, 45, 0.35) 100%);
+    border-top-color: #3a7337;
 }
 
 .resource-cost-sphere.sphere-storm {
-    border-color: rgba(8, 145, 178, 0.65);
-    background: linear-gradient(135deg, rgba(8, 145, 178, 0.22) 0%, rgba(22, 78, 99, 0.35) 100%);
+    border-top-color: #227084;
 }
 
 .resource-cost-sphere.sphere-wyrd {
-    border-color: rgba(219, 39, 119, 0.65);
-    background: linear-gradient(135deg, rgba(219, 39, 119, 0.22) 0%, rgba(131, 24, 67, 0.35) 100%);
-}
-
-.resource-cost-sphere.insufficient {
-    border-color: rgba(220, 53, 69, 0.7) !important;
-    background: linear-gradient(135deg, rgba(220, 53, 69, 0.18) 0%, rgba(139, 0, 0, 0.2) 100%) !important;
+    border-top-color: #9e3268;
 }
 
 .resource-cost-header {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-bottom: 6px;
+    margin-bottom: 4px;
 }
 
 .resource-amount {
-    font-size: 20px;
+    font-size: 22px;
     font-weight: 700;
-    color: #f1ece1;
+    color: #34251a;
+    line-height: 1;
+    font-family: 'Cinzel', Georgia, serif;
     margin-bottom: 2px;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 .resource-cost.insufficient .resource-amount {
-    color: #ff6b6b;
+    color: #8b2b1d;
 }
 
 .resource-label {
     font-size: 10px;
-    color: #c9aa71;
+    color: #7a6244;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
-    font-weight: 600;
+    letter-spacing: 0.6px;
+    font-weight: 700;
+    font-family: 'Cinzel', Georgia, serif;
+    text-align: center;
 }
 
 .resource-availability {
-    font-size: 10px;
-    margin-top: 2px;
+    font-size: 11px;
+    margin-top: 3px;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 2px;
+    font-family: Georgia, serif;
 }
 
 .sufficient-text {
-    color: #90ee90;
+    color: #2e6027;
     font-weight: 600;
 }
 
 .insufficient-text {
-    color: #ff6b6b;
+    color: #8b2b1d;
     font-weight: 700;
 }
 
 .insufficient-badge {
     font-size: 9px;
-    color: #ff6b6b;
+    color: #8b2b1d;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    padding: 2px 6px;
-    background: rgba(220, 53, 69, 0.2);
-    border: 1px solid rgba(220, 53, 69, 0.5);
+    padding: 1px 6px;
+    background: rgba(181, 71, 55, 0.12);
+    border: 1px solid rgba(181, 71, 55, 0.35);
     border-radius: 3px;
     margin-top: 2px;
+    font-family: 'Cinzel', Georgia, serif;
 }
 
 .resource-change {
@@ -259,16 +269,12 @@
     flex-direction: column;
     align-items: center;
     padding: 10px 14px;
-    background: linear-gradient(135deg, rgba(139, 115, 85, 0.15) 0%, rgba(139, 115, 85, 0.08) 100%);
-    border: 1px solid;
+    background: rgba(255, 255, 255, 0.6);
+    border: 1.5px dashed #8b6f47;
     border-radius: 6px;
-    min-width: 80px;
-    transition: all 0.2s ease;
-}
-
-.resource-change.resource-gain {
-    border-style: dashed;
-    border-width: 2px;
+    min-width: 88px;
+    box-shadow: 0 1px 3px rgba(52, 37, 26, 0.08);
+    transition: transform 0.15s ease;
 }
 
 .resource-change:hover {
@@ -276,10 +282,10 @@
 }
 
 .resource-change .resource-amount {
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 700;
     margin-bottom: 2px;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    font-family: 'Cinzel', Georgia, serif;
 }
 
 .resource-change .resource-label {
@@ -287,17 +293,20 @@
     text-transform: uppercase;
     letter-spacing: 0.5px;
     font-weight: 600;
+    font-family: 'Cinzel', Georgia, serif;
+    text-align: center;
 }
 
 .no-costs-message {
     text-align: center;
-    color: #c9aa71;
+    color: #68533e;
+    font-family: Georgia, serif;
     font-style: italic;
     padding: 12px;
-    background: rgba(139, 115, 85, 0.1);
+    background: rgba(255, 255, 255, 0.4);
     border-radius: 6px;
-    border: 1px solid rgba(139, 115, 85, 0.3);
-    font-size: 12px;
+    border: 1px solid #c4baa6;
+    font-size: 13px;
 }
 
 .spell-cast-confirmation-buttons {
@@ -306,67 +315,67 @@
     gap: 12px;
     margin-top: 16px;
     padding-top: 16px;
-    border-top: 1px solid rgba(139, 115, 85, 0.4);
+    border-top: 1px solid #c4baa6;
 }
 
 .spell-cast-confirmation-buttons button {
-    padding: 10px 24px;
-    border: 2px solid;
+    padding: 9px 22px;
     border-radius: 6px;
     cursor: pointer;
     font-weight: 700;
-    font-size: 13px;
-    font-family: 'Cinzel', serif;
-    transition: all 0.2s ease;
+    font-size: 12px;
+    font-family: 'Cinzel', Georgia, serif;
+    transition: all 0.15s ease;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
-    min-width: 90px;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    letter-spacing: 0.8px;
+    min-width: 96px;
 }
 
 .confirm-button {
-    background: linear-gradient(to bottom, #8b7355, #6b5d4f);
-    border-color: #8b7355;
-    color: #f1ece1;
+    background: linear-gradient(180deg, #663c32 0%, #522d25 100%);
+    border: 1px solid #421e17;
+    color: #fdf8ee;
+    box-shadow: 0 2px 5px rgba(60, 20, 15, 0.25);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
 }
 
-.confirm-button:hover:not(.disabled) {
-    background: linear-gradient(to bottom, #a68b6b, #8b7355);
-    border-color: #a68b6b;
+.confirm-button:hover:not(.disabled):not(:disabled) {
+    background: linear-gradient(180deg, #78473c 0%, #60362c 100%);
+    border-color: #4f261e;
     color: #ffffff;
-    box-shadow: 0 4px 8px rgba(139, 115, 85, 0.4);
+    box-shadow: 0 3px 8px rgba(60, 20, 15, 0.35);
     transform: translateY(-1px);
 }
 
-.confirm-button.disabled {
-    background: linear-gradient(to bottom, #4a4a4a, #3a3a3a);
-    border-color: #4a4a4a;
-    color: #888;
+.confirm-button.disabled,
+.confirm-button:disabled {
+    background: #b5aba0 !important;
+    border-color: #9c9186 !important;
+    color: #6e6459 !important;
     cursor: not-allowed;
-    opacity: 0.6;
+    opacity: 0.65;
+    box-shadow: none !important;
+    transform: none !important;
+    text-shadow: none !important;
 }
 
 .cancel-button {
-    background: linear-gradient(to bottom, #6b6b6b, #4a4a4a);
-    border-color: #4a4a4a;
-    color: #f1ece1;
+    background: #e8e2d4;
+    border: 1px solid #9c8970;
+    color: #34251a;
+    box-shadow: 0 1px 3px rgba(40, 30, 20, 0.1);
 }
 
 .cancel-button:hover {
-    background: linear-gradient(to bottom, #7b7b7b, #6b6b6b);
-    border-color: #6b6b6b;
-    color: #ffffff;
-    box-shadow: 0 4px 8px rgba(107, 107, 107, 0.4);
+    background: #ded6c5;
+    border-color: #83725b;
+    color: #231911;
+    box-shadow: 0 2px 5px rgba(40, 30, 20, 0.15);
     transform: translateY(-1px);
 }
 
 .cooldown-section {
     margin-bottom: 16px;
-    padding: 10px;
-    background: linear-gradient(135deg, rgba(139, 115, 85, 0.15) 0%, rgba(139, 115, 85, 0.08) 100%);
-    border: 1px solid rgba(139, 115, 85, 0.4);
-    border-radius: 6px;
 }
 
 .cooldown-display {
@@ -374,36 +383,39 @@
     align-items: center;
     justify-content: center;
     gap: 8px;
-    padding: 8px;
+    padding: 8px 12px;
+    background: rgba(255, 255, 255, 0.45);
+    border: 1px solid #c4baa6;
+    border-radius: 6px;
 }
 
 .cooldown-icon {
-    font-size: 16px;
-    color: #c9aa71;
+    font-size: 14px;
+    color: #7a6244;
 }
 
 .cooldown-text {
     font-size: 13px;
-    color: #f1ece1;
+    color: #34251a;
     font-weight: 600;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    font-family: Georgia, serif;
 }
 
 /* Scrollbar styling */
 .spell-cast-confirmation-dialog::-webkit-scrollbar {
-    width: 8px;
+    width: 6px;
 }
 
 .spell-cast-confirmation-dialog::-webkit-scrollbar-track {
-    background: rgba(139, 115, 85, 0.1);
-    border-radius: 4px;
+    background: rgba(182, 160, 128, 0.15);
+    border-radius: 3px;
 }
 
 .spell-cast-confirmation-dialog::-webkit-scrollbar-thumb {
-    background: rgba(139, 115, 85, 0.5);
-    border-radius: 4px;
+    background: #b6a080;
+    border-radius: 3px;
 }
 
 .spell-cast-confirmation-dialog::-webkit-scrollbar-thumb:hover {
-    background: rgba(139, 115, 85, 0.7);
+    background: #8b7355;
 }

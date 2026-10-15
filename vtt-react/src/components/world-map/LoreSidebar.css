@@ -1,6 +1,7 @@
 /* =============================================================================
-   MYTHRILL VTT - ATLAS & IMMERSION LORE SIDEBAR
-   Pathfinder Parchment & D&D Burgundy Palette with Complete Mobile Support
+   MYTHRILL VTT - CALM TTRPG LORE & CARTOGRAPHY SIDEBAR
+   Warm calm parchment, dark sepia manuscript ink, and balanced typography.
+   No artificial side frames, no garish red/gold gradients, no "piss beige".
    ============================================================================= */
 
 .lore-sidebar {
@@ -13,13 +14,13 @@
   z-index: 100;
   transform: translateX(100%);
   transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), height 0.3s ease;
-  background: linear-gradient(165deg, #f8f3e8 0%, #eee4d1 50%, #e2d3be 100%);
+  background: #faf6ee;
   backdrop-filter: blur(24px);
-  border-left: 2px solid #8b2626;
-  box-shadow: -10px 0 35px rgba(43, 24, 16, 0.35), inset 0 0 20px rgba(196, 164, 74, 0.15);
+  border-left: 1px solid rgba(182, 160, 128, 0.45);
+  box-shadow: -10px 0 35px rgba(44, 28, 16, 0.25), inset 0 0 40px rgba(182, 160, 128, 0.08);
   display: flex;
   flex-direction: column;
-  color: #2b1810;
+  color: #34251a;
   font-family: 'Cinzel', serif;
   overflow: hidden;
 }
@@ -28,24 +29,16 @@
   transform: translateX(0);
 }
 
-/* Region accent ribbon along the left edge */
+/* Region accent ribbon disabled - adheres to calm TTRPG design without artificial side stripes */
 .lore-sidebar-accent {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  width: 4px;
-  z-index: 2;
-  background: #8b2626;
-  box-shadow: 0 0 10px rgba(139, 38, 38, 0.6);
-  opacity: 0.95;
+  display: none !important;
 }
 
 /* Mobile Handle Bar */
 .lore-mobile-handle-bar {
   display: none;
-  background: #e8dfcb;
-  border-bottom: 1px solid #c8b88a;
+  background: #f7f3ea;
+  border-bottom: 1px solid rgba(182, 160, 128, 0.35);
   padding: 6px 12px;
   align-items: center;
   justify-content: center;
@@ -55,7 +48,7 @@
 .lore-mobile-toggle-btn {
   background: transparent;
   border: none;
-  color: #6b1a1a;
+  color: #5a4033;
   font-family: 'Cinzel', serif;
   font-size: 11.5px;
   font-weight: 700;
@@ -76,32 +69,32 @@
   gap: 16px;
 }
 
-/* Custom Pathfinder Parchment scrollbar */
+/* Custom Calm Parchment scrollbar */
 .lore-sidebar-inner::-webkit-scrollbar {
   width: 6px;
 }
 
 .lore-sidebar-inner::-webkit-scrollbar-track {
-  background: #ede2cd;
+  background: #f2ebd9;
 }
 
 .lore-sidebar-inner::-webkit-scrollbar-thumb {
-  background: #c4a44a;
+  background: #b6a080;
   border-radius: 4px;
 }
 
 .lore-sidebar-inner::-webkit-scrollbar-thumb:hover {
-  background: #8b2626;
+  background: #8b6d47;
 }
 
-/* Close Button (D&D Wax Seal style) */
+/* Close Button (Calm Wax Seal style) */
 .lore-sidebar-close {
   position: absolute;
   top: 14px;
   right: 16px;
-  background: #faf6ed;
-  border: 1.5px solid #8b2626;
-  color: #8b2626;
+  background: #f7f3ea;
+  border: 1px solid rgba(182, 160, 128, 0.5);
+  color: #5a4033;
   width: 34px;
   height: 34px;
   border-radius: 50%;
@@ -112,15 +105,15 @@
   justify-content: center;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   z-index: 10;
-  box-shadow: 0 2px 8px rgba(60, 40, 20, 0.2);
+  box-shadow: 0 2px 6px rgba(44, 28, 16, 0.08);
 }
 
 .lore-sidebar-close:hover {
-  background: #8b2626;
+  background: #663c32;
   color: #fdfbf7;
-  border-color: #c49a45;
+  border-color: #4a2820;
   transform: scale(1.08) rotate(90deg);
-  box-shadow: 0 4px 12px rgba(139, 38, 38, 0.35);
+  box-shadow: 0 4px 12px rgba(102, 60, 50, 0.3);
 }
 
 /* =============================================================================
@@ -132,7 +125,7 @@
   flex-direction: column;
   gap: 8px;
   padding-bottom: 16px;
-  border-bottom: 1px solid #c8b88a;
+  border-bottom: 1px solid rgba(182, 160, 128, 0.35);
   position: relative;
 }
 
@@ -143,45 +136,46 @@
   flex-wrap: wrap;
   font-size: 11px;
   letter-spacing: 0.5px;
-  color: #8b2626;
+  color: #663c32;
   margin-bottom: 4px;
 }
 
 .breadcrumb-parent {
   font-weight: 700;
-  color: #6b1a1a;
+  color: #663c32;
 }
 
 .breadcrumb-separator {
   font-size: 8px;
-  opacity: 0.6;
+  color: #8b7355;
+  opacity: 0.7;
 }
 
 .breadcrumb-current {
   font-weight: 700;
-  color: #2b1810;
+  color: #34251a;
 }
 
 .breadcrumb-back-btn {
   margin-left: auto;
-  background: #faf6ed;
-  border: 1px solid #c8b88a;
-  color: #6b1a1a;
+  background: #f7f3ea;
+  border: 1px solid rgba(182, 160, 128, 0.5);
+  color: #5a4033;
   font-family: 'Cinzel', serif;
   font-size: 10px;
   font-weight: 600;
-  padding: 3px 8px;
-  border-radius: 4px;
+  padding: 4px 10px;
+  border-radius: 6px;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: 5px;
   transition: all 0.2s ease;
 }
 
 .breadcrumb-back-btn:hover {
-  background: #8b2626;
-  border-color: #6b1a1a;
+  background: #663c32;
+  border-color: #4a2820;
   color: #fdfbf7;
   transform: translateX(-2px);
 }
@@ -190,34 +184,34 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: #faf6ed;
-  border: 1px solid #c8b88a;
-  border-radius: 12px;
-  padding: 3px 10px;
+  background: #f4efe6;
+  border: 1px solid rgba(182, 160, 128, 0.5);
+  border-radius: 6px;
+  padding: 4px 10px;
   font-size: 10px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 1px;
-  color: #8b2626;
+  color: #5a4033;
   width: fit-content;
   margin-bottom: 2px;
 }
 
 .lore-region-name {
   font-family: 'Cinzel', serif;
-  font-size: 23px;
+  font-size: 22px;
   font-weight: 700;
-  color: #5c1818;
+  color: #34251a;
   margin: 0;
-  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.8);
-  line-height: 1.2;
+  text-shadow: none;
+  line-height: 1.25;
 }
 
 .lore-region-desc {
-  font-family: system-ui, -apple-system, sans-serif;
-  font-size: 12.5px;
+  font-family: 'Crimson Text', Georgia, serif;
+  font-size: 14px;
   color: #4a382c;
-  line-height: 1.55;
+  line-height: 1.6;
   margin: 0;
 }
 
@@ -230,10 +224,10 @@
 .lore-enter-subregion-btn {
   width: 100%;
   padding: 10px 16px;
-  background: linear-gradient(135deg, #8b2626 0%, #6b1a1a 100%);
-  border: 1.5px solid #c49a45;
-  border-radius: 6px;
-  color: #fdfbf7;
+  background: #34251a;
+  border: 1px solid #221710;
+  border-radius: 8px;
+  color: #faf6ee;
   font-family: 'Cinzel', serif;
   font-size: 11.5px;
   font-weight: 700;
@@ -243,14 +237,14 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  box-shadow: 0 3px 10px rgba(139, 38, 38, 0.3);
+  box-shadow: 0 2px 6px rgba(44, 28, 16, 0.15);
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .lore-enter-subregion-btn:hover {
-  background: linear-gradient(135deg, #a83232 0%, #8b2626 100%);
-  border-color: #ffd54f;
-  box-shadow: 0 5px 14px rgba(139, 38, 38, 0.45);
+  background: #4a382c;
+  border-color: #34251a;
+  box-shadow: 0 4px 12px rgba(44, 28, 16, 0.25);
   transform: translateY(-1px);
 }
 
@@ -259,12 +253,12 @@
   margin-top: 10px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  background: rgba(250, 246, 237, 0.85);
-  border: 1px solid #c8b88a;
-  border-radius: 8px;
-  padding: 10px 12px;
-  box-shadow: inset 0 1px 4px rgba(60, 40, 20, 0.06);
+  gap: 10px;
+  background: #f7f3ea;
+  border: 1px solid rgba(182, 160, 128, 0.35);
+  border-radius: 10px;
+  padding: 12px 14px;
+  box-shadow: 0 1px 4px rgba(44, 28, 16, 0.04);
 }
 
 .lore-subregions-actions-title {
@@ -274,55 +268,55 @@
   font-family: 'Cinzel', serif;
   font-size: 11px;
   font-weight: 700;
-  color: #8b2626;
+  color: #5a4033;
   text-transform: uppercase;
   letter-spacing: 0.8px;
 }
 
 .lore-subregions-actions-title i {
   font-size: 12px;
-  color: #c49a45;
+  color: #8b7355;
 }
 
 .lore-subregions-btn-grid {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
 }
 
 .lore-subregion-action-card {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 8px 12px;
-  background: linear-gradient(135deg, #8b2626 0%, #6b1a1a 100%);
-  border: 1.5px solid #c49a45;
-  border-radius: 6px;
-  color: #fdfbf7;
+  gap: 12px;
+  padding: 10px 14px;
+  background: #fdfbf7;
+  border: 1px solid rgba(182, 160, 128, 0.45);
+  border-radius: 8px;
+  color: #34251a;
   cursor: pointer;
-  box-shadow: 0 2px 6px rgba(139, 38, 38, 0.25);
+  box-shadow: 0 1px 4px rgba(44, 28, 16, 0.05);
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   text-align: left;
 }
 
 .lore-subregion-action-card:hover {
-  background: linear-gradient(135deg, #a83232 0%, #8b2626 100%);
-  border-color: #ffd54f;
-  box-shadow: 0 4px 12px rgba(139, 38, 38, 0.4);
-  transform: translateX(3px);
+  background: #f5eedf;
+  border-color: rgba(182, 160, 128, 0.8);
+  box-shadow: 0 3px 10px rgba(44, 28, 16, 0.08);
+  transform: translateY(-1px);
 }
 
 .lore-subregion-card-icon {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  background: rgba(253, 251, 247, 0.15);
-  border: 1px solid rgba(255, 213, 79, 0.4);
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  background: #f4eee3;
+  border: 1px solid rgba(182, 160, 128, 0.4);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 12px;
-  color: #ffd54f;
+  font-size: 13px;
+  color: #663c32;
   flex-shrink: 0;
 }
 
@@ -331,51 +325,50 @@
   flex-direction: column;
   flex: 1;
   min-width: 0;
+  gap: 2px;
 }
 
 .lore-subregion-card-name {
   font-family: 'Cinzel', serif;
-  font-size: 12px;
+  font-size: 12.5px;
   font-weight: 700;
   letter-spacing: 0.5px;
-  color: #ffffff;
+  color: #34251a;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .lore-subregion-card-meta {
-  font-family: system-ui, -apple-system, sans-serif;
-  font-size: 10px;
-  color: rgba(253, 251, 247, 0.75);
-  font-weight: 500;
+  font-family: 'Crimson Text', Georgia, serif;
+  font-size: 11.5px;
+  color: #7c6a58;
 }
 
 .lore-subregion-card-arrow {
-  color: #ffd54f;
+  color: #8b7355;
   font-size: 11px;
-  opacity: 0.8;
   transition: transform 0.2s ease;
 }
 
 .lore-subregion-action-card:hover .lore-subregion-card-arrow {
   transform: translateX(3px);
-  opacity: 1;
+  color: #34251a;
 }
 
 /* =============================================================================
-   ATLAS QUICK-METRIC STRIP (PATHFINDER BEIGE & DND BURGUNDY)
+   ATLAS QUICK-METRIC STRIP (CALM TTRPG PARCHMENT)
    ============================================================================= */
 
 .lore-atlas-strip {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 6px;
-  background: #faf6ed;
-  border: 1px solid #d4c39d;
+  background: #f7f3ea;
+  border: 1px solid rgba(182, 160, 128, 0.35);
   border-radius: 8px;
-  padding: 8px 6px;
-  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.04);
+  padding: 10px 8px;
+  box-shadow: inset 0 0 6px rgba(44, 28, 16, 0.04);
 }
 
 .lore-atlas-tile {
@@ -383,7 +376,7 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: 3px;
+  gap: 4px;
   padding: 4px 2px;
   cursor: default;
   transition: transform 0.15s ease;
@@ -394,22 +387,22 @@
 }
 
 .atlas-tile-icon-box {
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  background: rgba(139, 38, 38, 0.08);
-  border: 1px solid #c8b88a;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: #eee6d8;
+  border: 1px solid rgba(182, 160, 128, 0.4);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 11px;
-  color: #8b2626;
+  font-size: 12px;
+  color: #663c32;
 }
 
 .atlas-tile-icon-box.danger {
-  background: rgba(139, 38, 38, 0.15);
-  border-color: #8b2626;
-  color: #6b1a1a;
+  background: #f2e2df;
+  border-color: rgba(180, 80, 70, 0.4);
+  color: #8b3830;
 }
 
 .atlas-tile-data {
@@ -424,7 +417,7 @@
   font-family: 'Cinzel', serif;
   font-size: 13px;
   font-weight: 700;
-  color: #6b1a1a;
+  color: #34251a;
   line-height: 1.1;
   white-space: nowrap;
   overflow: hidden;
@@ -433,14 +426,15 @@
 }
 
 .atlas-tile-val.small {
-  font-size: 10.5px;
+  font-size: 11px;
 }
 
 .atlas-tile-label {
+  font-family: 'Cinzel', serif;
   font-size: 8.5px;
   text-transform: uppercase;
   letter-spacing: 0.8px;
-  color: #5c4a3e;
+  color: #7c6a58;
 }
 
 .lore-atlas-divider {
@@ -453,11 +447,11 @@
 
 .lore-tab-bar {
   display: flex;
-  gap: 6px;
-  background: #e8dfc8;
-  border: 1px solid #c8b88a;
+  gap: 4px;
+  background: #f2ebd9;
+  border: 1px solid rgba(182, 160, 128, 0.4);
   border-radius: 8px;
-  padding: 4px;
+  padding: 3px;
 }
 
 .lore-tab-btn {
@@ -467,10 +461,10 @@
   justify-content: center;
   gap: 6px;
   background: transparent;
-  border: none;
+  border: 1px solid transparent;
   border-radius: 6px;
   padding: 8px 6px;
-  color: #4a382c;
+  color: #5a483c;
   font-family: 'Cinzel', serif;
   font-size: 11px;
   font-weight: 600;
@@ -480,19 +474,20 @@
 }
 
 .lore-tab-btn:hover {
-  color: #6b1a1a;
-  background: rgba(139, 38, 38, 0.08);
+  color: #34251a;
+  background: rgba(182, 160, 128, 0.15);
 }
 
 .lore-tab-btn.active {
-  background: linear-gradient(135deg, #8b2626 0%, #6b1a1a 100%);
-  color: #fdfbf7;
-  border: 1px solid #c49a45;
-  box-shadow: 0 2px 8px rgba(139, 38, 38, 0.35);
+  background: #faf6ee;
+  color: #34251a;
+  border: 1px solid rgba(182, 160, 128, 0.45);
+  font-weight: 700;
+  box-shadow: 0 1px 4px rgba(44, 28, 16, 0.08);
 }
 
 /* =============================================================================
-   SEARCH BAR & CATEGORY GLYPH DOCK (ABSOLUTELY NO ICON OVERLAP)
+   SEARCH BAR & CATEGORY GLYPH DOCK
    ============================================================================= */
 
 .lore-controls {
@@ -514,22 +509,22 @@
   top: 50%;
   transform: translateY(-50%);
   font-size: 13px;
-  color: #8b2626;
+  color: #8b7355;
   pointer-events: none;
   z-index: 5;
 }
 
 .lore-search-input {
   width: 100%;
-  background: #faf6ed !important;
-  border: 1.5px solid #c8b88a !important;
-  color: #2b1810 !important;
+  background: #ffffff !important;
+  border: 1px solid rgba(182, 160, 128, 0.45) !important;
+  color: #34251a !important;
   font-size: 12.5px !important;
   font-family: 'Cinzel', serif !important;
-  padding: 9px 36px 9px 44px !important; /* 44px padding completely eliminates spyglass overlap */
-  border-radius: 6px !important;
+  padding: 9px 36px 9px 44px !important;
+  border-radius: 8px !important;
   outline: none;
-  box-shadow: inset 0 1px 4px rgba(60, 40, 20, 0.08) !important;
+  box-shadow: inset 0 1px 3px rgba(44, 28, 16, 0.05) !important;
   transition: all 0.2s ease;
 }
 
@@ -542,9 +537,9 @@
 }
 
 .lore-search-input:focus {
-  border-color: #8b2626 !important;
+  border-color: #8b6d47 !important;
   background: #ffffff !important;
-  box-shadow: 0 0 8px rgba(139, 38, 38, 0.25) !important;
+  box-shadow: 0 0 0 2px rgba(182, 160, 128, 0.25) !important;
 }
 
 .lore-search-clear {
@@ -552,9 +547,9 @@
   right: 10px;
   top: 50%;
   transform: translateY(-50%);
-  background: #e8dfc8;
-  border: 1px solid #c8b88a;
-  color: #8b2626;
+  background: #f7f3ea;
+  border: 1px solid rgba(182, 160, 128, 0.4);
+  color: #663c32;
   cursor: pointer;
   font-size: 11px;
   width: 22px;
@@ -568,9 +563,9 @@
 }
 
 .lore-search-clear:hover {
-  background: #8b2626;
+  background: #663c32;
   color: #fff;
-  border-color: #6b1a1a;
+  border-color: #4a2820;
 }
 
 /* Category Glyph Dock */
@@ -585,8 +580,8 @@
   align-items: center;
   justify-content: space-between;
   gap: 4px;
-  background: #faf6ed;
-  border: 1px solid #d4c39d;
+  background: #f7f3ea;
+  border: 1px solid rgba(182, 160, 128, 0.35);
   border-radius: 8px;
   padding: 6px 8px;
   overflow-x: auto;
@@ -608,9 +603,9 @@
   width: 34px;
   height: 34px;
   border-radius: 6px;
-  background: #e8dfc8;
-  border: 1px solid #c8b88a;
-  color: #6b1a1a;
+  background: #ffffff;
+  border: 1px solid rgba(182, 160, 128, 0.35);
+  color: #5a483c;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -621,19 +616,19 @@
 }
 
 .lore-dock-btn:hover {
-  background: #ebdcb9;
-  border-color: #8b2626;
-  color: #8b2626;
-  transform: translateY(-2px);
-  box-shadow: 0 3px 8px rgba(139, 38, 38, 0.2);
+  background: #f5eedf;
+  border-color: #b6a080;
+  color: #34251a;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(44, 28, 16, 0.08);
 }
 
 .lore-dock-btn.active {
-  background: linear-gradient(135deg, #8b2626 0%, #6b1a1a 100%);
-  border-color: #c49a45;
-  color: #fdfbf7;
-  box-shadow: 0 2px 8px rgba(139, 38, 38, 0.4);
-  transform: translateY(-2px) scale(1.05);
+  background: #663c32;
+  border-color: #4a2820;
+  color: #faf6ee;
+  box-shadow: 0 2px 6px rgba(102, 60, 50, 0.25);
+  transform: translateY(-1px) scale(1.04);
 }
 
 /* Live Category Hover / Active Ribbon */
@@ -647,29 +642,29 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: #faf6ed;
-  border: 1px solid #d4c39d;
+  background: #f7f3ea;
+  border: 1px solid rgba(182, 160, 128, 0.35);
   border-radius: 6px;
   padding: 4px 10px;
   font-size: 11px;
-  color: #6b1a1a;
+  color: #34251a;
   width: 100%;
 }
 
 .hover-caption-content i {
-  color: #8b2626;
+  color: #8b7355;
   font-size: 11px;
 }
 
 .hover-caption-content .caption-title {
   font-weight: 700;
-  color: #6b1a1a;
+  color: #34251a;
 }
 
 .hover-caption-content .caption-count {
   font-size: 9.5px;
-  background: rgba(139, 38, 38, 0.12);
-  color: #6b1a1a;
+  background: rgba(182, 160, 128, 0.2);
+  color: #5a4033;
   padding: 1px 6px;
   border-radius: 8px;
   font-weight: 700;
@@ -678,13 +673,13 @@
 
 .hover-caption-content.active-ribbon {
   background: #f4ecdc;
-  border-color: #8b2626;
+  border-color: rgba(182, 160, 128, 0.6);
 }
 
 .caption-clear-btn {
   background: transparent;
   border: none;
-  color: #8b2626;
+  color: #663c32;
   cursor: pointer;
   font-size: 11px;
   padding: 2px 4px;
@@ -713,8 +708,8 @@
   display: flex;
   flex-direction: column;
   gap: 6px;
-  background: #faf6ed;
-  border: 1px solid #d4c39d;
+  background: #f7f3ea;
+  border: 1px solid rgba(182, 160, 128, 0.35);
   border-radius: 8px;
   padding: 8px 10px;
 }
@@ -724,7 +719,7 @@
   align-items: center;
   justify-content: space-between;
   font-size: 10.5px;
-  color: #6b1a1a;
+  color: #5a4033;
   font-weight: 700;
   letter-spacing: 0.5px;
 }
@@ -734,17 +729,17 @@
   align-items: center;
   gap: 5px;
   text-transform: uppercase;
-  color: #6b1a1a;
+  color: #5a4033;
 }
 
 .subrealm-filter-title i {
-  color: #8b2626;
+  color: #8b7355;
 }
 
 .subrealm-filter-clear {
   background: transparent;
   border: none;
-  color: #8b2626;
+  color: #663c32;
   font-size: 10px;
   cursor: pointer;
   padding: 0;
@@ -779,8 +774,8 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: #e8dfc8;
-  border: 1px solid #c8b88a;
+  background: #ffffff;
+  border: 1px solid rgba(182, 160, 128, 0.4);
   color: #4a382c;
   font-family: 'Cinzel', serif;
   font-size: 11px;
@@ -794,37 +789,37 @@
 
 .lore-subrealm-chip i {
   font-size: 10px;
-  color: #8b2626;
+  color: #8b7355;
 }
 
 .lore-subrealm-chip .chip-count {
   font-size: 9.5px;
-  background: rgba(139, 38, 38, 0.12);
-  color: #6b1a1a;
+  background: rgba(182, 160, 128, 0.2);
+  color: #5a4033;
   padding: 0px 5px;
   border-radius: 8px;
   font-weight: 700;
 }
 
 .lore-subrealm-chip:hover {
-  background: #ebdcb9;
-  border-color: #8b2626;
-  color: #6b1a1a;
+  background: #f5eedf;
+  border-color: #8b6d47;
+  color: #34251a;
 }
 
 .lore-subrealm-chip.active {
-  background: linear-gradient(135deg, #8b2626 0%, #6b1a1a 100%);
-  border-color: #c49a45;
-  color: #fdfbf7;
-  box-shadow: 0 2px 6px rgba(139, 38, 38, 0.3);
+  background: #34251a;
+  border-color: #221710;
+  color: #faf6ee;
+  box-shadow: 0 1px 4px rgba(44, 28, 16, 0.15);
 }
 
 .lore-subrealm-chip.active i {
-  color: #ffd54f;
+  color: #d8cdb8;
 }
 
 .lore-subrealm-chip.active .chip-count {
-  background: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.2);
   color: #ffffff;
 }
 
@@ -851,8 +846,8 @@
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  background: #e8dfc8;
-  border: 1px solid #c8b88a;
+  background: #f2ebd9;
+  border: 1px solid rgba(182, 160, 128, 0.4);
   border-radius: 6px;
   padding: 2px 4px;
 }
@@ -870,7 +865,7 @@
   background: transparent;
   border: none;
   border-radius: 4px;
-  color: #4a382c;
+  color: #5a483c;
   font-family: 'Cinzel', serif;
   font-size: 10.5px;
   font-weight: 600;
@@ -883,26 +878,26 @@
 }
 
 .sectioning-btn:hover {
-  color: #6b1a1a;
-  background: rgba(139, 38, 38, 0.08);
+  color: #34251a;
+  background: rgba(182, 160, 128, 0.15);
 }
 
 .sectioning-btn.active {
-  background: linear-gradient(135deg, #8b2626 0%, #6b1a1a 100%);
-  color: #fdfbf7;
+  background: #34251a;
+  color: #faf6ee;
   font-weight: 700;
-  box-shadow: 0 1px 4px rgba(139, 38, 38, 0.3);
+  box-shadow: 0 1px 3px rgba(44, 28, 16, 0.15);
 }
 
 .sectioning-btn.active i {
-  color: #ffd54f;
+  color: #d8cdb8;
 }
 
 .lore-toggle-all-btn {
-  background: #faf6ed;
-  border: 1px solid #c8b88a;
-  border-radius: 4px;
-  color: #6b1a1a;
+  background: #f7f3ea;
+  border: 1px solid rgba(182, 160, 128, 0.45);
+  border-radius: 6px;
+  color: #5a4033;
   font-family: 'Cinzel', serif;
   font-size: 10px;
   font-weight: 600;
@@ -915,13 +910,13 @@
 }
 
 .lore-toggle-all-btn:hover {
-  background: #8b2626;
-  border-color: #6b1a1a;
+  background: #663c32;
+  border-color: #4a2820;
   color: #fdfbf7;
 }
 
 /* =============================================================================
-   ACCORDION CATEGORY & SUBREALM GROUPS (PATHFINDER AGED PARCHMENT)
+   ACCORDION CATEGORY & SUBREALM GROUPS
    ============================================================================= */
 
 .lore-locations-list {
@@ -934,11 +929,11 @@
 .lore-subrealm-group {
   display: flex;
   flex-direction: column;
-  background: #faf6ed;
-  border: 1px solid #d4c39d;
+  background: #fdfbf7;
+  border: 1px solid rgba(182, 160, 128, 0.35);
   border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 2px 6px rgba(60, 40, 20, 0.05);
+  box-shadow: 0 1px 4px rgba(44, 28, 16, 0.04);
 }
 
 .lore-group-header,
@@ -947,12 +942,12 @@
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  background: #faf6ed;
+  background: #f7f3ea;
   border: none;
-  border-left: 3.5px solid #8b2626;
+  border-bottom: 1px solid rgba(182, 160, 128, 0.2);
   padding: 10px 14px;
   cursor: pointer;
-  color: #6b1a1a;
+  color: #34251a;
   font-family: 'Cinzel', serif;
   text-align: left;
   transition: all 0.2s ease;
@@ -960,7 +955,7 @@
 
 .lore-group-header:hover,
 .lore-subrealm-group-header:hover {
-  background: rgba(139, 38, 38, 0.06);
+  background: #f2ebd9;
 }
 
 .lore-group-title,
@@ -976,13 +971,13 @@
   width: 28px;
   height: 28px;
   border-radius: 6px;
-  background: rgba(139, 38, 38, 0.08);
-  border: 1px solid #c8b88a;
+  background: #eee6d8;
+  border: 1px solid rgba(182, 160, 128, 0.4);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 13px;
-  color: #8b2626;
+  color: #663c32;
   flex-shrink: 0;
 }
 
@@ -997,14 +992,14 @@
   font-size: 12.5px;
   font-weight: 700;
   letter-spacing: 0.5px;
-  color: #6b1a1a;
+  color: #34251a;
   line-height: 1.2;
 }
 
 .lore-subrealm-header-climate {
-  font-family: system-ui, -apple-system, sans-serif;
-  font-size: 10.5px;
-  color: #7a6658;
+  font-family: 'Crimson Text', Georgia, serif;
+  font-size: 12px;
+  color: #7c6a58;
   font-style: italic;
   white-space: nowrap;
   overflow: hidden;
@@ -1013,7 +1008,7 @@
 
 .lore-group-title .group-icon {
   font-size: 12px;
-  color: #8b2626;
+  color: #663c32;
   width: 16px;
   text-align: center;
 }
@@ -1022,16 +1017,16 @@
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.5px;
-  color: #6b1a1a;
+  color: #34251a;
 }
 
 .lore-group-count-pill,
 .lore-subrealm-count-pill {
   font-size: 10px;
   font-weight: 700;
-  background: #e8dfc8;
-  color: #6b1a1a;
-  border: 1px solid #c8b88a;
+  background: #f2ebd9;
+  color: #5a4033;
+  border: 1px solid rgba(182, 160, 128, 0.4);
   padding: 1px 7px;
   border-radius: 10px;
   margin-left: 4px;
@@ -1049,9 +1044,9 @@
   width: 24px;
   height: 24px;
   border-radius: 4px;
-  background: #e8dfc8;
-  border: 1px solid #c8b88a;
-  color: #6b1a1a;
+  background: #f7f3ea;
+  border: 1px solid rgba(182, 160, 128, 0.4);
+  color: #663c32;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -1061,8 +1056,8 @@
 }
 
 .lore-subrealm-header-focus-btn:hover {
-  background: #8b2626;
-  border-color: #6b1a1a;
+  background: #663c32;
+  border-color: #4a2820;
   color: #fdfbf7;
 }
 
@@ -1070,13 +1065,13 @@
   padding: 12px;
   text-align: center;
   font-size: 11px;
-  color: #8a7668;
+  color: #7c6a58;
   font-style: italic;
 }
 
 .lore-group-chevron {
   font-size: 10px;
-  color: #8b2626;
+  color: #8b7355;
   transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -1087,33 +1082,37 @@
 .lore-group-items {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
   padding: 8px;
-  background: rgba(245, 239, 224, 0.5);
-  border-top: 1px solid #e8dfc8;
+  background: #faf6ee;
+  border-top: 1px solid rgba(182, 160, 128, 0.2);
 }
 
 /* =============================================================================
    LOCATION ITEM CARDS
    ============================================================================= */
 
+/* =============================================================================
+   LOCATION ITEM CARDS (CALM MANUSCRIPT DOCKETS)
+   ============================================================================= */
+
 .lore-location-item {
-  background: #faf6ed;
-  border: 1px solid #d4c39d;
-  border-radius: 6px;
+  background: #ffffff;
+  border: 1px solid rgba(182, 160, 128, 0.35);
+  border-radius: 8px;
   overflow: hidden;
   transition: all 0.2s ease;
-  box-shadow: 0 1px 4px rgba(60, 40, 20, 0.04);
+  box-shadow: 0 1px 3px rgba(44, 28, 16, 0.04);
 }
 
 .lore-location-item:hover {
-  border-color: #8b2626;
-  box-shadow: 0 3px 10px rgba(139, 38, 38, 0.12);
+  border-color: rgba(182, 160, 128, 0.7);
+  box-shadow: 0 2px 6px rgba(44, 28, 16, 0.08);
 }
 
 .lore-location-item.expanded {
-  border-color: #8b2626;
-  box-shadow: 0 4px 14px rgba(139, 38, 38, 0.18);
+  border-color: #8b6d47;
+  box-shadow: 0 3px 10px rgba(44, 28, 16, 0.1);
 }
 
 .lore-location-main {
@@ -1128,8 +1127,8 @@
   width: 28px;
   height: 28px;
   border-radius: 6px;
-  background: rgba(139, 38, 38, 0.08);
-  border: 1px solid #c8b88a;
+  background: #f5eedf;
+  border: 1px solid rgba(182, 160, 128, 0.35);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1137,7 +1136,7 @@
 }
 
 .loc-icon {
-  color: #8b2626;
+  color: #663c32;
   font-size: 12px;
 }
 
@@ -1159,7 +1158,7 @@
   font-family: 'Cinzel', serif;
   font-size: 13px;
   font-weight: 700;
-  color: #6b1a1a;
+  color: #34251a;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -1167,11 +1166,11 @@
 
 .lore-deep-badge {
   font-size: 8.5px;
-  background: #e8dfc8;
-  color: #8b2626;
+  background: #f2ebd9;
+  color: #663c32;
   padding: 1px 5px;
   border-radius: 4px;
-  border: 1px solid #c8b88a;
+  border: 1px solid rgba(182, 160, 128, 0.4);
   text-transform: uppercase;
   font-weight: 700;
   display: inline-flex;
@@ -1181,10 +1180,10 @@
 }
 
 .lore-location-type {
-  font-size: 10.5px;
-  color: #5c4a3e;
+  font-size: 11px;
+  color: #7c6a58;
   text-transform: capitalize;
-  font-family: system-ui, -apple-system, sans-serif;
+  font-family: 'Crimson Text', Georgia, serif;
 }
 
 .lore-location-right {
@@ -1194,10 +1193,10 @@
 }
 
 .lore-quick-pin-btn {
-  background: #faf6ed;
-  border: 1px solid #c8b88a;
-  border-radius: 4px;
-  color: #8b2626;
+  background: #f7f3ea;
+  border: 1px solid rgba(182, 160, 128, 0.4);
+  border-radius: 6px;
+  color: #663c32;
   width: 24px;
   height: 24px;
   display: flex;
@@ -1209,38 +1208,38 @@
 }
 
 .lore-quick-pin-btn:hover {
-  background: #8b2626;
-  border-color: #6b1a1a;
+  background: #663c32;
+  border-color: #4a2820;
   color: #fdfbf7;
-  transform: scale(1.1);
+  transform: scale(1.08);
 }
 
 .expand-arrow {
-  color: #8b2626;
+  color: #8b7355;
   font-size: 10px;
   transition: transform 0.2s ease;
 }
 
 .expand-arrow.rotated {
   transform: rotate(90deg);
-  color: #6b1a1a;
+  color: #34251a;
 }
 
 /* Expanded Location Details */
 .lore-location-detail {
   padding: 12px 14px 14px 14px;
-  border-top: 1px solid #e8dfc8;
-  background: #fdfbf7;
+  border-top: 1px solid rgba(182, 160, 128, 0.25);
+  background: #faf6ee;
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
 .loc-description {
-  font-family: system-ui, -apple-system, sans-serif;
-  font-size: 12px;
-  color: #3d2d24;
-  line-height: 1.55;
+  font-family: 'Crimson Text', Georgia, serif;
+  font-size: 13.5px;
+  color: #4a382c;
+  line-height: 1.6;
   margin: 0;
 }
 
@@ -1252,23 +1251,23 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-  border-top: 1px dashed #d4c39d;
+  border-top: 1px dashed rgba(182, 160, 128, 0.4);
   padding-top: 10px;
 }
 
 .lore-heraldry-card {
-  background: #faf6ed;
-  border: 1px solid #d4c49c;
-  border-radius: 6px;
+  background: #f7f3ea;
+  border: 1px solid rgba(182, 160, 128, 0.35);
+  border-radius: 8px;
   padding: 8px 10px;
 }
 
 .lore-heraldry-desc {
-  font-size: 11.5px;
-  font-family: system-ui, -apple-system, sans-serif;
-  color: #2c1c14;
+  font-size: 12px;
+  font-family: 'Crimson Text', Georgia, serif;
+  color: #4a382c;
   margin: 4px 0 0 0;
-  line-height: 1.45;
+  line-height: 1.5;
 }
 
 .lore-stats-grid {
@@ -1278,8 +1277,8 @@
 }
 
 .lore-stat-item {
-  background: #f4ecdc;
-  border: 1px solid #c8b88a;
+  background: #f7f3ea;
+  border: 1px solid rgba(182, 160, 128, 0.35);
   border-radius: 6px;
   padding: 6px 4px;
   display: flex;
@@ -1292,7 +1291,7 @@
   font-family: 'Cinzel', serif;
   font-size: 12px;
   font-weight: 700;
-  color: #7a1c1c;
+  color: #34251a;
   margin-top: 2px;
 }
 
@@ -1306,34 +1305,35 @@
   font-size: 9.5px;
   text-transform: uppercase;
   letter-spacing: 0.6px;
-  color: #5c4a3e;
+  color: #5a4033;
+  font-family: 'Cinzel', serif;
   font-weight: 700;
 }
 
 .lore-leadership-detail,
 .lore-commerce-detail {
-  font-family: system-ui, -apple-system, sans-serif;
-  font-size: 11.5px;
-  color: #2c1c14;
+  font-family: 'Crimson Text', Georgia, serif;
+  font-size: 12.5px;
+  color: #4a382c;
   margin: 0;
-  line-height: 1.45;
+  line-height: 1.5;
 }
 
 .lore-leadership-detail strong,
 .lore-commerce-detail strong {
-  color: #8c5c0d;
+  color: #663c32;
 }
 
 /* Atmosphere Sensory Box */
 .lore-atmosphere-box {
-  background: #faf6ed;
-  border: 1px solid #d4c49c;
-  border-radius: 6px;
+  background: #f7f3ea;
+  border: 1px solid rgba(182, 160, 128, 0.35);
+  border-radius: 8px;
   padding: 10px 12px;
 }
 
 .atmosphere-title {
-  color: #8c5c0d;
+  color: #663c32;
   font-size: 10.5px;
   display: flex;
   align-items: center;
@@ -1349,15 +1349,15 @@
 }
 
 .atmosphere-part {
-  font-family: system-ui, -apple-system, sans-serif;
-  font-size: 11px;
-  color: #2c1c14;
+  font-family: 'Crimson Text', Georgia, serif;
+  font-size: 12px;
+  color: #4a382c;
   margin: 0;
-  line-height: 1.4;
+  line-height: 1.45;
 }
 
 .atmosphere-part em {
-  color: #8c5c0d;
+  color: #663c32;
   font-style: normal;
   font-weight: 700;
   margin-right: 4px;
@@ -1371,9 +1371,9 @@
 }
 
 .lore-sublocation-card {
-  background: #f5efe0;
-  border: 1px solid #d4c39d;
-  border-radius: 4px;
+  background: #ffffff;
+  border: 1px solid rgba(182, 160, 128, 0.35);
+  border-radius: 6px;
   padding: 8px 10px;
 }
 
@@ -1381,7 +1381,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid #d4c39d;
+  border-bottom: 1px solid rgba(182, 160, 128, 0.25);
   padding-bottom: 4px;
   margin-bottom: 4px;
 }
@@ -1389,22 +1389,23 @@
 .sub-loc-name {
   font-size: 11.5px;
   font-weight: 700;
-  color: #6b1a1a;
+  color: #34251a;
+  font-family: 'Cinzel', serif;
 }
 
 .sub-loc-type {
   font-size: 8.5px;
   text-transform: uppercase;
-  color: #8c5c0d;
+  color: #7c6a58;
   letter-spacing: 0.5px;
 }
 
 .sub-loc-desc {
-  font-family: system-ui, -apple-system, sans-serif;
-  font-size: 10.5px;
-  color: #3d2d24;
+  font-family: 'Crimson Text', Georgia, serif;
+  font-size: 11.5px;
+  color: #4a382c;
   margin: 0 0 4px 0;
-  line-height: 1.4;
+  line-height: 1.45;
 }
 
 .sub-loc-features {
@@ -1417,8 +1418,8 @@
 }
 
 .sub-loc-feature-item {
-  font-family: system-ui, -apple-system, sans-serif;
-  font-size: 10px;
+  font-family: 'Crimson Text', Georgia, serif;
+  font-size: 11px;
   color: #4a382c;
   display: flex;
   align-items: center;
@@ -1427,7 +1428,7 @@
 
 .sub-loc-feature-item i {
   font-size: 7px;
-  color: #8b2626;
+  color: #8b7355;
 }
 
 /* Faction Tags */
@@ -1446,11 +1447,11 @@
 
 .faction-tag {
   font-size: 10px;
-  background: #e8dfc8;
-  color: #6b1a1a;
+  background: #f2ebd9;
+  color: #4a382c;
   padding: 2px 8px;
   border-radius: 10px;
-  border: 1px solid #c8b88a;
+  border: 1px solid rgba(182, 160, 128, 0.4);
   letter-spacing: 0.4px;
 }
 
@@ -1466,29 +1467,30 @@
 
 .lore-empty-icon {
   font-size: 28px;
-  color: #8b2626;
-  opacity: 0.4;
+  color: #8b7355;
+  opacity: 0.6;
 }
 
 .lore-empty-search h4 {
+  font-family: 'Cinzel', serif;
   font-size: 14px;
-  color: #6b1a1a;
+  color: #34251a;
   margin: 0;
 }
 
 .lore-empty-search p {
-  font-size: 11.5px;
-  font-family: system-ui, -apple-system, sans-serif;
-  color: #5c4a3e;
+  font-size: 12px;
+  font-family: 'Crimson Text', Georgia, serif;
+  color: #7c6a58;
   margin: 0;
 }
 
 .lore-empty-reset-btn {
   margin-top: 6px;
-  background: #faf6ed;
-  border: 1px solid #8b2626;
+  background: #f7f3ea;
+  border: 1px solid rgba(182, 160, 128, 0.45);
   border-radius: 6px;
-  color: #8b2626;
+  color: #5a4033;
   font-family: 'Cinzel', serif;
   font-size: 11px;
   padding: 6px 14px;
@@ -1497,8 +1499,9 @@
 }
 
 .lore-empty-reset-btn:hover {
-  background: #8b2626;
-  color: #fff;
+  background: #663c32;
+  color: #faf6ee;
+  border-color: #4a2820;
 }
 
 /* =============================================================================
@@ -1512,11 +1515,11 @@
 }
 
 .subregion-section-intro p {
-  font-family: system-ui, -apple-system, sans-serif;
-  font-size: 12px;
+  font-family: 'Crimson Text', Georgia, serif;
+  font-size: 13px;
   color: #4a382c;
   margin: 0;
-  line-height: 1.45;
+  line-height: 1.5;
 }
 
 .lore-subregions-grid {
@@ -1526,14 +1529,14 @@
 }
 
 .lore-subregion-card {
-  background: #faf6ed;
-  border: 1px solid #c8b88a;
+  background: #ffffff;
+  border: 1px solid rgba(182, 160, 128, 0.35);
   border-radius: 8px;
-  padding: 12px 14px;
+  padding: 14px;
   display: flex;
   flex-direction: column;
   gap: 8px;
-  box-shadow: 0 2px 6px rgba(60, 40, 20, 0.06);
+  box-shadow: 0 1px 4px rgba(44, 28, 16, 0.04);
 }
 
 .lore-subregion-card-header {
@@ -1544,25 +1547,26 @@
 
 .lore-subregion-name {
   font-family: 'Cinzel', serif;
-  font-size: 14px;
+  font-size: 13.5px;
   font-weight: 700;
-  color: #6b1a1a;
+  color: #34251a;
 }
 
 .lore-subregion-climate-pill {
   font-size: 9px;
-  background: #e8dfc8;
-  border: 1px solid #c8b88a;
-  color: #6b1a1a;
-  padding: 2px 6px;
-  border-radius: 4px;
+  background: #f2ebd9;
+  border: 1px solid rgba(182, 160, 128, 0.4);
+  color: #5a4033;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-weight: 600;
 }
 
 .lore-subregion-desc {
-  font-family: system-ui, -apple-system, sans-serif;
-  font-size: 11.5px;
-  color: #3d2d24;
-  line-height: 1.5;
+  font-family: 'Crimson Text', Georgia, serif;
+  font-size: 13px;
+  color: #4a382c;
+  line-height: 1.55;
   margin: 0;
 }
 
@@ -1579,21 +1583,21 @@
 }
 
 .lore-zone-tag-btn {
-  background: #e8dfc8;
-  border: 1px solid #c8b88a;
-  color: #6b1a1a;
+  background: #f7f3ea;
+  border: 1px solid rgba(182, 160, 128, 0.4);
+  color: #4a382c;
   font-family: 'Cinzel', serif;
   font-size: 10px;
-  padding: 2px 6px;
+  padding: 2px 8px;
   border-radius: 4px;
   cursor: pointer;
   transition: all 0.15s ease;
 }
 
 .lore-zone-tag-btn:hover {
-  background: #8b2626;
-  border-color: #6b1a1a;
-  color: #fff;
+  background: #663c32;
+  border-color: #4a2820;
+  color: #faf6ee;
 }
 
 .lore-subregion-card-actions {
@@ -1605,10 +1609,10 @@
 .lore-subregion-view-locs-btn {
   flex: 1;
   padding: 8px 10px;
-  background: #faf6ed;
-  border: 1px solid #8b2626;
+  background: #f7f3ea;
+  border: 1px solid rgba(182, 160, 128, 0.45);
   border-radius: 6px;
-  color: #6b1a1a;
+  color: #34251a;
   font-family: 'Cinzel', serif;
   font-size: 11px;
   font-weight: 700;
@@ -1621,18 +1625,18 @@
 }
 
 .lore-subregion-view-locs-btn:hover {
-  background: #8b2626;
-  color: #fdfbf7;
+  background: #f2ebd9;
+  border-color: #8b6d47;
   transform: translateY(-1px);
 }
 
 .lore-focus-subregion-btn {
   flex: 1;
   padding: 8px 12px;
-  background: linear-gradient(135deg, #8b2626 0%, #6b1a1a 100%);
-  border: 1px solid #c49a45;
+  background: #34251a;
+  border: 1px solid #221710;
   border-radius: 6px;
-  color: #fdfbf7;
+  color: #faf6ee;
   font-family: 'Cinzel', serif;
   font-size: 11px;
   font-weight: 700;
@@ -1645,8 +1649,8 @@
 }
 
 .lore-focus-subregion-btn:hover {
-  background: linear-gradient(135deg, #a83232 0%, #8b2626 100%);
-  border-color: #ffd54f;
+  background: #4a382c;
+  border-color: #34251a;
   transform: translateY(-1px);
 }
 
@@ -1671,18 +1675,18 @@
   align-items: center;
   gap: 4px;
   font-size: 11px;
-  background: #faf6ed;
-  border: 1px solid #c8b88a;
-  color: #6b1a1a;
+  background: #f2ebd9;
+  border: 1px solid rgba(182, 160, 128, 0.4);
+  color: #4a382c;
   padding: 4px 8px;
-  border-radius: 6px;
+  border-radius: 12px;
 }
 
 .lore-geo-pill.danger-high,
 .lore-geo-pill.danger-extreme {
-  background: rgba(139, 38, 38, 0.1);
-  border-color: #8b2626;
-  color: #6b1a1a;
+  background: #f2e2df;
+  border-color: rgba(180, 80, 70, 0.4);
+  color: #8b3830;
 }
 
 .lore-peoples-list {
@@ -1693,9 +1697,9 @@
 
 .lore-people-chip {
   font-size: 11px;
-  background: #faf6ed;
-  border: 1px solid #c8b88a;
-  color: #6b1a1a;
+  background: #f7f3ea;
+  border: 1px solid rgba(182, 160, 128, 0.4);
+  color: #34251a;
   padding: 4px 10px;
   border-radius: 12px;
 }
@@ -1710,16 +1714,16 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  background: #faf6ed;
-  border: 1px solid #c8b88a;
+  background: #ffffff;
+  border: 1px solid rgba(182, 160, 128, 0.35);
   border-radius: 6px;
   padding: 8px 10px;
   font-size: 11.5px;
-  color: #2b1810;
+  color: #34251a;
 }
 
 .lore-faction-icon {
-  color: #8b2626;
+  color: #663c32;
   font-size: 12px;
 }
 
@@ -1731,19 +1735,19 @@
   text-align: center;
   padding: 64px 20px;
   gap: 12px;
-  color: #5c4a3e;
+  color: #7c6a58;
 }
 
 .lore-sidebar-empty h3 {
   font-family: 'Cinzel', serif;
   font-size: 16px;
-  color: #6b1a1a;
+  color: #34251a;
   margin: 0;
 }
 
 .lore-sidebar-empty p {
-  font-family: system-ui, -apple-system, sans-serif;
-  font-size: 12px;
+  font-family: 'Crimson Text', Georgia, serif;
+  font-size: 13.5px;
   line-height: 1.5;
   margin: 0;
 }
@@ -1797,9 +1801,9 @@
     height: min(78vh, calc(100vh - 60px)) !important;
     transform: translateY(100%) !important;
     border-left: none !important;
-    border-top: 3px solid #8b2626 !important;
-    border-radius: 20px 20px 0 0 !important;
-    box-shadow: 0 -12px 48px rgba(25, 12, 6, 0.6) !important;
+    border-top: 1px solid rgba(182, 160, 128, 0.5) !important;
+    border-radius: 16px 16px 0 0 !important;
+    box-shadow: 0 -12px 48px rgba(25, 12, 6, 0.5) !important;
     z-index: 100;
   }
 
@@ -1818,7 +1822,7 @@
     padding: 2px 12px;
     cursor: pointer;
     position: relative;
-    border-radius: 17px 17px 0 0;
+    border-radius: 15px 15px 0 0;
   }
 
   .lore-mobile-handle-bar::before {
@@ -1875,22 +1879,25 @@
 }
 
 /* Markdown utilities preserved for CustomZoneSidebar */
-.lore-bold { font-weight: 700; color: #8b2626; }
-.lore-italic { font-style: italic; color: #8c5c0d; }
+.lore-bold { font-weight: 700; color: #663c32; }
+.lore-italic { font-style: italic; color: #7c6a58; }
 .lore-underline { text-decoration: underline; }
 .lore-strike { text-decoration: line-through; opacity: 0.6; }
 .lore-spacer { height: 8px; }
-.lore-divider { border: none; border-top: 1px solid #c8b88a; margin: 8px 0; }
-.lore-h1 { font-size: 15px; color: #6b1a1a; margin: 8px 0 4px 0; }
-.lore-h2 { font-size: 13.5px; color: #8b2626; margin: 6px 0 3px 0; }
-.lore-h3 { font-size: 12px; color: #8c5c0d; margin: 4px 0 2px 0; }
+.lore-divider { border: none; border-top: 1px solid rgba(182, 160, 128, 0.35); margin: 8px 0; }
+.lore-h1 { font-size: 15px; color: #34251a; margin: 8px 0 4px 0; font-family: 'Cinzel', serif; }
+.lore-h2 { font-size: 13.5px; color: #663c32; margin: 6px 0 3px 0; font-family: 'Cinzel', serif; }
+.lore-h3 { font-size: 12px; color: #5a4033; margin: 4px 0 2px 0; font-family: 'Cinzel', serif; }
 .lore-blockquote {
-  border-left: 2px solid #8b2626;
-  padding-left: 8px;
+  border: 1px solid rgba(182, 160, 128, 0.35);
+  border-radius: 4px;
+  background: rgba(182, 160, 128, 0.08);
+  padding: 6px 10px;
   margin: 4px 0;
-  color: #5c4a3e;
+  color: #4a382c;
   font-style: italic;
+  font-family: 'Crimson Text', Georgia, serif;
 }
 .lore-list-item { display: flex; align-items: flex-start; gap: 6px; font-size: 11.5px; }
-.lore-bullet { color: #8b2626; font-size: 10px; }
-.lore-paragraph { font-size: 12px; line-height: 1.5; margin: 0 0 6px 0; color: #3d2d24; }
+.lore-bullet { color: #663c32; font-size: 10px; }
+.lore-paragraph { font-size: 12px; line-height: 1.5; margin: 0 0 6px 0; color: #4a382c; }

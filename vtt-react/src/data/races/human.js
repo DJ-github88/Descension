@@ -53,7 +53,7 @@ Through all of this, human merchant networks span the continents, not because th
 
 Skald produce Berserkers first and Ironclad Martyrs second: the Hunger Pact lives in their blood. Augurs emerge from the glacier-tomb tradition, Harbingers are Malakor's own people, and the Frozen Archive's graft theatre makes them native Wardens.
 
-Tessic produce Revenants above all, and are also native to the Chronarch (keeping a keep whole in time, not just in stone), the Spellguard (heat-line defense engineering), the Warden (containment in sealed architecture), and the Harbinger (the end they have rehearsed for four hundred years).
+Tessic produce Revenants above all, and are also native to the Chronarch (keeping a keep whole in time, not just in stone), the Spellguard (heat-line defense engineering), and the Harbinger (the end they have rehearsed for four hundred years).
 
 Merryn produce Gambits reflexively (the wager was practically invented at their docks), Minstrels carry the storm-rhythm tradition, and Revenants carry soul anchors in maintained mortuary ink.
 

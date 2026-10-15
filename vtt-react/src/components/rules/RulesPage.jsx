@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useEffect, useRef, Suspense, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import { sanitizeHtml } from '../../utils/sanitizeHtml';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, useParams } from 'react-router-dom';
 
 
 
@@ -3611,19 +3611,74 @@ const GET_THEME_COLOR = (theme) => {
 
 
 
+
+const CODEX_CATEGORY_ALIASES = {
+  travel: 'travel-exploration',
+  exploration: 'travel-exploration',
+  'travel-exploration': 'travel-exploration',
+  lore: 'world-lore',
+  'world-lore': 'world-lore',
+  bestiary: 'world-lore',
+  lexicon: 'world-lore',
+  combat: 'combat-system',
+  'combat-system': 'combat-system',
+  magic: 'magic-system',
+  'magic-system': 'magic-system',
+  spells: 'magic-system',
+  character: 'character-creation',
+  'character-creation': 'character-creation',
+  classes: 'character-creation',
+  equipment: 'equipment-system',
+  'equipment-system': 'equipment-system',
+  items: 'equipment-system',
+  core: 'core-rules',
+  'core-rules': 'core-rules',
+  rules: 'core-rules'
+};
+
 const RulesPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const params = useParams();
+
+  const updateCodexUrl = useCallback((categoryId, subcategoryId, classDetail = null) => {
+    const isCodexRoute = location.pathname.startsWith('/codex');
+    const isRulesRoute = location.pathname.startsWith('/rules');
+    if (isCodexRoute) {
+      if (classDetail) {
+        navigate(`/codex/classes/${encodeURIComponent(classDetail)}`, { replace: false });
+      } else {
+        navigate(`/codex/${categoryId}/${subcategoryId}`, { replace: false });
+      }
+    } else if (isRulesRoute) {
+      if (classDetail) {
+        navigate(`/rules/classes/${encodeURIComponent(classDetail)}`, { replace: false });
+      } else {
+        navigate(`/rules/${categoryId}/${subcategoryId}`, { replace: false });
+      }
+    } else {
+      navigate(`/?section=rules&category=${categoryId}&sub=${subcategoryId}${classDetail ? `&class=${encodeURIComponent(classDetail)}` : ''}`, { replace: false });
+    }
+  }, [location.pathname, navigate]);
 
   const [selectedCategory, setSelectedCategory] = useState(() => {
+    if (params?.category) {
+      return CODEX_CATEGORY_ALIASES[params.category.toLowerCase()] || params.category;
+    }
     if (typeof window !== 'undefined') {
       const sp = new URLSearchParams(window.location.search);
-      return sp.get('category') || 'core-rules';
+      const cat = sp.get('category');
+      if (cat) return CODEX_CATEGORY_ALIASES[cat.toLowerCase()] || cat;
     }
     return 'core-rules';
   });
 
   const [selectedSubcategory, setSelectedSubcategory] = useState(() => {
+    if (params?.subcategory) return params.subcategory;
+    if (params?.category?.toLowerCase() === 'bestiary') return 'bestiary';
+    if (params?.category?.toLowerCase() === 'lexicon') return 'lexicon';
+    if (params?.category?.toLowerCase() === 'classes') return 'classes';
+    if (params?.category && (CODEX_CATEGORY_ALIASES[params.category.toLowerCase()] || params.category) === 'travel-exploration') return 'wilderness-survival';
     if (typeof window !== 'undefined') {
       const sp = new URLSearchParams(window.location.search);
       return sp.get('sub') || 'game-overview';
@@ -3632,6 +3687,7 @@ const RulesPage = () => {
   });
 
   const [selectedClassDetail, setSelectedClassDetail] = useState(() => {
+    if (params?.classId) return params.classId;
     if (typeof window !== 'undefined') {
       const sp = new URLSearchParams(window.location.search);
       return sp.get('class') || null;
@@ -3639,15 +3695,22 @@ const RulesPage = () => {
     return null;
   });
 
-  // Sync state when location.search changes (e.g. browser Back / Forward buttons)
+  // Sync state when location.search or route params change (e.g. browser Back / Forward buttons)
   useEffect(() => {
     const sp = new URLSearchParams(location.search);
-    const cat = sp.get('category');
-    const sub = sp.get('sub');
-    const cls = sp.get('class');
+    const cat = params?.category || sp.get('category');
+    const sub = params?.subcategory || sp.get('sub');
+    const cls = params?.classId || sp.get('class');
 
     if (cat) {
-      setSelectedCategory(cat);
+      const resolvedCat = CODEX_CATEGORY_ALIASES[cat.toLowerCase()] || cat;
+      setSelectedCategory(resolvedCat);
+      if (!sub) {
+        if (cat.toLowerCase() === 'bestiary') setSelectedSubcategory('bestiary');
+        else if (cat.toLowerCase() === 'lexicon') setSelectedSubcategory('lexicon');
+        else if (cat.toLowerCase() === 'classes') setSelectedSubcategory('classes');
+        else if (resolvedCat === 'travel-exploration') setSelectedSubcategory('wilderness-survival');
+      }
     }
     if (sub) {
       setSelectedSubcategory(sub);
@@ -3655,7 +3718,7 @@ const RulesPage = () => {
     if (cls !== undefined) {
       setSelectedClassDetail(cls || null);
     }
-  }, [location.search]);
+  }, [location.search, params?.category, params?.subcategory, params?.classId]);
 
 
 
@@ -3772,7 +3835,7 @@ const RulesPage = () => {
     setActiveTab(result.tabId || null);
     setActiveSectionTab(result.sectionIndex !== null && result.sectionIndex >= 0 ? result.sectionIndex : 0);
 
-    navigate(`/?section=rules&category=${result.categoryId}&sub=${targetSubcategory}`, { replace: false });
+    updateCodexUrl(result.categoryId, targetSubcategory, result.classId || null);
 
     // Smooth scroll and pulse highlight the target
     requestAnimationFrame(() => {
@@ -4035,7 +4098,7 @@ const RulesPage = () => {
     setShowSearch(false);
 
     // Push URL search query so browser Back and Forward buttons navigate between topics
-    navigate(`/?section=rules&category=${categoryId}&sub=${targetSubcategory}`, { replace: false });
+    updateCodexUrl(categoryId, targetSubcategory);
 
 
 
@@ -4183,13 +4246,13 @@ const RulesPage = () => {
     setSelectedClassDetail(className);
 
     // Push class detail to browser history so Back button goes back to classes list
-    navigate(`/?section=rules&category=character-creation&sub=classes&class=${className}`, { replace: false });
+    updateCodexUrl('character-creation', 'classes', className);
   };
 
   // Handle back to classes list
   const handleBackToClasses = () => {
     setSelectedClassDetail(null);
-    navigate(`/?section=rules&category=character-creation&sub=classes`, { replace: false });
+    updateCodexUrl('character-creation', 'classes');
   };
 
   // Handle internal rules link clicks for interactive navigation

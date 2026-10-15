@@ -1,4 +1,5 @@
-import { supportsFeatherSlash, recordedFaces, depleteTempFirst, creaturePayment, planFeatherSlash, rangeDiagnostic } from '../featherSlash';
+import { supportsFeatherSlash, recordedFaces, depleteTempFirst, creaturePayment, planFeatherSlash, rangeDiagnostic, featherReceipt, FEATHER_CAPABILITY } from '../featherSlash';
+import { DATA_VERSIONS } from '../../data/versions';
 import abilities from '../../../public/data/abilities.json';
 
 const raw = abilities.grimmstalk.find(value => value.id === 'grimmstalk_feather_slash');
@@ -7,13 +8,42 @@ const placed = (id, kind = 'creature') => ({ id, creatureId: 'grimmstalk', mapId
   state: { actorContract: { version: 1, kind, roomId: 'room', mapId: 'canopy', tokenId: id, instanceId: `incarnation-${id}`, revision: 0,
     ...(kind === 'character' ? { ownerUid: 'owner', characterId: 'pc', primary: true } : {}) }, currentActionPoints: 2, tempActionPoints: 0, currentHp: 30, tempHealth: 4, currentMana: 0, tempMana: 0 } });
 const ref = token => Object.fromEntries(Object.entries(token.state.actorContract).filter(([key]) => !['version', 'revision', 'primary'].includes(key)));
+const currentVersion = DATA_VERSIONS.abilities;
+afterEach(() => { DATA_VERSIONS.abilities = currentVersion; });
 function setup() {
   const source = placed('A'), target = placed('B');
   return { raw, tokens: [source, target], sourceRef: ref(source), targetRef: ref(target), roomId: 'room', mapId: 'canopy', roll: recordedFaces('physical', [3, 5]), adjudicated: true, finalAmount: 10, reason: 'GM ruling' };
 }
-test('original capability is positive and fails closed on changed execution shapes', () => {
+test.each(['1.4.0', '1.5.0'])('reviewed dataset %s supports only the unchanged execution shapes', version => {
+  DATA_VERSIONS.abilities = version;
   expect(supportsFeatherSlash(raw)).toBe(true);
   for (const changed of [{ ...raw, spellType: 'PASSIVE' }, { ...raw, effectTypes: ['damage', 'control'] }, { ...raw, damageConfig: { ...raw.damageConfig, formula: 'Infinity' } }, { ...raw, resourceCost: { ...raw.resourceCost, mana: 1 } }, { ...raw, targetingConfig: { ...raw.targetingConfig, targetingType: 'area' } }, { ...raw, summonConfig: {} }]) expect(supportsFeatherSlash(changed)).toBe(false);
+});
+test.each(['1.3.0', '1.4.1', '1.5.1', '1.6.0', '2.0.0', undefined])('unreviewed dataset %s refuses preparation and receipt interpretation', version => {
+  DATA_VERSIONS.abilities = version;
+  expect(supportsFeatherSlash(raw)).toBe(false);
+  expect(() => planFeatherSlash(setup())).toThrow(/Unsupported raw configuration/);
+});
+test('1.4.0 drafts, plans and accepted receipts retain their exact identity and meaning in 1.5.0', () => {
+  DATA_VERSIONS.abilities = '1.4.0';
+  const draft = setup(), retainedDraft = JSON.stringify(draft), original = planFeatherSlash(draft);
+  expect(FEATHER_CAPABILITY).toBe('feather-slash:v1/abilities:1.4.0');
+  const receipt = { version: 1, commandId: 'original-command-uuid', roomId: 'room', submitterUid: 'gm', checkpointRevision: null,
+    source: draft.sourceRef, target: draft.targetRef, adjudication: original.extra.adjudication, actors: original.entries };
+  const result = { success: true, receipt }, bytes = JSON.stringify(result), view = featherReceipt(result);
+  expect(view).not.toBeNull();
+  DATA_VERSIONS.abilities = '1.5.0';
+  expect(JSON.stringify(planFeatherSlash(JSON.parse(retainedDraft)))).toBe(JSON.stringify(original));
+  expect(featherReceipt(result)).toEqual(view);
+  expect(JSON.stringify(draft)).toBe(retainedDraft);
+  expect(JSON.stringify(result)).toBe(bytes);
+  const altered = JSON.parse(bytes);
+  const recorded = JSON.parse(altered.receipt.adjudication.chosenResult);
+  recorded.rawDefinition = JSON.stringify({ ...raw, resourceCost: { ...raw.resourceCost, actionPoints: 0 } });
+  altered.receipt.adjudication.chosenResult = JSON.stringify(recorded);
+  expect(featherReceipt(altered)).toBeNull();
+  DATA_VERSIONS.abilities = '1.6.0';
+  expect(featherReceipt(result)).toBeNull();
 });
 test('planner is pure, temp-first and exact two actor entries; PC HP uses its owning pool', () => {
   const input = setup(), before = JSON.stringify(input);

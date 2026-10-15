@@ -270,6 +270,177 @@ export const LOOT_ITEMS = [
     iconId: 'inv_ingot_iron',
     description: 'This is cold-iron stock, said to bite the Wyrd and never to lie in the hand of a smith. A standard iron ingot used in blacksmithing.',
     value: { silver: 10 }
+  },
+  // Shopkeeper Stock & Lore Curios
+  {
+    id: 'alchemists-flashpowder',
+    name: "Alchemist's Flashpowder",
+    type: 'consumable',
+    subtype: 'alchemical',
+    quality: 'uncommon',
+    iconId: 'inv_misc_powder_iron',
+    description: 'A pouch of volatile magnesium powder that flashes brightly when cast, blinding pursuers.',
+    value: { silver: 40 }
+  },
+  {
+    id: 'travelers-merchant-ledger',
+    name: "Traveler's Merchant Ledger",
+    type: 'miscellaneous',
+    subtype: 'book',
+    quality: 'common',
+    iconId: 'inv_misc_book_09',
+    description: 'A water-resistant wax-bound ledger containing barter exchange rates and road tolls across Mythrill.',
+    value: { silver: 15 }
+  },
+  {
+    id: 'jewelers-brass-scales',
+    name: "Jeweler's Brass Scales",
+    type: 'miscellaneous',
+    subtype: 'tools',
+    quality: 'uncommon',
+    iconId: 'inv_misc_gear_01',
+    description: 'Precision hanging scales calibrated for weighing uncut gems, gold shavings, and powdered spell components.',
+    value: { gold: 2 }
+  },
+  {
+    id: 'curio-lucky-coin',
+    name: 'Curio Lucky Coin',
+    type: 'curio',
+    subtype: 'token',
+    quality: 'rare',
+    iconId: 'inv_misc_coin_01',
+    description: 'An ancient silver drachma that always lands face up when flipped, believed to bring fortune in games of chance.',
+    value: { gold: 5 }
+  },
+  {
+    id: 'runic-cold-iron-ingot',
+    name: 'Runic Cold-Iron Ingot',
+    type: 'material',
+    subtype: 'metal',
+    quality: 'rare',
+    iconId: 'inv_ingot_iron',
+    description: 'A heavy, cold ingot of pure meteoric iron etched with protective Nordhalla runes.',
+    value: { gold: 2 }
+  },
+  {
+    id: 'blacksmiths-quenching-tongs',
+    name: "Blacksmith's Quenching Tongs",
+    type: 'miscellaneous',
+    subtype: 'tools',
+    quality: 'common',
+    iconId: 'inv_misc_wrench_01',
+    description: 'Sturdy iron tongs forged to withstand the intense thermal shock of dipping glowing blades into brine.',
+    value: { silver: 30 }
+  },
+  {
+    id: 'diamond-whetstone',
+    name: 'Diamond Whetstone',
+    type: 'miscellaneous',
+    subtype: 'consumable',
+    quality: 'uncommon',
+    iconId: 'inv_stone_sharpeningstone_05',
+    description: 'An abrasive honing block impregnated with diamond grit, restoring exceptional sharpness to bladed weapons.',
+    value: { silver: 75 }
+  },
+  {
+    id: 'runesmiths-amulet',
+    name: "Runesmith's Amulet",
+    type: 'accessories',
+    subtype: 'necklace',
+    quality: 'rare',
+    iconId: 'inv_jewelry_necklace_07',
+    description: 'A runic medallion that radiates constant soothing warmth and provides resistance against cold drafts.',
+    value: { gold: 8 }
+  },
+  {
+    id: 'astral-resonant-crystal',
+    name: 'Astral Resonant Crystal',
+    type: 'material',
+    subtype: 'gem',
+    quality: 'rare',
+    iconId: 'inv_misc_gem_diamond_01',
+    description: 'A deep-violet quartz cluster that vibrates faintly in the presence of celestial and wyrd anomalies.',
+    value: { gold: 4 }
+  },
+  {
+    id: 'jeweled-occult-loupe',
+    name: 'Jeweled Occult Loupe',
+    type: 'miscellaneous',
+    subtype: 'tools',
+    quality: 'uncommon',
+    iconId: 'inv_misc_spyglass_02',
+    description: 'An appraisal eyepiece with a polished amethyst lens that highlights latent magical dweomers.',
+    value: { gold: 2 }
+  },
+  {
+    id: 'velvet-curio-pouch',
+    name: 'Velvet Curio Pouch',
+    type: 'container',
+    subtype: 'pouch',
+    quality: 'uncommon',
+    iconId: 'inv_misc_bag_08',
+    description: 'A plush velvet pouch lined with lead-threaded silk to dampen the magical aura of contained curios.',
+    value: { silver: 80 }
+  },
+  {
+    id: 'ring-of-astral-wards',
+    name: 'Ring of Astral Wards',
+    type: 'accessories',
+    subtype: 'ring',
+    quality: 'rare',
+    iconId: 'inv_jewelry_ring_03',
+    description: 'A ring of spun starlight silver that hums when extraterrestrial or psychic forces attempt to probe the mind.',
+    value: { gold: 10 }
+  },
+  {
+    id: 'cartographers-master-map',
+    name: "Cartographer's Master Map",
+    type: 'miscellaneous',
+    subtype: 'map',
+    quality: 'uncommon',
+    iconId: 'inv_misc_map_01',
+    description: 'A meticulous vellum map detailing mountain passes, safe water springs, and known monster dens.',
+    value: { silver: 50 }
+  },
+  {
+    id: 'iron-ration-trailpack',
+    name: 'Iron-Ration Trailpack',
+    type: 'consumable',
+    subtype: 'food',
+    quality: 'common',
+    iconId: 'inv_misc_food_54',
+    description: 'High-density smoked meats, hardtack wafers, and dried lingonberries providing sustenance on the trail.',
+    value: { silver: 12 }
+  },
+  {
+    id: 'brass-surveyors-compass',
+    name: "Brass Surveyor's Compass",
+    type: 'miscellaneous',
+    subtype: 'tools',
+    quality: 'uncommon',
+    iconId: 'inv_misc_gear_08',
+    description: 'A gimballed surveyor compass with a fluid chamber that maintains orientation even on rolling decks or steep inclines.',
+    value: { gold: 1, silver: 50 }
+  },
+  {
+    id: 'braided-silk-climbing-rope',
+    name: 'Braided Silk Climbing Rope',
+    type: 'miscellaneous',
+    subtype: 'tools',
+    quality: 'common',
+    iconId: 'inv_misc_rope_01',
+    description: 'Fifty feet of ultra-lightweight spider-silk rope capable of bearing enormous weight without stretching.',
+    value: { silver: 40 }
+  },
+  {
+    id: 'expeditionary-spyglass',
+    name: 'Expeditionary Spyglass',
+    type: 'miscellaneous',
+    subtype: 'tools',
+    quality: 'rare',
+    iconId: 'inv_misc_spyglass_02',
+    description: 'A multi-draw brass telescope with anti-reflective lenses, essential for spotting frontier threats before they spot you.',
+    value: { gold: 6 }
   }
 ];
 

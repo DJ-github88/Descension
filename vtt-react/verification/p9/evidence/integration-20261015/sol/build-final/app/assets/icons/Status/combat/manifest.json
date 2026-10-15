@@ -1,0 +1,231 @@
+{
+  "category": "combat",
+  "count": 45,
+  "icons": [
+    {
+      "filename": "axe-spear-weapon.png",
+      "name": "Axe Spear Weapon",
+      "path": "combat/axe-spear-weapon.png"
+    },
+    {
+      "filename": "biting-mouth-fangs.png",
+      "name": "Biting Mouth Fangs",
+      "path": "combat/biting-mouth-fangs.png"
+    },
+    {
+      "filename": "bone-club-combat.png",
+      "name": "Bone Club Combat",
+      "path": "combat/bone-club-combat.png"
+    },
+    {
+      "filename": "bone-diagonal-combat.png",
+      "name": "Bone Diagonal Combat",
+      "path": "combat/bone-diagonal-combat.png"
+    },
+    {
+      "filename": "bone-stick-combat.png",
+      "name": "Bone Stick Combat",
+      "path": "combat/bone-stick-combat.png"
+    },
+    {
+      "filename": "bow-arrow-bone.png",
+      "name": "Bow Arrow Bone",
+      "path": "combat/bow-arrow-bone.png"
+    },
+    {
+      "filename": "bow-arrow-ranged.png",
+      "name": "Bow Arrow Ranged",
+      "path": "combat/bow-arrow-ranged.png"
+    },
+    {
+      "filename": "bow-arrow-ranged_1.png",
+      "name": "Bow Arrow Ranged_1",
+      "path": "combat/bow-arrow-ranged_1.png"
+    },
+    {
+      "filename": "bow-ranged-combat.png",
+      "name": "Bow Ranged Combat",
+      "path": "combat/bow-ranged-combat.png"
+    },
+    {
+      "filename": "burst-explosion-damage.png",
+      "name": "Burst Explosion Damage",
+      "path": "combat/burst-explosion-damage.png"
+    },
+    {
+      "filename": "chain-weapon-combat.png",
+      "name": "Chain Weapon Combat",
+      "path": "combat/chain-weapon-combat.png"
+    },
+    {
+      "filename": "concentric-target.png",
+      "name": "Concentric Target",
+      "path": "combat/concentric-target.png"
+    },
+    {
+      "filename": "crossed-swords-battle.png",
+      "name": "Crossed Swords Battle",
+      "path": "combat/crossed-swords-battle.png"
+    },
+    {
+      "filename": "crossed-swords-combat.png",
+      "name": "Crossed Swords Combat",
+      "path": "combat/crossed-swords-combat.png"
+    },
+    {
+      "filename": "dual-beams-energy-combat.png",
+      "name": "Dual Beams Energy Combat",
+      "path": "combat/dual-beams-energy-combat.png"
+    },
+    {
+      "filename": "fanged-creature-head.png",
+      "name": "Fanged Creature Head",
+      "path": "combat/fanged-creature-head.png"
+    },
+    {
+      "filename": "fangs-tusks-piercing.png",
+      "name": "Fangs Tusks Piercing",
+      "path": "combat/fangs-tusks-piercing.png"
+    },
+    {
+      "filename": "glowing-energy-sword.png",
+      "name": "Glowing Energy Sword",
+      "path": "combat/glowing-energy-sword.png"
+    },
+    {
+      "filename": "glowing-sword-enchanted.png",
+      "name": "Glowing Sword Enchanted",
+      "path": "combat/glowing-sword-enchanted.png"
+    },
+    {
+      "filename": "jagged-lightning-bones.png",
+      "name": "Jagged Lightning Bones",
+      "path": "combat/jagged-lightning-bones.png"
+    },
+    {
+      "filename": "lightning-bolt-circular-frame.png",
+      "name": "Lightning Bolt Circular Frame",
+      "path": "combat/lightning-bolt-circular-frame.png"
+    },
+    {
+      "filename": "lightning-bolt-diagonal.png",
+      "name": "Lightning Bolt Diagonal",
+      "path": "combat/lightning-bolt-diagonal.png"
+    },
+    {
+      "filename": "lightning-bolt-energy.png",
+      "name": "Lightning Bolt Energy",
+      "path": "combat/lightning-bolt-energy.png"
+    },
+    {
+      "filename": "lightning-bolt-s-border.png",
+      "name": "Lightning Bolt S Border",
+      "path": "combat/lightning-bolt-s-border.png"
+    },
+    {
+      "filename": "lightning-bolt-s-shape-energy.png",
+      "name": "Lightning Bolt S Shape Energy",
+      "path": "combat/lightning-bolt-s-shape-energy.png"
+    },
+    {
+      "filename": "marked-center.png",
+      "name": "Marked Center",
+      "path": "combat/marked-center.png"
+    },
+    {
+      "filename": "marked-diagonal.png",
+      "name": "Marked Diagonal",
+      "path": "combat/marked-diagonal.png"
+    },
+    {
+      "filename": "marked-diamond.png",
+      "name": "Marked Diamond",
+      "path": "combat/marked-diamond.png"
+    },
+    {
+      "filename": "marked-diamond-cross.png",
+      "name": "Marked Diamond Cross",
+      "path": "combat/marked-diamond-cross.png"
+    },
+    {
+      "filename": "marked-four.png",
+      "name": "Marked Four",
+      "path": "combat/marked-four.png"
+    },
+    {
+      "filename": "marked-symbol.png",
+      "name": "Marked Symbol",
+      "path": "combat/marked-symbol.png"
+    },
+    {
+      "filename": "marked-target.png",
+      "name": "Marked Target",
+      "path": "combat/marked-target.png"
+    },
+    {
+      "filename": "open-maw-fangs.png",
+      "name": "Open Maw Fangs",
+      "path": "combat/open-maw-fangs.png"
+    },
+    {
+      "filename": "scythe-claw-combat.png",
+      "name": "Scythe Claw Combat",
+      "path": "combat/scythe-claw-combat.png"
+    },
+    {
+      "filename": "segmented-arrow-magical.png",
+      "name": "Segmented Arrow Magical",
+      "path": "combat/segmented-arrow-magical.png"
+    },
+    {
+      "filename": "sword-energy-patterns-combat.png",
+      "name": "Sword Energy Patterns Combat",
+      "path": "combat/sword-energy-patterns-combat.png"
+    },
+    {
+      "filename": "sword-orange-glow-combat.png",
+      "name": "Sword Orange Glow Combat",
+      "path": "combat/sword-orange-glow-combat.png"
+    },
+    {
+      "filename": "sword-red-glow-enchanted.png",
+      "name": "Sword Red Glow Enchanted",
+      "path": "combat/sword-red-glow-enchanted.png"
+    },
+    {
+      "filename": "sword-vertical-combat.png",
+      "name": "Sword Vertical Combat",
+      "path": "combat/sword-vertical-combat.png"
+    },
+    {
+      "filename": "target-eye-marked.png",
+      "name": "Target Eye Marked",
+      "path": "combat/target-eye-marked.png"
+    },
+    {
+      "filename": "target-marked.png",
+      "name": "Target Marked",
+      "path": "combat/target-marked.png"
+    },
+    {
+      "filename": "targeted-diamond.png",
+      "name": "Targeted Diamond",
+      "path": "combat/targeted-diamond.png"
+    },
+    {
+      "filename": "targeted-fragment.png",
+      "name": "Targeted Fragment",
+      "path": "combat/targeted-fragment.png"
+    },
+    {
+      "filename": "targeted-star.png",
+      "name": "Targeted Star",
+      "path": "combat/targeted-star.png"
+    },
+    {
+      "filename": "taunt-shield.png",
+      "name": "Taunt Shield",
+      "path": "combat/taunt-shield.png"
+    }
+  ]
+}

@@ -2616,10 +2616,9 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #ffffff;
-  border: 1px solid rgba(139, 69, 19, 0.2);
-  border-left: 2px solid #8b5a1a;
-  border-radius: 4px;
+  background: #fdfbf7;
+  border: 1px solid rgba(182, 160, 128, 0.4);
+  border-radius: 6px;
   padding: 5px 8px;
   margin-top: 4px;
 }

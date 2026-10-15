@@ -207,7 +207,8 @@ Native only to Ordu. Any other people named or implied above walk this path only
     { url: "/assets/images/classes/false_prophet_ordan_human.jpg", subraceId: "ordan_human", caption: "Ordu Human False Prophet — The Thinned-Herd Preacher, blowing twin-barrel bone pipes with radiant gold acoustic threads on the windswept steppe." },
     { url: "/assets/images/classes/false_prophet_tessen_human.jpg", subraceId: "tessen_human", caption: "Tessic Human False Prophet — The Keep-Prophet, shouting apocalyptic scripture from a stone pulpit while brandishing an open holy iron tome." },
     { url: "/assets/images/classes/false_prophet_stargazer_astril.jpg", subraceId: "vashir_astril", caption: "Lumian False Prophet — The False Star, charismatic celestial cult leader weaving glowing golden puppet strings with an open star-scroll." },
-    { url: "/assets/images/classes/false_prophet_brutish_astril.jpg", subraceId: "silath_astril", caption: "Kordak False Prophet — The Enforcer Prophet, colossal titan with spiked mace crushing an iron holy symbol in his bare fist with psychic sparks." }
+    { url: "/assets/images/classes/false_prophet_brutish_astril.jpg", subraceId: "silath_astril", caption: "Kordak False Prophet — The Enforcer Prophet, colossal titan with spiked mace crushing an iron holy symbol in his bare fist with psychic sparks." },
+    { url: "/assets/images/classes/false_prophet_withered_nethien.jpg", subraceId: "drun_neth", caption: "Riven False Prophet — The Severance-Preacher, gaunt skeletal ascetic pariah in shredded funerary shrouds raising a cracked basalt scripture tablet flaring with menacing magenta-violet psychic discharge." }
   ],
 
  quickOverview: {

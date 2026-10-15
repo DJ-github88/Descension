@@ -1352,7 +1352,9 @@ export const getCreatureTokenIconUrl = (iconId, creatureType = null) => {
       'vourdalak_debt', 'mavka_willow', 'alkonost', 'dziwozona_wild',
       'upir_root', 'sirin_song', 'grandmother_of_the_bog', 'debt_revenant', 'cycle_eater',
       'abzu', 'erlik', 'ajina', 'supayoni',
-      'pooka', 'knockbrew', 'moorboggle', 'wildejagd', 'cailleach'
+      'pooka', 'knockbrew', 'moorboggle', 'wildejagd', 'cailleach',
+      // Shopkeepers
+      'barnaby-finch', 'morwenna-coldforge', 'madame-vespera', 'corrick-featherquill'
     ]);
     const creatureName = iconId.split('/')[1];
     if (!uniqueSketches.has(creatureName)) {

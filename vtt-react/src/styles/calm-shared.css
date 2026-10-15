@@ -1341,7 +1341,7 @@ body .wow-nav-container .nav-quill-btn.nav-quill-btn { position: static !importa
 /* ---- Portrait Workshop: flat linen dialog, seal-brown header (no gold gradient) ---- */
 body .pw-modal { background: var(--adventure-page, #f8f5ee); border: 1px solid var(--adventure-rule, #c4baa6); border-radius: 3px; box-shadow: 0 8px 24px rgba(52, 37, 26, .22); }
 body .pw-header { background: var(--adventure-leather, #302419); border-bottom: 1px solid #9b835e; }
-body .pw-header-left h3 { color: #f0e3c4; font-family: 'Cinzel', Georgia, serif; }
+body .pw-header-left h3 { color: #faf6ee; font-family: 'Cinzel', Georgia, serif; }
 body .pw-subtitle { color: #cdbd9a; }
 body .pw-close-btn { background: #663c32; border: 1px solid #956b5b; color: #f8f5ee; border-radius: 3px; }
 body .pw-close-btn:hover { background: #7a4a3e; transform: none; }
@@ -1358,7 +1358,7 @@ body .pw-section-toggle, body .pw-section-title { color: #34251a; }
 /* ---- Dialogue panel: linen, serif, flat ---- */
 body .dialogue-panel { background: var(--adventure-page, #f8f5ee); border: 1px solid var(--adventure-rule, #c4baa6); border-radius: 3px; box-shadow: 0 8px 24px rgba(52, 37, 26, .22); font-family: 'Crimson Text', Georgia, serif; }
 body .dialogue-panel .panel-header { background: var(--adventure-leather, #302419); border-bottom: 1px solid #9b835e; }
-body .dialogue-panel .panel-header h3 { color: #f0e3c4; font-family: 'Cinzel', Georgia, serif; text-shadow: none; letter-spacing: .08em; }
+body .dialogue-panel .panel-header h3 { color: #faf6ee; font-family: 'Cinzel', Georgia, serif; text-shadow: none; letter-spacing: .08em; }
 body .dialogue-panel .panel-tabs { background: var(--adventure-chrome, #e2d8c1); border-bottom: 1px solid var(--adventure-chrome-edge, #b9aa8a); }
 body .dialogue-panel .panel-tab { color: #68533e; font-family: 'Cinzel', Georgia, serif; }
 body .dialogue-panel .panel-tab.active { color: #663c32; background: var(--adventure-page, #f8f5ee); box-shadow: inset 0 -2px 0 #663c32; }
@@ -4946,9 +4946,10 @@ html body .rules-page .skill-count-badge { color: #4a3626 !important; background
 /* NO YELLOW ICONS: icons in the rules were gold (#d4af37 / #9a7a34 / #b08d57). Gold stays out of icons, text and
    button fills; icons take the burgundy seal ink, chevrons the muted ink, and icons on burgundy fills go ivory.
    Class pages are excluded because their icons carry resource and damage colours on purpose. */
-html body .rules-page :is(i.fas, i.far, i.fab, i.fa-solid, i.fa-regular):not(.class-codex *):not([style*="color"]) { color: #663c32 !important; }
+html body .rules-page :is(i.fas, i.far, i.fab, i.fa-solid, i.fa-regular):not(.class-codex *):not(.bestiary-res-pill *):not(.bestiary-res-icon):not([style*="color"]) { color: #663c32 !important; }
 html body .rules-page :is(i.fa-chevron-right, i.fa-chevron-left, i.fa-chevron-down, i.fa-angle-right, i.fa-arrow-right):not(.class-codex *) { color: #68533e !important; }
-html body .rules-page :is(.rules-hero-badge, .back-button, button.active, .skills-rules-toggle .active, [aria-pressed="true"]) :is(i.fas, i.far, i.fa-solid, i.fa-regular) { color: #f4ecd8 !important; }
+html body .rules-page :is(.rules-hero-badge, .back-button, button.active, .skills-rules-toggle .active, [aria-pressed="true"], .bestiary-res-pill) :is(i.fas, i.far, i.fa-solid, i.fa-regular, .bestiary-res-icon) { color: #f4ecd8 !important; }
+html body .rules-page .bestiary-res-icon { color: #f4ecd8 !important; }
 html body .rules-page .stat-badge i { color: #663c32 !important; }
 
 /* Gold text on the dark chrome (footer line, active mobile-menu item) becomes warm ivory. */
@@ -5141,11 +5142,11 @@ html body .combat-timeline-window-compact .timeline-header {
   background: var(--adventure-leather, #302419) !important;
   border-bottom: 1px solid #9b835e !important;
   border-radius: 2px 2px 0 0 !important;
-  color: var(--adventure-paper, #f0e3c4) !important;
+  color: var(--adventure-paper, #faf6ee) !important;
 }
 
 html body .combat-timeline-window-compact .timeline-title {
-  color: var(--adventure-paper, #f0e3c4) !important;
+  color: var(--adventure-paper, #faf6ee) !important;
   font-family: 'Cinzel', Georgia, serif !important;
   font-weight: 600 !important;
 }
@@ -6173,6 +6174,29 @@ html body .professional-vtt-editor .layer-name {
   font-size: 11px !important;
   font-weight: 700 !important;
   color: var(--adventure-ink, #34251a) !important;
+}
+
+/* ---- Scroll-to-top button: calm antique parchment medallion seal ---- */
+html body .scroll-to-top {
+  background: radial-gradient(circle at 35% 35%, #faf5ea 0%, #f1ece1 65%, #e6ddce 100%) !important;
+  border: 1.5px solid #b6a080 !important;
+  color: var(--adventure-seal, #663c32) !important;
+  box-shadow: 0 4px 14px rgba(44, 24, 16, 0.16), 0 1px 3px rgba(44, 24, 16, 0.08), inset 0 1px 1px rgba(255, 255, 255, 0.7) !important;
+}
+html body .scroll-to-top::before {
+  border-color: rgba(182, 160, 128, 0.45) !important;
+}
+html body .scroll-to-top i {
+  color: var(--adventure-seal, #663c32) !important;
+  text-shadow: none !important;
+}
+html body .scroll-to-top:hover {
+  background: radial-gradient(circle at 35% 35%, #ffffff 0%, #f8f3e8 65%, #ede3cb 100%) !important;
+  border-color: #8c7355 !important;
+  color: #4a2a22 !important;
+}
+html body .scroll-to-top:hover i {
+  color: #4a2a22 !important;
 }
 
 

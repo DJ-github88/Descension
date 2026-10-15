@@ -31,6 +31,10 @@ class RateLimitService {
       actor_bind: { maxPerMinute: 30, maxPerSecond: 3 },
       actor_snapshot: { maxPerMinute: 60, maxPerSecond: 5 },
       actor_recovery: { maxPerMinute: 10, maxPerSecond: 2 },
+      actor_spell_approve: { maxPerMinute: 30, maxPerSecond: 3 },
+      actor_spell_withdraw: { maxPerMinute: 30, maxPerSecond: 3 },
+      actor_spell_decline: { maxPerMinute: 30, maxPerSecond: 3 },
+      actor_spell_list: { maxPerMinute: 60, maxPerSecond: 5 },
       dice_rolled: { maxPerMinute: 60, maxPerSecond: 5 },
 
       // Item operations - moderate frequency

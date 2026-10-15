@@ -1,0 +1,12 @@
+{
+  "out": "/sessions/rcw-01blq25pdzkihqzq7vcdqkak/mnt/VTT/vtt-react/verification/p9/evidence/repair-cycle1-20261015/seal-1792059273601",
+  "sourcePacketSha256": "d6977ee75dd783ce99c1fdf9ec6c2e4edc0c3068697f3a257d3947e0eea43c27",
+  "p8Drift": [
+    "vtt-react/public/data/abilities.json",
+    "vtt-react/public/data/creatures.json"
+  ],
+  "intentionalP9Extensions": [
+    "vtt-react/src/services/actorConsequenceService.js",
+    "vtt-react/src/persistence/privateStorageRegistry.js"
+  ]
+}

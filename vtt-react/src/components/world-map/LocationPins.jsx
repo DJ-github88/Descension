@@ -7,6 +7,7 @@ import MapPin from './MapPin';
 const LocationPins = ({
   activeMapId,
   selectedRegionId,
+  selectedLocationId,
   setSelectedRegionId,
   setSelectedLocationId,
   setSidebarOpen,
@@ -45,27 +46,32 @@ const LocationPins = ({
       }
     }
 
+    const selectAction = () => {
+      if (selectedLocationId === zoneId) {
+        if (setSelectedLocationId) {
+          setSelectedLocationId(null);
+        }
+        setSidebarOpen(false);
+        return;
+      }
+      if (pinRegionId) setSelectedRegionId(pinRegionId);
+      if (setSelectedLocationId) {
+        setSelectedLocationId(zoneId);
+      }
+      setSidebarOpen(true);
+    };
+
     if (onResolveClick) {
       onResolveClick(coord.x, coord.y, {
         type: 'devPin',
         id: zoneId,
         title: pinName,
-        action: () => {
-          if (pinRegionId) setSelectedRegionId(pinRegionId);
-          if (setSelectedLocationId) {
-            setSelectedLocationId(zoneId);
-          }
-          setSidebarOpen(true);
-        }
+        action: selectAction
       });
       return;
     }
 
-    if (pinRegionId) setSelectedRegionId(pinRegionId);
-    if (setSelectedLocationId) {
-      setSelectedLocationId(zoneId);
-    }
-    setSidebarOpen(true);
+    selectAction();
   };
 
   const pins = Object.entries(LOCATION_COORDINATES)

@@ -121,8 +121,7 @@
 .classes-display .classes-list .class-row .class-row-cta i { filter: none; animation: none; transform: none; }
 .classes-display .classes-empty { color: var(--codex-muted); font-size: 1.1rem; }
 
-/* A single paper sheet, with bare chapter navigation at every viewport. */
-.class-detail-display.premium-theme { width: 100%; max-width: 1240px; margin: 0 auto; padding: 28px; background-color: var(--codex-paper); background-image: linear-gradient(rgba(245, 236, 217, 0.92), rgba(245, 236, 217, 0.92)), url('../../../public/assets/ui/wow-window/parchment_bg.png'); background-size: auto, 600px; border: 1px solid var(--codex-rule); border-radius: 3px; }
+.class-detail-display.premium-theme { width: 100%; max-width: 1240px; margin: 0 auto; padding: 28px; background-color: var(--codex-paper, #f1ece1); background-image: radial-gradient(circle at 8% 6%, rgba(139, 100, 50, 0.06), transparent 35%), radial-gradient(circle at 94% 94%, rgba(139, 100, 50, 0.05), transparent 35%), linear-gradient(180deg, rgba(248, 243, 233, 0.92) 0%, rgba(241, 235, 222, 0.92) 100%), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.4  0 0 0 0 0.3  0 0 0 0 0.2  0 0 0 0.03 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); background-size: auto, auto, auto, 200px 200px; background-repeat: no-repeat, no-repeat, no-repeat, repeat; border: 1px solid var(--codex-rule); border-radius: 3px; }
 .class-detail-display.premium-theme .class-detail-header { padding: 0 0 20px; min-height: 0; gap: 24px; border-bottom: 3px double var(--codex-rule); }
 .class-detail-display.premium-theme .class-detail-header::before,
 .class-detail-display.premium-theme .class-detail-header::after { content: none; }
@@ -315,8 +314,7 @@
 .class-detail-display.premium-theme .class-spell-entry-meta .spellbook-slot-tag { padding: 0; background: transparent; border: 0; color: inherit; font-family: inherit; text-transform: none; font-size: inherit; }
 .class-detail-display.premium-theme .class-spell-entry-meta .spellbook-slot-range { padding: 0; font-size: inherit; color: inherit; }
 
-/* Standalone catalogue uses the same entries and links into the full codex. */
-.classes-page-container.classes-page-container { padding: 32px clamp(20px, 5vw, 72px); background-color: #e8e2d4; background-image: linear-gradient(rgba(232, 220, 198, 0.88), rgba(232, 220, 198, 0.88)), url('../../../public/assets/ui/wow-window/parchment_bg.png'); background-size: auto, 600px; }
+.classes-page-container.classes-page-container { padding: 32px clamp(20px, 5vw, 72px); background-color: #e8e2d4; background-image: radial-gradient(circle at 8% 6%, rgba(139, 100, 50, 0.06), transparent 35%), radial-gradient(circle at 94% 94%, rgba(139, 100, 50, 0.05), transparent 35%), linear-gradient(180deg, rgba(232, 220, 198, 0.88) 0%, rgba(232, 220, 198, 0.88) 100%), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.4  0 0 0 0 0.3  0 0 0 0 0.2  0 0 0 0.03 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); background-size: auto, auto, auto, 200px 200px; background-repeat: no-repeat, no-repeat, no-repeat, repeat; }
 .classes-page-container .classes-header { text-align: left; border-bottom: 3px double var(--codex-rule); }
 .classes-page-container :is(.back-link, .classes-breadcrumb a) { color: var(--codex-seal); text-underline-offset: 4px; }
 .classes-page-container .classes-breadcrumb { color: var(--codex-muted); }

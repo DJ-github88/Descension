@@ -1,0 +1,3637 @@
+{
+  "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+  "gameState": {
+    "characters": {},
+    "combat": {
+      "isActive": false,
+      "currentTurn": null,
+      "turnOrder": [],
+      "round": 0
+    },
+    "defaultMapId": "p8-canopy",
+    "playerMapAssignments": {
+      "754f1790-2085-43eb-9f7d-eda3f828c43e": "default",
+      "a049a3d9-e856-4cf8-b483-d4fe6ad3c2ba": "p8-canopy",
+      "e45c3636-ed2e-4e14-839e-e9ac654a3d3a": "p8-canopy"
+    },
+    "maps": {
+      "default": {
+        "id": "default",
+        "name": "Default Map",
+        "thumbnailUrl": null,
+        "terrainData": {},
+        "wallData": {},
+        "environmentalObjects": [],
+        "drawingPaths": [],
+        "drawingLayers": [],
+        "fogOfWarData": {},
+        "fogOfWarPaths": [],
+        "fogErasePaths": [],
+        "exploredAreas": {},
+        "lightSources": {},
+        "dndElements": [],
+        "viewMode": "2d",
+        "elevationData": {},
+        "rampData": {},
+        "sunSettings": {
+          "azimuth": 135,
+          "elevation": 45,
+          "color": "#fff4e0",
+          "intensity": 1,
+          "ambient": 0.2
+        },
+        "tokens": {},
+        "characterTokens": {},
+        "gridItems": {}
+      },
+      "p8-canopy": {
+        "id": "p8-canopy",
+        "name": "Canopy",
+        "thumbnailUrl": null,
+        "terrainData": {},
+        "wallData": {},
+        "environmentalObjects": [],
+        "drawingPaths": [],
+        "drawingLayers": [],
+        "fogOfWarData": {},
+        "fogOfWarPaths": [],
+        "fogErasePaths": [],
+        "exploredAreas": {},
+        "lightSources": {},
+        "dndElements": [],
+        "viewMode": "2d",
+        "elevationData": {},
+        "rampData": {},
+        "sunSettings": {
+          "azimuth": 135,
+          "elevation": 45,
+          "color": "#fff4e0",
+          "intensity": 1,
+          "ambient": 0.2
+        },
+        "tokens": {
+          "A": {
+            "id": "A",
+            "creatureId": "grimmstalk",
+            "name": "Branvig",
+            "mapId": "p8-canopy",
+            "stats": {
+              "strength": 16,
+              "agility": 18,
+              "constitution": 14,
+              "intelligence": 10,
+              "spirit": 14,
+              "charisma": 8,
+              "maxHp": 250,
+              "currentHp": 250,
+              "maxMana": 30,
+              "currentMana": 30,
+              "maxActionPoints": 5,
+              "currentActionPoints": 5,
+              "initiative": 4,
+              "speed": 35,
+              "flying": 0,
+              "swimming": 0,
+              "sightRange": 90,
+              "darkvision": 90
+            },
+            "position": {
+              "x": 250,
+              "y": 250
+            },
+            "state": {
+              "customName": "A",
+              "currentHp": 30,
+              "tempHealth": 4,
+              "currentMana": 0,
+              "tempMana": 0,
+              "currentActionPoints": 1,
+              "tempActionPoints": 0,
+              "maxHp": 250,
+              "maxMana": 30,
+              "maxAP": 4,
+              "conditions": [],
+              "untouched": {
+                "zero": 0,
+                "flag": false
+              },
+              "actorContract": {
+                "version": 1,
+                "kind": "creature",
+                "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+                "mapId": "p8-canopy",
+                "tokenId": "A",
+                "instanceId": "8dcf05a9-246f-4b51-b061-750816373e7a",
+                "revision": 32,
+                "bindingProvenance": {
+                  "boundBy": "p8-gm",
+                  "snapshotHash": "6b17c7885938fa38fd66a2cb3d9f9fbb1e98158088074077f8234394aefa0d1d",
+                  "selection": "unambiguous"
+                }
+              },
+              "maxActionPoints": 4
+            },
+            "updatedAt": 1792055870880
+          },
+          "B": {
+            "id": "B",
+            "creatureId": "grimmstalk",
+            "name": "Branvig",
+            "mapId": "p8-canopy",
+            "stats": {
+              "strength": 16,
+              "agility": 18,
+              "constitution": 14,
+              "intelligence": 10,
+              "spirit": 14,
+              "charisma": 8,
+              "maxHp": 250,
+              "currentHp": 250,
+              "maxMana": 30,
+              "currentMana": 30,
+              "maxActionPoints": 5,
+              "currentActionPoints": 5,
+              "initiative": 4,
+              "speed": 35,
+              "flying": 0,
+              "swimming": 0,
+              "sightRange": 90,
+              "darkvision": 90
+            },
+            "position": {
+              "x": 300,
+              "y": 250
+            },
+            "state": {
+              "customName": "B",
+              "currentHp": 24,
+              "tempHealth": 0,
+              "currentMana": 0,
+              "tempMana": 0,
+              "currentActionPoints": 2,
+              "tempActionPoints": 0,
+              "maxHp": 250,
+              "maxMana": 30,
+              "maxAP": 5,
+              "conditions": [],
+              "untouched": {
+                "zero": 0,
+                "flag": false
+              },
+              "actorContract": {
+                "version": 1,
+                "kind": "creature",
+                "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+                "mapId": "p8-canopy",
+                "tokenId": "B",
+                "instanceId": "76a17513-62fc-4a1b-8f61-85241506b22b",
+                "revision": 30,
+                "bindingProvenance": {
+                  "boundBy": "p8-gm",
+                  "snapshotHash": "e2e946a416a36696a13ebfdc8721c444cab072c4795a57595825647473ecf443",
+                  "selection": "unambiguous"
+                }
+              },
+              "maxActionPoints": 5
+            }
+          },
+          "C": {
+            "id": "C",
+            "creatureId": "grimmstalk",
+            "name": "Branvig",
+            "mapId": "p8-canopy",
+            "stats": {
+              "strength": 16,
+              "agility": 18,
+              "constitution": 14,
+              "intelligence": 10,
+              "spirit": 14,
+              "charisma": 8,
+              "maxHp": 250,
+              "currentHp": 250,
+              "maxMana": 30,
+              "currentMana": 30,
+              "maxActionPoints": 5,
+              "currentActionPoints": 5,
+              "initiative": 4,
+              "speed": 35,
+              "flying": 0,
+              "swimming": 0,
+              "sightRange": 90,
+              "darkvision": 90
+            },
+            "position": {
+              "x": 350,
+              "y": 250
+            },
+            "state": {
+              "customName": "C",
+              "currentHp": 30,
+              "tempHealth": 4,
+              "currentMana": 0,
+              "tempMana": 0,
+              "currentActionPoints": 2,
+              "tempActionPoints": 0,
+              "maxHp": 250,
+              "maxMana": 30,
+              "maxAP": 5,
+              "conditions": [],
+              "untouched": {
+                "zero": 0,
+                "flag": false
+              },
+              "actorContract": {
+                "version": 1,
+                "kind": "creature",
+                "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+                "mapId": "p8-canopy",
+                "tokenId": "C",
+                "instanceId": "5d38c28d-f59c-4b3b-a03e-99b2016846d5",
+                "revision": 0,
+                "bindingProvenance": {
+                  "boundBy": "p8-gm",
+                  "snapshotHash": "5c4b864655b4b0c32e26ad1e9fa32522c2bf0b720f125273af6da1b7fb5511f1",
+                  "selection": "unambiguous"
+                }
+              },
+              "maxActionPoints": 5
+            }
+          }
+        },
+        "characterTokens": {
+          "PC": {
+            "id": "PC",
+            "mapId": "p8-canopy",
+            "ownerUserId": "p8-owner",
+            "character": {
+              "id": "p8-PC",
+              "name": "Selected PC",
+              "class": "Martyr",
+              "level": 3,
+              "health": {
+                "current": 24,
+                "max": 50
+              },
+              "mana": {
+                "current": 20,
+                "max": 50
+              },
+              "actionPoints": {
+                "current": 2,
+                "max": 5
+              },
+              "tempHealth": 0,
+              "tempMana": 0,
+              "tempActionPoints": 0,
+              "race": "Human",
+              "raceDisplayName": "",
+              "damageReduction": 0,
+              "durability": 0,
+              "movementSpeed": 30,
+              "resistances": {
+                "fire": {
+                  "level": 100,
+                  "multiplier": 1
+                },
+                "frost": {
+                  "level": 100,
+                  "multiplier": 1
+                },
+                "lightning": {
+                  "level": 100,
+                  "multiplier": 1
+                },
+                "force": {
+                  "level": 100,
+                  "multiplier": 1
+                },
+                "necrotic": {
+                  "level": 100,
+                  "multiplier": 1
+                },
+                "radiant": {
+                  "level": 100,
+                  "multiplier": 1
+                },
+                "poison": {
+                  "level": 100,
+                  "multiplier": 1
+                },
+                "psychic": {
+                  "level": 100,
+                  "multiplier": 1
+                },
+                "bludgeoning": {
+                  "level": 100,
+                  "multiplier": 1
+                },
+                "piercing": {
+                  "level": 100,
+                  "multiplier": 1
+                },
+                "slashing": {
+                  "level": 100,
+                  "multiplier": 1
+                }
+              },
+              "immunities": [],
+              "racialTraits": [],
+              "tokenSettings": {
+                "borderColor": "#506e30"
+              }
+            },
+            "position": {
+              "x": 300,
+              "y": 250
+            },
+            "state": {
+              "conditions": [],
+              "actorContract": {
+                "version": 1,
+                "kind": "character",
+                "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+                "mapId": "p8-canopy",
+                "tokenId": "PC",
+                "ownerUid": "p8-owner",
+                "characterId": "p8-PC",
+                "instanceId": "17795594-552f-4bcf-ad8a-4b3dba8da980",
+                "revision": 2,
+                "primary": true,
+                "bindingProvenance": {
+                  "boundBy": "p8-gm",
+                  "snapshotHash": "7707db171b8516737fdc286fbd4597127a98a3ad8d068dfecb72429c70b4a683",
+                  "selection": "unambiguous"
+                }
+              }
+            },
+            "name": "Selected PC"
+          }
+        },
+        "gridItems": {},
+        "creatures": {}
+      }
+    },
+    "mapData": {
+      "backgrounds": [],
+      "activeBackgroundId": null,
+      "cameraPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "zoomLevel": 1
+    },
+    "tokens": {
+      "A": {
+        "id": "A",
+        "creatureId": "grimmstalk",
+        "name": "Branvig",
+        "mapId": "p8-canopy",
+        "stats": {
+          "strength": 16,
+          "agility": 18,
+          "constitution": 14,
+          "intelligence": 10,
+          "spirit": 14,
+          "charisma": 8,
+          "maxHp": 250,
+          "currentHp": 250,
+          "maxMana": 30,
+          "currentMana": 30,
+          "maxActionPoints": 5,
+          "currentActionPoints": 5,
+          "initiative": 4,
+          "speed": 35,
+          "flying": 0,
+          "swimming": 0,
+          "sightRange": 90,
+          "darkvision": 90
+        },
+        "position": {
+          "x": 250,
+          "y": 250
+        },
+        "state": {
+          "customName": "A",
+          "currentHp": 30,
+          "tempHealth": 4,
+          "currentMana": 0,
+          "tempMana": 0,
+          "currentActionPoints": 1,
+          "tempActionPoints": 0,
+          "maxHp": 250,
+          "maxMana": 30,
+          "maxAP": 4,
+          "conditions": [],
+          "untouched": {
+            "zero": 0,
+            "flag": false
+          },
+          "actorContract": {
+            "version": 1,
+            "kind": "creature",
+            "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+            "mapId": "p8-canopy",
+            "tokenId": "A",
+            "instanceId": "8dcf05a9-246f-4b51-b061-750816373e7a",
+            "revision": 32,
+            "bindingProvenance": {
+              "boundBy": "p8-gm",
+              "snapshotHash": "6b17c7885938fa38fd66a2cb3d9f9fbb1e98158088074077f8234394aefa0d1d",
+              "selection": "unambiguous"
+            }
+          },
+          "maxActionPoints": 4
+        },
+        "updatedAt": 1792055870880
+      },
+      "B": {
+        "id": "B",
+        "creatureId": "grimmstalk",
+        "name": "Branvig",
+        "mapId": "p8-canopy",
+        "stats": {
+          "strength": 16,
+          "agility": 18,
+          "constitution": 14,
+          "intelligence": 10,
+          "spirit": 14,
+          "charisma": 8,
+          "maxHp": 250,
+          "currentHp": 250,
+          "maxMana": 30,
+          "currentMana": 30,
+          "maxActionPoints": 5,
+          "currentActionPoints": 5,
+          "initiative": 4,
+          "speed": 35,
+          "flying": 0,
+          "swimming": 0,
+          "sightRange": 90,
+          "darkvision": 90
+        },
+        "position": {
+          "x": 300,
+          "y": 250
+        },
+        "state": {
+          "customName": "B",
+          "currentHp": 24,
+          "tempHealth": 0,
+          "currentMana": 0,
+          "tempMana": 0,
+          "currentActionPoints": 2,
+          "tempActionPoints": 0,
+          "maxHp": 250,
+          "maxMana": 30,
+          "maxAP": 5,
+          "conditions": [],
+          "untouched": {
+            "zero": 0,
+            "flag": false
+          },
+          "actorContract": {
+            "version": 1,
+            "kind": "creature",
+            "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+            "mapId": "p8-canopy",
+            "tokenId": "B",
+            "instanceId": "76a17513-62fc-4a1b-8f61-85241506b22b",
+            "revision": 30,
+            "bindingProvenance": {
+              "boundBy": "p8-gm",
+              "snapshotHash": "e2e946a416a36696a13ebfdc8721c444cab072c4795a57595825647473ecf443",
+              "selection": "unambiguous"
+            }
+          },
+          "maxActionPoints": 5
+        }
+      },
+      "C": {
+        "id": "C",
+        "creatureId": "grimmstalk",
+        "name": "Branvig",
+        "mapId": "p8-canopy",
+        "stats": {
+          "strength": 16,
+          "agility": 18,
+          "constitution": 14,
+          "intelligence": 10,
+          "spirit": 14,
+          "charisma": 8,
+          "maxHp": 250,
+          "currentHp": 250,
+          "maxMana": 30,
+          "currentMana": 30,
+          "maxActionPoints": 5,
+          "currentActionPoints": 5,
+          "initiative": 4,
+          "speed": 35,
+          "flying": 0,
+          "swimming": 0,
+          "sightRange": 90,
+          "darkvision": 90
+        },
+        "position": {
+          "x": 350,
+          "y": 250
+        },
+        "state": {
+          "customName": "C",
+          "currentHp": 30,
+          "tempHealth": 4,
+          "currentMana": 0,
+          "tempMana": 0,
+          "currentActionPoints": 2,
+          "tempActionPoints": 0,
+          "maxHp": 250,
+          "maxMana": 30,
+          "maxAP": 5,
+          "conditions": [],
+          "untouched": {
+            "zero": 0,
+            "flag": false
+          },
+          "actorContract": {
+            "version": 1,
+            "kind": "creature",
+            "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+            "mapId": "p8-canopy",
+            "tokenId": "C",
+            "instanceId": "5d38c28d-f59c-4b3b-a03e-99b2016846d5",
+            "revision": 0,
+            "bindingProvenance": {
+              "boundBy": "p8-gm",
+              "snapshotHash": "5c4b864655b4b0c32e26ad1e9fa32522c2bf0b720f125273af6da1b7fb5511f1",
+              "selection": "unambiguous"
+            }
+          },
+          "maxActionPoints": 5
+        }
+      }
+    },
+    "characterTokens": {
+      "PC": {
+        "id": "PC",
+        "mapId": "p8-canopy",
+        "ownerUserId": "p8-owner",
+        "character": {
+          "id": "p8-PC",
+          "name": "Selected PC",
+          "class": "Martyr",
+          "level": 3,
+          "health": {
+            "current": 24,
+            "max": 50
+          },
+          "mana": {
+            "current": 20,
+            "max": 50
+          },
+          "actionPoints": {
+            "current": 2,
+            "max": 5
+          },
+          "tempHealth": 0,
+          "tempMana": 0,
+          "tempActionPoints": 0,
+          "race": "Human",
+          "raceDisplayName": "",
+          "damageReduction": 0,
+          "durability": 0,
+          "movementSpeed": 30,
+          "resistances": {
+            "fire": {
+              "level": 100,
+              "multiplier": 1
+            },
+            "frost": {
+              "level": 100,
+              "multiplier": 1
+            },
+            "lightning": {
+              "level": 100,
+              "multiplier": 1
+            },
+            "force": {
+              "level": 100,
+              "multiplier": 1
+            },
+            "necrotic": {
+              "level": 100,
+              "multiplier": 1
+            },
+            "radiant": {
+              "level": 100,
+              "multiplier": 1
+            },
+            "poison": {
+              "level": 100,
+              "multiplier": 1
+            },
+            "psychic": {
+              "level": 100,
+              "multiplier": 1
+            },
+            "bludgeoning": {
+              "level": 100,
+              "multiplier": 1
+            },
+            "piercing": {
+              "level": 100,
+              "multiplier": 1
+            },
+            "slashing": {
+              "level": 100,
+              "multiplier": 1
+            }
+          },
+          "immunities": [],
+          "racialTraits": [],
+          "tokenSettings": {
+            "borderColor": "#506e30"
+          }
+        },
+        "position": {
+          "x": 300,
+          "y": 250
+        },
+        "state": {
+          "conditions": [],
+          "actorContract": {
+            "version": 1,
+            "kind": "character",
+            "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+            "mapId": "p8-canopy",
+            "tokenId": "PC",
+            "ownerUid": "p8-owner",
+            "characterId": "p8-PC",
+            "instanceId": "17795594-552f-4bcf-ad8a-4b3dba8da980",
+            "revision": 2,
+            "primary": true,
+            "bindingProvenance": {
+              "boundBy": "p8-gm",
+              "snapshotHash": "7707db171b8516737fdc286fbd4597127a98a3ad8d068dfecb72429c70b4a683",
+              "selection": "unambiguous"
+            }
+          }
+        },
+        "name": "Selected PC"
+      }
+    },
+    "gridItems": {},
+    "fogOfWar": {},
+    "levelEditor": {
+      "terrainData": {},
+      "wallData": {},
+      "environmentalObjects": [],
+      "drawingPaths": [],
+      "drawingLayers": [],
+      "fogOfWarData": {},
+      "fogOfWarPaths": [],
+      "fogErasePaths": [],
+      "exploredAreas": {},
+      "lightSources": {},
+      "dynamicFogEnabled": true,
+      "respectLineOfSight": true,
+      "dndElements": []
+    },
+    "gridSettings": {
+      "gridType": "square",
+      "gridSize": 50,
+      "gridOffsetX": 0,
+      "gridOffsetY": 0,
+      "gridLineColor": "#000000",
+      "gridLineThickness": 1,
+      "gridLineOpacity": 0.5,
+      "gridBackgroundColor": "#d4c5b9",
+      "viewMode": "2d"
+    },
+    "actorConsequences": {
+      "version": 1,
+      "admissionEpoch": "b05345d9-9419-46fa-bdf5-dd67520d6be4",
+      "commitSequence": 32,
+      "replayFloor": 0,
+      "receipts": [
+        {
+          "version": 1,
+          "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+          "commandId": "305ae6b7-1592-4624-91ec-a8dc242bb7ae",
+          "submitterUid": "p8-gm",
+          "contentHash": "dbc1381693be36a1e52815272d0b7f3aaf0c80fa80947348c905275fd0459af6",
+          "admissionEpoch": "b05345d9-9419-46fa-bdf5-dd67520d6be4",
+          "commitSequence": 1,
+          "checkpointRevision": null,
+          "actors": [
+            {
+              "ref": {
+                "kind": "creature",
+                "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+                "mapId": "p8-canopy",
+                "tokenId": "A",
+                "instanceId": "8dcf05a9-246f-4b51-b061-750816373e7a"
+              },
+              "beforeRevision": 0,
+              "afterRevision": 1,
+              "finalResources": {
+                "hp": {
+                  "current": 30,
+                  "temp": 4,
+                  "max": 250
+                },
+                "mana": {
+                  "current": 0,
+                  "temp": 0,
+                  "max": 30
+                },
+                "ap": {
+                  "current": 1,
+                  "temp": 0,
+                  "max": 5
+                }
+              },
+              "conditions": []
+            },
+            {
+              "ref": {
+                "kind": "creature",
+                "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+                "mapId": "p8-canopy",
+                "tokenId": "B",
+                "instanceId": "76a17513-62fc-4a1b-8f61-85241506b22b"
+              },
+              "beforeRevision": 0,
+              "afterRevision": 1,
+              "finalResources": {
+                "hp": {
+                  "current": 24,
+                  "temp": 0,
+                  "max": 250
+                },
+                "mana": {
+                  "current": 0,
+                  "temp": 0,
+                  "max": 30
+                },
+                "ap": {
+                  "current": 2,
+                  "temp": 0,
+                  "max": 5
+                }
+              },
+              "conditions": []
+            }
+          ],
+          "authorization": {
+            "kind": "gm",
+            "authorizerUid": "p8-gm"
+          },
+          "acceptedAt": 1792055853555,
+          "source": {
+            "kind": "creature",
+            "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+            "mapId": "p8-canopy",
+            "tokenId": "A",
+            "instanceId": "8dcf05a9-246f-4b51-b061-750816373e7a"
+          },
+          "target": {
+            "kind": "creature",
+            "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+            "mapId": "p8-canopy",
+            "tokenId": "B",
+            "instanceId": "76a17513-62fc-4a1b-8f61-85241506b22b"
+          },
+          "adjudication": {
+            "definitionId": "grimmstalk_feather_slash",
+            "definitionVersionOrHash": "feather-slash:v1/abilities:1.4.0",
+            "chosenResult": "{\"capability\":\"feather-slash:v1/abilities:1.4.0\",\"rawDefinition\":\"{\\\"cooldownConfig\\\":{\\\"cooldownType\\\":\\\"turn_based\\\",\\\"cooldownValue\\\":0},\\\"damageConfig\\\":{\\\"damageTypes\\\":[\\\"slicing\\\"],\\\"formula\\\":\\\"2d8 + 5\\\",\\\"resolution\\\":\\\"DICE\\\"},\\\"description\\\":\\\"Razor-edged ironwood plumage rakes across the target.\\\",\\\"effectTypes\\\":[\\\"damage\\\"],\\\"icon\\\":\\\"ability_rogue_findweakness\\\",\\\"id\\\":\\\"grimmstalk_feather_slash\\\",\\\"level\\\":1,\\\"name\\\":\\\"Feather Slash\\\",\\\"priorityRange\\\":{\\\"max\\\":11,\\\"min\\\":1,\\\"resolution\\\":\\\"DICE\\\"},\\\"resourceCost\\\":{\\\"actionPoints\\\":1,\\\"components\\\":[\\\"somatic\\\"],\\\"mana\\\":0},\\\"spellType\\\":\\\"ACTION\\\",\\\"tags\\\":[\\\"slicing\\\"],\\\"targetingConfig\\\":{\\\"rangeDistance\\\":10,\\\"rangeType\\\":\\\"melee\\\",\\\"targetRestrictions\\\":[\\\"enemies\\\"],\\\"targetingType\\\":\\\"single\\\"},\\\"typeConfig\\\":{\\\"castTime\\\":1,\\\"castTimeType\\\":\\\"IMMEDIATE\\\",\\\"icon\\\":\\\"ability_rogue_findweakness\\\",\\\"school\\\":\\\"slicing\\\",\\\"tags\\\":[\\\"slicing\\\"]}}\",\"mode\":\"physical\",\"faces\":[3,5],\"total\":13,\"sourceName\":\"A\",\"targetName\":\"B\",\"geometry\":\"Advisory planar center distance 5.0 ft; authored melee 10 ft. Elevation, contact, reach and line of effect require GM adjudication.\",\"gmConfirmed\":true}",
+            "finalAmount": 10,
+            "adjustmentReason": "GM ruling: defense and mitigation adjudicated"
+          }
+        },
+        {
+          "version": 1,
+          "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+          "commandId": "ac2bf614-7903-42fb-bb58-e80b880f9be7",
+          "submitterUid": "p8-gm",
+          "contentHash": "301cec3224b6d86215fbd7fd7f33f817ba26f612908513f5b2d95d282d221fc4",
+          "admissionEpoch": "b05345d9-9419-46fa-bdf5-dd67520d6be4",
+          "commitSequence": 2,
+          "checkpointRevision": null,
+          "actors": [
+            {
+              "ref": {
+                "kind": "creature",
+                "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+                "mapId": "p8-canopy",
+                "tokenId": "A",
+                "instanceId": "8dcf05a9-246f-4b51-b061-750816373e7a"
+              },
+              "beforeRevision": 1,
+              "afterRevision": 2,
+              "finalResources": {
+                "hp": {
+                  "current": 30,
+                  "temp": 4,
+                  "max": 250
+                },
+                "mana": {
+                  "current": 0,
+                  "temp": 0,
+                  "max": 30
+                },
+                "ap": {
+                  "current": 2,
+                  "temp": 0,
+                  "max": 5
+                }
+              },
+              "conditions": []
+            },
+            {
+              "ref": {
+                "kind": "creature",
+                "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+                "mapId": "p8-canopy",
+                "tokenId": "B",
+                "instanceId": "76a17513-62fc-4a1b-8f61-85241506b22b"
+              },
+              "beforeRevision": 1,
+              "afterRevision": 2,
+              "finalResources": {
+                "hp": {
+                  "current": 30,
+                  "temp": 4,
+                  "max": 250
+                },
+                "mana": {
+                  "current": 0,
+                  "temp": 0,
+                  "max": 30
+                },
+                "ap": {
+                  "current": 2,
+                  "temp": 0,
+                  "max": 5
+                }
+              },
+              "conditions": []
+            }
+          ],
+          "authorization": {
+            "kind": "gm",
+            "authorizerUid": "p8-gm"
+          },
+          "acceptedAt": 1792055854941,
+          "source": {
+            "kind": "creature",
+            "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+            "mapId": "p8-canopy",
+            "tokenId": "A",
+            "instanceId": "8dcf05a9-246f-4b51-b061-750816373e7a"
+          },
+          "target": {
+            "kind": "creature",
+            "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+            "mapId": "p8-canopy",
+            "tokenId": "B",
+            "instanceId": "76a17513-62fc-4a1b-8f61-85241506b22b"
+          }
+        },
+        {
+          "version": 1,
+          "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+          "commandId": "db6e6060-e0d6-4a1f-9e7e-b663fb14bdd5",
+          "submitterUid": "p8-gm",
+          "contentHash": "ee3e7bbfab4632f84218d2e9b6ece7dd78f82694d8fa704678a5a524687edf4f",
+          "admissionEpoch": "b05345d9-9419-46fa-bdf5-dd67520d6be4",
+          "commitSequence": 3,
+          "checkpointRevision": null,
+          "actors": [
+            {
+              "ref": {
+                "kind": "creature",
+                "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+                "mapId": "p8-canopy",
+                "tokenId": "A",
+                "instanceId": "8dcf05a9-246f-4b51-b061-750816373e7a"
+              },
+              "beforeRevision": 2,
+              "afterRevision": 3,
+              "finalResources": {
+                "hp": {
+                  "current": 30,
+                  "temp": 4,
+                  "max": 250
+                },
+                "mana": {
+                  "current": 0,
+                  "temp": 0,
+                  "max": 30
+                },
+                "ap": {
+                  "current": 1,
+                  "temp": 0,
+                  "max": 5
+                }
+              },
+              "conditions": []
+            },
+            {
+              "ref": {
+                "kind": "character",
+                "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+                "mapId": "p8-canopy",
+                "tokenId": "PC",
+                "instanceId": "17795594-552f-4bcf-ad8a-4b3dba8da980",
+                "ownerUid": "p8-owner",
+                "characterId": "p8-PC"
+              },
+              "beforeRevision": 1,
+              "afterRevision": 2,
+              "finalResources": {
+                "hp": {
+                  "current": 24,
+                  "temp": 0,
+                  "max": 50
+                },
+                "mana": {
+                  "current": 20,
+                  "temp": 0,
+                  "max": 50
+                },
+                "ap": {
+                  "current": 2,
+                  "temp": 0,
+                  "max": 5
+                }
+              },
+              "conditions": []
+            }
+          ],
+          "authorization": {
+            "kind": "gm",
+            "authorizerUid": "p8-gm"
+          },
+          "acceptedAt": 1792055856138,
+          "source": {
+            "kind": "creature",
+            "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+            "mapId": "p8-canopy",
+            "tokenId": "A",
+            "instanceId": "8dcf05a9-246f-4b51-b061-750816373e7a"
+          },
+          "target": {
+            "kind": "character",
+            "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+            "mapId": "p8-canopy",
+            "tokenId": "PC",
+            "instanceId": "17795594-552f-4bcf-ad8a-4b3dba8da980",
+            "ownerUid": "p8-owner",
+            "characterId": "p8-PC"
+          },
+          "adjudication": {
+            "definitionId": "grimmstalk_feather_slash",
+            "definitionVersionOrHash": "feather-slash:v1/abilities:1.4.0",
+            "chosenResult": "{\"capability\":\"feather-slash:v1/abilities:1.4.0\",\"rawDefinition\":\"{\\\"cooldownConfig\\\":{\\\"cooldownType\\\":\\\"turn_based\\\",\\\"cooldownValue\\\":0},\\\"damageConfig\\\":{\\\"damageTypes\\\":[\\\"slicing\\\"],\\\"formula\\\":\\\"2d8 + 5\\\",\\\"resolution\\\":\\\"DICE\\\"},\\\"description\\\":\\\"Razor-edged ironwood plumage rakes across the target.\\\",\\\"effectTypes\\\":[\\\"damage\\\"],\\\"icon\\\":\\\"ability_rogue_findweakness\\\",\\\"id\\\":\\\"grimmstalk_feather_slash\\\",\\\"level\\\":1,\\\"name\\\":\\\"Feather Slash\\\",\\\"priorityRange\\\":{\\\"max\\\":11,\\\"min\\\":1,\\\"resolution\\\":\\\"DICE\\\"},\\\"resourceCost\\\":{\\\"actionPoints\\\":1,\\\"components\\\":[\\\"somatic\\\"],\\\"mana\\\":0},\\\"spellType\\\":\\\"ACTION\\\",\\\"tags\\\":[\\\"slicing\\\"],\\\"targetingConfig\\\":{\\\"rangeDistance\\\":10,\\\"rangeType\\\":\\\"melee\\\",\\\"targetRestrictions\\\":[\\\"enemies\\\"],\\\"targetingType\\\":\\\"single\\\"},\\\"typeConfig\\\":{\\\"castTime\\\":1,\\\"castTimeType\\\":\\\"IMMEDIATE\\\",\\\"icon\\\":\\\"ability_rogue_findweakness\\\",\\\"school\\\":\\\"slicing\\\",\\\"tags\\\":[\\\"slicing\\\"]}}\",\"mode\":\"physical\",\"faces\":[3,5],\"total\":13,\"sourceName\":\"A\",\"targetName\":\"Selected PC\",\"geometry\":\"Advisory planar center distance 5.0 ft; authored melee 10 ft. Elevation, contact, reach and line of effect require GM adjudication.\",\"gmConfirmed\":true}",
+            "finalAmount": 10,
+            "adjustmentReason": "GM ruling: defense and mitigation adjudicated"
+          }
+        },
+        {
+          "version": 1,
+          "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+          "commandId": "e09f2449-988c-4a76-bd7f-b55f6244c8f3",
+          "submitterUid": "p8-gm",
+          "contentHash": "5b55ef2c3df8936eb413bc59921a1890641111ea67407a8b6d49500257bcc075",
+          "admissionEpoch": "b05345d9-9419-46fa-bdf5-dd67520d6be4",
+          "commitSequence": 4,
+          "checkpointRevision": null,
+          "actors": [
+            {
+              "ref": {
+                "kind": "creature",
+                "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+                "mapId": "p8-canopy",
+                "tokenId": "A",
+                "instanceId": "8dcf05a9-246f-4b51-b061-750816373e7a"
+              },
+              "beforeRevision": 3,
+              "afterRevision": 4,
+              "finalResources": {
+                "hp": {
+                  "current": 30,
+                  "temp": 4,
+                  "max": 250
+                },
+                "mana": {
+                  "current": 0,
+                  "temp": 0,
+                  "max": 30
+                },
+                "ap": {
+                  "current": 1,
+                  "temp": 0,
+                  "max": 5
+                }
+              },
+              "conditions": []
+            },
+            {
+              "ref": {
+                "kind": "creature",
+                "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+                "mapId": "p8-canopy",
+                "tokenId": "B",
+                "instanceId": "76a17513-62fc-4a1b-8f61-85241506b22b"
+              },
+              "beforeRevision": 2,
+              "afterRevision": 3,
+              "finalResources": {
+                "hp": {
+                  "current": 30,
+                  "temp": 4,
+                  "max": 250
+                },
+                "mana": {
+                  "current": 0,
+                  "temp": 0,
+                  "max": 30
+                },
+                "ap": {
+                  "current": 2,
+                  "temp": 0,
+                  "max": 5
+                }
+              },
+              "conditions": []
+            }
+          ],
+          "authorization": {
+            "kind": "gm",
+            "authorizerUid": "p8-gm"
+          },
+          "acceptedAt": 1792055858590,
+          "source": {
+            "kind": "creature",
+            "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+            "mapId": "p8-canopy",
+            "tokenId": "A",
+            "instanceId": "8dcf05a9-246f-4b51-b061-750816373e7a"
+          },
+          "target": {
+            "kind": "creature",
+            "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+            "mapId": "p8-canopy",
+            "tokenId": "B",
+            "instanceId": "76a17513-62fc-4a1b-8f61-85241506b22b"
+          }
+        },
+        {
+          "version": 1,
+          "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+          "commandId": "4f6d8959-c644-44b0-bad1-bf33a5215925",
+          "submitterUid": "p8-gm",
+          "contentHash": "4b14de8d2df78cef34313b38a6a0e3f49c94842182fe8007c70780e997600674",
+          "admissionEpoch": "b05345d9-9419-46fa-bdf5-dd67520d6be4",
+          "commitSequence": 5,
+          "checkpointRevision": null,
+          "actors": [
+            {
+              "ref": {
+                "kind": "creature",
+                "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+                "mapId": "p8-canopy",
+                "tokenId": "A",
+                "instanceId": "8dcf05a9-246f-4b51-b061-750816373e7a"
+              },
+              "beforeRevision": 4,
+              "afterRevision": 5,
+              "finalResources": {
+                "hp": {
+                  "current": 30,
+                  "temp": 4,
+                  "max": 250
+                },
+                "mana": {
+                  "current": 0,
+                  "temp": 0,
+                  "max": 30
+                },
+                "ap": {
+                  "current": 0,
+                  "temp": 0,
+                  "max": 5
+                }
+              },
+              "conditions": []
+            },
+            {
+              "ref": {
+                "kind": "creature",
+                "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+                "mapId": "p8-canopy",
+                "tokenId": "B",
+                "instanceId": "76a17513-62fc-4a1b-8f61-85241506b22b"
+              },
+              "beforeRevision": 3,
+              "afterRevision": 4,
+              "finalResources": {
+                "hp": {
+                  "current": 24,
+                  "temp": 0,
+                  "max": 250
+                },
+                "mana": {
+                  "current": 0,
+                  "temp": 0,
+                  "max": 30
+                },
+                "ap": {
+                  "current": 2,
+                  "temp": 0,
+                  "max": 5
+                }
+              },
+              "conditions": []
+            }
+          ],
+          "authorization": {
+            "kind": "gm",
+            "authorizerUid": "p8-gm"
+          },
+          "acceptedAt": 1792055859786,
+          "source": {
+            "kind": "creature",
+            "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+            "mapId": "p8-canopy",
+            "tokenId": "A",
+            "instanceId": "8dcf05a9-246f-4b51-b061-750816373e7a"
+          },
+          "target": {
+            "kind": "creature",
+            "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+            "mapId": "p8-canopy",
+            "tokenId": "B",
+            "instanceId": "76a17513-62fc-4a1b-8f61-85241506b22b"
+          },
+          "adjudication": {
+            "definitionId": "grimmstalk_feather_slash",
+            "definitionVersionOrHash": "feather-slash:v1/abilities:1.4.0",
+            "chosenResult": "{\"capability\":\"feather-slash:v1/abilities:1.4.0\",\"rawDefinition\":\"{\\\"cooldownConfig\\\":{\\\"cooldownType\\\":\\\"turn_based\\\",\\\"cooldownValue\\\":0},\\\"damageConfig\\\":{\\\"damageTypes\\\":[\\\"slicing\\\"],\\\"formula\\\":\\\"2d8 + 5\\\",\\\"resolution\\\":\\\"DICE\\\"},\\\"description\\\":\\\"Razor-edged ironwood plumage rakes across the target.\\\",\\\"effectTypes\\\":[\\\"damage\\\"],\\\"icon\\\":\\\"ability_rogue_findweakness\\\",\\\"id\\\":\\\"grimmstalk_feather_slash\\\",\\\"level\\\":1,\\\"name\\\":\\\"Feather Slash\\\",\\\"priorityRange\\\":{\\\"max\\\":11,\\\"min\\\":1,\\\"resolution\\\":\\\"DICE\\\"},\\\"resourceCost\\\":{\\\"actionPoints\\\":1,\\\"components\\\":[\\\"somatic\\\"],\\\"mana\\\":0},\\\"spellType\\\":\\\"ACTION\\\",\\\"tags\\\":[\\\"slicing\\\"],\\\"targetingConfig\\\":{\\\"rangeDistance\\\":10,\\\"rangeType\\\":\\\"melee\\\",\\\"targetRestrictions\\\":[\\\"enemies\\\"],\\\"targetingType\\\":\\\"single\\\"},\\\"typeConfig\\\":{\\\"castTime\\\":1,\\\"castTimeType\\\":\\\"IMMEDIATE\\\",\\\"icon\\\":\\\"ability_rogue_findweakness\\\",\\\"school\\\":\\\"slicing\\\",\\\"tags\\\":[\\\"slicing\\\"]}}\",\"mode\":\"physical\",\"faces\":[3,5],\"total\":13,\"sourceName\":\"A\",\"targetName\":\"B\",\"geometry\":\"Advisory planar center distance 5.0 ft; authored melee 10 ft. Elevation, contact, reach and line of effect require GM adjudication.\",\"gmConfirmed\":true}",
+            "finalAmount": 10,
+            "adjustmentReason": "GM ruling: defense and mitigation adjudicated"
+          }
+        },
+        {
+          "version": 1,
+          "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+          "commandId": "ae4a4db0-216b-40d9-91e8-41bae0afd8a1",
+          "submitterUid": "p8-gm",
+          "contentHash": "5160949719dd8e866569795cced6cd89f55bd25b68a47e0a09dd14c72d54e4c7",
+          "admissionEpoch": "b05345d9-9419-46fa-bdf5-dd67520d6be4",
+          "commitSequence": 6,
+          "checkpointRevision": null,
+          "actors": [
+            {
+              "ref": {
+                "kind": "creature",
+                "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+                "mapId": "p8-canopy",
+                "tokenId": "A",
+                "instanceId": "8dcf05a9-246f-4b51-b061-750816373e7a"
+              },
+              "beforeRevision": 5,
+              "afterRevision": 6,
+              "finalResources": {
+                "hp": {
+                  "current": 30,
+                  "temp": 4,
+                  "max": 250
+                },
+                "mana": {
+                  "current": 0,
+                  "temp": 0,
+                  "max": 30
+                },
+                "ap": {
+                  "current": 0,
+                  "temp": 1,
+                  "max": 5
+                }
+              },
+              "conditions": []
+            },
+            {
+              "ref": {
+                "kind": "creature",
+                "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+                "mapId": "p8-canopy",
+                "tokenId": "B",
+                "instanceId": "76a17513-62fc-4a1b-8f61-85241506b22b"
+              },
+              "beforeRevision": 4,
+              "afterRevision": 5,
+              "finalResources": {
+                "hp": {
+                  "current": 30,
+                  "temp": 4,
+                  "max": 250
+                },
+                "mana": {
+                  "current": 0,
+                  "temp": 0,
+                  "max": 30
+                },
+                "ap": {
+                  "current": 2,
+                  "temp": 0,
+                  "max": 5
+                }
+              },
+              "conditions": []
+            }
+          ],
+          "authorization": {
+            "kind": "gm",
+            "authorizerUid": "p8-gm"
+          },
+          "acceptedAt": 1792055859872,
+          "source": {
+            "kind": "creature",
+            "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+            "mapId": "p8-canopy",
+            "tokenId": "A",
+            "instanceId": "8dcf05a9-246f-4b51-b061-750816373e7a"
+          },
+          "target": {
+            "kind": "creature",
+            "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+            "mapId": "p8-canopy",
+            "tokenId": "B",
+            "instanceId": "76a17513-62fc-4a1b-8f61-85241506b22b"
+          }
+        },
+        {
+          "version": 1,
+          "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+          "commandId": "1e06a1b7-ef5c-4a20-9c37-083836e62917",
+          "submitterUid": "p8-gm",
+          "contentHash": "24cec4f5ffef9cd0ff5c87625d6e20320fc42dec6da04d5d741ad6e4b6e65ce8",
+          "admissionEpoch": "b05345d9-9419-46fa-bdf5-dd67520d6be4",
+          "commitSequence": 7,
+          "checkpointRevision": null,
+          "actors": [
+            {
+              "ref": {
+                "kind": "creature",
+                "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+                "mapId": "p8-canopy",
+                "tokenId": "A",
+                "instanceId": "8dcf05a9-246f-4b51-b061-750816373e7a"
+              },
+              "beforeRevision": 6,
+              "afterRevision": 7,
+              "finalResources": {
+                "hp": {
+                  "current": 30,
+                  "temp": 4,
+                  "max": 250
+                },
+                "mana": {
+                  "current": 0,
+                  "temp": 0,
+                  "max": 30
+                },
+                "ap": {
+                  "current": 0,
+                  "temp": 0,
+                  "max": 5
+                }
+              },
+              "conditions": []
+            },
+            {
+              "ref": {
+                "kind": "creature",
+                "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+                "mapId": "p8-canopy",
+                "tokenId": "B",
+                "instanceId": "76a17513-62fc-4a1b-8f61-85241506b22b"
+              },
+              "beforeRevision": 5,
+              "afterRevision": 6,
+              "finalResources": {
+                "hp": {
+                  "current": 24,
+                  "temp": 0,
+                  "max": 250
+                },
+                "mana": {
+                  "current": 0,
+                  "temp": 0,
+                  "max": 30
+                },
+                "ap": {
+                  "current": 2,
+                  "temp": 0,
+                  "max": 5
+                }
+              },
+              "conditions": []
+            }
+          ],
+          "authorization": {
+            "kind": "gm",
+            "authorizerUid": "p8-gm"
+          },
+          "acceptedAt": 1792055861084,
+          "source": {
+            "kind": "creature",
+            "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+            "mapId": "p8-canopy",
+            "tokenId": "A",
+            "instanceId": "8dcf05a9-246f-4b51-b061-750816373e7a"
+          },
+          "target": {
+            "kind": "creature",
+            "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+            "mapId": "p8-canopy",
+            "tokenId": "B",
+            "instanceId": "76a17513-62fc-4a1b-8f61-85241506b22b"
+          },
+          "adjudication": {
+            "definitionId": "grimmstalk_feather_slash",
+            "definitionVersionOrHash": "feather-slash:v1/abilities:1.4.0",
+            "chosenResult": "{\"capability\":\"feather-slash:v1/abilities:1.4.0\",\"rawDefinition\":\"{\\\"cooldownConfig\\\":{\\\"cooldownType\\\":\\\"turn_based\\\",\\\"cooldownValue\\\":0},\\\"damageConfig\\\":{\\\"damageTypes\\\":[\\\"slicing\\\"],\\\"formula\\\":\\\"2d8 + 5\\\",\\\"resolution\\\":\\\"DICE\\\"},\\\"description\\\":\\\"Razor-edged ironwood plumage rakes across the target.\\\",\\\"effectTypes\\\":[\\\"damage\\\"],\\\"icon\\\":\\\"ability_rogue_findweakness\\\",\\\"id\\\":\\\"grimmstalk_feather_slash\\\",\\\"level\\\":1,\\\"name\\\":\\\"Feather Slash\\\",\\\"priorityRange\\\":{\\\"max\\\":11,\\\"min\\\":1,\\\"resolution\\\":\\\"DICE\\\"},\\\"resourceCost\\\":{\\\"actionPoints\\\":1,\\\"components\\\":[\\\"somatic\\\"],\\\"mana\\\":0},\\\"spellType\\\":\\\"ACTION\\\",\\\"tags\\\":[\\\"slicing\\\"],\\\"targetingConfig\\\":{\\\"rangeDistance\\\":10,\\\"rangeType\\\":\\\"melee\\\",\\\"targetRestrictions\\\":[\\\"enemies\\\"],\\\"targetingType\\\":\\\"single\\\"},\\\"typeConfig\\\":{\\\"castTime\\\":1,\\\"castTimeType\\\":\\\"IMMEDIATE\\\",\\\"icon\\\":\\\"ability_rogue_findweakness\\\",\\\"school\\\":\\\"slicing\\\",\\\"tags\\\":[\\\"slicing\\\"]}}\",\"mode\":\"physical\",\"faces\":[3,5],\"total\":13,\"sourceName\":\"A\",\"targetName\":\"B\",\"geometry\":\"Advisory planar center distance 5.0 ft; authored melee 10 ft. Elevation, contact, reach and line of effect require GM adjudication.\",\"gmConfirmed\":true}",
+            "finalAmount": 10,
+            "adjustmentReason": "GM ruling: defense and mitigation adjudicated"
+          }
+        },
+        {
+          "version": 1,
+          "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+          "commandId": "1f60a8d5-0049-4bf4-b7a3-ef2e533d8a3c",
+          "submitterUid": "p8-gm",
+          "contentHash": "a5029cd284117b96c3a9b419c513a4f7e70218f4875fadd2fb70b2527585638d",
+          "admissionEpoch": "b05345d9-9419-46fa-bdf5-dd67520d6be4",
+          "commitSequence": 8,
+          "checkpointRevision": null,
+          "actors": [
+            {
+              "ref": {
+                "kind": "creature",
+                "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+                "mapId": "p8-canopy",
+                "tokenId": "A",
+                "instanceId": "8dcf05a9-246f-4b51-b061-750816373e7a"
+              },
+              "beforeRevision": 7,
+              "afterRevision": 8,
+              "finalResources": {
+                "hp": {
+                  "current": 30,
+                  "temp": 4,
+                  "max": 250
+                },
+                "mana": {
+                  "current": 0,
+                  "temp": 0,
+                  "max": 30
+                },
+                "ap": {
+                  "current": 2,
+                  "temp": 2,
+                  "max": 5
+                }
+              },
+              "conditions": []
+            },
+            {
+              "ref": {
+                "kind": "creature",
+                "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+                "mapId": "p8-canopy",
+                "tokenId": "B",
+                "instanceId": "76a17513-62fc-4a1b-8f61-85241506b22b"
+              },
+              "beforeRevision": 6,
+              "afterRevision": 7,
+              "finalResources": {
+                "hp": {
+                  "current": 30,
+                  "temp": 4,
+                  "max": 250
+                },
+                "mana": {
+                  "current": 0,
+                  "temp": 0,
+                  "max": 30
+                },
+                "ap": {
+                  "current": 2,
+                  "temp": 0,
+                  "max": 5
+                }
+              },
+              "conditions": []
+            }
+          ],
+          "authorization": {
+            "kind": "gm",
+            "authorizerUid": "p8-gm"
+          },
+          "acceptedAt": 1792055861238,
+          "source": {
+            "kind": "creature",
+            "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+            "mapId": "p8-canopy",
+            "tokenId": "A",
+            "instanceId": "8dcf05a9-246f-4b51-b061-750816373e7a"
+          },
+          "target": {
+            "kind": "creature",
+            "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+            "mapId": "p8-canopy",
+            "tokenId": "B",
+            "instanceId": "76a17513-62fc-4a1b-8f61-85241506b22b"
+          }
+        },
+        {
+          "version": 1,
+          "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+          "commandId": "b108fdc3-b6c8-4b7c-90c3-71954dfbea01",
+          "submitterUid": "p8-gm",
+          "contentHash": "b03cbc1d3d25ab8f809dcbb50a3135c5459bf353cda7f1aa14bf7e813f0aa18d",
+          "admissionEpoch": "b05345d9-9419-46fa-bdf5-dd67520d6be4",
+          "commitSequence": 9,
+          "checkpointRevision": null,
+          "actors": [
+            {
+              "ref": {
+                "kind": "creature",
+                "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+                "mapId": "p8-canopy",
+                "tokenId": "A",
+                "instanceId": "8dcf05a9-246f-4b51-b061-750816373e7a"
+              },
+              "beforeRevision": 8,
+              "afterRevision": 9,
+              "finalResources": {
+                "hp": {
+                  "current": 30,
+                  "temp": 4,
+                  "max": 250
+                },
+                "mana": {
+                  "current": 0,
+                  "temp": 0,
+                  "max": 30
+                },
+                "ap": {
+                  "current": 2,
+                  "temp": 1,
+                  "max": 5
+                }
+              },
+              "conditions": []
+            },
+            {
+              "ref": {
+                "kind": "creature",
+                "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+                "mapId": "p8-canopy",
+                "tokenId": "B",
+                "instanceId": "76a17513-62fc-4a1b-8f61-85241506b22b"
+              },
+              "beforeRevision": 7,
+              "afterRevision": 8,
+              "finalResources": {
+                "hp": {
+                  "current": 24,
+                  "temp": 0,
+                  "max": 250
+                },
+                "mana": {
+                  "current": 0,
+                  "temp": 0,
+                  "max": 30
+                },
+                "ap": {
+                  "current": 2,
+                  "temp": 0,
+                  "max": 5
+                }
+              },
+              "conditions": []
+            }
+          ],
+          "authorization": {
+            "kind": "gm",
+            "authorizerUid": "p8-gm"
+          },
+          "acceptedAt": 1792055862435,
+          "source": {
+            "kind": "creature",
+            "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+            "mapId": "p8-canopy",
+            "tokenId": "A",
+            "instanceId": "8dcf05a9-246f-4b51-b061-750816373e7a"
+          },
+          "target": {
+            "kind": "creature",
+            "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+            "mapId": "p8-canopy",
+            "tokenId": "B",
+            "instanceId": "76a17513-62fc-4a1b-8f61-85241506b22b"
+          },
+          "adjudication": {
+            "definitionId": "grimmstalk_feather_slash",
+            "definitionVersionOrHash": "feather-slash:v1/abilities:1.4.0",
+            "chosenResult": "{\"capability\":\"feather-slash:v1/abilities:1.4.0\",\"rawDefinition\":\"{\\\"cooldownConfig\\\":{\\\"cooldownType\\\":\\\"turn_based\\\",\\\"cooldownValue\\\":0},\\\"damageConfig\\\":{\\\"damageTypes\\\":[\\\"slicing\\\"],\\\"formula\\\":\\\"2d8 + 5\\\",\\\"resolution\\\":\\\"DICE\\\"},\\\"description\\\":\\\"Razor-edged ironwood plumage rakes across the target.\\\",\\\"effectTypes\\\":[\\\"damage\\\"],\\\"icon\\\":\\\"ability_rogue_findweakness\\\",\\\"id\\\":\\\"grimmstalk_feather_slash\\\",\\\"level\\\":1,\\\"name\\\":\\\"Feather Slash\\\",\\\"priorityRange\\\":{\\\"max\\\":11,\\\"min\\\":1,\\\"resolution\\\":\\\"DICE\\\"},\\\"resourceCost\\\":{\\\"actionPoints\\\":1,\\\"components\\\":[\\\"somatic\\\"],\\\"mana\\\":0},\\\"spellType\\\":\\\"ACTION\\\",\\\"tags\\\":[\\\"slicing\\\"],\\\"targetingConfig\\\":{\\\"rangeDistance\\\":10,\\\"rangeType\\\":\\\"melee\\\",\\\"targetRestrictions\\\":[\\\"enemies\\\"],\\\"targetingType\\\":\\\"single\\\"},\\\"typeConfig\\\":{\\\"castTime\\\":1,\\\"castTimeType\\\":\\\"IMMEDIATE\\\",\\\"icon\\\":\\\"ability_rogue_findweakness\\\",\\\"school\\\":\\\"slicing\\\",\\\"tags\\\":[\\\"slicing\\\"]}}\",\"mode\":\"physical\",\"faces\":[3,5],\"total\":13,\"sourceName\":\"A\",\"targetName\":\"B\",\"geometry\":\"Advisory planar center distance 5.0 ft; authored melee 10 ft. Elevation, contact, reach and line of effect require GM adjudication.\",\"gmConfirmed\":true}",
+            "finalAmount": 10,
+            "adjustmentReason": "GM ruling: defense and mitigation adjudicated"
+          }
+        },
+        {
+          "version": 1,
+          "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+          "commandId": "856b9b00-ae4c-4da8-8e65-d7cdf6956761",
+          "submitterUid": "p8-gm",
+          "contentHash": "588617053a694052e1d2df19165aa34275adc597e4d7e72672048c9ea613dbb0",
+          "admissionEpoch": "b05345d9-9419-46fa-bdf5-dd67520d6be4",
+          "commitSequence": 10,
+          "checkpointRevision": null,
+          "actors": [
+            {
+              "ref": {
+                "kind": "creature",
+                "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+                "mapId": "p8-canopy",
+                "tokenId": "A",
+                "instanceId": "8dcf05a9-246f-4b51-b061-750816373e7a"
+              },
+              "beforeRevision": 9,
+              "afterRevision": 10,
+              "finalResources": {
+                "hp": {
+                  "current": 30,
+                  "temp": 4,
+                  "max": 250
+                },
+                "mana": {
+                  "current": 0,
+                  "temp": 0,
+                  "max": 30
+                },
+                "ap": {
+                  "current": 1,
+                  "temp": 0.5,
+                  "max": 5
+                }
+              },
+              "conditions": []
+            },
+            {
+              "ref": {
+                "kind": "creature",
+                "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+                "mapId": "p8-canopy",
+                "tokenId": "B",
+                "instanceId": "76a17513-62fc-4a1b-8f61-85241506b22b"
+              },
+              "beforeRevision": 8,
+              "afterRevision": 9,
+              "finalResources": {
+                "hp": {
+                  "current": 30,
+                  "temp": 4,
+                  "max": 250
+                },
+                "mana": {
+                  "current": 0,
+                  "temp": 0,
+                  "max": 30
+                },
+                "ap": {
+                  "current": 2,
+                  "temp": 0,
+                  "max": 5
+                }
+              },
+              "conditions": []
+            }
+          ],
+          "authorization": {
+            "kind": "gm",
+            "authorizerUid": "p8-gm"
+          },
+          "acceptedAt": 1792055862540,
+          "source": {
+            "kind": "creature",
+            "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+            "mapId": "p8-canopy",
+            "tokenId": "A",
+            "instanceId": "8dcf05a9-246f-4b51-b061-750816373e7a"
+          },
+          "target": {
+            "kind": "creature",
+            "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+            "mapId": "p8-canopy",
+            "tokenId": "B",
+            "instanceId": "76a17513-62fc-4a1b-8f61-85241506b22b"
+          }
+        },
+        {
+          "version": 1,
+          "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+          "commandId": "34bc7c36-8481-4b92-9b7f-d6c5c8636868",
+          "submitterUid": "p8-gm",
+          "contentHash": "18f8aa3d5d3c991cb37f950934fb43cc2ae11ca3f9669dcaf8e8140636dac339",
+          "admissionEpoch": "b05345d9-9419-46fa-bdf5-dd67520d6be4",
+          "commitSequence": 11,
+          "checkpointRevision": null,
+          "actors": [
+            {
+              "ref": {
+                "kind": "creature",
+                "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+                "mapId": "p8-canopy",
+                "tokenId": "A",
+                "instanceId": "8dcf05a9-246f-4b51-b061-750816373e7a"
+              },
+              "beforeRevision": 10,
+              "afterRevision": 11,
+              "finalResources": {
+                "hp": {
+                  "current": 30,
+                  "temp": 4,
+                  "max": 250
+                },
+                "mana": {
+                  "current": 0,
+                  "temp": 0,
+                  "max": 30
+                },
+                "ap": {
+                  "current": 0.5,
+                  "temp": 0,
+                  "max": 5
+                }
+              },
+              "conditions": []
+            },
+            {
+              "ref": {
+                "kind": "creature",
+                "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+                "mapId": "p8-canopy",
+                "tokenId": "B",
+                "instanceId": "76a17513-62fc-4a1b-8f61-85241506b22b"
+              },
+              "beforeRevision": 9,
+              "afterRevision": 10,
+              "finalResources": {
+                "hp": {
+                  "current": 24,
+                  "temp": 0,
+                  "max": 250
+                },
+                "mana": {
+                  "current": 0,
+                  "temp": 0,
+                  "max": 30
+                },
+                "ap": {
+                  "current": 2,
+                  "temp": 0,
+                  "max": 5
+                }
+              },
+              "conditions": []
+            }
+          ],
+          "authorization": {
+            "kind": "gm",
+            "authorizerUid": "p8-gm"
+          },
+          "acceptedAt": 1792055863753,
+          "source": {
+            "kind": "creature",
+            "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+            "mapId": "p8-canopy",
+            "tokenId": "A",
+            "instanceId": "8dcf05a9-246f-4b51-b061-750816373e7a"
+          },
+          "target": {
+            "kind": "creature",
+            "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+            "mapId": "p8-canopy",
+            "tokenId": "B",
+            "instanceId": "76a17513-62fc-4a1b-8f61-85241506b22b"
+          },
+          "adjudication": {
+            "definitionId": "grimmstalk_feather_slash",
+            "definitionVersionOrHash": "feather-slash:v1/abilities:1.4.0",
+            "chosenResult": "{\"capability\":\"feather-slash:v1/abilities:1.4.0\",\"rawDefinition\":\"{\\\"cooldownConfig\\\":{\\\"cooldownType\\\":\\\"turn_based\\\",\\\"cooldownValue\\\":0},\\\"damageConfig\\\":{\\\"damageTypes\\\":[\\\"slicing\\\"],\\\"formula\\\":\\\"2d8 + 5\\\",\\\"resolution\\\":\\\"DICE\\\"},\\\"description\\\":\\\"Razor-edged ironwood plumage rakes across the target.\\\",\\\"effectTypes\\\":[\\\"damage\\\"],\\\"icon\\\":\\\"ability_rogue_findweakness\\\",\\\"id\\\":\\\"grimmstalk_feather_slash\\\",\\\"level\\\":1,\\\"name\\\":\\\"Feather Slash\\\",\\\"priorityRange\\\":{\\\"max\\\":11,\\\"min\\\":1,\\\"resolution\\\":\\\"DICE\\\"},\\\"resourceCost\\\":{\\\"actionPoints\\\":1,\\\"components\\\":[\\\"somatic\\\"],\\\"mana\\\":0},\\\"spellType\\\":\\\"ACTION\\\",\\\"tags\\\":[\\\"slicing\\\"],\\\"targetingConfig\\\":{\\\"rangeDistance\\\":10,\\\"rangeType\\\":\\\"melee\\\",\\\"targetRestrictions\\\":[\\\"enemies\\\"],\\\"targetingType\\\":\\\"single\\\"},\\\"typeConfig\\\":{\\\"castTime\\\":1,\\\"castTimeType\\\":\\\"IMMEDIATE\\\",\\\"icon\\\":\\\"ability_rogue_findweakness\\\",\\\"school\\\":\\\"slicing\\\",\\\"tags\\\":[\\\"slicing\\\"]}}\",\"mode\":\"physical\",\"faces\":[3,5],\"total\":13,\"sourceName\":\"A\",\"targetName\":\"B\",\"geometry\":\"Advisory planar center distance 5.0 ft; authored melee 10 ft. Elevation, contact, reach and line of effect require GM adjudication.\",\"gmConfirmed\":true}",
+            "finalAmount": 10,
+            "adjustmentReason": "GM ruling: defense and mitigation adjudicated"
+          }
+        },
+        {
+          "version": 1,
+          "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+          "commandId": "622184ec-bc48-44c5-8b89-cad41dc9e84e",
+          "submitterUid": "p8-gm",
+          "contentHash": "a53fe9f3d867feb46d25754026f9f312157339129b11d4f96d9177a0e44b2014",
+          "admissionEpoch": "b05345d9-9419-46fa-bdf5-dd67520d6be4",
+          "commitSequence": 12,
+          "checkpointRevision": null,
+          "actors": [
+            {
+              "ref": {
+                "kind": "creature",
+                "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+                "mapId": "p8-canopy",
+                "tokenId": "A",
+                "instanceId": "8dcf05a9-246f-4b51-b061-750816373e7a"
+              },
+              "beforeRevision": 11,
+              "afterRevision": 12,
+              "finalResources": {
+                "hp": {
+                  "current": 30,
+                  "temp": 4,
+                  "max": 250
+                },
+                "mana": {
+                  "current": 0,
+                  "temp": 0,
+                  "max": 30
+                },
+                "ap": {
+                  "current": 0,
+                  "temp": 0,
+                  "max": 5
+                }
+              },
+              "conditions": []
+            },
+            {
+              "ref": {
+                "kind": "creature",
+                "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+                "mapId": "p8-canopy",
+                "tokenId": "B",
+                "instanceId": "76a17513-62fc-4a1b-8f61-85241506b22b"
+              },
+              "beforeRevision": 10,
+              "afterRevision": 11,
+              "finalResources": {
+                "hp": {
+                  "current": 30,
+                  "temp": 4,
+                  "max": 250
+                },
+                "mana": {
+                  "current": 0,
+                  "temp": 0,
+                  "max": 30
+                },
+                "ap": {
+                  "current": 2,
+                  "temp": 0,
+                  "max": 5
+                }
+              },
+              "conditions": []
+            }
+          ],
+          "authorization": {
+            "kind": "gm",
+            "authorizerUid": "p8-gm"
+          },
+          "acceptedAt": 1792055863838,
+          "source": {
+            "kind": "creature",
+            "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+            "mapId": "p8-canopy",
+            "tokenId": "A",
+            "instanceId": "8dcf05a9-246f-4b51-b061-750816373e7a"
+          },
+          "target": {
+            "kind": "creature",
+            "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+            "mapId": "p8-canopy",
+            "tokenId": "B",
+            "instanceId": "76a17513-62fc-4a1b-8f61-85241506b22b"
+          }
+        },
+        {
+          "version": 1,
+          "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+          "commandId": "2e2df5ed-039e-4886-8009-007cf34e2b7b",
+          "submitterUid": "p8-gm",
+          "contentHash": "45085fe1924d5e51567b8933177fc66225ee5723f8d3b227d27c98ec6bf39d2d",
+          "admissionEpoch": "b05345d9-9419-46fa-bdf5-dd67520d6be4",
+          "commitSequence": 13,
+          "checkpointRevision": null,
+          "actors": [
+            {
+              "ref": {
+                "kind": "creature",
+                "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+                "mapId": "p8-canopy",
+                "tokenId": "A",
+                "instanceId": "8dcf05a9-246f-4b51-b061-750816373e7a"
+              },
+              "beforeRevision": 12,
+              "afterRevision": 13,
+              "finalResources": {
+                "hp": {
+                  "current": 30,
+                  "temp": 4,
+                  "max": 250
+                },
+                "mana": {
+                  "current": 0,
+                  "temp": 0,
+                  "max": 30
+                },
+                "ap": {
+                  "current": 2,
+                  "temp": 0,
+                  "max": 5
+                }
+              },
+              "conditions": []
+            },
+            {
+              "ref": {
+                "kind": "creature",
+                "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+                "mapId": "p8-canopy",
+                "tokenId": "B",
+                "instanceId": "76a17513-62fc-4a1b-8f61-85241506b22b"
+              },
+              "beforeRevision": 11,
+              "afterRevision": 12,
+              "finalResources": {
+                "hp": {
+                  "current": 30,
+                  "temp": 4,
+                  "max": 250
+                },
+                "mana": {
+                  "current": 0,
+                  "temp": 0,
+                  "max": 30
+                },
+                "ap": {
+                  "current": 2,
+                  "temp": 0,
+                  "max": 5
+                }
+              },
+              "conditions": []
+            }
+          ],
+          "authorization": {
+            "kind": "gm",
+            "authorizerUid": "p8-gm"
+          },
+          "acceptedAt": 1792055865121,
+          "source": {
+            "kind": "creature",
+            "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+            "mapId": "p8-canopy",
+            "tokenId": "A",
+            "instanceId": "8dcf05a9-246f-4b51-b061-750816373e7a"
+          },
+          "target": {
+            "kind": "creature",
+            "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+            "mapId": "p8-canopy",
+            "tokenId": "B",
+            "instanceId": "76a17513-62fc-4a1b-8f61-85241506b22b"
+          }
+        },
+        {
+          "version": 1,
+          "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+          "commandId": "f94f97db-c2ac-4861-9ec8-bdbf4ec05f30",
+          "submitterUid": "p8-gm",
+          "contentHash": "be25b142654c29963949e5deca2057f53601e1a09153e8c378ee0bde19d52d86",
+          "admissionEpoch": "b05345d9-9419-46fa-bdf5-dd67520d6be4",
+          "commitSequence": 14,
+          "checkpointRevision": null,
+          "actors": [
+            {
+              "ref": {
+                "kind": "creature",
+                "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+                "mapId": "p8-canopy",
+                "tokenId": "A",
+                "instanceId": "8dcf05a9-246f-4b51-b061-750816373e7a"
+              },
+              "beforeRevision": 13,
+              "afterRevision": 14,
+              "finalResources": {
+                "hp": {
+                  "current": 30,
+                  "temp": 4,
+                  "max": 250
+                },
+                "mana": {
+                  "current": 0,
+                  "temp": 0,
+                  "max": 30
+                },
+                "ap": {
+                  "current": 2,
+                  "temp": 0,
+                  "max": 5
+                }
+              },
+              "conditions": []
+            },
+            {
+              "ref": {
+                "kind": "creature",
+                "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+                "mapId": "p8-canopy",
+                "tokenId": "B",
+                "instanceId": "76a17513-62fc-4a1b-8f61-85241506b22b"
+              },
+              "beforeRevision": 12,
+              "afterRevision": 13,
+              "finalResources": {
+                "hp": {
+                  "current": 30,
+                  "temp": 4,
+                  "max": 250
+                },
+                "mana": {
+                  "current": 0,
+                  "temp": 0,
+                  "max": 30
+                },
+                "ap": {
+                  "current": 2,
+                  "temp": 0,
+                  "max": 5
+                }
+              },
+              "conditions": []
+            }
+          ],
+          "authorization": {
+            "kind": "gm",
+            "authorizerUid": "p8-gm"
+          },
+          "acceptedAt": 1792055867252,
+          "source": {
+            "kind": "creature",
+            "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+            "mapId": "p8-canopy",
+            "tokenId": "A",
+            "instanceId": "8dcf05a9-246f-4b51-b061-750816373e7a"
+          },
+          "target": {
+            "kind": "creature",
+            "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+            "mapId": "p8-canopy",
+            "tokenId": "B",
+            "instanceId": "76a17513-62fc-4a1b-8f61-85241506b22b"
+          }
+        },
+        {
+          "version": 1,
+          "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+          "commandId": "9be2407e-44d1-4f61-bcbd-2e46685cfafb",
+          "submitterUid": "p8-gm",
+          "contentHash": "fd70d0cf83910fa12975f182cd43f6c79274fb2f5f12ed9e28e3413e7750a70d",
+          "admissionEpoch": "b05345d9-9419-46fa-bdf5-dd67520d6be4",
+          "commitSequence": 15,
+          "checkpointRevision": null,
+          "actors": [
+            {
+              "ref": {
+                "kind": "creature",
+                "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+                "mapId": "p8-canopy",
+                "tokenId": "A",
+                "instanceId": "8dcf05a9-246f-4b51-b061-750816373e7a"
+              },
+              "beforeRevision": 14,
+              "afterRevision": 15,
+              "finalResources": {
+                "hp": {
+                  "current": 30,
+                  "temp": 4,
+                  "max": 250
+                },
+                "mana": {
+                  "current": 0,
+                  "temp": 0,
+                  "max": 30
+                },
+                "ap": {
+                  "current": 2,
+                  "temp": 1,
+                  "max": 5
+                }
+              },
+              "conditions": []
+            }
+          ],
+          "authorization": {
+            "kind": "gm",
+            "authorizerUid": "p8-gm"
+          },
+          "acceptedAt": 1792055868380
+        },
+        {
+          "version": 1,
+          "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+          "commandId": "95aa942f-0906-4465-b3dc-438e74c852cc",
+          "submitterUid": "p8-gm",
+          "contentHash": "e4cb193aa7e04547021da6d26656560b854be437c38b93d3a6b6f9c43da31a62",
+          "admissionEpoch": "b05345d9-9419-46fa-bdf5-dd67520d6be4",
+          "commitSequence": 16,
+          "checkpointRevision": null,
+          "actors": [
+            {
+              "ref": {
+                "kind": "creature",
+                "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+                "mapId": "p8-canopy",
+                "tokenId": "A",
+                "instanceId": "8dcf05a9-246f-4b51-b061-750816373e7a"
+              },
+              "beforeRevision": 15,
+              "afterRevision": 16,
+              "finalResources": {
+                "hp": {
+                  "current": 30,
+                  "temp": 4,
+                  "max": 250
+                },
+                "mana": {
+                  "current": 0,
+                  "temp": 0,
+                  "max": 30
+                },
+                "ap": {
+                  "current": 2,
+                  "temp": 0,
+                  "max": 5
+                }
+              },
+              "conditions": []
+            },
+            {
+              "ref": {
+                "kind": "creature",
+                "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+                "mapId": "p8-canopy",
+                "tokenId": "B",
+                "instanceId": "76a17513-62fc-4a1b-8f61-85241506b22b"
+              },
+              "beforeRevision": 13,
+              "afterRevision": 14,
+              "finalResources": {
+                "hp": {
+                  "current": 30,
+                  "temp": 4,
+                  "max": 250
+                },
+                "mana": {
+                  "current": 0,
+                  "temp": 0,
+                  "max": 30
+                },
+                "ap": {
+                  "current": 2,
+                  "temp": 0,
+                  "max": 5
+                }
+              },
+              "conditions": []
+            }
+          ],
+          "authorization": {
+            "kind": "gm",
+            "authorizerUid": "p8-gm"
+          },
+          "acceptedAt": 1792055868472,
+          "source": {
+            "kind": "creature",
+            "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+            "mapId": "p8-canopy",
+            "tokenId": "A",
+            "instanceId": "8dcf05a9-246f-4b51-b061-750816373e7a"
+          },
+          "target": {
+            "kind": "creature",
+            "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+            "mapId": "p8-canopy",
+            "tokenId": "B",
+            "instanceId": "76a17513-62fc-4a1b-8f61-85241506b22b"
+          }
+        },
+        {
+          "version": 1,
+          "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+          "commandId": "b53d4c84-e62a-4d40-8c1f-4c20559bb6b4",
+          "submitterUid": "p8-gm",
+          "contentHash": "d2a3c082bc35b2dae2d9cb5e0e6398019e942d997d077f7b17bdd47e09abb126",
+          "admissionEpoch": "b05345d9-9419-46fa-bdf5-dd67520d6be4",
+          "commitSequence": 17,
+          "checkpointRevision": null,
+          "actors": [
+            {
+              "ref": {
+                "kind": "creature",
+                "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+                "mapId": "p8-canopy",
+                "tokenId": "B",
+                "instanceId": "76a17513-62fc-4a1b-8f61-85241506b22b"
+              },
+              "beforeRevision": 14,
+              "afterRevision": 15,
+              "finalResources": {
+                "hp": {
+                  "current": 29,
+                  "temp": 4,
+                  "max": 250
+                },
+                "mana": {
+                  "current": 0,
+                  "temp": 0,
+                  "max": 30
+                },
+                "ap": {
+                  "current": 2,
+                  "temp": 0,
+                  "max": 5
+                }
+              },
+              "conditions": []
+            }
+          ],
+          "authorization": {
+            "kind": "gm",
+            "authorizerUid": "p8-gm"
+          },
+          "acceptedAt": 1792055869632
+        },
+        {
+          "version": 1,
+          "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+          "commandId": "b4f741c7-3c8a-463d-b9f6-aa73301b49be",
+          "submitterUid": "p8-gm",
+          "contentHash": "d4fd3f8bc291a7736097c178f01b60aa386c9080b452c2a6c1b46eab9cd8749c",
+          "admissionEpoch": "b05345d9-9419-46fa-bdf5-dd67520d6be4",
+          "commitSequence": 18,
+          "checkpointRevision": null,
+          "actors": [
+            {
+              "ref": {
+                "kind": "creature",
+                "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+                "mapId": "p8-canopy",
+                "tokenId": "A",
+                "instanceId": "8dcf05a9-246f-4b51-b061-750816373e7a"
+              },
+              "beforeRevision": 16,
+              "afterRevision": 17,
+              "finalResources": {
+                "hp": {
+                  "current": 30,
+                  "temp": 4,
+                  "max": 250
+                },
+                "mana": {
+                  "current": 0,
+                  "temp": 0,
+                  "max": 30
+                },
+                "ap": {
+                  "current": 2,
+                  "temp": 0,
+                  "max": 5
+                }
+              },
+              "conditions": []
+            },
+            {
+              "ref": {
+                "kind": "creature",
+                "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+                "mapId": "p8-canopy",
+                "tokenId": "B",
+                "instanceId": "76a17513-62fc-4a1b-8f61-85241506b22b"
+              },
+              "beforeRevision": 15,
+              "afterRevision": 16,
+              "finalResources": {
+                "hp": {
+                  "current": 30,
+                  "temp": 4,
+                  "max": 250
+                },
+                "mana": {
+                  "current": 0,
+                  "temp": 0,
+                  "max": 30
+                },
+                "ap": {
+                  "current": 2,
+                  "temp": 0,
+                  "max": 5
+                }
+              },
+              "conditions": []
+            }
+          ],
+          "authorization": {
+            "kind": "gm",
+            "authorizerUid": "p8-gm"
+          },
+          "acceptedAt": 1792055869719,
+          "source": {
+            "kind": "creature",
+            "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+            "mapId": "p8-canopy",
+            "tokenId": "A",
+            "instanceId": "8dcf05a9-246f-4b51-b061-750816373e7a"
+          },
+          "target": {
+            "kind": "creature",
+            "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+            "mapId": "p8-canopy",
+            "tokenId": "B",
+            "instanceId": "76a17513-62fc-4a1b-8f61-85241506b22b"
+          }
+        },
+        {
+          "version": 1,
+          "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+          "commandId": "125ad77f-e982-4c1b-8f56-bdc340fef307",
+          "submitterUid": "p8-gm",
+          "contentHash": "12f4f783fff9b51e589f29835c348d9297c60a720ce91841654c22c9d7537d9a",
+          "admissionEpoch": "b05345d9-9419-46fa-bdf5-dd67520d6be4",
+          "commitSequence": 19,
+          "checkpointRevision": null,
+          "actors": [
+            {
+              "ref": {
+                "kind": "creature",
+                "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+                "mapId": "p8-canopy",
+                "tokenId": "A",
+                "instanceId": "8dcf05a9-246f-4b51-b061-750816373e7a"
+              },
+              "beforeRevision": 18,
+              "afterRevision": 19,
+              "finalResources": {
+                "hp": {
+                  "current": 30,
+                  "temp": 4,
+                  "max": 250
+                },
+                "mana": {
+                  "current": 0,
+                  "temp": 0,
+                  "max": 30
+                },
+                "ap": {
+                  "current": 2,
+                  "temp": 0,
+                  "max": 4
+                }
+              },
+              "conditions": []
+            },
+            {
+              "ref": {
+                "kind": "creature",
+                "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+                "mapId": "p8-canopy",
+                "tokenId": "B",
+                "instanceId": "76a17513-62fc-4a1b-8f61-85241506b22b"
+              },
+              "beforeRevision": 16,
+              "afterRevision": 17,
+              "finalResources": {
+                "hp": {
+                  "current": 30,
+                  "temp": 4,
+                  "max": 250
+                },
+                "mana": {
+                  "current": 0,
+                  "temp": 0,
+                  "max": 30
+                },
+                "ap": {
+                  "current": 2,
+                  "temp": 0,
+                  "max": 5
+                }
+              },
+              "conditions": []
+            }
+          ],
+          "authorization": {
+            "kind": "gm",
+            "authorizerUid": "p8-gm"
+          },
+          "acceptedAt": 1792055870951,
+          "source": {
+            "kind": "creature",
+            "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+            "mapId": "p8-canopy",
+            "tokenId": "A",
+            "instanceId": "8dcf05a9-246f-4b51-b061-750816373e7a"
+          },
+          "target": {
+            "kind": "creature",
+            "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+            "mapId": "p8-canopy",
+            "tokenId": "B",
+            "instanceId": "76a17513-62fc-4a1b-8f61-85241506b22b"
+          }
+        },
+        {
+          "version": 1,
+          "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+          "commandId": "e373c5ab-4e7b-4000-852a-3eb98213ad52",
+          "submitterUid": "p8-gm",
+          "contentHash": "286a22701915dca82d2c4d26566d2fe412cdb259515a87e3ca9ec5188754c860",
+          "admissionEpoch": "b05345d9-9419-46fa-bdf5-dd67520d6be4",
+          "commitSequence": 20,
+          "checkpointRevision": null,
+          "actors": [
+            {
+              "ref": {
+                "kind": "creature",
+                "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+                "mapId": "p8-canopy",
+                "tokenId": "A",
+                "instanceId": "8dcf05a9-246f-4b51-b061-750816373e7a"
+              },
+              "beforeRevision": 19,
+              "afterRevision": 20,
+              "finalResources": {
+                "hp": {
+                  "current": 30,
+                  "temp": 4,
+                  "max": 250
+                },
+                "mana": {
+                  "current": 0,
+                  "temp": 0,
+                  "max": 30
+                },
+                "ap": {
+                  "current": 2,
+                  "temp": 0,
+                  "max": 4
+                }
+              },
+              "conditions": []
+            },
+            {
+              "ref": {
+                "kind": "creature",
+                "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+                "mapId": "p8-canopy",
+                "tokenId": "B",
+                "instanceId": "76a17513-62fc-4a1b-8f61-85241506b22b"
+              },
+              "beforeRevision": 17,
+              "afterRevision": 18,
+              "finalResources": {
+                "hp": {
+                  "current": 30,
+                  "temp": 4,
+                  "max": 250
+                },
+                "mana": {
+                  "current": 0,
+                  "temp": 0,
+                  "max": 30
+                },
+                "ap": {
+                  "current": 2,
+                  "temp": 0,
+                  "max": 5
+                }
+              },
+              "conditions": []
+            }
+          ],
+          "authorization": {
+            "kind": "gm",
+            "authorizerUid": "p8-gm"
+          },
+          "acceptedAt": 1792055872179,
+          "source": {
+            "kind": "creature",
+            "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+            "mapId": "p8-canopy",
+            "tokenId": "A",
+            "instanceId": "8dcf05a9-246f-4b51-b061-750816373e7a"
+          },
+          "target": {
+            "kind": "creature",
+            "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+            "mapId": "p8-canopy",
+            "tokenId": "B",
+            "instanceId": "76a17513-62fc-4a1b-8f61-85241506b22b"
+          }
+        },
+        {
+          "version": 1,
+          "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+          "commandId": "ecc335db-fdbe-472b-a406-c98facd14ef0",
+          "submitterUid": "p8-gm",
+          "contentHash": "ee4cb755eda5428376fa7bd4c6e98983ffbe1a349cf5313850b5278fdde90c78",
+          "admissionEpoch": "b05345d9-9419-46fa-bdf5-dd67520d6be4",
+          "commitSequence": 21,
+          "checkpointRevision": null,
+          "actors": [
+            {
+              "ref": {
+                "kind": "creature",
+                "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+                "mapId": "p8-canopy",
+                "tokenId": "A",
+                "instanceId": "8dcf05a9-246f-4b51-b061-750816373e7a"
+              },
+              "beforeRevision": 20,
+              "afterRevision": 21,
+              "finalResources": {
+                "hp": {
+                  "current": 30,
+                  "temp": 4,
+                  "max": 250
+                },
+                "mana": {
+                  "current": 0,
+                  "temp": 0,
+                  "max": 30
+                },
+                "ap": {
+                  "current": 2,
+                  "temp": 0,
+                  "max": 4
+                }
+              },
+              "conditions": []
+            },
+            {
+              "ref": {
+                "kind": "creature",
+                "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+                "mapId": "p8-canopy",
+                "tokenId": "B",
+                "instanceId": "76a17513-62fc-4a1b-8f61-85241506b22b"
+              },
+              "beforeRevision": 18,
+              "afterRevision": 19,
+              "finalResources": {
+                "hp": {
+                  "current": 30,
+                  "temp": 4,
+                  "max": 250
+                },
+                "mana": {
+                  "current": 0,
+                  "temp": 0,
+                  "max": 30
+                },
+                "ap": {
+                  "current": 2,
+                  "temp": 0,
+                  "max": 5
+                }
+              },
+              "conditions": []
+            }
+          ],
+          "authorization": {
+            "kind": "gm",
+            "authorizerUid": "p8-gm"
+          },
+          "acceptedAt": 1792055873404,
+          "source": {
+            "kind": "creature",
+            "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+            "mapId": "p8-canopy",
+            "tokenId": "A",
+            "instanceId": "8dcf05a9-246f-4b51-b061-750816373e7a"
+          },
+          "target": {
+            "kind": "creature",
+            "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+            "mapId": "p8-canopy",
+            "tokenId": "B",
+            "instanceId": "76a17513-62fc-4a1b-8f61-85241506b22b"
+          }
+        },
+        {
+          "version": 1,
+          "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+          "commandId": "d25b45ff-e798-4c3d-be98-ae94fbc1c82c",
+          "submitterUid": "p8-gm",
+          "contentHash": "5919d9037de36684ee97e6fc6d5a26e52a1551e4b7d7133d981c6c2e2b833d9b",
+          "admissionEpoch": "b05345d9-9419-46fa-bdf5-dd67520d6be4",
+          "commitSequence": 22,
+          "checkpointRevision": null,
+          "actors": [
+            {
+              "ref": {
+                "kind": "creature",
+                "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+                "mapId": "p8-canopy",
+                "tokenId": "A",
+                "instanceId": "8dcf05a9-246f-4b51-b061-750816373e7a"
+              },
+              "beforeRevision": 21,
+              "afterRevision": 22,
+              "finalResources": {
+                "hp": {
+                  "current": 30,
+                  "temp": 4,
+                  "max": 250
+                },
+                "mana": {
+                  "current": 0,
+                  "temp": 0,
+                  "max": 30
+                },
+                "ap": {
+                  "current": 1,
+                  "temp": 0,
+                  "max": 4
+                }
+              },
+              "conditions": []
+            },
+            {
+              "ref": {
+                "kind": "creature",
+                "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+                "mapId": "p8-canopy",
+                "tokenId": "B",
+                "instanceId": "76a17513-62fc-4a1b-8f61-85241506b22b"
+              },
+              "beforeRevision": 19,
+              "afterRevision": 20,
+              "finalResources": {
+                "hp": {
+                  "current": 24,
+                  "temp": 0,
+                  "max": 250
+                },
+                "mana": {
+                  "current": 0,
+                  "temp": 0,
+                  "max": 30
+                },
+                "ap": {
+                  "current": 2,
+                  "temp": 0,
+                  "max": 5
+                }
+              },
+              "conditions": []
+            }
+          ],
+          "authorization": {
+            "kind": "gm",
+            "authorizerUid": "p8-gm"
+          },
+          "acceptedAt": 1792055875219,
+          "source": {
+            "kind": "creature",
+            "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+            "mapId": "p8-canopy",
+            "tokenId": "A",
+            "instanceId": "8dcf05a9-246f-4b51-b061-750816373e7a"
+          },
+          "target": {
+            "kind": "creature",
+            "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+            "mapId": "p8-canopy",
+            "tokenId": "B",
+            "instanceId": "76a17513-62fc-4a1b-8f61-85241506b22b"
+          },
+          "adjudication": {
+            "definitionId": "grimmstalk_feather_slash",
+            "definitionVersionOrHash": "feather-slash:v1/abilities:1.4.0",
+            "chosenResult": "{\"capability\":\"feather-slash:v1/abilities:1.4.0\",\"rawDefinition\":\"{\\\"cooldownConfig\\\":{\\\"cooldownType\\\":\\\"turn_based\\\",\\\"cooldownValue\\\":0},\\\"damageConfig\\\":{\\\"damageTypes\\\":[\\\"slicing\\\"],\\\"formula\\\":\\\"2d8 + 5\\\",\\\"resolution\\\":\\\"DICE\\\"},\\\"description\\\":\\\"Razor-edged ironwood plumage rakes across the target.\\\",\\\"effectTypes\\\":[\\\"damage\\\"],\\\"icon\\\":\\\"ability_rogue_findweakness\\\",\\\"id\\\":\\\"grimmstalk_feather_slash\\\",\\\"level\\\":1,\\\"name\\\":\\\"Feather Slash\\\",\\\"priorityRange\\\":{\\\"max\\\":11,\\\"min\\\":1,\\\"resolution\\\":\\\"DICE\\\"},\\\"resourceCost\\\":{\\\"actionPoints\\\":1,\\\"components\\\":[\\\"somatic\\\"],\\\"mana\\\":0},\\\"spellType\\\":\\\"ACTION\\\",\\\"tags\\\":[\\\"slicing\\\"],\\\"targetingConfig\\\":{\\\"rangeDistance\\\":10,\\\"rangeType\\\":\\\"melee\\\",\\\"targetRestrictions\\\":[\\\"enemies\\\"],\\\"targetingType\\\":\\\"single\\\"},\\\"typeConfig\\\":{\\\"castTime\\\":1,\\\"castTimeType\\\":\\\"IMMEDIATE\\\",\\\"icon\\\":\\\"ability_rogue_findweakness\\\",\\\"school\\\":\\\"slicing\\\",\\\"tags\\\":[\\\"slicing\\\"]}}\",\"mode\":\"digital\",\"faces\":[3,5],\"total\":13,\"sourceName\":\"A\",\"targetName\":\"B\",\"geometry\":\"Advisory planar center distance 5.0 ft; authored melee 10 ft. Elevation, contact, reach and line of effect require GM adjudication.\",\"gmConfirmed\":true}",
+            "finalAmount": 10,
+            "adjustmentReason": "GM defense ruling"
+          }
+        },
+        {
+          "version": 1,
+          "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+          "commandId": "0b66d030-d021-4a1f-9845-6c5bd5453af3",
+          "submitterUid": "p8-gm",
+          "contentHash": "8b16b8d7382162d433633c57110dad73d1daf041e7263295bf635715fab8cd97",
+          "admissionEpoch": "b05345d9-9419-46fa-bdf5-dd67520d6be4",
+          "commitSequence": 23,
+          "checkpointRevision": null,
+          "actors": [
+            {
+              "ref": {
+                "kind": "creature",
+                "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+                "mapId": "p8-canopy",
+                "tokenId": "A",
+                "instanceId": "8dcf05a9-246f-4b51-b061-750816373e7a"
+              },
+              "beforeRevision": 22,
+              "afterRevision": 23,
+              "finalResources": {
+                "hp": {
+                  "current": 30,
+                  "temp": 4,
+                  "max": 250
+                },
+                "mana": {
+                  "current": 0,
+                  "temp": 0,
+                  "max": 30
+                },
+                "ap": {
+                  "current": 2,
+                  "temp": 0,
+                  "max": 4
+                }
+              },
+              "conditions": []
+            },
+            {
+              "ref": {
+                "kind": "creature",
+                "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+                "mapId": "p8-canopy",
+                "tokenId": "B",
+                "instanceId": "76a17513-62fc-4a1b-8f61-85241506b22b"
+              },
+              "beforeRevision": 20,
+              "afterRevision": 21,
+              "finalResources": {
+                "hp": {
+                  "current": 30,
+                  "temp": 4,
+                  "max": 250
+                },
+                "mana": {
+                  "current": 0,
+                  "temp": 0,
+                  "max": 30
+                },
+                "ap": {
+                  "current": 2,
+                  "temp": 0,
+                  "max": 5
+                }
+              },
+              "conditions": []
+            }
+          ],
+          "authorization": {
+            "kind": "gm",
+            "authorizerUid": "p8-gm"
+          },
+          "acceptedAt": 1792055875313,
+          "source": {
+            "kind": "creature",
+            "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+            "mapId": "p8-canopy",
+            "tokenId": "A",
+            "instanceId": "8dcf05a9-246f-4b51-b061-750816373e7a"
+          },
+          "target": {
+            "kind": "creature",
+            "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+            "mapId": "p8-canopy",
+            "tokenId": "B",
+            "instanceId": "76a17513-62fc-4a1b-8f61-85241506b22b"
+          }
+        },
+        {
+          "version": 1,
+          "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+          "commandId": "36ba5afb-2a56-4e04-8a53-6d70be62ed5b",
+          "submitterUid": "p8-gm",
+          "contentHash": "681fbb3cbe2ebf357aa8960b11eda118b97cd266e4e47d5747fcecc3de22a971",
+          "admissionEpoch": "b05345d9-9419-46fa-bdf5-dd67520d6be4",
+          "commitSequence": 24,
+          "checkpointRevision": null,
+          "actors": [
+            {
+              "ref": {
+                "kind": "creature",
+                "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+                "mapId": "p8-canopy",
+                "tokenId": "A",
+                "instanceId": "8dcf05a9-246f-4b51-b061-750816373e7a"
+              },
+              "beforeRevision": 23,
+              "afterRevision": 24,
+              "finalResources": {
+                "hp": {
+                  "current": 30,
+                  "temp": 4,
+                  "max": 250
+                },
+                "mana": {
+                  "current": 0,
+                  "temp": 0,
+                  "max": 30
+                },
+                "ap": {
+                  "current": 1,
+                  "temp": 0,
+                  "max": 4
+                }
+              },
+              "conditions": []
+            },
+            {
+              "ref": {
+                "kind": "creature",
+                "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+                "mapId": "p8-canopy",
+                "tokenId": "B",
+                "instanceId": "76a17513-62fc-4a1b-8f61-85241506b22b"
+              },
+              "beforeRevision": 21,
+              "afterRevision": 22,
+              "finalResources": {
+                "hp": {
+                  "current": 24,
+                  "temp": 0,
+                  "max": 250
+                },
+                "mana": {
+                  "current": 0,
+                  "temp": 0,
+                  "max": 30
+                },
+                "ap": {
+                  "current": 2,
+                  "temp": 0,
+                  "max": 5
+                }
+              },
+              "conditions": []
+            }
+          ],
+          "authorization": {
+            "kind": "gm",
+            "authorizerUid": "p8-gm"
+          },
+          "acceptedAt": 1792055876568,
+          "source": {
+            "kind": "creature",
+            "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+            "mapId": "p8-canopy",
+            "tokenId": "A",
+            "instanceId": "8dcf05a9-246f-4b51-b061-750816373e7a"
+          },
+          "target": {
+            "kind": "creature",
+            "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+            "mapId": "p8-canopy",
+            "tokenId": "B",
+            "instanceId": "76a17513-62fc-4a1b-8f61-85241506b22b"
+          },
+          "adjudication": {
+            "definitionId": "grimmstalk_feather_slash",
+            "definitionVersionOrHash": "feather-slash:v1/abilities:1.4.0",
+            "chosenResult": "{\"capability\":\"feather-slash:v1/abilities:1.4.0\",\"rawDefinition\":\"{\\\"cooldownConfig\\\":{\\\"cooldownType\\\":\\\"turn_based\\\",\\\"cooldownValue\\\":0},\\\"damageConfig\\\":{\\\"damageTypes\\\":[\\\"slicing\\\"],\\\"formula\\\":\\\"2d8 + 5\\\",\\\"resolution\\\":\\\"DICE\\\"},\\\"description\\\":\\\"Razor-edged ironwood plumage rakes across the target.\\\",\\\"effectTypes\\\":[\\\"damage\\\"],\\\"icon\\\":\\\"ability_rogue_findweakness\\\",\\\"id\\\":\\\"grimmstalk_feather_slash\\\",\\\"level\\\":1,\\\"name\\\":\\\"Feather Slash\\\",\\\"priorityRange\\\":{\\\"max\\\":11,\\\"min\\\":1,\\\"resolution\\\":\\\"DICE\\\"},\\\"resourceCost\\\":{\\\"actionPoints\\\":1,\\\"components\\\":[\\\"somatic\\\"],\\\"mana\\\":0},\\\"spellType\\\":\\\"ACTION\\\",\\\"tags\\\":[\\\"slicing\\\"],\\\"targetingConfig\\\":{\\\"rangeDistance\\\":10,\\\"rangeType\\\":\\\"melee\\\",\\\"targetRestrictions\\\":[\\\"enemies\\\"],\\\"targetingType\\\":\\\"single\\\"},\\\"typeConfig\\\":{\\\"castTime\\\":1,\\\"castTimeType\\\":\\\"IMMEDIATE\\\",\\\"icon\\\":\\\"ability_rogue_findweakness\\\",\\\"school\\\":\\\"slicing\\\",\\\"tags\\\":[\\\"slicing\\\"]}}\",\"mode\":\"physical\",\"faces\":[3,5],\"total\":13,\"sourceName\":\"A\",\"targetName\":\"B\",\"geometry\":\"Advisory planar center distance 5.0 ft; authored melee 10 ft. Elevation, contact, reach and line of effect require GM adjudication.\",\"gmConfirmed\":true}",
+            "finalAmount": 10,
+            "adjustmentReason": "GM ruling: defense and mitigation adjudicated"
+          }
+        },
+        {
+          "version": 1,
+          "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+          "commandId": "9dc31e31-6056-4e72-a463-f2020f6ba8bc",
+          "submitterUid": "p8-gm",
+          "contentHash": "b21074888667d901236eeb6e5be232337181938278af2a4e8819f3fedef28466",
+          "admissionEpoch": "b05345d9-9419-46fa-bdf5-dd67520d6be4",
+          "commitSequence": 25,
+          "checkpointRevision": null,
+          "actors": [
+            {
+              "ref": {
+                "kind": "creature",
+                "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+                "mapId": "p8-canopy",
+                "tokenId": "A",
+                "instanceId": "8dcf05a9-246f-4b51-b061-750816373e7a"
+              },
+              "beforeRevision": 24,
+              "afterRevision": 25,
+              "finalResources": {
+                "hp": {
+                  "current": 30,
+                  "temp": 4,
+                  "max": 250
+                },
+                "mana": {
+                  "current": 0,
+                  "temp": 0,
+                  "max": 30
+                },
+                "ap": {
+                  "current": 2,
+                  "temp": 0,
+                  "max": 4
+                }
+              },
+              "conditions": []
+            },
+            {
+              "ref": {
+                "kind": "creature",
+                "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+                "mapId": "p8-canopy",
+                "tokenId": "B",
+                "instanceId": "76a17513-62fc-4a1b-8f61-85241506b22b"
+              },
+              "beforeRevision": 22,
+              "afterRevision": 23,
+              "finalResources": {
+                "hp": {
+                  "current": 30,
+                  "temp": 4,
+                  "max": 250
+                },
+                "mana": {
+                  "current": 0,
+                  "temp": 0,
+                  "max": 30
+                },
+                "ap": {
+                  "current": 2,
+                  "temp": 0,
+                  "max": 5
+                }
+              },
+              "conditions": []
+            }
+          ],
+          "authorization": {
+            "kind": "gm",
+            "authorizerUid": "p8-gm"
+          },
+          "acceptedAt": 1792055882069,
+          "source": {
+            "kind": "creature",
+            "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+            "mapId": "p8-canopy",
+            "tokenId": "A",
+            "instanceId": "8dcf05a9-246f-4b51-b061-750816373e7a"
+          },
+          "target": {
+            "kind": "creature",
+            "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+            "mapId": "p8-canopy",
+            "tokenId": "B",
+            "instanceId": "76a17513-62fc-4a1b-8f61-85241506b22b"
+          }
+        },
+        {
+          "version": 1,
+          "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+          "commandId": "a1b4c6de-5062-4445-bb7d-7502b1cf3fed",
+          "submitterUid": "p8-gm",
+          "contentHash": "e610081c12f32d720e33db9d2979acfbbd83d081315c98be404f19415589051d",
+          "admissionEpoch": "b05345d9-9419-46fa-bdf5-dd67520d6be4",
+          "commitSequence": 26,
+          "checkpointRevision": null,
+          "actors": [
+            {
+              "ref": {
+                "kind": "creature",
+                "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+                "mapId": "p8-canopy",
+                "tokenId": "A",
+                "instanceId": "8dcf05a9-246f-4b51-b061-750816373e7a"
+              },
+              "beforeRevision": 25,
+              "afterRevision": 26,
+              "finalResources": {
+                "hp": {
+                  "current": 30,
+                  "temp": 4,
+                  "max": 250
+                },
+                "mana": {
+                  "current": 0,
+                  "temp": 0,
+                  "max": 30
+                },
+                "ap": {
+                  "current": 1,
+                  "temp": 0,
+                  "max": 4
+                }
+              },
+              "conditions": []
+            },
+            {
+              "ref": {
+                "kind": "creature",
+                "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+                "mapId": "p8-canopy",
+                "tokenId": "B",
+                "instanceId": "76a17513-62fc-4a1b-8f61-85241506b22b"
+              },
+              "beforeRevision": 23,
+              "afterRevision": 24,
+              "finalResources": {
+                "hp": {
+                  "current": 24,
+                  "temp": 0,
+                  "max": 250
+                },
+                "mana": {
+                  "current": 0,
+                  "temp": 0,
+                  "max": 30
+                },
+                "ap": {
+                  "current": 2,
+                  "temp": 0,
+                  "max": 5
+                }
+              },
+              "conditions": []
+            }
+          ],
+          "authorization": {
+            "kind": "gm",
+            "authorizerUid": "p8-gm"
+          },
+          "acceptedAt": 1792055883284,
+          "source": {
+            "kind": "creature",
+            "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+            "mapId": "p8-canopy",
+            "tokenId": "A",
+            "instanceId": "8dcf05a9-246f-4b51-b061-750816373e7a"
+          },
+          "target": {
+            "kind": "creature",
+            "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+            "mapId": "p8-canopy",
+            "tokenId": "B",
+            "instanceId": "76a17513-62fc-4a1b-8f61-85241506b22b"
+          },
+          "adjudication": {
+            "definitionId": "grimmstalk_feather_slash",
+            "definitionVersionOrHash": "feather-slash:v1/abilities:1.4.0",
+            "chosenResult": "{\"capability\":\"feather-slash:v1/abilities:1.4.0\",\"rawDefinition\":\"{\\\"cooldownConfig\\\":{\\\"cooldownType\\\":\\\"turn_based\\\",\\\"cooldownValue\\\":0},\\\"damageConfig\\\":{\\\"damageTypes\\\":[\\\"slicing\\\"],\\\"formula\\\":\\\"2d8 + 5\\\",\\\"resolution\\\":\\\"DICE\\\"},\\\"description\\\":\\\"Razor-edged ironwood plumage rakes across the target.\\\",\\\"effectTypes\\\":[\\\"damage\\\"],\\\"icon\\\":\\\"ability_rogue_findweakness\\\",\\\"id\\\":\\\"grimmstalk_feather_slash\\\",\\\"level\\\":1,\\\"name\\\":\\\"Feather Slash\\\",\\\"priorityRange\\\":{\\\"max\\\":11,\\\"min\\\":1,\\\"resolution\\\":\\\"DICE\\\"},\\\"resourceCost\\\":{\\\"actionPoints\\\":1,\\\"components\\\":[\\\"somatic\\\"],\\\"mana\\\":0},\\\"spellType\\\":\\\"ACTION\\\",\\\"tags\\\":[\\\"slicing\\\"],\\\"targetingConfig\\\":{\\\"rangeDistance\\\":10,\\\"rangeType\\\":\\\"melee\\\",\\\"targetRestrictions\\\":[\\\"enemies\\\"],\\\"targetingType\\\":\\\"single\\\"},\\\"typeConfig\\\":{\\\"castTime\\\":1,\\\"castTimeType\\\":\\\"IMMEDIATE\\\",\\\"icon\\\":\\\"ability_rogue_findweakness\\\",\\\"school\\\":\\\"slicing\\\",\\\"tags\\\":[\\\"slicing\\\"]}}\",\"mode\":\"physical\",\"faces\":[3,5],\"total\":13,\"sourceName\":\"A\",\"targetName\":\"B\",\"geometry\":\"Advisory planar center distance 5.0 ft; authored melee 10 ft. Elevation, contact, reach and line of effect require GM adjudication.\",\"gmConfirmed\":true}",
+            "finalAmount": 10,
+            "adjustmentReason": "GM ruling: defense and mitigation adjudicated"
+          }
+        },
+        {
+          "version": 1,
+          "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+          "commandId": "b696cefc-55b9-49eb-a063-fd510b4b22e2",
+          "submitterUid": "p8-gm",
+          "contentHash": "7e5b7732136d58b68c53c6e148f083cf97457980610b0b2a2b1d59084631b303",
+          "admissionEpoch": "b05345d9-9419-46fa-bdf5-dd67520d6be4",
+          "commitSequence": 27,
+          "checkpointRevision": null,
+          "actors": [
+            {
+              "ref": {
+                "kind": "creature",
+                "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+                "mapId": "p8-canopy",
+                "tokenId": "A",
+                "instanceId": "8dcf05a9-246f-4b51-b061-750816373e7a"
+              },
+              "beforeRevision": 26,
+              "afterRevision": 27,
+              "finalResources": {
+                "hp": {
+                  "current": 30,
+                  "temp": 4,
+                  "max": 250
+                },
+                "mana": {
+                  "current": 0,
+                  "temp": 0,
+                  "max": 30
+                },
+                "ap": {
+                  "current": 2,
+                  "temp": 0,
+                  "max": 4
+                }
+              },
+              "conditions": []
+            },
+            {
+              "ref": {
+                "kind": "creature",
+                "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+                "mapId": "p8-canopy",
+                "tokenId": "B",
+                "instanceId": "76a17513-62fc-4a1b-8f61-85241506b22b"
+              },
+              "beforeRevision": 24,
+              "afterRevision": 25,
+              "finalResources": {
+                "hp": {
+                  "current": 30,
+                  "temp": 4,
+                  "max": 250
+                },
+                "mana": {
+                  "current": 0,
+                  "temp": 0,
+                  "max": 30
+                },
+                "ap": {
+                  "current": 2,
+                  "temp": 0,
+                  "max": 5
+                }
+              },
+              "conditions": []
+            }
+          ],
+          "authorization": {
+            "kind": "gm",
+            "authorizerUid": "p8-gm"
+          },
+          "acceptedAt": 1792055883713,
+          "source": {
+            "kind": "creature",
+            "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+            "mapId": "p8-canopy",
+            "tokenId": "A",
+            "instanceId": "8dcf05a9-246f-4b51-b061-750816373e7a"
+          },
+          "target": {
+            "kind": "creature",
+            "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+            "mapId": "p8-canopy",
+            "tokenId": "B",
+            "instanceId": "76a17513-62fc-4a1b-8f61-85241506b22b"
+          }
+        },
+        {
+          "version": 1,
+          "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+          "commandId": "c0c1af72-8c2b-4f16-b54c-2e569a989aef",
+          "submitterUid": "p8-gm",
+          "contentHash": "cb60c8ad7c51f9abe38bb24da96b0227af631bb7cf713cd8294daae81cf5e4cc",
+          "admissionEpoch": "b05345d9-9419-46fa-bdf5-dd67520d6be4",
+          "commitSequence": 28,
+          "checkpointRevision": null,
+          "actors": [
+            {
+              "ref": {
+                "kind": "creature",
+                "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+                "mapId": "p8-canopy",
+                "tokenId": "A",
+                "instanceId": "8dcf05a9-246f-4b51-b061-750816373e7a"
+              },
+              "beforeRevision": 27,
+              "afterRevision": 28,
+              "finalResources": {
+                "hp": {
+                  "current": 30,
+                  "temp": 4,
+                  "max": 250
+                },
+                "mana": {
+                  "current": 0,
+                  "temp": 0,
+                  "max": 30
+                },
+                "ap": {
+                  "current": 1,
+                  "temp": 0,
+                  "max": 4
+                }
+              },
+              "conditions": []
+            },
+            {
+              "ref": {
+                "kind": "creature",
+                "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+                "mapId": "p8-canopy",
+                "tokenId": "B",
+                "instanceId": "76a17513-62fc-4a1b-8f61-85241506b22b"
+              },
+              "beforeRevision": 25,
+              "afterRevision": 26,
+              "finalResources": {
+                "hp": {
+                  "current": 24,
+                  "temp": 0,
+                  "max": 250
+                },
+                "mana": {
+                  "current": 0,
+                  "temp": 0,
+                  "max": 30
+                },
+                "ap": {
+                  "current": 2,
+                  "temp": 0,
+                  "max": 5
+                }
+              },
+              "conditions": []
+            }
+          ],
+          "authorization": {
+            "kind": "gm",
+            "authorizerUid": "p8-gm"
+          },
+          "acceptedAt": 1792055884921,
+          "source": {
+            "kind": "creature",
+            "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+            "mapId": "p8-canopy",
+            "tokenId": "A",
+            "instanceId": "8dcf05a9-246f-4b51-b061-750816373e7a"
+          },
+          "target": {
+            "kind": "creature",
+            "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+            "mapId": "p8-canopy",
+            "tokenId": "B",
+            "instanceId": "76a17513-62fc-4a1b-8f61-85241506b22b"
+          },
+          "adjudication": {
+            "definitionId": "grimmstalk_feather_slash",
+            "definitionVersionOrHash": "feather-slash:v1/abilities:1.4.0",
+            "chosenResult": "{\"capability\":\"feather-slash:v1/abilities:1.4.0\",\"rawDefinition\":\"{\\\"cooldownConfig\\\":{\\\"cooldownType\\\":\\\"turn_based\\\",\\\"cooldownValue\\\":0},\\\"damageConfig\\\":{\\\"damageTypes\\\":[\\\"slicing\\\"],\\\"formula\\\":\\\"2d8 + 5\\\",\\\"resolution\\\":\\\"DICE\\\"},\\\"description\\\":\\\"Razor-edged ironwood plumage rakes across the target.\\\",\\\"effectTypes\\\":[\\\"damage\\\"],\\\"icon\\\":\\\"ability_rogue_findweakness\\\",\\\"id\\\":\\\"grimmstalk_feather_slash\\\",\\\"level\\\":1,\\\"name\\\":\\\"Feather Slash\\\",\\\"priorityRange\\\":{\\\"max\\\":11,\\\"min\\\":1,\\\"resolution\\\":\\\"DICE\\\"},\\\"resourceCost\\\":{\\\"actionPoints\\\":1,\\\"components\\\":[\\\"somatic\\\"],\\\"mana\\\":0},\\\"spellType\\\":\\\"ACTION\\\",\\\"tags\\\":[\\\"slicing\\\"],\\\"targetingConfig\\\":{\\\"rangeDistance\\\":10,\\\"rangeType\\\":\\\"melee\\\",\\\"targetRestrictions\\\":[\\\"enemies\\\"],\\\"targetingType\\\":\\\"single\\\"},\\\"typeConfig\\\":{\\\"castTime\\\":1,\\\"castTimeType\\\":\\\"IMMEDIATE\\\",\\\"icon\\\":\\\"ability_rogue_findweakness\\\",\\\"school\\\":\\\"slicing\\\",\\\"tags\\\":[\\\"slicing\\\"]}}\",\"mode\":\"physical\",\"faces\":[3,5],\"total\":13,\"sourceName\":\"A\",\"targetName\":\"B\",\"geometry\":\"Advisory planar center distance 5.0 ft; authored melee 10 ft. Elevation, contact, reach and line of effect require GM adjudication.\",\"gmConfirmed\":true}",
+            "finalAmount": 10,
+            "adjustmentReason": "GM ruling: defense and mitigation adjudicated"
+          }
+        },
+        {
+          "version": 1,
+          "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+          "commandId": "0393dd6c-4b8a-4a6c-8082-4b4261079460",
+          "submitterUid": "p8-gm",
+          "contentHash": "6467ace15be1c5b69f2d7e5a9607b43f3172694824459b9270e979b830f3f808",
+          "admissionEpoch": "b05345d9-9419-46fa-bdf5-dd67520d6be4",
+          "commitSequence": 29,
+          "checkpointRevision": null,
+          "actors": [
+            {
+              "ref": {
+                "kind": "creature",
+                "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+                "mapId": "p8-canopy",
+                "tokenId": "A",
+                "instanceId": "8dcf05a9-246f-4b51-b061-750816373e7a"
+              },
+              "beforeRevision": 28,
+              "afterRevision": 29,
+              "finalResources": {
+                "hp": {
+                  "current": 30,
+                  "temp": 4,
+                  "max": 250
+                },
+                "mana": {
+                  "current": 0,
+                  "temp": 0,
+                  "max": 30
+                },
+                "ap": {
+                  "current": 2,
+                  "temp": 0,
+                  "max": 4
+                }
+              },
+              "conditions": []
+            },
+            {
+              "ref": {
+                "kind": "creature",
+                "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+                "mapId": "p8-canopy",
+                "tokenId": "B",
+                "instanceId": "76a17513-62fc-4a1b-8f61-85241506b22b"
+              },
+              "beforeRevision": 26,
+              "afterRevision": 27,
+              "finalResources": {
+                "hp": {
+                  "current": 30,
+                  "temp": 4,
+                  "max": 250
+                },
+                "mana": {
+                  "current": 0,
+                  "temp": 0,
+                  "max": 30
+                },
+                "ap": {
+                  "current": 2,
+                  "temp": 0,
+                  "max": 5
+                }
+              },
+              "conditions": []
+            }
+          ],
+          "authorization": {
+            "kind": "gm",
+            "authorizerUid": "p8-gm"
+          },
+          "acceptedAt": 1792055890438,
+          "source": {
+            "kind": "creature",
+            "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+            "mapId": "p8-canopy",
+            "tokenId": "A",
+            "instanceId": "8dcf05a9-246f-4b51-b061-750816373e7a"
+          },
+          "target": {
+            "kind": "creature",
+            "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+            "mapId": "p8-canopy",
+            "tokenId": "B",
+            "instanceId": "76a17513-62fc-4a1b-8f61-85241506b22b"
+          }
+        },
+        {
+          "version": 1,
+          "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+          "commandId": "3258f128-4909-411b-ae30-d215e8a19a8a",
+          "submitterUid": "p8-gm",
+          "contentHash": "6bc35d3717944ac92d36b8001910a140d482c86eed47a900e2d52375e23f81d8",
+          "admissionEpoch": "b05345d9-9419-46fa-bdf5-dd67520d6be4",
+          "commitSequence": 30,
+          "checkpointRevision": null,
+          "actors": [
+            {
+              "ref": {
+                "kind": "creature",
+                "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+                "mapId": "p8-canopy",
+                "tokenId": "A",
+                "instanceId": "8dcf05a9-246f-4b51-b061-750816373e7a"
+              },
+              "beforeRevision": 29,
+              "afterRevision": 30,
+              "finalResources": {
+                "hp": {
+                  "current": 30,
+                  "temp": 4,
+                  "max": 250
+                },
+                "mana": {
+                  "current": 0,
+                  "temp": 0,
+                  "max": 30
+                },
+                "ap": {
+                  "current": 1,
+                  "temp": 0,
+                  "max": 4
+                }
+              },
+              "conditions": []
+            },
+            {
+              "ref": {
+                "kind": "creature",
+                "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+                "mapId": "p8-canopy",
+                "tokenId": "B",
+                "instanceId": "76a17513-62fc-4a1b-8f61-85241506b22b"
+              },
+              "beforeRevision": 27,
+              "afterRevision": 28,
+              "finalResources": {
+                "hp": {
+                  "current": 24,
+                  "temp": 0,
+                  "max": 250
+                },
+                "mana": {
+                  "current": 0,
+                  "temp": 0,
+                  "max": 30
+                },
+                "ap": {
+                  "current": 2,
+                  "temp": 0,
+                  "max": 5
+                }
+              },
+              "conditions": []
+            }
+          ],
+          "authorization": {
+            "kind": "gm",
+            "authorizerUid": "p8-gm"
+          },
+          "acceptedAt": 1792055891653,
+          "source": {
+            "kind": "creature",
+            "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+            "mapId": "p8-canopy",
+            "tokenId": "A",
+            "instanceId": "8dcf05a9-246f-4b51-b061-750816373e7a"
+          },
+          "target": {
+            "kind": "creature",
+            "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+            "mapId": "p8-canopy",
+            "tokenId": "B",
+            "instanceId": "76a17513-62fc-4a1b-8f61-85241506b22b"
+          },
+          "adjudication": {
+            "definitionId": "grimmstalk_feather_slash",
+            "definitionVersionOrHash": "feather-slash:v1/abilities:1.4.0",
+            "chosenResult": "{\"capability\":\"feather-slash:v1/abilities:1.4.0\",\"rawDefinition\":\"{\\\"cooldownConfig\\\":{\\\"cooldownType\\\":\\\"turn_based\\\",\\\"cooldownValue\\\":0},\\\"damageConfig\\\":{\\\"damageTypes\\\":[\\\"slicing\\\"],\\\"formula\\\":\\\"2d8 + 5\\\",\\\"resolution\\\":\\\"DICE\\\"},\\\"description\\\":\\\"Razor-edged ironwood plumage rakes across the target.\\\",\\\"effectTypes\\\":[\\\"damage\\\"],\\\"icon\\\":\\\"ability_rogue_findweakness\\\",\\\"id\\\":\\\"grimmstalk_feather_slash\\\",\\\"level\\\":1,\\\"name\\\":\\\"Feather Slash\\\",\\\"priorityRange\\\":{\\\"max\\\":11,\\\"min\\\":1,\\\"resolution\\\":\\\"DICE\\\"},\\\"resourceCost\\\":{\\\"actionPoints\\\":1,\\\"components\\\":[\\\"somatic\\\"],\\\"mana\\\":0},\\\"spellType\\\":\\\"ACTION\\\",\\\"tags\\\":[\\\"slicing\\\"],\\\"targetingConfig\\\":{\\\"rangeDistance\\\":10,\\\"rangeType\\\":\\\"melee\\\",\\\"targetRestrictions\\\":[\\\"enemies\\\"],\\\"targetingType\\\":\\\"single\\\"},\\\"typeConfig\\\":{\\\"castTime\\\":1,\\\"castTimeType\\\":\\\"IMMEDIATE\\\",\\\"icon\\\":\\\"ability_rogue_findweakness\\\",\\\"school\\\":\\\"slicing\\\",\\\"tags\\\":[\\\"slicing\\\"]}}\",\"mode\":\"physical\",\"faces\":[3,5],\"total\":13,\"sourceName\":\"A\",\"targetName\":\"B\",\"geometry\":\"Advisory planar center distance 5.0 ft; authored melee 10 ft. Elevation, contact, reach and line of effect require GM adjudication.\",\"gmConfirmed\":true}",
+            "finalAmount": 10,
+            "adjustmentReason": "GM ruling: defense and mitigation adjudicated"
+          }
+        },
+        {
+          "version": 1,
+          "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+          "commandId": "55d21c80-cf63-4a73-a06a-74d0a46e7b0f",
+          "submitterUid": "p8-gm",
+          "contentHash": "b59ffd2f98df86cd1b5aa83221138f14b76a3afebe39fa57392abf4cd3df77a2",
+          "admissionEpoch": "b05345d9-9419-46fa-bdf5-dd67520d6be4",
+          "commitSequence": 31,
+          "checkpointRevision": 3,
+          "actors": [
+            {
+              "ref": {
+                "kind": "creature",
+                "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+                "mapId": "p8-canopy",
+                "tokenId": "A",
+                "instanceId": "8dcf05a9-246f-4b51-b061-750816373e7a"
+              },
+              "beforeRevision": 30,
+              "afterRevision": 31,
+              "finalResources": {
+                "hp": {
+                  "current": 30,
+                  "temp": 4,
+                  "max": 250
+                },
+                "mana": {
+                  "current": 0,
+                  "temp": 0,
+                  "max": 30
+                },
+                "ap": {
+                  "current": 2,
+                  "temp": 0,
+                  "max": 4
+                }
+              },
+              "conditions": []
+            },
+            {
+              "ref": {
+                "kind": "creature",
+                "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+                "mapId": "p8-canopy",
+                "tokenId": "B",
+                "instanceId": "76a17513-62fc-4a1b-8f61-85241506b22b"
+              },
+              "beforeRevision": 28,
+              "afterRevision": 29,
+              "finalResources": {
+                "hp": {
+                  "current": 30,
+                  "temp": 4,
+                  "max": 250
+                },
+                "mana": {
+                  "current": 0,
+                  "temp": 0,
+                  "max": 30
+                },
+                "ap": {
+                  "current": 2,
+                  "temp": 0,
+                  "max": 5
+                }
+              },
+              "conditions": []
+            }
+          ],
+          "authorization": {
+            "kind": "gm",
+            "authorizerUid": "p8-gm"
+          },
+          "acceptedAt": 1792055894604,
+          "source": {
+            "kind": "creature",
+            "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+            "mapId": "p8-canopy",
+            "tokenId": "A",
+            "instanceId": "8dcf05a9-246f-4b51-b061-750816373e7a"
+          },
+          "target": {
+            "kind": "creature",
+            "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+            "mapId": "p8-canopy",
+            "tokenId": "B",
+            "instanceId": "76a17513-62fc-4a1b-8f61-85241506b22b"
+          }
+        },
+        {
+          "version": 1,
+          "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+          "commandId": "771bd239-862c-47f3-b210-23c54cac59db",
+          "submitterUid": "p8-gm",
+          "contentHash": "87f870560c07e4fa82afacbf4aabacfe43221e16b9aeb1d0713a8dddc9e1f8aa",
+          "admissionEpoch": "b05345d9-9419-46fa-bdf5-dd67520d6be4",
+          "commitSequence": 32,
+          "checkpointRevision": 4,
+          "actors": [
+            {
+              "ref": {
+                "kind": "creature",
+                "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+                "mapId": "p8-canopy",
+                "tokenId": "A",
+                "instanceId": "8dcf05a9-246f-4b51-b061-750816373e7a"
+              },
+              "beforeRevision": 31,
+              "afterRevision": 32,
+              "finalResources": {
+                "hp": {
+                  "current": 30,
+                  "temp": 4,
+                  "max": 250
+                },
+                "mana": {
+                  "current": 0,
+                  "temp": 0,
+                  "max": 30
+                },
+                "ap": {
+                  "current": 1,
+                  "temp": 0,
+                  "max": 4
+                }
+              },
+              "conditions": []
+            },
+            {
+              "ref": {
+                "kind": "creature",
+                "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+                "mapId": "p8-canopy",
+                "tokenId": "B",
+                "instanceId": "76a17513-62fc-4a1b-8f61-85241506b22b"
+              },
+              "beforeRevision": 29,
+              "afterRevision": 30,
+              "finalResources": {
+                "hp": {
+                  "current": 24,
+                  "temp": 0,
+                  "max": 250
+                },
+                "mana": {
+                  "current": 0,
+                  "temp": 0,
+                  "max": 30
+                },
+                "ap": {
+                  "current": 2,
+                  "temp": 0,
+                  "max": 5
+                }
+              },
+              "conditions": []
+            }
+          ],
+          "authorization": {
+            "kind": "gm",
+            "authorizerUid": "p8-gm"
+          },
+          "acceptedAt": 1792055895844,
+          "source": {
+            "kind": "creature",
+            "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+            "mapId": "p8-canopy",
+            "tokenId": "A",
+            "instanceId": "8dcf05a9-246f-4b51-b061-750816373e7a"
+          },
+          "target": {
+            "kind": "creature",
+            "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+            "mapId": "p8-canopy",
+            "tokenId": "B",
+            "instanceId": "76a17513-62fc-4a1b-8f61-85241506b22b"
+          },
+          "adjudication": {
+            "definitionId": "grimmstalk_feather_slash",
+            "definitionVersionOrHash": "feather-slash:v1/abilities:1.4.0",
+            "chosenResult": "{\"capability\":\"feather-slash:v1/abilities:1.4.0\",\"rawDefinition\":\"{\\\"cooldownConfig\\\":{\\\"cooldownType\\\":\\\"turn_based\\\",\\\"cooldownValue\\\":0},\\\"damageConfig\\\":{\\\"damageTypes\\\":[\\\"slicing\\\"],\\\"formula\\\":\\\"2d8 + 5\\\",\\\"resolution\\\":\\\"DICE\\\"},\\\"description\\\":\\\"Razor-edged ironwood plumage rakes across the target.\\\",\\\"effectTypes\\\":[\\\"damage\\\"],\\\"icon\\\":\\\"ability_rogue_findweakness\\\",\\\"id\\\":\\\"grimmstalk_feather_slash\\\",\\\"level\\\":1,\\\"name\\\":\\\"Feather Slash\\\",\\\"priorityRange\\\":{\\\"max\\\":11,\\\"min\\\":1,\\\"resolution\\\":\\\"DICE\\\"},\\\"resourceCost\\\":{\\\"actionPoints\\\":1,\\\"components\\\":[\\\"somatic\\\"],\\\"mana\\\":0},\\\"spellType\\\":\\\"ACTION\\\",\\\"tags\\\":[\\\"slicing\\\"],\\\"targetingConfig\\\":{\\\"rangeDistance\\\":10,\\\"rangeType\\\":\\\"melee\\\",\\\"targetRestrictions\\\":[\\\"enemies\\\"],\\\"targetingType\\\":\\\"single\\\"},\\\"typeConfig\\\":{\\\"castTime\\\":1,\\\"castTimeType\\\":\\\"IMMEDIATE\\\",\\\"icon\\\":\\\"ability_rogue_findweakness\\\",\\\"school\\\":\\\"slicing\\\",\\\"tags\\\":[\\\"slicing\\\"]}}\",\"mode\":\"physical\",\"faces\":[3,5],\"total\":13,\"sourceName\":\"A\",\"targetName\":\"B\",\"geometry\":\"Advisory planar center distance 5.0 ft; authored melee 10 ft. Elevation, contact, reach and line of effect require GM adjudication.\",\"gmConfirmed\":true}",
+            "finalAmount": 10,
+            "adjustmentReason": "GM ruling: defense and mitigation adjudicated"
+          }
+        }
+      ]
+    },
+    "actorProjection": {
+      "version": 1,
+      "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+      "epoch": "b05345d9-9419-46fa-bdf5-dd67520d6be4",
+      "cut": 38
+    }
+  },
+  "revision": 4,
+  "command": {
+    "version": 1,
+    "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+    "commandId": "771bd239-862c-47f3-b210-23c54cac59db",
+    "actionEpoch": "b05345d9-9419-46fa-bdf5-dd67520d6be4",
+    "baseCommitSequence": 31,
+    "actors": [
+      {
+        "ref": {
+          "kind": "creature",
+          "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+          "mapId": "p8-canopy",
+          "tokenId": "A",
+          "instanceId": "8dcf05a9-246f-4b51-b061-750816373e7a"
+        },
+        "expectedRevision": 31,
+        "finalResources": {
+          "ap": {
+            "current": 1,
+            "temp": 0
+          }
+        }
+      },
+      {
+        "ref": {
+          "kind": "creature",
+          "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+          "mapId": "p8-canopy",
+          "tokenId": "B",
+          "instanceId": "76a17513-62fc-4a1b-8f61-85241506b22b"
+        },
+        "expectedRevision": 29,
+        "finalResources": {
+          "hp": {
+            "current": 24,
+            "temp": 0
+          }
+        }
+      }
+    ],
+    "source": {
+      "kind": "creature",
+      "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+      "mapId": "p8-canopy",
+      "tokenId": "A",
+      "instanceId": "8dcf05a9-246f-4b51-b061-750816373e7a"
+    },
+    "target": {
+      "kind": "creature",
+      "roomId": "34ae53ef-d779-46aa-a402-bd730537f61f",
+      "mapId": "p8-canopy",
+      "tokenId": "B",
+      "instanceId": "76a17513-62fc-4a1b-8f61-85241506b22b"
+    },
+    "adjudication": {
+      "definitionId": "grimmstalk_feather_slash",
+      "definitionVersionOrHash": "feather-slash:v1/abilities:1.4.0",
+      "chosenResult": "{\"capability\":\"feather-slash:v1/abilities:1.4.0\",\"rawDefinition\":\"{\\\"cooldownConfig\\\":{\\\"cooldownType\\\":\\\"turn_based\\\",\\\"cooldownValue\\\":0},\\\"damageConfig\\\":{\\\"damageTypes\\\":[\\\"slicing\\\"],\\\"formula\\\":\\\"2d8 + 5\\\",\\\"resolution\\\":\\\"DICE\\\"},\\\"description\\\":\\\"Razor-edged ironwood plumage rakes across the target.\\\",\\\"effectTypes\\\":[\\\"damage\\\"],\\\"icon\\\":\\\"ability_rogue_findweakness\\\",\\\"id\\\":\\\"grimmstalk_feather_slash\\\",\\\"level\\\":1,\\\"name\\\":\\\"Feather Slash\\\",\\\"priorityRange\\\":{\\\"max\\\":11,\\\"min\\\":1,\\\"resolution\\\":\\\"DICE\\\"},\\\"resourceCost\\\":{\\\"actionPoints\\\":1,\\\"components\\\":[\\\"somatic\\\"],\\\"mana\\\":0},\\\"spellType\\\":\\\"ACTION\\\",\\\"tags\\\":[\\\"slicing\\\"],\\\"targetingConfig\\\":{\\\"rangeDistance\\\":10,\\\"rangeType\\\":\\\"melee\\\",\\\"targetRestrictions\\\":[\\\"enemies\\\"],\\\"targetingType\\\":\\\"single\\\"},\\\"typeConfig\\\":{\\\"castTime\\\":1,\\\"castTimeType\\\":\\\"IMMEDIATE\\\",\\\"icon\\\":\\\"ability_rogue_findweakness\\\",\\\"school\\\":\\\"slicing\\\",\\\"tags\\\":[\\\"slicing\\\"]}}\",\"mode\":\"physical\",\"faces\":[3,5],\"total\":13,\"sourceName\":\"A\",\"targetName\":\"B\",\"geometry\":\"Advisory planar center distance 5.0 ft; authored melee 10 ft. Elevation, contact, reach and line of effect require GM adjudication.\",\"gmConfirmed\":true}",
+      "finalAmount": 10,
+      "adjustmentReason": "GM ruling: defense and mitigation adjudicated"
+    }
+  }
+}

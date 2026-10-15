@@ -1766,15 +1766,15 @@
     overflow-y: auto !important;
 }
 
-.wow-button:hover {
+.item-wizard .wow-button:hover {
     transform: translateY(-1px);
 }
 
-.wow-button.primary {
+.item-wizard .wow-button.primary {
     background: #1a9fff;
 }
 
-.wow-button.primary:hover {
+.item-wizard .wow-button.primary:hover {
     background: #0090ff;
 }
 
@@ -4678,7 +4678,7 @@ textarea.item-description:focus,
     margin-top: 20px;
 }
 
-.wow-button {
+.item-wizard .wow-button {
     background: #4a9eff;
     color: white;
     border: none;
@@ -4689,15 +4689,15 @@ textarea.item-description:focus,
     transition: background-color 0.2s;
 }
 
-.wow-button:hover {
+.item-wizard .wow-button:hover {
     background: #3a8eef;
 }
 
-.wow-button.secondary {
+.item-wizard .wow-button.secondary {
     background: #666;
 }
 
-.wow-button.secondary:hover {
+.item-wizard .wow-button.secondary:hover {
     background: #555;
 }
 

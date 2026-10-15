@@ -1,0 +1,302 @@
+/* ==========================================================================
+   Calm TTRPG Location Expedition Ledger
+   Anchored parchment travel HUD showing route distance, march pace, and lore.
+   ========================================================================== */
+
+.calm-expedition-ledger {
+  position: absolute;
+  bottom: 24px;
+  left: 24px;
+  width: 320px;
+  max-width: calc(100vw - 48px);
+  background: var(--adventure-page, #f1ece1);
+  color: var(--adventure-ink, #34251a);
+  border: 1px solid var(--adventure-rule, #b6a080);
+  border-radius: 4px;
+  box-shadow: 
+    0 10px 30px rgba(35, 23, 14, 0.5),
+    0 2px 8px rgba(35, 23, 14, 0.25),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.6);
+  z-index: 65;
+  pointer-events: auto;
+  font-family: var(--my-font-body, 'Crimson Text', Georgia, serif);
+  overflow: hidden;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  animation: ledgerSlideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes ledgerSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.ledger-leather-spine {
+  height: 4px;
+  background: var(--adventure-leather, #302419);
+  border-bottom: 1px solid var(--adventure-brass, #c4ab79);
+}
+
+/* Header */
+.ledger-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background: var(--adventure-panel, #e8e2d4);
+  border-bottom: 1px solid var(--adventure-rule, #b6a080);
+}
+
+.ledger-title-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.ledger-compass-icon {
+  font-size: 15px;
+  color: var(--adventure-seal, #663c32);
+}
+
+.ledger-titles {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.ledger-sub-title {
+  font-family: var(--my-font-ui, 'Cinzel', Georgia, serif);
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: var(--adventure-muted, #68533e);
+  line-height: 1.1;
+}
+
+.ledger-main-title {
+  margin: 1px 0 0 0;
+  font-family: var(--my-font-ui, 'Cinzel', Georgia, serif);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--adventure-ink, #34251a);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.2;
+}
+
+.ledger-toggle-btn {
+  background: transparent;
+  border: none;
+  color: var(--adventure-muted, #68533e);
+  cursor: pointer;
+  padding: 4px;
+  font-size: 11px;
+}
+
+.ledger-toggle-btn:hover {
+  color: var(--adventure-ink, #34251a);
+}
+
+/* Content Area */
+.ledger-content {
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ledger-status-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.ledger-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 7px;
+  border-radius: 2px;
+  font-size: 10.5px;
+  font-family: var(--my-font-ui, 'Cinzel', Georgia, serif);
+  font-weight: 600;
+  background: var(--adventure-paper, #faf6ee);
+  border: 1px solid var(--adventure-rule, #b6a080);
+  color: var(--adventure-ink, #34251a);
+}
+
+.ledger-status-pill.drawing {
+  background: rgba(102, 60, 50, 0.08);
+  border-color: var(--adventure-seal, #663c32);
+  color: var(--adventure-seal, #663c32);
+}
+
+/* Metrics Grid */
+.ledger-metrics-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.ledger-metric-box {
+  background: var(--adventure-paper, #faf6ee);
+  border: 1px solid var(--adventure-rule, #b6a080);
+  border-radius: 3px;
+  padding: 6px 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.metric-label {
+  font-family: var(--my-font-ui, 'Cinzel', Georgia, serif);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--adventure-muted, #68533e);
+}
+
+.metric-value {
+  font-family: var(--my-font-ui, 'Cinzel', Georgia, serif);
+  font-size: 15px;
+  font-weight: 900;
+  color: var(--adventure-ink, #34251a);
+  margin: 2px 0;
+}
+
+.metric-value small {
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.metric-sub {
+  font-size: 11px;
+  color: var(--adventure-muted, #68533e);
+  font-style: italic;
+}
+
+.ledger-notice-box {
+  padding: 8px 10px;
+  background: rgba(250, 246, 238, 0.4);
+  border: 1px solid var(--adventure-rule, #b6a080);
+  border-radius: 2px;
+  font-size: 12px;
+  font-style: italic;
+  color: var(--adventure-muted, #68533e);
+}
+
+.ledger-notice-box p {
+  margin: 0;
+}
+
+/* Pace Section */
+.ledger-pace-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding-top: 6px;
+  border-top: 1px dashed var(--adventure-rule, #b6a080);
+}
+
+.ledger-section-label {
+  font-family: var(--my-font-ui, 'Cinzel', Georgia, serif);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--adventure-muted, #68533e);
+}
+
+.ledger-pace-buttons {
+  display: flex;
+  gap: 3px;
+}
+
+.pace-btn {
+  background: var(--adventure-paper, #faf6ee);
+  border: 1px solid var(--adventure-rule, #b6a080);
+  border-radius: 2px;
+  padding: 2px 6px;
+  font-family: var(--my-font-ui, 'Cinzel', Georgia, serif);
+  font-size: 9.5px;
+  font-weight: 600;
+  color: var(--adventure-ink, #34251a);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.pace-btn:hover {
+  background: #ffffff;
+  border-color: var(--adventure-brass, #c4ab79);
+}
+
+.pace-btn.active {
+  background: var(--adventure-leather, #302419);
+  color: var(--adventure-paper, #faf6ee);
+  border-color: var(--adventure-leather, #302419);
+  font-weight: 800;
+}
+
+/* Regional Advisory */
+.ledger-regional-advisory {
+  background: rgba(250, 246, 238, 0.45);
+  border: 1px solid var(--adventure-rule, #b6a080);
+  border-radius: 2px;
+  padding: 6px 8px;
+}
+
+.advisory-header {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--my-font-ui, 'Cinzel', Georgia, serif);
+  font-size: 9.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  color: var(--adventure-seal, #663c32);
+  margin-bottom: 3px;
+}
+
+.advisory-text {
+  margin: 0;
+  font-size: 11.5px;
+  color: var(--adventure-ink, #34251a);
+  line-height: 1.35;
+}
+
+/* Actions Row */
+.ledger-actions-row {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 4px;
+  border-top: 1px solid var(--adventure-rule, #b6a080);
+}
+
+.ledger-action-btn {
+  background: transparent;
+  border: 1px solid var(--adventure-rule, #b6a080);
+  border-radius: 2px;
+  padding: 3px 8px;
+  font-family: var(--my-font-ui, 'Cinzel', Georgia, serif);
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--adventure-muted, #68533e);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.ledger-action-btn:hover {
+  background: #ffffff;
+  color: var(--adventure-seal, #663c32);
+  border-color: var(--adventure-seal, #663c32);
+}

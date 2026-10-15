@@ -57,19 +57,25 @@ const SpellDetailPopup = ({ isOpen, onClose, spellId, onSelectSpell }) => {
         <div className="spell-detail-actions" style={{
           display: 'flex',
           justifyContent: 'space-between',
-          padding: '10px 0',
-          borderTop: '1px solid rgba(255, 255, 255, 0.1)'
+          padding: '12px 0 0 0',
+          borderTop: '1px solid #c4baa6'
         }}>
           <button
             className="wow-button secondary"
             onClick={onClose}
             style={{
-              padding: '8px 16px',
-              background: 'rgba(30, 30, 46, 0.7)',
-              border: '1px solid #313244',
-              borderRadius: '4px',
-              color: '#cdd6f4',
-              cursor: 'pointer'
+              padding: '9px 20px',
+              background: '#e8e2d4',
+              border: '1px solid #9c8970',
+              borderRadius: '6px',
+              color: '#34251a',
+              fontFamily: "'Cinzel', Georgia, serif",
+              fontSize: '12px',
+              fontWeight: 700,
+              textTransform: 'uppercase',
+              letterSpacing: '0.8px',
+              cursor: 'pointer',
+              boxShadow: '0 1px 3px rgba(40, 30, 20, 0.1)'
             }}
           >
             Cancel
@@ -82,12 +88,19 @@ const SpellDetailPopup = ({ isOpen, onClose, spellId, onSelectSpell }) => {
               onClose();
             }}
             style={{
-              padding: '8px 16px',
-              background: 'rgba(30, 64, 175, 0.7)',
-              border: '1px solid #1e40af',
-              borderRadius: '4px',
-              color: '#ffffff',
-              cursor: 'pointer'
+              padding: '9px 22px',
+              background: 'linear-gradient(180deg, #663c32 0%, #522d25 100%)',
+              border: '1px solid #421e17',
+              borderRadius: '6px',
+              color: '#fdf8ee',
+              fontFamily: "'Cinzel', Georgia, serif",
+              fontSize: '12px',
+              fontWeight: 700,
+              textTransform: 'uppercase',
+              letterSpacing: '0.8px',
+              cursor: 'pointer',
+              boxShadow: '0 2px 5px rgba(60, 20, 15, 0.25)',
+              textShadow: '0 1px 2px rgba(0, 0, 0, 0.4)'
             }}
           >
             Select Spell

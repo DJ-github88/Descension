@@ -1,0 +1,63 @@
+- banner: Mythrill Combat narration Isolated preview
+- main:
+  - heading "Let the exchange breathe." [level=1]
+  - paragraph: One announcement at a time. The full exchange close at hand.
+  - text: Preview scenario
+  - combobox "Preview scenario":
+    - option "1. Routine hit"
+    - option "2. Counterspell & interception"
+    - option "3. Parry → new Riposte opportunity"
+    - option "4. Unknown → confirmed result"
+    - option "5. Rapid announcements & long text" [selected]
+  - region "Isolated tabletop preview":
+    - heading "At the table" [level=2]
+    - text: Public text only
+    - region "Combat narration":
+      - status: Grouped announcements. 24 routine announcements grouped. 1 priority announcement saved directly to history.
+      - article "Current narration":
+        - text: Grouped announcements Hold to read
+        - paragraph: 24 routine announcements grouped. 1 priority announcement saved directly to history.
+      - text: 0 / 4 queued
+      - button "Dismiss banner"
+    - text: Ilsa Marcus Rocko Goblin
+    - paragraph: A little space for the story.
+    - text: The announcement stays above the reaction area.
+    - region "Fixture reaction controls":
+      - heading "Reaction area" [level=3]
+      - paragraph: No reaction opportunity supplied by this fixture step.
+  - complementary "Preview controls":
+    - heading "Rapid announcements & long text" [level=2]
+    - paragraph: Send the burst to fill the four-slot queue. Routine overflow is grouped; priority results remain in history. Try a narrow viewport.
+    - button "Next fixture step" [disabled]
+    - button "Send remaining fixtures" [disabled]
+    - button "Restart scenario"
+    - paragraph: 30 of 30 fixture steps supplied
+    - checkbox "Auto-advance banners"
+    - text: Auto-advance banners
+    - paragraph: Off by default. Hover, focus or expand details to pause reading. History keeps the full text.
+    - text: Supplied countdown text
+    - textbox "Supplied countdown text": 8 s
+    - paragraph: Display only, even at “0 s”. This value never ticks or resolves a window.
+  - region "Preview history":
+    - heading "The unfolding exchange" [level=2]
+    - paragraph: Session-only history · newest first · 30 supplied announcements
+    - checkbox "Priority only" [checked]
+    - text: Priority only
+    - list:
+      - listitem:
+        - text: Accepted outcome
+        - paragraph: The final watchkeeper reaches the eastern gate.
+      - listitem:
+        - text: Accepted outcome
+        - paragraph: The observatory’s defenders complete their withdrawal.
+      - listitem:
+        - text: Reaction opportunity
+        - paragraph: A new response opportunity is available to the watchkeepers.
+      - listitem:
+        - text: Accepted outcome
+        - paragraph: The eastern gate holds. The watchkeepers’ defense is confirmed.
+      - listitem:
+        - text: Accepted outcome
+        - paragraph: Seraphina’s strike deals 7 arcane to Grumbar Stoneward.
+        - group: Arithmetic & source
+  - text: All names, arithmetic and outcomes are authored preview fixtures. Nothing here executes combat or defines a server contract.

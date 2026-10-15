@@ -60,7 +60,7 @@ Whether a Florae appears 'Wild' (unkempt with leafy crowns and mossy shoulders i
   integrationNotes: {
     actionPointSystem: 'Florae abilities focus on timber resilience, twig regrowth, water-based recovery, and nature-communion. Their branch-arms provide natural melee reach and grapples.',
     backgroundSynergy: 'Florae excel in backgrounds emphasizing survival, nature, herbalism, and guardianship. Their druidic connection creates rich roleplay hooks with woodland creatures and ancient groves.',
-    classCompatibility: 'The Briaren carry the lunar parasite as their blood inheritance, so the Lunarch is native to them; they are also native to the Animist (thorn-cantor for the Unwritten dead) and the Apex (grove trackers). Oaken Florae, the tree-born house that passes in cities, are native to the Toxicologist (grove chemistry), the Animist (grove-litany carried in splinter-grafts), the Apex (grove scouts), and the Lunarch (containing the parasite through timber restraint). Other paths are acquired, never native.'
+    classCompatibility: 'The Briaren carry the lunar parasite as their blood inheritance, so the Lunarch is native to them; they are also native to the Animist (thorn-cantor for the Unwritten dead) and Toxicologist (thorn-sap distillations). Oaken Florae, the tree-born house that passes in cities, are native to the Toxicologist (grove chemistry), the Animist (grove-litany carried in splinter-grafts), and the Lunarch (containing the parasite through timber restraint). Other paths are acquired, never native.'
   },
 
   baseTraits: {

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Pyrofiend Resource Bar Asset Preview</title>
+  <style>
+    body {
+      background: #121010;
+      color: #f0e6d2;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 30px;
+    }
+    h1 {
+      color: #ff7733;
+      margin-bottom: 0px;
+      text-shadow: 0 0 10px rgba(255, 69, 0, 0.5);
+    }
+    p {
+      color: #a89f91;
+      margin-top: 5px;
+    }
+    .preview-container {
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+      width: 100%;
+      max-width: 480px;
+    }
+    .stage-card {
+      background: rgba(30, 22, 18, 0.85);
+      border: 1px solid rgba(255, 69, 0, 0.25);
+      border-radius: 8px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .stage-title {
+      font-weight: bold;
+      color: #ffaa55;
+      display: flex;
+      justify-content: space-between;
+    }
+    .bar-wrapper {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 860 / 140;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .bar-base {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      object-fit: fill;
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.75));
+    }
+    .runes-track {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 4.5%;
+      box-sizing: border-box;
+      z-index: 2;
+    }
+    .rune-slot {
+      position: relative;
+      flex: 1;
+      height: 80%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .rune-img {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+    .rune-img.filled {
+      filter: drop-shadow(0 0 3px rgba(255, 170, 0, 0.95)) drop-shadow(0 0 6px rgba(255, 69, 0, 0.75));
+    }
+    .rune-img.empty {
+      filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.95)) brightness(0.95);
+      opacity: 0.85;
+    }
+  </style>
+</head>
+<body>
+  <h1>Pyrofiend Inferno Veil Stages</h1>
+  <p>Previewing stages 0 (Mortal) through 9 (Oblivion)</p>
+  <div class="preview-container" id="container"></div>
+
+  <script>
+    const STAGE_NAMES = ['Mortal', 'Ember', 'Smolder', 'Scorch', 'Blaze', 'Inferno', 'Conflagration', 'Cataclysm', 'Apocalypse', 'Oblivion'];
+    const container = document.getElementById('container');
+
+    [0, 1, 3, 5, 7, 9].forEach(lvl => {
+      const card = document.createElement('div');
+      card.className = 'stage-card';
+      card.innerHTML = `
+        <div class="stage-title">
+          <span>${STAGE_NAMES[lvl]} (Stage ${lvl})</span>
+          <span>Bonus: +${lvl}</span>
+        </div>
+        <div class="bar-wrapper">
+          <img src="/assets/ui/classes/pyrofiend/Empty Bar.PNG" class="bar-base" />
+          <div class="runes-track">
+            ${[1,2,3,4,5,6,7,8,9].map(i => {
+              const isFilled = lvl >= i;
+              const src = isFilled 
+                ? `/assets/ui/classes/pyrofiend/Filled Stage ${i}.PNG`
+                : `/assets/ui/classes/pyrofiend/Empty Stage ${i}.PNG`;
+              const cls = isFilled ? 'filled' : 'empty';
+              return `
+                <div class="rune-slot">
+                  <img src="${src}" class="rune-img ${cls}" />
+                </div>
+              `;
+            }).join('')}
+          </div>
+        </div>
+      `;
+      container.appendChild(card);
+    });
+  </script>
+</body>
+</html>

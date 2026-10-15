@@ -1,0 +1,13 @@
+const fs = require('fs'), cp = require('child_process'), path = require('path'), crypto = require('crypto'), assert = require('assert/strict');
+const app = 'D:/VTT/vtt-react', target = path.join(app, 'src/components/ui/ActionBar.jsx');
+const sha = () => crypto.createHash('sha256').update(fs.readFileSync(target)).digest('hex'), before = sha();
+const transform = { '^.+\\.(js|jsx|mjs|cjs|ts|tsx)$': path.join(__dirname, 'without-import-transform.cjs').replace(/\\/g, '/') };
+const args = ['node_modules/react-scripts/bin/react-scripts.js', 'test', '--watchAll=false', '--runInBand', '--no-cache', '--testTimeout=20000', '--runTestsByPath', 'src/components/ui/__tests__/ActionBarLegacyArcanoneerSpheres.test.jsx', '--transform', JSON.stringify(transform)];
+const started = new Date().toISOString();
+const r = cp.spawnSync(process.execPath, args, { cwd: app, encoding: 'utf8', maxBuffer: 8 * 1024 * 1024, timeout: 120000, env: { ...process.env, CI: 'true' } });
+const output = r.stdout + r.stderr;
+fs.writeFileSync(path.join(__dirname, 'import-negative.log'), output, { flag: 'wx' });
+const result = { command: [process.execPath, ...args], cwd: app, started, ended: new Date().toISOString(), exit: r.status, signal: r.signal, sourceBefore: before, sourceAfter: sha(), expectedFailure: /ReferenceError: migrateBlockId is not defined/.test(output), method: 'Only import removed in Jest transform memory; no production writes.' };
+fs.writeFileSync(path.join(__dirname, 'import-negative.json'), JSON.stringify(result, null, 2), { flag: 'wx' });
+assert.equal(result.sourceAfter, before); assert.equal(r.status, 1); assert.equal(result.expectedFailure, true, output);
+console.log('PASS negative control: current legacy regression test fails with ReferenceError when the import alone is removed in memory; production bytes unchanged.');

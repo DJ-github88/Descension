@@ -38,7 +38,8 @@ export const defaultStats = {
 export const creatureTypes = {
     PLAYER: "player",
     MONSTER: "monster",
-    BOSS: "boss"
+    BOSS: "boss",
+    SHOPKEEPER: "shopkeeper"
 };
 
 // Ability types and their effects

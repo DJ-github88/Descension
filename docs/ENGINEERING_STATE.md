@@ -1,6 +1,6 @@
 # Mythrill / Prism — engineering state
 
-Updated: 2026-10-14. Checkout: `D:/VTT` (the old `D:/Mythrill/Descension`
+Updated: 2026-10-15. Checkout: `D:/VTT` (the old `D:/Mythrill/Descension`
 path in CLAUDE.md is historical). Roadmap authority: [MYTHRILL_NEXT_PHASE.md](MYTHRILL_NEXT_PHASE.md).
 
 ## Accepted baseline
@@ -20,6 +20,9 @@ path in CLAUDE.md is historical). Roadmap authority: [MYTHRILL_NEXT_PHASE.md](MY
   Feather Slash only, frozen F8.1–F8.5/W1–W12. The single bounded repair closes
   B8-1; source acceptance does not close human/tabletop/backend/deployment gates
   or authorize P9/broader combat proposals.
+- P9: **PASS — independently source-accepted 2026-10-15 (cycle2)**, original
+  supported single-target DICE damage/healing only (contract F9.1–F9.4 + repair
+  erratum). Acceptance names the exact 29 P9 file bytes, not the live device tree.
 - Outstanding gates: **P5-05/07/09/10/11/12/13/31/32**. No gate is closed by P6 client simulations.
 
 ## Evidence
@@ -77,6 +80,42 @@ P5-05/07/09/10/11/12/13/31/32 remain environment-blocked. Source acceptance
 does not authorize deployment or satisfy roadmap §20 release gates.
 
 ## Current work
+
+**Current P9 verdict: PASS — independently source-accepted, 2026-10-15, cycle2.**
+Complete independent report, preserved byte-for-byte:
+[MYTHRILL_P9_SOURCE_INDEPENDENT_ACCEPTANCE_20261015.md](MYTHRILL_P9_SOURCE_INDEPENDENT_ACCEPTANCE_20261015.md),
+SHA256 `d379b925bb4dcb811b103d6879df10e1be5ea0188dec9b4aa66c80207cb777a5`. Contract:
+[MYTHRILL_PROJECT_9_CONTRACT.md](MYTHRILL_PROJECT_9_CONTRACT.md) (frozen V1 + repair erratum).
+Handoff: [MYTHRILL_PROJECT_9_IMPLEMENTATION.md](MYTHRILL_PROJECT_9_IMPLEMENTATION.md).
+Evidence: `vtt-react/verification/p9/evidence/` (`implementation-20261015/`,
+`repair-cycle1-20261015/`, `independent-review/independent-cycle1-and-cycle2.tar.gz`
+with the cycle1 BLOCK report, probes, cycle2 runs and the 29-file LF-normalized
+identity manifest `p9-identity-lf-sha256.txt`).
+
+Cycle1 BLOCK (B1 approval consumable via propose/adjudicate; B2 consumed-approval
+memory bounded by the receipt ledger, with false "no payment" wording) was closed by
+the single bounded repair; N1–N4 also closed. Supported set from authored data:
+Marrow-Piercing Slug, Restorative Prayer, Opening Chord, Harmonic Strike; every other
+class payment/shape stays manual with a diagnostic. Owner approves price + one roll,
+GM confirms the final amount, one atomic P7 command installs source pools (temp
+first), the revisioned class home and target HP; receipts are the only result.
+Witnesses: P9 server 132 passing, focused 230/230, Chrome S3/S4/S6/S7/S9, server P7
+35/1 pending, P8 W1–W12/rejoin/runtime and P7 owner pass; full server 599 passing /
+2 pending (development check). Executed in a disposable mirror of this HEAD with
+LF-identical content (device shell has no Chrome) and partly on the device.
+
+**Creator decision open:** `<attr>/K` rounds down (Arcanoneer's authored text); veto →
+non-integer quotients go manual. **Concurrent third-party drift (2026-10-15, after the
+P9 seal), not attributed to P9:** ~90 modified tracked files on `D:/VTT` including
+accepted P8 inputs `public/data/abilities.json`/`creatures.json` (additive: four
+shopkeeper creatures; grimmstalk unchanged), `creatureStore.js`, `versions.js` and a
+colour-only change to P9's `SpellCastConfirmation.jsx`. P8's accepted data hashes no
+longer match the device; this needs creator acceptance/attribution. P7 `lifecycle`
+browser witness was not runnable (external `D:/AppData` input unavailable). Human
+tabletop/creator, two-device, live backend, full-App build and deployment remain
+outstanding. No commit, push or deployment.
+
+### Historical P8 verdict
 
 **Current P8 verdict: PASS — independently source-accepted, 2026-10-14, cycle2.**
 Complete independent report, preserved byte-for-byte:

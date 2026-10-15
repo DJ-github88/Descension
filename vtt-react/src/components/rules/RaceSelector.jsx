@@ -26,10 +26,23 @@ const RACE_WATERCOLOR = {
   human: 'watercolor_map'
 };
 
+const sanitizeMojibake = (str) => {
+  if (!str || typeof str !== 'string') return str;
+  return str
+    .replace(/Ã¢â‚¬â€\x9D/g, '"')
+    .replace(/Ã¢â‚¬â€/g, '—')
+    .replace(/â€”/g, '—')
+    .replace(/â€™/g, "'")
+    .replace(/â€œ/g, '"')
+    .replace(/â€¢/g, '•')
+    .replace(/â€/g, '"');
+};
+
 // Parses lore text to render recognised dictionary terms as interactive LoreLink popups
 const renderLoreText = (text) => {
   if (!text || typeof text !== 'string') return text;
-  const processed = autoLinkTerminology(text);
+  const sanitized = sanitizeMojibake(text);
+  const processed = autoLinkTerminology(sanitized);
   const regex = /(<LoreLink termId="([^"]+)">([\s\S]*?)<\/LoreLink>)/g;
   const result = [];
   let lastIndex = 0;
@@ -1839,7 +1852,14 @@ const RaceSelector = () => {
 
       {/* Epic Lore Modal/Overlay */}
       {showEpicLore && raceData && (
-        <div className="epic-lore-overlay">
+        <div
+          className="epic-lore-overlay"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) {
+              setShowEpicLore(false);
+            }
+          }}
+        >
           <RaceEpicLore
             raceData={raceData}
             subraceId={variantData?.id || selectedVariant}

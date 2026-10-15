@@ -114,7 +114,7 @@ const LocationMapManagerModal = ({
             {/* Title & Type */}
             <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '12px', marginBottom: '14px' }}>
               <div>
-                <label style={{ display: 'block', fontSize: '12px', color: '#3d2614', marginBottom: '4px', fontWeight: 700 }}>
+                <label style={{ display: 'block', fontSize: '12px', color: 'var(--adventure-muted, #68533e)', marginBottom: '4px', fontWeight: 700 }}>
                   Location Scene Name *
                 </label>
                 <input
@@ -126,10 +126,10 @@ const LocationMapManagerModal = ({
                   style={{
                     width: '100%',
                     padding: '8px 12px',
-                    background: '#fdfaf0',
-                    border: '1.5px solid #8c6738',
-                    borderRadius: '6px',
-                    color: '#2b1810',
+                    background: 'var(--adventure-page, #f1ece1)',
+                    border: '1px solid var(--adventure-rule, #b6a080)',
+                    borderRadius: '2px',
+                    color: 'var(--adventure-ink, #34251a)',
                     fontSize: '14px',
                     fontFamily: 'Cinzel, Georgia, serif',
                     fontWeight: 700
@@ -138,7 +138,7 @@ const LocationMapManagerModal = ({
               </div>
 
               <div>
-                <label style={{ display: 'block', fontSize: '12px', color: '#3d2614', marginBottom: '4px', fontWeight: 700 }}>
+                <label style={{ display: 'block', fontSize: '12px', color: 'var(--adventure-muted, #68533e)', marginBottom: '4px', fontWeight: 700 }}>
                   Scene Type
                 </label>
                 <select
@@ -147,10 +147,10 @@ const LocationMapManagerModal = ({
                   style={{
                     width: '100%',
                     padding: '8px 12px',
-                    background: '#fdfaf0',
-                    border: '1.5px solid #8c6738',
-                    borderRadius: '6px',
-                    color: '#2b1810',
+                    background: 'var(--adventure-page, #f1ece1)',
+                    border: '1px solid var(--adventure-rule, #b6a080)',
+                    borderRadius: '2px',
+                    color: 'var(--adventure-ink, #34251a)',
                     fontSize: '13px',
                     fontWeight: 600
                   }}
@@ -168,7 +168,7 @@ const LocationMapManagerModal = ({
 
             {/* Image URL & File Upload */}
             <div style={{ marginBottom: '14px' }}>
-              <label style={{ display: 'block', fontSize: '12px', color: '#3d2614', marginBottom: '4px', fontWeight: 700 }}>
+              <label style={{ display: 'block', fontSize: '12px', color: 'var(--adventure-muted, #68533e)', marginBottom: '4px', fontWeight: 700 }}>
                 Background Image URL or Local Artwork *
               </label>
               <div style={{ display: 'flex', gap: '8px' }}>
@@ -183,10 +183,10 @@ const LocationMapManagerModal = ({
                   style={{
                     flex: 1,
                     padding: '8px 12px',
-                    background: '#fdfaf0',
-                    border: '1.5px solid #8c6738',
-                    borderRadius: '6px',
-                    color: '#2b1810',
+                    background: 'var(--adventure-page, #f1ece1)',
+                    border: '1px solid var(--adventure-rule, #b6a080)',
+                    borderRadius: '2px',
+                    color: 'var(--adventure-ink, #34251a)',
                     fontSize: '13px'
                   }}
                 />
@@ -196,9 +196,9 @@ const LocationMapManagerModal = ({
                     alignItems: 'center',
                     gap: '6px',
                     padding: '8px 14px',
-                    background: 'linear-gradient(180deg, #fdfaf0 0%, #ede3d1 100%)',
-                    border: '1.5px solid #8c6738',
-                    borderRadius: '6px',
+                    background: 'var(--adventure-page, #f7f3ea)',
+                    border: '1px solid var(--adventure-rule, #b6a080)',
+                    borderRadius: '2px',
                     cursor: 'pointer',
                     color: '#3b2410',
                     fontSize: '12px',
@@ -233,8 +233,8 @@ const LocationMapManagerModal = ({
                       padding: '4px 10px',
                       background: imageUrl === preset.url ? '#d4af37' : '#f8f4ec',
                       color: imageUrl === preset.url ? '#1a0f05' : '#3d2614',
-                      border: '1px solid #8c6738',
-                      borderRadius: '4px',
+                      border: '1px solid var(--adventure-rule, #b6a080)',
+                      borderRadius: '2px',
                       fontSize: '11px',
                       fontWeight: 700,
                       cursor: 'pointer',
@@ -259,9 +259,9 @@ const LocationMapManagerModal = ({
                   style={{
                     width: '100%',
                     height: '140px',
-                    borderRadius: '6px',
+                    borderRadius: '2px',
                     overflow: 'hidden',
-                    border: '1.5px solid #8c6738',
+                    border: '1px solid var(--adventure-rule, #b6a080)',
                     position: 'relative',
                     background: '#1a0f05'
                   }}
@@ -284,7 +284,7 @@ const LocationMapManagerModal = ({
 
             {/* Parent Region Select */}
             <div style={{ marginBottom: '14px' }}>
-              <label style={{ display: 'block', fontSize: '12px', color: '#3d2614', marginBottom: '4px', fontWeight: 700 }}>
+              <label style={{ display: 'block', fontSize: '12px', color: 'var(--adventure-muted, #68533e)', marginBottom: '4px', fontWeight: 700 }}>
                 Parent Realm / Region (Optional)
               </label>
               <select
@@ -293,10 +293,10 @@ const LocationMapManagerModal = ({
                 style={{
                   width: '100%',
                   padding: '8px 12px',
-                  background: '#fdfaf0',
-                  border: '1.5px solid #8c6738',
-                  borderRadius: '6px',
-                  color: '#2b1810',
+                  background: 'var(--adventure-page, #f1ece1)',
+                  border: '1px solid var(--adventure-rule, #b6a080)',
+                  borderRadius: '2px',
+                  color: 'var(--adventure-ink, #34251a)',
                   fontSize: '13px'
                 }}
               >
@@ -311,7 +311,7 @@ const LocationMapManagerModal = ({
 
             {/* Narrative Lore & GM Description */}
             <div style={{ marginBottom: '14px' }}>
-              <label style={{ display: 'block', fontSize: '12px', color: '#3d2614', marginBottom: '4px', fontWeight: 700 }}>
+              <label style={{ display: 'block', fontSize: '12px', color: 'var(--adventure-muted, #68533e)', marginBottom: '4px', fontWeight: 700 }}>
                 Atmosphere &amp; Narrative Lore
               </label>
               <textarea
@@ -322,10 +322,10 @@ const LocationMapManagerModal = ({
                 style={{
                   width: '100%',
                   padding: '8px 12px',
-                  background: '#fdfaf0',
-                  border: '1.5px solid #8c6738',
-                  borderRadius: '6px',
-                  color: '#2b1810',
+                  background: 'var(--adventure-page, #f1ece1)',
+                  border: '1px solid var(--adventure-rule, #b6a080)',
+                  borderRadius: '2px',
+                  color: 'var(--adventure-ink, #34251a)',
                   fontSize: '13px',
                   resize: 'vertical'
                 }}
@@ -360,7 +360,7 @@ const LocationMapManagerModal = ({
                     background: '#fdf2f2',
                     border: '1.5px solid #c0392b',
                     color: '#96281b',
-                    borderRadius: '6px',
+                    borderRadius: '2px',
                     padding: '6px 12px',
                     fontSize: '12px',
                     fontWeight: 700,
@@ -378,9 +378,9 @@ const LocationMapManagerModal = ({
                 onClick={onClose}
                 style={{
                   background: '#f8f4ec',
-                  border: '1.5px solid #8c6738',
-                  color: '#3d2614',
-                  borderRadius: '6px',
+                  border: '1px solid var(--adventure-rule, #b6a080)',
+                  color: 'var(--adventure-muted, #68533e)',
+                  borderRadius: '2px',
                   padding: '8px 16px',
                   fontSize: '13px',
                   fontWeight: 700,
@@ -395,7 +395,7 @@ const LocationMapManagerModal = ({
                   background: 'linear-gradient(180deg, #d4af37 0%, #aa8022 100%)',
                   border: '1.5px solid #ffd700',
                   color: '#1a0f05',
-                  borderRadius: '6px',
+                  borderRadius: '2px',
                   padding: '8px 18px',
                   fontSize: '13px',
                   fontWeight: 800,

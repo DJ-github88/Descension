@@ -25,6 +25,8 @@ import EquipmentActionSlot from './EquipmentActionSlot';
 import { getActionsForSlot } from '../../data/weaponActionSpells';
 import { normalizeEquipment, isOffHandDisabled as checkOffHandDisabled } from '../../utils/equipmentUtils';
 import { normalizeManagedClassResource, getManagedSpellResourcePlan } from '../../data/classResourceContracts';
+import { migrateBlockId } from '../../utils/arcanoneerMigration';
+import { routeSpellCast, isP9Routed } from '../../services/spellConsequenceService';
 import './ActionBar.css';
 
 // Spell damage types constant - used for consumable effects
@@ -966,6 +968,7 @@ const ActionBar = () => {
             }
         }
 
+        if (routeSpellCast(action, { producer: 'hud-equipment' })) return;
         setSpellToCast(action);
         setSpellSlotIndex('equipment-action');
         setShowSpellConfirmation(true);
@@ -1000,6 +1003,9 @@ const ActionBar = () => {
             // Try to find the spell in the library first for the most up-to-date data
             const librarySpell = spellLibrary?.spells?.find(s => s.id === item.id);
             const spellToDisplay = librarySpell || item;
+
+            // P9: supported spells in a shared room go to the owner approval panel.
+            if (routeSpellCast(spellToDisplay, { producer: 'hud', slotIndex })) return;
 
             // Show confirmation popup
             setSpellToCast(spellToDisplay);
@@ -1605,8 +1611,110 @@ const ActionBar = () => {
         setIsEquipmentActionTooltip(false);
     };
 
+    // Shared slot cooldown start: the local manual path and, for P9 supported
+    // spells, only the accepted receipt (never a pending approval).
+    const startSlotCooldown = (slotIndex, item, cooldownType, cooldownValue, spellId) => {
+        if (cooldownValue > 0 && cooldownType !== 'none' && typeof slotIndex === 'number') {
+            cooldownTypesRef.current[slotIndex] = {
+                type: cooldownType,
+                value: cooldownValue,
+                startTime: Date.now(),
+                startRound: isInCombat ? round : null
+            };
+            
+            if (cooldownType === 'turn_based') {
+                const itemWithCooldown = { 
+                    ...item, 
+                    cooldown: cooldownValue,
+                    maxCooldown: cooldownValue,
+                    cooldownType: 'turn_based',
+                    cooldownStartRound: isInCombat ? round : null
+                };
+                updateSlot(slotIndex, itemWithCooldown);
+                setCooldownStore(slotIndex, {
+                    expiresAt: null,
+                    maxCooldown: cooldownValue,
+                    cooldownType: 'turn_based',
+                    spellId: item.id || spellId
+                });
+            } else if (cooldownType === 'real_time') {
+                const endTime = Date.now() + (cooldownValue * 1000);
+                const itemWithCooldown = { 
+                    ...item, 
+                    cooldown: cooldownValue,
+                    maxCooldown: cooldownValue,
+                    cooldownType: 'real_time',
+                    cooldownEndTime: endTime
+                };
+                updateSlot(slotIndex, itemWithCooldown);
+                setCooldownStore(slotIndex, {
+                    expiresAt: endTime,
+                    maxCooldown: cooldownValue,
+                    cooldownType: 'real_time',
+                    spellId: item.id || spellId
+                });
+                
+                const timer = setInterval(() => {
+                    updateActionSlots(currentSlots => {
+                        const updatedSlots = [...currentSlots];
+                        const slotItem = updatedSlots[slotIndex];
+                        if (slotItem && slotItem.cooldownEndTime) {
+                            const remaining = Math.max(0, Math.ceil((slotItem.cooldownEndTime - Date.now()) / 1000));
+                            if (remaining > 0) {
+                                updatedSlots[slotIndex] = {
+                                    ...slotItem,
+                                    cooldown: remaining
+                                };
+                            } else {
+                                updatedSlots[slotIndex] = {
+                                    ...slotItem,
+                                    cooldown: 0,
+                                    cooldownEndTime: undefined
+                                };
+                                clearInterval(timer);
+                                delete cooldownTimersRef.current[slotIndex];
+                                clearCooldownStore(slotIndex);
+                            }
+                        }
+                        return updatedSlots;
+                    });
+                }, 1000);
+                cooldownTimersRef.current[slotIndex] = timer;
+            } else {
+                const itemWithCooldown = { 
+                    ...item, 
+                    cooldown: cooldownValue,
+                    maxCooldown: cooldownValue,
+                    cooldownType 
+                };
+                updateSlot(slotIndex, itemWithCooldown);
+            }
+        }
+
+    };
+
+    // P9: cooldowns for supported spells start only from the accepted receipt.
+    const p9CooldownRef = useRef(null);
+    p9CooldownRef.current = (detail) => {
+        const item = actionSlots[detail?.slotIndex];
+        if (!item || item.id !== detail.spellId) return;
+        startSlotCooldown(detail.slotIndex, item, detail.cooldown?.type, detail.cooldown?.value, detail.spellId);
+    };
+    useEffect(() => {
+        const onAccepted = event => p9CooldownRef.current?.(event.detail);
+        window.addEventListener('mythrill:p9-spell-accepted', onAccepted);
+        return () => window.removeEventListener('mythrill:p9-spell-accepted', onAccepted);
+    }, []);
+
     // Handle confirmed spell cast
     const handleSpellCastConfirm = () => {
+        // P9: a supported spell in a shared room is never spent locally.
+        if (spellToCast && isP9Routed(spellToCast)) {
+            setShowSpellConfirmation(false);
+            setSpellToCast(null);
+            setSpellSlotIndex(null);
+            return;
+        }
         if (!spellToCast || spellSlotIndex === null) {
             setShowSpellConfirmation(false);
             setSpellToCast(null);
@@ -1930,83 +2038,7 @@ const ActionBar = () => {
             const cooldownConfig = spellToCast.cooldownConfig || {};
             const cooldownType = cooldownConfig.type || item.cooldownType || 'none';
             const cooldownValue = cooldownConfig.value || item.maxCooldown || 0;
-            
-            if (cooldownValue > 0 && cooldownType !== 'none' && typeof spellSlotIndex === 'number') {
-                cooldownTypesRef.current[spellSlotIndex] = {
-                    type: cooldownType,
-                    value: cooldownValue,
-                    startTime: Date.now(),
-                    startRound: isInCombat ? round : null
-                };
-                
-                if (cooldownType === 'turn_based') {
-                    const itemWithCooldown = { 
-                        ...item, 
-                        cooldown: cooldownValue,
-                        maxCooldown: cooldownValue,
-                        cooldownType: 'turn_based',
-                        cooldownStartRound: isInCombat ? round : null
-                    };
-                    updateSlot(spellSlotIndex, itemWithCooldown);
-                    setCooldownStore(spellSlotIndex, {
-                        expiresAt: null,
-                        maxCooldown: cooldownValue,
-                        cooldownType: 'turn_based',
-                        spellId: item.id || spellToCast.id
-                    });
-                } else if (cooldownType === 'real_time') {
-                    const endTime = Date.now() + (cooldownValue * 1000);
-                    const itemWithCooldown = { 
-                        ...item, 
-                        cooldown: cooldownValue,
-                        maxCooldown: cooldownValue,
-                        cooldownType: 'real_time',
-                        cooldownEndTime: endTime
-                    };
-                    updateSlot(spellSlotIndex, itemWithCooldown);
-                    setCooldownStore(spellSlotIndex, {
-                        expiresAt: endTime,
-                        maxCooldown: cooldownValue,
-                        cooldownType: 'real_time',
-                        spellId: item.id || spellToCast.id
-                    });
-                    
-                    const timer = setInterval(() => {
-                        updateActionSlots(currentSlots => {
-                            const updatedSlots = [...currentSlots];
-                            const slotItem = updatedSlots[spellSlotIndex];
-                            if (slotItem && slotItem.cooldownEndTime) {
-                                const remaining = Math.max(0, Math.ceil((slotItem.cooldownEndTime - Date.now()) / 1000));
-                                if (remaining > 0) {
-                                    updatedSlots[spellSlotIndex] = {
-                                        ...slotItem,
-                                        cooldown: remaining
-                                    };
-                                } else {
-                                    updatedSlots[spellSlotIndex] = {
-                                        ...slotItem,
-                                        cooldown: 0,
-                                        cooldownEndTime: undefined
-                                    };
-                                    clearInterval(timer);
-                                    delete cooldownTimersRef.current[spellSlotIndex];
-                                    clearCooldownStore(spellSlotIndex);
-                                }
-                            }
-                            return updatedSlots;
-                        });
-                    }, 1000);
-                    cooldownTimersRef.current[spellSlotIndex] = timer;
-                } else {
-                    const itemWithCooldown = { 
-                        ...item, 
-                        cooldown: cooldownValue,
-                        maxCooldown: cooldownValue,
-                        cooldownType 
-                    };
-                    updateSlot(spellSlotIndex, itemWithCooldown);
-                }
-            }
+            startSlotCooldown(spellSlotIndex, item, cooldownType, cooldownValue, spellToCast.id);
 
             setShowSpellConfirmation(false);
             setSpellToCast(null);

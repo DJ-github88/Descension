@@ -11,6 +11,7 @@ import { shouldReduceMotion } from '../../utils/accessibility';
 import { getCurrentMapTransform } from '../../utils/mapTransform';
 import { getPrimaryStarterMap } from '../../data/subregionMaps';
 import subscriptionService, { SUBSCRIPTION_TIERS } from '../../services/subscriptionService';
+import { safeLocalStorageItem, safeLocalStorageGet } from '../../utils/storageUtils';
 import './styles/LandingPage.css';
 
 // Membership tab presentation config. Tier names, prices, limits and feature
@@ -21,13 +22,31 @@ const MEMBERSHIP_TIER_ORDER = ['GUEST', 'FREE', 'PRO', 'ULTIMATE', 'MYTHIC'];
 const MEMBERSHIP_CARD_META = {
   GUEST: {
     cardClass: 'guest',
+    tagline: 'The Wayfarer',
     action: 'login',
     lockedFeatures: ['No cloud save: data cleared on disconnect', 'Cannot create rooms']
   },
-  FREE: { cardClass: 'free', action: 'register' },
-  PRO: { cardClass: 'pro', action: 'soon' },
-  ULTIMATE: { cardClass: 'ultimate', action: 'soon' },
-  MYTHIC: { cardClass: 'mythic', action: 'soon' }
+  FREE: {
+    cardClass: 'free',
+    tagline: 'The Adventurer',
+    action: 'register'
+  },
+  PRO: {
+    cardClass: 'pro',
+    tagline: 'The Storyteller',
+    badgeText: 'Most Favored by GMs',
+    action: 'soon'
+  },
+  ULTIMATE: {
+    cardClass: 'ultimate',
+    tagline: 'The High Lorekeeper',
+    action: 'soon'
+  },
+  MYTHIC: {
+    cardClass: 'mythic',
+    tagline: 'The World Architect',
+    action: 'soon'
+  }
 };
 
 const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onShowRegister, onLoginTransition, isAuthenticated, user, onImmerse, isWorldMapActive }) => {
@@ -40,7 +59,7 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
         return sec;
       }
     }
-    return localStorage.getItem('landingActiveSection') || 'home';
+    return safeLocalStorageGet('landingActiveSection') || 'home';
   });
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [showCommunity, setShowCommunity] = useState(false);
@@ -119,7 +138,9 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
 
   // Save active section to localStorage when it changes
   useEffect(() => {
-   localStorage.setItem('landingActiveSection', activeSection);
+    try {
+      safeLocalStorageItem('landingActiveSection', activeSection);
+    } catch (_) {}
   }, [activeSection]);
 
  // Logout handler
@@ -389,17 +410,35 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
   <div className="landing-section membership-section-wrapper">
    <div className="membership-content">
     <div className="membership-plans-section">
+     {/* Authentic manuscript corner brackets */}
+     <span className="section-corner corner-tl"></span>
+     <span className="section-corner corner-tr"></span>
+     <span className="section-corner corner-bl"></span>
+     <span className="section-corner corner-br"></span>
+
      <div className="membership-plans-header">
+      <div className="membership-section-badge">
+       <i className="fas fa-scroll"></i>
+       <span>Chronicle Subscriptions</span>
+      </div>
       <h2>Membership &amp; Pricing</h2>
+      <div className="membership-header-divider">
+       <span className="divider-flourish">✦</span>
+       <span className="divider-line"></span>
+       <i className="fas fa-feather-alt divider-icon"></i>
+       <span className="divider-line"></span>
+       <span className="divider-flourish">✦</span>
+      </div>
       <p className="membership-plans-subtitle">
        Every tier plays the same game. Plans only change how much you can build, store and run.
       </p>
       {subscriptionStatus && (
        <div className="current-plan-indicator">
-        <span>Current plan: </span>
+        <i className="fas fa-feather-alt"></i>
+        <span className="indicator-label">Active Chronicle:</span>
         <span
          className="current-plan-badge"
-         style={{ background: subscriptionStatus.color || '#888' }}
+         style={{ background: subscriptionStatus.color || '#376637' }}
         >
          <i className={`fas ${subscriptionStatus.icon || 'fa-user'}`}></i>
          {subscriptionStatus.displayName}
@@ -432,81 +471,132 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
          key={tierKey}
          className={`membership-plan-card ${tierKey.toLowerCase()} ${isCurrentTier ? 'current' : ''} ${tier.highlight ? 'highlighted' : ''}`}
         >
+         {/* Subtle inner corner embellishments */}
+         <span className="card-corner corner-tl"></span>
+         <span className="card-corner corner-tr"></span>
+         <span className="card-corner corner-bl"></span>
+         <span className="card-corner corner-br"></span>
+
          {tier.highlight && (
-          <div className="plan-popular-tag">Most Popular</div>
+          <div className="plan-popular-tag">
+           <span className="tag-flourish">✦</span>
+           <span>{meta.badgeText || 'Most Popular'}</span>
+           <span className="tag-flourish">✦</span>
+          </div>
          )}
          {isCurrentTier && (
-          <div className="plan-current-tag">Current Plan</div>
+          <div className="plan-current-tag">
+           <i className="fas fa-bookmark"></i>
+           <span>Current Plan</span>
+          </div>
          )}
 
-         <div className="plan-icon" style={{ color: tier.color }}>
-          <i className={`fas ${tier.icon}`}></i>
+         <div className="plan-icon-wrapper">
+          <div className="plan-icon">
+           <i className={`fas ${tier.icon}`}></i>
+          </div>
          </div>
 
          <h3 className="plan-name">{tierKey === 'FREE' ? 'Free Adventurer' : tier.name}</h3>
+         {meta.tagline && <span className="plan-tagline">{meta.tagline}</span>}
 
-         <div className="plan-price">
-          {tier.price === 0 ? (
-           tierKey === 'GUEST' ? 'Free' : <>Free<span>/forever</span></>
-          ) : (
-           <>${tier.price}<span>/month</span></>
-          )}
+         <div className="plan-price-wrapper">
+          <div className="plan-price">
+           {tier.price === 0 ? (
+            tierKey === 'GUEST' ? (
+             <span className="price-amount">Free</span>
+            ) : (
+             <>
+              <span className="price-amount">Free</span>
+              <span className="price-period">/ forever</span>
+             </>
+            )
+           ) : (
+            <>
+             <span className="price-currency">$</span>
+             <span className="price-amount">{tier.price}</span>
+             <span className="price-period">/ month</span>
+            </>
+           )}
+          </div>
          </div>
 
          <p className="plan-description">{tier.description}</p>
 
-         <div className="plan-stats">
-          <div className="plan-stat" title="Character slots">
-           <i className="fas fa-users"></i>
-           <span>{tier.characterLimit === -1 ? 'Unlimited' : tier.characterLimit} {tier.characterLimit === 1 ? 'character' : 'characters'}</span>
+         <div className="card-divider-ornament">
+          <span className="card-divider-line"></span>
+          <span className="card-divider-flourish">❖</span>
+          <span className="card-divider-line"></span>
+         </div>
+
+         <div className="plan-stats plan-stats-ledger">
+          <div className="ledger-header">
+           <i className="fas fa-quill-pen"></i>
+           <span>Resource Allocation</span>
           </div>
-          <div className="plan-stat" title="Permanent rooms">
-           <i className="fas fa-door-open"></i>
-           <span>{tier.roomLimit === 0 ? 'Join only' : `${tier.roomLimit} room${tier.roomLimit !== 1 ? 's' : ''}`}</span>
-          </div>
-          {tier.maxPlayersPerRoom > 0 ? (
+          <div className="plan-stats-grid">
+           <div className="plan-stat" title="Character slots">
+            <i className="fas fa-users"></i>
+            <div className="stat-content">
+             <span className="stat-val">{tier.characterLimit === -1 ? 'Unlimited' : tier.characterLimit}</span>
+             <span className="stat-lbl">{tier.characterLimit === 1 ? 'Character' : 'Characters'}</span>
+            </div>
+           </div>
+           <div className="plan-stat" title="Permanent rooms">
+            <i className="fas fa-door-open"></i>
+            <div className="stat-content">
+             <span className="stat-val">{tier.roomLimit === 0 ? 'Join only' : tier.roomLimit}</span>
+             <span className="stat-lbl">{tier.roomLimit === 0 ? 'Rooms' : `Room${tier.roomLimit !== 1 ? 's' : ''}`}</span>
+            </div>
+           </div>
            <div className="plan-stat" title="Maximum players per room">
             <i className="fas fa-user-group"></i>
-            <span>Up to {tier.maxPlayersPerRoom} players/room</span>
+            <div className="stat-content">
+             <span className="stat-val">{tier.maxPlayersPerRoom > 0 ? `Up to ${tier.maxPlayersPerRoom}` : 'Join games'}</span>
+             <span className="stat-lbl">Per Room</span>
+            </div>
            </div>
-          ) : (
-           <div className="plan-stat" title="Multiplayer participation">
-            <i className="fas fa-user-group"></i>
-            <span>Join games</span>
+           <div className="plan-stat" title="Cloud storage capacity">
+            <i className="fas fa-database"></i>
+            <div className="stat-content">
+             <span className="stat-val">
+              {tier.storageLimit >= 1024 * 1024 * 1024
+               ? `${(tier.storageLimit / (1024 * 1024 * 1024)).toFixed(0)} GB`
+               : tier.storageLimit > 0
+                 ? `${(tier.storageLimit / (1024 * 1024)).toFixed(0)} MB`
+                 : 'Local only'}
+             </span>
+             <span className="stat-lbl">Storage</span>
+            </div>
            </div>
-          )}
-          <div className="plan-stat" title="Cloud storage capacity">
-           <i className="fas fa-database"></i>
-           <span>
-            {tier.storageLimit >= 1024 * 1024 * 1024
-             ? `${(tier.storageLimit / (1024 * 1024 * 1024)).toFixed(0)} GB`
-             : tier.storageLimit > 0
-               ? `${(tier.storageLimit / (1024 * 1024)).toFixed(0)} MB`
-               : 'Local only'} storage
-           </span>
           </div>
          </div>
 
-         <ul className="plan-features">
-          {cleanFeatures.map((feature, idx) => (
-           <li key={idx}>
-            <i className="fas fa-check"></i>
-            <span>{feature}</span>
-           </li>
-          ))}
-          {meta.lockedFeatures?.map(feature => (
-           <li key={feature} className="locked-feature-item">
-            <i className="fas fa-times"></i>
-            <span>{feature}</span>
-           </li>
-          ))}
-         </ul>
+         <div className="plan-features-wrapper">
+          <div className="features-label">
+           <span>Privileges &amp; Features</span>
+          </div>
+          <ul className="plan-features">
+           {cleanFeatures.map((feature, idx) => (
+            <li key={idx} className="feature-item included">
+             <span className="feature-marker">✦</span>
+             <span className="feature-text">{feature}</span>
+            </li>
+           ))}
+           {meta.lockedFeatures?.map(feature => (
+            <li key={feature} className="feature-item locked">
+             <span className="feature-marker">—</span>
+             <span className="feature-text">{feature}</span>
+            </li>
+           ))}
+          </ul>
+         </div>
 
          <div className="plan-action">
           {isCurrentTier ? (
            <button className="plan-btn current-btn" disabled>
-            <i className="fas fa-check-circle"></i>
-            Current Plan
+            <i className="fas fa-bookmark"></i>
+            <span>Current Plan</span>
            </button>
           ) : tierKey === 'GUEST' ? (
            authStoreIsAuthenticated ? (
@@ -516,8 +606,8 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
              className="plan-btn guest-btn"
              onClick={onShowLogin}
             >
-             <i className="fas fa-sign-in-alt"></i>
-             Get Started
+             <i className="fas fa-compass"></i>
+             <span>Get Started</span>
             </button>
            )
           ) : tierKey === 'FREE' ? (
@@ -528,13 +618,14 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
              className="plan-btn upgrade-btn"
              onClick={onShowRegister}
             >
-             <i className="fas fa-user-plus"></i>
-             Create Free Account
+             <i className="fas fa-feather-pointed"></i>
+             <span>Create Free Account</span>
             </button>
            )
           ) : (
            <button className="plan-btn coming-soon-btn" disabled>
-            Coming Soon
+            <i className="fas fa-hourglass-half"></i>
+            <span>Coming Soon</span>
            </button>
           )}
          </div>
@@ -546,7 +637,6 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
    </div>
   </div>
  );
-
 
 
  const renderRulesSection = () => (

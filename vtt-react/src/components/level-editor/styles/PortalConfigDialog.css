@@ -342,7 +342,7 @@
 }
 
 /* Dialog Actions */
-.dialog-actions {
+.portal-config-dialog .dialog-actions {
     display: flex;
     gap: 16px;
     justify-content: center;
@@ -351,7 +351,7 @@
     border-top: 2px solid rgba(160, 140, 112, 0.4);
 }
 
-.wow-button {
+.portal-config-dialog .wow-button {
     padding: 12px 24px;
     background: linear-gradient(135deg, #3d2817 0%, #4a3220 100%);
     border: 2px solid #a08c70;
@@ -365,32 +365,32 @@
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 
-.wow-button:hover {
+.portal-config-dialog .wow-button:hover {
     background: linear-gradient(135deg, #4a3220 0%, #5d3e29 100%);
     border-color: #c9aa71;
     transform: translateY(-2px);
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
 }
 
-.wow-button:disabled {
+.portal-config-dialog .wow-button:disabled {
     opacity: 0.5;
     cursor: not-allowed;
     transform: none;
     box-shadow: none;
 }
 
-.wow-button.primary {
+.portal-config-dialog .wow-button.primary {
     background: linear-gradient(135deg, #4a7c59 0%, #5d8a6b 100%);
     border-color: #6b9775;
     box-shadow: 0 2px 8px rgba(74, 124, 89, 0.3);
 }
 
-.wow-button.primary:hover {
+.portal-config-dialog .wow-button.primary:hover {
     background: linear-gradient(135deg, #5d8a6b 0%, #6b9775 100%);
     box-shadow: 0 6px 20px rgba(74, 124, 89, 0.4);
 }
 
-.wow-button.primary:disabled {
+.portal-config-dialog .wow-button.primary:disabled {
     background: linear-gradient(135deg, #3a5c49 0%, #4d6f5b 100%);
     border-color: #5b8565;
     box-shadow: none;

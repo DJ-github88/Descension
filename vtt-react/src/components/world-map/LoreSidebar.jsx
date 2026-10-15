@@ -530,9 +530,6 @@ const LoreSidebar = ({
         <i className="fas fa-times" />
       </button>
 
-      {/* Dynamic regional accent ribbon */}
-      <div className="lore-sidebar-accent" style={{ background: regionAccent }} />
-
       <div className="lore-sidebar-inner">
         {region ? (
           <>

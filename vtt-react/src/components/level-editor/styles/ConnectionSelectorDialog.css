@@ -1,19 +1,22 @@
+/* ConnectionSelectorDialog.css — Calm TTRPG Manuscript Theme */
+
 .connection-selector-container {
     padding: 20px;
     display: flex;
     flex-direction: column;
     height: 100%;
-    color: #e6d7ff;
-    font-family: 'Cinzel', serif;
+    color: #34251a;
+    font-family: 'Cinzel', Georgia, serif;
+    box-sizing: border-box;
 }
 
 .connection-selector-description {
-    margin-bottom: 20px;
-    font-size: 14px;
+    margin-bottom: 16px;
+    font-size: 13.5px;
     line-height: 1.5;
-    color: #1a1a1a;
-    font-weight: 600;
-    text-shadow: none;
+    color: #68533e;
+    font-family: Georgia, serif;
+    font-weight: 500;
 }
 
 .connection-list {
@@ -21,7 +24,7 @@
     max-height: 400px;
     overflow-y: auto;
     padding-right: 8px;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
 }
 
 /* Custom Scrollbar for Connection List */
@@ -30,105 +33,168 @@
 }
 
 .connection-list::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0.2);
+    background: rgba(182, 160, 128, 0.15);
     border-radius: 3px;
 }
 
 .connection-list::-webkit-scrollbar-thumb {
-    background: rgba(74, 144, 226, 0.4);
+    background: #b6a080;
     border-radius: 3px;
 }
 
 .connection-list::-webkit-scrollbar-thumb:hover {
-    background: rgba(74, 144, 226, 0.6);
+    background: #8b7355;
 }
 
 .connection-item-card {
-    padding: 14px;
-    margin-bottom: 12px;
-    background: rgba(255, 255, 255, 0.65);
-    border: 1.5px solid rgba(74, 144, 226, 0.3);
-    border-radius: 8px;
+    padding: 12px 14px;
+    margin-bottom: 10px;
+    background: rgba(255, 255, 255, 0.6);
+    border: 1px solid #c4baa6;
+    border-left: 3px solid #8b7355;
+    border-radius: 6px;
     cursor: pointer;
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.15s ease;
     position: relative;
     overflow: hidden;
 }
 
 .connection-item-card:hover {
     background: rgba(255, 255, 255, 0.85);
-    border-color: #3182ce;
-    transform: translateX(4px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border-color: #8b7355;
+    transform: translateX(2px);
+    box-shadow: 0 2px 6px rgba(52, 37, 26, 0.08);
 }
 
 .connection-item-card.selected {
-    background: rgba(235, 248, 255, 0.95);
-    border: 2px solid #2b6cb0;
-    box-shadow:
-        0 0 12px rgba(43, 108, 176, 0.3),
-        inset 0 0 8px rgba(66, 153, 225, 0.15);
+    background: #fbf7ee;
+    border-color: #663c32;
+    border-left: 3px solid #663c32;
+    box-shadow: 0 2px 8px rgba(52, 37, 26, 0.12);
 }
 
 .connection-item-header {
     display: flex;
     align-items: center;
     gap: 10px;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
 }
 
 .connection-item-icon-symbol {
-    font-size: 18px;
-    color: #2b6cb0;
+    font-size: 16px;
+    color: #8b7355;
 }
 
 .connection-item-name {
-    font-weight: bold;
-    font-size: 16px;
-    color: #1a365d;
+    font-weight: 700;
+    font-size: 15px;
+    color: #34251a;
+    font-family: 'Cinzel', Georgia, serif;
 }
 
 .connection-item-realm-badge {
     display: flex;
     align-items: center;
     gap: 8px;
-    font-size: 14px;
-    background: rgba(43, 108, 176, 0.08);
-    border: 1px solid rgba(43, 108, 176, 0.2);
-    border-radius: 6px;
-    padding: 6px 12px;
+    font-size: 12px;
+    background: rgba(180, 120, 40, 0.08);
+    border: 1px solid rgba(180, 120, 40, 0.25);
+    border-radius: 4px;
+    padding: 4px 8px;
     margin-top: 6px;
 }
 
 .connection-item-realm-badge .realm-icon {
-    color: #2b6cb0;
-    font-size: 16px;
+    color: #b07228;
+    font-size: 13px;
 }
 
 .connection-item-realm-badge .realm-label {
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 700;
-    color: #4a5568;
+    color: #7a6244;
     letter-spacing: 0.5px;
+    text-transform: uppercase;
+    font-family: 'Cinzel', Georgia, serif;
 }
 
 .connection-item-realm-badge .realm-name {
-    font-size: 15px;
-    font-weight: 800;
-    color: #1e3a8a;
+    font-size: 13px;
+    font-weight: 700;
+    color: #34251a;
+    font-family: 'Cinzel', Georgia, serif;
 }
 
 .connection-selector-actions {
     display: flex;
     justify-content: flex-end;
     gap: 12px;
-    padding-top: 15px;
-    border-top: 1px solid rgba(74, 144, 226, 0.2);
+    padding-top: 14px;
+    border-top: 1px solid #c4baa6;
+}
+
+.connection-selector-container .wow-button {
+    padding: 8px 20px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    font-family: 'Cinzel', Georgia, serif;
+    min-width: 100px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    border: 1px solid;
+}
+
+.connection-selector-container .wow-button:not(.primary) {
+    background: #e8e2d4;
+    border-color: #9c8970;
+    color: #34251a;
+    box-shadow: 0 1px 3px rgba(40, 30, 20, 0.1);
+}
+
+.connection-selector-container .wow-button:not(.primary):hover {
+    background: #ded6c5;
+    border-color: #83725b;
+    color: #231911;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 5px rgba(40, 30, 20, 0.15);
+}
+
+.connection-selector-container .wow-button.primary {
+    background: linear-gradient(180deg, #663c32 0%, #522d25 100%);
+    border-color: #421e17;
+    color: #fdf8ee;
+    box-shadow: 0 2px 5px rgba(60, 20, 15, 0.25);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+.connection-selector-container .wow-button.primary:hover:not(:disabled):not(.disabled) {
+    background: linear-gradient(180deg, #78473c 0%, #60362c 100%);
+    border-color: #4f261e;
+    color: #ffffff;
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(60, 20, 15, 0.35);
+}
+
+.connection-selector-container .wow-button.primary:disabled,
+.connection-selector-container .wow-button.primary.disabled {
+    background: #b5aba0 !important;
+    border-color: #9c9186 !important;
+    color: #6e6459 !important;
+    cursor: not-allowed;
+    opacity: 0.65;
+    box-shadow: none !important;
+    transform: none !important;
+    text-shadow: none !important;
 }
 
 .empty-connections-message {
     text-align: center;
-    padding: 40px 20px;
-    color: #999;
+    padding: 30px 20px;
+    color: #68533e;
+    font-family: Georgia, serif;
     font-style: italic;
+    font-size: 13px;
 }

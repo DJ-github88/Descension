@@ -47,11 +47,11 @@ const LocationPartyModal = ({
 
   return ReactDOM.createPortal(
     <div className="location-pin-modal-backdrop" onClick={onClose}>
-      <div className="location-pin-modal" style={{ maxWidth: '580px' }} onClick={(e) => e.stopPropagation()}>
+      <div className="location-pin-modal adventurer-window" style={{ maxWidth: '580px' }} onClick={(e) => e.stopPropagation()}>
         {/* Header */}
         <div className="location-pin-modal-header">
           <div className="modal-header-identity">
-            <div className="modal-pin-icon-box" style={{ background: 'radial-gradient(circle at 35% 35%, #ffd700 0%, #3a220a 100%)', borderColor: '#ffd700' }}>
+            <div className="modal-pin-icon-box" style={{ background: 'radial-gradient(circle at 35% 35%, var(--adventure-leather, #302419) 0%, #150f09 100%)', borderColor: 'var(--adventure-brass, #c4ab79)', color: 'var(--adventure-brass, #c4ab79)' }}>
               <i className="fas fa-shield-halved"></i>
             </div>
             <div className="modal-pin-titles">
@@ -69,7 +69,7 @@ const LocationPartyModal = ({
           {isEditing && isGM ? (
             <form onSubmit={handleSave} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
               <div>
-                <label style={{ display: 'block', fontSize: '12px', fontWeight: 800, color: '#5c3e21', marginBottom: '4px' }}>
+                <label style={{ display: 'block', fontSize: '12px', fontWeight: 800, color: 'var(--adventure-muted, #68533e)', marginBottom: '4px' }}>
                   Party / Fellowship Name
                 </label>
                 <input
@@ -80,10 +80,10 @@ const LocationPartyModal = ({
                   style={{
                     width: '100%',
                     padding: '8px 12px',
-                    background: '#fdfaf0',
-                    border: '1.5px solid #8c6738',
-                    borderRadius: '6px',
-                    color: '#2b1810',
+                    background: 'var(--adventure-page, #f1ece1)',
+                    border: '1px solid var(--adventure-rule, #b6a080)',
+                    borderRadius: '2px',
+                    color: 'var(--adventure-ink, #34251a)',
                     fontFamily: 'Cinzel, serif',
                     fontWeight: 700
                   }}
@@ -91,7 +91,7 @@ const LocationPartyModal = ({
               </div>
 
               <div>
-                <label style={{ display: 'block', fontSize: '12px', fontWeight: 800, color: '#5c3e21', marginBottom: '4px' }}>
+                <label style={{ display: 'block', fontSize: '12px', fontWeight: 800, color: 'var(--adventure-muted, #68533e)', marginBottom: '4px' }}>
                   Expedition Status
                 </label>
                 <input
@@ -102,19 +102,19 @@ const LocationPartyModal = ({
                   style={{
                     width: '100%',
                     padding: '8px 12px',
-                    background: '#fdfaf0',
-                    border: '1.5px solid #8c6738',
-                    borderRadius: '6px',
-                    color: '#2b1810'
+                    background: 'var(--adventure-page, #f1ece1)',
+                    border: '1px solid var(--adventure-rule, #b6a080)',
+                    borderRadius: '2px',
+                    color: 'var(--adventure-ink, #34251a)'
                   }}
                 />
               </div>
 
               {/* Beacon Size Scale */}
-              <div style={{ padding: '10px 12px', background: '#f8f3e6', borderRadius: '8px', border: '1.5px solid #8c6738' }}>
+              <div style={{ padding: '10px 12px', background: 'var(--adventure-panel, #e8e2d4)', borderRadius: '2px', border: '1px solid var(--adventure-rule, #b6a080)' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
-                  <label style={{ fontSize: '12px', fontWeight: 800, color: '#5c3e21', margin: 0 }}>
-                    <i className="fas fa-shield-halved" style={{ color: '#d4af37', marginRight: '6px' }} />
+                  <label style={{ fontSize: '12px', fontWeight: 800, color: 'var(--adventure-muted, #68533e)', margin: 0 }}>
+                    <i className="fas fa-shield-halved" style={{ color: 'var(--adventure-brass, #c4ab79)', marginRight: '6px' }} />
                     Beacon Marker Scale: <strong>{scale.toFixed(2)}x</strong>
                   </label>
                   <div style={{ display: 'flex', gap: '4px' }}>
@@ -130,14 +130,15 @@ const LocationPartyModal = ({
                         type="button"
                         onClick={() => setScale(p.val)}
                         style={{
-                          padding: '2px 6px',
+                          padding: '2px 7px',
                           fontSize: '10px',
                           fontWeight: 700,
-                          borderRadius: '4px',
-                          background: Math.abs(scale - p.val) < 0.05 ? '#d4af37' : '#fdfaf0',
-                          color: Math.abs(scale - p.val) < 0.05 ? '#1a0f05' : '#5c3e21',
-                          border: '1px solid #8c6738',
-                          cursor: 'pointer'
+                          borderRadius: '2px',
+                          background: Math.abs(scale - p.val) < 0.05 ? 'var(--adventure-leather, #302419)' : 'var(--adventure-paper, #faf6ee)',
+                          color: Math.abs(scale - p.val) < 0.05 ? 'var(--adventure-paper, #faf6ee)' : 'var(--adventure-ink, #34251a)',
+                          border: Math.abs(scale - p.val) < 0.05 ? '1px solid var(--adventure-leather, #302419)' : '1px solid var(--adventure-rule, #b6a080)',
+                          cursor: 'pointer',
+                          fontFamily: 'Cinzel, Georgia, serif'
                         }}
                       >
                         {p.label}
@@ -146,7 +147,7 @@ const LocationPartyModal = ({
                   </div>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                  <span style={{ fontSize: '10px', color: '#6d4c28', fontWeight: 700 }}>Compact</span>
+                  <span style={{ fontSize: '10px', color: 'var(--adventure-muted, #68533e)', fontWeight: 700 }}>Compact</span>
                   <input
                     type="range"
                     min="0.5"
@@ -154,27 +155,27 @@ const LocationPartyModal = ({
                     step="0.05"
                     value={scale}
                     onChange={(e) => setScale(parseFloat(e.target.value))}
-                    style={{ flex: 1, accentColor: '#8c6738', cursor: 'pointer' }}
+                    style={{ flex: 1, accentColor: 'var(--adventure-brass, #c4ab79)', cursor: 'pointer' }}
                   />
-                  <span style={{ fontSize: '10px', color: '#6d4c28', fontWeight: 700 }}>Heroic</span>
+                  <span style={{ fontSize: '10px', color: 'var(--adventure-muted, #68533e)', fontWeight: 700 }}>Heroic</span>
                 </div>
               </div>
 
               <div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
-                  <label style={{ fontSize: '12px', fontWeight: 800, color: '#5c3e21' }}>
+                  <label style={{ fontSize: '12px', fontWeight: 800, color: 'var(--adventure-muted, #68533e)' }}>
                     Party Camp Log &amp; Travel Notes
                   </label>
                   {/* Rich Text Format Bar */}
                   <div style={{ display: 'flex', gap: '3px' }}>
-                    <button type="button" className="btn-gm-action" style={{ padding: '2px 6px', fontSize: '10px' }} onClick={() => insertFormatting('**', '**')} title="Bold"><b>B</b></button>
-                    <button type="button" className="btn-gm-action" style={{ padding: '2px 6px', fontSize: '10px' }} onClick={() => insertFormatting('*', '*')} title="Italic"><i>I</i></button>
-                    <button type="button" className="btn-gm-action" style={{ padding: '2px 6px', fontSize: '10px' }} onClick={() => insertFormatting('<u>', '</u>')} title="Underline"><u>U</u></button>
-                    <button type="button" className="btn-gm-action" style={{ padding: '2px 6px', fontSize: '10px' }} onClick={() => insertFormatting('~~', '~~')} title="Strikethrough"><s>S</s></button>
-                    <button type="button" className="btn-gm-action" style={{ padding: '2px 6px', fontSize: '10px' }} onClick={() => insertFormatting('# ')} title="Heading 1">H1</button>
-                    <button type="button" className="btn-gm-action" style={{ padding: '2px 6px', fontSize: '10px' }} onClick={() => insertFormatting('- ')} title="Bullet List">• List</button>
-                    <button type="button" className="btn-gm-action" style={{ padding: '2px 6px', fontSize: '10px' }} onClick={() => insertFormatting('> ')} title="Quote">“ Quote</button>
-                    <button type="button" className="btn-gm-action" style={{ padding: '2px 6px', fontSize: '10px' }} onClick={() => insertFormatting('![Map Artwork](', ')')} title="Image">🖼 Img</button>
+                    <button type="button" className="btn-gm-action" style={{ padding: '2px 6px', fontSize: '10px', borderRadius: '2px' }} onClick={() => insertFormatting('**', '**')} title="Bold"><b>B</b></button>
+                    <button type="button" className="btn-gm-action" style={{ padding: '2px 6px', fontSize: '10px', borderRadius: '2px' }} onClick={() => insertFormatting('*', '*')} title="Italic"><i>I</i></button>
+                    <button type="button" className="btn-gm-action" style={{ padding: '2px 6px', fontSize: '10px', borderRadius: '2px' }} onClick={() => insertFormatting('<u>', '</u>')} title="Underline"><u>U</u></button>
+                    <button type="button" className="btn-gm-action" style={{ padding: '2px 6px', fontSize: '10px', borderRadius: '2px' }} onClick={() => insertFormatting('~~', '~~')} title="Strikethrough"><s>S</s></button>
+                    <button type="button" className="btn-gm-action" style={{ padding: '2px 6px', fontSize: '10px', borderRadius: '2px' }} onClick={() => insertFormatting('# ')} title="Heading 1">H1</button>
+                    <button type="button" className="btn-gm-action" style={{ padding: '2px 6px', fontSize: '10px', borderRadius: '2px' }} onClick={() => insertFormatting('- ')} title="Bullet List">• List</button>
+                    <button type="button" className="btn-gm-action" style={{ padding: '2px 6px', fontSize: '10px', borderRadius: '2px' }} onClick={() => insertFormatting('> ')} title="Quote">“ Quote</button>
+                    <button type="button" className="btn-gm-action" style={{ padding: '2px 6px', fontSize: '10px', borderRadius: '2px' }} onClick={() => insertFormatting('![Map Artwork](', ')')} title="Image">🖼 Img</button>
                   </div>
                 </div>
 
@@ -187,21 +188,22 @@ const LocationPartyModal = ({
                   style={{
                     width: '100%',
                     padding: '8px 12px',
-                    background: '#fdfaf0',
-                    border: '1.5px solid #8c6738',
-                    borderRadius: '6px',
-                    color: '#2b1810',
+                    background: 'var(--adventure-page, #f1ece1)',
+                    border: '1px solid var(--adventure-rule, #b6a080)',
+                    borderRadius: '2px',
+                    color: 'var(--adventure-ink, #34251a)',
                     fontSize: '13px',
-                    lineHeight: '1.5'
+                    lineHeight: '1.5',
+                    fontFamily: 'Crimson Text, Georgia, serif'
                   }}
                 />
               </div>
 
               <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px', marginTop: '6px' }}>
-                <button type="button" className="btn-gm-action" onClick={() => setIsEditing(false)}>
+                <button type="button" className="btn-gm-action" style={{ borderRadius: '2px' }} onClick={() => setIsEditing(false)}>
                   Cancel
                 </button>
-                <button type="submit" className="btn-gm-action active" style={{ fontWeight: 800 }}>
+                <button type="submit" className="btn-gm-action active" style={{ fontWeight: 800, borderRadius: '2px' }}>
                   <i className="fas fa-check"></i> Save Party Details
                 </button>
               </div>
@@ -209,22 +211,22 @@ const LocationPartyModal = ({
           ) : (
             <div>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
-                <span style={{ fontSize: '12px', color: '#6d4c28', fontStyle: 'italic' }}>
-                  <i className="fas fa-compass" style={{ color: '#d4af37' }}></i> Status: <strong>{status}</strong>
+                <span style={{ fontSize: '12px', color: 'var(--adventure-muted, #68533e)', fontStyle: 'italic' }}>
+                  <i className="fas fa-compass" style={{ color: 'var(--adventure-brass, #c4ab79)' }}></i> Status: <strong>{status}</strong>
                 </span>
                 {isGM && (
-                  <button type="button" className="btn-gm-action" onClick={() => setIsEditing(true)} style={{ fontSize: '11px', padding: '4px 10px' }}>
+                  <button type="button" className="btn-gm-action" onClick={() => setIsEditing(true)} style={{ fontSize: '11px', padding: '4px 10px', borderRadius: '2px' }}>
                     <i className="fas fa-pen"></i> Edit Party Notes
                   </button>
                 )}
               </div>
 
               {notes ? (
-                <div style={{ background: '#fdfbf5', padding: '14px', borderRadius: '8px', border: '1px solid #e8dcbe' }}>
+                <div style={{ background: 'var(--adventure-panel, #e8e2d4)', padding: '14px', borderRadius: '2px', border: '1px solid var(--adventure-rule, #b6a080)' }}>
                   <RichLoreText text={notes} className="parchment-theme" />
                 </div>
               ) : (
-                <p style={{ color: '#7a6a53', fontStyle: 'italic', margin: 0 }}>
+                <p style={{ color: 'var(--adventure-muted, #68533e)', fontStyle: 'italic', margin: 0 }}>
                   No expedition notes or marching orders recorded yet.
                 </p>
               )}

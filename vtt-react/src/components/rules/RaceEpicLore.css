@@ -1,21 +1,37 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Cinzel+Decorative:wght@400;700;900&family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Cinzel+Decorative:wght@400;700;900&family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap');
+
+/* ==========================================================================
+   MYTHRILL CALM TTRPG CODEX ARCHITECTURE
+   The Grand Codex of Ancestries & Lineages (RaceEpicLore)
+   Bound in hand-tooled Moroccan leather with illuminated vellum folios.
+   ========================================================================== */
 
 :root {
-    --tome-parchment-light: #fdfaf2;
-    --tome-parchment: #f6ebd6;
-    --tome-parchment-dark: #e8d7bb;
-    --tome-gold: #c5a146;
-    --tome-gold-bright: #f0cf65;
-    --tome-gold-dim: #99782b;
-    --tome-ink: #2b1a0e;
-    --tome-ink-light: #48321e;
-    --tome-ink-faded: #785c42;
-    --tome-border: #8b7355;
-    --tome-border-light: rgba(139, 115, 85, 0.25);
-    --tome-leather: #423023;
-    --tome-leather-light: #5a4435;
-    --tome-danger: #8a1d1d;
-    --tome-danger-bg: rgba(138, 29, 29, 0.05);
+    --tome-leather-outer: #1c120a;
+    --tome-leather: #281a11;
+    --tome-leather-mid: #382518;
+    --tome-leather-light: #483120;
+    --tome-parchment-light: #faf5eb;
+    --tome-parchment: #f3ebd8;
+    --tome-parchment-dark: #e5d7be;
+    --tome-parchment-deep: #d8c6a6;
+    --tome-parchment-border: #b6a080;
+    --tome-parchment-rule: rgba(182, 160, 128, 0.35);
+    --tome-ink-primary: #34251a;
+    --tome-ink-secondary: #5c4331;
+    --tome-ink-muted: #68533e;
+    --tome-ink-faded: #8a735c;
+    --tome-brass: #c4ab79;
+    --tome-brass-bright: #dfc882;
+    --tome-brass-dim: #9b7a3e;
+    --tome-seal: #663c32;
+    --tome-seal-dark: #4a2820;
+    --tome-seal-light: #7c483c;
+    --tome-danger: #8a241a;
+    --tome-danger-bg: rgba(138, 36, 26, 0.06);
+    --tome-font-heading: 'Cinzel', Georgia, serif;
+    --tome-font-decorative: 'Cinzel Decorative', 'Cinzel', Georgia, serif;
+    --tome-font-body: 'EB Garamond', 'Crimson Text', Georgia, serif;
 }
 
 /* ─── Tome Base Wrapper ─── */
@@ -23,115 +39,145 @@
     background: transparent;
     padding: 0;
     width: 100%;
-    max-width: 1400px;
+    max-width: 1420px;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
-    height: 90vh;
-    min-height: 600px;
-    max-height: 950px;
+    height: 92vh;
+    min-height: 620px;
+    max-height: 960px;
     position: relative;
+    box-sizing: border-box;
 }
 
-/* Override external overlay restrictions for wide tome spread */
+/* External Overlay overrides */
 .epic-lore-overlay .race-epic-lore-container {
-    max-width: 1400px !important;
+    max-width: 1420px !important;
 }
 
-/* ─── Header bar (Top bar outside the book for Close Button) ─── */
+/* ─── Top Header Bar (Outside the book boards) ─── */
 .tome-header-bar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 24px;
+    padding: 6px 14px 10px 14px;
     flex-shrink: 0;
     width: 100%;
-    z-index: 10;
+    z-index: 20;
+    box-sizing: border-box;
+}
+
+.tome-header-heraldry {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--tome-font-heading);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #dfcfb2;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
+}
+
+.tome-header-heraldry i {
+    color: var(--tome-brass, #c4ab79);
+    font-size: 13px;
 }
 
 .tome-header-title {
-    font-family: 'Cinzel', serif;
-    font-size: 13px;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: #ffd685;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.tome-header-title i {
-    color: var(--tome-gold-bright);
+    color: #dfcfb2;
 }
 
 .tome-close-btn {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     gap: 8px;
     background: linear-gradient(180deg, #663c32 0%, #4a2820 100%);
-    border: 1px solid #7c483c;
+    border: 1px solid var(--tome-parchment-border, #b6a080);
     border-radius: 4px;
-    padding: 6px 14px;
-    color: #f7ebd6;
+    padding: 5px 12px;
+    color: #faf5eb;
     cursor: pointer;
-    transition: background 0.2s ease, border-color 0.2s ease;
-    font-family: 'Cinzel', serif;
+    transition: all 0.2s ease;
+    font-family: var(--tome-font-heading);
     font-size: 11px;
     font-weight: 600;
     letter-spacing: 1.5px;
     text-transform: uppercase;
     box-shadow: 
-        0 2px 6px rgba(0, 0, 0, 0.4),
-        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+        0 2px 8px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .tome-close-btn:hover {
-    background: linear-gradient(180deg, #7a483c 0%, #593026 100%);
-    border-color: #a05c4d;
+    background: linear-gradient(180deg, #7c483c 0%, #593026 100%);
+    border-color: var(--tome-brass-bright, #dfc882);
+    color: #ffffff;
     box-shadow: 
-        0 4px 10px rgba(0, 0, 0, 0.5),
-        inset 0 1px 0 rgba(255, 255, 255, 0.25);
+        0 4px 12px rgba(0, 0, 0, 0.65),
+        0 0 10px rgba(196, 171, 121, 0.3);
+    transform: translateY(-1px);
 }
 
 .tome-close-btn:active {
     transform: translateY(0);
 }
 
-/* ─── Static Floating Close Button ─── */
+.tome-close-seal-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    font-size: 11px;
+    color: #dfcfb2;
+}
+
+.tome-close-text {
+    line-height: 1;
+}
+
+.tome-close-esc-badge {
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(196, 171, 121, 0.35);
+    border-radius: 3px;
+    padding: 1px 5px;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: #dfcfb2;
+    line-height: 1.1;
+}
+
+/* Static Floating Close Button (Hidden on desktop, shown on mobile) */
 .tome-floating-close-btn {
+    display: none;
     position: fixed;
-    top: 14px;
-    right: 14px;
-    width: 38px;
-    height: 38px;
+    top: 12px;
+    right: 12px;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
     background: #4a2820;
     border: 1.5px solid #b6a080;
-    color: #f7ebd6;
+    color: #faf5eb;
     cursor: pointer;
     z-index: 100000;
-    display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 15px;
-    box-shadow: 
-        0 4px 10px rgba(0, 0, 0, 0.5),
-        inset 0 1px 0 rgba(255, 255, 255, 0.15);
-    transition: background 0.2s ease, transform 0.15s ease;
+    font-size: 14px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+    transition: all 0.2s ease;
 }
 
 .tome-floating-close-btn:hover {
     background: #663c32;
-    border-color: #d8c29d;
+    border-color: #dfc882;
     transform: scale(1.05);
 }
 
-.tome-floating-close-btn:active {
-    transform: scale(0.95);
-}
-
-/* ─── Main Tome Spread Container ─── */
+/* ─── Main Tome Spread Container (Bound Leather Boards) ─── */
 .tome-spread-container {
     flex: 1;
     display: flex;
@@ -139,107 +185,216 @@
     width: 100%;
     height: 100%;
     min-height: 0;
-    background: var(--tome-leather);
+    background: radial-gradient(circle at 50% 30%, var(--tome-leather-mid) 0%, var(--tome-leather) 65%, var(--tome-leather-outer) 100%);
     border: 10px solid var(--tome-leather-light);
-    border-radius: 16px;
+    border-radius: 12px;
+    outline: 1px solid rgba(196, 171, 121, 0.35);
+    outline-offset: -5px;
     box-shadow: 
-        0 25px 50px rgba(0, 0, 0, 0.8),
-        0 10px 20px rgba(0, 0, 0, 0.6),
-        inset 0 0 40px rgba(0, 0, 0, 0.7);
+        0 28px 65px rgba(0, 0, 0, 0.85),
+        0 10px 24px rgba(0, 0, 0, 0.65),
+        inset 0 0 35px rgba(0, 0, 0, 0.8);
+    box-sizing: border-box;
 }
 
-/* Leather Texture details */
+/* Leather Texture Layer */
 .tome-spread-container::before {
     content: '';
     position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
+    inset: 0;
     background-image: 
-        radial-gradient(circle at 10% 10%, rgba(255, 255, 255, 0.05) 0%, transparent 40%),
-        radial-gradient(circle at 90% 90%, rgba(0, 0, 0, 0.4) 0%, transparent 50%);
+        radial-gradient(circle at 12% 15%, rgba(255, 255, 255, 0.04) 0%, transparent 45%),
+        radial-gradient(circle at 88% 85%, rgba(0, 0, 0, 0.5) 0%, transparent 55%);
     pointer-events: none;
-    z-index: 1;
+    z-index: 2;
+    border-radius: 3px;
 }
 
-/* ─── Tome Navigation Index Tabs (Protruding from top edge of book) ─── */
+/* Bound Leather Corner Protectors */
+.tome-leather-corner {
+    position: absolute;
+    width: 48px;
+    height: 48px;
+    pointer-events: none;
+    z-index: 15;
+    opacity: 0.9;
+}
+.tome-leather-corner.top-left { top: 0; left: 0; }
+.tome-leather-corner.top-right { top: 0; right: 0; transform: scaleX(-1); }
+.tome-leather-corner.bottom-left { bottom: 0; left: 0; transform: scaleY(-1); }
+.tome-leather-corner.bottom-right { bottom: 0; right: 0; transform: scale(-1); }
+
+/* Stack of Parchment Leaves Visible at Outer Sides */
+.tome-page-edges-left,
+.tome-page-edges-right {
+    position: absolute;
+    top: 12px;
+    bottom: 12px;
+    width: 6px;
+    pointer-events: none;
+    z-index: 1;
+    background: repeating-linear-gradient(
+        180deg,
+        #f0e4cc 0px,
+        #f0e4cc 2px,
+        #cfbe9e 2px,
+        #cfbe9e 3px
+    );
+    box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.4);
+}
+.tome-page-edges-left {
+    left: 4px;
+    border-radius: 3px 0 0 3px;
+    border-right: 1px solid #9b835e;
+}
+.tome-page-edges-right {
+    right: 4px;
+    border-radius: 0 3px 3px 0;
+    border-left: 1px solid #9b835e;
+}
+
+/* ─── Ribbon Bookmarks Navigation (Top edge archival tabs) ─── */
 .tome-bookmarks {
     position: absolute;
-    top: -36px;
+    top: -34px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
     gap: 6px;
     z-index: 100;
-    padding: 0 10px;
+    padding: 0 12px;
 }
 
 .tome-bookmark {
     position: relative;
-    border: 1.5px solid rgba(200, 170, 110, 0.5);
+    border: 1px solid rgba(182, 160, 128, 0.45);
     border-bottom: none;
-    border-radius: 8px 8px 0 0;
-    padding: 8px 16px;
-    color: #d4c5a9;
-    background: linear-gradient(180deg, #2b2018 0%, #17120e 100%);
-    font-family: 'Cinzel', serif;
+    border-radius: 7px 7px 0 0;
+    padding: 7px 16px;
+    color: #d9cbb7;
+    background: linear-gradient(180deg, #38271c 0%, #241810 100%);
+    font-family: var(--tome-font-heading);
     font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 1.2px;
+    font-weight: 600;
+    letter-spacing: 1.3px;
     text-transform: uppercase;
     cursor: pointer;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    gap: 8px;
-    height: 36px;
-    min-height: 36px;
-    transform-origin: bottom center;
-    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-    box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-    clip-path: none;
-}
-
-.tome-bookmark::before {
-    display: none;
-}
-
-.tome-bookmark::after {
-    display: none;
+    gap: 7px;
+    height: 35px;
+    min-height: 35px;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 
+        0 -3px 8px rgba(0, 0, 0, 0.45),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .tome-bookmark i {
     font-size: 12px;
-    color: #c5a146;
+    color: var(--tome-brass, #c4ab79);
     transition: transform 0.2s ease;
 }
 
+.tome-bookmark-accent-pip {
+    display: none;
+}
+
 .tome-bookmark:hover {
-    background: linear-gradient(180deg, #3d2f23 0%, #221b14 100%);
-    border-color: #c5a146;
-    color: #f6ebd6;
-    transform: translateY(-3px);
-    box-shadow: 0 -6px 15px rgba(0, 0, 0, 0.6), 0 0 10px rgba(197, 161, 70, 0.2);
+    background: linear-gradient(180deg, #4d3627 0%, #302015 100%);
+    border-color: var(--tome-brass-bright, #dfc882);
+    color: #faf5eb;
+    transform: translateY(-2px);
+    box-shadow: 
+        0 -5px 12px rgba(0, 0, 0, 0.55),
+        0 0 8px rgba(196, 171, 121, 0.25);
 }
 
 .tome-bookmark:hover i {
     transform: scale(1.15);
 }
 
-/* Active index tab — elevated lit parchment sheet */
+/* Active Index Tab — Seamlessly Extends the Open Parchment Folio */
 .tome-bookmark.active {
-    background: var(--tome-parchment-light, #fdfaf2) !important;
-    border-color: var(--tome-border, #8b7355) !important;
-    color: var(--tome-ink, #2b1a0e) !important;
+    background: linear-gradient(180deg, #faf5eb 0%, #efe6d4 100%) !important;
+    border: 1.5px solid var(--tome-parchment-border, #b6a080) !important;
+    border-top: 3px solid var(--tome-seal, #663c32) !important;
+    border-bottom: none !important;
+    color: var(--tome-ink-primary, #34251a) !important;
     font-weight: 700;
-    height: 38px;
-    min-height: 38px;
-    transform: translateY(-3px);
-    box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+    height: 37px;
+    min-height: 37px;
+    transform: translateY(-2px);
+    box-shadow: 
+        0 -4px 10px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
     z-index: 105;
 }
 
 .tome-bookmark.active i {
-    color: #7c483c !important;
+    color: var(--tome-seal, #663c32) !important;
+}
+
+/* ─── Gilded Marginal Thumb Index Turn Buttons ─── */
+.tome-edge-nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 32px;
+    height: 72px;
+    background: linear-gradient(135deg, #3d291b 0%, #291a10 100%);
+    border: 1.5px solid var(--tome-parchment-border, #b6a080);
+    box-shadow: 
+        0 4px 14px rgba(0, 0, 0, 0.55),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    color: #faf5eb;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 30;
+}
+
+.tome-edge-nav-btn.prev-btn {
+    left: 2px;
+    border-radius: 8px 0 0 8px;
+    border-right: none;
+}
+
+.tome-edge-nav-btn.next-btn {
+    right: 2px;
+    border-radius: 0 8px 8px 0;
+    border-left: none;
+}
+
+.tome-edge-tab-inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--tome-brass, #c4ab79);
+    transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.tome-edge-nav-btn:hover {
+    width: 42px;
+    background: linear-gradient(135deg, #523825 0%, #362215 100%);
+    border-color: var(--tome-brass-bright, #dfc882);
+    box-shadow: 
+        0 6px 18px rgba(0, 0, 0, 0.65),
+        0 0 12px rgba(196, 171, 121, 0.35);
+}
+
+.tome-edge-nav-btn:hover .tome-edge-tab-inner {
+    color: #ffffff;
+    transform: scale(1.2);
+}
+
+.tome-edge-nav-btn:active {
+    transform: translateY(-50%) scale(0.96);
 }
 
 /* ─── Pages Scroll Container ─── */
@@ -252,66 +407,85 @@
     min-height: 0;
 }
 
-/* ─── Pages ─── */
+/* ─── Folio Leaves (Pages) ─── */
 .tome-page {
     flex: 1;
-    margin-top: 0;
-    margin-bottom: 0;
     height: 100%;
-    background: radial-gradient(circle at center, var(--tome-parchment-light) 0%, var(--tome-parchment) 60%, var(--tome-parchment-dark) 100%);
     position: relative;
-    padding: 20px;
-    overflow: hidden; /* Prevent page-level scrollbars completely */
-    color: var(--tome-ink);
-    z-index: 2;
+    padding: 16px;
+    overflow: hidden;
+    color: var(--tome-ink-primary);
+    z-index: 3;
     display: flex;
     flex-direction: column;
+    box-sizing: border-box;
 }
 
 .tome-page.left-page {
-    box-shadow: inset -15px 0 25px rgba(60, 45, 30, 0.15);
-    border-radius: 8px 0 0 8px;
+    background: radial-gradient(circle at 60% 40%, var(--tome-parchment-light) 0%, var(--tome-parchment) 60%, var(--tome-parchment-dark) 100%);
+    box-shadow: inset -22px 0 28px -10px rgba(45, 30, 18, 0.28);
+    border-radius: 6px 0 0 6px;
 }
 
 .tome-page.right-page {
-    box-shadow: inset 15px 0 25px rgba(60, 45, 30, 0.15);
-    border-radius: 0 8px 8px 0;
+    background: radial-gradient(circle at 40% 40%, var(--tome-parchment-light) 0%, var(--tome-parchment) 60%, var(--tome-parchment-dark) 100%);
+    box-shadow: inset 22px 0 28px -10px rgba(45, 30, 18, 0.28);
+    border-radius: 0 6px 6px 0;
 }
+
+/* ─── Illuminated Corner Flourishes (SVG in 4 corners) ─── */
+.tome-corner-flourish {
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    pointer-events: none;
+    z-index: 6;
+    opacity: 0.85;
+}
+
+.tome-corner-flourish.top-left { top: 8px; left: 8px; }
+.tome-corner-flourish.top-right { top: 8px; right: 8px; transform: scaleX(-1); }
+.tome-corner-flourish.bottom-left { bottom: 8px; left: 8px; transform: scaleY(-1); }
+.tome-corner-flourish.bottom-right { bottom: 8px; right: 8px; transform: scale(-1); }
 
 /* ─── Filigree Border Frame ─── */
 .tome-page-filigree {
-    border: 1px solid rgba(139, 115, 85, 0.3);
-    outline: 2px double var(--tome-border);
+    border: 1px solid rgba(182, 160, 128, 0.38);
+    outline: 1.5px double var(--tome-parchment-border);
     outline-offset: -4px;
     height: 100%;
     min-height: 100%;
     position: relative;
-    padding: 16px;
+    padding: 12px 16px 10px 16px;
     display: flex;
     flex-direction: column;
-    overflow: hidden; /* Keeps child content isolated inside borders */
+    overflow: hidden;
+    border-radius: 3px;
+    box-sizing: border-box;
 }
 
-/* Corner flourishing */
-.tome-page-filigree::before {
-    content: '\2746'; /* Retro floriated symbol */
-    position: absolute;
-    font-family: 'Cinzel', serif;
-    font-size: 16px;
-    color: var(--tome-gold-dim);
-    width: 20px;
-    height: 20px;
+/* Running Header along the top of each page */
+.tome-running-header {
     display: flex;
     align-items: center;
     justify-content: center;
-    opacity: 0.75;
-    z-index: 5;
+    padding-bottom: 4px;
+    margin-bottom: 6px;
+    border-bottom: 1px solid rgba(182, 160, 128, 0.25);
+    flex-shrink: 0;
 }
 
-.left-page .tome-page-filigree::before { top: 0; left: 0; }
-.right-page .tome-page-filigree::before { top: 0; right: 0; }
+.tome-running-header span {
+    font-family: var(--tome-font-heading);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--tome-ink-muted, #68533e);
+    opacity: 0.8;
+}
 
-/* ─── Page Content Container with Graceful Overflow Protection ─── */
+/* ─── Page Content Container with Calm Scroll ─── */
 .tome-page-content {
     display: flex;
     flex-direction: column;
@@ -319,9 +493,9 @@
     min-height: 0;
     overflow-y: auto !important;
     overflow-x: hidden !important;
-    padding-right: 4px;
+    padding-right: 6px;
     scrollbar-width: thin;
-    scrollbar-color: rgba(139, 115, 85, 0.35) transparent;
+    scrollbar-color: rgba(182, 160, 128, 0.45) transparent;
 }
 
 .tome-page-content::-webkit-scrollbar {
@@ -333,348 +507,493 @@
 }
 
 .tome-page-content::-webkit-scrollbar-thumb {
-    background: rgba(139, 115, 85, 0.35);
+    background: rgba(182, 160, 128, 0.45);
     border-radius: 4px;
 }
 
 .tome-page-content::-webkit-scrollbar-thumb:hover {
-    background: rgba(102, 60, 50, 0.6);
+    background: var(--tome-seal, #663c32);
 }
 
-/* ─── Spine Divider (Binding) ─── */
+/* ─── Spine & Central Valley Gutter ─── */
 .tome-spine {
-    width: 36px;
+    width: 32px;
     height: 100%;
     background: linear-gradient(to right,
-        rgba(30, 20, 10, 0.45) 0%,
-        rgba(30, 20, 10, 0.65) 30%,
-        rgba(10, 5, 2, 0.85) 50%,
-        rgba(255, 255, 255, 0.08) 60%,
-        rgba(30, 20, 10, 0.5) 100%);
+        rgba(25, 16, 10, 0.6) 0%,
+        rgba(25, 16, 10, 0.85) 35%,
+        rgba(10, 5, 2, 0.95) 50%,
+        rgba(255, 255, 255, 0.06) 60%,
+        rgba(25, 16, 10, 0.65) 100%);
     box-shadow: 
-        inset 4px 0 10px rgba(0, 0, 0, 0.5),
-        inset -4px 0 10px rgba(0, 0, 0, 0.5);
+        inset 6px 0 12px rgba(0, 0, 0, 0.6),
+        inset -6px 0 12px rgba(0, 0, 0, 0.6);
     position: relative;
-    z-index: 5;
+    z-index: 10;
     flex-shrink: 0;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 60px 0;
     align-items: center;
+    padding: 40px 0;
 }
 
-.tome-spine-ring {
+.tome-spine-gutter-shadow {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.4) 0%, transparent 15%, transparent 85%, rgba(0, 0, 0, 0.4) 100%);
+}
+
+/* Silk Ribbon Bookmark Drape down the spine gutter */
+.tome-spine-ribbon {
+    position: absolute;
+    top: -12px;
     width: 14px;
-    height: 28px;
-    background: linear-gradient(135deg, var(--tome-gold-bright) 0%, var(--tome-gold) 50%, #4f3b0f 100%);
-    border: 1.5px solid #2e2307;
-    border-radius: 4px;
+    height: calc(100% + 28px);
+    background: linear-gradient(90deg, #7c3b2e 0%, #663c32 45%, #4a241b 100%);
+    border-left: 1px solid rgba(223, 200, 130, 0.55);
+    border-right: 1px solid rgba(223, 200, 130, 0.55);
     box-shadow: 
-        3px 3px 6px rgba(0, 0, 0, 0.7),
-        -3px 3px 6px rgba(0, 0, 0, 0.7);
-    opacity: 0.9;
+        2px 4px 10px rgba(0, 0, 0, 0.5),
+        inset 0 0 4px rgba(0, 0, 0, 0.3);
+    z-index: 12;
+    pointer-events: none;
+    border-radius: 2px 2px 0 0;
+}
+
+.tome-spine-ribbon-tail {
+    position: absolute;
+    bottom: -12px;
+    left: 0;
+    width: 14px;
+    height: 12px;
+    background: inherit;
+    border-left: inherit;
+    border-right: inherit;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 60%, 0 100%);
+}
+
+/* Raised Leather Binding Cords */
+.tome-spine-band {
+    width: 20px;
+    height: 9px;
+    background: linear-gradient(180deg, #5c3e29 0%, #301f14 50%, #1a100a 100%);
+    border-top: 1px solid rgba(210, 180, 125, 0.5);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.7);
+    border-radius: 2px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.65);
+    position: relative;
+    z-index: 10;
 }
 
 /* ─── Typography & Shared Elements ─── */
-.tome-page-title {
-    font-family: 'Cinzel', serif;
-    font-size: 24px;
-    font-weight: 700;
-    color: var(--tome-ink);
-    margin: 0 0 6px 0;
-    text-transform: uppercase;
-    letter-spacing: 2px;
+.tome-page-heading-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
-    border-bottom: 2px solid var(--tome-border-light);
-    padding-bottom: 6px;
+    margin-bottom: 10px;
+    flex-shrink: 0;
 }
 
 .tome-page-subtitle {
-    font-family: 'Cinzel', serif;
+    font-family: var(--tome-font-heading);
     font-size: 11px;
-    color: var(--tome-ink-faded);
+    font-weight: 600;
+    color: var(--tome-ink-muted, #68533e);
     text-transform: uppercase;
     letter-spacing: 3px;
-    text-align: center;
-    margin-bottom: 12px;
+    margin-bottom: 4px;
+}
+
+.tome-page-title {
+    font-family: var(--tome-font-heading);
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--tome-ink-primary, #34251a);
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.tome-heading-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 80%;
+    margin-top: 6px;
+}
+
+.tome-divider-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, var(--tome-parchment-border, #b6a080) 50%, transparent 100%);
+}
+
+.tome-divider-glyph {
+    font-family: var(--tome-font-heading);
+    font-size: 11px;
+    color: var(--tome-brass-dim, #9b7a3e);
+    letter-spacing: 2px;
 }
 
 .tome-section-header {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 9px;
     margin-bottom: 12px;
-    border-bottom: 1px solid var(--tome-border-light);
-    padding-bottom: 4px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid var(--tome-parchment-rule, rgba(182, 160, 128, 0.35));
     flex-shrink: 0;
 }
 
-.tome-section-header i {
-    color: var(--tome-gold-dim);
-    font-size: 14px;
+.tome-section-header.compact {
+    margin-bottom: 8px;
+    padding-bottom: 4px;
+}
+
+.tome-section-icon-wrap {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: rgba(182, 160, 128, 0.15);
+    border: 1px solid rgba(182, 160, 128, 0.4);
+    color: var(--tome-brass-dim, #9b7a3e);
+    font-size: 11px;
+    flex-shrink: 0;
+}
+
+.tome-section-icon-wrap.crisis {
+    background: rgba(138, 36, 26, 0.1);
+    border-color: rgba(138, 36, 26, 0.35);
+    color: var(--tome-danger, #8a241a);
 }
 
 .tome-section-title {
-    font-family: 'Cinzel', serif;
-    font-size: 13px;
+    font-family: var(--tome-font-heading);
+    font-size: 13.5px;
     font-weight: 700;
-    color: var(--tome-ink);
+    color: var(--tome-ink-primary, #34251a);
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 1.2px;
     margin: 0;
+    white-space: nowrap;
 }
 
-/* Narrative text styles */
+.tome-section-rule {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(182, 160, 128, 0.4) 0%, transparent 100%);
+}
+
+/* ─── Narrative Text Styles ─── */
+.tome-narrative-flow {
+    display: flex;
+    flex-direction: column;
+}
+
 .tome-body-text {
-    font-family: 'EB Garamond', 'Georgia', serif;
+    font-family: var(--tome-font-body);
     font-size: 16px;
     line-height: 1.8;
-    color: var(--tome-ink-light);
+    color: var(--tome-ink-primary, #34251a);
     text-align: justify;
     margin: 0 0 16px 0;
     white-space: pre-line;
 }
 
-/* Drop Cap! */
-.tome-drop-cap {
-    font-family: 'Cinzel Decorative', 'Cinzel', serif;
-    font-size: 3.5rem;
-    font-weight: 900;
-    float: left;
-    line-height: 0.8;
-    padding: 4px 6px 0px 0px;
-    color: var(--tome-ink);
-    text-shadow: 1px 1px 0 rgba(197, 161, 70, 0.3);
-}
-
-.tome-divider-ornament {
+.tome-flavor-intro {
+    font-style: italic;
     text-align: center;
-    color: var(--tome-gold-dim);
-    font-size: 14px;
-    margin: 16px 0;
-    opacity: 0.65;
+    color: var(--tome-ink-secondary, #5c4331);
+    padding: 0 16px 4px 16px;
+    opacity: 0.95;
 }
 
-/* ─── Page Flip / Content Transitions ─── */
-.tome-page-content.page-flip-fade {
-    animation: tomePageFadeIn 0.35s ease-out forwards;
+.tome-empty-note {
+    font-style: italic;
+    color: var(--tome-ink-faded, #8a735c);
+    text-align: center;
+    padding: 24px 0;
 }
 
-@keyframes tomePageFadeIn {
-    0% {
-        opacity: 0.3;
-        transform: scale(0.99) rotateY(-2deg);
-    }
-    100% {
-        opacity: 1;
-        transform: scale(1) rotateY(0);
-    }
+.tome-lead-term {
+    font-family: var(--tome-font-heading);
+    font-size: 12.5px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: var(--tome-ink-primary, #34251a);
 }
 
-/* ─── Left Page Illustration ─── */
+/* ─── Interactive LoreLink Rubrication ─── */
+.tome-body-text .lore-link {
+    color: var(--tome-seal, #663c32);
+    text-decoration: underline dotted rgba(102, 60, 50, 0.45);
+    text-underline-offset: 3px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    border-radius: 2px;
+    padding: 0 2px;
+}
+
+.tome-body-text .lore-link:hover {
+    color: #8b251a;
+    background: rgba(196, 171, 121, 0.2);
+    text-decoration: underline solid #8b251a;
+}
+
+/* ─── Illuminated Drop Cap ─── */
+.tome-drop-cap-wrapper {
+    position: relative;
+}
+
+.tome-drop-cap {
+    float: left;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    margin: 3px 12px 3px 0;
+    background: linear-gradient(135deg, #fdfaf3 0%, #ede3cc 60%, #ded0b6 100%);
+    border: 1.5px solid var(--tome-parchment-border, #b6a080);
+    outline: 1px solid rgba(196, 171, 121, 0.45);
+    outline-offset: -3px;
+    border-radius: 4px;
+    box-shadow: 
+        1px 3px 8px rgba(52, 37, 26, 0.16),
+        inset 0 1px 0 rgba(255, 255, 255, 0.85);
+    color: var(--tome-seal, #663c32);
+    user-select: none;
+    line-height: 1;
+}
+
+.tome-drop-cap-letter {
+    font-family: var(--tome-font-decorative);
+    font-size: 2.1rem;
+    font-weight: 700;
+    line-height: 1;
+    display: block;
+    margin-top: -2px;
+    text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+/* ─── Left Page: Intaglio Illustration Passe-Partout ─── */
 .tome-illustration-container {
     width: 100%;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
     display: flex;
     justify-content: center;
     flex-shrink: 0;
 }
 
 .tome-illustration-frame {
-    border: 3px double var(--tome-border);
+    position: relative;
+    border: 2px solid var(--tome-parchment-border, #b6a080);
     padding: 6px;
-    background: var(--tome-parchment-light);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    background: linear-gradient(135deg, #faf6ee 0%, #ede3cc 100%);
+    box-shadow: 
+        0 6px 18px rgba(52, 37, 26, 0.18),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.8);
     max-width: 90%;
     width: 250px;
+    border-radius: 4px;
+}
+
+.tome-frame-inner {
+    border: 1px solid rgba(182, 160, 128, 0.5);
+    overflow: hidden;
+    border-radius: 2px;
+    line-height: 0;
 }
 
 .tome-illustration-image {
     width: 100%;
-    height: 180px;
+    height: 175px;
     object-fit: cover;
-    filter: sepia(0.3) contrast(1.1) brightness(0.95);
-    border: 1px solid rgba(139, 115, 85, 0.5);
+    filter: sepia(0.25) contrast(1.08) brightness(0.96);
+    display: block;
 }
 
-/* Elegant caption sitting BELOW the frame */
-.tome-illustration-caption {
-    font-family: 'EB Garamond', serif;
-    font-size: 13px;
-    font-style: italic;
-    color: var(--tome-ink-faded);
+.tome-frame-corner {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-color: var(--tome-brass, #c4ab79);
+    border-style: solid;
+    pointer-events: none;
+}
+.tome-frame-corner.tl { top: 3px; left: 3px; border-width: 2px 0 0 2px; }
+.tome-frame-corner.tr { top: 3px; right: 3px; border-width: 2px 2px 0 0; }
+.tome-frame-corner.bl { bottom: 3px; left: 3px; border-width: 0 0 2px 2px; }
+.tome-frame-corner.br { bottom: 3px; right: 3px; border-width: 0 2px 2px 0; }
+
+/* Illustration quotation block */
+.tome-illustration-quote {
+    margin: 4px 8px 12px 8px;
+    padding: 6px 14px;
+    background: rgba(182, 160, 128, 0.08);
+    border-left: 2px solid var(--tome-brass-dim, #9b7a3e);
+    border-right: 2px solid var(--tome-brass-dim, #9b7a3e);
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
     text-align: center;
-    margin-bottom: 14px;
-    line-height: 1.4;
-    padding: 0 24px;
+    flex-shrink: 0;
 }
 
-/* ─── Heritage statistics grid ─── */
+.tome-quote-symbol {
+    font-family: var(--tome-font-decorative);
+    font-size: 18px;
+    color: var(--tome-brass-dim, #9b7a3e);
+    opacity: 0.7;
+    line-height: 1;
+}
+
+.tome-quote-text {
+    font-family: var(--tome-font-body);
+    font-size: 13.5px;
+    font-style: italic;
+    line-height: 1.45;
+    color: var(--tome-ink-secondary, #5c4331);
+}
+
+/* ─── Left Page: Ancestral Statistics Rubric Table ─── */
+.tome-stats-rubric {
+    background: rgba(182, 160, 128, 0.08);
+    border: 1px solid rgba(182, 160, 128, 0.4);
+    border-radius: 4px;
+    padding: 10px 14px 12px;
+    margin-top: auto;
+    margin-bottom: 8px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.04);
+    flex-shrink: 0;
+}
+
+.tome-rubric-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 8px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid rgba(182, 160, 128, 0.3);
+}
+
+.tome-rubric-fleuron {
+    color: var(--tome-brass-dim, #9b7a3e);
+    font-size: 10px;
+}
+
+.tome-rubric-title {
+    font-family: var(--tome-font-heading);
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--tome-ink-muted, #68533e);
+}
+
 .tome-stats-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 8px;
-    background: rgba(139, 115, 85, 0.05);
-    border: 1px dashed var(--tome-border-light);
-    border-radius: 6px;
-    padding: 12px;
-    margin-bottom: 12px;
-    flex-shrink: 0;
+    gap: 10px 14px;
 }
 
 .tome-stat-item {
     display: flex;
     flex-direction: column;
+    gap: 2px;
 }
 
 .tome-stat-item.full-width {
     grid-column: span 2;
+    padding-top: 4px;
+    border-top: 1px dashed rgba(182, 160, 128, 0.3);
 }
 
 .tome-stat-label {
-    font-family: 'Cinzel', serif;
-    font-size: 9px;
+    font-family: var(--tome-font-heading);
+    font-size: 9.5px;
     font-weight: 700;
-    color: var(--tome-ink-faded);
+    letter-spacing: 0.8px;
+    color: var(--tome-ink-muted, #68533e);
     text-transform: uppercase;
 }
 
 .tome-stat-val {
-    font-family: 'EB Garamond', serif;
-    font-size: 14px;
+    font-family: var(--tome-font-body);
+    font-size: 14.5px;
     font-weight: 700;
-    color: var(--tome-ink);
+    color: var(--tome-ink-primary, #34251a);
 }
 
-.tome-left-page-intro-text {
-    flex-shrink: 0;
-    margin-top: 4px;
-}
-
-/* ─── Floating Outer Edge Page Turn Buttons ─── */
-.tome-edge-nav-btn {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 38px;
-    height: 76px;
-    background: linear-gradient(135deg, #4a2820 0%, #341c16 100%);
-    border: 1.5px solid #b6a080;
-    box-shadow: 
-        0 6px 16px rgba(0, 0, 0, 0.6),
-        inset 0 1px 0 rgba(255, 255, 255, 0.15);
-    color: #f7ebd6;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;
-    transition: all 0.25s ease;
-    z-index: 25;
-}
-
-.tome-edge-nav-btn.prev-btn {
-    left: 4px;
-    border-radius: 8px 0 0 8px;
-}
-
-.tome-edge-nav-btn.next-btn {
-    right: 4px;
-    border-radius: 0 8px 8px 0;
-}
-
-.tome-edge-nav-btn:hover {
-    width: 44px;
-    background: linear-gradient(135deg, #663c32 0%, #4a2820 100%);
-    border-color: #d8c29d;
-    color: #ffffff;
-    box-shadow: 
-        0 8px 20px rgba(0, 0, 0, 0.7),
-        0 0 10px rgba(182, 160, 128, 0.3);
-}
-
-.tome-edge-nav-btn.prev-btn:hover {
-    left: 2px;
-}
-
-.tome-edge-nav-btn.next-btn:hover {
-    right: 2px;
-}
-
-.tome-edge-nav-btn:active {
-    transform: translateY(-50%) scale(0.95);
-}
-
-/* ─── Master-Detail Flow: Left Side Index cards ─── */
+/* ─── Figures & Locations Index Lists ─── */
 .tome-index-list {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 8px;
     overflow-y: auto !important;
     max-height: 100%;
     flex: 1;
     padding-right: 6px;
     scrollbar-width: thin;
-    scrollbar-color: rgba(139, 115, 85, 0.35) transparent;
-}
-
-.tome-index-list::-webkit-scrollbar {
-    width: 4px;
-}
-
-.tome-index-list::-webkit-scrollbar-thumb {
-    background: rgba(139, 115, 85, 0.35);
-    border-radius: 3px;
+    scrollbar-color: rgba(182, 160, 128, 0.45) transparent;
 }
 
 .tome-index-card {
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 10px 14px;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.08) 100%);
-    border: 1px solid rgba(139, 115, 85, 0.3);
-    border-radius: 8px;
+    padding: 8px 12px;
+    background: rgba(255, 255, 255, 0.4);
+    border: 1px solid rgba(182, 160, 128, 0.35);
+    border-radius: 4px;
     cursor: pointer;
-    transition: all 0.25s ease;
+    transition: all 0.2s ease;
     position: relative;
 }
 
-.tome-index-card::before {
-    content: '';
-    position: absolute;
-    left: 0; top: 8px; bottom: 8px;
-    width: 3px;
-    background: var(--tome-gold-dim);
-    border-radius: 0 2px 2px 0;
-    opacity: 0;
-    transition: opacity 0.2s ease;
-}
-
 .tome-index-card:hover {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.2) 100%);
-    border-color: var(--tome-gold-dim);
+    background: rgba(255, 255, 255, 0.75);
+    border-color: var(--tome-brass, #c4ab79);
     transform: translateX(2px);
+    box-shadow: 0 2px 6px rgba(52, 37, 26, 0.08);
 }
 
 .tome-index-card.active {
-    background: linear-gradient(135deg, rgba(197, 161, 70, 0.12) 0%, rgba(197, 161, 70, 0.04) 100%);
-    border-color: var(--tome-gold);
-    box-shadow: 0 2px 8px rgba(139, 115, 85, 0.15);
+    background: linear-gradient(135deg, rgba(196, 171, 121, 0.22) 0%, rgba(245, 238, 224, 0.8) 100%);
+    border-color: var(--tome-brass-dim, #9b7a3e);
+    box-shadow: 0 2px 8px rgba(52, 37, 26, 0.12);
 }
 
 .tome-index-card.active::before {
-    opacity: 1;
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 6px;
+    bottom: 6px;
+    width: 3px;
+    background: var(--tome-seal, #663c32);
+    border-radius: 0 2px 2px 0;
 }
 
 .tome-card-portrait {
     width: 44px;
     height: 44px;
     border-radius: 50%;
-    border: 2px solid var(--tome-border);
+    border: 2px solid var(--tome-parchment-border, #b6a080);
     padding: 2px;
-    background: var(--tome-parchment-light);
+    background: var(--tome-parchment-light, #faf5eb);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     flex-shrink: 0;
 }
 
@@ -703,61 +1022,51 @@
 }
 
 .tome-card-name {
-    font-family: 'Cinzel', serif;
-    font-size: 12px;
+    font-family: var(--tome-font-heading);
+    font-size: 13px;
     font-weight: 700;
-    color: var(--tome-ink);
+    color: var(--tome-ink-primary, #34251a);
     margin: 0;
 }
 
 .tome-card-title {
-    font-family: 'Cinzel', serif;
-    font-size: 9px;
-    color: var(--tome-gold-dim);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin: 2px 0 0 0;
+    font-family: var(--tome-font-body);
+    font-size: 12px;
+    font-style: italic;
+    color: var(--tome-ink-muted, #68533e);
+    margin: 2px 0 0;
+    display: block;
+}
+
+.tome-card-chevron {
+    color: var(--tome-brass-dim, #9b7a3e);
+    font-size: 11px;
+    opacity: 0.5;
+    transition: all 0.2s ease;
+}
+
+.tome-index-card:hover .tome-card-chevron,
+.tome-index-card.active .tome-card-chevron {
+    opacity: 1;
+    transform: scale(1.15);
 }
 
 .tome-card-pin {
-    width: 24px;
-    height: 24px;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #a13f3f 0%, #702626 100%);
-    border: 1px solid #4a1515;
-    color: #fbf7ee;
+    background: linear-gradient(135deg, #3d5a47 0%, #293d30 100%);
+    border: 1.5px solid var(--tome-brass, #c4ab79);
+    color: #faf5eb;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 10px;
-    box-shadow: 0 2px 4px rgba(112, 38, 38, 0.4);
+    font-size: 12px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
     flex-shrink: 0;
 }
 
 /* ─── Detail View (Right Page) ─── */
-.tome-detail-empty {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    text-align: center;
-    gap: 12px;
-    color: var(--tome-ink-faded);
-}
-
-.tome-detail-empty i {
-    font-size: 36px;
-    color: var(--tome-border);
-    opacity: 0.6;
-}
-
-.tome-detail-empty p {
-    font-family: 'EB Garamond', serif;
-    font-size: 16px;
-    font-style: italic;
-}
-
 .tome-figure-detail {
     display: flex;
     flex-direction: column;
@@ -768,20 +1077,21 @@
     display: flex;
     align-items: center;
     gap: 16px;
-    border-bottom: 2px solid var(--tome-border-light);
     padding-bottom: 12px;
-    margin-bottom: 16px;
+    margin-bottom: 14px;
+    border-bottom: 1px solid rgba(182, 160, 128, 0.4);
     flex-shrink: 0;
 }
 
 .tome-detail-portrait {
-    width: 64px;
-    height: 64px;
+    width: 68px;
+    height: 68px;
     border-radius: 50%;
-    border: 3px solid var(--tome-gold);
+    border: 3px double var(--tome-brass, #c4ab79);
     padding: 3px;
-    background: var(--tome-parchment-light);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    background: var(--tome-parchment-light, #faf5eb);
+    box-shadow: 0 4px 10px rgba(52, 37, 26, 0.16);
+    flex-shrink: 0;
 }
 
 .tome-detail-portrait-img {
@@ -791,64 +1101,164 @@
     border-radius: 50%;
 }
 
+.tome-detail-portrait.location-seal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #3d5a47 0%, #293d30 100%);
+    border-color: var(--tome-brass, #c4ab79);
+    color: #faf5eb;
+    font-size: 24px;
+}
+
 .tome-detail-title-group {
     display: flex;
     flex-direction: column;
+    gap: 4px;
 }
 
 .tome-detail-name {
-    font-family: 'Cinzel', serif;
-    font-size: 18px;
+    font-family: var(--tome-font-heading);
+    font-size: 20px;
     font-weight: 700;
-    color: var(--tome-ink);
+    letter-spacing: 0.5px;
+    color: var(--tome-ink-primary, #34251a);
     margin: 0;
 }
 
 .tome-detail-badge {
-    font-family: 'Cinzel', serif;
+    display: inline-block;
+    font-family: var(--tome-font-heading);
     font-size: 10px;
-    font-weight: 600;
-    color: var(--tome-gold-dim);
-    text-transform: uppercase;
+    font-weight: 700;
     letter-spacing: 1px;
-    margin-top: 4px;
+    text-transform: uppercase;
+    color: var(--tome-seal, #663c32);
+    background: rgba(102, 60, 50, 0.08);
+    border: 1px solid rgba(102, 60, 50, 0.25);
+    border-radius: 3px;
+    padding: 2px 8px;
+    align-self: flex-start;
 }
 
-/* ─── Crisis & Warning layouts ─── */
+.tome-detail-badge.location-badge {
+    color: #2e5c3e;
+    background: rgba(46, 92, 62, 0.08);
+    border-color: rgba(46, 92, 62, 0.25);
+}
+
+.tome-detail-body {
+    flex: 1;
+}
+
+.tome-detail-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    text-align: center;
+    gap: 12px;
+    color: var(--tome-ink-faded, #8a735c);
+    padding: 32px 16px;
+}
+
+.tome-detail-empty i {
+    font-size: 36px;
+    color: var(--tome-brass-dim, #9b7a3e);
+    opacity: 0.6;
+}
+
+.tome-detail-empty p {
+    font-family: var(--tome-font-body);
+    font-size: 16px;
+    font-style: italic;
+    max-width: 42ch;
+    margin: 0;
+}
+
+/* ─── Crisis Warning Box ─── */
 .tome-crisis-box {
-    border-left: 2px solid var(--tome-danger);
-    background: var(--tome-danger-bg);
-    border-radius: 0 8px 8px 0;
-    padding: 16px;
+    background: var(--tome-danger-bg, rgba(138, 36, 26, 0.06));
+    border: 1px solid rgba(138, 36, 26, 0.35);
+    border-left: 4px solid var(--tome-danger, #8a241a);
+    border-radius: 4px;
+    padding: 14px 16px;
     margin-bottom: 16px;
-    flex-shrink: 0;
+    box-shadow: inset 0 1px 4px rgba(138, 36, 26, 0.04);
 }
 
 .tome-crisis-alert-header {
     display: flex;
     align-items: center;
-    gap: 10px;
-    color: var(--tome-danger);
-    font-family: 'Cinzel', serif;
-    font-size: 12px;
+    gap: 8px;
+    color: var(--tome-danger, #8a241a);
+    font-family: var(--tome-font-heading);
+    font-size: 11px;
     font-weight: 700;
+    letter-spacing: 1.5px;
     text-transform: uppercase;
-    letter-spacing: 1px;
     margin-bottom: 8px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid rgba(138, 36, 26, 0.2);
 }
 
-.tome-crisis-alert-header i {
-    font-size: 14px;
+.tome-crisis-seal {
+    font-size: 13px;
 }
 
-/* ─── Page number bottom footer ─── */
+.tome-crisis-quote {
+    font-family: var(--tome-font-body);
+    font-size: 15.5px;
+    font-style: italic;
+    line-height: 1.6;
+    color: #5c1e18;
+    margin: 0;
+    padding: 0;
+}
+
+.tome-crisis-continuation {
+    font-style: italic;
+    text-align: justify;
+    color: var(--tome-ink-secondary, #5c4331);
+}
+
+/* ─── Culture Appendix Rubrics ─── */
+.tome-heraldic-card,
+.tome-systems-card {
+    background: rgba(182, 160, 128, 0.08);
+    border: 1px solid rgba(182, 160, 128, 0.38);
+    border-radius: 4px;
+    padding: 10px 14px 12px;
+    margin-top: 14px;
+    margin-bottom: 14px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.03);
+}
+
+/* ─── Page Flip Transitions ─── */
+.tome-page-content.page-flip-fade {
+    animation: tomePageFadeIn 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes tomePageFadeIn {
+    0% {
+        opacity: 0.2;
+        transform: translateY(3px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ─── Page Footers & Turn Buttons ─── */
 .tome-page-footer {
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-top: auto;
-    padding-top: 10px;
-    border-top: 1px solid rgba(139, 115, 85, 0.2);
+    padding-top: 8px;
+    border-top: 1px solid rgba(182, 160, 128, 0.35);
     flex-shrink: 0;
     min-height: 28px;
 }
@@ -867,21 +1277,27 @@
 }
 
 .tome-page-number {
-    font-family: 'Cinzel', serif;
+    font-family: var(--tome-font-heading);
     font-size: 10px;
     font-weight: 600;
-    color: var(--tome-border);
-    opacity: 0.85;
+    color: var(--tome-ink-muted, #68533e);
     letter-spacing: 1.5px;
+    opacity: 0.85;
 }
 
 .tome-spread-indicator {
-    font-family: 'Cinzel', serif;
-    font-size: 9.5px;
+    font-family: var(--tome-font-heading);
+    font-size: 10px;
     font-weight: 600;
-    color: var(--tome-ink-faded);
+    color: var(--tome-ink-faded, #8a735c);
     letter-spacing: 1.2px;
     text-transform: uppercase;
+}
+
+.tome-footer-fleuron {
+    color: var(--tome-brass-dim, #9b7a3e);
+    font-size: 11px;
+    letter-spacing: 2px;
     opacity: 0.8;
 }
 
@@ -889,12 +1305,12 @@
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    background: rgba(182, 160, 128, 0.15);
-    border: 1px solid rgba(139, 115, 85, 0.35);
-    border-radius: 4px;
-    color: #5a3d28;
-    padding: 3px 10px;
-    font-family: 'Cinzel', serif;
+    background: rgba(182, 160, 128, 0.14);
+    border: 1px solid rgba(182, 160, 128, 0.4);
+    border-radius: 3px;
+    color: var(--tome-ink-secondary, #5c4331);
+    padding: 3px 9px;
+    font-family: var(--tome-font-heading);
     font-size: 10px;
     font-weight: 700;
     letter-spacing: 1px;
@@ -904,10 +1320,10 @@
 }
 
 .tome-footer-turn-btn:hover {
-    background: #663c32;
+    background: var(--tome-seal, #663c32);
     border-color: #4a2820;
-    color: #fbf7ee;
-    box-shadow: 0 2px 6px rgba(50, 30, 20, 0.25);
+    color: #faf5eb;
+    box-shadow: 0 2px 6px rgba(52, 37, 26, 0.2);
     transform: translateY(-1px);
 }
 
@@ -915,145 +1331,160 @@
     transform: translateY(0);
 }
 
-/* ─── Mobile Pagination Bar (Shown on small screens) ─── */
-@media (max-width: 768px) {
+.tome-footer-turn-btn.next:hover i {
+    transform: translateX(2px);
+}
+
+.tome-footer-turn-btn.prev:hover i {
+    transform: translateX(-2px);
+}
+
+.tome-footer-turn-btn i {
+    font-size: 9px;
+    transition: transform 0.15s ease;
+}
+
+/* ─── Mobile Bottom Pagination Bar (Small screens) ─── */
+.tome-mobile-pagination {
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 12px;
+    background: linear-gradient(180deg, #302015 0%, #1c120a 100%);
+    border-top: 1px solid var(--tome-brass-dim, #9b7a3e);
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.4);
+    flex-shrink: 0;
+    z-index: 50;
+}
+
+.tome-mobile-nav-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(196, 171, 121, 0.15);
+    border: 1px solid var(--tome-brass-dim, #9b7a3e);
+    border-radius: 4px;
+    color: #faf5eb;
+    padding: 6px 12px;
+    font-family: var(--tome-font-heading);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+.tome-mobile-nav-btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+    border-color: rgba(182, 160, 128, 0.2);
+}
+
+.tome-mobile-page-indicator {
+    font-family: var(--tome-font-heading);
+    font-size: 11px;
+    font-weight: 600;
+    color: #dfcfb2;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+/* ─── Responsive & Mobile Styles ─── */
+@media (max-width: 900px) {
     .race-epic-lore-container {
         height: 100%;
         max-height: 100%;
         min-height: 0;
         padding: 0;
-        display: flex;
-        flex-direction: column;
     }
 
     .tome-header-bar {
-        padding: 4px 8px;
-        margin-bottom: 2px;
-        flex-shrink: 0;
+        padding: 6px 10px;
     }
 
-    .tome-header-title {
+    .tome-header-heraldry {
         font-size: 11px;
-        letter-spacing: 1.5px;
+        letter-spacing: 1px;
     }
 
     .tome-close-btn {
-        padding: 6px 12px;
-        font-size: 10px;
+        display: none;
     }
 
-    /* Spread Container on mobile */
+    .tome-floating-close-btn {
+        display: flex;
+    }
+
     .tome-spread-container {
         flex-direction: column;
         border-width: 4px;
-        border-radius: 10px;
-        margin-top: 0;
-        height: 100%;
-        min-height: 0;
-        flex: 1;
-        overflow: hidden;
-        position: relative;
+        border-radius: 8px;
     }
 
-    /* Bookmarks Ribbon - Sticky top tab strip on mobile */
+    .tome-page-edges-left,
+    .tome-page-edges-right {
+        display: none;
+    }
+
     .tome-bookmarks {
         position: relative;
         top: 0;
-        bottom: auto;
         left: 0;
-        right: 0;
         transform: none;
         width: 100%;
         justify-content: flex-start;
         overflow-x: auto;
         overflow-y: hidden;
         white-space: nowrap;
-        padding: 6px 52px 6px 8px;
+        padding: 6px 48px 6px 8px;
         gap: 6px;
-        -webkit-overflow-scrolling: touch;
         scrollbar-width: none;
-        z-index: 100;
-        background: linear-gradient(180deg, #2b2018 0%, #1a140f 100%);
-        border-bottom: 2px solid var(--tome-gold);
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-        flex-shrink: 0;
+        background: linear-gradient(180deg, #2c1c11 0%, #1a1008 100%);
+        border-bottom: 2px solid var(--tome-brass, #c4ab79);
+        box-sizing: border-box;
     }
 
     .tome-bookmarks::-webkit-scrollbar {
         display: none;
     }
-    
+
     .tome-bookmark {
         flex-shrink: 0;
-        padding: 6px 14px;
-        height: 34px;
-        min-height: 34px;
-        font-size: 11px;
-        letter-spacing: 1px;
-        border-radius: 6px 6px 0 0;
-        border: 1px solid rgba(197, 161, 70, 0.3);
-        border-bottom: none;
-        background: rgba(0, 0, 0, 0.3);
-        color: #d4c5a9;
-        clip-path: none !important;
-        transform: none !important;
-        box-shadow: none;
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
+        padding: 6px 12px;
+        height: 32px;
+        min-height: 32px;
+        font-size: 10.5px;
     }
 
     .tome-bookmark.active {
-        height: 34px !important;
-        min-height: 34px !important;
-        padding-bottom: 6px !important;
-        background: var(--tome-parchment-light, #fdfaf2) !important;
-        border-color: var(--tome-border, #8b7355) !important;
-        color: var(--tome-ink, #2b1a0e) !important;
-        font-weight: 700;
+        height: 32px !important;
+        min-height: 32px !important;
         transform: none !important;
     }
 
-    .tome-bookmark.active i {
-        color: #7c483c !important;
-    }
-    
-    .tome-bookmark-label {
-        display: inline-block;
-        white-space: nowrap;
-        font-family: 'Cinzel', serif;
-        font-weight: 700;
-    }
-    
-    .tome-bookmark i {
-        font-size: 12px;
-        color: #b6a080;
+    .tome-edge-nav-btn {
+        display: none;
     }
 
-    /* Pages Scroll Container for mobile */
     .tome-pages-scroll-container {
         flex-direction: column;
-        width: 100%;
-        flex: 1;
-        min-height: 0;
         overflow-y: auto;
-        -webkit-overflow-scrolling: touch;
     }
 
     .tome-spine {
         width: 100%;
-        height: 6px;
+        height: 8px;
         flex-shrink: 0;
         flex-direction: row;
         padding: 0;
-        background: linear-gradient(to right, #423023 0%, #8b7355 50%, #423023 100%);
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+        background: linear-gradient(to right, #382518 0%, #8b7355 50%, #382518 100%);
     }
-    
-    .tome-spine-ring {
+
+    .tome-spine-ribbon,
+    .tome-spine-band {
         display: none;
     }
-    
+
     .tome-page {
         padding: 10px 8px;
         height: auto;
@@ -1061,22 +1492,20 @@
         flex: none;
         overflow: visible;
     }
-    
+
     .tome-page.left-page {
         box-shadow: none;
-        border-radius: 6px 6px 0 0;
-        margin-bottom: 0;
+        border-radius: 4px 4px 0 0;
     }
-    
+
     .tome-page.right-page {
         box-shadow: none;
-        border-radius: 0 0 6px 6px;
+        border-radius: 0 0 4px 4px;
     }
 
     .tome-page-filigree {
-        padding: 12px 10px;
+        padding: 10px 8px;
         height: auto;
-        min-height: 0;
         overflow: visible;
     }
 
@@ -1089,139 +1518,26 @@
         text-align: left;
         font-size: 15px;
         line-height: 1.65;
-        margin-bottom: 12px;
     }
 
     .tome-drop-cap {
-        font-size: 2.8rem;
-        padding-right: 4px;
+        width: 42px;
+        height: 42px;
+    }
+
+    .tome-drop-cap-letter {
+        font-size: 1.8rem;
     }
 
     .tome-page-title {
         font-size: 20px;
     }
 
-    .tome-illustration-frame {
-        width: 100%;
-        max-width: 220px;
-    }
-    
-    .tome-illustration-image {
-        height: 130px;
-    }
-
-    /* Hide desktop side edge navigation buttons on mobile */
-    .tome-edge-nav-btn {
-        display: none !important;
-    }
-
-    /* Mobile Pagination Bar */
-    .tome-mobile-pagination {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 8px 12px;
-        background: linear-gradient(180deg, #2b2018 0%, #17120e 100%);
-        border: 1px solid rgba(182, 160, 128, 0.4);
-        border-radius: 8px;
-        margin-top: 6px;
-        flex-shrink: 0;
-        z-index: 10;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-    }
-
-    .tome-mobile-nav-btn {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        background: linear-gradient(180deg, #423023 0%, #2e2118 100%);
-        border: 1px solid rgba(139, 115, 85, 0.4);
-        color: #f7ebd6;
-        padding: 6px 14px;
-        border-radius: 6px;
-        font-family: 'Cinzel', serif;
-        font-size: 11px;
-        font-weight: 700;
-        letter-spacing: 1px;
-        cursor: pointer;
-        transition: all 0.2s ease;
-    }
-
-    .tome-mobile-nav-btn:disabled {
-        opacity: 0.35;
-        cursor: not-allowed;
-        border-color: rgba(139, 115, 85, 0.2);
-    }
-
-    .tome-mobile-nav-btn:not(:disabled):active {
-        transform: scale(0.96);
-    }
-
-    .tome-mobile-page-indicator {
-        font-family: 'Cinzel', serif;
-        font-size: 11px;
-        color: #d4c5a9;
-        letter-spacing: 1.5px;
-        text-transform: uppercase;
-        font-weight: 600;
-    }
-}
-
-@media (max-width: 480px) {
-    .tome-header-bar {
-        padding: 4px 6px;
-    }
-    
-    .tome-header-title {
-        font-size: 10px;
-        letter-spacing: 1px;
-    }
-    
-    .tome-close-btn {
-        padding: 5px 10px;
-        font-size: 10px;
-    }
-    
-    .tome-bookmark {
-        padding: 5px 10px;
-        font-size: 10px;
-        gap: 4px;
-    }
-    
     .tome-stats-grid {
-        grid-template-columns: 1fr 1fr;
-        gap: 6px;
-        padding: 8px;
-    }
-    
-    .tome-stat-val {
-        font-size: 13px;
-    }
-    
-    .tome-page-title {
-        font-size: 18px;
-    }
-    
-    .tome-body-text {
-        font-size: 14px;
-    }
-    
-    .tome-drop-cap {
-        font-size: 2.4rem;
+        gap: 8px;
     }
 
     .tome-mobile-pagination {
-        padding: 6px 8px;
-        margin-top: 4px;
-    }
-
-    .tome-mobile-nav-btn {
-        padding: 5px 10px;
-        font-size: 10px;
-    }
-
-    .tome-mobile-page-indicator {
-        font-size: 10px;
-        letter-spacing: 1px;
+        display: flex;
     }
 }

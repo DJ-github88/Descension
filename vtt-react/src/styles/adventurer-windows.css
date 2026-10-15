@@ -11,17 +11,17 @@
 .mobile-nav-popout {
   --adventure-ink: #34251a;
   --adventure-muted: #68533e;
-  --adventure-paper: #f0e3c4;
-  --adventure-page: #f1ece1;
-  --adventure-panel: #e8e2d4;
+  --adventure-paper: #faf6ee;
+  --adventure-page: #f7f3ea;
+  --adventure-panel: #eee8dc;
   --adventure-rule: #b6a080;
   --adventure-seal: #663c32;
   --adventure-leather: #302419;
   --adventure-brass: #c4ab79;
   --adventure-texture: url('../../public/assets/ui/wow-window/parchment_bg.png');
-  --pf-parchment: #f0e3c4;
-  --pf-parchment-light: #f1ece1;
-  --pf-parchment-dark: #e8e2d4;
+  --pf-parchment: #faf6ee;
+  --pf-parchment-light: #fdfbf7;
+  --pf-parchment-dark: #eee8dc;
   --pf-text-primary: #34251a;
   --pf-text-secondary: #68533e;
   --pf-text-muted: #68533e;
@@ -354,8 +354,8 @@
 /* Spell authoring and its separate preview inherit the same publication skin. */
 .wow-window.adventurer-window :is(.spellbook-layout, .pf-spellbook) {
   --my-gradient-parchment: linear-gradient(#f1ece1, #f1ece1) !important;
-  --my-parchment: #f0e3c4 !important;
-  --my-parchment-light: #f1ece1 !important;
+  --my-parchment: #faf6ee !important;
+  --my-parchment-light: #fdfbf7 !important;
   --my-text-primary: #34251a !important;
   --my-text-secondary: #68533e !important;
 }
@@ -378,9 +378,9 @@
   --my-text-primary: #34251a !important;
   --my-text-secondary: #68533e !important;
   --my-text-muted: #68533e !important;
-  --my-parchment: #f0e3c4 !important;
-  --my-parchment-light: #f1ece1 !important;
-  --my-parchment-dark: #e8e2d4 !important;
+  --my-parchment: #faf6ee !important;
+  --my-parchment-light: #fdfbf7 !important;
+  --my-parchment-dark: #eee8dc !important;
   --my-gradient-parchment: linear-gradient(#f1ece1, #f1ece1) !important;
   background: var(--adventure-page) !important;
   color: var(--adventure-ink) !important;
@@ -643,7 +643,7 @@
 .mobile-nav-popout-header { background: var(--adventure-panel) !important; color: var(--adventure-ink) !important; border-color: var(--adventure-rule) !important; }
 .mobile-nav-item { background: transparent !important; color: var(--adventure-ink) !important; border-radius: 3px !important; box-shadow: none !important; }
 .mobile-nav-item:is(:hover, .active) { background: var(--adventure-seal) !important; color: var(--adventure-paper) !important; }
-.mobile-nav-trigger { background: #663c32 !important; color: #f0e3c4 !important; border: 1px solid #956b5b !important; box-shadow: 0 4px 12px rgba(52, 37, 26, 0.25) !important; }
+.mobile-nav-trigger { background: #663c32 !important; color: #faf6ee !important; border: 1px solid #956b5b !important; box-shadow: 0 4px 12px rgba(52, 37, 26, 0.25) !important; }
 
 /* ==========================================================================
    Creature Inspect Window - TTRPG Adventurer Styling

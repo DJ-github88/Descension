@@ -73,21 +73,6 @@ export const WARDEN_DATA = {
         context: 'An Arch Mimir Warden on the Ironwood Palisade'
       }
     },
-    tessen_human: {
-      subraceName: 'Tessic',
-      title: 'The Gate-Warden',
-      reframe: `The Tessic brace taught containment points in sealed architecture, chaining a monstrosity to a gate or keystone rather than to their own body. They trade mobility for holding power and let the keep do the anchoring.`,
-      signatureAbility: {
-        name: 'Gate Hold',
-        description: `You brace a prepared containment point in stone so your tether cannot be broken by forced movement; position commitment and ordinary range still apply.`
-      },
-      currentCrisisAngle: `The keeps are failing, and a Warden who anchors to a wall that is about to collapse is chaining themselves to a grave.`,
-      signatureQuote: {
-        text: 'The chain is chosen. So is the gate. I choose the gate, because the gate does not tire.',
-        speaker: 'Gate-Warden Sera',
-        context: 'A Tessic Warden before sealing a breached keep-gate'
-      }
-    },
     morgh_groven: {
       subraceName: 'Morgh Groven',
       title: 'The Vat-Grounded',

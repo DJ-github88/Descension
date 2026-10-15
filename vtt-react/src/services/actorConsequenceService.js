@@ -157,6 +157,8 @@ function request(event, payload) {
     });
   });
 }
+/** P9 seam: the same principal/room/generation-fenced request for approval events. */
+export const requestActorEvent = (event, payload) => request(event, payload);
 export async function refreshActorSnapshot() {
   const context = captureActorDelivery();
   const result = await request('actor_snapshot', { roomId: state().multiplayerRoom?.id });
@@ -361,7 +363,7 @@ export async function submitActorEntries(entries, extra = {}) {
  * then submit/adopt them under the current principal. No rebase or new UUID. */
 export function prepareActorCommand(entries, extra = {}) {
   if (!admission || admission.roomId !== state().multiplayerRoom?.id) throw new Error('Current actor snapshot required');
-  if (Object.keys(extra).some(key => !['source', 'target', 'adjudication'].includes(key))) throw new Error('Unsupported prepared command fields');
+  if (Object.keys(extra).some(key => !['source', 'target', 'adjudication', 'approval'].includes(key))) throw new Error('Unsupported prepared command fields');
   const command = clone({ version: 1, roomId: admission.roomId, commandId: crypto.randomUUID(), actionEpoch: admission.actionEpoch,
     baseCommitSequence: admission.commitSequence, actors: entries, ...extra });
   const freeze = value => { if (value && typeof value === 'object') { Object.values(value).forEach(freeze); Object.freeze(value); } return value; };

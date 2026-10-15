@@ -1,0 +1,2597 @@
+{
+  "generated": "2025-12-30T14:21:08.664Z",
+  "totalCategories": 15,
+  "totalIcons": 500,
+  "categories": {
+    "buff": {
+      "category": "buff",
+      "count": 77,
+      "icons": [
+        {
+          "filename": "armor-tunic-t-shape-buff.png",
+          "name": "Armor Tunic T Shape Buff",
+          "path": "buff/armor-tunic-t-shape-buff.png"
+        },
+        {
+          "filename": "bull-head-glow-buff.png",
+          "name": "Bull Head Glow Buff",
+          "path": "buff/bull-head-glow-buff.png"
+        },
+        {
+          "filename": "chest-armor-cross-healing.png",
+          "name": "Chest Armor Cross Healing",
+          "path": "buff/chest-armor-cross-healing.png"
+        },
+        {
+          "filename": "chest-plate-armor.png",
+          "name": "Chest Plate Armor",
+          "path": "buff/chest-plate-armor.png"
+        },
+        {
+          "filename": "chest-plate-armor-glow.png",
+          "name": "Chest Plate Armor Glow",
+          "path": "buff/chest-plate-armor-glow.png"
+        },
+        {
+          "filename": "clenched-fist-strength.png",
+          "name": "Clenched Fist Strength",
+          "path": "buff/clenched-fist-strength.png"
+        },
+        {
+          "filename": "cross-pattern-buff.png",
+          "name": "Cross Pattern Buff",
+          "path": "buff/cross-pattern-buff.png"
+        },
+        {
+          "filename": "cross-star-buff.png",
+          "name": "Cross Star Buff",
+          "path": "buff/cross-star-buff.png"
+        },
+        {
+          "filename": "cross-star-pattern-buff.png",
+          "name": "Cross Star Pattern Buff",
+          "path": "buff/cross-star-pattern-buff.png"
+        },
+        {
+          "filename": "divided-heart-wings.png",
+          "name": "Divided Heart Wings",
+          "path": "buff/divided-heart-wings.png"
+        },
+        {
+          "filename": "dumbbell-strength.png",
+          "name": "Dumbbell Strength",
+          "path": "buff/dumbbell-strength.png"
+        },
+        {
+          "filename": "empowerment-buff.png",
+          "name": "Empowerment Buff",
+          "path": "buff/empowerment-buff.png"
+        },
+        {
+          "filename": "face-star-eyes-excitement.png",
+          "name": "Face Star Eyes Excitement",
+          "path": "buff/face-star-eyes-excitement.png"
+        },
+        {
+          "filename": "fiery-corinthian-helmet.png",
+          "name": "Fiery Corinthian Helmet",
+          "path": "buff/fiery-corinthian-helmet.png"
+        },
+        {
+          "filename": "fiery-helmet-defense.png",
+          "name": "Fiery Helmet Defense",
+          "path": "buff/fiery-helmet-defense.png"
+        },
+        {
+          "filename": "fiery-helmet-warrior.png",
+          "name": "Fiery Helmet Warrior",
+          "path": "buff/fiery-helmet-warrior.png"
+        },
+        {
+          "filename": "figure-raised-arms-empowerment.png",
+          "name": "Figure Raised Arms Empowerment",
+          "path": "buff/figure-raised-arms-empowerment.png"
+        },
+        {
+          "filename": "flexed-arm-strength.png",
+          "name": "Flexed Arm Strength",
+          "path": "buff/flexed-arm-strength.png"
+        },
+        {
+          "filename": "flexing-bicep-strength.png",
+          "name": "Flexing Bicep Strength",
+          "path": "buff/flexing-bicep-strength.png"
+        },
+        {
+          "filename": "focused-aura.png",
+          "name": "Focused Aura",
+          "path": "buff/focused-aura.png"
+        },
+        {
+          "filename": "four-leaf-clover-pattern-buff.png",
+          "name": "Four Leaf Clover Pattern Buff",
+          "path": "buff/four-leaf-clover-pattern-buff.png"
+        },
+        {
+          "filename": "four-petal-flower-cross-buff.png",
+          "name": "Four Petal Flower Cross Buff",
+          "path": "buff/four-petal-flower-cross-buff.png"
+        },
+        {
+          "filename": "four-petaled-flower-decorative-buff.png",
+          "name": "Four Petaled Flower Decorative Buff",
+          "path": "buff/four-petaled-flower-decorative-buff.png"
+        },
+        {
+          "filename": "glowing-smiley-face-buff.png",
+          "name": "Glowing Smiley Face Buff",
+          "path": "buff/glowing-smiley-face-buff.png"
+        },
+        {
+          "filename": "goggles-mask-symbol-buff.png",
+          "name": "Goggles Mask Symbol Buff",
+          "path": "buff/goggles-mask-symbol-buff.png"
+        },
+        {
+          "filename": "halo-divine-buff.png",
+          "name": "Halo Divine Buff",
+          "path": "buff/halo-divine-buff.png"
+        },
+        {
+          "filename": "hand-pointing-up-buff.png",
+          "name": "Hand Pointing Up Buff",
+          "path": "buff/hand-pointing-up-buff.png"
+        },
+        {
+          "filename": "Healing-Nullified.png",
+          "name": "Healing Nullified",
+          "path": "buff/Healing-Nullified.png"
+        },
+        {
+          "filename": "heart-plus-one-buff.png",
+          "name": "Heart Plus One Buff",
+          "path": "buff/heart-plus-one-buff.png"
+        },
+        {
+          "filename": "helmet-defense.png",
+          "name": "Helmet Defense",
+          "path": "buff/helmet-defense.png"
+        },
+        {
+          "filename": "helmet-orange-glow.png",
+          "name": "Helmet Orange Glow",
+          "path": "buff/helmet-orange-glow.png"
+        },
+        {
+          "filename": "helmet-protective-gear.png",
+          "name": "Helmet Protective Gear",
+          "path": "buff/helmet-protective-gear.png"
+        },
+        {
+          "filename": "helmet-t-faceguard.png",
+          "name": "Helmet T Faceguard",
+          "path": "buff/helmet-t-faceguard.png"
+        },
+        {
+          "filename": "horned-creature-head-buff.png",
+          "name": "Horned Creature Head Buff",
+          "path": "buff/horned-creature-head-buff.png"
+        },
+        {
+          "filename": "horseshoe-shield-ward.png",
+          "name": "Horseshoe Shield Ward",
+          "path": "buff/horseshoe-shield-ward.png"
+        },
+        {
+          "filename": "horseshoe-u-shape-protection.png",
+          "name": "Horseshoe U Shape Protection",
+          "path": "buff/horseshoe-u-shape-protection.png"
+        },
+        {
+          "filename": "horseshoe-u-shape-protection_1.png",
+          "name": "Horseshoe U Shape Protection_1",
+          "path": "buff/horseshoe-u-shape-protection_1.png"
+        },
+        {
+          "filename": "humanoid-guardian-buff.png",
+          "name": "Humanoid Guardian Buff",
+          "path": "buff/humanoid-guardian-buff.png"
+        },
+        {
+          "filename": "laughing-face-fiery-buff.png",
+          "name": "Laughing Face Fiery Buff",
+          "path": "buff/laughing-face-fiery-buff.png"
+        },
+        {
+          "filename": "layered-squares-buff.png",
+          "name": "Layered Squares Buff",
+          "path": "buff/layered-squares-buff.png"
+        },
+        {
+          "filename": "mask-shield-defensive.png",
+          "name": "Mask Shield Defensive",
+          "path": "buff/mask-shield-defensive.png"
+        },
+        {
+          "filename": "number-two-boot-power.png",
+          "name": "Number Two Boot Power",
+          "path": "buff/number-two-boot-power.png"
+        },
+        {
+          "filename": "ordered-structure.png",
+          "name": "Ordered Structure",
+          "path": "buff/ordered-structure.png"
+        },
+        {
+          "filename": "padlock-it-immunity.png",
+          "name": "Padlock It Immunity",
+          "path": "buff/padlock-it-immunity.png"
+        },
+        {
+          "filename": "red-armor-tunic-buff.png",
+          "name": "Red Armor Tunic Buff",
+          "path": "buff/red-armor-tunic-buff.png"
+        },
+        {
+          "filename": "shield-arrow-movement.png",
+          "name": "Shield Arrow Movement",
+          "path": "buff/shield-arrow-movement.png"
+        },
+        {
+          "filename": "shield-checkmark-success.png",
+          "name": "Shield Checkmark Success",
+          "path": "buff/shield-checkmark-success.png"
+        },
+        {
+          "filename": "shield-chevron-buff.png",
+          "name": "Shield Chevron Buff",
+          "path": "buff/shield-chevron-buff.png"
+        },
+        {
+          "filename": "shield-crest-buff.png",
+          "name": "Shield Crest Buff",
+          "path": "buff/shield-crest-buff.png"
+        },
+        {
+          "filename": "shield-emblem-buff.png",
+          "name": "Shield Emblem Buff",
+          "path": "buff/shield-emblem-buff.png"
+        },
+        {
+          "filename": "shield-gear-fortified.png",
+          "name": "Shield Gear Fortified",
+          "path": "buff/shield-gear-fortified.png"
+        },
+        {
+          "filename": "shield-glowing-layers.png",
+          "name": "Shield Glowing Layers",
+          "path": "buff/shield-glowing-layers.png"
+        },
+        {
+          "filename": "shield-helmet-x-buff.png",
+          "name": "Shield Helmet X Buff",
+          "path": "buff/shield-helmet-x-buff.png"
+        },
+        {
+          "filename": "shield-protection.png",
+          "name": "Shield Protection",
+          "path": "buff/shield-protection.png"
+        },
+        {
+          "filename": "shield-teardrop-protection.png",
+          "name": "Shield Teardrop Protection",
+          "path": "buff/shield-teardrop-protection.png"
+        },
+        {
+          "filename": "shoulder-armor-buff.png",
+          "name": "Shoulder Armor Buff",
+          "path": "buff/shoulder-armor-buff.png"
+        },
+        {
+          "filename": "smiling-face-buff.png",
+          "name": "Smiling Face Buff",
+          "path": "buff/smiling-face-buff.png"
+        },
+        {
+          "filename": "smiling-face-glow-buff.png",
+          "name": "Smiling Face Glow Buff",
+          "path": "buff/smiling-face-glow-buff.png"
+        },
+        {
+          "filename": "stacked-layers.png",
+          "name": "Stacked Layers",
+          "path": "buff/stacked-layers.png"
+        },
+        {
+          "filename": "star-cross-pattern-buff.png",
+          "name": "Star Cross Pattern Buff",
+          "path": "buff/star-cross-pattern-buff.png"
+        },
+        {
+          "filename": "star-emblem-power.png",
+          "name": "Star Emblem Power",
+          "path": "buff/star-emblem-power.png"
+        },
+        {
+          "filename": "star-framed-badge.png",
+          "name": "Star Framed Badge",
+          "path": "buff/star-framed-badge.png"
+        },
+        {
+          "filename": "strength-buff.png",
+          "name": "Strength Buff",
+          "path": "buff/strength-buff.png"
+        },
+        {
+          "filename": "strength-buff-cross.png",
+          "name": "Strength Buff Cross",
+          "path": "buff/strength-buff-cross.png"
+        },
+        {
+          "filename": "strength-buff-fiery.png",
+          "name": "Strength Buff Fiery",
+          "path": "buff/strength-buff-fiery.png"
+        },
+        {
+          "filename": "stylized-emblem-crest-buff.png",
+          "name": "Stylized Emblem Crest Buff",
+          "path": "buff/stylized-emblem-crest-buff.png"
+        },
+        {
+          "filename": "thumbs-up-approval.png",
+          "name": "Thumbs Up Approval",
+          "path": "buff/thumbs-up-approval.png"
+        },
+        {
+          "filename": "thumbs-up-glowing-buff.png",
+          "name": "Thumbs Up Glowing Buff",
+          "path": "buff/thumbs-up-glowing-buff.png"
+        },
+        {
+          "filename": "upward-arrow-arms-buff.png",
+          "name": "Upward Arrow Arms Buff",
+          "path": "buff/upward-arrow-arms-buff.png"
+        },
+        {
+          "filename": "upward-arrow-buff.png",
+          "name": "Upward Arrow Buff",
+          "path": "buff/upward-arrow-buff.png"
+        },
+        {
+          "filename": "upward-arrow-dagger-buff.png",
+          "name": "Upward Arrow Dagger Buff",
+          "path": "buff/upward-arrow-dagger-buff.png"
+        },
+        {
+          "filename": "upward-arrow-fish-buff.png",
+          "name": "Upward Arrow Fish Buff",
+          "path": "buff/upward-arrow-fish-buff.png"
+        },
+        {
+          "filename": "upward-arrow-flame-buff.png",
+          "name": "Upward Arrow Flame Buff",
+          "path": "buff/upward-arrow-flame-buff.png"
+        },
+        {
+          "filename": "upward-buff.png",
+          "name": "Upward Buff",
+          "path": "buff/upward-buff.png"
+        },
+        {
+          "filename": "upward-flame-arrow-buff.png",
+          "name": "Upward Flame Arrow Buff",
+          "path": "buff/upward-flame-arrow-buff.png"
+        },
+        {
+          "filename": "upward-flame-arrow-buff_1.png",
+          "name": "Upward Flame Arrow Buff_1",
+          "path": "buff/upward-flame-arrow-buff_1.png"
+        },
+        {
+          "filename": "winged-humanoid-buff.png",
+          "name": "Winged Humanoid Buff",
+          "path": "buff/winged-humanoid-buff.png"
+        }
+      ]
+    },
+    "combat": {
+      "category": "combat",
+      "count": 45,
+      "icons": [
+        {
+          "filename": "axe-spear-weapon.png",
+          "name": "Axe Spear Weapon",
+          "path": "combat/axe-spear-weapon.png"
+        },
+        {
+          "filename": "biting-mouth-fangs.png",
+          "name": "Biting Mouth Fangs",
+          "path": "combat/biting-mouth-fangs.png"
+        },
+        {
+          "filename": "bone-club-combat.png",
+          "name": "Bone Club Combat",
+          "path": "combat/bone-club-combat.png"
+        },
+        {
+          "filename": "bone-diagonal-combat.png",
+          "name": "Bone Diagonal Combat",
+          "path": "combat/bone-diagonal-combat.png"
+        },
+        {
+          "filename": "bone-stick-combat.png",
+          "name": "Bone Stick Combat",
+          "path": "combat/bone-stick-combat.png"
+        },
+        {
+          "filename": "bow-arrow-bone.png",
+          "name": "Bow Arrow Bone",
+          "path": "combat/bow-arrow-bone.png"
+        },
+        {
+          "filename": "bow-arrow-ranged.png",
+          "name": "Bow Arrow Ranged",
+          "path": "combat/bow-arrow-ranged.png"
+        },
+        {
+          "filename": "bow-arrow-ranged_1.png",
+          "name": "Bow Arrow Ranged_1",
+          "path": "combat/bow-arrow-ranged_1.png"
+        },
+        {
+          "filename": "bow-ranged-combat.png",
+          "name": "Bow Ranged Combat",
+          "path": "combat/bow-ranged-combat.png"
+        },
+        {
+          "filename": "burst-explosion-damage.png",
+          "name": "Burst Explosion Damage",
+          "path": "combat/burst-explosion-damage.png"
+        },
+        {
+          "filename": "chain-weapon-combat.png",
+          "name": "Chain Weapon Combat",
+          "path": "combat/chain-weapon-combat.png"
+        },
+        {
+          "filename": "concentric-target.png",
+          "name": "Concentric Target",
+          "path": "combat/concentric-target.png"
+        },
+        {
+          "filename": "crossed-swords-battle.png",
+          "name": "Crossed Swords Battle",
+          "path": "combat/crossed-swords-battle.png"
+        },
+        {
+          "filename": "crossed-swords-combat.png",
+          "name": "Crossed Swords Combat",
+          "path": "combat/crossed-swords-combat.png"
+        },
+        {
+          "filename": "dual-beams-energy-combat.png",
+          "name": "Dual Beams Energy Combat",
+          "path": "combat/dual-beams-energy-combat.png"
+        },
+        {
+          "filename": "fanged-creature-head.png",
+          "name": "Fanged Creature Head",
+          "path": "combat/fanged-creature-head.png"
+        },
+        {
+          "filename": "fangs-tusks-piercing.png",
+          "name": "Fangs Tusks Piercing",
+          "path": "combat/fangs-tusks-piercing.png"
+        },
+        {
+          "filename": "glowing-energy-sword.png",
+          "name": "Glowing Energy Sword",
+          "path": "combat/glowing-energy-sword.png"
+        },
+        {
+          "filename": "glowing-sword-enchanted.png",
+          "name": "Glowing Sword Enchanted",
+          "path": "combat/glowing-sword-enchanted.png"
+        },
+        {
+          "filename": "jagged-lightning-bones.png",
+          "name": "Jagged Lightning Bones",
+          "path": "combat/jagged-lightning-bones.png"
+        },
+        {
+          "filename": "lightning-bolt-circular-frame.png",
+          "name": "Lightning Bolt Circular Frame",
+          "path": "combat/lightning-bolt-circular-frame.png"
+        },
+        {
+          "filename": "lightning-bolt-diagonal.png",
+          "name": "Lightning Bolt Diagonal",
+          "path": "combat/lightning-bolt-diagonal.png"
+        },
+        {
+          "filename": "lightning-bolt-energy.png",
+          "name": "Lightning Bolt Energy",
+          "path": "combat/lightning-bolt-energy.png"
+        },
+        {
+          "filename": "lightning-bolt-s-border.png",
+          "name": "Lightning Bolt S Border",
+          "path": "combat/lightning-bolt-s-border.png"
+        },
+        {
+          "filename": "lightning-bolt-s-shape-energy.png",
+          "name": "Lightning Bolt S Shape Energy",
+          "path": "combat/lightning-bolt-s-shape-energy.png"
+        },
+        {
+          "filename": "marked-center.png",
+          "name": "Marked Center",
+          "path": "combat/marked-center.png"
+        },
+        {
+          "filename": "marked-diagonal.png",
+          "name": "Marked Diagonal",
+          "path": "combat/marked-diagonal.png"
+        },
+        {
+          "filename": "marked-diamond.png",
+          "name": "Marked Diamond",
+          "path": "combat/marked-diamond.png"
+        },
+        {
+          "filename": "marked-diamond-cross.png",
+          "name": "Marked Diamond Cross",
+          "path": "combat/marked-diamond-cross.png"
+        },
+        {
+          "filename": "marked-four.png",
+          "name": "Marked Four",
+          "path": "combat/marked-four.png"
+        },
+        {
+          "filename": "marked-symbol.png",
+          "name": "Marked Symbol",
+          "path": "combat/marked-symbol.png"
+        },
+        {
+          "filename": "marked-target.png",
+          "name": "Marked Target",
+          "path": "combat/marked-target.png"
+        },
+        {
+          "filename": "open-maw-fangs.png",
+          "name": "Open Maw Fangs",
+          "path": "combat/open-maw-fangs.png"
+        },
+        {
+          "filename": "scythe-claw-combat.png",
+          "name": "Scythe Claw Combat",
+          "path": "combat/scythe-claw-combat.png"
+        },
+        {
+          "filename": "segmented-arrow-magical.png",
+          "name": "Segmented Arrow Magical",
+          "path": "combat/segmented-arrow-magical.png"
+        },
+        {
+          "filename": "sword-energy-patterns-combat.png",
+          "name": "Sword Energy Patterns Combat",
+          "path": "combat/sword-energy-patterns-combat.png"
+        },
+        {
+          "filename": "sword-orange-glow-combat.png",
+          "name": "Sword Orange Glow Combat",
+          "path": "combat/sword-orange-glow-combat.png"
+        },
+        {
+          "filename": "sword-red-glow-enchanted.png",
+          "name": "Sword Red Glow Enchanted",
+          "path": "combat/sword-red-glow-enchanted.png"
+        },
+        {
+          "filename": "sword-vertical-combat.png",
+          "name": "Sword Vertical Combat",
+          "path": "combat/sword-vertical-combat.png"
+        },
+        {
+          "filename": "target-eye-marked.png",
+          "name": "Target Eye Marked",
+          "path": "combat/target-eye-marked.png"
+        },
+        {
+          "filename": "target-marked.png",
+          "name": "Target Marked",
+          "path": "combat/target-marked.png"
+        },
+        {
+          "filename": "targeted-diamond.png",
+          "name": "Targeted Diamond",
+          "path": "combat/targeted-diamond.png"
+        },
+        {
+          "filename": "targeted-fragment.png",
+          "name": "Targeted Fragment",
+          "path": "combat/targeted-fragment.png"
+        },
+        {
+          "filename": "targeted-star.png",
+          "name": "Targeted Star",
+          "path": "combat/targeted-star.png"
+        },
+        {
+          "filename": "taunt-shield.png",
+          "name": "Taunt Shield",
+          "path": "combat/taunt-shield.png"
+        }
+      ]
+    },
+    "control": {
+      "category": "control",
+      "count": 20,
+      "icons": [
+        {
+          "filename": "anchored-rooted.png",
+          "name": "Anchored Rooted",
+          "path": "control/anchored-rooted.png"
+        },
+        {
+          "filename": "bell-silence-control.png",
+          "name": "Bell Silence Control",
+          "path": "control/bell-silence-control.png"
+        },
+        {
+          "filename": "bound-chain-x.png",
+          "name": "Bound Chain X",
+          "path": "control/bound-chain-x.png"
+        },
+        {
+          "filename": "chain-rope-knot-binding.png",
+          "name": "Chain Rope Knot Binding",
+          "path": "control/chain-rope-knot-binding.png"
+        },
+        {
+          "filename": "chained-bound.png",
+          "name": "Chained Bound",
+          "path": "control/chained-bound.png"
+        },
+        {
+          "filename": "entangled-knot.png",
+          "name": "Entangled Knot",
+          "path": "control/entangled-knot.png"
+        },
+        {
+          "filename": "entangled-waves.png",
+          "name": "Entangled Waves",
+          "path": "control/entangled-waves.png"
+        },
+        {
+          "filename": "gagged-silenced.png",
+          "name": "Gagged Silenced",
+          "path": "control/gagged-silenced.png"
+        },
+        {
+          "filename": "grasping-hand-restrain.png",
+          "name": "Grasping Hand Restrain",
+          "path": "control/grasping-hand-restrain.png"
+        },
+        {
+          "filename": "grid-cross-control.png",
+          "name": "Grid Cross Control",
+          "path": "control/grid-cross-control.png"
+        },
+        {
+          "filename": "interlocked-links.png",
+          "name": "Interlocked Links",
+          "path": "control/interlocked-links.png"
+        },
+        {
+          "filename": "lattice-grid-barrier.png",
+          "name": "Lattice Grid Barrier",
+          "path": "control/lattice-grid-barrier.png"
+        },
+        {
+          "filename": "linked-bound.png",
+          "name": "Linked Bound",
+          "path": "control/linked-bound.png"
+        },
+        {
+          "filename": "locked-bound.png",
+          "name": "Locked Bound",
+          "path": "control/locked-bound.png"
+        },
+        {
+          "filename": "locked-restrained.png",
+          "name": "Locked Restrained",
+          "path": "control/locked-restrained.png"
+        },
+        {
+          "filename": "magical-binding.png",
+          "name": "Magical Binding",
+          "path": "control/magical-binding.png"
+        },
+        {
+          "filename": "padlock-a-restricted.png",
+          "name": "Padlock A Restricted",
+          "path": "control/padlock-a-restricted.png"
+        },
+        {
+          "filename": "rope-knot-binding.png",
+          "name": "Rope Knot Binding",
+          "path": "control/rope-knot-binding.png"
+        },
+        {
+          "filename": "silence-mute.png",
+          "name": "Silence Mute",
+          "path": "control/silence-mute.png"
+        },
+        {
+          "filename": "speaker-x-mute-silence.png",
+          "name": "Speaker X Mute Silence",
+          "path": "control/speaker-x-mute-silence.png"
+        }
+      ]
+    },
+    "debuff": {
+      "category": "debuff",
+      "count": 36,
+      "icons": [
+        {
+          "filename": "broken-fragmented-disc.png",
+          "name": "Broken Fragmented Disc",
+          "path": "debuff/broken-fragmented-disc.png"
+        },
+        {
+          "filename": "broken-loop.png",
+          "name": "Broken Loop",
+          "path": "debuff/broken-loop.png"
+        },
+        {
+          "filename": "broken-split-symbol-debuff.png",
+          "name": "Broken Split Symbol Debuff",
+          "path": "debuff/broken-split-symbol-debuff.png"
+        },
+        {
+          "filename": "cocoon-vulnerable.png",
+          "name": "Cocoon Vulnerable",
+          "path": "debuff/cocoon-vulnerable.png"
+        },
+        {
+          "filename": "divided-split-state.png",
+          "name": "Divided Split State",
+          "path": "debuff/divided-split-state.png"
+        },
+        {
+          "filename": "document-x-negation.png",
+          "name": "Document X Negation",
+          "path": "debuff/document-x-negation.png"
+        },
+        {
+          "filename": "downward-arrow.png",
+          "name": "Downward Arrow",
+          "path": "debuff/downward-arrow.png"
+        },
+        {
+          "filename": "downward-arrow-horns-debuff.png",
+          "name": "Downward Arrow Horns Debuff",
+          "path": "debuff/downward-arrow-horns-debuff.png"
+        },
+        {
+          "filename": "downward-arrow-target.png",
+          "name": "Downward Arrow Target",
+          "path": "debuff/downward-arrow-target.png"
+        },
+        {
+          "filename": "downward-chevron.png",
+          "name": "Downward Chevron",
+          "path": "debuff/downward-chevron.png"
+        },
+        {
+          "filename": "downward-debuff.png",
+          "name": "Downward Debuff",
+          "path": "debuff/downward-debuff.png"
+        },
+        {
+          "filename": "downward-spike-vulnerability.png",
+          "name": "Downward Spike Vulnerability",
+          "path": "debuff/downward-spike-vulnerability.png"
+        },
+        {
+          "filename": "fluctuating-unstable.png",
+          "name": "Fluctuating Unstable",
+          "path": "debuff/fluctuating-unstable.png"
+        },
+        {
+          "filename": "fragmented-broken-debuff.png",
+          "name": "Fragmented Broken Debuff",
+          "path": "debuff/fragmented-broken-debuff.png"
+        },
+        {
+          "filename": "fragmented-scatter.png",
+          "name": "Fragmented Scatter",
+          "path": "debuff/fragmented-scatter.png"
+        },
+        {
+          "filename": "glowing-skull-curse.png",
+          "name": "Glowing Skull Curse",
+          "path": "debuff/glowing-skull-curse.png"
+        },
+        {
+          "filename": "healing-blocked.png",
+          "name": "Healing Blocked",
+          "path": "debuff/healing-blocked.png"
+        },
+        {
+          "filename": "orange-skull-death.png",
+          "name": "Orange Skull Death",
+          "path": "debuff/orange-skull-death.png"
+        },
+        {
+          "filename": "shield-blocked-debuff.png",
+          "name": "Shield Blocked Debuff",
+          "path": "debuff/shield-blocked-debuff.png"
+        },
+        {
+          "filename": "shield-blocked-debuff_1.png",
+          "name": "Shield Blocked Debuff_1",
+          "path": "debuff/shield-blocked-debuff_1.png"
+        },
+        {
+          "filename": "shield-x-negation.png",
+          "name": "Shield X Negation",
+          "path": "debuff/shield-x-negation.png"
+        },
+        {
+          "filename": "skull-death-curse.png",
+          "name": "Skull Death Curse",
+          "path": "debuff/skull-death-curse.png"
+        },
+        {
+          "filename": "skull-surprised-death.png",
+          "name": "Skull Surprised Death",
+          "path": "debuff/skull-surprised-death.png"
+        },
+        {
+          "filename": "undead-bone.png",
+          "name": "Undead Bone",
+          "path": "debuff/undead-bone.png"
+        },
+        {
+          "filename": "vulnerability-down.png",
+          "name": "Vulnerability Down",
+          "path": "debuff/vulnerability-down.png"
+        },
+        {
+          "filename": "weight-kg-burden.png",
+          "name": "Weight Kg Burden",
+          "path": "debuff/weight-kg-burden.png"
+        },
+        {
+          "filename": "weight-kg-encumbrance.png",
+          "name": "Weight Kg Encumbrance",
+          "path": "debuff/weight-kg-encumbrance.png"
+        },
+        {
+          "filename": "x-decorative-frame-negation.png",
+          "name": "X Decorative Frame Negation",
+          "path": "debuff/x-decorative-frame-negation.png"
+        },
+        {
+          "filename": "x-glow-negation.png",
+          "name": "X Glow Negation",
+          "path": "debuff/x-glow-negation.png"
+        },
+        {
+          "filename": "x-negation-debuff.png",
+          "name": "X Negation Debuff",
+          "path": "debuff/x-negation-debuff.png"
+        },
+        {
+          "filename": "x-negation-glow.png",
+          "name": "X Negation Glow",
+          "path": "debuff/x-negation-glow.png"
+        },
+        {
+          "filename": "x-negation-removal.png",
+          "name": "X Negation Removal",
+          "path": "debuff/x-negation-removal.png"
+        },
+        {
+          "filename": "x-negation-removal_1.png",
+          "name": "X Negation Removal_1",
+          "path": "debuff/x-negation-removal_1.png"
+        },
+        {
+          "filename": "x-pattern-multiple-elements.png",
+          "name": "X Pattern Multiple Elements",
+          "path": "debuff/x-pattern-multiple-elements.png"
+        },
+        {
+          "filename": "x-symbol-glow-negation.png",
+          "name": "X Symbol Glow Negation",
+          "path": "debuff/x-symbol-glow-negation.png"
+        },
+        {
+          "filename": "x-symbol-negation.png",
+          "name": "X Symbol Negation",
+          "path": "debuff/x-symbol-negation.png"
+        }
+      ]
+    },
+    "defensive": {
+      "category": "defensive",
+      "count": 6,
+      "icons": [
+        {
+          "filename": "defensive-tower.png",
+          "name": "Defensive Tower",
+          "path": "defensive/defensive-tower.png"
+        },
+        {
+          "filename": "fortified-castle.png",
+          "name": "Fortified Castle",
+          "path": "defensive/fortified-castle.png"
+        },
+        {
+          "filename": "fortified-rook.png",
+          "name": "Fortified Rook",
+          "path": "defensive/fortified-rook.png"
+        },
+        {
+          "filename": "fortified-structure.png",
+          "name": "Fortified Structure",
+          "path": "defensive/fortified-structure.png"
+        },
+        {
+          "filename": "fortified-tower.png",
+          "name": "Fortified Tower",
+          "path": "defensive/fortified-tower.png"
+        },
+        {
+          "filename": "protective-bell.png",
+          "name": "Protective Bell",
+          "path": "defensive/protective-bell.png"
+        }
+      ]
+    },
+    "dot": {
+      "category": "dot",
+      "count": 28,
+      "icons": [
+        {
+          "filename": "blood-stained-parchment-bleed.png",
+          "name": "Blood Stained Parchment Bleed",
+          "path": "dot/blood-stained-parchment-bleed.png"
+        },
+        {
+          "filename": "crossed-bones-danger.png",
+          "name": "Crossed Bones Danger",
+          "path": "dot/crossed-bones-danger.png"
+        },
+        {
+          "filename": "crossed-bones-poison.png",
+          "name": "Crossed Bones Poison",
+          "path": "dot/crossed-bones-poison.png"
+        },
+        {
+          "filename": "dripping-blood-bleed.png",
+          "name": "Dripping Blood Bleed",
+          "path": "dot/dripping-blood-bleed.png"
+        },
+        {
+          "filename": "dripping-corrosion-acid.png",
+          "name": "Dripping Corrosion Acid",
+          "path": "dot/dripping-corrosion-acid.png"
+        },
+        {
+          "filename": "fiery-dagger-pommel.png",
+          "name": "Fiery Dagger Pommel",
+          "path": "dot/fiery-dagger-pommel.png"
+        },
+        {
+          "filename": "fire-lightning-downward-strike.png",
+          "name": "Fire Lightning Downward Strike",
+          "path": "dot/fire-lightning-downward-strike.png"
+        },
+        {
+          "filename": "flame-burning-effect.png",
+          "name": "Flame Burning Effect",
+          "path": "dot/flame-burning-effect.png"
+        },
+        {
+          "filename": "flame-fire-burning.png",
+          "name": "Flame Fire Burning",
+          "path": "dot/flame-fire-burning.png"
+        },
+        {
+          "filename": "flame-fire-burning_1.png",
+          "name": "Flame Fire Burning_1",
+          "path": "dot/flame-fire-burning_1.png"
+        },
+        {
+          "filename": "flame-fire-burning_2.png",
+          "name": "Flame Fire Burning_2",
+          "path": "dot/flame-fire-burning_2.png"
+        },
+        {
+          "filename": "flame-fire-damage.png",
+          "name": "Flame Fire Damage",
+          "path": "dot/flame-fire-damage.png"
+        },
+        {
+          "filename": "flame-glowing-burning.png",
+          "name": "Flame Glowing Burning",
+          "path": "dot/flame-glowing-burning.png"
+        },
+        {
+          "filename": "flame-humanoid-silhouette.png",
+          "name": "Flame Humanoid Silhouette",
+          "path": "dot/flame-humanoid-silhouette.png"
+        },
+        {
+          "filename": "flame-intense-burning.png",
+          "name": "Flame Intense Burning",
+          "path": "dot/flame-intense-burning.png"
+        },
+        {
+          "filename": "flame-teardrop-glowing.png",
+          "name": "Flame Teardrop Glowing",
+          "path": "dot/flame-teardrop-glowing.png"
+        },
+        {
+          "filename": "flame-vibrant-burning.png",
+          "name": "Flame Vibrant Burning",
+          "path": "dot/flame-vibrant-burning.png"
+        },
+        {
+          "filename": "hand-grasping-fire-burning.png",
+          "name": "Hand Grasping Fire Burning",
+          "path": "dot/hand-grasping-fire-burning.png"
+        },
+        {
+          "filename": "lava-fire-streaks-burning.png",
+          "name": "Lava Fire Streaks Burning",
+          "path": "dot/lava-fire-streaks-burning.png"
+        },
+        {
+          "filename": "segmented-worm-centipede-poison.png",
+          "name": "Segmented Worm Centipede Poison",
+          "path": "dot/segmented-worm-centipede-poison.png"
+        },
+        {
+          "filename": "skull-crossbones-poison.png",
+          "name": "Skull Crossbones Poison",
+          "path": "dot/skull-crossbones-poison.png"
+        },
+        {
+          "filename": "stylized-two-flame-burning.png",
+          "name": "Stylized Two Flame Burning",
+          "path": "dot/stylized-two-flame-burning.png"
+        },
+        {
+          "filename": "swirling-flame-smoke-burning.png",
+          "name": "Swirling Flame Smoke Burning",
+          "path": "dot/swirling-flame-smoke-burning.png"
+        },
+        {
+          "filename": "sword-fiery-trail-burning.png",
+          "name": "Sword Fiery Trail Burning",
+          "path": "dot/sword-fiery-trail-burning.png"
+        },
+        {
+          "filename": "teardrop-flame-burning.png",
+          "name": "Teardrop Flame Burning",
+          "path": "dot/teardrop-flame-burning.png"
+        },
+        {
+          "filename": "teardrop-flame-burning_1.png",
+          "name": "Teardrop Flame Burning_1",
+          "path": "dot/teardrop-flame-burning_1.png"
+        },
+        {
+          "filename": "three-flames-burning.png",
+          "name": "Three Flames Burning",
+          "path": "dot/three-flames-burning.png"
+        },
+        {
+          "filename": "three-flaming-arrows-burning.png",
+          "name": "Three Flaming Arrows Burning",
+          "path": "dot/three-flaming-arrows-burning.png"
+        }
+      ]
+    },
+    "healing": {
+      "category": "healing",
+      "count": 34,
+      "icons": [
+        {
+          "filename": "circular-emblem-cross-healing.png",
+          "name": "Circular Emblem Cross Healing",
+          "path": "healing/circular-emblem-cross-healing.png"
+        },
+        {
+          "filename": "cross-corner-glows-healing.png",
+          "name": "Cross Corner Glows Healing",
+          "path": "healing/cross-corner-glows-healing.png"
+        },
+        {
+          "filename": "cross-glow-healing.png",
+          "name": "Cross Glow Healing",
+          "path": "healing/cross-glow-healing.png"
+        },
+        {
+          "filename": "cross-glow-healing-symbol.png",
+          "name": "Cross Glow Healing Symbol",
+          "path": "healing/cross-glow-healing-symbol.png"
+        },
+        {
+          "filename": "cross-glow-positive.png",
+          "name": "Cross Glow Positive",
+          "path": "healing/cross-glow-positive.png"
+        },
+        {
+          "filename": "cross-glowing-squares-healing.png",
+          "name": "Cross Glowing Squares Healing",
+          "path": "healing/cross-glowing-squares-healing.png"
+        },
+        {
+          "filename": "cross-healing.png",
+          "name": "Cross Healing",
+          "path": "healing/cross-healing.png"
+        },
+        {
+          "filename": "cross-healing-symbol.png",
+          "name": "Cross Healing Symbol",
+          "path": "healing/cross-healing-symbol.png"
+        },
+        {
+          "filename": "cross-pattern-healing.png",
+          "name": "Cross Pattern Healing",
+          "path": "healing/cross-pattern-healing.png"
+        },
+        {
+          "filename": "cross-pattern-healing-symbol.png",
+          "name": "Cross Pattern Healing Symbol",
+          "path": "healing/cross-pattern-healing-symbol.png"
+        },
+        {
+          "filename": "cross-pattern-healing_1.png",
+          "name": "Cross Pattern Healing_1",
+          "path": "healing/cross-pattern-healing_1.png"
+        },
+        {
+          "filename": "cross-pattern-healing_2.png",
+          "name": "Cross Pattern Healing_2",
+          "path": "healing/cross-pattern-healing_2.png"
+        },
+        {
+          "filename": "cross-pattern-positive.png",
+          "name": "Cross Pattern Positive",
+          "path": "healing/cross-pattern-positive.png"
+        },
+        {
+          "filename": "cross-rounded-arms-healing.png",
+          "name": "Cross Rounded Arms Healing",
+          "path": "healing/cross-rounded-arms-healing.png"
+        },
+        {
+          "filename": "crosses-stars-healing.png",
+          "name": "Crosses Stars Healing",
+          "path": "healing/crosses-stars-healing.png"
+        },
+        {
+          "filename": "fiery-healing-cross.png",
+          "name": "Fiery Healing Cross",
+          "path": "healing/fiery-healing-cross.png"
+        },
+        {
+          "filename": "first-aid-bag-cross-healing.png",
+          "name": "First Aid Bag Cross Healing",
+          "path": "healing/first-aid-bag-cross-healing.png"
+        },
+        {
+          "filename": "glowing-healing-cross.png",
+          "name": "Glowing Healing Cross",
+          "path": "healing/glowing-healing-cross.png"
+        },
+        {
+          "filename": "gradient-healing-cross.png",
+          "name": "Gradient Healing Cross",
+          "path": "healing/gradient-healing-cross.png"
+        },
+        {
+          "filename": "healing-cross.png",
+          "name": "Healing Cross",
+          "path": "healing/healing-cross.png"
+        },
+        {
+          "filename": "healing-cross-corners.png",
+          "name": "Healing Cross Corners",
+          "path": "healing/healing-cross-corners.png"
+        },
+        {
+          "filename": "healing-cross-corners_1.png",
+          "name": "Healing Cross Corners_1",
+          "path": "healing/healing-cross-corners_1.png"
+        },
+        {
+          "filename": "healing-cross-stars.png",
+          "name": "Healing Cross Stars",
+          "path": "healing/healing-cross-stars.png"
+        },
+        {
+          "filename": "heart-cross-healing.png",
+          "name": "Heart Cross Healing",
+          "path": "healing/heart-cross-healing.png"
+        },
+        {
+          "filename": "heart-gradient-healing.png",
+          "name": "Heart Gradient Healing",
+          "path": "healing/heart-gradient-healing.png"
+        },
+        {
+          "filename": "heart-gradient-vitality.png",
+          "name": "Heart Gradient Vitality",
+          "path": "healing/heart-gradient-vitality.png"
+        },
+        {
+          "filename": "heart-outline-healing.png",
+          "name": "Heart Outline Healing",
+          "path": "healing/heart-outline-healing.png"
+        },
+        {
+          "filename": "heart-plus-one-healing.png",
+          "name": "Heart Plus One Healing",
+          "path": "healing/heart-plus-one-healing.png"
+        },
+        {
+          "filename": "heart-vitality.png",
+          "name": "Heart Vitality",
+          "path": "healing/heart-vitality.png"
+        },
+        {
+          "filename": "medical-healing-cross.png",
+          "name": "Medical Healing Cross",
+          "path": "healing/medical-healing-cross.png"
+        },
+        {
+          "filename": "shield-cross-healing.png",
+          "name": "Shield Cross Healing",
+          "path": "healing/shield-cross-healing.png"
+        },
+        {
+          "filename": "teardrop-cross-healing.png",
+          "name": "Teardrop Cross Healing",
+          "path": "healing/teardrop-cross-healing.png"
+        },
+        {
+          "filename": "vitality-heart.png",
+          "name": "Vitality Heart",
+          "path": "healing/vitality-heart.png"
+        },
+        {
+          "filename": "warm-healing-cross.png",
+          "name": "Warm Healing Cross",
+          "path": "healing/warm-healing-cross.png"
+        }
+      ]
+    },
+    "hot": {
+      "category": "hot",
+      "count": 2,
+      "icons": [
+        {
+          "filename": "flame-cross-healing.png",
+          "name": "Flame Cross Healing",
+          "path": "hot/flame-cross-healing.png"
+        },
+        {
+          "filename": "heart-chain-regeneration.png",
+          "name": "Heart Chain Regeneration",
+          "path": "hot/heart-chain-regeneration.png"
+        }
+      ]
+    },
+    "magical": {
+      "category": "magical",
+      "count": 50,
+      "icons": [
+        {
+          "filename": "abstract-geometric-frame-magical.png",
+          "name": "Abstract Geometric Frame Magical",
+          "path": "magical/abstract-geometric-frame-magical.png"
+        },
+        {
+          "filename": "archway-curtains-portal.png",
+          "name": "Archway Curtains Portal",
+          "path": "magical/archway-curtains-portal.png"
+        },
+        {
+          "filename": "concentric-glowing-squares-magical.png",
+          "name": "Concentric Glowing Squares Magical",
+          "path": "magical/concentric-glowing-squares-magical.png"
+        },
+        {
+          "filename": "cross-corner-arrows-magical.png",
+          "name": "Cross Corner Arrows Magical",
+          "path": "magical/cross-corner-arrows-magical.png"
+        },
+        {
+          "filename": "cross-cyan-glow-magical.png",
+          "name": "Cross Cyan Glow Magical",
+          "path": "magical/cross-cyan-glow-magical.png"
+        },
+        {
+          "filename": "cross-diagonal-arms-magical.png",
+          "name": "Cross Diagonal Arms Magical",
+          "path": "magical/cross-diagonal-arms-magical.png"
+        },
+        {
+          "filename": "cross-glow-magical.png",
+          "name": "Cross Glow Magical",
+          "path": "magical/cross-glow-magical.png"
+        },
+        {
+          "filename": "cross-pattern-corner-squares.png",
+          "name": "Cross Pattern Corner Squares",
+          "path": "magical/cross-pattern-corner-squares.png"
+        },
+        {
+          "filename": "cross-pattern-magical.png",
+          "name": "Cross Pattern Magical",
+          "path": "magical/cross-pattern-magical.png"
+        },
+        {
+          "filename": "cross-star-glow-magical.png",
+          "name": "Cross Star Glow Magical",
+          "path": "magical/cross-star-glow-magical.png"
+        },
+        {
+          "filename": "cross-star-magical.png",
+          "name": "Cross Star Magical",
+          "path": "magical/cross-star-magical.png"
+        },
+        {
+          "filename": "diamond-cross-pattern-magical.png",
+          "name": "Diamond Cross Pattern Magical",
+          "path": "magical/diamond-cross-pattern-magical.png"
+        },
+        {
+          "filename": "doorway-archway-portal.png",
+          "name": "Doorway Archway Portal",
+          "path": "magical/doorway-archway-portal.png"
+        },
+        {
+          "filename": "energy-conduit.png",
+          "name": "Energy Conduit",
+          "path": "magical/energy-conduit.png"
+        },
+        {
+          "filename": "ethereal-blob.png",
+          "name": "Ethereal Blob",
+          "path": "magical/ethereal-blob.png"
+        },
+        {
+          "filename": "five-pointed-star-metallic.png",
+          "name": "Five Pointed Star Metallic",
+          "path": "magical/five-pointed-star-metallic.png"
+        },
+        {
+          "filename": "flask-torso-magical.png",
+          "name": "Flask Torso Magical",
+          "path": "magical/flask-torso-magical.png"
+        },
+        {
+          "filename": "focused-hexagon.png",
+          "name": "Focused Hexagon",
+          "path": "magical/focused-hexagon.png"
+        },
+        {
+          "filename": "four-pointed-star-magical.png",
+          "name": "Four Pointed Star Magical",
+          "path": "magical/four-pointed-star-magical.png"
+        },
+        {
+          "filename": "framed-square-cross-magical.png",
+          "name": "Framed Square Cross Magical",
+          "path": "magical/framed-square-cross-magical.png"
+        },
+        {
+          "filename": "glowing-oval-portal.png",
+          "name": "Glowing Oval Portal",
+          "path": "magical/glowing-oval-portal.png"
+        },
+        {
+          "filename": "glowing-square-pattern-magical.png",
+          "name": "Glowing Square Pattern Magical",
+          "path": "magical/glowing-square-pattern-magical.png"
+        },
+        {
+          "filename": "humanoid-keyhole-magical.png",
+          "name": "Humanoid Keyhole Magical",
+          "path": "magical/humanoid-keyhole-magical.png"
+        },
+        {
+          "filename": "inverted-cross-magical.png",
+          "name": "Inverted Cross Magical",
+          "path": "magical/inverted-cross-magical.png"
+        },
+        {
+          "filename": "inverted-t-magical.png",
+          "name": "Inverted T Magical",
+          "path": "magical/inverted-t-magical.png"
+        },
+        {
+          "filename": "inverted-u-flame-arch.png",
+          "name": "Inverted U Flame Arch",
+          "path": "magical/inverted-u-flame-arch.png"
+        },
+        {
+          "filename": "keyhole-emblem-magical.png",
+          "name": "Keyhole Emblem Magical",
+          "path": "magical/keyhole-emblem-magical.png"
+        },
+        {
+          "filename": "keyhole-flask-magical.png",
+          "name": "Keyhole Flask Magical",
+          "path": "magical/keyhole-flask-magical.png"
+        },
+        {
+          "filename": "magical-ward.png",
+          "name": "Magical Ward",
+          "path": "magical/magical-ward.png"
+        },
+        {
+          "filename": "network-circuit-magical.png",
+          "name": "Network Circuit Magical",
+          "path": "magical/network-circuit-magical.png"
+        },
+        {
+          "filename": "octagonal-magical-core.png",
+          "name": "Octagonal Magical Core",
+          "path": "magical/octagonal-magical-core.png"
+        },
+        {
+          "filename": "omega-symbol-ultimate.png",
+          "name": "Omega Symbol Ultimate",
+          "path": "magical/omega-symbol-ultimate.png"
+        },
+        {
+          "filename": "pot-flask-magical.png",
+          "name": "Pot Flask Magical",
+          "path": "magical/pot-flask-magical.png"
+        },
+        {
+          "filename": "ring-gem-magical.png",
+          "name": "Ring Gem Magical",
+          "path": "magical/ring-gem-magical.png"
+        },
+        {
+          "filename": "s-symbol-red-dots-magical.png",
+          "name": "S Symbol Red Dots Magical",
+          "path": "magical/s-symbol-red-dots-magical.png"
+        },
+        {
+          "filename": "snowflake-star-magical.png",
+          "name": "Snowflake Star Magical",
+          "path": "magical/snowflake-star-magical.png"
+        },
+        {
+          "filename": "spiral-clockwise-vortex.png",
+          "name": "Spiral Clockwise Vortex",
+          "path": "magical/spiral-clockwise-vortex.png"
+        },
+        {
+          "filename": "spiral-counter-clockwise-magical.png",
+          "name": "Spiral Counter Clockwise Magical",
+          "path": "magical/spiral-counter-clockwise-magical.png"
+        },
+        {
+          "filename": "spiral-counter-clockwise-vortex.png",
+          "name": "Spiral Counter Clockwise Vortex",
+          "path": "magical/spiral-counter-clockwise-vortex.png"
+        },
+        {
+          "filename": "spiral-counter-clockwise-vortex_1.png",
+          "name": "Spiral Counter Clockwise Vortex_1",
+          "path": "magical/spiral-counter-clockwise-vortex_1.png"
+        },
+        {
+          "filename": "spiral-maze-magical.png",
+          "name": "Spiral Maze Magical",
+          "path": "magical/spiral-maze-magical.png"
+        },
+        {
+          "filename": "staff-crook-magical.png",
+          "name": "Staff Crook Magical",
+          "path": "magical/staff-crook-magical.png"
+        },
+        {
+          "filename": "star-cross-magical.png",
+          "name": "Star Cross Magical",
+          "path": "magical/star-cross-magical.png"
+        },
+        {
+          "filename": "star-cross-pattern-magical.png",
+          "name": "Star Cross Pattern Magical",
+          "path": "magical/star-cross-pattern-magical.png"
+        },
+        {
+          "filename": "stars-cosmic-magical.png",
+          "name": "Stars Cosmic Magical",
+          "path": "magical/stars-cosmic-magical.png"
+        },
+        {
+          "filename": "stylized-h-gate-magical.png",
+          "name": "Stylized H Gate Magical",
+          "path": "magical/stylized-h-gate-magical.png"
+        },
+        {
+          "filename": "sword-feather-quill-magical.png",
+          "name": "Sword Feather Quill Magical",
+          "path": "magical/sword-feather-quill-magical.png"
+        },
+        {
+          "filename": "three-stars-circuit-magical.png",
+          "name": "Three Stars Circuit Magical",
+          "path": "magical/three-stars-circuit-magical.png"
+        },
+        {
+          "filename": "wizard-hat-magical.png",
+          "name": "Wizard Hat Magical",
+          "path": "magical/wizard-hat-magical.png"
+        },
+        {
+          "filename": "wizard-hat-spellcasting.png",
+          "name": "Wizard Hat Spellcasting",
+          "path": "magical/wizard-hat-spellcasting.png"
+        }
+      ]
+    },
+    "mental": {
+      "category": "mental",
+      "count": 44,
+      "icons": [
+        {
+          "filename": "angry-mask-curse.png",
+          "name": "Angry Mask Curse",
+          "path": "mental/angry-mask-curse.png"
+        },
+        {
+          "filename": "brain-glowing-border-mental.png",
+          "name": "Brain Glowing Border Mental",
+          "path": "mental/brain-glowing-border-mental.png"
+        },
+        {
+          "filename": "brain-intelligence.png",
+          "name": "Brain Intelligence",
+          "path": "mental/brain-intelligence.png"
+        },
+        {
+          "filename": "brain-outline-glow-mental.png",
+          "name": "Brain Outline Glow Mental",
+          "path": "mental/brain-outline-glow-mental.png"
+        },
+        {
+          "filename": "brain-outline-intelligence.png",
+          "name": "Brain Outline Intelligence",
+          "path": "mental/brain-outline-intelligence.png"
+        },
+        {
+          "filename": "chaotic-cross.png",
+          "name": "Chaotic Cross",
+          "path": "mental/chaotic-cross.png"
+        },
+        {
+          "filename": "complex-interlock.png",
+          "name": "Complex Interlock",
+          "path": "mental/complex-interlock.png"
+        },
+        {
+          "filename": "complex-pattern.png",
+          "name": "Complex Pattern",
+          "path": "mental/complex-pattern.png"
+        },
+        {
+          "filename": "confused-face.png",
+          "name": "Confused Face",
+          "path": "mental/confused-face.png"
+        },
+        {
+          "filename": "confused-face_1.png",
+          "name": "Confused Face_1",
+          "path": "mental/confused-face_1.png"
+        },
+        {
+          "filename": "crescent-moon-stars-night.png",
+          "name": "Crescent Moon Stars Night",
+          "path": "mental/crescent-moon-stars-night.png"
+        },
+        {
+          "filename": "crescent-moon-stars-sleep.png",
+          "name": "Crescent Moon Stars Sleep",
+          "path": "mental/crescent-moon-stars-sleep.png"
+        },
+        {
+          "filename": "crescent-moon-z-sleep.png",
+          "name": "Crescent Moon Z Sleep",
+          "path": "mental/crescent-moon-z-sleep.png"
+        },
+        {
+          "filename": "dazed-blank.png",
+          "name": "Dazed Blank",
+          "path": "mental/dazed-blank.png"
+        },
+        {
+          "filename": "disoriented-quadrants.png",
+          "name": "Disoriented Quadrants",
+          "path": "mental/disoriented-quadrants.png"
+        },
+        {
+          "filename": "face-bone-cross-fear.png",
+          "name": "Face Bone Cross Fear",
+          "path": "mental/face-bone-cross-fear.png"
+        },
+        {
+          "filename": "face-fangs-eyes-rage.png",
+          "name": "Face Fangs Eyes Rage",
+          "path": "mental/face-fangs-eyes-rage.png"
+        },
+        {
+          "filename": "face-mask-x-curse.png",
+          "name": "Face Mask X Curse",
+          "path": "mental/face-mask-x-curse.png"
+        },
+        {
+          "filename": "fearful-face.png",
+          "name": "Fearful Face",
+          "path": "mental/fearful-face.png"
+        },
+        {
+          "filename": "fragmented-grid.png",
+          "name": "Fragmented Grid",
+          "path": "mental/fragmented-grid.png"
+        },
+        {
+          "filename": "fragmented-quadrants.png",
+          "name": "Fragmented Quadrants",
+          "path": "mental/fragmented-quadrants.png"
+        },
+        {
+          "filename": "glowing-maze-path.png",
+          "name": "Glowing Maze Path",
+          "path": "mental/glowing-maze-path.png"
+        },
+        {
+          "filename": "horned-mask-mental.png",
+          "name": "Horned Mask Mental",
+          "path": "mental/horned-mask-mental.png"
+        },
+        {
+          "filename": "joyful-mask-mental.png",
+          "name": "Joyful Mask Mental",
+          "path": "mental/joyful-mask-mental.png"
+        },
+        {
+          "filename": "letter-z-gradient-sleep.png",
+          "name": "Letter Z Gradient Sleep",
+          "path": "mental/letter-z-gradient-sleep.png"
+        },
+        {
+          "filename": "letter-z-pattern-sleep.png",
+          "name": "Letter Z Pattern Sleep",
+          "path": "mental/letter-z-pattern-sleep.png"
+        },
+        {
+          "filename": "mask-fear-confusion.png",
+          "name": "Mask Fear Confusion",
+          "path": "mental/mask-fear-confusion.png"
+        },
+        {
+          "filename": "maze-confusion.png",
+          "name": "Maze Confusion",
+          "path": "mental/maze-confusion.png"
+        },
+        {
+          "filename": "maze-pattern.png",
+          "name": "Maze Pattern",
+          "path": "mental/maze-pattern.png"
+        },
+        {
+          "filename": "menacing-face-fear.png",
+          "name": "Menacing Face Fear",
+          "path": "mental/menacing-face-fear.png"
+        },
+        {
+          "filename": "menacing-face-tusks-rage.png",
+          "name": "Menacing Face Tusks Rage",
+          "path": "mental/menacing-face-tusks-rage.png"
+        },
+        {
+          "filename": "menacing-face-wings-fear.png",
+          "name": "Menacing Face Wings Fear",
+          "path": "mental/menacing-face-wings-fear.png"
+        },
+        {
+          "filename": "monstrous-face-debuff.png",
+          "name": "Monstrous Face Debuff",
+          "path": "mental/monstrous-face-debuff.png"
+        },
+        {
+          "filename": "monstrous-face-rage.png",
+          "name": "Monstrous Face Rage",
+          "path": "mental/monstrous-face-rage.png"
+        },
+        {
+          "filename": "pinwheel-disoriented.png",
+          "name": "Pinwheel Disoriented",
+          "path": "mental/pinwheel-disoriented.png"
+        },
+        {
+          "filename": "radiating-daze.png",
+          "name": "Radiating Daze",
+          "path": "mental/radiating-daze.png"
+        },
+        {
+          "filename": "roaring-face-rage.png",
+          "name": "Roaring Face Rage",
+          "path": "mental/roaring-face-rage.png"
+        },
+        {
+          "filename": "screaming-face-fear.png",
+          "name": "Screaming Face Fear",
+          "path": "mental/screaming-face-fear.png"
+        },
+        {
+          "filename": "screaming-face-fear-rage.png",
+          "name": "Screaming Face Fear Rage",
+          "path": "mental/screaming-face-fear-rage.png"
+        },
+        {
+          "filename": "spiral-dizzy.png",
+          "name": "Spiral Dizzy",
+          "path": "mental/spiral-dizzy.png"
+        },
+        {
+          "filename": "stylized-face-mask.png",
+          "name": "Stylized Face Mask",
+          "path": "mental/stylized-face-mask.png"
+        },
+        {
+          "filename": "swirling-confusion.png",
+          "name": "Swirling Confusion",
+          "path": "mental/swirling-confusion.png"
+        },
+        {
+          "filename": "swirling-disorientation.png",
+          "name": "Swirling Disorientation",
+          "path": "mental/swirling-disorientation.png"
+        },
+        {
+          "filename": "three-z-sleep-circuit.png",
+          "name": "Three Z Sleep Circuit",
+          "path": "mental/three-z-sleep-circuit.png"
+        }
+      ]
+    },
+    "movement": {
+      "category": "movement",
+      "count": 28,
+      "icons": [
+        {
+          "filename": "anchor-slow-root.png",
+          "name": "Anchor Slow Root",
+          "path": "movement/anchor-slow-root.png"
+        },
+        {
+          "filename": "boot-glow-movement.png",
+          "name": "Boot Glow Movement",
+          "path": "movement/boot-glow-movement.png"
+        },
+        {
+          "filename": "boot-leg-highlighted-movement.png",
+          "name": "Boot Leg Highlighted Movement",
+          "path": "movement/boot-leg-highlighted-movement.png"
+        },
+        {
+          "filename": "boot-leg-shape-movement.png",
+          "name": "Boot Leg Shape Movement",
+          "path": "movement/boot-leg-shape-movement.png"
+        },
+        {
+          "filename": "boot-profile-movement.png",
+          "name": "Boot Profile Movement",
+          "path": "movement/boot-profile-movement.png"
+        },
+        {
+          "filename": "boot-q-shape-movement.png",
+          "name": "Boot Q Shape Movement",
+          "path": "movement/boot-q-shape-movement.png"
+        },
+        {
+          "filename": "hand-pointing-left-movement.png",
+          "name": "Hand Pointing Left Movement",
+          "path": "movement/hand-pointing-left-movement.png"
+        },
+        {
+          "filename": "hand-pointing-right-movement.png",
+          "name": "Hand Pointing Right Movement",
+          "path": "movement/hand-pointing-right-movement.png"
+        },
+        {
+          "filename": "knight-horse-movement.png",
+          "name": "Knight Horse Movement",
+          "path": "movement/knight-horse-movement.png"
+        },
+        {
+          "filename": "l-arrow-downward-slow.png",
+          "name": "L Arrow Downward Slow",
+          "path": "movement/l-arrow-downward-slow.png"
+        },
+        {
+          "filename": "red-boot-movement.png",
+          "name": "Red Boot Movement",
+          "path": "movement/red-boot-movement.png"
+        },
+        {
+          "filename": "s-shaped-winding-path-movement.png",
+          "name": "S Shaped Winding Path Movement",
+          "path": "movement/s-shaped-winding-path-movement.png"
+        },
+        {
+          "filename": "upward-arrow-chevrons.png",
+          "name": "Upward Arrow Chevrons",
+          "path": "movement/upward-arrow-chevrons.png"
+        },
+        {
+          "filename": "upward-arrow-dark-glow.png",
+          "name": "Upward Arrow Dark Glow",
+          "path": "movement/upward-arrow-dark-glow.png"
+        },
+        {
+          "filename": "upward-arrow-energy.png",
+          "name": "Upward Arrow Energy",
+          "path": "movement/upward-arrow-energy.png"
+        },
+        {
+          "filename": "upward-arrow-glow.png",
+          "name": "Upward Arrow Glow",
+          "path": "movement/upward-arrow-glow.png"
+        },
+        {
+          "filename": "upward-arrow-gold.png",
+          "name": "Upward Arrow Gold",
+          "path": "movement/upward-arrow-gold.png"
+        },
+        {
+          "filename": "upward-arrow-haste.png",
+          "name": "Upward Arrow Haste",
+          "path": "movement/upward-arrow-haste.png"
+        },
+        {
+          "filename": "upward-arrow-haste_1.png",
+          "name": "Upward Arrow Haste_1",
+          "path": "movement/upward-arrow-haste_1.png"
+        },
+        {
+          "filename": "upward-arrow-haste_2.png",
+          "name": "Upward Arrow Haste_2",
+          "path": "movement/upward-arrow-haste_2.png"
+        },
+        {
+          "filename": "upward-arrow-luminous.png",
+          "name": "Upward Arrow Luminous",
+          "path": "movement/upward-arrow-luminous.png"
+        },
+        {
+          "filename": "upward-arrow-movement.png",
+          "name": "Upward Arrow Movement",
+          "path": "movement/upward-arrow-movement.png"
+        },
+        {
+          "filename": "upward-arrow-outlined.png",
+          "name": "Upward Arrow Outlined",
+          "path": "movement/upward-arrow-outlined.png"
+        },
+        {
+          "filename": "upward-arrow-radiant.png",
+          "name": "Upward Arrow Radiant",
+          "path": "movement/upward-arrow-radiant.png"
+        },
+        {
+          "filename": "upward-arrow-sparkles.png",
+          "name": "Upward Arrow Sparkles",
+          "path": "movement/upward-arrow-sparkles.png"
+        },
+        {
+          "filename": "upward-arrow-speed.png",
+          "name": "Upward Arrow Speed",
+          "path": "movement/upward-arrow-speed.png"
+        },
+        {
+          "filename": "upward-arrow-trail-haste.png",
+          "name": "Upward Arrow Trail Haste",
+          "path": "movement/upward-arrow-trail-haste.png"
+        },
+        {
+          "filename": "wing-shape-flight.png",
+          "name": "Wing Shape Flight",
+          "path": "movement/wing-shape-flight.png"
+        }
+      ]
+    },
+    "other": {
+      "category": "other",
+      "count": 28,
+      "icons": [
+        {
+          "filename": "abstract-blob-shape.png",
+          "name": "Abstract Blob Shape",
+          "path": "other/abstract-blob-shape.png"
+        },
+        {
+          "filename": "abstract-figure-trophy-keyhole.png",
+          "name": "Abstract Figure Trophy Keyhole",
+          "path": "other/abstract-figure-trophy-keyhole.png"
+        },
+        {
+          "filename": "abstract-pattern.png",
+          "name": "Abstract Pattern",
+          "path": "other/abstract-pattern.png"
+        },
+        {
+          "filename": "abstract-pattern-texture.png",
+          "name": "Abstract Pattern Texture",
+          "path": "other/abstract-pattern-texture.png"
+        },
+        {
+          "filename": "abstract-shape-other.png",
+          "name": "Abstract Shape Other",
+          "path": "other/abstract-shape-other.png"
+        },
+        {
+          "filename": "abstract-symbol.png",
+          "name": "Abstract Symbol",
+          "path": "other/abstract-symbol.png"
+        },
+        {
+          "filename": "abstract-symbol-unknown.png",
+          "name": "Abstract Symbol Unknown",
+          "path": "other/abstract-symbol-unknown.png"
+        },
+        {
+          "filename": "animal-face-dog-rabbit.png",
+          "name": "Animal Face Dog Rabbit",
+          "path": "other/animal-face-dog-rabbit.png"
+        },
+        {
+          "filename": "antlers-deer-head-nature.png",
+          "name": "Antlers Deer Head Nature",
+          "path": "other/antlers-deer-head-nature.png"
+        },
+        {
+          "filename": "beard-facial-hair.png",
+          "name": "Beard Facial Hair",
+          "path": "other/beard-facial-hair.png"
+        },
+        {
+          "filename": "bug-creature.png",
+          "name": "Bug Creature",
+          "path": "other/bug-creature.png"
+        },
+        {
+          "filename": "butterfly-bow-tie-pattern.png",
+          "name": "Butterfly Bow Tie Pattern",
+          "path": "other/butterfly-bow-tie-pattern.png"
+        },
+        {
+          "filename": "character-head-mario.png",
+          "name": "Character Head Mario",
+          "path": "other/character-head-mario.png"
+        },
+        {
+          "filename": "checkerboard-pattern.png",
+          "name": "Checkerboard Pattern",
+          "path": "other/checkerboard-pattern.png"
+        },
+        {
+          "filename": "cookie-food.png",
+          "name": "Cookie Food",
+          "path": "other/cookie-food.png"
+        },
+        {
+          "filename": "cow-head-animal.png",
+          "name": "Cow Head Animal",
+          "path": "other/cow-head-animal.png"
+        },
+        {
+          "filename": "fragmented-pattern.png",
+          "name": "Fragmented Pattern",
+          "path": "other/fragmented-pattern.png"
+        },
+        {
+          "filename": "glowing-outline-shape.png",
+          "name": "Glowing Outline Shape",
+          "path": "other/glowing-outline-shape.png"
+        },
+        {
+          "filename": "hair-wig-character.png",
+          "name": "Hair Wig Character",
+          "path": "other/hair-wig-character.png"
+        },
+        {
+          "filename": "head-glowing-hair-character.png",
+          "name": "Head Glowing Hair Character",
+          "path": "other/head-glowing-hair-character.png"
+        },
+        {
+          "filename": "heart-spade-symbol.png",
+          "name": "Heart Spade Symbol",
+          "path": "other/heart-spade-symbol.png"
+        },
+        {
+          "filename": "l-corner-shape.png",
+          "name": "L Corner Shape",
+          "path": "other/l-corner-shape.png"
+        },
+        {
+          "filename": "pinwheel-pattern-other.png",
+          "name": "Pinwheel Pattern Other",
+          "path": "other/pinwheel-pattern-other.png"
+        },
+        {
+          "filename": "profile-face-shape.png",
+          "name": "Profile Face Shape",
+          "path": "other/profile-face-shape.png"
+        },
+        {
+          "filename": "space-invader-alien.png",
+          "name": "Space Invader Alien",
+          "path": "other/space-invader-alien.png"
+        },
+        {
+          "filename": "spade-mushroom-shape.png",
+          "name": "Spade Mushroom Shape",
+          "path": "other/spade-mushroom-shape.png"
+        },
+        {
+          "filename": "stylized-crab.png",
+          "name": "Stylized Crab",
+          "path": "other/stylized-crab.png"
+        },
+        {
+          "filename": "symmetrical-creature-face.png",
+          "name": "Symmetrical Creature Face",
+          "path": "other/symmetrical-creature-face.png"
+        }
+      ]
+    },
+    "physical": {
+      "category": "physical",
+      "count": 5,
+      "icons": [
+        {
+          "filename": "character-silhouette-target.png",
+          "name": "Character Silhouette Target",
+          "path": "physical/character-silhouette-target.png"
+        },
+        {
+          "filename": "humanoid-figure-character.png",
+          "name": "Humanoid Figure Character",
+          "path": "physical/humanoid-figure-character.png"
+        },
+        {
+          "filename": "intestines-organ-disease.png",
+          "name": "Intestines Organ Disease",
+          "path": "physical/intestines-organ-disease.png"
+        },
+        {
+          "filename": "kidneys-organ-health.png",
+          "name": "Kidneys Organ Health",
+          "path": "physical/kidneys-organ-health.png"
+        },
+        {
+          "filename": "stomach-organ-sickness.png",
+          "name": "Stomach Organ Sickness",
+          "path": "physical/stomach-organ-sickness.png"
+        }
+      ]
+    },
+    "social": {
+      "category": "social",
+      "count": 2,
+      "icons": [
+        {
+          "filename": "bardic-note.png",
+          "name": "Bardic Note",
+          "path": "social/bardic-note.png"
+        },
+        {
+          "filename": "musical-note.png",
+          "name": "Musical Note",
+          "path": "social/musical-note.png"
+        }
+      ]
+    },
+    "utility": {
+      "category": "utility",
+      "count": 95,
+      "icons": [
+        {
+          "filename": "active-effect.png",
+          "name": "Active Effect",
+          "path": "utility/active-effect.png"
+        },
+        {
+          "filename": "active-mechanical.png",
+          "name": "Active Mechanical",
+          "path": "utility/active-mechanical.png"
+        },
+        {
+          "filename": "alert-bell.png",
+          "name": "Alert Bell",
+          "path": "utility/alert-bell.png"
+        },
+        {
+          "filename": "alert-warning.png",
+          "name": "Alert Warning",
+          "path": "utility/alert-warning.png"
+        },
+        {
+          "filename": "backpack-storage.png",
+          "name": "Backpack Storage",
+          "path": "utility/backpack-storage.png"
+        },
+        {
+          "filename": "bottle-flask-potion.png",
+          "name": "Bottle Flask Potion",
+          "path": "utility/bottle-flask-potion.png"
+        },
+        {
+          "filename": "bottle-flask-potion_1.png",
+          "name": "Bottle Flask Potion_1",
+          "path": "utility/bottle-flask-potion_1.png"
+        },
+        {
+          "filename": "bottle-liquid-potion.png",
+          "name": "Bottle Liquid Potion",
+          "path": "utility/bottle-liquid-potion.png"
+        },
+        {
+          "filename": "branching-redirect.png",
+          "name": "Branching Redirect",
+          "path": "utility/branching-redirect.png"
+        },
+        {
+          "filename": "capsule-pill-potion.png",
+          "name": "Capsule Pill Potion",
+          "path": "utility/capsule-pill-potion.png"
+        },
+        {
+          "filename": "chicken-drumstick-food.png",
+          "name": "Chicken Drumstick Food",
+          "path": "utility/chicken-drumstick-food.png"
+        },
+        {
+          "filename": "chicken-drumstick-red-food.png",
+          "name": "Chicken Drumstick Red Food",
+          "path": "utility/chicken-drumstick-red-food.png"
+        },
+        {
+          "filename": "clock-timer-time.png",
+          "name": "Clock Timer Time",
+          "path": "utility/clock-timer-time.png"
+        },
+        {
+          "filename": "clock-timer-time_1.png",
+          "name": "Clock Timer Time_1",
+          "path": "utility/clock-timer-time_1.png"
+        },
+        {
+          "filename": "compass-rose-octagonal-pattern.png",
+          "name": "Compass Rose Octagonal Pattern",
+          "path": "utility/compass-rose-octagonal-pattern.png"
+        },
+        {
+          "filename": "cycle-refresh.png",
+          "name": "Cycle Refresh",
+          "path": "utility/cycle-refresh.png"
+        },
+        {
+          "filename": "diamond-pattern-tile.png",
+          "name": "Diamond Pattern Tile",
+          "path": "utility/diamond-pattern-tile.png"
+        },
+        {
+          "filename": "disguise-mask.png",
+          "name": "Disguise Mask",
+          "path": "utility/disguise-mask.png"
+        },
+        {
+          "filename": "diverging-choice.png",
+          "name": "Diverging Choice",
+          "path": "utility/diverging-choice.png"
+        },
+        {
+          "filename": "division-split.png",
+          "name": "Division Split",
+          "path": "utility/division-split.png"
+        },
+        {
+          "filename": "double-s-exchange-transfer.png",
+          "name": "Double S Exchange Transfer",
+          "path": "utility/double-s-exchange-transfer.png"
+        },
+        {
+          "filename": "empty-frame.png",
+          "name": "Empty Frame",
+          "path": "utility/empty-frame.png"
+        },
+        {
+          "filename": "empty-slot-container.png",
+          "name": "Empty Slot Container",
+          "path": "utility/empty-slot-container.png"
+        },
+        {
+          "filename": "empty-slot-vertical.png",
+          "name": "Empty Slot Vertical",
+          "path": "utility/empty-slot-vertical.png"
+        },
+        {
+          "filename": "envelope-pouch-item.png",
+          "name": "Envelope Pouch Item",
+          "path": "utility/envelope-pouch-item.png"
+        },
+        {
+          "filename": "exclamation-mark-alert.png",
+          "name": "Exclamation Mark Alert",
+          "path": "utility/exclamation-mark-alert.png"
+        },
+        {
+          "filename": "eye-watch-detection.png",
+          "name": "Eye Watch Detection",
+          "path": "utility/eye-watch-detection.png"
+        },
+        {
+          "filename": "flask-glowing-liquid.png",
+          "name": "Flask Glowing Liquid",
+          "path": "utility/flask-glowing-liquid.png"
+        },
+        {
+          "filename": "forking-path.png",
+          "name": "Forking Path",
+          "path": "utility/forking-path.png"
+        },
+        {
+          "filename": "four-pizza-slices-food.png",
+          "name": "Four Pizza Slices Food",
+          "path": "utility/four-pizza-slices-food.png"
+        },
+        {
+          "filename": "gear-cog-turns.png",
+          "name": "Gear Cog Turns",
+          "path": "utility/gear-cog-turns.png"
+        },
+        {
+          "filename": "gift-box-reward.png",
+          "name": "Gift Box Reward",
+          "path": "utility/gift-box-reward.png"
+        },
+        {
+          "filename": "glasses-goggles-vision.png",
+          "name": "Glasses Goggles Vision",
+          "path": "utility/glasses-goggles-vision.png"
+        },
+        {
+          "filename": "glowing-diamond-focus.png",
+          "name": "Glowing Diamond Focus",
+          "path": "utility/glowing-diamond-focus.png"
+        },
+        {
+          "filename": "glowing-eye-detection.png",
+          "name": "Glowing Eye Detection",
+          "path": "utility/glowing-eye-detection.png"
+        },
+        {
+          "filename": "glowing-eye-orb.png",
+          "name": "Glowing Eye Orb",
+          "path": "utility/glowing-eye-orb.png"
+        },
+        {
+          "filename": "glowing-key-unlock.png",
+          "name": "Glowing Key Unlock",
+          "path": "utility/glowing-key-unlock.png"
+        },
+        {
+          "filename": "glowing-t-shirt-clothing.png",
+          "name": "Glowing T Shirt Clothing",
+          "path": "utility/glowing-t-shirt-clothing.png"
+        },
+        {
+          "filename": "grid-lattice-structure.png",
+          "name": "Grid Lattice Structure",
+          "path": "utility/grid-lattice-structure.png"
+        },
+        {
+          "filename": "hamburger-food.png",
+          "name": "Hamburger Food",
+          "path": "utility/hamburger-food.png"
+        },
+        {
+          "filename": "hand-reaching-grasping.png",
+          "name": "Hand Reaching Grasping",
+          "path": "utility/hand-reaching-grasping.png"
+        },
+        {
+          "filename": "hashtag-cross-symbol-utility.png",
+          "name": "Hashtag Cross Symbol Utility",
+          "path": "utility/hashtag-cross-symbol-utility.png"
+        },
+        {
+          "filename": "hashtag-symbol-utility.png",
+          "name": "Hashtag Symbol Utility",
+          "path": "utility/hashtag-symbol-utility.png"
+        },
+        {
+          "filename": "heart-locket-potion-glow.png",
+          "name": "Heart Locket Potion Glow",
+          "path": "utility/heart-locket-potion-glow.png"
+        },
+        {
+          "filename": "hooded-cloak-stealth.png",
+          "name": "Hooded Cloak Stealth",
+          "path": "utility/hooded-cloak-stealth.png"
+        },
+        {
+          "filename": "hooded-figure-cloak.png",
+          "name": "Hooded Figure Cloak",
+          "path": "utility/hooded-figure-cloak.png"
+        },
+        {
+          "filename": "hourglass-contained-time.png",
+          "name": "Hourglass Contained Time",
+          "path": "utility/hourglass-contained-time.png"
+        },
+        {
+          "filename": "hourglass-flowing-sand.png",
+          "name": "Hourglass Flowing Sand",
+          "path": "utility/hourglass-flowing-sand.png"
+        },
+        {
+          "filename": "hourglass-time-duration.png",
+          "name": "Hourglass Time Duration",
+          "path": "utility/hourglass-time-duration.png"
+        },
+        {
+          "filename": "hourglass-time-duration_1.png",
+          "name": "Hourglass Time Duration_1",
+          "path": "utility/hourglass-time-duration_1.png"
+        },
+        {
+          "filename": "hourglass-timer.png",
+          "name": "Hourglass Timer",
+          "path": "utility/hourglass-timer.png"
+        },
+        {
+          "filename": "infinity-endless.png",
+          "name": "Infinity Endless",
+          "path": "utility/infinity-endless.png"
+        },
+        {
+          "filename": "infinity-persistent.png",
+          "name": "Infinity Persistent",
+          "path": "utility/infinity-persistent.png"
+        },
+        {
+          "filename": "key-jagged-bit-unlock.png",
+          "name": "Key Jagged Bit Unlock",
+          "path": "utility/key-jagged-bit-unlock.png"
+        },
+        {
+          "filename": "key-maze-border-unlock.png",
+          "name": "Key Maze Border Unlock",
+          "path": "utility/key-maze-border-unlock.png"
+        },
+        {
+          "filename": "key-sword-utility.png",
+          "name": "Key Sword Utility",
+          "path": "utility/key-sword-utility.png"
+        },
+        {
+          "filename": "letter-a-attribute.png",
+          "name": "Letter A Attribute",
+          "path": "utility/letter-a-attribute.png"
+        },
+        {
+          "filename": "letter-c-currency.png",
+          "name": "Letter C Currency",
+          "path": "utility/letter-c-currency.png"
+        },
+        {
+          "filename": "letter-c-currency_1.png",
+          "name": "Letter C Currency_1",
+          "path": "utility/letter-c-currency_1.png"
+        },
+        {
+          "filename": "letter-g-glow-utility.png",
+          "name": "Letter G Glow Utility",
+          "path": "utility/letter-g-glow-utility.png"
+        },
+        {
+          "filename": "letter-g-z-inside.png",
+          "name": "Letter G Z Inside",
+          "path": "utility/letter-g-z-inside.png"
+        },
+        {
+          "filename": "letter-l-utility.png",
+          "name": "Letter L Utility",
+          "path": "utility/letter-l-utility.png"
+        },
+        {
+          "filename": "letter-m-suspenders-shape.png",
+          "name": "Letter M Suspenders Shape",
+          "path": "utility/letter-m-suspenders-shape.png"
+        },
+        {
+          "filename": "letter-q-glow-utility.png",
+          "name": "Letter Q Glow Utility",
+          "path": "utility/letter-q-glow-utility.png"
+        },
+        {
+          "filename": "loot-pouch.png",
+          "name": "Loot Pouch",
+          "path": "utility/loot-pouch.png"
+        },
+        {
+          "filename": "masked-face.png",
+          "name": "Masked Face",
+          "path": "utility/masked-face.png"
+        },
+        {
+          "filename": "money-bag-currency.png",
+          "name": "Money Bag Currency",
+          "path": "utility/money-bag-currency.png"
+        },
+        {
+          "filename": "mug-cup-drink.png",
+          "name": "Mug Cup Drink",
+          "path": "utility/mug-cup-drink.png"
+        },
+        {
+          "filename": "mug-glow-potion.png",
+          "name": "Mug Glow Potion",
+          "path": "utility/mug-glow-potion.png"
+        },
+        {
+          "filename": "mug-tankard-potion.png",
+          "name": "Mug Tankard Potion",
+          "path": "utility/mug-tankard-potion.png"
+        },
+        {
+          "filename": "multiple-eyes-detection.png",
+          "name": "Multiple Eyes Detection",
+          "path": "utility/multiple-eyes-detection.png"
+        },
+        {
+          "filename": "multiple-shapes-grid-utility.png",
+          "name": "Multiple Shapes Grid Utility",
+          "path": "utility/multiple-shapes-grid-utility.png"
+        },
+        {
+          "filename": "number-eight-countdown.png",
+          "name": "Number Eight Countdown",
+          "path": "utility/number-eight-countdown.png"
+        },
+        {
+          "filename": "paperclip-utility.png",
+          "name": "Paperclip Utility",
+          "path": "utility/paperclip-utility.png"
+        },
+        {
+          "filename": "parchment-scroll-fiery.png",
+          "name": "Parchment Scroll Fiery",
+          "path": "utility/parchment-scroll-fiery.png"
+        },
+        {
+          "filename": "partial-cycle.png",
+          "name": "Partial Cycle",
+          "path": "utility/partial-cycle.png"
+        },
+        {
+          "filename": "paw-print-animal.png",
+          "name": "Paw Print Animal",
+          "path": "utility/paw-print-animal.png"
+        },
+        {
+          "filename": "paw-print-glowing.png",
+          "name": "Paw Print Glowing",
+          "path": "utility/paw-print-glowing.png"
+        },
+        {
+          "filename": "pickaxe-mining-utility.png",
+          "name": "Pickaxe Mining Utility",
+          "path": "utility/pickaxe-mining-utility.png"
+        },
+        {
+          "filename": "potion-bottle-glowing.png",
+          "name": "Potion Bottle Glowing",
+          "path": "utility/potion-bottle-glowing.png"
+        },
+        {
+          "filename": "potion-bottle-red-liquid.png",
+          "name": "Potion Bottle Red Liquid",
+          "path": "utility/potion-bottle-red-liquid.png"
+        },
+        {
+          "filename": "power-symbol-on-off.png",
+          "name": "Power Symbol On Off",
+          "path": "utility/power-symbol-on-off.png"
+        },
+        {
+          "filename": "random-dice.png",
+          "name": "Random Dice",
+          "path": "utility/random-dice.png"
+        },
+        {
+          "filename": "recharge-cycle.png",
+          "name": "Recharge Cycle",
+          "path": "utility/recharge-cycle.png"
+        },
+        {
+          "filename": "sequence-delay.png",
+          "name": "Sequence Delay",
+          "path": "utility/sequence-delay.png"
+        },
+        {
+          "filename": "sound-waves.png",
+          "name": "Sound Waves",
+          "path": "utility/sound-waves.png"
+        },
+        {
+          "filename": "speaker-volume-sound.png",
+          "name": "Speaker Volume Sound",
+          "path": "utility/speaker-volume-sound.png"
+        },
+        {
+          "filename": "stylized-letter-g-utility.png",
+          "name": "Stylized Letter G Utility",
+          "path": "utility/stylized-letter-g-utility.png"
+        },
+        {
+          "filename": "swap-exchange.png",
+          "name": "Swap Exchange",
+          "path": "utility/swap-exchange.png"
+        },
+        {
+          "filename": "t-shirt-clothing.png",
+          "name": "T Shirt Clothing",
+          "path": "utility/t-shirt-clothing.png"
+        },
+        {
+          "filename": "t-shirt-framed-clothing.png",
+          "name": "T Shirt Framed Clothing",
+          "path": "utility/t-shirt-framed-clothing.png"
+        },
+        {
+          "filename": "t-shirt-vertical-seam.png",
+          "name": "T Shirt Vertical Seam",
+          "path": "utility/t-shirt-vertical-seam.png"
+        },
+        {
+          "filename": "three-octagons-group.png",
+          "name": "Three Octagons Group",
+          "path": "utility/three-octagons-group.png"
+        },
+        {
+          "filename": "wavy-line-m-shape-utility.png",
+          "name": "Wavy Line M Shape Utility",
+          "path": "utility/wavy-line-m-shape-utility.png"
+        },
+        {
+          "filename": "wrench-tools-utility.png",
+          "name": "Wrench Tools Utility",
+          "path": "utility/wrench-tools-utility.png"
+        }
+      ]
+    }
+  }
+}

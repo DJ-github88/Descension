@@ -402,40 +402,44 @@ const InventoryHeaderButton = () => {
                     <div
                         className="wow-confirm-dialog"
                         style={{
-                            background: 'linear-gradient(135deg, #2c1810 0%, #1a1008 100%)',
+                            background: 'linear-gradient(180deg, #fdf8ee 0%, #f4eee2 100%)',
                             border: '2px solid #8b6f47',
                             borderRadius: '8px',
                             padding: '24px',
                             maxWidth: '400px',
                             width: '90%',
-                            boxShadow: '0 10px 30px rgba(0, 0, 0, 0.8)',
-                            color: '#f0e6d2',
-                            fontFamily: 'Bookman Old Style, Garamond, serif',
+                            boxShadow: '0 16px 40px rgba(24, 16, 10, 0.45), 0 2px 6px rgba(24, 16, 10, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.7)',
+                            color: '#34251a',
+                            fontFamily: "'Cinzel', Georgia, serif",
                             textAlign: 'center'
                         }}
                         onClick={(e) => e.stopPropagation()}
                     >
                         <h3 style={{
-                            color: '#cc2a1d',
-                            marginBottom: '16px',
-                            fontSize: '20px',
-                            textShadow: '1px 1px 2px rgba(0,0,0,0.5)',
+                            color: '#663c32',
+                            margin: '0 0 14px 0',
+                            fontSize: '18px',
+                            fontWeight: 700,
                             textTransform: 'uppercase',
                             letterSpacing: '1px'
                         }}>
                             Empty All Bags?
                         </h3>
                         <p style={{
-                            marginBottom: '24px',
+                            margin: '0 0 20px 0',
                             lineHeight: '1.5',
-                            fontSize: '15px'
+                            fontSize: '14px',
+                            fontFamily: 'Georgia, serif',
+                            color: '#68533e'
                         }}>
                             Are you sure you want to clear your entire inventory? This action cannot be undone.
                         </p>
                         <div style={{
                             display: 'flex',
                             justifyContent: 'center',
-                            gap: '16px'
+                            gap: '12px',
+                            paddingTop: '16px',
+                            borderTop: '1px solid #c4baa6'
                         }}>
                             <button
                                 className="wow-button secondary"
@@ -444,7 +448,21 @@ const InventoryHeaderButton = () => {
                                     e.stopPropagation();
                                     setShowConfirm(false);
                                 }}
-                                style={{ minWidth: '100px' }}
+                                style={{
+                                    minWidth: '100px',
+                                    padding: '9px 20px',
+                                    background: '#e8e2d4',
+                                    border: '1px solid #9c8970',
+                                    borderRadius: '6px',
+                                    color: '#34251a',
+                                    fontFamily: "'Cinzel', Georgia, serif",
+                                    fontSize: '12px',
+                                    fontWeight: 700,
+                                    textTransform: 'uppercase',
+                                    letterSpacing: '0.8px',
+                                    cursor: 'pointer',
+                                    boxShadow: '0 1px 3px rgba(40, 30, 20, 0.1)'
+                                }}
                             >
                                 Cancel
                             </button>
@@ -453,8 +471,19 @@ const InventoryHeaderButton = () => {
                                 onClick={confirmClear}
                                 style={{
                                     minWidth: '100px',
-                                    backgroundColor: '#cc1a1d',
-                                    borderColor: '#ff4d4d'
+                                    padding: '9px 22px',
+                                    background: 'linear-gradient(180deg, #663c32 0%, #522d25 100%)',
+                                    border: '1px solid #421e17',
+                                    borderRadius: '6px',
+                                    color: '#fdf8ee',
+                                    fontFamily: "'Cinzel', Georgia, serif",
+                                    fontSize: '12px',
+                                    fontWeight: 700,
+                                    textTransform: 'uppercase',
+                                    letterSpacing: '0.8px',
+                                    cursor: 'pointer',
+                                    boxShadow: '0 2px 5px rgba(60, 20, 15, 0.25)',
+                                    textShadow: '0 1px 2px rgba(0, 0, 0, 0.4)'
                                 }}
                             >
                                 Clear Bags
