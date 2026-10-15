@@ -2768,7 +2768,7 @@
   font-size: 11px;
   font-weight: 700;
   padding: 4px 10px;
-  border-radius: 20px;
+  border-radius: 4px;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
@@ -3562,7 +3562,7 @@
 .mobile-dock-btn {
   background: transparent;
   border: 1px solid transparent;
-  border-radius: 18px;
+  border-radius: 4px;
   color: #ebd9be;
   padding: 6px 11px;
   display: flex;

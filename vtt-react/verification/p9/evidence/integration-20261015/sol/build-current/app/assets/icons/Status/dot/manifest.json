@@ -1,0 +1,146 @@
+{
+  "category": "dot",
+  "count": 28,
+  "icons": [
+    {
+      "filename": "blood-stained-parchment-bleed.png",
+      "name": "Blood Stained Parchment Bleed",
+      "path": "dot/blood-stained-parchment-bleed.png"
+    },
+    {
+      "filename": "crossed-bones-danger.png",
+      "name": "Crossed Bones Danger",
+      "path": "dot/crossed-bones-danger.png"
+    },
+    {
+      "filename": "crossed-bones-poison.png",
+      "name": "Crossed Bones Poison",
+      "path": "dot/crossed-bones-poison.png"
+    },
+    {
+      "filename": "dripping-blood-bleed.png",
+      "name": "Dripping Blood Bleed",
+      "path": "dot/dripping-blood-bleed.png"
+    },
+    {
+      "filename": "dripping-corrosion-acid.png",
+      "name": "Dripping Corrosion Acid",
+      "path": "dot/dripping-corrosion-acid.png"
+    },
+    {
+      "filename": "fiery-dagger-pommel.png",
+      "name": "Fiery Dagger Pommel",
+      "path": "dot/fiery-dagger-pommel.png"
+    },
+    {
+      "filename": "fire-lightning-downward-strike.png",
+      "name": "Fire Lightning Downward Strike",
+      "path": "dot/fire-lightning-downward-strike.png"
+    },
+    {
+      "filename": "flame-burning-effect.png",
+      "name": "Flame Burning Effect",
+      "path": "dot/flame-burning-effect.png"
+    },
+    {
+      "filename": "flame-fire-burning.png",
+      "name": "Flame Fire Burning",
+      "path": "dot/flame-fire-burning.png"
+    },
+    {
+      "filename": "flame-fire-burning_1.png",
+      "name": "Flame Fire Burning_1",
+      "path": "dot/flame-fire-burning_1.png"
+    },
+    {
+      "filename": "flame-fire-burning_2.png",
+      "name": "Flame Fire Burning_2",
+      "path": "dot/flame-fire-burning_2.png"
+    },
+    {
+      "filename": "flame-fire-damage.png",
+      "name": "Flame Fire Damage",
+      "path": "dot/flame-fire-damage.png"
+    },
+    {
+      "filename": "flame-glowing-burning.png",
+      "name": "Flame Glowing Burning",
+      "path": "dot/flame-glowing-burning.png"
+    },
+    {
+      "filename": "flame-humanoid-silhouette.png",
+      "name": "Flame Humanoid Silhouette",
+      "path": "dot/flame-humanoid-silhouette.png"
+    },
+    {
+      "filename": "flame-intense-burning.png",
+      "name": "Flame Intense Burning",
+      "path": "dot/flame-intense-burning.png"
+    },
+    {
+      "filename": "flame-teardrop-glowing.png",
+      "name": "Flame Teardrop Glowing",
+      "path": "dot/flame-teardrop-glowing.png"
+    },
+    {
+      "filename": "flame-vibrant-burning.png",
+      "name": "Flame Vibrant Burning",
+      "path": "dot/flame-vibrant-burning.png"
+    },
+    {
+      "filename": "hand-grasping-fire-burning.png",
+      "name": "Hand Grasping Fire Burning",
+      "path": "dot/hand-grasping-fire-burning.png"
+    },
+    {
+      "filename": "lava-fire-streaks-burning.png",
+      "name": "Lava Fire Streaks Burning",
+      "path": "dot/lava-fire-streaks-burning.png"
+    },
+    {
+      "filename": "segmented-worm-centipede-poison.png",
+      "name": "Segmented Worm Centipede Poison",
+      "path": "dot/segmented-worm-centipede-poison.png"
+    },
+    {
+      "filename": "skull-crossbones-poison.png",
+      "name": "Skull Crossbones Poison",
+      "path": "dot/skull-crossbones-poison.png"
+    },
+    {
+      "filename": "stylized-two-flame-burning.png",
+      "name": "Stylized Two Flame Burning",
+      "path": "dot/stylized-two-flame-burning.png"
+    },
+    {
+      "filename": "swirling-flame-smoke-burning.png",
+      "name": "Swirling Flame Smoke Burning",
+      "path": "dot/swirling-flame-smoke-burning.png"
+    },
+    {
+      "filename": "sword-fiery-trail-burning.png",
+      "name": "Sword Fiery Trail Burning",
+      "path": "dot/sword-fiery-trail-burning.png"
+    },
+    {
+      "filename": "teardrop-flame-burning.png",
+      "name": "Teardrop Flame Burning",
+      "path": "dot/teardrop-flame-burning.png"
+    },
+    {
+      "filename": "teardrop-flame-burning_1.png",
+      "name": "Teardrop Flame Burning_1",
+      "path": "dot/teardrop-flame-burning_1.png"
+    },
+    {
+      "filename": "three-flames-burning.png",
+      "name": "Three Flames Burning",
+      "path": "dot/three-flames-burning.png"
+    },
+    {
+      "filename": "three-flaming-arrows-burning.png",
+      "name": "Three Flaming Arrows Burning",
+      "path": "dot/three-flaming-arrows-burning.png"
+    }
+  ]
+}

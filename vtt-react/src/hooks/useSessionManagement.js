@@ -152,119 +152,200 @@ export const useSessionManagement = () => {
 
   let remainingSeconds = Math.floor(SESSION_CONFIG.WARNING_PERIOD / 1000);
 
-  const updateModalContent = () => {
-   const minutes = Math.floor(remainingSeconds / 60);
-   const seconds = remainingSeconds % 60;
-   const timeString = `${minutes}:${seconds.toString().padStart(2, '0')}`;
-
-   warningModal.innerHTML = `
-    <div style="
-     position: fixed;
-     top: 0;
-     left: 0;
-     width: 100%;
-     height: 100%;
-     background: rgba(0,0,0,0.8);
-     display: flex;
-     align-items: center;
-     justify-content: center;
-     z-index: 10000;
-     font-family: 'Cinzel', serif;
-    ">
-     <div style="
-      background: #ede4d3; /* Parchment beige */
-      border: 2px solid #8b4513; /* Dark brown border */
-      border-radius: 8px;
-      padding: 2rem;
-      max-width: 500px;
-      color: #2c1810; /* Dark brown text */
-      text-align: center;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.5), inset 0 0 50px rgba(139, 69, 19, 0.1);
-     ">
-      <h3 style="margin-bottom: 1rem; color: #c62828; font-size: 1.5rem; border-bottom: 1px solid rgba(139, 69, 19, 0.2); padding-bottom: 0.5rem;">Session Expiring Soon</h3>
-      <p style="margin-bottom: 0.5rem; font-size: 1.1rem; line-height: 1.6;">
-       You will be automatically logged out due to inactivity in:
-      </p>
-      <p style="margin-bottom: 1.5rem; font-size: 2.5rem; font-weight: bold; color: #c62828; letter-spacing: 2px;">
-       ${timeString}
-      </p>
-      <p style="margin-bottom: 1.5rem; font-size: 1rem;">
-       Click "Stay Logged In" to continue your session.
-      </p>
-      <div style="display: flex; gap: 1rem; justify-content: center;">
-       <button id="extend-session" style="
-        background: linear-gradient(to bottom, #8b4513, #5e2f0d);
-        color: white;
-        border: 1px solid #3e1f09;
-        padding: 0.75rem 1.5rem;
-        border-radius: 4px;
-        cursor: pointer;
-        font-weight: bold;
-        font-family: 'Cinzel', serif;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.3);
-       ">Stay Logged In</button>
-       <button id="logout-now" style="
-        background: linear-gradient(to bottom, #d32f2f, #b71c1c);
-        color: white;
-        border: 1px solid #7f0000;
-        padding: 0.75rem 1.5rem;
-        border-radius: 4px;
-        cursor: pointer;
-        font-family: 'Cinzel', serif;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.3);
-       ">Log Out Now</button>
-      </div>
-     </div>
-    </div>
-   `;
-
-   const extendButton = warningModal.querySelector('#extend-session');
-   const logoutButton = warningModal.querySelector('#logout-now');
-
-   if (extendButton) {
-    extendButton.onclick = () => {
-     clearInterval(countdownInterval);
-     if (document.body.contains(warningModal)) {
-      document.body.removeChild(warningModal);
-     }
-     isWarningShownRef.current = false;
-     if (resetSessionTimersRef.current) resetSessionTimersRef.current();
-    };
-   }
-
-   if (logoutButton) {
-    logoutButton.onclick = () => {
-     clearInterval(countdownInterval);
-     if (document.body.contains(warningModal)) {
-      document.body.removeChild(warningModal);
-     }
-     handleSessionTimeout();
-    };
-   }
+  const formatTime = (totalSeconds) => {
+    const safeSec = Math.max(0, totalSeconds);
+    const minutes = Math.floor(safeSec / 60);
+    const seconds = safeSec % 60;
+    return `${minutes}:${seconds.toString().padStart(2, '0')}`;
   };
 
-  updateModalContent();
+  warningModal.innerHTML = `
+    <div style="
+      position: fixed;
+      inset: 0;
+      background: rgba(24, 16, 11, 0.72);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10000;
+      padding: 20px;
+      box-sizing: border-box;
+    ">
+      <div style="
+        background: #faf6ee;
+        border: 1px solid rgba(182, 160, 128, 0.55);
+        border-radius: 6px;
+        padding: 28px 24px;
+        max-width: 440px;
+        width: 100%;
+        color: #34251a;
+        text-align: center;
+        box-shadow: 0 16px 45px rgba(36, 26, 18, 0.35);
+        box-sizing: border-box;
+      ">
+        <div style="
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          width: 44px;
+          height: 44px;
+          border-radius: 4px;
+          background: #f4efe6;
+          border: 1px solid rgba(182, 160, 128, 0.45);
+          color: #663c32;
+          font-size: 1.25rem;
+          margin-bottom: 16px;
+        ">
+          <i class="fas fa-hourglass-half" aria-hidden="true"></i>
+        </div>
+        <h3 style="
+          margin: 0 0 10px 0;
+          color: #34251a;
+          font-family: 'Cinzel', serif;
+          font-size: 1.25rem;
+          font-weight: 700;
+          letter-spacing: 0.6px;
+          text-transform: uppercase;
+        ">Session Expiring Soon</h3>
+        <p style="
+          margin: 0 0 14px 0;
+          font-family: system-ui, -apple-system, sans-serif;
+          font-size: 13px;
+          line-height: 1.5;
+          color: #5a4033;
+        ">
+          You will be automatically logged out due to inactivity in:
+        </p>
+        <div style="
+          display: inline-block;
+          padding: 8px 24px;
+          margin-bottom: 16px;
+          background: #fdfbf7;
+          border: 1px solid rgba(182, 160, 128, 0.45);
+          border-radius: 4px;
+        ">
+          <span id="session-time-display" style="
+            font-family: 'Cinzel', serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #663c32;
+            letter-spacing: 2px;
+          ">${formatTime(remainingSeconds)}</span>
+        </div>
+        <p style="
+          margin: 0 0 22px 0;
+          font-family: system-ui, -apple-system, sans-serif;
+          font-size: 12.5px;
+          color: #7c6251;
+        ">
+          Click &ldquo;Stay Logged In&rdquo; to continue your session.
+        </p>
+        <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+          <button id="extend-session" type="button" style="
+            background: #663c32;
+            color: #faf6ee;
+            border: 1px solid #663c32;
+            padding: 9px 22px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: 'Cinzel', serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            box-shadow: 0 2px 4px rgba(36, 26, 18, 0.2);
+            transition: background 0.15s ease, border-color 0.15s ease;
+          ">Stay Logged In</button>
+          <button id="logout-now" type="button" style="
+            background: #fdfbf7;
+            color: #5a4033;
+            border: 1px solid rgba(182, 160, 128, 0.45);
+            padding: 9px 18px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: 'Cinzel', serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+          ">Log Out Now</button>
+        </div>
+      </div>
+    </div>
+  `;
+
+  const timeDisplay = warningModal.querySelector('#session-time-display');
+  const extendButton = warningModal.querySelector('#extend-session');
+  const logoutButton = warningModal.querySelector('#logout-now');
+
+  if (extendButton) {
+    extendButton.onmouseenter = () => {
+      extendButton.style.background = '#4a2820';
+      extendButton.style.borderColor = '#4a2820';
+    };
+    extendButton.onmouseleave = () => {
+      extendButton.style.background = '#663c32';
+      extendButton.style.borderColor = '#663c32';
+    };
+    extendButton.onclick = () => {
+      if (countdownInterval) clearInterval(countdownInterval);
+      if (warningTimerRef.current) {
+        clearTimeout(warningTimerRef.current);
+        warningTimerRef.current = null;
+      }
+      if (document.body.contains(warningModal)) {
+        document.body.removeChild(warningModal);
+      }
+      isWarningShownRef.current = false;
+      if (resetSessionTimersRef.current) resetSessionTimersRef.current();
+    };
+  }
+
+  if (logoutButton) {
+    logoutButton.onmouseenter = () => {
+      logoutButton.style.background = '#f4efe6';
+      logoutButton.style.color = '#34251a';
+      logoutButton.style.borderColor = 'rgba(182, 160, 128, 0.7)';
+    };
+    logoutButton.onmouseleave = () => {
+      logoutButton.style.background = '#fdfbf7';
+      logoutButton.style.color = '#5a4033';
+      logoutButton.style.borderColor = 'rgba(182, 160, 128, 0.45)';
+    };
+    logoutButton.onclick = () => {
+      if (countdownInterval) clearInterval(countdownInterval);
+      if (warningTimerRef.current) {
+        clearTimeout(warningTimerRef.current);
+        warningTimerRef.current = null;
+      }
+      if (document.body.contains(warningModal)) {
+        document.body.removeChild(warningModal);
+      }
+      handleSessionTimeout();
+    };
+  }
+
   document.body.appendChild(warningModal);
 
   const countdownInterval = setInterval(() => {
-   remainingSeconds -= 1;
-   if (remainingSeconds <= 0) {
-    clearInterval(countdownInterval);
-    if (document.body.contains(warningModal)) {
-     document.body.removeChild(warningModal);
+    remainingSeconds -= 1;
+    if (remainingSeconds <= 0) {
+      clearInterval(countdownInterval);
+      if (document.body.contains(warningModal)) {
+        document.body.removeChild(warningModal);
+      }
+      handleSessionTimeout();
+    } else if (timeDisplay) {
+      timeDisplay.textContent = formatTime(remainingSeconds);
     }
-    handleSessionTimeout();
-   } else {
-    updateModalContent();
-   }
   }, 1000);
 
   warningTimerRef.current = setTimeout(() => {
-   clearInterval(countdownInterval);
-   if (document.body.contains(warningModal)) {
-    document.body.removeChild(warningModal);
-   }
-   handleSessionTimeout();
+    clearInterval(countdownInterval);
+    if (document.body.contains(warningModal)) {
+      document.body.removeChild(warningModal);
+    }
+    handleSessionTimeout();
   }, SESSION_CONFIG.WARNING_PERIOD);
  }, [handleSessionTimeout]);
 

@@ -23,7 +23,7 @@ async function start() {
     const result = await ack(seed, 'actor_bind', { roomId: room.id, ref: { kind, roomId: room.id, mapId, tokenId: id, ...(kind === 'character' ? { ownerUid: 'app-owner', characterId: 'ilse' } : {}) }, snapshotHash: actors.hash(token) });
     assert.equal(result.success, true, JSON.stringify(result)); refs[id] = result.ref;
   }
-  const build = path.join(__dirname, '../evidence/integration-20261015/sol/build-final/app');
+  const build = path.join(__dirname, '../evidence/integration-20261015/sol', process.env.APP_BUILD || 'build-final', 'app');
   const mime = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.png': 'image/png', '.jpg': 'image/jpeg', '.svg': 'image/svg+xml', '.woff2': 'font/woff2' };
   const server = http.createServer((req, res) => {
     res.setHeader('Cache-Control', 'no-store');

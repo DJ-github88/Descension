@@ -22,11 +22,11 @@ const specRows = inverseSection.split('\n').filter(line => /^\|.*`[^`]+`/.test(l
   return { name: cells[0], id: cells[1].replace(/`/g, ''), classes: cells[2].split(', ').map(name => name.replace(/\s*\([^)]*\)/g, '')) };
 });
 
-test('registry matches the independently authored blueprint inverse and all 103 native relationships', () => {
+test('registry matches the independently authored blueprint inverse and all 102 native relationships', () => {
   expect(specRows).toHaveLength(25);
   expect(Object.keys(CLASS_PROVENANCE)).toHaveLength(21);
   expect(Object.keys(HERITAGE_TRADITIONS)).toHaveLength(25);
-  expect(specRows.reduce((total, row) => total + row.classes.length, 0)).toBe(103);
+  expect(specRows.reduce((total, row) => total + row.classes.length, 0)).toBe(102);
   specRows.forEach(row => {
     expect(HERITAGE_TRADITIONS[row.id].classes.slice().sort()).toEqual(row.classes.slice().sort());
     expect(new Set(HERITAGE_TRADITIONS[row.id].classes).size).toBe(row.classes.length);

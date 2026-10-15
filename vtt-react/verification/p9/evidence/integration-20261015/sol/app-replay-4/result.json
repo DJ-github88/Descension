@@ -1,0 +1,416 @@
+{
+  "startedAt": "2026-10-15T19:08:50.282Z",
+  "command": [
+    "C:\\Program Files\\nodejs\\node.exe",
+    "D:\\VTT\\vtt-react\\verification\\p9\\integration\\app-browser.cjs"
+  ],
+  "kind": "production-App / optimized CRACO build",
+  "limits": [
+    "Production App/router/components/styles and compiled library bodies execute intact. Test-only webpack runtime access seeds users, exact actors and room socket; identity/provider login is simulated.",
+    "Real browser Socket.IO and registered backend stack execute; provider verification/canonical ownership/lease/cloud persistence are in-memory fixture boundaries.",
+    "Third-party network requests are refused deliberately by this witness; no live Firebase/rules, human players, physical second device or deployment claim."
+  ],
+  "errors": [
+    {
+      "uid": "app-gm",
+      "message": "Failed to fetch",
+      "stack": "TypeError: Failed to fetch\n    at http://127.0.0.1:4180/static/js/9180.c9369f71.js:2:1048188\n    at D (http://127.0.0.1:4180/static/js/9180.c9369f71.js:2:1045906)\n    at http://127.0.0.1:4180/static/js/9180.c9369f71.js:2:1048182\n    at async http://127.0.0.1:4180/static/js/9180.c9369f71.js:2:1047853"
+    },
+    {
+      "uid": "app-owner",
+      "message": "Failed to fetch",
+      "stack": "TypeError: Failed to fetch\n    at http://127.0.0.1:4180/static/js/9180.c9369f71.js:2:1048188\n    at D (http://127.0.0.1:4180/static/js/9180.c9369f71.js:2:1045906)\n    at http://127.0.0.1:4180/static/js/9180.c9369f71.js:2:1048182\n    at async http://127.0.0.1:4180/static/js/9180.c9369f71.js:2:1047853"
+    },
+    {
+      "uid": "app-owner",
+      "message": "Cannot read properties of undefined (reading 'getData')",
+      "stack": "TypeError: Cannot read properties of undefined (reading 'getData')\n    at HTMLDocument.i (http://127.0.0.1:4180/static/js/common.9975deb0.chunk.js:1:3108161)\n    at eval (eval at evaluate (:311:30), <anonymous>:1:199)\n    at UtilityScript.evaluate (<anonymous>:313:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)"
+    }
+  ],
+  "networkRefusals": [
+    {
+      "uid": "app-gm",
+      "origin": "https://firebaseinstallations.googleapis.com",
+      "resourceType": "fetch"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://firebaseinstallations.googleapis.com",
+      "resourceType": "fetch"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://firestore.googleapis.com",
+      "resourceType": "fetch"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://firestore.googleapis.com",
+      "resourceType": "fetch"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://firestore.googleapis.com",
+      "resourceType": "fetch"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://firestore.googleapis.com",
+      "resourceType": "fetch"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://firestore.googleapis.com",
+      "resourceType": "fetch"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://firestore.googleapis.com",
+      "resourceType": "fetch"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://firestore.googleapis.com",
+      "resourceType": "fetch"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://firestore.googleapis.com",
+      "resourceType": "fetch"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://firestore.googleapis.com",
+      "resourceType": "fetch"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://firestore.googleapis.com",
+      "resourceType": "fetch"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://firestore.googleapis.com",
+      "resourceType": "fetch"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://firestore.googleapis.com",
+      "resourceType": "fetch"
+    },
+    {
+      "uid": "app-owner",
+      "origin": "https://firebaseinstallations.googleapis.com",
+      "resourceType": "fetch"
+    },
+    {
+      "uid": "app-owner",
+      "origin": "https://firebaseinstallations.googleapis.com",
+      "resourceType": "fetch"
+    },
+    {
+      "uid": "app-owner",
+      "origin": "https://firestore.googleapis.com",
+      "resourceType": "fetch"
+    },
+    {
+      "uid": "app-owner",
+      "origin": "https://firestore.googleapis.com",
+      "resourceType": "fetch"
+    },
+    {
+      "uid": "app-owner",
+      "origin": "https://firestore.googleapis.com",
+      "resourceType": "fetch"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://firestore.googleapis.com",
+      "resourceType": "fetch"
+    },
+    {
+      "uid": "app-owner",
+      "origin": "https://firestore.googleapis.com",
+      "resourceType": "fetch"
+    },
+    {
+      "uid": "app-owner",
+      "origin": "https://firestore.googleapis.com",
+      "resourceType": "fetch"
+    },
+    {
+      "uid": "app-owner",
+      "origin": "https://firestore.googleapis.com",
+      "resourceType": "fetch"
+    },
+    {
+      "uid": "app-owner",
+      "origin": "https://firestore.googleapis.com",
+      "resourceType": "fetch"
+    },
+    {
+      "uid": "app-owner",
+      "origin": "https://firestore.googleapis.com",
+      "resourceType": "fetch"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://firestore.googleapis.com",
+      "resourceType": "fetch"
+    },
+    {
+      "uid": "app-owner",
+      "origin": "https://firestore.googleapis.com",
+      "resourceType": "fetch"
+    },
+    {
+      "uid": "app-owner",
+      "origin": "https://firestore.googleapis.com",
+      "resourceType": "fetch"
+    },
+    {
+      "uid": "app-owner",
+      "origin": "https://firestore.googleapis.com",
+      "resourceType": "fetch"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://firestore.googleapis.com",
+      "resourceType": "fetch"
+    },
+    {
+      "uid": "app-owner",
+      "origin": "https://firestore.googleapis.com",
+      "resourceType": "fetch"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://firestore.googleapis.com",
+      "resourceType": "fetch"
+    },
+    {
+      "uid": "app-owner",
+      "origin": "https://firestore.googleapis.com",
+      "resourceType": "fetch"
+    },
+    {
+      "uid": "app-owner",
+      "origin": "https://firestore.googleapis.com",
+      "resourceType": "fetch"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://firestore.googleapis.com",
+      "resourceType": "fetch"
+    },
+    {
+      "uid": "app-owner",
+      "origin": "https://firestore.googleapis.com",
+      "resourceType": "fetch"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://firestore.googleapis.com",
+      "resourceType": "fetch"
+    },
+    {
+      "uid": "app-owner",
+      "origin": "https://firestore.googleapis.com",
+      "resourceType": "fetch"
+    },
+    {
+      "uid": "app-owner",
+      "origin": "https://firestore.googleapis.com",
+      "resourceType": "fetch"
+    }
+  ],
+  "witnesses": {
+    "P8": {
+      "receipt": {
+        "version": 1,
+        "roomId": "1ea99094-3716-4b4f-9693-f0bef1630a3f",
+        "commandId": "889b7d51-bed9-4a20-b2c1-5e220ac1ff7b",
+        "submitterUid": "app-gm",
+        "contentHash": "7471074a653cd2dfaf1048a5cdb9add0a857f0e5caa3ac2516d5c79bf671a2cc",
+        "admissionEpoch": "471d2d0d-9171-43fc-8878-8b8e0d3a1318",
+        "commitSequence": 1,
+        "checkpointRevision": null,
+        "actors": [
+          {
+            "ref": {
+              "kind": "creature",
+              "roomId": "1ea99094-3716-4b4f-9693-f0bef1630a3f",
+              "mapId": "app-hall",
+              "tokenId": "A",
+              "instanceId": "aabf6177-0d90-40cc-abe9-b3d2c973fd35"
+            },
+            "beforeRevision": 0,
+            "afterRevision": 1,
+            "finalResources": {
+              "hp": {
+                "current": 30,
+                "temp": 4,
+                "max": 250
+              },
+              "mana": {
+                "current": 0,
+                "temp": 0,
+                "max": 30
+              },
+              "ap": {
+                "current": 1,
+                "temp": 0,
+                "max": 5
+              }
+            },
+            "conditions": []
+          },
+          {
+            "ref": {
+              "kind": "creature",
+              "roomId": "1ea99094-3716-4b4f-9693-f0bef1630a3f",
+              "mapId": "app-hall",
+              "tokenId": "B",
+              "instanceId": "8576e7c1-f956-41b7-a958-822cdfc7f88b"
+            },
+            "beforeRevision": 0,
+            "afterRevision": 1,
+            "finalResources": {
+              "hp": {
+                "current": 24,
+                "temp": 0,
+                "max": 250
+              },
+              "mana": {
+                "current": 0,
+                "temp": 0,
+                "max": 30
+              },
+              "ap": {
+                "current": 2,
+                "temp": 0,
+                "max": 5
+              }
+            },
+            "conditions": []
+          }
+        ],
+        "authorization": {
+          "kind": "gm",
+          "authorizerUid": "app-gm"
+        },
+        "acceptedAt": 1792091339444,
+        "source": {
+          "kind": "creature",
+          "roomId": "1ea99094-3716-4b4f-9693-f0bef1630a3f",
+          "mapId": "app-hall",
+          "tokenId": "A",
+          "instanceId": "aabf6177-0d90-40cc-abe9-b3d2c973fd35"
+        },
+        "target": {
+          "kind": "creature",
+          "roomId": "1ea99094-3716-4b4f-9693-f0bef1630a3f",
+          "mapId": "app-hall",
+          "tokenId": "B",
+          "instanceId": "8576e7c1-f956-41b7-a958-822cdfc7f88b"
+        },
+        "adjudication": {
+          "definitionId": "grimmstalk_feather_slash",
+          "definitionVersionOrHash": "feather-slash:v1/abilities:1.4.0",
+          "chosenResult": "{\"capability\":\"feather-slash:v1/abilities:1.4.0\",\"rawDefinition\":\"{\\\"cooldownConfig\\\":{\\\"cooldownType\\\":\\\"turn_based\\\",\\\"cooldownValue\\\":0},\\\"damageConfig\\\":{\\\"damageTypes\\\":[\\\"slicing\\\"],\\\"formula\\\":\\\"2d8 + 5\\\",\\\"resolution\\\":\\\"DICE\\\"},\\\"description\\\":\\\"Razor-edged ironwood plumage rakes across the target.\\\",\\\"effectTypes\\\":[\\\"damage\\\"],\\\"icon\\\":\\\"ability_rogue_findweakness\\\",\\\"id\\\":\\\"grimmstalk_feather_slash\\\",\\\"level\\\":1,\\\"name\\\":\\\"Feather Slash\\\",\\\"priorityRange\\\":{\\\"max\\\":11,\\\"min\\\":1,\\\"resolution\\\":\\\"DICE\\\"},\\\"resourceCost\\\":{\\\"actionPoints\\\":1,\\\"components\\\":[\\\"somatic\\\"],\\\"mana\\\":0},\\\"spellType\\\":\\\"ACTION\\\",\\\"tags\\\":[\\\"slicing\\\"],\\\"targetingConfig\\\":{\\\"rangeDistance\\\":10,\\\"rangeType\\\":\\\"melee\\\",\\\"targetRestrictions\\\":[\\\"enemies\\\"],\\\"targetingType\\\":\\\"single\\\"},\\\"typeConfig\\\":{\\\"castTime\\\":1,\\\"castTimeType\\\":\\\"IMMEDIATE\\\",\\\"icon\\\":\\\"ability_rogue_findweakness\\\",\\\"school\\\":\\\"slicing\\\",\\\"tags\\\":[\\\"slicing\\\"]}}\",\"mode\":\"physical\",\"faces\":[3,5],\"total\":13,\"sourceName\":\"A\",\"targetName\":\"B\",\"geometry\":\"Advisory planar center distance 10.0 ft; authored melee 10 ft. Elevation, contact, reach and line of effect require GM adjudication.\",\"gmConfirmed\":true}",
+          "finalAmount": 10,
+          "adjustmentReason": "GM defense ruling"
+        }
+      },
+      "sourceAP": 1,
+      "targetHP": 24,
+      "targetTempHP": 0
+    }
+  },
+  "setup": {
+    "fixture": {
+      "backendUrl": "http://localhost:52245",
+      "roomId": "1ea99094-3716-4b4f-9693-f0bef1630a3f",
+      "mapId": "app-hall",
+      "refs": {
+        "A": {
+          "kind": "creature",
+          "roomId": "1ea99094-3716-4b4f-9693-f0bef1630a3f",
+          "mapId": "app-hall",
+          "tokenId": "A",
+          "instanceId": "aabf6177-0d90-40cc-abe9-b3d2c973fd35"
+        },
+        "B": {
+          "kind": "creature",
+          "roomId": "1ea99094-3716-4b4f-9693-f0bef1630a3f",
+          "mapId": "app-hall",
+          "tokenId": "B",
+          "instanceId": "8576e7c1-f956-41b7-a958-822cdfc7f88b"
+        },
+        "pc": {
+          "kind": "character",
+          "roomId": "1ea99094-3716-4b4f-9693-f0bef1630a3f",
+          "mapId": "app-hall",
+          "tokenId": "pc",
+          "instanceId": "e70eb95c-027b-4596-a389-ea9362916df2",
+          "ownerUid": "app-owner",
+          "characterId": "ilse"
+        }
+      }
+    },
+    "modules": {
+      "actors": [
+        "acceptRecoveredActorSnapshot",
+        "adjustSharedResource",
+        "applyAcceptedConsequence",
+        "applyActorLifecycle",
+        "applyBoundActor",
+        "approvePendingActorProposal",
+        "bindActor",
+        "findActor",
+        "hydrateActorConditions",
+        "inSharedRoom",
+        "prepareActorCommand",
+        "projectPersonalRuntime",
+        "reconcileActorMirrors",
+        "reconcileOwner",
+        "refOf",
+        "refreshActorSnapshot",
+        "registerActorHandlers",
+        "requestActorEvent",
+        "retryActorCommand",
+        "roomCondition",
+        "roomResourceProjection",
+        "routeTokenState",
+        "selectOwnerAttachment",
+        "setSharedResourceTotals",
+        "submitActorEntries",
+        "submitPreparedActorCommand",
+        "validateActorSnapshot"
+      ],
+      "spell": [
+        "AK",
+        "AQ",
+        "BK",
+        "I9",
+        "Ih",
+        "Lj",
+        "MR",
+        "OH",
+        "Pj",
+        "TT",
+        "Uz",
+        "_e",
+        "gK",
+        "og",
+        "ox",
+        "td",
+        "v$"
+      ]
+    },
+    "creatureCount": 197
+  },
+  "failure": "locator.waitFor: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('.action-slot').first().getByAltText('Marrow-Piercing Slug', { exact: true }) to be visible\u001b[22m\n\n    at main (D:\\VTT\\vtt-react\\verification\\p9\\integration\\app-browser.cjs:84:103)",
+  "endedAt": "2026-10-15T19:09:41.779Z",
+  "buildAssetManifestSha256": "4f3011ac2b71d108e8c162b8fa1f5393076e62ede1e09242d8a112db4516a61a"
+}

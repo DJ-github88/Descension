@@ -1,0 +1,27 @@
+- region "Actor attachment and consequences":
+  - paragraph: "Shared conditions: manual timing · overtime paused."
+  - text: Exact room attachment
+  - combobox "Exact room attachment":
+    - option "Select a token"
+    - option "Ilse · pc" [selected]
+    - option "A · A"
+    - option "B · B"
+  - button "Use this owner attachment"
+  - status: accepted-live
+  - paragraph: "Temporary room: live-only, nonpersistent. No checkpoint confirmation or crash durability."
+- region "Spell adjudication":
+  - article:
+    - 'heading "Ilse → B: Marrow-Piercing Slug" [level=4]'
+    - paragraph:
+      - text: arcane damage · physical [6] + 4 =
+      - strong: "10"
+    - paragraph: 1d8 + intelligence/4 → 1d8 + 4 (INT 16 ÷ 4, rounded down)
+    - paragraph: "Owner-approved price: 1 AP · 4 mana (temporary first) · class arcane, arcane, ember (3/12) → ember (1/12)"
+    - paragraph: Advisory planar distance 10.0 ft; authored authored range. Line of effect and reach are GM rulings. No declared resistances on this projection.
+    - checkbox "I adjudicated legality, range, defense and mitigation" [checked]: ✓
+    - text: I adjudicated legality, range, defense and mitigation Final damage
+    - spinbutton "Final damage": "7"
+    - text: Reason (required if different from 10)
+    - textbox "Reason (required if different from 10)": GM mitigation
+    - button "Accept one consequence"
+    - button "Decline"

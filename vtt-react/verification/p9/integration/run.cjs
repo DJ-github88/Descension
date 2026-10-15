@@ -17,6 +17,7 @@ const commands = {
   build: ['node_modules/@craco/craco/dist/bin/craco.js', 'build']
 };
 commands['build-final'] = commands.build;
+commands['build-current'] = commands.build;
 if (!commands[mode]) throw Error('Unknown mode ' + mode);
 const hash = p => crypto.createHash('sha256').update(fs.readFileSync(path.join(root, p))).digest('hex');
 const inputs = cp.execFileSync('git', ['ls-files', '--cached', '--others', '--exclude-standard', '-z'], { cwd: root, encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 }).split('\0')
@@ -25,7 +26,7 @@ const hashes = () => Object.fromEntries(inputs.map(p => [p, hash(p)]));
 const before = hashes(), startedAt = new Date().toISOString();
 const env = { ...process.env, CI: mode === 'build' ? '' : 'true', NODE_OPTIONS: '--max-old-space-size=8192',
   P8_OUTPUT: out, P9_OUTPUT: out, P7_LIFECYCLE_OUT: out };
-if (mode === 'build-final') { env.CI = ''; env.BUILD_PATH = path.join(out, 'app'); }
+if (mode.startsWith('build-')) { env.CI = ''; env.BUILD_PATH = path.join(out, 'app'); }
 const fd = fs.openSync(path.join(out, 'output.log'), 'wx');
 const result = cp.spawnSync(process.execPath, commands[mode], { cwd: frontend, env, stdio: ['ignore', fd, fd], timeout: 900000 });
 fs.closeSync(fd);

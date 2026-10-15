@@ -1,0 +1,263 @@
+{
+  "task_id": "independent-integration-review-20261015-completion",
+  "startedAt": "2026-10-15T19:17:44.470Z",
+  "command": [
+    "C:\\Program Files\\nodejs\\node.exe",
+    "D:\\VTT\\vtt-react\\verification\\p9\\evidence\\integration-20261015\\sol\\independent-review\\completion-check.cjs"
+  ],
+  "cwd": "D:\\VTT",
+  "inputHashesBefore": {
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/independent-review/invariants.json": "ca369dfdedc7fa11e657b3eaf3480048a29a71f30e4329ded2c70f76db38cf75",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/independent-review/custody-probe.json": "80c62eb883be5fdf7fc84c2d0280c53b660bd2ee603b105f03873fdf25861431",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/independent-review/import-negative.json": "122ceab4dd61256636749489c11307901522af913364771298a349d0b350be6d",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/independent-review/import-negative.log": "155e39e1395e7f2338f02b6641dc506822c3d572c8c32acf58199d4492857365",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/independent-review/focused-command.json": "4b79790b7d782beb9d77c7450fa4eb3eb48037bb2473f4f43d89df6ec0afc8a4",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/independent-review/focused.log": "4408e0b1a267c655cea9fd70c33426878a43cf14f10ab087303552c86012b8b6",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/independent-review/evidence-check.json": "7d596ef404738d3aaaf51a76967c7e719bf01eced906c7d351f537553ee7e033",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/independent-review/layout-probe-v3.json": "e046f795910040ac8d33afb30b9e9044a7bfd3845e56c2a2fc3e77cf6054b7d7",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/independent-review/narrow-diffs.json": "ac29fc2f47b81b59e5fc9b0f715c82c935da1e66d75c3895f95dfba7a45ec88b",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/independent-review/start-focal-hashes.json": "71263a6750a6e8c3e7fc5ed6a4e3f3f887b40e1a4732678117da6ee376ae08e3",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/independent-review/starting-featherSlash.js": "1a4418f1a900b29f58efc79de091cfb59dd694d42110cecf087ef6a0e481b3ae",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/independent-review/starting-featherSlash.test.js": "6f2b32cbc753181403688a3b53e69262e3d5194fd2c72c453c4d17e72ceaf1ed",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/independent-review/review-checks.cjs": "e4e5700bec22b295eb029a012ca41b28c9371fad9a651c19a4becf0e03812718",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/independent-review/custody-probe.cjs": "87775274a3ee35557adbcd0b069939ad514e5311d7963b59bab36a27c49e7b50",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/independent-review/evidence-check.cjs": "c9158f658ae066528857b4e073c25944622c9ef41e5f59907df5c6d939533760",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/independent-review/layout-probe.cjs": "4ec1c01ebb1fe88d5fed464b98ec45883cbc4a0ffecbe13e54cbb6157ab9677e",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/independent-review/without-import-transform.cjs": "1a1370d5f5ca19ebaf3dd2cfb9c136d2d5b8abcf73729f011c80833cd5e87a77",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/starting-source.json": "933ca5ec21454024f75f523881a0da7e3b4920a2e531176a7f3e8b25a09089e4",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/accepted-PartyHUD.jsx": "22db5eccba547e4e1ad4196e93589d9ff491acd15db6c3f59ea8a3562f2679fd",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/accepted-ActionBar.jsx": "cab09fe14f154d71b7cdc11b318e6d33f70b4696cc8bb0feec723cefeea0b965",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/accepted-SpellConsequencePanel.css": "84c3693e9b78bd1c13557de355363c9560fcd33c2ec2bc3f8d7517aa6e04ac54",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/accepted-p9-identity-lf-sha256.txt": "a5a75dc33f836c61023be634f92c81c0b72fec7676f54141201debb22e0a050c"
+  },
+  "focal": {
+    "vtt-react/src/services/featherSlash.js": {
+      "raw": "ad2b3134998a8585906bbb82a1ac3878dafecac92070a9ad81f659ed1812669a",
+      "lf": "ad2b3134998a8585906bbb82a1ac3878dafecac92070a9ad81f659ed1812669a",
+      "startingRaw": "1a4418f1a900b29f58efc79de091cfb59dd694d42110cecf087ef6a0e481b3ae"
+    },
+    "vtt-react/src/services/__tests__/featherSlash.test.js": {
+      "raw": "43eaf32fb3a87bf38cda145e9c7afc29bfbfda4f83f53585f376abd1acc2bcb9",
+      "lf": "43eaf32fb3a87bf38cda145e9c7afc29bfbfda4f83f53585f376abd1acc2bcb9",
+      "startingRaw": "6f2b32cbc753181403688a3b53e69262e3d5194fd2c72c453c4d17e72ceaf1ed"
+    },
+    "vtt-react/src/components/ui/ActionBar.jsx": {
+      "raw": "7a04ec3302561ae91cd495bddce4d5596235bd5b8c5916f58686b767f9000d33",
+      "lf": "7585d93b5b7184cca6a7a210c8e8666c205cf39f57c8924edfd913db69b72c81",
+      "startingRaw": "7a04ec3302561ae91cd495bddce4d5596235bd5b8c5916f58686b767f9000d33"
+    },
+    "vtt-react/src/components/ui/__tests__/ActionBarLegacyArcanoneerSpheres.test.jsx": {
+      "raw": "98e8afbef304b1359da67d136ae2f38e43fc002846dcee247df500d5466dbb73",
+      "lf": "98e8afbef304b1359da67d136ae2f38e43fc002846dcee247df500d5466dbb73",
+      "startingRaw": "98e8afbef304b1359da67d136ae2f38e43fc002846dcee247df500d5466dbb73"
+    },
+    "vtt-react/src/components/hud/PartyHUD.jsx": {
+      "raw": "c5f2e9381c18fae3e68ec47f3f8bf2c02bca8e3be48ea72a8f6179e9e07db5d9",
+      "lf": "c5f2e9381c18fae3e68ec47f3f8bf2c02bca8e3be48ea72a8f6179e9e07db5d9",
+      "startingRaw": "c5f2e9381c18fae3e68ec47f3f8bf2c02bca8e3be48ea72a8f6179e9e07db5d9"
+    },
+    "vtt-react/src/components/hud/SpellConsequencePanel.css": {
+      "raw": "2f936ff2ff5bdc3f610c2c24c49015a1b935bd835a3f8f4e1dfeb2837682a68b",
+      "lf": "2f936ff2ff5bdc3f610c2c24c49015a1b935bd835a3f8f4e1dfeb2837682a68b",
+      "startingRaw": "2f936ff2ff5bdc3f610c2c24c49015a1b935bd835a3f8f4e1dfeb2837682a68b"
+    },
+    "vtt-react/src/services/featherSlashCustody.js": {
+      "raw": "2ace5b077bbd3bccdfeec666148df385927faca1766beb065d51a2e14e5abd39",
+      "lf": "2ace5b077bbd3bccdfeec666148df385927faca1766beb065d51a2e14e5abd39",
+      "startingRaw": null
+    },
+    "vtt-react/src/components/grid/CreatureAbilityQuickUse.jsx": {
+      "raw": "f8f5654578981e482751b4a48ebef54b4774bbe0f43db1c7cb6943614e423b09",
+      "lf": "f8f5654578981e482751b4a48ebef54b4774bbe0f43db1c7cb6943614e423b09",
+      "startingRaw": null
+    },
+    "vtt-react/src/components/hud/ActorConsequenceControls.jsx": {
+      "raw": "50ad8862d02df681cb15303fd0495931a1bc244ce5ea4de838d9e1891ef5f231",
+      "lf": "50ad8862d02df681cb15303fd0495931a1bc244ce5ea4de838d9e1891ef5f231",
+      "startingRaw": null
+    },
+    "vtt-react/src/components/hud/SpellConsequencePanel.jsx": {
+      "raw": "01c16539ab4ef766809dc0880a4dbf73a3eed4964b99da40c182f40477df9bb4",
+      "lf": "01c16539ab4ef766809dc0880a4dbf73a3eed4964b99da40c182f40477df9bb4",
+      "startingRaw": "01c16539ab4ef766809dc0880a4dbf73a3eed4964b99da40c182f40477df9bb4"
+    },
+    "vtt-react/src/styles/party-hud.css": {
+      "raw": "df2fc87256718952a81b9f0f652b04baa143c51fb109830590199bc4708283b6",
+      "lf": "df2fc87256718952a81b9f0f652b04baa143c51fb109830590199bc4708283b6",
+      "startingRaw": null
+    },
+    "vtt-react/src/utils/arcanoneerMigration.js": {
+      "raw": "024045a51fb8ec2e11ba14e14fdceb83a02ca492345bad66ed51d76e27b35ad6",
+      "lf": "024045a51fb8ec2e11ba14e14fdceb83a02ca492345bad66ed51d76e27b35ad6",
+      "startingRaw": null
+    },
+    "vtt-react/src/data/versions.js": {
+      "raw": "d3abf2ffedebc1e6834cd8c41f47f0022b6c4d8be33db0e7de7be80fd96fc651",
+      "lf": "0afdfd0954a35e651d81ffe0a44c431e085ae45b4b7a6fdaa9535318f6989815",
+      "startingRaw": "d3abf2ffedebc1e6834cd8c41f47f0022b6c4d8be33db0e7de7be80fd96fc651"
+    },
+    "vtt-react/public/data/abilities.json": {
+      "raw": "07ffc620f0d7a08c188aff8daf4fa0bdf9e82795bcf83ee7c6e864d5d749bb15",
+      "lf": "8b49ef0b4d385c2260c9d26c7e10a42797c5b1ee7df27fe3fe300b57c0389de7",
+      "startingRaw": "07ffc620f0d7a08c188aff8daf4fa0bdf9e82795bcf83ee7c6e864d5d749bb15"
+    },
+    "vtt-react/public/data/creatures.json": {
+      "raw": "66cf07a04adfd9cd31b62e15053c2e707ec55a519e04bfdb6095b1184077fafd",
+      "lf": "60b5b8ff5f35c73db1dcf6256bb153952338258fb85cc33a1b8d8c33843ed1f1",
+      "startingRaw": "66cf07a04adfd9cd31b62e15053c2e707ec55a519e04bfdb6095b1184077fafd"
+    },
+    "vtt-react/src/App.jsx": {
+      "raw": "55ba76417fa01c2f2befa818dad5d8e102723607eb6ebda0fff18dfde6ed642c",
+      "lf": "e1ba610fb54597683957a1c6fba14844993e111da165337e0a1f9b8dbcd75c48",
+      "startingRaw": null
+    }
+  },
+  "exactDiffChecks": {
+    "featherOnlyCommentAndExplicitAllowlist": true,
+    "actionOnlyImportVersusAccepted": true,
+    "hudOnlyClassVersusAccepted": true,
+    "cssAcceptedPrefixPreservedAndOneAppendedRule": true,
+    "existingRepairsAndLegacyTestUnchangedSinceStartingSource": true,
+    "startingFeatherCopiesMatchPacket": true,
+    "appendedCss": "/* Integration follow-through 2026-10-15: the attachment and spell-adjudication controls sat under the party\n   frames (same unpositioned host div at 0,0); give them their own visible layer on the free right edge. */\n.party-hud-frames > .actor-consequence-layer { position: fixed; top: 84px; right: 16px; z-index: 2; max-width: 420px; max-height: calc(100vh - 340px); overflow-y: auto; background: rgba(246, 239, 225, 0.94); color: #2b2116; border: 1px solid #8a6d45; border-radius: 6px; padding: 6px 10px; font-size: 13px; }\n"
+  },
+  "reexecutions": [
+    {
+      "file": "review-checks.cjs",
+      "args": [
+        "invariants"
+      ],
+      "method": "Unmodified probe source in Node VM; fs.writeFileSync redirects its one output to a new exclusive-create report artifact.",
+      "startedAt": "2026-10-15T19:17:44.536Z",
+      "endedAt": "2026-10-15T19:17:45.088Z",
+      "output": "completion-invariants.json",
+      "outputSha256": "ca369dfdedc7fa11e657b3eaf3480048a29a71f30e4329ded2c70f76db38cf75",
+      "stdout": [
+        "PASS: raw packet identity/equality; two allowed versions; 28 execution mutations x2 (support/planner/receipt); 11 unreviewed versions; original plan/receipt identity."
+      ]
+    },
+    {
+      "file": "custody-probe.cjs",
+      "args": [],
+      "method": "Unmodified probe source in Node VM; fs.writeFileSync redirects its one output to a new exclusive-create report artifact.",
+      "startedAt": "2026-10-15T19:17:45.089Z",
+      "endedAt": "2026-10-15T19:17:45.096Z",
+      "output": "completion-custody-probe.json",
+      "outputSha256": "82f3085c2cd209abee8f93ff03974a5274c3d1177866c4a90c313250fa67d8a7",
+      "stdout": [
+        "PASS: unchanged unknown draft/command across 1.4→1.5; same-command custody; receipt-only acceptance; dedup; scope isolation."
+      ]
+    },
+    {
+      "file": "evidence-check.cjs",
+      "args": [],
+      "method": "Unmodified probe source in Node VM; fs.writeFileSync redirects its one output to a new exclusive-create report artifact.",
+      "startedAt": "2026-10-15T19:17:45.097Z",
+      "endedAt": "2026-10-15T19:17:45.797Z",
+      "output": "completion-evidence-check.json",
+      "outputSha256": "51cbf7ac5a5b0ccd07b65dc304bf3a8f2deab74caaa5ff65018549a13a811883",
+      "stdout": [
+        "{\n  \"copiedManifestIdentical\": true,\n  \"manifestSha256\": \"a5a75dc33f836c61023be634f92c81c0b72fec7676f54141201debb22e0a050c\",\n  \"supplemental\": {\n    \"focused\": {\n      \"exit\": 0,\n      \"focalCurrentMismatch\": {}\n    },\n    \"p8\": {\n      \"exit\": 0,\n      \"focalCurrentMismatch\": {}\n    },\n    \"p9\": {\n      \"exit\": 0,\n      \"focalCurrentMismatch\": {}\n    },\n    \"rejoin\": {\n      \"exit\": 0,\n      \"focalCurrentMismatch\": {}\n    },\n    \"lifecycle\": {\n      \"exit\": 0,\n      \"focalCurrentMismatch\": {}\n    },\n    \"build\": {\n      \"exit\": 0,\n      \"focalCurrentMismatch\": {}\n    },\n    \"lint\": {\n      \"exit\": 0,\n      \"focalCurrentMismatch\": {}\n    }\n  },\n  \"layoutSummary\": [\n    {\n      \"viewport\": [\n        1365,\n        900\n      ],\n      \"layer\": {\n        \"x\": 929,\n        \"y\": 84,\n        \"width\": 420,\n        \"height\": 421,\n        \"top\": 84,\n        \"right\": 1349,\n        \"bottom\": 505,\n        \"left\": 929\n      },\n      \"overlapsDefaultFrame\": false,\n      \"acceptClicked\": true,\n      \"outsideCanvasClicked\": true\n    },\n    {\n      \"viewport\": [\n        1280,\n        720\n      ],\n      \"layer\": {\n        \"x\": 844,\n        \"y\": 84,\n        \"width\": 420,\n        \"height\": 380,\n        \"top\": 84,\n        \"right\": 1264,\n        \"bottom\": 464,\n        \"left\": 844\n      },\n      \"overlapsDefaultFrame\": false,\n      \"acceptClicked\": true,\n      \"outsideCanvasClicked\": true\n    },\n    {\n      \"viewport\": [\n        390,\n        844\n      ],\n      \"layer\": {\n        \"x\": 0,\n        \"y\": 84,\n        \"width\": 374,\n        \"height\": 440,\n        \"top\": 84,\n        \"right\": 374,\n        \"bottom\": 524,\n        \"left\": 0\n      },\n      \"overlapsDefaultFrame\": true,\n      \"acceptClicked\": true,\n      \"outsideCanvasClicked\": true\n    },\n    {\n      \"viewport\": [\n        844,\n        390\n      ],\n      \"layer\": {\n        \"x\": 408,\n        \"y\": 84,\n        \"width\": 420,\n        \"height\": 50,\n        \"top\": 84,\n        \"right\": 828,\n        \"bottom\": 134,\n        \"left\": 408\n      },\n      \"overlapsDefaultFrame\": false,\n      \"acceptClicked\": true,\n      \"outsideCanvasClicked\": true\n    }\n  ],\n  \"offlineEmptyHost\": {\n    \"x\": 1327,\n    \"y\": 84,\n    \"width\": 22,\n    \"height\": 14,\n    \"top\": 84,\n    \"right\": 1349,\n    \"bottom\": 98,\n    \"left\": 1327\n  },\n  \"incomingProductionAppArtifacts\": [\n    \"app-replay\",\n    \"app-replay-2\",\n    \"app-replay-3\",\n    \"app-replay-4\",\n    \"app-replay-5\",\n    \"app-replay-6\",\n    \"app-replay-7\"\n  ]\n}"
+      ]
+    }
+  ],
+  "supplementalBuilds": {
+    "build": {
+      "sha256": "466e355e8892877d4607e897ff1d110480ededd41deb9d027807674fdeba803c",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "node_modules/@craco/craco/dist/bin/craco.js",
+        "build"
+      ],
+      "startedAt": "2026-10-15T17:25:20.101Z",
+      "endedAt": "2026-10-15T17:27:58.620Z",
+      "exit": 0,
+      "signal": null,
+      "drift": [],
+      "outputLogSha256": "de61d552fa92eadff87c9080e6d87f51618bf275c9bfcecad79478096c676b0e"
+    },
+    "build-final": {
+      "sha256": "59646bf96a1f4ecde948b0e4bceb61fb09b598886c9d685fb80cd55ff1e40920",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "node_modules/@craco/craco/dist/bin/craco.js",
+        "build"
+      ],
+      "startedAt": "2026-10-15T19:00:38.184Z",
+      "endedAt": "2026-10-15T19:02:19.546Z",
+      "exit": 0,
+      "signal": null,
+      "drift": [
+        "vtt-react/src/data/classHeritageRegistry.js",
+        "vtt-react/src/data/classRacials.js",
+        "vtt-react/src/data/classes/wardenData.js",
+        "vtt-react/src/data/heritageEdgeContract.js",
+        "vtt-react/src/data/races/human.js"
+      ],
+      "outputLogSha256": "f75864308c9d6f64e96eba7263a40bde282d6cd192ccb96307f27ebca052ce33"
+    },
+    "build-current": {
+      "commandPresent": false,
+      "entriesAtCutoff": [
+        "app",
+        "output.log"
+      ]
+    }
+  },
+  "appReplay7": {
+    "sha256": "91d05308a41c25cdeee7ec74b5d5c8aa01cfeb9f52834adc25dc08de9ced9040",
+    "command": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "D:\\VTT\\vtt-react\\verification\\p9\\integration\\app-browser.cjs"
+    ],
+    "startedAt": "2026-10-15T19:14:01.977Z",
+    "endedAt": "2026-10-15T19:14:19.969Z",
+    "passed": false,
+    "failure": "AssertionError [ERR_ASSERTION]: approval never spends source pools\n    at main (D:\\VTT\\vtt-react\\verification\\p9\\integration\\app-browser.cjs:96:12)",
+    "witnesses": [
+      "P8"
+    ],
+    "errors": [
+      {
+        "uid": "app-gm",
+        "message": "Failed to fetch",
+        "stack": "TypeError: Failed to fetch\n    at http://127.0.0.1:4180/static/js/9180.c9369f71.js:2:1048188\n    at D (http://127.0.0.1:4180/static/js/9180.c9369f71.js:2:1045906)\n    at http://127.0.0.1:4180/static/js/9180.c9369f71.js:2:1048182\n    at async http://127.0.0.1:4180/static/js/9180.c9369f71.js:2:1047853"
+      },
+      {
+        "uid": "app-owner",
+        "message": "Failed to fetch",
+        "stack": "TypeError: Failed to fetch\n    at http://127.0.0.1:4180/static/js/9180.c9369f71.js:2:1048188\n    at D (http://127.0.0.1:4180/static/js/9180.c9369f71.js:2:1045906)\n    at http://127.0.0.1:4180/static/js/9180.c9369f71.js:2:1048182\n    at async http://127.0.0.1:4180/static/js/9180.c9369f71.js:2:1047853"
+      }
+    ],
+    "networkRefusalCount": 23,
+    "build": "build-final",
+    "buildAssetManifestSha256": "4f3011ac2b71d108e8c162b8fa1f5393076e62ede1e09242d8a112db4516a61a"
+  },
+  "sourceDrift": [],
+  "inputHashesAfter": {
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/independent-review/invariants.json": "ca369dfdedc7fa11e657b3eaf3480048a29a71f30e4329ded2c70f76db38cf75",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/independent-review/custody-probe.json": "80c62eb883be5fdf7fc84c2d0280c53b660bd2ee603b105f03873fdf25861431",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/independent-review/import-negative.json": "122ceab4dd61256636749489c11307901522af913364771298a349d0b350be6d",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/independent-review/import-negative.log": "155e39e1395e7f2338f02b6641dc506822c3d572c8c32acf58199d4492857365",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/independent-review/focused-command.json": "4b79790b7d782beb9d77c7450fa4eb3eb48037bb2473f4f43d89df6ec0afc8a4",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/independent-review/focused.log": "4408e0b1a267c655cea9fd70c33426878a43cf14f10ab087303552c86012b8b6",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/independent-review/evidence-check.json": "7d596ef404738d3aaaf51a76967c7e719bf01eced906c7d351f537553ee7e033",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/independent-review/layout-probe-v3.json": "e046f795910040ac8d33afb30b9e9044a7bfd3845e56c2a2fc3e77cf6054b7d7",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/independent-review/narrow-diffs.json": "ac29fc2f47b81b59e5fc9b0f715c82c935da1e66d75c3895f95dfba7a45ec88b",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/independent-review/start-focal-hashes.json": "71263a6750a6e8c3e7fc5ed6a4e3f3f887b40e1a4732678117da6ee376ae08e3",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/independent-review/starting-featherSlash.js": "1a4418f1a900b29f58efc79de091cfb59dd694d42110cecf087ef6a0e481b3ae",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/independent-review/starting-featherSlash.test.js": "6f2b32cbc753181403688a3b53e69262e3d5194fd2c72c453c4d17e72ceaf1ed",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/independent-review/review-checks.cjs": "e4e5700bec22b295eb029a012ca41b28c9371fad9a651c19a4becf0e03812718",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/independent-review/custody-probe.cjs": "87775274a3ee35557adbcd0b069939ad514e5311d7963b59bab36a27c49e7b50",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/independent-review/evidence-check.cjs": "c9158f658ae066528857b4e073c25944622c9ef41e5f59907df5c6d939533760",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/independent-review/layout-probe.cjs": "4ec1c01ebb1fe88d5fed464b98ec45883cbc4a0ffecbe13e54cbb6157ab9677e",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/independent-review/without-import-transform.cjs": "1a1370d5f5ca19ebaf3dd2cfb9c136d2d5b8abcf73729f011c80833cd5e87a77",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/starting-source.json": "933ca5ec21454024f75f523881a0da7e3b4920a2e531176a7f3e8b25a09089e4",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/accepted-PartyHUD.jsx": "22db5eccba547e4e1ad4196e93589d9ff491acd15db6c3f59ea8a3562f2679fd",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/accepted-ActionBar.jsx": "cab09fe14f154d71b7cdc11b318e6d33f70b4696cc8bb0feec723cefeea0b965",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/accepted-SpellConsequencePanel.css": "84c3693e9b78bd1c13557de355363c9560fcd33c2ec2bc3f8d7517aa6e04ac54",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/accepted-p9-identity-lf-sha256.txt": "a5a75dc33f836c61023be634f92c81c0b72fec7676f54141201debb22e0a050c"
+  },
+  "passed": true,
+  "endedAt": "2026-10-15T19:17:45.929Z"
+}

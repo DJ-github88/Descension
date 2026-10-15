@@ -529,7 +529,7 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
           <span className="card-divider-line"></span>
          </div>
 
-         <div className="plan-stats plan-stats-ledger">
+         <div className="plan-stats-ledger">
           <div className="ledger-header">
            <i className="fas fa-quill-pen"></i>
            <span>Resource Allocation</span>

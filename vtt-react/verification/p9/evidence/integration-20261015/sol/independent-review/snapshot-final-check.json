@@ -1,0 +1,286 @@
+{
+  "task_id": "independent-integration-review-20261015-snapshot-final",
+  "startedAt": "2026-10-15T19:38:28.996Z",
+  "command": [
+    "C:\\Program Files\\nodejs\\node.exe",
+    "D:\\VTT\\vtt-react\\verification\\p9\\evidence\\integration-20261015\\sol\\independent-review\\snapshot-final-check.cjs"
+  ],
+  "cwd": "D:\\VTT",
+  "focal": {
+    "vtt-react/src/services/featherSlash.js": {
+      "previous": "ad2b3134998a8585906bbb82a1ac3878dafecac92070a9ad81f659ed1812669a",
+      "current": "ad2b3134998a8585906bbb82a1ac3878dafecac92070a9ad81f659ed1812669a",
+      "snapshot": "ad2b3134998a8585906bbb82a1ac3878dafecac92070a9ad81f659ed1812669a",
+      "archived": "ad2b3134998a8585906bbb82a1ac3878dafecac92070a9ad81f659ed1812669a",
+      "mirror": "ad2b3134998a8585906bbb82a1ac3878dafecac92070a9ad81f659ed1812669a"
+    },
+    "vtt-react/src/services/__tests__/featherSlash.test.js": {
+      "previous": "43eaf32fb3a87bf38cda145e9c7afc29bfbfda4f83f53585f376abd1acc2bcb9",
+      "current": "43eaf32fb3a87bf38cda145e9c7afc29bfbfda4f83f53585f376abd1acc2bcb9",
+      "snapshot": "43eaf32fb3a87bf38cda145e9c7afc29bfbfda4f83f53585f376abd1acc2bcb9",
+      "archived": "43eaf32fb3a87bf38cda145e9c7afc29bfbfda4f83f53585f376abd1acc2bcb9",
+      "mirror": "43eaf32fb3a87bf38cda145e9c7afc29bfbfda4f83f53585f376abd1acc2bcb9"
+    },
+    "vtt-react/src/components/ui/ActionBar.jsx": {
+      "previous": "7a04ec3302561ae91cd495bddce4d5596235bd5b8c5916f58686b767f9000d33",
+      "current": "7a04ec3302561ae91cd495bddce4d5596235bd5b8c5916f58686b767f9000d33",
+      "snapshot": "7a04ec3302561ae91cd495bddce4d5596235bd5b8c5916f58686b767f9000d33",
+      "archived": "7a04ec3302561ae91cd495bddce4d5596235bd5b8c5916f58686b767f9000d33",
+      "mirror": "7a04ec3302561ae91cd495bddce4d5596235bd5b8c5916f58686b767f9000d33"
+    },
+    "vtt-react/src/components/ui/__tests__/ActionBarLegacyArcanoneerSpheres.test.jsx": {
+      "previous": "98e8afbef304b1359da67d136ae2f38e43fc002846dcee247df500d5466dbb73",
+      "current": "98e8afbef304b1359da67d136ae2f38e43fc002846dcee247df500d5466dbb73",
+      "snapshot": "98e8afbef304b1359da67d136ae2f38e43fc002846dcee247df500d5466dbb73",
+      "archived": "98e8afbef304b1359da67d136ae2f38e43fc002846dcee247df500d5466dbb73",
+      "mirror": "98e8afbef304b1359da67d136ae2f38e43fc002846dcee247df500d5466dbb73"
+    },
+    "vtt-react/src/components/hud/PartyHUD.jsx": {
+      "previous": "c5f2e9381c18fae3e68ec47f3f8bf2c02bca8e3be48ea72a8f6179e9e07db5d9",
+      "current": "c5f2e9381c18fae3e68ec47f3f8bf2c02bca8e3be48ea72a8f6179e9e07db5d9",
+      "snapshot": "c5f2e9381c18fae3e68ec47f3f8bf2c02bca8e3be48ea72a8f6179e9e07db5d9",
+      "archived": "c5f2e9381c18fae3e68ec47f3f8bf2c02bca8e3be48ea72a8f6179e9e07db5d9",
+      "mirror": "c5f2e9381c18fae3e68ec47f3f8bf2c02bca8e3be48ea72a8f6179e9e07db5d9"
+    },
+    "vtt-react/src/components/hud/SpellConsequencePanel.css": {
+      "previous": "2f936ff2ff5bdc3f610c2c24c49015a1b935bd835a3f8f4e1dfeb2837682a68b",
+      "current": "2f936ff2ff5bdc3f610c2c24c49015a1b935bd835a3f8f4e1dfeb2837682a68b",
+      "snapshot": "2f936ff2ff5bdc3f610c2c24c49015a1b935bd835a3f8f4e1dfeb2837682a68b",
+      "archived": "2f936ff2ff5bdc3f610c2c24c49015a1b935bd835a3f8f4e1dfeb2837682a68b",
+      "mirror": "2f936ff2ff5bdc3f610c2c24c49015a1b935bd835a3f8f4e1dfeb2837682a68b"
+    },
+    "vtt-react/src/services/featherSlashCustody.js": {
+      "previous": "2ace5b077bbd3bccdfeec666148df385927faca1766beb065d51a2e14e5abd39",
+      "current": "2ace5b077bbd3bccdfeec666148df385927faca1766beb065d51a2e14e5abd39",
+      "snapshot": "2ace5b077bbd3bccdfeec666148df385927faca1766beb065d51a2e14e5abd39",
+      "archived": "2ace5b077bbd3bccdfeec666148df385927faca1766beb065d51a2e14e5abd39",
+      "mirror": "2ace5b077bbd3bccdfeec666148df385927faca1766beb065d51a2e14e5abd39"
+    },
+    "vtt-react/src/components/grid/CreatureAbilityQuickUse.jsx": {
+      "previous": "f8f5654578981e482751b4a48ebef54b4774bbe0f43db1c7cb6943614e423b09",
+      "current": "f8f5654578981e482751b4a48ebef54b4774bbe0f43db1c7cb6943614e423b09",
+      "snapshot": "f8f5654578981e482751b4a48ebef54b4774bbe0f43db1c7cb6943614e423b09",
+      "archived": "f8f5654578981e482751b4a48ebef54b4774bbe0f43db1c7cb6943614e423b09",
+      "mirror": "f8f5654578981e482751b4a48ebef54b4774bbe0f43db1c7cb6943614e423b09"
+    },
+    "vtt-react/src/components/hud/ActorConsequenceControls.jsx": {
+      "previous": "50ad8862d02df681cb15303fd0495931a1bc244ce5ea4de838d9e1891ef5f231",
+      "current": "50ad8862d02df681cb15303fd0495931a1bc244ce5ea4de838d9e1891ef5f231",
+      "snapshot": "50ad8862d02df681cb15303fd0495931a1bc244ce5ea4de838d9e1891ef5f231",
+      "archived": "50ad8862d02df681cb15303fd0495931a1bc244ce5ea4de838d9e1891ef5f231",
+      "mirror": "50ad8862d02df681cb15303fd0495931a1bc244ce5ea4de838d9e1891ef5f231"
+    },
+    "vtt-react/src/components/hud/SpellConsequencePanel.jsx": {
+      "previous": "01c16539ab4ef766809dc0880a4dbf73a3eed4964b99da40c182f40477df9bb4",
+      "current": "01c16539ab4ef766809dc0880a4dbf73a3eed4964b99da40c182f40477df9bb4",
+      "snapshot": "01c16539ab4ef766809dc0880a4dbf73a3eed4964b99da40c182f40477df9bb4",
+      "archived": "01c16539ab4ef766809dc0880a4dbf73a3eed4964b99da40c182f40477df9bb4",
+      "mirror": "01c16539ab4ef766809dc0880a4dbf73a3eed4964b99da40c182f40477df9bb4"
+    },
+    "vtt-react/src/styles/party-hud.css": {
+      "previous": "df2fc87256718952a81b9f0f652b04baa143c51fb109830590199bc4708283b6",
+      "current": "df2fc87256718952a81b9f0f652b04baa143c51fb109830590199bc4708283b6",
+      "snapshot": "df2fc87256718952a81b9f0f652b04baa143c51fb109830590199bc4708283b6",
+      "archived": "df2fc87256718952a81b9f0f652b04baa143c51fb109830590199bc4708283b6",
+      "mirror": "df2fc87256718952a81b9f0f652b04baa143c51fb109830590199bc4708283b6"
+    },
+    "vtt-react/src/utils/arcanoneerMigration.js": {
+      "previous": "024045a51fb8ec2e11ba14e14fdceb83a02ca492345bad66ed51d76e27b35ad6",
+      "current": "024045a51fb8ec2e11ba14e14fdceb83a02ca492345bad66ed51d76e27b35ad6",
+      "snapshot": "024045a51fb8ec2e11ba14e14fdceb83a02ca492345bad66ed51d76e27b35ad6",
+      "archived": "024045a51fb8ec2e11ba14e14fdceb83a02ca492345bad66ed51d76e27b35ad6",
+      "mirror": "024045a51fb8ec2e11ba14e14fdceb83a02ca492345bad66ed51d76e27b35ad6"
+    },
+    "vtt-react/src/data/versions.js": {
+      "previous": "d3abf2ffedebc1e6834cd8c41f47f0022b6c4d8be33db0e7de7be80fd96fc651",
+      "current": "d3abf2ffedebc1e6834cd8c41f47f0022b6c4d8be33db0e7de7be80fd96fc651",
+      "snapshot": "d3abf2ffedebc1e6834cd8c41f47f0022b6c4d8be33db0e7de7be80fd96fc651",
+      "archived": "d3abf2ffedebc1e6834cd8c41f47f0022b6c4d8be33db0e7de7be80fd96fc651",
+      "mirror": "d3abf2ffedebc1e6834cd8c41f47f0022b6c4d8be33db0e7de7be80fd96fc651"
+    },
+    "vtt-react/public/data/abilities.json": {
+      "previous": "07ffc620f0d7a08c188aff8daf4fa0bdf9e82795bcf83ee7c6e864d5d749bb15",
+      "current": "07ffc620f0d7a08c188aff8daf4fa0bdf9e82795bcf83ee7c6e864d5d749bb15",
+      "snapshot": "07ffc620f0d7a08c188aff8daf4fa0bdf9e82795bcf83ee7c6e864d5d749bb15",
+      "archived": "07ffc620f0d7a08c188aff8daf4fa0bdf9e82795bcf83ee7c6e864d5d749bb15",
+      "mirror": "07ffc620f0d7a08c188aff8daf4fa0bdf9e82795bcf83ee7c6e864d5d749bb15"
+    },
+    "vtt-react/public/data/creatures.json": {
+      "previous": "66cf07a04adfd9cd31b62e15053c2e707ec55a519e04bfdb6095b1184077fafd",
+      "current": "66cf07a04adfd9cd31b62e15053c2e707ec55a519e04bfdb6095b1184077fafd",
+      "snapshot": "66cf07a04adfd9cd31b62e15053c2e707ec55a519e04bfdb6095b1184077fafd",
+      "archived": "66cf07a04adfd9cd31b62e15053c2e707ec55a519e04bfdb6095b1184077fafd",
+      "mirror": "66cf07a04adfd9cd31b62e15053c2e707ec55a519e04bfdb6095b1184077fafd"
+    },
+    "vtt-react/src/App.jsx": {
+      "previous": "55ba76417fa01c2f2befa818dad5d8e102723607eb6ebda0fff18dfde6ed642c",
+      "current": "55ba76417fa01c2f2befa818dad5d8e102723607eb6ebda0fff18dfde6ed642c",
+      "snapshot": "55ba76417fa01c2f2befa818dad5d8e102723607eb6ebda0fff18dfde6ed642c",
+      "archived": "55ba76417fa01c2f2befa818dad5d8e102723607eb6ebda0fff18dfde6ed642c",
+      "mirror": "55ba76417fa01c2f2befa818dad5d8e102723607eb6ebda0fff18dfde6ed642c"
+    }
+  },
+  "config": {
+    "vtt-react/craco.config.js": {
+      "snapshot": "e22c01c503ecb29c2eb6fbb86188eb13b6da55627281eda6a69130332397017d",
+      "current": "e22c01c503ecb29c2eb6fbb86188eb13b6da55627281eda6a69130332397017d",
+      "mirror": "e22c01c503ecb29c2eb6fbb86188eb13b6da55627281eda6a69130332397017d"
+    },
+    "vtt-react/package.json": {
+      "snapshot": "63475810b4b5205fd00e36e65573ecb48aab95d2eb95e3899bc81f2ea5375b7a",
+      "current": "63475810b4b5205fd00e36e65573ecb48aab95d2eb95e3899bc81f2ea5375b7a",
+      "mirror": "63475810b4b5205fd00e36e65573ecb48aab95d2eb95e3899bc81f2ea5375b7a"
+    },
+    "vtt-react/package-lock.json": {
+      "snapshot": "66d4e11e1059e33d4908cdbc82b21dec8d788cf668438b8aa3bca1cf76cdc9d7",
+      "current": "66d4e11e1059e33d4908cdbc82b21dec8d788cf668438b8aa3bca1cf76cdc9d7",
+      "mirror": "66d4e11e1059e33d4908cdbc82b21dec8d788cf668438b8aa3bca1cf76cdc9d7"
+    }
+  },
+  "concurrentHook": {
+    "path": "vtt-react/src/hooks/useSessionManagement.js",
+    "snapshot": "94a7a11d2252b8894857d503aa0f3a5fddf812b5ef4a582d5e7b901161e81a91",
+    "currentAtCheck": "8ef6fe27a74ec53995191091979bdc8ce6daef7d20b03b1cc8cf41cc3f0abb46",
+    "mirrorAtCheck": "94a7a11d2252b8894857d503aa0f3a5fddf812b5ef4a582d5e7b901161e81a91"
+  },
+  "witnessSourcesUnchangedFromRun8": {
+    "vtt-react/verification/p9/integration/app-browser.cjs": "5a842f86378bffed45432ed951dc540bc968c1dfb0b1666630cbf249f4cdb3a5",
+    "vtt-react/verification/p9/integration/app-server.cjs": "ce6ab9cfd8efcbf9e1226493a9e5f507238504e58d833a539ebb723913828ffe"
+  },
+  "snapshotBuild": {
+    "commandSha256": "5841a2e811ac380354e69241b5af3aeaf36e3f21388f5ab6b17a610a078a0c70",
+    "snapshotSha256": "e9aed0321e5aa850eec06f3c1de573fe1589788c94e239e66fcbc8d11bc1cbf9",
+    "startedAt": "2026-10-15T19:25:11.421Z",
+    "endedAt": "2026-10-15T19:31:59.841Z",
+    "exit": 0,
+    "signal": null,
+    "cwd": "D:\\AppData\\Temp\\opencode\\p8-p9-final-1792092299188",
+    "command": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "D:\\AppData\\Temp\\opencode\\p8-p9-final-1792092299188\\node_modules\\@craco\\craco\\dist\\bin\\craco.js",
+      "build"
+    ],
+    "mirrorDrift": [],
+    "concurrentLiveDrift": [
+      "vtt-react/src/hooks/useSessionManagement.js"
+    ],
+    "inputHashCount": 10724,
+    "verifiedArchivedEntryCount": 2109,
+    "envKeysAbsentFromPacket": true,
+    "outputLogSha256": "fa3f54114d8b3acd1cb352b0bf0b9785d6527d2745d2a7224bb6e0205091a9f5",
+    "assetManifestSha256": "29c6a64f3a9082d0b113e3f45dfb33eec51480e89087ee049ca35c2cdcc1f00c"
+  },
+  "finalReplay": {
+    "resultSha256": "d56de547c06c3acc08dc67bfdcf90763a095bf7438084d71665cf8560d2389b7",
+    "command": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "D:\\VTT\\vtt-react\\verification\\p9\\integration\\app-browser.cjs"
+    ],
+    "startedAt": "2026-10-15T19:34:37.808Z",
+    "endedAt": "2026-10-15T19:35:31.896Z",
+    "passed": true,
+    "build": "build-snapshot",
+    "buildAssetManifestSha256": "29c6a64f3a9082d0b113e3f45dfb33eec51480e89087ee049ca35c2cdcc1f00c",
+    "p8CommandId": "a1fd70a3-75c5-458c-8868-51a4f0bb1026",
+    "p9CommandId": "279dee0e-6b81-4fb2-9e45-c1ebc098d159",
+    "p9ApprovalId": "929f0122-aa81-41c7-8c46-847f2f06ad6e",
+    "acceptHitTest": {
+      "rect": {
+        "x": 1026,
+        "y": 528,
+        "width": 184.75,
+        "height": 27,
+        "top": 528,
+        "right": 1210.75,
+        "bottom": 555,
+        "left": 1026
+      },
+      "hit": true
+    },
+    "pools": [
+      9,
+      0,
+      2,
+      0
+    ],
+    "spheres": [
+      "ember"
+    ],
+    "targetHP": 17,
+    "pageErrors": [
+      {
+        "uid": "app-gm",
+        "message": "Failed to fetch",
+        "stack": "TypeError: Failed to fetch\n    at http://127.0.0.1:4180/static/js/4104.1905144d.js:2:417530\n    at D (http://127.0.0.1:4180/static/js/4104.1905144d.js:2:415248)\n    at http://127.0.0.1:4180/static/js/4104.1905144d.js:2:417524\n    at async http://127.0.0.1:4180/static/js/4104.1905144d.js:2:417195"
+      },
+      {
+        "uid": "app-owner",
+        "message": "Failed to fetch",
+        "stack": "TypeError: Failed to fetch\n    at http://127.0.0.1:4180/static/js/4104.1905144d.js:2:417530\n    at D (http://127.0.0.1:4180/static/js/4104.1905144d.js:2:415248)\n    at http://127.0.0.1:4180/static/js/4104.1905144d.js:2:417524\n    at async http://127.0.0.1:4180/static/js/4104.1905144d.js:2:417195"
+      }
+    ],
+    "networkRefusalCount": 22,
+    "layouts": [
+      {
+        "rect": {
+          "x": 1004,
+          "y": 84,
+          "width": 420,
+          "height": 176,
+          "top": 84,
+          "right": 1424,
+          "bottom": 260,
+          "left": 1004
+        },
+        "scrollHeight": 174,
+        "clientHeight": 174,
+        "position": "fixed",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        }
+      },
+      {
+        "rect": {
+          "x": 588,
+          "y": 84,
+          "width": 420,
+          "height": 200,
+          "top": 84,
+          "right": 1008,
+          "bottom": 284,
+          "left": 588
+        },
+        "scrollHeight": 198,
+        "clientHeight": 198,
+        "position": "fixed",
+        "viewport": {
+          "width": 1024,
+          "height": 768
+        }
+      }
+    ]
+  },
+  "finalReplayFileHashes": {
+    "gm-setup.aria.yml": "e3fafcafd7e14abe67bcfbadc5246218101773652468758ca81bd0f5da649954",
+    "layout-1024.json": "c791755443783eca57fbbcd5bc5f519a65427d937a1a4a723cc8f7841f458397",
+    "layout-1440.json": "0ab8c435df4e598bac6c211db5932e5869dd8e2c0200490b3a541a2e7efe1092",
+    "p8-accepted.aria.yml": "0de62cf43eeb2735c3db505fc869b4655b730ad5d37e827c745b253fa42ef0a8",
+    "p8-prepared.aria.yml": "d94b272ec3e19735000da5bfac7505a22fdabcab6e929940e12d44d0846bc423",
+    "p9-gm-accepted.aria.yml": "d25409734490fb8552a65aabfb08279f7ca18bdf62d5b0ad615f273507295458",
+    "p9-gm-prepared.aria.yml": "975425e26c85b6a6bd3426d4fceda092e691f2d747954357f84da8bec4f8b489",
+    "p9-owner-accepted.aria.yml": "d97500a60c545513395afb901f08347284e127c56c82dbed2d4d8b3eaaa8c7b3",
+    "p9-owner-prepared.aria.yml": "299891e335b733bc682c254d8ad823eac891823e9a13fe1591076e745ef67805",
+    "result.json": "d56de547c06c3acc08dc67bfdcf90763a095bf7438084d71665cf8560d2389b7",
+    "slots-before.json": "e82cc7f31162a8ab0f0e4f5a3f2411374059fa9c2d867d0ef41a703693f57fe1",
+    "token-dom.json": "466a70bbca6f004f8f8f9a8c144c634841ca09a82e25e5e56f04694bef73956f"
+  },
+  "priorReportHashes": {
+    "review.md": "73041ec53cc44f8dc0acbe6ac8e9ea6143bc1c48e67db6c24597b393a3dccd71",
+    "final-review.md": "dee835ace68c54dc023902f2dc761ae02287af6a57627d15faad683009e6eb91"
+  },
+  "sourceDriftInFocal16": [],
+  "priorReportsChanged": [],
+  "passed": true,
+  "endedAt": "2026-10-15T19:38:29.623Z"
+}

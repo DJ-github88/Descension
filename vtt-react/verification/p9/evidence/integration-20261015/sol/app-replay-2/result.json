@@ -1,0 +1,36 @@
+{
+  "startedAt": "2026-10-15T19:06:26.131Z",
+  "command": [
+    "C:\\Program Files\\nodejs\\node.exe",
+    "D:\\VTT\\vtt-react\\verification\\p9\\integration\\app-browser.cjs"
+  ],
+  "kind": "production-App / optimized CRACO build",
+  "limits": [
+    "Production App/router/components/styles and compiled library bodies execute intact. Test-only webpack runtime access seeds users, exact actors and room socket; identity/provider login is simulated.",
+    "Real browser Socket.IO and registered backend stack execute; provider verification/canonical ownership/lease/cloud persistence are in-memory fixture boundaries.",
+    "Third-party network requests are refused deliberately by this witness; no live Firebase/rules, human players, physical second device or deployment claim."
+  ],
+  "errors": [
+    {
+      "uid": "app-gm",
+      "message": "Failed to fetch",
+      "stack": "TypeError: Failed to fetch\n    at http://127.0.0.1:4180/static/js/9180.c9369f71.js:2:1048188\n    at D (http://127.0.0.1:4180/static/js/9180.c9369f71.js:2:1045906)\n    at http://127.0.0.1:4180/static/js/9180.c9369f71.js:2:1048182\n    at async http://127.0.0.1:4180/static/js/9180.c9369f71.js:2:1047853"
+    }
+  ],
+  "networkRefusals": [
+    {
+      "uid": "app-gm",
+      "origin": "https://firebaseinstallations.googleapis.com",
+      "resourceType": "fetch"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://firebaseinstallations.googleapis.com",
+      "resourceType": "fetch"
+    }
+  ],
+  "witnesses": {},
+  "failure": "page.evaluate: TypeError: __registry.getStore is not a function\n    at window.S (eval at evaluate (:311:30), <anonymous>:6:35)\n    at eval (eval at evaluate (:311:30), <anonymous>:11:5)\n    at async <anonymous>:337:30\n    at setup (D:\\VTT\\vtt-react\\verification\\p9\\integration\\app-browser.cjs:22:15)\n    at async main (D:\\VTT\\vtt-react\\verification\\p9\\integration\\app-browser.cjs:60:22)",
+  "endedAt": "2026-10-15T19:06:37.467Z",
+  "buildAssetManifestSha256": "4f3011ac2b71d108e8c162b8fa1f5393076e62ede1e09242d8a112db4516a61a"
+}

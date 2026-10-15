@@ -117,12 +117,6 @@ export const CLASS_RACIALS = {
               "mechanicsText": "Once per rest, summon an ancestral guide; you and nearby allies ignore difficult terrain for 1 minute."
             }
           ],
-          "duration": 0,
-          "durationUnit": "instant",
-          "power": "minor"
-        }
-      }
-    ],
     "clean_vreken": [
       {
         "id": "cr_animist_spore_choir",
@@ -1779,109 +1773,6 @@ export const CLASS_RACIALS = {
         }
       }
     ],
-            "typeConfig": {
-          "category": "class-racial",
-          "school": "primal",
-          "tags": [
-            "warden",
-            "tessen_human",
-            "passive",
-            "class_racial"
-          ]
-        },
-        "targetingConfig": {
-          "targetingType": "self",
-          "rangeType": "self_centered"
-        },
-        "spellType": "PASSIVE",
-        "effectTypes": [
-          "buff"
-        ],
-        "buffConfig": {
-          "buffType": "statusEffectBuff",
-          "effects": [
-            {
-              "id": "cr_warden_architectural_containment_effect",
-              "name": "Architectural Containment",
-              "description": "You brace a taught containment point in a keep’s architecture, sacrificing mobility for holding power.",
-              "mechanicsText": "You brace a taught containment point in a keep’s architecture, sacrificing mobility for holding power.",
-              "statusEffect": {
-                "level": "minor",
-                "description": "You brace a taught containment point in a keep’s architecture, sacrificing mobility for holding power."
-              }
-            }
-          ],
-          "durationValue": 0,
-          "durationType": "permanent",
-          "durationUnit": "permanent",
-          "canBeDispelled": false
-        },
-        "utilityConfig": {
-          "utilityType": "special",
-          "selectedEffects": [],
-          "duration": 0,
-          "durationUnit": "permanent",
-          "power": "minor"
-        },
-        "resourceCost": {
-          "actionPoints": 0,
-          "mana": 0,
-          "components": []
-        },
-        "cooldownConfig": {
-          "cooldownType": "none",
-          "cooldownValue": 0
-        }
-      },
-      {
-        "id": "cr_warden_gate_hold",
-        "name": "Gate Hold",
-        "description": "Anchor a chokepoint in prepared stone so your tether cannot be broken.",
-        "level": 1,
-        "icon": "Utility/Gear",
-        "actionPoints": 1,
-        "components": [
-          "somatic"
-        ],
-        "typeConfig": {
-          "category": "class-racial",
-          "school": "primal",
-          "tags": [
-            "warden",
-            "tessen_human",
-            "utility",
-            "class_racial"
-          ]
-        },
-        "targetingConfig": {
-          "targetingType": "self",
-          "rangeType": "self_centered"
-        },
-        "spellType": "ACTION",
-        "resourceCost": {
-          "actionPoints": 1,
-          "mana": 0,
-          "components": [
-            "somatic"
-          ]
-        },
-        "cooldownConfig": {
-          "cooldownType": "short_rest",
-          "cooldownValue": 1
-        },
-        "effectTypes": [
-          "utility"
-        ],
-        "utilityConfig": {
-          "utilityType": "special",
-          "selectedEffects": [
-            {
-              "id": "cr_warden_gate_hold_effect",
-              "name": "Gate Hold",
-              "description": "Anchor a chokepoint in prepared stone so your tether cannot be broken.",
-              "mechanicsText": "Anchor a chokepoint in prepared stone so your tether cannot be broken."
-            }
-          ],
           "duration": 0,
           "durationUnit": "instant",
           "power": "minor"

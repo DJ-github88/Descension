@@ -1,0 +1,637 @@
+{
+  "startedAt": "2026-10-15T19:34:37.808Z",
+  "command": [
+    "C:\\Program Files\\nodejs\\node.exe",
+    "D:\\VTT\\vtt-react\\verification\\p9\\integration\\app-browser.cjs"
+  ],
+  "kind": "production-App / optimized CRACO build",
+  "limits": [
+    "Production App/router/components/styles and compiled library bodies execute intact. Test-only webpack runtime access seeds users, exact actors and room socket; identity/provider login is simulated.",
+    "Real browser Socket.IO and registered backend stack execute; provider verification/canonical ownership/lease/cloud persistence are in-memory fixture boundaries.",
+    "Third-party network requests are refused deliberately by this witness; no live Firebase/rules, human players, physical second device or deployment claim."
+  ],
+  "errors": [
+    {
+      "uid": "app-gm",
+      "message": "Failed to fetch",
+      "stack": "TypeError: Failed to fetch\n    at http://127.0.0.1:4180/static/js/4104.1905144d.js:2:417530\n    at D (http://127.0.0.1:4180/static/js/4104.1905144d.js:2:415248)\n    at http://127.0.0.1:4180/static/js/4104.1905144d.js:2:417524\n    at async http://127.0.0.1:4180/static/js/4104.1905144d.js:2:417195"
+    },
+    {
+      "uid": "app-owner",
+      "message": "Failed to fetch",
+      "stack": "TypeError: Failed to fetch\n    at http://127.0.0.1:4180/static/js/4104.1905144d.js:2:417530\n    at D (http://127.0.0.1:4180/static/js/4104.1905144d.js:2:415248)\n    at http://127.0.0.1:4180/static/js/4104.1905144d.js:2:417524\n    at async http://127.0.0.1:4180/static/js/4104.1905144d.js:2:417195"
+    }
+  ],
+  "networkRefusals": [
+    {
+      "uid": "app-gm",
+      "origin": "https://firebaseinstallations.googleapis.com",
+      "resourceType": "fetch"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://firebaseinstallations.googleapis.com",
+      "resourceType": "fetch"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://firestore.googleapis.com",
+      "resourceType": "fetch"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://firestore.googleapis.com",
+      "resourceType": "fetch"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://firestore.googleapis.com",
+      "resourceType": "fetch"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://firestore.googleapis.com",
+      "resourceType": "fetch"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://firestore.googleapis.com",
+      "resourceType": "fetch"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://firestore.googleapis.com",
+      "resourceType": "fetch"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://firestore.googleapis.com",
+      "resourceType": "fetch"
+    },
+    {
+      "uid": "app-owner",
+      "origin": "https://firebaseinstallations.googleapis.com",
+      "resourceType": "fetch"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://firestore.googleapis.com",
+      "resourceType": "fetch"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://firestore.googleapis.com",
+      "resourceType": "fetch"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://firestore.googleapis.com",
+      "resourceType": "fetch"
+    },
+    {
+      "uid": "app-owner",
+      "origin": "https://firebaseinstallations.googleapis.com",
+      "resourceType": "fetch"
+    },
+    {
+      "uid": "app-owner",
+      "origin": "https://firestore.googleapis.com",
+      "resourceType": "fetch"
+    },
+    {
+      "uid": "app-owner",
+      "origin": "https://firestore.googleapis.com",
+      "resourceType": "fetch"
+    },
+    {
+      "uid": "app-owner",
+      "origin": "https://firestore.googleapis.com",
+      "resourceType": "fetch"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://firestore.googleapis.com",
+      "resourceType": "fetch"
+    },
+    {
+      "uid": "app-owner",
+      "origin": "https://firestore.googleapis.com",
+      "resourceType": "fetch"
+    },
+    {
+      "uid": "app-owner",
+      "origin": "https://firestore.googleapis.com",
+      "resourceType": "fetch"
+    },
+    {
+      "uid": "app-gm",
+      "origin": "https://firestore.googleapis.com",
+      "resourceType": "fetch"
+    },
+    {
+      "uid": "app-owner",
+      "origin": "https://firestore.googleapis.com",
+      "resourceType": "fetch"
+    }
+  ],
+  "witnesses": {
+    "P8": {
+      "receipt": {
+        "version": 1,
+        "roomId": "6f8b1dd8-544c-4ffb-b78c-be616b2f1f4c",
+        "commandId": "a1fd70a3-75c5-458c-8868-51a4f0bb1026",
+        "submitterUid": "app-gm",
+        "contentHash": "1fdf478dff3f401ff403777c61f3b3a36bbc8b2c34e475c7f54402c2a90fddd8",
+        "admissionEpoch": "771869b6-626e-4665-848f-7f3ce7e01058",
+        "commitSequence": 1,
+        "checkpointRevision": null,
+        "actors": [
+          {
+            "ref": {
+              "kind": "creature",
+              "roomId": "6f8b1dd8-544c-4ffb-b78c-be616b2f1f4c",
+              "mapId": "app-hall",
+              "tokenId": "A",
+              "instanceId": "fa1087ec-7c89-4432-a2d6-bdb36ab874f6"
+            },
+            "beforeRevision": 0,
+            "afterRevision": 1,
+            "finalResources": {
+              "hp": {
+                "current": 30,
+                "temp": 4,
+                "max": 250
+              },
+              "mana": {
+                "current": 0,
+                "temp": 0,
+                "max": 30
+              },
+              "ap": {
+                "current": 1,
+                "temp": 0,
+                "max": 5
+              }
+            },
+            "conditions": []
+          },
+          {
+            "ref": {
+              "kind": "creature",
+              "roomId": "6f8b1dd8-544c-4ffb-b78c-be616b2f1f4c",
+              "mapId": "app-hall",
+              "tokenId": "B",
+              "instanceId": "d5bdae3f-62e3-418d-87b0-80d0cd899f1b"
+            },
+            "beforeRevision": 0,
+            "afterRevision": 1,
+            "finalResources": {
+              "hp": {
+                "current": 24,
+                "temp": 0,
+                "max": 250
+              },
+              "mana": {
+                "current": 0,
+                "temp": 0,
+                "max": 30
+              },
+              "ap": {
+                "current": 2,
+                "temp": 0,
+                "max": 5
+              }
+            },
+            "conditions": []
+          }
+        ],
+        "authorization": {
+          "kind": "gm",
+          "authorizerUid": "app-gm"
+        },
+        "acceptedAt": 1792092925077,
+        "source": {
+          "kind": "creature",
+          "roomId": "6f8b1dd8-544c-4ffb-b78c-be616b2f1f4c",
+          "mapId": "app-hall",
+          "tokenId": "A",
+          "instanceId": "fa1087ec-7c89-4432-a2d6-bdb36ab874f6"
+        },
+        "target": {
+          "kind": "creature",
+          "roomId": "6f8b1dd8-544c-4ffb-b78c-be616b2f1f4c",
+          "mapId": "app-hall",
+          "tokenId": "B",
+          "instanceId": "d5bdae3f-62e3-418d-87b0-80d0cd899f1b"
+        },
+        "adjudication": {
+          "definitionId": "grimmstalk_feather_slash",
+          "definitionVersionOrHash": "feather-slash:v1/abilities:1.4.0",
+          "chosenResult": "{\"capability\":\"feather-slash:v1/abilities:1.4.0\",\"rawDefinition\":\"{\\\"cooldownConfig\\\":{\\\"cooldownType\\\":\\\"turn_based\\\",\\\"cooldownValue\\\":0},\\\"damageConfig\\\":{\\\"damageTypes\\\":[\\\"slicing\\\"],\\\"formula\\\":\\\"2d8 + 5\\\",\\\"resolution\\\":\\\"DICE\\\"},\\\"description\\\":\\\"Razor-edged ironwood plumage rakes across the target.\\\",\\\"effectTypes\\\":[\\\"damage\\\"],\\\"icon\\\":\\\"ability_rogue_findweakness\\\",\\\"id\\\":\\\"grimmstalk_feather_slash\\\",\\\"level\\\":1,\\\"name\\\":\\\"Feather Slash\\\",\\\"priorityRange\\\":{\\\"max\\\":11,\\\"min\\\":1,\\\"resolution\\\":\\\"DICE\\\"},\\\"resourceCost\\\":{\\\"actionPoints\\\":1,\\\"components\\\":[\\\"somatic\\\"],\\\"mana\\\":0},\\\"spellType\\\":\\\"ACTION\\\",\\\"tags\\\":[\\\"slicing\\\"],\\\"targetingConfig\\\":{\\\"rangeDistance\\\":10,\\\"rangeType\\\":\\\"melee\\\",\\\"targetRestrictions\\\":[\\\"enemies\\\"],\\\"targetingType\\\":\\\"single\\\"},\\\"typeConfig\\\":{\\\"castTime\\\":1,\\\"castTimeType\\\":\\\"IMMEDIATE\\\",\\\"icon\\\":\\\"ability_rogue_findweakness\\\",\\\"school\\\":\\\"slicing\\\",\\\"tags\\\":[\\\"slicing\\\"]}}\",\"mode\":\"physical\",\"faces\":[3,5],\"total\":13,\"sourceName\":\"A\",\"targetName\":\"B\",\"geometry\":\"Advisory planar center distance 10.0 ft; authored melee 10 ft. Elevation, contact, reach and line of effect require GM adjudication.\",\"gmConfirmed\":true}",
+          "finalAmount": 10,
+          "adjustmentReason": "GM defense ruling"
+        }
+      },
+      "sourceAP": 1,
+      "targetHP": 24,
+      "targetTempHP": 0
+    },
+    "P9": {
+      "receipt": {
+        "version": 1,
+        "roomId": "6f8b1dd8-544c-4ffb-b78c-be616b2f1f4c",
+        "commandId": "279dee0e-6b81-4fb2-9e45-c1ebc098d159",
+        "submitterUid": "app-gm",
+        "contentHash": "db90d35c53ff50a0e3a562ab8b0cdcb71769f9478ac15ca7fd4adbfb0a0651aa",
+        "admissionEpoch": "771869b6-626e-4665-848f-7f3ce7e01058",
+        "commitSequence": 3,
+        "checkpointRevision": null,
+        "actors": [
+          {
+            "ref": {
+              "kind": "character",
+              "roomId": "6f8b1dd8-544c-4ffb-b78c-be616b2f1f4c",
+              "mapId": "app-hall",
+              "tokenId": "pc",
+              "instanceId": "55aa1dfb-3bd0-46b2-8c8d-4792faf46e95",
+              "ownerUid": "app-owner",
+              "characterId": "ilse"
+            },
+            "beforeRevision": 1,
+            "afterRevision": 2,
+            "finalResources": {
+              "hp": {
+                "current": 20,
+                "temp": 0,
+                "max": 40
+              },
+              "mana": {
+                "current": 9,
+                "temp": 0,
+                "max": 30
+              },
+              "ap": {
+                "current": 2,
+                "temp": 0,
+                "max": 5
+              }
+            },
+            "conditions": [],
+            "classPayment": {
+              "mode": "spell",
+              "domain": "elementalSpheres",
+              "public": {
+                "type": "elementalSpheres",
+                "spheres": [
+                  "ember"
+                ],
+                "current": 1,
+                "max": 12
+              }
+            }
+          },
+          {
+            "ref": {
+              "kind": "creature",
+              "roomId": "6f8b1dd8-544c-4ffb-b78c-be616b2f1f4c",
+              "mapId": "app-hall",
+              "tokenId": "B",
+              "instanceId": "d5bdae3f-62e3-418d-87b0-80d0cd899f1b"
+            },
+            "beforeRevision": 1,
+            "afterRevision": 2,
+            "finalResources": {
+              "hp": {
+                "current": 17,
+                "temp": 0,
+                "max": 250
+              },
+              "mana": {
+                "current": 0,
+                "temp": 0,
+                "max": 30
+              },
+              "ap": {
+                "current": 2,
+                "temp": 0,
+                "max": 5
+              }
+            },
+            "conditions": []
+          }
+        ],
+        "authorization": {
+          "kind": "owner-approval-gm",
+          "authorizerUid": "app-gm",
+          "proposalId": "929f0122-aa81-41c7-8c46-847f2f06ad6e",
+          "approvalHash": "c3cbfc31b40af110f31dc52e010b7d677caec0757ff770f3fae5009c3ea71246"
+        },
+        "acceptedAt": 1792092931710,
+        "source": {
+          "kind": "character",
+          "roomId": "6f8b1dd8-544c-4ffb-b78c-be616b2f1f4c",
+          "mapId": "app-hall",
+          "tokenId": "pc",
+          "instanceId": "55aa1dfb-3bd0-46b2-8c8d-4792faf46e95",
+          "ownerUid": "app-owner",
+          "characterId": "ilse"
+        },
+        "target": {
+          "kind": "creature",
+          "roomId": "6f8b1dd8-544c-4ffb-b78c-be616b2f1f4c",
+          "mapId": "app-hall",
+          "tokenId": "B",
+          "instanceId": "d5bdae3f-62e3-418d-87b0-80d0cd899f1b"
+        },
+        "adjudication": {
+          "definitionId": "arc_spark_bolt",
+          "definitionVersionOrHash": "p9-spell:v1/599898d64f316c34af68f1e94fa0aa4aa5c8c6f30ad1483eaf16eda444f243ca",
+          "chosenResult": "{\"capability\":\"p9-spell:v1\",\"approvalId\":\"929f0122-aa81-41c7-8c46-847f2f06ad6e\",\"roll\":{\"mode\":\"physical\",\"dice\":[{\"sides\":8,\"faces\":[6]}],\"constant\":4,\"total\":10,\"reading\":\"1d8 + intelligence/4 → 1d8 + 4 (INT 16 ÷ 4, rounded down)\"},\"kind\":\"damage\",\"damageTypes\":[\"arcane\"],\"spellName\":\"Marrow-Piercing Slug\",\"sourceName\":\"Ilse\",\"targetName\":\"B\",\"gmConfirmed\":true}",
+          "finalAmount": 7,
+          "adjustmentReason": "GM mitigation"
+        }
+      },
+      "acceptHitTest": {
+        "rect": {
+          "x": 1026,
+          "y": 528,
+          "width": 184.75,
+          "height": 27,
+          "top": 528,
+          "right": 1210.75,
+          "bottom": 555,
+          "left": 1026
+        },
+        "hit": true
+      },
+      "source": {
+        "id": "pc",
+        "mapId": "app-hall",
+        "ownerUserId": "app-owner",
+        "position": {
+          "x": 600,
+          "y": 300
+        },
+        "character": {
+          "id": "ilse",
+          "name": "Ilse",
+          "class": "Arcanoneer",
+          "level": 3,
+          "health": {
+            "current": 20,
+            "max": 40
+          },
+          "mana": {
+            "current": 9,
+            "max": 30
+          },
+          "actionPoints": {
+            "current": 2,
+            "max": 5
+          },
+          "tempHealth": 0,
+          "tempMana": 0,
+          "tempActionPoints": 0,
+          "race": "",
+          "raceDisplayName": "",
+          "damageReduction": 0,
+          "durability": 0,
+          "movementSpeed": 30,
+          "resistances": {
+            "fire": {
+              "level": 100,
+              "multiplier": 1
+            },
+            "frost": {
+              "level": 100,
+              "multiplier": 1
+            },
+            "lightning": {
+              "level": 100,
+              "multiplier": 1
+            },
+            "force": {
+              "level": 100,
+              "multiplier": 1
+            },
+            "necrotic": {
+              "level": 100,
+              "multiplier": 1
+            },
+            "radiant": {
+              "level": 100,
+              "multiplier": 1
+            },
+            "poison": {
+              "level": 100,
+              "multiplier": 1
+            },
+            "psychic": {
+              "level": 100,
+              "multiplier": 1
+            },
+            "bludgeoning": {
+              "level": 100,
+              "multiplier": 1
+            },
+            "piercing": {
+              "level": 100,
+              "multiplier": 1
+            },
+            "slashing": {
+              "level": 100,
+              "multiplier": 1
+            }
+          },
+          "immunities": [],
+          "racialTraits": [],
+          "tokenSettings": {
+            "borderColor": "#506e30"
+          },
+          "classResource": {
+            "type": "elementalSpheres",
+            "spheres": [
+              "ember"
+            ]
+          }
+        },
+        "state": {
+          "conditions": [],
+          "actorContract": {
+            "version": 1,
+            "kind": "character",
+            "roomId": "6f8b1dd8-544c-4ffb-b78c-be616b2f1f4c",
+            "mapId": "app-hall",
+            "tokenId": "pc",
+            "ownerUid": "app-owner",
+            "characterId": "ilse",
+            "instanceId": "55aa1dfb-3bd0-46b2-8c8d-4792faf46e95",
+            "revision": 2,
+            "primary": true,
+            "bindingProvenance": {
+              "boundBy": "app-gm",
+              "snapshotHash": "c14c160a691cd1efbb7e6f8f984601ed95851b5ef5dc92f02b2555096d8e2571",
+              "selection": "unambiguous"
+            }
+          },
+          "classPayment": {
+            "version": 1,
+            "domain": "elementalSpheres",
+            "value": {
+              "type": "elementalSpheres",
+              "spheres": [
+                "ember"
+              ]
+            }
+          }
+        },
+        "name": "Ilse"
+      },
+      "target": {
+        "id": "B",
+        "creatureId": "grimmstalk",
+        "name": "B",
+        "mapId": "app-hall",
+        "stats": {
+          "strength": 16,
+          "agility": 18,
+          "constitution": 14,
+          "intelligence": 10,
+          "spirit": 14,
+          "charisma": 8,
+          "maxHp": 250,
+          "currentHp": 250,
+          "maxMana": 30,
+          "currentMana": 30,
+          "maxActionPoints": 5,
+          "currentActionPoints": 5,
+          "initiative": 4,
+          "speed": 35,
+          "flying": 0,
+          "swimming": 0,
+          "sightRange": 90,
+          "darkvision": 90
+        },
+        "position": {
+          "x": 500,
+          "y": 300
+        },
+        "state": {
+          "customName": "B",
+          "currentHp": 17,
+          "tempHealth": 0,
+          "currentMana": 0,
+          "tempMana": 0,
+          "currentActionPoints": 2,
+          "tempActionPoints": 0,
+          "maxHp": 250,
+          "maxMana": 30,
+          "maxAP": 5,
+          "conditions": [],
+          "actorContract": {
+            "version": 1,
+            "kind": "creature",
+            "roomId": "6f8b1dd8-544c-4ffb-b78c-be616b2f1f4c",
+            "mapId": "app-hall",
+            "tokenId": "B",
+            "instanceId": "d5bdae3f-62e3-418d-87b0-80d0cd899f1b",
+            "revision": 2,
+            "bindingProvenance": {
+              "boundBy": "app-gm",
+              "snapshotHash": "349dcc956ef5ac3ce589138b6544b241a3467c9201736733584c12a934db4ea2",
+              "selection": "unambiguous"
+            }
+          },
+          "maxActionPoints": 5
+        }
+      }
+    }
+  },
+  "setup": {
+    "fixture": {
+      "backendUrl": "http://localhost:54404",
+      "roomId": "6f8b1dd8-544c-4ffb-b78c-be616b2f1f4c",
+      "mapId": "app-hall",
+      "refs": {
+        "A": {
+          "kind": "creature",
+          "roomId": "6f8b1dd8-544c-4ffb-b78c-be616b2f1f4c",
+          "mapId": "app-hall",
+          "tokenId": "A",
+          "instanceId": "fa1087ec-7c89-4432-a2d6-bdb36ab874f6"
+        },
+        "B": {
+          "kind": "creature",
+          "roomId": "6f8b1dd8-544c-4ffb-b78c-be616b2f1f4c",
+          "mapId": "app-hall",
+          "tokenId": "B",
+          "instanceId": "d5bdae3f-62e3-418d-87b0-80d0cd899f1b"
+        },
+        "pc": {
+          "kind": "character",
+          "roomId": "6f8b1dd8-544c-4ffb-b78c-be616b2f1f4c",
+          "mapId": "app-hall",
+          "tokenId": "pc",
+          "instanceId": "55aa1dfb-3bd0-46b2-8c8d-4792faf46e95",
+          "ownerUid": "app-owner",
+          "characterId": "ilse"
+        }
+      }
+    },
+    "modules": {
+      "actors": [
+        "acceptRecoveredActorSnapshot",
+        "adjustSharedResource",
+        "applyAcceptedConsequence",
+        "applyActorLifecycle",
+        "applyBoundActor",
+        "approvePendingActorProposal",
+        "bindActor",
+        "findActor",
+        "hydrateActorConditions",
+        "inSharedRoom",
+        "prepareActorCommand",
+        "projectPersonalRuntime",
+        "reconcileActorMirrors",
+        "reconcileOwner",
+        "refOf",
+        "refreshActorSnapshot",
+        "registerActorHandlers",
+        "requestActorEvent",
+        "retryActorCommand",
+        "roomCondition",
+        "roomResourceProjection",
+        "routeTokenState",
+        "selectOwnerAttachment",
+        "setSharedResourceTotals",
+        "submitActorEntries",
+        "submitPreparedActorCommand",
+        "validateActorSnapshot"
+      ],
+      "spell": [
+        "AK",
+        "AQ",
+        "BK",
+        "I9",
+        "Ih",
+        "Lj",
+        "MR",
+        "OH",
+        "Pj",
+        "TT",
+        "Uz",
+        "_e",
+        "gK",
+        "og",
+        "ox",
+        "td",
+        "v$"
+      ]
+    },
+    "creatureCount": 197
+  },
+  "passed": true,
+  "endedAt": "2026-10-15T19:35:31.896Z",
+  "build": "build-snapshot",
+  "buildAssetManifestSha256": "29c6a64f3a9082d0b113e3f45dfb33eec51480e89087ee049ca35c2cdcc1f00c"
+}

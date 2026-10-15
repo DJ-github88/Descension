@@ -12,8 +12,8 @@ const evidence = { startedAt: new Date().toISOString(), command: process.argv, k
     'Real browser Socket.IO and registered backend stack execute; provider verification/canonical ownership/lease/cloud persistence are in-memory fixture boundaries.',
     'Third-party network requests are refused deliberately by this witness; no live Firebase/rules, human players, physical second device or deployment claim.'], errors: [], networkRefusals: [], witnesses: {} };
 async function setup(page, url, uid) {
-  page.on('pageerror', e => evidence.errors.push({ uid, message: e.message }));
-  await page.route('**/*', route => { const u = new URL(route.request().url()); if (['127.0.0.1', 'localhost'].includes(u.hostname) || u.protocol === 'data:') return route.continue(); evidence.networkRefusals.push({ uid, origin: u.origin, resourceType: route.request().resourceType() }); return route.abort('blockedbyclient'); });
+  page.on('pageerror', e => evidence.errors.push({ uid, message: e.message, stack: e.stack }));
+  await page.route('**/*', route => { const u = new URL(route.request().url()); if (!/(googleapis\.com|firebaseio\.com|firebaseapp\.com)$/.test(u.hostname) || u.hostname === 'fonts.googleapis.com') return route.continue(); evidence.networkRefusals.push({ uid, origin: u.origin, resourceType: route.request().resourceType() }); return route.abort('blockedbyclient'); });
   await page.goto(url + '/game');
   await page.locator('.action-slot').first().waitFor({ timeout: 60000 });
   const consent = page.getByRole('dialog', { name: /Analytics.*Privacy Consent/ });
@@ -23,7 +23,7 @@ async function setup(page, url, uid) {
     const fixture = await fetch('/integration-fixture.json').then(r => r.json());
     const key = Object.keys(window).find(k => k.startsWith('webpackChunk')); window[key].push([[99119], {}, r => window.__req = r]);
     const moduleWith = text => { const pair = Object.entries(__req.m).find(([, f]) => f.toString().includes(text)); if (!pair) throw Error('Missing compiled module ' + text); return __req(pair[0]); };
-    window.__registry = moduleWith('getStore:');
+    window.__registry = moduleWith('registerStore:');
     window.S = name => __registry.getStore(name);
     window.__actors = moduleWith('acceptRecoveredActorSnapshot:');
     window.__spell = moduleWith('An unresolved spell approval is retained; check or withdraw it first.');
@@ -79,16 +79,22 @@ async function main() {
     await gm.getByRole('button', { name: 'Close Feather Slash', exact: true }).click();
     // Full-App P9 producer: synthesize only the external drag payload; the real HUD drop/click routes it.
     const owner = await browser.newPage({ viewport: { width: 1440, height: 1000 } }); pages.push(owner); await setup(owner, host.url, 'app-owner');
-    await owner.locator('.action-slot').first().evaluate(el => { const data = new DataTransfer(); data.setData('application/json', JSON.stringify({ id: 'arc_spark_bolt', name: 'Marrow-Piercing Slug', icon: 'Arcane/Ebon Blaze', spellType: 'ACTION' })); el.dispatchEvent(new DragEvent('drop', { bubbles: true, dataTransfer: data })); });
-    await owner.locator('.action-slot').first().click();
+    await owner.waitForTimeout(1500); // Let the character/room action-bar hydration settle before the external drop.
+    save('slots-before.json', await owner.locator('.action-slot').evaluateAll(nodes => nodes.map(n => ({ html: n.outerHTML.slice(0, 500), parent: n.parentElement.className, props: Object.keys(n).filter(k => k.startsWith('__reactProps')).map(k => Object.keys(n[k])) }))));
+    await owner.locator('.action-bar-assembly .action-slot').first().evaluate(el => { const data = new DataTransfer(); data.setData('application/json', JSON.stringify({ id: 'arc_spark_bolt', name: 'Marrow-Piercing Slug', icon: 'Arcane/Ebon Blaze', spellType: 'ACTION' }));
+      // The incumbent app aliases DragEvent to MouseEvent; define the external payload explicitly.
+      const event = new Event('drop', { bubbles: true, cancelable: true }); Object.defineProperty(event, 'dataTransfer', { value: data }); el.dispatchEvent(event); });
+    await owner.locator('.action-bar-assembly .action-slot').first().getByAltText('Marrow-Piercing Slug', { exact: true }).waitFor();
+    await owner.locator('.action-bar-assembly .action-slot').first().click();
     const ownerDialog = owner.getByRole('dialog', { name: 'Supported spell cast' }); await ownerDialog.waitFor();
     await owner.getByRole('combobox', { name: 'Target', exact: true }).selectOption('creature:app-hall:B');
     await owner.getByLabel('d8 face 1', { exact: true }).fill('6'); await owner.getByRole('button', { name: 'Record physical roll', exact: true }).click();
     save('p9-owner-prepared.aria.yml', await ownerDialog.ariaSnapshot());
-    const before = JSON.stringify(hall.characterTokens.pc.character);
+    const pools = c => [c.health, c.tempHealth, c.mana, c.tempMana, c.actionPoints, c.tempActionPoints];
+    const before = JSON.stringify(pools(host.room.gameState.maps['app-hall'].characterTokens.pc.character));
     await owner.getByRole('button', { name: 'Approve price and send to GM' }).click();
     const card = gm.locator('.p9-gm-card').first(); await card.waitFor();
-    assert.equal(JSON.stringify(hall.characterTokens.pc.character), before, 'approval never spends source pools');
+    assert.equal(JSON.stringify(pools(host.room.gameState.maps['app-hall'].characterTokens.pc.character)), before, 'approval never spends source pools');
     await gm.getByRole('combobox', { name: 'Exact room attachment' }).selectOption('character:pc');
     await card.getByRole('checkbox').check(); await card.getByLabel(/^Final/).fill('7'); await card.getByLabel(/^Reason/).fill('GM mitigation');
     const hit = await card.getByRole('button', { name: 'Accept one consequence' }).evaluate(el => { const r = el.getBoundingClientRect(), top = document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2); return { rect: r.toJSON(), hit: top === el || el.contains(top) }; });
@@ -96,9 +102,10 @@ async function main() {
     save('p9-gm-prepared.aria.yml', await gm.locator('.actor-consequence-layer').ariaSnapshot());
     await card.getByRole('button', { name: 'Accept one consequence' }).click();
     await owner.getByText(/Accepted · /).first().waitFor();
-    assert.deepEqual([hall.characterTokens.pc.character.mana.current, hall.characterTokens.pc.character.tempMana, hall.characterTokens.pc.character.actionPoints.current, hall.characterTokens.pc.character.tempActionPoints], [9, 0, 2, 0]);
-    assert.deepEqual(hall.characterTokens.pc.state.classPayment.value.spheres, ['ember']); assert.equal(hall.tokens.B.state.currentHp, 17);
-    evidence.witnesses.P9 = { receipt: host.room.gameState.actorConsequences.receipts.at(-1), acceptHitTest: hit, source: hall.characterTokens.pc, target: hall.tokens.B };
+    const installedHall = host.room.gameState.maps['app-hall'];
+    assert.deepEqual([installedHall.characterTokens.pc.character.mana.current, installedHall.characterTokens.pc.character.tempMana, installedHall.characterTokens.pc.character.actionPoints.current, installedHall.characterTokens.pc.character.tempActionPoints], [9, 0, 2, 0]);
+    assert.deepEqual(installedHall.characterTokens.pc.state.classPayment.value.spheres, ['ember']); assert.equal(installedHall.tokens.B.state.currentHp, 17);
+    evidence.witnesses.P9 = { receipt: host.room.gameState.actorConsequences.receipts.at(-1), acceptHitTest: hit, source: installedHall.characterTokens.pc, target: installedHall.tokens.B };
     save('p9-gm-accepted.aria.yml', await gm.locator('.actor-consequence-layer').ariaSnapshot()); save('p9-owner-accepted.aria.yml', await ownerDialog.ariaSnapshot());
     for (const viewport of [{ width: 1440, height: 1000 }, { width: 1024, height: 768 }]) {
       await gm.setViewportSize(viewport);
@@ -111,7 +118,8 @@ async function main() {
     throw e;
   } finally {
     evidence.endedAt = new Date().toISOString();
-    const manifest = fs.readFileSync(path.join(base, 'build-final/app/asset-manifest.json')); evidence.buildAssetManifestSha256 = sha(manifest);
+    const buildName = process.env.APP_BUILD || 'build-final';
+    const manifest = fs.readFileSync(path.join(base, buildName, 'app/asset-manifest.json')); evidence.build = buildName; evidence.buildAssetManifestSha256 = sha(manifest);
     save('result.json', evidence); await browser.close(); await host.stop();
   }
 }

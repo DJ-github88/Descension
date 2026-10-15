@@ -1,0 +1,22 @@
+- dialog "Feather Slash adjudication":
+  - heading "Feather Slash" [level=3]
+  - button "Close Feather Slash": Close
+  - paragraph: Branvig · grimmstalk_feather_slash · ACTION / IMMEDIATE Single enemy · melee 10 ft · somatic · 1 AP / 0 mana · 2d8 + 5 slicing · DICE · cooldown 0
+  - paragraph: "Source: creature · 19b250a2-7aa6-4ce9-bad4-ff69554f6af6/app-hall/A · incarnation 9949b053-0a8e-4af8-b521-015ea7f18822"
+  - text: Feather Slash target
+  - combobox "Feather Slash target":
+    - option "Select one explicit target"
+    - option "A · A"
+    - option "B · B" [selected]
+    - option "Ilse · pc"
+  - paragraph: "Target: creature · 19b250a2-7aa6-4ce9-bad4-ff69554f6af6/app-hall/B · incarnation 488fa35e-b34a-42c9-9b7f-6605e90a6149"
+  - paragraph: Advisory planar center distance 10.0 ft; authored melee 10 ft. Elevation, contact, reach and line of effect require GM adjudication.
+  - paragraph: physical recorded faces [3, 5] + 5 = 13. This result is retained; changing target invalidates preparation.
+  - status: Device retained · recorded draft, no accepted cost or damage.
+  - checkbox "I adjudicate enemy, range, legality, defense and mitigation as GM." [checked]: ✓
+  - text: I adjudicate enemy, range, legality, defense and mitigation as GM. GM final damage
+  - textbox "GM final damage": "10"
+  - text: Adjustment / ruling reason
+  - textbox "Adjustment / ruling reason": GM defense ruling
+  - button "Cancel — no spend"
+  - button "Confirm adjudicated Feather Slash"

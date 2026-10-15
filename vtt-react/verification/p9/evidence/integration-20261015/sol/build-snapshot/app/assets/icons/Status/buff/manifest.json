@@ -1,0 +1,391 @@
+{
+  "category": "buff",
+  "count": 77,
+  "icons": [
+    {
+      "filename": "armor-tunic-t-shape-buff.png",
+      "name": "Armor Tunic T Shape Buff",
+      "path": "buff/armor-tunic-t-shape-buff.png"
+    },
+    {
+      "filename": "bull-head-glow-buff.png",
+      "name": "Bull Head Glow Buff",
+      "path": "buff/bull-head-glow-buff.png"
+    },
+    {
+      "filename": "chest-armor-cross-healing.png",
+      "name": "Chest Armor Cross Healing",
+      "path": "buff/chest-armor-cross-healing.png"
+    },
+    {
+      "filename": "chest-plate-armor.png",
+      "name": "Chest Plate Armor",
+      "path": "buff/chest-plate-armor.png"
+    },
+    {
+      "filename": "chest-plate-armor-glow.png",
+      "name": "Chest Plate Armor Glow",
+      "path": "buff/chest-plate-armor-glow.png"
+    },
+    {
+      "filename": "clenched-fist-strength.png",
+      "name": "Clenched Fist Strength",
+      "path": "buff/clenched-fist-strength.png"
+    },
+    {
+      "filename": "cross-pattern-buff.png",
+      "name": "Cross Pattern Buff",
+      "path": "buff/cross-pattern-buff.png"
+    },
+    {
+      "filename": "cross-star-buff.png",
+      "name": "Cross Star Buff",
+      "path": "buff/cross-star-buff.png"
+    },
+    {
+      "filename": "cross-star-pattern-buff.png",
+      "name": "Cross Star Pattern Buff",
+      "path": "buff/cross-star-pattern-buff.png"
+    },
+    {
+      "filename": "divided-heart-wings.png",
+      "name": "Divided Heart Wings",
+      "path": "buff/divided-heart-wings.png"
+    },
+    {
+      "filename": "dumbbell-strength.png",
+      "name": "Dumbbell Strength",
+      "path": "buff/dumbbell-strength.png"
+    },
+    {
+      "filename": "empowerment-buff.png",
+      "name": "Empowerment Buff",
+      "path": "buff/empowerment-buff.png"
+    },
+    {
+      "filename": "face-star-eyes-excitement.png",
+      "name": "Face Star Eyes Excitement",
+      "path": "buff/face-star-eyes-excitement.png"
+    },
+    {
+      "filename": "fiery-corinthian-helmet.png",
+      "name": "Fiery Corinthian Helmet",
+      "path": "buff/fiery-corinthian-helmet.png"
+    },
+    {
+      "filename": "fiery-helmet-defense.png",
+      "name": "Fiery Helmet Defense",
+      "path": "buff/fiery-helmet-defense.png"
+    },
+    {
+      "filename": "fiery-helmet-warrior.png",
+      "name": "Fiery Helmet Warrior",
+      "path": "buff/fiery-helmet-warrior.png"
+    },
+    {
+      "filename": "figure-raised-arms-empowerment.png",
+      "name": "Figure Raised Arms Empowerment",
+      "path": "buff/figure-raised-arms-empowerment.png"
+    },
+    {
+      "filename": "flexed-arm-strength.png",
+      "name": "Flexed Arm Strength",
+      "path": "buff/flexed-arm-strength.png"
+    },
+    {
+      "filename": "flexing-bicep-strength.png",
+      "name": "Flexing Bicep Strength",
+      "path": "buff/flexing-bicep-strength.png"
+    },
+    {
+      "filename": "focused-aura.png",
+      "name": "Focused Aura",
+      "path": "buff/focused-aura.png"
+    },
+    {
+      "filename": "four-leaf-clover-pattern-buff.png",
+      "name": "Four Leaf Clover Pattern Buff",
+      "path": "buff/four-leaf-clover-pattern-buff.png"
+    },
+    {
+      "filename": "four-petal-flower-cross-buff.png",
+      "name": "Four Petal Flower Cross Buff",
+      "path": "buff/four-petal-flower-cross-buff.png"
+    },
+    {
+      "filename": "four-petaled-flower-decorative-buff.png",
+      "name": "Four Petaled Flower Decorative Buff",
+      "path": "buff/four-petaled-flower-decorative-buff.png"
+    },
+    {
+      "filename": "glowing-smiley-face-buff.png",
+      "name": "Glowing Smiley Face Buff",
+      "path": "buff/glowing-smiley-face-buff.png"
+    },
+    {
+      "filename": "goggles-mask-symbol-buff.png",
+      "name": "Goggles Mask Symbol Buff",
+      "path": "buff/goggles-mask-symbol-buff.png"
+    },
+    {
+      "filename": "halo-divine-buff.png",
+      "name": "Halo Divine Buff",
+      "path": "buff/halo-divine-buff.png"
+    },
+    {
+      "filename": "hand-pointing-up-buff.png",
+      "name": "Hand Pointing Up Buff",
+      "path": "buff/hand-pointing-up-buff.png"
+    },
+    {
+      "filename": "Healing-Nullified.png",
+      "name": "Healing Nullified",
+      "path": "buff/Healing-Nullified.png"
+    },
+    {
+      "filename": "heart-plus-one-buff.png",
+      "name": "Heart Plus One Buff",
+      "path": "buff/heart-plus-one-buff.png"
+    },
+    {
+      "filename": "helmet-defense.png",
+      "name": "Helmet Defense",
+      "path": "buff/helmet-defense.png"
+    },
+    {
+      "filename": "helmet-orange-glow.png",
+      "name": "Helmet Orange Glow",
+      "path": "buff/helmet-orange-glow.png"
+    },
+    {
+      "filename": "helmet-protective-gear.png",
+      "name": "Helmet Protective Gear",
+      "path": "buff/helmet-protective-gear.png"
+    },
+    {
+      "filename": "helmet-t-faceguard.png",
+      "name": "Helmet T Faceguard",
+      "path": "buff/helmet-t-faceguard.png"
+    },
+    {
+      "filename": "horned-creature-head-buff.png",
+      "name": "Horned Creature Head Buff",
+      "path": "buff/horned-creature-head-buff.png"
+    },
+    {
+      "filename": "horseshoe-shield-ward.png",
+      "name": "Horseshoe Shield Ward",
+      "path": "buff/horseshoe-shield-ward.png"
+    },
+    {
+      "filename": "horseshoe-u-shape-protection.png",
+      "name": "Horseshoe U Shape Protection",
+      "path": "buff/horseshoe-u-shape-protection.png"
+    },
+    {
+      "filename": "horseshoe-u-shape-protection_1.png",
+      "name": "Horseshoe U Shape Protection_1",
+      "path": "buff/horseshoe-u-shape-protection_1.png"
+    },
+    {
+      "filename": "humanoid-guardian-buff.png",
+      "name": "Humanoid Guardian Buff",
+      "path": "buff/humanoid-guardian-buff.png"
+    },
+    {
+      "filename": "laughing-face-fiery-buff.png",
+      "name": "Laughing Face Fiery Buff",
+      "path": "buff/laughing-face-fiery-buff.png"
+    },
+    {
+      "filename": "layered-squares-buff.png",
+      "name": "Layered Squares Buff",
+      "path": "buff/layered-squares-buff.png"
+    },
+    {
+      "filename": "mask-shield-defensive.png",
+      "name": "Mask Shield Defensive",
+      "path": "buff/mask-shield-defensive.png"
+    },
+    {
+      "filename": "number-two-boot-power.png",
+      "name": "Number Two Boot Power",
+      "path": "buff/number-two-boot-power.png"
+    },
+    {
+      "filename": "ordered-structure.png",
+      "name": "Ordered Structure",
+      "path": "buff/ordered-structure.png"
+    },
+    {
+      "filename": "padlock-it-immunity.png",
+      "name": "Padlock It Immunity",
+      "path": "buff/padlock-it-immunity.png"
+    },
+    {
+      "filename": "red-armor-tunic-buff.png",
+      "name": "Red Armor Tunic Buff",
+      "path": "buff/red-armor-tunic-buff.png"
+    },
+    {
+      "filename": "shield-arrow-movement.png",
+      "name": "Shield Arrow Movement",
+      "path": "buff/shield-arrow-movement.png"
+    },
+    {
+      "filename": "shield-checkmark-success.png",
+      "name": "Shield Checkmark Success",
+      "path": "buff/shield-checkmark-success.png"
+    },
+    {
+      "filename": "shield-chevron-buff.png",
+      "name": "Shield Chevron Buff",
+      "path": "buff/shield-chevron-buff.png"
+    },
+    {
+      "filename": "shield-crest-buff.png",
+      "name": "Shield Crest Buff",
+      "path": "buff/shield-crest-buff.png"
+    },
+    {
+      "filename": "shield-emblem-buff.png",
+      "name": "Shield Emblem Buff",
+      "path": "buff/shield-emblem-buff.png"
+    },
+    {
+      "filename": "shield-gear-fortified.png",
+      "name": "Shield Gear Fortified",
+      "path": "buff/shield-gear-fortified.png"
+    },
+    {
+      "filename": "shield-glowing-layers.png",
+      "name": "Shield Glowing Layers",
+      "path": "buff/shield-glowing-layers.png"
+    },
+    {
+      "filename": "shield-helmet-x-buff.png",
+      "name": "Shield Helmet X Buff",
+      "path": "buff/shield-helmet-x-buff.png"
+    },
+    {
+      "filename": "shield-protection.png",
+      "name": "Shield Protection",
+      "path": "buff/shield-protection.png"
+    },
+    {
+      "filename": "shield-teardrop-protection.png",
+      "name": "Shield Teardrop Protection",
+      "path": "buff/shield-teardrop-protection.png"
+    },
+    {
+      "filename": "shoulder-armor-buff.png",
+      "name": "Shoulder Armor Buff",
+      "path": "buff/shoulder-armor-buff.png"
+    },
+    {
+      "filename": "smiling-face-buff.png",
+      "name": "Smiling Face Buff",
+      "path": "buff/smiling-face-buff.png"
+    },
+    {
+      "filename": "smiling-face-glow-buff.png",
+      "name": "Smiling Face Glow Buff",
+      "path": "buff/smiling-face-glow-buff.png"
+    },
+    {
+      "filename": "stacked-layers.png",
+      "name": "Stacked Layers",
+      "path": "buff/stacked-layers.png"
+    },
+    {
+      "filename": "star-cross-pattern-buff.png",
+      "name": "Star Cross Pattern Buff",
+      "path": "buff/star-cross-pattern-buff.png"
+    },
+    {
+      "filename": "star-emblem-power.png",
+      "name": "Star Emblem Power",
+      "path": "buff/star-emblem-power.png"
+    },
+    {
+      "filename": "star-framed-badge.png",
+      "name": "Star Framed Badge",
+      "path": "buff/star-framed-badge.png"
+    },
+    {
+      "filename": "strength-buff.png",
+      "name": "Strength Buff",
+      "path": "buff/strength-buff.png"
+    },
+    {
+      "filename": "strength-buff-cross.png",
+      "name": "Strength Buff Cross",
+      "path": "buff/strength-buff-cross.png"
+    },
+    {
+      "filename": "strength-buff-fiery.png",
+      "name": "Strength Buff Fiery",
+      "path": "buff/strength-buff-fiery.png"
+    },
+    {
+      "filename": "stylized-emblem-crest-buff.png",
+      "name": "Stylized Emblem Crest Buff",
+      "path": "buff/stylized-emblem-crest-buff.png"
+    },
+    {
+      "filename": "thumbs-up-approval.png",
+      "name": "Thumbs Up Approval",
+      "path": "buff/thumbs-up-approval.png"
+    },
+    {
+      "filename": "thumbs-up-glowing-buff.png",
+      "name": "Thumbs Up Glowing Buff",
+      "path": "buff/thumbs-up-glowing-buff.png"
+    },
+    {
+      "filename": "upward-arrow-arms-buff.png",
+      "name": "Upward Arrow Arms Buff",
+      "path": "buff/upward-arrow-arms-buff.png"
+    },
+    {
+      "filename": "upward-arrow-buff.png",
+      "name": "Upward Arrow Buff",
+      "path": "buff/upward-arrow-buff.png"
+    },
+    {
+      "filename": "upward-arrow-dagger-buff.png",
+      "name": "Upward Arrow Dagger Buff",
+      "path": "buff/upward-arrow-dagger-buff.png"
+    },
+    {
+      "filename": "upward-arrow-fish-buff.png",
+      "name": "Upward Arrow Fish Buff",
+      "path": "buff/upward-arrow-fish-buff.png"
+    },
+    {
+      "filename": "upward-arrow-flame-buff.png",
+      "name": "Upward Arrow Flame Buff",
+      "path": "buff/upward-arrow-flame-buff.png"
+    },
+    {
+      "filename": "upward-buff.png",
+      "name": "Upward Buff",
+      "path": "buff/upward-buff.png"
+    },
+    {
+      "filename": "upward-flame-arrow-buff.png",
+      "name": "Upward Flame Arrow Buff",
+      "path": "buff/upward-flame-arrow-buff.png"
+    },
+    {
+      "filename": "upward-flame-arrow-buff_1.png",
+      "name": "Upward Flame Arrow Buff_1",
+      "path": "buff/upward-flame-arrow-buff_1.png"
+    },
+    {
+      "filename": "winged-humanoid-buff.png",
+      "name": "Winged Humanoid Buff",
+      "path": "buff/winged-humanoid-buff.png"
+    }
+  ]
+}

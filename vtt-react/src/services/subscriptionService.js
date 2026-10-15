@@ -108,7 +108,7 @@ export const SUBSCRIPTION_TIERS = {
 		price: 0,
 		description: 'Try Mythrill by joining a friend\'s game: no account needed',
 		icon: 'fa-user-secret',
-		color: '#888'
+		color: '#6c5b4d'
 	},
 	FREE: {
 		id: 'free',
@@ -150,7 +150,7 @@ export const SUBSCRIPTION_TIERS = {
 		price: 0,
 		description: 'Everything you need to start playing and GMing',
 		icon: 'fa-shield-halved',
-		color: '#4a9eff'
+		color: '#2b527b'
 	},
 	DEV_PREVIEW: {
 		id: 'dev_preview',
@@ -184,7 +184,7 @@ export const SUBSCRIPTION_TIERS = {
 		price: 0,
 		description: 'Development preview account: full access',
 		icon: 'fa-code',
-		color: '#ff9800'
+		color: '#4a3828'
 	},
 	PRO: {
 		id: 'pro',
@@ -228,7 +228,7 @@ export const SUBSCRIPTION_TIERS = {
 		price: 7.99,
 		description: 'For serious Game Masters running campaigns',
 		icon: 'fa-crown',
-		color: '#9b59b6',
+		color: '#663c32',
 		highlight: true
 	},
 	ULTIMATE: {
@@ -267,7 +267,7 @@ export const SUBSCRIPTION_TIERS = {
 		price: 14.99,
 		description: 'For communities and professional Game Masters',
 		icon: 'fa-chess-king',
-		color: '#f1c40f'
+		color: '#2e4d6d'
 	},
 	MYTHIC: {
 		id: 'mythic',
@@ -308,7 +308,7 @@ export const SUBSCRIPTION_TIERS = {
 		price: 22.00,
 		description: 'For world architects and living campaign universes',
 		icon: 'fa-wand-magic-sparkles',
-		color: '#e056fd'
+		color: '#52365c'
 	}
 };
 

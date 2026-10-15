@@ -1,0 +1,14 @@
+const fs = require('fs'), path = require('path'), crypto = require('crypto'), assert = require('assert/strict');
+const root = 'D:/VTT', out = __dirname, sol = path.dirname(out);
+const read = p => fs.readFileSync(path.resolve(root, p)), sha = b => crypto.createHash('sha256').update(b).digest('hex');
+const checked = JSON.parse(read(path.join(out, 'snapshot-final-check.json')));
+for (const [p, values] of Object.entries(checked.focal)) assert.equal(sha(read(p)), values.current);
+for (const [name, hash] of Object.entries(checked.priorReportHashes)) assert.equal(sha(read(path.join(out, name))), hash);
+for (const [name, hash] of Object.entries(checked.finalReplayFileHashes)) assert.equal(sha(read(path.join(sol, 'app-replay-final', name))), hash);
+assert.equal(sha(read(path.join(sol, 'build-snapshot/source.json.gz'))), checked.snapshotBuild.snapshotSha256);
+assert.equal(sha(read(path.join(sol, 'build-snapshot/command.json'))), checked.snapshotBuild.commandSha256);
+assert.equal(sha(read(path.join(sol, 'build-snapshot/app/asset-manifest.json'))), checked.snapshotBuild.assetManifestSha256);
+const names = ['snapshot-final-addendum.md', 'snapshot-final-check.cjs', 'snapshot-final-check.json', 'snapshot-final-seal.cjs'];
+const seal = { task_id: checked.task_id, checkedAt: new Date().toISOString(), command: process.argv, cwd: process.cwd(), verdict: 'PASS for identified frozen frontend and bounded desktop corrections', reportHashes: Object.fromEntries(names.map(name => [name, sha(read(path.join(out, name)))])), priorReportsChanged: [], focalDrift: [], finalEvidenceChanged: [], passed: true };
+fs.writeFileSync(path.join(out, 'snapshot-final-seal.json'), JSON.stringify(seal, null, 2), { flag: 'wx' });
+console.log(JSON.stringify(seal, null, 2));

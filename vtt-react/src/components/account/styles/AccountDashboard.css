@@ -5848,7 +5848,7 @@
   line-height: 1.4;
 }
 
-.plan-stats {
+.account-dashboard-page .plan-stats {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 0.4rem;
@@ -5857,7 +5857,7 @@
   border-bottom: 1px solid rgba(139, 69, 19, 0.15);
 }
 
-.plan-stat {
+.account-dashboard-page .plan-stat {
   display: flex;
   align-items: center;
   gap: 0.35rem;
@@ -5866,14 +5866,14 @@
   font-weight: 600;
 }
 
-.plan-stat i {
-  color: #d4af37;
+.account-dashboard-page .plan-stat i {
+  color: #826749;
   font-size: 0.7rem;
   width: 14px;
   text-align: center;
 }
 
-.plan-features {
+.account-dashboard-page .plan-features {
   list-style: none;
   padding: 0;
   margin: 0 0 1rem 0;
@@ -5881,7 +5881,7 @@
   text-align: left;
 }
 
-.plan-features li {
+.account-dashboard-page .plan-features li {
   display: flex;
   align-items: flex-start;
   gap: 0.5rem;
@@ -5891,14 +5891,14 @@
   line-height: 1.3;
 }
 
-.plan-features li i {
+.account-dashboard-page .plan-features li i {
   color: var(--my-hp);
   font-size: 0.65rem;
   margin-top: 3px;
   flex-shrink: 0;
 }
 
-.plan-features .more-features {
+.account-dashboard-page .plan-features .more-features {
   color: #8b4513;
   font-weight: 600;
   font-style: italic;
@@ -5906,7 +5906,7 @@
   padding-top: 0.5rem;
 }
 
-.plan-action {
+.account-dashboard-page .plan-action {
   margin-top: auto;
 }
 

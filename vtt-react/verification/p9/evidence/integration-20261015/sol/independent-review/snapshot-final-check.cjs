@@ -1,0 +1,61 @@
+// Final bounded provenance accounting. Writes only a new review JSON artifact.
+const fs = require('fs'), path = require('path'), crypto = require('crypto'), zlib = require('zlib'), assert = require('assert/strict');
+const root = 'D:/VTT', out = __dirname, sol = path.dirname(out), buildDir = path.join(sol, 'build-snapshot'), replayDir = path.join(sol, 'app-replay-final');
+const read = p => fs.readFileSync(path.resolve(root, p));
+const sha = b => crypto.createHash('sha256').update(b).digest('hex');
+const json = p => JSON.parse(read(p));
+const result = { task_id: 'independent-integration-review-20261015-snapshot-final', startedAt: new Date().toISOString(), command: process.argv, cwd: process.cwd() };
+const prior = json(path.join(out, 'completion-final-state.json')), run8 = json(path.join(out, 'run8-addendum-check.json')), run8Seal = json(path.join(out, 'run8-addendum-seal.json'));
+const preserved = { ...Object.fromEntries(Object.entries(prior.reportHashes).map(([p, h]) => [path.join(out, p), h])), ...Object.fromEntries(Object.entries(run8Seal.reportHashes).map(([p, h]) => [path.join(out, p), h])) };
+for (const [p, hash] of Object.entries(preserved)) assert.equal(sha(read(p)), hash, `Prior review changed: ${p}`);
+const build = json(path.join(buildDir, 'command.json')), exit = json(path.join(buildDir, 'exit.json'));
+assert.equal(build.exit, 0); assert.equal(exit.exit, 0); assert.deepEqual(build.mirrorDrift, []); assert.deepEqual(exit.mirrorDrift, []);
+assert.deepEqual(build.concurrentLiveDrift, ['vtt-react/src/hooks/useSessionManagement.js']); assert.deepEqual(exit.concurrentLiveDrift, build.concurrentLiveDrift);
+const packetBytes = read(path.join(buildDir, 'source.json.gz')), packet = JSON.parse(zlib.gunzipSync(packetBytes));
+assert.equal(sha(packetBytes), build.snapshotSha256); assert.deepEqual(packet.hashes, build.hashes);
+assert(!Object.keys(packet.hashes).some(p => path.basename(p).startsWith('.env')));
+assert(!Object.keys(packet.files).some(p => path.basename(p).startsWith('.env')));
+for (const [p, encoded] of Object.entries(packet.files)) assert.equal(sha(Buffer.from(encoded, 'base64')), packet.hashes['vtt-react/' + p], `Archived entry hash: ${p}`);
+result.focal = Object.fromEntries(Object.entries(prior.currentFocalRawHashes).map(([p, expected]) => {
+  const current = sha(read(p)), frozen = packet.hashes[p], archived = sha(Buffer.from(packet.files[p.slice('vtt-react/'.length)], 'base64'));
+  assert.equal(current, expected); assert.equal(frozen, expected); assert.equal(archived, expected);
+  const mirrored = fs.existsSync(build.cwd) ? sha(read(path.join(build.cwd, p.slice('vtt-react/'.length)))) : null;
+  if (mirrored) assert.equal(mirrored, expected);
+  return [p, { previous: expected, current, snapshot: frozen, archived, mirror: mirrored }];
+}));
+const configPaths = ['vtt-react/craco.config.js', 'vtt-react/package.json', 'vtt-react/package-lock.json'];
+result.config = Object.fromEntries(configPaths.map(p => {
+  const frozen = packet.hashes[p], current = sha(read(p)), mirrored = fs.existsSync(build.cwd) ? sha(read(path.join(build.cwd, p.slice('vtt-react/'.length)))) : null;
+  assert.equal(current, frozen); if (mirrored) assert.equal(mirrored, frozen);
+  return [p, { snapshot: frozen, current, mirror: mirrored }];
+}));
+const hook = build.concurrentLiveDrift[0];
+result.concurrentHook = { path: hook, snapshot: packet.hashes[hook], currentAtCheck: sha(read(hook)), mirrorAtCheck: fs.existsSync(build.cwd) ? sha(read(path.join(build.cwd, hook.slice('vtt-react/'.length)))) : null };
+if (result.concurrentHook.mirrorAtCheck) assert.equal(result.concurrentHook.mirrorAtCheck, result.concurrentHook.snapshot);
+const replay = json(path.join(replayDir, 'result.json')), manifestPath = path.join(buildDir, 'app/asset-manifest.json');
+assert.equal(replay.passed, true); assert.equal(replay.failure, undefined); assert.equal(replay.build, 'build-snapshot');
+assert.equal(replay.buildAssetManifestSha256, sha(read(manifestPath)));
+const p8 = replay.witnesses.P8, p9 = replay.witnesses.P9;
+assert.deepEqual([p8.sourceAP, p8.targetHP, p8.targetTempHP], [1, 24, 0]); assert.equal(p8.receipt.adjudication.definitionVersionOrHash, 'feather-slash:v1/abilities:1.4.0');
+assert.equal(p9.acceptHitTest.hit, true); assert.equal(p9.receipt.authorization.kind, 'owner-approval-gm'); assert.equal(p9.receipt.adjudication.finalAmount, 7);
+const c = p9.source.character, source = p9.receipt.actors.find(a => a.ref.tokenId === 'pc'), target = p9.receipt.actors.find(a => a.ref.tokenId === 'B');
+assert.deepEqual([c.mana.current, c.tempMana, c.actionPoints.current, c.tempActionPoints], [9, 0, 2, 0]);
+assert.deepEqual([source.finalResources.mana.current, source.finalResources.mana.temp, source.finalResources.ap.current, source.finalResources.ap.temp], [9, 0, 2, 0]);
+assert.deepEqual(p9.source.state.classPayment.value.spheres, ['ember']); assert.deepEqual(source.classPayment.public.spheres, ['ember']); assert.equal(p9.target.state.currentHp, 17); assert.equal(target.finalResources.hp.current, 17);
+assert.equal(p8.receipt.checkpointRevision, null); assert.equal(p9.receipt.checkpointRevision, null);
+assert.equal(replay.errors.length, 2); assert(replay.errors.every(e => e.message === 'Failed to fetch'));
+const layouts = [1440, 1024].map(w => json(path.join(replayDir, `layout-${w}.json`)));
+for (const l of layouts) { assert.equal(l.position, 'fixed'); assert.equal(l.rect.top, 84); assert.equal(l.rect.right, l.viewport.width - 16); assert(l.rect.left >= 0 && l.rect.bottom <= l.viewport.height); }
+assert(read(path.join(replayDir, 'p9-gm-prepared.aria.yml')).toString().includes('button "Accept one consequence"'));
+for (const name of ['p9-gm-accepted.aria.yml', 'p9-owner-accepted.aria.yml']) assert(read(path.join(replayDir, name)).toString().includes('Accepted · live-only'));
+result.witnessSourcesUnchangedFromRun8 = {};
+for (const p of ['vtt-react/verification/p9/integration/app-browser.cjs', 'vtt-react/verification/p9/integration/app-server.cjs']) { const current = sha(read(p)); assert.equal(current, run8.inspectedSourceHashes[p]); result.witnessSourcesUnchangedFromRun8[p] = current; }
+result.snapshotBuild = { commandSha256: sha(read(path.join(buildDir, 'command.json'))), snapshotSha256: sha(packetBytes), startedAt: build.startedAt, endedAt: build.endedAt, exit: build.exit, signal: build.signal, cwd: build.cwd, command: build.command, mirrorDrift: build.mirrorDrift, concurrentLiveDrift: build.concurrentLiveDrift, inputHashCount: Object.keys(packet.hashes).length, verifiedArchivedEntryCount: Object.keys(packet.files).length, envKeysAbsentFromPacket: true, outputLogSha256: sha(read(path.join(buildDir, 'output.log'))), assetManifestSha256: sha(read(manifestPath)) };
+result.finalReplay = { resultSha256: sha(read(path.join(replayDir, 'result.json'))), command: replay.command, startedAt: replay.startedAt, endedAt: replay.endedAt, passed: true, build: replay.build, buildAssetManifestSha256: replay.buildAssetManifestSha256, p8CommandId: p8.receipt.commandId, p9CommandId: p9.receipt.commandId, p9ApprovalId: p9.receipt.authorization.proposalId, acceptHitTest: p9.acceptHitTest, pools: [9, 0, 2, 0], spheres: ['ember'], targetHP: 17, pageErrors: replay.errors, networkRefusalCount: replay.networkRefusals.length, layouts };
+result.finalReplayFileHashes = Object.fromEntries(fs.readdirSync(replayDir).map(name => [name, sha(read(path.join(replayDir, name)))]));
+for (const [p, h] of Object.entries(preserved)) assert.equal(sha(read(p)), h);
+for (const [p, v] of Object.entries(result.focal)) assert.equal(sha(read(p)), v.current);
+result.priorReportHashes = { 'review.md': sha(read(path.join(out, 'review.md'))), 'final-review.md': sha(read(path.join(out, 'final-review.md'))) };
+result.sourceDriftInFocal16 = []; result.priorReportsChanged = []; result.passed = true; result.endedAt = new Date().toISOString();
+fs.writeFileSync(path.join(out, 'snapshot-final-check.json'), JSON.stringify(result, null, 2), { flag: 'wx' });
+console.log(JSON.stringify({ passed: true, snapshotBuild: result.snapshotBuild, concurrentHook: result.concurrentHook, finalReplay: result.finalReplay, config: result.config, sourceDriftInFocal16: [], priorReportsChanged: [] }, null, 2));

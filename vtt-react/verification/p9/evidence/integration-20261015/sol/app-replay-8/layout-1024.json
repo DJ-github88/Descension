@@ -1,0 +1,19 @@
+{
+  "rect": {
+    "x": 588,
+    "y": 84,
+    "width": 420,
+    "height": 200,
+    "top": 84,
+    "right": 1008,
+    "bottom": 284,
+    "left": 588
+  },
+  "scrollHeight": 198,
+  "clientHeight": 198,
+  "position": "fixed",
+  "viewport": {
+    "width": 1024,
+    "height": 768
+  }
+}

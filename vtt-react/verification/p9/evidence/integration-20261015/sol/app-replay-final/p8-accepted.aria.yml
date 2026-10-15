@@ -1,0 +1,79 @@
+- text: A B Ilse Camera
+- button "Minimize camera controls": 
+- group "Camera projection mode":
+  - button "2D"
+  - button "2.5D"
+- button ""
+- button "N 0°"
+- button ""
+- text: Heading
+- spinbutton "Camera heading in degrees": "0"
+- text: °
+- slider "Camera heading": "0"
+- text: "[ ] rotate 5° · Shift snap"
+- button " Camera" [expanded]
+- region "Actor attachment and consequences":
+  - paragraph: "Shared conditions: manual timing · overtime paused."
+  - text: Exact room attachment
+  - combobox "Exact room attachment":
+    - option "Select a token" [selected]
+    - option "Ilse · pc"
+    - option "A · A"
+    - option "B · B"
+  - status: accepted-live
+  - paragraph: "Temporary room: live-only, nonpersistent. No checkpoint confirmation or crash durability."
+- text: Neutral Good
+- button "C"
+- text: 1 Character Name Exhaustion 0
+- 'combobox "Exhaustion Level: 0"':
+  - option "0 (Normal)" [selected]
+  - option "1 (Disadv. Checks)"
+  - option "2 (Speed Halved)"
+  - option "3 (Disadv. Attacks/Saves)"
+  - option "4 (HP Max Halved)"
+  - option "5 (Speed 0)"
+  - option "6 (Death)"
+- 'img "Character Name Health: 45 of 50"'
+- 'img "Character Name Mana: 45 of 50"'
+- 'img "Character Name Action Points: 1 of 3"'
+- img "mainHand"
+- text: 5 1 2 3 4 5 6 7 8 9 10
+- img "offHand"
+- text: "2"
+- img "ranged"
+- text: 1 0 / 300 XP
+- button " Dialogue"
+- button "Character":
+  - img
+  - text: Character
+- button "Adventure":
+  - img
+  - text: Adventure
+- button "Tools":
+  - img
+  - text: Tools
+- button "Settings (G)":
+  - img
+- button "Return to Main Menu (ESC)":
+  - img
+- button "Minimize navigation"
+- text: " X: 0.0 | Y: 0.0 "
+- button ""
+- dialog "Feather Slash adjudication":
+  - heading "Feather Slash" [level=3]
+  - button "Close Feather Slash": Close
+  - paragraph: Branvig · grimmstalk_feather_slash · ACTION / IMMEDIATE Single enemy · melee 10 ft · somatic · 1 AP / 0 mana · 2d8 + 5 slicing · DICE · cooldown 0
+  - paragraph: "Source: creature · 6f8b1dd8-544c-4ffb-b78c-be616b2f1f4c/app-hall/A · incarnation fa1087ec-7c89-4432-a2d6-bdb36ab874f6"
+  - paragraph: Retained command a1fd70a3-75c5-458c-8868-51a4f0bb1026 · Device retained. accepted
+  - region "Accepted Feather Slash result":
+    - heading "Feather Slash — accepted receipt" [level=4]
+    - paragraph: A → B
+    - paragraph: "physical dice: [3, 5] + 5 = 13. GM final: 10 slicing."
+    - paragraph: GM defense ruling
+    - paragraph: Source AP 1 + temp 0; target HP 24 + temp 0.
+    - paragraph: creature · 6f8b1dd8-544c-4ffb-b78c-be616b2f1f4c/app-hall/A · incarnation fa1087ec-7c89-4432-a2d6-bdb36ab874f6 creature · 6f8b1dd8-544c-4ffb-b78c-be616b2f1f4c/app-hall/B · incarnation d5bdae3f-62e3-418d-87b0-80d0cd899f1b
+    - status: live-only · no checkpoint / no crash durability
+    - text: Already resolved · a1fd70a3-75c5-458c-8868-51a4f0bb1026. Checking this receipt is not another attack.
+  - button "Close (no undo)"
+  - button "Start new preparation"
+  - button "Check same Feather Slash command"

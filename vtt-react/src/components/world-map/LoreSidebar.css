@@ -97,7 +97,7 @@
   color: #5a4033;
   width: 34px;
   height: 34px;
-  border-radius: 50%;
+  border-radius: 4px;
   cursor: pointer;
   font-size: 13px;
   display: flex;
@@ -554,7 +554,7 @@
   font-size: 11px;
   width: 22px;
   height: 22px;
-  border-radius: 50%;
+  border-radius: 3px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -781,7 +781,7 @@
   font-size: 11px;
   font-weight: 600;
   padding: 4px 10px;
-  border-radius: 14px;
+  border-radius: 4px;
   cursor: pointer;
   white-space: nowrap;
   transition: all 0.2s ease;
@@ -797,7 +797,7 @@
   background: rgba(182, 160, 128, 0.2);
   color: #5a4033;
   padding: 0px 5px;
-  border-radius: 8px;
+  border-radius: 3px;
   font-weight: 700;
 }
 
@@ -1028,7 +1028,7 @@
   color: #5a4033;
   border: 1px solid rgba(182, 160, 128, 0.4);
   padding: 1px 7px;
-  border-radius: 10px;
+  border-radius: 3px;
   margin-left: 4px;
 }
 
@@ -1450,7 +1450,7 @@
   background: #f2ebd9;
   color: #4a382c;
   padding: 2px 8px;
-  border-radius: 10px;
+  border-radius: 4px;
   border: 1px solid rgba(182, 160, 128, 0.4);
   letter-spacing: 0.4px;
 }
@@ -1558,7 +1558,7 @@
   border: 1px solid rgba(182, 160, 128, 0.4);
   color: #5a4033;
   padding: 2px 8px;
-  border-radius: 12px;
+  border-radius: 4px;
   font-weight: 600;
 }
 
@@ -1679,7 +1679,7 @@
   border: 1px solid rgba(182, 160, 128, 0.4);
   color: #4a382c;
   padding: 4px 8px;
-  border-radius: 12px;
+  border-radius: 4px;
 }
 
 .lore-geo-pill.danger-high,
@@ -1701,7 +1701,7 @@
   border: 1px solid rgba(182, 160, 128, 0.4);
   color: #34251a;
   padding: 4px 10px;
-  border-radius: 12px;
+  border-radius: 4px;
 }
 
 .lore-factions-list {

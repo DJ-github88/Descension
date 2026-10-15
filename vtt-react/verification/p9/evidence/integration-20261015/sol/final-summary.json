@@ -1,0 +1,127 @@
+{
+  "at": "2026-10-15T19:42:27.730Z",
+  "startingHead": "dd445bec3a295f2a1d1aad8ec0b77e1d2f5e3334",
+  "currentHead": "f491e6943ebe5368828dc97111bd097c4bc90c94",
+  "focal": {
+    "vtt-react/src/services/featherSlash.js": {
+      "raw": "ad2b3134998a8585906bbb82a1ac3878dafecac92070a9ad81f659ed1812669a",
+      "lf": "ad2b3134998a8585906bbb82a1ac3878dafecac92070a9ad81f659ed1812669a",
+      "before": "1a4418f1a900b29f58efc79de091cfb59dd694d42110cecf087ef6a0e481b3ae"
+    },
+    "vtt-react/src/services/__tests__/featherSlash.test.js": {
+      "raw": "43eaf32fb3a87bf38cda145e9c7afc29bfbfda4f83f53585f376abd1acc2bcb9",
+      "lf": "43eaf32fb3a87bf38cda145e9c7afc29bfbfda4f83f53585f376abd1acc2bcb9",
+      "before": "6f2b32cbc753181403688a3b53e69262e3d5194fd2c72c453c4d17e72ceaf1ed"
+    },
+    "vtt-react/src/components/ui/ActionBar.jsx": {
+      "raw": "7a04ec3302561ae91cd495bddce4d5596235bd5b8c5916f58686b767f9000d33",
+      "lf": "7585d93b5b7184cca6a7a210c8e8666c205cf39f57c8924edfd913db69b72c81",
+      "before": "7a04ec3302561ae91cd495bddce4d5596235bd5b8c5916f58686b767f9000d33"
+    },
+    "vtt-react/src/components/ui/__tests__/ActionBarLegacyArcanoneerSpheres.test.jsx": {
+      "raw": "98e8afbef304b1359da67d136ae2f38e43fc002846dcee247df500d5466dbb73",
+      "lf": "98e8afbef304b1359da67d136ae2f38e43fc002846dcee247df500d5466dbb73",
+      "before": "98e8afbef304b1359da67d136ae2f38e43fc002846dcee247df500d5466dbb73"
+    },
+    "vtt-react/src/components/hud/PartyHUD.jsx": {
+      "raw": "c5f2e9381c18fae3e68ec47f3f8bf2c02bca8e3be48ea72a8f6179e9e07db5d9",
+      "lf": "c5f2e9381c18fae3e68ec47f3f8bf2c02bca8e3be48ea72a8f6179e9e07db5d9",
+      "before": "c5f2e9381c18fae3e68ec47f3f8bf2c02bca8e3be48ea72a8f6179e9e07db5d9"
+    },
+    "vtt-react/src/components/hud/SpellConsequencePanel.css": {
+      "raw": "2f936ff2ff5bdc3f610c2c24c49015a1b935bd835a3f8f4e1dfeb2837682a68b",
+      "lf": "2f936ff2ff5bdc3f610c2c24c49015a1b935bd835a3f8f4e1dfeb2837682a68b",
+      "before": "2f936ff2ff5bdc3f610c2c24c49015a1b935bd835a3f8f4e1dfeb2837682a68b"
+    },
+    "vtt-react/public/data/abilities.json": {
+      "raw": "07ffc620f0d7a08c188aff8daf4fa0bdf9e82795bcf83ee7c6e864d5d749bb15",
+      "lf": "8b49ef0b4d385c2260c9d26c7e10a42797c5b1ee7df27fe3fe300b57c0389de7",
+      "before": "07ffc620f0d7a08c188aff8daf4fa0bdf9e82795bcf83ee7c6e864d5d749bb15"
+    },
+    "vtt-react/public/data/creatures.json": {
+      "raw": "66cf07a04adfd9cd31b62e15053c2e707ec55a519e04bfdb6095b1184077fafd",
+      "lf": "60b5b8ff5f35c73db1dcf6256bb153952338258fb85cc33a1b8d8c33843ed1f1",
+      "before": "66cf07a04adfd9cd31b62e15053c2e707ec55a519e04bfdb6095b1184077fafd"
+    },
+    "vtt-react/src/data/versions.js": {
+      "raw": "d3abf2ffedebc1e6834cd8c41f47f0022b6c4d8be33db0e7de7be80fd96fc651",
+      "lf": "0afdfd0954a35e651d81ffe0a44c431e085ae45b4b7a6fdaa9535318f6989815",
+      "before": "d3abf2ffedebc1e6834cd8c41f47f0022b6c4d8be33db0e7de7be80fd96fc651"
+    },
+    "vtt-react/src/services/featherSlashCustody.js": {
+      "raw": "2ace5b077bbd3bccdfeec666148df385927faca1766beb065d51a2e14e5abd39",
+      "lf": "2ace5b077bbd3bccdfeec666148df385927faca1766beb065d51a2e14e5abd39",
+      "before": "2ace5b077bbd3bccdfeec666148df385927faca1766beb065d51a2e14e5abd39"
+    },
+    "vtt-react/src/services/actorConsequenceService.js": {
+      "raw": "f014993e068a852e93ea931e8255504379cb77596ccf18638f63b230d311fd99",
+      "lf": "f014993e068a852e93ea931e8255504379cb77596ccf18638f63b230d311fd99",
+      "before": "f014993e068a852e93ea931e8255504379cb77596ccf18638f63b230d311fd99"
+    }
+  },
+  "preservedP9StartingFiles": 32,
+  "historicalFilesVerified": 476,
+  "historicalDrift": [
+    "vtt-react/verification/p7/evidence/corrections-20261013/server-green.json",
+    "vtt-react/verification/p7/evidence/server-results.json"
+  ],
+  "preservedHistorical": [
+    {
+      "path": "vtt-react/verification/p7/evidence/corrections-20261013/server-green.json",
+      "originalSha256": "eb6b4fa8da8965a3ceb15a7208c3d3442da6c7b9253492a74d324d8142f1aa63",
+      "currentSha256": "be5c1ee3dedc0716715b0233931ecdd9d564aa5e083fe49e9022c7b49dccfde0",
+      "originalCopy": "p7-corrections-server-green-original.json",
+      "concurrentCopy": "p7-corrections-server-green-concurrent.json",
+      "recoveredFrom": "dd445bec3a295f2a1d1aad8ec0b77e1d2f5e3334"
+    },
+    {
+      "path": "vtt-react/verification/p7/evidence/server-results.json",
+      "originalSha256": "82e8adeb8c317b11ee7a8c391e7733faa5c1fbc162136dc14b4624e1009ba01b",
+      "currentSha256": "1219410c728a5ced585691e80f1a8e3382d601fb1ce1d1c6188f72a222b3c365",
+      "originalCopy": "p7-server-results-original.json",
+      "concurrentCopy": "p7-server-results-concurrent.json",
+      "recoveredFrom": "dd445bec3a295f2a1d1aad8ec0b77e1d2f5e3334"
+    }
+  ],
+  "p9CurrentDifferences": [
+    "vtt-react/src/components/hud/SpellConsequencePanel.css",
+    "vtt-react/src/components/hud/PartyHUD.jsx",
+    "vtt-react/src/components/ui/ActionBar.jsx",
+    "vtt-react/src/components/ui/SpellCastConfirmation.jsx",
+    "docs/MYTHRILL_PROJECT_9_IMPLEMENTATION.md"
+  ],
+  "snapshotSha256": "e9aed0321e5aa850eec06f3c1de573fe1589788c94e239e66fcbc8d11bc1cbf9",
+  "snapshotBuild": {
+    "cwd": "D:\\AppData\\Temp\\opencode\\p8-p9-final-1792092299188",
+    "startedAt": "2026-10-15T19:25:11.421Z",
+    "endedAt": "2026-10-15T19:31:59.841Z",
+    "exit": 0,
+    "mirrorDrift": [],
+    "concurrentLiveDrift": [
+      "vtt-react/src/hooks/useSessionManagement.js"
+    ]
+  },
+  "buildManifestSha256": "29c6a64f3a9082d0b113e3f45dfb33eec51480e89087ee049ca35c2cdcc1f00c",
+  "productionApp": {
+    "file": "app-replay-final/result.json",
+    "sha256": "d56de547c06c3acc08dc67bfdcf90763a095bf7438084d71665cf8560d2389b7",
+    "passed": true,
+    "pageErrors": [
+      {
+        "uid": "app-gm",
+        "message": "Failed to fetch",
+        "stack": "TypeError: Failed to fetch\n    at http://127.0.0.1:4180/static/js/4104.1905144d.js:2:417530\n    at D (http://127.0.0.1:4180/static/js/4104.1905144d.js:2:415248)\n    at http://127.0.0.1:4180/static/js/4104.1905144d.js:2:417524\n    at async http://127.0.0.1:4180/static/js/4104.1905144d.js:2:417195"
+      },
+      {
+        "uid": "app-owner",
+        "message": "Failed to fetch",
+        "stack": "TypeError: Failed to fetch\n    at http://127.0.0.1:4180/static/js/4104.1905144d.js:2:417530\n    at D (http://127.0.0.1:4180/static/js/4104.1905144d.js:2:415248)\n    at http://127.0.0.1:4180/static/js/4104.1905144d.js:2:417524\n    at async http://127.0.0.1:4180/static/js/4104.1905144d.js:2:417195"
+      }
+    ],
+    "deliberatelyRefusedRequests": 22,
+    "receipts": {
+      "P8": "a1fd70a3-75c5-458c-8868-51a4f0bb1026",
+      "P9": "279dee0e-6b81-4fb2-9e45-c1ebc098d159"
+    }
+  }
+}

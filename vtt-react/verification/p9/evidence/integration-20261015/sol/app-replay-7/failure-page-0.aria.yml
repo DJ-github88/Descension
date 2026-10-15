@@ -1,0 +1,88 @@
+- text: A B Ilse Camera
+- button "Minimize camera controls": 
+- group "Camera projection mode":
+  - button "2D"
+  - button "2.5D"
+- button ""
+- button "N 0°"
+- button ""
+- text: Heading
+- spinbutton "Camera heading in degrees": "0"
+- text: °
+- slider "Camera heading": "0"
+- text: "[ ] rotate 5° · Shift snap"
+- button " Camera" [expanded]
+- region "Actor attachment and consequences":
+  - paragraph: "Shared conditions: manual timing · overtime paused."
+  - text: Exact room attachment
+  - combobox "Exact room attachment":
+    - option "Select a token" [selected]
+    - option "Ilse · pc"
+    - option "A · A"
+    - option "B · B"
+  - status: accepted-live
+  - paragraph: "Temporary room: live-only, nonpersistent. No checkpoint confirmation or crash durability."
+- region "Spell adjudication":
+  - article:
+    - 'heading "Ilse → B: Marrow-Piercing Slug" [level=4]'
+    - paragraph:
+      - text: arcane damage · physical [6] + 4 =
+      - strong: "10"
+    - paragraph: 1d8 + intelligence/4 → 1d8 + 4 (INT 16 ÷ 4, rounded down)
+    - paragraph: "Owner-approved price: 1 AP · 4 mana (temporary first) · class arcane, arcane, ember (3/12) → ember (1/12)"
+    - paragraph: Advisory planar distance 10.0 ft; authored authored range. Line of effect and reach are GM rulings. No declared resistances on this projection.
+    - checkbox "I adjudicated legality, range, defense and mitigation"
+    - text: I adjudicated legality, range, defense and mitigation Final damage
+    - spinbutton "Final damage"
+    - text: Reason (required if different from 10)
+    - textbox "Reason (required if different from 10)"
+    - button "Accept one consequence"
+    - button "Decline"
+- text: Neutral Good
+- button "C"
+- text: 1 Character Name Exhaustion 0
+- 'combobox "Exhaustion Level: 0"':
+  - option "0 (Normal)" [selected]
+  - option "1 (Disadv. Checks)"
+  - option "2 (Speed Halved)"
+  - option "3 (Disadv. Attacks/Saves)"
+  - option "4 (HP Max Halved)"
+  - option "5 (Speed 0)"
+  - option "6 (Death)"
+- 'img "Character Name Health: 45 of 50"'
+- 'img "Character Name Mana: 45 of 50"'
+- 'img "Character Name Action Points: 1 of 3"'
+- img "mainHand"
+- text: 5 1 2 3 4 5 6 7 8 9 10
+- img "offHand"
+- text: "2"
+- img "ranged"
+- text: 1 0 / 300 XP
+- button " Dialogue"
+- button "Character":
+  - img
+  - text: Character
+- button "Adventure":
+  - img
+  - text: Adventure
+- button "Tools":
+  - img
+  - text: Tools
+- button "Settings (G)":
+  - img
+- button "Return to Main Menu (ESC)":
+  - img
+- button "Minimize navigation"
+- text: " X: 0.0 | Y: 0.0 "
+- button ""
+- complementary:
+  - region "Accepted Feather Slash result":
+    - heading "Feather Slash — accepted receipt" [level=4]
+    - paragraph: A → B
+    - paragraph: "physical dice: [3, 5] + 5 = 13. GM final: 10 slicing."
+    - paragraph: GM defense ruling
+    - paragraph: Source AP 1 + temp 0; target HP 24 + temp 0.
+    - paragraph: creature · 5f4afa82-d6a0-4673-8332-fd4ae9643a82/app-hall/A · incarnation dbdd0905-dcf1-4a29-8d28-a1470ac56af0 creature · 5f4afa82-d6a0-4673-8332-fd4ae9643a82/app-hall/B · incarnation 8777d155-b210-46eb-8bb9-9ac0ae2bebd6
+    - status: live-only · no checkpoint / no crash durability
+    - text: Already resolved · 574b2ad0-a399-4c53-9d4e-2418eb9ed9dd. Checking this receipt is not another attack.
+  - button "Dismiss result"

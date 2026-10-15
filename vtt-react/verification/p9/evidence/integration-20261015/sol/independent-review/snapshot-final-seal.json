@@ -1,0 +1,20 @@
+{
+  "task_id": "independent-integration-review-20261015-snapshot-final",
+  "checkedAt": "2026-10-15T19:40:18.045Z",
+  "command": [
+    "C:\\Program Files\\nodejs\\node.exe",
+    "D:\\VTT\\vtt-react\\verification\\p9\\evidence\\integration-20261015\\sol\\independent-review\\snapshot-final-seal.cjs"
+  ],
+  "cwd": "D:\\VTT",
+  "verdict": "PASS for identified frozen frontend and bounded desktop corrections",
+  "reportHashes": {
+    "snapshot-final-addendum.md": "2830aa2c4c281ff5234cb334fad6535d086b2bdfdee8ac5063fcf89e3bc45505",
+    "snapshot-final-check.cjs": "f3763151d67f592711cbcb09d5329b09366782d9d67b409063f7ebeb0549b65a",
+    "snapshot-final-check.json": "844546c7ae10f368e5845116799dc81cbdeaba73343486233d032818101648cb",
+    "snapshot-final-seal.cjs": "1957b1471ec5f6f3785160584900f95c74492aa9bf2db19df1048a2eab9f4fa1"
+  },
+  "priorReportsChanged": [],
+  "focalDrift": [],
+  "finalEvidenceChanged": [],
+  "passed": true
+}

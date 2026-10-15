@@ -1179,16 +1179,16 @@ body svg[data-icon] {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  color: #7a5024;
-  border: 1px solid rgba(139, 69, 19, 0.25);
-  padding: 3px 14px;
-  background: rgba(139, 69, 19, 0.04);
-  border-radius: 3px;
-  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.5);
+  color: #5a4033;
+  border: 1px solid rgba(182, 160, 128, 0.55);
+  padding: 4px 14px;
+  background: #faf6ee;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(36, 26, 18, 0.08);
 }
 
 .membership-section-badge i {
-  color: #b8860b;
+  color: #663c32;
   font-size: 0.75rem;
 }
 
@@ -1215,18 +1215,18 @@ body svg[data-icon] {
 .membership-header-divider .divider-line {
   flex: 1;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(184, 134, 11, 0.5), transparent);
+  background: linear-gradient(90deg, transparent, rgba(182, 160, 128, 0.55), transparent);
 }
 
 .membership-header-divider .divider-flourish {
   font-size: 0.7rem;
-  color: #b8860b;
+  color: #8c6239;
   opacity: 0.75;
 }
 
 .membership-header-divider .divider-icon {
   font-size: 0.85rem;
-  color: #8c6239;
+  color: #663c32;
   opacity: 0.85;
 }
 
@@ -1245,19 +1245,19 @@ body svg[data-icon] {
   display: inline-flex;
   align-items: center;
   gap: 0.6rem;
-  background: rgba(139, 69, 19, 0.05);
-  border: 1px solid rgba(139, 69, 19, 0.22);
+  background: #faf6ee;
+  border: 1px solid rgba(182, 160, 128, 0.45);
   border-radius: 4px;
   padding: 0.35rem 1.1rem;
   font-family: 'Cinzel', serif;
   font-size: 0.82rem;
-  color: #5d4632;
+  color: #34251a;
   margin-top: 0.85rem;
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.03);
+  box-shadow: 0 1px 3px rgba(36, 26, 18, 0.08);
 }
 
 .landing-page .current-plan-indicator i.fa-feather-alt {
-  color: #8c6239;
+  color: #663c32;
   font-size: 0.8rem;
 }
 
@@ -1270,15 +1270,14 @@ body svg[data-icon] {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  background: linear-gradient(180deg, #376637 0%, #254a24 100%);
-  color: #f7f3eb;
+  color: #faf6ee;
   padding: 0.2rem 0.65rem;
-  border-radius: 3px;
+  border-radius: 4px;
   font-weight: 700;
   font-size: 0.78rem;
   letter-spacing: 0.04em;
-  border: 1px solid #163615;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  box-shadow: 0 1px 3px rgba(36, 26, 18, 0.15);
 }
 
 /* Membership Plans Grid */
@@ -1320,7 +1319,7 @@ body svg[data-icon] {
   position: absolute;
   width: 8px;
   height: 8px;
-  border-color: var(--tier-accent, #8b5a2b);
+  border-color: var(--tier-accent, #663c32);
   pointer-events: none;
   opacity: 0.55;
   transition: opacity 0.25s ease;
@@ -1341,49 +1340,49 @@ body svg[data-icon] {
 .membership-plan-card.guest {
   --tier-accent: #6c5b4d;
   --tier-accent-dark: #382c23;
-  --tier-border: rgba(108, 91, 77, 0.4);
+  --tier-border: rgba(108, 91, 77, 0.45);
   --tier-inner-border: rgba(108, 91, 77, 0.18);
-  background: linear-gradient(180deg, rgba(254, 252, 248, 0.97) 0%, rgba(246, 241, 232, 0.97) 100%);
+  background: #faf6ee;
 }
 
 /* FREE - The Adventurer */
 .membership-plan-card.free {
   --tier-accent: #2b527b;
   --tier-accent-dark: #1b3856;
-  --tier-border: rgba(43, 82, 123, 0.42);
+  --tier-border: rgba(43, 82, 123, 0.45);
   --tier-inner-border: rgba(43, 82, 123, 0.18);
-  background: linear-gradient(180deg, rgba(255, 253, 249, 0.97) 0%, rgba(246, 241, 233, 0.97) 100%);
+  background: #faf6ee;
 }
 
 /* PRO - Dungeon Master (Most Popular) */
 .membership-plan-card.pro,
 .membership-plan-card.highlighted {
-  --tier-accent: #6b367d;
-  --tier-accent-dark: #451b53;
-  --tier-border: #a87928;
-  --tier-inner-border: rgba(168, 121, 40, 0.32);
-  background: linear-gradient(180deg, rgba(255, 251, 245, 0.98) 0%, rgba(248, 240, 229, 0.98) 100%);
-  box-shadow: 0 8px 28px rgba(107, 54, 125, 0.11), 0 2px 8px rgba(168, 121, 40, 0.18);
+  --tier-accent: #663c32;
+  --tier-accent-dark: #451b14;
+  --tier-border: rgba(102, 60, 50, 0.55);
+  --tier-inner-border: rgba(102, 60, 50, 0.2);
+  background: #faf6ee;
+  box-shadow: 0 8px 28px rgba(102, 60, 50, 0.1), 0 2px 8px rgba(36, 26, 18, 0.08);
 }
 
 /* ULTIMATE - Archmage */
 .membership-plan-card.ultimate {
-  --tier-accent: #966d1e;
-  --tier-accent-dark: #5a3f0b;
-  --tier-border: #b38526;
-  --tier-inner-border: rgba(179, 133, 38, 0.28);
-  background: linear-gradient(180deg, rgba(255, 252, 246, 0.98) 0%, rgba(247, 241, 230, 0.98) 100%);
-  box-shadow: 0 6px 24px rgba(179, 133, 38, 0.12), 0 2px 8px rgba(139, 69, 19, 0.1);
+  --tier-accent: #2e4d6d;
+  --tier-accent-dark: #1b334a;
+  --tier-border: rgba(46, 77, 109, 0.45);
+  --tier-inner-border: rgba(46, 77, 109, 0.2);
+  background: #faf6ee;
+  box-shadow: 0 6px 24px rgba(46, 77, 109, 0.1), 0 2px 8px rgba(36, 26, 18, 0.08);
 }
 
 /* MYTHIC - Demiurge */
 .membership-plan-card.mythic {
-  --tier-accent: #4d246b;
-  --tier-accent-dark: #2f1244;
-  --tier-border: rgba(77, 36, 107, 0.45);
-  --tier-inner-border: rgba(77, 36, 107, 0.2);
-  background: linear-gradient(180deg, rgba(254, 251, 255, 0.98) 0%, rgba(246, 239, 250, 0.98) 100%);
-  box-shadow: 0 6px 24px rgba(77, 36, 107, 0.12), 0 2px 8px rgba(139, 69, 19, 0.1);
+  --tier-accent: #52365c;
+  --tier-accent-dark: #341c3c;
+  --tier-border: rgba(82, 54, 92, 0.45);
+  --tier-inner-border: rgba(82, 54, 92, 0.2);
+  background: #faf6ee;
+  box-shadow: 0 6px 24px rgba(82, 54, 92, 0.1), 0 2px 8px rgba(36, 26, 18, 0.08);
 }
 
 /* Active Plan State */
@@ -1400,26 +1399,26 @@ body svg[data-icon] {
   left: 50%;
   transform: translateX(-50%);
   padding: 3px 14px;
-  border-radius: 3px;
+  border-radius: 4px;
   font-family: 'Cinzel', serif;
   font-size: 0.68rem;
-  font-weight: 800;
+  font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   white-space: nowrap;
-  background: linear-gradient(180deg, #cfa84a 0%, #aa8024 100%);
-  color: #211204;
-  border: 1px solid #7a5814;
-  box-shadow: 0 3px 8px rgba(70, 45, 10, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.45);
+  background: #663c32;
+  color: #faf6ee;
+  border: 1px solid #4a241b;
+  box-shadow: 0 3px 8px rgba(36, 26, 18, 0.25);
   display: inline-flex;
   align-items: center;
-  gap: 5px;
+  gap: 6px;
   z-index: 2;
 }
 
 .plan-popular-tag .tag-flourish {
   font-size: 0.6rem;
-  color: #4f3306;
+  color: rgba(250, 246, 238, 0.7);
 }
 
 .plan-current-tag {
@@ -1459,9 +1458,9 @@ body svg[data-icon] {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: radial-gradient(circle at 35% 35%, #ffffff 0%, #f3ece0 70%, #e6daca 100%);
-  border: 1.5px solid var(--tier-accent, #8b5a2b);
-  box-shadow: 0 2px 6px rgba(45, 25, 12, 0.12), inset 0 1px 2px rgba(255, 255, 255, 0.9);
+  background: #fdfbf7;
+  border: 1.5px solid var(--tier-accent, #663c32);
+  box-shadow: 0 2px 6px rgba(45, 25, 12, 0.08);
   position: relative;
   transition: transform 0.3s ease;
 }
@@ -1475,14 +1474,13 @@ body svg[data-icon] {
   position: absolute;
   inset: 2px;
   border-radius: 50%;
-  border: 1px dashed rgba(139, 69, 19, 0.22);
+  border: 1px dashed rgba(182, 160, 128, 0.4);
   pointer-events: none;
 }
 
 .plan-icon i {
   font-size: 1.35rem;
-  color: var(--tier-accent, #8b5a2b);
-  filter: drop-shadow(0 1px 1px rgba(255, 255, 255, 0.6));
+  color: var(--tier-accent, #663c32);
 }
 
 /* Card Title */
@@ -1495,16 +1493,23 @@ body svg[data-icon] {
   color: var(--tier-accent-dark, #2d1810);
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
   text-transform: uppercase;
+  min-height: 1.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .plan-tagline {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-family: 'Crimson Text', Georgia, serif;
   font-style: italic;
   font-size: 0.82rem;
   color: #7d6550;
   letter-spacing: 0.02em;
   margin-bottom: 0.45rem;
+  min-height: 1.2rem;
 }
 
 /* Price */
@@ -1512,13 +1517,17 @@ body svg[data-icon] {
   margin: 0.15rem 0 0.4rem 0;
   padding-bottom: 0.25rem;
   position: relative;
+  min-height: 2.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .plan-price {
   font-family: 'Cinzel', serif;
   font-size: 1.85rem;
   font-weight: 800;
-  color: #2b170c;
+  color: #34251a;
   line-height: 1.1;
   display: flex;
   align-items: baseline;
@@ -1529,7 +1538,7 @@ body svg[data-icon] {
 .plan-price .price-currency {
   font-size: 1.15rem;
   font-weight: 700;
-  color: var(--tier-accent, #8b5a2b);
+  color: var(--tier-accent, #663c32);
 }
 
 .plan-price .price-amount {
@@ -1541,7 +1550,7 @@ body svg[data-icon] {
   font-size: 0.85rem;
   font-style: italic;
   font-weight: 400;
-  color: #6e5845;
+  color: #7c6251;
   margin-left: 2px;
 }
 
@@ -1553,7 +1562,11 @@ body svg[data-icon] {
   line-height: 1.35;
   color: #5c4734;
   margin: 0 0 0.5rem 0;
-  min-height: 2.6em;
+  min-height: 2.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
 .card-divider-ornament {
@@ -1568,94 +1581,109 @@ body svg[data-icon] {
 .card-divider-line {
   flex: 1;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(139, 69, 19, 0.35), transparent);
+  background: linear-gradient(90deg, transparent, rgba(182, 160, 128, 0.45), transparent);
 }
 
 .card-divider-flourish {
   font-size: 0.65rem;
-  color: var(--tier-accent, #8b5a2b);
+  color: var(--tier-accent, #663c32);
 }
 
 /* Detailed TTRPG Stat Block / Ledger */
-.plan-stats-ledger {
-  background: rgba(139, 69, 19, 0.035);
-  border: 1px solid rgba(139, 69, 19, 0.16);
+.membership-plan-card .plan-stats-ledger {
+  background: #fdfbf7;
+  border: 1px solid rgba(182, 160, 128, 0.45);
   border-radius: 4px;
   padding: 0.45rem 0.45rem;
   margin-bottom: 0.85rem;
   position: relative;
+  width: 100%;
+  box-sizing: border-box;
+  display: block;
 }
 
-.ledger-header {
+.membership-plan-card .ledger-header {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 5px;
+  gap: 6px;
   font-family: 'Cinzel', serif;
   font-size: 0.65rem;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #7b624d;
+  color: #5a4033;
   margin-bottom: 0.35rem;
-  padding-bottom: 0.2rem;
-  border-bottom: 1px solid rgba(139, 69, 19, 0.1);
+  padding-bottom: 0.22rem;
+  border-bottom: 1px solid rgba(182, 160, 128, 0.35);
 }
 
-.ledger-header i {
-  font-size: 0.6rem;
-  color: var(--tier-accent, #8b5a2b);
+.membership-plan-card .ledger-header i {
+  font-size: 0.62rem;
+  color: #7a5e48;
 }
 
-.plan-stats-grid {
+.membership-plan-card .plan-stats-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.35rem;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-.plan-stat {
+.membership-plan-card .plan-stat {
   display: flex;
   align-items: center;
   gap: 0.35rem;
-  padding: 0.25rem 0.3rem;
-  background: rgba(255, 255, 255, 0.5);
-  border-radius: 3px;
-  border: 1px solid rgba(139, 69, 19, 0.09);
+  padding: 0.3rem 0.35rem;
+  background: #faf6ee;
+  border-radius: 4px;
+  border: 1px solid rgba(182, 160, 128, 0.35);
+  min-width: 0;
+  box-sizing: border-box;
 }
 
-.plan-stat i {
-  color: var(--tier-accent, #8b5a2b);
+.membership-plan-card .plan-stat i {
+  color: #7a5e48 !important; /* Calm warm leather / bronze iron — NO yellow/gold! */
   font-size: 0.72rem;
   width: 14px;
   text-align: center;
   flex-shrink: 0;
 }
 
-.stat-content {
+.membership-plan-card .stat-content {
   display: flex;
   flex-direction: column;
   text-align: left;
   line-height: 1.15;
+  min-width: 0;
   overflow: hidden;
 }
 
-.stat-val {
-  font-size: 0.74rem;
+.membership-plan-card .stat-val {
+  font-size: 0.72rem;
   font-weight: 700;
-  color: #2e1a0e;
+  color: #34251a;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.2;
 }
 
-.stat-lbl {
-  font-size: 0.64rem;
-  color: #786352;
+.membership-plan-card .stat-lbl {
+  font-size: 0.6rem;
+  color: #7c6251;
   font-family: 'Crimson Text', Georgia, serif;
   text-transform: uppercase;
   letter-spacing: 0.03em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.1;
 }
 
 /* Features List */
-.plan-features-wrapper {
+.membership-plan-card .plan-features-wrapper {
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -1663,22 +1691,22 @@ body svg[data-icon] {
   margin-bottom: 1.2rem;
 }
 
-.features-label {
+.membership-plan-card .features-label {
   font-family: 'Cinzel', serif;
   font-size: 0.68rem;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #755f4c;
+  color: #5a4033;
   margin-bottom: 0.45rem;
   padding-bottom: 0.25rem;
-  border-bottom: 1px solid rgba(139, 69, 19, 0.12);
+  border-bottom: 1px solid rgba(182, 160, 128, 0.35);
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-.plan-features {
+.membership-plan-card .plan-features {
   list-style: none;
   padding: 0;
   margin: 0;
@@ -1687,41 +1715,41 @@ body svg[data-icon] {
   font-family: 'Crimson Text', 'EB Garamond', Georgia, serif;
 }
 
-.feature-item {
+.membership-plan-card .feature-item {
   display: flex;
   align-items: flex-start;
   gap: 0.5rem;
-  padding: 0.35rem 0;
-  border-bottom: 1px dashed rgba(139, 69, 19, 0.1);
-  font-size: 0.88rem;
+  padding: 0.32rem 0;
+  border-bottom: 1px dashed rgba(182, 160, 128, 0.25);
+  font-size: 0.86rem;
   line-height: 1.35;
-  color: #2b170c;
+  color: #34251a;
   font-family: 'Crimson Text', 'EB Garamond', Georgia, serif;
 }
 
-.feature-item:last-child {
+.membership-plan-card .feature-item:last-child {
   border-bottom: none;
 }
 
-.feature-item.included .feature-marker {
-  color: #3b6b35;
+.membership-plan-card .feature-item.included .feature-marker {
+  color: #3d6e37;
   font-size: 0.72rem;
   margin-top: 1px;
   flex-shrink: 0;
 }
 
-.feature-item.locked {
+.membership-plan-card .feature-item.locked {
   color: #8c786a;
 }
 
-.feature-item.locked .feature-marker {
+.membership-plan-card .feature-item.locked .feature-marker {
   color: #9a7667;
   font-size: 0.8rem;
   margin-top: -1px;
   flex-shrink: 0;
 }
 
-.feature-text {
+.membership-plan-card .feature-text {
   flex: 1;
 }
 
@@ -1747,42 +1775,43 @@ body svg[data-icon] {
   box-sizing: border-box;
 }
 
-/* Upgrade / Create Account Button: Rich Burnished Gold Leaf */
+/* Upgrade / Create Account Button: Calm Wax Seal */
 .plan-btn.upgrade-btn {
-  background: linear-gradient(180deg, #cba243 0%, #b38526 50%, #9e6f1a 100%);
-  border: 1px solid #785210;
-  box-shadow: 0 3px 8px rgba(70, 45, 12, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.45);
-  color: #1a0f05;
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
+  background: #663c32;
+  color: #faf6ee;
+  border: 1px solid #4a241b;
+  box-shadow: 0 2px 6px rgba(36, 26, 18, 0.2);
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
 }
 
 .plan-btn.upgrade-btn:hover:not(:disabled) {
   transform: translateY(-2px);
-  background: linear-gradient(180deg, #d8b152 0%, #c19330 50%, #aa7a22 100%);
-  box-shadow: 0 6px 16px rgba(70, 45, 12, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  background: #4a2820;
+  border-color: #341a14;
+  box-shadow: 0 4px 12px rgba(36, 26, 18, 0.3);
 }
 
 /* Guest Button: Warm Vellum & Leather Plaque */
 .plan-btn.guest-btn {
-  background: linear-gradient(180deg, #faf6ee 0%, #ebe2d2 100%);
-  border: 1px solid #8c6742;
-  color: #352112;
-  box-shadow: 0 2px 6px rgba(50, 30, 15, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  background: #fdfbf7;
+  border: 1px solid rgba(182, 160, 128, 0.55);
+  color: #34251a;
+  box-shadow: 0 2px 4px rgba(36, 26, 18, 0.08);
 }
 
 .plan-btn.guest-btn:hover:not(:disabled) {
   transform: translateY(-2px);
-  background: linear-gradient(180deg, #ffffff 0%, #f2ebe0 100%);
-  box-shadow: 0 4px 12px rgba(50, 30, 15, 0.18);
-  border-color: #755230;
+  background: #faf6ee;
+  border-color: rgba(182, 160, 128, 0.8);
+  box-shadow: 0 4px 10px rgba(36, 26, 18, 0.12);
 }
 
 /* Coming Soon: Sealed Manuscript Placard */
 .plan-btn.coming-soon-btn,
 .plan-btn:disabled {
-  background: linear-gradient(180deg, rgba(235, 227, 214, 0.6) 0%, rgba(220, 209, 193, 0.6) 100%);
-  border: 1px dashed rgba(139, 69, 19, 0.28);
-  color: #7a634e;
+  background: #f4efe6;
+  border: 1px dashed rgba(182, 160, 128, 0.55);
+  color: #7c6251;
   opacity: 0.85;
   cursor: not-allowed;
   transform: none;
@@ -1792,7 +1821,7 @@ body svg[data-icon] {
 
 .plan-btn.coming-soon-btn i {
   font-size: 0.75rem;
-  color: #9c836e;
+  color: #7c6251;
 }
 
 /* Active Plan Badge */

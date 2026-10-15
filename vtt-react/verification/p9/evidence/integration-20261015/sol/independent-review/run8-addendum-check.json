@@ -1,0 +1,234 @@
+{
+  "task_id": "independent-integration-review-20261015-run8-addendum",
+  "startedAt": "2026-10-15T19:30:30.930Z",
+  "command": [
+    "C:\\Program Files\\nodejs\\node.exe",
+    "D:\\VTT\\vtt-react\\verification\\p9\\evidence\\integration-20261015\\sol\\independent-review\\run8-addendum-check.cjs"
+  ],
+  "cwd": "D:\\VTT",
+  "priorReportSha256": "73041ec53cc44f8dc0acbe6ac8e9ea6143bc1c48e67db6c24597b393a3dccd71",
+  "currentFocalRawHashes": {
+    "vtt-react/src/services/featherSlash.js": "ad2b3134998a8585906bbb82a1ac3878dafecac92070a9ad81f659ed1812669a",
+    "vtt-react/src/services/__tests__/featherSlash.test.js": "43eaf32fb3a87bf38cda145e9c7afc29bfbfda4f83f53585f376abd1acc2bcb9",
+    "vtt-react/src/components/ui/ActionBar.jsx": "7a04ec3302561ae91cd495bddce4d5596235bd5b8c5916f58686b767f9000d33",
+    "vtt-react/src/components/ui/__tests__/ActionBarLegacyArcanoneerSpheres.test.jsx": "98e8afbef304b1359da67d136ae2f38e43fc002846dcee247df500d5466dbb73",
+    "vtt-react/src/components/hud/PartyHUD.jsx": "c5f2e9381c18fae3e68ec47f3f8bf2c02bca8e3be48ea72a8f6179e9e07db5d9",
+    "vtt-react/src/components/hud/SpellConsequencePanel.css": "2f936ff2ff5bdc3f610c2c24c49015a1b935bd835a3f8f4e1dfeb2837682a68b",
+    "vtt-react/src/services/featherSlashCustody.js": "2ace5b077bbd3bccdfeec666148df385927faca1766beb065d51a2e14e5abd39",
+    "vtt-react/src/components/grid/CreatureAbilityQuickUse.jsx": "f8f5654578981e482751b4a48ebef54b4774bbe0f43db1c7cb6943614e423b09",
+    "vtt-react/src/components/hud/ActorConsequenceControls.jsx": "50ad8862d02df681cb15303fd0495931a1bc244ce5ea4de838d9e1891ef5f231",
+    "vtt-react/src/components/hud/SpellConsequencePanel.jsx": "01c16539ab4ef766809dc0880a4dbf73a3eed4964b99da40c182f40477df9bb4",
+    "vtt-react/src/styles/party-hud.css": "df2fc87256718952a81b9f0f652b04baa143c51fb109830590199bc4708283b6",
+    "vtt-react/src/utils/arcanoneerMigration.js": "024045a51fb8ec2e11ba14e14fdceb83a02ca492345bad66ed51d76e27b35ad6",
+    "vtt-react/src/data/versions.js": "d3abf2ffedebc1e6834cd8c41f47f0022b6c4d8be33db0e7de7be80fd96fc651",
+    "vtt-react/public/data/abilities.json": "07ffc620f0d7a08c188aff8daf4fa0bdf9e82795bcf83ee7c6e864d5d749bb15",
+    "vtt-react/public/data/creatures.json": "66cf07a04adfd9cd31b62e15053c2e707ec55a519e04bfdb6095b1184077fafd",
+    "vtt-react/src/App.jsx": "55ba76417fa01c2f2befa818dad5d8e102723607eb6ebda0fff18dfde6ed642c"
+  },
+  "artifactHashesBefore": {
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/app-replay/failure-page-0.aria.yml": "ca2c6fc4f7f5d594ba3d9d01ee6f58ef8d1cd8b6b46658e98642c2f29a8dd706",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/app-replay/failure-page-0.png": "287fa19f2b9c013eef208e788a990f07c782abbcd6fa69ed78152375cdfef9eb",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/app-replay/result.json": "d3e43e31696f3adad80574579a0954ccc905b84aab342f29df3153755e0d0098",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/app-replay-2/failure-page-0.aria.yml": "f4514694325972526710f894db16e8ccecb66984d2f6a993b147404af62920c5",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/app-replay-2/failure-page-0.png": "0fbdfd997c9353060abc96b25b7a0ce333a82d6961ccfdb09f769bd3aebf2e1b",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/app-replay-2/result.json": "3864681ff8b5dc2ca13d27cbf29c0f221e9017d5a1092572f305d8bd3e2c73e8",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/app-replay-3/failure-page-0.aria.yml": "18741fcc3eef90fb8f2985ef7b8dbacb960b3566b84e7cb7d6a143a628e69812",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/app-replay-3/failure-page-0.png": "0a60be97a0aaa83619d7908d604a3faa5ea7a556eccfc155bb5fe28d5cc8fbd8",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/app-replay-3/failure-page-1.aria.yml": "a9a8ea9a183f7a6fae59d31f7fb4d8d3d2d449ddcce756091b3caf9a9410d32d",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/app-replay-3/failure-page-1.png": "c88ddd6eebfb18988747031c6765dbca78b1eaa15504b25b466a0e01ea0402b7",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/app-replay-3/gm-setup.aria.yml": "e3fafcafd7e14abe67bcfbadc5246218101773652468758ca81bd0f5da649954",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/app-replay-3/p8-accepted.aria.yml": "a66a5f25406daa25ccb266375ec8e1e3529dd94adf17db6485bdf7aa5be9c086",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/app-replay-3/p8-prepared.aria.yml": "45a8ffee3b08540b23951444750fe23fa53aba79a1a2901d37e89380df46c020",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/app-replay-3/result.json": "0a0cadfdcf1df7ddf71a58c826fe6a83bdc9244321e852d6ed6aef72da9e8136",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/app-replay-3/token-dom.json": "466a70bbca6f004f8f8f9a8c144c634841ca09a82e25e5e56f04694bef73956f",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/app-replay-4/failure-page-0.aria.yml": "aeea4493fbd220aeb45083a06e5192f3593705f603c124576bd1fe3537f0ce46",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/app-replay-4/failure-page-0.png": "2b580114462de569d7d5e84c9deb094d3e59fbdd2636c2b3c2c70fe8ee7741d6",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/app-replay-4/failure-page-1.aria.yml": "a9a8ea9a183f7a6fae59d31f7fb4d8d3d2d449ddcce756091b3caf9a9410d32d",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/app-replay-4/failure-page-1.png": "ce4ab743954dca4be73c668688add72c8f0fbca261645c918658cb8c98064bf9",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/app-replay-4/gm-setup.aria.yml": "e3fafcafd7e14abe67bcfbadc5246218101773652468758ca81bd0f5da649954",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/app-replay-4/p8-accepted.aria.yml": "1f1627115c2044c735e380a0ad68a011b2d56508e2bb6d1a3c6f6d2fbe194edc",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/app-replay-4/p8-prepared.aria.yml": "cd548279e04238a5977698eba65a9356a3f85512f13c0c21e8a3e17626d1a23f",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/app-replay-4/result.json": "119f5871d4c1f4166149b5410e8b67d7bbf361b959252e3f5bf9fc8b214c1f40",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/app-replay-4/token-dom.json": "4317a9ef3c075f8c0097fe99790b51390fb4e09dbb1cd392fba692d71d1458d2",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/app-replay-5/failure-page-0.aria.yml": "ab80d042b0ceea10a2d999fe09f77b9d23abb538286c8b7850eae5ee121d36b9",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/app-replay-5/failure-page-0.png": "fb286f94bc425e5d5b37e480298a16a21b34845430867dbcabbd3ce99a8058ab",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/app-replay-5/failure-page-1.aria.yml": "a9a8ea9a183f7a6fae59d31f7fb4d8d3d2d449ddcce756091b3caf9a9410d32d",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/app-replay-5/failure-page-1.png": "60f164e9e711def212fe66fc71c5cd0766ec9844ab81e87eb554bae021ff333c",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/app-replay-5/gm-setup.aria.yml": "e3fafcafd7e14abe67bcfbadc5246218101773652468758ca81bd0f5da649954",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/app-replay-5/p8-accepted.aria.yml": "03a95027dcd5fb7bd0743441340fc4c6e652e0ae495e659ff98971e6d83fb0ae",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/app-replay-5/p8-prepared.aria.yml": "eece5b7bf51593a5ddd04257cb7ac10f1279e911827bd65f87dd7c99f7368316",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/app-replay-5/result.json": "e1f97eff54a7c938cde7f27b4e866a8f1edc6454a2dcc6871573cb78bd3206b6",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/app-replay-5/slots-before.json": "e82cc7f31162a8ab0f0e4f5a3f2411374059fa9c2d867d0ef41a703693f57fe1",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/app-replay-5/token-dom.json": "466a70bbca6f004f8f8f9a8c144c634841ca09a82e25e5e56f04694bef73956f",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/app-replay-6/failure-page-0.aria.yml": "ad8c289c15e7f32bf544c79a4582d0c48aca7186d0e18202f9de960e907993d6",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/app-replay-6/failure-page-0.png": "a0299bf353ffa921ca7e4ea20fa806df3bc5d51f645fe8a00b88ee38c841615e",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/app-replay-6/failure-page-1.aria.yml": "34257721c0fa0543a0fccfa6d65aa1717e8a5b88a34569762f47c3808a236613",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/app-replay-6/failure-page-1.png": "3bb72384cf141b3048e1722273ea1304da1822cb151d9e4f547e24fab36fb0f3",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/app-replay-6/gm-setup.aria.yml": "e3fafcafd7e14abe67bcfbadc5246218101773652468758ca81bd0f5da649954",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/app-replay-6/p8-accepted.aria.yml": "17c8e826f2fff3adbb61df9ee82217f618700e97c32bf8e8fdb2b046af63f487",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/app-replay-6/p8-prepared.aria.yml": "e02a912cc12fbc34e8b593d969c0d526efdc4c4658d29d1e4f21fa1245d06ec5",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/app-replay-6/p9-gm-prepared.aria.yml": "975425e26c85b6a6bd3426d4fceda092e691f2d747954357f84da8bec4f8b489",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/app-replay-6/p9-owner-prepared.aria.yml": "299891e335b733bc682c254d8ad823eac891823e9a13fe1591076e745ef67805",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/app-replay-6/result.json": "23ecf01d0ddc2ad8746f9ef3aceb1c9e875dc8921f773b85de70be80693a2e4d",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/app-replay-6/slots-before.json": "e82cc7f31162a8ab0f0e4f5a3f2411374059fa9c2d867d0ef41a703693f57fe1",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/app-replay-6/token-dom.json": "4317a9ef3c075f8c0097fe99790b51390fb4e09dbb1cd392fba692d71d1458d2",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/app-replay-7/failure-page-0.aria.yml": "c78c636d43c38da3444ec404ff4e12fe2e8405ad9850a3943050df4bc959ea6a",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/app-replay-7/failure-page-0.png": "3615a012153e78ae494ea8c33690079e74ca1ff5a3a4ec045f442a4388a3cb40",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/app-replay-7/failure-page-1.aria.yml": "c49c8a46672e97cac8b67a424452d2c696355482f0d6ddf0ce317675dfecc90b",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/app-replay-7/failure-page-1.png": "05bcf8fc03705d02c1d935c4ca91b4007c565060b4cd50ee26e28ed3c1b3967c",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/app-replay-7/gm-setup.aria.yml": "e3fafcafd7e14abe67bcfbadc5246218101773652468758ca81bd0f5da649954",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/app-replay-7/p8-accepted.aria.yml": "bfc98e2c4a4a26a2abc53cee1c00431d77606a1f8399bb1ce0d0cb2189f11e1c",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/app-replay-7/p8-prepared.aria.yml": "45679f54e92423572cdc24793bcab9450db09a51dec6d74faff843b698265c02",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/app-replay-7/p9-owner-prepared.aria.yml": "299891e335b733bc682c254d8ad823eac891823e9a13fe1591076e745ef67805",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/app-replay-7/result.json": "91d05308a41c25cdeee7ec74b5d5c8aa01cfeb9f52834adc25dc08de9ced9040",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/app-replay-7/slots-before.json": "e82cc7f31162a8ab0f0e4f5a3f2411374059fa9c2d867d0ef41a703693f57fe1",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/app-replay-7/token-dom.json": "466a70bbca6f004f8f8f9a8c144c634841ca09a82e25e5e56f04694bef73956f",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/app-replay-8/gm-setup.aria.yml": "e3fafcafd7e14abe67bcfbadc5246218101773652468758ca81bd0f5da649954",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/app-replay-8/layout-1024.json": "c791755443783eca57fbbcd5bc5f519a65427d937a1a4a723cc8f7841f458397",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/app-replay-8/layout-1440.json": "0ab8c435df4e598bac6c211db5932e5869dd8e2c0200490b3a541a2e7efe1092",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/app-replay-8/p8-accepted.aria.yml": "530da301bc89eecf647e189209f4f8c8fa97069e51244ee3cb41d8b0c0d7cb36",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/app-replay-8/p8-prepared.aria.yml": "64c3d3ac949cd2189590cd6df1447d385998478de0ac4cd43c6c2224e6059692",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/app-replay-8/p9-gm-accepted.aria.yml": "5fcd7b8e82f38a16b01c5d62f360f51093098049e9a41a6bfbb106faa6922759",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/app-replay-8/p9-gm-prepared.aria.yml": "975425e26c85b6a6bd3426d4fceda092e691f2d747954357f84da8bec4f8b489",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/app-replay-8/p9-owner-accepted.aria.yml": "f86ac918e9b3469ab5f7330a2291baf17875f70c549d1bef87198ef9a538424d",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/app-replay-8/p9-owner-prepared.aria.yml": "299891e335b733bc682c254d8ad823eac891823e9a13fe1591076e745ef67805",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/app-replay-8/result.json": "8c08a6889d10053f8ec3a9921af1745a5fca2706c54e4dbee9c68f2a8982a3f1",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/app-replay-8/slots-before.json": "e82cc7f31162a8ab0f0e4f5a3f2411374059fa9c2d867d0ef41a703693f57fe1",
+    "vtt-react/verification/p9/evidence/integration-20261015/sol/app-replay-8/token-dom.json": "466a70bbca6f004f8f8f9a8c144c634841ca09a82e25e5e56f04694bef73956f"
+  },
+  "run8": {
+    "sha256": "8c08a6889d10053f8ec3a9921af1745a5fca2706c54e4dbee9c68f2a8982a3f1",
+    "command": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "D:\\VTT\\vtt-react\\verification\\p9\\integration\\app-browser.cjs"
+    ],
+    "startedAt": "2026-10-15T19:23:18.807Z",
+    "endedAt": "2026-10-15T19:23:44.410Z",
+    "build": "build-current",
+    "buildAssetManifestSha256": "bbb9bd30ce56dd1b8ba27d6d4a8be3f29acd17cdabc5667427e5e7994a5087bb",
+    "passed": true,
+    "p8CommandId": "894c934f-1794-4948-9681-0f94c02b2b33",
+    "p9CommandId": "463b34cc-90cf-42b0-81f1-40061b8f7bf9",
+    "p9ApprovalId": "6c9909cc-de23-434c-8e17-425bbdf6e565",
+    "acceptHitTest": {
+      "rect": {
+        "x": 1026,
+        "y": 528,
+        "width": 184.75,
+        "height": 27,
+        "top": 528,
+        "right": 1210.75,
+        "bottom": 555,
+        "left": 1026
+      },
+      "hit": true
+    },
+    "sourcePools": [
+      9,
+      0,
+      2,
+      0
+    ],
+    "spheres": [
+      "ember"
+    ],
+    "targetHP": 17,
+    "errors": [
+      {
+        "uid": "app-gm",
+        "message": "Failed to fetch",
+        "stack": "TypeError: Failed to fetch\n    at http://127.0.0.1:4180/static/js/9180.c9369f71.js:2:1048188\n    at D (http://127.0.0.1:4180/static/js/9180.c9369f71.js:2:1045906)\n    at http://127.0.0.1:4180/static/js/9180.c9369f71.js:2:1048182\n    at async http://127.0.0.1:4180/static/js/9180.c9369f71.js:2:1047853"
+      },
+      {
+        "uid": "app-owner",
+        "message": "Failed to fetch",
+        "stack": "TypeError: Failed to fetch\n    at http://127.0.0.1:4180/static/js/9180.c9369f71.js:2:1048188\n    at D (http://127.0.0.1:4180/static/js/9180.c9369f71.js:2:1045906)\n    at http://127.0.0.1:4180/static/js/9180.c9369f71.js:2:1048182\n    at async http://127.0.0.1:4180/static/js/9180.c9369f71.js:2:1047853"
+      }
+    ],
+    "networkRefusalCount": 20,
+    "layouts": [
+      {
+        "rect": {
+          "x": 1004,
+          "y": 84,
+          "width": 420,
+          "height": 176,
+          "top": 84,
+          "right": 1424,
+          "bottom": 260,
+          "left": 1004
+        },
+        "scrollHeight": 174,
+        "clientHeight": 174,
+        "position": "fixed",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        }
+      },
+      {
+        "rect": {
+          "x": 588,
+          "y": 84,
+          "width": 420,
+          "height": 200,
+          "top": 84,
+          "right": 1008,
+          "bottom": 284,
+          "left": 588
+        },
+        "scrollHeight": 198,
+        "clientHeight": 198,
+        "position": "fixed",
+        "viewport": {
+          "width": 1024,
+          "height": 768
+        }
+      }
+    ]
+  },
+  "buildCurrent": {
+    "exit": 0,
+    "startedAt": "2026-10-15T19:15:03.148Z",
+    "endedAt": "2026-10-15T19:18:03.380Z",
+    "drift": [
+      "vtt-react/src/components/world-map/InteractiveMapStudio.css",
+      "vtt-react/src/components/world-map/LoreSidebar.css"
+    ],
+    "commandSha256": "38c1f4174be51ad41f850fbf5a6098e4a876deacdf8e3ea07bc99bc9eb592a49",
+    "compiledRuleAsset": "/static/css/common.ea5b6b4a.chunk.css",
+    "compiledRuleAssetSha256": "24840136e8a81b289db9223f3a8fc807a89cc62758f5614f280eb080129e06ee",
+    "rule": [
+      {
+        "selector": ".p9-chip,.party-hud-frames>.actor-consequence-layer",
+        "declarations": "color:#2b2116;border:1px solid #8a6d45;border-radius:6px"
+      },
+      {
+        "selector": ".party-hud-frames>.actor-consequence-layer",
+        "declarations": "position:fixed;top:84px;right:16px;z-index:2;max-width:420px;max-height:calc(100vh - 340px);overflow-y:auto;background:#f6efe1f0;padding:6px 10px;font-size:13px"
+      }
+    ]
+  },
+  "inspectedSourceHashes": {
+    "vtt-react/verification/p9/integration/app-browser.cjs": "5a842f86378bffed45432ed951dc540bc968c1dfb0b1666630cbf249f4cdb3a5",
+    "vtt-react/verification/p9/integration/app-server.cjs": "ce6ab9cfd8efcbf9e1226493a9e5f507238504e58d833a539ebb723913828ffe",
+    "vtt-react/verification/p9/integration/snapshot-build.cjs": "8e5c2d7802aabe5f49e6407ef7a41e15087aaebeac43678d48a83bb4da7ca285",
+    "vtt-react/src/polyfills.js": "06bbbfc4624347bbacf44a749619eaedaa1cc68104d40b4ffc2960dc089e3318",
+    "vtt-react/src/services/spellConsequenceService.js": "a582d53c5ca2b3440b429ee11a30b3ce6482ca3f8524ab56514aa80c7e0300a3",
+    "server/services/actorConsequences.js": "4a4f1dec2c3fcc9805dc2b20b87d15371251e1d53006b0e85ba20ede16a066ee",
+    "server/handlers/actorConsequenceHandlers.js": "9eb38eac2a0bcd9298bbad70eae041e74c36ac4f51f5b2c346e80f5f3249874a"
+  },
+  "snapshotBuild": {
+    "commandPresent": false,
+    "entriesAtCutoff": [
+      "app",
+      "output.log",
+      "source.json.gz"
+    ],
+    "replayReviewed": false
+  },
+  "historicalAndWitnessArtifactsChanged": [],
+  "sourceDrift": [],
+  "passed": true,
+  "endedAt": "2026-10-15T19:30:31.551Z"
+}

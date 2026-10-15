@@ -1,0 +1,71 @@
+- text: A B Ilse Camera
+- button "Minimize camera controls": 
+- group "Camera projection mode":
+  - button "2D"
+  - button "2.5D"
+- button ""
+- button "N 0°"
+- button ""
+- text: Heading
+- spinbutton "Camera heading in degrees": "0"
+- text: °
+- slider "Camera heading": "0"
+- text: "[ ] rotate 5° · Shift snap"
+- button " Camera" [expanded]
+- region "Actor attachment and consequences":
+  - paragraph: "Shared conditions: manual timing · overtime paused."
+  - text: Exact room attachment
+  - combobox "Exact room attachment":
+    - option "Select a token" [selected]
+    - option "Ilse · pc"
+    - option "A · A"
+    - option "B · B"
+  - status: active_attachment_selected
+- text: Neutral Good
+- button "Enlarge portrait of Ilse (click to zoom)":
+  - img
+- text: 3 Arcanoneer Ilse
+- 'img "Arcanoneer Calibrated Iron Sleeve. Spheres banked: 3 of 12."': CHAMBER 3/12 ROLL 4d8 MATRIX (2) 2 ARC·1 SAC·2 BLI·3 1 EMB·4 RIM·5 PRI·6 STO·7 WYR·8
+- text: Exhaustion 0
+- 'combobox "Exhaustion Level: 0"':
+  - option "0 (Normal)" [selected]
+  - option "1 (Disadv. Checks)"
+  - option "2 (Speed Halved)"
+  - option "3 (Disadv. Attacks/Saves)"
+  - option "4 (HP Max Halved)"
+  - option "5 (Speed 0)"
+  - option "6 (Death)"
+- 'img "Ilse Health: 20 of 40"'
+- 'img "Ilse Mana: 10 of 30"'
+- 'img "Ilse Action Points: 2 of 5"'
+- img "mainHand"
+- text: 5 1 2 3 4 5 6 7 8 9 0
+- img "offHand"
+- text: "2"
+- img "ranged"
+- text: 1 0 / 300 XP
+- button "Character":
+  - img
+  - text: Character
+- button "Adventure":
+  - img
+  - text: Adventure
+- button "Tools":
+  - img
+  - text: Tools
+- button "Settings (G)":
+  - img
+- button "Return to Main Menu (ESC)":
+  - img
+- button "Minimize navigation"
+- text: " X: 0.0 | Y: 0.0 "
+- button ""
+- region "Selected character save status":
+  - status:
+    - strong: "Canonical character:"
+    - text: Not confirmed
+    - strong: "Personal runtime:"
+    - text: Not confirmed
+  - button "Download selected draft"
+  - text: Import selected draft
+  - button "Import selected draft"

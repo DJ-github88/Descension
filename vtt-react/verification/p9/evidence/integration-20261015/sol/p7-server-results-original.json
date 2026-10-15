@@ -1,0 +1,606 @@
+{
+  "A3": {
+    "result": {
+      "success": true,
+      "receipt": {
+        "version": 1,
+        "roomId": "dd2268a5-24ce-4b94-b584-f92929bb1b5b",
+        "commandId": "0db4c688-7f87-4561-ba22-8dae1796193b",
+        "submitterUid": "user-mv82xjzt-1-4gs5t",
+        "contentHash": "f5215fbdeb39412738e1250c15ef2159f650833a37b65c49bf112ce0be55695c",
+        "admissionEpoch": "0199eee9-a957-4b4f-a484-2500347feb34",
+        "commitSequence": 1,
+        "checkpointRevision": 3,
+        "acceptedAt": 1791980516743,
+        "authorization": {
+          "kind": "gm",
+          "authorizerUid": "user-mv82xjzt-1-4gs5t"
+        },
+        "source": {
+          "kind": "creature",
+          "roomId": "dd2268a5-24ce-4b94-b584-f92929bb1b5b",
+          "mapId": "default",
+          "tokenId": "branvig-a",
+          "instanceId": "83364c28-25d2-4b11-bfcf-6061ee926e16"
+        },
+        "target": {
+          "kind": "creature",
+          "roomId": "dd2268a5-24ce-4b94-b584-f92929bb1b5b",
+          "mapId": "default",
+          "tokenId": "branvig-b",
+          "instanceId": "dc70613e-180c-498b-9974-ed67c547bda3"
+        },
+        "adjudication": {
+          "definitionId": "grimmstalk_feather_slash",
+          "chosenResult": 15,
+          "finalAmount": 15
+        },
+        "actors": [
+          {
+            "ref": {
+              "kind": "creature",
+              "roomId": "dd2268a5-24ce-4b94-b584-f92929bb1b5b",
+              "mapId": "default",
+              "tokenId": "branvig-a",
+              "instanceId": "83364c28-25d2-4b11-bfcf-6061ee926e16"
+            },
+            "beforeRevision": 0,
+            "afterRevision": 1,
+            "finalResources": {
+              "hp": {
+                "current": 250,
+                "temp": 4,
+                "max": 250
+              },
+              "mana": {
+                "current": 30,
+                "temp": 0,
+                "max": 30
+              },
+              "ap": {
+                "current": 5,
+                "temp": 0,
+                "max": 5
+              }
+            },
+            "conditions": []
+          },
+          {
+            "ref": {
+              "kind": "creature",
+              "roomId": "dd2268a5-24ce-4b94-b584-f92929bb1b5b",
+              "mapId": "default",
+              "tokenId": "branvig-b",
+              "instanceId": "dc70613e-180c-498b-9974-ed67c547bda3"
+            },
+            "beforeRevision": 0,
+            "afterRevision": 1,
+            "finalResources": {
+              "hp": {
+                "current": 239,
+                "temp": 0,
+                "max": 250
+              },
+              "mana": {
+                "current": 30,
+                "temp": 0,
+                "max": 30
+              },
+              "ap": {
+                "current": 5,
+                "temp": 1,
+                "max": 5
+              }
+            },
+            "conditions": [
+              {
+                "version": 1,
+                "id": "slow-a",
+                "recordId": "slow-a",
+                "conditionKey": "slowed",
+                "originalName": "slow",
+                "name": "Slowed",
+                "type": "debuff",
+                "kind": "effect",
+                "target": {
+                  "kind": "creature",
+                  "roomId": "dd2268a5-24ce-4b94-b584-f92929bb1b5b",
+                  "mapId": "default",
+                  "tokenId": "branvig-b",
+                  "instanceId": "dc70613e-180c-498b-9974-ed67c547bda3"
+                },
+                "targetId": "branvig-b",
+                "targetType": "creature",
+                "source": "arc_frost_touch",
+                "effects": {
+                  "movementSpeed": -10
+                },
+                "durationType": "rounds",
+                "durationValue": 3,
+                "remainingRounds": 3,
+                "sharedTiming": "manual"
+              }
+            ]
+          }
+        ]
+      },
+      "actorSnapshot": {
+        "roomId": "dd2268a5-24ce-4b94-b584-f92929bb1b5b",
+        "actorProjection": {
+          "version": 1,
+          "roomId": "dd2268a5-24ce-4b94-b584-f92929bb1b5b",
+          "epoch": "0199eee9-a957-4b4f-a484-2500347feb34",
+          "cut": 3
+        },
+        "maps": {
+          "default": {
+            "id": "default",
+            "name": "Default Map",
+            "tokens": {
+              "branvig-a": {
+                "id": "branvig-a",
+                "state": {
+                  "actorContract": {
+                    "version": 1,
+                    "kind": "creature",
+                    "roomId": "dd2268a5-24ce-4b94-b584-f92929bb1b5b",
+                    "mapId": "default",
+                    "tokenId": "branvig-a",
+                    "instanceId": "83364c28-25d2-4b11-bfcf-6061ee926e16",
+                    "revision": 1
+                  },
+                  "maxHp": 250,
+                  "maxMana": 30,
+                  "maxAP": 5,
+                  "maxActionPoints": 5,
+                  "currentHp": 250,
+                  "currentMana": 30,
+                  "currentActionPoints": 5,
+                  "tempHealth": 4,
+                  "tempMana": 0,
+                  "tempActionPoints": 0,
+                  "conditions": []
+                },
+                "creatureId": "grimmstalk",
+                "ownerUserId": "user-mv82xjzt-1-4gs5t"
+              },
+              "branvig-b": {
+                "id": "branvig-b",
+                "state": {
+                  "actorContract": {
+                    "version": 1,
+                    "kind": "creature",
+                    "roomId": "dd2268a5-24ce-4b94-b584-f92929bb1b5b",
+                    "mapId": "default",
+                    "tokenId": "branvig-b",
+                    "instanceId": "dc70613e-180c-498b-9974-ed67c547bda3",
+                    "revision": 1
+                  },
+                  "maxHp": 250,
+                  "maxMana": 30,
+                  "maxAP": 5,
+                  "maxActionPoints": 5,
+                  "currentHp": 239,
+                  "currentMana": 30,
+                  "currentActionPoints": 5,
+                  "tempHealth": 0,
+                  "tempMana": 0,
+                  "tempActionPoints": 1,
+                  "conditions": [
+                    {
+                      "version": 1,
+                      "id": "slow-a",
+                      "recordId": "slow-a",
+                      "conditionKey": "slowed",
+                      "originalName": "slow",
+                      "name": "Slowed",
+                      "type": "debuff",
+                      "kind": "effect",
+                      "target": {
+                        "kind": "creature",
+                        "roomId": "dd2268a5-24ce-4b94-b584-f92929bb1b5b",
+                        "mapId": "default",
+                        "tokenId": "branvig-b",
+                        "instanceId": "dc70613e-180c-498b-9974-ed67c547bda3"
+                      },
+                      "targetId": "branvig-b",
+                      "targetType": "creature",
+                      "source": "arc_frost_touch",
+                      "effects": {
+                        "movementSpeed": -10
+                      },
+                      "durationType": "rounds",
+                      "durationValue": 3,
+                      "remainingRounds": 3,
+                      "sharedTiming": "manual"
+                    }
+                  ]
+                },
+                "creatureId": "grimmstalk",
+                "ownerUserId": "user-mv82xjzt-1-4gs5t"
+              }
+            },
+            "characterTokens": {},
+            "creatures": {},
+            "actorProjection": {
+              "version": 1,
+              "roomId": "dd2268a5-24ce-4b94-b584-f92929bb1b5b",
+              "epoch": "0199eee9-a957-4b4f-a484-2500347feb34",
+              "cut": 3
+            }
+          }
+        }
+      },
+      "status": "accepted-live",
+      "durability": "checkpoint-eligible",
+      "delivery": "sent"
+    },
+    "checkpointOperations": 3,
+    "checkpointRequestBytes": 25234,
+    "decoded": true
+  },
+  "A1": {
+    "invalidCases": 5,
+    "zeroMutation": true,
+    "primaryReplacement": {
+      "old": {
+        "kind": "character",
+        "roomId": "53d572fc-e02f-4de7-99ba-969fd0018889",
+        "mapId": "default",
+        "tokenId": "pc-a",
+        "instanceId": "5406987e-c41c-4e6e-b109-dc0496f3884f",
+        "ownerUid": "user-mv82xk47-1-2vv37",
+        "characterId": "c-a"
+      },
+      "replacement": {
+        "kind": "character",
+        "roomId": "53d572fc-e02f-4de7-99ba-969fd0018889",
+        "mapId": "default",
+        "tokenId": "pc-extra",
+        "instanceId": "bc8aaf88-8713-4f92-8553-b33474598214",
+        "ownerUid": "user-mv82xk47-1-2vv37",
+        "characterId": "c-a"
+      },
+      "sameUidDifferentCharacter": true
+    },
+    "nonDefaultDeleteReplacement": true
+  },
+  "A2": {
+    "memberDenied": true,
+    "revokedDenied": true,
+    "fencedDenied": true,
+    "immutableGMProposal": true,
+    "runtimeAwaitRace": {
+      "success": false,
+      "error": "Room session changed during authorization; the operation was not applied",
+      "code": "room_binding_changed",
+      "event": "actor_consequence"
+    },
+    "principalAwaitRace": {
+      "success": false,
+      "code": "actor_binding_conflict",
+      "error": "actor_binding_conflict"
+    }
+  },
+  "A4": {
+    "retry": {
+      "success": true,
+      "receipt": {
+        "version": 1,
+        "roomId": "e535e260-89ec-441f-a20c-cbb17424ab18",
+        "commandId": "4493df01-7242-4bb6-a9e8-cd361aa2bbb7",
+        "submitterUid": "user-mv82xk1n-1-ymz1n",
+        "contentHash": "61c56239e1e2e0f0ab34067c9b7353ca6b28730426d00f72fa83f40a82287e14",
+        "admissionEpoch": "988c8b0b-d679-4471-a83f-a5bc8016c5f3",
+        "commitSequence": 1,
+        "checkpointRevision": 3,
+        "acceptedAt": 1791980516802,
+        "authorization": {
+          "kind": "gm",
+          "authorizerUid": "user-mv82xk1n-1-ymz1n"
+        },
+        "actors": [
+          {
+            "ref": {
+              "kind": "creature",
+              "roomId": "e535e260-89ec-441f-a20c-cbb17424ab18",
+              "mapId": "default",
+              "tokenId": "branvig-a",
+              "instanceId": "07ba4a07-5cd5-4f11-bf93-95f0cef932ed"
+            },
+            "beforeRevision": 0,
+            "afterRevision": 1,
+            "finalResources": {
+              "hp": {
+                "current": 200,
+                "temp": 4,
+                "max": 250
+              },
+              "mana": {
+                "current": 30,
+                "temp": 0,
+                "max": 30
+              },
+              "ap": {
+                "current": 5,
+                "temp": 1,
+                "max": 5
+              }
+            },
+            "conditions": []
+          }
+        ]
+      },
+      "actorSnapshot": {
+        "roomId": "e535e260-89ec-441f-a20c-cbb17424ab18",
+        "actorProjection": {
+          "version": 1,
+          "roomId": "e535e260-89ec-441f-a20c-cbb17424ab18",
+          "epoch": "988c8b0b-d679-4471-a83f-a5bc8016c5f3",
+          "cut": 3
+        },
+        "maps": {
+          "default": {
+            "id": "default",
+            "name": "Default Map",
+            "tokens": {
+              "branvig-a": {
+                "id": "branvig-a",
+                "state": {
+                  "actorContract": {
+                    "version": 1,
+                    "kind": "creature",
+                    "roomId": "e535e260-89ec-441f-a20c-cbb17424ab18",
+                    "mapId": "default",
+                    "tokenId": "branvig-a",
+                    "instanceId": "07ba4a07-5cd5-4f11-bf93-95f0cef932ed",
+                    "revision": 1
+                  },
+                  "maxHp": 250,
+                  "maxMana": 30,
+                  "maxAP": 5,
+                  "maxActionPoints": 5,
+                  "currentHp": 200,
+                  "currentMana": 30,
+                  "currentActionPoints": 5,
+                  "tempHealth": 4,
+                  "tempMana": 0,
+                  "tempActionPoints": 1,
+                  "conditions": []
+                },
+                "creatureId": "grimmstalk",
+                "ownerUserId": "user-mv82xk1n-1-ymz1n"
+              },
+              "branvig-b": {
+                "id": "branvig-b",
+                "state": {
+                  "actorContract": {
+                    "version": 1,
+                    "kind": "creature",
+                    "roomId": "e535e260-89ec-441f-a20c-cbb17424ab18",
+                    "mapId": "default",
+                    "tokenId": "branvig-b",
+                    "instanceId": "b48eeeae-227f-4237-9b82-995d386183d4",
+                    "revision": 0
+                  },
+                  "maxHp": 250,
+                  "maxMana": 30,
+                  "maxAP": 5,
+                  "maxActionPoints": 5,
+                  "currentHp": 250,
+                  "currentMana": 30,
+                  "currentActionPoints": 5,
+                  "tempHealth": 4,
+                  "tempMana": 0,
+                  "tempActionPoints": 1,
+                  "conditions": []
+                },
+                "creatureId": "grimmstalk",
+                "ownerUserId": "user-mv82xk1n-1-ymz1n"
+              }
+            },
+            "characterTokens": {},
+            "creatures": {},
+            "actorProjection": {
+              "version": 1,
+              "roomId": "e535e260-89ec-441f-a20c-cbb17424ab18",
+              "epoch": "988c8b0b-d679-4471-a83f-a5bc8016c5f3",
+              "cut": 3
+            }
+          }
+        }
+      },
+      "status": "accepted-live",
+      "durability": "checkpoint-eligible"
+    },
+    "concurrent": [
+      {
+        "success": true,
+        "receipt": {
+          "version": 1,
+          "roomId": "e535e260-89ec-441f-a20c-cbb17424ab18",
+          "commandId": "c09cb59c-85ab-41ed-a24e-1a4c7e32b9aa",
+          "submitterUid": "user-mv82xk1n-1-ymz1n",
+          "contentHash": "a1305b5dea31db2c4315790467e00403e3d6218b0f6edf1b80b1d0b0fa269eff",
+          "admissionEpoch": "988c8b0b-d679-4471-a83f-a5bc8016c5f3",
+          "commitSequence": 2,
+          "checkpointRevision": 4,
+          "acceptedAt": 1791980516808,
+          "authorization": {
+            "kind": "gm",
+            "authorizerUid": "user-mv82xk1n-1-ymz1n"
+          },
+          "actors": [
+            {
+              "ref": {
+                "kind": "creature",
+                "roomId": "e535e260-89ec-441f-a20c-cbb17424ab18",
+                "mapId": "default",
+                "tokenId": "branvig-b",
+                "instanceId": "b48eeeae-227f-4237-9b82-995d386183d4"
+              },
+              "beforeRevision": 0,
+              "afterRevision": 1,
+              "finalResources": {
+                "hp": {
+                  "current": 180,
+                  "temp": 4,
+                  "max": 250
+                },
+                "mana": {
+                  "current": 30,
+                  "temp": 0,
+                  "max": 30
+                },
+                "ap": {
+                  "current": 5,
+                  "temp": 1,
+                  "max": 5
+                }
+              },
+              "conditions": []
+            }
+          ]
+        },
+        "actorSnapshot": {
+          "roomId": "e535e260-89ec-441f-a20c-cbb17424ab18",
+          "actorProjection": {
+            "version": 1,
+            "roomId": "e535e260-89ec-441f-a20c-cbb17424ab18",
+            "epoch": "988c8b0b-d679-4471-a83f-a5bc8016c5f3",
+            "cut": 4
+          },
+          "maps": {
+            "default": {
+              "id": "default",
+              "name": "Default Map",
+              "tokens": {
+                "branvig-a": {
+                  "id": "branvig-a",
+                  "state": {
+                    "actorContract": {
+                      "version": 1,
+                      "kind": "creature",
+                      "roomId": "e535e260-89ec-441f-a20c-cbb17424ab18",
+                      "mapId": "default",
+                      "tokenId": "branvig-a",
+                      "instanceId": "07ba4a07-5cd5-4f11-bf93-95f0cef932ed",
+                      "revision": 1
+                    },
+                    "maxHp": 250,
+                    "maxMana": 30,
+                    "maxAP": 5,
+                    "maxActionPoints": 5,
+                    "currentHp": 200,
+                    "currentMana": 30,
+                    "currentActionPoints": 5,
+                    "tempHealth": 4,
+                    "tempMana": 0,
+                    "tempActionPoints": 1,
+                    "conditions": []
+                  },
+                  "creatureId": "grimmstalk",
+                  "ownerUserId": "user-mv82xk1n-1-ymz1n"
+                },
+                "branvig-b": {
+                  "id": "branvig-b",
+                  "state": {
+                    "actorContract": {
+                      "version": 1,
+                      "kind": "creature",
+                      "roomId": "e535e260-89ec-441f-a20c-cbb17424ab18",
+                      "mapId": "default",
+                      "tokenId": "branvig-b",
+                      "instanceId": "b48eeeae-227f-4237-9b82-995d386183d4",
+                      "revision": 1
+                    },
+                    "maxHp": 250,
+                    "maxMana": 30,
+                    "maxAP": 5,
+                    "maxActionPoints": 5,
+                    "currentHp": 180,
+                    "currentMana": 30,
+                    "currentActionPoints": 5,
+                    "tempHealth": 4,
+                    "tempMana": 0,
+                    "tempActionPoints": 1,
+                    "conditions": []
+                  },
+                  "creatureId": "grimmstalk",
+                  "ownerUserId": "user-mv82xk1n-1-ymz1n"
+                }
+              },
+              "characterTokens": {},
+              "creatures": {},
+              "actorProjection": {
+                "version": 1,
+                "roomId": "e535e260-89ec-441f-a20c-cbb17424ab18",
+                "epoch": "988c8b0b-d679-4471-a83f-a5bc8016c5f3",
+                "cut": 4
+              }
+            }
+          }
+        },
+        "status": "accepted-live",
+        "durability": "checkpoint-eligible",
+        "delivery": "sent"
+      },
+      {
+        "success": false,
+        "code": "stale_actor_revision",
+        "error": "stale_actor_revision"
+      }
+    ],
+    "knownOldReceipt": true,
+    "unknownOldEpoch": "outcome_unknown",
+    "pruning": {
+      "limit": 256,
+      "unconfirmedRefused": true,
+      "confirmedFloor": 1,
+      "durableOldRetry": true,
+      "freshEpochUnknown": true
+    }
+  },
+  "A6": {
+    "capacityFailure": {
+      "success": false,
+      "code": "retention_capacity",
+      "error": "retention_capacity"
+    },
+    "zeroLiveMutation": true,
+    "receiptBytePressure": {
+      "retainedBytes": 508397,
+      "rejectedAt": 4,
+      "noPublication": true
+    }
+  },
+  "A5": {
+    "protectedCases": 9,
+    "unrelatedEdit": true
+  },
+  "A7": {
+    "roundZero": 0,
+    "modifiers": {
+      "movementSpeed": -10
+    },
+    "distinctIds": true,
+    "absoluteAndLegacy": {
+      "startTime": 0,
+      "endTime": 1000,
+      "separateDefendingIds": true,
+      "rawRecoverableNotPublic": true
+    }
+  },
+  "A8": {
+    "cooperative": true,
+    "resourceAwaitedAuthorization": true
+  },
+  "A11": {
+    "fixtures": [
+      "arc_spark_bolt",
+      "martyr_restorative_prayer"
+    ],
+    "preAdjudicatedOnly": true,
+    "classPaymentNotImplemented": true
+  }
+}

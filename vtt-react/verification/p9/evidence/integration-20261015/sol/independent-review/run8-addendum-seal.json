@@ -1,0 +1,21 @@
+{
+  "task_id": "independent-integration-review-20261015-run8-addendum",
+  "checkedAt": "2026-10-15T19:33:04.461Z",
+  "command": [
+    "C:\\Program Files\\nodejs\\node.exe",
+    "D:\\VTT\\vtt-react\\verification\\p9\\evidence\\integration-20261015\\sol\\independent-review\\run8-addendum-seal.cjs"
+  ],
+  "cwd": "D:\\VTT",
+  "verdict": "PASS within bounded desktop integration scope",
+  "reportHashes": {
+    "final-review.md": "dee835ace68c54dc023902f2dc761ae02287af6a57627d15faad683009e6eb91",
+    "run8-addendum-check.cjs": "878f2310b97f9e5ca7f1c0f22035cf423c81fcfbd143b0636ec9c263b99b7473",
+    "run8-addendum-check.json": "8c02402163930478c49e104c38e3bc882e55b077dd830f989e18f7084539e1e4",
+    "run8-addendum-seal.cjs": "0a58dc9afab3c0fbb8dcedaa54b9384cbe7e67e84a0b2eec0316cdfc04b1f13b"
+  },
+  "priorReportSha256": "73041ec53cc44f8dc0acbe6ac8e9ea6143bc1c48e67db6c24597b393a3dccd71",
+  "sourceDrift": [],
+  "changedHistoricalAndReplayInputs": [],
+  "snapshotReplayClaimed": false,
+  "passed": true
+}

@@ -1,0 +1,68 @@
+{
+  "task_id": "independent-integration-review-20261015-completion",
+  "checkedAt": "2026-10-15T19:22:04.350Z",
+  "command": [
+    "C:\\Program Files\\nodejs\\node.exe",
+    "D:\\VTT\\vtt-react\\verification\\p9\\evidence\\integration-20261015\\sol\\independent-review\\completion-seal.cjs"
+  ],
+  "cwd": "D:\\VTT",
+  "reportHashes": {
+    "review.md": "73041ec53cc44f8dc0acbe6ac8e9ea6143bc1c48e67db6c24597b393a3dccd71",
+    "completion-check.cjs": "10bd4a7e95068b91f4e5bd374a26207b619f3a29eb33816d8f6150eaef26af03",
+    "completion-check.json": "521bf7e4f6f5e57de517645548e3dc9b01dc5555ede137673b76df53a1227ebe",
+    "completion-invariants.json": "ca369dfdedc7fa11e657b3eaf3480048a29a71f30e4329ded2c70f76db38cf75",
+    "completion-custody-probe.json": "82f3085c2cd209abee8f93ff03974a5274c3d1177866c4a90c313250fa67d8a7",
+    "completion-evidence-check.json": "51cbf7ac5a5b0ccd07b65dc304bf3a8f2deab74caaa5ff65018549a13a811883",
+    "completion-seal.cjs": "b3363dfa0947c467d1608391d880376efd281145d5b9f56de5b48b5fb50779f0"
+  },
+  "currentFocalRawHashes": {
+    "vtt-react/src/services/featherSlash.js": "ad2b3134998a8585906bbb82a1ac3878dafecac92070a9ad81f659ed1812669a",
+    "vtt-react/src/services/__tests__/featherSlash.test.js": "43eaf32fb3a87bf38cda145e9c7afc29bfbfda4f83f53585f376abd1acc2bcb9",
+    "vtt-react/src/components/ui/ActionBar.jsx": "7a04ec3302561ae91cd495bddce4d5596235bd5b8c5916f58686b767f9000d33",
+    "vtt-react/src/components/ui/__tests__/ActionBarLegacyArcanoneerSpheres.test.jsx": "98e8afbef304b1359da67d136ae2f38e43fc002846dcee247df500d5466dbb73",
+    "vtt-react/src/components/hud/PartyHUD.jsx": "c5f2e9381c18fae3e68ec47f3f8bf2c02bca8e3be48ea72a8f6179e9e07db5d9",
+    "vtt-react/src/components/hud/SpellConsequencePanel.css": "2f936ff2ff5bdc3f610c2c24c49015a1b935bd835a3f8f4e1dfeb2837682a68b",
+    "vtt-react/src/services/featherSlashCustody.js": "2ace5b077bbd3bccdfeec666148df385927faca1766beb065d51a2e14e5abd39",
+    "vtt-react/src/components/grid/CreatureAbilityQuickUse.jsx": "f8f5654578981e482751b4a48ebef54b4774bbe0f43db1c7cb6943614e423b09",
+    "vtt-react/src/components/hud/ActorConsequenceControls.jsx": "50ad8862d02df681cb15303fd0495931a1bc244ce5ea4de838d9e1891ef5f231",
+    "vtt-react/src/components/hud/SpellConsequencePanel.jsx": "01c16539ab4ef766809dc0880a4dbf73a3eed4964b99da40c182f40477df9bb4",
+    "vtt-react/src/styles/party-hud.css": "df2fc87256718952a81b9f0f652b04baa143c51fb109830590199bc4708283b6",
+    "vtt-react/src/utils/arcanoneerMigration.js": "024045a51fb8ec2e11ba14e14fdceb83a02ca492345bad66ed51d76e27b35ad6",
+    "vtt-react/src/data/versions.js": "d3abf2ffedebc1e6834cd8c41f47f0022b6c4d8be33db0e7de7be80fd96fc651",
+    "vtt-react/public/data/abilities.json": "07ffc620f0d7a08c188aff8daf4fa0bdf9e82795bcf83ee7c6e864d5d749bb15",
+    "vtt-react/public/data/creatures.json": "66cf07a04adfd9cd31b62e15053c2e707ec55a519e04bfdb6095b1184077fafd",
+    "vtt-react/src/App.jsx": "55ba76417fa01c2f2befa818dad5d8e102723607eb6ebda0fff18dfde6ed642c"
+  },
+  "changedHistoricalInputs": [],
+  "sourceDrift": [],
+  "buildCurrent": {
+    "commandSha256": "38c1f4174be51ad41f850fbf5a6098e4a876deacdf8e3ea07bc99bc9eb592a49",
+    "command": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "node_modules/@craco/craco/dist/bin/craco.js",
+      "build"
+    ],
+    "cwd": "D:\\VTT\\vtt-react",
+    "startedAt": "2026-10-15T19:15:03.148Z",
+    "endedAt": "2026-10-15T19:18:03.380Z",
+    "exit": 0,
+    "signal": null,
+    "drift": [
+      "vtt-react/src/components/world-map/InteractiveMapStudio.css",
+      "vtt-react/src/components/world-map/LoreSidebar.css"
+    ],
+    "focalBeforeAndAfterMatchCurrent": true,
+    "exitRecord": {
+      "exit": 0,
+      "signal": null,
+      "drift": [
+        "vtt-react/src/components/world-map/InteractiveMapStudio.css",
+        "vtt-react/src/components/world-map/LoreSidebar.css"
+      ]
+    },
+    "outputLogSha256": "07141e53fad0eb02b4043d4eef38d5bd836dd8f2c69feb36f3cea57457bf05ef",
+    "assetManifestSha256": "bbb9bd30ce56dd1b8ba27d6d4a8be3f29acd17cdabc5667427e5e7994a5087bb"
+  },
+  "appReplay7Sha256": "91d05308a41c25cdeee7ec74b5d5c8aa01cfeb9f52834adc25dc08de9ced9040",
+  "passed": true
+}

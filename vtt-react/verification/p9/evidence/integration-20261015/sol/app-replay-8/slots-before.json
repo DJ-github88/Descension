@@ -1,0 +1,202 @@
+[
+  {
+    "html": "<div data-slot-index=\"0\" class=\"action-slot empty    \" style=\"user-select: none;\"><div class=\"slot-number\">1</div></div>",
+    "parent": "action-bar",
+    "props": [
+      [
+        "data-slot-index",
+        "className",
+        "style",
+        "onDragOver",
+        "onDragLeave",
+        "onDrop",
+        "onClick",
+        "onContextMenu",
+        "onMouseEnter",
+        "onMouseMove",
+        "onMouseLeave",
+        "children"
+      ]
+    ]
+  },
+  {
+    "html": "<div data-slot-index=\"1\" class=\"action-slot empty    \" style=\"user-select: none;\"><div class=\"slot-number\">2</div></div>",
+    "parent": "action-bar",
+    "props": [
+      [
+        "data-slot-index",
+        "className",
+        "style",
+        "onDragOver",
+        "onDragLeave",
+        "onDrop",
+        "onClick",
+        "onContextMenu",
+        "onMouseEnter",
+        "onMouseMove",
+        "onMouseLeave",
+        "children"
+      ]
+    ]
+  },
+  {
+    "html": "<div data-slot-index=\"2\" class=\"action-slot empty    \" style=\"user-select: none;\"><div class=\"slot-number\">3</div></div>",
+    "parent": "action-bar",
+    "props": [
+      [
+        "data-slot-index",
+        "className",
+        "style",
+        "onDragOver",
+        "onDragLeave",
+        "onDrop",
+        "onClick",
+        "onContextMenu",
+        "onMouseEnter",
+        "onMouseMove",
+        "onMouseLeave",
+        "children"
+      ]
+    ]
+  },
+  {
+    "html": "<div data-slot-index=\"3\" class=\"action-slot empty    \" style=\"user-select: none;\"><div class=\"slot-number\">4</div></div>",
+    "parent": "action-bar",
+    "props": [
+      [
+        "data-slot-index",
+        "className",
+        "style",
+        "onDragOver",
+        "onDragLeave",
+        "onDrop",
+        "onClick",
+        "onContextMenu",
+        "onMouseEnter",
+        "onMouseMove",
+        "onMouseLeave",
+        "children"
+      ]
+    ]
+  },
+  {
+    "html": "<div data-slot-index=\"4\" class=\"action-slot empty    \" style=\"user-select: none;\"><div class=\"slot-number\">5</div></div>",
+    "parent": "action-bar",
+    "props": [
+      [
+        "data-slot-index",
+        "className",
+        "style",
+        "onDragOver",
+        "onDragLeave",
+        "onDrop",
+        "onClick",
+        "onContextMenu",
+        "onMouseEnter",
+        "onMouseMove",
+        "onMouseLeave",
+        "children"
+      ]
+    ]
+  },
+  {
+    "html": "<div data-slot-index=\"5\" class=\"action-slot empty    \" style=\"user-select: none;\"><div class=\"slot-number\">6</div></div>",
+    "parent": "action-bar",
+    "props": [
+      [
+        "data-slot-index",
+        "className",
+        "style",
+        "onDragOver",
+        "onDragLeave",
+        "onDrop",
+        "onClick",
+        "onContextMenu",
+        "onMouseEnter",
+        "onMouseMove",
+        "onMouseLeave",
+        "children"
+      ]
+    ]
+  },
+  {
+    "html": "<div data-slot-index=\"6\" class=\"action-slot empty    \" style=\"user-select: none;\"><div class=\"slot-number\">7</div></div>",
+    "parent": "action-bar",
+    "props": [
+      [
+        "data-slot-index",
+        "className",
+        "style",
+        "onDragOver",
+        "onDragLeave",
+        "onDrop",
+        "onClick",
+        "onContextMenu",
+        "onMouseEnter",
+        "onMouseMove",
+        "onMouseLeave",
+        "children"
+      ]
+    ]
+  },
+  {
+    "html": "<div data-slot-index=\"7\" class=\"action-slot empty    \" style=\"user-select: none;\"><div class=\"slot-number\">8</div></div>",
+    "parent": "action-bar",
+    "props": [
+      [
+        "data-slot-index",
+        "className",
+        "style",
+        "onDragOver",
+        "onDragLeave",
+        "onDrop",
+        "onClick",
+        "onContextMenu",
+        "onMouseEnter",
+        "onMouseMove",
+        "onMouseLeave",
+        "children"
+      ]
+    ]
+  },
+  {
+    "html": "<div data-slot-index=\"8\" class=\"action-slot empty    \" style=\"user-select: none;\"><div class=\"slot-number\">9</div></div>",
+    "parent": "action-bar",
+    "props": [
+      [
+        "data-slot-index",
+        "className",
+        "style",
+        "onDragOver",
+        "onDragLeave",
+        "onDrop",
+        "onClick",
+        "onContextMenu",
+        "onMouseEnter",
+        "onMouseMove",
+        "onMouseLeave",
+        "children"
+      ]
+    ]
+  },
+  {
+    "html": "<div data-slot-index=\"9\" class=\"action-slot empty    \" style=\"user-select: none;\"><div class=\"slot-number\">0</div></div>",
+    "parent": "action-bar",
+    "props": [
+      [
+        "data-slot-index",
+        "className",
+        "style",
+        "onDragOver",
+        "onDragLeave",
+        "onDrop",
+        "onClick",
+        "onContextMenu",
+        "onMouseEnter",
+        "onMouseMove",
+        "onMouseLeave",
+        "children"
+      ]
+    ]
+  }
+]

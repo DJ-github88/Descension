@@ -1,0 +1,13 @@
+- region "Actor attachment and consequences":
+  - paragraph: "Shared conditions: manual timing · overtime paused."
+  - text: Exact room attachment
+  - combobox "Exact room attachment":
+    - option "Select a token"
+    - option "Ilse · pc" [selected]
+    - option "A · A"
+    - option "B · B"
+  - button "Use this owner attachment"
+  - status: accepted-live
+  - paragraph: "Temporary room: live-only, nonpersistent. No checkpoint confirmation or crash durability."
+- region "Spell adjudication":
+  - status: "Spell 6c9909cc: Accepted · live-only (temporary room)"

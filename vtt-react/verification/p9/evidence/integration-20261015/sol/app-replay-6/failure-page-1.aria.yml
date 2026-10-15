@@ -1,0 +1,101 @@
+- text: A B Ilse Camera
+- button "Minimize camera controls": 
+- group "Camera projection mode":
+  - button "2D"
+  - button "2.5D"
+- button ""
+- button "N 0°"
+- button ""
+- text: Heading
+- spinbutton "Camera heading in degrees": "0"
+- text: °
+- slider "Camera heading": "0"
+- text: "[ ] rotate 5° · Shift snap"
+- button " Camera" [expanded]
+- region "Actor attachment and consequences":
+  - paragraph: "Shared conditions: manual timing · overtime paused."
+  - text: Exact room attachment
+  - combobox "Exact room attachment":
+    - option "Select a token" [selected]
+    - option "Ilse · pc"
+    - option "A · A"
+    - option "B · B"
+  - status: accepted-live
+  - paragraph: "Temporary room: live-only, nonpersistent. No checkpoint confirmation or crash durability."
+- text: Neutral Good
+- button "Enlarge portrait of Ilse (click to zoom)":
+  - img
+- text: 3 Arcanoneer Ilse
+- 'img "Arcanoneer Calibrated Iron Sleeve. Spheres banked: 1 of 12."': CHAMBER 1/12 ROLL 4d8 MATRIX ARC·1 SAC·2 BLI·3 1 EMB·4 RIM·5 PRI·6 STO·7 WYR·8
+- text: Exhaustion 0
+- 'combobox "Exhaustion Level: 0"':
+  - option "0 (Normal)" [selected]
+  - option "1 (Disadv. Checks)"
+  - option "2 (Speed Halved)"
+  - option "3 (Disadv. Attacks/Saves)"
+  - option "4 (HP Max Halved)"
+  - option "5 (Speed 0)"
+  - option "6 (Death)"
+- 'img "Ilse Health: 20 of 40"'
+- 'img "Ilse Mana: 9 of 30"'
+- 'img "Ilse Action Points: 2 of 5"'
+- img "mainHand"
+- text: "5"
+- img "Marrow-Piercing Slug"
+- text: 1 2 3 4 5 6 7 8 9 0
+- img "offHand"
+- text: "2"
+- img "ranged"
+- text: 1 0 / 300 XP
+- button "Character":
+  - img
+  - text: Character
+- button "Adventure":
+  - img
+  - text: Adventure
+- button "Tools":
+  - img
+  - text: Tools
+- button "Settings (G)":
+  - img
+- button "Return to Main Menu (ESC)":
+  - img
+- button "Minimize navigation"
+- text: " X: 0.0 | Y: 0.0 "
+- button ""
+- region "Selected character save status":
+  - status:
+    - strong: "Canonical character:"
+    - text: Cloud save pending · Device draft retained
+    - button "Retry character save"
+    - strong: "Personal runtime:"
+    - text: Cloud save pending · Device draft retained
+    - button "Retry runtime save"
+  - button "Download selected draft"
+  - text: Import selected draft
+  - button "Import selected draft"
+- dialog "Supported spell cast":
+  - banner:
+    - heading "Marrow-Piercing Slug" [level=3]
+    - button "Close": ×
+  - paragraph: "Room spell (P9): nothing is spent until the GM accepts. One roll, one payment, one result."
+  - term: Effect
+  - definition: arcane damage · 1d8 + intelligence/4 → 1d8 + 4 (INT 16 ÷ 4, rounded down)
+  - term: Price
+  - definition: 1 AP · 4 mana (temporary first; you have AP 2+0 temp, mana 9+0 temp)
+  - paragraph: Requires Elemental Spheres (arcane, arcane); current class state cannot pay.
+  - text: Target
+  - combobox "Target":
+    - option "Select an exact bound target"
+    - option "Ilse · character · pc (you)"
+    - option "A · creature · A"
+    - option "B · creature · B" [selected]
+  - paragraph: Advisory planar distance 10.0 ft; authored ranged 60 ft. Line of effect and reach are GM rulings. No declared resistances on this projection.
+  - paragraph:
+    - text: "Recorded physical roll: [6] + 4 ="
+    - strong: "10"
+    - text: . The GM confirms the final amount.
+  - button "Approve price and send to GM" [disabled]
+  - status:
+    - paragraph: Accepted · live-only (temporary room). GM final 7.
+    - paragraph: Approval 0b7d7ae9-9ffb-477c-ba2d-a47392fa8660 · Device retained

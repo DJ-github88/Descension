@@ -81,6 +81,34 @@ does not authorize deployment or satisfy roadmap §20 release gates.
 
 ## Current work
 
+### P8/P9 bounded integration follow-through — 2026-10-15
+
+**PASS for the three bounded corrections and identified frozen desktop frontend;
+whole-rolling-tree/deployment acceptance remains open.** Current integration report:
+[MYTHRILL_P9_INTEGRATION_FOLLOWTHROUGH_20261015.md](MYTHRILL_P9_INTEGRATION_FOLLOWTHROUGH_20261015.md).
+Historical P7/P8/P9 reports/hashes below retain their original meaning.
+
+- Verified accepted/current complete Branvig raw definitions equal; explicitly
+  admitted abilities `1.5.0` alongside `1.4.0` without changing the original
+  capability, command/receipt identity or content guards. Shopkeepers retained.
+- Existing `migrateBlockId` import and the actual PartyHUD right-edge host/CSS
+  repairs were already copied here; preserved and independently reviewed.
+- Focused **7 suites /87 tests**, lint **0 errors /27 incumbent warnings**,
+  P8/P9/rejoin isolated browsers and formerly outstanding P7 lifecycle pass.
+- Final frozen-current-source production build **exit0 /no mirror drift**;
+  actual production-App P8 fan and P9 HUD→owner→GM→receipt paths pass.
+  Two deliberately refused Firebase fetch page errors remain recorded.
+- Completed independent reports and exact current identities:
+  `vtt-react/verification/p9/evidence/integration-20261015/sol/`.
+  Final packet SHA256 `e9aed0321e5aa850eec06f3c1de573fe1589788c94e239e66fcbc8d11bc1cbf9`.
+- A later live `useSessionManagement.js` edit was not in that frozen build.
+  **Next task:** reconcile that external delta, freeze the integrated source and
+  repeat its build/production-App smoke before whole-live-tree signoff. Creator
+  `<attr>/K`, real-backend/two-device/human and P5 environment gates remain open.
+- HEAD externally advanced `dd445bec`→`f491e694`; this implementation/review issued
+  no commit/reset/push/deployment. Two concurrently replaced generated P7 evidence
+  JSONs have both original hash-verified and newer copies retained in `sol/`.
+
 **Current P9 verdict: PASS — independently source-accepted, 2026-10-15, cycle2.**
 Complete independent report, preserved byte-for-byte:
 [MYTHRILL_P9_SOURCE_INDEPENDENT_ACCEPTANCE_20261015.md](MYTHRILL_P9_SOURCE_INDEPENDENT_ACCEPTANCE_20261015.md),

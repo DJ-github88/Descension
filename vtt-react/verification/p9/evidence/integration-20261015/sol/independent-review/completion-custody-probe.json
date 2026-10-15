@@ -1,0 +1,23 @@
+{
+  "passed": true,
+  "command": [
+    "C:\\Program Files\\nodejs\\node.exe",
+    "D:\\VTT\\vtt-react\\verification\\p9\\evidence\\integration-20261015\\sol\\independent-review\\completion-check.cjs",
+    "--embedded-probe",
+    "custody-probe.cjs"
+  ],
+  "cwd": "D:\\VTT",
+  "method": "Real featherSlash and featherSlashCustody function bodies execute in VM. Only imported storage/auth/store dependencies replaced with explicit synchronous in-memory seams; no device storage/reload durability claim.",
+  "unknownDraftByteIdenticalAcrossVersions": true,
+  "commandByteIdenticalAfterAcceptance": true,
+  "unresolvedReplacementRefused": true,
+  "unrelatedReceiptDidNotReplaceUnknown": true,
+  "repeatedReceiptNotificationDeduplicated": true,
+  "unreviewedVersionDidNotConsumeOrRewrite": true,
+  "ownerGenerationAndRoomIsolation": true,
+  "saveCalls": 3,
+  "notifications": [
+    "p8:independent-room:gm:other-receipt",
+    "p8:independent-room:gm:11111111-2222-4333-8444-555555555555"
+  ]
+}

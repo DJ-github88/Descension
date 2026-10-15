@@ -148,7 +148,7 @@
 .map-ctrl-btn {
   width: 40px;
   height: 40px;
-  border-radius: 8px;
+  border-radius: 4px;
   background: rgba(36, 26, 18, 0.88);
   border: 1px solid rgba(182, 160, 128, 0.35);
   color: #d8cdb8;
@@ -607,7 +607,7 @@
   padding: 0 6px;
   align-items: center;
   justify-content: center;
-  border-radius: 10px;
+  border-radius: 4px;
   background: #f7f3ea;
   border: 1px solid rgba(182, 160, 128, 0.45);
   color: #5a4033;
@@ -633,7 +633,7 @@
   min-width: 0;
   padding: 8px 10px;
   border: 1px solid rgba(182, 160, 128, 0.45);
-  border-radius: 8px;
+  border-radius: 4px;
   background: #fdfbf7;
   box-shadow: 0 1px 3px rgba(52, 37, 26, 0.04);
   transition: all 0.15s ease;
@@ -700,7 +700,7 @@
 .custom-map-zone-item button {
   flex: 0 0 auto;
   border: 1px solid rgba(182, 160, 128, 0.45);
-  border-radius: 6px;
+  border-radius: 4px;
   background: #f7f3ea;
   color: #7c6a58;
   cursor: pointer;
@@ -728,7 +728,7 @@
   margin-top: 4px;
   padding: 6px 8px !important;
   border: 1px solid rgba(182, 160, 128, 0.45) !important;
-  border-radius: 6px !important;
+  border-radius: 4px !important;
   background: #fdfbf7 !important;
   color: #34251a !important;
   font-size: 11px !important;
@@ -744,7 +744,7 @@
   margin-top: 18px;
   padding: 14px;
   border: 1.5px dashed rgba(182, 160, 128, 0.55);
-  border-radius: 10px;
+  border-radius: 4px;
   background: #fdfbf7;
   color: #5a4033;
   cursor: pointer;
@@ -812,7 +812,7 @@
   height: 10px;
   flex: 0 0 auto;
   border: 1px solid #663c32;
-  border-radius: 50%;
+  border-radius: 3px;
 }
 
 /* ========================================================================= */
@@ -825,7 +825,7 @@
   padding: 4px;
   background: #f2ebd9;
   border: 1px solid rgba(182, 160, 128, 0.45);
-  border-radius: 8px;
+  border-radius: 4px;
   box-shadow: inset 0 1px 3px rgba(52, 37, 26, 0.06);
 }
 
@@ -837,7 +837,7 @@
   gap: 4px;
   padding: 8px 6px;
   border: 1px solid transparent;
-  border-radius: 6px;
+  border-radius: 3px;
   background: transparent;
   color: #5a4033;
   cursor: pointer;
@@ -889,7 +889,7 @@
   gap: 8px;
   padding: 8px 10px;
   border: 1px solid rgba(182, 160, 128, 0.45);
-  border-radius: 8px;
+  border-radius: 4px;
   background: #fdfbf7;
   color: #5a4033;
   cursor: pointer;
@@ -927,7 +927,7 @@
   gap: 5px;
   padding: 4px 10px;
   border: 1px solid rgba(182, 160, 128, 0.45);
-  border-radius: 12px;
+  border-radius: 4px;
   background: #fdfbf7;
   color: #5a4033;
   cursor: pointer;
@@ -955,7 +955,7 @@
   margin-top: 14px;
   padding: 12px;
   border: 1px solid rgba(182, 160, 128, 0.45);
-  border-radius: 8px;
+  border-radius: 4px;
   background: #f7f3ea;
   box-shadow: 0 2px 8px rgba(52, 37, 26, 0.06);
 }
@@ -997,7 +997,7 @@
   background: #3e523e !important;
   border: 1px solid rgba(62, 82, 62, 0.7) !important;
   color: #faf6ee !important;
-  border-radius: 6px !important;
+  border-radius: 4px !important;
   box-shadow: 0 2px 6px rgba(62, 82, 62, 0.25) !important;
 }
 
@@ -1013,7 +1013,7 @@
   color: #663c32;
   font-family: 'Cinzel', serif;
   font-weight: 700;
-  border-radius: 6px;
+  border-radius: 4px;
 }
 
 /* ========================================================================= */
@@ -1043,7 +1043,7 @@
   width: 100%;
   padding: 8px 30px 8px 32px !important;
   border: 1px solid rgba(182, 160, 128, 0.45) !important;
-  border-radius: 8px !important;
+  border-radius: 4px !important;
   outline: none;
   background: #fdfbf7 !important;
   color: #34251a !important;
@@ -1069,7 +1069,7 @@
   height: 20px;
   padding: 0;
   border: 0;
-  border-radius: 50%;
+  border-radius: 3px;
   background: transparent;
   color: #7c6a58;
   cursor: pointer;
@@ -1093,7 +1093,7 @@
   margin-top: 14px;
   padding: 26px 18px;
   border: 1.5px dashed rgba(182, 160, 128, 0.55);
-  border-radius: 10px;
+  border-radius: 4px;
   background: #f7f3ea;
   box-shadow: inset 0 1px 4px rgba(52, 37, 26, 0.04);
 }
@@ -1131,7 +1131,7 @@
   color: #faf6ee;
   font-size: 11px;
   letter-spacing: 0.5px;
-  border-radius: 6px;
+  border-radius: 4px;
 }
 
 .outliner-empty-state .custom-map-secondary-btn:hover {
@@ -1175,7 +1175,7 @@
   gap: 8px;
   padding: 8px 10px;
   border: 1px solid rgba(182, 160, 128, 0.45);
-  border-radius: 8px;
+  border-radius: 4px;
   background: #fdfbf7;
   box-shadow: 0 1px 3px rgba(52, 37, 26, 0.04);
   transition: all 0.15s ease;
@@ -1321,7 +1321,7 @@
   padding: 8px 18px;
   background: #faf6ee;
   border: 1px solid rgba(182, 160, 128, 0.45);
-  border-radius: 28px;
+  border-radius: 6px;
   box-shadow: 0 10px 30px rgba(36, 26, 18, 0.25);
   color: #34251a;
   font-family: 'Cinzel', serif;
@@ -1353,7 +1353,7 @@
 
 .hud-point-counter {
   padding: 2px 8px;
-  border-radius: 12px;
+  border-radius: 4px;
   background: #fdfbf7;
   border: 1px solid rgba(182, 160, 128, 0.45);
   color: #663c32;
@@ -1373,7 +1373,7 @@
   align-items: center;
   gap: 6px;
   padding: 6px 12px;
-  border-radius: 16px;
+  border-radius: 4px;
   cursor: pointer;
   font-family: 'Cinzel', serif;
   font-size: 11px;
@@ -1443,7 +1443,7 @@
   overflow-x: hidden;
   padding: 22px;
   border: 1px solid rgba(182, 160, 128, 0.45);
-  border-radius: 12px;
+  border-radius: 4px;
   background: #faf6ee;
   box-shadow: 0 16px 45px rgba(36, 26, 18, 0.3);
   color: #34251a;
@@ -1472,7 +1472,7 @@
   justify-content: center;
   background: #663c32;
   border: 1px solid rgba(182, 160, 128, 0.45);
-  border-radius: 8px;
+  border-radius: 4px;
   color: #faf6ee;
   font-size: 11px;
   cursor: ew-resize;
@@ -1524,7 +1524,7 @@
   gap: 6px;
   padding: 3px 10px;
   border: 1px solid rgba(182, 160, 128, 0.5);
-  border-radius: 12px;
+  border-radius: 4px;
   background: #f4efe6;
   color: #5a4033;
   font-size: 10px;
@@ -1540,7 +1540,7 @@
   align-items: center;
   justify-content: center;
   border: 1px solid rgba(182, 160, 128, 0.45);
-  border-radius: 50%;
+  border-radius: 4px;
   background: #f7f3ea;
   color: #663c32;
   cursor: pointer;
@@ -1589,7 +1589,7 @@
   -webkit-text-fill-color: #34251a !important;
   background: #fdfbf7 !important;
   border: 1px solid rgba(182, 160, 128, 0.45) !important;
-  border-radius: 8px;
+  border-radius: 4px;
   outline: none;
   box-shadow: inset 0 1px 3px rgba(52, 37, 26, 0.04);
 }
@@ -1600,7 +1600,7 @@
   margin: 4px 0 8px;
   padding: 9px 12px;
   border: 1px solid rgba(182, 160, 128, 0.55) !important;
-  border-radius: 8px;
+  border-radius: 4px;
   background: #fdfbf7 !important;
   color: #34251a !important;
   -webkit-text-fill-color: #34251a !important;
@@ -1627,7 +1627,7 @@
   align-items: center;
   gap: 5px;
   padding: 4px 10px;
-  border-radius: 14px;
+  border-radius: 4px;
   border: 1px solid rgba(182, 160, 128, 0.45);
   background: #fdfbf7;
   color: #5a4033;
@@ -1706,7 +1706,7 @@
   justify-content: center;
   gap: 6px;
   padding: 8px 10px;
-  border-radius: 8px;
+  border-radius: 4px;
   cursor: pointer;
   font-family: 'Cinzel', serif;
   font-size: 11px;
@@ -1750,7 +1750,7 @@
   align-items: center;
   justify-content: center;
   border: 1px solid rgba(182, 160, 128, 0.45);
-  border-radius: 8px;
+  border-radius: 4px;
   background: #f7f3ea;
   color: #7c6a58;
   cursor: pointer;
@@ -1775,7 +1775,7 @@
   margin-bottom: 16px;
   background: #f7f3ea;
   border: 1px solid rgba(182, 160, 128, 0.45);
-  border-radius: 8px;
+  border-radius: 4px;
   box-shadow: inset 0 1px 3px rgba(52, 37, 26, 0.04);
 }
 
@@ -1834,7 +1834,7 @@
 .section-add-btn {
   padding: 4px 10px;
   border: 1px solid rgba(62, 82, 62, 0.7);
-  border-radius: 6px;
+  border-radius: 4px;
   background: #3e523e;
   color: #faf6ee;
   cursor: pointer;
@@ -1860,7 +1860,7 @@
   gap: 6px;
   padding: 6px 12px;
   border: 1px solid rgba(62, 82, 62, 0.7);
-  border-radius: 6px;
+  border-radius: 4px;
   background: #3e523e;
   color: #faf6ee;
   cursor: pointer;
@@ -1877,7 +1877,7 @@
   align-items: center;
   background: #f7f3ea;
   border: 1px solid rgba(182, 160, 128, 0.45);
-  border-radius: 6px;
+  border-radius: 4px;
   overflow: hidden;
   box-shadow: inset 0 1px 2px rgba(60, 40, 20, 0.05);
 }
@@ -1919,7 +1919,7 @@
   padding: 6px 8px;
   background: #f7f3ea;
   border: 1px solid rgba(182, 160, 128, 0.4);
-  border-radius: 6px;
+  border-radius: 4px;
 }
 
 .format-toolbar-row {
@@ -2018,7 +2018,7 @@
   max-height: 600px;
   overflow-y: auto;
   border: 1px solid rgba(182, 160, 128, 0.45);
-  border-radius: 8px;
+  border-radius: 4px;
   background: #fdfbf7;
   box-shadow: inset 0 1px 4px rgba(52, 37, 26, 0.04);
   resize: vertical;
@@ -2060,7 +2060,7 @@
   max-height: 600px;
   overflow-y: auto;
   border: 1px solid rgba(182, 160, 128, 0.45);
-  border-radius: 8px;
+  border-radius: 4px;
   background: #fdfbf7;
 }
 
@@ -2108,7 +2108,7 @@
   margin: 6px 0;
   padding: 8px 12px;
   border: 1px solid rgba(182, 160, 128, 0.35);
-  border-radius: 6px;
+  border-radius: 4px;
   background: rgba(182, 160, 128, 0.08);
   font-family: 'Crimson Text', 'Cinzel', serif;
   font-size: 12.5px;
@@ -2208,7 +2208,7 @@
    ═══════════════════════════════════════════════════════════ */
 
 .lore-block {
-  border-radius: 8px;
+  border-radius: 4px;
   overflow: hidden;
   margin: 10px 0;
   position: relative;
@@ -2292,7 +2292,7 @@
    ──────────────────────────────────────────────────────────── */
 .lore-readaloud {
   border: 1px solid rgba(182, 160, 128, 0.45);
-  border-radius: 8px;
+  border-radius: 4px;
   background: #faf6ee;
   box-shadow: 0 4px 14px rgba(42, 28, 18, 0.1);
 }
@@ -2313,7 +2313,7 @@
   color: #34251a;
   padding: 14px 18px;
   border: 1px solid rgba(182, 160, 128, 0.25);
-  border-radius: 6px;
+  border-radius: 4px;
   margin: 10px;
   position: relative;
 }
@@ -2324,7 +2324,7 @@
    ──────────────────────────────────────────────────────────── */
 .lore-statblock {
   border: 1px solid rgba(182, 160, 128, 0.45);
-  border-radius: 8px;
+  border-radius: 4px;
   background: #faf6ee;
   box-shadow: 0 4px 14px rgba(42, 28, 18, 0.1);
   position: relative;
@@ -2353,7 +2353,7 @@
   align-items: center;
   justify-content: center;
   padding: 5px 6px;
-  border-radius: 6px;
+  border-radius: 4px;
   background: #fbf8f0;
   border: 1px solid rgba(196, 154, 69, 0.35);
   text-align: center;
@@ -2508,7 +2508,7 @@
    ──────────────────────────────────────────────────────────── */
 .lore-quest {
   border: 1px solid rgba(182, 160, 128, 0.45);
-  border-radius: 8px;
+  border-radius: 4px;
   background: #faf6ee;
   box-shadow: 0 4px 14px rgba(42, 28, 18, 0.1);
 }
@@ -2524,7 +2524,7 @@
   background: #fdfbf7;
   padding: 12px 14px;
   border: 1px solid rgba(182, 160, 128, 0.25);
-  border-radius: 6px;
+  border-radius: 4px;
   margin: 10px;
   font-size: 11.5px;
   line-height: 1.55;
@@ -2537,7 +2537,7 @@
   align-items: flex-start;
   gap: 10px;
   padding: 8px 10px;
-  border-radius: 5px;
+  border-radius: 4px;
   background: rgba(46, 125, 50, 0.08);
   border: 1px solid rgba(46, 125, 50, 0.25);
 }
@@ -2640,7 +2640,7 @@
   align-items: center;
   gap: 10px;
   padding: 7px 12px;
-  border-radius: 6px;
+  border-radius: 4px;
   background: #f7f3ea;
   border: 1px solid rgba(182, 160, 128, 0.45);
   box-shadow: 0 1px 3px rgba(52, 37, 26, 0.04);
@@ -2675,7 +2675,7 @@
    ──────────────────────────────────────────────────────────── */
 .lore-npc {
   border: 1px solid rgba(182, 160, 128, 0.45);
-  border-radius: 8px;
+  border-radius: 4px;
   background: #faf6ee;
   box-shadow: 0 4px 14px rgba(42, 28, 18, 0.1);
 }
@@ -2691,7 +2691,7 @@
   background: #fdfbf7;
   padding: 12px 14px;
   border: 1px solid rgba(182, 160, 128, 0.25);
-  border-radius: 6px;
+  border-radius: 4px;
   margin: 10px;
   gap: 8px;
 }
@@ -2735,7 +2735,7 @@
 .npc-quote-bubble {
   margin: 0;
   padding: 8px 12px 8px 28px;
-  border-radius: 6px;
+  border-radius: 4px;
   background: rgba(255, 255, 255, 0.75);
   border: 1px solid rgba(106, 76, 147, 0.2);
   font-style: italic;
@@ -2756,7 +2756,7 @@
 
 .npc-secret-card {
   padding: 8px 10px;
-  border-radius: 5px;
+  border-radius: 4px;
   background: rgba(106, 76, 147, 0.08);
   border: 1.5px dashed #6a4c93;
 }
@@ -2788,7 +2788,7 @@
    ──────────────────────────────────────────────────────────── */
 .lore-loot {
   border: 1px solid rgba(182, 160, 128, 0.45);
-  border-radius: 8px;
+  border-radius: 4px;
   background: #faf6ee;
   box-shadow: 0 4px 14px rgba(42, 28, 18, 0.1);
 }
@@ -2804,7 +2804,7 @@
   background: #fdfbf7;
   padding: 12px 14px;
   border: 1px solid rgba(182, 160, 128, 0.25);
-  border-radius: 6px;
+  border-radius: 4px;
   margin: 10px;
   gap: 8px;
 }
@@ -2885,7 +2885,7 @@
    ──────────────────────────────────────────────────────────── */
 .lore-scroll {
   border: 1px solid rgba(182, 160, 128, 0.45);
-  border-radius: 8px;
+  border-radius: 4px;
   background: #faf6ee;
   box-shadow: 0 4px 14px rgba(42, 28, 18, 0.1);
 }
@@ -2901,7 +2901,7 @@
   background: #fdfbf7;
   padding: 12px 14px 16px;
   border: 1px solid rgba(182, 160, 128, 0.25);
-  border-radius: 6px;
+  border-radius: 4px;
   margin: 10px;
   gap: 8px;
 }
@@ -2912,7 +2912,7 @@
    ──────────────────────────────────────────────────────────── */
 .lore-hazard {
   border: 1px solid rgba(182, 160, 128, 0.45);
-  border-radius: 8px;
+  border-radius: 4px;
   background: #faf6ee;
   box-shadow: 0 4px 14px rgba(42, 28, 18, 0.1);
 }
@@ -2928,7 +2928,7 @@
   background: #fdfbf7;
   padding: 12px 14px;
   border: 1px solid rgba(182, 160, 128, 0.25);
-  border-radius: 6px;
+  border-radius: 4px;
   margin: 10px;
   gap: 8px;
 }
@@ -2945,7 +2945,7 @@
 .color-preset-pill {
   width: 24px;
   height: 24px;
-  border-radius: 50%;
+  border-radius: 4px;
   border: 1.5px solid rgba(182, 160, 128, 0.55);
   cursor: pointer;
   box-shadow: 0 1px 3px rgba(52, 37, 26, 0.12);
@@ -2977,7 +2977,7 @@
   gap: 6px;
   padding: 8px 14px;
   border: 1px solid rgba(117, 192, 160, 0.6);
-  border-radius: 6px;
+  border-radius: 4px;
   background: rgba(117, 192, 160, 0.15);
   color: #a7f3d0;
   cursor: pointer;
@@ -3096,7 +3096,7 @@
   padding: 0 14px;
   background: rgba(36, 26, 18, 0.92);
   border: 1px solid rgba(182, 160, 128, 0.4);
-  border-radius: 8px;
+  border-radius: 4px;
   color: #d8cdb8;
   cursor: pointer;
   display: flex;
@@ -3167,7 +3167,7 @@
   left: 0;
   background: rgba(36, 26, 18, 0.96);
   border: 1px solid rgba(182, 160, 128, 0.45);
-  border-radius: 8px;
+  border-radius: 4px;
   padding: 0;
   backdrop-filter: blur(18px);
   box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6);
@@ -3227,7 +3227,7 @@
   font-family: 'Cinzel', serif;
   background: rgba(28, 20, 14, 0.5);
   border: 1px solid rgba(182, 160, 128, 0.18);
-  border-radius: 6px;
+  border-radius: 4px;
   color: #d8cdb8;
   gap: 10px;
   transition: all 0.2s ease;
@@ -3375,7 +3375,7 @@
 .toolbar-btn {
   background: rgba(44, 24, 16, 0.8);
   border: 1px solid rgba(212, 175, 55, 0.25);
-  border-radius: 6px;
+  border-radius: 4px;
   color: #ebd5a3;
   padding: 6px 12px;
   font-size: 12px;
@@ -3544,7 +3544,7 @@
   max-height: 85vh;
   background: #faf6ee;
   border: 1px solid rgba(182, 160, 128, 0.45);
-  border-radius: 12px;
+  border-radius: 6px;
   box-shadow: 0 16px 45px rgba(36, 26, 18, 0.35);
   display: flex;
   flex-direction: column;
@@ -3561,7 +3561,7 @@
   right: 16px;
   background: #f7f3ea;
   border: 1px solid rgba(182, 160, 128, 0.45);
-  border-radius: 50%;
+  border-radius: 4px;
   color: #663c32;
   cursor: pointer;
   width: 30px;
@@ -3645,7 +3645,7 @@
 .form-input, .form-textarea, .form-select {
   background: #fdfbf7;
   border: 1px solid rgba(182, 160, 128, 0.4);
-  border-radius: 6px;
+  border-radius: 4px;
   color: #34251a;
   padding: 10px 12px;
   font-family: system-ui, -apple-system, sans-serif;
@@ -3692,7 +3692,7 @@
   gap: 8px;
   background: #f7f3ea;
   border: 1px solid rgba(182, 160, 128, 0.4);
-  border-radius: 6px;
+  border-radius: 4px;
   padding: 10px;
   font-size: 12px;
   font-weight: 600;
@@ -3728,7 +3728,7 @@
 
 .popup-btn {
   padding: 10px 20px;
-  border-radius: 6px;
+  border-radius: 4px;
   font-family: 'Cinzel', serif;
   font-size: 12px;
   font-weight: 700;
@@ -3835,7 +3835,7 @@
   width: 280px;
   background: #faf6ee;
   border: 1px solid rgba(182, 160, 128, 0.45);
-  border-radius: 10px;
+  border-radius: 4px;
   box-shadow: 0 14px 38px rgba(36, 26, 18, 0.35);
   overflow: visible;
   font-family: 'Cinzel', serif;
@@ -3900,7 +3900,7 @@
   font-weight: 700;
   color: #faf6ee;
   background: #663c32;
-  border-radius: 8px;
+  border-radius: 3px;
   padding: 1px 7px;
   min-width: 18px;
   text-align: center;
@@ -3934,7 +3934,7 @@
   padding: 9px 12px 9px 16px;
   background: transparent;
   border: none;
-  border-radius: 8px;
+  border-radius: 4px;
   cursor: pointer;
   text-align: left;
   font-family: 'Cinzel', serif;
@@ -3961,7 +3961,7 @@
   width: 30px;
   height: 30px;
   flex-shrink: 0;
-  border-radius: 50%;
+  border-radius: 4px;
   background: rgba(182, 160, 128, 0.12);
   border: 1px solid rgba(182, 160, 128, 0.35);
   color: #663c32;
@@ -4155,7 +4155,7 @@
   z-index: 10001;
   background: #faf6ee;
   border: 1px solid rgba(182, 160, 128, 0.55);
-  border-radius: 10px;
+  border-radius: 4px;
   box-shadow: 0 12px 40px rgba(36, 26, 18, 0.25);
   padding: 14px 18px;
   min-width: 300px;
@@ -4219,7 +4219,7 @@
 .dev-toast-btn {
   flex: 1;
   padding: 7px 12px;
-  border-radius: 6px;
+  border-radius: 4px;
   border: 1px solid rgba(182, 160, 128, 0.45);
   background: #fdfbf7;
   color: #5a4033;
@@ -4275,7 +4275,7 @@
   align-items: center;
   gap: 10px;
   padding: 12px 16px;
-  border-radius: 8px;
+  border-radius: 4px;
   background: linear-gradient(135deg, rgba(32, 19, 11, 0.97) 0%, rgba(21, 11, 6, 0.98) 100%);
   border: 1px solid rgba(196, 164, 74, 0.3);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.7), inset 0 0 12px rgba(212, 175, 55, 0.04);
@@ -4339,7 +4339,7 @@
   max-width: calc(100% - 32px);
   background: linear-gradient(135deg, #20130b 0%, #150b06 100%);
   border: 1.5px solid rgba(196, 164, 74, 0.45);
-  border-radius: 12px;
+  border-radius: 6px;
   box-shadow: 0 16px 50px rgba(0, 0, 0, 0.8), inset 0 0 20px rgba(212, 175, 55, 0.06);
   padding: 24px;
   font-family: 'Cinzel', serif;
@@ -4388,7 +4388,7 @@
 
 .map-confirm-btn {
   padding: 8px 18px;
-  border-radius: 6px;
+  border-radius: 4px;
   font-family: 'Cinzel', serif;
   font-size: 12px;
   cursor: pointer;
@@ -4433,7 +4433,7 @@
   gap: 16px;
   background: rgba(36, 26, 18, 0.92);
   border: 1px solid rgba(182, 160, 128, 0.45);
-  border-radius: 8px;
+  border-radius: 4px;
   padding: 8px 16px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.55);
   backdrop-filter: blur(10px);
@@ -4444,7 +4444,7 @@
   border: 1px solid rgba(182, 160, 128, 0.45);
   color: #faf6ee;
   padding: 6px 14px;
-  border-radius: 6px;
+  border-radius: 4px;
   font-family: 'Cinzel', serif;
   font-size: 0.8rem;
   font-weight: 700;
@@ -4539,7 +4539,7 @@
   text-align: center;
   padding: 36px 56px;
   border: 1px solid rgba(182, 160, 128, 0.45);
-  border-radius: 12px;
+  border-radius: 6px;
   background: linear-gradient(145deg, #241a12 0%, #1a120c 100%);
   box-shadow: 0 16px 45px rgba(0, 0, 0, 0.75), inset 0 0 25px rgba(182, 160, 128, 0.1);
   font-family: 'Cinzel', serif;
@@ -4722,7 +4722,7 @@
   max-height: 80vh;
   background: #faf6ee;
   border: 1px solid rgba(182, 160, 128, 0.55);
-  border-radius: 12px;
+  border-radius: 6px;
   box-shadow: 0 16px 45px rgba(36, 26, 18, 0.35);
   display: flex;
   flex-direction: column;
@@ -4761,7 +4761,7 @@
   font-size: 16px;
   cursor: pointer;
   padding: 4px 8px;
-  border-radius: 6px;
+  border-radius: 4px;
   transition: all 0.15s ease;
 }
 
@@ -4824,7 +4824,7 @@
   flex: 1;
   background: #fdfbf7;
   border: 1px solid rgba(182, 160, 128, 0.45);
-  border-radius: 6px;
+  border-radius: 4px;
   padding: 6px 10px;
   color: #34251a;
   font-size: 13px;
@@ -4852,7 +4852,7 @@
   padding: 10px 14px;
   background: #fdfbf7;
   border: 1px solid rgba(182, 160, 128, 0.45);
-  border-radius: 8px;
+  border-radius: 4px;
   cursor: pointer;
   transition: all 0.2s ease;
   box-shadow: 0 1px 3px rgba(52, 37, 26, 0.04);
@@ -4868,7 +4868,7 @@
 .campaign-item-card .item-thumb {
   width: 44px;
   height: 44px;
-  border-radius: 6px;
+  border-radius: 4px;
   overflow: hidden;
   background: #f4efe6;
   border: 1px solid rgba(182, 160, 128, 0.45);
@@ -4932,7 +4932,7 @@
   padding: 6px 12px;
   background: #663c32;
   border: 1px solid #663c32;
-  border-radius: 6px;
+  border-radius: 4px;
   color: #faf6ee;
   font-family: 'Cinzel', serif;
   font-size: 11.5px;
@@ -4984,7 +4984,7 @@
   padding: 10px 18px;
   background: #faf6ee;
   border: 1px solid rgba(182, 160, 128, 0.45);
-  border-radius: 28px;
+  border-radius: 6px;
   box-shadow: 0 10px 30px rgba(36, 26, 18, 0.25);
   color: #34251a;
   font-family: 'Cinzel', serif;
@@ -5029,7 +5029,7 @@
   align-items: center;
   gap: 6px;
   padding: 7px 14px;
-  border-radius: 18px;
+  border-radius: 4px;
   cursor: pointer;
   font-family: 'Cinzel', serif;
   font-size: 11px;
@@ -5085,7 +5085,7 @@
   padding: 8px 12px;
   background: #f7f3ea;
   border: 1px solid rgba(182, 160, 128, 0.45);
-  border-radius: 8px;
+  border-radius: 4px;
   color: #34251a;
   font-family: 'Cinzel', serif;
   font-size: 11px;
@@ -5102,7 +5102,7 @@
   margin-left: auto;
   padding: 4px 10px;
   border: 1px solid #663c32;
-  border-radius: 12px;
+  border-radius: 4px;
   background: #663c32;
   color: #faf6ee;
   cursor: pointer;
