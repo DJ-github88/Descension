@@ -4,7 +4,7 @@
 const fs = require('fs'), path = require('path'), assert = require('assert/strict'), crypto = require('crypto');
 const { chromium } = require('playwright');
 const root = path.resolve(__dirname, '../../../..'), base = path.join(__dirname, '../evidence/integration-20261015/sol');
-const out = path.join(base, process.env.APP_RUN || 'app-replay'); fs.mkdirSync(out, { recursive: true });
+const out = process.env.APP_OUTPUT || path.join(base, process.env.APP_RUN || 'app-replay'); fs.mkdirSync(out, { recursive: true });
 const sha = b => crypto.createHash('sha256').update(b).digest('hex');
 const save = (f, v) => fs.writeFileSync(path.join(out, f), typeof v === 'string' ? v : JSON.stringify(v, null, 2));
 const evidence = { startedAt: new Date().toISOString(), command: process.argv, kind: 'production-App / optimized CRACO build',
@@ -119,7 +119,8 @@ async function main() {
   } finally {
     evidence.endedAt = new Date().toISOString();
     const buildName = process.env.APP_BUILD || 'build-final';
-    const manifest = fs.readFileSync(path.join(base, buildName, 'app/asset-manifest.json')); evidence.build = buildName; evidence.buildAssetManifestSha256 = sha(manifest);
+    const buildDir = process.env.APP_BUILD_DIR || path.join(base, buildName, 'app');
+    const manifest = fs.readFileSync(path.join(buildDir, 'asset-manifest.json')); evidence.build = buildDir; evidence.buildAssetManifestSha256 = sha(manifest);
     save('result.json', evidence); await browser.close(); await host.stop();
   }
 }

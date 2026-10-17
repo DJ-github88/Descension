@@ -3085,7 +3085,7 @@ verbalText: "The silence answers!",
   level: 6,
   spellType: "ACTION",
   icon: "Necrotic/Demonic Empowerment",
-  effectTypes: ["summon"],
+  effectTypes: ["summon","summoning"],
   resolution: "AUTOMATIC",
 
   typeConfig: {

@@ -1,0 +1,808 @@
+{
+  "schema": "mythrill.class-review-abilities/r1",
+  "evidenceLabel": "PROPOSED",
+  "classId": "hunter",
+  "rulesetVersion": "cr-review-r1",
+  "abilities": [
+    {
+      "evidenceLabel": "PROPOSED",
+      "status": "HeadQ-review-R1; not admitted by current app",
+      "contentRole": "class-feature",
+      "talentNode": null,
+      "spell": {
+        "id": "cr1_hunter_mark_quarry",
+        "classId": "hunter",
+        "rulesetVersion": "cr-review-r1",
+        "name": "Mark Quarry",
+        "description": "Designate or study one exact quarry. A changed quarry loses all old evidence; a legal Study obtains Read only if your own-turn generation budget is unused.",
+        "level": 1,
+        "specialization": null,
+        "spellType": "ACTION",
+        "icon": "Psychic/Psychic Telepathy",
+        "typeConfig": {
+          "school": "primal",
+          "castTimeType": "IMMEDIATE",
+          "tags": [
+            "hunter",
+            "class-feature"
+          ]
+        },
+        "resourceCost": {
+          "actionPoints": 1,
+          "mana": 0,
+          "resourceTypes": [
+            "actionPoints"
+          ],
+          "resourceValues": {
+            "actionPoints": 1,
+            "mana": 0
+          },
+          "useFormulas": {},
+          "components": [
+            "somatic"
+          ],
+          "somaticText": "Present the class focus and deliberately declare the operation; its exact choices precede resolution."
+        },
+        "targetingConfig": {
+          "targetingType": "single",
+          "rangeType": "ranged",
+          "rangeDistance": 60,
+          "targetRestrictions": [
+            "enemy"
+          ],
+          "maxTargets": 1
+        },
+        "effectTypes": [
+          "utility"
+        ],
+        "resolution": "RESOURCE_PROGRAM",
+        "damageConfig": null,
+        "durationConfig": {
+          "durationType": "instant",
+          "durationValue": 0,
+          "durationUnit": "instant"
+        },
+        "cooldownConfig": {
+          "cooldownType": "none",
+          "cooldownValue": 0
+        },
+        "classResourceProgram": {
+          "version": 1,
+          "domain": "hunter-evidence",
+          "op": "quarry.mark",
+          "args": {
+            "quarryMax": 1,
+            "rangeFeet": 60,
+            "changeClearsAllEvidence": true,
+            "generate": "read",
+            "generatedTagsMaxPerOwnTurn": 1,
+            "requiresObservedTargetOrRealTrack": true,
+            "renewContact": true
+          }
+        },
+        "reactionTiming": null,
+        "savingThrow": null,
+        "conditions": [],
+        "area": null
+      },
+      "resourceCostSummary": "1 AP; changing quarry deliberately destroys previous tags.",
+      "resourceGenerationSummary": "Read if absent and shared generation budget unused; designation alone does not bypass cap.",
+      "castingInputs": [
+        "exact observed quarry ref/GM-confirmed real track"
+      ],
+      "failureConditions": [
+        "Invalid exact source/target or insufficient AP/resources; refused before commitment with no mutation."
+      ],
+      "effectConfiguration": {
+        "quarryMax": 1,
+        "rangeFeet": 60,
+        "changeClearsAllEvidence": true,
+        "generate": "read",
+        "generatedTagsMaxPerOwnTurn": 1,
+        "requiresObservedTargetOrRealTrack": true,
+        "renewContact": true
+      },
+      "checkAndTimingNotes": "Own turn in combat; no reaction or saving throw. Noncombat uses explicit GM-adjudicated activity time and preserves finite contents/uses without inventing turn-refresh loops. Attack/geometry/defense remains GM-adjudicated until its capability exists.",
+      "talentModifications": "Only this explicitly learned signature/its declared opcode variation applies in R1. Later rank modifiers require a new reviewed definition version; never applied twice.",
+      "heritageModifications": "Only the selected proposed bounded native edge and paired cost, after full access/method/body validation. No raw-parent percentage or free resource gain inherited; example arithmetic excludes optional edges.",
+      "runtimeDependencies": [
+        "CR-A1",
+        "CR-R1",
+        "CR-E1",
+        "CR-H1-evidence-space"
+      ],
+      "verificationRequirements": {
+        "positive": "Nullquarry ->E/Read; after another source used generation cap designation succeeds but grants no tag; old tags never transfer.",
+        "refusal": "Malformed choice, wrong domain/actor or missing required state leaves every pool/entity unchanged.",
+        "duplicate": "Same command/event/choice identity returns original result, with no repeated cost, draw, effect or expiry.",
+        "roundTrip": "Both Wizard saves, canonical export/template, reopen and card preserve complete program and explicit zeros."
+      }
+    },
+    {
+      "evidenceLabel": "PROPOSED",
+      "status": "HeadQ-review-R1; not admitted by current app",
+      "contentRole": "class-feature",
+      "talentNode": null,
+      "spell": {
+        "id": "cr1_hunter_take_angle",
+        "classId": "hunter",
+        "rulesetVersion": "cr-review-r1",
+        "name": "Take an Angle",
+        "description": "Move ten feet along a legal pursuit path to change your attack position. If your evidence budget is unused, obtain Angle; ordinary movement alone does not manufacture it.",
+        "level": 1,
+        "specialization": null,
+        "spellType": "ACTION",
+        "icon": "Psychic/Psychic Telepathy",
+        "typeConfig": {
+          "school": "primal",
+          "castTimeType": "IMMEDIATE",
+          "tags": [
+            "hunter",
+            "class-feature"
+          ]
+        },
+        "resourceCost": {
+          "actionPoints": 1,
+          "mana": 0,
+          "resourceTypes": [
+            "actionPoints"
+          ],
+          "resourceValues": {
+            "actionPoints": 1,
+            "mana": 0
+          },
+          "useFormulas": {},
+          "components": [
+            "somatic"
+          ],
+          "somaticText": "Present the class focus and deliberately declare the operation; its exact choices precede resolution."
+        },
+        "targetingConfig": {
+          "targetingType": "self",
+          "rangeType": "self",
+          "rangeDistance": 0,
+          "targetRestrictions": [
+            "self"
+          ],
+          "maxTargets": 1
+        },
+        "effectTypes": [
+          "utility"
+        ],
+        "resolution": "RESOURCE_PROGRAM",
+        "damageConfig": null,
+        "durationConfig": {
+          "durationType": "instant",
+          "durationValue": 0,
+          "durationUnit": "instant"
+        },
+        "cooldownConfig": {
+          "cooldownType": "none",
+          "cooldownValue": 0
+        },
+        "classResourceProgram": {
+          "version": 1,
+          "domain": "hunter-evidence",
+          "op": "quarry.angle",
+          "args": {
+            "requiresQuarry": true,
+            "moveFeet": 10,
+            "requiresRemainingMovementFeet": 10,
+            "requiresDisplacementFeet": 10,
+            "finishWithinQuarryFeet": 30,
+            "generate": "angle",
+            "generatedTagsMaxPerOwnTurn": 1,
+            "renewContact": true
+          }
+        },
+        "reactionTiming": null,
+        "savingThrow": null,
+        "conditions": [],
+        "area": null
+      },
+      "resourceCostSummary": "1 AP and10ft of remaining legal movement.",
+      "resourceGenerationSummary": "Angle if absent and shared budget unused.",
+      "castingInputs": [
+        "exact quarry",
+        "approved legal10ft path with10ft displacement"
+      ],
+      "failureConditions": [
+        "Invalid exact source/target or insufficient AP/resources; refused before commitment with no mutation."
+      ],
+      "effectConfiguration": {
+        "requiresQuarry": true,
+        "moveFeet": 10,
+        "requiresRemainingMovementFeet": 10,
+        "requiresDisplacementFeet": 10,
+        "finishWithinQuarryFeet": 30,
+        "generate": "angle",
+        "generatedTagsMaxPerOwnTurn": 1,
+        "renewContact": true
+      },
+      "checkAndTimingNotes": "Own turn in combat; no reaction or saving throw. Noncombat uses explicit GM-adjudicated activity time and preserves finite contents/uses without inventing turn-refresh loops. Attack/geometry/defense remains GM-adjudicated until its capability exists.",
+      "talentModifications": "Only this explicitly learned signature/its declared opcode variation applies in R1. Later rank modifiers require a new reviewed definition version; never applied twice.",
+      "heritageModifications": "Only the selected proposed bounded native edge and paired cost, after full access/method/body validation. No raw-parent percentage or free resource gain inherited; example arithmetic excludes optional edges.",
+      "runtimeDependencies": [
+        "CR-A1",
+        "CR-R1",
+        "CR-E1",
+        "CR-H1-evidence-space"
+      ],
+      "verificationRequirements": {
+        "positive": "After Read in turnT, a second action cannot generateAngle that turn; next turn legal move obtains exactlyone distinctAngle.",
+        "refusal": "Malformed choice, wrong domain/actor or missing required state leaves every pool/entity unchanged.",
+        "duplicate": "Same command/event/choice identity returns original result, with no repeated cost, draw, effect or expiry.",
+        "roundTrip": "Both Wizard saves, canonical export/template, reopen and card preserve complete program and explicit zeros."
+      }
+    },
+    {
+      "evidenceLabel": "PROPOSED",
+      "status": "HeadQ-review-R1; not admitted by current app",
+      "contentRole": "class-feature",
+      "talentNode": null,
+      "spell": {
+        "id": "cr1_hunter_press_quarry",
+        "classId": "hunter",
+        "rulesetVersion": "cr-review-r1",
+        "name": "Press the Quarry",
+        "description": "Make one authored hunting strike against the exact quarry. A resolved non-miss hit can generate Pressure; declaration, damage to a different enemy or a second event that turn cannot.",
+        "level": 1,
+        "specialization": null,
+        "spellType": "ACTION",
+        "icon": "Psychic/Psychic Telepathy",
+        "typeConfig": {
+          "school": "stabbing",
+          "castTimeType": "IMMEDIATE",
+          "tags": [
+            "hunter",
+            "class-feature"
+          ]
+        },
+        "resourceCost": {
+          "actionPoints": 2,
+          "mana": 0,
+          "resourceTypes": [
+            "actionPoints"
+          ],
+          "resourceValues": {
+            "actionPoints": 2,
+            "mana": 0
+          },
+          "useFormulas": {},
+          "components": [
+            "somatic"
+          ],
+          "somaticText": "Present the class focus and deliberately declare the operation; its exact choices precede resolution."
+        },
+        "targetingConfig": {
+          "targetingType": "single",
+          "rangeType": "ranged",
+          "rangeDistance": 30,
+          "targetRestrictions": [
+            "enemy"
+          ],
+          "maxTargets": 1
+        },
+        "effectTypes": [
+          "damage"
+        ],
+        "resolution": "RESOURCE_PROGRAM",
+        "damageConfig": {
+          "formula": "1d8 + 2",
+          "damageTypes": [
+            "stabbing"
+          ],
+          "resolution": "DICE"
+        },
+        "durationConfig": {
+          "durationType": "instant",
+          "durationValue": 0,
+          "durationUnit": "instant"
+        },
+        "cooldownConfig": {
+          "cooldownType": "none",
+          "cooldownValue": 0
+        },
+        "classResourceProgram": {
+          "version": 1,
+          "domain": "hunter-evidence",
+          "op": "quarry.press",
+          "args": {
+            "requiresQuarry": true,
+            "attackProfile": "Prism-weapon-GM-adjudicated",
+            "damage": {
+              "formula": "1d8 + 2",
+              "type": "stabbing"
+            },
+            "generateOn": "accepted-original-hit",
+            "generate": "pressure",
+            "generatedTagsMaxPerOwnTurn": 1,
+            "rangeFeet": 30,
+            "renewContact": true
+          }
+        },
+        "reactionTiming": null,
+        "savingThrow": null,
+        "conditions": [],
+        "area": null
+      },
+      "resourceCostSummary": "2 AP; no evidence cost.",
+      "resourceGenerationSummary": "Pressure on accepted original hit, subject to shared one-tag cap.",
+      "castingInputs": [
+        "exact quarry ref",
+        "one recorded non-miss weapon result/GM final"
+      ],
+      "failureConditions": [
+        "Invalid exact source/target or insufficient AP/resources; refused before commitment with no mutation."
+      ],
+      "effectConfiguration": {
+        "requiresQuarry": true,
+        "attackProfile": "Prism-weapon-GM-adjudicated",
+        "damage": {
+          "formula": "1d8 + 2",
+          "type": "stabbing"
+        },
+        "generateOn": "accepted-original-hit",
+        "generate": "pressure",
+        "generatedTagsMaxPerOwnTurn": 1,
+        "rangeFeet": 30,
+        "renewContact": true
+      },
+      "checkAndTimingNotes": "Own turn in combat; no reaction or saving throw. Noncombat uses explicit GM-adjudicated activity time and preserves finite contents/uses without inventing turn-refresh loops. Attack/geometry/defense remains GM-adjudicated until its capability exists.",
+      "talentModifications": "Only this explicitly learned signature/its declared opcode variation applies in R1. Later rank modifiers require a new reviewed definition version; never applied twice.",
+      "heritageModifications": "Only the selected proposed bounded native edge and paired cost, after full access/method/body validation. No raw-parent percentage or free resource gain inherited; example arithmetic excludes optional edges.",
+      "runtimeDependencies": [
+        "CR-A1",
+        "CR-R1",
+        "CR-E1",
+        "CR-H1-evidence-space"
+      ],
+      "verificationRequirements": {
+        "positive": "Hitd8=5 gives authored7 before mitigation and Pressure if budget unused; miss still paysAP but generatesnone; duplicatehit none.",
+        "refusal": "Malformed choice, wrong domain/actor or missing required state leaves every pool/entity unchanged.",
+        "duplicate": "Same command/event/choice identity returns original result, with no repeated cost, draw, effect or expiry.",
+        "roundTrip": "Both Wizard saves, canonical export/template, reopen and card preserve complete program and explicit zeros."
+      }
+    },
+    {
+      "evidenceLabel": "PROPOSED",
+      "status": "HeadQ-review-R1; not admitted by current app",
+      "contentRole": "talent-signature",
+      "talentNode": {
+        "id": "cr1_hunter_stalker_signature",
+        "rank": 1,
+        "maxRanks": 1,
+        "requiresTreePoints": 10,
+        "minimumLevel": 3
+      },
+      "spell": {
+        "id": "cr1_hunter_patient_ambush",
+        "classId": "hunter",
+        "rulesetVersion": "cr-review-r1",
+        "name": "Patient Ambush",
+        "description": "Consume Read and Angle for one carefully prepared precision strike against your quarry. A companion is not required to prepare or execute this attack.",
+        "level": 3,
+        "specialization": "stalker",
+        "spellType": "ACTION",
+        "icon": "Psychic/Psychic Telepathy",
+        "typeConfig": {
+          "school": "slicing",
+          "castTimeType": "IMMEDIATE",
+          "tags": [
+            "hunter",
+            "class-feature"
+          ]
+        },
+        "resourceCost": {
+          "actionPoints": 2,
+          "mana": 0,
+          "resourceTypes": [
+            "actionPoints"
+          ],
+          "resourceValues": {
+            "actionPoints": 2,
+            "mana": 0
+          },
+          "useFormulas": {},
+          "components": [
+            "somatic"
+          ],
+          "somaticText": "Present the class focus and deliberately declare the operation; its exact choices precede resolution."
+        },
+        "targetingConfig": {
+          "targetingType": "single",
+          "rangeType": "ranged",
+          "rangeDistance": 30,
+          "targetRestrictions": [
+            "enemy"
+          ],
+          "maxTargets": 1
+        },
+        "effectTypes": [
+          "damage"
+        ],
+        "resolution": "RESOURCE_PROGRAM",
+        "damageConfig": {
+          "formula": "2d8",
+          "damageTypes": [
+            "slicing"
+          ],
+          "resolution": "DICE"
+        },
+        "durationConfig": {
+          "durationType": "instant",
+          "durationValue": 0,
+          "durationUnit": "instant"
+        },
+        "cooldownConfig": {
+          "cooldownType": "none",
+          "cooldownValue": 0
+        },
+        "classResourceProgram": {
+          "version": 1,
+          "domain": "hunter-evidence",
+          "op": "quarry.ambush",
+          "args": {
+            "consumeTags": [
+              "read",
+              "angle"
+            ],
+            "requiresQuarry": true,
+            "requiresCompanion": false,
+            "damage": {
+              "formula": "2d8",
+              "type": "slicing"
+            },
+            "rangeFeet": 30,
+            "generateTags": false,
+            "attackProfile": "Prism-weapon-GM-adjudicated"
+          }
+        },
+        "reactionTiming": null,
+        "savingThrow": null,
+        "conditions": [],
+        "area": null
+      },
+      "resourceCostSummary": "2 AP, Read+Angle.",
+      "resourceGenerationSummary": "None unless a declared branch or resolved event below grants it.",
+      "castingInputs": [
+        "exact quarry ref",
+        "recorded weapon result/GM final"
+      ],
+      "failureConditions": [
+        "Invalid exact source/target or insufficient AP/resources; refused before commitment with no mutation."
+      ],
+      "effectConfiguration": {
+        "consumeTags": [
+          "read",
+          "angle"
+        ],
+        "requiresQuarry": true,
+        "requiresCompanion": false,
+        "damage": {
+          "formula": "2d8",
+          "type": "slicing"
+        },
+        "rangeFeet": 30,
+        "generateTags": false,
+        "attackProfile": "Prism-weapon-GM-adjudicated"
+      },
+      "checkAndTimingNotes": "Own turn in combat; no reaction or saving throw. Noncombat uses explicit GM-adjudicated activity time and preserves finite contents/uses without inventing turn-refresh loops. Attack/geometry/defense remains GM-adjudicated until its capability exists.",
+      "talentModifications": "Only this explicitly learned signature/its declared opcode variation applies in R1. Later rank modifiers require a new reviewed definition version; never applied twice.",
+      "heritageModifications": "Only the selected proposed bounded native edge and paired cost, after full access/method/body validation. No raw-parent percentage or free resource gain inherited; example arithmetic excludes optional edges.",
+      "runtimeDependencies": [
+        "CR-A1",
+        "CR-R1",
+        "CR-E1",
+        "CR-H1-evidence-space"
+      ],
+      "verificationRequirements": {
+        "positive": "T1Read,T2Angle ->ambush pays both; newtag budget already used atAngle, no Pressure granted by this signature.",
+        "refusal": "Malformed choice, wrong domain/actor or missing required state leaves every pool/entity unchanged.",
+        "duplicate": "Same command/event/choice identity returns original result, with no repeated cost, draw, effect or expiry.",
+        "roundTrip": "Both Wizard saves, canonical export/template, reopen and card preserve complete program and explicit zeros."
+      }
+    },
+    {
+      "evidenceLabel": "PROPOSED",
+      "status": "HeadQ-review-R1; not admitted by current app",
+      "contentRole": "talent-signature",
+      "talentNode": {
+        "id": "cr1_hunter_beastmaster_signature",
+        "rank": 1,
+        "maxRanks": 1,
+        "requiresTreePoints": 10,
+        "minimumLevel": 3
+      },
+      "spell": {
+        "id": "cr1_hunter_cross_scent",
+        "classId": "hunter",
+        "rulesetVersion": "cr-review-r1",
+        "name": "Cross the Scent",
+        "description": "Consume Read and Pressure to send your actual trained companion along a short flanking route and strike the same quarry. This is a paid command, not a free extra pet turn.",
+        "level": 3,
+        "specialization": "beastmaster",
+        "spellType": "ACTION",
+        "icon": "Psychic/Psychic Telepathy",
+        "typeConfig": {
+          "school": "primal",
+          "castTimeType": "IMMEDIATE",
+          "tags": [
+            "hunter",
+            "class-feature"
+          ]
+        },
+        "resourceCost": {
+          "actionPoints": 2,
+          "mana": 0,
+          "resourceTypes": [
+            "actionPoints"
+          ],
+          "resourceValues": {
+            "actionPoints": 2,
+            "mana": 0
+          },
+          "useFormulas": {},
+          "components": [
+            "somatic"
+          ],
+          "somaticText": "Present the class focus and deliberately declare the operation; its exact choices precede resolution."
+        },
+        "targetingConfig": {
+          "targetingType": "multi",
+          "rangeType": "ranged",
+          "rangeDistance": 30,
+          "targetRestrictions": [
+            "bonded-companion",
+            "quarry"
+          ],
+          "maxTargets": 2
+        },
+        "effectTypes": [
+          "damage",
+          "utility"
+        ],
+        "resolution": "RESOURCE_PROGRAM",
+        "damageConfig": null,
+        "durationConfig": {
+          "durationType": "instant",
+          "durationValue": 0,
+          "durationUnit": "instant"
+        },
+        "cooldownConfig": {
+          "cooldownType": "none",
+          "cooldownValue": 0
+        },
+        "classResourceProgram": {
+          "version": 1,
+          "domain": "hunter-evidence",
+          "op": "quarry.cross-scent",
+          "args": {
+            "consumeTags": [
+              "read",
+              "pressure"
+            ],
+            "requiresAvailableBondedCompanion": true,
+            "companionActionsPerCasterTurn": 1,
+            "companionMoveFeet": 10,
+            "companionStrike": {
+              "formula": "1d8",
+              "type": "primal",
+              "rangeFeet": 5
+            },
+            "quarryMax": 1,
+            "generateTags": false,
+            "autonomousAP": 0,
+            "attackProfile": "Prism-weapon-GM-adjudicated"
+          }
+        },
+        "reactionTiming": null,
+        "savingThrow": null,
+        "conditions": [],
+        "area": null
+      },
+      "resourceCostSummary": "2 AP, Read+Pressure, companion action for this own turn.",
+      "resourceGenerationSummary": "None unless a declared branch or resolved event below grants it.",
+      "castingInputs": [
+        "exact companion and quarry refs",
+        "legal companion path endingadjacent",
+        "recorded strike/GM final"
+      ],
+      "failureConditions": [
+        "Invalid exact source/target or insufficient AP/resources; refused before commitment with no mutation."
+      ],
+      "effectConfiguration": {
+        "consumeTags": [
+          "read",
+          "pressure"
+        ],
+        "requiresAvailableBondedCompanion": true,
+        "companionActionsPerCasterTurn": 1,
+        "companionMoveFeet": 10,
+        "companionStrike": {
+          "formula": "1d8",
+          "type": "primal",
+          "rangeFeet": 5
+        },
+        "quarryMax": 1,
+        "generateTags": false,
+        "autonomousAP": 0,
+        "attackProfile": "Prism-weapon-GM-adjudicated"
+      },
+      "checkAndTimingNotes": "Own turn in combat; no reaction or saving throw. Noncombat uses explicit GM-adjudicated activity time and preserves finite contents/uses without inventing turn-refresh loops. Attack/geometry/defense remains GM-adjudicated until its capability exists.",
+      "talentModifications": "Only this explicitly learned signature/its declared opcode variation applies in R1. Later rank modifiers require a new reviewed definition version; never applied twice.",
+      "heritageModifications": "Only the selected proposed bounded native edge and paired cost, after full access/method/body validation. No raw-parent percentage or free resource gain inherited; example arithmetic excludes optional edges.",
+      "runtimeDependencies": [
+        "CR-A1",
+        "CR-R1",
+        "CR-E1",
+        "CR-H1-evidence-space"
+      ],
+      "verificationRequirements": {
+        "positive": "Unavailable/defeated companion refuses before payment; a solo Hunter can still use all three core actions and Stalker path.",
+        "refusal": "Malformed choice, wrong domain/actor or missing required state leaves every pool/entity unchanged.",
+        "duplicate": "Same command/event/choice identity returns original result, with no repeated cost, draw, effect or expiry.",
+        "roundTrip": "Both Wizard saves, canonical export/template, reopen and card preserve complete program and explicit zeros."
+      }
+    },
+    {
+      "evidenceLabel": "PROPOSED",
+      "status": "HeadQ-review-R1; not admitted by current app",
+      "contentRole": "talent-signature",
+      "talentNode": {
+        "id": "cr1_hunter_trailblade_signature",
+        "rank": 1,
+        "maxRanks": 1,
+        "requiresTreePoints": 10,
+        "minimumLevel": 3
+      },
+      "spell": {
+        "id": "cr1_hunter_returning_path",
+        "classId": "hunter",
+        "rulesetVersion": "cr-review-r1",
+        "name": "Returning Path",
+        "description": "Consume Angle and Pressure to commit a glaive return line. Your quarry’s first voluntary crossing triggers one slicing strike; it can avoid the route instead. No other creature is secretly attacked.",
+        "level": 3,
+        "specialization": "trailblade",
+        "spellType": "ACTION",
+        "icon": "Psychic/Psychic Telepathy",
+        "typeConfig": {
+          "school": "slicing",
+          "castTimeType": "IMMEDIATE",
+          "tags": [
+            "hunter",
+            "class-feature"
+          ]
+        },
+        "resourceCost": {
+          "actionPoints": 2,
+          "mana": 0,
+          "resourceTypes": [
+            "actionPoints"
+          ],
+          "resourceValues": {
+            "actionPoints": 2,
+            "mana": 0
+          },
+          "useFormulas": {},
+          "components": [
+            "somatic"
+          ],
+          "somaticText": "Present the class focus and deliberately declare the operation; its exact choices precede resolution."
+        },
+        "targetingConfig": {
+          "targetingType": "single",
+          "rangeType": "ranged",
+          "rangeDistance": 30,
+          "targetRestrictions": [
+            "quarry-and-legal-segment"
+          ],
+          "maxTargets": 1
+        },
+        "effectTypes": [
+          "control",
+          "damage"
+        ],
+        "resolution": "RESOURCE_PROGRAM",
+        "damageConfig": null,
+        "durationConfig": {
+          "durationType": "own_turns",
+          "durationValue": 2,
+          "durationUnit": "subsequent_caster_turn_end"
+        },
+        "cooldownConfig": {
+          "cooldownType": "none",
+          "cooldownValue": 0
+        },
+        "classResourceProgram": {
+          "version": 1,
+          "domain": "hunter-evidence",
+          "op": "quarry.return-path",
+          "args": {
+            "consumeTags": [
+              "angle",
+              "pressure"
+            ],
+            "activePathsMax": 1,
+            "geometry": {
+              "kind": "line-segment",
+              "maxLengthFeet": 20,
+              "placementRangeFeet": 30
+            },
+            "boundQuarryOnly": true,
+            "event": "first-voluntary-quarry-crossing",
+            "excludeDerivedEvents": true,
+            "damage": {
+              "formula": "1d8",
+              "type": "slicing"
+            },
+            "expiry": "end-second-subsequent-caster-turn",
+            "generation": false,
+            "onExpire": "no-refund",
+            "weaponCommitted": true,
+            "attackProfile": "Prism-weapon-GM-adjudicated"
+          }
+        },
+        "reactionTiming": null,
+        "savingThrow": null,
+        "conditions": [],
+        "area": {
+          "kind": "line-segment",
+          "maxLengthFeet": 20,
+          "membership": "GM-confirmed-bound-quarry-crossing"
+        }
+      },
+      "resourceCostSummary": "2 AP, Angle+Pressure; named glaive committed until trigger/expiry/dismissal.",
+      "resourceGenerationSummary": "None unless a declared branch or resolved event below grants it.",
+      "castingInputs": [
+        "exact quarry ref",
+        "legal segment endpoints",
+        "weapon instance"
+      ],
+      "failureConditions": [
+        "Invalid exact source/target or insufficient AP/resources; refused before commitment with no mutation."
+      ],
+      "effectConfiguration": {
+        "consumeTags": [
+          "angle",
+          "pressure"
+        ],
+        "activePathsMax": 1,
+        "geometry": {
+          "kind": "line-segment",
+          "maxLengthFeet": 20,
+          "placementRangeFeet": 30
+        },
+        "boundQuarryOnly": true,
+        "event": "first-voluntary-quarry-crossing",
+        "excludeDerivedEvents": true,
+        "damage": {
+          "formula": "1d8",
+          "type": "slicing"
+        },
+        "expiry": "end-second-subsequent-caster-turn",
+        "generation": false,
+        "onExpire": "no-refund",
+        "weaponCommitted": true,
+        "attackProfile": "Prism-weapon-GM-adjudicated"
+      },
+      "checkAndTimingNotes": "Own turn in combat; no reaction or saving throw. Noncombat uses explicit GM-adjudicated activity time and preserves finite contents/uses without inventing turn-refresh loops. Attack/geometry/defense remains GM-adjudicated until its capability exists.",
+      "talentModifications": "Only this explicitly learned signature/its declared opcode variation applies in R1. Later rank modifiers require a new reviewed definition version; never applied twice.",
+      "heritageModifications": "Only the selected proposed bounded native edge and paired cost, after full access/method/body validation. No raw-parent percentage or free resource gain inherited; example arithmetic excludes optional edges.",
+      "runtimeDependencies": [
+        "CR-A1",
+        "CR-R1",
+        "CR-E1",
+        "CR-H1-evidence-space",
+        "CR-E2-deferred-consequence",
+        "CR-G1-zone-membership"
+      ],
+      "verificationRequirements": {
+        "positive": "Different creature/forced movement cannot trigger; eligible crossing hits once; quarry retirement expires it without evidence refund.",
+        "refusal": "Malformed choice, wrong domain/actor or missing required state leaves every pool/entity unchanged.",
+        "duplicate": "Same command/event/choice identity returns original result, with no repeated cost, draw, effect or expiry.",
+        "roundTrip": "Both Wizard saves, canonical export/template, reopen and card preserve complete program and explicit zeros."
+      }
+    }
+  ]
+}

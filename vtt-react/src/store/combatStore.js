@@ -2,6 +2,7 @@ import { getStore } from './storeRegistry';
 import { create } from "zustand";
 import { calculateEffectiveMovementSpeed } from "../utils/conditionUtils";
 import { processTurnBasedCooldowns } from "../components/spellcrafting-wizard/core/mechanics/cooldownSystem";
+import { DEFAULT_AP_RESTORATION_MODE, PC_BASE_ACTION_POINTS, restoredActionPoints, rerollsInitiativeEachTurn } from "../data/firstTableRules";
 
 const useCombatStore = create((set, get) => ({
     // Combat state
@@ -20,7 +21,7 @@ const useCombatStore = create((set, get) => ({
     // Combat configuration
     combatConfig: {
         showTimers: true,
-        apRestorationMode: 'initiative', // 'max', 'set', 'initiative'
+        apRestorationMode: DEFAULT_AP_RESTORATION_MODE, // 'max' = first-table rule; 'set' and 'initiative' are optional variants
         apRestorationAmount: 3, // Used when mode is 'set'
         healthRegenEnabled: false,
         manaRegenEnabled: false
@@ -123,22 +124,13 @@ const useCombatStore = create((set, get) => ({
                 // For character tokens, use their actual AP from character store
                 const useCharacterStore = getStore('characterStore');
                 const char = shared ? token.character || {} : useCharacterStore.getState();
-                maxActionPoints = char.actionPoints?.max || char.derivedStats?.maxActionPoints || 3;
-                // Calculate current AP based on initiative roll
-                if (initiative >= 1 && initiative <= 5) currentActionPoints = 0;
-                else if (initiative >= 6 && initiative <= 10) currentActionPoints = 1;
-                else if (initiative >= 11 && initiative <= 15) currentActionPoints = 2;
-                else if (initiative >= 16 && initiative <= 20) currentActionPoints = 3;
-                else if (initiative >= 21) currentActionPoints = 4;
+                maxActionPoints = char.actionPoints?.max || char.derivedStats?.maxActionPoints || PC_BASE_ACTION_POINTS;
+                // Each combatant's first turn starts with the table's restoration rule (default: full AP)
+                currentActionPoints = restoredActionPoints(get().combatConfig, maxActionPoints, initiative);
             } else {
                 // For creature tokens, get max AP from creature stats
                 maxActionPoints = creature.stats?.maxActionPoints || 6;
-                // Calculate current AP based on initiative roll
-                if (initiative >= 1 && initiative <= 5) currentActionPoints = 0;
-                else if (initiative >= 6 && initiative <= 10) currentActionPoints = 1;
-                else if (initiative >= 11 && initiative <= 15) currentActionPoints = 2;
-                else if (initiative >= 16 && initiative <= 20) currentActionPoints = 3;
-                else if (initiative >= 21) currentActionPoints = 4;
+                currentActionPoints = restoredActionPoints(get().combatConfig, maxActionPoints, initiative);
             }
 
             return {
@@ -342,24 +334,13 @@ const useCombatStore = create((set, get) => ({
 
         const updatedTurnOrder = state.turnOrder.map((combatant, index) => {
             if (index === nextIndex) {
-                const d20Roll = Math.floor(Math.random() * 20) + 1;
+                // Initiative is rolled once per fight; only the optional initiative-AP variant rerolls it.
+                const reroll = rerollsInitiativeEachTurn(config);
+                const d20Roll = reroll ? Math.floor(Math.random() * 20) + 1 : combatant.d20Roll;
                 const initiativeMod = combatant.initiativeMod || combatant.agilityMod || 0;
-                const newInitiative = d20Roll + initiativeMod;
-
-                let currentActionPoints = 0;
+                const newInitiative = reroll ? d20Roll + initiativeMod : combatant.initiative;
                 const maxActionPoints = combatant.maxActionPoints;
-
-                if (config.apRestorationMode === 'max') {
-                    currentActionPoints = maxActionPoints;
-                } else if (config.apRestorationMode === 'set') {
-                    currentActionPoints = Math.min(config.apRestorationAmount, maxActionPoints);
-                } else if (config.apRestorationMode === 'initiative') {
-                    if (newInitiative >= 1 && newInitiative <= 5) currentActionPoints = 0;
-                    else if (newInitiative >= 6 && newInitiative <= 10) currentActionPoints = 1;
-                    else if (newInitiative >= 11 && newInitiative <= 15) currentActionPoints = 2;
-                    else if (newInitiative >= 16 && newInitiative <= 20) currentActionPoints = 3;
-                    else if (newInitiative >= 21) currentActionPoints = 4;
-                }
+                const currentActionPoints = restoredActionPoints(config, maxActionPoints, newInitiative);
 
                 return {
                     ...combatant,

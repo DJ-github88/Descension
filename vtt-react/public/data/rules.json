@@ -942,7 +942,7 @@
             },
             {
               "title": "What Makes Mythrill Different",
-              "content": "Mythrill reinvents the tactical rules engine to be faster, more strategic, and far more intuitive on the digital screen. Here are the four big ideas to know before your first session:\n\n- **The Ladder of Trials (No Static DCs)**: There are no fixed target numbers. Instead, the GM dynamically assigns a **Difficulty Die** (ranging from a d4 for very easy to a d20 for legendary trials). You roll that difficulty die, and add your Skill Rank. The roll results are color-coded in chat for instant feedback. Learn more in [Dice System](core-rules/dice-system).\n- **Unified Strike & Damage (One Roll)**: Combat collapses into a single, high-stakes moment! When you strike, you roll your weapon's damage die exactly once (**Unified Strike & Damage**). A natural 1 is a catastrophic fumble. Rolling the maximum value triggers an exploding critical hit. Any other result hits and deals that exact damage plus your Strength or Agility modifier! Learn more in [Attacks & Damage](combat-system/attacks-damage).\n- **Action Points Economy (3 AP for Ultimate Freedom)**: Mythrill grants you a pool of **3 Action Points (AP)** at the start of your turn. You can spend them in *any* combination you want. Moving 30 feet costs 1 AP, attacking costs 2 AP, and casting a spell costs a variable amount of AP. You have absolute tactical freedom to decide your turn's flow. Learn more in [Combat Basics](combat-system/combat-basics).\n- **Active Soak Die (Shifting Defense)**: Armor absorbs damage rather than turning blows aside. Your Armor Score gives you permanent **Passive Damage Reduction (DR)** (Armor Score - 10, rounded down). If you see a heavy strike coming, you can spend AP to take the Defend action, letting you roll an **Active Soak Die** (up to a d10/d12 for heavy plate) to physically reduce incoming damage. Learn more in [Armor & Defense](combat-system/attacks-damage)."
+              "content": "Mythrill reinvents the tactical rules engine to be faster, more strategic, and far more intuitive on the digital screen. Here are the four big ideas to know before your first session:\n\n- **The Ladder of Trials (No Static DCs)**: There are no fixed target numbers. Instead, the GM dynamically assigns a **Difficulty Die** (ranging from a d4 for very easy to a d20 for legendary trials). You roll that difficulty die, and add your Skill Rank. The roll results are color-coded in chat for instant feedback. Learn more in [Dice System](core-rules/dice-system).\n- **Unified Strike & Damage (One Roll)**: Combat collapses into a single, high-stakes moment! When you strike, you roll your weapon's damage die exactly once (**Unified Strike & Damage**). A natural 1 is a catastrophic fumble. Rolling the maximum value triggers an exploding critical hit. Any other result hits and deals that exact damage plus your Strength or Agility modifier! Learn more in [Attacks & Damage](combat-system/attacks-damage).\n- **Action Points Economy (4 AP for Ultimate Freedom)**: Your pool refills to **4 Action Points (AP)** at the start of each of your turns. You can spend them in *any* combination you want. Moving 30 feet costs 1 AP, a basic weapon strike costs 2 AP, and spells and abilities cost what their card says. AP you keep is what you react with until your next turn. You have absolute tactical freedom to decide your turn's flow. Learn more in [Combat Basics](combat-system/combat-basics).\n- **Blocking with Your Gear (Equipment DR)**: Armor absorbs damage rather than turning blows aside. When a hit lands, roll the **DR die** of your favored armor piece or shield and subtract it; a low face wears the piece down. Defend (1 AP, on your turn) doubles that roll until your next turn. Learn more in [Armor & Defense](combat-system/attacks-damage)."
             },
             {
               "title": "Your Four-Step Journey",
@@ -979,7 +979,7 @@
             },
             {
               "title": "Your First Quest",
-              "content": "**The Missing Journal**\n\nMarta at the Ink & Ember tells you that a scribe named **Elias** went missing three days ago. He was researching the old lineage tapestries in the Greymark archives. His journal was found in the Shallows, the black market district beneath the keep, but Elias himself is gone.\n\n**What you know:**\n- Elias was investigating a gap in the Tallyn lineage records, a family that was erased from history.\n- The journal contains a map to a hidden grove in the Frostwood, marked with Florae thorn-symbols.\n- The Broken Mimir in the Shallows are selling bottled memories that might contain clues.\n\n**Your choices:**\n1. **Investigate the archives**: Search Elias's workspace for more clues. (Investigation check)\n2. **Visit the Shallows**: Question the Broken Mimir about the bottled memories. (Persuasion or Intimidation)\n3. **Follow the map**: Head directly to the hidden grove. (Survival check to navigate the fog)\n\n**What you will learn:**\n- The erased family is House Viridane, the eighth noble house that refused the predator's bargain.\n- The Florae are their descendants, hiding in the moonlit groves.\n- Something in the grove is calling to Elias, and it is not friendly.\n\nThis quest introduces you to the core themes of Mythrill: memory, identity, and the cost of survival. It also teaches you the basic mechanics: skill checks, social encounters, and exploration."
+              "content": "**The Missing Journal**\n\nMarta at the Ink & Ember tells you that a scribe named **Elias** went missing three days ago. He was researching the old lineage tapestries in the Greymark archives. His journal was found in the Shallows, the black market district beneath the keep, but Elias himself is gone.\n\n**What you know:**\n- Elias was investigating a gap in the Tallyn lineage records, a family that was erased from history.\n- The journal contains a map to a hidden grove in the Frostwood, marked with Florae thorn-symbols.\n- The Broken Mimir in the Shallows are selling bottled memories that might contain clues.\n\n**Your choices:**\n1. **Investigate the archives**: Search Elias's workspace for more clues. (Investigation check)\n2. **Visit the Shallows**: Question the Broken Mimir about the bottled memories. (Persuasion or Intimidation)\n3. **Follow the map**: Head directly to the hidden grove. (Survival check to navigate the fog)\n\n**What you will learn:**\n- The erased family is House Viridane, one of the seven original binding houses, which refused the predator's summons and was erased from the record. (Folk call it \"the eighth house\" because a later house took its seat.)\n- The Florae are their descendants, hiding in the moonlit groves.\n- Something in the grove is calling to Elias, and it is not friendly.\n\nThis quest introduces you to the core themes of Mythrill: memory, identity, and the cost of survival. It also teaches you the basic mechanics: skill checks, social encounters, and exploration."
             },
             {
               "title": "Recommended First Character",
@@ -987,7 +987,44 @@
             },
             {
               "title": "The Rules You Need Right Now",
-              "content": "You do not need to read the entire rulebook to start playing. Here are the essentials:\n\n**Rolling Dice:**\n- The GM assigns a **Difficulty Die** (d4 to d20) based on how hard the task is.\n- You roll that die and add your Skill Rank.\n- Rolling the maximum value is a **Critical Success**. Rolling a 1 is a **Critical Failure**.\n\n**Combat:**\n- You have **3 Action Points (AP)** per turn.\n- Moving costs 1 AP. Attacking costs 2 AP. Casting a spell costs 1-3 AP.\n- When you attack, roll your weapon's damage die once. That is both your hit roll and your damage.\n- Armor absorbs damage. When hit, roll your armor's **Soak Die** and subtract the result.\n\n**Dying:**\n- At 0 HP, you do not fall unconscious. You can still act, but heavy actions risk immediate death.\n- This is your **Heroic Last Stand**. Make it count.\n\n**That is it.** The rest of the rules are reference material. Learn them as you play."
+              "content": "You do not need to read the entire rulebook to start playing. Here are the essentials:\n\n**Rolling Dice:**\n- The GM assigns a **Difficulty Die** (d4 to d20) based on how hard the task is.\n- You roll that die and add your Skill Rank.\n- Rolling the maximum value is a **Critical Success**. Rolling a 1 is a **Critical Failure**.\n\n**Combat:**\n- Everyone rolls initiative once, at the start of the fight. At the start of each of your turns you refill to **4 Action Points (AP)**.\n- Moving costs 1 AP. A basic weapon strike costs 2 AP. Spells and abilities cost what their card says.\n- When you attack, roll your weapon's damage die once. That is both your hit roll and your damage.\n- When you're hit, roll the **DR die** of your favored armor piece or shield and subtract it. Defend (1 AP, on your turn) doubles it until your next turn.\n- Drinking an elixir costs 0 AP, at any time.\n- In the VTT today the GM applies defense, wear, reactions and elixirs by hand. See [What the VTT Resolves Today](combat-system/combat-tracker).\n\n**Dying:**\n- At 0 HP, you do not fall unconscious. You can still act, but heavy actions risk immediate death.\n- This is your **Heroic Last Stand**. Make it count.\n\n**That is it.** The rest of the rules are reference material. Learn them as you play."
+            }
+          ]
+        }
+      },
+      {
+        "id": "first-table",
+        "name": "First Table Reference",
+        "icon": "fas fa-scroll",
+        "theme": "narrative",
+        "summary": [
+          "One page to run your first session at a physical table or in the VTT: turn, defense, pack and class tracking, with the same results either way.",
+          "Uses The Missing Journal from the Quick Start and Branvig, the ironwood guardian of the Frostwood groves.",
+          "Lines marked Open are not decided yet; the GM rules on them at the table."
+        ],
+        "content": {
+          "title": "First Table Reference",
+          "description": "Print this page or keep it open: everything the GM and players need for a first fight.",
+          "sections": [
+            {
+              "title": "Your Turn",
+              "content": "- **Initiative**: everyone rolls 1d20 + Agility modifier once, at the start of the fight. Highest first; ties go to the higher Agility score.\n- **AP**: refill to **4 AP** at the start of each of your turns (heritage AP differences are set aside for now). Temporary AP is spent first.\n- **Costs**: move 1 AP, basic weapon strike 2 AP, Defend 1 AP, spells and abilities at their card's cost, elixirs 0 AP.\n- **Strike**: roll your weapon die once. A natural 1 misses; the top face is a critical (roll again and add); anything else hits for the face plus your Strength or Agility modifier.\n- **Keep AP back**: what you don't spend is what you react with until your next turn.\n- **At the table**: keep AP visible with tokens or a die. **In the VTT**: the tracker refills AP; the GM leaves Combat Config on Restore to Maximum."
+            },
+            {
+              "title": "When You Are Hit",
+              "content": "1. **Does it land?** A natural 1 misses; each +1 Evasion adds one more missing face.\n2. **Block**: roll your favored piece's DR die and subtract it (Defend doubles it).\n3. **Wear**: armor wears one die size on a 1 or 2, shields only on a 1, never while Defending. Below d4 the piece breaks.\n4. **Critical hits** go around armor: no DR roll, no wear.\n5. **Reactions** (Parry, Riposte and others): call them before the GM moves on.\n\n*[Open: criticals against shields, Raise Shield wear, DR against non-physical damage and the order of resistances and DR. The GM rules until it is decided.]* **In the VTT today** all of this is applied by hand; change a worn DR die on your sheet."
+            },
+            {
+              "title": "Your Pack",
+              "content": "15 columns × 5 rows at Strength 10-11 (+1 row per 2 Strength above 10). The outermost zone any item reaches sets your state: columns 0-4 free; 5-9 Encumbered (speed -25%, Strength and Constitution +5%, other scores -5%); 10-14 Overencumbered (speed -75%, +15% / -15%). At the table, draw the grid on squared paper."
+            },
+            {
+              "title": "Tracking Your Class",
+              "content": "Keep your class resource with counters or a written ledger, exactly as your class page describes it. Three examples:\n\n- **Gambit**: Fortune 0-7 and Karmic Debt 0-13 (Debt 13 is Calamity).\n- **Pyrofiend**: Veil 0-9 in Rings 0/I/II/III; reaching 9 latches a Debt Call for three of your own turns.\n- **Spellguard**: Arcane Energy 0-100; each interception records what was captured, redirected and dissipated.\n\nLevel ups: 2 advancement points (+1 attribute, +15 HP or +10 mana each), one new spell, 5 talent points; level cap 10."
+            },
+            {
+              "title": "Example Fight: Branvig in the Grove",
+              "content": "If the GM wants a fight on the way to the hidden grove in **The Missing Journal**, the party can meet **Branvig**, an ironwood guardian of the Frostwood (5 AP, Agility 18).\n\n**Feather Slash** (1 AP, melee 10 ft, one target): 2d8 + 5 slicing. Branvig rolls 2d8 = 9: 14 damage. The target's vest (DR d10) rolls 3, so the GM confirms **11**. The face was 3, so the vest holds.\n\n**In the VTT**, the GM uses Branvig's ability fan: pick the target, record the roll, enter the final amount after judging defense, and the result is recorded once. A player can answer with **Restorative Prayer** (Martyr) the same way: the caster approves the price and roll, the GM confirms, and the healing is recorded once.\n\nEverything else is played by hand. See [What the VTT Resolves Today](combat-system/combat-tracker)."
             }
           ]
         }
@@ -998,7 +1035,7 @@
         "icon": "fas fa-dice-d20",
         "theme": "narrative",
         "summary": [
-          "The four big ideas: the Difficulty Dice Ladder replaces static target numbers, unified strike-and-damage rolls need only one roll, Action Points give you a free-form turn, and active soak dice make armor absorb blows.",
+          "The four big ideas: the Difficulty Dice Ladder replaces static target numbers, unified strike-and-damage rolls need only one roll, Action Points give you a free-form turn, and your blocking piece's DR die absorbs blows.",
           "Also covers the Ladder of Trials, conscious dying, the class system and the spatial grid inventory: everything that makes Mythrill play the way it does.",
           "New to Mythrill? Read this early. It maps the core mechanics so you can start playing quickly without stumbling over the rules mid-session."
         ],
@@ -1019,12 +1056,12 @@
               "content": "Combat is a single, high-stakes moment: **Unified Strike & Damage**. When you attack, you roll your weapon's damage die exactly once:\n\n- **A Natural 1**: A catastrophic combat fumble. Your blade chips, your bowstring frays, or your rifle jams, dealing direct damage to your weapon's durability. See [Durability & Repair](core-rules/durability-repair).\n- **A Natural Maximum (Exploding Critical)**: Rolling the maximum value on your weapon die (e.g., an 8 on a d8 longsword) triggers an **exploding critical hit**. You deal maximum damage, roll the die *again* to add to the total (which can explode repeatedly!), and trigger a devastating weapon-specific condition (like Bleed for Slashing, or Stun for Bludgeoning).\n- **Any Other Roll**: You hit! The exact number you roll on the die is your raw damage. You add your Strength (for melee/heavy weapons) or Agility (for ranged/light weapons) modifier directly to this number, and that is the final damage dealt. No double rolling, no slow calculations!"
             },
             {
-              "title": "3. Three Action Points (AP)",
-              "content": "Mythrill gives you tactical freedom through a **3 Action Points (AP)** economy. At the start of your turn, your Character HUD fills with 3 glowing AP orbs. You can spend them in *any* combination you see fit:\n\n- **Movement (1 AP)**: Move up to your speed ( 30 feet).\n- **Strike (2 AP)**: Swing your sword or shoot your bow. A standard turn lets you strike once and still move, or use your remaining AP for another action.\n- **Cast a Spell (Variable AP)**: Spellcasting costs AP based on the power of the spell. Weak cantrips cost 1 AP, while standard spells cost 2-3 AP.\n- **Defend (1 AP)**: Raise your shield or steel yourself, preparing to roll your Active Soak Die when attacked. \n\nThis fluid economy lets you move across the battlefield and strike an enemy in one turn, or stand your ground and cast a powerful spell."
+              "title": "3. Four Action Points (AP)",
+              "content": "Mythrill gives you tactical freedom through a **4 Action Points (AP)** economy. At the start of each of your turns your Character HUD refills to 4 AP. You can spend them in *any* combination you see fit:\n\n- **Movement (1 AP)**: Move up to your speed (30 feet).\n- **Strike (2 AP)**: A basic weapon strike with your sword or bow. A typical turn: move, strike, and keep 1 AP for a reaction.\n- **Spells and abilities**: Each costs what its card says.\n- **Defend (1 AP)**: On your turn, brace: until your next turn your blocking piece's DR rolls count double and don't wear it.\n\nAP you don't spend on your turn is what you react with until your next turn starts."
             },
             {
-              "title": "4. The Active Soak Die",
-              "content": "Mythrill separates dodging from absorbing blows. Dodging is handled by your Agility and reflex skills, while armor physically reduces the impact of strikes:\n\n- **Passive Damage Reduction (DR)**: Your equipped armor grants a permanent Passive DR score (calculated as your Armor Score - 10, rounded down). Whenever you take damage, this passive value is automatically subtracted from the incoming damage.\n- **Active Soak Die**: When you see a devastating blow coming, you can spend AP on your turn to take the **Defend Action**. This grants you an **Active Soak Die** (ranging from a d4 for light leather up to a d10 or d12 for heavy full-plate armor). When an enemy hits you, you roll your Soak Die and reduce the incoming damage by the rolled amount! Armor in Mythrill makes you feel like an absolute tank, physically absorbing heavy blows in real-time."
+              "title": "4. Blocking with Your Gear (Equipment DR)",
+              "content": "Mythrill separates avoiding a blow from absorbing it. **Evasion** decides whether an attack lands; your armor decides how much a landed hit hurts:\n\n- **Favored blocking piece**: Choose the armor piece or shield you angle into blows, with backups in order (or choose not to block). You set it on your turn. When a hit lands you roll that piece's **DR die** and subtract the result. If it can't block, your first available backup does.\n- **Wear**: Read the face, not the total. Armor wears one die size on a **1 or 2**; shields only on a **1**. Worn below d4, the piece breaks.\n- **Defend (1 AP, on your turn)**: Until your next turn your blocking piece's DR rolls count double and never wear it.\n- **Flat DR**: A rare fixed number from special gear or spells, subtracted without rolling. It never wears.\n\nThere is no Armor Score and no soak die. Full rules: [Attacks & Damage](combat-system/attacks-damage)."
             },
             {
               "title": "5. Conscious Dying",
@@ -1036,7 +1073,7 @@
             },
             {
               "title": "7. Spatial Grid Inventory",
-              "content": "Mythrill uses a highly visual and tactile **Spatial Grid Inventory** instead of a bare weight number:\n\n- **Geometric Packing**: Your inventory is a physical grid of columns and rows. Items have actual sizes: a simple lockpick is 1x1, a potion is 1x1, an elegant longsword is 1x4, and a massive steel shield is 2x3. You must physically arrange your pack like a puzzle to make items fit!\n- **Strength-Scaled Grid**: Your physical power dictates your carrying capacity. A character with 10 Strength starts with a 5x15 grid. For every 2 points of Strength above 10, your pack grows wider by one column (adding 15 slots of space).\n- **Encumbrance Zones**: Where you pack your gear matters. Packing heavy items in the outer columns (Columns 5-9 or 10-14) destabilizes your center of gravity, triggering automatic speed and agility penalties. Keep your heavy gear centered to move at full speed! The VTT automates these calculations, instantly updating your sheet as you drag and drop items."
+              "content": "Mythrill uses a highly visual and tactile **Spatial Grid Inventory** instead of a bare weight number:\n\n- **Geometric Packing**: Your inventory is a physical grid of columns and rows. Items have actual sizes: a simple lockpick is 1x1, a potion is 1x1, an elegant longsword is 1x4, and a massive steel shield is 2x3. You must physically arrange your pack like a puzzle to make items fit!\n- **Strength-Scaled Grid**: Your physical power dictates your carrying capacity. A character with 10 Strength starts with a grid 15 columns wide and 5 rows tall (75 slots). For every 2 points of Strength above 10, your pack grows by one row (adding 15 slots of space).\n- **Encumbrance Zones**: Where you pack your gear matters. Items reaching the outer columns (Columns 5-9 or 10-14) destabilize your center of gravity, triggering automatic speed and attribute adjustments. Keep your gear centered to move at full speed! The VTT automates these calculations, instantly updating your sheet as you drag and drop items."
             }
           ],
           "tables": [
@@ -1066,12 +1103,12 @@
                 ],
                 [
                   "Action Economy",
-                  "3 Action Points (AP) pool refreshed every turn.",
+                  "4 AP, refilled at the start of each of your turns.",
                   "Complete tactical freedom to move, strike, cast, or defend in any combination."
                 ],
                 [
                   "Armor & Defense",
-                  "Passive DR absorbs damage. Active Soak Die (d4 to d12) rolled via the Defend action.",
+                  "Roll your favored piece's DR die when hit; Defend (1 AP) doubles it without wear.",
                   "Defenders feel physically tanky; armor behaves realistically by absorbing force."
                 ],
                 [
@@ -1218,7 +1255,7 @@
             },
             {
               "title": "New Player Archetype Recommendations",
-              "content": "With 20 unique classes, starting character creation can feel like standing at the edge of a massive, beautiful ocean. To hold your hand on your first journey, we recommend these three classic archetypes which represent the peak of fun and mechanical clarity for new players:\n\n- **The Stout Vanguard (Classic Warrior)**\n - **Class**: *Martyr (Ironclad)* or *Warden* (Excellent high-durability defense)\n - **Ability Focus**: Constitution & Strength\n - **Background**: *sumpsVeteran* (martial resilience) or *forgeWright* (craft and endurance)\n\n- **The Shadow Stalker (Classic Rogue/Scout)**\n - **Class**: *Apex* or *Shaper* (Incredible mobility, single-target strikes, and adaptive form-shifting tactics)\n - **Ability Focus**: Agility & Charisma\n - **Background**: *shantyRat* (urban stealth) or *peakTracker* (wilderness tracking)\n\n- **The Arcane Weaver (Classic Mage/Spellcaster)**\n - **Class**: *Chronarch* (Time manipulation, extra AP tricks) or *Pyrofiend* (Visceral, explosive fire magic)\n - **Ability Focus**: Intelligence & Spirit\n - **Background**: *vaultScholar* (rare lore) or *starboundScholar* (celestial knowledge)\n\nSelect any of these configurations during the creation steps to begin with a clear, synergistic mechanical direction!"
+              "content": "With 21 unique classes, starting character creation can feel like standing at the edge of a massive, beautiful ocean. To hold your hand on your first journey, we recommend these three classic archetypes which represent the peak of fun and mechanical clarity for new players:\n\n- **The Stout Vanguard (Classic Warrior)**\n - **Class**: *Martyr (Ironclad)* or *Warden* (Excellent high-durability defense)\n - **Ability Focus**: Constitution & Strength\n - **Background**: *sumpsVeteran* (martial resilience) or *forgeWright* (craft and endurance)\n\n- **The Shadow Stalker (Classic Rogue/Scout)**\n - **Class**: *Apex* or *Shaper* (Incredible mobility, single-target strikes, and adaptive form-shifting tactics)\n - **Ability Focus**: Agility & Charisma\n - **Background**: *shantyRat* (urban stealth) or *peakTracker* (wilderness tracking)\n\n- **The Arcane Weaver (Classic Mage/Spellcaster)**\n - **Class**: *Chronarch* (Time manipulation, extra AP tricks) or *Pyrofiend* (Visceral, explosive fire magic)\n - **Ability Focus**: Intelligence & Spirit\n - **Background**: *vaultScholar* (rare lore) or *starboundScholar* (celestial knowledge)\n\nSelect any of these configurations during the creation steps to begin with a clear, synergistic mechanical direction!"
             }
           ]
         }
@@ -1651,7 +1688,7 @@
           {
             "icon": "fas fa-th",
             "label": "Base Grid",
-            "value": "5-15 (75 slots)"
+            "value": "15 × 5 (75 slots)"
           },
           {
             "icon": "fas fa-weight-hanging",
@@ -1670,8 +1707,8 @@
           }
         ],
         "summary": [
-          "Inventory is a spatial grid, not a weight number. Base pack: 5 columns × 15 rows (75 slots). Quick Facts tile shows the grid dimensions, encumbrance zones, and penalties at a glance.",
-          "Every 2 points of Strength above 10 adds one column (15 more slots). Three vertical zones govern penalties: columns 0-4 are free, 5-9 slow you 25%, 10-14 slow you 75%.",
+          "Inventory is a spatial grid, not a weight number. Base pack: 15 columns × 5 rows (75 slots). Quick Facts tile shows the grid dimensions, encumbrance zones, and penalties at a glance.",
+          "Every 2 points of Strength above 10 adds one row across all 15 columns (15 more slots); every 2 points below 10 removes one. Three vertical zones of five columns govern penalties: columns 0-4 are free, 5-9 slow you 25%, 10-14 slow you 75%.",
           "Tactical packing is a mini-game. Drag items on your digital sheet and the VTT updates your speed and modifiers instantly. Heavy plate centered = free. Treasure in outer columns = crawl."
         ],
         "content": {
@@ -1680,11 +1717,11 @@
           "sections": [
             {
               "title": "The Spatial Grid",
-              "content": "Survival in the untamed wilderness and deep, ruinous vaults of Mythrill demands more than steel and spells; it requires precise, physical organization. Carrying capacity in Mythrill is not represented by an abstract weight value or a passive numeric limit, but rather by a highly tactile and visual **Spatial Grid** within the player ledger. Every weapon, piece of armor, ration, and magical reagent occupies a specific geometric layout (e.g. 1x1 slots for iron spikes, 1x4 slots for an elegant longsword, or 2x3 slots for a heavy oak shield). \n\nA starting adventurer with a baseline Strength score of 10 carries a standard adventurer's pack featuring a base grid layout of **5 columns by 15 rows (75 slots)**. Your pack scales dynamically with your physical power: for every 2 points of Strength above 10, your grid width increases, adding **one additional vertical column (15 slots)** of precious cargo space (e.g. expanding to 6 columns at Strength 12-13, and up to 10 columns at Strength 20+). For details on allocating Strength and tracking your ability modifiers, consult the [Six Pillars of Mortality](core-rules/character-statistics)."
+              "content": "Survival in the untamed wilderness and deep, ruinous vaults of Mythrill demands more than steel and spells; it requires precise, physical organization. Carrying capacity in Mythrill is not represented by an abstract weight value or a passive numeric limit, but rather by a highly tactile and visual **Spatial Grid** within the player ledger. Every weapon, piece of armor, ration, and magical reagent occupies a specific geometric layout (e.g. 1x1 slots for iron spikes, 1x4 slots for an elegant longsword, or 2x3 slots for a heavy oak shield). \n\nA starting adventurer with a Strength score of 10 or 11 carries a standard adventurer's pack: a grid **15 columns wide and 5 rows tall (75 slots)**, divided into three zones of five columns each. Your pack scales with your physical power: every 2 points of Strength above 10 adds **one more row across all fifteen columns (15 slots)** (6 rows at Strength 12-13, up to 10 rows at Strength 20-21), and every 2 points below 10 removes a row (never fewer than one). Gear or effects that grant carrying capacity add space on top of this. For details on allocating Strength and tracking your ability modifiers, consult the [Six Pillars of Mortality](core-rules/character-statistics)."
             },
             {
               "title": "Encumbrance Zones",
-              "content": "The physical balance of your pack dictates the swiftness of your stride, the height of your active defense, and the quickness of your actions. The Mythrill inventory grid is segregated into three distinct vertical column zones, representing how weight is distributed across your shoulders and center of gravity:\n\n- **Columns 0-4 (Core Balance)**: The perfectly centered load. Items stored entirely within these columns impose no mobility penalties, allowing you to move at your maximum movement rate.\n- **Columns 5-9 (Encumbered Zone)**: Storing any items in these columns causes your pack's balance to drift wide, resulting in an immediate **-25% reduction in movement speed** and a mild physical toll on agility.\n- **Columns 10-14 (Overburdened Zone)**: Packing heavy or bulky loot into these outer columns severely destabilizes your balance, inflicting a grueling **-75% movement speed penalty** and leaving you vulnerable as a slow, lumbering target.\n\nTactical packing is a mini-game in itself: do you keep your heavy steel plate and weapons centered to sprint freely, or do you fill your outer columns with treasure and accept the exhausting fatigue? These zones are fully automated on your digital character sheet, updating your speed and modifiers instantly as you drag and drop items."
+              "content": "The physical balance of your pack dictates the swiftness of your stride and the strain on your body. The Mythrill inventory grid is segregated into three vertical zones of five columns, representing how weight is distributed across your shoulders and center of gravity. Your state is set by the outermost zone that any part of any item reaches:\n\n- **Columns 0-4 (Core Balance)**: The perfectly centered load. Items stored entirely within these columns impose no penalties, allowing you to move at your maximum movement rate.\n- **Columns 5-9 (Encumbered)**: Your pack's balance drifts wide: **movement speed -25%**. Your Strength and Constitution scores rise by 5%, and your Agility, Intelligence, Spirit and Charisma scores fall by 5% (rounded down).\n- **Columns 10-14 (Overencumbered)**: Your balance is badly destabilized: **movement speed -75%**. Your Strength and Constitution scores rise by 15%, and the other four scores fall by 15% (rounded down). You become a slow, lumbering wall.\n\nTactical packing is a mini-game in itself: do you keep your heavy steel plate and weapons centered to move freely, or do you fill your outer columns with treasure and accept the toll? These zones are automated on your digital character sheet, updating your speed and attribute scores as you drag and drop items. At a physical table, note the outermost zone your pack reaches and apply the same adjustments."
             }
           ],
           "tables": [
@@ -1705,12 +1742,12 @@
                 [
                   "Encumbered",
                   "Columns 5-9",
-                  "-25% Movement Speed. +5% STR/CON checks, but -5% to all other attributes due to fatigue."
+                  "-25% Movement Speed. Strength and Constitution scores +5%; Agility, Intelligence, Spirit and Charisma scores -5% (rounded down)."
                 ],
                 [
                   "Overencumbered",
                   "Columns 10-14",
-                  "-75% Movement Speed. +15% STR/CON checks, but -15% to all other attributes. You are a lumbering wall."
+                  "-75% Movement Speed. Strength and Constitution scores +15%; the other four scores -15% (rounded down). You are a lumbering wall."
                 ]
               ]
             },
@@ -1719,43 +1756,43 @@
               "description": "Greater strength means greater capacity. Each two points above 10 adds another row to your inventory grid, allowing you to carry more gear.",
               "headers": [
                 "Strength Score",
-                "Grid Dimensions",
+                "Grid (columns × rows)",
                 "Total Pack Space"
               ],
               "rows": [
                 [
                   "8-9",
-                  "4-15",
+                  "15 × 4",
                   "60 Slots"
                 ],
                 [
                   "10-11",
-                  "5-15",
+                  "15 × 5",
                   "75 Slots"
                 ],
                 [
                   "12-13",
-                  "6-15",
+                  "15 × 6",
                   "90 Slots"
                 ],
                 [
                   "14-15",
-                  "7-15",
+                  "15 × 7",
                   "105 Slots"
                 ],
                 [
                   "16-17",
-                  "8-15",
+                  "15 × 8",
                   "120 Slots"
                 ],
                 [
                   "18-19",
-                  "9-15",
+                  "15 × 9",
                   "135 Slots"
                 ],
                 [
-                  "20+",
-                  "10-15",
+                  "20-21",
+                  "15 × 10",
                   "150 Slots"
                 ]
               ]
@@ -1771,7 +1808,7 @@
         "summary": [
           "Armor durability is tracked as a die step (e.g., d8 current / d10 max). Rolling a 1 or 2 on your DR die degrades the armor one step. Below d4 = broken and unequipped automatically.",
           "Mending restores 1 step on a short rest, 2 steps on a long rest (one item per rest). Broken items lose all enchantments until repaired. The VTT shows durability as a visual bar.",
-          "Weapons and shields use the same system. Critical fumbles degrade gear. Crafters can repair between combats. The durability die IS your defense die — protect your gear or lose it."
+          "Weapons and shields use the same die ladder, but a blocking shield wears only on a 1 (armor on a 1 or 2), and nothing wears while you Defend. Critical fumbles degrade gear. Crafters can repair between combats. The durability die IS your defense die — protect your gear or lose it."
         ],
         "content": {
           "title": "Fraying Weaves & Shattered Iron",
@@ -1779,7 +1816,7 @@
           "sections": [
             {
               "title": "Dice-Based Durability System",
-              "content": "No weapon remains eternally sharp, and no steel plate remains unbent in the crucible of battle. In Mythrill, equippable armor pieces track their physical integrity through a shifting **Dice-Based Durability** system. Rather than tracking mechanical percentages or large numbers, an armor's current and maximum protective values are expressed as a die size step (e.g., **d8/d10 Durability**).\n\nWhen wearing armor and taking a hit, you roll your armor's current DR die (e.g., **d8**) to reduce the damage. If you roll a **1 or 2**, the structural integrity of your armor slips and it degrades by one die size step (e.g., **d8** -> **d6**). If you roll a **3 or higher**, the durability does not decrease. This provides a tactile, visual decay that can be tracked easily. If the item degrades below a **d4**, it becomes **broken**."
+              "content": "No weapon remains eternally sharp, and no steel plate remains unbent in the crucible of battle. In Mythrill, equippable armor pieces track their physical integrity through a shifting **Dice-Based Durability** system. Rather than tracking mechanical percentages or large numbers, an armor's current and maximum protective values are expressed as a die size step (e.g., **d8/d10 Durability**).\n\nWhen wearing armor and taking a hit, you roll your armor's current DR die (e.g., **d8**) to reduce the damage. If you roll a **1 or 2** (a shield: only a **1**; nothing wears while you Defend), the structural integrity of your armor slips and it degrades by one die size step (e.g., **d8** -> **d6**). If you roll a **3 or higher**, the durability does not decrease. This provides a tactile, visual decay that can be tracked easily. If the item degrades below a **d4**, it becomes **broken**."
             },
             {
               "title": "The Shattered State (Broken Items)",
@@ -2108,7 +2145,7 @@
         "theme": "mechanic",
         "content": {
           "title": "Skills",
-          "description": "Character skills with rank progression and quest-based advancement",
+          "description": "Starting ranks by point-buy, then ranks you raise yourself as your character trains",
           "sections": [
             {
               "title": "How Skills Work",
@@ -2116,15 +2153,15 @@
             },
             {
               "title": "Skill Ranks & Progression",
-              "content": "Skills advance through seven ranks: **Untrained ? Novice ? Trained ? Apprentice ? Adept ? Expert ? Master**. Each rank adds a numerical bonus to your checks and unlocks richer outcomes on skill-specific rollable tables. You do not advance by grinding experience, you advance by *doing*. Each rank requires completing **Skill Quests**: small, achievable challenges that arise naturally during play."
+              "content": "Skills have seven ranks, and your proficiency die grows with them: **d4 Untrained, d6 Novice, d8 Trained, d10 Apprentice, d12 Adept, d20 Expert and Master**.\n\n- **Starting skills (point-buy)**: At character creation you buy starting ranks with skill points. The creation step currently charges 1 point to reach Novice, then 2, 3, 4, 5 and 6 for each rank after it (21 in total for Master), and gives 10 points plus 1 for each point of Intelligence above 10. Your background's skills and your one class skill start at Novice, paid from the same points. *[Open: the starting budget and any bonus points are not yet confirmed. The GM rules until it is decided.]*\n- **After creation**: When your character trains or the story changes them, you raise that skill's rank yourself on your sheet. Ranks don't follow your level, and you don't need the GM's approval.\n- **Advanced skills** are not part of the first-table rules. They differ only in how ranks advance: authored tasks (Skill Quests) move your rank. Rolls work the same.\n\n*[Open: whether a rank adds a flat bonus to checks (+1 to +6) as well as setting your skill die. The GM rules until it is decided.]*"
             },
             {
               "title": "Critical Success & Failure",
               "content": "Rolling the **maximum value** on your difficulty die is a **Critical Success**: the task is accomplished beyond expectation, often with a tangible bonus or narrative windfall. Rolling a **1** is always a **Critical Failure** regardless of rank, complications arise, and the GM determines how badly the moment turns. Check your skill's rollable table for the full spectrum of possible outcomes."
             },
             {
-              "title": "Skill Quests",
-              "content": "Every skill has **10 Quests**: narrative milestones that unlock as you use your abilities in the world. Completing them advances your rank and opens new proficient ability options. These quests are not assigned by a trainer; they emerge from play naturally. Land your first successful Grapple. Persuade an authority figure. Survive a harrowing situation through Acrobatics alone. The world rewards those who act."
+              "title": "Advanced Skills: Skill Quests",
+              "content": "In Advanced Skills (not part of the first-table rules), every skill has **10 Quests**: narrative milestones that unlock as you use your abilities in the world. Completing them advances your rank and opens new proficient ability options. These quests are not assigned by a trainer; they emerge from play naturally. Land your first successful Grapple. Persuade an authority figure. Survive a harrowing situation through Acrobatics alone. The world rewards those who act."
             }
           ]
         }
@@ -2175,7 +2212,7 @@
             },
             {
               "title": "Find Your Archetype",
-              "content": "Thirty classes is a lot. If you are not sure where to start, here is the fastest way to narrow it down. Pick the archetype that sounds most like the character you want to play, then choose from the classes listed under it.\n\n**The Iron Wall (Tank)**: You stand between your allies and death. You absorb blows, hold the line, and make enemies regret targeting your party.\n- **Crusader**: Sol-bound zealot. Channels Aex's Willing Sacrifice to build Fervor and unleash Solvan Judgment.\n- **Martyr (Ironclad)**: Steam-powered iron juggernaut specialization. Converts willing sacrifice into furnace power.\n- **Martyr**: Self-sacrificing warrior. Earns power by suffering for allies.\n- **Spellguard**: Mage-tank. Layers magical shields and absorbs spell energy.\n- **Warden (Monolith)**: Gravity manipulator. Colossal strength and area control.\n\n**The Blade (Melee Damage)**: You are up close and personal. Your weapon is your voice.\n- **Crusader**: Heavy starlight-forged greatsword purger. High sacred melee damage.\n- **Berserker**: Fury warrior. Builds Rage from combat momentum.\n- **Shaper**: Finesse shapeshifter. Zero armor, kinetic flow meets biological adaptation.\n- **Warden**: Relentless hunter. Glaive combat and spectral cages.\n\n**The Arrow (Ranged Damage)**: You strike from distance. You mark targets and end them.\n- **Apex**: Tracker. Marks priority targets, strikes with precision.\n- **Pyrofiend**: Fire horror. Swallows Wyrd-touched embers for explosive area damage.\n- **Harbinger**: High-risk magic. Unpredictable, devastating, volatile.\n\n**The Mind (Control/Debuff)**: You reshape the battlefield. Enemies fight on your terms.\n- **Chronarch**: Time manipulator. Slows foes, accelerates allies.\n- **False Prophet**: Silence preacher. Drives foes mad with false sacred light.\n- **Animist**: Spirit channeler. Opens channels between the living and ancestral spirit courts.\n- **Augur**: Omen reader. Even/odd dice results fuel blessings and curses.\n- **Harbinger**: Prophet of catastrophe. Places living bomb prophecies.\n- **Plaguebringer**: Plague gardener. Cultivates evolving diseases.\n- **Toxicologist**: Poison crafter. Chemical warfare and alchemical devices.\n\n**The Hand (Support/Healing)**: You keep your allies alive and make them stronger.\n- **Minstrel**: Musical spellcaster. Note combinations buff and heal.\n- **Augur**: Omen reader. Even/odd dice results fuel blessings and curses. (Absorbed Oracle as Seer specialization)\n- **Gambit**: Probability manipulator. Fuses fortune-siphoning with precise cartomantic surgery, wielding both luck and destiny as weapons.\n- **Lunarch**: Lunar mage. Phase-based energy cycles for support and control.\n- **Animist**: Spirit channeler. Channels ancestral spirits to build resonance and empower allies.\n\n**The Shadow (Hybrid/Utility)**: You do not fit one box. You adapt.\n- **Arcanoneer**: Elemental Building Block crafter. Combines elements for shifting spell effects.\n- **Inquisitor**: Anti-magic hunter and Wyrd binder. Disrupts spellcasting, nullifies corruption, and commands bound fiends through sacred ritual.\n- **Revenant**: Death caster. Combines volatile blood sacrifice with frost-stasis phylactery. Death Shroud toggle and Toll volatility.\n- **Shaper**: Kinetic biology shapeshifter. Six forms blending momentum dance with physical adaptation.\n- **Revenant**: Death caster. Combines volatile blood sacrifice with frost-stasis phylactery.\n\n**Still not sure?** Go to [Quick Start: Your First Session](getting-started/quick-start) for three recommended beginner builds."
+              "content": "Twenty-one classes is a lot. If you are not sure where to start, here is the fastest way to narrow it down. Pick the archetype that sounds most like the character you want to play, then choose from the classes listed under it.\n\n**The Iron Wall (Tank)**: You stand between your allies and death. You absorb blows, hold the line, and make enemies regret targeting your party.\n- **Crusader**: Sol-bound zealot. Channels Aex's Willing Sacrifice to build Fervor and unleash Solvan Judgment.\n- **Martyr (Ironclad)**: Steam-powered iron juggernaut specialization. Converts willing sacrifice into furnace power.\n- **Martyr**: Self-sacrificing warrior. Earns power by suffering for allies.\n- **Spellguard**: Mage-tank. Layers magical shields and absorbs spell energy.\n- **Warden (Monolith)**: Gravity manipulator. Colossal strength and area control.\n\n**The Blade (Melee Damage)**: You are up close and personal. Your weapon is your voice.\n- **Crusader**: Heavy starlight-forged greatsword purger. High sacred melee damage.\n- **Berserker**: Fury warrior. Builds Rage from combat momentum.\n- **Shaper**: Finesse shapeshifter. Zero armor, kinetic flow meets biological adaptation.\n- **Warden**: Relentless hunter. Glaive combat and spectral cages.\n\n**The Arrow (Ranged Damage)**: You strike from distance. You mark targets and end them.\n- **Apex**: Tracker. Marks priority targets, strikes with precision.\n- **Pyrofiend**: Fire horror. Swallows Wyrd-touched embers for explosive area damage.\n- **Harbinger**: High-risk magic. Unpredictable, devastating, volatile.\n\n**The Mind (Control/Debuff)**: You reshape the battlefield. Enemies fight on your terms.\n- **Chronarch**: Time manipulator. Slows foes, accelerates allies.\n- **False Prophet**: Silence preacher. Drives foes mad with false sacred light.\n- **Animist**: Spirit channeler. Opens channels between the living and ancestral spirit courts.\n- **Augur**: Omen reader. Even/odd dice results fuel blessings and curses.\n- **Harbinger**: Prophet of catastrophe. Places living bomb prophecies.\n- **Plaguebringer**: Plague gardener. Cultivates evolving diseases.\n- **Toxicologist**: Poison crafter. Chemical warfare and alchemical devices.\n\n**The Hand (Support/Healing)**: You keep your allies alive and make them stronger.\n- **Minstrel**: Musical spellcaster. Note combinations buff and heal.\n- **Augur**: Omen reader. Even/odd dice results fuel blessings and curses. (Absorbed Oracle as Seer specialization)\n- **Gambit**: Probability manipulator. Fuses fortune-siphoning with precise cartomantic surgery, wielding both luck and destiny as weapons.\n- **Lunarch**: Lunar mage. Phase-based energy cycles for support and control.\n- **Animist**: Spirit channeler. Channels ancestral spirits to build resonance and empower allies.\n\n**The Shadow (Hybrid/Utility)**: You do not fit one box. You adapt.\n- **Arcanoneer**: Elemental Building Block crafter. Combines elements for shifting spell effects.\n- **Inquisitor**: Anti-magic hunter and Wyrd binder. Disrupts spellcasting, nullifies corruption, and commands bound fiends through sacred ritual.\n- **Revenant**: Death caster. Combines volatile blood sacrifice with frost-stasis phylactery. Death Shroud toggle and Toll volatility.\n- **Shaper**: Kinetic biology shapeshifter. Six forms blending momentum dance with physical adaptation.\n- **Revenant**: Death caster. Combines volatile blood sacrifice with frost-stasis phylactery.\n\n**Still not sure?** Go to [Quick Start: Your First Session](getting-started/quick-start) for three recommended beginner builds."
             }
           ],
           "tables": [
@@ -2239,12 +2276,6 @@
                   "Silence preacher channeling madness as sacred revelation"
                 ],
                 [
-                  "Gambit",
-                  "Support/Control",
-                  "Threads of Destiny",
-                  "Card-based destiny manipulator turning failures into power"
-                ],
-                [
                   "Shaper",
                   "Hybrid (Damage/Mobility/Adaptation)",
                   "Flux",
@@ -2252,9 +2283,9 @@
                 ],
                 [
                   "Gambit",
-                  "Damage/Utility",
-                  "Fortune",
-                  "Daring risk-taker manipulating luck and probability"
+                  "Damage/Control",
+                  "Fortune & Karmic Debt",
+                  "Daring risk-taker drawing Fortune from the fate deck while Karmic Debt builds toward Calamity"
                 ],
                 [
                   "Apex",
@@ -2302,13 +2333,13 @@
                   "Pyrofiend",
                   "Damage",
                   "Inferno Veil",
-                  "fire-wielding horror with corruption stages"
+                  "Fire-wielding horror whose Veil climbs through four Rings toward the Debt Call"
                 ],
                 [
                   "Spellguard",
                   "Tank/Support",
-                  "Ward Layers",
-                  "Protective mage with magical shield systems"
+                  "Arcane Energy Points",
+                  "Spell-interceptor who captures incoming magic as finite Arcane Energy"
                 ],
                 [
                   "Toxicologist",
@@ -2598,7 +2629,7 @@
           {
             "icon": "fas fa-bolt",
             "label": "AP Per Turn",
-            "value": "3 AP"
+            "value": "4 AP"
           },
           {
             "icon": "fas fa-sort-numeric-down",
@@ -2607,7 +2638,7 @@
           },
           {
             "icon": "fas fa-fist-raised",
-            "label": "Attack",
+            "label": "Weapon Strike",
             "value": "2 AP"
           },
           {
@@ -2617,8 +2648,8 @@
           }
         ],
         "summary": [
-          "3 Action Points per turn. Spend them however you want — move (1 AP), attack (2 AP), cast (variable). No action/bonus action split. Quick Facts tile shows the costs at a glance.",
-          "Initiative = 1d20 + Agility modifier. Turns flow in descending order. The VTT combat tracker automates everything.",
+          "4 Action Points at the start of each of your turns. Spend them however you want — move (1 AP), basic weapon strike (2 AP), spells and abilities at their own cost. No action/bonus action split. Quick Facts tile shows the costs at a glance.",
+          "Initiative = 1d20 + Agility modifier, rolled once at the start of the fight. Turns flow in descending order. The VTT combat tracker keeps the order and refills AP.",
           "Also covers surprise rounds, turn structure, free actions, held actions, and multi-turn activities. The core combat loop is this page — read it before your first fight."
         ],
         "content": {
@@ -2631,11 +2662,11 @@
             },
             {
               "title": "Initiative",
-              "content": "When blood is spilled and blades are drawn, the order of battle is decided by split-second reflexes. Every participant rolls Initiative (1d20 + Agility modifier) to place themselves on the turn sequence. High results act first, seizing the tactical advantage, while ties are broken by looking at the highest absolute Agility score. A high initiative allows a combatant to position themselves, lock down choke points, or cast pre-emptive warding runes before the enemy can react."
+              "content": "When blood is spilled and blades are drawn, the order of battle is decided by split-second reflexes. Every participant rolls Initiative (1d20 + Agility modifier) to place themselves on the turn sequence. High results act first, seizing the tactical advantage, while ties are broken by looking at the highest absolute Agility score. Initiative is rolled once per fight; the order holds until the fight ends. A high initiative allows a combatant to position themselves, lock down choke points, or cast pre-emptive warding runes before the enemy can react."
             },
             {
               "title": "Action Points (AP)",
-              "content": "The cornerstone of Mythrill's tactical combat is the Action Point (AP) system. Every character has a pool of **3 AP** that completely refreshes at the start of their turn. There are no 'Bonus Actions' or separate movement pools; every action you take, from swinging a giant claymore to drinking a potion or stepping through a burning field, costs a specific amount of AP. This provides ultimate freedom: you can spend 2 AP to strike and 1 AP to move, or 1 AP to move, 1 AP to defend, and 1 AP to use an item. AP management is the difference between life and death in Mythrill."
+              "content": "The cornerstone of Mythrill's tactical combat is the Action Point (AP) system. Every player character refills to **4 AP** at the start of each of their turns. There are no 'Bonus Actions' or separate movement pools: moving costs 1 AP, a basic weapon strike costs 2 AP, and every spell or ability costs what its own card says (a creature's Feather Slash, for example, costs 1 AP). Temporary AP counts toward what you can afford and is spent first.\n\nAP you don't spend on your turn is what you react with until your next turn starts. You can't spend AP you don't have. Before you end your turn, ask: what will I want to do when they hit back?\n\n**Heritage AP.** Some heritage pages list a different base AP. For the first-table baseline those differences are set aside: every player character uses 4 AP. Creatures keep the AP on their stat blocks.\n\n**Elixirs** cost **0 AP** and can be drunk at any time, even on someone else's turn. They are the exception to the 1 AP Use an Item action; other items keep their listed cost. Each drink uses one elixir, and an elixir works from the moment you drink it; it never changes something that has already happened. *[Open: which drinkable items count as elixirs, and how late in an attack an elixir still counts for that attack. The GM rules until it is decided.]*"
             }
           ],
           "tables": [
@@ -2665,6 +2696,14 @@
                 ],
                 [
                   {
+                    "spellId": "universal_defend"
+                  },
+                  "A",
+                  "On your turn, brace for what's coming: until your next turn your blocking piece's DR rolls count double and never wear it.",
+                  "1 AP"
+                ],
+                [
+                  {
                     "spellId": "universal_disengage"
                   },
                   "A",
@@ -2676,7 +2715,7 @@
                     "spellId": "universal_use_item"
                   },
                   "A",
-                  "Draw, stow, or use an item in your inventory.",
+                  "Draw, stow, or use an item in your inventory. Drinking an elixir costs 0 AP instead.",
                   "1 AP"
                 ],
                 [
@@ -2715,8 +2754,8 @@
         "theme": "combat",
         "summary": [
           "Unified attack-and-damage roll: one weapon-die roll handles both the hit and the damage in a single throw. No separate attack and damage rolls.",
-          "Equipment-based Damage Reduction (DR) replaces static AC. Your armor rolls a soak die to reduce incoming damage. The weapon die and the armor die face off on every hit.",
-          "Critical hits ignore DR entirely and do not degrade durability. Covers melee, ranged, spell attacks, dual wielding, and the AP cost for each attack type."
+          "Equipment-based Damage Reduction (DR) replaces static AC. When a hit lands, your favored blocking piece rolls its DR die to reduce the damage, and a low face wears it.",
+          "Critical hits go around armor: no DR roll and no wear. Covers melee, ranged, spell attacks, dual wielding, Evasion, and the AP cost for each attack type."
         ],
         "content": {
           "title": "Attacks & Damage",
@@ -2728,13 +2767,21 @@
             },
             {
               "title": "Equipment-Based Damage Reduction",
-              "content": "In Mythrill, armor does not make you harder to hit. Instead, it absorbs the physical impact of incoming blows to directly reduce physical trauma:\n\n- **Damage Reduction (DR) Die**: Each equippable armor piece is assigned a designated DR die size based on its category and construction (e.g., a d10 for plate chests, a d4 for cloth robes). When you take damage, you roll this die and subtract the result directly from the damage dealt.\n- **Durability Step Degradation**: If you roll a **1 or 2** on your DR die, the item's durability is degraded by one die step size (e.g., d10 -> d8). A roll of **3 or higher** keeps your durability fully intact. When rolling a 1 or 2, you take the reduced damage but the armor's integrity slips. Roleplay-wise, you can tell the GM where you reacted in the instant to take the hit, or the GM tells you where you are hit if it was by surprise.\n- **No Creature DR**: Creatures do not possess equipment damage reduction; their defense is purely based on elemental or physical resistances.\n- **Critical Hits Bypass DR**: Critical hits are so devastatingly precise that they ignore all armor damage reduction entirely, and they do not prompt the equipment to roll DR or take durability damage."
+              "content": "In Mythrill, armor does not make you harder to hit. Instead, it absorbs the physical impact of blows that land:\n\n- **Your favored blocking piece**: Choose the armor piece or shield you angle into blows and list backups in order, or choose not to block. You set this on your turn and can change it on any of your turns. When a hit lands you don't choose a piece: your favorite takes it and you roll its **DR die**, subtracting the result from the damage. If your favorite can't block (it broke or is no longer worn), your first available backup blocks instead.\n- **Wear: read the face, not the total**: Armor wears one die size (e.g. d10 -> d8) when its DR die shows **1 or 2**. Shields wear only on a **1**. Wear always reads the number on the die, never a doubled total. Worn below d4, a piece **breaks**: it comes off and its enchantments stop. Roleplay-wise, you can tell the GM where you reacted in the instant to take the hit, or the GM tells you where you are hit if it was by surprise.\n- **Defend (1 AP, on your turn)**: Brace for what's coming. Until your next turn, your blocking piece's DR rolls **count double** and **never wear it**. Defend is an action, not a reaction.\n- **Flat DR**: A rare fixed number from special gear or a powerful spell. It is subtracted without rolling and never wears. (Older ability cards call it Passive DR.)\n- **No Armor Score, no soak die**: Only the DR die and flat DR reduce a hit.\n- **Creatures**: Creatures have no Armor score, no AC and no equipment DR dice, and their defenses never wear. They reduce damage through flat DR, their resistances and vulnerabilities, and any rolled defensive effect their stat block authors. **Creature Defend** improves the creature's damage reduction: the GM applies the creature's authored DR benefit, or adjudicates one if none is written. *[Open: the amount, cost and duration of creature Defend. The GM rules until it is decided.]*\n- **Critical hits go around armor**: no DR roll and no wear. *[Open: whether criticals also go around shields. The GM rules until it is decided.]*\n- **Riposte** ignores flat DR and the doubling from Defend; the target's equipment DR die still rolls as normal.\n- **The piercing critical** lowers flat DR only. It never shrinks an equipment DR die.\n\n*[Open: Raise Shield's wording and how it wears your shield; whether equipment DR reduces non-physical damage; and the order in which resistances, DR and flat DR apply. The GM rules until it is decided.]*\n\n**In the VTT today** the GM applies the DR roll, wear and Defend by hand, and you change a worn item's DR die on your sheet (or ask the GM)."
+            },
+            {
+              "title": "Evasion: Does the Attack Land?",
+              "content": "Evasion decides **whether** a hit lands; DR decides **how much** a landed hit hurts. An attack misses on a natural 1, and each **+1 Evasion** adds one more missing face. Against a d6 attack: with no Evasion only a 1 misses; with +1, a 1 or 2 misses; with +2, 1 to 3 miss.\n\n*[Open: the most Evasion can do, how Evasion from several sources combines, whether the extra missing faces count as fumbles, and how Evasion works against creature formula attacks and spells without an attack roll. The GM rules until it is decided.]*\n\n**In the VTT today** the GM applies Evasion by hand."
+            },
+            {
+              "title": "Example: A Goblin, Evasion and a Worn Vest",
+              "content": "Ilsa has **Evasion +1** and favors her **vest (DR d10)**. A goblin swings a d6 sword (+1).\n\n1. The goblin rolls **2**. With Evasion +1, a 1 or 2 misses. **Missed.**\n2. Next swing: **5**. That hits, for 5 + 1 = **6**.\n3. Ilsa rolls her vest's d10: **2**. She takes 6 - 2 = **4**. The face was 2, so the vest wears from d10 to **d8**.\n\n*If she had braced with Defend:* the 2 counts as 4, she takes 2, and the vest doesn't wear.\n*If her shield (d8) had blocked and rolled 2:* she takes 4, and the shield holds, because shields wear only on a 1."
             }
           ],
           "tables": [
             {
               "title": "Armor Category Damage Reduction Dice",
-              "description": "Standard DR die sizes assigned to different armor classes and slots. Better quality or heavier slots mean larger DR dice.",
+              "description": "Standard DR die sizes assigned to different armor categories and slots (player equipment only). Better quality or heavier slots mean larger DR dice. *[Open: armor dice currently come from three sources (this category table, item quality and each item's own listed die). The GM rules until it is decided.]*",
               "headers": [
                 "Armor Category",
                 "Standard DR Die"
@@ -2771,7 +2818,7 @@
         "icon": "fas fa-burst",
         "theme": "combat",
         "summary": [
-          "Max value on the die = critical hit with weapon-specific effects. Slashing causes bleeding. Piercing bypasses armor. Bludgeoning stuns. Each damage type has a unique crit payoff.",
+          "Max value on the die = critical hit with weapon-specific effects. Slashing causes bleeding. Piercing lowers flat DR. Bludgeoning stuns. Each damage type has a unique crit payoff.",
           "Natural 1 followed by another 1 = critical miss. Weapon fumbles degrade durability. The risk-reward loop is baked into every attack roll.",
           "Also covers exploding dice, crit confirmation for spells, and how creature size interacts with critical effects. Know this page — it determines whether you kill or get killed."
         ],
@@ -2785,7 +2832,7 @@
             },
             {
               "title": "Weapon-Specific Critical Effects",
-              "content": "A critical hit does not merely deal more damage, the *nature* of the weapon determines how the body breaks. Choose your weapon with intent.\n\n- **Slashing**: Open wounds that refuse to close: the target **Bleeds** for **1d4 damage per round** over **1d4 rounds**.\n- **Piercing**: The blade finds the gap in the armour: **reduce the target's passive DR by 2** (minimum 0) for **1d4 rounds**.\n- **Bludgeoning**: Concussive force that rattles bone and brain: the target is **Stunned for 1 round** (Constitution save against a moderate die ( d8), negates).\n- **Ranged**: The shaft pins cloth or flesh: the target's **movement is halved** for **1d4 rounds**."
+              "content": "A critical hit does not merely deal more damage, the *nature* of the weapon determines how the body breaks. Choose your weapon with intent.\n\n- **Slashing**: Open wounds that refuse to close: the target **Bleeds** for **1d4 damage per round** over **1d4 rounds**.\n- **Piercing**: The blade finds the gap in the armour: **reduce the target's flat DR by 2** (minimum 0) for **1d4 rounds**. It never shrinks an equipment DR die.\n- **Bludgeoning**: Concussive force that rattles bone and brain: the target is **Stunned for 1 round** (Constitution save against a moderate die ( d8), negates).\n- **Ranged**: The shaft pins cloth or flesh: the target's **movement is halved** for **1d4 rounds**."
             }
           ],
           "tables": [
@@ -2827,7 +2874,7 @@
                 ],
                 [
                   "8",
-                  "Exposed: Passive DR reduced by 2 until next turn"
+                  "Exposed: Flat DR reduced by 2 until next turn"
                 ],
                 [
                   "9",
@@ -3390,7 +3437,7 @@
           "sections": [
             {
               "title": "Reaction Rules",
-              "content": "Combat never pauses for your turn. Arrows fly, spells erupt, and blades seek gaps in armour whether you are ready or not. **Reactions** are your ability to answer danger in real time, spending AP from your pool to act outside your normal turn order.\n\nA reaction requires a **specific trigger**: an incoming attack, an ally being targeted, an enemy breaking away. When that trigger fires, you choose to react or let it pass. You cannot spend AP you do not have remaining."
+              "content": "Combat never pauses for your turn. Arrows fly, spells erupt, and blades seek gaps in armour whether you are ready or not. **Reactions** are your ability to answer danger in real time, spending AP from your pool to act outside your normal turn order.\n\nA reaction requires a **specific trigger**: an incoming attack, an ally being targeted, an enemy breaking away. When that trigger fires, you choose to react or let it pass. You cannot spend AP you do not have remaining.\n\n**Each reaction names its moment**: when someone is targeted, when an attack roll succeeds, when you're hit, or after damage. You can use a reaction only at its own moment, and only if you can pay for it then. You never have to react. A reaction that happens pays its full price, including any mana or class resource its card lists, so keep enough back for the one you're planning.\n\n**Follow-ups.** Some reactions unlock a follow-up written on a card: Riposte after *your* successful Parry, Shield Bash after *your* successful Raise Shield. A follow-up belongs to the character whose reaction succeeded.\n\n**Hidden declarations.** What you declare stays hidden from the other players until the reactions resolve; only you and the GM know. Several people may react to the same moment. *[Proposed: at a physical table, everyone who wants to react shows their choice at the same time on the GM's count.]*\n\n**At the table and in the VTT today**: call your reaction before the GM moves on to the next step; the GM may count down aloud. The VTT does not yet open reaction windows or run a timer: say what you do, roll on screen, and the GM enters the result. (The approved VTT procedure, an eight-second window to declare, is not built yet.)\n\n*[Open: what a declared reaction costs if it never happens; whether you can react to an enemy's trigger during your own turn; the resolution order when several people react to the same moment; and the limits that stop reactions answering each other forever (they will never block a follow-up a card names). The GM rules until it is decided.]*"
             }
           ],
           "tabs": [
@@ -3418,7 +3465,7 @@
                         "spellId": "universal_dodge"
                       },
                       "R",
-                      "Makes it harder for attackers to hit you, increasing their miss chance (making rolls of 1-3 on a d8 miss, for example)",
+                      "Makes it harder for attackers to hit you, increasing their miss chance (making rolls of 1-3 on a d8 miss, for example). *[Open: how Dodge converts to Evasion. The GM rules until it is decided.]*",
                       "2 AP"
                     ],
                     [
@@ -3434,7 +3481,7 @@
                         "spellId": "universal_raise_shield"
                       },
                       "R",
-                      "Roll a shield die (d8) to reduce additional damage before armor reduction is applied",
+                      "Roll a shield die (d8) to reduce additional damage before armor reduction is applied. *[Open: Raise Shield's wording and shield wear (shields otherwise wear only on a 1). The GM rules until it is decided.]*",
                       "1 AP"
                     ]
                   ]
@@ -3473,7 +3520,7 @@
                         "spellId": "universal_evade"
                       },
                       "R",
-                      "Evade an attack, by rolling 5 ft. into a dodge. Has to be used when player is prompted by the GM. Performing this agile dodge roll, you also gain a better position (Current Level * 1)",
+                      "Evade an attack, by rolling 5 ft. into a dodge. Has to be used when player is prompted by the GM. Performing this agile dodge roll, you also gain a better position (Current Level * 1). *[Open: Evade is under review. The GM rules until it is decided.]*",
                       "2 AP"
                     ],
                     [
@@ -3506,7 +3553,7 @@
                         "prefix": "{Parry} ? "
                       },
                       "R",
-                      "After a successful parry, immediately counter-attack. Roll your weapon die as normal. This attack ignores the target's passive DR and any Defend soak.",
+                      "After a successful parry, immediately counter-attack. Roll your weapon die as normal. This attack ignores the target's flat DR and the doubling from Defend; the target's equipment DR die still rolls.",
                       "1 AP"
                     ],
                     [
@@ -3514,7 +3561,7 @@
                         "spellId": "universal_raise_shield"
                       },
                       "R",
-                      "Your shield absorbs the impact (roll a d8 to determine damage reduction before armor reduction). The shield's durability decreases by 1.",
+                      "Your shield absorbs the impact (roll a d8 to determine damage reduction before armor reduction). The shield's durability decreases by 1. *[Open: new wording; this line conflicts with shields wearing only on a 1. The GM rules until it is decided.]*",
                       "1 AP"
                     ],
                     [
@@ -3531,7 +3578,7 @@
                         "spellId": "universal_spell_reaction"
                       },
                       "R",
-                      "Cast a reactive spell in response to an enemy action. Roll the spell's die as normal. Reactive spells often have special effects.",
+                      "Cast a reactive spell in response to an enemy action. Roll the spell's die as normal. Reactive spells often have special effects. *[Open: the 2 AP cost of this wrapper. The GM rules until it is decided.]*",
                       "2 AP"
                     ]
                   ]
@@ -4311,8 +4358,8 @@
         "icon": "fas fa-list-ol",
         "theme": "combat",
         "summary": [
-          "The Combat Tracker automates turn order, initiative, and status tracking for players and creatures alike — no manual bookkeeping required.",
-          "Initiative is rolled directly from your character sheet and broadcast to the VTT sidebar. Your AP pool and active status effects update in real-time on your turn.",
+          "The Combat Tracker keeps turn order, initiative, rounds and AP for players and creatures. Results the VTT does not resolve stay with the GM; see What the VTT Resolves Today below.",
+          "Initiative is rolled once when combat starts and broadcast to the VTT sidebar. Your AP refills to your maximum (4 for player characters) at the start of your turn.",
           "GMs: add creatures, manage turn order, and apply conditions from the tracker panel. Players: see exactly who's next, what conditions are active, and how much AP you have left."
         ],
         "content": {
@@ -4329,7 +4376,11 @@
             },
             {
               "title": "Managing Your Turn & Action Points",
-              "content": "When the tracker reaches your name, several automated systems activate:\n\n- **Active Glow**: Your character portrait on the grid and in the sidebar glows, indicating it is your turn. The camera may automatically center on your token.\n- **AP Refreshes**: Your HUD shows your Action Point (AP) pool fully refreshed to **3 AP**.\n- **Condition Prompts**: Any ongoing effects (like Bleeding or Poisoned) will prompt a save or deal damage automatically at the start of your turn. See [Combat Conditions](combat-system/combat-conditions).\n- **Ending Your Turn**: Once you have spent your AP or choose to pass, click the **End Turn** button in the sidebar or HUD. The VTT shifts the active turn indicator to the next combatant, ensuring combat remains snappy."
+              "content": "When the tracker reaches your name, several automated systems activate:\n\n- **Active Glow**: Your character portrait on the grid and in the sidebar glows, indicating it is your turn. The camera may automatically center on your token.\n- **AP Refills**: Your Action Point (AP) pool refills to your maximum (**4 AP** for player characters); temporary AP is kept. In a shared room the refill shows as awaiting confirmation until it is applied.\n- **Conditions**: Active conditions show on tokens and in the tracker. In a shared room, their per-turn saves, damage and expiry are applied by the GM by hand. See [Combat Conditions](combat-system/combat-conditions).\n- **GM setting**: Leave Combat Config → Action Point Restoration on **Restore to Maximum** (the default). Based on Initiative Roll and Fixed Amount are optional table variants, not the first-table rule.\n- **Ending Your Turn**: Once you have spent your AP or choose to pass, click the **End Turn** button in the sidebar or HUD. The VTT shifts the active turn indicator to the next combatant, ensuring combat remains snappy."
+            },
+            {
+              "title": "What the VTT Resolves Today",
+              "content": "Everything below plays the same at a physical table. The VTT automates two kinds of action end to end; the rest is played by hand, with the GM entering the final result.\n\n**Automated (one roll, a GM-confirmed final amount, one recorded result):**\n- **Branvig's Feather Slash.** The GM picks the target and records one roll, judges defense by hand and confirms the final amount. One commit pays the AP and changes the target's HP; a retry or rejoin never applies it twice.\n- **Supported spells: Marrow-Piercing Slug (Arcanoneer), Restorative Prayer (Martyr), Opening Chord and Harmonic Strike (Minstrel).** The caster approves the price and one roll; the GM confirms the final amount. One commit pays (temporary pools first) and applies the damage or healing, and the cooldown starts when the result is recorded.\n\n**By hand:** every other spell and creature ability (its card says why it is not automated), defense (blocking piece, DR roll, Defend, wear, Evasion), reactions, elixirs, and per-turn condition effects in a shared room. The VTT has no reaction timer yet: call your reaction before the GM moves on."
             }
           ],
           "tables": [
@@ -4366,6 +4417,51 @@
                   "Inspect Combatant",
                   "Right-click token in tracker",
                   "Inspects basic info / health (if visible to players)"
+                ]
+              ]
+            },
+            {
+              "title": "Supported vs Manual",
+              "headers": [
+                "What",
+                "In the VTT today",
+                "At the table"
+              ],
+              "rows": [
+                [
+                  "Branvig's Feather Slash",
+                  "Automated: GM target and roll, GM-confirmed final amount, one recorded result",
+                  "Read the card, roll 2d8 + 5, the GM rules on defense and marks HP"
+                ],
+                [
+                  "Marrow-Piercing Slug, Restorative Prayer, Opening Chord, Harmonic Strike",
+                  "Automated: caster approves price and roll, GM confirms the final amount",
+                  "Pay the card price, roll, the GM confirms the result"
+                ],
+                [
+                  "Other spells and creature abilities",
+                  "Manual: the card shows why; the GM enters the result",
+                  "Same"
+                ],
+                [
+                  "Defense, Defend, wear and Evasion",
+                  "Manual: roll on screen; change a worn DR die on your sheet",
+                  "Same"
+                ],
+                [
+                  "Reactions",
+                  "Manual: no timer yet; call it before the GM moves on",
+                  "Same"
+                ],
+                [
+                  "Elixirs",
+                  "Manual: remove one from your inventory; the GM applies the effect",
+                  "Same"
+                ],
+                [
+                  "Turn order and AP refill",
+                  "Automated by the tracker",
+                  "Track AP with tokens or a die"
                 ]
               ]
             }
@@ -4461,7 +4557,7 @@
         "useCustomComponent": true,
         "content": {
           "title": "Weapons",
-          "description": "Every attack rolls two dice at once: a Weapon Type d8 (which adds flavor and a tactical effect to the strike based on your weapon) plus your Weapon Damage die. An 8 triggers the weapon’s signature move. Switch between Standard and Advanced (full Weapon Mastery) rules.",
+          "description": "A weapon has three separate parts: its attack card, your proficiency rank with that weapon type, and the weapon's own outcome table. Every strike rolls the weapon's damage die together with your proficiency die for that weapon type, which grows with rank (d4 Untrained to d20 Expert and Master). There is no generic accuracy or damage bonus and no Armor Class. *[Open: some authored weapon outcomes still mention Armor Class or to-hit modifiers; they are not reinterpreted here. The GM rules until it is decided.]*",
           "sections": [
             {
               "title": "Dynamic Weapon State",
@@ -4469,11 +4565,11 @@
             },
             {
               "title": "Two Dice, One Attack",
-              "content": "When you attack you roll two dice together:\n- **Weapon Type die (d8)** — a static d8 for every weapon. The result picks a unique outcome for your weapon type that ADDS to or RETRACTS from the attack (a 1 is a fumble, an 8 is the weapon’s signature tactical move).\n- **Weapon Damage die** — varies by weapon type (d4–d12; see table). A 1 is a miss; the max explodes into a crit.\n\nIn Advanced Rules the Weapon Type die becomes a **d8** and ties into the full Weapon Mastery quest ladder."
+              "content": "When you attack you roll two dice together:\n- **Proficiency die**: your die for that weapon type, which grows with rank: d4 Untrained, d6 Novice, d8 Trained, d10 Apprentice, d12 Adept, d20 Expert and Master. The result picks an outcome from your weapon's own table that ADDS to or RETRACTS from the attack (face 1 is a fumble, face 8 is the weapon's signature tactical move).\n- **Weapon Damage die**: varies by weapon type (d4–d12; see table). A 1 is a miss; the max explodes into a crit.\n\n*[Open: whether a modifier is added to the proficiency roll, whether the die explodes, and how a result maps onto the table's faces 1–20. The GM rules until it is decided.]*"
             },
             {
-              "title": "Weapon Mastery Skill",
-              "content": "In Advanced Rules, weapon attacks also trigger a Weapon Mastery skill check (d8) for the equipped weapon type. Mastery gates special outcomes (disarms, cleaves, rebound mishaps) and advances through a per-weapon quest ladder that can step the mastery die down. Standard Rules use the same d8 outcomes without the progression."
+              "title": "Weapon Proficiency",
+              "content": "You hold a separate proficiency rank (Untrained to Master) for each weapon type, and your proficiency die for that weapon grows with it. In Standard Rules you set the rank yourself on your sheet as your character trains, the same way as any skill. Advanced Rules change only how that rank advances: authored tasks for each weapon type move it. Rolls and outcome tables are the same in both."
             },
             {
               "title": "How to Read Results",
@@ -4483,7 +4579,7 @@
           "tables": [
             {
               "title": "Weapon Types & Dice",
-              "description": "All weapon types available in the game, with their typical damage dice. Every weapon rolls a Weapon Type d8 alongside its damage die to add flavor and tactical effects.",
+              "description": "All weapon types available in the game, with their typical damage dice. Every strike rolls the damage die together with your proficiency die on the weapon's outcome table.",
               "headers": [
                 "Weapon Type",
                 "Typical Damage Die",
@@ -4748,49 +4844,49 @@
                   "Gray",
                   "Minor enchantments, slight bonuses",
                   "Never",
-                  "30"
+                  "1d4"
                 ],
                 [
                   "Common",
                   "White",
                   "Small stat bonuses or utility effects",
                   "Rarely",
-                  "50"
+                  "1d6"
                 ],
                 [
                   "Uncommon",
                   "Green",
                   "Meaningful combat bonuses or useful abilities",
                   "Sometimes",
-                  "70"
+                  "1d8"
                 ],
                 [
                   "Rare",
                   "Blue",
                   "Significant power, multiple enchantments",
                   "Usually",
-                  "90"
+                  "1d10"
                 ],
                 [
                   "Epic",
                   "Purple",
                   "Exceptional abilities, class-defining effects",
                   "Always",
-                  "120"
+                  "1d12"
                 ],
                 [
                   "Legendary",
                   "Orange",
                   "Reality-altering powers, unique effects",
                   "Always",
-                  "160"
+                  "1d20"
                 ],
                 [
                   "Artifact",
                   "Red/Gold",
                   "World-shaking relics of unspeakable power",
                   "Always",
-                  "200+"
+                  "1d20 (or Indestructible)"
                 ]
               ]
             },
@@ -4851,7 +4947,7 @@
             },
             {
               "title": "The Item Wizard Steps",
-              "content": "The Full Wizard guides you through these creation steps:\n\n**Step 1: Basic Info**: Name the item, write its lore description, select its item type (Weapon, Armor, Accessory, Consumable, Container, Miscellaneous), set its rarity tier, and choose a visual icon from the library or upload a custom image.\n\n**Step 2: Physical Stats**: Configure the item's core statistics based on its type. For weapons: damage die, weapon type (Sword, Axe, Bow, etc.), handedness, and range. For armor: armor bonus, armor type (Cloth, Leather, Mail, Plate).\n\n**Step 3: Magical Effects**: Add enchantments. Select from stat bonuses, on-hit damage effects, resistances, active abilities, passive auras, or custom proc effects. Each effect can be finely tuned, set the magnitude, the damage type, the trigger condition, and the target. See [Magical Items](equipment-system/magical-items) for enchantment type details.\n\n**Step 4: Durability**: Set the item's maximum durability. Leave at the default for the rarity tier, or set a custom value to represent exceptional craftsmanship or ancient decay. See [Durability & Repair](core-rules/durability-repair) for how durability works in play.\n\n**Step 5: Inventory Grid Shape**: Configure the item's physical footprint in the inventory grid. Simple items are 1x1 slots; a two-handed greatsword might be 1x6. See [Your Inventory Grid](core-rules/inventory-encumbrance) for how grid slots work.\n\n**Step 6: Lore & Flavor**: Add rich lore text, an item history, a creator's name, and any special notes for the GM. This text is visible when players inspect the item in their inventory.\n\n**Step 7: Review & Save**: Preview the complete item card as players will see it. Save to your personal library, share to the community, or deploy directly into the current session."
+              "content": "The Full Wizard guides you through these creation steps:\n\n**Step 1: Basic Info**: Name the item, write its lore description, select its item type (Weapon, Armor, Accessory, Consumable, Container, Miscellaneous), set its rarity tier, and choose a visual icon from the library or upload a custom image.\n\n**Step 2: Physical Stats**: Configure the item's core statistics based on its type. For weapons: damage die, weapon type (Sword, Axe, Bow, etc.), handedness, and range. For armor: armor type (Cloth, Leather, Mail, Plate).\n\n**Step 3: Magical Effects**: Add enchantments. Select from stat bonuses, on-hit damage effects, resistances, active abilities, passive auras, or custom proc effects. Each effect can be finely tuned, set the magnitude, the damage type, the trigger condition, and the target. See [Magical Items](equipment-system/magical-items) for enchantment type details.\n\n**Step 4: Durability**: Set the item's maximum durability (for armor and shields, its DR die). Leave at the default for the rarity tier, or set a custom value to represent exceptional craftsmanship or ancient decay. See [Durability & Repair](core-rules/durability-repair) for how durability works in play.\n\n**Step 5: Inventory Grid Shape**: Configure the item's physical footprint in the inventory grid. Simple items are 1x1 slots; a two-handed greatsword might be 1x6. See [Your Inventory Grid](core-rules/inventory-encumbrance) for how grid slots work.\n\n**Step 6: Lore & Flavor**: Add rich lore text, an item history, a creator's name, and any special notes for the GM. This text is visible when players inspect the item in their inventory.\n\n**Step 7: Review & Save**: Preview the complete item card as players will see it. Save to your personal library, share to the community, or deploy directly into the current session."
             }
           ],
           "tables": [
@@ -4872,7 +4968,7 @@
                 [
                   "Armor",
                   "Leather, plate, robes, shields",
-                  "Armor bonus, armor type, soak die effect"
+                  "Armor type, DR die"
                 ],
                 [
                   "Accessory",
@@ -5056,19 +5152,14 @@
                   "Accumulate Madness through silence preaching; each point boosts damage, but reach 20 and Insanity Convulsion erupts"
                 ],
                 [
-                  "Threads of Destiny",
-                  "Gambit",
-                  "Generate threads from failures; weave fate to turn luck around"
-                ],
-                [
                   "Flux & Body Toll",
                   "Shaper",
                   "Flux builds from combat and form actions; Body Toll from shifts (identity erosion risk)"
                 ],
                 [
-                  "Fortune",
+                  "Fortune & Karmic Debt",
                   "Gambit",
-                  "Earn through risky actions; spend to manipulate probability and luck"
+                  "Fortune is drawn from the fate deck into one 0-7 bank and spent to bend probability. High Fortune rolls build Karmic Debt (0-13); Debt 13 is Calamity."
                 ],
                 [
                   "Marks",
@@ -5108,12 +5199,12 @@
                 [
                   "Inferno Veil",
                   "Pyrofiend",
-                  "Ascend/descend fire stages; higher stages unlock more powerful fire abilities"
+                  "Authored spells raise or lower the Veil from 0 to 9 across Ring 0, Ring I (1-3), Ring II (4-6) and Ring III (7-9). Reaching 9 latches a Debt Call for three of your own turns; cooling and rest do not cancel it."
                 ],
                 [
-                  "Ward Layers",
+                  "Arcane Energy Points (AEP)",
                   "Spellguard",
-                  "Build protective ward layers; spend layers for defensive and offensive abilities"
+                  "Intercepted spells are captured into one 0-100 AEP bank through containment, annulment, defusal, deflection or siphon; each records what was captured, redirected and dissipated. At 100 AEP a Meltdown vents in a 30 ft radius."
                 ],
                 [
                   "Alchemical Vials",
@@ -5175,11 +5266,11 @@
           "sections": [
             {
               "title": "Talent Trees",
-              "content": "**⚠️ Forging Your Path**, The Talent Tree system is currently in development. An early alpha build exists and is fully wired, but talents are not yet available in active play. The information below describes the intended design.\n\n---\n\nEvery scar, every victory, every hard lesson shapes what a warrior becomes. **Talent Trees** are the mechanical expression of this growth, a branching web of unlockable techniques, refinements, and power that deepens your character with each passing level.\n\nTrees are divided into **7 tiers**. Entry-level talents are accessible early; pinnacle abilities at Tier 7 demand significant investment and character experience. Dependency chains are shown visually with connecting lines, you must walk the path before reaching its summit."
+              "content": "Every scar, every victory, every hard lesson shapes what a warrior becomes. **Talent Trees** are the mechanical expression of this growth, a branching web of unlockable techniques, refinements, and power that deepens your character with each passing level. Open the **Talents** tab of your character sheet to spend points.\n\nEach class has **3 talent trees**, and each tree is divided into **7 tiers**. A tier opens once you have invested 5 points per tier below it in that tree: Tier 2 at 5 points, Tier 3 at 10, and so on up to Tier 7 at 30. Dependency chains are shown visually with connecting lines; you must walk the path before reaching its summit."
             },
             {
               "title": "Talent Points",
-              "content": "Each level earned grants **1 Talent Point**. These are spent to unlock new talents or advance existing ones to higher ranks. Some talents scale through multiple ranks, investing deeper increases potency rather than simply adding a new ability.\n\nPoints are finite. Your build defines how your character fights, survives, and applies pressure to the battlefield."
+              "content": "Each level grants **5 Talent Points**, for **50 points** by the level cap of 10. Spend them to unlock new talents or advance existing ones to higher ranks; a talent has 1, 2, 3 or 5 ranks, and investing deeper increases potency rather than simply adding a new ability. A single tree can hold all 50 points, or you can spread them across trees. Refunds that would strand a higher-tier talent are refused.\n\nPoints are finite. Your build defines how your character fights, survives, and applies pressure to the battlefield."
             },
             {
               "title": "Synergies",
@@ -8277,7 +8368,7 @@
             },
             {
               "title": "Leveling Up",
-              "content": "When you gain enough XP, you level up. Leveling grants: +1 talent point, increased HP (1d8 + CON modifier), and at certain levels, attribute improvements or special features."
+              "content": "When your total XP reaches the next level's threshold, you level up. The level cap is **10**. Each level grants:\n\n- **2 advancement points**. Each point buys +1 to any attribute, +15 maximum HP, or +10 maximum mana; you may choose the same option twice.\n- **One new spell** of your new level from your class's spell list.\n- **5 talent points** (see [Talents](magic-system/talents))."
             }
           ],
           "tables": [
@@ -8316,27 +8407,27 @@
                 ],
                 [
                   "6",
-                  "7,500",
-                  "14,000"
+                  "5,500",
+                  "12,000"
                 ],
                 [
                   "7",
-                  "9,000",
-                  "23,000"
+                  "8,000",
+                  "20,000"
                 ],
                 [
                   "8",
                   "11,000",
-                  "34,000"
+                  "31,000"
                 ],
                 [
                   "9",
                   "14,000",
-                  "48,000"
+                  "45,000"
                 ],
                 [
                   "10",
-                  "16,000",
+                  "19,000",
                   "64,000"
                 ]
               ]
@@ -8351,15 +8442,15 @@
         "theme": "mechanic",
         "content": {
           "title": "Attribute Improvements",
-          "description": "Improvement schedule and strategic choices",
+          "description": "How level-up points improve your attributes",
           "sections": [
             {
               "title": "Attribute Score Increases",
-              "content": "At levels 4, 8, 12, 16, and 20, you can increase one attribute by 2 points or two attributes by 1 point each. Alternatively, you can take a feat instead."
+              "content": "There is no fixed attribute schedule. Every time you level up, you spend **2 advancement points**: each point adds +1 to any attribute (both points on the same attribute is allowed), or buys +15 maximum HP or +10 maximum mana instead. The level cap is 10."
             },
             {
               "title": "Strategic Planning",
-              "content": "Plan your attribute increases carefully. Reaching even-numbered scores grants better modifiers. Consider your class, playstyle, and multiclassing plans."
+              "content": "Plan your increases carefully. An attribute's modifier is (score - 10) ÷ 2, rounded down, so it improves at each even score: an odd score is one point away from a better modifier. Consider your class, your talents and your playstyle."
             }
           ]
         }

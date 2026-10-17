@@ -10,6 +10,7 @@ import { getDefaultStats, validateStats, calculateFinalStats, getTotalBonusPoint
 // import { getPathStartingPoints, getPathStatModifiers } from '../../../data/pathData'; // Disciplines removed
 import { applyRacialModifiers } from '../../../data/raceData';
 import { validateCharacterClassAccess } from '../../../utils/characterClassAccess';
+import { calculatePointsSpent, calculateTotalSkillPoints } from '../../../constants/skillPointSystem';
 
 // Wizard steps configuration
 export const WIZARD_STEPS = {
@@ -495,6 +496,19 @@ export const validateCurrentStep = (state) => {
                 errors.spells = `Please select exactly 3 starting spells (currently ${knownSpells.length} selected).`;
             }
             break;
+
+        case WIZARD_STEPS.SKILLS_LANGUAGES: {
+            // P11: a new character cannot be finished with skill training over the
+            // configured budget. Editing an existing character never blocks here:
+            // ranks raised later through training and story may exceed it.
+            if (!state.originalCalling) {
+                const overBy = calculatePointsSpent(characterData.skillRanks || {}) - calculateTotalSkillPoints(characterData);
+                if (overBy > 0) {
+                    errors.skillPoints = `Skill training is over budget by ${overBy} point${overBy === 1 ? '' : 's'}. Lower a rank to continue.`;
+                }
+            }
+            break;
+        }
 
         case WIZARD_STEPS.CHARACTER_SUMMARY:
             // Final validation - check all previous steps

@@ -213,6 +213,8 @@ export const assembleCharacterWorkingData = (state, inventoryData = null) => {
         encumbranceState: 'normal'
     },
     classResource: state.classResource,
+    // P12B private custody lineage; saved in the same draft as equipment and inventory.
+    roomEquipmentCustody: state.roomEquipmentCustody ?? null,
     updatedAt: new Date().toISOString(),
     ...projection
 });

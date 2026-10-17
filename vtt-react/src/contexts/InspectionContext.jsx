@@ -5,6 +5,7 @@ import useGameStore from '../store/gameStore';
 import { calculateDerivedStats, calculateEquipmentBonuses } from '../utils/characterUtils';
 import { applyRacialModifiers } from '../data/raceData';
 import { normalizeEquipment } from '../utils/equipmentUtils';
+import { WEAPON_MASTERY_SKILL_ID, withWeaponRank } from '../utils/weaponProficiency';
 
 // Create the inspection context
 const InspectionContext = createContext(null);
@@ -284,28 +285,30 @@ export const InspectionProvider = ({ character, children }) => {
         updateBackground: () => { },
         updateSkillProgress: () => { },
         unequipItem: () => { },
-        setSkillRank: (skillId, rankKey) => {
+        setSkillRank: (skillId, rankKey, weaponType) => {
             if (!canEdit) {
                 console.log('Skill rank changes not allowed - not owner and not GM');
-                return;
+                return false;
             }
 
             if (isCurrentPlayer) {
-                useCharacterStore.getState().setSkillRank(skillId, rankKey);
-            } else {
-                const member = partyMembers.find(m => m.id === currentMemberData?.id);
-                if (member) {
-                    updatePartyMember(currentMemberData.id, {
-                        character: {
-                            ...member.character,
-                            skillRanks: {
-                                ...(member.character?.skillRanks || {}),
-                                [skillId]: rankKey
-                            }
-                        }
-                    });
-                }
+                return useCharacterStore.getState().setSkillRank(skillId, rankKey, weaponType);
             }
+            const member = partyMembers.find(m => m.id === currentMemberData?.id);
+            if (!member) return false;
+            const currentRanks = member.character?.skillRanks || {};
+            // P11: Weapon Mastery is per weapon type; never write the legacy shared key.
+            const nextRanks = skillId === WEAPON_MASTERY_SKILL_ID
+                ? withWeaponRank(currentRanks, weaponType, rankKey)
+                : { ...currentRanks, [skillId]: rankKey };
+            if (!nextRanks) return false;
+            updatePartyMember(currentMemberData.id, {
+                character: {
+                    ...member.character,
+                    skillRanks: nextRanks
+                }
+            });
+            return true;
         },
 
         // Calculated values - use properly calculated derived stats

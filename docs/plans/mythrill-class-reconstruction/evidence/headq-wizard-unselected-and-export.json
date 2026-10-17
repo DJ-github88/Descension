@@ -1,0 +1,181 @@
+{
+  "state": {
+    "actionPoints": 1,
+    "mana": 4,
+    "resourceTypes": [],
+    "resourceValues": {
+      "actionPoints": 0,
+      "mana": 4
+    },
+    "resourceFormulas": {},
+    "useFormulas": {},
+    "components": [],
+    "spheres": [
+      "arcane",
+      "arcane"
+    ]
+  },
+  "status": "{\"mode\":\"unselected-zero\",\"ap\":1,\"values\":{\"actionPoints\":0,\"mana\":4}}",
+  "freeSpellVisible": true,
+  "serialized": {
+    "id": "headq-zero-ap-witness",
+    "name": "Zero AP witness",
+    "level": 1,
+    "description": "Isolated research fixture",
+    "spellType": "ACTION",
+    "effectTypes": [
+      "damage"
+    ],
+    "typeConfig": {
+      "school": "arcane"
+    },
+    "targetingConfig": {
+      "targetingType": "single"
+    },
+    "durationConfig": {
+      "durationType": "instant"
+    },
+    "damageConfig": {
+      "formula": "1d6",
+      "damageTypes": [
+        "arcane"
+      ]
+    }
+  },
+  "template": {
+    "id": "headq-zero-ap-witness",
+    "name": "Zero AP witness",
+    "level": 1,
+    "description": "Isolated research fixture",
+    "spellType": "ACTION",
+    "effectTypes": [
+      "damage"
+    ],
+    "typeConfig": {
+      "school": "arcane"
+    },
+    "targetingConfig": {
+      "targetingType": "single"
+    },
+    "durationConfig": {
+      "durationType": "instant"
+    },
+    "damageConfig": {
+      "formula": "1d6",
+      "damageTypes": [
+        "arcane"
+      ]
+    },
+    "_isTemplate": true,
+    "_templateName": "HeadQ witness",
+    "_dateCreated": "2026-10-17T18:24:54.652Z",
+    "_parameterOptions": {
+      "name": {
+        "type": "string",
+        "description": "Spell name",
+        "default": "Zero AP witness"
+      },
+      "level": {
+        "type": "number",
+        "description": "Spell level (1-10)",
+        "default": 1,
+        "min": 1,
+        "max": 10
+      },
+      "damageTypes": {
+        "type": "array",
+        "description": "Damage types",
+        "default": [
+          "arcane"
+        ],
+        "options": [
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {}
+        ]
+      },
+      "damageConfig.diceNotation": {
+        "type": "string",
+        "description": "Damage dice notation",
+        "default": "2d6"
+      },
+      "targetingConfig.targetingType": {
+        "type": "string",
+        "description": "Targeting type",
+        "default": "single",
+        "options": [
+          {},
+          {},
+          {},
+          {},
+          {},
+          {}
+        ]
+      },
+      "durationConfig.durationType": {
+        "type": "string",
+        "description": "Duration type",
+        "default": "instant",
+        "options": [
+          {},
+          {},
+          {},
+          {}
+        ]
+      }
+    }
+  },
+  "generated": {
+    "id": "headq-zero-ap-witness",
+    "name": "Zero AP witness",
+    "level": 1,
+    "description": "Isolated research fixture",
+    "spellType": "ACTION",
+    "effectTypes": [
+      "damage"
+    ],
+    "typeConfig": {
+      "school": "arcane"
+    },
+    "targetingConfig": {
+      "targetingType": "single"
+    },
+    "durationConfig": {
+      "durationType": "instant"
+    },
+    "damageConfig": {
+      "formula": "1d6",
+      "damageTypes": [
+        "arcane"
+      ]
+    }
+  },
+  "originalCostAfterCalls": {
+    "actionPoints": 0,
+    "mana": 4,
+    "resourceTypes": [
+      "actionPoints",
+      "mana"
+    ],
+    "resourceValues": {
+      "actionPoints": 0,
+      "mana": 4
+    },
+    "resourceFormulas": {},
+    "useFormulas": {},
+    "components": [],
+    "spheres": [
+      "arcane",
+      "arcane"
+    ]
+  },
+  "localStorageEntries": 0
+}

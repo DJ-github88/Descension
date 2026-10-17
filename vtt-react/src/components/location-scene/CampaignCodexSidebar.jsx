@@ -538,7 +538,9 @@ const CampaignCodexSidebar = ({
 
                   <div className="codex-meta-row">
                     {c.hp && <span className="codex-meta-chip"><i className="fas fa-heart" /> {c.hp} HP</span>}
-                    {c.ac && <span className="codex-meta-chip"><i className="fas fa-shield-halved" /> {c.ac} AC</span>}
+                    {/* No Armor score/AC in Mythrill (creator-confirmed): legacy c.ac is kept but not shown. */}
+                    {c.damageReduction && <span className="codex-meta-chip" title="Flat damage reduction"><i className="fas fa-shield-halved" /> {c.damageReduction}</span>}
+                    {c.resistances && <span className="codex-meta-chip" title="Resistances and vulnerabilities"><i className="fas fa-fire-flame-curved" /> {c.resistances}</span>}
                     {c.speed && <span className="codex-meta-chip"><i className="fas fa-person-running" /> {c.speed}</span>}
                   </div>
 

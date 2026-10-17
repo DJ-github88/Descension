@@ -920,11 +920,11 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
   level: 1,
   spellType: "PASSIVE",
   icon: "Psychic/Mental Chaos",
-  effectTypes: ["passive"],
+  effectTypes: ["passive", "buff"],
   typeConfig: {
   school: "wyrd",
   icon: "Psychic/Mental Chaos",
-  tags: ["passive", "debuff", "omen", "augur"],
+  tags: ["passive", "buff", "omen", "augur"],
   castTime: 0,
   castTimeType: "PASSIVE",
   },
@@ -937,6 +937,20 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
   actionPoints: 0,
   },
   resolution: "AUTOMATIC",
+  buffConfig: {
+    buffType: "enhancement",
+    effects: [
+      {
+        id: "death_stretched_panic",
+        name: "Hyper-Focused Panic",
+        description: "When critically wounded (below 25% HP)",
+        mechanicsText: "Gain desperate evasion (+2 to Dodge and saving throws) and movement speed cannot be reduced."
+      }
+    ],
+    durationValue: 0,
+    durationType: "permanent",
+    durationUnit: "permanent"
+  },
   tags: ["passive", "debuff", "omen", "augur"],
  
 

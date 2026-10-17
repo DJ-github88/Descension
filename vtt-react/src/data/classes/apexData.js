@@ -3822,7 +3822,7 @@ Marks (0–5) track tactical vulnerability on priority targets. You and your bon
   level: 1,
   spellType: "PASSIVE",
   icon: "Nature/Nature Primal",
-  effectTypes: ["passive"],
+  effectTypes: ["passive","debuff"],
   typeConfig: {
   school: "primal",
   icon: "Nature/Nature Primal",
@@ -3838,6 +3838,20 @@ Marks (0–5) track tactical vulnerability on priority targets. You and your bon
   resourceValues: {},
   actionPoints: 0,
   },
+  debuffConfig: {
+    debuffType: "statusEffect",
+    effects: [
+      {
+        id: "bond_sickness_penalty",
+        name: "Bond Sickness",
+        description: "When companion drops to 0 HP or is dismissed",
+        mechanicsText: "-2 to all attack rolls and -10ft movement speed for 2 rounds. Cannot summon a new companion until it ends."
+      }
+    ],
+    durationValue: 2,
+    durationType: "rounds",
+    durationUnit: "rounds"
+  },
   resolution: "AUTOMATIC",
   tags: ["passive", "debuff", "companion", "bond sickness", "apex"],
  },
@@ -3848,7 +3862,7 @@ Marks (0–5) track tactical vulnerability on priority targets. You and your bon
   level: 3,
   spellType: "PASSIVE",
   icon: "Nature/Wolf Human Split Face",
-  effectTypes: ["passive"],
+  effectTypes: ["passive","debuff"],
   typeConfig: {
   school: "primal",
   icon: "Nature/Wolf Human Split Face",
@@ -3863,6 +3877,20 @@ Marks (0–5) track tactical vulnerability on priority targets. You and your bon
   resourceTypes: [],
   resourceValues: {},
   actionPoints: 0,
+  },
+  debuffConfig: {
+    debuffType: "statusEffect",
+    effects: [
+      {
+        id: "pack_dependency_penalty",
+        name: "Incomplete Pack",
+        description: "Without active companion",
+        mechanicsText: "Lose all Pack Tactics abilities and melee attacks deal -1d6 damage."
+      }
+    ],
+    durationValue: 0,
+    durationType: "permanent",
+    durationUnit: "permanent"
   },
   resolution: "AUTOMATIC",
   tags: ["passive", "debuff", "companion dependency", "pack tactics", "apex"],

@@ -32,17 +32,8 @@ export const getSpeedRating = (speed) => {
   return { label: 'Blazing', color: '#2a8a8a', icon: '⚡' };
 };
 
-// === ARMOR RATING ===
-// Returns qualitative armor description for creatures (resistances only)
-export const getArmorRating = (armor) => {
-  return { label: 'Resistances Only', color: '#8b7d6b', passiveDR: 0, soakDie: '-' };
-};
-
-// === SOAK DIE ===
-// Creatures do not have soak dice under the simplified rules
-export const getSoakDie = (armor) => {
-  return '-';
-};
+// Armor rating / AC / soak die are obsolete in Mythrill (creator-confirmed): creatures mitigate through
+// flat DR and resistances/vulnerabilities, shown from their authored data.
 
 // === BASE ATTACK DIE ===
 // Extract primary attack die from creature abilities

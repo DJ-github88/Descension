@@ -1,61 +1,53 @@
-/* LoreTooltip.css — Beige Pathfinder / Scriptorium theme
-   Matches app-wide parchment: #fbf6eb→#f4ecd6, gold #c4a060/#8f6f35,
-   Cinzel + Crimson Text, wax-seal accents. Replaces prior dark modal. */
+/* LoreTooltip.css — Calm TTRPG Codex Folio
+   Warm archival vellum (#fbf6e8), double gilt rule, crimson wax seal (#682317)
+   with crisp light ivory icon (#fcf8ee), and ink-stamped reception ledger. */
 
 .lore-tooltip-wrapper {
   position: fixed;
   z-index: 2147483647;
   pointer-events: auto;
   font-family: 'Crimson Text', 'Georgia', serif;
-  max-width: 380px;
-  filter: drop-shadow(0 12px 28px rgba(60, 40, 15, 0.28)) drop-shadow(0 2px 8px rgba(60, 40, 15, 0.15));
-  animation: lore-fade-in 200ms ease-out forwards;
+  max-width: 440px;
+  filter: drop-shadow(0 14px 32px rgba(26, 15, 8, 0.34)) drop-shadow(0 2px 8px rgba(26, 15, 8, 0.18));
+  animation: lore-fade-in 180ms ease-out forwards;
 }
 
 @keyframes lore-fade-in {
-  from { opacity: 0; transform: translateY(6px); }
+  from { opacity: 0; transform: translateY(5px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Parchment folio — light beige, illuminated */
+/* Archival Vellum Folio */
 .lore-parchment {
   position: relative;
-  background:
-    repeating-linear-gradient(0deg, rgba(120, 90, 50, 0.015) 0 1px, transparent 1px 3px),
-    radial-gradient(ellipse at 22% 8%, rgba(255, 250, 234, 0.85), transparent 55%),
-    radial-gradient(ellipse at 88% 96%, rgba(150, 110, 60, 0.08), transparent 60%),
-    linear-gradient(135deg, #fdfaf3 0%, #fbf6eb 35%, #f5ecd6 100%);
-  border: 2px solid #c4a060;
-  border-radius: 8px;
-  padding: 16px 16px 14px;
-  color: #2b1c11;
+  background: linear-gradient(180deg, #fcf8ef 0%, #f7f0e0 100%);
+  border: 1.5px solid #b6a080;
+  border-radius: 5px;
+  padding: 18px 20px 16px;
+  color: #261910;
   box-shadow:
-    inset 0 0 0 1px rgba(255, 250, 235, 0.7),
-    inset 0 0 42px rgba(120, 80, 40, 0.10),
-    0 2px 6px rgba(143, 111, 53, 0.12);
-  transition: max-height 300ms cubic-bezier(0.4, 0, 0.2, 1);
-  overflow: hidden;
+    inset 0 0 0 3px #fbf6e8,
+    inset 0 0 0 4px rgba(182, 160, 128, 0.42),
+    0 2px 8px rgba(40, 26, 14, 0.14);
+  max-height: 82vh;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(104, 35, 23, 0.28) transparent;
 }
 
-/* Inner dashed frame — like rules-summary-box */
 .lore-parchment::before {
-  content: '';
-  position: absolute;
-  top: 6px; left: 6px; right: 6px; bottom: 6px;
-  border: 1px dashed rgba(196, 160, 96, 0.38);
-  border-radius: 6px;
-  pointer-events: none;
+  display: none;
 }
 
-/* Region accent — thin top rule in region color */
+/* Subtle top archival spine rule */
 .lore-parchment::after {
   content: '';
   position: absolute;
-  top: -2px; left: -2px; right: -2px;
-  height: 4px;
-  border-radius: 8px 8px 0 0;
-  background: var(--region-accent, #8f6f35);
-  opacity: 0.95;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #4e180f 0%, #682317 50%, #4e180f 100%);
   pointer-events: none;
 }
 
@@ -65,185 +57,386 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  border-bottom: 1px solid rgba(196, 160, 96, 0.35);
-  padding-bottom: 10px;
-  margin-bottom: 10px;
+  border-bottom: 1px solid rgba(182, 160, 128, 0.55);
+  padding-bottom: 11px;
+  margin-bottom: 12px;
 }
 
-/* Wax-seal icon — parchment seal with gold rim */
+/* Crimson Wax Seal Icon with crisp light ivory glyph */
 .lore-type-icon {
-  font-size: 15px;
-  width: 36px;
-  height: 36px;
+  font-size: 14px;
+  width: 34px;
+  height: 34px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: radial-gradient(circle at 34% 28%, #fcf4e0, #e4d2ac);
-  border-radius: 50%;
-  border: 1.5px solid #a8842f;
+  background: linear-gradient(180deg, #74281b 0%, #581c11 100%);
+  border-radius: 4px;
+  border: 1px solid #9e7848;
   box-shadow:
-    inset 0 0 0 2px rgba(255, 250, 235, 0.55),
-    inset 0 2px 6px rgba(90, 60, 20, 0.28),
-    0 1px 4px rgba(60, 40, 15, 0.18);
-  color: var(--region-accent, #8f6f35);
+    inset 0 1px 0 rgba(255, 248, 230, 0.22),
+    0 1px 3px rgba(34, 18, 10, 0.22);
+  color: #fcf8ee;
   flex-shrink: 0;
+}
+
+.lore-type-icon i {
+  color: #fcf8ee !important;
+  text-shadow: none !important;
+  filter: none !important;
 }
 
 .lore-title-section {
   display: flex;
   flex-direction: column;
   min-width: 0;
+  flex: 1;
 }
 
 .lore-title {
   font-family: 'Cinzel', 'Georgia', serif;
-  font-size: 15px;
+  font-size: 15.5px;
   font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.6px;
-  color: #2b1c11;
+  letter-spacing: 0.05em;
+  color: #24160e;
   line-height: 1.2;
-  text-shadow: 0 1px 0 rgba(255, 250, 235, 0.8);
+  text-shadow: none;
 }
 
 .lore-subtitle {
   font-family: 'Cinzel', 'Georgia', serif;
-  font-size: 9.5px;
+  font-size: 10px;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 1px;
-  color: var(--region-accent, #8f6f35);
-  margin-top: 3px;
-  opacity: 0.95;
+  letter-spacing: 0.1em;
+  color: #682317;
+  margin-top: 2px;
+}
+
+.lore-close-btn {
+  width: 26px;
+  height: 26px;
+  border-radius: 3px;
+  border: 1px solid rgba(182, 160, 128, 0.65);
+  background: #f5ede0;
+  color: #5e4835;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 11px;
+  flex-shrink: 0;
+  transition: all 140ms ease;
+}
+
+.lore-close-btn:hover {
+  background: #682317;
+  border-color: #682317;
+  color: #fcf8ee;
+}
+
+.lore-close-btn:hover i {
+  color: #fcf8ee !important;
 }
 
 .lore-tooltip-body {
   position: relative;
   z-index: 1;
   font-family: 'Crimson Text', 'Georgia', serif;
-  font-size: 13.5px;
-  line-height: 1.6;
-  color: #3d2a17;
+  font-size: 14.5px;
+  line-height: 1.58;
+  color: #2e1f14;
 }
 
 .lore-summary {
-  color: #3d2a17;
+  color: #2e1f14;
   font-style: italic;
   line-height: 1.55;
+  font-size: 14.5px;
+}
+
+.lore-secondary-regions {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  font-size: 13px;
+  margin-top: 8px;
+  padding: 5px 9px;
+  background: rgba(182, 160, 128, 0.14);
+  border-left: 2px solid #682317;
+  border-radius: 0 3px 3px 0;
+  color: #4a3525;
+}
+
+.lore-secondary-regions i {
+  color: #682317 !important;
+  font-size: 11px;
+}
+
+.lore-secondary-regions strong {
+  color: #261910;
+  font-weight: 700;
+}
+
+.lore-section-block {
+  margin-top: 11px;
+}
+
+.lore-section-heading {
+  font-family: 'Cinzel', 'Georgia', serif;
+  font-size: 10.5px;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: #682317;
+  margin-bottom: 4px;
+  font-weight: 800;
+}
+
+.lore-native-weaving,
+.lore-transition-text {
+  font-size: 13.5px;
+  line-height: 1.52;
+  color: #34251a;
+  font-family: 'Crimson Text', 'Georgia', serif;
+}
+
+.lore-inline-term {
+  color: #5a1e14;
+  font-weight: 700;
+}
+
+.lore-survivor-note {
+  font-size: 13px;
+  font-style: italic;
+  color: #5e4835;
+  line-height: 1.5;
+  margin-top: 4px;
 }
 
 .lore-divider {
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(196, 160, 96, 0.45) 20%, rgba(196, 160, 96, 0.45) 80%, transparent);
+  background: linear-gradient(90deg, transparent, rgba(182, 160, 128, 0.65) 18%, rgba(182, 160, 128, 0.65) 82%, transparent);
   margin: 12px 0;
   position: relative;
 }
+
 .lore-divider::after {
-  content: '◆';
+  content: '❖';
   position: absolute;
-  left: 50%; top: 50%;
+  left: 50%;
+  top: 50%;
   transform: translate(-50%, -50%);
-  font-size: 7px;
-  color: #c4a060;
-  background: #fdfaf3;
+  font-size: 9px;
+  color: #8c704c;
+  background: #f9f3e5;
   padding: 0 6px;
-  opacity: 0.9;
 }
 
 .lore-full-entry {
-  color: #4a3728;
-  font-size: 13px;
-  line-height: 1.6;
+  color: #34251a;
+  font-size: 13.8px;
+  line-height: 1.58;
   max-height: 0;
   overflow: hidden;
   opacity: 0;
-  transition: max-height 300ms ease-out, opacity 250ms ease-out;
+  transition: max-height 260ms ease-out, opacity 220ms ease-out;
 }
 
 .lore-full-entry.expanded {
-  max-height: 260px;
+  max-height: 240px;
   overflow-y: auto;
   opacity: 1;
   padding-right: 6px;
+  margin-bottom: 8px;
 }
 
-.lore-full-entry.expanded::-webkit-scrollbar { width: 5px; }
-.lore-full-entry.expanded::-webkit-scrollbar-track { background: rgba(196, 160, 96, 0.12); border-radius: 3px; }
-.lore-full-entry.expanded::-webkit-scrollbar-thumb { background: rgba(143, 111, 53, 0.35); border-radius: 3px; }
-.lore-full-entry.expanded::-webkit-scrollbar-thumb:hover { background: rgba(143, 111, 53, 0.5); }
+.lore-full-entry.expanded::-webkit-scrollbar { width: 4px; }
+.lore-full-entry.expanded::-webkit-scrollbar-track { background: rgba(182, 160, 128, 0.15); border-radius: 2px; }
+.lore-full-entry.expanded::-webkit-scrollbar-thumb { background: rgba(104, 35, 23, 0.35); border-radius: 2px; }
+
+.lore-expand-group,
+.lore-reception-group {
+  margin-top: 6px;
+}
 
 .lore-action-btn {
-  background: linear-gradient(135deg, rgba(251, 246, 235, 0.9) 0%, rgba(244, 232, 204, 0.9) 100%);
-  border: 1px solid rgba(196, 160, 96, 0.45);
-  color: var(--region-accent, #8f6f35);
+  background: #f3ebda;
+  border: 1px solid #bfaa88;
+  color: #34251a;
   font-family: 'Cinzel', 'Georgia', serif;
-  font-size: 9.5px;
-  font-weight: 800;
-  letter-spacing: 0.6px;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   cursor: pointer;
-  padding: 6px 10px;
-  margin-top: 8px;
-  border-radius: 4px;
+  padding: 7px 11px;
+  border-radius: 3px;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  transition: all 200ms ease;
-  width: fit-content;
-  box-shadow: 0 1px 3px rgba(143, 111, 53, 0.12);
+  justify-content: space-between;
+  gap: 8px;
+  transition: all 150ms ease;
+  width: 100%;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.65);
+}
+
+.lore-action-btn .lore-btn-left {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
 }
 
 .lore-action-btn:hover {
-  color: #2b1c11;
-  border-color: #c4a060;
-  background: linear-gradient(135deg, #fdfaf3 0%, #f5ecd6 100%);
-  box-shadow: 0 2px 6px rgba(143, 111, 53, 0.18);
-  transform: translateY(-1px);
+  color: #24160e;
+  border-color: #8c704c;
+  background: #ede1c9;
+}
+
+.lore-action-btn.expanded {
+  background: #ebe0c8;
+  border-color: #9e825c;
+  color: #682317;
 }
 
 .lore-action-btn i {
-  font-size: 8px;
-  transition: transform 200ms ease;
+  font-size: 10px;
+  color: #682317 !important;
+  transition: transform 180ms ease;
 }
 
-.lore-action-btn.expanded i {
+.lore-action-btn.expanded .fa-chevron-down,
+.lore-action-btn.expanded .lore-chevron {
   transform: rotate(180deg);
 }
 
-/* Inline lore links in running text — keep amber dotted */
+/* Reception in the World Ledger */
+.lore-reception-list {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.lore-reception-item {
+  background: #faf4e6;
+  border: 1px solid #d5c5a8;
+  border-radius: 3px;
+  padding: 8px 10px;
+  font-size: 13.2px;
+  line-height: 1.45;
+}
+
+.lore-reception-header {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-bottom: 4px;
+}
+
+.lore-status-stamp {
+  display: inline-flex;
+  align-items: center;
+  padding: 1.5px 7px;
+  border-radius: 2px;
+  font-family: 'Cinzel', 'Georgia', serif;
+  font-size: 9.5px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border: 1px solid transparent;
+}
+
+.lore-status-stamp.tone-hostile {
+  background: rgba(104, 35, 23, 0.12);
+  color: #682317;
+  border-color: rgba(104, 35, 23, 0.38);
+}
+
+.lore-status-stamp.tone-caution {
+  background: rgba(122, 82, 22, 0.12);
+  color: #6b4610;
+  border-color: rgba(122, 82, 22, 0.36);
+}
+
+.lore-status-stamp.tone-neutral {
+  background: rgba(94, 72, 53, 0.12);
+  color: #4a3728;
+  border-color: rgba(94, 72, 53, 0.34);
+}
+
+.lore-status-stamp.tone-favored {
+  background: rgba(43, 84, 52, 0.12);
+  color: #244f2e;
+  border-color: rgba(43, 84, 52, 0.36);
+}
+
+.lore-reception-region {
+  color: #34251a;
+  font-family: 'Cinzel', 'Georgia', serif;
+  font-size: 11.5px;
+  font-weight: 700;
+}
+
+.lore-reception-consequence {
+  color: #2e1f14;
+  font-family: 'Crimson Text', 'Georgia', serif;
+  font-size: 13.5px;
+}
+
+.lore-reception-workaround {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  color: #5e4835;
+  font-style: italic;
+  margin-top: 4px;
+  padding-top: 4px;
+  border-top: 1px dashed rgba(182, 160, 128, 0.45);
+  font-size: 12.8px;
+}
+
+.lore-reception-workaround i {
+  color: #682317 !important;
+  font-size: 10.5px;
+  flex-shrink: 0;
+}
+
+/* Inline lore links in running text */
 .lore-link {
-  color: #9b7840;
+  color: #682317;
   text-decoration: none;
   cursor: pointer;
   transition: color 150ms ease, border-color 150ms ease;
   display: inline;
   font-weight: 600;
-  border-bottom: 1px dotted rgba(155, 120, 64, 0.45);
+  border-bottom: 1px dotted rgba(104, 35, 23, 0.48);
   padding-bottom: 0.5px;
 }
 
 .lore-link:hover {
-  color: #6d4021;
-  border-bottom-color: rgba(109, 64, 33, 0.7);
+  color: #43140c;
+  border-bottom-color: rgba(67, 20, 12, 0.85);
   border-bottom-style: solid;
 }
 
 .lore-link-icon {
   font-size: 9px;
-  opacity: 0.7;
+  opacity: 0.75;
   margin-left: 2px;
   display: inline-block;
   vertical-align: middle;
 }
 
-/* Backdrop — slightly softer, warm */
+/* Backdrop */
 .lore-tooltip-overlay {
   position: fixed !important;
   top: 0 !important; left: 0 !important; right: 0 !important; bottom: 0 !important;
-  background: rgba(44, 28, 17, 0.32) !important;
+  background: rgba(28, 18, 10, 0.42) !important;
   backdrop-filter: blur(1.5px) !important;
   z-index: 2147483640 !important;
-  animation: lore-fade-overlay 200ms ease-out forwards !important;
+  animation: lore-fade-overlay 180ms ease-out forwards !important;
 }
 
 @keyframes lore-fade-overlay {
@@ -252,12 +445,12 @@
 
 /* Center Modal */
 .lore-tooltip-wrapper.center-modal {
-  max-width: 400px !important;
+  max-width: 440px !important;
   width: 92% !important;
-  animation: lore-modal-scale 280ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards !important;
+  animation: lore-modal-scale 220ms cubic-bezier(0.22, 1, 0.36, 1) forwards !important;
 }
 
 @keyframes lore-modal-scale {
-  from { opacity: 0; transform: translate(-50%, -46%) scale(0.93) !important; }
+  from { opacity: 0; transform: translate(-50%, -48%) scale(0.96) !important; }
   to { opacity: 1; transform: translate(-50%, -50%) scale(1) !important; }
 }

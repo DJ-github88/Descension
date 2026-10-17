@@ -3,6 +3,34 @@ import { useCreatureLibrary, useCreatureLibraryDispatch, libraryActionCreators }
 import { CREATURE_TYPES, CREATURE_SIZES } from '../../../../store/creatureStore';
 import '../../styles/CreatureFilters.css';
 
+// Thematic color badges and icons matching the creature card badges
+export const CREATURE_TYPE_THEMES = {
+  aberration: { color: '#8a3ab9', icon: 'fas fa-eye' },
+  beast: { color: '#8b4513', icon: 'fas fa-paw' },
+  celestial: { color: '#bfa134', icon: 'fas fa-sun' },
+  construct: { color: '#5f6f81', icon: 'fas fa-gear' },
+  dragon: { color: '#b82626', icon: 'fas fa-dragon' },
+  elemental: { color: '#1a8a82', icon: 'fas fa-wind' },
+  fey: { color: '#8c5bb5', icon: 'fas fa-wand-magic-sparkles' },
+  fiend: { color: '#9e2424', icon: 'fas fa-skull-crossbones' },
+  giant: { color: '#9c5932', icon: 'fas fa-mountain' },
+  humanoid: { color: '#44729b', icon: 'fas fa-user' },
+  monstrosity: { color: '#4a6728', icon: 'fas fa-biohazard' },
+  ooze: { color: '#5a9320', icon: 'fas fa-droplet' },
+  plant: { color: '#277d27', icon: 'fas fa-leaf' },
+  shopkeeper: { color: '#b08828', icon: 'fas fa-coins' },
+  undead: { color: '#582b7b', icon: 'fas fa-skull' },
+};
+
+export const CREATURE_SIZE_HINTS = {
+  tiny: '0.5 × 0.5',
+  small: '1 × 1',
+  medium: '1 × 1',
+  large: '2 × 2',
+  huge: '3 × 3',
+  gargantuan: '4 × 4+'
+};
+
 const CreatureFilters = ({ filteredCount, totalCount }) => {
   const library = useCreatureLibrary();
   const dispatch = useCreatureLibraryDispatch();
@@ -13,23 +41,36 @@ const CreatureFilters = ({ filteredCount, totalCount }) => {
   const typeDropdownRef = useRef(null);
   const sizeDropdownRef = useRef(null);
 
+  const typeOptions = Object.values(CREATURE_TYPES || {});
+  const sizeOptions = Object.values(CREATURE_SIZES || {});
+
   // Handle type filter change
   const handleTypeChange = (type) => {
     const currentTypes = [...library.filters.types];
     const typeIndex = currentTypes.indexOf(type);
 
     if (typeIndex === -1) {
-      // Add type to filter
       dispatch(libraryActionCreators.filterCreatures({
         types: [...currentTypes, type]
       }));
     } else {
-      // Remove type from filter
       currentTypes.splice(typeIndex, 1);
       dispatch(libraryActionCreators.filterCreatures({
         types: currentTypes
       }));
     }
+  };
+
+  const handleSelectAllTypes = () => {
+    dispatch(libraryActionCreators.filterCreatures({
+      types: [...typeOptions]
+    }));
+  };
+
+  const handleClearAllTypes = () => {
+    dispatch(libraryActionCreators.filterCreatures({
+      types: []
+    }));
   };
 
   // Handle size filter change
@@ -38,12 +79,10 @@ const CreatureFilters = ({ filteredCount, totalCount }) => {
     const sizeIndex = currentSizes.indexOf(size);
 
     if (sizeIndex === -1) {
-      // Add size to filter
       dispatch(libraryActionCreators.filterCreatures({
         sizes: [...currentSizes, size]
       }));
     } else {
-      // Remove size from filter
       currentSizes.splice(sizeIndex, 1);
       dispatch(libraryActionCreators.filterCreatures({
         sizes: currentSizes
@@ -51,19 +90,29 @@ const CreatureFilters = ({ filteredCount, totalCount }) => {
     }
   };
 
+  const handleSelectAllSizes = () => {
+    dispatch(libraryActionCreators.filterCreatures({
+      sizes: [...sizeOptions]
+    }));
+  };
+
+  const handleClearAllSizes = () => {
+    dispatch(libraryActionCreators.filterCreatures({
+      sizes: []
+    }));
+  };
+
   // Handle sort order change
   const handleSortChange = (field) => {
     const currentSortField = library.sortOrder.field;
     const currentSortDirection = library.sortOrder.direction;
 
-    // If clicking the same field, toggle direction
     if (field === currentSortField) {
       dispatch(libraryActionCreators.sortCreatures({
         field,
         direction: currentSortDirection === 'asc' ? 'desc' : 'asc'
       }));
     } else {
-      // If clicking a different field, set to ascending
       dispatch(libraryActionCreators.sortCreatures({
         field,
         direction: 'asc'
@@ -73,12 +122,12 @@ const CreatureFilters = ({ filteredCount, totalCount }) => {
 
   // Format type name for display
   const formatTypeName = (type) => {
-    return type.charAt(0).toUpperCase() + type.slice(1);
+    return type ? type.charAt(0).toUpperCase() + type.slice(1) : '';
   };
 
   // Format size name for display
   const formatSizeName = (size) => {
-    return size.charAt(0).toUpperCase() + size.slice(1);
+    return size ? size.charAt(0).toUpperCase() + size.slice(1) : '';
   };
 
   // Format sort field name for display
@@ -92,7 +141,7 @@ const CreatureFilters = ({ filteredCount, totalCount }) => {
     return names[field] || field;
   };
 
-  // Close dropdowns when clicking outside
+  // Close dropdowns when clicking outside or pressing Escape
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (sortDropdownRef.current && !sortDropdownRef.current.contains(event.target)) {
@@ -106,12 +155,22 @@ const CreatureFilters = ({ filteredCount, totalCount }) => {
       }
     };
 
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') {
+        setIsSortDropdownOpen(false);
+        setIsTypeDropdownOpen(false);
+        setIsSizeDropdownOpen(false);
+      }
+    };
+
     if (isSortDropdownOpen || isTypeDropdownOpen || isSizeDropdownOpen) {
       document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener('keydown', handleKeyDown);
     }
 
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleKeyDown);
     };
   }, [isSortDropdownOpen, isTypeDropdownOpen, isSizeDropdownOpen]);
 
@@ -119,8 +178,6 @@ const CreatureFilters = ({ filteredCount, totalCount }) => {
   const handleSortOptionClick = (field) => {
     const isSameField = library.sortOrder.field === field;
     handleSortChange(field);
-    // If clicking the same field, keep dropdown open so user can see direction toggle
-    // Otherwise close it
     if (!isSameField) {
       setIsSortDropdownOpen(false);
     }
@@ -134,9 +191,6 @@ const CreatureFilters = ({ filteredCount, totalCount }) => {
     { field: 'size', label: 'Size' },
     { field: 'dateCreated', label: 'Date' }
   ];
-
-  const typeOptions = Object.values(CREATURE_TYPES || {});
-  const sizeOptions = Object.values(CREATURE_SIZES || {});
 
   // Get display text for filter buttons
   const getTypeButtonText = () => {
@@ -160,30 +214,84 @@ const CreatureFilters = ({ filteredCount, totalCount }) => {
         <div className="filter-dropdown-container">
           <button
             className={`filter-dropdown-button ${library.filters.types.length > 0 ? 'active' : ''}`}
-            onClick={() => setIsTypeDropdownOpen(!isTypeDropdownOpen)}
+            onClick={() => {
+              setIsTypeDropdownOpen(!isTypeDropdownOpen);
+              setIsSizeDropdownOpen(false);
+              setIsSortDropdownOpen(false);
+            }}
             title="Filter by creature type"
+            aria-expanded={isTypeDropdownOpen}
           >
-            {getTypeButtonText()}
+            <span>{getTypeButtonText()}</span>
             <i className={`fas fa-chevron-${isTypeDropdownOpen ? 'up' : 'down'} filter-dropdown-arrow`}></i>
           </button>
+
           {isTypeDropdownOpen && (
-            <div className="filter-dropdown-menu">
-              {typeOptions.map(type => {
-                const isSelected = library.filters.types.includes(type);
-                return (
-                  <button
-                    key={type}
-                    className={`filter-dropdown-item ${isSelected ? 'selected' : ''}`}
-                    onClick={() => handleTypeChange(type)}
-                    title={`${isSelected ? 'Remove' : 'Add'} ${formatTypeName(type)} filter`}
-                  >
-                    <span className="filter-checkbox">
-                      {isSelected && <i className="fas fa-check"></i>}
+            <div className="filter-dropdown-menu type-dropdown-menu" role="menu">
+              {/* Header with Title and Quick Actions */}
+              <div className="dropdown-menu-header">
+                <span className="dropdown-menu-title">
+                  <i className="fas fa-paw"></i>
+                  <span>Creature Types</span>
+                  {library.filters.types.length > 0 && (
+                    <span className="dropdown-selection-count">
+                      {library.filters.types.length} selected
                     </span>
-                    <span>{formatTypeName(type)}</span>
+                  )}
+                </span>
+                <div className="dropdown-quick-actions">
+                  <button
+                    type="button"
+                    className="dropdown-action-btn"
+                    onClick={handleSelectAllTypes}
+                    title="Select all creature types"
+                  >
+                    All
                   </button>
-                );
-              })}
+                  {library.filters.types.length > 0 && (
+                    <button
+                      type="button"
+                      className="dropdown-action-btn clear-btn"
+                      onClick={handleClearAllTypes}
+                      title="Clear type filters"
+                    >
+                      Clear
+                    </button>
+                  )}
+                </div>
+              </div>
+
+              {/* 2-Column Grid of Type Items */}
+              <div className="dropdown-items-grid">
+                {typeOptions.map(type => {
+                  const isSelected = library.filters.types.includes(type);
+                  const theme = CREATURE_TYPE_THEMES[type.toLowerCase()] || { color: '#8b4513', icon: 'fas fa-paw' };
+
+                  return (
+                    <button
+                      key={type}
+                      type="button"
+                      className={`filter-dropdown-item type-item ${isSelected ? 'selected' : ''}`}
+                      onClick={() => handleTypeChange(type)}
+                      title={`${isSelected ? 'Remove' : 'Add'} ${formatTypeName(type)} filter`}
+                      role="menuitemcheckbox"
+                      aria-checked={isSelected}
+                    >
+                      <span className="filter-checkbox">
+                        {isSelected && <i className="fas fa-check"></i>}
+                      </span>
+                      <span
+                        className="type-color-pip"
+                        style={{ backgroundColor: theme.color }}
+                        aria-hidden="true"
+                      >
+                        <i className={theme.icon}></i>
+                      </span>
+                      <span className="type-label">{formatTypeName(type)}</span>
+                    </button>
+                  );
+                })}
+              </div>
             </div>
           )}
         </div>
@@ -194,30 +302,77 @@ const CreatureFilters = ({ filteredCount, totalCount }) => {
         <div className="filter-dropdown-container">
           <button
             className={`filter-dropdown-button ${library.filters.sizes.length > 0 ? 'active' : ''}`}
-            onClick={() => setIsSizeDropdownOpen(!isSizeDropdownOpen)}
+            onClick={() => {
+              setIsSizeDropdownOpen(!isSizeDropdownOpen);
+              setIsTypeDropdownOpen(false);
+              setIsSortDropdownOpen(false);
+            }}
             title="Filter by creature size"
+            aria-expanded={isSizeDropdownOpen}
           >
-            {getSizeButtonText()}
+            <span>{getSizeButtonText()}</span>
             <i className={`fas fa-chevron-${isSizeDropdownOpen ? 'up' : 'down'} filter-dropdown-arrow`}></i>
           </button>
+
           {isSizeDropdownOpen && (
-            <div className="filter-dropdown-menu">
-              {sizeOptions.map(size => {
-                const isSelected = library.filters.sizes.includes(size);
-                return (
-                  <button
-                    key={size}
-                    className={`filter-dropdown-item ${isSelected ? 'selected' : ''}`}
-                    onClick={() => handleSizeChange(size)}
-                    title={`${isSelected ? 'Remove' : 'Add'} ${formatSizeName(size)} filter`}
-                  >
-                    <span className="filter-checkbox">
-                      {isSelected && <i className="fas fa-check"></i>}
+            <div className="filter-dropdown-menu size-dropdown-menu" role="menu">
+              {/* Header with Title and Quick Actions */}
+              <div className="dropdown-menu-header">
+                <span className="dropdown-menu-title">
+                  <i className="fas fa-expand"></i>
+                  <span>Creature Sizes</span>
+                  {library.filters.sizes.length > 0 && (
+                    <span className="dropdown-selection-count">
+                      {library.filters.sizes.length} selected
                     </span>
-                    <span>{formatSizeName(size)}</span>
+                  )}
+                </span>
+                <div className="dropdown-quick-actions">
+                  <button
+                    type="button"
+                    className="dropdown-action-btn"
+                    onClick={handleSelectAllSizes}
+                    title="Select all creature sizes"
+                  >
+                    All
                   </button>
-                );
-              })}
+                  {library.filters.sizes.length > 0 && (
+                    <button
+                      type="button"
+                      className="dropdown-action-btn clear-btn"
+                      onClick={handleClearAllSizes}
+                      title="Clear size filters"
+                    >
+                      Clear
+                    </button>
+                  )}
+                </div>
+              </div>
+
+              <div className="dropdown-items-list">
+                {sizeOptions.map(size => {
+                  const isSelected = library.filters.sizes.includes(size);
+                  const hint = CREATURE_SIZE_HINTS[size.toLowerCase()];
+
+                  return (
+                    <button
+                      key={size}
+                      type="button"
+                      className={`filter-dropdown-item size-item ${isSelected ? 'selected' : ''}`}
+                      onClick={() => handleSizeChange(size)}
+                      title={`${isSelected ? 'Remove' : 'Add'} ${formatSizeName(size)} filter`}
+                      role="menuitemcheckbox"
+                      aria-checked={isSelected}
+                    >
+                      <span className="filter-checkbox">
+                        {isSelected && <i className="fas fa-check"></i>}
+                      </span>
+                      <span className="size-label">{formatSizeName(size)}</span>
+                      {hint && <span className="size-dim-hint">{hint}</span>}
+                    </button>
+                  );
+                })}
+              </div>
             </div>
           )}
         </div>
@@ -228,28 +383,50 @@ const CreatureFilters = ({ filteredCount, totalCount }) => {
         <div className="sort-dropdown-container">
           <button
             className="sort-dropdown-button"
-            onClick={() => setIsSortDropdownOpen(!isSortDropdownOpen)}
+            onClick={() => {
+              setIsSortDropdownOpen(!isSortDropdownOpen);
+              setIsTypeDropdownOpen(false);
+              setIsSizeDropdownOpen(false);
+            }}
             title="Sort options"
+            aria-expanded={isSortDropdownOpen}
           >
             <i className={`fas fa-sort-${library.sortOrder.direction === 'asc' ? 'up' : 'down'} sort-direction-icon`}></i>
             <span>{formatSortFieldName(library.sortOrder.field)}</span>
             <i className={`fas fa-chevron-${isSortDropdownOpen ? 'up' : 'down'} sort-dropdown-arrow`}></i>
           </button>
+
           {isSortDropdownOpen && (
-            <div className="sort-dropdown-menu">
-              {sortOptions.map(option => (
-                <button
-                  key={option.field}
-                  className={`sort-dropdown-item ${library.sortOrder.field === option.field ? 'active' : ''}`}
-                  onClick={() => handleSortOptionClick(option.field)}
-                  title={`Sort by ${option.label}`}
-                >
-                  <span>{option.label}</span>
-                  {library.sortOrder.field === option.field && (
-                    <i className={`fas fa-sort-${library.sortOrder.direction === 'asc' ? 'up' : 'down'}`}></i>
-                  )}
-                </button>
-              ))}
+            <div className="sort-dropdown-menu" role="menu">
+              <div className="dropdown-menu-header">
+                <span className="dropdown-menu-title">
+                  <i className="fas fa-arrow-down-a-z"></i>
+                  <span>Sort Order</span>
+                </span>
+              </div>
+              <div className="dropdown-items-list">
+                {sortOptions.map(option => {
+                  const isActive = library.sortOrder.field === option.field;
+                  return (
+                    <button
+                      key={option.field}
+                      type="button"
+                      className={`sort-dropdown-item ${isActive ? 'active' : ''}`}
+                      onClick={() => handleSortOptionClick(option.field)}
+                      title={`Sort by ${option.label} (${isActive && library.sortOrder.direction === 'asc' ? 'Descending' : 'Ascending'})`}
+                      role="menuitem"
+                    >
+                      <span className="sort-label">{option.label}</span>
+                      {isActive && (
+                        <span className="sort-direction-badge">
+                          <i className={`fas fa-arrow-${library.sortOrder.direction === 'asc' ? 'up' : 'down'}`}></i>
+                          <span>{library.sortOrder.direction === 'asc' ? 'Asc' : 'Desc'}</span>
+                        </span>
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
             </div>
           )}
         </div>

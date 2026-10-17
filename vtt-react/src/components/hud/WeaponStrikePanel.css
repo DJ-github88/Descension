@@ -1,0 +1,24 @@
+/* P12A extends the incumbent parchment consequence panels. */
+.p12-panel, .p12-gm-card, .p12-chip { background: #f6efe1; color: #2b2116; font-size: 14px; line-height: 1.5; overflow-wrap: anywhere; }
+.p12-panel { width: min(580px, calc(100vw - 32px)); max-height: calc(100dvh - 48px); overflow-y: auto; border: 1px solid #8a6d45; border-radius: 8px; padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,.35); }
+.p12-panel::backdrop { background: rgba(20,16,12,.45); }
+.p12-panel header { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.p12-panel h3 { margin: 0; font-size: 20px; }
+.p12-panel h4, .p12-gm-card h4 { margin: 16px 0 6px; font-size: 15px; }
+.p12-panel label, .p12-gm-card label { display: block; margin: 8px 0; }
+.p12-panel input, .p12-panel select, .p12-gm-card input, .p12-gm-card select { box-sizing: border-box; width: 100%; padding: 6px 8px; background: #fffaf1; color: #2b2116; border: 1px solid #8a6d45; border-radius: 4px; font: inherit; caret-color: #5d3519; }
+.p12-panel fieldset, .p12-gm-card fieldset { min-width: 0; border: 1px solid #c9b48c; padding: 8px 10px; margin: 12px 0; }
+.p12-panel button, .p12-gm button, .p12-chip button { font: inherit; padding: 6px 10px; margin: 4px 6px 4px 0; cursor: pointer; background: #efe3c8; color: #2b2116; border: 1px solid #8a6d45; border-radius: 4px; }
+.p12-panel button:hover, .p12-gm button:hover { background: #e5d3ae; }
+.p12-panel button:disabled, .p12-gm button:disabled { opacity: .55; cursor: default; }
+.p12-panel :focus-visible, .p12-gm :focus-visible, .p12-chip :focus-visible { outline: 2px solid #71421e; outline-offset: 2px; }
+.p12-meta { display: block; color: #5d4b33; font-size: 12px; }
+.p12-panel [role="alert"], .p12-gm [role="alert"] { color: #8a2a1b; }
+.p12-gm { pointer-events: auto; max-width: 420px; }
+.p12-gm-card { padding: 10px; margin: 8px 0; border-top: 1px solid #8a6d45; }
+.p12-gm-card > h4:first-child { margin-top: 0; }
+.p12-gm-card p, .p12-panel p { margin: 8px 0; }
+.p12-gm details, .p12-panel details { margin: 6px 0; }
+.p12-gm summary, .p12-panel summary { cursor: pointer; text-underline-offset: 3px; }
+.p12-chip { pointer-events: auto; padding: 8px; }
+.p12-panel ::selection, .p12-gm ::selection { background: #d8bd89; color: #2b2116; }

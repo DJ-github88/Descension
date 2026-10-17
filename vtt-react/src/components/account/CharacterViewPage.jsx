@@ -489,47 +489,66 @@ const CharacterViewPage = () => {
           </div>
 
           <div className="header-center-col">
-            <h1 className="character-header-title">
-              {characterClass && (
-                <span
-                  className="character-title-part character-title-class"
-                  onClick={() => setActiveTab('talents')}
-                  role="button"
-                  tabIndex={0}
-                  title={`Class: ${characterClass}${primarySpecialization ? ` (${primarySpecialization})` : ''} • Click to view Talents`}
-                >
-                  {characterClass}
-                  <span className="title-part-tooltip">
-                    <span className="tooltip-title"><i className="fas fa-hat-wizard"></i> {characterClass}</span>
-                    {primarySpecialization && <span className="tooltip-subtitle">{primarySpecialization} Specialization</span>}
-                    <span className="tooltip-action">Click to view Talents</span>
+            <div className="character-header-plaque">
+              <div className="character-header-name-row">
+                <span className="character-header-flourish left">✦</span>
+                <h1 className="character-header-title">
+                  <span className="character-title-part character-title-name">
+                    {name || 'Unnamed Adventurer'}
                   </span>
-                </span>
-              )}
-              <span className="character-title-part character-title-name">
-                {name || 'Unnamed Adventurer'}
-              </span>
-              {raceTitleData && (
+                </h1>
+                <span className="character-header-flourish right">✦</span>
+              </div>
+              <div className="character-header-badges-row">
                 <span
-                  className="character-title-part character-title-race"
-                  onClick={() => {
-                    setActiveTab('lore');
-                    setActiveLoreSection('heritage');
-                  }}
-                  role="button"
-                  tabIndex={0}
-                  title={`Ancestry: ${displayRaceName} • Click to view Heritage`}
+                  className="character-header-badge level-badge clickable"
+                  onClick={() => setOpenVialPopup(openVialPopup === 'level' ? null : 'level')}
+                  title="Character Level • Click to adjust"
                 >
-                  {raceTitleData.prep && <span className="title-race-prep">{raceTitleData.prep}</span>}
-                  <span className="title-race-name">{raceTitleData.name}</span>
-                  <span className="title-part-tooltip">
-                    <span className="tooltip-title"><i className="fas fa-dna"></i> {displayRaceName}</span>
-                    {subrace && race && subraceDisplayName !== race && <span className="tooltip-subtitle">{race} Lineage</span>}
-                    <span className="tooltip-action">Click to view Heritage</span>
-                  </span>
+                  LEVEL {level || 1}
                 </span>
-              )}
-            </h1>
+
+                {raceTitleData && (
+                  <span
+                    className="character-header-badge race-badge character-title-part character-title-race"
+                    onClick={() => {
+                      setActiveTab('lore');
+                      setActiveLoreSection('heritage');
+                    }}
+                    role="button"
+                    tabIndex={0}
+                    title={`Ancestry: ${displayRaceName} • Click to view Heritage`}
+                  >
+                    <i className="fas fa-shield-halved badge-icon"></i>
+                    {raceTitleData.prep && <span className="title-race-prep">{raceTitleData.prep}</span>}
+                    <span className="title-race-name">{raceTitleData.name}</span>
+                    <span className="title-part-tooltip">
+                      <span className="tooltip-title"><i className="fas fa-dna"></i> {displayRaceName}</span>
+                      {subrace && race && subraceDisplayName !== race && <span className="tooltip-subtitle">{race} Lineage</span>}
+                      <span className="tooltip-action">Click to view Heritage</span>
+                    </span>
+                  </span>
+                )}
+
+                {characterClass && (
+                  <span
+                    className="character-header-badge class-badge character-title-part character-title-class"
+                    onClick={() => setActiveTab('talents')}
+                    role="button"
+                    tabIndex={0}
+                    title={`Class: ${characterClass}${primarySpecialization ? ` (${primarySpecialization})` : ''} • Click to view Talents`}
+                  >
+                    <i className="fas fa-hat-wizard badge-icon"></i>
+                    <span className="badge-class-name">{characterClass}</span>
+                    <span className="title-part-tooltip">
+                      <span className="tooltip-title"><i className="fas fa-hat-wizard"></i> {characterClass}</span>
+                      {primarySpecialization && <span className="tooltip-subtitle">{primarySpecialization} Specialization</span>}
+                      <span className="tooltip-action">Click to view Talents</span>
+                    </span>
+                  </span>
+                )}
+              </div>
+            </div>
           </div>
 
           <div className="header-right-col">

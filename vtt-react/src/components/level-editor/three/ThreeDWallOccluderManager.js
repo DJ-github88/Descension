@@ -50,9 +50,9 @@ export class ThreeDWallOccluderManager {
     this.group.add(this.instancedMesh);
   }
 
-  updateWalls(wallData = {}, elevationData = {}, gridState = {}) {
+  updateWalls(wallData = {}, elevationData = {}, gridState = {}, wallsCollapsed = false) {
     const wallEntries = Object.entries(wallData || {});
-    if (!wallEntries.length) {
+    if (!wallEntries.length || wallsCollapsed) {
       this.instancedMesh.count = 0;
       this.instancedMesh.instanceMatrix.needsUpdate = true;
       return;

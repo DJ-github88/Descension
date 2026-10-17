@@ -1,0 +1,727 @@
+{
+  "schema": "mythrill.class-review-abilities/r1",
+  "evidenceLabel": "PROPOSED",
+  "classId": "fate-weaver",
+  "rulesetVersion": "cr-review-r1",
+  "abilities": [
+    {
+      "evidenceLabel": "PROPOSED",
+      "status": "HeadQ-review-R1; not admitted by current app",
+      "contentRole": "class-feature",
+      "talentNode": null,
+      "spell": {
+        "id": "cr1_fate_weaver_tie_thread",
+        "classId": "fate-weaver",
+        "rulesetVersion": "cr-review-r1",
+        "name": "Tie the Thread",
+        "description": "Reserve one of three threads between two willing lives. On the next eligible original damage event, assign up to three of the protected actor’s post-mitigation damage to the bearer before temp HP.",
+        "level": 1,
+        "specialization": null,
+        "spellType": "ACTION",
+        "icon": "Psychic/Psychic Telepathy",
+        "typeConfig": {
+          "school": "wyrd",
+          "castTimeType": "IMMEDIATE",
+          "tags": [
+            "fate-weaver",
+            "class-feature"
+          ]
+        },
+        "resourceCost": {
+          "actionPoints": 1,
+          "mana": 0,
+          "resourceTypes": [
+            "actionPoints"
+          ],
+          "resourceValues": {
+            "actionPoints": 1,
+            "mana": 0
+          },
+          "useFormulas": {},
+          "components": [
+            "somatic"
+          ],
+          "somaticText": "Present the class focus and deliberately declare the operation; its exact choices precede resolution."
+        },
+        "targetingConfig": {
+          "targetingType": "multi",
+          "rangeType": "ranged",
+          "rangeDistance": 30,
+          "targetRestrictions": [
+            "ally",
+            "self"
+          ],
+          "maxTargets": 2
+        },
+        "effectTypes": [
+          "buff"
+        ],
+        "resolution": "RESOURCE_PROGRAM",
+        "damageConfig": null,
+        "durationConfig": {
+          "durationType": "own_turns",
+          "durationValue": 2,
+          "durationUnit": "subsequent_caster_turn_end"
+        },
+        "cooldownConfig": {
+          "cooldownType": "none",
+          "cooldownValue": 0
+        },
+        "classResourceProgram": {
+          "version": 1,
+          "domain": "fate-links",
+          "op": "link.tie",
+          "args": {
+            "threadReservation": 1,
+            "fromSlot": 0,
+            "toSlot": 1,
+            "distinctEndpoints": true,
+            "consent": "both",
+            "formationRangeEach": 30,
+            "maintenanceSeparation": 60,
+            "uses": 1,
+            "transferMax": 3,
+            "expiry": "end-second-subsequent-caster-turn",
+            "event": "original-assigned-damage",
+            "derivedEvents": false
+          }
+        },
+        "reactionTiming": null,
+        "savingThrow": null,
+        "conditions": [],
+        "area": null
+      },
+      "resourceCostSummary": "1 AP; one free token becomes reserved.",
+      "resourceGenerationSummary": "None unless a declared branch or resolved event below grants it.",
+      "castingInputs": [
+        "protected exact ref slot0",
+        "bearer exact ref slot1",
+        "consents"
+      ],
+      "failureConditions": [
+        "Invalid exact source/target or insufficient AP/resources; refused before commitment with no mutation."
+      ],
+      "effectConfiguration": {
+        "partition": "D to protected D-min(3,D), bearer min(3,D); not re-mitigated; both temp pools apply",
+        "onUse": "token recovering until next caster own turn"
+      },
+      "checkAndTimingNotes": "Own turn in combat; no reaction or saving throw. Noncombat uses explicit GM-adjudicated activity time and preserves finite contents/uses without inventing turn-refresh loops. Attack/geometry/defense remains GM-adjudicated until its capability exists.",
+      "talentModifications": "Only this explicitly learned signature/its declared opcode variation applies in R1. Later rank modifiers require a new reviewed definition version; never applied twice.",
+      "heritageModifications": "Only the selected proposed bounded native edge and paired cost, after full access/method/body validation. No raw-parent percentage or free resource gain inherited; example arithmetic excludes optional edges.",
+      "runtimeDependencies": [
+        "CR-A1",
+        "CR-R1",
+        "CR-E1",
+        "CR-N1-atomic-links"
+      ],
+      "verificationRequirements": {
+        "positive": "Three free ->two free/one reserved; assigned damage8 ->5+3 in one atomic plan; use1 ->0, token recovering.",
+        "refusal": "Malformed choice, wrong domain/actor or missing required state leaves every pool/entity unchanged.",
+        "duplicate": "Same command/event/choice identity returns original result, with no repeated cost, draw, effect or expiry.",
+        "roundTrip": "Both Wizard saves, canonical export/template, reopen and card preserve complete program and explicit zeros."
+      }
+    },
+    {
+      "evidenceLabel": "PROPOSED",
+      "status": "HeadQ-review-R1; not admitted by current app",
+      "contentRole": "class-feature",
+      "talentNode": null,
+      "spell": {
+        "id": "cr1_fate_weaver_cut_clean",
+        "classId": "fate-weaver",
+        "rulesetVersion": "cr-review-r1",
+        "name": "Cut Clean",
+        "description": "End one of your own untriggered links and recover its reserved threads at the start of your next own turn. Cutting is not an immediate refund or a reversal of damage.",
+        "level": 1,
+        "specialization": null,
+        "spellType": "ACTION",
+        "icon": "Psychic/Psychic Telepathy",
+        "typeConfig": {
+          "school": "wyrd",
+          "castTimeType": "IMMEDIATE",
+          "tags": [
+            "fate-weaver",
+            "class-feature"
+          ]
+        },
+        "resourceCost": {
+          "actionPoints": 1,
+          "mana": 0,
+          "resourceTypes": [
+            "actionPoints"
+          ],
+          "resourceValues": {
+            "actionPoints": 1,
+            "mana": 0
+          },
+          "useFormulas": {},
+          "components": [
+            "somatic"
+          ],
+          "somaticText": "Present the class focus and deliberately declare the operation; its exact choices precede resolution."
+        },
+        "targetingConfig": {
+          "targetingType": "self",
+          "rangeType": "self",
+          "rangeDistance": 0,
+          "targetRestrictions": [
+            "self"
+          ],
+          "maxTargets": 1
+        },
+        "effectTypes": [
+          "utility"
+        ],
+        "resolution": "RESOURCE_PROGRAM",
+        "damageConfig": null,
+        "durationConfig": {
+          "durationType": "instant",
+          "durationValue": 0,
+          "durationUnit": "instant"
+        },
+        "cooldownConfig": {
+          "cooldownType": "none",
+          "cooldownValue": 0
+        },
+        "classResourceProgram": {
+          "version": 1,
+          "domain": "fate-links",
+          "op": "link.cut",
+          "args": {
+            "target": "own-active-link",
+            "threadDestination": "recovering",
+            "recoverAt": "next-caster-own-turn",
+            "undoAcceptedConsequences": false
+          }
+        },
+        "reactionTiming": null,
+        "savingThrow": null,
+        "conditions": [],
+        "area": null
+      },
+      "resourceCostSummary": "1 AP; existing reserved token(s) become recovering, not free.",
+      "resourceGenerationSummary": "None unless a declared branch or resolved event below grants it.",
+      "castingInputs": [
+        "exact own link ID/version"
+      ],
+      "failureConditions": [
+        "Invalid exact source/target or insufficient AP/resources; refused before commitment with no mutation."
+      ],
+      "effectConfiguration": {
+        "target": "own-active-link",
+        "threadDestination": "recovering",
+        "recoverAt": "next-caster-own-turn",
+        "undoAcceptedConsequences": false
+      },
+      "checkAndTimingNotes": "Own turn in combat; no reaction or saving throw. Noncombat uses explicit GM-adjudicated activity time and preserves finite contents/uses without inventing turn-refresh loops. Attack/geometry/defense remains GM-adjudicated until its capability exists.",
+      "talentModifications": "Only this explicitly learned signature/its declared opcode variation applies in R1. Later rank modifiers require a new reviewed definition version; never applied twice.",
+      "heritageModifications": "Only the selected proposed bounded native edge and paired cost, after full access/method/body validation. No raw-parent percentage or free resource gain inherited; example arithmetic excludes optional edges.",
+      "runtimeDependencies": [
+        "CR-A1",
+        "CR-R1",
+        "CR-E1",
+        "CR-N1-atomic-links"
+      ],
+      "verificationRequirements": {
+        "positive": "Cut two-token covenant ->two recovering; no free threads until next own-turn event, no damage rollback.",
+        "refusal": "Malformed choice, wrong domain/actor or missing required state leaves every pool/entity unchanged.",
+        "duplicate": "Same command/event/choice identity returns original result, with no repeated cost, draw, effect or expiry.",
+        "roundTrip": "Both Wizard saves, canonical export/template, reopen and card preserve complete program and explicit zeros."
+      }
+    },
+    {
+      "evidenceLabel": "PROPOSED",
+      "status": "HeadQ-review-R1; not admitted by current app",
+      "contentRole": "spell-pick",
+      "talentNode": null,
+      "spell": {
+        "id": "cr1_fate_weaver_read_bond",
+        "classId": "fate-weaver",
+        "rulesetVersion": "cr-review-r1",
+        "name": "Read the Bond",
+        "description": "Read the declared terms of one perceptible registered magical fate link or a witnessed voluntary obligation. This does not reveal unknown secrets or create a new bond.",
+        "level": 2,
+        "specialization": null,
+        "spellType": "ACTION",
+        "icon": "Psychic/Psychic Telepathy",
+        "typeConfig": {
+          "school": "wyrd",
+          "castTimeType": "IMMEDIATE",
+          "tags": [
+            "fate-weaver",
+            "class-feature"
+          ]
+        },
+        "resourceCost": {
+          "actionPoints": 2,
+          "mana": 0,
+          "resourceTypes": [
+            "actionPoints"
+          ],
+          "resourceValues": {
+            "actionPoints": 2,
+            "mana": 0
+          },
+          "useFormulas": {},
+          "components": [
+            "somatic"
+          ],
+          "somaticText": "Present the class focus and deliberately declare the operation; its exact choices precede resolution."
+        },
+        "targetingConfig": {
+          "targetingType": "single",
+          "rangeType": "ranged",
+          "rangeDistance": 30,
+          "targetRestrictions": [
+            "perceptible-bond"
+          ],
+          "maxTargets": 1
+        },
+        "effectTypes": [
+          "utility"
+        ],
+        "resolution": "RESOURCE_PROGRAM",
+        "damageConfig": null,
+        "durationConfig": {
+          "durationType": "instant",
+          "durationValue": 0,
+          "durationUnit": "instant"
+        },
+        "cooldownConfig": {
+          "cooldownType": "none",
+          "cooldownValue": 0
+        },
+        "classResourceProgram": {
+          "version": 1,
+          "domain": "fate-links",
+          "op": "bond.read",
+          "args": {
+            "range": 30,
+            "targetKind": "perceptible-bond",
+            "reveals": [
+              "endpoints-if-perceptible",
+              "public-event",
+              "remaining-public-uses",
+              "declared-expiry"
+            ],
+            "hiddenKnowledge": false,
+            "createLink": false
+          }
+        },
+        "reactionTiming": null,
+        "savingThrow": null,
+        "conditions": [],
+        "area": null
+      },
+      "resourceCostSummary": "2 AP; no token spent.",
+      "resourceGenerationSummary": "None unless a declared branch or resolved event below grants it.",
+      "castingInputs": [
+        "perceptible registered bond ref/evidence"
+      ],
+      "failureConditions": [
+        "Invalid exact source/target or insufficient AP/resources; refused before commitment with no mutation."
+      ],
+      "effectConfiguration": {
+        "range": 30,
+        "targetKind": "perceptible-bond",
+        "reveals": [
+          "endpoints-if-perceptible",
+          "public-event",
+          "remaining-public-uses",
+          "declared-expiry"
+        ],
+        "hiddenKnowledge": false,
+        "createLink": false
+      },
+      "checkAndTimingNotes": "Own turn in combat; no reaction or saving throw. Noncombat uses explicit GM-adjudicated activity time and preserves finite contents/uses without inventing turn-refresh loops. Attack/geometry/defense remains GM-adjudicated until its capability exists.",
+      "talentModifications": "Only this explicitly learned signature/its declared opcode variation applies in R1. Later rank modifiers require a new reviewed definition version; never applied twice.",
+      "heritageModifications": "Only the selected proposed bounded native edge and paired cost, after full access/method/body validation. No raw-parent percentage or free resource gain inherited; example arithmetic excludes optional edges.",
+      "runtimeDependencies": [
+        "CR-A1",
+        "CR-R1",
+        "CR-E1",
+        "CR-N1-atomic-links"
+      ],
+      "verificationRequirements": {
+        "positive": "Read one visible link’s declared terms without mutating tokens or leaking private contracts; absent evidence gives no invented answer.",
+        "refusal": "Malformed choice, wrong domain/actor or missing required state leaves every pool/entity unchanged.",
+        "duplicate": "Same command/event/choice identity returns original result, with no repeated cost, draw, effect or expiry.",
+        "roundTrip": "Both Wizard saves, canonical export/template, reopen and card preserve complete program and explicit zeros."
+      }
+    },
+    {
+      "evidenceLabel": "PROPOSED",
+      "status": "HeadQ-review-R1; not admitted by current app",
+      "contentRole": "talent-signature",
+      "talentNode": {
+        "id": "cr1_fate_weaver_covenant_weaver_signature",
+        "rank": 1,
+        "maxRanks": 1,
+        "requiresTreePoints": 10,
+        "minimumLevel": 3
+      },
+      "spell": {
+        "id": "cr1_fate_weaver_witnessed_covenant",
+        "classId": "fate-weaver",
+        "rulesetVersion": "cr-review-r1",
+        "name": "Witnessed Covenant",
+        "description": "Reserve two threads in one protective covenant with two uses. Each eligible event transfers at most three; the two threads remain occupied until both uses are spent or the covenant ends.",
+        "level": 3,
+        "specialization": "covenant-weaver",
+        "spellType": "ACTION",
+        "icon": "Psychic/Psychic Telepathy",
+        "typeConfig": {
+          "school": "wyrd",
+          "castTimeType": "IMMEDIATE",
+          "tags": [
+            "fate-weaver",
+            "class-feature"
+          ]
+        },
+        "resourceCost": {
+          "actionPoints": 2,
+          "mana": 0,
+          "resourceTypes": [
+            "actionPoints"
+          ],
+          "resourceValues": {
+            "actionPoints": 2,
+            "mana": 0
+          },
+          "useFormulas": {},
+          "components": [
+            "somatic"
+          ],
+          "somaticText": "Present the class focus and deliberately declare the operation; its exact choices precede resolution."
+        },
+        "targetingConfig": {
+          "targetingType": "multi",
+          "rangeType": "ranged",
+          "rangeDistance": 30,
+          "targetRestrictions": [
+            "ally",
+            "self"
+          ],
+          "maxTargets": 2
+        },
+        "effectTypes": [
+          "buff"
+        ],
+        "resolution": "RESOURCE_PROGRAM",
+        "damageConfig": null,
+        "durationConfig": {
+          "durationType": "own_turns",
+          "durationValue": 2,
+          "durationUnit": "subsequent_caster_turn_end"
+        },
+        "cooldownConfig": {
+          "cooldownType": "none",
+          "cooldownValue": 0
+        },
+        "classResourceProgram": {
+          "version": 1,
+          "domain": "fate-links",
+          "op": "link.covenant",
+          "args": {
+            "threadReservation": 2,
+            "fromSlot": 0,
+            "toSlot": 1,
+            "consent": "both",
+            "formationRangeEach": 30,
+            "maintenanceSeparation": 60,
+            "uses": 2,
+            "transferMax": 3,
+            "expiry": "end-second-subsequent-caster-turn",
+            "releaseOnlyWhenUsesZero": true,
+            "threadRecovery": "next-caster-own-turn-after-closure"
+          }
+        },
+        "reactionTiming": null,
+        "savingThrow": null,
+        "conditions": [],
+        "area": null
+      },
+      "resourceCostSummary": "2 AP; two free threads reserved.",
+      "resourceGenerationSummary": "None unless a declared branch or resolved event below grants it.",
+      "castingInputs": [
+        "two distinct willing exact refs"
+      ],
+      "failureConditions": [
+        "Invalid exact source/target or insufficient AP/resources; refused before commitment with no mutation."
+      ],
+      "effectConfiguration": {
+        "threadReservation": 2,
+        "fromSlot": 0,
+        "toSlot": 1,
+        "consent": "both",
+        "formationRangeEach": 30,
+        "maintenanceSeparation": 60,
+        "uses": 2,
+        "transferMax": 3,
+        "expiry": "end-second-subsequent-caster-turn",
+        "releaseOnlyWhenUsesZero": true,
+        "threadRecovery": "next-caster-own-turn-after-closure"
+      },
+      "checkAndTimingNotes": "Own turn in combat; no reaction or saving throw. Noncombat uses explicit GM-adjudicated activity time and preserves finite contents/uses without inventing turn-refresh loops. Attack/geometry/defense remains GM-adjudicated until its capability exists.",
+      "talentModifications": "Only this explicitly learned signature/its declared opcode variation applies in R1. Later rank modifiers require a new reviewed definition version; never applied twice.",
+      "heritageModifications": "Only the selected proposed bounded native edge and paired cost, after full access/method/body validation. No raw-parent percentage or free resource gain inherited; example arithmetic excludes optional edges.",
+      "runtimeDependencies": [
+        "CR-A1",
+        "CR-R1",
+        "CR-E1",
+        "CR-N1-atomic-links"
+      ],
+      "verificationRequirements": {
+        "positive": "Free3 ->1 reserved2; first use2->1 does not free a token; second use1->0 places both in recovery.",
+        "refusal": "Malformed choice, wrong domain/actor or missing required state leaves every pool/entity unchanged.",
+        "duplicate": "Same command/event/choice identity returns original result, with no repeated cost, draw, effect or expiry.",
+        "roundTrip": "Both Wizard saves, canonical export/template, reopen and card preserve complete program and explicit zeros."
+      }
+    },
+    {
+      "evidenceLabel": "PROPOSED",
+      "status": "HeadQ-review-R1; not admitted by current app",
+      "contentRole": "talent-signature",
+      "talentNode": {
+        "id": "cr1_fate_weaver_severer_signature",
+        "rank": 1,
+        "maxRanks": 1,
+        "requiresTreePoints": 10,
+        "minimumLevel": 3
+      },
+      "spell": {
+        "id": "cr1_fate_weaver_sever_borrowed_crown",
+        "classId": "fate-weaver",
+        "rulesetVersion": "cr-review-r1",
+        "name": "Sever the Borrowed Crown",
+        "description": "Sever one identified registered fate-link object within range. Commit one thread to recovering as the price; this does not dispel unrelated magic, bloodlines, gods or ordinary affection.",
+        "level": 3,
+        "specialization": "severer",
+        "spellType": "ACTION",
+        "icon": "Psychic/Psychic Telepathy",
+        "typeConfig": {
+          "school": "wyrd",
+          "castTimeType": "IMMEDIATE",
+          "tags": [
+            "fate-weaver",
+            "class-feature"
+          ]
+        },
+        "resourceCost": {
+          "actionPoints": 2,
+          "mana": 0,
+          "resourceTypes": [
+            "actionPoints"
+          ],
+          "resourceValues": {
+            "actionPoints": 2,
+            "mana": 0
+          },
+          "useFormulas": {},
+          "components": [
+            "somatic"
+          ],
+          "somaticText": "Present the class focus and deliberately declare the operation; its exact choices precede resolution."
+        },
+        "targetingConfig": {
+          "targetingType": "single",
+          "rangeType": "ranged",
+          "rangeDistance": 30,
+          "targetRestrictions": [
+            "identified-fate-link"
+          ],
+          "maxTargets": 1
+        },
+        "effectTypes": [
+          "control"
+        ],
+        "resolution": "RESOURCE_PROGRAM",
+        "damageConfig": null,
+        "durationConfig": {
+          "durationType": "instant",
+          "durationValue": 0,
+          "durationUnit": "instant"
+        },
+        "cooldownConfig": {
+          "cooldownType": "none",
+          "cooldownValue": 0
+        },
+        "classResourceProgram": {
+          "version": 1,
+          "domain": "fate-links",
+          "op": "link.sever",
+          "args": {
+            "threadPrice": 1,
+            "priceDestination": "recovering",
+            "range": 30,
+            "allowedObjectKind": "fate-link-v1",
+            "requiresIdentifiedObject": true,
+            "enemyReservedThreads": "recover-on-their-next-own-turn",
+            "automaticWithinScope": true
+          }
+        },
+        "reactionTiming": null,
+        "savingThrow": null,
+        "conditions": [],
+        "area": null
+      },
+      "resourceCostSummary": "2 AP; one free token becomes recovering.",
+      "resourceGenerationSummary": "None unless a declared branch or resolved event below grants it.",
+      "castingInputs": [
+        "exact identified fate-link ref/version"
+      ],
+      "failureConditions": [
+        "Invalid exact source/target or insufficient AP/resources; refused before commitment with no mutation."
+      ],
+      "effectConfiguration": {
+        "threadPrice": 1,
+        "priceDestination": "recovering",
+        "range": 30,
+        "allowedObjectKind": "fate-link-v1",
+        "requiresIdentifiedObject": true,
+        "enemyReservedThreads": "recover-on-their-next-own-turn",
+        "automaticWithinScope": true
+      },
+      "checkAndTimingNotes": "Own turn in combat; no reaction or saving throw. Noncombat uses explicit GM-adjudicated activity time and preserves finite contents/uses without inventing turn-refresh loops. Attack/geometry/defense remains GM-adjudicated until its capability exists.",
+      "talentModifications": "Only this explicitly learned signature/its declared opcode variation applies in R1. Later rank modifiers require a new reviewed definition version; never applied twice.",
+      "heritageModifications": "Only the selected proposed bounded native edge and paired cost, after full access/method/body validation. No raw-parent percentage or free resource gain inherited; example arithmetic excludes optional edges.",
+      "runtimeDependencies": [
+        "CR-A1",
+        "CR-R1",
+        "CR-E1",
+        "CR-N1-atomic-links"
+      ],
+      "verificationRequirements": {
+        "positive": "One caster token and enemy’s link reservation enter their respective recovery states once; an unrelated charm is rejected.",
+        "refusal": "Malformed choice, wrong domain/actor or missing required state leaves every pool/entity unchanged.",
+        "duplicate": "Same command/event/choice identity returns original result, with no repeated cost, draw, effect or expiry.",
+        "roundTrip": "Both Wizard saves, canonical export/template, reopen and card preserve complete program and explicit zeros."
+      }
+    },
+    {
+      "evidenceLabel": "PROPOSED",
+      "status": "HeadQ-review-R1; not admitted by current app",
+      "contentRole": "talent-signature",
+      "talentNode": {
+        "id": "cr1_fate_weaver_tapestry_keeper_signature",
+        "rank": 1,
+        "maxRanks": 1,
+        "requiresTreePoints": 10,
+        "minimumLevel": 3
+      },
+      "spell": {
+        "id": "cr1_fate_weaver_reanchor_tapestry",
+        "classId": "fate-weaver",
+        "rulesetVersion": "cr-review-r1",
+        "name": "Reanchor the Tapestry",
+        "description": "Change one endpoint of your own existing link to a willing legal actor. The original event, use count and expiry remain unchanged; the link cannot be moved after its triggering event begins.",
+        "level": 3,
+        "specialization": "tapestry-keeper",
+        "spellType": "ACTION",
+        "icon": "Psychic/Psychic Telepathy",
+        "typeConfig": {
+          "school": "wyrd",
+          "castTimeType": "IMMEDIATE",
+          "tags": [
+            "fate-weaver",
+            "class-feature"
+          ]
+        },
+        "resourceCost": {
+          "actionPoints": 1,
+          "mana": 0,
+          "resourceTypes": [
+            "actionPoints"
+          ],
+          "resourceValues": {
+            "actionPoints": 1,
+            "mana": 0
+          },
+          "useFormulas": {},
+          "components": [
+            "somatic"
+          ],
+          "somaticText": "Present the class focus and deliberately declare the operation; its exact choices precede resolution."
+        },
+        "targetingConfig": {
+          "targetingType": "single",
+          "rangeType": "ranged",
+          "rangeDistance": 30,
+          "targetRestrictions": [
+            "ally",
+            "self"
+          ],
+          "maxTargets": 1
+        },
+        "effectTypes": [
+          "utility"
+        ],
+        "resolution": "RESOURCE_PROGRAM",
+        "damageConfig": null,
+        "durationConfig": {
+          "durationType": "instant",
+          "durationValue": 0,
+          "durationUnit": "instant"
+        },
+        "cooldownConfig": {
+          "cooldownType": "none",
+          "cooldownValue": 0
+        },
+        "classResourceProgram": {
+          "version": 1,
+          "domain": "fate-links",
+          "op": "link.reanchor",
+          "args": {
+            "target": "own-active-link",
+            "replaceEndpointsMax": 1,
+            "formationRangeNew": 30,
+            "maintenanceSeparation": 60,
+            "requiresNewConsent": true,
+            "resetUses": false,
+            "extendExpiry": false,
+            "afterTriggerBegins": false
+          }
+        },
+        "reactionTiming": null,
+        "savingThrow": null,
+        "conditions": [],
+        "area": null
+      },
+      "resourceCostSummary": "1 AP; reservation stays unchanged.",
+      "resourceGenerationSummary": "None unless a declared branch or resolved event below grants it.",
+      "castingInputs": [
+        "own exact link ref/version",
+        "which endpoint",
+        "new exact willing ref"
+      ],
+      "failureConditions": [
+        "Invalid exact source/target or insufficient AP/resources; refused before commitment with no mutation."
+      ],
+      "effectConfiguration": {
+        "target": "own-active-link",
+        "replaceEndpointsMax": 1,
+        "formationRangeNew": 30,
+        "maintenanceSeparation": 60,
+        "requiresNewConsent": true,
+        "resetUses": false,
+        "extendExpiry": false,
+        "afterTriggerBegins": false
+      },
+      "checkAndTimingNotes": "Own turn in combat; no reaction or saving throw. Noncombat uses explicit GM-adjudicated activity time and preserves finite contents/uses without inventing turn-refresh loops. Attack/geometry/defense remains GM-adjudicated until its capability exists.",
+      "talentModifications": "Only this explicitly learned signature/its declared opcode variation applies in R1. Later rank modifiers require a new reviewed definition version; never applied twice.",
+      "heritageModifications": "Only the selected proposed bounded native edge and paired cost, after full access/method/body validation. No raw-parent percentage or free resource gain inherited; example arithmetic excludes optional edges.",
+      "runtimeDependencies": [
+        "CR-A1",
+        "CR-R1",
+        "CR-E1",
+        "CR-N1-atomic-links"
+      ],
+      "verificationRequirements": {
+        "positive": "Reanchor two-use link with one use left ->one use left/same expiry; withdrawn consent or started trigger refuses with no payment.",
+        "refusal": "Malformed choice, wrong domain/actor or missing required state leaves every pool/entity unchanged.",
+        "duplicate": "Same command/event/choice identity returns original result, with no repeated cost, draw, effect or expiry.",
+        "roundTrip": "Both Wizard saves, canonical export/template, reopen and card preserve complete program and explicit zeros."
+      }
+    }
+  ]
+}

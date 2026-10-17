@@ -72,6 +72,15 @@ export function getWallBodyHeightWorld(wall, gridSize, typeData = null) {
 }
 
 /**
+ * Height of a collapsed wall: a low foundation / bottom outline (~8% of grid size, min 2px).
+ * Clearly marks wall, door, and window positions on the floor without obstructing tokens,
+ * creatures, or items behind them from tilted / elevated camera angles.
+ */
+export function getWallCollapsedHeightWorld(gridSize) {
+  return Math.max(2, (gridSize || 50) * 0.08);
+}
+
+/**
  * Free-form hex walls store their world-space endpoints on the wall record
  * (`hexEndpoints: [{x,y}, {x,y}]`). They may connect any two hex corners,
  * including straight chords that cross several cells, so the cell-pair key
@@ -643,7 +652,8 @@ export function buildWallRenderItem({
   endNode = null,
   patternType = null,
   hostHeightWorld = null,
-  hostColor = null
+  hostColor = null,
+  wallsCollapsed = false
 }) {
   const parsed = parseWallKey(key);
   if (!parsed) return null;
@@ -666,9 +676,12 @@ export function buildWallRenderItem({
   // masonry wraps up to the host wall's height so runs stay level.
   const openingHeightWorld = getWallHeightWorld(wall, typeData, gridSize);
   const isFeature = isDoor || isWindow;
-  const heightWorld = isFeature
+  const rawHeightWorld = isFeature
     ? (hostHeightWorld != null ? hostHeightWorld : WALL_HEIGHT_MULTIPLIERS.wall * gridSize)
     : openingHeightWorld;
+  const heightWorld = wallsCollapsed
+    ? getWallCollapsedHeightWorld(gridSize)
+    : rawHeightWorld;
   const baseZStart = base.start - WALL_BASE_SINK_WORLD;
   const baseZEnd = base.end - WALL_BASE_SINK_WORLD;
   // Lowest adjacent ground at each end. The wall body only starts at the

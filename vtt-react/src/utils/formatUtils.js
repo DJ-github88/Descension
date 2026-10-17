@@ -53,7 +53,6 @@ export function formatParameterName(paramName) {
   // Handle special cases
   const specialCases = {
     'dc': 'DC',
-    'ac': 'Armor',
     'hp': 'HP',
     'mp': 'MP',
     'xp': 'XP'

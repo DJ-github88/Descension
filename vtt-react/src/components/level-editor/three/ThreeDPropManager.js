@@ -4,7 +4,8 @@ import { WALL_TYPES } from '../../../store/levelEditorStore';
 import {
   parseWallKey,
   getWallWorldEndpoints,
-  getWallBodyHeightWorld
+  getWallBodyHeightWorld,
+  getWallCollapsedHeightWorld
 } from '../../../utils/WallGeometry';
 import { wallModelMetrics, WALL_DOOR_MODELS } from './ThreeDWallManager';
 import { getGridSystem } from '../../../utils/InfiniteGridSystem';
@@ -1462,10 +1463,14 @@ export class ThreeDPropManager {
     return changed;
   }
 
-  updateWallDoors(wallData = {}, gridState = {}, fogState = {}, elevationData = {}) {
+  updateWallDoors(wallData = {}, gridState = {}, fogState = {}, elevationData = {}, wallsCollapsed = false) {
     const { gridSize = 50, gridOffsetX = 0, gridOffsetY = 0 } = gridState;
     const currentDoorKeys = new Set();
     let stateChanged = false;
+    if (this.lastWallsCollapsed !== wallsCollapsed) {
+      this.lastWallsCollapsed = wallsCollapsed;
+      stateChanged = true;
+    }
 
     let gridSystem = null;
     try {
@@ -1551,7 +1556,9 @@ export class ThreeDPropManager {
       // same wall-body height as the modular wall segments. Gate types carry the
       // heightScale of the fence/hedge they belong to so a picket gate matches
       // its picket fence instead of towering over it.
-      const heightWorld = getWallBodyHeightWorld(wall, gridSize, typeData);
+      const heightWorld = wallsCollapsed
+        ? getWallCollapsedHeightWorld(gridSize)
+        : getWallBodyHeightWorld(wall, gridSize, typeData);
 
       if (!entry) {
         const modelScene = modelCache.createInstance(doorwayUrl);

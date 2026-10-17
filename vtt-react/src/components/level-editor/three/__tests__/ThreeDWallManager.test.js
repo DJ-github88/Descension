@@ -130,6 +130,23 @@ describe('ThreeDWallManager', () => {
     expect(entry.pieces[0].innerModel.scale.y).toBeCloseTo(200 / 4);
   });
 
+  it('collapses wall and junction heights when wallsCollapsed is active', () => {
+    // 2 walls meeting at 90 deg corner
+    const walls = {
+      '0,0,1,0': { type: 'stone_wall' },
+      '1,0,1,1': { type: 'stone_wall' }
+    };
+    manager.updateWalls(walls, {}, GRID, {}, true);
+
+    const entry = manager.wallInstances.get('0,0,1,0');
+    // Collapsed height is 50 * 0.08 = 4 units
+    expect(entry.pieces[0].innerModel.scale.y).toBeCloseTo(4 / 4);
+
+    const cornerEntry = manager.junctionInstances.get('50,0');
+    expect(cornerEntry).toBeDefined();
+    expect(cornerEntry.innerModel.scale.y).toBeCloseTo(4 / 4);
+  });
+
   describe('junction resolution', () => {
     it('does nothing for collinear straight-through joints', () => {
       expect(manager.resolveJunction([{ x: 1, y: 0 }, { x: -1, y: 0 }], false)).toBeNull();

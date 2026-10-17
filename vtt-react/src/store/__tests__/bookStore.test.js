@@ -1,4 +1,4 @@
-import useBookStore, { normalizeBook } from '../bookStore';
+import useBookStore, { normalizeBook, STARTER_BOOKS } from '../bookStore';
 
 describe('bookStore - Hierarchical Book Architecture', () => {
   beforeEach(() => {
@@ -180,5 +180,72 @@ describe('bookStore - Hierarchical Book Architecture', () => {
     expect(state.trashedBooks.length).toBe(1);
     expect(state.trashedBooks[0].id).toBe('fresh-book');
   });
+
+  test('flowPageOverflow moves excess blocks onto a new or subsequent facing page', () => {
+    const { createBook, setPageBlocks, flowPageOverflow } = useBookStore.getState();
+    const bookId = createBook({ title: 'Dense Manuscript' });
+    let book = useBookStore.getState().books.find((b) => b.id === bookId);
+    const chId = book.chapters[0].id;
+    const pageId = book.chapters[0].pages[0].id;
+
+    // Set 9 blocks on page 1
+    setPageBlocks(
+      bookId,
+      chId,
+      pageId,
+      Array.from({ length: 9 }, (_, i) => ({
+        id: `b-overflow-${i + 1}`,
+        type: 'paragraph',
+        text: `Overflow paragraph ${i + 1}`
+      }))
+    );
+
+    book = useBookStore.getState().books.find((b) => b.id === bookId);
+    expect(book.chapters[0].pages[0].blocks.length).toBe(9);
+
+    const nextPageId = flowPageOverflow(bookId, chId, pageId, 5);
+    expect(nextPageId).toBeTruthy();
+
+    book = useBookStore.getState().books.find((b) => b.id === bookId);
+    expect(book.chapters[0].pages.length).toBe(2);
+    expect(book.chapters[0].pages[0].blocks.length).toBe(5);
+    expect(book.chapters[0].pages[1].blocks.length).toBe(4);
+  });
+
+  test('compileCampaignChronicle compiles selected campaign lore into a multi-chapter sourcebook', () => {
+    const { compileCampaignChronicle } = useBookStore.getState();
+    const compiledId = compileCampaignChronicle({
+      title: 'Chronicles of the Shattered Crown',
+      subtitle: 'Master Campaign Sourcebook',
+      theme: 'parchment',
+      layout: 'book-spread',
+      customTerms: [{ id: 't1', name: 'Aethelgard', category: 'Realm', definition: 'Frost-bound citadel.' }],
+      chapters: [
+        { id: 'ch-1', title: 'Chapter I: Realms', pages: [{ id: 'pg-1', pageNumber: 1, blocks: [{ id: 'b1', type: 'location_showcase', name: 'Aethelgard' }] }] },
+        { id: 'ch-2', title: 'Chapter II: Lineages', pages: [{ id: 'pg-2', pageNumber: 1, blocks: [{ id: 'b2', type: 'lineage_showcase', name: 'Ashborn' }] }] },
+        { id: 'ch-3', title: 'Chapter III: Dynasties', pages: [{ id: 'pg-3', pageNumber: 1, blocks: [{ id: 'b3', type: 'dynasty_tree', name: 'House Valerius' }] }] }
+      ]
+    });
+
+    const compiledBook = useBookStore.getState().books.find((b) => b.id === compiledId);
+    expect(compiledBook).toBeDefined();
+    expect(compiledBook.title).toBe('Chronicles of the Shattered Crown');
+    expect(compiledBook.chapters.length).toBe(3);
+    expect(compiledBook.customTerms.length).toBe(1);
+  });
+
+  test('starter Chromatic Vault book uses authentic Descension mechanics and lore', () => {
+    const vaultBook = STARTER_BOOKS.find((b) => b.id === 'book-starter-chromatic-vault');
+    expect(vaultBook).toBeDefined();
+    const normalized = normalizeBook(vaultBook);
+    const serialized = JSON.stringify(normalized);
+    expect(serialized).toContain('Agility saving throw');
+    expect(serialized).toContain('Ember-Motes');
+    expect(serialized).toContain('Cinder-Hounds');
+    expect(serialized).not.toContain('Dexterity saving throw');
+    expect(serialized).not.toContain('Magmins');
+    expect(serialized).not.toContain('Hell Hounds');
+  });
 });
+
 

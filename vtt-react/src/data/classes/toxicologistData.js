@@ -2303,7 +2303,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       },
 
       resolution: "NONE",
-      effectTypes: ["summon"],
+      effectTypes: ["summon", "summoning"],
 
       summoningConfig: {
         creatures: [
@@ -2509,7 +2509,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       },
 
       resolution: "NONE",
-      effectTypes: ["summon"],
+      effectTypes: ["summon", "summoning"],
 
       summoningConfig: {
         creatures: [
@@ -2738,7 +2738,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       },
 
       resolution: "NONE",
-      effectTypes: ["summon"],
+      effectTypes: ["summon", "summoning"],
 
       summoningConfig: {
         creatures: [
@@ -3496,7 +3496,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       level: 1,
       spellType: "PASSIVE",
       icon: "Poison/Poison Flask",
-      effectTypes: ["passive"],
+      effectTypes: ["passive","debuff"],
       typeConfig: {
         school: "blight",
         icon: "Poison/Poison Flask",
@@ -3512,7 +3512,21 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         resourceValues: {},
         actionPoints: 0,
       },
-      resolution: "AUTOMATIC",
+      debuffConfig: {
+        debuffType: "statusEffect",
+        effects: [
+          {
+            id: "vial_dependency_failure",
+            name: "Vial Dependency",
+            description: "At 0 Vials",
+            mechanicsText: "Poison spells have a 50% chance to fail. Regain 1 Vial per enemy killed within 30ft."
+          }
+        ],
+        durationValue: 0,
+        durationType: "permanent",
+        durationUnit: "permanent"
+      },
+  resolution: "AUTOMATIC",
       tags: ["passive", "resource", "vials", "poison dependency", "toxicologist"],
     },
     { id : "tox_concoction_instability",
@@ -3522,7 +3536,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       level: 3,
       spellType: "PASSIVE",
       icon: "Fire/Burning Status",
-      effectTypes: ["passive"],
+      effectTypes: ["passive","debuff"],
       typeConfig: {
         school: "blight",
         icon: "Fire/Burning Status",
@@ -3538,7 +3552,21 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         resourceValues: {},
         actionPoints: 0,
       },
-      resolution: "AUTOMATIC",
+      debuffConfig: {
+        debuffType: "statusEffect",
+        effects: [
+          {
+            id: "heat_instability_detonation",
+            name: "Premature Detonation",
+            description: "On taking fire or ember damage",
+            mechanicsText: "One random poison active on an enemy prematurely detonates, dealing its remaining damage to YOU instead of the target."
+          }
+        ],
+        durationValue: 0,
+        durationType: "permanent",
+        durationUnit: "permanent"
+      },
+  resolution: "AUTOMATIC",
       tags: ["passive", "weakness", "fire vulnerability", "backlash", "toxicologist"],
     },
     { id : "tox_no_hard_cc",
@@ -3547,7 +3575,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       level: 1,
       spellType: "PASSIVE",
       icon: "Poison/Poison Flask",
-      effectTypes: ["passive"],
+      effectTypes: ["passive","debuff"],
       typeConfig: {
         school: "blight",
         icon: "Poison/Poison Flask",
@@ -3557,7 +3585,21 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       },
       targetingConfig: { targetingType: "self" },
       resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0 },
-      resolution: "AUTOMATIC",
+      debuffConfig: {
+        debuffType: "statusEffect",
+        effects: [
+          {
+            id: "poison_not_paralysis",
+            name: "Nauseating Toxins",
+            description: "Permanent Control Conversion",
+            mechanicsText: "Cannot apply Stun, Paralyze, or Freeze. Poisons apply Nauseated instead: disadvantage on attacks and checks, and movement speed is halved."
+          }
+        ],
+        durationValue: 0,
+        durationType: "permanent",
+        durationUnit: "permanent"
+      },
+  resolution: "AUTOMATIC",
       tags: ["passive", "restriction", "no hard cc", "nauseated", "toxicologist"],
     },
     // ===== NON-COMBAT / ALCHEMY & GADGET UTILITY (the poisoner-craftsman, out of combat) =====

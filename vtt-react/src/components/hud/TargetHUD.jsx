@@ -26,6 +26,7 @@ import { getClassIconUrl } from '../../utils/classIconUtils';
 import Button from '../common/Button';
 import PortraitLightbox from './PortraitLightbox';
 import './PortraitLightbox.css';
+import ShopWindow from '../shop/ShopWindow';
 import { getTokenResources, getStateKeyForResource, getTempFieldName } from '../../utils/tokenStateUtils';
 
 // Helper function to get background display name
@@ -149,6 +150,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
   const [showOverhealModal, setShowOverhealModal] = useState(false);
   const [overhealData, setOverhealData] = useState(null); // { resourceType, adjustment, overhealAmount, currentValue, maxValue }
   const [showPortraitZoom, setShowPortraitZoom] = useState(false);
+  const [showShopWindow, setShowShopWindow] = useState(false);
 
   const {
     currentTarget,
@@ -393,10 +395,16 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
     } else if (targetType === 'creature') {
       // For creatures, use unified resource accessor
       const token = tokens.find(t => t.id === currentTarget.id);
+      const creatureObj = (token?.creatureId ? getCreature(token.creatureId) : null) ||
+                          (currentTarget.creatureId ? getCreature(currentTarget.creatureId) : null) ||
+                          currentTarget.creature ||
+                          creatures.find(c => c.id === currentTarget.id || c.name === currentTarget.name) ||
+                          currentTarget;
+
       const resources = getTokenResources(token || currentTarget, 'creature');
 
       // Get base stats from creature
-      const baseStats = currentTarget.stats || {};
+      const baseStats = creatureObj?.stats || currentTarget.stats || {};
       
       // Apply buff/debuff modifiers to stats
       const modifiedStats = getModifiedCreatureStats(token, baseStats);
@@ -413,27 +421,77 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
 
       const health = {
         current: baseHealth.current,
-        max: baseHealth.max + maxHpMod
+        max: Math.max(1, (baseHealth.max || 1) + maxHpMod)
       };
       const mana = {
         current: baseMana.current,
-        max: baseMana.max + maxManaMod
+        max: Math.max(0, (baseMana.max || 0) + maxManaMod)
       };
       const actionPoints = {
         current: baseActionPoints.current,
-        max: baseActionPoints.max + maxApMod
+        max: Math.max(0, (baseActionPoints.max || 0) + maxApMod)
       };
 
+      const isShopkeeper = Boolean(
+        creatureObj?.isShopkeeper ||
+        creatureObj?.type === 'shopkeeper' ||
+        creatureObj?.tags?.includes('shopkeeper') ||
+        creatureObj?.tags?.includes('merchant') ||
+        currentTarget?.isShopkeeper ||
+        currentTarget?.type === 'shopkeeper'
+      );
+
+      // Determine clean race/lineage display
+      let creatureRace = creatureObj?.race || currentTarget.race;
+      if (!creatureRace || creatureRace.toLowerCase() === 'shopkeeper') {
+        const foundRaceTag = (creatureObj?.tags || []).find(t =>
+          ['gnome', 'dwarf', 'elf', 'human', 'goblin', 'orc', 'halfling', 'dragonborn', 'tiefling', 'fae', 'fey'].includes(t.toLowerCase())
+        );
+        if (foundRaceTag) {
+          creatureRace = foundRaceTag.charAt(0).toUpperCase() + foundRaceTag.slice(1);
+        } else if (creatureObj?.nature && /gnome|dwarf|elf|human|goblin/i.test(creatureObj.nature)) {
+          const match = creatureObj.nature.match(/\b(gnome|dwarf|elf|human|goblin)\b/i);
+          if (match) creatureRace = match[1].charAt(0).toUpperCase() + match[1].slice(1);
+        }
+      }
+
+      // Determine creature type display
+      let creatureTypeDisplay = creatureObj?.type || currentTarget.type || 'Creature';
+      if (isShopkeeper) {
+        creatureTypeDisplay = 'Shopkeeper';
+      } else {
+        creatureTypeDisplay = creatureTypeDisplay.charAt(0).toUpperCase() + creatureTypeDisplay.slice(1);
+      }
+
+      // Size
+      const creatureSize = creatureObj?.size || currentTarget.size;
+      const sizeDisplay = creatureSize ? (creatureSize.charAt(0).toUpperCase() + creatureSize.slice(1)) : null;
+
+      // Description / Lore Blurb
+      const description = creatureObj?.description ||
+                          creatureObj?.nature ||
+                          creatureObj?.role ||
+                          currentTarget.description ||
+                          null;
+
+      const role = creatureObj?.role || currentTarget.role || null;
+
       return {
-        name: currentTarget.name,
-        race: currentTarget.race || currentTarget.type || 'Creature',
+        name: token?.state?.customName || currentTarget.name,
+        race: creatureRace || null,
+        creatureType: creatureTypeDisplay,
+        size: sizeDisplay,
+        role: role,
+        description: description,
+        isShopkeeper: isShopkeeper,
+        creatureObj: creatureObj,
         class: null, // Creatures don't have classes
-        alignment: currentTarget.alignment || 'Neutral',
+        alignment: creatureObj?.alignment || currentTarget.alignment || 'Neutral',
         exhaustionLevel: 0, // Creatures usually don't have exhaustion
         health: health,
         mana: mana,
         actionPoints: actionPoints,
-        level: currentTarget.level || 1,
+        level: creatureObj?.level || currentTarget.level || 1,
         isCreature: true,
         tempHealth: resources.tempHealth || 0,
         tempMana: resources.tempMana || 0,
@@ -442,7 +500,28 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
       };
     }
     return null;
-  }, [targetType, currentTarget, partyMembers, characterState, tokens, getModifiedCreatureStats]);
+  }, [targetType, currentTarget, partyMembers, characterState, tokens, creatures, getCreature, getModifiedCreatureStats]);
+
+  const targetCreature = useMemo(() => {
+    if (targetType !== 'creature' || !currentTarget) return null;
+    const token = tokens.find(t => t.id === currentTarget.id);
+    const creatureFromStore = token?.creatureId ? getCreature(token.creatureId) : null;
+    return creatureFromStore || currentTarget.creature || targetData?.creatureObj || currentTarget;
+  }, [targetType, currentTarget, tokens, getCreature, targetData?.creatureObj]);
+
+  const isTargetShopkeeper = useMemo(() => {
+    if (targetType !== 'creature' || !currentTarget) return false;
+    const c = targetCreature || currentTarget;
+    return Boolean(
+      targetData?.isShopkeeper ||
+      c?.isShopkeeper ||
+      c?.type === 'shopkeeper' ||
+      c?.tags?.includes('shopkeeper') ||
+      c?.tags?.includes('merchant') ||
+      currentTarget?.isShopkeeper ||
+      currentTarget?.type === 'shopkeeper'
+    );
+  }, [targetType, currentTarget, targetCreature, targetData?.isShopkeeper]);
 
   // Get target image/icon based on target type
   const getTargetImage = () => {
@@ -1779,7 +1858,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
     'intelligence': 'Intelligence', 'spirit': 'Spirit', 'charisma': 'Charisma',
     'str': 'Strength', 'agi': 'Agility', 'con': 'Constitution',
     'int': 'Intelligence', 'spi': 'Spirit', 'spir': 'Spirit', 'cha': 'Charisma',
-    'armor': 'Armor', 'damage': 'Damage', 'spelldamage': 'Spell Damage',
+    'armor': 'Legacy armor (unresolved, no current effect)', 'damage': 'Damage', 'spelldamage': 'Spell Damage',
     'maxhp': 'Max Health', 'maxhealth': 'Max Health', 'max_hp': 'Max Health', 'max_health': 'Max Health',
     'maxmana': 'Max Mana', 'max_mana': 'Max Mana', 'maxmp': 'Max Mana', 'max_mp': 'Max Mana',
     'maxap': 'Max Action Points', 'maxactionpoints': 'Max Action Points', 'max_ap': 'Max Action Points', 'max_action_points': 'Max Action Points',
@@ -2197,11 +2276,36 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
               {/* Info Section */}
               <div className="party-member-info">
                 <div className="member-header">
-                  <div className="member-name">{targetData.name}</div>
+                  <div className="target-header-top-row">
+                    <div className="member-name" title={targetData.name}>{targetData.name}</div>
+                    {isTargetShopkeeper && (
+                      <button
+                        type="button"
+                        className="target-hud-shop-btn"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setShowShopWindow(true);
+                        }}
+                        title={`Open ${targetData.name}'s Shop`}
+                      >
+                        <i className="fas fa-store"></i>
+                        <span>Shop</span>
+                      </button>
+                    )}
+                  </div>
                   <div className="member-details">
                     {targetData.isCreature ? (
-                      <div className="member-race-class">
-                        {targetData.race}
+                      <div className="target-meta-row">
+                        <span className="target-type-badge">
+                          {[targetData.size, targetData.race, targetData.creatureType || 'Creature']
+                            .filter(Boolean)
+                            .join(' ')}
+                        </span>
+                        {targetData.alignment && (
+                          <span className={`target-alignment-badge alignment-${(targetData.alignment || '').toLowerCase()}`}>
+                            {targetData.alignment}
+                          </span>
+                        )}
                       </div>
                     ) : (
                       <>
@@ -2230,13 +2334,29 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                         })()}
                       </>
                     )}
-                    {/* Line 3: Alignment */}
-                    <div className="member-alignment">
-                      <span className="alignment">{targetData.alignment}</span>
-                      {targetData.exhaustionLevel > 0 && (
-                        <span className="exhaustion">Exhausted {targetData.exhaustionLevel}</span>
-                      )}
-                    </div>
+                    {/* Line 3: Alignment (for player/party members) */}
+                    {!targetData.isCreature && (
+                      <div className="member-alignment">
+                        <span className="alignment">{targetData.alignment}</span>
+                        {targetData.exhaustionLevel > 0 && (
+                          <span className="exhaustion">Exhausted {targetData.exhaustionLevel}</span>
+                        )}
+                      </div>
+                    )}
+
+                    {/* Role subtitle if available */}
+                    {targetData.role && (
+                      <div className="target-role-text" title={targetData.role}>
+                        {targetData.role}
+                      </div>
+                    )}
+
+                    {/* Description Blurb if available */}
+                    {targetData.description && (
+                      <div className="target-description-text" title={targetData.description}>
+                        "{targetData.description}"
+                      </div>
+                    )}
                   </div>
                 </div>
 
@@ -2497,6 +2617,20 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
               e.stopPropagation();
               setShowContextMenu(false);
               handleInspectTarget();
+            }
+          });
+        }
+
+        // Shop action for shopkeeper target
+        if (isTargetShopkeeper) {
+          menuItems.push({
+            icon: <i className="fas fa-store"></i>,
+            label: 'Open Shop',
+            onClick: (e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              setShowContextMenu(false);
+              setShowShopWindow(true);
             }
           });
         }
@@ -3243,9 +3377,17 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
         backgroundImage={targetLightboxBackground?.image || ''}
         backgroundColor={targetLightboxBackground?.color || ''}
         title={targetData?.name || 'Target'}
-        subtitle={targetData?.isCreature ? (targetData?.race || '') : ([targetData?.class, targetData?.level ? `Level ${targetData.level}` : ''].filter(Boolean).join(' • '))}
+        subtitle={targetData?.isCreature ? ([targetData?.size, targetData?.race, targetData?.creatureType || 'Creature'].filter(Boolean).join(' ')) : ([targetData?.class, targetData?.level ? `Level ${targetData.level}` : ''].filter(Boolean).join(' • '))}
         onClose={() => setShowPortraitZoom(false)}
       />
+      {/* Shop Window for targeted shopkeeper */}
+      {isTargetShopkeeper && (targetCreature || targetData?.creatureObj) && (
+        <ShopWindow
+          isOpen={showShopWindow}
+          onClose={() => setShowShopWindow(false)}
+          creature={targetCreature || targetData?.creatureObj}
+        />
+      )}
     </>
   );
 };

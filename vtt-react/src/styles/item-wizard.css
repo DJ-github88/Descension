@@ -424,72 +424,121 @@
   text-indent: 0 !important;
 }
 
-/* ===== WIZARD HEADER ===== */
+/* ===== WIZARD TITLEBAR & STEPPER HEADER (CALM TTRPG MANUSCRIPT) ===== */
 
-.item-wizard-modal .wizard-header {
-  background: var(--my-gradient-parchment, #f8f5ee) !important;
-  border-bottom: 3px solid var(--my-brown-light, #a08c70) !important;
-  border-radius: 13px 13px 0 0 !important;
-  padding: var(--my-space-5, 20px) var(--my-space-5, 20px) !important;
-  min-height: 84px !important;
+.item-wizard-modal .wizard-window-titlebar {
   display: flex !important;
   justify-content: space-between !important;
   align-items: center !important;
-  box-shadow:
-    0 8px 32px rgba(0, 0, 0, 0.4),
-    inset 0 2px 0 rgba(255, 255, 255, 0.7),
-    inset 0 -2px 0 rgba(139, 69, 19, 0.2),
-    0 0 0 1px rgba(139, 69, 19, 0.3),
-    0 0 20px rgba(139, 69, 19, 0.15) !important;
-  position: relative !important;
-  z-index: 10 !important;
-  flex-shrink: 0 !important;
-  cursor: grab !important;
+  padding: 10px 18px !important;
+  background: #2b1f14 !important;
+  border-bottom: 1px solid #9b835e !important;
+  border-radius: 12px 12px 0 0 !important;
   user-select: none !important;
-  overflow: visible !important; /* Allow tooltips to overflow */
+  cursor: grab !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35) !important;
+  flex-shrink: 0 !important;
+  min-height: 48px !important;
+  position: relative !important;
+  z-index: 12 !important;
 }
 
-.item-wizard-modal .wizard-header:active {
+.item-wizard-modal .wizard-window-titlebar:active {
   cursor: grabbing !important;
 }
 
-.item-wizard-modal .wizard-header h2 {
-  font-family: var(--my-font-display, 'Cinzel', serif) !important;
-  font-size: var(--my-text-xl, 20px) !important;
-  font-weight: var(--my-font-bold, 700) !important;
-  color: var(--my-brown-darkest, #2d1810) !important;
-  text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.8) !important;
-  margin: 0 !important;
-  letter-spacing: 0.5px !important;
-  text-transform: uppercase !important;
+.item-wizard-modal .wizard-titlebar-identity {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  pointer-events: none !important;
 }
 
-.item-wizard-modal .wizard-header .close-button {
-  background: var(--my-gradient-button, #f8f5ee) !important;
-  border: 2px solid var(--my-brown-medium, #8B4513) !important;
-  border-radius: var(--my-border-radius, 8px) !important;
-  color: var(--my-text-primary, #2d1810) !important;
-  font-family: var(--my-font-display, 'Cinzel', serif) !important;
-  font-size: 18px !important;
-  font-weight: bold !important;
-  width: 32px !important;
-  height: 32px !important;
+.item-wizard-modal .wizard-titlebar-icon {
+  width: 28px !important;
+  height: 28px !important;
+  border-radius: 50% !important;
+  background: rgba(196, 171, 121, 0.15) !important;
+  border: 1px solid #c4ab79 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  color: #dfc18c !important;
+  font-size: 13px !important;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.4) !important;
+}
+
+.item-wizard-modal .wizard-titlebar-titles {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 1px !important;
+}
+
+.item-wizard-modal .wizard-titlebar-main {
+  font-family: 'Cinzel', Georgia, serif !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  letter-spacing: 1.5px !important;
+  color: #f7f3ea !important;
+  text-transform: uppercase !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8) !important;
+}
+
+.item-wizard-modal .wizard-titlebar-sub {
+  font-family: 'Crimson Text', Georgia, serif !important;
+  font-size: 12px !important;
+  font-style: italic !important;
+  color: #c4ab79 !important;
+  letter-spacing: 0.3px !important;
+}
+
+.item-wizard-modal .wizard-window-close-btn,
+.item-wizard-modal .wizard-window-titlebar .close-button {
+  width: 28px !important;
+  height: 28px !important;
+  border-radius: 50% !important;
+  background: rgba(43, 31, 20, 0.6) !important;
+  border: 1px solid #9b835e !important;
+  color: #c4ab79 !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
   cursor: pointer !important;
-  transition: all var(--my-transition-normal, 0.25s ease) !important;
-  box-shadow:
-    inset 0 2px 4px rgba(139, 69, 19, 0.1),
-    0 2px 4px rgba(0, 0, 0, 0.1) !important;
+  transition: all 0.2s ease !important;
+  padding: 0 !important;
+  font-size: 13px !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
 }
 
-.item-wizard-modal .wizard-header .close-button:hover {
-  background: var(--my-gradient-button-hover, linear-gradient(145deg, #f1ece1 0%, #e8e2d4 50%, #c4baa6 100%)) !important;
+.item-wizard-modal .wizard-window-close-btn:hover,
+.item-wizard-modal .wizard-window-titlebar .close-button:hover {
+  background: #663c32 !important;
+  border-color: #dfc18c !important;
+  color: #fff !important;
   transform: translateY(-1px) !important;
-  box-shadow:
-    inset 0 2px 4px rgba(139, 69, 19, 0.15),
-    0 4px 8px rgba(0, 0, 0, 0.15) !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Stepper Bar */
+.item-wizard-modal .wizard-header {
+  background: linear-gradient(180deg, #f9f6f0 0%, #efe7d7 100%) !important;
+  border-bottom: 1px solid #b6a080 !important;
+  border-radius: 0 !important;
+  padding: 8px 18px !important;
+  min-height: 52px !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  box-shadow: 0 2px 6px rgba(45, 25, 10, 0.08) !important;
+  position: relative !important;
+  z-index: 10 !important;
+  flex-shrink: 0 !important;
+  cursor: default !important;
+  user-select: none !important;
+}
+
+.item-wizard-modal .wizard-header:active {
+  cursor: default !important;
 }
 
 /* ===== WIZARD FOOTER - ENHANCED PATHFINDER STYLING ===== */
@@ -1911,40 +1960,10 @@
     background: linear-gradient(to bottom, rgba(230, 204, 128, 0.05), transparent);
 }
 
-/* Quality-based header gradients - Enhanced Pathfinder parchment style */
-.item-wizard-modal[data-quality="poor"] .wizard-header {
-    background: var(--my-gradient-parchment, #f8f5ee) !important;
-    border-bottom: 3px solid rgba(157, 157, 157, 0.6) !important;
-}
-
-.item-wizard-modal[data-quality="common"] .wizard-header {
-    background: var(--my-gradient-parchment, #f8f5ee) !important;
-    border-bottom: 3px solid var(--my-gold) !important;
-}
-
-.item-wizard-modal[data-quality="uncommon"] .wizard-header {
-    background: var(--my-gradient-parchment, #f8f5ee) !important;
-    border-bottom: 3px solid rgba(30, 255, 0, 0.8) !important;
-}
-
-.item-wizard-modal[data-quality="rare"] .wizard-header {
-    background: var(--my-gradient-parchment, #f8f5ee) !important;
-    border-bottom: 3px solid rgba(0, 112, 221, 0.8) !important;
-}
-
-.item-wizard-modal[data-quality="epic"] .wizard-header {
-    background: var(--my-gradient-parchment, #f8f5ee) !important;
-    border-bottom: 3px solid rgba(163, 53, 238, 0.8) !important;
-}
-
-.item-wizard-modal[data-quality="legendary"] .wizard-header {
-    background: var(--my-gradient-parchment, #f8f5ee) !important;
-    border-bottom: 3px solid rgba(255, 128, 0, 0.8) !important;
-}
-
-.item-wizard-modal[data-quality="artifact"] .wizard-header {
-    background: var(--my-gradient-parchment, #f8f5ee) !important;
-    border-bottom: 3px solid rgba(230, 204, 128, 0.8) !important;
+/* Quality-based header styling - Calm TTRPG parchment style */
+.item-wizard-modal[data-quality] .wizard-header {
+    background: linear-gradient(180deg, #f9f6f0 0%, #efe7d7 100%) !important;
+    border-bottom: 1px solid #b6a080 !important;
 }
 
 /* Quality-based text colors - Pathfinder style */
@@ -2063,33 +2082,53 @@
 }
 
 .item-wizard-modal .wizard-progress-container {
-  position: absolute !important;
-  left: 50% !important;
-  transform: translateX(-50%) !important;
+  flex: 1 !important;
   display: flex !important;
   justify-content: center !important;
   align-items: center !important;
-  max-width: 400px !important;
+  max-width: 500px !important;
+  margin: 0 16px !important;
   overflow: visible !important; /* Allow tooltips to overflow */
   z-index: 5 !important;
 }
 
-/* Compact progress bar for wizard footer */
+/* Compact progress bar for wizard header */
 .item-wizard-modal .wizard-progress-container .wow-progress-bar {
-  height: 44px !important; /* Reduced height for compact footer */
+  height: 38px !important;
   max-width: 500px !important;
   margin: 0 auto !important;
-  overflow: visible !important; /* Allow tooltips to overflow */
-  z-index: 10 !important; /* Ensure progress bar is above background content */
-  isolation: isolate !important; /* Create new stacking context */
+  background: #ebe4d3 !important;
+  border: 1px solid #b6a080 !important;
+  border-radius: 4px !important;
+  box-shadow: inset 0 1px 3px rgba(40, 25, 15, 0.15) !important;
+  overflow: visible !important;
+  z-index: 10 !important;
+  isolation: isolate !important;
 }
 
 .item-wizard-modal .wizard-progress-container .step-icon {
-  width: 30px !important; /* Keep original size */
-  height: 30px !important; /* Keep original size */
-  border: none !important;
-  z-index: 5 !important; /* Ensure icons are above segments and background */
+  width: 24px !important;
+  height: 24px !important;
+  border: 1px solid #b6a080 !important;
+  background: #faf6ee !important;
+  border-radius: 3px !important;
+  padding: 2px !important;
+  z-index: 5 !important;
   position: relative !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1) !important;
+  transition: transform 0.2s ease, border-color 0.2s ease !important;
+}
+
+.item-wizard-modal .wizard-progress-container .wow-progress-segment.completed .step-icon {
+  border-color: #8c2b18 !important;
+  filter: sepia(0.3) !important;
+}
+
+.item-wizard-modal .wizard-progress-container .wow-progress-segment.active .step-icon {
+  border-color: #3b2318 !important;
+  background: #fffdf9 !important;
+  box-shadow: 0 0 6px rgba(196, 171, 121, 0.6) !important;
+  transform: scale(1.15) !important;
 }
 
 .item-wizard-modal .wizard-progress-container .step-tooltip {
@@ -2202,63 +2241,61 @@
 .item-wizard-modal .wizard-nav-btn {
   display: flex !important;
   align-items: center !important;
-  gap: var(--my-space-2, 8px) !important;
-  padding: var(--my-space-3, 12px) var(--my-space-4, 16px) !important;
-  background: linear-gradient(135deg, var(--my-gold, #d4af37) 0%, var(--my-gold-dark, #b8860b) 100%) !important;
-  border: var(--my-border-width, 2px) solid var(--my-brown-medium, #8B4513) !important;
-  border-radius: var(--my-border-radius, 8px) !important;
-  color: var(--my-brown-darkest, #2d1810) !important;
-  font-family: var(--my-font-display, 'Cinzel', serif) !important;
-  font-size: var(--my-text-base, 14px) !important;
-  font-weight: var(--my-font-bold, 600) !important;
+  gap: 6px !important;
+  padding: 6px 14px !important;
+  background: #faf6ee !important;
+  border: 1px solid #b6a080 !important;
+  border-radius: 3px !important;
+  color: #3b2318 !important;
+  font-family: 'Cinzel', serif !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
   cursor: pointer !important;
-  transition: all var(--my-transition-normal, 0.25s ease) !important;
-  box-shadow:
-    0 4px 8px rgba(0, 0, 0, 0.15),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+  transition: all 0.2s ease !important;
+  box-shadow: 0 1px 3px rgba(30, 20, 10, 0.08) !important;
   text-transform: uppercase !important;
   letter-spacing: 0.5px !important;
-  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5) !important;
-  min-width: 120px !important;
+  min-width: 95px !important;
   justify-content: center !important;
 }
 
 .item-wizard-modal .wizard-nav-btn:hover:not(:disabled) {
-  background: linear-gradient(135deg, var(--my-gold-light, #f4d03f) 0%, var(--my-gold, #d4af37) 100%) !important;
-  border-color: var(--my-gold, #d4af37) !important;
-  transform: translateY(-2px) !important;
-  box-shadow:
-    0 6px 12px rgba(0, 0, 0, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
+  background: #fffdf9 !important;
+  border-color: #8c2b18 !important;
+  color: #8c2b18 !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 3px 6px rgba(40, 25, 10, 0.14) !important;
 }
 
 .item-wizard-modal .wizard-nav-btn:active:not(:disabled) {
   transform: translateY(0) !important;
-  box-shadow:
-    0 2px 4px rgba(0, 0, 0, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+  box-shadow: 0 1px 2px rgba(30, 20, 10, 0.1) !important;
 }
 
 .item-wizard-modal .wizard-nav-btn:disabled {
-  background: var(--my-brown-light, #a08c70) !important;
-  color: var(--my-text-muted, #6c5a47) !important;
-  border-color: var(--my-brown-medium, #8B4513) !important;
+  background: #ede6d8 !important;
+  color: #9c8e7c !important;
+  border-color: #cbbfad !important;
   cursor: not-allowed !important;
-  opacity: 0.6 !important;
+  opacity: 0.5 !important;
   transform: none !important;
   box-shadow: none !important;
 }
 
 .item-wizard-modal .wizard-nav-create {
-  background: linear-gradient(135deg, #28a745 0%, #20c997 100%) !important;
-  border-color: #20c997 !important;
-  color: white !important;
-  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3) !important;
+  background: linear-gradient(135deg, #4a2015 0%, #2f140c 100%) !important;
+  border-color: #c4ab79 !important;
+  color: #faf6ee !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6) !important;
+  box-shadow: 0 2px 6px rgba(40, 20, 10, 0.35) !important;
 }
 
 .item-wizard-modal .wizard-nav-create:hover:not(:disabled) {
-  background: linear-gradient(135deg, #20c997 0%, #17a2b8 100%) !important;
-  border-color: #17a2b8 !important;
+  background: linear-gradient(135deg, #662d1f 0%, #421c11 100%) !important;
+  border-color: #dfc18c !important;
+  color: #fff !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 10px rgba(50, 25, 15, 0.45) !important;
 }
 
 /* Create Item button styling */

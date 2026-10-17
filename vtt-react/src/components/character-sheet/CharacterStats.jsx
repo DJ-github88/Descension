@@ -11,6 +11,7 @@ import { calculateEffectiveMovementSpeed } from '../../utils/conditionUtils';
 import { getXPProgress, formatXP } from '../../utils/experienceUtils';
 import { getRacialStatModifiers } from '../../utils/raceDisciplineSpellUtils';
 import { getRacialSavingThrowModifiers } from '../../data/raceData';
+import { PC_BASE_ACTION_POINTS } from '../../data/firstTableRules';
 import StatTooltip from '../tooltips/StatTooltip';
 import GeneralStatTooltip from '../tooltips/GeneralStatTooltip';
 import ResistanceTooltip from '../tooltips/ResistanceTooltip';
@@ -822,7 +823,7 @@ export default function CharacterStats({ selectedStatGroup: propGroup, setSelect
     let racialBaseSpeed = 30;
     let racialBaseHP = 25;
     let racialBaseMana = 15;
-    let racialBaseAP = 3;
+    let racialBaseAP = PC_BASE_ACTION_POINTS;
     if (race && subrace) {
         try {
             const { getRacialBaseStats } = require('../../data/raceData');
@@ -830,12 +831,12 @@ export default function CharacterStats({ selectedStatGroup: propGroup, setSelect
             racialBaseSpeed = racialStats.speed || 30;
             racialBaseHP = racialStats.hp !== undefined ? racialStats.hp : 25;
             racialBaseMana = racialStats.mana !== undefined ? racialStats.mana : 15;
-            racialBaseAP = racialStats.ap !== undefined ? racialStats.ap : 3;
+            racialBaseAP = racialStats.ap !== undefined ? racialStats.ap : PC_BASE_ACTION_POINTS;
         } catch (e) {
             racialBaseSpeed = 30;
             racialBaseHP = 25;
             racialBaseMana = 15;
-            racialBaseAP = 3;
+            racialBaseAP = PC_BASE_ACTION_POINTS;
         }
     }
 
@@ -983,7 +984,7 @@ export default function CharacterStats({ selectedStatGroup: propGroup, setSelect
                     tooltip: true,
                     icon: getCustomIconUrl('Utility/Deflecting Shield', 'abilities'),
                     color: '#5F9EA0',
-                    description: 'Active soak and mitigation pool applied to incoming hits'
+                    description: 'Flat DR from gear and effects, subtracted from a hit without rolling (the GM applies it)'
                 },
                 {
                     label: 'Slashing Damage',

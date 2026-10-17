@@ -35,6 +35,16 @@ class RateLimitService {
       actor_spell_withdraw: { maxPerMinute: 30, maxPerSecond: 3 },
       actor_spell_decline: { maxPerMinute: 30, maxPerSecond: 3 },
       actor_spell_list: { maxPerMinute: 60, maxPerSecond: 5 },
+      actor_strike_approve: { maxPerMinute: 30, maxPerSecond: 3 },
+      actor_strike_withdraw: { maxPerMinute: 30, maxPerSecond: 3 },
+      actor_strike_decline: { maxPerMinute: 30, maxPerSecond: 3 },
+      actor_strike_list: { maxPerMinute: 60, maxPerSecond: 5 },
+      actor_blocking_view: { maxPerMinute: 60, maxPerSecond: 5 },
+      actor_block_offer: { maxPerMinute: 30, maxPerSecond: 3 },
+      actor_block_approve: { maxPerMinute: 30, maxPerSecond: 3 },
+      actor_block_withdraw: { maxPerMinute: 30, maxPerSecond: 3 },
+      actor_block_decline: { maxPerMinute: 30, maxPerSecond: 3 },
+      actor_block_list: { maxPerMinute: 60, maxPerSecond: 5 },
       dice_rolled: { maxPerMinute: 60, maxPerSecond: 5 },
 
       // Item operations - moderate frequency

@@ -50,7 +50,7 @@
 }
 
 /* Buttons: ghost by default, seal fill for primary */
-:root body :is(.creature-wizard, .creature-wizard-layout, .creature-library, .creature-library-toolbar) button:not([class*='color-option'], [class*='icon-option'], [class*='close'], [class*='remove']) {
+:root body :is(.creature-wizard, .creature-wizard-layout, .creature-library, .creature-library-toolbar) button:not([class*='color-option'], [class*='icon-option'], [class*='close'], [class*='remove'], [class*='dropdown-item'], [class*='dropdown-action']) {
   background: var(--cw-page, #f8f5ee) !important;
   background-image: none !important;
   border: 1px solid var(--cw-rule, #c4baa6) !important;
@@ -59,7 +59,7 @@
   text-shadow: none !important;
   color: var(--cw-ink, #34251a) !important;
 }
-:root body :is(.creature-wizard, .creature-wizard-layout, .creature-library, .creature-library-toolbar) button:not([class*='color-option'], [class*='icon-option']):hover {
+:root body :is(.creature-wizard, .creature-wizard-layout, .creature-library, .creature-library-toolbar) button:not([class*='color-option'], [class*='icon-option'], [class*='dropdown-item'], [class*='dropdown-action']):hover {
   border-color: var(--cw-seal, #663c32) !important;
   transform: none !important;
 }

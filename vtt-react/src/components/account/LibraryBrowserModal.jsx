@@ -83,15 +83,11 @@ export const getItemDamageText = (item) => {
   return null;
 };
 
-// Format armor AC text
+// Mythrill has no Armor score (creator-confirmed). Saved AC/armor numbers are kept on the item but never shown;
+// only non-AC armor text (e.g. a material note) is displayed.
 export const getItemArmorText = (item) => {
-  if (!item) return null;
-  if (item.armorText) return item.armorText;
-  const ac = item.armorClass ?? item.ac ?? item.armorStats?.armorClass ?? item.baseStats?.armorClass?.value ?? item.baseStats?.armor?.value;
-  if (ac !== undefined && ac !== null && Number(ac) > 0) {
-    return `+${ac} AC`;
-  }
-  return null;
+  if (!item || !item.armorText) return null;
+  return /\bAC\b|armou?r class/i.test(item.armorText) ? null : item.armorText;
 };
 
 // Get visible page numbers with ellipsis

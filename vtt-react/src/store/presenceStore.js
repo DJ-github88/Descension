@@ -2298,6 +2298,16 @@ const usePresenceStore = create((set, get) => ({
    * Add a party event notification toast
    */
   addPartyEventNotification: (type, data) => {
+    // Prevent duplicate toast spam within 2.5 seconds
+    const existing = get().partyEventNotifications.find(n =>
+      n.type === type &&
+      (n.message === data?.message || (n.name && n.name === data?.name)) &&
+      (Date.now() - (n.timestamp || 0)) < 2500
+    );
+    if (existing) {
+      return;
+    }
+
     const notification = {
       id: uuidv4(),
       type,

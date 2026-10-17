@@ -1,0 +1,10 @@
+{
+  "ap": 2,
+  "values": {
+    "actionPoints": 2,
+    "mana": 4
+  },
+  "serializedHasCost": false,
+  "templateHasCost": false,
+  "generatedHasCost": false
+}

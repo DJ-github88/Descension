@@ -682,14 +682,15 @@ const UnifiedSpellCard = ({
       const hasUtility = spell?.effectTypes?.includes('utility') && (spell?.utilityConfig || spell?.effects?.utility);
       const hasControl = spell?.effectTypes?.includes('control') || spell?.controlConfig;
       const hasTerrain = spell?.effectTypes?.includes('terrain') || spell?.terrainConfig || spell?.effects?.terrain;
-      const hasSummoning = spell?.effectTypes?.includes('summoning') && (spell?.summoningConfig || spell?.summonConfig);
+      const hasSummoning = (spell?.effectTypes?.includes('summoning') || spell?.effectTypes?.includes('summon')) && (spell?.summoningConfig || spell?.summonConfig);
       const hasTransformation = spell?.effectTypes?.includes('transformation') && (spell?.transformationConfig || spell?.transformConfig);
       const hasPurification = spell?.effectTypes?.includes('purification') && spell?.purificationConfig;
       const hasRestoration = spell?.effectTypes?.includes('restoration') && spell?.restorationConfig;
 
       const hasAnyStatContent = shouldRenderDamage || shouldRenderHealing || hasGlobalTriggerOrRequired ||
        hasBuffContent || hasDebuffContent || hasDuration || hasUtility || hasControl ||
-       hasTerrain || hasSummoning || hasTransformation || hasPurification || hasRestoration;
+       hasTerrain || hasSummoning || hasTransformation || hasPurification || hasRestoration ||
+       hasProphecy || hasRollableTable || hasStatusEffects;
 
       const statContent = (
        <>
@@ -2515,9 +2516,9 @@ const UnifiedSpellCard = ({
           const durationText = `${duration} ${durationUnit}`;
           
           buffEffectsToRender.push({
-           name: 'Armor',
+           name: 'Legacy armor (unresolved)',
            description: durationText,
-           mechanicsText: `Grants +${acBonus} Armor`
+           mechanicsText: `Legacy armor value +${acBonus}: no current effect; the GM rules on any defense`
           });
          }
          
@@ -4795,7 +4796,7 @@ const UnifiedSpellCard = ({
        })()}
        {/* Summoning Effects Section */}
        {(() => {
-        const hasSummoningType = spell?.effectTypes?.includes('summoning');
+        const hasSummoningType = spell?.effectTypes?.includes('summoning') || spell?.effectTypes?.includes('summon');
         const summoningData = spell?.summoningConfig || spell?.summonConfig;
         const hasSummoningConfig = !!summoningData;
         const hasSelectedCreatures = summoningData?.creatures?.length > 0;

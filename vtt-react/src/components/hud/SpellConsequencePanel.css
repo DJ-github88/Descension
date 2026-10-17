@@ -25,3 +25,4 @@
 /* Integration follow-through 2026-10-15: the attachment and spell-adjudication controls sat under the party
    frames (same unpositioned host div at 0,0); give them their own visible layer on the free right edge. */
 .party-hud-frames > .actor-consequence-layer { position: fixed; top: 84px; right: 16px; z-index: 2; max-width: 420px; max-height: calc(100vh - 340px); overflow-y: auto; background: rgba(246, 239, 225, 0.94); color: #2b2116; border: 1px solid #8a6d45; border-radius: 6px; padding: 6px 10px; font-size: 13px; }
+.party-hud-frames > .actor-consequence-layer:empty { display: none !important; }

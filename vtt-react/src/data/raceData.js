@@ -15,6 +15,7 @@ import useCustomLineageStore from '../store/customLineageStore';
 import { getMechanicsByRace } from './raceMechanics';
 import { normalizeLanguageName } from './languages';
 import { HERITAGE_TRADITIONS } from './classHeritageRegistry';
+import { PC_BASE_ACTION_POINTS } from './firstTableRules';
 
 import { myrathil } from './races/myrathil';
 import { mimir } from './races/mimir';
@@ -234,7 +235,7 @@ export const getRacialBaseStats = (raceId, subraceId) => {
             speed: 30,
             hp: 25,
             mana: 25,
-            ap: 3,
+            ap: PC_BASE_ACTION_POINTS,
             passivePerception: 10,
             swimSpeed: 0,
             climbSpeed: 0,
@@ -253,7 +254,8 @@ export const getRacialBaseStats = (raceId, subraceId) => {
         speed: subrace.speed || raceData.race.baseTraits?.baseSpeed || 30,
         hp: baseStats.hp !== undefined ? baseStats.hp : 25,
         mana: baseStats.mana !== undefined ? baseStats.mana : 15,
-        ap: baseStats.ap !== undefined ? baseStats.ap : 3,
+        // First-table baseline: authored heritage AP stays in race data but is set aside (creator decision 1A).
+        ap: PC_BASE_ACTION_POINTS,
         passivePerception: baseStats.passivePerception !== undefined ? baseStats.passivePerception : 10,
         swimSpeed: baseStats.swimSpeed !== undefined ? baseStats.swimSpeed : 0,
         climbSpeed: baseStats.climbSpeed !== undefined ? baseStats.climbSpeed : 0,

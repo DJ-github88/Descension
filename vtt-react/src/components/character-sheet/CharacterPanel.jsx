@@ -23,7 +23,7 @@ import '../../styles/character-sheet.css';
 import '../../styles/resistance-styles.css';
 import '../../styles/racial-traits.css';
 import '../../styles/character-equipment-scene.css';
-import { getIconUrl, getCustomIconUrl, getWowIconUrl } from '../../utils/assetManager';
+import { getIconUrl, getCustomIconUrl, getWowIconUrl, getItemFallbackIcon } from '../../utils/assetManager';
 import { getClassIconUrl } from '../../utils/classIconUtils';
 import useItemStore from '../../store/itemStore';
 import Languages from './Languages';
@@ -1814,21 +1814,32 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
                                         if (item.imageUrl && !item.imageUrl.includes('wow.zamimg.com')) {
                                             return item.imageUrl;
                                         }
+                                        if (item.icon) {
+                                            return getIconUrl(item.icon, 'items');
+                                        }
                                         if (item.iconId) {
                                             return getIconUrl(item.iconId, 'items', true);
                                         }
                                         if (item.id) {
                                             try {
                                                 const itemStore = useItemStore.getState();
-                                                const originalItem = itemStore.items.find(i => i.id === item.id);
-                                                if (originalItem && originalItem.iconId) {
-                                                    return getIconUrl(originalItem.iconId, 'items', true);
+                                                const originalItem = itemStore.items?.find(i => i.id === item.id);
+                                                if (originalItem) {
+                                                    if (originalItem.imageUrl && !originalItem.imageUrl.includes('wow.zamimg.com')) {
+                                                        return originalItem.imageUrl;
+                                                    }
+                                                    if (originalItem.icon) {
+                                                        return getIconUrl(originalItem.icon, 'items');
+                                                    }
+                                                    if (originalItem.iconId) {
+                                                        return getIconUrl(originalItem.iconId, 'items', true);
+                                                    }
                                                 }
                                             } catch (e) {
                                                 console.warn('Could not look up item from store:', e);
                                             }
                                         }
-                                        return getIconUrl('inv_misc_questionmark', 'items', true);
+                                        return getItemFallbackIcon(item, slotName) || config?.icon || getIconUrl('Armor/Neck/magical-sword-pendant', 'items');
                                     };
 
                                     const slotDescriptions = {
@@ -1858,28 +1869,21 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
                                         >
                                             <img
                                                 src={getItemImageSrc()}
-                                                alt={slotName}
-                                                style={{ opacity: isDisabled ? 0.3 : 1 }}
-                                            onError={(e) => {
-                                                console.error('❌ Image load error for off-hand item:', {
-                                                    slotName,
-                                                    itemName: item?.name,
-                                                    iconId: item?.iconId,
-                                                    imageUrl: item?.imageUrl,
-                                                    attemptedSrc: e.target.src
-                                                });
-                                                e.target.src = getIconUrl('inv_misc_questionmark', 'items', true);
-                                            }}
-                                        />
-
-                                        {isDisabled && (
-                                            <div className="disabled-overlay">
-                                                <div className="red-cross">
-                                                    <div className="cross-line cross-line-1"></div>
-                                                    <div className="cross-line cross-line-2"></div>
+                                                alt={item?.name || slotName}
+                                                style={{ opacity: isDisabled ? 0.3 : (isEmpty ? 0.45 : 1) }}
+                                                onError={(e) => {
+                                                    e.target.onerror = null;
+                                                    e.target.src = getItemFallbackIcon(item, slotName) || config?.icon || getIconUrl('Armor/Neck/magical-sword-pendant', 'items');
+                                                }}
+                                            />
+                                            {isDisabled && (
+                                                <div className="disabled-overlay">
+                                                    <div className="red-cross">
+                                                        <div className="cross-line cross-line-1"></div>
+                                                        <div className="cross-line cross-line-2"></div>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        )}
+                                            )}
                                         {hoveredSlot === slotName && item && !isDisabled && renderTooltip(item)}
                                         {hoveredSlot === slotName && (isEmpty || isDisabled) && (
                                             <TooltipPortal>
@@ -1890,7 +1894,7 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
                                                         left: adjustedPosition.x,
                                                         top: adjustedPosition.y,
                                                         pointerEvents: 'none',
-                                                        zIndex: 999999999,
+                                                        zIndex: 2147483647,
                                                         maxHeight: 'calc(100vh - 24px)',
                                                         overflowY: 'auto'
                                                     }}
@@ -2558,6 +2562,39 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
 
 
 
+    const getGearSlotImageSrc = (slotItem, config, slotName) => {
+        if (!slotItem) return config.icon;
+        if (slotItem.imageUrl && !slotItem.imageUrl.includes('wow.zamimg.com')) {
+            return slotItem.imageUrl;
+        }
+        if (slotItem.icon) {
+            return getIconUrl(slotItem.icon, 'items');
+        }
+        if (slotItem.iconId) {
+            return getIconUrl(slotItem.iconId, 'items', true);
+        }
+        if (slotItem.id) {
+            try {
+                const itemStore = useItemStore.getState();
+                const originalItem = itemStore.items?.find(i => i.id === slotItem.id);
+                if (originalItem) {
+                    if (originalItem.imageUrl && !originalItem.imageUrl.includes('wow.zamimg.com')) {
+                        return originalItem.imageUrl;
+                    }
+                    if (originalItem.icon) {
+                        return getIconUrl(originalItem.icon, 'items');
+                    }
+                    if (originalItem.iconId) {
+                        return getIconUrl(originalItem.iconId, 'items', true);
+                    }
+                }
+            } catch (e) {
+                console.warn('Could not look up item from store:', e);
+            }
+        }
+        return getItemFallbackIcon(slotItem, slotName) || config.icon || getIconUrl('Armor/Neck/magical-sword-pendant', 'items');
+    };
+
     const renderSlot = (slotName, slotConfig) => {
         const item = equipment[slotName];
         const isEmpty = !item;
@@ -2580,10 +2617,12 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
                 }}
             >
                 <img
-                    src={item ? ((item.imageUrl && !item.imageUrl.includes('wow.zamimg.com')) ? item.imageUrl : (item.iconId ? getIconUrl(item.iconId, 'items', true) : getIconUrl('inv_misc_questionmark', 'items', true))) : slotConfig.icon}
-                    alt={slotName}
+                    src={getGearSlotImageSrc(item, slotConfig, slotName)}
+                    alt={item?.name || slotName}
+                    style={{ opacity: isEmpty ? 0.45 : 1 }}
                     onError={(e) => {
-                        e.target.src = getIconUrl('inv_misc_questionmark', 'items', true);
+                        e.target.onerror = null;
+                        e.target.src = getItemFallbackIcon(item, slotName) || slotConfig.icon || getIconUrl('Armor/Neck/magical-sword-pendant', 'items');
                     }}
                 />
                 {hoveredSlot === slotName && item && renderTooltip(item)}
@@ -2595,8 +2634,10 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
                                 position: 'fixed',
                                 left: adjustedPosition.x,
                                 top: adjustedPosition.y,
+                                maxHeight: 'calc(100vh - 24px)',
+                                overflowY: 'auto',
                                 pointerEvents: 'none',
-                                zIndex: 999999999 /* Maximum z-index to ensure it appears above all windows */
+                                zIndex: 2147483647
                             }}
                         >
                             <div className="equipment-slot-name">{slotConfig.info}</div>
@@ -2619,8 +2660,10 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
                         position: 'fixed',
                         left: adjustedPosition.x,
                         top: adjustedPosition.y,
+                        maxHeight: 'calc(100vh - 36px)',
+                        overflowY: 'auto',
                         pointerEvents: 'none',
-                        zIndex: 999999999
+                        zIndex: 2147483647
                     }}
                 >
                     <ItemTooltip item={item} />
@@ -2665,14 +2708,6 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
                             activeSection === 'resources' ? 'resources-backdrop' :
                                 ''
                     }`}
-                style={{
-                    ...(activeSection === 'passives' && {
-                        backgroundImage: 'url(/assets/Backgrounds/Embers.png)'
-                    }),
-                    ...(activeSection === 'languages' && {
-                        backgroundImage: 'url(/assets/Backgrounds/Temple.png)'
-                    })
-                }}
             >
                 {propSubSection === undefined && (
                 <div className="character-section-header">

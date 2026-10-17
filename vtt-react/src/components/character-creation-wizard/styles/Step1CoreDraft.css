@@ -17,7 +17,7 @@
     --draft-umber: #5a3d1d;
     --draft-brown: #7a5a35;
     --draft-brass: #997e55;
-    --draft-gilt: #b08a4a;
+    --draft-gilt: #663c32;
     --draft-parchment: #f7f1e2;
     --draft-parchment-hi: #fbf7ec;
     --draft-parchment-set: #f1e5c9;
@@ -28,12 +28,13 @@
 }
 
 .core-draft-step-layout ::selection {
-    background: rgba(176, 138, 74, 0.35);
+    background: rgba(102, 60, 50, 0.2);
     color: var(--draft-ink);
 }
 
 .core-draft-step-layout .core-draft-column.selection-panel-left {
     gap: 2.25rem !important;
+    overflow-x: hidden !important;
 }
 
 .core-draft-step-layout .core-draft-section {
@@ -59,7 +60,7 @@
     justify-content: center;
     width: 2.25rem;
     height: 2.25rem;
-    border-radius: 50%;
+    border-radius: 4px;
     border: 1px solid var(--draft-brass);
     box-shadow: inset 0 0 0 3px var(--draft-parchment), inset 0 0 0 4px rgba(153, 126, 85, 0.45);
     background: var(--draft-parchment);
@@ -250,7 +251,7 @@
     justify-content: center;
     width: 2.3rem;
     height: 2.3rem;
-    border-radius: 50%;
+    border-radius: 4px;
     border: 1px solid rgba(153, 126, 85, 0.7);
     background: var(--draft-parchment);
     box-shadow: inset 0 0 0 3px var(--draft-parchment-hi), inset 0 0 0 4px rgba(153, 126, 85, 0.3);
@@ -385,7 +386,7 @@
     padding: 2rem 1.75rem 1.6rem;
     background: var(--draft-parchment) !important;
     border: 3px double var(--draft-brass) !important;
-    border-radius: 10px;
+    border-radius: 4px;
     box-shadow: 0 22px 44px -18px rgba(46, 30, 15, 0.45), 0 2px 6px rgba(46, 30, 15, 0.12) !important;
 }
 
@@ -773,6 +774,7 @@
     }
 
     .core-draft-step-layout .race-button-token:hover,
+    .core-draft-step-layout .class-icon-token:hover,
     .core-draft-step-layout .dice-randomizer-btn:hover {
         transform: none !important;
     }
@@ -791,7 +793,7 @@
     gap: 0.45rem !important;
     background: rgba(244, 239, 225, 0.95) !important;
     border: 1px solid var(--draft-brass) !important;
-    border-radius: 20px !important;
+    border-radius: 4px !important;
     padding: 0.3rem 0.5rem !important;
     box-shadow: 0 2px 8px rgba(46, 30, 15, 0.15) !important;
     z-index: 10 !important;
@@ -819,7 +821,7 @@
     padding: 1.75rem 1.25rem 1.5rem;
     margin-top: 0.5rem;
     border: 1px dashed rgba(153, 126, 85, 0.45);
-    border-radius: 8px;
+    border-radius: 4px;
     background: rgba(255, 255, 255, 0.35);
     gap: 0.5rem;
 }
@@ -830,7 +832,7 @@
     justify-content: center;
     width: 2.75rem;
     height: 2.75rem;
-    border-radius: 50%;
+    border-radius: 4px;
     background: var(--draft-parchment-hi);
     border: 1px solid rgba(153, 126, 85, 0.5);
     color: var(--draft-brown);
@@ -862,29 +864,63 @@
    Calling / Class token styling: noble crest frames
    -------------------------------------------------------------------------- */
 
+.core-draft-step-layout .class-icons-grid {
+    overflow: visible !important;
+}
+
 .core-draft-step-layout .class-icon-token {
     border: none !important;
     background: transparent !important;
     border-radius: 0 !important;
     padding: 0 !important;
     box-shadow: none !important;
-    transition: all 0.2s var(--draft-ease) !important;
+    position: relative;
+    z-index: 1;
+    transform: scale(1);
+    transform-origin: center center;
+    transition: transform 0.22s cubic-bezier(0.2, 0.9, 0.3, 1.2), filter 0.22s ease !important;
+    will-change: transform, filter;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
 }
 
+.core-draft-step-layout .class-icon-token .class-pixel-icon-token,
+.core-draft-step-layout .class-icon-token .class-icon-img {
+    transition: none !important;
+    transform: none !important;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+
+/* Hover: Pop out cleanly and increase in size without twist or blur */
 .core-draft-step-layout .class-icon-token:hover {
     border: none !important;
     background: transparent !important;
-    transform: translateY(-2px) scale(1.05) rotate(1deg) !important;
-    filter: drop-shadow(0 6px 12px rgba(46, 30, 15, 0.45)) !important;
+    transform: translateY(-6px) scale(1.4) !important;
+    filter: drop-shadow(0 14px 22px rgba(46, 30, 15, 0.55)) drop-shadow(0 4px 8px rgba(0, 0, 0, 0.35)) !important;
     box-shadow: none !important;
+    z-index: 60 !important;
+}
+
+.core-draft-step-layout .class-icon-token:hover .class-pixel-icon-token,
+.core-draft-step-layout .class-icon-token:hover .class-icon-img {
+    transform: none !important;
+    filter: none !important;
 }
 
 .core-draft-step-layout .class-icon-token.selected {
     border: none !important;
     background: transparent !important;
     box-shadow: none !important;
-    transform: scale(1.06) !important;
-    filter: drop-shadow(0 0 10px rgba(184, 124, 28, 0.85)) drop-shadow(0 4px 12px rgba(46, 30, 15, 0.5)) !important;
+    transform: scale(1.05) !important;
+    filter: drop-shadow(0 0 8px rgba(102, 60, 50, 0.7)) drop-shadow(0 4px 12px rgba(46, 30, 15, 0.45)) !important;
+    z-index: 3 !important;
+}
+
+.core-draft-step-layout .class-icon-token.selected:hover {
+    transform: translateY(-6px) scale(1.4) !important;
+    filter: drop-shadow(0 0 10px rgba(102, 60, 50, 0.85)) drop-shadow(0 14px 24px rgba(46, 30, 15, 0.6)) !important;
+    z-index: 60 !important;
 }
 
 /* --------------------------------------------------------------------------
@@ -899,7 +935,7 @@
     padding: 0.55rem 0.75rem !important;
     border: 1px solid rgba(153, 126, 85, 0.45) !important;
     background: var(--draft-parchment-hi) !important;
-    border-radius: 6px !important;
+    border-radius: 4px !important;
     transition: all 0.2s var(--draft-ease) !important;
 }
 

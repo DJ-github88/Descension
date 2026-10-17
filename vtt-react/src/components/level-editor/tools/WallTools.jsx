@@ -286,6 +286,8 @@ const WallTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
 
     const walls3DEnabled = useLevelEditorStore(state => state.walls3DEnabled ?? true);
     const setWalls3DEnabled = useLevelEditorStore(state => state.setWalls3DEnabled);
+    const wallsCollapsed = useLevelEditorStore(state => state.wallsCollapsed ?? false);
+    const setWallsCollapsed = useLevelEditorStore(state => state.setWallsCollapsed);
     const wallCornerStyles = useLevelEditorStore(state => state.wallCornerStyles || {});
     const setWallCornerStyle = useLevelEditorStore(state => state.setWallCornerStyle);
     const selectedCornerStyle = wallCornerStyles[selectedWallType] || 'square';
@@ -293,8 +295,8 @@ const WallTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
 
     return (
         <div className="wall-tools">
-            {/* 3D Modular Walls Toggle */}
-            <div className="tool-section" style={{ marginBottom: 12 }}>
+            {/* 3D Modular Walls & Collapse Walls Toggles */}
+            <div className="tool-section" style={{ marginBottom: 12, display: 'flex', flexDirection: 'column', gap: 6 }}>
                 <div className={`mesh-3d-toggle ${walls3DEnabled ? 'active' : ''}`}>
                     <div className="mesh-3d-toggle-info">
                         <i className="fas fa-cubes"></i>
@@ -308,6 +310,23 @@ const WallTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
                         onClick={() => setWalls3DEnabled(!walls3DEnabled)}
                     >
                         {walls3DEnabled ? 'ON' : 'OFF'}
+                    </button>
+                </div>
+
+                <div className={`mesh-3d-toggle ${wallsCollapsed ? 'active' : ''}`}>
+                    <div className="mesh-3d-toggle-info">
+                        <i className="fas fa-compress-alt"></i>
+                        <div>
+                            <div className="mesh-3d-toggle-title">Collapse Walls</div>
+                            <div className="mesh-3d-toggle-status">{wallsCollapsed ? 'Low Outlines (Unobstructed View)' : 'Full Height Walls'}</div>
+                        </div>
+                    </div>
+                    <button
+                        className={`mesh-3d-toggle-btn ${wallsCollapsed ? 'active' : ''}`}
+                        onClick={() => setWallsCollapsed(!wallsCollapsed)}
+                        title={wallsCollapsed ? 'Restore full wall height' : 'Collapse walls to bottom outline to prevent obstruction'}
+                    >
+                        {wallsCollapsed ? 'ON' : 'OFF'}
                     </button>
                 </div>
             </div>

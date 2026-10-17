@@ -1,0 +1,784 @@
+{
+  "schema": "mythrill.class-review-abilities/r1",
+  "evidenceLabel": "PROPOSED",
+  "classId": "lichborne",
+  "rulesetVersion": "cr-review-r1",
+  "abilities": [
+    {
+      "evidenceLabel": "PROPOSED",
+      "status": "HeadQ-review-R1; not admitted by current app",
+      "contentRole": "class-feature",
+      "talentNode": null,
+      "spell": {
+        "id": "cr1_lichborne_veil_unbound",
+        "classId": "lichborne",
+        "rulesetVersion": "cr-review-r1",
+        "name": "Veil Unbound",
+        "description": "Advance exactly one undeath stage, paying two anchor integrity, or return to Veiled without refund. Choose only the prepared trait slots the new stage permits.",
+        "level": 1,
+        "specialization": null,
+        "spellType": "ACTION",
+        "icon": "Psychic/Psychic Telepathy",
+        "typeConfig": {
+          "school": "rime",
+          "castTimeType": "IMMEDIATE",
+          "tags": [
+            "lichborne",
+            "class-feature"
+          ]
+        },
+        "resourceCost": {
+          "actionPoints": 1,
+          "mana": 0,
+          "resourceTypes": [
+            "actionPoints"
+          ],
+          "resourceValues": {
+            "actionPoints": 1,
+            "mana": 0
+          },
+          "useFormulas": {},
+          "components": [
+            "somatic"
+          ],
+          "somaticText": "Present the class focus and deliberately declare the operation; its exact choices precede resolution."
+        },
+        "targetingConfig": {
+          "targetingType": "self",
+          "rangeType": "self",
+          "rangeDistance": 0,
+          "targetRestrictions": [
+            "self"
+          ],
+          "maxTargets": 1
+        },
+        "effectTypes": [
+          "utility"
+        ],
+        "resolution": "RESOURCE_PROGRAM",
+        "damageConfig": null,
+        "durationConfig": {
+          "durationType": "instant",
+          "durationValue": 0,
+          "durationUnit": "instant"
+        },
+        "cooldownConfig": {
+          "cooldownType": "none",
+          "cooldownValue": 0
+        },
+        "classResourceProgram": {
+          "version": 1,
+          "domain": "lich-anchor",
+          "op": "lich.stage",
+          "args": {
+            "modeOneOf": [
+              "advance",
+              "veil"
+            ],
+            "stages": [
+              0,
+              1,
+              2
+            ],
+            "advanceSteps": 1,
+            "advanceIntegrity": 2,
+            "advanceMaxPerOwnTurn": 1,
+            "activeTraitsByStage": [
+              0,
+              1,
+              2
+            ],
+            "preparedTraits": 2,
+            "veilRefund": 0,
+            "veilDuringMortality": false
+          }
+        },
+        "reactionTiming": null,
+        "savingThrow": null,
+        "conditions": [],
+        "area": null
+      },
+      "resourceCostSummary": "1 AP; advance costs integrity2, veil costs0 and returns none.",
+      "resourceGenerationSummary": "None unless a declared branch or resolved event below grants it.",
+      "castingInputs": [
+        "advance or veil",
+        "prepared trait IDs allowed at destination stage"
+      ],
+      "failureConditions": [
+        "Invalid exact source/target or insufficient AP/resources; refused before commitment with no mutation."
+      ],
+      "effectConfiguration": {
+        "modeOneOf": [
+          "advance",
+          "veil"
+        ],
+        "stages": [
+          0,
+          1,
+          2
+        ],
+        "advanceSteps": 1,
+        "advanceIntegrity": 2,
+        "advanceMaxPerOwnTurn": 1,
+        "activeTraitsByStage": [
+          0,
+          1,
+          2
+        ],
+        "preparedTraits": 2,
+        "veilRefund": 0,
+        "veilDuringMortality": false
+      },
+      "checkAndTimingNotes": "Own turn in combat; no reaction or saving throw. Noncombat uses explicit GM-adjudicated activity time and preserves finite contents/uses without inventing turn-refresh loops. Attack/geometry/defense remains GM-adjudicated until its capability exists.",
+      "talentModifications": "Only this explicitly learned signature/its declared opcode variation applies in R1. Later rank modifiers require a new reviewed definition version; never applied twice.",
+      "heritageModifications": "Only the selected proposed bounded native edge and paired cost, after full access/method/body validation. No raw-parent percentage or free resource gain inherited; example arithmetic excludes optional edges.",
+      "runtimeDependencies": [
+        "CR-A1",
+        "CR-R1",
+        "CR-E1",
+        "CR-T1-traits-anchor"
+      ],
+      "verificationRequirements": {
+        "positive": "Integrity12/stage0 ->10/stage1; second advance same turn refused; veil never restores integrity.",
+        "refusal": "Malformed choice, wrong domain/actor or missing required state leaves every pool/entity unchanged.",
+        "duplicate": "Same command/event/choice identity returns original result, with no repeated cost, draw, effect or expiry.",
+        "roundTrip": "Both Wizard saves, canonical export/template, reopen and card preserve complete program and explicit zeros."
+      }
+    },
+    {
+      "evidenceLabel": "PROPOSED",
+      "status": "HeadQ-review-R1; not admitted by current app",
+      "contentRole": "class-feature",
+      "talentNode": null,
+      "spell": {
+        "id": "cr1_lichborne_repair_vessel",
+        "classId": "lichborne",
+        "rulesetVersion": "cr-review-r1",
+        "name": "Repair the Vessel",
+        "description": "At a completed long rest use one exact anchor reagent to repair four integrity. This is a ritual feature, not a free in-combat cast or automatic rest refill.",
+        "level": 1,
+        "specialization": null,
+        "spellType": "ACTION",
+        "icon": "Psychic/Psychic Telepathy",
+        "typeConfig": {
+          "school": "rime",
+          "castTimeType": "IMMEDIATE",
+          "tags": [
+            "lichborne",
+            "class-feature"
+          ]
+        },
+        "resourceCost": {
+          "actionPoints": 0,
+          "mana": 0,
+          "resourceTypes": [],
+          "resourceValues": {
+            "actionPoints": 0,
+            "mana": 0
+          },
+          "useFormulas": {},
+          "components": [
+            "material"
+          ],
+          "somaticText": "Present the class focus and deliberately declare the operation; its exact choices precede resolution."
+        },
+        "targetingConfig": {
+          "targetingType": "self",
+          "rangeType": "self",
+          "rangeDistance": 0,
+          "targetRestrictions": [
+            "self"
+          ],
+          "maxTargets": 1
+        },
+        "effectTypes": [
+          "utility"
+        ],
+        "resolution": "RESOURCE_PROGRAM",
+        "damageConfig": null,
+        "durationConfig": {
+          "durationType": "instant",
+          "durationValue": 0,
+          "durationUnit": "instant"
+        },
+        "cooldownConfig": {
+          "cooldownType": "long_rest",
+          "cooldownValue": 1
+        },
+        "classResourceProgram": {
+          "version": 1,
+          "domain": "lich-anchor",
+          "op": "anchor.repair",
+          "args": {
+            "requiresCompletedLongRest": true,
+            "maxPerRestId": 1,
+            "reagent": {
+              "kind": "anchor-reagent",
+              "quantity": 1,
+              "exactInstanceRequired": true
+            },
+            "integrityGain": 4,
+            "integrityMax": 12,
+            "requiresIntactPhysicalAnchor": true
+          }
+        },
+        "reactionTiming": null,
+        "savingThrow": null,
+        "conditions": [],
+        "area": null
+      },
+      "resourceCostSummary": "0 combat AP; one completed rest opportunity and one real reagent quantity consumed.",
+      "resourceGenerationSummary": "Integrity+4 up to12; none for rest alone.",
+      "castingInputs": [
+        "completed rest ID",
+        "exact anchor/reagent instance refs"
+      ],
+      "failureConditions": [
+        "Invalid exact source/target or insufficient AP/resources; refused before commitment with no mutation."
+      ],
+      "effectConfiguration": {
+        "requiresCompletedLongRest": true,
+        "maxPerRestId": 1,
+        "reagent": {
+          "kind": "anchor-reagent",
+          "quantity": 1,
+          "exactInstanceRequired": true
+        },
+        "integrityGain": 4,
+        "integrityMax": 12,
+        "requiresIntactPhysicalAnchor": true
+      },
+      "checkAndTimingNotes": "Only at one explicit completed long-rest event with intact anchor/reagent. Not a combat own-turn or unrestricted zero-AP cast.",
+      "talentModifications": "Only this explicitly learned signature/its declared opcode variation applies in R1. Later rank modifiers require a new reviewed definition version; never applied twice.",
+      "heritageModifications": "Only the selected proposed bounded native edge and paired cost, after full access/method/body validation. No raw-parent percentage or free resource gain inherited; example arithmetic excludes optional edges.",
+      "runtimeDependencies": [
+        "CR-A1",
+        "CR-R1",
+        "CR-E1",
+        "CR-T1-traits-anchor"
+      ],
+      "verificationRequirements": {
+        "positive": "Integrity8 + reagent1 ->12/reagent0 once; same rest duplicate no further repair; missing reagent never silently refills.",
+        "refusal": "Malformed choice, wrong domain/actor or missing required state leaves every pool/entity unchanged.",
+        "duplicate": "Same command/event/choice identity returns original result, with no repeated cost, draw, effect or expiry.",
+        "roundTrip": "Both Wizard saves, canonical export/template, reopen and card preserve complete program and explicit zeros."
+      }
+    },
+    {
+      "evidenceLabel": "PROPOSED",
+      "status": "HeadQ-review-R1; not admitted by current app",
+      "contentRole": "spell-pick",
+      "talentNode": null,
+      "spell": {
+        "id": "cr1_lichborne_cold_touch",
+        "classId": "lichborne",
+        "rulesetVersion": "cr-review-r1",
+        "name": "Cold Touch",
+        "description": "Deliver a modest Rime touch without advancing your undeath. Remaining Veiled preserves anchor integrity and the option to act as an ordinary vulnerable body.",
+        "level": 1,
+        "specialization": null,
+        "spellType": "ACTION",
+        "icon": "Psychic/Psychic Telepathy",
+        "typeConfig": {
+          "school": "rime",
+          "castTimeType": "IMMEDIATE",
+          "tags": [
+            "lichborne",
+            "class-feature"
+          ]
+        },
+        "resourceCost": {
+          "actionPoints": 2,
+          "mana": 0,
+          "resourceTypes": [
+            "actionPoints"
+          ],
+          "resourceValues": {
+            "actionPoints": 2,
+            "mana": 0
+          },
+          "useFormulas": {},
+          "components": [
+            "somatic"
+          ],
+          "somaticText": "Present the class focus and deliberately declare the operation; its exact choices precede resolution."
+        },
+        "targetingConfig": {
+          "targetingType": "single",
+          "rangeType": "melee",
+          "rangeDistance": 5,
+          "targetRestrictions": [
+            "enemy"
+          ],
+          "maxTargets": 1
+        },
+        "effectTypes": [
+          "damage"
+        ],
+        "resolution": "RESOURCE_PROGRAM",
+        "damageConfig": {
+          "formula": "1d6",
+          "damageTypes": [
+            "rime"
+          ],
+          "resolution": "DICE"
+        },
+        "durationConfig": {
+          "durationType": "instant",
+          "durationValue": 0,
+          "durationUnit": "instant"
+        },
+        "cooldownConfig": {
+          "cooldownType": "none",
+          "cooldownValue": 0
+        },
+        "classResourceProgram": {
+          "version": 1,
+          "domain": "lich-anchor",
+          "op": "lich.touch",
+          "args": {
+            "requiresAliveAndNotDormant": true,
+            "minimumStage": 0,
+            "integrityPrice": 0,
+            "damage": {
+              "formula": "1d6",
+              "type": "rime",
+              "rangeFeet": 5
+            },
+            "stageBonus": false,
+            "attackProfile": "direct-DICE-GM-adjudicated"
+          }
+        },
+        "reactionTiming": null,
+        "savingThrow": null,
+        "conditions": [],
+        "area": null
+      },
+      "resourceCostSummary": "2 AP; no integrity.",
+      "resourceGenerationSummary": "None unless a declared branch or resolved event below grants it.",
+      "castingInputs": [],
+      "failureConditions": [
+        "Invalid exact source/target or insufficient AP/resources; refused before commitment with no mutation."
+      ],
+      "effectConfiguration": {
+        "requiresAliveAndNotDormant": true,
+        "minimumStage": 0,
+        "integrityPrice": 0,
+        "damage": {
+          "formula": "1d6",
+          "type": "rime",
+          "rangeFeet": 5
+        },
+        "stageBonus": false,
+        "attackProfile": "direct-DICE-GM-adjudicated"
+      },
+      "checkAndTimingNotes": "Own turn in combat; no reaction or saving throw. Noncombat uses explicit GM-adjudicated activity time and preserves finite contents/uses without inventing turn-refresh loops. Attack/geometry/defense remains GM-adjudicated until its capability exists.",
+      "talentModifications": "Only this explicitly learned signature/its declared opcode variation applies in R1. Later rank modifiers require a new reviewed definition version; never applied twice.",
+      "heritageModifications": "Only the selected proposed bounded native edge and paired cost, after full access/method/body validation. No raw-parent percentage or free resource gain inherited; example arithmetic excludes optional edges.",
+      "runtimeDependencies": [
+        "CR-A1",
+        "CR-R1",
+        "CR-E1",
+        "CR-T1-traits-anchor"
+      ],
+      "verificationRequirements": {
+        "positive": "Veiled caster can act; stage0/1/2 does not secretly multiply damage or recharge anchor on a kill.",
+        "refusal": "Malformed choice, wrong domain/actor or missing required state leaves every pool/entity unchanged.",
+        "duplicate": "Same command/event/choice identity returns original result, with no repeated cost, draw, effect or expiry.",
+        "roundTrip": "Both Wizard saves, canonical export/template, reopen and card preserve complete program and explicit zeros."
+      }
+    },
+    {
+      "evidenceLabel": "PROPOSED",
+      "status": "HeadQ-review-R1; not admitted by current app",
+      "contentRole": "talent-signature",
+      "talentNode": {
+        "id": "cr1_lichborne_rime_sovereign_signature",
+        "rank": 1,
+        "maxRanks": 1,
+        "requiresTreePoints": 10,
+        "minimumLevel": 3
+      },
+      "spell": {
+        "id": "cr1_lichborne_winter_edict",
+        "classId": "lichborne",
+        "rulesetVersion": "cr-review-r1",
+        "name": "Winter Edict",
+        "description": "While Rime Mantle is active, strike one enemy with Rime and impair its next movement. Higher stage widens the declared restraint, not your anchor bank.",
+        "level": 3,
+        "specialization": "rime-sovereign",
+        "spellType": "ACTION",
+        "icon": "Psychic/Psychic Telepathy",
+        "typeConfig": {
+          "school": "rime",
+          "castTimeType": "IMMEDIATE",
+          "tags": [
+            "lichborne",
+            "class-feature"
+          ]
+        },
+        "resourceCost": {
+          "actionPoints": 2,
+          "mana": 0,
+          "resourceTypes": [
+            "actionPoints"
+          ],
+          "resourceValues": {
+            "actionPoints": 2,
+            "mana": 0
+          },
+          "useFormulas": {},
+          "components": [
+            "somatic"
+          ],
+          "somaticText": "Present the class focus and deliberately declare the operation; its exact choices precede resolution."
+        },
+        "targetingConfig": {
+          "targetingType": "single",
+          "rangeType": "ranged",
+          "rangeDistance": 30,
+          "targetRestrictions": [
+            "enemy"
+          ],
+          "maxTargets": 1
+        },
+        "effectTypes": [
+          "damage",
+          "control"
+        ],
+        "resolution": "RESOURCE_PROGRAM",
+        "damageConfig": {
+          "formula": "2d6",
+          "damageTypes": [
+            "rime"
+          ],
+          "resolution": "DICE"
+        },
+        "durationConfig": {
+          "durationType": "own_turns",
+          "durationValue": 1,
+          "durationUnit": "next_caster_turn_start"
+        },
+        "cooldownConfig": {
+          "cooldownType": "none",
+          "cooldownValue": 0
+        },
+        "classResourceProgram": {
+          "version": 1,
+          "domain": "lich-anchor",
+          "op": "lich.edict",
+          "args": {
+            "requiresTrait": "rime-mantle",
+            "minimumStage": 1,
+            "forbiddenWhileMortal": true,
+            "damage": {
+              "formula": "2d6",
+              "type": "rime"
+            },
+            "movementPenaltyByStage": {
+              "1": 5,
+              "2": 10
+            },
+            "expires": "start-next-caster-own-turn",
+            "attackProfile": "direct-DICE-GM-adjudicated"
+          }
+        },
+        "reactionTiming": null,
+        "savingThrow": null,
+        "conditions": [
+          {
+            "kind": "movement-allowance-penalty",
+            "feetByStage": {
+              "1": 5,
+              "2": 10
+            },
+            "expires": "start-next-caster-own-turn"
+          }
+        ],
+        "area": null
+      },
+      "resourceCostSummary": "2 AP; no new integrity cost, but active trait’s healing lock remains.",
+      "resourceGenerationSummary": "None unless a declared branch or resolved event below grants it.",
+      "castingInputs": [],
+      "failureConditions": [
+        "Invalid exact source/target or insufficient AP/resources; refused before commitment with no mutation."
+      ],
+      "effectConfiguration": {
+        "requiresTrait": "rime-mantle",
+        "minimumStage": 1,
+        "forbiddenWhileMortal": true,
+        "damage": {
+          "formula": "2d6",
+          "type": "rime"
+        },
+        "movementPenaltyByStage": {
+          "1": 5,
+          "2": 10
+        },
+        "expires": "start-next-caster-own-turn",
+        "attackProfile": "direct-DICE-GM-adjudicated"
+      },
+      "checkAndTimingNotes": "Own turn in combat; no reaction or saving throw. Noncombat uses explicit GM-adjudicated activity time and preserves finite contents/uses without inventing turn-refresh loops. Attack/geometry/defense remains GM-adjudicated until its capability exists.",
+      "talentModifications": "Only this explicitly learned signature/its declared opcode variation applies in R1. Later rank modifiers require a new reviewed definition version; never applied twice.",
+      "heritageModifications": "Only the selected proposed bounded native edge and paired cost, after full access/method/body validation. No raw-parent percentage or free resource gain inherited; example arithmetic excludes optional edges.",
+      "runtimeDependencies": [
+        "CR-A1",
+        "CR-R1",
+        "CR-E1",
+        "CR-T1-traits-anchor"
+      ],
+      "verificationRequirements": {
+        "positive": "Stage1 Mantle2d6 +5ft penalty, stage2 +10ft; suppressed Mantle refuses, never retains offense while skipping vulnerability.",
+        "refusal": "Malformed choice, wrong domain/actor or missing required state leaves every pool/entity unchanged.",
+        "duplicate": "Same command/event/choice identity returns original result, with no repeated cost, draw, effect or expiry.",
+        "roundTrip": "Both Wizard saves, canonical export/template, reopen and card preserve complete program and explicit zeros."
+      }
+    },
+    {
+      "evidenceLabel": "PROPOSED",
+      "status": "HeadQ-review-R1; not admitted by current app",
+      "contentRole": "talent-signature",
+      "talentNode": {
+        "id": "cr1_lichborne_phylactery_keeper_signature",
+        "rank": 1,
+        "maxRanks": 1,
+        "requiresTreePoints": 10,
+        "minimumLevel": 3
+      },
+      "spell": {
+        "id": "cr1_lichborne_anchor_ward",
+        "classId": "lichborne",
+        "rulesetVersion": "cr-review-r1",
+        "name": "Anchor Ward",
+        "description": "Spend finite integrity to place a four-point one-use ward on the actual anchor within reach. Protecting the anchor uses the same survival reserve you would need to return.",
+        "level": 3,
+        "specialization": "phylactery-keeper",
+        "spellType": "ACTION",
+        "icon": "Psychic/Psychic Telepathy",
+        "typeConfig": {
+          "school": "rime",
+          "castTimeType": "IMMEDIATE",
+          "tags": [
+            "lichborne",
+            "class-feature"
+          ]
+        },
+        "resourceCost": {
+          "actionPoints": 1,
+          "mana": 0,
+          "resourceTypes": [
+            "actionPoints"
+          ],
+          "resourceValues": {
+            "actionPoints": 1,
+            "mana": 0
+          },
+          "useFormulas": {},
+          "components": [
+            "somatic"
+          ],
+          "somaticText": "Present the class focus and deliberately declare the operation; its exact choices precede resolution."
+        },
+        "targetingConfig": {
+          "targetingType": "single",
+          "rangeType": "ranged",
+          "rangeDistance": 30,
+          "targetRestrictions": [
+            "own-physical-anchor"
+          ],
+          "maxTargets": 1
+        },
+        "effectTypes": [
+          "buff"
+        ],
+        "resolution": "RESOURCE_PROGRAM",
+        "damageConfig": null,
+        "durationConfig": {
+          "durationType": "own_turns",
+          "durationValue": 1,
+          "durationUnit": "next_caster_turn_start"
+        },
+        "cooldownConfig": {
+          "cooldownType": "none",
+          "cooldownValue": 0
+        },
+        "classResourceProgram": {
+          "version": 1,
+          "domain": "lich-anchor",
+          "op": "anchor.ward",
+          "args": {
+            "integrityPrice": 2,
+            "anchorRangeFeet": 30,
+            "requiresActualAnchor": true,
+            "ward": {
+              "capacity": 4,
+              "uses": 1,
+              "expires": "start-next-caster-own-turn",
+              "stacking": "higher-only"
+            },
+            "healAnchor": false
+          }
+        },
+        "reactionTiming": null,
+        "savingThrow": null,
+        "conditions": [],
+        "area": null
+      },
+      "resourceCostSummary": "1 AP, integrity2.",
+      "resourceGenerationSummary": "None unless a declared branch or resolved event below grants it.",
+      "castingInputs": [
+        "own exact physical anchor ref"
+      ],
+      "failureConditions": [
+        "Invalid exact source/target or insufficient AP/resources; refused before commitment with no mutation."
+      ],
+      "effectConfiguration": {
+        "integrityPrice": 2,
+        "anchorRangeFeet": 30,
+        "requiresActualAnchor": true,
+        "ward": {
+          "capacity": 4,
+          "uses": 1,
+          "expires": "start-next-caster-own-turn",
+          "stacking": "higher-only"
+        },
+        "healAnchor": false
+      },
+      "checkAndTimingNotes": "Own turn in combat; no reaction or saving throw. Noncombat uses explicit GM-adjudicated activity time and preserves finite contents/uses without inventing turn-refresh loops. Attack/geometry/defense remains GM-adjudicated until its capability exists.",
+      "talentModifications": "Only this explicitly learned signature/its declared opcode variation applies in R1. Later rank modifiers require a new reviewed definition version; never applied twice.",
+      "heritageModifications": "Only the selected proposed bounded native edge and paired cost, after full access/method/body validation. No raw-parent percentage or free resource gain inherited; example arithmetic excludes optional edges.",
+      "runtimeDependencies": [
+        "CR-A1",
+        "CR-R1",
+        "CR-E1",
+        "CR-T1-traits-anchor"
+      ],
+      "verificationRequirements": {
+        "positive": "Integrity8->6/ward4; ward does not refill anchor or create another phylactery; same event absorbs once.",
+        "refusal": "Malformed choice, wrong domain/actor or missing required state leaves every pool/entity unchanged.",
+        "duplicate": "Same command/event/choice identity returns original result, with no repeated cost, draw, effect or expiry.",
+        "roundTrip": "Both Wizard saves, canonical export/template, reopen and card preserve complete program and explicit zeros."
+      }
+    },
+    {
+      "evidenceLabel": "PROPOSED",
+      "status": "HeadQ-review-R1; not admitted by current app",
+      "contentRole": "talent-signature",
+      "talentNode": {
+        "id": "cr1_lichborne_veil_scholar_signature",
+        "rank": 1,
+        "maxRanks": 1,
+        "requiresTreePoints": 10,
+        "minimumLevel": 3
+      },
+      "spell": {
+        "id": "cr1_lichborne_borrowed_mortality",
+        "classId": "lichborne",
+        "rulesetVersion": "cr-review-r1",
+        "name": "Borrowed Mortality",
+        "description": "Suppress every active undeath trait and its paired restrictions until your next own turn. You lose their permissions and finite-return eligibility during that window, gaining ordinary warmth/pulse for a mundane task.",
+        "level": 3,
+        "specialization": "veil-scholar",
+        "spellType": "ACTION",
+        "icon": "Psychic/Psychic Telepathy",
+        "typeConfig": {
+          "school": "wyrd",
+          "castTimeType": "IMMEDIATE",
+          "tags": [
+            "lichborne",
+            "class-feature"
+          ]
+        },
+        "resourceCost": {
+          "actionPoints": 1,
+          "mana": 0,
+          "resourceTypes": [
+            "actionPoints"
+          ],
+          "resourceValues": {
+            "actionPoints": 1,
+            "mana": 0
+          },
+          "useFormulas": {},
+          "components": [
+            "somatic"
+          ],
+          "somaticText": "Present the class focus and deliberately declare the operation; its exact choices precede resolution."
+        },
+        "targetingConfig": {
+          "targetingType": "self",
+          "rangeType": "self",
+          "rangeDistance": 0,
+          "targetRestrictions": [
+            "self"
+          ],
+          "maxTargets": 1
+        },
+        "effectTypes": [
+          "utility"
+        ],
+        "resolution": "RESOURCE_PROGRAM",
+        "damageConfig": null,
+        "durationConfig": {
+          "durationType": "own_turns",
+          "durationValue": 1,
+          "durationUnit": "next_caster_turn_start"
+        },
+        "cooldownConfig": {
+          "cooldownType": "none",
+          "cooldownValue": 0
+        },
+        "classResourceProgram": {
+          "version": 1,
+          "domain": "lich-anchor",
+          "op": "lich.mortality",
+          "args": {
+            "requiresStageMin": 1,
+            "suppress": "all-active-traits-and-their-costs",
+            "expires": "start-next-caster-own-turn",
+            "stagePreserved": true,
+            "integrityRefund": 0,
+            "forbidStageChange": true,
+            "returnEligible": false,
+            "copyAnotherIdentity": false
+          }
+        },
+        "reactionTiming": null,
+        "savingThrow": null,
+        "conditions": [],
+        "area": null
+      },
+      "resourceCostSummary": "1 AP; forgo all active trait powers and return protection until next own turn.",
+      "resourceGenerationSummary": "None unless a declared branch or resolved event below grants it.",
+      "castingInputs": [],
+      "failureConditions": [
+        "Invalid exact source/target or insufficient AP/resources; refused before commitment with no mutation."
+      ],
+      "effectConfiguration": {
+        "requiresStageMin": 1,
+        "suppress": "all-active-traits-and-their-costs",
+        "expires": "start-next-caster-own-turn",
+        "stagePreserved": true,
+        "integrityRefund": 0,
+        "forbidStageChange": true,
+        "returnEligible": false,
+        "copyAnotherIdentity": false
+      },
+      "checkAndTimingNotes": "Own turn in combat; no reaction or saving throw. Noncombat uses explicit GM-adjudicated activity time and preserves finite contents/uses without inventing turn-refresh loops. Attack/geometry/defense remains GM-adjudicated until its capability exists.",
+      "talentModifications": "Only this explicitly learned signature/its declared opcode variation applies in R1. Later rank modifiers require a new reviewed definition version; never applied twice.",
+      "heritageModifications": "Only the selected proposed bounded native edge and paired cost, after full access/method/body validation. No raw-parent percentage or free resource gain inherited; example arithmetic excludes optional edges.",
+      "runtimeDependencies": [
+        "CR-A1",
+        "CR-R1",
+        "CR-E1",
+        "CR-T1-traits-anchor"
+      ],
+      "verificationRequirements": {
+        "positive": "Mantle healing lock suppressed together with Winter Edict permission; no trait action/advance/return during window, no integrity restored.",
+        "refusal": "Malformed choice, wrong domain/actor or missing required state leaves every pool/entity unchanged.",
+        "duplicate": "Same command/event/choice identity returns original result, with no repeated cost, draw, effect or expiry.",
+        "roundTrip": "Both Wizard saves, canonical export/template, reopen and card preserve complete program and explicit zeros."
+      }
+    }
+  ]
+}

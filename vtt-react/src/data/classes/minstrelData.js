@@ -187,7 +187,7 @@ The Bedel discovered bog-resonance independently through the Root-Veil  —  but
   ],
 
  overview: {
-  originStory: `A minstrel tears music from dying dimensions and shapes it into something that can wound, heal, or simply be heard. This is not art. It is a fundamental violation of physics that demands biological payment in return.
+  originStory: `A minstrel builds cadences from living resonance, the frequencies carried by sea, current, mycelium and the body itself, and shapes them into something that can wound, heal, or simply be heard. The craft is dangerous and it costs the voice, but it is also music: beautiful as often as it is terrible.
 
 The first was Lyris the Tide-Singer, a Merryn sailor aboard the Wind-Wake, a trade-galley carrying whale-oil from Nordhalla to Merrowport. The ship was ice-locked, not unusual for the Iceheart Sea, but the storm that followed the lock was not natural. A gale rose that should have shattered the trapped hull against the ice-floes. The crew had lashed themselves to the mast. Lyris was the only one still singing. She sang a sea-symphony, a cadence constructed from the rhythm of the waves and the frequency of the wind, and the storm stilled. The ocean mother accepted the song. It also took Lyris's spoken voice as payment. She can communicate only through melodic whispers or her lute strings. Attempting to scream causes her throat to bleed and her lungs to fill with saltwater.
 
@@ -199,15 +199,15 @@ The Iceheart Sea has fallen silent. The oldest continuous frequency in the known
 
 Native only to Merryn, Corali Myrathil, Ondine Myrathil, Nereid Myrathil. Any other people named or implied above walk this path only as a rare, individually qualified exception, not a native tradition.`,
  title: "The Minstrel",
- subtitle: "Conductor of Reality's Death Rattle",
+ subtitle: "Conductor of Living Resonance",
 
  quickOverview: {
     title: "Class Overview",
-    content: `**Who they are**: The Minstrel is a dimensional composer and sonic weaver who captures the resonance of unraveling realities to construct battlefield-reshaping music. You don't just buff allies—you collect acoustic notes to assemble complex, devastating musical cadences.
+    content: `**Who they are**: The Minstrel is a composer and sonic weaver who gathers living resonance into notes and builds battlefield-reshaping music from them. You don't just buff allies—you collect acoustic notes to assemble complex, devastating musical cadences.
 
-**The hook**: You build **Musical Cadences**: your basic abilities generate distinct notes (Tonic, Dominant, Subdominant, Discord). When you string the correct sequence of notes together, you resolve a **Symphony Cadence** that unleashes massive buffs, enemy silences, or reality-shattering sonic detonations.
+**The hook**: You build **Musical Cadences**: your basic abilities generate notes on seven pitches (I-VII). When you string the correct sequence of notes together, you resolve a **Symphony Cadence** that unleashes massive buffs, enemy silences, or reality-shattering sonic detonations.
 
-**The resource bar & costs**: Your resource bar is your active **Note Bank** (storing up to 5 notes). Combining notes in different recipes produces over a dozen unique cadence effects. Failing a cadence or holding discordant notes too long causes acoustic feedback that strains your focus.
+**The resource bar & costs**: Your resource bar is your active **Note Bank** (up to five notes of each of the seven pitches). Combining notes in different recipes produces over a dozen unique cadence effects. Failing a cadence or holding discordant notes too long causes acoustic feedback that strains your focus.
 
 **Bring one for**: Rhythm, combo-building, high-synergy support, and the satisfying feeling of executing a multi-note musical sequence that completely turns the tide of battle.`,
     roleplayIdentity: {
@@ -216,7 +216,7 @@ Native only to Merryn, Corali Myrathil, Ondine Myrathil, Nereid Myrathil. Any ot
     },
     combatRole: {
       title: "Combat Role",
-      content: "Acoustic reality-conductor who harvests musical notes (I-VII) from collapsing dimensions to assemble powerful persistent Cadences and durability-shattering chords."
+      content: "Acoustic conductor who gathers musical notes (I-VII) from living resonance to assemble powerful persistent Cadences and durability-shattering chords."
     },
     playstyle: {
       title: "Playstyle & Turn 1 Flow",
@@ -224,7 +224,7 @@ Native only to Merryn, Corali Myrathil, Ondine Myrathil, Nereid Myrathil. Any ot
     }
   },
 
- description: `There is nothing beautiful about what the Minstrel does. They play instruments crafted from bone and grief, each chord progression a fresh wound torn in the fabric of existence. Their magic is not art, it is a fundamental violation of physics that demands biological payment. Every note they collect is a splinter stolen from a dying reality, and every cadence they resolve is an act of cosmic mutilation that rewrites the battlefield in blood and resonance. The music should not exist. It exists because the Minstrel forces it to, and the world pays the price.`,
+ description: `A Minstrel's music is real resonance, gathered from the sea, the current, the mycelium and the living body, and bent into cadences that can steady a ship, mend a wound or break a line of spears. It is beautiful as often as it is dangerous. The price is personal: notes held too long feed back, the voice strains, and the oldest practitioners speak only in melodic whispers. Something in the deep has learned to imitate these signals and steal them, but a Minstrel's song is their own.`,
 
  roleplayIdentity: {
   title: "Roleplay Identity",
@@ -249,8 +249,8 @@ The Choir is the water: the Merryn sing the open sea, the Corali the boundary, t
 
  philosophy: {
   coreTenet: 'Sound is older than light. Before the sun, before the stars, there was vibration, the hum of potential, the frequency of emptiness, the note that preceded creation. The Minstrel does not make music. They remember the original note, the one that started everything, and they play it backward.',
-  relationship: 'A Minstrel\'s power comes from the resonance of dying realities. When a timeline collapses, it releases a burst of energy, a death-cry that exists as pure frequency. Minstrels harvest these frequencies and store them as musical notes, which they combine into Cadences that violate natural law. The relationship is parasitic: Minstrels cannot create music; they must harvest it from the death of other possibilities. Their art is built on the grave of what could have been.',
-  paradox: 'The Minstrel seeks the perfect Cadence, the combination of notes that will produce the most beautiful sound ever heard. But the most beautiful sounds come from the most catastrophic collapses. The Minstrel is therefore incentivized to seek out destruction, to position themselves at the epicenter of collapsing realities, to drink in the death-rattle of dying timelines. They are artists of catastrophe, and their masterpiece is always someone else\'s tragedy.'
+  relationship: 'A Minstrel\'s power comes from native resonance: the sea\'s carrying frequency, river currents, mycelial relays and the body\'s own vibration. Minstrels gather these frequencies as musical notes and combine them into Cadences. The relationship is a discipline, not a theft: the medium differs by tradition, and the cadence grammar is the same.',
+  paradox: 'The Minstrel seeks the perfect Cadence, the combination of notes that will produce the most beautiful sound ever heard. But the oldest and strongest frequencies are failing, and something in the deep has learned to sing them back. The closer a Minstrel listens to the silent sea, the easier it becomes for another voice to answer.'
  },
 
  currentCrisis: `The Iceheart Sea has fallen silent. For the first time in recorded history, the tides have stopped singing. The Merryn sailors who navigate by the ocean's frequency report total silence, no subsonic rhythm, no deep-bass pulse, nothing. The sea is still moving, but it makes no sound.
@@ -4440,7 +4440,7 @@ Before combat, decide which cadences you want to prioritize:
   level: 1,
   spellType: "PASSIVE",
   icon: "Social/Golden Harp",
-  effectTypes: ["passive"],
+  effectTypes: ["passive","debuff"],
   typeConfig: {
   school: "wyrd",
   icon: "Social/Golden Harp",
@@ -4448,6 +4448,20 @@ Before combat, decide which cadences you want to prioritize:
   },
   targetingConfig: { targetingType: "self" },
   resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0 },
+  debuffConfig: {
+    debuffType: "statusEffect",
+    effects: [
+      {
+        id: "instrument_requirement",
+        name: "Resonance Conduit",
+        description: "Permanent Casting Requirement",
+        mechanicsText: "An instrument must be equipped to cast or maintain songs. If disarmed, silenced, or destroyed, all song casting is disabled."
+      }
+    ],
+    durationValue: 0,
+    durationType: "permanent",
+    durationUnit: "permanent"
+  },
   resolution: "AUTOMATIC",
   tags: ["passive", "minstrel", "restriction"],
  },
@@ -4458,7 +4472,7 @@ Before combat, decide which cadences you want to prioritize:
   level: 1,
   spellType: "PASSIVE",
   icon: "Utility/Shattered Shield",
-  effectTypes: ["passive"],
+  effectTypes: ["passive","debuff"],
   typeConfig: {
   school: "wyrd",
   icon: "Utility/Shattered Shield",
@@ -4466,6 +4480,28 @@ Before combat, decide which cadences you want to prioritize:
   },
   targetingConfig: { targetingType: "self" },
   resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0 },
+  debuffConfig: {
+    debuffType: "statModifier",
+    statPenalties: [
+      {
+        stat: "damageReduction",
+        value: 2,
+        name: "Damage Reduction",
+        magnitudeType: "flat"
+      }
+    ],
+    effects: [
+      {
+        id: "songbird_guard_lowered",
+        name: "Lowered Guard",
+        description: "While maintaining musical effects",
+        mechanicsText: "-2 DR for the duration of any maintained musical effect (cannot reduce DR below 0)."
+      }
+    ],
+    durationValue: 0,
+    durationType: "permanent",
+    durationUnit: "permanent"
+  },
   resolution: "AUTOMATIC",
   tags: ["passive", "minstrel", "weakness"],
  },
@@ -4476,7 +4512,7 @@ Before combat, decide which cadences you want to prioritize:
   level: 3,
   spellType: "PASSIVE",
   icon: "Psychic/Agonizing Scream",
-  effectTypes: ["passive"],
+  effectTypes: ["passive","debuff"],
   typeConfig: {
   school: "wyrd",
   icon: "Psychic/Agonizing Scream",
@@ -4484,6 +4520,20 @@ Before combat, decide which cadences you want to prioritize:
   },
   targetingConfig: { targetingType: "self" },
   resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0 },
+  debuffConfig: {
+    debuffType: "statusEffect",
+    effects: [
+      {
+        id: "dissonant_backlash",
+        name: "Discordant Backlash",
+        description: "On combo failure or interruption",
+        mechanicsText: "Take 1d4 unpreventable wyrd damage per note level when a musical combo fails or is interrupted."
+      }
+    ],
+    durationValue: 0,
+    durationType: "permanent",
+    durationUnit: "permanent"
+  },
   resolution: "AUTOMATIC",
   tags: ["passive", "minstrel", "weakness"],
  },

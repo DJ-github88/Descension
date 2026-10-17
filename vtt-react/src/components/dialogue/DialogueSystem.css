@@ -1,13 +1,12 @@
-/* Modern Dialogue System Styles */
+/* =============================================================================
+   Mythrill VTT — Dialogue Speech System (Calm TTRPG Manuscript Edition)
+   Replaces legacy 16-bit arcade strokes, pixelated rendering, and neon outlines
+   with an illuminated codex speech scroll, Cinzel rubric headings, and warm ink.
+   ============================================================================= */
 
 :root {
-  /* Enhanced 8-directional text stroke for better outline */
-  --enhanced-text-stroke:
-    -2px -2px 0px #000, -2px -1px 0px #000, -2px 0px 0px #000, -2px 1px 0px #000, -2px 2px 0px #000,
-    -1px -2px 0px #000, -1px -1px 0px #000, -1px 0px 0px #000, -1px 1px 0px #000, -1px 2px 0px #000,
-    0px -2px 0px #000, 0px -1px 0px #000, 0px 1px 0px #000, 0px 2px 0px #000,
-    1px -2px 0px #000, 1px -1px 0px #000, 1px 0px 0px #000, 1px 1px 0px #000, 1px 2px 0px #000,
-    2px -2px 0px #000, 2px -1px 0px #000, 2px 0px 0px #000, 2px 1px 0px #000, 2px 2px 0px #000;
+  /* Neutralized legacy variable for backward compatibility */
+  --enhanced-text-stroke: none;
 }
 
 .dialogue-system-overlay {
@@ -18,35 +17,35 @@
   height: 100vh;
   z-index: 9999;
   pointer-events: auto;
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(30, 20, 14, 0.42);
   backdrop-filter: blur(2px);
   transition: background-color 0.8s ease-in-out, backdrop-filter 0.8s ease-in-out;
 }
 
 /* Backdrop effect variants */
 .dialogue-system-overlay.backdrop-dim {
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(22, 14, 10, 0.62);
   backdrop-filter: blur(3px);
 }
 
 .dialogue-system-overlay.backdrop-brighten {
-  background: rgba(255, 255, 255, 0.3);
-  backdrop-filter: blur(2px) brightness(1.2);
+  background: rgba(248, 244, 230, 0.28);
+  backdrop-filter: blur(2px) brightness(1.15);
 }
 
 .dialogue-system-overlay.backdrop-reddish {
-  background: rgba(139, 0, 0, 0.4);
-  backdrop-filter: blur(3px) sepia(0.3) saturate(1.5) hue-rotate(-15deg);
+  background: rgba(85, 26, 18, 0.38);
+  backdrop-filter: blur(3px) sepia(0.25) saturate(1.3) hue-rotate(-12deg);
 }
 
 .dialogue-system-overlay.backdrop-blueish {
-  background: rgba(0, 0, 139, 0.4);
-  backdrop-filter: blur(3px) sepia(0.3) saturate(1.5) hue-rotate(200deg);
+  background: rgba(26, 45, 75, 0.38);
+  backdrop-filter: blur(3px) sepia(0.2) saturate(1.2) hue-rotate(190deg);
 }
 
 .dialogue-system-overlay.backdrop-greenish {
-  background: rgba(0, 139, 0, 0.4);
-  backdrop-filter: blur(3px) sepia(0.3) saturate(1.5) hue-rotate(90deg);
+  background: rgba(28, 55, 34, 0.38);
+  backdrop-filter: blur(3px) sepia(0.2) saturate(1.2) hue-rotate(85deg);
 }
 
 .dialogue-container {
@@ -73,14 +72,12 @@
   cursor: grabbing;
 }
 
-
 /* Dragging visual feedback */
 .dialogue-container.dragging {
-  opacity: 0.8;
+  opacity: 0.9;
   box-shadow:
-    0 8px 32px rgba(139, 115, 85, 0.4),
-    0 2px 8px rgba(139, 115, 85, 0.3),
-    0 0 0 2px rgba(255, 215, 0, 0.3);
+    0 12px 36px rgba(52, 37, 26, 0.35),
+    0 2px 8px rgba(52, 37, 26, 0.2);
   transform: scale(1.02) !important;
   transition: none;
 }
@@ -128,13 +125,13 @@
   position: relative;
   width: 100%;
   height: 100%;
-  border: 3px solid #3a3a3a;
+  border: 2px solid var(--adventure-rule, #c4baa6);
   border-radius: 50%;
-  background: linear-gradient(45deg, #f0f0f0, #e0e0e0);
+  background: var(--adventure-paper, #f1ece1);
   overflow: hidden;
   box-shadow:
-    0 0 0 1px #000,
-    0 4px 12px rgba(0, 0, 0, 0.3);
+    0 4px 14px rgba(52, 37, 26, 0.28),
+    0 0 0 1px rgba(182, 160, 128, 0.35);
 }
 
 .dialogue-portrait .portrait-image {
@@ -146,185 +143,146 @@
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
-  border: 3px solid;
   border-radius: 50%;
 }
 
 .dialogue-portrait .portrait-placeholder {
   width: 100%;
   height: 100%;
-  background: linear-gradient(135deg, #c4baa6, #c4b89a);
+  background: linear-gradient(135deg, #eae2d1, #dfd5c0);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #8b7355;
+  color: #68533e;
   font-size: 32px;
-  border: 3px solid #8b7355;
   border-radius: 50%;
 }
 
-/* Dialogue Box - Beige D&D/Pathfinder Aesthetic */
+/* Dialogue Box — Illuminated Parchment Speech Scroll */
 .dialogue-box {
-  background: linear-gradient(135deg, #f5f1e8 0%, #e8e2d4 100%);
-  border: 2px solid #8b7355;
-  border-radius: 12px;
-  padding: 16px 20px;
+  background: linear-gradient(180deg, #fdfaf3 0%, #f4eee2 100%);
+  border: 1.5px solid var(--adventure-rule, #c4baa6);
+  border-radius: 6px;
+  padding: 16px 22px 18px 22px;
   min-height: 80px;
   max-height: 50vh;
   position: relative;
   box-shadow:
-    0 8px 32px rgba(139, 115, 85, 0.25),
-    0 2px 8px rgba(139, 115, 85, 0.15),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    0 10px 30px rgba(52, 37, 26, 0.22),
+    0 2px 6px rgba(52, 37, 26, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.65);
   flex: 1;
   max-width: 600px;
   display: flex;
   flex-direction: column;
-  overflow: visible; /* Allow animations to extend outside */
+  overflow: visible;
 }
 
+/* Left pointer caret toward character portrait */
 .dialogue-box::before {
   content: '';
   position: absolute;
   left: -12px;
-  bottom: 20px;
+  bottom: 22px;
   width: 0;
   height: 0;
   border-style: solid;
   border-width: 0 12px 12px 0;
-  border-color: transparent #8b7355 transparent transparent;
+  border-color: transparent var(--adventure-rule, #c4baa6) transparent transparent;
 }
 
 .dialogue-box::after {
   content: '';
   position: absolute;
   left: -9px;
-  bottom: 20px;
+  bottom: 23px;
   width: 0;
   height: 0;
   border-style: solid;
-  border-width: 0 9px 9px 0;
-  border-color: transparent #e8e2d4 transparent transparent;
+  border-width: 0 10px 10px 0;
+  border-color: transparent #f5eee3 transparent transparent;
 }
 
-/* Character Name - 16-bit RPG Style */
+/* Character Name — Rubric Manuscript Heading */
 .dialogue-name {
-  font-family: 'Courier New', 'Monaco', 'Lucida Console', monospace;
-  font-size: 14px;
-  font-weight: bold;
-  color: #ffd700;
+  font-family: var(--my-font-serif, 'Cinzel', serif);
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--adventure-seal, #663c32);
   text-transform: uppercase;
-  letter-spacing: 2px;
-  margin-bottom: 8px;
+  letter-spacing: 1.4px;
+  margin-bottom: 6px;
   flex-shrink: 0;
-  /* Enhanced 8-directional black text stroke for 16-bit look */
-  text-shadow: var(--enhanced-text-stroke);
-  /* 16-bit pixelated rendering */
-  image-rendering: pixelated;
-  image-rendering: -moz-crisp-edges;
-  image-rendering: crisp-edges;
-  font-smooth: never;
-  -webkit-font-smoothing: none;
+  text-shadow: 0 1px 2px rgba(52, 37, 26, 0.12);
 }
 
-/* Text Content Container - 16-bit RPG Style */
+/* Text Content Container — Clean Book Typography */
 .dialogue-content {
-  font-family: 'Courier New', 'Monaco', 'Lucida Console', monospace;
-  font-size: 16px;
-  line-height: 1.6; /* Increased for animation space */
-  color: #ffffff;
+  font-family: 'Crimson Text', Georgia, serif;
+  font-size: 17.5px;
+  line-height: 1.55;
+  color: var(--adventure-ink, #34251a);
   flex: 1;
   overflow-y: auto;
-  overflow-x: visible; /* Allow horizontal overflow for animations */
+  overflow-x: visible;
   max-height: calc(50vh - 80px);
-  padding: 8px 16px 8px 8px; /* Extra padding for animations */
+  padding: 2px 14px 2px 0;
   position: relative;
-  font-weight: normal;
-  /* Enhanced 8-directional black text stroke for 16-bit look */
-  text-shadow: var(--enhanced-text-stroke);
-  /* 16-bit pixelated rendering */
-  image-rendering: pixelated;
-  image-rendering: -moz-crisp-edges;
-  image-rendering: crisp-edges;
-  font-smooth: never;
-  -webkit-font-smoothing: none;
+  font-weight: 500;
+  text-shadow: none;
 }
 
 /* Custom Scrollbar for Dialogue Content */
 .dialogue-content::-webkit-scrollbar {
-  width: 6px;
-}
-
-/* Dialogue Font Variants */
-.dialogue-name.dialogue-font-press-start,
-.dialogue-content.dialogue-font-press-start {
-  font-family: 'Press Start 2P', 'Courier New', monospace;
-}
-
-.dialogue-name.dialogue-font-press-start {
-  font-size: 12px;
-  letter-spacing: 1px;
-}
-
-.dialogue-content.dialogue-font-press-start {
-  font-size: 12px;
-  line-height: 2;
-}
-
-.dialogue-name.dialogue-font-vt323,
-.dialogue-content.dialogue-font-vt323 {
-  font-family: 'VT323', 'Courier New', monospace;
-}
-
-.dialogue-name.dialogue-font-vt323 {
-  font-size: 17px;
-  letter-spacing: 2px;
-}
-
-.dialogue-content.dialogue-font-vt323 {
-  font-size: 19px;
-  line-height: 1.5;
-}
-
-.dialogue-name.dialogue-font-cinzel,
-.dialogue-content.dialogue-font-cinzel {
-  font-family: 'Cinzel', serif;
-}
-
-.dialogue-name.dialogue-font-cinzel {
-  letter-spacing: 2px;
-}
-
-.dialogue-content.dialogue-font-cinzel {
-  font-size: 15px;
-}
-
-.dialogue-name.dialogue-font-medieval,
-.dialogue-content.dialogue-font-medieval {
-  font-family: 'MedievalSharp', 'Courier New', cursive;
-}
-
-.dialogue-name.dialogue-font-medieval {
-  letter-spacing: 2px;
-}
-
-.dialogue-content.dialogue-font-medieval {
-  font-size: 16px;
+  width: 5px;
 }
 
 .dialogue-content::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.05);
+  background: rgba(196, 186, 166, 0.2);
   border-radius: 3px;
 }
 
 .dialogue-content::-webkit-scrollbar-thumb {
-  background: rgba(74, 144, 226, 0.6);
+  background: rgba(139, 111, 71, 0.4);
   border-radius: 3px;
   transition: background 0.2s ease;
 }
 
 .dialogue-content::-webkit-scrollbar-thumb:hover {
-  background: rgba(74, 144, 226, 0.8);
+  background: rgba(139, 111, 71, 0.6);
+}
+
+/* Dialogue Font Variants */
+.dialogue-name.dialogue-font-cinzel,
+.dialogue-content.dialogue-font-cinzel {
+  font-family: 'Cinzel', serif;
+}
+
+.dialogue-name.dialogue-font-crimson,
+.dialogue-content.dialogue-font-crimson {
+  font-family: 'Crimson Text', Georgia, serif;
+  font-size: 18px;
+}
+
+.dialogue-name.dialogue-font-medieval,
+.dialogue-content.dialogue-font-medieval {
+  font-family: 'MedievalSharp', 'Cinzel', cursive;
+}
+
+.dialogue-name.dialogue-font-courier,
+.dialogue-content.dialogue-font-courier {
+  font-family: 'Courier New', monospace;
+  font-size: 15px;
+}
+
+.dialogue-name.dialogue-font-press-start,
+.dialogue-content.dialogue-font-press-start {
+  font-family: 'Cinzel', serif;
+}
+
+.dialogue-name.dialogue-font-vt323,
+.dialogue-content.dialogue-font-vt323 {
+  font-family: 'Cinzel', serif;
 }
 
 /* Text Effects */
@@ -344,7 +302,7 @@
 
 .dialogue-text.glow {
   display: inline;
-  animation: textGlow 1.5s ease-in-out infinite alternate;
+  animation: textGlow 1.8s ease-in-out infinite alternate;
 }
 
 .dialogue-text.rainbow {
@@ -356,13 +314,9 @@
 .dialogue-word {
   display: inline-block;
   position: relative;
-  /* Ensure animations don't get clipped */
   margin: 1px 2px;
-  /* Prevent text from being cut off during animations */
   overflow: visible;
-  /* Improve animation performance */
   will-change: transform;
-  /* Prevent subpixel rendering issues */
   transform-origin: center center;
 }
 
@@ -392,51 +346,62 @@
 }
 
 .word-pulse {
-  animation: wordPulse 1s ease-in-out infinite;
+  animation: wordPulse 1.2s ease-in-out infinite;
   animation-delay: calc(var(--word-index, 0) * 0.08s);
 }
 
 .rainbow-word {
-  animation: wordRainbow 2s linear infinite;
+  animation: wordRainbow 2.5s linear infinite;
   animation-delay: calc(var(--word-index, 0) * 0.1s);
 }
 
-/* Typing Cursor - 16-bit Style */
+/* Typing Cursor — Subtle Wax Rubric Tick */
 .typing-cursor {
-  color: #ffd700;
+  color: var(--adventure-seal, #663c32);
   animation: cursorBlink 1s infinite;
-  font-weight: bold;
-  text-shadow: var(--enhanced-text-stroke);
-  /* 16-bit pixelated rendering */
-  image-rendering: pixelated;
-  image-rendering: -moz-crisp-edges;
-  image-rendering: crisp-edges;
+  font-weight: 700;
+  margin-left: 2px;
+  text-shadow: none;
 }
 
-/* Continue Indicator - 16-bit Style */
+/* Continue Indicator — Subtle Manuscript Voucher Pill */
 .dialogue-continue {
   position: absolute;
-  bottom: 12px;
-  right: 16px;
-  color: #ffd700;
-  font-size: 12px;
-  animation: continuePulse 1.5s ease-in-out infinite;
-  flex-shrink: 0;
-  text-shadow: var(--enhanced-text-stroke);
-  /* 16-bit pixelated rendering */
-  image-rendering: pixelated;
-  image-rendering: -moz-crisp-edges;
-  image-rendering: crisp-edges;
+  bottom: 11px;
+  right: 15px;
+  color: #68533e;
+  font-family: var(--my-font-serif, 'Cinzel', serif);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  background: rgba(234, 226, 209, 0.85);
+  border: 1px solid var(--adventure-rule, #c4baa6);
+  border-radius: 3px;
+  padding: 2.5px 8px;
+  box-shadow: 0 1px 3px rgba(52, 37, 26, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  animation: continueBreathe 2.4s ease-in-out infinite;
+  text-shadow: none;
+}
+
+.dialogue-continue:hover {
+  background: var(--adventure-paper, #f1ece1);
+  color: var(--adventure-seal, #663c32);
+  border-color: var(--adventure-seal, #663c32);
+  box-shadow: 0 2px 5px rgba(52, 37, 26, 0.15);
 }
 
 .continue-arrow {
-  font-family: 'Courier New', 'Monaco', monospace;
-  font-weight: bold;
-  text-transform: uppercase;
-  letter-spacing: 1px;
+  font-family: var(--my-font-serif, 'Cinzel', serif);
+  font-weight: 700;
 }
 
-/* Animations */
+/* Animation Keyframes */
 @keyframes textWave {
   0%, 100% { transform: translateY(0px); }
   25% { transform: translateY(-2px); }
@@ -450,43 +415,32 @@
 }
 
 @keyframes textGlow {
-  0% { 
-    text-shadow: 
-      2px 2px 0px #000,
-      -1px -1px 0px #000,
-      1px -1px 0px #000,
-      -1px 1px 0px #000,
-      0 0 5px currentColor;
+  0% {
+    text-shadow: 0 0 3px currentColor;
   }
-  100% { 
-    text-shadow: 
-      2px 2px 0px #000,
-      -1px -1px 0px #000,
-      1px -1px 0px #000,
-      -1px 1px 0px #000,
-      0 0 15px currentColor,
-      0 0 25px currentColor;
+  100% {
+    text-shadow: 0 0 8px currentColor, 0 0 14px currentColor;
   }
 }
 
 @keyframes textRainbow {
-  0% { color: #ff0000; }
-  16.66% { color: #ff8800; }
-  33.33% { color: #ffff00; }
-  50% { color: #00ff00; }
-  66.66% { color: #0088ff; }
-  83.33% { color: #8800ff; }
-  100% { color: #ff0000; }
+  0% { color: #8b2b1d; }
+  17% { color: #a3501a; }
+  34% { color: #9c6d1d; }
+  51% { color: #2e6027; }
+  68% { color: #23496d; }
+  85% { color: #583e72; }
+  100% { color: #8b2b1d; }
 }
 
 @keyframes cursorBlink {
-  0%, 50% { opacity: 1; }
-  51%, 100% { opacity: 0; }
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
 }
 
-@keyframes continuePulse {
-  0%, 100% { opacity: 0.5; }
-  50% { opacity: 1; }
+@keyframes continueBreathe {
+  0%, 100% { opacity: 0.75; transform: translateY(0); }
+  50% { opacity: 1; transform: translateY(-1px); }
 }
 
 /* Word-Level Animation Keyframes */
@@ -495,10 +449,10 @@
     transform: translateY(0px);
   }
   40% {
-    transform: translateY(-6px);
+    transform: translateY(-5px);
   }
   60% {
-    transform: translateY(-3px);
+    transform: translateY(-2px);
   }
 }
 
@@ -516,18 +470,18 @@
 
 @keyframes wordGlow {
   0% {
-    text-shadow: var(--enhanced-text-stroke), 0 0 5px currentColor;
+    text-shadow: 0 0 4px currentColor;
   }
   100% {
-    text-shadow: var(--enhanced-text-stroke), 0 0 20px currentColor, 0 0 30px currentColor;
+    text-shadow: 0 0 10px currentColor, 0 0 18px currentColor;
   }
 }
 
 @keyframes wordWave {
   0%, 100% { transform: translateY(0px) rotate(0deg); }
-  25% { transform: translateY(-3px) rotate(1deg); }
+  25% { transform: translateY(-2px) rotate(1deg); }
   50% { transform: translateY(0px) rotate(0deg); }
-  75% { transform: translateY(3px) rotate(-1deg); }
+  75% { transform: translateY(2px) rotate(-1deg); }
 }
 
 @keyframes wordFloat {
@@ -535,7 +489,7 @@
     transform: translateY(0px);
   }
   50% {
-    transform: translateY(-4px);
+    transform: translateY(-3.5px);
   }
 }
 
@@ -545,20 +499,19 @@
     opacity: 1;
   }
   50% {
-    transform: scale(1.05);
-    opacity: 0.9;
+    transform: scale(1.04);
+    opacity: 0.92;
   }
 }
 
 @keyframes wordRainbow {
-  0% { color: #ff4444; text-shadow: var(--enhanced-text-stroke); }
-  14% { color: #ff8844; text-shadow: var(--enhanced-text-stroke); }
-  28% { color: #ffff00; text-shadow: var(--enhanced-text-stroke); }
-  42% { color: #44ff44; text-shadow: var(--enhanced-text-stroke); }
-  57% { color: #4488ff; text-shadow: var(--enhanced-text-stroke); }
-  71% { color: #ff44ff; text-shadow: var(--enhanced-text-stroke); }
-  85% { color: #ff4488; text-shadow: var(--enhanced-text-stroke); }
-  100% { color: #ff4444; text-shadow: var(--enhanced-text-stroke); }
+  0% { color: #8b2b1d; }
+  17% { color: #a3501a; }
+  34% { color: #9c6d1d; }
+  51% { color: #2e6027; }
+  68% { color: #23496d; }
+  85% { color: #583e72; }
+  100% { color: #8b2b1d; }
 }
 
 /* Responsive Design */
@@ -571,44 +524,24 @@
   }
 
   .dialogue-portrait {
-    width: 64px;
-    height: 64px;
+    width: 60px;
+    height: 60px;
   }
 
   .dialogue-box {
-    padding: 12px 16px;
+    padding: 12px 16px 14px 16px;
     min-height: 64px;
     max-height: 60vh;
   }
 
   .dialogue-name {
-    font-size: 14px;
-    margin-bottom: 6px;
+    font-size: 13.5px;
+    margin-bottom: 4px;
   }
 
   .dialogue-content {
-    font-size: 14px;
+    font-size: 15px;
     max-height: calc(60vh - 60px);
-  }
-}
-
-/* High contrast mode support */
-@media (prefers-contrast: high) {
-  .dialogue-box {
-    background: #ffffff;
-    border: 3px solid #000000;
-  }
-
-  .dialogue-name {
-    color: #000000;
-  }
-
-  .dialogue-content {
-    color: #000000;
-  }
-
-  .dialogue-portrait .portrait-frame {
-    border-color: #000000;
   }
 }
 
@@ -617,8 +550,9 @@
   .dialogue-text.wave,
   .dialogue-text.shake,
   .dialogue-text.glow,
-  .dialogue-text.rainbow {
-    animation: none;
+  .dialogue-text.rainbow,
+  .dialogue-word {
+    animation: none !important;
   }
   
   .typing-cursor {

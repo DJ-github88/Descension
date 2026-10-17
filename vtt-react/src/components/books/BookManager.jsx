@@ -3,6 +3,7 @@ import useBookStore, { normalizeBook, TRASH_RETENTION_MS, TRASH_RETENTION_DAYS }
 import useAuthStore from '../../store/authStore';
 import BookDocumentEditor from './BookDocumentEditor';
 import BookDeleteModal from './BookDeleteModal';
+import BookCampaignImporterModal from './BookCampaignImporterModal';
 import './BookManager.css';
 import './BookAtmosphere.css';
 
@@ -150,6 +151,7 @@ const BookManager = ({
   const [currentTab, setCurrentTab] = useState('active'); // 'active' | 'trash'
   const [query, setQuery] = useState('');
   const [showNewForm, setShowNewForm] = useState(false);
+  const [showCampaignImporter, setShowCampaignImporter] = useState(false);
   const [toastMessage, setToastMessage] = useState(null);
 
   // Modal State
@@ -293,9 +295,19 @@ const BookManager = ({
           </div>
           {currentTab === 'active' ? (
             allowWrite && !inGameSession && (
-              <button type="button" className="book-new-btn" onClick={() => setShowNewForm((v) => !v)} aria-expanded={showNewForm}>
-                <i className="fas fa-plus"></i> New Book
-              </button>
+              <>
+                <button
+                  type="button"
+                  className="book-new-btn book-compile-btn"
+                  onClick={() => setShowCampaignImporter(true)}
+                  title="Auto-compile World Lore, Lineages, Dynasties, Bestiary, Quests, Spells & Relics into a Multi-Chapter Chronicle"
+                >
+                  <i className="fas fa-wand-magic-sparkles"></i> Compile Campaign
+                </button>
+                <button type="button" className="book-new-btn" onClick={() => setShowNewForm((v) => !v)} aria-expanded={showNewForm}>
+                  <i className="fas fa-plus"></i> New Book
+                </button>
+              </>
             )
           ) : (
             trashedBooks.length > 0 && allowWrite && !inGameSession && (
@@ -510,6 +522,19 @@ const BookManager = ({
         itemCount={trashedBooks.length}
         onConfirm={handleConfirmModal}
         onCancel={() => setModalState({ isOpen: false, mode: 'trash', book: null })}
+      />
+
+      {/* Campaign Chronicle Compiler Modal */}
+      <BookCampaignImporterModal
+        isOpen={showCampaignImporter}
+        onClose={() => setShowCampaignImporter(false)}
+        onCompiled={(newBookId) => {
+          setShowCampaignImporter(false);
+          if (newBookId) {
+            setActiveBook(newBookId);
+            showToast('Compiled Campaign Chronicle!');
+          }
+        }}
       />
     </div>
   );

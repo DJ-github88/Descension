@@ -5,6 +5,7 @@ import { migrateBlockId } from '../../utils/arcanoneerMigration';
 import { normalizeManagedClassResource, getManagedSpellResourcePlan } from '../../data/classResourceContracts';
 import { MINSTREL_PITCHES, MINSTREL_MAX_PER_PITCH } from '../../data/classResourceBanks';
 import { spellDiagnostic } from '../../services/spellConsequenceService';
+import { strikeDiagnostic } from '../../services/weaponStrikeService';
 import './SpellCastConfirmation.css';
 
 const SpellCastConfirmation = ({ spell, onConfirm, onCancel, classResource: classResourceProp }) => {
@@ -18,7 +19,7 @@ const SpellCastConfirmation = ({ spell, onConfirm, onCancel, classResource: clas
 
     if (!spell) return null;
     // P9: unsupported spells keep this manual path; shared rooms say why.
-    const p9Diagnostic = spellDiagnostic(spell);
+    const p9Diagnostic = strikeDiagnostic(spell) || spellDiagnostic(spell);
 
     const handleOverlayClick = (e) => {
         // Only close if clicking directly on the overlay, not on the dialog content

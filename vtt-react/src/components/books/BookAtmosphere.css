@@ -204,46 +204,161 @@
 .book-archive .book-empty-state h3 { font-family: 'Cinzel', Georgia, serif; font-size: 1.5rem; }
 .book-archive .book-empty-state p { font-family: 'Crimson Text', Georgia, serif; font-size: 1.1rem; }
 
-/* The book itself: warm stock, a restrained illuminated frame and a leather desk. */
+/* The book itself: 5 distinct, calm TTRPG manuscript palettes with full legibility. */
 .book-document-editor.book-manuscript,
-.book-entity-hovercard {
+.book-entity-hovercard,
+.book-document-editor.book-manuscript.theme-parchment,
+.book-entity-hovercard.theme-parchment {
   --book-font-body: 'EB Garamond', Georgia, serif;
-  --book-bg-outer: #302419;
+  --book-bg-outer: #2c2016;
   --book-bg-sheet: #f1ece1;
-  --book-bg-panel: #e8e2d4;
+  --book-bg-panel: #e6dfd0;
+  --book-bg-subpanel: rgba(235, 227, 211, 0.78);
   --book-ink-primary: #34251a;
   --book-ink-secondary: #68533e;
-  --book-ink-muted: #68533e;
+  --book-ink-muted: #7a634b;
   --book-burgundy: #663c32;
   --book-gold: #9b835e;
   --book-border: #b6a080;
-  --book-paper-wash: rgba(245, 236, 217, 0.87);
-  border: 1px solid #9b835e;
+  --book-paper-wash: rgba(243, 235, 218, 0.9);
+  --archive-seal: #663c32;
+  --archive-paper: #f7f2e7;
+  --archive-page: #f1ece1;
+  --archive-rule: #b6a080;
+  --archive-ink: #34251a;
+  --archive-muted: #68533e;
+  border: 1px solid var(--book-border);
   border-radius: 3px;
 }
-.book-manuscript.theme-royal, .book-entity-hovercard.theme-royal { --book-burgundy: #303b4a; }
-.book-manuscript.theme-crimson, .book-entity-hovercard.theme-crimson { --book-burgundy: #663c32; }
-.book-manuscript.theme-wildwood, .book-entity-hovercard.theme-wildwood { --book-burgundy: #3c4a35; }
-.book-manuscript.theme-grimoire, .book-entity-hovercard.theme-grimoire {
-  --book-bg-sheet: #2a2428;
-  --book-bg-panel: #342c32;
-  --book-ink-primary: #f0e3c4;
-  --book-ink-secondary: #d0bea1;
-  --book-ink-muted: #c9b694;
-  --book-burgundy: #dfcdad;
-  --book-border: #897455;
-  --book-paper-wash: rgba(42, 36, 40, 0.97);
+
+/* Royal Archive — Cool Imperial Silvered Alabaster & Sapphire-Slate Ink */
+.book-document-editor.book-manuscript.theme-royal,
+.book-entity-hovercard.theme-royal {
+  --book-bg-outer: #161f2c;
+  --book-bg-sheet: #e9eff6;
+  --book-bg-panel: #dae3ef;
+  --book-bg-subpanel: rgba(208, 220, 235, 0.8);
+  --book-ink-primary: #162234;
+  --book-ink-secondary: #3b4f6b;
+  --book-ink-muted: #506684;
+  --book-burgundy: #1d3b66;
+  --book-gold: #5a7396;
+  --book-border: #92a7c2;
+  --book-paper-wash: rgba(233, 239, 246, 0.93);
+  --archive-seal: #1d3b66;
+  --archive-paper: #f2f6fb;
+  --archive-page: #e9eff6;
+  --archive-rule: #92a7c2;
+  --archive-ink: #162234;
+  --archive-muted: #3b4f6b;
 }
-.book-manuscript .book-editor-toolbar { background: #e5d7bb; border-bottom: 3px double #9b835e; box-shadow: none; padding: 12px 16px; gap: 12px; flex-wrap: wrap !important; }
-.book-manuscript :is(.toolbar-btn, .mode-btn, .save-doc-btn) { border-radius: 3px; box-shadow: none; min-height: 40px; min-width: 40px; }
+
+/* Crimson Tome — Warm Rose-Ochre Vellum & Carmine Blood-Seal Ink */
+.book-document-editor.book-manuscript.theme-crimson,
+.book-entity-hovercard.theme-crimson {
+  --book-bg-outer: #281111;
+  --book-bg-sheet: #f5e6e0;
+  --book-bg-panel: #ebd5cc;
+  --book-bg-subpanel: rgba(230, 204, 194, 0.8);
+  --book-ink-primary: #2d1311;
+  --book-ink-secondary: #63312c;
+  --book-ink-muted: #7a413b;
+  --book-burgundy: #7d1919;
+  --book-gold: #a65c47;
+  --book-border: #c49b8e;
+  --book-paper-wash: rgba(245, 230, 224, 0.92);
+  --archive-seal: #7d1919;
+  --archive-paper: #fcf2ee;
+  --archive-page: #f5e6e0;
+  --archive-rule: #c49b8e;
+  --archive-ink: #2d1311;
+  --archive-muted: #63312c;
+}
+
+/* Fey Wildwood — Herbalist Sage-Vellum & Sylvan Forest Ink */
+.book-document-editor.book-manuscript.theme-wildwood,
+.book-entity-hovercard.theme-wildwood {
+  --book-bg-outer: #162116;
+  --book-bg-sheet: #e8efe4;
+  --book-bg-panel: #d8e4d2;
+  --book-bg-subpanel: rgba(206, 220, 199, 0.8);
+  --book-ink-primary: #182817;
+  --book-ink-secondary: #3b5339;
+  --book-ink-muted: #4f694c;
+  --book-burgundy: #264d24;
+  --book-gold: #617d57;
+  --book-border: #90a886;
+  --book-paper-wash: rgba(232, 239, 228, 0.92);
+  --archive-seal: #264d24;
+  --archive-paper: #f2f7f0;
+  --archive-page: #e8efe4;
+  --archive-rule: #90a886;
+  --archive-ink: #182817;
+  --archive-muted: #3b5339;
+}
+
+/* Dark Grimoire — Obsidian Charcoal Vellum & Gilded Bone Ink */
+.book-document-editor.book-manuscript.theme-grimoire,
+.book-entity-hovercard.theme-grimoire {
+  --book-bg-outer: #110e13;
+  --book-bg-sheet: #231f24;
+  --book-bg-panel: #2d272f;
+  --book-bg-subpanel: rgba(56, 48, 59, 0.88);
+  --book-ink-primary: #f2e6d0;
+  --book-ink-secondary: #cbb99c;
+  --book-ink-muted: #aa987c;
+  --book-burgundy: #e4c588;
+  --book-gold: #a88856;
+  --book-border: #6e5c47;
+  --book-paper-wash: rgba(35, 31, 36, 0.96);
+  --archive-seal: #633e2f;
+  --archive-paper: #f7efe0;
+  --archive-page: #231f24;
+  --archive-rule: #6e5c47;
+  --archive-ink: #f2e6d0;
+  --archive-muted: #cbb99c;
+}
+
+.book-manuscript .book-editor-toolbar {
+  background: var(--book-bg-panel);
+  border-bottom: 3px double var(--book-border);
+  box-shadow: none;
+  padding: 10px 16px;
+  gap: 12px;
+  flex-wrap: wrap !important;
+  color: var(--book-ink-primary);
+}
+.book-manuscript :is(.toolbar-btn, .mode-btn, .save-doc-btn) {
+  border-radius: 3px;
+  box-shadow: none;
+  min-height: 38px;
+  min-width: 38px;
+}
+.book-manuscript .toolbar-btn {
+  background: var(--book-bg-sheet);
+  border: 1px solid var(--book-border);
+  color: var(--book-ink-primary);
+}
+.book-manuscript .mode-btn {
+  color: var(--book-ink-secondary);
+  gap: 7px;
+}
 .book-manuscript :is(.toolbar-btn, .mode-btn):hover,
-.book-manuscript :is(.toolbar-btn.active, .mode-btn.active) { background: var(--archive-seal); border-color: #956b5b; color: var(--archive-paper); box-shadow: none; }
-.book-manuscript .mode-toggle-group { background: var(--archive-page); border: 1px solid var(--archive-rule); border-radius: 3px; }
-.book-manuscript .mode-btn { gap: 7px; }
+.book-manuscript :is(.toolbar-btn.active, .mode-btn.active) {
+  background: var(--archive-seal);
+  border-color: var(--book-border);
+  color: var(--archive-paper);
+  box-shadow: none;
+}
+.book-manuscript .mode-toggle-group {
+  background: var(--book-bg-sheet);
+  border: 1px solid var(--book-border);
+  border-radius: 3px;
+}
 .book-manuscript .book-mode-label { font-family: 'Cinzel', Georgia, serif; font-size: 0.75rem; }
 .book-manuscript .page-stepper-pill {
-  background: var(--archive-page, #faf6ed);
-  border: 1px solid var(--archive-rule, #c4a482);
+  background: var(--book-bg-sheet);
+  border: 1px solid var(--book-border);
   border-radius: 3px;
   box-shadow: none;
   min-height: 38px;
@@ -261,7 +376,7 @@
   border-radius: 3px;
   background: transparent !important;
   border: 1px solid transparent;
-  color: var(--book-burgundy, #6b2114) !important;
+  color: var(--book-burgundy) !important;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -270,20 +385,20 @@
   transition: all 0.15s ease;
 }
 .book-manuscript .stepper-btn:hover:not(:disabled) {
-  background: rgba(107, 33, 20, 0.08) !important;
-  border-color: rgba(107, 33, 20, 0.2);
-  color: var(--book-burgundy, #6b2114) !important;
+  background: var(--book-bg-subpanel) !important;
+  border-color: var(--book-border);
+  color: var(--book-burgundy) !important;
 }
 .book-manuscript .stepper-btn:disabled {
   background: transparent !important;
-  color: #c4ab79 !important;
-  opacity: 0.3 !important;
+  color: var(--book-ink-muted) !important;
+  opacity: 0.35 !important;
   border-color: transparent !important;
   cursor: not-allowed;
   box-shadow: none !important;
 }
 .book-manuscript .stepper-label {
-  color: var(--archive-ink, #34251a);
+  color: var(--book-ink-primary);
   font-family: var(--book-font-heading, 'Cinzel', serif);
   font-size: 0.74rem;
   letter-spacing: 0.03em;
@@ -292,152 +407,340 @@
   gap: 5px;
   white-space: nowrap;
 }
-.book-manuscript .save-doc-btn { background: var(--archive-seal); border-color: #956b5b; color: var(--archive-paper); }
-.book-manuscript .book-sidebar-drawer { background: var(--archive-page); border-right: 1px solid var(--archive-rule); box-shadow: none; }
-.book-manuscript .sidebar-tab-strip { background: #e5d7bb; border-bottom: 3px double var(--archive-rule); }
-.book-manuscript .tab-btn { min-height: 44px; color: var(--archive-muted); }
-.book-manuscript .tab-btn.active { background: var(--archive-seal); color: var(--archive-paper); }
-.book-manuscript :is(.toc-nav-ch-head, .toc-nav-page-item) { width: 100%; text-align: left; cursor: pointer; border: 1px solid transparent; border-radius: 2px; background: transparent; color: var(--archive-ink); }
-.book-manuscript .toc-nav-ch-head.active { background: var(--archive-seal); border-color: #956b5b; color: var(--archive-paper); }
-.book-manuscript .toc-nav-page-item { min-height: 36px; font-family: 'Crimson Text', Georgia, serif; font-size: 0.95rem; }
-.book-manuscript .toc-nav-page-item.active { background: #e5d7bb; border-color: var(--archive-rule); color: var(--archive-ink); }
-.book-manuscript .sidebar-mobile-header { background: var(--archive-seal); color: var(--archive-paper); border-bottom: 1px solid #956b5b; }
-.book-manuscript .sidebar-close-mobile-btn { color: var(--archive-paper); min-width: 44px; min-height: 44px; }
+.book-manuscript .save-doc-btn {
+  background: var(--archive-seal);
+  border-color: var(--book-border);
+  color: var(--archive-paper);
+}
+.book-manuscript .close-doc-btn {
+  color: var(--book-ink-secondary);
+}
+.book-manuscript .close-doc-btn:hover {
+  color: var(--book-burgundy);
+}
 
 /* =========================================================================
-   SIDEBAR CHAPTERS & PAGES, STRUCTURE, HISTORY, SEARCH & STYLING (MANUSCRIPT)
+   LEFT NAVIGATION SIDEBAR DRAWER (MANUSCRIPT)
+   Clean sticky layout, hidden mobile header on desktop, 100% readable across all 5 themes
    ========================================================================= */
+.book-manuscript .book-sidebar-drawer {
+  width: 280px !important;
+  min-width: 280px !important;
+  flex: 0 0 280px !important;
+  position: sticky !important;
+  top: 62px !important;
+  max-height: calc(100vh - 62px) !important;
+  background: var(--book-bg-sheet) !important;
+  border-right: 1.5px solid var(--book-border) !important;
+  box-shadow: none !important;
+  color: var(--book-ink-primary) !important;
+}
+
+@media (min-width: 769px) {
+  .book-manuscript .sidebar-mobile-header {
+    display: none !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .book-manuscript .sidebar-mobile-header {
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    background: var(--archive-seal);
+    color: var(--archive-paper);
+    border-bottom: 1px solid var(--book-border);
+    font-family: var(--book-font-heading, 'Cinzel', serif);
+    font-size: 0.8rem;
+    font-weight: 700;
+  }
+}
+
+.book-manuscript .sidebar-close-mobile-btn {
+  background: transparent;
+  border: none;
+  color: var(--archive-paper);
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.book-manuscript .sidebar-tab-strip {
+  background: var(--book-bg-panel) !important;
+  border-bottom: 3px double var(--book-border) !important;
+  padding: 5px !important;
+  gap: 3px !important;
+}
+
+.book-manuscript .tab-btn {
+  min-height: 42px;
+  color: var(--book-ink-secondary) !important;
+  border-radius: 3px !important;
+  transition: all 0.14s ease;
+}
+
+.book-manuscript .tab-btn:hover:not(.active) {
+  background: var(--book-bg-subpanel) !important;
+  color: var(--book-ink-primary) !important;
+}
+
+.book-manuscript .tab-btn.active {
+  background: var(--archive-seal) !important;
+  color: var(--archive-paper) !important;
+}
+
 .book-manuscript .sidebar-structure-pane,
 .book-manuscript .sidebar-toc-pane,
 .book-manuscript .sidebar-history-pane,
 .book-manuscript .sidebar-search-pane,
 .book-manuscript .sidebar-style-pane {
-  color: var(--book-ink-primary);
+  color: var(--book-ink-primary) !important;
 }
+
 .book-manuscript .pane-header {
-  border-bottom: 1.5px solid var(--book-border);
+  border-bottom: 1.5px solid var(--book-border) !important;
   padding-bottom: 8px;
   margin-bottom: 12px;
 }
+
 .book-manuscript .pane-header h4 {
   font-family: var(--book-font-heading);
-  color: var(--book-burgundy);
-  font-size: 0.88rem;
+  color: var(--book-burgundy) !important;
+  font-size: 0.84rem;
   font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
-.book-manuscript .structure-add-btn {
-  background: var(--book-burgundy) !important;
-  border: 1px solid var(--book-gold, #c89a3c) !important;
-  color: #fdfaf2 !important;
+
+.book-manuscript .pane-header .badge {
   font-family: var(--book-font-heading);
+  font-size: 0.66rem;
+  font-weight: 700;
+  color: var(--book-ink-secondary) !important;
+  background: var(--book-bg-panel) !important;
+  border: 1px solid var(--book-border) !important;
+  padding: 2px 7px;
+  border-radius: 2px;
+  white-space: nowrap;
+}
+
+/* TOC Tree Items: Proper Left-Aligned Title + Non-Wrapping Page Number */
+.book-manuscript .toc-nav-ch-head {
+  width: 100%;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 8px !important;
+  padding: 7px 10px !important;
+  text-align: left !important;
+  cursor: pointer;
+  border: 1px solid var(--book-border) !important;
+  border-radius: 3px !important;
+  background: var(--book-bg-panel) !important;
+  color: var(--book-ink-primary) !important;
+  font-family: var(--book-font-heading, 'Cinzel', serif);
+  font-size: 0.78rem !important;
+  font-weight: 700;
+  transition: all 0.14s ease;
+}
+
+.book-manuscript .toc-nav-ch-head:hover:not(.active) {
+  border-color: var(--book-burgundy) !important;
+  color: var(--book-burgundy) !important;
+}
+
+.book-manuscript .toc-nav-ch-head.active {
+  background: var(--archive-seal) !important;
+  border-color: var(--archive-seal) !important;
+  color: var(--archive-paper) !important;
+}
+
+.book-manuscript .toc-nav-ch-head i {
   font-size: 0.72rem;
+  flex-shrink: 0;
+  opacity: 0.85;
+}
+
+.book-manuscript .toc-nav-ch-head .ch-title {
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+  text-align: left !important;
+  line-height: 1.3;
+  overflow-wrap: break-word;
+}
+
+.book-manuscript .toc-nav-ch-head .ch-page-num {
+  flex-shrink: 0 !important;
+  white-space: nowrap !important;
+  font-size: 0.68rem;
+  opacity: 0.85;
+  margin-left: auto;
+}
+
+.book-manuscript .toc-nav-pages-list {
+  padding-left: 10px !important;
+  margin: 4px 0 8px 6px !important;
+  border-left: 1px dashed var(--book-border);
+}
+
+.book-manuscript .toc-nav-page-item {
+  width: 100%;
+  min-height: 32px;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 6px !important;
+  padding: 5px 8px !important;
+  text-align: left !important;
+  cursor: pointer;
+  border: 1px solid transparent !important;
+  border-radius: 2px !important;
+  background: transparent !important;
+  color: var(--book-ink-secondary) !important;
+  font-family: var(--book-font-body, 'EB Garamond', Georgia, serif);
+  font-size: 0.92rem !important;
+  transition: all 0.12s ease;
+}
+
+.book-manuscript .toc-nav-page-item:hover {
+  background: var(--book-bg-panel) !important;
+  color: var(--book-ink-primary) !important;
+}
+
+.book-manuscript .toc-nav-page-item.active {
+  background: var(--book-bg-panel) !important;
+  border-color: var(--book-border) !important;
+  color: var(--book-burgundy) !important;
+  font-weight: 700;
+}
+
+.book-manuscript .toc-nav-page-item .pg-bullet {
+  color: var(--book-burgundy);
+  font-size: 0.82rem;
+  flex-shrink: 0;
+}
+
+.book-manuscript .toc-nav-page-item .pg-title {
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+  text-align: left !important;
+  line-height: 1.28;
+  overflow-wrap: break-word;
+}
+
+.book-manuscript .toc-nav-page-item .pg-num {
+  flex-shrink: 0 !important;
+  white-space: nowrap !important;
+  font-family: var(--book-font-heading, 'Cinzel', serif);
+  font-size: 0.66rem;
+  color: var(--book-ink-muted) !important;
+  margin-left: auto;
+}
+
+/* Structure Manager, Search, History & Style Panes */
+.book-manuscript .structure-add-btn {
+  background: var(--archive-seal) !important;
+  border: 1px solid var(--book-border) !important;
+  color: var(--archive-paper) !important;
+  font-family: var(--book-font-heading);
+  font-size: 0.7rem;
   font-weight: 700;
   padding: 4px 10px;
   border-radius: 3px;
-  box-shadow: 0 1px 4px rgba(88, 24, 13, 0.2);
   cursor: pointer;
-  transition: background-color 0.15s ease, transform 0.15s ease;
+  transition: opacity 0.15s ease;
 }
+
 .book-manuscript .structure-add-btn:hover {
-  background: #6e1e11 !important;
-  transform: translateY(-1px);
+  opacity: 0.92;
 }
+
 .book-manuscript .structure-chapter-card {
-  background: var(--book-card-bg, #fdfaf2);
-  border: 1px solid var(--book-border);
-  border-radius: 4px;
+  background: var(--book-bg-subpanel) !important;
+  border: 1px solid var(--book-border) !important;
+  border-radius: 3px;
   margin-bottom: 10px;
   overflow: hidden;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  box-shadow: none;
 }
+
 .book-manuscript .structure-chapter-card.active {
-  border-color: var(--book-burgundy);
-  box-shadow: 0 2px 10px rgba(88, 24, 13, 0.12);
+  border-color: var(--book-burgundy) !important;
 }
+
 .book-manuscript .ch-card-header {
-  background: #f4ecdc;
-  border-bottom: 1px solid var(--book-border);
+  background: var(--book-bg-panel) !important;
+  border-bottom: 1px solid var(--book-border) !important;
   padding: 8px 10px;
   cursor: pointer;
-  transition: background-color 0.15s ease;
 }
-.book-manuscript .ch-card-header:hover {
-  background: #ede2cb;
-}
+
 .book-manuscript .ch-title-wrap {
   font-family: var(--book-font-heading);
-  font-size: 0.84rem;
-  color: var(--book-burgundy);
+  font-size: 0.8rem;
+  color: var(--book-burgundy) !important;
   gap: 6px;
 }
+
+.book-manuscript .ch-title-wrap strong,
 .book-manuscript .ch-title-editable {
-  cursor: text;
-  border-radius: 2px;
-  padding: 1px 4px;
-  transition: background-color 0.15s ease;
+  color: var(--book-ink-primary) !important;
 }
-.book-manuscript .ch-title-editable:hover {
-  background: rgba(139, 90, 26, 0.1);
-}
+
 .book-manuscript .ch-title-editable:focus {
   outline: 1.5px solid var(--book-burgundy);
-  background: #fff;
+  background: var(--book-bg-sheet) !important;
 }
+
 .book-manuscript .ch-action-btn,
 .book-manuscript .ch-card-actions button {
-  background: var(--book-parchment-base, #faf6ed);
-  border: 1px solid var(--book-border);
+  background: var(--book-bg-sheet) !important;
+  border: 1px solid var(--book-border) !important;
   border-radius: 3px;
-  color: var(--book-burgundy);
+  color: var(--book-burgundy) !important;
   padding: 3px 7px;
   font-size: 0.72rem;
   cursor: pointer;
-  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
 }
+
 .book-manuscript .ch-action-btn:hover,
 .book-manuscript .ch-card-actions button:hover {
-  background: var(--book-burgundy);
-  color: #fdfaf2;
-  border-color: var(--book-burgundy);
+  background: var(--archive-seal) !important;
+  color: var(--archive-paper) !important;
+  border-color: var(--archive-seal) !important;
 }
-.book-manuscript .ch-action-btn.danger:hover,
-.book-manuscript .ch-card-actions button.danger:hover {
-  background: #8b251a !important;
-  color: #fff !important;
-  border-color: #8b251a !important;
-}
+
 .book-manuscript .pages-sub-strip {
-  background: var(--book-card-bg, #fdfaf2);
+  background: var(--book-bg-sheet) !important;
   padding: 8px 10px;
   gap: 6px;
 }
+
 .book-manuscript .page-pill-item {
-  background: #ede3ce;
-  border: 1px solid var(--book-border);
+  background: var(--book-bg-panel) !important;
+  border: 1px solid var(--book-border) !important;
   border-radius: 3px;
   padding: 4px 8px;
   font-family: var(--book-font-heading);
-  font-size: 0.72rem;
-  color: var(--book-ink-primary);
+  font-size: 0.7rem;
+  color: var(--book-ink-primary) !important;
   cursor: pointer;
-  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
   display: inline-flex;
   align-items: center;
   gap: 4px;
 }
+
 .book-manuscript .page-pill-item:hover {
-  background: #e4d7bd;
-  border-color: var(--book-bronze, #8b5a1a);
+  border-color: var(--book-burgundy) !important;
 }
+
 .book-manuscript .page-pill-item.active {
-  background: var(--book-burgundy) !important;
-  border-color: var(--book-gold, #c89a3c) !important;
-  color: #fdfaf2 !important;
+  background: var(--archive-seal) !important;
+  border-color: var(--archive-seal) !important;
+  color: var(--archive-paper) !important;
   font-weight: 600;
-  box-shadow: 0 1px 4px rgba(88, 24, 13, 0.2);
 }
+
 .book-manuscript .del-page {
   background: transparent !important;
   border: none !important;
@@ -447,103 +750,126 @@
   padding: 0 2px 1px 4px !important;
   margin-left: 3px;
   cursor: pointer;
-  opacity: 0.55;
-  border-radius: 2px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  transition: opacity 0.15s ease, background 0.15s ease, color 0.15s ease;
+  opacity: 0.65;
 }
-.book-manuscript .del-page:hover {
-  opacity: 1;
-  background: rgba(0, 0, 0, 0.2) !important;
-  color: #ffb3b3 !important;
+
+.book-manuscript .style-group {
+  margin-bottom: 16px;
 }
-.book-manuscript .page-pill-item:not(.active) .del-page:hover {
-  color: #b02010 !important;
-  background: rgba(176, 32, 16, 0.12) !important;
-}
+
 .book-manuscript .style-group label {
+  display: block;
   font-family: var(--book-font-heading);
-  color: var(--book-burgundy);
-  font-size: 0.78rem;
+  color: var(--book-burgundy) !important;
+  font-size: 0.75rem;
   font-weight: 700;
-  margin-bottom: 5px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
 }
+
+.book-manuscript .sidebar-style-pane .manuscript-dropdown {
+  width: 100%;
+  display: flex;
+}
+
+.book-manuscript .sidebar-style-pane .manuscript-dropdown-trigger {
+  width: 100%;
+  justify-content: space-between;
+}
+
 .book-manuscript .style-input {
-  background: var(--book-card-bg, #fdfaf2);
-  border: 1px solid var(--book-border);
+  background: var(--book-bg-panel) !important;
+  border: 1px solid var(--book-border) !important;
   border-radius: 3px;
-  color: var(--book-ink-primary);
-  padding: 6px 10px;
-  font-size: 0.82rem;
-  font-family: inherit;
+  color: var(--book-ink-primary) !important;
+  padding: 7px 10px;
+  font-size: 0.88rem;
+  font-family: var(--book-font-body, 'EB Garamond', Georgia, serif);
   width: 100%;
   box-sizing: border-box;
 }
+
+.book-manuscript .style-input::placeholder {
+  color: var(--book-ink-muted) !important;
+}
+
 .book-manuscript .style-input:focus {
   outline: 1.5px solid var(--book-burgundy);
-  border-color: var(--book-burgundy);
+  border-color: var(--book-burgundy) !important;
+  background: var(--book-bg-sheet) !important;
 }
+
 .book-manuscript .history-entry-card {
-  background: var(--book-card-bg, #fdfaf2);
-  border: 1px solid var(--book-border);
+  background: var(--book-bg-panel) !important;
+  border: 1px solid var(--book-border) !important;
+  color: var(--book-ink-primary) !important;
   border-radius: 3px;
   padding: 8px 10px;
   margin-bottom: 8px;
 }
+
 .book-manuscript .restore-rev-btn {
-  background: var(--book-parchment-base, #faf6ed);
-  border: 1px solid var(--book-border);
-  color: var(--book-burgundy);
+  background: var(--book-bg-sheet) !important;
+  border: 1px solid var(--book-border) !important;
+  color: var(--book-burgundy) !important;
   border-radius: 3px;
   padding: 3px 8px;
   font-size: 0.7rem;
   font-family: var(--book-font-heading);
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.15s ease;
 }
+
 .book-manuscript .restore-rev-btn:hover {
-  background: var(--book-burgundy);
-  color: #fdfaf2;
-  border-color: var(--book-burgundy);
+  background: var(--archive-seal) !important;
+  color: var(--archive-paper) !important;
+  border-color: var(--archive-seal) !important;
 }
+
 .book-manuscript .search-input-box {
-  background: var(--book-card-bg, #fdfaf2);
-  border: 1px solid var(--book-border);
+  background: var(--book-bg-panel) !important;
+  border: 1px solid var(--book-border) !important;
   border-radius: 3px;
   padding: 6px 10px;
-  color: var(--book-burgundy);
+  color: var(--book-burgundy) !important;
 }
+
 .book-manuscript .search-input-box input {
-  color: var(--book-ink-primary);
+  color: var(--book-ink-primary) !important;
+  background: transparent !important;
 }
+
+.book-manuscript .search-input-box input::placeholder {
+  color: var(--book-ink-muted) !important;
+}
+
 .book-manuscript .search-result-card {
-  background: var(--book-card-bg, #fdfaf2);
-  border: 1px solid var(--book-border);
+  background: var(--book-bg-panel) !important;
+  border: 1px solid var(--book-border) !important;
+  color: var(--book-ink-primary) !important;
   border-radius: 3px;
   padding: 8px 10px;
   cursor: pointer;
-  transition: background-color 0.15s ease, border-color 0.15s ease;
 }
+
 .book-manuscript .search-result-card:hover {
-  background: #f4ecdc;
-  border-color: var(--book-burgundy);
+  border-color: var(--book-burgundy) !important;
 }
+
 .book-manuscript .book-document-viewport {
   padding: 32px 32px 80px;
-  background: linear-gradient(rgba(48, 36, 25, 0.95), rgba(48, 36, 25, 0.95)), var(--archive-map) center / cover;
+  background: var(--book-bg-outer) !important;
 }
 .book-manuscript .book-page-sheet {
   background: linear-gradient(var(--book-paper-wash), var(--book-paper-wash)), var(--archive-texture) !important;
   background-size: cover !important;
   background-position: center !important;
   background-repeat: no-repeat !important;
-  border: 1px solid var(--book-border);
+  border: 1px solid var(--book-border) !important;
   border-radius: 2px;
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
-  color: var(--book-ink-primary);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+  color: var(--book-ink-primary) !important;
 }
 .book-manuscript .book-page-sheet::before { content: ''; position: absolute; inset: 14px; border: 3px double var(--book-border); pointer-events: none; }
 .book-manuscript .book-running-header { padding-bottom: 12px; border-bottom: 1px solid var(--book-border); font-size: 0.68rem; gap: 8px; }
@@ -597,10 +923,8 @@
 .book-manuscript .book-table-block th { background: var(--archive-seal); color: var(--archive-paper) !important; }
 .book-manuscript.theme-grimoire :is(.book-callout-block, .book-location-showcase-wrapper, .book-npc-dossier-wrapper, .book-quest-hook-wrapper, .book-dynasty-block, .book-plot-thread-block, .book-quote-block) { background: var(--book-bg-panel) !important; color: var(--book-ink-primary) !important; border-color: var(--book-border) !important; }
 
-/* A facing folio must size its columns to the paper, not the browser window.
-   This prevents four 176px columns when the navigator is open on desktop. */
 .book-manuscript .book-page-sheet { container-type: inline-size; container-name: book-folio; }
-@container book-folio (max-width: 540px) {
+@container book-folio (max-width: 640px) {
   .book-manuscript .book-columns-grid { grid-template-columns: minmax(0, 1fr) !important; row-gap: 24px !important; }
   .book-manuscript .book-columns-grid::before { display: none !important; }
   .book-manuscript .book-paired-row { flex-wrap: wrap; }
@@ -850,14 +1174,60 @@
   caret-color: var(--book-burgundy);
 }
 .book-manuscript .book-page-sheet :is(input, textarea)::placeholder { color: var(--book-ink-secondary); opacity: 1; }
-.book-manuscript .book-page-sheet :is(.callout-input-title, .table-title-input) { width: 100%; min-height: 2em; border: 0; border-bottom: 1px solid var(--book-border); background: transparent; padding: 4px 0; font-family: var(--book-font-heading); font-weight: 700; color: var(--book-burgundy); }
+.book-manuscript .book-page-sheet :is(.callout-input-title, .table-title-input) {
+  width: 100% !important;
+  min-height: 1.45em !important;
+  border: 0 !important;
+  border-bottom: 1px dashed rgba(102, 60, 50, 0.3) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  padding: 2px 0 !important;
+  margin: 0 !important;
+  font-family: var(--book-font-heading) !important;
+  font-size: 0.92rem !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.04em !important;
+  text-transform: uppercase !important;
+  color: var(--book-burgundy) !important;
+  box-shadow: none !important;
+}
+.book-manuscript .book-page-sheet :is(.callout-input-title, .table-title-input):focus {
+  border-bottom-color: var(--book-burgundy) !important;
+  background: rgba(255, 252, 245, 0.5) !important;
+  outline: none !important;
+}
+.book-manuscript .book-page-sheet :is(.callout-textarea, .loc-input-desc, .npc-input-desc, .quest-input-desc, .lineage-input-desc, .plot-input-summary) {
+  border: 1px dashed transparent !important;
+  background: transparent !important;
+  padding: 2px 4px !important;
+  box-shadow: none !important;
+}
+.book-manuscript .book-page-sheet :is(.callout-textarea, .loc-input-desc, .npc-input-desc, .quest-input-desc, .lineage-input-desc, .plot-input-summary):focus {
+  border-color: var(--book-border) !important;
+  background: rgba(255, 252, 245, 0.65) !important;
+  outline: none !important;
+}
 .book-manuscript .book-page-sheet .book-editable:focus { outline: 1px solid var(--book-border); outline-offset: 3px; background: var(--book-bg-panel); box-shadow: none; }
 
 /* Chapter furniture keeps its variants without the neon gold or black glow. */
-.book-manuscript :is(.book-heading-banner-dark, .book-heading-banner-crimson) { border: 1px solid var(--book-border) !important; border-radius: 2px; box-shadow: none !important; }
+.book-manuscript :is(.book-heading-banner-dark, .book-heading-banner-crimson) {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 10px !important;
+  padding: 6px 12px !important;
+  border: 1px solid var(--book-border) !important;
+  border-radius: 2px;
+  box-shadow: none !important;
+}
 .book-manuscript .book-heading-banner-dark { background: var(--archive-leather) !important; }
 .book-manuscript .book-heading-banner-crimson { background: var(--archive-seal) !important; }
 .book-manuscript :is(.book-heading-banner-dark, .book-heading-banner-crimson) :is(.book-heading-text, .banner-crimson-icon) { color: var(--archive-paper) !important; text-shadow: none; }
+.book-manuscript .book-heading-banner-crimson .banner-crimson-icon {
+  font-size: 0.78rem !important;
+  opacity: 0.9 !important;
+  flex-shrink: 0;
+}
 .book-manuscript .book-heading-keyed-area {
   display: flex !important;
   align-items: center !important;
@@ -935,23 +1305,36 @@
 
 /* The live renderer uses table-block-header/tbl-btn/table-scroll-wrap, rather
    than the legacy table-header-row/table-add-btn/book-ttrpg-table-wrap names. */
-.book-manuscript .table-block-header { display: flex; flex-direction: column; align-items: stretch; gap: 10px; margin-bottom: 14px; }
-.book-manuscript .table-title-wrap { min-width: 0; }
-.book-manuscript .table-write-tools { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-.book-manuscript .dice-formula-label { display: flex; align-items: center; gap: 8px; font-family: var(--book-font-body); color: var(--book-ink-secondary); }
-.book-manuscript .dice-formula-input { width: 110px; min-height: 36px; }
-.book-manuscript :is(.tbl-btn, .table-roll-btn, .callout-import-lore-btn, .img-tool-btn) { display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 7px 10px; min-height: 36px; background: var(--book-bg-panel); border: 1px solid var(--book-border); border-radius: 2px; color: var(--book-burgundy); font-family: var(--book-font-heading); font-size: 0.75rem; cursor: pointer; box-shadow: none; text-shadow: none; }
+.book-manuscript .table-block-header {
+  display: flex;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  margin-bottom: 8px;
+  padding-bottom: 4px;
+  border-bottom: 1.5px solid var(--book-burgundy, #663c32);
+}
+.book-manuscript .table-title-wrap { min-width: 140px; flex: 1 1 auto; }
+.book-manuscript .table-header-controls { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.book-manuscript .table-write-tools { display: inline-flex; align-items: center; gap: 5px; flex-wrap: wrap; }
+.book-manuscript .dice-formula-label { display: inline-flex; align-items: center; gap: 4px; font-family: var(--book-font-heading, 'Cinzel', serif); font-size: 0.68rem; font-weight: 700; text-transform: uppercase; color: var(--book-ink-secondary); margin: 0; }
+.book-manuscript .book-page-sheet .dice-formula-input { width: 48px !important; min-height: 24px !important; height: 24px !important; padding: 1px 4px !important; font-family: var(--book-font-heading, 'Cinzel', serif) !important; font-size: 0.72rem !important; font-weight: 700; text-align: center; background: rgba(232, 226, 212, 0.7) !important; border: 1px solid var(--book-border) !important; border-radius: 2px; }
+.book-manuscript :is(.tbl-btn, .table-roll-btn, .callout-import-lore-btn, .img-tool-btn) { display: inline-flex; align-items: center; justify-content: center; gap: 5px; padding: 3px 8px !important; min-height: 25px !important; height: 25px; background: var(--book-bg-panel); border: 1px solid var(--book-border); border-radius: 2px; color: var(--book-burgundy); font-family: var(--book-font-heading); font-size: 0.68rem !important; font-weight: 700; letter-spacing: 0.03em; text-transform: uppercase; cursor: pointer; box-shadow: none; text-shadow: none; }
+.book-manuscript .table-roll-btn { background: var(--archive-seal, #663c32) !important; color: var(--archive-paper, #f7f2e7) !important; border-color: #956b5b !important; }
 .book-manuscript :is(.tbl-btn, .table-roll-btn, .callout-import-lore-btn, .img-tool-btn):hover { background: var(--archive-seal); border-color: #956b5b; color: var(--archive-paper); box-shadow: none; transform: none; }
 .book-manuscript .table-scroll-wrap { max-width: 100%; overflow-x: auto; border: 1px solid var(--book-border); border-radius: 2px; }
-.book-manuscript .book-ttrpg-table { background: var(--book-bg-sheet); color: var(--book-ink-primary); table-layout: auto; font-family: var(--book-font-body); }
+.book-manuscript .book-ttrpg-table { background: var(--book-bg-sheet); color: var(--book-ink-primary); table-layout: auto; width: 100%; font-family: var(--book-font-body); }
 .book-manuscript .book-ttrpg-table :is(thead, th) { background: var(--archive-seal); color: var(--archive-paper); border-color: #956b5b; }
-.book-manuscript .book-ttrpg-table :is(th, td) { padding: 8px; box-sizing: border-box; }
+.book-manuscript .book-ttrpg-table :is(th, td) { padding: 6px 8px; box-sizing: border-box; }
 .book-manuscript .book-ttrpg-table td { color: var(--book-ink-primary); }
 .book-manuscript .book-ttrpg-table th { position: relative; }
 .book-manuscript .book-ttrpg-table th .th-edit-wrap { display: flex; align-items: center; gap: 4px; width: 100%; }
-.book-manuscript .book-ttrpg-table th .th-input { width: 100% !important; min-width: 40px !important; background: transparent; color: var(--archive-paper); border: 1px dashed rgba(255, 255, 255, 0.35); font-family: var(--book-font-heading, 'Cinzel', serif); font-size: 0.8rem; font-weight: 700; letter-spacing: 0.04em; padding: 2px 4px; }
-.book-manuscript .book-ttrpg-table .td-input { width: 100%; min-width: 60px; min-height: 2.2em; font-size: 0.98rem; background: transparent; color: var(--book-ink-primary); border: 1px solid var(--book-border); padding: 4px 6px; }
-.book-manuscript .book-ttrpg-table :is(.th-actions-col, .td-actions-col) { width: 32px; padding: 4px; }
+.book-manuscript .book-ttrpg-table th .th-input { width: 100% !important; min-width: 32px !important; background: transparent !important; color: var(--archive-paper) !important; border: 0 !important; border-bottom: 1px solid transparent !important; font-family: var(--book-font-heading, 'Cinzel', serif) !important; font-size: 0.74rem !important; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; padding: 1px 2px !important; }
+.book-manuscript .book-ttrpg-table th .th-input:focus { border-bottom-color: var(--archive-paper) !important; outline: none !important; }
+.book-manuscript .book-ttrpg-table .td-input { width: 100%; min-width: 60px; min-height: 1.55em; font-size: 0.98rem; background: transparent; color: var(--book-ink-primary); border: 1px dashed transparent; padding: 2px 4px; }
+.book-manuscript .book-ttrpg-table :is(.th-actions-col, .td-actions-col) { width: 26px; padding: 2px; text-align: center; }
 .book-manuscript .book-ttrpg-table .th-del-btn {
   width: 18px !important;
   min-width: 18px !important;
@@ -974,19 +1357,23 @@
 }
 .book-manuscript .book-ttrpg-table th:hover .th-del-btn { opacity: 1; }
 .book-manuscript .book-ttrpg-table .th-del-btn:hover { background: #8b3f34 !important; color: #fff !important; }
-.book-manuscript .book-ttrpg-table .row-del-btn { min-width: 24px; min-height: 24px; opacity: 0.7; color: var(--book-burgundy); border-radius: 2px; }
-.book-manuscript .book-ttrpg-table .row-del-btn:hover { opacity: 1; background: #8b3f34; color: var(--archive-paper); }
+.book-manuscript .book-ttrpg-table .row-del-btn { min-width: 22px; min-height: 22px; opacity: 0.45; color: var(--book-burgundy); border-radius: 2px; background: transparent; border: none; cursor: pointer; }
+.book-manuscript .book-ttrpg-table tr:hover .row-del-btn { opacity: 0.85; }
+.book-manuscript .book-ttrpg-table .row-del-btn:hover { opacity: 1 !important; background: #8b3f34; color: var(--archive-paper); }
 .book-manuscript .book-ttrpg-table tbody tr:nth-child(even) { background: var(--book-bg-panel); }
 .book-manuscript .book-ttrpg-table tbody tr:hover { background: var(--book-bg-panel); box-shadow: none; }
 .book-manuscript .book-ttrpg-table tbody tr.rolled-active-row { background: var(--book-bg-panel) !important; outline: 1px solid var(--book-burgundy); outline-offset: -1px; box-shadow: none; }
-.book-manuscript .table-title { color: var(--book-burgundy); }
+.book-manuscript .table-title { color: var(--book-burgundy); font-family: var(--book-font-heading, 'Cinzel', serif); font-size: 1.05rem; font-weight: 800; letter-spacing: 0.03em; margin: 0; }
 
 /* Callouts and quotations are editorial paper furniture, not neon status cards. */
 .book-document-editor.book-manuscript :is(.book-callout-block, .book-quote-block) { background: var(--book-bg-panel) !important; border: 1px solid var(--book-border) !important; border-block: 3px double var(--book-border) !important; border-radius: 2px !important; color: var(--book-ink-primary); box-shadow: none !important; }
 .book-manuscript .book-callout-block :is(.callout-title, .callout-input-title, .callout-icon-badge) { color: var(--book-burgundy) !important; }
-.book-manuscript .callout-header { flex-direction: column !important; align-items: stretch !important; gap: 12px !important; border-bottom-color: var(--book-border) !important; }
-.book-manuscript .callout-title-wrap { min-width: 0; align-items: flex-start !important; flex: 0 1 auto; }
-.book-manuscript .callout-header-actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-left: 0; }
+.book-manuscript .callout-header { display: flex !important; flex-direction: row !important; align-items: center !important; justify-content: space-between !important; flex-wrap: wrap !important; gap: 8px !important; border-bottom: 1px solid var(--book-border) !important; padding-bottom: 6px !important; margin-bottom: 8px !important; }
+.book-manuscript .callout-title-wrap { display: flex !important; align-items: center !important; gap: 8px !important; min-width: 140px; flex: 1 1 auto; }
+.book-manuscript .callout-header-actions { display: inline-flex; flex-wrap: wrap; gap: 5px; align-items: center; margin-left: auto; opacity: 0.72; transition: opacity 0.15s ease; }
+.book-manuscript .book-callout-block:hover .callout-header-actions,
+.book-manuscript .book-callout-block:focus-within .callout-header-actions { opacity: 1; }
+.book-manuscript .book-page-sheet .callout-type-select { width: auto !important; min-height: 24px !important; height: 24px !important; padding: 0 6px !important; font-family: var(--book-font-heading, 'Cinzel', serif) !important; font-size: 0.65rem !important; font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em; background: var(--book-bg-sheet) !important; border: 1px solid var(--book-border) !important; color: var(--book-burgundy) !important; border-radius: 2px; cursor: pointer; }
 .book-manuscript .callout-content { color: var(--book-ink-primary); }
 .book-manuscript .book-quote-block {
   padding: 22px 28px 20px 36px !important;
@@ -1192,8 +1579,8 @@
   height: 38px;
   min-height: 38px;
   padding: 0 12px;
-  background: var(--archive-page, #faf6ed);
-  border: 1px solid var(--archive-rule, #c4a482);
+  background: var(--book-bg-sheet, #f1ece1);
+  border: 1px solid var(--book-border, #b6a080);
   border-radius: 3px;
   color: var(--book-ink-primary, #34251a);
   font-family: var(--book-font-heading, 'Cinzel', serif);
@@ -1208,22 +1595,22 @@
 
 .manuscript-dropdown-trigger:hover,
 .manuscript-dropdown.is-open .manuscript-dropdown-trigger {
-  border-color: var(--book-burgundy, #6b2114);
-  color: var(--book-burgundy, #6b2114);
-  background: #ffffff;
-  box-shadow: 0 2px 8px rgba(52, 37, 26, 0.1);
+  border-color: var(--book-burgundy, #663c32);
+  color: var(--book-burgundy, #663c32);
+  background: var(--book-bg-subpanel, #e6dfd0);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.14);
 }
 
 .manuscript-dropdown-trigger .dropdown-icon {
   font-size: 0.8rem;
-  color: var(--book-burgundy, #6b2114);
+  color: var(--book-burgundy, #663c32);
 }
 
 .dropdown-custom-icon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: var(--book-burgundy, #6b2114);
+  color: var(--book-burgundy, #663c32);
   line-height: 1;
 }
 
@@ -1254,10 +1641,10 @@
   top: calc(100% + 5px);
   left: 0;
   min-width: 240px;
-  background: #fdfaf4;
-  border: 1px solid var(--book-border, #c4a482);
+  background: var(--book-bg-sheet, #f1ece1);
+  border: 1px solid var(--book-border, #b6a080);
   border-radius: 4px;
-  box-shadow: 0 10px 24px rgba(45, 30, 15, 0.18), 0 2px 6px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28), 0 2px 6px rgba(0, 0, 0, 0.12);
   padding: 5px;
   margin: 0;
   list-style: none;
@@ -1296,23 +1683,27 @@
 }
 
 .manuscript-dropdown-item:hover {
-  background: rgba(139, 90, 26, 0.08);
-  border-color: rgba(139, 90, 26, 0.2);
-  color: var(--book-burgundy, #6b2114);
+  background: var(--book-bg-panel, #e6dfd0);
+  border-color: var(--book-border, #b6a080);
+  color: var(--book-burgundy, #663c32);
 }
 
 .manuscript-dropdown-item.selected {
-  background: rgba(139, 90, 26, 0.14) !important;
-  border-color: rgba(139, 90, 26, 0.3) !important;
-  color: var(--book-burgundy, #6b2114) !important;
+  background: var(--archive-seal, #663c32) !important;
+  border-color: var(--archive-seal, #663c32) !important;
+  color: var(--archive-paper, #f7f2e7) !important;
   font-weight: 700;
+}
+
+.manuscript-dropdown-item.selected :is(.item-icon, .item-icon-wrapper, .item-check) {
+  color: var(--archive-paper, #f7f2e7) !important;
 }
 
 .manuscript-dropdown-item .item-icon {
   font-size: 0.82rem;
   width: 20px;
   text-align: center;
-  color: var(--book-burgundy, #6b2114);
+  color: var(--book-burgundy, #663c32);
   opacity: 0.85;
 }
 
@@ -2147,4 +2538,1928 @@
 @media (hover: none), (max-width: 700px) {
   .book-archive .book-card { margin-bottom: 40px; }
   .book-archive .book-card .book-card-toolbar { bottom: -54px; top: auto; right: 10px; }
+}
+
+/* =========================================================================
+   SPREAD GEOMETRY, UNRESTRICTED PAGE SCROLLING & 2-COL FOLIO PROPORTIONS
+   ========================================================================= */
+.book-document-editor.book-manuscript {
+  height: auto !important;
+  min-height: 88vh !important;
+  max-height: none !important;
+  overflow: visible !important;
+}
+
+.book-manuscript .book-editor-toolbar {
+  position: sticky !important;
+  top: 0;
+  z-index: 120;
+}
+
+.book-manuscript .book-studio-layout {
+  height: auto !important;
+  min-height: 82vh !important;
+  max-height: none !important;
+  overflow: visible !important;
+  align-items: flex-start !important;
+}
+
+.book-manuscript .book-outline-sidebar {
+  position: sticky;
+  top: 64px;
+  max-height: calc(100vh - 80px);
+  overflow-y: auto;
+}
+
+.book-manuscript .book-document-viewport {
+  height: auto !important;
+  min-height: 82vh !important;
+  max-height: none !important;
+  overflow-y: visible !important;
+  overflow-x: auto !important;
+  padding: 36px 28px 140px !important;
+  align-items: flex-start !important;
+  scroll-padding-top: 36px;
+}
+
+.book-manuscript .book-document-viewport.viewport-spread-mode {
+  padding: 36px 20px 140px !important;
+}
+
+.book-manuscript .book-spread-canvas {
+  margin-top: 4px !important;
+  align-items: stretch;
+}
+
+.book-manuscript .book-spread-page {
+  padding: 44px 34px 36px !important;
+}
+
+.book-manuscript .book-spread-page .book-page-header {
+  margin-top: 4px !important;
+  padding-top: 2px !important;
+}
+
+.book-manuscript .book-spread-page .book-columns-grid {
+  column-gap: 28px !important;
+}
+
+/* Toolbar Companion Button for Spread Folio Columns (2-Col vs 1-Col Folios) */
+.book-manuscript .spread-folio-cols-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 38px;
+  min-height: 38px;
+  padding: 0 11px;
+  background: var(--archive-page, #faf6ed);
+  border: 1px solid var(--archive-rule, #c4a482);
+  border-radius: 3px;
+  color: var(--book-burgundy, #663c32);
+  font-family: var(--book-font-heading, 'Cinzel', serif);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.book-manuscript .spread-folio-cols-btn:hover,
+.book-manuscript .spread-folio-cols-btn.active {
+  background: var(--archive-seal, #663c32);
+  color: var(--archive-paper, #f7f2e7);
+  border-color: #956b5b;
+}
+
+/* =========================================================================
+   TRUE ON-PAGE MANUSCRIPT WYSIWYG (ZERO NATIVE SCROLLBARS / FORM CHROME)
+   ========================================================================= */
+.book-manuscript .book-prose-display.is-wysiwyg-prose {
+  cursor: text;
+  border-radius: 2px;
+  padding: 2px 4px;
+  margin: -2px -4px;
+  transition: background-color 0.15s ease;
+}
+
+.book-manuscript .book-prose-display.is-wysiwyg-prose:hover {
+  background: rgba(139, 90, 26, 0.05);
+}
+
+.book-manuscript .callout-wysiwyg-preview {
+  cursor: text;
+  border-radius: 2px;
+  padding: 2px 4px;
+  transition: background-color 0.15s ease;
+}
+
+.book-manuscript .callout-wysiwyg-preview:hover {
+  background: rgba(139, 90, 26, 0.06);
+}
+
+/* Borderless Auto-Growing Table Cell Textareas (No Scrollbars!) */
+.book-manuscript .book-ttrpg-table textarea.td-input,
+.book-manuscript .book-ttrpg-table .td-input {
+  width: 100%;
+  min-width: 56px;
+  min-height: 1.55em;
+  padding: 2px 4px !important;
+  margin: 0;
+  background: transparent !important;
+  color: var(--book-ink-primary) !important;
+  border: 1px dashed transparent !important;
+  border-radius: 2px;
+  font-family: var(--book-font-body, 'EB Garamond', Georgia, serif) !important;
+  font-size: 0.98rem !important;
+  line-height: 1.45 !important;
+  resize: none !important;
+  overflow: hidden !important;
+  box-shadow: none !important;
+  display: block;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.book-manuscript .book-ttrpg-table .td-input:hover {
+  border-bottom-color: rgba(139, 90, 26, 0.4) !important;
+}
+
+.book-manuscript .book-ttrpg-table .td-input:focus {
+  background: rgba(255, 252, 245, 0.7) !important;
+  border-color: var(--book-burgundy, #663c32) !important;
+  outline: none !important;
+}
+
+/* Auto-growing manuscript textareas across all 17 blocks */
+.book-manuscript .book-page-sheet textarea {
+  resize: none;
+  overflow: hidden;
+}
+
+/* =========================================================================
+   TRUE WYSIWYG PUBLICATION STATBLOCK & ALL 17 TTRPG BLOCKS (CALM MANUSCRIPT)
+   ========================================================================= */
+.book-manuscript .book-creature-statblock {
+  background: var(--book-bg-panel, #ede6d6) !important;
+  border: 1.5px solid var(--book-border, #b6a080) !important;
+  border-block: 3px double var(--book-burgundy, #663c32) !important;
+  border-radius: 3px !important;
+  padding: 12px 14px !important;
+  box-shadow: 0 3px 10px rgba(42, 28, 16, 0.08) !important;
+  color: var(--book-ink-primary, #34251a) !important;
+}
+
+.book-manuscript .statblock-manuscript-toolbar {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  flex-wrap: wrap !important;
+  gap: 6px !important;
+  padding: 6px 8px !important;
+  margin: -12px -14px 10px -14px !important;
+  background: rgba(226, 217, 199, 0.92) !important;
+  border-bottom: 1px solid var(--book-border, #b6a080) !important;
+  border-radius: 2px 2px 0 0 !important;
+}
+
+.book-manuscript .statblock-toolbar-left,
+.book-manuscript .statblock-toolbar-right {
+  display: flex !important;
+  align-items: center !important;
+  flex-wrap: wrap !important;
+  gap: 5px !important;
+}
+
+/* Unified Manuscript Pill Buttons across Statblock, Spell, Item, Lineage, Dynasty, Plot, Location, NPC, Quest */
+.book-manuscript :is(
+  .book-creature-wizard-btn,
+  .statblock-browse-btn,
+  .statblock-preset-btn,
+  .statblock-mini-add-btn,
+  .statblock-tool-btn,
+  .book-sync-mode-badge,
+  .book-sync-mode-pill,
+  .book-sync-push-btn,
+  .book-claim-relic-btn,
+  .book-item-action-btn,
+  .lineage-import-btn,
+  .dynasty-import-btn,
+  .dynasty-add-btn,
+  .plot-import-btn,
+  .add-beat-inline-btn,
+  .loc-import-btn,
+  .npc-import-btn,
+  .quest-browse-catalog-btn,
+  .add-obj-inline-btn,
+  .side-item-change-btn,
+  .side-img-change-btn,
+  .swap-sides-btn
+) {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 5px !important;
+  padding: 3px 9px !important;
+  min-height: 25px !important;
+  height: 25px !important;
+  background: var(--book-bg-sheet, #faf6ed) !important;
+  border: 1px solid var(--book-border, #b6a080) !important;
+  border-radius: 3px !important;
+  color: var(--book-burgundy, #663c32) !important;
+  font-family: var(--book-font-heading, 'Cinzel', serif) !important;
+  font-size: 0.65rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.03em !important;
+  text-transform: uppercase !important;
+  line-height: 1 !important;
+  white-space: nowrap !important;
+  cursor: pointer !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+  transition: all 0.14s ease !important;
+}
+
+.book-manuscript :is(
+  .book-creature-wizard-btn,
+  .claim-item-btn
+) {
+  background: var(--archive-seal, #663c32) !important;
+  color: var(--archive-paper, #f7f2e7) !important;
+  border-color: #8c5244 !important;
+}
+
+.book-manuscript :is(
+  .book-sync-mode-badge.mode-live,
+  .book-sync-mode-pill.is-live,
+  .book-sync-push-btn.synced,
+  .claim-item-btn.claimed
+) {
+  background: rgba(45, 106, 79, 0.14) !important;
+  border-color: rgba(45, 106, 79, 0.5) !important;
+  color: #1b4332 !important;
+}
+
+.book-manuscript :is(
+  .book-creature-wizard-btn,
+  .statblock-browse-btn,
+  .statblock-preset-btn,
+  .statblock-mini-add-btn,
+  .statblock-tool-btn,
+  .book-sync-mode-badge,
+  .book-sync-mode-pill,
+  .book-sync-push-btn,
+  .book-claim-relic-btn,
+  .book-item-action-btn,
+  .lineage-import-btn,
+  .dynasty-import-btn,
+  .dynasty-add-btn,
+  .plot-import-btn,
+  .add-beat-inline-btn,
+  .loc-import-btn,
+  .npc-import-btn,
+  .quest-browse-catalog-btn,
+  .add-obj-inline-btn,
+  .side-item-change-btn,
+  .side-img-change-btn,
+  .swap-sides-btn
+):hover {
+  background: var(--archive-seal, #663c32) !important;
+  color: var(--archive-paper, #f7f2e7) !important;
+  border-color: #956b5b !important;
+  transform: none !important;
+}
+
+.book-manuscript .book-block-sync-pill-wrap {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+}
+
+/* Statblock Header Band: Name, Danger Badge Select & Type Line */
+.book-manuscript .statblock-header-left {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 8px !important;
+  width: 100% !important;
+}
+
+.book-manuscript .book-page-sheet .statblock-name.statblock-inline-input {
+  flex: 1 1 auto !important;
+  width: 100% !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-bottom: 1px dashed rgba(102, 60, 50, 0.35) !important;
+  border-radius: 0 !important;
+  padding: 1px 2px !important;
+  font-family: var(--book-font-heading, 'Cinzel', serif) !important;
+  font-size: 1.18rem !important;
+  font-weight: 800 !important;
+  color: var(--book-burgundy, #663c32) !important;
+  box-shadow: none !important;
+}
+
+.book-manuscript .book-page-sheet .statblock-type-line.statblock-inline-input {
+  width: 100% !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-bottom: 1px dashed rgba(102, 60, 50, 0.25) !important;
+  border-radius: 0 !important;
+  padding: 1px 2px !important;
+  font-family: var(--book-font-body, 'EB Garamond', Georgia, serif) !important;
+  font-size: 0.94rem !important;
+  font-style: italic !important;
+  color: var(--book-ink-secondary, #68533e) !important;
+  box-shadow: none !important;
+}
+
+.book-manuscript .book-page-sheet .statblock-danger-select {
+  width: auto !important;
+  min-width: 78px !important;
+  height: 24px !important;
+  min-height: 24px !important;
+  padding: 0 8px !important;
+  background: var(--archive-seal, #663c32) !important;
+  color: var(--archive-paper, #f7f2e7) !important;
+  border: 1px solid #956b5b !important;
+  border-radius: 3px !important;
+  font-family: var(--book-font-heading, 'Cinzel', serif) !important;
+  font-size: 0.66rem !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.04em !important;
+  text-transform: uppercase !important;
+  cursor: pointer !important;
+  box-shadow: none !important;
+}
+
+/* Descension Vitals Strip (HP, Mana, AP, Speed) — Compact Inline Horizontal Bar */
+.book-manuscript .statblock-vitals-strip {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  gap: 6px 14px !important;
+  padding: 4px 0 !important;
+}
+
+.book-manuscript .statblock-vital-pill {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 5px !important;
+  margin: 0 !important;
+  padding: 2px 6px !important;
+  background: rgba(250, 246, 237, 0.65) !important;
+  border: 1px solid rgba(182, 160, 128, 0.55) !important;
+  border-radius: 3px !important;
+  font-family: var(--book-font-body, 'EB Garamond', Georgia, serif) !important;
+  font-size: 0.92rem !important;
+  line-height: 1.2 !important;
+}
+
+.book-manuscript .statblock-vital-pill i {
+  color: var(--book-burgundy, #663c32) !important;
+  font-size: 0.78rem !important;
+}
+
+.book-manuscript .statblock-vital-pill .vital-lbl {
+  font-family: var(--book-font-heading, 'Cinzel', serif) !important;
+  font-size: 0.68rem !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  color: var(--book-ink-secondary, #68533e) !important;
+  white-space: nowrap !important;
+}
+
+.book-manuscript .vital-ap-inline-wrap {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 3px !important;
+}
+
+.book-manuscript .book-page-sheet .vital-inline-num {
+  width: 44px !important;
+  min-width: 36px !important;
+  max-width: 54px !important;
+  height: 20px !important;
+  min-height: 20px !important;
+  padding: 0 3px !important;
+  margin: 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-bottom: 1px dashed var(--book-burgundy, #663c32) !important;
+  border-radius: 0 !important;
+  font-family: var(--book-font-heading, 'Cinzel', serif) !important;
+  font-size: 0.86rem !important;
+  font-weight: 800 !important;
+  color: var(--book-ink-primary, #34251a) !important;
+  text-align: center !important;
+  box-shadow: none !important;
+  -moz-appearance: textfield !important;
+}
+
+.book-manuscript .book-page-sheet .vital-inline-num::-webkit-outer-spin-button,
+.book-manuscript .book-page-sheet .vital-inline-num::-webkit-inner-spin-button {
+  -webkit-appearance: none !important;
+  margin: 0 !important;
+}
+
+.book-manuscript .book-page-sheet .vital-inline-text {
+  width: 135px !important;
+  min-width: 80px !important;
+  height: 20px !important;
+  min-height: 20px !important;
+  padding: 0 4px !important;
+  margin: 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-bottom: 1px dashed var(--book-burgundy, #663c32) !important;
+  border-radius: 0 !important;
+  font-family: var(--book-font-body, 'EB Garamond', Georgia, serif) !important;
+  font-size: 0.9rem !important;
+  font-weight: 700 !important;
+  color: var(--book-ink-primary, #34251a) !important;
+  box-shadow: none !important;
+}
+
+/* Resistances & Affinities Strip */
+.book-manuscript .statblock-resistances-strip {
+  display: flex !important;
+  align-items: center !important;
+  flex-wrap: wrap !important;
+  gap: 6px !important;
+  margin-top: 4px !important;
+  font-size: 0.9rem !important;
+}
+
+.book-manuscript .statblock-resistances-strip .resist-lbl {
+  font-family: var(--book-font-heading, 'Cinzel', serif) !important;
+  font-size: 0.68rem !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  color: var(--book-burgundy, #663c32) !important;
+  font-style: normal !important;
+  white-space: nowrap !important;
+}
+
+.book-manuscript .book-page-sheet .resist-val.statblock-inline-input {
+  flex: 1 1 160px !important;
+  height: 22px !important;
+  min-height: 22px !important;
+  padding: 0 4px !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-bottom: 1px dashed rgba(102, 60, 50, 0.35) !important;
+  border-radius: 0 !important;
+  font-family: var(--book-font-body, 'EB Garamond', Georgia, serif) !important;
+  font-size: 0.9rem !important;
+  color: var(--book-ink-primary, #34251a) !important;
+  box-shadow: none !important;
+}
+
+/* 6-Column Core Ability Scores Grid (STR, AGI, CON, INT, SPI, CHA) */
+.book-manuscript .statblock-stats-grid {
+  display: grid !important;
+  grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
+  gap: 5px !important;
+  margin: 6px 0 !important;
+}
+
+.book-manuscript .stat-tile {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 4px 2px !important;
+  background: var(--book-bg-sheet, #faf6ed) !important;
+  border: 1px solid var(--book-border, #b6a080) !important;
+  border-radius: 3px !important;
+  text-align: center !important;
+}
+
+.book-manuscript .stat-tile .stat-abbr {
+  font-family: var(--book-font-heading, 'Cinzel', serif) !important;
+  font-size: 0.64rem !important;
+  font-weight: 800 !important;
+  color: var(--book-burgundy, #663c32) !important;
+  letter-spacing: 0.04em !important;
+  cursor: pointer !important;
+}
+
+.book-manuscript .book-page-sheet .stat-num-inline-input {
+  width: 100% !important;
+  height: 22px !important;
+  min-height: 22px !important;
+  padding: 0 !important;
+  margin: 1px 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-bottom: 1px dashed rgba(102, 60, 50, 0.3) !important;
+  border-radius: 0 !important;
+  font-family: var(--book-font-heading, 'Cinzel', serif) !important;
+  font-size: 0.95rem !important;
+  font-weight: 800 !important;
+  color: var(--book-ink-primary, #34251a) !important;
+  text-align: center !important;
+  box-shadow: none !important;
+  -moz-appearance: textfield !important;
+}
+
+.book-manuscript .book-page-sheet .stat-num-inline-input::-webkit-outer-spin-button,
+.book-manuscript .book-page-sheet .stat-num-inline-input::-webkit-inner-spin-button {
+  -webkit-appearance: none !important;
+  margin: 0 !important;
+}
+
+.book-manuscript .stat-tile .stat-mod {
+  font-family: var(--book-font-body, 'EB Garamond', Georgia, serif) !important;
+  font-size: 0.78rem !important;
+  font-weight: 700 !important;
+  color: var(--book-ink-secondary, #68533e) !important;
+  background: rgba(182, 160, 128, 0.22) !important;
+  padding: 0 5px !important;
+  border-radius: 2px !important;
+  cursor: pointer !important;
+}
+
+/* Statblock Traits & Actions Inline Rows */
+.book-manuscript .statblock-section {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 6px !important;
+}
+
+.book-manuscript .statblock-section-heading {
+  margin: 4px 0 2px !important;
+  padding-bottom: 2px !important;
+  border-bottom: 1.5px solid var(--book-burgundy, #663c32) !important;
+  font-family: var(--book-font-heading, 'Cinzel', serif) !important;
+  font-size: 0.82rem !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.05em !important;
+  text-transform: uppercase !important;
+  color: var(--book-burgundy, #663c32) !important;
+}
+
+.book-manuscript .statblock-inline-entry-row {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 2px !important;
+  padding: 4px 6px !important;
+  background: rgba(250, 246, 237, 0.5) !important;
+  border: 1px solid rgba(182, 160, 128, 0.45) !important;
+  border-left: 2.5px solid var(--book-burgundy, #663c32) !important;
+  border-radius: 2px !important;
+}
+
+.book-manuscript .statblock-inline-entry-head {
+  display: flex !important;
+  align-items: center !important;
+  gap: 5px !important;
+  width: 100% !important;
+}
+
+.book-manuscript .book-page-sheet .trait-name-inline-input {
+  flex: 1 1 auto !important;
+  width: auto !important;
+  min-width: 90px !important;
+  height: 22px !important;
+  min-height: 22px !important;
+  padding: 0 3px !important;
+  margin: 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-bottom: 1px dashed rgba(102, 60, 50, 0.35) !important;
+  border-radius: 0 !important;
+  font-family: var(--book-font-heading, 'Cinzel', serif) !important;
+  font-size: 0.82rem !important;
+  font-weight: 800 !important;
+  color: var(--book-burgundy, #663c32) !important;
+  box-shadow: none !important;
+}
+
+.book-manuscript .inline-dot {
+  color: var(--book-burgundy, #663c32) !important;
+  font-weight: 800 !important;
+}
+
+.book-manuscript .book-page-sheet .trait-desc-inline-input {
+  width: 100% !important;
+  min-height: 1.5em !important;
+  padding: 2px 3px !important;
+  margin: 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  font-family: var(--book-font-body, 'EB Garamond', Georgia, serif) !important;
+  font-size: 0.95rem !important;
+  line-height: 1.42 !important;
+  color: var(--book-ink-primary, #34251a) !important;
+  resize: none !important;
+  overflow: hidden !important;
+  box-shadow: none !important;
+}
+
+.book-manuscript .book-page-sheet .trait-desc-inline-input:focus {
+  background: rgba(255, 252, 245, 0.7) !important;
+  outline: 1px dashed var(--book-border, #b6a080) !important;
+}
+
+.book-manuscript :is(.statblock-inline-del-btn, .member-delete-btn, .beat-remove-btn, .remove-obj-btn, .remove-loc-chip-btn) {
+  width: 20px !important;
+  min-width: 20px !important;
+  height: 20px !important;
+  min-height: 20px !important;
+  padding: 0 !important;
+  margin-left: auto !important;
+  background: transparent !important;
+  border: 1px solid transparent !important;
+  border-radius: 3px !important;
+  color: var(--book-ink-secondary, #68533e) !important;
+  font-size: 0.88rem !important;
+  line-height: 1 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+  opacity: 0.65 !important;
+  transition: all 0.14s ease !important;
+}
+
+.book-manuscript :is(.statblock-inline-del-btn, .member-delete-btn, .beat-remove-btn, .remove-obj-btn, .remove-loc-chip-btn):hover {
+  opacity: 1 !important;
+  background: #8b3f34 !important;
+  border-color: #663c32 !important;
+  color: #fdfaf2 !important;
+}
+
+.book-manuscript .statblock-action-roll-chip {
+  width: 22px !important;
+  min-width: 22px !important;
+  height: 22px !important;
+  min-height: 22px !important;
+  padding: 0 !important;
+  margin-right: 4px !important;
+  background: var(--book-bg-sheet, #faf6ed) !important;
+  border: 1px solid var(--book-border, #b6a080) !important;
+  border-radius: 3px !important;
+  color: var(--book-burgundy, #663c32) !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 0.72rem !important;
+  cursor: pointer !important;
+  flex-shrink: 0 !important;
+  transition: all 0.14s ease !important;
+}
+
+.book-manuscript .statblock-action-roll-chip:hover {
+  background: var(--archive-seal, #663c32) !important;
+  color: var(--archive-paper, #f7f2e7) !important;
+  border-color: #956b5b !important;
+}
+
+.book-manuscript .statblock-read-action-line {
+  display: flex !important;
+  align-items: baseline !important;
+  flex-wrap: wrap !important;
+  gap: 4px !important;
+  line-height: 1.45 !important;
+}
+
+/* Inline Title Inputs across Lineage, Dynasty, Plot, Location, NPC, Quest, Map, Side-by-Side */
+.book-manuscript .book-page-sheet :is(
+  .lineage-input-title,
+  .dynasty-input-title,
+  .plot-input-title,
+  .loc-input-name,
+  .npc-input-name,
+  .quest-input-title,
+  .map-input-title,
+  .side-text-title-input,
+  .book-sketch-title-input
+) {
+  background: transparent !important;
+  border: 0 !important;
+  border-bottom: 1px dashed rgba(102, 60, 50, 0.35) !important;
+  border-radius: 0 !important;
+  padding: 2px 4px !important;
+  font-family: var(--book-font-heading, 'Cinzel', serif) !important;
+  font-size: 1.05rem !important;
+  font-weight: 800 !important;
+  color: var(--book-burgundy, #663c32) !important;
+  box-shadow: none !important;
+}
+
+.book-manuscript .book-page-sheet :is(
+  .lineage-input-essence,
+  .map-input-subtitle,
+  .book-sketch-caption-input,
+  .loc-input-secrets,
+  .obj-edit-input
+) {
+  background: transparent !important;
+  border: 0 !important;
+  border-bottom: 1px dashed rgba(102, 60, 50, 0.3) !important;
+  border-radius: 0 !important;
+  padding: 2px 4px !important;
+  font-family: var(--book-font-body, 'EB Garamond', Georgia, serif) !important;
+  font-size: 0.94rem !important;
+  color: var(--book-ink-primary, #34251a) !important;
+  box-shadow: none !important;
+}
+
+.book-manuscript .book-page-sheet :is(
+  .lineage-textarea,
+  .plot-textarea,
+  .quest-desc-textarea,
+  .map-input-prose,
+  .side-text-textarea
+) {
+  background: rgba(250, 246, 237, 0.5) !important;
+  border: 1px dashed rgba(182, 160, 128, 0.6) !important;
+  border-radius: 2px !important;
+  padding: 4px 6px !important;
+  font-family: var(--book-font-body, 'EB Garamond', Georgia, serif) !important;
+  font-size: 0.98rem !important;
+  line-height: 1.48 !important;
+  color: var(--book-ink-primary, #34251a) !important;
+  box-shadow: none !important;
+}
+
+/* =========================================================================
+   INTERACTIVE TABLETOP ROLL BANNER & RELIC CLAIMING
+   ========================================================================= */
+.book-manuscript .book-inline-roll-banner {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 10px !important;
+  padding: 7px 12px !important;
+  margin: 8px 0 !important;
+  background: linear-gradient(90deg, rgba(102, 60, 50, 0.12), rgba(232, 226, 212, 0.95)) !important;
+  border: 1px solid var(--book-burgundy, #663c32) !important;
+  border-left: 4px solid var(--book-burgundy, #663c32) !important;
+  border-radius: 3px !important;
+  font-family: var(--book-font-heading, 'Cinzel', serif) !important;
+  font-size: 0.76rem !important;
+  color: var(--book-ink-primary, #34251a) !important;
+  cursor: pointer !important;
+  animation: manuscriptDropdownFadeIn 0.15s ease-out;
+}
+
+.book-manuscript :is(.roll-banner-left, .roll-banner-main) {
+  display: flex !important;
+  align-items: center !important;
+  flex-wrap: wrap !important;
+  gap: 6px !important;
+  line-height: 1.35 !important;
+}
+
+.book-manuscript :is(.roll-banner-left, .roll-banner-main) i {
+  color: var(--book-burgundy, #663c32) !important;
+  font-size: 0.92rem !important;
+}
+
+.book-manuscript :is(.roll-banner-left, .roll-banner-main) span {
+  font-family: var(--book-font-body, 'EB Garamond', Georgia, serif) !important;
+  font-size: 0.92rem !important;
+  font-weight: 600 !important;
+  text-transform: none !important;
+  color: var(--book-ink-primary, #34251a) !important;
+}
+
+.book-manuscript .roll-banner-total {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-width: 28px !important;
+  padding: 2px 8px !important;
+  background: var(--archive-seal, #663c32) !important;
+  color: var(--archive-paper, #f7f2e7) !important;
+  border-radius: 3px !important;
+  font-weight: 800 !important;
+  font-size: 0.86rem !important;
+  flex-shrink: 0 !important;
+}
+
+/* =========================================================================
+   KEYED AREA JUMP PULSE & MAP AREA BADGES
+   ========================================================================= */
+.book-manuscript .poi-pin-area-code {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1px 4px;
+  margin-right: 3px;
+  background: var(--archive-seal, #663c32);
+  color: var(--archive-paper, #f7f2e7);
+  border: 1px solid #d4af37;
+  border-radius: 3px;
+  font-family: var(--book-font-heading, 'Cinzel', serif);
+  font-size: 0.62rem;
+  font-weight: 800;
+}
+
+@keyframes keyedRoomJumpPulse {
+  0% { box-shadow: 0 0 0 0 rgba(102, 60, 50, 0.6); background-color: rgba(102, 60, 50, 0.16); }
+  70% { box-shadow: 0 0 0 10px rgba(102, 60, 50, 0); background-color: rgba(102, 60, 50, 0.06); }
+  100% { box-shadow: 0 0 0 0 rgba(102, 60, 50, 0); background-color: transparent; }
+}
+
+.book-manuscript .keyed-room-jump-pulse {
+  animation: keyedRoomJumpPulse 1.6s ease-out;
+  border-radius: 3px;
+}
+
+/* =========================================================================
+   PAGE DENSITY & OVERFLOW ASSISTANT BAR
+   ========================================================================= */
+.book-manuscript .book-page-overflow-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+  padding: 8px 12px;
+  background: rgba(232, 226, 212, 0.78);
+  border: 1px dashed var(--book-border, #b6a080);
+  border-radius: 3px;
+  font-family: var(--book-font-body, 'EB Garamond', Georgia, serif);
+  font-size: 0.92rem;
+  color: var(--book-ink-secondary, #68533e);
+}
+
+.book-manuscript .overflow-bar-info {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.book-manuscript .overflow-bar-info i {
+  color: var(--book-burgundy, #663c32);
+}
+
+.book-manuscript .overflow-flow-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 11px;
+  background: var(--archive-seal, #663c32);
+  color: var(--archive-paper, #f7f2e7);
+  border: 1px solid #956b5b;
+  border-radius: 3px;
+  font-family: var(--book-font-heading, 'Cinzel', serif);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.book-manuscript .overflow-flow-btn:hover {
+  background: #7c483c;
+}
+
+/* =========================================================================
+   INLINE [[ LORE AUTOCOMPLETE & / SLASH COMMAND POPOVER
+   ========================================================================= */
+.book-inline-autocomplete-popover {
+  width: 300px;
+  max-width: calc(100vw - 24px);
+  background: #faf6ed;
+  border: 1.5px solid #b6a080;
+  border-radius: 4px;
+  box-shadow: 0 12px 28px rgba(40, 26, 14, 0.28);
+  overflow: hidden;
+  font-family: var(--book-font-body, 'EB Garamond', Georgia, serif);
+  color: #34251a;
+}
+
+.book-inline-autocomplete-popover .autocomplete-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 10px;
+  background: #663c32;
+  color: #f7f2e7;
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.book-inline-autocomplete-popover .autocomplete-close {
+  background: transparent;
+  border: none;
+  color: #f7f2e7;
+  cursor: pointer;
+  font-size: 0.78rem;
+}
+
+.book-inline-autocomplete-popover .autocomplete-list {
+  display: flex;
+  flex-direction: column;
+  max-height: 240px;
+  overflow-y: auto;
+  padding: 4px;
+}
+
+.book-inline-autocomplete-popover .autocomplete-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 6px 8px;
+  background: transparent;
+  border: none;
+  border-radius: 3px;
+  text-align: left;
+  color: #34251a;
+  cursor: pointer;
+  transition: background-color 0.12s ease;
+}
+
+.book-inline-autocomplete-popover .autocomplete-option:hover {
+  background: rgba(102, 60, 50, 0.1);
+}
+
+.book-inline-autocomplete-popover .autocomplete-option i {
+  width: 18px;
+  text-align: center;
+  color: #663c32;
+  font-size: 0.82rem;
+}
+
+.book-inline-autocomplete-popover .opt-label {
+  flex: 1;
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: 0.76rem;
+  font-weight: 700;
+}
+
+.book-inline-autocomplete-popover .opt-badge {
+  font-size: 0.66rem;
+  padding: 1px 6px;
+  background: #e8e2d4;
+  border: 1px solid #b6a080;
+  border-radius: 2px;
+  color: #68533e;
+  font-family: 'Cinzel', Georgia, serif;
+}
+
+/* =========================================================================
+   SPELL PICKER STUDIO & CAMPAIGN CHRONICLE COMPILER MODALS
+   ========================================================================= */
+.book-archive .book-compile-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 10px 14px;
+  background: var(--archive-page, #f7f2e7);
+  border: 1px solid var(--archive-rule, #b59d79);
+  border-radius: 3px;
+  color: var(--archive-seal, #663c32);
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.book-archive .book-compile-btn:hover {
+  background: var(--archive-seal, #663c32);
+  color: var(--archive-paper, #f7f2e7);
+  border-color: #956b5b;
+}
+
+.book-creature-picker-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 14, 9, 0.72);
+  backdrop-filter: blur(3px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 9500;
+}
+
+.book-spell-picker-modal,
+.book-campaign-importer-modal {
+  width: 900px;
+  max-width: 95vw;
+  max-height: 88vh;
+  background: #f5efe2;
+  background-image:
+    radial-gradient(ellipse at 20% 0%, rgba(255, 252, 244, 0.7), transparent 65%),
+    linear-gradient(180deg, #faf6ed 0%, #f1e9d8 100%);
+  border: 2px solid #9e8260;
+  border-radius: 6px;
+  box-shadow:
+    0 24px 64px rgba(18, 11, 6, 0.6),
+    inset 0 0 0 1px rgba(255, 250, 240, 0.65);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  color: #34251a;
+  font-family: var(--book-font-body, 'EB Garamond', Georgia, serif);
+}
+
+/* Modal Manuscript Header */
+.book-spell-picker-modal .picker-modal-header,
+.book-campaign-importer-modal .picker-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 20px;
+  background: linear-gradient(180deg, #4f2c24 0%, #3d211b 100%);
+  border-bottom: 2px solid #956b5b;
+  color: #f7f2e7;
+}
+
+.book-spell-picker-modal .picker-header-title-group,
+.book-campaign-importer-modal .picker-header-title-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.book-spell-picker-modal .picker-header-title-group > i,
+.book-campaign-importer-modal .picker-header-title-group > i {
+  width: 36px;
+  height: 36px;
+  border-radius: 4px;
+  background: rgba(247, 242, 231, 0.12);
+  border: 1px solid rgba(212, 175, 55, 0.45);
+  color: #e6c675;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.book-spell-picker-modal .picker-header-title-group h3,
+.book-campaign-importer-modal .picker-header-title-group h3 {
+  margin: 0;
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #f7f2e7;
+}
+
+.book-spell-picker-modal .picker-header-title-group p,
+.book-campaign-importer-modal .picker-header-title-group p {
+  margin: 2px 0 0;
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 0.88rem;
+  font-style: italic;
+  color: rgba(247, 242, 231, 0.82);
+}
+
+.book-spell-picker-modal .picker-header-actions,
+.book-campaign-importer-modal .picker-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.book-spell-picker-modal .launch-wizard-header-btn,
+.book-campaign-importer-modal .launch-wizard-header-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: rgba(247, 242, 231, 0.12);
+  border: 1px solid rgba(212, 175, 55, 0.5);
+  border-radius: 3px;
+  color: #f7f2e7;
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.book-spell-picker-modal .launch-wizard-header-btn:hover,
+.book-campaign-importer-modal .launch-wizard-header-btn:hover {
+  background: rgba(212, 175, 55, 0.25);
+  border-color: #e6c675;
+}
+
+.book-spell-picker-modal .modal-close-x,
+.book-campaign-importer-modal .modal-close-x {
+  width: 30px;
+  height: 30px;
+  border-radius: 3px;
+  background: rgba(247, 242, 231, 0.1);
+  border: 1px solid rgba(247, 242, 231, 0.28);
+  color: #f7f2e7;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.book-spell-picker-modal .modal-close-x:hover,
+.book-campaign-importer-modal .modal-close-x:hover {
+  background: #8b3f34;
+  border-color: #d99b8c;
+  color: #fff;
+}
+
+/* Split Body & Panes */
+.book-spell-picker-modal .picker-modal-split-body,
+.book-campaign-importer-modal .picker-modal-split-body {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 0;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.book-campaign-importer-modal .picker-modal-split-body {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.book-spell-picker-modal .picker-catalog-pane,
+.book-spell-picker-modal .picker-preview-pane {
+  display: flex;
+  flex-direction: column;
+  padding: 16px 18px;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.book-spell-picker-modal .picker-catalog-pane {
+  border-right: 1px solid #c9b799;
+}
+
+.book-spell-picker-modal .picker-filter-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.book-spell-picker-modal .picker-search-input-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 10px;
+  background: #faf6ed;
+  border: 1px solid #b6a080;
+  border-radius: 3px;
+}
+
+.book-spell-picker-modal .picker-search-input-wrap i {
+  color: #68533e;
+  font-size: 0.8rem;
+}
+
+.book-spell-picker-modal .picker-search-input-wrap input {
+  flex: 1;
+  border: none !important;
+  background: transparent !important;
+  outline: none !important;
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 0.96rem;
+  color: #34251a;
+}
+
+.book-spell-picker-modal .picker-filter-select {
+  height: 32px;
+  padding: 0 8px;
+  background: #faf6ed;
+  border: 1px solid #b6a080;
+  border-radius: 3px;
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #4f2c24;
+}
+
+/* Author Fields & Inputs inside Campaign Importer Modal */
+.book-campaign-importer-modal .author-field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.book-campaign-importer-modal .author-field label {
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #5c3329;
+}
+
+.book-campaign-importer-modal .author-field input[type='text'] {
+  width: 100%;
+  box-sizing: border-box;
+  height: 36px;
+  padding: 6px 11px;
+  background: #faf6ed;
+  border: 1px solid #b6a080;
+  border-radius: 3px;
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 1rem;
+  color: #2f2015;
+  box-shadow: inset 0 1px 2px rgba(45, 30, 15, 0.06);
+  transition: border-color 0.14s ease, background-color 0.14s ease;
+}
+
+.book-campaign-importer-modal .author-field input[type='text']:focus {
+  border-color: #663c32;
+  background: #fffdf8;
+  outline: none;
+}
+
+/* Sync Mode Pill Group (Live Sync vs Pinned Snapshot) */
+.book-spell-picker-modal .book-sync-mode-pill-group,
+.book-campaign-importer-modal .book-sync-mode-pill-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.book-spell-picker-modal .sync-pill-btn,
+.book-campaign-importer-modal .sync-pill-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 34px;
+  padding: 0 12px;
+  background: #ede4d3;
+  border: 1px solid #b6a080;
+  border-radius: 3px;
+  color: #5a4230;
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.14s ease;
+}
+
+.book-spell-picker-modal .sync-pill-btn:hover,
+.book-campaign-importer-modal .sync-pill-btn:hover {
+  background: #e2d5be;
+  border-color: #663c32;
+  color: #34251a;
+}
+
+.book-spell-picker-modal .sync-pill-btn.active,
+.book-campaign-importer-modal .sync-pill-btn.active {
+  background: #663c32;
+  border-color: #4f2c24;
+  color: #f7f2e7;
+  box-shadow: 0 2px 5px rgba(80, 35, 25, 0.25);
+}
+
+/* Catalog Rows / Chapter Selection Cards */
+.book-spell-picker-modal .picker-catalog-list,
+.book-campaign-importer-modal .picker-catalog-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.book-spell-picker-modal .picker-catalog-row,
+.book-campaign-importer-modal .picker-catalog-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 14px;
+  background: #faf6ed;
+  border: 1px solid #c4b090;
+  border-left: 3px solid #b6a080;
+  border-radius: 4px;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.14s ease;
+}
+
+.book-spell-picker-modal .picker-catalog-row:hover,
+.book-campaign-importer-modal .picker-catalog-row:hover {
+  background: #f0e7d5;
+  border-color: #8c6a4a;
+  border-left-color: #663c32;
+}
+
+.book-spell-picker-modal .picker-catalog-row.selected,
+.book-campaign-importer-modal .picker-catalog-row.selected {
+  background: #efe5d0;
+  border-color: #663c32;
+  border-left: 4px solid #663c32;
+  box-shadow: 0 2px 6px rgba(60, 36, 22, 0.1);
+}
+
+.book-campaign-importer-modal .picker-catalog-row input[type='checkbox'] {
+  width: 16px;
+  height: 16px;
+  accent-color: #663c32;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.book-spell-picker-modal .creature-fallback-badge,
+.book-campaign-importer-modal .creature-fallback-badge {
+  width: 34px;
+  height: 34px;
+  border-radius: 4px;
+  background: #e6dcc8;
+  border: 1px solid #b6a080;
+  color: #663c32;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+}
+
+.book-spell-picker-modal .picker-catalog-row.selected .creature-fallback-badge,
+.book-campaign-importer-modal .picker-catalog-row.selected .creature-fallback-badge {
+  background: #663c32;
+  border-color: #4f2c24;
+  color: #f7f2e7;
+}
+
+.book-spell-picker-modal .catalog-row-info,
+.book-campaign-importer-modal .catalog-row-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+
+.book-spell-picker-modal .catalog-row-name,
+.book-campaign-importer-modal .catalog-row-name {
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: 0.84rem;
+  font-weight: 800;
+  color: #34251a;
+  letter-spacing: 0.02em;
+}
+
+.book-spell-picker-modal .catalog-row-sub,
+.book-campaign-importer-modal .catalog-row-sub {
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 0.88rem;
+  color: #68533e;
+  line-height: 1.3;
+}
+
+.book-spell-picker-modal .catalog-danger-pill,
+.book-campaign-importer-modal .catalog-danger-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3px 9px;
+  background: #e6dcc8;
+  border: 1px solid #b6a080;
+  border-radius: 999px;
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: #5c3329;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* Primary Compile / Embed Button */
+.book-spell-picker-modal .confirm-select-creature-btn,
+.book-campaign-importer-modal .confirm-select-creature-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 38px;
+  padding: 8px 18px;
+  background: linear-gradient(180deg, #6b382d 0%, #522920 100%);
+  border: 1px solid #8c5244;
+  border-radius: 4px;
+  color: #f7f2e7;
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 3px 8px rgba(60, 24, 16, 0.28);
+  transition: all 0.15s ease;
+}
+
+.book-spell-picker-modal .confirm-select-creature-btn:hover:not(:disabled),
+.book-campaign-importer-modal .confirm-select-creature-btn:hover:not(:disabled) {
+  background: linear-gradient(180deg, #7d4235 0%, #633227 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 5px 12px rgba(60, 24, 16, 0.36);
+}
+
+.book-spell-picker-modal .confirm-select-creature-btn:disabled,
+.book-campaign-importer-modal .confirm-select-creature-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .book-spell-picker-modal .picker-modal-split-body {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* =========================================================================
+   CALM TTRPG MANUSCRIPT HARMONIZATION & SPREAD VIEW REFINEMENT
+   Eliminates white diamond boxes, round red metro badges, neon yellow buttons,
+   stark white card fills, neon purple/green pills, and raw write-mode textareas.
+   ========================================================================= */
+
+/* 1. Keyed Area Headings: No round red circle, no white diamond patch */
+.book-manuscript .book-heading-keyed-area {
+  display: flex !important;
+  align-items: baseline !important;
+  gap: 10px !important;
+  margin: 14px 0 6px !important;
+  padding-bottom: 4px !important;
+  border-bottom: 1.5px solid var(--book-border, #b6a080) !important;
+  position: relative !important;
+}
+
+.book-manuscript .book-heading-keyed-area::after {
+  content: none !important;
+  display: none !important;
+}
+
+.book-manuscript .book-header-rule::after,
+.book-manuscript .book-bracket-flourish::before {
+  box-shadow: none !important;
+  background: var(--book-border, #b6a080) !important;
+}
+
+.book-manuscript .keyed-room-badge {
+  display: inline-flex !important;
+  align-items: baseline !important;
+  justify-content: flex-start !important;
+  background: transparent !important;
+  color: var(--book-burgundy, #663c32) !important;
+  font-family: var(--book-font-heading, 'Cinzel', serif) !important;
+  font-size: 1.15rem !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.04em !important;
+  border: none !important;
+  border-right: 1.5px solid var(--book-border, #b6a080) !important;
+  border-radius: 0 !important;
+  width: auto !important;
+  min-width: 0 !important;
+  height: auto !important;
+  padding: 0 10px 0 0 !important;
+  margin: 0 !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+}
+
+.book-manuscript .keyed-room-badge .keyed-badge-editable {
+  color: var(--book-burgundy, #663c32) !important;
+  text-shadow: none !important;
+}
+
+.book-manuscript .book-heading-keyed-area .book-heading-text {
+  color: var(--book-ink-primary, #34251a) !important;
+  font-family: var(--book-font-heading, 'Cinzel', serif) !important;
+  font-size: 1.15rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.04em !important;
+  line-height: 1.25 !important;
+}
+
+/* 2. Showcase Top Authoring Toolbar & WYSIWYG Prose Field */
+.book-manuscript .showcase-manuscript-toolbar {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  flex-wrap: wrap !important;
+  gap: 6px !important;
+  padding: 0 0 8px 0 !important;
+  margin-bottom: 10px !important;
+  border-bottom: 1px dashed var(--book-border, #b6a080) !important;
+}
+
+.book-manuscript .manuscript-prose-display {
+  font-family: var(--book-font-body, 'EB Garamond', Georgia, serif) !important;
+  font-size: 0.98rem !important;
+  line-height: 1.58 !important;
+  color: var(--book-ink-primary, #34251a) !important;
+  padding: 2px 0 !important;
+}
+
+.book-manuscript .manuscript-prose-display.is-editable {
+  cursor: text !important;
+  border-radius: 2px !important;
+  transition: background-color 0.15s ease !important;
+}
+
+.book-manuscript .manuscript-prose-display.is-editable:hover {
+  background: rgba(139, 90, 26, 0.05) !important;
+}
+
+.book-manuscript .manuscript-prose-display.is-placeholder {
+  color: var(--book-ink-secondary, #68533e) !important;
+  font-style: italic !important;
+  opacity: 0.75 !important;
+}
+
+.book-manuscript .manuscript-inline-prose-textarea,
+.book-manuscript :is(
+  .spell-textarea,
+  .callout-textarea,
+  .loc-input-desc,
+  .npc-input-desc,
+  .item-input-desc,
+  .plot-textarea,
+  .lineage-textarea,
+  .quest-desc-textarea,
+  .map-input-prose,
+  .side-text-textarea
+) {
+  background: var(--book-bg-subpanel) !important;
+  border: none !important;
+  border-bottom: 1px dashed var(--book-border, #b6a080) !important;
+  border-radius: 2px !important;
+  padding: 4px 6px !important;
+  font-family: var(--book-font-body, 'EB Garamond', Georgia, serif) !important;
+  font-size: 0.98rem !important;
+  line-height: 1.58 !important;
+  color: var(--book-ink-primary, #34251a) !important;
+  resize: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+/* 3. Showcase Cards, Statblocks, Tables & Callouts: Theme-Aware Vellum Panels */
+.book-manuscript :is(
+  .book-callout-block,
+  .book-location-showcase-wrapper,
+  .book-npc-dossier-wrapper,
+  .book-quest-hook-wrapper,
+  .book-dynasty-block,
+  .book-plot-thread-block,
+  .book-lineage-showcase-box,
+  .book-quote-block,
+  .book-map-embed-card,
+  .book-statblock-wrapper,
+  .book-creature-statblock,
+  .book-creature-authoring-box,
+  .book-spell-authoring-box,
+  .book-item-card-wrapper,
+  .book-toc-block,
+  .spell-empower-callout
+) {
+  background: var(--book-bg-panel, #e6dfd0) !important;
+  border: 1px solid var(--book-border, #b6a080) !important;
+  border-block: 3px double var(--book-border, #b6a080) !important;
+  border-radius: 2px !important;
+  box-shadow: none !important;
+  color: var(--book-ink-primary, #34251a) !important;
+}
+
+.book-manuscript :is(
+  .map-writing-section,
+  .map-embed-footer,
+  .map-active-loc-card,
+  .quest-desc-section,
+  .npc-personality-bar,
+  .npc-quote,
+  .loc-landmarks-strip,
+  .loc-secrets-box,
+  .lineage-tradeoff-callout,
+  .statblock-manuscript-toolbar,
+  .statblock-vital-pill,
+  .stat-tile,
+  .statblock-inline-entry-row,
+  .side-by-side-toolbar,
+  .side-slot-types-bar,
+  .book-page-overflow-bar
+) {
+  background: var(--book-bg-subpanel) !important;
+  border-color: var(--book-border, #b6a080) !important;
+  color: var(--book-ink-primary, #34251a) !important;
+  box-shadow: none !important;
+}
+
+.book-manuscript :is(
+  .dynasty-member-card,
+  .beat-step-card,
+  .quest-objective-item,
+  .subrace-chip,
+  .mod-pill,
+  .beat-index-marker,
+  .member-portrait-slot
+) {
+  background: var(--book-bg-subpanel) !important;
+  border: 1px solid var(--book-border, #b6a080) !important;
+  border-radius: 2px !important;
+  box-shadow: none !important;
+  color: var(--book-ink-primary, #34251a) !important;
+}
+
+.book-manuscript :is(.dynasty-member-card, .beat-step-card, .quest-objective-item):hover {
+  background: var(--book-bg-sheet) !important;
+  border-color: var(--book-burgundy, #663c32) !important;
+}
+
+/* 4. Universal Text Legibility Across All 5 Themes (Overrides Hardcoded Dark Hex Colors) */
+.book-manuscript :is(
+  .book-doc-title,
+  .book-heading-1,
+  .book-heading-2,
+  .book-heading-3,
+  .book-page-subheading,
+  .book-paragraph strong,
+  .book-paragraph .rich-bold,
+  .statblock-name,
+  .statblock-section-heading,
+  .trait-name,
+  .action-name,
+  .stat-abbr,
+  .resist-lbl,
+  .callout-title,
+  .callout-input-title,
+  .table-title,
+  .table-title-input,
+  .lineage-title,
+  .feature-section-title,
+  .dynasty-title,
+  .plot-title,
+  .beats-heading,
+  .loc-name,
+  .landmarks-lbl,
+  .secrets-header,
+  .npc-name,
+  .quest-title,
+  .objectives-heading,
+  .rewards-lbl,
+  .map-display-title,
+  .active-loc-head,
+  .toc-main-heading,
+  .toc-page-number,
+  .item-card-name,
+  .spell-empower-callout .empower-badge,
+  .spell-empower-callout .empower-badge i,
+  .page-folio-number,
+  .book-footer-page,
+  .running-header-title,
+  .spread-empty-title,
+  .empty-slot-label,
+  .slot-type-lbl,
+  .book-sketch-view-title,
+  .quote-author,
+  .quote-author-dash
+) {
+  color: var(--book-burgundy) !important;
+}
+
+.book-manuscript :is(
+  .book-paragraph,
+  .book-prose-display,
+  .book-prose-edit,
+  .statblock-vitals-strip,
+  .stat-num,
+  .statblock-section,
+  .statblock-trait-item,
+  .statblock-action-item,
+  .trait-desc,
+  .action-desc,
+  .callout-content,
+  .quote-text,
+  .lineage-desc-prose,
+  .lineage-passive-item,
+  .lineage-ability-item,
+  .ability-item-desc,
+  .dynasty-desc-prose,
+  .member-name,
+  .plot-summary-prose,
+  .beat-body strong,
+  .loc-desc-prose,
+  .loc-landmarks-strip,
+  .loc-secrets-box,
+  .secrets-content,
+  .npc-desc-prose,
+  .npc-personality-bar,
+  .quest-desc-prose,
+  .quest-objective-item,
+  .quest-objective-item .obj-text,
+  .map-display-prose,
+  .active-loc-desc,
+  .toc-chapter-line,
+  .toc-ch-title,
+  .item-desc-prose,
+  .spell-empower-callout .empower-text,
+  .side-text-rendered,
+  .manuscript-prose-display,
+  .book-ttrpg-table td,
+  .book-ttrpg-table .td-input
+) {
+  color: var(--book-ink-primary) !important;
+}
+
+.book-manuscript :is(
+  .book-doc-subtitle,
+  .book-chapter-epigraph,
+  .running-header-ch,
+  .running-header-sub,
+  .page-folio-label,
+  .book-page-footer,
+  .statblock-type-line,
+  .statblock-resistances-strip,
+  .stat-mod,
+  .vital-lbl,
+  .lineage-input-essence,
+  .lineage-traits-summary,
+  .member-title,
+  .member-lifespan,
+  .member-role,
+  .plot-theme-line,
+  .beat-body p,
+  .loc-meta-sub,
+  .npc-meta-sub,
+  .npc-role-tag,
+  .npc-quote,
+  .quest-meta-sub,
+  .quest-giver-pill,
+  .quest-no-objectives,
+  .map-display-subtitle,
+  .location-chips-label,
+  .toc-sub-line,
+  .item-meta-sub,
+  .item-card-flavor,
+  .side-slot-caption,
+  .book-image-caption,
+  .book-sketch-view-caption,
+  .spread-empty-desc,
+  .empty-slot-hint
+) {
+  color: var(--book-ink-secondary) !important;
+}
+
+/* 5. Calm Antique Ink Badges & Buttons (Zero #ffd700 Yellow or Neon Purple/Green/Blue) */
+.book-manuscript :is(
+  .lineage-icon-badge,
+  .dynasty-icon-badge,
+  .plot-icon-badge,
+  .loc-icon-badge,
+  .npc-avatar-badge:not(.has-portrait),
+  .quest-icon-badge,
+  .callout-icon-badge
+) {
+  background: transparent !important;
+  border: 1px solid var(--book-border, #b6a080) !important;
+  border-radius: 2px !important;
+  color: var(--book-burgundy, #663c32) !important;
+  box-shadow: none !important;
+}
+
+.book-manuscript :is(
+  .map-explore-btn,
+  .quest-browse-catalog-btn,
+  .book-item-action-btn,
+  .table-roll-btn,
+  .add-facing-page-btn,
+  .lineage-import-btn,
+  .dynasty-import-btn,
+  .plot-import-btn,
+  .loc-import-btn,
+  .npc-import-btn,
+  .dynasty-add-btn,
+  .add-beat-inline-btn,
+  .add-obj-inline-btn
+) {
+  background: var(--book-bg-subpanel) !important;
+  color: var(--book-burgundy, #663c32) !important;
+  border: 1px solid var(--book-border, #b6a080) !important;
+  border-radius: 2px !important;
+  box-shadow: none !important;
+  font-family: var(--book-font-heading, 'Cinzel', serif) !important;
+  font-size: 0.7rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.04em !important;
+  text-transform: uppercase !important;
+  padding: 4px 10px !important;
+}
+
+.book-manuscript :is(
+  .map-explore-btn,
+  .quest-browse-catalog-btn,
+  .book-item-action-btn,
+  .table-roll-btn,
+  .add-facing-page-btn,
+  .lineage-import-btn,
+  .dynasty-import-btn,
+  .plot-import-btn,
+  .loc-import-btn,
+  .npc-import-btn,
+  .dynasty-add-btn,
+  .add-beat-inline-btn,
+  .add-obj-inline-btn
+):hover {
+  background: var(--archive-seal, #663c32) !important;
+  color: var(--archive-paper, #f7f2e7) !important;
+  border-color: var(--archive-seal, #663c32) !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.book-manuscript .map-location-chip-btn {
+  background: var(--book-bg-subpanel) !important;
+  color: var(--book-ink-primary, #34251a) !important;
+  border: 1px solid var(--book-border, #b6a080) !important;
+  border-radius: 2px !important;
+  padding: 4px 10px !important;
+  font-family: var(--book-font-heading, 'Cinzel', serif) !important;
+  font-size: 0.7rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.03em !important;
+  box-shadow: none !important;
+}
+
+.book-manuscript .map-location-chip-btn:hover {
+  background: var(--book-bg-sheet) !important;
+  border-color: var(--book-burgundy, #663c32) !important;
+  color: var(--book-burgundy, #663c32) !important;
+  transform: none !important;
+}
+
+.book-manuscript .map-location-chip-btn.active {
+  background: var(--archive-seal, #663c32) !important;
+  color: var(--archive-paper, #f7f2e7) !important;
+  border-color: var(--archive-seal, #663c32) !important;
+  box-shadow: none !important;
+}
+
+.book-manuscript :is(
+  .ap-badge,
+  .mana-badge,
+  .dynasty-badge,
+  .relations-label,
+  .dynasty-rel-tag,
+  .plot-type-pill,
+  .plot-status-pill,
+  .plot-act-pill,
+  .npc-disp-pill,
+  .npc-role-tag,
+  .npc-faction-pill,
+  .loc-danger-tag,
+  .loc-region-badge,
+  .loc-faction-badge,
+  .quest-difficulty-badge,
+  .quest-level-pill,
+  .quest-status-badge,
+  .quest-reward-chip,
+  .item-value-badge
+) {
+  background: var(--book-bg-subpanel) !important;
+  color: var(--book-ink-primary, #34251a) !important;
+  border: 1px solid var(--book-border, #b6a080) !important;
+  border-radius: 2px !important;
+  box-shadow: none !important;
+}
+
+/* 6. Two-Page Facing Spread & Sidebar Viewport Fit */
+.book-manuscript .book-document-viewport.viewport-spread-mode {
+  display: block !important;
+  padding: 28px 20px 140px !important;
+  overflow-x: auto !important;
+}
+
+.book-manuscript .book-spread-canvas {
+  margin: 0 auto !important;
+  max-width: 1560px !important;
+  background: var(--book-bg-sheet, #f1ece1) !important;
 }

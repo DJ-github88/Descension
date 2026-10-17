@@ -1,0 +1,24 @@
+{
+  "capturedAt": "2026-10-17T18:22:53.439Z",
+  "sourceHashes": {
+    "vtt-react/src/components/spellcrafting-wizard/components/steps/Step5Resources.jsx": "725019cbb44abda8b3a0e33a0003a40690e64d83132a66fd3ab4f29c8c5a3548",
+    "vtt-react/src/components/spellcrafting-wizard/core/mechanics/resourceManager.js": "22e5829454caa24b58fff9495567df9f07deb3c8355bfb538997e297d3fe7163",
+    "vtt-react/src/components/spellcrafting-wizard/data/enhancedEffectSystemData.js": "6a98b87b8fbf7de5dda298f79dfc0365ec763cc818d0fcac6c35932b1c085172",
+    "vtt-react/src/components/spellcrafting-wizard/core/utils/spellSerializer.js": "15de741c2263b8fa664a322630b6bc91ed3b66583011d6168e164d4137eb499c",
+    "vtt-react/src/utils/formatUtils.js": "5d89a84f340a87ae4d7b08f155f3e862087eb1ccbc49202460d7c3ea8248a44a",
+    "vtt-react/node_modules/react/umd/react.development.js": "28348fef6cb0ed8b2ceeb22deaf824428fd13875d84c73d38f77dd216fc24e7f",
+    "vtt-react/node_modules/react-dom/umd/react-dom.development.js": "f9044a5e9c39db8bb1a204dff924e526ec0a621e695bb69de1035811be8709e4"
+  },
+  "mocks": [
+    "state/dispatch context boundary (resource patch only)",
+    "visual-only icons/bootstrap/child components"
+  ],
+  "real": [
+    "React18 UMD",
+    "ReactDOM createRoot",
+    "unmodified Step5Resources component body",
+    "resourceManager",
+    "spellSerializer and real transitive data/format helpers"
+  ],
+  "limits": "No full SpellWizardProvider validation, library persistence, app save flow or backend exercised."
+}

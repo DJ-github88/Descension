@@ -1,0 +1,871 @@
+{
+  "schema": "mythrill.class-review-abilities/r1",
+  "evidenceLabel": "PROPOSED",
+  "classId": "chaos-weaver",
+  "rulesetVersion": "cr-review-r1",
+  "abilities": [
+    {
+      "evidenceLabel": "PROPOSED",
+      "status": "HeadQ-review-R1; not admitted by current app",
+      "contentRole": "class-feature",
+      "talentNode": null,
+      "spell": {
+        "id": "cr1_chaos_weaver_fold_odds",
+        "classId": "chaos-weaver",
+        "rulesetVersion": "cr-review-r1",
+        "name": "Fold the Odds",
+        "description": "Recover up to two exact spent tiles. Recovering gives up an action and never changes a tile’s symbol or creates a seventh possibility.",
+        "level": 1,
+        "specialization": null,
+        "spellType": "ACTION",
+        "icon": "Psychic/Psychic Telepathy",
+        "typeConfig": {
+          "school": "wyrd",
+          "castTimeType": "IMMEDIATE",
+          "tags": [
+            "chaos-weaver",
+            "class-feature"
+          ]
+        },
+        "resourceCost": {
+          "actionPoints": 1,
+          "mana": 0,
+          "resourceTypes": [
+            "actionPoints"
+          ],
+          "resourceValues": {
+            "actionPoints": 1,
+            "mana": 0
+          },
+          "useFormulas": {},
+          "components": [
+            "somatic"
+          ],
+          "somaticText": "Present the class focus and deliberately declare the operation; its exact choices precede resolution."
+        },
+        "targetingConfig": {
+          "targetingType": "self",
+          "rangeType": "self",
+          "rangeDistance": 0,
+          "targetRestrictions": [
+            "self"
+          ],
+          "maxTargets": 1
+        },
+        "effectTypes": [
+          "utility"
+        ],
+        "resolution": "RESOURCE_PROGRAM",
+        "damageConfig": null,
+        "durationConfig": {
+          "durationType": "instant",
+          "durationValue": 0,
+          "durationUnit": "instant"
+        },
+        "cooldownConfig": {
+          "cooldownType": "none",
+          "cooldownValue": 0
+        },
+        "classResourceProgram": {
+          "version": 1,
+          "domain": "chaos-tiles",
+          "op": "tiles.fold",
+          "args": {
+            "spentToAvailableMax": 2,
+            "includeCommitted": false,
+            "includeBound": false,
+            "tileCount": 6
+          }
+        },
+        "reactionTiming": null,
+        "savingThrow": null,
+        "conditions": [],
+        "area": null
+      },
+      "resourceCostSummary": "1 AP;0 class currency.",
+      "resourceGenerationSummary": "Move1–2 chosen spent tiles to available; refuse if none.",
+      "castingInputs": [
+        "one or two distinct spent tile IDs"
+      ],
+      "failureConditions": [
+        "Invalid exact source/target or insufficient AP/resources; refused before commitment with no mutation."
+      ],
+      "effectConfiguration": {
+        "spentToAvailableMax": 2,
+        "includeCommitted": false,
+        "includeBound": false,
+        "tileCount": 6
+      },
+      "checkAndTimingNotes": "Own turn in combat; no reaction or saving throw. Noncombat uses explicit GM-adjudicated activity time and preserves finite contents/uses without inventing turn-refresh loops. Attack/geometry/defense remains GM-adjudicated until its capability exists.",
+      "talentModifications": "Only this explicitly learned signature/its declared opcode variation applies in R1. Later rank modifiers require a new reviewed definition version; never applied twice.",
+      "heritageModifications": "Only the selected proposed bounded native edge and paired cost, after full access/method/body validation. No raw-parent percentage or free resource gain inherited; example arithmetic excludes optional edges.",
+      "runtimeDependencies": [
+        "CR-A1",
+        "CR-R1",
+        "CR-E1",
+        "CR-D2-outcome-bag"
+      ],
+      "verificationRequirements": {
+        "positive": "Available3/spent3 ->available5/spent1 with exact identities conserved.",
+        "refusal": "Malformed choice, wrong domain/actor or missing required state leaves every pool/entity unchanged.",
+        "duplicate": "Same command/event/choice identity returns original result, with no repeated cost, draw, effect or expiry.",
+        "roundTrip": "Both Wizard saves, canonical export/template, reopen and card preserve complete program and explicit zeros."
+      }
+    },
+    {
+      "evidenceLabel": "PROPOSED",
+      "status": "HeadQ-review-R1; not admitted by current app",
+      "contentRole": "class-feature",
+      "talentNode": null,
+      "spell": {
+        "id": "cr1_chaos_weaver_split_possibility",
+        "classId": "chaos-weaver",
+        "rulesetVersion": "cr-review-r1",
+        "name": "Split Possibility",
+        "description": "Commit two differently-symbolled tiles including Fracture, then draw uniformly from that declared set. Resolve its published branch and spend both tiles.",
+        "level": 1,
+        "specialization": null,
+        "spellType": "ACTION",
+        "icon": "Psychic/Psychic Telepathy",
+        "typeConfig": {
+          "school": "wyrd",
+          "castTimeType": "IMMEDIATE",
+          "tags": [
+            "chaos-weaver",
+            "class-feature"
+          ]
+        },
+        "resourceCost": {
+          "actionPoints": 2,
+          "mana": 0,
+          "resourceTypes": [
+            "actionPoints"
+          ],
+          "resourceValues": {
+            "actionPoints": 2,
+            "mana": 0
+          },
+          "useFormulas": {},
+          "components": [
+            "somatic"
+          ],
+          "somaticText": "Present the class focus and deliberately declare the operation; its exact choices precede resolution."
+        },
+        "targetingConfig": {
+          "targetingType": "single",
+          "rangeType": "ranged",
+          "rangeDistance": 30,
+          "targetRestrictions": [
+            "enemy"
+          ],
+          "maxTargets": 1
+        },
+        "effectTypes": [
+          "damage",
+          "utility"
+        ],
+        "resolution": "RESOURCE_PROGRAM",
+        "damageConfig": null,
+        "durationConfig": {
+          "durationType": "instant",
+          "durationValue": 0,
+          "durationUnit": "instant"
+        },
+        "cooldownConfig": {
+          "cooldownType": "none",
+          "cooldownValue": 0
+        },
+        "classResourceProgram": {
+          "version": 1,
+          "domain": "chaos-tiles",
+          "op": "possibility.split",
+          "args": {
+            "commitCount": 2,
+            "requiresSymbols": [
+              "fracture"
+            ],
+            "otherSymbols": [
+              "surge",
+              "shift"
+            ],
+            "distinctSymbols": true,
+            "selection": "uniform-by-tile-id",
+            "spendAllCommitted": true,
+            "branches": {
+              "surge": {
+                "damage": "2d6",
+                "type": "wyrd"
+              },
+              "shift": {
+                "damage": "1d6",
+                "type": "wyrd",
+                "casterOptionalMoveFeet": 5,
+                "usesRemainingMovement": true,
+                "movementEventDerived": false
+              },
+              "fracture": {
+                "damage": "1d6",
+                "type": "wyrd",
+                "casterMovementPenaltyFeet": 5,
+                "minimumRemainingMovement": 0,
+                "penaltyExpires": "start-next-caster-own-turn"
+              }
+            },
+            "attackProfile": "direct-DICE-GM-adjudicated"
+          }
+        },
+        "reactionTiming": null,
+        "savingThrow": null,
+        "conditions": [],
+        "area": null
+      },
+      "resourceCostSummary": "2 AP; two available tiles, one must be Fracture.",
+      "resourceGenerationSummary": "None unless a declared branch or resolved event below grants it.",
+      "castingInputs": [
+        "Fracture tile ID",
+        "one Surge/Shift tile ID",
+        "exact enemy ref",
+        "legal optional move if Shift"
+      ],
+      "failureConditions": [
+        "Invalid exact source/target or insufficient AP/resources; refused before commitment with no mutation."
+      ],
+      "effectConfiguration": {
+        "surge": {
+          "damage": "2d6",
+          "type": "wyrd"
+        },
+        "shift": {
+          "damage": "1d6",
+          "type": "wyrd",
+          "casterOptionalMoveFeet": 5,
+          "usesRemainingMovement": true,
+          "movementEventDerived": false
+        },
+        "fracture": {
+          "damage": "1d6",
+          "type": "wyrd",
+          "casterMovementPenaltyFeet": 5,
+          "minimumRemainingMovement": 0,
+          "penaltyExpires": "start-next-caster-own-turn"
+        }
+      },
+      "checkAndTimingNotes": "Own turn in combat; no reaction or saving throw. Noncombat uses explicit GM-adjudicated activity time and preserves finite contents/uses without inventing turn-refresh loops. Attack/geometry/defense remains GM-adjudicated until its capability exists.",
+      "talentModifications": "Only this explicitly learned signature/its declared opcode variation applies in R1. Later rank modifiers require a new reviewed definition version; never applied twice.",
+      "heritageModifications": "Only the selected proposed bounded native edge and paired cost, after full access/method/body validation. No raw-parent percentage or free resource gain inherited; example arithmetic excludes optional edges.",
+      "runtimeDependencies": [
+        "CR-A1",
+        "CR-R1",
+        "CR-E1",
+        "CR-D2-outcome-bag"
+      ],
+      "verificationRequirements": {
+        "positive": "S1/F1 gives1/2 each; selectedF1 still spendsS1 andF1; no second draw after movement/target changes.",
+        "refusal": "Malformed choice, wrong domain/actor or missing required state leaves every pool/entity unchanged.",
+        "duplicate": "Same command/event/choice identity returns original result, with no repeated cost, draw, effect or expiry.",
+        "roundTrip": "Both Wizard saves, canonical export/template, reopen and card preserve complete program and explicit zeros."
+      }
+    },
+    {
+      "evidenceLabel": "PROPOSED",
+      "status": "HeadQ-review-R1; not admitted by current app",
+      "contentRole": "spell-pick",
+      "talentNode": null,
+      "spell": {
+        "id": "cr1_chaos_weaver_read_instability",
+        "classId": "chaos-weaver",
+        "rulesetVersion": "cr-review-r1",
+        "name": "Read Instability",
+        "description": "Spend one available tile to diagnose one observable local instability: its affected material, rough boundary or stabilizing interface. You do not create hidden facts or receive a future roll.",
+        "level": 2,
+        "specialization": null,
+        "spellType": "ACTION",
+        "icon": "Psychic/Psychic Telepathy",
+        "typeConfig": {
+          "school": "wyrd",
+          "castTimeType": "IMMEDIATE",
+          "tags": [
+            "chaos-weaver",
+            "class-feature"
+          ]
+        },
+        "resourceCost": {
+          "actionPoints": 1,
+          "mana": 0,
+          "resourceTypes": [
+            "actionPoints"
+          ],
+          "resourceValues": {
+            "actionPoints": 1,
+            "mana": 0
+          },
+          "useFormulas": {},
+          "components": [
+            "somatic"
+          ],
+          "somaticText": "Present the class focus and deliberately declare the operation; its exact choices precede resolution."
+        },
+        "targetingConfig": {
+          "targetingType": "single",
+          "rangeType": "ranged",
+          "rangeDistance": 30,
+          "targetRestrictions": [
+            "observable-anomaly"
+          ],
+          "maxTargets": 1
+        },
+        "effectTypes": [
+          "utility"
+        ],
+        "resolution": "RESOURCE_PROGRAM",
+        "damageConfig": null,
+        "durationConfig": {
+          "durationType": "instant",
+          "durationValue": 0,
+          "durationUnit": "instant"
+        },
+        "cooldownConfig": {
+          "cooldownType": "none",
+          "cooldownValue": 0
+        },
+        "classResourceProgram": {
+          "version": 1,
+          "domain": "chaos-tiles",
+          "op": "instability.read",
+          "args": {
+            "tilePrice": 1,
+            "targetRange": 30,
+            "requiresObservableAnomaly": true,
+            "chooseOne": [
+              "material",
+              "local-boundary",
+              "stabilizer"
+            ],
+            "secretOrFutureKnowledge": false
+          }
+        },
+        "reactionTiming": null,
+        "savingThrow": null,
+        "conditions": [],
+        "area": null
+      },
+      "resourceCostSummary": "1 AP; one exact available tile to spent.",
+      "resourceGenerationSummary": "None unless a declared branch or resolved event below grants it.",
+      "castingInputs": [
+        "one tile ID",
+        "observable anomaly/evidence",
+        "one allowed question"
+      ],
+      "failureConditions": [
+        "Invalid exact source/target or insufficient AP/resources; refused before commitment with no mutation."
+      ],
+      "effectConfiguration": {
+        "tilePrice": 1,
+        "targetRange": 30,
+        "requiresObservableAnomaly": true,
+        "chooseOne": [
+          "material",
+          "local-boundary",
+          "stabilizer"
+        ],
+        "secretOrFutureKnowledge": false
+      },
+      "checkAndTimingNotes": "Own turn in combat; no reaction or saving throw. Noncombat uses explicit GM-adjudicated activity time and preserves finite contents/uses without inventing turn-refresh loops. Attack/geometry/defense remains GM-adjudicated until its capability exists.",
+      "talentModifications": "Only this explicitly learned signature/its declared opcode variation applies in R1. Later rank modifiers require a new reviewed definition version; never applied twice.",
+      "heritageModifications": "Only the selected proposed bounded native edge and paired cost, after full access/method/body validation. No raw-parent percentage or free resource gain inherited; example arithmetic excludes optional edges.",
+      "runtimeDependencies": [
+        "CR-A1",
+        "CR-R1",
+        "CR-E1",
+        "CR-D2-outcome-bag"
+      ],
+      "verificationRequirements": {
+        "positive": "Tile moves once to spent; GM answers from actual observable phenomenon; nonexistent anomaly does not fabricate lore.",
+        "refusal": "Malformed choice, wrong domain/actor or missing required state leaves every pool/entity unchanged.",
+        "duplicate": "Same command/event/choice identity returns original result, with no repeated cost, draw, effect or expiry.",
+        "roundTrip": "Both Wizard saves, canonical export/template, reopen and card preserve complete program and explicit zeros."
+      }
+    },
+    {
+      "evidenceLabel": "PROPOSED",
+      "status": "HeadQ-review-R1; not admitted by current app",
+      "contentRole": "talent-signature",
+      "talentNode": {
+        "id": "cr1_chaos_weaver_probability_sculptor_signature",
+        "rank": 1,
+        "maxRanks": 1,
+        "requiresTreePoints": 10,
+        "minimumLevel": 3
+      },
+      "spell": {
+        "id": "cr1_chaos_weaver_bias_draw",
+        "classId": "chaos-weaver",
+        "rulesetVersion": "cr-review-r1",
+        "name": "Bias the Draw",
+        "description": "Commit two Surge tiles and one Fracture tile for a transparent2:1 distribution. All three are spent regardless of which branch is selected.",
+        "level": 3,
+        "specialization": "probability-sculptor",
+        "spellType": "ACTION",
+        "icon": "Psychic/Psychic Telepathy",
+        "typeConfig": {
+          "school": "wyrd",
+          "castTimeType": "IMMEDIATE",
+          "tags": [
+            "chaos-weaver",
+            "class-feature"
+          ]
+        },
+        "resourceCost": {
+          "actionPoints": 2,
+          "mana": 0,
+          "resourceTypes": [
+            "actionPoints"
+          ],
+          "resourceValues": {
+            "actionPoints": 2,
+            "mana": 0
+          },
+          "useFormulas": {},
+          "components": [
+            "somatic"
+          ],
+          "somaticText": "Present the class focus and deliberately declare the operation; its exact choices precede resolution."
+        },
+        "targetingConfig": {
+          "targetingType": "single",
+          "rangeType": "ranged",
+          "rangeDistance": 30,
+          "targetRestrictions": [
+            "enemy"
+          ],
+          "maxTargets": 1
+        },
+        "effectTypes": [
+          "damage"
+        ],
+        "resolution": "RESOURCE_PROGRAM",
+        "damageConfig": null,
+        "durationConfig": {
+          "durationType": "instant",
+          "durationValue": 0,
+          "durationUnit": "instant"
+        },
+        "cooldownConfig": {
+          "cooldownType": "none",
+          "cooldownValue": 0
+        },
+        "classResourceProgram": {
+          "version": 1,
+          "domain": "chaos-tiles",
+          "op": "possibility.bias",
+          "args": {
+            "commitCount": 3,
+            "requiresCounts": {
+              "surge": 2,
+              "fracture": 1
+            },
+            "selection": "uniform-by-tile-id",
+            "spendAllCommitted": true,
+            "branches": {
+              "surge": {
+                "damage": "2d6",
+                "type": "wyrd"
+              },
+              "fracture": {
+                "damage": "1d6",
+                "type": "wyrd",
+                "casterMovementPenaltyFeet": 5,
+                "minimumRemainingMovement": 0,
+                "penaltyExpires": "start-next-caster-own-turn"
+              }
+            },
+            "attackProfile": "direct-DICE-GM-adjudicated"
+          }
+        },
+        "reactionTiming": null,
+        "savingThrow": null,
+        "conditions": [],
+        "area": null
+      },
+      "resourceCostSummary": "2 AP; both Surge tiles and one Fracture.",
+      "resourceGenerationSummary": "None unless a declared branch or resolved event below grants it.",
+      "castingInputs": [
+        "S1,S2 and one Fracture ID",
+        "exact enemy ref"
+      ],
+      "failureConditions": [
+        "Invalid exact source/target or insufficient AP/resources; refused before commitment with no mutation."
+      ],
+      "effectConfiguration": {
+        "surgeProbability": "2/3",
+        "fractureProbability": "1/3",
+        "branches": {
+          "surge": {
+            "damage": "2d6",
+            "type": "wyrd"
+          },
+          "fracture": {
+            "damage": "1d6",
+            "type": "wyrd",
+            "casterMovementPenaltyFeet": 5,
+            "minimumRemainingMovement": 0,
+            "penaltyExpires": "start-next-caster-own-turn"
+          }
+        }
+      },
+      "checkAndTimingNotes": "Own turn in combat; no reaction or saving throw. Noncombat uses explicit GM-adjudicated activity time and preserves finite contents/uses without inventing turn-refresh loops. Attack/geometry/defense remains GM-adjudicated until its capability exists.",
+      "talentModifications": "Only this explicitly learned signature/its declared opcode variation applies in R1. Later rank modifiers require a new reviewed definition version; never applied twice.",
+      "heritageModifications": "Only the selected proposed bounded native edge and paired cost, after full access/method/body validation. No raw-parent percentage or free resource gain inherited; example arithmetic excludes optional edges.",
+      "runtimeDependencies": [
+        "CR-A1",
+        "CR-R1",
+        "CR-E1",
+        "CR-D2-outcome-bag"
+      ],
+      "verificationRequirements": {
+        "positive": "F1 selected fromS1/S2/F1 applies downside and spends all3; no hidden probability changes.",
+        "refusal": "Malformed choice, wrong domain/actor or missing required state leaves every pool/entity unchanged.",
+        "duplicate": "Same command/event/choice identity returns original result, with no repeated cost, draw, effect or expiry.",
+        "roundTrip": "Both Wizard saves, canonical export/template, reopen and card preserve complete program and explicit zeros."
+      }
+    },
+    {
+      "evidenceLabel": "PROPOSED",
+      "status": "HeadQ-review-R1; not admitted by current app",
+      "contentRole": "talent-signature",
+      "talentNode": {
+        "id": "cr1_chaos_weaver_anomaly_binder_signature",
+        "rank": 1,
+        "maxRanks": 1,
+        "requiresTreePoints": 10,
+        "minimumLevel": 3
+      },
+      "spell": {
+        "id": "cr1_chaos_weaver_unsteady_ground",
+        "classId": "chaos-weaver",
+        "rulesetVersion": "cr-review-r1",
+        "name": "Unsteady Ground",
+        "description": "Bind one Shift and one Fracture tile in a visible small anomaly. First original voluntary enemy entry draws once: Shift ends its movement this turn; Fracture slows you5ft through the end of your next own turn.",
+        "level": 3,
+        "specialization": "anomaly-binder",
+        "spellType": "ACTION",
+        "icon": "Psychic/Psychic Telepathy",
+        "typeConfig": {
+          "school": "wyrd",
+          "castTimeType": "IMMEDIATE",
+          "tags": [
+            "chaos-weaver",
+            "class-feature"
+          ]
+        },
+        "resourceCost": {
+          "actionPoints": 2,
+          "mana": 0,
+          "resourceTypes": [
+            "actionPoints"
+          ],
+          "resourceValues": {
+            "actionPoints": 2,
+            "mana": 0
+          },
+          "useFormulas": {},
+          "components": [
+            "somatic"
+          ],
+          "somaticText": "Present the class focus and deliberately declare the operation; its exact choices precede resolution."
+        },
+        "targetingConfig": {
+          "targetingType": "area",
+          "rangeType": "ranged",
+          "rangeDistance": 30,
+          "targetRestrictions": [
+            "visible-legal-point"
+          ],
+          "maxTargets": 1
+        },
+        "effectTypes": [
+          "control"
+        ],
+        "resolution": "RESOURCE_PROGRAM",
+        "damageConfig": null,
+        "durationConfig": {
+          "durationType": "own_turns",
+          "durationValue": 2,
+          "durationUnit": "subsequent_caster_turn_end"
+        },
+        "cooldownConfig": {
+          "cooldownType": "none",
+          "cooldownValue": 0
+        },
+        "classResourceProgram": {
+          "version": 1,
+          "domain": "chaos-tiles",
+          "op": "anomaly.bind",
+          "args": {
+            "boundTiles": {
+              "shift": 1,
+              "fracture": 1
+            },
+            "activeAnomalyMax": 1,
+            "placementRange": 30,
+            "shape": {
+              "kind": "circle",
+              "radiusFeet": 5
+            },
+            "event": "first-enemy-voluntary-entry",
+            "excludeDerivedEvents": true,
+            "selection": "uniform-by-tile-id",
+            "expiry": "end-second-subsequent-caster-turn",
+            "branches": {
+              "shift": {
+                "targetRemainingMovement": 0,
+                "until": "end-current-mover-turn"
+              },
+              "fracture": {
+                "casterMovementPenaltyFeet": 5,
+                "until": "end-next-caster-own-turn"
+              }
+            },
+            "onTriggerExpiryOrDismiss": "bound-to-spent",
+            "dismissAP": 1
+          }
+        },
+        "reactionTiming": null,
+        "savingThrow": null,
+        "conditions": [],
+        "area": {
+          "kind": "circle",
+          "radiusFeet": 5,
+          "membership": "GM-confirmed-voluntary-entry"
+        }
+      },
+      "resourceCostSummary": "2 AP; M/F tiles available ->bound until trigger/expiry/dismissal.",
+      "resourceGenerationSummary": "None unless a declared branch or resolved event below grants it.",
+      "castingInputs": [
+        "one Shift+one Fracture ID",
+        "GM-confirmed legal point"
+      ],
+      "failureConditions": [
+        "Invalid exact source/target or insufficient AP/resources; refused before commitment with no mutation."
+      ],
+      "effectConfiguration": {
+        "boundTiles": {
+          "shift": 1,
+          "fracture": 1
+        },
+        "activeAnomalyMax": 1,
+        "placementRange": 30,
+        "shape": {
+          "kind": "circle",
+          "radiusFeet": 5
+        },
+        "event": "first-enemy-voluntary-entry",
+        "excludeDerivedEvents": true,
+        "selection": "uniform-by-tile-id",
+        "expiry": "end-second-subsequent-caster-turn",
+        "branches": {
+          "shift": {
+            "targetRemainingMovement": 0,
+            "until": "end-current-mover-turn"
+          },
+          "fracture": {
+            "casterMovementPenaltyFeet": 5,
+            "until": "end-next-caster-own-turn"
+          }
+        },
+        "onTriggerExpiryOrDismiss": "bound-to-spent",
+        "dismissAP": 1
+      },
+      "checkAndTimingNotes": "Own turn in combat; no reaction or saving throw. Noncombat uses explicit GM-adjudicated activity time and preserves finite contents/uses without inventing turn-refresh loops. Attack/geometry/defense remains GM-adjudicated until its capability exists.",
+      "talentModifications": "Only this explicitly learned signature/its declared opcode variation applies in R1. Later rank modifiers require a new reviewed definition version; never applied twice.",
+      "heritageModifications": "Only the selected proposed bounded native edge and paired cost, after full access/method/body validation. No raw-parent percentage or free resource gain inherited; example arithmetic excludes optional edges.",
+      "runtimeDependencies": [
+        "CR-A1",
+        "CR-R1",
+        "CR-E1",
+        "CR-D2-outcome-bag",
+        "CR-E2-deferred-consequence",
+        "CR-G1-zone-membership"
+      ],
+      "verificationRequirements": {
+        "positive": "Repeated movement event triggers once; skipped/expired anomaly spends both bound tiles, never returns free tiles.",
+        "refusal": "Malformed choice, wrong domain/actor or missing required state leaves every pool/entity unchanged.",
+        "duplicate": "Same command/event/choice identity returns original result, with no repeated cost, draw, effect or expiry.",
+        "roundTrip": "Both Wizard saves, canonical export/template, reopen and card preserve complete program and explicit zeros."
+      }
+    },
+    {
+      "evidenceLabel": "PROPOSED",
+      "status": "HeadQ-review-R1; not admitted by current app",
+      "contentRole": "talent-signature",
+      "talentNode": {
+        "id": "cr1_chaos_weaver_cascade_weaver_signature",
+        "rank": 1,
+        "maxRanks": 1,
+        "requiresTreePoints": 10,
+        "minimumLevel": 3
+      },
+      "spell": {
+        "id": "cr1_chaos_weaver_second_possibility",
+        "classId": "chaos-weaver",
+        "rulesetVersion": "cr-review-r1",
+        "name": "Second Possibility",
+        "description": "Commit a normal two-tile split. After its recorded branch but before effect commitment, you may spend one additional available Shift tile to move one predeclared willing ally5ft. One follow-up only, never a new draw.",
+        "level": 3,
+        "specialization": "cascade-weaver",
+        "spellType": "ACTION",
+        "icon": "Psychic/Psychic Telepathy",
+        "typeConfig": {
+          "school": "wyrd",
+          "castTimeType": "IMMEDIATE",
+          "tags": [
+            "chaos-weaver",
+            "class-feature"
+          ]
+        },
+        "resourceCost": {
+          "actionPoints": 3,
+          "mana": 0,
+          "resourceTypes": [
+            "actionPoints"
+          ],
+          "resourceValues": {
+            "actionPoints": 3,
+            "mana": 0
+          },
+          "useFormulas": {},
+          "components": [
+            "somatic"
+          ],
+          "somaticText": "Present the class focus and deliberately declare the operation; its exact choices precede resolution."
+        },
+        "targetingConfig": {
+          "targetingType": "multi",
+          "rangeType": "ranged",
+          "rangeDistance": 30,
+          "targetRestrictions": [
+            "enemy",
+            "willing-ally"
+          ],
+          "maxTargets": 2
+        },
+        "effectTypes": [
+          "damage",
+          "utility"
+        ],
+        "resolution": "RESOURCE_PROGRAM",
+        "damageConfig": null,
+        "durationConfig": {
+          "durationType": "instant",
+          "durationValue": 0,
+          "durationUnit": "instant"
+        },
+        "cooldownConfig": {
+          "cooldownType": "none",
+          "cooldownValue": 0
+        },
+        "classResourceProgram": {
+          "version": 1,
+          "domain": "chaos-tiles",
+          "op": "possibility.cascade",
+          "args": {
+            "mainCommit": {
+              "fracture": 1,
+              "otherOneOf": [
+                "surge",
+                "shift"
+              ]
+            },
+            "selection": "uniform-by-tile-id",
+            "branches": {
+              "surge": {
+                "damage": "2d6",
+                "type": "wyrd"
+              },
+              "shift": {
+                "damage": "1d6",
+                "type": "wyrd",
+                "casterOptionalMoveFeet": 5,
+                "usesRemainingMovement": true,
+                "movementEventDerived": false
+              },
+              "fracture": {
+                "damage": "1d6",
+                "type": "wyrd",
+                "casterMovementPenaltyFeet": 5,
+                "minimumRemainingMovement": 0,
+                "penaltyExpires": "start-next-caster-own-turn"
+              }
+            },
+            "followUp": {
+              "max": 1,
+              "afterRecordedPrimary": true,
+              "extraTileSymbol": "shift",
+              "allyDeclaredBeforeRoll": true,
+              "optionalAllyMoveFeet": 5,
+              "usesRemainingMovement": true,
+              "derivedEvent": true,
+              "noNewRandomness": true,
+              "declineSpendsExtraTile": false
+            },
+            "pendingChoicePersists": true,
+            "attackProfile": "direct-DICE-GM-adjudicated"
+          }
+        },
+        "reactionTiming": null,
+        "savingThrow": null,
+        "conditions": [],
+        "area": null
+      },
+      "resourceCostSummary": "3 AP; two main tiles, optional third available Shift spent only if follow-up chosen.",
+      "resourceGenerationSummary": "None unless a declared branch or resolved event below grants it.",
+      "castingInputs": [
+        "main two tile IDs",
+        "enemy exact ref",
+        "willing ally exact ref before draw",
+        "after draw: decline or extra available Shift ID+legal5ft path"
+      ],
+      "failureConditions": [
+        "Invalid exact source/target or insufficient AP/resources; refused before commitment with no mutation."
+      ],
+      "effectConfiguration": {
+        "primary": {
+          "surge": {
+            "damage": "2d6",
+            "type": "wyrd"
+          },
+          "shift": {
+            "damage": "1d6",
+            "type": "wyrd",
+            "casterOptionalMoveFeet": 5,
+            "usesRemainingMovement": true,
+            "movementEventDerived": false
+          },
+          "fracture": {
+            "damage": "1d6",
+            "type": "wyrd",
+            "casterMovementPenaltyFeet": 5,
+            "minimumRemainingMovement": 0,
+            "penaltyExpires": "start-next-caster-own-turn"
+          }
+        },
+        "followUp": "exact consenting ally moves5ft, respecting remaining movement/geometry; no attack/reaction generated by program"
+      },
+      "checkAndTimingNotes": "Own turn in combat; no reaction or saving throw. Noncombat uses explicit GM-adjudicated activity time and preserves finite contents/uses without inventing turn-refresh loops. Attack/geometry/defense remains GM-adjudicated until its capability exists.",
+      "talentModifications": "Only this explicitly learned signature/its declared opcode variation applies in R1. Later rank modifiers require a new reviewed definition version; never applied twice.",
+      "heritageModifications": "Only the selected proposed bounded native edge and paired cost, after full access/method/body validation. No raw-parent percentage or free resource gain inherited; example arithmetic excludes optional edges.",
+      "runtimeDependencies": [
+        "CR-A1",
+        "CR-R1",
+        "CR-E1",
+        "CR-D2-outcome-bag"
+      ],
+      "verificationRequirements": {
+        "positive": "AfterF1 branch keep its penalty; choosing kickerM2 cannot reroll/cancel it; interrupted choice resumes same recorded branch.",
+        "refusal": "Malformed choice, wrong domain/actor or missing required state leaves every pool/entity unchanged.",
+        "duplicate": "Same command/event/choice identity returns original result, with no repeated cost, draw, effect or expiry.",
+        "roundTrip": "Both Wizard saves, canonical export/template, reopen and card preserve complete program and explicit zeros."
+      }
+    }
+  ]
+}

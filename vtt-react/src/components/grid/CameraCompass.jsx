@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import useGameStore from '../../store/gameStore';
+import useLevelEditorStore from '../../store/levelEditorStore';
 import './CameraCompass.css';
 
 const DIRECTION_LABELS = {
@@ -37,6 +38,8 @@ const CameraCompass = () => {
   const setViewRotation = useGameStore(state => state.setViewRotation);
   const setViewTilt = useGameStore(state => state.setViewTilt);
   const setViewMode = useGameStore(state => state.setViewMode);
+  const wallsCollapsed = useLevelEditorStore(state => state.wallsCollapsed ?? false);
+  const setWallsCollapsed = useLevelEditorStore(state => state.setWallsCollapsed);
 
   // While typing, the number field keeps the raw string so partial values
   // ("1", "18") don't get reformatted mid-keystroke.
@@ -212,6 +215,16 @@ const CameraCompass = () => {
               </div>
             </>
           )}
+
+          <button
+            type="button"
+            className={`camera-compass__collapse-btn ${wallsCollapsed ? 'active' : ''}`}
+            onClick={() => setWallsCollapsed(!wallsCollapsed)}
+            title={wallsCollapsed ? 'Restore full wall height' : 'Collapse walls to bottom outline to prevent obstruction'}
+          >
+            <i className={`fas ${wallsCollapsed ? 'fa-expand-alt' : 'fa-compress-alt'}`} />
+            <span>{wallsCollapsed ? 'Walls: Collapsed' : 'Collapse Walls'}</span>
+          </button>
 
           <div className="camera-compass__hint">
             <span className="camera-compass__keys">[ ]</span>

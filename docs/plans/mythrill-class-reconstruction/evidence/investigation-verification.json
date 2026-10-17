@@ -1,0 +1,36 @@
+{
+  "date": "2026-10-17",
+  "applicationChangesAuthorized": false,
+  "masterAssignmentComplete": false,
+  "focusedTests": {
+    "status": "PASS",
+    "suites": 6,
+    "tests": 59,
+    "workingDirectory": "D:/VTT/vtt-react",
+    "command": "$env:CI='true'; npm test -- --watchAll=false --runInBand --no-cache --runTestsByPath src/data/__tests__/classResourceContracts.test.js src/data/__tests__/classResourceBanks.test.js src/data/__tests__/classHeritageRegistry.test.js src/data/__tests__/heritageEdgeContract.test.js src/data/__tests__/heritageEdgeAdapter.test.js src/data/__tests__/heritageCapabilityConsumers.test.js",
+    "limits": "Existing local data/helper suites; Firebase demo mode reported. No frozen build, live backend, all-class effect execution or full integration claim."
+  },
+  "browser": {
+    "url": "http://localhost:3000/?section=rules&category=character-creation&sub=classes&class=Gambit",
+    "observed": [
+      "Rules Classes list shows 21 base traditions",
+      "Gambit overview and Resource System tab reachable",
+      "Accessible preview identifies Fortune 5 of 7 and Debt 3 of 13",
+      "Rendered explanation distinguishes bounded ledger from unresolved collapse effects"
+    ],
+    "observedPageErrors": 0,
+    "consoleWarningsReported": 1,
+    "limits": "Existing running localhost app, not source-frozen production build. Read-only navigation; no character save/resource/spell execution exercised."
+  },
+  "pureSupportCensus": {
+    "supportedOriginalSpells": [
+      "arc_spark_bolt",
+      "martyr_restorative_prayer",
+      "minstrel_opening_chord",
+      "minstrel_harmonic_strike"
+    ],
+    "supportedPaymentDomains": ["elementalSpheres", "devotionGauge", "musicalNotes"],
+    "fixture": "Each base class at level 1, all five canonical attributes 10, actual initializeClassResource output",
+    "limits": "Pure production admission/price/formula evaluation, not command submission. Support does not imply current affordability."
+  }
+}

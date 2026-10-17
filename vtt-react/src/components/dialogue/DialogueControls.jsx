@@ -11,13 +11,13 @@ const DialogueControls = () => {
   const [activeTab, setActiveTab] = useState('message');
   const [message, setMessage] = useState('');
   const [selectedEffect, setSelectedEffect] = useState('normal');
-  const [selectedColor, setSelectedColor] = useState('#ffffff');
+  const [selectedColor, setSelectedColor] = useState('#34251a');
   const [selectedPosition, setSelectedPosition] = useState('bottom');
   const [speed, setSpeed] = useState(50);
   const [selectedCreatureId, setSelectedCreatureId] = useState(null);
   const [selectedSpeaker, setSelectedSpeaker] = useState('character');
   const [selectedBackdropEffect, setSelectedBackdropEffect] = useState('none');
-  const [selectedFont, setSelectedFont] = useState('courier');
+  const [selectedFont, setSelectedFont] = useState('cinzel');
   const [previewText, setPreviewText] = useState('');
   const [isReplaying, setIsReplaying] = useState(false);
 
@@ -46,12 +46,12 @@ const DialogueControls = () => {
   // Load saved settings
   useEffect(() => {
     const settings = getSettings();
-    setSelectedEffect(settings.effect);
-    setSelectedColor(settings.color);
-    setSelectedPosition(settings.position);
-    setSpeed(settings.speed);
+    setSelectedEffect(settings.effect || 'normal');
+    setSelectedColor((!settings.color || settings.color === '#ffffff') ? '#34251a' : settings.color);
+    setSelectedPosition(settings.position || 'bottom');
+    setSpeed(settings.speed || 50);
     setSelectedBackdropEffect(settings.backdropEffect || 'none');
-    setSelectedFont(settings.font || 'courier');
+    setSelectedFont((!settings.font || settings.font === 'courier') ? 'cinzel' : settings.font);
   }, [getSettings]);
 
   // Close controls when clicking outside
@@ -521,19 +521,8 @@ const DialogueControls = () => {
                     <span
                       className={`dialogue-text ${selectedEffect} ${isReplaying ? 'replaying' : ''} dialogue-font-${selectedFont}`}
                       style={{
-                        color: selectedColor || '#ffffff',
-                        /* Enhanced 8-directional black text stroke for 16-bit look */
-                        textShadow: `
-                          -2px -2px 0px #000, -2px -1px 0px #000, -2px 0px 0px #000, -2px 1px 0px #000, -2px 2px 0px #000,
-                          -1px -2px 0px #000, -1px -1px 0px #000, -1px 0px 0px #000, -1px 1px 0px #000, -1px 2px 0px #000,
-                          0px -2px 0px #000, 0px -1px 0px #000, 0px 1px 0px #000, 0px 2px 0px #000,
-                          1px -2px 0px #000, 1px -1px 0px #000, 1px 0px 0px #000, 1px 1px 0px #000, 1px 2px 0px #000,
-                          2px -2px 0px #000, 2px -1px 0px #000, 2px 0px 0px #000, 2px 1px 0px #000, 2px 2px 0px #000
-                        `,
-                        /* 16-bit pixelated rendering */
-                        imageRendering: 'pixelated',
-                        fontSmooth: 'never',
-                        WebkitFontSmoothing: 'none'
+                        color: selectedColor || '#34251a',
+                        textShadow: selectedEffect === 'glow' ? '0 0 6px rgba(156, 109, 29, 0.45)' : 'none'
                       }}
                     >
                       {previewText || message || 'Type a message to see preview...'}
@@ -560,7 +549,7 @@ const DialogueControls = () => {
 
                         // Get display image/icon styling - match exactly how compact-creature-icon displays it
                         let backgroundImage = null;
-                        let borderColor = '#d4af37'; // Default gold border for characters
+                        let borderColor = '#b6a080';
                         let backgroundSize = 'cover';
                         let backgroundPosition = 'center center';
                         let transform = 'none';
@@ -621,7 +610,7 @@ const DialogueControls = () => {
                     <button
                       className="test-btn"
                       onClick={() => {
-                        const testMessage = "Welcome to the {bounce:magical retro} dialogue system! This {glow:amazing feature} has {shake:incredible multi-word} {float:phrase support} just like {pulse:classic RPG} {wave:adventure games}! Now you can use {red:crimson road} and {gold:golden treasures} with multiple words!";
+                        const testMessage = "Welcome to the {bounce:magical codex} dialogue system! This {glow:illuminated parchment} features {shake:tactile manuscript} {float:phrase animations} fit for a {pulse:calm TTRPG} {wave:grand campaign}!";
                         const character = {
                           name: characterName,
                           characterImage: lore?.characterImage,
@@ -631,15 +620,12 @@ const DialogueControls = () => {
                           character,
                           characterName,
                           effect: 'normal',
-                          color: '#ffffff',
+                          color: '#34251a',
+                          font: 'cinzel',
                           position: 'bottom',
                           speed: 40,
                           closeable: true
                         });
-                      }}
-                      style={{
-                        background: 'linear-gradient(135deg, #4a90e2, #357abd)',
-                        border: '2px solid #6ab7ff'
                       }}
                     >
                       <i className="fas fa-vial"></i>

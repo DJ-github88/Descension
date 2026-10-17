@@ -141,7 +141,7 @@ const TEST_WEAPONS = [
     { id: 'ironweep', name: 'Ironweep', type: 'weapon', subtype: 'SWORD', quality: 'poor', weaponSlot: 'ONE_HANDED', slots: ['mainHand', 'offHand'], hand: 'MAIN_HAND', iconId: 'Weapons/Swords/sword-basic-serrated-tan-brown-simple', weaponStats: { baseDamage: { diceCount: 1, diceType: 'd6', damageType: 'slicing', bonusDamage: 0 } }, baseStats: { strength: { value: 1, isPercentage: false }, agility: { value: -1, isPercentage: false } }, durability: 'd8', maxDurability: 'd8', width: 1, height: 2 },
     { id: 'wanderers-edge', name: "Wanderer's Edge", type: 'weapon', subtype: 'SWORD', quality: 'common', weaponSlot: 'ONE_HANDED', slots: ['mainHand', 'offHand'], hand: 'MAIN_HAND', iconId: 'Weapons/Swords/sword-basic-straight-tan-blade-brown-hilt', weaponStats: { baseDamage: { diceCount: 1, diceType: 'd6', damageType: 'slicing', bonusDamage: 1 } }, baseStats: { agility: { value: 1, isPercentage: false } }, durability: 'd10', maxDurability: 'd10', width: 1, height: 2 },
     { id: 'soulthirst', name: 'Soulthirst', type: 'weapon', subtype: 'DAGGER', quality: 'common', weaponSlot: 'ONE_HANDED', slots: ['mainHand', 'offHand'], hand: 'MAIN_HAND', iconId: 'Weapons/Throwing Knife/throwing-knife-dagger-beige-blade-brown-handle-wrapped', weaponStats: { baseDamage: { diceCount: 1, diceType: 'd4', damageType: 'stabbing', bonusDamage: 2 } }, baseStats: { agility: { value: 2, isPercentage: false }, strength: { value: -1, isPercentage: false } }, durability: 'd6', maxDurability: 'd6', width: 1, height: 1 },
-    { id: 'griefwood-staff', name: 'Griefwood Staff', type: 'weapon', subtype: 'STAFF', quality: 'common', weaponSlot: 'TWO_HANDED', slots: ['mainHand'], hand: 'MAIN_HAND', iconId: 'Weapons/Staves/staff-basic-gnarled-dark-brown', weaponStats: { baseDamage: { diceCount: 1, diceType: 'd6', damageType: 'arcane', bonusDamage: 1 } }, baseStats: { spirit: { value: 2, isPercentage: false }, intelligence: { value: 1, isPercentage: false } }, durability: 'd8', maxDurability: 'd8', width: 1, height: 3 },
+    { id: 'griefwood-staff', name: 'Griefwood Staff', type: 'weapon', subtype: 'STAFF', quality: 'common', weaponSlot: 'TWO_HANDED', slots: ['mainHand'], hand: 'MAIN_HAND', iconId: 'Weapons/Staff/staff-wooden-curved-head-bone-tip-red-orange-details', weaponStats: { baseDamage: { diceCount: 1, diceType: 'd6', damageType: 'arcane', bonusDamage: 1 } }, baseStats: { spirit: { value: 2, isPercentage: false }, intelligence: { value: 1, isPercentage: false } }, durability: 'd8', maxDurability: 'd8', width: 1, height: 3 },
 ];
 
 const TEST_ARMOR = [
@@ -923,6 +923,8 @@ export const createCoreSlice = (set, get) => ({
                     ...(character.stats || {}),
                     level: character.level || 1
                 }) : null), character.class),
+                // P12B owner-device custody lineage travels with this character only.
+                roomEquipmentCustody: character.roomEquipmentCustody || null,
                 // Ensure inventory is preserved in character state
                 inventory: character.inventory || {
                     items: [],

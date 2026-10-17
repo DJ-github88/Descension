@@ -4082,7 +4082,7 @@ You manipulate probability through a dual currency:
       level: 1,
       spellType: "PASSIVE",
       icon: "Arcane/Magical Cross Emblem 2",
-      effectTypes: ["passive"],
+      effectTypes: ["passive","debuff"],
       typeConfig: {
         school: "blight",
         icon: "Arcane/Magical Cross Emblem 2",
@@ -4092,7 +4092,21 @@ You manipulate probability through a dual currency:
       },
       targetingConfig: { targetingType: "self", rangeType: "self" },
       resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0 },
-      resolution: "AUTOMATIC",
+      debuffConfig: {
+        debuffType: "statusEffect",
+        effects: [
+          {
+            id: "deck_exhaustion_drain",
+            name: "Probability Drain",
+            description: "When deck runs dry and reshuffles",
+            mechanicsText: "Take 2d6 wyrd damage and cannot call cards or manipulate rolls for that turn."
+          }
+        ],
+        durationValue: 1,
+        durationType: "rounds",
+        durationUnit: "rounds"
+      },
+  resolution: "AUTOMATIC",
       tags: ["passive", "weakness"]
     },
 

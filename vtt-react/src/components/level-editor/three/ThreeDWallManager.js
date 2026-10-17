@@ -5,6 +5,7 @@ import {
   parseWallKey,
   getWallWorldEndpoints,
   getWallBodyHeightWorld,
+  getWallCollapsedHeightWorld,
   WALL_HEIGHT_MULTIPLIERS
 } from '../../../utils/WallGeometry';
 import { getGridSystem } from '../../../utils/InfiniteGridSystem';
@@ -773,7 +774,7 @@ export class ThreeDWallManager {
     return null;
   }
 
-  updateWalls(wallData = {}, elevationData = {}, gridState = {}, fogState = {}) {
+  updateWalls(wallData = {}, elevationData = {}, gridState = {}, fogState = {}, wallsCollapsed = false) {
     const { gridSize = 50, gridOffsetX = 0, gridOffsetY = 0 } = gridState;
     const {
       fogOfWarEnabled = false,
@@ -789,6 +790,10 @@ export class ThreeDWallManager {
     // can skip the (very expensive) full shadow-map re-render on visibility
     // recalculations that did not change any wall's appearance.
     let stateChanged = false;
+    if (this.lastWallsCollapsed !== wallsCollapsed) {
+      this.lastWallsCollapsed = wallsCollapsed;
+      stateChanged = true;
+    }
 
     let gridSystem = null;
     try {
@@ -827,7 +832,9 @@ export class ThreeDWallManager {
       const isDoor = this.isDoorWall(wall);
       const appearance = isDoor ? null : this.resolveWallAppearance(wall);
       const typeData = WALL_TYPES[wall && typeof wall === 'object' ? wall.type : wall] || {};
-      const heightWorld = getWallBodyHeightWorld(wall, gridSize, typeData);
+      const heightWorld = wallsCollapsed
+        ? getWallCollapsedHeightWorld(gridSize)
+        : getWallBodyHeightWorld(wall, gridSize, typeData);
       wallRecords.push({ key, wall, parsed, ends, isDoor, appearance, heightWorld });
 
       // Junction analysis includes doors: their doorway model occupies the tile,
@@ -1040,9 +1047,11 @@ export class ThreeDWallManager {
 
       // Low runs (half-wall parapets) should not tower over themselves at
       // their end caps/corners; mixed-height joins keep the full body height.
-      const heightWorld = Number.isFinite(vertex.heightWorld)
-        ? vertex.heightWorld
-        : WALL_HEIGHT_MULTIPLIERS.wall * gridSize;
+      const heightWorld = wallsCollapsed
+        ? getWallCollapsedHeightWorld(gridSize)
+        : (Number.isFinite(vertex.heightWorld)
+            ? vertex.heightWorld
+            : WALL_HEIGHT_MULTIPLIERS.wall * gridSize);
       entry.group.position.set(
         vertex.x,
         -vertex.y,

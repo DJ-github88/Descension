@@ -58,7 +58,7 @@ describe('getItemThematicExcerpt', () => {
         armorBonus: 3
       }
     };
-    expect(getItemThematicExcerpt(item)).toBe('Leather · +3 AC');
+    expect(getItemThematicExcerpt(item)).toBe('Leather');
   });
 
   test('strips HTML tags from descriptions', () => {

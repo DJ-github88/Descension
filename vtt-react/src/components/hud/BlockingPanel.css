@@ -1,0 +1,6 @@
+.p12b-chip { display: block; margin-top: 4px; text-align: left; }
+.p12b-panel { position: relative; max-width: 420px; max-height: 70vh; overflow: auto; }
+.p12b-editor ol { margin: 4px 0; padding-left: 18px; }
+.p12b-editor li button, .p12b-editor > button { margin-left: 4px; }
+.p12b-conflicts article { border-top: 1px solid rgba(0, 0, 0, 0.15); padding-top: 4px; }
+.p12b-offer label, .p12b-gm label { display: block; margin: 2px 0; }

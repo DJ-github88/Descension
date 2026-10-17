@@ -165,7 +165,8 @@ describe('useCombatStore: Combat Math & State transitions', () => {
             expect(notifications[1].creature).toBe('Goblin');
         });
 
-        it('assigns initial Action Points based on initiative brackets', () => {
+        it('assigns initial Action Points based on initiative brackets (optional initiative variant)', () => {
+            useCombatStore.setState({ combatConfig: { ...useCombatStore.getState().combatConfig, apRestorationMode: 'initiative' } });
             const tokens = [{ id: 'token-player', isPlayerToken: true }];
             const creatures = [];
 
@@ -191,6 +192,30 @@ describe('useCombatStore: Combat Math & State transitions', () => {
 
             // Bracket 21+: 4 AP (d20 roll of 20 + modifier 2 = 22)
             runAPTest(0.99, 4);
+        });
+
+        it('first-table default (P10): refills to maximum and keeps the opening initiative', () => {
+            let freshMode;
+            jest.isolateModules(() => { freshMode = require('../combatStore').default.getState().combatConfig.apRestorationMode; });
+            expect(freshMode).toBe('max');
+            useCombatStore.setState({ combatConfig: { ...useCombatStore.getState().combatConfig, apRestorationMode: 'max' } });
+            const tokens = [
+                { id: 'token-player', isPlayerToken: true },
+                { id: 'token-goblin', creatureId: 'creature-goblin' }
+            ];
+            const creatures = [{ id: 'creature-goblin', name: 'Goblin', stats: { agility: 12, speed: 30, initiativeMod: 2, maxActionPoints: 2 } }];
+            useCombatStore.getState().startCombat(tokens, creatures);
+            const opening = useCombatStore.getState().turnOrder.map(c => [c.tokenId, c.initiative, c.currentActionPoints]);
+            expect(opening).toEqual([['token-player', expect.any(Number), 3], ['token-goblin', expect.any(Number), 2]]);
+            useCombatStore.getState().spendActionPoints('token-player', 2);
+            useCombatStore.getState().nextTurn();
+            jest.runAllTimers();
+            useCombatStore.getState().nextTurn();
+            jest.runAllTimers();
+            const after = useCombatStore.getState().turnOrder;
+            expect(after.map(c => c.initiative)).toEqual(opening.map(o => o[1]));
+            expect(after[0].currentActionPoints).toBe(3);
+            useCombatStore.setState({ combatConfig: { ...useCombatStore.getState().combatConfig, apRestorationMode: 'initiative' } });
         });
     });
 

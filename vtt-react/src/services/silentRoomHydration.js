@@ -11,6 +11,7 @@ import useCreatureStore from '../store/creatureStore';
 import useCharacterTokenStore from '../store/characterTokenStore';
 import useGridItemStore from '../store/gridItemStore';
 import useCombatStore from '../store/combatStore';
+import { DEFAULT_AP_RESTORATION_MODE } from '../data/firstTableRules';
 import useLevelEditorStore from '../store/levelEditorStore';
 import useGameStore from '../store/gameStore';
 import useConditionStore from '../store/conditionStore';
@@ -275,7 +276,7 @@ const applyGridAndBackgrounds = (map, global, options = {}) => {
 
 const DEFAULT_COMBAT_CONFIG = {
   showTimers: true,
-  apRestorationMode: 'initiative',
+  apRestorationMode: DEFAULT_AP_RESTORATION_MODE,
   apRestorationAmount: 3,
   healthRegenEnabled: false,
   manaRegenEnabled: false

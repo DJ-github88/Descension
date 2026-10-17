@@ -1,7 +1,7 @@
 import { useState, useLayoutEffect, useEffect, useRef, useCallback } from 'react';
 
 export const useTooltipPosition = (position, isVisible, options = {}) => {
-  const { offsetX = 16, offsetY = null, estimateHeight = 300, estimateWidth = 300 } = options;
+  const { offsetX = 16, offsetY = null, estimateHeight = 380, estimateWidth = 360, anchor = 'auto' } = options;
   const [adjustedPosition, setAdjustedPosition] = useState({ x: 0, y: 0 });
   const tooltipRef = useRef(null);
 
@@ -35,20 +35,26 @@ export const useTooltipPosition = (position, isVisible, options = {}) => {
     }
 
     // Vertical placement:
-    // If offsetY is explicitly specified, use it; otherwise elevate the tooltip
-    // relative to the mouse so it never trails off the bottom of the screen.
+    // If offsetY is explicitly specified, use it.
+    // If anchor === 'above', position strictly above the anchor.
+    // If anchor === 'below', position strictly below.
+    // In 'auto' mode, default to downward/adjacent, flipping above only when
+    // downward placement would overflow the viewport and there is more room above.
     let targetY;
     if (offsetY !== null && offsetY !== undefined) {
       targetY = position.y + offsetY;
-    } else {
-      const isLowerScreen = position.y > (viewportHeight * 0.45);
-      if (isLowerScreen) {
-        // Position upward from cursor so bottom is near cursor level
-        targetY = position.y - (tooltipHeight * 0.75);
-      } else {
-        // In upper screen, keep slightly elevated near cursor
-        targetY = position.y - Math.min(40, tooltipHeight * 0.25);
+    } else if (anchor === 'above') {
+      targetY = position.y - tooltipHeight - 12;
+      if (targetY < paddingY) {
+        targetY = paddingY;
       }
+    } else if (anchor === 'below') {
+      targetY = position.y + 12;
+    } else {
+      // In 'auto' mode: for cursor/pointer tooltips that are horizontally adjacent,
+      // default adjacent to the cursor and clamp within viewport bounds so the tooltip
+      // stays immediately beside the cursor and never catapults hundreds of pixels away.
+      targetY = position.y + 12;
     }
 
     // Clamp within viewport boundaries with safety padding
@@ -56,7 +62,7 @@ export const useTooltipPosition = (position, isVisible, options = {}) => {
     const y = Math.max(paddingY, Math.min(targetY, maxY));
 
     setAdjustedPosition({ x, y });
-  }, [position, isVisible, offsetX, offsetY, estimateHeight, estimateWidth]);
+  }, [position, isVisible, offsetX, offsetY, estimateHeight, estimateWidth, anchor]);
 
   const useEffectHooks = typeof window !== 'undefined' ? useLayoutEffect : useEffect;
 
@@ -72,14 +78,26 @@ export const useTooltipPosition = (position, isVisible, options = {}) => {
 
     const rafId = requestAnimationFrame(() => {
       calculatePosition();
+      if (observer && tooltipRef.current) {
+        observer.observe(tooltipRef.current);
+      }
     });
 
+    const timerId = setTimeout(() => {
+      calculatePosition();
+      if (observer && tooltipRef.current) {
+        observer.observe(tooltipRef.current);
+      }
+    }, 50);
+
     let observer = null;
-    if (typeof ResizeObserver !== 'undefined' && tooltipRef.current) {
+    if (typeof ResizeObserver !== 'undefined') {
       observer = new ResizeObserver(() => {
         calculatePosition();
       });
-      observer.observe(tooltipRef.current);
+      if (tooltipRef.current) {
+        observer.observe(tooltipRef.current);
+      }
     }
 
     const handleWinChange = () => calculatePosition();
@@ -88,6 +106,7 @@ export const useTooltipPosition = (position, isVisible, options = {}) => {
 
     return () => {
       cancelAnimationFrame(rafId);
+      clearTimeout(timerId);
       if (observer) observer.disconnect();
       window.removeEventListener('resize', handleWinChange);
       window.removeEventListener('scroll', handleWinChange);

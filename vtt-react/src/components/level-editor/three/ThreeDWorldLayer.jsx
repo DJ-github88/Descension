@@ -58,6 +58,7 @@ export const ThreeDWorldLayer = ({ width, height }) => {
   const rampData = useLevelEditorStore(state => state.rampData || {});
   const terrain3DEnabled = useLevelEditorStore(state => state.terrain3DEnabled);
   const walls3DEnabled = useLevelEditorStore(state => state.walls3DEnabled ?? true);
+  const wallsCollapsed = useLevelEditorStore(state => state.wallsCollapsed ?? false);
   const selectedTool = useLevelEditorStore(state => state.selectedTool);
   const toolSettings = useLevelEditorStore(state => state.toolSettings || {});
   const isGMMode = useGameStore(state => state.isGMMode);
@@ -362,11 +363,11 @@ export const ThreeDWorldLayer = ({ width, height }) => {
         };
 
         propManagerRef.current.updateObjects(objs, gridState, fogState, wData, les.elevationData || {}, les.rampData || {});
-        propManagerRef.current.updateWallDoors(wData, gridState, fogState, les.elevationData || {});
+        propManagerRef.current.updateWallDoors(wData, gridState, fogState, les.elevationData || {}, les.wallsCollapsed);
         propManagerRef.current.updateLightProps(les.lightSources || {}, gridState, fogState, les.elevationData || {}, les.rampData || {});
 
         if (wallManagerRef.current && les.walls3DEnabled !== false) {
-          wallManagerRef.current.updateWalls(wData, les.elevationData || {}, gridState, fogState);
+          wallManagerRef.current.updateWalls(wData, les.elevationData || {}, gridState, fogState, les.wallsCollapsed);
         }
 
         // A prop that was still loading when it got selected was drawn with the
@@ -597,6 +598,7 @@ export const ThreeDWorldLayer = ({ width, height }) => {
       walls: wallData,
       elevation: elevationData,
       walls3DEnabled,
+      wallsCollapsed,
       gridSize,
       gridOffsetX,
       gridOffsetY
@@ -606,6 +608,7 @@ export const ThreeDWorldLayer = ({ width, height }) => {
       || previous.walls !== structural.walls
       || previous.elevation !== structural.elevation
       || previous.walls3DEnabled !== structural.walls3DEnabled
+      || previous.wallsCollapsed !== structural.wallsCollapsed
       || previous.gridSize !== structural.gridSize
       || previous.gridOffsetX !== structural.gridOffsetX
       || previous.gridOffsetY !== structural.gridOffsetY;
@@ -630,19 +633,19 @@ export const ThreeDWorldLayer = ({ width, height }) => {
     let wallPropsChanged = false;
 
     if (propManagerRef.current) {
-      doorsChanged = !!propManagerRef.current.updateWallDoors(wallData, gridState, fogState, elevationData);
+      doorsChanged = !!propManagerRef.current.updateWallDoors(wallData, gridState, fogState, elevationData, wallsCollapsed);
       // Wall-attached fixtures (torches, banners) derive their height from the
       // wall run they are mounted on, so wall edits must refresh them too.
       wallPropsChanged = !!propManagerRef.current.updateObjects(environmentalObjects, gridState, fogState, wallData, elevationData, rampData);
     }
     if (walls3DEnabled && wallManagerRef.current) {
-      fogChanged = !!wallManagerRef.current.updateWalls(wallData, elevationData, gridState, fogState);
+      fogChanged = !!wallManagerRef.current.updateWalls(wallData, elevationData, gridState, fogState, wallsCollapsed);
     } else if (wallManagerRef.current) {
       wallManagerRef.current.updateWalls({}, {}, {}, {});
     }
 
     if (!walls3DEnabled && wallOccluderManagerRef.current) {
-      wallOccluderManagerRef.current.updateWalls(wallData, elevationData, gridState);
+      wallOccluderManagerRef.current.updateWalls(wallData, elevationData, gridState, wallsCollapsed);
     } else if (wallOccluderManagerRef.current) {
       wallOccluderManagerRef.current.updateWalls({}, {}, {});
     }
@@ -655,6 +658,7 @@ export const ThreeDWorldLayer = ({ width, height }) => {
     elevationData,
     rampData,
     walls3DEnabled,
+    wallsCollapsed,
     environmentalObjects,
     gridSize,
     gridOffsetX,

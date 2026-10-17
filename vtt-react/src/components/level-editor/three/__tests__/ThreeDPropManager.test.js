@@ -272,6 +272,18 @@ describe('ThreeDPropManager wall door seating', () => {
     expect(entry.innerModel.position.x).toBeCloseTo(0);
     expect(entry.innerModel.position.y).toBeCloseTo(0);
   });
+
+  it('collapses door height to floor threshold when wallsCollapsed is active', () => {
+    // Normal door height is 1.8 * 50 = 90
+    manager.updateWallDoors({ '5,5,6,5': { type: 'stone_door', state: 'closed' } }, GRID, {}, {}, false);
+    const normalEntry = manager.wallDoorInstances.get('5,5,6,5');
+    expect(normalEntry.innerModel.scale.y).toBeCloseTo((1.8 * 50) / 4);
+
+    // Collapsed door height is 50 * 0.08 = 4
+    manager.updateWallDoors({ '5,5,6,5': { type: 'stone_door', state: 'closed' } }, GRID, {}, {}, true);
+    const collapsedEntry = manager.wallDoorInstances.get('5,5,6,5');
+    expect(collapsedEntry.innerModel.scale.y).toBeCloseTo(4 / 4);
+  });
 });
 
 describe('ThreeDPropManager world bounds', () => {

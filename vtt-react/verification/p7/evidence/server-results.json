@@ -4,31 +4,31 @@
       "success": true,
       "receipt": {
         "version": 1,
-        "roomId": "e3308040-7f5f-4fed-a71f-171806b69260",
-        "commandId": "2c161b55-8c7e-4670-a1bc-c59c205e00e6",
-        "submitterUid": "user-mv9wok3f-1-xs9eb",
-        "contentHash": "7b603a463362af4bc74da79d4b123f30a06be99995a5d3088731293ebac962fc",
-        "admissionEpoch": "b40f5acf-e031-40f2-953f-c95eed685d06",
+        "roomId": "f8bd89ed-d6f6-49be-b5a5-6ec22f3773b7",
+        "commandId": "0ae93145-8562-4f99-b5d2-e4df5598f89f",
+        "submitterUid": "user-mvbf08uw-1-54s1x",
+        "contentHash": "f09148d8214a2e01cd93415908a8fda49958d1d8b2f3720710b63043578ed5d5",
+        "admissionEpoch": "29e38882-10b1-4300-9e71-3832dc2026eb",
         "commitSequence": 1,
         "checkpointRevision": 3,
-        "acceptedAt": 1792090951619,
+        "acceptedAt": 1792182196217,
         "authorization": {
           "kind": "gm",
-          "authorizerUid": "user-mv9wok3f-1-xs9eb"
+          "authorizerUid": "user-mvbf08uw-1-54s1x"
         },
         "source": {
           "kind": "creature",
-          "roomId": "e3308040-7f5f-4fed-a71f-171806b69260",
+          "roomId": "f8bd89ed-d6f6-49be-b5a5-6ec22f3773b7",
           "mapId": "default",
           "tokenId": "branvig-a",
-          "instanceId": "63b87d5d-1758-4e58-9401-4e254f72c398"
+          "instanceId": "d2b68ecc-6b14-4369-91cc-f0afcb5c16b5"
         },
         "target": {
           "kind": "creature",
-          "roomId": "e3308040-7f5f-4fed-a71f-171806b69260",
+          "roomId": "f8bd89ed-d6f6-49be-b5a5-6ec22f3773b7",
           "mapId": "default",
           "tokenId": "branvig-b",
-          "instanceId": "6186a3a7-318f-4679-a43e-8c934891a0ec"
+          "instanceId": "1cf98ff5-e72e-40ec-b439-be5dc65aa3ee"
         },
         "adjudication": {
           "definitionId": "grimmstalk_feather_slash",
@@ -39,10 +39,10 @@
           {
             "ref": {
               "kind": "creature",
-              "roomId": "e3308040-7f5f-4fed-a71f-171806b69260",
+              "roomId": "f8bd89ed-d6f6-49be-b5a5-6ec22f3773b7",
               "mapId": "default",
               "tokenId": "branvig-a",
-              "instanceId": "63b87d5d-1758-4e58-9401-4e254f72c398"
+              "instanceId": "d2b68ecc-6b14-4369-91cc-f0afcb5c16b5"
             },
             "beforeRevision": 0,
             "afterRevision": 1,
@@ -68,10 +68,10 @@
           {
             "ref": {
               "kind": "creature",
-              "roomId": "e3308040-7f5f-4fed-a71f-171806b69260",
+              "roomId": "f8bd89ed-d6f6-49be-b5a5-6ec22f3773b7",
               "mapId": "default",
               "tokenId": "branvig-b",
-              "instanceId": "6186a3a7-318f-4679-a43e-8c934891a0ec"
+              "instanceId": "1cf98ff5-e72e-40ec-b439-be5dc65aa3ee"
             },
             "beforeRevision": 0,
             "afterRevision": 1,
@@ -104,10 +104,10 @@
                 "kind": "effect",
                 "target": {
                   "kind": "creature",
-                  "roomId": "e3308040-7f5f-4fed-a71f-171806b69260",
+                  "roomId": "f8bd89ed-d6f6-49be-b5a5-6ec22f3773b7",
                   "mapId": "default",
                   "tokenId": "branvig-b",
-                  "instanceId": "6186a3a7-318f-4679-a43e-8c934891a0ec"
+                  "instanceId": "1cf98ff5-e72e-40ec-b439-be5dc65aa3ee"
                 },
                 "targetId": "branvig-b",
                 "targetType": "creature",
@@ -125,11 +125,11 @@
         ]
       },
       "actorSnapshot": {
-        "roomId": "e3308040-7f5f-4fed-a71f-171806b69260",
+        "roomId": "f8bd89ed-d6f6-49be-b5a5-6ec22f3773b7",
         "actorProjection": {
           "version": 1,
-          "roomId": "e3308040-7f5f-4fed-a71f-171806b69260",
-          "epoch": "b40f5acf-e031-40f2-953f-c95eed685d06",
+          "roomId": "f8bd89ed-d6f6-49be-b5a5-6ec22f3773b7",
+          "epoch": "29e38882-10b1-4300-9e71-3832dc2026eb",
           "cut": 3
         },
         "maps": {
@@ -143,10 +143,10 @@
                   "actorContract": {
                     "version": 1,
                     "kind": "creature",
-                    "roomId": "e3308040-7f5f-4fed-a71f-171806b69260",
+                    "roomId": "f8bd89ed-d6f6-49be-b5a5-6ec22f3773b7",
                     "mapId": "default",
                     "tokenId": "branvig-a",
-                    "instanceId": "63b87d5d-1758-4e58-9401-4e254f72c398",
+                    "instanceId": "d2b68ecc-6b14-4369-91cc-f0afcb5c16b5",
                     "revision": 1
                   },
                   "maxHp": 250,
@@ -162,7 +162,7 @@
                   "conditions": []
                 },
                 "creatureId": "grimmstalk",
-                "ownerUserId": "user-mv9wok3f-1-xs9eb"
+                "ownerUserId": "user-mvbf08uw-1-54s1x"
               },
               "branvig-b": {
                 "id": "branvig-b",
@@ -170,10 +170,10 @@
                   "actorContract": {
                     "version": 1,
                     "kind": "creature",
-                    "roomId": "e3308040-7f5f-4fed-a71f-171806b69260",
+                    "roomId": "f8bd89ed-d6f6-49be-b5a5-6ec22f3773b7",
                     "mapId": "default",
                     "tokenId": "branvig-b",
-                    "instanceId": "6186a3a7-318f-4679-a43e-8c934891a0ec",
+                    "instanceId": "1cf98ff5-e72e-40ec-b439-be5dc65aa3ee",
                     "revision": 1
                   },
                   "maxHp": 250,
@@ -198,10 +198,10 @@
                       "kind": "effect",
                       "target": {
                         "kind": "creature",
-                        "roomId": "e3308040-7f5f-4fed-a71f-171806b69260",
+                        "roomId": "f8bd89ed-d6f6-49be-b5a5-6ec22f3773b7",
                         "mapId": "default",
                         "tokenId": "branvig-b",
-                        "instanceId": "6186a3a7-318f-4679-a43e-8c934891a0ec"
+                        "instanceId": "1cf98ff5-e72e-40ec-b439-be5dc65aa3ee"
                       },
                       "targetId": "branvig-b",
                       "targetType": "creature",
@@ -217,15 +217,15 @@
                   ]
                 },
                 "creatureId": "grimmstalk",
-                "ownerUserId": "user-mv9wok3f-1-xs9eb"
+                "ownerUserId": "user-mvbf08uw-1-54s1x"
               }
             },
             "characterTokens": {},
             "creatures": {},
             "actorProjection": {
               "version": 1,
-              "roomId": "e3308040-7f5f-4fed-a71f-171806b69260",
-              "epoch": "b40f5acf-e031-40f2-953f-c95eed685d06",
+              "roomId": "f8bd89ed-d6f6-49be-b5a5-6ec22f3773b7",
+              "epoch": "29e38882-10b1-4300-9e71-3832dc2026eb",
               "cut": 3
             }
           }
@@ -245,20 +245,20 @@
     "primaryReplacement": {
       "old": {
         "kind": "character",
-        "roomId": "2e03ea99-ae79-49e1-8ac2-5ecd59ae0b7b",
+        "roomId": "78cf2abe-662e-4402-b85d-60f0d60a5cac",
         "mapId": "default",
         "tokenId": "pc-a",
-        "instanceId": "4d219a4a-623f-4725-a693-1afe995d95b1",
-        "ownerUid": "user-mv9wok72-1-al7lk",
+        "instanceId": "8bb04937-6bf1-43b0-8bca-cf290420ef57",
+        "ownerUid": "user-mvbf095a-1-71b7b",
         "characterId": "c-a"
       },
       "replacement": {
         "kind": "character",
-        "roomId": "2e03ea99-ae79-49e1-8ac2-5ecd59ae0b7b",
+        "roomId": "78cf2abe-662e-4402-b85d-60f0d60a5cac",
         "mapId": "default",
         "tokenId": "pc-extra",
-        "instanceId": "a83257b4-0b98-4e73-87e4-c686fd5d5918",
-        "ownerUid": "user-mv9wok72-1-al7lk",
+        "instanceId": "a0bb3c37-2259-4e6f-95f8-da7926c9a5a6",
+        "ownerUid": "user-mvbf095a-1-71b7b",
         "characterId": "c-a"
       },
       "sameUidDifferentCharacter": true
@@ -287,26 +287,26 @@
       "success": true,
       "receipt": {
         "version": 1,
-        "roomId": "b2e0b0b9-53eb-4c4e-b1ed-41962003f121",
-        "commandId": "7b7b2c61-0a07-49a0-93cf-effab95ea27e",
-        "submitterUid": "user-mv9wok4x-1-6hq3k",
-        "contentHash": "5ce79364809d723cdcbffcb96c89fe71ef7a029662d54c8d1b46bef0903490f1",
-        "admissionEpoch": "ba4a7c17-9f5d-4f82-98a2-91e936cf1ada",
+        "roomId": "0831bced-d91c-407a-9d60-abac0bb28aa5",
+        "commandId": "fe2d01ec-1bd1-40ba-bc62-a9170eea91e8",
+        "submitterUid": "user-mvbf08z6-1-ytp5t",
+        "contentHash": "91cb8f8f8da44b1dff252c35328696726377e28aefb5177a8575f6af3ccbc22a",
+        "admissionEpoch": "7bfaabc8-ac3b-433c-927c-8a0e4e655f3a",
         "commitSequence": 1,
         "checkpointRevision": 3,
-        "acceptedAt": 1792090951675,
+        "acceptedAt": 1792182196371,
         "authorization": {
           "kind": "gm",
-          "authorizerUid": "user-mv9wok4x-1-6hq3k"
+          "authorizerUid": "user-mvbf08z6-1-ytp5t"
         },
         "actors": [
           {
             "ref": {
               "kind": "creature",
-              "roomId": "b2e0b0b9-53eb-4c4e-b1ed-41962003f121",
+              "roomId": "0831bced-d91c-407a-9d60-abac0bb28aa5",
               "mapId": "default",
               "tokenId": "branvig-a",
-              "instanceId": "897087ac-8a9e-42b8-afa1-9d397e99b572"
+              "instanceId": "8ac1cccc-e68a-442a-8919-6883acd95f11"
             },
             "beforeRevision": 0,
             "afterRevision": 1,
@@ -332,11 +332,11 @@
         ]
       },
       "actorSnapshot": {
-        "roomId": "b2e0b0b9-53eb-4c4e-b1ed-41962003f121",
+        "roomId": "0831bced-d91c-407a-9d60-abac0bb28aa5",
         "actorProjection": {
           "version": 1,
-          "roomId": "b2e0b0b9-53eb-4c4e-b1ed-41962003f121",
-          "epoch": "ba4a7c17-9f5d-4f82-98a2-91e936cf1ada",
+          "roomId": "0831bced-d91c-407a-9d60-abac0bb28aa5",
+          "epoch": "7bfaabc8-ac3b-433c-927c-8a0e4e655f3a",
           "cut": 3
         },
         "maps": {
@@ -350,10 +350,10 @@
                   "actorContract": {
                     "version": 1,
                     "kind": "creature",
-                    "roomId": "b2e0b0b9-53eb-4c4e-b1ed-41962003f121",
+                    "roomId": "0831bced-d91c-407a-9d60-abac0bb28aa5",
                     "mapId": "default",
                     "tokenId": "branvig-a",
-                    "instanceId": "897087ac-8a9e-42b8-afa1-9d397e99b572",
+                    "instanceId": "8ac1cccc-e68a-442a-8919-6883acd95f11",
                     "revision": 1
                   },
                   "maxHp": 250,
@@ -369,7 +369,7 @@
                   "conditions": []
                 },
                 "creatureId": "grimmstalk",
-                "ownerUserId": "user-mv9wok4x-1-6hq3k"
+                "ownerUserId": "user-mvbf08z6-1-ytp5t"
               },
               "branvig-b": {
                 "id": "branvig-b",
@@ -377,10 +377,10 @@
                   "actorContract": {
                     "version": 1,
                     "kind": "creature",
-                    "roomId": "b2e0b0b9-53eb-4c4e-b1ed-41962003f121",
+                    "roomId": "0831bced-d91c-407a-9d60-abac0bb28aa5",
                     "mapId": "default",
                     "tokenId": "branvig-b",
-                    "instanceId": "f5acd38f-8f78-4177-a17a-c79052a8819b",
+                    "instanceId": "0891ab93-fdc5-404c-9362-edc5a8af861e",
                     "revision": 0
                   },
                   "maxHp": 250,
@@ -396,15 +396,15 @@
                   "conditions": []
                 },
                 "creatureId": "grimmstalk",
-                "ownerUserId": "user-mv9wok4x-1-6hq3k"
+                "ownerUserId": "user-mvbf08z6-1-ytp5t"
               }
             },
             "characterTokens": {},
             "creatures": {},
             "actorProjection": {
               "version": 1,
-              "roomId": "b2e0b0b9-53eb-4c4e-b1ed-41962003f121",
-              "epoch": "ba4a7c17-9f5d-4f82-98a2-91e936cf1ada",
+              "roomId": "0831bced-d91c-407a-9d60-abac0bb28aa5",
+              "epoch": "7bfaabc8-ac3b-433c-927c-8a0e4e655f3a",
               "cut": 3
             }
           }
@@ -418,26 +418,26 @@
         "success": true,
         "receipt": {
           "version": 1,
-          "roomId": "b2e0b0b9-53eb-4c4e-b1ed-41962003f121",
-          "commandId": "56f447c5-10c1-46c9-b32c-d0e63bbd0981",
-          "submitterUid": "user-mv9wok4x-1-6hq3k",
-          "contentHash": "617cfa08faee1ce97cc6bafbaf2b3754cf96f09266b02666ba508f334508b55b",
-          "admissionEpoch": "ba4a7c17-9f5d-4f82-98a2-91e936cf1ada",
+          "roomId": "0831bced-d91c-407a-9d60-abac0bb28aa5",
+          "commandId": "e8019622-115a-4ab3-bd9b-48affb8e9d3a",
+          "submitterUid": "user-mvbf08z6-1-ytp5t",
+          "contentHash": "16c5862e5360b25224178ca9c1aef31d223189c2de3681000ff679cacdf36f2e",
+          "admissionEpoch": "7bfaabc8-ac3b-433c-927c-8a0e4e655f3a",
           "commitSequence": 2,
           "checkpointRevision": 4,
-          "acceptedAt": 1792090951679,
+          "acceptedAt": 1792182196393,
           "authorization": {
             "kind": "gm",
-            "authorizerUid": "user-mv9wok4x-1-6hq3k"
+            "authorizerUid": "user-mvbf08z6-1-ytp5t"
           },
           "actors": [
             {
               "ref": {
                 "kind": "creature",
-                "roomId": "b2e0b0b9-53eb-4c4e-b1ed-41962003f121",
+                "roomId": "0831bced-d91c-407a-9d60-abac0bb28aa5",
                 "mapId": "default",
                 "tokenId": "branvig-b",
-                "instanceId": "f5acd38f-8f78-4177-a17a-c79052a8819b"
+                "instanceId": "0891ab93-fdc5-404c-9362-edc5a8af861e"
               },
               "beforeRevision": 0,
               "afterRevision": 1,
@@ -463,11 +463,11 @@
           ]
         },
         "actorSnapshot": {
-          "roomId": "b2e0b0b9-53eb-4c4e-b1ed-41962003f121",
+          "roomId": "0831bced-d91c-407a-9d60-abac0bb28aa5",
           "actorProjection": {
             "version": 1,
-            "roomId": "b2e0b0b9-53eb-4c4e-b1ed-41962003f121",
-            "epoch": "ba4a7c17-9f5d-4f82-98a2-91e936cf1ada",
+            "roomId": "0831bced-d91c-407a-9d60-abac0bb28aa5",
+            "epoch": "7bfaabc8-ac3b-433c-927c-8a0e4e655f3a",
             "cut": 4
           },
           "maps": {
@@ -481,10 +481,10 @@
                     "actorContract": {
                       "version": 1,
                       "kind": "creature",
-                      "roomId": "b2e0b0b9-53eb-4c4e-b1ed-41962003f121",
+                      "roomId": "0831bced-d91c-407a-9d60-abac0bb28aa5",
                       "mapId": "default",
                       "tokenId": "branvig-a",
-                      "instanceId": "897087ac-8a9e-42b8-afa1-9d397e99b572",
+                      "instanceId": "8ac1cccc-e68a-442a-8919-6883acd95f11",
                       "revision": 1
                     },
                     "maxHp": 250,
@@ -500,7 +500,7 @@
                     "conditions": []
                   },
                   "creatureId": "grimmstalk",
-                  "ownerUserId": "user-mv9wok4x-1-6hq3k"
+                  "ownerUserId": "user-mvbf08z6-1-ytp5t"
                 },
                 "branvig-b": {
                   "id": "branvig-b",
@@ -508,10 +508,10 @@
                     "actorContract": {
                       "version": 1,
                       "kind": "creature",
-                      "roomId": "b2e0b0b9-53eb-4c4e-b1ed-41962003f121",
+                      "roomId": "0831bced-d91c-407a-9d60-abac0bb28aa5",
                       "mapId": "default",
                       "tokenId": "branvig-b",
-                      "instanceId": "f5acd38f-8f78-4177-a17a-c79052a8819b",
+                      "instanceId": "0891ab93-fdc5-404c-9362-edc5a8af861e",
                       "revision": 1
                     },
                     "maxHp": 250,
@@ -527,15 +527,15 @@
                     "conditions": []
                   },
                   "creatureId": "grimmstalk",
-                  "ownerUserId": "user-mv9wok4x-1-6hq3k"
+                  "ownerUserId": "user-mvbf08z6-1-ytp5t"
                 }
               },
               "characterTokens": {},
               "creatures": {},
               "actorProjection": {
                 "version": 1,
-                "roomId": "b2e0b0b9-53eb-4c4e-b1ed-41962003f121",
-                "epoch": "ba4a7c17-9f5d-4f82-98a2-91e936cf1ada",
+                "roomId": "0831bced-d91c-407a-9d60-abac0bb28aa5",
+                "epoch": "7bfaabc8-ac3b-433c-927c-8a0e4e655f3a",
                 "cut": 4
               }
             }

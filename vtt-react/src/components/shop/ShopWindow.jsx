@@ -9,7 +9,7 @@ import TooltipPortal from '../tooltips/TooltipPortal';
 import { useTooltipPosition } from '../common/useTooltipPosition';
 import QuantitySelector from '../common/QuantitySelector';
 import { getSafePortalTarget } from '../../utils/portalUtils';
-import { getIconUrl } from '../../utils/assetManager';
+import { getIconUrl, getCreatureTokenIconUrl } from '../../utils/assetManager';
 import './ShopWindow.css';
 
 const ShopWindow = ({ isOpen, onClose, creature }) => {
@@ -38,6 +38,18 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
  });
  const [showFilters, setShowFilters] = useState(false);
 
+ // Dismiss filters popup on Escape key
+ useEffect(() => {
+  if (!showFilters) return;
+  const handleKeyDown = (e) => {
+   if (e.key === 'Escape') {
+    setShowFilters(false);
+   }
+  };
+  window.addEventListener('keydown', handleKeyDown);
+  return () => window.removeEventListener('keydown', handleKeyDown);
+ }, [showFilters]);
+
  // Window position state
  const [position, setPosition] = useState({ x: 100, y: 100 });
  const [isDragging, setIsDragging] = useState(false);
@@ -51,9 +63,201 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
  const shopDragRafRef = useRef(null);      // RAF handle for throttled position updates
 
  // Get shop info
- const shopName = creature.shopInventory?.shopName || `${creature.name}'s Shop`;
- const shopDescription = creature.shopInventory?.shopDescription || 'Welcome to our shop!';
- const shopItems = creature.shopInventory?.items || [];
+ const shopName = creature?.shopInventory?.shopName || `${creature?.name || 'Merchant'}'s Shop`;
+ const shopDescription = creature?.shopInventory?.shopDescription || creature?.description || 'Welcome to our shop!';
+ const merchantRole = creature?.role || (creature?.type === 'shopkeeper' ? 'Frontier Outfitter & Merchant' : null);
+ const shopItems = React.useMemo(() => {
+  if (!creature) return [];
+  if (creature.shopInventory?.items && creature.shopInventory.items.length > 0) {
+   return creature.shopInventory.items;
+  }
+  // Fallback 1: Populate shop items from creature's lootTable if available
+  if (creature.lootTable?.items && creature.lootTable.items.length > 0) {
+   return creature.lootTable.items.map((lootItem, idx) => ({
+    itemId: lootItem.itemId || lootItem.id || `shop-item-${idx}`,
+    quantity: typeof lootItem.quantity === 'object'
+     ? (lootItem.quantity.max || lootItem.quantity.min || 1)
+     : (lootItem.quantity || 1),
+    customPrice: lootItem.value || {
+     gold: 0,
+     silver: Math.floor(Math.random() * 8) + 1,
+     copper: 0
+    },
+    fullItem: {
+     id: lootItem.itemId || lootItem.id || `shop-item-${idx}`,
+     name: lootItem.name,
+     type: lootItem.type || 'miscellaneous',
+     subtype: lootItem.subtype,
+     quality: lootItem.quality || 'common',
+     rarity: lootItem.quality || 'common',
+     iconId: lootItem.iconId || lootItem.icon || 'inv_misc_questionmark',
+     icon: lootItem.iconId || lootItem.icon || 'inv_misc_questionmark',
+     description: lootItem.description,
+     value: lootItem.value || { silver: 5 }
+    }
+   }));
+  }
+  // Fallback 2: Thematic outfitter provisions for merchants / shopkeepers
+  const isMerchant = creature.isShopkeeper || creature.type === 'shopkeeper' ||
+   (Array.isArray(creature.tags) && (creature.tags.includes('shopkeeper') || creature.tags.includes('merchant')));
+  if (isMerchant) {
+   return [
+    {
+     itemId: 'featherquill-survey-map',
+     quantity: 3,
+     customPrice: { platinum: 0, gold: 1, silver: 2, copper: 0 },
+     fullItem: {
+      id: 'featherquill-survey-map',
+      name: "Regional Survey Chart",
+      type: 'miscellaneous',
+      subtype: 'MAP',
+      quality: 'uncommon',
+      rarity: 'uncommon',
+      iconId: 'Misc/Books/book-scroll-rolled-red-wax-seal',
+      icon: 'Misc/Books/book-scroll-rolled-red-wax-seal',
+      description: 'A hand-inked topographical survey detailing creeks, ravines, and elevation contours of the surrounding frontier.',
+      value: { gold: 1, silver: 2, copper: 0 },
+      width: 1,
+      height: 1
+     }
+    },
+    {
+     itemId: 'satchel',
+     quantity: 2,
+     customPrice: { platinum: 0, gold: 0, silver: 4, copper: 50 },
+     fullItem: {
+      id: 'satchel',
+      name: "Surveyor's Satchel",
+      type: 'container',
+      subtype: 'BAG',
+      quality: 'common',
+      rarity: 'common',
+      iconId: 'Container/Pouch/brown-backpack-satchel',
+      icon: 'Container/Pouch/brown-backpack-satchel',
+      description: 'A weather-treated waxed cloth satchel fitted with brass buckles and partitioned pockets.',
+      value: { gold: 0, silver: 4, copper: 50 },
+      width: 1,
+      height: 1
+     }
+    },
+    {
+     itemId: 'outfitter-climbing-kit',
+     quantity: 4,
+     customPrice: { platinum: 0, gold: 0, silver: 6, copper: 0 },
+     fullItem: {
+      id: 'outfitter-climbing-kit',
+      name: 'Braided Climbing Silk',
+      type: 'miscellaneous',
+      subtype: 'SURVIVAL',
+      quality: 'uncommon',
+      rarity: 'uncommon',
+      iconId: 'Misc/Profession Resources/Tailoring/resource-spotted-fabric-leather-blue-dots',
+      icon: 'Misc/Profession Resources/Tailoring/resource-spotted-fabric-leather-blue-dots',
+      description: 'Fifty feet of braided silk rope with tempered iron pitons. Reliable on treacherous rock faces.',
+      value: { gold: 0, silver: 6, copper: 0 },
+      width: 1,
+      height: 1
+     }
+    },
+    {
+     itemId: 'gathering-pickaxe',
+     quantity: 2,
+     customPrice: { platinum: 0, gold: 0, silver: 3, copper: 0 },
+     fullItem: {
+      id: 'gathering-pickaxe',
+      name: "Prospector's Tamping Pick",
+      type: 'miscellaneous',
+      subtype: 'CRAFTING',
+      quality: 'common',
+      rarity: 'common',
+      iconId: 'Misc/Profession Resources/Tools/pickaxe',
+      icon: 'Misc/Profession Resources/Tools/pickaxe',
+      description: 'Sturdy steel pickaxe for breaking rock samples and anchoring cliffline traverses.',
+      value: { gold: 0, silver: 3, copper: 0 },
+      width: 2,
+      height: 1
+     }
+    },
+    {
+     itemId: 'frontier-field-rations',
+     quantity: 12,
+     customPrice: { platinum: 0, gold: 0, silver: 0, copper: 85 },
+     fullItem: {
+      id: 'frontier-field-rations',
+      name: "Fortified Pemmican Rations",
+      type: 'consumable',
+      subtype: 'FOOD',
+      quality: 'common',
+      rarity: 'common',
+      iconId: 'Misc/Profession Resources/Cooking/Food/Other/bread-loaf-rustic-artisan-slashes',
+      icon: 'Misc/Profession Resources/Cooking/Food/Other/bread-loaf-rustic-artisan-slashes',
+      description: 'Dense dried meat, berries, and tallow compressed into weather-sealed squares. Keeps for months.',
+      value: { gold: 0, silver: 0, copper: 85 },
+      width: 1,
+      height: 1
+     }
+    },
+    {
+     itemId: 'brass-dowsing-needle',
+     quantity: 1,
+     customPrice: { platinum: 0, gold: 2, silver: 5, copper: 0 },
+     fullItem: {
+      id: 'brass-dowsing-needle',
+      name: 'Brass Compass & Calipers',
+      type: 'miscellaneous',
+      subtype: 'NAVIGATION',
+      quality: 'rare',
+      rarity: 'rare',
+      iconId: 'Misc/Profession Resources/Mining/resource-crystal-cluster-blue-teal-mineral',
+      icon: 'Misc/Profession Resources/Mining/resource-crystal-cluster-blue-teal-mineral',
+      description: 'A balanced needle mounted on a jeweled pivot to detect mineral lodes and true magnetic north.',
+      value: { gold: 2, silver: 5, copper: 0 },
+      width: 1,
+      height: 1
+     }
+    },
+    {
+     itemId: 'scroll-of-warding',
+     quantity: 2,
+     customPrice: { platinum: 0, gold: 1, silver: 0, copper: 0 },
+     fullItem: {
+      id: 'scroll-of-warding',
+      name: 'Scroll of Campfire Sanctuary',
+      type: 'consumable',
+      subtype: 'SCROLL',
+      quality: 'uncommon',
+      rarity: 'uncommon',
+      iconId: 'Misc/Books/book-scroll-rolled-red-wax-seal',
+      icon: 'Misc/Books/book-scroll-rolled-red-wax-seal',
+      description: 'Wards a 20-foot campsite perimeter against creeping predators and sudden howling gusts.',
+      value: { gold: 1, silver: 0, copper: 0 },
+      width: 1,
+      height: 1
+     }
+    },
+    {
+     itemId: 'antidote-of-last-resort',
+     quantity: 3,
+     customPrice: { platinum: 0, gold: 0, silver: 8, copper: 50 },
+     fullItem: {
+      id: 'antidote-of-last-resort',
+      name: 'Herbal Viper & Spider Draught',
+      type: 'consumable',
+      subtype: 'POTION',
+      quality: 'common',
+      rarity: 'common',
+      iconId: 'Misc/Profession Resources/Alchemy/Dark Green/dark-green-potion-bottle-classic-shape-beige-third-full',
+      icon: 'Misc/Profession Resources/Alchemy/Dark Green/dark-green-potion-bottle-classic-shape-beige-third-full',
+      description: 'A pungent bitter tincture brewed from prairie rue and serpent scales that neutralizes common venoms.',
+      value: { gold: 0, silver: 8, copper: 50 },
+      width: 1,
+      height: 1
+     }
+    }
+   ];
+  }
+  return [];
+ }, [creature?.shopInventory?.items, creature?.lootTable?.items, creature?.isShopkeeper, creature?.type, creature?.tags]);
 
  // Filter functions
  const doesItemMatchFilter = (item, filters) => {
@@ -448,7 +652,7 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
   updateCurrency(newCurrency);
 
   // Remove purchased items from merchant's inventory
-  const updatedShopItems = [...(creature.shopInventory?.items || [])];
+  const updatedShopItems = [...(creature.shopInventory?.items || shopItems || [])];
   const shopItemIndex = updatedShopItems.findIndex(item => item.itemId === shopItem.itemId);
 
   if (shopItemIndex !== -1) {
@@ -506,7 +710,7 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
 
   // Add all items to inventory and remove from merchant inventory
   let purchasedItems = [];
-  const updatedShopItems = [...(creature.shopInventory?.items || [])];
+  const updatedShopItems = [...(creature.shopInventory?.items || shopItems || [])];
 
   // Process purchases in reverse order to avoid index shifting issues when removing items
   const sortedEntries = Object.entries(selectedItems).sort(([a], [b]) => parseInt(b) - parseInt(a));
@@ -757,15 +961,16 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
 
  // Format currency display with coin images
  const formatCurrency = (price) => {
+  if (!price) return null;
   const parts = [];
   if (price.platinum > 0) {
    parts.push(
     <span key="platinum" className="currency-part">
      <span className="currency-number">{price.platinum}</span>
      <img
-      src="getIconUrl('brown-sack-gold-coins-red-ribbon', 'items')"
+      src={getIconUrl('Container/Coins/golden-coin-single-isometric', 'items')}
       alt="Platinum"
-      className="currency-coin-small"
+      className="currency-coin-small coin-platinum"
       onError={(e) => {
        e.target.onerror = null;
        e.target.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="%23e5e4e2"/></svg>';
@@ -779,9 +984,9 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
     <span key="gold" className="currency-part">
      <span className="currency-number">{price.gold}</span>
      <img
-      src="getIconUrl('brown-sack-gold-coins-red-ribbon', 'items')"
+      src={getIconUrl('Container/Coins/golden-coin-single-isometric', 'items')}
       alt="Gold"
-      className="currency-coin-small"
+      className="currency-coin-small coin-gold"
       onError={(e) => {
        e.target.onerror = null;
        e.target.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="%23ffd700"/></svg>';
@@ -795,9 +1000,9 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
     <span key="silver" className="currency-part">
      <span className="currency-number">{price.silver}</span>
      <img
-      src="getIconUrl('brown-sack-gold-coins-red-ribbon', 'items')"
+      src={getIconUrl('Container/Coins/golden-coin-single-isometric', 'items')}
       alt="Silver"
-      className="currency-coin-small"
+      className="currency-coin-small coin-silver"
       onError={(e) => {
        e.target.onerror = null;
        e.target.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="%23c0c0c0"/></svg>';
@@ -811,9 +1016,9 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
     <span key="copper" className="currency-part">
      <span className="currency-number">{price.copper}</span>
      <img
-      src="getIconUrl('brown-sack-gold-coins-red-ribbon', 'items')"
+      src={getIconUrl('Container/Coins/golden-coin-single-isometric', 'items')}
       alt="Copper"
-      className="currency-coin-small"
+      className="currency-coin-small coin-copper"
       onError={(e) => {
        e.target.onerror = null;
        e.target.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="%23cd7f32"/></svg>';
@@ -828,9 +1033,9 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
     <span className="currency-part">
      <span className="currency-number">0</span>
      <img
-      src="getIconUrl('brown-sack-gold-coins-red-ribbon', 'items')"
+      src={getIconUrl('Container/Coins/golden-coin-single-isometric', 'items')}
       alt="Copper"
-      className="currency-coin-small"
+      className="currency-coin-small coin-copper"
       onError={(e) => {
        e.target.onerror = null;
        e.target.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="%23cd7f32"/></svg>';
@@ -862,7 +1067,7 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
   };
  }, []);
 
- if (!isOpen) return null;
+ if (!isOpen || !creature) return null;
 
  // Get safe portal target
  const portalTarget = getSafePortalTarget();
@@ -877,7 +1082,7 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
   <div className="shop-window-overlay">
    <div
     ref={windowRef}
-    className="shop-window wow-style-window"
+    className="shop-window wow-style-window calm-shop-ledger"
     style={{
      left: position.x,
      top: position.y,
@@ -892,17 +1097,29 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
      <div className="shop-title">
       <div className="merchant-portrait">
        <img
-        src={getIconUrl(creature.tokenIcon || 'inv_misc_questionmark', 'items')}
-        alt={creature.name}
+        src={
+         creature?.tokenIcon && String(creature.tokenIcon).startsWith('Bestiary/')
+          ? getCreatureTokenIconUrl(creature.tokenIcon, creature.type)
+          : (creature?.illustration || getIconUrl(creature?.tokenIcon || 'inv_misc_questionmark', 'items'))
+        }
+        alt={creature?.name || 'Merchant'}
         onError={(e) => {
          e.target.src = getIconUrl('Misc/Books/book-brown-teal-question-mark', 'items');
         }}
        />
       </div>
       <div className="shop-info">
-       <span className="shop-name">{shopName}</span>
+       <div className="shop-name-row">
+        <span className="shop-name">{shopName}</span>
+        {merchantRole && <span className="shop-merchant-role">{merchantRole}</span>}
+       </div>
+       {shopDescription && (
+        <p className="shop-flavor-quote" title={shopDescription}>
+         &ldquo;{shopDescription}&rdquo;
+        </p>
+       )}
        <div className="buy-rates-display">
-        <span className="buy-rates-label">Buy Rates:</span>
+        <span className="buy-rates-label">Appraisal Rates:</span>
         <div className="buy-rates-list">
          {creature.shopInventory?.buyRates?.categories && Object.entries(creature.shopInventory.buyRates.categories)
           .sort(([, a], [, b]) => b - a) // Sort by rate descending
@@ -911,11 +1128,9 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
             {category.charAt(0).toUpperCase() + category.slice(1)}: {rate}%
            </span>
           ))}
-         {creature.shopInventory?.buyRates?.default && (
-          <span className="buy-rate-item default-rate">
-           Other: {creature.shopInventory?.buyRates?.default}%
-          </span>
-         )}
+         <span className="buy-rate-item default-rate">
+          Standard: {creature.shopInventory?.buyRates?.default || 30}%
+         </span>
         </div>
        </div>
       </div>
@@ -924,12 +1139,17 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
      <div className="header-actions">
       <button
        onClick={() => setShowFilters(!showFilters)}
-       className={`filter-toggle-btn ${showFilters ? 'active' : ''}`}
-       title="Toggle Filters"
+       className={`filter-toggle-btn ${showFilters ? 'active' : ''} ${
+        globalFilters.searchQuery || globalFilters.selectedItemType !== 'all' || globalFilters.selectedQuality !== 'all'
+         ? 'has-active-filters'
+         : ''
+       }`}
+       title="Search & Filter Items"
       >
        <i className="fas fa-filter"></i>
+       <span className="filter-btn-label">Catalog</span>
       </button>
-      <button className="shop-close-btn" onClick={onClose}>
+      <button className="shop-close-btn" onClick={onClose} title="Close Ledger">
        <i className="fas fa-times"></i>
       </button>
      </div>
@@ -940,17 +1160,24 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
      <div className="filters-popout-overlay" onClick={() => setShowFilters(false)}>
       <div className="filters-popout" onClick={(e) => e.stopPropagation()}>
        <div className="filters-popout-header">
-        <h4>Search & Filter Items</h4>
+        <h4>
+         <i className="fas fa-filter"></i>
+         <span>Search & Filter Items</span>
+        </h4>
         <button
          onClick={() => setShowFilters(false)}
          className="filters-close-btn"
+         title="Close Filters (Esc)"
         >
          <i className="fas fa-times"></i>
         </button>
        </div>
        <div className="filters-popout-content">
         <div className="filter-group">
-         <label className="filter-label">Search Items:</label>
+         <label className="filter-label">
+          <i className="fas fa-search"></i>
+          <span>Search Items:</span>
+         </label>
          <input
           type="text"
           placeholder="Type to search..."
@@ -961,7 +1188,10 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
         </div>
         <div className="filter-row">
          <div className="filter-group">
-          <label className="filter-label">Item Type:</label>
+          <label className="filter-label">
+           <i className="fas fa-tags"></i>
+           <span>Item Type:</span>
+          </label>
           <select
            value={globalFilters.selectedItemType}
            onChange={(e) => setGlobalFilters(prev => ({ ...prev, selectedItemType: e.target.value }))}
@@ -974,7 +1204,10 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
           </select>
          </div>
          <div className="filter-group">
-          <label className="filter-label">Quality:</label>
+          <label className="filter-label">
+           <i className="fas fa-gem"></i>
+           <span>Quality:</span>
+          </label>
           <select
            value={globalFilters.selectedQuality}
            onChange={(e) => setGlobalFilters(prev => ({ ...prev, selectedQuality: e.target.value }))}
@@ -990,10 +1223,15 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
         <div className="filters-popout-actions">
          <button
           onClick={() => setGlobalFilters({ searchQuery: '', selectedItemType: 'all', selectedQuality: 'all' })}
-          className="filters-reset-btn"
+          className={`filters-reset-btn ${
+           globalFilters.searchQuery || globalFilters.selectedItemType !== 'all' || globalFilters.selectedQuality !== 'all'
+            ? 'has-active'
+            : ''
+          }`}
+          title="Reset all search queries and filters"
          >
           <i className="fas fa-undo"></i>
-          Reset All
+          <span>Reset All</span>
          </button>
         </div>
        </div>
@@ -1008,7 +1246,13 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
      <div className="merchant-content">
       {/* Merchant Items Grid */}
       <div className="merchant-items">
-       <div className="merchant-header">Merchant Inventory</div>
+       <div className="merchant-header">
+        <div className="ledger-header-left">
+         <i className="fas fa-store"></i>
+         <span>Merchant&apos;s Wares</span>
+        </div>
+        <span className="item-count">({shopItems.length})</span>
+       </div>
        <div className="merchant-grid">
         {shopItems.map((shopItem, index) => {
          const item = getItemById(shopItem.itemId);
@@ -1075,7 +1319,13 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
 
       {/* Player Inventory for Selling */}
       <div className="player-inventory">
-       <div className="inventory-header">Your Items</div>
+       <div className="inventory-header">
+        <div className="ledger-header-left">
+         <i className="fas fa-sack-dollar"></i>
+         <span>Adventurer&apos;s Pack</span>
+        </div>
+        <span className="item-count">({inventoryItems.length})</span>
+       </div>
        <div className="items-grid inventory-grid">
         {inventoryItems.map((item, index) => {
          const matchesFilter = doesItemMatchFilter(item, globalFilters);
@@ -1136,10 +1386,14 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
      </div>
     </div>
 
-    {/* Player Currency Display */}
+    {/* Player Currency Footer Ribbon */}
     <div className="player-currency-display">
+     <div className="currency-ledger-heading">
+      <i className="fas fa-coins"></i>
+      <span>Purse Balance</span>
+     </div>
      <div className="currency-display-simple">
-      <div className="currency-coin">
+      <div className="currency-coin" title={`${currency.platinum || 0} Platinum Pieces`}>
        <img
         src={getIconUrl('Container/Coins/golden-coin-single-isometric', 'items')}
         alt="Platinum"
@@ -1149,9 +1403,10 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
          e.target.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="%23e5e4e2"/></svg>';
         }}
        />
-       <span className="currency-number">{currency.platinum}</span>
+       <span className="currency-number">{currency.platinum || 0}</span>
+       <span className="currency-coin-label">pp</span>
       </div>
-      <div className="currency-coin">
+      <div className="currency-coin" title={`${currency.gold || 0} Gold Pieces`}>
        <img
         src={getIconUrl('Container/Coins/golden-coin-single-isometric', 'items')}
         alt="Gold"
@@ -1161,9 +1416,10 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
          e.target.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="%23ffd700"/></svg>';
         }}
        />
-       <span className="currency-number">{currency.gold}</span>
+       <span className="currency-number">{currency.gold || 0}</span>
+       <span className="currency-coin-label">gp</span>
       </div>
-      <div className="currency-coin">
+      <div className="currency-coin" title={`${currency.silver || 0} Silver Pieces`}>
        <img
         src={getIconUrl('Container/Coins/golden-coin-single-isometric', 'items')}
         alt="Silver"
@@ -1173,9 +1429,10 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
          e.target.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="%23c0c0c0"/></svg>';
         }}
        />
-       <span className="currency-number">{currency.silver}</span>
+       <span className="currency-number">{currency.silver || 0}</span>
+       <span className="currency-coin-label">sp</span>
       </div>
-      <div className="currency-coin">
+      <div className="currency-coin" title={`${currency.copper || 0} Copper Pieces`}>
        <img
         src={getIconUrl('Container/Coins/golden-coin-single-isometric', 'items')}
         alt="Copper"
@@ -1185,7 +1442,8 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
          e.target.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="%23cd7f32"/></svg>';
         }}
        />
-       <span className="currency-number">{currency.copper}</span>
+       <span className="currency-number">{currency.copper || 0}</span>
+       <span className="currency-coin-label">cp</span>
       </div>
      </div>
     </div>
@@ -1193,7 +1451,8 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
     {/* Notification */}
     {notification.show && (
      <div className={`shop-notification ${notification.type}`}>
-      {notification.message}
+      <i className={notification.type === 'error' ? 'fas fa-exclamation-circle' : 'fas fa-feather-pointed'}></i>
+      <span>{notification.message}</span>
      </div>
     )}
 
@@ -1216,12 +1475,12 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
     )}
    </div>
 
-   {/* External Shopping Cart */}
+   {/* External Shopping Cart (Purchase Ledger Docket) */}
    {Object.keys(selectedItems).length > 0 && (
-    <div className="external-shopping-cart">
+    <div className="external-shopping-cart calm-cart-receipt">
      <div className="cart-header">
-      <i className="fas fa-shopping-cart"></i>
-      Shopping Cart
+      <i className="fas fa-scroll"></i>
+      <span>Purchase Order</span>
      </div>
      <div className="cart-items">
       {Object.entries(selectedItems).map(([shopItemIndex, quantity]) => {
@@ -1239,14 +1498,15 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
        const itemQuantity = selectedItems[shopItemIndex] || 1;
        return (
         <div key={shopItemIndex} className="cart-item">
-         <span className="cart-item-name">{itemQuantity}x {item.name}</span>
+         <span className="cart-item-name">{itemQuantity}&times; {item.name}</span>
          <span className="cart-item-price">{formatCurrency(totalItemPrice)}</span>
         </div>
        );
       })}
      </div>
      <div className="cart-total">
-      <strong>Total: {formatCurrency(calculateTotalCost())}</strong>
+      <span className="total-label">Total Outlay:</span>
+      <span className="total-val">{formatCurrency(calculateTotalCost())}</span>
      </div>
      <div className="cart-actions">
       <button
@@ -1254,24 +1514,25 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
        onClick={handlePurchaseAll}
        disabled={!canAffordSelection()}
       >
-       Buy All ({Object.keys(selectedItems).length} items)
+       <i className="fas fa-coins"></i>
+       <span>Buy All ({Object.keys(selectedItems).length})</span>
       </button>
       <button
        className="clear-cart-button"
        onClick={() => setSelectedItems({})}
       >
-       Clear Cart
+       Clear Order
       </button>
      </div>
     </div>
    )}
 
-   {/* External Sell Cart */}
+   {/* External Sell Cart (Sale Ledger Docket) */}
    {Object.keys(selectedSellItems).length > 0 && (
-    <div className="external-sell-cart">
+    <div className="external-sell-cart calm-cart-receipt">
      <div className="cart-header">
-      <i className="fas fa-coins"></i>
-      Sell Items
+      <i className="fas fa-scale-balanced"></i>
+      <span>Appraisal &amp; Sale</span>
      </div>
      <div className="cart-items">
       {Object.entries(selectedSellItems).map(([itemId]) => {
@@ -1283,7 +1544,7 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
 
        return (
         <div key={itemId} className="cart-item">
-         <span className="cart-item-name">{quantity}x {item.name}</span>
+         <span className="cart-item-name">{quantity}&times; {item.name}</span>
          <span className="cart-item-price sell-price">{formatCurrency({
           platinum: Math.floor(calculateTotalCopper(sellPrice) * quantity / 1000000),
           gold: Math.floor((calculateTotalCopper(sellPrice) * quantity % 1000000) / 10000),
@@ -1295,20 +1556,22 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
       })}
      </div>
      <div className="cart-total">
-      <strong>Total: {formatCurrency(calculateTotalSellValue())}</strong>
+      <span className="total-label">Merchant Payout:</span>
+      <span className="total-val">{formatCurrency(calculateTotalSellValue())}</span>
      </div>
      <div className="cart-actions">
       <button
        className="sell-all-button"
        onClick={handleSellAll}
       >
-       Sell All ({Object.keys(selectedSellItems).length} items)
+       <i className="fas fa-hand-holding-dollar"></i>
+       <span>Sell All ({Object.keys(selectedSellItems).length})</span>
       </button>
       <button
        className="clear-sell-button"
        onClick={() => setSelectedSellItems({})}
       >
-       Clear Selection
+       Clear Sale
       </button>
      </div>
     </div>

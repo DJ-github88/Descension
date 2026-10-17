@@ -6,6 +6,7 @@ import useGameStore from './gameStore';
 import useAuthStore from './authStore';
 import { COMPREHENSIVE_ITEMS } from '../data/items/index.js';
 import { saveUserItem, loadUserItems } from '../services/firebase/userItemsService';
+import { createInventoryItem } from '../utils/equipmentUtils';
 
 // Constants
 export const BASE_CATEGORY = {
@@ -1103,6 +1104,7 @@ const useItemStore = create(
         }
 
         // 3. Update in characterStore equipment (if equipped)
+        let brokenStaysEquipped = false;
         try {
           const characterStore = getStore('characterStore');
           if (characterStore) {
@@ -1118,13 +1120,19 @@ const useItemStore = create(
               }
             }
 
-            if (isBroken && charState.unequipItemByItemId) {
-              const unequipped = charState.unequipItemByItemId(itemId);
-              if (unequipped) {
+            // Laws: a broken item is moved to the pack. Add first and clear the slot only when the
+            // pack accepted it: a full pack never deletes it (it stays equipped, broken and inert).
+            if (isBroken) {
+              const latest = characterStore.getState();
+              const slot = Object.keys(latest.equipment || {}).find(key => latest.equipment[key]?.id === itemId);
+              if (slot) {
+                let added = false;
                 try {
                   const useInventoryStore = getStore('inventoryStore');
-                  useInventoryStore?.getState().addItem?.(unequipped);
-                } catch (err) {}
+                  added = useInventoryStore?.getState().addItem?.(createInventoryItem(latest.equipment[slot]))?.success === true;
+                } catch (err) { added = false; }
+                if (added) latest.unequipItem?.(slot);
+                else brokenStaysEquipped = true;
               }
             }
           }
@@ -1136,8 +1144,8 @@ const useItemStore = create(
           try {
             const useNotificationStore = getStore('notificationStore');
             useNotificationStore?.getState().showError(
-              `${item?.name || 'Item'} has broken!`,
-              { title: 'Item Broken', duration: 3000 }
+              brokenStaysEquipped ? `${item?.name || 'Item'} has broken. Your pack is full, so it stays equipped (inert) until you make room.` : `${item?.name || 'Item'} has broken!`,
+              { title: 'Item Broken', duration: brokenStaysEquipped ? 6000 : 3000 }
             );
           } catch (e) {}
         }

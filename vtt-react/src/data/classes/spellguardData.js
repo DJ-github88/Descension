@@ -806,15 +806,31 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
    level: 1,
    spellType: "PASSIVE",
    icon: "Necrotic/Necrotic Decay 1",
-   effectTypes: ["passive"],
+   effectTypes: ["passive", "debuff"],
    typeConfig: {
     school: "blight",
     icon: "Necrotic/Necrotic Decay 1",
     tags: ["passive", "weakness", "radiation"],
+    castTime: 0,
+    castTimeType: "PASSIVE",
    },
    targetingConfig: { targetingType: "self" },
    resourceCost: { actionPoints: 0, mana: 0 },
    resolution: "AUTOMATIC",
+   debuffConfig: {
+     debuffType: "statusEffect",
+     effects: [
+       {
+         id: "arcane_radiation_burn",
+         name: "AEP Radiation Burn",
+         description: "Toxic Unspent Magic",
+         mechanicsText: "At the end of your turn, unspent AEP deals blight damage equal to floor(AEP / 10) and reduces maximum HP by the same amount until a long rest."
+       }
+     ],
+     durationValue: 0,
+     durationType: "permanent",
+     durationUnit: "permanent"
+   },
    tags: ["passive", "spellguard", "weakness"],
   },
   { id : "spellguard_kinetic_fragility",
@@ -824,15 +840,31 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
    level: 1,
    spellType: "PASSIVE",
    icon: "Slashing/Crushing Blow",
-   effectTypes: ["passive"],
+   effectTypes: ["passive", "debuff"],
    typeConfig: {
     school: "smashing",
     icon: "Slashing/Crushing Blow",
     tags: ["passive", "weakness", "vulnerability"],
+    castTime: 0,
+    castTimeType: "PASSIVE",
    },
    targetingConfig: { targetingType: "self" },
    resourceCost: { actionPoints: 0, mana: 0 },
    resolution: "AUTOMATIC",
+   debuffConfig: {
+     debuffType: "statusEffect",
+     effects: [
+       {
+         id: "kinetic_fragility_vuln",
+         name: "Martial Trauma Vulnerability",
+         description: "+50% Vulnerability",
+         mechanicsText: "Permanent +50% damage taken from all smashing and slicing (physical) attacks."
+       }
+     ],
+     durationValue: 0,
+     durationType: "permanent",
+     durationUnit: "permanent"
+   },
    tags: ["passive", "spellguard", "weakness"],
   },
 

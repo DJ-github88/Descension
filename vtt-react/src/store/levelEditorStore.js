@@ -1937,6 +1937,7 @@ const initialState = {
   // Wall data - stores walls placed on grid edges
   wallData: {}, // { "x1,y1,x2,y2": { type: wallType, state: 'closed'|'open', id: string } }
   walls3DEnabled: true, // Enable true 3D modular WebGL walls with PCF soft shadows
+  wallsCollapsed: false, // Collapse walls to low foundation outlines to prevent camera obstruction
   selectedWallKey: null, // Currently selected wall key for editing
   // Per wall type build style for 90-degree corners: 'square' (default) or
   // 'curved' where the type has a full-cell corner model.
@@ -2089,6 +2090,10 @@ const useLevelEditorStore = create((set, get) => ({
   setTerrain3DEnabled: (enabled) => set({ terrain3DEnabled: enabled }),
 
   setWalls3DEnabled: (enabled) => set({ walls3DEnabled: enabled }),
+
+  setWallsCollapsed: (collapsed) => set({ wallsCollapsed: !!collapsed }),
+
+  toggleWallsCollapsed: () => set((state) => ({ wallsCollapsed: !state.wallsCollapsed })),
 
   setWallCornerStyle: (wallTypeId, style) => set((state) => ({
     wallCornerStyles: {

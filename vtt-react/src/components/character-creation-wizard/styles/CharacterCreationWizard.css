@@ -11502,7 +11502,7 @@ select.lore-field-input option,
 
 .character-wizard-container .class-card:hover .class-pixel-icon,
 .character-wizard-container .class-card:hover .class-card-icon-container .class-icon-img {
-    transform: scale(1.15) rotate(1deg);
+    transform: scale(1.2);
     mix-blend-mode: normal;
     filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.5)) brightness(1.05);
     z-index: 100;
@@ -12004,26 +12004,39 @@ select.lore-field-input option,
     background: transparent !important;
     cursor: pointer;
     position: relative;
-    transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+    z-index: 1;
+    transform: scale(1);
+    transform-origin: center center;
+    transition: transform 0.22s cubic-bezier(0.2, 0.9, 0.3, 1.2), filter 0.22s ease !important;
     box-sizing: border-box !important;
     box-shadow: none !important;
+    will-change: transform, filter;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
 }
 
 .class-icon-token:hover {
     border: none !important;
     background: transparent !important;
-    transform: scale(1.06) rotate(1deg);
-    filter: drop-shadow(0 6px 14px rgba(46, 30, 15, 0.45)) !important;
+    transform: translateY(-6px) scale(1.4);
+    filter: drop-shadow(0 14px 22px rgba(46, 30, 15, 0.55)) drop-shadow(0 4px 8px rgba(0, 0, 0, 0.35)) !important;
     box-shadow: none !important;
-    z-index: 2;
+    z-index: 60;
 }
 
 .class-icon-token.selected {
     border: none !important;
     background: transparent !important;
-    transform: scale(1.06);
+    transform: scale(1.05);
     filter: drop-shadow(0 0 10px rgba(184, 124, 28, 0.85)) drop-shadow(0 4px 12px rgba(46, 30, 15, 0.5)) !important;
     box-shadow: none !important;
+    z-index: 3;
+}
+
+.class-icon-token.selected:hover {
+    transform: translateY(-6px) scale(1.4);
+    filter: drop-shadow(0 0 14px rgba(212, 175, 55, 0.95)) drop-shadow(0 14px 24px rgba(46, 30, 15, 0.6)) !important;
+    z-index: 60;
 }
 
 .class-pixel-icon-token {
@@ -12031,13 +12044,16 @@ select.lore-field-input option,
     height: 100% !important;
     object-fit: contain !important;
     border-radius: 0 !important;
-    transition: transform 0.2s ease;
+    transition: none !important;
     -webkit-mask-image: none !important;
     mask-image: none !important;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
 }
 
 .class-icon-token:hover .class-pixel-icon-token {
-    transform: scale(1.03);
+    transform: none !important;
+    filter: none !important;
 }
 
 .disabled-lock {
@@ -13826,7 +13842,7 @@ select.lore-field-input option,
 }
 
 .grimoire-class-icon-wrapper:hover {
-    transform: scale(1.06) rotate(2deg);
+    transform: scale(1.06);
     border-color: #7a5a35;
     box-shadow: 0 10px 20px rgba(46, 30, 15, 0.35), inset 0 0 8px rgba(46, 30, 15, 0.1);
 }
@@ -13913,10 +13929,10 @@ select.lore-field-input option,
     right: 8px !important;
     width: 26px !important;
     height: 26px !important;
-    border-radius: 50% !important;
+    border-radius: 4px !important;
     background: rgba(44, 36, 22, 0.85) !important;
-    border: 1px solid #d4af37 !important;
-    color: #e5d8b8 !important;
+    border: 1px solid rgba(182, 160, 128, 0.65) !important;
+    color: #fdfbf7 !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
@@ -13928,9 +13944,10 @@ select.lore-field-input option,
 
 .grimoire-heritage-icon-wrapper:hover .grimoire-art-zoom-hint {
     opacity: 1 !important;
-    background: #d4af37 !important;
-    color: #1a160f !important;
-    transform: scale(1.1) !important;
+    background: #663c32 !important;
+    border-color: #4a241b !important;
+    color: #faf6ee !important;
+    transform: none !important;
 }
 
 .grimoire-heritage-nav-row {
@@ -13943,12 +13960,12 @@ select.lore-field-input option,
 }
 
 .grimoire-carousel-arrow-btn {
-    background: rgba(90, 61, 29, 0.12) !important;
-    border: 1px solid #7a5a35 !important;
+    background: #fdfbf7 !important;
+    border: 1px solid rgba(182, 160, 128, 0.65) !important;
     color: #4a351f !important;
     width: 24px !important;
     height: 24px !important;
-    border-radius: 50% !important;
+    border-radius: 4px !important;
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
@@ -13960,10 +13977,10 @@ select.lore-field-input option,
 }
 
 .grimoire-carousel-arrow-btn:hover {
-    background: #5a3d1d !important;
-    color: #f4efe1 !important;
-    border-color: #d4af37 !important;
-    transform: scale(1.1) !important;
+    background: #f4efe6 !important;
+    color: #34251a !important;
+    border-color: #8b5a1a !important;
+    transform: none !important;
 }
 
 .grimoire-carousel-pills {
@@ -13975,7 +13992,7 @@ select.lore-field-input option,
 .grimoire-carousel-pill {
     width: 8px !important;
     height: 8px !important;
-    border-radius: 50% !important;
+    border-radius: 2px !important;
     background: rgba(122, 90, 53, 0.3) !important;
     border: 1px solid rgba(90, 61, 29, 0.45) !important;
     cursor: pointer !important;
@@ -13985,15 +14002,15 @@ select.lore-field-input option,
 
 .grimoire-carousel-pill:hover {
     background: #7a5a35 !important;
-    transform: scale(1.25) !important;
+    transform: none !important;
 }
 
 .grimoire-carousel-pill.active {
-    background: #b8860b !important;
-    border-color: #5a3d1d !important;
+    background: #663c32 !important;
+    border-color: #4a241b !important;
     width: 18px !important;
-    border-radius: 4px !important;
-    box-shadow: 0 0 5px rgba(212, 175, 55, 0.5) !important;
+    border-radius: 2px !important;
+    box-shadow: 0 0 4px rgba(102, 60, 50, 0.35) !important;
 }
 
 .grimoire-heritage-caption-tag {
@@ -14003,7 +14020,7 @@ select.lore-field-input option,
     color: #4a351f !important;
     background: rgba(122, 90, 53, 0.08) !important;
     border: 1px solid rgba(122, 90, 53, 0.25) !important;
-    border-radius: 6px !important;
+    border-radius: 4px !important;
     padding: 0.35rem 0.65rem !important;
     text-align: center !important;
     text-transform: none !important;
@@ -14017,7 +14034,7 @@ select.lore-field-input option,
 }
 
 .grimoire-heritage-caption-tag i {
-    color: #b8860b !important;
+    color: #7a5e48 !important;
     margin-right: 0.3rem !important;
 }
 
@@ -14108,7 +14125,7 @@ select.lore-field-input option,
 }
 
 .visual-card-token:hover {
-    transform: scale(1.08) rotate(2deg);
+    transform: scale(1.08);
     border-color: #f3e5ab;
     box-shadow: 0 12px 24px rgba(0, 0, 0, 0.5);
 }
@@ -14309,7 +14326,7 @@ select.lore-field-input option,
 }
 
 .visual-class-info-block:hover .visual-class-pixel-icon {
-    transform: scale(1.15) rotate(1deg);
+    transform: scale(1.15);
     mix-blend-mode: normal;
     filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.5)) brightness(1.05);
 }
@@ -14698,7 +14715,7 @@ select.lore-field-input option,
 .wizard-step-orb {
     width: 52px;
     height: 52px;
-    border-radius: 50%;
+    border-radius: 4px;
     background: linear-gradient(145deg, #e4d8bd 0%, #d4c5a9 55%, #c2b192 100%);
     border: 2px solid rgba(139, 115, 85, 0.85);
     color: #4e361d;
@@ -14720,7 +14737,7 @@ select.lore-field-input option,
 }
 
 .wizard-step-orb:hover {
-    transform: scale(1.08);
+    transform: scale(1.04);
     box-shadow:
         0 6px 18px rgba(0, 0, 0, 0.4),
         0 0 16px rgba(139, 115, 85, 0.4),
@@ -14757,7 +14774,7 @@ select.lore-field-input option,
 .wizard-orb-arrow {
     width: 40px;
     height: 40px;
-    border-radius: 50%;
+    border-radius: 4px;
     background: linear-gradient(145deg, #fcf9f2 0%, #ede4d6 100%);
     border: 1.5px solid rgba(139, 115, 85, 0.65);
     color: #5a3812;
@@ -14772,7 +14789,7 @@ select.lore-field-input option,
 }
 
 .wizard-orb-arrow:hover:not(:disabled) {
-    transform: scale(1.08);
+    transform: scale(1.04);
     background: #fdfbf7;
     border-color: #8b5a1a;
     color: #2e1e0f;
@@ -14800,7 +14817,7 @@ select.lore-field-input option,
 
 .wizard-orb-arrow.finish:hover:not(:disabled) {
     background: linear-gradient(135deg, #376d49 0%, #244932 100%);
-    transform: scale(1.1);
+    transform: scale(1.04);
 }
 
 /* Step Quick Jump Popover Menu */
@@ -14812,7 +14829,7 @@ select.lore-field-input option,
     width: 270px;
     background: #fdfbf7;
     border: 2px solid #8b5a1a;
-    border-radius: 12px;
+    border-radius: 4px;
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5), inset 0 0 30px rgba(139, 90, 26, 0.06);
     padding: 8px;
     z-index: 10002;
@@ -14889,9 +14906,9 @@ select.lore-field-input option,
 }
 
 .wizard-orb-menu-item.current {
-    background: rgba(212, 175, 55, 0.25);
-    border-color: #d4af37;
-    box-shadow: 0 0 0 1px #d4af37;
+    background: rgba(102, 60, 50, 0.08);
+    border-color: #663c32;
+    box-shadow: 0 0 0 1px #663c32;
 }
 
 .wizard-orb-menu-item.completed:not(.current) {
@@ -14901,7 +14918,7 @@ select.lore-field-input option,
 .orb-menu-num {
     width: 22px;
     height: 22px;
-    border-radius: 50%;
+    border-radius: 4px;
     background: #e2d5b8;
     border: 1px solid rgba(139, 90, 26, 0.5);
     font-family: 'Cinzel', serif;
@@ -14915,9 +14932,9 @@ select.lore-field-input option,
 }
 
 .wizard-orb-menu-item.current .orb-menu-num {
-    background: #d4af37;
-    color: #1a0f05;
-    border-color: #8b5a1a;
+    background: #663c32;
+    color: #faf6ee;
+    border-color: #4a241b;
 }
 
 .orb-menu-info {
@@ -14954,8 +14971,8 @@ select.lore-field-input option,
     font-weight: 700;
     padding: 1px 5px;
     border-radius: 3px;
-    background: #d4af37;
-    color: #1a0f05;
+    background: #663c32;
+    color: #faf6ee;
     text-transform: uppercase;
 }
 
@@ -15216,7 +15233,7 @@ select.lore-field-input option,
 .character-wizard-container .item-tooltip,
 .character-wizard-container .item-tooltip :not(i):not(svg) {
     font-family: 'Bookman Old Style', 'Garamond', serif !important;
-}
+}
 /* ===== HERALDIC SUBRACE CRESTS ===== */
 .subrace-tab .subrace-detail-icon {
     overflow: hidden;

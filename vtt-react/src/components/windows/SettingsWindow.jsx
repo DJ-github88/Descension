@@ -762,7 +762,7 @@ const SettingsWindow = memo(function SettingsWindow({ activeTab: propActiveTab }
                 {
                   value: 'full',
                   label: 'Full (Open Ledger)',
-                  desc: 'Complete transparency. Players inspect identical statistics to the Game Master, including precise numeric HP, Armor Class, and Speed.'
+                  desc: 'Complete transparency. Players inspect identical statistics to the Game Master, including precise numeric HP, damage reduction, resistances and Speed.'
                 }
               ].map((opt) => (
                 <div

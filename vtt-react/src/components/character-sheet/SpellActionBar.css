@@ -5,6 +5,11 @@
   justify-content: center;
   gap: 16px;
   position: relative;
+  left: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  transform: none !important;
+  margin: 0 auto;
   pointer-events: none;
   max-width: 100%;
 }
@@ -31,46 +36,79 @@
   margin-left: 4px;
 }
 
-/* Accessory tools cluster for Dice Roller & Clear All */
+/* Accessory tools cluster for Dice Roller & Clear All - outside the equipment wings */
 .spell-action-tools-cluster {
   display: flex;
   flex-direction: column;
   gap: 6px;
   align-items: center;
   justify-content: center;
+  align-self: center;
+  z-index: 910;
+  position: relative;
+  pointer-events: auto;
+  flex-shrink: 0;
   margin-left: 2px;
 }
 
-.spell-action-tools-cluster .spell-action-cog-btn,
-.spell-action-tools-cluster .spell-bar-clear-inline-btn {
-  width: 30px;
-  height: 30px;
-  background: #f8f5ee;
-  border: 1px solid #b6a080;
-  border-radius: 6px;
-  color: var(--adventure-seal, #663c32);
+.spell-action-tools-cluster .dice-button {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 35%, #fbf8f1, #e8e2d4 70%, #d9cfbb) !important;
+  border: 1px solid var(--illum-edge, #b6a080) !important;
+  box-shadow: inset 0 0 0 2px #f8f5ee, inset 0 0 0 3px rgba(102, 60, 50, 0.3), 0 2px 6px rgba(52, 37, 26, 0.18) !important;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   transition: all 0.2s ease;
-  box-shadow: 0 2px 6px rgba(52, 37, 26, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.7);
-  font-size: 13px;
   padding: 0;
-  margin: 0;
+  color: #663c32 !important;
 }
 
-.spell-action-tools-cluster .spell-action-cog-btn:hover,
+.spell-action-tools-cluster .dice-button:hover {
+  border-color: #663c32 !important;
+  transform: translateY(-1px);
+  box-shadow: inset 0 0 0 2px #f8f5ee, inset 0 0 0 3px rgba(102, 60, 50, 0.4), 0 3px 8px rgba(52, 37, 26, 0.25) !important;
+}
+
+.spell-action-tools-cluster .dice-button .dice-button-icon {
+  color: #663c32 !important;
+  font-size: 18px;
+  text-shadow: none !important;
+}
+
+.spell-action-tools-cluster .spell-bar-clear-inline-btn {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #f8f5ee;
+  border: 1px solid #b6a080;
+  color: #8b3a2a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 11px;
+  padding: 0;
+  box-shadow: 0 1px 3px rgba(52, 37, 26, 0.2);
+}
+
 .spell-action-tools-cluster .spell-bar-clear-inline-btn:hover {
-  background: var(--adventure-seal, #663c32);
+  background: #8b3a2a;
+  border-color: #5c2018;
   color: #f8f5ee;
-  border-color: #4a2820;
   transform: scale(1.08);
 }
 
 /* Floating Equipment Slot Tooltip */
 .equipment-slot-floating-tooltip {
   max-width: 380px;
+  max-height: calc(100vh - 36px);
+  overflow-y: auto;
+  box-sizing: border-box;
   filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.7));
   pointer-events: none;
   z-index: 999999999;
@@ -81,208 +119,125 @@
   margin: 0 !important;
 }
 
-/* Illustrated Actionbar.PNG Scroll Styling */
-.spell-action-bar-container.action-bar-has-asset {
-  background-color: transparent !important;
-  border: none !important;
-  border-radius: 0 !important;
-  box-shadow: none !important;
-  backdrop-filter: none !important;
-  padding: 44px 0px 41px 0px !important;
-  width: auto !important;
-  max-width: none !important;
-  margin: 0 !important;
-}
-
-.spell-action-bar-container.action-bar-has-asset .spell-action-slots-wrapper {
-  overflow-x: visible;
-  padding: 0;
-}
-
-.spell-action-bar-container.action-bar-has-asset .spell-action-slots-row {
+/* Elevated Equipment Wings (Left: MH, Right: OH & Ranged) */
+.spell-action-bar-assembly .action-bar-wing {
+  background: var(--illum-corners), #f8f5ee !important;
+  border: 1px solid var(--illum-edge, #b6a080) !important;
+  border-radius: 3px !important;
+  box-shadow: var(--illum-rule), var(--illum-lift) !important;
+  padding: 8px 10px !important;
+  gap: 8px !important;
   display: flex;
-  gap: 19px;
+  align-items: center;
+  z-index: 910;
   position: relative;
-  z-index: 2;
-  padding-left: 51px;
-  padding-right: 55px;
 }
 
-.spell-action-bar-container.action-bar-has-asset .spell-action-slot {
-  width: 42px;
-  height: 42px;
-  background: transparent;
-  border: none;
-  border-radius: 10px;
-  box-shadow: none;
-}
-
-.spell-action-bar-container.action-bar-has-asset .spell-action-slot:hover {
-  background: transparent;
-  border: none;
-  box-shadow: 0 0 12px 3px rgba(212, 175, 55, 0.4);
-  transform: none;
-}
-
-.spell-action-bar-container.action-bar-has-asset .spell-action-slot.drag-over {
-  background: transparent !important;
-  border: none !important;
-  box-shadow: 0 0 16px 4px rgba(212, 175, 55, 0.6) !important;
-  transform: none !important;
-}
-
-.spell-action-bar-container.action-bar-has-asset .spell-action-slot.has-spell {
-  background: transparent;
-  border: none;
-}
-
-.spell-action-bar-container.action-bar-has-asset .spell-action-slot.has-spell:hover {
-  border: none;
-  box-shadow: 0 0 12px 3px rgba(212, 175, 55, 0.4);
-}
-
-.spell-action-bar-container.action-bar-has-asset .spell-slot-key {
-  position: absolute;
-  bottom: 2px;
-  right: 2px;
-  top: auto;
-  left: auto;
-  font-family: 'Cinzel', serif;
-  font-size: 11px;
-  font-weight: bold;
-  color: #fff;
-  text-shadow: 0 0 2px #000, 0 0 4px #000;
-  background: transparent;
-  border: none;
-  box-shadow: none;
-  padding: 0;
-  line-height: 1;
-}
-
-.spell-action-bar-container.action-bar-has-asset .spell-slot-empty {
-  display: none;
-}
-
-/* Fallback / standard container styling */
+/* Illuminated Calm Action Bar Container */
 .spell-action-bar-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 6px;
-  padding: 4px 12px;
-  background: linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%);
-  border: 2px solid #8b4513;
-  border-radius: 10px;
-  box-shadow:
-    0 8px 32px rgba(0, 0, 0, 0.35),
-    inset 0 2px 0 rgba(255, 255, 255, 0.7),
-    inset 0 -2px 0 rgba(139, 69, 19, 0.2),
-    0 0 0 1px rgba(139, 69, 19, 0.3);
+  margin: 0;
+  padding: 8px 14px;
+  background: var(--illum-corners), #f8f5ee;
+  border: 1px solid var(--illum-edge, #b6a080);
+  border-radius: 3px;
+  box-shadow: var(--illum-rule), var(--illum-lift);
   position: relative;
   user-select: none;
-  width: 100%;
-  max-width: 880px;
-  margin-left: auto;
-  margin-right: auto;
+  width: auto;
+  max-width: 100%;
   box-sizing: border-box;
 }
 
-/* Slots Row */
-.spell-action-slots-wrapper {
-  width: 100%;
+.spell-action-bar-container .spell-action-slots-wrapper {
+  overflow-x: auto;
+  padding: 0;
   display: flex;
   justify-content: center;
-  overflow-x: auto;
-  padding: 2px 0;
-  -webkit-overflow-scrolling: touch;
 }
 
-.spell-action-slots-row {
+.spell-action-bar-container .spell-action-slots-row {
   display: flex;
-  gap: 6px;
+  gap: 8px;
   align-items: center;
 }
 
-/* Individual Slot (Beige Pathfinder Parchment) */
-.spell-action-slot {
-  width: 44px;
-  height: 44px;
-  background: radial-gradient(circle at center, #faf6ee 0%, #e3d3ba 100%);
-  border: 2px solid #8b5a2b;
-  border-radius: 8px;
+/* Recessed slot wells matching the game */
+.spell-action-bar-container .spell-action-slot {
+  width: 42px;
+  height: 42px;
+  background: #ece5d6;
+  border: 1px solid #a8977a;
+  border-radius: 3px;
+  box-shadow: inset 0 2px 4px rgba(52, 37, 26, 0.22);
   position: relative;
   cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: inset 0 2px 5px rgba(139, 69, 19, 0.25), 0 2px 4px rgba(0, 0, 0, 0.12);
+  transition: all 0.15s ease;
   flex-shrink: 0;
-  box-sizing: border-box;
 }
 
-.spell-action-slot:hover {
-  border-color: #c5a059;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(197, 160, 89, 0.4), inset 0 1px 4px rgba(255, 235, 180, 0.5);
-  background: radial-gradient(circle at center, #ffffff 0%, #ece0ce 100%);
+.spell-action-bar-container .spell-action-slot:hover {
+  border-color: #663c32;
+  box-shadow: inset 0 2px 4px rgba(52, 37, 26, 0.22), 0 0 8px rgba(102, 60, 50, 0.3);
+  transform: translateY(-1px);
 }
 
-.spell-action-slot.drag-over {
-  border-color: #16a34a !important;
-  background: radial-gradient(circle at center, #f0fdf4 0%, #bbf7d0 100%) !important;
-  transform: scale(1.08) !important;
-  box-shadow: 0 0 16px rgba(22, 163, 74, 0.6), inset 0 0 8px rgba(34, 197, 94, 0.3) !important;
+.spell-action-bar-container .spell-action-slot.drag-over {
+  border-color: #663c32 !important;
+  box-shadow: 0 0 12px rgba(212, 175, 55, 0.6), inset 0 2px 4px rgba(52, 37, 26, 0.22) !important;
 }
 
+/* Empty well carries faint engraved diamond watermark */
+.spell-action-bar-container .spell-action-slot.empty {
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14'%3E%3Cpath d='M7 1L13 7L7 13L1 7Z' fill='none' stroke='%23a8977a' stroke-width='1'/%3E%3Cpath d='M7 4.5L9.5 7L7 9.5L4.5 7Z' fill='%23c4baa6'/%3E%3C/svg%3E") center / 14px no-repeat, #ece5d6;
+}
+
+.spell-action-bar-container .spell-slot-empty {
+  display: none;
+}
+
+/* Slot hotkey number on brass-trimmed diamond badge */
+.spell-action-bar-container .spell-slot-key {
+  position: absolute;
+  bottom: -4px;
+  right: -4px;
+  background: #f8f5ee;
+  color: #663c32;
+  border: 1px solid var(--illum-brass, #b6a080);
+  border-radius: 2px;
+  font-family: Georgia, serif;
+  font-weight: 700;
+  font-size: 10px;
+  line-height: 1;
+  padding: 1px 3px;
+  text-shadow: none;
+  box-shadow: 0 1px 2px rgba(52, 37, 26, 0.25);
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* Filled / Assigned Slot State */
 .spell-action-slot.has-spell {
-  border-color: #8b4513;
-  background: #1c0e08;
+  border-color: #8b5a2b;
 }
 
 .spell-action-slot.has-spell:hover {
-  border-color: #ffd700;
-  box-shadow: 0 4px 14px rgba(212, 175, 55, 0.5);
+  border-color: #663c32;
+  box-shadow: inset 0 1px 3px rgba(52, 37, 26, 0.2), 0 0 8px rgba(102, 60, 50, 0.35);
 }
 
-/* Hotkey Badge */
-.spell-slot-key {
-  position: absolute;
-  top: 2px;
-  left: 2px;
-  font-family: 'Cinzel', serif;
-  font-size: 0.65rem;
-  font-weight: 700;
-  color: #5c3310;
-  background: rgba(255, 255, 255, 0.92);
-  border: 1px solid rgba(139, 69, 19, 0.4);
-  padding: 0 4px;
-  border-radius: 3px;
-  line-height: 1.1;
-  pointer-events: none;
-  z-index: 3;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
-}
-
-/* Empty Slot Plus */
-.spell-slot-empty {
-  color: rgba(139, 90, 43, 0.4);
-  font-size: 1rem;
-  transition: all 0.2s ease;
-  pointer-events: none;
-}
-
-.spell-action-slot:hover .spell-slot-empty {
-  color: #8b4513;
-  transform: scale(1.25);
-}
 
 /* Spell Icon inside Slot */
 .spell-slot-icon-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 6px;
+  border-radius: 2px;
   pointer-events: none;
   display: block;
 }
@@ -1644,31 +1599,30 @@
 }
 
 .spell-action-cog-btn {
-  width: 44px;
-  height: 44px;
-  background: radial-gradient(circle at center, #faf6ee 0%, #e3d3ba 100%);
-  border: 2px solid #8b5a2b;
-  border-radius: 8px;
+  width: 28px;
+  height: 28px;
+  background: radial-gradient(circle at 35% 35%, #fbf7ee 0%, #eadbc2 100%);
+  border: 1.5px solid #a88a58;
+  border-radius: 6px;
   position: relative;
   cursor: pointer;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: inset 0 2px 5px rgba(139, 69, 19, 0.25), 0 2px 4px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 2px 5px rgba(44, 30, 20, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.7);
   flex-shrink: 0;
   box-sizing: border-box;
-  color: #6b5335;
-  font-size: 15px;
+  color: #6b4e31;
+  font-size: 12px;
   padding: 0;
-  margin-left: 2px;
 }
 
 .spell-action-cog-btn:hover {
-  border-color: #c5a059;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(197, 160, 89, 0.4), inset 0 1px 4px rgba(255, 235, 180, 0.5);
-  background: radial-gradient(circle at center, #ffffff 0%, #ece0ce 100%);
+  border-color: #d4af37;
+  transform: translateY(-1.5px) scale(1.05);
+  box-shadow: 0 4px 10px rgba(182, 140, 60, 0.4), inset 0 1px 2px rgba(255, 255, 255, 0.9);
+  background: radial-gradient(circle at 35% 35%, #fffdf8 0%, #f4e8d3 100%);
   color: #3d2314;
 }
 
@@ -1678,30 +1632,30 @@
 
 /* Inline Clear-All button (right of the cog, same row) */
 .spell-bar-clear-inline-btn {
-  width: 44px;
-  height: 44px;
-  background: radial-gradient(circle at center, #faf6ee 0%, #e3d3ba 100%);
-  border: 2px solid #8b5a2b;
-  border-radius: 8px;
+  width: 28px;
+  height: 28px;
+  background: radial-gradient(circle at 35% 35%, #fbf7ee 0%, #eadbc2 100%);
+  border: 1.5px solid #a88a58;
+  border-radius: 6px;
   cursor: pointer;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: inset 0 2px 5px rgba(139, 69, 19, 0.25), 0 2px 4px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 2px 5px rgba(44, 30, 20, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.7);
   flex-shrink: 0;
   box-sizing: border-box;
-  color: #8a5a5a;
-  font-size: 14px;
+  color: #7a3a3a;
+  font-size: 11.5px;
   padding: 0;
 }
 
 .spell-bar-clear-inline-btn:hover {
   border-color: #a83232;
-  background: radial-gradient(circle at center, #ffefef 0%, #f0d5d5 100%);
-  color: #8a1a1a;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 10px rgba(168, 50, 50, 0.35);
+  background: radial-gradient(circle at 35% 35%, #fdf2f2 0%, #ebd2d2 100%);
+  color: #5c1818;
+  transform: translateY(-1.5px) scale(1.05);
+  box-shadow: 0 4px 10px rgba(168, 50, 50, 0.35), inset 0 1px 2px rgba(255, 255, 255, 0.9);
 }
 
 .spell-bar-clear-inline-btn:active {

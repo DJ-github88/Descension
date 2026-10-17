@@ -1,0 +1,31 @@
+{
+  "checkedAt": "2026-10-17T20:16:27.203Z",
+  "scope": "Frozen contract/source/hash consistency, not implementation test acceptance",
+  "contracts": 3,
+  "goldenVectors": 3,
+  "zeroPriceIdentityPreserved": true,
+  "sourceDrift": [],
+  "applicationWrites": 0,
+  "applicationImplementationAuthorized": false,
+  "masterAssignmentComplete": false,
+  "futureTargetPresence": {
+    "server/services/authoredSpellDefinitions.js": false,
+    "server/tests/authoredSpellDefinitions.test.js": false,
+    "server/tests/fixtures/crA1aDefinitionVectors.json": false
+  },
+  "files": {
+    "implementation/CR-W1a-ZERO-AP.md": "1147bb2c5b48ca8f5d5372ea545f8e2d1b5793d45e20a4ce1089186fdc337acd",
+    "implementation/CR-W1b-RESOURCE-COST-ROUNDTRIP.md": "1eeeecb4cc4ef893a0cfa5ce256cf6a16d0868d64427a56cd18a201f21083446",
+    "implementation/CR-A1a-DEFINITION-INFRASTRUCTURE.md": "467169ed6c269e9a3734a00bc2cadbc38415ed617cbe88002695150cf263615c",
+    "implementation/fixtures/CR-A1a-definition-vectors.json": "e6a98a497308b8535538b9887435c9189127afa768b60cd8e01af31cd3c55bdb",
+    "32_FROZEN_HANDOFF_AND_PROTOTYPE_ACCEPTANCE.md": "d89ed5db497544a958584e7bebfd3a94f83aeaecd4fd5bbf34d5529cc0e10c2a",
+    "00_README_AND_MASTER_INDEX.md": "0801ac72cefa0712c41ec96c793dbf214bdbdb6bae33cfeee3ceb5b9e8ccfd5b",
+    "20_IMPLEMENTATION_PHASES.md": "272c3b07cc5d27db8fd2b3f591e5a0acd5118d2f1b36cc5aca8bbdf0a9e6e827",
+    "21_DEEPSEEK_IMPLEMENTATION_CONTRACTS.md": "c9e49081228ab13b1d7ef01dc93bfca73932e01919d5ee434eeba5bea952298e",
+    "22_CREATOR_DECISION_REGISTER.md": "29b57bc93d15772191200ccebb12bf0bed1897394e38a44ef058c7ae9096973a",
+    "26_COMPLETION_AND_CONTINUATION.md": "1e493da9e2806b109e1e617d796766542e4865e41639ca310450e2186acd4110",
+    "30_CLASS_HEADQ_DECISION_PACKET.md": "18656363a804e00334578e768479c40738b92ae47b9bf51ecef70b09c11f663c",
+    "implementation/CR-W1-WIZARD-CORRECTIONS.md": "54c0f5db45c6d3204f031deec1cf033029f0a1c74e09732490ce75a9a1b5adf3",
+    "implementation/CR-A1-AUTHORED-SPELL-ADMISSION.md": "e2e6fda5dd14dfd25dd3534564b676657e742d64d98d64d61d0a4632a4156f9b"
+  }
+}

@@ -181,8 +181,8 @@ export const getItemThematicExcerpt = (item) => {
   }
 
   if (type === 'armor' && item.armorStats) {
-    const ac = item.armorStats.armorBonus ? `+${item.armorStats.armorBonus} AC` : '';
-    return [subtype ? subtype.charAt(0).toUpperCase() + subtype.slice(1) : 'Armor', ac].filter(Boolean).join(' · ');
+    // No Armor score in Mythrill: armorBonus stays on the item but is not shown.
+    return subtype ? subtype.charAt(0).toUpperCase() + subtype.slice(1) : 'Armor';
   }
 
   if (subtype) {

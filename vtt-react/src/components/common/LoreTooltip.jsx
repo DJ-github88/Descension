@@ -18,23 +18,32 @@ const entryIcons = {
 };
 
 const regionColors = {
-  'frostwood-reach': '#3d6e90',
-  'nordhalla': '#5c829e',
-  'sundale': '#b23c1e',
-  'iceheart-sea': '#1a3a6e',
-  'cragjaw-peaks': '#3a1a5e',
-  'sundrift-vale': '#9a6e10',
-  'bryngloom-forest': '#2b5e1a'
+  'frostwood-reach': '#3a5870',
+  'nordhalla': '#48667a',
+  'sundale': '#682317',
+  'iceheart-sea': '#2c4866',
+  'cragjaw-peaks': '#4d365e',
+  'sundrift-vale': '#6e5224',
+  'bryngloom-forest': '#2d5234'
 };
 
 const statusStyle = {
-  banned:        { label: 'Forbidden',   color: '#a12323' },
-  outlawed:      { label: 'Proscribed',  color: '#a12323' },
-  persecuted:    { label: 'Persecuted',  color: '#b23c1e' },
-  distrusted:    { label: 'Distrusted',  color: '#c48b1e' },
-  valued:        { label: 'Valued',      color: '#2d8552' },
-  celebrated:    { label: 'Celebrated',  color: '#2d8552' },
-  'celebrated-and-divided': { label: 'Celebrated and Divided', color: '#c48b1e' }
+  banned:                   { label: 'Forbidden',              tone: 'hostile' },
+  outlawed:                 { label: 'Proscribed',             tone: 'hostile' },
+  hunted:                   { label: 'Hunted',                 tone: 'hostile' },
+  persecuted:               { label: 'Persecuted',             tone: 'hostile' },
+  feared:                   { label: 'Feared',                 tone: 'caution' },
+  restricted:               { label: 'Restricted',             tone: 'caution' },
+  distrusted:               { label: 'Distrusted',             tone: 'caution' },
+  monitored:                { label: 'Monitored',              tone: 'caution' },
+  exploited:                { label: 'Exploited',              tone: 'caution' },
+  tolerated:                { label: 'Tolerated',              tone: 'neutral' },
+  accepted:                 { label: 'Accepted',               tone: 'favored' },
+  valued:                   { label: 'Valued',                 tone: 'favored' },
+  celebrated:               { label: 'Celebrated',             tone: 'favored' },
+  revered:                  { label: 'Revered',                tone: 'favored' },
+  venerated:                { label: 'Venerated',              tone: 'favored' },
+  'celebrated-and-divided': { label: 'Celebrated & Divided',   tone: 'caution' }
 };
 
 const stripTags = (s = '') => String(s).replace(/<[^>]+>/g, '');
@@ -55,7 +64,7 @@ const LoreTooltip = ({ entry, position, onClose }) => {
 
   useEffect(() => {
     const handleGlobalClick = (e) => {
-      if (e.target.closest('.lore-action-btn')) return;
+      if (e.target.closest('.lore-action-btn') || e.target.closest('.lore-close-btn')) return;
       onClose();
     };
     const timer = setTimeout(() => {
@@ -70,8 +79,8 @@ const LoreTooltip = ({ entry, position, onClose }) => {
   if (!entry) return null;
 
   const iconClass = entryIcons[entry.type] || 'fas fa-book';
-  const regionAccent = regionColors[entry.region] || '#8f6f35';
-  const displayType = entry.type.replace('_', ' ');
+  const regionAccent = regionColors[entry.region] || '#682317';
+  const displayType = entry.type.replace(/_/g, ' ');
   const isClass = entry.type === 'class';
   const isConcept = entry.type === 'concept';
 
@@ -79,21 +88,6 @@ const LoreTooltip = ({ entry, position, onClose }) => {
   const worldFriction = classData?.worldFriction;
   const secondary = entry.secondaryRegions && entry.secondaryRegions.length ? entry.secondaryRegions : null;
   const transition = isConcept ? entry.transition : null;
-
-  const badgeStyle = {
-    display: 'inline-block', padding: '1px 7px', borderRadius: '10px',
-    fontSize: '0.72rem', fontWeight: 700, color: '#fff', marginRight: '6px', textTransform: 'capitalize'
-  };
-  const sectionLabel = {
-    fontFamily: "'Cinzel', serif",
-    fontSize: '0.68rem',
-    letterSpacing: '0.08em',
-    textTransform: 'uppercase',
-    color: '#8f6f35',
-    marginTop: '12px',
-    marginBottom: '4px',
-    fontWeight: 700
-  };
 
   return (
     <TooltipPortal>
@@ -121,6 +115,15 @@ const LoreTooltip = ({ entry, position, onClose }) => {
               <div className="lore-title">{entry.term}</div>
               <div className="lore-subtitle">{displayType}</div>
             </div>
+            <button
+              type="button"
+              className="lore-close-btn"
+              onClick={onClose}
+              aria-label="Close codex entry"
+              title="Close (Esc)"
+            >
+              <i className="fas fa-times" />
+            </button>
           </div>
 
           <div className="lore-tooltip-body">
@@ -129,84 +132,97 @@ const LoreTooltip = ({ entry, position, onClose }) => {
             </div>
 
             {isClass && secondary && (
-              <div style={{ fontSize: '0.8rem', marginTop: '8px', color: '#5d4037' }}>
-                <i className="fas fa-globe" style={{ marginRight: '5px', color: regionAccent }} />
-                Also practiced in: {secondary.map(prettify).join(', ')}
+              <div className="lore-secondary-regions">
+                <i className="fas fa-globe" />
+                <span>Also practiced in: <strong>{secondary.map(prettify).join(', ')}</strong></span>
               </div>
             )}
 
             {isClass && entry.nativeWeaving && (
-              <>
-                <div style={sectionLabel}>Native Weaving</div>
-                <div style={{ fontSize: '0.8rem', lineHeight: 1.5, color: '#3d2a17', fontFamily: "'Crimson Text', serif" }}>
+              <div className="lore-section-block">
+                <div className="lore-section-heading">Native Weaving</div>
+                <div className="lore-native-weaving">
                   {stripTags(entry.nativeWeaving).split(/\*\*/).map((seg, i) =>
                     i % 2 === 1
-                      ? <strong key={i} style={{ color: regionAccent }}>{seg}</strong>
+                      ? <strong key={i} className="lore-inline-term">{seg}</strong>
                       : <span key={i}>{seg}</span>
                   )}
                 </div>
-              </>
+              </div>
             )}
 
             {isConcept && transition && (
-              <>
+              <div className="lore-section-block">
                 <div className="lore-divider" />
-                <div style={sectionLabel}>Aftermath of the Merger</div>
-                {transition.aftermath && <div style={{ fontSize: '0.84rem', color: '#3d2a17', marginBottom: '6px', lineHeight: 1.5 }}>{stripTags(transition.aftermath)}</div>}
+                <div className="lore-section-heading">Aftermath of the Merger</div>
+                {transition.aftermath && (
+                  <div className="lore-transition-text">{stripTags(transition.aftermath)}</div>
+                )}
                 {transition.legacySite && (
-                  <div style={{ fontSize: '0.8rem', color: '#5d4037', marginBottom: '6px' }}>
-                    <i className="fas fa-map-pin" style={{ marginRight: '5px', color: regionAccent }} />
-                    {stripTags(transition.legacySite)}
+                  <div className="lore-secondary-regions">
+                    <i className="fas fa-map-pin" />
+                    <span>{stripTags(transition.legacySite)}</span>
                   </div>
                 )}
                 {transition.survivorNote && (
-                  <div style={{ fontSize: '0.8rem', fontStyle: 'italic', color: '#6d4c41', lineHeight: 1.5 }}>
+                  <div className="lore-survivor-note">
                     {stripTags(transition.survivorNote)}
                   </div>
                 )}
-              </>
+              </div>
+            )}
+
+            {(entry.fullEntry || (isClass && worldFriction && worldFriction.length > 0)) && (
+              <div className="lore-divider" />
             )}
 
             {entry.fullEntry && (
-              <>
-                <div className="lore-divider" />
+              <div className="lore-expand-group">
                 <div className={`lore-full-entry ${isExpanded ? 'expanded' : ''}`}>
                   {entry.fullEntry}
                 </div>
                 <button
+                  type="button"
                   className={`lore-action-btn ${isExpanded ? 'expanded' : ''}`}
                   onClick={() => setIsExpanded(!isExpanded)}
                 >
-                  {isExpanded ? 'Show Less' : 'Read More'}
+                  <span>{isExpanded ? 'Fold Chronicle' : 'Read Full Chronicle'}</span>
                   <i className="fas fa-chevron-down" />
                 </button>
-              </>
+              </div>
             )}
 
             {isClass && worldFriction && worldFriction.length > 0 && (
-              <>
-                <div className="lore-divider" />
+              <div className="lore-reception-group">
                 <button
-                  className="lore-action-btn"
+                  type="button"
+                  className={`lore-action-btn lore-reception-toggle ${showReception ? 'expanded' : ''}`}
                   onClick={() => setShowReception(!showReception)}
-                  style={{ width: '100%', textAlign: 'left' }}
                 >
-                  <i className="fas fa-bullhorn" style={{ marginRight: '6px' }} />
-                  Reception in the World
-                  <i className="fas fa-chevron-down" style={{ marginLeft: '6px', transition: 'transform .2s', transform: showReception ? 'rotate(180deg)' : 'none' }} />
+                  <span className="lore-btn-left">
+                    <i className="fas fa-scroll" />
+                    <span>Reception in the World</span>
+                  </span>
+                  <i className="fas fa-chevron-down lore-chevron" />
                 </button>
                 {showReception && (
-                  <div style={{ marginTop: '8px' }}>
+                  <div className="lore-reception-list">
                     {worldFriction.map((wf, i) => {
-                      const st = statusStyle[wf.status] || { label: wf.status, color: '#888888' };
+                      const rawKey = String(wf.status || '').toLowerCase();
+                      const st = statusStyle[rawKey] || { label: prettify(rawKey || 'Noted'), tone: 'neutral' };
                       return (
-                        <div key={i} style={{ marginBottom: '8px', fontSize: '0.82rem', lineHeight: 1.45 }}>
-                          <span style={{ ...badgeStyle, backgroundColor: st.color }}>{st.label}</span>
-                          <span style={{ color: '#6d4c41', fontFamily: "'Cinzel', serif", fontSize: '0.74rem', fontWeight: 600 }}>{prettify(wf.region)}{wf.location ? ` · ${prettify(wf.location)}` : ''}</span>
-                          <div style={{ color: '#3d2a17', marginTop: '3px', fontFamily: "'Crimson Text', serif" }}>{stripTags(wf.consequence)}</div>
+                        <div key={i} className="lore-reception-item">
+                          <div className="lore-reception-header">
+                            <span className={`lore-status-stamp tone-${st.tone}`}>{st.label}</span>
+                            <span className="lore-reception-region">
+                              {prettify(wf.region)}{wf.location ? ` · ${prettify(wf.location)}` : ''}
+                            </span>
+                          </div>
+                          <div className="lore-reception-consequence">{stripTags(wf.consequence)}</div>
                           {wf.workaround && (
-                            <div style={{ color: '#6d4c41', fontStyle: 'italic', marginTop: '3px', fontSize: '0.8rem' }}>
-                              <i className="fas fa-user-secret" style={{ marginRight: '4px', color: regionAccent }} />{stripTags(wf.workaround)}
+                            <div className="lore-reception-workaround">
+                              <i className="fas fa-feather-alt" />
+                              <span>{stripTags(wf.workaround)}</span>
                             </div>
                           )}
                         </div>
@@ -214,7 +230,7 @@ const LoreTooltip = ({ entry, position, onClose }) => {
                     })}
                   </div>
                 )}
-              </>
+              </div>
             )}
           </div>
         </div>

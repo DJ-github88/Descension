@@ -1,5 +1,6 @@
 
 import { getRacialBaseStats } from '../data/raceData';
+import { PC_BASE_ACTION_POINTS } from '../data/firstTableRules';
 import { getRacialStatModifiers } from './raceDisciplineSpellUtils';
 import { getClassHeritageAccess } from '../data/classHeritageRegistry';
 
@@ -470,7 +471,7 @@ export function calculateDerivedStats(totalStats, equipmentBonuses = {}, skillBo
     speed: 30,
     hp: 0,
     mana: 0,
-    ap: 3, // Default is 3, some races have 4 or 2
+    ap: PC_BASE_ACTION_POINTS, // first-table baseline; heritage AP set aside
     passivePerception: 0,
     swimSpeed: 0,
     climbSpeed: 0,

@@ -5,12 +5,14 @@
  * They appear in every class's spell library.
  */
 
+import { BASIC_WEAPON_STRIKE_AP, DEFEND_AP } from './firstTableRules';
+
 export const UNIVERSAL_COMBAT_SPELLS = [
  // ===== COMBAT ACTIONS =====
  {
   id: 'universal_attack',
   name: 'Attack (Melee or Ranged)',
-  description: 'Strike with your weapon against a target. Roll your weapon die (e.g., 1d8 for longsword) - a 1 is a miss (roll again to check for critical miss), maximum value is a critical hit, any other result hits and deals damage equal to the roll plus your attribute modifier. Armor provides passive damage reduction equal to Armor ÷ 10 (rounded down).',
+  description: 'Strike with your weapon against a target. Roll your weapon die (e.g., 1d8 for longsword) - a 1 is a miss (roll again to check for critical miss), maximum value is a critical hit, any other result hits and deals damage equal to the roll plus your attribute modifier. A hit that lands is reduced by the DR die of the target\'s blocking piece (see Attacks & Damage).',
   level: 1,
   spellType: 'ACTION',
   effectTypes: ['damage'],
@@ -39,7 +41,7 @@ export const UNIVERSAL_COMBAT_SPELLS = [
    resourceTypes: [],
    resourceValues: {},
    useFormulas: {},
-   actionPoints: 1,
+   actionPoints: BASIC_WEAPON_STRIKE_AP,
    components: []
   },
   cooldownConfig: {
@@ -247,12 +249,12 @@ export const UNIVERSAL_COMBAT_SPELLS = [
  {
   id: 'universal_defend',
   name: 'Defend',
-  description: 'Hunker down and absorb the blow. Your equipped piece absorbs double the damage it normally would, and it will not degrade from this use. No risk, full absorption.',
+  description: 'On your turn, brace for what\'s coming: until your next turn your blocking piece\'s DR rolls count double and never wear it. Defend is an action, not a reaction. In the VTT today the GM applies it by hand.',
   level: 1,
-  spellType: 'REACTION',
+  spellType: 'ACTION',
   effectTypes: ['buff'],
   source: 'general',
-  categoryIds: ['general_reactions'],
+  categoryIds: ['general_actions'],
   typeConfig: {
    school: undefined,
    icon: 'ability_warrior_shieldwall',
@@ -263,7 +265,7 @@ export const UNIVERSAL_COMBAT_SPELLS = [
    effects: [{
     id: 'defend',
     name: 'Defending',
-    description: 'Equipped piece absorbs double damage from the incoming hit with no risk of durability loss.'
+    description: 'Until your next turn, your blocking piece\'s DR rolls count double and never wear it.'
    }],
    durationValue: 0,
    durationType: 'instant',
@@ -278,7 +280,7 @@ export const UNIVERSAL_COMBAT_SPELLS = [
    resourceTypes: [],
    resourceValues: {},
    useFormulas: {},
-   actionPoints: 2,
+   actionPoints: DEFEND_AP,
    components: []
   },
   cooldownConfig: {
@@ -286,7 +288,7 @@ export const UNIVERSAL_COMBAT_SPELLS = [
    cooldownValue: 0
   },
   resolution: 'DICE',
-  tags: ['reaction', 'defensive', 'universal']
+  tags: ['action', 'defensive', 'universal']
  },
  {
   id: 'universal_opportunity_attack',

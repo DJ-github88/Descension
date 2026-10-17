@@ -35,6 +35,8 @@ import UnifiedContextMenu from '../level-editor/UnifiedContextMenu';
 // REMOVED: import '../../styles/party-hud.css'; // CAUSES CSS POLLUTION - loaded centrally
 import ActorConsequenceControls from './ActorConsequenceControls';
 import SpellConsequenceHost from './SpellConsequencePanel';
+import WeaponStrikeHost from './WeaponStrikePanel';
+import BlockingHost from './BlockingPanel';
 // REMOVED: import './styles/ClassResourceBar.css'; // CAUSES CSS POLLUTION - loaded centrally
 
 // Athien and Human bloodlines carry only the bloodline name in race data; the
@@ -3676,7 +3678,9 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
 
 
             <div className="party-hud-frames">
-                <div className="actor-consequence-layer"><ActorConsequenceControls /><SpellConsequenceHost /></div>
+                {isInMultiplayer && (
+                    <div className="actor-consequence-layer"><ActorConsequenceControls /><SpellConsequenceHost /><WeaponStrikeHost /><BlockingHost /></div>
+                )}
                 {resolvedDisplayMembers.map((member, index) => {
                     const memberKey = getMemberStableKey(member, myIds);
                     const memberAliases = getMemberAliases(member, myIds);

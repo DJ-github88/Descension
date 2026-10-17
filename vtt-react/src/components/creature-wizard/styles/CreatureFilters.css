@@ -29,62 +29,64 @@
   display: flex;
   align-items: center;
   height: 22px;
+  position: relative;
 }
 
-/* Filter Dropdown Styles (Type and Size) — aligned with Name sort */
+/* Filter Dropdown Trigger Buttons (Type, Size, Sort) */
 .filter-dropdown-button,
 .sort-dropdown-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 4px;
+  gap: 5px;
   height: 22px;
   min-height: 22px;
   max-height: 22px;
-  padding: 0 7px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(154, 123, 60, 0.2);
+  padding: 0 8px;
+  background: var(--adventure-page, #f8f5ee);
+  border: 1px solid var(--adventure-rule, #c4baa6);
   border-radius: 3px;
-  color: rgba(240, 230, 210, 0.85);
+  color: var(--adventure-ink, #34251a);
   font-size: 10px;
-  font-weight: 500;
+  font-weight: 600;
   line-height: 1.2;
   cursor: pointer;
-  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
-  font-family: 'Bookman Old Style', 'Garamond', serif;
+  transition: all 0.15s ease;
+  font-family: 'Cinzel', 'Bookman Old Style', serif;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 110px;
+  max-width: 120px;
   box-sizing: border-box;
 }
 
 .filter-dropdown-button:hover,
 .sort-dropdown-button:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(154, 123, 60, 0.4);
-  color: #f1ece1;
+  background: var(--adventure-paper, #f1ece1);
+  border-color: var(--adventure-seal, #663c32);
+  color: #1a120b;
 }
 
 .filter-dropdown-button.active,
 .sort-dropdown-button.active {
-  background: rgba(154, 123, 60, 0.15);
-  border-color: #9a7b3c;
-  color: #9a7b3c;
-  box-shadow: 0 0 6px rgba(154, 123, 60, 0.1);
+  background: rgba(102, 60, 50, 0.12);
+  border-color: var(--adventure-seal, #663c32);
+  color: var(--adventure-seal, #663c32);
+  font-weight: 700;
 }
 
 .filter-dropdown-arrow,
 .sort-dropdown-arrow {
   font-size: 8px;
-  opacity: 0.55;
+  opacity: 0.6;
   line-height: 1;
   flex-shrink: 0;
+  transition: transform 0.15s ease;
 }
 
 .sort-direction-icon {
   font-size: 9px;
-  color: #9a7b3c;
+  color: var(--adventure-seal, #663c32);
   line-height: 1;
   flex-shrink: 0;
 }
@@ -96,24 +98,46 @@
   line-height: inherit;
 }
 
-.filter-dropdown-menu, .sort-dropdown-menu {
+/* ==========================================================================
+   DROPDOWN MENUS (Calm Illuminated Manuscript Folio)
+   ========================================================================== */
+
+.filter-dropdown-menu,
+.sort-dropdown-menu {
   position: absolute;
-  top: calc(100% + 8px);
-  right: 0;
-  z-index: 1001;
-  min-width: 160px;
-  background: #2d0e08;
-  border: 1px solid #9a7b3c;
-  border-radius: 8px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  top: calc(100% + 5px);
+  left: 0;
+  z-index: 1200;
+  background: #faf6ee;
+  border: 1px solid #c4baa6;
+  border-radius: 5px;
+  box-shadow: 0 8px 24px rgba(45, 25, 15, 0.2), 0 2px 6px rgba(0, 0, 0, 0.08);
   overflow: hidden;
   animation: fadeInDropdown 0.15s ease-out;
+  box-sizing: border-box;
+}
+
+/* Right-align sort dropdown so it doesn't overflow the viewport */
+.sort-dropdown-menu {
+  left: auto;
+  right: 0;
+  min-width: 170px;
+}
+
+/* 2-column width for Type dropdown to display 15 types cleanly */
+.type-dropdown-menu {
+  width: 310px;
+  max-width: min(92vw, 340px);
+}
+
+.size-dropdown-menu {
+  width: 200px;
 }
 
 @keyframes fadeInDropdown {
   from {
     opacity: 0;
-    transform: translateY(-5px);
+    transform: translateY(-4px);
   }
   to {
     opacity: 1;
@@ -121,62 +145,259 @@
   }
 }
 
-.filter-dropdown-item, .sort-dropdown-item {
+/* Dropdown Menu Header */
+.dropdown-menu-header {
   display: flex;
   align-items: center;
-  gap: 10px;
-  width: 100%;
-  padding: 10px 14px;
-  background: transparent;
-  border: none;
-  border-bottom: 1px solid rgba(154, 123, 60, 0.1);
-  color: rgba(240, 230, 210, 0.8);
-  font-size: 13px;
-  cursor: pointer;
-  transition: all 0.15s ease;
-  text-align: left;
-  font-family: 'Bookman Old Style', serif;
+  justify-content: space-between;
+  padding: 6px 10px;
+  background: #f1ece1;
+  border-bottom: 1px solid #c4baa6;
+  user-select: none;
 }
 
-.filter-dropdown-item:last-child, .sort-dropdown-item:last-child {
-  border-bottom: none;
-}
-
-.filter-dropdown-item:hover, .sort-dropdown-item:hover {
-  background: rgba(154, 123, 60, 0.1);
-  color: #f1ece1;
-}
-
-.filter-dropdown-item.selected, .sort-dropdown-item.active {
-  background: rgba(154, 123, 60, 0.2);
-  color: #9a7b3c;
-  font-weight: 600;
-}
-
-.filter-checkbox {
-  width: 16px;
-  height: 16px;
-  border: 1px solid rgba(154, 123, 60, 0.4);
-  border-radius: 4px;
+.dropdown-menu-title {
   display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Cinzel', serif;
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #4a2f15;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.dropdown-menu-title i {
+  color: #663c32;
+  font-size: 11px;
+}
+
+.dropdown-selection-count {
+  font-size: 9px;
+  font-family: 'Cinzel', serif;
+  font-weight: 600;
+  padding: 1px 6px;
+  background: rgba(102, 60, 50, 0.12);
+  color: #663c32;
+  border-radius: 9px;
+  border: 1px solid rgba(102, 60, 50, 0.25);
+  margin-left: 2px;
+}
+
+/* Header Quick Actions (All / Clear) */
+.dropdown-quick-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.dropdown-quick-actions .dropdown-action-btn {
+  background: #faf6ee !important;
+  border: 1px solid #c4baa6 !important;
+  border-radius: 3px !important;
+  color: #5a4230 !important;
+  font-family: 'Cinzel', serif !important;
+  font-size: 9.5px !important;
+  font-weight: 700 !important;
+  line-height: 1 !important;
+  padding: 2px 7px !important;
+  cursor: pointer !important;
+  box-shadow: none !important;
+  text-transform: uppercase !important;
+  transition: all 0.12s ease !important;
+}
+
+.dropdown-quick-actions .dropdown-action-btn:hover {
+  background: #663c32 !important;
+  border-color: #663c32 !important;
+  color: #faf6ee !important;
+}
+
+.dropdown-quick-actions .dropdown-action-btn.clear-btn {
+  color: #8b3a2b !important;
+}
+
+.dropdown-quick-actions .dropdown-action-btn.clear-btn:hover {
+  background: #8b3a2b !important;
+  border-color: #8b3a2b !important;
+  color: #faf6ee !important;
+}
+
+/* ==========================================================================
+   DROPDOWN ITEMS (Grid & List)
+   ========================================================================== */
+
+/* 2-Column Grid for Creature Types */
+.dropdown-items-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 3px;
+  padding: 6px;
+  max-height: 250px;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+/* Single-Column List for Size and Sort */
+.dropdown-items-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 5px;
+  max-height: 240px;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+/* Scrollbars inside dropdowns */
+.dropdown-items-grid::-webkit-scrollbar,
+.dropdown-items-list::-webkit-scrollbar {
+  width: 5px;
+  background: #f1ece1;
+}
+
+.dropdown-items-grid::-webkit-scrollbar-thumb,
+.dropdown-items-list::-webkit-scrollbar-thumb {
+  background: #c4baa6;
+  border-radius: 3px;
+}
+
+.dropdown-items-grid::-webkit-scrollbar-thumb:hover,
+.dropdown-items-list::-webkit-scrollbar-thumb:hover {
+  background: #663c32;
+}
+
+/* Individual Filter Item Button */
+.filter-dropdown-item,
+.sort-dropdown-item {
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  padding: 5px 7px !important;
+  background: transparent !important;
+  border: 1px solid transparent !important;
+  border-radius: 3px !important;
+  color: #34251a !important;
+  font-size: 11px !important;
+  font-family: 'Bookman Old Style', 'Garamond', serif !important;
+  font-weight: 500 !important;
+  line-height: 1.2 !important;
+  cursor: pointer !important;
+  transition: all 0.12s ease !important;
+  text-align: left !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+}
+
+.filter-dropdown-item:hover,
+.sort-dropdown-item:hover {
+  background: rgba(102, 60, 50, 0.08) !important;
+  border-color: rgba(196, 186, 166, 0.5) !important;
+  color: #1a120b !important;
+}
+
+.filter-dropdown-item.selected,
+.sort-dropdown-item.active {
+  background: rgba(102, 60, 50, 0.12) !important;
+  border-color: rgba(102, 60, 50, 0.3) !important;
+  color: #4a1f18 !important;
+  font-weight: 600 !important;
+}
+
+/* Antique Manuscript Checkbox */
+.filter-checkbox {
+  width: 13px;
+  height: 13px;
+  min-width: 13px;
+  border: 1.5px solid #a89379;
+  border-radius: 2.5px;
+  background: #faf6ee;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.12s ease;
+  box-sizing: border-box;
+}
+
+.filter-dropdown-item:hover .filter-checkbox {
+  border-color: #663c32;
 }
 
 .filter-dropdown-item.selected .filter-checkbox {
-  background: #9a7b3c;
-  border-color: #9a7b3c;
+  background: #663c32;
+  border-color: #663c32;
 }
 
 .filter-checkbox i {
-  color: #2d0e08;
-  font-size: 10px;
+  color: #faf6ee;
+  font-size: 8px;
+  line-height: 1;
 }
 
+/* Thematic Color Pip with Archetype Icon */
+.type-color-pip {
+  width: 16px;
+  height: 16px;
+  min-width: 16px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.type-color-pip i {
+  color: #ffffff;
+  font-size: 8px;
+  line-height: 1;
+}
+
+.type-label,
+.size-label,
+.sort-label {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Size Dimension Hint */
+.size-dim-hint {
+  margin-left: auto;
+  font-size: 9.5px;
+  color: #7d6b58;
+  font-family: 'Consolas', 'Courier New', monospace;
+  opacity: 0.85;
+  padding-left: 6px;
+}
+
+/* Sort Direction Badge */
+.sort-direction-badge {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 8.5px;
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  color: #663c32;
+  background: rgba(102, 60, 50, 0.1);
+  padding: 1px 5px;
+  border-radius: 3px;
+  border: 1px solid rgba(102, 60, 50, 0.25);
+  text-transform: uppercase;
+}
+
+/* Clear filters header button */
 .clear-filters-button-header {
   background: none;
   border: none;
-  color: rgba(154, 123, 60, 0.6);
+  color: rgba(102, 60, 50, 0.7);
   cursor: pointer;
   font-size: 12px;
   display: inline-flex;
@@ -190,18 +411,19 @@
 }
 
 .clear-filters-button-header:hover {
-  color: #9a7b3c;
+  color: #8b3a2b;
 }
 
+/* Creature count badge */
 .creature-count-info-badge {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   padding: 0 8px;
-  background: rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(154, 123, 60, 0.2);
+  background: rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--adventure-rule, #c4baa6);
   border-radius: 11px;
-  color: rgba(154, 123, 60, 0.8);
+  color: var(--adventure-muted, #68533e);
   font-size: 10px;
   font-weight: 600;
   font-family: 'Cinzel', serif;
@@ -223,5 +445,9 @@
   .creature-count-info-badge {
     font-size: 9px;
     padding: 0 6px;
+  }
+
+  .type-dropdown-menu {
+    width: 280px;
   }
 }

@@ -8,6 +8,7 @@
 
 .class-icon-img.loaded {
     opacity: 1;
+    will-change: auto;
 }
 
 /* Shared icon rendering defaults */

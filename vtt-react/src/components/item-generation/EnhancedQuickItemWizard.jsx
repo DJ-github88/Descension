@@ -894,9 +894,9 @@ const EnhancedQuickItemWizard = ({ onComplete, onCancel, initialData, onRarityCh
       weapon: {
         SWORD: [
           'Weapons/Swords/sword-basic-straight-beige-blade-brown-hilt',
-          'Weapons/Swords/sword-curved-sabre-orange-hilt',
-          'Weapons/Swords/sword-straight-blue-blade-golden-hilt',
-          'Weapons/Swords/sword-broad-blade-brown-handle'
+          'Weapons/Swords/sword-basic-straight-tan-blade-brown-hilt',
+          'Weapons/Swords/sword-basic-serrated-tan-blade-brown-hilt',
+          'Weapons/Swords/sword-basic-rectangular-beige-blade-brown-handle'
         ],
         AXE: [
           'Weapons/Axe/axe-brown-handle-beige-blade',
@@ -905,18 +905,19 @@ const EnhancedQuickItemWizard = ({ onComplete, onCancel, initialData, onRarityCh
           'Weapons/Axe/rustic-axe-beige-blade'
         ],
         MACE: [
-          'Weapons/Mace/mace-brown-handle-spiked-head',
-          'Weapons/Mace/mace-golden-head-brown-handle',
-          'Weapons/Mace/mace-simple-brown-handle'
+          'Weapons/Mace/mace-spiked-club-brown-tan-bands-metal-spikes',
+          'Weapons/Mace/mace-spiked-club-brown-yellow-spikes',
+          'Weapons/Mace/mace-wooden-club-brown-primitive'
         ],
         DAGGER: [
-          'Weapons/Swords/sword-small-dagger-brown-handle',
-          'Weapons/Throwing Knife/throwing-knife-brown-handle-beige-blade'
+          'Weapons/Swords/sword-dagger-curved-guard-reddish-brown',
+          'Weapons/Throwing Knife/throwing-knife-dagger-beige-blade-brown-handle-wrapped'
         ],
         STAFF: [
-          'Weapons/Staff/staff-wooden-brown-simple',
-          'Weapons/Staff/staff-gnarled-wooden-brown',
-          'Weapons/Staff/staff-ornate-golden-top'
+          'Weapons/Staff/staff-wooden-curved-head-bone-tip-red-orange-details',
+          'Weapons/Staff/staff-golden-brown-y-pronged-trident-head',
+          'Weapons/Staff/staff-wooden-golden-star-green-wrapping-red-pommel',
+          'Weapons/Staff/staff-magical-glowing-amber-segmented'
         ],
         BOW: [
           'Weapons/Bows/bow-simple-brown-tan-grip',
@@ -925,20 +926,20 @@ const EnhancedQuickItemWizard = ({ onComplete, onCancel, initialData, onRarityCh
         ],
         CROSSBOW: [
           'Weapons/Crossbow/crossbow-reddish-brown-loaded',
-          'Weapons/Crossbow/crossbow-brown-wooden-simple'
+          'Weapons/Crossbow/crossbow-brown-tan-string'
         ],
         WAND: [
           'Weapons/Wand/wand-basic-bow-curved-light-beige-simple',
-          'Weapons/Wand/wand-wooden-brown-simple',
-          'Weapons/Wand/wand-golden-tip-brown-handle'
+          'Weapons/Wand/wand-wooden-stick-brown-branch',
+          'Weapons/Wand/wand-magical-golden-red-stars-tip-pommel'
         ],
         POLEARM: [
-          'Weapons/Polearm/polearm-spear-brown-shaft',
-          'Weapons/Polearm/polearm-halberd-brown-handle'
+          'Weapons/Polearm/polearm-spear-staff-brown-wrapped-light-tip-basic',
+          'Weapons/Polearm/polearm-halberd-axe-blade-spike-tan-metallic'
         ],
         THROWN: [
           'Weapons/Throwing Axe/throwing-axe-brown-handle-beige-blade-standard',
-          'Weapons/Throwing Knife/throwing-knife-brown-handle-beige-blade'
+          'Weapons/Throwing Knife/throwing-knife-dagger-beige-blade-brown-handle-wrapped'
         ]
       },
       armor: {

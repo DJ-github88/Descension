@@ -1544,39 +1544,85 @@
     bottom: 100%;
     left: 50%;
     transform: translateX(-50%);
-    background: rgba(22, 16, 12, 0.95);
-    border: 1px solid #8b7355;
+    background: linear-gradient(180deg, #fdfaf3 0%, #f4eee2 100%);
+    border: 1px solid var(--adventure-rule, #c4baa6);
     border-radius: 4px;
-    padding: 2px 6px;
+    padding: 3px 8px;
     font-family: var(--my-font-serif, 'Cinzel', serif);
     font-size: 11px;
     font-weight: 700;
-    color: #fff8eb;
+    color: var(--adventure-ink, #34251a);
     white-space: nowrap;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.7);
+    box-shadow: 0 3px 10px rgba(52, 37, 26, 0.18), 0 1px 3px rgba(52, 37, 26, 0.1);
     pointer-events: none;
     z-index: 40;
-    margin-bottom: 6px;
+    margin-bottom: 7px;
     display: flex;
     align-items: baseline;
-    gap: 1px;
+    gap: 2px;
+}
+
+/* Parchment pointer caret pointing down toward the resource crystal/flask */
+.party-vial-readout::before {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 5px 5px 0 5px;
+    border-style: solid;
+    border-color: var(--adventure-rule, #c4baa6) transparent transparent transparent;
+}
+
+.party-vial-readout::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 4px 4px 0 4px;
+    border-style: solid;
+    border-color: #f4eee2 transparent transparent transparent;
 }
 
 .party-vial-readout .readout-current {
-    color: #ffe082;
-    font-size: 12px;
+    color: var(--adventure-ink, #34251a);
+    font-size: 12.5px;
     font-weight: 800;
+    letter-spacing: -0.01em;
+}
+
+/* Resource-thematic ink accents for current values */
+.vial-health .party-vial-readout .readout-current {
+    color: #8b2b1d;
+}
+
+.vial-mana .party-vial-readout .readout-current {
+    color: #23496d;
+}
+
+.vial-ap .party-vial-readout .readout-current {
+    color: #704818;
+}
+
+.vial-exhaustion .party-vial-readout .readout-current {
+    color: #583e72;
 }
 
 .party-vial-readout .readout-max {
-    color: #c5b597;
-    font-size: 9px;
+    color: var(--adventure-muted, #7d6b56);
+    font-size: 10px;
+    font-weight: 600;
 }
 
 .party-vial-readout .readout-temp {
-    color: #81d4fa;
+    color: #235c6e;
     font-size: 10px;
-    margin-left: 2px;
+    font-weight: 700;
+    margin-left: 3px;
+    padding: 0 3px;
+    border-radius: 2px;
+    background: rgba(35, 92, 110, 0.1);
 }
 
 /* Mount Adjustment Popup Menu */

@@ -1,0 +1,19 @@
+{
+  "observedAt": "2026-10-17T19:24:43.030Z",
+  "scope": "Concurrent source reading/hash capture only, not build/test acceptance; not part of original169-input baseline",
+  "sourceHashes": {
+    "vtt-react/src/components/books/BookSpellPickerModal.jsx": "d44588244ca66875a7af6ee95220f95893d47577b3325cebe1d0b1fd4bb3c73b",
+    "vtt-react/src/components/books/BookDocumentEditor.jsx": "a045319ec7a5e1bd42a93598b159ff8f94deb224df9280cc5f6291442dbddf1c",
+    "vtt-react/src/components/books/BookTtrpgBlocks.jsx": "f1445f08a0e6e9943aa42d3d4da0dd88fc580d4d1d9c2eb446be1c69c51c7c63",
+    "vtt-react/src/utils/WallGeometry.js": "f7deec6eb0700a2571b513c90d000e993dae5ea78e48f2b09cee2b043bc5a165",
+    "vtt-react/src/components/grid/CameraCompass.jsx": "06fbf11808a4aef479c509ffccd2b4f53f2823b4f3d29664ea154d32e8ed2631",
+    "vtt-react/src/components/level-editor/three/ThreeDWorldLayer.jsx": "c0fd6ef2597d2762ed167983508f5e02aa2fa643a2f8984f79dab6825d22f582"
+  },
+  "findings": [
+    "BookSpellPickerModal.normalizeBookSpellData:83–139 creates a projection from ap/manaCost/resourceCosts and enumerates fields; no classResourceProgram or canonical singular resourceCost is carried by this projection.",
+    "BookSpellPickerModal:210–233 can forge/live merge/save into the personal library; this is another schema/copy consumer, not server admission. No actor_consequence/routeSpell call found in inspected book modules.",
+    "BookDocumentEditor imports/mounts the picker and receives spell_formula blocks. Later canonical/admission work must preserve immutable definition refs through that consumer.",
+    "WallGeometry exports wall endpoints/heights/footprints/projection/render helpers. This is not evidence that server P7 now validates range, line of effect or area membership.",
+    "Captured actor-consequence/spell authority files remain unchanged. Full live-App book/camera/wall integration is not accepted by this investigation."
+  ]
+}

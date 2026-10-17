@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { getIconUrl } from '../../utils/assetManager';
+import { getIconUrl, getItemFallbackIcon } from '../../utils/assetManager';
 import { RARITY_COLORS } from '../../constants/itemConstants';
 import ActionFanOutMenu from './ActionFanOutMenu';
 import './EquipmentActionSlot.css';
@@ -17,7 +17,7 @@ const SLOT_LABELS = {
     ranged: 'RNG'
 };
 
-const EquipmentActionSlot = ({
+export default function EquipmentActionSlot({
     slotName,
     item,
     actions = [],
@@ -31,7 +31,7 @@ const EquipmentActionSlot = ({
     onSlotMouseEnter,
     onSlotMouseLeave,
     onSlotMouseMove
-}) => {
+}) {
     const isEmpty = !item;
     const slotLabel = SLOT_LABELS[slotName] || slotName;
 
@@ -51,12 +51,12 @@ const EquipmentActionSlot = ({
 
     const getItemImageSrc = () => {
         if (!item) {
-            return DEFAULT_SLOT_ICONS[slotName] || getIconUrl('inv_misc_questionmark', 'items', true);
+            return DEFAULT_SLOT_ICONS[slotName] || getItemFallbackIcon(null, slotName);
         }
         if (item.imageUrl) return item.imageUrl;
         if (item.icon) return getIconUrl(item.icon, 'items');
         if (item.iconId) return getIconUrl(item.iconId, 'items');
-        return DEFAULT_SLOT_ICONS[slotName];
+        return getItemFallbackIcon(item, slotName) || DEFAULT_SLOT_ICONS[slotName];
     };
 
     return (
@@ -93,7 +93,8 @@ const EquipmentActionSlot = ({
                         alt={item?.name || slotName}
                         style={{ opacity: isEmpty ? 0.45 : isDisabled ? 0.3 : 1 }}
                         onError={(e) => {
-                            e.target.src = DEFAULT_SLOT_ICONS[slotName] || getIconUrl('inv_misc_questionmark', 'items', true);
+                            e.target.onerror = null;
+                            e.target.src = getItemFallbackIcon(item, slotName) || DEFAULT_SLOT_ICONS[slotName];
                         }}
                     />
                 </div>
@@ -133,7 +134,7 @@ const EquipmentActionSlot = ({
             />
         </div>
     );
-};
+}
 
 EquipmentActionSlot.propTypes = {
     slotName: PropTypes.string.isRequired,
@@ -151,4 +152,3 @@ EquipmentActionSlot.propTypes = {
     onSlotMouseMove: PropTypes.func
 };
 
-export default EquipmentActionSlot;

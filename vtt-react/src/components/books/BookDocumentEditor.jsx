@@ -20,17 +20,21 @@ import {
   PlotThreadBlock,
   BookSketchBlock,
   BookTableBlock,
-  BookQuoteBlock
+  BookQuoteBlock,
+  CREATURE_PRESETS,
+  SPELL_PRESETS
 } from './BookTtrpgBlocks';
 import BookGlossaryModal from './BookGlossaryModal';
 import BookImagePickerModal from './BookImagePickerModal';
 import BookItemCreatorModal from './BookItemCreatorModal';
 import BookCreaturePickerModal from './BookCreaturePickerModal';
+import BookSpellPickerModal from './BookSpellPickerModal';
 import BookQuestPickerModal from './BookQuestPickerModal';
 import BookLorePickerModal from './BookLorePickerModal';
 import BookMapPickerModal from './BookMapPickerModal';
 import BookSnapshotModal from './BookSnapshotModal';
 import BookSyntaxGuideModal from './BookSyntaxGuideModal';
+import BookCampaignImporterModal from './BookCampaignImporterModal';
 import QuickPeekDrawer from '../common/QuickPeekDrawer';
 import { useIsPhone } from '../../hooks/useIsPhone';
 import { clampPopoverPosition } from '../../utils/popoverPosition';
@@ -341,7 +345,17 @@ const INSERT_PALETTE = [
   { type: 'divider', label: 'Divider', icon: 'fa-minus' }
 ];
 
-const EditableText = ({ value, onCommit, className = '', tagName = 'span', placeholder = '', disabled = false, singleLine = false }) => {
+const EditableText = ({
+  value,
+  onCommit,
+  onInputText,
+  className = '',
+  tagName = 'span',
+  placeholder = '',
+  disabled = false,
+  singleLine = false,
+  autoFocus = false
+}) => {
   const ref = useRef(null);
 
   useEffect(() => {
@@ -349,6 +363,22 @@ const EditableText = ({ value, onCommit, className = '', tagName = 'span', place
       ref.current.textContent = value ?? '';
     }
   }, [value]);
+
+  useEffect(() => {
+    if (autoFocus && ref.current && !disabled) {
+      ref.current.focus();
+      try {
+        const range = document.createRange();
+        range.selectNodeContents(ref.current);
+        range.collapse(false);
+        const sel = window.getSelection();
+        if (sel) {
+          sel.removeAllRanges();
+          sel.addRange(range);
+        }
+      } catch (_) {}
+    }
+  }, [autoFocus, disabled]);
 
   const Tag = tagName;
   return (
@@ -359,6 +389,11 @@ const EditableText = ({ value, onCommit, className = '', tagName = 'span', place
       suppressContentEditableWarning
       spellCheck={false}
       data-placeholder={placeholder}
+      onInput={(e) => {
+        if (onInputText) {
+          onInputText(e.currentTarget.textContent, e.currentTarget);
+        }
+      }}
       onBlur={(e) => {
         const next = e.currentTarget.textContent;
         if (next !== value) onCommit(next);
@@ -481,6 +516,7 @@ export const BookDocumentEditor = ({
   const updatePage = useBookStore((s) => s.updatePage);
   const deletePage = useBookStore((s) => s.deletePage);
   const setPageBlocks = useBookStore((s) => s.setPageBlocks);
+  const flowPageOverflow = useBookStore((s) => s.flowPageOverflow);
   const addCustomTerm = useBookStore((s) => s.addCustomTerm);
   const updateCustomTerm = useBookStore((s) => s.updateCustomTerm);
   const deleteCustomTerm = useBookStore((s) => s.deleteCustomTerm);
@@ -509,6 +545,8 @@ export const BookDocumentEditor = ({
   const [isGlossaryOpen, setIsGlossaryOpen] = useState(false);
   const [isSnapshotOpen, setIsSnapshotOpen] = useState(false);
   const [headerSettingsOpen, setHeaderSettingsOpen] = useState(false);
+  const [showCampaignImporter, setShowCampaignImporter] = useState(false);
+  const [inlineAutocomplete, setInlineAutocomplete] = useState(null); // { mode: 'wiki' | 'slash', query: '', blockId, pageId, x, y }
   const [saveState, setSaveState] = useState('idle');
   const [draggingBlockId, setDraggingBlockId] = useState(null);
   const [dragOverInfo, setDragOverInfo] = useState(null); // { targetBlockId, targetIndex, position, railIndex, colName, pageId }
@@ -547,6 +585,7 @@ export const BookDocumentEditor = ({
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === 'Escape') {
+        if (inlineAutocomplete) setInlineAutocomplete(null);
         if (showSyntaxGuide) setShowSyntaxGuide(false);
         if (selectionBubble) setSelectionBubble(null);
         if (insertAt) setInsertAt(null);
@@ -555,7 +594,7 @@ export const BookDocumentEditor = ({
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [insertAt, editingBlockId, showSyntaxGuide, selectionBubble]);
+  }, [insertAt, editingBlockId, showSyntaxGuide, selectionBubble, inlineAutocomplete]);
 
   // Selection change listener to detect highlighted text in editable prose
   useEffect(() => {
@@ -706,6 +745,7 @@ export const BookDocumentEditor = ({
   const [imagePickerTarget, setImagePickerTarget] = useState(null); // { block, index, column, slotAlign, sizePreset }
   const [itemStudioTarget, setItemStudioTarget] = useState(null); // { block, index, column, slotAlign, sizePreset, customCallback }
   const [creatureStudioTarget, setCreatureStudioTarget] = useState(null); // { block, index, column, slotAlign, sizePreset, customCallback }
+  const [spellStudioTarget, setSpellStudioTarget] = useState(null); // { block, index, column, slotAlign, sizePreset, customCallback }
   const [questPickerTarget, setQuestPickerTarget] = useState(null); // { block, index, column, slotAlign, sizePreset, customCallback }
   const [lorePickerTarget, setLorePickerTarget] = useState(null); // { block, index, column, slotAlign, sizePreset, customCallback }
   const [mapPickerTarget, setMapPickerTarget] = useState(null); // { block, index, column, slotAlign, sizePreset, customCallback }
@@ -834,6 +874,104 @@ export const BookDocumentEditor = ({
     }
     setCreatureStudioTarget(null);
   };
+
+  const handleSaveSpellBlock = (spellData) => {
+    const payload = {
+      ...spellData,
+      type: 'spell_formula'
+    };
+    if (spellStudioTarget?.customCallback) {
+      spellStudioTarget.customCallback(payload);
+    } else if (spellStudioTarget?.block?.id) {
+      updateBlock(spellStudioTarget.block.id, payload, spellStudioTarget.pageId);
+    } else if (spellStudioTarget?.index !== undefined) {
+      addBlock('spell_formula', spellStudioTarget.index, {
+        ...payload,
+        ...(spellStudioTarget.column ? { column: spellStudioTarget.column } : {}),
+        ...(spellStudioTarget.slotAlign ? { slotAlign: spellStudioTarget.slotAlign, sizePreset: 'half' } : {})
+      }, spellStudioTarget.pageId);
+    }
+    setSpellStudioTarget(null);
+  };
+
+  const handleProseLiveInput = (liveText, el, blockId, pageId) => {
+    const str = String(liveText || '');
+    const rect = el ? el.getBoundingClientRect() : { left: 200, bottom: 200 };
+
+    // 1. Check for [[wikilink autocomplete
+    const wikiMatch = str.match(/\[\[([^[\]]{0,36})$/);
+    if (wikiMatch) {
+      setInlineAutocomplete({
+        mode: 'wiki',
+        query: wikiMatch[1] || '',
+        rawText: str,
+        blockId,
+        pageId,
+        x: Math.min(window.innerWidth - 300, Math.max(20, rect.left + 24)),
+        y: Math.min(window.innerHeight - 260, Math.max(40, rect.bottom + 4))
+      });
+      return;
+    }
+
+    // 2. Check for /slash command at start of paragraph
+    const slashMatch = str.match(/^\/([a-zA-Z0-9 _-]{0,24})$/);
+    if (slashMatch) {
+      setInlineAutocomplete({
+        mode: 'slash',
+        query: (slashMatch[1] || '').trim(),
+        rawText: str,
+        blockId,
+        pageId,
+        x: Math.min(window.innerWidth - 300, Math.max(20, rect.left + 16)),
+        y: Math.min(window.innerHeight - 260, Math.max(40, rect.bottom + 4))
+      });
+      return;
+    }
+
+    if (inlineAutocomplete) {
+      setInlineAutocomplete(null);
+    }
+  };
+
+  const autocompleteItems = useMemo(() => {
+    if (!inlineAutocomplete) return [];
+    const q = (inlineAutocomplete.query || '').toLowerCase();
+
+    if (inlineAutocomplete.mode === 'slash') {
+      return INSERT_PALETTE.filter((item) =>
+        !q || item.label.toLowerCase().includes(q) || item.type.toLowerCase().includes(q)
+      ).slice(0, 8);
+    }
+
+    // Wiki-link suggestions: Glossary terms, World Entities, Book Chapters, Creatures, Spells
+    const pool = [];
+    (book.customTerms || []).forEach((t) => {
+      if (t.term) pool.push({ name: t.term, category: t.category || 'Glossary', icon: 'fa-book-bookmark' });
+    });
+    (entities || []).forEach((e) => {
+      if (e.name) pool.push({ name: e.name, category: e.type || 'Lore Entity', icon: e.icon || 'fa-scroll' });
+    });
+    (book.chapters || []).forEach((ch) => {
+      if (ch.title) pool.push({ name: ch.title, category: 'Chapter', icon: 'fa-feather' });
+    });
+    CREATURE_PRESETS.forEach((c) => {
+      pool.push({ name: c.name, category: 'Bestiary', icon: 'fa-dragon' });
+    });
+    SPELL_PRESETS.forEach((s) => {
+      pool.push({ name: s.name, category: 'Grimoire', icon: 'fa-wand-magic-sparkles' });
+    });
+
+    const seen = new Set();
+    return pool
+      .filter((item) => {
+        const key = item.name.toLowerCase();
+        if (seen.has(key)) return false;
+        if (q && !key.includes(q) && !String(item.category).toLowerCase().includes(q)) return false;
+        seen.add(key);
+        return true;
+      })
+      .slice(0, 8);
+  }, [inlineAutocomplete, book.customTerms, book.chapters, entities]);
 
   const handleSaveQuestBlock = (questData) => {
     const payload = {
@@ -1690,7 +1828,7 @@ export const BookDocumentEditor = ({
           }
           if (variant === 'keyed-area') {
             return (
-              <div className="book-heading-keyed-area">
+              <div className="book-heading-keyed-area" data-area-code={block.areaCode || 'U1'}>
                 <span className="keyed-room-badge" title={effectiveIsWrite ? "Click to edit room code (e.g. U1, 2A)" : undefined}>
                   {effectiveIsWrite ? (
                     <EditableText
@@ -1773,12 +1911,14 @@ export const BookDocumentEditor = ({
 
       case 'paragraph': {
         const hasDropCap = !!block.hasDropCap;
-        const text = block.text || '';
+        const text = block.text ?? block.content ?? '';
         const firstCharMatch = text.match(/\S/);
         const firstCharIdx = firstCharMatch ? firstCharMatch.index : -1;
         const firstLetter = firstCharIdx >= 0 ? text[firstCharIdx] : '';
         const restText = firstCharIdx >= 0 ? (text.slice(0, firstCharIdx) + text.slice(firstCharIdx + 1)) : text;
         const pageId = colContext.pageId || currentPage?.id;
+        const hasFormattedSyntax = /\*\*|\[\[|\*/.test(text);
+        const showWysiwygProse = effectiveIsWrite && hasFormattedSyntax && editingBlockId !== block.id;
 
         return wrap(
           <div className={`book-paragraph ${hasDropCap ? 'has-drop-cap' : ''}`}>
@@ -1805,30 +1945,45 @@ export const BookDocumentEditor = ({
               )
             )}
             {effectiveIsWrite ? (
-              <EditableText
-                value={hasDropCap ? restText : text}
-                tagName="p"
-                className="book-prose-edit"
-                placeholder="Write prose... Type **Title.** for bold lead-in, [[Entity]] for lore wikilink..."
-                onCommit={(newRest) => {
-                  let full = newRest;
-                  if (hasDropCap) {
-                    const trimmed = (newRest || '').trimStart();
-                    if (!trimmed && !firstLetter) {
-                      full = '';
-                    } else if (!trimmed) {
-                      full = firstLetter;
-                    } else if (firstLetter && trimmed.toLowerCase().startsWith(firstLetter.toLowerCase())) {
-                      full = newRest;
-                    } else if (trimmed[0] === trimmed[0].toUpperCase() && trimmed[0] !== trimmed[0].toLowerCase() && trimmed[0] !== firstLetter) {
-                      full = newRest;
-                    } else {
-                      full = (firstLetter || '') + newRest;
+              showWysiwygProse ? (
+                <div
+                  className="book-prose-display book-editable book-prose-edit is-wysiwyg-prose"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setEditingBlockId(block.id);
+                  }}
+                  title="Click to edit manuscript text"
+                >
+                  <RichLoreText text={hasDropCap ? restText : text} className="parchment-theme" />
+                </div>
+              ) : (
+                <EditableText
+                  value={hasDropCap ? restText : text}
+                  tagName="p"
+                  className="book-prose-edit"
+                  autoFocus={editingBlockId === block.id && hasFormattedSyntax}
+                  placeholder="Write prose... Type **Title.** for bold lead-in, [[Entity]] for lore wikilink, or / for blocks..."
+                  onInputText={(liveText, el) => handleProseLiveInput(liveText, el, block.id, pageId)}
+                  onCommit={(newRest) => {
+                    let full = newRest;
+                    if (hasDropCap) {
+                      const trimmed = (newRest || '').trimStart();
+                      if (!trimmed && !firstLetter) {
+                        full = '';
+                      } else if (!trimmed) {
+                        full = firstLetter;
+                      } else if (firstLetter && trimmed.toLowerCase().startsWith(firstLetter.toLowerCase())) {
+                        full = newRest;
+                      } else if (trimmed[0] === trimmed[0].toUpperCase() && trimmed[0] !== trimmed[0].toLowerCase() && trimmed[0] !== firstLetter) {
+                        full = newRest;
+                      } else {
+                        full = (firstLetter || '') + newRest;
+                      }
                     }
-                  }
-                  updateBlock(block.id, { text: full }, pageId);
-                }}
-              />
+                    updateBlock(block.id, { text: full }, pageId);
+                  }}
+                />
+              )
             ) : (
               <div className="book-prose-display">
                 <RichLoreText text={hasDropCap ? restText : text} className="parchment-theme" />
@@ -1882,6 +2037,12 @@ export const BookDocumentEditor = ({
             }}
             onOpenCreatureWizard={(slotData, callback) => {
               setCreatureStudioTarget({
+                block: { id: block.id, ...(slotData || {}) },
+                customCallback: callback
+              });
+            }}
+            onOpenSpellStudio={(slotData, callback) => {
+              setSpellStudioTarget({
                 block: { id: block.id, ...(slotData || {}) },
                 customCallback: callback
               });
@@ -1973,6 +2134,7 @@ export const BookDocumentEditor = ({
             block={block}
             isWrite={effectiveIsWrite}
             onUpdate={(patch) => updateBlock(block.id, patch)}
+            onOpenSpellStudio={(b) => setSpellStudioTarget({ block: b || block, pageId: colContext.pageId || currentPage?.id })}
           />
         );
 
@@ -2293,9 +2455,27 @@ export const BookDocumentEditor = ({
   const renderPageLayout = (targetPage) => {
     if (!targetPage) return null;
     const pageLayout = targetPage.layout || currentLayout;
-    const isSingleCol = pageLayout === 'single-column';
+    const isSingleCol = isSpreadLayout
+      ? book.columns !== 2
+      : (pageLayout === 'single-column' || book.columns === 1);
     const targetPageId = targetPage.id;
     const blocks = targetPage.blocks || [];
+
+    const overflowBar = isWrite && blocks.length >= 7 && currentChapter ? (
+      <div className="book-page-overflow-bar" onClick={(e) => e.stopPropagation()}>
+        <span className="overflow-bar-info">
+          <i className="fas fa-feather-pointed"></i> Dense Folio ({blocks.length} blocks) — may exceed print spread height
+        </span>
+        <button
+          type="button"
+          className="overflow-flow-btn"
+          onClick={() => flowPageOverflow(book.id, currentChapter.id, targetPageId, 6)}
+          title="Move trailing blocks to the next page so this folio stays balanced"
+        >
+          Flow Overflow to Next Page <i className="fas fa-arrow-right"></i>
+        </button>
+      </div>
+    ) : null;
 
     if (isSingleCol) {
       const allColBlocks = blocks.map((b, idx) => ({ block: b, index: idx }));
@@ -2327,6 +2507,7 @@ export const BookDocumentEditor = ({
               <i className="fas fa-plus"></i> Add block to Page
             </div>
           )}
+          {overflowBar}
         </div>
       );
     }
@@ -2402,6 +2583,7 @@ export const BookDocumentEditor = ({
             {renderColumnBlocks(fullColumnBlocks, 'full', targetPageId)}
           </div>
         )}
+        {overflowBar}
       </div>
     );
   };
@@ -2488,11 +2670,11 @@ export const BookDocumentEditor = ({
           />
 
           <ManuscriptDropdown
-            value={currentPage?.layout || book.layout || 'two-column'}
+            value={isSpreadLayout ? 'book-spread' : (currentPage?.layout || book.layout || 'two-column')}
             options={LAYOUT_OPTIONS}
             onChange={(layout) => {
               updateBookMeta(book.id, { layout });
-              if (currentChapter && currentPage) {
+              if (currentChapter && currentPage && layout !== 'book-spread') {
                 updatePage(book.id, currentChapter.id, currentPage.id, { layout });
               }
             }}
@@ -2500,6 +2682,30 @@ export const BookDocumentEditor = ({
             title="Change Page Layout"
             className="layout-pill-select"
           />
+
+          {isSpreadLayout && canWrite && (
+            <button
+              type="button"
+              className="toolbar-btn spread-folio-cols-btn"
+              onClick={() => {
+                const currentlySingle = book.columns !== 2;
+                const nextCols = currentlySingle ? 'two-column' : 'single-column';
+                updateBookMeta(book.id, { columns: currentlySingle ? 2 : 1 });
+                if (currentChapter && spreadLeftPage) {
+                  updatePage(book.id, currentChapter.id, spreadLeftPage.id, { layout: nextCols });
+                }
+                if (currentChapter && spreadRightPage) {
+                  updatePage(book.id, currentChapter.id, spreadRightPage.id, { layout: nextCols });
+                }
+              }}
+              title="Toggle columns per folio page in Facing Spread mode (1-Column vs 2-Column folios)"
+            >
+              <i className="fas fa-columns"></i>
+              <span className="folio-cols-label">
+                {book.columns !== 2 ? '1-Col Folios' : '2-Col Folios'}
+              </span>
+            </button>
+          )}
 
           <div className="page-stepper-pill">
             <button
@@ -2548,6 +2754,18 @@ export const BookDocumentEditor = ({
 
         {/* Actions Right */}
         <div className="toolbar-right">
+          {canWrite && (
+            <button
+              type="button"
+              className="toolbar-btn campaign-compiler-trigger-btn"
+              onClick={() => setShowCampaignImporter(true)}
+              title="Compile Campaign Chronicle — Auto-compile World Lore, Lineages, Dynasties, Bestiary, Quests, Spells & Relics into Chapters"
+              aria-label="Compile Campaign Chronicle"
+            >
+              <i className="fas fa-wand-magic-sparkles"></i>
+            </button>
+          )}
+
           {canWrite && (
             <button
               type="button"
@@ -2912,11 +3130,11 @@ export const BookDocumentEditor = ({
                   <div className="style-group">
                     <label>Page Layout:</label>
                     <ManuscriptDropdown
-                      value={currentPage?.layout || book.layout || 'two-column'}
+                      value={isSpreadLayout ? 'book-spread' : (currentPage?.layout || book.layout || 'two-column')}
                       options={LAYOUT_OPTIONS}
                       onChange={(val) => {
                         updateBookMeta(book.id, { layout: val });
-                        if (currentChapter && currentPage) {
+                        if (currentChapter && currentPage && val !== 'book-spread') {
                           updatePage(book.id, currentChapter.id, currentPage.id, { layout: val });
                         }
                       }}
@@ -3064,24 +3282,20 @@ export const BookDocumentEditor = ({
                       <div className="book-running-header">
                         <EditableText
                           className="running-header-ch"
-                          value={spreadRightPage?.headerTitle || currentChapter?.title || 'Chapter Section'}
-                          disabled={!isWrite}
-                          placeholder="Section Title..."
-                          onCommit={(text) => {
-                            if (currentChapter && spreadRightPage) {
-                              updatePage(book.id, currentChapter.id, spreadRightPage.id, { headerTitle: text });
-                            }
-                          }}
-                        />
-                        <div className="book-bracket-flourish" />
-                        <EditableText
-                          className="running-header-title"
-                          value={currentChapter?.title || book.title || 'Chapter Section'}
+                          value={currentChapter?.title || 'Chapter Section'}
                           disabled={!isWrite}
                           placeholder="Chapter Title..."
                           onCommit={(text) => {
                             if (currentChapter) updateChapter(book.id, currentChapter.id, { title: text });
                           }}
+                        />
+                        <div className="book-bracket-flourish" />
+                        <EditableText
+                          className="running-header-title"
+                          value={book.title || 'Mythrill Chronicle'}
+                          disabled={!isWrite}
+                          placeholder="Book Title..."
+                          onCommit={(text) => updateBookMeta(book.id, { title: text })}
                         />
                       </div>
                     )}
@@ -3508,6 +3722,14 @@ export const BookDocumentEditor = ({
         onSave={handleSaveCreatureBlock}
       />
 
+      {/* Spellbook & Spellcrafting Studio Modal */}
+      <BookSpellPickerModal
+        isOpen={!!spellStudioTarget}
+        onClose={() => setSpellStudioTarget(null)}
+        initialData={spellStudioTarget?.block || {}}
+        onSave={handleSaveSpellBlock}
+      />
+
       {/* Quest & Adventure Hook Picker Modal */}
       <BookQuestPickerModal
         isOpen={!!questPickerTarget}
@@ -3540,6 +3762,82 @@ export const BookDocumentEditor = ({
         onRestoreSnapshot={(bId, rId) => restoreRevisionSnapshot(bId, rId)}
         onDeleteSnapshot={(bId, rId) => deleteRevisionSnapshot(bId, rId)}
       />
+
+      {/* Campaign / World Auto-Chronicle Importer Modal */}
+      <BookCampaignImporterModal
+        isOpen={showCampaignImporter}
+        onClose={() => setShowCampaignImporter(false)}
+        targetBookId={book.id}
+        targetBookTitle={book.title}
+        onCompiled={(compiledId) => {
+          setShowCampaignImporter(false);
+          if (compiledId && compiledId === book.id && book.chapters.length > 0) {
+            const latestBook = getBookById(book.id);
+            const lastCh = latestBook?.chapters?.[latestBook.chapters.length - 1];
+            if (lastCh) {
+              navigateTo({ chapterId: lastCh.id, pageId: lastCh.pages?.[0]?.id });
+            }
+          }
+        }}
+      />
+
+      {/* Inline [[ Lore Autocomplete & / Slash Command Floating Popover */}
+      {inlineAutocomplete && autocompleteItems.length > 0 && (
+        <div
+          className="book-inline-autocomplete-popover"
+          style={{
+            position: 'fixed',
+            left: `${inlineAutocomplete.x}px`,
+            top: `${inlineAutocomplete.y}px`,
+            zIndex: 950
+          }}
+          onMouseDown={(e) => e.preventDefault()}
+        >
+          <div className="autocomplete-head">
+            <span>
+              <i className={`fas ${inlineAutocomplete.mode === 'slash' ? 'fa-wand-magic-sparkles' : 'fa-feather-pointed'}`}></i>{' '}
+              {inlineAutocomplete.mode === 'slash' ? 'Slash Block Command' : 'Link Lore Entity [[...]]'}
+            </span>
+            <button type="button" onClick={() => setInlineAutocomplete(null)}>&times;</button>
+          </div>
+          <div className="autocomplete-list">
+            {autocompleteItems.map((item, idx) => (
+              <button
+                key={`${item.name || item.type}-${idx}`}
+                type="button"
+                className="autocomplete-option"
+                onClick={() => {
+                  const targetBlockId = inlineAutocomplete.blockId;
+                  const targetPageId = inlineAutocomplete.pageId || currentPage?.id;
+                  if (inlineAutocomplete.mode === 'slash') {
+                    const convertedDefaults = JSON.parse(JSON.stringify(NEW_BLOCK_DEFAULTS[item.type] || {}));
+                    mutatePageBlocks((blocks) =>
+                      blocks.map((b) =>
+                        b.id === targetBlockId
+                          ? { ...convertedDefaults, id: b.id, type: item.type, column: b.column }
+                          : b
+                      ),
+                      targetPageId
+                    );
+                    setInlineAutocomplete(null);
+                  } else {
+                    const updatedText = String(inlineAutocomplete.rawText || '').replace(
+                      /\[\[([^[\]]{0,36})$/,
+                      `[[${item.name}]] `
+                    );
+                    updateBlock(targetBlockId, { text: updatedText }, targetPageId);
+                    setInlineAutocomplete(null);
+                  }
+                }}
+              >
+                <i className={`fas ${item.icon || 'fa-scroll'}`}></i>
+                <span className="autocomplete-opt-label">{item.label || item.name}</span>
+                {item.category && <span className="autocomplete-opt-badge">{item.category}</span>}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Floating Text Selection Quick-Format Bubble */}
       {selectionBubble && !showSyntaxGuide && (

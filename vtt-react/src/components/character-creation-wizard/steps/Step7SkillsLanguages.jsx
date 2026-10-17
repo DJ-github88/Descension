@@ -24,8 +24,19 @@ import {
 import UnifiedTooltip from '../../common/UnifiedTooltip';
 import { useUnifiedTooltip } from '../../common/useUnifiedTooltip';
 import { getIconUrl } from '../../../utils/assetManager';
+import { WEAPON_TYPE_META } from '../../../constants/weaponTypeMeta';
+import {
+    WEAPON_MASTERY_SKILL_ID,
+    getLegacySharedWeaponRank,
+    getStoredWeaponRank,
+    trainedWeaponTypes,
+    withWeaponRank
+} from '../../../utils/weaponProficiency';
+import { pointBuyText } from '../../../constants/skillProgressionCopy';
+import SkillRulesReference from '../components/SkillRulesReference';
 
 import '../styles/Step7SkillsLanguages.css';
+import '../../../styles/skillProficiency.css';
 
 // Mapping from D&D 5e skill names to custom skill IDs
 const DND_TO_CUSTOM_SKILL_MAP = {
@@ -95,10 +106,34 @@ const Step7SkillsLanguages = () => {
     );
     const [skillRanks, setSkillRanks] = useState(characterData.skillRanks || {});
 
-    // Calculate skill points
+    // P11: Weapon Mastery is ranked and bought per weapon type.
+    const [wizardWeaponType, setWizardWeaponType] = useState(() =>
+        trainedWeaponTypes(characterData.skillRanks || {})[0]?.weaponType || 'sword');
+    const isEditingCharacter = !!state.originalCalling;
+
+    // Calculate skill points (existing configured budget and costs)
     const totalSkillPoints = calculateTotalSkillPoints(characterData);
     const pointsSpent = calculatePointsSpent(skillRanks);
     const availablePoints = totalSkillPoints - pointsSpent;
+    const overBudgetBy = Math.max(0, -availablePoints);
+    const novicePrice = getUpgradeCost('UNTRAINED');
+
+    // Rank of a skill as bought here; Weapon Mastery reads the picked weapon type.
+    const rankKeyFor = (skillId, ranks = skillRanks) => (skillId === WEAPON_MASTERY_SKILL_ID
+        ? getStoredWeaponRank(ranks, wizardWeaponType) || 'UNTRAINED'
+        : ranks[skillId] || 'UNTRAINED');
+    const withRank = (ranks, skillId, rankKey) => (skillId === WEAPON_MASTERY_SKILL_ID
+        ? withWeaponRank(ranks, wizardWeaponType, rankKey)
+        : { ...ranks, [skillId]: rankKey });
+    // Editing an existing character: the starting budget is informational only.
+    const canAffordSelection = (skillId) => isEditingCharacter || rankKeyFor(skillId) !== 'UNTRAINED' || availablePoints >= novicePrice;
+    const legacyWeaponRank = getLegacySharedWeaponRank(skillRanks);
+    const weaponSummary = () => {
+        const trained = trainedWeaponTypes(skillRanks);
+        if (!trained.length) return SKILL_RANKS.UNTRAINED.name;
+        if (trained.length === 1) return `${WEAPON_TYPE_META[trained[0].weaponType].label}: ${SKILL_RANKS[trained[0].rank].name}`;
+        return `${trained.length} weapon types trained`;
+    };
 
     // Tooltip system
     const {
@@ -155,6 +190,8 @@ const Step7SkillsLanguages = () => {
         });
 
         Object.keys(SKILL_DEFINITIONS).forEach(skillId => {
+            // P11: no shared Weapon Mastery entry; weapon ranks are per weapon type.
+            if (skillId === WEAPON_MASTERY_SKILL_ID) return;
             if (!updatedRanks[skillId]) {
                 updatedRanks[skillId] = 'UNTRAINED';
                 hasChanges = true;
@@ -180,18 +217,19 @@ const Step7SkillsLanguages = () => {
     const handleSkillToggle = (skillId) => {
         if (selectedSkills.includes(skillId)) {
             setSelectedSkills(selectedSkills.filter(s => s !== skillId));
-            // Reset downgraded ranks if deselected and was untrained
-            if (!isSkillGranted(skillId)) {
+            // Reset downgraded ranks if deselected and was untrained.
+            // P11: Weapon Mastery ranks are per weapon and stay; lower them individually.
+            if (!isSkillGranted(skillId) && skillId !== WEAPON_MASTERY_SKILL_ID) {
                 setSkillRanks(prev => ({ ...prev, [skillId]: 'UNTRAINED' }));
             }
         } else {
-            if (selectedSkills.length < classSkillCount) {
+            // P11: the class skill starts at Novice, paid from the same points.
+            if (selectedSkills.length < classSkillCount && canAffordSelection(skillId)) {
                 setSelectedSkills([...selectedSkills, skillId]);
                 // Set default rank of class skill to novice
-                setSkillRanks(prev => ({
-                    ...prev,
-                    [skillId]: prev[skillId] === 'UNTRAINED' ? 'NOVICE' : prev[skillId]
-                }));
+                setSkillRanks(prev => (rankKeyFor(skillId, prev) === 'UNTRAINED'
+                    ? withRank(prev, skillId, 'NOVICE') || prev
+                    : prev));
             }
         }
     };
@@ -207,36 +245,35 @@ const Step7SkillsLanguages = () => {
     };
 
     const handleSkillUpgrade = (skillId) => {
-        const currentRank = skillRanks[skillId] || 'UNTRAINED';
+        const currentRank = rankKeyFor(skillId);
         const nextRank = getNextRank(currentRank);
         const cost = getUpgradeCost(currentRank);
 
         if (nextRank && availablePoints >= cost) {
-            setSkillRanks({
-                ...skillRanks,
-                [skillId]: nextRank
-            });
+            const next = withRank(skillRanks, skillId, nextRank);
+            if (next) setSkillRanks(next);
         }
     };
 
     const handleSkillDowngrade = (skillId) => {
-        const currentRank = skillRanks[skillId] || 'UNTRAINED';
+        const currentRank = rankKeyFor(skillId);
         const prevRank = getPreviousRank(currentRank);
         const isGranted = grantedSkills.includes(skillId);
 
         // Don't allow downgrading granted skills below NOVICE
         if (prevRank && (!isGranted || prevRank !== 'UNTRAINED')) {
-            setSkillRanks({
-                ...skillRanks,
-                [skillId]: prevRank
-            });
+            const next = withRank(skillRanks, skillId, prevRank);
+            if (next) setSkillRanks(next);
         }
     };
 
     const isSkillGranted = (skillId) => grantedSkills.includes(skillId);
     const isSkillDisabled = (skillId) => {
-        return isSkillGranted(skillId) || (!selectedSkills.includes(skillId) && selectedSkills.length >= classSkillCount);
+        return isSkillGranted(skillId) || (!selectedSkills.includes(skillId)
+            && (selectedSkills.length >= classSkillCount || !canAffordSelection(skillId)));
     };
+    const selectionBlockedByBudget = (skillId) => !isSkillGranted(skillId) && !selectedSkills.includes(skillId)
+        && selectedSkills.length < classSkillCount && !canAffordSelection(skillId);
 
     const isLanguageDisabled = (languageName) => {
         return racialLanguages.includes(languageName) ||
@@ -244,7 +281,7 @@ const Step7SkillsLanguages = () => {
     };
 
     const getSkillRankData = (skillId) => {
-        const rankKey = skillRanks[skillId] || 'UNTRAINED';
+        const rankKey = rankKeyFor(skillId);
         return { key: rankKey, ...SKILL_RANKS[rankKey] };
     };
 
@@ -330,7 +367,7 @@ const Step7SkillsLanguages = () => {
     const activeSkillTable = inspectedSkillId ? getCurrentRollableTable(inspectedSkillId) : null;
     const activeSkillRank = inspectedSkillId ? getSkillRankData(inspectedSkillId) : null;
 
-    const currentRankKey = inspectedSkillId ? (skillRanks[inspectedSkillId] || 'UNTRAINED') : 'UNTRAINED';
+    const currentRankKey = inspectedSkillId ? rankKeyFor(inspectedSkillId) : 'UNTRAINED';
     const isInspectedGranted = inspectedSkillId ? isSkillGranted(inspectedSkillId) : false;
     const isInspectedSelected = inspectedSkillId ? selectedSkills.includes(inspectedSkillId) : false;
 
@@ -390,7 +427,7 @@ const Step7SkillsLanguages = () => {
                             <>
                                 {/* Available Points Banner */}
                                 <div className="step-summary-banner" 
-                                     onMouseEnter={handleMouseEnter(`Base points: 10 + Intelligence Modifier Bonus + Race/Background bonuses. Granted skills start at Novice level for free.`, 'Skill Points Breakdown', 'fas fa-info-circle')}
+                                     onMouseEnter={handleMouseEnter(pointBuyText(), 'Skill Points Breakdown', 'fas fa-info-circle')}
                                      onMouseLeave={handleMouseLeave}
                                      onMouseMove={handleMouseMove}>
                                     <div className="summary-banner-points">
@@ -401,6 +438,15 @@ const Step7SkillsLanguages = () => {
                                         Class Specializations: <span>{selectedSkills.length} / {classSkillCount}</span>
                                     </div>
                                 </div>
+                                {overBudgetBy > 0 && (isEditingCharacter ? (
+                                    <p className="skill-budget-note" role="note" data-testid="skill-budget-note">
+                                        This character's ranks total {pointsSpent} points, above the {totalSkillPoints}-point starting budget. That is expected after training and story; nothing is changed or blocked.
+                                    </p>
+                                ) : (
+                                    <p className="skill-budget-warning" role="alert" data-testid="skill-budget-warning">
+                                        Over budget by {overBudgetBy} point{overBudgetBy === 1 ? '' : 's'}. Lower a rank to finish this character.
+                                    </p>
+                                ))}
 
                                 {/* Skill Category Lists (Accordion) */}
                                 {Object.entries(SKILLS_BY_CATEGORY).map(([categoryName, skills]) => {
@@ -435,7 +481,9 @@ const Step7SkillsLanguages = () => {
                                                         const isDisabled = isSkillDisabled(skill.id);
                                                         const isInspected = inspectedSkillId === skill.id;
                                                         const rankData = getSkillRankData(skill.id);
-                                                        const isProf = isSkillProficient(skill.id, skillRanks);
+                                                        const isWeaponSkill = skill.id === WEAPON_MASTERY_SKILL_ID;
+                                                        const isProf = isWeaponSkill ? trainedWeaponTypes(skillRanks).length > 0 : isSkillProficient(skill.id, skillRanks);
+                                                        const budgetBlocked = selectionBlockedByBudget(skill.id);
 
                                                         return (
                                                             <div
@@ -460,8 +508,13 @@ const Step7SkillsLanguages = () => {
                                                                 <div className="skill-card-info">
                                                                     <span className="skill-card-name">{skill.name}</span>
                                                                     <span className="skill-card-rank" style={{ color: rankData.color }}>
-                                                                        {rankData.name}
+                                                                        {isWeaponSkill ? weaponSummary() : rankData.name}
                                                                     </span>
+                                                                    {budgetBlocked && (
+                                                                        <span className="skill-card-reason" data-testid={`budget-reason-${skill.id}`}>
+                                                                            Needs {novicePrice} point{novicePrice === 1 ? '' : 's'} to select
+                                                                        </span>
+                                                                    )}
                                                                 </div>
                                                                 {isProf && <span className="proficient-tag" title="Proficient">Proficient</span>}
                                                                 <div className="selection-indicator">
@@ -601,7 +654,7 @@ const Step7SkillsLanguages = () => {
                                             </span>
                                         )}
                                         {isInspectedSelected && (
-                                            <span className="grimoire-attribute-pill" style={{ color: '#d4af37', background: 'rgba(212, 175, 55, 0.12)' }}>
+                                            <span className="grimoire-attribute-pill" style={{ color: '#663c32', background: 'rgba(102, 60, 50, 0.12)' }}>
                                                 <i className="fas fa-check-circle"></i> Class Specialization
                                             </span>
                                         )}
@@ -610,12 +663,34 @@ const Step7SkillsLanguages = () => {
                                 </div>
                             </div>
 
+                            {inspectedSkillId === WEAPON_MASTERY_SKILL_ID && (
+                                <div className="grimoire-weapon-picker" data-testid="wizard-weapon-picker">
+                                    <label htmlFor="wizard-weapon-type">Weapon type</label>
+                                    <select
+                                        id="wizard-weapon-type"
+                                        value={wizardWeaponType}
+                                        onChange={(e) => setWizardWeaponType(e.target.value)}
+                                    >
+                                        {Object.entries(WEAPON_TYPE_META).map(([weaponKey, meta]) => (
+                                            <option key={weaponKey} value={weaponKey}>
+                                                {meta.label}: {SKILL_RANKS[getStoredWeaponRank(skillRanks, weaponKey) || 'UNTRAINED'].name}
+                                            </option>
+                                        ))}
+                                    </select>
+                                    <p>Each weapon type is ranked and bought separately.</p>
+                                    {legacyWeaponRank && (
+                                        <p className="legacy-weapon-rank-note">
+                                            This character also has an earlier shared Weapon Mastery rank ({SKILL_RANKS[legacyWeaponRank].name}). It is kept unchanged; assign it to weapons on the character sheet.
+                                        </p>
+                                    )}
+                                </div>
+                            )}
                             {/* Training Controls */}
                             <div className="grimoire-training-section">
                                 <h4 className="grimoire-training-title">
                                     <span>{skillFilter === 'standard' ? 'Skill Die' : 'Expertise Level'}</span>
                                     <span className="current-rank-label" style={{ color: activeSkillRank.color }}>
-                                        {skillFilter === 'standard' ? `${mapRankToDie(currentRankKey).toUpperCase()} (${activeSkillRank.name})` : activeSkillRank.name} (Bonus: +{activeSkillRank.statBonus})
+                                        {inspectedSkillId === WEAPON_MASTERY_SKILL_ID ? `${WEAPON_TYPE_META[wizardWeaponType]?.label || 'Weapon'}: ` : ''}{skillFilter === 'standard' ? `${mapRankToDie(currentRankKey).toUpperCase()} (${activeSkillRank.name})` : `${activeSkillRank.name} (${mapRankToDie(currentRankKey)})`}
                                     </span>
                                 </h4>
 
@@ -733,106 +808,14 @@ const Step7SkillsLanguages = () => {
                                     ) : (
                                         <div className="no-quests-message">
                                             <i className="fas fa-triangle-exclamation"></i>
-                                            <p>Roll table is currently being forged. Standard d20 rules apply.</p>
+                                            <p>No authored outcome table for this rank yet. The GM rules.</p>
                                         </div>
                                     )}
                                 </div>
                             )}
 
                             {/* Rules Reference Section */}
-                            <div className="grimoire-rules-section">
-                                <div className="grimoire-rules-toggle">
-                                    <button
-                                        type="button"
-                                        className={`rules-toggle-btn ${skillFilter === 'standard' ? 'active' : ''}`}
-                                        onClick={() => setSkillFilter('standard')}
-                                    >
-                                        <i className="fas fa-scroll"></i> Standard Rules
-                                    </button>
-                                    <button
-                                        type="button"
-                                        className={`rules-toggle-btn ${skillFilter === 'advanced' ? 'active' : ''}`}
-                                        onClick={() => setSkillFilter('advanced')}
-                                    >
-                                        <i className="fas fa-wand-magic-sparkles"></i> Advanced Rules
-                                    </button>
-                                </div>
-
-                                {skillFilter === 'standard' ? (
-                                    <div className="rules-content-block">
-                                        <div className="rules-subsection">
-                                            <h5><i className="fas fa-magic"></i> The Core Idea</h5>
-                                            <p>Every skill is represented by a single die size, written directly on your character sheet: <strong>4</strong> for a d4, <strong>6</strong> for a d6, <strong>8</strong> for a d8, and so on.</p>
-                                            <ul>
-                                                <li><strong>d4 Baseline</strong>: All characters start with a d4 (written as "4") in all skills. Baseline attempt is always possible.</li>
-                                                <li><strong>Organic Upgrades</strong>: Successful learning or extraordinary actions trigger dynamic upgrades awarded by the GM.</li>
-                                                <li><strong>Conversation Driven</strong>: Set your die size manually under your sheet as your character grows.</li>
-                                            </ul>
-                                        </div>
-
-                                        <div className="rules-subsection">
-                                            <h5><i className="fas fa-crosshairs"></i> Difficulty Classes (DCs)</h5>
-                                            <p>Instead of assigned difficulty dice, roll against fixed target numbers:</p>
-                                            <div className="dc-ref-grid">
-                                                <div className="dc-ref-row"><span>DC 2</span><strong>Trivial</strong><span>Climbing a ladder, lighting campfire</span></div>
-                                                <div className="dc-ref-row"><span>DC 4</span><strong>Easy</strong><span>Picking a rusty lock, tracking in mud</span></div>
-                                                <div className="dc-ref-row"><span>DC 6</span><strong>Moderate</strong><span>Climbing a knotted rope, deceiving guards</span></div>
-                                                <div className="dc-ref-row"><span>DC 8</span><strong>Challenging</strong><span>Scaling wall handholds, disarming traps</span></div>
-                                                <div className="dc-ref-row"><span>DC 10</span><strong>Hard</strong><span>Climbing steep mountains, field surgery</span></div>
-                                                <div className="dc-ref-row"><span>DC 12+</span><strong>Legendary</strong><span>Tasks bordering on the impossible</span></div>
-                                            </div>
-                                        </div>
-
-                                        <div className="rules-subsection">
-                                            <h5><i className="fas fa-bolt"></i> Exploding Dice</h5>
-                                            <p>Rolling the maximum value is <strong>not</strong> an automatic critical success. Instead, the die <strong>explodes</strong>: roll it again and add the results together! Multiple explosions can stack infinitely, making even legendary DCs reachable by standard dice.</p>
-                                        </div>
-
-                                        <div className="rules-subsection">
-                                            <h5><i className="fas fa-sync-alt"></i> Switching Systems</h5>
-                                            <p>Switch between the full Mythrill Trial Ladder and the Skill System at any time under your character sheet. Rank maps directly to die sizes (Trained = d8, Expert = d20).</p>
-                                        </div>
-                                    </div>
-                                ) : (
-                                    <div className="rules-content-block">
-                                        <div className="rules-subsection">
-                                            <h5><i className="fas fa-cogs"></i> How Skills Work</h5>
-                                            <p>A Mythrill veteran does not swing blindly and hope. <strong>Skills</strong> represent accumulated mastery: trained capabilities that separate a seasoned adventurer from a desperate farmhand.</p>
-                                            <ul>
-                                                <li>Each skill is tied to a <strong>primary and secondary attribute</strong>.</li>
-                                                <li>The GM assigns a <strong>Difficulty Die</strong>: from a d4 for trivial tasks to a d20 for near-impossible ones.</li>
-                                                <li>If your primary or secondary attribute modifier reaches <strong>+5 or higher</strong>, your mastery steps the difficulty die down by one size.</li>
-                                            </ul>
-                                        </div>
-
-                                        <div className="rules-subsection">
-                                            <h5><i className="fas fa-layer-group"></i> Skill Ranks &amp; Progression</h5>
-                                            <p>Skills advance through seven ranks:</p>
-                                            <div className="dc-ref-grid">
-                                                <div className="dc-ref-row"><span style={{color:'#6b6b6b'}}>Untrained</span><span>d4</span><span>Baseline: no bonus</span></div>
-                                                <div className="dc-ref-row"><span style={{color:'#8b7355'}}>Novice</span><span>d6</span><span>+1 to checks, 1 quest</span></div>
-                                                <div className="dc-ref-row"><span style={{color:'#4a7c59'}}>Trained</span><span>d8</span><span>+2 to checks, 3 quests</span></div>
-                                                <div className="dc-ref-row"><span style={{color:'#5d8a6b'}}>Apprentice</span><span>d10</span><span>+3 to checks, 6 quests</span></div>
-                                                <div className="dc-ref-row"><span style={{color:'#2563eb'}}>Adept</span><span>d12</span><span>+4 to checks, 9 quests</span></div>
-                                                <div className="dc-ref-row"><span style={{color:'#7a3b2e'}}>Expert</span><span>d20</span><span>+5 to checks, 11 quests</span></div>
-                                                <div className="dc-ref-row"><span style={{color:'#9d4edd'}}>Master</span><span>d20</span><span>+6 to checks, 12 quests</span></div>
-                                            </div>
-                                            <p style={{marginTop:'8px', fontSize:'0.85rem'}}><strong>Skill Quests</strong> are narrative milestones that unlock as you use abilities in the world. Completing them advances your rank and opens new proficient ability options.</p>
-                                        </div>
-
-                                        <div className="rules-subsection">
-                                            <h5><i className="fas fa-dice-d20"></i> Critical Success &amp; Failure</h5>
-                                            <p>Rolling the <strong>maximum value</strong> on your difficulty die is a <strong>Critical Success</strong>: the task is accomplished beyond expectation, often with a tangible bonus or narrative windfall.</p>
-                                            <p>Rolling a <strong>1</strong> is always a <strong>Critical Failure</strong> regardless of rank: complications arise, and the GM determines how badly the moment turns.</p>
-                                        </div>
-
-                                        <div className="rules-subsection">
-                                            <h5><i className="fas fa-sync-alt"></i> Switching Systems</h5>
-                                            <p>Switch between the full Mythrill Trial Ladder and the Skill System at any time under your character sheet. Rank maps directly to die sizes (Trained = d8, Expert = d20).</p>
-                                        </div>
-                                    </div>
-                                )}
-                            </div>
+                            <SkillRulesReference skillFilter={skillFilter} setSkillFilter={setSkillFilter} />
                         </div>
                     ) : (
                         <div className="skill-grimoire-inspector">
@@ -843,99 +826,7 @@ const Step7SkillsLanguages = () => {
                             </div>
 
                             {/* Rules Reference Section (shown even when no skill selected) */}
-                            <div className="grimoire-rules-section">
-                                <div className="grimoire-rules-toggle">
-                                    <button
-                                        type="button"
-                                        className={`rules-toggle-btn ${skillFilter === 'standard' ? 'active' : ''}`}
-                                        onClick={() => setSkillFilter('standard')}
-                                    >
-                                        <i className="fas fa-scroll"></i> Standard Rules
-                                    </button>
-                                    <button
-                                        type="button"
-                                        className={`rules-toggle-btn ${skillFilter === 'advanced' ? 'active' : ''}`}
-                                        onClick={() => setSkillFilter('advanced')}
-                                    >
-                                        <i className="fas fa-wand-magic-sparkles"></i> Advanced Rules
-                                    </button>
-                                </div>
-
-                                {skillFilter === 'standard' ? (
-                                    <div className="rules-content-block">
-                                        <div className="rules-subsection">
-                                            <h5><i className="fas fa-magic"></i> The Core Idea</h5>
-                                            <p>Every skill is represented by a single die size, written directly on your character sheet: <strong>4</strong> for a d4, <strong>6</strong> for a d6, <strong>8</strong> for a d8, and so on.</p>
-                                            <ul>
-                                                <li><strong>d4 Baseline</strong>: All characters start with a d4 (written as "4") in all skills. Baseline attempt is always possible.</li>
-                                                <li><strong>Organic Upgrades</strong>: Successful learning or extraordinary actions trigger dynamic upgrades awarded by the GM.</li>
-                                                <li><strong>Conversation Driven</strong>: Set your die size manually under your sheet as your character grows.</li>
-                                            </ul>
-                                        </div>
-
-                                        <div className="rules-subsection">
-                                            <h5><i className="fas fa-crosshairs"></i> Difficulty Classes (DCs)</h5>
-                                            <p>Instead of assigned difficulty dice, roll against fixed target numbers:</p>
-                                            <div className="dc-ref-grid">
-                                                <div className="dc-ref-row"><span>DC 2</span><strong>Trivial</strong><span>Climbing a ladder, lighting campfire</span></div>
-                                                <div className="dc-ref-row"><span>DC 4</span><strong>Easy</strong><span>Picking a rusty lock, tracking in mud</span></div>
-                                                <div className="dc-ref-row"><span>DC 6</span><strong>Moderate</strong><span>Climbing a knotted rope, deceiving guards</span></div>
-                                                <div className="dc-ref-row"><span>DC 8</span><strong>Challenging</strong><span>Scaling wall handholds, disarming traps</span></div>
-                                                <div className="dc-ref-row"><span>DC 10</span><strong>Hard</strong><span>Climbing steep mountains, field surgery</span></div>
-                                                <div className="dc-ref-row"><span>DC 12+</span><strong>Legendary</strong><span>Tasks bordering on the impossible</span></div>
-                                            </div>
-                                        </div>
-
-                                        <div className="rules-subsection">
-                                            <h5><i className="fas fa-bolt"></i> Exploding Dice</h5>
-                                            <p>Rolling the maximum value is <strong>not</strong> an automatic critical success. Instead, the die <strong>explodes</strong>: roll it again and add the results together! Multiple explosions can stack infinitely, making even legendary DCs reachable by standard dice.</p>
-                                        </div>
-
-                                        <div className="rules-subsection">
-                                            <h5><i className="fas fa-sync-alt"></i> Switching Systems</h5>
-                                            <p>Switch between the full Mythrill Trial Ladder and the Skill System at any time under your character sheet. Rank maps directly to die sizes (Trained = d8, Expert = d20).</p>
-                                        </div>
-                                    </div>
-                                ) : (
-                                    <div className="rules-content-block">
-                                        <div className="rules-subsection">
-                                            <h5><i className="fas fa-cogs"></i> How Skills Work</h5>
-                                            <p>A Mythrill veteran does not swing blindly and hope. <strong>Skills</strong> represent accumulated mastery: trained capabilities that separate a seasoned adventurer from a desperate farmhand.</p>
-                                            <ul>
-                                                <li>Each skill is tied to a <strong>primary and secondary attribute</strong>.</li>
-                                                <li>The GM assigns a <strong>Difficulty Die</strong>: from a d4 for trivial tasks to a d20 for near-impossible ones.</li>
-                                                <li>If your primary or secondary attribute modifier reaches <strong>+5 or higher</strong>, your mastery steps the difficulty die down by one size.</li>
-                                            </ul>
-                                        </div>
-
-                                        <div className="rules-subsection">
-                                            <h5><i className="fas fa-layer-group"></i> Skill Ranks &amp; Progression</h5>
-                                            <p>Skills advance through seven ranks:</p>
-                                            <div className="dc-ref-grid">
-                                                <div className="dc-ref-row"><span style={{color:'#6b6b6b'}}>Untrained</span><span>d4</span><span>Baseline: no bonus</span></div>
-                                                <div className="dc-ref-row"><span style={{color:'#8b7355'}}>Novice</span><span>d6</span><span>+1 to checks, 1 quest</span></div>
-                                                <div className="dc-ref-row"><span style={{color:'#4a7c59'}}>Trained</span><span>d8</span><span>+2 to checks, 3 quests</span></div>
-                                                <div className="dc-ref-row"><span style={{color:'#5d8a6b'}}>Apprentice</span><span>d10</span><span>+3 to checks, 6 quests</span></div>
-                                                <div className="dc-ref-row"><span style={{color:'#2563eb'}}>Adept</span><span>d12</span><span>+4 to checks, 9 quests</span></div>
-                                                <div className="dc-ref-row"><span style={{color:'#7a3b2e'}}>Expert</span><span>d20</span><span>+5 to checks, 11 quests</span></div>
-                                                <div className="dc-ref-row"><span style={{color:'#9d4edd'}}>Master</span><span>d20</span><span>+6 to checks, 12 quests</span></div>
-                                            </div>
-                                            <p style={{marginTop:'8px', fontSize:'0.85rem'}}><strong>Skill Quests</strong> are narrative milestones that unlock as you use abilities in the world. Completing them advances your rank and opens new proficient ability options.</p>
-                                        </div>
-
-                                        <div className="rules-subsection">
-                                            <h5><i className="fas fa-dice-d20"></i> Critical Success &amp; Failure</h5>
-                                            <p>Rolling the <strong>maximum value</strong> on your difficulty die is a <strong>Critical Success</strong>: the task is accomplished beyond expectation, often with a tangible bonus or narrative windfall.</p>
-                                            <p>Rolling a <strong>1</strong> is always a <strong>Critical Failure</strong> regardless of rank: complications arise, and the GM determines how badly the moment turns.</p>
-                                        </div>
-
-                                        <div className="rules-subsection">
-                                            <h5><i className="fas fa-sync-alt"></i> Switching Systems</h5>
-                                            <p>Switch between the full Mythrill Trial Ladder and the Skill System at any time under your character sheet. Rank maps directly to die sizes (Trained = d8, Expert = d20).</p>
-                                        </div>
-                                    </div>
-                                )}
-                            </div>
+                            <SkillRulesReference skillFilter={skillFilter} setSkillFilter={setSkillFilter} />
                         </div>
                     )}
                 </div>

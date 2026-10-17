@@ -1256,7 +1256,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
   level: 3,
   spellType: "PASSIVE",
   icon: "Arcane/Abstract Rune",
-  effectTypes: ["passive"],
+  effectTypes: ["passive","buff"],
   typeConfig: {
   school: "arcane",
   icon: "Arcane/Abstract Rune",
@@ -1270,6 +1270,20 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
   },
   resourceCost: {
   actionPoints: 0
+  },
+  buffConfig: {
+    buffType: "enhancement",
+    effects: [
+      {
+        id: "paradox_empowerment",
+        name: "Chronal Drift",
+        description: "While banking 5+ Time Shards",
+        mechanicsText: "Force and arcane damage spells deal an additional 1d6 damage."
+      }
+    ],
+    durationValue: 0,
+    durationType: "permanent",
+    durationUnit: "permanent"
   },
   resolution: "AUTOMATIC",
   tags: ["passive", "damage", "buff", "chronarch"]
@@ -2928,7 +2942,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
   level: 10,
   spellType: "PASSIVE",
   icon: "Arcane/Zen",
-  effectTypes: ["passive"],
+  effectTypes: ["passive","buff"],
   typeConfig: {
   school: "arcane",
   icon: "Arcane/Zen",
@@ -2942,6 +2956,26 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
   },
   resourceCost: {
   actionPoints: 0
+  },
+  buffConfig: {
+    buffType: "enhancement",
+    effects: [
+      {
+        id: "temporal_mastery_ap",
+        name: "Chrono Acceleration",
+        description: "Combat Start",
+        mechanicsText: "+1 base Action Point at start of combat."
+      },
+      {
+        id: "temporal_mastery_shards",
+        name: "Time Shard Resonance",
+        description: "Basic Spell Enhancement",
+        mechanicsText: "Basic spells generate 2 Time Shards instead of 1."
+      }
+    ],
+    durationValue: 0,
+    durationType: "permanent",
+    durationUnit: "permanent"
   },
   resolution: "AUTOMATIC",
   tags: ["passive", "ap", "shards", "chronarch"]

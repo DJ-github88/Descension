@@ -1,0 +1,71 @@
+{
+  "scope": "Pure current source probe, not applied combat",
+  "nativeIncompatibleExample": {
+    "access": {
+      "status": "incompatible-state",
+      "selectable": false,
+      "className": "Shaper",
+      "heritageId": "veiled_mimir",
+      "requirements": [
+        "shaping_interface",
+        "transformation_training"
+      ],
+      "reason": "The current body/interface state is incompatible: fixed_body_without_shaping_interface."
+    },
+    "adapter": {
+      "applies": true,
+      "reason": "edge-condition-met",
+      "modifiers": {
+        "attackBonus": 0,
+        "damageBonus": 0,
+        "defenseBonus": 0,
+        "saveBonus": 0,
+        "movement": 0,
+        "resourceGain": 0,
+        "resourceDiscount": 0,
+        "criticalThreshold": 0,
+        "healing": 0
+      },
+      "capabilities": [
+        "stabilize_transition_against_reference"
+      ],
+      "costCapabilities": [
+        "vulnerable_identity_reference"
+      ],
+      "resourceCosts": [],
+      "selfDamage": [],
+      "entry": {
+        "className": "Shaper",
+        "heritageId": "veiled_mimir",
+        "description": "Veyra's transmitted forms and heirloom anchor stabilize a declared transition against an identity reference.",
+        "costDescription": "The reference is vulnerable; the mask is not biological permission for all shifting.",
+        "edge": {
+          "kind": "capability",
+          "unit": "capability",
+          "capability": "stabilize_transition_against_reference",
+          "condition": {
+            "type": "equipment",
+            "value": "heirloom_anchor"
+          }
+        },
+        "cost": {
+          "kind": "vulnerability",
+          "unit": "capability",
+          "capability": "vulnerable_identity_reference"
+        }
+      },
+      "events": [
+        {
+          "type": "heritage-edge",
+          "capability": "stabilize_transition_against_reference",
+          "kind": "capability"
+        },
+        {
+          "type": "heritage-cost",
+          "capability": "vulnerable_identity_reference",
+          "kind": "vulnerability"
+        }
+      ]
+    }
+  }
+}

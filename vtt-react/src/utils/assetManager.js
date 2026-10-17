@@ -78,6 +78,124 @@ export const getIconUrl = (iconId, category = 'ui', useCustom = true) => {
   }
 };
 
+// Known aliases and corrections for legacy or missing icon paths
+export const ICON_PATH_ALIASES = {
+  'Weapons/Staves/staff-basic-gnarled-dark-brown': 'Weapons/Staff/staff-wooden-curved-head-bone-tip-red-orange-details',
+  'Weapons/Staff/staff-basic-gnarled-dark-brown': 'Weapons/Staff/staff-wooden-curved-head-bone-tip-red-orange-details',
+  'Weapons/Staff/staff-wooden-brown-simple': 'Weapons/Staff/staff-wooden-curved-head-bone-tip-red-orange-details',
+  'Weapons/Staff/staff-gnarled-wooden-brown': 'Weapons/Staff/staff-golden-brown-y-pronged-trident-head',
+  'Weapons/Staff/staff-ornate-golden-top': 'Weapons/Staff/staff-wooden-golden-star-green-wrapping-red-pommel',
+  'Weapons/Swords/sword-curved-sabre-orange-hilt': 'Weapons/Swords/sword-dagger-curved-guard-reddish-brown',
+  'Weapons/Swords/sword-straight-blue-blade-golden-hilt': 'Weapons/Swords/sword-basic-straight-golden-brown-blade-metallic',
+  'Weapons/Swords/sword-broad-blade-brown-handle': 'Weapons/Swords/sword-basic-rectangular-beige-blade-brown-handle',
+  'Weapons/Mace/mace-brown-handle-spiked-head': 'Weapons/Mace/mace-spiked-club-brown-tan-bands-metal-spikes',
+  'Weapons/Mace/mace-golden-head-brown-handle': 'Weapons/Mace/mace-spiked-club-brown-yellow-spikes',
+  'Weapons/Mace/mace-simple-brown-handle': 'Weapons/Mace/mace-wooden-club-brown-primitive',
+  'Weapons/Swords/sword-small-dagger-brown-handle': 'Weapons/Swords/sword-dagger-curved-guard-reddish-brown',
+  'Weapons/Throwing Knife/throwing-knife-brown-handle-beige-blade': 'Weapons/Throwing Knife/throwing-knife-dagger-beige-blade-brown-handle-wrapped',
+  'Weapons/Crossbow/crossbow-brown-wooden-simple': 'Weapons/Crossbow/crossbow-brown-tan-string',
+  'Weapons/Wand/wand-wooden-brown-simple': 'Weapons/Wand/wand-wooden-stick-brown-branch',
+  'Weapons/Wand/wand-golden-tip-brown-handle': 'Weapons/Wand/wand-magical-golden-red-stars-tip-pommel',
+  'Weapons/Polearm/polearm-spear-brown-shaft': 'Weapons/Polearm/polearm-spear-staff-brown-wrapped-light-tip-basic',
+  'Weapons/Polearm/polearm-halberd-brown-handle': 'Weapons/Polearm/polearm-halberd-axe-blade-spike-tan-metallic'
+};
+
+/**
+ * Intelligent fallback icon resolver for items based on item metadata and slot.
+ * Ensures staves get staff icons, swords get sword icons, shields get shield icons, etc.
+ * Never falls back to a brown book for weapons or armor.
+ * 
+ * @param {Object} item - Item object
+ * @param {string} [slotName] - Target slot name
+ * @returns {string} Icon URL
+ */
+export const getItemFallbackIcon = (item, slotName) => {
+  const name = String(item?.name || '').toLowerCase();
+  const subtype = String(item?.subtype || '').toLowerCase();
+  const type = String(item?.type || '').toLowerCase();
+  const weaponSlot = String(item?.weaponSlot || '').toLowerCase();
+  const slot = String(slotName || item?.slot || (Array.isArray(item?.slots) ? item.slots[0] : '') || '').toLowerCase();
+
+  // 1. Staff
+  if (subtype === 'staff' || name.includes('staff') || subtype.includes('stave') || name.includes('stave')) {
+    return getIconUrl('Weapons/Staff/staff-wooden-curved-head-bone-tip-red-orange-details', 'items');
+  }
+
+  // 2. Wand
+  if (subtype === 'wand' || name.includes('wand')) {
+    return getIconUrl('Weapons/Wand/wand-basic-bow-curved-light-beige-simple', 'items');
+  }
+
+  // 3. Bow
+  if (subtype === 'bow' || name.includes('bow')) {
+    return getIconUrl('Weapons/Bows/bow-simple-brown-tan-grip', 'items');
+  }
+
+  // 4. Crossbow
+  if (subtype === 'crossbow' || name.includes('crossbow')) {
+    return getIconUrl('Weapons/Crossbow/crossbow-reddish-brown-loaded', 'items');
+  }
+
+  // 5. Shield
+  if (subtype.includes('shield') || subtype.includes('buckler') || name.includes('shield') || slot === 'offhand' || slot === 'off_hand') {
+    return getIconUrl('Weapons/Shields/shield-heater-wooden-brown-worn-cracks-beige-boss', 'items');
+  }
+
+  // 6. Dagger / Throwing Knife
+  if (subtype === 'dagger' || name.includes('dagger') || subtype.includes('knife') || name.includes('knife')) {
+    return getIconUrl('Weapons/Throwing Knife/throwing-knife-dagger-beige-blade-brown-handle-wrapped', 'items');
+  }
+
+  // 7. Axe
+  if (subtype.includes('axe') || name.includes('axe')) {
+    return getIconUrl('Weapons/Axe/axe-brown-handle-beige-blade', 'items');
+  }
+
+  // 8. Mace / Hammer / Club
+  if (subtype.includes('mace') || subtype.includes('hammer') || subtype.includes('club') || name.includes('mace') || name.includes('hammer')) {
+    return getIconUrl('Weapons/Mace/mace-spiked-club-brown-tan-bands-metal-spikes', 'items');
+  }
+
+  // 9. Polearm / Spear / Halberd
+  if (subtype.includes('polearm') || subtype.includes('spear') || subtype.includes('halberd') || name.includes('spear') || name.includes('halberd')) {
+    return getIconUrl('Weapons/Polearm/polearm-spear-staff-brown-wrapped-light-tip-basic', 'items');
+  }
+
+  // 10. Sword
+  if (subtype.includes('sword') || name.includes('sword') || subtype === 'rapier' || subtype === 'saber') {
+    return getIconUrl('Weapons/Swords/sword-basic-straight-beige-blade-brown-hilt', 'items');
+  }
+
+  // 11. Generic weapon or mainHand slot
+  if (type === 'weapon' || weaponSlot || slot === 'mainhand' || slot === 'main_hand') {
+    return getIconUrl('Armor/Neck/magical-sword-pendant', 'items');
+  }
+
+  // 12. Ranged slot
+  if (slot === 'ranged') {
+    return getIconUrl('Weapons/Bows/bow-simple-brown-tan-grip', 'items');
+  }
+
+  // 13. Specific armor slots
+  if (slot === 'head') return getIconUrl('Armor/Head/head-brown-tan-banded-helmet', 'items');
+  if (slot === 'neck') return getIconUrl('Armor/Waist/brown-beaded-necklace-belt', 'items');
+  if (slot === 'shoulders') return getIconUrl('Armor/Shoulder/shoulder-pauldron-segmented-brown-tan-cream-layered', 'items');
+  if (slot === 'back') return getIconUrl('Armor/Cloak/cloak-autumn-leaf-trim-cape', 'items');
+  if (slot === 'chest') return getIconUrl('Armor/Chest/chest-barbarian-leather-tunic', 'items');
+  if (slot === 'shirt') return getIconUrl('Armor/Chest/chest-flowing-sleeve-tunic', 'items');
+  if (slot === 'tabard') return getIconUrl('Armor/Chest/chest-harlequin-split-tunic', 'items');
+  if (slot === 'wrists') return getIconUrl('Armor/Wrist/worn-leather-bracer', 'items');
+  if (slot === 'gloves') return getIconUrl('Armor/Hands/hands-orange-cream-banded-glove', 'items');
+  if (slot === 'waist') return getIconUrl('Armor/Chest/chest-belted-brown-robe', 'items');
+  if (slot === 'legs') return getIconUrl('Armor/Leggings/leggings-blood-stained-teal-pants', 'items');
+  if (slot === 'feet') return getIconUrl('Armor/Feet/feet-tan-beige-boots-pair', 'items');
+  if (slot.startsWith('ring')) return getIconUrl('Armor/Finger/finger-ancient-bronze-ring', 'items');
+  if (slot.startsWith('trinket')) return getIconUrl('Armor/Neck/glowing-orb-pendant', 'items');
+
+  // 14. Fallback default
+  return getIconUrl('Armor/Neck/magical-sword-pendant', 'items');
+};
+
 /**
  * Get custom icon URL
  * @param {string} iconId - Icon identifier  
@@ -100,6 +218,19 @@ export const getCustomIconUrl = (iconId, category) => {
   if (localId.startsWith('classes/')) {
     basePath = ASSET_PATHS.icons.classes;
     localId = localId.slice('classes/'.length);
+  }
+
+  // Normalize plural Weapons/Staves -> Weapons/Staff
+  if (localId.startsWith('Weapons/Staves/')) {
+    localId = 'Weapons/Staff/' + localId.slice('Weapons/Staves/'.length);
+  }
+
+  // Strip extension for alias lookup if present
+  const baseKey = localId.endsWith('.png') ? localId.slice(0, -4) : localId;
+  if (ICON_PATH_ALIASES[baseKey]) {
+    localId = ICON_PATH_ALIASES[baseKey];
+  } else if (ICON_PATH_ALIASES[localId]) {
+    localId = ICON_PATH_ALIASES[localId];
   }
 
   // Ensure .png extension

@@ -1,0 +1,131 @@
+/* P11 — per-weapon proficiency, budget and open-rule notes (sheet + creation). */
+
+.skill-open-rule {
+    display: inline;
+    font-style: italic;
+    opacity: 0.85;
+    color: #72500d;
+}
+
+.weapon-proficiency-note,
+.skill-advancement-note {
+    margin: 6px 0 10px;
+    font-family: 'Spectral', Georgia, serif;
+    font-size: 13.5px;
+    line-height: 1.5;
+    color: #5a402d;
+    font-style: italic;
+}
+
+.weapon-legacy-rank-notice {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 12px;
+    margin: 0 0 12px;
+    padding: 10px 14px;
+    background: linear-gradient(180deg, #fdfbf7 0%, #f6eee0 100%);
+    border: 1px dashed #bfa37c;
+    border-radius: 6px;
+    font-family: 'Spectral', Georgia, serif;
+    font-size: 13px;
+    color: #4a3422;
+    box-shadow: 0 1px 4px rgba(60, 40, 20, 0.04);
+}
+
+.weapon-legacy-rank-notice p {
+    flex: 1 1 260px;
+    margin: 0;
+    line-height: 1.45;
+}
+
+.weapon-legacy-rank-notice i {
+    color: #8b6e4c;
+    margin-right: 4px;
+}
+
+.weapon-legacy-apply-btn {
+    padding: 5px 12px;
+    border: 1.5px solid #b6a080;
+    border-radius: 4px;
+    background: #342419;
+    color: #f7ede0;
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+    transition: all 0.2s ease;
+}
+
+.weapon-legacy-apply-btn:hover:not(:disabled) {
+    background: #4a3424;
+    border-color: #c49a45;
+    color: #ffffff;
+    transform: translateY(-1px);
+}
+
+.weapon-legacy-apply-btn:disabled {
+    cursor: default;
+    opacity: 0.55;
+    background: #5a483a;
+    border-color: #8a7664;
+    color: #cfc2ad;
+    box-shadow: none;
+}
+
+.skill-budget-warning,
+.skill-budget-note {
+    margin: 8px 0;
+    padding: 6px 12px;
+    border-radius: 4px;
+    border-left: 3px solid #8b2c1f;
+    background: rgba(139, 44, 31, 0.06);
+    font-family: 'Spectral', Georgia, serif;
+    font-size: 13px;
+}
+
+.skill-budget-warning {
+    color: #742516;
+    font-weight: 600;
+}
+
+.skill-card-reason {
+    display: block;
+    font-family: 'Spectral', Georgia, serif;
+    font-size: 12px;
+    font-style: italic;
+    color: #7a5c40;
+}
+
+.grimoire-weapon-picker {
+    margin: 10px 0;
+    font-size: 13px;
+    font-family: 'Spectral', Georgia, serif;
+}
+
+.grimoire-weapon-picker label {
+    display: block;
+    margin-bottom: 4px;
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    color: #3b2716;
+}
+
+.grimoire-weapon-picker select {
+    max-width: 100%;
+    padding: 4px 8px;
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    border: 1.5px solid #b6a080;
+    border-radius: 4px;
+    background: #fdfbf7;
+    color: #3b2716;
+}
+
+.grimoire-weapon-picker p {
+    margin: 6px 0 0;
+    color: #6a4c33;
+    font-style: italic;
+}

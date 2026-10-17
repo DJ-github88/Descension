@@ -1,0 +1,246 @@
+- generic [ref=f6e3]:
+  - banner [ref=f6e4]:
+    - generic [ref=f6e5]:
+      - button "Return to Mythrill Home" [ref=f6e7] [cursor=pointer]:
+        - generic [ref=f6e8]: 
+        - generic [ref=f6e9]: Mythrill
+      - navigation [ref=f6e11]:
+        - button " Home" [ref=f6e12] [cursor=pointer]:
+          - generic [ref=f6e13]: 
+          - text: Home
+        - button "More navigation items" [ref=f6e15] [cursor=pointer]:
+          - generic [ref=f6e16]: +
+      - generic [ref=f6e17]:
+        - button " Privacy" [ref=f6e18] [cursor=pointer]:
+          - generic [ref=f6e19]: 
+          - text: Privacy
+        - button " Account" [ref=f6e20] [cursor=pointer]:
+          - generic [ref=f6e21]: 
+          - text: Account
+        - button " Logout" [ref=f6e22] [cursor=pointer]:
+          - generic [ref=f6e23]: 
+          - text: Logout
+    - text:       
+  - main [ref=f6e24]:
+    - generic [ref=f6e26]:
+      - complementary [ref=f6e27]:
+        - navigation [ref=f6e28]:
+          - button "Search the Codex" [ref=f6e30] [cursor=pointer]:
+            - generic [ref=f6e31]: 
+          - text: 
+          - button "" [ref=f6e34] [cursor=pointer]
+          - button "" [ref=f6e37] [cursor=pointer]
+          - button "" [ref=f6e40] [cursor=pointer]
+          - button "" [ref=f6e43] [cursor=pointer]
+          - button "" [ref=f6e46] [cursor=pointer]
+          - button "" [ref=f6e49] [cursor=pointer]
+          - button "" [ref=f6e52] [cursor=pointer]
+          - button "" [ref=f6e55] [cursor=pointer]
+          - button "" [ref=f6e58] [cursor=pointer]
+        - text:   
+      - main [ref=f6e59]:
+        - generic [ref=f6e60]:
+          - generic [ref=f6e61]:
+            - button "Navigate to Laws overview" [ref=f6e62] [cursor=pointer]:
+              - generic [ref=f6e63]: 
+              - text: Laws
+            - generic [ref=f6e64]: 
+            - text: 
+            - button "Navigate to Classes list" [ref=f6e65] [cursor=pointer]: Classes
+            - generic [ref=f6e66]: 
+            - generic [ref=f6e67]: Gambit
+          - group "Laws and Lore" [ref=f6e68]:
+            - button " Laws" [pressed] [ref=f6e69] [cursor=pointer]:
+              - generic [ref=f6e70]: 
+              - generic [ref=f6e71]: Laws
+            - generic [aria-hidden] [ref=f6e72]: 
+            - button " Lore" [ref=f6e73] [cursor=pointer]:
+              - generic [ref=f6e74]: 
+              - generic [ref=f6e75]: Lore
+          - button "Search Codex" [ref=f6e76] [cursor=pointer]:
+            - generic [ref=f6e77]: 
+            - generic [ref=f6e78]: Ctrl K
+        - generic [ref=f6e80]:
+          - generic [ref=f6e81]:
+            - generic [ref=f6e82]:
+              - generic [ref=f6e83]:
+                - img "Gambit" [ref=f6e84]
+                - text: 
+              - generic [ref=f6e85]:
+                - heading "Gambit" [level=2] [ref=f6e86]
+                - generic [ref=f6e87]:
+                  - generic [ref=f6e88]:
+                    - generic [ref=f6e89]: 
+                    - text: Damage / Control
+                  - generic "Storm, Wyrd, Blight" [ref=f6e90]:
+                    - generic [ref=f6e91]: 
+                    - text: Storm, Wyrd, Blight
+            - generic [ref=f6e93]:
+              - 'button "Previous class: False Prophet" [ref=f6e94] [cursor=pointer]':
+                - generic [ref=f6e95]: 
+                - generic [ref=f6e96]: False Prophet
+              - button "Back to all classes" [ref=f6e97] [cursor=pointer]:
+                - generic [ref=f6e98]: All classes
+              - 'button "Next class: Apex" [ref=f6e99] [cursor=pointer]':
+                - generic [ref=f6e100]: Apex
+                - generic [ref=f6e101]: 
+          - navigation "Class sections" [ref=f6e103]:
+            - button "Overview" [pressed] [ref=f6e104] [cursor=pointer]:
+              - generic [aria-hidden] [ref=f6e105]: 
+            - button "Tradition" [ref=f6e107] [cursor=pointer]:
+              - generic [aria-hidden] [ref=f6e108]: 
+            - button "Resource System" [ref=f6e110] [cursor=pointer]:
+              - generic [aria-hidden] [ref=f6e111]: 
+            - button "Specializations" [ref=f6e113] [cursor=pointer]:
+              - generic [aria-hidden] [ref=f6e114]: 
+            - button "Spells" [ref=f6e116] [cursor=pointer]:
+              - generic [aria-hidden] [ref=f6e117]: 
+          - region "Overview" [ref=f6e119]:
+            - generic [ref=f6e120]:
+              - generic [ref=f6e121]:
+                - generic [ref=f6e122]:
+                  - generic [ref=f6e123]:
+                    - generic [ref=f6e125]:
+                      - img "“Every contract has an unwritten clause; the art is flipping the parchment before it is read.” — Canal Broker" [ref=f6e126]
+                      - button "Previous portrait" [ref=f6e127] [cursor=pointer]:
+                        - generic [ref=f6e128]: 
+                      - button "Next portrait" [ref=f6e129] [cursor=pointer]:
+                        - generic [ref=f6e130]: 
+                      - generic [ref=f6e131]: “Every contract has an unwritten clause; the art is flipping the parchment before it is read.” — Canal Broker
+                      - generic [ref=f6e132]:
+                        - button "View portrait 1" [pressed] [ref=f6e133] [cursor=pointer]
+                        - button "View portrait 2" [ref=f6e134] [cursor=pointer]
+                        - button "View portrait 3" [ref=f6e135] [cursor=pointer]
+                        - button "View portrait 4" [ref=f6e136] [cursor=pointer]
+                    - generic [ref=f6e137]:
+                      - generic [ref=f6e138]:
+                        - generic [ref=f6e139]
+                        - generic [ref=f6e141]: Damage / Control
+                      - generic [ref=f6e142]:
+                        - generic [ref=f6e143]
+                        - generic [ref=f6e145]: "Fortune & Debt: The Loaded Deck"
+                      - generic [ref=f6e146]:
+                        - generic [ref=f6e147]
+                        - generic [ref=f6e149]
+                  - generic [ref=f6e153]:
+                    - generic [ref=f6e154]: Battle role
+                    - generic [ref=f6e155]:
+                      - generic [ref=f6e156]: Battle Aspect
+                      - paragraph [ref=f6e157]: Damage / Control
+                    - generic [ref=f6e158]:
+                      - generic [ref=f6e159]: Why This Tradition Endures
+                      - paragraph [ref=f6e160]:
+                        - text: “Unmatched dual-axis probability control. The
+                        - button "Gambit" [ref=f6e161] [cursor=pointer]
+                        - text: possesses both the real-time roll nudging of Fortune and the absolute d20 override power of Fate Reserve cards. They can squeeze a close failure into a success with FP nudging, or bypass the roll entirely with a hard-coded card override. They are the ultimate mathematical safety net and the most devastating high-stakes payload on the field.”
+                    - generic [ref=f6e162]:
+                      - generic [ref=f6e163]:
+                        - generic [ref=f6e164]: Strengths
+                        - list [ref=f6e165]
+                      - generic [ref=f6e171]:
+                        - generic [ref=f6e172]: Trade-offs
+                        - list [ref=f6e173]
+                - generic [ref=f6e183]:
+                  - generic [ref=f6e184]:
+                    - heading "Overview" [level=3] [ref=f6e185]
+                    - generic [ref=f6e186]: “The Probability Siphon”
+                  - paragraph [ref=f6e189]:
+                    - text: A tragic ledger written in stolen luck and severed fate-threads. The
+                    - button "Gambit" [ref=f6e190] [cursor=pointer]
+                    - text: does not play for gold or glory; they play for the next calculated breath. Having fused two ancient traditions of probability manipulation, they wield both the Gambler's raw fortune-siphoning and the Fate Weaver's precise cartomantic surgery. Their nerves hum with the kinetic charge of stolen probability, and their mind splits across fractured timeline threads. To twist fate is to push the self past its limits, a physical and mental sacrifice that leaves them hollowed-out, gaunt, and perpetually on the verge of dual collapse.
+                  - generic [ref=f6e191]:
+                    - generic [ref=f6e192]: Playing the Gambit
+                    - generic [ref=f6e194]:
+                      - generic [ref=f6e195]:
+                        - generic [ref=f6e196]
+                        - generic [ref=f6e198]
+                      - generic [ref=f6e200]:
+                        - generic [ref=f6e201]
+                        - generic [ref=f6e203]
+                      - generic [ref=f6e205]:
+                        - generic [ref=f6e206]
+                        - generic [ref=f6e208]
+                      - generic [ref=f6e212]:
+                        - generic [ref=f6e213]
+                        - generic [ref=f6e215]: Card-based mechanics, manipulating RNG, and having the power to literally turn a party-wiping critical failure into an encounter-winning critical hit.
+                  - generic [ref=f6e216]:
+                    - generic [ref=f6e217]: The flow of battle
+                    - generic [ref=f6e218]:
+                      - generic [ref=f6e219]:
+                        - generic [ref=f6e220]: "1"
+                        - generic [ref=f6e221]: Build momentum through precise strikes and advantageous positioning.
+                      - generic [ref=f6e222]:
+                        - generic [ref=f6e223]: "2"
+                        - generic [ref=f6e224]: Read the battlefield for the moment of maximum exploit before committing.
+                      - generic [ref=f6e225]:
+                        - generic [ref=f6e226]: "3"
+                        - generic [ref=f6e227]: "Unleash the decisive blow when the conditions align: no sooner, no later."
+                  - generic [ref=f6e228]:
+                    - generic [ref=f6e229]: Expert tactics
+                    - generic [ref=f6e230]:
+                      - paragraph [ref=f6e231]: "Playing the Wagering Architect requires balancing two intertwined resource economies against escalating physical and temporal strain:"
+                      - paragraph [ref=f6e232]:
+                        - strong [ref=f6e233]: The Dual Resource Loop
+                        - text: ": - Start combat with 1 Fortune and 0 Karmic Debt. - Use Gambler spells (Lucky Strike, Lucky Toss, Dice Dart) to generate Fortune (generation is free; the cost comes when you spend them). - Use Fate Weaver spells (Fate Reserve, Arcane Dirge) to draw and bank cards for hard overrides, generating Karmic Debt. - Spend Fortune to nudge rolls (1d4"
+                        - button "wyrd" [ref=f6e234] [cursor=pointer]
+                        - text: damage per point, irreducible). - Spend Fate Reserve cards to override rolls entirely (generates Karmic Debt per override).
+                      - paragraph [ref=f6e235]:
+                        - strong [ref=f6e236]: Managing the Dual Silence
+                        - text: ": - Never let Fortune hit 0. Always hold a reserve point, or Cosmic Bankruptcy will trigger. - Never let Karmic Debt reach 13. Always track your debt accumulation, or"
+                        - button "Wyrd" [ref=f6e237] [cursor=pointer]
+                        - text: "Collapse will end you. - The two systems interact: spec passives can convert self-damage into Fortune, or use Karmic Debt to amplify damage."
+                      - paragraph [ref=f6e238]:
+                        - strong [ref=f6e239]: The Override Timing
+                        - text: ": - Do not waste banked cards on minor rolls. Save high face cards for crucial saving throws or boss spell attacks. - Use Fortune nudging for incremental adjustments. Use card overrides for absolute guarantees."
+              - generic [ref=f6e240]:
+                - generic [ref=f6e241]: Roleplay & origins
+                - generic [ref=f6e242]:
+                  - generic [ref=f6e243]:
+                    - 'heading "HISTORY: THE DUAL GENESIS" [level=5] [ref=f6e244]'
+                    - paragraph [ref=f6e246]:
+                      - text: The
+                      - button "Gambit" [ref=f6e247] [cursor=pointer]
+                      - text: "'s power was born from two founding events. In the floating alleys of"
+                      - button "Merrowport" [ref=f6e248] [cursor=pointer]
+                      - text: ", the"
+                      - button "Merryn" [ref=f6e249] [cursor=pointer]
+                      - text: pirate captain Jax wagered his lifeline against a storm-spirit, discovering probability manipulation through gambling. In the vertical canyons of the
+                      - button "Cragjaw Peaks" [ref=f6e250] [cursor=pointer]
+                      - text: ", the"
+                      - button "Athien" [ref=f6e251] [cursor=pointer]
+                      - text: probability-watcher Lyra severed alternate timelines to save her caravan, discovering probability manipulation through card-reading. The traditions merged when Jax's ship docked at
+                      - button "Ironjaw Port" [ref=f6e252] [cursor=pointer]
+                      - text: during
+                      - button "the Toll Wars" [ref=f6e253] [cursor=pointer]
+                      - text: ", when Lyra was there as a Weft probability-consultant for"
+                      - button "Groven" [ref=f6e254] [cursor=pointer]
+                      - text: bridge-engineers calculating span-failure risks. When their abilities resonated across the dock, the two discovered they were manipulating the same fundamental force.
+                  - generic [ref=f6e255]:
+                    - heading "CITIES AND CIVIL RECEPTION" [level=5] [ref=f6e256]
+                    - paragraph [ref=f6e258]:
+                      - text: Gambits are celebrated in the tavern-decks of
+                      - button "Merrowport" [ref=f6e259] [cursor=pointer]
+                      - text: and valued in the canopy-libraries of
+                      - button "Atropolis" [ref=f6e260] [cursor=pointer]
+                      - text: ", but they are viewed with clinical contempt by the"
+                      - button "Athien" [ref=f6e261] [cursor=pointer]
+                      - text: pact-lords of
+                      - button "Ironjaw Port" [ref=f6e262] [cursor=pointer]
+                      - text: .
+                  - generic [ref=f6e263]:
+                    - heading "RACES AND CULTURAL AFFILIATION" [level=5] [ref=f6e264]
+                    - generic [ref=f6e265]:
+                      - paragraph [ref=f6e266]:
+                        - text: The House's credit found its three native debtors in the
+                        - button "Merryn" [ref=f6e267] [cursor=pointer]
+                        - text: sea, the Weft vault, and the Alchemite refinery.
+                      - paragraph [ref=f6e268]:
+                        - text: "Native to:"
+                        - button "Merryn" [ref=f6e269] [cursor=pointer]
+                        - text: ", Weft, Alchemite. Any other people may walk this path only as a rare, individually qualified exception."
+                        - strong [ref=f6e270]: NOTABLE FIGURES
+                        - text: "* Jax the Storm-Wagerer: The pirate who gambled his soul for a gale and lost his sleep to the ocean's tides. Now missing, believed to have walked into the"
+                        - button "Iceheart Sea" [ref=f6e271] [cursor=pointer]
+                        - text: "for one final game. * Lyra the Probability-Watcher: The cartomancer who witnessed her friends die in a hundred ways to find the one path where they lived. Now leads the radical Deck-Burners faction, seeking to destroy the Fates themselves."
+              - 'button "Combat Example: The Wagering Architect at Iron Gallows" [ref=f6e273] [cursor=pointer]':
+                - generic [aria-hidden] [ref=f6e275]: 

@@ -1617,56 +1617,90 @@ body.resource-controls-open .character-sheet {
 }
 
 /* Equipment Slots - New Layout Based Design */
-.gear-slot {
+/* Equipment & Weapon Slots — Illuminated Medieval Framing */
+.gear-slot,
+.weapon-slot {
     width: 48px;
     height: 48px;
-    background: linear-gradient(135deg,
-        rgba(240, 230, 210, 0.95) 0%,
-        rgba(220, 210, 190, 0.9) 50%,
-        rgba(200, 190, 170, 0.85) 100%);
-    border: 2.5px solid #8b7355;
+    background: radial-gradient(circle at 40% 35%,
+        rgba(255, 252, 244, 0.98) 0%,
+        rgba(238, 228, 208, 0.95) 60%,
+        rgba(222, 208, 185, 0.92) 100%);
+    border: 2px solid #8b7355;
     border-radius: 8px;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     display: flex;
     align-items: center;
     justify-content: center;
     box-shadow:
-        inset 0 2px 4px rgba(255, 255, 255, 0.4),
-        inset 0 -2px 4px rgba(139, 115, 85, 0.3),
-        0 2px 6px rgba(0, 0, 0, 0.2);
+        inset 0 1px 2px rgba(255, 255, 255, 0.8),
+        inset 0 -1px 3px rgba(107, 83, 68, 0.25),
+        0 3px 8px rgba(44, 30, 20, 0.2);
     position: relative;
     flex-shrink: 0;
+    box-sizing: border-box;
 }
 
-.gear-slot:hover {
+.gear-slot:hover,
+.weapon-slot:hover {
     transform: translateY(-2px);
     box-shadow:
-        inset 0 2px 4px rgba(255, 255, 255, 0.5),
-        inset 0 -2px 4px rgba(139, 115, 85, 0.4),
-        0 4px 12px rgba(107, 83, 68, 0.4);
-    border-color: #6b5344;
+        inset 0 1px 3px rgba(255, 255, 255, 0.9),
+        0 4px 14px rgba(182, 140, 60, 0.35);
+    border-color: #c5a059;
 }
 
-.gear-slot img {
-    width: 40px;
-    height: 40px;
+.gear-slot img,
+.weapon-slot img {
+    width: 38px;
+    height: 38px;
     object-fit: contain;
-    filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.4));
+    filter: drop-shadow(1px 2px 3px rgba(0, 0, 0, 0.35));
     border-radius: 5px;
 }
 
-.gear-slot.empty {
-    background: linear-gradient(135deg,
-        rgba(213, 203, 176, 0.5) 0%,
-        rgba(200, 190, 170, 0.4) 100%);
-    border-color: #c4baa6;
-    border-style: dashed;
+/* Empty slots: calm etched recessed parchment cell with subtle brass border */
+.gear-slot.empty,
+.weapon-slot.empty {
+    background: radial-gradient(circle at 50% 45%,
+        rgba(248, 243, 232, 0.94) 0%,
+        rgba(232, 222, 202, 0.88) 65%,
+        rgba(216, 204, 182, 0.84) 100%);
+    border: 1.5px solid #b6a080;
+    border-style: solid;
+    box-shadow:
+        inset 0 2px 4px rgba(92, 64, 42, 0.18),
+        inset 0 -1px 2px rgba(255, 255, 255, 0.5),
+        0 2px 6px rgba(0, 0, 0, 0.08);
 }
 
-.gear-slot.empty img {
-    opacity: 0.4;
-    filter: grayscale(100%) drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.2));
+.gear-slot.empty:hover,
+.weapon-slot.empty:hover {
+    border-color: #c5a059;
+    box-shadow:
+        inset 0 2px 4px rgba(92, 64, 42, 0.12),
+        0 0 12px rgba(197, 160, 89, 0.4);
+    transform: translateY(-1.5px);
+}
+
+/* Antique etched SVG silhouettes */
+.gear-slot-silhouette,
+.slot-silhouette-svg {
+    width: 30px;
+    height: 30px;
+    color: #8b7355;
+    opacity: 0.65;
+    transition: all 0.2s ease;
+    pointer-events: none;
+    filter: drop-shadow(0 1px 0 rgba(255, 255, 255, 0.6));
+}
+
+.gear-slot.empty:hover .gear-slot-silhouette,
+.weapon-slot.empty:hover .gear-slot-silhouette {
+    color: #5c432d;
+    opacity: 0.95;
+    transform: scale(1.05);
 }
 
 /* Weapon Slots Container - Positioned Below Image */
@@ -1682,113 +1716,37 @@ body.resource-controls-open .character-sheet {
     align-self: flex-end;
 }
 
-.weapon-slot {
-    width: 48px;
-    height: 48px;
-    background: linear-gradient(135deg,
-        rgba(240, 230, 210, 0.95) 0%,
-        rgba(220, 210, 190, 0.9) 50%,
-        rgba(200, 190, 170, 0.85) 100%);
-    border: 2.5px solid #8b7355;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow:
-        inset 0 2px 4px rgba(255, 255, 255, 0.4),
-        inset 0 -2px 4px rgba(139, 115, 85, 0.3),
-        0 2px 6px rgba(0, 0, 0, 0.2);
-    position: relative;
-    flex-shrink: 0;
-}
-
-.weapon-slot:hover {
-    transform: translateY(-2px);
-    box-shadow:
-        inset 0 2px 4px rgba(255, 255, 255, 0.5),
-        inset 0 -2px 4px rgba(139, 115, 85, 0.4),
-        0 4px 12px rgba(107, 83, 68, 0.4);
-    border-color: #6b5344;
-}
-
-.weapon-slot img {
-    width: 40px;
-    height: 40px;
-    object-fit: contain;
-    filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.4));
-    border-radius: 5px;
-}
-
-.weapon-slot.empty {
-    background: linear-gradient(135deg,
-        rgba(213, 203, 176, 0.5) 0%,
-        rgba(200, 190, 170, 0.4) 100%);
-    border-color: #c4baa6;
-    border-style: dashed;
-}
-
-.weapon-slot.empty img {
-    opacity: 0.4;
-    filter: grayscale(100%) drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.2));
-}
-
 /* Disabled Weapon Slot Styles */
 .weapon-slot.disabled {
     cursor: not-allowed;
-    background-color: rgba(213, 203, 176, 0.3);
-    border-color: #999;
+    background: radial-gradient(circle at 50% 50%,
+        rgba(240, 232, 218, 0.85) 0%,
+        rgba(218, 206, 188, 0.78) 100%);
+    border: 1.5px solid #a8947c;
+    box-shadow:
+        inset 0 2px 4px rgba(60, 40, 25, 0.2),
+        0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .weapon-slot.disabled:hover {
     transform: none;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-    border-color: #999;
-    background-color: rgba(213, 203, 176, 0.3);
+    box-shadow: inset 0 2px 4px rgba(60, 40, 25, 0.2);
+    border-color: #a8947c;
 }
 
-/* Red Cross Overlay for Disabled Slots */
-.disabled-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+/* Disabled offhand heraldic seal */
+.disabled-offhand-manuscript-seal {
+    width: 100%;
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     pointer-events: none;
-    z-index: 10;
 }
 
-.red-cross {
-    position: relative;
-    width: 30px;
-    height: 30px;
-}
-
-.cross-line {
-    position: absolute;
-    background-color: #ff0000;
-    border-radius: 2px;
-    box-shadow: 0 0 4px rgba(255, 0, 0, 0.8);
-}
-
-.cross-line-1 {
-    width: 30px;
-    height: 4px;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) rotate(45deg);
-}
-
-.cross-line-2 {
-    width: 30px;
-    height: 4px;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) rotate(-45deg);
+.disabled-offhand-manuscript-seal .disabled-seal-svg {
+    width: 34px;
+    height: 34px;
 }
 
 /* Resistance and Spell Damage Grids */
@@ -5517,15 +5475,28 @@ body.resource-controls-open .character-sheet {
 
 .vitals-column-title {
     font-family: 'Cinzel', 'Times New Roman', serif;
-    font-size: 13px;
+    font-size: 12.5px;
     font-weight: 700;
-    color: #422614;
+    color: #3d2415;
     text-transform: uppercase;
-    letter-spacing: 1.5px;
+    letter-spacing: 2px;
     text-align: center;
     margin: 0 0 8px 0;
     padding-bottom: 7px;
     border-bottom: 1px solid rgba(168, 144, 108, 0.45);
+    position: relative;
+}
+
+.vitals-column-title::after {
+    content: '';
+    position: absolute;
+    bottom: -3.5px;
+    left: 50%;
+    width: 6px;
+    height: 6px;
+    background: #c5a059;
+    transform: translateX(-50%) rotate(45deg);
+    border-radius: 1px;
 }
 
 .vitals-stat-tile {
@@ -5536,6 +5507,11 @@ body.resource-controls-open .character-sheet {
     gap: 10px;
     border-radius: 4px;
     transition: background-color 0.15s ease;
+    border-bottom: 1px dashed rgba(182, 160, 128, 0.25);
+}
+
+.vitals-stat-tile:last-child {
+    border-bottom: none;
 }
 
 .vitals-stat-tile:hover {
@@ -5543,7 +5519,7 @@ body.resource-controls-open .character-sheet {
 }
 
 .vitals-stat-label {
-    font-family: 'Crimson Text', 'Bookman Old Style', Georgia, serif;
+    font-family: 'Crimson Text', 'Spectral', Georgia, serif;
     font-size: 14.5px;
     font-weight: 600;
     color: #2b180d;
@@ -5553,7 +5529,7 @@ body.resource-controls-open .character-sheet {
 
 .vitals-stat-value {
     font-family: 'Cinzel', Georgia, serif;
-    font-size: 14.5px;
+    font-size: 14px;
     font-weight: 700;
     color: #1a0e07;
     text-align: right;
@@ -5564,9 +5540,9 @@ body.resource-controls-open .character-sheet {
 }
 
 .vitals-stat-value--damage {
-    font-size: 15px;
+    font-size: 14.5px;
     font-weight: 800;
-    color: #8b1d0c;
+    color: #8b2518;
 }
 
 .vitals-stat-value--dim {
@@ -5592,16 +5568,7 @@ body.resource-controls-open .character-sheet {
 }
 
 .wow-base-stats-panel .vitals-column-title {
-    font-family: 'Cinzel', 'Times New Roman', serif;
-    font-size: 13px;
-    font-weight: 700;
-    color: #422614;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    text-align: center;
     margin: 0 0 10px 0;
-    padding-bottom: 7px;
-    border-bottom: 1px solid rgba(168, 144, 108, 0.45);
 }
 
 .wow-base-stats-grid {
@@ -5618,20 +5585,24 @@ body.resource-controls-open .character-sheet {
     padding: 8px 4px 6px;
     background:
         linear-gradient(180deg,
-            rgba(255, 250, 240, 0.7) 0%,
-            rgba(220, 200, 170, 0.5) 100%);
-    border: 1.5px solid rgba(139, 115, 85, 0.5);
+            rgba(255, 252, 245, 0.95) 0%,
+            rgba(240, 230, 212, 0.85) 100%);
+    border: 1.5px solid #c4b397;
     border-radius: 8px;
     box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.6),
-        inset 0 -1px 0 rgba(107, 83, 68, 0.15);
-    transition: transform 0.15s ease, border-color 0.15s ease;
+        inset 0 1px 2px rgba(255, 255, 255, 0.9),
+        inset 0 -1px 2px rgba(107, 83, 68, 0.1),
+        0 2px 5px rgba(60, 40, 25, 0.08);
+    transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
     min-height: 64px;
 }
 
 .wow-base-stat-card:hover {
-    transform: translateY(-1px);
-    border-color: #6b5344;
+    transform: translateY(-1.5px);
+    border-color: #a88a58;
+    box-shadow:
+        inset 0 1px 2px rgba(255, 255, 255, 0.95),
+        0 4px 10px rgba(168, 138, 88, 0.25);
 }
 
 .wow-base-stat-label {
@@ -5640,14 +5611,14 @@ body.resource-controls-open .character-sheet {
     font-weight: 700;
     color: #5c4033;
     text-transform: uppercase;
-    letter-spacing: 1.2px;
+    letter-spacing: 1.5px;
     line-height: 1;
     margin-bottom: 4px;
 }
 
 .wow-base-stat-mod {
-    font-family: 'Bookman Old Style', 'Garamond', serif;
-    font-size: 22px;
+    font-family: 'Cinzel', 'Spectral', serif;
+    font-size: 21px;
     font-weight: 700;
     line-height: 1;
     color: #3a2519;
@@ -5656,18 +5627,18 @@ body.resource-controls-open .character-sheet {
 }
 
 .wow-base-stat-mod.pos {
-    color: #2e6b35;
+    color: #276238;
 }
 
 .wow-base-stat-mod.neg {
-    color: #8b2a1e;
+    color: #8b2518;
 }
 
 .wow-base-stat-value {
-    font-family: 'Bookman Old Style', 'Garamond', serif;
-    font-size: 10px;
-    color: #6b5344;
-    opacity: 0.75;
+    font-family: 'Spectral', 'Bookman Old Style', serif;
+    font-size: 11px;
+    font-weight: 600;
+    color: #7a634e;
     line-height: 1;
 }
 

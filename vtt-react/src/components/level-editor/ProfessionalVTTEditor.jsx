@@ -3586,15 +3586,26 @@ const elevationStrokePaintedRef = useRef(null);
                         });
                     });
                 } else {
-                    // Square grid: create 4 walls
-                    // Top wall
-                    setWall(minX, minY, maxX, minY, wallType, activeMapIdRef.current, wallExtraFields);
-                    // Bottom wall
-                    setWall(minX, maxY, maxX, maxY, wallType, activeMapIdRef.current, wallExtraFields);
-                    // Left wall
-                    setWall(minX, minY, minX, maxY, wallType, activeMapIdRef.current, wallExtraFields);
-                    // Right wall
-                    setWall(maxX, minY, maxX, maxY, wallType, activeMapIdRef.current, wallExtraFields);
+                    // Square grid: create walls along rectangle perimeter
+                    if (minX === maxX && minY === maxY) {
+                        // Single point - nothing to commit
+                    } else if (minX === maxX) {
+                        // 1D vertical line
+                        setWall(minX, minY, minX, maxY, wallType, activeMapIdRef.current, wallExtraFields);
+                    } else if (minY === maxY) {
+                        // 1D horizontal line
+                        setWall(minX, minY, maxX, minY, wallType, activeMapIdRef.current, wallExtraFields);
+                    } else {
+                        // 2D box: create 4 walls
+                        // Top wall
+                        setWall(minX, minY, maxX, minY, wallType, activeMapIdRef.current, wallExtraFields);
+                        // Bottom wall
+                        setWall(minX, maxY, maxX, maxY, wallType, activeMapIdRef.current, wallExtraFields);
+                        // Left wall
+                        setWall(minX, minY, minX, maxY, wallType, activeMapIdRef.current, wallExtraFields);
+                        // Right wall
+                        setWall(maxX, minY, maxX, maxY, wallType, activeMapIdRef.current, wallExtraFields);
+                    }
                 }
             }
         } else if (currentPath.length > 0 &&

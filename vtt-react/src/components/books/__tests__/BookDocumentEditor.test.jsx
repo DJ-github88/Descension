@@ -1589,6 +1589,137 @@ describe('BookDocumentEditor & TTRPG Blocks', () => {
 
     expect(container.querySelector('.book-selection-bubble')).not.toBeInTheDocument();
   });
+
+  test('renders formatted prose and publication statblock in Write Mode (WYSIWYG) with interactive dice rolls', () => {
+    const wysiwygBook = {
+      ...sampleBook,
+      chapters: [
+        {
+          ...sampleBook.chapters[0],
+          pages: [
+            {
+              id: 'pg-wysiwyg',
+              pageNumber: 1,
+              headerTitle: 'Vault of Embers',
+              blocks: [
+                {
+                  id: 'b-formatted-prose',
+                  type: 'paragraph',
+                  content: '**Floor Trap.** Stepping on the obsidian tile triggers [[Ember-Motes]].',
+                },
+                {
+                  id: 'b-statblock',
+                  type: 'creature_statblock',
+                  creatureData: {
+                    name: 'Cinder-Hound',
+                    size: 'Medium',
+                    type: 'elemental',
+                    alignment: 'Chaotic Evil',
+                    armorClass: 15,
+                    hitPoints: 45,
+                    hitDice: '7d8 + 14',
+                    speed: '50 ft.',
+                    abilities: { str: 17, agi: 12, con: 14, int: 6, spi: 13, cha: 6 },
+                    traits: [{ name: 'Keen Smell', description: 'Advantage on smell checks.' }],
+                    actions: [{ name: 'Bite', description: '+5 to hit, 1d8 + 3 piercing damage.' }],
+                  },
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    };
+
+    useBookStore.setState({
+      books: [wysiwygBook],
+      activeBookId: 'test-book-1',
+    });
+
+    const { container } = render(<BookDocumentEditor bookId="test-book-1" isGM={true} allowWrite={true} />);
+
+    // Formatted paragraph renders RichLoreText in Write Mode before clicking
+    const wysiwygProse = container.querySelector('.book-prose-display.is-wysiwyg-prose');
+    expect(wysiwygProse).toBeInTheDocument();
+    expect(wysiwygProse.textContent).toContain('Floor Trap.');
+
+    // Publication statblock renders directly in Write Mode
+    const statblock = container.querySelector('.book-creature-statblock');
+    expect(statblock).toBeInTheDocument();
+    expect(statblock.querySelector('.statblock-manuscript-toolbar')).toBeInTheDocument();
+
+    // Clicking an ability cell triggers an inline tabletop roll banner
+    const firstAbilityCell = statblock.querySelector('.stat-tile.rollable-stat-tile .stat-abbr');
+    expect(firstAbilityCell).toBeInTheDocument();
+    act(() => {
+      fireEvent.click(firstAbilityCell);
+    });
+
+    const rollBanner = statblock.querySelector('.book-inline-roll-banner');
+    expect(rollBanner).toBeInTheDocument();
+    expect(rollBanner.textContent).toContain('STR Check');
+  });
+
+  test('displays Two-Page Facing Spread in layout selector with companion folio columns toggle and overflow assistant', () => {
+    const denseSpreadBook = {
+      ...sampleBook,
+      layout: 'book-spread',
+      columns: 2,
+      chapters: [
+        {
+          ...sampleBook.chapters[0],
+          pages: [
+            {
+              id: 'pg-dense-1',
+              pageNumber: 1,
+              headerTitle: 'Chromatic Sanctum',
+              blocks: Array.from({ length: 8 }, (_, idx) => ({
+                id: `b-dense-${idx + 1}`,
+                type: 'paragraph',
+                content: `Sanctum paragraph ${idx + 1}`,
+              })),
+            },
+          ],
+        },
+      ],
+    };
+
+    useBookStore.setState({
+      books: [denseSpreadBook],
+      activeBookId: 'test-book-1',
+    });
+
+    const { container } = render(<BookDocumentEditor bookId="test-book-1" isGM={true} allowWrite={true} />);
+
+    // Layout pill shows Two-Page Facing Spread
+    const layoutSelect = container.querySelector('.layout-pill-select .dropdown-trigger-label');
+    expect(layoutSelect).toBeInTheDocument();
+    expect(layoutSelect.textContent).toBe('Two-Page Facing Spread');
+
+    // Companion folio column button toggles between 2-Col Folios and 1-Col Folios
+    const folioColBtn = container.querySelector('.spread-folio-cols-btn');
+    expect(folioColBtn).toBeInTheDocument();
+    expect(folioColBtn.textContent).toContain('2-Col Folios');
+
+    act(() => {
+      fireEvent.click(folioColBtn);
+    });
+    expect(useBookStore.getState().books.find((b) => b.id === 'test-book-1').columns).toBe(1);
+
+    // Overflow bar appears for >= 7 blocks and flows excess blocks to page 2
+    const overflowBar = container.querySelector('.book-page-overflow-bar');
+    expect(overflowBar).toBeInTheDocument();
+    const flowBtn = overflowBar.querySelector('.overflow-flow-btn');
+    act(() => {
+      fireEvent.click(flowBtn);
+    });
+
+    const updatedBook = useBookStore.getState().books.find((b) => b.id === 'test-book-1');
+    expect(updatedBook.chapters[0].pages.length).toBe(2);
+    expect(updatedBook.chapters[0].pages[0].blocks.length).toBe(6);
+    expect(updatedBook.chapters[0].pages[1].blocks.length).toBe(2);
+  });
 });
+
 
 

@@ -5760,9 +5760,9 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                                                                     <label><i className="fas fa-shield-halved"></i> Damage Reduction (DR)</label>
                                                                     <input
                                                                         type="text"
-                                                                        value={monster.damageReduction || monster.ac || ''}
-                                                                        onChange={(e) => updateHomebrewMonster(monster.id, { damageReduction: e.target.value, ac: e.target.value })}
-                                                                        placeholder="d6 DR / Flat DR 2"
+                                                                        value={monster.damageReduction || ''}
+                                                                        onChange={(e) => updateHomebrewMonster(monster.id, { damageReduction: e.target.value })}
+                                                                        placeholder="Flat DR, e.g. 2"
                                                                         className="homebrew-craft-input"
                                                                     />
                                                                 </div>

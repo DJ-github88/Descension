@@ -361,10 +361,12 @@ export async function submitActorEntries(entries, extra = {}) {
 }
 /** Small P8 seam: prepare after an explicit snapshot, preserve these exact bytes,
  * then submit/adopt them under the current principal. No rebase or new UUID. */
-export function prepareActorCommand(entries, extra = {}) {
+export function prepareActorCommand(entries, extra = {}, options = {}) {
   if (!admission || admission.roomId !== state().multiplayerRoom?.id) throw new Error('Current actor snapshot required');
   if (Object.keys(extra).some(key => !['source', 'target', 'adjudication', 'approval'].includes(key))) throw new Error('Unsupported prepared command fields');
-  const command = clone({ version: 1, roomId: admission.roomId, commandId: crypto.randomUUID(), actionEpoch: admission.actionEpoch,
+  // P12B: an attack offer reserves the GM command ID before the owner rolls; it is used exactly once.
+  if (options.commandId !== undefined && !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(options.commandId)) throw new Error('Invalid reserved command ID');
+  const command = clone({ version: 1, roomId: admission.roomId, commandId: options.commandId || crypto.randomUUID(), actionEpoch: admission.actionEpoch,
     baseCommitSequence: admission.commitSequence, actors: entries, ...extra });
   const freeze = value => { if (value && typeof value === 'object') { Object.values(value).forEach(freeze); Object.freeze(value); } return value; };
   return freeze(command);

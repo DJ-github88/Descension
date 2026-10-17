@@ -1,0 +1,32 @@
+- generic [ref=e1]:
+  - heading "Isolated production Wizard resource witness" [level=1] [ref=e2]
+  - paragraph [ref=e3]: Planning research; no personal storage or shared room.
+  - generic [ref=e4]:
+    - button "selected-zero" [ref=e5]
+    - button "unselected-zero" [ref=e6]
+    - button "passive-zero" [ref=e7]
+    - button "selected-two" [active] [ref=e8]
+    - button "Serialize spell" [ref=e9]
+    - button "Create template" [ref=e10]
+    - button "Generate from template" [ref=e11]
+  - generic [ref=e12]:
+    - status [ref=e301]: "{\"mode\":\"selected-two\",\"ap\":2,\"values\":{\"actionPoints\":2,\"mana\":4}}"
+    - generic [ref=e302]:
+      - generic [ref=e303]:
+        - heading "Resource Summary" [level=3] [ref=e305]
+        - generic [ref=e306]:
+          - generic [ref=e308]:
+            - generic [ref=e309]: Action Points
+            - generic [ref=e310]: "2"
+          - generic [ref=e312]:
+            - generic [ref=e313]: Mana
+            - generic [ref=e314]: "4"
+      - generic [ref=e315]:
+        - heading "Resource Configuration" [level=3] [ref=e316]
+        - generic [ref=e317]:
+          - generic [ref=e318]:
+            - generic [ref=e319]
+            - generic [ref=e322]
+          - generic [ref=e406]:
+            - heading "Spell Components" [level=4] [ref=e407]
+            - generic [ref=e408]: Select physical requirements for casting this spell

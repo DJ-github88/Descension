@@ -253,6 +253,12 @@ const REGISTRY_ENTRIES = [
   recoverable('room.spellConsequenceLatest', 'Latest original P9 owner spell approval/result', [
     { builder: 'mythrill_spell_consequence_latest_{roomId}' }
   ], { allowedScopeKinds: Object.freeze(['user']), notes: 'One latest owner approval (exact bytes and recorded roll) per authenticated owner and room. Same-approval checking only; never an offline replay queue, reroll or checkpoint confirmation.' }),
+  recoverable('room.strikeConsequenceLatest', 'P12A strike approval and prepared GM command custody', [
+    { builder: 'mythrill_strike_consequence_latest_{roomId}' }
+  ], { allowedScopeKinds: Object.freeze(['user']), notes: 'One latest owner strike and bounded prepared GM commands. Exact-byte explicit checks only; no automatic replay or reroll.' }),
+  recoverable('room.blockingLatest', 'P12B blocking declaration, owner block roll and prepared GM command custody', [
+    { builder: 'mythrill_blocking_latest_{roomId}' }
+  ], { allowedScopeKinds: Object.freeze(['user']), notes: 'Latest owner declaration and block roll plus bounded prepared GM commands. Exact-byte explicit checks only; no automatic replay or reroll.' }),
 
   // ── Core private working projections ─────────────────────────────────────
   recoverable('core.inventory', 'Private inventory working state', ['inventory']),
@@ -611,6 +617,9 @@ export const FROZEN_SLICE1_FAMILY_IDS = Object.freeze([
   'room.featherSlashLatest',
   // P9 additive latest owner spell approval custody.
   'room.spellConsequenceLatest',
+  'room.strikeConsequenceLatest',
+  // P12B additive blocking custody.
+  'room.blockingLatest',
   // Core working projections
   'core.inventory',
   'core.mapWorking',

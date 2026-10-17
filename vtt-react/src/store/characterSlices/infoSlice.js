@@ -7,6 +7,7 @@ import { saveRoster } from '../../persistence/characterScopedStorage';
 import { ALL_CLASSES_DATA } from '../../data/classes';
 import { ALL_CLASS_SPELLS } from '../../data/classSpellGenerator';
 import { getXPForLevel } from '../../utils/experienceUtils';
+import { WEAPON_MASTERY_SKILL_ID, withWeaponRank } from '../../utils/weaponProficiency';
 
 // Info Slice: Character identity, lore, talents, and skills.
 // State properties and action bodies are copied verbatim from characterStore.js.
@@ -998,13 +999,27 @@ export const createInfoSlice = (set, get) => ({
         get().syncWithMultiplayer();
     },
 
-    setSkillRank: (skillId, rankKey) => {
+    // P11: Weapon Mastery is ranked per weapon type (`weaponMastery_<type>`).
+    // A Weapon Mastery write without a known weapon type or rank is refused, so
+    // no new ambiguous shared rank is ever created. Other skills are unchanged.
+    setSkillRank: (skillId, rankKey, weaponType) => {
+        if (skillId === WEAPON_MASTERY_SKILL_ID) {
+            const next = withWeaponRank(get().skillRanks, weaponType, rankKey);
+            if (!next) {
+                console.warn('Weapon Mastery rank refused: choose a known weapon type and rank.');
+                return false;
+            }
+            set({ skillRanks: next });
+            get().syncWithMultiplayer();
+            return true;
+        }
         set((state) => ({
             skillRanks: { ...state.skillRanks, [skillId]: rankKey }
         }));
 
         // Sync with multiplayer
         get().syncWithMultiplayer();
+        return true;
     },
 
     // Update lore information

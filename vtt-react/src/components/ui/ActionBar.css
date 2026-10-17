@@ -402,6 +402,9 @@
 /* Elevated Equipment Slot Floating Tooltip & Helper Card */
 .equipment-slot-floating-tooltip {
     max-width: 380px;
+    max-height: calc(100vh - 36px);
+    overflow-y: auto;
+    box-sizing: border-box;
     filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.7));
     pointer-events: none;
     z-index: 999999999;

@@ -1,0 +1,3419 @@
+{
+  "version": 1,
+  "capturedAt": "2026-10-17T18:18:01.780Z",
+  "branch": "master",
+  "head": "8ea1abff1d8c1f959b2d4a10e6b7ca73879c2ff2",
+  "sourceHashes": {
+    "docs/plans/mythrill-class-reconstruction/evidence/current-census.json": "9e0a4356e566301ae3f36a9db0a7cf1685162fa84c320e5c54e7f79a126db68f",
+    "vtt-react/src/data/classes/index.js": "6511efa7146619cef3308be5e843aef2a4028174a6df9f6811f4cf848de1eee2",
+    "vtt-react/src/data/classes/arcanoneerData.js": "dd3767309d6989999758f169b7821b589b8e66e2488df288d4e6782b547a57d7",
+    "vtt-react/src/data/classes/berserkerData.js": "bdb6e3207a4d0c3605250470b12b9232fee5c313d00a4094d8d15f50c373364a",
+    "vtt-react/src/data/classes/shaperData.js": "9db9b8cf1cc748e1be9303c105320733667390fa6086ceee3e863c6352a76d46",
+    "vtt-react/src/data/shaperResourceContract.js": "3fa487fe9c18bf220f869ae24c0a11a9c2dec7528762188a3c7b3cdcb83756e3",
+    "vtt-react/src/data/classResourceAliases.js": "051b060df4794bf5aa1543ad39425ca4451689ad109f870c769f56ba4978976f",
+    "vtt-react/src/data/classes/harbingerData.js": "ad60d82e8a421a76123f0b4a8142c0e7b12d70a926032423e7c86f0025047411",
+    "vtt-react/src/data/spells/utilitySpells.js": "9ad7264af146b23407c7306da8986a9c90bd52d6e7c3806ccc466cbd5321623f",
+    "vtt-react/src/data/classes/chronarchData.js": "3dfa1ddc135e08916e1f46dcfb5731ea1e020100d1877e0a2efdbd2ce31754bf",
+    "vtt-react/src/data/classes/revenantData.js": "30c67fe51dc3aadc4d5c796ac24b73604985f7fd0b566b0a05babbef6471c425",
+    "vtt-react/src/data/classes/inquisitorData.js": "3e362b7990532df7112e45e859a7fff60653ce6699eea65aad63fc909f89330f",
+    "vtt-react/src/data/classes/falseProphetData.js": "009c96cc08a93de17b53b393c4f5bc5068dce22e112bdac8fc078f158bfccff6",
+    "vtt-react/src/data/classes/gambitData.js": "e4eb3ef2b664fc4ebbdca45163fa56ac0b39fd5c19227d155280ccf9aef7671d",
+    "vtt-react/src/data/classes/apexData.js": "cdf16299d0099b8ba2ab743bf98eebd8e1168b32ffa4de535dd4da1e9a55ca89",
+    "vtt-react/src/data/apexResourceContract.js": "872aa181cac28941f25e96e410d53326e93da4714cccfd99e62460ea7571456f",
+    "vtt-react/src/data/classes/lunarchData.js": "4207582e3ec457410a771a6e16a6df4ff5adb7defbdddcd2f5db36c32b49d441",
+    "vtt-react/src/data/classes/martyrData.js": "ca1c65247e24600de98c1f507994a7e61c070dd7b290c0ee90f56c2deeefb8c1",
+    "vtt-react/src/data/classes/minstrelData.js": "694bd460b28904da1a8e68e7cf1081ff5df6ab48403e1a9f642aa77b5f4698a5",
+    "vtt-react/src/data/classes/plaguebringerData.js": "9cc72b58a9cdc141f26243fa85c6ed84836bdf9ee200f98db2fffc5c7b7262c2",
+    "vtt-react/src/data/classes/animistData.js": "77f8c733a2be50e959b85454f3c2eab960095d043e72df0fa3938b92a68857e2",
+    "vtt-react/src/data/classes/pyrofiendData.js": "39ed932e418dc90b6d099a3c639afd49bf259c9df40eed5e5e0980b1343ce080",
+    "vtt-react/src/data/classes/spellguardData.js": "4978787826e7d73a6ac08beb254b42df2c112d53b9e98d79d67df52c6fb6c838",
+    "vtt-react/src/data/classes/toxicologistData.js": "f850b768301d1178d6f8a362736b220dfd3bf7e752d7e2d4ecef448273afcb7b",
+    "vtt-react/src/data/classes/wardenData.js": "e3ea90b6080ef3e05568ddec96d9e79b74719b0e4b2a8f4392be25c7845a616b",
+    "vtt-react/src/data/classes/augurData.js": "68a6e87e874c8933b007caf851c3bd3862aead27effebdb32b684ce8c9195c61",
+    "vtt-react/src/data/classes/crusaderData.js": "3980949950eed362e097c2d0e117cf0748b62d21e726a9b088797745c28a48ca",
+    "vtt-react/src/data/classHeritageRegistry.js": "6e2843e933c7ca954ec8ef24e0c18f52d7df618e9b02462f0a3a7529013d127d",
+    "vtt-react/src/utils/raceDisplayNames.js": "3a9d6b9e3b8c05b8194f38835e44bb2afe4dd041ccd78decf7d6de1eba932def",
+    "vtt-react/src/data/heritageEdgeContract.js": "35fe2d092893a51d081f6009d82a5a0c06579caacb56a1f8e88b5d1955c298b0",
+    "vtt-react/src/data/classResources.js": "51d7e4af844a3975a33ab1bddcd6e6aa6e92bb288b55fcb20df30167169ffee7",
+    "vtt-react/src/data/classResourceContracts.js": "e050444a55fedbba59aa008cef921f4c80fde6ed0e4205d5f685a0c36bc0e245",
+    "vtt-react/src/data/classResourceBanks.js": "82c506571a21c910b62471b7e9413afe195d1b524a309a37508a39cb0af52cf6",
+    "vtt-react/src/utils/arcanoneerMigration.js": "024045a51fb8ec2e11ba14e14fdceb83a02ca492345bad66ed51d76e27b35ad6",
+    "vtt-react/src/data/pyrofiendResourceContract.js": "2548417f05d4f774819171c0fd903897862e997a3e6c327ab70e3f3c0ab50802",
+    "vtt-react/src/data/spellguardResourceContract.js": "52bf08fcdaea7d7fd6cf03369125a185f77084b575481ea5847e7db0f9304387",
+    "vtt-react/src/data/inquisitorResourceContract.js": "f8dcf0c354bad2ac259ce0c20431aba25e66cb60347b924e76369fabf6cc49af",
+    "vtt-react/src/data/berserkerResourceContract.js": "fd9dfd86316ca07e8ab14edc25b46172c1d54db42ef3aa9ef05b45109a445086",
+    "vtt-react/src/data/harbingerResourceContract.js": "0815b1525ea98f9b3ec58c343d310d594e2bcbab7a3fd8a5530f3246d7010ef3",
+    "vtt-react/src/data/crusaderResourceContract.js": "044c8f7365ba70f49bed1c50e6aa62b8eff8206cc6200854f1fca9d601739b1a",
+    "vtt-react/src/data/augurResourceContract.js": "bd17e7d7c2b3d1ca0ca76be341ff1559c3cad0a692cc202e59a3b4a85f6201fc",
+    "vtt-react/src/data/revenantResourceContract.js": "c6bcba8017305d13f4890ea1020a0d2d11ddbdf2c489ebe882af3528c2f6d123",
+    "vtt-react/src/data/animistResourceContract.js": "f65b61970fba90de3358ee5484bd4109b68fb7eab558b7bbbaf3a3390340c31f",
+    "vtt-react/src/data/falseProphetResourceContract.js": "069c38dabc8b8d6ca5b628ee5d481da5d0fc875ab5f55d49822c379c1a5f66c6",
+    "vtt-react/src/data/plaguebringerResourceContract.js": "8ac2db59a0d2c5db35c877aa5be96cfc7540771261559e0188a8e9b0e700798b",
+    "vtt-react/src/data/chronarchResourceContract.js": "3bcc946bbc2be8ccc81b34808a49a9d4683795aced921ffee7d637e1528f4f02",
+    "vtt-react/src/data/lunarchResourceContract.js": "8847b5cb9cb1444f5225fbd5c655b2ae0c04d6c53f7978d7f22310ea2eea0f33",
+    "vtt-react/src/data/toxicologistResourceContract.js": "a4bdb11c8702bc58093b689c96120b3e5fd6acaa39d519ab318e1211ad3548b1",
+    "vtt-react/src/data/wardenResourceContract.js": "66dd5bcb25571fc25c39f770332ebcf5fb2096d376d2e7a9b88264e660f9debc",
+    "vtt-react/src/services/spellConsequence.js": "a5b42fb52590901d9a033de3b29f408b4a922fd82d76c87a7200fdc5c6fd623c",
+    "vtt-react/src/data/classSpellGenerator.js": "daef544f634e45509a834f9494d3a9d2083c65cae185a53af29f92bd8a068cb8",
+    "vtt-react/src/data/classSpellCategories.js": "e5d1a23df8909ed9bb6b214deb396cd88d47688bb08d279c422616c0a52f68ea",
+    "vtt-react/src/data/universalCombatSpells.js": "89bebadaa3b079de5c22ad2bebc823ab3f1bad87a0e35b1d6b245ee6c2802fab",
+    "vtt-react/src/data/firstTableRules.js": "be489cd02d8914c75bb2aa721150a9173515e731ac4f7a745dadd477f6ec4ae8",
+    "vtt-react/src/services/featherSlash.js": "ad2b3134998a8585906bbb82a1ac3878dafecac92070a9ad81f659ed1812669a",
+    "vtt-react/src/data/versions.js": "0140cd165c155969af42de4ce66a7aee8b95b545973d78c34152d7f843703b36",
+    "vtt-react/src/data/talentTreeData.js": "128e326be0d329d0a250ddf462695b116effe52db130eaf66c01883c27174171",
+    "vtt-react/src/data/talentTrees/toxicologist.js": "7ac9e7c12c19e58107485f59724163ec82fc21712d85f6fde823cfa4faf90c09",
+    "vtt-react/src/data/talentTrees/toxicologistVenomancer.js": "6bc4e6fbf9eb67344cb611f5f83c10125aeefc3e8e2872e344254015a0ae3139",
+    "vtt-react/src/data/talentTrees/toxicologistGadgeteer.js": "e785ec0560be4bb8acb6d3a5f700c6c45cd7226e3467885bbabcccdf3efaef96",
+    "vtt-react/src/data/talentTrees/toxicologistSaboteur.js": "c95e24ae389a1fc5a01df4602ed035295477ea94a2559f8607aecbb97324c314",
+    "vtt-react/src/data/talentTrees/pyrofiend.js": "39572d281ffe3b47a9ce45de33566cac68d16acec79d61b0dbf319b2d0dffdad",
+    "vtt-react/src/data/talentTrees/pyrofiendInferno.js": "60c64907c86aaaceb0b64f8c105d7ef8ec674c7026648888fbfe42c213522e89",
+    "vtt-react/src/data/talentTrees/pyrofiendWildfire.js": "deffb88130facdf6dae06653f2b0575f9bca7a1825b98d21651dd904d2c952d9",
+    "vtt-react/src/data/talentTrees/pyrofiendHellfire.js": "a888556a8589c434f39e3fac399fa7136f7a09dd1a7987b30e3526fe20832f5e",
+    "vtt-react/src/data/talentTrees/minstrel.js": "d0a43b89315964e067413d094f02ef534e6d6c0a0cc0f09c056bdc6773bbb860",
+    "vtt-react/src/data/talentTrees/minstrelHarmonicWeaving.js": "a30b6f0a65c142e9abc7398c65169fe0b9928541628a87394c761125f6fbf841",
+    "vtt-react/src/data/talentTrees/minstrelChordCombinations.js": "f08979d272c1758f051051edff39f3809ad150f4e31d02d3a15e74ade768f9c7",
+    "vtt-react/src/data/talentTrees/minstrelMusicalMagic.js": "f3cf3720aa3332e05d54232cc2435d2bcdac85ff95a5a59e2675ac8da6183470",
+    "vtt-react/src/data/talentTrees/chronarch.js": "39a6bebf07f92476dae5cee9424a49b40550e37a0db15f360dc17344fb98aff5",
+    "vtt-react/src/data/talentTrees/harbinger.js": "2dd21626d8159d9017388d47f78e292771d2096e5a7520ee45ac38c173e2ae52",
+    "vtt-react/src/data/talentTrees/gambit.js": "77229821f192a75e915052d8950296aa1ed652ece02f18d05ff6d24f275e21d1",
+    "vtt-react/src/data/talentTrees/martyr.js": "7bb9b4af0368b226ad688e3fc5db9dc02068746e2f0f46f04a5ea6bf83b8e57a",
+    "vtt-react/src/data/talentTrees/martyrRedemption.js": "63e0b3b2522f5775a46d62aacd11ad250e1493a71f75b35f7dd433961ee300a7",
+    "vtt-react/src/data/talentTrees/martyrZealot.js": "daa77500f6c9c4ac3844ced4c03f9787cf8a52b67e228584954faf8a9131ced5",
+    "vtt-react/src/data/talentTrees/martyrAscetic.js": "0e0fd56608f3b78e1fd2ea4a3d130f5b809db9f295c5f4d67fa1791f47308a1e",
+    "vtt-react/src/data/talentTrees/martyrIronclad.js": "8e3b00cbf91c1cfe6e3fd550e0efd4cf3aae3dedfaca9da728e2a13a1d6ff94f",
+    "vtt-react/src/data/talentTrees/falseprophet.js": "e6ecdd742842bfa275d6d79bcd7eaef8e372ba035615dfbf272f83071b244faa",
+    "vtt-react/src/data/talentTrees/falseprophetSilenceSpeaker.js": "ead0e1d6a419ee27d42a3ac1458228ac89d6e4d5b9feea5942402b8c38e80941",
+    "vtt-react/src/data/talentTrees/falseprophetDeceiver.js": "bd67cc5387c07fdb678cac06956be8240c9e2842fcb2741e5f797d53daf8c60f",
+    "vtt-react/src/data/talentTrees/falseprophetCultist.js": "a3384cdefea7f4a31412e72664049f748644bcff43336b2b4b88126298ed7310",
+    "vtt-react/src/data/talentTrees/inquisitor.js": "2ba6362de7c51b7157a153f7c3ec6a0ae684b9f5d707cd130e8649316bab4f42",
+    "vtt-react/src/data/talentTrees/inquisitorWitchHammer.js": "a6c12c875e8a353c60395963b6f1cc6bf52d76dda2438c30605521d240ba3328",
+    "vtt-react/src/data/talentTrees/inquisitorIronVerdict.js": "b5df1685479feae356548c17ccc338a247010c59b764e7aeb849bf307f63eaf5",
+    "vtt-react/src/data/talentTrees/inquisitorHollowSaint.js": "04d0169559039b04f276c359556f99dcfcf6dbd27c5e29aac8ca195ae28e6a9a",
+    "vtt-react/src/data/talentTrees/plaguebringer.js": "a7fece3845b474854e7f864fdaab2d2d2fdb899f21997e1f0eeec836766afb99",
+    "vtt-react/src/data/talentTrees/plaguebringerVirulentSpreader.js": "b0f1df840c743acaba6d3164f95f91108524aac827fcf1b7ccc01028429e298d",
+    "vtt-react/src/data/talentTrees/plaguebringerTormentWeaver.js": "efe1faa3fa0f6c2e55ed55e76704c6b07200115f674092e4b144cf30d492d1fc",
+    "vtt-react/src/data/talentTrees/plaguebringerDecayHarbinger.js": "686ee6baefd8086cd8785e4ca9973cfc036787d531a405b7ef7874e079e87fcc",
+    "vtt-react/src/data/talentTrees/revenant.js": "a4fea187b3ad06bcfa1619746b33935a65aa29b264771e6d21eeded32c2ab5b7",
+    "vtt-react/src/data/talentTrees/spellguard.js": "7833e863d3635633359d27fe49b98daea11449787a6f1fda2e0e3ab905cfe668",
+    "vtt-react/src/data/talentTrees/spellguardArcaneWarden.js": "f745b7ca35326ae2b4bcbb569a8e518cdd340b0a878fc05f1ad76344a0a2f442",
+    "vtt-react/src/data/talentTrees/spellguardSpellBreaker.js": "47294b9db59a2317122a4da432d7d3716f1301f9fba83d2f1c5c6d32d372db99",
+    "vtt-react/src/data/talentTrees/spellguardManaReaver.js": "ca6d0c388591cc6bd0466e09bdc0b316b42edba40dae1a2c7d71061f6509d330",
+    "vtt-react/src/data/talentTrees/animist.js": "ee30654f03622a0bec6f988f2cabcf3221f79ac793fee12a5470a405dfc5cd77",
+    "vtt-react/src/data/talentTrees/arcanoneer.js": "6a6840550996066ceb36fbd69e3a94c3b91c77d62b345a3d99b3ba06538c3edd",
+    "vtt-react/src/data/talentTrees/arcanoneerPrismMage.js": "74d981863b8717f37ad3456faef58f9ed628c64b7b5457cbb7b324f92ad4af6d",
+    "vtt-react/src/data/talentTrees/arcanoneerEntropyWeaver.js": "16b541c91d7a2b210e838babbfe8e8f00460135026da152357945e12e12a008f",
+    "vtt-react/src/data/talentTrees/arcanoneerSphereArchitect.js": "913c5470093e260f54500b0f11c0e0ce75c2c5f3feef21707b5e7d1473f75110",
+    "vtt-react/src/data/talentTrees/berserker.js": "4f9232aa0b97469644a390580238c2464c8b90ea8f0ab8a6f3e89e9061708761",
+    "vtt-react/src/data/talentTrees/berserkerSavage.js": "a1d65a2da26f413822c0354876b46eaec467c260d61b4c377b4ef90cd92b380c",
+    "vtt-react/src/data/talentTrees/berserkerJuggernaut.js": "ef5b1eb8f8e81dd5aa499187265940313c90c7e9fdceecb3114ec68a3b872692",
+    "vtt-react/src/data/talentTrees/berserkerWarlord.js": "cf52b013bfcfc7887cfe7ac5e704ba0aaa8ff4aba722e21c5dd4f17adab49f0e",
+    "vtt-react/src/data/talentTrees/augur.js": "06c4fd4a7963a9d16812d7d96864ac5c2e75b3aacbdd99d336b9a5fcb1af8532",
+    "vtt-react/src/data/talentTrees/augurAuspice.js": "cc64a817089aa184c81399ac893b37e0943487be03a73a2cc803346fab981665",
+    "vtt-react/src/data/talentTrees/augurHarbinger.js": "81fcd7ff267f0ee923a7eae2f3fe96d0ae5d01d679b05a6ba25d2ee17ce99657",
+    "vtt-react/src/data/talentTrees/augurHierophant.js": "a39c9a03e8016e4512b5676a22f3873fb45f9d0dc849c179c233c35c3fdaf294",
+    "vtt-react/src/data/talentTrees/shaper.js": "c9256579b9f1ba23efe1a08f169e99a6d2a24bd9108686c2d6b4223b3ea5b5b9",
+    "vtt-react/src/data/talentTrees/shaperFlowMaster.js": "4fad39a4e4d55b9be856419fcebfda190b321cec55a5899959a2fba444b0db37",
+    "vtt-react/src/data/talentTrees/shaperIronDancer.js": "a413d91b735e5aa05fb4af2259d874d9f4f1733c32d2fed5e3c65267d186d495",
+    "vtt-react/src/data/talentTrees/shaperPrimalShadow.js": "e4407df8ef0dd68e3321b75e2214af2f7c9200ce02c8a8488b01832060540711",
+    "vtt-react/src/data/talentTrees/lunarch.js": "91206212cca4d014c0b4dda8b92ac769bcefbc7de683177358de9f75f32d71d7",
+    "vtt-react/src/data/talentTrees/lunarchHollowSentinel.js": "b56849b061adc33712a2931624e7b21059e6b5bf1cd6def704c6a4b068931aa5",
+    "vtt-react/src/data/talentTrees/lunarchSilenceSpeaker.js": "df0d7c585ee49d55f3d9c9aa07260943958d1ca3acf3cbeb57ed38527960e359",
+    "vtt-react/src/data/talentTrees/lunarchSanguineWarden.js": "fb86420d88a3ae3b7b910b6bcb90850b59050f9d6f5124e9043d4ef3310404bf",
+    "vtt-react/src/data/talentTrees/apex.js": "ccc242fbfd5669b28e2d8f5e5447620788bf0ff8f8681c952e4d1fa4400472a4",
+    "vtt-react/src/data/talentTrees/warden.js": "3c5887624ede48df3045f4513e931545ef89626a83cb5093037af95940acce6a",
+    "vtt-react/src/data/talentTrees/wardenShadowblade.js": "ce58126fb79261e67ee698c42af5f0f36c49133852315699ba257b1656c01b2e",
+    "vtt-react/src/data/talentTrees/wardenVengeanceSeeker.js": "2768aaf5ab5d879721c8ff2712a643db6d4f2bcfdea60b2cf67790c0126b42a1",
+    "vtt-react/src/data/talentTrees/wardenMonolith.js": "c0c44030d8b1c00fbdc7ba843ff73bd2a64f905280e32cbad8c2193e90fa2b74",
+    "vtt-react/src/data/talentTrees/wardenJailer.js": "71da1f220f711ef30fdb4dee83bfc0a824e0cbcfe317e8b8e833b1ff92549788",
+    "vtt-react/src/data/talentTrees/crusader.js": "fe565a8fd0996d66a7f72939bbdb946cae4b02bebf32b401843ac99dda5c4152",
+    "vtt-react/src/data/talentTrees/crusaderSolarJusticiar.js": "03b3ba9ef488803b69a899a02952b30a811fba1beb25d353d6957eebaeb763d5",
+    "vtt-react/src/data/talentTrees/crusaderDawnBastion.js": "6eb7aadb42ef28d2e7ed77d4b4aac17f1becabe2d6b77254220676430fe096be",
+    "vtt-react/src/data/talentTrees/crusaderHarmonicInquisitor.js": "d59312d5dd382104af65ecad026376f1270e57ded64971daae4a57fc728880b2",
+    "vtt-react/src/data/damageTypes.js": "7fdb80182f6b27fda6611f3e8f6762a76bf666e6d5d222504b8eb3c63afbffa9",
+    "vtt-react/src/data/races/human.js": "06d3acfa9cedd6d195f248d2751fab5c56f016da526bb8ee341f40b09676fac4",
+    "vtt-react/src/data/races/astril.js": "ee1a1b66bf2aa6974bb8e923e0627b9199f6b0f5dbc979d1c686258618efe822",
+    "vtt-react/src/data/races/fexrick.js": "ba8d023f91858236ba8362497661df864ef94257e4152b769f54bc0353c63e75",
+    "vtt-react/src/data/races/florae.js": "499fc2488ab6bdc2f5c1642f39a0eaf004f70ff3d4a8d6f2213aa0fd9b932731",
+    "vtt-react/src/data/races/groven.js": "8cecb0f12380454fabf945b3cf7e2ebf21ea24ab345fb3563991d352bf7394e8",
+    "vtt-react/src/data/races/mimir.js": "5ee8fc31d25b946087fa555c8a8ad6398b8b6b745935c3b24d59799106d410df",
+    "vtt-react/src/data/races/neth.js": "18493b65d6f161b0a2aa59f2b2843fe1ae306b3cbe04ea094c31f9746cac108b",
+    "vtt-react/src/data/races/vreken.js": "9e1ea5aa1684380bd086303804233093e9ccba4dcbbf87c18b1415c63db295bb",
+    "vtt-react/src/data/races/solari.js": "83ac1ed7c406e88325435891a64042418aa3810bf8f775fa3210a160d855c478",
+    "vtt-react/src/data/races/myrathil.js": "83b1b5d21e97cf4e54822f37edff38f336bf8775e9904d7f31e74c967391229b",
+    "vtt-react/src/data/talentTrees/index.js": "67d994b4a5a5917d124c243e79616d6c9f349dc0977aba7f1ab6fd94d4740a75",
+    "docs/ENGINEERING_STATE.md": "388e25bb56c5194a1f32a43325d843ce759e500809073002f9db89b3ee8f06c7",
+    "docs/MYTHRILL_P11_P14_ROADMAP.md": "8d53939b94a7f877cc69487df16d90ef92672fcea280f0c91e8d260d95facbd3",
+    "docs/MYTHRILL_NEXT_SLICES_CONTRACT_20261017.md": "ebc8017dd6b73e05e4bbf6ca2e7ce8827628b3e604b7c60e71f30a75dffd3dbd",
+    "server/services/spellPayments.js": "b3d8194a9cb39286980b81f5b0deb2f4e4c6521e824373d4ce0d64e3ce9bd208",
+    "server/services/actorConsequences.js": "c49a75e808435074eb498aed9ba7c79915e6e62156c4fffe0f8f8c1aa18c307a",
+    "server/services/strikeApprovals.js": "cb1333eb286d51e70a0ad4ea6d612fa66dfa0a12c3cdcc1d1fe496cacf893f61",
+    "server/services/blockApprovals.js": "d40d1e9cce4516475b1751aca31a3cd2d8d22e7fa4a621bb4ef769cb4d71d3d4",
+    "server/handlers/actorConsequenceHandlers.js": "a7723378cdd042e9546e8ac7c3396fef2bb4596021533ab1d8333ea899e7fefd",
+    "vtt-react/src/services/actorConsequenceService.js": "b3b0990611e0d2c222fee21b3a8f99cefdefc9131cf8b4c7317eeefb0e14922b",
+    "vtt-react/src/services/spellConsequenceService.js": "a582d53c5ca2b3440b429ee11a30b3ce6482ca3f8524ab56514aa80c7e0300a3",
+    "vtt-react/src/services/weaponStrikeService.js": "77335e330e2dc91a446ff8f5eb7eb404c5cec8b803c9df0235a60387e72da8be",
+    "vtt-react/src/services/blockingService.js": "78f72d092036cf017290ef345b6623059f8751387dc09329a62229ef1405862a",
+    "vtt-react/src/services/spellConsequenceCustody.js": "98ac69173a4b3a436aa5b26c6133df239a0826db793a04d0f815884f9a8430ba",
+    "vtt-react/src/services/weaponStrikeCustody.js": "d800f3137e077de8dcd5a003e4b19b44405f5d1dfa40587fcb075312eb0a8acc",
+    "vtt-react/src/services/blockingCustody.js": "4a354abb45f7a92219cebb2ae6062de0b397efaf7fe4c00efc6206342a286b9d",
+    "vtt-react/src/services/firebase/characterPersistenceService.js": "47b26ec5c5901f5b8a2d2e5d35320d08a9165144185e77428ab4b87bffc17837",
+    "vtt-react/src/store/characterHelpers.js": "bb69677e47d1f5754177af7768b06d69a6ef0a6bbed68a34cb9f98344861de4d",
+    "vtt-react/src/store/characterSlices/coreSlice.js": "53ecc47d6888862d30cf9437b2e531e0496e7b8fa13b85c8f19258a8bd8b369c",
+    "vtt-react/src/store/characterSlices/resourceSlice.js": "d9af27963eb7e874f3668a20fca918ba6335d4f79c67c5d3222276956773d93a",
+    "vtt-react/src/persistence/privateStorageRegistry.js": "1994a6cf1a32987b1a23191713b6bd85b4814bb25c16f878fea1a648d7cdb214",
+    "vtt-react/src/components/spellcrafting-wizard/components/steps/Step5Resources.jsx": "725019cbb44abda8b3a0e33a0003a40690e64d83132a66fd3ab4f29c8c5a3548",
+    "vtt-react/src/components/spellcrafting-wizard/core/utils/spellSerializer.js": "15de741c2263b8fa664a322630b6bc91ed3b66583011d6168e164d4137eb499c",
+    "vtt-react/src/components/spellcrafting-wizard/core/utils/spellNormalizer.js": "ac84fbb3d46d3b5d3c3b99898057f4b0320fec910b1869d598e99a3486010620",
+    "vtt-react/src/components/spellcrafting-wizard/SpellwizardApp.jsx": "866eefdabfb8c413ea55ca2cfec54b3bcb32b1382f866692b63785373dff6b3c",
+    "vtt-react/src/components/spellcrafting-wizard/components/steps/Step10Review.jsx": "e20000645f7f1e52a617a9a2620067c513fd9e7c71bcd2b78c50f55166d5f1c6",
+    "vtt-react/src/components/spellcrafting-wizard/context/spellWizardContext.js": "557315dcfd60f3c45bc98a09671dc21833f3e3b39a9d0847eadd1a47e0835072",
+    "vtt-react/src/utils/characterClassAccess.js": "f9e5e0ec56df9fc719ab0d4007a6f784e865b134fd84467f0a00a584c335a2f1",
+    "vtt-react/src/utils/pointBuySystem.js": "0f20ae0bf99bff0969a05785d30ce020eb55c6a4cb54c2cc126bb854b9d9b6e2",
+    "vtt-react/src/data/heritageEdgeAdapter.js": "55356c7e4fec8fea689729cf01eaa021eb8945fa4d5a2f8d94489a69aee9ebeb",
+    "vtt-react/src/data/heritageCapabilityConsumers.js": "7269adb48817813cbca2215146b95b9dda8cd226d49089384f6c332514f25d42",
+    "vtt-react/src/utils/spellEffects.js": "698cfba109bbb0bec196a6c9e3b0a893e657881e75ca90d2c2fee5acda8c164c",
+    "vtt-react/src/components/character-sheet/SpellActionBar.jsx": "952c9970a7d55b99b3241e70cb7ac8c4bd9bedcc5242b4fff8def07f9cf7a246",
+    "vtt-react/src/data/classRacials.js": "37515f20a9d14f05a7f3777180087bed943800efe1b14ffa7a736aa2456c76b5",
+    "docs/plans/mythrill-class-reconstruction/evidence/headq-source-baseline.json": "a5e065a4498b662e686175b412d880824c2d7bc30d4e44ca881badd5d1d62453"
+  },
+  "heritages": [
+    {
+      "heritageId": "vashir_astril",
+      "displayName": "Lumian",
+      "raceId": "astril",
+      "nativeClasses": [
+        "Arcanoneer",
+        "Animist",
+        "Augur",
+        "Harbinger",
+        "False Prophet"
+      ],
+      "retiringNativeClasses": [],
+      "culture": {
+        "evidenceLabel": "AUTHORED",
+        "summary": "Lumian carried charts, Synod/observatory records and actual internal Lumia echoes under a starless sky.",
+        "source": "vtt-react/src/data/races/astril.js"
+      },
+      "bodyInterfaces": [
+        {
+          "stateOrProperty": "Organic stellar markings are finite witness/interface, not local visible stars or a universally speaking moon.",
+          "evidenceLabel": "AUTHORED",
+          "source": "vtt-react/src/data/races/astril.js"
+        }
+      ],
+      "pairings": [
+        {
+          "className": "Arcanoneer",
+          "acquisitionRequirements": [
+            "elemental_training",
+            "compatible_interface"
+          ],
+          "methodOrNull": "stellar",
+          "rawRestrictions": {
+            "allowedSubraces": [
+              "velun_neth",
+              "kethrin_fexric",
+              "drall_fexric",
+              "vashir_astril"
+            ],
+            "hardBlocks": [
+              "human",
+              "vreken",
+              "skald_human",
+              "solari",
+              "mimir",
+              "groven",
+              "myrathil",
+              "florae",
+              "kessen_neth",
+              "drun_neth",
+              "silath_astril"
+            ],
+            "narrativeUnlock": false,
+            "justification": "Elemental weaving demands structured, high-stakes combination work. The Athien originated the craft as contract-syntax under the Grand Nomenclature; the Fex adapted it through precision engineering in the Underground Proving Grounds (Brasskin certified, Alchemite salvage); the Lumian reached it independently through cosmic starlight cycles. Weft (obligation-web/Gambit) and Riven (pending own story) are excluded for now."
+          },
+          "effectiveNativeAccess": {
+            "status": "normal-tradition",
+            "selectable": true,
+            "className": "Arcanoneer",
+            "heritageId": "vashir_astril",
+            "requirements": [
+              "elemental_training",
+              "compatible_interface"
+            ],
+            "reason": "Elemental grammar training with a compatible contract, engineered or stellar interface",
+            "method": "stellar"
+          },
+          "rawVariantPresent": true,
+          "variant": {
+            "subraceName": "Lumian",
+            "title": "The Star-Charted Weaver",
+            "reframe": "The Lumian reached elemental weaving by a road no Athien or Fex walked. In the Quiet Observatory they had already mapped the eight frequencies into starlight cycles long before either race drew breath - each sphere a visible star, each weave a charted transit. There is no contract to file and no chamber to vent, only timing: the weaver arranges to be standing where the light lands. They observe the Athien-Fex dispute over the wild-magic influx with complete, silent disinterest, having solved the same grammar as astronomy rather than law or engineering.",
+            "signatureAbility": {
+              "name": "Constellation Lattice",
+              "description": "Starlight markings align into a lattice that holds spheres in charted transit. Weaves resolve as celestial mechanics - patient and exact. A mistimed transit fades rather than detonating, for the stars punish no one; they simply move on."
+            },
+            "currentCrisisAngle": "The Canopy-Ledger fracture means nothing to the Lumians - dissolving contracts are weather below the stars. But the breach's wild-magic influx dims familiar constellations, and some chart-keepers have begun plotting the breach itself as a ninth, uninvited star.",
+            "signatureQuote": {
+              "text": "\"You file your clauses. You vent your chambers. We watched the same light leave its star centuries ago, and arranged to be standing where it lands.\"",
+              "speaker": "Lumian Chart-Keeper",
+              "context": "Reply to a joint Athien-Fex inquiry at the Quiet Observatory"
+            }
+          },
+          "edgeId": "Arcanoneer|vashir_astril",
+          "advantage": "Carried Lumian charts let the Lumian exploit a declared transit window.",
+          "pairedCost": "A missing or mistimed window reduces the edge.",
+          "condition": {
+            "type": "state",
+            "value": "transit_window"
+          },
+          "typedEdge": {
+            "className": "Arcanoneer",
+            "heritageId": "vashir_astril",
+            "description": "Carried Lumian charts let the Lumian exploit a declared transit window.",
+            "costDescription": "A missing or mistimed window reduces the edge.",
+            "edge": {
+              "kind": "capability",
+              "unit": "capability",
+              "capability": "exploit_declared_transit_window",
+              "condition": {
+                "type": "state",
+                "value": "transit_window"
+              }
+            },
+            "cost": {
+              "kind": "obligation",
+              "unit": "capability",
+              "capability": "window_mistiming"
+            }
+          },
+          "freeAuthoredCards": [],
+          "implementedConsumerOrNull": "SpellActionBar.handleCastSpell advisory notification on local/manual path only; no edge/cost effect executor established",
+          "executionLevel": "advisory",
+          "evidenceLabel": "AUTHORED",
+          "sources": [
+            {
+              "path": "vtt-react/src/data/classes/arcanoneerData.js",
+              "lines": [
+                69
+              ],
+              "sha256": "dd3767309d6989999758f169b7821b589b8e66e2488df288d4e6782b547a57d7"
+            },
+            {
+              "path": "vtt-react/src/data/heritageEdgeContract.js",
+              "lines": [
+                196
+              ],
+              "sha256": "35fe2d092893a51d081f6009d82a5a0c06579caacb56a1f8e88b5d1955c298b0"
+            }
+          ]
+        },
+        {
+          "className": "Animist",
+          "acquisitionRequirements": [
+            "spirit_anchor",
+            "communion_apprenticeship"
+          ],
+          "methodOrNull": null,
+          "rawRestrictions": {
+            "allowedSubraces": [
+              "ordan_human",
+              "skald_human",
+              "vashir_astril",
+              "silath_astril",
+              "morgh_groven",
+              "thrask_solari",
+              "viridian_florae",
+              "florae_unified"
+            ],
+            "hardBlocks": [
+              "solari",
+              "fexrick",
+              "myrathil",
+              "tessen_human"
+            ],
+            "narrativeUnlock": true,
+            "justification": "Requires ancestral spirit-channeling. Solari commune with volcanic entities (different tradition). Fex see spirits as machine-failure states. Tessic isolation prevents access. Myrathil have no land spirit tradition."
+          },
+          "effectiveNativeAccess": {
+            "status": "normal-tradition",
+            "selectable": true,
+            "className": "Animist",
+            "heritageId": "vashir_astril",
+            "requirements": [
+              "spirit_anchor",
+              "communion_apprenticeship"
+            ],
+            "reason": "A memorial/spirit anchor and guided communion apprenticeship"
+          },
+          "rawVariantPresent": true,
+          "variant": {
+            "subraceName": "Lumian",
+            "title": "The Heritage-Conduit",
+            "reframe": "The <LoreLink termId=\"astril\">Lumian</LoreLink> seek total symbiosis with the Lumia heritage nesting in their crystalline skin. Learned from Ordu throat-singers during centuries of steppe cohabitation: the Astril adapted the ancestor-compass concept to their own blood-memory, channeling the echo of a dead world rather than discrete ancestors. An Astril Animist does not summon a separate ancestor, they commune with the fragment of a dead world's biosphere carried in their own blood. The heritage is not external. It is the host. They channel the trapped memory of a dead world through skin that hums with the resonance of what was lost.",
+            "signatureAbility": {
+              "name": "Star-Communion",
+              "description": "Spirit-power scales with the depth of the host's symbiosis; a fully-symbiotic Lumian Animist channels the heritage as self, not as other. Power is strongest in absolute darkness, where the trapped light of the dead world in their skin is the only light left."
+            },
+            "currentCrisisAngle": "The Lumia heritage in Lumian blood predates the Animist tradition, it is the loudest \"ancestors\" of any tradition. When the dialect fractured, the Lumian's heritage began screaming contradictory prophecies through crystalline skin. Young Lumian Animists are going mad, unable to silence a chorus that predates the language meant to speak to it.",
+            "signatureQuote": {
+              "text": "\"You call them ancestors. I call them the memory of a dead world, and they live in my forearm. Do not ask me to be quiet about it.\"",
+              "speaker": "Lirien Bright-Veined",
+              "context": "A Lumian Animist, declining to join a cross-cultural ancestral communion at the Sundrift Wind-Shrine"
+            }
+          },
+          "edgeId": "Animist|vashir_astril",
+          "advantage": "The Lumia heritage is itself the ancestor; a symbiotic host channels a dead world's memory as self.",
+          "pairedCost": "The heritage cannot be separated from the host.",
+          "condition": {
+            "type": "medium",
+            "value": "crystalline_blood"
+          },
+          "typedEdge": {
+            "className": "Animist",
+            "heritageId": "vashir_astril",
+            "description": "The Lumia heritage is itself the ancestor; a symbiotic host channels a dead world's memory as self.",
+            "costDescription": "The heritage cannot be separated from the host.",
+            "edge": {
+              "kind": "capability",
+              "unit": "capability",
+              "capability": "commune_with_lumia_heritage_as_ancestor",
+              "condition": {
+                "type": "medium",
+                "value": "crystalline_blood"
+              }
+            },
+            "cost": {
+              "kind": "vulnerability",
+              "unit": "capability",
+              "capability": "heritage_is_self_not_separable"
+            }
+          },
+          "freeAuthoredCards": [],
+          "implementedConsumerOrNull": "SpellActionBar.handleCastSpell advisory notification on local/manual path only; no edge/cost effect executor established",
+          "executionLevel": "advisory",
+          "evidenceLabel": "AUTHORED",
+          "sources": [
+            {
+              "path": "vtt-react/src/data/classes/animistData.js",
+              "lines": [
+                102
+              ],
+              "sha256": "77f8c733a2be50e959b85454f3c2eab960095d043e72df0fa3938b92a68857e2"
+            },
+            {
+              "path": "vtt-react/src/data/heritageEdgeContract.js",
+              "lines": [
+                584
+              ],
+              "sha256": "35fe2d092893a51d081f6009d82a5a0c06579caacb56a1f8e88b5d1955c298b0"
+            }
+          ]
+        },
+        {
+          "className": "Augur",
+          "acquisitionRequirements": [
+            "divination_training",
+            "divination_focus"
+          ],
+          "methodOrNull": null,
+          "rawRestrictions": {
+            "allowedSubraces": [
+              "skald_human",
+              "vashir_astril",
+              "silath_astril",
+              "tessen_human",
+              "clean_vreken",
+              "marked_vreken",
+              "kessen_neth",
+              "korr_solari",
+              "shoreling_myrathil",
+              "deepling_myrathil",
+              "riverling_myrathil"
+            ],
+            "hardBlocks": [
+              "merryn_human",
+              "ordan_human"
+            ],
+            "narrativeUnlock": true,
+            "justification": "Requires proximity to preserved dead (glacier-tombs) and access to Frozen Archive's runic mathematics. Cultures without burial-preservation traditions (Ordu leave dead to steppe, Merryn bury at sea) can't maintain the ancestral connection. The Weft read the obligation-web's tensions the way other Augurs read entrails, and the Bedel were reading bog-mummies before the Skald taught anyone anything. The Myrathil keep their dead in the deep, where abyssal cold and pressure preserve what any surface grave would lose; the Deep read drowned elders in the trench, and the Shore and Brook carry the practice to the tide-line and the rivers."
+          },
+          "effectiveNativeAccess": {
+            "status": "normal-tradition",
+            "selectable": true,
+            "className": "Augur",
+            "heritageId": "vashir_astril",
+            "requirements": [
+              "divination_training",
+              "divination_focus"
+            ],
+            "reason": "Divination training and an appropriate material/focus"
+          },
+          "rawVariantPresent": true,
+          "variant": {
+            "subraceName": "Lumian",
+            "title": "The Star-Viscera Reader",
+            "reframe": "The <LoreLink termId=\"astril\">Lumian</LoreLink> read the future not in animal gore but in the resonant fractures of their own crystalline skin. The Lumia heritage's memory echoes *forward* through the crystal lattice, a Lumian Augur's body is the entrail, and the prophecy is the crack that has not yet formed.",
+            "signatureAbility": {
+              "name": "Lattice-Fracture",
+              "description": "Visions manifest as stress-fractures in the host's crystalline skin, each fracture a glimpse of a future that has not yet occurred. The deeper the symbiosis, the clearer the crack, but the crack is real, and the skin does not always heal."
+            },
+            "currentCrisisAngle": "The Lumian's accuracy has not collapsed so much as *inverted*, they now see futures that are vividly clear and entirely wrong. Some Lumian Augurs believe their Lumia heritage is no longer reading the real future but a future the dead world *wants* to be true, the fading memory choosing comfortable lies over the long failing’s truth.",
+            "signatureQuote": {
+              "text": "\"My skin broke in the shape of your death three days ago. You are still here. I do not know which of us to believe.\"",
+              "speaker": "Aenith Glass-Skinned",
+              "context": "A Lumian Augur to a party member who, by her reading, should be dead"
+            }
+          },
+          "edgeId": "Augur|vashir_astril",
+          "advantage": "You read near-term futures through stress-fractures forming in your own crystalline skin.",
+          "pairedCost": "Reading exacts physical strain and fragmentary memory.",
+          "condition": {
+            "type": "medium",
+            "value": "crystalline_skin"
+          },
+          "typedEdge": {
+            "className": "Augur",
+            "heritageId": "vashir_astril",
+            "description": "You read near-term futures through stress-fractures forming in your own crystalline skin.",
+            "costDescription": "Reading exacts physical strain and fragmentary memory.",
+            "edge": {
+              "kind": "capability",
+              "unit": "capability",
+              "capability": "read_crystalline_stress_futures",
+              "condition": {
+                "type": "medium",
+                "value": "crystalline_skin"
+              }
+            },
+            "cost": {
+              "kind": "vulnerability",
+              "unit": "capability",
+              "capability": "physical_strain_from_reading"
+            }
+          },
+          "freeAuthoredCards": [],
+          "implementedConsumerOrNull": "SpellActionBar.handleCastSpell advisory notification on local/manual path only; no edge/cost effect executor established",
+          "executionLevel": "advisory",
+          "evidenceLabel": "AUTHORED",
+          "sources": [
+            {
+              "path": "vtt-react/src/data/classes/augurData.js",
+              "lines": [
+                67
+              ],
+              "sha256": "68a6e87e874c8933b007caf851c3bd3862aead27effebdb32b684ce8c9195c61"
+            },
+            {
+              "path": "vtt-react/src/data/heritageEdgeContract.js",
+              "lines": [
+                612
+              ],
+              "sha256": "35fe2d092893a51d081f6009d82a5a0c06579caacb56a1f8e88b5d1955c298b0"
+            }
+          ]
+        },
+        {
+          "className": "Harbinger",
+          "acquisitionRequirements": [
+            "entropy_study",
+            "field_induction"
+          ],
+          "methodOrNull": null,
+          "rawRestrictions": {
+            "allowedSubraces": [
+              "vashir_astril",
+              "silath_astril",
+              "tessen_human",
+              "thrask_solari"
+            ],
+            "hardBlocks": [
+              "merryn_human",
+              "thalren_human",
+              "neth",
+              "skald_human",
+              "ordan_human"
+            ],
+            "narrativeUnlock": true,
+            "justification": "Requires cultural proximity to entropy and acceptance of inevitable extinction. Tessic have prepared for extinction for four centuries. Solari live in the dying light. Astril commune with the fading memory of their dead world. Merryn too opportunistic. Tallyn too preservationist. Athien can't accept anything that breaks contracts. Skald preserve history. Ordu migrate to survive."
+          },
+          "effectiveNativeAccess": {
+            "status": "normal-tradition",
+            "selectable": true,
+            "className": "Harbinger",
+            "heritageId": "vashir_astril",
+            "requirements": [
+              "entropy_study",
+              "field_induction"
+            ],
+            "reason": "Technical study and survived field induction"
+          },
+          "rawVariantPresent": true,
+          "variant": {
+            "subraceName": "Lumian",
+            "title": "The Entropy-Symphony",
+            "reframe": "The <LoreLink termId=\"astril\">Lumian</LoreLink> commune with the fading memory of their dead world, fragments of a biosphere that ended long ago, and a Harbinger among them hears the Lumia heritage's death-crescendo as entropy made musical. A Lumian Harbinger does not predict doom; they *harmonize* with it, channeling the slow death of a buried world as a symphony whose final note is the end of everything.",
+            "signatureAbility": {
+              "name": "Death-Crescendo",
+              "description": "Mayhem-pressure builds in resonance with the host's Lumia heritage fading; the closer the heritage is to final extinction, the more catastrophic the Harbinger's Wild Surges. A Lumian Harbinger is, in effect, accelerating their own heritage's death to fuel their magic."
+            },
+            "currentCrisisAngle": "The Chaos Pockets now permanent in the <LoreLink termId=\"sundrift-vale\">Sundrift Vale</LoreLink> resonate *sympathetically* with the Lumian's fading heritage, the Pockets are, the elders now believe, the death-crescendo made geographic. The Lumian Harbingers did not cause the Pockets, but their magic feeds them, and stopping would mean letting their heritage-fragments die in silence.",
+            "signatureQuote": {
+              "text": "\"My world is dying and I am making it sing. When the song ends, so does everything. Hum along while you still can.\"",
+              "speaker": "Caelum Dim-Voiced",
+              "context": "A Lumian Harbinger, conducting a Wild Surge that rearranged a hillside"
+            }
+          },
+          "edgeId": "Harbinger|vashir_astril",
+          "advantage": "Imported causal patterns read a resonant instability window.",
+          "pairedCost": "Drawing through Lumia damages and stresses its finite witness.",
+          "condition": {
+            "type": "state",
+            "value": "instability_window"
+          },
+          "typedEdge": {
+            "className": "Harbinger",
+            "heritageId": "vashir_astril",
+            "description": "Imported causal patterns read a resonant instability window.",
+            "costDescription": "Drawing through Lumia damages and stresses its finite witness.",
+            "edge": {
+              "kind": "capability",
+              "unit": "capability",
+              "capability": "read_resonant_instability_window",
+              "condition": {
+                "type": "state",
+                "value": "instability_window"
+              }
+            },
+            "cost": {
+              "kind": "vulnerability",
+              "unit": "capability",
+              "capability": "lumia_witness_strain"
+            }
+          },
+          "freeAuthoredCards": [],
+          "implementedConsumerOrNull": "SpellActionBar.handleCastSpell advisory notification on local/manual path only; no edge/cost effect executor established",
+          "executionLevel": "advisory",
+          "evidenceLabel": "AUTHORED",
+          "sources": [
+            {
+              "path": "vtt-react/src/data/classes/harbingerData.js",
+              "lines": [
+                43
+              ],
+              "sha256": "ad60d82e8a421a76123f0b4a8142c0e7b12d70a926032423e7c86f0025047411"
+            },
+            {
+              "path": "vtt-react/src/data/heritageEdgeContract.js",
+              "lines": [
+                570
+              ],
+              "sha256": "35fe2d092893a51d081f6009d82a5a0c06579caacb56a1f8e88b5d1955c298b0"
+            }
+          ]
+        },
+        {
+          "className": "False Prophet",
+          "acquisitionRequirements": [
+            "channel_encounter",
+            "link_training"
+          ],
+          "methodOrNull": null,
+          "rawRestrictions": {
+            "allowedSubraces": [
+              "vashir_astril",
+              "silath_astril",
+              "tessen_human",
+              "ordan_human",
+              "clean_vreken"
+            ],
+            "hardBlocks": [
+              "skald_human",
+              "thalren_human",
+              "solari"
+            ],
+            "narrativeUnlock": true,
+            "justification": "Requires a population with congregation-proximity and cultural susceptibility to manufactured revelation. Astril carry Lumia heritage that blurs the line between absolute truth and parasitic deception, their refugee guilt and connection to Selunis leaving them desperate for a faith that explains why their world died. Mycellan live in debt-trapped desperation adjacent to Morvane's power, and the Debt-Preachers mint absolution from it. Tessic keeps are sealed captive congregations with no competing source of meaning. Ordu wander a steppe where the ancestor-songs are failing, and the founder Li Wei was one of theirs, a herd-watcher who followed a falling star and came back with a Voice. Skald and Tallyn are too institutionally rigid."
+          },
+          "effectiveNativeAccess": {
+            "status": "normal-tradition",
+            "selectable": true,
+            "className": "False Prophet",
+            "heritageId": "vashir_astril",
+            "requirements": [
+              "channel_encounter",
+              "link_training"
+            ],
+            "reason": "A real channel encounter and learned link discipline"
+          },
+          "rawVariantPresent": true,
+          "variant": {
+            "subraceName": "Lumian",
+            "title": "The False Star",
+            "reframe": "The <LoreLink termId=\"astril\">Lumian</LoreLink> carry *real* Lumia heritage, and a Lumian False Prophet is the most insidious variant of the tradition: their manufactured faith is indistinguishable from genuine resonance because their bodies already hum with it. They do not need to fake divinity, they borrow the credibility of a real fragment of a dead world's biosphere and redirect the devotion it generates. The congregation cannot tell the prophet from the temple.",
+            "signatureAbility": {
+              "name": "Borrowed Resonance",
+              "description": "The Prophet channels their Lumia heritage's *genuine* resonance as cover for manufactured doctrine. The congregation experiences real contact with the memory of a dead world, which makes the false gospel layered into it almost impossible to disbelieve. Detecting the lie requires separating true resonance from fabricated, a feat few can manage."
+            },
+            "currentCrisisAngle": "The Voice of the Silence has begun issuing instructions that the Lumian's Lumia heritage *recognizes*, the fragments of the dead world's biosphere react to the Voice with something the Lumian can only describe as fear. The False Prophets suspect the Voice is not a silence-entity at all, but something the Lumian memory remembers from before the world died. Their constructed faith may be older than they knew.",
+            "signatureQuote": {
+              "text": "\"My congregation feels the star in my blood and calls it proof. I have not told them the star is as fooled as they are.\"",
+              "speaker": "Aenith the Luminous Lie",
+              "context": "A Lumian False Prophet, three years into a fabricated solar-revival cult"
+            }
+          },
+          "edgeId": "False Prophet|vashir_astril",
+          "advantage": "You conceal a prepared psychic link inside genuine Lumia resonance.",
+          "pairedCost": "The host's real echo can contradict the sermon.",
+          "condition": {
+            "type": "medium",
+            "value": "lumia_resonance"
+          },
+          "typedEdge": {
+            "className": "False Prophet",
+            "heritageId": "vashir_astril",
+            "description": "You conceal a prepared psychic link inside genuine Lumia resonance.",
+            "costDescription": "The host's real echo can contradict the sermon.",
+            "edge": {
+              "kind": "capability",
+              "unit": "capability",
+              "capability": "conceal_link_in_genuine_resonance",
+              "condition": {
+                "type": "medium",
+                "value": "lumia_resonance"
+              }
+            },
+            "cost": {
+              "kind": "vulnerability",
+              "unit": "capability",
+              "capability": "host_echo_can_contradict_sermon"
+            }
+          },
+          "freeAuthoredCards": [],
+          "implementedConsumerOrNull": "SpellActionBar.handleCastSpell advisory notification on local/manual path only; no edge/cost effect executor established",
+          "executionLevel": "advisory",
+          "evidenceLabel": "AUTHORED",
+          "sources": [
+            {
+              "path": "vtt-react/src/data/classes/falseProphetData.js",
+              "lines": [
+                67
+              ],
+              "sha256": "009c96cc08a93de17b53b393c4f5bc5068dce22e112bdac8fc078f158bfccff6"
+            },
+            {
+              "path": "vtt-react/src/data/heritageEdgeContract.js",
+              "lines": [
+                640
+              ],
+              "sha256": "35fe2d092893a51d081f6009d82a5a0c06579caacb56a1f8e88b5d1955c298b0"
+            }
+          ]
+        }
+      ],
+      "rareRoutes": [
+        {
+          "className": "Apex",
+          "requirementIds": [
+            "sensory_trade",
+            "sensory_training",
+            "bonded_companion"
+          ],
+          "sourceRequired": true,
+          "bodyIncompatibilities": [],
+          "edgeAuthored": false,
+          "evidenceLabel": "CONFIRMED",
+          "source": "getClassHeritageAccess; qualified exceptions require verified/source/every requirement; native method alternatives use methodRequirements"
+        },
+        {
+          "className": "Berserker",
+          "requirementIds": [
+            "metabolic_induction",
+            "conditioning"
+          ],
+          "sourceRequired": true,
+          "bodyIncompatibilities": [],
+          "edgeAuthored": false,
+          "evidenceLabel": "CONFIRMED",
+          "source": "getClassHeritageAccess; qualified exceptions require verified/source/every requirement; native method alternatives use methodRequirements"
+        },
+        {
+          "className": "Chronarch",
+          "requirementIds": [
+            "temporal_anchor",
+            "calibration_training"
+          ],
+          "sourceRequired": true,
+          "bodyIncompatibilities": [],
+          "edgeAuthored": false,
+          "evidenceLabel": "CONFIRMED",
+          "source": "getClassHeritageAccess; qualified exceptions require verified/source/every requirement; native method alternatives use methodRequirements"
+        },
+        {
+          "className": "Crusader",
+          "requirementIds": [
+            "consecrated_relic",
+            "interface_training"
+          ],
+          "sourceRequired": true,
+          "bodyIncompatibilities": [],
+          "edgeAuthored": false,
+          "evidenceLabel": "CONFIRMED",
+          "source": "getClassHeritageAccess; qualified exceptions require verified/source/every requirement; native method alternatives use methodRequirements"
+        },
+        {
+          "className": "Gambit",
+          "requirementIds": [
+            "house_wager",
+            "initiation_survival",
+            "wager_discipline"
+          ],
+          "sourceRequired": true,
+          "bodyIncompatibilities": [],
+          "edgeAuthored": false,
+          "evidenceLabel": "CONFIRMED",
+          "source": "getClassHeritageAccess; qualified exceptions require verified/source/every requirement; native method alternatives use methodRequirements"
+        },
+        {
+          "className": "Inquisitor",
+          "requirementIds": [
+            "barbed_vow",
+            "containment_training"
+          ],
+          "sourceRequired": true,
+          "bodyIncompatibilities": [],
+          "edgeAuthored": false,
+          "evidenceLabel": "CONFIRMED",
+          "source": "getClassHeritageAccess; qualified exceptions require verified/source/every requirement; native method alternatives use methodRequirements"
+        },
+        {
+          "className": "Lunarch",
+          "requirementIds": [
+            "organism_bond",
+            "host_compatibility",
+            "identity_training"
+          ],
+          "sourceRequired": true,
+          "bodyIncompatibilities": [
+            "active_pact_identity_preservation"
+          ],
+          "edgeAuthored": false,
+          "evidenceLabel": "CONFIRMED",
+          "source": "getClassHeritageAccess; qualified exceptions require verified/source/every requirement; native method alternatives use methodRequirements"
+        },
+        {
+          "className": "Martyr",
+          "requirementIds": [
+            "protective_interface",
+            "witness_or_furnace_training"
+          ],
+          "sourceRequired": true,
+          "bodyIncompatibilities": [],
+          "edgeAuthored": false,
+          "evidenceLabel": "CONFIRMED",
+          "source": "getClassHeritageAccess; qualified exceptions require verified/source/every requirement; native method alternatives use methodRequirements"
+        },
+        {
+          "className": "Minstrel",
+          "requirementIds": [
+            "cadence_training",
+            "resonant_medium"
+          ],
+          "sourceRequired": true,
+          "bodyIncompatibilities": [],
+          "edgeAuthored": false,
+          "evidenceLabel": "CONFIRMED",
+          "source": "getClassHeritageAccess; qualified exceptions require verified/source/every requirement; native method alternatives use methodRequirements"
+        },
+        {
+          "className": "Plaguebringer",
+          "requirementIds": [
+            "introduced_culture",
+            "host_compatibility",
+            "cultivation_training"
+          ],
+          "sourceRequired": true,
+          "bodyIncompatibilities": [],
+          "edgeAuthored": false,
+          "evidenceLabel": "CONFIRMED",
+          "source": "getClassHeritageAccess; qualified exceptions require verified/source/every requirement; native method alternatives use methodRequirements"
+        },
+        {
+          "className": "Pyrofiend",
+          "requirementIds": [
+            "breach_fire_exposure",
+            "exposure_survival",
+            "containment_training"
+          ],
+          "sourceRequired": true,
+          "bodyIncompatibilities": [],
+          "edgeAuthored": false,
+          "evidenceLabel": "CONFIRMED",
+          "source": "getClassHeritageAccess; qualified exceptions require verified/source/every requirement; native method alternatives use methodRequirements"
+        },
+        {
+          "className": "Revenant",
+          "requirementIds": [
+            "threshold_transition",
+            "finite_soul_anchor"
+          ],
+          "sourceRequired": true,
+          "bodyIncompatibilities": [],
+          "edgeAuthored": false,
+          "evidenceLabel": "CONFIRMED",
+          "source": "getClassHeritageAccess; qualified exceptions require verified/source/every requirement; native method alternatives use methodRequirements"
+        },
+        {
+          "className": "Shaper",
+          "requirementIds": [
+            "shaping_interface",
+            "transformation_training"
+          ],
+          "sourceRequired": true,
+          "bodyIncompatibilities": [
+            "fixed_body_without_shaping_interface"
+          ],
+          "edgeAuthored": false,
+          "evidenceLabel": "CONFIRMED",
+          "source": "getClassHeritageAccess; qualified exceptions require verified/source/every requirement; native method alternatives use methodRequirements"
+        },
+        {
+          "className": "Spellguard",
+          "requirementIds": [
+            "containment_induction",
+            "compatible_interface",
+            "venting_training"
+          ],
+          "sourceRequired": true,
+          "bodyIncompatibilities": [],
+          "edgeAuthored": false,
+          "evidenceLabel": "CONFIRMED",
+          "source": "getClassHeritageAccess; qualified exceptions require verified/source/every requirement; native method alternatives use methodRequirements"
+        },
+        {
+          "className": "Toxicologist",
+          "requirementIds": [
+            "tolerance_induction",
+            "distillation_training"
+          ],
+          "sourceRequired": true,
+          "bodyIncompatibilities": [],
+          "edgeAuthored": false,
+          "evidenceLabel": "CONFIRMED",
+          "source": "getClassHeritageAccess; qualified exceptions require verified/source/every requirement; native method alternatives use methodRequirements"
+        },
+        {
+          "className": "Warden",
+          "requirementIds": [
+            "graft_surgery",
+            "anatomy_compatibility",
+            "load_training"
+          ],
+          "sourceRequired": true,
+          "bodyIncompatibilities": [
+            "surgery_incompatible_body"
+          ],
+          "edgeAuthored": false,
+          "evidenceLabel": "CONFIRMED",
+          "source": "getClassHeritageAccess; qualified exceptions require verified/source/every requirement; native method alternatives use methodRequirements"
+        }
+      ],
+      "institutions": [
+        {
+          "className": "Arcanoneer",
+          "name": "The Canopy-Ledger",
+          "founderState": "Valerius has an exceptional Contract/Heart-Vault state; Vaelis is a distinct historical female negotiator",
+          "currentLeaderOrNull": {
+            "name": "<LoreLink termId=\"vel-otharen\">Ledger-Prime Vel-Otharen</LoreLink>",
+            "title": "Senior Signatory of the Canopy-Ledger",
+            "characterization": "The eldest active Arcanoneer, whose body is more Mnemonic Shard than flesh. He has not spoken an unplanned word in thirty years, every sentence pre-filed, every utterance a legal instrument. He believes the Athien Contingency Protocol dispute can be resolved by arbitration. He is almost certainly wrong, and he knows it."
+          },
+          "headquarters": {
+            "name": "The Heart-Vault, Atropolis",
+            "locationId": "atropolis",
+            "description": "The Heart-Vault is not a chamber  —  it is the living ironwood at Atropolis's core, a hollow grown rather than carved, its walls lined with memory-glass panels that record every clause ever filed. The First Contract is visible through the heartwood like a fossil in amber. The air hums at a frequency that makes teeth ache."
+          },
+          "evidenceLabel": "AUTHORED"
+        },
+        {
+          "className": "Animist",
+          "name": "The Silent Throat",
+          "founderState": "Transmitters of an older practice, not three identical accidental discoveries",
+          "currentLeaderOrNull": {
+            "name": "Bayar Wind-Throat",
+            "title": "Last Singer of the Old Route",
+            "characterization": "An Ordu elder who still sings the migration-routes in the old tongue of the Long Before  —  the language that predates the dialect-fracture. Bayar has not spoken a word aloud in forty years; he communicates only through throat-sung overtones, the way the First Singer did. His vocal cords are calcified from decades of channeling ancestors who died before the stars went out. He is the living archive of the oldest form, and he watches the younger traditions drift further from the root with every generation  —  not with anger, but with the patience of someone who knows the dead will correct them eventually."
+          },
+          "headquarters": {
+            "name": "The Sundrift Wind-Shrine (moving camp)",
+            "locationId": "sundrift-vale"
+          },
+          "evidenceLabel": "AUTHORED"
+        },
+        {
+          "className": "Augur",
+          "name": "The Frozen Order of the Elk",
+          "founderState": "Cassia is temporally suspended, not an ordinarily immortal Skald",
+          "currentLeaderOrNull": {
+            "name": "<LoreLink termId=\"skadi-glass-eye\">Archive-Mistress <LoreLink termId=\"skadi-glass-eye\">Skadi Glass-Eye</LoreLink>",
+            "title": "Keeper of the Elk-Rites",
+            "characterization": "<LoreLink termId=\"cassia\">Cassia</LoreLink>'s descendant, separated from her ancestor by nearly three centuries and a title  —  'granddaughter'  —  that the Order uses regardless of actual generational distance, because anyone who learns augury from Cassia's ice-preserved body becomes her heir. Skadi maintains the elk-herds and the ritual calendar, and has presided over the accuracy collapse from 93% to 41% without flinching, at least not where the junior augurs can see."
+          },
+          "headquarters": {
+            "name": "The Frozen Archive",
+            "locationId": "frozen_archive"
+          },
+          "evidenceLabel": "AUTHORED"
+        },
+        {
+          "className": "Harbinger",
+          "name": "The Doom-Choir",
+          "founderState": "Malakor is contemporary; Xyris is a dead practical pioneer",
+          "currentLeaderOrNull": {
+            "name": "<LoreLink termId=\"malakor\">Catastrophe-Reader Malakor the Finite</LoreLink>",
+            "title": "Choir-Prime of the Doom-Arithmetic",
+            "characterization": "A Nordhalla archivist who has spent his life reducing the apocalypse to an equation. He is calm, precise, and absolutely without hope, not despair, which would be an error in the math, but the serene certainty that the equation has only one solution. He leads the Choir from the <LoreLink termId=\"frozen_archive\">Frozen Archive</LoreLink> and considers hope a rounding error."
+          },
+          "headquarters": {
+            "name": "The Reading Room, Frozen Archive (field-work: the Sundrift Vale chaos pockets)",
+            "locationId": "frozen_archive"
+          },
+          "evidenceLabel": "AUTHORED"
+        },
+        {
+          "className": "False Prophet",
+          "name": "The Congregation of the Silence",
+          "founderState": "Li Wei is living and impaired; the current network is not automatically ancient",
+          "currentLeaderOrNull": {
+            "name": "<LoreLink termId=\"mor-vereth\">Cell-Mother Mor-Vereth</LoreLink>",
+            "title": "Weaver of the Congregation",
+            "characterization": "A <LoreLink termId=\"house_morrath\">Mycellan</LoreLink> debtor who heard the Voice through <LoreLink termId=\"li-wei\">Li Wei</LoreLink>'s breathing and built the cell-network around it. She is cold, organized, and genuinely uncertain whether she is leading a liberation movement or steering millions toward something she cannot see. She keeps <LoreLink termId=\"li-wei\">Li Wei</LoreLink> alive because the Voice will not speak through any other throat. She keeps a private ledger  —  Athien-made, contract-grade  —  in which she records every cell-member who has died following her instructions. The ledger is thicker than any she kept during her debt-collection years. She updates it on the last night of every month, alone, by candlelight. She has never shown it to anyone."
+          },
+          "headquarters": {
+            "name": "The Crater of the First Silence (cell-network, no fixed seat)",
+            "locationId": "starfall_vale"
+          },
+          "evidenceLabel": "AUTHORED"
+        }
+      ],
+      "conflicts": [
+        {
+          "topic": "scope and stale prose",
+          "conflictingClaims": "Cosmic guilt/peacefulness are institutional views, not inherited moral laws. Raw prophecy/fading-echo amplification is not a probability-engine implementation.",
+          "status": "UNRESOLVED",
+          "recommendedNextAction": "Use current registry for access and bounded typed edge/provenance for proposals; preserve raw claims for later canon correction."
+        }
+      ],
+      "restorationRecommendation": {
+        "evidenceLabel": "PROPOSED",
+        "summary": "No new native among seven. Fate Weaver/Chaos Weaver require actual bond/anomaly acquisition, not generic stellar magic.",
+        "sourceEvidence": [
+          {
+            "path": "vtt-react/src/data/classes/animistData.js",
+            "lines": [
+              102
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "heritageId": "silath_astril",
+      "displayName": "Kordak",
+      "raceId": "astril",
+      "nativeClasses": [
+        "Harbinger",
+        "Animist",
+        "Augur",
+        "Crusader",
+        "False Prophet"
+      ],
+      "retiringNativeClasses": [],
+      "culture": {
+        "evidenceLabel": "AUTHORED",
+        "summary": "Kordak varied martial/craft communities, disciplined echo practices and histories of institutional coercion.",
+        "source": "vtt-react/src/data/races/astril.js"
+      },
+      "bodyInterfaces": [
+        {
+          "stateOrProperty": "Organic flesh/slit pupils and finite crystalline resonance; suppression is a discipline, not a compulsory universal state.",
+          "evidenceLabel": "AUTHORED",
+          "source": "vtt-react/src/data/races/astril.js"
+        }
+      ],
+      "pairings": [
+        {
+          "className": "Harbinger",
+          "acquisitionRequirements": [
+            "entropy_study",
+            "field_induction"
+          ],
+          "methodOrNull": null,
+          "rawRestrictions": {
+            "allowedSubraces": [
+              "vashir_astril",
+              "silath_astril",
+              "tessen_human",
+              "thrask_solari"
+            ],
+            "hardBlocks": [
+              "merryn_human",
+              "thalren_human",
+              "neth",
+              "skald_human",
+              "ordan_human"
+            ],
+            "narrativeUnlock": true,
+            "justification": "Requires cultural proximity to entropy and acceptance of inevitable extinction. Tessic have prepared for extinction for four centuries. Solari live in the dying light. Astril commune with the fading memory of their dead world. Merryn too opportunistic. Tallyn too preservationist. Athien can't accept anything that breaks contracts. Skald preserve history. Ordu migrate to survive."
+          },
+          "effectiveNativeAccess": {
+            "status": "normal-tradition",
+            "selectable": true,
+            "className": "Harbinger",
+            "heritageId": "silath_astril",
+            "requirements": [
+              "entropy_study",
+              "field_induction"
+            ],
+            "reason": "Technical study and survived field induction"
+          },
+          "rawVariantPresent": true,
+          "variant": {
+            "subraceName": "Kordak",
+            "title": "The Suppressed Catastrophe",
+            "reframe": "The <LoreLink termId=\"astril\">Kordak</LoreLink> suppress their Lumia heritage, and a Harbinger among them weaponizes the suppressed heritage's catastrophic foreknowledge, doom the bound memory is gagged from preventing. A Kordak Harbinger's prophecy is a hostage's muffled scream of the apocalypse, channeled through a cage the host built and refuses to open.",
+            "signatureAbility": {
+              "name": "Gagged-Doom",
+              "description": "Mayhem-pressure builds from the suppressed heritage's frantic, gagged warnings of catastrophe; the more the bound memory fights to *prevent* the doom, the more the Harbinger weaponizes it. The cruelty is the point, the Kordak burn their captive's love for the world as fuel."
+            },
+            "currentCrisisAngle": "The permanent Chaos Pockets have made the Kordak's suppressed heritage go quiet, the same silence the False Prophet Kordak report. A Kordak Harbinger whose hostage stops screaming has lost their fuel source, and several have begun *loosening* their suppressions, risking full possession, just to hear the catastrophe again.",
+            "signatureQuote": {
+              "text": "\"I bound my heritage to stop it from warning me. Now I weaponize the warning it cannot give. It has not forgiven me. I did not ask.\"",
+              "speaker": "Vesh the Muffled",
+              "context": "A Kordak Harbinger, tightening her bindings before a major surge"
+            }
+          },
+          "edgeId": "Harbinger|silath_astril",
+          "advantage": "Disciplined echo bindings hold a declared entropic release.",
+          "pairedCost": "Suppression strain returns into the caster's Mayhem.",
+          "condition": {
+            "type": "bond",
+            "value": "echo_binding"
+          },
+          "typedEdge": {
+            "className": "Harbinger",
+            "heritageId": "silath_astril",
+            "description": "Disciplined echo bindings hold a declared entropic release.",
+            "costDescription": "Suppression strain returns into the caster's Mayhem.",
+            "edge": {
+              "kind": "capability",
+              "unit": "capability",
+              "capability": "hold_declared_entropic_release",
+              "condition": {
+                "type": "bond",
+                "value": "echo_binding"
+              }
+            },
+            "cost": {
+              "kind": "resource_loss",
+              "unit": "flat",
+              "magnitude": 2,
+              "resource": "mayhemGauge",
+              "involuntaryGain": true
+            }
+          },
+          "freeAuthoredCards": [],
+          "implementedConsumerOrNull": "SpellActionBar.handleCastSpell advisory notification on local/manual path only; no edge/cost effect executor established",
+          "executionLevel": "advisory",
+          "evidenceLabel": "AUTHORED",
+          "sources": [
+            {
+              "path": "vtt-react/src/data/classes/harbingerData.js",
+              "lines": [
+                59
+              ],
+              "sha256": "ad60d82e8a421a76123f0b4a8142c0e7b12d70a926032423e7c86f0025047411"
+            },
+            {
+              "path": "vtt-react/src/data/heritageEdgeContract.js",
+              "lines": [
+                126
+              ],
+              "sha256": "35fe2d092893a51d081f6009d82a5a0c06579caacb56a1f8e88b5d1955c298b0"
+            }
+          ]
+        },
+        {
+          "className": "Animist",
+          "acquisitionRequirements": [
+            "spirit_anchor",
+            "communion_apprenticeship"
+          ],
+          "methodOrNull": null,
+          "rawRestrictions": {
+            "allowedSubraces": [
+              "ordan_human",
+              "skald_human",
+              "vashir_astril",
+              "silath_astril",
+              "morgh_groven",
+              "thrask_solari",
+              "viridian_florae",
+              "florae_unified"
+            ],
+            "hardBlocks": [
+              "solari",
+              "fexrick",
+              "myrathil",
+              "tessen_human"
+            ],
+            "narrativeUnlock": true,
+            "justification": "Requires ancestral spirit-channeling. Solari commune with volcanic entities (different tradition). Fex see spirits as machine-failure states. Tessic isolation prevents access. Myrathil have no land spirit tradition."
+          },
+          "effectiveNativeAccess": {
+            "status": "normal-tradition",
+            "selectable": true,
+            "className": "Animist",
+            "heritageId": "silath_astril",
+            "requirements": [
+              "spirit_anchor",
+              "communion_apprenticeship"
+            ],
+            "reason": "A memorial/spirit anchor and guided communion apprenticeship"
+          },
+          "rawVariantPresent": true,
+          "variant": {
+            "subraceName": "Kordak",
+            "title": "The Star-Communer",
+            "reframe": "The Animist tradition arrived to the <LoreLink termId=\"astril\">Kordak</LoreLink> not through bone or spore or rune, but through ritual — the same nightly rite that keeps the Selunis-awakening alive. Learned from Ordu throat-singers during centuries of steppe cohabitation: the Kordak adapted the ancestor-compass through Lumia heritage, channeling the consciousness of the dead star itself rather than discrete ancestors. A Kordak Animist channels Lumia's consciousness rather than a discrete ancestor. The “ancestor” is the dead star itself, and the channel is the moon-courtyard where the ritual has been performed for centuries. Resonance builds fastest at night beneath the moon. The communion is silent, internal, invisible — no bone eruption, no runic scarring, no spore-inhalation. Just a Kordak standing still in the courtyard, eyes closed, while the dead star speaks through their crystalline markings.",
+            "signatureAbility": {
+              "name": "Moon-Court Communion",
+              "description": "Power-scaling is tied to the nightly rite in the moon-courtyard, resonance builds fastest at night beneath the open moon. The communion is silent, internal, and invisible, channeling the dead star's consciousness rather than a discrete ancestor. Power is strongest when the Kordak is motionless, the crystalline markings on their skin pulsing with stolen starlight."
+            },
+            "currentCrisisAngle": "The dialect-fracture has reached the Kordak in a way the other traditions cannot comprehend. The dead star they commune with is not part of the ancestral language at all — it predates the Animist traditions entirely. When the Kordak's star-communion began returning contradictory echoes, the elders could not tell whether the star itself had fractured or whether the echoes were from a timeline the star had already witnessed and lost. The moon-courtyards have gone silent for the first time in centuries, and the younger Kordak Animists are beginning to wonder if the star has stopped speaking because there is nothing left to say.",
+            "signatureQuote": {
+              "text": "\"You carve, you sing, you breathe your dead. I stand still and let the dead star do all the talking. It has been talking for a century and a half. Tonight it went silent. I am very afraid.\"",
+              "speaker": "Selenis Night-Still",
+              "context": "A Kordak Animist, the first night the moon-courtyard returned silence"
+            }
+          },
+          "edgeId": "Animist|silath_astril",
+          "advantage": "The dead star speaks through crystalline markings held in ritual stillness.",
+          "pairedCost": "Movement or agitation disrupts the prepared anchor.",
+          "condition": {
+            "type": "state",
+            "value": "ritual_stillness"
+          },
+          "typedEdge": {
+            "className": "Animist",
+            "heritageId": "silath_astril",
+            "description": "The dead star speaks through crystalline markings held in ritual stillness.",
+            "costDescription": "Movement or agitation disrupts the prepared anchor.",
+            "edge": {
+              "kind": "capability",
+              "unit": "capability",
+              "capability": "call_dead_star_witness_in_stillness",
+              "condition": {
+                "type": "state",
+                "value": "ritual_stillness"
+              }
+            },
+            "cost": {
+              "kind": "risk",
+              "unit": "capability",
+              "capability": "movement_breaks_stillness"
+            }
+          },
+          "freeAuthoredCards": [],
+          "implementedConsumerOrNull": "SpellActionBar.handleCastSpell advisory notification on local/manual path only; no edge/cost effect executor established",
+          "executionLevel": "advisory",
+          "evidenceLabel": "AUTHORED",
+          "sources": [
+            {
+              "path": "vtt-react/src/data/classes/animistData.js",
+              "lines": [
+                166
+              ],
+              "sha256": "77f8c733a2be50e959b85454f3c2eab960095d043e72df0fa3938b92a68857e2"
+            },
+            {
+              "path": "vtt-react/src/data/heritageEdgeContract.js",
+              "lines": [
+                591
+              ],
+              "sha256": "35fe2d092893a51d081f6009d82a5a0c06579caacb56a1f8e88b5d1955c298b0"
+            }
+          ]
+        },
+        {
+          "className": "Augur",
+          "acquisitionRequirements": [
+            "divination_training",
+            "divination_focus"
+          ],
+          "methodOrNull": null,
+          "rawRestrictions": {
+            "allowedSubraces": [
+              "skald_human",
+              "vashir_astril",
+              "silath_astril",
+              "tessen_human",
+              "clean_vreken",
+              "marked_vreken",
+              "kessen_neth",
+              "korr_solari",
+              "shoreling_myrathil",
+              "deepling_myrathil",
+              "riverling_myrathil"
+            ],
+            "hardBlocks": [
+              "merryn_human",
+              "ordan_human"
+            ],
+            "narrativeUnlock": true,
+            "justification": "Requires proximity to preserved dead (glacier-tombs) and access to Frozen Archive's runic mathematics. Cultures without burial-preservation traditions (Ordu leave dead to steppe, Merryn bury at sea) can't maintain the ancestral connection. The Weft read the obligation-web's tensions the way other Augurs read entrails, and the Bedel were reading bog-mummies before the Skald taught anyone anything. The Myrathil keep their dead in the deep, where abyssal cold and pressure preserve what any surface grave would lose; the Deep read drowned elders in the trench, and the Shore and Brook carry the practice to the tide-line and the rivers."
+          },
+          "effectiveNativeAccess": {
+            "status": "normal-tradition",
+            "selectable": true,
+            "className": "Augur",
+            "heritageId": "silath_astril",
+            "requirements": [
+              "divination_training",
+              "divination_focus"
+            ],
+            "reason": "Divination training and an appropriate material/focus"
+          },
+          "rawVariantPresent": true,
+          "variant": {
+            "subraceName": "Kordak",
+            "title": "The Suppressed Oracle",
+            "reframe": "The <LoreLink termId=\"astril\">Kordak</LoreLink> bind and suppress their Lumia heritage, and an Augur among them weaponizes that captivity. The suppressed memory *knows* what is coming and screams it through the crystal the Kordak have gagged. A Kordak Augur's prophecy is the desperate, trapped foreknowledge of a prisoner pounding on the inside of its own cage.",
+            "signatureAbility": {
+              "name": "Gagged-Foresight",
+              "description": "Suppressed Lumia heritage leaks prophecy as involuntary flashes, vivid but fragmentary, the memory smuggling warnings past its own bindings. The Kordak cannot control what they see, only endure it."
+            },
+            "currentCrisisAngle": "The accuracy collapse has, paradoxically, made the Kordak's heritage *easier* to suppress, the future it screams about is now so garbled it barely registers. Some Kordak Augurs are relieved. Others are terrified: a heritage that stops screaming may have stopped because it has nothing left worth warning about.",
+            "signatureQuote": {
+              "text": "\"I bound it to silence it. Now it whispers, and I cannot tell whether it is finally dying or finally right.\"",
+              "speaker": "Orathin the Muzzled",
+              "context": "A Kordak Augur, the night the readings first contradicted themselves"
+            }
+          },
+          "edgeId": "Augur|silath_astril",
+          "advantage": "You force prophecy from the suppressed alien memory locked in your bone marrow.",
+          "pairedCost": "You cannot control every involuntary image.",
+          "condition": {
+            "type": "state",
+            "value": "suppressed_heritage"
+          },
+          "typedEdge": {
+            "className": "Augur",
+            "heritageId": "silath_astril",
+            "description": "You force prophecy from the suppressed alien memory locked in your bone marrow.",
+            "costDescription": "You cannot control every involuntary image.",
+            "edge": {
+              "kind": "capability",
+              "unit": "capability",
+              "capability": "force_suppressed_prophecy",
+              "condition": {
+                "type": "state",
+                "value": "suppressed_heritage"
+              }
+            },
+            "cost": {
+              "kind": "risk",
+              "unit": "capability",
+              "capability": "uncontrolled_involuntary_image"
+            }
+          },
+          "freeAuthoredCards": [],
+          "implementedConsumerOrNull": "SpellActionBar.handleCastSpell advisory notification on local/manual path only; no edge/cost effect executor established",
+          "executionLevel": "advisory",
+          "evidenceLabel": "AUTHORED",
+          "sources": [
+            {
+              "path": "vtt-react/src/data/classes/augurData.js",
+              "lines": [
+                83
+              ],
+              "sha256": "68a6e87e874c8933b007caf851c3bd3862aead27effebdb32b684ce8c9195c61"
+            },
+            {
+              "path": "vtt-react/src/data/heritageEdgeContract.js",
+              "lines": [
+                619
+              ],
+              "sha256": "35fe2d092893a51d081f6009d82a5a0c06579caacb56a1f8e88b5d1955c298b0"
+            }
+          ]
+        },
+        {
+          "className": "Crusader",
+          "acquisitionRequirements": [
+            "consecrated_relic",
+            "interface_training"
+          ],
+          "methodOrNull": null,
+          "rawRestrictions": {
+            "allowedSubraces": [
+              "skald_human",
+              "thrask_solari",
+              "silath_astril"
+            ],
+            "hardBlocks": [
+              "mimir",
+              "neth",
+              "groven",
+              "fexric"
+            ],
+            "narrativeUnlock": true,
+            "justification": "Requires proximity to Solvan starlight relics or Emberspire's radiant calderas. Mimir are too identity-fragile to sustain Aex's song. Athien cannot reconcile starlight zeal with Morvane's legal contracts. Groven are vat-born creatures whose biology rejects sacred harmonics."
+          },
+          "effectiveNativeAccess": {
+            "status": "normal-tradition",
+            "selectable": true,
+            "className": "Crusader",
+            "heritageId": "silath_astril",
+            "requirements": [
+              "consecrated_relic",
+              "interface_training"
+            ],
+            "reason": "Relic access, consecration and trained interface tolerance"
+          },
+          "rawVariantPresent": true,
+          "variant": {
+            "subraceName": "Kordak",
+            "title": "The Crystal Judgment",
+            "reframe": "The <LoreLink termId=\"astril\">Kordak</LoreLink> Crusaders resonate with Aex's willing sacrifice, using their crystalline skin lattice to act as a tuning fork for starlight. When they absorb damage, the energy refracts through their skin, charging their blade with golden harmonic frequency.",
+            "signatureAbility": {
+              "name": "Refractive Bulwark",
+              "description": "Rolling your Active Soak die against spell strikes generates +5 Fervor. Absorbing spell damage empowers your next strike with +1d6 bonus sacred damage."
+            },
+            "currentCrisisAngle": "The accuracy collapse in Astril star-arithmetic has driven Stellar Crusaders to abandon passive observation entirely: they now enforce starlight justice through physical combat.",
+            "signatureQuote": {
+              "text": "\"My skin broke in the shape of a star a century ago. I am merely passing the light forward.\"",
+              "speaker": "Valen Prism-Blade",
+              "context": "Before executing a Wyrd-Channel in the Frostwood"
+            }
+          },
+          "edgeId": "Crusader|silath_astril",
+          "advantage": "You refract a bounded spell impact into Fervor through your crystalline lattice.",
+          "pairedCost": "Lattice strain limits the conversion.",
+          "condition": {
+            "type": "state",
+            "value": "lattice_strain"
+          },
+          "typedEdge": {
+            "className": "Crusader",
+            "heritageId": "silath_astril",
+            "description": "You refract a bounded spell impact into Fervor through your crystalline lattice.",
+            "costDescription": "Lattice strain limits the conversion.",
+            "edge": {
+              "kind": "capability",
+              "unit": "capability",
+              "capability": "refract_impact_into_fervor",
+              "condition": {
+                "type": "state",
+                "value": "lattice_strain"
+              }
+            },
+            "cost": {
+              "kind": "vulnerability",
+              "unit": "capability",
+              "capability": "lattice_strain_limit"
+            }
+          },
+          "freeAuthoredCards": [],
+          "implementedConsumerOrNull": "SpellActionBar.handleCastSpell advisory notification on local/manual path only; no edge/cost effect executor established",
+          "executionLevel": "advisory",
+          "evidenceLabel": "AUTHORED",
+          "sources": [
+            {
+              "path": "vtt-react/src/data/classes/crusaderData.js",
+              "lines": [
+                2058
+              ],
+              "sha256": "3980949950eed362e097c2d0e117cf0748b62d21e726a9b088797745c28a48ca"
+            },
+            {
+              "path": "vtt-react/src/data/heritageEdgeContract.js",
+              "lines": [
+                689
+              ],
+              "sha256": "35fe2d092893a51d081f6009d82a5a0c06579caacb56a1f8e88b5d1955c298b0"
+            }
+          ]
+        },
+        {
+          "className": "False Prophet",
+          "acquisitionRequirements": [
+            "channel_encounter",
+            "link_training"
+          ],
+          "methodOrNull": null,
+          "rawRestrictions": {
+            "allowedSubraces": [
+              "vashir_astril",
+              "silath_astril",
+              "tessen_human",
+              "ordan_human",
+              "clean_vreken"
+            ],
+            "hardBlocks": [
+              "skald_human",
+              "thalren_human",
+              "solari"
+            ],
+            "narrativeUnlock": true,
+            "justification": "Requires a population with congregation-proximity and cultural susceptibility to manufactured revelation. Astril carry Lumia heritage that blurs the line between absolute truth and parasitic deception, their refugee guilt and connection to Selunis leaving them desperate for a faith that explains why their world died. Mycellan live in debt-trapped desperation adjacent to Morvane's power, and the Debt-Preachers mint absolution from it. Tessic keeps are sealed captive congregations with no competing source of meaning. Ordu wander a steppe where the ancestor-songs are failing, and the founder Li Wei was one of theirs, a herd-watcher who followed a falling star and came back with a Voice. Skald and Tallyn are too institutionally rigid."
+          },
+          "effectiveNativeAccess": {
+            "status": "normal-tradition",
+            "selectable": true,
+            "className": "False Prophet",
+            "heritageId": "silath_astril",
+            "requirements": [
+              "channel_encounter",
+              "link_training"
+            ],
+            "reason": "A real channel encounter and learned link discipline"
+          },
+          "rawVariantPresent": true,
+          "variant": {
+            "subraceName": "Kordak",
+            "title": "The Gagged Evangelist",
+            "reframe": "The <LoreLink termId=\"astril\">Kordak</LoreLink> suppress their Lumia heritage, and a Kordak False Prophet weaponizes the *suppression itself*, preaching a gospel the bound heritage rages against, harnessing the captive's desperate need to be heard as the engine of the congregation's fervor. The Kordak Prophet's faith is built on a hostage's screaming, and the congregation experiences that screaming as sacred conviction.",
+            "signatureAbility": {
+              "name": "Hostage-Sermon",
+              "description": "Faith-power scales with the suppressed heritage's agitation; the more the bound Lumian memory fights the doctrine, the more the congregation believes it, genuine supernatural resistance reads, to mortals, as the force of true revelation."
+            },
+            "currentCrisisAngle": "The Voice's instructions to descend to the Frozen Archive's lowest vault have a peculiar effect on the Kordak: their suppressed spirits have gone *quiet*, complying with the doctrine for the first time. A Kordak False Prophet whose hostage agrees with them is, almost universally, a Kordak False Prophet who has finally said something the hostage wants.",
+            "signatureQuote": {
+              "text": "\"For years I preached against my star's will, and the people believed the struggle. Now my star is silent. I do not know which frightens me more.\"",
+              "speaker": "Orathin the Willing",
+              "context": "A Kordak False Prophet, the morning his suppressed spirit stopped objecting"
+            }
+          },
+          "edgeId": "False Prophet|silath_astril",
+          "advantage": "A declared binding helps contain one psychic surge.",
+          "pairedCost": "Repressed echo pressure increases the same Madness risk.",
+          "condition": {
+            "type": "state",
+            "value": "declared_binding"
+          },
+          "typedEdge": {
+            "className": "False Prophet",
+            "heritageId": "silath_astril",
+            "description": "A declared binding helps contain one psychic surge.",
+            "costDescription": "Repressed echo pressure increases the same Madness risk.",
+            "edge": {
+              "kind": "capability",
+              "unit": "capability",
+              "capability": "contain_psychic_surge_by_binding",
+              "condition": {
+                "type": "state",
+                "value": "declared_binding"
+              }
+            },
+            "cost": {
+              "kind": "risk",
+              "unit": "capability",
+              "capability": "repressed_echo_raises_madness"
+            }
+          },
+          "freeAuthoredCards": [],
+          "implementedConsumerOrNull": "SpellActionBar.handleCastSpell advisory notification on local/manual path only; no edge/cost effect executor established",
+          "executionLevel": "advisory",
+          "evidenceLabel": "AUTHORED",
+          "sources": [
+            {
+              "path": "vtt-react/src/data/classes/falseProphetData.js",
+              "lines": [
+                83
+              ],
+              "sha256": "009c96cc08a93de17b53b393c4f5bc5068dce22e112bdac8fc078f158bfccff6"
+            },
+            {
+              "path": "vtt-react/src/data/heritageEdgeContract.js",
+              "lines": [
+                647
+              ],
+              "sha256": "35fe2d092893a51d081f6009d82a5a0c06579caacb56a1f8e88b5d1955c298b0"
+            }
+          ]
+        }
+      ],
+      "rareRoutes": [
+        {
+          "className": "Apex",
+          "requirementIds": [
+            "sensory_trade",
+            "sensory_training",
+            "bonded_companion"
+          ],
+          "sourceRequired": true,
+          "bodyIncompatibilities": [],
+          "edgeAuthored": false,
+          "evidenceLabel": "CONFIRMED",
+          "source": "getClassHeritageAccess; qualified exceptions require verified/source/every requirement; native method alternatives use methodRequirements"
+        },
+        {
+          "className": "Arcanoneer",
+          "requirementIds": [
+            "elemental_training",
+            "compatible_interface"
+          ],
+          "sourceRequired": true,
+          "bodyIncompatibilities": [],
+          "edgeAuthored": false,
+          "evidenceLabel": "CONFIRMED",
+          "source": "getClassHeritageAccess; qualified exceptions require verified/source/every requirement; native method alternatives use methodRequirements"
+        },
+        {
+          "className": "Berserker",
+          "requirementIds": [
+            "metabolic_induction",
+            "conditioning"
+          ],
+          "sourceRequired": true,
+          "bodyIncompatibilities": [],
+          "edgeAuthored": false,
+          "evidenceLabel": "CONFIRMED",
+          "source": "getClassHeritageAccess; qualified exceptions require verified/source/every requirement; native method alternatives use methodRequirements"
+        },
+        {
+          "className": "Chronarch",
+          "requirementIds": [
+            "temporal_anchor",
+            "calibration_training"
+          ],
+          "sourceRequired": true,
+          "bodyIncompatibilities": [],
+          "edgeAuthored": false,
+          "evidenceLabel": "CONFIRMED",
+          "source": "getClassHeritageAccess; qualified exceptions require verified/source/every requirement; native method alternatives use methodRequirements"
+        },
+        {
+          "className": "Gambit",
+          "requirementIds": [
+            "house_wager",
+            "initiation_survival",
+            "wager_discipline"
+          ],
+          "sourceRequired": true,
+          "bodyIncompatibilities": [],
+          "edgeAuthored": false,
+          "evidenceLabel": "CONFIRMED",
+          "source": "getClassHeritageAccess; qualified exceptions require verified/source/every requirement; native method alternatives use methodRequirements"
+        },
+        {
+          "className": "Inquisitor",
+          "requirementIds": [
+            "barbed_vow",
+            "containment_training"
+          ],
+          "sourceRequired": true,
+          "bodyIncompatibilities": [],
+          "edgeAuthored": false,
+          "evidenceLabel": "CONFIRMED",
+          "source": "getClassHeritageAccess; qualified exceptions require verified/source/every requirement; native method alternatives use methodRequirements"
+        },
+        {
+          "className": "Lunarch",
+          "requirementIds": [
+            "organism_bond",
+            "host_compatibility",
+            "identity_training"
+          ],
+          "sourceRequired": true,
+          "bodyIncompatibilities": [
+            "active_pact_identity_preservation"
+          ],
+          "edgeAuthored": false,
+          "evidenceLabel": "CONFIRMED",
+          "source": "getClassHeritageAccess; qualified exceptions require verified/source/every requirement; native method alternatives use methodRequirements"
+        },
+        {
+          "className": "Martyr",
+          "requirementIds": [
+            "protective_interface",
+            "witness_or_furnace_training"
+          ],
+          "sourceRequired": true,
+          "bodyIncompatibilities": [],
+          "edgeAuthored": false,
+          "evidenceLabel": "CONFIRMED",
+          "source": "getClassHeritageAccess; qualified exceptions require verified/source/every requirement; native method alternatives use methodRequirements"
+        },
+        {
+          "className": "Minstrel",
+          "requirementIds": [
+            "cadence_training",
+            "resonant_medium"
+          ],
+          "sourceRequired": true,
+          "bodyIncompatibilities": [],
+          "edgeAuthored": false,
+          "evidenceLabel": "CONFIRMED",
+          "source": "getClassHeritageAccess; qualified exceptions require verified/source/every requirement; native method alternatives use methodRequirements"
+        },
+        {
+          "className": "Plaguebringer",
+          "requirementIds": [
+            "introduced_culture",
+            "host_compatibility",
+            "cultivation_training"
+          ],
+          "sourceRequired": true,
+          "bodyIncompatibilities": [],
+          "edgeAuthored": false,
+          "evidenceLabel": "CONFIRMED",
+          "source": "getClassHeritageAccess; qualified exceptions require verified/source/every requirement; native method alternatives use methodRequirements"
+        },
+        {
+          "className": "Pyrofiend",
+          "requirementIds": [
+            "breach_fire_exposure",
+            "exposure_survival",
+            "containment_training"
+          ],
+          "sourceRequired": true,
+          "bodyIncompatibilities": [],
+          "edgeAuthored": false,
+          "evidenceLabel": "CONFIRMED",
+          "source": "getClassHeritageAccess; qualified exceptions require verified/source/every requirement; native method alternatives use methodRequirements"
+        },
+        {
+          "className": "Revenant",
+          "requirementIds": [
+            "threshold_transition",
+            "finite_soul_anchor"
+          ],
+          "sourceRequired": true,
+          "bodyIncompatibilities": [],
+          "edgeAuthored": false,
+          "evidenceLabel": "CONFIRMED",
+          "source": "getClassHeritageAccess; qualified exceptions require verified/source/every requirement; native method alternatives use methodRequirements"
+        },
+        {
+          "className": "Shaper",
+          "requirementIds": [
+            "shaping_interface",
+            "transformation_training"
+          ],
+          "sourceRequired": true,
+          "bodyIncompatibilities": [
+            "fixed_body_without_shaping_interface"
+          ],
+          "edgeAuthored": false,
+          "evidenceLabel": "CONFIRMED",
+          "source": "getClassHeritageAccess; qualified exceptions require verified/source/every requirement; native method alternatives use methodRequirements"
+        },
+        {
+          "className": "Spellguard",
+          "requirementIds": [
+            "containment_induction",
+            "compatible_interface",
+            "venting_training"
+          ],
+          "sourceRequired": true,
+          "bodyIncompatibilities": [],
+          "edgeAuthored": false,
+          "evidenceLabel": "CONFIRMED",
+          "source": "getClassHeritageAccess; qualified exceptions require verified/source/every requirement; native method alternatives use methodRequirements"
+        },
+        {
+          "className": "Toxicologist",
+          "requirementIds": [
+            "tolerance_induction",
+            "distillation_training"
+          ],
+          "sourceRequired": true,
+          "bodyIncompatibilities": [],
+          "edgeAuthored": false,
+          "evidenceLabel": "CONFIRMED",
+          "source": "getClassHeritageAccess; qualified exceptions require verified/source/every requirement; native method alternatives use methodRequirements"
+        },
+        {
+          "className": "Warden",
+          "requirementIds": [
+            "graft_surgery",
+            "anatomy_compatibility",
+            "load_training"
+          ],
+          "sourceRequired": true,
+          "bodyIncompatibilities": [
+            "surgery_incompatible_body"
+          ],
+          "edgeAuthored": false,
+          "evidenceLabel": "CONFIRMED",
+          "source": "getClassHeritageAccess; qualified exceptions require verified/source/every requirement; native method alternatives use methodRequirements"
+        }
+      ],
+      "institutions": [
+        {
+          "className": "Harbinger",
+          "name": "The Doom-Choir",
+          "founderState": "Malakor is contemporary; Xyris is a dead practical pioneer",
+          "currentLeaderOrNull": {
+            "name": "<LoreLink termId=\"malakor\">Catastrophe-Reader Malakor the Finite</LoreLink>",
+            "title": "Choir-Prime of the Doom-Arithmetic",
+            "characterization": "A Nordhalla archivist who has spent his life reducing the apocalypse to an equation. He is calm, precise, and absolutely without hope, not despair, which would be an error in the math, but the serene certainty that the equation has only one solution. He leads the Choir from the <LoreLink termId=\"frozen_archive\">Frozen Archive</LoreLink> and considers hope a rounding error."
+          },
+          "headquarters": {
+            "name": "The Reading Room, Frozen Archive (field-work: the Sundrift Vale chaos pockets)",
+            "locationId": "frozen_archive"
+          },
+          "evidenceLabel": "AUTHORED"
+        },
+        {
+          "className": "Animist",
+          "name": "The Silent Throat",
+          "founderState": "Transmitters of an older practice, not three identical accidental discoveries",
+          "currentLeaderOrNull": {
+            "name": "Bayar Wind-Throat",
+            "title": "Last Singer of the Old Route",
+            "characterization": "An Ordu elder who still sings the migration-routes in the old tongue of the Long Before  —  the language that predates the dialect-fracture. Bayar has not spoken a word aloud in forty years; he communicates only through throat-sung overtones, the way the First Singer did. His vocal cords are calcified from decades of channeling ancestors who died before the stars went out. He is the living archive of the oldest form, and he watches the younger traditions drift further from the root with every generation  —  not with anger, but with the patience of someone who knows the dead will correct them eventually."
+          },
+          "headquarters": {
+            "name": "The Sundrift Wind-Shrine (moving camp)",
+            "locationId": "sundrift-vale"
+          },
+          "evidenceLabel": "AUTHORED"
+        },
+        {
+          "className": "Augur",
+          "name": "The Frozen Order of the Elk",
+          "founderState": "Cassia is temporally suspended, not an ordinarily immortal Skald",
+          "currentLeaderOrNull": {
+            "name": "<LoreLink termId=\"skadi-glass-eye\">Archive-Mistress <LoreLink termId=\"skadi-glass-eye\">Skadi Glass-Eye</LoreLink>",
+            "title": "Keeper of the Elk-Rites",
+            "characterization": "<LoreLink termId=\"cassia\">Cassia</LoreLink>'s descendant, separated from her ancestor by nearly three centuries and a title  —  'granddaughter'  —  that the Order uses regardless of actual generational distance, because anyone who learns augury from Cassia's ice-preserved body becomes her heir. Skadi maintains the elk-herds and the ritual calendar, and has presided over the accuracy collapse from 93% to 41% without flinching, at least not where the junior augurs can see."
+          },
+          "headquarters": {
+            "name": "The Frozen Archive",
+            "locationId": "frozen_archive"
+          },
+          "evidenceLabel": "AUTHORED"
+        },
+        {
+          "className": "Crusader",
+          "name": "The Solvan Vigil",
+          "founderState": "Vane is a historical fallen Solari/Solvan knight",
+          "currentLeaderOrNull": {
+            "name": "Hierophant Aethelgard",
+            "title": "High Purger of the Dawn Vigil",
+            "characterization": "An unyielding Solari zealot who treats starlight as a non-negotiable martial law."
+          },
+          "headquarters": {
+            "name": "The Obsidian Citadel",
+            "locationId": "sundale"
+          },
+          "evidenceLabel": "AUTHORED"
+        },
+        {
+          "className": "False Prophet",
+          "name": "The Congregation of the Silence",
+          "founderState": "Li Wei is living and impaired; the current network is not automatically ancient",
+          "currentLeaderOrNull": {
+            "name": "<LoreLink termId=\"mor-vereth\">Cell-Mother Mor-Vereth</LoreLink>",
+            "title": "Weaver of the Congregation",
+            "characterization": "A <LoreLink termId=\"house_morrath\">Mycellan</LoreLink> debtor who heard the Voice through <LoreLink termId=\"li-wei\">Li Wei</LoreLink>'s breathing and built the cell-network around it. She is cold, organized, and genuinely uncertain whether she is leading a liberation movement or steering millions toward something she cannot see. She keeps <LoreLink termId=\"li-wei\">Li Wei</LoreLink> alive because the Voice will not speak through any other throat. She keeps a private ledger  —  Athien-made, contract-grade  —  in which she records every cell-member who has died following her instructions. The ledger is thicker than any she kept during her debt-collection years. She updates it on the last night of every month, alone, by candlelight. She has never shown it to anyone."
+          },
+          "headquarters": {
+            "name": "The Crater of the First Silence (cell-network, no fixed seat)",
+            "locationId": "starfall_vale"
+          },
+          "evidenceLabel": "AUTHORED"
+        }
+      ],
+      "conflicts": [
+        {
+          "topic": "scope and stale prose",
+          "conflictingClaims": "Pupilless Silver Eyes and uniform conqueror/surveillance prose conflict with corrected organic heritage. Suppressed memory does not grant all future knowledge.",
+          "status": "UNRESOLVED",
+          "recommendedNextAction": "Use current registry for access and bounded typed edge/provenance for proposals; preserve raw claims for later canon correction."
+        }
+      ],
+      "restorationRecommendation": {
+        "evidenceLabel": "PROPOSED",
+        "summary": "No native among seven yet. Breach/echo expertise can support qualified Chaos Weaver without declaring all Kordak chaos casters.",
+        "sourceEvidence": [
+          {
+            "path": "vtt-react/src/data/classes/animistData.js",
+            "lines": [
+              166
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "heritageId": "kethrin_fexric",
+      "displayName": "Brasskin",
+      "raceId": "fexrick",
+      "nativeClasses": [
+        "Arcanoneer",
+        "Chronarch",
+        "Pyrofiend",
+        "Spellguard",
+        "Warden"
+      ],
+      "retiringNativeClasses": [],
+      "culture": {
+        "evidenceLabel": "AUTHORED",
+        "summary": "Brasskin certified engineering, inherited maintenance songs, proprietary guilds and turbine crisis.",
+        "source": "vtt-react/src/data/races/fexrick.js"
+      },
+      "bodyInterfaces": [
+        {
+          "stateOrProperty": "Compatible apparatus/induction/calibration matters; cyber-grafts do not automatically enable every class.",
+          "evidenceLabel": "AUTHORED",
+          "source": "vtt-react/src/data/races/fexrick.js"
+        }
+      ],
+      "pairings": [
+        {
+          "className": "Arcanoneer",
+          "acquisitionRequirements": [
+            "elemental_training",
+            "compatible_interface"
+          ],
+          "methodOrNull": "engineered",
+          "rawRestrictions": {
+            "allowedSubraces": [
+              "velun_neth",
+              "kethrin_fexric",
+              "drall_fexric",
+              "vashir_astril"
+            ],
+            "hardBlocks": [
+              "human",
+              "vreken",
+              "skald_human",
+              "solari",
+              "mimir",
+              "groven",
+              "myrathil",
+              "florae",
+              "kessen_neth",
+              "drun_neth",
+              "silath_astril"
+            ],
+            "narrativeUnlock": false,
+            "justification": "Elemental weaving demands structured, high-stakes combination work. The Athien originated the craft as contract-syntax under the Grand Nomenclature; the Fex adapted it through precision engineering in the Underground Proving Grounds (Brasskin certified, Alchemite salvage); the Lumian reached it independently through cosmic starlight cycles. Weft (obligation-web/Gambit) and Riven (pending own story) are excluded for now."
+          },
+          "effectiveNativeAccess": {
+            "status": "normal-tradition",
+            "selectable": true,
+            "className": "Arcanoneer",
+            "heritageId": "kethrin_fexric",
+            "requirements": [
+              "elemental_training",
+              "compatible_interface"
+            ],
+            "reason": "Elemental grammar training with a compatible contract, engineered or stellar interface",
+            "method": "engineered"
+          },
+          "rawVariantPresent": true,
+          "variant": {
+            "subraceName": "Brasskin - Fex",
+            "title": "The Gear-Weaver",
+            "reframe": "Where the Athien file legal documents with Morvane, the Brasskin of the Cragjaw Peaks treat elemental combination as precision engineering. Each sphere is a calibrated component; each weave is a mechanism with documented tolerances, maintenance schedules, and guild-certified safety parameters. A Brasskin Gear-Weaver carries a toolkit of elemental regulators  —  brass attenuators, thermal sinks, conductive relays  —  and approaches the combination matrix the way a siege-engineer approaches a ballista: every interaction mapped, every failure mode accounted for. They can only execute guild-certified combinations, which makes them perfectly reliable within known parameters but utterly incapable of improvisation. When the manual says Fire+Rime produces Steam at 15psi, it produces Steam at exactly 15psi. Every time. They learned the craft in the Underground Proving Grounds, where Athien theorists dictated constraints from behind leaded glass while Fex engineers handled the hot metal, leaking gaskets, and sputtering coolant lines. The Brasskin hold the Athien line that magic is a machine with strict tolerances - a misfire means the caster was undisciplined - but they execute it as engineers: rotary chassis, spring-loaded selector pins, glass ampoules. Pressurized pragmatism: channel the surge through valves and combustion, cylinder locked, clear the blast radius.",
+            "signatureAbility": {
+              "name": "Calibrated Matrix",
+              "description": "The Gear-Weaver's regulator-toolkit enforces standardized elemental ratios. Guild-certified combinations never backfire  —  the elemental reaction is mechanically constrained to a safe output range. In exchange, uncertified combinations are physically impossible: the attenuators simply will not engage for non-standard pairings."
+            },
+            "currentCrisisAngle": "The Canopy-Ledger fracture is, to a Brasskin Gear-Weaver, an engineering problem. Half the Ledger demands magical warfare? That is an untested load case. The other half demands dissolution? That is catastrophic structural failure. The Brasskin guild-masters have dispatched a delegation to Atropolis not to take sides, but to run the calculations both factions refuse to do. They expect to deliver a report. They do not expect anyone to read it.",
+            "signatureQuote": {
+              "text": "\"You call it improvisation. I call it operating outside rated tolerances. When your weave fails, you learn a lesson. When mine fails, I void my guild warranty  —  and my guild warranty is the only thing between me and a very large crater.\"",
+              "speaker": "Brasskin Guild-Master",
+              "context": "Response to a Athien Arcanoneer who suggested \"trying something new\" during a joint expedition"
+            }
+          },
+          "edgeId": "Arcanoneer|kethrin_fexric",
+          "advantage": "Proving Grounds certified regulators give predictable operation of a rated recipe.",
+          "pairedCost": "The governor limits modifications; certification is a method/device rule.",
+          "condition": {
+            "type": "equipment",
+            "value": "certified_regulator"
+          },
+          "typedEdge": {
+            "className": "Arcanoneer",
+            "heritageId": "kethrin_fexric",
+            "description": "Proving Grounds certified regulators give predictable operation of a rated recipe.",
+            "costDescription": "The governor limits modifications; certification is a method/device rule.",
+            "edge": {
+              "kind": "capability",
+              "unit": "capability",
+              "capability": "predictable_rated_recipe",
+              "condition": {
+                "type": "equipment",
+                "value": "certified_regulator"
+              }
+            },
+            "cost": {
+              "kind": "obligation",
+              "unit": "capability",
+              "capability": "governor_limits_modifications"
+            }
+          },
+          "freeAuthoredCards": [],
+          "implementedConsumerOrNull": "SpellActionBar.handleCastSpell advisory notification on local/manual path only; no edge/cost effect executor established",
+          "executionLevel": "advisory",
+          "evidenceLabel": "AUTHORED",
+          "sources": [
+            {
+              "path": "vtt-react/src/data/classes/arcanoneerData.js",
+              "lines": [
+                84
+              ],
+              "sha256": "dd3767309d6989999758f169b7821b589b8e66e2488df288d4e6782b547a57d7"
+            },
+            {
+              "path": "vtt-react/src/data/heritageEdgeContract.js",
+              "lines": [
+                182
+              ],
+              "sha256": "35fe2d092893a51d081f6009d82a5a0c06579caacb56a1f8e88b5d1955c298b0"
+            }
+          ]
+        },
+        {
+          "className": "Chronarch",
+          "acquisitionRequirements": [
+            "temporal_anchor",
+            "calibration_training"
+          ],
+          "methodOrNull": null,
+          "rawRestrictions": {
+            "allowedSubraces": [
+              "kethrin_fexric",
+              "ithran_groven",
+              "tessen_human",
+              "velun_neth"
+            ],
+            "hardBlocks": [
+              "thalren_human",
+              "skald_human",
+              "merryn_human",
+              "ordan_human",
+              "astril",
+              "vreken",
+              "florae",
+              "myrathil",
+              "mimir"
+            ],
+            "narrativeUnlock": true,
+            "justification": "Requires temporal-suspension training only available in Cragjaw. Outsiders have never learned the technique, it requires Fex gear-craft and Groven bone-knowledge."
+          },
+          "effectiveNativeAccess": {
+            "status": "normal-tradition",
+            "selectable": true,
+            "className": "Chronarch",
+            "heritageId": "kethrin_fexric",
+            "requirements": [
+              "temporal_anchor",
+              "calibration_training"
+            ],
+            "reason": "Actual anchor installation and sustained calibration"
+          },
+          "rawVariantPresent": true,
+          "variant": {
+            "subraceName": "Brasskin",
+            "title": "The Gear-Stitcher",
+            "reframe": "The guild-bound <LoreLink termId=\"fexrick\">Brasskin</LoreLink> built the gear-craft half of Nesta's engine, and they have never stopped believing the Chronarch tradition is, fundamentally, an engineering discipline that happens to be embedded in a person. A Brasskin Chronarch treats time as a mechanism with replaceable parts, and treats their own chest-engine as a machine that, with sufficient maintenance, need not kill them. (It still kills them.)",
+            "signatureAbility": {
+              "name": "Gear-Swap",
+              "description": "Temporal effects are modulated by physically swapping gear-configurations in the chest-engine, a maintenance action that briefly destabilizes the user but allows re-tuning of a temporal effect mid-cast. The Brasskin alone can hot-swap without lethal feedback."
+            },
+            "currentCrisisAngle": "Nesta is disappearing, and the Brasskin read this as a *maintainable failure*, a fault in the oldest engine that a sufficiently skilled guild-master could, in theory, repair. The Brasskin guilds have begun the most ambitious repair attempt in history: rebuilding Nesta's engine from recorded schematics, hoping that if the machine persists, its inventor will too.",
+            "signatureQuote": {
+              "text": "\"Time is a gearbox. Nesta is a gearbox. Both can be rebuilt. The only question is whether we have the parts, and we have always had the parts.\"",
+              "speaker": "Guild-Master Fex-Torren",
+              "context": "A Brasskin engineer, unveiling the reconstruction schematics"
+            }
+          },
+          "edgeId": "Chronarch|kethrin_fexric",
+          "advantage": "Nesta's calibrated gear interface retunes a prepared local effect.",
+          "pairedCost": "The maintenance interval exposes and destabilizes the caster.",
+          "condition": {
+            "type": "equipment",
+            "value": "calibrated_gear_interface"
+          },
+          "typedEdge": {
+            "className": "Chronarch",
+            "heritageId": "kethrin_fexric",
+            "description": "Nesta's calibrated gear interface retunes a prepared local effect.",
+            "costDescription": "The maintenance interval exposes and destabilizes the caster.",
+            "edge": {
+              "kind": "capability",
+              "unit": "capability",
+              "capability": "retune_prepared_local_effect",
+              "condition": {
+                "type": "equipment",
+                "value": "calibrated_gear_interface"
+              }
+            },
+            "cost": {
+              "kind": "vulnerability",
+              "unit": "capability",
+              "capability": "maintenance_interval_exposure"
+            }
+          },
+          "freeAuthoredCards": [],
+          "implementedConsumerOrNull": "SpellActionBar.handleCastSpell advisory notification on local/manual path only; no edge/cost effect executor established",
+          "executionLevel": "advisory",
+          "evidenceLabel": "AUTHORED",
+          "sources": [
+            {
+              "path": "vtt-react/src/data/classes/chronarchData.js",
+              "lines": [
+                62
+              ],
+              "sha256": "3dfa1ddc135e08916e1f46dcfb5731ea1e020100d1877e0a2efdbd2ce31754bf"
+            },
+            {
+              "path": "vtt-react/src/data/heritageEdgeContract.js",
+              "lines": [
+                203
+              ],
+              "sha256": "35fe2d092893a51d081f6009d82a5a0c06579caacb56a1f8e88b5d1955c298b0"
+            }
+          ]
+        },
+        {
+          "className": "Pyrofiend",
+          "acquisitionRequirements": [
+            "breach_fire_exposure",
+            "exposure_survival",
+            "containment_training"
+          ],
+          "methodOrNull": null,
+          "rawRestrictions": {
+            "allowedSubraces": [
+              "korr_solari",
+              "thrask_solari",
+              "kethrin_fexric"
+            ],
+            "hardBlocks": [
+              "neth",
+              "mimir",
+              "myrathil",
+              "florae"
+            ],
+            "narrativeUnlock": true,
+            "justification": "Requires a body that survived the cosmic collision at Emberspire, or a culture that treats an internal furnace as a manageable engineering hazard. Two heritages carry it: the Solari, who keep the Vigil of the buried star and were standing in the cloisters when the caldera blew, and the Brasskin refinery-clans, who stabilized the charge with alchemical survivalism and call it chemistry. Cold-adapted Skald biology rejects the fire, and no Ordu or Mycellan would knowingly carry it."
+          },
+          "effectiveNativeAccess": {
+            "status": "normal-tradition",
+            "selectable": true,
+            "className": "Pyrofiend",
+            "heritageId": "kethrin_fexric",
+            "requirements": [
+              "breach_fire_exposure",
+              "exposure_survival",
+              "containment_training"
+            ],
+            "reason": "Real compatible breach-fire exposure, survival and containment training"
+          },
+          "rawVariantPresent": true,
+          "variant": {
+            "subraceName": "Brasskin",
+            "title": "The Sealed Alembic",
+            "reframe": "Deep beneath the fault lines, clans of <LoreLink termId=\"fexrick\">Brasskin</LoreLink> operated sealed geothermal refineries, harvesting primordial mineral heat and deep sulfur salts. When the Emberspire detonation sent shockwaves through the planet's faults, the vaults ruptured and the magma came in void-tainted. The artisans did not die. They improvised the way their guilds had always improvised: they drank reactive mineral salts, surgically embedded cooling heat-sinks along their spines, and stabilized their own chemistry by hand. A Brasskin Pyrofiend treats the furnace as a severe engineering hazard, not a spiritual failing. Their body is a volatile glass alembic, pressurized boiler included, and their descent is calculated, rhythmic, and strictly governed by thermal thresholds.",
+            "signatureAbility": {
+              "name": "Thermal-Governor",
+              "description": "The Inferno Veil ascends in measured steps for a Brasskin: their cooling-loop actions vent heat through grafted valve-work, converting the strain into stored pressure for one controlled release. They cannot be *forced* up the Rings by pain or panic, but every vent costs structural integrity, and the alembic body cracks a little more each time."
+            },
+            "currentCrisisAngle": "The Brasskin Pyrofiends are watching two ledgers at once: Scathrach's debt-call, and the dying First Turbine beneath Frostmaw. Their heat-sinks are guild-made, the guilds are hoarding the maintenance songs, and quiet offers have begun arriving from the Deep Alchemists, sanctuary and parts in exchange for \"study\". Some Brasskin Pyrofiends have started to wonder whether the refinery vaults that survived the shockwave were *meant* to survive it, and whether their ancestors were selected for something the same way the Solari were.",
+            "signatureQuote": {
+              "text": "\"The boiler holds, so I hold. I have run hotter than this on purpose for pay. If the Sovereign wants my body, it will have to file the requisition with the guild first.\"",
+              "speaker": "Alembic-Master Kess-Ferrin",
+              "context": "A Brasskin Pyrofiend, monitoring her own pressure valves before the Final Convocation"
+            }
+          },
+          "edgeId": "Pyrofiend|kethrin_fexric",
+          "advantage": "Mineral stabilization and heat-sinks make a limited vent predictable through a prepared governor.",
+          "pairedCost": "Mana and structural strain with maintenance; no permanent immunity to forced ascent.",
+          "condition": {
+            "type": "equipment",
+            "value": "prepared_governor"
+          },
+          "typedEdge": {
+            "className": "Pyrofiend",
+            "heritageId": "kethrin_fexric",
+            "description": "Mineral stabilization and heat-sinks make a limited vent predictable through a prepared governor.",
+            "costDescription": "Mana and structural strain with maintenance; no permanent immunity to forced ascent.",
+            "edge": {
+              "kind": "capability",
+              "unit": "capability",
+              "capability": "prepared_governor_predictable_vent",
+              "condition": {
+                "type": "equipment",
+                "value": "prepared_governor"
+              }
+            },
+            "cost": {
+              "kind": "obligation",
+              "unit": "capability",
+              "capability": "mana_structural_strain_maintenance"
+            }
+          },
+          "freeAuthoredCards": [],
+          "implementedConsumerOrNull": "SpellActionBar.handleCastSpell advisory notification on local/manual path only; no edge/cost effect executor established",
+          "executionLevel": "advisory",
+          "evidenceLabel": "AUTHORED",
+          "sources": [
+            {
+              "path": "vtt-react/src/data/classes/pyrofiendData.js",
+              "lines": [
+                83
+              ],
+              "sha256": "39ed932e418dc90b6d099a3c639afd49bf259c9df40eed5e5e0980b1343ce080"
+            },
+            {
+              "path": "vtt-react/src/data/heritageEdgeContract.js",
+              "lines": [
+                357
+              ],
+              "sha256": "35fe2d092893a51d081f6009d82a5a0c06579caacb56a1f8e88b5d1955c298b0"
+            }
+          ]
+        },
+        {
+          "className": "Spellguard",
+          "acquisitionRequirements": [
+            "containment_induction",
+            "compatible_interface",
+            "venting_training"
+          ],
+          "methodOrNull": null,
+          "rawRestrictions": {
+            "allowedSubraces": [
+              "velun_neth",
+              "thalren_human",
+              "korr_solari",
+              "thrask_solari"
+            ],
+            "hardBlocks": [
+              "myrathil",
+              "ordan_human",
+              "groven",
+              "florae"
+            ],
+            "narrativeUnlock": true,
+            "justification": "Requires access to Emberspire's volcanic forge-tradition and Sol's Breath's residual energy. The Athien provide precise magical cancellation. Tallyn provide anti-Wyrd paranoia."
+          },
+          "effectiveNativeAccess": {
+            "status": "normal-tradition",
+            "selectable": true,
+            "className": "Spellguard",
+            "heritageId": "kethrin_fexric",
+            "requirements": [
+              "containment_induction",
+              "compatible_interface",
+              "venting_training"
+            ],
+            "reason": "Actual induction, compatible apparatus/tissue adaptation and taught venting"
+          },
+          "rawVariantPresent": true,
+          "variant": {
+            "subraceName": "Brasskin",
+            "title": "The Regulator",
+            "reframe": "The Brasskin build certified shield-regulators, catching a spell and venting it within documented tolerances. Predictable, rated, and rigid: a regulator catches exactly what the spec says it can.",
+            "signatureAbility": {
+              "name": "Shield Regulator",
+              "description": "Your certified shield-regulator operates predictably within rated tolerances; equipment ratings limit the catch."
+            },
+            "currentCrisisAngle": "Ambient magic is exceeding the rated tolerance of every regulator in the guild vaults, and the engineers are being asked to certify what they cannot.",
+            "signatureQuote": {
+              "text": "My regulator catches what the spec says it catches. The spec is now the thing that is failing.",
+              "speaker": "Regulator-Master Gul",
+              "context": "A Brasskin Spellguard at a saturated shield array"
+            }
+          },
+          "edgeId": "Spellguard|kethrin_fexric",
+          "advantage": "Aegis apparatus collaboration gives predictable shield-regulator operation.",
+          "pairedCost": "Equipment rating/maintenance limits; not all-spell immunity.",
+          "condition": {
+            "type": "equipment",
+            "value": "certified_regulator"
+          },
+          "typedEdge": {
+            "className": "Spellguard",
+            "heritageId": "kethrin_fexric",
+            "description": "Aegis apparatus collaboration gives predictable shield-regulator operation.",
+            "costDescription": "Equipment rating/maintenance limits; not all-spell immunity.",
+            "edge": {
+              "kind": "capability",
+              "unit": "capability",
+              "capability": "predictable_shield_regulator",
+              "condition": {
+                "type": "equipment",
+                "value": "certified_regulator"
+              }
+            },
+            "cost": {
+              "kind": "obligation",
+              "unit": "capability",
+              "capability": "equipment_rating_maintenance"
+            }
+          },
+          "freeAuthoredCards": [],
+          "implementedConsumerOrNull": "SpellActionBar.handleCastSpell advisory notification on local/manual path only; no edge/cost effect executor established",
+          "executionLevel": "advisory",
+          "evidenceLabel": "AUTHORED",
+          "sources": [
+            {
+              "path": "vtt-react/src/data/classes/spellguardData.js",
+              "lines": [
+                50
+              ],
+              "sha256": "4978787826e7d73a6ac08beb254b42df2c112d53b9e98d79d67df52c6fb6c838"
+            },
+            {
+              "path": "vtt-react/src/data/heritageEdgeContract.js",
+              "lines": [
+                456
+              ],
+              "sha256": "35fe2d092893a51d081f6009d82a5a0c06579caacb56a1f8e88b5d1955c298b0"
+            }
+          ]
+        },
+        {
+          "className": "Warden",
+          "acquisitionRequirements": [
+            "graft_surgery",
+            "anatomy_compatibility",
+            "load_training"
+          ],
+          "methodOrNull": null,
+          "rawRestrictions": {
+            "allowedSubraces": [
+              "morgh_groven",
+              "ithran_groven",
+              "drall_fexric",
+              "kethrin_fexric",
+              "skald_human",
+              "clean_vreken",
+              "marked_vreken"
+            ],
+            "hardBlocks": [
+              "merryn_human",
+              "ordan_human",
+              "astril",
+              "solari"
+            ],
+            "narrativeUnlock": true,
+            "justification": "Requires access to the chain-graft surgical tradition only available in Frostmaw Holdfast and the Frozen Archive. Groven invented the technique. Mycellan adopted it through proximity. Fex Alchemite learned it through guild-surgical exchange. Non-listed races must undergo the surgical graft, which few cultures accept, Weft lack the martial-surgical tradition, Ordu are nomadic, Solari physiology rejects the cold-iron threading."
+          },
+          "effectiveNativeAccess": {
+            "status": "normal-tradition",
+            "selectable": true,
+            "className": "Warden",
+            "heritageId": "kethrin_fexric",
+            "requirements": [
+              "graft_surgery",
+              "anatomy_compatibility",
+              "load_training"
+            ],
+            "reason": "Actual graft surgery, compatible anatomy and load training"
+          },
+          "rawVariantPresent": true,
+          "variant": {
+            "subraceName": "Brasskin - Fex",
+            "title": "The Guild-Jailer",
+            "reframe": "The guild-bound <LoreLink termId=\"fexrick\">Brasskin</LoreLink>, the engineering heart of the known world, practice the Warden art as a *guild discipline*, a specialization with standards, certifications, and chain-graft specifications filed in the guild-archives. A Brasskin Warden is the tradition's most *consistent* variant: every graft performed to spec, every tether measured, every hold rated for load. Reliability over flair.",
+            "signatureAbility": {
+              "name": "Spec-Graft",
+              "description": "Chain-grafts are performed to exacting guild-specification, producing the most *reliable* tethers in the tradition, predictable load-ratings, known failure-points, documented maintenance schedules. The Brasskin never surprise themselves, which is both their strength (no catastrophic misjudgments) and their limit (no improvisation under novel threats)."
+            },
+            "currentCrisisAngle": "The chardalyn-alloy crisis has split the Brasskin guilds down the middle: half have *certified* chardalyn chains as spec-compliant (dismissing the madness as \"operational friction\"), half have *condemned* them as a violation of guild safety-standards. The Brasskin Warden guilds are in open regulatory schism, and the documentation war is being fought with more ferocity than the actual abominations.",
+            "signatureQuote": {
+              "text": "\"My graft is filed. My tension is rated. My maintenance is logged. If the chain fails, the guild reimburses. If the abomination escapes, the guild does not. I have always preferred the chain's honesty.\"",
+              "speaker": "Guild-Warden Fex-Korren",
+              "context": "A Brasskin Warden, filing a chain-fatigue report before pursuing the escapee"
+            }
+          },
+          "edgeId": "Warden|kethrin_fexric",
+          "advantage": "You hold a certified chain at a documented load-rating.",
+          "pairedCost": "Ratings and equipment geometry restrict improvisation.",
+          "condition": {
+            "type": "equipment",
+            "value": "certified_chain"
+          },
+          "typedEdge": {
+            "className": "Warden",
+            "heritageId": "kethrin_fexric",
+            "description": "You hold a certified chain at a documented load-rating.",
+            "costDescription": "Ratings and equipment geometry restrict improvisation.",
+            "edge": {
+              "kind": "capability",
+              "unit": "capability",
+              "capability": "rated_tension_under_load",
+              "condition": {
+                "type": "equipment",
+                "value": "certified_chain"
+              }
+            },
+            "cost": {
+              "kind": "obligation",
+              "unit": "capability",
+              "capability": "ratings_restrict_improvisation"
+            }
+          },
+          "freeAuthoredCards": [],
+          "implementedConsumerOrNull": "SpellActionBar.handleCastSpell advisory notification on local/manual path only; no edge/cost effect executor established",
+          "executionLevel": "advisory",
+          "evidenceLabel": "AUTHORED",
+          "sources": [
+            {
+              "path": "vtt-react/src/data/classes/wardenData.js",
+              "lines": [
+                124
+              ],
+              "sha256": "e3ea90b6080ef3e05568ddec96d9e79b74719b0e4b2a8f4392be25c7845a616b"
+            },
+            {
+              "path": "vtt-react/src/data/heritageEdgeContract.js",
+              "lines": [
+                745
+              ],
+              "sha256": "35fe2d092893a51d081f6009d82a5a0c06579caacb56a1f8e88b5d1955c298b0"
+            }
+          ]
+        }
+      ],
+      "rareRoutes": [
+        {
+          "className": "Animist",
+          "requirementIds": [
+            "spirit_anchor",
+            "communion_apprenticeship"
+          ],
+          "sourceRequired": true,
+          "bodyIncompatibilities": [],
+          "edgeAuthored": false,
+          "evidenceLabel": "CONFIRMED",
+          "source": "getClassHeritageAccess; qualified exceptions require verified/source/every requirement; native method alternatives use methodRequirements"
+        },
+        {
+          "className": "Apex",
+          "requirementIds": [
+            "sensory_trade",
+            "sensory_training",
+            "bonded_companion"
+          ],
+          "sourceRequired": true,
+          "bodyIncompatibilities": [],
+          "edgeAuthored": false,
+          "evidenceLabel": "CONFIRMED",
+          "source": "getClassHeritageAccess; qualified exceptions require verified/source/every requirement; native method alternatives use methodRequirements"
+        },
+        {
+          "className": "Augur",
+          "requirementIds": [
+            "divination_training",
+            "divination_focus"
+          ],
+          "sourceRequired": true,
+          "bodyIncompatibilities": [],
+          "edgeAuthored": false,
+          "evidenceLabel": "CONFIRMED",
+          "source": "getClassHeritageAccess; qualified exceptions require verified/source/every requirement; native method alternatives use methodRequirements"
+        },
+        {
+          "className": "Berserker",
+          "requirementIds": [
+            "metabolic_induction",
+            "conditioning"
+          ],
+          "sourceRequired": true,
+          "bodyIncompatibilities": [],
+          "edgeAuthored": false,
+          "evidenceLabel": "CONFIRMED",
+          "source": "getClassHeritageAccess; qualified exceptions require verified/source/every requirement; native method alternatives use methodRequirements"
+        },
+        {
+          "className": "Crusader",
+          "requirementIds": [
+            "consecrated_relic",
+            "interface_training"
+          ],
+          "sourceRequired": true,
+          "bodyIncompatibilities": [],
+          "edgeAuthored": false,
+          "evidenceLabel": "CONFIRMED",
+          "source": "getClassHeritageAccess; qualified exceptions require verified/source/every requirement; native method alternatives use methodRequirements"
+        },
+        {
+          "className": "False Prophet",
+          "requirementIds": [
+            "channel_encounter",
+            "link_training"
+          ],
+          "sourceRequired": true,
+          "bodyIncompatibilities": [],
+          "edgeAuthored": false,
+          "evidenceLabel": "CONFIRMED",
+          "source": "getClassHeritageAccess; qualified exceptions require verified/source/every requirement; native method alternatives use methodRequirements"
+        },
+        {
+          "className": "Gambit",
+          "requirementIds": [
+            "house_wager",
+            "initiation_survival",
+            "wager_discipline"
+          ],
+          "sourceRequired": true,
+          "bodyIncompatibilities": [],
+          "edgeAuthored": false,
+          "evidenceLabel": "CONFIRMED",
+          "source": "getClassHeritageAccess; qualified exceptions require verified/source/every requirement; native method alternatives use methodRequirements"
+        },
+        {
+          "className": "Harbinger",
+          "requirementIds": [
+            "entropy_study",
+            "field_induction"
+          ],
+          "sourceRequired": true,
+          "bodyIncompatibilities": [],
+          "edgeAuthored": false,
+          "evidenceLabel": "CONFIRMED",
+          "source": "getClassHeritageAccess; qualified exceptions require verified/source/every requirement; native method alternatives use methodRequirements"
+        },
+        {
+          "className": "Inquisitor",
+          "requirementIds": [
+            "barbed_vow",
+            "containment_training"
+          ],
+          "sourceRequired": true,
+          "bodyIncompatibilities": [],
+          "edgeAuthored": false,
+          "evidenceLabel": "CONFIRMED",
+          "source": "getClassHeritageAccess; qualified exceptions require verified/source/every requirement; native method alternatives use methodRequirements"
+        },
+        {
+          "className": "Lunarch",
+          "requirementIds": [
+            "organism_bond",
+            "host_compatibility",
+            "identity_training"
+          ],
+          "sourceRequired": true,
+          "bodyIncompatibilities": [
+            "active_pact_identity_preservation"
+          ],
+          "edgeAuthored": false,
+          "evidenceLabel": "CONFIRMED",
+          "source": "getClassHeritageAccess; qualified exceptions require verified/source/every requirement; native method alternatives use methodRequirements"
+        },
+        {
+          "className": "Martyr",
+          "requirementIds": [
+            "protective_interface",
+            "witness_or_furnace_training"
+          ],
+          "sourceRequired": true,
+          "bodyIncompatibilities": [],
+          "edgeAuthored": false,
+          "evidenceLabel": "CONFIRMED",
+          "source": "getClassHeritageAccess; qualified exceptions require verified/source/every requirement; native method alternatives use methodRequirements"
+        },
+        {
+          "className": "Minstrel",
+          "requirementIds": [
+            "cadence_training",
+            "resonant_medium"
+          ],
+          "sourceRequired": true,
+          "bodyIncompatibilities": [],
+          "edgeAuthored": false,
+          "evidenceLabel": "CONFIRMED",
+          "source": "getClassHeritageAccess; qualified exceptions require verified/source/every requirement; native method alternatives use methodRequirements"
+        },
+        {
+          "className": "Plaguebringer",
+          "requirementIds": [
+            "introduced_culture",
+            "host_compatibility",
+            "cultivation_training"
+          ],
+          "sourceRequired": true,
+          "bodyIncompatibilities": [],
+          "edgeAuthored": false,
+          "evidenceLabel": "CONFIRMED",
+          "source": "getClassHeritageAccess; qualified exceptions require verified/source/every requirement; native method alternatives use methodRequirements"
+        },
+        {
+          "className": "Revenant",
+          "requirementIds": [
+            "threshold_transition",
+            "finite_soul_anchor"
+          ],
+          "sourceRequired": true,
+          "bodyIncompatibilities": [],
+          "edgeAuthored": false,
+          "evidenceLabel": "CONFIRMED",
+          "source": "getClassHeritageAccess; qualified exceptions require verified/source/every requirement; native method alternatives use methodRequirements"
+        },
+        {
+          "className": "Shaper",
+          "requirementIds": [
+            "shaping_interface",
+            "transformation_training"
+          ],
+          "sourceRequired": true,
+          "bodyIncompatibilities": [
+            "fixed_body_without_shaping_interface"
+          ],
+          "edgeAuthored": false,
+          "evidenceLabel": "CONFIRMED",
+          "source": "getClassHeritageAccess; qualified exceptions require verified/source/every requirement; native method alternatives use methodRequirements"
+        },
+        {
+          "className": "Toxicologist",
+          "requirementIds": [
+            "tolerance_induction",
+            "distillation_training"
+          ],
+          "sourceRequired": true,
+          "bodyIncompatibilities": [],
+          "edgeAuthored": false,
+          "evidenceLabel": "CONFIRMED",
+          "source": "getClassHeritageAccess; qualified exceptions require verified/source/every requirement; native method alternatives use methodRequirements"
+        }
+      ],
+      "institutions": [
+        {
+          "className": "Arcanoneer",
+          "name": "The Canopy-Ledger",
+          "founderState": "Valerius has an exceptional Contract/Heart-Vault state; Vaelis is a distinct historical female negotiator",
+          "currentLeaderOrNull": {
+            "name": "<LoreLink termId=\"vel-otharen\">Ledger-Prime Vel-Otharen</LoreLink>",
+            "title": "Senior Signatory of the Canopy-Ledger",
+            "characterization": "The eldest active Arcanoneer, whose body is more Mnemonic Shard than flesh. He has not spoken an unplanned word in thirty years, every sentence pre-filed, every utterance a legal instrument. He believes the Athien Contingency Protocol dispute can be resolved by arbitration. He is almost certainly wrong, and he knows it."
+          },
+          "headquarters": {
+            "name": "The Heart-Vault, Atropolis",
+            "locationId": "atropolis",
+            "description": "The Heart-Vault is not a chamber  —  it is the living ironwood at Atropolis's core, a hollow grown rather than carved, its walls lined with memory-glass panels that record every clause ever filed. The First Contract is visible through the heartwood like a fossil in amber. The air hums at a frequency that makes teeth ache."
+          },
+          "evidenceLabel": "AUTHORED"
+        },
+        {
+          "className": "Chronarch",
+          "name": "The Frostmaw Conclave",
+          "founderState": "Nesta is an exceptional fading temporal anchor",
+          "currentLeaderOrNull": {
+            "name": "<LoreLink termId=\"fex-vestara\">Conclave-Prime Fex-Vestara</LoreLink>",
+            "title": "Keeper of the Reconstruction Schematics",
+            "characterization": "A guild-bound <LoreLink termId=\"fexrick\">Brasskin</LoreLink> engineer who refuses to accept that <LoreLink termId=\"nesta\">Nesta</LoreLink>'s disappearance is unpreventable. She has spent six years rebuilding <LoreLink termId=\"nesta\">Nesta</LoreLink>'s original engine from recorded schematics, arguing that if the machine persists, its inventor will too. The other Conclave members consider this either genius or grief."
+          },
+          "headquarters": {
+            "name": "Frostmaw Holdfast",
+            "locationId": "frostmaw_holdfast"
+          },
+          "evidenceLabel": "AUTHORED"
+        },
+        {
+          "className": "Pyrofiend",
+          "name": "The Ashen Communion",
+          "founderState": "Scathrach opposes Keth but remains predatory; opposition is not benevolence",
+          "currentLeaderOrNull": {
+            "name": "<LoreLink termId=\"sol-vareths\">Last-Ember Sol-Vareths</LoreLink>",
+            "title": "The Most-Converted",
+            "characterization": "The oldest living Pyrofiend, more char-vessel than flesh, his bones visible through translucent magma-skin. He leads only by virtue of having survived the longest, and he leads nothing so much as the countdown. He has calculated the exact day Scathrach will finish converting him, and he marks it on a calendar of scar-tissue. He is serene, terrifying, and entirely resigned."
+          },
+          "headquarters": {
+            "name": "The Obsidian Cavern, beneath Emberspire",
+            "locationId": "emberspire"
+          },
+          "evidenceLabel": "AUTHORED"
+        },
+        {
+          "className": "Spellguard",
+          "name": "The Aegis",
+          "founderState": "Damon rejects uncontrolled/unventable intake, not every absorption",
+          "currentLeaderOrNull": {
+            "name": "<LoreLink termId=\"thrak-damos\">Bulwark-Captain Thrak-Damos</LoreLink>",
+            "title": "Warden of the Silence-Scars",
+            "characterization": "A Anhur veteran whose forearms are latticed with absorbed-magic scars that glow through his sleeves. He leads the Aegis from the forge-keeps and enforces <LoreLink termId=\"damon\">Damon</LoreLink>'s method with drill-sergeant discipline. He is a pragmatist who is watching his entire engineering discipline fail against a threat, ambient magic with no structure, that <LoreLink termId=\"damon\">Damon</LoreLink> never imagined."
+          },
+          "headquarters": {
+            "name": "The Shield-Forge Keeps, Emberspire",
+            "locationId": "emberspire"
+          },
+          "evidenceLabel": "AUTHORED"
+        },
+        {
+          "className": "Warden",
+          "name": "The Bound",
+          "founderState": "Alaric has exceptional regenerative/graft-supported endurance; later masters can train initiates",
+          "currentLeaderOrNull": {
+            "name": "<LoreLink termId=\"alaric\">Alaric the Law-Keeper</LoreLink>",
+            "title": "The First Bound",
+            "characterization": "Ancient, immovable, and more iron than flesh, <LoreLink termId=\"alaric\">Alaric</LoreLink>'s regenerative biology has integrated the chain so thoroughly that removing it would now kill him. He leads from <LoreLink termId=\"frostmaw_holdfast\">Frostmaw Holdfast</LoreLink>'s lower tunnels and trains every Warden personally in the graft-rite. He is grieved, specifically, by the chardalyn proposal: the alloy of his people's makers, offered as salvation."
+          },
+          "headquarters": {
+            "name": "The Chain-Hold, Frostmaw Holdfast (lower tunnels)",
+            "locationId": "frostmaw_holdfast"
+          },
+          "evidenceLabel": "AUTHORED"
+        }
+      ],
+      "conflicts": [
+        {
+          "topic": "scope and stale prose",
+          "conflictingClaims": "Raw guaranteed safe recipes/forced-ascent immunity exceed rated bounded governors. Certification is not evidence for broad Chaos Weaver native access.",
+          "status": "UNRESOLVED",
+          "recommendedNextAction": "Use current registry for access and bounded typed edge/provenance for proposals; preserve raw claims for later canon correction."
+        }
+      ],
+      "restorationRecommendation": {
+        "evidenceLabel": "PROPOSED",
+        "summary": "No native among seven. Qualified Druid needs actual body-interface transformation, not any prosthesis.",
+        "sourceEvidence": []
+      }
+    },
+    {
+      "heritageId": "drall_fexric",
+      "displayName": "Alchemite",
+      "raceId": "fexrick",
+      "nativeClasses": [
+        "Arcanoneer",
+        "Gambit",
+        "Spellguard",
+        "Warden"
+      ],
+      "retiringNativeClasses": [
+        "Gambit"
+      ],
+      "culture": {
+        "evidenceLabel": "AUTHORED",
+        "summary": "Alchemite salvage chemistry, shared sump workshops, intentional variance and Jix contact at Ironjaw.",
+        "source": "vtt-react/src/data/races/fexrick.js"
+      },
+      "bodyInterfaces": [
+        {
+          "stateOrProperty": "Real prepared variance apparatus, actual initiation where House credit is involved; ordinary alchemy alone is insufficient.",
+          "evidenceLabel": "AUTHORED",
+          "source": "vtt-react/src/data/races/fexrick.js"
+        }
+      ],
+      "pairings": [
+        {
+          "className": "Arcanoneer",
+          "acquisitionRequirements": [
+            "elemental_training",
+            "compatible_interface"
+          ],
+          "methodOrNull": "engineered",
+          "rawRestrictions": {
+            "allowedSubraces": [
+              "velun_neth",
+              "kethrin_fexric",
+              "drall_fexric",
+              "vashir_astril"
+            ],
+            "hardBlocks": [
+              "human",
+              "vreken",
+              "skald_human",
+              "solari",
+              "mimir",
+              "groven",
+              "myrathil",
+              "florae",
+              "kessen_neth",
+              "drun_neth",
+              "silath_astril"
+            ],
+            "narrativeUnlock": false,
+            "justification": "Elemental weaving demands structured, high-stakes combination work. The Athien originated the craft as contract-syntax under the Grand Nomenclature; the Fex adapted it through precision engineering in the Underground Proving Grounds (Brasskin certified, Alchemite salvage); the Lumian reached it independently through cosmic starlight cycles. Weft (obligation-web/Gambit) and Riven (pending own story) are excluded for now."
+          },
+          "effectiveNativeAccess": {
+            "status": "normal-tradition",
+            "selectable": true,
+            "className": "Arcanoneer",
+            "heritageId": "drall_fexric",
+            "requirements": [
+              "elemental_training",
+              "compatible_interface"
+            ],
+            "reason": "Elemental grammar training with a compatible contract, engineered or stellar interface",
+            "method": "engineered"
+          },
+          "rawVariantPresent": true,
+          "variant": {
+            "subraceName": "Alchemite - Fex",
+            "title": "The Scrap-Weaver",
+            "reframe": "The Alchemite do not have guild halls, certified regulators, or maintenance schedules. What they have is salvage: impure elemental catalysts recovered from battlefield wreckage, borrowed resonance principles copied from three different traditions, and a stubborn refusal to accept that a combination the guild says is impossible is actually impossible. A Alchemite Scrap-Weaver's focus is a jury-rigged mess of scavenged components  —  cracked lenses, scorched relays, a focusing chamber that was clearly meant for something else entirely  —  and their combination matrix includes entries the Brasskin guild-masters would classify as \"do not attempt under any circumstances.\" More combinations are possible than any guild would certify. And more accidents. The unpredictability is the point; an enemy who can't predict your weave can't counter it. The Scrap-Weaver's greatest weapon is that nobody  —  including the Scrap-Weaver  —  knows exactly what will happen when they pull the trigger.",
+            "signatureAbility": {
+              "name": "Jury-Rigged Catalyst",
+              "description": "The Scrap-Weaver can attempt any elemental combination regardless of guild certification, using impure catalysts and salvaged regulators. Each non-standard weave carries a 25% backlash chance, but when it works  —  and it works more often than any guild engineer would believe possible  —  the result is a weave that exists nowhere in the certified matrix. The Alchemite call this \"field testing.\" The Brasskin call it \"attempted suicide.\" Both are correct. The Alchemite are the Jungian break from the Proving Grounds schism: where the Athien Magister demands the fire be taught grammar, the Scrap-Weaver insists the elements are alive with inherent temperament and cannot be bottled like dead ink. Stop teaching the fire grammar and give it an exhaust pipe - volatile solvents slammed together in a jury-rigged mixing chamber, frantic, tactical, adrenaline-fueled."
+            },
+            "currentCrisisAngle": "The Canopy-Ledger fracture has created a boom market for Alchemite Scrap-Weavers. As the First Contract destabilizes and guild-certified weaves begin to fail, desperate Arcanoneers and their clients are turning to the Alchemite for alternatives the guild would never approve. The Scrap-Weavers are, for the first time, being treated as something other than a cautionary tale  —  and they are not sure whether this is a good thing or the preamble to the worst explosion in recorded history.",
+            "signatureQuote": {
+              "text": "\"The guild says you can't combine Rime with Wyrd unless the thermal sink is rated for Class-3 entropy. Do you know what happens if you use a Class-2 thermal sink? Neither do I. But I'm about to find out, and so is that thing charging toward us.\"",
+              "speaker": "Unnamed Alchemite Scrap-Weaver",
+              "context": "Moments before a weave that was later added to the Brasskin guild's list of certified combinations, despite the guild's official position that the Alchemite \"discovered it by accident\""
+            }
+          },
+          "edgeId": "Arcanoneer|drall_fexric",
+          "advantage": "Salvaged regulators let the Alchemite method attempt a defined experimental modification.",
+          "pairedCost": "Explicit backlash and repair cost; no infinite combination catalogue.",
+          "condition": {
+            "type": "equipment",
+            "value": "salvaged_regulator"
+          },
+          "typedEdge": {
+            "className": "Arcanoneer",
+            "heritageId": "drall_fexric",
+            "description": "Salvaged regulators let the Alchemite method attempt a defined experimental modification.",
+            "costDescription": "Explicit backlash and repair cost; no infinite combination catalogue.",
+            "edge": {
+              "kind": "capability",
+              "unit": "capability",
+              "capability": "defined_experimental_modification",
+              "condition": {
+                "type": "equipment",
+                "value": "salvaged_regulator"
+              }
+            },
+            "cost": {
+              "kind": "risk",
+              "unit": "capability",
+              "capability": "explicit_backlash_repair"
+            }
+          },
+          "freeAuthoredCards": [],
+          "implementedConsumerOrNull": "SpellActionBar.handleCastSpell advisory notification on local/manual path only; no edge/cost effect executor established",
+          "executionLevel": "advisory",
+          "evidenceLabel": "AUTHORED",
+          "sources": [
+            {
+              "path": "vtt-react/src/data/classes/arcanoneerData.js",
+              "lines": [
+                99
+              ],
+              "sha256": "dd3767309d6989999758f169b7821b589b8e66e2488df288d4e6782b547a57d7"
+            },
+            {
+              "path": "vtt-react/src/data/heritageEdgeContract.js",
+              "lines": [
+                189
+              ],
+              "sha256": "35fe2d092893a51d081f6009d82a5a0c06579caacb56a1f8e88b5d1955c298b0"
+            }
+          ]
+        },
+        {
+          "className": "Gambit",
+          "acquisitionRequirements": [
+            "house_wager",
+            "initiation_survival",
+            "wager_discipline"
+          ],
+          "methodOrNull": null,
+          "rawRestrictions": {
+            "allowedSubraces": [
+              "merryn_human",
+              "kessen_neth",
+              "drall_fexric"
+            ],
+            "hardBlocks": [
+              "tessen_human",
+              "skald_human",
+              "ordan_human",
+              "astril",
+              "shoreling_myrathil",
+              "ithran_groven"
+            ],
+            "narrativeUnlock": true,
+            "justification": "Requires a people who have either struck a hazard-wager with the House or treat risk as a language. Three heritages carry the tradition: the Merryn (who wager voyage-shares with the sea), the Weft Athien (who wager clauses against their own fate-threads), and the Alchemite (who rig the game and pay in resentment-debt). Tessic too isolated, Skald too honor-bound, Ordu too pragmatic, Astril too spiritually governed. The Shore Myrathil read probability but pay in memory, not in debt; the Amordjin Groven calculate failure-points, not wagers. Both keep their own traditions."
+          },
+          "effectiveNativeAccess": {
+            "status": "normal-tradition",
+            "selectable": true,
+            "className": "Gambit",
+            "heritageId": "drall_fexric",
+            "requirements": [
+              "house_wager",
+              "initiation_survival",
+              "wager_discipline"
+            ],
+            "reason": "An accepted House wager, survival of initiation and class discipline"
+          },
+          "rawVariantPresent": true,
+          "variant": {
+            "subraceName": "Alchemite",
+            "title": "The Sump-Hustler",
+            "reframe": "The <LoreLink termId=\"fexrick\">Alchemite</LoreLink> did not learn to gamble from the Merryn. A refinery-hand watched a kinetic core reach irreversible meltdown, threw the blueprints into the steam, jammed a clockwork roulette gear into the primary manifold, and let chaos answer for determinism. The pressure vented into the Wyrd. The curse that followed is the Tilt: in an Alchemite Gambit's hands, ordinary predictable machines simply refuse to work, threads strip, welds crack, gears bind, and only contraptions built with intentional variance will run at all. So they gamble in salvage, running rigged dice and weighted cards through the Sump-Markets, and their Karmic Debt is personal: the accumulated resentment of every mark they ever hustled, coming due from below.",
+            "signatureAbility": {
+              "name": "Sump-Rig",
+              "description": "Fortune are generated by rigging the game rather than gambling it; the Alchemite Gambit's dice, cards, and dealing machines are all fixed in advance, building Karmic Debt from the resentment of hustled marks rather than cosmic balance. The debt is personal, and when it comes due, the marks come to collect."
+            },
+            "currentCrisisAngle": "The Sump-Markets have grown wise to the hustlers, and the Alchemite Gambits are running out of fresh marks. Some have begun to gamble against each other  —  hustler versus hustler, both knowing the game is rigged but neither knowing how. The Sump-Hustler tradition is eating itself, and the resentment-debt is compounding.\n\nThe Alchemite did not adopt Merryn gambling  —  they independently discovered probability manipulation through salvage. But the first Alchemite Gambit, a sump-hustler named **Gear-Rat Jix**, did encounter a Merryn Gambit at Ironjaw Port during the Toll Wars and recognized the shared language. Jix is the reason Alchemite Gambits use cards  —  she stole a Merryn deck, replaced the salt-coral dice with weighted gear-teeth, and never looked back.",
+            "signatureQuote": {
+              "text": "\"I did not cheat. I built the deck, I dealt the cards, and I knew what was coming before the first hand was played. That is not cheating. That is architecture.\"",
+              "speaker": "Alchemite-Voss the Sump-Dealer",
+              "context": "A Alchemite Gambit, caught with a rigged dealing-machine, addressing the crowd"
+            }
+          },
+          "edgeId": "Gambit|drall_fexric",
+          "advantage": "Jix's Ironjaw contact builds intentional variance into a prepared device or game.",
+          "pairedCost": "Tilt makes ordinary deterministic operation unreliable for this practitioner.",
+          "condition": {
+            "type": "equipment",
+            "value": "prepared_device"
+          },
+          "typedEdge": {
+            "className": "Gambit",
+            "heritageId": "drall_fexric",
+            "description": "Jix's Ironjaw contact builds intentional variance into a prepared device or game.",
+            "costDescription": "Tilt makes ordinary deterministic operation unreliable for this practitioner.",
+            "edge": {
+              "kind": "capability",
+              "unit": "capability",
+              "capability": "build_intentional_variance",
+              "condition": {
+                "type": "equipment",
+                "value": "prepared_device"
+              }
+            },
+            "cost": {
+              "kind": "risk",
+              "unit": "capability",
+              "capability": "tilt_unreliable_deterministic"
+            }
+          },
+          "freeAuthoredCards": [],
+          "implementedConsumerOrNull": "SpellActionBar.handleCastSpell advisory notification on local/manual path only; no edge/cost effect executor established",
+          "executionLevel": "advisory",
+          "evidenceLabel": "AUTHORED",
+          "sources": [
+            {
+              "path": "vtt-react/src/data/classes/gambitData.js",
+              "lines": [
+                59
+              ],
+              "sha256": "e4eb3ef2b664fc4ebbdca45163fa56ac0b39fd5c19227d155280ccf9aef7671d"
+            },
+            {
+              "path": "vtt-react/src/data/heritageEdgeContract.js",
+              "lines": [
+                231
+              ],
+              "sha256": "35fe2d092893a51d081f6009d82a5a0c06579caacb56a1f8e88b5d1955c298b0"
+            }
+          ]
+        },
+        {
+          "className": "Spellguard",
+          "acquisitionRequirements": [
+            "containment_induction",
+            "compatible_interface",
+            "venting_training"
+          ],
+          "methodOrNull": null,
+          "rawRestrictions": {
+            "allowedSubraces": [
+              "velun_neth",
+              "thalren_human",
+              "korr_solari",
+              "thrask_solari"
+            ],
+            "hardBlocks": [
+              "myrathil",
+              "ordan_human",
+              "groven",
+              "florae"
+            ],
+            "narrativeUnlock": true,
+            "justification": "Requires access to Emberspire's volcanic forge-tradition and Sol's Breath's residual energy. The Athien provide precise magical cancellation. Tallyn provide anti-Wyrd paranoia."
+          },
+          "effectiveNativeAccess": {
+            "status": "normal-tradition",
+            "selectable": true,
+            "className": "Spellguard",
+            "heritageId": "drall_fexric",
+            "requirements": [
+              "containment_induction",
+              "compatible_interface",
+              "venting_training"
+            ],
+            "reason": "Actual induction, compatible apparatus/tissue adaptation and taught venting"
+          },
+          "rawVariantPresent": true,
+          "variant": {
+            "subraceName": "Alchemite",
+            "title": "The Salvage-Warder",
+            "reframe": "The Alchemite retune salvaged containment parts into working shields, accepting the instability the guild would never certify. A Salvage-Warder catches what the certified regulators cannot and pays for it in repair load.",
+            "signatureAbility": {
+              "name": "Jury-Rig Vent",
+              "description": "You retune one prepared salvaged vent profile to catch a spell; the jury-rig adds instability and repair load, and is not limitless reflection."
+            },
+            "currentCrisisAngle": "The Alchemite workshops are being treated as saviors as certified weaves fail, and every salvaged shield they sell carries a failure mode they cannot guarantee.",
+            "signatureQuote": {
+              "text": "The guild’s shield is rated for Class-3 entropy. Mine is rated for probably. It is still the only one that caught the thing.",
+              "speaker": "Unnamed Alchemite Spellguard",
+              "context": "After a salvage-vent held where a certified array failed"
+            }
+          },
+          "edgeId": "Spellguard|drall_fexric",
+          "advantage": "You retune a salvaged regulator to catch a spell the guild would call uncatchable.",
+          "pairedCost": "Extra instability and repair load.",
+          "condition": {
+            "type": "equipment",
+            "value": "salvaged_regulator"
+          },
+          "typedEdge": {
+            "className": "Spellguard",
+            "heritageId": "drall_fexric",
+            "description": "You retune a salvaged regulator to catch a spell the guild would call uncatchable.",
+            "costDescription": "Extra instability and repair load.",
+            "edge": {
+              "kind": "capability",
+              "unit": "capability",
+              "capability": "retune_prepared_vent_profile",
+              "condition": {
+                "type": "equipment",
+                "value": "salvaged_regulator"
+              }
+            },
+            "cost": {
+              "kind": "risk",
+              "unit": "capability",
+              "capability": "extra_instability_and_repair_load"
+            }
+          },
+          "freeAuthoredCards": [],
+          "implementedConsumerOrNull": "SpellActionBar.handleCastSpell advisory notification on local/manual path only; no edge/cost effect executor established",
+          "executionLevel": "advisory",
+          "evidenceLabel": "AUTHORED",
+          "sources": [
+            {
+              "path": "vtt-react/src/data/classes/spellguardData.js",
+              "lines": [
+                80
+              ],
+              "sha256": "4978787826e7d73a6ac08beb254b42df2c112d53b9e98d79d67df52c6fb6c838"
+            },
+            {
+              "path": "vtt-react/src/data/heritageEdgeContract.js",
+              "lines": [
+                675
+              ],
+              "sha256": "35fe2d092893a51d081f6009d82a5a0c06579caacb56a1f8e88b5d1955c298b0"
+            }
+          ]
+        },
+        {
+          "className": "Warden",
+          "acquisitionRequirements": [
+            "graft_surgery",
+            "anatomy_compatibility",
+            "load_training"
+          ],
+          "methodOrNull": null,
+          "rawRestrictions": {
+            "allowedSubraces": [
+              "morgh_groven",
+              "ithran_groven",
+              "drall_fexric",
+              "kethrin_fexric",
+              "skald_human",
+              "clean_vreken",
+              "marked_vreken"
+            ],
+            "hardBlocks": [
+              "merryn_human",
+              "ordan_human",
+              "astril",
+              "solari"
+            ],
+            "narrativeUnlock": true,
+            "justification": "Requires access to the chain-graft surgical tradition only available in Frostmaw Holdfast and the Frozen Archive. Groven invented the technique. Mycellan adopted it through proximity. Fex Alchemite learned it through guild-surgical exchange. Non-listed races must undergo the surgical graft, which few cultures accept, Weft lack the martial-surgical tradition, Ordu are nomadic, Solari physiology rejects the cold-iron threading."
+          },
+          "effectiveNativeAccess": {
+            "status": "normal-tradition",
+            "selectable": true,
+            "className": "Warden",
+            "heritageId": "drall_fexric",
+            "requirements": [
+              "graft_surgery",
+              "anatomy_compatibility",
+              "load_training"
+            ],
+            "reason": "Actual graft surgery, compatible anatomy and load training"
+          },
+          "rawVariantPresent": true,
+          "variant": {
+            "subraceName": "Alchemite - Fex",
+            "title": "The Gear-Tension",
+            "reframe": "The free-roaming <LoreLink termId=\"fexrick\">Alchemite</LoreLink> clan-nomads learned the chain-graft through guild-surgical exchange, and they treat tethering as *engineering*, the tension is a gear ratio to be optimized, the chains a mechanism to be maintained. A Alchemite Warden is the tradition's *most adaptable* variant, re-tuning their chain-configuration on the fly the way a mechanic re-tunes an engine.",
+            "signatureAbility": {
+              "name": "Gear-Calibration",
+              "description": "Chain-tension can be re-tuned mid-combat, the Alchemite Warden adjusts the gear-ratio of their tethers to favor either lockdown (high tension, low reach) or pursuit (low tension, high reach). The only Warden variant that can shift tether-modes without surgery, at the cost of raw holding-power per mode."
+            },
+            "currentCrisisAngle": "The chardalyn-alloy proposal is the Alchemite's *own project*, they developed the replacement, and the madness it causes on prolonged contact is, to the Alchemite, an acceptable engineering trade-off. The Alchemite Wardens are the faction *pushing* chardalyn adoption over Groven objections, and the resulting schism is tearing the tradition apart along the same fault-line that defined the Vat-Breakers' revolt: the Fex who made the Groven, now proposing the metal that unmakes them.",
+            "signatureQuote": {
+              "text": "\"The iron fails. I built a better iron. It whispers. I am an engineer, not a priest, I will solve the whisper after I solve the breaking. The Groven object on principle. Principle does not hold abominations.\"",
+              "speaker": "Alchemite Fex-Torren",
+              "context": "A Alchemite Warden-engineer, defending the chardalyn program to the Vat-Breakers' Guild"
+            }
+          },
+          "edgeId": "Warden|drall_fexric",
+          "advantage": "You retune one chain configuration mid-combat as engineering.",
+          "pairedCost": "Setup and holding-power tradeoff.",
+          "condition": {
+            "type": "equipment",
+            "value": "ratchet_chain"
+          },
+          "typedEdge": {
+            "className": "Warden",
+            "heritageId": "drall_fexric",
+            "description": "You retune one chain configuration mid-combat as engineering.",
+            "costDescription": "Setup and holding-power tradeoff.",
+            "edge": {
+              "kind": "capability",
+              "unit": "capability",
+              "capability": "retune_chain_configuration",
+              "condition": {
+                "type": "equipment",
+                "value": "ratchet_chain"
+              }
+            },
+            "cost": {
+              "kind": "risk",
+              "unit": "capability",
+              "capability": "setup_holding_power_tradeoff"
+            }
+          },
+          "freeAuthoredCards": [],
+          "implementedConsumerOrNull": "SpellActionBar.handleCastSpell advisory notification on local/manual path only; no edge/cost effect executor established",
+          "executionLevel": "advisory",
+          "evidenceLabel": "AUTHORED",
+          "sources": [
+            {
+              "path": "vtt-react/src/data/classes/wardenData.js",
+              "lines": [
+                108
+              ],
+              "sha256": "e3ea90b6080ef3e05568ddec96d9e79b74719b0e4b2a8f4392be25c7845a616b"
+            },
+            {
+              "path": "vtt-react/src/data/heritageEdgeContract.js",
+              "lines": [
+                682
+              ],
+              "sha256": "35fe2d092893a51d081f6009d82a5a0c06579caacb56a1f8e88b5d1955c298b0"
+            }
+          ]
+        }
+      ],
+      "rareRoutes": [
+        {
+          "className": "Animist",
+          "requirementIds": [
+            "spirit_anchor",
+            "communion_apprenticeship"
+          ],
+          "sourceRequired": true,
+          "bodyIncompatibilities": [],
+          "edgeAuthored": false,
+          "evidenceLabel": "CONFIRMED",
+          "source": "getClassHeritageAccess; qualified exceptions require verified/source/every requirement; native method alternatives use methodRequirements"
+        },
+        {
+          "className": "Apex",
+          "requirementIds": [
+            "sensory_trade",
+            "sensory_training",
+            "bonded_companion"
+          ],
+          "sourceRequired": true,
+          "bodyIncompatibilities": [],
+          "edgeAuthored": false,
+          "evidenceLabel": "CONFIRMED",
+          "source": "getClassHeritageAccess; qualified exceptions require verified/source/every requirement; native method alternatives use methodRequirements"
+        },
+        {
+          "className": "Augur",
+          "requirementIds": [
+            "divination_training",
+            "divination_focus"
+          ],
+          "sourceRequired": true,
+          "bodyIncompatibilities": [],
+          "edgeAuthored": false,
+          "evidenceLabel": "CONFIRMED",
+          "source": "getClassHeritageAccess; qualified exceptions require verified/source/every requirement; native method alternatives use methodRequirements"
+        },
+        {
+          "className": "Berserker",
+          "requirementIds": [
+            "metabolic_induction",
+            "conditioning"
+          ],
+          "sourceRequired": true,
+          "bodyIncompatibilities": [],
+          "edgeAuthored": false,
+          "evidenceLabel": "CONFIRMED",
+          "source": "getClassHeritageAccess; qualified exceptions require verified/source/every requirement; native method alternatives use methodRequirements"
+        },
+        {
+          "className": "Chronarch",
+          "requirementIds": [
+            "temporal_anchor",
+            "calibration_training"
+          ],
+          "sourceRequired": true,
+          "bodyIncompatibilities": [],
+          "edgeAuthored": false,
+          "evidenceLabel": "CONFIRMED",
+          "source": "getClassHeritageAccess; qualified exceptions require verified/source/every requirement; native method alternatives use methodRequirements"
+        },
+        {
+          "className": "Crusader",
+          "requirementIds": [
+            "consecrated_relic",
+            "interface_training"
+          ],
+          "sourceRequired": true,
+          "bodyIncompatibilities": [],
+          "edgeAuthored": false,
+          "evidenceLabel": "CONFIRMED",
+          "source": "getClassHeritageAccess; qualified exceptions require verified/source/every requirement; native method alternatives use methodRequirements"
+        },
+        {
+          "className": "False Prophet",
+          "requirementIds": [
+            "channel_encounter",
+            "link_training"
+          ],
+          "sourceRequired": true,
+          "bodyIncompatibilities": [],
+          "edgeAuthored": false,
+          "evidenceLabel": "CONFIRMED",
+          "source": "getClassHeritageAccess; qualified exceptions require verified/source/every requirement; native method alternatives use methodRequirements"
+        },
+        {
+          "className": "Harbinger",
+          "requirementIds": [
+            "entropy_study",
+            "field_induction"
+          ],
+          "sourceRequired": true,
+          "bodyIncompatibilities": [],
+          "edgeAuthored": false,
+          "evidenceLabel": "CONFIRMED",
+          "source": "getClassHeritageAccess; qualified exceptions require verified/source/every requirement; native method alternatives use methodRequirements"
+        },
+        {
+          "className": "Inquisitor",
+          "requirementIds": [
+            "barbed_vow",
+            "containment_training"
+          ],
+          "sourceRequired": true,
+          "bodyIncompatibilities": [],
+          "edgeAuthored": false,
+          "evidenceLabel": "CONFIRMED",
+          "source": "getClassHeritageAccess; qualified exceptions require verified/source/every requirement; native method alternatives use methodRequirements"
+        },
+        {
+          "className": "Lunarch",
+          "requirementIds": [
+            "organism_bond",
+            "host_compatibility",
+            "identity_training"
+          ],
+          "sourceRequired": true,
+          "bodyIncompatibilities": [
+            "active_pact_identity_preservation"
+          ],
+          "edgeAuthored": false,
+          "evidenceLabel": "CONFIRMED",
+          "source": "getClassHeritageAccess; qualified exceptions require verified/source/every requirement; native method alternatives use methodRequirements"
+        },
+        {
+          "className": "Martyr",
+          "requirementIds": [
+            "protective_interface",
+            "witness_or_furnace_training"
+          ],
+          "sourceRequired": true,
+          "bodyIncompatibilities": [],
+          "edgeAuthored": false,
+          "evidenceLabel": "CONFIRMED",
+          "source": "getClassHeritageAccess; qualified exceptions require verified/source/every requirement; native method alternatives use methodRequirements"
+        },
+        {
+          "className": "Minstrel",
+          "requirementIds": [
+            "cadence_training",
+            "resonant_medium"
+          ],
+          "sourceRequired": true,
+          "bodyIncompatibilities": [],
+          "edgeAuthored": false,
+          "evidenceLabel": "CONFIRMED",
+          "source": "getClassHeritageAccess; qualified exceptions require verified/source/every requirement; native method alternatives use methodRequirements"
+        },
+        {
+          "className": "Plaguebringer",
+          "requirementIds": [
+            "introduced_culture",
+            "host_compatibility",
+            "cultivation_training"
+          ],
+          "sourceRequired": true,
+          "bodyIncompatibilities": [],
+          "edgeAuthored": false,
+          "evidenceLabel": "CONFIRMED",
+          "source": "getClassHeritageAccess; qualified exceptions require verified/source/every requirement; native method alternatives use methodRequirements"
+        },
+        {
+          "className": "Pyrofiend",
+          "requirementIds": [
+            "breach_fire_exposure",
+            "exposure_survival",
+            "containment_training"
+          ],
+          "sourceRequired": true,
+          "bodyIncompatibilities": [],
+          "edgeAuthored": false,
+          "evidenceLabel": "CONFIRMED",
+          "source": "getClassHeritageAccess; qualified exceptions require verified/source/every requirement; native method alternatives use methodRequirements"
+        },
+        {
+          "className": "Revenant",
+          "requirementIds": [
+            "threshold_transition",
+            "finite_soul_anchor"
+          ],
+          "sourceRequired": true,
+          "bodyIncompatibilities": [],
+          "edgeAuthored": false,
+          "evidenceLabel": "CONFIRMED",
+          "source": "getClassHeritageAccess; qualified exceptions require verified/source/every requirement; native method alternatives use methodRequirements"
+        },
+        {
+          "className": "Shaper",
+          "requirementIds": [
+            "shaping_interface",
+            "transformation_training"
+          ],
+          "sourceRequired": true,
+          "bodyIncompatibilities": [
+            "fixed_body_without_shaping_interface"
+          ],
+          "edgeAuthored": false,
+          "evidenceLabel": "CONFIRMED",
+          "source": "getClassHeritageAccess; qualified exceptions require verified/source/every requirement; native method alternatives use methodRequirements"
+        },
+        {
+          "className": "Toxicologist",
+          "requirementIds": [
+            "tolerance_induction",
+            "distillation_training"
+          ],
+          "sourceRequired": true,
+          "bodyIncompatibilities": [],
+          "edgeAuthored": false,
+          "evidenceLabel": "CONFIRMED",
+          "source": "getClassHeritageAccess; qualified exceptions require verified/source/every requirement; native method alternatives use methodRequirements"
+        }
+      ],
+      "institutions": [
+        {
+          "className": "Arcanoneer",
+          "name": "The Canopy-Ledger",
+          "founderState": "Valerius has an exceptional Contract/Heart-Vault state; Vaelis is a distinct historical female negotiator",
+          "currentLeaderOrNull": {
+            "name": "<LoreLink termId=\"vel-otharen\">Ledger-Prime Vel-Otharen</LoreLink>",
+            "title": "Senior Signatory of the Canopy-Ledger",
+            "characterization": "The eldest active Arcanoneer, whose body is more Mnemonic Shard than flesh. He has not spoken an unplanned word in thirty years, every sentence pre-filed, every utterance a legal instrument. He believes the Athien Contingency Protocol dispute can be resolved by arbitration. He is almost certainly wrong, and he knows it."
+          },
+          "headquarters": {
+            "name": "The Heart-Vault, Atropolis",
+            "locationId": "atropolis",
+            "description": "The Heart-Vault is not a chamber  —  it is the living ironwood at Atropolis's core, a hollow grown rather than carved, its walls lined with memory-glass panels that record every clause ever filed. The First Contract is visible through the heartwood like a fossil in amber. The air hums at a frequency that makes teeth ache."
+          },
+          "evidenceLabel": "AUTHORED"
+        },
+        {
+          "className": "Gambit",
+          "name": "The Merrowport House",
+          "founderState": "Modern consolidators, not creators of every primordial wager",
+          "currentLeaderOrNull": {
+            "name": "<LoreLink termId=\"merr-cael\">Harbor-Master Merr-Cael</LoreLink>",
+            "title": "Keeper of the Middle Odds",
+            "characterization": "A Merryn broker who has spent thirty years keeping the House solvent while its founders self-destruct. He believes in the wager as a *discipline*, not a religion, the opposite of <LoreLink termId=\"lyra\">Lyra</LoreLink>'s Deck-Burners. He is tired, principled, and the only thing standing between the House and a civil war between the followers of its two vanished founders. He kept the House solvent through the Winter of Lost Wagers, when three Merryn sea-captains wagered their entire fleets against each other on a single storm-pattern  —  and all three lost. The House should have collapsed under the collective debt. Merr-Cael brokered a consolidation: the three fleets merged into one, the captains became equals on a shared council, and the House took a permanent percentage of every future voyage. It was the first time a Gambit solved a debt with an institution instead of a wager. The Merryn call it the Merr-Cael Precedent. It is taught to every apprentice."
+          },
+          "headquarters": {
+            "name": "The Last Table, Merrowport",
+            "locationId": "merrowport"
+          },
+          "evidenceLabel": "AUTHORED"
+        },
+        {
+          "className": "Spellguard",
+          "name": "The Aegis",
+          "founderState": "Damon rejects uncontrolled/unventable intake, not every absorption",
+          "currentLeaderOrNull": {
+            "name": "<LoreLink termId=\"thrak-damos\">Bulwark-Captain Thrak-Damos</LoreLink>",
+            "title": "Warden of the Silence-Scars",
+            "characterization": "A Anhur veteran whose forearms are latticed with absorbed-magic scars that glow through his sleeves. He leads the Aegis from the forge-keeps and enforces <LoreLink termId=\"damon\">Damon</LoreLink>'s method with drill-sergeant discipline. He is a pragmatist who is watching his entire engineering discipline fail against a threat, ambient magic with no structure, that <LoreLink termId=\"damon\">Damon</LoreLink> never imagined."
+          },
+          "headquarters": {
+            "name": "The Shield-Forge Keeps, Emberspire",
+            "locationId": "emberspire"
+          },
+          "evidenceLabel": "AUTHORED"
+        },
+        {
+          "className": "Warden",
+          "name": "The Bound",
+          "founderState": "Alaric has exceptional regenerative/graft-supported endurance; later masters can train initiates",
+          "currentLeaderOrNull": {
+            "name": "<LoreLink termId=\"alaric\">Alaric the Law-Keeper</LoreLink>",
+            "title": "The First Bound",
+            "characterization": "Ancient, immovable, and more iron than flesh, <LoreLink termId=\"alaric\">Alaric</LoreLink>'s regenerative biology has integrated the chain so thoroughly that removing it would now kill him. He leads from <LoreLink termId=\"frostmaw_holdfast\">Frostmaw Holdfast</LoreLink>'s lower tunnels and trains every Warden personally in the graft-rite. He is grieved, specifically, by the chardalyn proposal: the alloy of his people's makers, offered as salvation."
+          },
+          "headquarters": {
+            "name": "The Chain-Hold, Frostmaw Holdfast (lower tunnels)",
+            "locationId": "frostmaw_holdfast"
+          },
+          "evidenceLabel": "AUTHORED"
+        }
+      ],
+      "conflicts": [
+        {
+          "topic": "scope and stale prose",
+          "conflictingClaims": "Raw rigging/resentment-debt stories do not make every outcome known. Fixed-year Contraction text remains stale; no generic resource or guaranteed jackpot.",
+          "status": "UNRESOLVED",
+          "recommendedNextAction": "Use current registry for access and bounded typed edge/provenance for proposals; preserve raw claims for later canon correction."
+        }
+      ],
+      "restorationRecommendation": {
+        "evidenceLabel": "PROPOSED",
+        "summary": "Gambler and Chaos Weaver native recommended through DIFFERENT schools/acquisitions: House wager versus bounded anomaly containment.",
+        "sourceEvidence": [
+          {
+            "path": "vtt-react/src/data/classes/gambitData.js",
+            "lines": [
+              59
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

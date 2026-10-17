@@ -1,0 +1,798 @@
+{
+  "schema": "mythrill.class-review-abilities/r1",
+  "evidenceLabel": "PROPOSED",
+  "classId": "deathcaller",
+  "rulesetVersion": "cr-review-r1",
+  "abilities": [
+    {
+      "evidenceLabel": "PROPOSED",
+      "status": "HeadQ-review-R1; not admitted by current app",
+      "contentRole": "class-feature",
+      "talentNode": null,
+      "spell": {
+        "id": "cr1_deathcaller_manifest_retainer",
+        "classId": "deathcaller",
+        "rulesetVersion": "cr-review-r1",
+        "name": "Manifest Retainer",
+        "description": "Manifest one prepared named dead pattern in an adjacent legal space. It occupies one of two capacity and cannot attack just because it appeared.",
+        "level": 1,
+        "specialization": null,
+        "spellType": "ACTION",
+        "icon": "Psychic/Psychic Telepathy",
+        "typeConfig": {
+          "school": "wyrd",
+          "castTimeType": "IMMEDIATE",
+          "tags": [
+            "deathcaller",
+            "class-feature"
+          ]
+        },
+        "resourceCost": {
+          "actionPoints": 1,
+          "mana": 0,
+          "resourceTypes": [
+            "actionPoints"
+          ],
+          "resourceValues": {
+            "actionPoints": 1,
+            "mana": 0
+          },
+          "useFormulas": {},
+          "components": [
+            "somatic"
+          ],
+          "somaticText": "Present the class focus and deliberately declare the operation; its exact choices precede resolution."
+        },
+        "targetingConfig": {
+          "targetingType": "single",
+          "rangeType": "ranged",
+          "rangeDistance": 5,
+          "targetRestrictions": [
+            "legal-empty-space"
+          ],
+          "maxTargets": 1
+        },
+        "effectTypes": [
+          "summoning"
+        ],
+        "resolution": "RESOURCE_PROGRAM",
+        "damageConfig": null,
+        "durationConfig": {
+          "durationType": "instant",
+          "durationValue": 0,
+          "durationUnit": "instant"
+        },
+        "cooldownConfig": {
+          "cooldownType": "none",
+          "cooldownValue": 0
+        },
+        "classResourceProgram": {
+          "version": 1,
+          "domain": "dead-muster",
+          "op": "dead.manifest",
+          "args": {
+            "preparedPatternPrice": 1,
+            "capacity": 1,
+            "placementRange": 5,
+            "activeCapacityMax": 2,
+            "template": {
+              "id": "cr1_dead_retainer",
+              "version": 1,
+              "maxHP": 10,
+              "strike": "1d6",
+              "damageType": "wyrd",
+              "strikeRange": 5,
+              "commandMoveFeet": 10,
+              "autonomousAP": 0,
+              "actionsPerCasterOwnTurn": 1
+            },
+            "creationHP": "pattern-remaining-vitality",
+            "creationAction": false,
+            "expiry": "encounter-closure"
+          }
+        },
+        "reactionTiming": null,
+        "savingThrow": null,
+        "conditions": [],
+        "area": null
+      },
+      "resourceCostSummary": "1 AP; one unexhausted prepared pattern and capacity1 reserved.",
+      "resourceGenerationSummary": "None unless a declared branch or resolved event below grants it.",
+      "castingInputs": [
+        "prepared pattern ID/version",
+        "legal adjacent position"
+      ],
+      "failureConditions": [
+        "Invalid exact source/target or insufficient AP/resources; refused before commitment with no mutation."
+      ],
+      "effectConfiguration": {
+        "preparedPatternPrice": 1,
+        "capacity": 1,
+        "placementRange": 5,
+        "activeCapacityMax": 2,
+        "template": {
+          "id": "cr1_dead_retainer",
+          "version": 1,
+          "maxHP": 10,
+          "strike": "1d6",
+          "damageType": "wyrd",
+          "strikeRange": 5,
+          "commandMoveFeet": 10,
+          "autonomousAP": 0,
+          "actionsPerCasterOwnTurn": 1
+        },
+        "creationHP": "pattern-remaining-vitality",
+        "creationAction": false,
+        "expiry": "encounter-closure"
+      },
+      "checkAndTimingNotes": "Own turn in combat; no reaction or saving throw. Noncombat uses explicit GM-adjudicated activity time and preserves finite contents/uses without inventing turn-refresh loops. Attack/geometry/defense remains GM-adjudicated until its capability exists.",
+      "talentModifications": "Only this explicitly learned signature/its declared opcode variation applies in R1. Later rank modifiers require a new reviewed definition version; never applied twice.",
+      "heritageModifications": "Only the selected proposed bounded native edge and paired cost, after full access/method/body validation. No raw-parent percentage or free resource gain inherited; example arithmetic excludes optional edges.",
+      "runtimeDependencies": [
+        "CR-A1",
+        "CR-R1",
+        "CR-E1",
+        "CR-S1-summon-lifecycle"
+      ],
+      "verificationRequirements": {
+        "positive": "Capacity0->1, actor10HP created once/exact incarnation; duplicate receipt cannot create second token.",
+        "refusal": "Malformed choice, wrong domain/actor or missing required state leaves every pool/entity unchanged.",
+        "duplicate": "Same command/event/choice identity returns original result, with no repeated cost, draw, effect or expiry.",
+        "roundTrip": "Both Wizard saves, canonical export/template, reopen and card preserve complete program and explicit zeros."
+      }
+    },
+    {
+      "evidenceLabel": "PROPOSED",
+      "status": "HeadQ-review-R1; not admitted by current app",
+      "contentRole": "class-feature",
+      "talentNode": null,
+      "spell": {
+        "id": "cr1_deathcaller_grave_order",
+        "classId": "deathcaller",
+        "rulesetVersion": "cr-review-r1",
+        "name": "Grave Order",
+        "description": "Spend an order and your own AP to command one manifested actor to strike an adjacent enemy or move up to its template’s command distance. An actor acts at most once per your own turn.",
+        "level": 1,
+        "specialization": null,
+        "spellType": "ACTION",
+        "icon": "Psychic/Psychic Telepathy",
+        "typeConfig": {
+          "school": "wyrd",
+          "castTimeType": "IMMEDIATE",
+          "tags": [
+            "deathcaller",
+            "class-feature"
+          ]
+        },
+        "resourceCost": {
+          "actionPoints": 1,
+          "mana": 0,
+          "resourceTypes": [
+            "actionPoints"
+          ],
+          "resourceValues": {
+            "actionPoints": 1,
+            "mana": 0
+          },
+          "useFormulas": {},
+          "components": [
+            "somatic"
+          ],
+          "somaticText": "Present the class focus and deliberately declare the operation; its exact choices precede resolution."
+        },
+        "targetingConfig": {
+          "targetingType": "multi",
+          "rangeType": "ranged",
+          "rangeDistance": 30,
+          "targetRestrictions": [
+            "own-manifestation",
+            "enemy-or-legal-path"
+          ],
+          "maxTargets": 2
+        },
+        "effectTypes": [
+          "damage",
+          "utility"
+        ],
+        "resolution": "RESOURCE_PROGRAM",
+        "damageConfig": null,
+        "durationConfig": {
+          "durationType": "instant",
+          "durationValue": 0,
+          "durationUnit": "instant"
+        },
+        "cooldownConfig": {
+          "cooldownType": "none",
+          "cooldownValue": 0
+        },
+        "classResourceProgram": {
+          "version": 1,
+          "domain": "dead-muster",
+          "op": "dead.order",
+          "args": {
+            "orders": 1,
+            "casterAP": 1,
+            "modeOneOf": [
+              "strike",
+              "move"
+            ],
+            "actorActionsPerOwnTurn": 1,
+            "orderRange": 30,
+            "retainerStrike": {
+              "formula": "1d6",
+              "type": "wyrd",
+              "rangeFeet": 5
+            },
+            "guardianStrike": {
+              "formula": "1d8",
+              "type": "smashing",
+              "rangeFeet": 5
+            },
+            "moveUsesTemplateAllowance": true,
+            "attackProfile": "Prism-weapon-GM-adjudicated"
+          }
+        },
+        "reactionTiming": null,
+        "savingThrow": null,
+        "conditions": [],
+        "area": null
+      },
+      "resourceCostSummary": "1 AP and one of two orders; exact actor must have action unused.",
+      "resourceGenerationSummary": "None unless a declared branch or resolved event below grants it.",
+      "castingInputs": [
+        "own exact manifestation ref",
+        "strike target ref or legal movement path"
+      ],
+      "failureConditions": [
+        "Invalid exact source/target or insufficient AP/resources; refused before commitment with no mutation."
+      ],
+      "effectConfiguration": {
+        "strike": "one template strike with GM attack adjudication; no free extra attack",
+        "move": "one template move, no strike"
+      },
+      "checkAndTimingNotes": "Own turn in combat; no reaction or saving throw. Noncombat uses explicit GM-adjudicated activity time and preserves finite contents/uses without inventing turn-refresh loops. Attack/geometry/defense remains GM-adjudicated until its capability exists.",
+      "talentModifications": "Only this explicitly learned signature/its declared opcode variation applies in R1. Later rank modifiers require a new reviewed definition version; never applied twice.",
+      "heritageModifications": "Only the selected proposed bounded native edge and paired cost, after full access/method/body validation. No raw-parent percentage or free resource gain inherited; example arithmetic excludes optional edges.",
+      "runtimeDependencies": [
+        "CR-A1",
+        "CR-R1",
+        "CR-E1",
+        "CR-S1-summon-lifecycle"
+      ],
+      "verificationRequirements": {
+        "positive": "Orders2->1; casterAP4->3; actor marked used forownTurnId; second order to same actor refused.",
+        "refusal": "Malformed choice, wrong domain/actor or missing required state leaves every pool/entity unchanged.",
+        "duplicate": "Same command/event/choice identity returns original result, with no repeated cost, draw, effect or expiry.",
+        "roundTrip": "Both Wizard saves, canonical export/template, reopen and card preserve complete program and explicit zeros."
+      }
+    },
+    {
+      "evidenceLabel": "PROPOSED",
+      "status": "HeadQ-review-R1; not admitted by current app",
+      "contentRole": "spell-pick",
+      "talentNode": null,
+      "spell": {
+        "id": "cr1_deathcaller_last_testimony",
+        "classId": "deathcaller",
+        "rulesetVersion": "cr-review-r1",
+        "name": "Last Testimony",
+        "description": "Ask a manifested named witness one concise question about something it actually observed. The answer does not include hidden information the witness never had.",
+        "level": 2,
+        "specialization": null,
+        "spellType": "ACTION",
+        "icon": "Psychic/Psychic Telepathy",
+        "typeConfig": {
+          "school": "wyrd",
+          "castTimeType": "IMMEDIATE",
+          "tags": [
+            "deathcaller",
+            "class-feature"
+          ]
+        },
+        "resourceCost": {
+          "actionPoints": 2,
+          "mana": 0,
+          "resourceTypes": [
+            "actionPoints"
+          ],
+          "resourceValues": {
+            "actionPoints": 2,
+            "mana": 0
+          },
+          "useFormulas": {},
+          "components": [
+            "somatic"
+          ],
+          "somaticText": "Present the class focus and deliberately declare the operation; its exact choices precede resolution."
+        },
+        "targetingConfig": {
+          "targetingType": "single",
+          "rangeType": "ranged",
+          "rangeDistance": 30,
+          "targetRestrictions": [
+            "own-named-witness"
+          ],
+          "maxTargets": 1
+        },
+        "effectTypes": [
+          "utility"
+        ],
+        "resolution": "RESOURCE_PROGRAM",
+        "damageConfig": null,
+        "durationConfig": {
+          "durationType": "instant",
+          "durationValue": 0,
+          "durationUnit": "instant"
+        },
+        "cooldownConfig": {
+          "cooldownType": "none",
+          "cooldownValue": 0
+        },
+        "classResourceProgram": {
+          "version": 1,
+          "domain": "dead-muster",
+          "op": "dead.testimony",
+          "args": {
+            "orders": 1,
+            "actorAction": true,
+            "rangeFeet": 30,
+            "usesPerPatternPerLongRest": 1,
+            "knowledge": "actual-witness-memory",
+            "unknownAnswer": "does-not-know",
+            "createNewKnowledge": false
+          }
+        },
+        "reactionTiming": null,
+        "savingThrow": null,
+        "conditions": [],
+        "area": null
+      },
+      "resourceCostSummary": "2 AP, one order and this actor’s action; one question/pattern/completed rest.",
+      "resourceGenerationSummary": "None unless a declared branch or resolved event below grants it.",
+      "castingInputs": [
+        "own exact manifestation/pattern",
+        "one question"
+      ],
+      "failureConditions": [
+        "Invalid exact source/target or insufficient AP/resources; refused before commitment with no mutation."
+      ],
+      "effectConfiguration": {
+        "orders": 1,
+        "actorAction": true,
+        "rangeFeet": 30,
+        "usesPerPatternPerLongRest": 1,
+        "knowledge": "actual-witness-memory",
+        "unknownAnswer": "does-not-know",
+        "createNewKnowledge": false
+      },
+      "checkAndTimingNotes": "Own turn in combat; no reaction or saving throw. Noncombat uses explicit GM-adjudicated activity time and preserves finite contents/uses without inventing turn-refresh loops. Attack/geometry/defense remains GM-adjudicated until its capability exists.",
+      "talentModifications": "Only this explicitly learned signature/its declared opcode variation applies in R1. Later rank modifiers require a new reviewed definition version; never applied twice.",
+      "heritageModifications": "Only the selected proposed bounded native edge and paired cost, after full access/method/body validation. No raw-parent percentage or free resource gain inherited; example arithmetic excludes optional edges.",
+      "runtimeDependencies": [
+        "CR-A1",
+        "CR-R1",
+        "CR-E1",
+        "CR-S1-summon-lifecycle"
+      ],
+      "verificationRequirements": {
+        "positive": "Used witness cannot answer again by dismissal/re-summon/reload; actual unknown remains unknown.",
+        "refusal": "Malformed choice, wrong domain/actor or missing required state leaves every pool/entity unchanged.",
+        "duplicate": "Same command/event/choice identity returns original result, with no repeated cost, draw, effect or expiry.",
+        "roundTrip": "Both Wizard saves, canonical export/template, reopen and card preserve complete program and explicit zeros."
+      }
+    },
+    {
+      "evidenceLabel": "PROPOSED",
+      "status": "HeadQ-review-R1; not admitted by current app",
+      "contentRole": "talent-signature",
+      "talentNode": {
+        "id": "cr1_deathcaller_grave_marshal_signature",
+        "rank": 1,
+        "maxRanks": 1,
+        "requiresTreePoints": 10,
+        "minimumLevel": 3
+      },
+      "spell": {
+        "id": "cr1_deathcaller_coordinated_muster",
+        "classId": "deathcaller",
+        "rulesetVersion": "cr-review-r1",
+        "name": "Coordinated Muster",
+        "description": "Command two different manifested retainers into a declared surround. Each may reposition up to5ft then strike the same quarry; if both legal strikes land, its next movement allowance is reduced5ft.",
+        "level": 3,
+        "specialization": "grave-marshal",
+        "spellType": "ACTION",
+        "icon": "Psychic/Psychic Telepathy",
+        "typeConfig": {
+          "school": "wyrd",
+          "castTimeType": "IMMEDIATE",
+          "tags": [
+            "deathcaller",
+            "class-feature"
+          ]
+        },
+        "resourceCost": {
+          "actionPoints": 2,
+          "mana": 0,
+          "resourceTypes": [
+            "actionPoints"
+          ],
+          "resourceValues": {
+            "actionPoints": 2,
+            "mana": 0
+          },
+          "useFormulas": {},
+          "components": [
+            "somatic"
+          ],
+          "somaticText": "Present the class focus and deliberately declare the operation; its exact choices precede resolution."
+        },
+        "targetingConfig": {
+          "targetingType": "multi",
+          "rangeType": "ranged",
+          "rangeDistance": 30,
+          "targetRestrictions": [
+            "two-own-retainers",
+            "enemy"
+          ],
+          "maxTargets": 3
+        },
+        "effectTypes": [
+          "damage",
+          "control"
+        ],
+        "resolution": "RESOURCE_PROGRAM",
+        "damageConfig": null,
+        "durationConfig": {
+          "durationType": "instant",
+          "durationValue": 0,
+          "durationUnit": "instant"
+        },
+        "cooldownConfig": {
+          "cooldownType": "none",
+          "cooldownValue": 0
+        },
+        "classResourceProgram": {
+          "version": 1,
+          "domain": "dead-muster",
+          "op": "dead.coordinate",
+          "args": {
+            "orders": 2,
+            "actors": 2,
+            "distinctActors": true,
+            "requiresCapacityOneRetainers": true,
+            "actorActions": 1,
+            "eachRepositionFeet": 5,
+            "eachStrike": {
+              "formula": "1d6",
+              "type": "wyrd",
+              "rangeFeet": 5
+            },
+            "sameEnemy": true,
+            "bothHits": {
+              "targetMovementPenaltyFeet": 5,
+              "expires": "start-next-caster-own-turn"
+            },
+            "attackProfile": "Prism-weapon-GM-adjudicated"
+          }
+        },
+        "reactionTiming": null,
+        "savingThrow": null,
+        "conditions": [],
+        "area": null
+      },
+      "resourceCostSummary": "2 AP, both orders, action of each of two different unused actors.",
+      "resourceGenerationSummary": "None unless a declared branch or resolved event below grants it.",
+      "castingInputs": [
+        "two own exact actor refs",
+        "one enemy exact ref",
+        "legal surrounding positions"
+      ],
+      "failureConditions": [
+        "Invalid exact source/target or insufficient AP/resources; refused before commitment with no mutation."
+      ],
+      "effectConfiguration": {
+        "orders": 2,
+        "actors": 2,
+        "distinctActors": true,
+        "requiresCapacityOneRetainers": true,
+        "actorActions": 1,
+        "eachRepositionFeet": 5,
+        "eachStrike": {
+          "formula": "1d6",
+          "type": "wyrd",
+          "rangeFeet": 5
+        },
+        "sameEnemy": true,
+        "bothHits": {
+          "targetMovementPenaltyFeet": 5,
+          "expires": "start-next-caster-own-turn"
+        },
+        "attackProfile": "Prism-weapon-GM-adjudicated"
+      },
+      "checkAndTimingNotes": "Own turn in combat; no reaction or saving throw. Noncombat uses explicit GM-adjudicated activity time and preserves finite contents/uses without inventing turn-refresh loops. Attack/geometry/defense remains GM-adjudicated until its capability exists.",
+      "talentModifications": "Only this explicitly learned signature/its declared opcode variation applies in R1. Later rank modifiers require a new reviewed definition version; never applied twice.",
+      "heritageModifications": "Only the selected proposed bounded native edge and paired cost, after full access/method/body validation. No raw-parent percentage or free resource gain inherited; example arithmetic excludes optional edges.",
+      "runtimeDependencies": [
+        "CR-A1",
+        "CR-R1",
+        "CR-E1",
+        "CR-S1-summon-lifecycle"
+      ],
+      "verificationRequirements": {
+        "positive": "No partial command if one actor/path invalid; each hit/result recorded once; twohits required for movement penalty.",
+        "refusal": "Malformed choice, wrong domain/actor or missing required state leaves every pool/entity unchanged.",
+        "duplicate": "Same command/event/choice identity returns original result, with no repeated cost, draw, effect or expiry.",
+        "roundTrip": "Both Wizard saves, canonical export/template, reopen and card preserve complete program and explicit zeros."
+      }
+    },
+    {
+      "evidenceLabel": "PROPOSED",
+      "status": "HeadQ-review-R1; not admitted by current app",
+      "contentRole": "talent-signature",
+      "talentNode": {
+        "id": "cr1_deathcaller_soul_shepherd_signature",
+        "rank": 1,
+        "maxRanks": 1,
+        "requiresTreePoints": 10,
+        "minimumLevel": 3
+      },
+      "spell": {
+        "id": "cr1_deathcaller_veil_escort",
+        "classId": "deathcaller",
+        "rulesetVersion": "cr-review-r1",
+        "name": "Veil Escort",
+        "description": "Use a witness’s action to guard a nearby willing ally instead of attacking. A three-point one-use ward lasts until your next own turn.",
+        "level": 3,
+        "specialization": "soul-shepherd",
+        "spellType": "ACTION",
+        "icon": "Psychic/Psychic Telepathy",
+        "typeConfig": {
+          "school": "wyrd",
+          "castTimeType": "IMMEDIATE",
+          "tags": [
+            "deathcaller",
+            "class-feature"
+          ]
+        },
+        "resourceCost": {
+          "actionPoints": 1,
+          "mana": 0,
+          "resourceTypes": [
+            "actionPoints"
+          ],
+          "resourceValues": {
+            "actionPoints": 1,
+            "mana": 0
+          },
+          "useFormulas": {},
+          "components": [
+            "somatic"
+          ],
+          "somaticText": "Present the class focus and deliberately declare the operation; its exact choices precede resolution."
+        },
+        "targetingConfig": {
+          "targetingType": "multi",
+          "rangeType": "ranged",
+          "rangeDistance": 30,
+          "targetRestrictions": [
+            "own-manifestation",
+            "willing-ally"
+          ],
+          "maxTargets": 2
+        },
+        "effectTypes": [
+          "buff"
+        ],
+        "resolution": "RESOURCE_PROGRAM",
+        "damageConfig": null,
+        "durationConfig": {
+          "durationType": "own_turns",
+          "durationValue": 1,
+          "durationUnit": "next_caster_turn_start"
+        },
+        "cooldownConfig": {
+          "cooldownType": "none",
+          "cooldownValue": 0
+        },
+        "classResourceProgram": {
+          "version": 1,
+          "domain": "dead-muster",
+          "op": "dead.escort",
+          "args": {
+            "orders": 1,
+            "actorAction": 1,
+            "witnessToAllyRangeFeet": 5,
+            "ward": {
+              "capacity": 3,
+              "uses": 1,
+              "expires": "start-next-caster-own-turn",
+              "stacking": "higher-only"
+            }
+          }
+        },
+        "reactionTiming": null,
+        "savingThrow": null,
+        "conditions": [],
+        "area": null
+      },
+      "resourceCostSummary": "1 AP, one order, manifestation’s action; no attack.",
+      "resourceGenerationSummary": "None unless a declared branch or resolved event below grants it.",
+      "castingInputs": [
+        "own unused manifestation ref",
+        "adjacent willing ally ref"
+      ],
+      "failureConditions": [
+        "Invalid exact source/target or insufficient AP/resources; refused before commitment with no mutation."
+      ],
+      "effectConfiguration": {
+        "orders": 1,
+        "actorAction": 1,
+        "witnessToAllyRangeFeet": 5,
+        "ward": {
+          "capacity": 3,
+          "uses": 1,
+          "expires": "start-next-caster-own-turn",
+          "stacking": "higher-only"
+        }
+      },
+      "checkAndTimingNotes": "Own turn in combat; no reaction or saving throw. Noncombat uses explicit GM-adjudicated activity time and preserves finite contents/uses without inventing turn-refresh loops. Attack/geometry/defense remains GM-adjudicated until its capability exists.",
+      "talentModifications": "Only this explicitly learned signature/its declared opcode variation applies in R1. Later rank modifiers require a new reviewed definition version; never applied twice.",
+      "heritageModifications": "Only the selected proposed bounded native edge and paired cost, after full access/method/body validation. No raw-parent percentage or free resource gain inherited; example arithmetic excludes optional edges.",
+      "runtimeDependencies": [
+        "CR-A1",
+        "CR-R1",
+        "CR-E1",
+        "CR-S1-summon-lifecycle"
+      ],
+      "verificationRequirements": {
+        "positive": "Guarded ally absorbs at most3; witness cannot also attack this turn; duplicate ward never stacks.",
+        "refusal": "Malformed choice, wrong domain/actor or missing required state leaves every pool/entity unchanged.",
+        "duplicate": "Same command/event/choice identity returns original result, with no repeated cost, draw, effect or expiry.",
+        "roundTrip": "Both Wizard saves, canonical export/template, reopen and card preserve complete program and explicit zeros."
+      }
+    },
+    {
+      "evidenceLabel": "PROPOSED",
+      "status": "HeadQ-review-R1; not admitted by current app",
+      "contentRole": "talent-signature",
+      "talentNode": {
+        "id": "cr1_deathcaller_ossuary_architect_signature",
+        "rank": 1,
+        "maxRanks": 1,
+        "requiresTreePoints": 10,
+        "minimumLevel": 3
+      },
+      "spell": {
+        "id": "cr1_deathcaller_bone_bastion",
+        "classId": "deathcaller",
+        "rulesetVersion": "cr-review-r1",
+        "name": "Bone Bastion",
+        "description": "Manifest one ossuary guardian from two prepared dead patterns. It occupies both capacity, moves slowly and remains dependent on your orders rather than gaining independent turns.",
+        "level": 3,
+        "specialization": "ossuary-architect",
+        "spellType": "ACTION",
+        "icon": "Psychic/Psychic Telepathy",
+        "typeConfig": {
+          "school": "smashing",
+          "castTimeType": "IMMEDIATE",
+          "tags": [
+            "deathcaller",
+            "class-feature"
+          ]
+        },
+        "resourceCost": {
+          "actionPoints": 2,
+          "mana": 0,
+          "resourceTypes": [
+            "actionPoints"
+          ],
+          "resourceValues": {
+            "actionPoints": 2,
+            "mana": 0
+          },
+          "useFormulas": {},
+          "components": [
+            "somatic"
+          ],
+          "somaticText": "Present the class focus and deliberately declare the operation; its exact choices precede resolution."
+        },
+        "targetingConfig": {
+          "targetingType": "single",
+          "rangeType": "ranged",
+          "rangeDistance": 5,
+          "targetRestrictions": [
+            "legal-empty-space"
+          ],
+          "maxTargets": 1
+        },
+        "effectTypes": [
+          "summoning"
+        ],
+        "resolution": "RESOURCE_PROGRAM",
+        "damageConfig": null,
+        "durationConfig": {
+          "durationType": "instant",
+          "durationValue": 0,
+          "durationUnit": "instant"
+        },
+        "cooldownConfig": {
+          "cooldownType": "none",
+          "cooldownValue": 0
+        },
+        "classResourceProgram": {
+          "version": 1,
+          "domain": "dead-muster",
+          "op": "dead.bastion",
+          "args": {
+            "preparedPatterns": 2,
+            "capacity": 2,
+            "requiresEmptyManifestationCapacity": true,
+            "template": {
+              "id": "cr1_ossuary_guardian",
+              "version": 1,
+              "maxHP": 20,
+              "strike": "1d8",
+              "damageType": "smashing",
+              "strikeRange": 5,
+              "commandMoveFeet": 5,
+              "autonomousAP": 0,
+              "actionsPerCasterOwnTurn": 1
+            },
+            "creationHP": "sum-two-patterns-remaining-vitality",
+            "damageAllocation": "lexicographically-first-pattern-first",
+            "onDefeat": "exhaust-both-patterns-until-long-rest",
+            "creationAttack": false
+          }
+        },
+        "reactionTiming": null,
+        "savingThrow": null,
+        "conditions": [],
+        "area": null
+      },
+      "resourceCostSummary": "2 AP, two unexhausted patterns, capacity2; one actor, not two actors worth of turns.",
+      "resourceGenerationSummary": "None unless a declared branch or resolved event below grants it.",
+      "castingInputs": [
+        "two distinct prepared pattern IDs",
+        "legal adjacent guardian position"
+      ],
+      "failureConditions": [
+        "Invalid exact source/target or insufficient AP/resources; refused before commitment with no mutation."
+      ],
+      "effectConfiguration": {
+        "preparedPatterns": 2,
+        "capacity": 2,
+        "requiresEmptyManifestationCapacity": true,
+        "template": {
+          "id": "cr1_ossuary_guardian",
+          "version": 1,
+          "maxHP": 20,
+          "strike": "1d8",
+          "damageType": "smashing",
+          "strikeRange": 5,
+          "commandMoveFeet": 5,
+          "autonomousAP": 0,
+          "actionsPerCasterOwnTurn": 1
+        },
+        "creationHP": "sum-two-patterns-remaining-vitality",
+        "damageAllocation": "lexicographically-first-pattern-first",
+        "onDefeat": "exhaust-both-patterns-until-long-rest",
+        "creationAttack": false
+      },
+      "checkAndTimingNotes": "Own turn in combat; no reaction or saving throw. Noncombat uses explicit GM-adjudicated activity time and preserves finite contents/uses without inventing turn-refresh loops. Attack/geometry/defense remains GM-adjudicated until its capability exists.",
+      "talentModifications": "Only this explicitly learned signature/its declared opcode variation applies in R1. Later rank modifiers require a new reviewed definition version; never applied twice.",
+      "heritageModifications": "Only the selected proposed bounded native edge and paired cost, after full access/method/body validation. No raw-parent percentage or free resource gain inherited; example arithmetic excludes optional edges.",
+      "runtimeDependencies": [
+        "CR-A1",
+        "CR-R1",
+        "CR-E1",
+        "CR-S1-summon-lifecycle"
+      ],
+      "verificationRequirements": {
+        "positive": "Existing retainer prevents summoning until explicitly dismissed; guardian defeat exhausts both underlying patterns, reload cannot restore them.",
+        "refusal": "Malformed choice, wrong domain/actor or missing required state leaves every pool/entity unchanged.",
+        "duplicate": "Same command/event/choice identity returns original result, with no repeated cost, draw, effect or expiry.",
+        "roundTrip": "Both Wizard saves, canonical export/template, reopen and card preserve complete program and explicit zeros."
+      }
+    }
+  ]
+}

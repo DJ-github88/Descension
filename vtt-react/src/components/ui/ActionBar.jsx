@@ -27,6 +27,7 @@ import { normalizeEquipment, isOffHandDisabled as checkOffHandDisabled } from '.
 import { normalizeManagedClassResource, getManagedSpellResourcePlan } from '../../data/classResourceContracts';
 import { migrateBlockId } from '../../utils/arcanoneerMigration';
 import { routeSpellCast, isP9Routed } from '../../services/spellConsequenceService';
+import { routeWeaponStrike } from '../../services/weaponStrikeService';
 import './ActionBar.css';
 
 // Spell damage types constant - used for consumable effects
@@ -70,7 +71,8 @@ const ActionBar = () => {
     const [equipmentMousePos, setEquipmentMousePos] = useState({ x: 0, y: 0 });
     const { adjustedPosition: equipmentTooltipPos, tooltipRef: equipmentTooltipRef } = useTooltipPosition(
         equipmentMousePos,
-        !!equipmentTooltipItem
+        !!equipmentTooltipItem,
+        { estimateHeight: 450, estimateWidth: 380, offsetX: 16, anchor: 'above' }
     );
 
     // Hotkey assignment state
@@ -968,6 +970,7 @@ const ActionBar = () => {
             }
         }
 
+        if (routeWeaponStrike(action, { producer: 'hud-equipment' })) return;
         if (routeSpellCast(action, { producer: 'hud-equipment' })) return;
         setSpellToCast(action);
         setSpellSlotIndex('equipment-action');
@@ -1005,6 +1008,7 @@ const ActionBar = () => {
             const spellToDisplay = librarySpell || item;
 
             // P9: supported spells in a shared room go to the owner approval panel.
+            if (routeWeaponStrike(spellToDisplay, { producer: 'hud', slotIndex })) return;
             if (routeSpellCast(spellToDisplay, { producer: 'hud', slotIndex })) return;
 
             // Show confirmation popup
@@ -1478,7 +1482,7 @@ const ActionBar = () => {
             top: (e?.clientY || window.innerHeight - 80) - 24
         };
         const posX = (e?.clientX && e.clientX > 0) ? e.clientX : (rect.left + rect.width / 2);
-        const posY = (e?.clientY && e.clientY > 0) ? e.clientY : rect.top;
+        const posY = rect.top;
 
         setEquipmentMousePos({ x: posX, y: posY });
         setEquipmentTooltipItem(itemToDisplay);
@@ -1486,7 +1490,7 @@ const ActionBar = () => {
 
     const handleEquipmentSlotMouseMove = (e) => {
         if (e?.clientX && e?.clientY) {
-            setEquipmentMousePos({ x: e.clientX, y: e.clientY });
+            setEquipmentMousePos(prev => ({ x: e.clientX, y: prev.y }));
         }
     };
 
@@ -2352,6 +2356,8 @@ const ActionBar = () => {
                             position: 'fixed',
                             left: `${equipmentTooltipPos.x}px`,
                             top: `${equipmentTooltipPos.y}px`,
+                            maxHeight: 'calc(100vh - 36px)',
+                            overflowY: 'auto',
                             pointerEvents: 'none',
                             zIndex: 999999999
                         }}

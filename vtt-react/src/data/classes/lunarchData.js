@@ -1496,7 +1496,7 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
       level: 1,
       spellType: "PASSIVE",
       icon: "Arcane/Spiral Vortex",
-      effectTypes: ["passive"],
+      effectTypes: ["passive","debuff"],
       typeConfig: {
         school: "arcane",
         icon: "Arcane/Spiral Vortex",
@@ -1504,7 +1504,21 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
       },
       targetingConfig: { targetingType: "self" },
       resourceCost: { resourceTypes: [], resourceValues: { classResource: { type: "lunar_phase", locksPhase: true } }, actionPoints: 0 },
-      resolution: "AUTOMATIC",
+      debuffConfig: {
+        debuffType: "statusEffect",
+        effects: [
+          {
+            id: "phase_shift_interruption",
+            name: "Phase Lock Vulnerability",
+            description: "On taking damage during shift",
+            mechanicsText: "Taking damage during a manual phase shift interrupts it. Mana and blight cost are still paid but the shift fails."
+          }
+        ],
+        durationValue: 0,
+        durationType: "permanent",
+        durationUnit: "permanent"
+      },
+  resolution: "AUTOMATIC",
       tags: ["passive", "lunarch", "weakness"],
     },
 
@@ -1515,7 +1529,7 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
       level: 1,
       spellType: "PASSIVE",
       icon: "Force/Explosion Burst",
-      effectTypes: ["passive"],
+      effectTypes: ["passive","debuff"],
       typeConfig: {
         school: "arcane",
         icon: "Force/Explosion Burst",
@@ -1523,7 +1537,21 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
       },
       targetingConfig: { targetingType: "self" },
       resourceCost: { resourceTypes: [], resourceValues: { classResource: { type: "lunar_phase", phaseAdvancement: 1 } }, actionPoints: 0 },
-      resolution: "AUTOMATIC",
+      debuffConfig: {
+        debuffType: "statusEffect",
+        effects: [
+          {
+            id: "transition_shock_table",
+            name: "Transition Shock",
+            description: "On each phase shift",
+            mechanicsText: "Roll 1d6: 1=Rupture (2d6 blight damage), 2=Flash (Blinded 1 round), 3=Hemorrhage (-2d4 mana), 4=Dissonance (-1 AP next turn), 5=Whiplash (1d6 wyrd damage), 6=Mercy (take 1 blight damage)."
+          }
+        ],
+        durationValue: 0,
+        durationType: "permanent",
+        durationUnit: "permanent"
+      },
+  resolution: "AUTOMATIC",
       tags: ["passive", "lunarch", "transition shock"],
     },
 

@@ -3,6 +3,7 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import CameraCompass from '../CameraCompass';
 import useGameStore from '../../../store/gameStore';
+import useLevelEditorStore from '../../../store/levelEditorStore';
 
 describe('CameraCompass', () => {
   beforeEach(() => {
@@ -10,6 +11,9 @@ describe('CameraCompass', () => {
       viewMode: '2d',
       viewRotation: 0,
       viewTilt: 90
+    });
+    useLevelEditorStore.setState({
+      wallsCollapsed: false
     });
   });
 
@@ -149,5 +153,22 @@ describe('CameraCompass', () => {
     expect(screen.getByRole('button', { name: '2D' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Camera' })).toHaveClass('active');
     expect(screen.getByRole('button', { name: 'Camera' })).toHaveAttribute('aria-expanded', 'true');
+  });
+
+  it('toggles wallsCollapsed state when clicking Collapse Walls button', () => {
+    render(<CameraCompass />);
+
+    const collapseBtn = screen.getByRole('button', { name: /Collapse Walls/i });
+    expect(collapseBtn).toBeInTheDocument();
+    expect(collapseBtn).not.toHaveClass('active');
+    expect(useLevelEditorStore.getState().wallsCollapsed).toBe(false);
+
+    fireEvent.click(collapseBtn);
+
+    expect(useLevelEditorStore.getState().wallsCollapsed).toBe(true);
+    expect(screen.getByRole('button', { name: /Walls: Collapsed/i })).toHaveClass('active');
+
+    fireEvent.click(screen.getByRole('button', { name: /Walls: Collapsed/i }));
+    expect(useLevelEditorStore.getState().wallsCollapsed).toBe(false);
   });
 });

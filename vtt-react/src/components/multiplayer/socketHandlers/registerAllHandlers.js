@@ -16,6 +16,8 @@ import { registerErrorHandlers } from './errorHandlers';
 import { isSocketRetired } from '../../../persistence/handoff/socketPrincipalRetirement';
 import { registerActorHandlers } from '../../../services/actorConsequenceService';
 import { registerSpellConsequenceHandlers } from '../../../services/spellConsequenceService';
+import { registerWeaponStrikeHandlers } from '../../../services/weaponStrikeService';
+import { registerBlockingHandlers } from '../../../services/blockingService';
 
 export function registerAllSocketHandlers(ctx) {
   // Wave A (P5/S4): never register handlers on a retired principal's socket.
@@ -27,6 +29,8 @@ export function registerAllSocketHandlers(ctx) {
   const cleanupFns = [
     registerActorHandlers(ctx),
     registerSpellConsequenceHandlers(ctx),
+    registerWeaponStrikeHandlers(ctx),
+    registerBlockingHandlers(ctx),
     registerConnectionHandlers(ctx),
     registerRoomLifecycleHandlers(ctx),
     registerChatHandlers(ctx),

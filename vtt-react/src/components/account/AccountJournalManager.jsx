@@ -124,15 +124,15 @@ const ORB_ICONS = [
 
 // Color options for orbs
 const ORB_COLORS = [
-  '#d4af37', '#cd7f32', '#c0c0c0', '#e74c3c', '#3498db',
-  '#2ecc71', '#9b59b6', '#f39c12', '#1abc9c', '#e91e63',
+  '#8b5a1a', '#cd7f32', '#c0c0c0', '#a04030', '#3498db',
+  '#2ecc71', '#9b59b6', '#663c32', '#1abc9c', '#e91e63',
   '#795548', '#607d8b'
 ];
 
 // Folder colors
 const FOLDER_COLORS = [
-  '#d4af37', '#cd7f32', '#8b4513', '#e74c3c', '#3498db',
-  '#2ecc71', '#9b59b6', '#f39c12', '#1abc9c', '#795548'
+  '#8b5a1a', '#cd7f32', '#8b4513', '#a04030', '#3498db',
+  '#2ecc71', '#9b59b6', '#663c32', '#1abc9c', '#795548'
 ];
 
 // List of available background images (from /assets/Backgrounds/)
@@ -238,7 +238,7 @@ const AccountJournalManager = ({ user }) => {
   const [addOrbStep, setAddOrbStep] = useState('select');
   const [selectedItemForOrb, setSelectedItemForOrb] = useState(null);
   const [addOrbIcon, setAddOrbIcon] = useState('scroll');
-  const [addOrbColor, setAddOrbColor] = useState('#d4af37');
+  const [addOrbColor, setAddOrbColor] = useState('#8b5a1a');
   const [addOrbTitle, setAddOrbTitle] = useState('');
   const [addOrbSearchTerm, setAddOrbSearchTerm] = useState('');
   const [addOrbActiveTab, setAddOrbActiveTab] = useState('received'); // 'received' | 'notes' | 'campaign'
@@ -304,7 +304,7 @@ const AccountJournalManager = ({ user }) => {
         name: title,
         type: 'noble_house',
         publicGoal: content || 'Custom faction created from Journal brainstorm.',
-        colors: { primary: '#d4af37', secondary: '#333' }
+        colors: { primary: '#8b5a1a', secondary: '#333' }
       });
       showAlert({
         title: 'Custom Faction Created',
@@ -973,7 +973,7 @@ const AccountJournalManager = ({ user }) => {
     if (noteId) {
       const note = playerNotes.find(n => n.id === noteId);
       const iconToUse = note?.image || 'sticky-note';
-      addKnowledgeOrb(noteId, { x, y }, 'note', iconToUse, '#f39c12');
+      addKnowledgeOrb(noteId, { x, y }, 'note', iconToUse, '#8b5a1a');
     } else if (knowledgeId) {
       const knowledge = playerKnowledge.find(k => k.id === knowledgeId);
       const iconToUse = knowledge?.image || (knowledge?.type === 'image' ? knowledge?.content : 'scroll');
@@ -1028,7 +1028,7 @@ const AccountJournalManager = ({ user }) => {
     setAddOrbStep('select');
     setSelectedItemForOrb(null);
     setAddOrbIcon('scroll');
-    setAddOrbColor('#d4af37');
+    setAddOrbColor('#8b5a1a');
     setAddOrbTitle('');
   }, [selectedItemForOrb, addOrbIcon, addOrbColor, addOrbTitle, addKnowledgeOrb, updateOrb, addNote, panOffset, zoomLevel]);
 
@@ -1210,17 +1210,17 @@ const AccountJournalManager = ({ user }) => {
         setAddOrbColor('#9b59b6');
       } else {
         setAddOrbIcon(item.image || 'book');
-        setAddOrbColor('#d4af37');
+        setAddOrbColor('#7a5e48');
       }
     } else if (type === 'note') {
       setAddOrbIcon('sticky-note');
-      setAddOrbColor('#f39c12');
+      setAddOrbColor('#8b5a1a');
     } else if (item.type === 'image') {
       setAddOrbIcon('map');
       setAddOrbColor('#3498db');
     } else {
       setAddOrbIcon('scroll');
-      setAddOrbColor('#d4af37');
+      setAddOrbColor('#8b5a1a');
     }
 
     setAddOrbStep('customize');
@@ -1331,7 +1331,7 @@ const AccountJournalManager = ({ user }) => {
     const count = currentOrbs.length;
     const posX = 120 + ((count % 4) * 160);
     const posY = 120 + (Math.floor(count / 4) * 140);
-    addKnowledgeOrb(targetNoteId, { x: posX, y: posY }, 'note', 'scroll', '#d4af37');
+    addKnowledgeOrb(targetNoteId, { x: posX, y: posY }, 'note', 'scroll', '#8b5a1a');
     syncToCloud(user?.uid);
     showAlert({
       title: 'Knowledge Orb Created',
@@ -2336,12 +2336,12 @@ const AccountJournalManager = ({ user }) => {
                       }}
                       title="Promote this note into a Lineage, Faction, or Map Pin"
                     >
-                      <i className="fas fa-bolt" style={{ color: '#d4af37' }}></i> Promote to World ▾
+                      <i className="fas fa-bolt" style={{ color: '#7a5e48' }}></i> Promote to World ▾
                     </button>
                     {showPromoteMenu && (
                       <div className="studio-promote-menu" onClick={(e) => e.stopPropagation()}>
                         <button type="button" onClick={() => handlePromoteNote('npc')}>
-                          <i className="fas fa-user-tag" style={{ color: '#e67e22' }}></i>
+                          <i className="fas fa-user-tag" style={{ color: '#8b5a1a' }}></i>
                           <div>
                             <strong>Campaign NPC</strong>
                             <small>Create character in active campaign</small>
@@ -2355,14 +2355,14 @@ const AccountJournalManager = ({ user }) => {
                           </div>
                         </button>
                         <button type="button" onClick={() => handlePromoteNote('quest')}>
-                          <i className="fas fa-scroll" style={{ color: '#f39c12' }}></i>
+                          <i className="fas fa-scroll" style={{ color: '#7a5e48' }}></i>
                           <div>
                             <strong>Campaign Quest</strong>
                             <small>Add quest to active campaign</small>
                           </div>
                         </button>
                         <button type="button" onClick={() => handlePromoteNote('homebrew_item')}>
-                          <i className="fas fa-gem" style={{ color: '#d4af37' }}></i>
+                          <i className="fas fa-gem" style={{ color: '#8b5a1a' }}></i>
                           <div>
                             <strong>Campaign Vault Item</strong>
                             <small>Save custom item to campaign</small>
@@ -2383,7 +2383,7 @@ const AccountJournalManager = ({ user }) => {
                           </div>
                         </button>
                         <button type="button" onClick={() => handlePromoteNote('lineage')}>
-                          <i className="fas fa-dna" style={{ color: '#d4af37' }}></i>
+                          <i className="fas fa-dna" style={{ color: '#663c32' }}></i>
                           <div>
                             <strong>Custom Lineage / Race</strong>
                             <small>Import into Custom Lineage Wizard</small>
@@ -2745,7 +2745,7 @@ const AccountJournalManager = ({ user }) => {
                                 <button
                                   type="button"
                                   className="btn-mode-pill"
-                                  style={{ background: 'linear-gradient(135deg, #d4af37 0%, #aa8014 100%)', color: '#1a0f05', fontWeight: 'bold' }}
+                                  style={{ background: '#663c32', color: '#faf6ee', fontWeight: 'bold' }}
                                   onClick={() => {
                                     useFamilyTreeStore.getState().openStudio(matchTree.id, matchNode?.id);
                                     setShowOrbEditor(null);
@@ -3126,13 +3126,13 @@ const AccountJournalManager = ({ user }) => {
                         <div className="orb-appearance-preview-stage">
                           <div
                             className="stage-glow-ambient"
-                            style={{ background: `radial-gradient(circle, ${showOrbEditor.color || '#d4af37'}30 0%, transparent 70%)` }}
+                            style={{ background: `radial-gradient(circle, ${showOrbEditor.color || '#8b5a1a'}30 0%, transparent 70%)` }}
                           />
                           <div
                             className="orb-live-showcase-node"
                             style={{
-                              borderColor: showOrbEditor.color || '#d4af37',
-                              boxShadow: `0 0 22px ${showOrbEditor.color || '#d4af37'}88, inset 0 0 10px ${showOrbEditor.color || '#d4af37'}33`
+                              borderColor: showOrbEditor.color || '#8b5a1a',
+                              boxShadow: `0 0 22px ${showOrbEditor.color || '#8b5a1a'}88, inset 0 0 10px ${showOrbEditor.color || '#8b5a1a'}33`
                             }}
                           >
                             {showOrbEditor.iconType && isCustomIcon(showOrbEditor.iconType) ? (
@@ -3151,18 +3151,18 @@ const AccountJournalManager = ({ user }) => {
                               <span className="showcase-badge-type">
                                 {showOrbEditor.iconType && isCustomIcon(showOrbEditor.iconType) ? (
                                   <>
-                                    <i className="fas fa-image" style={{ color: '#d4af37', marginRight: 4 }}></i> Custom Artwork
+                                    <i className="fas fa-image" style={{ color: '#7a5e48', marginRight: 4 }}></i> Custom Artwork
                                   </>
                                 ) : (
                                   <>
-                                    <i className={`fas ${ORB_ICONS.find(i => i.id === showOrbEditor.iconType)?.icon || 'fa-scroll'}`} style={{ color: '#d4af37', marginRight: 4 }}></i>
+                                    <i className={`fas ${ORB_ICONS.find(i => i.id === showOrbEditor.iconType)?.icon || 'fa-scroll'}`} style={{ color: '#7a5e48', marginRight: 4 }}></i>
                                     {(ORB_ICONS.find(i => i.id === showOrbEditor.iconType)?.label || 'Standard').split('/')[0].trim()}
                                   </>
                                 )}
                               </span>
-                              <span className="showcase-badge-color" style={{ borderColor: `${showOrbEditor.color || '#d4af37'}55` }}>
-                                <span className="color-dot" style={{ backgroundColor: showOrbEditor.color || '#d4af37' }} />
-                                {showOrbEditor.color || '#d4af37'}
+                              <span className="showcase-badge-color" style={{ borderColor: `${showOrbEditor.color || '#8b5a1a'}55` }}>
+                                <span className="color-dot" style={{ backgroundColor: showOrbEditor.color || '#8b5a1a' }} />
+                                {showOrbEditor.color || '#8b5a1a'}
                               </span>
                             </div>
                           </div>
@@ -3254,7 +3254,7 @@ const AccountJournalManager = ({ user }) => {
                                   style={{
                                     backgroundColor: color,
                                     boxShadow: isSelected
-                                      ? `0 0 16px ${color}, 0 0 0 2.5px #d4af37, inset 0 0 4px rgba(255,255,255,0.6)`
+                                      ? `0 0 12px ${color}, 0 0 0 2px #663c32, inset 0 0 4px rgba(255,255,255,0.6)`
                                       : `0 2px 5px rgba(0,0,0,0.2)`
                                   }}
                                   onClick={() => {
@@ -3556,7 +3556,7 @@ const AccountJournalManager = ({ user }) => {
                     onClick={() => {
                       setNewBoardName('Lineages & Bloodlines');
                       setNewBoardIcon('fa-crown');
-                      setNewBoardColor('#d4af37');
+                      setNewBoardColor('#8b5a1a');
                     }}
                   >
                     <i className="fas fa-crown"></i>
@@ -3992,27 +3992,34 @@ const AccountJournalManager = ({ user }) => {
                               gap: '12px',
                               padding: '12px',
                               marginBottom: '8px',
-                              background: 'rgba(139, 69, 19, 0.05)',
-                              borderRadius: '6px',
+                              background: '#fdfbf7',
+                              border: '1px solid rgba(182, 160, 128, 0.45)',
+                              borderRadius: '4px',
                               cursor: 'pointer',
                               transition: 'all 0.2s'
                             }}
                             onClick={() => handleSelectItemForOrb(item, 'knowledge')}
-                            onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(139, 69, 19, 0.1)'}
-                            onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(139, 69, 19, 0.05)'}
+                            onMouseEnter={(e) => {
+                              e.currentTarget.style.background = '#f4efe6';
+                              e.currentTarget.style.borderColor = '#8b5a1a';
+                            }}
+                            onMouseLeave={(e) => {
+                              e.currentTarget.style.background = '#fdfbf7';
+                              e.currentTarget.style.borderColor = 'rgba(182, 160, 128, 0.45)';
+                            }}
                           >
-                            <div style={{ width: '40px', height: '40px', borderRadius: '4px', overflow: 'hidden', background: 'var(--my-parchment-text)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                            <div style={{ width: '40px', height: '40px', borderRadius: '4px', overflow: 'hidden', background: '#f4efe6', border: '1px solid rgba(182, 160, 128, 0.45)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                               {item.type === 'image' ? (
                                 <img src={item.content} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                               ) : (
-                                <i className="fas fa-file-alt" style={{ color: '#8b7355' }}></i>
+                                <i className="fas fa-file-alt" style={{ color: '#7a5e48' }}></i>
                               )}
                             </div>
                             <div style={{ flex: 1 }}>
-                              <div style={{ fontFamily: 'Cinzel', fontWeight: 600, color: '#5a1e12', marginBottom: '4px' }}>{item.title}</div>
-                              <div style={{ fontSize: '11px', color: '#8b7355' }}>{new Date(item.receivedAt).toLocaleDateString()}</div>
+                              <div style={{ fontFamily: 'Cinzel', fontWeight: 600, color: '#34251a', marginBottom: '4px' }}>{item.title}</div>
+                              <div style={{ fontSize: '11px', color: '#6e5849' }}>{new Date(item.receivedAt).toLocaleDateString()}</div>
                             </div>
-                            <i className="fas fa-chevron-right" style={{ color: '#8b7355' }}></i>
+                            <i className="fas fa-chevron-right" style={{ color: '#7a5e48' }}></i>
                           </div>
                         ))
                       )}
@@ -4036,23 +4043,30 @@ const AccountJournalManager = ({ user }) => {
                               gap: '12px',
                               padding: '12px',
                               marginBottom: '8px',
-                              background: 'rgba(139, 69, 19, 0.05)',
-                              borderRadius: '6px',
+                              background: '#fdfbf7',
+                              border: '1px solid rgba(182, 160, 128, 0.45)',
+                              borderRadius: '4px',
                               cursor: 'pointer',
                               transition: 'all 0.2s'
                             }}
                             onClick={() => handleSelectItemForOrb(note, 'note')}
-                            onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(139, 69, 19, 0.1)'}
-                            onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(139, 69, 19, 0.05)'}
+                            onMouseEnter={(e) => {
+                              e.currentTarget.style.background = '#f4efe6';
+                              e.currentTarget.style.borderColor = '#8b5a1a';
+                            }}
+                            onMouseLeave={(e) => {
+                              e.currentTarget.style.background = '#fdfbf7';
+                              e.currentTarget.style.borderColor = 'rgba(182, 160, 128, 0.45)';
+                            }}
                           >
-                            <div style={{ width: '40px', height: '40px', borderRadius: '4px', background: '#f39c12', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                              <i className="fas fa-sticky-note" style={{ color: '#fff' }}></i>
+                            <div style={{ width: '40px', height: '40px', borderRadius: '4px', background: '#f4efe6', border: '1px solid rgba(182, 160, 128, 0.45)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                              <i className="fas fa-sticky-note" style={{ color: '#7a5e48' }}></i>
                             </div>
                             <div style={{ flex: 1 }}>
-                              <div style={{ fontFamily: 'Cinzel', fontWeight: 600, color: '#5a1e12', marginBottom: '4px' }}>{note.title}</div>
-                              <div style={{ fontSize: '11px', color: '#8b7355' }}>{note.content.substring(0, 40)}{note.content.length > 40 ? '...' : ''}</div>
+                              <div style={{ fontFamily: 'Cinzel', fontWeight: 600, color: '#34251a', marginBottom: '4px' }}>{note.title}</div>
+                              <div style={{ fontSize: '11px', color: '#6e5849' }}>{note.content.substring(0, 40)}{note.content.length > 40 ? '...' : ''}</div>
                             </div>
-                            <i className="fas fa-chevron-right" style={{ color: '#8b7355' }}></i>
+                            <i className="fas fa-chevron-right" style={{ color: '#7a5e48' }}></i>
                           </div>
                         ))
                       )}
@@ -4075,7 +4089,7 @@ const AccountJournalManager = ({ user }) => {
                           const title = item.name || item.title;
                           const subtitle = isNpc ? (item.location || 'NPC') : isLoc ? (item.type || 'Location') : isPlot ? (item.status || 'Quest') : 'Lore';
                           const iconClass = isNpc ? 'fa-user' : isLoc ? 'fa-map-marker-alt' : isPlot ? 'fa-scroll' : 'fa-book';
-                          const badgeColor = isNpc ? '#3498db' : isLoc ? '#2ecc71' : isPlot ? '#9b59b6' : '#d4af37';
+                          const badgeColor = isNpc ? '#3498db' : isLoc ? '#2ecc71' : isPlot ? '#9b59b6' : '#7a5e48';
 
                           return (
                             <div
@@ -4086,14 +4100,21 @@ const AccountJournalManager = ({ user }) => {
                                 gap: '12px',
                                 padding: '12px',
                                 marginBottom: '8px',
-                                background: 'rgba(139, 69, 19, 0.05)',
-                                borderRadius: '6px',
+                                background: '#fdfbf7',
+                                border: '1px solid rgba(182, 160, 128, 0.45)',
+                                borderRadius: '4px',
                                 cursor: 'pointer',
                                 transition: 'all 0.2s'
                               }}
                               onClick={() => handleSelectItemForOrb(item, 'campaign', item.campaignKind)}
-                              onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(139, 69, 19, 0.1)'}
-                              onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(139, 69, 19, 0.05)'}
+                              onMouseEnter={(e) => {
+                                e.currentTarget.style.background = '#f4efe6';
+                                e.currentTarget.style.borderColor = '#8b5a1a';
+                              }}
+                              onMouseLeave={(e) => {
+                                e.currentTarget.style.background = '#fdfbf7';
+                                e.currentTarget.style.borderColor = 'rgba(182, 160, 128, 0.45)';
+                              }}
                             >
                               <div style={{ width: '40px', height: '40px', borderRadius: '4px', overflow: 'hidden', background: badgeColor, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                                 {item.image ? (
@@ -4103,13 +4124,13 @@ const AccountJournalManager = ({ user }) => {
                                 )}
                               </div>
                               <div style={{ flex: 1, minWidth: 0 }}>
-                                <div style={{ fontFamily: 'Cinzel', fontWeight: 600, color: '#5a1e12', marginBottom: '2px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{title}</div>
-                                <div style={{ fontSize: '11px', color: '#8b7355' }}>
-                                  <span style={{ padding: '1px 5px', borderRadius: '3px', background: 'rgba(212, 175, 55, 0.2)', marginRight: '6px', textTransform: 'uppercase', fontSize: '9px', fontWeight: 700 }}>{subtitle}</span>
+                                <div style={{ fontFamily: 'Cinzel', fontWeight: 600, color: '#34251a', marginBottom: '2px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{title}</div>
+                                <div style={{ fontSize: '11px', color: '#6e5849' }}>
+                                  <span style={{ padding: '1px 5px', borderRadius: '3px', background: 'rgba(122, 94, 72, 0.12)', color: '#5a4033', marginRight: '6px', textTransform: 'uppercase', fontSize: '9px', fontWeight: 700 }}>{subtitle}</span>
                                   {(item.description || item.notes || '').substring(0, 35)}
                                 </div>
                               </div>
-                              <i className="fas fa-chevron-right" style={{ color: '#8b7355' }}></i>
+                              <i className="fas fa-chevron-right" style={{ color: '#7a5e48' }}></i>
                             </div>
                           );
                         })

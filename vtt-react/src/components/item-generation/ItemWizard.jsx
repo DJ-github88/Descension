@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import { getIconUrl } from '../../utils/assetManager';
 import { SpellLibraryProvider } from '../spellcrafting-wizard/context/SpellLibraryContext';
@@ -526,7 +526,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
     const handleMouseDown = (e) => {
         if (isMobile) return;
         // Allow dragging from anywhere on the window, but not from interactive elements
-        if (!e.target.closest('button, input, select, textarea, .wizard-nav-controls, .close-button')) {
+        if (!e.target.closest('button, input, select, textarea, .wizard-nav-controls, .close-button, .wizard-window-close-btn, .wow-progress-segment')) {
             setIsDragging(true);
             const rect = modalRef.current.getBoundingClientRect();
             setDragOffset({
@@ -612,9 +612,9 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
         setTooltipPosition({ visible: false, x: 0, y: 0, stepName: '' });
     };
 
-    const renderProgressBar = () => {
-        // Filter out combat, chance-on-hit, and utility steps for miscellaneous and currency items
-        const relevantSteps = Object.entries(STEPS).filter(([_, stepIndex]) => {
+    // Calculate relevant steps for current item type
+    const relevantSteps = useMemo(() => {
+        return Object.entries(STEPS).filter(([_, stepIndex]) => {
             if (itemData.type === 'miscellaneous' || itemData.type === 'currency') {
                 return ![STEPS.COMBAT_STATS, STEPS.CHANCE_ON_HIT, STEPS.UTILITY, STEPS.DURABILITY].includes(stepIndex);
             }
@@ -623,9 +623,17 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
             }
             return true;
         });
+    }, [itemData.type]);
 
-        const totalSteps = relevantSteps.length;
-        const currentProgress = ((currentStep + 1) / totalSteps) * 100;
+    const currentStepInfo = getStepInfo(currentStep, itemData.type);
+    const currentStepIndexInFlow = relevantSteps.findIndex(([_, idx]) => idx === currentStep);
+    const displayStepNum = currentStepIndexInFlow >= 0 ? currentStepIndexInFlow + 1 : currentStep + 1;
+    const totalStepCount = relevantSteps.length;
+    const lastRelevantStepIndex = relevantSteps[relevantSteps.length - 1]?.[1];
+    const isLastStep = currentStep === lastRelevantStepIndex || currentStep >= Object.keys(STEPS).length - 1;
+
+    const renderProgressBar = () => {
+        const currentProgress = (displayStepNum / totalStepCount) * 100;
 
         return (
             <div className="wow-progress-bar">
@@ -710,37 +718,63 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                 onMouseDown={handleMouseDown}
             >
                 <div className="item-wizard-content spellbook-wizard-layout">
+                    {/* Window Titlebar */}
+                    <div className="wizard-window-titlebar">
+                        <div className="wizard-titlebar-identity">
+                            <span className="wizard-titlebar-icon">
+                                <i className="fas fa-hammer"></i>
+                            </span>
+                            <div className="wizard-titlebar-titles">
+                                <span className="wizard-titlebar-main">
+                                    ✦ Enchanted Item Forge ✦
+                                </span>
+                                <span className="wizard-titlebar-sub">
+                                    Step {displayStepNum} of {totalStepCount} — {currentStepInfo?.name || 'Crafting'}
+                                </span>
+                            </div>
+                        </div>
+
+                        <button
+                            className="wizard-window-close-btn close-button"
+                            onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                handleClose();
+                            }}
+                            title="Close Forge"
+                            aria-label="Close"
+                        >
+                            <i className="fas fa-times"></i>
+                        </button>
+                    </div>
+
+                    {/* Stepper bar */}
                     <div className="wizard-header">
                         <button
                             className="wizard-nav-btn wizard-nav-previous"
                             onClick={prevStep}
                             disabled={currentStep === 0}
                         >
-                            Previous
+                            <i className="fas fa-chevron-left"></i> Previous
                         </button>
                         <div className="wizard-progress-container">
                             {renderProgressBar()}
                         </div>
-                        {currentStep === Object.keys(STEPS).length - 1 ? (
+                        {isLastStep ? (
                             <button
                                 className="wizard-nav-btn wizard-nav-create"
                                 onClick={() => handleClose(itemData)}
                             >
-                                Create Item
+                                <i className="fas fa-wand-magic-sparkles"></i> Create Item
                             </button>
                         ) : (
                             <button
                                 className="wizard-nav-btn wizard-nav-next"
                                 onClick={nextStep}
                             >
-                                Next
+                                Next <i className="fas fa-chevron-right"></i>
                             </button>
                         )}
-                        <button className="close-button" onClick={(e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            handleClose();
-                        }}><i className="fas fa-times"></i></button>
                     </div>
                     {/* Single column layout - Preview is now external */}
                     <div className="wizard-main-content">

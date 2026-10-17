@@ -567,7 +567,9 @@ const SkillsDisplay = ({ variant = 'advanced' }) => {
                 .replace(/{part}/gi, flavor.part)
                 .replace(/{verb}/gi, flavor.verb);
         const override = WEAPON_FACE_TEXT[selectedWeaponType]?.[clampedRoll];
-        const base = override ? override : flavorize(template || resultText);
+        // P10: show the authored weapon table first; the older local copies are only a fallback.
+        const authored = getWeaponSimpleTable(selectedWeaponType)?.[clampedRoll];
+        const base = authored || (override ? override : flavorize(template || resultText));
         return base.trim();
     };
 
@@ -663,7 +665,6 @@ const SkillsDisplay = ({ variant = 'advanced' }) => {
                                         tabIndex={0}
                                         onKeyPress={(e) => (e.key === 'Enter' || e.key === ' ') && setSelectedWeaponType(weaponKey)}
                                         title={`${meta.label}: ${meta.hint}`}
-                                        style={weaponRankStyleVars}
                                     >
                                         {(showRankChip || (compact && selectedWeaponType === weaponKey)) && (
                                             <span className="weapon-rank-chip">{weaponRankForDisplay.name}</span>
@@ -762,12 +763,16 @@ const SkillsDisplay = ({ variant = 'advanced' }) => {
                                 <h5><i className="fas fa-magic"></i> The Core Idea</h5>
                                 <p>In the skill system, every skill is represented by a single die size, written directly on your character sheet: <strong>4</strong> for a d4, <strong>6</strong> for a d6, <strong>8</strong> for a d8, and so on.</p>
                                 <ul>
-                                    <li><strong>d4 Baseline</strong>: All characters start with a d4 (written as "4") in all skills. Baseline attempt is always possible.</li>
-                                    <li><strong>Organic Upgrades</strong>: Successful learning or extraordinary actions trigger dynamic upgrades awarded by the GM.</li>
+                                    <li><strong>d4 Baseline</strong>: Every skill starts at a d4 (written as "4") before you spend creation points. A baseline attempt is always possible.</li>
+                                    <li><strong>Grow Through Training and Story</strong>: When your character trains or the story changes them, you raise that skill yourself. Ranks don't follow your level, and you don't need the GM's approval.</li>
                                     <li><strong>Conversation Driven</strong>: Set your die size manually under your sheet as your character grows.</li>
                                 </ul>
                             </div>
 
+                            <div className="scroll-section">
+                                <h5><i className="fas fa-coins"></i> Starting Skills (Point-Buy)</h5>
+                                <p>At character creation you buy starting ranks with skill points. The creation step currently charges 1 point to reach Novice (d6), then 2, 3, 4, 5 and 6 for each rank after it (21 in total for Master), and gives 10 points plus 1 for each point of Intelligence above 10. Your background's skills and your one class skill start at Novice, paid from the same points. <em>[Open: the starting budget and any bonus points are not yet confirmed.]</em> After creation, ranks change only through training and story.</p>
+                            </div>
                             <div className="scroll-section">
                                 <h5><i className="fas fa-crosshairs"></i> Difficulty Classes (DCs)</h5>
                                 <p>Instead of assigned difficulty dice, roll against fixed target numbers:</p>
@@ -794,6 +799,7 @@ const SkillsDisplay = ({ variant = 'advanced' }) => {
                         ) : (
                             <>
                             <div className="scroll-section">
+                                <p><em>Advanced Skills are not part of the first-table rules. Their intended difference is how ranks advance: authored tasks (Skill Quests) move your rank. Starting point-buy works the same. [Open: this panel resolves checks with a GM Difficulty Die (maximum = critical success), while the Standard panel uses fixed DCs (maximum explodes). The GM rules until it is decided.]</em></p>
                                 <h5><i className="fas fa-cogs"></i> How Skills Work</h5>
                                 <p>A Mythrill veteran does not swing blindly and hope. <strong>Skills</strong> represent accumulated mastery: trained capabilities that separate a seasoned adventurer from a desperate farmhand.</p>
                                 <ul>
@@ -815,6 +821,7 @@ const SkillsDisplay = ({ variant = 'advanced' }) => {
                                     <div className="dc-row dc-row-rank"><span>Expert</span><span>d20</span><span>+5 to checks, 11 quests</span></div>
                                     <div className="dc-row dc-row-rank"><span>Master</span><span>d20</span><span>+6 to checks, 12 quests</span></div>
                                 </div>
+                                <p><em>[Open: whether a rank adds a flat bonus to checks (+1 to +6) as well as setting your skill die. The GM rules until it is decided.]</em></p>
                                 <p style={{marginTop:'10px', fontSize:'0.92rem'}}><strong>Skill Quests</strong> are narrative milestones that unlock as you use abilities in the world. Completing them advances your rank and opens new proficient ability options.</p>
                             </div>
 
@@ -1000,7 +1007,7 @@ const SkillsDisplay = ({ variant = 'advanced' }) => {
                                     <i className="fas fa-dice"></i>
                                     <div>
                                         <strong>Part of the two-dice attack</strong>
-                                        Rolled alongside your weapon damage die. Standard Rules use a <em>d6</em> type outcome; Advanced Rules use this <em>d8</em> mastery table.
+                                        Your proficiency die for this weapon type (d4 Untrained, d6 Novice, d8 Trained, d10 Apprentice, d12 Adept, d20 Expert and Master) is rolled alongside your weapon damage die. Standard and Advanced Rules read the same outcome table.
                                     </div>
                                 </div>
                                 <div className="wm-distinct-item">
@@ -1013,8 +1020,8 @@ const SkillsDisplay = ({ variant = 'advanced' }) => {
                                 <div className="wm-distinct-item">
                                     <i className="fas fa-tasks"></i>
                                     <div>
-                                        <strong>One ladder per weapon</strong>
-                                        Each weapon type has its own quest ladder; you master weapons individually rather than the skill as a whole.
+                                        <strong>One rank per weapon type</strong>
+                                        You hold a separate proficiency rank for each weapon type and set it yourself as you train. In Advanced Rules each weapon type also has its own task ladder.
                                     </div>
                                 </div>
                             </div>
@@ -1029,23 +1036,24 @@ const SkillsDisplay = ({ variant = 'advanced' }) => {
                         <>
                         {/* Weapon Mastery Standard: d8 flavor system (NOT the skill-die ladder) */}
                         <div className="benefits-section">
-                            <h4><i className="fas fa-dice"></i> Weapon Mastery doesn't use the skill-die ladder</h4>
+                            <h4><i className="fas fa-dice"></i> Weapon Mastery: your proficiency die on your weapon's table</h4>
                             <p style={{ marginBottom: '14px', color: '#2c1810', fontSize: '15px', fontWeight: '500', lineHeight: '1.6' }}>
-                                Other skills track proficiency as a single die size. Weapon Mastery is different: every
-                                time you attack you roll a static <strong>d8</strong> alongside your weapon damage die.
-                                The d8 picks a unique outcome for your weapon type that <strong>adds flavor and a
+                                Weapon Mastery uses the same growing die as other skills, but you hold a rank for each
+                                weapon type. When you attack you roll that weapon type's proficiency die alongside your weapon
+                                damage die. The result picks an outcome from your weapon's own table that <strong>adds flavor and a
                                 tactical effect</strong> to the swing — so a Bow, a War Mace, and a Dagger all feel
-                                distinct. An 8 triggers that weapon's signature move.
+                                distinct. Face 8 is that weapon's signature move.
                             </p>
+                            <p><em>[Open: whether a modifier is added to the proficiency roll, whether the die explodes, and how a result maps onto the table's faces 1–20. The GM rules until it is decided.]</em></p>
                             <div className="damage-type-section">
-                                <h4>Weapon Type (Type Die: d8)</h4>
+                                <h4>Weapon Type</h4>
                                 {renderWeaponTypeGrid('standard-wm-grid', { compact: true, showRankChip: false })}
                             </div>
                         </div>
 
                         <div className="benefits-section">
                             <h4>
-                                <i className="fas fa-eye"></i> {WEAPON_TYPE_META[selectedWeaponType]?.label} — d8 Outcomes
+                                <i className="fas fa-eye"></i> {WEAPON_TYPE_META[selectedWeaponType]?.label} — Outcomes
                                 {getWeaponArchetype(selectedWeaponType) !== selectedWeaponType && (
                                     <span style={{ fontSize: '12px', fontWeight: 'normal', color: '#8a6d3b', fontStyle: 'italic' }}>
                                         {' '}(shares the {WEAPON_TYPE_META[getWeaponArchetype(selectedWeaponType)]?.label} table)
@@ -1056,7 +1064,7 @@ const SkillsDisplay = ({ variant = 'advanced' }) => {
                                 Each face adds to or retracts from the strike. Face 8 is the weapon's signature tactical advantage.
                             </p>
                             <div className="table-preview-entries">
-                                {[1, 2, 3, 4, 5, 6, 7, 8].map(n => {
+                                {Array.from({ length: 20 }, (_, i) => i + 1).map(n => {
                                     const tier = WEAPON_TYPE_TIERS[n];
                                     const table = getWeaponSimpleTable(selectedWeaponType);
                                     const typeClass = n === 1 ? 'total-failure' : n === 2 ? 'failure' : n === 8 ? 'critical' : n >= 6 ? 'success' : n >= 4 ? 'success' : 'normal';
@@ -1073,11 +1081,11 @@ const SkillsDisplay = ({ variant = 'advanced' }) => {
                         </div>
 
                         <div className="benefits-section">
-                            <h4><i className="fas fa-shield-alt"></i> No flat DR — gear uses durability</h4>
+                            <h4><i className="fas fa-shield-alt"></i> Gear wears; flat DR is rare</h4>
                             <ul className="equipment-items">
                                 <li><i className="fas fa-check"></i> Outcomes add flavor &amp; tactics, not pass/fail — they modify the strike</li>
                                 <li><i className="fas fa-check"></i> "Crack guard" effects threaten the target's <strong>gear durability</strong>, not a Damage Reduction number</li>
-                                <li><i className="fas fa-check"></i> Want the full quest ladder &amp; rank progression? Switch to <strong>Advanced</strong> above</li>
+                                <li><i className="fas fa-check"></i> Advanced Rules change only how your weapon rank advances (authored tasks); rolls and outcomes are the same</li>
                                 <li><i className="fas fa-check"></i> Browse every weapon's damage die under <strong>Equipment → Weapons</strong></li>
                             </ul>
                         </div>
@@ -1113,12 +1121,13 @@ const SkillsDisplay = ({ variant = 'advanced' }) => {
                             </div>
                             <div className="dc-reference-grid" style={{ marginTop: '16px' }}>
                                 <div className="dc-row dc-row-rank"><span>d4</span><span>Untrained</span><span>Baseline: everyone starts here</span></div>
-                                <div className="dc-row dc-row-rank"><span>d6</span><span>Novice</span><span>+1 to checks, 1 quest completed</span></div>
-                                <div className="dc-row dc-row-rank"><span>d8</span><span>Trained</span><span>+2 to checks, 3 quests completed</span></div>
-                                <div className="dc-row dc-row-rank"><span>d10</span><span>Apprentice</span><span>+3 to checks, 6 quests completed</span></div>
-                                <div className="dc-row dc-row-rank"><span>d12</span><span>Adept</span><span>+4 to checks, 9 quests completed</span></div>
-                                <div className="dc-row dc-row-rank"><span>d20</span><span>Expert / Master</span><span>+5/+6 to checks, 11-12 quests</span></div>
+                                <div className="dc-row dc-row-rank"><span>d6</span><span>Novice</span><span>+1 to checks</span></div>
+                                <div className="dc-row dc-row-rank"><span>d8</span><span>Trained</span><span>+2 to checks</span></div>
+                                <div className="dc-row dc-row-rank"><span>d10</span><span>Apprentice</span><span>+3 to checks</span></div>
+                                <div className="dc-row dc-row-rank"><span>d12</span><span>Adept</span><span>+4 to checks</span></div>
+                                <div className="dc-row dc-row-rank"><span>d20</span><span>Expert / Master</span><span>+5/+6 to checks</span></div>
                             </div>
+                            <p><em>[Open: whether a rank adds a flat bonus to checks (+1 to +6) as well as setting your skill die. The GM rules until it is decided.]</em></p>
                         </div>
 
                         {/* Simple: What You Can Do */}
@@ -1173,53 +1182,31 @@ const SkillsDisplay = ({ variant = 'advanced' }) => {
                                             {rollableTable.description}
                                         </p>
 
-                                        <div className="roll-outcome-legend" style={{
-                                            marginBottom: '18px',
-                                            padding: '14px 16px',
-                                            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(248, 245, 240, 0.7) 100%)',
-                                            border: '2px solid #d4af37',
-                                            borderRadius: '8px',
-                                            display: 'flex',
-                                            flexDirection: 'column',
-                                            gap: '10px'
-                                        }}>
-                                            <h5 style={{
-                                                margin: '0 0 8px 0',
-                                                fontSize: '13px',
-                                                fontWeight: '700',
-                                                color: '#5a1e12',
-                                                textTransform: 'uppercase',
-                                                letterSpacing: '0.8px',
-                                                fontFamily: "'Cinzel', serif"
-                                            }}>
-                                                <i className="fas fa-palette" style={{ marginRight: '6px' }}></i>
-                                                Roll Outcome Colors (Colorblind-Friendly)
-                                            </h5>
-                                            <div style={{
-                                                display: 'grid',
-                                                gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-                                                gap: '8px',
-                                                fontSize: '13px'
-                                            }}>
-                                                <div className="table-preview-entry total-failure" style={{ margin: 0, padding: '8px 12px', pointerEvents: 'none' }}>
-                                                    <span style={{ fontWeight: '600', color: '#8B0000' }}>⚠ Total Failure</span>
-                                                    <span style={{ marginLeft: '8px', fontSize: '12px', color: '#5a1e12' }}>Catastrophic with complications</span>
+                                        <div className="roll-outcome-legend">
+                                            <div className="outcome-legend-header">
+                                                <i className="fas fa-scroll"></i>
+                                                <span>Roll Outcome Scale (Colorblind-Friendly)</span>
+                                            </div>
+                                            <div className="outcome-legend-grid">
+                                                <div className="outcome-legend-chip total-failure">
+                                                    <span className="outcome-chip-badge">⚠ Total Failure</span>
+                                                    <span className="outcome-chip-desc">Catastrophic with complications</span>
                                                 </div>
-                                                <div className="table-preview-entry failure" style={{ margin: 0, padding: '8px 12px', pointerEvents: 'none' }}>
-                                                    <span style={{ fontWeight: '600', color: '#D84315' }}>� -  Failure</span>
-                                                    <span style={{ marginLeft: '8px', fontSize: '12px', color: '#5a1e12' }}>Attempt fails</span>
+                                                <div className="outcome-legend-chip failure">
+                                                    <span className="outcome-chip-badge">✗ Failure</span>
+                                                    <span className="outcome-chip-desc">Attempt fails</span>
                                                 </div>
-                                                <div className="table-preview-entry normal" style={{ margin: 0, padding: '8px 12px', pointerEvents: 'none' }}>
-                                                    <span style={{ fontWeight: '600', color: '#8b3a2a' }}>➡ Partial Success</span>
-                                                    <span style={{ marginLeft: '8px', fontSize: '12px', color: '#5a1e12' }}>Mixed results</span>
+                                                <div className="outcome-legend-chip normal">
+                                                    <span className="outcome-chip-badge">➡ Partial Success</span>
+                                                    <span className="outcome-chip-desc">Mixed results</span>
                                                 </div>
-                                                <div className="table-preview-entry success" style={{ margin: 0, padding: '8px 12px', pointerEvents: 'none' }}>
-                                                    <span style={{ fontWeight: '600', color: '#00897B' }}>✓ Success</span>
-                                                    <span style={{ marginLeft: '8px', fontSize: '12px', color: '#5a1e12' }}>Succeeds as intended</span>
+                                                <div className="outcome-legend-chip success">
+                                                    <span className="outcome-chip-badge">✓ Success</span>
+                                                    <span className="outcome-chip-desc">Succeeds as intended</span>
                                                 </div>
-                                                <div className="table-preview-entry critical" style={{ margin: 0, padding: '8px 12px', pointerEvents: 'none' }}>
-                                                    <span style={{ fontWeight: '600', color: '#3a5a7a' }}>★ Critical Success</span>
-                                                    <span style={{ marginLeft: '8px', fontSize: '12px', color: '#5a1e12' }}>Exceptional with bonuses</span>
+                                                <div className="outcome-legend-chip critical">
+                                                    <span className="outcome-chip-badge">★ Critical Success</span>
+                                                    <span className="outcome-chip-desc">Exceptional with bonuses</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -1236,7 +1223,6 @@ const SkillsDisplay = ({ variant = 'advanced' }) => {
                                                                 className={`proficiency-selector-icon ${selectedProficiency === rankKey ? 'selected' : ''} ${!hasTablesForRank ? 'disabled' : ''}`}
                                                                 onClick={() => hasTablesForRank && setSelectedProficiency(rankKey)}
                                                                 style={{
-                                                                    borderColor: rankData.color,
                                                                     opacity: hasTablesForRank ? 1 : 0.4
                                                                 }}
                                                                 title={`${rankData.name}${!hasTablesForRank ? ' (No tables available)' : ''}`}
@@ -1276,7 +1262,7 @@ const SkillsDisplay = ({ variant = 'advanced' }) => {
 
                                         {selectedSkill.id === 'weaponMastery' && (
                                             <div className="damage-type-section">
-                                                <h4>Weapon Type (Mastery Die: d8)</h4>
+                                                <h4>Weapon Type</h4>
                                                 {renderWeaponTypeGrid('mastery-grid')}
                                             </div>
                                         )}
@@ -1334,9 +1320,9 @@ const SkillsDisplay = ({ variant = 'advanced' }) => {
                                         <h4><i className="fas fa-khanda"></i> How Weapon Mastery Is Used</h4>
                                         <ul className="equipment-items">
                                             <li><i className="fas fa-check"></i> Triggered automatically when you attack with a weapon of this type</li>
-                                            <li><i className="fas fa-check"></i> Rolled as the Weapon Type die alongside your weapon damage die (two-dice attack)</li>
-                                            <li><i className="fas fa-check"></i> Each face adds to or retracts from the strike — a 1 is a fumble, an 8 is a mastery moment</li>
-                                            <li><i className="fas fa-check"></i> Higher ranks can step the mastery die down, sharpening your odds</li>
+                                            <li><i className="fas fa-check"></i> Rolled as your proficiency die for this weapon type alongside your weapon damage die (two-dice attack)</li>
+                                            <li><i className="fas fa-check"></i> Each face adds to or retracts from the strike — face 1 is a fumble, face 8 is a mastery moment</li>
+                                            <li><i className="fas fa-check"></i> Your proficiency die grows with rank (d4 Untrained to d20 Expert and Master). <em>[Open: whether a modifier is added to the proficiency roll, whether the die explodes, and how a result maps onto the table's faces 1–20. The GM rules until it is decided.]</em></li>
                                         </ul>
                                     </div>
 
@@ -1345,8 +1331,8 @@ const SkillsDisplay = ({ variant = 'advanced' }) => {
                                         <ul className="equipment-items">
                                             <li><i className="fas fa-check"></i> Complete <strong>per-weapon-type quests</strong> (shown above) to advance that weapon's ladder</li>
                                             <li><i className="fas fa-check"></i> Each weapon type is mastered independently — a Sword master starts fresh with an Axe</li>
-                                            <li><i className="fas fa-check"></i> Rank gates richer outcome tables (Untrained → Master)</li>
-                                            <li><i className="fas fa-check"></i> Switch to Standard Rules for the simpler d6 outcome tables (see Equipment → Weapons)</li>
+                                            <li><i className="fas fa-check"></i> Advanced Rules change only how the rank advances (Untrained → Master); rolls and the outcome table are the same</li>
+                                            <li><i className="fas fa-check"></i> In Standard Rules you set the rank yourself; rolls and the outcome table are the same (see Equipment → Weapons)</li>
                                         </ul>
                                     </div>
                                     </>

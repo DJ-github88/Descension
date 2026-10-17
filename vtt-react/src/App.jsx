@@ -1396,7 +1396,7 @@ const AppContent = ({
         <Route path="/account" element={
           (() => {
             return isAuthenticated ? (
-              <Suspense fallback={<LoadingFallback message="Account Dashboard" subtext="Retrieving adventurer records & campaign data..." />}>
+              <Suspense fallback={<div className="account-dashboard loading" style={{ minHeight: '100vh' }} />}>
                 <ErrorBoundary name="AccountDashboard">
                   <AccountDashboard user={user} />
                 </ErrorBoundary>

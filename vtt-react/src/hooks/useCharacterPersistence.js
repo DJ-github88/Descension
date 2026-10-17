@@ -52,6 +52,8 @@ export const useCharacterPersistence = () => {
       skillPointsAvailable: character.skillPointsAvailable || 0, version: 1
     };
     if (character.roomActorRecoveryCandidates) payload.roomActorRecoveryCandidates = character.roomActorRecoveryCandidates;
+    // P12B review R6: the runtime draft also carries equipment, so it carries the matching custody lineage.
+    payload.roomEquipmentCustody = character.roomEquipmentCustody ?? null;
     const projected = projectPersonalRuntime(payload, false);
     preservePersonalConditionRecovery(currentCharacterId, undefined, context);
     return projected;
@@ -84,6 +86,9 @@ export const useCharacterPersistence = () => {
         'exhaustionLevel', 'equipment', 'skillRanks', 'skillProgress', 'skillPointsSpent', 'skillPointsAvailable'];
       const patch = Object.fromEntries(resourceFields.filter(key => data[key] !== undefined).map(key => [key, data[key]]));
       if (data.classResource !== undefined) patch.classResource = data.classResource ? migrateArcanoneerClassResource(data.classResource) : null;
+      // Equipment and its custody lineage are restored together from the same draft (absent → null, which
+      // makes the next room read adopt and compare dice instead of trusting a lineage from another draft).
+      if (data.equipment !== undefined) patch.roomEquipmentCustody = data.roomEquipmentCustody ?? null;
       useCharacterStore.setState(patch);
       if (data.inventory) useInventoryStore.setState(Object.fromEntries(
         ['items', 'currency', 'encumbranceState', 'containers'].filter(key => data.inventory[key] !== undefined).map(key => [key, data.inventory[key]])));

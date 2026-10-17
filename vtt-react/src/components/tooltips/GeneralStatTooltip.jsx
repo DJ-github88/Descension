@@ -375,18 +375,6 @@ const getStatDescription = (stat) => {
         'Without swim speed, you must spend extra movement to swim.'
       ]
     },
-    'Armor': {
-      title: 'Armor',
-      color: '#C0C0C0',
-      effects: [
-        'Reduces physical damage taken',
-        'Base: Agility ÷ 2',
-        'Enhanced by armor equipment',
-        'Higher values provide better protection',
-        'Used to calculate Passive DR (Armor ÷ 10)',
-        'At 0 Armor, you have no passive damage reduction'
-      ]
-    },
     'Dodge': {
       title: 'Dodge Rating',
       color: '#AAD372',
@@ -414,15 +402,13 @@ const getStatDescription = (stat) => {
       ]
     },
     'Passive DR': {
-      title: 'Passive Damage Reduction',
+      title: 'Flat Damage Reduction',
       color: '#8B7355',
       effects: [
-        'Automatic damage reduction from your Armor',
-        'Base: Armor ÷ 10 (rounded down)',
-        'Reduces all incoming physical damage automatically',
-        'Works passively - no action required',
-        'Stacks with active Defend action for even more protection',
-        'At 0 Passive DR, you take full damage from attacks'
+        'A rare fixed number from special gear or spells (older cards say Passive DR)',
+        'Subtracted from a hit without rolling; it never wears',
+        'Riposte ignores it; the piercing critical lowers it',
+        'In the VTT today the GM applies it by hand'
       ]
     },
     'Max Health': {

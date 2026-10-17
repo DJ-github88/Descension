@@ -7,7 +7,7 @@ import './ActionFanOutMenu.css';
  * ActionFanOutMenu
  * Renders an arc of action bubbles fanning out above an equipment slot.
  */
-const ActionFanOutMenu = ({
+export default function ActionFanOutMenu({
     actions = [],
     isOpen = false,
     slotType = 'mainHand',
@@ -15,7 +15,7 @@ const ActionFanOutMenu = ({
     onActionMouseEnter,
     onActionMouseLeave,
     onActionMouseMove
-}) => {
+}) {
     if (!isOpen || !actions || actions.length === 0) return null;
 
     // Radius of the arc fan-out in pixels (expanded to prevent overlapping)
@@ -139,7 +139,7 @@ const ActionFanOutMenu = ({
             })}
         </div>
     );
-};
+}
 
 ActionFanOutMenu.propTypes = {
     actions: PropTypes.array,
@@ -151,4 +151,3 @@ ActionFanOutMenu.propTypes = {
     onActionMouseMove: PropTypes.func
 };
 
-export default ActionFanOutMenu;

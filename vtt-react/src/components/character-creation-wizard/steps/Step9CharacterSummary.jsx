@@ -368,6 +368,7 @@ const formatDescriptionText = (text) => {
     { label: 'Background', done: !validationErrors.background && !!characterData.background },
     { label: 'Ability Scores (all points spent)', done: !validationErrors.stats && unspentPoints === 0 },
     { label: 'Starting Spells (choose 3)', done: !validationErrors.spells && knownSpellCount === 3 },
+    { label: 'Skill Training (within budget)', done: !validationErrors.skillPoints },
     { label: 'Equipment Chosen', done: !!(characterData.selectedEquipment && characterData.selectedEquipment.length > 0) },
   ];
   const allComplete = checklistItems.every(i => i.done);

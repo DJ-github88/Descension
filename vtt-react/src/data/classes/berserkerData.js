@@ -924,11 +924,11 @@ Rage (0–100+) is thermal battle-fury coursing through your veins. As you deal 
   level: 1,
   spellType: "PASSIVE",
   icon: "General/Rage",
-  effectTypes: ["passive"],
+  effectTypes: ["passive", "debuff"],
   typeConfig: {
   school: "smashing",
   icon: "General/Rage",
-  tags: ["passive", "berserker", "class-passive", "restriction"],
+  tags: ["passive", "berserker", "class-passive", "restriction", "weakness"],
   },
   targetingConfig: { targetingType: "self" },
   resourceCost: {
@@ -938,6 +938,32 @@ Rage (0–100+) is thermal battle-fury coursing through your veins. As you deal 
   somaticText: "The black veins of your anatomical corruption swell and pulse beneath your skin, hard and cold as stone."
   },
   resolution: "AUTOMATIC",
+  debuffConfig: {
+    debuffType: "statusEffect",
+    effects: [
+      {
+        id: "no_self_heal",
+        name: "Metabolic Burnout",
+        description: "Permanent Biological Restriction",
+        mechanicsText: "Cannot receive self-healing or lifesteal under any circumstances."
+      },
+      {
+        id: "pain_numbed_frenzy",
+        name: "Pain-Numbed Frenzy",
+        description: "At 21+ Rage",
+        mechanicsText: "Cannot receive healing from allies."
+      },
+      {
+        id: "deaths_door",
+        name: "Death's Door",
+        description: "Below 30% HP",
+        mechanicsText: "Your attacks completely bypass enemy physical resistances."
+      }
+    ],
+    durationValue: 0,
+    durationType: "permanent",
+    durationUnit: "permanent"
+  },
   triggerConfig: {
   triggers: [
    {
@@ -1273,7 +1299,7 @@ Rage (0–100+) is thermal battle-fury coursing through your veins. As you deal 
   level: 3,
   spellType: "PASSIVE",
   icon: "Exhausted",
-  effectTypes: ["passive"],
+  effectTypes: ["passive", "debuff"],
   typeConfig: {
   school: "smashing",
   icon: "Exhausted",
@@ -1287,6 +1313,20 @@ Rage (0–100+) is thermal battle-fury coursing through your veins. As you deal 
   somaticText: "Your limbs tremble and twitch uncontrollably as your metabolic rage freezes, starved of violence."
   },
   resolution: "AUTOMATIC",
+  debuffConfig: {
+    debuffType: "statusEffect",
+    effects: [
+      {
+        id: "adrenaline_withdrawal",
+        name: "Adrenaline Withdrawal",
+        description: "After 2 rounds without dealing melee damage",
+        mechanicsText: "Rage decays by 10 per round. Disadvantage on Dodge and Agility checks until melee damage is dealt."
+      }
+    ],
+    durationValue: 0,
+    durationType: "permanent",
+    durationUnit: "permanent"
+  },
   triggerConfig: {
   triggers: [
    {

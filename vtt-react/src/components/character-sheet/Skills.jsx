@@ -15,8 +15,11 @@ import ChargeableRollButton from '../dice/ChargeableRollButton';
 import DiceThemeSelector from '../dice/DiceThemeSelector';
 import { getIconUrl, getCustomIconUrl } from '../../utils/assetManager';
 import { getWeaponArchetype, getWeaponSimpleTable, WEAPON_TYPE_TIERS, WEAPON_TYPE_SIMPLE_TABLES } from '../../constants/weaponTypeSimpleTables';
+import { getLegacySharedWeaponRank, getStoredWeaponRank, resolveWeaponRank, WEAPON_MASTERY_SKILL_ID } from '../../utils/weaponProficiency';
+import { SKILL_OPEN_RULES, SKILL_VTT_SCOPE, STANDARD_ADVANCEMENT_TEXT, ADVANCED_ADVANCEMENT_TEXT, WEAPON_PROFICIENCY_TEXT } from '../../constants/skillProgressionCopy';
 
 import '../../styles/skills.css';
+import '../../styles/skillProficiency.css';
 
 const hexToRgba = (hex, alpha = 1) => {
     if (!hex || typeof hex !== 'string') {
@@ -192,39 +195,23 @@ export default function Skills({ selectedSkill: propSelectedSkill, setSelectedSk
     // Get skill rank from character data (set during character creation)
     // Fall back to quest-based progression if no rank is set
     const getSkillRank = (skillId, weaponTypeOverride = null) => {
+        // P11: Weapon Mastery is per weapon type (own stored rank, else own quest
+        // progress). The legacy shared rank is shown separately and never applied.
+        if (skillId === WEAPON_MASTERY_SKILL_ID) {
+            const weaponType = weaponTypeOverride || selectedWeaponType;
+            const resolved = resolveWeaponRank({ skillRanks, skillProgress, weaponType });
+            return { key: resolved.key, ...SKILL_RANKS[resolved.key], source: resolved.source };
+        }
+
         // First check if there's a rank from character creation
         if (skillRanks && skillRanks[skillId]) {
             const rankKey = skillRanks[skillId];
             return { key: rankKey, ...SKILL_RANKS[rankKey] };
         }
 
-        // Weapon mastery uses per-weapon thresholds (cumulative quests completed)
-        const WEAPON_MASTERY_THRESHOLDS = {
-            UNTRAINED: 0,
-            NOVICE: 1,
-            TRAINED: 3,
-            APPRENTICE: 6,
-            ADEPT: 9,
-            EXPERT: 11,
-            MASTER: 12
-        };
-
         const progressKey = getProgressKey(skillId, weaponTypeOverride);
         const progress = skillProgress[progressKey] || { completedQuests: [], questProgress: {} };
         const completedCount = progress.completedQuests.length;
-
-        if (skillId === 'weaponMastery') {
-            const rankOrder = Object.keys(SKILL_RANKS);
-            // Walk ranks from highest to lowest using the custom thresholds
-            for (let i = rankOrder.length - 1; i >= 0; i--) {
-                const rankKey = rankOrder[i];
-                const required = WEAPON_MASTERY_THRESHOLDS[rankKey] ?? SKILL_RANKS[rankKey].questsRequired;
-                if (completedCount >= required) {
-                    return { key: rankKey, ...SKILL_RANKS[rankKey] };
-                }
-            }
-            return { key: 'UNTRAINED', ...SKILL_RANKS.UNTRAINED };
-        }
 
         // Fall back to default thresholds for other skills
         for (const [rankKey, rankData] of Object.entries(SKILL_RANKS).reverse()) {
@@ -713,6 +700,14 @@ export default function Skills({ selectedSkill: propSelectedSkill, setSelectedSk
 
     const getWeaponTypeRank = (weaponType) => getSkillRank('weaponMastery', weaponType);
 
+    // P11: the legacy shared rank is offered for explicit per-weapon use only.
+    const legacyWeaponRank = getLegacySharedWeaponRank(skillRanks);
+    const applyLegacyWeaponRank = () => {
+        if (!legacyWeaponRank) return;
+        const setter = setSkillRank || useCharacterStore.getState().setSkillRank;
+        setter(WEAPON_MASTERY_SKILL_ID, legacyWeaponRank, selectedWeaponType);
+    };
+
     // Five-state roll-mode toggle. Persists per skill in component state
     // (lost on full page reload). The selected mode rolls 1, 2, or 3 dice
     // and the "kept" value is the highest (advantage) or lowest (disadvantage).
@@ -778,14 +773,18 @@ export default function Skills({ selectedSkill: propSelectedSkill, setSelectedSk
     const renderSkillDetail = () => {
         if (!selectedSkill) {
             return (
-                <div className="no-skill-selected">
-                    <img 
-                        src={getIconUrl('Misc/Profession Resources/Gems/resource-block-purple-spotted-beige-face', 'items')}
-                        alt="Dice"
-                        className="dice-icon"
-                        style={{ width: '48px', height: '48px', marginBottom: '20px' }}
-                    />
-                    <p>Select a skill from the list to view details</p>
+                <div className="no-skill-selected calm-manuscript-empty">
+                    <div className="manuscript-empty-seal">
+                        <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" className="empty-seal-svg">
+                            <circle cx="32" cy="32" r="28" stroke="#8b7355" strokeWidth="1.5" strokeDasharray="3 2" />
+                            <circle cx="32" cy="32" r="23" stroke="#b6a080" strokeWidth="1" />
+                            <path d="M32 14 V50 M14 32 H50" stroke="#8b7355" strokeWidth="1.2" strokeLinecap="round" />
+                            <polygon points="32,20 35,29 44,32 35,35 32,44 29,35 20,32 29,29" fill="rgba(182, 160, 128, 0.2)" stroke="#8b7355" strokeWidth="1.2" strokeLinejoin="round" />
+                            <circle cx="32" cy="32" r="2" fill="#5c4033" />
+                        </svg>
+                    </div>
+                    <h3 className="empty-seal-title">Discipline & Lore</h3>
+                    <p className="empty-seal-subtitle">Select a skill from the codex to review training, quests, and roll tables</p>
                 </div>
             );
         }
@@ -890,7 +889,7 @@ export default function Skills({ selectedSkill: propSelectedSkill, setSelectedSk
                                         </span>
                                         <span className="skill-attr-operator">→</span>
                                         <span 
-                                            className="skill-attr-badge primary" 
+                                            className="skill-attr-badge primary stats-combined" 
                                             title={`Stat contribution: (${modBreakdown.primaryMod >= 0 ? `+${modBreakdown.primaryMod}` : modBreakdown.primaryMod} + ${modBreakdown.secondaryMod >= 0 ? `+${modBreakdown.secondaryMod}` : modBreakdown.secondaryMod}) / 2 = ${modBreakdown.statMod >= 0 ? `+${modBreakdown.statMod}` : modBreakdown.statMod}`}
                                         >
                                             <i className="fas fa-hand-fist"></i> STATS ({modBreakdown.statMod >= 0 ? `+${modBreakdown.statMod}` : modBreakdown.statMod})
@@ -925,7 +924,7 @@ export default function Skills({ selectedSkill: propSelectedSkill, setSelectedSk
                                 </div>
                                 <div className="resolution-exploding-item">
                                     <i className="fas fa-bolt"></i>
-                                    <span><strong>Exploding Dice:</strong> Max roll on d{DIE_SIZE_MAP[effectiveRank.key]} rolls again and adds to total!</span>
+                                    <span><strong>Exploding Dice:</strong> Max roll on d{DIE_SIZE_MAP[effectiveRank.key]} rolls again and adds to total. <em className="skill-open-rule">{SKILL_OPEN_RULES.rollFormula}</em></span>
                                 </div>
                             </div>
                         </div>
@@ -979,7 +978,7 @@ export default function Skills({ selectedSkill: propSelectedSkill, setSelectedSk
                                         </span>
                                         <span className="skill-attr-operator">→</span>
                                         <span 
-                                            className="skill-attr-badge primary" 
+                                            className="skill-attr-badge primary stats-combined" 
                                             title={`Stat contribution: (${modBreakdown.primaryMod >= 0 ? `+${modBreakdown.primaryMod}` : modBreakdown.primaryMod} + ${modBreakdown.secondaryMod >= 0 ? `+${modBreakdown.secondaryMod}` : modBreakdown.secondaryMod}) / 2 = ${modBreakdown.statMod >= 0 ? `+${modBreakdown.statMod}` : modBreakdown.statMod}`}
                                         >
                                             <i className="fas fa-hand-fist"></i> STATS ({modBreakdown.statMod >= 0 ? `+${modBreakdown.statMod}` : modBreakdown.statMod})
@@ -1013,7 +1012,7 @@ export default function Skills({ selectedSkill: propSelectedSkill, setSelectedSk
                                 </div>
                                 <div className="resolution-exploding-item">
                                     <i className="fas fa-bolt"></i>
-                                    <span><strong>Exploding Dice:</strong> Max roll on d{DIE_SIZE_MAP[effectiveRank.key]} rolls again and adds to total!</span>
+                                    <span><strong>Exploding Dice:</strong> Max roll on d{DIE_SIZE_MAP[effectiveRank.key]} rolls again and adds to total. <em className="skill-open-rule">{SKILL_OPEN_RULES.rollFormula}</em></span>
                                 </div>
                             </div>
                         </div>
@@ -1062,6 +1061,27 @@ export default function Skills({ selectedSkill: propSelectedSkill, setSelectedSk
                             </div>
                         </div>
 
+                        <p className="weapon-proficiency-note" data-testid="weapon-proficiency-note">{WEAPON_PROFICIENCY_TEXT} <em className="skill-open-rule">{SKILL_OPEN_RULES.weaponFaces}</em></p>
+                        {legacyWeaponRank && (
+                            <div className="weapon-legacy-rank-notice" role="note" data-testid="weapon-legacy-rank-notice">
+                                <p>
+                                    <i className="fas fa-box-archive" aria-hidden="true"></i>{' '}
+                                    An earlier sheet stored one Weapon Mastery rank for every weapon:{' '}
+                                    <strong>{SKILL_RANKS[legacyWeaponRank].name} (d{DIE_SIZE_MAP[legacyWeaponRank]})</strong>.
+                                    It is kept unchanged but no longer applies to all weapons. Use it for the weapons it was meant for.
+                                </p>
+                                <button
+                                    type="button"
+                                    className="weapon-legacy-apply-btn"
+                                    onClick={applyLegacyWeaponRank}
+                                    disabled={getStoredWeaponRank(skillRanks, selectedWeaponType) === legacyWeaponRank}
+                                >
+                                    {getStoredWeaponRank(skillRanks, selectedWeaponType) === legacyWeaponRank
+                                        ? `${WEAPON_TYPE_META[selectedWeaponType]?.label || 'This weapon'} already uses ${SKILL_RANKS[legacyWeaponRank].name}`
+                                        : `Use ${SKILL_RANKS[legacyWeaponRank].name} for ${WEAPON_TYPE_META[selectedWeaponType]?.label || 'this weapon'}`}
+                                </button>
+                            </div>
+                        )}
                         <div className="weapon-mastery-grid">
                             {filteredWeaponEntries.map(([weaponKey, meta]) => {
                                 const weaponRank = getWeaponTypeRank(weaponKey);
@@ -1128,7 +1148,7 @@ export default function Skills({ selectedSkill: propSelectedSkill, setSelectedSk
                                                         </span>
                                                         <span className="skill-attr-operator">→</span>
                                                         <span 
-                                                            className="skill-attr-badge primary" 
+                                                            className="skill-attr-badge primary stats-combined" 
                                                             title={`Stat contribution: (${wBreakdown.primaryMod >= 0 ? `+${wBreakdown.primaryMod}` : wBreakdown.primaryMod} + ${wBreakdown.secondaryMod >= 0 ? `+${wBreakdown.secondaryMod}` : wBreakdown.secondaryMod}) / 2 = ${wBreakdown.statMod >= 0 ? `+${wBreakdown.statMod}` : wBreakdown.statMod}`}
                                                         >
                                                             <i className="fas fa-hand-fist"></i> STATS ({wBreakdown.statMod >= 0 ? `+${wBreakdown.statMod}` : wBreakdown.statMod})
@@ -1177,6 +1197,7 @@ export default function Skills({ selectedSkill: propSelectedSkill, setSelectedSk
                             {showCompletedQuests ? 'Hide Completed' : 'Show Completed'}
                         </button>
                     </div>
+                    <p className="skill-advancement-note" data-testid="advanced-advancement-note">{ADVANCED_ADVANCEMENT_TEXT}</p>
                     {quests.length === 0 ? (
                         <div className="no-quests-message">
                             <i className="fas fa-info-circle" style={{ fontSize: '24px', color: '#8b7355', marginBottom: '10px' }}></i>
@@ -1304,7 +1325,7 @@ export default function Skills({ selectedSkill: propSelectedSkill, setSelectedSk
                         <p className="skill-simple-context">{skill.description}</p>
                         <div className="skill-simple-hint">
                             <i className="fas fa-lightbulb"></i>
-                            <span>Use this skill whenever your character attempts something that matches its expertise. The GM sets a DC based on difficulty.</span>
+                            <span>Use this skill whenever your character attempts something that matches its expertise. The GM sets the difficulty.</span>
                         </div>
                     </div>
 
@@ -1322,15 +1343,15 @@ export default function Skills({ selectedSkill: propSelectedSkill, setSelectedSk
                             <div className="skill-step">
                                 <div className="skill-step-num">2</div>
                                 <div className="skill-step-body">
-                                    <strong>Against the DC</strong>
-                                    <span>The GM sets a DC. Meet or beat it to succeed. The closer you are, the more dramatic the outcome.</span>
+                                    <strong>Against the difficulty</strong>
+                                    <span>The GM sets a target. Meet or beat it to succeed. <em className="skill-open-rule">{SKILL_OPEN_RULES.checkResolution}</em></span>
                                 </div>
                             </div>
                             <div className="skill-step">
                                 <div className="skill-step-num">3</div>
                                 <div className="skill-step-body">
-                                    <strong>Exploding dice</strong>
-                                    <span>Roll the maximum? Roll again and add! Multiple explosions can chain for legendary results.</span>
+                                    <strong>Rolling the maximum</strong>
+                                    <span>The current Standard rule rolls again and adds. <em className="skill-open-rule">{SKILL_OPEN_RULES.explosion}</em></span>
                                 </div>
                             </div>
                         </div>
@@ -1340,7 +1361,7 @@ export default function Skills({ selectedSkill: propSelectedSkill, setSelectedSk
                     <div className="skill-simple-card skill-advancement-card">
                         <h4><i className="fas fa-arrow-up"></i> Getting Better</h4>
                         <p className="skill-simple-context">
-                            When you do something <strong>extraordinary</strong> with this skill (a creative solution, a clutch success under pressure, or a moment that makes the table cheer) the GM may award you a die upgrade.
+                            {STANDARD_ADVANCEMENT_TEXT} Use the rank selector at the top of this skill.
                         </p>
                         <div className="skill-advancement-track">
                             {Object.entries(SKILL_RANKS).map(([key, data]) => {
@@ -1361,7 +1382,7 @@ export default function Skills({ selectedSkill: propSelectedSkill, setSelectedSk
                         </div>
                         <div className="skill-simple-hint">
                             <i className="fas fa-comments"></i>
-                            <span>Advancement is a conversation. There are no XP bars: just memorable moments.</span>
+                            <span>{SKILL_VTT_SCOPE}</span>
                         </div>
                     </div>
                     </>
@@ -1502,14 +1523,10 @@ export default function Skills({ selectedSkill: propSelectedSkill, setSelectedSk
                                 >
                                     <img src={categoryData?.icon?.startsWith('http') ? categoryData.icon : getCustomIconUrl(categoryData?.icon || 'Utility/Utility', 'abilities')} alt="" className="skill-category-icon" />
                                     <span className="skill-category-name">{categoryName}</span>
-                                    <img 
-                                        src={getIconUrl(getCategoryGemIcon(categoryName), 'items')} 
-                                        alt="" 
-                                        className="category-toggle-icon"
-                                        style={{ width: '16px', height: '16px', marginLeft: 'auto' }}
-                                        onError={(e) => {
-                                            e.target.src = getIconUrl('Misc/Profession Resources/Gems/resource-block-purple-spotted-beige-face', 'items');
-                                        }}
+                                    <i 
+                                        className={`fas fa-chevron-${isCollapsed ? 'down' : 'up'} category-chevron-icon`}
+                                        style={{ marginLeft: 'auto', fontSize: '11px', color: '#8b7355', opacity: 0.85 }}
+                                        aria-hidden="true"
                                     />
                                 </div>
                                 {!isCollapsed && (

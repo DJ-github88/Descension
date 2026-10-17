@@ -18,7 +18,7 @@ const POOLS = { hp: ['currentHp', 'health', 'tempHealth', 'maxHp'], mana: ['curr
 const MODIFIERS = ['strength', 'agility', 'constitution', 'intelligence', 'spirit', 'charisma', 'armor', 'damageReduction', 'movementSpeed', 'healthRegen', 'manaRegen', 'maxHp', 'maxMana', 'maxAP', 'attackBonus', 'damageBonus', 'saveBonus'];
 const CONDITION_FIELDS = ['version', 'id', 'recordId', 'conditionKey', 'originalName', 'name', 'type', 'kind', 'target', 'targetId', 'targetType', 'source', 'sourceActor', 'sourceEntityId', 'effectOrigin', 'isMagical', 'icon', 'color', 'description', 'effectSummary', 'effects', 'duration', 'durationType', 'durationValue', 'remainingRounds', 'startTime', 'endTime', 'stackable', 'hasOverTimeEffect', 'overTimeType', 'overTimeFormula', 'overTimeElement', 'tickFrequency', 'tickFrequencyValue', 'tickFrequencyUnit', 'clockBoundary', 'sharedTiming'];
 const REF_KEYS = ['kind', 'roomId', 'mapId', 'tokenId', 'instanceId', 'ownerUid', 'characterId'];
-const PROTECTED = new Set(['actorContract', 'actorConsequences', 'classPayment', 'health', 'mana', 'actionPoints', 'currentHp', 'currentMana', 'currentActionPoints', 'tempHealth', 'tempMana', 'tempActionPoints', 'hp', 'maxHp', 'maxMana', 'maxAP', 'maxActionPoints', 'conditions', 'buffs', 'debuffs', 'finalResources', 'expectedRevision']);
+const PROTECTED = new Set(['actorContract', 'actorConsequences', 'classPayment', 'equipmentBlocking','health', 'mana', 'actionPoints', 'currentHp', 'currentMana', 'currentActionPoints', 'tempHealth', 'tempMana', 'tempActionPoints', 'hp', 'maxHp', 'maxMana', 'maxAP', 'maxActionPoints', 'conditions', 'buffs', 'debuffs', 'finalResources', 'expectedRevision']);
 const runtimeEpochs = new WeakMap();
 
 function epoch(room) {
@@ -122,7 +122,7 @@ function validateCommand(command) {
   const seen = new Set();
   let operations = 0;
   for (const actor of command.actors) {
-    keys(actor, ['ref', 'expectedRevision', 'finalResources', 'conditions', 'classPayment']);
+    keys(actor, ['ref', 'expectedRevision', 'finalResources', 'conditions', 'classPayment', 'blockingDeclaration', 'equipmentWear']);
     validateRef(actor.ref);
     if (actor.ref.roomId !== command.roomId || !integer(actor.expectedRevision) || seen.has(hash(actor.ref))) {fail('invalid_consequence');}
     seen.add(hash(actor.ref));
@@ -150,7 +150,16 @@ function validateCommand(command) {
       if (actor.classPayment.mode === 'spell' && !command.approval) {fail('approval_required');}
       if (actor.classPayment.mode === 'sync' && command.actors.length !== 1) {fail('invalid_class_payment');}
     }
-    if (!Object.keys(actor.finalResources || {}).length && !actor.conditions?.length && !actor.classPayment) {fail('invalid_consequence');}
+    // P12B typed equipment adapter (frozen revision 4 §3): owner declaration or approval-bound wear.
+    if (actor.blockingDeclaration !== undefined) {
+      if (actor.ref.kind !== 'character' || command.actors.length !== 1 || command.approval) {fail('invalid_blocking_declaration');}
+      require('./blockApprovals').validateDeclarationEntry(actor.blockingDeclaration);
+    }
+    if (actor.equipmentWear !== undefined) {
+      if (actor.ref.kind !== 'character' || !command.approval) {fail('invalid_equipment_wear');}
+      require('./blockApprovals').validateWearEntry(actor.equipmentWear);
+    }
+    if (!Object.keys(actor.finalResources || {}).length && !actor.conditions?.length && !actor.classPayment && !actor.blockingDeclaration && !actor.equipmentWear) {fail('invalid_consequence');}
   }
   if (operations > 32) {fail('condition_operation_limit');}
   for (const role of ['source', 'target']) {
@@ -201,6 +210,9 @@ function publicReceipt(receipt) {
   if (!receipt || receipt.version !== 1 || !Array.isArray(receipt.actors)) {return { version: receipt?.version ?? null, readOnly: true };}
   const fields = ['version', 'roomId', 'commandId', 'submitterUid', 'contentHash', 'admissionEpoch', 'commitSequence', 'checkpointRevision', 'acceptedAt'];
   const out = Object.fromEntries(fields.filter(key => typeof receipt[key] === 'string' || (typeof receipt[key] === 'number' && Number.isFinite(receipt[key]))).map(key => [key, receipt[key]]));
+  // P12B review R1: a declaration's unsalted command hash would reveal the private order/dice by
+  // enumeration over public data. Recovery uses the server-held receipt, never this public field.
+  if (receipt.actors.some(actor => actor?.blocking)) {delete out.contentHash;}
   if (receipt.checkpointRevision === null) {out.checkpointRevision = null;}
   out.authorization = Object.fromEntries(['kind', 'authorizerUid', 'proposalId', 'approvalHash'].filter(key => typeof receipt.authorization?.[key] === 'string').map(key => [key, receipt.authorization[key]]));
   for (const role of ['source', 'target']) {
@@ -214,7 +226,9 @@ function publicReceipt(receipt) {
     return { ref: clone(actor.ref), beforeRevision: integer(actor.beforeRevision) ? actor.beforeRevision : null, afterRevision: integer(actor.afterRevision) ? actor.afterRevision : null,
       finalResources: Object.fromEntries(Object.keys(POOLS).map(pool => [pool, Object.fromEntries(['current', 'temp', 'max'].filter(key => typeof actor.finalResources?.[pool]?.[key] === 'number' && Number.isFinite(actor.finalResources[pool][key])).map(key => [key, actor.finalResources[pool][key]]))])),
       conditions: Array.isArray(actor.conditions) ? actor.conditions.map(publicCondition).filter(Boolean) : [],
-      ...(publicClassPayment(actor.classPayment) ? { classPayment: publicClassPayment(actor.classPayment) } : {}) };
+      ...(publicClassPayment(actor.classPayment) ? { classPayment: publicClassPayment(actor.classPayment) } : {}),
+      ...(Number.isSafeInteger(actor.blocking?.revision) ? { blocking: { revision: actor.blocking.revision } } : {}),
+      ...(actor.equipmentWear ? { equipmentWear: require('./blockApprovals').publicWear(actor.equipmentWear) } : {}) };
   });
   return out;
 }
@@ -242,8 +256,20 @@ function stage(room, player, uid, command, authorization, confirmedRevision) {
   const validated = checkpoint.canonicalize(room.gameState, 'gameState');
   if (validated.error) {fail('CHECKPOINT_INVALID', validated.error);}
   if (!player.isGM && command.actors.length > 1) {fail('authorization_required');}
-  // P9: an owner-approved spell binds exactly one pending approval before staging.
-  const approved = command.approval ? require('./spellPayments').bindCommand(room, player, command, authorization) : null;
+  // P9/P12A: an owner approval binds exactly one pending entry in the registry its capability names.
+  const strikes = require('./strikeApprovals'), blocks = require('./blockApprovals');
+  const binder = command.approval ? (strikes.isStrikeCommand(command) ? strikes : blocks.isBlockCommand(command) ? blocks : require('./spellPayments')) : null;
+  if (binder) {
+    // Cross-capability IDs cannot be consumed even when P9 registration wins/loses an async race.
+    // Keep the P9 registry/handlers unchanged; domain collisions fail at the shared boundary.
+    const id = command.approval.approvalId;
+    const inBlocks = () => blocks.get(room, id) || blocks.closedCode(room, id) || blocks.consumedReceipt(room, id);
+    const collision = binder === strikes ? (strikes.foreignId(room, id) || inBlocks())
+      : binder === blocks ? blocks.foreignId(room, id)
+        : (strikes.get(room, id) || strikes.closedCode(room, id) || strikes.consumedReceipt(room, id) || inBlocks());
+    if (collision) {fail('command_id_conflict');}
+  }
+  const approved = binder ? binder.bindCommand(room, player, command, authorization) : null;
   const next = clone(room.gameState);
   const entries = [];
   for (const actor of command.actors) {
@@ -296,9 +322,19 @@ function stage(room, player, uid, command, authorization, confirmedRevision) {
       token.character = { ...token.character, classResource: { ...(token.character?.classResource || {}), ...clone(value) } };
       classPayment = { mode: actor.classPayment.mode, domain: token.state.classPayment.domain, public: payments.publicValue(token.state.classPayment.domain, value) };
     }
+    let blocking = null, equipmentWear = null;
+    if (actor.blockingDeclaration) {
+      // Owner-only publication of their own blocking declaration, inside the selection window.
+      if (uid !== actor.ref.ownerUid || command.approval) {fail('blocking_owner_required');}
+      blocking = blocks.applyDeclaration(room, token, actor.ref, actor.blockingDeclaration);
+    }
+    if (actor.equipmentWear) {
+      if (binder !== blocks || !approved) {fail('approval_required');}
+      equipmentWear = blocks.applyWear(token, actor.ref, actor.equipmentWear, approved);
+    }
     token.state.actorContract.revision += 1;
     entries.push({ ref: actor.ref, beforeRevision: actor.expectedRevision, afterRevision: actor.expectedRevision + 1, finalResources: resources(token, actor.ref.kind), conditions: clone(records),
-      ...(classPayment ? { classPayment } : {}) });
+      ...(classPayment ? { classPayment } : {}), ...(blocking ? { blocking } : {}), ...(equipmentWear ? { equipmentWear } : {}) });
   }
   const receipt = { version: 1, roomId: room.id, commandId: command.commandId, submitterUid: uid, contentHash: hash(command), admissionEpoch: epoch(room),
     commitSequence: prior.commitSequence + 1, checkpointRevision: 0, actors: entries,
@@ -328,7 +364,7 @@ function stage(room, player, uid, command, authorization, confirmedRevision) {
     }
   }
   require('./actorProjection').advance(room, next);
-  return { next, receipt, approved };
+  return { next, receipt, approved, binder };
 }
 // Only these owning-domain maximum paths may cross the legacy write guard.
 // Current/temp/conditions and authority metadata remain protected recursively.
@@ -492,7 +528,7 @@ function preserveImportedActorMetadata(gameState) {
     }
     for (const field of ['tokens', 'characterTokens', 'creatures']) {
       for (const token of Object.values(map[field] || {})) {
-        for (const [key, retained] of [['actorContract', 'importedActorContract'], ['actorLifecycle', 'importedActorLifecycle'], ['classPayment', 'importedClassPayment']]) {
+        for (const [key, retained] of [['actorContract', 'importedActorContract'], ['actorLifecycle', 'importedActorLifecycle'], ['classPayment', 'importedClassPayment'], ['equipmentBlocking', 'importedEquipmentBlocking']]) {
           if (!own(token.state, key)) {continue;}
           token.state.actorRecovery = { ...token.state.actorRecovery, [retained]: token.state[key] };
           delete token.state[key];

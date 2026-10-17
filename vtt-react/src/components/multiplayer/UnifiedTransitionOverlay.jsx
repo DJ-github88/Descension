@@ -144,13 +144,17 @@ const UnifiedTransitionOverlay = ({
             <div className="unified-transition-content">
                 {isJoinMode && (
                     <>
-                        <div className="unified-icon-container">
-                            <div className="unified-icon-ring"></div>
-                            <div className="unified-icon-ring inner"></div>
-                            <i className="fas fa-dharmachakra unified-spinner-icon"></i>
+                        <div className="unified-medallion">
+                            <div className="unified-medallion-ring"></div>
+                            <i className="fas fa-dragon unified-medallion-emblem"></i>
                         </div>
 
                         <h1 className="unified-title">{displayTitle}</h1>
+
+                        <div className="unified-transition-line">
+                            <span className="unified-transition-ornament left" />
+                            <span className="unified-transition-ornament right" />
+                        </div>
 
                         {displaySubtitle && (
                             <p className="unified-subtitle">{displaySubtitle}</p>
@@ -219,15 +223,19 @@ const UnifiedTransitionOverlay = ({
                             </div>
                         )}
 
+                        <div className="unified-medallion map-medallion">
+                            <div className="unified-medallion-ring"></div>
+                            <i className="fas fa-compass unified-medallion-emblem"></i>
+                        </div>
+
                         <div className="unified-map-title-container">
                             <span className="unified-map-prefix">Entering</span>
                             <h1 className="unified-map-name">{displayMapName}</h1>
                         </div>
 
-                        <div className="unified-flourish">
-                            <div className="unified-flourish-line left"></div>
-                            <i className="fas fa-compass"></i>
-                            <div className="unified-flourish-line right"></div>
+                        <div className="unified-transition-line">
+                            <span className="unified-transition-ornament left" />
+                            <span className="unified-transition-ornament right" />
                         </div>
 
                         <div className="unified-progress-container map-mode">

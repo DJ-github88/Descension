@@ -7,6 +7,7 @@
  */
 
 import useCharacterStore from '../store/characterStore';
+import { BASIC_WEAPON_STRIKE_AP } from '../data/firstTableRules';
 
 /**
  * Get the currently equipped weapon for attack calculations
@@ -220,7 +221,7 @@ export const createWeaponAttackSpell = (weaponSlot = 'mainHand') => {
   health: 0,
   stamina: 0,
   focus: 0,
-  actionPoints: 1
+  actionPoints: BASIC_WEAPON_STRIKE_AP
  },
  
  mechanicsConfig: {

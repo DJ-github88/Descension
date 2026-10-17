@@ -1,0 +1,2695 @@
+{
+  "sourceHashes": {
+    "vtt-react/public/data/lore.json": "45416ea3a6168eda490f3311e1666bfb6ae614e726a936ee668a7a54ce84493d"
+  },
+  "scope": "Existence of dictionary IDs only, not verification of every fullEntry claim",
+  "pairings": [
+    {
+      "heritageId": "thalren_human",
+      "className": "Inquisitor",
+      "refs": [
+        {
+          "id": "elias",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "frostwood-reach",
+          "present": true,
+          "type": "region"
+        },
+        {
+          "id": "orven",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "bryngloom-forest",
+          "present": true,
+          "type": "region"
+        },
+        {
+          "id": "vrael-forty-seventh",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "sunken_spire",
+          "present": true,
+          "type": "location"
+        }
+      ]
+    },
+    {
+      "heritageId": "thalren_human",
+      "className": "Toxicologist",
+      "refs": [
+        {
+          "id": "skald",
+          "present": true,
+          "type": "subculture"
+        },
+        {
+          "id": "frostwood-reach",
+          "present": true,
+          "type": "region"
+        },
+        {
+          "id": "varis",
+          "present": true,
+          "type": "character"
+        }
+      ]
+    },
+    {
+      "heritageId": "thalren_human",
+      "className": "Warden",
+      "refs": [
+        {
+          "id": "alaric",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "groven",
+          "present": true,
+          "type": "race"
+        },
+        {
+          "id": "frostmaw_holdfast",
+          "present": true,
+          "type": "location"
+        }
+      ]
+    },
+    {
+      "heritageId": "thalren_human",
+      "className": "Spellguard",
+      "refs": [
+        {
+          "id": "skald",
+          "present": true,
+          "type": "subculture"
+        },
+        {
+          "id": "damon",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "solari",
+          "present": true,
+          "type": "race"
+        },
+        {
+          "id": "emberspire",
+          "present": true,
+          "type": "location"
+        },
+        {
+          "id": "thrak-damos",
+          "present": true,
+          "type": "character"
+        }
+      ]
+    },
+    {
+      "heritageId": "skald_human",
+      "className": "Augur",
+      "refs": [
+        {
+          "id": "skald",
+          "present": true,
+          "type": "subculture"
+        },
+        {
+          "id": "frozen_archive",
+          "present": true,
+          "type": "location"
+        },
+        {
+          "id": "cassia",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "skadi-glass-eye",
+          "present": true,
+          "type": "character"
+        }
+      ]
+    },
+    {
+      "heritageId": "skald_human",
+      "className": "Berserker",
+      "refs": [
+        {
+          "id": "skald",
+          "present": true,
+          "type": "subculture"
+        },
+        {
+          "id": "rage",
+          "present": true,
+          "type": "resource"
+        },
+        {
+          "id": "frozen_archive",
+          "present": true,
+          "type": "location"
+        },
+        {
+          "id": "grum-bloodhammer",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "emberspire",
+          "present": true,
+          "type": "location"
+        },
+        {
+          "id": "hark-ash-hammer",
+          "present": true,
+          "type": "character"
+        }
+      ]
+    },
+    {
+      "heritageId": "skald_human",
+      "className": "Harbinger",
+      "refs": [
+        {
+          "id": "malakor",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "xyris",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "frozen_archive",
+          "present": true,
+          "type": "location"
+        },
+        {
+          "id": "the_deepening",
+          "present": true,
+          "type": "event"
+        }
+      ]
+    },
+    {
+      "heritageId": "skald_human",
+      "className": "Martyr",
+      "refs": [
+        {
+          "id": "dreadnaught",
+          "present": true,
+          "type": "concept"
+        },
+        {
+          "id": "skald",
+          "present": true,
+          "type": "subculture"
+        },
+        {
+          "id": "sera",
+          "present": true,
+          "type": "historical_figure"
+        },
+        {
+          "id": "emberspire",
+          "present": true,
+          "type": "location"
+        },
+        {
+          "id": "sol-kaessen",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "sundale",
+          "present": true,
+          "type": "region"
+        }
+      ]
+    },
+    {
+      "heritageId": "skald_human",
+      "className": "Warden",
+      "refs": [
+        {
+          "id": "skald",
+          "present": true,
+          "type": "subculture"
+        },
+        {
+          "id": "frozen_archive",
+          "present": true,
+          "type": "location"
+        },
+        {
+          "id": "alaric",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "groven",
+          "present": true,
+          "type": "race"
+        },
+        {
+          "id": "frostmaw_holdfast",
+          "present": true,
+          "type": "location"
+        }
+      ]
+    },
+    {
+      "heritageId": "skald_human",
+      "className": "Apex",
+      "refs": [
+        {
+          "id": "skald",
+          "present": true,
+          "type": "subculture"
+        },
+        {
+          "id": "nordhalla",
+          "present": true,
+          "type": "region"
+        },
+        {
+          "id": "sylas",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "frostwood-reach",
+          "present": true,
+          "type": "region"
+        }
+      ]
+    },
+    {
+      "heritageId": "tessen_human",
+      "className": "Revenant",
+      "refs": [
+        {
+          "id": "house_tesshan",
+          "present": true,
+          "type": "noble_house"
+        },
+        {
+          "id": "kora",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "vesper",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "kor-vasseth",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "the_breach",
+          "present": true,
+          "type": "event"
+        }
+      ]
+    },
+    {
+      "heritageId": "tessen_human",
+      "className": "Chronarch",
+      "refs": [
+        {
+          "id": "house_tesshan",
+          "present": true,
+          "type": "noble_house"
+        },
+        {
+          "id": "cragjaw-peaks",
+          "present": true,
+          "type": "region"
+        },
+        {
+          "id": "nesta",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "frostmaw_holdfast",
+          "present": true,
+          "type": "location"
+        },
+        {
+          "id": "fex-vestara",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "fexrick",
+          "present": true,
+          "type": "race"
+        }
+      ]
+    },
+    {
+      "heritageId": "tessen_human",
+      "className": "Spellguard",
+      "refs": [
+        {
+          "id": "damon",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "solari",
+          "present": true,
+          "type": "race"
+        },
+        {
+          "id": "emberspire",
+          "present": true,
+          "type": "location"
+        },
+        {
+          "id": "thrak-damos",
+          "present": true,
+          "type": "character"
+        }
+      ]
+    },
+    {
+      "heritageId": "tessen_human",
+      "className": "Harbinger",
+      "refs": [
+        {
+          "id": "house_tesshan",
+          "present": true,
+          "type": "noble_house"
+        },
+        {
+          "id": "malakor",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "xyris",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "frozen_archive",
+          "present": true,
+          "type": "location"
+        },
+        {
+          "id": "the_deepening",
+          "present": true,
+          "type": "event"
+        }
+      ]
+    },
+    {
+      "heritageId": "merryn_human",
+      "className": "Gambit",
+      "refs": [
+        {
+          "id": "iceheart-sea",
+          "present": true,
+          "type": "region"
+        },
+        {
+          "id": "jax",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "lyra",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "ironjaw_port",
+          "present": true,
+          "type": "location"
+        },
+        {
+          "id": "merr-cael",
+          "present": true,
+          "type": "character"
+        }
+      ]
+    },
+    {
+      "heritageId": "merryn_human",
+      "className": "Minstrel",
+      "refs": [
+        {
+          "id": "skald",
+          "present": true,
+          "type": "subculture"
+        },
+        {
+          "id": "iceheart-sea",
+          "present": true,
+          "type": "region"
+        },
+        {
+          "id": "lyris",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "mer-lyrisa",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "merrowport",
+          "present": true,
+          "type": "location"
+        }
+      ]
+    },
+    {
+      "heritageId": "merryn_human",
+      "className": "Revenant",
+      "refs": [
+        {
+          "id": "iceheart-sea",
+          "present": true,
+          "type": "region"
+        },
+        {
+          "id": "kora",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "vesper",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "kor-vasseth",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "the_breach",
+          "present": true,
+          "type": "event"
+        }
+      ]
+    },
+    {
+      "heritageId": "ordan_human",
+      "className": "Animist",
+      "refs": [
+        {
+          "id": "skald",
+          "present": true,
+          "type": "subculture"
+        },
+        {
+          "id": "sundrift-vale",
+          "present": true,
+          "type": "region"
+        },
+        {
+          "id": "sundered_monoliths",
+          "present": true,
+          "type": "concept"
+        }
+      ]
+    },
+    {
+      "heritageId": "ordan_human",
+      "className": "False Prophet",
+      "refs": [
+        {
+          "id": "skald",
+          "present": true,
+          "type": "subculture"
+        },
+        {
+          "id": "li-wei",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "mor-vereth",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "house_morrath",
+          "present": true,
+          "type": "noble_house"
+        }
+      ]
+    },
+    {
+      "heritageId": "ordan_human",
+      "className": "Apex",
+      "refs": [
+        {
+          "id": "skald",
+          "present": true,
+          "type": "subculture"
+        },
+        {
+          "id": "sundrift-vale",
+          "present": true,
+          "type": "region"
+        },
+        {
+          "id": "sylas",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "frostwood-reach",
+          "present": true,
+          "type": "region"
+        }
+      ]
+    },
+    {
+      "heritageId": "vashir_astril",
+      "className": "Arcanoneer",
+      "refs": [
+        {
+          "id": "valerius",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "atropolis",
+          "present": true,
+          "type": "location"
+        },
+        {
+          "id": "vel-otharen",
+          "present": true,
+          "type": "character"
+        }
+      ]
+    },
+    {
+      "heritageId": "vashir_astril",
+      "className": "Animist",
+      "refs": [
+        {
+          "id": "astril",
+          "present": true,
+          "type": "race"
+        },
+        {
+          "id": "sundered_monoliths",
+          "present": true,
+          "type": "concept"
+        }
+      ]
+    },
+    {
+      "heritageId": "vashir_astril",
+      "className": "Augur",
+      "refs": [
+        {
+          "id": "astril",
+          "present": true,
+          "type": "race"
+        },
+        {
+          "id": "cassia",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "frozen_archive",
+          "present": true,
+          "type": "location"
+        },
+        {
+          "id": "skadi-glass-eye",
+          "present": true,
+          "type": "character"
+        }
+      ]
+    },
+    {
+      "heritageId": "vashir_astril",
+      "className": "Harbinger",
+      "refs": [
+        {
+          "id": "astril",
+          "present": true,
+          "type": "race"
+        },
+        {
+          "id": "sundrift-vale",
+          "present": true,
+          "type": "region"
+        },
+        {
+          "id": "malakor",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "xyris",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "frozen_archive",
+          "present": true,
+          "type": "location"
+        },
+        {
+          "id": "the_deepening",
+          "present": true,
+          "type": "event"
+        }
+      ]
+    },
+    {
+      "heritageId": "vashir_astril",
+      "className": "False Prophet",
+      "refs": [
+        {
+          "id": "astril",
+          "present": true,
+          "type": "race"
+        },
+        {
+          "id": "li-wei",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "mor-vereth",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "house_morrath",
+          "present": true,
+          "type": "noble_house"
+        }
+      ]
+    },
+    {
+      "heritageId": "silath_astril",
+      "className": "Harbinger",
+      "refs": [
+        {
+          "id": "astril",
+          "present": true,
+          "type": "race"
+        },
+        {
+          "id": "malakor",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "xyris",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "frozen_archive",
+          "present": true,
+          "type": "location"
+        },
+        {
+          "id": "the_deepening",
+          "present": true,
+          "type": "event"
+        }
+      ]
+    },
+    {
+      "heritageId": "silath_astril",
+      "className": "Animist",
+      "refs": [
+        {
+          "id": "astril",
+          "present": true,
+          "type": "race"
+        },
+        {
+          "id": "sundered_monoliths",
+          "present": true,
+          "type": "concept"
+        }
+      ]
+    },
+    {
+      "heritageId": "silath_astril",
+      "className": "Augur",
+      "refs": [
+        {
+          "id": "astril",
+          "present": true,
+          "type": "race"
+        },
+        {
+          "id": "cassia",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "frozen_archive",
+          "present": true,
+          "type": "location"
+        },
+        {
+          "id": "skadi-glass-eye",
+          "present": true,
+          "type": "character"
+        }
+      ]
+    },
+    {
+      "heritageId": "silath_astril",
+      "className": "Crusader",
+      "refs": [
+        {
+          "id": "astril",
+          "present": true,
+          "type": "race"
+        }
+      ]
+    },
+    {
+      "heritageId": "silath_astril",
+      "className": "False Prophet",
+      "refs": [
+        {
+          "id": "astril",
+          "present": true,
+          "type": "race"
+        },
+        {
+          "id": "li-wei",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "mor-vereth",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "house_morrath",
+          "present": true,
+          "type": "noble_house"
+        }
+      ]
+    },
+    {
+      "heritageId": "kethrin_fexric",
+      "className": "Arcanoneer",
+      "refs": [
+        {
+          "id": "valerius",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "atropolis",
+          "present": true,
+          "type": "location"
+        },
+        {
+          "id": "vel-otharen",
+          "present": true,
+          "type": "character"
+        }
+      ]
+    },
+    {
+      "heritageId": "kethrin_fexric",
+      "className": "Chronarch",
+      "refs": [
+        {
+          "id": "fexrick",
+          "present": true,
+          "type": "race"
+        },
+        {
+          "id": "nesta",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "frostmaw_holdfast",
+          "present": true,
+          "type": "location"
+        },
+        {
+          "id": "fex-vestara",
+          "present": true,
+          "type": "character"
+        }
+      ]
+    },
+    {
+      "heritageId": "kethrin_fexric",
+      "className": "Pyrofiend",
+      "refs": [
+        {
+          "id": "fexrick",
+          "present": true,
+          "type": "race"
+        },
+        {
+          "id": "first-cabal",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "emberspire",
+          "present": true,
+          "type": "location"
+        },
+        {
+          "id": "sol-vareths",
+          "present": true,
+          "type": "character"
+        }
+      ]
+    },
+    {
+      "heritageId": "kethrin_fexric",
+      "className": "Spellguard",
+      "refs": [
+        {
+          "id": "damon",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "solari",
+          "present": true,
+          "type": "race"
+        },
+        {
+          "id": "emberspire",
+          "present": true,
+          "type": "location"
+        },
+        {
+          "id": "thrak-damos",
+          "present": true,
+          "type": "character"
+        }
+      ]
+    },
+    {
+      "heritageId": "kethrin_fexric",
+      "className": "Warden",
+      "refs": [
+        {
+          "id": "fexrick",
+          "present": true,
+          "type": "race"
+        },
+        {
+          "id": "alaric",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "groven",
+          "present": true,
+          "type": "race"
+        },
+        {
+          "id": "frostmaw_holdfast",
+          "present": true,
+          "type": "location"
+        }
+      ]
+    },
+    {
+      "heritageId": "drall_fexric",
+      "className": "Arcanoneer",
+      "refs": [
+        {
+          "id": "valerius",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "atropolis",
+          "present": true,
+          "type": "location"
+        },
+        {
+          "id": "vel-otharen",
+          "present": true,
+          "type": "character"
+        }
+      ]
+    },
+    {
+      "heritageId": "drall_fexric",
+      "className": "Gambit",
+      "refs": [
+        {
+          "id": "fexrick",
+          "present": true,
+          "type": "race"
+        },
+        {
+          "id": "jax",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "lyra",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "iceheart-sea",
+          "present": true,
+          "type": "region"
+        },
+        {
+          "id": "ironjaw_port",
+          "present": true,
+          "type": "location"
+        },
+        {
+          "id": "merr-cael",
+          "present": true,
+          "type": "character"
+        }
+      ]
+    },
+    {
+      "heritageId": "drall_fexric",
+      "className": "Spellguard",
+      "refs": [
+        {
+          "id": "damon",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "solari",
+          "present": true,
+          "type": "race"
+        },
+        {
+          "id": "emberspire",
+          "present": true,
+          "type": "location"
+        },
+        {
+          "id": "thrak-damos",
+          "present": true,
+          "type": "character"
+        }
+      ]
+    },
+    {
+      "heritageId": "drall_fexric",
+      "className": "Warden",
+      "refs": [
+        {
+          "id": "fexrick",
+          "present": true,
+          "type": "race"
+        },
+        {
+          "id": "alaric",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "groven",
+          "present": true,
+          "type": "race"
+        },
+        {
+          "id": "frostmaw_holdfast",
+          "present": true,
+          "type": "location"
+        }
+      ]
+    },
+    {
+      "heritageId": "viridian_florae",
+      "className": "Lunarch",
+      "refs": [
+        {
+          "id": "florae",
+          "present": true,
+          "type": "race"
+        },
+        {
+          "id": "selene",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "bri-vessela",
+          "present": true,
+          "type": "character"
+        }
+      ]
+    },
+    {
+      "heritageId": "viridian_florae",
+      "className": "Toxicologist",
+      "refs": [
+        {
+          "id": "florae",
+          "present": true,
+          "type": "race"
+        },
+        {
+          "id": "varis",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "frostwood-reach",
+          "present": true,
+          "type": "region"
+        }
+      ]
+    },
+    {
+      "heritageId": "viridian_florae",
+      "className": "Animist",
+      "refs": [
+        {
+          "id": "florae",
+          "present": true,
+          "type": "race"
+        },
+        {
+          "id": "sundered_monoliths",
+          "present": true,
+          "type": "concept"
+        }
+      ]
+    },
+    {
+      "heritageId": "florae_unified",
+      "className": "Toxicologist",
+      "refs": [
+        {
+          "id": "florae",
+          "present": true,
+          "type": "race"
+        },
+        {
+          "id": "varis",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "frostwood-reach",
+          "present": true,
+          "type": "region"
+        }
+      ]
+    },
+    {
+      "heritageId": "florae_unified",
+      "className": "Animist",
+      "refs": [
+        {
+          "id": "florae",
+          "present": true,
+          "type": "race"
+        },
+        {
+          "id": "sundered_monoliths",
+          "present": true,
+          "type": "concept"
+        }
+      ]
+    },
+    {
+      "heritageId": "florae_unified",
+      "className": "Lunarch",
+      "refs": [
+        {
+          "id": "oken",
+          "present": true,
+          "type": "subrace"
+        },
+        {
+          "id": "selene",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "florae",
+          "present": true,
+          "type": "race"
+        },
+        {
+          "id": "bri-vessela",
+          "present": true,
+          "type": "character"
+        }
+      ]
+    },
+    {
+      "heritageId": "morgh_groven",
+      "className": "Martyr",
+      "refs": [
+        {
+          "id": "groven",
+          "present": true,
+          "type": "race"
+        },
+        {
+          "id": "sera",
+          "present": true,
+          "type": "historical_figure"
+        },
+        {
+          "id": "emberspire",
+          "present": true,
+          "type": "location"
+        },
+        {
+          "id": "sol-kaessen",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "sundale",
+          "present": true,
+          "type": "region"
+        }
+      ]
+    },
+    {
+      "heritageId": "morgh_groven",
+      "className": "Shaper",
+      "refs": [
+        {
+          "id": "groven",
+          "present": true,
+          "type": "race"
+        },
+        {
+          "id": "thrumm",
+          "present": true,
+          "type": "race"
+        },
+        {
+          "id": "veyra",
+          "present": true,
+          "type": "character"
+        }
+      ]
+    },
+    {
+      "heritageId": "morgh_groven",
+      "className": "Warden",
+      "refs": [
+        {
+          "id": "groven",
+          "present": true,
+          "type": "race"
+        },
+        {
+          "id": "alaric",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "frostmaw_holdfast",
+          "present": true,
+          "type": "location"
+        }
+      ]
+    },
+    {
+      "heritageId": "morgh_groven",
+      "className": "Berserker",
+      "refs": [
+        {
+          "id": "groven",
+          "present": true,
+          "type": "race"
+        },
+        {
+          "id": "deep_alchemists",
+          "present": true,
+          "type": "faction"
+        },
+        {
+          "id": "thrumm",
+          "present": true,
+          "type": "race"
+        },
+        {
+          "id": "vat_breakers_guild",
+          "present": true,
+          "type": "faction"
+        },
+        {
+          "id": "frostmaw_holdfast",
+          "present": true,
+          "type": "location"
+        },
+        {
+          "id": "grum-bloodhammer",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "emberspire",
+          "present": true,
+          "type": "location"
+        },
+        {
+          "id": "hark-ash-hammer",
+          "present": true,
+          "type": "character"
+        }
+      ]
+    },
+    {
+      "heritageId": "ithran_groven",
+      "className": "Martyr",
+      "refs": [
+        {
+          "id": "sera",
+          "present": true,
+          "type": "historical_figure"
+        },
+        {
+          "id": "emberspire",
+          "present": true,
+          "type": "location"
+        },
+        {
+          "id": "sol-kaessen",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "sundale",
+          "present": true,
+          "type": "region"
+        }
+      ]
+    },
+    {
+      "heritageId": "ithran_groven",
+      "className": "Shaper",
+      "refs": [
+        {
+          "id": "groven",
+          "present": true,
+          "type": "race"
+        },
+        {
+          "id": "veyra",
+          "present": true,
+          "type": "character"
+        }
+      ]
+    },
+    {
+      "heritageId": "ithran_groven",
+      "className": "Warden",
+      "refs": [
+        {
+          "id": "groven",
+          "present": true,
+          "type": "race"
+        },
+        {
+          "id": "alaric",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "frostmaw_holdfast",
+          "present": true,
+          "type": "location"
+        }
+      ]
+    },
+    {
+      "heritageId": "ithran_groven",
+      "className": "Chronarch",
+      "refs": [
+        {
+          "id": "groven",
+          "present": true,
+          "type": "race"
+        },
+        {
+          "id": "nesta",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "frostmaw_holdfast",
+          "present": true,
+          "type": "location"
+        },
+        {
+          "id": "fex-vestara",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "fexrick",
+          "present": true,
+          "type": "race"
+        }
+      ]
+    },
+    {
+      "heritageId": "veiled_mimir",
+      "className": "Apex",
+      "refs": [
+        {
+          "id": "mimir",
+          "present": true,
+          "type": "race"
+        },
+        {
+          "id": "sylas",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "frostwood-reach",
+          "present": true,
+          "type": "region"
+        }
+      ]
+    },
+    {
+      "heritageId": "veiled_mimir",
+      "className": "Shaper",
+      "refs": [
+        {
+          "id": "mimir",
+          "present": true,
+          "type": "race"
+        },
+        {
+          "id": "veyra",
+          "present": true,
+          "type": "character"
+        }
+      ]
+    },
+    {
+      "heritageId": "veiled_mimir",
+      "className": "Warden",
+      "refs": [
+        {
+          "id": "alaric",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "groven",
+          "present": true,
+          "type": "race"
+        },
+        {
+          "id": "frostmaw_holdfast",
+          "present": true,
+          "type": "location"
+        }
+      ]
+    },
+    {
+      "heritageId": "veiled_mimir",
+      "className": "Animist",
+      "refs": [
+        {
+          "id": "sundered_monoliths",
+          "present": true,
+          "type": "concept"
+        }
+      ]
+    },
+    {
+      "heritageId": "veiled_mimir",
+      "className": "Lunarch",
+      "refs": [
+        {
+          "id": "mimir",
+          "present": true,
+          "type": "race"
+        },
+        {
+          "id": "selene",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "florae",
+          "present": true,
+          "type": "race"
+        },
+        {
+          "id": "bri-vessela",
+          "present": true,
+          "type": "character"
+        }
+      ]
+    },
+    {
+      "heritageId": "tethered_mimir",
+      "className": "Apex",
+      "refs": [
+        {
+          "id": "mimir",
+          "present": true,
+          "type": "race"
+        },
+        {
+          "id": "frostwood-reach",
+          "present": true,
+          "type": "region"
+        },
+        {
+          "id": "sylas",
+          "present": true,
+          "type": "character"
+        }
+      ]
+    },
+    {
+      "heritageId": "tethered_mimir",
+      "className": "Shaper",
+      "refs": [
+        {
+          "id": "mimir",
+          "present": true,
+          "type": "race"
+        },
+        {
+          "id": "frostwood-reach",
+          "present": true,
+          "type": "region"
+        },
+        {
+          "id": "veyra",
+          "present": true,
+          "type": "character"
+        }
+      ]
+    },
+    {
+      "heritageId": "tethered_mimir",
+      "className": "Minstrel",
+      "refs": [
+        {
+          "id": "lyris",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "iceheart-sea",
+          "present": true,
+          "type": "region"
+        },
+        {
+          "id": "mer-lyrisa",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "merrowport",
+          "present": true,
+          "type": "location"
+        }
+      ]
+    },
+    {
+      "heritageId": "tethered_mimir",
+      "className": "Inquisitor",
+      "refs": [
+        {
+          "id": "mimir",
+          "present": true,
+          "type": "race"
+        },
+        {
+          "id": "orven",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "elias",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "bryngloom-forest",
+          "present": true,
+          "type": "region"
+        },
+        {
+          "id": "frostwood-reach",
+          "present": true,
+          "type": "region"
+        },
+        {
+          "id": "vrael-forty-seventh",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "sunken_spire",
+          "present": true,
+          "type": "location"
+        }
+      ]
+    },
+    {
+      "heritageId": "tethered_mimir",
+      "className": "Toxicologist",
+      "refs": [
+        {
+          "id": "mimir",
+          "present": true,
+          "type": "race"
+        },
+        {
+          "id": "varis",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "frostwood-reach",
+          "present": true,
+          "type": "region"
+        }
+      ]
+    },
+    {
+      "heritageId": "tethered_mimir",
+      "className": "Animist",
+      "refs": [
+        {
+          "id": "sundered_monoliths",
+          "present": true,
+          "type": "concept"
+        }
+      ]
+    },
+    {
+      "heritageId": "velun_neth",
+      "className": "Animist",
+      "refs": [
+        {
+          "id": "neth",
+          "present": true,
+          "type": "race"
+        },
+        {
+          "id": "atropolis",
+          "present": true,
+          "type": "location"
+        },
+        {
+          "id": "morvane",
+          "present": true,
+          "type": "concept"
+        },
+        {
+          "id": "sundered_monoliths",
+          "present": true,
+          "type": "concept"
+        }
+      ]
+    },
+    {
+      "heritageId": "velun_neth",
+      "className": "Arcanoneer",
+      "refs": [
+        {
+          "id": "valerius",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "atropolis",
+          "present": true,
+          "type": "location"
+        },
+        {
+          "id": "vel-otharen",
+          "present": true,
+          "type": "character"
+        }
+      ]
+    },
+    {
+      "heritageId": "velun_neth",
+      "className": "Revenant",
+      "refs": [
+        {
+          "id": "kora",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "vesper",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "kor-vasseth",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "the_breach",
+          "present": true,
+          "type": "event"
+        }
+      ]
+    },
+    {
+      "heritageId": "velun_neth",
+      "className": "Chronarch",
+      "refs": [
+        {
+          "id": "velun",
+          "present": true,
+          "type": "subrace"
+        },
+        {
+          "id": "nesta",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "frostmaw_holdfast",
+          "present": true,
+          "type": "location"
+        },
+        {
+          "id": "fex-vestara",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "fexrick",
+          "present": true,
+          "type": "race"
+        }
+      ]
+    },
+    {
+      "heritageId": "velun_neth",
+      "className": "Spellguard",
+      "refs": [
+        {
+          "id": "neth",
+          "present": true,
+          "type": "race"
+        },
+        {
+          "id": "damon",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "solari",
+          "present": true,
+          "type": "race"
+        },
+        {
+          "id": "emberspire",
+          "present": true,
+          "type": "location"
+        },
+        {
+          "id": "thrak-damos",
+          "present": true,
+          "type": "character"
+        }
+      ]
+    },
+    {
+      "heritageId": "kessen_neth",
+      "className": "Augur",
+      "refs": [
+        {
+          "id": "neth",
+          "present": true,
+          "type": "race"
+        },
+        {
+          "id": "cassia",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "frozen_archive",
+          "present": true,
+          "type": "location"
+        },
+        {
+          "id": "skadi-glass-eye",
+          "present": true,
+          "type": "character"
+        }
+      ]
+    },
+    {
+      "heritageId": "kessen_neth",
+      "className": "Gambit",
+      "refs": [
+        {
+          "id": "neth",
+          "present": true,
+          "type": "race"
+        },
+        {
+          "id": "jax",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "lyra",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "iceheart-sea",
+          "present": true,
+          "type": "region"
+        },
+        {
+          "id": "ironjaw_port",
+          "present": true,
+          "type": "location"
+        },
+        {
+          "id": "merr-cael",
+          "present": true,
+          "type": "character"
+        }
+      ]
+    },
+    {
+      "heritageId": "kessen_neth",
+      "className": "Revenant",
+      "refs": [
+        {
+          "id": "neth",
+          "present": true,
+          "type": "race"
+        },
+        {
+          "id": "kora",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "vesper",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "kor-vasseth",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "the_breach",
+          "present": true,
+          "type": "event"
+        }
+      ]
+    },
+    {
+      "heritageId": "drun_neth",
+      "className": "Plaguebringer",
+      "refs": [
+        {
+          "id": "neth",
+          "present": true,
+          "type": "race"
+        },
+        {
+          "id": "vespera",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "vreken",
+          "present": true,
+          "type": "race"
+        },
+        {
+          "id": "sunken_spire",
+          "present": true,
+          "type": "location"
+        },
+        {
+          "id": "root_veil",
+          "present": true,
+          "type": "concept"
+        }
+      ]
+    },
+    {
+      "heritageId": "drun_neth",
+      "className": "False Prophet",
+      "refs": [
+        {
+          "id": "li-wei",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "mor-vereth",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "house_morrath",
+          "present": true,
+          "type": "noble_house"
+        }
+      ]
+    },
+    {
+      "heritageId": "drun_neth",
+      "className": "Revenant",
+      "refs": [
+        {
+          "id": "neth",
+          "present": true,
+          "type": "race"
+        },
+        {
+          "id": "kora",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "vesper",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "kor-vasseth",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "the_breach",
+          "present": true,
+          "type": "event"
+        }
+      ]
+    },
+    {
+      "heritageId": "drun_neth",
+      "className": "Toxicologist",
+      "refs": [
+        {
+          "id": "neth",
+          "present": true,
+          "type": "race"
+        },
+        {
+          "id": "varis",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "frostwood-reach",
+          "present": true,
+          "type": "region"
+        }
+      ]
+    },
+    {
+      "heritageId": "clean_vreken",
+      "className": "Animist",
+      "refs": [
+        {
+          "id": "vreken",
+          "present": true,
+          "type": "race"
+        },
+        {
+          "id": "bryngloom-forest",
+          "present": true,
+          "type": "region"
+        },
+        {
+          "id": "root_veil",
+          "present": true,
+          "type": "concept"
+        },
+        {
+          "id": "sundered_monoliths",
+          "present": true,
+          "type": "concept"
+        }
+      ]
+    },
+    {
+      "heritageId": "clean_vreken",
+      "className": "Plaguebringer",
+      "refs": [
+        {
+          "id": "vreken",
+          "present": true,
+          "type": "race"
+        },
+        {
+          "id": "vespera",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "sunken_spire",
+          "present": true,
+          "type": "location"
+        },
+        {
+          "id": "root_veil",
+          "present": true,
+          "type": "concept"
+        }
+      ]
+    },
+    {
+      "heritageId": "clean_vreken",
+      "className": "Revenant",
+      "refs": [
+        {
+          "id": "vreken",
+          "present": true,
+          "type": "race"
+        },
+        {
+          "id": "kora",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "the_breach",
+          "present": true,
+          "type": "event"
+        },
+        {
+          "id": "vesper",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "kor-vasseth",
+          "present": true,
+          "type": "character"
+        }
+      ]
+    },
+    {
+      "heritageId": "marked_vreken",
+      "className": "Inquisitor",
+      "refs": [
+        {
+          "id": "vreken",
+          "present": true,
+          "type": "race"
+        },
+        {
+          "id": "root_veil",
+          "present": true,
+          "type": "concept"
+        },
+        {
+          "id": "orven",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "elias",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "bryngloom-forest",
+          "present": true,
+          "type": "region"
+        },
+        {
+          "id": "frostwood-reach",
+          "present": true,
+          "type": "region"
+        },
+        {
+          "id": "vrael-forty-seventh",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "sunken_spire",
+          "present": true,
+          "type": "location"
+        }
+      ]
+    },
+    {
+      "heritageId": "marked_vreken",
+      "className": "Plaguebringer",
+      "refs": [
+        {
+          "id": "vreken",
+          "present": true,
+          "type": "race"
+        },
+        {
+          "id": "root_veil",
+          "present": true,
+          "type": "concept"
+        },
+        {
+          "id": "vespera",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "sunken_spire",
+          "present": true,
+          "type": "location"
+        }
+      ]
+    },
+    {
+      "heritageId": "marked_vreken",
+      "className": "Apex",
+      "refs": [
+        {
+          "id": "vreken",
+          "present": true,
+          "type": "race"
+        },
+        {
+          "id": "sylas",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "frostwood-reach",
+          "present": true,
+          "type": "region"
+        }
+      ]
+    },
+    {
+      "heritageId": "marked_vreken",
+      "className": "Augur",
+      "refs": [
+        {
+          "id": "vreken",
+          "present": true,
+          "type": "race"
+        },
+        {
+          "id": "root_veil",
+          "present": true,
+          "type": "concept"
+        },
+        {
+          "id": "cassia",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "frozen_archive",
+          "present": true,
+          "type": "location"
+        },
+        {
+          "id": "skadi-glass-eye",
+          "present": true,
+          "type": "character"
+        }
+      ]
+    },
+    {
+      "heritageId": "korr_solari",
+      "className": "Augur",
+      "refs": [
+        {
+          "id": "solari",
+          "present": true,
+          "type": "race"
+        },
+        {
+          "id": "sols_breath",
+          "present": true,
+          "type": "resource"
+        },
+        {
+          "id": "emberspire",
+          "present": true,
+          "type": "location"
+        },
+        {
+          "id": "cassia",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "frozen_archive",
+          "present": true,
+          "type": "location"
+        },
+        {
+          "id": "skadi-glass-eye",
+          "present": true,
+          "type": "character"
+        }
+      ]
+    },
+    {
+      "heritageId": "korr_solari",
+      "className": "Martyr",
+      "refs": [
+        {
+          "id": "solari",
+          "present": true,
+          "type": "race"
+        },
+        {
+          "id": "vault_breath",
+          "present": true,
+          "type": "concept"
+        },
+        {
+          "id": "aex",
+          "present": true,
+          "type": "entity"
+        },
+        {
+          "id": "sera",
+          "present": true,
+          "type": "historical_figure"
+        },
+        {
+          "id": "emberspire",
+          "present": true,
+          "type": "location"
+        },
+        {
+          "id": "sol-kaessen",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "sundale",
+          "present": true,
+          "type": "region"
+        }
+      ]
+    },
+    {
+      "heritageId": "korr_solari",
+      "className": "Pyrofiend",
+      "refs": [
+        {
+          "id": "solari",
+          "present": true,
+          "type": "race"
+        },
+        {
+          "id": "first-cabal",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "emberspire",
+          "present": true,
+          "type": "location"
+        },
+        {
+          "id": "sol-vareths",
+          "present": true,
+          "type": "character"
+        }
+      ]
+    },
+    {
+      "heritageId": "korr_solari",
+      "className": "Spellguard",
+      "refs": [
+        {
+          "id": "solari",
+          "present": true,
+          "type": "race"
+        },
+        {
+          "id": "vault_breath",
+          "present": true,
+          "type": "concept"
+        },
+        {
+          "id": "damon",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "emberspire",
+          "present": true,
+          "type": "location"
+        },
+        {
+          "id": "thrak-damos",
+          "present": true,
+          "type": "character"
+        }
+      ]
+    },
+    {
+      "heritageId": "thrask_solari",
+      "className": "Crusader",
+      "refs": [
+        {
+          "id": "solari",
+          "present": true,
+          "type": "race"
+        },
+        {
+          "id": "scathrach",
+          "present": true,
+          "type": "entity"
+        },
+        {
+          "id": "emberspire",
+          "present": true,
+          "type": "location"
+        }
+      ]
+    },
+    {
+      "heritageId": "thrask_solari",
+      "className": "Martyr",
+      "refs": [
+        {
+          "id": "emberspire",
+          "present": true,
+          "type": "location"
+        },
+        {
+          "id": "aex",
+          "present": true,
+          "type": "entity"
+        },
+        {
+          "id": "sera",
+          "present": true,
+          "type": "historical_figure"
+        },
+        {
+          "id": "sol-kaessen",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "sundale",
+          "present": true,
+          "type": "region"
+        }
+      ]
+    },
+    {
+      "heritageId": "thrask_solari",
+      "className": "Pyrofiend",
+      "refs": [
+        {
+          "id": "solari",
+          "present": true,
+          "type": "race"
+        },
+        {
+          "id": "first-cabal",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "emberspire",
+          "present": true,
+          "type": "location"
+        },
+        {
+          "id": "sol-vareths",
+          "present": true,
+          "type": "character"
+        }
+      ]
+    },
+    {
+      "heritageId": "thrask_solari",
+      "className": "Spellguard",
+      "refs": [
+        {
+          "id": "solari",
+          "present": true,
+          "type": "race"
+        },
+        {
+          "id": "damon",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "emberspire",
+          "present": true,
+          "type": "location"
+        },
+        {
+          "id": "thrak-damos",
+          "present": true,
+          "type": "character"
+        }
+      ]
+    },
+    {
+      "heritageId": "thrask_solari",
+      "className": "Apex",
+      "refs": [
+        {
+          "id": "solari",
+          "present": true,
+          "type": "race"
+        },
+        {
+          "id": "sundale",
+          "present": true,
+          "type": "region"
+        },
+        {
+          "id": "sylas",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "frostwood-reach",
+          "present": true,
+          "type": "region"
+        }
+      ]
+    },
+    {
+      "heritageId": "deepling_myrathil",
+      "className": "Animist",
+      "refs": [
+        {
+          "id": "myrathil",
+          "present": true,
+          "type": "race"
+        },
+        {
+          "id": "treakous_rift",
+          "present": true,
+          "type": "location"
+        },
+        {
+          "id": "sundered_monoliths",
+          "present": true,
+          "type": "concept"
+        }
+      ]
+    },
+    {
+      "heritageId": "deepling_myrathil",
+      "className": "Apex",
+      "refs": [
+        {
+          "id": "myrathil",
+          "present": true,
+          "type": "race"
+        },
+        {
+          "id": "treakous_rift",
+          "present": true,
+          "type": "location"
+        },
+        {
+          "id": "sylas",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "frostwood-reach",
+          "present": true,
+          "type": "region"
+        }
+      ]
+    },
+    {
+      "heritageId": "deepling_myrathil",
+      "className": "Augur",
+      "refs": [
+        {
+          "id": "myrathil",
+          "present": true,
+          "type": "race"
+        },
+        {
+          "id": "treakous_rift",
+          "present": true,
+          "type": "location"
+        },
+        {
+          "id": "cassia",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "frozen_archive",
+          "present": true,
+          "type": "location"
+        },
+        {
+          "id": "skadi-glass-eye",
+          "present": true,
+          "type": "character"
+        }
+      ]
+    },
+    {
+      "heritageId": "deepling_myrathil",
+      "className": "Minstrel",
+      "refs": [
+        {
+          "id": "myrathil",
+          "present": true,
+          "type": "race"
+        },
+        {
+          "id": "lyris",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "iceheart-sea",
+          "present": true,
+          "type": "region"
+        },
+        {
+          "id": "mer-lyrisa",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "merrowport",
+          "present": true,
+          "type": "location"
+        }
+      ]
+    },
+    {
+      "heritageId": "shoreling_myrathil",
+      "className": "Minstrel",
+      "refs": [
+        {
+          "id": "myrathil",
+          "present": true,
+          "type": "race"
+        },
+        {
+          "id": "lyris",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "iceheart-sea",
+          "present": true,
+          "type": "region"
+        },
+        {
+          "id": "mer-lyrisa",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "merrowport",
+          "present": true,
+          "type": "location"
+        }
+      ]
+    },
+    {
+      "heritageId": "shoreling_myrathil",
+      "className": "Augur",
+      "refs": [
+        {
+          "id": "myrathil",
+          "present": true,
+          "type": "race"
+        },
+        {
+          "id": "cassia",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "frozen_archive",
+          "present": true,
+          "type": "location"
+        },
+        {
+          "id": "skadi-glass-eye",
+          "present": true,
+          "type": "character"
+        }
+      ]
+    },
+    {
+      "heritageId": "shoreling_myrathil",
+      "className": "Revenant",
+      "refs": [
+        {
+          "id": "myrathil",
+          "present": true,
+          "type": "race"
+        },
+        {
+          "id": "kora",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "vesper",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "kor-vasseth",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "the_breach",
+          "present": true,
+          "type": "event"
+        }
+      ]
+    },
+    {
+      "heritageId": "riverling_myrathil",
+      "className": "Minstrel",
+      "refs": [
+        {
+          "id": "myrathil",
+          "present": true,
+          "type": "race"
+        },
+        {
+          "id": "lyris",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "iceheart-sea",
+          "present": true,
+          "type": "region"
+        },
+        {
+          "id": "mer-lyrisa",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "merrowport",
+          "present": true,
+          "type": "location"
+        }
+      ]
+    },
+    {
+      "heritageId": "riverling_myrathil",
+      "className": "Animist",
+      "refs": [
+        {
+          "id": "sundered_monoliths",
+          "present": true,
+          "type": "concept"
+        }
+      ]
+    },
+    {
+      "heritageId": "riverling_myrathil",
+      "className": "Augur",
+      "refs": [
+        {
+          "id": "myrathil",
+          "present": true,
+          "type": "race"
+        },
+        {
+          "id": "cassia",
+          "present": true,
+          "type": "character"
+        },
+        {
+          "id": "frozen_archive",
+          "present": true,
+          "type": "location"
+        },
+        {
+          "id": "skadi-glass-eye",
+          "present": true,
+          "type": "character"
+        }
+      ]
+    }
+  ]
+}

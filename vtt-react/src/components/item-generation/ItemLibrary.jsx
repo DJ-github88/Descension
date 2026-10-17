@@ -361,9 +361,6 @@ const ListItemRow = memo(({ item, isSelected, onClick, onContextMenu, onDragOver
                             {item.weaponStats.baseDamage.bonusDamage > 0 ? ` +${item.weaponStats.baseDamage.bonusDamage}` : ''}
                         </span>
                     )}
-                    {item.type === 'armor' && item.combatStats?.armor?.value > 0 && (
-                        <span className="item-list-stat">{item.combatStats.armor.value} AC</span>
-                    )}
                 </div>
             </div>
             {showTooltip && createPortal(

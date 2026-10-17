@@ -22,6 +22,7 @@ const ShadowOverlay = () => {
     const sunSettings = useLevelEditorStore(state => state.sunSettings);
     const wallShadowsEnabled = useLevelEditorStore(state => state.wallShadowsEnabled);
     const walls3DEnabled = useLevelEditorStore(state => state.walls3DEnabled ?? true);
+    const wallsCollapsed = useLevelEditorStore(state => state.wallsCollapsed ?? false);
 
     // Game store for positioning
     const gridSize = useGameStore(state => state.gridSize);
@@ -42,7 +43,7 @@ const ShadowOverlay = () => {
 
     // Calculate shadows for all light sources
     const calculateAllShadows = useCallback(() => {
-        if (!lightingEnabled || walls3DEnabled) {
+        if (!lightingEnabled || walls3DEnabled || wallsCollapsed) {
             shadowDataRef.current = {};
             return;
         }
@@ -88,7 +89,7 @@ const ShadowOverlay = () => {
         const sunActive = sun.intensity > 0.05;
         const hasLightShadows = Object.keys(shadowDataRef.current).length > 0;
 
-        if (!lightingEnabled || walls3DEnabled || (!hasLightShadows && !sunActive)) {
+        if (!lightingEnabled || walls3DEnabled || wallsCollapsed || (!hasLightShadows && !sunActive)) {
             return;
         }
 
@@ -237,7 +238,8 @@ const ShadowOverlay = () => {
         viewRotation,
         viewTilt,
         wallShadowsEnabled,
-        walls3DEnabled
+        walls3DEnabled,
+        wallsCollapsed
     ]);
 
     // Update shadows when dependencies change
@@ -271,7 +273,7 @@ const ShadowOverlay = () => {
     // WebGL world layer renders real sun/light-source shadows from the same
     // lighting model, so drawing the 2D approximations on top would
     // double-darken (and disagree with the 3D shadow directions).
-    if (!lightingEnabled || walls3DEnabled) {
+    if (!lightingEnabled || walls3DEnabled || wallsCollapsed) {
         return null;
     }
 

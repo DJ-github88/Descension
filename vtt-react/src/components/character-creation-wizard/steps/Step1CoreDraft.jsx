@@ -1638,7 +1638,7 @@ const Step1CoreDraft = () => {
                                             {raceObj.cardFlavor}
                                         </p>
                                         {isNonNative && (
-                                            <div style={{ marginTop: '6px', paddingTop: '6px', borderTop: '1px dashed #b08a4a', color: '#8a5a00', fontStyle: 'italic', fontSize: '0.8rem' }}>
+                                            <div style={{ marginTop: '6px', paddingTop: '6px', borderTop: '1px dashed rgba(182, 160, 128, 0.55)', color: '#8b5a1a', fontStyle: 'italic', fontSize: '0.8rem' }}>
                                                 <i className="fas fa-exclamation-triangle" style={{ marginRight: '4px' }}></i>
                                                 Non-native lineage for selected path
                                             </div>
@@ -1665,7 +1665,7 @@ const Step1CoreDraft = () => {
                                         onMouseEnter={handleMouseEnter(raceTooltipContent, { title: isNonNative ? `${raceObj.name} (Other Homeland)` : raceObj.name })}
                                         onMouseLeave={handleMouseLeave}
                                         onMouseMove={handleMouseMove}
-                                        style={isNonNative ? { borderStyle: 'dashed', borderColor: '#d4af37' } : undefined}
+                                        style={isNonNative ? { borderStyle: 'dashed', borderColor: '#8b5a1a' } : undefined}
                                     >
                                         <span className="race-token-sigil" aria-hidden="true"><i className={`${raceObj.icon} race-token-icon`}></i></span>
                                         <span className="race-token-text">
@@ -1779,7 +1779,7 @@ const Step1CoreDraft = () => {
                                                 </p>
 
                                                 {heritageNarrowing.isNarrowed && (
-                                                    <div style={{ marginTop: '6px', paddingTop: '6px', borderTop: '1px dashed #b08a4a', color: isNativeLineage ? '#15803d' : '#8a5a00', fontStyle: 'italic', fontSize: '0.8rem' }}>
+                                                    <div style={{ marginTop: '6px', paddingTop: '6px', borderTop: '1px dashed rgba(182, 160, 128, 0.55)', color: isNativeLineage ? '#15803d' : '#8b5a1a', fontStyle: 'italic', fontSize: '0.8rem' }}>
                                                         <i className={`fas fa-${isNativeLineage ? 'check-circle' : 'info-circle'}`} style={{ marginRight: '4px' }}></i>
                                                         {isNativeLineage ? (heritageNarrowing.reason || 'Native Lineage') : 'Rare / Non-native path for chosen calling or background'}
                                                     </div>
@@ -1813,7 +1813,7 @@ const Step1CoreDraft = () => {
 
                                                 onMouseMove={handleMouseMove}
 
-                                                style={!isNativeLineage ? { borderStyle: 'dashed', borderColor: '#d4af37' } : undefined}
+                                                style={!isNativeLineage ? { borderStyle: 'dashed', borderColor: '#8b5a1a' } : undefined}
 
                                             >
 
@@ -1930,7 +1930,7 @@ const Step1CoreDraft = () => {
                                                 {getClassSummary(classInfo)}
                                             </p>
                                             {!isCompatible && (
-                                                <div style={{ marginTop: '6px', paddingTop: '6px', borderTop: '1px dashed #b08a4a', color: '#8a5a00', fontStyle: 'italic', fontSize: '0.8rem' }}>
+                                                <div style={{ marginTop: '6px', paddingTop: '6px', borderTop: '1px dashed rgba(182, 160, 128, 0.55)', color: '#8b5a1a', fontStyle: 'italic', fontSize: '0.8rem' }}>
                                                     <i className="fas fa-exclamation-triangle" style={{ marginRight: '4px' }}></i>
                                                     {race ? (classAccess.reason || 'Sourced acquisition required') : 'Non-thematic to selected origin'}
                                                 </div>
@@ -1951,7 +1951,7 @@ const Step1CoreDraft = () => {
                                             onMouseEnter={handleMouseEnter(tooltipContent, { title: !isCompatible ? (race ? `${clsName} (Acquisition / State Required)` : `${clsName} (Other Calling)`) : clsName })}
                                             onMouseLeave={handleMouseLeave}
                                             onMouseMove={handleMouseMove}
-                                            style={!isCompatible ? { borderStyle: 'dashed', borderColor: '#d4af37' } : undefined}
+                                            style={!isCompatible ? { borderStyle: 'dashed', borderColor: '#8b5a1a' } : undefined}
                                         >
                                             <ClassIcon 
                                                 src={classInfo?.imageIcon || `/assets/icons/classes/${clsName.toLowerCase().replace(' ', '_')}.png`} 
@@ -2031,17 +2031,17 @@ const Step1CoreDraft = () => {
                                 padding: '16px 20px',
                                 background: 'linear-gradient(135deg, #faf6eb 0%, #f5eedb 100%)',
                                 border: '1px solid #c4a882',
-                                borderLeft: '4px solid #b08a4a',
-                                borderRadius: '6px',
+                                borderLeft: '4px solid #663c32',
+                                borderRadius: '4px',
                                 fontFamily: "'Crimson Text', serif"
                             }}>
                                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px' }}>
-                                    <i className="fas fa-scroll" style={{ color: '#b08a4a', fontSize: '1.1rem' }}></i>
+                                    <i className="fas fa-scroll" style={{ color: '#7a5e48', fontSize: '1.1rem' }}></i>
                                     <h5 style={{ margin: 0, color: '#5a3d1d', fontSize: '1.15rem', fontWeight: 'bold' }}>{variant.subraceName} {characterData.class}: {variant.title}</h5>
                                 </div>
                                 <p style={{ margin: '0 0 12px', color: '#2e1e0f', lineHeight: '1.6', fontSize: '0.95rem' }}>{formatDescriptionText(variant.reframe)}</p>
                                 {variant.signatureAbility && (
-                                    <div style={{ marginBottom: '10px', padding: '10px 14px', background: 'rgba(176,138,74,0.08)', borderRadius: '4px', borderLeft: '3px solid #b08a4a' }}>
+                                    <div style={{ marginBottom: '10px', padding: '10px 14px', background: 'rgba(102,60,50,0.06)', borderRadius: '4px', borderLeft: '3px solid #663c32' }}>
                                         <div style={{ fontWeight: 'bold', color: '#7a5a35', fontSize: '0.85rem', textTransform: 'uppercase', marginBottom: '4px' }}>
                                             <i className="fas fa-bolt" style={{ marginRight: '4px' }}></i>{variant.signatureAbility.name}
                                         </div>
@@ -2119,7 +2119,7 @@ const Step1CoreDraft = () => {
                                                 {getBackgroundSummary(bg)}
                                             </p>
                                             {requiresUnlock && (
-                                                <div style={{ marginTop: '6px', paddingTop: '6px', borderTop: '1px dashed #b08a4a', color: '#8a5a00', fontStyle: 'italic', fontSize: '0.8rem' }}>
+                                                <div style={{ marginTop: '6px', paddingTop: '6px', borderTop: '1px dashed rgba(182, 160, 128, 0.55)', color: '#8b5a1a', fontStyle: 'italic', fontSize: '0.8rem' }}>
                                                     <i className="fas fa-exclamation-triangle" style={{ marginRight: '4px' }}></i>
                                                     {race ? 'Narrative Unlock: Requires GM approval' : 'Non-thematic to selected calling'}
                                                 </div>
@@ -3633,49 +3633,27 @@ const Step1CoreDraft = () => {
                 }}>
 
                     <div className="justification-modal-content" style={{
-
-                        background: '#faf6eb',
-
-                        border: '2px solid #b08a4a',
-
-                        borderRadius: '8px',
-
+                        background: '#fdfbf7',
+                        border: '1px solid rgba(182, 160, 128, 0.55)',
+                        borderRadius: '4px',
                         padding: '2rem',
-
                         maxWidth: '550px',
-
                         width: '90%',
-
                         boxShadow: '0 8px 30px rgba(0,0,0,0.5)',
-
                         color: '#2e1e0f'
-
                     }}>
-
                         <h3 style={{
-
                             marginTop: 0,
-
                             color: '#5a3d1d',
-
-                            borderBottom: '1px solid #b08a4a',
-
+                            borderBottom: '1px solid rgba(182, 160, 128, 0.45)',
                             paddingBottom: '0.5rem',
-
                             fontSize: '1.5rem',
-
                             display: 'flex',
-
                             alignItems: 'center',
-
                             gap: '8px'
-
                         }}>
-
-                            <i className="fas fa-exclamation-triangle" style={{ color: '#d4af37' }}></i>
-
+                            <i className="fas fa-exclamation-triangle" style={{ color: '#8b5a1a' }}></i>
                             A Rare Path
-
                         </h3>
 
                         <p style={{ fontSize: '1.05rem', lineHeight: '1.5', margin: '1rem 0' }}>

@@ -1,0 +1,5 @@
+{
+  "spellType": "PASSIVE",
+  "ap": 1,
+  "status": "{\"mode\":\"passive-zero\",\"ap\":1,\"values\":{\"actionPoints\":0,\"mana\":4}}"
+}

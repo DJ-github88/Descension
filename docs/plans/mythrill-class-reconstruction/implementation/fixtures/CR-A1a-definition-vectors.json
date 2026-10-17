@@ -1,0 +1,239 @@
+{
+  "schema": "cr-a1a-frozen-vectors:1",
+  "scope": "Golden contract data only; no admitted/implemented/executable spell",
+  "hashPrefix": "mythrill:authored-definition:v1\n",
+  "vectors": [
+    {
+      "label": "zero-ap-damage",
+      "definition": {
+        "schemaVersion": 1,
+        "scope": {
+          "roomId": "headq-pilot-room"
+        },
+        "definitionId": "11111111-1111-4111-8111-111111111111",
+        "definitionVersion": 1,
+        "name": "Pilot Arcane Dart",
+        "description": "One immediate single-target Arcane damage payload.",
+        "binding": {
+          "rulesetId": "prism",
+          "rulesetVersion": "cr-a1a-pilot-1",
+          "classId": "arcanoneer"
+        },
+        "spellType": "ACTION",
+        "castTimeType": "IMMEDIATE",
+        "targeting": {
+          "kind": "single",
+          "maxTargets": 1,
+          "rangeFeet": 30,
+          "restriction": "enemy"
+        },
+        "resourceCost": {
+          "actionPoints": 0,
+          "mana": 4
+        },
+        "effect": {
+          "kind": "damage",
+          "formula": "1d6+2",
+          "damageTypes": [
+            "arcane"
+          ]
+        }
+      },
+      "canonicalJSON": "{\"binding\":{\"classId\":\"arcanoneer\",\"rulesetId\":\"prism\",\"rulesetVersion\":\"cr-a1a-pilot-1\"},\"castTimeType\":\"IMMEDIATE\",\"definitionId\":\"11111111-1111-4111-8111-111111111111\",\"definitionVersion\":1,\"description\":\"One immediate single-target Arcane damage payload.\",\"effect\":{\"damageTypes\":[\"arcane\"],\"formula\":\"1d6+2\",\"kind\":\"damage\"},\"name\":\"Pilot Arcane Dart\",\"resourceCost\":{\"actionPoints\":0,\"mana\":4},\"schemaVersion\":1,\"scope\":{\"roomId\":\"headq-pilot-room\"},\"spellType\":\"ACTION\",\"targeting\":{\"kind\":\"single\",\"maxTargets\":1,\"rangeFeet\":30,\"restriction\":\"enemy\"}}",
+      "definitionHash": "d0f251d988425dfa9c04011e9e86f02628838efdbce3716f41694ea2f507b351",
+      "descriptor": {
+        "schemaVersion": 1,
+        "capabilityId": "authored-immediate:v1",
+        "compilerVersion": "cr-a1a-1",
+        "definitionRef": {
+          "roomId": "headq-pilot-room",
+          "definitionId": "11111111-1111-4111-8111-111111111111",
+          "definitionVersion": 1,
+          "definitionHash": "d0f251d988425dfa9c04011e9e86f02628838efdbce3716f41694ea2f507b351"
+        },
+        "binding": {
+          "rulesetId": "prism",
+          "rulesetVersion": "cr-a1a-pilot-1",
+          "classId": "arcanoneer"
+        },
+        "price": {
+          "ap": 0,
+          "mana": 4
+        },
+        "targeting": {
+          "kind": "single",
+          "maxTargets": 1,
+          "rangeFeet": 30,
+          "restriction": "enemy"
+        },
+        "effect": {
+          "kind": "damage",
+          "dice": [
+            {
+              "count": 1,
+              "sides": 6
+            }
+          ],
+          "constant": 2,
+          "damageTypes": [
+            "arcane"
+          ]
+        },
+        "executionEnabled": false
+      }
+    },
+    {
+      "label": "direct-healing",
+      "definition": {
+        "schemaVersion": 1,
+        "scope": {
+          "roomId": "headq-pilot-room"
+        },
+        "definitionId": "22222222-2222-4222-8222-222222222222",
+        "definitionVersion": 1,
+        "name": "Pilot Direct Mending",
+        "description": "Structural healing fixture, not approved playable content.",
+        "binding": {
+          "rulesetId": "prism",
+          "rulesetVersion": "cr-a1a-pilot-1",
+          "classId": "martyr"
+        },
+        "spellType": "ACTION",
+        "castTimeType": "IMMEDIATE",
+        "targeting": {
+          "kind": "single",
+          "maxTargets": 1,
+          "rangeFeet": 30,
+          "restriction": "ally"
+        },
+        "resourceCost": {
+          "actionPoints": 2,
+          "mana": 0
+        },
+        "effect": {
+          "kind": "healing",
+          "formula": "2d8+3"
+        }
+      },
+      "canonicalJSON": "{\"binding\":{\"classId\":\"martyr\",\"rulesetId\":\"prism\",\"rulesetVersion\":\"cr-a1a-pilot-1\"},\"castTimeType\":\"IMMEDIATE\",\"definitionId\":\"22222222-2222-4222-8222-222222222222\",\"definitionVersion\":1,\"description\":\"Structural healing fixture, not approved playable content.\",\"effect\":{\"formula\":\"2d8+3\",\"kind\":\"healing\"},\"name\":\"Pilot Direct Mending\",\"resourceCost\":{\"actionPoints\":2,\"mana\":0},\"schemaVersion\":1,\"scope\":{\"roomId\":\"headq-pilot-room\"},\"spellType\":\"ACTION\",\"targeting\":{\"kind\":\"single\",\"maxTargets\":1,\"rangeFeet\":30,\"restriction\":\"ally\"}}",
+      "definitionHash": "8875e6cdf3e866e48fadddbba436d4194bd87e213dc123abeb7d84330f0dd692",
+      "descriptor": {
+        "schemaVersion": 1,
+        "capabilityId": "authored-immediate:v1",
+        "compilerVersion": "cr-a1a-1",
+        "definitionRef": {
+          "roomId": "headq-pilot-room",
+          "definitionId": "22222222-2222-4222-8222-222222222222",
+          "definitionVersion": 1,
+          "definitionHash": "8875e6cdf3e866e48fadddbba436d4194bd87e213dc123abeb7d84330f0dd692"
+        },
+        "binding": {
+          "rulesetId": "prism",
+          "rulesetVersion": "cr-a1a-pilot-1",
+          "classId": "martyr"
+        },
+        "price": {
+          "ap": 2,
+          "mana": 0
+        },
+        "targeting": {
+          "kind": "single",
+          "maxTargets": 1,
+          "rangeFeet": 30,
+          "restriction": "ally"
+        },
+        "effect": {
+          "kind": "healing",
+          "dice": [
+            {
+              "count": 2,
+              "sides": 8
+            }
+          ],
+          "constant": 3,
+          "damageTypes": []
+        },
+        "executionEnabled": false
+      }
+    },
+    {
+      "label": "changed-price-different-identity",
+      "definition": {
+        "schemaVersion": 1,
+        "scope": {
+          "roomId": "headq-pilot-room"
+        },
+        "definitionId": "11111111-1111-4111-8111-111111111111",
+        "definitionVersion": 1,
+        "name": "Pilot Arcane Dart",
+        "description": "One immediate single-target Arcane damage payload.",
+        "binding": {
+          "rulesetId": "prism",
+          "rulesetVersion": "cr-a1a-pilot-1",
+          "classId": "arcanoneer"
+        },
+        "spellType": "ACTION",
+        "castTimeType": "IMMEDIATE",
+        "targeting": {
+          "kind": "single",
+          "maxTargets": 1,
+          "rangeFeet": 30,
+          "restriction": "enemy"
+        },
+        "resourceCost": {
+          "actionPoints": 1,
+          "mana": 4
+        },
+        "effect": {
+          "kind": "damage",
+          "formula": "1d6+2",
+          "damageTypes": [
+            "arcane"
+          ]
+        }
+      },
+      "canonicalJSON": "{\"binding\":{\"classId\":\"arcanoneer\",\"rulesetId\":\"prism\",\"rulesetVersion\":\"cr-a1a-pilot-1\"},\"castTimeType\":\"IMMEDIATE\",\"definitionId\":\"11111111-1111-4111-8111-111111111111\",\"definitionVersion\":1,\"description\":\"One immediate single-target Arcane damage payload.\",\"effect\":{\"damageTypes\":[\"arcane\"],\"formula\":\"1d6+2\",\"kind\":\"damage\"},\"name\":\"Pilot Arcane Dart\",\"resourceCost\":{\"actionPoints\":1,\"mana\":4},\"schemaVersion\":1,\"scope\":{\"roomId\":\"headq-pilot-room\"},\"spellType\":\"ACTION\",\"targeting\":{\"kind\":\"single\",\"maxTargets\":1,\"rangeFeet\":30,\"restriction\":\"enemy\"}}",
+      "definitionHash": "c26c8d69d1d1c512d6e67c1098f44723a4301917265d64f280bb4421e7a7f49f",
+      "descriptor": {
+        "schemaVersion": 1,
+        "capabilityId": "authored-immediate:v1",
+        "compilerVersion": "cr-a1a-1",
+        "definitionRef": {
+          "roomId": "headq-pilot-room",
+          "definitionId": "11111111-1111-4111-8111-111111111111",
+          "definitionVersion": 1,
+          "definitionHash": "c26c8d69d1d1c512d6e67c1098f44723a4301917265d64f280bb4421e7a7f49f"
+        },
+        "binding": {
+          "rulesetId": "prism",
+          "rulesetVersion": "cr-a1a-pilot-1",
+          "classId": "arcanoneer"
+        },
+        "price": {
+          "ap": 1,
+          "mana": 4
+        },
+        "targeting": {
+          "kind": "single",
+          "maxTargets": 1,
+          "rangeFeet": 30,
+          "restriction": "enemy"
+        },
+        "effect": {
+          "kind": "damage",
+          "dice": [
+            {
+              "count": 1,
+              "sides": 6
+            }
+          ],
+          "constant": 2,
+          "damageTypes": [
+            "arcane"
+          ]
+        },
+        "executionEnabled": false
+      }
+    }
+  ]
+}

@@ -54,7 +54,7 @@ export const ARCANONEER_DATA = {
    velun_neth: {
     subraceName: 'Nethien',
     title: 'The Contract-Weaver',
-    reframe: `<LoreLink termId="valerius">Valerius</LoreLink> drafted the First Contract with Morvane, framing elemental combination as legal syntax: each elemental sphere is a clause, the combined weave is a document submitted for Morvane's silent approval. The craft is channeled through a crystal prism, contract-scroll, or memory-glass lens  —  a focus, not a body modification. Morvane rejects internally inconsistent weaves, and the price of contradiction is severe: a Athien Arcanoneer must maintain consistency across every statement they have ever made, because a contradiction may void every contract they have ever filed. Their pale skin and stilled breath are not side-effects of the magic  —  they are its prerequisite. Behind this stands the Grand Nomenclature: the Doctrine of Exhaustion holds every wild-magic surge to be an unfinished sentence in a cosmic grammar, and the Athien Archivist seeks to catalogue every permutation into a closed loop. Their field focus is runic slate-dials and bone rings that snap syntax into place — clinical, calculated, detached. Equation resolved.`,
+    reframe: `<LoreLink termId="valerius">Valerius</LoreLink> formalized the Grand Nomenclature under the far older First Contract that Vaelis the Scribe negotiated with Morvane, framing elemental combination as legal syntax: each elemental sphere is a clause, the combined weave is a document submitted for Morvane's silent approval. The craft is channeled through a crystal prism, contract-scroll, or memory-glass lens  —  a focus, not a body modification. Morvane rejects internally inconsistent weaves, and the price of contradiction is severe: a Athien Arcanoneer must maintain consistency across every statement they have ever made, because a contradiction may void every contract they have ever filed. Their pale skin and stilled breath are not side-effects of the magic  —  they are its prerequisite. Behind this stands the Grand Nomenclature: the Doctrine of Exhaustion holds every wild-magic surge to be an unfinished sentence in a cosmic grammar, and the Athien Archivist seeks to catalogue every permutation into a closed loop. Their field focus is runic slate-dials and bone rings that snap syntax into place — clinical, calculated, detached. Equation resolved.`,
     signatureAbility: {
      name: 'Mnemonic Shard',
      description: `Silver blood crystallizes into volatile spell-anchors, held in suspension around the weaver's crystal focus. Each shard is a filed clause, a prepared spell held in legal suspension. A misfiled shard cannot be recalled, only detonated, because the contract has already been struck.`
@@ -136,7 +136,7 @@ export const ARCANONEER_DATA = {
    founder: {
     name: '<LoreLink termId="valerius">Valerius</LoreLink>',
     status: `Ascended into the First Contract, neither alive nor dead. His name is now a clause in the Heart-Vault, his crystal prism, through which he viewed the First Contract, preserved in <LoreLink termId="atropolis">Atropolis</LoreLink>.`,
-    note: `The Athien archivist who drafted the First Contract and weaponized the Athien inability to lie. He did not invent the magic; he proved it had always been there, waiting for someone who could not lie to speak it.`
+    note: `The Athien archivist who formalized the Grand Nomenclature from Vaelis the Scribe's much older First Contract and weaponized the Athien inability to lie. He did not invent the magic; he proved it had always been there, waiting for someone who could not lie to speak it.`
    },
   currentLeader: {
    name: '<LoreLink termId="vel-otharen">Ledger-Prime Vel-Otharen</LoreLink>',
@@ -154,7 +154,7 @@ export const ARCANONEER_DATA = {
  ],
 
  overview: {
-    originStory: `Founded in the first centuries of the Freezing Era by Valerius, a Athien archivist who drafted the First Contract with Morvane. The free magic of the Bryngloom was killing Athien scribes. Morvane's contract preserved Athien bodies, but the raw elemental energies of the forest  —  the same energies that power the ironwood trees and the memory-glass  —  had no contract governing them. Athien archivists who worked too close to the Root-Veil's deeper reaches were being unmade  —  not dying, but dissolved into pure resonance, their silver-touched flesh evaporating into light. Valerius's insight was that these energies could be governed the same way Morvane governed Athien flesh: through contract. By structuring incantations as strict legal syntax and balanced clauses  —  each elemental sphere a clause, each combined weave a document submitted to Morvane's silent approval  —  he bypassed the chaotic feedback of traditional spellcasting. To the hyper-rational Athien mind the Doctrine of Exhaustion was born here: every surge of wild magic an unfinished sentence in an ancient cosmic grammar, and the Grand Nomenclature would catalogue every permutation of the primal elements until chaos itself lay predictable and docile.
+    originStory: `Founded in the first centuries of the Freezing Era by Valerius, a Athien archivist who formalized the Grand Nomenclature under the First Contract that Vaelis the Scribe had negotiated with Morvane long before the Star-Fall. The free magic of the Bryngloom was killing Athien scribes. Morvane's contract preserved Athien bodies, but the raw elemental energies of the forest  —  the same energies that power the ironwood trees and the memory-glass  —  had no contract governing them. Athien archivists who worked too close to the Root-Veil's deeper reaches were being unmade  —  not dying, but dissolved into pure resonance, their silver-touched flesh evaporating into light. Valerius's insight was that these energies could be governed the same way Morvane governed Athien flesh: through contract. By structuring incantations as strict legal syntax and balanced clauses  —  each elemental sphere a clause, each combined weave a document submitted to Morvane's silent approval  —  he bypassed the chaotic feedback of traditional spellcasting. To the hyper-rational Athien mind the Doctrine of Exhaustion was born here: every surge of wild magic an unfinished sentence in an ancient cosmic grammar, and the Grand Nomenclature would catalogue every permutation of the primal elements until chaos itself lay predictable and docile.
 
 The craft met its second tradition in the Underground Proving Grounds. The Athien mind is brilliant and timeless, but manifesting a weave produces savage thermodynamic shock - blinding thermal spikes, bone-shattering frost-drift - and the Athien needed physical hands to build conduits and survive the volatile exhausts. They brought in the Fex of the Cragjaw Peaks: a Theoretical Division of Athien archivists dictating constraints from behind thick leaded glass, and an Engineering Division of Fex artisans in the trenches with hot metal, leaking gaskets, and sputtering coolant lines, inhaling ozone and losing eyebrows to micro-bursts. Where the Athien file clauses, the Fex build mechanisms. Both approaches work. Both can fail catastrophically.
 
@@ -200,7 +200,7 @@ Native only to Athien, Brasskin, Alchemite, Lumian. Any other people named or im
   roleplayIdentity: {
    title: "Roleplay Identity",
     content: `**HISTORY: THE GENESIS**
-The arcanoneer's calling was born in the deep scriptorium vaults of <LoreLink termId="atropolis">Atropolis</LoreLink> within the <LoreLink termId="bryngloom-forest">Bryngloom Forest</LoreLink>. During the first centuries of the Freezing Era, a Athien archivist named <LoreLink termId="valerius">Valerius</LoreLink> drafted the First Contract with Morvane. By structuring incantations as strict, balanced legal syntax  —  each elemental sphere a clause, each combined weave a document submitted for silent approval  —  he bypassed the chaotic feedback of traditional spellcasting.
+The arcanoneer's calling was born in the deep scriptorium vaults of <LoreLink termId="atropolis">Atropolis</LoreLink> within the <LoreLink termId="bryngloom-forest">Bryngloom Forest</LoreLink>. During the first centuries of the Freezing Era, a Athien archivist named <LoreLink termId="valerius">Valerius</LoreLink> formalized the Grand Nomenclature under the ancient First Contract that Vaelis the Scribe had negotiated with Morvane. By structuring incantations as strict, balanced legal syntax  —  each elemental sphere a clause, each combined weave a document submitted for silent approval  —  he bypassed the chaotic feedback of traditional spellcasting.
 
 The craft split in the Underground Proving Grounds, where Athien theorists and Fex engineers first combined contract-syntax with precision engineering and then broke over doctrine. Brasskin Gear-Weavers carry the guild-certified method with documented tolerances and maintenance schedules, while Alchemite Scrap-Weavers  —  operating from salvage and improvisation  —  pushed the boundaries far beyond what any guild would sanction. Independently, the Lumian reached the same art through cosmic starlight cycles, owing nothing to either tradition.
 
@@ -212,7 +212,7 @@ Elemental grammar has four native interfaces: Athien contract-syntax, Brasskin r
 
 Native to: Athien, Brasskin, Alchemite, Lumian. Any other people may walk this path only as a rare, individually qualified exception.
 **NOTABLE FIGURES**
-* **Valerius the Scriptor**: First Athien archivist to draft the First Contract with Morvane, establishing elemental combination as legal syntax.
+* **Valerius the Scriptor**: Athien archivist who formalized the Grand Nomenclature, establishing elemental combination as legal syntax under Vaelis the Scribe's far older First Contract with Morvane.
 * **Kaelen the Unbroken**: A Athien arcanoneer who held the docks of <LoreLink termId="ironjaw_port">Ironjaw Port</LoreLink> against a tide of glacier-wyrms.`
   },
 
@@ -2316,7 +2316,19 @@ MAX BANKED SPHERES: 12
     spheres: ["Arcane", "Arcane"],
    },
 
-   effectTypes: ["defensive"],
+   effectTypes: ["healing", "defensive"],
+
+   healingConfig: {
+    healingType: "shield",
+    formula: "2d8",
+    resolution: "DICE",
+    shieldType: "absorb",
+    shieldFormula: "2d8",
+    hasShieldEffect: true,
+    shieldDuration: 3,
+    description:
+     "A crackling barrier of arcane sparks absorbs incoming damage until depleted.",
+   },
 
    defensiveConfig: {
     shieldType: "absorb",
@@ -5366,9 +5378,11 @@ MAX BANKED SPHERES: 12
    level: 1,
    spellType: "PASSIVE",
    icon: "Arcane/Spellcasting Aura",
-   effectTypes: ["passive"],
+   effectTypes: ["passive", "debuff"],
    typeConfig: {
     school: "arcane",
+    icon: "Arcane/Spellcasting Aura",
+    tags: ["passive", "arcane", "debuff", "weakness"],
     castTime: 0,
     castTimeType: "PASSIVE",
    },
@@ -5380,8 +5394,22 @@ MAX BANKED SPHERES: 12
     resourceValues: {},
     actionPoints: 0,
    },
-   resolution: "PASSIVE",
-   tags: ["passive", "arcane", "debuff", "mechanic"],
+   resolution: "AUTOMATIC",
+   debuffConfig: {
+    debuffType: "statusEffect",
+    effects: [
+     {
+      id: "sphere_exhaustion_penalty",
+      name: "Sphere Exhaustion",
+      description: "When ending turn with 0 spheres banked",
+      mechanicsText: "-1 to all spell damage on your next turn."
+     }
+    ],
+    durationValue: 1,
+    durationType: "rounds",
+    durationUnit: "rounds"
+   },
+   tags: ["passive", "arcane", "debuff", "weakness"],
   },
  ],
 };

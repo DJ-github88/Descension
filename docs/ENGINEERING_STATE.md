@@ -1,6 +1,6 @@
 # Mythrill / Prism — engineering state
 
-Updated: 2026-10-15. Checkout: `D:/VTT` (the old `D:/Mythrill/Descension`
+Updated: 2026-10-17. Checkout: `D:/VTT` (the old `D:/Mythrill/Descension`
 path in CLAUDE.md is historical). Roadmap authority: [MYTHRILL_NEXT_PHASE.md](MYTHRILL_NEXT_PHASE.md).
 
 ## Accepted baseline
@@ -23,6 +23,10 @@ path in CLAUDE.md is historical). Roadmap authority: [MYTHRILL_NEXT_PHASE.md](MY
 - P9: **PASS — independently source-accepted 2026-10-15 (cycle2)**, original
   supported single-target DICE damage/healing only (contract F9.1–F9.4 + repair
   erratum). Acceptance names the exact 29 P9 file bytes, not the live device tree.
+- P10: **Reviewed bundle integrated and locally verified 2026-10-16**; original
+  independent isolated review carries forward. Sol's identified hook/build/App
+  integration dependency is closed. Human/tabletop and operational release gates
+  remain open; no deployment-readiness claim.
 - Outstanding gates: **P5-05/07/09/10/11/12/13/31/32**. No gate is closed by P6 client simulations.
 
 ## Evidence
@@ -81,6 +85,178 @@ does not authorize deployment or satisfy roadmap §20 release gates.
 
 ## Current work
 
+### Next slices proposed — 2026-10-17 (awaiting HQ approval; nothing implemented)
+
+Contracts: [MYTHRILL_NEXT_SLICES_CONTRACT_20261017.md](MYTHRILL_NEXT_SLICES_CONTRACT_20261017.md).
+Allocation recorded in [MYTHRILL_P11_P14_ROADMAP.md](MYTHRILL_P11_P14_ROADMAP.md) §11.
+
+- **P12B stale offer inspected:** `stale_attack` closes the block approval, so a second attack from
+  the same creature (or any change to it) forces a re-offer and a new block roll, a free reroll.
+  Unequipping during a pending block does the same. P12A/P9 panels also clear a recorded roll when
+  the target changes or the dialog reopens.
+- **Proposed order, one at a time:** P12B-r1 (carry forward or GM-revalidate; never reroll) →
+  P13A (accepted-result narration + calm token-anchored floating text from exact before/after
+  revisions; no P7 change) → P12C-B1 (map targeting for existing single-target controllers, roll
+  retention). P12C-B2 area preview waits on G1–G5; P13B and P14 later.
+- New player-facing decisions: S1, F1 (defaults safe); G1–G6 only for B2.
+- Source reading only; the device shell was unavailable, so no tests were run.
+
+### P12B-thin creature hit → owner block → HP and wear — 2026-10-16
+
+**C1/D-E approved; frozen contract revision 4 §3 implemented; one bounded independent review
+(initial BLOCK → all repairs confirmed) PASS; integrated production build and App smoke PASS.**
+Report: [MYTHRILL_PROJECT_12B_IMPLEMENTATION.md](MYTHRILL_PROJECT_12B_IMPLEMENTATION.md).
+
+**Built:**
+- owner declaration in the server-enforced selection window;
+- GM attack offer → owner block roll bound to that attack → one P7 command (creature AP, target HP,
+  recomputed wear) with minimal public text;
+- owner/GM-scoped declaration;
+- private custody lineage saved with equipment and inventory;
+- add-then-clear breakage.
+
+**Defect fixed:** item loss when a piece breaks with a full pack (`itemStore.updateItemDurability`).
+
+**Review:**
+- R1: a declaration's public command hash leaked the order and dice by enumeration; the hash is now withheld.
+- R2–R7 and note 8 repaired.
+
+**Results:**
+- server 12 P12B tests, 61 PASS with P12A/P9/P7;
+- client 25 focused tests, 142 PASS in the affected set;
+- App P12B witness PASS: real sync, turn refusal, declare, block, duplicate/out-of-order, full pack,
+  backup, observer privacy;
+- P12A and P8/P9 App regressions PASS, 0 page errors.
+
+**Evidence and identity:** outside Git at `D:/AppData/Temp/opencode/p12b-20261016/`. The build ran in
+the cloud workspace from a hash-identified snapshot; its limits and the concurrent live drift are
+recorded in `build.json`.
+
+**Still open:** every other creator decision (C2–C5, D-A…D-J except D-E), H-a…H-e, and the live,
+human and deployment gates.
+
+### P12A basic weapon strike — 2026-10-16
+
+**Implemented; one bounded independent source review PASS; manifested production build and
+full-App witnesses PASS.** Frozen PC → one bound creature / owner approval → direct GM → one
+P7 AP/HP consequence only. Report:
+[MYTHRILL_PROJECT_12A_IMPLEMENTATION.md](MYTHRILL_PROJECT_12A_IMPLEMENTATION.md). Review:
+[MYTHRILL_P12A_INDEPENDENT_REVIEW_20261016.md](MYTHRILL_P12A_INDEPENDENT_REVIEW_20261016.md).
+
+- Takeover found seven passing interrupted server tests and no P12 client. Completed both action
+  bars, owner/GM panels, private exact-byte approval/prepared-command custody and rejoin/reload
+  recovery. Price2 AP temp first; approval never spends; accepted results come only from receipts.
+- Per-weapon ranks/raw proficiency faces and full authored outcomes are visible; no inferred face,
+  table-damage bonus or executable prose. Published-tier/lone-flat-DR arithmetic only; undecided
+  defenses require a GM verdict. Critical flat DR remains GM-adjudicated, never armor-bypassed.
+- Strict schemas, post-await authority/registry rechecks, closed-ID capacity reservation and a
+  shared synchronous cross-P9 identity gate preserve domain isolation. P9 module/approval-handler
+  bodies unchanged. Independent B1/B2 and S1–S4 repaired in the same bounded review.
+- **13 P12 registered tests; affected server49 PASS.** Frontend14 suites126 PASS plus affected/
+  additional6 suites30 checks (overlap). Scoped lint0 errors;31 incumbent client warnings, no new
+  P12 warnings. Scoped whitespace clean. P8/P9 actual production-App regression PASS.
+- Final frozen production build exit0, mirror drift `[]`; build/source/config hashes and asset
+  manifest are outside Git at `D:/AppData/Temp/opencode/p12a-frozen-final-20261016/`. Full App
+  proves all three producers, miss/hit/critical, physical/digital, manual outcome, lost-ACK exact
+  recovery, owner/GM reload, same-socket rejoin,33 completed strikes and runtime-unknown behavior.
+  Separate App witness proves stale CAS refusal → GM reload → explicit corrected command.
+- **P11's outstanding local build/full-App closure is complete**, including separate ranks,
+  legacy recovery, actual device saveCurrentCharacter→scoped roster→reload, creation budget,
+  Summary readiness and existing over-budget edit mode. Source acceptance and local closure do
+  not close live Firebase/rules, deployed restart, physical two-device or human/tabletop gates.
+- Two earlier concurrent-writer build attempts and their failures are retained externally. Final
+  acceptance identifies the frozen integrated source, not later unrelated live App/account/
+  transition-overlay/SpellActionBar CSS edits. Concurrent source/assets/data are preserved.
+- *(Superseded 2026-10-16: P12B-thin is implemented under C1/D-E; see the P12B section above.)* **P12B remained preparation-only at P12A completion. None of D-A…D-J was approved then.** Proficiency modifier/explosion/
+  lookup, creator Laws validation, first-table session and operational gates remain open. No
+  reactions/timers, equipment wear, elixirs or multi-target execution. No commit/push/deploy/reset.
+
+### P11 Skill and Weapon Proficiency Foundations — 2026-10-16
+
+**Implemented; one bounded independent review PASS (after one repair cycle).**
+HQ defined P11–P14 after the original ten-project roadmap ended (an earlier check the
+same day found no original P11). Roadmap: [MYTHRILL_P11_P14_ROADMAP.md](MYTHRILL_P11_P14_ROADMAP.md).
+Contract: [MYTHRILL_PROJECT_11_CONTRACT.md](MYTHRILL_PROJECT_11_CONTRACT.md). Report:
+[MYTHRILL_PROJECT_11_IMPLEMENTATION.md](MYTHRILL_PROJECT_11_IMPLEMENTATION.md). Review:
+[MYTHRILL_P11_INDEPENDENT_REVIEW_20261016.md](MYTHRILL_P11_INDEPENDENT_REVIEW_20261016.md).
+HEAD unchanged `8ea1abff`; no commit/push/deploy/reset.
+
+- Weapon Mastery ranks are per weapon type (`skillRanks.weaponMastery_<type>`, owner
+  `utils/weaponProficiency.js`); legacy shared rank kept byte-for-byte, never applied,
+  offered per weapon. No persistence/schema change.
+- Creation point-buy enforced with the unchanged budget/costs: class-skill selection
+  and upgrades need the points; new characters over budget cannot finish (Skills step
+  and Summary); edit mode only informs.
+- Creation/sheet wording aligned with the P10 Laws; open rules labelled. Roll
+  arithmetic unchanged. Proficiency→combat follow-up specified, not implemented.
+- **31 new tests + 73 regression tests PASS**; lint equals baseline; real-browser
+  witness **28/28** (`vtt-react/verification/p11/`, bundle/evidence outside Git at
+  `D:/AppData/Temp/opencode/p11-browser-20261016/`).
+- **Local build/full-App closure completed during P12A** (report above and P11 report addendum).
+  Open: live Firebase/second-device/human gates; creator decisions D11-1…D11-6.
+  Concurrent presentation edits (Skills `stats-combined`, restyled P11 CSS, wizard
+  CSS/Step1/Step10) preserved. Skills.jsx working copy was CRLF over LF HEAD before P11.
+- **Historical P11 closure attempt (superseded by P12A local closure): required detached production build and
+  full-App smoke NOT run.** Desktop control on the PC reported "available but not turned
+  on" (twice, after the owner approved it); the device shell is a Linux VM (4 GB,
+  180 s/call, no detached or Windows processes) and cannot run the AGENTS.md build. A
+  launcher is staged outside Git at `D:/AppData/Temp/opencode/p11-closure-20261016/run-build.cmd`
+  (wraps `verification/p10/run.cjs build`, which records the exact built source).
+  Outstanding: that build plus App smoke of two weapon ranks, save/reload, legacy
+  recovery, creation budget + Summary readiness and an over-budget edit. The witness
+  harness compile is not a substitute. Stray `docs/.p11probe` (5-byte "test") removed.
+- **Historical P12 preparation before the subsequent revision3a freeze**, revision2: draft contract
+  [MYTHRILL_PROJECT_12_CONTRACT.md](MYTHRILL_PROJECT_12_CONTRACT.md) and creator brief
+  [MYTHRILL_P12_CREATOR_DECISIONS.md](MYTHRILL_P12_CREATOR_DECISIONS.md). 12A (PC basic strike
+  → one creature) now includes an explicit manual proficiency step (raw die face recorded; GM
+  picks table face / none / deferred; non-damage effects listed as "Not applied by the VTT") and a
+  defense matrix over five verified creature-defense sources (library fields, 35 creatures'
+  prose passives, instance conditions, creature-wizard homebrew in a "percent taken" encoding,
+  campaign free text). 12A automates only published-tier library resistances and a lone instance
+  flat DR; everything else is a required GM ruling, so 12A can be frozen with no decision answered.
+  New findings recorded as decisions D-I (homebrew encoding) and D-J (prose vs structured
+  defenses); D-B now separates attacker-side "damage dealt" lifesteal from defender-side absorb;
+  D-F shows miss-chance consequences of the half-die cap and six formula options (141 of 195
+  creature damage abilities roll several dice). No decision is approved. Audit:
+  `vtt-react/verification/p12/defense_data_audit.py`.
+- **Current next:** P12A is frozen, implemented and locally verified as recorded above; P11's
+  local build/App gap is closed. Creator decisions remain prerequisites for any later widening or
+  P12B freeze. Creator Laws validation, first-table session and H13 owner remain.
+
+### P10 integrated; Sol bounded closure complete — 2026-10-16
+
+**Complete for the identified integrated source and production App.** Report:
+[MYTHRILL_P10_INTEGRATION_20261016.md](MYTHRILL_P10_INTEGRATION_20261016.md).
+Entry/final HEAD `8ea1abff1d8c1f959b2d4a10e6b7ca73879c2ff2`; unrelated class
+icons and later concurrent journal presentation retained. No commit/push/deploy/reset.
+
+- Inspected archive tooling, all 38 target paths matched HEAD; guarded dry-run and
+  single apply pass. Integrated runtime exactly reverse-checks the reviewed diff.
+  Rules/lore cache versions 2.3.0; abilities/creatures and capability guards unchanged.
+- Retained committed `useSessionManagement.js` delta unchanged; focused 4/4 and
+  [bounded independent PASS](MYTHRILL_SESSION_CLOSURE_BOUNDED_REVIEW_20261016.md).
+  No substantive production reconciliation beyond reviewed P10.
+- **48 suites / 477 tests PASS**; scoped whitespace clean. Lint adds no findings:
+  actual 33 incumbent errors/209 warnings versus HEAD 33/210, recorded honestly.
+- **One final detached production compile PASS**, relevant drift `[]`; actual
+  production-App Feather Slash and P9 HUD→owner→GM accepted-receipt smoke PASS.
+  Laws browser verifies stale IndexedDB refresh, growing die/open skill details,
+  First Table/defense/support text, creature tooltip and default tracker 4 AP /
+  opening initiative retained / temporary AP preserved.
+- Small relevant identity/results: `vtt-react/verification/p10/integration-identity.json`;
+  bulky build/log/browser evidence remains outside Git under
+  `D:/AppData/Temp/opencode/p10-integration-20261016/`. This is fixture-bound local
+  browser proof, not live Firebase, deployed restart, human or physical-device proof.
+- Later unrelated journal and character-wizard CSS edits are preserved outside
+  the built-source claim; they do not reopen bounded P8/P9. Exact integration-path
+  whitespace passes; concurrent wizard CSS has separately observed whitespace.
+- **Next bounded task:** creator validation of published Laws/canon and the existing
+  GM + two-player physical/VTT first-table session; appoint H13 operations owner.
+  P9 `<attr>/K`, all nine P5 environment gates and staged operational proof remain
+  open. Per-weapon rank storage, conflicting roll paths, negative point budget,
+  out-of-scope skill copy and eventual proficiency combat wiring remain separate
+  follow-up work. P10 is no longer waiting for Sol.
+
 ### P8/P9 bounded integration follow-through — 2026-10-15
 
 **PASS for the three bounded corrections and identified frozen desktop frontend;
@@ -101,10 +277,10 @@ Historical P7/P8/P9 reports/hashes below retain their original meaning.
 - Completed independent reports and exact current identities:
   `vtt-react/verification/p9/evidence/integration-20261015/sol/`.
   Final packet SHA256 `e9aed0321e5aa850eec06f3c1de573fe1589788c94e239e66fcbc8d11bc1cbf9`.
-- A later live `useSessionManagement.js` edit was not in that frozen build.
-  **Next task:** reconcile that external delta, freeze the integrated source and
-  repeat its build/production-App smoke before whole-live-tree signoff. Creator
-  `<attr>/K`, real-backend/two-device/human and P5 environment gates remain open.
+- A later live `useSessionManagement.js` edit was not in that historical frozen
+  build. **Resolved 2026-10-16** by the P10 integration/closure above: retained source,
+  bounded independent review, final integrated build and production-App smoke pass.
+  Creator `<attr>/K`, real-backend/two-device/human and P5 environment gates remain open.
 - HEAD externally advanced `dd445bec`→`f491e694`; this implementation/review issued
   no commit/reset/push/deployment. Two concurrently replaced generated P7 evidence
   JSONs have both original hash-verified and newer copies retained in `sol/`.

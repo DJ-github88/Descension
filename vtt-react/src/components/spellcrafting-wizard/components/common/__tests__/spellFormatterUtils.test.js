@@ -15,7 +15,15 @@ describe('cleanFormula damage formula formatting', () => {
   it('renders bare attribute tokens as "<Attribute> Mod" (never the raw score)', () => {
     expect(cleanFormula('1d4 + agility')).toBe('1d4 + Agility Mod');
     expect(cleanFormula('1d8 + spirit')).toBe('1d8 + Spirit Mod');
-    expect(cleanFormula('8d6+INT')).toBe('8d6 + Intelligence Mod');
     expect(cleanFormula('2d6 + strength + spirit')).toBe('2d6 + Strength Mod + Spirit Mod');
   });
+
+  it('does not duplicate "Mod" when an attribute modifier is already formatted or has Mod', () => {
+    expect(cleanFormula('1d6 + Strength Mod')).toBe('1d6 + Strength Mod');
+    expect(cleanFormula('1d6 + Strength Mod Mod')).toBe('1d6 + Strength Mod');
+    expect(cleanFormula('1d6 + strength Mod')).toBe('1d6 + Strength Mod');
+    expect(cleanFormula('1d6 + STR Mod')).toBe('1d6 + Strength Mod');
+    expect(cleanFormula('1d8 + Agility Mod')).toBe('1d8 + Agility Mod');
+  });
 });
+

@@ -5,6 +5,244 @@ import { SpellLibraryProvider } from '../spellcrafting-wizard/context/SpellLibra
 import ItemTooltip from '../item-generation/ItemTooltip';
 import { getIconUrl } from '../../utils/assetManager';
 import StylusDrawingCanvas from '../common/StylusDrawingCanvas';
+import useCreatureStore from '../../store/creatureStore';
+import useItemStore from '../../store/itemStore';
+import useCustomLineageStore from '../../store/customLineageStore';
+import useFamilyTreeStore from '../../store/familyTreeStore';
+
+/**
+ * Auto-grow helper for borderless manuscript textareas (eliminates native scrollbars)
+ */
+export const autoGrowManuscriptTextarea = (el) => {
+  if (!el) return;
+  el.style.height = 'auto';
+  if (el.scrollHeight > 0) {
+    el.style.height = `${el.scrollHeight}px`;
+  }
+};
+
+/**
+ * Click-to-edit WYSIWYG prose field for showcase cards so Write mode renders
+ * formatted RichLoreText (wikilinks, italics, callout typography) unless actively focused.
+ */
+export const ManuscriptProseField = ({
+  value = '',
+  placeholder = 'Click to scribe chronicle notes...',
+  isWrite = false,
+  className = '',
+  onChange = () => {}
+}) => {
+  const [isEditing, setIsEditing] = useState(false);
+  const textRef = useRef(null);
+
+  useEffect(() => {
+    if (isEditing && textRef.current) {
+      autoGrowManuscriptTextarea(textRef.current);
+      textRef.current.focus();
+    }
+  }, [isEditing]);
+
+  if (isWrite && isEditing) {
+    return (
+      <textarea
+        ref={textRef}
+        className={`manuscript-inline-prose-textarea ${className}`}
+        rows={2}
+        style={{ resize: 'none', overflow: 'hidden' }}
+        value={value}
+        placeholder={placeholder}
+        onChange={(e) => {
+          autoGrowManuscriptTextarea(e.target);
+          onChange(e.target.value);
+        }}
+        onBlur={() => setIsEditing(false)}
+      />
+    );
+  }
+
+  return (
+    <div
+      className={`manuscript-prose-display ${isWrite ? 'is-editable' : ''} ${!value ? 'is-placeholder' : ''}`}
+      onClick={() => {
+        if (isWrite) setIsEditing(true);
+      }}
+      title={isWrite ? 'Click to edit manuscript text' : undefined}
+    >
+      <RichLoreText text={value || placeholder} className="parchment-theme" />
+    </div>
+  );
+};
+
+
+/**
+ * Interactive Tabletop Dice Roller for Statblocks, Actions, and Roll Tables
+ */
+export const rollTabletopExpression = (label, textOrFormula = '') => {
+  const cleanText = String(textOrFormula).replace(/\b\d+\s*d\s*(\d+)\s*ft\b/gi, '');
+  const diceRegex = /(\d+)d(\d+)(?:\s*([+-])\s*(\d+))?/gi;
+  const diceMatches = [...cleanText.matchAll(diceRegex)];
+
+  if (diceMatches.length > 0) {
+    let grandTotal = 0;
+    const parts = diceMatches.map((m) => {
+      const count = parseInt(m[1], 10) || 1;
+      const sides = parseInt(m[2], 10) || 6;
+      const sign = m[3] === '-' ? -1 : 1;
+      const flat = m[4] ? parseInt(m[4], 10) * sign : 0;
+      const rolls = Array.from({ length: count }, () => Math.floor(Math.random() * sides) + 1);
+      const subTotal = rolls.reduce((a, b) => a + b, 0) + flat;
+      grandTotal += subTotal;
+      return `${m[0].replace(/\s+/g, '')} [${rolls.join(', ')}]${flat ? (flat > 0 ? `+${flat}` : `${flat}`) : ''} = ${subTotal}`;
+    });
+    return {
+      label,
+      total: grandTotal,
+      detail: `Damage / Effect: ${parts.join(' • ')}`
+    };
+  }
+
+  const modMatch = String(textOrFormula).match(/^([+-]?\d+)$/);
+  const mod = modMatch ? parseInt(modMatch[1], 10) : 0;
+  const d20 = Math.floor(Math.random() * 20) + 1;
+  const total = d20 + mod;
+  return {
+    label,
+    total,
+    detail: `1d20 [${d20}] ${mod >= 0 ? `+ ${mod}` : `- ${Math.abs(mod)}`} = ${total}`,
+    isCrit: d20 === 20,
+    isFumble: d20 === 1
+  };
+};
+
+/**
+ * Bi-Directional Store Sync Pill for Book Blocks
+ */
+export const BlockSyncPill = ({ block, onUpdate, storeType }) => {
+  const [justSynced, setJustSynced] = useState(false);
+  const syncMode = block.syncMode || 'live';
+
+  const handleToggleMode = (e) => {
+    e.stopPropagation();
+    const next = syncMode === 'live' ? 'snapshot' : 'live';
+    onUpdate({ syncMode: next });
+  };
+
+  const handleSyncToLibrary = (e) => {
+    e.stopPropagation();
+    try {
+      if (storeType === 'creature') {
+        const state = useCreatureStore.getState();
+        const creatures = Array.isArray(state.creatures) ? [...state.creatures] : [];
+        const targetId = block.linkedEntityId || block.id || `creature-${Date.now()}`;
+        const existingIdx = creatures.findIndex(
+          (c) => c.id === targetId || (c.name && block.name && c.name.toLowerCase() === block.name.toLowerCase())
+        );
+        const payload = {
+          id: existingIdx >= 0 ? creatures[existingIdx].id : targetId,
+          name: block.name || 'Unnamed Creature',
+          type: block.creatureType || 'Humanoid',
+          creatureType: block.creatureType || 'Humanoid',
+          dangerLevel: normalizeDangerLevel(block.dangerLevel, block.cr),
+          hp: block.hp || 75,
+          mana: block.mana ?? 20,
+          ap: block.ap ?? 3,
+          speed: block.speed || '30 ft.',
+          stats: block.stats || { strength: 10, agility: 10, constitution: 10, intelligence: 10, spirit: 10, charisma: 10 },
+          resistances: block.resistances || '',
+          traits: block.traits || [],
+          actions: block.actions || []
+        };
+        if (existingIdx >= 0) {
+          creatures[existingIdx] = { ...creatures[existingIdx], ...payload };
+        } else {
+          creatures.unshift(payload);
+        }
+        useCreatureStore.setState({ creatures });
+        onUpdate({ linkedEntityId: payload.id, syncMode: 'live' });
+      } else if (storeType === 'item') {
+        const state = useItemStore.getState();
+        const items = Array.isArray(state.items) ? [...state.items] : [];
+        const normalized = normalizeBookItemData(block);
+        const existingIdx = items.findIndex(
+          (it) => it.id === normalized.id || (it.name && normalized.name && it.name.toLowerCase() === normalized.name.toLowerCase())
+        );
+        if (existingIdx >= 0) {
+          items[existingIdx] = { ...items[existingIdx], ...normalized };
+        } else {
+          items.unshift(normalized);
+        }
+        useItemStore.setState({ items });
+        onUpdate({ linkedEntityId: normalized.id, syncMode: 'live' });
+      } else if (storeType === 'lineage') {
+        const state = useCustomLineageStore.getState();
+        const lineages = Array.isArray(state.lineages) ? [...state.lineages] : [];
+        const targetId = block.linkedEntityId || block.id || `lin-${Date.now()}`;
+        const idx = lineages.findIndex((l) => l.id === targetId || (l.name && block.name && l.name.toLowerCase() === block.name.toLowerCase()));
+        const payload = {
+          id: idx >= 0 ? lineages[idx].id : targetId,
+          name: block.name || 'Custom Lineage',
+          essence: block.essence || '',
+          description: block.description || '',
+          abilityModifiers: block.abilityModifiers || {},
+          baseTraits: block.baseTraits || {},
+          racialPassives: block.racialPassives || [],
+          racialAbilities: block.racialAbilities || []
+        };
+        if (idx >= 0) lineages[idx] = { ...lineages[idx], ...payload };
+        else lineages.unshift(payload);
+        useCustomLineageStore.setState({ lineages });
+      } else if (storeType === 'dynasty') {
+        const state = useFamilyTreeStore.getState();
+        const trees = Array.isArray(state.trees) ? [...state.trees] : [];
+        const targetId = block.linkedEntityId || block.id || `tree-${Date.now()}`;
+        const idx = trees.findIndex((t) => t.id === targetId || (t.name && (block.name || block.title) && t.name.toLowerCase() === (block.name || block.title).toLowerCase()));
+        const payload = {
+          id: idx >= 0 ? trees[idx].id : targetId,
+          name: block.name || block.title || 'Noble Dynasty',
+          description: block.description || '',
+          nodes: block.nodes || [],
+          relationships: block.relationships || []
+        };
+        if (idx >= 0) trees[idx] = { ...trees[idx], ...payload };
+        else trees.unshift(payload);
+        useFamilyTreeStore.setState({ trees });
+      }
+      setJustSynced(true);
+      setTimeout(() => setJustSynced(false), 1800);
+    } catch (err) {
+      console.debug('Store sync skipped:', err);
+    }
+  };
+
+  return (
+    <span className="book-block-sync-pill-wrap">
+      <button
+        type="button"
+        className={`book-sync-mode-badge mode-${syncMode}`}
+        onClick={handleToggleMode}
+        title={
+          syncMode === 'live'
+            ? 'Live Synced with App Library (Click to pin as static snapshot)'
+            : 'Pinned Snapshot (Click to enable Live Sync with App Library)'
+        }
+      >
+        <i className={`fas ${syncMode === 'live' ? 'fa-link' : 'fa-thumbtack'}`}></i>
+        <span>{syncMode === 'live' ? 'Live Sync' : 'Snapshot'}</span>
+      </button>
+      {syncMode === 'live' && storeType && (
+        <button
+          type="button"
+          className={`book-sync-push-btn ${justSynced ? 'synced' : ''}`}
+          onClick={handleSyncToLibrary}
+          title="Push edits in this block to your global VTT Library"
+        >
+          <i className={`fas ${justSynced ? 'fa-check' : 'fa-arrows-rotate'}`}></i>
+          <span>{justSynced ? 'Synced' : 'Sync'}</span>
+        </button>
+      )}
+    </span>
+  );
+};
 
 /**
  * Standard danger level normalization helper
@@ -43,7 +281,7 @@ const getModifier = (val) => {
 export const CREATURE_PRESETS = [
   {
     name: 'Frost Wyrd Stalker',
-    creatureType: 'Medium Elemental / Undead, Neutral Evil',
+    creatureType: 'Medium Elemental / Spirit',
     dangerLevel: 'High',
     hp: 92,
     mana: 40,
@@ -51,19 +289,19 @@ export const CREATURE_PRESETS = [
     speed: '35 ft., climb 25 ft.',
     tokenIcon: 'inv_misc_questionmark',
     stats: { strength: 16, agility: 18, constitution: 14, intelligence: 12, spirit: 16, charisma: 8 },
-    resistances: 'Immune: Rime (Frost), Poison; Vulnerable: Ember (Fire)',
+    resistances: 'Immune: Rime, Blight; Vulnerable: Ember',
     traits: [
-      { name: 'Glacial Cloak', desc: 'Ranged attacks against the stalker suffer disadvantage when in sub-zero terrain or blizzard conditions.' },
-      { name: 'Rime Aura', desc: 'Creatures starting their turn within 10 ft. take 1d6 Rime damage and lose 5 ft. of movement.' }
+      { name: 'Glacial Cloak', desc: 'While obscured by mist or snowfall, ranged strikes against the stalker suffer -3 accuracy and its footsteps make no sound.' },
+      { name: 'Rime Aura', desc: 'Creatures starting their turn within 10 ft. suffer 1d6 Rime damage and lose 5 ft. of movement speed.' }
     ],
     actions: [
-      { name: 'Frostbite Rend', desc: 'Melee Strike: +7 to hit, reach 5 ft. Deals 2d8+4 Physical damage plus 2d6 Rime damage.' },
-      { name: 'Wyrd Freeze (1 AP, 10 Mana)', desc: 'The stalker exhales arcane frost in a 20-ft cone. Targets make a DC 15 Spirit save or become Frozen for 1 round.' }
+      { name: 'Frostbite Rend (1 AP)', desc: 'Melee Strike (Reach 5 ft.): Deals 2d8 + 4 Slicing damage plus 2d6 Rime damage.' },
+      { name: 'Wyrd Freeze (2 AP, 10 Mana)', desc: '20-ft Cone: Exhales memory-numbing frost dealing 3d6 Rime damage. Targets must pass a DC 15 Spirit save or become Frozen for 1 round.' }
     ]
   },
   {
     name: 'Ember-Spire Wyrmling',
-    creatureType: 'Large Dragon / Primordial, Chaotic Neutral',
+    creatureType: 'Large Dragon / Primordial',
     dangerLevel: 'Very High',
     hp: 135,
     mana: 60,
@@ -71,18 +309,18 @@ export const CREATURE_PRESETS = [
     speed: '30 ft., fly 60 ft.',
     tokenIcon: 'inv_misc_questionmark',
     stats: { strength: 20, agility: 14, constitution: 18, intelligence: 14, spirit: 14, charisma: 16 },
-    resistances: 'Immune: Ember (Fire); Vulnerable: Rime (Frost)',
+    resistances: 'Immune: Ember; Vulnerable: Rime',
     traits: [
-      { name: 'Magma Scales', desc: 'Melee attackers taking physical hits suffer 1d6 Ember backlash.' }
+      { name: 'Magma Scales', desc: 'Attackers striking the wyrmling within melee reach suffer 1d6 Ember backlash damage.' }
     ],
     actions: [
-      { name: 'Molten Cleave', desc: 'Melee Strike: +8 to hit, reach 10 ft. Deals 3d6+5 Physical + 2d8 Ember damage.' },
-      { name: 'Infernal Breath (2 AP, 20 Mana)', desc: '30-ft cone of flame. 6d8 Ember damage (DC 16 Agility save for half).' }
+      { name: 'Molten Cleave (1 AP)', desc: 'Melee Strike (Reach 10 ft.): Deals 3d6 + 5 Slicing damage plus 2d8 Ember damage.' },
+      { name: 'Infernal Breath (2 AP, 20 Mana)', desc: '30-ft Cone: Unleashes liquid furnace-fire dealing 6d8 Ember damage (DC 16 Agility save for half).' }
     ]
   },
   {
     name: 'Gravebound Dread Revenant',
-    creatureType: 'Medium Undead / Wyrd Spirit, Lawful Evil',
+    creatureType: 'Medium Undead / Wyrd Spirit',
     dangerLevel: 'Extreme',
     hp: 180,
     mana: 80,
@@ -90,13 +328,13 @@ export const CREATURE_PRESETS = [
     speed: '30 ft.',
     tokenIcon: 'inv_misc_questionmark',
     stats: { strength: 18, agility: 12, constitution: 20, intelligence: 16, spirit: 18, charisma: 14 },
-    resistances: 'Immune: Necrotic, Poison; Resistant: Physical, Void',
+    resistances: 'Immune: Blight; Resistant: Slicing, Stabbing, Wyrd; Vulnerable: Sacred',
     traits: [
-      { name: 'Undying Resolve', desc: 'When reduced to 0 HP, rolls DC 15 Constitution check to drop to 1 HP instead.' }
+      { name: 'Undying Resolve', desc: 'When reduced to 0 HP, passes a DC 15 Constitution save to remain at 1 HP instead (once per encounter).' }
     ],
     actions: [
-      { name: 'Graveblade Strike', desc: 'Melee Strike: +9 to hit. Deals 2d10+4 Physical + 3d8 Void damage.' },
-      { name: 'Soul Siphon (2 AP, 15 Mana)', desc: 'Ranged spell: 60 ft. Target takes 4d8 Wyrd damage and Revenant regains half as HP.' }
+      { name: 'Graveblade Cleave (1 AP)', desc: 'Melee Strike (Reach 5 ft.): Deals 2d10 + 4 Slicing damage plus 3d8 Wyrd damage.' },
+      { name: 'Soul Siphon (2 AP, 15 Mana)', desc: 'Ranged Spell (60 ft.): Target suffers 4d8 Wyrd damage (DC 16 Spirit save for half) and the Revenant restores half the damage dealt as HP.' }
     ]
   }
 ];
@@ -114,8 +352,8 @@ export const SPELL_PRESETS = [
     range: '60 ft.',
     duration: 'Instantaneous',
     targetingMode: 'single',
-    effect: 'A crystalline lance of compressed frost impales the target for 3d8 piercing damage and slows their movement by 10 ft for 1 round.',
-    empower: 'Each additional 5 Mana increases damage by 1d8.',
+    effect: 'A crystalline lance of compressed rime impales the target for 3d8 + 4 Rime and Stabbing damage and slows their movement by 10 ft. for 1 round.',
+    empower: 'Each additional 5 Mana increases Rime damage by 1d8.',
     primaryDamage: { dice: '3d8', flat: 4 },
     tags: ['offensive', 'damage', 'rime', 'utility']
   },
@@ -130,8 +368,8 @@ export const SPELL_PRESETS = [
     range: '45 ft.',
     duration: 'Instantaneous',
     targetingMode: 'cone',
-    effect: 'A roaring cone of liquid fire deals 4d6 Ember damage to all creatures in a 20-ft cone (Agility save for half).',
-    empower: 'Each additional 5 Mana increases damage by 1d6 and extends cone by 5 ft.',
+    effect: 'A roaring cone of subterranean furnace-fire deals 4d6 Ember damage to all creatures in a 20-ft cone (DC 15 Agility save for half).',
+    empower: 'Each additional 5 Mana increases damage by 1d6 and extends the cone by 5 ft.',
     primaryDamage: { dice: '4d6', flat: 0 },
     tags: ['offensive', 'damage', 'ember', 'aoe']
   },
@@ -146,7 +384,7 @@ export const SPELL_PRESETS = [
     range: '30 ft.',
     duration: '1 Minute',
     targetingMode: 'single',
-    effect: 'Bathes an ally in blessed golden light, granting +3 Armor Value and immunity to fear effects for the duration.',
+    effect: 'Bathes an ally in blessed golden harmonic light, granting +3 Armor Value and immunity to Wyrd fear effects for the duration.',
     empower: 'Each additional 5 Mana targets 1 additional ally within 15 ft.',
     primaryDamage: { dice: '0', flat: 0 },
     tags: ['buff', 'sacred', 'protective']
@@ -155,8 +393,8 @@ export const SPELL_PRESETS = [
 
 /**
  * Authentic Descension Creature Statblock Block
- * - Write Mode: Full authoring studio with direct link to official Creature Wizard
- * - Read Mode: Authentic, publication-grade Creature Statblock with parchment card & golden rules
+ * Unified On-Page Manuscript WYSIWYG: renders the publication statblock in BOTH Write and Read modes,
+ * with inline borderless ink-on-paper editing, interactive tabletop dice rolling, and Bestiary/Wizard sync.
  */
 export const CreatureStatblockBlock = ({
   block,
@@ -167,6 +405,7 @@ export const CreatureStatblockBlock = ({
   onOpenPicker = () => {}
 }) => {
   const [showPresets, setShowPresets] = useState(false);
+  const [lastRoll, setLastRoll] = useState(null);
   const stats = block.stats || { strength: 10, agility: 10, constitution: 10, intelligence: 10, spirit: 10, charisma: 10 };
   const hp = typeof block.hp === 'object' ? (block.hp.max || block.hp.current || 75) : (block.hp || 75);
   const traits = Array.isArray(block.traits) ? block.traits : [];
@@ -174,7 +413,6 @@ export const CreatureStatblockBlock = ({
   const danger = normalizeDangerLevel(block.dangerLevel, block.cr);
   const isCompact = compact || block.sizePreset === 'half';
 
-  // Creature artwork: prefer full illustrations over icon-style token ids
   const isArtworkPath = (s) => typeof s === 'string' && s.length > 0 &&
     !s.includes('/icons/') && !s.includes('inv_misc_questionmark') && !s.includes('zamimg.com') &&
     (s.startsWith('/assets/images/') || s.startsWith('data:') || s.startsWith('blob:') || s.startsWith('http'));
@@ -200,7 +438,7 @@ export const CreatureStatblockBlock = ({
   };
 
   const handleAddTrait = () => {
-    onUpdate({ traits: [...traits, { name: 'New Trait', desc: 'Mechanical description of trait...' }] });
+    onUpdate({ traits: [...traits, { name: 'New Trait', desc: 'Passive aura or bloodline effect...' }] });
   };
 
   const handleStatChange = (key, val) => {
@@ -209,7 +447,7 @@ export const CreatureStatblockBlock = ({
   };
 
   const handleTraitChange = (index, field, val) => {
-    const updated = traits.map((t, i) => i === index ? { ...t, [field]: val } : t);
+    const updated = traits.map((t, i) => (i === index ? { ...t, [field]: val } : t));
     onUpdate({ traits: updated });
   };
 
@@ -218,11 +456,11 @@ export const CreatureStatblockBlock = ({
   };
 
   const handleAddAction = () => {
-    onUpdate({ actions: [...actions, { name: 'Strike (1 AP)', desc: 'Attack: 1d8+2 Physical damage.' }] });
+    onUpdate({ actions: [...actions, { name: 'Rime Cleave (1 AP)', desc: 'Melee Strike (Reach 5 ft.): Deals 2d6 + 3 Slicing damage plus 1d6 Rime damage.' }] });
   };
 
   const handleActionChange = (index, field, val) => {
-    const updated = actions.map((a, i) => i === index ? { ...a, [field]: val } : a);
+    const updated = actions.map((a, i) => (i === index ? { ...a, [field]: val } : a));
     onUpdate({ actions: updated });
   };
 
@@ -230,22 +468,20 @@ export const CreatureStatblockBlock = ({
     onUpdate({ actions: actions.filter((_, i) => i !== index) });
   };
 
-  // WRITE MODE: Authoring Studio with Official Creature Wizard Hook
-  if (isWrite) {
-    return (
-      <div className={`book-creature-authoring-box ${isCompact ? 'compact-authoring' : ''}`}>
-        <div className="authoring-header-bar">
-          <div className="authoring-title-wrap">
-            <i className="fas fa-dragon"></i>
-            <input
-              type="text"
-              className="statblock-input-title"
-              value={block.name || ''}
-              placeholder="Creature / NPC Name..."
-              onChange={(e) => onUpdate({ name: e.target.value })}
-            />
-          </div>
-          <div className="authoring-header-actions">
+  const handleRollStat = (abbr, val) => {
+    const mod = Math.floor((Number(val || 10) - 10) / 2);
+    setLastRoll(rollTabletopExpression(`${block.name || 'Creature'} — ${abbr} Check`, `${mod}`));
+  };
+
+  const handleRollAction = (act) => {
+    setLastRoll(rollTabletopExpression(`${block.name || 'Creature'} — ${act.name}`, act.desc || '1d20'));
+  };
+
+  return (
+    <div className={`book-creature-statblock ${isCompact ? 'compact-statblock' : ''} ${isWrite ? 'is-write-statblock' : ''}`}>
+      {isWrite && (
+        <div className="statblock-manuscript-toolbar" onClick={(e) => e.stopPropagation()}>
+          <div className="statblock-toolbar-left">
             <button
               type="button"
               className="book-creature-wizard-btn"
@@ -262,215 +498,49 @@ export const CreatureStatblockBlock = ({
             >
               <i className="fas fa-book-open"></i> Bestiary
             </button>
-            <select
-              value={danger}
-              onChange={(e) => onUpdate({ dangerLevel: e.target.value, cr: undefined })}
-              className="quick-select"
-              title="Danger Level"
-            >
-              <option value="Low">Low Danger</option>
-              <option value="Medium">Medium Danger</option>
-              <option value="High">High Danger</option>
-              <option value="Very High">Very High Danger</option>
-              <option value="Extreme">Extreme Danger</option>
-              <option value="Apex">Apex Danger</option>
-            </select>
             <button
               type="button"
               className="statblock-preset-btn"
               onClick={() => setShowPresets(!showPresets)}
-              title="Load Preset"
+              title="Load Descension Preset"
             >
               <i className="fas fa-sparkles"></i> Presets
             </button>
           </div>
-        </div>
-
-        {showPresets && (
-          <div className="statblock-presets-dropdown">
-            <div className="preset-drop-title">Select Descension Creature:</div>
-            {CREATURE_PRESETS.map((p) => (
-              <div key={p.name} className="preset-drop-item" onClick={() => applyPreset(p)}>
-                <strong>{p.name}</strong> ({p.dangerLevel}) • <em>{p.creatureType}</em>
-              </div>
-            ))}
-          </div>
-        )}
-
-        <div className="authoring-sub-field">
-          <input
-            type="text"
-            className="statblock-input-sub"
-            value={block.creatureType || ''}
-            placeholder="Size, Heritage, Origin (e.g. Medium Elemental / Undead, Neutral Evil)..."
-            onChange={(e) => onUpdate({ creatureType: e.target.value })}
-          />
-        </div>
-
-        {/* Vitals Form Grid */}
-        <div className="authoring-form-grid">
-          <div className="author-field">
-            <label><i className="fas fa-heart"></i> Hit Points:</label>
-            <input
-              type="number"
-              value={hp}
-              onChange={(e) => onUpdate({ hp: parseInt(e.target.value, 10) || 10 })}
-            />
-          </div>
-          <div className="author-field">
-            <label><i className="fas fa-droplet"></i> Mana:</label>
-            <input
-              type="number"
-              value={block.mana ?? 20}
-              onChange={(e) => onUpdate({ mana: parseInt(e.target.value, 10) || 0 })}
-            />
-          </div>
-          <div className="author-field">
-            <label><i className="fas fa-bolt"></i> Action Points:</label>
-            <input
-              type="number"
-              value={block.ap ?? 3}
-              onChange={(e) => onUpdate({ ap: parseInt(e.target.value, 10) || 3 })}
-            />
-          </div>
-          <div className="author-field">
-            <label><i className="fas fa-person-running"></i> Speed:</label>
-            <input
-              type="text"
-              value={block.speed || '30 ft.'}
-              placeholder="e.g. 30 ft., fly 60 ft."
-              onChange={(e) => onUpdate({ speed: e.target.value })}
-            />
-          </div>
-        </div>
-
-        <div className="author-field full-width">
-          <label><i className="fas fa-shield"></i> Resistances &amp; Affinities:</label>
-          <input
-            type="text"
-            value={block.resistances || ''}
-            placeholder="e.g. Immune: Rime (Frost); Vulnerable: Ember (Fire)"
-            onChange={(e) => onUpdate({ resistances: e.target.value })}
-          />
-        </div>
-
-        {/* Core Attributes Inputs */}
-        <div className="author-stats-editor">
-          <div className="author-stats-label">
-            <i className="fas fa-dice-d20"></i> Core Ability Scores
-          </div>
-          <div className="author-stats-grid">
-            {[
-              { key: 'strength', abbr: 'STR' },
-              { key: 'agility', abbr: 'AGI' },
-              { key: 'constitution', abbr: 'CON' },
-              { key: 'intelligence', abbr: 'INT' },
-              { key: 'spirit', abbr: 'SPI' },
-              { key: 'charisma', abbr: 'CHA' }
-            ].map(({ key, abbr }) => {
-              const val = stats[key] ?? 10;
-              const mod = Math.floor((val - 10) / 2);
-              return (
-                <div key={key} className="stat-input-cell">
-                  <span className="stat-abbr-label">{abbr}</span>
-                  <input
-                    type="number"
-                    value={val}
-                    onChange={(e) => handleStatChange(key, e.target.value)}
-                  />
-                  <span className="stat-mod-badge">{mod >= 0 ? `+${mod}` : mod}</span>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Traits Editor */}
-        <div className="authoring-section-editor">
-          <div className="section-editor-header">
-            <div className="section-title-wrap">
-              <i className="fas fa-sparkles"></i>
-              <span>Passives &amp; Traits ({traits.length})</span>
-            </div>
-            <button type="button" className="add-sub-btn" onClick={handleAddTrait}>
-              <i className="fas fa-plus"></i> Add Trait
+          <div className="statblock-toolbar-right">
+            <BlockSyncPill block={block} onUpdate={onUpdate} storeType="creature" />
+            <button type="button" className="statblock-mini-add-btn" onClick={handleAddTrait} title="Add Passive or Trait">
+              + Trait
+            </button>
+            <button type="button" className="statblock-mini-add-btn" onClick={handleAddAction} title="Add Action or Strike">
+              + Action
             </button>
           </div>
-          {traits.length === 0 ? (
-            <div className="section-editor-empty" onClick={handleAddTrait}>
-              <i className="fas fa-feather-pointed"></i> No passives or traits yet. Click to add one.
-            </div>
-          ) : (
-            traits.map((t, idx) => (
-              <div key={idx} className="sub-entry-row">
-                <input
-                  type="text"
-                  className="sub-name-input"
-                  placeholder="Trait Name..."
-                  value={t.name || ''}
-                  onChange={(e) => handleTraitChange(idx, 'name', e.target.value)}
-                />
-                <textarea
-                  className="sub-desc-input"
-                  placeholder="Mechanical effect, passive trigger, or aura..."
-                  value={t.desc || ''}
-                  rows={2}
-                  onChange={(e) => handleTraitChange(idx, 'desc', e.target.value)}
-                />
-                <button type="button" className="del-sub-btn" onClick={() => handleDeleteTrait(idx)} title="Delete Trait">
-                  <i className="fas fa-trash-can"></i>
-                </button>
-              </div>
-            ))
-          )}
         </div>
+      )}
 
-        {/* Actions Editor */}
-        <div className="authoring-section-editor">
-          <div className="section-editor-header">
-            <div className="section-title-wrap">
-              <i className="fas fa-hand-fist"></i>
-              <span>Actions &amp; Strikes ({actions.length})</span>
+      {isWrite && showPresets && (
+        <div className="statblock-presets-dropdown" onClick={(e) => e.stopPropagation()}>
+          <div className="preset-drop-title">Select Descension Creature:</div>
+          {CREATURE_PRESETS.map((p) => (
+            <div key={p.name} className="preset-drop-item" onClick={() => applyPreset(p)}>
+              <strong>{p.name}</strong> ({p.dangerLevel}) • <em>{p.creatureType}</em>
             </div>
-            <button type="button" className="add-sub-btn" onClick={handleAddAction}>
-              <i className="fas fa-plus"></i> Add Action
-            </button>
+          ))}
+        </div>
+      )}
+
+      {lastRoll && (
+        <div className="book-inline-roll-banner" onClick={() => setLastRoll(null)} title="Click to dismiss roll result">
+          <div className="roll-banner-left">
+            <i className="fas fa-dice-d20"></i>
+            <strong>{lastRoll.label}:</strong>
+            <span>{lastRoll.detail}</span>
           </div>
-          {actions.length === 0 ? (
-            <div className="section-editor-empty" onClick={handleAddAction}>
-              <i className="fas fa-bolt"></i> No actions or strikes yet. Click to add one.
-            </div>
-          ) : (
-            actions.map((act, idx) => (
-              <div key={idx} className="sub-entry-row">
-                <input
-                  type="text"
-                  className="sub-name-input"
-                  placeholder="Action Name (e.g. Glacial Rend 1 AP)..."
-                  value={act.name || ''}
-                  onChange={(e) => handleActionChange(idx, 'name', e.target.value)}
-                />
-                <textarea
-                  className="sub-desc-input"
-                  placeholder="Attack roll, reach, damage dice, and saving throws..."
-                  value={act.desc || ''}
-                  rows={2}
-                  onChange={(e) => handleActionChange(idx, 'desc', e.target.value)}
-                />
-                <button type="button" className="del-sub-btn" onClick={() => handleDeleteAction(idx)} title="Delete Action">
-                  <i className="fas fa-trash-can"></i>
-                </button>
-              </div>
-            ))
-          )}
+          <span className="roll-banner-total">{lastRoll.total}</span>
         </div>
-      </div>
-    );
-  }
+      )}
 
-  // READ MODE: Publication Statblock Card
-  return (
-    <div className={`book-creature-statblock ${isCompact ? 'compact-statblock' : ''}`}>
       <div className="statblock-hero">
         {portraitUrl && (
           <figure className="statblock-portrait-plate">
@@ -496,15 +566,53 @@ export const CreatureStatblockBlock = ({
                   />
                 </div>
               )}
-              <h3 className="statblock-name">{block.name || 'Unnamed Adversary'}</h3>
+              {isWrite ? (
+                <input
+                  type="text"
+                  className="statblock-name statblock-inline-input"
+                  value={block.name || ''}
+                  placeholder="Unnamed Adversary..."
+                  onChange={(e) => onUpdate({ name: e.target.value })}
+                  aria-label="Creature name"
+                />
+              ) : (
+                <h3 className="statblock-name">{block.name || 'Unnamed Adversary'}</h3>
+              )}
               <div className="statblock-header-right">
-                <span className={'statblock-danger-badge danger-' + String(danger).toLowerCase().replace(/\s+/g, '-')}>
-                  <i className="fas fa-skull"></i> <span>{danger}</span>
-                </span>
+                {isWrite ? (
+                  <select
+                    value={danger}
+                    onChange={(e) => onUpdate({ dangerLevel: e.target.value, cr: undefined })}
+                    className={`statblock-danger-badge statblock-danger-select danger-${String(danger).toLowerCase().replace(/\s+/g, '-')}`}
+                    title="Danger Level"
+                  >
+                    <option value="Low">Low</option>
+                    <option value="Medium">Medium</option>
+                    <option value="High">High</option>
+                    <option value="Very High">Very High</option>
+                    <option value="Extreme">Extreme</option>
+                    <option value="Apex">Apex</option>
+                  </select>
+                ) : (
+                  <span className={'statblock-danger-badge danger-' + String(danger).toLowerCase().replace(/\s+/g, '-')}>
+                    <i className="fas fa-skull"></i> <span>{danger}</span>
+                  </span>
+                )}
               </div>
             </div>
             <div className="statblock-sub-row">
-              <span className="statblock-type-line">{block.creatureType || 'Medium Creature, Native'}</span>
+              {isWrite ? (
+                <input
+                  type="text"
+                  className="statblock-type-line statblock-inline-input"
+                  value={block.creatureType || ''}
+                  placeholder="Size, Heritage, Alignment (e.g. Medium Elemental / Spirit)..."
+                  onChange={(e) => onUpdate({ creatureType: e.target.value })}
+                  aria-label="Creature type and heritage"
+                />
+              ) : (
+                <span className="statblock-type-line">{block.creatureType || 'Medium Creature, Native'}</span>
+              )}
             </div>
           </div>
 
@@ -515,30 +623,84 @@ export const CreatureStatblockBlock = ({
             <div className="statblock-vital-pill vital-hp">
               <i className="fas fa-heart"></i>
               <span className="vital-lbl">Hit Points:</span>
-              <strong>{hp}</strong>
+              {isWrite ? (
+                <input
+                  type="number"
+                  className="vital-inline-num"
+                  value={hp}
+                  onChange={(e) => onUpdate({ hp: parseInt(e.target.value, 10) || 10 })}
+                  aria-label="Hit Points"
+                />
+              ) : (
+                <strong>{hp}</strong>
+              )}
             </div>
             <div className="statblock-vital-pill vital-mana">
               <i className="fas fa-droplet"></i>
               <span className="vital-lbl">Mana:</span>
-              <strong>{block.mana ?? 20}</strong>
+              {isWrite ? (
+                <input
+                  type="number"
+                  className="vital-inline-num"
+                  value={block.mana ?? 20}
+                  onChange={(e) => onUpdate({ mana: parseInt(e.target.value, 10) || 0 })}
+                  aria-label="Mana"
+                />
+              ) : (
+                <strong>{block.mana ?? 20}</strong>
+              )}
             </div>
             <div className="statblock-vital-pill vital-ap">
               <i className="fas fa-bolt"></i>
               <span className="vital-lbl">Action Points:</span>
-              <strong>{block.ap ?? 3} AP</strong>
+              {isWrite ? (
+                <span className="vital-ap-inline-wrap">
+                  <input
+                    type="number"
+                    className="vital-inline-num"
+                    value={block.ap ?? 3}
+                    onChange={(e) => onUpdate({ ap: parseInt(e.target.value, 10) || 3 })}
+                    aria-label="Action Points"
+                  />
+                  <strong>AP</strong>
+                </span>
+              ) : (
+                <strong>{block.ap ?? 3} AP</strong>
+              )}
             </div>
             <div className="statblock-vital-pill vital-speed">
               <i className="fas fa-person-running"></i>
               <span className="vital-lbl">Speed:</span>
-              <strong>{block.speed || '30 ft.'}</strong>
+              {isWrite ? (
+                <input
+                  type="text"
+                  className="vital-inline-text"
+                  value={block.speed || '30 ft.'}
+                  onChange={(e) => onUpdate({ speed: e.target.value })}
+                  aria-label="Speed"
+                />
+              ) : (
+                <strong>{block.speed || '30 ft.'}</strong>
+              )}
             </div>
           </div>
 
-          {block.resistances && (
+          {(block.resistances || isWrite) && (
             <div className="statblock-resistances-strip">
               <i className="fas fa-shield"></i>
               <span className="resist-lbl">Resistances &amp; Affinities:</span>
-              <span className="resist-val">{block.resistances}</span>
+              {isWrite ? (
+                <input
+                  type="text"
+                  className="resist-val statblock-inline-input"
+                  value={block.resistances || ''}
+                  placeholder="Immune: Rime; Vulnerable: Ember..."
+                  onChange={(e) => onUpdate({ resistances: e.target.value })}
+                  aria-label="Resistances and affinities"
+                />
+              ) : (
+                <span className="resist-val">{block.resistances}</span>
+              )}
             </div>
           )}
         </div>
@@ -558,10 +720,27 @@ export const CreatureStatblockBlock = ({
         ].map((s) => {
           const val = stats[s.key] ?? 10;
           return (
-            <div key={s.key} className="stat-tile">
-              <span className="stat-abbr">{s.abbr}</span>
-              <span className="stat-num">{val}</span>
-              <span className="stat-mod">({getModifier(val)})</span>
+            <div
+              key={s.key}
+              className="stat-tile rollable-stat-tile"
+              onClick={() => !isWrite && handleRollStat(s.abbr, val)}
+              title={isWrite ? `Edit ${s.abbr} or click modifier to roll` : `Click to roll ${s.abbr} check (${getModifier(val)})`}
+            >
+              <span className="stat-abbr" onClick={() => handleRollStat(s.abbr, val)}>{s.abbr}</span>
+              {isWrite ? (
+                <input
+                  type="number"
+                  className="stat-num-inline-input"
+                  value={val}
+                  onChange={(e) => handleStatChange(s.key, e.target.value)}
+                  aria-label={s.abbr}
+                />
+              ) : (
+                <span className="stat-num">{val}</span>
+              )}
+              <span className="stat-mod" onClick={() => handleRollStat(s.abbr, val)}>
+                ({getModifier(val)})
+              </span>
             </div>
           );
         })}
@@ -570,29 +749,119 @@ export const CreatureStatblockBlock = ({
       <div className="statblock-taper-rule" />
 
       {/* Traits Section */}
-      {traits.length > 0 && (
+      {(traits.length > 0 || isWrite) && (
         <div className="statblock-section">
           {traits.map((trait, idx) => (
             <div key={idx} className="statblock-trait-item">
-              <strong className="trait-name">{trait.name}.</strong>{' '}
-              <span className="trait-desc">
-                <RichLoreText text={trait.desc} className="parchment-theme" />
-              </span>
+              {isWrite ? (
+                <div className="statblock-inline-entry-row">
+                  <div className="statblock-inline-entry-head">
+                    <input
+                      type="text"
+                      className="trait-name-inline-input"
+                      value={trait.name || ''}
+                      placeholder="Trait Name"
+                      onChange={(e) => handleTraitChange(idx, 'name', e.target.value)}
+                    />
+                    <span className="inline-dot">.</span>
+                    <button
+                      type="button"
+                      className="statblock-inline-del-btn"
+                      onClick={() => handleDeleteTrait(idx)}
+                      title="Delete Trait"
+                    >
+                      &times;
+                    </button>
+                  </div>
+                  <textarea
+                    rows={1}
+                    ref={autoGrowManuscriptTextarea}
+                    className="trait-desc-inline-input"
+                    value={trait.desc || ''}
+                    placeholder="Passive or aura effect..."
+                    onChange={(e) => {
+                      autoGrowManuscriptTextarea(e.target);
+                      handleTraitChange(idx, 'desc', e.target.value);
+                    }}
+                  />
+                </div>
+              ) : (
+                <>
+                  <strong className="trait-name">{trait.name}.</strong>{' '}
+                  <span className="trait-desc">
+                    <RichLoreText text={trait.desc} className="parchment-theme" />
+                  </span>
+                </>
+              )}
             </div>
           ))}
         </div>
       )}
 
       {/* Actions Section */}
-      {actions.length > 0 && (
+      {(actions.length > 0 || isWrite) && (
         <div className="statblock-section actions-section">
           <h4 className="statblock-section-heading">Abilities &amp; Actions</h4>
           {actions.map((act, idx) => (
             <div key={idx} className="statblock-action-item">
-              <strong className="action-name">{act.name}.</strong>{' '}
-              <span className="action-desc">
-                <RichLoreText text={act.desc} className="parchment-theme" />
-              </span>
+              {isWrite ? (
+                <div className="statblock-inline-entry-row">
+                  <div className="statblock-inline-entry-head">
+                    <button
+                      type="button"
+                      className="statblock-action-roll-chip"
+                      onClick={() => handleRollAction(act)}
+                      title={`Test roll ${act.name}`}
+                    >
+                      <i className="fas fa-dice-d20"></i>
+                    </button>
+                    <input
+                      type="text"
+                      className="trait-name-inline-input"
+                      value={act.name || ''}
+                      placeholder="Action Name (1 AP)"
+                      onChange={(e) => handleActionChange(idx, 'name', e.target.value)}
+                    />
+                    <span className="inline-dot">.</span>
+                    <button
+                      type="button"
+                      className="statblock-inline-del-btn"
+                      onClick={() => handleDeleteAction(idx)}
+                      title="Delete Action"
+                    >
+                      &times;
+                    </button>
+                  </div>
+                  <textarea
+                    rows={1}
+                    ref={autoGrowManuscriptTextarea}
+                    className="trait-desc-inline-input"
+                    value={act.desc || ''}
+                    placeholder="Melee Strike (Reach 5 ft.): Deals 2d6+3 Slicing damage..."
+                    onChange={(e) => {
+                      autoGrowManuscriptTextarea(e.target);
+                      handleActionChange(idx, 'desc', e.target.value);
+                    }}
+                  />
+                </div>
+              ) : (
+                <div className="statblock-read-action-line">
+                  <button
+                    type="button"
+                    className="statblock-action-roll-chip"
+                    onClick={() => handleRollAction(act)}
+                    title={`Roll ${act.name}`}
+                  >
+                    <i className="fas fa-dice-d20"></i>
+                  </button>
+                  <strong className="action-name" onClick={() => handleRollAction(act)} style={{ cursor: 'pointer' }}>
+                    {act.name}.
+                  </strong>{' '}
+                  <span className="action-desc">
+                    <RichLoreText text={act.desc} className="parchment-theme" />
+                  </span>
+                </div>
+              )}
             </div>
           ))}
         </div>
@@ -603,13 +872,16 @@ export const CreatureStatblockBlock = ({
 
 /**
  * Authentic In-Game Spell Card Block
+ * Renders UnifiedSpellCard in both Write and Read modes with direct access to Spell Studio & inline tweaks.
  */
 export const SpellFormulaBlock = ({
   block,
   isWrite = false,
-  onUpdate = () => {}
+  onUpdate = () => {},
+  onOpenSpellStudio
 }) => {
   const [showPresets, setShowPresets] = useState(false);
+  const [showInlineEditor, setShowInlineEditor] = useState(false);
 
   const category = block.category || 'damage';
   const isDamage = category === 'damage';
@@ -687,21 +959,21 @@ export const SpellFormulaBlock = ({
     setShowPresets(false);
   };
 
-  if (isWrite) {
-    return (
-      <div className="book-spell-authoring-box">
-        <div className="authoring-header-bar">
-          <div className="authoring-title-wrap">
-            <i className="fas fa-wand-magic-sparkles"></i>
-            <input
-              type="text"
-              className="statblock-input-title"
-              value={block.name || ''}
-              placeholder="Spell Formula Name..."
-              onChange={(e) => onUpdate({ name: e.target.value })}
-            />
-          </div>
-          <div className="authoring-header-actions">
+  return (
+    <div className="book-spellcard-container">
+      {isWrite && (
+        <div className="statblock-manuscript-toolbar spell-manuscript-toolbar" onClick={(e) => e.stopPropagation()}>
+          <div className="statblock-toolbar-left">
+            {onOpenSpellStudio && (
+              <button
+                type="button"
+                className="book-creature-wizard-btn"
+                onClick={() => onOpenSpellStudio(block)}
+                title="Open Arcane Grimoire & Spellcrafting Studio"
+              >
+                <i className="fas fa-wand-magic-sparkles"></i> Open in Spell Studio
+              </button>
+            )}
             <button
               type="button"
               className="statblock-preset-btn"
@@ -710,81 +982,101 @@ export const SpellFormulaBlock = ({
             >
               <i className="fas fa-scroll"></i> Presets
             </button>
+            <button
+              type="button"
+              className="statblock-mini-add-btn"
+              onClick={() => setShowInlineEditor(!showInlineEditor)}
+              title="Toggle inline formula fields"
+            >
+              <i className="fas fa-sliders"></i> {showInlineEditor ? 'Hide Fields' : 'Edit Formula'}
+            </button>
+          </div>
+          <div className="statblock-toolbar-right">
+            <BlockSyncPill block={block} onUpdate={onUpdate} storeType="spell" />
           </div>
         </div>
+      )}
 
-        {showPresets && (
-          <div className="statblock-presets-dropdown">
-            <div className="preset-drop-title">Select Descension Spell:</div>
-            {SPELL_PRESETS.map((p) => (
-              <div key={p.name} className="preset-drop-item" onClick={() => applyPreset(p)}>
-                <strong>{p.name}</strong> ({p.tier}) • <em>{p.category}</em>
-              </div>
-            ))}
+      {isWrite && showPresets && (
+        <div className="statblock-presets-dropdown" onClick={(e) => e.stopPropagation()}>
+          <div className="preset-drop-title">Select Descension Spell:</div>
+          {SPELL_PRESETS.map((p) => (
+            <div key={p.name} className="preset-drop-item" onClick={() => applyPreset(p)}>
+              <strong>{p.name}</strong> ({p.tier}) • <em>{p.category}</em>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {isWrite && showInlineEditor && (
+        <div className="book-spell-authoring-box" style={{ marginBottom: '12px' }} onClick={(e) => e.stopPropagation()}>
+          <div className="authoring-form-grid">
+            <div className="author-field" style={{ gridColumn: '1 / -1' }}>
+              <label>Spell Name:</label>
+              <input
+                type="text"
+                value={block.name || ''}
+                placeholder="Spell Formula Name..."
+                onChange={(e) => onUpdate({ name: e.target.value })}
+              />
+            </div>
+            <div className="author-field">
+              <label>Mana Cost:</label>
+              <input
+                type="number"
+                value={normalizedSpell.manaCost}
+                onChange={(e) => onUpdate({ manaCost: parseInt(e.target.value, 10) || 0 })}
+              />
+            </div>
+            <div className="author-field">
+              <label>AP Cost:</label>
+              <input
+                type="number"
+                value={normalizedSpell.ap}
+                onChange={(e) => onUpdate({ ap: parseInt(e.target.value, 10) || 1 })}
+              />
+            </div>
+            <div className="author-field">
+              <label>Range:</label>
+              <input
+                type="text"
+                value={normalizedSpell.range}
+                onChange={(e) => onUpdate({ range: e.target.value })}
+              />
+            </div>
+            <div className="author-field">
+              <label>Duration:</label>
+              <input
+                type="text"
+                value={normalizedSpell.duration}
+                onChange={(e) => onUpdate({ duration: e.target.value })}
+              />
+            </div>
           </div>
-        )}
-
-        <div className="authoring-form-grid">
-          <div className="author-field">
-            <label>Mana Cost:</label>
-            <input
-              type="number"
-              value={normalizedSpell.manaCost}
-              onChange={(e) => onUpdate({ manaCost: parseInt(e.target.value, 10) || 0 })}
+          <div className="author-field full-width">
+            <label>Spell Effect &amp; Mechanics:</label>
+            <textarea
+              className="author-textarea"
+              rows={2}
+              ref={autoGrowManuscriptTextarea}
+              value={block.effect || block.description || ''}
+              onChange={(e) => {
+                autoGrowManuscriptTextarea(e.target);
+                onUpdate({ effect: e.target.value, description: e.target.value });
+              }}
             />
           </div>
-          <div className="author-field">
-            <label>AP Cost:</label>
-            <input
-              type="number"
-              value={normalizedSpell.ap}
-              onChange={(e) => onUpdate({ ap: parseInt(e.target.value, 10) || 1 })}
-            />
-          </div>
-          <div className="author-field">
-            <label>Range:</label>
+          <div className="author-field full-width">
+            <label><i className="fas fa-bolt-lightning"></i> Empower Scaling Effect:</label>
             <input
               type="text"
-              value={normalizedSpell.range}
-              onChange={(e) => onUpdate({ range: e.target.value })}
-            />
-          </div>
-          <div className="author-field">
-            <label>Duration:</label>
-            <input
-              type="text"
-              value={normalizedSpell.duration}
-              onChange={(e) => onUpdate({ duration: e.target.value })}
+              value={block.empower || ''}
+              onChange={(e) => onUpdate({ empower: e.target.value })}
             />
           </div>
         </div>
+      )}
 
-        <div className="author-field full-width">
-          <label>Spell Effect &amp; Mechanics:</label>
-          <textarea
-            className="author-textarea"
-            rows={3}
-            value={block.effect || block.description || ''}
-            placeholder="Detailed mechanical damage, saving throw, and conditions..."
-            onChange={(e) => onUpdate({ effect: e.target.value, description: e.target.value })}
-          />
-        </div>
-
-        <div className="author-field full-width">
-          <label><i className="fas fa-bolt-lightning"></i> Empower Scaling Effect:</label>
-          <input
-            type="text"
-            value={block.empower || ''}
-            placeholder="e.g. Each additional 5 Mana increases damage by 1d8..."
-            onChange={(e) => onUpdate({ empower: e.target.value })}
-          />
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div className="book-spellcard-container">
       <div className="book-unified-spell-card-wrap">
         <SpellLibraryProvider>
           <UnifiedSpellCard
@@ -827,18 +1119,36 @@ export const LineageShowcaseBlock = ({
 
   return (
     <div className="book-lineage-showcase-box">
+      {isWrite && (
+        <div className="showcase-manuscript-toolbar" onClick={(e) => e.stopPropagation()}>
+          <BlockSyncPill block={block} onUpdate={onUpdate} storeType="lineage" />
+          <button
+            type="button"
+            className="lineage-import-btn"
+            onClick={() => onOpenPicker(block)}
+            title="Import from World & Custom Lineage Studio"
+          >
+            <i className="fas fa-feather-pointed"></i> Import Lineage
+          </button>
+        </div>
+      )}
       <div className="lineage-header">
         <div className="lineage-icon-badge">
           <i className="fas fa-dna"></i>
         </div>
         <div className="lineage-title-wrap">
           {isWrite ? (
-            <input
-              type="text"
+            <textarea
+              rows={1}
+              ref={autoGrowManuscriptTextarea}
+              style={{ resize: 'none', overflow: 'hidden' }}
               className="lineage-input-title"
               value={block.name || ''}
               placeholder="Lineage / Ancestry Name..."
-              onChange={(e) => onUpdate({ name: e.target.value })}
+              onChange={(e) => {
+                autoGrowManuscriptTextarea(e.target);
+                onUpdate({ name: e.target.value });
+              }}
             />
           ) : (
             <h3 className="lineage-title">{block.name || 'Custom Lineage'}</h3>
@@ -857,16 +1167,6 @@ export const LineageShowcaseBlock = ({
             )}
           </div>
         </div>
-        {isWrite && (
-          <button
-            type="button"
-            className="lineage-import-btn"
-            onClick={() => onOpenPicker(block)}
-            title="Import from World & Custom Lineage Studio"
-          >
-            <i className="fas fa-feather-pointed"></i> Import Lineage
-          </button>
-        )}
       </div>
 
       <div className="lineage-divider" />
@@ -891,17 +1191,13 @@ export const LineageShowcaseBlock = ({
 
       {/* Prose Lore */}
       <div className="lineage-desc-prose">
-        {isWrite ? (
-          <textarea
-            className="lineage-textarea"
-            rows={2}
-            value={block.description || block.cardFlavor || ''}
-            placeholder="Racial history, physiological features, and world origins..."
-            onChange={(e) => onUpdate({ description: e.target.value })}
-          />
-        ) : (
-          <RichLoreText text={block.description || block.cardFlavor || 'A unique heritage walking the lands.'} className="parchment-theme" />
-        )}
+        <ManuscriptProseField
+          isWrite={isWrite}
+          className="lineage-textarea"
+          value={block.description || block.cardFlavor || ''}
+          placeholder="Racial history, physiological features, and world origins..."
+          onChange={(val) => onUpdate({ description: val })}
+        />
       </div>
 
       {/* Racial Passives */}
@@ -985,44 +1281,50 @@ export const DynastyTreeBlock = ({
 
   return (
     <div className="book-dynasty-block">
+      {isWrite && (
+        <div className="showcase-manuscript-toolbar" onClick={(e) => e.stopPropagation()}>
+          <BlockSyncPill block={block} onUpdate={onUpdate} storeType="dynasty" />
+          <button
+            type="button"
+            className="dynasty-import-btn"
+            onClick={() => onOpenPicker(block)}
+            title="Import from Family Tree Studio or Faction Webs"
+          >
+            <i className="fas fa-feather-pointed"></i> Import Tree
+          </button>
+          <button
+            type="button"
+            className="dynasty-add-btn"
+            onClick={handleAddMember}
+            title="Add family member"
+          >
+            + Add Member
+          </button>
+        </div>
+      )}
       <div className="dynasty-header">
         <div className="dynasty-icon-badge">
           <i className="fas fa-sitemap"></i>
         </div>
         <div className="dynasty-title-wrap">
           {isWrite ? (
-            <input
-              type="text"
+            <textarea
+              rows={1}
+              ref={autoGrowManuscriptTextarea}
+              style={{ resize: 'none', overflow: 'hidden' }}
               className="dynasty-input-title"
               value={block.name || block.title || ''}
               placeholder="Dynasty / Bloodline Tree Name..."
-              onChange={(e) => onUpdate({ name: e.target.value, title: e.target.value })}
+              onChange={(e) => {
+                autoGrowManuscriptTextarea(e.target);
+                onUpdate({ name: e.target.value, title: e.target.value });
+              }}
             />
           ) : (
             <h3 className="dynasty-title">{block.name || block.title || 'Noble Dynasty'}</h3>
           )}
           <span className="dynasty-badge">{nodes.length} Members • {relationships.length} Connections</span>
         </div>
-        {isWrite && (
-          <div className="dynasty-header-actions">
-            <button
-              type="button"
-              className="dynasty-import-btn"
-              onClick={() => onOpenPicker(block)}
-              title="Import from Family Tree Studio or Faction Webs"
-            >
-              <i className="fas fa-feather-pointed"></i> Import Tree
-            </button>
-            <button
-              type="button"
-              className="dynasty-add-btn"
-              onClick={handleAddMember}
-              title="Add family member"
-            >
-              + Add Member
-            </button>
-          </div>
-        )}
       </div>
 
       {block.description && (
@@ -1125,18 +1427,36 @@ export const PlotThreadBlock = ({
 
   return (
     <div className="book-plot-thread-block">
+      {isWrite && (
+        <div className="showcase-manuscript-toolbar" onClick={(e) => e.stopPropagation()}>
+          <BlockSyncPill block={block} onUpdate={onUpdate} />
+          <button
+            type="button"
+            className="plot-import-btn"
+            onClick={() => onOpenPicker(block)}
+            title="Import from Campaign Plot Threads"
+          >
+            <i className="fas fa-feather-pointed"></i> Import Plot
+          </button>
+        </div>
+      )}
       <div className="plot-thread-header">
         <div className="plot-icon-badge">
           <i className="fas fa-diagram-project"></i>
         </div>
         <div className="plot-title-wrap">
           {isWrite ? (
-            <input
-              type="text"
+            <textarea
+              rows={1}
+              ref={autoGrowManuscriptTextarea}
+              style={{ resize: 'none', overflow: 'hidden' }}
               className="plot-input-title"
               value={block.title || ''}
               placeholder="Plot Arc / Story Thread Title..."
-              onChange={(e) => onUpdate({ title: e.target.value })}
+              onChange={(e) => {
+                autoGrowManuscriptTextarea(e.target);
+                onUpdate({ title: e.target.value });
+              }}
             />
           ) : (
             <h3 className="plot-title">{block.title || 'Campaign Plot Thread'}</h3>
@@ -1149,18 +1469,6 @@ export const PlotThreadBlock = ({
             {block.act && <span className="plot-act-pill">Act {block.act}</span>}
           </div>
         </div>
-        {isWrite && (
-          <div className="plot-header-actions">
-            <button
-              type="button"
-              className="plot-import-btn"
-              onClick={() => onOpenPicker(block)}
-              title="Import from Campaign Plot Threads"
-            >
-              <i className="fas fa-feather-pointed"></i> Import Plot
-            </button>
-          </div>
-        )}
       </div>
 
       {block.theme && (
@@ -1171,17 +1479,13 @@ export const PlotThreadBlock = ({
 
       {/* Conflict / Summary Prose */}
       <div className="plot-summary-prose">
-        {isWrite ? (
-          <textarea
-            className="plot-textarea"
-            rows={2}
-            value={block.summary || block.coreConflict || ''}
-            placeholder="Core dramatic conflict, stakes, and narrative progression..."
-            onChange={(e) => onUpdate({ summary: e.target.value, coreConflict: e.target.value })}
-          />
-        ) : (
-          <RichLoreText text={block.summary || block.coreConflict || 'A major story arc unfolding in the campaign.'} className="parchment-theme" />
-        )}
+        <ManuscriptProseField
+          isWrite={isWrite}
+          className="plot-textarea"
+          value={block.summary || block.coreConflict || ''}
+          placeholder="Core dramatic conflict, stakes, and narrative progression..."
+          onChange={(val) => onUpdate({ summary: val, coreConflict: val })}
+        />
       </div>
 
       {/* Story Beats Timeline */}
@@ -1254,6 +1558,19 @@ export const LocationShowcaseBlock = ({
 
   return (
     <div className="book-location-showcase-wrapper">
+      {isWrite && (
+        <div className="showcase-manuscript-toolbar" onClick={(e) => e.stopPropagation()}>
+          <BlockSyncPill block={block} onUpdate={onUpdate} />
+          <button
+            type="button"
+            className="loc-import-btn"
+            onClick={() => onOpenPicker(block)}
+            title="Import from World Locations & Settlements"
+          >
+            <i className="fas fa-feather-pointed"></i> Import Location
+          </button>
+        </div>
+      )}
       {/* Optional Location Banner Artwork */}
       {block.imageUrl && (
         <div
@@ -1272,12 +1589,17 @@ export const LocationShowcaseBlock = ({
         </div>
         <div className="loc-title-wrap">
           {isWrite ? (
-            <input
-              type="text"
+            <textarea
+              rows={1}
+              ref={autoGrowManuscriptTextarea}
+              style={{ resize: 'none', overflow: 'hidden' }}
               className="loc-input-name"
               value={block.name || ''}
               placeholder="Location or Realm Name..."
-              onChange={(e) => onUpdate({ name: e.target.value })}
+              onChange={(e) => {
+                autoGrowManuscriptTextarea(e.target);
+                onUpdate({ name: e.target.value });
+              }}
             />
           ) : (
             <h3 className="loc-name">{block.name || 'Unnamed Realm Location'}</h3>
@@ -1298,16 +1620,6 @@ export const LocationShowcaseBlock = ({
             )}
           </div>
         </div>
-        {isWrite && (
-          <button
-            type="button"
-            className="loc-import-btn"
-            onClick={() => onOpenPicker(block)}
-            title="Import from World Locations & Settlements"
-          >
-            <i className="fas fa-feather-pointed"></i> Import Location
-          </button>
-        )}
       </div>
 
       <div className="loc-divider" />
@@ -1319,17 +1631,13 @@ export const LocationShowcaseBlock = ({
       )}
 
       <div className="loc-desc-prose">
-        {isWrite ? (
-          <textarea
-            className="loc-input-desc"
-            rows={3}
-            value={block.description || ''}
-            placeholder="Atmospheric prose and tactical terrain details..."
-            onChange={(e) => onUpdate({ description: e.target.value })}
-          />
-        ) : (
-          <RichLoreText text={block.description || 'A prominent region in the chronicles.'} className="parchment-theme" />
-        )}
+        <ManuscriptProseField
+          isWrite={isWrite}
+          className="loc-input-desc"
+          value={block.description || ''}
+          placeholder="Atmospheric prose and tactical terrain details..."
+          onChange={(val) => onUpdate({ description: val })}
+        />
       </div>
 
       {block.secrets && (
@@ -1372,6 +1680,19 @@ export const NpcDossierBlock = ({
 
   return (
     <div className="book-npc-dossier-wrapper">
+      {isWrite && (
+        <div className="showcase-manuscript-toolbar" onClick={(e) => e.stopPropagation()}>
+          <BlockSyncPill block={block} onUpdate={onUpdate} />
+          <button
+            type="button"
+            className="npc-import-btn"
+            onClick={() => onOpenPicker(block)}
+            title="Import from World NPC Catalog"
+          >
+            <i className="fas fa-feather-pointed"></i> Import NPC
+          </button>
+        </div>
+      )}
       <div className="npc-dossier-header">
         <div className={`npc-avatar-badge ${isPortraitArt ? 'has-portrait' : ''}`}>
           {avatarUrl ? (
@@ -1382,12 +1703,17 @@ export const NpcDossierBlock = ({
         </div>
         <div className="npc-title-group">
           {isWrite ? (
-            <input
-              type="text"
+            <textarea
+              rows={1}
+              ref={autoGrowManuscriptTextarea}
+              style={{ resize: 'none', overflow: 'hidden' }}
               className="npc-input-name"
               value={block.name || ''}
               placeholder="NPC Name & Title..."
-              onChange={(e) => onUpdate({ name: e.target.value })}
+              onChange={(e) => {
+                autoGrowManuscriptTextarea(e.target);
+                onUpdate({ name: e.target.value });
+              }}
             />
           ) : (
             <h3 className="npc-name">{block.name || 'Dossier Entry'}</h3>
@@ -1404,16 +1730,6 @@ export const NpcDossierBlock = ({
             )}
           </div>
         </div>
-        {isWrite && (
-          <button
-            type="button"
-            className="npc-import-btn"
-            onClick={() => onOpenPicker(block)}
-            title="Import from World NPC Catalog"
-          >
-            <i className="fas fa-feather-pointed"></i> Import NPC
-          </button>
-        )}
       </div>
 
       <div className="npc-divider" />
@@ -1428,17 +1744,13 @@ export const NpcDossierBlock = ({
       )}
 
       <div className="npc-desc-prose">
-        {isWrite ? (
-          <textarea
-            className="npc-input-desc"
-            rows={3}
-            value={block.description || ''}
-            placeholder="NPC background, mannerisms, and goals..."
-            onChange={(e) => onUpdate({ description: e.target.value })}
-          />
-        ) : (
-          <RichLoreText text={block.description || 'An important figure in the realm.'} className="parchment-theme" />
-        )}
+        <ManuscriptProseField
+          isWrite={isWrite}
+          className="npc-input-desc"
+          value={block.description || ''}
+          placeholder="NPC background, mannerisms, and goals..."
+          onChange={(val) => onUpdate({ description: val })}
+        />
       </div>
 
       {block.quote && (
@@ -1451,9 +1763,6 @@ export const NpcDossierBlock = ({
   );
 };
 
-/**
- * Quest & Narrative Hook Block
- */
 /**
  * Quest & Narrative Hook Block
  * Matches authentic in-game quest layout with Level badges, difficulty pills,
@@ -1499,6 +1808,19 @@ export const QuestHookBlock = ({
 
   return (
     <div className={`book-quest-hook-wrapper diff-${diffClass}`}>
+      {isWrite && (
+        <div className="showcase-manuscript-toolbar" onClick={(e) => e.stopPropagation()}>
+          <BlockSyncPill block={block} onUpdate={onUpdate} />
+          <button
+            type="button"
+            className="quest-browse-catalog-btn"
+            onClick={() => onOpenPicker(block)}
+            title="Browse Fantasy Quests &amp; Campaign Hooks"
+          >
+            <i className="fas fa-scroll"></i> Browse Quests
+          </button>
+        </div>
+      )}
       {/* Header Band */}
       <div className="quest-hook-header">
         <div className="quest-icon-badge">
@@ -1507,12 +1829,17 @@ export const QuestHookBlock = ({
         <div className="quest-title-wrap">
           <div className="quest-title-row">
             {isWrite ? (
-              <input
-                type="text"
+              <textarea
+                rows={1}
+                ref={autoGrowManuscriptTextarea}
+                style={{ resize: 'none', overflow: 'hidden' }}
                 className="quest-input-title"
                 value={block.title || ''}
                 placeholder="Quest or Adventure Title..."
-                onChange={(e) => onUpdate({ title: e.target.value })}
+                onChange={(e) => {
+                  autoGrowManuscriptTextarea(e.target);
+                  onUpdate({ title: e.target.value });
+                }}
               />
             ) : (
               <h3 className="quest-title">{block.title || 'The Lost Key of Drunhold'}</h3>
@@ -1536,37 +1863,18 @@ export const QuestHookBlock = ({
             </span>
           </div>
         </div>
-
-        {isWrite && (
-          <div className="quest-header-actions">
-            <button
-              type="button"
-              className="quest-browse-catalog-btn"
-              onClick={() => onOpenPicker(block)}
-              title="Browse Fantasy Quests &amp; Campaign Hooks"
-            >
-              <i className="fas fa-scroll"></i> Browse Quests
-            </button>
-          </div>
-        )}
       </div>
 
       {/* Description / Story Briefing */}
       {(block.description || isWrite) && (
         <div className="quest-desc-section">
-          {isWrite ? (
-            <textarea
-              className="quest-desc-textarea"
-              rows={3}
-              value={block.description || ''}
-              placeholder="Quest briefing, story premise, or background lore..."
-              onChange={(e) => onUpdate({ description: e.target.value })}
-            />
-          ) : (
-            <div className="quest-desc-prose">
-              <RichLoreText text={block.description} className="parchment-theme" />
-            </div>
-          )}
+          <ManuscriptProseField
+            isWrite={isWrite}
+            className="quest-desc-textarea"
+            value={block.description || ''}
+            placeholder="Quest briefing, story premise, or background lore..."
+            onChange={(val) => onUpdate({ description: val })}
+          />
         </div>
       )}
 
@@ -1746,7 +2054,27 @@ export const ItemRelicBlock = ({
   onUpdate = () => {},
   onOpenStudio = () => {}
 }) => {
+  const [claimed, setClaimed] = useState(false);
   const itemData = normalizeBookItemData(block);
+
+  const handleClaimItem = (e) => {
+    e.stopPropagation();
+    try {
+      const state = useItemStore.getState();
+      const items = Array.isArray(state.items) ? [...state.items] : [];
+      const exists = items.some(
+        (it) => it.id === itemData.id || (it.name && itemData.name && it.name.toLowerCase() === itemData.name.toLowerCase())
+      );
+      if (!exists) {
+        items.unshift(itemData);
+        useItemStore.setState({ items });
+      }
+      setClaimed(true);
+      setTimeout(() => setClaimed(false), 2000);
+    } catch (err) {
+      console.debug('Claim item skipped:', err);
+    }
+  };
 
   return (
     <div className={`book-item-block-container ${compact || block.sizePreset === 'half' ? 'compact-item' : ''}`}>
@@ -1754,18 +2082,30 @@ export const ItemRelicBlock = ({
         <ItemTooltip item={itemData} />
       </div>
 
-      {isWrite && (
-        <div className="item-block-write-actions">
-          <button
-            type="button"
-            className="book-item-action-btn"
-            onClick={() => onOpenStudio(itemData)}
-            title="Configure in Item Studio & Wizard"
-          >
-            <i className="fas fa-wand-magic-sparkles"></i> Open in Item Wizard
-          </button>
-        </div>
-      )}
+      <div className="item-block-write-actions">
+        <button
+          type="button"
+          className={`book-item-action-btn claim-item-btn ${claimed ? 'claimed' : ''}`}
+          onClick={handleClaimItem}
+          title="Add this relic to your Item Library & Character Inventory"
+        >
+          <i className={`fas ${claimed ? 'fa-check' : 'fa-hand-holding-hand'}`}></i>
+          {claimed ? 'Claimed to Inventory' : 'Claim Relic'}
+        </button>
+        {isWrite && (
+          <>
+            <button
+              type="button"
+              className="book-item-action-btn"
+              onClick={() => onOpenStudio(itemData)}
+              title="Configure in Item Studio & Wizard"
+            >
+              <i className="fas fa-wand-magic-sparkles"></i> Open in Item Wizard
+            </button>
+            <BlockSyncPill block={block} onUpdate={onUpdate} storeType="item" />
+          </>
+        )}
+      </div>
     </div>
   );
 };
@@ -1880,10 +2220,15 @@ export const BookImageBlock = ({
           {isWrite ? (
             <textarea
               rows={1}
+              ref={autoGrowManuscriptTextarea}
               value={block.caption}
               className="caption-inline-input"
+              style={{ resize: 'none', overflow: 'hidden' }}
               aria-label="Illustration caption"
-              onChange={(e) => onUpdate({ caption: e.target.value })}
+              onChange={(e) => {
+                autoGrowManuscriptTextarea(e.target);
+                onUpdate({ caption: e.target.value });
+              }}
             />
           ) : (
             block.caption
@@ -1896,8 +2241,8 @@ export const BookImageBlock = ({
 
 /**
  * TTRPG Encounter & Rollable Table Block
- * Authentic D&D 5e sourcebook table with alternating row fills, Cinzel burgundy headers,
- * compact cell padding, interactive dice rolling in read mode, and cell editing in write mode.
+ * Authentic sourcebook table with alternating vellum rows, Cinzel burgundy headers,
+ * auto-sizing borderless cells (zero native scrollbars), and interactive dice rolling in both modes.
  */
 export const BookTableBlock = ({
   block,
@@ -1912,26 +2257,40 @@ export const BookTableBlock = ({
   const rows = Array.isArray(block.rows) && block.rows.length > 0
     ? block.rows
     : [
-        ['1', 'Kobold Scout', 'Low'],
-        ['2', 'Magmin Ore-Forger', 'Low'],
-        ['3', 'Rogue Arcanist', 'Medium'],
-        ['4', 'Brass Vault Golem', 'High']
+        ['1', 'Frost-Stalker Scout', 'Low'],
+        ['2', 'Ember-Mote Forger', 'Low'],
+        ['3', 'Rogue Wyrd-Arcanist', 'Medium'],
+        ['4', 'Brass Vault Automaton', 'High']
       ];
   const [rolledIndex, setRolledIndex] = useState(null);
   const [rollResult, setRollResult] = useState(null);
   const [isRolling, setIsRolling] = useState(false);
+
+  const effectiveDiceLabel = diceFormula || (headers[0] && /^d\d+/i.test(headers[0]) ? headers[0] : `d${rows.length}`);
+
+  const matchesDiceRange = (cellStr, rollVal) => {
+    const clean = String(cellStr || '').trim();
+    if (clean === String(rollVal) || clean === String(rollVal).padStart(2, '0')) return true;
+    const rangeMatch = clean.match(/^(\d+)\s*[-–—]\s*(\d+)$/);
+    if (rangeMatch) {
+      const min = parseInt(rangeMatch[1], 10);
+      const max = parseInt(rangeMatch[2], 10);
+      return rollVal >= min && rollVal <= max;
+    }
+    return false;
+  };
 
   const handleRoll = () => {
     if (rows.length === 0) return;
     setIsRolling(true);
     const count = rows.length;
     let dieMax = count;
-    if (diceFormula) {
-      const match = diceFormula.match(/d(\d+)/i);
-      if (match) dieMax = parseInt(match[1], 10);
-    }
+    const formulaToParse = diceFormula || headers[0] || '';
+    const match = String(formulaToParse).match(/d(\d+)/i);
+    if (match) dieMax = parseInt(match[1], 10);
+
     const result = Math.floor(Math.random() * dieMax) + 1;
-    const matchingIdx = rows.findIndex((r) => String(r[0]).trim() === String(result));
+    const matchingIdx = rows.findIndex((r) => matchesDiceRange(r[0], result));
     const targetIdx = matchingIdx >= 0 ? matchingIdx : Math.min(result - 1, count - 1);
 
     setRollResult(result);
@@ -1976,6 +2335,8 @@ export const BookTableBlock = ({
     onUpdate({ headers: nextHeaders, rows: nextRows });
   };
 
+  const rolledRow = rolledIndex !== null && rows[rolledIndex] ? rows[rolledIndex] : null;
+
   return (
     <div className="book-table-block">
       <div className="table-block-header">
@@ -1983,8 +2344,13 @@ export const BookTableBlock = ({
           {isWrite ? (
             <textarea
               rows={1}
+              ref={autoGrowManuscriptTextarea}
               value={title}
-              onChange={(e) => onUpdate({ title: e.target.value })}
+              style={{ resize: 'none', overflow: 'hidden' }}
+              onChange={(e) => {
+                autoGrowManuscriptTextarea(e.target);
+                onUpdate({ title: e.target.value });
+              }}
               className="table-title-input"
               placeholder="Table Title (e.g. Dragon Statues, Encounters)..."
               aria-label="Table title"
@@ -1995,7 +2361,18 @@ export const BookTableBlock = ({
         </div>
 
         <div className="table-header-controls">
-          {isWrite ? (
+          <button
+            type="button"
+            className={`table-roll-btn ${isRolling ? 'rolling' : ''}`}
+            onClick={handleRoll}
+            title={`Roll ${effectiveDiceLabel} on this table`}
+          >
+            <i className="fas fa-dice-d20"></i>
+            <span>Roll {diceFormula || effectiveDiceLabel}</span>
+            {rollResult !== null && <span className="roll-result-badge">Result: {rollResult}</span>}
+          </button>
+
+          {isWrite && (
             <div className="table-write-tools">
               <label className="dice-formula-label">
                 <span>Dice:</span>
@@ -2003,7 +2380,7 @@ export const BookTableBlock = ({
                   type="text"
                   value={diceFormula}
                   onChange={(e) => onUpdate({ diceFormula: e.target.value })}
-                  placeholder="e.g. d4, d20"
+                  placeholder="d20"
                   className="dice-formula-input"
                 />
               </label>
@@ -2014,22 +2391,20 @@ export const BookTableBlock = ({
                 <i className="fas fa-plus"></i> Col
               </button>
             </div>
-          ) : (
-            diceFormula && (
-              <button
-                type="button"
-                className={`table-roll-btn ${isRolling ? 'rolling' : ''}`}
-                onClick={handleRoll}
-                title={`Roll ${diceFormula} on this table`}
-              >
-                <i className="fas fa-dice-d20"></i>
-                <span>Roll {diceFormula}</span>
-                {rollResult !== null && <span className="roll-result-badge">Result: {rollResult}</span>}
-              </button>
-            )
           )}
         </div>
       </div>
+
+      {rolledRow && rollResult !== null && (
+        <div className="book-inline-roll-banner table-rolled-banner" onClick={() => setRolledIndex(null)} title="Click to dismiss">
+          <div className="roll-banner-left">
+            <i className="fas fa-dice-d20"></i>
+            <strong>Rolled {rollResult} ({effectiveDiceLabel}):</strong>
+            <span>{rolledRow.slice(1).join(' — ') || rolledRow[0]}</span>
+          </div>
+          <span className="roll-banner-total">{rollResult}</span>
+        </div>
+      )}
 
       <div className="table-scroll-wrap">
         <table className="book-ttrpg-table">
@@ -2051,7 +2426,7 @@ export const BookTableBlock = ({
                           type="button"
                           className="th-del-btn"
                           onClick={() => deleteColumn(cIdx)}
-                           title="Delete Column"
+                          title="Delete Column"
                           aria-label={`Delete column ${cIdx + 1}`}
                         >
                           &times;
@@ -2076,11 +2451,18 @@ export const BookTableBlock = ({
                       {isWrite ? (
                         <textarea
                           rows={1}
+                          ref={autoGrowManuscriptTextarea}
                           value={cell}
-                          onChange={(e) => updateCell(rIdx, cIdx, e.target.value)}
+                          style={{ resize: 'none', overflow: 'hidden' }}
+                          onChange={(e) => {
+                            autoGrowManuscriptTextarea(e.target);
+                            updateCell(rIdx, cIdx, e.target.value);
+                          }}
                           className="td-input"
                           aria-label={`Row ${rIdx + 1}, ${headers[cIdx] || `column ${cIdx + 1}`}`}
                         />
+                      ) : typeof cell === 'string' && (cell.includes('[[') || cell.includes('**')) ? (
+                        <RichLoreText text={cell} className="parchment-theme" />
                       ) : (
                         cell
                       )}
@@ -2093,7 +2475,7 @@ export const BookTableBlock = ({
                           type="button"
                           className="row-del-btn"
                           onClick={() => deleteRow(rIdx)}
-                           title="Delete Row"
+                          title="Delete Row"
                           aria-label={`Delete row ${rIdx + 1}`}
                         >
                           <i className="fas fa-trash"></i>
@@ -2191,6 +2573,7 @@ export const BookCalloutBlock = ({
   onOpenLorePicker = () => {}
 }) => {
   const type = block.calloutType || 'info';
+  const [isEditingBody, setIsEditingBody] = useState(false);
 
   const CALLOUT_ICONS = {
     info: 'fa-book-bookmark',
@@ -2201,6 +2584,7 @@ export const BookCalloutBlock = ({
   };
 
   const iconClass = CALLOUT_ICONS[type] || 'fa-bookmark';
+  const bodyText = block.text || block.content || '';
 
   return (
     <div className={`book-callout-block callout-${type}`}>
@@ -2212,10 +2596,15 @@ export const BookCalloutBlock = ({
           {isWrite ? (
             <textarea
               rows={1}
+              ref={autoGrowManuscriptTextarea}
+              style={{ resize: 'none', overflow: 'hidden' }}
               className="callout-input-title"
               value={block.title || ''}
               placeholder="Callout Title (e.g. Arcane Rule, Lore Secret)..."
-              onChange={(e) => onUpdate({ title: e.target.value })}
+              onChange={(e) => {
+                autoGrowManuscriptTextarea(e.target);
+                onUpdate({ title: e.target.value });
+              }}
               aria-label="Callout title"
             />
           ) : (
@@ -2248,17 +2637,30 @@ export const BookCalloutBlock = ({
         )}
       </div>
       <div className="callout-content">
-        {isWrite ? (
+        {isWrite && (isEditingBody || !bodyText) ? (
           <textarea
             className="callout-textarea"
-            rows={3}
-            value={block.text || block.content || ''}
+            rows={2}
+            ref={autoGrowManuscriptTextarea}
+            style={{ resize: 'none', overflow: 'hidden' }}
+            value={bodyText}
             placeholder="Chronicle lore, DM notes, historical excerpt, read-aloud boxed text..."
             aria-label="Callout text"
-            onChange={(e) => onUpdate({ text: e.target.value, content: e.target.value })}
+            autoFocus={isEditingBody}
+            onBlur={() => setIsEditingBody(false)}
+            onChange={(e) => {
+              autoGrowManuscriptTextarea(e.target);
+              onUpdate({ text: e.target.value, content: e.target.value });
+            }}
           />
         ) : (
-          <RichLoreText text={block.text || block.content || 'Chronicle notes.'} className="parchment-theme" />
+          <div
+            className={isWrite ? 'callout-wysiwyg-preview' : ''}
+            onClick={() => isWrite && setIsEditingBody(true)}
+            title={isWrite ? 'Click to edit callout prose' : undefined}
+          >
+            <RichLoreText text={bodyText || 'Chronicle notes.'} className="parchment-theme" />
+          </div>
         )}
       </div>
     </div>
@@ -2285,20 +2687,20 @@ export const PIN_ICON_PRESETS = [
 ];
 
 export const PIN_COLOR_PRESETS = [
-  '#ffd700',
-  '#ef4444',
-  '#10b981',
-  '#3b82f6',
-  '#a855f7',
-  '#f97316',
-  '#f5f5f4'
+  '#8b5a1a',
+  '#7c2d23',
+  '#3b5944',
+  '#2e4c66',
+  '#5e472f',
+  '#a16220',
+  '#e8e2d4'
 ];
 
 /**
  * Map & Image Showcase Block
  * Rich interactive cartography & visual region showcase card with zoom/pan focal points,
- * map dragging, draggable pins with icon & color selection, trail & route drawing,
- * multi-layout orientation (stacked, left, right), image/map picking, and rich prose writing.
+ * map dragging, draggable pins with icon, color & Keyed Room (`areaCode`, e.g. U1, U2) selection,
+ * trail & route drawing, multi-layout orientation, image/map picking, and rich prose writing.
  */
 export const MapEmbedBlock = ({
   block = {},
@@ -2332,7 +2734,7 @@ export const MapEmbedBlock = ({
     {
       id: 'trail-1',
       name: "King's Pass Route",
-      color: '#ffd700',
+      color: '#8b5a1a',
       strokeWidth: 3,
       dashed: true,
       points: [{ x: 38, y: 46 }, { x: 44, y: 42 }, { x: 52, y: 38 }, { x: 62, y: 35 }, { x: 74, y: 32 }]
@@ -2340,9 +2742,9 @@ export const MapEmbedBlock = ({
   ];
 
   const markers = Array.isArray(block.markers) ? block.markers : [
-    { id: 'pin-1', x: 38, y: 46, icon: 'fa-fort-awesome', color: '#ffd700' },
-    { id: 'pin-2', x: 52, y: 38, icon: 'fa-skull', color: '#ef4444' },
-    { id: 'pin-3', x: 74, y: 32, icon: 'fa-campground', color: '#10b981' }
+    { id: 'pin-1', x: 38, y: 46, icon: 'fa-fort-awesome', color: '#8b5a1a', areaCode: 'U1' },
+    { id: 'pin-2', x: 52, y: 38, icon: 'fa-skull', color: '#7c2d23', areaCode: 'U2' },
+    { id: 'pin-3', x: 74, y: 32, icon: 'fa-campground', color: '#3b5944' }
   ];
 
   const [activeLocId, setActiveLocId] = useState(block.activeLocationId || locations[0]?.id || 'loc-all');
@@ -2353,7 +2755,7 @@ export const MapEmbedBlock = ({
   const [hoveredPin, setHoveredPin] = useState(null);
   const [selectedPinId, setSelectedPinId] = useState(null);
   const [selectedIcon, setSelectedIcon] = useState('fa-location-dot');
-  const [selectedColor, setSelectedColor] = useState('#ffd700');
+  const [selectedColor, setSelectedColor] = useState('#8b5a1a');
 
   // Dragging states
   const [isPanningMap, setIsPanningMap] = useState(false);
@@ -2450,7 +2852,8 @@ export const MapEmbedBlock = ({
         x: point.x,
         y: point.y,
         icon: selectedIcon,
-        color: selectedColor
+        color: selectedColor,
+        areaCode: `U${markers.length + 1}`
       };
       onUpdate({ markers: [...markers, newPin] });
       setSelectedPinId(newPin.id);
@@ -2523,6 +2926,23 @@ export const MapEmbedBlock = ({
     onUpdate({ markers: nextMarkers });
   };
 
+  const handleUpdatePinAreaCode = (pinId, areaCode) => {
+    const nextMarkers = markers.map((m) =>
+      m.id === pinId ? { ...m, areaCode } : m
+    );
+    onUpdate({ markers: nextMarkers });
+  };
+
+  const handleJumpToKeyedArea = (areaCode) => {
+    if (!areaCode || typeof document === 'undefined') return;
+    const targetEl = document.querySelector(`[data-area-code="${areaCode}"]`);
+    if (targetEl) {
+      targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      targetEl.classList.add('keyed-area-pulse-highlight');
+      setTimeout(() => targetEl.classList.remove('keyed-area-pulse-highlight'), 1800);
+    }
+  };
+
   const handleClearPins = () => {
     onUpdate({ markers: [] });
     setHoveredPin(null);
@@ -2548,7 +2968,7 @@ export const MapEmbedBlock = ({
       const newTrail = {
         id: `trail-${Date.now()}`,
         name: `Route ${trails.length + 1}`,
-        color: '#ffd700',
+        color: '#8b5a1a',
         strokeWidth: 3,
         dashed: true,
         points: draftTrailPoints
@@ -2632,7 +3052,7 @@ export const MapEmbedBlock = ({
                 key={trail.id}
                 points={pointsStr}
                 fill="none"
-                stroke={trail.color || '#ffd700'}
+                stroke={(!trail.color || trail.color === '#ffd700') ? '#8b5a1a' : trail.color}
                 strokeWidth={trail.strokeWidth ? trail.strokeWidth * 0.4 : 1.2}
                 strokeDasharray={trail.dashed ? '1.5,1' : 'none'}
                 strokeLinecap="round"
@@ -2647,7 +3067,7 @@ export const MapEmbedBlock = ({
             <polyline
               points={draftTrailPoints.map((p) => `${p.x},${p.y}`).join(' ')}
               fill="none"
-              stroke="#ff4757"
+              stroke="#7c2d23"
               strokeWidth="1.5"
               strokeDasharray="2,1"
               className="map-svg-draft-line"
@@ -2655,10 +3075,11 @@ export const MapEmbedBlock = ({
           )}
         </svg>
 
-        {/* POI Markers & Pins (Clean Icon-Only Aesthetic with Scale Compensation) */}
+        {/* POI Markers & Keyed Dungeon Pins */}
         {markers.map((marker) => {
           const isSelected = selectedPinId === marker.id;
           const pinScale = Math.max(0.45, Math.min(1.0, 1 / Math.sqrt(currentZoom || 1)));
+          const pinBgColor = (!marker.color || marker.color === '#ffd700') ? '#663c32' : marker.color;
           return (
             <div
               key={marker.id}
@@ -2670,6 +3091,7 @@ export const MapEmbedBlock = ({
                 top: `${marker.y}%`,
                 transform: `translate(-50%, -100%) scale(${pinScale * (isSelected ? 1.15 : 1.0)})`
               }}
+              title={marker.areaCode ? `Area ${marker.areaCode} (Click to jump to keyed entry)` : 'Map Pin'}
               onMouseDown={(e) => {
                 if (isWrite) {
                   e.stopPropagation();
@@ -2683,13 +3105,19 @@ export const MapEmbedBlock = ({
               }}
               onClick={(e) => {
                 e.stopPropagation();
-                if (isWrite) {
+                if (marker.areaCode && !isWrite) {
+                  handleJumpToKeyedArea(marker.areaCode);
+                } else if (isWrite) {
                   setSelectedPinId(isSelected ? null : marker.id);
                 }
               }}
             >
-              <div className="poi-pin-head" style={{ backgroundColor: marker.color || '#ffd700' }}>
-                <i className={`fas ${marker.icon || 'fa-location-dot'}`}></i>
+              <div className="poi-pin-head" style={{ backgroundColor: pinBgColor }}>
+                {marker.areaCode ? (
+                  <span className="poi-pin-area-code">{marker.areaCode}</span>
+                ) : (
+                  <i className={`fas ${marker.icon || 'fa-location-dot'}`}></i>
+                )}
                 {isWrite && (
                   <button
                     type="button"
@@ -2707,9 +3135,20 @@ export const MapEmbedBlock = ({
         })}
       </div>
 
-      {/* Pin Icon & Color Selection Inspector Bar */}
+      {/* Pin Icon, Color & Keyed Room Selection Inspector Bar */}
       {isWrite && selectedPin && (
         <div className="pin-inspector-bar" onClick={(e) => e.stopPropagation()}>
+          <div className="pin-inspector-section">
+            <span className="inspector-label">Room Key:</span>
+            <input
+              type="text"
+              className="pin-area-code-input"
+              value={selectedPin.areaCode || ''}
+              placeholder="e.g. U1"
+              onChange={(e) => handleUpdatePinAreaCode(selectedPin.id, e.target.value)}
+              style={{ width: '52px', padding: '2px 6px', fontSize: '0.75rem' }}
+            />
+          </div>
           <div className="pin-inspector-section">
             <span className="inspector-label">Icon:</span>
             <div className="pin-icon-palette">
@@ -2822,21 +3261,17 @@ export const MapEmbedBlock = ({
       ) : null}
 
       {/* Rich Multi-line Writing Prose */}
-      {isWrite ? (
-        <textarea
-          className="map-input-prose"
-          value={description}
-          placeholder="Add detailed lore writing, expedition notes, geographical descriptions, or directions..."
-          rows={layoutStyle === 'stacked' ? 3 : 5}
-          onChange={(e) => onUpdate({ description: e.target.value, content: e.target.value })}
-        />
-      ) : description ? (
+      {(isWrite || description) && (
         <div className="map-display-prose">
-          {description.split('\n\n').map((para, i) => (
-            <p key={i}>{para}</p>
-          ))}
+          <ManuscriptProseField
+            isWrite={isWrite}
+            className="map-input-prose"
+            value={description || ''}
+            placeholder="Add detailed lore writing, expedition notes, geographical descriptions, or directions..."
+            onChange={(val) => onUpdate({ description: val, content: val })}
+          />
         </div>
-      ) : null}
+      )}
 
       {/* Active Location Info Highlight */}
       {!isWrite && activeLocation && activeLocation.id !== 'loc-all' && (
@@ -3114,9 +3549,9 @@ export const SideBySideBlock = ({
         name: 'Rime-Forged Dagger',
         quality: 'rare',
         itemType: 'Dagger',
-        damage: '1d4+2 Piercing',
+        damage: '1d4+2 Stabbing + 1d4 Rime',
         durability: 'd8',
-        properties: 'Finesse, Light, Frostbound'
+        properties: 'Finesse, Light, Rime-Bound'
       },
       creature_statblock: { type: 'creature_statblock', name: 'Frost Wyrd Stalker', dangerLevel: 'High', hp: 92, mana: 40, ap: 3 },
       npc_dossier: { type: 'npc_dossier', name: 'Gref the Memory-Merchant', role: 'Guide & Trader' },

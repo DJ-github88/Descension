@@ -3142,7 +3142,7 @@ Born from the Dreadnaught tradition of the Cragjaw's troll-kin and adopted by Bl
    level: 1,
    spellType: "PASSIVE",
    icon: "Radiant/Sacred Symbol",
-   effectTypes: ["passive"],
+   effectTypes: ["passive","debuff"],
    typeConfig: {
     school: "ember",
     icon: "Radiant/Sacred Symbol",
@@ -3158,7 +3158,21 @@ Born from the Dreadnaught tradition of the Cragjaw's troll-kin and adopted by Bl
     resourceValues: {},
     actionPoints: 0,
    },
-   resolution: "AUTOMATIC",
+   debuffConfig: {
+     debuffType: "statusEffect",
+     effects: [
+       {
+         id: "burden_of_faith_restriction",
+         name: "Vow of Self-Sacrifice",
+         description: "Permanent Healing Restriction",
+         mechanicsText: "Cannot heal yourself with any Martyr ability; all healing must target allies only."
+       }
+     ],
+     durationValue: 0,
+     durationType: "permanent",
+     durationUnit: "permanent"
+   },
+  resolution: "AUTOMATIC",
    tags: ["passive", "restriction", "no self-heal", "sacrifice", "martyr"],
   },
   // ===== NON-COMBAT / SYMPATHY & SACRED-GUARDIAN UTILITY (the bearer of others' pain, out of combat) =====

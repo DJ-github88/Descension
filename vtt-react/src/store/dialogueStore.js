@@ -20,8 +20,8 @@ const useDialogueStore = create(
     defaultSpeed: 50, // ms per character
     defaultPosition: 'bottom',
     defaultEffect: 'normal',
-    defaultColor: '#ffffff',
-    defaultFont: 'courier',
+    defaultColor: '#34251a',
+    defaultFont: 'cinzel',
 
     // Character data for current dialogue
     currentCharacter: null,
@@ -249,23 +249,27 @@ const useDialogueStore = create(
     },
 
     textColors: {
-      white: '#ffffff',
-      yellow: '#ffff00',
-      red: '#ff4444',
-      blue: '#4488ff',
-      green: '#44ff44',
-      purple: '#ff44ff',
-      orange: '#ff8844',
-      gold: '#ffd700',
-      silver: '#c0c0c0'
+      ink: '#34251a',
+      rubric: '#8b2b1d',
+      sapphire: '#23496d',
+      amber: '#9c6d1d',
+      sage: '#2e6027',
+      plum: '#583e72',
+      parchment: '#fcfaf5',
+      gold: '#b68024',
+      red: '#8b2b1d',
+      blue: '#23496d',
+      green: '#2e6027',
+      purple: '#583e72',
+      white: '#fcfaf5',
+      silver: '#7d6b56'
     },
 
     fonts: {
-      classic: 'courier',
-      '16-bit': 'press-start',
-      terminal: 'vt323',
-      fantasy: 'cinzel',
-      medieval: 'medieval'
+      codex: 'cinzel',
+      manuscript: 'crimson',
+      medieval: 'medieval',
+      classic: 'courier'
     },
 
     positions: {

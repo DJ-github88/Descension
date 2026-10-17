@@ -1,0 +1,44 @@
+{
+  "state": {
+    "actionPoints": 1,
+    "mana": 4,
+    "resourceTypes": [
+      "actionPoints",
+      "mana"
+    ],
+    "resourceValues": {
+      "actionPoints": 0,
+      "mana": 4
+    },
+    "resourceFormulas": {},
+    "useFormulas": {},
+    "components": [],
+    "spheres": [
+      "arcane",
+      "arcane"
+    ]
+  },
+  "actions": [
+    {
+      "type": "UPDATE_RESOURCE_COST",
+      "payload": {
+        "resourceTypes": [
+          "actionPoints",
+          "mana"
+        ],
+        "resourceValues": {
+          "actionPoints": 0,
+          "mana": 4
+        },
+        "resourceFormulas": {},
+        "useFormulas": {},
+        "actionPoints": 1
+      }
+    }
+  ],
+  "resourceInputValues": [
+    "0",
+    "4"
+  ],
+  "storageLength": 0
+}

@@ -387,11 +387,8 @@ const DialogueSystem = () => {
   // Render text with effects and word-level animations
   const renderTextWithEffects = (displayText, effect, color) => {
     const baseStyle = {
-      color: color || '#ffffff',
-      // Enhanced 8-directional black text stroke for 16-bit look
-      textShadow: 'var(--enhanced-text-stroke)',
-      // 16-bit pixelated rendering
-      imageRendering: 'pixelated'
+      color: color || '#34251a',
+      textShadow: effect === 'glow' ? '0 0 6px rgba(156, 109, 29, 0.45)' : 'none'
     };
 
     // Get the original text with markup for parsing effects
@@ -438,21 +435,19 @@ const DialogueSystem = () => {
           // Apply word-specific color
           if (wordData.color) {
             const colorMap = {
-              red: '#ff4444',
-              gold: '#ffd700',
-              blue: '#4488ff',
-              green: '#44ff44',
-              purple: '#ff44ff',
-              white: '#ffffff',
-              yellow: '#ffff00',
-              orange: '#ff8844',
-              black: '#cccccc', // Light gray so it's visible with black outline
-              rainbow: '#ff4444' // Will be animated via CSS
+              red: '#8b2b1d',
+              gold: '#9c6d1d',
+              blue: '#23496d',
+              green: '#2e6027',
+              purple: '#583e72',
+              white: '#fcfaf5',
+              yellow: '#b68024',
+              orange: '#a3501a',
+              black: '#34251a',
+              ink: '#34251a',
+              rainbow: '#8b2b1d'
             };
             wordStyle.color = colorMap[wordData.color] || wordStyle.color;
-            // Enhanced black outline for all colored text (16-bit style)
-            wordStyle.textShadow = 'var(--enhanced-text-stroke)';
-            wordStyle.imageRendering = 'pixelated';
             if (wordData.color === 'rainbow') {
               wordClass += ' rainbow-word';
             }
@@ -586,7 +581,7 @@ export const triggerDialogue = (text, options = {}) => {
       character: options.character,
       characterName: options.characterName,
       effect: options.effect || 'normal',
-      color: options.color || '#ffffff',
+      color: options.color || '#34251a',
       speed: options.speed || 50,
       position: options.position || 'bottom',
       autoHide: options.autoHide,

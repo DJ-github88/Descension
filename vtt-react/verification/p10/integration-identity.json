@@ -1,0 +1,418 @@
+{
+  "head": "8ea1abff1d8c1f959b2d4a10e6b7ca73879c2ff2",
+  "bundleSha256": "7eff31ec8f8aaf7e0d1b3a4df29e186448cac82bafefd9bb46d1cedb88be6c9e",
+  "reviewedDiffSha256": "5dbbe7d2ce292f9bc2af20c4f56d18197d3786e431a5d32175e68ceeefc7794f",
+  "reviewedDiffReverseCheck": "PASS",
+  "retainedHookSha256": "8ef6fe27a74ec53995191091979bdc8ce6daef7d20b03b1cc8cf41cc3f0abb46",
+  "source": {
+    "vtt-react/craco.config.js": "e22c01c503ecb29c2eb6fbb86188eb13b6da55627281eda6a69130332397017d",
+    "vtt-react/package-lock.json": "66d4e11e1059e33d4908cdbc82b21dec8d788cf668438b8aa3bca1cf76cdc9d7",
+    "vtt-react/package.json": "63475810b4b5205fd00e36e65573ecb48aab95d2eb95e3899bc81f2ea5375b7a",
+    "vtt-react/public/data/abilities.json": "07ffc620f0d7a08c188aff8daf4fa0bdf9e82795bcf83ee7c6e864d5d749bb15",
+    "vtt-react/public/data/creatures.json": "66cf07a04adfd9cd31b62e15053c2e707ec55a519e04bfdb6095b1184077fafd",
+    "vtt-react/public/data/lore.json": "45416ea3a6168eda490f3311e1666bfb6ae614e726a936ee668a7a54ce84493d",
+    "vtt-react/public/data/rules.json": "907688d7be6bc448f07a7bc36aaa8d06de5a94f7678b2899a359ffecd822b9f5",
+    "vtt-react/src/components/account/CampaignManager.jsx": "adbf0603399ffe4555e8e193334e9cd3c178d9c3e8ff5a38a11d1f538684387f",
+    "vtt-react/src/components/account/CharacterManagement.jsx": "9173b2d7313916e28b7f8420e0d2b423e966da3afde068c1afa8b0778b67e2a6",
+    "vtt-react/src/components/account/LibraryBrowserModal.jsx": "88326c44d38005aac267724f1393c57f34e5574b29699066defe088d9daefe5b",
+    "vtt-react/src/components/account/__tests__/LibraryBrowserModal.test.js": "f50de61474aacd2197d828cc54cbc5d467b9711c983ac919f68acc95f31fd63a",
+    "vtt-react/src/components/auth/CharacterManager.jsx": "375ce3bbcf8da810fe8b2bd879bbe9475882f47ca3c4d5180703d76da8c46fa3",
+    "vtt-react/src/components/character-sheet/CharacterStats.jsx": "f659467f98d2a2a00225cc91f9ab8842e08400eac60f3a949392f6b6b2f6600f",
+    "vtt-react/src/components/grid/CreatureToken.jsx": "ba8d25290f0ebea5673b4ad42f6ef4e30a47fb8e353ed387cc919dc38fc2558b",
+    "vtt-react/src/components/hud/PartyHUD.jsx": "c5f2e9381c18fae3e68ec47f3f8bf2c02bca8e3be48ea72a8f6179e9e07db5d9",
+    "vtt-react/src/components/hud/SpellConsequencePanel.css": "2f936ff2ff5bdc3f610c2c24c49015a1b935bd835a3f8f4e1dfeb2837682a68b",
+    "vtt-react/src/components/hud/TargetHUD.jsx": "4b04a5ca51f69704ad6067b5d77c4e5db1cf230c6e20a71cde21d42426f8d9ec",
+    "vtt-react/src/components/item-generation/ItemLibrary.jsx": "40a9215ad3560ca8c59cbd83696340cbdf2d5ac7854665dea9815e85830b45aa",
+    "vtt-react/src/components/item-generation/ItemTooltip.jsx": "7ec00fe8f9ff5ea22ff40b561513c56233f9a92f0bf003e42e692e587612a657",
+    "vtt-react/src/components/location-scene/CampaignCodexSidebar.jsx": "b1cfa2e48014f6479d48bfd15edde6061bf9a42b786e9be3496abc6e3b9de392",
+    "vtt-react/src/components/rules/RulesPage.jsx": "20788cdcd29d3b2a3c106111573955e6374ef876053b6185922389dea4e9718e",
+    "vtt-react/src/components/rules/SkillsDisplay.jsx": "844a8dc1d25c8b6b15efe5d102b3e7abe4ebccd2915784149c21764a931846c7",
+    "vtt-react/src/components/rules/WeaponsRulesDisplay.jsx": "27c7a083a431f0e05f293fa8a77e7fff47f094dd67d5c96df5a76172273b502e",
+    "vtt-react/src/components/rules/__tests__/FirstTableLawsRendered.test.jsx": "94beac18822b9b8331128a71413ad0347236473e62f4af6f0711d76052cde36f",
+    "vtt-react/src/components/spellcrafting-wizard/components/common/UnifiedSpellCard.jsx": "def1e74506db047068418dff1b87a91aeb4eb9591a01bd1f6f5844bbc50da1a7",
+    "vtt-react/src/components/tooltips/CreatureTooltip.jsx": "c607e297e28ea3ccc74912df2a1c8f2a2b13b45e868e4683aed81c877efcc88c",
+    "vtt-react/src/components/tooltips/GeneralStatTooltip.jsx": "4eea531c843f60d64f021daab12f951b75f6be4e42b57419763fc28a114b42be",
+    "vtt-react/src/components/ui/ActionBar.jsx": "7a04ec3302561ae91cd495bddce4d5596235bd5b8c5916f58686b767f9000d33",
+    "vtt-react/src/components/windows/CampaignManagerWindow.jsx": "af8c4e2315a48a70ef3108ad29e1682f137b84b45403ca64c9cc2d5a5c597f88",
+    "vtt-react/src/components/windows/SettingsWindow.jsx": "e8ad21b2a4e04d73d3680688d16a5c09deb1966ba3552bd104f6ff2b6dd6fbb9",
+    "vtt-react/src/data/__tests__/firstTableLaws.test.js": "bc93be9b9da89549091fea2c12de3cecb241f794e26f07d3e8c51dbfd1098934",
+    "vtt-react/src/data/classes/arcanoneerData.js": "b80e43b607f865fdf2424a90431fb8a0d66e3a025cd850380eb18dc95c524d07",
+    "vtt-react/src/data/classes/minstrelData.js": "2bb3d3edffbfc729eef6faacbdb7bb6a54c3ecbcc94ab771ff9b9c4d9fe8e270",
+    "vtt-react/src/data/classes/shaperData.js": "9db9b8cf1cc748e1be9303c105320733667390fa6086ceee3e863c6352a76d46",
+    "vtt-react/src/data/firstTableRules.js": "be489cd02d8914c75bb2aa721150a9173515e731ac4f7a745dadd477f6ec4ae8",
+    "vtt-react/src/data/raceData.js": "fa65ae0f6f0adba90ffdd02b7d90fd5b9695ba4732ccd1657a0603a2be16dfda",
+    "vtt-react/src/data/universalCombatSpells.js": "89bebadaa3b079de5c22ad2bebc823ab3f1bad87a0e35b1d6b245ee6c2802fab",
+    "vtt-react/src/data/versions.js": "0140cd165c155969af42de4ce66a7aee8b95b545973d78c34152d7f843703b36",
+    "vtt-react/src/hooks/__tests__/useSessionManagement.test.js": "c4039b7492ef6ee49f9886aa8512e8373ad2bbd842549640630e9ae6ddd86731",
+    "vtt-react/src/hooks/useGameData.js": "9fd1a8a991ebc15492010d8860d6a732ff33a68fe471c2813eb2061e5b80d397",
+    "vtt-react/src/hooks/useSessionManagement.js": "8ef6fe27a74ec53995191091979bdc8ce6daef7d20b03b1cc8cf41cc3f0abb46",
+    "vtt-react/src/services/actorConsequenceService.js": "f014993e068a852e93ea931e8255504379cb77596ccf18638f63b230d311fd99",
+    "vtt-react/src/services/dataCache.js": "358feec4b3dd8bfa408cb3e83efa6be9955fbb5faef7e80b9dbaa35e3490929b",
+    "vtt-react/src/services/featherSlash.js": "ad2b3134998a8585906bbb82a1ac3878dafecac92070a9ad81f659ed1812669a",
+    "vtt-react/src/services/silentRoomHydration.js": "b1f3810aff87875e96fb1b68e625f39e8e5f67532bd82b7b15d3b812e1f35479",
+    "vtt-react/src/services/spellConsequence.js": "a5b42fb52590901d9a033de3b29f408b4a922fd82d76c87a7200fdc5c6fd623c",
+    "vtt-react/src/store/__tests__/combatStore.test.js": "523544b265bfdb860265ca4529653e87ccb6dff23f6eb8c4571c2a235db88b03",
+    "vtt-react/src/store/combatStore.js": "75b722cbe547560c9bf231b25478853a5fec705307b4fe6d53166ab1fb387f8b",
+    "vtt-react/src/utils/__tests__/lootThematicExcerpt.test.js": "896ac2f37db5da4efd1e05fd0e9e4c97fb559c5be8e9865f388fc2684e8ccb8c",
+    "vtt-react/src/utils/characterUtils.js": "245a45b0f4b93042d16246d3e16faadfab38f9626215484b053223cf3148912e",
+    "vtt-react/src/utils/creatureTooltipUtils.js": "33f635af0b405fb02dffd9f7b65b08ec1f11e338f9b25ed125dd5b2ea9867584",
+    "vtt-react/src/utils/formatUtils.js": "5d89a84f340a87ae4d7b08f155f3e862087eb1ccbc49202460d7c3ea8248a44a",
+    "vtt-react/src/utils/lootItemUtils.js": "cca0290073f2320b7dcc2b7d7ba4bd75f5777a875b88603fbb24a748823c2919",
+    "vtt-react/src/utils/weaponIntegration.js": "1688b82233cbe013022c749c0a3cedd805c35584bedb59fe0e77b4fc24c52c20",
+    "vtt-react/verification/p10/final-check.cjs": "b0dd5c589a11e4543eb335e0fe847628e8001e3ea74acb13757db7d3cebed7b5",
+    "vtt-react/verification/p10/laws-browser.cjs": "3cb93947b50e5fa831c4e1e6b961538a9100d04e600de1e24b5b78d064b09b2f",
+    "vtt-react/verification/p10/lint-baseline.cjs": "58a8b4c15d1d139696c091d251ad6d7a345dbe920ca23b31f9f40b86f9889867",
+    "vtt-react/verification/p10/run.cjs": "17537041fadabd024b20ec20cae29579963312d2b4e3693a115f01265b83832b",
+    "vtt-react/verification/p9/integration/app-browser.cjs": "d93ed1655ce6623083aacff8e9ff7fc1b63723d34f4dc89e6b24170f80dfc2fd",
+    "vtt-react/verification/p9/integration/app-server.cjs": "dd9bbb607627b33adddf593821c6ed82c4c1e568ed6ab126abe280fd0009cee0"
+  },
+  "build": {
+    "startedAt": "2026-10-16T11:02:37.406Z",
+    "endedAt": "2026-10-16T11:05:59.882Z",
+    "exit": 0,
+    "relevantDrift": [],
+    "assetManifestSha256": "d66a6d77685a22b6dea2c1fb1b5d6b344ac2c2fe21d7d283e25ab8af9c6c5e3e"
+  },
+  "tests": {
+    "suites": 48,
+    "tests": 477,
+    "exit": 0
+  },
+  "lint": {
+    "errors": 33,
+    "warnings": 209,
+    "baselineErrors": 33,
+    "baselineWarnings": 210,
+    "added": []
+  },
+  "browser": {
+    "app": {
+      "passed": true,
+      "pageErrors": 2,
+      "deliberateCloudRefusals": 23,
+      "receipts": {
+        "P8": {
+          "commandId": "a2f49337-d18d-4b0e-9472-f9571678161b",
+          "receipt": {
+            "version": 1,
+            "roomId": "822b5ab4-3c36-442d-a365-85ab872f9f00",
+            "commandId": "a2f49337-d18d-4b0e-9472-f9571678161b",
+            "submitterUid": "app-gm",
+            "contentHash": "2097657bb231c2e5b6cae96259e312d7d548b41d12f039c37c60360a5af4a277",
+            "admissionEpoch": "666b979e-12ab-4f1b-b9bd-3644783cd2e3",
+            "commitSequence": 1,
+            "checkpointRevision": null,
+            "actors": [
+              {
+                "ref": {
+                  "kind": "creature",
+                  "roomId": "822b5ab4-3c36-442d-a365-85ab872f9f00",
+                  "mapId": "app-hall",
+                  "tokenId": "A",
+                  "instanceId": "1b457c3e-e174-4108-a8fd-45093d210bd9"
+                },
+                "beforeRevision": 0,
+                "afterRevision": 1,
+                "finalResources": {
+                  "hp": {
+                    "current": 30,
+                    "temp": 4,
+                    "max": 250
+                  },
+                  "mana": {
+                    "current": 0,
+                    "temp": 0,
+                    "max": 30
+                  },
+                  "ap": {
+                    "current": 1,
+                    "temp": 0,
+                    "max": 5
+                  }
+                },
+                "conditions": []
+              },
+              {
+                "ref": {
+                  "kind": "creature",
+                  "roomId": "822b5ab4-3c36-442d-a365-85ab872f9f00",
+                  "mapId": "app-hall",
+                  "tokenId": "B",
+                  "instanceId": "3a2207a9-0149-4c2b-b9d5-383c5a175391"
+                },
+                "beforeRevision": 0,
+                "afterRevision": 1,
+                "finalResources": {
+                  "hp": {
+                    "current": 24,
+                    "temp": 0,
+                    "max": 250
+                  },
+                  "mana": {
+                    "current": 0,
+                    "temp": 0,
+                    "max": 30
+                  },
+                  "ap": {
+                    "current": 2,
+                    "temp": 0,
+                    "max": 5
+                  }
+                },
+                "conditions": []
+              }
+            ],
+            "authorization": {
+              "kind": "gm",
+              "authorizerUid": "app-gm"
+            },
+            "acceptedAt": 1792148978087,
+            "source": {
+              "kind": "creature",
+              "roomId": "822b5ab4-3c36-442d-a365-85ab872f9f00",
+              "mapId": "app-hall",
+              "tokenId": "A",
+              "instanceId": "1b457c3e-e174-4108-a8fd-45093d210bd9"
+            },
+            "target": {
+              "kind": "creature",
+              "roomId": "822b5ab4-3c36-442d-a365-85ab872f9f00",
+              "mapId": "app-hall",
+              "tokenId": "B",
+              "instanceId": "3a2207a9-0149-4c2b-b9d5-383c5a175391"
+            },
+            "adjudication": {
+              "definitionId": "grimmstalk_feather_slash",
+              "definitionVersionOrHash": "feather-slash:v1/abilities:1.4.0",
+              "chosenResult": "{\"capability\":\"feather-slash:v1/abilities:1.4.0\",\"rawDefinition\":\"{\\\"cooldownConfig\\\":{\\\"cooldownType\\\":\\\"turn_based\\\",\\\"cooldownValue\\\":0},\\\"damageConfig\\\":{\\\"damageTypes\\\":[\\\"slicing\\\"],\\\"formula\\\":\\\"2d8 + 5\\\",\\\"resolution\\\":\\\"DICE\\\"},\\\"description\\\":\\\"Razor-edged ironwood plumage rakes across the target.\\\",\\\"effectTypes\\\":[\\\"damage\\\"],\\\"icon\\\":\\\"ability_rogue_findweakness\\\",\\\"id\\\":\\\"grimmstalk_feather_slash\\\",\\\"level\\\":1,\\\"name\\\":\\\"Feather Slash\\\",\\\"priorityRange\\\":{\\\"max\\\":11,\\\"min\\\":1,\\\"resolution\\\":\\\"DICE\\\"},\\\"resourceCost\\\":{\\\"actionPoints\\\":1,\\\"components\\\":[\\\"somatic\\\"],\\\"mana\\\":0},\\\"spellType\\\":\\\"ACTION\\\",\\\"tags\\\":[\\\"slicing\\\"],\\\"targetingConfig\\\":{\\\"rangeDistance\\\":10,\\\"rangeType\\\":\\\"melee\\\",\\\"targetRestrictions\\\":[\\\"enemies\\\"],\\\"targetingType\\\":\\\"single\\\"},\\\"typeConfig\\\":{\\\"castTime\\\":1,\\\"castTimeType\\\":\\\"IMMEDIATE\\\",\\\"icon\\\":\\\"ability_rogue_findweakness\\\",\\\"school\\\":\\\"slicing\\\",\\\"tags\\\":[\\\"slicing\\\"]}}\",\"mode\":\"physical\",\"faces\":[3,5],\"total\":13,\"sourceName\":\"A\",\"targetName\":\"B\",\"geometry\":\"Advisory planar center distance 10.0 ft; authored melee 10 ft. Elevation, contact, reach and line of effect require GM adjudication.\",\"gmConfirmed\":true}",
+              "finalAmount": 10,
+              "adjustmentReason": "GM defense ruling"
+            }
+          }
+        },
+        "P9": {
+          "commandId": "0b79738d-8dad-4162-a2bf-e8c489b242ce",
+          "receipt": {
+            "version": 1,
+            "roomId": "822b5ab4-3c36-442d-a365-85ab872f9f00",
+            "commandId": "0b79738d-8dad-4162-a2bf-e8c489b242ce",
+            "submitterUid": "app-gm",
+            "contentHash": "4a7cbee4e971f6c1da2781a80406672418645fc52b9643a598a3efc409dbe852",
+            "admissionEpoch": "666b979e-12ab-4f1b-b9bd-3644783cd2e3",
+            "commitSequence": 3,
+            "checkpointRevision": null,
+            "actors": [
+              {
+                "ref": {
+                  "kind": "character",
+                  "roomId": "822b5ab4-3c36-442d-a365-85ab872f9f00",
+                  "mapId": "app-hall",
+                  "tokenId": "pc",
+                  "instanceId": "3f8331d1-2a13-4239-9dc7-6322f8fc9218",
+                  "ownerUid": "app-owner",
+                  "characterId": "ilse"
+                },
+                "beforeRevision": 1,
+                "afterRevision": 2,
+                "finalResources": {
+                  "hp": {
+                    "current": 20,
+                    "temp": 0,
+                    "max": 40
+                  },
+                  "mana": {
+                    "current": 9,
+                    "temp": 0,
+                    "max": 30
+                  },
+                  "ap": {
+                    "current": 2,
+                    "temp": 0,
+                    "max": 5
+                  }
+                },
+                "conditions": [],
+                "classPayment": {
+                  "mode": "spell",
+                  "domain": "elementalSpheres",
+                  "public": {
+                    "type": "elementalSpheres",
+                    "spheres": [
+                      "ember"
+                    ],
+                    "current": 1,
+                    "max": 12
+                  }
+                }
+              },
+              {
+                "ref": {
+                  "kind": "creature",
+                  "roomId": "822b5ab4-3c36-442d-a365-85ab872f9f00",
+                  "mapId": "app-hall",
+                  "tokenId": "B",
+                  "instanceId": "3a2207a9-0149-4c2b-b9d5-383c5a175391"
+                },
+                "beforeRevision": 1,
+                "afterRevision": 2,
+                "finalResources": {
+                  "hp": {
+                    "current": 17,
+                    "temp": 0,
+                    "max": 250
+                  },
+                  "mana": {
+                    "current": 0,
+                    "temp": 0,
+                    "max": 30
+                  },
+                  "ap": {
+                    "current": 2,
+                    "temp": 0,
+                    "max": 5
+                  }
+                },
+                "conditions": []
+              }
+            ],
+            "authorization": {
+              "kind": "owner-approval-gm",
+              "authorizerUid": "app-gm",
+              "proposalId": "5d02f7f4-65ad-424c-bbff-8d31866f269d",
+              "approvalHash": "8125e8666dbe80bde7fd3dfff3dfc73db8ebd6fd26fcd68cfd2b254be688cfaf"
+            },
+            "acceptedAt": 1792148984954,
+            "source": {
+              "kind": "character",
+              "roomId": "822b5ab4-3c36-442d-a365-85ab872f9f00",
+              "mapId": "app-hall",
+              "tokenId": "pc",
+              "instanceId": "3f8331d1-2a13-4239-9dc7-6322f8fc9218",
+              "ownerUid": "app-owner",
+              "characterId": "ilse"
+            },
+            "target": {
+              "kind": "creature",
+              "roomId": "822b5ab4-3c36-442d-a365-85ab872f9f00",
+              "mapId": "app-hall",
+              "tokenId": "B",
+              "instanceId": "3a2207a9-0149-4c2b-b9d5-383c5a175391"
+            },
+            "adjudication": {
+              "definitionId": "arc_spark_bolt",
+              "definitionVersionOrHash": "p9-spell:v1/599898d64f316c34af68f1e94fa0aa4aa5c8c6f30ad1483eaf16eda444f243ca",
+              "chosenResult": "{\"capability\":\"p9-spell:v1\",\"approvalId\":\"5d02f7f4-65ad-424c-bbff-8d31866f269d\",\"roll\":{\"mode\":\"physical\",\"dice\":[{\"sides\":8,\"faces\":[6]}],\"constant\":4,\"total\":10,\"reading\":\"1d8 + intelligence/4 → 1d8 + 4 (INT 16 ÷ 4, rounded down)\"},\"kind\":\"damage\",\"damageTypes\":[\"arcane\"],\"spellName\":\"Marrow-Piercing Slug\",\"sourceName\":\"Ilse\",\"targetName\":\"B\",\"gmConfirmed\":true}",
+              "finalAmount": 7,
+              "adjustmentReason": "GM mitigation"
+            }
+          }
+        }
+      }
+    },
+    "laws": {
+      "passed": true,
+      "pages": {
+        "firstTable": true,
+        "combat": true,
+        "defense": true,
+        "trackerLaws": true,
+        "inventory": true,
+        "talents": true,
+        "resources": true,
+        "skills": true,
+        "weapons": true
+      },
+      "cacheRefresh": {
+        "seeded": [
+          {
+            "dataKey": "rules",
+            "version": "2.2.3"
+          },
+          {
+            "dataKey": "lore",
+            "version": "2.2.1"
+          }
+        ],
+        "cache": [
+          {
+            "key": "abilities",
+            "version": "1.5.0"
+          },
+          {
+            "key": "creatures",
+            "version": "2.12.0"
+          },
+          {
+            "key": "lore",
+            "version": "2.3.0"
+          },
+          {
+            "key": "rules",
+            "version": "2.3.0"
+          }
+        ],
+        "fetched": [
+          {
+            "url": "http://127.0.0.1:4180/data/lore.json",
+            "status": 200
+          },
+          {
+            "url": "http://127.0.0.1:4180/data/rules.json",
+            "status": 200
+          },
+          {
+            "url": "http://127.0.0.1:4180/data/lore.json",
+            "status": 200
+          },
+          {
+            "url": "http://127.0.0.1:4180/data/rules.json",
+            "status": 200
+          }
+        ]
+      },
+      "trackerOpening": {
+        "mode": "max",
+        "initiative": 9,
+        "d20Roll": 9,
+        "ap": 4,
+        "max": 4,
+        "temp": 2
+      },
+      "trackerNext": {
+        "tokenId": "p10-pc",
+        "creatureId": "character_local",
+        "name": "P10 PC",
+        "initiative": 9,
+        "d20Roll": 9,
+        "agilityMod": 0,
+        "initiativeMod": 0,
+        "tokenIcon": "inv_misc_questionmark",
+        "tokenBorder": "#506e30",
+        "currentActionPoints": 4,
+        "maxActionPoints": 4,
+        "isCharacterToken": true,
+        "temp": 2
+      },
+      "creatureTooltip": {
+        "checked": true,
+        "noNumericalArmorAC": true
+      },
+      "pageErrors": 11,
+      "deliberateCloudRefusals": 20
+    }
+  },
+  "concurrentPresentation": {
+    "file": "vtt-react/src/components/account/styles/AccountJournalManager.css",
+    "lastModified": "2026-10-16T11:18:38.620Z",
+    "sha256": "0d9601f841c763b321193a135baa4b79d0a40b663c0bbca75b8a26e7d6bbfe36",
+    "disposition": "Unrelated journal presentation edit appeared after production build; retained, not attributed to P10 or included in built-source claim. Does not reopen bounded P8/P9 source acceptance."
+  },
+  "concurrentWizardPresentation": {
+    "file": "vtt-react/src/components/character-creation-wizard/styles/CharacterCreationWizard.css",
+    "lastModified": "2026-10-16T11:22:58.074Z",
+    "sha256": "b1d4fe9723e7645b947a438411bb1424556db6ce01bdf45e55b198624a8cb723",
+    "disposition": "Unrelated character-wizard presentation changed during finalization; retained outside integration identity. Broad whitespace scan reports its trailing whitespace; not repaired here."
+  },
+  "evidenceRoot": "D:/AppData/Temp/opencode/p10-integration-20261016",
+  "recordedAt": "2026-10-16T11:23:46.444Z"
+}

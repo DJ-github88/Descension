@@ -284,25 +284,58 @@ const VTTDrawingEngine = () => {
                             ctx.restore();
                             break;
                         }
-                        const wallStart = gridToScreen(currentDrawingPath[0].gridX, currentDrawingPath[0].gridY);
-                        const wallEnd = gridToScreen(currentDrawingPath[currentDrawingPath.length - 1].gridX, currentDrawingPath[currentDrawingPath.length - 1].gridY);
+                        const wallMode = toolSettings.wallMode || 'continuous';
+                        if (wallMode === 'rectangle') {
+                            const minX = Math.min(currentDrawingPath[0].gridX, currentDrawingPath[currentDrawingPath.length - 1].gridX);
+                            const maxX = Math.max(currentDrawingPath[0].gridX, currentDrawingPath[currentDrawingPath.length - 1].gridX);
+                            const minY = Math.min(currentDrawingPath[0].gridY, currentDrawingPath[currentDrawingPath.length - 1].gridY);
+                            const maxY = Math.max(currentDrawingPath[0].gridY, currentDrawingPath[currentDrawingPath.length - 1].gridY);
 
-                        ctx.beginPath();
-                        ctx.moveTo(wallStart.x, wallStart.y);
-                        ctx.lineTo(wallEnd.x, wallEnd.y);
-                        ctx.stroke();
-                        ctx.setLineDash([]);
+                            const c0 = gridToScreen(minX, minY);
+                            const c1 = gridToScreen(maxX, minY);
+                            const c2 = gridToScreen(maxX, maxY);
+                            const c3 = gridToScreen(minX, maxY);
 
-                        // Endpoint markers
-                        ctx.fillStyle = '#FFD700';
-                        ctx.strokeStyle = '#000';
-                        ctx.lineWidth = 1.5;
-                        [wallStart, wallEnd].forEach(pt => {
                             ctx.beginPath();
-                            ctx.arc(pt.x, pt.y, 5, 0, Math.PI * 2);
-                            ctx.fill();
+                            ctx.moveTo(c0.x, c0.y);
+                            ctx.lineTo(c1.x, c1.y);
+                            ctx.lineTo(c2.x, c2.y);
+                            ctx.lineTo(c3.x, c3.y);
+                            ctx.closePath();
                             ctx.stroke();
-                        });
+                            ctx.setLineDash([]);
+
+                            // Endpoint markers on all 4 corners
+                            ctx.fillStyle = '#FFD700';
+                            ctx.strokeStyle = '#000';
+                            ctx.lineWidth = 1.5;
+                            [c0, c1, c2, c3].forEach(pt => {
+                                ctx.beginPath();
+                                ctx.arc(pt.x, pt.y, 5, 0, Math.PI * 2);
+                                ctx.fill();
+                                ctx.stroke();
+                            });
+                        } else {
+                            const wallStart = gridToScreen(currentDrawingPath[0].gridX, currentDrawingPath[0].gridY);
+                            const wallEnd = gridToScreen(currentDrawingPath[currentDrawingPath.length - 1].gridX, currentDrawingPath[currentDrawingPath.length - 1].gridY);
+
+                            ctx.beginPath();
+                            ctx.moveTo(wallStart.x, wallStart.y);
+                            ctx.lineTo(wallEnd.x, wallEnd.y);
+                            ctx.stroke();
+                            ctx.setLineDash([]);
+
+                            // Endpoint markers
+                            ctx.fillStyle = '#FFD700';
+                            ctx.strokeStyle = '#000';
+                            ctx.lineWidth = 1.5;
+                            [wallStart, wallEnd].forEach(pt => {
+                                ctx.beginPath();
+                                ctx.arc(pt.x, pt.y, 5, 0, Math.PI * 2);
+                                ctx.fill();
+                                ctx.stroke();
+                            });
+                        }
                     }
                     ctx.restore();
                     break;
@@ -401,15 +434,24 @@ const VTTDrawingEngine = () => {
                 ctx.stroke();
             }
         } else {
-            // Square grid: render normal rectangle
-            const start = gridToScreen(points[0].gridX, points[0].gridY);
-            const end = gridToScreen(points[points.length - 1].gridX, points[points.length - 1].gridY);
+            // Square grid: project the 4 grid corners so the quadrilateral
+            // matches the tiles in 3D perspective / tilted / rotated camera views
+            const minX = Math.min(points[0].gridX, points[points.length - 1].gridX);
+            const maxX = Math.max(points[0].gridX, points[points.length - 1].gridX);
+            const minY = Math.min(points[0].gridY, points[points.length - 1].gridY);
+            const maxY = Math.max(points[0].gridY, points[points.length - 1].gridY);
 
-            const width = end.x - start.x;
-            const height = end.y - start.y;
+            const c0 = gridToScreen(minX, minY);
+            const c1 = gridToScreen(maxX, minY);
+            const c2 = gridToScreen(maxX, maxY);
+            const c3 = gridToScreen(minX, maxY);
 
             ctx.beginPath();
-            ctx.rect(start.x, start.y, width, height);
+            ctx.moveTo(c0.x, c0.y);
+            ctx.lineTo(c1.x, c1.y);
+            ctx.lineTo(c2.x, c2.y);
+            ctx.lineTo(c3.x, c3.y);
+            ctx.closePath();
             
             if (ctx.fillStyle !== 'transparent') {
                 ctx.fill();
@@ -685,15 +727,24 @@ const VTTDrawingEngine = () => {
                     ctx.stroke();
                 }
             } else {
-                // Square grid: render normal rectangle
-                const start = gridToScreen(points[0].gridX, points[0].gridY);
-                const end = gridToScreen(points[points.length - 1].gridX, points[points.length - 1].gridY);
+                // Square grid: project the 4 grid corners so the rectangle matches
+                // the tiles in 3D perspective / tilted / rotated camera views
+                const minX = Math.min(points[0].gridX, points[points.length - 1].gridX);
+                const maxX = Math.max(points[0].gridX, points[points.length - 1].gridX);
+                const minY = Math.min(points[0].gridY, points[points.length - 1].gridY);
+                const maxY = Math.max(points[0].gridY, points[points.length - 1].gridY);
 
-                const width = end.x - start.x;
-                const height = end.y - start.y;
+                const c0 = gridToScreen(minX, minY);
+                const c1 = gridToScreen(maxX, minY);
+                const c2 = gridToScreen(maxX, maxY);
+                const c3 = gridToScreen(minX, maxY);
 
                 ctx.beginPath();
-                ctx.rect(start.x, start.y, width, height);
+                ctx.moveTo(c0.x, c0.y);
+                ctx.lineTo(c1.x, c1.y);
+                ctx.lineTo(c2.x, c2.y);
+                ctx.lineTo(c3.x, c3.y);
+                ctx.closePath();
                 ctx.stroke();
             }
         } else {

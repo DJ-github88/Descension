@@ -1,0 +1,179 @@
+{
+  "checkedAt": "2026-10-17T19:24:45.494Z",
+  "schema": "HeadQ-review-consistency/r1",
+  "checks": [
+    {
+      "name": "Seven classes,42 unique full records,three signatures per class",
+      "status": "PASS"
+    },
+    {
+      "name": "Proposed canonical envelope,explicit zero price/program fields and bounded signature access",
+      "status": "PASS"
+    },
+    {
+      "name": "Every documented three-turn AP equation is legal",
+      "status": "PASS"
+    },
+    {
+      "name": "Gambler: actual20-card identity conservation,base stake cap and Card Sharp turn arithmetic",
+      "status": "PASS"
+    },
+    {
+      "name": "Fate Weaver:three-token reservation/recovery andassigned-damage conservation",
+      "status": "PASS"
+    },
+    {
+      "name": "Chaos Weaver:six fixed tile zones anddeclared probability/exhaustion arithmetic",
+      "status": "PASS"
+    },
+    {
+      "name": "Deathcaller:casterAP/orders/capacity,one actor action andno defeat/dismiss vitality refresh",
+      "status": "PASS"
+    },
+    {
+      "name": "Lichborne:finite integrity,one-step advancement,no refund/killgain;repair isnotan in-combat zeroAPcast",
+      "status": "PASS"
+    },
+    {
+      "name": "Hunter:solo tag acquisition/spend andshared one-tagcap even after expenditure",
+      "status": "PASS"
+    },
+    {
+      "name": "Metamorph:actualslot replacement,paid suspension/recovery andbrace replacesnotstacks",
+      "status": "PASS"
+    },
+    {
+      "name": "All25 cultures/102 actual nativepairs reviewed,positive access andpaired source evidence present",
+      "status": "PASS"
+    },
+    {
+      "name": "No representative ID overwrites current or recovered historical content;every legacy ID retained",
+      "status": "PASS"
+    },
+    {
+      "name": "Original v0 dossiers preserved byte-for-byte inside archive",
+      "status": "PASS"
+    },
+    {
+      "name": "Mounted production-source Wizard issue observations match actualrepros andpositive control",
+      "status": "PASS"
+    },
+    {
+      "name": "Fresh current production P9 admission still refuses allnewR1originals",
+      "status": "PASS"
+    },
+    {
+      "name": "No drift in newreview baseline source/evidenceinputs",
+      "status": "PASS"
+    }
+  ],
+  "traces": {
+    "gambler": {
+      "fortune": 6,
+      "hand": [
+        "3H",
+        "2S",
+        "2D",
+        "4C"
+      ],
+      "discardCount": 6,
+      "deckCount": 10,
+      "finalEscrow": 0,
+      "baseStakeMax": 2
+    },
+    "fate-weaver": {
+      "free": 2,
+      "reserved": 0,
+      "recovering": 1,
+      "assigned8": [
+        5,
+        3
+      ],
+      "assigned6": [
+        3,
+        3
+      ],
+      "reanchorDoesNotRefreshExpiry": 4
+    },
+    "chaos-weaver": {
+      "zones": {
+        "S1": "available",
+        "S2": "spent",
+        "M1": "spent",
+        "M2": "available",
+        "F1": "spent",
+        "F2": "available"
+      },
+      "biasSurgeProbability": 0.6666666666666666,
+      "biasFractureProbability": 0.3333333333333333
+    },
+    "deathcaller": {
+      "capacity": 2,
+      "orders": 0,
+      "ap": 1,
+      "vitality": {
+        "A": 10,
+        "B": 0,
+        "C": 10
+      },
+      "defeatedPatternRefilled": false
+    },
+    "lichborne": {
+      "integrity": 8,
+      "currentStage": 0,
+      "returnWouldConsume": 6,
+      "afterHypotheticalReturn": 2,
+      "immediateRevive": false
+    },
+    "hunter": {
+      "tags": [
+        "pressure"
+      ],
+      "companionRequired": false,
+      "finalGenerated": 1
+    },
+    "metamorph": {
+      "strain": 1,
+      "slots": [
+        "defense",
+        "senses"
+      ],
+      "suspended": "senses",
+      "bracePrevention": 4,
+      "damageApplied": 4
+    }
+  },
+  "sourceDrift": [],
+  "reviewScope": "Seven-candidate design coherence and42structured records; notproduction executor/schema/browser integration acceptance",
+  "masterAssignmentComplete": false,
+  "outsidePlanningStatusDelta": {
+    "added": [
+      " M vtt-react/src/components/books/BookAtmosphere.css",
+      " M vtt-react/src/components/books/BookDocumentEditor.jsx",
+      " M vtt-react/src/components/books/BookManager.jsx",
+      " M vtt-react/src/components/books/BookTtrpgBlocks.jsx",
+      " M vtt-react/src/components/books/__tests__/BookDocumentEditor.test.jsx",
+      " M vtt-react/src/components/grid/CameraCompass.css",
+      " M vtt-react/src/components/grid/CameraCompass.jsx",
+      " M vtt-react/src/components/grid/__tests__/CameraCompass.test.jsx",
+      " M vtt-react/src/components/level-editor/ShadowOverlay.jsx",
+      " M vtt-react/src/components/level-editor/SvgWallLayer.jsx",
+      " M vtt-react/src/components/level-editor/three/ThreeDPropManager.js",
+      " M vtt-react/src/components/level-editor/three/ThreeDWallManager.js",
+      " M vtt-react/src/components/level-editor/three/ThreeDWallOccluderManager.js",
+      " M vtt-react/src/components/level-editor/three/ThreeDWorldLayer.jsx",
+      " M vtt-react/src/components/level-editor/three/__tests__/ThreeDPropManager.test.js",
+      " M vtt-react/src/components/level-editor/three/__tests__/ThreeDWallManager.test.js",
+      " M vtt-react/src/components/level-editor/tools/WallTools.jsx",
+      " M vtt-react/src/store/__tests__/bookStore.test.js",
+      " M vtt-react/src/store/bookStore.js",
+      " M vtt-react/src/store/levelEditorStore.js",
+      " M vtt-react/src/utils/WallGeometry.js",
+      "?? vtt-react/src/components/books/BookCampaignImporterModal.jsx",
+      "?? vtt-react/src/components/books/BookSpellPickerModal.jsx"
+    ],
+    "removed": []
+  },
+  "currentBranch": "master",
+  "currentHead": "8ea1abff1d8c1f959b2d4a10e6b7ca73879c2ff2"
+}

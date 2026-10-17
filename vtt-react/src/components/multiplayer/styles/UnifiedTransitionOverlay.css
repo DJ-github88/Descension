@@ -1,16 +1,15 @@
-/* UnifiedTransitionOverlay — Beige Pathfinder Parchment
-   Adheres to app-wide parchment: #fdfaf3 → #f5ecd6, gold #c4a060 / #8f6f35,
-   Cinzel + Crimson Text. Replaces prior dark ( #0a0a0f / rgba(10,10,15) ) backdrop
-   that clashed with the beige theme used everywhere else. */
+/* UnifiedTransitionOverlay — Calm Pathfinder Parchment Realm Transition
+   Matches the beloved LoginTransitionOverlay manuscript aesthetic:
+   Warm aged-parchment background, candlelit vignette, ornate frame,
+   breathing wax-seal medallion (dragon / compass), gold shimmer Cinzel title,
+   filigree divider line, and illuminated brass-trimmed progress bar. */
 
 .unified-transition-overlay {
     --transition-gold: #c4a060;
-    --transition-gold-light: #e4d2ac;
+    --transition-gold-light: #f4d03f;
     --transition-gold-dark: #8f6f35;
     --transition-text: #2b1c11;
-    --transition-text-muted: rgba(61, 42, 23, 0.68);
-    --transition-bg-dark: rgba(44, 28, 17, 0.32);
-    --transition-bg-light: rgba(248, 244, 230, 0.96);
+    --transition-text-muted: rgba(61, 42, 23, 0.75);
     
     position: fixed;
     top: 0;
@@ -24,11 +23,21 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
+    
+    /* Warm aged-parchment backdrop: light center, deeper amber/leather edges */
+    background:
+        radial-gradient(ellipse at center, #f8f5ee 0%, #f1ece1 28%, #e0d4ba 60%, #c9b890 100%);
+    /* Aged-paper vignette + candlelit room warmth */
+    box-shadow:
+        inset 0 0 200px rgba(90, 30, 18, 0.38),
+        inset 0 0 70px rgba(45, 24, 16, 0.28);
     
     contain: strict layout paint style;
     will-change: opacity, visibility;
     transform: translateZ(0);
     backface-visibility: hidden;
+    overflow: hidden;
     
     opacity: 0;
     visibility: hidden;
@@ -36,6 +45,20 @@
     transition: 
         opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1),
         visibility 0s linear 0.4s;
+}
+
+/* Ornate inner parchment boundary frame */
+.unified-transition-overlay::after {
+    content: '';
+    position: absolute;
+    inset: 24px;
+    border: 1px solid rgba(139, 69, 19, 0.22);
+    border-radius: 4px;
+    pointer-events: none;
+    box-shadow:
+        inset 0 0 0 1px rgba(212, 175, 55, 0.18),
+        inset 0 0 40px rgba(139, 69, 19, 0.08);
+    z-index: 1;
 }
 
 .unified-transition-overlay.entering,
@@ -72,61 +95,31 @@
         visibility 0s linear 2.5s;
 }
 
-/* Warm translucent backdrop — parchment veil over the realm */
+/* Subtle atmosphere backdrop */
 .unified-backdrop {
     position: absolute;
     inset: 0;
-    background: var(--transition-bg-dark);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
+    background: transparent;
+    pointer-events: none;
     z-index: 0;
 }
 
-/* Parchment folio — the actual card */
+/* Parchment content core — centered elegant manuscript */
 .unified-transition-content {
     position: relative;
     z-index: 2;
     text-align: center;
-    max-width: 500px;
+    max-width: 600px;
     width: 90%;
-    padding: 2.4rem 2.6rem 2rem;
+    padding: 1.5rem 1rem;
     
-    background:
-        repeating-linear-gradient(0deg, rgba(120, 90, 50, 0.015) 0 1px, transparent 1px 3px),
-        radial-gradient(ellipse at 22% 8%, rgba(255, 250, 234, 0.85), transparent 55%),
-        radial-gradient(ellipse at 88% 96%, rgba(150, 110, 60, 0.08), transparent 60%),
-        linear-gradient(135deg, #fdfaf3 0%, #fbf6eb 35%, #f5ecd6 100%);
-    border: 2px solid #c4a060;
-    border-radius: 8px;
-    box-shadow:
-        inset 0 0 0 1px rgba(255, 250, 235, 0.7),
-        inset 0 0 42px rgba(120, 80, 40, 0.10),
-        0 16px 48px rgba(60, 40, 15, 0.28),
-        0 2px 8px rgba(60, 40, 15, 0.15);
+    background: transparent;
+    border: none;
+    box-shadow: none;
     
     opacity: 0;
     transform: translateY(18px) scale(0.97);
     animation: unifiedSlideUp 0.55s cubic-bezier(0.16, 1, 0.3, 1) 0.08s forwards;
-}
-
-.unified-transition-content::before {
-    content: '';
-    position: absolute;
-    top: 6px; left: 6px; right: 6px; bottom: 6px;
-    border: 1px dashed rgba(196, 160, 96, 0.38);
-    border-radius: 6px;
-    pointer-events: none;
-}
-
-.unified-transition-content::after {
-    content: '';
-    position: absolute;
-    top: -2px; left: -2px; right: -2px;
-    height: 4px;
-    border-radius: 8px 8px 0 0;
-    background: var(--transition-gold-dark);
-    opacity: 0.95;
-    pointer-events: none;
 }
 
 @keyframes unifiedSlideUp {
@@ -136,104 +129,151 @@
     }
 }
 
-.unified-icon-container {
+/* ── Wax-Seal Medallion ── */
+.unified-medallion {
     position: relative;
-    width: 110px;
-    height: 110px;
-    margin: 0 auto 1.6rem;
+    width: 92px;
+    height: 92px;
+    margin: 0 auto 18px;
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 1;
+    z-index: 2;
 }
 
-.unified-icon-ring {
+.unified-medallion-ring {
     position: absolute;
     inset: 0;
-    border: 2px dashed rgba(196, 160, 96, 0.38);
-    border-top-color: #8f6f35;
-    border-right-color: rgba(143, 111, 53, 0.72);
     border-radius: 50%;
-    animation: unifiedRingPulse 3s ease-in-out infinite;
+    background: radial-gradient(circle at 35% 28%, #fbf7ea 0%, #e8e2d4 42%, #cdbb93 78%, #a8916a 100%);
+    border: 2px solid #8f6f35;
+    box-shadow:
+        0 0 0 4px rgba(212, 175, 55, 0.14),
+        0 0 26px rgba(212, 175, 55, 0.5),
+        inset 0 2px 6px rgba(255, 255, 255, 0.55),
+        inset 0 -3px 8px rgba(90, 30, 18, 0.35);
+    animation: unifiedSealBreath 2.6s ease-in-out infinite 0.6s;
 }
 
-.unified-icon-ring.inner {
-    inset: 14px;
-    border-style: dotted;
-    border-color: rgba(196, 160, 96, 0.30);
-    border-bottom-color: #a8842f;
-    animation-delay: -1.5s;
+.unified-medallion-ring::before {
+    content: '';
+    position: absolute;
+    inset: 6px;
+    border-radius: 50%;
+    border: 1px dashed rgba(90, 30, 18, 0.32);
 }
 
-@keyframes unifiedRingPulse {
+@keyframes unifiedSealBreath {
     0%, 100% {
-        transform: scale(1);
-        opacity: 0.32;
+        box-shadow:
+            0 0 0 4px rgba(212, 175, 55, 0.14),
+            0 0 26px rgba(212, 175, 55, 0.5),
+            inset 0 2px 6px rgba(255, 255, 255, 0.55),
+            inset 0 -3px 8px rgba(90, 30, 18, 0.35);
     }
     50% {
-        transform: scale(1.06);
-        opacity: 0.58;
+        box-shadow:
+            0 0 0 5px rgba(212, 175, 55, 0.24),
+            0 0 34px rgba(212, 175, 55, 0.65),
+            inset 0 2px 8px rgba(255, 255, 255, 0.7),
+            inset 0 -3px 10px rgba(90, 30, 18, 0.45);
     }
 }
 
-.unified-spinner-icon {
-    font-size: 3.2rem;
-    color: #8f6f35;
-    filter: drop-shadow(0 1px 3px rgba(60, 40, 15, 0.18)) drop-shadow(0 0 10px rgba(196, 160, 96, 0.28));
-    transform-origin: center center;
-    /* Sailing helm: continuous course corrections, turning to each side like a helmsman
-       steering through open water. Never a single endless spin in one direction. */
-    animation: unifiedHelmSteer 8s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+.unified-medallion-emblem {
+    position: relative;
+    z-index: 2;
+    font-size: 2.5rem;
+    color: #4a2818;
+    filter: drop-shadow(0 1px 2px rgba(212, 175, 55, 0.65));
 }
 
-@keyframes unifiedHelmSteer {
-    0%   { transform: rotate(0deg); }
-    10%  { transform: rotate(34deg); }
-    20%  { transform: rotate(38deg); }
-    34%  { transform: rotate(-6deg); }
-    46%  { transform: rotate(-30deg); }
-    56%  { transform: rotate(-28deg); }
-    72%  { transform: rotate(14deg); }
-    86%  { transform: rotate(3deg); }
-    100% { transform: rotate(0deg); }
+/* Backwards compatibility for icon container */
+.unified-icon-container {
+    display: none;
 }
 
+/* ── Realm Title & Shimmer ── */
 .unified-title {
     position: relative;
     z-index: 1;
     font-family: 'Cinzel', serif;
-    font-size: 2.2rem;
+    font-size: 2.75rem;
     font-weight: 700;
-    color: #2b1c11;
-    margin: 0 0 0.45rem;
+    letter-spacing: 0.18em;
+    background: linear-gradient(
+        135deg,
+        #5a1e12 0%,
+        #8B4513 35%,
+        #d4af37 48%,
+        #f4d03f 52%,
+        #8B4513 65%,
+        #5a1e12 100%
+    );
+    background-size: 250% 100%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: unifiedTitleShimmer 3s ease-in-out infinite;
+    margin: 0 0 6px;
+    filter: drop-shadow(0 1px 0 rgba(255, 255, 255, 0.4));
     text-transform: uppercase;
-    letter-spacing: 0.13em;
-    text-shadow: 0 1px 0 rgba(255, 250, 235, 0.85);
 }
+
+@keyframes unifiedTitleShimmer {
+    0%   { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* ── Filigree Divider ── */
+.unified-transition-line {
+    position: relative;
+    width: 220px;
+    height: 1px;
+    margin: 12px auto 16px;
+    background: linear-gradient(90deg, transparent, #c4a060, #8f6f35, #c4a060, transparent);
+    box-shadow: 0 0 6px rgba(212, 175, 55, 0.5);
+}
+
+.unified-transition-ornament {
+    position: absolute;
+    top: 50%;
+    width: 6px;
+    height: 6px;
+    background: #c4a060;
+    transform: translateY(-50%) rotate(45deg);
+    box-shadow: 0 0 6px rgba(212, 175, 55, 0.6);
+}
+
+.unified-transition-ornament.left { right: calc(100% + 8px); }
+.unified-transition-ornament.right { left: calc(100% + 8px); }
 
 .unified-subtitle {
     position: relative;
     z-index: 1;
-    font-family: 'Crimson Text', 'Georgia', serif;
-    font-size: 1.02rem;
-    color: #3d2a17;
-    font-style: italic;
-    letter-spacing: 0.03em;
-    margin: 0 0 1.35rem;
-    opacity: 0.82;
+    font-family: 'Cinzel', serif;
+    font-size: 0.92rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: #5c3b28;
+    margin: 0 0 1.25rem;
+    opacity: 0.88;
 }
 
+/* ── Progress Bar ── */
 .unified-progress-container {
     position: relative;
     z-index: 1;
-    margin: 1.6rem 0 0.3rem;
+    max-width: 440px;
+    width: 100%;
+    margin: 1.5rem auto 0;
     opacity: 0;
     animation: unifiedFadeIn 0.5s ease-out 0.28s forwards;
 }
 
 .unified-progress-container.map-mode {
-    margin-top: 1.6rem;
-    animation-delay: 0.75s;
+    margin-top: 1.5rem;
+    animation-delay: 0.5s;
 }
 
 @keyframes unifiedFadeIn {
@@ -243,33 +283,33 @@
 .unified-progress-bar {
     display: flex;
     align-items: center;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
 }
 
 .unified-progress-track {
     flex: 1;
-    height: 8px;
-    background: rgba(196, 160, 96, 0.15);
-    border: 1px solid rgba(196, 160, 96, 0.35);
+    height: 9px;
+    background: #eadcc0;
+    border: 1px solid #b69862;
     border-radius: 4px;
     overflow: hidden;
     position: relative;
-    box-shadow: inset 0 1px 3px rgba(90, 60, 20, 0.12);
+    box-shadow: inset 0 2px 4px rgba(60, 40, 15, 0.22);
 }
 
 .unified-progress-fill {
     height: 100%;
     background: linear-gradient(
         90deg,
-        var(--transition-gold-dark) 0%,
-        var(--transition-gold) 52%,
-        var(--transition-gold-light) 78%,
+        #8f6f35 0%,
+        #c4a060 48%,
+        #f4d03f 76%,
         #d4af37 100%
     );
-    border-radius: 4px;
+    border-radius: 3px;
     position: relative;
     transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 0 10px rgba(212, 175, 55, 0.28);
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.4);
     overflow: hidden;
 }
 
@@ -305,13 +345,14 @@
 
 .unified-progress-text {
     font-family: 'Crimson Text', 'Georgia', serif;
-    font-size: 0.84rem;
-    color: #3d2a17;
-    letter-spacing: 0.02em;
-    margin: 0.55rem 0 0;
+    font-size: 0.95rem;
+    color: #4a2818;
+    letter-spacing: 0.03em;
+    margin: 0.65rem 0 0;
     min-height: 1.15em;
-    opacity: 0.78;
+    opacity: 0.88;
     font-style: italic;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 
 .unified-continue-btn {
@@ -467,18 +508,26 @@
 
 .unified-map-name {
     font-family: 'Cinzel', serif;
-    font-size: 2.55rem;
+    font-size: 2.85rem;
     font-weight: 700;
-    color: #2b1c11;
-    text-shadow: 0 1px 0 rgba(255, 250, 235, 0.85);
+    letter-spacing: 0.14em;
+    background: linear-gradient(
+        135deg,
+        #5a1e12 0%,
+        #8B4513 35%,
+        #d4af37 48%,
+        #f4d03f 52%,
+        #8B4513 65%,
+        #5a1e12 100%
+    );
+    background-size: 250% 100%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: unifiedTitleShimmer 3s ease-in-out infinite;
+    text-shadow: none;
     margin: 0;
-    letter-spacing: 0.08em;
-    animation: unifiedTitleGlow 2.2s ease-in-out infinite;
-}
-
-@keyframes unifiedTitleGlow {
-    0%, 100% { text-shadow: 0 1px 0 rgba(255, 250, 235, 0.85), 0 0 14px rgba(196, 160, 96, 0.18); }
-    50%      { text-shadow: 0 1px 0 rgba(255, 250, 235, 0.90), 0 0 22px rgba(196, 160, 96, 0.30); }
+    filter: drop-shadow(0 1px 0 rgba(255, 255, 255, 0.4));
 }
 
 .unified-flourish {
@@ -526,15 +575,15 @@
 
 .unified-particle {
     position: absolute;
-    width: 3.5px;
-    height: 3.5px;
+    width: 4px;
+    height: 4px;
     background: #c4a060;
     border-radius: 50%;
     opacity: 0;
     left: var(--x);
     bottom: -10px;
     animation: unifiedParticleRise var(--duration) ease-out var(--delay) infinite;
-    box-shadow: 0 0 5px rgba(196, 160, 96, 0.45);
+    box-shadow: 0 0 6px rgba(212, 175, 55, 0.6);
 }
 
 @keyframes unifiedParticleRise {

@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useCallback } from 'react';
 import { BIOMES, getBiome, getBiomeWeather, getBiomeEncounter, getAtmosphere } from '../../data/biomeData';
-import { FaSnowflake, FaSun, FaTree, FaWater, FaAnchor, FaDungeon, FaDice, FaCloudSunRain, FaHiking, FaSkullCrossbones, FaUtensils, FaBed } from 'react-icons/fa';
+import { FaSnowflake, FaSun, FaTree, FaWater, FaAnchor, FaDungeon, FaWind, FaDice, FaCloudSunRain, FaHiking, FaSkullCrossbones, FaUtensils, FaBed } from 'react-icons/fa';
 import './AdvancedTravelDisplay.css';
 
 const BIOME_ICONS = {
@@ -9,7 +9,8 @@ const BIOME_ICONS = {
   forest: FaTree,
   swamp: FaWater,
   ocean: FaAnchor,
-  underdark: FaDungeon
+  underdark: FaDungeon,
+  steppe: FaWind
 };
 
 const rollDie = (max) => Math.floor(Math.random() * max) + 1;
@@ -43,7 +44,7 @@ const EXHAUSTION_TABLE = [
 const BiomeSelector = ({ selectedBiome, onSelect }) => (
   <div className="atd-biome-selector">
     {BIOMES.map((b) => {
-      const Icon = BIOME_ICONS[b.id];
+      const Icon = BIOME_ICONS[b.id] || FaHiking;
       const isActive = selectedBiome === b.id;
       return (
         <button

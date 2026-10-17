@@ -63,6 +63,10 @@ const AUTHORITATIVE_ROOM_EVENTS = new Set([
   'actor_snapshot', 'actor_bind', 'actor_consequence', 'actor_recovery', 'actor_propose', 'actor_adjudicate',
   // P9 owner spell approvals (same strict actor_ sanitization boundary)
   'actor_spell_approve', 'actor_spell_withdraw', 'actor_spell_decline', 'actor_spell_list',
+  // P12A owner strike approvals (same boundary)
+  'actor_strike_approve', 'actor_strike_withdraw', 'actor_strike_decline', 'actor_strike_list',
+  // P12B blocking declarations, offers and owner block approvals (same boundary)
+  'actor_blocking_view', 'actor_block_offer', 'actor_block_approve', 'actor_block_withdraw', 'actor_block_decline', 'actor_block_list',
   // authoritative state reads
   'request_room_checkpoint',
   'request_full_sync', 'sync_tokens', 'sync_grid_items', 'sync_character_tokens', 'request_combat_sync',

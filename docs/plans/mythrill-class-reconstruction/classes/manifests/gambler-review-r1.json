@@ -1,0 +1,771 @@
+{
+  "schema": "mythrill.class-review-abilities/r1",
+  "evidenceLabel": "PROPOSED",
+  "classId": "gambler",
+  "rulesetVersion": "cr-review-r1",
+  "abilities": [
+    {
+      "evidenceLabel": "PROPOSED",
+      "status": "HeadQ-review-R1; not admitted by current app",
+      "contentRole": "class-feature",
+      "talentNode": null,
+      "spell": {
+        "id": "cr1_gambler_wager_strike",
+        "classId": "gambler",
+        "rulesetVersion": "cr-review-r1",
+        "name": "Wager Strike",
+        "description": "Play one card and stake Fortune before a 2d6 wager. On 8+, return twice the stake and add the stake to this strike; on loss the stake is gone.",
+        "level": 1,
+        "specialization": null,
+        "spellType": "ACTION",
+        "icon": "Psychic/Psychic Telepathy",
+        "typeConfig": {
+          "school": "wyrd",
+          "castTimeType": "IMMEDIATE",
+          "tags": [
+            "gambler",
+            "class-feature"
+          ]
+        },
+        "resourceCost": {
+          "actionPoints": 2,
+          "mana": 0,
+          "resourceTypes": [
+            "actionPoints"
+          ],
+          "resourceValues": {
+            "actionPoints": 2,
+            "mana": 0
+          },
+          "useFormulas": {},
+          "components": [
+            "somatic"
+          ],
+          "somaticText": "Present the class focus and deliberately declare the operation; its exact choices precede resolution."
+        },
+        "targetingConfig": {
+          "targetingType": "single",
+          "rangeType": "ranged",
+          "rangeDistance": 30,
+          "targetRestrictions": [
+            "enemy"
+          ],
+          "maxTargets": 1
+        },
+        "effectTypes": [
+          "damage"
+        ],
+        "resolution": "RESOURCE_PROGRAM",
+        "damageConfig": {
+          "formula": "1d8 + 1",
+          "damageTypes": [
+            "wyrd"
+          ],
+          "resolution": "DICE"
+        },
+        "durationConfig": {
+          "durationType": "instant",
+          "durationValue": 0,
+          "durationUnit": "instant"
+        },
+        "cooldownConfig": {
+          "cooldownType": "none",
+          "cooldownValue": 0
+        },
+        "classResourceProgram": {
+          "version": 1,
+          "domain": "gambler-hand",
+          "op": "wager.attack",
+          "args": {
+            "stakeMin": 1,
+            "stakeMax": 2,
+            "handCards": 1,
+            "roll": {
+              "dice": 2,
+              "sides": 6,
+              "winTotalMin": 8
+            },
+            "payoutMultiplier": 2,
+            "baseDamage": "1d8 + 1",
+            "winDamagePerStake": 1,
+            "lossDamage": "1d8 + 1",
+            "fortuneCap": 7,
+            "unresolvedWagerLimit": 1,
+            "attackProfile": "direct-DICE-GM-adjudicated"
+          }
+        },
+        "reactionTiming": null,
+        "savingThrow": null,
+        "conditions": [],
+        "area": null
+      },
+      "resourceCostSummary": "2 AP, one exact hand card,1–2 Fortune to escrow.",
+      "resourceGenerationSummary": "Win:2×stake Fortune returned; loss:0; excess above7 discarded.",
+      "castingInputs": [
+        "stake integer1..2",
+        "one hand card ID",
+        "exact enemy ref"
+      ],
+      "failureConditions": [
+        "Invalid exact source/target or insufficient AP/resources; refused before commitment with no mutation."
+      ],
+      "effectConfiguration": {
+        "win": {
+          "damage": "1d8 + 1 + stake",
+          "returnFortuneMultiplier": 2
+        },
+        "loss": {
+          "damage": "1d8 + 1",
+          "returnFortune": 0
+        }
+      },
+      "checkAndTimingNotes": "Own turn in combat; no reaction or saving throw. Noncombat uses explicit GM-adjudicated activity time and preserves finite contents/uses without inventing turn-refresh loops. Attack/geometry/defense remains GM-adjudicated until its capability exists.",
+      "talentModifications": "Only this explicitly learned signature/its declared opcode variation applies in R1. Later rank modifiers require a new reviewed definition version; never applied twice.",
+      "heritageModifications": "Only the selected proposed bounded native edge and paired cost, after full access/method/body validation. No raw-parent percentage or free resource gain inherited; example arithmetic excludes optional edges.",
+      "runtimeDependencies": [
+        "CR-A1",
+        "CR-R1",
+        "CR-E1",
+        "CR-D1-private-deck"
+      ],
+      "verificationRequirements": {
+        "positive": "Fortune3/stake2 -> available1/escrow2; roll9 -> Fortune5/escrow0; card moves once to discard.",
+        "refusal": "Malformed choice, wrong domain/actor or missing required state leaves every pool/entity unchanged.",
+        "duplicate": "Same command/event/choice identity returns original result, with no repeated cost, draw, effect or expiry.",
+        "roundTrip": "Both Wizard saves, canonical export/template, reopen and card preserve complete program and explicit zeros."
+      }
+    },
+    {
+      "evidenceLabel": "PROPOSED",
+      "status": "HeadQ-review-R1; not admitted by current app",
+      "contentRole": "class-feature",
+      "talentNode": null,
+      "spell": {
+        "id": "cr1_gambler_recut",
+        "classId": "gambler",
+        "rulesetVersion": "cr-review-r1",
+        "name": "Recut",
+        "description": "Once on your own turn discard up to two cards, reshuffle discard only if the deck is empty, then draw into up to two empty sockets. If broke and you actually discarded a card, recover one Fortune.",
+        "level": 1,
+        "specialization": null,
+        "spellType": "ACTION",
+        "icon": "Psychic/Psychic Telepathy",
+        "typeConfig": {
+          "school": "wyrd",
+          "castTimeType": "IMMEDIATE",
+          "tags": [
+            "gambler",
+            "class-feature"
+          ]
+        },
+        "resourceCost": {
+          "actionPoints": 1,
+          "mana": 0,
+          "resourceTypes": [
+            "actionPoints"
+          ],
+          "resourceValues": {
+            "actionPoints": 1,
+            "mana": 0
+          },
+          "useFormulas": {},
+          "components": [
+            "somatic"
+          ],
+          "somaticText": "Present the class focus and deliberately declare the operation; its exact choices precede resolution."
+        },
+        "targetingConfig": {
+          "targetingType": "self",
+          "rangeType": "self",
+          "rangeDistance": 0,
+          "targetRestrictions": [
+            "self"
+          ],
+          "maxTargets": 1
+        },
+        "effectTypes": [
+          "utility"
+        ],
+        "resolution": "RESOURCE_PROGRAM",
+        "damageConfig": null,
+        "durationConfig": {
+          "durationType": "instant",
+          "durationValue": 0,
+          "durationUnit": "instant"
+        },
+        "cooldownConfig": {
+          "cooldownType": "own_turn",
+          "cooldownValue": 1
+        },
+        "classResourceProgram": {
+          "version": 1,
+          "domain": "gambler-hand",
+          "op": "hand.recut",
+          "args": {
+            "discardMin": 0,
+            "discardMax": 2,
+            "drawMax": 2,
+            "handMax": 5,
+            "shuffleOnlyWhenDeckEmpty": true,
+            "shuffleHeldOrEscrow": false,
+            "brokeRecovery": {
+              "requiresFortune": 0,
+              "requiresDiscardAtLeast": 1,
+              "gain": 1
+            },
+            "maxPerOwnTurn": 1
+          }
+        },
+        "reactionTiming": null,
+        "savingThrow": null,
+        "conditions": [],
+        "area": null
+      },
+      "resourceCostSummary": "1 AP;0–2 chosen hand cards discarded.",
+      "resourceGenerationSummary": "Draw up to2; Fortune+1 only if starting available Fortune0 and at least1 actually discarded. Pending wager blocks this action.",
+      "castingInputs": [
+        "0..2 distinct hand card IDs"
+      ],
+      "failureConditions": [
+        "Any pending wager; duplicate own-turn use; chosen card not in hand."
+      ],
+      "effectConfiguration": {
+        "discardMin": 0,
+        "discardMax": 2,
+        "drawMax": 2,
+        "handMax": 5,
+        "shuffleOnlyWhenDeckEmpty": true,
+        "shuffleHeldOrEscrow": false,
+        "brokeRecovery": {
+          "requiresFortune": 0,
+          "requiresDiscardAtLeast": 1,
+          "gain": 1
+        },
+        "maxPerOwnTurn": 1
+      },
+      "checkAndTimingNotes": "Own turn in combat; no reaction or saving throw. Noncombat uses explicit GM-adjudicated activity time and preserves finite contents/uses without inventing turn-refresh loops. Attack/geometry/defense remains GM-adjudicated until its capability exists.",
+      "talentModifications": "Only this explicitly learned signature/its declared opcode variation applies in R1. Later rank modifiers require a new reviewed definition version; never applied twice.",
+      "heritageModifications": "Only the selected proposed bounded native edge and paired cost, after full access/method/body validation. No raw-parent percentage or free resource gain inherited; example arithmetic excludes optional edges.",
+      "runtimeDependencies": [
+        "CR-A1",
+        "CR-R1",
+        "CR-E1",
+        "CR-D1-private-deck"
+      ],
+      "verificationRequirements": {
+        "positive": "Full hand5, discard2 ->3 then draw2 ->5; Fortune5 unchanged; Fortune0 recovers1 only with a real discard.",
+        "refusal": "Malformed choice, wrong domain/actor or missing required state leaves every pool/entity unchanged.",
+        "duplicate": "Same command/event/choice identity returns original result, with no repeated cost, draw, effect or expiry.",
+        "roundTrip": "Both Wizard saves, canonical export/template, reopen and card preserve complete program and explicit zeros."
+      }
+    },
+    {
+      "evidenceLabel": "PROPOSED",
+      "status": "HeadQ-review-R1; not admitted by current app",
+      "contentRole": "spell-pick",
+      "talentNode": null,
+      "spell": {
+        "id": "cr1_gambler_read_table",
+        "classId": "gambler",
+        "rulesetVersion": "cr-review-r1",
+        "name": "Read the Table",
+        "description": "Inspect the next card of your own deck and one publicly observable tell of a game or wager. You learn no hidden opponent cards and do not change deck order.",
+        "level": 2,
+        "specialization": null,
+        "spellType": "ACTION",
+        "icon": "Psychic/Psychic Telepathy",
+        "typeConfig": {
+          "school": "wyrd",
+          "castTimeType": "IMMEDIATE",
+          "tags": [
+            "gambler",
+            "class-feature"
+          ]
+        },
+        "resourceCost": {
+          "actionPoints": 1,
+          "mana": 0,
+          "resourceTypes": [
+            "actionPoints"
+          ],
+          "resourceValues": {
+            "actionPoints": 1,
+            "mana": 0
+          },
+          "useFormulas": {},
+          "components": [
+            "somatic"
+          ],
+          "somaticText": "Present the class focus and deliberately declare the operation; its exact choices precede resolution."
+        },
+        "targetingConfig": {
+          "targetingType": "self",
+          "rangeType": "self",
+          "rangeDistance": 0,
+          "targetRestrictions": [
+            "self"
+          ],
+          "maxTargets": 1
+        },
+        "effectTypes": [
+          "utility"
+        ],
+        "resolution": "RESOURCE_PROGRAM",
+        "damageConfig": null,
+        "durationConfig": {
+          "durationType": "instant",
+          "durationValue": 0,
+          "durationUnit": "instant"
+        },
+        "cooldownConfig": {
+          "cooldownType": "own_turn",
+          "cooldownValue": 1
+        },
+        "classResourceProgram": {
+          "version": 1,
+          "domain": "gambler-hand",
+          "op": "table.read",
+          "args": {
+            "peekTop": 1,
+            "changeOrder": false,
+            "hiddenOpponentKnowledge": false,
+            "requiresObservableGame": true,
+            "maxPerOwnTurn": 1
+          }
+        },
+        "reactionTiming": null,
+        "savingThrow": null,
+        "conditions": [],
+        "area": null
+      },
+      "resourceCostSummary": "1 AP; no Fortune/card spend.",
+      "resourceGenerationSummary": "Information only, no new cards or Fortune.",
+      "castingInputs": [],
+      "failureConditions": [
+        "Invalid exact source/target or insufficient AP/resources; refused before commitment with no mutation."
+      ],
+      "effectConfiguration": {
+        "privateInformation": "own top card only",
+        "worldInformation": "one observable tell confirmed by GM"
+      },
+      "checkAndTimingNotes": "Own turn in combat; no reaction or saving throw. Noncombat uses explicit GM-adjudicated activity time and preserves finite contents/uses without inventing turn-refresh loops. Attack/geometry/defense remains GM-adjudicated until its capability exists.",
+      "talentModifications": "Only this explicitly learned signature/its declared opcode variation applies in R1. Later rank modifiers require a new reviewed definition version; never applied twice.",
+      "heritageModifications": "Only the selected proposed bounded native edge and paired cost, after full access/method/body validation. No raw-parent percentage or free resource gain inherited; example arithmetic excludes optional edges.",
+      "runtimeDependencies": [
+        "CR-A1",
+        "CR-R1",
+        "CR-E1",
+        "CR-D1-private-deck"
+      ],
+      "verificationRequirements": {
+        "positive": "Peek reveals top card privately, all20 card zones/order unchanged; hidden enemy hand is never exposed.",
+        "refusal": "Malformed choice, wrong domain/actor or missing required state leaves every pool/entity unchanged.",
+        "duplicate": "Same command/event/choice identity returns original result, with no repeated cost, draw, effect or expiry.",
+        "roundTrip": "Both Wizard saves, canonical export/template, reopen and card preserve complete program and explicit zeros."
+      }
+    },
+    {
+      "evidenceLabel": "PROPOSED",
+      "status": "HeadQ-review-R1; not admitted by current app",
+      "contentRole": "talent-signature",
+      "talentNode": {
+        "id": "cr1_gambler_high_roller_signature",
+        "rank": 1,
+        "maxRanks": 1,
+        "requiresTreePoints": 10,
+        "minimumLevel": 3
+      },
+      "spell": {
+        "id": "cr1_gambler_double_or_nothing",
+        "classId": "gambler",
+        "rulesetVersion": "cr-review-r1",
+        "name": "Double or Nothing",
+        "description": "Play one card and stake exactly three Fortune on a harder 2d6 wager. On 9+, return three times the stake and deliver the larger published strike; otherwise lose the stake.",
+        "level": 3,
+        "specialization": "high-roller",
+        "spellType": "ACTION",
+        "icon": "Psychic/Psychic Telepathy",
+        "typeConfig": {
+          "school": "wyrd",
+          "castTimeType": "IMMEDIATE",
+          "tags": [
+            "gambler",
+            "class-feature"
+          ]
+        },
+        "resourceCost": {
+          "actionPoints": 3,
+          "mana": 0,
+          "resourceTypes": [
+            "actionPoints"
+          ],
+          "resourceValues": {
+            "actionPoints": 3,
+            "mana": 0
+          },
+          "useFormulas": {},
+          "components": [
+            "somatic"
+          ],
+          "somaticText": "Present the class focus and deliberately declare the operation; its exact choices precede resolution."
+        },
+        "targetingConfig": {
+          "targetingType": "single",
+          "rangeType": "ranged",
+          "rangeDistance": 30,
+          "targetRestrictions": [
+            "enemy"
+          ],
+          "maxTargets": 1
+        },
+        "effectTypes": [
+          "damage"
+        ],
+        "resolution": "RESOURCE_PROGRAM",
+        "damageConfig": null,
+        "durationConfig": {
+          "durationType": "instant",
+          "durationValue": 0,
+          "durationUnit": "instant"
+        },
+        "cooldownConfig": {
+          "cooldownType": "none",
+          "cooldownValue": 0
+        },
+        "classResourceProgram": {
+          "version": 1,
+          "domain": "gambler-hand",
+          "op": "wager.high-roll",
+          "args": {
+            "stake": 3,
+            "handCards": 1,
+            "roll": {
+              "dice": 2,
+              "sides": 6,
+              "winTotalMin": 9
+            },
+            "payoutMultiplier": 3,
+            "winDamage": "2d8 + 3",
+            "lossDamage": "1d8 + 1",
+            "fortuneCap": 7,
+            "unresolvedWagerLimit": 1,
+            "attackProfile": "direct-DICE-GM-adjudicated"
+          }
+        },
+        "reactionTiming": null,
+        "savingThrow": null,
+        "conditions": [],
+        "area": null
+      },
+      "resourceCostSummary": "3 AP, one card, Fortune3 escrow.",
+      "resourceGenerationSummary": "Win returns9 Fortune before cap7; no over-cap credit.",
+      "castingInputs": [
+        "one hand card ID",
+        "exact enemy ref"
+      ],
+      "failureConditions": [
+        "Invalid exact source/target or insufficient AP/resources; refused before commitment with no mutation."
+      ],
+      "effectConfiguration": {
+        "win": {
+          "damage": "2d8 + 3",
+          "returnFortune": 9
+        },
+        "loss": {
+          "damage": "1d8 + 1",
+          "returnFortune": 0
+        }
+      },
+      "checkAndTimingNotes": "Own turn in combat; no reaction or saving throw. Noncombat uses explicit GM-adjudicated activity time and preserves finite contents/uses without inventing turn-refresh loops. Attack/geometry/defense remains GM-adjudicated until its capability exists.",
+      "talentModifications": "Only this explicitly learned signature/its declared opcode variation applies in R1. Later rank modifiers require a new reviewed definition version; never applied twice.",
+      "heritageModifications": "Only the selected proposed bounded native edge and paired cost, after full access/method/body validation. No raw-parent percentage or free resource gain inherited; example arithmetic excludes optional edges.",
+      "runtimeDependencies": [
+        "CR-A1",
+        "CR-R1",
+        "CR-E1",
+        "CR-D1-private-deck"
+      ],
+      "verificationRequirements": {
+        "positive": "Fortune4 ->1/escrow3; roll10 ->7 after capped payout, escrow0; roll7 ->1 with no redraw.",
+        "refusal": "Malformed choice, wrong domain/actor or missing required state leaves every pool/entity unchanged.",
+        "duplicate": "Same command/event/choice identity returns original result, with no repeated cost, draw, effect or expiry.",
+        "roundTrip": "Both Wizard saves, canonical export/template, reopen and card preserve complete program and explicit zeros."
+      }
+    },
+    {
+      "evidenceLabel": "PROPOSED",
+      "status": "HeadQ-review-R1; not admitted by current app",
+      "contentRole": "talent-signature",
+      "talentNode": {
+        "id": "cr1_gambler_card_sharp_signature",
+        "rank": 1,
+        "maxRanks": 1,
+        "requiresTreePoints": 10,
+        "minimumLevel": 3
+      },
+      "spell": {
+        "id": "cr1_gambler_marked_pair",
+        "classId": "gambler",
+        "rulesetVersion": "cr-review-r1",
+        "name": "Marked Pair",
+        "description": "Expose and discard two cards of the same rank to place a four-point one-use luck ward on one ally. The ward is not healing or a second Fortune bank.",
+        "level": 3,
+        "specialization": "card-sharp",
+        "spellType": "ACTION",
+        "icon": "Psychic/Psychic Telepathy",
+        "typeConfig": {
+          "school": "wyrd",
+          "castTimeType": "IMMEDIATE",
+          "tags": [
+            "gambler",
+            "class-feature"
+          ]
+        },
+        "resourceCost": {
+          "actionPoints": 1,
+          "mana": 0,
+          "resourceTypes": [
+            "actionPoints"
+          ],
+          "resourceValues": {
+            "actionPoints": 1,
+            "mana": 0
+          },
+          "useFormulas": {},
+          "components": [
+            "somatic"
+          ],
+          "somaticText": "Present the class focus and deliberately declare the operation; its exact choices precede resolution."
+        },
+        "targetingConfig": {
+          "targetingType": "single",
+          "rangeType": "ranged",
+          "rangeDistance": 30,
+          "targetRestrictions": [
+            "ally",
+            "self"
+          ],
+          "maxTargets": 1
+        },
+        "effectTypes": [
+          "buff"
+        ],
+        "resolution": "RESOURCE_PROGRAM",
+        "damageConfig": null,
+        "durationConfig": {
+          "durationType": "own_turns",
+          "durationValue": 1,
+          "durationUnit": "next_caster_turn_start"
+        },
+        "cooldownConfig": {
+          "cooldownType": "none",
+          "cooldownValue": 0
+        },
+        "classResourceProgram": {
+          "version": 1,
+          "domain": "gambler-hand",
+          "op": "hand.marked-pair",
+          "args": {
+            "cards": 2,
+            "pattern": "same-rank",
+            "ward": {
+              "capacity": 4,
+              "uses": 1,
+              "stacking": "replace-with-higher-not-add",
+              "expires": "start-next-caster-own-turn",
+              "applies": "original-damage-after-normal-mitigation-before-fate-routing-and-temp-hp"
+            }
+          }
+        },
+        "reactionTiming": null,
+        "savingThrow": null,
+        "conditions": [
+          {
+            "kind": "next-damage-ward",
+            "capacity": 4,
+            "uses": 1,
+            "expires": "start-next-caster-own-turn",
+            "stacking": "higher-only"
+          }
+        ],
+        "area": null
+      },
+      "resourceCostSummary": "1 AP, exact pair2 cards; no Fortune.",
+      "resourceGenerationSummary": "None unless a declared branch or resolved event below grants it.",
+      "castingInputs": [
+        "two distinct hand card IDs with equal rank",
+        "exact willing ally ref"
+      ],
+      "failureConditions": [
+        "Invalid exact source/target or insufficient AP/resources; refused before commitment with no mutation."
+      ],
+      "effectConfiguration": {
+        "cards": 2,
+        "pattern": "same-rank",
+        "ward": {
+          "capacity": 4,
+          "uses": 1,
+          "stacking": "replace-with-higher-not-add",
+          "expires": "start-next-caster-own-turn",
+          "applies": "original-damage-after-normal-mitigation-before-fate-routing-and-temp-hp"
+        }
+      },
+      "checkAndTimingNotes": "Own turn in combat; no reaction or saving throw. Noncombat uses explicit GM-adjudicated activity time and preserves finite contents/uses without inventing turn-refresh loops. Attack/geometry/defense remains GM-adjudicated until its capability exists.",
+      "talentModifications": "Only this explicitly learned signature/its declared opcode variation applies in R1. Later rank modifiers require a new reviewed definition version; never applied twice.",
+      "heritageModifications": "Only the selected proposed bounded native edge and paired cost, after full access/method/body validation. No raw-parent percentage or free resource gain inherited; example arithmetic excludes optional edges.",
+      "runtimeDependencies": [
+        "CR-A1",
+        "CR-R1",
+        "CR-E1",
+        "CR-D1-private-deck"
+      ],
+      "verificationRequirements": {
+        "positive": "1C+1D consumed once; ward absorbs min(4,assigned damage) on next event, expires/consumes once.",
+        "refusal": "Malformed choice, wrong domain/actor or missing required state leaves every pool/entity unchanged.",
+        "duplicate": "Same command/event/choice identity returns original result, with no repeated cost, draw, effect or expiry.",
+        "roundTrip": "Both Wizard saves, canonical export/template, reopen and card preserve complete program and explicit zeros."
+      }
+    },
+    {
+      "evidenceLabel": "PROPOSED",
+      "status": "HeadQ-review-R1; not admitted by current app",
+      "contentRole": "talent-signature",
+      "talentNode": {
+        "id": "cr1_gambler_odds_broker_signature",
+        "rank": 1,
+        "maxRanks": 1,
+        "requiresTreePoints": 10,
+        "minimumLevel": 3
+      },
+      "spell": {
+        "id": "cr1_gambler_underwrite",
+        "classId": "gambler",
+        "rulesetVersion": "cr-review-r1",
+        "name": "Underwrite",
+        "description": "Before an ally rolls, stake Fortune and one card against that ally’s next eligible original single-d8 damage roll. Face5–8 pays the wager and adds two raw damage before mitigation; otherwise the stake is lost.",
+        "level": 3,
+        "specialization": "odds-broker",
+        "spellType": "ACTION",
+        "icon": "Psychic/Psychic Telepathy",
+        "typeConfig": {
+          "school": "wyrd",
+          "castTimeType": "IMMEDIATE",
+          "tags": [
+            "gambler",
+            "class-feature"
+          ]
+        },
+        "resourceCost": {
+          "actionPoints": 1,
+          "mana": 0,
+          "resourceTypes": [
+            "actionPoints"
+          ],
+          "resourceValues": {
+            "actionPoints": 1,
+            "mana": 0
+          },
+          "useFormulas": {},
+          "components": [
+            "somatic"
+          ],
+          "somaticText": "Present the class focus and deliberately declare the operation; its exact choices precede resolution."
+        },
+        "targetingConfig": {
+          "targetingType": "single",
+          "rangeType": "ranged",
+          "rangeDistance": 30,
+          "targetRestrictions": [
+            "ally",
+            "self"
+          ],
+          "maxTargets": 1
+        },
+        "effectTypes": [
+          "utility"
+        ],
+        "resolution": "RESOURCE_PROGRAM",
+        "damageConfig": null,
+        "durationConfig": {
+          "durationType": "own_turns",
+          "durationValue": 1,
+          "durationUnit": "next_caster_turn_start"
+        },
+        "cooldownConfig": {
+          "cooldownType": "none",
+          "cooldownValue": 0
+        },
+        "classResourceProgram": {
+          "version": 1,
+          "domain": "gambler-hand",
+          "op": "wager.underwrite",
+          "args": {
+            "stakeMin": 1,
+            "stakeMax": 2,
+            "handCards": 1,
+            "event": {
+              "kind": "original-damage-roll",
+              "dice": 1,
+              "sides": 8,
+              "eligibleFaces": [
+                5,
+                6,
+                7,
+                8
+              ],
+              "excludeDerived": true
+            },
+            "payoutMultiplier": 2,
+            "winDamageBonus": 2,
+            "winDamageBonusTiming": "raw-after-critical-base-before-mitigation",
+            "expiry": "start-next-caster-own-turn",
+            "expiredOrCancelled": "lose-stake",
+            "unresolvedWagerLimit": 1
+          }
+        },
+        "reactionTiming": null,
+        "savingThrow": null,
+        "conditions": [],
+        "area": null
+      },
+      "resourceCostSummary": "1 AP, one hand card,1–2 Fortune escrow; one unresolved wager total.",
+      "resourceGenerationSummary": "Winning original event returns2×stake, capped7.",
+      "castingInputs": [
+        "stake1..2",
+        "one card ID",
+        "exact consenting ally ref"
+      ],
+      "failureConditions": [
+        "Invalid exact source/target or insufficient AP/resources; refused before commitment with no mutation."
+      ],
+      "effectConfiguration": {
+        "win": {
+          "addToOriginalRawDamageBeforeMitigation": 2,
+          "returnFortuneMultiplier": 2
+        },
+        "loss": {
+          "returnFortune": 0
+        },
+        "expiry": {
+          "returnFortune": 0
+        }
+      },
+      "checkAndTimingNotes": "Own turn in combat; no reaction or saving throw. Noncombat uses explicit GM-adjudicated activity time and preserves finite contents/uses without inventing turn-refresh loops. Attack/geometry/defense remains GM-adjudicated until its capability exists.",
+      "talentModifications": "Only this explicitly learned signature/its declared opcode variation applies in R1. Later rank modifiers require a new reviewed definition version; never applied twice.",
+      "heritageModifications": "Only the selected proposed bounded native edge and paired cost, after full access/method/body validation. No raw-parent percentage or free resource gain inherited; example arithmetic excludes optional edges.",
+      "runtimeDependencies": [
+        "CR-A1",
+        "CR-R1",
+        "CR-E1",
+        "CR-D1-private-deck",
+        "CR-E2-deferred-consequence"
+      ],
+      "verificationRequirements": {
+        "positive": "No eligible action before expiry loses stake; a derived/duplicate damage roll cannot trigger or pay; face6 pays once.",
+        "refusal": "Malformed choice, wrong domain/actor or missing required state leaves every pool/entity unchanged.",
+        "duplicate": "Same command/event/choice identity returns original result, with no repeated cost, draw, effect or expiry.",
+        "roundTrip": "Both Wizard saves, canonical export/template, reopen and card preserve complete program and explicit zeros."
+      }
+    }
+  ]
+}

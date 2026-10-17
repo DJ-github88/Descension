@@ -286,6 +286,14 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     return t ? state.creatures?.find(c => c.id === t.creatureId) || t : null;
   });
 
+  // Comprehensive shopkeeper check supporting isShopkeeper flag, creature type, and tags
+  const isShopkeeper = Boolean(
+    creature?.isShopkeeper ||
+    creature?.type === 'shopkeeper' ||
+    creature?.tags?.includes('shopkeeper') ||
+    creature?.tags?.includes('merchant')
+  );
+
   // Active condition effects mapped to visual overlays (MUST be above any early returns)
   const activeBuffs = useConditionStore(state => state.activeBuffs);
   const activeDebuffs = useConditionStore(state => state.activeDebuffs);
@@ -1641,6 +1649,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     const displayName = token.state.customName || creature.name;
     const targetData = {
       id: tokenId, // Use tokenId to target specific token, not creature type
+      creatureId: token.creatureId || creature.id,
       name: displayName,
       type: creature.type,
       size: creature.size,
@@ -1648,6 +1657,10 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
       faction: creature.faction || 'neutral',
       race: creature.race,
       alignment: creature.alignment,
+      description: creature.description,
+      role: creature.role,
+      isShopkeeper: isShopkeeper,
+      creature: creature,
       // Store base stats for max values, but not current values
       stats: {
         maxHp: creature.stats.maxHp,
@@ -2236,7 +2249,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
           borderStyle: isSummonedToken ? 'dashed' : 'solid',
           borderColor: isSummonedToken
             ? (isOwnToken ? '#a78bfa' : '#7c3aed')
-            : creature.isShopkeeper ? '#FFD700' : isViewingFrom ? '#4a6a8a' : (isMyTurn ? '#FFD700' : isSelectedForCombat ? '#506e30' : isTargeted ? '#9a5e15' : creature.tokenBorder),
+            : isShopkeeper ? '#FFD700' : isViewingFrom ? '#4a6a8a' : (isMyTurn ? '#FFD700' : isSelectedForCombat ? '#506e30' : isTargeted ? '#9a5e15' : creature.tokenBorder),
           overflow: 'visible',
           opacity: isBehindWall ? 0.55 : (isGreyedOut ? 0.4 : 1), // not-in-full-view or explored-but-hidden
           filter: isBehindWall
@@ -2246,7 +2259,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
             ? (isOwnToken
               ? '0 0 12px rgba(167,139,250,0.6), 0 0 6px rgba(167,139,250,0.4), 0 2px 8px rgba(0,0,0,0.3)'
               : '0 0 8px rgba(124,58,237,0.4), 0 2px 8px rgba(0,0,0,0.3)')
-            : creature.isShopkeeper
+            : isShopkeeper
             ? '0 0 20px rgba(255, 215, 0, 0.8), 0 0 10px rgba(255, 215, 0, 0.6), 0 2px 8px rgba(0, 0, 0, 0.3)'
             : isViewingFrom
               ? '0 0 25px rgba(0, 191, 255, 1), 0 0 15px rgba(0, 191, 255, 0.8), 0 2px 8px rgba(0, 0, 0, 0.3)'
@@ -2273,6 +2286,13 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
         onPointerUp={showRenameInput ? undefined : longPressHandlers.onPointerUp}
         onPointerCancel={showRenameInput ? undefined : longPressHandlers.onPointerCancel}
         onClick={showRenameInput ? undefined : handleTokenClick}
+        onDoubleClick={showRenameInput ? undefined : (e) => {
+          if (isShopkeeper) {
+            e.preventDefault();
+            e.stopPropagation();
+            handleOpenShop();
+          }
+        }}
       >
         {isBehindWall && <span className="token-occlusion-ring" aria-hidden="true" />}
         {/* Condition rings with text - staggered outward for multiple conditions */}
@@ -2389,6 +2409,21 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
       {showContextMenu && (() => {
         // Build context menu items
         const menuItems = [];
+
+        // Primary Shop Action: Available at top-level for all players and GMs
+        if (isShopkeeper) {
+          menuItems.push({
+            icon: <i className="fas fa-store"></i>,
+            label: 'Open Shop',
+            onClick: (e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              setShowContextMenu(false);
+              handleOpenShop();
+            },
+            className: 'shop'
+          });
+        }
 
         // Token Actions submenu
         const tokenActionsSubmenu = [];
@@ -2906,7 +2941,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
                     const defendingCondition = {
                       id: 'defending',
                       name: 'Defending',
-                      description: 'Increased armor and damage resistance',
+                      description: "Defending: improves this creature's damage reduction. The GM applies the creature's authored DR benefit, or adjudicates one if none is written. Never Armor/AC; no equipment wear.",
                       type: 'buff',
                       color: '#4682B4',
                       icon: 'fas fa-shield-alt',
@@ -2926,9 +2961,9 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
                     addCondition('buff', {
                       id: `defending-${tokenId}`,
                       name: 'Defending',
-                      description: 'Increased armor and damage resistance',
+                      description: "Defending: improves this creature's damage reduction. The GM applies the creature's authored DR benefit, or adjudicates one if none is written. Never Armor/AC; no equipment wear.",
                       duration: 600,
-                      effects: { armor: 2 },
+                      effects: {},
                       source: 'condition',
                       targetId: tokenId,
                       targetType: targetTypeSetting,
@@ -3217,7 +3252,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
       />
 
       {/* Shop Window */}
-      {creature.isShopkeeper && (
+      {isShopkeeper && (
         <ShopWindow
           isOpen={showShopWindow}
           onClose={() => setShowShopWindow(false)}

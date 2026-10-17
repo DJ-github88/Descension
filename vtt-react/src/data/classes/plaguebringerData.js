@@ -2706,7 +2706,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   level: 1,
   spellType: "PASSIVE",
   icon: "Poison/Poison Blight",
-  effectTypes: ["passive"],
+  effectTypes: ["passive","debuff"],
   typeConfig: {
   school: "blight",
   icon: "Poison/Poison Blight",
@@ -2722,6 +2722,20 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   resourceValues: {},
   actionPoints: 0
   },
+  debuffConfig: {
+    debuffType: "statusEffect",
+    effects: [
+      {
+        id: "incubation_delay",
+        name: "Incubation Delay",
+        description: "Permanent Disease Mechanic",
+        mechanicsText: "All diseases suffer a 1-round delay before dealing damage or applying debuffs."
+      }
+    ],
+    durationValue: 0,
+    durationType: "permanent",
+    durationUnit: "permanent"
+  },
   resolution: "AUTOMATIC",
   tags: ["passive", "restriction", "delayed_effect", "disease", "plaguebringer"]
  },
@@ -2731,7 +2745,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   level: 3,
   spellType: "PASSIVE",
   icon: "Healing/Cure Within",
-  effectTypes: ["passive"],
+  effectTypes: ["passive","debuff"],
   typeConfig: {
   school: "blight",
   icon: "Healing/Cure Within",
@@ -2746,6 +2760,20 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   resourceTypes: [],
   resourceValues: {},
   actionPoints: 0
+  },
+  debuffConfig: {
+    debuffType: "statusEffect",
+    effects: [
+      {
+        id: "sterile_suppression",
+        name: "Purity Suppression",
+        description: "In cleansed or consecrated areas",
+        mechanicsText: "Diseases are suppressed: cannot apply new diseases, and existing diseases cease dealing damage."
+      }
+    ],
+    durationValue: 0,
+    durationType: "permanent",
+    durationUnit: "permanent"
   },
   resolution: "AUTOMATIC",
   tags: ["passive", "weakness", "holy_vulnerability", "suppression", "plaguebringer"]

@@ -1,0 +1,799 @@
+{
+  "schema": "mythrill.class-review-abilities/r1",
+  "evidenceLabel": "PROPOSED",
+  "classId": "metamorph",
+  "rulesetVersion": "cr-review-r1",
+  "abilities": [
+    {
+      "evidenceLabel": "PROPOSED",
+      "status": "HeadQ-review-R1; not admitted by current app",
+      "contentRole": "class-feature",
+      "talentNode": null,
+      "spell": {
+        "id": "cr1_metamorph_adopt_loadout",
+        "classId": "metamorph",
+        "rulesetVersion": "cr-review-r1",
+        "name": "Adopt Loadout",
+        "description": "Replace your active anatomy with a prepared two-slot loadout. Every actual transition adds one unrecovered transition; at three you must recover rather than surrender character control.",
+        "level": 1,
+        "specialization": null,
+        "spellType": "ACTION",
+        "icon": "Psychic/Psychic Telepathy",
+        "typeConfig": {
+          "school": "primal",
+          "castTimeType": "IMMEDIATE",
+          "tags": [
+            "metamorph",
+            "class-feature"
+          ]
+        },
+        "resourceCost": {
+          "actionPoints": 1,
+          "mana": 0,
+          "resourceTypes": [
+            "actionPoints"
+          ],
+          "resourceValues": {
+            "actionPoints": 1,
+            "mana": 0
+          },
+          "useFormulas": {},
+          "components": [
+            "somatic"
+          ],
+          "somaticText": "Present the class focus and deliberately declare the operation; its exact choices precede resolution."
+        },
+        "targetingConfig": {
+          "targetingType": "self",
+          "rangeType": "self",
+          "rangeDistance": 0,
+          "targetRestrictions": [
+            "self"
+          ],
+          "maxTargets": 1
+        },
+        "effectTypes": [
+          "transformation"
+        ],
+        "resolution": "RESOURCE_PROGRAM",
+        "damageConfig": null,
+        "durationConfig": {
+          "durationType": "instant",
+          "durationValue": 0,
+          "durationUnit": "instant"
+        },
+        "cooldownConfig": {
+          "cooldownType": "none",
+          "cooldownValue": 0
+        },
+        "classResourceProgram": {
+          "version": 1,
+          "domain": "metamorph-body",
+          "op": "body.adopt",
+          "args": {
+            "slots": [
+              "locomotion",
+              "offense",
+              "defense",
+              "senses"
+            ],
+            "activeMax": 2,
+            "preparedLoadouts": 3,
+            "replaceActive": true,
+            "transitionGain": 1,
+            "transitionMax": 3,
+            "requiresDifferentLoadout": true,
+            "bodyInterfaceRequired": true
+          }
+        },
+        "reactionTiming": null,
+        "savingThrow": null,
+        "conditions": [],
+        "area": null
+      },
+      "resourceCostSummary": "1 AP; unrecovered transitions+1, requires currentvalue<3.",
+      "resourceGenerationSummary": "None unless a declared branch or resolved event below grants it.",
+      "castingInputs": [
+        "one prepared loadout ID/version"
+      ],
+      "failureConditions": [
+        "Invalid exact source/target or insufficient AP/resources; refused before commitment with no mutation."
+      ],
+      "effectConfiguration": {
+        "slots": [
+          "locomotion",
+          "offense",
+          "defense",
+          "senses"
+        ],
+        "activeMax": 2,
+        "preparedLoadouts": 3,
+        "replaceActive": true,
+        "transitionGain": 1,
+        "transitionMax": 3,
+        "requiresDifferentLoadout": true,
+        "bodyInterfaceRequired": true
+      },
+      "checkAndTimingNotes": "Own turn in combat; no reaction or saving throw. Noncombat uses explicit GM-adjudicated activity time and preserves finite contents/uses without inventing turn-refresh loops. Attack/geometry/defense remains GM-adjudicated until its capability exists.",
+      "talentModifications": "Only this explicitly learned signature/its declared opcode variation applies in R1. Later rank modifiers require a new reviewed definition version; never applied twice.",
+      "heritageModifications": "Only the selected proposed bounded native edge and paired cost, after full access/method/body validation. No raw-parent percentage or free resource gain inherited; example arithmetic excludes optional edges.",
+      "runtimeDependencies": [
+        "CR-A1",
+        "CR-R1",
+        "CR-E1",
+        "CR-T1-traits-body"
+      ],
+      "verificationRequirements": {
+        "positive": "Predator locomotion/offense ->Bastion defense/senses; previous attacks/climb permission disappear, no passive stacking.",
+        "refusal": "Malformed choice, wrong domain/actor or missing required state leaves every pool/entity unchanged.",
+        "duplicate": "Same command/event/choice identity returns original result, with no repeated cost, draw, effect or expiry.",
+        "roundTrip": "Both Wizard saves, canonical export/template, reopen and card preserve complete program and explicit zeros."
+      },
+      "classDisplayName": "Druid"
+    },
+    {
+      "evidenceLabel": "PROPOSED",
+      "status": "HeadQ-review-R1; not admitted by current app",
+      "contentRole": "class-feature",
+      "talentNode": null,
+      "spell": {
+        "id": "cr1_metamorph_recover_self",
+        "classId": "metamorph",
+        "rulesetVersion": "cr-review-r1",
+        "name": "Recover the Self",
+        "description": "Suspend one active, unsuspended adaptation until your next own turn to recover one transition. The trait grants no benefit or ability prerequisite during recovery.",
+        "level": 1,
+        "specialization": null,
+        "spellType": "ACTION",
+        "icon": "Psychic/Psychic Telepathy",
+        "typeConfig": {
+          "school": "primal",
+          "castTimeType": "IMMEDIATE",
+          "tags": [
+            "metamorph",
+            "class-feature"
+          ]
+        },
+        "resourceCost": {
+          "actionPoints": 1,
+          "mana": 0,
+          "resourceTypes": [
+            "actionPoints"
+          ],
+          "resourceValues": {
+            "actionPoints": 1,
+            "mana": 0
+          },
+          "useFormulas": {},
+          "components": [
+            "somatic"
+          ],
+          "somaticText": "Present the class focus and deliberately declare the operation; its exact choices precede resolution."
+        },
+        "targetingConfig": {
+          "targetingType": "self",
+          "rangeType": "self",
+          "rangeDistance": 0,
+          "targetRestrictions": [
+            "self"
+          ],
+          "maxTargets": 1
+        },
+        "effectTypes": [
+          "transformation"
+        ],
+        "resolution": "RESOURCE_PROGRAM",
+        "damageConfig": null,
+        "durationConfig": {
+          "durationType": "own_turns",
+          "durationValue": 1,
+          "durationUnit": "next_caster_turn_start"
+        },
+        "cooldownConfig": {
+          "cooldownType": "none",
+          "cooldownValue": 0
+        },
+        "classResourceProgram": {
+          "version": 1,
+          "domain": "metamorph-body",
+          "op": "body.recover",
+          "args": {
+            "requiresTransitionsMin": 1,
+            "suspendActiveTraits": 1,
+            "reduceTransitions": 1,
+            "resumeAt": "start-next-caster-own-turn",
+            "cannotSuspendAlreadySuspended": true,
+            "changeLoadout": false
+          }
+        },
+        "reactionTiming": null,
+        "savingThrow": null,
+        "conditions": [],
+        "area": null
+      },
+      "resourceCostSummary": "1 AP and temporary loss ofone real active trait.",
+      "resourceGenerationSummary": "Unrecovered transitions-1; no newadaptation or AP refund.",
+      "castingInputs": [
+        "one active unsuspended trait ID"
+      ],
+      "failureConditions": [
+        "Invalid exact source/target or insufficient AP/resources; refused before commitment with no mutation."
+      ],
+      "effectConfiguration": {
+        "requiresTransitionsMin": 1,
+        "suspendActiveTraits": 1,
+        "reduceTransitions": 1,
+        "resumeAt": "start-next-caster-own-turn",
+        "cannotSuspendAlreadySuspended": true,
+        "changeLoadout": false
+      },
+      "checkAndTimingNotes": "Own turn in combat; no reaction or saving throw. Noncombat uses explicit GM-adjudicated activity time and preserves finite contents/uses without inventing turn-refresh loops. Attack/geometry/defense remains GM-adjudicated until its capability exists.",
+      "talentModifications": "Only this explicitly learned signature/its declared opcode variation applies in R1. Later rank modifiers require a new reviewed definition version; never applied twice.",
+      "heritageModifications": "Only the selected proposed bounded native edge and paired cost, after full access/method/body validation. No raw-parent percentage or free resource gain inherited; example arithmetic excludes optional edges.",
+      "runtimeDependencies": [
+        "CR-A1",
+        "CR-R1",
+        "CR-E1",
+        "CR-T1-traits-body"
+      ],
+      "verificationRequirements": {
+        "positive": "Strain2->1, senses suspended; same trait cannot be suspended twice; trait-based detection/action unavailableuntil boundary.",
+        "refusal": "Malformed choice, wrong domain/actor or missing required state leaves every pool/entity unchanged.",
+        "duplicate": "Same command/event/choice identity returns original result, with no repeated cost, draw, effect or expiry.",
+        "roundTrip": "Both Wizard saves, canonical export/template, reopen and card preserve complete program and explicit zeros."
+      },
+      "classDisplayName": "Druid"
+    },
+    {
+      "evidenceLabel": "PROPOSED",
+      "status": "HeadQ-review-R1; not admitted by current app",
+      "contentRole": "spell-pick",
+      "talentNode": null,
+      "spell": {
+        "id": "cr1_metamorph_shed_snare",
+        "classId": "metamorph",
+        "rulesetVersion": "cr-review-r1",
+        "name": "Shed the Snare",
+        "description": "Distort your active anatomy out of one mundane grapple or loose rope binding. Suspend one active adaptation as the cost. This does not escape rigid fitted restraints, magical bindings or surgery.",
+        "level": 2,
+        "specialization": null,
+        "spellType": "ACTION",
+        "icon": "Psychic/Psychic Telepathy",
+        "typeConfig": {
+          "school": "primal",
+          "castTimeType": "IMMEDIATE",
+          "tags": [
+            "metamorph",
+            "class-feature"
+          ]
+        },
+        "resourceCost": {
+          "actionPoints": 1,
+          "mana": 0,
+          "resourceTypes": [
+            "actionPoints"
+          ],
+          "resourceValues": {
+            "actionPoints": 1,
+            "mana": 0
+          },
+          "useFormulas": {},
+          "components": [
+            "somatic"
+          ],
+          "somaticText": "Present the class focus and deliberately declare the operation; its exact choices precede resolution."
+        },
+        "targetingConfig": {
+          "targetingType": "self",
+          "rangeType": "self",
+          "rangeDistance": 0,
+          "targetRestrictions": [
+            "self"
+          ],
+          "maxTargets": 1
+        },
+        "effectTypes": [
+          "transformation",
+          "control"
+        ],
+        "resolution": "RESOURCE_PROGRAM",
+        "damageConfig": null,
+        "durationConfig": {
+          "durationType": "own_turns",
+          "durationValue": 1,
+          "durationUnit": "next_caster_turn_start"
+        },
+        "cooldownConfig": {
+          "cooldownType": "none",
+          "cooldownValue": 0
+        },
+        "classResourceProgram": {
+          "version": 1,
+          "domain": "metamorph-body",
+          "op": "body.shed",
+          "args": {
+            "allowedRestraints": [
+              "mundane-grapple",
+              "loose-rope"
+            ],
+            "suspendActiveTraits": 1,
+            "resumeAt": "start-next-caster-own-turn",
+            "requiresLivingShapingInterface": true,
+            "removeOne": true,
+            "magicalOrRigid": false
+          }
+        },
+        "reactionTiming": null,
+        "savingThrow": null,
+        "conditions": [],
+        "area": null
+      },
+      "resourceCostSummary": "1 AP and loss ofone active unsuspended adaptation until next ownturn.",
+      "resourceGenerationSummary": "None unless a declared branch or resolved event below grants it.",
+      "castingInputs": [
+        "one exact eligible restraint ref",
+        "one active trait ID"
+      ],
+      "failureConditions": [
+        "Invalid exact source/target or insufficient AP/resources; refused before commitment with no mutation."
+      ],
+      "effectConfiguration": {
+        "allowedRestraints": [
+          "mundane-grapple",
+          "loose-rope"
+        ],
+        "suspendActiveTraits": 1,
+        "resumeAt": "start-next-caster-own-turn",
+        "requiresLivingShapingInterface": true,
+        "removeOne": true,
+        "magicalOrRigid": false
+      },
+      "checkAndTimingNotes": "Own turn in combat; no reaction or saving throw. Noncombat uses explicit GM-adjudicated activity time and preserves finite contents/uses without inventing turn-refresh loops. Attack/geometry/defense remains GM-adjudicated until its capability exists.",
+      "talentModifications": "Only this explicitly learned signature/its declared opcode variation applies in R1. Later rank modifiers require a new reviewed definition version; never applied twice.",
+      "heritageModifications": "Only the selected proposed bounded native edge and paired cost, after full access/method/body validation. No raw-parent percentage or free resource gain inherited; example arithmetic excludes optional edges.",
+      "runtimeDependencies": [
+        "CR-A1",
+        "CR-R1",
+        "CR-E1",
+        "CR-T1-traits-body"
+      ],
+      "verificationRequirements": {
+        "positive": "Removes one registered mundane grapple and suspendsactual trait; doesnotremove sealedmanacles or a magiccurse.",
+        "refusal": "Malformed choice, wrong domain/actor or missing required state leaves every pool/entity unchanged.",
+        "duplicate": "Same command/event/choice identity returns original result, with no repeated cost, draw, effect or expiry.",
+        "roundTrip": "Both Wizard saves, canonical export/template, reopen and card preserve complete program and explicit zeros."
+      },
+      "classDisplayName": "Druid"
+    },
+    {
+      "evidenceLabel": "PROPOSED",
+      "status": "HeadQ-review-R1; not admitted by current app",
+      "contentRole": "talent-signature",
+      "talentNode": {
+        "id": "cr1_metamorph_predator_signature",
+        "rank": 1,
+        "maxRanks": 1,
+        "requiresTreePoints": 10,
+        "minimumLevel": 3
+      },
+      "spell": {
+        "id": "cr1_metamorph_pursuit_morph",
+        "classId": "metamorph",
+        "rulesetVersion": "cr-review-r1",
+        "name": "Pursuit Morph",
+        "description": "Shift into a prepared Predator loadout and immediately strike with the new natural weapon. The transition and attack are one paid operation, not a free extra stance switch.",
+        "level": 3,
+        "specialization": "predator",
+        "spellType": "ACTION",
+        "icon": "Psychic/Psychic Telepathy",
+        "typeConfig": {
+          "school": "slicing",
+          "castTimeType": "IMMEDIATE",
+          "tags": [
+            "metamorph",
+            "class-feature"
+          ]
+        },
+        "resourceCost": {
+          "actionPoints": 2,
+          "mana": 0,
+          "resourceTypes": [
+            "actionPoints"
+          ],
+          "resourceValues": {
+            "actionPoints": 2,
+            "mana": 0
+          },
+          "useFormulas": {},
+          "components": [
+            "somatic"
+          ],
+          "somaticText": "Present the class focus and deliberately declare the operation; its exact choices precede resolution."
+        },
+        "targetingConfig": {
+          "targetingType": "single",
+          "rangeType": "melee",
+          "rangeDistance": 5,
+          "targetRestrictions": [
+            "enemy"
+          ],
+          "maxTargets": 1
+        },
+        "effectTypes": [
+          "transformation",
+          "damage"
+        ],
+        "resolution": "RESOURCE_PROGRAM",
+        "damageConfig": {
+          "formula": "1d8 + 2",
+          "damageTypes": [
+            "slicing"
+          ],
+          "resolution": "DICE"
+        },
+        "durationConfig": {
+          "durationType": "instant",
+          "durationValue": 0,
+          "durationUnit": "instant"
+        },
+        "cooldownConfig": {
+          "cooldownType": "none",
+          "cooldownValue": 0
+        },
+        "classResourceProgram": {
+          "version": 1,
+          "domain": "metamorph-body",
+          "op": "body.pursuit",
+          "args": {
+            "targetLoadout": "predator",
+            "requiresDifferentLoadout": true,
+            "transitionGain": 1,
+            "transitionMax": 3,
+            "attack": {
+              "formula": "1d8 + 2",
+              "type": "slicing",
+              "rangeFeet": 5
+            },
+            "oldTraitsRemovedBeforeAttack": true,
+            "attackProfile": "Prism-weapon-GM-adjudicated"
+          }
+        },
+        "reactionTiming": null,
+        "savingThrow": null,
+        "conditions": [],
+        "area": null
+      },
+      "resourceCostSummary": "2 AP; one transition, requires strain<3 and different prior loadout.",
+      "resourceGenerationSummary": "None unless a declared branch or resolved event below grants it.",
+      "castingInputs": [
+        "prepared Predatorloadout",
+        "exact adjacent enemy ref",
+        "recorded strike/GMfinal"
+      ],
+      "failureConditions": [
+        "Invalid exact source/target or insufficient AP/resources; refused before commitment with no mutation."
+      ],
+      "effectConfiguration": {
+        "targetLoadout": "predator",
+        "requiresDifferentLoadout": true,
+        "transitionGain": 1,
+        "transitionMax": 3,
+        "attack": {
+          "formula": "1d8 + 2",
+          "type": "slicing",
+          "rangeFeet": 5
+        },
+        "oldTraitsRemovedBeforeAttack": true,
+        "attackProfile": "Prism-weapon-GM-adjudicated"
+      },
+      "checkAndTimingNotes": "Own turn in combat; no reaction or saving throw. Noncombat uses explicit GM-adjudicated activity time and preserves finite contents/uses without inventing turn-refresh loops. Attack/geometry/defense remains GM-adjudicated until its capability exists.",
+      "talentModifications": "Only this explicitly learned signature/its declared opcode variation applies in R1. Later rank modifiers require a new reviewed definition version; never applied twice.",
+      "heritageModifications": "Only the selected proposed bounded native edge and paired cost, after full access/method/body validation. No raw-parent percentage or free resource gain inherited; example arithmetic excludes optional edges.",
+      "runtimeDependencies": [
+        "CR-A1",
+        "CR-R1",
+        "CR-E1",
+        "CR-T1-traits-body"
+      ],
+      "verificationRequirements": {
+        "positive": "Bastion ->Predator andone strike; failuretarget/path leavesoldloadout andAP unchanged beforecommit.",
+        "refusal": "Malformed choice, wrong domain/actor or missing required state leaves every pool/entity unchanged.",
+        "duplicate": "Same command/event/choice identity returns original result, with no repeated cost, draw, effect or expiry.",
+        "roundTrip": "Both Wizard saves, canonical export/template, reopen and card preserve complete program and explicit zeros."
+      },
+      "classDisplayName": "Druid"
+    },
+    {
+      "evidenceLabel": "PROPOSED",
+      "status": "HeadQ-review-R1; not admitted by current app",
+      "contentRole": "talent-signature",
+      "talentNode": {
+        "id": "cr1_metamorph_adaptive_bastion_signature",
+        "rank": 1,
+        "maxRanks": 1,
+        "requiresTreePoints": 10,
+        "minimumLevel": 3
+      },
+      "spell": {
+        "id": "cr1_metamorph_living_brace",
+        "classId": "metamorph",
+        "rulesetVersion": "cr-review-r1",
+        "name": "Living Brace",
+        "description": "With layered plating active, hold your altered body immobile to resist one impact. Prevent up to four assigned damage from the next event instead of plating’s ordinary two, then the brace ends.",
+        "level": 3,
+        "specialization": "adaptive-bastion",
+        "spellType": "ACTION",
+        "icon": "Psychic/Psychic Telepathy",
+        "typeConfig": {
+          "school": "primal",
+          "castTimeType": "IMMEDIATE",
+          "tags": [
+            "metamorph",
+            "class-feature"
+          ]
+        },
+        "resourceCost": {
+          "actionPoints": 1,
+          "mana": 0,
+          "resourceTypes": [
+            "actionPoints"
+          ],
+          "resourceValues": {
+            "actionPoints": 1,
+            "mana": 0
+          },
+          "useFormulas": {},
+          "components": [
+            "somatic"
+          ],
+          "somaticText": "Present the class focus and deliberately declare the operation; its exact choices precede resolution."
+        },
+        "targetingConfig": {
+          "targetingType": "self",
+          "rangeType": "self",
+          "rangeDistance": 0,
+          "targetRestrictions": [
+            "self"
+          ],
+          "maxTargets": 1
+        },
+        "effectTypes": [
+          "transformation",
+          "buff"
+        ],
+        "resolution": "RESOURCE_PROGRAM",
+        "damageConfig": null,
+        "durationConfig": {
+          "durationType": "own_turns",
+          "durationValue": 1,
+          "durationUnit": "next_caster_turn_start"
+        },
+        "cooldownConfig": {
+          "cooldownType": "none",
+          "cooldownValue": 0
+        },
+        "classResourceProgram": {
+          "version": 1,
+          "domain": "metamorph-body",
+          "op": "body.brace",
+          "args": {
+            "requiresTrait": "layered-plating",
+            "requiresPlateBudgetUnused": true,
+            "maxPerOwnTurn": 1,
+            "movementWhileBraced": 0,
+            "prevention": 4,
+            "ordinaryPlatingPrevention": 2,
+            "stacking": "replace-not-add",
+            "uses": 1,
+            "expires": "start-next-caster-own-turn",
+            "repositionEnds": true
+          }
+        },
+        "reactionTiming": null,
+        "savingThrow": null,
+        "conditions": [
+          {
+            "kind": "next-impact-prevention",
+            "amount": 4,
+            "uses": 1,
+            "stacking": "replaces-plating-2",
+            "expires": "start-next-caster-own-turn"
+          }
+        ],
+        "area": null
+      },
+      "resourceCostSummary": "1 AP; movement0 whilebraced; defense slot mustremainactive.",
+      "resourceGenerationSummary": "None unless a declared branch or resolved event below grants it.",
+      "castingInputs": [],
+      "failureConditions": [
+        "Invalid exact source/target or insufficient AP/resources; refused before commitment with no mutation."
+      ],
+      "effectConfiguration": {
+        "requiresTrait": "layered-plating",
+        "requiresPlateBudgetUnused": true,
+        "maxPerOwnTurn": 1,
+        "movementWhileBraced": 0,
+        "prevention": 4,
+        "ordinaryPlatingPrevention": 2,
+        "stacking": "replace-not-add",
+        "uses": 1,
+        "expires": "start-next-caster-own-turn",
+        "repositionEnds": true
+      },
+      "checkAndTimingNotes": "Own turn in combat; no reaction or saving throw. Noncombat uses explicit GM-adjudicated activity time and preserves finite contents/uses without inventing turn-refresh loops. Attack/geometry/defense remains GM-adjudicated until its capability exists.",
+      "talentModifications": "Only this explicitly learned signature/its declared opcode variation applies in R1. Later rank modifiers require a new reviewed definition version; never applied twice.",
+      "heritageModifications": "Only the selected proposed bounded native edge and paired cost, after full access/method/body validation. No raw-parent percentage or free resource gain inherited; example arithmetic excludes optional edges.",
+      "runtimeDependencies": [
+        "CR-A1",
+        "CR-R1",
+        "CR-E1",
+        "CR-T1-traits-body"
+      ],
+      "verificationRequirements": {
+        "positive": "One8assignedhit ->4not2or6prevented; moving/changingbody/suspendingplating endsbrace, no armor-score introduced.",
+        "refusal": "Malformed choice, wrong domain/actor or missing required state leaves every pool/entity unchanged.",
+        "duplicate": "Same command/event/choice identity returns original result, with no repeated cost, draw, effect or expiry.",
+        "roundTrip": "Both Wizard saves, canonical export/template, reopen and card preserve complete program and explicit zeros."
+      },
+      "classDisplayName": "Druid"
+    },
+    {
+      "evidenceLabel": "PROPOSED",
+      "status": "HeadQ-review-R1; not admitted by current app",
+      "contentRole": "talent-signature",
+      "talentNode": {
+        "id": "cr1_metamorph_mimic_signature",
+        "rank": 1,
+        "maxRanks": 1,
+        "requiresTreePoints": 10,
+        "minimumLevel": 3
+      },
+      "spell": {
+        "id": "cr1_metamorph_borrowed_outline",
+        "classId": "metamorph",
+        "rulesetVersion": "cr-review-r1",
+        "name": "Borrowed Outline",
+        "description": "While your prepared Mimic anatomy occupies locomotion and senses, reshape your actual face, skin and gait into one studied same-size outline. You copy no memories, equipment, ancestry traits or spells.",
+        "level": 3,
+        "specialization": "mimic",
+        "spellType": "ACTION",
+        "icon": "Psychic/Psychic Telepathy",
+        "typeConfig": {
+          "school": "primal",
+          "castTimeType": "IMMEDIATE",
+          "tags": [
+            "metamorph",
+            "class-feature"
+          ]
+        },
+        "resourceCost": {
+          "actionPoints": 1,
+          "mana": 0,
+          "resourceTypes": [
+            "actionPoints"
+          ],
+          "resourceValues": {
+            "actionPoints": 1,
+            "mana": 0
+          },
+          "useFormulas": {},
+          "components": [
+            "somatic"
+          ],
+          "somaticText": "Present the class focus and deliberately declare the operation; its exact choices precede resolution."
+        },
+        "targetingConfig": {
+          "targetingType": "self",
+          "rangeType": "self",
+          "rangeDistance": 0,
+          "targetRestrictions": [
+            "self"
+          ],
+          "maxTargets": 1
+        },
+        "effectTypes": [
+          "transformation"
+        ],
+        "resolution": "RESOURCE_PROGRAM",
+        "damageConfig": null,
+        "durationConfig": {
+          "durationType": "minutes",
+          "durationValue": 1,
+          "durationUnit": "minutes"
+        },
+        "cooldownConfig": {
+          "cooldownType": "none",
+          "cooldownValue": 0
+        },
+        "classResourceProgram": {
+          "version": 1,
+          "domain": "metamorph-body",
+          "op": "body.mimic",
+          "args": {
+            "requiredLoadout": "mimic",
+            "requiredSlots": [
+              "locomotion",
+              "senses"
+            ],
+            "studyMinutes": 10,
+            "sameSizeCategory": true,
+            "heightChangeMaxPercent": 10,
+            "copies": [
+              "surface-anatomy",
+              "gait"
+            ],
+            "neverCopies": [
+              "memory",
+              "equipment",
+              "racial-rules",
+              "class-spells"
+            ],
+            "durationMinutes": 1,
+            "endOn": [
+              "damage",
+              "loadout-change",
+              "required-trait-suspension"
+            ],
+            "combatBonuses": 0
+          }
+        },
+        "reactionTiming": null,
+        "savingThrow": null,
+        "conditions": [],
+        "area": null
+      },
+      "resourceCostSummary": "1 AP; both active slots alreadyoccupied byMimic, foregoingPredator/Plating benefits.",
+      "resourceGenerationSummary": "None unless a declared branch or resolved event below grants it.",
+      "castingInputs": [
+        "previouslystudied patternID withsourceevidence"
+      ],
+      "failureConditions": [
+        "Invalid exact source/target or insufficient AP/resources; refused before commitment with no mutation."
+      ],
+      "effectConfiguration": {
+        "requiredLoadout": "mimic",
+        "requiredSlots": [
+          "locomotion",
+          "senses"
+        ],
+        "studyMinutes": 10,
+        "sameSizeCategory": true,
+        "heightChangeMaxPercent": 10,
+        "copies": [
+          "surface-anatomy",
+          "gait"
+        ],
+        "neverCopies": [
+          "memory",
+          "equipment",
+          "racial-rules",
+          "class-spells"
+        ],
+        "durationMinutes": 1,
+        "endOn": [
+          "damage",
+          "loadout-change",
+          "required-trait-suspension"
+        ],
+        "combatBonuses": 0
+      },
+      "checkAndTimingNotes": "Own turn in combat; no reaction or saving throw. Noncombat uses explicit GM-adjudicated activity time and preserves finite contents/uses without inventing turn-refresh loops. Attack/geometry/defense remains GM-adjudicated until its capability exists.",
+      "talentModifications": "Only this explicitly learned signature/its declared opcode variation applies in R1. Later rank modifiers require a new reviewed definition version; never applied twice.",
+      "heritageModifications": "Only the selected proposed bounded native edge and paired cost, after full access/method/body validation. No raw-parent percentage or free resource gain inherited; example arithmetic excludes optional edges.",
+      "runtimeDependencies": [
+        "CR-A1",
+        "CR-R1",
+        "CR-E1",
+        "CR-T1-traits-body"
+      ],
+      "verificationRequirements": {
+        "positive": "Appearancechangesphysicallywithinbounds; adoptedperson hasno copiedspell/stat/identityproof; anydamage orchangedanatomy endsit.",
+        "refusal": "Malformed choice, wrong domain/actor or missing required state leaves every pool/entity unchanged.",
+        "duplicate": "Same command/event/choice identity returns original result, with no repeated cost, draw, effect or expiry.",
+        "roundTrip": "Both Wizard saves, canonical export/template, reopen and card preserve complete program and explicit zeros."
+      },
+      "classDisplayName": "Druid"
+    }
+  ],
+  "classDisplayName": "Druid"
+}

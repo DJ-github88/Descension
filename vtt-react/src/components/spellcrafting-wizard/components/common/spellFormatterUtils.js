@@ -155,9 +155,17 @@ const cleanFormula = (formula) => {
   };
 
   Object.entries(resourceVariableMap).forEach(([variable, properName]) => {
-    const regex = new RegExp(`\\b${variable}\\b`, 'gi');
+    // If properName ends with ' Mod', match optional trailing 'mod' or 'modifier' to prevent 'Mod Mod'
+    const pattern = properName.endsWith(' Mod')
+      ? `\\b${variable}(?:[\\s_]+(?:mod|modifier))?\\b`
+      : `\\b${variable}\\b`;
+    const regex = new RegExp(pattern, 'gi');
     cleanedFormula = cleanedFormula.replace(regex, properName);
   });
+
+  // Collapse any duplicate "Mod Mod" or "Modifier Mod" occurrences
+  cleanedFormula = cleanedFormula.replace(/\bMod(?:\s+Mod)+\b/gi, 'Mod');
+  cleanedFormula = cleanedFormula.replace(/\bModifier(?:\s+Modifier)+\b/gi, 'Modifier');
 
   cleanedFormula = cleanedFormula.replace(/([a-z])([A-Z])/g, '$1 $2');
 

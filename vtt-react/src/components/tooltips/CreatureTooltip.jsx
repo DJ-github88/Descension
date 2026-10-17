@@ -3,7 +3,6 @@ import { createPortal } from 'react-dom';
 import {
   getHealthState,
   getSpeedRating,
-  getArmorRating,
   getBaseAttackDie,
   getSpecialMovement,
   getResistancesSummary,
@@ -40,12 +39,10 @@ const CreatureTooltip = ({
   const stats = creature.stats || {};
   const currentHp = tokenState?.currentHp ?? stats.currentHp ?? stats.maxHp ?? 0;
   const maxHp = stats.maxHp || 100;
-  const armor = 0;
   const speed = stats.speed || 30;
 
   const healthState = getHealthState(currentHp, maxHp);
   const speedRating = getSpeedRating(speed);
-  const armorRating = getArmorRating(armor);
   const attackInfo = getBaseAttackDie(creature);
   const specialMove = getSpecialMovement(creature);
   const resistances = getResistancesSummary(creature);

@@ -4004,15 +4004,31 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
   level: 1,
   spellType: "PASSIVE",
   icon: "Fire/Flame Shield",
-  effectTypes: ["passive"],
+  effectTypes: ["passive", "debuff"],
   typeConfig: {
   school: "ember",
   icon: "Fire/Flame Shield",
   tags: ["passive", "pyrofiend", "weakness"],
+  castTime: 0,
+  castTimeType: "PASSIVE",
   },
   targetingConfig: { targetingType: "self" },
   resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0 },
   resolution: "AUTOMATIC",
+  debuffConfig: {
+    debuffType: "statusEffect",
+    effects: [
+      {
+        id: "burnout_sputter",
+        name: "Furnace Sputter",
+        description: "When no fires or auras are active",
+        mechanicsText: "-2 spell attack rolls and -1d6 fire damage until a fire spell deals damage."
+      }
+    ],
+    durationValue: 0,
+    durationType: "permanent",
+    durationUnit: "permanent"
+  },
   tags: ["passive", "pyrofiend", "weakness"],
  },
  { id: "pyrofiend_fire_dependency",
@@ -4022,15 +4038,37 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
   level: 1,
   spellType: "PASSIVE",
   icon: "Frost/Icy Shield",
-  effectTypes: ["passive"],
+  effectTypes: ["passive", "debuff"],
   typeConfig: {
   school: "ember",
   icon: "Frost/Icy Shield",
   tags: ["passive", "pyrofiend", "weakness"],
+  castTime: 0,
+  castTimeType: "PASSIVE",
   },
   targetingConfig: { targetingType: "self" },
   resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0 },
   resolution: "AUTOMATIC",
+  debuffConfig: {
+    debuffType: "statusEffect",
+    effects: [
+      {
+        id: "fire_dep_rime_vulnerability",
+        name: "Rime Catastrophe",
+        description: "Permanent Vulnerability",
+        mechanicsText: "Gain +50% vulnerability to cold/frost (rime) damage. Taking rime raises Inferno Veil +1."
+      },
+      {
+        id: "fire_dep_water_antithesis",
+        name: "Water Antithesis",
+        description: "Environmental Decay",
+        mechanicsText: "In water or extreme cold, your Inferno Level falls 2 per round."
+      }
+    ],
+    durationValue: 0,
+    durationType: "permanent",
+    durationUnit: "permanent"
+  },
   tags: ["passive", "pyrofiend", "weakness"],
  },
  { id: "pyrofiend_heat_signature",
@@ -4040,15 +4078,37 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
   level: 3,
   spellType: "PASSIVE",
   icon: "Fire/Eruption",
-  effectTypes: ["passive"],
+  effectTypes: ["passive", "debuff"],
   typeConfig: {
   school: "ember",
   icon: "Fire/Eruption",
   tags: ["passive", "pyrofiend", "weakness"],
+  castTime: 0,
+  castTimeType: "PASSIVE",
   },
   targetingConfig: { targetingType: "self" },
   resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0 },
   resolution: "AUTOMATIC",
+  debuffConfig: {
+    debuffType: "statusEffect",
+    effects: [
+      {
+        id: "heat_sig_stealth_null",
+        name: "Living Beacon",
+        description: "Never Hidden",
+        mechanicsText: "Cannot benefit from Stealth or invisibility. Enemies within 60 ft gain advantage on Perception checks."
+      },
+      {
+        id: "heat_sig_environmental",
+        name: "Thermal Radiance & Quench",
+        description: "Environmental Reaction",
+        mechanicsText: "Ice melts within 10 ft. Water immersion deals 1d6 damage per round."
+      }
+    ],
+    durationValue: 0,
+    durationType: "permanent",
+    durationUnit: "permanent"
+  },
   tags: ["passive", "pyrofiend", "weakness"],
  },
   // ===== NON-COMBAT / FIRE & ASH UTILITY (the living furnace, out of combat) =====

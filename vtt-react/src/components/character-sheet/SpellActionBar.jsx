@@ -17,11 +17,13 @@ import { createDeck, drawCards } from '../spellcrafting-wizard/core/mechanics/ca
 import { flipMultipleCoins } from '../spellcrafting-wizard/core/mechanics/coinSystem';
 import { useCharacterSpells } from '../../hooks/useCharacterSpells';
 import { routeSpellCast, isP9Routed, spellDiagnostic } from '../../services/spellConsequenceService';
+import { routeWeaponStrike, strikeDiagnostic } from '../../services/weaponStrikeService';
 import { createScopedNativeFamily } from '../../persistence/scopedNativeFamily';
-import { useActionBarAsset } from '../../hooks/useActionBarAsset';
 import EquipmentActionSlot from '../ui/EquipmentActionSlot';
 import { getActionsForSlot } from '../../data/weaponActionSpells';
 import { normalizeEquipment, isOffHandDisabled as checkOffHandDisabled } from '../../utils/equipmentUtils';
+import useTooltipPosition from '../common/useTooltipPosition';
+import TooltipPortal from '../tooltips/TooltipPortal';
 import './SpellActionBar.css';
 
 // Wave B closure: spell action bars are verified-owner scoped private authored state.
@@ -276,9 +278,6 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [assignTab, setAssignTab] = useState('all'); // 'all' | 'spells' | 'consumables'
   const dragSourceSlotRef = useRef(null);
-
-  // Illustrated Actionbar.PNG background asset
-  const actionBarBg = useActionBarAsset();
   const rawEquipment = useCharacterStore(state => state.equipment) || {};
   const equipment = React.useMemo(() => normalizeEquipment(rawEquipment), [rawEquipment]);
   const isOffHandDisabled = React.useMemo(() => checkOffHandDisabled(equipment), [equipment]);
@@ -288,24 +287,48 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
   const [openEquipmentSlot, setOpenEquipmentSlot] = useState(null);
   const [equipmentTooltipItem, setEquipmentTooltipItem] = useState(null);
   const [equipmentMousePos, setEquipmentMousePos] = useState({ x: 0, y: 0 });
+  const { adjustedPosition: equipmentTooltipPos, tooltipRef: equipmentTooltipRef } = useTooltipPosition(
+    equipmentMousePos,
+    !!equipmentTooltipItem,
+    { estimateHeight: 450, estimateWidth: 380, offsetX: 16, anchor: 'above' }
+  );
 
   const handleEquipmentActionClick = (action) => {
     setOpenEquipmentSlot(null);
     // P9: weapon actions resolve no original class definition and stay manual,
     // but every sheet producer routes through the same supported-spell gate.
+    if (routeWeaponStrike(action, { producer: 'sheet-equipment' })) return;
     if (routeSpellCast(action, { producer: 'sheet-equipment' })) return;
     setPendingSpellCast({ spell: action });
   };
 
-  const handleEquipmentSlotMouseEnter = (e, item) => {
-    if (item) {
-      setEquipmentMousePos({ x: e.clientX, y: e.clientY });
-      setEquipmentTooltipItem(item);
-    }
+  const handleEquipmentSlotMouseEnter = (e, item, slotName) => {
+    const itemToDisplay = item || {
+      isPlaceholder: true,
+      name: slotName === 'mainHand' ? 'Main Hand Slot' : slotName === 'offHand' ? 'Off Hand Slot' : 'Ranged Slot',
+      description: slotName === 'offHand' && isOffHandDisabled
+        ? 'Off-hand is disabled while wielding a two-handed weapon.'
+        : slotName === 'mainHand'
+        ? 'Your primary weapon used for attacking. Click to view attack and combat options.'
+        : slotName === 'offHand'
+        ? 'Secondary weapons, shields, or magical focuses. Click to view defensive and off-hand options.'
+        : 'Bows, crossbows, wands, or thrown weapons. Click to view ranged attack options.'
+    };
+    const rect = e?.currentTarget?.getBoundingClientRect?.() || {
+      left: (e?.clientX || 100) - 24,
+      width: 48,
+      top: (e?.clientY || window.innerHeight - 80) - 24
+    };
+    const posX = (e?.clientX && e.clientX > 0) ? e.clientX : (rect.left + rect.width / 2);
+    const posY = rect.top;
+    setEquipmentMousePos({ x: posX, y: posY });
+    setEquipmentTooltipItem(itemToDisplay);
   };
 
   const handleEquipmentSlotMouseMove = (e) => {
-    setEquipmentMousePos({ x: e.clientX, y: e.clientY });
+    if (e?.clientX && e?.clientY) {
+      setEquipmentMousePos(prev => ({ x: e.clientX, y: prev.y }));
+    }
   };
 
   const handleEquipmentSlotMouseLeave = () => {
@@ -928,6 +951,7 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
   const handleCastSpell = (slotSpell) => {
     if (!slotSpell) return;
     const spellData = getFullSpellData(slotSpell);
+    if (routeWeaponStrike(spellData, { producer: 'sheet' })) return true;
     // P9: supported spells in a shared room are never spent locally.
     if (isP9Routed(spellData)) {
       routeSpellCast(spellData, { producer: 'sheet' });
@@ -1312,7 +1336,7 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
   };
 
   return (
-    <div className="spell-action-bar-assembly">
+    <div className="action-bar-assembly spell-action-bar-assembly">
       {/* Left Elevated Wing: Main Hand */}
       <div className="action-bar-wing action-bar-wing-left">
         <EquipmentActionSlot
@@ -1329,17 +1353,9 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
         />
       </div>
 
-      <div
-        className={`spell-action-bar-container ${actionBarBg ? 'action-bar-has-asset' : ''}`}
-        style={actionBarBg ? {
-          backgroundImage: `url(${actionBarBg})`,
-          backgroundSize: '100% 100%',
-          backgroundRepeat: 'no-repeat',
-          backgroundPosition: 'center',
-        } : undefined}
-      >
+      <div className="action-bar-container spell-action-bar-container">
       <div className="spell-action-slots-wrapper">
-        <div className="spell-action-slots-row">
+        <div className="action-bar spell-action-slots-row">
           {slots.map((spell, index) => {
             const hotkey = HOTKEY_LABELS[index] || (index + 1);
             const isDragOver = dragOverSlot === index;
@@ -1354,7 +1370,7 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
               <div
                 key={`action-slot-${index}`}
                 data-slot-index={index}
-                className={`spell-action-slot ${spell ? 'has-spell' : ''} ${isDragOver ? 'drag-over' : ''}`}
+                className={`action-slot spell-action-slot ${spell ? 'filled has-spell' : 'empty'} ${isDragOver ? 'drag-over' : ''}`}
                 style={rarityBorderColor ? { borderColor: rarityBorderColor } : undefined}
                 onDragOver={(e) => handleDragOver(e, index)}
                 onDragLeave={(e) => handleDragLeave(e, index)}
@@ -1366,7 +1382,7 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
                 onMouseLeave={() => setHoveredSlot(null)}
                 title={spell ? (isConsumable ? `${spell.name} (Consumable • Click to Inspect / Hover to Use)` : `${spell.name} (Click to Inspect / Hover to Cast)`) : `Slot ${hotkey} (Empty)`}
               >
-                <span className="spell-slot-key">{hotkey}</span>
+                <span className="slot-number spell-slot-key">{hotkey}</span>
 
                 {spell ? (
                   <>
@@ -1447,49 +1463,61 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
           onSlotMouseMove={handleEquipmentSlotMouseMove}
           onSlotMouseLeave={handleEquipmentSlotMouseLeave}
         />
-
-        {/* Action Bar Accessories (Dice Roller Cog & Clear All) */}
-        <div className="spell-action-tools-cluster">
-          <button
-            type="button"
-            className="spell-action-cog-btn"
-            onClick={(e) => {
-              e.stopPropagation();
-              window.dispatchEvent(new CustomEvent('toggle-dice-roller'));
-            }}
-            title="Dice Roller / Tools"
-          >
-            <i className="fas fa-cog"></i>
-          </button>
-
-          <button
-            type="button"
-            className="spell-bar-clear-inline-btn"
-            onClick={(e) => {
-              e.stopPropagation();
-              setConfirmClearOpen(true);
-            }}
-            title="Clear Action Bar"
-          >
-            <i className="fas fa-trash-can"></i>
-          </button>
-        </div>
       </div>
 
-      {/* Floating Equipment Tooltip */}
-      {equipmentTooltipItem && (
-        <div
-          className="equipment-slot-floating-tooltip"
-          style={{
-            position: 'fixed',
-            left: `${Math.min(window.innerWidth - 320, equipmentMousePos.x + 15)}px`,
-            bottom: `${Math.max(80, window.innerHeight - equipmentMousePos.y + 10)}px`,
-            pointerEvents: 'none',
-            zIndex: 99999
+      {/* Action Bar Accessories (Dice Roller Cog & Clear All) - standalone cluster outside equipment box */}
+      <div className="spell-action-tools-cluster">
+        <button
+          type="button"
+          className="dice-button spell-action-cog-btn"
+          onClick={(e) => {
+            e.stopPropagation();
+            window.dispatchEvent(new CustomEvent('toggle-dice-roller'));
           }}
+          title="Roll Dice & Configure Throw"
         >
-          <ItemTooltip item={equipmentTooltipItem} />
-        </div>
+          <i className="fas fa-cog dice-button-icon"></i>
+        </button>
+
+        <button
+          type="button"
+          className="spell-bar-clear-inline-btn"
+          onClick={(e) => {
+            e.stopPropagation();
+            setConfirmClearOpen(true);
+          }}
+          title="Clear Action Bar"
+        >
+          <i className="fas fa-trash-can"></i>
+        </button>
+      </div>
+
+      {/* Floating Equipment Slot Tooltip - No Screen Dimming, Portaled above all windows */}
+      {equipmentTooltipItem && (
+        <TooltipPortal>
+          <div
+            ref={equipmentTooltipRef}
+            className="equipment-slot-floating-tooltip"
+            style={{
+              position: 'fixed',
+              left: `${equipmentTooltipPos.x}px`,
+              top: `${equipmentTooltipPos.y}px`,
+              maxHeight: 'calc(100vh - 36px)',
+              overflowY: 'auto',
+              pointerEvents: 'none',
+              zIndex: 2147483647
+            }}
+          >
+            {equipmentTooltipItem.isPlaceholder ? (
+              <div className="equipment-slot-helper-card">
+                <div className="helper-card-title">{equipmentTooltipItem.name}</div>
+                <div className="helper-card-desc">{equipmentTooltipItem.description}</div>
+              </div>
+            ) : (
+              <ItemTooltip item={equipmentTooltipItem} />
+            )}
+          </div>
+        </TooltipPortal>
       )}
 
       {/* Quick Assign Modal (Mobile & Tap friendly) */}
@@ -1859,6 +1887,7 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
                   onClick={() => {
                     const fullSpell = getFullSpellData(inspectingSpell);
                     setInspectingSpell(null);
+                    if (routeWeaponStrike(fullSpell, { producer: 'sheet' })) return;
                     if (routeSpellCast(fullSpell, { producer: 'sheet' })) return;
                     setPendingSpellCast({ spell: fullSpell });
                   }}
@@ -2130,8 +2159,8 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
             </div>
 
             <div className="spell-consume-confirm-body">
-              {spellDiagnostic(pendingSpellCast.spell) && (
-                <p className="spell-consume-confirm-desc spell-p9-manual" role="note">Manual — not applied to the room: {spellDiagnostic(pendingSpellCast.spell)}</p>
+              {(strikeDiagnostic(pendingSpellCast.spell) || spellDiagnostic(pendingSpellCast.spell)) && (
+                <p className="spell-consume-confirm-desc spell-p9-manual" role="note">Manual — not applied to the room: {strikeDiagnostic(pendingSpellCast.spell) || spellDiagnostic(pendingSpellCast.spell)}</p>
               )}
               {pendingSpellCast.spell.description && (
                 <p className="spell-consume-confirm-desc">{pendingSpellCast.spell.description}</p>

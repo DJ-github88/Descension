@@ -1136,6 +1136,7 @@ const SvgWallLayer = () => {
   const viewingFromToken = useLevelEditorStore((state) => state.viewingFromToken);
   const fogOfWarEnabled = useLevelEditorStore((state) => state.fogOfWarEnabled);
   const showWallLayer = useLevelEditorStore((state) => state.showWallLayer);
+  const wallsCollapsed = useLevelEditorStore((state) => state.wallsCollapsed ?? false);
 
   // The wall SVG is projected in screen space, so a camera pan only translates
   // the committed scene. During camera drag the canvas grid redraws in a rAF
@@ -1283,7 +1284,8 @@ const SvgWallLayer = () => {
         endNode,
         patternType,
         hostHeightWorld,
-        hostColor
+        hostColor,
+        wallsCollapsed
       });
       if (!item) continue;
 
@@ -1410,6 +1412,7 @@ const SvgWallLayer = () => {
     fogOfWarEnabled,
     isGMMode,
     elevationData,
+    wallsCollapsed,
     commitTick
   ]);
 

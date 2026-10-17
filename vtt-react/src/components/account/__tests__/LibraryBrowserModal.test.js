@@ -62,11 +62,12 @@ describe('LibraryBrowserModal Helper Functions', () => {
   });
 
   describe('getItemArmorText', () => {
-    it('returns formatted AC from various armor stats', () => {
-      expect(getItemArmorText({ armorText: '+3 AC' })).toBe('+3 AC');
-      expect(getItemArmorText({ armorClass: 2 })).toBe('+2 AC');
-      expect(getItemArmorText({ ac: 4 })).toBe('+4 AC');
-      expect(getItemArmorText({ baseStats: { armorClass: { value: 3 } } })).toBe('+3 AC');
+    it('never shows an Armor score (P10: Mythrill has no Armor score) but keeps non-AC armor text', () => {
+      expect(getItemArmorText({ armorText: '+3 AC' })).toBeNull();
+      expect(getItemArmorText({ armorClass: 2 })).toBeNull();
+      expect(getItemArmorText({ ac: 4 })).toBeNull();
+      expect(getItemArmorText({ baseStats: { armorClass: { value: 3 } } })).toBeNull();
+      expect(getItemArmorText({ armorText: 'Riveted plate' })).toBe('Riveted plate');
     });
   });
 

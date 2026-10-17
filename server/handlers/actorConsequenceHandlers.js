@@ -1,7 +1,9 @@
 const actors = require('../services/actorConsequences');
 const access = require('../services/roomAccessService');
 const payments = require('../services/spellPayments');
+const blocks = require('../services/blockApprovals');
 const proposals = new WeakMap();
+const UNCONSUMABLE = ['stale_blocking_state', 'no_blocking_piece', 'critical_bypasses_armor', 'stale_attack', 'actor_binding_conflict', 'secondary_attachment', 'actor_not_found'];
 
 function registerActorConsequenceHandlers(ctx) {
   const { socket, rooms, players, io, validateRoomMembership, authorityService, firebaseBatchWriter: writer, firebaseService } = ctx;
@@ -153,6 +155,11 @@ function registerActorConsequenceHandlers(ctx) {
       token.state.actorRecovery = { ...token.state.actorRecovery, priorClassPayment: actors.clone(token.state.classPayment) };
       delete token.state.classPayment;
     }
+    if (actors.own(token.state, 'equipmentBlocking')) {
+      // P12B: a new incarnation never inherits a blocking declaration; the owner reconciles it from recovery.
+      token.state.actorRecovery = { ...token.state.actorRecovery, priorBlocking: actors.clone(token.state.equipmentBlocking) };
+      delete token.state.equipmentBlocking;
+    }
     if (actors.own(token, 'conditions')) {
       token.state.actorRecovery = { ...token.state.actorRecovery, rootConditions: actors.clone(token.conditions) };
       if (actors.own(token.state, 'conditions') && actors.hash(token.conditions) !== actors.hash(token.state.conditions) && !data.selection) {actors.fail('legacy_reconciliation_required');}
@@ -224,12 +231,19 @@ function registerActorConsequenceHandlers(ctx) {
     } catch (error) {
       // P9: a changed class home invalidates the owner's approved price/typed result.
       if (error.code === 'owner_reapproval_required' && command.approval) {closeApproval(captured.room, command.approval.approvalId, 'owner_reapproval_required');}
+      // P12B: a changed declaration invalidates the owner's approved piece/roll.
+      // Review note 8: an approval that can never be consumed is closed instead of blocking re-declaration.
+      if (command.approval && blocks.get(captured.room, command.approval.approvalId) && UNCONSUMABLE.includes(error.code)) {
+        closeBlock(captured.room, command.approval.approvalId, error.code === 'stale_blocking_state' ? 'owner_reapproval_required' : 'invalidated');
+      }
       throw error;
     }
     if (staged.existing) {respondInstalled(ack, resultFor(captured.room, staged.existing)); return;}
     admit(captured.room, staged);
     // Approval consumption is synchronous with installation (no await between).
-    if (staged.approved) {payments.close(captured.room, staged.approved.approval.approvalId, 'consumed');}
+    if (staged.approved) {(staged.binder || payments).close(captured.room, staged.approved.approval.approvalId, 'consumed');}
+    if (staged.binder === blocks) {blocks.removeOffer(captured.room, command.commandId);}
+    pushBlocking(captured.room, staged.receipt);
     // Repair N2: the legacy room mirror takes the class home only when this command changed it.
     for (const actor of staged.receipt.actors) {
       if (!actor.classPayment) {continue;}
@@ -333,6 +347,8 @@ function registerActorConsequenceHandlers(ctx) {
     actors.validateCommand(command);
     // Repair B1: owner spell approvals are consumed only by the GM's direct consequence.
     if (command.approval || command.actors.some(actor => actor.classPayment)) {actors.fail('approval_requires_gm');}
+    // P12B: declarations are the owner's direct command; wear is only the GM's approval-bound command.
+    if (command.actors.some(actor => actor.blockingDeclaration || actor.equipmentWear)) {actors.fail('blocking_owner_required');}
     const captured = context(command.roomId);
     const { room, player, uid } = captured;
     const old = actors.knownReceipt(room, uid, command);
@@ -404,6 +420,247 @@ function registerActorConsequenceHandlers(ctx) {
     const validated = require('../services/roomCheckpoint').canonicalize(token, 'recovery');
     if (validated.error) {actors.fail('unsupported_actor_contract', validated.error);}
     respond(ack, { success: true, recovery: actors.clone({ actorRecovery: token.state?.actorRecovery || null, conditions: token.state?.conditions || [], rawToken: token }) });
+  });
+  // P12A owner strike approvals (contract revision 3a §2.6): the same owner-approval flow as P9
+  // over the strike registry. Only the GM's direct actor_consequence consumes an entry.
+  const strikes = require('../services/strikeApprovals');
+  const closeStrike = (room, approvalId, code) => {
+    const entry = strikes.get(room, approvalId);
+    if (!entry) {return false;}
+    strikes.close(room, approvalId, code);
+    const payload = { roomId: room.id, approvalId, contentHash: entry.contentHash, code };
+    toUid(room, entry.approval.source.ownerUid, 'actor_strike_closed', payload); toGm(room, 'actor_strike_closed', payload);
+    return true;
+  };
+  const ownsSource = (room, player, uid, approval) => {
+    const source = actors.locate(room, approval.source);
+    if (!actors.permitted(room, player, uid, approval.source, source.token) || source.token.ownerUserId !== uid) {actors.fail('forbidden');}
+  };
+  run('actor_strike_approve', async(approval, ack) => {
+    strikes.validateApproval(approval);
+    const captured = context(approval.roomId);
+    const { room, player, uid } = captured;
+    const contentHash = actors.hash(approval);
+    const consumed = strikes.consumedReceipt(room, approval.approvalId);
+    if (consumed) {
+      if (consumed.authorization.approvalHash !== contentHash || consumed.source?.ownerUid !== uid) {actors.fail('command_id_conflict');}
+      respondInstalled(ack, resultFor(room, consumed)); return;
+    }
+    const existing = strikes.get(room, approval.approvalId);
+    if (existing) {
+      if (existing.contentHash !== contentHash) {actors.fail('command_id_conflict');}
+      respond(ack, { success: false, code: 'awaiting_gm', approvalId: approval.approvalId, contentHash }); return;
+    }
+    if (strikes.closedCode(room, approval.approvalId)) {
+      actors.fail(strikes.closedCode(room, approval.approvalId) === 'consumed' ? 'retry_window_expired' : `approval_${strikes.closedCode(room, approval.approvalId)}`);
+    }
+    if (strikes.foreignId(room, approval.approvalId)) {actors.fail('command_id_conflict');}
+    if (approval.actionEpoch !== actors.epoch(room)) {actors.fail('outcome_unknown');}
+    strikes.checkWindow(room, approval);
+    if (uid !== approval.source.ownerUid) {actors.fail('forbidden');}
+    ownsSource(room, player, uid, approval);
+    strikes.checkAgainstRoom(room, approval);
+    await confirm(captured);
+    ownsSource(room, captured.player, uid, approval);
+    // Authority checks yield: another request may have registered, closed or consumed this ID.
+    const afterAwait = strikes.consumedReceipt(room, approval.approvalId);
+    if (afterAwait) {
+      if (afterAwait.authorization.approvalHash !== contentHash || afterAwait.source?.ownerUid !== uid) {actors.fail('command_id_conflict');}
+      respondInstalled(ack, resultFor(room, afterAwait)); return;
+    }
+    const pending = strikes.get(room, approval.approvalId);
+    if (pending) {
+      if (pending.contentHash !== contentHash) {actors.fail('command_id_conflict');}
+      respond(ack, { success: false, code: 'awaiting_gm', approvalId: approval.approvalId, contentHash }); return;
+    }
+    const closed = strikes.closedCode(room, approval.approvalId);
+    if (closed) {actors.fail(closed === 'consumed' ? 'retry_window_expired' : `approval_${closed}`);}
+    if (strikes.foreignId(room, approval.approvalId)) {actors.fail('command_id_conflict');}
+    if (approval.actionEpoch !== actors.epoch(room)) {actors.fail('outcome_unknown');}
+    strikes.checkWindow(room, approval);
+    strikes.checkAgainstRoom(room, approval);
+    const entry = strikes.add(room, { approval: actors.clone(approval), contentHash, ownerUid: uid });
+    toGm(room, 'actor_strike_pending', { roomId: room.id, approval: actors.clone(entry.approval), contentHash, submitterUid: uid });
+    respond(ack, { success: false, code: 'awaiting_gm', approvalId: approval.approvalId, contentHash });
+  });
+  run('actor_strike_withdraw', async(data, ack) => {
+    actors.keys(data, ['roomId', 'approvalId']);
+    const { room, uid } = context(data.roomId);
+    const consumed = strikes.consumedReceipt(room, data.approvalId);
+    if (consumed) {
+      if (consumed.source?.ownerUid !== uid) {actors.fail('forbidden');}
+      respondInstalled(ack, resultFor(room, consumed)); return;
+    }
+    const entry = strikes.get(room, data.approvalId);
+    if (!entry) {actors.fail(strikes.closedCode(room, data.approvalId) ? `approval_${strikes.closedCode(room, data.approvalId)}` : 'outcome_unknown');}
+    if (entry.approval.source.ownerUid !== uid) {actors.fail('forbidden');}
+    closeStrike(room, data.approvalId, 'withdrawn');
+    respond(ack, { success: true, code: 'withdrawn', approvalId: data.approvalId, contentHash: entry.contentHash });
+  });
+  run('actor_strike_decline', async(data, ack) => {
+    actors.keys(data, ['roomId', 'approvalId']);
+    const captured = context(data.roomId);
+    if (!captured.player.isGM) {actors.fail('forbidden');}
+    const consumed = strikes.consumedReceipt(captured.room, data.approvalId);
+    if (consumed) {respondInstalled(ack, resultFor(captured.room, consumed)); return;}
+    if (!strikes.get(captured.room, data.approvalId)) {actors.fail('outcome_unknown');}
+    closeStrike(captured.room, data.approvalId, 'declined');
+    respond(ack, { success: true, code: 'declined', approvalId: data.approvalId });
+  });
+  run('actor_strike_list', async(data, ack) => {
+    actors.keys(data, ['roomId']);
+    const { room, player, uid } = context(data.roomId);
+    const pending = [];
+    const own = strikes.pendingFor(room, uid);
+    if (own) {pending.push({ approval: actors.clone(own.approval), contentHash: own.contentHash, own: true });}
+    if (player.isGM) {
+      for (const entry of strikes.listAll(room)) {pending.push({ approval: actors.clone(entry.approval), contentHash: entry.contentHash, submitterUid: entry.ownerUid });}
+    }
+    respond(ack, { success: true, roomId: room.id, pending });
+  });
+
+  // ── P12B blocking (frozen contract revision 4 §3) ─────────────────────────
+  // Declarations are owner/GM-scoped: never in the general token projection or other members' events.
+  function pushBlocking(room, receipt) {
+    for (const actor of receipt?.actors || []) {
+      if (!actor.blocking && !actor.equipmentWear) {continue;}
+      let declaration = null;
+      try {declaration = blocks.scopedView(actors.locate(room, actor.ref).token);} catch (_) {continue;}
+      const payload = { roomId: room.id, ref: actors.clone(actor.ref), declaration, commitSequence: receipt.commitSequence };
+      toUid(room, actor.ref.ownerUid, 'actor_blocking_changed', payload);
+      if (room.gmId !== actor.ref.ownerUid) {toGm(room, 'actor_blocking_changed', payload);}
+    }
+  }
+  function closeBlock(room, approvalId, code) {
+    const entry = blocks.get(room, approvalId);
+    if (!entry) {return false;}
+    blocks.close(room, approvalId, code);
+    const payload = { roomId: room.id, approvalId, contentHash: entry.contentHash, code };
+    toUid(room, entry.approval.target.ownerUid, 'actor_block_closed', payload); toGm(room, 'actor_block_closed', payload);
+    return true;
+  }
+  const ownsTarget = (room, player, uid, ref) => {
+    const target = actors.locate(room, ref);
+    if (!actors.permitted(room, player, uid, ref, target.token) || target.token.ownerUserId !== uid) {actors.fail('forbidden');}
+    return target;
+  };
+  run('actor_blocking_view', async(data, ack) => {
+    actors.keys(data, ['roomId', 'ref']);
+    const { room, player, uid } = context(data.roomId);
+    actors.validateRef(data.ref);
+    if (data.ref.kind !== 'character') {actors.fail('invalid_consequence');}
+    if (!player.isGM && uid !== data.ref.ownerUid) {actors.fail('forbidden');}
+    const located = actors.locate(room, data.ref);
+    if (!player.isGM) {ownsTarget(room, player, uid, data.ref);}
+    respond(ack, { success: true, roomId: room.id, ref: actors.refFor(located.contract), contractRevision: located.contract.revision, declaration: blocks.scopedView(located.token),
+      commitSequence: actors.ledger(room).commitSequence });
+  });
+  run('actor_block_offer', async(data, ack) => {
+    actors.keys(data, ['roomId', 'commandId', 'attack']);
+    const captured = context(data.roomId);
+    if (!captured.player.isGM) {actors.fail('forbidden');}
+    blocks.validateAttack(data.attack);
+    const { room } = captured;
+    if (data.attack.source.roomId !== room.id) {actors.fail('invalid_block_offer');}
+    const check = () => {
+      const source = actors.locate(room, data.attack.source);
+      if (source.contract.revision !== data.attack.sourceRevision) {actors.fail('stale_actor_revision');}
+      blocks.checkOfferTarget(room, data.attack);
+    };
+    check();
+    await confirm(captured);
+    if (!captured.player.isGM) {actors.fail('forbidden');}
+    check();
+    const offer = blocks.addOffer(room, data.commandId, data.attack);
+    const payload = { roomId: room.id, commandId: offer.commandId, attack: actors.clone(offer.attack), attackHash: offer.attackHash };
+    toUid(room, data.attack.target.ownerUid, 'actor_block_offered', payload);
+    respond(ack, { success: true, ...payload });
+  });
+  run('actor_block_approve', async(approval, ack) => {
+    blocks.validateApproval(approval);
+    const captured = context(approval.roomId);
+    const { room, player, uid } = captured;
+    const contentHash = actors.hash(approval);
+    const settled = () => {
+      const consumed = blocks.consumedReceipt(room, approval.approvalId);
+      if (consumed) {
+        if (consumed.authorization.approvalHash !== contentHash || consumed.target?.ownerUid !== uid) {actors.fail('command_id_conflict');}
+        respondInstalled(ack, resultFor(room, consumed)); return true;
+      }
+      const existing = blocks.get(room, approval.approvalId);
+      if (existing) {
+        if (existing.contentHash !== contentHash) {actors.fail('command_id_conflict');}
+        respond(ack, { success: false, code: 'awaiting_gm', approvalId: approval.approvalId, contentHash }); return true;
+      }
+      const closed = blocks.closedCode(room, approval.approvalId);
+      if (closed) {actors.fail(closed === 'consumed' ? 'retry_window_expired' : `approval_${closed}`);}
+      if (blocks.foreignId(room, approval.approvalId)) {actors.fail('command_id_conflict');}
+      if (approval.actionEpoch !== actors.epoch(room)) {actors.fail('outcome_unknown');}
+      blocks.checkWindow(room, approval);
+      return false;
+    };
+    if (settled()) {return;}
+    if (uid !== approval.target.ownerUid) {actors.fail('forbidden');}
+    ownsTarget(room, player, uid, approval.target);
+    blocks.checkAgainstRoom(room, approval);
+    await confirm(captured);
+    // Authority checks yield: another request may have registered, closed or consumed this ID.
+    ownsTarget(room, captured.player, uid, approval.target);
+    if (settled()) {return;}
+    blocks.checkAgainstRoom(room, approval);
+    const entry = blocks.add(room, { approval: actors.clone(approval), contentHash, ownerUid: uid });
+    toGm(room, 'actor_block_pending', { roomId: room.id, approval: actors.clone(entry.approval), contentHash, submitterUid: uid });
+    respond(ack, { success: false, code: 'awaiting_gm', approvalId: approval.approvalId, contentHash });
+  });
+  run('actor_block_withdraw', async(data, ack) => {
+    actors.keys(data, ['roomId', 'approvalId']);
+    const { room, uid } = context(data.roomId);
+    const consumed = blocks.consumedReceipt(room, data.approvalId);
+    if (consumed) {
+      if (consumed.target?.ownerUid !== uid) {actors.fail('forbidden');}
+      respondInstalled(ack, resultFor(room, consumed)); return;
+    }
+    const entry = blocks.get(room, data.approvalId);
+    if (!entry) {actors.fail(blocks.closedCode(room, data.approvalId) ? `approval_${blocks.closedCode(room, data.approvalId)}` : 'outcome_unknown');}
+    if (entry.approval.target.ownerUid !== uid) {actors.fail('forbidden');}
+    closeBlock(room, data.approvalId, 'withdrawn');
+    respond(ack, { success: true, code: 'withdrawn', approvalId: data.approvalId, contentHash: entry.contentHash });
+  });
+  run('actor_block_decline', async(data, ack) => {
+    actors.keys(data, ['roomId', 'approvalId', 'commandId']);
+    const captured = context(data.roomId);
+    if (!captured.player.isGM) {actors.fail('forbidden');}
+    const { room } = captured;
+    if (data.approvalId !== undefined) {
+      const consumed = blocks.consumedReceipt(room, data.approvalId);
+      if (consumed) {respondInstalled(ack, resultFor(room, consumed)); return;}
+      const entry = blocks.get(room, data.approvalId);
+      if (!entry) {actors.fail('outcome_unknown');}
+      closeBlock(room, data.approvalId, 'declined');
+      blocks.removeOffer(room, entry.approval.attack.commandId);
+      respond(ack, { success: true, code: 'declined', approvalId: data.approvalId }); return;
+    }
+    // Withdraw an unapproved offer; an approval naming it can no longer register.
+    if (typeof data.commandId !== 'string') {actors.fail('invalid_consequence');}
+    if (blocks.listAll(room).some(entry => entry.approval.attack.commandId === data.commandId)) {actors.fail('approval_pending');}
+    const offer = blocks.getOffer(room, data.commandId);
+    blocks.removeOffer(room, data.commandId);
+    if (offer) {toUid(room, offer.attack.target.ownerUid, 'actor_block_offer_closed', { roomId: room.id, commandId: data.commandId });}
+    respond(ack, { success: true, code: 'offer_closed', commandId: data.commandId });
+  });
+  run('actor_block_list', async(data, ack) => {
+    actors.keys(data, ['roomId']);
+    const { room, player, uid } = context(data.roomId);
+    const pending = [], offered = [];
+    const own = blocks.pendingFor(room, uid);
+    if (own) {pending.push({ approval: actors.clone(own.approval), contentHash: own.contentHash, own: true });}
+    for (const offer of blocks.listOffers(room)) {
+      if (player.isGM || offer.attack.target.ownerUid === uid) {offered.push({ commandId: offer.commandId, attack: actors.clone(offer.attack), attackHash: offer.attackHash });}
+    }
+    if (player.isGM) {
+      for (const entry of blocks.listAll(room)) {pending.push({ approval: actors.clone(entry.approval), contentHash: entry.contentHash, submitterUid: entry.ownerUid });}
+    }
+    respond(ack, { success: true, roomId: room.id, pending, offered });
   });
 }
 module.exports = { registerActorConsequenceHandlers };

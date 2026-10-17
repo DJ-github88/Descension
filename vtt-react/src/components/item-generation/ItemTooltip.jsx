@@ -4,7 +4,7 @@ import DieIcon from './DieIcon';
 import { RARITY_COLORS } from '../../constants/itemConstants';
 import useCraftingStore, { SKILL_LEVELS } from '../../store/craftingStore';
 import useItemStore from '../../store/itemStore';
-import { getIconUrl } from '../../utils/assetManager';
+import { getIconUrl, getItemFallbackIcon } from '../../utils/assetManager';
 import { CONDITIONS } from '../../data/conditionsData';
 import { autoLinkTerminology } from '../../utils/loreAutoLinker';
 import LoreLink from '../common/LoreLink';
@@ -541,7 +541,6 @@ const getStatDescription = (stat, value, isPercentage = false) => {
 
         // Combat effectiveness
         initiative: `Increases your initiative by ${formattedValue}.`,
-        armor: `Increases your armor by ${formattedValue}.`,
 
         range: `Increases attack range by ${formattedValue} feet.`,
 
@@ -1506,10 +1505,12 @@ function ItemTooltip({ item }) {
 
 
     const armorValue = 0;
+    // Mythrill has no Armor score (creator-confirmed): saved armor/armorClass/ac fields are kept, never shown.
+    const OBSOLETE_ARMOR_SCORE_KEYS = ['armor', 'armorClass', 'ac'];
 
     // Get base stats
     const baseStats = Object.entries(item.baseStats || item.stats || {})
-        .filter(([_, data]) => getStatValue(data) !== 0)
+        .filter(([stat, data]) => !OBSOLETE_ARMOR_SCORE_KEYS.includes(stat) && getStatValue(data) !== 0)
         .map(([stat, data]) => ({
             name: safeCapitalize(stat),
             value: getStatValue(data),
@@ -1519,6 +1520,7 @@ function ItemTooltip({ item }) {
     // Get other combat stats
     const otherStats = Object.entries(item.combatStats || {})
         .filter(([stat, data]) =>
+            !OBSOLETE_ARMOR_SCORE_KEYS.includes(stat) &&
             stat !== 'resistances' &&
             stat !== 'spellDamage' &&
             stat !== 'healthRestore' &&
@@ -1827,7 +1829,13 @@ function ItemTooltip({ item }) {
                         src={(item.imageUrl && !item.imageUrl.includes('wow.zamimg.com')) ? item.imageUrl : (
                             (item.type === 'currency' || item.isCurrency)
                                 ? getIconUrl('Container/Coins/golden-coin-single-isometric', 'items', true)
-                                : (item.iconId ? getIconUrl(item.iconId, 'items', true) : getIconUrl('Misc/Books/book-brown-teal-question-mark', 'items', true))
+                                : (item.iconId
+                                    ? getIconUrl(item.iconId, 'items', true)
+                                    : (item.icon
+                                        ? getIconUrl(item.icon, 'items', true)
+                                        : getItemFallbackIcon(item)
+                                    )
+                                )
                         )}
                         alt={getDisplayName(item)}
                         className={(item.type === 'currency' || item.isCurrency) ? `coin-${item.currencyType || 'gold'}` : ''}
@@ -1840,7 +1848,7 @@ function ItemTooltip({ item }) {
                         }}
                         onError={(e) => {
                             e.target.onerror = null; // Prevent infinite loop
-                            e.target.src = getIconUrl('Misc/Books/book-brown-teal-question-mark', 'items', true);
+                            e.target.src = getItemFallbackIcon(item);
                         }}
                     />
                 </div>

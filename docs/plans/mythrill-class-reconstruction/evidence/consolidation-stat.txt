@@ -1,0 +1,74 @@
+commit fc0966276431eaa60c675a72df1625061287627e
+Author:     Dj <danielpeterjen@gmail.com>
+AuthorDate: Thu Jun 11 22:28:08 2026 +0200
+Commit:     Dj <danielpeterjen@gmail.com>
+CommitDate: Thu Jun 11 22:28:08 2026 +0200
+
+    Consolidate class system, add interactive world map, and update rules/lore data
+    
+    - Remove deprecated classes (bladedancer, chaosweaver, covenbane, deathcaller,
+      doomsayer, dreadnaught, exorcist, fateWeaver, formbender, gambler, huntress,
+      inscriptor, lichborne, oracle, primalist, titan, witchDoctor) and their
+      resource bars, talent trees, and renderers
+    - Add new classes (animist, apex, gambit, harbinger, inquisitor, revenant,
+      shaper) with talent trees
+    - Remove corvani and morthel races
+    - Add interactive world map system with annotations, region overlays,
+      location pins, and lore sidebar
+    - Add Toolkit/Library windows and windowStore
+    - Refactor ClassResourceBar and HUD renderers
+    - Expand rules page, class lore, faction, and timeline data
+    - Update creature library, items, equipment, and spellcrafting data
+    - Add GM_WORLD_GUIDE canonical source notice and Dawn Vigil/Shard-Window lore
+
+ vtt-react/src/data/classes/animistData.js          |  302 ++
+ .../data/classes/{huntressData.js => apexData.js}  |  304 +-
+ vtt-react/src/data/classes/arcanoneerData.js       |  526 +--
+ vtt-react/src/data/classes/augurData.js            |  118 +-
+ vtt-react/src/data/classes/berserkerData.js        |   50 +-
+ vtt-react/src/data/classes/bladedancerData.js      | 1271 ------
+ vtt-react/src/data/classes/chaosWeaverData.js      | 2448 -----------
+ vtt-react/src/data/classes/chronarchData.js        |   58 +-
+ vtt-react/src/data/classes/covenbaneData.js        | 3051 -------------
+ vtt-react/src/data/classes/deathcallerData.js      | 2354 ----------
+ .../doomsayer/components/DoomsayerResourceBar.jsx  |  381 --
+ .../doomsayer/styles/DoomsayerResourceBar.css      |  266 --
+ vtt-react/src/data/classes/doomsayerData.js        | 3852 ----------------
+ vtt-react/src/data/classes/dreadnaughtData.js      | 2129 ---------
+ vtt-react/src/data/classes/exorcistData.js         | 1587 -------
+ vtt-react/src/data/classes/falseProphetData.js     |  200 +-
+ vtt-react/src/data/classes/fateWeaverData.js       | 2211 ----------
+ vtt-react/src/data/classes/formbenderData.js       | 3642 ----------------
+ vtt-react/src/data/classes/gambitData.js           | 3940 +++++++++++++++++
+ .../gambler/components/GamblerResourceBar.jsx      |  872 ----
+ .../classes/gambler/styles/GamblerResourceBar.css  |  186 -
+ vtt-react/src/data/classes/gamblerData.js          | 1992 ---------
+ vtt-react/src/data/classes/harbingerData.js        | 1127 +++++
+ vtt-react/src/data/classes/index.js                |   57 +-
+ vtt-react/src/data/classes/inquisitorData.js       | 1725 ++++++++
+ vtt-react/src/data/classes/inscriptorData.js       | 2355 ----------
+ vtt-react/src/data/classes/lichborneData.js        | 4597 --------------------
+ vtt-react/src/data/classes/lunarchData.js          |  174 +-
+ vtt-react/src/data/classes/martyrData.js           |  170 +-
+ vtt-react/src/data/classes/minstrelData.js         |   82 +-
+ vtt-react/src/data/classes/oracleData.js           | 3021 -------------
+ vtt-react/src/data/classes/plaguebringerData.js    |  240 +-
+ .../primalist/components/PrimalistResourceBar.jsx  |  334 --
+ .../primalist/styles/PrimalistResourceBar.css      |  535 ---
+ vtt-react/src/data/classes/primalistData.js        | 3136 -------------
+ vtt-react/src/data/classes/pyrofiendData.js        |  274 +-
+ vtt-react/src/data/classes/revenantData.js         | 1174 +++++
+ vtt-react/src/data/classes/shaperData.js           |  182 +
+ vtt-react/src/data/classes/spellguardData.js       |   42 +-
+ vtt-react/src/data/classes/talentTrees/gambit.js   |  447 ++
+ .../classes/titan/components/TitanResourceBar.jsx  |  428 --
+ .../data/classes/titan/styles/TitanResourceBar.css |  716 ---
+ vtt-react/src/data/classes/titan/titanConstants.js |  224 -
+ vtt-react/src/data/classes/titan/titanSpells.js    | 1680 -------
+ vtt-react/src/data/classes/titanData.js            |  466 --
+ vtt-react/src/data/classes/toxicologistData.js     |  146 +-
+ vtt-react/src/data/classes/wardenData.js           |  250 +-
+ vtt-react/src/data/classes/witchDoctorData.js      | 3085 -------------
+ .../components/WitchDoctorResourceBar.jsx          |  564 ---
+ .../witchdoctor/styles/WitchDoctorResourceBar.css  |  917 ----
+ 50 files changed, 10280 insertions(+), 49608 deletions(-)

@@ -746,22 +746,6 @@ const CharacterManager = ({ isOpen, onClose, onCreateCharacter }) => {
 
 
 
-                            <span className="stat-label">Armor</span>
-
-
-
-                            <span className="stat-value">{character.armor || 10}</span>
-
-
-
-                          </div>
-
-
-
-                          <div className="stat-item">
-
-
-
                             <span className="stat-label">Speed</span>
 
 
