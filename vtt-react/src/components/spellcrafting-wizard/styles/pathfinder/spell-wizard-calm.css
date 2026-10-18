@@ -870,24 +870,28 @@ body .spell-detail-overlay .spell-detail-action:focus-visible {
   text-shadow: none !important;
 }
 :root body .spell-card-gloss { display: none !important; }
-:root body .wow-spell-row {
-  background: var(--adventure-page, #f8f5ee) !important;
-  background-image: none !important;
-  border: 1px solid var(--adventure-rule, #c4baa6) !important;
+:root body .wow-spell-row:not(.empty) {
+  background: linear-gradient(180deg, rgba(255, 252, 245, 0.88) 0%, rgba(246, 240, 228, 0.95) 100%) !important;
+  border: 1px solid rgba(182, 160, 128, 0.45) !important;
   border-radius: 3px !important;
-  box-shadow: none !important;
-  transform: none !important;
+  box-shadow: 0 1px 3px rgba(52, 37, 26, 0.04), inset 0 0 10px rgba(182, 160, 128, 0.08) !important;
 }
-:root body .wow-spell-row:hover {
-  background: var(--adventure-paper, #f1ece1) !important;
+:root body .wow-spell-row:not(.empty):hover {
+  background: linear-gradient(180deg, #ffffff 0%, rgba(252, 247, 238, 0.98) 100%) !important;
   border-color: var(--adventure-seal, #663c32) !important;
-  box-shadow: none !important;
-  transform: none !important;
+  box-shadow: 0 4px 14px rgba(52, 37, 26, 0.09), inset 0 0 12px rgba(182, 160, 128, 0.12) !important;
+  transform: translateY(-1px) !important;
 }
 :root body .wow-spell-row.selected {
-  background: var(--adventure-panel, #e8e2d4) !important;
-  border-color: var(--adventure-seal, #663c32) !important;
-  box-shadow: inset 3px 0 0 var(--adventure-seal, #663c32) !important;
+  background: linear-gradient(180deg, #ffffff 0%, rgba(248, 241, 230, 0.95) 100%) !important;
+  border: 1.5px solid var(--adventure-seal, #663c32) !important;
+  box-shadow: 0 0 0 1px rgba(102, 60, 50, 0.25), inset 0 0 12px rgba(102, 60, 50, 0.08) !important;
+}
+:root body .wow-spell-row.empty {
+  background: transparent !important;
+  border: 1px dashed rgba(182, 160, 128, 0.35) !important;
+  box-shadow: none !important;
+  transform: none !important;
 }
 
 /* ---- effect configuration panels: no gold bars, flourishes or nested frames ---- */

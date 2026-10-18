@@ -285,155 +285,229 @@
   right: 16px;
 }
 
-/* Spell Row */
+/* Spell Row - Authentic TTRPG Grimoire Entry */
 .wow-spell-row {
   display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 8px 10px;
+  align-items: flex-start;
+  gap: 13px;
+  padding: 11px 13px;
   margin-bottom: 6px;
   width: 100%;
   max-width: 100%;
   min-width: 0;
-  border-left: 2px solid rgba(139, 69, 19, 0.5);
+  background: linear-gradient(180deg, rgba(255, 252, 245, 0.88) 0%, rgba(246, 240, 228, 0.95) 100%);
+  border: 1px solid rgba(182, 160, 128, 0.45);
+  border-radius: 3px;
+  color: #34251a;
   cursor: pointer;
-  transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: background 160ms ease, border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
   position: relative;
   box-sizing: border-box;
   user-select: none;
-  min-height: 64px;
+  min-height: 80px;
   overflow: hidden;
+  box-shadow: 0 1px 3px rgba(52, 37, 26, 0.04), inset 0 0 10px rgba(182, 160, 128, 0.08);
 }
 
-.wow-spell-row:hover {
-  border-left-color: #8b4513;
+/* Classical inner cartouche hairline */
+.wow-spell-row:not(.empty)::before {
+  content: '';
+  position: absolute;
+  inset: 2px;
+  border: 1px solid rgba(182, 160, 128, 0.22);
+  border-radius: 2px;
+  pointer-events: none;
+  transition: border-color 160ms ease;
+}
+
+.wow-spell-row:not(.empty):hover {
+  background: linear-gradient(180deg, #ffffff 0%, rgba(252, 247, 238, 0.98) 100%);
+  border-color: #663c32;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(52, 37, 26, 0.09), inset 0 0 12px rgba(182, 160, 128, 0.12);
   z-index: 5;
 }
 
+.wow-spell-row:not(.empty):hover::before {
+  border-color: rgba(102, 60, 50, 0.28);
+}
+
 .wow-spell-row:active {
-  transform: translateY(0) scale(0.99);
+  transform: translateY(0);
 }
 
-/* Spell Tooltip - Shows full spell card on hover */
-
-/* Ensure tooltip spell card has proper styling and full width */
-
-/* Spell Preview - Just the spell card floating outside library */
-.spell-preview-panel-floating {
-  /* Container for the floating spell card */
-  background: rgba(245, 222, 179, 0.98);
-  border: 2px solid rgba(160, 82, 45, 0.8);
-  border-radius: 8px;
-  padding: 12px;
-  max-width: 400px;
-  width: 400px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(2px);
-  z-index: 100000;
-}
-
-@keyframes slideInFromRight {
-  from {
-    opacity: 0;
-    transform: translateX(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-/* Spell Icon */
+/* Woodcut / Illuminated miniature plate */
 .wow-spell-icon {
+  flex: 0 0 46px;
   width: 46px;
   height: 46px;
-  border: 2px solid #8b4513;
-  border-radius: 6px;
-  background: #1a1a1a;
-  flex-shrink: 0;
+  position: relative;
+  border-radius: 3px;
   overflow: hidden;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+  border: 1.5px solid #b6a080;
+  background: #231914;
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.45), 0 1px 3px rgba(52, 37, 26, 0.12);
+  transition: border-color 160ms ease;
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
 }
 
 .wow-spell-row:hover .wow-spell-icon {
-  border-color: #9a7b3c;
-  box-shadow: 0 0 8px rgba(154, 123, 60, 0.6);
+  border-color: #663c32;
 }
 
 .wow-spell-icon img {
+  display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
+  border-radius: 1px;
 }
 
 .wow-spell-icon i {
   font-size: 20px;
-  color: #9a7b3c;
+  color: #b6a080;
 }
 
-/* Spell Info */
+/* Spell Details */
 .wow-spell-info {
-  flex: 1;
   min-width: 0;
-  padding-right: 76px;
+  flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  gap: 3px;
+  padding-right: 0;
   overflow: hidden;
+}
+
+.wow-spell-row .class-spell-entry-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
 }
 
 .wow-spell-name {
-  font-family: 'Crimson Text', 'Cinzel', Georgia, serif;
-  font-size: 0.92rem;
+  margin: 0;
+  font-family: 'Cinzel', serif;
+  font-size: 0.95rem;
   font-weight: 700;
-  color: #3b1810;
-  margin: 0 0 2px 0;
+  line-height: 1.25;
+  letter-spacing: 0.025em;
+  color: #34251a;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  line-height: 1.2;
-  letter-spacing: 0.2px;
+  transition: color 140ms ease;
 }
 
 .wow-spell-row:hover .wow-spell-name {
-  color: #7c2d12;
+  color: #663c32;
 }
 
-.wow-spell-rank {
-  font-family: 'Crimson Text', serif;
-  font-size: 0.78rem;
-  color: #7c2d12;
-  margin: 0;
+/* Header Cadence */
+.wow-spell-row .class-spell-entry-cadence {
+  flex-shrink: 0;
+  font-family: 'Cinzel', serif;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: #663c32;
+  background: rgba(182, 160, 128, 0.14);
+  border: 1px solid rgba(182, 160, 128, 0.35);
+  border-radius: 2px;
+  padding: 1px 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  line-height: 1.25;
+  white-space: nowrap;
+}
+
+.wow-spell-row .cadence-ap {
+  color: #34251a;
+  font-variant-numeric: tabular-nums;
+}
+
+.wow-spell-row .cadence-sep {
+  color: #b6a080;
+  font-size: 0.65rem;
+  user-select: none;
+}
+
+.wow-spell-row .cadence-action {
+  text-transform: uppercase;
+}
+
+.wow-spell-row .cadence-action.action-reaction {
+  color: #8b261e;
+}
+
+.wow-spell-row .cadence-action.action-free-action {
+  color: #245830;
+}
+
+.wow-spell-row .cadence-action.action-passive {
+  color: #314457;
+}
+
+/* Authentic TTRPG Grimoire Statline: unboxed running italics with middots */
+.wow-spell-row .class-spell-statline {
+  font-family: 'Crimson Text', Georgia, serif;
   font-style: italic;
-  white-space: normal;
+  font-size: 0.92rem;
+  line-height: 1.35;
+  color: #68533e;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0;
+}
+
+.wow-spell-row .statline-sep {
+  margin: 0 6px;
+  font-style: normal;
+  color: #b6a080;
+  font-size: 0.72rem;
+  user-select: none;
+}
+
+.wow-spell-row .statline-item--school {
+  color: #663c32;
+  font-weight: 600;
+}
+
+.wow-spell-row .statline-item--cost {
+  color: #7a3512;
+  font-weight: 600;
+}
+
+.wow-spell-row .statline-item--inferno {
+  color: #922b16;
+  font-weight: 600;
+}
+
+.wow-spell-row .statline-item--combo {
+  color: #5c3b87;
+  font-weight: 600;
+}
+
+/* Concise Inscription Snippet */
+.wow-spell-row .class-spell-snippet {
+  margin: 3px 0 0;
+  font-family: 'Crimson Text', Georgia, serif;
+  font-size: 0.88rem;
+  line-height: 1.4;
+  color: #34251a;
+  opacity: 0.94;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
-  line-height: 1.25;
-}
-
-/* Spell Type Badge — matches rules spellbook tag style */
-.wow-spell-type {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  font-family: 'Crimson Text', serif;
-  font-size: 0.68rem;
-  font-weight: 700;
-  padding: 2px 6px;
-  border-radius: 4px;
-  text-transform: uppercase;
-  line-height: 1.15;
-  background: rgba(139, 69, 19, 0.15);
-  color: #5a200a;
-  border: 1px solid rgba(139, 69, 19, 0.35);
-  letter-spacing: 0.5px;
-  pointer-events: none;
+  text-align: left;
 }
 
 /* Pagination */
@@ -496,36 +570,36 @@
 
 
 
-/* ===== EMPTY PLACEHOLDERS TO FILL PAGE (WoW-style) ===== */
+/* ===== EMPTY PLACEHOLDERS TO FILL PAGE ===== */
 .wow-spell-row.empty {
   background: transparent;
-  border: 1px dashed rgba(139, 69, 19, 0.25);
-  border-left: 2px solid rgba(139, 69, 19, 0.2);
+  border: 1px dashed rgba(182, 160, 128, 0.35);
+  border-radius: 3px;
   cursor: default;
   box-shadow: none;
+  min-height: 80px;
 }
 .wow-spell-row.empty:hover {
   background: transparent;
   transform: none;
   box-shadow: none;
-  border-color: rgba(139, 69, 19, 0.25);
-  border-left-color: rgba(139, 69, 19, 0.2);
+  border-color: rgba(182, 160, 128, 0.35);
 }
 .wow-spell-row.empty .wow-empty-icon,
 .wow-empty-icon {
   width: 46px;
   height: 46px;
-  border: 2px dashed rgba(139, 69, 19, 0.3);
-  border-radius: 6px;
+  border: 1.5px dashed rgba(182, 160, 128, 0.4);
+  border-radius: 3px;
   background: rgba(255, 250, 235, 0.25);
-  box-shadow: inset 0 0 6px rgba(139, 69, 19, 0.15);
+  box-shadow: inset 0 0 6px rgba(182, 160, 128, 0.15);
   flex-shrink: 0;
 }
 .wow-spell-row.empty .wow-empty-name-box,
 .wow-empty-name-box {
   flex: 1;
   height: 18px;
-  border: 2px solid rgba(107, 74, 43, 0.3);
+  border: 1px solid rgba(182, 160, 128, 0.35);
   border-radius: 4px;
   background: rgba(255, 250, 235, 0.2);
 }

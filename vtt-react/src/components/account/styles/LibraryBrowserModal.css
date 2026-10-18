@@ -661,56 +661,51 @@
   align-content: start;
 }
 
-/* Spell Row - Compact, Scannable Grimoire Line (Matches media_1787301975334.png) */
+/* Spell Row - Compact, Scannable Grimoire Line */
 .wow-spellbook-modal-container .wow-spell-row {
   display: flex !important;
-  align-items: center !important;
+  align-items: flex-start !important;
   gap: 12px !important;
-  padding: 8px 12px !important;
+  padding: 10px 12px !important;
   margin-bottom: 0 !important;
   width: 100% !important;
   max-width: 100% !important;
   min-width: 0 !important;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.94) 0%, rgba(248, 241, 230, 0.88) 100%) !important;
-  border: 1.5px solid rgba(139, 69, 19, 0.25) !important;
-  border-left: 3.5px solid rgba(139, 69, 19, 0.6) !important;
-  border-radius: 8px !important;
+  background: linear-gradient(180deg, rgba(255, 252, 245, 0.94) 0%, rgba(248, 241, 230, 0.92) 100%) !important;
+  border: 1px solid rgba(182, 160, 128, 0.45) !important;
+  border-radius: 3px !important;
   cursor: pointer !important;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
   position: relative !important;
-  box-shadow: 0 2px 6px rgba(139, 69, 19, 0.06), inset 0 0 8px rgba(139, 69, 19, 0.03) !important;
+  box-shadow: 0 1px 3px rgba(52, 37, 26, 0.04), inset 0 0 10px rgba(182, 160, 128, 0.08) !important;
   box-sizing: border-box !important;
   user-select: none !important;
-  height: 64px !important;
-  min-height: 64px !important;
-  max-height: 64px !important;
+  min-height: 80px !important;
   overflow: hidden !important;
 }
 
 .wow-spellbook-modal-container .wow-spell-row:hover {
-  background: linear-gradient(135deg, #ffffff 0%, rgba(254, 247, 230, 0.98) 100%) !important;
-  border-color: #c5a059 !important;
-  border-left-color: #8b4513 !important;
-  transform: translateY(-2px) !important;
-  box-shadow: 0 5px 14px rgba(197, 160, 89, 0.3), inset 0 0 10px rgba(255, 235, 180, 0.4) !important;
+  background: linear-gradient(180deg, #ffffff 0%, rgba(254, 247, 230, 0.98) 100%) !important;
+  border-color: #663c32 !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 14px rgba(52, 37, 26, 0.1), inset 0 0 10px rgba(182, 160, 128, 0.12) !important;
   z-index: 5 !important;
 }
 
 .wow-spellbook-modal-container .wow-spell-row.selected {
-  background: linear-gradient(135deg, rgba(255, 248, 220, 0.98) 0%, rgba(246, 232, 202, 0.95) 100%) !important;
-  border-color: #8b4513 !important;
-  border-left-color: #5c1818 !important;
-  box-shadow: 0 0 0 2px rgba(197, 160, 89, 0.85), inset 0 0 8px rgba(212, 175, 55, 0.2) !important;
+  background: linear-gradient(180deg, #ffffff 0%, rgba(248, 241, 230, 0.95) 100%) !important;
+  border: 1.5px solid #663c32 !important;
+  box-shadow: 0 0 0 1px rgba(102, 60, 50, 0.25), inset 0 0 12px rgba(102, 60, 50, 0.08) !important;
 }
 
 /* Empty Placeholder Slots */
 .wow-spellbook-modal-container .wow-spell-row.empty {
-  background: rgba(139, 69, 19, 0.02) !important;
-  border: 1.5px dashed rgba(139, 69, 19, 0.16) !important;
+  background: transparent !important;
+  border: 1px dashed rgba(182, 160, 128, 0.35) !important;
   box-shadow: none !important;
   cursor: default !important;
   pointer-events: none !important;
-  opacity: 0.5;
+  min-height: 80px !important;
 }
 
 .wow-spellbook-modal-container .wow-spell-icon {

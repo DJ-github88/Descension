@@ -3229,17 +3229,63 @@ html body .inventory-nav-tab.active i {
 }
 
 /* spellbook — spell list as illuminated entries */
-html body .wow-window .wow-spell-list-container .wow-spell-row.wow-spell-row {
-  background: var(--folio-vellum-hi) !important;
-  border: 1px solid var(--folio-gilt-soft) !important;
-  border-radius: 2px !important;
-  box-shadow: inset 0 0 0 2px var(--folio-vellum-hi), inset 0 0 0 3px var(--folio-gilt-faint) !important;
+html body .wow-window .wow-spell-list-container .wow-spell-row.wow-spell-row:not(.empty) {
+  background: linear-gradient(180deg, rgba(255, 252, 245, 0.88) 0%, rgba(246, 240, 228, 0.95) 100%) !important;
+  border: 1px solid rgba(182, 160, 128, 0.45) !important;
+  border-radius: 3px !important;
+  box-shadow: 0 1px 3px rgba(52, 37, 26, 0.04), inset 0 0 10px rgba(182, 160, 128, 0.08) !important;
 }
-html body .wow-window .wow-spell-list-container .wow-spell-row.wow-spell-row:hover { border-color: var(--folio-oxblood) !important; box-shadow: inset 0 0 0 2px var(--folio-vellum-hi), inset 0 0 0 3px rgba(122, 44, 30, .25), 0 2px 6px -3px rgba(54, 35, 15, .35) !important; }
-html body .wow-window .wow-spell-row .wow-spell-icon { border: 1px solid var(--folio-gilt) !important; border-radius: 2px !important; box-shadow: 0 0 0 2px var(--folio-vellum-hi), 0 0 0 3px var(--folio-gilt-faint) !important; }
-html body .wow-window .wow-spell-row .wow-spell-name { font-family: 'Cinzel', Georgia, serif !important; font-weight: 700 !important; color: #2e2014 !important; letter-spacing: .6px; }
-html body .wow-window .wow-spell-row .wow-spell-rank { color: #5e4630 !important; font-style: italic; font-size: 12.5px !important; line-height: 1.35 !important; }
-html body .wow-window .wow-spell-row .wow-spell-type { background: rgba(122, 44, 30, .08) !important; border-color: rgba(122, 44, 30, .35) !important; color: #5a2a1e !important; font-family: 'Cinzel', Georgia, serif !important; font-weight: 700 !important; letter-spacing: 1px; border-radius: 2px !important; }
+html body .wow-window .wow-spell-list-container .wow-spell-row.wow-spell-row:not(.empty):hover {
+  background: linear-gradient(180deg, #ffffff 0%, rgba(252, 247, 238, 0.98) 100%) !important;
+  border-color: #663c32 !important;
+  box-shadow: 0 4px 14px rgba(52, 37, 26, 0.09), inset 0 0 12px rgba(182, 160, 128, 0.12) !important;
+  transform: translateY(-1px) !important;
+}
+html body .wow-window .wow-spell-row .wow-spell-icon {
+  border: 1.5px solid #b6a080 !important;
+  border-radius: 3px !important;
+  background: #231914 !important;
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.45), 0 1px 3px rgba(52, 37, 26, 0.12) !important;
+}
+html body .wow-window .wow-spell-row:hover .wow-spell-icon {
+  border-color: #663c32 !important;
+}
+html body .wow-window .wow-spell-row .wow-spell-name {
+  font-family: 'Cinzel', serif !important;
+  font-weight: 700 !important;
+  color: #34251a !important;
+  letter-spacing: 0.025em !important;
+}
+html body .wow-window .wow-spell-row:hover .wow-spell-name {
+  color: #663c32 !important;
+}
+html body .wow-window .wow-spell-row .class-spell-entry-cadence {
+  font-family: 'Cinzel', serif !important;
+  font-size: 0.68rem !important;
+  font-weight: 700 !important;
+  color: #663c32 !important;
+  background: rgba(182, 160, 128, 0.14) !important;
+  border: 1px solid rgba(182, 160, 128, 0.35) !important;
+  border-radius: 2px !important;
+}
+html body .wow-window .wow-spell-row .class-spell-statline {
+  font-family: 'Crimson Text', Georgia, serif !important;
+  font-style: italic !important;
+  font-size: 0.92rem !important;
+  color: #68533e !important;
+}
+html body .wow-window .wow-spell-row .wow-spell-rank {
+  color: #34251a !important;
+  font-style: normal !important;
+  font-size: 0.88rem !important;
+  line-height: 1.4 !important;
+  opacity: 0.94 !important;
+}
+html body .wow-window .wow-spell-list-container .wow-spell-row.empty {
+  background: transparent !important;
+  border: 1px dashed rgba(182, 160, 128, 0.35) !important;
+  box-shadow: none !important;
+}
 
 /* quest log — ledger index on the left, vellum leaf on the right */
 html body .wow-window .quest-log-container.quest-log-container,

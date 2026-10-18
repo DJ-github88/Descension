@@ -675,6 +675,195 @@ const getStatType = (statName) => {
   return 'general';
 };
 
+const formatSpellTitleCase = (val) => {
+  if (!val) return '';
+  return String(val)
+    .replace(/[-_]/g, ' ')
+    .split(' ')
+    .filter(Boolean)
+    .map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
+    .join(' ');
+};
+
+const extractSpellResourceCosts = (spell) => {
+  if (!spell) return [];
+  const costs = [];
+  const rc = spell.resourceCost;
+
+  // 1. Mana
+  const manaVal = rc?.resourceValues?.mana ?? spell.manaCost ?? rc?.mana;
+  if (manaVal != null && manaVal !== '' && Number(manaVal) !== 0) {
+    costs.push(`${manaVal} Mana`);
+  }
+
+  // 2. Health / HP
+  const hpVal = rc?.resourceValues?.health ?? rc?.resourceValues?.hp ?? spell.healthCost;
+  if (hpVal != null && hpVal !== '' && Number(hpVal) !== 0) {
+    costs.push(`${hpVal} HP`);
+  }
+
+  // 3. Stamina
+  const staminaVal = rc?.resourceValues?.stamina ?? spell.staminaCost;
+  if (staminaVal != null && staminaVal !== '' && Number(staminaVal) !== 0) {
+    costs.push(`${staminaVal} Stamina`);
+  }
+
+  // 4. Primary Class Resource (cost or gain)
+  if (rc?.classResource) {
+    const rawName = rc.classResource.name || rc.classResource.type || 'Rage';
+    const resName = formatSpellTitleCase(rawName);
+    if (rc.classResource.gain != null && Number(rc.classResource.gain) !== 0) {
+      costs.push(`+${rc.classResource.gain} ${resName}`);
+    } else if (rc.classResource.cost != null && Number(rc.classResource.cost) !== 0) {
+      costs.push(`${rc.classResource.cost} ${resName}`);
+    }
+  }
+
+  // 5. Check all other keys in resourceValues (e.g. rage, energy, holyPower, soulShards, bloodTokens, timeShard, etc.)
+  if (rc?.resourceValues && typeof rc.resourceValues === 'object') {
+    const knownHandled = new Set(['mana', 'health', 'hp', 'stamina', 'actionpoints', 'action_points', 'ap', 'inferno_required', 'inferno_ascend', 'inferno_descend']);
+    Object.entries(rc.resourceValues).forEach(([key, val]) => {
+      const lowerKey = key.toLowerCase().replace(/[\s_-]+/g, '');
+      if (knownHandled.has(lowerKey)) return;
+      if (val == null || val === '' || Number(val) === 0) return;
+
+      const formattedName = formatResourceName(key);
+      if (costs.some(c => c.toLowerCase().includes(formattedName.toLowerCase()))) return;
+
+      const numVal = Number(val);
+      if (!isNaN(numVal) && numVal < 0) {
+        costs.push(`+${Math.abs(numVal)} ${formattedName}`);
+      } else {
+        costs.push(`${val} ${formattedName}`);
+      }
+    });
+  }
+
+  // 6. Check resourceConfig (wizard format)
+  if (spell.resourceConfig?.resourceType && spell.resourceConfig?.resourceAmount > 0) {
+    const cfgType = formatResourceName(spell.resourceConfig.resourceType);
+    if (!costs.some(c => c.toLowerCase().includes(cfgType.toLowerCase()))) {
+      costs.push(`${spell.resourceConfig.resourceAmount} ${cfgType}`);
+    }
+  }
+
+  // 7. Check combo points in resourceOptions
+  if (spell.resourceOptions?.comboPoints) {
+    const cp = spell.resourceOptions.comboPoints;
+    if (cp.generates) costs.push(`+${cp.generates} Combo Points`);
+    if (cp.requires) costs.push(`${cp.requires} Combo Points`);
+  }
+
+  return costs;
+};
+
+const extractSpellSchool = (spell) => {
+  const rawSchool = spell.typeConfig?.school ||
+    spell.damageConfig?.damageTypes?.[0] ||
+    (Array.isArray(spell.damageTypes) ? spell.damageTypes[0] : null) ||
+    spell.damageType ||
+    spell.typeConfig?.elementType ||
+    null;
+  return rawSchool ? formatSpellTitleCase(rawSchool) : null;
+};
+
+const extractSpellRange = (spell) => {
+  const tc = spell.targetingConfig || spell.rangeConfig;
+  if (!tc) {
+    if (spell.range != null && spell.range !== '') {
+      const num = Number(spell.range);
+      if (num === 0) return 'Self';
+      return `${spell.range} ft`;
+    }
+    return null;
+  }
+  if (tc.targetingType === 'self' || tc.rangeType === 'self') return 'Self';
+  if (tc.rangeType === 'touch') return 'Touch';
+  if (tc.rangeDistance != null && tc.rangeDistance !== '') {
+    const dist = Number(tc.rangeDistance);
+    if (dist === 0) return 'Self';
+    if (tc.rangeType === 'melee') return `${tc.rangeDistance} ft Melee`;
+    return `${tc.rangeDistance} ft`;
+  }
+  if (tc.rangeType === 'melee') return 'Melee';
+  if (spell.range != null && spell.range !== '') {
+    const num = Number(spell.range);
+    if (num === 0) return 'Self';
+    return `${spell.range} ft`;
+  }
+  return null;
+};
+
+const extractSpellActionBadge = (spell) => {
+  const raw = spell.spellType ||
+    spell.typeConfig?.castTimeType ||
+    spell.actionType ||
+    'ACTION';
+  const upper = String(raw).toUpperCase().trim();
+  if (upper.includes('REACTION')) {
+    return { label: 'Reaction', key: 'reaction' };
+  }
+  if (upper.includes('FREE')) {
+    return { label: 'Free Action', key: 'free-action' };
+  }
+  if (upper.includes('PASSIVE')) {
+    return { label: 'Passive', key: 'passive' };
+  }
+  return { label: 'Action', key: 'action' };
+};
+
+const extractSpellSpecialMechanics = (spell) => {
+  const items = [];
+  const infernoReq = spell.specialMechanics?.infernoLevel?.required ??
+    spell.resourceCost?.resourceValues?.inferno_required;
+  if (infernoReq != null) {
+    const romanNumerals = ['', 'I', 'II', 'III', 'IV', 'V', 'VI'];
+    items.push({ type: 'inferno', text: `Inferno ${romanNumerals[infernoReq] || infernoReq}` });
+  }
+
+  const comboType = spell.specialMechanics?.musicalCombo?.type;
+  if (comboType) {
+    items.push({ type: 'combo', text: comboType === 'builder' ? 'Builder' : 'Cadence' });
+  }
+  return items;
+};
+
+const formatSpellRomanCategory = (categoryName) => {
+  if (!categoryName) return '';
+  const match = categoryName.match(/Level\s*(\d+)/i);
+  if (match) {
+    const num = parseInt(match[1], 10);
+    const romanNumerals = ['', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
+    return `Level ${romanNumerals[num] || num}`;
+  }
+  return categoryName;
+};
+
+const extractSpellStatline = (spell) => {
+  const items = [];
+  const school = extractSpellSchool(spell);
+  if (school) {
+    items.push({ type: 'school', text: school });
+  }
+
+  const range = extractSpellRange(spell);
+  if (range) {
+    items.push({ type: 'range', text: range });
+  }
+
+  const costs = extractSpellResourceCosts(spell);
+  costs.forEach(cost => {
+    items.push({ type: 'cost', text: cost });
+  });
+
+  const mechanics = extractSpellSpecialMechanics(spell);
+  mechanics.forEach(mech => {
+    items.push(mech);
+  });
+
+  return items;
+};
+
 export {
   getInfernoStageName,
   getInfernoStageNameWithSuffix,
@@ -688,5 +877,13 @@ export {
   formatComponentName,
   normalizeSaveType,
   getEnhancedStatName,
-  getStatType
+  getStatType,
+  formatSpellTitleCase,
+  formatSpellRomanCategory,
+  extractSpellResourceCosts,
+  extractSpellSchool,
+  extractSpellRange,
+  extractSpellActionBadge,
+  extractSpellSpecialMechanics,
+  extractSpellStatline
 };

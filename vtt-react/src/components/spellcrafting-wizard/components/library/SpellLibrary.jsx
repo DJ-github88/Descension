@@ -18,6 +18,10 @@ import { TALENT_TREES } from '../../../../data/talentTreeData';
 import { convertTalentSpellToLibrarySpell } from '../../../../data/talentTrees/talentSystem.mjs';
 import SpellCardWithProcs from '../common/SpellCardWithProcs';
 import UnifiedSpellCard from '../common/UnifiedSpellCard';
+import {
+  extractSpellStatline,
+  extractSpellActionBadge
+} from '../common/spellFormatterUtils';
 
 // Pathfinder styles imported via main.css
 
@@ -2182,100 +2186,121 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
       ) : (
        <>
         <div className="wow-spell-list-container">
-          {paginatedSpells.map(spell => (
-           <div
-            key={spell.id}
-            className={`wow-spell-row ${selectedSpell?.id === spell.id ? 'selected' : ''}`}
-            onContextMenu={(e) => handleSpellContextMenu(e, spell.id)}
-            draggable={true}
-            onDragStart={(e) => {
-             const iconName = spell?.typeConfig?.icon ||
-              spell?.icon ||
-              spell?.damageConfig?.icon ||
-              spell?.healingConfig?.icon ||
-              'inv_misc_questionmark';
+          {paginatedSpells.map(spell => {
+           const apCost = spell.resourceCost?.actionPoints ?? spell.ap ?? (spell.resourceCost?.resourceValues?.actionPoints !== undefined ? spell.resourceCost.resourceValues.actionPoints : null);
+           const actionBadge = extractSpellActionBadge(spell);
+           const statlineItems = extractSpellStatline(spell);
+           const spellSnippet = spell.description || spell.utilityConfig?.selectedEffects?.[0]?.description || spell.effect || '';
 
-             const spellData = {
-              ...spell,
-              id: spell.id,
-              name: spell.name,
-              icon: iconName,
-              cooldown: spell.cooldown || 0,
-              level: spell.level || 1,
-              spellType: spell.spellType || 'ACTION',
-              type: 'spell'
-             };
-             const spellJson = JSON.stringify(spellData);
-             e.dataTransfer.setData('application/json', spellJson);
-             e.dataTransfer.setData('text/plain', spellJson);
-             e.dataTransfer.effectAllowed = 'copy';
+           return (
+            <div
+             key={spell.id}
+             className={`wow-spell-row class-spell-entry ${selectedSpell?.id === spell.id ? 'selected' : ''}`}
+             onContextMenu={(e) => handleSpellContextMenu(e, spell.id)}
+             draggable={true}
+             onDragStart={(e) => {
+              const iconName = spell?.typeConfig?.icon ||
+               spell?.icon ||
+               spell?.damageConfig?.icon ||
+               spell?.healingConfig?.icon ||
+               'inv_misc_questionmark';
 
-             // Show just the spell icon as drag image
-             const dragEl = document.createElement('div');
-             dragEl.style.cssText = 'width:42px;height:42px;border-radius:8px;overflow:hidden;position:fixed;top:-200px;left:-200px;z-index:9999;';
-             const img = document.createElement('img');
-             img.src = getSpellIconUrl(spell);
-             img.style.cssText = 'width:100%;height:100%;object-fit:cover;pointer-events:none;';
-             img.onerror = () => { img.src = getCustomIconUrl('Utility/Utility', 'abilities'); };
-             dragEl.appendChild(img);
-             document.body.appendChild(dragEl);
-             e.dataTransfer.setDragImage(dragEl, 21, 21);
-             setTimeout(() => document.body.removeChild(dragEl), 0);
-            }}
-            onMouseDown={(e) => {
-             if (e.button === 2) {
-              handleSpellContextMenu(e, spell.id);
-             } else if (e.button === 0) {
-              e.currentTarget.dataset.mouseDownX = e.clientX;
-              e.currentTarget.dataset.mouseDownY = e.clientY;
-              e.currentTarget.dataset.mouseDownTime = Date.now();
-             }
-            }}
-            onMouseUp={(e) => {
-             if (e.button === 0) {
-              const mouseDownX = parseFloat(e.currentTarget.dataset.mouseDownX || '0');
-              const mouseDownY = parseFloat(e.currentTarget.dataset.mouseDownY || '0');
-              const mouseDownTime = parseInt(e.currentTarget.dataset.mouseDownTime || '0');
-              const mouseMoveDistance = Math.sqrt(
-               Math.pow(e.clientX - mouseDownX, 2) + Math.pow(e.clientY - mouseDownY, 2)
-              );
-              const timeDiff = Date.now() - mouseDownTime;
+              const spellData = {
+               ...spell,
+               id: spell.id,
+               name: spell.name,
+               icon: iconName,
+               cooldown: spell.cooldown || 0,
+               level: spell.level || 1,
+               spellType: spell.spellType || 'ACTION',
+               type: 'spell'
+              };
+              const spellJson = JSON.stringify(spellData);
+              e.dataTransfer.setData('application/json', spellJson);
+              e.dataTransfer.setData('text/plain', spellJson);
+              e.dataTransfer.effectAllowed = 'copy';
 
-              if (mouseMoveDistance < 5 && timeDiff < 300) {
-               e.preventDefault();
-               e.stopPropagation();
-               isShowingPopupRef.current = true;
-               setSelectedSpell(spell);
+              // Show just the spell icon as drag image
+              const dragEl = document.createElement('div');
+              dragEl.style.cssText = 'width:42px;height:42px;border-radius:8px;overflow:hidden;position:fixed;top:-200px;left:-200px;z-index:9999;';
+              const img = document.createElement('img');
+              img.src = getSpellIconUrl(spell);
+              img.style.cssText = 'width:100%;height:100%;object-fit:cover;pointer-events:none;';
+              img.onerror = () => { img.src = getCustomIconUrl('Utility/Utility', 'abilities'); };
+              dragEl.appendChild(img);
+              document.body.appendChild(dragEl);
+              e.dataTransfer.setDragImage(dragEl, 21, 21);
+              setTimeout(() => document.body.removeChild(dragEl), 0);
+             }}
+             onMouseDown={(e) => {
+              if (e.button === 2) {
+               handleSpellContextMenu(e, spell.id);
+              } else if (e.button === 0) {
+               e.currentTarget.dataset.mouseDownX = e.clientX;
+               e.currentTarget.dataset.mouseDownY = e.clientY;
+               e.currentTarget.dataset.mouseDownTime = Date.now();
               }
-             }
-            }}
-            onClick={(e) => {
-             e.preventDefault();
-             e.stopPropagation();
-            }}
-            style={{ cursor: 'pointer' }}
-           >
-            <div className="wow-spell-icon">
-             <img
-              src={getSpellIconUrl(spell)}
-              alt={spell.name}
-              onError={(e) => {
-               e.target.onerror = null;
-               e.target.src = getCustomIconUrl('Utility/Utility', 'abilities');
-              }}
-             />
+             }}
+             onMouseUp={(e) => {
+              if (e.button === 0) {
+               const mouseDownX = parseFloat(e.currentTarget.dataset.mouseDownX || '0');
+               const mouseDownY = parseFloat(e.currentTarget.dataset.mouseDownY || '0');
+               const mouseDownTime = parseInt(e.currentTarget.dataset.mouseDownTime || '0');
+               const mouseMoveDistance = Math.sqrt(
+                Math.pow(e.clientX - mouseDownX, 2) + Math.pow(e.clientY - mouseDownY, 2)
+               );
+               const timeDiff = Date.now() - mouseDownTime;
+
+               if (mouseMoveDistance < 5 && timeDiff < 300) {
+                e.preventDefault();
+                e.stopPropagation();
+                isShowingPopupRef.current = true;
+                setSelectedSpell(spell);
+               }
+              }
+             }}
+             onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+             }}
+             style={{ cursor: 'pointer' }}
+            >
+             <div className="wow-spell-icon class-spell-entry-image-frame">
+              <img
+               src={getSpellIconUrl(spell)}
+               alt=""
+               onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = getCustomIconUrl('Utility/Utility', 'abilities');
+               }}
+              />
+             </div>
+             <div className="wow-spell-info class-spell-entry-details">
+              <div className="class-spell-entry-header">
+               <span className="wow-spell-name class-spell-entry-name">{spell.name}</span>
+               <span className="class-spell-entry-cadence">
+                {apCost != null && <span className="cadence-ap">{apCost} AP</span>}
+                {apCost != null && <span className="cadence-sep" aria-hidden="true">•</span>}
+                <span className={`cadence-action action-${actionBadge.key}`}>{actionBadge.label}</span>
+               </span>
+              </div>
+              {statlineItems.length > 0 && (
+               <div className="class-spell-statline">
+                {statlineItems.map((item, idx) => (
+                 <React.Fragment key={idx}>
+                  {idx > 0 && <span className="statline-sep" aria-hidden="true">•</span>}
+                  <span className={`statline-item statline-item--${item.type}`}>{item.text}</span>
+                 </React.Fragment>
+                ))}
+               </div>
+              )}
+              {spellSnippet && (
+               <p className="class-spell-snippet wow-spell-rank">{spellSnippet}</p>
+              )}
+             </div>
             </div>
-            <div className="wow-spell-info">
-             <p className="wow-spell-name">{spell.name}</p>
-             <p className="wow-spell-rank">
-              {spell.description || spell.spellType || 'Action'}
-             </p>
-            </div>
-            {spell.spellType && (
-             <span className="wow-spell-type">{spell.spellType}</span>
-            )}
-           </div>
-          ))}
+           );
+          })}
 
           {Array.from({ length: Math.max(0, spellsPerPage - paginatedSpells.length) }).map((_, idx) => (
            <div key={`empty-slot-${idx}`} className="wow-spell-row empty" aria-hidden="true">

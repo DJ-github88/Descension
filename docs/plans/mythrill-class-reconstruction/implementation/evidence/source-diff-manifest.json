@@ -45,15 +45,18 @@
   "newTestFiles": [
     {
       "path": "vtt-react/src/components/spellcrafting-wizard/components/steps/__tests__/Step5Resources.zeroAP.test.jsx",
-      "sha256": "d2434dbeeabbb0e1b12f3c22065b9d73415fdee4253b3710ce63de6e14a0ce21"
+      "sha256": "79f3a8a1fa4dce07d8b3fbcffdd9955042ccb9e3a2434518ba47dd0992d39948",
+      "note": "13 tests; review-era hash d2434dbe…; added mounted conflicting/stale/batched edit/deselect/reselect regressions"
     },
     {
       "path": "vtt-react/src/components/spellcrafting-wizard/core/mechanics/__tests__/resourceManager.zeroAP.test.js",
-      "sha256": "9a3dad087f22c3c3a9509eaf6490605a80644e8cf4a027205d006e92ff64b1c4"
+      "sha256": "ce58b328af6d4f71e99bb1820cddeb5a0594959cc939c843c8a188daa56bc415",
+      "note": "16 tests; review-era hash 9a3dad08…; conflicting-value, deselected-stale and formula-mode regressions with row assertions"
     },
     {
       "path": "vtt-react/src/components/spellcrafting-wizard/core/utils/__tests__/spellSerializer.resourceRoundTrip.test.js",
-      "sha256": "de00585d4a0d1cc69e773860686c1aa14a9c97665b19ca8fa42284fef56b545e"
+      "sha256": "de00585d4a0d1cc69e773860686c1aa14a9c97665b19ca8fa42284fef56b545e",
+      "note": "14 tests; unchanged since acceptance (W1b)"
     }
   ],
   "protectedFilesVerifiedUnchanged": {
@@ -66,7 +69,17 @@
     "vtt-react/package.json": "63475810b4b5205fd00e36e65573ecb48aab95d2eb95e3899bc81f2ea5375b7a"
   },
   "evidenceArtifacts": [
-    "evidence/diff-W1a-W1b.patch",
+    "evidence/diff-W1a-W1b.patch (reviewed-era; retained as historical)",
+    "evidence/diff-W1a-W1b-corrected.patch (post-review bounded correction)",
+    "evidence/independent-review/review.md",
+    "evidence/independent-review/re-review-corrected.md",
+    "evidence/independent-review/witness-server.cjs",
+    "evidence/independent-review/witness-run.js",
+    "evidence/independent-review/witness-results-corrected.json",
+    "evidence/independent-review/witness-console-corrected.txt",
+    "evidence/independent-review/production-save-reopen-snapshot-corrected.md",
+    "evidence/independent-review/witness-source-hashes.json (refreshed for corrected source)",
+    "evidence/independent-review/witness-source-hashes-review-era.json (preserved)",
     "evidence/CR-W1a/witness-server.cjs",
     "evidence/CR-W1a/witness-source-hashes.json",
     "evidence/CR-W1a/witness-results.json",
@@ -79,9 +92,11 @@
     "evidence/acceptance-report.md"
   ],
   "commands": {
-    "tests": "$env:CI='true'; npm test -- --watchAll=false --runInBand --runTestsByPath <3 suites>",
-    "lint": "npx eslint <3 source files + 3 test files> => 0 errors, 19 warnings (pre-existing unused-import/DOM style plus 2 informational missing-deps warnings)",
-    "witnessW1a": "node docs/plans/.../CR-W1a/witness-server.cjs (127.0.0.1:10698) driven by Playwright MCP",
+    "tests": "$env:CI='true'; npm test -- --watchAll=false --runInBand --runTestsByPath <3 suites> => 43/43 pass (Step5 13, resourceManager 16, serializer 14)",
+    "lint": "npx eslint (2 corrected source files + 2 updated test files) => 0 errors; pre-existing warnings only",
+    "diffCheck": "git diff --check => clean",
+    "witnessW1aCorrected": "node evidence/independent-review/witness-server.cjs (127.0.0.1:17301) + witness-run.js via Playwright => all checks pass; evidence witness-results-corrected.json",
+    "witnessW1aInitial": "node docs/plans/.../CR-W1a/witness-server.cjs (127.0.0.1:10698) driven by Playwright MCP (pre-review)",
     "witnessW1b": "node docs/plans/.../CR-W1b/witness-server.cjs (127.0.0.1:10901) driven by Playwright MCP"
   }
 }

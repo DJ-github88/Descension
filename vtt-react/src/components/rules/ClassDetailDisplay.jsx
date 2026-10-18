@@ -2,6 +2,11 @@ import React, { useState, useRef, useMemo, useEffect, useCallback } from 'react'
 import { sanitizeHtml } from '../../utils/sanitizeHtml';
 import UnifiedSpellCard from '../spellcrafting-wizard/components/common/UnifiedSpellCard';
 import { getSpellRollableTable } from '../spellcrafting-wizard/core/utils/spellCardTransformer';
+import {
+  extractSpellStatline,
+  extractSpellActionBadge,
+  formatSpellRomanCategory
+} from '../spellcrafting-wizard/components/common/spellFormatterUtils';
 import ClassResourceBar from '../hud/ClassResourceBar';
 import { getIconUrl, getCustomIconUrl } from '../../utils/assetManager';
 import { getClassResourceConfig } from '../../data/classResources';
@@ -2959,74 +2964,6 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
   const leftPageCategory = pageCategories[0] || null;
   const rightPageCategory = pageCategories[1] || null;
   
-   const formatSpellRomanCategory = (categoryName) => {
-    if (!categoryName) return '';
-    const match = categoryName.match(/Level\s*(\d+)/i);
-    if (match) {
-      const num = parseInt(match[1], 10);
-      const romanNumerals = ['', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
-      return `Level ${romanNumerals[num] || num}`;
-    }
-    return categoryName;
-   };
-
-   const formatSpellTitleCase = (val) => {
-    if (!val) return '';
-    return String(val)
-      .replace(/[-_]/g, ' ')
-      .split(' ')
-      .filter(Boolean)
-      .map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
-      .join(' ');
-   };
-
-   const getSpellActionBadge = (spell) => {
-    const raw = spell.spellType || spell.typeConfig?.castTimeType || 'ACTION';
-    const upper = String(raw).toUpperCase().trim();
-    if (upper.includes('REACTION')) {
-      return { label: 'Reaction', key: 'reaction' };
-    }
-    if (upper.includes('FREE')) {
-      return { label: 'Free Action', key: 'free-action' };
-    }
-    if (upper.includes('PASSIVE')) {
-      return { label: 'Passive', key: 'passive' };
-    }
-    return { label: 'Action', key: 'action' };
-   };
-
-   const formatSpellRange = (spell) => {
-    const tc = spell.targetingConfig;
-    if (!tc) return null;
-    if (tc.targetingType === 'self' || tc.rangeType === 'self') return 'Self';
-    if (tc.rangeType === 'touch') return 'Touch';
-    if (tc.rangeDistance != null && tc.rangeDistance !== '') {
-      const dist = Number(tc.rangeDistance);
-      if (dist === 0) return 'Self';
-      if (tc.rangeType === 'melee') return `${tc.rangeDistance} ft Melee`;
-      return `${tc.rangeDistance} ft`;
-    }
-    if (tc.rangeType === 'melee') return 'Melee';
-    return null;
-   };
-
-   const getSpellSecondaryCost = (spell) => {
-    const rc = spell.resourceCost;
-    if (!rc) return null;
-    if (rc.resourceValues?.health) return `${rc.resourceValues.health} HP`;
-    if (rc.resourceValues?.mana) return `${rc.resourceValues.mana} Mana`;
-    if (spell.manaCost) return `${spell.manaCost} Mana`;
-    if (rc.classResource?.gain) {
-      const resName = formatSpellTitleCase(rc.classResource.name || rc.classResource.type || 'Rage');
-      return `+${rc.classResource.gain} ${resName}`;
-    }
-    if (rc.classResource?.cost) {
-      const resName = formatSpellTitleCase(rc.classResource.name || rc.classResource.type || 'Rage');
-      return `${rc.classResource.cost} ${resName}`;
-    }
-    return null;
-   };
-
    const renderSpellCategory = (categoryEntry, side = 'left') => {
     if (!categoryEntry) return null;
    
@@ -3047,34 +2984,10 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
        <div className="class-spell-list">
        {categorySpells.map(spell => {
         const iconUrl = spellIconUrls.get(spell.id) || fallbackUrl;
-        const apCost = spell.resourceCost?.actionPoints ?? spell.ap;
-        const rawSchool = spell.typeConfig?.school || spell.damageConfig?.damageTypes?.[0] || spell.damageType || null;
-        const formattedSchool = rawSchool ? formatSpellTitleCase(rawSchool) : null;
-        const actionBadge = getSpellActionBadge(spell);
-        const formattedRange = formatSpellRange(spell);
-        const secondaryCost = getSpellSecondaryCost(spell);
-        const infernoReq = spell.specialMechanics?.infernoLevel?.required;
-        const romanNumerals = ['', 'I', 'II', 'III', 'IV', 'V', 'VI'];
-        const formattedInferno = infernoReq != null ? `Inferno ${romanNumerals[infernoReq] || infernoReq}` : null;
-        const comboType = spell.specialMechanics?.musicalCombo?.type;
+        const apCost = spell.resourceCost?.actionPoints ?? spell.ap ?? (spell.resourceCost?.resourceValues?.actionPoints !== undefined ? spell.resourceCost.resourceValues.actionPoints : null);
+        const actionBadge = extractSpellActionBadge(spell);
+        const statlineItems = extractSpellStatline(spell);
         const spellSnippet = spell.description || spell.utilityConfig?.selectedEffects?.[0]?.description || spell.effect || '';
-
-        const statlineItems = [];
-        if (formattedSchool) {
-          statlineItems.push({ type: 'school', text: formattedSchool });
-        }
-        if (formattedRange) {
-          statlineItems.push({ type: 'range', text: formattedRange });
-        }
-        if (secondaryCost) {
-          statlineItems.push({ type: 'cost', text: secondaryCost });
-        }
-        if (formattedInferno) {
-          statlineItems.push({ type: 'inferno', text: formattedInferno });
-        }
-        if (comboType) {
-          statlineItems.push({ type: 'combo', text: comboType === 'builder' ? 'Builder' : 'Cadence' });
-        }
 
         return (
           <button
