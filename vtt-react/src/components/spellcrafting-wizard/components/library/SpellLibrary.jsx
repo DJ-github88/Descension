@@ -257,7 +257,7 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
  const characterStorePath = useCharacterStore(state => state.path);
 
  // Get active character's level (prefer active character's level if available)
- const activeChar = characters.find(char => char.id === currentCharacterId);
+ const activeChar = Array.isArray(characters) ? characters.find(char => char.id === currentCharacterId) : null;
 
  // Use character store race/subrace if available (for wizard), otherwise use activeChar
  const currentRace = characterStoreRace || activeChar?.race;
@@ -660,7 +660,7 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
  // Debug: Log spell library state changes (disabled)
  useEffect(() => {
   // Debug logging disabled
- }, [hasActiveCharacter, hasClassSpells, characterClass, activeCharacter, spellCategories.length, classSpellsLoading, classSpellsError, user?.uid, userSpellsLoaded, library.spells.length, generalSpells.length, allSpellCategories.length]);
+ }, [hasActiveCharacter, hasClassSpells, characterClass, activeCharacter, spellCategories?.length, classSpellsLoading, classSpellsError, user?.uid, userSpellsLoaded, library.spells.length, generalSpells.length, allSpellCategories.length]);
 
  // Calculate preview panel position when a spell is selected
  useEffect(() => {
