@@ -1,0 +1,30 @@
+{
+  "generatedAt": "2026-10-18",
+  "note": "CR-A1a new files only. No pre-existing file was modified; preservation re-verified against entry-server-hashes.json (108/108 byte-identical).",
+  "files": {
+    "server/services/authoredSpellDefinitions.js": "b2bc0c7e70fe9118203a23dab910158ba17e91812ba2db014551132993323b49",
+    "server/tests/authoredSpellDefinitions.test.js": "ea549faeb22b684858af28ed1fa3594db9b00a7732fe42dc9a8239abdc9df4b5",
+    "server/tests/fixtures/crA1aDefinitionVectors.json": "e6a98a497308b8535538b9887435c9189127afa768b60cd8e01af31cd3c55bdb"
+  },
+  "frozenFixtureSource": {
+    "path": "docs/plans/mythrill-class-reconstruction/implementation/fixtures/CR-A1a-definition-vectors.json",
+    "sha256": "e6a98a497308b8535538b9887435c9189127afa768b60cd8e01af31cd3c55bdb",
+    "byteIdenticalCopy": true
+  },
+  "goldenVectorHashesVerifiedBySuite": {
+    "zero-ap-damage": "d0f251d988425dfa9c04011e9e86f02628838efdbce3716f41694ea2f507b351",
+    "changed-price-ap1": "c26c8d69d1d1c512d6e67c1098f44723a4301917265d64f280bb4421e7a7f49f",
+    "direct-healing": "8875e6cdf3e866e48fadddbba436d4194bd87e213dc123abeb7d84330f0dd692"
+  },
+  "entryGitState": {
+    "branch": "master",
+    "headAtEntry": "7f0abb8c445644cf46a4964f924a147f93f07610",
+    "headAtCompletion": "501e5a9d1f471f5c5c7fad53be0d83481e966e10",
+    "headMovesWereConcurrentUserSpellbookCommits": true
+  },
+  "roomCheckpointReusedReadOnly": {
+    "path": "server/services/roomCheckpoint.js",
+    "sha256": "3eea1acb33cfa26d9b3f401ff82c4c93e113c9d8def54a7eece70badcc5ee07f",
+    "unchanged": true
+  }
+}

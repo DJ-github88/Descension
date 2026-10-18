@@ -51,6 +51,11 @@ const formatResourceName = (resourceType) => {
     'soul_power': 'Soul Power',
     'arcane_power': 'Arcane Power',
     'arcane_energy_points': 'AEP',
+    'aep': 'AEP',
+    'hp': 'HP',
+    'ap': 'AP',
+    'drp': 'DRP',
+    'dr': 'DR',
     'combo_points': 'Combo Points',
     'soul_shards': 'Soul Shards',
     'holy_power': 'Holy Power',
@@ -61,6 +66,8 @@ const formatResourceName = (resourceType) => {
     'health': 'Health',
     'mana': 'Mana',
     'inferno': 'Inferno',
+    'inferno_veil': 'Inferno Veil',
+    'mayhem': 'Mayhem',
     'rage': 'Rage',
     'energy': 'Energy',
     'focus': 'Focus',
@@ -73,10 +80,15 @@ const formatResourceName = (resourceType) => {
     return resourceNameMap[snakeKey];
   }
 
+  const acronyms = new Set(['HP', 'AP', 'AEP', 'DRP', 'DR']);
   return snakeKey
     .split('_')
     .filter(Boolean)
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .map(word => {
+      const upper = word.toUpperCase();
+      if (acronyms.has(upper)) return upper;
+      return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+    })
     .join(' ');
 };
 
@@ -729,23 +741,51 @@ const extractSpellResourceCosts = (spell) => {
   }
 
   // 4. Primary Class Resource (cost or gain)
-  if (rc?.classResource) {
-    const rawName = rc.classResource.name || rc.classResource.type || 'Rage';
-    const resName = formatSpellTitleCase(rawName);
-    if (rc.classResource.gain != null && Number(rc.classResource.gain) !== 0) {
-      costs.push(`+${rc.classResource.gain} ${resName}`);
-    } else if (rc.classResource.cost != null && Number(rc.classResource.cost) !== 0) {
-      costs.push(`${rc.classResource.cost} ${resName}`);
+  // Check rc.classResource OR rc.resourceValues.classResource (e.g. Pyrofiend, Harbinger, etc.)
+  const rawClassRes = rc?.classResource || (typeof rc?.resourceValues?.classResource === 'object' ? rc.resourceValues.classResource : null);
+  if (rawClassRes && typeof rawClassRes === 'object') {
+    const rawType = rawClassRes.name || rawClassRes.type;
+    if (rawType && typeof rawType === 'string') {
+      const resName = formatResourceName(rawType);
+      if (rawClassRes.gain != null && Number(rawClassRes.gain) !== 0) {
+        costs.push(`+${rawClassRes.gain} ${resName}`);
+      } else if (rawClassRes.cost != null && Number(rawClassRes.cost) !== 0) {
+        const numCost = Number(rawClassRes.cost);
+        if (!isNaN(numCost) && numCost < 0) {
+          costs.push(`+${Math.abs(numCost)} ${resName}`);
+        } else {
+          costs.push(`${rawClassRes.cost} ${resName}`);
+        }
+      }
     }
   }
 
   // 5. Check all other keys in resourceValues (e.g. rage, energy, holyPower, soulShards, bloodTokens, timeShard, etc.)
   if (rc?.resourceValues && typeof rc.resourceValues === 'object') {
-    const knownHandled = new Set(['mana', 'health', 'hp', 'stamina', 'actionpoints', 'action_points', 'ap', 'inferno_required', 'inferno_ascend', 'inferno_descend']);
+    const knownHandled = new Set([
+      'mana', 'health', 'hp', 'stamina', 'actionpoints', 'action_points', 'ap',
+      'inferno_required', 'infernorequired', 'classresource', 'class_resource'
+    ]);
     Object.entries(rc.resourceValues).forEach(([key, val]) => {
       const lowerKey = key.toLowerCase().replace(/[\s_-]+/g, '');
       if (knownHandled.has(lowerKey)) return;
       if (val == null || val === '' || Number(val) === 0) return;
+      if (typeof val === 'object' || typeof val === 'function') return;
+
+      if (lowerKey === 'infernoascend') {
+        if (!costs.some(c => c.toLowerCase().includes('inferno'))) {
+          const num = Number(val);
+          costs.push(num > 0 ? `+${num} Inferno` : `${num} Inferno`);
+        }
+        return;
+      }
+      if (lowerKey === 'infernodescend') {
+        if (!costs.some(c => c.toLowerCase().includes('inferno'))) {
+          const num = Number(val);
+          costs.push(`-${Math.abs(num)} Inferno`);
+        }
+        return;
+      }
 
       const formattedName = formatResourceName(key);
       if (costs.some(c => c.toLowerCase().includes(formattedName.toLowerCase()))) return;
@@ -836,8 +876,8 @@ const extractSpellSpecialMechanics = (spell) => {
   const items = [];
   const infernoReq = spell.specialMechanics?.infernoLevel?.required ??
     spell.resourceCost?.resourceValues?.inferno_required;
-  if (infernoReq != null) {
-    const romanNumerals = ['', 'I', 'II', 'III', 'IV', 'V', 'VI'];
+  if (infernoReq != null && Number(infernoReq) > 0) {
+    const romanNumerals = ['', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
     items.push({ type: 'inferno', text: `Inferno ${romanNumerals[infernoReq] || infernoReq}` });
   }
 

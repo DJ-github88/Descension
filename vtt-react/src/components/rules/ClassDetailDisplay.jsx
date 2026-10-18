@@ -3019,8 +3019,8 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
             <span className="class-spell-entry-header">
              <span className="class-spell-entry-name">{spell.name}</span>
              <span className="class-spell-entry-cadence">
-              {apCost != null && <span className="cadence-ap">{apCost} AP</span>}
-              {apCost != null && <span className="cadence-sep" aria-hidden="true">•</span>}
+              {apCost != null && apCost > 0 && <span className="cadence-ap">{apCost} AP</span>}
+              {apCost != null && apCost > 0 && <span className="cadence-sep" aria-hidden="true">•</span>}
               <span className={`cadence-action action-${actionBadge.key}`}>{actionBadge.label}</span>
              </span>
             </span>

@@ -311,10 +311,10 @@
 /* Authentic TTRPG Grimoire Entry: uniform hairline framing, no colored side stripes */
 .class-detail-display.premium-theme .class-spell-entry {
   display: flex;
-  gap: 13px;
+  gap: 11px;
   align-items: flex-start;
   width: 100%;
-  padding: 11px 13px;
+  padding: 8px 12px;
   background: linear-gradient(180deg, rgba(255, 252, 245, 0.88) 0%, rgba(246, 240, 228, 0.95) 100%);
   border: 1px solid rgba(182, 160, 128, 0.45);
   border-radius: 3px;
@@ -352,9 +352,9 @@
 
 /* Woodcut / Illuminated manuscript miniature plate */
 .class-detail-display.premium-theme .class-spell-entry-image-frame {
-  flex: 0 0 46px;
-  width: 46px;
-  height: 46px;
+  flex: 0 0 42px;
+  width: 42px;
+  height: 42px;
   position: relative;
   border-radius: 3px;
   overflow: hidden;
@@ -381,25 +381,31 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 2px;
 }
 
 .class-detail-display.premium-theme .class-spell-entry-header {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  gap: 8px;
+  gap: 6px;
+  min-width: 0;
 }
 
 .class-detail-display.premium-theme .class-spell-entry-name {
   margin: 0;
   font-family: 'Cinzel', serif;
-  font-size: 0.95rem;
+  font-size: 0.90rem;
   font-weight: 700;
-  line-height: 1.25;
-  letter-spacing: 0.025em;
+  line-height: 1.2;
+  letter-spacing: 0.02em;
   color: var(--codex-ink);
   transition: color 140ms ease;
+  min-width: 0;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .class-detail-display.premium-theme .class-spell-entry:hover .class-spell-entry-name {
@@ -410,18 +416,18 @@
 .class-detail-display.premium-theme .class-spell-entry-cadence {
   flex-shrink: 0;
   font-family: 'Cinzel', serif;
-  font-size: 0.68rem;
+  font-size: 0.62rem;
   font-weight: 700;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.04em;
   color: var(--codex-seal);
   background: rgba(182, 160, 128, 0.14);
   border: 1px solid rgba(182, 160, 128, 0.35);
   border-radius: 2px;
-  padding: 1px 6px;
+  padding: 1px 5px;
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  line-height: 1.25;
+  gap: 3px;
+  line-height: 1.2;
   white-space: nowrap;
 }
 
@@ -432,7 +438,7 @@
 
 .class-detail-display.premium-theme .class-spell-entry-cadence .cadence-sep {
   color: var(--codex-rule);
-  font-size: 0.65rem;
+  font-size: 0.60rem;
   user-select: none;
 }
 
@@ -456,21 +462,26 @@
 .class-detail-display.premium-theme .class-spell-statline {
   font-family: 'Crimson Text', Georgia, serif;
   font-style: italic;
-  font-size: 0.92rem;
-  line-height: 1.35;
+  font-size: 0.82rem;
+  line-height: 1.25;
   color: var(--codex-muted);
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 0;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
 }
 
 .class-detail-display.premium-theme .statline-sep {
-  margin: 0 6px;
+  margin: 0 5px;
   font-style: normal;
   color: var(--codex-rule);
-  font-size: 0.72rem;
+  font-size: 0.70rem;
   user-select: none;
+}
+
+.class-detail-display.premium-theme .statline-item {
+  display: inline;
 }
 
 .class-detail-display.premium-theme .statline-item--school {
@@ -495,18 +506,19 @@
 
 /* Concise Inscription Snippet */
 .class-detail-display.premium-theme .class-spell-snippet {
-  margin: 3px 0 0;
+  margin: 1px 0 0;
   font-family: 'Crimson Text', Georgia, serif;
-  font-size: 0.88rem;
-  line-height: 1.4;
+  font-size: 0.82rem;
+  line-height: 1.3;
   color: var(--codex-ink);
-  opacity: 0.94;
+  opacity: 0.92;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
   text-align: left;
+  max-height: 2.6em;
 }
 
 /* Colophon Inspect Action */

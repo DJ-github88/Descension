@@ -289,9 +289,9 @@
 .wow-spell-row {
   display: flex;
   align-items: flex-start;
-  gap: 13px;
-  padding: 11px 13px;
-  margin-bottom: 6px;
+  gap: 10px;
+  padding: 7px 11px;
+  margin-bottom: 0;
   width: 100%;
   max-width: 100%;
   min-width: 0;
@@ -304,7 +304,7 @@
   position: relative;
   box-sizing: border-box;
   user-select: none;
-  min-height: 80px;
+  min-height: 70px;
   overflow: hidden;
   box-shadow: 0 1px 3px rgba(52, 37, 26, 0.04), inset 0 0 10px rgba(182, 160, 128, 0.08);
 }
@@ -338,9 +338,9 @@
 
 /* Woodcut / Illuminated miniature plate */
 .wow-spell-icon {
-  flex: 0 0 46px;
-  width: 46px;
-  height: 46px;
+  flex: 0 0 42px;
+  width: 42px;
+  height: 42px;
   position: relative;
   border-radius: 3px;
   overflow: hidden;
@@ -377,7 +377,7 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 2px;
   padding-right: 0;
   overflow: hidden;
 }
@@ -386,20 +386,23 @@
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  gap: 8px;
+  gap: 6px;
+  min-width: 0;
 }
 
 .wow-spell-name {
   margin: 0;
   font-family: 'Cinzel', serif;
-  font-size: 0.95rem;
+  font-size: 0.88rem;
   font-weight: 700;
-  line-height: 1.25;
-  letter-spacing: 0.025em;
+  line-height: 1.2;
+  letter-spacing: 0.02em;
   color: #34251a;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  min-width: 0;
+  flex: 1;
   transition: color 140ms ease;
 }
 
@@ -411,18 +414,18 @@
 .wow-spell-row .class-spell-entry-cadence {
   flex-shrink: 0;
   font-family: 'Cinzel', serif;
-  font-size: 0.68rem;
+  font-size: 0.62rem;
   font-weight: 700;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.04em;
   color: #663c32;
   background: rgba(182, 160, 128, 0.14);
   border: 1px solid rgba(182, 160, 128, 0.35);
   border-radius: 2px;
-  padding: 1px 6px;
+  padding: 1px 5px;
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  line-height: 1.25;
+  gap: 3px;
+  line-height: 1.2;
   white-space: nowrap;
 }
 
@@ -433,7 +436,7 @@
 
 .wow-spell-row .cadence-sep {
   color: #b6a080;
-  font-size: 0.65rem;
+  font-size: 0.60rem;
   user-select: none;
 }
 
@@ -457,21 +460,26 @@
 .wow-spell-row .class-spell-statline {
   font-family: 'Crimson Text', Georgia, serif;
   font-style: italic;
-  font-size: 0.92rem;
-  line-height: 1.35;
+  font-size: 0.82rem;
+  line-height: 1.25;
   color: #68533e;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+  min-width: 0;
 }
 
 .wow-spell-row .statline-sep {
-  margin: 0 6px;
+  margin: 0 5px;
   font-style: normal;
   color: #b6a080;
-  font-size: 0.72rem;
+  font-size: 0.70rem;
   user-select: none;
+}
+
+.wow-spell-row .statline-item {
+  display: inline;
 }
 
 .wow-spell-row .statline-item--school {
@@ -496,18 +504,19 @@
 
 /* Concise Inscription Snippet */
 .wow-spell-row .class-spell-snippet {
-  margin: 3px 0 0;
+  margin: 1px 0 0;
   font-family: 'Crimson Text', Georgia, serif;
-  font-size: 0.88rem;
-  line-height: 1.4;
+  font-size: 0.82rem;
+  line-height: 1.3;
   color: #34251a;
-  opacity: 0.94;
+  opacity: 0.92;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
   text-align: left;
+  max-height: 2.6em;
 }
 
 /* Pagination */
@@ -577,7 +586,9 @@
   border-radius: 3px;
   cursor: default;
   box-shadow: none;
-  min-height: 80px;
+  min-height: 70px;
+  padding: 7px 11px;
+  margin-bottom: 0;
 }
 .wow-spell-row.empty:hover {
   background: transparent;
@@ -587,8 +598,8 @@
 }
 .wow-spell-row.empty .wow-empty-icon,
 .wow-empty-icon {
-  width: 46px;
-  height: 46px;
+  width: 42px;
+  height: 42px;
   border: 1.5px dashed rgba(182, 160, 128, 0.4);
   border-radius: 3px;
   background: rgba(255, 250, 235, 0.25);
@@ -598,7 +609,7 @@
 .wow-spell-row.empty .wow-empty-name-box,
 .wow-empty-name-box {
   flex: 1;
-  height: 18px;
+  height: 16px;
   border: 1px solid rgba(182, 160, 128, 0.35);
   border-radius: 4px;
   background: rgba(255, 250, 235, 0.2);
@@ -690,11 +701,12 @@
 
 /* Selected spell row highlight - stronger when detail panel is open */
 .wow-spell-row.selected {
-  border-left-color: #8B4513 !important;
+  border-color: #663c32 !important;
+  box-shadow: 0 0 0 1px rgba(102, 60, 50, 0.25), inset 0 0 12px rgba(102, 60, 50, 0.08) !important;
 }
 
 .wow-spell-row.selected .wow-spell-name {
-  color: #8B4513 !important;
+  color: #663c32 !important;
 }
 
 /* Responsive adjustments for mobile and narrow screens */

@@ -139,5 +139,35 @@ describe('spellFormatterUtils - Authentic Grimoire Formatting', () => {
         { type: 'inferno', text: 'Inferno I' }
       ]);
     });
+
+    it('formats Pyrofiend Flicker without [object Object], without duplicate ascend and without Inferno 0', () => {
+      const flickerSpell = {
+        name: 'Flicker',
+        typeConfig: { school: 'ember' },
+        targetingConfig: { rangeDistance: 60 },
+        resourceCost: {
+          actionPoints: 2,
+          resourceTypes: ['mana', 'inferno_ascend', 'inferno_required'],
+          resourceValues: {
+            mana: 3,
+            inferno_ascend: 1,
+            inferno_required: 0,
+            classResource: { type: 'inferno_veil', gain: 1 }
+          }
+        }
+      };
+
+      const statline = extractSpellStatline(flickerSpell);
+      expect(statline).toEqual([
+        { type: 'school', text: 'Ember' },
+        { type: 'range', text: '60 ft' },
+        { type: 'cost', text: '3 Mana' },
+        { type: 'cost', text: '+1 Inferno Veil' }
+      ]);
+
+      const texts = statline.map(item => item.text);
+      expect(texts).not.toContain('[object Object] Class Resource');
+      expect(texts).not.toContain('Inferno 0');
+    });
   });
 });

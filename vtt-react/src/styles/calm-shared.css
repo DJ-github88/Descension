@@ -3234,6 +3234,10 @@ html body .wow-window .wow-spell-list-container .wow-spell-row.wow-spell-row:not
   border: 1px solid rgba(182, 160, 128, 0.45) !important;
   border-radius: 3px !important;
   box-shadow: 0 1px 3px rgba(52, 37, 26, 0.04), inset 0 0 10px rgba(182, 160, 128, 0.08) !important;
+  padding: 7px 11px !important;
+  margin-bottom: 0 !important;
+  min-height: 70px !important;
+  gap: 10px !important;
 }
 html body .wow-window .wow-spell-list-container .wow-spell-row.wow-spell-row:not(.empty):hover {
   background: linear-gradient(180deg, #ffffff 0%, rgba(252, 247, 238, 0.98) 100%) !important;
@@ -3242,6 +3246,9 @@ html body .wow-window .wow-spell-list-container .wow-spell-row.wow-spell-row:not
   transform: translateY(-1px) !important;
 }
 html body .wow-window .wow-spell-row .wow-spell-icon {
+  width: 42px !important;
+  height: 42px !important;
+  flex: 0 0 42px !important;
   border: 1.5px solid #b6a080 !important;
   border-radius: 3px !important;
   background: #231914 !important;
@@ -3252,39 +3259,57 @@ html body .wow-window .wow-spell-row:hover .wow-spell-icon {
 }
 html body .wow-window .wow-spell-row .wow-spell-name {
   font-family: 'Cinzel', serif !important;
+  font-size: 0.88rem !important;
   font-weight: 700 !important;
+  line-height: 1.2 !important;
   color: #34251a !important;
-  letter-spacing: 0.025em !important;
+  letter-spacing: 0.02em !important;
 }
 html body .wow-window .wow-spell-row:hover .wow-spell-name {
   color: #663c32 !important;
 }
 html body .wow-window .wow-spell-row .class-spell-entry-cadence {
   font-family: 'Cinzel', serif !important;
-  font-size: 0.68rem !important;
+  font-size: 0.62rem !important;
   font-weight: 700 !important;
   color: #663c32 !important;
   background: rgba(182, 160, 128, 0.14) !important;
   border: 1px solid rgba(182, 160, 128, 0.35) !important;
   border-radius: 2px !important;
+  padding: 1px 5px !important;
+  line-height: 1.2 !important;
 }
 html body .wow-window .wow-spell-row .class-spell-statline {
   font-family: 'Crimson Text', Georgia, serif !important;
   font-style: italic !important;
-  font-size: 0.92rem !important;
+  font-size: 0.82rem !important;
+  line-height: 1.25 !important;
   color: #68533e !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  display: block !important;
 }
 html body .wow-window .wow-spell-row .wow-spell-rank {
   color: #34251a !important;
   font-style: normal !important;
-  font-size: 0.88rem !important;
-  line-height: 1.4 !important;
-  opacity: 0.94 !important;
+  font-size: 0.82rem !important;
+  line-height: 1.3 !important;
+  opacity: 0.92 !important;
+  max-height: 2.6em !important;
+  overflow: hidden !important;
 }
 html body .wow-window .wow-spell-list-container .wow-spell-row.empty {
   background: transparent !important;
   border: 1px dashed rgba(182, 160, 128, 0.35) !important;
   box-shadow: none !important;
+  min-height: 70px !important;
+  padding: 7px 11px !important;
+  margin-bottom: 0 !important;
+}
+html body .wow-window .wow-spell-list-container .wow-spell-row.empty .wow-empty-icon {
+  width: 42px !important;
+  height: 42px !important;
 }
 
 /* quest log — ledger index on the left, vellum leaf on the right */

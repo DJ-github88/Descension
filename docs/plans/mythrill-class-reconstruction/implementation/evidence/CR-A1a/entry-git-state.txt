@@ -1,0 +1,6 @@
+branch: master
+head: 7f0abb8c445644cf46a4964f924a147f93f07610
+capturedAt: 2026-10-18T13:16:01.2765189+02:00
+=== git status --porcelain ===
+ M vtt-react/src/components/spellcrafting-wizard/components/library/SpellLibrary.jsx
+?? vtt-react/src/components/spellcrafting-wizard/components/library/__tests__/
