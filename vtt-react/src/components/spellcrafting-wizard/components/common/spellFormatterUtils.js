@@ -35,6 +35,11 @@ const getInfernoStageNameWithSuffix = (level) => {
 const formatResourceName = (resourceType) => {
   if (!resourceType) return '';
 
+  const snakeKey = String(resourceType)
+    .replace(/([a-z])([A-Z])/g, '$1_$2')
+    .toLowerCase()
+    .replace(/[\s-]+/g, '_');
+
   const resourceNameMap = {
     'action_points': 'Action Points',
     'action': 'Action',
@@ -49,6 +54,10 @@ const formatResourceName = (resourceType) => {
     'combo_points': 'Combo Points',
     'soul_shards': 'Soul Shards',
     'holy_power': 'Holy Power',
+    'blood_tokens': 'Blood Tokens',
+    'time_shards': 'Time Shards',
+    'time_shard': 'Time Shards',
+    'temporal_strain': 'Temporal Strain',
     'health': 'Health',
     'mana': 'Mana',
     'inferno': 'Inferno',
@@ -57,12 +66,17 @@ const formatResourceName = (resourceType) => {
     'focus': 'Focus',
     'chi': 'Chi'
   };
-  if (resourceType === 'threads_spend' || resourceType === 'threads_generate') return 'Threads of Destiny';
-  if (resourceType === 'chaos_sphere') return 'Chaos Sphere';
+  if (snakeKey === 'threads_spend' || snakeKey === 'threads_generate') return 'Threads of Destiny';
+  if (snakeKey === 'chaos_sphere') return 'Chaos Sphere';
 
-  return resourceNameMap[resourceType] || resourceType
+  if (resourceNameMap[snakeKey]) {
+    return resourceNameMap[snakeKey];
+  }
+
+  return snakeKey
     .split('_')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .filter(Boolean)
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
     .join(' ');
 };
 
@@ -677,11 +691,17 @@ const getStatType = (statName) => {
 
 const formatSpellTitleCase = (val) => {
   if (!val) return '';
+  const acronyms = new Set(['HP', 'AP', 'AEP', 'DRP', 'DR']);
   return String(val)
+    .replace(/([a-z])([A-Z])/g, '$1 $2')
     .replace(/[-_]/g, ' ')
     .split(' ')
     .filter(Boolean)
-    .map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
+    .map(w => {
+      const upper = w.toUpperCase();
+      if (acronyms.has(upper)) return upper;
+      return w.charAt(0).toUpperCase() + w.slice(1).toLowerCase();
+    })
     .join(' ');
 };
 
