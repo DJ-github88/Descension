@@ -1,0 +1,5 @@
+Total messages: 3 (Errors: 0, Warnings: 0)
+
+[INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ http://127.0.0.1:17301/react-dom.js:29904
+[LOG] Saving spell to library: {name: Independent price witness, description: Isolated review fixture, level: 1, spellType: ACTION, typeConfig: Object} @ :2444
+[LOG] Spell saved to library @ :2450

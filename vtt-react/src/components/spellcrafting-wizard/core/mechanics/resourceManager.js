@@ -726,14 +726,38 @@ import {
     }
   }
 
+  function resolveFixedActionPoints(spellConfig) {
+    const canonicalValue = spellConfig.resourceCost?.actionPoints;
+    if (canonicalValue !== undefined) {
+      return canonicalValue;
+    }
+
+    const editorValue = spellConfig.resourceCost?.resourceValues?.actionPoints;
+    const apSelected = Array.isArray(spellConfig.resourceCost?.resourceTypes) &&
+      spellConfig.resourceCost.resourceTypes.includes('actionPoints');
+    const apFormulaMode = !!spellConfig.resourceCost?.useFormulas?.actionPoints;
+    if (editorValue !== undefined && apSelected && !apFormulaMode) {
+      return editorValue;
+    }
+
+    return calculateClassResourceCost(spellConfig, 'actionPoints');
+  }
+
   /**
    * Calculate total resources for a spell
    */
   export function calculateTotalResources(spellConfig) {
+    const canonicalActionPoints = spellConfig.resourceCost?.actionPoints;
+    const fixedEditorActionPoints = spellConfig.resourceCost?.resourceValues?.actionPoints;
+    const apSelected = Array.isArray(spellConfig.resourceCost?.resourceTypes) &&
+      spellConfig.resourceCost.resourceTypes.includes('actionPoints');
+    const apFormulaMode = !!spellConfig.resourceCost?.useFormulas?.actionPoints;
     const resources = {
-      actionPoints: spellConfig.resourceCost?.actionPoints !== undefined ?
-        spellConfig.resourceCost.actionPoints :
-        calculateActionPoints(spellConfig),
+      actionPoints: canonicalActionPoints !== undefined ?
+        canonicalActionPoints :
+        (fixedEditorActionPoints !== undefined && apSelected && !apFormulaMode ?
+          fixedEditorActionPoints :
+          calculateActionPoints(spellConfig)),
       mana: calculateManaCost(spellConfig),
       cooldown: calculateCooldown(spellConfig),
       classResources: spellConfig.resourceOptions && spellConfig.resourceOptions.primaryClassResource ? {
@@ -754,9 +778,11 @@ import {
         const useFormula = spellConfig.resourceCost.useFormulas?.[resourceType] || false;
         const value = useFormula
           ? spellConfig.resourceCost.resourceFormulas?.[resourceType] || ''
-          : spellConfig.resourceCost.resourceValues?.[resourceType] ||
-            (resourceType === 'mana' ? calculateManaCost(spellConfig) :
-             calculateClassResourceCost(spellConfig, resourceType));
+          : resourceType === 'actionPoints'
+            ? resolveFixedActionPoints(spellConfig)
+            : spellConfig.resourceCost.resourceValues?.[resourceType] ||
+              (resourceType === 'mana' ? calculateManaCost(spellConfig) :
+               calculateClassResourceCost(spellConfig, resourceType));
 
         return {
           type: resourceType,

@@ -1,0 +1,43 @@
+{
+  "hashes": {
+    "vtt-react/src/components/spellcrafting-wizard/SpellwizardApp.jsx": "866eefdabfb8c413ea55ca2cfec54b3bcb32b1382f866692b63785373dff6b3c",
+    "vtt-react/src/components/spellcrafting-wizard/context/spellWizardContext.js": "557315dcfd60f3c45bc98a09671dc21833f3e3b39a9d0847eadd1a47e0835072",
+    "vtt-react/src/components/spellcrafting-wizard/context/SpellLibraryContext.js": "2ac054747c71853f5b78ba02317d8b75765c7d98d139db6e9d7a452cd9796cee",
+    "vtt-react/src/components/spellcrafting-wizard/core/utils/libraryManager.js": "8ba60b8a52a9df5567304ea15246257b8bee5e8d6cdfb9dea16f1dc3f0d8dead",
+    "vtt-react/src/components/spellcrafting-wizard/components/steps/Step5Resources.jsx": "6120e2b6d7af6ecf8c4692a2d13626dcc6fac036e4345500e8a19fe0b5b37431",
+    "vtt-react/src/components/spellcrafting-wizard/core/mechanics/resourceManager.js": "ea27eb2c0bb6cfadd229c5407c652d0d44c67593a36d1f890c114ca3c28b4605",
+    "vtt-react/src/components/spellcrafting-wizard/data/enhancedEffectSystemData.js": "6a98b87b8fbf7de5dda298f79dfc0365ec763cc818d0fcac6c35932b1c085172",
+    "vtt-react/src/components/spellcrafting-wizard/components/steps/Step10Review.jsx": "e20000645f7f1e52a617a9a2620067c513fd9e7c71bcd2b78c50f55166d5f1c6",
+    "vtt-react/src/components/spellcrafting-wizard/components/common/WizardStep.jsx": "7526d06280045e15e46d351362aa5db0d843620c65db5ae5e17b63a4d6289048",
+    "vtt-react/src/components/spellcrafting-wizard/core/utils/spellSerializer.js": "b960862958d5752e06dbbcde7390b6243ea6bb01642ef97a7a364b7bf5dfaa5f",
+    "vtt-react/src/utils/formatUtils.js": "5d89a84f340a87ae4d7b08f155f3e862087eb1ccbc49202460d7c3ea8248a44a",
+    "vtt-react/src/components/spellcrafting-wizard/core/utils/previewGenerator.js": "de75dd8e57ed1da35320039c9e6f14669a8fed751e2c043225a8db0531b3eb99"
+  },
+  "mocks": [
+    "components/windows/MythrillWindow",
+    "utils/dialogService",
+    "persistence/spellLibraryScopedStorage",
+    "components/spellcrafting-wizard/components/steps/Step1BasicInfo",
+    "components/spellcrafting-wizard/components/steps/Step2SpellType",
+    "components/spellcrafting-wizard/components/steps/Step3Effects",
+    "components/spellcrafting-wizard/components/steps/Step4Targeting",
+    "components/spellcrafting-wizard/components/common/SimpleFormulaHelp",
+    "components/spellcrafting-wizard/components/common/SpellComponentsSelector",
+    "components/spellcrafting-wizard/components/steps/Step6Cooldown",
+    "components/spellcrafting-wizard/components/steps/Step7Mechanics",
+    "components/spellcrafting-wizard/components/steps/Step7Triggers",
+    "components/spellcrafting-wizard/components/steps/TrapPlacementStep",
+    "components/spellcrafting-wizard/components/steps/Step8Channeling",
+    "components/spellcrafting-wizard/components/steps/RollableTableStep",
+    "components/spellcrafting-wizard/components/steps/ProphecyStep",
+    "components/spellcrafting-wizard/components/steps/Step9Balance",
+    "components/spellcrafting-wizard/components/library/SpellLibrary",
+    "components/spellcrafting-wizard/components/library/SampleSpellsLoader",
+    "components/spellcrafting-wizard/components/common/UnifiedSpellCard",
+    "components/spellcrafting-wizard/core/utils/spellCardTransformer",
+    "utils/assetManager",
+    "data/spellLibraryData",
+    "components/spellcrafting-wizard/components/common/SpellCardUtils"
+  ],
+  "boundary": "Full production App/Review/Step5, both providers/reducers, helpers; isolated review composition, other steps/visual cards/catalogue mocked, scoped storage adapter memory-only. No App-to-Review navigation claim."
+}

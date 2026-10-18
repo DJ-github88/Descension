@@ -2959,121 +2959,232 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
   const leftPageCategory = pageCategories[0] || null;
   const rightPageCategory = pageCategories[1] || null;
   
-   const renderSpellCategory = (categoryEntry) => {
+   const formatSpellRomanCategory = (categoryName) => {
+    if (!categoryName) return '';
+    const match = categoryName.match(/Level\s*(\d+)/i);
+    if (match) {
+      const num = parseInt(match[1], 10);
+      const romanNumerals = ['', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
+      return `Level ${romanNumerals[num] || num}`;
+    }
+    return categoryName;
+   };
+
+   const formatSpellTitleCase = (val) => {
+    if (!val) return '';
+    return String(val)
+      .replace(/[-_]/g, ' ')
+      .split(' ')
+      .filter(Boolean)
+      .map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
+      .join(' ');
+   };
+
+   const getSpellActionBadge = (spell) => {
+    const raw = spell.spellType || spell.typeConfig?.castTimeType || 'ACTION';
+    const upper = String(raw).toUpperCase().trim();
+    if (upper.includes('REACTION')) {
+      return { label: 'Reaction', key: 'reaction' };
+    }
+    if (upper.includes('FREE')) {
+      return { label: 'Free Action', key: 'free-action' };
+    }
+    if (upper.includes('PASSIVE')) {
+      return { label: 'Passive', key: 'passive' };
+    }
+    return { label: 'Action', key: 'action' };
+   };
+
+   const formatSpellRange = (spell) => {
+    const tc = spell.targetingConfig;
+    if (!tc) return null;
+    if (tc.targetingType === 'self' || tc.rangeType === 'self') return 'Self';
+    if (tc.rangeType === 'touch') return 'Touch';
+    if (tc.rangeDistance != null && tc.rangeDistance !== '') {
+      const dist = Number(tc.rangeDistance);
+      if (dist === 0) return 'Self';
+      if (tc.rangeType === 'melee') return `${tc.rangeDistance} ft Melee`;
+      return `${tc.rangeDistance} ft`;
+    }
+    if (tc.rangeType === 'melee') return 'Melee';
+    return null;
+   };
+
+   const getSpellSecondaryCost = (spell) => {
+    const rc = spell.resourceCost;
+    if (!rc) return null;
+    if (rc.resourceValues?.health) return `${rc.resourceValues.health} HP`;
+    if (rc.resourceValues?.mana) return `${rc.resourceValues.mana} Mana`;
+    if (spell.manaCost) return `${spell.manaCost} Mana`;
+    if (rc.classResource?.gain) {
+      const resName = formatSpellTitleCase(rc.classResource.name || rc.classResource.type || 'Rage');
+      return `+${rc.classResource.gain} ${resName}`;
+    }
+    if (rc.classResource?.cost) {
+      const resName = formatSpellTitleCase(rc.classResource.name || rc.classResource.type || 'Rage');
+      return `${rc.classResource.cost} ${resName}`;
+    }
+    return null;
+   };
+
+   const renderSpellCategory = (categoryEntry, side = 'left') => {
     if (!categoryEntry) return null;
    
-   const [categoryName, categorySpells] = categoryEntry;
-   const fallbackUrl = getCustomIconUrl('Utility/Utility', 'abilities');
+    const [categoryName, categorySpells] = categoryEntry;
+    const fallbackUrl = getCustomIconUrl('Utility/Utility', 'abilities');
+    const displayCategoryTitle = formatSpellRomanCategory(categoryName);
    
-   return (
-     <section className="class-spell-level" aria-label={categoryName}>
-      <div className="class-spell-level-header">
-       <h4>
-        <i className={categoryIcon} aria-hidden="true"></i> {categoryName}
-      </h4>
-       <span className="class-spell-level-count">
-       {categorySpells.length} {categorySpells.length === 1 ? 'Spell' : 'Spells'}
-      </span>
-     </div>
-      <div className="class-spell-list">
-      {/* Render actual spell slots */}
-      {categorySpells.map(spell => {
-       const iconUrl = spellIconUrls.get(spell.id) || fallbackUrl;
-       const apCost = spell.resourceCost?.actionPoints;
-       const school = spell.typeConfig?.school || spell.spellType;
-       const infernoReq = spell.specialMechanics?.infernoLevel?.required;
-       const comboType = spell.specialMechanics?.musicalCombo?.type;
-       const range = spell.targetingConfig?.rangeDistance;
+    return (
+      <section className={`class-spell-level class-spell-page class-spell-page--${side}`} aria-label={categoryName}>
+       <div className="class-spell-level-header">
+        <h4>
+         <i className={categoryIcon} aria-hidden="true"></i> {displayCategoryTitle}
+        </h4>
+        <span className="class-spell-level-count">
+         {categorySpells.length} {categorySpells.length === 1 ? 'Inscribed Spell' : 'Inscribed Spells'}
+        </span>
+       </div>
+       <div className="class-spell-list">
+       {categorySpells.map(spell => {
+        const iconUrl = spellIconUrls.get(spell.id) || fallbackUrl;
+        const apCost = spell.resourceCost?.actionPoints ?? spell.ap;
+        const rawSchool = spell.typeConfig?.school || spell.damageConfig?.damageTypes?.[0] || spell.damageType || null;
+        const formattedSchool = rawSchool ? formatSpellTitleCase(rawSchool) : null;
+        const actionBadge = getSpellActionBadge(spell);
+        const formattedRange = formatSpellRange(spell);
+        const secondaryCost = getSpellSecondaryCost(spell);
+        const infernoReq = spell.specialMechanics?.infernoLevel?.required;
+        const romanNumerals = ['', 'I', 'II', 'III', 'IV', 'V', 'VI'];
+        const formattedInferno = infernoReq != null ? `Inferno ${romanNumerals[infernoReq] || infernoReq}` : null;
+        const comboType = spell.specialMechanics?.musicalCombo?.type;
+        const spellSnippet = spell.description || spell.utilityConfig?.selectedEffects?.[0]?.description || spell.effect || '';
 
-       return (
-         <button
-          key={spell.id}
-          type="button"
-          className="class-spell-entry"
-          aria-label={`Inspect ${spell.name}`}
-         onClick={() => handleSpellClick(spell)}
-         title={`Inspect ${spell.name}`}
-        >
-          <span className="class-spell-entry-image">
-          <img
-           src={iconUrl}
-            alt=""
-           loading="lazy"
-           onLoad={(e) => {
-            setLoadedImages(prev => new Set([...prev, iconUrl]));
-           }}
-           onError={(e) => {
-            const target = e.target;
-            if (target.src !== fallbackUrl) {
-             target.src = fallbackUrl;
-             target.onerror = null;
-            }
-           }}
-          />
-           {apCost != null && (
-            <span className="class-spell-ap" title={`${apCost} Action Point(s)`}>
-            {apCost} AP
+        const statlineItems = [];
+        if (formattedSchool) {
+          statlineItems.push({ type: 'school', text: formattedSchool });
+        }
+        if (formattedRange) {
+          statlineItems.push({ type: 'range', text: formattedRange });
+        }
+        if (secondaryCost) {
+          statlineItems.push({ type: 'cost', text: secondaryCost });
+        }
+        if (formattedInferno) {
+          statlineItems.push({ type: 'inferno', text: formattedInferno });
+        }
+        if (comboType) {
+          statlineItems.push({ type: 'combo', text: comboType === 'builder' ? 'Builder' : 'Cadence' });
+        }
+
+        return (
+          <button
+           key={spell.id}
+           type="button"
+           className="class-spell-entry"
+           aria-label={`Inspect ${spell.name}`}
+           onClick={() => handleSpellClick(spell)}
+           title={`Inspect full rules for ${spell.name}`}
+          >
+           <span className="class-spell-entry-image-frame">
+            <img
+             src={iconUrl}
+             alt=""
+             loading="lazy"
+             onLoad={() => {
+              setLoadedImages(prev => new Set([...prev, iconUrl]));
+             }}
+             onError={(e) => {
+              const target = e.target;
+              if (target.src !== fallbackUrl) {
+               target.src = fallbackUrl;
+               target.onerror = null;
+              }
+             }}
+            />
            </span>
-          )}
-          </span>
-          <span className="class-spell-entry-details">
-           <span className="class-spell-entry-name">{spell.name}</span>
-           <span className="class-spell-entry-meta">
-           {school && (
-            <span className="spellbook-slot-tag school-tag">{school}</span>
-           )}
-            {infernoReq != null && (
-            <span className="spellbook-slot-tag inferno-tag">Inferno {infernoReq}</span>
-           )}
-           {comboType && (
-            <span className="spellbook-slot-tag combo-tag">
-             {comboType === 'builder' ? 'Builder' : 'Cadence'}
+           <span className="class-spell-entry-details">
+            <span className="class-spell-entry-header">
+             <span className="class-spell-entry-name">{spell.name}</span>
+             <span className="class-spell-entry-cadence">
+              {apCost != null && <span className="cadence-ap">{apCost} AP</span>}
+              {apCost != null && <span className="cadence-sep" aria-hidden="true">•</span>}
+              <span className={`cadence-action action-${actionBadge.key}`}>{actionBadge.label}</span>
+             </span>
             </span>
-           )}
-            {range != null && range !== '' && (
-             <span className="spellbook-slot-range">{range} ft</span>
-           )}
+            {statlineItems.length > 0 && (
+             <span className="class-spell-statline">
+              {statlineItems.map((item, idx) => (
+               <React.Fragment key={idx}>
+                {idx > 0 && <span className="statline-sep" aria-hidden="true">•</span>}
+                <span className={`statline-item statline-item--${item.type}`}>{item.text}</span>
+               </React.Fragment>
+              ))}
+             </span>
+            )}
+            {spellSnippet && (
+             <span className="class-spell-snippet">{spellSnippet}</span>
+            )}
+            <span className="class-spell-entry-foot">
+             <span className="class-spell-inspect-action">
+              Read Inscription <span className="inspect-fleuron" aria-hidden="true">❧</span>
+             </span>
+            </span>
            </span>
-          </span>
-         </button>
-       );
-      })}
-      </div>
-     </section>
-   );
-  };
+          </button>
+        );
+       })}
+       </div>
+      </section>
+    );
+   };
 
-  return (
-    <div className="class-detail-section class-spell-section" ref={contentContainerRef}>
-     <header className="class-section-heading class-spell-heading">
-      <div>
-       <h3>Spells</h3>
-       <p>Browse this tradition's spells by level. Select a spell to read its full rules.</p>
+   return (
+     <div className="class-detail-section class-spell-section" ref={contentContainerRef}>
+      <header className="class-section-heading class-spell-heading">
+       <div>
+        <h3>Spells</h3>
+        <p>Browse this tradition's spells by level. Select a spell to read its full rules.</p>
+       </div>
+       <nav className="class-spell-pagination" aria-label="Spell pages">
+         <button
+          className="class-spell-page-button"
+         onClick={() => setCurrentPage(Math.max(0, currentPage - 1))}
+         disabled={currentPage === 0}
+         aria-label="Previous page"
+         title="Previous page"
+        >
+          <i className="fas fa-chevron-left" aria-hidden="true"></i>
+         </button>
+         <span role="status">Page {currentPage + 1} of {totalPages}</span>
+         <button
+          className="class-spell-page-button"
+         onClick={() => setCurrentPage(Math.min(totalPages - 1, currentPage + 1))}
+         disabled={currentPage >= totalPages - 1}
+         aria-label="Next page"
+         title="Next page"
+        >
+          <i className="fas fa-chevron-right" aria-hidden="true"></i>
+         </button>
+       </nav>
+      </header>
+      <div className="class-spell-spread">
+       {renderSpellCategory(leftPageCategory, 'left')}
+       {rightPageCategory ? (
+         renderSpellCategory(rightPageCategory, 'right')
+       ) : (
+         <section className="class-spell-level class-spell-page class-spell-page--empty">
+          <div className="class-spell-empty-folio">
+           <div className="class-spell-empty-icon-wrap">
+            <i className={categoryIcon} aria-hidden="true"></i>
+           </div>
+           <h5 className="empty-folio-title">End of Inscriptions</h5>
+           <p className="empty-folio-text">
+            This folio page awaits further spells for this tradition.
+           </p>
+          </div>
+         </section>
+       )}
       </div>
-      <nav className="class-spell-pagination" aria-label="Spell pages">
-        <button
-         className="class-spell-page-button"
-        onClick={() => setCurrentPage(Math.max(0, currentPage - 1))}
-        disabled={currentPage === 0}
-        aria-label="Previous page"
-       >
-         <i className="fas fa-chevron-left" aria-hidden="true"></i>
-        </button>
-        <span role="status">Page {currentPage + 1} of {totalPages}</span>
-        <button
-         className="class-spell-page-button"
-        onClick={() => setCurrentPage(Math.min(totalPages - 1, currentPage + 1))}
-        disabled={currentPage >= totalPages - 1}
-        aria-label="Next page"
-       >
-         <i className="fas fa-chevron-right" aria-hidden="true"></i>
-        </button>
-      </nav>
-     </header>
-     <div className="class-spell-spread">
-      {renderSpellCategory(leftPageCategory)}
-      {renderSpellCategory(rightPageCategory)}
-     </div>
 
     {/* Spell Popup Modal */}
     {selectedSpell && (
@@ -3086,7 +3197,7 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
        left: 0,
        right: 0,
        bottom: 0,
-       background: 'radial-gradient(circle at center, rgba(100, 100, 150, 0.4) 0%, rgba(0, 0, 0, 0.8) 100%)',
+       background: 'radial-gradient(circle at center, rgba(42, 30, 22, 0.72) 0%, rgba(16, 11, 8, 0.92) 100%)',
        backdropFilter: 'blur(10px)',
        WebkitBackdropFilter: 'blur(10px)',
        display: 'flex',

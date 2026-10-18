@@ -1,0 +1,83 @@
+- generic [ref=f2e1]:
+  - heading "Independent W1 production-handler witness" [level=1] [ref=f2e2]
+  - paragraph [ref=f2e3]: Memory-only storage; actual App/Review save buttons and App internalLoadSpell handler.
+  - generic [ref=f2e4]:
+    - status [ref=f2e54]: "{\"ap\":0,\"step\":5,\"saved\":[{\"id\":\"independent-price-witness-mvdp98oi\",\"ap\":0,\"secondary\":false},{\"id\":\"independent-price-witness-mvdp98rp\",\"ap\":0,\"secondary\":true}]}"
+    - generic [ref=f2e55]:
+      - banner [ref=f2e56]:
+        - generic [ref=f2e57]:
+          - img "Spell Book" [ref=f2e58]
+          - heading "Spell Crafting Wizard" [level=1] [ref=f2e59]
+        - generic [ref=f2e60]:
+          - button [ref=f2e61]:
+            - img "Spell Wizard" [ref=f2e62]
+            - text: Spell Wizard
+          - button [ref=f2e63]:
+            - img "Spell Library" [ref=f2e64]
+            - text: Spell Library
+        - generic [ref=f2e65]:
+          - button "Finalize" [ref=f2e66]
+          - button "Load" [ref=f2e67]
+          - button "Reset" [ref=f2e68]
+          - button "Settings" [ref=f2e69]
+          - button "Quick Spell" [ref=f2e70]
+          - button "Help" [ref=f2e71]
+      - generic [ref=f2e74]:
+        - navigation "Spell wizard steps" [ref=f2e75]:
+          - list [ref=f2e76]:
+            - listitem [ref=f2e77]
+            - listitem [ref=f2e79]
+            - listitem [ref=f2e81]
+            - listitem [ref=f2e83]
+            - listitem [ref=f2e85]
+            - listitem [ref=f2e87]
+            - listitem [ref=f2e89]
+            - listitem [ref=f2e91]
+            - listitem [ref=f2e93]
+            - listitem [ref=f2e95]
+        - generic [ref=f2e97]:
+          - generic [ref=f2e98]:
+            - generic [ref=f2e99]: Step 6 of 10
+            - text: Resources
+          - generic [ref=f2e101]:
+            - generic [ref=f2e102]
+            - generic [ref=f2e114]
+          - generic [ref=f2e208]:
+            - button "Back" [ref=f2e209]
+            - progressbar
+            - 'button "Next: Cooldown" [ref=f2e210]'
+    - generic [ref=f2e215]:
+      - heading "Validation Results" [level=3] [ref=f2e217]
+      - generic [ref=f2e218]:
+        - generic [ref=f2e219]: No errors found!
+        - generic [ref=f2e220]:
+          - heading "Warnings" [level=4] [ref=f2e221]
+          - list [ref=f2e222]:
+            - listitem [ref=f2e223]: Specifying a school of magic is recommended
+            - listitem [ref=f2e224]: Spell has no effects defined
+      - generic [ref=f2e225]:
+        - heading "Review Checklist" [level=4] [ref=f2e226]
+        - generic [ref=f2e227]:
+          - generic [ref=f2e228]:
+            - button [ref=f2e229]
+            - text: Basic Information
+            - button [ref=f2e230]
+          - generic [ref=f2e231]:
+            - button [ref=f2e232]
+            - text: Effects
+            - button [ref=f2e233]
+          - generic [ref=f2e234]:
+            - button [ref=f2e235]
+            - text: Targeting & Area
+            - button [ref=f2e236]
+          - generic [ref=f2e237]:
+            - button [ref=f2e238]
+            - text: Resources & Cooldowns
+            - button [ref=f2e239]
+          - generic [ref=f2e240]:
+            - button [ref=f2e241]
+            - text: Mechanics
+            - button [ref=f2e242]
+      - generic [ref=f2e243]:
+        - button "Save to Library" [active] [ref=f2e244]
+        - button "View Spellbook" [ref=f2e245]

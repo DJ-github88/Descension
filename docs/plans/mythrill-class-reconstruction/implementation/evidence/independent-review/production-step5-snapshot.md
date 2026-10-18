@@ -1,0 +1,27 @@
+- generic [active] [ref=f1e1]:
+  - heading "Independent W1 production-handler witness" [level=1] [ref=f1e2]
+  - paragraph [ref=f1e3]: Memory-only storage; actual App/Review save buttons and App internalLoadSpell handler.
+  - generic [ref=f1e4]:
+    - status [ref=f1e54]: "{\"ap\":0,\"step\":5,\"saved\":[]}"
+    - generic [ref=f1e55]:
+      - banner [ref=f1e56]:
+        - generic [ref=f1e57]:
+          - img "Spell Book" [ref=f1e58]
+          - heading "Spell Crafting Wizard" [level=1] [ref=f1e59]
+        - generic [ref=f1e60]:
+          - button "Spell WizardSpell Wizard" [ref=f1e61]
+          - button "Spell LibrarySpell Library" [ref=f1e63]
+        - generic [ref=f1e65]:
+          - button "Finalize" [ref=f1e66]
+          - button "Load" [ref=f1e67]
+          - button "Reset" [ref=f1e68]
+          - button "Settings" [ref=f1e69]
+          - button "Quick Spell" [ref=f1e70]
+          - button "Help" [ref=f1e71]
+      - generic [ref=f1e74]:
+        - navigation "Spell wizard steps" [ref=f1e75]:
+          - list [ref=f1e76]
+        - generic [ref=f1e97]:
+          - generic [ref=f1e98]
+          - generic [ref=f1e101]
+          - generic [ref=f1e208]

@@ -424,9 +424,8 @@ export function registerBlockingHandlers({ socket }) {
     if (blockReceipt(result)) consumeBlockReceipt(result);
     else if (result.receipt.actors?.some(actor => actor.blocking)) consumeDeclarationReceipt(result);
   };
-  const rejoined = () => { if (live(game().multiplayerRoom?.id)) { refreshBlockLists(); refreshOwnBlocking(); } };
   const events = [['actor_block_offered', offered], ['actor_block_offer_closed', offerClosed], ['actor_block_pending', pending], ['actor_block_closed', closed],
-    ['actor_blocking_changed', changed], ['actor_consequence_accepted', accepted], ['room_joined', rejoined]];
+    ['actor_blocking_changed', changed], ['actor_consequence_accepted', accepted]];
   events.forEach(([event, handler]) => socket.on(event, handler));
   return () => events.forEach(([event, handler]) => socket.off(event, handler));
 }

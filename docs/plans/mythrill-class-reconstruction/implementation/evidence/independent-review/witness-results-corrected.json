@@ -1,0 +1,591 @@
+{
+  "capturedAt": "2026-10-18T11:03:58.931Z",
+  "source": "witness-run.js rerun against corrected W1a source",
+  "results": {
+    "conflicts": [
+      {
+        "name": "canonical2-selected0",
+        "input": {
+          "actionPoints": 2,
+          "resourceTypes": [
+            "actionPoints"
+          ],
+          "resourceValues": {
+            "actionPoints": 0
+          },
+          "useFormulas": {
+            "actionPoints": false
+          },
+          "resourceFormulas": {
+            "actionPoints": "1d6"
+          }
+        },
+        "recommendation": 1,
+        "total": 2,
+        "additional": [
+          {
+            "type": "actionPoints",
+            "value": 2,
+            "useFormula": false,
+            "formula": ""
+          }
+        ],
+        "expectedTotal": 2
+      },
+      {
+        "name": "canonical0-selected2",
+        "input": {
+          "actionPoints": 0,
+          "resourceTypes": [
+            "actionPoints"
+          ],
+          "resourceValues": {
+            "actionPoints": 2
+          },
+          "useFormulas": {
+            "actionPoints": false
+          },
+          "resourceFormulas": {
+            "actionPoints": "1d6"
+          }
+        },
+        "recommendation": 1,
+        "total": 0,
+        "additional": [
+          {
+            "type": "actionPoints",
+            "value": 0,
+            "useFormula": false,
+            "formula": ""
+          }
+        ],
+        "expectedTotal": 0
+      },
+      {
+        "name": "absent-selected0",
+        "input": {
+          "resourceTypes": [
+            "actionPoints"
+          ],
+          "resourceValues": {
+            "actionPoints": 0
+          },
+          "useFormulas": {
+            "actionPoints": false
+          },
+          "resourceFormulas": {
+            "actionPoints": "1d6"
+          }
+        },
+        "recommendation": 1,
+        "total": 0,
+        "additional": [
+          {
+            "type": "actionPoints",
+            "value": 0,
+            "useFormula": false,
+            "formula": ""
+          }
+        ],
+        "expectedTotal": 0
+      },
+      {
+        "name": "absent-deselected-stale0",
+        "input": {
+          "resourceTypes": [],
+          "resourceValues": {
+            "actionPoints": 0
+          },
+          "useFormulas": {
+            "actionPoints": false
+          },
+          "resourceFormulas": {
+            "actionPoints": "1d6"
+          }
+        },
+        "recommendation": 1,
+        "total": 1,
+        "additional": [],
+        "expectedTotal": 1
+      },
+      {
+        "name": "absent-formula-stale0",
+        "input": {
+          "resourceTypes": [
+            "actionPoints"
+          ],
+          "resourceValues": {
+            "actionPoints": 0
+          },
+          "useFormulas": {
+            "actionPoints": true
+          },
+          "resourceFormulas": {
+            "actionPoints": "1d6"
+          }
+        },
+        "recommendation": 1,
+        "total": 1,
+        "additional": [
+          {
+            "type": "actionPoints",
+            "value": 0,
+            "useFormula": true,
+            "formula": "1d6"
+          }
+        ],
+        "expectedTotal": 1
+      }
+    ],
+    "step5": [
+      {
+        "name": "canonical2-selected0",
+        "canonical": 0,
+        "input": "0",
+        "summary": [
+          "0"
+        ]
+      },
+      {
+        "name": "canonical0-selected2",
+        "canonical": 2,
+        "input": "2",
+        "summary": [
+          "2"
+        ]
+      },
+      {
+        "name": "absent-selected0",
+        "canonical": 0,
+        "input": "0",
+        "summary": [
+          "0"
+        ]
+      },
+      {
+        "name": "absent-deselected-stale0",
+        "canonical": 1,
+        "input": null,
+        "summary": [
+          "No additional resource costs selected"
+        ]
+      }
+    ],
+    "batchedEditDeselect": {
+      "canonical": 0,
+      "expected": 0,
+      "resourceTypes": [],
+      "method": "Actual production onChange and onClick closures, invoked in one ReactDOM.unstable_batchedUpdates; no handler expressions copied."
+    },
+    "productionPaths": {
+      "before": {
+        "components": [
+          "verbal",
+          "somatic"
+        ],
+        "materialComponents": "a lock of hair",
+        "actionPoints": 0,
+        "actionPointsSelected": true,
+        "resourceTypes": [
+          "actionPoints",
+          "mana"
+        ],
+        "resourceValues": {
+          "actionPoints": 0,
+          "mana": 4,
+          "note_v": -2
+        },
+        "resourceFormulas": {
+          "mana": "2d6"
+        },
+        "useFormulas": {
+          "mana": false
+        },
+        "mana": 4,
+        "spheres": [
+          "arcane",
+          "arcane",
+          "rime"
+        ],
+        "notes": {
+          "i": 2,
+          "ii": 0,
+          "iii": 1,
+          "iv": 0,
+          "v": 2,
+          "vi": 1,
+          "vii": 3
+        },
+        "secondaryCosts": [
+          {
+            "type": "health",
+            "amount": 4
+          }
+        ],
+        "classResource": {
+          "cost": 3,
+          "gain": 10
+        },
+        "unknown": {
+          "nested": [
+            0,
+            "kept"
+          ]
+        },
+        "classResourceProgram": {
+          "version": 99,
+          "steps": [
+            {
+              "op": "gain",
+              "amount": 3
+            }
+          ]
+        },
+        "reviewCase": "production-save-chain"
+      },
+      "mainOuter": {
+        "components": [
+          "verbal",
+          "somatic"
+        ],
+        "materialComponents": "a lock of hair",
+        "actionPoints": 0,
+        "actionPointsSelected": true,
+        "resourceTypes": [
+          "actionPoints",
+          "mana"
+        ],
+        "resourceValues": {
+          "actionPoints": 0,
+          "mana": 4,
+          "note_v": -2
+        },
+        "resourceFormulas": {
+          "mana": "2d6"
+        },
+        "useFormulas": {
+          "mana": false
+        },
+        "mana": 4,
+        "spheres": [
+          "arcane",
+          "arcane",
+          "rime"
+        ],
+        "notes": {
+          "i": 2,
+          "ii": 0,
+          "iii": 1,
+          "iv": 0,
+          "v": 2,
+          "vi": 1,
+          "vii": 3
+        },
+        "secondaryCosts": [
+          {
+            "type": "health",
+            "amount": 4
+          }
+        ],
+        "classResource": {
+          "cost": 3,
+          "gain": 10
+        },
+        "unknown": {
+          "nested": [
+            0,
+            "kept"
+          ]
+        },
+        "classResourceProgram": {
+          "version": 99,
+          "steps": [
+            {
+              "op": "gain",
+              "amount": 3
+            }
+          ]
+        },
+        "reviewCase": "production-save-chain"
+      },
+      "mainReopened": {
+        "components": [
+          "verbal",
+          "somatic"
+        ],
+        "materialComponents": "a lock of hair",
+        "actionPoints": 0,
+        "actionPointsSelected": true,
+        "resourceTypes": [
+          "actionPoints",
+          "mana"
+        ],
+        "resourceValues": {
+          "actionPoints": 0,
+          "mana": 4,
+          "note_v": -2
+        },
+        "resourceFormulas": {
+          "mana": "2d6"
+        },
+        "useFormulas": {
+          "mana": false
+        },
+        "mana": 4,
+        "spheres": [
+          "arcane",
+          "arcane",
+          "rime"
+        ],
+        "notes": {
+          "i": 2,
+          "ii": 0,
+          "iii": 1,
+          "iv": 0,
+          "v": 2,
+          "vi": 1,
+          "vii": 3
+        },
+        "secondaryCosts": [
+          {
+            "type": "health",
+            "amount": 4
+          }
+        ],
+        "classResource": {
+          "cost": 3,
+          "gain": 10
+        },
+        "unknown": {
+          "nested": [
+            0,
+            "kept"
+          ]
+        },
+        "classResourceProgram": {
+          "version": 99,
+          "steps": [
+            {
+              "op": "gain",
+              "amount": 3
+            }
+          ]
+        },
+        "reviewCase": "production-save-chain"
+      },
+      "reviewOuter": {
+        "components": [
+          "verbal",
+          "somatic"
+        ],
+        "materialComponents": "a lock of hair",
+        "actionPoints": 0,
+        "actionPointsSelected": true,
+        "resourceTypes": [
+          "actionPoints",
+          "mana"
+        ],
+        "resourceValues": {
+          "actionPoints": 0,
+          "mana": 4,
+          "note_v": -2
+        },
+        "resourceFormulas": {
+          "mana": "2d6"
+        },
+        "useFormulas": {
+          "mana": false
+        },
+        "mana": 4,
+        "spheres": [
+          "arcane",
+          "arcane",
+          "rime"
+        ],
+        "notes": {
+          "i": 2,
+          "ii": 0,
+          "iii": 1,
+          "iv": 0,
+          "v": 2,
+          "vi": 1,
+          "vii": 3
+        },
+        "secondaryCosts": [
+          {
+            "type": "health",
+            "amount": 4
+          }
+        ],
+        "classResource": {
+          "cost": 3,
+          "gain": 10
+        },
+        "unknown": {
+          "nested": [
+            0,
+            "kept"
+          ]
+        },
+        "classResourceProgram": {
+          "version": 99,
+          "steps": [
+            {
+              "op": "gain",
+              "amount": 3
+            }
+          ]
+        },
+        "reviewCase": "production-save-chain"
+      },
+      "reviewSecondary": {
+        "components": [
+          "verbal",
+          "somatic"
+        ],
+        "materialComponents": "a lock of hair",
+        "actionPoints": 0,
+        "actionPointsSelected": true,
+        "resourceTypes": [
+          "actionPoints",
+          "mana"
+        ],
+        "resourceValues": {
+          "actionPoints": 0,
+          "mana": 4,
+          "note_v": -2
+        },
+        "resourceFormulas": {
+          "mana": "2d6"
+        },
+        "useFormulas": {
+          "mana": false
+        },
+        "mana": 4,
+        "spheres": [
+          "arcane",
+          "arcane",
+          "rime"
+        ],
+        "notes": {
+          "i": 2,
+          "ii": 0,
+          "iii": 1,
+          "iv": 0,
+          "v": 2,
+          "vi": 1,
+          "vii": 3
+        },
+        "secondaryCosts": [
+          {
+            "type": "health",
+            "amount": 4
+          }
+        ],
+        "classResource": {
+          "cost": 3,
+          "gain": 10
+        },
+        "unknown": {
+          "nested": [
+            0,
+            "kept"
+          ]
+        },
+        "classResourceProgram": {
+          "version": 99,
+          "steps": [
+            {
+              "op": "gain",
+              "amount": 3
+            }
+          ]
+        },
+        "reviewCase": "production-save-chain"
+      },
+      "reviewReopened": {
+        "components": [
+          "verbal",
+          "somatic"
+        ],
+        "materialComponents": "a lock of hair",
+        "actionPoints": 0,
+        "actionPointsSelected": true,
+        "resourceTypes": [
+          "actionPoints",
+          "mana"
+        ],
+        "resourceValues": {
+          "actionPoints": 0,
+          "mana": 4,
+          "note_v": -2
+        },
+        "resourceFormulas": {
+          "mana": "2d6"
+        },
+        "useFormulas": {
+          "mana": false
+        },
+        "mana": 4,
+        "spheres": [
+          "arcane",
+          "arcane",
+          "rime"
+        ],
+        "notes": {
+          "i": 2,
+          "ii": 0,
+          "iii": 1,
+          "iv": 0,
+          "v": 2,
+          "vi": 1,
+          "vii": 3
+        },
+        "secondaryCosts": [
+          {
+            "type": "health",
+            "amount": 4
+          }
+        ],
+        "classResource": {
+          "cost": 3,
+          "gain": 10
+        },
+        "unknown": {
+          "nested": [
+            0,
+            "kept"
+          ]
+        },
+        "classResourceProgram": {
+          "version": 99,
+          "steps": [
+            {
+              "op": "gain",
+              "amount": 3
+            }
+          ]
+        },
+        "reviewCase": "production-save-chain"
+      },
+      "checks": {
+        "mainOuter": true,
+        "mainReopened": true,
+        "reviewOuter": true,
+        "reviewSecondary": true,
+        "reviewReopened": true
+      }
+    },
+    "serializer": {
+      "twoActualCycles": true,
+      "inputUnmutated": true,
+      "templateExact": true,
+      "templateUnmutated": true,
+      "dottedIsolated": true,
+      "secondInstanceExact": true,
+      "serializedTemplateExact": true,
+      "wholeReplacement": true,
+      "rawExportExact": true
+    }
+  }
+}

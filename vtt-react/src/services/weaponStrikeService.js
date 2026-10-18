@@ -192,8 +192,6 @@ export function registerWeaponStrikeHandlers({ socket }) {
     const ownerContext = strikeContext(), latest = loadStrikeCustody(ownerContext)?.owner;
     if (latest?.approval?.approvalId === value.approvalId && latest.phase !== 'accepted' && ['withdrawn', 'declined'].includes(value.code)) keepOwner(ownerContext, { ...latest, phase: value.code });
   };
-  const rejoined = () => { if (live(game().multiplayerRoom?.id)) refreshStrikeApprovals(); };
   socket.on('actor_strike_pending', pending); socket.on('actor_strike_closed', closed); socket.on('actor_consequence_accepted', accepted);
-  socket.on('room_joined', rejoined);
-  return () => { socket.off('actor_strike_pending', pending); socket.off('actor_strike_closed', closed); socket.off('actor_consequence_accepted', accepted); socket.off('room_joined', rejoined); };
+  return () => { socket.off('actor_strike_pending', pending); socket.off('actor_strike_closed', closed); socket.off('actor_consequence_accepted', accepted); };
 }

@@ -1,0 +1,87 @@
+{
+  "task": "CR-W1a + CR-W1b implementation (frozen contracts), refreshed after the 2026-10-18 independent review bounded W1a correction",
+  "capturedAt": "2026-10-18T11:10:00.000Z",
+  "head": "8ea1abff1d8c1f959b2d4a10e6b7ca73879c2ff2",
+  "reviewChain": {
+    "initialImplementation": "2026-10-17 (evidence/acceptance-report.md)",
+    "independentReview": "2026-10-18 (evidence/independent-review/review.md; W1a withheld, W1b accepted)",
+    "boundedCorrection": "2026-10-18 (evidence/independent-review/re-review-corrected.md; corrected findings pass)"
+  },
+  "changedSourceFiles": [
+    {
+      "path": "vtt-react/src/components/spellcrafting-wizard/components/steps/Step5Resources.jsx",
+      "beforeSha256": "725019cbb44abda8b3a0e33a0003a40690e64d83132a66fd3ab4f29c8c5a3548",
+      "reviewedSha256": "52e0e89940cc1f0d2b23d76fb577f0b472fc4335700291c1986ac924fed167cd",
+      "afterSha256": "6120e2b6d7af6ecf8c4692a2d13626dcc6fac036e4345500e8a19fe0b5b37431",
+      "behavior": [
+        "AP resolution helper selected-fixed-editor -> canonical -> fallback 1; deselected stale editor ineligible",
+        "save effect omits actionPoints when the resolved draft is malformed; otherwise emits resolved value including 0",
+        "toggle init copies canonical AP or 1 only when genuinely missing; prefers the just-entered editor value",
+        "AP summary and input render the same resolved fixed price; invalid drafts labeled",
+        "batched edit/deselect/reselect retains the just-entered value via synchronous editor ref commit to canonical",
+        "no-selected-resources message neutral when a common AP price remains; free warning suppressed while hasCommonAPPrice"
+      ]
+    },
+    {
+      "path": "vtt-react/src/components/spellcrafting-wizard/core/mechanics/resourceManager.js",
+      "beforeSha256": "22e5829454caa24b58fff9495567df9f07deb3c8355bfb538997e297d3fe7163",
+      "reviewedSha256": "0fc160b76d0b7e68ea95162fb9f0305e92f0fd13705850460cf0240b2310cf0b",
+      "afterSha256": "ea27eb2c0bb6cfadd229c5407c652d0d44c67593a36d1f890c114ca3c28b4605",
+      "behavior": [
+        "calculateTotalResources: canonical -> selected fixed editor (canonical absent, AP selected, not formula mode) -> existing calculateActionPoints recommendation",
+        "additional AP row canonical-first with the same selected/fixed guards; 0 preserved; contradictory rows impossible"
+      ]
+    },
+    {
+      "path": "vtt-react/src/components/spellcrafting-wizard/core/utils/spellSerializer.js",
+      "beforeSha256": "15de741c2263b8fa664a322630b6bc91ed3b66583011d6168e164d4137eb499c",
+      "afterSha256": "b960862958d5752e06dbbcde7390b6243ea6bb01642ef97a7a364b7bf5dfaa5f",
+      "behavior": [
+        "cleanConfigForSerialization no longer deletes authored resourceCost",
+        "generateSpellFromTemplate deep-copies the template before dotted modifications"
+      ]
+    }
+  ],
+  "newTestFiles": [
+    {
+      "path": "vtt-react/src/components/spellcrafting-wizard/components/steps/__tests__/Step5Resources.zeroAP.test.jsx",
+      "sha256": "d2434dbeeabbb0e1b12f3c22065b9d73415fdee4253b3710ce63de6e14a0ce21"
+    },
+    {
+      "path": "vtt-react/src/components/spellcrafting-wizard/core/mechanics/__tests__/resourceManager.zeroAP.test.js",
+      "sha256": "9a3dad087f22c3c3a9509eaf6490605a80644e8cf4a027205d006e92ff64b1c4"
+    },
+    {
+      "path": "vtt-react/src/components/spellcrafting-wizard/core/utils/__tests__/spellSerializer.resourceRoundTrip.test.js",
+      "sha256": "de00585d4a0d1cc69e773860686c1aa14a9c97665b19ca8fa42284fef56b545e"
+    }
+  ],
+  "protectedFilesVerifiedUnchanged": {
+    "vtt-react/src/components/spellcrafting-wizard/context/spellWizardContext.js": "557315dcfd60f3c45bc98a09671dc21833f3e3b39a9d0847eadd1a47e0835072",
+    "vtt-react/src/components/spellcrafting-wizard/SpellwizardApp.jsx": "866eefdabfb8c413ea55ca2cfec54b3bcb32b1382f866692b63785373dff6b3c",
+    "vtt-react/src/components/spellcrafting-wizard/components/steps/Step10Review.jsx": "e20000645f7f1e52a617a9a2620067c513fd9e7c71bcd2b78c50f55166d5f1c6",
+    "vtt-react/src/components/spellcrafting-wizard/core/utils/libraryManager.js": "8ba60b8a52a9df5567304ea15246257b8bee5e8d6cdfb9dea16f1dc3f0d8dead",
+    "vtt-react/src/persistence/privateStorageRegistry.js": "1994a6cf1a32987b1a23191713b6bd85b4814bb25c16f878fea1a648d7cdb214",
+    "vtt-react/src/data/classes/index.js": "6511efa7146619cef3308be5e843aef2a4028174a6df9f6811f4cf848de1eee2",
+    "vtt-react/package.json": "63475810b4b5205fd00e36e65573ecb48aab95d2eb95e3899bc81f2ea5375b7a"
+  },
+  "evidenceArtifacts": [
+    "evidence/diff-W1a-W1b.patch",
+    "evidence/CR-W1a/witness-server.cjs",
+    "evidence/CR-W1a/witness-source-hashes.json",
+    "evidence/CR-W1a/witness-results.json",
+    "evidence/CR-W1a/witness-snapshot-zero-ap.md",
+    "evidence/CR-W1b/witness-server.cjs",
+    "evidence/CR-W1b/witness-source-hashes.json",
+    "evidence/CR-W1b/witness-evaluate-results.json",
+    "evidence/CR-W1b/witness-snapshot.md",
+    "evidence/CR-W1b/witness-verdict.json",
+    "evidence/acceptance-report.md"
+  ],
+  "commands": {
+    "tests": "$env:CI='true'; npm test -- --watchAll=false --runInBand --runTestsByPath <3 suites>",
+    "lint": "npx eslint <3 source files + 3 test files> => 0 errors, 19 warnings (pre-existing unused-import/DOM style plus 2 informational missing-deps warnings)",
+    "witnessW1a": "node docs/plans/.../CR-W1a/witness-server.cjs (127.0.0.1:10698) driven by Playwright MCP",
+    "witnessW1b": "node docs/plans/.../CR-W1b/witness-server.cjs (127.0.0.1:10901) driven by Playwright MCP"
+  }
+}

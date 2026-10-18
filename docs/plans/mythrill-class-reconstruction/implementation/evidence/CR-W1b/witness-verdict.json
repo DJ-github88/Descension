@@ -1,0 +1,42 @@
+{
+  "correction": "CR-W1b",
+  "capturedAt": "2026-10-17T20:55:00.000Z",
+  "harness": {
+    "server": "docs/plans/mythrill-class-reconstruction/implementation/evidence/CR-W1b/witness-server.cjs",
+    "url": "http://127.0.0.1:10901/",
+    "realModules": [
+      "spellSerializer.js (serializeSpell, deserializeSpell, createSpellTemplate, generateSpellFromTemplate)",
+      "libraryManager.js exportLibrary (raw-library JSON control)"
+    ],
+    "mocksOrBoundaries": [
+      "persistence/spellLibraryScopedStorage mocked (exportLibrary itself never touches storage)",
+      "no storage, network, account or shared-room writes"
+    ],
+    "consoleErrors": 0,
+    "playwrightSnapshots": [
+      "witness-snapshot.md",
+      "witness-evaluate-results.json (full per-case values)"
+    ]
+  },
+  "sourceHashes": {
+    "spellSerializer.js": "b960862958d5752e06dbbcde7390b6243ea6bb01642ef97a7a364b7bf5dfaa5f",
+    "libraryManager.js": "8ba60b8a52a9df5567304ea15246257b8bee5e8d6cdfb9dea16f1dc3f0d8dead (unchanged, matches frozen handoff)"
+  },
+  "caseVerdicts": {
+    "apZeroManaZeroAndTypes": true,
+    "apZeroManaFourExact": true,
+    "sphereMultiset": true,
+    "sevenNoteCounts": true,
+    "classSecondaryMaterialsFormulas": true,
+    "unknownExtensionsDataOnly": true,
+    "missingEmptyNullDistinct": true,
+    "twoCyclesStableNoMutation": true,
+    "templateRoundTrip": true,
+    "dottedChangeIsolated": true,
+    "wholeObjectReplacement": true,
+    "privateCleanupTopLevelOnly": true,
+    "reviewSecondarySerializedData": true,
+    "rawLibraryExportPositiveControl": true
+  },
+  "allPass": true
+}

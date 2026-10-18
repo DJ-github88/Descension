@@ -1,0 +1,155 @@
+- generic [ref=f3e1]:
+  - heading "Independent W1 production-handler witness" [level=1] [ref=f3e2]
+  - paragraph [ref=f3e3]: Memory-only storage; actual App/Review save buttons and App internalLoadSpell handler.
+  - generic [ref=f3e4]:
+    - status [ref=f3e54]: "{\"ap\":0,\"step\":5,\"saved\":[{\"id\":\"independent-price-witness-mvdpwhf9\",\"ap\":0,\"secondary\":false},{\"id\":\"independent-price-witness-mvdpwiz8\",\"ap\":0,\"secondary\":true}]}"
+    - generic [ref=f3e55]:
+      - banner [ref=f3e56]:
+        - generic [ref=f3e57]:
+          - img "Spell Book" [ref=f3e58]
+          - heading "Spell Crafting Wizard" [level=1] [ref=f3e59]
+        - generic [ref=f3e60]:
+          - button [ref=f3e61]:
+            - img "Spell Wizard" [ref=f3e62]
+            - text: Spell Wizard
+          - button [ref=f3e63]:
+            - img "Spell Library" [ref=f3e64]
+            - text: Spell Library
+        - generic [ref=f3e65]:
+          - button "Finalize" [ref=f3e66]
+          - button "Load" [ref=f3e67]
+          - button "Reset" [ref=f3e68]
+          - button "Settings" [ref=f3e69]
+          - button "Quick Spell" [ref=f3e70]
+          - button "Help" [ref=f3e71]
+      - generic [ref=f3e74]:
+        - navigation "Spell wizard steps" [ref=f3e75]:
+          - list [ref=f3e76]:
+            - listitem [ref=f3e77]:
+              - button "1Basic Info" [ref=f3e78]
+            - listitem [ref=f3e79]:
+              - button "2Spell Type" [ref=f3e80]
+            - listitem [ref=f3e81]:
+              - button "3Effects" [ref=f3e82]
+            - listitem [ref=f3e83]:
+              - button "4Triggersoptional" [ref=f3e84]
+            - listitem [ref=f3e85]:
+              - button "5Targeting & Propagation" [ref=f3e86]
+            - listitem [ref=f3e87]:
+              - button "6Resources" [ref=f3e88]
+            - listitem [ref=f3e89]:
+              - button "7Cooldown" [ref=f3e90]
+            - listitem [ref=f3e91]:
+              - button "8Rollable Tableoptional" [ref=f3e92]
+            - listitem [ref=f3e93]:
+              - button "9Prophecyoptional" [ref=f3e94]
+            - listitem [ref=f3e95]:
+              - button "10Mechanicsoptional" [ref=f3e96]
+        - generic [ref=f3e97]:
+          - generic [ref=f3e98]:
+            - generic [ref=f3e99]: Step 6 of 10
+            - text: Resources
+          - generic [ref=f3e101]:
+            - generic [ref=f3e102]:
+              - heading "Resource Summary" [level=3] [ref=f3e104]
+              - generic [ref=f3e105]:
+                - generic [ref=f3e107]:
+                  - generic [ref=f3e108]: Action Points
+                  - generic [ref=f3e109]: "0"
+                - generic [ref=f3e111]:
+                  - generic [ref=f3e112]: Mana
+                  - generic [ref=f3e113]: "4"
+            - generic [ref=f3e114]:
+              - heading "Resource Configuration" [level=3] [ref=f3e115]
+              - generic [ref=f3e116]:
+                - generic [ref=f3e117]:
+                  - generic [ref=f3e118]:
+                    - heading "Resource Types" [level=4] [ref=f3e119]
+                    - generic [ref=f3e120]: Select resources for your spell (or none for free spells)
+                  - generic [ref=f3e121]:
+                    - generic [ref=f3e122]:
+                      - generic "Basic action economy" [ref=f3e123]: Action Points
+                      - generic "Spends an action slot" [ref=f3e125]: Action
+                      - generic "Uses a bonus action" [ref=f3e127]: Bonus Action
+                      - generic "Uses your reaction" [ref=f3e129]: Reaction
+                      - generic "Standard magical energy" [ref=f3e131]: Mana
+                      - generic "Consumes a spell slot" [ref=f3e133]: Spell Slot
+                      - generic "Built through combat actions" [ref=f3e135]: Rage
+                      - generic "Regenerates quickly" [ref=f3e137]: Energy
+                      - generic "Used for precise abilities" [ref=f3e139]: Focus
+                      - generic "Collected from enemies" [ref=f3e141]: Soul Shards
+                      - generic "Divine power source" [ref=f3e143]: Holy Power
+                      - generic "Cosmic energy" [ref=f3e145]: Astral Power
+                      - generic "Arcanoneer sphere resources" [ref=f3e148]: Elemental Spheres
+                      - generic "Berserker rage state requirements" [ref=f3e151]: Rage States
+                      - generic "Chaos Weaver mayhem modifiers" [ref=f3e154]: Chaos Mechanics
+                      - generic "Fate Weaver token mechanics" [ref=f3e157]: Fate Mechanics
+                      - generic "Pyrofiend inferno mechanics" [ref=f3e160]: Inferno Veil
+                      - generic "Minstrel chord mechanics" [ref=f3e163]: Musical Notes
+                      - generic "Chronarch time manipulation resources" [ref=f3e166]: Temporal Mechanics
+                      - generic "Martyr devotion and sacrifice mechanics" [ref=f3e169]: Devotion
+                      - generic "Deathcaller blood magic and ascension mechanics" [ref=f3e172]: Necrotic Ascension
+                      - generic "Dreadnaught damage-to-power conversion mechanics" [ref=f3e175]: Dark Resilience Points
+                      - generic "Formbender shapeshifting and primal energy mechanics" [ref=f3e178]: Wild Instinct
+                      - generic "Apex tracking and coordination mechanics" [ref=f3e181]: Marks
+                      - generic "Warden justice and retribution mechanics" [ref=f3e184]: Tension
+                    - generic [ref=f3e186]:
+                      - generic [ref=f3e187]:
+                        - generic [ref=f3e188]: Action Points Cost
+                        - generic [ref=f3e189]:
+                          - button "View formula variables and examples" [ref=f3e190]
+                          - button "Fixed Value" [ref=f3e191]
+                      - generic [ref=f3e192]:
+                        - spinbutton [ref=f3e193]: "0"
+                        - generic [ref=f3e194]: "Suggested cost for level 1: 5-10"
+                    - generic [ref=f3e195]:
+                      - generic [ref=f3e196]:
+                        - generic [ref=f3e197]: Mana Cost
+                        - generic [ref=f3e198]:
+                          - button "View formula variables and examples" [ref=f3e199]
+                          - button "Fixed Value" [ref=f3e200]
+                      - generic [ref=f3e201]:
+                        - spinbutton [ref=f3e202]: "4"
+                        - generic [ref=f3e203]: "Suggested cost for level 1: 5-10"
+                - generic [ref=f3e205]:
+                  - heading "Spell Components" [level=4] [ref=f3e206]
+                  - generic [ref=f3e207]: Select physical requirements for casting this spell
+          - generic [ref=f3e208]:
+            - button "Back" [ref=f3e209]
+            - progressbar
+            - 'button "Next: Cooldown" [ref=f3e210]'
+    - generic [ref=f3e215]:
+      - heading "Validation Results" [level=3] [ref=f3e217]
+      - generic [ref=f3e218]:
+        - generic [ref=f3e219]: No errors found!
+        - generic [ref=f3e220]:
+          - heading "Warnings" [level=4] [ref=f3e221]
+          - list [ref=f3e222]:
+            - listitem [ref=f3e223]: Specifying a school of magic is recommended
+            - listitem [ref=f3e224]: Spell has no effects defined
+      - generic [ref=f3e225]:
+        - heading "Review Checklist" [level=4] [ref=f3e226]
+        - generic [ref=f3e227]:
+          - generic [ref=f3e228]:
+            - button [ref=f3e229]
+            - text: Basic Information
+            - button [ref=f3e230]
+          - generic [ref=f3e231]:
+            - button [ref=f3e232]
+            - text: Effects
+            - button [ref=f3e233]
+          - generic [ref=f3e234]:
+            - button [ref=f3e235]
+            - text: Targeting & Area
+            - button [ref=f3e236]
+          - generic [ref=f3e237]:
+            - button [ref=f3e238]
+            - text: Resources & Cooldowns
+            - button [ref=f3e239]
+          - generic [ref=f3e240]:
+            - button [ref=f3e241]
+            - text: Mechanics
+            - button [ref=f3e242]
+      - generic [ref=f3e243]:
+        - button "Save to Library" [active] [ref=f3e244]
+        - button "View Spellbook" [ref=f3e245]

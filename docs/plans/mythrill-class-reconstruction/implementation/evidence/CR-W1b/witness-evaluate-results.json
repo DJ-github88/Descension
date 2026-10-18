@@ -1,0 +1,227 @@
+{
+  "allPass": true,
+  "summary": {
+    "apZeroManaZeroAndTypes": true,
+    "apZeroManaFourExact": true,
+    "sphereMultiset": true,
+    "sevenNoteCounts": true,
+    "classSecondaryMaterialsFormulas": true,
+    "unknownExtensionsDataOnly": true,
+    "missingEmptyNullDistinct": true,
+    "twoCyclesStableNoMutation": true,
+    "templateRoundTrip": true,
+    "dottedChangeIsolated": true,
+    "wholeObjectReplacement": true,
+    "privateCleanupTopLevelOnly": true,
+    "reviewSecondarySerializedData": true,
+    "rawLibraryExportPositiveControl": true
+  },
+  "details": {
+    "apZeroManaZeroAndTypes": {
+      "pass": true,
+      "value": {
+        "actionPoints": 0,
+        "mana": 0,
+        "components": [
+          "verbal",
+          "somatic"
+        ],
+        "materialComponents": "a lock of hair",
+        "resourceTypes": [
+          "mana",
+          "actionPoints",
+          "note_v",
+          "note_i",
+          "note_vi"
+        ],
+        "resourceValues": {
+          "mana": 0,
+          "actionPoints": 0,
+          "note_v": -2,
+          "note_i": -1,
+          "note_vi": -1
+        },
+        "resourceFormulas": {
+          "mana_formula": "2d6"
+        },
+        "useFormulas": {
+          "mana": false
+        },
+        "spheres": [
+          "arcane",
+          "arcane",
+          "rime"
+        ],
+        "classResource": {
+          "type": "fervor",
+          "gain": 10,
+          "cost": 3,
+          "state": "rally"
+        },
+        "secondaryCosts": [
+          {
+            "type": "health",
+            "amount": 4
+          }
+        ],
+        "unknownExtension": {
+          "nested": {
+            "list": [
+              1,
+              2,
+              3
+            ],
+            "flag": true
+          }
+        },
+        "classResourceProgram": {
+          "version": 99,
+          "steps": [
+            {
+              "op": "gain",
+              "amount": 3
+            }
+          ]
+        }
+      }
+    },
+    "apZeroManaFourExact": {
+      "pass": true,
+      "value": {
+        "actionPoints": 0,
+        "mana": 4,
+        "notes": "Soft",
+        "resourceValues": {
+          "mana": 4
+        }
+      }
+    },
+    "sphereMultiset": {
+      "pass": true,
+      "value": [
+        "arcane",
+        "arcane",
+        "rime"
+      ]
+    },
+    "sevenNoteCounts": {
+      "pass": true,
+      "value": {
+        "mana": 0,
+        "actionPoints": 0,
+        "note_v": -2,
+        "note_i": -1,
+        "note_vi": -1
+      }
+    },
+    "classSecondaryMaterialsFormulas": {
+      "pass": true,
+      "value": {
+        "classResource": {
+          "type": "fervor",
+          "gain": 10,
+          "cost": 3,
+          "state": "rally"
+        },
+        "secondaryCosts": [
+          {
+            "type": "health",
+            "amount": 4
+          }
+        ],
+        "resourceFormulas": {
+          "mana_formula": "2d6"
+        }
+      }
+    },
+    "unknownExtensionsDataOnly": {
+      "pass": true,
+      "value": {
+        "unknownExtension": {
+          "nested": {
+            "list": [
+              1,
+              2,
+              3
+            ],
+            "flag": true
+          }
+        },
+        "classResourceProgram": {
+          "version": 99,
+          "steps": [
+            {
+              "op": "gain",
+              "amount": 3
+            }
+          ]
+        }
+      }
+    },
+    "missingEmptyNullDistinct": {
+      "pass": true,
+      "value": {
+        "absent": "absent",
+        "empty": {},
+        "nulled": null
+      }
+    },
+    "twoCyclesStableNoMutation": {
+      "pass": true,
+      "value": {
+        "stable": true,
+        "inputUnmutated": true
+      }
+    },
+    "templateRoundTrip": {
+      "pass": true,
+      "value": {
+        "templateAP": 0,
+        "instanceAP": 0,
+        "fromStringAP": 0,
+        "metadataOnTemplate": true,
+        "metadataRemovedOnInstance": true
+      }
+    },
+    "dottedChangeIsolated": {
+      "pass": true,
+      "value": {
+        "instance": {
+          "ap": 0,
+          "notes": "Soft zero"
+        },
+        "templateUnmutated": true,
+        "originalUnmutated": true,
+        "secondInstanceAP": 1,
+        "secondInstanceNotes": "Soft"
+      }
+    },
+    "wholeObjectReplacement": {
+      "pass": true,
+      "value": {
+        "actionPoints": 3
+      }
+    },
+    "privateCleanupTopLevelOnly": {
+      "pass": true,
+      "value": {
+        "topLevelRemoved": true,
+        "nestedKept": "kept"
+      }
+    },
+    "reviewSecondarySerializedData": {
+      "pass": true,
+      "value": {
+        "ap": 0,
+        "mana": 4
+      }
+    },
+    "rawLibraryExportPositiveControl": {
+      "pass": true,
+      "value": {
+        "ap": 0,
+        "mana": 0
+      }
+    }
+  }
+}

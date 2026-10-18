@@ -2416,8 +2416,8 @@ export const BACKGROUND_DATA = {
     ],
     "tensionPairings": [
       {
-        "classId": "revenant",
-        "tension": "Freshwater currents wash clean; carrying the salty necrosis of a Revenant anchor is an agonizing burden."
+        "classId": "augur",
+        "tension": "Reading stationary omens and patient sediment conflicts with the relentless rush of cataract rapids that never stand still."
       }
     ],
     "subraceFlavor": {
@@ -2884,8 +2884,8 @@ export const BACKGROUND_DATA = {
     ],
     "tensionPairings": [
       {
-        "classId": "apex",
-        "tension": "Manicured grove aesthetics reject the predatory gore and violent instincts of the ground hunt."
+        "classId": "animist",
+        "tension": "Manicured, thorn-bound terrace craft chafes against the unshaped and untamed spirits of the deep root."
       }
     ],
     "subraceFlavor": {
@@ -2944,10 +2944,6 @@ export const BACKGROUND_DATA = {
       {
         "classId": "animist",
         "bridge": "Roots that dig deep into the earth touch the bedrock spirits."
-      },
-      {
-        "classId": "apex",
-        "bridge": "Stalking through dense timber where soft-skinned beasts cannot follow."
       }
     ],
     "tensionPairings": [

@@ -1,0 +1,33 @@
+{
+  "capturedAt": "2026-10-18T10:48:09.223Z",
+  "scope": "HeadQ clarification addendum only; no application implementation authorization",
+  "contract": "implementation/CR-A1a-DEFINITION-INFRASTRUCTURE.md",
+  "originalFrozenSha256": "467169ed6c269e9a3734a00bc2cadbc38415ed617cbe88002695150cf263615c",
+  "clarifiedSha256": "ae16461e7ce088814a0d0a156c2a72603e9cf9e4dae116bd830efedd19e999c9",
+  "goldenVectors": {
+    "file": "implementation/fixtures/CR-A1a-definition-vectors.json",
+    "expected": "e6a98a497308b8535538b9887435c9189127afa768b60cd8e01af31cd3c55bdb",
+    "actual": "e6a98a497308b8535538b9887435c9189127afa768b60cd8e01af31cd3c55bdb"
+  },
+  "unchangedW1Contracts": [
+    {
+      "file": "implementation/CR-W1a-ZERO-AP.md",
+      "expected": "1147bb2c5b48ca8f5d5372ea545f8e2d1b5793d45e20a4ce1089186fdc337acd",
+      "actual": "1147bb2c5b48ca8f5d5372ea545f8e2d1b5793d45e20a4ce1089186fdc337acd"
+    },
+    {
+      "file": "implementation/CR-W1b-RESOURCE-COST-ROUNDTRIP.md",
+      "expected": "1eeeecb4cc4ef893a0cfa5ce256cf6a16d0868d64427a56cd18a201f21083446",
+      "actual": "1eeeecb4cc4ef893a0cfa5ce256cf6a16d0868d64427a56cd18a201f21083446"
+    }
+  ],
+  "newA1aTargets": {
+    "server/services/authoredSpellDefinitions.js": false,
+    "server/tests/authoredSpellDefinitions.test.js": false,
+    "server/tests/fixtures/crA1aDefinitionVectors.json": false
+  },
+  "serverOnly": true,
+  "executionEnabled": false,
+  "installed": false,
+  "acceptanceCondition": "Combined W1 acceptance withheld; A1a handoff clarified but no acceptance-conditioned implementation release issued."
+}

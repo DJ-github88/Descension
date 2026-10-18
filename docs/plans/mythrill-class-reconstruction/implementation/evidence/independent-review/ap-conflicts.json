@@ -1,0 +1,135 @@
+[
+  {
+    "name": "canonical2-selected0",
+    "input": {
+      "actionPoints": 2,
+      "resourceTypes": [
+        "actionPoints"
+      ],
+      "resourceValues": {
+        "actionPoints": 0
+      },
+      "useFormulas": {
+        "actionPoints": false
+      },
+      "resourceFormulas": {
+        "actionPoints": "1d6"
+      }
+    },
+    "recommendation": 1,
+    "total": 2,
+    "additional": [
+      {
+        "type": "actionPoints",
+        "value": 0,
+        "useFormula": false,
+        "formula": ""
+      }
+    ],
+    "expectedTotal": 2
+  },
+  {
+    "name": "canonical0-selected2",
+    "input": {
+      "actionPoints": 0,
+      "resourceTypes": [
+        "actionPoints"
+      ],
+      "resourceValues": {
+        "actionPoints": 2
+      },
+      "useFormulas": {
+        "actionPoints": false
+      },
+      "resourceFormulas": {
+        "actionPoints": "1d6"
+      }
+    },
+    "recommendation": 1,
+    "total": 0,
+    "additional": [
+      {
+        "type": "actionPoints",
+        "value": 2,
+        "useFormula": false,
+        "formula": ""
+      }
+    ],
+    "expectedTotal": 0
+  },
+  {
+    "name": "absent-selected0",
+    "input": {
+      "resourceTypes": [
+        "actionPoints"
+      ],
+      "resourceValues": {
+        "actionPoints": 0
+      },
+      "useFormulas": {
+        "actionPoints": false
+      },
+      "resourceFormulas": {
+        "actionPoints": "1d6"
+      }
+    },
+    "recommendation": 1,
+    "total": 0,
+    "additional": [
+      {
+        "type": "actionPoints",
+        "value": 0,
+        "useFormula": false,
+        "formula": ""
+      }
+    ],
+    "expectedTotal": 0
+  },
+  {
+    "name": "absent-deselected-stale0",
+    "input": {
+      "resourceTypes": [],
+      "resourceValues": {
+        "actionPoints": 0
+      },
+      "useFormulas": {
+        "actionPoints": false
+      },
+      "resourceFormulas": {
+        "actionPoints": "1d6"
+      }
+    },
+    "recommendation": 1,
+    "total": 0,
+    "additional": [],
+    "expectedTotal": 1
+  },
+  {
+    "name": "absent-formula-stale0",
+    "input": {
+      "resourceTypes": [
+        "actionPoints"
+      ],
+      "resourceValues": {
+        "actionPoints": 0
+      },
+      "useFormulas": {
+        "actionPoints": true
+      },
+      "resourceFormulas": {
+        "actionPoints": "1d6"
+      }
+    },
+    "recommendation": 1,
+    "total": 0,
+    "additional": [
+      {
+        "type": "actionPoints",
+        "value": 0,
+        "useFormula": true,
+        "formula": "1d6"
+      }
+    ],
+    "expectedTotal": 1
+  }
+]

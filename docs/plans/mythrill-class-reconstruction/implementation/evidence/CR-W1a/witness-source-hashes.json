@@ -1,0 +1,11 @@
+{
+  "capturedAt": "2026-10-17T20:51:52.014Z",
+  "sourceHashes": {
+    "vtt-react/src/components/spellcrafting-wizard/components/steps/Step5Resources.jsx": "52e0e89940cc1f0d2b23d76fb577f0b472fc4335700291c1986ac924fed167cd",
+    "vtt-react/src/components/spellcrafting-wizard/context/spellWizardContext.js": "557315dcfd60f3c45bc98a09671dc21833f3e3b39a9d0847eadd1a47e0835072",
+    "vtt-react/src/components/spellcrafting-wizard/core/mechanics/resourceManager.js": "0fc160b76d0b7e68ea95162fb9f0305e92f0fd13705850460cf0240b2310cf0b",
+    "vtt-react/src/components/spellcrafting-wizard/data/enhancedEffectSystemData.js": "6a98b87b8fbf7de5dda298f79dfc0365ec763cc818d0fcac6c35932b1c085172",
+    "vtt-react/src/components/spellcrafting-wizard/core/utils/spellSerializer.js": "b960862958d5752e06dbbcde7390b6243ea6bb01642ef97a7a364b7bf5dfaa5f",
+    "vtt-react/src/utils/formatUtils.js": "5d89a84f340a87ae4d7b08f155f3e862087eb1ccbc49202460d7c3ea8248a44a"
+  }
+}

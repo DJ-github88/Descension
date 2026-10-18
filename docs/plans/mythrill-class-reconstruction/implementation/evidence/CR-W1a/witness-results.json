@@ -1,0 +1,100 @@
+{
+  "correction": "CR-W1a",
+  "capturedAt": "2026-10-17T20:56:00.000Z",
+  "harness": {
+    "server": "docs/plans/mythrill-class-reconstruction/implementation/evidence/CR-W1a/witness-server.cjs",
+    "url": "http://127.0.0.1:10698/",
+    "mounted": [
+      "real spellWizardContext.js SpellWizardProvider + reducer + validation effects",
+      "real Step5Resources.jsx component body",
+      "real resourceManager.js calculations"
+    ],
+    "mocksOrBoundaries": [
+      "react/bootstrap/icon packages (visual only)",
+      "SimpleFormulaHelp and SpellComponentsSelector children (visual only)",
+      "no App chrome, library persistence, Firebase or backend involved",
+      "main-save outer record expression copied verbatim from SpellwizardApp.jsx:255-280",
+      "Review outer record + re-assembly expressions copied verbatim from Step10Review.jsx:2624-2635, 2666-2672, 2729-2735",
+      "reopen resourceCost expression copied verbatim from SpellwizardApp.jsx:539-548 with provider-visible defaults from :485-596"
+    ],
+    "writes": "in-memory only; no personal account, library storage or shared-room writes",
+    "playwrightSnapshots": [
+      "witness-snapshot-zero-ap.md (mounted zero fixture: status ap 0, summary 0, spinbutton \"0\")"
+    ],
+    "consoleErrors": 0
+  },
+  "sourceHashes": {
+    "note": "live source hashes recorded at server start; see witness-source-hashes.json",
+    "Step5Resources.jsx": "52e0e89940cc1f0d2b23d76fb577f0b472fc4335700291c1986ac924fed167cd",
+    "resourceManager.js": "0fc160b76d0b7e68ea95162fb9f0305e92f0fd13705850460cf0240b2310cf0b",
+    "spellWizardContext.js": "557315dcfd60f3c45bc98a09671dc21833f3e3b39a9d0847eadd1a47e0835072 (unchanged, matches frozen handoff)"
+  },
+  "observations": {
+    "selected-editor-zero": {
+      "canonicalActionPoints": 0,
+      "inputValue": "0",
+      "summaryValues": ["Action Points", "0"],
+      "freeAsserted": false
+    },
+    "editor-missing-canonical-zero": {
+      "canonicalActionPoints": 0,
+      "inputValue": "0",
+      "summaryValues": ["Action Points", "0"]
+    },
+    "editor-zero-canonical-two": {
+      "afterEditZero_canonicalActionPoints": 0,
+      "inputValue": "0",
+      "summaryValues": ["Action Points", "0"],
+      "note": "selected fixed editor 0 commits canonical 0 over canonical 2"
+    },
+    "editor-zero-canonical-two-after-editing-to-two": {
+      "canonicalActionPoints": 2,
+      "inputValue": "2",
+      "summaryValues": ["Action Points", "2"]
+    },
+    "deselected-canonical-zero": {
+      "beforeSelectRow": { "canonicalActionPoints": 0, "summaryValues": ["No Additional Costs", "No additional resource costs selected"] },
+      "afterSelectRow": { "canonicalActionPoints": 0, "inputValue": "0" },
+      "afterDeselectRow": { "canonicalActionPoints": 0, "summaryValues": ["No Additional Costs", "No additional resource costs selected"] },
+      "freeAsserted": false
+    },
+    "both-missing": {
+      "canonicalActionPoints": 1,
+      "note": "fallback 1 only when both encodings genuinely missing; no blanket zero"
+    },
+    "passive-explicit-zero": {
+      "canonicalActionPoints": 0,
+      "note": "explicit PASSIVE 0 remains 0"
+    },
+    "passive-missing": {
+      "canonicalActionPoints": 1,
+      "note": "existing fallback policy retained; no new type default"
+    },
+    "malformed-null": {
+      "canonicalActionPoints": null,
+      "inputValue": "",
+      "summaryValues": ["Action Points", "null (invalid)"],
+      "note": "existing canonical null stays null; no inferred 1"
+    },
+    "positive-two-plus-mana-edit": {
+      "canonicalActionPoints": 2,
+      "manaAfterEdit": 3,
+      "inputValue": "3",
+      "note": "positive canonical 2 stable through unrelated resource edit"
+    },
+    "reselect-initializes-from-canonical-two": {
+      "canonicalActionPoints": 2,
+      "inputValue": "2",
+      "note": "selecting a row with missing editor initializes from canonical"
+    },
+    "save-review-reopen-chain": {
+      "mainSaveOuterActionPoints": 0,
+      "reviewOuterActionPoints": 0,
+      "reviewSecondarySerializedActionPoints": 0,
+      "reopenCanonicalActionPoints": 0,
+      "afterReopenInputValue": "0",
+      "canonicalResourceCostAfterReopen": "{\"components\":[],\"materialComponents\":\"\",\"actionPoints\":0,\"actionPointsSelected\":true,\"resourceTypes\":[\"actionPoints\"],\"resourceValues\":{\"actionPoints\":0},\"resourceFormulas\":{},\"useFormulas\":{}}",
+      "note": "main-save and Review outer records compared; Review secondary serializedData also retains 0 because CR-W1b is installed in the same change set (W1b independently evidenced in CR-W1b witness)"
+    }
+  }
+}

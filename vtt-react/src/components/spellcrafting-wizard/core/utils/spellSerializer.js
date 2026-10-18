@@ -92,7 +92,7 @@ import {
    const templateConfig = typeof template === 'string' ? JSON.parse(template) : template;
 
    // Create a clean copy of the template
-   const baseConfig = { ...templateConfig };
+   const baseConfig = JSON.parse(JSON.stringify(templateConfig));
 
    // Remove template metadata
    delete baseConfig._isTemplate;
@@ -625,9 +625,6 @@ for (const [value] of Object.entries(config._validation.warnings)) {
     delete cleanConfig[key];
    }
   }
-
-  // Remove any calculated fields that should be recomputed
-  delete cleanConfig.resourceCost;
 
   return cleanConfig;
  }

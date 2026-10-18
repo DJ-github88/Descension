@@ -1,0 +1,180 @@
+{
+  "capturedAt": "2026-10-18T10:48:09.055Z",
+  "head": "78cab7d0b711e8f0c6520563da1fb96513e67a1a",
+  "implementationHashes": [
+    {
+      "file": "vtt-react/src/components/spellcrafting-wizard/components/steps/Step5Resources.jsx",
+      "expected": "52e0e89940cc1f0d2b23d76fb577f0b472fc4335700291c1986ac924fed167cd",
+      "actual": "52e0e89940cc1f0d2b23d76fb577f0b472fc4335700291c1986ac924fed167cd"
+    },
+    {
+      "file": "vtt-react/src/components/spellcrafting-wizard/core/mechanics/resourceManager.js",
+      "expected": "0fc160b76d0b7e68ea95162fb9f0305e92f0fd13705850460cf0240b2310cf0b",
+      "actual": "0fc160b76d0b7e68ea95162fb9f0305e92f0fd13705850460cf0240b2310cf0b"
+    },
+    {
+      "file": "vtt-react/src/components/spellcrafting-wizard/core/utils/spellSerializer.js",
+      "expected": "b960862958d5752e06dbbcde7390b6243ea6bb01642ef97a7a364b7bf5dfaa5f",
+      "actual": "b960862958d5752e06dbbcde7390b6243ea6bb01642ef97a7a364b7bf5dfaa5f"
+    },
+    {
+      "file": "vtt-react/src/components/spellcrafting-wizard/components/steps/__tests__/Step5Resources.zeroAP.test.jsx",
+      "expected": "d2434dbeeabbb0e1b12f3c22065b9d73415fdee4253b3710ce63de6e14a0ce21",
+      "actual": "d2434dbeeabbb0e1b12f3c22065b9d73415fdee4253b3710ce63de6e14a0ce21"
+    },
+    {
+      "file": "vtt-react/src/components/spellcrafting-wizard/core/mechanics/__tests__/resourceManager.zeroAP.test.js",
+      "expected": "9a3dad087f22c3c3a9509eaf6490605a80644e8cf4a027205d006e92ff64b1c4",
+      "actual": "9a3dad087f22c3c3a9509eaf6490605a80644e8cf4a027205d006e92ff64b1c4"
+    },
+    {
+      "file": "vtt-react/src/components/spellcrafting-wizard/core/utils/__tests__/spellSerializer.resourceRoundTrip.test.js",
+      "expected": "de00585d4a0d1cc69e773860686c1aa14a9c97665b19ca8fa42284fef56b545e",
+      "actual": "de00585d4a0d1cc69e773860686c1aa14a9c97665b19ca8fa42284fef56b545e"
+    },
+    {
+      "file": "vtt-react/src/components/spellcrafting-wizard/context/spellWizardContext.js",
+      "expected": "557315dcfd60f3c45bc98a09671dc21833f3e3b39a9d0847eadd1a47e0835072",
+      "actual": "557315dcfd60f3c45bc98a09671dc21833f3e3b39a9d0847eadd1a47e0835072"
+    },
+    {
+      "file": "vtt-react/src/components/spellcrafting-wizard/SpellwizardApp.jsx",
+      "expected": "866eefdabfb8c413ea55ca2cfec54b3bcb32b1382f866692b63785373dff6b3c",
+      "actual": "866eefdabfb8c413ea55ca2cfec54b3bcb32b1382f866692b63785373dff6b3c"
+    },
+    {
+      "file": "vtt-react/src/components/spellcrafting-wizard/components/steps/Step10Review.jsx",
+      "expected": "e20000645f7f1e52a617a9a2620067c513fd9e7c71bcd2b78c50f55166d5f1c6",
+      "actual": "e20000645f7f1e52a617a9a2620067c513fd9e7c71bcd2b78c50f55166d5f1c6"
+    },
+    {
+      "file": "vtt-react/src/components/spellcrafting-wizard/core/utils/libraryManager.js",
+      "expected": "8ba60b8a52a9df5567304ea15246257b8bee5e8d6cdfb9dea16f1dc3f0d8dead",
+      "actual": "8ba60b8a52a9df5567304ea15246257b8bee5e8d6cdfb9dea16f1dc3f0d8dead"
+    },
+    {
+      "file": "vtt-react/src/persistence/privateStorageRegistry.js",
+      "expected": "1994a6cf1a32987b1a23191713b6bd85b4814bb25c16f878fea1a648d7cdb214",
+      "actual": "1994a6cf1a32987b1a23191713b6bd85b4814bb25c16f878fea1a648d7cdb214"
+    },
+    {
+      "file": "vtt-react/src/data/classes/index.js",
+      "expected": "6511efa7146619cef3308be5e843aef2a4028174a6df9f6811f4cf848de1eee2",
+      "actual": "6511efa7146619cef3308be5e843aef2a4028174a6df9f6811f4cf848de1eee2"
+    },
+    {
+      "file": "vtt-react/package.json",
+      "expected": "63475810b4b5205fd00e36e65573ecb48aab95d2eb95e3899bc81f2ea5375b7a",
+      "actual": "63475810b4b5205fd00e36e65573ecb48aab95d2eb95e3899bc81f2ea5375b7a"
+    }
+  ],
+  "frozenProtected": [
+    {
+      "file": "vtt-react/src/components/spellcrafting-wizard/core/utils/libraryManager.js",
+      "expected": "8ba60b8a52a9df5567304ea15246257b8bee5e8d6cdfb9dea16f1dc3f0d8dead",
+      "actual": "8ba60b8a52a9df5567304ea15246257b8bee5e8d6cdfb9dea16f1dc3f0d8dead"
+    },
+    {
+      "file": "vtt-react/src/components/spellcrafting-wizard/context/spellWizardContext.js",
+      "expected": "557315dcfd60f3c45bc98a09671dc21833f3e3b39a9d0847eadd1a47e0835072",
+      "actual": "557315dcfd60f3c45bc98a09671dc21833f3e3b39a9d0847eadd1a47e0835072"
+    },
+    {
+      "file": "vtt-react/src/components/spellcrafting-wizard/SpellwizardApp.jsx",
+      "expected": "866eefdabfb8c413ea55ca2cfec54b3bcb32b1382f866692b63785373dff6b3c",
+      "actual": "866eefdabfb8c413ea55ca2cfec54b3bcb32b1382f866692b63785373dff6b3c"
+    },
+    {
+      "file": "vtt-react/src/components/spellcrafting-wizard/components/steps/Step10Review.jsx",
+      "expected": "e20000645f7f1e52a617a9a2620067c513fd9e7c71bcd2b78c50f55166d5f1c6",
+      "actual": "e20000645f7f1e52a617a9a2620067c513fd9e7c71bcd2b78c50f55166d5f1c6"
+    },
+    {
+      "file": "vtt-react/src/services/spellConsequence.js",
+      "expected": "a5b42fb52590901d9a033de3b29f408b4a922fd82d76c87a7200fdc5c6fd623c",
+      "actual": "a5b42fb52590901d9a033de3b29f408b4a922fd82d76c87a7200fdc5c6fd623c"
+    },
+    {
+      "file": "vtt-react/src/services/spellConsequenceService.js",
+      "expected": "a582d53c5ca2b3440b429ee11a30b3ce6482ca3f8524ab56514aa80c7e0300a3",
+      "actual": "a582d53c5ca2b3440b429ee11a30b3ce6482ca3f8524ab56514aa80c7e0300a3"
+    },
+    {
+      "file": "server/services/actorConsequences.js",
+      "expected": "c49a75e808435074eb498aed9ba7c79915e6e62156c4fffe0f8f8c1aa18c307a",
+      "actual": "c49a75e808435074eb498aed9ba7c79915e6e62156c4fffe0f8f8c1aa18c307a"
+    },
+    {
+      "file": "server/services/spellPayments.js",
+      "expected": "b3d8194a9cb39286980b81f5b0deb2f4e4c6521e824373d4ce0d64e3ce9bd208",
+      "actual": "b3d8194a9cb39286980b81f5b0deb2f4e4c6521e824373d4ce0d64e3ce9bd208"
+    },
+    {
+      "file": "server/services/strikeApprovals.js",
+      "expected": "cb1333eb286d51e70a0ad4ea6d612fa66dfa0a12c3cdcc1d1fe496cacf893f61",
+      "actual": "cb1333eb286d51e70a0ad4ea6d612fa66dfa0a12c3cdcc1d1fe496cacf893f61"
+    },
+    {
+      "file": "server/services/blockApprovals.js",
+      "expected": "d40d1e9cce4516475b1751aca31a3cd2d8d22e7fa4a621bb4ef769cb4d71d3d4",
+      "actual": "d40d1e9cce4516475b1751aca31a3cd2d8d22e7fa4a621bb4ef769cb4d71d3d4"
+    },
+    {
+      "file": "server/handlers/actorConsequenceHandlers.js",
+      "expected": "a7723378cdd042e9546e8ac7c3396fef2bb4596021533ab1d8333ea899e7fefd",
+      "actual": "a7723378cdd042e9546e8ac7c3396fef2bb4596021533ab1d8333ea899e7fefd"
+    },
+    {
+      "file": "server/handlers/socketHandlers.js",
+      "expected": "2b44cc7f716e9cbc0aeb7b5fa4c1c967a928740d85317e8df0e6d300a2836aa9",
+      "actual": "2b44cc7f716e9cbc0aeb7b5fa4c1c967a928740d85317e8df0e6d300a2836aa9"
+    },
+    {
+      "file": "server/services/roomAuthorityService.js",
+      "expected": "7395b0bb4ea0edf5fbf2767e138dadca2b123569848539568ae95b4e5660116c",
+      "actual": "7395b0bb4ea0edf5fbf2767e138dadca2b123569848539568ae95b4e5660116c"
+    },
+    {
+      "file": "server/services/roomCheckpoint.js",
+      "expected": "3eea1acb33cfa26d9b3f401ff82c4c93e113c9d8def54a7eece70badcc5ee07f",
+      "actual": "3eea1acb33cfa26d9b3f401ff82c4c93e113c9d8def54a7eece70badcc5ee07f"
+    },
+    {
+      "file": "vtt-react/src/persistence/privateStorageRegistry.js",
+      "expected": "1994a6cf1a32987b1a23191713b6bd85b4814bb25c16f878fea1a648d7cdb214",
+      "actual": "1994a6cf1a32987b1a23191713b6bd85b4814bb25c16f878fea1a648d7cdb214"
+    },
+    {
+      "file": "vtt-react/src/data/classes/index.js",
+      "expected": "6511efa7146619cef3308be5e843aef2a4028174a6df9f6811f4cf848de1eee2",
+      "actual": "6511efa7146619cef3308be5e843aef2a4028174a6df9f6811f4cf848de1eee2"
+    },
+    {
+      "file": "server/package.json",
+      "expected": "083e71ddd3999ded8f23db997502f255563f618afc5c847c7541de262f9b84d1",
+      "actual": "083e71ddd3999ded8f23db997502f255563f618afc5c847c7541de262f9b84d1"
+    },
+    {
+      "file": "vtt-react/package.json",
+      "expected": "63475810b4b5205fd00e36e65573ecb48aab95d2eb95e3899bc81f2ea5375b7a",
+      "actual": "63475810b4b5205fd00e36e65573ecb48aab95d2eb95e3899bc81f2ea5375b7a"
+    },
+    {
+      "file": "docs/ENGINEERING_STATE.md",
+      "expected": "388e25bb56c5194a1f32a43325d843ce759e500809073002f9db89b3ee8f06c7",
+      "actual": "388e25bb56c5194a1f32a43325d843ce759e500809073002f9db89b3ee8f06c7"
+    },
+    {
+      "file": "docs/MYTHRILL_P11_P14_ROADMAP.md",
+      "expected": "8d53939b94a7f877cc69487df16d90ef92672fcea280f0c91e8d260d95facbd3",
+      "actual": "8d53939b94a7f877cc69487df16d90ef92672fcea280f0c91e8d260d95facbd3"
+    }
+  ],
+  "newA1aTargets": {
+    "server/services/authoredSpellDefinitions.js": false,
+    "server/tests/authoredSpellDefinitions.test.js": false,
+    "server/tests/fixtures/crA1aDefinitionVectors.json": false
+  },
+  "retainedDiffMatchesCurrent": true,
+  "allHashesMatch": true
+}

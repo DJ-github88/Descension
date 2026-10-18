@@ -1,0 +1,94 @@
+[
+  {
+    "name": "canonical2-selected0",
+    "canonical": 0,
+    "resourceValues": {
+      "actionPoints": 0
+    },
+    "input": "0",
+    "summary": [
+      "0"
+    ],
+    "total": {
+      "actionPoints": 0,
+      "mana": 1,
+      "cooldown": 0,
+      "classResources": null,
+      "additionalResources": [
+        {
+          "type": "actionPoints",
+          "value": 0,
+          "useFormula": false,
+          "formula": ""
+        }
+      ]
+    }
+  },
+  {
+    "name": "canonical0-selected2",
+    "canonical": 2,
+    "resourceValues": {
+      "actionPoints": 2
+    },
+    "input": "2",
+    "summary": [
+      "2"
+    ],
+    "total": {
+      "actionPoints": 2,
+      "mana": 1,
+      "cooldown": 0,
+      "classResources": null,
+      "additionalResources": [
+        {
+          "type": "actionPoints",
+          "value": 2,
+          "useFormula": false,
+          "formula": ""
+        }
+      ]
+    }
+  },
+  {
+    "name": "absent-selected0",
+    "canonical": 0,
+    "resourceValues": {
+      "actionPoints": 0
+    },
+    "input": "0",
+    "summary": [
+      "0"
+    ],
+    "total": {
+      "actionPoints": 0,
+      "mana": 1,
+      "cooldown": 0,
+      "classResources": null,
+      "additionalResources": [
+        {
+          "type": "actionPoints",
+          "value": 0,
+          "useFormula": false,
+          "formula": ""
+        }
+      ]
+    }
+  },
+  {
+    "name": "absent-deselected-stale0",
+    "canonical": 0,
+    "resourceValues": {
+      "actionPoints": 0
+    },
+    "input": null,
+    "summary": [
+      "No additional resource costs selected"
+    ],
+    "total": {
+      "actionPoints": 0,
+      "mana": 1,
+      "cooldown": 0,
+      "classResources": null
+    }
+  }
+]

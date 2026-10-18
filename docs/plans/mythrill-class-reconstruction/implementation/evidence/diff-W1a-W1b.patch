@@ -1,0 +1,206 @@
+diff --git a/vtt-react/src/components/spellcrafting-wizard/components/steps/Step5Resources.jsx b/vtt-react/src/components/spellcrafting-wizard/components/steps/Step5Resources.jsx
+index 15275632..48bf7a6a 100644
+--- a/vtt-react/src/components/spellcrafting-wizard/components/steps/Step5Resources.jsx
++++ b/vtt-react/src/components/spellcrafting-wizard/components/steps/Step5Resources.jsx
+@@ -74,6 +74,30 @@ const Step5Resources = () => {
+  // Track resource formulas
+  const [resourceFormulas, setResourceFormulas] = useState(state.resourceCost.resourceFormulas || {});
+ 
++ const isPresentFixedValue = (value) => value !== undefined;
++ const isValidFixedAP = (value) =>
++  typeof value === 'number' && Number.isFinite(value) && Number.isInteger(value) && value >= 0;
++ const getResolvedAPDraft = () => {
++  const editorValue = resourceValues.actionPoints;
++  const canonicalValue = state.resourceCost?.actionPoints;
++  if (selectedResources.includes('actionPoints') && isPresentFixedValue(editorValue)) {
++   return { value: editorValue, valid: isValidFixedAP(editorValue), source: 'editor' };
++  }
++  if (isPresentFixedValue(canonicalValue)) {
++   return { value: canonicalValue, valid: isValidFixedAP(canonicalValue), source: 'canonical' };
++  }
++  if (isPresentFixedValue(editorValue)) {
++   return { value: editorValue, valid: isValidFixedAP(editorValue), source: 'editor' };
++  }
++  return { value: 1, valid: true, source: 'fallback' };
++ };
++ const apDraft = getResolvedAPDraft();
++ const apInputValue = apDraft.valid
++  ? apDraft.value
++  : (typeof apDraft.value === 'number' && Number.isFinite(apDraft.value) ? apDraft.value : '');
++ const hasCommonAPPrice = isPresentFixedValue(resourceValues.actionPoints) ||
++  isPresentFixedValue(state.resourceCost?.actionPoints);
++
+  // Track which formula example dropdown is open
+  const [openFormulaDropdown, setOpenFormulaDropdown] = useState(null);
+ 
+@@ -421,18 +445,18 @@ const Step5Resources = () => {
+ 
+  // Save resource configuration when it changes
+  useEffect(() => {
+-  // Ensure actionPoints is ALWAYS set (spec Rule 4)
+-  const actionPoints = selectedResources.includes('actionPoints') 
+-   ? (resourceValues.actionPoints || 1)
+-   : (state.resourceCost?.actionPoints || 1);
+-  
+-  dispatch(actionCreators.updateResourceCost({
++  const resolvedAP = getResolvedAPDraft();
++  const resourceCostPatch = {
+    resourceTypes: selectedResources,
+    resourceValues: resourceValues,
+    resourceFormulas: resourceFormulas,
+-   useFormulas: useFormulas,
+-   actionPoints: actionPoints
+-  }));
++   useFormulas: useFormulas
++  };
++  if (resolvedAP.valid) {
++   resourceCostPatch.actionPoints = resolvedAP.value;
++  }
++  
++  dispatch(actionCreators.updateResourceCost(resourceCostPatch));
+  }, [selectedResources, resourceValues, resourceFormulas, useFormulas]);
+ 
+  // Handler for resource type selection
+@@ -461,7 +485,13 @@ const Step5Resources = () => {
+    updatedResources = [...selectedResources, resourceType];
+ 
+    // Initialize the resource value if it doesn't exist
+-   if (!updatedResourceValues[resourceType]) {
++   if (resourceType === 'actionPoints') {
++    if (updatedResourceValues.actionPoints === undefined) {
++     const canonicalActionPoints = state.resourceCost?.actionPoints;
++     updatedResourceValues.actionPoints =
++      canonicalActionPoints !== undefined ? canonicalActionPoints : 1;
++    }
++   } else if (!updatedResourceValues[resourceType]) {
+     updatedResourceValues[resourceType] = 1; // Default value
+    }
+   }
+@@ -559,7 +589,7 @@ const Step5Resources = () => {
+   const warnings = [];
+ 
+   // Check if spell has no resource costs
+-  if (selectedResources.length === 0) {
++  if (selectedResources.length === 0 && !hasCommonAPPrice) {
+    warnings.push('This spell has no resource costs. It can be cast freely without limitations.');
+   }
+ 
+@@ -638,9 +668,13 @@ const Step5Resources = () => {
+         <FontAwesomeIcon icon={faInfoCircle} />
+        </div>
+        <div className="resource-cost-details">
+-        <div className="resource-cost-label">Free Spell</div>
++        <div className="resource-cost-label">
++         {hasCommonAPPrice ? 'No Additional Costs' : 'Free Spell'}
++        </div>
+         <div className="resource-cost-value">
+-         This spell has no resource costs
++         {hasCommonAPPrice
++          ? 'No additional resource costs selected'
++          : 'This spell has no resource costs'}
+         </div>
+        </div>
+       </div>
+@@ -663,6 +697,15 @@ const Step5Resources = () => {
+            <span className="state-text">{resourceValues[resourceType] || 'Select State'}</span>
+           ) : useFormulas[resourceType] ? (
+            <span className="formula-text">{resourceFormulas[resourceType] || 'Formula'}</span>
++          ) : resourceType === 'actionPoints' ? (
++           apDraft.valid ? (
++            apDraft.value
++           ) : (
++            <span className="invalid-resource-value">
++             {String(apDraft.value)}{' '}
++             <span className="invalid-resource-value-note">(invalid)</span>
++            </span>
++           )
+           ) : (
+            resourceValues[resourceType] ||
+            (resourceType === 'mana' ? calculatedResources?.mana || 0 :
+@@ -911,7 +954,7 @@ const Step5Resources = () => {
+               type="number"
+               min="0"
+               className="resource-input"
+-              value={resourceValues[resourceType] || 0}
++              value={resourceType === 'actionPoints' ? apInputValue : (resourceValues[resourceType] || 0)}
+               onChange={(e) => handleResourceValueChange(resourceType, e.target.value)}
+              />
+             )}
+diff --git a/vtt-react/src/components/spellcrafting-wizard/core/mechanics/resourceManager.js b/vtt-react/src/components/spellcrafting-wizard/core/mechanics/resourceManager.js
+index c2b5ae6c..a19cd163 100644
+--- a/vtt-react/src/components/spellcrafting-wizard/core/mechanics/resourceManager.js
++++ b/vtt-react/src/components/spellcrafting-wizard/core/mechanics/resourceManager.js
+@@ -726,14 +726,32 @@ import {
+     }
+   }
+ 
++  function resolveFixedActionPoints(spellConfig) {
++    const editorValue = spellConfig.resourceCost?.resourceValues?.actionPoints;
++    if (editorValue !== undefined) {
++      return editorValue;
++    }
++
++    const canonicalValue = spellConfig.resourceCost?.actionPoints;
++    if (canonicalValue !== undefined) {
++      return canonicalValue;
++    }
++
++    return calculateClassResourceCost(spellConfig, 'actionPoints');
++  }
++
+   /**
+    * Calculate total resources for a spell
+    */
+   export function calculateTotalResources(spellConfig) {
++    const canonicalActionPoints = spellConfig.resourceCost?.actionPoints;
++    const fixedEditorActionPoints = spellConfig.resourceCost?.resourceValues?.actionPoints;
+     const resources = {
+-      actionPoints: spellConfig.resourceCost?.actionPoints !== undefined ?
+-        spellConfig.resourceCost.actionPoints :
+-        calculateActionPoints(spellConfig),
++      actionPoints: canonicalActionPoints !== undefined ?
++        canonicalActionPoints :
++        (fixedEditorActionPoints !== undefined ?
++          fixedEditorActionPoints :
++          calculateActionPoints(spellConfig)),
+       mana: calculateManaCost(spellConfig),
+       cooldown: calculateCooldown(spellConfig),
+       classResources: spellConfig.resourceOptions && spellConfig.resourceOptions.primaryClassResource ? {
+@@ -754,9 +772,11 @@ import {
+         const useFormula = spellConfig.resourceCost.useFormulas?.[resourceType] || false;
+         const value = useFormula
+           ? spellConfig.resourceCost.resourceFormulas?.[resourceType] || ''
+-          : spellConfig.resourceCost.resourceValues?.[resourceType] ||
+-            (resourceType === 'mana' ? calculateManaCost(spellConfig) :
+-             calculateClassResourceCost(spellConfig, resourceType));
++          : resourceType === 'actionPoints'
++            ? resolveFixedActionPoints(spellConfig)
++            : spellConfig.resourceCost.resourceValues?.[resourceType] ||
++              (resourceType === 'mana' ? calculateManaCost(spellConfig) :
++               calculateClassResourceCost(spellConfig, resourceType));
+ 
+         return {
+           type: resourceType,
+diff --git a/vtt-react/src/components/spellcrafting-wizard/core/utils/spellSerializer.js b/vtt-react/src/components/spellcrafting-wizard/core/utils/spellSerializer.js
+index fcdbd107..5d3a7d89 100644
+--- a/vtt-react/src/components/spellcrafting-wizard/core/utils/spellSerializer.js
++++ b/vtt-react/src/components/spellcrafting-wizard/core/utils/spellSerializer.js
+@@ -92,7 +92,7 @@ import {
+    const templateConfig = typeof template === 'string' ? JSON.parse(template) : template;
+ 
+    // Create a clean copy of the template
+-   const baseConfig = { ...templateConfig };
++   const baseConfig = JSON.parse(JSON.stringify(templateConfig));
+ 
+    // Remove template metadata
+    delete baseConfig._isTemplate;
+@@ -626,9 +626,6 @@ for (const [value] of Object.entries(config._validation.warnings)) {
+    }
+   }
+ 
+-  // Remove any calculated fields that should be recomputed
+-  delete cleanConfig.resourceCost;
+-
+   return cleanConfig;
+  }
+ 

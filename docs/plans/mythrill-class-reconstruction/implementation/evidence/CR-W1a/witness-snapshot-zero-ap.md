@@ -1,0 +1,67 @@
+- generic [active] [ref=e1]:
+  - heading "CR-W1a mounted real-provider witness" [level=1] [ref=e2]
+  - paragraph [ref=e3]: Isolated in-memory fixtures. No personal account, library persistence or shared-room writes.
+  - generic [ref=e4]:
+    - button "selected-editor-zero" [ref=e5]
+    - button "editor-missing-canonical-zero" [ref=e6]
+    - button "editor-zero-canonical-two" [ref=e7]
+    - button "deselected-canonical-zero" [ref=e8]
+    - button "both-missing" [ref=e9]
+    - button "passive-explicit-zero" [ref=e10]
+    - button "passive-missing" [ref=e11]
+    - button "malformed-null" [ref=e12]
+    - button "positive-two" [ref=e13]
+  - generic [ref=e14]:
+    - status [ref=e110]: "{\"ap\":0,\"values\":{\"actionPoints\":0}}"
+    - generic [ref=e111]:
+      - generic [ref=e112]:
+        - heading "Resource Summary" [level=3] [ref=e114]
+        - generic [ref=e117]:
+          - generic [ref=e118]: Action Points
+          - generic [ref=e119]: "0"
+      - generic [ref=e120]:
+        - heading "Resource Configuration" [level=3] [ref=e121]
+        - generic [ref=e122]:
+          - generic [ref=e123]:
+            - generic [ref=e124]:
+              - heading "Resource Types" [level=4] [ref=e125]
+              - generic [ref=e126]: Select resources for your spell (or none for free spells)
+            - generic [ref=e127]:
+              - generic [ref=e128]:
+                - generic "Basic action economy" [ref=e129]: Action Points
+                - generic "Spends an action slot" [ref=e131]: Action
+                - generic "Uses a bonus action" [ref=e133]: Bonus Action
+                - generic "Uses your reaction" [ref=e135]: Reaction
+                - generic "Standard magical energy" [ref=e137]: Mana
+                - generic "Consumes a spell slot" [ref=e139]: Spell Slot
+                - generic "Built through combat actions" [ref=e141]: Rage
+                - generic "Regenerates quickly" [ref=e143]: Energy
+                - generic "Used for precise abilities" [ref=e145]: Focus
+                - generic "Collected from enemies" [ref=e147]: Soul Shards
+                - generic "Divine power source" [ref=e149]: Holy Power
+                - generic "Cosmic energy" [ref=e151]: Astral Power
+                - generic "Arcanoneer sphere resources" [ref=e154]: Elemental Spheres
+                - generic "Berserker rage state requirements" [ref=e157]: Rage States
+                - generic "Chaos Weaver mayhem modifiers" [ref=e160]: Chaos Mechanics
+                - generic "Fate Weaver token mechanics" [ref=e163]: Fate Mechanics
+                - generic "Pyrofiend inferno mechanics" [ref=e166]: Inferno Veil
+                - generic "Minstrel chord mechanics" [ref=e169]: Musical Notes
+                - generic "Chronarch time manipulation resources" [ref=e172]: Temporal Mechanics
+                - generic "Martyr devotion and sacrifice mechanics" [ref=e175]: Devotion
+                - generic "Deathcaller blood magic and ascension mechanics" [ref=e178]: Necrotic Ascension
+                - generic "Dreadnaught damage-to-power conversion mechanics" [ref=e181]: Dark Resilience Points
+                - generic "Formbender shapeshifting and primal energy mechanics" [ref=e184]: Wild Instinct
+                - generic "Apex tracking and coordination mechanics" [ref=e187]: Marks
+                - generic "Warden justice and retribution mechanics" [ref=e190]: Tension
+              - generic [ref=e192]:
+                - generic [ref=e193]:
+                  - generic [ref=e194]: Action Points Cost
+                  - generic [ref=e195]:
+                    - button "View formula variables and examples" [ref=e196]
+                    - button "Fixed Value" [ref=e197]
+                - generic [ref=e198]:
+                  - spinbutton [ref=e199]: "0"
+                  - generic [ref=e200]: "Suggested cost for level 1: 5-10"
+          - generic [ref=e202]:
+            - heading "Spell Components" [level=4] [ref=e203]
+            - generic [ref=e204]: Select physical requirements for casting this spell
