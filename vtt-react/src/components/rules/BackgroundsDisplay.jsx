@@ -1,5 +1,6 @@
 import React, { useState, useRef, useCallback } from 'react';
 import { getAllBackgrounds, BACKGROUND_FLAVOR_TEXT, BACKGROUND_ROLEPLAYING_HOOKS } from '../../data/backgroundData';
+import { getOriginIllustration } from '../../data/backgroundAssets';
 import '../spellcrafting-wizard/styles/pathfinder/main.css';
 import '../spellcrafting-wizard/styles/pathfinder/components/cards.css';
 import './BackgroundSelector.css';
@@ -27,12 +28,19 @@ const getSecondaryBadges = (bg) => {
 const BackgroundCard = ({ background, isActive, onSelect }) => {
     const primary = getPrimaryBadge(background);
     const secondary = getSecondaryBadges(background);
+    const originIll = getOriginIllustration(background.id);
 
     return (
         <div
             className={`background-card-compact ${isActive ? 'active' : ''}`}
             onClick={() => onSelect(background.id)}
         >
+            {originIll && (
+                <div className="background-card-thumb-container">
+                    <img src={originIll.src} alt="" className="background-card-thumb-img" loading="lazy" />
+                    <div className="background-card-thumb-overlay" />
+                </div>
+            )}
             <h4 className="background-compact-name">{background.name}</h4>
             <p className="background-compact-description">{getFlavorText(background)}</p>
             <div className="background-compact-badges">
@@ -90,17 +98,33 @@ const BackgroundsDisplay = () => {
             </div>
 
             {/* Background Details */}
-            {backgroundData && (
-                <div ref={detailRef} className="sub-background-selection-step">
-                    <h3 className="step-title">
-                        {backgroundData.name} Details
-                    </h3>
+            {backgroundData && (() => {
+                const selectedOriginIll = getOriginIllustration(backgroundData.id);
+                return (
+                    <div ref={detailRef} className="sub-background-selection-step">
+                        <h3 className="step-title">
+                            {backgroundData.name} Details
+                        </h3>
 
-                    {/* Overview Section */}
-                    <div className="background-overview">
-                        <h4>Description</h4>
-                        <p>{backgroundData.description}</p>
-                    </div>
+                        {/* Hero Artwork Frame */}
+                        {selectedOriginIll && (
+                            <div className="background-detail-hero-frame">
+                                <img
+                                    src={selectedOriginIll.src}
+                                    alt={selectedOriginIll.caption}
+                                    className="background-detail-hero-img"
+                                />
+                                <div className="background-detail-hero-caption">
+                                    <i className="fas fa-compass" aria-hidden="true"></i> {selectedOriginIll.caption}
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Overview Section */}
+                        <div className="background-overview">
+                            <h4>Description</h4>
+                            <p>{backgroundData.description}</p>
+                        </div>
 
                     {/* Proficiencies & Languages */}
                     <div className="benefits-section">
@@ -171,9 +195,10 @@ const BackgroundsDisplay = () => {
                                 ))}
                             </ul>
                         </div>
+                        </div>
                     </div>
-                </div>
-            )}
+                );
+            })()}
 
             {/* Empty State */}
             {!selectedBackground && (

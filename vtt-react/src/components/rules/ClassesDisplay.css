@@ -407,6 +407,22 @@
     flex-shrink: 0;
 }
 
+.class-row-dev-badge {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 999px;
+    color: #4a1426;
+    background: #f1ece1;
+    border: 1px solid #7A2040;
+    font-family: 'Cinzel', serif;
+    font-size: 0.58rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    line-height: 1.6;
+    flex-shrink: 0;
+}
+
 .class-row-resource {
     font-size: 0.75rem;
     color: #8b6914;

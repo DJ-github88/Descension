@@ -2,12 +2,33 @@
 
 Created 2026-10-16 by HQ authorization, after P10 integration. The original
 roadmap ([MYTHRILL_NEXT_PHASE.md](MYTHRILL_NEXT_PHASE.md) §26) ends at P10 and is unchanged.
-This document adds four bounded phases. **Only P11 is authorized for implementation.**
-P12–P14 need their own contract and go-ahead.
+This document adds four bounded phases. **At creation only P11 was authorized.** Later bounded
+authorizations/status are recorded below; each further slice still needs its own contract/go-ahead.
+
+> **Latest 2026-10-19:** P13B-W declaration collector is implemented, independently source/delta accepted,
+> integrated Build3/App4 verified. [Exact handoff](MYTHRILL_PROJECT_13B_CONTRACT.md#11-w-implementation-and-integrated-handoff--2026-10-19).
+> Collection does not pay, reserve, roll or resolve reactions. E1a original Riposte AP/HP bridge is a
+> proposal only; broader execution/A1b remains unauthorized. Older blanket W-preparation statuses below
+> are historical. Accepted B2 §8.1 and earlier closure evidence are reused unchanged.
+
+> **Latest 2026-10-18:** creator approved G1/G3/G3a/G5 and froze/authorized **P12C-B2 §8.1 only**.
+> Original Radiant Burst circle/channel is implemented, bounded source-review accepted and final
+> production build3/App7 verified. [Exact boundary/evidence](MYTHRILL_PROJECT_12C_B2_CONTRACT.md#15-first-slice-implementation-and-verification--2026-10-18).
+> Earlier blanket B2 preparation-only statements below are superseded for that subset; wider B2,
+> obstruction enforcement, P13B execution and area execution remain conditional, not authorized.
 
 > **Status 2026-10-17:** P11 complete; P12A and P12B-thin implemented and reviewed. The
 > allocation of targeting, floating combat text and area execution is revised in §11. §11 wins
 > where it differs from §5–§8.
+>
+> **Status 2026-10-18:** P12B-r1, P13A and P12C-B1 implemented and independently reviewed (PASS
+> each), uncommitted. P12C-B2, P13B and area execution remain preparation only. Dependencies on the
+> class reconstruction are in §12 and the shared table
+> [MYTHRILL_CROSS_TRACK_COORDINATION.md](MYTHRILL_CROSS_TRACK_COORDINATION.md).
+>
+> **Preparation update 2026-10-18:** B2 and P13B conditional drafts and the creator packet rev2 are
+> complete (§13), not frozen or implemented. §13 and those drafts win over earlier unapproved reaction
+> ordering, disclosure, Pass and chain-cap suggestions in §6/§9. A1b is now parked per current handoff33.
 
 ## 1. What "fully fledged combat" means here
 
@@ -336,11 +357,14 @@ Confirmed decisions (not asked again) are in the P11 contract and §5–§7.
 ## 11. Allocation revision (HQ requirements of 2026-10-17)
 
 Proposed contracts: [MYTHRILL_NEXT_SLICES_CONTRACT_20261017.md](MYTHRILL_NEXT_SLICES_CONTRACT_20261017.md).
-None is authorized until HQ approves it.
+HQ authorized P12B-r1, P13A and P12C-B1 on 2026-10-17; their frozen contracts are
+[P12 rev 5 §3.9](MYTHRILL_PROJECT_12_CONTRACT.md), [P13A](MYTHRILL_PROJECT_13A_CONTRACT.md) and
+[P12C-B1](MYTHRILL_PROJECT_12C_B1_CONTRACT.md). All three are implemented and reviewed (2026-10-18).
+P12C-B2, P13B and P14 are not authorized.
 
 | Phase | Now contains | Notes |
 |---|---|---|
-| **P12** | P12A, P12B-thin (done); **P12B-r1** stale-offer repair; **P12C** targeting follow-through: B1 map targeting for existing single-target controllers (crosshair, source/target rings, card-range ring, aim line, roll retention), B2 authored area-template preview (manual, after G1–G5) | Preview only; validation and execution stay with the existing controllers and the GM |
+| **P12** | P12A/P12B-thin/r1 and B1 map targeting complete; B2 authored area-preview conditional draft complete (§13), no implementation authorization | Preview only; validation and execution stay with the existing controllers and the GM |
 | **P13** | **P13A** accepted-result narration and floating combat text; then **P13B** reaction windows and chains under their own contract | P13A consumes accepted receipts only |
 | **P14** | Expanded area and multi-target consequences (needs G1–G5, D14-3 and an explicit choice between per-target P7 commands and an N-actor P7 extension), elixirs, further class domains, durable cooldowns, table readiness | P7 today is source + at most one target; it cannot resolve an arbitrary area attack atomically |
 
@@ -350,7 +374,8 @@ None is authorized until HQ approves it.
   results. Order: P12B-r1 → P13A → P12C-B1, one at a time.
 - **P12C-B1 must precede P13B.** Interpose and other redirects need the shared map-targeting
   interface to pick a fresh exact target.
-- **P12C-B2 is useful only as a manual aid until P14,** and its membership display needs G1–G5.
+- **P12C-B2 is useful only as a manual aid until P14,** and its conditional membership/display subset
+  needs the explicit geometry decisions/manual boundaries in the B2 draft (§13), including boundary contact/gridless.
   It may be done late in P12 or at the start of P14; it is not a prerequisite of P13.
 - Area tool findings carried into P12C: the existing free-standing template (dice menu) clips by the
   placer's sight and counts token centres over all map tokens, hidden ones included. B2 must use only
@@ -358,3 +383,77 @@ None is authorized until HQ approves it.
 
 Coverage-table changes (§8): "Area actions" → preview P12C-B2, execution P14. "On-screen narration
 and history" → P13A (also floating combat text). Targeting UI for supported actions → P12C-B1.
+
+## 12. Dependency on the class reconstruction (2026-10-18)
+
+The class track (Class HeadQ, `docs/plans/mythrill-class-reconstruction/`) owns class mechanics,
+heritage, resource schemas, content and migrations. Combat owns execution infrastructure. The shared
+table is [MYTHRILL_CROSS_TRACK_COORDINATION.md](MYTHRILL_CROSS_TRACK_COORDINATION.md): capability,
+existing implementation, proposed extension, owning track, prerequisite decision and affected files.
+Its candidate class schemas are proposals until Class HeadQ marks them reviewed.
+
+| Phase | What it gives the class track | What it does not do |
+|---|---|---|
+| **P13A** (done) | Generic HP/temp-HP feedback for any accepted P7 receipt; AP/mana/wear in narration | No class-resource floats or generic resource bar. Class-resource presentation stays domain-specific: a per-domain presenter owned by the class track, behind one feed hook |
+| **P12C** | B1 (done): exact single-target picking. The picker can later serve linked actors, companions, summons and positional choices | No execution of links, companions, summons or positional rules is supported or claimed until those capabilities exist |
+| **P13B** | Proposed W private opportunity/manual bridge first; later named payment/execution carries **typed class operations**, reviewed per domain | No reservations exist in current P9 planners. No scalar model; typed execution freezes only after exact class-reviewed rules are cited |
+| **P14** | Approved consequence capabilities, scheduled one at a time | P14 completion does **not** mean every reconstructed class is automated. Unready or unapproved capabilities split into bounded follow-on projects (N-actor consequences, entity lifecycle, turn/rest boundaries, private domain projections, body/trait adapters, A1b admission) |
+
+**Rules.** Reuse the existing class-resource contracts; no speculative universal resource engine.
+No candidate mechanic, class rename or character migration in combat work; existing class IDs and
+compatibility stay until approved migrations exist. Shared HUD, casting, resource and Spell Wizard
+edits are announced in the shared table before they reach the device.
+
+**Authoring prerequisites (class-track dependencies).** End-to-end authored-spell execution needs
+explicit 0 AP preserved (CR-W1a) and `resourceCost` preserved through serialization, export and
+templates (CR-W1b). Both are accepted by the class track, and their corrected identities were verified
+on the device on 2026-10-18. CR-A1a (server-only, unhooked definition infrastructure) is accepted, and its
+working-tree bytes match the reviewed SHA-256; HEAD still holds the pre-correction bytes. The combat
+slices made no repair to any of these. **CR-A1b is PARKED**, not a selected integration, per current
+class handoff33; Main HQ owns any future shared authority/execution/persistence decision. Corrected A1a
+final evidence is correction plus verification (reviewer applied F1/F2), not fresh independent review
+of untouched code. No live installation or second admission/execution engine is implied.
+
+## 13. Documentation-only HQ takeover: prepared contracts (2026-10-18)
+
+Actual HEAD `8ba81efbf935e08d4fcd488a9b597f5eb8031b0f`; extensive uncommitted combat/class/other work
+preserved. [B2 §2](MYTHRILL_PROJECT_12C_B2_CONTRACT.md#2-actual-checkout-and-evidence-boundary) records
+source/evidence reconciliation. Latest integrated closure is reused from the evening slice report;
+no historical audit or rerun of accepted checks for this preparation.
+
+| Prepared object | Settled boundary | Conditional / later |
+|---|---|---|
+| [P12C-B2](MYTHRILL_PROJECT_12C_B2_CONTRACT.md) | Existing targeting/AoE owners; explicit dimensions/origin; visible candidates only; no roll/cost/proposal/chat/consequence | G1/G1b/G3/G3a/G3b/G4/G5 or explicit manual subset; G2/G6 stay GM-decided; no authoritative range/movement supplied |
+| [P13B](MYTHRILL_PROJECT_13B_CONTRACT.md) | Actual card/moment matrix, smallest W manual-bridge proposal, sealed GM-first commitment, identity/deadline/recovery, four worked cases | Policy/card questions; E1 separately named Parry/Riposte payment/binder; no card escrow or generic reservation claim |
+| [Creator packet rev2](MYTHRILL_DECISIONS_AREA_AND_REACTIONS_BATCH1.md) | Independent questions, short examples, consequences and slice dependencies; original batch retained as collapsed history | No new approval/default; no required reading of technical drafts to answer |
+
+Earlier §6/§9 suggestions are history, not current policy: no mandatory Pass/automatic early-close
+default, no “redirects then defences” ordering, no precommitting GM choices after reading players,
+no one-follow-up-per-character restriction. Technical safety budgets yield automation for GM
+continuation/manual play; exact bounds remain unfrozen and cannot become tabletop reaction limits.
+Current P7 sequential groups are not an atomic exchange or arbitrary area transaction.
+
+Current class requirements were read from handoff33, R1/CR-L1 and C1 package/report. Candidate lifecycle
+schemas remain proposed; reported C1 implementation is class-local/manual, not shared execution.
+Shared dependencies/owners are updated in coordination rows6/7/14/19–21. No implementation, content
+migration, commit, push, deployment or dependency change is authorized by completing these drafts.
+
+### Creator addition: complete targeting/propagation coverage
+
+The single [coverage matrix and source trace](MYTHRILL_PROJECT_12C_B2_CONTRACT.md#9-targeting-and-propagation-coverage-matrix)
+is in B2 §9, per-mode rule ledger §10, save discrepancies §11, examples §12, recommended sequence §13.
+No new parallel report or engine. Initial selection, first delivery, further propagation and effect
+application/timing remain distinct, including chain-as-link versus chain-as-travel.
+
+- **Current targeting slice:** B1 stays exact one-ref selection; B2 proposes explicit static area/channel
+  footprint only. Class-owned zero/sentinel/schema/per-effect save preservation is separately contracted.
+  Later list/path aid can reuse the interaction without spending or consequence authority.
+- **P13B:** actual authored initial/intermediate/impact/hit/damage opportunities when eligible, not an
+  automatic timer on each hop; repeated actors need distinct causal occurrence IDs, not a blanket ban.
+- **P14:** one named immediate multi-recipient card at a time; explicit once/per-hop costs/rolls, stops,
+  recipient/segment checks and partial-versus-atomic choice. Current P7 two-actor groups are insufficient
+  for an arbitrary chain and do not become atomic because a map drew it.
+- **Explicit lifecycle/manual deferral:** spreading clocks/generations, moving/trailing zones, channel
+  sustain/interrupt, delayed/compulsory triggers, links and return coordinates need FO-B/E/N (private
+  projection FO-P when applicable). Seeking hidden discovery, wall/object ricochet and recursive forks
+  remain manual until exact rules/capabilities are frozen. No universal propagation policy is adopted.

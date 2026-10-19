@@ -83,7 +83,7 @@ export const LOOT_ITEMS = [
     subtype: 'scale',
     quality: 'rare',
     iconId: 'inv_misc_monsterscales_17',
-    description: 'The scale still carries a faint reality-bleed from the Sundered Monoliths, warm to the touch no matter the cold. This scale fell from a young wyrm during its first shedding beneath a blood moon. A scale from a young dragon, valuable for crafting armor. When properly treated and enchanted, items made with these scales can provide resistance to acid damage.',
+    description: 'The scale still carries a faint reality-bleed from the Sundered Monoliths, warm to the touch no matter the cold. This scale fell from a young wyrm during its first shedding beneath a blood moon. A scale from a young dragon, valuable for crafting armor. When properly treated and enchanted, items made with these scales can provide resistance to blight damage.',
     value: { gold: 2, silver: 50 }
   },
   {
@@ -223,7 +223,7 @@ export const LOOT_ITEMS = [
     subtype: 'organ',
     quality: 'epic',
     iconId: 'inv_misc_organ_03',
-    description: 'Aldren Thalreth himself catalogued this heart before the deep-ice chambers swallowed his notes. The still-frozen heart of a frost giant. It pulses with cold energy and never seems to thaw. Sought after by powerful alchemists and wizards for frost-based magical research.',
+    description: 'Aldren Thalreth himself catalogued this heart before the deep-ice chambers swallowed his notes. The still-frozen heart of a frost giant. It pulses with rime energy and never seems to thaw. Sought after by powerful alchemists and wizards for rime-based magical research.',
     value: { gold: 25 }
   },
 
@@ -349,7 +349,7 @@ export const LOOT_ITEMS = [
     subtype: 'necklace',
     quality: 'rare',
     iconId: 'inv_jewelry_necklace_07',
-    description: 'A runic medallion that radiates constant soothing warmth and provides resistance against cold drafts.',
+    description: 'A runic medallion that radiates constant soothing warmth and provides resistance against rime and freezing drafts.',
     value: { gold: 8 }
   },
   {

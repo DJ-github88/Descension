@@ -4,6 +4,7 @@ import useLevelEditorStore from '../../../store/levelEditorStore';
 import useGameStore from '../../../store/gameStore';
 import useMapStore from '../../../store/mapStore';
 import { isSocketRetired } from '../../../persistence/handoff/socketPrincipalRetirement';
+import { registerRoomJoinedListener } from '../../../services/roomRejoinBus';
 
 export function registerRoomLifecycleHandlers(ctx) {
   const {
@@ -23,7 +24,9 @@ export function registerRoomLifecycleHandlers(ctx) {
     if (!socket) return;
 
     // CRITICAL: Handle room_joined event
-    socket.on('room_joined', (data) => {
+    // The socket's one room_joined listener is registered through the shared module (P12 integration closure):
+    // it runs this join handling, then relays an authorized rejoin of the current room to subscribed services.
+    const offRoomJoined = registerRoomJoinedListener(socket, (data) => {
       // Wave A (P5/S4, corrected R8): a retired principal's socket may not
       // install room state for the new principal.
       if (isSocketRetired(socket)) return;
@@ -154,6 +157,7 @@ export function registerRoomLifecycleHandlers(ctx) {
 
           setConnectionStatus('connected');
           console.log('âœ… [MultiplayerApp] Party members refreshed from reconnect:', serverPlayerCount, 'players');
+          // The rejoin relay to P12A/P12B runs after this handler, in registerRoomJoinedListener.
         }
         return;
       }
@@ -726,6 +730,7 @@ export function registerRoomLifecycleHandlers(ctx) {
     });
 
     return () => {
+      offRoomJoined();
       socket.off('room_joined');
       socket.off('room_created');
       socket.off('player_joined');

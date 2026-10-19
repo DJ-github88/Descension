@@ -28,6 +28,7 @@ import { normalizeManagedClassResource, getManagedSpellResourcePlan } from '../.
 import { migrateBlockId } from '../../utils/arcanoneerMigration';
 import { routeSpellCast, isP9Routed } from '../../services/spellConsequenceService';
 import { routeWeaponStrike } from '../../services/weaponStrikeService';
+import { postManualNotice } from '../../services/manualActionGate';
 import './ActionBar.css';
 
 // Spell damage types constant - used for consumable effects
@@ -1714,6 +1715,13 @@ const ActionBar = () => {
     const handleSpellCastConfirm = () => {
         // P9: a supported spell in a shared room is never spent locally.
         if (spellToCast && isP9Routed(spellToCast)) {
+            setShowSpellConfirmation(false);
+            setSpellToCast(null);
+            setSpellSlotIndex(null);
+            return;
+        }
+        // P12C-B1 §3: an unsupported action in a shared room is manual — nothing is spent locally.
+        if (spellToCast && postManualNotice(spellToCast, useCharacterStore.getState().name || 'Player')) {
             setShowSpellConfirmation(false);
             setSpellToCast(null);
             setSpellSlotIndex(null);

@@ -104,35 +104,40 @@ export const ENRICHED_WEAPONS = [
       strength: { value: 1, isPercentage: false },
       constitution: { value: 1, isPercentage: false }
     },
-    combatStats: {
+        combatStats: {
       onHitEffects: {
         enabled: true,
-        procType: 'dice',
+        procType: "dice",
         procChance: 20,
         diceThreshold: 17,
-        cardProcRule: 'face_cards',
-        coinProcRule: 'all_heads',
+        cardProcRule: "face_cards",
+        coinProcRule: "all_heads",
         coinCount: 3,
-        procSuit: 'hearts',
+        procSuit: "hearts",
         spellEffect: null,
-        customEffects: ['freeze'],
+        customEffects: [
+          "freeze"
+        ],
         useRollableTable: false,
         effect: {
-          effectType: 'control',
+          effectType: "control",
           effectConfig: {
-            controlType: 'freeze',
+            controlType: "freeze",
             controlDuration: 1,
             saveDC: 12,
-            saveType: 'constitution',
+            saveType: "constitution",
             knockbackDistance: 0,
-            targetType: 'defender',
+            targetType: "defender",
             areaRadius: 0
           }
         }
       },
       spellDamage: {
         types: {
-          cold: { value: 2, isPercentage: false }
+          rime: {
+            value: 2,
+            isPercentage: false
+          }
         }
       }
     },
@@ -233,35 +238,40 @@ export const ENRICHED_WEAPONS = [
       agility: { value: 2, isPercentage: false },
       intelligence: { value: 1, isPercentage: false }
     },
-    combatStats: {
+        combatStats: {
       onHitEffects: {
         enabled: true,
-        procType: 'cards',
+        procType: "cards",
         procChance: 28,
         diceThreshold: 17,
-        cardProcRule: 'face_cards',
-        coinProcRule: 'all_heads',
+        cardProcRule: "face_cards",
+        coinProcRule: "all_heads",
         coinCount: 3,
-        procSuit: 'hearts',
+        procSuit: "hearts",
         spellEffect: null,
-        customEffects: ['fear'],
+        customEffects: [
+          "fear"
+        ],
         useRollableTable: false,
         effect: {
-          effectType: 'control',
+          effectType: "control",
           effectConfig: {
-            controlType: 'fear',
+            controlType: "fear",
             controlDuration: 1,
             saveDC: 13,
-            saveType: 'spirit',
+            saveType: "spirit",
             knockbackDistance: 0,
-            targetType: 'defender',
+            targetType: "defender",
             areaRadius: 0
           }
         }
       },
       spellDamage: {
         types: {
-          shadow: { value: 2, isPercentage: false }
+          wyrd: {
+            value: 2,
+            isPercentage: false
+          }
         }
       }
     },
@@ -296,35 +306,40 @@ export const ENRICHED_WEAPONS = [
     baseStats: {
       strength: { value: 1, isPercentage: false }
     },
-    combatStats: {
+        combatStats: {
       onHitEffects: {
         enabled: true,
-        procType: 'dice',
+        procType: "dice",
         procChance: 25,
         diceThreshold: 16,
-        cardProcRule: 'face_cards',
-        coinProcRule: 'all_heads',
+        cardProcRule: "face_cards",
+        coinProcRule: "all_heads",
         coinCount: 3,
-        procSuit: 'hearts',
+        procSuit: "hearts",
         spellEffect: null,
-        customEffects: ['knockback'],
+        customEffects: [
+          "knockback"
+        ],
         useRollableTable: false,
         effect: {
-          effectType: 'damage',
+          effectType: "damage",
           effectConfig: {
-            formula: '2d4',
-            damageType: 'arcane',
+            formula: "2d4",
+            damageType: "arcane",
             isDot: false,
             dotDuration: 0,
-            dotTickFrequency: 'round',
-            targetType: 'defender',
+            dotTickFrequency: "round",
+            targetType: "defender",
             areaRadius: 0
           }
         }
       },
       spellDamage: {
         types: {
-          force: { value: 1, isPercentage: false }
+          arcane: {
+            value: 1,
+            isPercentage: false
+          }
         }
       }
     },
@@ -426,35 +441,40 @@ export const ENRICHED_WEAPONS = [
       agility: { value: 1, isPercentage: false },
       intelligence: { value: 1, isPercentage: false }
     },
-    combatStats: {
+        combatStats: {
       onHitEffects: {
         enabled: true,
-        procType: 'dice',
+        procType: "dice",
         procChance: 20,
         diceThreshold: 17,
-        cardProcRule: 'face_cards',
-        coinProcRule: 'all_heads',
+        cardProcRule: "face_cards",
+        coinProcRule: "all_heads",
         coinCount: 3,
-        procSuit: 'hearts',
+        procSuit: "hearts",
         spellEffect: null,
-        customEffects: ['slow'],
+        customEffects: [
+          "slow"
+        ],
         useRollableTable: false,
         effect: {
-          effectType: 'damage',
+          effectType: "damage",
           effectConfig: {
-            formula: '1d6',
-            damageType: 'blight',
+            formula: "1d6",
+            damageType: "blight",
             isDot: true,
             dotDuration: 3,
-            dotTickFrequency: 'round',
-            targetType: 'defender',
+            dotTickFrequency: "round",
+            targetType: "defender",
             areaRadius: 0
           }
         }
       },
       spellDamage: {
         types: {
-          poison: { value: 2, isPercentage: false }
+          blight: {
+            value: 2,
+            isPercentage: false
+          }
         }
       }
     },
@@ -618,35 +638,40 @@ export const ENRICHED_WEAPONS = [
       agility: { value: 2, isPercentage: false },
       intelligence: { value: 1, isPercentage: false }
     },
-    combatStats: {
+        combatStats: {
       onHitEffects: {
         enabled: true,
-        procType: 'cards',
+        procType: "cards",
         procChance: 25,
         diceThreshold: 17,
-        cardProcRule: 'specific_suit',
-        coinProcRule: 'all_heads',
+        cardProcRule: "specific_suit",
+        coinProcRule: "all_heads",
         coinCount: 3,
-        procSuit: 'spades',
+        procSuit: "spades",
         spellEffect: null,
-        customEffects: ['fear'],
+        customEffects: [
+          "fear"
+        ],
         useRollableTable: false,
         effect: {
-          effectType: 'damage',
+          effectType: "damage",
           effectConfig: {
-            formula: '1d8',
-            damageType: 'blight',
+            formula: "1d8",
+            damageType: "blight",
             isDot: true,
             dotDuration: 2,
-            dotTickFrequency: 'round',
-            targetType: 'defender',
+            dotTickFrequency: "round",
+            targetType: "defender",
             areaRadius: 0
           }
         }
       },
       spellDamage: {
         types: {
-          shadow: { value: 2, isPercentage: false }
+          wyrd: {
+            value: 2,
+            isPercentage: false
+          }
         }
       }
     },
@@ -877,35 +902,40 @@ export const ENRICHED_WEAPONS = [
       strength: { value: 1, isPercentage: false },
       constitution: { value: 1, isPercentage: false }
     },
-    combatStats: {
+        combatStats: {
       onHitEffects: {
         enabled: true,
-        procType: 'dice',
+        procType: "dice",
         procChance: 20,
         diceThreshold: 17,
-        cardProcRule: 'face_cards',
-        coinProcRule: 'all_heads',
+        cardProcRule: "face_cards",
+        coinProcRule: "all_heads",
         coinCount: 3,
-        procSuit: 'hearts',
+        procSuit: "hearts",
         spellEffect: null,
-        customEffects: ['freeze'],
+        customEffects: [
+          "freeze"
+        ],
         useRollableTable: false,
         effect: {
-          effectType: 'damage',
+          effectType: "damage",
           effectConfig: {
-            formula: '1d6',
-            damageType: 'rime',
+            formula: "1d6",
+            damageType: "rime",
             isDot: false,
             dotDuration: 0,
-            dotTickFrequency: 'round',
-            targetType: 'defender',
+            dotTickFrequency: "round",
+            targetType: "defender",
             areaRadius: 0
           }
         }
       },
       spellDamage: {
         types: {
-          cold: { value: 2, isPercentage: false }
+          rime: {
+            value: 2,
+            isPercentage: false
+          }
         }
       }
     },
@@ -1077,35 +1107,41 @@ export const ENRICHED_WEAPONS = [
       strength: { value: 2, isPercentage: false },
       constitution: { value: 2, isPercentage: false }
     },
-    combatStats: {
+        combatStats: {
       onHitEffects: {
         enabled: true,
-        procType: 'dice',
+        procType: "dice",
         procChance: 25,
         diceThreshold: 16,
-        cardProcRule: 'face_cards',
-        coinProcRule: 'all_heads',
+        cardProcRule: "face_cards",
+        coinProcRule: "all_heads",
         coinCount: 3,
-        procSuit: 'hearts',
+        procSuit: "hearts",
         spellEffect: null,
-        customEffects: ['freeze', 'slow'],
+        customEffects: [
+          "freeze",
+          "slow"
+        ],
         useRollableTable: false,
         effect: {
-          effectType: 'control',
+          effectType: "control",
           effectConfig: {
-            controlType: 'freeze',
+            controlType: "freeze",
             controlDuration: 2,
             saveDC: 14,
-            saveType: 'constitution',
+            saveType: "constitution",
             knockbackDistance: 0,
-            targetType: 'defender',
+            targetType: "defender",
             areaRadius: 0
           }
         }
       },
       spellDamage: {
         types: {
-          cold: { value: 4, isPercentage: false }
+          rime: {
+            value: 4,
+            isPercentage: false
+          }
         }
       }
     },
@@ -1208,35 +1244,40 @@ export const ENRICHED_WEAPONS = [
       agility: { value: 3, isPercentage: false },
       intelligence: { value: 1, isPercentage: false }
     },
-    combatStats: {
+        combatStats: {
       onHitEffects: {
         enabled: true,
-        procType: 'cards',
+        procType: "cards",
         procChance: 50,
         diceThreshold: 16,
-        cardProcRule: 'black_cards',
-        coinProcRule: 'all_heads',
+        cardProcRule: "black_cards",
+        coinProcRule: "all_heads",
         coinCount: 3,
-        procSuit: 'hearts',
+        procSuit: "hearts",
         spellEffect: null,
-        customEffects: ['fear'],
+        customEffects: [
+          "fear"
+        ],
         useRollableTable: false,
         effect: {
-          effectType: 'control',
+          effectType: "control",
           effectConfig: {
-            controlType: 'fear',
+            controlType: "fear",
             controlDuration: 2,
             saveDC: 15,
-            saveType: 'spirit',
+            saveType: "spirit",
             knockbackDistance: 0,
-            targetType: 'defender',
+            targetType: "defender",
             areaRadius: 0
           }
         }
       },
       spellDamage: {
         types: {
-          shadow: { value: 5, isPercentage: false }
+          wyrd: {
+            value: 5,
+            isPercentage: false
+          }
         }
       }
     },
@@ -1531,36 +1572,40 @@ export const ENRICHED_WEAPONS = [
       agility: { value: 3, isPercentage: false },
       intelligence: { value: 1, isPercentage: false }
     },
-    combatStats: {
+        combatStats: {
       onHitEffects: {
         enabled: true,
-        procType: 'dice',
+        procType: "dice",
         procChance: 30,
         diceThreshold: 15,
-        cardProcRule: 'face_cards',
-        coinProcRule: 'all_heads',
+        cardProcRule: "face_cards",
+        coinProcRule: "all_heads",
         coinCount: 3,
-        procSuit: 'hearts',
+        procSuit: "hearts",
         spellEffect: null,
-        customEffects: ['slow'],
+        customEffects: [
+          "slow"
+        ],
         useRollableTable: false,
         effect: {
-          effectType: 'damage',
+          effectType: "damage",
           effectConfig: {
-            formula: '1d8',
-            damageType: 'blight',
+            formula: "1d8",
+            damageType: "blight",
             isDot: true,
             dotDuration: 4,
-            dotTickFrequency: 'round',
-            targetType: 'defender',
+            dotTickFrequency: "round",
+            targetType: "defender",
             areaRadius: 0
           }
         }
       },
       spellDamage: {
         types: {
-          poison: { value: 4, isPercentage: false },
-          blight: { value: 2, isPercentage: false }
+          blight: {
+            value: 6,
+            isPercentage: false
+          }
         }
       }
     },
@@ -1597,35 +1642,41 @@ export const ENRICHED_WEAPONS = [
       intelligence: { value: 3, isPercentage: false },
       spirit: { value: 1, isPercentage: false }
     },
-    combatStats: {
+        combatStats: {
       onHitEffects: {
         enabled: true,
-        procType: 'cards',
+        procType: "cards",
         procChance: 25,
         diceThreshold: 16,
-        cardProcRule: 'specific_suit',
-        coinProcRule: 'all_heads',
+        cardProcRule: "specific_suit",
+        coinProcRule: "all_heads",
         coinCount: 3,
-        procSuit: 'spades',
+        procSuit: "spades",
         spellEffect: null,
-        customEffects: ['fear', 'slow'],
+        customEffects: [
+          "fear",
+          "slow"
+        ],
         useRollableTable: false,
         effect: {
-          effectType: 'control',
+          effectType: "control",
           effectConfig: {
-            controlType: 'fear',
+            controlType: "fear",
             controlDuration: 2,
             saveDC: 15,
-            saveType: 'spirit',
+            saveType: "spirit",
             knockbackDistance: 0,
-            targetType: 'defender',
+            targetType: "defender",
             areaRadius: 0
           }
         }
       },
       spellDamage: {
         types: {
-          psychic: { value: 4, isPercentage: false }
+          wyrd: {
+            value: 4,
+            isPercentage: false
+          }
         }
       }
     },
@@ -1793,35 +1844,38 @@ export const ENRICHED_WEAPONS = [
       agility: { value: 2, isPercentage: false },
       spirit: { value: 2, isPercentage: false }
     },
-    combatStats: {
+        combatStats: {
       onHitEffects: {
         enabled: true,
-        procType: 'coins',
+        procType: "coins",
         procChance: 12,
         diceThreshold: 16,
-        cardProcRule: 'face_cards',
-        coinProcRule: 'all_heads',
+        cardProcRule: "face_cards",
+        coinProcRule: "all_heads",
         coinCount: 3,
-        procSuit: 'hearts',
+        procSuit: "hearts",
         spellEffect: null,
         customEffects: [],
         useRollableTable: false,
         effect: {
-          effectType: 'healing',
+          effectType: "healing",
           effectConfig: {
-            formula: '2d4',
-            damageType: 'blight',
+            formula: "2d4",
+            damageType: "blight",
             isDot: false,
             dotDuration: 0,
-            dotTickFrequency: 'round',
-            targetType: 'attacker',
+            dotTickFrequency: "round",
+            targetType: "attacker",
             areaRadius: 0
           }
         }
       },
       spellDamage: {
         types: {
-          shadow: { value: 3, isPercentage: false }
+          wyrd: {
+            value: 3,
+            isPercentage: false
+          }
         }
       }
     },
@@ -1857,35 +1911,40 @@ export const ENRICHED_WEAPONS = [
       agility: { value: 3, isPercentage: false },
       strength: { value: 1, isPercentage: false }
     },
-    combatStats: {
+        combatStats: {
       onHitEffects: {
         enabled: true,
-        procType: 'dice',
+        procType: "dice",
         procChance: 30,
         diceThreshold: 15,
-        cardProcRule: 'face_cards',
-        coinProcRule: 'all_heads',
+        cardProcRule: "face_cards",
+        coinProcRule: "all_heads",
         coinCount: 3,
-        procSuit: 'hearts',
+        procSuit: "hearts",
         spellEffect: null,
-        customEffects: ['knockback'],
+        customEffects: [
+          "knockback"
+        ],
         useRollableTable: false,
         effect: {
-          effectType: 'damage',
+          effectType: "damage",
           effectConfig: {
-            formula: '2d6',
-            damageType: 'arcane',
+            formula: "2d6",
+            damageType: "arcane",
             isDot: false,
             dotDuration: 0,
-            dotTickFrequency: 'round',
-            targetType: 'defender',
+            dotTickFrequency: "round",
+            targetType: "defender",
             areaRadius: 0
           }
         }
       },
       spellDamage: {
         types: {
-          force: { value: 4, isPercentage: false }
+          arcane: {
+            value: 4,
+            isPercentage: false
+          }
         }
       }
     },
@@ -1922,35 +1981,41 @@ export const ENRICHED_WEAPONS = [
       intelligence: { value: 2, isPercentage: false },
       agility: { value: 2, isPercentage: false }
     },
-    combatStats: {
+        combatStats: {
       onHitEffects: {
         enabled: true,
-        procType: 'cards',
+        procType: "cards",
         procChance: 25,
         diceThreshold: 16,
-        cardProcRule: 'specific_suit',
-        coinProcRule: 'all_heads',
+        cardProcRule: "specific_suit",
+        coinProcRule: "all_heads",
         coinCount: 3,
-        procSuit: 'clubs',
+        procSuit: "clubs",
         spellEffect: null,
-        customEffects: ['stun', 'slow'],
+        customEffects: [
+          "stun",
+          "slow"
+        ],
         useRollableTable: false,
         effect: {
-          effectType: 'control',
+          effectType: "control",
           effectConfig: {
-            controlType: 'stun',
+            controlType: "stun",
             controlDuration: 2,
             saveDC: 15,
-            saveType: 'intelligence',
+            saveType: "intelligence",
             knockbackDistance: 0,
-            targetType: 'defender',
+            targetType: "defender",
             areaRadius: 0
           }
         }
       },
       spellDamage: {
         types: {
-          psychic: { value: 3, isPercentage: false }
+          wyrd: {
+            value: 3,
+            isPercentage: false
+          }
         }
       }
     },
@@ -1987,36 +2052,44 @@ export const ENRICHED_WEAPONS = [
       strength: { value: 2, isPercentage: false },
       spirit: { value: 1, isPercentage: false }
     },
-    combatStats: {
+        combatStats: {
       onHitEffects: {
         enabled: true,
-        procType: 'dice',
+        procType: "dice",
         procChance: 25,
         diceThreshold: 16,
-        cardProcRule: 'face_cards',
-        coinProcRule: 'all_heads',
+        cardProcRule: "face_cards",
+        coinProcRule: "all_heads",
         coinCount: 3,
-        procSuit: 'hearts',
+        procSuit: "hearts",
         spellEffect: null,
-        customEffects: ['burning'],
+        customEffects: [
+          "burning"
+        ],
         useRollableTable: false,
         effect: {
-          effectType: 'damage',
+          effectType: "damage",
           effectConfig: {
-            formula: '1d8',
-            damageType: 'ember',
+            formula: "1d8",
+            damageType: "ember",
             isDot: true,
             dotDuration: 3,
-            dotTickFrequency: 'round',
-            targetType: 'defender',
+            dotTickFrequency: "round",
+            targetType: "defender",
             areaRadius: 0
           }
         }
       },
       spellDamage: {
         types: {
-          ember: { value: 3, isPercentage: false },
-          shadow: { value: 2, isPercentage: false }
+          ember: {
+            value: 3,
+            isPercentage: false
+          },
+          wyrd: {
+            value: 2,
+            isPercentage: false
+          }
         }
       }
     },
@@ -2053,35 +2126,41 @@ export const ENRICHED_WEAPONS = [
       strength: { value: 3, isPercentage: false },
       constitution: { value: 1, isPercentage: false }
     },
-    combatStats: {
+        combatStats: {
       onHitEffects: {
         enabled: true,
-        procType: 'dice',
+        procType: "dice",
         procChance: 25,
         diceThreshold: 16,
-        cardProcRule: 'face_cards',
-        coinProcRule: 'all_heads',
+        cardProcRule: "face_cards",
+        coinProcRule: "all_heads",
         coinCount: 3,
-        procSuit: 'hearts',
+        procSuit: "hearts",
         spellEffect: null,
-        customEffects: ['freeze', 'knockback'],
+        customEffects: [
+          "freeze",
+          "knockback"
+        ],
         useRollableTable: false,
         effect: {
-          effectType: 'damage',
+          effectType: "damage",
           effectConfig: {
-            formula: '1d10',
-            damageType: 'rime',
+            formula: "1d10",
+            damageType: "rime",
             isDot: false,
             dotDuration: 0,
-            dotTickFrequency: 'round',
-            targetType: 'defender',
+            dotTickFrequency: "round",
+            targetType: "defender",
             areaRadius: 0
           }
         }
       },
       spellDamage: {
         types: {
-          cold: { value: 4, isPercentage: false }
+          rime: {
+            value: 4,
+            isPercentage: false
+          }
         }
       }
     },
@@ -2249,36 +2328,41 @@ export const ENRICHED_WEAPONS = [
       agility: { value: 3, isPercentage: false },
       intelligence: { value: 1, isPercentage: false }
     },
-    combatStats: {
+        combatStats: {
       onHitEffects: {
         enabled: true,
-        procType: 'cards',
+        procType: "cards",
         procChance: 25,
         diceThreshold: 16,
-        cardProcRule: 'specific_suit',
-        coinProcRule: 'all_heads',
+        cardProcRule: "specific_suit",
+        coinProcRule: "all_heads",
         coinCount: 3,
-        procSuit: 'diamonds',
+        procSuit: "diamonds",
         spellEffect: null,
-        customEffects: ['fear', 'slow'],
+        customEffects: [
+          "fear",
+          "slow"
+        ],
         useRollableTable: false,
         effect: {
-          effectType: 'damage',
+          effectType: "damage",
           effectConfig: {
-            formula: '1d8',
-            damageType: 'blight',
+            formula: "1d8",
+            damageType: "blight",
             isDot: true,
             dotDuration: 3,
-            dotTickFrequency: 'round',
-            targetType: 'defender',
+            dotTickFrequency: "round",
+            targetType: "defender",
             areaRadius: 0
           }
         }
       },
       spellDamage: {
         types: {
-          shadow: { value: 4, isPercentage: false },
-          wyrd: { value: 2, isPercentage: false }
+          wyrd: {
+            value: 6,
+            isPercentage: false
+          }
         }
       }
     },
@@ -2364,7 +2448,7 @@ export const ENRICHED_WEAPONS = [
     type: 'weapon',
     subtype: 'POLEARM',
     quality: 'epic',
-    description: 'A Frostwood Reach relic that was once the scepter of the Winter Court\'s forgotten king. The crown-pike radiates an absolute cold that freezes the air itself, encasing foes in crystalline prisons.',
+    description: 'A Frostwood Reach relic that was once the scepter of the Winter Court\'s forgotten king. The crown-pike radiates an absolute rime that freezes the air itself, encasing foes in crystalline prisons.',
     iconId: 'Weapons/Polearm/polearm-halberd-axe-blade-spike-tan-metallic-guard',
     value: { gold: 7, silver: 0, copper: 0 },
     stackable: false,
@@ -2386,36 +2470,46 @@ export const ENRICHED_WEAPONS = [
       strength: { value: 3, isPercentage: false },
       constitution: { value: 3, isPercentage: false }
     },
-    combatStats: {
+        combatStats: {
       onHitEffects: {
         enabled: true,
-        procType: 'dice',
+        procType: "dice",
         procChance: 35,
         diceThreshold: 14,
-        cardProcRule: 'face_cards',
-        coinProcRule: 'all_heads',
+        cardProcRule: "face_cards",
+        coinProcRule: "all_heads",
         coinCount: 3,
-        procSuit: 'hearts',
+        procSuit: "hearts",
         spellEffect: null,
-        customEffects: ['freeze', 'slow', 'knockback'],
+        customEffects: [
+          "freeze",
+          "slow",
+          "knockback"
+        ],
         useRollableTable: false,
         effect: {
-          effectType: 'control',
+          effectType: "control",
           effectConfig: {
-            controlType: 'freeze',
+            controlType: "freeze",
             controlDuration: 3,
             saveDC: 16,
-            saveType: 'constitution',
+            saveType: "constitution",
             knockbackDistance: 0,
-            targetType: 'defender',
+            targetType: "defender",
             areaRadius: 0
           }
         }
       },
       spellDamage: {
         types: {
-          cold: { value: 8, isPercentage: false },
-          arcane: { value: 3, isPercentage: false }
+          rime: {
+            value: 8,
+            isPercentage: false
+          },
+          arcane: {
+            value: 3,
+            isPercentage: false
+          }
         }
       }
     },
@@ -2452,36 +2546,45 @@ export const ENRICHED_WEAPONS = [
       strength: { value: 5, isPercentage: false },
       constitution: { value: 2, isPercentage: false }
     },
-    combatStats: {
+        combatStats: {
       onHitEffects: {
         enabled: true,
-        procType: 'dice',
+        procType: "dice",
         procChance: 40,
         diceThreshold: 13,
-        cardProcRule: 'face_cards',
-        coinProcRule: 'all_heads',
+        cardProcRule: "face_cards",
+        coinProcRule: "all_heads",
         coinCount: 3,
-        procSuit: 'hearts',
+        procSuit: "hearts",
         spellEffect: null,
-        customEffects: ['shock', 'knockback'],
+        customEffects: [
+          "shock",
+          "knockback"
+        ],
         useRollableTable: false,
         effect: {
-          effectType: 'damage',
+          effectType: "damage",
           effectConfig: {
-            formula: '3d8',
-            damageType: 'storm',
+            formula: "3d8",
+            damageType: "storm",
             isDot: false,
             dotDuration: 0,
-            dotTickFrequency: 'round',
-            targetType: 'defender',
+            dotTickFrequency: "round",
+            targetType: "defender",
             areaRadius: 0
           }
         }
       },
       spellDamage: {
         types: {
-          storm: { value: 8, isPercentage: false },
-          force: { value: 4, isPercentage: false }
+          storm: {
+            value: 8,
+            isPercentage: false
+          },
+          arcane: {
+            value: 4,
+            isPercentage: false
+          }
         }
       }
     },
@@ -2519,36 +2622,41 @@ export const ENRICHED_WEAPONS = [
       intelligence: { value: 3, isPercentage: false },
       spirit: { value: 1, isPercentage: false }
     },
-    combatStats: {
+        combatStats: {
       onHitEffects: {
         enabled: true,
-        procType: 'cards',
+        procType: "cards",
         procChance: 50,
         diceThreshold: 14,
-        cardProcRule: 'black_cards',
-        coinProcRule: 'all_heads',
+        cardProcRule: "black_cards",
+        coinProcRule: "all_heads",
         coinCount: 3,
-        procSuit: 'hearts',
+        procSuit: "hearts",
         spellEffect: null,
-        customEffects: ['fear', 'slow'],
+        customEffects: [
+          "fear",
+          "slow"
+        ],
         useRollableTable: false,
         effect: {
-          effectType: 'control',
+          effectType: "control",
           effectConfig: {
-            controlType: 'fear',
+            controlType: "fear",
             controlDuration: 3,
             saveDC: 17,
-            saveType: 'spirit',
+            saveType: "spirit",
             knockbackDistance: 0,
-            targetType: 'defender',
+            targetType: "defender",
             areaRadius: 0
           }
         }
       },
       spellDamage: {
         types: {
-          shadow: { value: 8, isPercentage: false },
-          wyrd: { value: 5, isPercentage: false }
+          wyrd: {
+            value: 13,
+            isPercentage: false
+          }
         }
       }
     },
@@ -2586,36 +2694,46 @@ export const ENRICHED_WEAPONS = [
       spirit: { value: 3, isPercentage: false },
       constitution: { value: -1, isPercentage: false }
     },
-    combatStats: {
+        combatStats: {
       onHitEffects: {
         enabled: true,
-        procType: 'cards',
+        procType: "cards",
         procChance: 25,
         diceThreshold: 14,
-        cardProcRule: 'specific_suit',
-        coinProcRule: 'all_heads',
+        cardProcRule: "specific_suit",
+        coinProcRule: "all_heads",
         coinCount: 3,
-        procSuit: 'spades',
+        procSuit: "spades",
         spellEffect: null,
-        customEffects: ['fear', 'slow', 'stun'],
+        customEffects: [
+          "fear",
+          "slow",
+          "stun"
+        ],
         useRollableTable: false,
         effect: {
-          effectType: 'control',
+          effectType: "control",
           effectConfig: {
-            controlType: 'fear',
+            controlType: "fear",
             controlDuration: 3,
             saveDC: 16,
-            saveType: 'spirit',
+            saveType: "spirit",
             knockbackDistance: 0,
-            targetType: 'defender',
+            targetType: "defender",
             areaRadius: 0
           }
         }
       },
       spellDamage: {
         types: {
-          psychic: { value: 8, isPercentage: false },
-          arcane: { value: 4, isPercentage: false }
+          wyrd: {
+            value: 8,
+            isPercentage: false
+          },
+          arcane: {
+            value: 4,
+            isPercentage: false
+          }
         }
       }
     },
@@ -2653,36 +2771,40 @@ export const ENRICHED_WEAPONS = [
       intelligence: { value: 2, isPercentage: false },
       constitution: { value: 1, isPercentage: false }
     },
-    combatStats: {
+        combatStats: {
       onHitEffects: {
         enabled: true,
-        procType: 'dice',
+        procType: "dice",
         procChance: 35,
         diceThreshold: 14,
-        cardProcRule: 'face_cards',
-        coinProcRule: 'all_heads',
+        cardProcRule: "face_cards",
+        coinProcRule: "all_heads",
         coinCount: 3,
-        procSuit: 'hearts',
+        procSuit: "hearts",
         spellEffect: null,
-        customEffects: ['slow'],
+        customEffects: [
+          "slow"
+        ],
         useRollableTable: false,
         effect: {
-          effectType: 'damage',
+          effectType: "damage",
           effectConfig: {
-            formula: '2d8',
-            damageType: 'blight',
+            formula: "2d8",
+            damageType: "blight",
             isDot: true,
             dotDuration: 5,
-            dotTickFrequency: 'round',
-            targetType: 'defender',
+            dotTickFrequency: "round",
+            targetType: "defender",
             areaRadius: 0
           }
         }
       },
       spellDamage: {
         types: {
-          blight: { value: 8, isPercentage: false },
-          poison: { value: 5, isPercentage: false }
+          blight: {
+            value: 13,
+            isPercentage: false
+          }
         }
       }
     },
@@ -2785,36 +2907,44 @@ export const ENRICHED_WEAPONS = [
       strength: { value: 5, isPercentage: false },
       constitution: { value: 2, isPercentage: false }
     },
-    combatStats: {
+        combatStats: {
       onHitEffects: {
         enabled: true,
-        procType: 'dice',
+        procType: "dice",
         procChance: 40,
         diceThreshold: 13,
-        cardProcRule: 'face_cards',
-        coinProcRule: 'all_heads',
+        cardProcRule: "face_cards",
+        coinProcRule: "all_heads",
         coinCount: 3,
-        procSuit: 'hearts',
+        procSuit: "hearts",
         spellEffect: null,
-        customEffects: ['knockback'],
+        customEffects: [
+          "knockback"
+        ],
         useRollableTable: false,
         effect: {
-          effectType: 'damage',
+          effectType: "damage",
           effectConfig: {
-            formula: '2d10',
-            damageType: 'arcane',
+            formula: "2d10",
+            damageType: "arcane",
             isDot: false,
             dotDuration: 0,
-            dotTickFrequency: 'round',
-            targetType: 'defender',
+            dotTickFrequency: "round",
+            targetType: "defender",
             areaRadius: 0
           }
         }
       },
       spellDamage: {
         types: {
-          force: { value: 8, isPercentage: false },
-          sacred: { value: 3, isPercentage: false }
+          arcane: {
+            value: 8,
+            isPercentage: false
+          },
+          sacred: {
+            value: 3,
+            isPercentage: false
+          }
         }
       }
     },
@@ -2916,36 +3046,44 @@ export const ENRICHED_WEAPONS = [
       agility: { value: 4, isPercentage: false },
       intelligence: { value: 2, isPercentage: false }
     },
-    combatStats: {
+        combatStats: {
       onHitEffects: {
         enabled: true,
-        procType: 'cards',
+        procType: "cards",
         procChance: 50,
         diceThreshold: 14,
-        cardProcRule: 'black_cards',
-        coinProcRule: 'all_heads',
+        cardProcRule: "black_cards",
+        coinProcRule: "all_heads",
         coinCount: 3,
-        procSuit: 'hearts',
+        procSuit: "hearts",
         spellEffect: null,
-        customEffects: ['fear'],
+        customEffects: [
+          "fear"
+        ],
         useRollableTable: false,
         effect: {
-          effectType: 'damage',
+          effectType: "damage",
           effectConfig: {
-            formula: '2d6',
-            damageType: 'blight',
+            formula: "2d6",
+            damageType: "blight",
             isDot: true,
             dotDuration: 4,
-            dotTickFrequency: 'round',
-            targetType: 'defender',
+            dotTickFrequency: "round",
+            targetType: "defender",
             areaRadius: 0
           }
         }
       },
       spellDamage: {
         types: {
-          shadow: { value: 8, isPercentage: false },
-          blight: { value: 4, isPercentage: false }
+          wyrd: {
+            value: 8,
+            isPercentage: false
+          },
+          blight: {
+            value: 4,
+            isPercentage: false
+          }
         }
       }
     },
@@ -3048,37 +3186,49 @@ export const ENRICHED_WEAPONS = [
       intelligence: { value: 2, isPercentage: false },
       agility: { value: 1, isPercentage: false }
     },
-    combatStats: {
+        combatStats: {
       onHitEffects: {
         enabled: true,
-        procType: 'dice',
+        procType: "dice",
         procChance: 35,
         diceThreshold: 14,
-        cardProcRule: 'face_cards',
-        coinProcRule: 'all_heads',
+        cardProcRule: "face_cards",
+        coinProcRule: "all_heads",
         coinCount: 3,
-        procSuit: 'hearts',
+        procSuit: "hearts",
         spellEffect: null,
-        customEffects: ['shock', 'knockback'],
+        customEffects: [
+          "shock",
+          "knockback"
+        ],
         useRollableTable: false,
         effect: {
-          effectType: 'damage',
+          effectType: "damage",
           effectConfig: {
-            formula: '2d8',
-            damageType: 'storm',
+            formula: "2d8",
+            damageType: "storm",
             isDot: false,
             dotDuration: 0,
-            dotTickFrequency: 'round',
-            targetType: 'defender',
+            dotTickFrequency: "round",
+            targetType: "defender",
             areaRadius: 0
           }
         }
       },
       spellDamage: {
         types: {
-          storm: { value: 8, isPercentage: false },
-          arcane: { value: 4, isPercentage: false },
-          cold: { value: 3, isPercentage: false }
+          storm: {
+            value: 8,
+            isPercentage: false
+          },
+          arcane: {
+            value: 4,
+            isPercentage: false
+          },
+          rime: {
+            value: 3,
+            isPercentage: false
+          }
         }
       }
     },
@@ -3115,36 +3265,44 @@ export const ENRICHED_WEAPONS = [
       strength: { value: 3, isPercentage: false },
       spirit: { value: 3, isPercentage: false }
     },
-    combatStats: {
+        combatStats: {
       onHitEffects: {
         enabled: true,
-        procType: 'dice',
+        procType: "dice",
         procChance: 35,
         diceThreshold: 14,
-        cardProcRule: 'face_cards',
-        coinProcRule: 'all_heads',
+        cardProcRule: "face_cards",
+        coinProcRule: "all_heads",
         coinCount: 3,
-        procSuit: 'hearts',
+        procSuit: "hearts",
         spellEffect: null,
-        customEffects: ['fear'],
+        customEffects: [
+          "fear"
+        ],
         useRollableTable: false,
         effect: {
-          effectType: 'healing',
+          effectType: "healing",
           effectConfig: {
-            formula: '3d6',
-            damageType: 'blight',
+            formula: "3d6",
+            damageType: "blight",
             isDot: false,
             dotDuration: 0,
-            dotTickFrequency: 'round',
-            targetType: 'attacker',
+            dotTickFrequency: "round",
+            targetType: "attacker",
             areaRadius: 0
           }
         }
       },
       spellDamage: {
         types: {
-          blight: { value: 5, isPercentage: false },
-          shadow: { value: 5, isPercentage: false }
+          blight: {
+            value: 5,
+            isPercentage: false
+          },
+          wyrd: {
+            value: 5,
+            isPercentage: false
+          }
         }
       }
     },
@@ -3181,36 +3339,41 @@ export const ENRICHED_WEAPONS = [
       agility: { value: 3, isPercentage: false },
       intelligence: { value: 3, isPercentage: false }
     },
-    combatStats: {
+        combatStats: {
       onHitEffects: {
         enabled: true,
-        procType: 'coins',
+        procType: "coins",
         procChance: 12,
         diceThreshold: 14,
-        cardProcRule: 'face_cards',
-        coinProcRule: 'all_heads',
+        cardProcRule: "face_cards",
+        coinProcRule: "all_heads",
         coinCount: 3,
-        procSuit: 'hearts',
+        procSuit: "hearts",
         spellEffect: null,
-        customEffects: ['stun', 'slow'],
+        customEffects: [
+          "stun",
+          "slow"
+        ],
         useRollableTable: false,
         effect: {
-          effectType: 'control',
+          effectType: "control",
           effectConfig: {
-            controlType: 'stun',
+            controlType: "stun",
             controlDuration: 2,
             saveDC: 16,
-            saveType: 'intelligence',
+            saveType: "intelligence",
             knockbackDistance: 0,
-            targetType: 'defender',
+            targetType: "defender",
             areaRadius: 0
           }
         }
       },
       spellDamage: {
         types: {
-          psychic: { value: 6, isPercentage: false },
-          wyrd: { value: 4, isPercentage: false }
+          wyrd: {
+            value: 10,
+            isPercentage: false
+          }
         }
       }
     },
@@ -3247,36 +3410,41 @@ export const ENRICHED_WEAPONS = [
       intelligence: { value: 4, isPercentage: false },
       spirit: { value: 3, isPercentage: false }
     },
-    combatStats: {
+        combatStats: {
       onHitEffects: {
         enabled: true,
-        procType: 'dice',
+        procType: "dice",
         procChance: 40,
         diceThreshold: 13,
-        cardProcRule: 'face_cards',
-        coinProcRule: 'all_heads',
+        cardProcRule: "face_cards",
+        coinProcRule: "all_heads",
         coinCount: 3,
-        procSuit: 'hearts',
+        procSuit: "hearts",
         spellEffect: null,
-        customEffects: ['shock', 'disarm'],
+        customEffects: [
+          "shock",
+          "disarm"
+        ],
         useRollableTable: false,
         effect: {
-          effectType: 'damage',
+          effectType: "damage",
           effectConfig: {
-            formula: '2d8',
-            damageType: 'arcane',
+            formula: "2d8",
+            damageType: "arcane",
             isDot: false,
             dotDuration: 0,
-            dotTickFrequency: 'round',
-            targetType: 'defender',
+            dotTickFrequency: "round",
+            targetType: "defender",
             areaRadius: 0
           }
         }
       },
       spellDamage: {
         types: {
-          arcane: { value: 8, isPercentage: false },
-          force: { value: 3, isPercentage: false }
+          arcane: {
+            value: 11,
+            isPercentage: false
+          }
         }
       }
     },

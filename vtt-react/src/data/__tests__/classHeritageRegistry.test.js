@@ -24,19 +24,26 @@ const specRows = inverseSection.split('\n').filter(line => /^\|.*`[^`]+`/.test(l
 
 test('registry matches the independently authored blueprint inverse and all 102 native relationships', () => {
   expect(specRows).toHaveLength(25);
-  expect(Object.keys(CLASS_PROVENANCE)).toHaveLength(21);
+  expect(Object.keys(CLASS_PROVENANCE)).toHaveLength(22);
   expect(Object.keys(HERITAGE_TRADITIONS)).toHaveLength(25);
   expect(specRows.reduce((total, row) => total + row.classes.length, 0)).toBe(102);
+  // Chaos Weaver (RI-1) is a deliberate registry extension beyond the
+  // blueprint's 21 dossiers; filter it only for the blueprint parity checks.
+  const blueprintClasses = classes => classes.filter(name => name !== 'Chaos Weaver');
   specRows.forEach(row => {
-    expect(HERITAGE_TRADITIONS[row.id].classes.slice().sort()).toEqual(row.classes.slice().sort());
-    expect(new Set(HERITAGE_TRADITIONS[row.id].classes).size).toBe(row.classes.length);
+    expect(blueprintClasses(HERITAGE_TRADITIONS[row.id].classes).slice().sort()).toEqual(row.classes.slice().sort());
+    expect(new Set(HERITAGE_TRADITIONS[row.id].classes).size).toBe(HERITAGE_TRADITIONS[row.id].classes.length);
     expect(getSubraceData(HERITAGE_TRADITIONS[row.id].raceId, row.id)).not.toBeNull();
-    expect(getFullRaceData(HERITAGE_TRADITIONS[row.id].raceId, row.id).combinedTraits.normalClassPaths.slice().sort())
+    expect(blueprintClasses(getFullRaceData(HERITAGE_TRADITIONS[row.id].raceId, row.id).combinedTraits.normalClassPaths).slice().sort())
       .toEqual(row.classes.slice().sort());
   });
   Object.keys(CLASS_PROVENANCE).forEach(name => {
-    expect(getClassNativeHeritageIds(name).sort()).toEqual(specRows.filter(row => row.classes.includes(name)).map(row => row.id).sort());
+    const expected = name === 'Chaos Weaver'
+      ? ['drall_fexric']
+      : specRows.filter(row => row.classes.includes(name)).map(row => row.id);
+    expect(getClassNativeHeritageIds(name).sort()).toEqual(expected.sort());
   });
+  expect(getClassNativeHeritageIds('Chaos Weaver')).toEqual(['drall_fexric']);
 });
 
 test('registry also matches the separate forward dossier tables rather than only its inverse', () => {
@@ -52,11 +59,12 @@ test('registry also matches the separate forward dossier tables rather than only
   });
 });
 
-test('creation and validation agree across all 525 canonical class/heritage combinations', () => {
+test('creation and validation agree across all 550 canonical class/heritage combinations', () => {
   specRows.forEach(row => {
     const raceId = HERITAGE_TRADITIONS[row.id].raceId;
     Object.keys(CLASS_PROVENANCE).forEach(name => {
-      const expected = row.classes.includes(name);
+      const expected = row.classes.includes(name) ||
+        (name === 'Chaos Weaver' && row.id === 'drall_fexric');
       expect(isClassCompatible(name, raceId, row.id)).toBe(expected);
       expect(validateCharacterSelection(raceId, row.id, ALL_CLASSES_DATA[name], null).isValid).toBe(expected);
     });
@@ -116,9 +124,9 @@ test('Skald Martyr normal method is Ironclad and Witness is extra acquired train
 });
 
 test('Nereid lookup aliases stay compatible without becoming three extra base classes', () => {
-  expect(Object.keys(BASE_CLASSES_DATA)).toHaveLength(21);
-  expect(Object.keys(ALL_CLASSES_DATA)).toHaveLength(24);
-  expect(CLASS_DISPLAY_DATA).toHaveLength(21);
+  expect(Object.keys(BASE_CLASSES_DATA)).toHaveLength(22);
+  expect(Object.keys(ALL_CLASSES_DATA)).toHaveLength(25);
+  expect(CLASS_DISPLAY_DATA).toHaveLength(22);
   expect(CLASS_DISPLAY_ALIASES).toHaveLength(3);
   Object.entries(CLASS_COMPATIBILITY_ALIASES).forEach(([name, alias]) => {
     expect(ALL_CLASSES_DATA[name].name).toBe(alias.className);

@@ -1,0 +1,57 @@
+{
+  "viewport": {
+    "width": 360,
+    "height": 740
+  },
+  "route": "/rules?category=character-creation&sub=classes&class=Chaos%20Weaver",
+  "docWidth": 360,
+  "clientWidth": 360,
+  "horizontalOverflow": false,
+  "heading": {
+    "label": "class-heading",
+    "text": "Chaos Weaver",
+    "color": "rgb(52, 37, 26)",
+    "bg": "rgb(241, 236, 225)",
+    "fontSize": "25.6px",
+    "ratio": 12.5
+  },
+  "devChip": {
+    "label": "dev-chip",
+    "text": "Development",
+    "color": "rgb(74, 20, 38)",
+    "bg": "rgb(241, 236, 225)",
+    "fontSize": "11.52px",
+    "ratio": 12.56
+  },
+  "roleText": {
+    "label": "role",
+    "text": "Wyrd damage / uncertainty control",
+    "color": "rgb(104, 83, 62)",
+    "bg": "rgb(241, 236, 225)",
+    "fontSize": "16px",
+    "ratio": 6.16
+  },
+  "tabs": [
+    {
+      "text": "Overview",
+      "height": 56
+    },
+    {
+      "text": "Tradition",
+      "height": 56
+    },
+    {
+      "text": "Resource System",
+      "height": 56
+    },
+    {
+      "text": "Specializations",
+      "height": 52
+    },
+    {
+      "text": "Spells",
+      "height": 52
+    }
+  ],
+  "consoleNote": "firebase demo-mode console log only; 0 errors"
+}

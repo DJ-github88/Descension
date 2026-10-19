@@ -87,7 +87,7 @@ describe('P12B creature hit → owner block → atomic HP and wear (registered p
     const final = overrides.finalAmount ?? afterBlock;
     const chosen = { capability: 'p12b-block:v1', approvalId: approved.approvalId, gmConfirmed: true, names: { source: 'Grimmstalk', target: 'Ilsa' }, attack,
       block: { slot: piece.slot, name: piece.name, kind: piece.kind, die: piece.currentDie, face, defending, reduction, ...(overrides.block || {}) },
-      afterBlock, manual: overrides.manual || [] };
+      afterBlock, manual: overrides.manual || [], ...(overrides.revalidation ? { revalidation: overrides.revalidation } : {}) };
     const foe = actors.locate(live(), foeRef).token;
     const fromTempAp = Math.min(foe.state.tempActionPoints, attack.apCost);
     const fromTemp = Math.min(token.character.tempHealth, final);
@@ -222,15 +222,19 @@ describe('P12B creature hit → owner block → atomic HP and wear (registered p
     const registered = await register(offered, 3);
     assert.equal(registered.approved.blocking.slot, 'chest');
     // A piece no longer in its shared slot is unavailable too (the owner unequipped it meanwhile).
-    const prepared = gmCommand(offered, registered);
+    const prepared = gmCommand(offered, registered), secondRoll = approval(offered, 6);
     const chest = pcToken().character.equipment.chest;
     pcToken().character.equipment.chest = null;
-    assert.equal((await ack(gm, 'actor_consequence', prepared)).code, 'no_blocking_piece');
-    // The rolled piece is gone: the approval is closed (owner rolls again), never left pending.
+    const unavailable = await ack(gm, 'actor_consequence', prepared);
+    assert.equal(unavailable.code, 'block_piece_unavailable');
+    assert.deepEqual(unavailable.details.recorded, { revision: registered.approved.blocking.revision, slot: 'chest', itemId: ARMOR.itemId, die: 'd8', face: 3 });
+    // r1 (§3.9 R3): the recorded face is kept pending, never re-rolled; the GM rules (void) or the piece returns.
+    assert.ok(blocks.get(live(), registered.approved.approvalId), 'still pending');
+    assert.equal((await ack(owner, 'actor_block_approve', secondRoll)).code, 'no_blocking_piece', 'no second roll while the piece is gone');
     pcToken().character.equipment.chest = chest;
-    assert.equal((await ack(gm, 'actor_consequence', prepared)).code, 'approval_invalidated');
-    const again = await register(await offer(), 3);
-    assert.equal(again.approved.blocking.slot, 'chest');
+    const applied = await ack(gm, 'actor_consequence', prepared);
+    assert.equal(applied.success, true, JSON.stringify(applied));
+    assert.equal(applied.receipt.actors[1].equipmentWear.naturalFace, 3);
   });
   it('B7 the approval binds one attack: other commands, changed attacks, re-offers and adjustments', async() => {
     await declare([ARMOR]);
@@ -321,20 +325,229 @@ describe('P12B creature hit → owner block → atomic HP and wear (registered p
     assert.deepEqual([list.pending, list.offered], [[], []]);
     assert.equal(leaked, false);
   });
-  it('B12 approvals that can never be consumed are closed: a changed creature (stale attack) frees re-declaration', async() => {
+  it('B12 (r1) a changed creature keeps the recorded rolls pending until the GM revalidates; nothing is closed or re-rolled', async() => {
     await declare([ARMOR]);
     const offered = await offer();
     const registered = await register(offered, 4);
     const foe = actors.locate(live(), foeRef).token;
     const bump = await ack(gm, 'actor_consequence', { ...base(), actors: [{ ref: foeRef, expectedRevision: revision(foeRef), finalResources: { hp: { current: foe.state.currentHp - 1, temp: 0 } } }] });
     assert.equal(bump.success, true, JSON.stringify(bump));
-    const closed = once(owner, 'actor_block_closed');
-    const planned = gmCommand(offered, registered);
-    planned.actors[0] = { ...planned.actors[0], expectedRevision: offered.attack.sourceRevision }; // as the GM client plans it
-    assert.equal((await ack(gm, 'actor_consequence', planned)).code, 'stale_attack');
-    assert.equal((await closed).code, 'invalidated');
-    assert.equal(blocks.get(live(), registered.approved.approvalId), null);
-    assert.equal((await declare([SHIELD])).success, true, 'no lingering blocking_pending');
+    let closed = false; owner.on('actor_block_closed', () => {closed = true;}); owner.on('actor_block_offer_closed', () => {closed = true;});
+    const stale = await ack(gm, 'actor_consequence', gmCommand(offered, registered));
+    assert.equal(stale.code, 'attack_revalidation_required');
+    assert.equal(stale.details.reason, 'unexplained_change');
+    assert.deepEqual(stale.details.changes.hp, { before: { current: 30, temp: 0, max: 250 }, now: { current: 29, temp: 0, max: 250 } });
+    assert.ok(blocks.get(live(), registered.approved.approvalId), 'approval kept');
+    assert.equal((await declare([SHIELD])).code, 'blocking_pending', 'the recorded roll still holds the declaration');
+    assert.equal((await ack(owner, 'actor_block_approve', approval(offered, 6))).code, 'approval_pending', 'no second roll while the first is pending');
+    assert.equal(closed, false);
     assert.equal(declaration().pieces[0].currentDie, 'd8', 'nothing applied');
+  });
+  // ── P12B-r1 (contract revision 5 §3.9) ────────────────────────────────────
+  const foeState = () => actors.locate(live(), foeRef).token.state;
+  it('B15 one creature, two attacks on one PC: both recorded faces are consumed; AP spent twice; no re-roll', async() => {
+    await declare([ARMOR]);
+    const first = await offer({ apCost: 2 }), second = await offer({ apCost: 3, roll: { mode: 'physical', dice: '1d10', faces: [9] }, proposedDamage: 9 });
+    const one = await register(first, 2);
+    assert.equal((await ack(owner, 'actor_block_approve', approval(second, 5))).code, 'approval_pending', 'one block roll at a time');
+    const applied = await ack(gm, 'actor_consequence', gmCommand(first, one));
+    assert.equal(applied.success, true, JSON.stringify(applied));
+    assert.equal(declaration().pieces[0].currentDie, 'd6');
+    const two = await register(second, 5); // rolled after the first resolved, on the current d6
+    assert.equal(two.approved.blocking.die, 'd6');
+    assert.notEqual(revision(foeRef), second.attack.sourceRevision, 'the creature changed since the second offer');
+    const carried = await ack(gm, 'actor_consequence', gmCommand(second, two));
+    assert.equal(carried.success, true, JSON.stringify(carried));
+    assert.deepEqual(carried.receipt.actors[0].finalResources.ap, { current: 16, temp: 0, max: 30 }, 'AP 20+1 temp → 2 then 3 paid temp-first');
+    assert.equal(JSON.parse(carried.receipt.adjudication.chosenResult).attack.roll.faces[0], 9, 'the original attack roll stands');
+    assert.equal('revalidation' in JSON.parse(carried.receipt.adjudication.chosenResult), false);
+  });
+  it('B16 sibling attacks on two PCs carry forward; the second receipt keeps its offer-time record', async() => {
+    await declare([ARMOR]);
+    const toPc = await offer();
+    // A second character owned by "other": declared through its own owner.
+    const otherUid = server.players.get(other.id).userId || [...server.players.values()].find(player => player.socketId === other.id)?.userId;
+    assert.ok(otherUid);
+    server.players.get(other.id).character = { id: 'bram', class: 'Warrior' }; server.setCharacterOwner('bram', otherUid);
+    const pc2 = { id: 'pc2', ownerUserId: otherUid, character: { id: 'bram', name: 'Bram', class: 'Warrior', health: { current: 20, max: 20 }, mana: { current: 0, max: 0 },
+      actionPoints: { current: 4, max: 4 }, tempHealth: 0, tempMana: 0, tempActionPoints: 0, equipment: { offHand: { id: SHIELD.itemId, name: SHIELD.name, type: 'armor', subtype: 'SHIELD' } } }, state: { conditions: [] } };
+    live().gameState.maps.default.characterTokens.pc2 = pc2;
+    const bramRef = (await ack(gm, 'actor_bind', { roomId: room.id, ref: { kind: 'character', roomId: room.id, mapId: 'default', tokenId: 'pc2', ownerUid: otherUid, characterId: 'bram' }, snapshotHash: actors.hash(pc2) })).ref;
+    const declared = await ack(other, 'actor_consequence', { ...base(), actors: [{ ref: bramRef, expectedRevision: actors.locate(live(), bramRef).contract.revision, blockingDeclaration: { beforeRevision: 0, mode: 'block', pieces: [SHIELD] } }] });
+    assert.equal(declared.success, true, JSON.stringify(declared));
+    const toBram = { commandId: crypto.randomUUID(), attack: { capability: 'p12b-attack:v1', source: foeRef, target: bramRef, sourceRevision: revision(foeRef), ability: { id: 'claw', name: 'Raking Claw' },
+      roll: { mode: 'physical', dice: '1d10', faces: [6] }, outcome: 'hit', damageType: 'slicing', proposedDamage: 6, apCost: 2 } };
+    toBram.attackHash = (await ack(gm, 'actor_block_offer', { roomId: room.id, commandId: toBram.commandId, attack: toBram.attack })).attackHash;
+    const bramApproval = { version: 1, roomId: room.id, approvalId: crypto.randomUUID(), actionEpoch: epoch, baseCommitSequence: actors.ledger(live()).commitSequence,
+      source: foeRef, target: bramRef, attack: { commandId: toBram.commandId, attackHash: toBram.attackHash }, blocking: { revision: 1, slot: 'offHand', itemId: SHIELD.itemId, die: 'd8' }, roll: { mode: 'physical', faces: [4] } };
+    const bramPending = await ack(other, 'actor_block_approve', bramApproval);
+    assert.equal(bramPending.code, 'awaiting_gm');
+    const first = await ack(gm, 'actor_consequence', gmCommand(toPc, await register(toPc, 3)));
+    assert.equal(first.success, true, JSON.stringify(first));
+    const bram = actors.locate(live(), bramRef).token, foe = foeState();
+    const fromTempAp = Math.min(foe.tempActionPoints, 2);
+    const chosen = { capability: 'p12b-block:v1', approvalId: bramApproval.approvalId, gmConfirmed: true, names: { source: 'Grimmstalk', target: 'Bram' }, attack: toBram.attack,
+      block: { slot: 'offHand', name: SHIELD.name, kind: 'shield', die: 'd8', face: 4, defending: false, reduction: 4 }, afterBlock: 2, manual: [] };
+    const command = { version: 1, roomId: room.id, commandId: toBram.commandId, actionEpoch: epoch, baseCommitSequence: actors.ledger(live()).commitSequence,
+      actors: [{ ref: foeRef, expectedRevision: revision(foeRef), finalResources: { ap: { current: foe.currentActionPoints - (2 - fromTempAp), temp: foe.tempActionPoints - fromTempAp } } },
+        { ref: bramRef, expectedRevision: actors.locate(live(), bramRef).contract.revision, finalResources: { hp: { current: 18, temp: 0 } }, equipmentWear: blocks.expectedWear(bram, bramApproval).entry }],
+      source: foeRef, target: bramRef, approval: { approvalId: bramApproval.approvalId, contentHash: bramPending.contentHash },
+      adjudication: { definitionId: 'creature-attack-block', definitionVersionOrHash: 'p12b-block:v1/creature-attack-block', chosenResult: JSON.stringify(chosen), finalAmount: 2, adjustmentReason: '' } };
+    const second = await ack(gm, 'actor_consequence', command);
+    assert.equal(second.success, true, JSON.stringify(second));
+    assert.equal(second.receipt.actors[1].equipmentWear.naturalFace, 4, 'Bram’s recorded face, not a new roll');
+  });
+  it('B17 an unrelated change (a strike-like HP hit) needs explicit revalidation; the receipt records the reason', async() => {
+    await declare([ARMOR]);
+    const offered = await offer();
+    const registered = await register(offered, 2);
+    const hit = await ack(gm, 'actor_consequence', { ...base(), actors: [{ ref: foeRef, expectedRevision: revision(foeRef), finalResources: { hp: { current: 25, temp: 0 } } }] });
+    assert.equal(hit.success, true);
+    const refused = await ack(gm, 'actor_consequence', gmCommand(offered, registered));
+    assert.equal(refused.code, 'attack_revalidation_required');
+    const wrong = await ack(gm, 'actor_consequence', gmCommand(offered, registered, { revalidation: { fromRevision: offered.attack.sourceRevision, toRevision: revision(foeRef) + 1, reason: 'Still in reach' } }));
+    assert.equal(wrong.code, 'approval_mismatch');
+    const blank = await ack(gm, 'actor_consequence', gmCommand(offered, registered, { revalidation: { fromRevision: offered.attack.sourceRevision, toRevision: revision(foeRef), reason: '   ' } }));
+    assert.equal(blank.code, 'invalid_block_adjudication');
+    const revalidation = { fromRevision: offered.attack.sourceRevision, toRevision: revision(foeRef), reason: 'Grimmstalk took a hit but the claw was already swinging.' };
+    const accepted = await ack(gm, 'actor_consequence', gmCommand(offered, registered, { revalidation }));
+    assert.equal(accepted.success, true, JSON.stringify(accepted));
+    const chosen = JSON.parse(accepted.receipt.adjudication.chosenResult);
+    assert.deepEqual(chosen.revalidation, revalidation);
+    assert.equal(chosen.block.face, 2, 'the recorded face');
+    assert.equal(declaration().pieces[0].currentDie, 'd6');
+    // An unneeded revalidation is refused.
+    const fresh = await offer();
+    const again = await register(fresh, 5);
+    assert.equal((await ack(gm, 'actor_consequence', gmCommand(fresh, again, { revalidation: { fromRevision: fresh.attack.sourceRevision, toRevision: revision(foeRef), reason: 'x' } }))).code, 'approval_mismatch');
+  });
+  it('B18 GM void closes the approval and the offer with its recorded outcome; the same attack can never be rolled again', async() => {
+    await declare([ARMOR]);
+    const offered = await offer();
+    const registered = await register(offered, 1);
+    const ownerClosed = once(owner, 'actor_block_offer_closed');
+    const voided = await ack(gm, 'actor_block_decline', { roomId: room.id, approvalId: registered.approved.approvalId });
+    assert.equal(voided.code, 'declined');
+    const tomb = (await ownerClosed).closed;
+    assert.equal(tomb.code, 'voided'); assert.equal(tomb.block.face, 1); assert.deepEqual(tomb.attackRoll.faces, [7]);
+    assert.equal((await ack(owner, 'actor_block_approve', approval(offered, 6))).code, 'offer_closed', 'no fresh roll for the same attack');
+    assert.equal((await ack(gm, 'actor_block_offer', { roomId: room.id, commandId: offered.commandId, attack: offered.attack })).code, 'offer_closed');
+    assert.equal((await ack(gm, 'actor_consequence', gmCommand(offered, registered))).code, 'approval_declined');
+    const listed = await ack(owner, 'actor_block_list', { roomId: room.id });
+    assert.equal(listed.closedOffers.length, 1); assert.equal(listed.closedOffers[0].block.face, 1);
+    assert.equal((await ack(other, 'actor_block_list', { roomId: room.id })).closedOffers.length, 0, 'never to other members');
+    assert.equal(pcToken().character.health.current, 30, 'nothing applied');
+    assert.equal(declaration().pieces[0].currentDie, 'd8');
+  });
+  it('B19 a creature that can no longer pay keeps the approval pending; nothing is spent', async() => {
+    await declare([ARMOR]);
+    const offered = await offer({ apCost: 5 });
+    const registered = await register(offered, 4);
+    foeState().currentActionPoints = 2; foeState().tempActionPoints = 0;
+    const ap = await ack(gm, 'actor_consequence', { ...base(), actors: [{ ref: foeRef, expectedRevision: revision(foeRef), finalResources: { ap: { current: 2, temp: 0 } } }] });
+    assert.equal(ap.success, true, JSON.stringify(ap));
+    const revalidation = { fromRevision: offered.attack.sourceRevision, toRevision: revision(foeRef), reason: 'GM drained AP' };
+    const command = gmCommand(offered, registered, { revalidation });
+    command.actors[0].finalResources = { ap: { current: 0, temp: 0 } }; // a GM planner cannot price 5 AP from 2
+    assert.equal((await ack(gm, 'actor_consequence', command)).code, 'insufficient_resources');
+    assert.ok(blocks.get(live(), registered.approved.approvalId));
+    assert.equal(pcToken().character.health.current, 30);
+  });
+  it('B20 pruned history between offer and consumption requires revalidation, never silent carry-forward', async() => {
+    await declare([ARMOR]);
+    const first = await offer({ apCost: 1 }), second = await offer({ apCost: 1 });
+    assert.equal((await ack(gm, 'actor_consequence', gmCommand(first, await register(first, 3)))).success, true);
+    const two = await register(second, 3);
+    const state = actors.ledger(live());
+    // The first offer's receipt is pruned: the floor passes the second offer's baseline.
+    live().gameState.actorConsequences = { ...state, replayFloor: state.commitSequence, receipts: [] };
+    const refused = await ack(gm, 'actor_consequence', gmCommand(second, two));
+    assert.equal(refused.code, 'attack_revalidation_required');
+    assert.equal(refused.details.reason, 'history_unavailable');
+  });
+  it('B21/B22 target side: unavailable or changed piece stays pending for a GM ruling; a d8 face is never read as a d6 roll', async() => {
+    await declare([ARMOR, SHIELD]);
+    const offered = await offer();
+    const registered = await register(offered, 7);
+    const home = declaration();
+    const wear = blocks.expectedWear(pcToken(), registered.approved).entry;
+    home.pieces[0].currentDie = 'd6'; home.revision += 1; // the recorded piece wore since the roll (any cause)
+    const changed = await ack(gm, 'actor_consequence', gmCommand(offered, registered, { wear }));
+    assert.equal(changed.code, 'block_revalidation_required');
+    assert.deepEqual(changed.details.recorded, { revision: registered.approved.blocking.revision, slot: 'chest', itemId: ARMOR.itemId, die: 'd8', face: 7 });
+    assert.equal(changed.details.current.die, 'd6');
+    assert.ok(blocks.get(live(), registered.approved.approvalId), 'kept for the GM ruling');
+    home.pieces[0].broken = true; home.pieces[0].currentDie = 'broken';
+    assert.equal((await ack(gm, 'actor_consequence', gmCommand(offered, registered, { wear }))).code, 'block_piece_unavailable', 'no automatic backup or Don’t block');
+    assert.equal((await ack(gm, 'actor_block_decline', { roomId: room.id, approvalId: registered.approved.approvalId })).code, 'declined');
+    assert.equal((await ack(owner, 'actor_block_approve', approval(offered, 2))).code, 'offer_closed');
+  });
+  it('B23 a forged sibling (same capability, other creature or extra change) does not carry forward', async() => {
+    await declare([ARMOR]);
+    const offered = await offer({ apCost: 1 });
+    const registered = await register(offered, 4);
+    const foe = foeState();
+    // Same capability name on the creature's receipt but the creature also lost HP in that receipt (simulated ledger entry).
+    const ledger = actors.ledger(live()), rev = revision(foeRef);
+    const fakeChosen = JSON.stringify({ capability: 'p12b-block:v1', attack: { ...offered.attack, apCost: 1 } });
+    const receipt = { version: 1, roomId: room.id, commandId: crypto.randomUUID(), submitterUid: gmUid, admissionEpoch: ledger.admissionEpoch, commitSequence: ledger.commitSequence + 1, checkpointRevision: 0,
+      authorization: { kind: 'owner-approval-gm', authorizerUid: gmUid, proposalId: crypto.randomUUID(), approvalHash: 'x' }, source: foeRef, target: pcRef,
+      adjudication: { definitionId: 'creature-attack-block', definitionVersionOrHash: 'p12b-block:v1/creature-attack-block', chosenResult: fakeChosen, finalAmount: 0, adjustmentReason: '' },
+      actors: [{ ref: foeRef, beforeRevision: rev, afterRevision: rev + 1, finalResources: { hp: { current: foe.currentHp - 3, temp: 0, max: 250 }, mana: { current: 0, temp: 0, max: 30 }, ap: { current: 20, temp: 0, max: 30 } }, conditions: [] }] };
+    live().gameState.actorConsequences = { ...ledger, commitSequence: receipt.commitSequence, receipts: [...ledger.receipts, receipt] };
+    foe.currentHp -= 3; foe.tempActionPoints = 0; actors.locate(live(), foeRef).contract.revision = rev + 1;
+    const refused = await ack(gm, 'actor_consequence', gmCommand(offered, registered));
+    assert.equal(refused.code, 'attack_revalidation_required');
+    assert.equal(refused.details.reason, 'unexplained_change');
+    assert.equal(blocks.explainSourceChange(live(), blocks.getOffer(live(), offered.commandId), offered.attack, actors.locate(live(), foeRef)).ok, false);
+    // A sibling-shaped receipt that names another creature as its source does not explain this creature's change.
+    const otherSource = { ...foeRef, tokenId: 'elsewhere' };
+    const forged = { ...receipt, commandId: crypto.randomUUID(), source: otherSource,
+      actors: [{ ...receipt.actors[0], finalResources: { hp: { current: foe.currentHp, temp: 0, max: 250 }, mana: { current: 0, temp: 0, max: 30 }, ap: { current: 20, temp: 0, max: 30 } } }] };
+    const ledger2 = actors.ledger(live());
+    live().gameState.actorConsequences = { ...ledger2, receipts: [...ledger2.receipts.filter(value => value.commandId !== receipt.commandId), forged] };
+    const offer2 = blocks.getOffer(live(), offered.commandId);
+    offer2.baseline.resources.hp.current = foe.currentHp; // only the source differs from a valid sibling
+    assert.equal(blocks.explainSourceChange(live(), offer2, offered.attack, actors.locate(live(), foeRef)).reason, 'unexplained_change');
+  });
+  it('B24 owner withdrawal closes the offer too; retries of a consumed block return the original receipt', async() => {
+    await declare([ARMOR]);
+    const offered = await offer();
+    const registered = await register(offered, 1);
+    const gmClosed = once(gm, 'actor_block_offer_closed');
+    assert.equal((await ack(owner, 'actor_block_withdraw', { roomId: room.id, approvalId: registered.approved.approvalId })).code, 'withdrawn');
+    assert.equal((await gmClosed).closed.code, 'withdrawn');
+    assert.equal((await ack(owner, 'actor_block_approve', approval(offered, 6))).code, 'offer_closed', 'withdrawing cannot buy a fresh roll');
+    const next = await offer();
+    const kept = await register(next, 3);
+    const command = gmCommand(next, kept);
+    const first = await ack(gm, 'actor_consequence', command);
+    assert.equal(first.success, true, JSON.stringify(first));
+    const retry = await ack(gm, 'actor_consequence', command);
+    assert.equal(retry.receipt.commitSequence, first.receipt.commitSequence);
+    assert.equal((await ack(owner, 'actor_block_approve', kept.approved)).receipt.commitSequence, first.receipt.commitSequence, 'owner check returns the receipt');
+    assert.equal((await ack(gm, 'actor_block_list', { roomId: room.id })).closedOffers.map(value => value.code).join(','), 'withdrawn,consumed');
+  });
+  it('B25 a runtime change (new epoch) forgets closures but never executes an old offer, approval or command', async() => {
+    await declare([ARMOR]);
+    const closedOffer = await offer();
+    const voided = await register(closedOffer, 1);
+    assert.equal((await ack(gm, 'actor_block_decline', { roomId: room.id, approvalId: voided.approved.approvalId })).success, true);
+    const pendingOffer = await offer();
+    const pending = await register(pendingOffer, 2);
+    const oldCommand = gmCommand(pendingOffer, pending);
+    // Runtime change: a new room object is a new epoch and empty server-memory registries (offers, approvals, closures).
+    server.rooms.set(room.id, { ...live(), gameState: actors.clone(live().gameState) });
+    const before = JSON.stringify(live().gameState), receipts = actors.ledger(live()).receipts.length;
+    assert.equal((await ack(gm, 'actor_consequence', oldCommand)).code, 'outcome_unknown', 'the old prepared command never executes');
+    for (const [offered, face] of [[pendingOffer, 2], [closedOffer, 6]]) {
+      const replay = await ack(owner, 'actor_block_approve', approval(offered, face));
+      assert.notEqual(replay.code, 'awaiting_gm', `an old ${offered === closedOffer ? 'closed' : 'pending'} offer cannot be approved again`);
+      assert.notEqual(replay.success, true);
+    }
+    assert.notEqual((await ack(owner, 'actor_block_approve', pending.approved)).code, 'awaiting_gm', 'the old approval is not re-registered');
+    assert.equal((await ack(gm, 'actor_block_list', { roomId: room.id })).pending.length, 0);
+    assert.equal(JSON.stringify(live().gameState), before, 'nothing applied under the new epoch');
+    assert.equal(actors.ledger(live()).receipts.length, receipts);
   });
 });

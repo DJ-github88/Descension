@@ -3431,3 +3431,77 @@
   .skill-simple-header .skill-name-line h2 { flex: 1 1 auto; min-width: 0; margin: 0; }
   html body .rules-page .skill-simple-header, html body .skill-detail-view .skill-simple-header { display: flex !important; flex-direction: column !important; align-items: stretch !important; grid-template-columns: none !important; grid-template-areas: none !important; gap: 10px !important; }
 }
+
+/* ============================================================================
+   ORIGIN / BACKGROUND CANONICAL ILLUSTRATION STYLING
+   ============================================================================ */
+.background-card-thumb-container {
+    width: calc(100% + 2.5rem);
+    height: 120px;
+    margin: -1.25rem -1.25rem 0.85rem -1.25rem;
+    border-radius: 4px 4px 0 0;
+    overflow: hidden;
+    position: relative;
+    border-bottom: 1px solid rgba(182, 160, 128, 0.55);
+}
+
+.background-card-thumb-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.35s cubic-bezier(0.2, 0, 0.2, 1);
+}
+
+.background-card-compact:hover .background-card-thumb-img {
+    transform: scale(1.05);
+}
+
+.background-card-thumb-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(30, 22, 14, 0.45) 0%, transparent 60%);
+    pointer-events: none;
+}
+
+.background-detail-hero-frame {
+    margin: 0.5rem 0 1.5rem 0;
+    border-radius: 6px;
+    overflow: hidden;
+    border: 2px solid #5a3d1d;
+    outline: 1px solid rgba(212, 175, 55, 0.35);
+    background: #18120c;
+    box-shadow: 0 6px 18px rgba(26, 17, 8, 0.35), inset 0 0 18px rgba(10, 6, 2, 0.7);
+    position: relative;
+}
+
+.background-detail-hero-frame::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    box-shadow: inset 0 0 24px 6px rgba(18, 12, 6, 0.55);
+    border-radius: 4px;
+}
+
+.background-detail-hero-img {
+    width: 100%;
+    max-height: 420px;
+    object-fit: cover;
+    object-position: center 25%;
+    display: block;
+    filter: contrast(1.02) saturate(1.02);
+}
+
+.background-detail-hero-caption {
+    padding: 0.65rem 1.1rem;
+    background: linear-gradient(180deg, #f5ebd7 0%, #ebe0c8 100%);
+    border-top: 1px solid rgba(182, 160, 128, 0.6);
+    font-family: 'Crimson Text', serif;
+    font-style: italic;
+    font-size: 0.95rem;
+    color: #5c4224;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}

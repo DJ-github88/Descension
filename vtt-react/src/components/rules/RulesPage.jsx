@@ -269,6 +269,11 @@ const CLASS_DATA_LOADERS = {
 
   'Crusader': () => import('../../data/classes/crusaderData').then(m => m.CRUSADER_DATA),
 
+  // RI-1 bounded amendment: the class detail view loads class data through this
+  // map; without this single entry the Chaos Weaver detail cannot resolve its
+  // projected spells/pools and would fail acceptance checks #3/#4.
+  'Chaos Weaver': () => import('../../data/classes/chaosWeaverIntegration').then(m => m.CHAOS_WEAVER_DATA),
+
   'Lunarch': () => import('../../data/classes/lunarchData').then(m => m.LUNARCH_DATA),
   'Nereid Myrathil Apex': () => import('../../data/classes/index').then(m => m.DEEPLING_MYRATHIL_APEX_DATA),
   'Nereid Myrathil Animist': () => import('../../data/classes/index').then(m => m.DEEPLING_MYRATHIL_ANIMIST_DATA),

@@ -3,7 +3,9 @@ const access = require('../services/roomAccessService');
 const payments = require('../services/spellPayments');
 const blocks = require('../services/blockApprovals');
 const proposals = new WeakMap();
-const UNCONSUMABLE = ['stale_blocking_state', 'no_blocking_piece', 'critical_bypasses_armor', 'stale_attack', 'actor_binding_conflict', 'secondary_attachment', 'actor_not_found'];
+// P12B-r1 (§3.9): stale creature or piece state no longer closes an approval (recorded rolls are kept for
+// carry-forward, GM revalidation or void). Only bindings that can never apply are closed, with the offer.
+const UNCONSUMABLE = ['critical_bypasses_armor', 'actor_binding_conflict', 'secondary_attachment', 'actor_not_found'];
 
 function registerActorConsequenceHandlers(ctx) {
   const { socket, rooms, players, io, validateRoomMembership, authorityService, firebaseBatchWriter: writer, firebaseService } = ctx;
@@ -94,7 +96,9 @@ function registerActorConsequenceHandlers(ctx) {
     if (!admission.queued) {actors.fail(admission.code || admission.reason || 'writer_admission_refused');}
   };
   const run = (event, action) => socket.on(event, ctx.requireAuth(async(data, ack) => {
-    try {await action(data, ack);} catch (error) {respond(ack, { success: false, code: error.code || 'invalid_consequence', error: error.message });}
+    try {await action(data, ack);} catch (error) {
+      respond(ack, { success: false, code: error.code || 'invalid_consequence', error: error.message, ...(error.details && typeof error.details === 'object' ? { details: error.details } : {}) });
+    }
   }));
 
   run('actor_snapshot', async(data, ack) => {
@@ -229,20 +233,26 @@ function registerActorConsequenceHandlers(ctx) {
       staged = actors.stage(captured.room, captured.player, captured.uid, command,
         { kind: captured.player.isGM ? 'gm' : 'controller', authorizerUid: captured.uid }, confirmed(captured.room));
     } catch (error) {
+      if (captured.player.isGM && require('../services/riposteExecution').isCommand(command)) {require('../services/riposteExecution').refused(captured.room, command);}
       // P9: a changed class home invalidates the owner's approved price/typed result.
       if (error.code === 'owner_reapproval_required' && command.approval) {closeApproval(captured.room, command.approval.approvalId, 'owner_reapproval_required');}
       // P12B: a changed declaration invalidates the owner's approved piece/roll.
       // Review note 8: an approval that can never be consumed is closed instead of blocking re-declaration.
       if (command.approval && blocks.get(captured.room, command.approval.approvalId) && UNCONSUMABLE.includes(error.code)) {
-        closeBlock(captured.room, command.approval.approvalId, error.code === 'stale_blocking_state' ? 'owner_reapproval_required' : 'invalidated');
+        const entry = blocks.get(captured.room, command.approval.approvalId);
+        closeBlock(captured.room, command.approval.approvalId, 'invalidated');
+        closeOfferFor(captured.room, entry.approval.attack.commandId, 'invalidated', entry.approval);
       }
       throw error;
     }
     if (staged.existing) {respondInstalled(ack, resultFor(captured.room, staged.existing)); return;}
-    admit(captured.room, staged);
+    try {admit(captured.room, staged);} catch (error) {
+      if (require('../services/riposteExecution').isCommand(command) && !actors.knownReceipt(captured.room, captured.uid, command)) {require('../services/riposteExecution').refused(captured.room, command);}
+      throw error;
+    }
     // Approval consumption is synchronous with installation (no await between).
     if (staged.approved) {(staged.binder || payments).close(captured.room, staged.approved.approval.approvalId, 'consumed');}
-    if (staged.binder === blocks) {blocks.removeOffer(captured.room, command.commandId);}
+    if (staged.binder === blocks) {blocks.closeOffer(captured.room, command.commandId, 'consumed', staged.approved.approval);}
     pushBlocking(captured.room, staged.receipt);
     // Repair N2: the legacy room mirror takes the class home only when this command changed it.
     for (const actor of staged.receipt.actors) {
@@ -424,12 +434,14 @@ function registerActorConsequenceHandlers(ctx) {
   // P12A owner strike approvals (contract revision 3a §2.6): the same owner-approval flow as P9
   // over the strike registry. Only the GM's direct actor_consequence consumes an entry.
   const strikes = require('../services/strikeApprovals');
+  const riposte = require('../services/riposteExecution');
   const closeStrike = (room, approvalId, code) => {
     const entry = strikes.get(room, approvalId);
     if (!entry) {return false;}
     strikes.close(room, approvalId, code);
     const payload = { roomId: room.id, approvalId, contentHash: entry.contentHash, code };
-    toUid(room, entry.approval.source.ownerUid, 'actor_strike_closed', payload); toGm(room, 'actor_strike_closed', payload);
+    const event = riposte.isApproval(entry.approval) ? 'actor_riposte_closed' : 'actor_strike_closed';
+    toUid(room, entry.approval.source.ownerUid, event, payload); toGm(room, event, payload);
     return true;
   };
   const ownsSource = (room, player, uid, approval) => {
@@ -480,7 +492,7 @@ function registerActorConsequenceHandlers(ctx) {
     strikes.checkWindow(room, approval);
     strikes.checkAgainstRoom(room, approval);
     const entry = strikes.add(room, { approval: actors.clone(approval), contentHash, ownerUid: uid });
-    toGm(room, 'actor_strike_pending', { roomId: room.id, approval: actors.clone(entry.approval), contentHash, submitterUid: uid });
+    toGm(room, riposte.isApproval(approval) ? 'actor_riposte_pending' : 'actor_strike_pending', { roomId: room.id, approval: actors.clone(entry.approval), contentHash, submitterUid: uid });
     respond(ack, { success: false, code: 'awaiting_gm', approvalId: approval.approvalId, contentHash });
   });
   run('actor_strike_withdraw', async(data, ack) => {
@@ -508,16 +520,50 @@ function registerActorConsequenceHandlers(ctx) {
     respond(ack, { success: true, code: 'declined', approvalId: data.approvalId });
   });
   run('actor_strike_list', async(data, ack) => {
-    actors.keys(data, ['roomId']);
+    actors.keys(data, ['roomId', 'capability']);
+    if (data.capability !== undefined && data.capability !== riposte.CAPABILITY) {actors.fail('invalid_strike_approval');}
     const { room, player, uid } = context(data.roomId);
     const pending = [];
-    const own = strikes.pendingFor(room, uid);
-    if (own) {pending.push({ approval: actors.clone(own.approval), contentHash: own.contentHash, own: true });}
+    const selected = strikes.listAll(room).filter(e => riposte.isApproval(e.approval) === (data.capability === riposte.CAPABILITY));
+    for (const own of selected.filter(e => e.approval.source.ownerUid === uid)) {pending.push({ approval: actors.clone(own.approval), contentHash: own.contentHash, own: true });}
     if (player.isGM) {
-      for (const entry of strikes.listAll(room)) {pending.push({ approval: actors.clone(entry.approval), contentHash: entry.contentHash, submitterUid: entry.ownerUid });}
+      for (const entry of selected) {pending.push({ approval: actors.clone(entry.approval), contentHash: entry.contentHash, submitterUid: entry.ownerUid });}
     }
     respond(ack, { success: true, roomId: room.id, pending });
   });
+
+  const notifyRiposte = (room, opportunity) => {
+    toGm(room, 'actor_riposte_changed', { roomId: room.id });
+    toUid(room, opportunity.source.ownerUid, 'actor_riposte_changed', { roomId: room.id });
+  };
+  run('actor_riposte_offer', async(data, ack) => {
+    const c = context(data.roomId); if (!c.player.isGM) {actors.fail('forbidden');}
+    await confirm(c);
+    const result = riposte.offer(c.room, c.uid, data);
+    respond(ack, { success: true, roomId: c.room.id, opportunity: riposte.project(c.room, result.opportunity, true), fresh: result.fresh });
+    notifyRiposte(c.room, result.opportunity);
+    if (result.fresh) {
+      toUid(c.room, result.opportunity.source.ownerUid, 'reaction_window_changed', { roomId: c.room.id });
+      toGm(c.room, 'reaction_window_changed', { roomId: c.room.id });
+    }
+  });
+  run('actor_riposte_list', async(data, ack) => {
+    actors.keys(data, ['roomId']); const c = context(data.roomId); await confirm(c);
+    respond(ack, { success: true, roomId: c.room.id, viewerRole: c.player.isGM ? 'gm' : 'owner', actionEpoch: actors.epoch(c.room), opportunities: riposte.list(c.room, { uid: c.uid, gm: c.player.isGM }) });
+  });
+  for (const event of ['actor_riposte_cancel', 'actor_riposte_revalidate']) {
+    run(event, async(data, ack) => {
+      actors.keys(data, ['roomId', 'opportunityId']); const c = context(data.roomId);
+      if (!c.player.isGM) {actors.fail('forbidden');} await confirm(c);
+      const p = riposte.get(c.room, data.opportunityId); if (!p) {actors.fail('riposte_opportunity_unavailable');}
+      const receipt = riposte.receipt(c.room, p.id);
+      if (receipt) {respondInstalled(ack, resultFor(c.room, receipt)); return;}
+      if (event === 'actor_riposte_revalidate' && p.attempt && p.attempt.status !== 'refused') {actors.fail('riposte_attempt_unknown');}
+      if (p.approvalId && strikes.get(c.room, p.approvalId)) {closeStrike(c.room, p.approvalId, event === 'actor_riposte_cancel' ? 'declined' : 'revalidated');}
+      const next = event === 'actor_riposte_cancel' ? riposte.cancel(c.room, p.id) : riposte.revalidate(c.room, p.id);
+      respond(ack, { success: true, roomId: c.room.id, opportunity: riposte.project(c.room, next, true) }); notifyRiposte(c.room, next);
+    });
+  }
 
   // ── P12B blocking (frozen contract revision 4 §3) ─────────────────────────
   // Declarations are owner/GM-scoped: never in the general token projection or other members' events.
@@ -530,6 +576,15 @@ function registerActorConsequenceHandlers(ctx) {
       toUid(room, actor.ref.ownerUid, 'actor_blocking_changed', payload);
       if (room.gmId !== actor.ref.ownerUid) {toGm(room, 'actor_blocking_changed', payload);}
     }
+  }
+  /** §3.9 R4: the offer closes with its recorded outcome; owner and GM are told, nobody may roll it again. */
+  function closeOfferFor(room, commandId, code, approval = null) {
+    const tombstone = blocks.closeOffer(room, commandId, code, approval);
+    if (!tombstone) {return null;}
+    const payload = { roomId: room.id, commandId, code, closed: actors.clone(tombstone) };
+    toUid(room, tombstone.target.ownerUid, 'actor_block_offer_closed', payload);
+    if (room.gmId !== tombstone.target.ownerUid) {toGm(room, 'actor_block_offer_closed', payload);}
+    return tombstone;
   }
   function closeBlock(room, approvalId, code) {
     const entry = blocks.get(room, approvalId);
@@ -571,7 +626,7 @@ function registerActorConsequenceHandlers(ctx) {
     await confirm(captured);
     if (!captured.player.isGM) {actors.fail('forbidden');}
     check();
-    const offer = blocks.addOffer(room, data.commandId, data.attack);
+    const offer = blocks.addOffer(room, data.commandId, data.attack, blocks.sourceBaseline(room, data.attack.source));
     const payload = { roomId: room.id, commandId: offer.commandId, attack: actors.clone(offer.attack), attackHash: offer.attackHash };
     toUid(room, data.attack.target.ownerUid, 'actor_block_offered', payload);
     respond(ack, { success: true, ...payload });
@@ -624,6 +679,7 @@ function registerActorConsequenceHandlers(ctx) {
     if (!entry) {actors.fail(blocks.closedCode(room, data.approvalId) ? `approval_${blocks.closedCode(room, data.approvalId)}` : 'outcome_unknown');}
     if (entry.approval.target.ownerUid !== uid) {actors.fail('forbidden');}
     closeBlock(room, data.approvalId, 'withdrawn');
+    closeOfferFor(room, entry.approval.attack.commandId, 'withdrawn', entry.approval);
     respond(ack, { success: true, code: 'withdrawn', approvalId: data.approvalId, contentHash: entry.contentHash });
   });
   run('actor_block_decline', async(data, ack) => {
@@ -637,15 +693,13 @@ function registerActorConsequenceHandlers(ctx) {
       const entry = blocks.get(room, data.approvalId);
       if (!entry) {actors.fail('outcome_unknown');}
       closeBlock(room, data.approvalId, 'declined');
-      blocks.removeOffer(room, entry.approval.attack.commandId);
+      closeOfferFor(room, entry.approval.attack.commandId, 'voided', entry.approval);
       respond(ack, { success: true, code: 'declined', approvalId: data.approvalId }); return;
     }
     // Withdraw an unapproved offer; an approval naming it can no longer register.
     if (typeof data.commandId !== 'string') {actors.fail('invalid_consequence');}
     if (blocks.listAll(room).some(entry => entry.approval.attack.commandId === data.commandId)) {actors.fail('approval_pending');}
-    const offer = blocks.getOffer(room, data.commandId);
-    blocks.removeOffer(room, data.commandId);
-    if (offer) {toUid(room, offer.attack.target.ownerUid, 'actor_block_offer_closed', { roomId: room.id, commandId: data.commandId });}
+    closeOfferFor(room, data.commandId, 'withdrawn_by_gm');
     respond(ack, { success: true, code: 'offer_closed', commandId: data.commandId });
   });
   run('actor_block_list', async(data, ack) => {
@@ -660,7 +714,9 @@ function registerActorConsequenceHandlers(ctx) {
     if (player.isGM) {
       for (const entry of blocks.listAll(room)) {pending.push({ approval: actors.clone(entry.approval), contentHash: entry.contentHash, submitterUid: entry.ownerUid });}
     }
-    respond(ack, { success: true, roomId: room.id, pending, offered });
+    // §3.9 R4: recorded outcomes of closed offers, for the GM and the target's owner only.
+    const closedOffers = blocks.listClosedOffers(room, value => player.isGM || value.target.ownerUid === uid);
+    respond(ack, { success: true, roomId: room.id, pending, offered, closedOffers });
   });
 }
 module.exports = { registerActorConsequenceHandlers };

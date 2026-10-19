@@ -1,0 +1,154 @@
+- generic [ref=f4e3] [box=0,0,360,800]:
+  - complementary [ref=f4e4] [box=0,0,360,56]:
+    - navigation [ref=f4e5] [box=0,0,233,55]:
+      - button "Search the Codex" [ref=f4e7] [cursor=pointer] [box=12,6,44,44]:
+        - generic [ref=f4e8] [box=26,20,16,16]: 
+      - button "Browse all sections" [ref=f4e9] [cursor=pointer] [box=72,6,102,44]:
+        - generic [ref=f4e10] [box=85,20,15,15]: 
+        - generic [ref=f4e11] [box=108,19,53,18]: Browse
+      - text:         
+    - group "Laws and Lore" [ref=f4e12] [box=235,10,118,36]:
+      - button "Laws" [pressed] [ref=f4e13] [cursor=pointer] [box=239,14,55,28]: 
+      - text: 
+      - button "Lore" [ref=f4e15] [cursor=pointer] [box=294,14,55,28]: 
+  - main [ref=f4e17] [box=0,56,360,744]:
+    - text:       
+    - generic [ref=f4e18] [box=0,56,360,744]:
+      - text:  ❦
+      - region "Chaos Weaver class workshop" [ref=f4e447] [box=13,-1432,334,3290]:
+        - generic [ref=f4e448] [box=13,-1432,334,205]:
+          - button "← Back to classes" [ref=f4e449] [cursor=pointer] [box=27,-1422,306,44]
+          - generic [ref=f4e450] [box=27,-1362,306,116]:
+            - heading "Chaos Weaver" [level=2] [ref=f4e451] [box=27,-1362,306,36]
+            - paragraph [ref=f4e452] [box=27,-1322,306,76]: Reconstruction preview — manual only · candidate class rulebook, talent trees and manual rehearsal worksheet.
+        - status [ref=f4e453] [box=13,-1211,334,113]:
+          - strong [ref=f4e454] [box=32,-1199,270,42]: Local rehearsal — does not spend AP, move tokens or apply effects.
+          - text: "Manual tabletop only: no AP, tile, movement or effect is applied automatically."
+        - navigation "Chaos Weaver workshop sections" [ref=f4e455] [box=13,-1082,334,123]:
+          - button "Rules" [ref=f4e456] [cursor=pointer] [box=19,-1082,49,64]
+          - button "Level Progression" [ref=f4e457] [cursor=pointer] [box=74,-1082,49,64]
+          - button "Spells" [ref=f4e458] [cursor=pointer] [box=128,-1082,49,64]
+          - button "Talents" [ref=f4e459] [cursor=pointer] [box=183,-1082,49,64]
+          - button "Origins" [ref=f4e460] [cursor=pointer] [box=238,-1082,49,64]
+          - button "Rehearsal" [pressed] [ref=f4e461] [cursor=pointer] [box=292,-1082,49,64]
+          - button "Authoring/Export" [ref=f4e462] [cursor=pointer] [box=19,-1013,322,44]
+        - paragraph [ref=f4e463] [box=13,-944,334,64]: Rehearsal started. Class draft bytes (picks and preview ranks) are untouched.
+        - generic [ref=f4e465] [box=13,-864,334,2721]:
+          - generic [ref=f4e466] [box=13,-864,334,868]:
+            - heading "Manual worksheet" [level=3] [ref=f4e467] [box=26,-851,308,29]
+            - generic [ref=f4e468] [box=26,-814,308,806]:
+              - generic [ref=f4e469] [box=26,-814,308,104]:
+                - paragraph [ref=f4e470] [box=26,-814,308,48]:
+                  - strong [ref=f4e471] [box=26,-813,115,21]: Manual rehearsal
+                  - text: · own turn 1 · local AP counter 0 · movement counter 0ft
+                - button "Reset rehearsal" [ref=f4e472] [cursor=pointer] [box=26,-754,308,44]
+              - generic [ref=f4e473] [box=26,-702,308,196]:
+                - generic [ref=f4e474] [box=26,-694,308,68]:
+                  - generic [ref=f4e475] [box=26,-694,308,20]: AP available (manual entry)
+                  - spinbutton "AP available (manual entry)" [ref=f4e476] [box=26,-669,308,44]: "3"
+                - button "Confirm start of own turn" [ref=f4e477] [cursor=pointer] [box=26,-605,308,44]
+                - button "Confirm end of own turn" [ref=f4e478] [cursor=pointer] [box=26,-549,308,44]
+              - generic [ref=f4e479] [box=26,-497,308,237]:
+                - generic [ref=f4e480] [box=26,-489,308,68]:
+                  - generic [ref=f4e481] [box=26,-489,308,20]: Turn number
+                  - spinbutton "Turn number" [ref=f4e482] [box=26,-465,308,44]
+                - generic [ref=f4e483] [box=26,-393,308,68]:
+                  - generic [ref=f4e484] [box=26,-393,308,20]: Remaining movement (ft)
+                  - spinbutton "Remaining movement (ft)" [ref=f4e485] [box=26,-369,308,44]
+                - button "Apply worksheet counters" [ref=f4e486] [cursor=pointer] [box=26,-305,308,44]
+              - generic [ref=f4e487] [box=26,-253,308,140]:
+                - generic [ref=f4e488] [box=26,-245,308,68]:
+                  - generic [ref=f4e489] [box=26,-245,308,20]: New completed long-rest label
+                  - textbox "New completed long-rest label" [ref=f4e490] [box=26,-220,308,44]:
+                    - /placeholder: e.g. Long rest 3
+                - button "Confirm completed long rest" [ref=f4e491] [cursor=pointer] [box=26,-156,308,44]
+              - paragraph [ref=f4e492] [box=26,-104,308,96]: Rest refuses while an unresolved draw or anomaly exists and requires a brand-new label; movement penalty now 0ft (largest of 0 record(s), manual rule).
+          - generic [ref=f4e493] [box=13,21,334,237]:
+            - heading "Six tiles" [level=3] [ref=f4e494] [box=26,34,308,29]
+            - 'group "Chaos Weaver tiles. Six tiles: 3 available, 3 committed, 0 bound, 0 spent; no anomaly; one unresolved draw." [ref=f4e495] [box=26,71,308,174]':
+              - 'img "Six tiles: 3 available, 3 committed, 0 bound, 0 spent; no anomaly; one unresolved draw." [ref=f4e496] [box=26,71,308,82]':
+                - generic [ref=f4e499] [box=35,77,65,11]:
+                  - generic [ref=f4e500] [box=35,78,31,10]: Available
+                  - generic [ref=f4e501] [box=96,77,4,11]: "3"
+                - generic [ref=f4e502] [box=108,77,64,11]:
+                  - generic [ref=f4e503] [box=108,78,36,10]: Committed
+                  - generic [ref=f4e504] [box=168,77,4,11]: "3"
+                - generic [ref=f4e505] [box=179,77,65,11]:
+                  - generic [ref=f4e506] [box=179,78,22,10]: Bound
+                  - generic [ref=f4e507] [box=239,77,5,11]: "0"
+                - generic [ref=f4e508] [box=252,77,64,11]:
+                  - generic [ref=f4e509] [box=252,78,18,10]: Spent
+                  - generic [ref=f4e510] [box=311,77,5,11]: "0"
+                - button "S1 — Surge · committed" [ref=f4e511] [cursor=pointer] [box=45,87,31,41]:
+                  - generic [ref=f4e516] [box=57,118,7,10]: S1
+                - button "S2 — Surge · available" [ref=f4e517] [cursor=pointer] [box=93,87,31,41]:
+                  - generic [ref=f4e521] [box=105,118,8,10]: S2
+                - button "M1 — Shift · committed" [ref=f4e522] [cursor=pointer] [box=141,87,31,41]:
+                  - generic [ref=f4e527] [box=150,118,11,10]: M1
+                - button "M2 — Shift · available" [ref=f4e528] [cursor=pointer] [box=188,87,31,41]:
+                  - generic [ref=f4e532] [box=198,118,12,10]: M2
+                - button "F1 — Fracture · committed" [ref=f4e533] [cursor=pointer] [box=236,87,31,41]:
+                  - generic [ref=f4e539] [box=248,118,7,10]: F1
+                - button "F2 — Fracture · available" [ref=f4e540] [cursor=pointer] [box=284,87,31,41]:
+                  - generic [ref=f4e545] [box=295,118,8,10]: F2
+                - generic [ref=f4e546] [box=36,128,163,10]: Face 6 → F1 recorded; M1 reserved — accept or decline.
+                - generic [ref=f4e547] [box=35,137,38,10]: No anomaly.
+              - status [ref=f4e548] [box=26,159,308,36]: "A draw is locked: no Fold, rest or native exchange until it settles or is voided."
+              - generic [ref=f4e549] [box=26,201,308,44]:
+                - button "Inspect tiles" [ref=f4e550] [cursor=pointer] [box=26,201,87,44]
+                - button "Inspect draw" [ref=f4e551] [cursor=pointer] [box=121,201,91,44]
+                - button "Inspect anomaly" [disabled] [ref=f4e552] [box=221,201,109,44]
+          - generic [ref=f4e553] [box=13,274,334,111]:
+            - heading "Commit an action" [level=3] [ref=f4e554] [box=26,287,308,29]
+            - paragraph [ref=f4e555] [box=26,323,308,48]: One unresolved action exists; settle or void it before a new commitment.
+          - generic [ref=f4e556] [box=13,400,334,568]:
+            - heading "Unresolved draw" [level=3] [ref=f4e557] [box=26,413,308,29]
+            - paragraph [ref=f4e558] [box=26,450,308,48]:
+              - strong [ref=f4e559] [box=26,451,117,21]: Second Possibility
+              - text: to unnamed target · phase continuation-pending
+            - list [ref=f4e560] [box=26,504,308,52]:
+              - listitem [ref=f4e561] [box=46,504,288,24]: "S1: d6 faces 1/2/3"
+              - listitem [ref=f4e562] [box=46,532,288,24]: "F1: d6 faces 4/5/6"
+            - paragraph [ref=f4e563] [box=26,562,308,48]:
+              - text: "Continuation reserved:"
+              - strong [ref=f4e564] [box=174,563,20,21]: M1
+              - text: (committed, excluded from the primary sample).
+            - generic [ref=f4e565] [box=26,618,308,160]:
+              - paragraph [ref=f4e566] [box=26,618,308,48]:
+                - text: Face 6 selected
+                - strong [ref=f4e567] [box=121,619,14,21]: F1
+                - text: . Retain the result, then choose the single continuation.
+              - button "Accept continuation (spend the reserved ID)" [ref=f4e568] [cursor=pointer] [box=26,678,308,44]
+              - button "Decline continuation (return reserved ID)" [ref=f4e569] [cursor=pointer] [box=26,734,308,44]
+            - generic [ref=f4e570] [box=26,786,308,161]:
+              - generic [ref=f4e571] [box=26,794,308,89]:
+                - generic [ref=f4e572] [box=26,794,308,41]: GM void reason (recorded, no refund, no new face)
+                - textbox "GM void reason (recorded, no refund, no new face)" [ref=f4e573] [box=26,839,308,44]
+              - button "Void with reason" [ref=f4e574] [cursor=pointer] [box=26,903,308,44]
+          - generic [ref=f4e575] [box=13,984,334,585]:
+            - heading "Prepared Exchange (proposed native edge)" [level=3] [ref=f4e576] [box=26,997,308,58]
+            - paragraph [ref=f4e577] [box=26,1063,308,144]: Once per completed long rest, no pending action, consume one actual prepared spare part; swap one spent and one available ID of different symbols; movement−5ft until next own-turn start. Manual verification required; no automatic benefit.
+            - generic [ref=f4e578] [box=26,1215,308,333]:
+              - generic [ref=f4e579] [box=26,1223,308,68]:
+                - generic [ref=f4e580] [box=26,1223,308,20]: Prepared part consumed at the table
+                - textbox "Prepared part consumed at the table" [ref=f4e581] [box=26,1247,308,44]
+              - generic [ref=f4e582] [box=26,1319,308,68]:
+                - generic [ref=f4e583] [box=26,1319,308,20]: Spent ID to recover
+                - combobox "Spent ID to recover" [ref=f4e584] [cursor=pointer] [box=26,1343,308,44]:
+                  - option "Choose…" [selected] [box=0,0,0,0]
+              - generic [ref=f4e585] [box=26,1415,308,68]:
+                - generic [ref=f4e586] [box=26,1415,308,20]: Available ID to spend
+                - combobox "Available ID to spend" [ref=f4e587] [cursor=pointer] [box=26,1440,308,44]:
+                  - option "Choose…" [selected] [box=0,0,0,0]
+                  - option "S2" [box=0,0,0,0]
+                  - option "M2" [box=0,0,0,0]
+                  - option "F2" [box=0,0,0,0]
+              - button "Record Prepared Exchange" [ref=f4e588] [cursor=pointer] [box=26,1504,308,44]
+          - generic [ref=f4e589] [box=13,1585,334,273]:
+            - heading "Worksheet log" [level=3] [ref=f4e590] [box=26,1598,308,29]
+            - list [ref=f4e591] [box=26,1635,308,156]:
+              - listitem [ref=f4e592] [box=48,1635,286,48]: Rehearsal started. Local rehearsal — does not spend AP, move tokens or apply effects.
+              - listitem [ref=f4e593] [box=48,1687,286,72]: "Second Possibility: commitment fixed — S1, F1 + reserved continuation M1; mapping two-ids-d6-1-3-4-6 retained before the face."
+              - listitem [ref=f4e594] [box=48,1763,286,24]: "Second Possibility: d6 face 6 selects F1."
+            - paragraph [ref=f4e595] [box=26,1797,308,48]: Closing or reloading has no durability guarantee; export the worksheet to keep it.
+      - generic [ref=f4e446] [box=55,1906,251,69]: ✦ Mythrill VTT Codex • Folio LXXVI ✦

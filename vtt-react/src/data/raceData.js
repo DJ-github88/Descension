@@ -47,6 +47,10 @@ export const getRaceList = () => {
         name: race.name,
         description: race.description,
         cardFlavor: race.cardFlavor,
+        essence: race.essence,
+        icon: race.icon,
+        banner: race.banner || `/assets/images/banners/${race.id}_banner.png`,
+        crest: race.crest,
         isCustom: false
     }));
 };

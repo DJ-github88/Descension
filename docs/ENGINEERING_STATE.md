@@ -1,6 +1,6 @@
 # Mythrill / Prism — engineering state
 
-Updated: 2026-10-17. Checkout: `D:/VTT` (the old `D:/Mythrill/Descension`
+Updated: 2026-10-18. Checkout: `D:/VTT` (the old `D:/Mythrill/Descension`
 path in CLAUDE.md is historical). Roadmap authority: [MYTHRILL_NEXT_PHASE.md](MYTHRILL_NEXT_PHASE.md).
 
 ## Accepted baseline
@@ -85,21 +85,225 @@ does not authorize deployment or satisfy roadmap §20 release gates.
 
 ## Current work
 
-### Next slices proposed — 2026-10-17 (awaiting HQ approval; nothing implemented)
+### P13B-E1a — 2026-10-19 (contract prepared only; no execution code authorized)
 
-Contracts: [MYTHRILL_NEXT_SLICES_CONTRACT_20261017.md](MYTHRILL_NEXT_SLICES_CONTRACT_20261017.md).
-Allocation recorded in [MYTHRILL_P11_P14_ROADMAP.md](MYTHRILL_P11_P14_ROADMAP.md) §11.
+Creator records collector W complete at its accepted boundary and requests the bounded original
+`universal_riposte` execution contract. [P13B §12](MYTHRILL_PROJECT_13B_CONTRACT.md#12-smallest-next-execution-candidate--e1a-not-authorized)
+now pins the authored source/card and1-AP price, exact attacking creature/Parry, authenticated GM
+success/prior-payment attestation, a fresh Riposte choice, exact owner consent/retained rolls, GM final
+damage and one P7 AP/HP/consumption receipt. A closed collector intent and the manual Parry-follow-up
+opener converge through that same opportunity; neither card text nor a closed Parry window authorizes it.
 
-- **P12B stale offer inspected:** `stale_attack` closes the block approval, so a second attack from
-  the same creature (or any change to it) forces a re-offer and a new block roll, a free reroll.
-  Unequipping during a pending block does the same. P12A/P9 panels also clear a recorded roll when
-  the target changes or the dialog reopens.
-- **Proposed order, one at a time:** P12B-r1 (carry forward or GM-revalidate; never reroll) →
-  P13A (accepted-result narration + calm token-anchored floating text from exact before/after
-  revisions; no P7 change) → P12C-B1 (map targeting for existing single-target controllers, roll
-  retention). P12C-B2 area preview waits on G1–G5; P13B and P14 later.
-- New player-facing decisions: S1, F1 (defaults safe); G1–G6 only for B2.
-- Source reading only; the device shell was unavailable, so no tests were run.
+The contract reuses P12A/P9 consent/custody/payment/receipt machinery with a strict named branch, **not**
+P12A's2-AP/formula path. Prior Parry payment remains **GM-attested**, never charged again by E1a.
+Cancellation/stale/unknown/rejoin/restart and private proof/public receipt boundaries are specified;
+no new timer for execution or pre-restart reissue. Unresolved rules stay GM-adjudicated; unsupported
+conditions/extras unapplied. Required engineering gates are not falsely claimed to exist already.
+
+No new rule answer blocks this manual boundary; explicit contract/freeze and implementation go-ahead
+remain required. Eligible-card highlighting/real triggers, Counterspell/Intervene/chains, shared condition
+lifecycle and obstruction/propagation remain future tracks (§12.7). Documentation only: collector review/
+build/App not repeated, no payment/effect code or Class/RI-1/Wizard/A1b edits, migration, commit/push/deploy.
+
+### P13B-W declaration collector — 2026-10-19 (implemented, reviewed, integrated handoff complete)
+
+**Creator acknowledges completion at the accepted §11 boundary.** E1a preparation reuses it unchanged;
+it adds no execution permission to W and repeats no collector review or build.
+
+Creator approved **D13-6b full8s/no normal early close, D13-11 private pre-cutoff correction/withdrawal
+with history, D13-10 interrupted/manual takeover and original-deadline reconnect**. The HUD's GM form
+seals exact GM choices/explicit none before opening; invited primary owners privately declare card
+references/notes, correct or withdraw. At cutoff GM alone receives private review. Silence needs no Pass;
+no other-player choice/count/arrival-priority display. All open and retained closed windows are reachable.
+
+**Collection is implemented; reaction resolution is manual.** GM attests the moment/eligibility and
+holds the base action; verifies cards/range/components, orders simultaneous choices, rolls, determines
+outcomes and settles prices through existing manual controls. W does not detect resource conflicts,
+reserve/spend/release/refund anything, apply effects, stop/rewind attacks, submit a P7 command or create
+an accepted consequence. No automatic trigger parsing, reaction chain or A1b installation. A follow-up
+is a distinct GM-opened linked window, not inferred success. Deadlines never restart on reconnect.
+
+**Independent review closed:** initial bounded review BLOCK → repaired → source acceptance; the **same
+review's final delta acceptance** closes the final three changed runtime files/service regression and
+reconciles exact Build3/App4 hashes. **No remaining bounded review blocker.** Original RED evidence
+retained. Server9/9, latest client3 suites/14 tests, prior repair probes5/5 reused; only missing delta
+coverage ran (3/3 probes). No broad audit or completed App/build/B2/class checks repeated for handoff.
+
+**Integrated identity:** unchanged HEAD `8ba81efbf935e08d4fcd488a9b597f5eb8031b0f`, uncommitted exact runtime/
+test/witness hashes and review reports in [P13B §11](MYTHRILL_PROJECT_13B_CONTRACT.md#11-w-implementation-and-integrated-handoff--2026-10-19).
+Final detached **Build3 exit0/drift[]**, current W client build mismatches `[]`; asset manifest
+`84547e1ea7d908471eda1aee12d76cc833b48e1b9e56cb815b8acf482e5bbe01`.
+Retained **production-App4 PASS**: GM/owner/observer,1440/820, original member/window/deadline and current
+revision4 on real transport reconnect, no duplicate submission, one persistent rejoin listener, private
+review, manual child/interruption, accessible controls, dark headings and inset lists. No pool/typed-class
+change or P7 receipt (0→0); raw private markers absent; every other gameState byte equal after **only**
+root/map `actorProjection.cut` exclusions. Three deliberate fixture Firebase fetch errors retained.
+
+**Limits:** live-only private records, no durable secret replay/restart recovery; principal-private
+unknown/unavailable audit is in-memory. IDs/bytes survive same-principal rebind, not reload durability.
+GM form has one controlled reactor+bundled note/explicit none; card IDs/labels are unverified references.
+Capacity, real Firebase/rules, second-device/human urgency/fairness and deployment limits remain stated in
+§11. Class RI-1's own review is BLOCK/correction pending per its parent checkpoint; no class acceptance
+or payment support is inferred. Parent checkpoint/class files and accepted B2/rejoin evidence preserved.
+
+**Next proposal only:** [E1a §12](MYTHRILL_PROJECT_13B_CONTRACT.md#12-smallest-next-execution-candidate--e1a-not-authorized),
+one universal Riposte1-AP/one-creature HP consequence after a GM-attested successful, paid Parry, with
+GM arithmetic/eligibility and exact owner consent. No new rule answer blocks that manual boundary;
+the execution/consumption contract and implementation still require separate freeze/go-ahead. No new
+automatic payments/effects, A1b, commit, push or deployment in this handoff.
+
+### P12C-B2 §8.1 — 2026-10-18 (implemented, reviewed, locally verified)
+
+**Creator approved G1/G3/G3a/G5 and authorized this first slice.** Original Radiant Burst only:
+10-ft circle,20-ft origin range, one selected damage/healing channel, square grid. The HUD's manual
+confirmation now offers **Preview area** independently of its manual notice. Crosshair, free-point
+placement, source/origin/aim/range/circle, geometric-only token markers, Keep/Cancel/Clear, keyboard/
+tablet-touch and focus return work through the existing targeting/AoE infrastructure.
+
+**Completed acceptance acknowledged by creator, 2026-10-19.** Carry forward the exact source/build/App
+identities below unchanged. This reaction preparation neither widens the preview nor repeats its checks;
+future class/content/profile edits do not inherit this bounded10-ft/20-ft acceptance automatically.
+
+- Positive occupied-cell overlap, once per exact actor; contact alone excluded. Reuses the actual
+  movement footprint helper at verified cell-centred placements; unknown/off-grid footprints manual.
+- Candidate output lives inside the actual token visibility gate; no hidden names/highlights/counts/
+  ARIA output or cached member list. Source/visible movement invalidates confirmation permanently until
+  re-kept; scope/entry/effect retirement, disconnect/loading and grid changes clear the transient session.
+- Recipient conflict, walls/LoE/elevation remain visibly GM-decided. Malformed/altered dimensions or
+  source coordinates give an explicit manual fallback. **No roll, payment, chat or consequence**.
+- One bounded independent review: initial R1–R7 BLOCK → repaired → source accepted. Affected9 suites/
+  44 tests; final changed3 suites/11 tests (overlap); final reviewer2 suites/7 tests. Scoped lint0 errors/
+  1 incumbent warning; detector[]. **Final detached build3 exit0/drift[]; actual production-App7 PASS**
+  at1440px and supported820px, including touch. Zero outbound events and unchanged pools/authored record/
+  receipt count. Three deliberate Firebase `Failed to fetch` errors retained, no other page-error type.
+- Exact source review, build/asset/result identities and external paths:
+  [B2 §15](MYTHRILL_PROJECT_12C_B2_CONTRACT.md#15-first-slice-implementation-and-verification--2026-10-18).
+  No full-repository/source snapshots or copied evidence asset trees. Prior accepted closure reused.
+
+**Limits:** owner selected primary source and HUD confirmation entry only; transient/local preview,
+not legal recipients/casting. Other spells/shapes, propagation, reactions, area execution and authoritative
+obstruction remain unfrozen. Phone tactical grid is gated by the incumbent App; hidden flags are
+fixture-seeded per viewer, not live hide-control transport proof. Live Firebase, physical second-device,
+human-table and deployment gates remain open. Original class spell/Wizard untouched; A1a/W1a/W1b hashes
+unchanged and A1b parked. Concurrent Class C1 source/checkpoint/assets preserved. No commit/push/deploy.
+
+### Historical area-preview and reaction preparation — 2026-10-18
+
+The following preparation record predates the creator's §8.1 approval/implementation above. Its wider
+B2 profiles, §14 obstruction enforcement and P13B execution remain conditional; its old blanket B2/W
+preparation-only status is superseded by the completed handoffs above.
+
+**Main HQ bounded continuation:** live contracts still contain no later B2/P13B approval or
+implementation. [B2 §8.1](MYTHRILL_PROJECT_12C_B2_CONTRACT.md#81-first-freeze-candidate-one-original-ranged-circle)
+now pins one original ranged-circle/effect-channel freeze candidate: four immediate choices
+**G1/G3/G3a/G5** or explicit manual boundaries; G1b/G3b/G4 stay independent/manual outside that first
+subset. Radiant Burst's recipient conflict remains visible. The existing packet carries this short
+confirmation batch; it adds no reaction questions. [B2 §14](MYTHRILL_PROJECT_12C_B2_CONTRACT.md#14-obstruction-aware-aiming-conditional-technical-boundary)
+prepares clear/blocked/partial/unknown feedback, sight versus trajectory/cover/area distinctions,
+spatial revalidation and scoped GM ruling, plus a **future** P7-stage enforcement seam. Source inspection
+found door `state`/`isOpen` and wall-key/ID representation gaps, visual-object sight approximations,
+and movement not versioned by actor resource CAS; none repaired or turned into Prism rules. Explicit
+zero field meanings remain Class HeadQ-owned, not inferred by B2. A1a/W1a/W1b device hashes rechecked
+and unchanged. One bounded read-only independent review found no blocker and one freeze-wording
+correction, now applied. Validation is scoped documentation/source consistency only; no new runtime
+acceptance/build claim. Class C1 correction work/checkpoint preserved; coordination row24 records the
+future spatial dependency. **No production implementation authorized by this continuation.**
+
+Documentation-only HQ takeover from the actual checkout at HEAD
+**`8ba81efbf935e08d4fcd488a9b597f5eb8031b0f`**. Pre-existing uncommitted combat closure, corrected A1a,
+class C1, unrelated source/data/assets and staged race-image deletions were preserved. Relevant starting
+drift and source findings: [B2 §2](MYTHRILL_PROJECT_12C_B2_CONTRACT.md#2-actual-checkout-and-evidence-boundary).
+
+| Deliverable | Preparation status | Implementation status |
+|---|---|---|
+| [P12C-B2 contract](MYTHRILL_PROJECT_12C_B2_CONTRACT.md) | Draft complete: authored shape/origin mapping, crosshair/placement lifecycle, visible-only candidates, boundary/Large/gridless examples, manual walls/elevation | **Not frozen/authorized/implemented**; preview only, no rolls/payment/proposals/chat/effects |
+| [P13B contract](MYTHRILL_PROJECT_13B_CONTRACT.md) | Draft complete: actual trigger/card matrix, sealed GM-first declaration protocol, deadlines/identities/typed capability gaps/recovery and four worked cases | **Not frozen/authorized/implemented**; smallest W manual bridge proposed, E1 named execution separate |
+| [Creator packet rev2](MYTHRILL_DECISIONS_AREA_AND_REACTIONS_BATCH1.md) | Compact independent questions/recommendations/dependencies; revision1 preserved as history | **No new decisions approved**; no default ordering/Pass/payment/reservation rule adopted |
+| [Shared dependencies/ownership](MYTHRILL_CROSS_TRACK_COORDINATION.md) | Current class handoff33/C1 requirements reconciled; preview versus authoritative geometry separated | No new authority/payment system or class migration |
+
+**Source findings, not repairs:** legacy area tool counts/names all-map token centres and supplies
+default cone/line dimensions; it cannot be reused unchanged for B2. Current P9 typed planners/payment
+adapters do not reserve resources/cards. Intervene, Counterspell variants and Parry/Riposte wording need
+exact card/moment interpretation, kept explicit in the drafts. No generic after-roll reaction window.
+
+**Class-track reconciliation:** corrected W1a/W1b and A1a service hashes match coordination §3. A1a is
+unhooked; final F1/F2 evidence is correction plus verification, not fresh independent review of untouched
+implementation. **A1b is PARKED**, per current class handoff33. C1 reports a class-local manual workshop,
+not live casts. R1/CR-L1 schemas are proposed; exact reviewed domain requirements are needed before a
+reaction-payment/execution freeze, not before preparing the conditional contract.
+
+**Verification boundary:** focused source/document inspection and documentation consistency/whitespace
+checks only in this takeover. Reused the retained evening slice-closure evidence below: corrected P12A
+11 checks, single production `room_joined` registration, repeated rejoin recovery, slices/P12B/recovery/P9
+witnesses, 88 suites/567 tests and successful rebuild. No rerun merely to reconfirm handoff; no application
+implementation, commit, push, deployment, reset or dependency change. Live Firebase/deployment/physical
+second-device/human-table gates remain open. Next: creator answers or explicit manual subset, then HQ
+freeze and separate implementation authorization.
+
+**Creator addition — targeting/propagation inventory complete (preparation only).** Existing
+[B2 §9–§13](MYTHRILL_PROJECT_12C_B2_CONTRACT.md#9-targeting-and-propagation-coverage-matrix) now holds one
+source-backed coverage matrix, per-mode semantics/open decisions, save-path discrepancies and five
+representative flows. All six actual Wizard propagation methods, alternate selection/area encodings,
+prose piercing/ricochet, persistent/moving/channel zones and linked/delayed/triggered recipients are
+separated into selection → first delivery → propagation → application/timing. Whole draft JSON differs
+from outer save/normalizer/game-code projections (including zero range/count and flat/nested parameters).
+No finding repaired in application code. Recommended sequence: Class-owned targeting preservation/
+mapping contract → B2 simple static preview → bounded list/path aid; P13B actual reaction moments and
+P14 named multi-recipient consequences remain separate, with lifecycle follow-ons for persistent/
+delayed/linked state. Coordination rows22–23 and roadmap §13 updated. No new supported execution mode,
+rules approval, test/build rerun, commit or deployment. Concurrent class correction work preserved.
+
+### P12B-r1, P13A, P12C-B1 — 2026-10-18 (implemented, reviewed, uncommitted)
+
+Authorized by HQ 2026-10-17. Report: [MYTHRILL_SLICES_20261017_IMPLEMENTATION.md](MYTHRILL_SLICES_20261017_IMPLEMENTATION.md).
+Frozen contracts: [P12 rev 5 §3.9](MYTHRILL_PROJECT_12_CONTRACT.md), [P13A](MYTHRILL_PROJECT_13A_CONTRACT.md),
+[P12C-B1](MYTHRILL_PROJECT_12C_B1_CONTRACT.md). Class dependencies:
+[MYTHRILL_CROSS_TRACK_COORDINATION.md](MYTHRILL_CROSS_TRACK_COORDINATION.md); roadmap §11–§12.
+
+- **P12B-r1 PASS:**
+  - recorded block rolls survive stale state: carry-forward is allowed only with ledger proof of sibling
+    AP payments; otherwise the GM revalidates with a public reason;
+  - an unavailable piece stays a GM ruling;
+  - withdrawn or voided attacks are closed and cannot be rolled again.
+- **P13A PASS:**
+  - calm HP/temp-HP floats from exact before/after revisions ("absorbed" only when established);
+  - narration, history and accessible announcements for AP, mana and wear;
+  - visibility filtering on every surface; deduplicated deliveries; no replay.
+- **P12C-B1 PASS:**
+  - map picking for P8, P9 and P12A (crosshair, rings, advisory range ring, aim line);
+  - roll drafts bound to owner, character and action;
+  - manual shared-room actions spend nothing.
+  - Post-review witness fix: Esc while picking no longer opens the exit dialog.
+- **Behaviour change:** in shared rooms, unsupported actions post a notice and spend nothing locally.
+- **Verification:**
+  - server P12B suite 21 passing;
+  - client 81 suites / 534 tests, plus the Feather Slash unsent-roll test;
+  - one integrated optimized build;
+  - new App witness PASS; regressions in the report.
+- **Integration closure 2026-10-18: PASS.**
+  - Rejoin recovery is restored through the single `room_joined` listener and an in-process fan-out
+    (`roomRejoinBus.js`), with no added socket listeners and the listener-count test unchanged.
+  - Repeated rejoins are verified in the App: one read per rejoin, no accumulation, no duplicate receipt.
+  - The adjudication column is bounded and collapsible; Feather Slash opens by real click at 1440 px.
+  - New-epoch safety regression P12B B25 added.
+  - **Production behaviour:** `registerRoomJoinedListener` (services/roomRejoinBus.js) owns each socket's
+    single `room_joined` listener. The App lifecycle passes its join handling; the listener ignores retired
+    sockets and relays only a rejoin of the current room.
+  - **Harness result (corrected 2026-10-18 evening):** the P12A witness calls the same production
+    registration (it does not mount MultiplayerApp) and passes all 11 checks, with stronger rejoin
+    assertions. The original witness is kept as `app-browser.20261016-original.cjs`.
+  - The slices witness passes: repeated rejoins, retired socket, left room.
+- **Open creator decisions:** S1, F1, G1–G6; a "pay listed costs" control needs its own payment contract. Next decision batch: [MYTHRILL_DECISIONS_AREA_AND_REACTIONS_BATCH1.md](MYTHRILL_DECISIONS_AREA_AND_REACTIONS_BATCH1.md).
+- **Class track (planning milestone, Class HeadQ):**
+  - CR-W1a (0-AP coercion) and CR-W1b (resourceCost export loss) are accepted class-track
+    prerequisites; their corrected hashes were verified on the device. Combat made no repair.
+  - CR-A1a working tree matches its corrected SHA-256 (`48b69255…`); HEAD `8ba81efb` has the
+    pre-correction bytes. Current handoff33 parks CR-A1b under Main HQ; corrected evidence provenance above.
+  - Shared coordination, file ownership and verified identities:
+    [MYTHRILL_CROSS_TRACK_COORDINATION.md](MYTHRILL_CROSS_TRACK_COORDINATION.md).
+  - P13B/P14 **execution freezes** require the class package's exact reviewed requirements; the conditional
+    P13B preparation draft is now complete above.
+- Not authorized for implementation: P12C-B2, P13B, area execution. No commit, push or deployment.
 
 ### P12B-thin creature hit → owner block → HP and wear — 2026-10-16
 

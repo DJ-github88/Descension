@@ -1,0 +1,121 @@
+- region "Chaos Weaver class workshop" [ref=f4e228]:
+  - generic [ref=f4e229]:
+    - button "← Back to classes" [ref=f4e230] [cursor=pointer]
+    - generic [ref=f4e231]:
+      - heading "Chaos Weaver" [level=2] [ref=f4e232]
+      - paragraph [ref=f4e233]: Reconstruction preview — manual only · candidate class rulebook, talent trees and manual rehearsal worksheet.
+  - status [ref=f4e234]:
+    - strong [ref=f4e235]: Local rehearsal — does not spend AP, move tokens or apply effects.
+    - text: "Manual tabletop only: no AP, tile, movement or effect is applied automatically."
+  - navigation "Chaos Weaver workshop sections" [ref=f4e236]:
+    - button "Rules" [ref=f4e237] [cursor=pointer]
+    - button "Level Progression" [ref=f4e238] [cursor=pointer]
+    - button "Spells" [ref=f4e239] [cursor=pointer]
+    - button "Talents" [ref=f4e240] [cursor=pointer]
+    - button "Origins" [ref=f4e241] [cursor=pointer]
+    - button "Rehearsal" [pressed] [ref=f4e242] [cursor=pointer]
+    - button "Authoring/Export" [ref=f4e243] [cursor=pointer]
+  - paragraph [ref=f4e546]: Rehearsal started. Class draft bytes (picks and preview ranks) are untouched.
+  - generic [ref=f4e547]:
+    - generic [ref=f4e548]:
+      - heading "Manual worksheet" [level=3] [ref=f4e549]
+      - generic [ref=f4e550]:
+        - generic [ref=f4e551]:
+          - paragraph [ref=f4e552]:
+            - strong [ref=f4e553]: Manual rehearsal
+            - text: · own turn 1 · local AP counter 1 · movement counter 0ft
+          - button "Reset rehearsal" [ref=f4e554] [cursor=pointer]
+        - generic [ref=f4e555]:
+          - generic [ref=f4e556]:
+            - generic [ref=f4e557]: AP available (manual entry)
+            - spinbutton "AP available (manual entry)" [ref=f4e558]: "3.7"
+          - button "Confirm start of own turn" [ref=f4e559] [cursor=pointer]
+          - button "Confirm end of own turn" [ref=f4e560] [cursor=pointer]
+        - generic [ref=f4e561]:
+          - generic [ref=f4e562]:
+            - generic [ref=f4e563]: Turn number
+            - spinbutton "Turn number" [ref=f4e564]
+          - generic [ref=f4e565]:
+            - generic [ref=f4e566]: Remaining movement (ft)
+            - spinbutton "Remaining movement (ft)" [ref=f4e567]
+          - button "Apply worksheet counters" [ref=f4e568] [cursor=pointer]
+        - generic [ref=f4e569]:
+          - generic [ref=f4e570]:
+            - generic [ref=f4e571]: New completed long-rest label
+            - textbox "New completed long-rest label" [ref=f4e572]:
+              - /placeholder: e.g. Long rest 3
+          - button "Confirm completed long rest" [ref=f4e573] [cursor=pointer]
+        - paragraph [ref=f4e574]: Rest refuses while an unresolved draw or anomaly exists and requires a brand-new label; movement penalty now 0ft (largest of 0 record(s), manual rule).
+    - generic [ref=f4e575]:
+      - heading "Six tiles" [level=3] [ref=f4e576]
+      - 'group "Chaos Weaver tiles. Six tiles: 5 available, 0 committed, 0 bound, 1 spent; no anomaly; no unresolved draw." [ref=f4e577]':
+        - 'img "Six tiles: 5 available, 0 committed, 0 bound, 1 spent; no anomaly; no unresolved draw." [ref=f4e578]':
+          - generic [ref=f4e581]:
+            - generic [ref=f4e582]: Available
+            - generic [ref=f4e583]: "5"
+          - generic [ref=f4e584]:
+            - generic [ref=f4e585]: Committed
+            - generic [ref=f4e586]: "0"
+          - generic [ref=f4e587]:
+            - generic [ref=f4e588]: Bound
+            - generic [ref=f4e589]: "0"
+          - generic [ref=f4e590]:
+            - generic [ref=f4e591]: Spent
+            - generic [ref=f4e592]: "1"
+          - button "S1 — Surge · available" [ref=f4e593] [cursor=pointer]:
+            - generic [ref=f4e597]: S1
+          - button "S2 — Surge · available" [ref=f4e598] [cursor=pointer]:
+            - generic [ref=f4e602]: S2
+          - button "M1 — Shift · available" [ref=f4e603] [cursor=pointer]:
+            - generic [ref=f4e607]: M1
+          - button "M2 — Shift · available" [ref=f4e608] [cursor=pointer]:
+            - generic [ref=f4e612]: M2
+          - button "F1 — Fracture · spent" [ref=f4e613] [cursor=pointer]:
+            - generic [ref=f4e619]: F1
+          - button "F2 — Fracture · available" [ref=f4e620] [cursor=pointer]:
+            - generic [ref=f4e625]: F2
+        - paragraph [aria-hidden] [ref=f4e626]: 5 available · 0 committed · 0 bound · 1 spent
+        - paragraph [aria-hidden] [ref=f4e627]: No unresolved draw.
+        - paragraph [aria-hidden] [ref=f4e628]: No anomaly.
+        - generic [ref=f4e629]:
+          - button "Inspect tiles" [ref=f4e630] [cursor=pointer]
+          - button "Inspect draw" [disabled] [ref=f4e631]
+          - button "Inspect anomaly" [disabled] [ref=f4e632]
+    - generic [ref=f4e633]:
+      - heading "Commit an action" [level=3] [ref=f4e634]
+      - generic [ref=f4e636]:
+        - generic [ref=f4e637]: Spell (core, granted talent actives and rehearsal picks)
+        - combobox "Spell (core, granted talent actives and rehearsal picks)" [ref=f4e638] [cursor=pointer]:
+          - option "Choose an action…" [selected]
+          - option "Fold the Odds (Core grant, level 1, 1 AP / 0 mana)"
+          - option "Split Possibility (Core grant, level 1, 2 AP / 0 mana)"
+          - option "Dismiss Anomaly (Core grant, level 1, 1 AP / 0 mana)"
+          - option "Fraying Bolt (Level pick, level 1, 2 AP / 0 mana)"
+    - generic [ref=f4e639]:
+      - heading "Prepared Exchange (proposed native edge)" [level=3] [ref=f4e640]
+      - paragraph [ref=f4e641]: Once per completed long rest, no pending action, consume one actual prepared spare part; swap one spent and one available ID of different symbols; movement−5ft until next own-turn start. Manual verification required; no automatic benefit.
+      - generic [ref=f4e642]:
+        - generic [ref=f4e643]:
+          - generic [ref=f4e644]: Prepared part consumed at the table
+          - textbox "Prepared part consumed at the table" [ref=f4e645]
+        - generic [ref=f4e646]:
+          - generic [ref=f4e647]: Spent ID to recover
+          - combobox "Spent ID to recover" [ref=f4e648] [cursor=pointer]:
+            - option "Choose…" [selected]
+            - option "F1"
+        - generic [ref=f4e649]:
+          - generic [ref=f4e650]: Available ID to spend
+          - combobox "Available ID to spend" [ref=f4e651] [cursor=pointer]:
+            - option "Choose…" [selected]
+            - option "S1"
+            - option "S2"
+            - option "M1"
+            - option "M2"
+            - option "F2"
+        - button "Record Prepared Exchange" [ref=f4e652] [cursor=pointer]
+    - generic [ref=f4e653]:
+      - heading "Worksheet log" [level=3] [ref=f4e654]
+      - list [ref=f4e655]:
+        - listitem [ref=f4e656]: Rehearsal started. Local rehearsal — does not spend AP, move tokens or apply effects.
+        - listitem [ref=f4e657]: "Fraying Bolt: spent F1 (2 AP paid locally)."
+      - paragraph [ref=f4e658]: Closing or reloading has no durability guarantee; export the worksheet to keep it.

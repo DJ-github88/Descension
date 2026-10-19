@@ -1,156 +1,50 @@
-/* Floating Combat Text Styles */
-
-.floating-combat-text {
-    position: fixed;
-    font-family: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif;
-    font-size: 18px;
-    font-weight: bold;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
-    user-select: none;
-    pointer-events: none;
-    z-index: 10000;
-    transition: all 0.3s ease-out;
+/* P13A calm floating combat text (MYTHRILL_PROJECT_13A_CONTRACT.md §5).
+   Parchment chip, ink rule, semantic left rule; sign + word + glyph, never colour alone.
+   No arcs, rotation, scale pops or glows. */
+.fct-layer {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 6px);
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  pointer-events: none;
+  z-index: 5;
+  white-space: nowrap;
 }
-
-/* Animation phases */
-.floating-combat-text.enter {
-    animation: floatUp 2s ease-out forwards;
-    opacity: 1;
-    transform: scale(1.2);
+.fct-group { display: flex; gap: 3px; animation: fct-rise 1800ms ease-out forwards; }
+.fct-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 1px 7px 1px 5px;
+  background: #f8f5ee;
+  color: #34251a;
+  border: 1px solid #c4baa6;
+  border-left: 3px solid currentColor;
+  border-radius: 3px;
+  font: 700 15px/1.35 'Crimson Text', Georgia, serif;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.01em;
 }
-
-.floating-combat-text.exit {
-    animation: fadeOut 0.5s ease-out forwards;
+.fct-glyph { fill: currentColor; flex: none; }
+.fct-damage { color: #a32a1f; }
+.fct-heal { color: #3f6b3a; }
+.fct-absorbed, .fct-temp-loss, .fct-temp-gain { color: #68533e; }
+.fct-more { color: #68533e; border-left-width: 1px; font-size: 13px; }
+.fct-group.fct-static { animation: none; }
+@keyframes fct-rise {
+  0% { opacity: 0; transform: translateY(4px); }
+  12% { opacity: 1; transform: translateY(0); }
+  70% { opacity: 1; transform: translateY(-10px); }
+  100% { opacity: 0; transform: translateY(-24px); }
 }
-
-/* Damage text - red */
-.floating-combat-text.damage {
-    color: #ff4444;
-    text-shadow: 
-        2px 2px 4px rgba(0, 0, 0, 0.8),
-        0 0 8px rgba(255, 68, 68, 0.6);
+@media (prefers-reduced-motion: reduce) {
+  .fct-group { animation: fct-fade 2500ms linear forwards; }
 }
-
-/* Healing text - green */
-.floating-combat-text.heal {
-    color: #44ff44;
-    text-shadow: 
-        2px 2px 4px rgba(0, 0, 0, 0.8),
-        0 0 8px rgba(68, 255, 68, 0.6);
-}
-
-/* Mana text - blue */
-.floating-combat-text.mana {
-    color: #4444ff;
-    text-shadow:
-        2px 2px 4px rgba(0, 0, 0, 0.8),
-        0 0 8px rgba(68, 68, 255, 0.6);
-}
-
-/* Mana loss text - red */
-.floating-combat-text.mana-loss {
-    color: #ff4444;
-    text-shadow:
-        2px 2px 4px rgba(0, 0, 0, 0.8),
-        0 0 8px rgba(255, 68, 68, 0.6);
-}
-
-/* Action Points text - orange */
-.floating-combat-text.ap {
-    color: #ff8800;
-    text-shadow:
-        2px 2px 4px rgba(0, 0, 0, 0.8),
-        0 0 8px rgba(255, 136, 0, 0.6);
-}
-
-/* Action Points loss text - red */
-.floating-combat-text.ap-loss {
-    color: #ff4444;
-    text-shadow:
-        2px 2px 4px rgba(0, 0, 0, 0.8),
-        0 0 8px rgba(255, 68, 68, 0.6);
-}
-
-/* Animations */
-@keyframes floatUp {
-    0% {
-        transform: translateY(0) scale(1.2);
-        opacity: 1;
-    }
-    20% {
-        transform: translateY(-20px) scale(1.1);
-        opacity: 1;
-    }
-    60% {
-        transform: translateY(-60px) scale(1.0);
-        opacity: 0.8;
-    }
-    100% {
-        transform: translateY(-100px) scale(0.9);
-        opacity: 0.3;
-    }
-}
-
-@keyframes fadeOut {
-    0% {
-        opacity: 0.3;
-    }
-    100% {
-        opacity: 0;
-        transform: translateY(-120px) scale(0.8);
-    }
-}
-
-/* Critical hit styling */
-.floating-combat-text.critical {
-    font-size: 24px;
-    animation: criticalFloat 2.5s ease-out forwards;
-}
-
-@keyframes criticalFloat {
-    0% {
-        transform: translateY(0) scale(1.5);
-        opacity: 1;
-    }
-    10% {
-        transform: translateY(-10px) scale(1.4);
-        opacity: 1;
-    }
-    30% {
-        transform: translateY(-40px) scale(1.2);
-        opacity: 1;
-    }
-    70% {
-        transform: translateY(-80px) scale(1.0);
-        opacity: 0.8;
-    }
-    100% {
-        transform: translateY(-120px) scale(0.9);
-        opacity: 0;
-    }
-}
-
-/* Ineffective text styling */
-.floating-combat-text.ineffective {
-    color: #888888;
-    font-style: italic;
-    text-shadow:
-        2px 2px 4px rgba(0, 0, 0, 0.8);
-}
-
-/* Pathfinder-themed enhancements */
-.floating-combat-text.damage.critical {
-    color: #ff0000;
-    text-shadow:
-        2px 2px 4px rgba(0, 0, 0, 0.9),
-        0 0 12px rgba(255, 0, 0, 0.8),
-        0 0 20px rgba(255, 0, 0, 0.4);
-}
-
-.floating-combat-text.heal.critical {
-    color: #00ff00;
-    text-shadow: 
-        2px 2px 4px rgba(0, 0, 0, 0.9),
-        0 0 12px rgba(0, 255, 0, 0.8),
-        0 0 20px rgba(0, 255, 0, 0.4);
+@keyframes fct-fade {
+  0%, 80% { opacity: 1; }
+  100% { opacity: 0; }
 }

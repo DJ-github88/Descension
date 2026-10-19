@@ -298,6 +298,60 @@ describe('CR-A1a authoredSpellDefinitions', () => {
       assert.strictEqual(invoked, 0);
     });
 
+    it('rejects own Symbol-keyed authored data instead of stripping it', () => {
+      const marker = Symbol('unsupported-cooldown');
+      const authored = () => 42;
+      const dto = defBase();
+      dto[marker] = authored;
+      const result = definitions.compileDefinition(dto);
+      assert.strictEqual(result.ok, false);
+      assert.strictEqual(result.code, 'INVALID_DEFINITION');
+      assert.strictEqual(dto[marker], authored);
+      assert.strictEqual(Object.isFrozen(dto), false);
+    });
+
+    it('rejects Symbol-keyed accessors without invoking them', () => {
+      const dto = defBase();
+      let invoked = 0;
+      Object.defineProperty(dto.effect, Symbol('authored'), {
+        enumerable: true,
+        get() { invoked += 1; return 1; }
+      });
+      const result = definitions.compileDefinition(dto);
+      assert.strictEqual(result.ok, false);
+      assert.strictEqual(result.code, 'INVALID_DEFINITION');
+      assert.strictEqual(invoked, 0);
+    });
+
+    it('rejects Symbol keys on nested arrays', () => {
+      const dto = defBase();
+      const damageTypes = ['arcane'];
+      damageTypes[Symbol('nested-extension')] = 'ember';
+      dto.effect.damageTypes = damageTypes;
+      const result = definitions.compileDefinition(dto);
+      assert.strictEqual(result.ok, false);
+      assert.strictEqual(result.code, 'INVALID_DEFINITION');
+    });
+
+    it('rejects subclassed and altered-prototype arrays without invoking inherited behavior', () => {
+      let calls = 0;
+      class AuthoredArray extends Array {
+        toJSON() { calls += 1; throw new Error('authored toJSON invoked'); }
+      }
+      const subclassed = defBase();
+      subclassed.effect.damageTypes = new AuthoredArray('arcane');
+      const subclassResult = definitions.compileDefinition(subclassed);
+      assert.strictEqual(subclassResult.ok, false);
+      assert.strictEqual(subclassResult.code, 'INVALID_DEFINITION');
+
+      const altered = defBase();
+      altered.effect.damageTypes = Object.setPrototypeOf(['arcane'], { inherited: true });
+      const alteredResult = definitions.compileDefinition(altered);
+      assert.strictEqual(alteredResult.ok, false);
+      assert.strictEqual(alteredResult.code, 'INVALID_DEFINITION');
+      assert.strictEqual(calls, 0);
+    });
+
     it('rejects canonical definitions over the 16 KiB byte budget while accepting a near-limit one', () => {
       const huge = defBase();
       huge.name = '\u{1D49C}'.repeat(120);
@@ -650,6 +704,45 @@ describe('CR-A1a authoredSpellDefinitions', () => {
       assert.strictEqual(result.code, 'INVALID_DEFINITION');
       assert.strictEqual(getterCalls, 0);
       assert.strictEqual(authorizeCalls, 0);
+    });
+
+    it('rejects Symbol-keyed and subclassed-array request or registry inputs before authorization', async() => {
+      let calls = 0;
+      const registry = definitions.createDefinitionRegistry({
+        authorize: () => { calls += 1; return Promise.resolve(successData(ROOM, GM)); }
+      });
+      const { snapshot } = await buildRich();
+
+      const marker = Symbol('authoring-extension');
+      const markedRequest = admitReq(68, defBase(), 3);
+      markedRequest.definition[marker] = 'x';
+      const requestResult = await registry.planAdmit(snapshot, markedRequest);
+      assert.strictEqual(requestResult.ok, false);
+      assert.strictEqual(requestResult.code, 'INVALID_DEFINITION');
+      assert.strictEqual(markedRequest.definition[marker], 'x');
+      assert.strictEqual(Object.isFrozen(markedRequest.definition), false);
+
+      const markedRegistry = clone(snapshot);
+      markedRegistry[Symbol('registry-extension')] = true;
+      assert.strictEqual(definitions.encodeRegistry(markedRegistry).code, 'INVALID_REGISTRY');
+      assert.strictEqual(definitions.decodeRegistry(JSON.stringify(markedRegistry)).ok, true);
+      assert.strictEqual(registry.describe(markedRegistry, {
+        definitionRef: entryRef(snapshot, 2),
+        expectedBinding: { rulesetId: 'prism', rulesetVersion: 'cr-a1a-pilot-1', classId: 'arcanoneer' }
+      }).code, 'INVALID_REGISTRY');
+      assert.strictEqual((await registry.planAdmit(markedRegistry, admitReq(69, defBase(), 3))).code, 'INVALID_REGISTRY');
+      assert.strictEqual((await registry.planRevoke(markedRegistry, revokeReq(70, entryRef(snapshot, 2), 3))).code, 'INVALID_REGISTRY');
+      assert.strictEqual(markedRegistry.definitions.length, snapshot.definitions.length);
+
+      class AuthoredEntries extends Array {}
+      const subclassedRegistry = clone(snapshot);
+      subclassedRegistry.definitions = new AuthoredEntries(...subclassedRegistry.definitions);
+      const revokeResult = await registry.planRevoke(subclassedRegistry, revokeReq(71, entryRef(snapshot, 2), 3));
+      assert.strictEqual(revokeResult.ok, false);
+      assert.strictEqual(revokeResult.code, 'INVALID_REGISTRY');
+      assert.strictEqual(subclassedRegistry.definitions.length, snapshot.definitions.length);
+      assert.strictEqual(Object.isFrozen(subclassedRegistry.definitions), false);
+      assert.strictEqual(calls, 0);
     });
   });
 
@@ -1116,6 +1209,96 @@ describe('CR-A1a authoredSpellDefinitions', () => {
       const overDefinitions = { ...clone(snapshot), definitions: paddedDefinitions };
       assert.strictEqual(definitions.encodeRegistry(overDefinitions).code, 'CAPACITY');
       assert.strictEqual((await registry.planAdmit(overDefinitions, admitReq(90, defBase(), 3))).code, 'CAPACITY');
+    });
+
+    it('accepts the legal 128-definition/256-decision boundary through the codec and the final revoke', async() => {
+      const boundaryRoom = 'a';
+      const engine = definitions.createDefinitionRegistry({
+        authorize: () => Promise.resolve(successData(boundaryRoom, GM))
+      });
+      const entries = [];
+      const decisions = [];
+      for (let n = 1; n <= 128; n += 1) {
+        const definition = defBase();
+        definition.scope.roomId = boundaryRoom;
+        definition.definitionId = `00000000-0000-4000-8000-${String(n).padStart(12, '0')}`;
+        definition.name = 'a';
+        definition.description = '';
+        definition.binding.classId = 'apex';
+        definition.targeting.rangeFeet = 0;
+        definition.targeting.restriction = 'any';
+        definition.resourceCost = { actionPoints: 0, mana: 0 };
+        definition.effect = { kind: 'healing', formula: '1d2' };
+        const compiled = definitions.compileDefinition(definition);
+        assert.strictEqual(compiled.ok, true, `boundary definition ${n} must compile`);
+        entries.push({
+          definitionRef: compiled.descriptor.definitionRef,
+          canonicalDefinition: compiled.canonicalDefinition,
+          compilerVersion: 'cr-a1a-1',
+          descriptor: compiled.descriptor
+        });
+        const request = {
+          roomId: boundaryRoom,
+          requestId: uuid(1000 + n),
+          expectedRegistryRevision: decisions.length,
+          definition: clone(definition),
+          expectedDefinitionHash: compiled.definitionHash
+        };
+        decisions.push({
+          requestId: request.requestId,
+          requestHash: roomCheckpoint.canonicalHash(request),
+          byUid: 'g',
+          sequence: decisions.length + 1,
+          action: 'admit',
+          definitionRef: compiled.descriptor.definitionRef
+        });
+      }
+      for (let n = 0; n < 128; n += 1) {
+        const request = {
+          roomId: boundaryRoom,
+          requestId: uuid(2000 + n),
+          expectedRegistryRevision: decisions.length,
+          definitionRef: clone(entries[n].definitionRef)
+        };
+        decisions.push({
+          requestId: request.requestId,
+          requestHash: roomCheckpoint.canonicalHash(request),
+          byUid: 'g',
+          sequence: decisions.length + 1,
+          action: 'revoke',
+          definitionRef: clone(entries[n].definitionRef)
+        });
+      }
+      const boundarySnapshot = {
+        schemaVersion: 1,
+        roomId: boundaryRoom,
+        revision: 256,
+        definitions: clone(entries),
+        decisions: clone(decisions)
+      };
+
+      const encoded = definitions.encodeRegistry(boundarySnapshot);
+      assert.strictEqual(encoded.ok, true);
+      assert.ok(Buffer.byteLength(encoded.json, 'utf8') < 256 * 1024);
+      const decoded = definitions.decodeRegistry(encoded.json);
+      assert.strictEqual(decoded.ok, true);
+      assert.strictEqual(decoded.registry.revision, 256);
+
+      const finalInput = {
+        ...clone(boundarySnapshot),
+        revision: 255,
+        decisions: clone(decisions.slice(0, 255))
+      };
+      const final = await engine.planRevoke(finalInput, {
+        roomId: boundaryRoom,
+        requestId: uuid(2127),
+        expectedRegistryRevision: 255,
+        definitionRef: clone(entries[127].definitionRef)
+      });
+      assert.strictEqual(final.ok, true);
+      assert.strictEqual(final.nextRegistry.revision, 256);
+      assert.strictEqual(final.installed, false);
+      assert.strictEqual(definitions.encodeRegistry(final.nextRegistry).ok, true);
     });
 
     it('refuses snapshots over the 256 KiB byte budget with CAPACITY', async() => {

@@ -58,8 +58,10 @@ test('unsupported spells keep the sheet manual confirmation and say why', () => 
   setup(true);
   cast(resolving);
   expect(useSpellConsequenceStore.getState().owner).toBeNull();
-  expect(screen.getByRole('note').textContent).toMatch(/Manual — not applied to the room: .*resolvesCadence/);
-  expect(screen.getByRole('button', { name: /Confirm & Cast/ })).toBeTruthy();
+  expect(screen.getByRole('note').textContent).toMatch(/Manual — the VTT applies nothing in this room.*Reason: .*resolvesCadence/);
+  // P12C-B1 §3: confirming a manual action in a shared room posts a notice and spends nothing.
+  fireEvent.click(screen.getByRole('button', { name: /Post manual notice/ }));
+  expect(mockState.updateResource).not.toHaveBeenCalled();
 });
 
 test('offline the sheet keeps its existing local cast path for the same spell', () => {

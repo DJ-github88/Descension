@@ -99,12 +99,15 @@ const tempFirst = (current, temp, amount) => {
   return { current: current - (amount - fromTemp), temp: temp - fromTemp };
 };
 /** Server-checked consumption plan: [creature {ap}, character {hp, equipmentWear}] under the offer's command ID. */
-export function planBlockCommand({ offer, entry, sourceToken, targetToken, declaration, names, manual = [], finalAmount, reason = '' }) {
+export function planBlockCommand({ offer, entry, sourceToken, targetToken, declaration, names, manual = [], finalAmount, reason = '', revalidation = null }) {
   const { approval, contentHash } = entry;
   if (approval.attack.commandId !== offer.commandId || approval.attack.attackHash !== offer.attackHash) throw Error('The approval names a different attack.');
   const piece = firstAvailable(declaration, targetToken.character?.equipment);
   if (!piece || declaration.revision !== approval.blocking.revision || piece.slot !== approval.blocking.slot || piece.itemId !== approval.blocking.itemId || piece.currentDie !== approval.blocking.die) {
-    throw Error('The declaration changed since the owner rolled. The owner must roll again.');
+    // P12B-r1 (§3.9 R3): the recorded face is never re-read on another die and never re-rolled.
+    const error = Error(`The recorded block (face ${approval.roll.faces[0]} on ${approval.blocking.slot} ${approval.blocking.die}) no longer matches the current piece${piece ? ` (${piece.slot} ${piece.currentDie})` : ' (unavailable)'}. The recorded face is kept: void the block roll and resolve HP by hand.`);
+    error.code = piece ? 'block_revalidation_required' : 'block_piece_unavailable';
+    throw error;
   }
   if (offer.attack.outcome === 'critical' && piece.kind === 'armor') throw Error('Criticals go around armor: no block roll. Resolve HP without a block.');
   const required = requiredManual(offer.attack);
@@ -120,13 +123,22 @@ export function planBlockCommand({ offer, entry, sourceToken, targetToken, decla
   const fromTemp = Math.min(hpPool.temp, amount);
   const hp = { current: Math.max(0, hpPool.current - (amount - fromTemp)), temp: hpPool.temp - fromTemp };
   const { afterDie, broken } = deriveWear(piece.kind, piece.currentDie, face, defending);
+  const currentRevision = sourceToken.state.actorContract.revision;
   const chosen = { capability: CAPABILITY, approvalId: approval.approvalId, gmConfirmed: true, names: { source: String(names.source).slice(0, 60), target: String(names.target).slice(0, 60) },
     attack: offer.attack, block: { slot: piece.slot, name: piece.name, kind: piece.kind, die: piece.currentDie, face, defending, reduction }, afterBlock,
     manual: manual.map(item => ({ category: item.category, note: String(item.note || '').slice(0, 300) })) };
+  if (revalidation) {
+    // §3.9 R2: the GM states why the recorded rolls still stand after the creature changed.
+    const why = String(revalidation.reason || '').trim();
+    if (!why) throw Error('Say why the recorded rolls still stand.');
+    if (currentRevision === offer.attack.sourceRevision) throw Error('The creature has not changed since the offer; no revalidation is needed.');
+    chosen.revalidation = { fromRevision: offer.attack.sourceRevision, toRevision: currentRevision, reason: why.slice(0, 300) };
+  }
   return {
     commandId: offer.commandId,
     entries: [
-      { ref: approval.source, expectedRevision: offer.attack.sourceRevision, finalResources: { ap: tempFirst(sourceAp.current, sourceAp.temp, offer.attack.apCost) } },
+      // §3.9 R1: the creature's current revision; AP from its current pools (temp first).
+      { ref: approval.source, expectedRevision: currentRevision, finalResources: { ap: tempFirst(sourceAp.current, sourceAp.temp, offer.attack.apCost) } },
       { ref: approval.target, expectedRevision: targetToken.state.actorContract.revision, finalResources: { hp },
         equipmentWear: { slot: piece.slot, itemId: piece.itemId, blockingRevision: declaration.revision, beforeDie: piece.currentDie, afterDie, broken } }],
     extra: { source: approval.source, target: approval.target, approval: { approvalId: approval.approvalId, contentHash },
@@ -154,5 +166,7 @@ export function acceptedBlockText(result) {
   const wearText = wear.afterDie === wear.beforeDie ? `${wear.name} blocked ${chosen.block.reduction} (no wear${wear.defending ? ', Defending' : ''})`
     : `${wear.name} blocked ${chosen.block.reduction}; worn ${wear.beforeDie} → ${wear.broken ? 'broken' : wear.afterDie}`;
   const rulings = chosen.manual.length ? ` GM rulings: ${chosen.manual.map(item => item.category).join(', ')}.` : '';
-  return `Accepted: ${chosen.names.target} takes ${receipt.adjudication.finalAmount} HP from ${chosen.names.source}'s ${chosen.attack.ability.name}${source && chosen.attack.apCost ? ` (AP −${chosen.attack.apCost})` : ''}. ${wearText}.${rulings}`;
+  // P12B-r1 (§3.9 R2, review finding 3): the GM's revalidation is part of the public result.
+  const revalidated = chosen.revalidation ? ` GM confirmed the recorded rolls after the attacker changed: ${chosen.revalidation.reason}.` : '';
+  return `Accepted: ${chosen.names.target} takes ${receipt.adjudication.finalAmount} HP from ${chosen.names.source}'s ${chosen.attack.ability.name}${source && chosen.attack.apCost ? ` (AP −${chosen.attack.apCost})` : ''}. ${wearText}.${rulings}${revalidated}`;
 }

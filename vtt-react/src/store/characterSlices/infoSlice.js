@@ -7,6 +7,7 @@ import { saveRoster } from '../../persistence/characterScopedStorage';
 import { ALL_CLASSES_DATA } from '../../data/classes';
 import { ALL_CLASS_SPELLS } from '../../data/classSpellGenerator';
 import { getXPForLevel } from '../../utils/experienceUtils';
+import { pruneTalentsForChange, removedTalentGrantIds } from './progressionSlice';
 import { WEAPON_MASTERY_SKILL_ID, withWeaponRank } from '../../utils/weaponProficiency';
 
 // Info Slice: Character identity, lore, talents, and skills.
@@ -126,6 +127,8 @@ export const createInfoSlice = (set, get) => ({
     },
 
     updateCharacterInfo: (field, value) => {
+        let removedGrantIds = [];
+
         set(state => {
             // Special handling for exhaustion level - use the dedicated function
             if (field === 'exhaustionLevel') {
@@ -173,6 +176,18 @@ export const createInfoSlice = (set, get) => ({
                     for (let level = oldLevel; level > newLevel; level--) {
                         get().reverseLevelUpBonus(level);
                     }
+
+                    // Reconcile the stored talent allocation and its derived
+                    // grants with the reduced level (policy classes only).
+                    const className = state.class || state.characterClass;
+                    const currentTalents = state.talents || {};
+                    const prunedTalents = pruneTalentsForChange(currentTalents, {
+                        previousClass: className,
+                        nextClass: className,
+                        level: newLevel
+                    });
+                    removedGrantIds = removedTalentGrantIds(currentTalents, prunedTalents, className);
+                    newState.talents = prunedTalents;
 
                     // Recalculate derived stats once after all reversals
                     // (health, mana, AP will reflect the pruned levelUpHistory)
@@ -223,6 +238,16 @@ export const createInfoSlice = (set, get) => ({
 
             // If class is being changed, initialize the class resource
             if (field === 'class' && value && value !== state.class) {
+                const previousClass = state.class;
+                const currentTalents = state.talents || {};
+                const prunedTalents = pruneTalentsForChange(currentTalents, {
+                    previousClass,
+                    nextClass: value,
+                    level: state.level || 1
+                });
+                removedGrantIds = removedTalentGrantIds(currentTalents, prunedTalents, previousClass);
+                newState.talents = prunedTalents;
+
                 const classResource = initializeClassResource(value, {
                     ...state.stats,
                     level: state.level
@@ -255,8 +280,6 @@ export const createInfoSlice = (set, get) => ({
                 }
 
                 // Auto-assign starting spells for ALL classes
-                const previousClass = state.class;
-
                 // Helper function to get class data by name
                 const getClassData = (className) => (ALL_CLASSES_DATA[className] || null);
 
@@ -286,8 +309,17 @@ export const createInfoSlice = (set, get) => ({
                 if (classData) {
                     // Always reassign spells when switching to a different class
                     const shouldReassignSpells = previousClass !== value;
+                    const progressionPolicy = classData?.progression?.policy || null;
 
-                    if (shouldReassignSpells) {
+                    if (shouldReassignSpells && progressionPolicy) {
+                        // Classes with an explicit progression policy never get
+                        // random starter spells. Only the declared core grants
+                        // are applied; optional picks stay explicitly chosen.
+                        newState.class_spells = {
+                            ...(state.class_spells || {}),
+                            known_spells: [...(progressionPolicy.grantedCoreSpellIds || [])]
+                        };
+                    } else if (shouldReassignSpells) {
                         // Clear old spells first when switching classes
                         newState.class_spells = {
                             ...(state.class_spells || {}),
@@ -915,6 +947,10 @@ export const createInfoSlice = (set, get) => ({
 
             return newState;
         });
+
+        if (removedGrantIds.length > 0) {
+            get().removeTalentGrantSpells(removedGrantIds);
+        }
 
         // Sync with multiplayer
         get().syncWithMultiplayer();

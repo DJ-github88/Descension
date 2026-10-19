@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react';
+import { TokenCombatFloats } from '../combat/FloatingCombatText';
 import { createPortal } from 'react-dom';
 import './CreatureToken.css';
 import useCreatureStore, { getCreatureSizeMapping } from '../../store/creatureStore';
@@ -2295,6 +2296,8 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
         }}
       >
         {isBehindWall && <span className="token-occlusion-ring" aria-hidden="true" />}
+        {/* P13A: accepted HP changes float above this token only while it is rendered for this viewer. */}
+        <TokenCombatFloats token={token} squash={groundSquash} />
         {/* Condition rings with text - staggered outward for multiple conditions */}
         {conditionEffects.map((effect, index) => {
           const pathId = `${tokenId}-${effect.key}-ring-path`;

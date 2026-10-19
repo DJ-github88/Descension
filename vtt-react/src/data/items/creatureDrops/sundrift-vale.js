@@ -31,7 +31,7 @@ export const SUNDRIFT_VALE_DROPS = [
     ],
     "gatheringMethod": "skinning",
     "reagentType": "Organ",
-    "magicType": "nature",
+    "magicType": "primal",
     "reagentState": "Raw"
   },
   {
@@ -83,7 +83,7 @@ export const SUNDRIFT_VALE_DROPS = [
     ],
     "gatheringMethod": "skinning",
     "reagentType": "Organ",
-    "magicType": "nature",
+    "magicType": "primal",
     "reagentState": "Raw"
   },
   {
@@ -135,7 +135,7 @@ export const SUNDRIFT_VALE_DROPS = [
     ],
     "gatheringMethod": "rare",
     "reagentType": "Crystal",
-    "magicType": "light",
+    "magicType": "sacred",
     "reagentState": "Pure"
   },
   {
@@ -385,7 +385,7 @@ export const SUNDRIFT_VALE_DROPS = [
     ],
     "gatheringMethod": "rare",
     "reagentType": "Crystal",
-    "magicType": "shadow",
+    "magicType": "wyrd",
     "reagentState": "Pure"
   },
   {
@@ -735,7 +735,7 @@ export const SUNDRIFT_VALE_DROPS = [
     ],
     "gatheringMethod": "rare",
     "reagentType": "Liquid",
-    "magicType": "water",
+    "magicType": "primal",
     "reagentState": "Pure"
   },
   {
@@ -787,7 +787,7 @@ export const SUNDRIFT_VALE_DROPS = [
     ],
     "gatheringMethod": "skinning",
     "reagentType": "Organ",
-    "magicType": "order",
+    "magicType": "sacred",
     "reagentState": "Raw"
   },
   {
@@ -936,7 +936,7 @@ export const SUNDRIFT_VALE_DROPS = [
     ],
     "gatheringMethod": "rare",
     "reagentType": "Liquid",
-    "magicType": "nature",
+    "magicType": "primal",
     "reagentState": "Pure"
   },
   {
@@ -1063,7 +1063,7 @@ export const SUNDRIFT_VALE_DROPS = [
     ],
     "gatheringMethod": "rare",
     "reagentType": "Crystal",
-    "magicType": "lightning",
+    "magicType": "storm",
     "reagentState": "Pure"
   },
   {
@@ -1091,7 +1091,7 @@ export const SUNDRIFT_VALE_DROPS = [
     ],
     "gatheringMethod": "rare",
     "reagentType": "Essence",
-    "magicType": "shadow",
+    "magicType": "wyrd",
     "reagentState": "Pure"
   },
   {
@@ -1191,7 +1191,7 @@ export const SUNDRIFT_VALE_DROPS = [
     ],
     "gatheringMethod": "rare",
     "reagentType": "Essence",
-    "magicType": "wind",
+    "magicType": "storm",
     "reagentState": "Raw"
   },
   {
@@ -1377,7 +1377,7 @@ export const SUNDRIFT_VALE_DROPS = [
           "effectType": "damage",
           "effectConfig": {
             "formula": "1d6",
-            "damageType": "shadow",
+            "damageType": "wyrd",
             "isDot": false,
             "targetType": "target",
             "areaRadius": 0

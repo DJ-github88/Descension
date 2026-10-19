@@ -129,7 +129,7 @@ export const NORDHALLA_DROPS = [
     ],
     "gatheringMethod": "mining",
     "reagentType": "Crystal",
-    "magicType": "frost",
+    "magicType": "rime",
     "reagentState": "Raw"
   },
   {
@@ -156,7 +156,7 @@ export const NORDHALLA_DROPS = [
     ],
     "gatheringMethod": "rare",
     "reagentType": "Powder",
-    "magicType": "frost",
+    "magicType": "rime",
     "reagentState": "Processed"
   },
   {
@@ -222,7 +222,7 @@ export const NORDHALLA_DROPS = [
     },
     "combatStats": {
       "resistances": {
-        "cold": {
+        "rime": {
           "value": 3,
           "isPercentage": false
         }
@@ -255,7 +255,7 @@ export const NORDHALLA_DROPS = [
       "baseDamage": {
         "diceCount": 1,
         "diceType": "d6",
-        "damageType": "frost",
+        "damageType": "rime",
         "bonusDamage": 2
       }
     },
@@ -292,7 +292,7 @@ export const NORDHALLA_DROPS = [
     ],
     "gatheringMethod": "rare",
     "reagentType": "Powder",
-    "magicType": "frost",
+    "magicType": "rime",
     "reagentState": "Processed"
   },
   {
@@ -319,7 +319,7 @@ export const NORDHALLA_DROPS = [
     ],
     "gatheringMethod": "rare",
     "reagentType": "Essence",
-    "magicType": "shadow",
+    "magicType": "wyrd",
     "reagentState": "Raw"
   },
   {
@@ -427,7 +427,7 @@ export const NORDHALLA_DROPS = [
           "effectType": "damage",
           "effectConfig": {
             "formula": "1d4",
-            "damageType": "frost",
+            "damageType": "rime",
             "isDot": true,
             "targetType": "target",
             "areaRadius": 0,
@@ -462,7 +462,7 @@ export const NORDHALLA_DROPS = [
     ],
     "gatheringMethod": "skinning",
     "reagentType": "Powder",
-    "magicType": "frost",
+    "magicType": "rime",
     "reagentState": "Raw"
   },
   {
@@ -489,7 +489,7 @@ export const NORDHALLA_DROPS = [
     ],
     "gatheringMethod": "rare",
     "reagentType": "Essence",
-    "magicType": "plague",
+    "magicType": "blight",
     "reagentState": "Raw"
   },
   {
@@ -542,7 +542,7 @@ export const NORDHALLA_DROPS = [
     ],
     "gatheringMethod": "rare",
     "reagentType": "Essence",
-    "magicType": "fire",
+    "magicType": "ember",
     "reagentState": "Pure"
   },
   {
@@ -570,7 +570,7 @@ export const NORDHALLA_DROPS = [
     ],
     "gatheringMethod": "rare",
     "reagentType": "Crystal",
-    "magicType": "frost",
+    "magicType": "rime",
     "reagentState": "Pure"
   },
   {
@@ -760,7 +760,7 @@ export const NORDHALLA_DROPS = [
     ],
     "gatheringMethod": "skinning",
     "reagentType": "Powder",
-    "magicType": "plague",
+    "magicType": "blight",
     "reagentState": "Raw"
   },
   {
@@ -839,7 +839,7 @@ export const NORDHALLA_DROPS = [
     ],
     "gatheringMethod": "mining",
     "reagentType": "Crystal",
-    "magicType": "earth",
+    "magicType": "primal",
     "reagentState": "Raw"
   },
   {
@@ -947,7 +947,7 @@ export const NORDHALLA_DROPS = [
           "effectType": "damage",
           "effectConfig": {
             "formula": "1d6",
-            "damageType": "cold",
+            "damageType": "rime",
             "isDot": true,
             "targetType": "target",
             "areaRadius": 0,
@@ -1082,7 +1082,7 @@ export const NORDHALLA_DROPS = [
     ],
     "gatheringMethod": "rare",
     "reagentType": "Crystal",
-    "magicType": "earth",
+    "magicType": "primal",
     "reagentState": "Pure"
   },
   {
@@ -1110,7 +1110,7 @@ export const NORDHALLA_DROPS = [
     ],
     "gatheringMethod": "mining",
     "reagentType": "Crystal",
-    "magicType": "frost",
+    "magicType": "rime",
     "reagentState": "Raw"
   },
   {
@@ -1138,7 +1138,7 @@ export const NORDHALLA_DROPS = [
     ],
     "gatheringMethod": "rare",
     "reagentType": "Essence",
-    "magicType": "wind",
+    "magicType": "storm",
     "reagentState": "Pure"
   },
   {
@@ -1166,7 +1166,7 @@ export const NORDHALLA_DROPS = [
     ],
     "gatheringMethod": "mining",
     "reagentType": "Crystal",
-    "magicType": "frost",
+    "magicType": "rime",
     "reagentState": "Processed"
   },
   {
@@ -1332,7 +1332,7 @@ export const NORDHALLA_DROPS = [
     ],
     "gatheringMethod": "rare",
     "reagentType": "Organ",
-    "magicType": "shadow",
+    "magicType": "wyrd",
     "reagentState": "Raw"
   },
   {
@@ -1409,7 +1409,7 @@ export const NORDHALLA_DROPS = [
     ],
     "gatheringMethod": "rare",
     "reagentType": "Liquid",
-    "magicType": "shadow",
+    "magicType": "wyrd",
     "reagentState": "Pure"
   },
   {

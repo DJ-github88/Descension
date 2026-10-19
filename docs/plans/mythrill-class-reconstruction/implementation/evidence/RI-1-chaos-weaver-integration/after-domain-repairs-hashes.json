@@ -1,0 +1,239 @@
+{
+  "capturedAt": "2026-10-18T20:06:41.956Z",
+  "scope": "RI-1 after B1-B5 domain repairs, before integration edits.",
+  "writableExisting": [
+    {
+      "path": "vtt-react/src/data/classes/chaosWeaverData.js",
+      "sha256": "3b144a761377d4015486235c771f04a5a971ca34071a9a60bad9b3e828ea4834",
+      "bytes": 75770
+    },
+    {
+      "path": "vtt-react/src/data/classes/chaosWeaverRules.js",
+      "sha256": "191d1b90fe246976da3796b0257cde7f3a7d155484da25b27af2ed458bd0ca72",
+      "bytes": 112653
+    },
+    {
+      "path": "vtt-react/src/data/talentTrees/chaosWeaver.js",
+      "sha256": "74d9f844ce0324835df8fede6d236debb4528ff72fed31cd5ad9e5eea5f15624",
+      "bytes": 45383
+    },
+    {
+      "path": "vtt-react/src/components/hud/ChaosWeaverResourceDisplay.jsx",
+      "sha256": "47a955463d9b1bc73e41c51a53ea75a26d335d5479c26820859c29ac8c8a68ba",
+      "bytes": 12201
+    },
+    {
+      "path": "vtt-react/src/data/classes/__tests__/chaosWeaverPackage.test.js",
+      "sha256": "72c1a58c27807bd53d1dbec4a19ec39345c3c0d4218c4148c894629af852bf0c",
+      "bytes": 6689
+    },
+    {
+      "path": "vtt-react/src/data/classes/__tests__/chaosWeaverRules.test.js",
+      "sha256": "d5a88a0f05d160b84eb65954a6a0931bbcb56b21017773b3e00c2e3140e22fd9",
+      "bytes": 27518
+    },
+    {
+      "path": "vtt-react/src/components/hud/__tests__/ChaosWeaverResourceDisplay.test.jsx",
+      "sha256": "51192670d39e83a6d7c2aaafab0afb0173f7133d89b598cf7863f5e4f1b88ebc",
+      "bytes": 4712
+    },
+    {
+      "path": "vtt-react/src/data/classes/index.js",
+      "sha256": "6511efa7146619cef3308be5e843aef2a4028174a6df9f6811f4cf848de1eee2",
+      "bytes": 3405
+    },
+    {
+      "path": "vtt-react/src/data/classes/classDisplayData.js",
+      "sha256": "12aeab23b264bf2e27272e50d77a8b4ed2d32f4c599a9a6d8cf39eeed0c93a19",
+      "bytes": 26023
+    },
+    {
+      "path": "vtt-react/src/data/classSpellGenerator.js",
+      "sha256": "daef544f634e45509a834f9494d3a9d2083c65cae185a53af29f92bd8a068cb8",
+      "bytes": 27697
+    },
+    {
+      "path": "vtt-react/src/data/classSpellCategories.js",
+      "sha256": "e5d1a23df8909ed9bb6b214deb396cd88d47688bb08d279c422616c0a52f68ea",
+      "bytes": 25855
+    },
+    {
+      "path": "vtt-react/src/data/talentTreeData.js",
+      "sha256": "128e326be0d329d0a250ddf462695b116effe52db130eaf66c01883c27174171",
+      "bytes": 14267
+    },
+    {
+      "path": "vtt-react/src/data/classResources.js",
+      "sha256": "51d7e4af844a3975a33ab1bddcd6e6aa6e92bb288b55fcb20df30167169ffee7",
+      "bytes": 68050
+    },
+    {
+      "path": "vtt-react/src/data/classResourceContracts.js",
+      "sha256": "e050444a55fedbba59aa008cef921f4c80fde6ed0e4205d5f685a0c36bc0e245",
+      "bytes": 22961
+    },
+    {
+      "path": "vtt-react/src/data/resourceSystems/index.js",
+      "sha256": "0716756d4b1102e336b959ff1844bde9e8c17cbc6093232abbe56b45b6277343",
+      "bytes": 2525
+    },
+    {
+      "path": "vtt-react/src/data/classHeritageRegistry.js",
+      "sha256": "6e2843e933c7ca954ec8ef24e0c18f52d7df618e9b02462f0a3a7529013d127d",
+      "bytes": 21036
+    },
+    {
+      "path": "vtt-react/src/components/rules/ClassesDisplay.jsx",
+      "sha256": "ebdab2dd19f28d101b371b135a3cbfc41538264c36d56b5041cf0adaa5c3fdbb",
+      "bytes": 13488
+    },
+    {
+      "path": "vtt-react/src/components/rules/ClassDetailDisplay.jsx",
+      "sha256": "0bc2f05f79b0c1d8e3c2562aa511adbb93878ecf443141f506a691b3dbd3a85e",
+      "bytes": 136392
+    },
+    {
+      "path": "vtt-react/src/components/rules/ClassDetailDisplay.css",
+      "sha256": "0c3e8956d7f334bf69f8cdfdc5de1ef16e92189066ab7719ff3b494b095aa48f",
+      "bytes": 116933
+    },
+    {
+      "path": "vtt-react/src/components/rules/__tests__/ClassesDisplay.test.jsx",
+      "sha256": "5a3ae89ac0869c1be3deb864f5b8c532a11e936032355527aabdeb2d28c2de15",
+      "bytes": 2830
+    },
+    {
+      "path": "vtt-react/src/components/rules/__tests__/ClassDetailDisplaySpells.test.jsx",
+      "sha256": "51ff7c42c48515d4a99c1cc405aa82571adc59f8b3c27d89f838af7700645638",
+      "bytes": 3838
+    },
+    {
+      "path": "vtt-react/src/components/hud/ClassResourceBar.jsx",
+      "sha256": "30c419c8b02be235f72845b7b7bcb958686df2da9ca2ff115126ca16f9b7b7bc",
+      "bytes": 88928
+    },
+    {
+      "path": "vtt-react/src/components/talent-tree/TalentTreeContent.jsx",
+      "sha256": "cf6c69f7975d25420b9df986c5ea5781c4b20c4837052887eb905529217cd8d8",
+      "bytes": 79206
+    },
+    {
+      "path": "vtt-react/src/components/talent-tree/TalentTreeContent.css",
+      "sha256": "353de41eb487fdc869fe976cfc54663aad36342f85afc4b9341617428881b4ac",
+      "bytes": 38885
+    },
+    {
+      "path": "vtt-react/src/components/talent-tree/__tests__/TalentTreeContent.test.jsx",
+      "sha256": "de124728d7675d259a005664df5a2eb2ec26f7ae9366d7286275272edb3d7677",
+      "bytes": 12481
+    },
+    {
+      "path": "vtt-react/src/components/character-creation-wizard/steps/Step1CoreDraft.jsx",
+      "sha256": "efb2aa9e0afb5ed8aa0f748dc37b7e2ab06791c0db6516c18215c244b320cfb5",
+      "bytes": 172336
+    },
+    {
+      "path": "vtt-react/src/components/character-creation-wizard/steps/Step9CharacterSummary.jsx",
+      "sha256": "3a2a3dfaf3befb4da53164da26020d4b7733d606f77769ee5f0858537cfe29a3",
+      "bytes": 61456
+    },
+    {
+      "path": "vtt-react/src/components/modals/LevelUpChoiceModal.jsx",
+      "sha256": "d69fc544b00154cb700e977de72ae4052d7a0e4219ebdeee438cec47367bab4d",
+      "bytes": 35871
+    },
+    {
+      "path": "vtt-react/src/store/characterSlices/infoSlice.js",
+      "sha256": "ce35da9a08025129fe92b2b57968f267035025470652b746667d7b7e858cfdca",
+      "bytes": 57276
+    },
+    {
+      "path": "vtt-react/src/store/characterSlices/progressionSlice.js",
+      "sha256": "f838ba7b41545d93dbda78ce3389645de40b21eb09bfd746e7ca608590d165ca",
+      "bytes": 25343
+    }
+  ],
+  "newFilesAtEntry": [
+    {
+      "path": "vtt-react/src/data/classes/chaosWeaverIntegration.js",
+      "missing": true
+    },
+    {
+      "path": "vtt-react/src/data/classes/classReconstructionCompatibility.js",
+      "missing": true
+    },
+    {
+      "path": "vtt-react/src/data/resourceSystems/chaosWeaverResourceGuide.js",
+      "missing": true
+    },
+    {
+      "path": "vtt-react/src/data/classes/__tests__/chaosWeaverIntegration.test.js",
+      "missing": true
+    },
+    {
+      "path": "vtt-react/src/components/hud/__tests__/ChaosWeaverClassResourceIntegration.test.jsx",
+      "missing": true
+    },
+    {
+      "path": "vtt-react/src/store/characterSlices/__tests__/chaosWeaverProgression.test.js",
+      "missing": true
+    }
+  ],
+  "readOnlyControls": [
+    {
+      "path": "vtt-react/src/components/hud/PartyHUD.jsx",
+      "sha256": "66a54fad1eb282c0eb7e02a00ce819cd98c7b7668c1bebaf939a50d5b556966c",
+      "bytes": 221721
+    },
+    {
+      "path": "vtt-react/src/store/characterSlices/coreSlice.js",
+      "sha256": "53ecc47d6888862d30cf9437b2e531e0496e7b8fa13b85c8f19258a8bd8b369c",
+      "bytes": 83245
+    },
+    {
+      "path": "vtt-react/src/store/characterSlices/resourceSlice.js",
+      "sha256": "d9af27963eb7e874f3668a20fca918ba6335d4f79c67c5d3222276956773d93a",
+      "bytes": 22988
+    },
+    {
+      "path": "vtt-react/src/store/characterHelpers.js",
+      "sha256": "bb69677e47d1f5754177af7768b06d69a6ef0a6bbed68a34cb9f98344861de4d",
+      "bytes": 9310
+    },
+    {
+      "path": "vtt-react/src/components/spellcrafting-wizard/components/steps/Step5Resources.jsx",
+      "sha256": "6120e2b6d7af6ecf8c4692a2d13626dcc6fac036e4345500e8a19fe0b5b37431",
+      "bytes": 39397
+    },
+    {
+      "path": "vtt-react/src/components/spellcrafting-wizard/core/mechanics/resourceManager.js",
+      "sha256": "ea27eb2c0bb6cfadd229c5407c652d0d44c67593a36d1f890c114ca3c28b4605",
+      "bytes": 27260
+    },
+    {
+      "path": "vtt-react/src/components/spellcrafting-wizard/core/utils/spellSerializer.js",
+      "sha256": "b960862958d5752e06dbbcde7390b6243ea6bb01642ef97a7a364b7bf5dfaa5f",
+      "bytes": 27834
+    },
+    {
+      "path": "vtt-react/src/hooks/useClassSpellLibrary.js",
+      "sha256": "6e9e618fb5e5fd8511fab0081a990d6fae45f26f309762b408a90f3ab9bde7ff",
+      "bytes": 9376
+    },
+    {
+      "path": "vtt-react/src/components/rules/chaos-weaver/ChaosWeaverWorkshop.jsx",
+      "sha256": "4711889565151d38d60cef0c8a683449b2b0c592c65cfff2f6ad8ce4f28c1918",
+      "bytes": 72579
+    },
+    {
+      "path": "vtt-react/src/components/rules/chaos-weaver/ChaosWeaverWorkshop.css",
+      "sha256": "405a31facea44bb4941c7b9cfd2d373aa1f1627dcb80ea6c424dbb0614c2c66e",
+      "bytes": 10955
+    },
+    {
+      "path": "vtt-react/src/components/rules/chaos-weaver/__tests__/ChaosWeaverWorkshop.test.jsx",
+      "sha256": "52f08d1f1027c0f8a9593d0f30a768e23a39301d39b52c893c1af8b8cbffb5ce",
+      "bytes": 13535
+    }
+  ]
+}

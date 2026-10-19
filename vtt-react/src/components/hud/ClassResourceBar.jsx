@@ -20,6 +20,8 @@ import ShaperResourceBar from '../../data/classes/shaper/components/ShaperResour
 import AscensionBloodResourceBar from './AscensionBloodResourceBar';
 import TimeShardsStrainResourceBar from './TimeShardsStrainResourceBar';
 import MayhemModifiersResourceBar from './MayhemModifiersResourceBar';
+import ChaosWeaverResourceDisplay from './ChaosWeaverResourceDisplay';
+import { BRICK, INK, PAPER } from './calmBarPalette';
 import PropheticVisionsResourceBar from './PropheticVisionsResourceBar';
 import DominanceDieResourceBar from './DominanceDieResourceBar';
 import ApexResourceBar from '../../data/classes/apex/components/ApexResourceBar';
@@ -1201,9 +1203,58 @@ const ClassResourceBar = ({
         );
     };
 
+    // Chaos Weaver: read-only Possibility Tile display. Tile state is manual
+    // tabletop state; the HUD never draws, refills or moves tiles on its own.
+    // An empty/uninitialized resource must show an explicit notice instead of
+    // the read-only display's invalid box (which would misreport as corruption,
+    // not "not set up yet").
+    const renderChaosWeaverTiles = () => {
+        const resource = finalClassResource || {};
+        const tiles = resource.tiles ?? null;
+        const initialized = resource.initialized === true && tiles !== null;
+
+        if (!initialized) {
+            return (
+                <div
+                    className="chaos-weaver-resource-display chaos-weaver-resource-uninitialized"
+                    data-cw-uninitialized="true"
+                    role="note"
+                    style={{
+                        border: `1px solid ${BRICK}`,
+                        borderRadius: 4,
+                        padding: '8px 10px',
+                        background: PAPER,
+                        color: INK,
+                        fontSize: '0.78rem',
+                        maxWidth: '360px'
+                    }}
+                >
+                    <strong>Possibility Tiles</strong> — no rehearsal session set up. The six tiles start
+                    where they physically are; open a rehearsal session at the table to track zones.
+                </div>
+            );
+        }
+
+        return (
+            <ChaosWeaverResourceDisplay
+                tiles={tiles}
+                pending={resource.pending ?? null}
+                anomaly={resource.anomaly ?? null}
+                disabledReason={
+                    resource.rehearsalValid === false
+                        ? 'Rehearsal state failed validation — fix the session at the table.'
+                        : 'Manual tabletop only — tile moves are not automated in the HUD.'
+                }
+                onInspect={null}
+            />
+        );
+    };
+
     // Render different resource types
     const renderResourceDisplay = () => {
         switch (finalConfig.visual.type) {
+            case 'chaos-weaver-tiles':
+                return renderChaosWeaverTiles();
             case 'orbs':
                 return renderOrbs();
             case 'staff':
@@ -1890,13 +1941,19 @@ const ClassResourceBar = ({
         'vengeance-points',      // Warden
         'mayhem-gauge',          // Harbinger
         'dual-omen',             // Augur
-        'fervor-gauge'           // Crusader
+        'fervor-gauge',          // Crusader
+        'chaos-weaver-tiles'     // Chaos Weaver
     ]);
     const hasDedicatedBar = DEDICATED_BAR_TYPES.has(finalConfig.visual?.type);
 
     // Hide CR bar if class has no resource system (max === 0)
     // This prevents showing "0/0" bars for GMs or characters without class resources
-    if (!finalClassResource.max || finalClassResource.max === 0) {
+    // Exception: Chaos Weaver tiles must still render their explicit
+    // "no rehearsal session set up" notice while uninitialized (max === 0).
+    if (
+        (!finalClassResource.max || finalClassResource.max === 0) &&
+        finalConfig.visual?.type !== 'chaos-weaver-tiles'
+    ) {
         return null;
     }
 

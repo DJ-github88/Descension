@@ -24,5 +24,15 @@
 .p9-chip { pointer-events: auto; background: #f6efe1; color: #2b2116; border: 1px solid #8a6d45; border-radius: 6px; padding: 6px 8px; font-size: 12px; max-width: 360px; }
 /* Integration follow-through 2026-10-15: the attachment and spell-adjudication controls sat under the party
    frames (same unpositioned host div at 0,0); give them their own visible layer on the free right edge. */
-.party-hud-frames > .actor-consequence-layer { position: fixed; top: 84px; right: 16px; z-index: 2; max-width: 420px; max-height: calc(100vh - 340px); overflow-y: auto; background: rgba(246, 239, 225, 0.94); color: #2b2116; border: 1px solid #8a6d45; border-radius: 6px; padding: 6px 10px; font-size: 13px; }
+.party-hud-frames > .actor-consequence-layer { position: fixed; top: 84px; right: 16px; z-index: 2; max-width: min(420px, calc(100vw - 32px)); max-height: min(calc(100vh - 340px), 46vh); overflow-y: auto; background: rgba(246, 239, 225, 0.94); color: #2b2116; border: 1px solid #8a6d45; border-radius: 6px; padding: 6px 10px; font-size: 13px; }
 .party-hud-frames > .actor-consequence-layer:empty { display: none !important; }
+/* P12 integration closure 2026-10-18: the column is height-bounded and collapsible so creature ability fans and
+   tokens below or behind it stay reachable (the fan's z-index is local to the map and cannot rise above the HUD). */
+.party-hud-frames > .actor-consequence-layer .acl-toggle { display: block; margin: 0 0 4px auto; padding: 2px 8px; font: inherit; font-size: 12px; color: #2b2116; background: #efe3cc; border: 1px solid #8a6d45; border-radius: 4px; cursor: pointer; }
+.party-hud-frames > .actor-consequence-layer .acl-toggle:focus-visible { outline: 2px solid #34588f; outline-offset: 2px; }
+.party-hud-frames > .actor-consequence-layer.acl-collapsed { padding: 4px; overflow: hidden; }
+.party-hud-frames > .actor-consequence-layer.acl-collapsed > :not(.acl-toggle) { display: none !important; }
+.party-hud-frames > .actor-consequence-layer.acl-collapsed .acl-toggle { margin: 0; }
+@media (max-width: 1100px) {
+  .party-hud-frames > .actor-consequence-layer { max-width: min(340px, calc(100vw - 32px)); max-height: min(calc(100vh - 340px), 40vh); font-size: 12px; }
+}

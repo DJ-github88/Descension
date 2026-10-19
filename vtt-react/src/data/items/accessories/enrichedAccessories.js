@@ -45,7 +45,7 @@ export const ENRICHED_ACCESSORIES = [
     type: 'accessory',
     subtype: 'AMULET',
     quality: 'uncommon',
-    description: 'An amulet containing a shard of the Pale Wastes, eternally frozen. The cold whispers of a northern coven still echo within its crystalline heart.',
+    description: 'An amulet containing a shard of the Pale Wastes, eternally frozen. The rime whispers of a northern coven still echo within its crystalline heart.',
     iconId: 'Armor/Neck/teal-crystal-pendant',
     value: { gold: 1, silver: 0, copper: 0 },
     stackable: false,
@@ -62,11 +62,11 @@ export const ENRICHED_ACCESSORIES = [
     combatStats: {
       spellDamage: {
         types: {
-          cold: { value: 3, isPercentage: false }
+          rime: { value: 3, isPercentage: false }
         }
       },
       resistances: {
-        cold: { value: 4, isPercentage: false }
+        rime: { value: 4, isPercentage: false }
       },
       conditionModifiers: {
         frozen: {
@@ -152,7 +152,7 @@ export const ENRICHED_ACCESSORIES = [
     },
     combatStats: {
       resistances: {
-        shadow: { value: 4, isPercentage: false }
+        wyrd: { value: 4, isPercentage: false }
       },
       conditionModifiers: {
         frightened: {
@@ -224,8 +224,7 @@ export const ENRICHED_ACCESSORIES = [
     },
     combatStats: {
       resistances: {
-        blight: { value: 4, isPercentage: false },
-        poison: { value: 3, isPercentage: false }
+        blight: { value: 7, isPercentage: false }
       },
       conditionModifiers: {
         poisoned: {
@@ -357,7 +356,7 @@ export const ENRICHED_ACCESSORIES = [
     combatStats: {
       spellDamage: {
         types: {
-          cold: { value: 6, isPercentage: false }
+          rime: { value: 6, isPercentage: false }
         }
       },
       onHitEffects: {
@@ -386,7 +385,7 @@ export const ENRICHED_ACCESSORIES = [
         }
       },
       resistances: {
-        cold: { value: 5, isPercentage: false }
+        rime: { value: 5, isPercentage: false }
       },
       conditionModifiers: {
         frozen: {
@@ -473,12 +472,11 @@ export const ENRICHED_ACCESSORIES = [
     combatStats: {
       spellDamage: {
         types: {
-          shadow: { value: 5, isPercentage: false },
-          wyrd: { value: 3, isPercentage: false }
+          wyrd: { value: 8, isPercentage: false }
         }
       },
       resistances: {
-        shadow: { value: 5, isPercentage: false }
+        wyrd: { value: 5, isPercentage: false }
       },
       onHitEffects: {
         enabled: true,
@@ -542,8 +540,7 @@ export const ENRICHED_ACCESSORIES = [
         }
       },
       resistances: {
-        arcane: { value: 5, isPercentage: false },
-        force: { value: 3, isPercentage: false }
+        arcane: { value: 8, isPercentage: false }
       },
       conditionModifiers: {
         silenced: {
@@ -581,8 +578,7 @@ export const ENRICHED_ACCESSORIES = [
         }
       },
       resistances: {
-        blight: { value: 6, isPercentage: false },
-        poison: { value: 4, isPercentage: false }
+        blight: { value: 10, isPercentage: false }
       },
       conditionModifiers: {
         poisoned: {
@@ -670,11 +666,11 @@ export const ENRICHED_ACCESSORIES = [
     combatStats: {
       spellDamage: {
         types: {
-          psychic: { value: 5, isPercentage: false }
+          wyrd: { value: 5, isPercentage: false }
         }
       },
       resistances: {
-        psychic: { value: 5, isPercentage: false }
+        wyrd: { value: 5, isPercentage: false }
       },
       onHitEffects: {
         enabled: true,
@@ -808,11 +804,11 @@ export const ENRICHED_ACCESSORIES = [
     combatStats: {
       spellDamage: {
         types: {
-          cold: { value: 8, isPercentage: false }
+          rime: { value: 8, isPercentage: false }
         }
       },
       resistances: {
-        cold: { value: 10, isPercentage: false },
+        rime: { value: 10, isPercentage: false },
         storm: { value: 5, isPercentage: false }
       },
       onHitEffects: {
@@ -946,13 +942,12 @@ export const ENRICHED_ACCESSORIES = [
     combatStats: {
       spellDamage: {
         types: {
-          shadow: { value: 8, isPercentage: false },
+          wyrd: { value: 8, isPercentage: false },
           blight: { value: 5, isPercentage: false }
         }
       },
       resistances: {
-        shadow: { value: 10, isPercentage: false },
-        wyrd: { value: 5, isPercentage: false }
+        wyrd: { value: 15, isPercentage: false }
       },
       onHitEffects: {
         enabled: true,
@@ -1019,12 +1014,12 @@ export const ENRICHED_ACCESSORIES = [
     combatStats: {
       spellDamage: {
         types: {
-          psychic: { value: 8, isPercentage: false },
+          wyrd: { value: 8, isPercentage: false },
           arcane: { value: 4, isPercentage: false }
         }
       },
       resistances: {
-        psychic: { value: 8, isPercentage: false }
+        wyrd: { value: 8, isPercentage: false }
       },
       onHitEffects: {
         enabled: true,

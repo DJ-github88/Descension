@@ -1,7 +1,15 @@
 import React, { useState, useMemo, useCallback, useEffect, useRef } from 'react';
 import SpellTooltip from '../spellcrafting-wizard/components/common/SpellTooltip';
 import { isPassiveStatModifier } from '../../utils/raceDisciplineSpellUtils';
-import { getRacialBaseStats, getRacialSavingThrowModifiers, formatSavingThrowModifier, getFullRaceData } from '../../data/raceData';
+import {
+  getRacialBaseStats,
+  getRacialSavingThrowModifiers,
+  formatSavingThrowModifier,
+  getFullRaceData,
+  getHeritageCrest,
+  getHeritageImage,
+  getRaceData
+} from '../../data/raceData';
 import { getIconUrl } from '../../utils/assetManager';
 import RaceEpicLore from './RaceEpicLore';
 import LoreLink from '../common/LoreLink';
@@ -95,6 +103,8 @@ const getRaceList = async () => {
       essence: race.essence,
       gradient: race.gradient,
       icon: race.icon,
+      banner: race.banner || `${PUB}/assets/images/banners/${race.id}_banner.png`,
+      crest: race.crest,
       variantCount: Object.keys(race.subraces || {}).length
     }));
   } catch (error) {
@@ -765,81 +775,301 @@ const transformTraitToSpell = (trait) => {
 };
 
 
-// Memoized Race Card Component
+const SUBRACE_EPITHETS = {
+  // Myrathil
+  shoreling_myrathil: 'Spindrift Diplomats',
+  riverling_myrathil: 'Current-Weavers',
+  deepling_myrathil: 'Trench Watchers',
+  // Mimir
+  tethered_mimir: 'The Anchored Mind',
+  veiled_mimir: 'The Shrouded Witness',
+  // Florae
+  viridian_florae: 'Canopy Striders',
+  oken_florae: 'Ironwood Sentinels',
+  // Groven
+  ithran_groven: 'Deeproot Bulwarks',
+  morgh_groven: 'Moss-Warded Wardens',
+  // Solari
+  thrask_solari: 'Cinder-Forged Zealots',
+  korr_solari: 'Solar Seekers',
+  // Vreken
+  clean_vreken: 'The Unmarked Blood',
+  marked_vreken: 'The Brand of Penance',
+  // Neth
+  drun_neth: 'Dune-Carvers',
+  kessen_neth: 'Canyon Prowlers',
+  velun_neth: 'Silk-Step Nomads',
+  // Astril
+  vashir_astril: 'Starlight Voyagers',
+  silath_astril: 'Void-Crystalline Sages',
+  // Fexrick
+  clockwork_fexrick: 'Gearsmith Perfectionists',
+  caustic_fexrick: 'Alchemical Pioneers',
+  drall_fexric: 'Iron-Foundry Titans',
+  kethrin_fexric: 'Clockspring Weavers',
+  // Human
+  ordan_human: 'Prairie Vanguard',
+  thalren_human: 'Highland Sovereigns',
+  skald_human: 'Runic Chroniclers',
+  tessen_human: 'River-Baron Guildmasters',
+  merryn_human: 'Gilded Mercantile Navigators'
+};
+
+const getSubraceEpithet = (subObj) => {
+  if (!subObj) return '';
+  if (subObj.title) return subObj.title;
+  if (subObj.epithet) return subObj.epithet;
+  if (subObj.essence) return subObj.essence;
+  if (SUBRACE_EPITHETS[subObj.id]) return SUBRACE_EPITHETS[subObj.id];
+  const key = (subObj.id || subObj.name || '').toLowerCase();
+  for (const [k, v] of Object.entries(SUBRACE_EPITHETS)) {
+    if (key.includes(k) || k.includes(key)) return v;
+  }
+  return '';
+};
+
+// Heraldic hanging banner for race card
+const HeraldicRaceBanner = React.memo(({ race, isSelected }) => {
+  const [imgLoaded, setImgLoaded] = useState(false);
+  const [imgFailed, setImgFailed] = useState(false);
+  const bannerSrc = race?.banner || `${PUB}/assets/images/banners/${race?.id}_banner.png`;
+
+  useEffect(() => {
+    setImgLoaded(false);
+    setImgFailed(false);
+  }, [bannerSrc]);
+
+  return (
+    <div className={`race-banner-stage ${isSelected ? 'selected' : ''}`} aria-hidden="true">
+      {!imgFailed && (
+        <img
+          src={bannerSrc}
+          alt={`${race?.name || 'Lineage'} banner`}
+          className={`race-banner-artwork ${imgLoaded ? 'loaded' : 'loading'}`}
+          onLoad={() => setImgLoaded(true)}
+          onError={() => setImgFailed(true)}
+        />
+      )}
+      {(!imgLoaded || imgFailed) && (
+        <div className="race-banner-fallback">
+          <i className={`${race?.icon || 'fas fa-shield-alt'} race-banner-fallback-icon`} />
+        </div>
+      )}
+    </div>
+  );
+});
+
+// Ornate portrait slot for variant / subrace with candidate resolution & gothic corners
+const SubracePortraitSlot = React.memo(({ subObj, raceId, isSelected }) => {
+  const candidates = useMemo(() => {
+    const list = [];
+    if (subObj?.id) {
+      list.push(`${PUB}/assets/icons/subraces/medium/${subObj.id}.png`);
+      list.push(`${PUB}/assets/icons/subraces/${subObj.id}.png`);
+    }
+    if (subObj?.crest) {
+      list.push(subObj.crest.startsWith('http') ? subObj.crest : `${PUB}${subObj.crest.startsWith('/') ? '' : '/'}${subObj.crest}`);
+    }
+    const heritageCrest = getHeritageCrest(raceId, subObj?.id);
+    if (heritageCrest) {
+      list.push(heritageCrest.startsWith('http') ? heritageCrest : `${PUB}${heritageCrest.startsWith('/') ? '' : '/'}${heritageCrest}`);
+    }
+    if (subObj?.portrait) {
+      list.push(subObj.portrait.startsWith('http') ? subObj.portrait : `${PUB}${subObj.portrait.startsWith('/') ? '' : '/'}${subObj.portrait}`);
+    }
+    if (subObj?.icon && typeof subObj.icon === 'string' && (subObj.icon.startsWith('/') || subObj.icon.startsWith('http') || subObj.icon.includes('.'))) {
+      list.push(subObj.icon.startsWith('http') ? subObj.icon : `${PUB}${subObj.icon.startsWith('/') ? '' : '/'}${subObj.icon}`);
+    }
+    if (Array.isArray(subObj?.illustrations)) {
+      const bust = subObj.illustrations.find(ill => {
+        const s = typeof ill === 'string' ? ill : ill?.src;
+        return s && (s.includes('portrait') || s.includes('bust'));
+      });
+      if (bust) {
+        const s = typeof bust === 'string' ? bust : bust.src;
+        list.push(s.startsWith('http') ? s : `${PUB}${s.startsWith('/') ? '' : '/'}${s}`);
+      }
+    }
+    if (subObj?.illustration) {
+      list.push(subObj.illustration.startsWith('http') ? subObj.illustration : `${PUB}${subObj.illustration.startsWith('/') ? '' : '/'}${subObj.illustration}`);
+    }
+    if (subObj?.id) {
+      list.push(`${PUB}/assets/images/crests/${subObj.id}_crest.png`);
+    }
+    if (raceId && subObj?.id) {
+      list.push(`${PUB}/assets/images/crests/${raceId}_${subObj.id}_crest.png`);
+    }
+    if (raceId) {
+      list.push(`${PUB}/assets/images/crests/${raceId}_crest.png`);
+    }
+    return list;
+  }, [subObj?.id, subObj?.crest, subObj?.portrait, subObj?.icon, subObj?.illustrations, subObj?.illustration, raceId]);
+
+  const [candIndex, setCandIndex] = useState(0);
+  const [imgLoaded, setImgLoaded] = useState(false);
+  const [failedAll, setFailedAll] = useState(false);
+
+  useEffect(() => {
+    setCandIndex(0);
+    setImgLoaded(false);
+    setFailedAll(false);
+  }, [subObj?.id, candidates]);
+
+  const handleImgError = () => {
+    if (candIndex < candidates.length - 1) {
+      setCandIndex(prev => prev + 1);
+      setImgLoaded(false);
+    } else {
+      setFailedAll(true);
+    }
+  };
+
+  const raceData = getRaceData(raceId);
+  const fallbackIcon = raceData?.icon || 'fas fa-shield-alt';
+
+  return (
+    <div className={`subrace-portrait-slot ${isSelected ? 'selected' : ''} ${imgLoaded ? 'has-artwork' : 'is-fallback'}`} aria-hidden="true">
+      <div className={`subrace-portrait-frame ${imgLoaded ? 'has-artwork' : 'is-fallback'}`}>
+        {!failedAll && candidates[candIndex] && (
+          <img
+            key={candidates[candIndex]}
+            src={candidates[candIndex]}
+            alt=""
+            className={`subrace-portrait-img ${imgLoaded ? 'loaded' : 'loading'}`}
+            onLoad={() => setImgLoaded(true)}
+            onError={handleImgError}
+          />
+        )}
+        {(!imgLoaded || failedAll) && (
+          <span className="subrace-portrait-fallback-sigil">
+            <i className={`${fallbackIcon} subrace-fallback-icon`} />
+          </span>
+        )}
+        <span className="subrace-frame-corner corner-nw" />
+        <span className="subrace-frame-corner corner-ne" />
+        <span className="subrace-frame-corner corner-sw" />
+        <span className="subrace-frame-corner corner-se" />
+      </div>
+    </div>
+  );
+});
+
+// Watermark crest in background of variant cards
+const SubraceCrestWatermark = React.memo(({ crestSrc }) => {
+  const [failed, setFailed] = useState(false);
+
+  useEffect(() => {
+    setFailed(false);
+  }, [crestSrc]);
+
+  if (!crestSrc || failed) return null;
+
+  return (
+    <div className="subrace-crest-watermark" aria-hidden="true">
+      <img
+        src={crestSrc}
+        alt=""
+        onError={() => setFailed(true)}
+      />
+    </div>
+  );
+});
+
+// Magnificent Heraldic Banner Card Component
 const RaceCard = React.memo(({ race, isSelected, onSelect }) => {
-  const displayText = race.cardFlavor || race.description;
-  const truncatedDesc = displayText
-    ? displayText.length > 220
-      ? displayText.substring(0, 220).trim() + '...'
-      : displayText
-    : null;
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      onSelect(race.id);
+    }
+  };
 
   return (
     <button
       type="button"
-      className={`race-card race-card-${race.id} ${isSelected ? 'selected' : ''}`}
+      className={`race-card race-banner-card race-card-${race.id} ${isSelected ? 'selected' : ''}`}
       onClick={() => onSelect(race.id)}
+      onKeyDown={handleKeyDown}
       aria-pressed={isSelected}
-      aria-label={`Select ${race.name}`}
+      aria-label={`Select ${race.name} lineage`}
       style={{ '--race-gradient': race.gradient }}
     >
-        <span className="race-card-bg-effects" aria-hidden="true"></span>
-        <span className="race-card-fx" aria-hidden="true"></span>
-        {RACE_WATERCOLOR[race.id] && (
-          <img
-            className="race-card-watermark"
-            src={`${PUB}/assets/images/${RACE_WATERCOLOR[race.id]}.png`}
-            alt=""
-            aria-hidden="true"
-            loading="lazy"
-            decoding="async"
-            onError={(e) => { e.target.style.display = 'none'; }}
-          />
+      <HeraldicRaceBanner race={race} isSelected={isSelected} />
+
+      <div className="race-token-text race-banner-nameplate">
+        <span className="race-token-label race-banner-label">{race.name}</span>
+        {race.essence && race.essence !== race.name && (
+          <span className="race-token-essence race-banner-essence">{race.essence}</span>
         )}
-        <span className="race-card-header">
-          <span className="race-card-icon" aria-hidden="true">
-            <i className={race.icon}></i>
+        {race.variantCount > 0 && (
+          <span className="race-banner-variant-badge" title={`${race.variantCount} Lineage Variants`}>
+            <i className="fas fa-shield-alt" aria-hidden="true"></i>
+            <span>{race.variantCount} {race.variantCount === 1 ? 'Variant' : 'Variants'}</span>
           </span>
-          <span className="race-card-title-area">
-            <span className="race-card-name">{race.name}</span>
-            {race.essence && <span className="race-card-essence">{race.essence}</span>}
-          </span>
-        </span>
-        {truncatedDesc && (
-          <span className="race-card-description">{truncatedDesc}</span>
         )}
-        <span className="race-card-info">
-          <span className="info-badge">
-            <i className="fas fa-users" aria-hidden="true"></i>
-            {race.variantCount} {race.variantCount === 1 ? 'Variant' : 'Variants'}
-          </span>
-        </span>
+      </div>
+
+      {isSelected && (
+        <div className="race-banner-selected-seal" aria-hidden="true" title="Active Lineage">
+          <i className="fas fa-check" />
+        </div>
+      )}
     </button>
   );
 });
 
-// Crest-led rows keep variants comparable without turning the page into a card wall.
-const VariantCard = React.memo(({ variantId, variant, onSelect }) => {
+// Lineage Variant Heraldic Card Component
+const VariantCard = React.memo(({ variantId, variant, raceId, onSelect }) => {
+  const rawCrest = variant?.crest || getHeritageCrest(raceId, variantId) || `/assets/images/crests/${variantId}_crest.png`;
+  const subraceCrestSrc = rawCrest ? (rawCrest.startsWith('http') ? rawCrest : `${PUB}${rawCrest.startsWith('/') ? '' : '/'}${rawCrest}`) : null;
+  const epithet = getSubraceEpithet(variant);
+  const summary = variant?.tooltipSummary || (variant?.description ? (variant.description.length > 180 ? variant.description.substring(0, 180).trim() + '...' : variant.description) : '');
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      onSelect(variantId);
+    }
+  };
+
   return (
     <button
       type="button"
-      className="race-variant-option"
+      className="race-variant-option rpg-subrace-card variant-heraldic-card"
       onClick={() => onSelect(variantId)}
+      onKeyDown={handleKeyDown}
       aria-label={`View ${variant.name} variant details`}
     >
-      <span className="race-variant-emblem" aria-hidden="true">
-        {variant.crest ? <img src={variant.crest} alt="" /> : <i className="fas fa-shield-alt"></i>}
-      </span>
-      <span className="race-variant-copy">
-        <span className="race-variant-name">{variant.name}</span>
-        <span className="race-variant-description">{variant.tooltipSummary || (variant.description?.length > 160 ? variant.description.substring(0, 160).trim() + '...' : variant.description)}</span>
+      <SubraceCrestWatermark crestSrc={subraceCrestSrc} />
+
+      <SubracePortraitSlot
+        subObj={variant}
+        raceId={raceId}
+        isSelected={false}
+      />
+
+      <div className="subrace-card-body">
+        <div className="subrace-card-header">
+          <div className="subrace-card-titles">
+            <span className="subrace-card-name">{variant.name}</span>
+            {epithet && (
+              <span className="subrace-card-epithet">{epithet}</span>
+            )}
+          </div>
+          <span className="subrace-card-action" aria-hidden="true">
+            <span className="subrace-action-label">Explore Lineage</span>
+            <i className="fas fa-arrow-right"></i>
+          </span>
+        </div>
+
+        {summary && (
+          <p className="subrace-card-summary">{renderLoreText(summary)}</p>
+        )}
+
         {variant.statModifiers && Object.keys(variant.statModifiers).length > 0 && (
           <StatModifiersMini statModifiers={variant.statModifiers} />
         )}
-      </span>
-      <span className="race-variant-open" aria-hidden="true">
-        <i className="fas fa-arrow-right"></i>
-      </span>
+      </div>
     </button>
   );
 });
@@ -1304,30 +1534,43 @@ const RaceSelector = () => {
             {/* Race Info Panel */}
             <div className="race-info-panel" key={selectedRace}>
               <div className="race-info-header">
-                <div className="race-info-title-row">
-                  <div className="race-info-title-area">
-                    <h3 className="race-info-name">{raceData.name}</h3>
-                    {raceData.essence && <p className="race-info-essence">{raceData.essence}</p>}
+                <div className="variant-lineage-banner-header">
+                  <img
+                    src={raceData.banner || `${PUB}/assets/images/banners/${raceData.id}_banner.png`}
+                    alt={`${raceData.name} banner`}
+                    className="variant-lineage-banner-preview"
+                  />
+                  <div className="variant-lineage-banner-info">
+                    <div className="race-info-title-row">
+                      <div className="race-info-title-area">
+                        <span className="variant-lineage-pretitle">Lineage &amp; Variants</span>
+                        <h3 className="race-info-name">{raceData.name}</h3>
+                        {raceData.essence && <p className="race-info-essence">{raceData.essence}</p>}
+                      </div>
+                      {raceData.epicHistory && (
+                        <button
+                          type="button"
+                          className="epic-lore-button"
+                          onClick={() => setShowEpicLore(true)}
+                        >
+                          <i className="fas fa-book-open"></i>
+                          Lore
+                        </button>
+                      )}
+                    </div>
+                    {raceData.cardFlavor && <p className="race-info-intro">{renderLoreText(raceData.cardFlavor)}</p>}
                   </div>
-                  {raceData.epicHistory && (
-                    <button
-                      type="button"
-                      className="epic-lore-button"
-                      onClick={() => setShowEpicLore(true)}
-                    >
-                      <i className="fas fa-book-open"></i>
-                      Lore
-                    </button>
-                  )}
                 </div>
-                {raceData.cardFlavor && <p className="race-info-intro">{renderLoreText(raceData.cardFlavor)}</p>}
               </div>
 
               <div className="race-info-layout">
                 <div className="race-selection-content">
                   <section className="race-variant-options" aria-labelledby="race-variant-heading">
                     <div className="race-variant-heading">
-                      <h3 className="step-title" id="race-variant-heading">Choose a Variant</h3>
+                      <h3 className="step-title" id="race-variant-heading">
+                        <i className="fas fa-shield-alt" aria-hidden="true" style={{ color: '#d4af37' }}></i>
+                        Choose a Variant
+                      </h3>
                       <span className="race-variant-count">
                         {Object.keys(raceData.subraces).length} {Object.keys(raceData.subraces).length === 1 ? 'variant' : 'variants'}
                       </span>
@@ -1339,6 +1582,7 @@ const RaceSelector = () => {
                           key={variantId}
                           variantId={variantId}
                           variant={variant}
+                          raceId={raceData.id}
                           onSelect={handleVariantSelect}
                         />
                       ))}
@@ -1444,8 +1688,18 @@ const RaceSelector = () => {
         <div className="variant-details-view">
           <div className="variant-details-header">
             <div className="variant-details-identity">
-              {variantData.crest && (
-                <img src={variantData.crest} alt="" className="variant-details-crest-hero" />
+              <img
+                src={raceData.banner || `${PUB}/assets/images/banners/${raceData.id}_banner.png`}
+                alt=""
+                className="variant-header-banner-mini"
+                aria-hidden="true"
+              />
+              {(variantData.crest || getHeritageCrest(raceData.id, variantData.id)) && (
+                <img
+                  src={variantData.crest || getHeritageCrest(raceData.id, variantData.id)}
+                  alt=""
+                  className="variant-details-crest-hero"
+                />
               )}
               <div>
                 <h3 className="variant-details-title">{variantData.name} Details</h3>
@@ -1481,6 +1735,7 @@ const RaceSelector = () => {
               <div className="switcher-buttons">
                 {Object.entries(raceData.subraces).map(([variantId, variant]) => {
                   const isSelected = selectedVariant === variantId;
+                  const crestSrc = variant.crest || getHeritageCrest(raceData.id, variantId) || `${PUB}/assets/images/crests/${variantId}_crest.png`;
                   return (
                     <button
                       key={variantId}
@@ -1488,9 +1743,15 @@ const RaceSelector = () => {
                       className={`switcher-btn ${isSelected ? 'active' : ''}`}
                       aria-pressed={isSelected}
                       onClick={() => handleVariantSelect(variantId)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          e.preventDefault();
+                          handleVariantSelect(variantId);
+                        }
+                      }}
                     >
-                      {variant.crest && (
-                        <img src={variant.crest} alt="" className="switcher-btn-crest" />
+                      {crestSrc && (
+                        <img src={crestSrc} alt="" className="switcher-btn-crest" onError={(e) => { e.target.style.display = 'none'; }} />
                       )}
                       <span className="switcher-btn-label">
                         <span className="variant-name">{variant.name}</span>

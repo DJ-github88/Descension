@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { getStore, registerStore } from './storeRegistry';
 
 /**
  * SpellAoEStore - Live spell AoE template placement on the game grid.
@@ -46,6 +47,8 @@ export function buildAoEColor(hex) {
 }
 
 const initialState = {
+  // B2: transient action-bound measuring session; geometry only, no captured recipients.
+  actionPreview: null,
   // Active placement tool config, null when idle
   // { shape, sizeFeet, label, color: { stroke, fill } }
   tool: null,
@@ -75,6 +78,8 @@ const useSpellAoEStore = create((set, get) => ({
   startPlacement: (config) => {
     const tool = resolveTool(config, get().tool);
     if (!tool) return;
+    get().endActionPreview();
+    getStore('targetingStore')?.getState().cancelTargetPick();
     set({
       tool,
       anchor: null,
@@ -133,7 +138,23 @@ const useSpellAoEStore = create((set, get) => ({
 
   clearPlacement: () => {
     set({ placement: null });
+  },
+
+  startActionPreview: (session) => {
+    get().endActionPreview();
+    getStore('targetingStore')?.getState().cancelTargetPick();
+    set({ tool: null, placement: null, anchor: null, cursor: null, actionPreview: { ...session, placing: true, origin: null, confirmed: false } });
+  },
+  updateActionPreview: (patch) => {
+    if (get().actionPreview) set({ actionPreview: { ...get().actionPreview, ...patch } });
+  },
+  endActionPreview: () => {
+    const session = get().actionPreview;
+    if (!session) return;
+    set({ actionPreview: null });
+    session.onReturn?.();
   }
 }));
 
+registerStore('spellAoEStore', useSpellAoEStore);
 export default useSpellAoEStore;

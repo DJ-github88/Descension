@@ -159,6 +159,7 @@ import { TOXICOLOGIST_DATA } from '../../data/classes/toxicologistData';
 import { WARDEN_DATA } from '../../data/classes/wardenData';
 import { AUGUR_DATA } from '../../data/classes/augurData';
 import { CRUSADER_DATA } from '../../data/classes/crusaderData';
+import { CHAOS_WEAVER_DATA } from '../../data/classes/chaosWeaverIntegration';
 
 
 
@@ -276,7 +277,9 @@ const CLASS_DATA_MAP = {
 
     'Augur': AUGUR_DATA,
 
-    'Crusader': CRUSADER_DATA
+    'Crusader': CRUSADER_DATA,
+
+    'Chaos Weaver': CHAOS_WEAVER_DATA
 
 };
 
@@ -596,6 +599,12 @@ const LevelUpChoiceModal = ({
 
         const classData = CLASS_DATA_MAP[characterClass];
 
+        // Classes with an explicit progression policy expose only their
+        // authored optional pools as legal level-up picks. Granted core
+        // spells, signature actives and passive rank records are never free
+        // level-up options (RI-1 integration).
+        const progressionPolicy = classData?.progression?.policy || null;
+
 
 
         if (!classData && availableSpells.length === 0) {
@@ -642,6 +651,13 @@ const LevelUpChoiceModal = ({
 
 
 
+                if (progressionPolicy) {
+                    if (spellLevel > currentLevel) return false;
+                    if (!progressionPolicy.allowEarlierUnchosen && spellLevel !== currentLevel) return false;
+                    const poolForLevel = classData?.spellPools?.[spellLevel];
+                    return Array.isArray(poolForLevel) && poolForLevel.includes(spell.id);
+                }
+
                 return spellLevel === currentLevel;
 
 
@@ -658,7 +674,10 @@ const LevelUpChoiceModal = ({
 
 
 
-            const spellIds = getLevelSpellIds(classData, currentLevel);
+            const eligibleLevels = progressionPolicy && progressionPolicy.allowEarlierUnchosen
+                ? Array.from({ length: currentLevel }, (_, index) => index + 1)
+                : [currentLevel];
+            const spellIds = eligibleLevels.flatMap(lvl => getLevelSpellIds(classData, lvl));
 
 
 
@@ -934,11 +953,9 @@ const LevelUpChoiceModal = ({
 
 
 
-        // For level 2, present only 3 random options
-
-
-
-        if (currentLevel === 2 && processedSpells.length > 3) {
+        // For level 2, present only 3 random options. Classes with an
+        // explicit progression policy keep every authored legal pick.
+        if (!progressionPolicy && currentLevel === 2 && processedSpells.length > 3) {
 
 
 

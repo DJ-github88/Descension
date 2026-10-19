@@ -52,39 +52,44 @@ export const ENRICHED_ARMOR = [
       constitution: { value: 2, isPercentage: false },
       agility: { value: 1, isPercentage: false }
     },
-    combatStats: {
+        combatStats: {
       resistances: {
-        cold: { value: 6, isPercentage: false }
+        rime: {
+          value: 6,
+          isPercentage: false
+        }
       },
       conditionModifiers: {
         frozen: {
-          modifier: 'advantage',
-          label: 'Advantage',
-          description: 'Roll twice, take the higher result',
-          color: '#4caf50'
+          modifier: "advantage",
+          label: "Advantage",
+          description: "Roll twice, take the higher result",
+          color: "#4caf50"
         }
       },
       onHitEffects: {
         enabled: true,
-        procType: 'dice',
+        procType: "dice",
         procChance: 15,
         diceThreshold: 18,
-        cardProcRule: 'face_cards',
-        coinProcRule: 'all_heads',
+        cardProcRule: "face_cards",
+        coinProcRule: "all_heads",
         coinCount: 3,
-        procSuit: 'hearts',
+        procSuit: "hearts",
         spellEffect: null,
-        customEffects: ['frozen'],
+        customEffects: [
+          "frozen"
+        ],
         useRollableTable: false,
         effect: {
-          effectType: 'damage',
+          effectType: "damage",
           effectConfig: {
-            formula: '1d6',
-            damageType: 'rime',
+            formula: "1d6",
+            damageType: "rime",
             isDot: false,
             dotDuration: 2,
-            dotTickFrequency: 'round',
-            targetType: 'attacker',
+            dotTickFrequency: "round",
+            targetType: "attacker",
             areaRadius: 0
           }
         }
@@ -163,16 +168,19 @@ export const ENRICHED_ARMOR = [
       agility: { value: 3, isPercentage: false },
       intelligence: { value: 1, isPercentage: false }
     },
-    combatStats: {
+        combatStats: {
       resistances: {
-        shadow: { value: 5, isPercentage: false }
+        wyrd: {
+          value: 5,
+          isPercentage: false
+        }
       },
       conditionModifiers: {
         frightened: {
-          modifier: 'advantage',
-          label: 'Advantage',
-          description: 'Roll twice, take the higher result',
-          color: '#4caf50'
+          modifier: "advantage",
+          label: "Advantage",
+          description: "Roll twice, take the higher result",
+          color: "#4caf50"
         }
       }
     },
@@ -197,17 +205,19 @@ export const ENRICHED_ARMOR = [
       constitution: { value: 2, isPercentage: false },
       agility: { value: 1, isPercentage: false }
     },
-    combatStats: {
+        combatStats: {
       resistances: {
-        blight: { value: 4, isPercentage: false },
-        poison: { value: 2, isPercentage: false }
+        blight: {
+          value: 6,
+          isPercentage: false
+        }
       },
       conditionModifiers: {
         poisoned: {
-          modifier: 'advantage',
-          label: 'Advantage',
-          description: 'Roll twice, take the higher result',
-          color: '#4caf50'
+          modifier: "advantage",
+          label: "Advantage",
+          description: "Roll twice, take the higher result",
+          color: "#4caf50"
         }
       }
     },
@@ -267,32 +277,40 @@ export const ENRICHED_ARMOR = [
       strength: { value: 2, isPercentage: false },
       spirit: { value: 1, isPercentage: false }
     },
-    combatStats: {
+        combatStats: {
       resistances: {
-        sacred: { value: 5, isPercentage: false },
-        physical: { value: 3, isPercentage: false }
+        sacred: {
+          value: 5,
+          isPercentage: false
+        },
+        smashing: {
+          value: 3,
+          isPercentage: false
+        }
       },
       onHitEffects: {
         enabled: true,
-        procType: 'dice',
+        procType: "dice",
         procChance: 15,
         diceThreshold: 17,
-        cardProcRule: 'face_cards',
-        coinProcRule: 'all_heads',
+        cardProcRule: "face_cards",
+        coinProcRule: "all_heads",
         coinCount: 3,
-        procSuit: 'hearts',
+        procSuit: "hearts",
         spellEffect: null,
-        customEffects: ['radiant_burn'],
+        customEffects: [
+          "radiant_burn"
+        ],
         useRollableTable: false,
         effect: {
-          effectType: 'damage',
+          effectType: "damage",
           effectConfig: {
-            formula: '1d6',
-            damageType: 'sacred',
+            formula: "1d6",
+            damageType: "sacred",
             isDot: false,
             dotDuration: 2,
-            dotTickFrequency: 'round',
-            targetType: 'attacker',
+            dotTickFrequency: "round",
+            targetType: "attacker",
             areaRadius: 0
           }
         }
@@ -319,17 +337,23 @@ export const ENRICHED_ARMOR = [
       constitution: { value: 1, isPercentage: false },
       agility: { value: 2, isPercentage: false }
     },
-    combatStats: {
+        combatStats: {
       resistances: {
-        storm: { value: 3, isPercentage: false },
-        cold: { value: 3, isPercentage: false }
+        storm: {
+          value: 3,
+          isPercentage: false
+        },
+        rime: {
+          value: 3,
+          isPercentage: false
+        }
       },
       conditionModifiers: {
         frozen: {
-          modifier: 'advantage',
-          label: 'Advantage',
-          description: 'Roll twice, take the higher result',
-          color: '#4caf50'
+          modifier: "advantage",
+          label: "Advantage",
+          description: "Roll twice, take the higher result",
+          color: "#4caf50"
         }
       }
     },
@@ -356,41 +380,52 @@ export const ENRICHED_ARMOR = [
       constitution: { value: 3, isPercentage: false },
       agility: { value: -2, isPercentage: false }
     },
-    combatStats: {
+        combatStats: {
       resistances: {
-        ember: { value: 10, isPercentage: false },
-        physical: { value: 5, isPercentage: false }
+        ember: {
+          value: 10,
+          isPercentage: false
+        },
+        smashing: {
+          value: 5,
+          isPercentage: false
+        }
       },
       conditionModifiers: {
         burning: {
-          modifier: 'immune',
-          label: 'Immune',
-          description: 'Cannot be affected by burning',
-          color: '#4caf50'
+          modifier: "immune",
+          label: "Immune",
+          description: "Cannot be affected by burning",
+          color: "#4caf50"
         }
       },
-      maxHealth: { value: 15, isPercentage: false },
+      maxHealth: {
+        value: 15,
+        isPercentage: false
+      },
       onHitEffects: {
         enabled: true,
-        procType: 'dice',
+        procType: "dice",
         procChance: 20,
         diceThreshold: 16,
-        cardProcRule: 'face_cards',
-        coinProcRule: 'all_heads',
+        cardProcRule: "face_cards",
+        coinProcRule: "all_heads",
         coinCount: 3,
-        procSuit: 'hearts',
+        procSuit: "hearts",
         spellEffect: null,
-        customEffects: ['burning'],
+        customEffects: [
+          "burning"
+        ],
         useRollableTable: false,
         effect: {
-          effectType: 'damage',
+          effectType: "damage",
           effectConfig: {
-            formula: '1d8',
-            damageType: 'ember',
+            formula: "1d8",
+            damageType: "ember",
             isDot: true,
             dotDuration: 2,
-            dotTickFrequency: 'round',
-            targetType: 'attacker',
+            dotTickFrequency: "round",
+            targetType: "attacker",
             areaRadius: 0
           }
         }
@@ -417,40 +452,48 @@ export const ENRICHED_ARMOR = [
       constitution: { value: 2, isPercentage: false },
       strength: { value: 1, isPercentage: false }
     },
-    combatStats: {
+        combatStats: {
       resistances: {
-        cold: { value: 8, isPercentage: false },
-        physical: { value: 3, isPercentage: false }
+        rime: {
+          value: 8,
+          isPercentage: false
+        },
+        smashing: {
+          value: 3,
+          isPercentage: false
+        }
       },
       conditionModifiers: {
         frozen: {
-          modifier: 'immune',
-          label: 'Immune',
-          description: 'Cannot be affected by freezing',
-          color: '#4caf50'
+          modifier: "immune",
+          label: "Immune",
+          description: "Cannot be affected by freezing",
+          color: "#4caf50"
         }
       },
       onHitEffects: {
         enabled: true,
-        procType: 'dice',
+        procType: "dice",
         procChance: 18,
         diceThreshold: 17,
-        cardProcRule: 'face_cards',
-        coinProcRule: 'all_heads',
+        cardProcRule: "face_cards",
+        coinProcRule: "all_heads",
         coinCount: 3,
-        procSuit: 'hearts',
+        procSuit: "hearts",
         spellEffect: null,
-        customEffects: ['frozen'],
+        customEffects: [
+          "frozen"
+        ],
         useRollableTable: false,
         effect: {
-          effectType: 'control',
+          effectType: "control",
           effectConfig: {
-            controlType: 'freeze',
+            controlType: "freeze",
             controlDuration: 1,
             saveDC: 14,
-            saveType: 'constitution',
+            saveType: "constitution",
             knockbackDistance: 10,
-            targetType: 'attacker',
+            targetType: "attacker",
             areaRadius: 0
           }
         }
@@ -530,46 +573,50 @@ export const ENRICHED_ARMOR = [
       intelligence: { value: 3, isPercentage: false },
       spirit: { value: 2, isPercentage: false }
     },
-    combatStats: {
+        combatStats: {
       resistances: {
-        shadow: { value: 8, isPercentage: false },
-        wyrd: { value: 5, isPercentage: false }
+        wyrd: {
+          value: 13,
+          isPercentage: false
+        }
       },
       conditionModifiers: {
         frightened: {
-          modifier: 'immune',
-          label: 'Immune',
-          description: 'Cannot be affected by fear',
-          color: '#4caf50'
+          modifier: "immune",
+          label: "Immune",
+          description: "Cannot be affected by fear",
+          color: "#4caf50"
         },
         charmed: {
-          modifier: 'advantage',
-          label: 'Advantage',
-          description: 'Roll twice, take the higher result',
-          color: '#4caf50'
+          modifier: "advantage",
+          label: "Advantage",
+          description: "Roll twice, take the higher result",
+          color: "#4caf50"
         }
       },
       onHitEffects: {
         enabled: true,
-        procType: 'cards',
+        procType: "cards",
         procChance: 20,
         diceThreshold: 18,
-        cardProcRule: 'black_cards',
-        coinProcRule: 'all_heads',
+        cardProcRule: "black_cards",
+        coinProcRule: "all_heads",
         coinCount: 3,
-        procSuit: 'spades',
+        procSuit: "spades",
         spellEffect: null,
-        customEffects: ['fear'],
+        customEffects: [
+          "fear"
+        ],
         useRollableTable: false,
         effect: {
-          effectType: 'control',
+          effectType: "control",
           effectConfig: {
-            controlType: 'fear',
+            controlType: "fear",
             controlDuration: 1,
             saveDC: 15,
-            saveType: 'spirit',
+            saveType: "spirit",
             knockbackDistance: 10,
-            targetType: 'attacker',
+            targetType: "attacker",
             areaRadius: 0
           }
         }
@@ -596,29 +643,37 @@ export const ENRICHED_ARMOR = [
       intelligence: { value: 2, isPercentage: false },
       constitution: { value: 2, isPercentage: false }
     },
-    combatStats: {
+        combatStats: {
       resistances: {
-        arcane: { value: 8, isPercentage: false },
-        force: { value: 3, isPercentage: false }
+        arcane: {
+          value: 11,
+          isPercentage: false
+        }
       },
       conditionModifiers: {
         silenced: {
-          modifier: 'immune',
-          label: 'Immune',
-          description: 'Cannot be silenced',
-          color: '#4caf50'
+          modifier: "immune",
+          label: "Immune",
+          description: "Cannot be silenced",
+          color: "#4caf50"
         },
         confused: {
-          modifier: 'advantage',
-          label: 'Advantage',
-          description: 'Roll twice, take the higher result',
-          color: '#4caf50'
+          modifier: "advantage",
+          label: "Advantage",
+          description: "Roll twice, take the higher result",
+          color: "#4caf50"
         }
       },
-      maxHealth: { value: 10, isPercentage: false },
+      maxHealth: {
+        value: 10,
+        isPercentage: false
+      },
       spellDamage: {
         types: {
-          arcane: { value: 3, isPercentage: false }
+          arcane: {
+            value: 3,
+            isPercentage: false
+          }
         }
       }
     },
@@ -643,23 +698,25 @@ export const ENRICHED_ARMOR = [
       intelligence: { value: 3, isPercentage: false },
       constitution: { value: 1, isPercentage: false }
     },
-    combatStats: {
+        combatStats: {
       resistances: {
-        blight: { value: 8, isPercentage: false },
-        poison: { value: 5, isPercentage: false }
+        blight: {
+          value: 13,
+          isPercentage: false
+        }
       },
       conditionModifiers: {
         poisoned: {
-          modifier: 'immune',
-          label: 'Immune',
-          description: 'Cannot be affected by poison',
-          color: '#4caf50'
+          modifier: "immune",
+          label: "Immune",
+          description: "Cannot be affected by poison",
+          color: "#4caf50"
         },
         diseased: {
-          modifier: 'immune',
-          label: 'Immune',
-          description: 'Cannot be affected by disease',
-          color: '#4caf50'
+          modifier: "immune",
+          label: "Immune",
+          description: "Cannot be affected by disease",
+          color: "#4caf50"
         }
       }
     },
@@ -725,47 +782,58 @@ export const ENRICHED_ARMOR = [
       constitution: { value: 3, isPercentage: false },
       spirit: { value: 2, isPercentage: false }
     },
-    combatStats: {
+        combatStats: {
       resistances: {
-        sacred: { value: 10, isPercentage: false },
-        shadow: { value: 5, isPercentage: false }
+        sacred: {
+          value: 10,
+          isPercentage: false
+        },
+        wyrd: {
+          value: 5,
+          isPercentage: false
+        }
       },
       conditionModifiers: {
         charmed: {
-          modifier: 'immune',
-          label: 'Immune',
-          description: 'Cannot be charmed',
-          color: '#4caf50'
+          modifier: "immune",
+          label: "Immune",
+          description: "Cannot be charmed",
+          color: "#4caf50"
         },
         frightened: {
-          modifier: 'immune',
-          label: 'Immune',
-          description: 'Cannot be frightened',
-          color: '#4caf50'
+          modifier: "immune",
+          label: "Immune",
+          description: "Cannot be frightened",
+          color: "#4caf50"
         }
       },
-      maxHealth: { value: 20, isPercentage: false },
+      maxHealth: {
+        value: 20,
+        isPercentage: false
+      },
       onHitEffects: {
         enabled: true,
-        procType: 'dice',
+        procType: "dice",
         procChance: 22,
         diceThreshold: 15,
-        cardProcRule: 'face_cards',
-        coinProcRule: 'all_heads',
+        cardProcRule: "face_cards",
+        coinProcRule: "all_heads",
         coinCount: 3,
-        procSuit: 'hearts',
+        procSuit: "hearts",
         spellEffect: null,
-        customEffects: ['radiant_burn'],
+        customEffects: [
+          "radiant_burn"
+        ],
         useRollableTable: false,
         effect: {
-          effectType: 'damage',
+          effectType: "damage",
           effectConfig: {
-            formula: '2d6',
-            damageType: 'sacred',
+            formula: "2d6",
+            damageType: "sacred",
             isDot: false,
             dotDuration: 2,
-            dotTickFrequency: 'round',
-            targetType: 'attacker',
+            dotTickFrequency: "round",
+            targetType: "attacker",
             areaRadius: 0
           }
         }
@@ -792,32 +860,40 @@ export const ENRICHED_ARMOR = [
       strength: { value: 2, isPercentage: false },
       constitution: { value: 1, isPercentage: false }
     },
-    combatStats: {
+        combatStats: {
       resistances: {
-        force: { value: 8, isPercentage: false },
-        physical: { value: 4, isPercentage: false }
+        arcane: {
+          value: 8,
+          isPercentage: false
+        },
+        smashing: {
+          value: 4,
+          isPercentage: false
+        }
       },
       onHitEffects: {
         enabled: true,
-        procType: 'dice',
+        procType: "dice",
         procChance: 20,
         diceThreshold: 16,
-        cardProcRule: 'face_cards',
-        coinProcRule: 'all_heads',
+        cardProcRule: "face_cards",
+        coinProcRule: "all_heads",
         coinCount: 3,
-        procSuit: 'hearts',
+        procSuit: "hearts",
         spellEffect: null,
-        customEffects: ['knockback'],
+        customEffects: [
+          "knockback"
+        ],
         useRollableTable: false,
         effect: {
-          effectType: 'damage',
+          effectType: "damage",
           effectConfig: {
-            formula: '1d6',
-            damageType: 'arcane',
+            formula: "1d6",
+            damageType: "arcane",
             isDot: false,
             dotDuration: 2,
-            dotTickFrequency: 'round',
-            targetType: 'attacker',
+            dotTickFrequency: "round",
+            targetType: "attacker",
             areaRadius: 0
           }
         }
@@ -844,29 +920,31 @@ export const ENRICHED_ARMOR = [
       intelligence: { value: 3, isPercentage: false },
       spirit: { value: 2, isPercentage: false }
     },
-    combatStats: {
+        combatStats: {
       resistances: {
-        psychic: { value: 8, isPercentage: false },
-        shadow: { value: 3, isPercentage: false }
+        wyrd: {
+          value: 11,
+          isPercentage: false
+        }
       },
       conditionModifiers: {
         charmed: {
-          modifier: 'immune',
-          label: 'Immune',
-          description: 'Cannot be charmed',
-          color: '#4caf50'
+          modifier: "immune",
+          label: "Immune",
+          description: "Cannot be charmed",
+          color: "#4caf50"
         },
         confused: {
-          modifier: 'immune',
-          label: 'Immune',
-          description: 'Cannot be confused',
-          color: '#4caf50'
+          modifier: "immune",
+          label: "Immune",
+          description: "Cannot be confused",
+          color: "#4caf50"
         },
         frightened: {
-          modifier: 'advantage',
-          label: 'Advantage',
-          description: 'Roll twice, take the higher result',
-          color: '#4caf50'
+          modifier: "advantage",
+          label: "Advantage",
+          description: "Roll twice, take the higher result",
+          color: "#4caf50"
         }
       }
     },
@@ -894,47 +972,64 @@ export const ENRICHED_ARMOR = [
       spirit: { value: 2, isPercentage: false },
       agility: { value: -1, isPercentage: false }
     },
-    combatStats: {
+        combatStats: {
       resistances: {
-        ember: { value: 15, isPercentage: false },
-        sacred: { value: 10, isPercentage: false },
-        physical: { value: 5, isPercentage: false }
+        ember: {
+          value: 15,
+          isPercentage: false
+        },
+        sacred: {
+          value: 10,
+          isPercentage: false
+        },
+        smashing: {
+          value: 5,
+          isPercentage: false
+        }
       },
       conditionModifiers: {
         burning: {
-          modifier: 'immune',
-          label: 'Immune',
-          description: 'Cannot be affected by burning',
-          color: '#4caf50'
+          modifier: "immune",
+          label: "Immune",
+          description: "Cannot be affected by burning",
+          color: "#4caf50"
         }
       },
-      maxHealth: { value: 30, isPercentage: false },
+      maxHealth: {
+        value: 30,
+        isPercentage: false
+      },
       spellDamage: {
         types: {
-          sacred: { value: 4, isPercentage: false }
+          sacred: {
+            value: 4,
+            isPercentage: false
+          }
         }
       },
       onHitEffects: {
         enabled: true,
-        procType: 'dice',
+        procType: "dice",
         procChance: 25,
         diceThreshold: 14,
-        cardProcRule: 'face_cards',
-        coinProcRule: 'all_heads',
+        cardProcRule: "face_cards",
+        coinProcRule: "all_heads",
         coinCount: 3,
-        procSuit: 'hearts',
+        procSuit: "hearts",
         spellEffect: null,
-        customEffects: ['burning'],
+        customEffects: [
+          "burning"
+        ],
         useRollableTable: false,
         effect: {
-          effectType: 'damage',
+          effectType: "damage",
           effectConfig: {
-            formula: '2d6',
-            damageType: 'ember',
+            formula: "2d6",
+            damageType: "ember",
             isDot: true,
             dotDuration: 3,
-            dotTickFrequency: 'round',
-            targetType: 'attacker',
+            dotTickFrequency: "round",
+            targetType: "attacker",
             areaRadius: 0
           }
         }
@@ -949,7 +1044,7 @@ export const ENRICHED_ARMOR = [
     type: 'armor',
     subtype: 'PLATE',
     quality: 'epic',
-    description: 'Full plate forged at the bottom of the Eternal Glacier, where the cold is so profound that motion itself stops. The armor radiates a killing chill — grass withers in its shadow and water turns to ice at its touch.',
+    description: 'Full plate forged at the bottom of the Eternal Glacier, where the rime is so profound that motion itself stops. The armor radiates a killing chill — grass withers in its shadow and water turns to ice at its touch.',
     iconId: 'Armor/Chest/chest-bronze-breastplate',
     value: { gold: 10, silver: 0, copper: 0 },
     stackable: false,
@@ -961,48 +1056,62 @@ export const ENRICHED_ARMOR = [
       constitution: { value: 4, isPercentage: false },
       strength: { value: 2, isPercentage: false }
     },
-    combatStats: {
+        combatStats: {
       resistances: {
-        cold: { value: 15, isPercentage: false },
-        storm: { value: 8, isPercentage: false },
-        physical: { value: 5, isPercentage: false }
+        rime: {
+          value: 15,
+          isPercentage: false
+        },
+        storm: {
+          value: 8,
+          isPercentage: false
+        },
+        smashing: {
+          value: 5,
+          isPercentage: false
+        }
       },
       conditionModifiers: {
         frozen: {
-          modifier: 'immune',
-          label: 'Immune',
-          description: 'Cannot be frozen',
-          color: '#4caf50'
+          modifier: "immune",
+          label: "Immune",
+          description: "Cannot be frozen",
+          color: "#4caf50"
         },
         shocked: {
-          modifier: 'advantage',
-          label: 'Advantage',
-          description: 'Roll twice, take the higher result',
-          color: '#4caf50'
+          modifier: "advantage",
+          label: "Advantage",
+          description: "Roll twice, take the higher result",
+          color: "#4caf50"
         }
       },
-      maxHealth: { value: 25, isPercentage: false },
+      maxHealth: {
+        value: 25,
+        isPercentage: false
+      },
       onHitEffects: {
         enabled: true,
-        procType: 'dice',
+        procType: "dice",
         procChance: 25,
         diceThreshold: 14,
-        cardProcRule: 'face_cards',
-        coinProcRule: 'all_heads',
+        cardProcRule: "face_cards",
+        coinProcRule: "all_heads",
         coinCount: 3,
-        procSuit: 'hearts',
+        procSuit: "hearts",
         spellEffect: null,
-        customEffects: ['frozen'],
+        customEffects: [
+          "frozen"
+        ],
         useRollableTable: false,
         effect: {
-          effectType: 'control',
+          effectType: "control",
           effectConfig: {
-            controlType: 'freeze',
+            controlType: "freeze",
             controlDuration: 2,
             saveDC: 16,
-            saveType: 'constitution',
+            saveType: "constitution",
             knockbackDistance: 10,
-            targetType: 'attacker',
+            targetType: "attacker",
             areaRadius: 0
           }
         }
@@ -1030,48 +1139,59 @@ export const ENRICHED_ARMOR = [
       strength: { value: 3, isPercentage: false },
       agility: { value: -2, isPercentage: false }
     },
-    combatStats: {
+        combatStats: {
       resistances: {
-        storm: { value: 15, isPercentage: false },
-        arcane: { value: 8, isPercentage: false },
-        force: { value: 5, isPercentage: false }
+        storm: {
+          value: 15,
+          isPercentage: false
+        },
+        arcane: {
+          value: 13,
+          isPercentage: false
+        }
       },
       conditionModifiers: {
         stunned: {
-          modifier: 'advantage',
-          label: 'Advantage',
-          description: 'Roll twice, take the higher result',
-          color: '#4caf50'
+          modifier: "advantage",
+          label: "Advantage",
+          description: "Roll twice, take the higher result",
+          color: "#4caf50"
         },
         shocked: {
-          modifier: 'immune',
-          label: 'Immune',
-          description: 'Cannot be shocked',
-          color: '#4caf50'
+          modifier: "immune",
+          label: "Immune",
+          description: "Cannot be shocked",
+          color: "#4caf50"
         }
       },
-      maxHealth: { value: 30, isPercentage: false },
+      maxHealth: {
+        value: 30,
+        isPercentage: false
+      },
       onHitEffects: {
         enabled: true,
-        procType: 'dice',
+        procType: "dice",
         procChance: 28,
         diceThreshold: 13,
-        cardProcRule: 'face_cards',
-        coinProcRule: 'all_heads',
+        cardProcRule: "face_cards",
+        coinProcRule: "all_heads",
         coinCount: 3,
-        procSuit: 'hearts',
+        procSuit: "hearts",
         spellEffect: null,
-        customEffects: ['shock', 'knockback'],
+        customEffects: [
+          "shock",
+          "knockback"
+        ],
         useRollableTable: false,
         effect: {
-          effectType: 'damage',
+          effectType: "damage",
           effectConfig: {
-            formula: '2d8',
-            damageType: 'storm',
+            formula: "2d8",
+            damageType: "storm",
             isDot: false,
             dotDuration: 2,
-            dotTickFrequency: 'round',
-            targetType: 'attacker',
+            dotTickFrequency: "round",
+            targetType: "attacker",
             areaRadius: 0
           }
         }
@@ -1098,59 +1218,72 @@ export const ENRICHED_ARMOR = [
       intelligence: { value: 4, isPercentage: false },
       spirit: { value: 3, isPercentage: false }
     },
-    combatStats: {
+        combatStats: {
       resistances: {
-        shadow: { value: 15, isPercentage: false },
-        wyrd: { value: 10, isPercentage: false },
-        blight: { value: 8, isPercentage: false }
+        wyrd: {
+          value: 25,
+          isPercentage: false
+        },
+        blight: {
+          value: 8,
+          isPercentage: false
+        }
       },
       conditionModifiers: {
         frightened: {
-          modifier: 'immune',
-          label: 'Immune',
-          description: 'Cannot be frightened',
-          color: '#4caf50'
+          modifier: "immune",
+          label: "Immune",
+          description: "Cannot be frightened",
+          color: "#4caf50"
         },
         charmed: {
-          modifier: 'immune',
-          label: 'Immune',
-          description: 'Cannot be charmed',
-          color: '#4caf50'
+          modifier: "immune",
+          label: "Immune",
+          description: "Cannot be charmed",
+          color: "#4caf50"
         },
         confused: {
-          modifier: 'double_advantage',
-          label: 'Double Advantage',
-          description: 'Roll three times, take the highest result',
-          color: '#2e7d32'
+          modifier: "double_advantage",
+          label: "Double Advantage",
+          description: "Roll three times, take the highest result",
+          color: "#2e7d32"
         }
       },
-      maxHealth: { value: 20, isPercentage: false },
+      maxHealth: {
+        value: 20,
+        isPercentage: false
+      },
       spellDamage: {
         types: {
-          shadow: { value: 5, isPercentage: false }
+          wyrd: {
+            value: 5,
+            isPercentage: false
+          }
         }
       },
       onHitEffects: {
         enabled: true,
-        procType: 'cards',
+        procType: "cards",
         procChance: 30,
         diceThreshold: 18,
-        cardProcRule: 'black_cards',
-        coinProcRule: 'all_heads',
+        cardProcRule: "black_cards",
+        coinProcRule: "all_heads",
         coinCount: 3,
-        procSuit: 'spades',
+        procSuit: "spades",
         spellEffect: null,
-        customEffects: ['fear'],
+        customEffects: [
+          "fear"
+        ],
         useRollableTable: false,
         effect: {
-          effectType: 'control',
+          effectType: "control",
           effectConfig: {
-            controlType: 'fear',
+            controlType: "fear",
             controlDuration: 2,
             saveDC: 17,
-            saveType: 'spirit',
+            saveType: "spirit",
             knockbackDistance: 10,
-            targetType: 'attacker',
+            targetType: "attacker",
             areaRadius: 0
           }
         }
@@ -1177,36 +1310,47 @@ export const ENRICHED_ARMOR = [
       intelligence: { value: 5, isPercentage: false },
       spirit: { value: 3, isPercentage: false }
     },
-    combatStats: {
+        combatStats: {
       resistances: {
-        arcane: { value: 15, isPercentage: false },
-        force: { value: 10, isPercentage: false },
-        wyrd: { value: 8, isPercentage: false }
+        arcane: {
+          value: 25,
+          isPercentage: false
+        },
+        wyrd: {
+          value: 8,
+          isPercentage: false
+        }
       },
       conditionModifiers: {
         silenced: {
-          modifier: 'immune',
-          label: 'Immune',
-          description: 'Cannot be silenced',
-          color: '#4caf50'
+          modifier: "immune",
+          label: "Immune",
+          description: "Cannot be silenced",
+          color: "#4caf50"
         },
         confused: {
-          modifier: 'immune',
-          label: 'Immune',
-          description: 'Cannot be confused',
-          color: '#4caf50'
+          modifier: "immune",
+          label: "Immune",
+          description: "Cannot be confused",
+          color: "#4caf50"
         },
         paralyzed: {
-          modifier: 'advantage',
-          label: 'Advantage',
-          description: 'Roll twice, take the higher result',
-          color: '#4caf50'
+          modifier: "advantage",
+          label: "Advantage",
+          description: "Roll twice, take the higher result",
+          color: "#4caf50"
         }
       },
-      maxHealth: { value: 15, isPercentage: false },
+      maxHealth: {
+        value: 15,
+        isPercentage: false
+      },
       spellDamage: {
         types: {
-          arcane: { value: 6, isPercentage: false }
+          arcane: {
+            value: 6,
+            isPercentage: false
+          }
         }
       }
     },
@@ -1231,48 +1375,58 @@ export const ENRICHED_ARMOR = [
       constitution: { value: 4, isPercentage: false },
       strength: { value: 2, isPercentage: false }
     },
-    combatStats: {
+        combatStats: {
       resistances: {
-        blight: { value: 15, isPercentage: false },
-        poison: { value: 10, isPercentage: false },
-        physical: { value: 5, isPercentage: false }
+        blight: {
+          value: 25,
+          isPercentage: false
+        },
+        smashing: {
+          value: 5,
+          isPercentage: false
+        }
       },
       conditionModifiers: {
         poisoned: {
-          modifier: 'immune',
-          label: 'Immune',
-          description: 'Cannot be poisoned',
-          color: '#4caf50'
+          modifier: "immune",
+          label: "Immune",
+          description: "Cannot be poisoned",
+          color: "#4caf50"
         },
         diseased: {
-          modifier: 'immune',
-          label: 'Immune',
-          description: 'Cannot be diseased',
-          color: '#4caf50'
+          modifier: "immune",
+          label: "Immune",
+          description: "Cannot be diseased",
+          color: "#4caf50"
         }
       },
-      maxHealth: { value: 25, isPercentage: false },
+      maxHealth: {
+        value: 25,
+        isPercentage: false
+      },
       onHitEffects: {
         enabled: true,
-        procType: 'dice',
+        procType: "dice",
         procChance: 25,
         diceThreshold: 14,
-        cardProcRule: 'face_cards',
-        coinProcRule: 'all_heads',
+        cardProcRule: "face_cards",
+        coinProcRule: "all_heads",
         coinCount: 3,
-        procSuit: 'hearts',
+        procSuit: "hearts",
         spellEffect: null,
-        customEffects: ['poisoned'],
+        customEffects: [
+          "poisoned"
+        ],
         useRollableTable: false,
         effect: {
-          effectType: 'damage',
+          effectType: "damage",
           effectConfig: {
-            formula: '2d6',
-            damageType: 'blight',
+            formula: "2d6",
+            damageType: "blight",
             isDot: true,
             dotDuration: 4,
-            dotTickFrequency: 'round',
-            targetType: 'attacker',
+            dotTickFrequency: "round",
+            targetType: "attacker",
             areaRadius: 0
           }
         }
@@ -1300,59 +1454,76 @@ export const ENRICHED_ARMOR = [
       spirit: { value: 3, isPercentage: false },
       strength: { value: 1, isPercentage: false }
     },
-    combatStats: {
+        combatStats: {
       resistances: {
-        sacred: { value: 12, isPercentage: false },
-        ember: { value: 10, isPercentage: false },
-        shadow: { value: 8, isPercentage: false }
+        sacred: {
+          value: 12,
+          isPercentage: false
+        },
+        ember: {
+          value: 10,
+          isPercentage: false
+        },
+        wyrd: {
+          value: 8,
+          isPercentage: false
+        }
       },
       conditionModifiers: {
         charmed: {
-          modifier: 'immune',
-          label: 'Immune',
-          description: 'Cannot be charmed',
-          color: '#4caf50'
+          modifier: "immune",
+          label: "Immune",
+          description: "Cannot be charmed",
+          color: "#4caf50"
         },
         frightened: {
-          modifier: 'immune',
-          label: 'Immune',
-          description: 'Cannot be frightened',
-          color: '#4caf50'
+          modifier: "immune",
+          label: "Immune",
+          description: "Cannot be frightened",
+          color: "#4caf50"
         },
         burning: {
-          modifier: 'advantage',
-          label: 'Advantage',
-          description: 'Roll twice, take the higher result',
-          color: '#4caf50'
+          modifier: "advantage",
+          label: "Advantage",
+          description: "Roll twice, take the higher result",
+          color: "#4caf50"
         }
       },
-      maxHealth: { value: 35, isPercentage: false },
+      maxHealth: {
+        value: 35,
+        isPercentage: false
+      },
       spellDamage: {
         types: {
-          sacred: { value: 5, isPercentage: false }
+          sacred: {
+            value: 5,
+            isPercentage: false
+          }
         }
       },
       onHitEffects: {
         enabled: true,
-        procType: 'dice',
+        procType: "dice",
         procChance: 28,
         diceThreshold: 13,
-        cardProcRule: 'face_cards',
-        coinProcRule: 'all_heads',
+        cardProcRule: "face_cards",
+        coinProcRule: "all_heads",
         coinCount: 3,
-        procSuit: 'hearts',
+        procSuit: "hearts",
         spellEffect: null,
-        customEffects: ['radiant_burn'],
+        customEffects: [
+          "radiant_burn"
+        ],
         useRollableTable: false,
         effect: {
-          effectType: 'damage',
+          effectType: "damage",
           effectConfig: {
-            formula: '2d8',
-            damageType: 'sacred',
+            formula: "2d8",
+            damageType: "sacred",
             isDot: false,
             dotDuration: 2,
-            dotTickFrequency: 'round',
-            targetType: 'attacker',
+            dotTickFrequency: "round",
+            targetType: "attacker",
             areaRadius: 0
           }
         }

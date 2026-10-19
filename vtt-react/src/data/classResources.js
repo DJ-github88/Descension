@@ -10,6 +10,7 @@ import { PYRO_VEIL_MAX } from './pyrofiendResourceContract';
 import { SHAPER_FLUX_MAX, SHAPER_TOLL_MAX } from './shaperResourceContract';
 import { SPELLGUARD_AEP_MAX } from './spellguardResourceContract';
 import { INQUISITOR_AUTHORITY_MAX } from './inquisitorResourceContract';
+import { CHAOS_WEAVER_TILE_IDS, CHAOS_WEAVER_TILE_SYMBOLS, CHAOS_WEAVER_TILE_ZONES } from './classes/chaosWeaverData';
 
 export const CLASS_RESOURCE_TYPES = {
  // INFERNAL PATH
@@ -998,6 +999,16 @@ export const initializeClassResource = (className, characterStats) => {
    baseResource.max = ARCANONEER_BANK_MAX;
    baseResource.rollsPerTurn = ARCANONEER_ROLL_COUNT;
   baseResource.rerollsUsed = 0;
+ } else if (className === 'Chaos Weaver') {
+  // Personal six-tile record starts uninitialized — never a silent refill of
+  // six usable tiles. A stored manual rehearsal session carries the live zones.
+  baseResource.initialized = false;
+  baseResource.rehearsal = null;
+  baseResource.tiles = null;
+  baseResource.pending = null;
+  baseResource.anomaly = null;
+  baseResource.current = 0;
+  baseResource.max = 0;
  }
 
   return normalizeManagedClassResource(baseResource, className);
@@ -1991,3 +2002,33 @@ CLASS_RESOURCE_TYPES['Crusader'] = {
 };
 
 // Doomsayer resource removed (merged into Harbinger as Mayhem gauge)
+
+CLASS_RESOURCE_TYPES['Chaos Weaver'] = {
+ id: 'chaos-weaver-tiles',
+ name: 'Possibility Tiles',
+ shortName: 'Tiles',
+ type: 'tile-zones',
+ description: 'Six exact IDs (S1, S2, M1, M2, F1, F2) each rest in exactly one zone: available, committed, bound or spent. Symbols never change; recovery is always paid; one unresolved draw and one anomaly at a time. Manual tabletop only.',
+ visual: {
+  type: 'chaos-weaver-tiles',
+  tileIds: [...CHAOS_WEAVER_TILE_IDS],
+  tileSymbols: { ...CHAOS_WEAVER_TILE_SYMBOLS },
+  zones: [...CHAOS_WEAVER_TILE_ZONES],
+  baseColor: '#3F2A56',
+  activeColor: '#5f4b8b',
+  glowColor: '#B9A7E0'
+ },
+ mechanics: {
+  initialized: false,
+  current: 0,
+  max: 0,
+  tileCount: 6,
+  consumeVerb: 'spend',
+  gainVerb: 'recover'
+ },
+ tooltip: {
+  title: 'Possibility Tiles — six IDs, four zones',
+  description: 'Available tiles can be chosen as inputs; committed tiles back an unresolved action; bound tiles fuel a placed anomaly; spent tiles return only through paid Fold (1 AP) or a confirmed completed long rest. Nothing here is applied automatically.',
+  showZones: true
+ }
+};

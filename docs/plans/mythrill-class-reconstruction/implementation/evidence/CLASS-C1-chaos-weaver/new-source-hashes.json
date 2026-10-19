@@ -1,0 +1,52 @@
+{
+  "capturedAt": "2026-10-18 15:24 local",
+  "scope": "CLASS-C1 Chaos Weaver implementation (class-local candidate content and manual workshop only). 10 new files + 2 modified files; no other path edited by this implementation.",
+  "newFiles": [
+    { "path": "vtt-react/src/data/classes/chaosWeaverData.js", "sha256": "ad768b4dc18f1dcc7006a6a24dab71a0c556a3008e4d48b760fec8305582852a", "lines": 1965 },
+    { "path": "vtt-react/src/data/classes/chaosWeaverRules.js", "sha256": "105159e577d32dff0f8c96aebc1989947a50bbc971f9a6a12aa087cddbf8fec4", "lines": 1303 },
+    { "path": "vtt-react/src/data/talentTrees/chaosWeaver.js", "sha256": "8c8e7d5dd13e7d4af763d6832eb4ae291d30fea5608ac1c7520ea885944cced0", "lines": 1228 },
+    { "path": "vtt-react/src/components/hud/ChaosWeaverResourceDisplay.jsx", "sha256": "72f07d979be0aa6dc5a1e3e55ef82dee516939d8b7b28fa35eefd9b7c9d3a903", "lines": 373 },
+    { "path": "vtt-react/src/components/rules/chaos-weaver/ChaosWeaverWorkshop.jsx", "sha256": "acb9a8ac2e5f407b1ad3265ae6ca84b92f2bb7561152fa15a6991a315cbf38a6", "lines": 1592 },
+    { "path": "vtt-react/src/components/rules/chaos-weaver/ChaosWeaverWorkshop.css", "sha256": "257aabd7f4ff5e3c553f9eb08979a1efedd1671085103df4f399dec8229d1bbc", "lines": 529 },
+    { "path": "vtt-react/src/data/classes/__tests__/chaosWeaverPackage.test.js", "sha256": "72c1a58c27807bd53d1dbec4a19ec39345c3c0d4218c4148c894629af852bf0c", "lines": 162 },
+    { "path": "vtt-react/src/data/classes/__tests__/chaosWeaverRules.test.js", "sha256": "24171a961110b2b8c00d1a0b2a2c9eeb5b09e3dcb85954ef9a28b968cad12136", "lines": 442 },
+    { "path": "vtt-react/src/components/rules/chaos-weaver/__tests__/ChaosWeaverWorkshop.test.jsx", "sha256": "2d902e419871f81edd2ace764a51a1da2c575139686f8d116943abab672cfa34", "lines": 166 },
+    { "path": "vtt-react/src/components/hud/__tests__/ChaosWeaverResourceDisplay.test.jsx", "sha256": "51192670d39e83a6d7c2aaafab0afb0173f7133d89b598cf7863f5e4f1b88ebc", "lines": 116 }
+  ],
+  "modifiedFiles": [
+    {
+      "path": "vtt-react/src/components/rules/ClassesDisplay.jsx",
+      "currentSha256": "092d30e652eadaef920e80c9b9413ac83b2d881a0c02a0137fad4efecb631ca7",
+      "entryWorkingHash": "a996fd0db15da1443300b1930f04b0c8a12cfecf7a29c421ef3beb3d88249fdb",
+      "entryWorkingHashSource": "planning-validation.json (2026-10-18T12:33:18Z, working copy before implementation)",
+      "headBlobSha256": "d4c6d4703e2f9fedbcb64af37cb394808c34b81afb13bc83b43e7f7359f9680c",
+      "diff": "classesdisplay-edits.patch (git diff, working tree vs HEAD)"
+    },
+    {
+      "path": "vtt-react/src/components/rules/__tests__/ClassesDisplay.test.jsx",
+      "currentSha256": "9ccbe4c2a83416b9be9c7b6b0d414609e94752c543d2ce2c15da8fb2667b9b3e",
+      "entryWorkingHash": null,
+      "entryWorkingHashSource": "not captured before implementation; HEAD blob recorded instead",
+      "headBlobSha256": "e196f2271f40e137182344d0450fa55162f8fe5933322bb4095b16fe1c4d8677",
+      "diff": "classesdisplay-edits.patch (git diff, working tree vs HEAD)"
+    }
+  ],
+  "preservationCheck": {
+    "method": "SHA-256 re-hash of every path in planning-validation.json sourceHashes against the current working copy (preservation-check.json)",
+    "checked": 25,
+    "matched": 21,
+    "changed": [
+      { "path": "server/services/blockApprovals.js", "classification": "concurrent work outside this task scope; working-copy mtime 2026-10-18 15:00:07" },
+      { "path": "server/handlers/actorConsequenceHandlers.js", "classification": "concurrent work outside this task scope; working-copy mtime 2026-10-18 15:00:07" },
+      { "path": "server/tests/p12bBlockWear.production.test.js", "classification": "concurrent work outside this task scope; working-copy mtime 2026-10-18 15:00:08" },
+      { "path": "vtt-react/src/components/rules/ClassesDisplay.jsx", "classification": "by design (authorized modification #11)" }
+    ],
+    "newFilesStatus": "All eight new source/test paths were absent at entry (git status '??'), one new directory vtt-react/src/components/rules/chaos-weaver/ created.",
+    "commitPolicy": "No commits, amendments, pushes or deploys were made by the implementer."
+  },
+  "testEvidence": {
+    "log": "test-run.log",
+    "command": "$env:CI='true'; npx react-scripts test --watchAll=false --runInBand --runTestsByPath <5 suites>",
+    "result": "5 suites passed, 5 total; 45 tests passed, 45 total"
+  }
+}

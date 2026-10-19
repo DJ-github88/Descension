@@ -1,5 +1,6 @@
 # P12 — Targeting and Defense Resolution (contract)
 
+**Revision 5, 2026-10-17: P12B-r1 (§3.9) FROZEN for implementation (HQ authorization of 2026-10-17).**
 **Revision 4, 2026-10-16. Slice 12A is FROZEN and complete (revision 3a). Slice 12B-thin (§3) is FROZEN for
 implementation (HQ authorization of 2026-10-16).** Approved creator decision: **C1/D-E** only (the item's current
 authored die is its blocking die and wear track). None of the other creator decisions in
@@ -580,6 +581,73 @@ order with a focused regression.
 | B12 | Owner custody: interrupted saves, duplicate/out-of-order receipts, eviction, changed equipment, retired attachment, full-pack breakage; competing values preserved |
 | B13 | Break-path regression |
 | B14 | Production App owner/GM path plus P12A/P8/P9 regressions |
+
+### 3.9 P12B-r1 — recorded rolls survive stale state (FROZEN, revision 5, 2026-10-17)
+
+HQ authorization of 2026-10-17 with amendments. No new creator rule is approved: "Don't block" for an
+unavailable piece is **not** automated (S1 stays open).
+
+**Principle.** A recorded attack roll (offer) and a recorded block face (approval) are never discarded to
+obtain a new roll. They end only by consumption, owner withdrawal, GM void or an unconsumable binding
+failure; every ending keeps the offer closed with its recorded outcome.
+
+**Offer baseline (server memory, not hashed, never sent to players).** At `actor_block_offer` the server
+stores `{revision, commitSequence, resources (hp/mana/ap current/temp/max), conditionsHash}` of the source
+creature next to the offer.
+
+**R1 Carry-forward (automatic).** When the creature's revision differs from `attack.sourceRevision`, the
+server walks the P7 ledger from the baseline. Carry-forward is allowed only when **all** hold:
+- `baseline.commitSequence ≥ replayFloor` (no pruned history) and every intervening receipt that names the
+  creature is retained;
+- each such receipt is a consumed `p12b-block:v1/creature-attack-block` command with
+  `authorization.kind = owner-approval-gm`, `receipt.source` = this creature and `chosen.attack.source` =
+  this creature (a sibling attack); a matching capability name alone is not enough;
+- for each receipt, the creature entry's `beforeRevision` equals the previous `afterRevision` (contiguous),
+  it carries no class payment, blocking or wear, its condition list hashes equal to the baseline, HP and mana
+  (current/temp/max) equal the previous state, and AP equals `tempFirst(previous AP, chosen.attack.apCost)`
+  with the same max;
+- the chain ends at the creature's current revision and its current resources/conditions equal the chain's
+  final state.
+
+The GM command then names the creature's **current** revision; AP is recomputed temp-first from current
+pools. Insufficient AP refuses (`insufficient_resources`) and the approval **stays pending**.
+
+**R2 Attack revalidation (explicit).** Any other difference fails `attack_revalidation_required` (details:
+from/to revision, `history_unavailable` or `unexplained_change`, public HP/mana/AP before→now and whether
+conditions changed) and the approval stays pending. The GM may resubmit with
+`chosen.revalidation = {fromRevision: attack.sourceRevision, toRevision: current, reason}` (reason 1–300
+characters). `revalidation` must be absent when no revalidation is required. The recorded attack bytes and
+block face are unchanged; the public receipt carries the revalidation.
+
+**R3 Target side (explicit; no reinterpretation).** At consumption the approval's recorded block
+`{revision, slot, itemId, die}` must still be the current first available piece at the same declaration
+revision. Otherwise the approval stays pending and fails:
+- `block_piece_unavailable` — the recorded piece is broken or no longer in its shared slot;
+- `block_revalidation_required` — the piece is present but the declaration revision, die or first available
+  piece changed (for example wear from an earlier hit).
+A face rolled on one die is never treated as a roll on another die. The only resolutions are GM **void**
+(then HP by hand through the existing direct GM consequence) or owner withdrawal. No automatic Don't block.
+
+**R4 Closure without reopening.** Owner withdrawal, GM void (`actor_block_decline` with `approvalId`), GM
+withdrawal of an unrolled offer, consumption and unconsumable binding failures (`critical_bypasses_armor`,
+`actor_binding_conflict`, `secondary_attachment`, `actor_not_found`) close the approval **and** the offer.
+A closed offer keeps a tombstone `{commandId, code, ability, attack roll, outcome, proposedDamage, block
+face/piece if rolled, closedAt}` (≤ 4096 per room, process memory like approvals). Re-offering the same
+`commandId` and approving a closed offer fail `offer_closed`. `actor_block_list` returns the 32 most recent
+tombstones to the GM and to the target's owner only. A new attack is a new offer with a new `commandId`;
+its tombstone history stays visible to both.
+
+**Client.** GM planner uses the current creature revision; on `attack_revalidation_required` the GM card
+shows the changes and offers "Recorded rolls still stand" (reason required) or "Void attack"; on
+`block_piece_unavailable`/`block_revalidation_required` it shows recorded versus current piece and offers
+only "Void block roll — resolve HP by hand". The owner never sees a "roll again" path for a closed offer.
+
+**Acceptance (adds to B1–B14).** B15 one creature, two attacks on one PC, both faces kept, AP spent twice;
+B16 two PCs; B17 intervening strike → revalidation required → GM confirms with reason → receipt records it;
+B18 void → nothing applied, `offer_closed` for re-approval and re-offer; B19 insufficient AP → pending kept;
+B20 pruned history → revalidation; B21 piece unavailable → pending, only void; B22 wear between approval
+and consumption → `block_revalidation_required`; B23 a forged sibling (same capability, other source or extra
+change) does not carry forward; B24 owner withdraw closes the offer; retries return the original receipt.
 
 ## 4. Non-goals
 

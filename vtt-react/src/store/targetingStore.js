@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { createStorageConfig } from '../utils/storageUtils';
+import { getStore, registerStore } from './storeRegistry';
 
 // Target types
 export const TARGET_TYPES = {
@@ -293,6 +294,38 @@ const useTargetingStore = create(
                 }
             },
 
+            // P12C-B1: one map pick for a supported controller. Not persisted (partialize below).
+            // session: { id, label, sourceRef, candidates: [exact refs], rangeFeet, rangeLabel, reasonFor(ref), onPick(ref), onCancel() }
+            pickSession: null,
+            startTargetPick: (session) => {
+                getStore('spellAoEStore')?.getState().endActionPreview();
+                getStore('spellAoEStore')?.getState().cancelPlacement();
+                getStore('spellAoEStore')?.getState().clearPlacement();
+                const prior = get().pickSession;
+                if (prior && prior.id !== session?.id) prior.onCancel?.();
+                set({ pickSession: session && typeof session.onPick === 'function' ? { ...session, startedAt: Date.now() } : null });
+            },
+            completeTargetPick: (ref) => {
+                const session = get().pickSession;
+                if (!session) return false;
+                set({ pickSession: null });
+                session.onPick(ref);
+                return true;
+            },
+            cancelTargetPick: () => {
+                const session = get().pickSession;
+                if (!session) return;
+                set({ pickSession: null });
+                session.onCancel?.();
+            },
+            // P12C-B1: a controller that closes ends only its own pick session.
+            cancelTargetPickFor: (id) => {
+                const session = get().pickSession;
+                if (!session || session.id !== id) return;
+                set({ pickSession: null });
+                session.onCancel?.();
+            },
+
             resetStore: () => {
                 set({
                     currentTarget: null,
@@ -313,4 +346,5 @@ const useTargetingStore = create(
     )
 );
 
+registerStore('targetingStore', useTargetingStore);
 export default useTargetingStore;

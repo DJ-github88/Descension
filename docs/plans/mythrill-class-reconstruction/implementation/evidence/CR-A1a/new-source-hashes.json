@@ -1,9 +1,21 @@
 {
   "generatedAt": "2026-10-18",
-  "note": "CR-A1a new files only. No pre-existing file was modified; preservation re-verified against entry-server-hashes.json (108/108 byte-identical).",
+  "note": "CR-A1a new files only. No pre-existing file was modified; preservation re-verified against entry-server-hashes.json (108/108 byte-identical). Source hashes refreshed 2026-10-18 after the bounded F1/F2 strict-input correction requested by the retained independent review; the frozen fixture is unchanged.",
+  "correction": {
+    "review": "docs/plans/mythrill-class-reconstruction/implementation/evidence/CR-A1a-independent-review/review.md",
+    "changes": [
+      "F1: own Symbol keys on objects and arrays are now rejected (never stripped) without reading their values or invoking accessors",
+      "F2: arrays must have the ordinary Array prototype before traversal (subclassed/altered-prototype arrays fail before any traversal)",
+      "Capacity claim corrected: the legal 128-definition/256-decision boundary is reachable below the 256 KiB byte cap and is now a focused regression"
+    ],
+    "previousHashes": {
+      "server/services/authoredSpellDefinitions.js": "b2bc0c7e70fe9118203a23dab910158ba17e91812ba2db014551132993323b49",
+      "server/tests/authoredSpellDefinitions.test.js": "ea549faeb22b684858af28ed1fa3594db9b00a7732fe42dc9a8239abdc9df4b5"
+    }
+  },
   "files": {
-    "server/services/authoredSpellDefinitions.js": "b2bc0c7e70fe9118203a23dab910158ba17e91812ba2db014551132993323b49",
-    "server/tests/authoredSpellDefinitions.test.js": "ea549faeb22b684858af28ed1fa3594db9b00a7732fe42dc9a8239abdc9df4b5",
+    "server/services/authoredSpellDefinitions.js": "48b69255b8958ae75a7aa17ed7aa67c95b6d4c2bada63f4dcd24a305e20f0003",
+    "server/tests/authoredSpellDefinitions.test.js": "6a2f58f23d9217fc8eddf6af81d6de7f63f2232d29b519156f05fbca74037aa4",
     "server/tests/fixtures/crA1aDefinitionVectors.json": "e6a98a497308b8535538b9887435c9189127afa768b60cd8e01af31cd3c55bdb"
   },
   "frozenFixtureSource": {

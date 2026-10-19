@@ -26,6 +26,7 @@ import { SHAPER_DATA } from '../../classes/shaperData';
 import { REVENANT_DATA } from '../../classes/revenantData';
 import { FALSE_PROPHET_DATA } from '../../classes/falseProphetData';
 import { GAMBIT_DATA } from '../../classes/gambitData';
+import { CHAOS_WEAVER_DATA } from '../../classes/chaosWeaverIntegration';
 
 const CLASS_DATA = {
  warden: WARDEN_DATA,
@@ -47,8 +48,9 @@ const CLASS_DATA = {
  revenant: REVENANT_DATA,
  false_prophet: FALSE_PROPHET_DATA,
  gambit: GAMBIT_DATA,
- arcanoneer: ARCANONEER_DATA,
- crusader: CRUSADER_DATA,
+  arcanoneer: ARCANONEER_DATA,
+  crusader: CRUSADER_DATA,
+  'chaos-weaver': CHAOS_WEAVER_DATA,
 };
 
 describe('resource system guides', () => {

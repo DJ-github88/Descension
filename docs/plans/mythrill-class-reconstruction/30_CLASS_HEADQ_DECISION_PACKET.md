@@ -1,5 +1,7 @@
 # Class HeadQ decision packet — seven priority candidates, R1
 
+**Current continuation supersession (2026-10-18):** this R1 packet is retained research. Class HeadQ has parked A1b/shared engine integration under Main Mythrill HeadQ and resumed complete class content. Latest settled decisions: Druid; Augur into Fate Weaver with useful content preserved; Harbinger becomes Doomsayer; Oracle independent. [Class-first reset](33_CLASS_DELIVERY_RESET_AND_ENGINE_HANDOFF.md), [first complete Chaos Weaver package](implementation/CLASS-C1-CHAOS-WEAVER.md). Older open naming/merger questions and infrastructure-first gates below are superseded, not application migrations.
+
 **Milestone: coherent design package prepared for HeadQ review.** **DESIGN INTENT: Druid's player-facing name and the selective familiar-naming principle are approved.** The anatomical economy, specializations, native additions and other game designs below remain **PROPOSED**, not an approved final roster. Application implementation remains unauthorized. The original master assignment remains incomplete.
 
 **Later HeadQ result:** seven core directions are accepted for prototype development, not exact tuning/abilities/trees/natives. [32](32_FROZEN_HANDOFF_AND_PROTOTYPE_ACCEPTANCE.md) now contains the frozen W1a/W1b/A1a handoff and exact dependency boundary. This does not authorize code or migration.

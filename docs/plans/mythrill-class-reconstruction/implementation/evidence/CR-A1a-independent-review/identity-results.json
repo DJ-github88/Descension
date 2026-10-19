@@ -1,0 +1,701 @@
+{
+  "capturedAt": "2026-10-18T11:57:36.129Z",
+  "branch": "master",
+  "head": "8ba81efbf935e08d4fcd488a9b597f5eb8031b0f",
+  "reportedNewFiles": [
+    {
+      "file": "server/services/authoredSpellDefinitions.js",
+      "expected": "48b69255b8958ae75a7aa17ed7aa67c95b6d4c2bada63f4dcd24a305e20f0003",
+      "actual": "48b69255b8958ae75a7aa17ed7aa67c95b6d4c2bada63f4dcd24a305e20f0003",
+      "match": true
+    },
+    {
+      "file": "server/tests/authoredSpellDefinitions.test.js",
+      "expected": "6a2f58f23d9217fc8eddf6af81d6de7f63f2232d29b519156f05fbca74037aa4",
+      "actual": "6a2f58f23d9217fc8eddf6af81d6de7f63f2232d29b519156f05fbca74037aa4",
+      "match": true
+    },
+    {
+      "file": "server/tests/fixtures/crA1aDefinitionVectors.json",
+      "expected": "e6a98a497308b8535538b9887435c9189127afa768b60cd8e01af31cd3c55bdb",
+      "actual": "e6a98a497308b8535538b9887435c9189127afa768b60cd8e01af31cd3c55bdb",
+      "match": true
+    }
+  ],
+  "entryExistingFiles": [
+    {
+      "file": "server/services/spellPayments.js",
+      "expected": "b3d8194a9cb39286980b81f5b0deb2f4e4c6521e824373d4ce0d64e3ce9bd208",
+      "actual": "b3d8194a9cb39286980b81f5b0deb2f4e4c6521e824373d4ce0d64e3ce9bd208",
+      "match": true
+    },
+    {
+      "file": "server/tests/helpers/fakeCheckpointFirestore.js",
+      "expected": "60134a7234b5e7ba616071d3f090d73213b048031124cfa565e6613ca28c09bb",
+      "actual": "60134a7234b5e7ba616071d3f090d73213b048031124cfa565e6613ca28c09bb",
+      "match": true
+    },
+    {
+      "file": "server/tests/combatSchemas.test.js",
+      "expected": "d8c398cd9ad88e1ce731b0418d4b914af46320f3b3a27bf72f2ff3f7adca5cba",
+      "actual": "d8c398cd9ad88e1ce731b0418d4b914af46320f3b3a27bf72f2ff3f7adca5cba",
+      "match": true
+    },
+    {
+      "file": "server/tests/deltaSync.test.js",
+      "expected": "98cd2cbf7c8948fdcb0902a78cbab75148dcc88824def450d24dacbee861b3af",
+      "actual": "98cd2cbf7c8948fdcb0902a78cbab75148dcc88824def450d24dacbee861b3af",
+      "match": true
+    },
+    {
+      "file": "server/tests/p7Consequences.production.test.js",
+      "expected": "dcd72f6941e60cf0523888a56d8cde0a560d42227d3bea960eb36cd316d101f7",
+      "actual": "dcd72f6941e60cf0523888a56d8cde0a560d42227d3bea960eb36cd316d101f7",
+      "match": true
+    },
+    {
+      "file": "server/services/syncRecoveryService.js",
+      "expected": "a4849f157b610d6d8e90fa04e4dfde483fad3d7b3a014f5c7c6e31b379692893",
+      "actual": "a4849f157b610d6d8e90fa04e4dfde483fad3d7b3a014f5c7c6e31b379692893",
+      "match": true
+    },
+    {
+      "file": "server/handlers/chatHandlers.js",
+      "expected": "b186a039edbe4f2cf4f03cc74223f34937f4eeb34863dd900b8f3e10cdafba99",
+      "actual": "b186a039edbe4f2cf4f03cc74223f34937f4eeb34863dd900b8f3e10cdafba99",
+      "match": true
+    },
+    {
+      "file": "server/services/conflictPolicies.js",
+      "expected": "d6233fe2a035e1c1b0b12d13a2c922aca786d5eae4e2a0685e8f8c9501e70fc9",
+      "actual": "d6233fe2a035e1c1b0b12d13a2c922aca786d5eae4e2a0685e8f8c9501e70fc9",
+      "match": true
+    },
+    {
+      "file": "server/tests/p12bBlockWear.production.test.js",
+      "expected": "b43683a7ac60843ac05fb1872bb9d3a2ae04479a3764046c12401b77c58439dc",
+      "actual": "b43683a7ac60843ac05fb1872bb9d3a2ae04479a3764046c12401b77c58439dc",
+      "match": true
+    },
+    {
+      "file": "server/tests/tokenHandlers.test.js",
+      "expected": "f167a18814ee018be9ab0431ff62192a17be4aac4b6e756181f740e5afbdb0d1",
+      "actual": "f167a18814ee018be9ab0431ff62192a17be4aac4b6e756181f740e5afbdb0d1",
+      "match": true
+    },
+    {
+      "file": "server/tests/roomCheckpointFinalCorrections.test.js",
+      "expected": "ec79f0724d76af7af93ae779d4a7211a69a99187d12c932c7b447935d8e77546",
+      "actual": "ec79f0724d76af7af93ae779d4a7211a69a99187d12c932c7b447935d8e77546",
+      "match": true
+    },
+    {
+      "file": "server/tests/helpers/productionStackServer.js",
+      "expected": "b79ced31df00b01511938de5b78108ddd08e792174187795250012b0196ffdc6",
+      "actual": "b79ced31df00b01511938de5b78108ddd08e792174187795250012b0196ffdc6",
+      "match": true
+    },
+    {
+      "file": "server/services/deltaSync.js",
+      "expected": "a1ad8dbfa535d4d354afdc2cf16cebf28ddf4993fbe5bfde2f1d3575c1401d8a",
+      "actual": "a1ad8dbfa535d4d354afdc2cf16cebf28ddf4993fbe5bfde2f1d3575c1401d8a",
+      "match": true
+    },
+    {
+      "file": "server/handlers/gmToolsHandlers.js",
+      "expected": "e8d2831a7720695298333f1da773e4c44a3253a86bdaed92fdeeb2d173186d46",
+      "actual": "e8d2831a7720695298333f1da773e4c44a3253a86bdaed92fdeeb2d173186d46",
+      "match": true
+    },
+    {
+      "file": "server/tests/gmToolsHandlers.test.js",
+      "expected": "9e082a0fc0b8c1b8721a38e70a993316b610a4f84a6f120613a0bde145f87026",
+      "actual": "9e082a0fc0b8c1b8721a38e70a993316b610a4f84a6f120613a0bde145f87026",
+      "match": true
+    },
+    {
+      "file": "server/tests/combatAuthority.test.js",
+      "expected": "31e96a957b81aa6955d9a323bf357167c7265f00b0ff42c68e9718eaacb681f9",
+      "actual": "31e96a957b81aa6955d9a323bf357167c7265f00b0ff42c68e9718eaacb681f9",
+      "match": true
+    },
+    {
+      "file": "server/tests/conflictPolicies.test.js",
+      "expected": "fa3e63e86ac43e8d90d881726da3e0cf274df18d45b31d206818bb1aecd1713a",
+      "actual": "fa3e63e86ac43e8d90d881726da3e0cf274df18d45b31d206818bb1aecd1713a",
+      "match": true
+    },
+    {
+      "file": "server/services/combatAuthority.js",
+      "expected": "e6e974edb1ed78edf6ff04c5a89e5b439422aa9c188ee9b639d044bb3baba7e5",
+      "actual": "e6e974edb1ed78edf6ff04c5a89e5b439422aa9c188ee9b639d044bb3baba7e5",
+      "match": true
+    },
+    {
+      "file": "server/tests/roomSaveLostDurabilityAccounting.test.js",
+      "expected": "364ae0a79a3303ad515526027f3a58d24f7654812bff16e75cabc8cf8247f002",
+      "actual": "364ae0a79a3303ad515526027f3a58d24f7654812bff16e75cabc8cf8247f002",
+      "match": true
+    },
+    {
+      "file": "server/services/validationService.js",
+      "expected": "6b4c162210afb033a3f3f376b86f88b3c675714af65781a71f5ade609e19645e",
+      "actual": "6b4c162210afb033a3f3f376b86f88b3c675714af65781a71f5ade609e19645e",
+      "match": true
+    },
+    {
+      "file": "server/services/deltaSyncCapabilities.js",
+      "expected": "08173fa93143b0af4e9c7625c34ade1e810ace7f08a41ef81ccac9ed31f0e0a9",
+      "actual": "08173fa93143b0af4e9c7625c34ade1e810ace7f08a41ef81ccac9ed31f0e0a9",
+      "match": true
+    },
+    {
+      "file": "server/diagnostic.js",
+      "expected": "be8bab9b59edced780639b0f12691cc35bebdc63464437c3730c3accf9b15049",
+      "actual": "be8bab9b59edced780639b0f12691cc35bebdc63464437c3730c3accf9b15049",
+      "match": true
+    },
+    {
+      "file": "server/services/sanitizationService.js",
+      "expected": "bfef593d2dd9c7eceb432b4884213dfc65ca7cd32317c73c129c75a329ec2502",
+      "actual": "bfef593d2dd9c7eceb432b4884213dfc65ca7cd32317c73c129c75a329ec2502",
+      "match": true
+    },
+    {
+      "file": "server/tests/questHandlers.test.js",
+      "expected": "b4221abfb2a8d8f383eed9eedc4639962b6fdceb61eaf2f8bab545ceb8397ced",
+      "actual": "b4221abfb2a8d8f383eed9eedc4639962b6fdceb61eaf2f8bab545ceb8397ced",
+      "match": true
+    },
+    {
+      "file": "server/tests/sanitizationService.test.js",
+      "expected": "9d480ee9cef751e25a767feba00a2a6af3ac639bdc2982f6c111d087b51e858b",
+      "actual": "9d480ee9cef751e25a767feba00a2a6af3ac639bdc2982f6c111d087b51e858b",
+      "match": true
+    },
+    {
+      "file": "server/handlers/partyHandlers.js",
+      "expected": "a69d1134df28f24fa79420a10c9cc74f76cbb0cf92c0d5f510bda35edc50b13c",
+      "actual": "a69d1134df28f24fa79420a10c9cc74f76cbb0cf92c0d5f510bda35edc50b13c",
+      "match": true
+    },
+    {
+      "file": "server/services/errorHandler.js",
+      "expected": "3ede75cdb1c9a3cbd68093d7f324cb5aad1c05861b1031a515304bb25f6f41f3",
+      "actual": "3ede75cdb1c9a3cbd68093d7f324cb5aad1c05861b1031a515304bb25f6f41f3",
+      "match": true
+    },
+    {
+      "file": "server/tests/p7ImportMetadata.production.test.js",
+      "expected": "7a527dd7ba0c02d74880ceb03991eed4e21e543cd33373f32233be2753963422",
+      "actual": "7a527dd7ba0c02d74880ceb03991eed4e21e543cd33373f32233be2753963422",
+      "match": true
+    },
+    {
+      "file": "server/handlers/audioHandlers.js",
+      "expected": "1ca089e5a3ce6ba2ae74cb3d14af471ec1f25bccdbaeece2c1b34c4180eff319",
+      "actual": "1ca089e5a3ce6ba2ae74cb3d14af471ec1f25bccdbaeece2c1b34c4180eff319",
+      "match": true
+    },
+    {
+      "file": "server/tests/helpers/fakeAuthorityBackend.js",
+      "expected": "e2f8d9484f4fd80b12b29032df919a69aa45867c398e45f93e9ebd3589ee31de",
+      "actual": "e2f8d9484f4fd80b12b29032df919a69aa45867c398e45f93e9ebd3589ee31de",
+      "match": true
+    },
+    {
+      "file": "server/services/roomAuthorityService.js",
+      "expected": "7395b0bb4ea0edf5fbf2767e138dadca2b123569848539568ae95b4e5660116c",
+      "actual": "7395b0bb4ea0edf5fbf2767e138dadca2b123569848539568ae95b4e5660116c",
+      "match": true
+    },
+    {
+      "file": "server/tests/tierService.test.js",
+      "expected": "3ffc7ed4a02f4e0d1f6b1ffa736bead42a337538c28237339eacd7eda43ee6c8",
+      "actual": "3ffc7ed4a02f4e0d1f6b1ffa736bead42a337538c28237339eacd7eda43ee6c8",
+      "match": true
+    },
+    {
+      "file": "server/tests/socketAuthMiddleware.test.js",
+      "expected": "34a5bff2d4ab0274182565967cecb7bdfef671701b3b0f2cdcbcaa38c9c29af2",
+      "actual": "34a5bff2d4ab0274182565967cecb7bdfef671701b3b0f2cdcbcaa38c9c29af2",
+      "match": true
+    },
+    {
+      "file": "server/tests/roomSaveFinalClosure.test.js",
+      "expected": "07bc9c430e759e95f0c5cda25729837f03b827c0ba0156254d1084563d8d19cd",
+      "actual": "07bc9c430e759e95f0c5cda25729837f03b827c0ba0156254d1084563d8d19cd",
+      "match": true
+    },
+    {
+      "file": "server/tests/rateLimitStore.test.js",
+      "expected": "ec41d169d3307b4d12545886ec42d158c616c97dca69779dfa4cfab38e723869",
+      "actual": "ec41d169d3307b4d12545886ec42d158c616c97dca69779dfa4cfab38e723869",
+      "match": true
+    },
+    {
+      "file": "server/services/lagCompensation.js",
+      "expected": "a152731d257e7089fb30cca511e41434fc913638b1f43d6ceb36a5e073ee35cf",
+      "actual": "a152731d257e7089fb30cca511e41434fc913638b1f43d6ceb36a5e073ee35cf",
+      "match": true
+    },
+    {
+      "file": "server/services/roomCheckpointExport.js",
+      "expected": "eb31e4159e408fa56795251873421d26baf8f0f95f08cf43f2ad6a6049e89332",
+      "actual": "eb31e4159e408fa56795251873421d26baf8f0f95f08cf43f2ad6a6049e89332",
+      "match": true
+    },
+    {
+      "file": "server/tests/integration.test.js",
+      "expected": "f4edbdc3119c6577ac57b6c830414d787fa92df33e756bf707192daa3de1e858",
+      "actual": "f4edbdc3119c6577ac57b6c830414d787fa92df33e756bf707192daa3de1e858",
+      "match": true
+    },
+    {
+      "file": "server/tests/roomAccessPrivacyProjection.test.js",
+      "expected": "75c2ef08cc1892ee11913e5ac81706fee4313cfbecc3ecd36cd0c876e53864ea",
+      "actual": "75c2ef08cc1892ee11913e5ac81706fee4313cfbecc3ecd36cd0c876e53864ea",
+      "match": true
+    },
+    {
+      "file": "server/services/memoryManager.js",
+      "expected": "6fb008d15e50ac2ab681eb953b88f75af3c87f796c8d22c3567ee636f13fe9f6",
+      "actual": "6fb008d15e50ac2ab681eb953b88f75af3c87f796c8d22c3567ee636f13fe9f6",
+      "match": true
+    },
+    {
+      "file": "server/tests/p12aWeaponStrike.production.test.js",
+      "expected": "69e756c945545a840dc26a4b1977964f892e96374905a9db1bc59404ba363bc0",
+      "actual": "69e756c945545a840dc26a4b1977964f892e96374905a9db1bc59404ba363bc0",
+      "match": true
+    },
+    {
+      "file": "server/tests/combatHandlers.test.js",
+      "expected": "1b0da7d801734dde258bad6976fcdeb3cc6caa2451ff69147e8c70fb1e56e460",
+      "actual": "1b0da7d801734dde258bad6976fcdeb3cc6caa2451ff69147e8c70fb1e56e460",
+      "match": true
+    },
+    {
+      "file": "server/handlers/socketHandlers.js",
+      "expected": "2b44cc7f716e9cbc0aeb7b5fa4c1c967a928740d85317e8df0e6d300a2836aa9",
+      "actual": "2b44cc7f716e9cbc0aeb7b5fa4c1c967a928740d85317e8df0e6d300a2836aa9",
+      "match": true
+    },
+    {
+      "file": "server/utils/constants.js",
+      "expected": "8582daa19dd8b852150bb79a89a732efacb45d1bab26fd61552b4822fa54367b",
+      "actual": "8582daa19dd8b852150bb79a89a732efacb45d1bab26fd61552b4822fa54367b",
+      "match": true
+    },
+    {
+      "file": "server/services/realtimeSync.js",
+      "expected": "3a84dcbe45d64e6c7657ddd0d2eb763ca6e0ec76455bb07eb7715d50269c6aee",
+      "actual": "3a84dcbe45d64e6c7657ddd0d2eb763ca6e0ec76455bb07eb7715d50269c6aee",
+      "match": true
+    },
+    {
+      "file": "server/services/roomAccessService.js",
+      "expected": "bd0bc22cdf24ce323c1210a03f6924058810a65cf8edf55995efc493eeac098f",
+      "actual": "bd0bc22cdf24ce323c1210a03f6924058810a65cf8edf55995efc493eeac098f",
+      "match": true
+    },
+    {
+      "file": "server/fixFirebaseKey.js",
+      "expected": "9fe36238815fec6414e9e7aefb95d5b0f0a83f4261b25b41303dd1d2958d2a08",
+      "actual": "9fe36238815fec6414e9e7aefb95d5b0f0a83f4261b25b41303dd1d2958d2a08",
+      "match": true
+    },
+    {
+      "file": "server/tests/p7Blockers.production.test.js",
+      "expected": "af0b4ec6148f3b1e6ce42b434bbd7c8f85ef0be74e1f232ff38fcaae4895babb",
+      "actual": "af0b4ec6148f3b1e6ce42b434bbd7c8f85ef0be74e1f232ff38fcaae4895babb",
+      "match": true
+    },
+    {
+      "file": "server/tests/p7Lifecycle.production.test.js",
+      "expected": "501d152c962bd56ffeb886d56dd5dcda5bee776dd5b06cb31198b3fd36cea16c",
+      "actual": "501d152c962bd56ffeb886d56dd5dcda5bee776dd5b06cb31198b3fd36cea16c",
+      "match": true
+    },
+    {
+      "file": "server/handlers/environmentHandlers.js",
+      "expected": "5fdca02f09505300e1fc96090999f11cf06a5b34ae1ae06ed494b6a33bed204b",
+      "actual": "5fdca02f09505300e1fc96090999f11cf06a5b34ae1ae06ed494b6a33bed204b",
+      "match": true
+    },
+    {
+      "file": "server/services/actorProjection.js",
+      "expected": "fb064c693f7554c8b9f5e6fbdab3baafe2a776f86c0bf75d1439549f1b2d1a8e",
+      "actual": "fb064c693f7554c8b9f5e6fbdab3baafe2a776f86c0bf75d1439549f1b2d1a8e",
+      "match": true
+    },
+    {
+      "file": "server/tests/sessionHandlers.test.js",
+      "expected": "f8f81252f53a031d3f37d5d0f070d3fc0a9cbd7b96ec50e1381ec8e9bf1b9f89",
+      "actual": "f8f81252f53a031d3f37d5d0f070d3fc0a9cbd7b96ec50e1381ec8e9bf1b9f89",
+      "match": true
+    },
+    {
+      "file": "server/services/rateLimitService.js",
+      "expected": "b09d5bea50ac33280c6a9d06e2e224c9f25ec42b2e61aca04e94a964a7f190bd",
+      "actual": "b09d5bea50ac33280c6a9d06e2e224c9f25ec42b2e61aca04e94a964a7f190bd",
+      "match": true
+    },
+    {
+      "file": "server/handlers/mapHandlers.js",
+      "expected": "219725d7cfda0a4f4aec27c68255aa6e4ca380fc9b11462acde93bebea69eb45",
+      "actual": "219725d7cfda0a4f4aec27c68255aa6e4ca380fc9b11462acde93bebea69eb45",
+      "match": true
+    },
+    {
+      "file": "server/services/actorConsequences.js",
+      "expected": "c49a75e808435074eb498aed9ba7c79915e6e62156c4fffe0f8f8c1aa18c307a",
+      "actual": "c49a75e808435074eb498aed9ba7c79915e6e62156c4fffe0f8f8c1aa18c307a",
+      "match": true
+    },
+    {
+      "file": "server/handlers/questHandlers.js",
+      "expected": "481bfc925e645aed9ef233ee45b9a6f101825d6916067161f0f159c3d47955bd",
+      "actual": "481bfc925e645aed9ef233ee45b9a6f101825d6916067161f0f159c3d47955bd",
+      "match": true
+    },
+    {
+      "file": "server/tests/p9SpellConsequences.production.test.js",
+      "expected": "5a4acd5f5a9bf8e9ec64bc1b4b73118c9e5a46e442f3607b7ba6e3150f02a923",
+      "actual": "5a4acd5f5a9bf8e9ec64bc1b4b73118c9e5a46e442f3607b7ba6e3150f02a923",
+      "match": true
+    },
+    {
+      "file": "server/tests/mapHandlers.test.js",
+      "expected": "6bd363a4563e25534cefd9e07d7aa1544e01734352a1b4e7e49d7f1790de8e19",
+      "actual": "6bd363a4563e25534cefd9e07d7aa1544e01734352a1b4e7e49d7f1790de8e19",
+      "match": true
+    },
+    {
+      "file": "server/tests/roomHandlers.test.js",
+      "expected": "73bf6faec3e479ab0d41775042f6e8a02d8409e254d3134dd956dbaa9b0a749f",
+      "actual": "73bf6faec3e479ab0d41775042f6e8a02d8409e254d3134dd956dbaa9b0a749f",
+      "match": true
+    },
+    {
+      "file": "server/.eslintrc.js",
+      "expected": "0ea2ea4aaf021c05ae97510f49d96182ccf6762f5e518ebd7535e4891bb56fc9",
+      "actual": "0ea2ea4aaf021c05ae97510f49d96182ccf6762f5e518ebd7535e4891bb56fc9",
+      "match": true
+    },
+    {
+      "file": "server/services/requestTracer.js",
+      "expected": "8188e3c2b1ad42f93fe6dcb347c1447501843bf94ea13ace9686720f6b84ee2f",
+      "actual": "8188e3c2b1ad42f93fe6dcb347c1447501843bf94ea13ace9686720f6b84ee2f",
+      "match": true
+    },
+    {
+      "file": "server/services/socketAuthMiddleware.js",
+      "expected": "f7d7fd743e1045b53d6b22f124dbbd310d266c0efe0cbf30d63874f722a32ddb",
+      "actual": "f7d7fd743e1045b53d6b22f124dbbd310d266c0efe0cbf30d63874f722a32ddb",
+      "match": true
+    },
+    {
+      "file": "server/services/roomCheckpoint.js",
+      "expected": "3eea1acb33cfa26d9b3f401ff82c4c93e113c9d8def54a7eece70badcc5ee07f",
+      "actual": "3eea1acb33cfa26d9b3f401ff82c4c93e113c9d8def54a7eece70badcc5ee07f",
+      "match": true
+    },
+    {
+      "file": "server/tests/deltaSyncCapabilities.test.js",
+      "expected": "d6400f96f1c549249f9b762e15bac75c67f130a9f60e9aae9b23ef2a78648fc9",
+      "actual": "d6400f96f1c549249f9b762e15bac75c67f130a9f60e9aae9b23ef2a78648fc9",
+      "match": true
+    },
+    {
+      "file": "server/handlers/roomLifecycleHandlers.js",
+      "expected": "feacb65fde5aeff826d00ba707f6ee9ccc04ac3581aba874346397ab771bb9bd",
+      "actual": "feacb65fde5aeff826d00ba707f6ee9ccc04ac3581aba874346397ab771bb9bd",
+      "match": true
+    },
+    {
+      "file": "server/handlers/actorConsequenceHandlers.js",
+      "expected": "a7723378cdd042e9546e8ac7c3396fef2bb4596021533ab1d8333ea899e7fefd",
+      "actual": "a7723378cdd042e9546e8ac7c3396fef2bb4596021533ab1d8333ea899e7fefd",
+      "match": true
+    },
+    {
+      "file": "server/services/firebaseService.js",
+      "expected": "40ea0af4ba9224cd901c3beb06f649a9aaed8b435e73e71ac83e474a2ac0676f",
+      "actual": "40ea0af4ba9224cd901c3beb06f649a9aaed8b435e73e71ac83e474a2ac0676f",
+      "match": true
+    },
+    {
+      "file": "server/tests/roomCheckpointFinalTwoBlockers.test.js",
+      "expected": "12214cd351e6f79dd1736d23a7f20d12f7dfb140d5e6c1f79dd504fec1f0d2a6",
+      "actual": "12214cd351e6f79dd1736d23a7f20d12f7dfb140d5e6c1f79dd504fec1f0d2a6",
+      "match": true
+    },
+    {
+      "file": "server/tests/socketHandlers.test.js",
+      "expected": "6a09e41928440f45ca27fb95ffbbb89b097d5d2c8be243290adec3ef5edc4dd2",
+      "actual": "6a09e41928440f45ca27fb95ffbbb89b097d5d2c8be243290adec3ef5edc4dd2",
+      "match": true
+    },
+    {
+      "file": "server/handlers/combatHandlers.js",
+      "expected": "0e0574a684dcc20ce1bb973242db976a4f40be812c27122c68e2a9c5df76b0e5",
+      "actual": "0e0574a684dcc20ce1bb973242db976a4f40be812c27122c68e2a9c5df76b0e5",
+      "match": true
+    },
+    {
+      "file": "server/handlers/sessionInvitationHandlers.js",
+      "expected": "9563fbf2870f5ca979176cab40e80b30e79aae72277a24d4e0864196371ae79b",
+      "actual": "9563fbf2870f5ca979176cab40e80b30e79aae72277a24d4e0864196371ae79b",
+      "match": true
+    },
+    {
+      "file": "server/tests/rateLimitService.test.js",
+      "expected": "286ff1516203ac3ec8e8e59f6bb5b1425bf4c2ee81a8875a48796ef69727d87d",
+      "actual": "286ff1516203ac3ec8e8e59f6bb5b1425bf4c2ee81a8875a48796ef69727d87d",
+      "match": true
+    },
+    {
+      "file": "server/tests/roomCheckpoint.test.js",
+      "expected": "4604118ff2c7c6b958ea1ce9c0fb2a50c5db1602ebee0024b4aaa5011615fc60",
+      "actual": "4604118ff2c7c6b958ea1ce9c0fb2a50c5db1602ebee0024b4aaa5011615fc60",
+      "match": true
+    },
+    {
+      "file": "server/server.js",
+      "expected": "3d96a1e9c7e204cbcf9370cfb61641072d5e7ef9036861cdd62acf4d58f725a9",
+      "actual": "3d96a1e9c7e204cbcf9370cfb61641072d5e7ef9036861cdd62acf4d58f725a9",
+      "match": true
+    },
+    {
+      "file": "server/handlers/sessionHandlers.js",
+      "expected": "419d729801ec2c100cbf380bf035eb7d6daf3c9bd67bb8b8cc792a380484057b",
+      "actual": "419d729801ec2c100cbf380bf035eb7d6daf3c9bd67bb8b8cc792a380484057b",
+      "match": true
+    },
+    {
+      "file": "server/handlers/utilityHandlers.js",
+      "expected": "dc291f652d794a802191de25be3db3edb2e436f2b71501c007a217077e508241",
+      "actual": "dc291f652d794a802191de25be3db3edb2e436f2b71501c007a217077e508241",
+      "match": true
+    },
+    {
+      "file": "server/services/tierService.js",
+      "expected": "b599af9db0c050c59d1710290d12b4e8db301b8ae59eb805a5b11aea180a1ce4",
+      "actual": "b599af9db0c050c59d1710290d12b4e8db301b8ae59eb805a5b11aea180a1ce4",
+      "match": true
+    },
+    {
+      "file": "server/tests/roomCheckpointCorrections.test.js",
+      "expected": "ee53f1a8646261a1d8b1be2f3a8cd3b1e510751b21cc8748871f928e08dae3c7",
+      "actual": "ee53f1a8646261a1d8b1be2f3a8cd3b1e510751b21cc8748871f928e08dae3c7",
+      "match": true
+    },
+    {
+      "file": "server/tests/roomSavePersistence.test.js",
+      "expected": "6653b1db7100ab92d4132864e71f856753799a26cf67ed69fb454899c870f64f",
+      "actual": "6653b1db7100ab92d4132864e71f856753799a26cf67ed69fb454899c870f64f",
+      "match": true
+    },
+    {
+      "file": "server/services/eventBatcher.js",
+      "expected": "f7bdf36109abd0c2357de70b9a952a063d392f9a9783848d905d4d9b9c94f1ef",
+      "actual": "f7bdf36109abd0c2357de70b9a952a063d392f9a9783848d905d4d9b9c94f1ef",
+      "match": true
+    },
+    {
+      "file": "server/services/rateLimitStore.js",
+      "expected": "232aefaa38295d2a9f6b169929b40bac98c847395a88f96653d49f9694c38015",
+      "actual": "232aefaa38295d2a9f6b169929b40bac98c847395a88f96653d49f9694c38015",
+      "match": true
+    },
+    {
+      "file": "server/tests/p4CorrectionBoundary.test.js",
+      "expected": "ca62c44621c4612e5726a304abbc74529d1fd54fbae5335099e6ca45c65e46ab",
+      "actual": "ca62c44621c4612e5726a304abbc74529d1fd54fbae5335099e6ca45c65e46ab",
+      "match": true
+    },
+    {
+      "file": "server/services/logger.js",
+      "expected": "ec37c7a2fd9d7f97d45f02bd264b3ba3f0e695ddfb5db5bb973ef6e57caaca80",
+      "actual": "ec37c7a2fd9d7f97d45f02bd264b3ba3f0e695ddfb5db5bb973ef6e57caaca80",
+      "match": true
+    },
+    {
+      "file": "server/tests/c5RoomAuthority.test.js",
+      "expected": "15ae020ff06ffdd746ae4a79141802ccef1eed3845ef448a994dea51844f6637",
+      "actual": "15ae020ff06ffdd746ae4a79141802ccef1eed3845ef448a994dea51844f6637",
+      "match": true
+    },
+    {
+      "file": "server/handlers/tokenHandlers.js",
+      "expected": "625024f9dd1b5c30d726a5eac10bcc8797aa34fd7707b23a171c57f001647c56",
+      "actual": "625024f9dd1b5c30d726a5eac10bcc8797aa34fd7707b23a171c57f001647c56",
+      "match": true
+    },
+    {
+      "file": "server/services/syncService.js",
+      "expected": "e49905bf64b350fea900125c94e34320ccc69e1ed2efe04c5b403418ef3102c4",
+      "actual": "e49905bf64b350fea900125c94e34320ccc69e1ed2efe04c5b403418ef3102c4",
+      "match": true
+    },
+    {
+      "file": "server/tests/roomSavePersistenceBlockers.test.js",
+      "expected": "27af8cec77526c7368796e0a14adfb4d8a7c11c877a5a31d9b8145dd2d9ce352",
+      "actual": "27af8cec77526c7368796e0a14adfb4d8a7c11c877a5a31d9b8145dd2d9ce352",
+      "match": true
+    },
+    {
+      "file": "server/tests/multiplayer.integration.test.js",
+      "expected": "f99fc5a5f961433cc752d2041267d91395c89efa07dc17f0f7cdaca10f60c622",
+      "actual": "f99fc5a5f961433cc752d2041267d91395c89efa07dc17f0f7cdaca10f60c622",
+      "match": true
+    },
+    {
+      "file": "server/utils/broadcastHelpers.js",
+      "expected": "cc8ff8934a3947b208b4d3b374cdea815e6364976b793f4452bdcb11e392cd45",
+      "actual": "cc8ff8934a3947b208b4d3b374cdea815e6364976b793f4452bdcb11e392cd45",
+      "match": true
+    },
+    {
+      "file": "server/utils/validators.js",
+      "expected": "6927d81f03a187c5493990f23717bf4a4cd7fa5da08589ee3986f11654d609fa",
+      "actual": "6927d81f03a187c5493990f23717bf4a4cd7fa5da08589ee3986f11654d609fa",
+      "match": true
+    },
+    {
+      "file": "server/tests/roomAccessBoundary.test.js",
+      "expected": "7bf7bdbde5cf07ffa8257e5427d3696f9234cd0edcedb7b43687c439ef293b1c",
+      "actual": "7bf7bdbde5cf07ffa8257e5427d3696f9234cd0edcedb7b43687c439ef293b1c",
+      "match": true
+    },
+    {
+      "file": "server/services/blockApprovals.js",
+      "expected": "d40d1e9cce4516475b1751aca31a3cd2d8d22e7fa4a621bb4ef769cb4d71d3d4",
+      "actual": "d40d1e9cce4516475b1751aca31a3cd2d8d22e7fa4a621bb4ef769cb4d71d3d4",
+      "match": true
+    },
+    {
+      "file": "server/services/optimizedFirebase.js",
+      "expected": "c1fbbcf588c3ab72793b2336b2de3c7cea564c22aaed5c1633afdb2cc89660e2",
+      "actual": "c1fbbcf588c3ab72793b2336b2de3c7cea564c22aaed5c1633afdb2cc89660e2",
+      "match": true
+    },
+    {
+      "file": "server/tests/characterHandlers.test.js",
+      "expected": "2ea1c5435b8481761046743fbaf8efe03c1755aa3990532d55fd03ad29a947b2",
+      "actual": "2ea1c5435b8481761046743fbaf8efe03c1755aa3990532d55fd03ad29a947b2",
+      "match": true
+    },
+    {
+      "file": "server/tests/p7Negative.production.test.js",
+      "expected": "39b82958fd98bd5a71d2d279eb675c8ec691aaffca0451458eb89ad806209233",
+      "actual": "39b82958fd98bd5a71d2d279eb675c8ec691aaffca0451458eb89ad806209233",
+      "match": true
+    },
+    {
+      "file": "server/utils/socketAck.js",
+      "expected": "da0cda2345e21559c4809bdbec8744bd791f3b7064eb3b685fdfd2086acefcbe",
+      "actual": "da0cda2345e21559c4809bdbec8744bd791f3b7064eb3b685fdfd2086acefcbe",
+      "match": true
+    },
+    {
+      "file": "server/tests/productionSocketContract.test.js",
+      "expected": "4131d8f5114c7688ea136d4194840223d5ca207ba9d73d70f13ea9651777643b",
+      "actual": "4131d8f5114c7688ea136d4194840223d5ca207ba9d73d70f13ea9651777643b",
+      "match": true
+    },
+    {
+      "file": "server/handlers/characterHandlers.js",
+      "expected": "2f50a5ceeaf5738027b02db37a1b38bc4436f6fabdcd0fcd7ae07e6a348cc845",
+      "actual": "2f50a5ceeaf5738027b02db37a1b38bc4436f6fabdcd0fcd7ae07e6a348cc845",
+      "match": true
+    },
+    {
+      "file": "server/handlers/syncHandlers.js",
+      "expected": "5081054dcaedcf4a5031eb445fefc6c25f99fba0ad9c92b283f3b0d43913cc18",
+      "actual": "5081054dcaedcf4a5031eb445fefc6c25f99fba0ad9c92b283f3b0d43913cc18",
+      "match": true
+    },
+    {
+      "file": "server/handlers/journalHandlers.js",
+      "expected": "ade157b472f9263bc8d56212250e4338ebbb8d390f4cd49374e3c3d000f1469e",
+      "actual": "ade157b472f9263bc8d56212250e4338ebbb8d390f4cd49374e3c3d000f1469e",
+      "match": true
+    },
+    {
+      "file": "server/tests/p7Bounds.production.test.js",
+      "expected": "48bb0d610848eb8c84c78303d5d22941fb0e9784a1e629f8c8569beea413ce9d",
+      "actual": "48bb0d610848eb8c84c78303d5d22941fb0e9784a1e629f8c8569beea413ce9d",
+      "match": true
+    },
+    {
+      "file": "server/services/strikeApprovals.js",
+      "expected": "cb1333eb286d51e70a0ad4ea6d612fa66dfa0a12c3cdcc1d1fe496cacf893f61",
+      "actual": "cb1333eb286d51e70a0ad4ea6d612fa66dfa0a12c3cdcc1d1fe496cacf893f61",
+      "match": true
+    },
+    {
+      "file": "server/tests/relayHandlers.test.js",
+      "expected": "4f80721e0d48dae4a40fa27a9f1d2baeebc8b2670961587f91497a594d059b91",
+      "actual": "4f80721e0d48dae4a40fa27a9f1d2baeebc8b2670961587f91497a594d059b91",
+      "match": true
+    },
+    {
+      "file": "server/tests/helpers/integrationServer.js",
+      "expected": "910fdd600c298e4afb097826386a494d5efc1e693fe85abfe67a0cb815dcbd87",
+      "actual": "910fdd600c298e4afb097826386a494d5efc1e693fe85abfe67a0cb815dcbd87",
+      "match": true
+    },
+    {
+      "file": "server/handlers/travelHandlers.js",
+      "expected": "400e9955d795d04150c5e7046ac79bbc1e08174335da8727689e00b888537a39",
+      "actual": "400e9955d795d04150c5e7046ac79bbc1e08174335da8727689e00b888537a39",
+      "match": true
+    },
+    {
+      "file": "server/handlers/gmActionHandlers.js",
+      "expected": "a7d674ab3ddde4c5a29df8780a1aa973c156de2971b2adcdc381d1c70ac58cec",
+      "actual": "a7d674ab3ddde4c5a29df8780a1aa973c156de2971b2adcdc381d1c70ac58cec",
+      "match": true
+    },
+    {
+      "file": "server/handlers/roomHandlers.js",
+      "expected": "2e363733bdfa7dfd9727ef131cb2550b0f0bb4c2ec65ee58ddb86e3d4eb5824c",
+      "actual": "2e363733bdfa7dfd9727ef131cb2550b0f0bb4c2ec65ee58ddb86e3d4eb5824c",
+      "match": true
+    },
+    {
+      "file": "server/tests/campaignRules.emulator.cjs",
+      "expected": "3cb8e4505ed39f4fe6b0b302434a6440865971cadc4c7b7ab164719bab65a5bd",
+      "actual": "3cb8e4505ed39f4fe6b0b302434a6440865971cadc4c7b7ab164719bab65a5bd",
+      "match": true
+    }
+  ],
+  "fixtureByteIdentical": true,
+  "fixtureSourceHash": "e6a98a497308b8535538b9887435c9189127afa768b60cd8e01af31cd3c55bdb",
+  "retainedPatch": [
+    {
+      "file": "server/services/authoredSpellDefinitions.js",
+      "normalizedContentMatches": true
+    },
+    {
+      "file": "server/tests/authoredSpellDefinitions.test.js",
+      "normalizedContentMatches": true
+    },
+    {
+      "file": "server/tests/fixtures/crA1aDefinitionVectors.json",
+      "normalizedContentMatches": true
+    }
+  ],
+  "implementationEntryHead": "7f0abb8c445644cf46a4964f924a147f93f07610",
+  "implementationCompletionHead": "501e5a9d1f471f5c5c7fad53be0d83481e966e10",
+  "entryToCompletionDiff": "M\tvtt-react/src/components/spellcrafting-wizard/components/library/SpellLibrary.jsx\nA\tvtt-react/src/components/spellcrafting-wizard/components/library/__tests__/SpellLibraryGrimoire.test.jsx",
+  "completionToReviewDiff": "A\tdocs/plans/mythrill-class-reconstruction/implementation/evidence/CR-A1a/entry-git-state.txt\nA\tdocs/plans/mythrill-class-reconstruction/implementation/evidence/CR-A1a/entry-server-hashes.json\nA\tdocs/plans/mythrill-class-reconstruction/implementation/evidence/CR-A1a/new-files.patch\nA\tdocs/plans/mythrill-class-reconstruction/implementation/evidence/CR-A1a/new-source-hashes.json\nA\tdocs/plans/mythrill-class-reconstruction/implementation/evidence/CR-A1a/report.md\nA\tserver/services/authoredSpellDefinitions.js\nA\tserver/tests/authoredSpellDefinitions.test.js\nA\tserver/tests/fixtures/crA1aDefinitionVectors.json\nM\tvtt-react/src/components/rules/ClassCodex.css\nM\tvtt-react/src/components/rules/ClassDetailDisplay.jsx\nM\tvtt-react/src/components/spellcrafting-wizard/components/common/__tests__/spellFormatterUtils.test.jsx\nM\tvtt-react/src/components/spellcrafting-wizard/components/common/spellFormatterUtils.js\nM\tvtt-react/src/components/spellcrafting-wizard/components/library/SpellLibrary.jsx\nM\tvtt-react/src/components/spellcrafting-wizard/styles/pathfinder/components/wow-spellbook.css\nM\tvtt-react/src/styles/calm-shared.css\nM\tvtt-react/src/styles/character-view-page.css",
+  "newTargetsAbsentAtEntry": {
+    "server/services/authoredSpellDefinitions.js": true,
+    "server/tests/authoredSpellDefinitions.test.js": true,
+    "server/tests/fixtures/crA1aDefinitionVectors.json": true
+  },
+  "reviewStatus": "M docs/plans/mythrill-class-reconstruction/implementation/evidence/CR-A1a/new-files.patch\n M docs/plans/mythrill-class-reconstruction/implementation/evidence/CR-A1a/new-source-hashes.json\n M server/services/authoredSpellDefinitions.js\n M server/tests/authoredSpellDefinitions.test.js\nD  vtt-react/public/assets/images/races/human_ordan_city_encampment.jpg\nD  vtt-react/public/assets/images/races/human_skald_city_skalvyrhold.jpg\nD  vtt-react/public/assets/images/races/human_thalren_city_greymark.jpg\nD  vtt-react/public/assets/images/races/solari_hollow_culture_vigil.jpg\nD  vtt-react/public/assets/images/races/solari_waste_city_screewatch.jpg\nD  vtt-react/public/assets/images/races/solari_waste_culture_vent.png\nD  vtt-react/public/assets/images/races/solari_waste_location_plains_camp.jpg\n M vtt-react/src/components/character-creation-wizard/steps/Step1CoreDraft.jsx\n M vtt-react/src/components/character-creation-wizard/steps/Step9CharacterSummary.jsx\n M vtt-react/src/components/character-creation-wizard/styles/Step1CoreDraft.css\n M vtt-react/src/data/items/consumables/enrichedConsumables.js\n M vtt-react/src/data/items/consumables/index.js\n M vtt-react/src/data/items/creatureDrops/crafted-from-drops.js\n M vtt-react/src/data/items/creatureDrops/cragjaw-peaks.js\n M vtt-react/src/data/items/miscellaneous/alchemy-supplies.js\n M vtt-react/src/data/items/miscellaneous/gathering.js\n M vtt-react/src/data/races/human.js\n M vtt-react/src/data/races/solari.js\n M vtt-react/src/data/recipes/alchemy.js\n M vtt-react/src/data/recipes/creatureCrafting.js\n?? docs/plans/mythrill-class-reconstruction/implementation/evidence/CR-A1a-independent-review/\n?? vtt-react/public/assets/icons/subraces/\n?? vtt-react/src/components/character-creation-wizard/steps/__tests__/Step1CoreDraftSubraceCards.test.jsx"
+}

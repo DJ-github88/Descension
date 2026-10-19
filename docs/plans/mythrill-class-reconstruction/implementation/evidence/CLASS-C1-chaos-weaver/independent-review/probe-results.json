@@ -1,0 +1,6498 @@
+{
+  "checks": [
+    {
+      "name": "all 54 node gates, predecessors and rank tuples against contract",
+      "checked": 54,
+      "passivesChecked": 48,
+      "defects": []
+    },
+    {
+      "name": "all optional prices and names against literal manifest",
+      "checked": 40,
+      "defects": []
+    },
+    {
+      "name": "structured branch/prose consistency",
+      "lateralFracture": {
+        "damage": null,
+        "ward": null,
+        "movement": {
+          "kind": "displacement",
+          "feet": 5,
+          "until": "immediate",
+          "usesRemainingMovement": true,
+          "optional": false
+        },
+        "note": "F: 5ft legal displacement and caster−10ft until next own-turn start."
+      },
+      "finalPassageFracture": {
+        "damage": null,
+        "ward": null,
+        "movement": {
+          "kind": "displacement",
+          "feet": 5,
+          "until": "immediate",
+          "usesRemainingMovement": true,
+          "optional": false
+        },
+        "note": "F: ally 5ft displacement and caster−10ft through end next own turn."
+      },
+      "skewedGuardWardTarget": "self"
+    },
+    {
+      "name": "capstone extension and nonnumeric preview",
+      "unlearnedCapstoneValue": {
+        "value": 1,
+        "nodeId": "cw1_ps_n16",
+        "rank": 1
+      },
+      "writtenBoundaryOmitted": {}
+    },
+    {
+      "name": "reported fixes",
+      "foldSingleAndTwoSupported": true,
+      "continuationAP": 0,
+      "zeroCountNullZones": true,
+      "canonicalImport": true
+    },
+    {
+      "name": "legal price cw1_37",
+      "result": {
+        "ok": false,
+        "errors": [
+          "chosen tiles do not satisfy the authored symbol requirement"
+        ],
+        "spell": {
+          "id": "cw1_37",
+          "classId": "chaos-weaver",
+          "rulesetVersion": "cr-cw-1",
+          "name": "Finite Cataclysm",
+          "level": 10,
+          "source": "level-pick",
+          "treeId": null,
+          "spellType": "ACTION",
+          "icon": "Psychic/Psychic Telepathy",
+          "resourceCost": {
+            "actionPoints": 4,
+            "mana": 0
+          },
+          "tileRule": {
+            "inputSymbols": [
+              {
+                "tileIds": [
+                  "S1",
+                  "S2"
+                ]
+              },
+              {
+                "symbol": "M"
+              },
+              {
+                "symbol": "F"
+              }
+            ],
+            "zoneFrom": "available",
+            "zoneTo": "spent",
+            "count": 4,
+            "spendAllPrimary": true
+          },
+          "target": {
+            "roles": [
+              "enemy"
+            ],
+            "rangeFeet": 30,
+            "maxSubjects": 1
+          },
+          "branchRule": {
+            "selection": "uniform-by-primary-tile-id",
+            "sampleNote": "Uniform ID weights 1/2 Surge, 1/4 Shift, 1/4 Fracture; one enemy, no explosion.",
+            "outcomes": {
+              "S": {
+                "damage": {
+                  "formula": "6d6",
+                  "damageTypes": [
+                    "wyrd"
+                  ]
+                },
+                "ward": null,
+                "movement": null,
+                "note": "S: 6d6 Wyrd (both Surge tiles carry this branch)."
+              },
+              "M": {
+                "damage": {
+                  "formula": "3d6",
+                  "damageTypes": [
+                    "wyrd"
+                  ]
+                },
+                "ward": null,
+                "movement": {
+                  "kind": "step",
+                  "feet": 10,
+                  "until": "immediate",
+                  "usesRemainingMovement": true,
+                  "optional": true
+                },
+                "note": "M: 3d6 Wyrd and caster 10ft step."
+              },
+              "F": {
+                "damage": {
+                  "formula": "2d6",
+                  "damageTypes": [
+                    "wyrd"
+                  ]
+                },
+                "ward": null,
+                "movement": {
+                  "kind": "penalty",
+                  "feet": 10,
+                  "until": "end-next-own-turn",
+                  "usesRemainingMovement": true,
+                  "optional": false
+                },
+                "note": "F: 2d6 Wyrd and caster−10ft through end of next own turn."
+              }
+            }
+          },
+          "timing": {
+            "use": "own-turn",
+            "expiry": null,
+            "oncePerRest": true
+          },
+          "damage": null,
+          "reaction": null,
+          "savingThrow": null,
+          "conditions": [],
+          "area": null,
+          "continuation": null,
+          "rankValues": null,
+          "requires": null,
+          "effectText": "S: 6d6 Wyrd; M: 3d6 Wyrd and caster 10ft step; F: 2d6 Wyrd and caster−10ft through end next own turn. Uniform ID weights 1/2, 1/4, 1/4; one enemy, no explosion.",
+          "sourceRefs": [
+            "CLASS-C1-CHAOS-WEAVER.md §5 row 37"
+          ],
+          "authoredOnly": true,
+          "executionEnabled": false,
+          "applicationMode": "manual-tabletop",
+          "automatedCapabilities": [],
+          "manualRequirements": [
+            "Manual tabletop only: no AP, tile, movement or effect is applied automatically.",
+            "Fix the full four-ID commitment and d4 mapping before the face; exactly one enemy target, no explosion."
+          ]
+        }
+      }
+    },
+    {
+      "name": "legal price cw1_38",
+      "result": {
+        "ok": false,
+        "errors": [
+          "chosen tiles do not satisfy the authored symbol requirement"
+        ],
+        "spell": {
+          "id": "cw1_38",
+          "classId": "chaos-weaver",
+          "rulesetVersion": "cr-cw-1",
+          "name": "Sixfold Audit",
+          "level": 10,
+          "source": "level-pick",
+          "treeId": null,
+          "spellType": "ACTION",
+          "icon": "Psychic/Psychic Telepathy",
+          "resourceCost": {
+            "actionPoints": 3,
+            "mana": 0
+          },
+          "tileRule": {
+            "inputSymbols": [
+              {
+                "anyTiles": 3,
+                "distinct": true
+              }
+            ],
+            "zoneFrom": "available",
+            "zoneTo": "spent",
+            "count": 3,
+            "spendAllPrimary": true
+          },
+          "target": {
+            "roles": [
+              "apparatus"
+            ],
+            "rangeFeet": 0,
+            "maxSubjects": 1
+          },
+          "branchRule": null,
+          "timing": {
+            "use": "own-turn",
+            "expiry": null,
+            "oncePerRest": true
+          },
+          "damage": null,
+          "reaction": null,
+          "savingThrow": null,
+          "conditions": [],
+          "area": null,
+          "continuation": null,
+          "rankValues": null,
+          "requires": null,
+          "effectText": "Touch one visible inert apparatus/real anomaly; choose six distinct observable material/boundary/stabilizer/failure-path questions. Does not reveal hidden actors, passwords or future RNG.",
+          "sourceRefs": [
+            "CLASS-C1-CHAOS-WEAVER.md §5 row 38"
+          ],
+          "authoredOnly": true,
+          "executionEnabled": false,
+          "applicationMode": "manual-tabletop",
+          "automatedCapabilities": [],
+          "manualRequirements": [
+            "Manual tabletop only: no AP, tile, movement or effect is applied automatically.",
+            "Three distinct available tile IDs are spent; the GM answers six distinct observable questions only.",
+            "No hidden actors, passwords or future random outcomes are revealed."
+          ]
+        }
+      }
+    },
+    {
+      "name": "legal price cw1_last_boundary",
+      "result": {
+        "ok": false,
+        "errors": [
+          "chosen tiles do not satisfy the authored symbol requirement"
+        ],
+        "spell": {
+          "id": "cw1_last_boundary",
+          "classId": "chaos-weaver",
+          "rulesetVersion": "cr-cw-1",
+          "name": "Last Boundary",
+          "level": 10,
+          "source": "talent",
+          "treeId": "anomaly-binder",
+          "spellType": "ACTION",
+          "icon": "Psychic/Psychic Telepathy",
+          "resourceCost": {
+            "actionPoints": 3,
+            "mana": 0
+          },
+          "tileRule": {
+            "inputSymbols": [
+              {
+                "tileIds": [
+                  "M1",
+                  "M2"
+                ]
+              },
+              {
+                "symbol": "F"
+              }
+            ],
+            "zoneFrom": "available",
+            "zoneTo": "bound",
+            "count": 3,
+            "spendAllPrimary": true
+          },
+          "target": {
+            "roles": [
+              "point"
+            ],
+            "rangeFeet": 30,
+            "maxSubjects": 1
+          },
+          "branchRule": null,
+          "timing": {
+            "use": "own-turn",
+            "expiry": null,
+            "oncePerRest": true
+          },
+          "damage": null,
+          "reaction": null,
+          "savingThrow": null,
+          "conditions": [],
+          "area": {
+            "kind": "anomaly",
+            "radiusFeet": 10,
+            "placementRangeFeet": 30,
+            "trigger": "first-enemy-original-voluntary-entry",
+            "triggerVictim": "one-enemy",
+            "expires": "endT+3",
+            "occupancyNote": "Occupants at creation do not count as entry.",
+            "dismissal": {
+              "costAP": 1,
+              "note": "Paid 1-AP dismissal sends all three IDs to spent."
+            },
+            "branches": {
+              "M": {
+                "damage": null,
+                "ward": null,
+                "movement": {
+                  "kind": "ends-remaining-movement",
+                  "feet": 0,
+                  "until": "current-turn",
+                  "usesRemainingMovement": true,
+                  "optional": false
+                },
+                "note": "M: ends the victim’s remaining movement for the current turn."
+              },
+              "F": {
+                "damage": null,
+                "ward": null,
+                "movement": {
+                  "kind": "penalty",
+                  "feet": 10,
+                  "until": "end-next-own-turn",
+                  "usesRemainingMovement": true,
+                  "optional": false
+                },
+                "note": "F: caster movement−10ft through end of next own turn."
+              }
+            },
+            "boundary": "All three spent on trigger, expiry or dismissal. Never coexists with another anomaly.",
+            "manualNote": "The table confirms paths and relationship; the workshop never watches map pixels."
+          },
+          "continuation": null,
+          "rankValues": null,
+          "requires": {
+            "nodeId": "cw1_ab_n18",
+            "requiresPoints": 45,
+            "requiresAll": true,
+            "predecessorNodeIds": [
+              "cw1_ab_n05",
+              "cw1_ab_n16",
+              "cw1_ab_n17"
+            ],
+            "minLevel": 10
+          },
+          "effectText": "M1+M2+F bound; once/rest. One visible 10ft anomaly 30ft, expires endT+3. First enemy original voluntary entry: M ends remaining movement; F gives caster−10ft through end next own turn. All three spent on trigger/expiry/dismiss. Never coexists with another anomaly.",
+          "sourceRefs": [
+            "CLASS-C1-CHAOS-WEAVER.md §5 talent table"
+          ],
+          "authoredOnly": true,
+          "executionEnabled": false,
+          "applicationMode": "manual-tabletop",
+          "automatedCapabilities": [],
+          "manualRequirements": [
+            "Manual tabletop only: no AP, tile, movement or effect is applied automatically.",
+            "Both Shift tiles plus one Fracture are bound; exactly one anomaly may exist."
+          ]
+        }
+      }
+    },
+    {
+      "name": "duplicate Fold invalid atomicity",
+      "result": {
+        "ok": true,
+        "session": {
+          "status": "active",
+          "label": "independent",
+          "turn": {
+            "ownTurnNumber": 1,
+            "apAvailable": 17,
+            "remainingMovementFeet": 30
+          },
+          "tiles": null,
+          "pending": null,
+          "anomaly": null,
+          "penalties": [],
+          "usage": {
+            "completedRestId": null,
+            "oncePerRest": []
+          },
+          "settlements": [
+            {
+              "actionId": "action-1",
+              "kind": "settlement",
+              "spellId": "cr1_chaos_weaver_split_possibility",
+              "primaryTileIds": [
+                "S1",
+                "F1"
+              ],
+              "continuationTileId": null,
+              "selectedTileId": "S1",
+              "recordedFaces": [
+                1
+              ],
+              "merged": false
+            }
+          ],
+          "log": [
+            {
+              "id": "log-0",
+              "kind": "session",
+              "text": "Rehearsal started. Local rehearsal — does not spend AP, move tokens or apply effects."
+            },
+            {
+              "id": "log-1",
+              "kind": "commit",
+              "text": "Split Possibility: commitment fixed — S1, F1; mapping two-ids-d6-1-3-4-6 retained before the face."
+            },
+            {
+              "id": "log-2",
+              "kind": "face",
+              "text": "Split Possibility: d6 face 1 selects S1."
+            },
+            {
+              "id": "log-3",
+              "kind": "settle",
+              "text": "Split Possibility: settlement recorded; primary tiles spent."
+            },
+            {
+              "id": "log-4",
+              "kind": "recover",
+              "text": "Fold the Odds: recovered S1, S1 from spent to available (1 AP paid locally)."
+            }
+          ],
+          "actionSeq": 2
+        },
+        "actionId": "action-2"
+      },
+      "inputUnchanged": true
+    },
+    {
+      "name": "hybrid gate",
+      "treePoints": 3,
+      "globalPoints": 5,
+      "gate5Allowed": true
+    },
+    {
+      "name": "respec gate recheck",
+      "ranks": {
+        "cw1_ps_n01": 3,
+        "cw1_ps_n02": 1,
+        "cw1_ps_n03": 1
+      },
+      "gate5NodeRetained": true
+    },
+    {
+      "name": "build validation and primary order",
+      "corePickAccepted": true,
+      "unpaidSignatureAccepted": true,
+      "firstInvestedCascadeButSummary": "probability-sculptor"
+    },
+    {
+      "name": "Safe Rehearsal once/rest",
+      "usage": {
+        "completedRestId": null,
+        "oncePerRest": []
+      },
+      "secondAllowed": true
+    },
+    {
+      "name": "continuation invalid symbols",
+      "fractureReservationAllowed": true,
+      "surgeWithoutC10Allowed": true
+    },
+    {
+      "name": "anomaly trigger",
+      "mapping": null,
+      "pending": null,
+      "settlements": [],
+      "penalties": [],
+      "log": {
+        "id": "log-2",
+        "kind": "anomaly-resolved",
+        "text": "Anomaly at unnamed point closed by trigger; bound M1, F1 spent with no refund."
+      }
+    },
+    {
+      "name": "manual anomaly closure bypass",
+      "earlyExpiryAllowed": true,
+      "freeCountersealAllowed": true,
+      "freeDismissAP": 18,
+      "ap": 18
+    },
+    {
+      "name": "Fracture settlement worksheet",
+      "selected": "F1",
+      "penalties": [],
+      "movement": 30
+    },
+    {
+      "name": "import missingTurn",
+      "accepted": true,
+      "errors": []
+    },
+    {
+      "name": "import orphanCommitted",
+      "accepted": true,
+      "errors": []
+    },
+    {
+      "name": "import unknownWorksheet",
+      "accepted": true,
+      "errors": []
+    },
+    {
+      "name": "import unknownCost",
+      "accepted": true,
+      "errors": []
+    },
+    {
+      "name": "import changedBranch",
+      "accepted": true,
+      "errors": []
+    },
+    {
+      "name": "import missingContent",
+      "accepted": true,
+      "errors": []
+    },
+    {
+      "name": "import wrongMapping",
+      "accepted": true,
+      "errors": []
+    },
+    {
+      "name": "null pending import robustness",
+      "threw": "Cannot use 'in' operator to search for 'actionId' in 7"
+    },
+    {
+      "name": "Counterseal and Unbind preconditions",
+      "countersealWithoutAnomaly": true,
+      "unbindWithoutRecord": true,
+      "dismissWithoutAnomaly": true
+    },
+    {
+      "name": "once/rest void cannot refund use",
+      "usageAfterPaidVoid": []
+    },
+    {
+      "name": "invalid counters",
+      "negative": true
+    },
+    {
+      "name": "round trips all worksheet phases",
+      "exact": true
+    },
+    {
+      "name": "Probability numerical witness",
+      "ap": 1,
+      "tiles": {
+        "version": 1,
+        "rulesetVersion": "cr-cw-1",
+        "available": [
+          "S1",
+          "M2",
+          "F2"
+        ],
+        "committed": [],
+        "bound": [],
+        "spent": [
+          "S2",
+          "M1",
+          "F1"
+        ]
+      },
+      "selections": [
+        "S2",
+        "S2",
+        "M1"
+      ]
+    },
+    {
+      "name": "Anomaly numerical witness",
+      "ap": 2,
+      "tiles": {
+        "version": 1,
+        "rulesetVersion": "cr-cw-1",
+        "available": [
+          "S2",
+          "M1",
+          "M2",
+          "F1"
+        ],
+        "committed": [],
+        "bound": [],
+        "spent": [
+          "S1",
+          "F2"
+        ]
+      },
+      "limitation": "No physical anomaly face/branch can be entered"
+    },
+    {
+      "name": "Cascade numerical witness",
+      "ap": 0,
+      "phase": "continuation-pending",
+      "tiles": {
+        "version": 1,
+        "rulesetVersion": "cr-cw-1",
+        "available": [
+          "S2",
+          "F2"
+        ],
+        "committed": [
+          "S1",
+          "M2",
+          "F1"
+        ],
+        "bound": [],
+        "spent": [
+          "M1"
+        ]
+      },
+      "penalties": []
+    }
+  ],
+  "witnesses": {
+    "probabilityFirstSelection": "S2"
+  },
+  "preservation": [
+    {
+      "path": "server/services/authoredSpellDefinitions.js",
+      "entry": "48b69255b8958ae75a7aa17ed7aa67c95b6d4c2bada63f4dcd24a305e20f0003",
+      "delivery": "48b69255b8958ae75a7aa17ed7aa67c95b6d4c2bada63f4dcd24a305e20f0003",
+      "now": "48b69255b8958ae75a7aa17ed7aa67c95b6d4c2bada63f4dcd24a305e20f0003"
+    },
+    {
+      "path": "server/tests/authoredSpellDefinitions.test.js",
+      "entry": "6a2f58f23d9217fc8eddf6af81d6de7f63f2232d29b519156f05fbca74037aa4",
+      "delivery": "6a2f58f23d9217fc8eddf6af81d6de7f63f2232d29b519156f05fbca74037aa4",
+      "now": "6a2f58f23d9217fc8eddf6af81d6de7f63f2232d29b519156f05fbca74037aa4"
+    },
+    {
+      "path": "server/tests/fixtures/crA1aDefinitionVectors.json",
+      "entry": "e6a98a497308b8535538b9887435c9189127afa768b60cd8e01af31cd3c55bdb",
+      "delivery": "e6a98a497308b8535538b9887435c9189127afa768b60cd8e01af31cd3c55bdb",
+      "now": "e6a98a497308b8535538b9887435c9189127afa768b60cd8e01af31cd3c55bdb"
+    },
+    {
+      "path": "server/services/actorConsequences.js",
+      "entry": "c49a75e808435074eb498aed9ba7c79915e6e62156c4fffe0f8f8c1aa18c307a",
+      "delivery": "c49a75e808435074eb498aed9ba7c79915e6e62156c4fffe0f8f8c1aa18c307a",
+      "now": "c49a75e808435074eb498aed9ba7c79915e6e62156c4fffe0f8f8c1aa18c307a"
+    },
+    {
+      "path": "server/services/spellPayments.js",
+      "entry": "b3d8194a9cb39286980b81f5b0deb2f4e4c6521e824373d4ce0d64e3ce9bd208",
+      "delivery": "b3d8194a9cb39286980b81f5b0deb2f4e4c6521e824373d4ce0d64e3ce9bd208",
+      "now": "b3d8194a9cb39286980b81f5b0deb2f4e4c6521e824373d4ce0d64e3ce9bd208"
+    },
+    {
+      "path": "server/services/strikeApprovals.js",
+      "entry": "cb1333eb286d51e70a0ad4ea6d612fa66dfa0a12c3cdcc1d1fe496cacf893f61",
+      "delivery": "cb1333eb286d51e70a0ad4ea6d612fa66dfa0a12c3cdcc1d1fe496cacf893f61",
+      "now": "cb1333eb286d51e70a0ad4ea6d612fa66dfa0a12c3cdcc1d1fe496cacf893f61"
+    },
+    {
+      "path": "server/services/blockApprovals.js",
+      "entry": "d40d1e9cce4516475b1751aca31a3cd2d8d22e7fa4a621bb4ef769cb4d71d3d4",
+      "delivery": "d6f3c56e5d98a70606bf347eead7ba37678c5e5b1ef8f7019019926d5e19d99d",
+      "now": "d6f3c56e5d98a70606bf347eead7ba37678c5e5b1ef8f7019019926d5e19d99d"
+    },
+    {
+      "path": "server/handlers/actorConsequenceHandlers.js",
+      "entry": "a7723378cdd042e9546e8ac7c3396fef2bb4596021533ab1d8333ea899e7fefd",
+      "delivery": "aa615bcc7156fad1d499956abd4cb99180ee26f2e1c07d772f996233fdf29ccf",
+      "now": "aa615bcc7156fad1d499956abd4cb99180ee26f2e1c07d772f996233fdf29ccf"
+    },
+    {
+      "path": "server/handlers/socketHandlers.js",
+      "entry": "2b44cc7f716e9cbc0aeb7b5fa4c1c967a928740d85317e8df0e6d300a2836aa9",
+      "delivery": "2b44cc7f716e9cbc0aeb7b5fa4c1c967a928740d85317e8df0e6d300a2836aa9",
+      "now": "2b44cc7f716e9cbc0aeb7b5fa4c1c967a928740d85317e8df0e6d300a2836aa9"
+    },
+    {
+      "path": "server/services/roomAuthorityService.js",
+      "entry": "7395b0bb4ea0edf5fbf2767e138dadca2b123569848539568ae95b4e5660116c",
+      "delivery": "7395b0bb4ea0edf5fbf2767e138dadca2b123569848539568ae95b4e5660116c",
+      "now": "7395b0bb4ea0edf5fbf2767e138dadca2b123569848539568ae95b4e5660116c"
+    },
+    {
+      "path": "server/services/roomCheckpoint.js",
+      "entry": "3eea1acb33cfa26d9b3f401ff82c4c93e113c9d8def54a7eece70badcc5ee07f",
+      "delivery": "3eea1acb33cfa26d9b3f401ff82c4c93e113c9d8def54a7eece70badcc5ee07f",
+      "now": "3eea1acb33cfa26d9b3f401ff82c4c93e113c9d8def54a7eece70badcc5ee07f"
+    },
+    {
+      "path": "server/services/syncService.js",
+      "entry": "e49905bf64b350fea900125c94e34320ccc69e1ed2efe04c5b403418ef3102c4",
+      "delivery": "e49905bf64b350fea900125c94e34320ccc69e1ed2efe04c5b403418ef3102c4",
+      "now": "e49905bf64b350fea900125c94e34320ccc69e1ed2efe04c5b403418ef3102c4"
+    },
+    {
+      "path": "server/services/firebaseService.js",
+      "entry": "40ea0af4ba9224cd901c3beb06f649a9aaed8b435e73e71ac83e474a2ac0676f",
+      "delivery": "40ea0af4ba9224cd901c3beb06f649a9aaed8b435e73e71ac83e474a2ac0676f",
+      "now": "40ea0af4ba9224cd901c3beb06f649a9aaed8b435e73e71ac83e474a2ac0676f"
+    },
+    {
+      "path": "server/tests/p9SpellConsequences.production.test.js",
+      "entry": "5a4acd5f5a9bf8e9ec64bc1b4b73118c9e5a46e442f3607b7ba6e3150f02a923",
+      "delivery": "5a4acd5f5a9bf8e9ec64bc1b4b73118c9e5a46e442f3607b7ba6e3150f02a923",
+      "now": "5a4acd5f5a9bf8e9ec64bc1b4b73118c9e5a46e442f3607b7ba6e3150f02a923"
+    },
+    {
+      "path": "server/tests/p12aWeaponStrike.production.test.js",
+      "entry": "69e756c945545a840dc26a4b1977964f892e96374905a9db1bc59404ba363bc0",
+      "delivery": "69e756c945545a840dc26a4b1977964f892e96374905a9db1bc59404ba363bc0",
+      "now": "69e756c945545a840dc26a4b1977964f892e96374905a9db1bc59404ba363bc0"
+    },
+    {
+      "path": "server/tests/p12bBlockWear.production.test.js",
+      "entry": "b43683a7ac60843ac05fb1872bb9d3a2ae04479a3764046c12401b77c58439dc",
+      "delivery": "00ade31d9d9a70d7364fafa877f7a53a27b2602e434d879f88daed271e72b34f",
+      "now": "c5e597739a8de9c1f9cb0791f848980e6db022b95834b74be43857fd5e51c178"
+    },
+    {
+      "path": "vtt-react/src/components/spellcrafting-wizard/components/steps/Step5Resources.jsx",
+      "entry": "6120e2b6d7af6ecf8c4692a2d13626dcc6fac036e4345500e8a19fe0b5b37431",
+      "delivery": "6120e2b6d7af6ecf8c4692a2d13626dcc6fac036e4345500e8a19fe0b5b37431",
+      "now": "6120e2b6d7af6ecf8c4692a2d13626dcc6fac036e4345500e8a19fe0b5b37431"
+    },
+    {
+      "path": "vtt-react/src/components/spellcrafting-wizard/core/mechanics/resourceManager.js",
+      "entry": "ea27eb2c0bb6cfadd229c5407c652d0d44c67593a36d1f890c114ca3c28b4605",
+      "delivery": "ea27eb2c0bb6cfadd229c5407c652d0d44c67593a36d1f890c114ca3c28b4605",
+      "now": "ea27eb2c0bb6cfadd229c5407c652d0d44c67593a36d1f890c114ca3c28b4605"
+    },
+    {
+      "path": "vtt-react/src/components/spellcrafting-wizard/core/utils/spellSerializer.js",
+      "entry": "b960862958d5752e06dbbcde7390b6243ea6bb01642ef97a7a364b7bf5dfaa5f",
+      "delivery": "b960862958d5752e06dbbcde7390b6243ea6bb01642ef97a7a364b7bf5dfaa5f",
+      "now": "b960862958d5752e06dbbcde7390b6243ea6bb01642ef97a7a364b7bf5dfaa5f"
+    },
+    {
+      "path": "vtt-react/src/data/classes/index.js",
+      "entry": "6511efa7146619cef3308be5e843aef2a4028174a6df9f6811f4cf848de1eee2",
+      "delivery": "6511efa7146619cef3308be5e843aef2a4028174a6df9f6811f4cf848de1eee2",
+      "now": "6511efa7146619cef3308be5e843aef2a4028174a6df9f6811f4cf848de1eee2"
+    },
+    {
+      "path": "vtt-react/src/data/classHeritageRegistry.js",
+      "entry": "6e2843e933c7ca954ec8ef24e0c18f52d7df618e9b02462f0a3a7529013d127d",
+      "delivery": "6e2843e933c7ca954ec8ef24e0c18f52d7df618e9b02462f0a3a7529013d127d",
+      "now": "6e2843e933c7ca954ec8ef24e0c18f52d7df618e9b02462f0a3a7529013d127d"
+    },
+    {
+      "path": "vtt-react/src/data/talentTreeData.js",
+      "entry": "128e326be0d329d0a250ddf462695b116effe52db130eaf66c01883c27174171",
+      "delivery": "128e326be0d329d0a250ddf462695b116effe52db130eaf66c01883c27174171",
+      "now": "128e326be0d329d0a250ddf462695b116effe52db130eaf66c01883c27174171"
+    },
+    {
+      "path": "vtt-react/src/components/rules/ClassesDisplay.jsx",
+      "entry": "a996fd0db15da1443300b1930f04b0c8a12cfecf7a29c421ef3beb3d88249fdb",
+      "delivery": "092d30e652eadaef920e80c9b9413ac83b2d881a0c02a0137fad4efecb631ca7",
+      "now": "092d30e652eadaef920e80c9b9413ac83b2d881a0c02a0137fad4efecb631ca7"
+    },
+    {
+      "path": "docs/plans/mythrill-class-reconstruction/implementation/evidence/CR-A1a-independent-review/review.md",
+      "entry": "c5d81a1bb0a2e82938c0c0068b2f64939e4059cb018a2a9f6af2e4b762d41ddd",
+      "delivery": "c5d81a1bb0a2e82938c0c0068b2f64939e4059cb018a2a9f6af2e4b762d41ddd",
+      "now": "c5d81a1bb0a2e82938c0c0068b2f64939e4059cb018a2a9f6af2e4b762d41ddd"
+    },
+    {
+      "path": "docs/plans/mythrill-class-reconstruction/implementation/evidence/CR-A1a-independent-review/independent-probes.cjs",
+      "entry": "79e9140eb3092b8c14a4f7c7efbcbd3e72cdfe32acf2a0564ebbadb6bdcc28f4",
+      "delivery": "79e9140eb3092b8c14a4f7c7efbcbd3e72cdfe32acf2a0564ebbadb6bdcc28f4",
+      "now": "79e9140eb3092b8c14a4f7c7efbcbd3e72cdfe32acf2a0564ebbadb6bdcc28f4"
+    }
+  ],
+  "applicationHashes": [
+    {
+      "path": "vtt-react/src/data/classes/chaosWeaverData.js",
+      "delivery": "ad768b4dc18f1dcc7006a6a24dab71a0c556a3008e4d48b760fec8305582852a",
+      "now": "ad768b4dc18f1dcc7006a6a24dab71a0c556a3008e4d48b760fec8305582852a"
+    },
+    {
+      "path": "vtt-react/src/data/classes/chaosWeaverRules.js",
+      "delivery": "105159e577d32dff0f8c96aebc1989947a50bbc971f9a6a12aa087cddbf8fec4",
+      "now": "105159e577d32dff0f8c96aebc1989947a50bbc971f9a6a12aa087cddbf8fec4"
+    },
+    {
+      "path": "vtt-react/src/data/talentTrees/chaosWeaver.js",
+      "delivery": "8c8e7d5dd13e7d4af763d6832eb4ae291d30fea5608ac1c7520ea885944cced0",
+      "now": "8c8e7d5dd13e7d4af763d6832eb4ae291d30fea5608ac1c7520ea885944cced0"
+    },
+    {
+      "path": "vtt-react/src/components/hud/ChaosWeaverResourceDisplay.jsx",
+      "delivery": "72f07d979be0aa6dc5a1e3e55ef82dee516939d8b7b28fa35eefd9b7c9d3a903",
+      "now": "72f07d979be0aa6dc5a1e3e55ef82dee516939d8b7b28fa35eefd9b7c9d3a903"
+    },
+    {
+      "path": "vtt-react/src/components/rules/chaos-weaver/ChaosWeaverWorkshop.jsx",
+      "delivery": "acb9a8ac2e5f407b1ad3265ae6ca84b92f2bb7561152fa15a6991a315cbf38a6",
+      "now": "acb9a8ac2e5f407b1ad3265ae6ca84b92f2bb7561152fa15a6991a315cbf38a6"
+    },
+    {
+      "path": "vtt-react/src/components/rules/chaos-weaver/ChaosWeaverWorkshop.css",
+      "delivery": "257aabd7f4ff5e3c553f9eb08979a1efedd1671085103df4f399dec8229d1bbc",
+      "now": "257aabd7f4ff5e3c553f9eb08979a1efedd1671085103df4f399dec8229d1bbc"
+    },
+    {
+      "path": "vtt-react/src/data/classes/__tests__/chaosWeaverPackage.test.js",
+      "delivery": "72c1a58c27807bd53d1dbec4a19ec39345c3c0d4218c4148c894629af852bf0c",
+      "now": "72c1a58c27807bd53d1dbec4a19ec39345c3c0d4218c4148c894629af852bf0c"
+    },
+    {
+      "path": "vtt-react/src/data/classes/__tests__/chaosWeaverRules.test.js",
+      "delivery": "24171a961110b2b8c00d1a0b2a2c9eeb5b09e3dcb85954ef9a28b968cad12136",
+      "now": "24171a961110b2b8c00d1a0b2a2c9eeb5b09e3dcb85954ef9a28b968cad12136"
+    },
+    {
+      "path": "vtt-react/src/components/rules/chaos-weaver/__tests__/ChaosWeaverWorkshop.test.jsx",
+      "delivery": "2d902e419871f81edd2ace764a51a1da2c575139686f8d116943abab672cfa34",
+      "now": "2d902e419871f81edd2ace764a51a1da2c575139686f8d116943abab672cfa34"
+    },
+    {
+      "path": "vtt-react/src/components/hud/__tests__/ChaosWeaverResourceDisplay.test.jsx",
+      "delivery": "51192670d39e83a6d7c2aaafab0afb0173f7133d89b598cf7863f5e4f1b88ebc",
+      "now": "51192670d39e83a6d7c2aaafab0afb0173f7133d89b598cf7863f5e4f1b88ebc"
+    },
+    {
+      "path": "vtt-react/src/components/rules/ClassesDisplay.jsx",
+      "delivery": "092d30e652eadaef920e80c9b9413ac83b2d881a0c02a0137fad4efecb631ca7",
+      "now": "092d30e652eadaef920e80c9b9413ac83b2d881a0c02a0137fad4efecb631ca7"
+    },
+    {
+      "path": "vtt-react/src/components/rules/__tests__/ClassesDisplay.test.jsx",
+      "delivery": "9ccbe4c2a83416b9be9c7b6b0d414609e94752c543d2ce2c15da8fb2667b9b3e",
+      "now": "9ccbe4c2a83416b9be9c7b6b0d414609e94752c543d2ce2c15da8fb2667b9b3e"
+    }
+  ],
+  "content": {
+    "counts": {
+      "optional": 40,
+      "core": 3,
+      "talentActives": 6,
+      "passives": 48,
+      "total": 97,
+      "nodes": 54,
+      "trees": 3
+    },
+    "nodes": [
+      {
+        "id": "cw1_ps_n01",
+        "gate": 0,
+        "requires": [],
+        "rankValues": [
+          {
+            "rank": 1,
+            "text": "Split enemy range 35ft.",
+            "values": {
+              "split.enemyRangeFeet": 35
+            }
+          },
+          {
+            "rank": 2,
+            "text": "Split enemy range 40ft.",
+            "values": {
+              "split.enemyRangeFeet": 40
+            }
+          },
+          {
+            "rank": 3,
+            "text": "Split enemy range 45ft.",
+            "values": {
+              "split.enemyRangeFeet": 45
+            }
+          }
+        ]
+      },
+      {
+        "id": "cw1_ps_n02",
+        "gate": 0,
+        "requires": [],
+        "rankValues": [
+          {
+            "rank": 1,
+            "text": "Split Surge damage flat bonus +1.",
+            "values": {
+              "split.surgeDamageFlatBonus": 1
+            }
+          },
+          {
+            "rank": 2,
+            "text": "Split Surge damage flat bonus +2.",
+            "values": {
+              "split.surgeDamageFlatBonus": 2
+            }
+          },
+          {
+            "rank": 3,
+            "text": "Split Surge damage flat bonus +3.",
+            "values": {
+              "split.surgeDamageFlatBonus": 3
+            }
+          }
+        ]
+      },
+      {
+        "id": "cw1_ps_n03",
+        "gate": 5,
+        "requires": [
+          "cw1_ps_n01"
+        ],
+        "rankValues": [
+          {
+            "rank": 1,
+            "text": "Split Fracture damage flat bonus +1.",
+            "values": {
+              "split.fractureDamageFlatBonus": 1
+            }
+          },
+          {
+            "rank": 2,
+            "text": "Split Fracture damage flat bonus +2.",
+            "values": {
+              "split.fractureDamageFlatBonus": 2
+            }
+          },
+          {
+            "rank": 3,
+            "text": "Split Fracture damage flat bonus +3.",
+            "values": {
+              "split.fractureDamageFlatBonus": 3
+            }
+          }
+        ]
+      },
+      {
+        "id": "cw1_ps_n04",
+        "gate": 5,
+        "requires": [
+          "cw1_ps_n02"
+        ],
+        "rankValues": [
+          {
+            "rank": 1,
+            "text": "Read Instability may answer 2 distinct questions instead of 1.",
+            "values": {
+              "read-instability.questions": 2
+            }
+          },
+          {
+            "rank": 2,
+            "text": "Read Instability may answer 3 distinct questions instead of 1.",
+            "values": {
+              "read-instability.questions": 3
+            }
+          },
+          {
+            "rank": 3,
+            "text": "Read Instability may answer 4 distinct questions instead of 1.",
+            "values": {
+              "read-instability.questions": 4
+            }
+          }
+        ]
+      },
+      {
+        "id": "cw1_ps_n05",
+        "gate": 10,
+        "requires": [
+          "cw1_ps_n03"
+        ],
+        "rankValues": [
+          {
+            "rank": 1,
+            "text": "Grant cr1_chaos_weaver_bias_draw.",
+            "values": {}
+          }
+        ]
+      },
+      {
+        "id": "cw1_ps_n06",
+        "gate": 10,
+        "requires": [
+          "cw1_ps_n03"
+        ],
+        "rankValues": [
+          {
+            "rank": 1,
+            "text": "Bias range 40ft.",
+            "values": {
+              "bias.rangeFeet": 40
+            }
+          },
+          {
+            "rank": 2,
+            "text": "Bias range 50ft.",
+            "values": {
+              "bias.rangeFeet": 50
+            }
+          },
+          {
+            "rank": 3,
+            "text": "Bias range 60ft.",
+            "values": {
+              "bias.rangeFeet": 60
+            }
+          }
+        ]
+      },
+      {
+        "id": "cw1_ps_n07",
+        "gate": 10,
+        "requires": [
+          "cw1_ps_n04"
+        ],
+        "rankValues": [
+          {
+            "rank": 1,
+            "text": "Lancing Variance flat damage bonus +1.",
+            "values": {
+              "lancing-variance.damageFlatBonus": 1
+            }
+          },
+          {
+            "rank": 2,
+            "text": "Lancing Variance flat damage bonus +2.",
+            "values": {
+              "lancing-variance.damageFlatBonus": 2
+            }
+          },
+          {
+            "rank": 3,
+            "text": "Lancing Variance flat damage bonus +3.",
+            "values": {
+              "lancing-variance.damageFlatBonus": 3
+            }
+          }
+        ]
+      },
+      {
+        "id": "cw1_ps_n08",
+        "gate": 15,
+        "requires": [
+          "cw1_ps_n06"
+        ],
+        "rankValues": [
+          {
+            "rank": 1,
+            "text": "Discordant Arc Surge flat damage bonus +1.",
+            "values": {
+              "discordant-arc.surgeDamageFlatBonus": 1
+            }
+          },
+          {
+            "rank": 2,
+            "text": "Discordant Arc Surge flat damage bonus +2.",
+            "values": {
+              "discordant-arc.surgeDamageFlatBonus": 2
+            }
+          },
+          {
+            "rank": 3,
+            "text": "Discordant Arc Surge flat damage bonus +3.",
+            "values": {
+              "discordant-arc.surgeDamageFlatBonus": 3
+            }
+          }
+        ]
+      },
+      {
+        "id": "cw1_ps_n09",
+        "gate": 15,
+        "requires": [
+          "cw1_ps_n07"
+        ],
+        "rankValues": [
+          {
+            "rank": 1,
+            "text": "Measured Shelter ward 5 instead of 4.",
+            "values": {
+              "measured-shelter.ward": 5
+            }
+          },
+          {
+            "rank": 2,
+            "text": "Measured Shelter ward 6 instead of 4.",
+            "values": {
+              "measured-shelter.ward": 6
+            }
+          },
+          {
+            "rank": 3,
+            "text": "Measured Shelter ward 7 instead of 4.",
+            "values": {
+              "measured-shelter.ward": 7
+            }
+          }
+        ]
+      },
+      {
+        "id": "cw1_ps_n10",
+        "gate": 20,
+        "requires": [
+          "cw1_ps_n08"
+        ],
+        "rankValues": [
+          {
+            "rank": 1,
+            "text": "Read Instability range 40ft.",
+            "values": {
+              "read-instability.rangeFeet": 40
+            }
+          },
+          {
+            "rank": 2,
+            "text": "Read Instability range 50ft.",
+            "values": {
+              "read-instability.rangeFeet": 50
+            }
+          },
+          {
+            "rank": 3,
+            "text": "Read Instability range 60ft.",
+            "values": {
+              "read-instability.rangeFeet": 60
+            }
+          }
+        ]
+      },
+      {
+        "id": "cw1_ps_n11",
+        "gate": 20,
+        "requires": [
+          "cw1_ps_n09"
+        ],
+        "rankValues": [
+          {
+            "rank": 1,
+            "text": "Fraying Bolt flat damage bonus +1.",
+            "values": {
+              "fraying-bolt.damageFlatBonus": 1
+            }
+          },
+          {
+            "rank": 2,
+            "text": "Fraying Bolt flat damage bonus +2.",
+            "values": {
+              "fraying-bolt.damageFlatBonus": 2
+            }
+          },
+          {
+            "rank": 3,
+            "text": "Fraying Bolt flat damage bonus +3.",
+            "values": {
+              "fraying-bolt.damageFlatBonus": 3
+            }
+          }
+        ]
+      },
+      {
+        "id": "cw1_ps_n12",
+        "gate": 25,
+        "requires": [
+          "cw1_ps_n10"
+        ],
+        "rankValues": [
+          {
+            "rank": 1,
+            "text": "+1 to one GM-called noncombat check explaining a fully published finite distribution per completed-rest interval.",
+            "values": {
+              "published-proof.checkBonus": 1
+            }
+          },
+          {
+            "rank": 2,
+            "text": "+2 to one GM-called noncombat check explaining a fully published finite distribution per completed-rest interval.",
+            "values": {
+              "published-proof.checkBonus": 2
+            }
+          },
+          {
+            "rank": 3,
+            "text": "+3 to one GM-called noncombat check explaining a fully published finite distribution per completed-rest interval.",
+            "values": {
+              "published-proof.checkBonus": 3
+            }
+          }
+        ]
+      },
+      {
+        "id": "cw1_ps_n13",
+        "gate": 25,
+        "requires": [
+          "cw1_ps_n11"
+        ],
+        "rankValues": [
+          {
+            "rank": 1,
+            "text": "Skewed Guard Surge ward 7.",
+            "values": {
+              "skewed-guard.surgeWard": 7
+            }
+          },
+          {
+            "rank": 2,
+            "text": "Skewed Guard Surge ward 8.",
+            "values": {
+              "skewed-guard.surgeWard": 8
+            }
+          },
+          {
+            "rank": 3,
+            "text": "Skewed Guard Surge ward 9.",
+            "values": {
+              "skewed-guard.surgeWard": 9
+            }
+          }
+        ]
+      },
+      {
+        "id": "cw1_ps_n14",
+        "gate": 30,
+        "requires": [
+          "cw1_ps_n12"
+        ],
+        "rankValues": [
+          {
+            "rank": 1,
+            "text": "Stabilizer’s Kit calibration bonus +3 instead of +2.",
+            "values": {
+              "stabilizers-kit.calibrationBonus": 3
+            }
+          },
+          {
+            "rank": 2,
+            "text": "Stabilizer’s Kit calibration bonus +4 instead of +2.",
+            "values": {
+              "stabilizers-kit.calibrationBonus": 4
+            }
+          },
+          {
+            "rank": 3,
+            "text": "Stabilizer’s Kit calibration bonus +5 instead of +2.",
+            "values": {
+              "stabilizers-kit.calibrationBonus": 5
+            }
+          }
+        ]
+      },
+      {
+        "id": "cw1_ps_n15",
+        "gate": 30,
+        "requires": [
+          "cw1_ps_n13"
+        ],
+        "rankValues": [
+          {
+            "rank": 1,
+            "text": "Deep Shear Surge flat damage bonus +1.",
+            "values": {
+              "deep-shear.surgeDamageFlatBonus": 1
+            }
+          },
+          {
+            "rank": 2,
+            "text": "Deep Shear Surge flat damage bonus +2.",
+            "values": {
+              "deep-shear.surgeDamageFlatBonus": 2
+            }
+          },
+          {
+            "rank": 3,
+            "text": "Deep Shear Surge flat damage bonus +3.",
+            "values": {
+              "deep-shear.surgeDamageFlatBonus": 3
+            }
+          }
+        ]
+      },
+      {
+        "id": "cw1_ps_n16",
+        "gate": 35,
+        "requires": [
+          "cw1_ps_n14"
+        ],
+        "rankValues": [
+          {
+            "rank": 1,
+            "text": "Bias the Draw Surge flat damage bonus +1.",
+            "values": {
+              "bias-draw.surgeDamageFlatBonus": 1,
+              "closed-distribution.surgeDamageFlatBonus": 1
+            }
+          },
+          {
+            "rank": 2,
+            "text": "Bias the Draw Surge flat damage bonus +2.",
+            "values": {
+              "bias-draw.surgeDamageFlatBonus": 2,
+              "closed-distribution.surgeDamageFlatBonus": 2
+            }
+          },
+          {
+            "rank": 3,
+            "text": "Bias the Draw Surge flat damage bonus +3.",
+            "values": {
+              "bias-draw.surgeDamageFlatBonus": 3,
+              "closed-distribution.surgeDamageFlatBonus": 3
+            }
+          }
+        ]
+      },
+      {
+        "id": "cw1_ps_n17",
+        "gate": 35,
+        "requires": [
+          "cw1_ps_n15"
+        ],
+        "rankValues": [
+          {
+            "rank": 1,
+            "text": "Split Shift legal step 10ft instead of 5.",
+            "values": {
+              "split.shiftStepFeet": 10,
+              "closed-distribution.shiftStepFeet": 10
+            }
+          },
+          {
+            "rank": 2,
+            "text": "Split Shift legal step 15ft instead of 5.",
+            "values": {
+              "split.shiftStepFeet": 15,
+              "closed-distribution.shiftStepFeet": 15
+            }
+          },
+          {
+            "rank": 3,
+            "text": "Split Shift legal step 20ft instead of 5.",
+            "values": {
+              "split.shiftStepFeet": 20,
+              "closed-distribution.shiftStepFeet": 20
+            }
+          }
+        ]
+      },
+      {
+        "id": "cw1_ps_n18",
+        "gate": 45,
+        "requires": [
+          "cw1_ps_n05",
+          "cw1_ps_n16",
+          "cw1_ps_n17"
+        ],
+        "rankValues": [
+          {
+            "rank": 1,
+            "text": "Grant cw1_closed_distribution.",
+            "values": {}
+          }
+        ]
+      },
+      {
+        "id": "cw1_ab_n01",
+        "gate": 0,
+        "requires": [],
+        "rankValues": [
+          {
+            "rank": 1,
+            "text": "Survey the Seam range 15ft.",
+            "values": {
+              "survey-the-seam.rangeFeet": 15
+            }
+          },
+          {
+            "rank": 2,
+            "text": "Survey the Seam range 20ft.",
+            "values": {
+              "survey-the-seam.rangeFeet": 20
+            }
+          },
+          {
+            "rank": 3,
+            "text": "Survey the Seam range 25ft.",
+            "values": {
+              "survey-the-seam.rangeFeet": 25
+            }
+          }
+        ]
+      },
+      {
+        "id": "cw1_ab_n02",
+        "gate": 0,
+        "requires": [],
+        "rankValues": [
+          {
+            "rank": 1,
+            "text": "Fracture Brace ward 3.",
+            "values": {
+              "fracture-brace.ward": 3
+            }
+          },
+          {
+            "rank": 2,
+            "text": "Fracture Brace ward 4.",
+            "values": {
+              "fracture-brace.ward": 4
+            }
+          },
+          {
+            "rank": 3,
+            "text": "Fracture Brace ward 5.",
+            "values": {
+              "fracture-brace.ward": 5
+            }
+          }
+        ]
+      },
+      {
+        "id": "cw1_ab_n03",
+        "gate": 5,
+        "requires": [
+          "cw1_ab_n01"
+        ],
+        "rankValues": [
+          {
+            "rank": 1,
+            "text": "Signal Coin jostle signal audible within 20ft to normal listeners.",
+            "values": {
+              "signal-coin.audibleRangeFeet": 20
+            }
+          },
+          {
+            "rank": 2,
+            "text": "Signal Coin jostle signal audible within 30ft to normal listeners.",
+            "values": {
+              "signal-coin.audibleRangeFeet": 30
+            }
+          },
+          {
+            "rank": 3,
+            "text": "Signal Coin jostle signal audible within 40ft to normal listeners.",
+            "values": {
+              "signal-coin.audibleRangeFeet": 40
+            }
+          }
+        ]
+      },
+      {
+        "id": "cw1_ab_n04",
+        "gate": 5,
+        "requires": [
+          "cw1_ab_n02"
+        ],
+        "rankValues": [
+          {
+            "rank": 1,
+            "text": "Shared Survey answers 3 distinct existing questions instead of 2.",
+            "values": {
+              "shared-survey.questions": 3
+            }
+          },
+          {
+            "rank": 2,
+            "text": "Shared Survey answers 4 distinct existing questions instead of 2.",
+            "values": {
+              "shared-survey.questions": 4
+            }
+          },
+          {
+            "rank": 3,
+            "text": "Shared Survey answers 5 distinct existing questions instead of 2.",
+            "values": {
+              "shared-survey.questions": 5
+            }
+          }
+        ]
+      },
+      {
+        "id": "cw1_ab_n05",
+        "gate": 10,
+        "requires": [
+          "cw1_ab_n03"
+        ],
+        "rankValues": [
+          {
+            "rank": 1,
+            "text": "Grant cr1_chaos_weaver_unsteady_ground.",
+            "values": {}
+          }
+        ]
+      },
+      {
+        "id": "cw1_ab_n06",
+        "gate": 10,
+        "requires": [
+          "cw1_ab_n03"
+        ],
+        "rankValues": [
+          {
+            "rank": 1,
+            "text": "Unsteady Ground placement range 40ft.",
+            "values": {
+              "unsteady-ground.placementRangeFeet": 40
+            }
+          },
+          {
+            "rank": 2,
+            "text": "Unsteady Ground placement range 50ft.",
+            "values": {
+              "unsteady-ground.placementRangeFeet": 50
+            }
+          },
+          {
+            "rank": 3,
+            "text": "Unsteady Ground placement range 60ft.",
+            "values": {
+              "unsteady-ground.placementRangeFeet": 60
+            }
+          }
+        ]
+      },
+      {
+        "id": "cw1_ab_n07",
+        "gate": 10,
+        "requires": [
+          "cw1_ab_n04"
+        ],
+        "rankValues": [
+          {
+            "rank": 1,
+            "text": "Unsteady Ground radius 6ft; still one first enemy trigger.",
+            "values": {
+              "unsteady-ground.radiusFeet": 6
+            }
+          },
+          {
+            "rank": 2,
+            "text": "Unsteady Ground radius 8ft; still one first enemy trigger.",
+            "values": {
+              "unsteady-ground.radiusFeet": 8
+            }
+          },
+          {
+            "rank": 3,
+            "text": "Unsteady Ground radius 10ft; still one first enemy trigger.",
+            "values": {
+              "unsteady-ground.radiusFeet": 10
+            }
+          }
+        ]
+      },
+      {
+        "id": "cw1_ab_n08",
+        "gate": 15,
+        "requires": [
+          "cw1_ab_n06"
+        ],
+        "rankValues": [
+          {
+            "rank": 1,
+            "text": "Before placement, choose entry OR exit as the one published trigger.",
+            "values": {
+              "unsteady-ground.triggerOptions": "entry-or-exit"
+            }
+          },
+          {
+            "rank": 2,
+            "text": "Before placement, choose entry OR exit OR voluntary crossing of the centerline as the one published trigger.",
+            "values": {
+              "unsteady-ground.triggerOptions": "entry-or-exit-or-centerline-crossing"
+            }
+          },
+          {
+            "rank": 3,
+            "text": "Before placement, choose any of the previous options plus a named boundary segment as the one published trigger.",
+            "values": {
+              "unsteady-ground.triggerOptions": "entry-or-exit-or-centerline-crossing-or-named-segment"
+            }
+          }
+        ]
+      },
+      {
+        "id": "cw1_ab_n09",
+        "gate": 15,
+        "requires": [
+          "cw1_ab_n07"
+        ],
+        "rankValues": [
+          {
+            "rank": 1,
+            "text": "Warning Boundary caster step 10ft instead of 5.",
+            "values": {
+              "warning-boundary.casterStepFeet": 10
+            }
+          },
+          {
+            "rank": 2,
+            "text": "Warning Boundary caster step 15ft instead of 5.",
+            "values": {
+              "warning-boundary.casterStepFeet": 15
+            }
+          },
+          {
+            "rank": 3,
+            "text": "Warning Boundary caster step 20ft instead of 5.",
+            "values": {
+              "warning-boundary.casterStepFeet": 20
+            }
+          }
+        ]
+      },
+      {
+        "id": "cw1_ab_n10",
+        "gate": 20,
+        "requires": [
+          "cw1_ab_n08"
+        ],
+        "rankValues": [
+          {
+            "rank": 1,
+            "text": "Unsteady Ground expiry endT+3 instead of T+2; no extra trigger.",
+            "values": {
+              "unsteady-ground.expiryTurns": 3
+            }
+          },
+          {
+            "rank": 2,
+            "text": "Unsteady Ground expiry endT+4 instead of T+2; no extra trigger.",
+            "values": {
+              "unsteady-ground.expiryTurns": 4
+            }
+          },
+          {
+            "rank": 3,
+            "text": "Unsteady Ground expiry endT+5 instead of T+2; no extra trigger.",
+            "values": {
+              "unsteady-ground.expiryTurns": 5
+            }
+          }
+        ]
+      },
+      {
+        "id": "cw1_ab_n11",
+        "gate": 20,
+        "requires": [
+          "cw1_ab_n09"
+        ],
+        "rankValues": [
+          {
+            "rank": 1,
+            "text": "Measured Shelter ward 5.",
+            "values": {
+              "measured-shelter.ward": 5
+            }
+          },
+          {
+            "rank": 2,
+            "text": "Measured Shelter ward 6.",
+            "values": {
+              "measured-shelter.ward": 6
+            }
+          },
+          {
+            "rank": 3,
+            "text": "Measured Shelter ward 7.",
+            "values": {
+              "measured-shelter.ward": 7
+            }
+          }
+        ]
+      },
+      {
+        "id": "cw1_ab_n12",
+        "gate": 25,
+        "requires": [
+          "cw1_ab_n10"
+        ],
+        "rankValues": [
+          {
+            "rank": 1,
+            "text": "Counterseal Surge ward 7.",
+            "values": {
+              "counterseal.surgeWard": 7
+            }
+          },
+          {
+            "rank": 2,
+            "text": "Counterseal Surge ward 8.",
+            "values": {
+              "counterseal.surgeWard": 8
+            }
+          },
+          {
+            "rank": 3,
+            "text": "Counterseal Surge ward 9.",
+            "values": {
+              "counterseal.surgeWard": 9
+            }
+          }
+        ]
+      },
+      {
+        "id": "cw1_ab_n13",
+        "gate": 25,
+        "requires": [
+          "cw1_ab_n11"
+        ],
+        "rankValues": [
+          {
+            "rank": 1,
+            "text": "Hold the Sample expiry endT+3; still inert-only and one anomaly slot.",
+            "values": {
+              "hold-the-sample.expiryTurns": 3
+            }
+          },
+          {
+            "rank": 2,
+            "text": "Hold the Sample expiry endT+4; still inert-only and one anomaly slot.",
+            "values": {
+              "hold-the-sample.expiryTurns": 4
+            }
+          },
+          {
+            "rank": 3,
+            "text": "Hold the Sample expiry endT+5; still inert-only and one anomaly slot.",
+            "values": {
+              "hold-the-sample.expiryTurns": 5
+            }
+          }
+        ]
+      },
+      {
+        "id": "cw1_ab_n14",
+        "gate": 30,
+        "requires": [
+          "cw1_ab_n12"
+        ],
+        "rankValues": [
+          {
+            "rank": 1,
+            "text": "+1 to one GM-called noncombat check to document an actually visible anomaly boundary per completed-rest interval.",
+            "values": {
+              "edge-witness.checkBonus": 1
+            }
+          },
+          {
+            "rank": 2,
+            "text": "+2 to one GM-called noncombat check to document an actually visible anomaly boundary per completed-rest interval.",
+            "values": {
+              "edge-witness.checkBonus": 2
+            }
+          },
+          {
+            "rank": 3,
+            "text": "+3 to one GM-called noncombat check to document an actually visible anomaly boundary per completed-rest interval.",
+            "values": {
+              "edge-witness.checkBonus": 3
+            }
+          }
+        ]
+      },
+      {
+        "id": "cw1_ab_n15",
+        "gate": 30,
+        "requires": [
+          "cw1_ab_n13"
+        ],
+        "rankValues": [
+          {
+            "rank": 1,
+            "text": "Retune Apparatus ward 5; still recovers only one spent F.",
+            "values": {
+              "retune-apparatus.ward": 5
+            }
+          },
+          {
+            "rank": 2,
+            "text": "Retune Apparatus ward 6; still recovers only one spent F.",
+            "values": {
+              "retune-apparatus.ward": 6
+            }
+          },
+          {
+            "rank": 3,
+            "text": "Retune Apparatus ward 7; still recovers only one spent F.",
+            "values": {
+              "retune-apparatus.ward": 7
+            }
+          }
+        ]
+      },
+      {
+        "id": "cw1_ab_n16",
+        "gate": 35,
+        "requires": [
+          "cw1_ab_n14"
+        ],
+        "rankValues": [
+          {
+            "rank": 1,
+            "text": "Warning Boundary placement range 40ft.",
+            "values": {
+              "warning-boundary.placementRangeFeet": 40,
+              "last-boundary.placementRangeFeet": 40
+            }
+          },
+          {
+            "rank": 2,
+            "text": "Warning Boundary placement range 50ft.",
+            "values": {
+              "warning-boundary.placementRangeFeet": 50,
+              "last-boundary.placementRangeFeet": 50
+            }
+          },
+          {
+            "rank": 3,
+            "text": "Warning Boundary placement range 60ft.",
+            "values": {
+              "warning-boundary.placementRangeFeet": 60,
+              "last-boundary.placementRangeFeet": 60
+            }
+          }
+        ]
+      },
+      {
+        "id": "cw1_ab_n17",
+        "gate": 35,
+        "requires": [
+          "cw1_ab_n15"
+        ],
+        "rankValues": [
+          {
+            "rank": 1,
+            "text": "Warning Boundary radius 6ft.",
+            "values": {
+              "warning-boundary.radiusFeet": 6,
+              "last-boundary.radiusFeet": 12
+            }
+          },
+          {
+            "rank": 2,
+            "text": "Warning Boundary radius 8ft.",
+            "values": {
+              "warning-boundary.radiusFeet": 8,
+              "last-boundary.radiusFeet": 14
+            }
+          },
+          {
+            "rank": 3,
+            "text": "Warning Boundary radius 10ft.",
+            "values": {
+              "warning-boundary.radiusFeet": 10,
+              "last-boundary.radiusFeet": 16
+            }
+          }
+        ]
+      },
+      {
+        "id": "cw1_ab_n18",
+        "gate": 45,
+        "requires": [
+          "cw1_ab_n05",
+          "cw1_ab_n16",
+          "cw1_ab_n17"
+        ],
+        "rankValues": [
+          {
+            "rank": 1,
+            "text": "Grant cw1_last_boundary.",
+            "values": {}
+          }
+        ]
+      },
+      {
+        "id": "cw1_ca_n01",
+        "gate": 0,
+        "requires": [],
+        "rankValues": [
+          {
+            "rank": 1,
+            "text": "Sideways Spark enemy range 35ft.",
+            "values": {
+              "sideways-spark.enemyRangeFeet": 35
+            }
+          },
+          {
+            "rank": 2,
+            "text": "Sideways Spark enemy range 40ft.",
+            "values": {
+              "sideways-spark.enemyRangeFeet": 40
+            }
+          },
+          {
+            "rank": 3,
+            "text": "Sideways Spark enemy range 45ft.",
+            "values": {
+              "sideways-spark.enemyRangeFeet": 45
+            }
+          }
+        ]
+      },
+      {
+        "id": "cw1_ca_n02",
+        "gate": 0,
+        "requires": [],
+        "rankValues": [
+          {
+            "rank": 1,
+            "text": "Sideways Spark legal caster step 10ft; damage unchanged.",
+            "values": {
+              "sideways-spark.stepFeet": 10
+            }
+          },
+          {
+            "rank": 2,
+            "text": "Sideways Spark legal caster step 15ft; damage unchanged.",
+            "values": {
+              "sideways-spark.stepFeet": 15
+            }
+          },
+          {
+            "rank": 3,
+            "text": "Sideways Spark legal caster step 20ft; damage unchanged.",
+            "values": {
+              "sideways-spark.stepFeet": 20
+            }
+          }
+        ]
+      },
+      {
+        "id": "cw1_ca_n03",
+        "gate": 5,
+        "requires": [
+          "cw1_ca_n01"
+        ],
+        "rankValues": [
+          {
+            "rank": 1,
+            "text": "Chosen Crosscurrent M flat damage bonus +1.",
+            "values": {
+              "chosen-crosscurrent.shiftDamageFlatBonus": 1
+            }
+          },
+          {
+            "rank": 2,
+            "text": "Chosen Crosscurrent M flat damage bonus +2.",
+            "values": {
+              "chosen-crosscurrent.shiftDamageFlatBonus": 2
+            }
+          },
+          {
+            "rank": 3,
+            "text": "Chosen Crosscurrent M flat damage bonus +3.",
+            "values": {
+              "chosen-crosscurrent.shiftDamageFlatBonus": 3
+            }
+          }
+        ]
+      },
+      {
+        "id": "cw1_ca_n04",
+        "gate": 5,
+        "requires": [
+          "cw1_ca_n02"
+        ],
+        "rankValues": [
+          {
+            "rank": 1,
+            "text": "Counterweight’s noncombat check bonus +2 instead of +1.",
+            "values": {
+              "counterweight.checkBonus": 2
+            }
+          },
+          {
+            "rank": 2,
+            "text": "Counterweight’s noncombat check bonus +3 instead of +1.",
+            "values": {
+              "counterweight.checkBonus": 3
+            }
+          },
+          {
+            "rank": 3,
+            "text": "Counterweight’s noncombat check bonus +4 instead of +1.",
+            "values": {
+              "counterweight.checkBonus": 4
+            }
+          }
+        ]
+      },
+      {
+        "id": "cw1_ca_n05",
+        "gate": 10,
+        "requires": [
+          "cw1_ca_n03"
+        ],
+        "rankValues": [
+          {
+            "rank": 1,
+            "text": "Grant cr1_chaos_weaver_second_possibility.",
+            "values": {}
+          }
+        ]
+      },
+      {
+        "id": "cw1_ca_n06",
+        "gate": 10,
+        "requires": [
+          "cw1_ca_n03"
+        ],
+        "rankValues": [
+          {
+            "rank": 1,
+            "text": "Second Possibility ally step 10ft; still one extra M, no extra allowance.",
+            "values": {
+              "second-possibility.allyStepFeet": 10
+            }
+          },
+          {
+            "rank": 2,
+            "text": "Second Possibility ally step 15ft; still one extra M, no extra allowance.",
+            "values": {
+              "second-possibility.allyStepFeet": 15
+            }
+          },
+          {
+            "rank": 3,
+            "text": "Second Possibility ally step 20ft; still one extra M, no extra allowance.",
+            "values": {
+              "second-possibility.allyStepFeet": 20
+            }
+          }
+        ]
+      },
+      {
+        "id": "cw1_ca_n07",
+        "gate": 10,
+        "requires": [
+          "cw1_ca_n04"
+        ],
+        "rankValues": [
+          {
+            "rank": 1,
+            "text": "Second Possibility predeclared ally range 40ft; enemy range unchanged.",
+            "values": {
+              "second-possibility.allyRangeFeet": 40
+            }
+          },
+          {
+            "rank": 2,
+            "text": "Second Possibility predeclared ally range 50ft; enemy range unchanged.",
+            "values": {
+              "second-possibility.allyRangeFeet": 50
+            }
+          },
+          {
+            "rank": 3,
+            "text": "Second Possibility predeclared ally range 60ft; enemy range unchanged.",
+            "values": {
+              "second-possibility.allyRangeFeet": 60
+            }
+          }
+        ]
+      },
+      {
+        "id": "cw1_ca_n08",
+        "gate": 15,
+        "requires": [
+          "cw1_ca_n06"
+        ],
+        "rankValues": [
+          {
+            "rank": 1,
+            "text": "Slip Tether M step 15ft; no effect on Fracture.",
+            "values": {
+              "slip-tether.shiftStepFeet": 15
+            }
+          },
+          {
+            "rank": 2,
+            "text": "Slip Tether M step 20ft; no effect on Fracture.",
+            "values": {
+              "slip-tether.shiftStepFeet": 20
+            }
+          },
+          {
+            "rank": 3,
+            "text": "Slip Tether M step 25ft; no effect on Fracture.",
+            "values": {
+              "slip-tether.shiftStepFeet": 25
+            }
+          }
+        ]
+      },
+      {
+        "id": "cw1_ca_n09",
+        "gate": 15,
+        "requires": [
+          "cw1_ca_n07"
+        ],
+        "rankValues": [
+          {
+            "rank": 1,
+            "text": "Return Line legal displacement 20ft.",
+            "values": {
+              "return-line.displacementFeet": 20
+            }
+          },
+          {
+            "rank": 2,
+            "text": "Return Line legal displacement 25ft.",
+            "values": {
+              "return-line.displacementFeet": 25
+            }
+          },
+          {
+            "rank": 3,
+            "text": "Return Line legal displacement 30ft.",
+            "values": {
+              "return-line.displacementFeet": 30
+            }
+          }
+        ]
+      },
+      {
+        "id": "cw1_ca_n10",
+        "gate": 20,
+        "requires": [
+          "cw1_ca_n08"
+        ],
+        "rankValues": [
+          {
+            "rank": 1,
+            "text": "Second Possibility may predeclare spend S for ally ward 3 until next caster start.",
+            "values": {
+              "second-possibility.allyWard": 3
+            }
+          },
+          {
+            "rank": 2,
+            "text": "Second Possibility may predeclare spend S for ally ward 4 until next caster start.",
+            "values": {
+              "second-possibility.allyWard": 4
+            }
+          },
+          {
+            "rank": 3,
+            "text": "Second Possibility may predeclare spend S for ally ward 5 until next caster start.",
+            "values": {
+              "second-possibility.allyWard": 5
+            }
+          }
+        ]
+      },
+      {
+        "id": "cw1_ca_n11",
+        "gate": 20,
+        "requires": [
+          "cw1_ca_n09"
+        ],
+        "rankValues": [
+          {
+            "rank": 1,
+            "text": "Passed Opening ally displacement 15ft.",
+            "values": {
+              "passed-opening.displacementFeet": 15
+            }
+          },
+          {
+            "rank": 2,
+            "text": "Passed Opening ally displacement 20ft.",
+            "values": {
+              "passed-opening.displacementFeet": 20
+            }
+          },
+          {
+            "rank": 3,
+            "text": "Passed Opening ally displacement 25ft.",
+            "values": {
+              "passed-opening.displacementFeet": 25
+            }
+          }
+        ]
+      },
+      {
+        "id": "cw1_ca_n12",
+        "gate": 25,
+        "requires": [
+          "cw1_ca_n10"
+        ],
+        "rankValues": [
+          {
+            "rank": 1,
+            "text": "Joint Containment Surge ward 9.",
+            "values": {
+              "joint-containment.surgeWard": 9
+            }
+          },
+          {
+            "rank": 2,
+            "text": "Joint Containment Surge ward 10.",
+            "values": {
+              "joint-containment.surgeWard": 10
+            }
+          },
+          {
+            "rank": 3,
+            "text": "Joint Containment Surge ward 11.",
+            "values": {
+              "joint-containment.surgeWard": 11
+            }
+          }
+        ]
+      },
+      {
+        "id": "cw1_ca_n13",
+        "gate": 25,
+        "requires": [
+          "cw1_ca_n11"
+        ],
+        "rankValues": [
+          {
+            "rank": 1,
+            "text": "Crossgrain Ray Shift flat damage bonus +1.",
+            "values": {
+              "crossgrain-ray.shiftDamageFlatBonus": 1
+            }
+          },
+          {
+            "rank": 2,
+            "text": "Crossgrain Ray Shift flat damage bonus +2.",
+            "values": {
+              "crossgrain-ray.shiftDamageFlatBonus": 2
+            }
+          },
+          {
+            "rank": 3,
+            "text": "Crossgrain Ray Shift flat damage bonus +3.",
+            "values": {
+              "crossgrain-ray.shiftDamageFlatBonus": 3
+            }
+          }
+        ]
+      },
+      {
+        "id": "cw1_ca_n14",
+        "gate": 30,
+        "requires": [
+          "cw1_ca_n12"
+        ],
+        "rankValues": [
+          {
+            "rank": 1,
+            "text": "Lateral Refuge M displacement 25ft.",
+            "values": {
+              "lateral-refuge.shiftDisplacementFeet": 25
+            }
+          },
+          {
+            "rank": 2,
+            "text": "Lateral Refuge M displacement 30ft.",
+            "values": {
+              "lateral-refuge.shiftDisplacementFeet": 30
+            }
+          },
+          {
+            "rank": 3,
+            "text": "Lateral Refuge M displacement 35ft.",
+            "values": {
+              "lateral-refuge.shiftDisplacementFeet": 35
+            }
+          }
+        ]
+      },
+      {
+        "id": "cw1_ca_n15",
+        "gate": 30,
+        "requires": [
+          "cw1_ca_n13"
+        ],
+        "rankValues": [
+          {
+            "rank": 1,
+            "text": "+1 to one GM-called noncombat check coordinating a predeclared safe route per completed-rest interval.",
+            "values": {
+              "one-clear-signal.checkBonus": 1
+            }
+          },
+          {
+            "rank": 2,
+            "text": "+2 to one GM-called noncombat check coordinating a predeclared safe route per completed-rest interval.",
+            "values": {
+              "one-clear-signal.checkBonus": 2
+            }
+          },
+          {
+            "rank": 3,
+            "text": "+3 to one GM-called noncombat check coordinating a predeclared safe route per completed-rest interval.",
+            "values": {
+              "one-clear-signal.checkBonus": 3
+            }
+          }
+        ]
+      },
+      {
+        "id": "cw1_ca_n16",
+        "gate": 35,
+        "requires": [
+          "cw1_ca_n14"
+        ],
+        "rankValues": [
+          {
+            "rank": 1,
+            "text": "Second Possibility primary enemy range 40ft.",
+            "values": {
+              "second-possibility.enemyRangeFeet": 40,
+              "single-aftershock.allyRangeFeet": 40
+            }
+          },
+          {
+            "rank": 2,
+            "text": "Second Possibility primary enemy range 50ft.",
+            "values": {
+              "second-possibility.enemyRangeFeet": 50,
+              "single-aftershock.allyRangeFeet": 50
+            }
+          },
+          {
+            "rank": 3,
+            "text": "Second Possibility primary enemy range 60ft.",
+            "values": {
+              "second-possibility.enemyRangeFeet": 60,
+              "single-aftershock.allyRangeFeet": 60
+            }
+          }
+        ]
+      },
+      {
+        "id": "cw1_ca_n17",
+        "gate": 35,
+        "requires": [
+          "cw1_ca_n15"
+        ],
+        "rankValues": [
+          {
+            "rank": 1,
+            "text": "Second Possibility optional M 25ft or learned optional S ward 6; Single Aftershock optional M 15ft or S ward 7.",
+            "values": {
+              "second-possibility.continuationFeet": 25,
+              "second-possibility.continuationWard": 6,
+              "single-aftershock.continuationFeet": 15,
+              "single-aftershock.continuationWard": 7
+            }
+          },
+          {
+            "rank": 2,
+            "text": "Second Possibility optional M 30ft or learned optional S ward 7; Single Aftershock optional M 20ft or S ward 8.",
+            "values": {
+              "second-possibility.continuationFeet": 30,
+              "second-possibility.continuationWard": 7,
+              "single-aftershock.continuationFeet": 20,
+              "single-aftershock.continuationWard": 8
+            }
+          },
+          {
+            "rank": 3,
+            "text": "Second Possibility optional M 35ft or learned optional S ward 8; Single Aftershock optional M 25ft or S ward 9.",
+            "values": {
+              "second-possibility.continuationFeet": 35,
+              "second-possibility.continuationWard": 8,
+              "single-aftershock.continuationFeet": 25,
+              "single-aftershock.continuationWard": 9
+            }
+          }
+        ]
+      },
+      {
+        "id": "cw1_ca_n18",
+        "gate": 45,
+        "requires": [
+          "cw1_ca_n05",
+          "cw1_ca_n16",
+          "cw1_ca_n17"
+        ],
+        "rankValues": [
+          {
+            "rank": 1,
+            "text": "Grant cw1_single_aftershock.",
+            "values": {}
+          }
+        ]
+      }
+    ],
+    "records": [
+      {
+        "id": "cw1_01",
+        "price": {
+          "actionPoints": 2,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [
+            {
+              "symbol": "F"
+            }
+          ],
+          "zoneFrom": "available",
+          "zoneTo": "spent",
+          "count": 1,
+          "spendAllPrimary": true
+        },
+        "damage": {
+          "formula": "1d6",
+          "damageTypes": [
+            "wyrd"
+          ]
+        },
+        "branches": null,
+        "area": null,
+        "target": {
+          "roles": [
+            "enemy"
+          ],
+          "rangeFeet": 30,
+          "maxSubjects": 1
+        },
+        "timing": {
+          "use": "own-turn",
+          "expiry": null,
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "cw1_02",
+        "price": {
+          "actionPoints": 2,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [
+            {
+              "symbol": "M"
+            }
+          ],
+          "zoneFrom": "available",
+          "zoneTo": "spent",
+          "count": 1,
+          "spendAllPrimary": true
+        },
+        "damage": {
+          "formula": "1d4",
+          "damageTypes": [
+            "wyrd"
+          ]
+        },
+        "branches": null,
+        "area": null,
+        "target": {
+          "roles": [
+            "enemy"
+          ],
+          "rangeFeet": 30,
+          "maxSubjects": 1
+        },
+        "timing": {
+          "use": "own-turn",
+          "expiry": null,
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "cw1_03",
+        "price": {
+          "actionPoints": 1,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [
+            {
+              "symbol": "M"
+            }
+          ],
+          "zoneFrom": "available",
+          "zoneTo": "spent",
+          "count": 1,
+          "spendAllPrimary": true
+        },
+        "damage": null,
+        "branches": null,
+        "area": null,
+        "target": {
+          "roles": [
+            "object"
+          ],
+          "rangeFeet": 10,
+          "maxSubjects": 1
+        },
+        "timing": {
+          "use": "own-turn",
+          "expiry": null,
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "cw1_04",
+        "price": {
+          "actionPoints": 1,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [
+            {
+              "symbol": "F"
+            }
+          ],
+          "zoneFrom": "available",
+          "zoneTo": "spent",
+          "count": 1,
+          "spendAllPrimary": true
+        },
+        "damage": null,
+        "branches": null,
+        "area": null,
+        "target": {
+          "roles": [
+            "self"
+          ],
+          "rangeFeet": 0,
+          "maxSubjects": 1
+        },
+        "timing": {
+          "use": "own-turn",
+          "expiry": "next-own-turn-start",
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "cw1_05",
+        "price": {
+          "actionPoints": 2,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [
+            {
+              "symbol": "S"
+            }
+          ],
+          "zoneFrom": "available",
+          "zoneTo": "spent",
+          "count": 1,
+          "spendAllPrimary": true
+        },
+        "damage": {
+          "formula": "1d6+2",
+          "damageTypes": [
+            "wyrd"
+          ]
+        },
+        "branches": null,
+        "area": null,
+        "target": {
+          "roles": [
+            "enemy"
+          ],
+          "rangeFeet": 30,
+          "maxSubjects": 1
+        },
+        "timing": {
+          "use": "own-turn",
+          "expiry": null,
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "cw1_06",
+        "price": {
+          "actionPoints": 2,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [
+            {
+              "symbol": "M"
+            },
+            {
+              "symbol": "F"
+            }
+          ],
+          "zoneFrom": "available",
+          "zoneTo": "spent",
+          "count": 2,
+          "spendAllPrimary": true
+        },
+        "damage": null,
+        "branches": {
+          "selection": "uniform-by-primary-tile-id",
+          "sampleNote": "Uniform selection across the committed M and F tile IDs before any face is entered.",
+          "outcomes": {
+            "M": {
+              "damage": {
+                "formula": "1d6+2",
+                "damageTypes": [
+                  "wyrd"
+                ]
+              },
+              "ward": null,
+              "movement": {
+                "kind": "step",
+                "feet": 5,
+                "until": "immediate",
+                "usesRemainingMovement": true,
+                "optional": true
+              },
+              "note": "M: 1d6+2 Wyrd and caster 5ft step using remaining movement."
+            },
+            "F": {
+              "damage": {
+                "formula": "1d6",
+                "damageTypes": [
+                  "wyrd"
+                ]
+              },
+              "ward": null,
+              "movement": {
+                "kind": "penalty",
+                "feet": 5,
+                "until": "next-own-turn-start",
+                "usesRemainingMovement": true,
+                "optional": false
+              },
+              "note": "F: 1d6 Wyrd and the normal Fracture penalty (caster movement−5ft until next own-turn start)."
+            }
+          }
+        },
+        "area": null,
+        "target": {
+          "roles": [
+            "enemy"
+          ],
+          "rangeFeet": 30,
+          "maxSubjects": 1
+        },
+        "timing": {
+          "use": "own-turn",
+          "expiry": null,
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "cr1_chaos_weaver_read_instability",
+        "price": {
+          "actionPoints": 1,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [
+            {
+              "anyOf": [
+                "S",
+                "M",
+                "F"
+              ]
+            }
+          ],
+          "zoneFrom": "available",
+          "zoneTo": "spent",
+          "count": 1,
+          "spendAllPrimary": true
+        },
+        "damage": null,
+        "branches": null,
+        "area": null,
+        "target": {
+          "roles": [
+            "anomaly"
+          ],
+          "rangeFeet": 30,
+          "maxSubjects": 1
+        },
+        "timing": {
+          "use": "own-turn",
+          "expiry": null,
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "cw1_08",
+        "price": {
+          "actionPoints": 1,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [
+            {
+              "symbol": "F"
+            }
+          ],
+          "zoneFrom": "available",
+          "zoneTo": "spent",
+          "count": 1,
+          "spendAllPrimary": true
+        },
+        "damage": null,
+        "branches": null,
+        "area": null,
+        "target": {
+          "roles": [
+            "self"
+          ],
+          "rangeFeet": 0,
+          "maxSubjects": 1
+        },
+        "timing": {
+          "use": "own-turn",
+          "expiry": "end-next-own-turn",
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "cw1_09",
+        "price": {
+          "actionPoints": 2,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [
+            {
+              "symbol": "S"
+            },
+            {
+              "symbol": "F"
+            }
+          ],
+          "zoneFrom": "available",
+          "zoneTo": "spent",
+          "count": 2,
+          "spendAllPrimary": true
+        },
+        "damage": null,
+        "branches": {
+          "selection": "uniform-by-primary-tile-id",
+          "sampleNote": "Uniform selection across the committed S and F tile IDs before any face is entered.",
+          "outcomes": {
+            "S": {
+              "damage": {
+                "formula": "2d6+2",
+                "damageTypes": [
+                  "wyrd"
+                ]
+              },
+              "ward": null,
+              "movement": null,
+              "note": "S: 2d6+2 Wyrd."
+            },
+            "F": {
+              "damage": {
+                "formula": "1d6+2",
+                "damageTypes": [
+                  "wyrd"
+                ]
+              },
+              "ward": null,
+              "movement": {
+                "kind": "penalty",
+                "feet": 5,
+                "until": "next-own-turn-start",
+                "usesRemainingMovement": true,
+                "optional": false
+              },
+              "note": "F: 1d6+2 Wyrd and the normal Fracture penalty (caster movement−5ft until next own-turn start)."
+            }
+          }
+        },
+        "area": null,
+        "target": {
+          "roles": [
+            "enemy"
+          ],
+          "rangeFeet": 30,
+          "maxSubjects": 1
+        },
+        "timing": {
+          "use": "own-turn",
+          "expiry": null,
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "cw1_10",
+        "price": {
+          "actionPoints": 1,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [
+            {
+              "symbol": "M"
+            },
+            {
+              "symbol": "F"
+            }
+          ],
+          "zoneFrom": "available",
+          "zoneTo": "spent",
+          "count": 2,
+          "spendAllPrimary": true
+        },
+        "damage": null,
+        "branches": {
+          "selection": "uniform-by-primary-tile-id",
+          "sampleNote": "Uniform selection across the committed M and F tile IDs before any face is entered.",
+          "outcomes": {
+            "M": {
+              "damage": null,
+              "ward": null,
+              "movement": {
+                "kind": "step",
+                "feet": 10,
+                "until": "immediate",
+                "usesRemainingMovement": true,
+                "optional": true
+              },
+              "note": "M: caster 10ft legal step using remaining movement."
+            },
+            "F": {
+              "damage": null,
+              "ward": null,
+              "movement": {
+                "kind": "penalty",
+                "feet": 5,
+                "until": "next-own-turn-start",
+                "usesRemainingMovement": true,
+                "optional": false
+              },
+              "note": "F: no step and the normal Fracture penalty (caster movement−5ft until next own-turn start)."
+            }
+          }
+        },
+        "area": null,
+        "target": {
+          "roles": [
+            "self"
+          ],
+          "rangeFeet": 0,
+          "maxSubjects": 1
+        },
+        "timing": {
+          "use": "own-turn",
+          "expiry": null,
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "cw1_11",
+        "price": {
+          "actionPoints": 2,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [
+            {
+              "symbol": "S"
+            }
+          ],
+          "zoneFrom": "available",
+          "zoneTo": "spent",
+          "count": 1,
+          "spendAllPrimary": true
+        },
+        "damage": null,
+        "branches": null,
+        "area": null,
+        "target": {
+          "roles": [
+            "self",
+            "ally"
+          ],
+          "rangeFeet": 30,
+          "maxSubjects": 1
+        },
+        "timing": {
+          "use": "own-turn",
+          "expiry": "next-caster-turn-start",
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "cw1_12",
+        "price": {
+          "actionPoints": 1,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [
+            {
+              "symbol": "M"
+            }
+          ],
+          "zoneFrom": "available",
+          "zoneTo": "spent",
+          "count": 1,
+          "spendAllPrimary": true
+        },
+        "damage": null,
+        "branches": null,
+        "area": null,
+        "target": {
+          "roles": [
+            "token"
+          ],
+          "rangeFeet": 0,
+          "maxSubjects": 1
+        },
+        "timing": {
+          "use": "own-turn",
+          "expiry": "endT+2",
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "cw1_13",
+        "price": {
+          "actionPoints": 3,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [
+            {
+              "symbol": "S"
+            },
+            {
+              "symbol": "F"
+            }
+          ],
+          "zoneFrom": "available",
+          "zoneTo": "spent",
+          "count": 2,
+          "spendAllPrimary": true
+        },
+        "damage": null,
+        "branches": {
+          "selection": "uniform-by-primary-tile-id",
+          "sampleNote": "Uniform selection across the committed S and F tile IDs before any face is entered.",
+          "outcomes": {
+            "S": {
+              "damage": {
+                "formula": "3d6",
+                "damageTypes": [
+                  "wyrd"
+                ]
+              },
+              "ward": null,
+              "movement": null,
+              "note": "S: 3d6 Wyrd."
+            },
+            "F": {
+              "damage": {
+                "formula": "1d6+2",
+                "damageTypes": [
+                  "wyrd"
+                ]
+              },
+              "ward": null,
+              "movement": {
+                "kind": "penalty",
+                "feet": 5,
+                "until": "next-own-turn-start",
+                "usesRemainingMovement": true,
+                "optional": false
+              },
+              "note": "F: 1d6+2 Wyrd and the normal Fracture penalty (caster movement−5ft until next own-turn start)."
+            }
+          }
+        },
+        "area": null,
+        "target": {
+          "roles": [
+            "enemy"
+          ],
+          "rangeFeet": 30,
+          "maxSubjects": 1
+        },
+        "timing": {
+          "use": "own-turn",
+          "expiry": null,
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "cw1_14",
+        "price": {
+          "actionPoints": 2,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [
+            {
+              "anyOf": [
+                "S",
+                "M"
+              ]
+            },
+            {
+              "symbol": "F"
+            }
+          ],
+          "zoneFrom": "available",
+          "zoneTo": "spent",
+          "count": 2,
+          "spendAllPrimary": true
+        },
+        "damage": null,
+        "branches": {
+          "selection": "uniform-by-primary-tile-id",
+          "sampleNote": "Sample between the chosen S-or-M tile and the F tile, uniform by committed tile ID, before any face is entered.",
+          "outcomes": {
+            "S": {
+              "damage": null,
+              "ward": {
+                "amount": 6,
+                "until": "next-caster-turn-start",
+                "eventLimit": "next-wyrd-damage",
+                "appliesTo": "self"
+              },
+              "movement": null,
+              "note": "S: ward 6."
+            },
+            "M": {
+              "damage": null,
+              "ward": {
+                "amount": 3,
+                "until": "next-caster-turn-start",
+                "eventLimit": "next-wyrd-damage",
+                "appliesTo": "self"
+              },
+              "movement": {
+                "kind": "step",
+                "feet": 5,
+                "until": "immediate",
+                "usesRemainingMovement": true,
+                "optional": true
+              },
+              "note": "M: ward 3 and caster 5ft step."
+            },
+            "F": {
+              "damage": null,
+              "ward": {
+                "amount": 3,
+                "until": "next-caster-turn-start",
+                "eventLimit": "next-wyrd-damage",
+                "appliesTo": "self"
+              },
+              "movement": {
+                "kind": "penalty",
+                "feet": 5,
+                "until": "next-own-turn-start",
+                "usesRemainingMovement": true,
+                "optional": false
+              },
+              "note": "F: ward 3 and the normal caster Fracture penalty (movement−5ft until next own-turn start)."
+            }
+          }
+        },
+        "area": null,
+        "target": {
+          "roles": [
+            "self",
+            "ally"
+          ],
+          "rangeFeet": 30,
+          "maxSubjects": 1
+        },
+        "timing": {
+          "use": "own-turn",
+          "expiry": null,
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "cw1_15",
+        "price": {
+          "actionPoints": 1,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [
+            {
+              "symbol": "F"
+            }
+          ],
+          "zoneFrom": "available",
+          "zoneTo": "spent",
+          "count": 1,
+          "spendAllPrimary": true
+        },
+        "damage": null,
+        "branches": null,
+        "area": null,
+        "target": {
+          "roles": [
+            "self"
+          ],
+          "rangeFeet": 0,
+          "maxSubjects": 1
+        },
+        "timing": {
+          "use": "own-turn",
+          "expiry": "endT+1",
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "cw1_16",
+        "price": {
+          "actionPoints": 2,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [
+            {
+              "anyOf": [
+                "S",
+                "M",
+                "F"
+              ]
+            }
+          ],
+          "zoneFrom": "available",
+          "zoneTo": "spent",
+          "count": 1,
+          "spendAllPrimary": true
+        },
+        "damage": null,
+        "branches": null,
+        "area": null,
+        "target": {
+          "roles": [
+            "ally"
+          ],
+          "rangeFeet": 10,
+          "maxSubjects": 1
+        },
+        "timing": {
+          "use": "own-turn",
+          "expiry": null,
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "cw1_17",
+        "price": {
+          "actionPoints": 3,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [
+            {
+              "symbol": "S"
+            },
+            {
+              "symbol": "M"
+            },
+            {
+              "symbol": "F"
+            }
+          ],
+          "zoneFrom": "available",
+          "zoneTo": "spent",
+          "count": 3,
+          "spendAllPrimary": true
+        },
+        "damage": null,
+        "branches": {
+          "selection": "uniform-by-primary-tile-id",
+          "sampleNote": "Uniform thirds across the committed S, M and F tile IDs before any face is entered.",
+          "outcomes": {
+            "S": {
+              "damage": {
+                "formula": "3d6",
+                "damageTypes": [
+                  "wyrd"
+                ]
+              },
+              "ward": null,
+              "movement": null,
+              "note": "S: 3d6 Wyrd."
+            },
+            "M": {
+              "damage": {
+                "formula": "2d6",
+                "damageTypes": [
+                  "wyrd"
+                ]
+              },
+              "ward": null,
+              "movement": {
+                "kind": "step",
+                "feet": 5,
+                "until": "immediate",
+                "usesRemainingMovement": true,
+                "optional": true
+              },
+              "note": "M: 2d6 Wyrd and caster 5ft step."
+            },
+            "F": {
+              "damage": {
+                "formula": "1d6",
+                "damageTypes": [
+                  "wyrd"
+                ]
+              },
+              "ward": null,
+              "movement": {
+                "kind": "penalty",
+                "feet": 5,
+                "until": "next-own-turn-start",
+                "usesRemainingMovement": true,
+                "optional": false
+              },
+              "note": "F: 1d6 Wyrd and normal Fracture penalty."
+            }
+          }
+        },
+        "area": null,
+        "target": {
+          "roles": [
+            "enemy"
+          ],
+          "rangeFeet": 30,
+          "maxSubjects": 1
+        },
+        "timing": {
+          "use": "own-turn",
+          "expiry": null,
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "cw1_18",
+        "price": {
+          "actionPoints": 2,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [
+            {
+              "symbol": "M"
+            },
+            {
+              "symbol": "F"
+            }
+          ],
+          "zoneFrom": "available",
+          "zoneTo": "bound",
+          "count": 2,
+          "spendAllPrimary": true
+        },
+        "damage": null,
+        "branches": null,
+        "area": {
+          "kind": "anomaly",
+          "radiusFeet": 5,
+          "placementRangeFeet": 30,
+          "trigger": "first-enemy-original-voluntary-entry",
+          "triggerVictim": "one-enemy",
+          "expires": "endT+2",
+          "occupancyNote": "Occupants at creation do not count as entry.",
+          "dismissal": {
+            "costAP": 1,
+            "note": "Dismissal sends both bound IDs to spent."
+          },
+          "branches": {
+            "M": {
+              "damage": null,
+              "ward": null,
+              "movement": {
+                "kind": "step",
+                "feet": 5,
+                "until": "immediate",
+                "usesRemainingMovement": true,
+                "optional": true
+              },
+              "note": "M: creates an audible warning and an optional caster 5ft legal step using remaining movement."
+            },
+            "F": {
+              "damage": null,
+              "ward": null,
+              "movement": {
+                "kind": "penalty",
+                "feet": 5,
+                "until": "end-next-own-turn",
+                "usesRemainingMovement": true,
+                "optional": false
+              },
+              "note": "F: caster movement−5ft through end of next own turn."
+            }
+          },
+          "boundary": "No attack or stop effect; one trigger victim only, never a multi-target attack. Same one-anomaly and dismissal rules as §3.",
+          "manualNote": "The table confirms paths and relationship; the workshop never watches map pixels."
+        },
+        "target": {
+          "roles": [
+            "point"
+          ],
+          "rangeFeet": 30,
+          "maxSubjects": 1
+        },
+        "timing": {
+          "use": "own-turn",
+          "expiry": null,
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "cw1_19",
+        "price": {
+          "actionPoints": 2,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [
+            {
+              "symbol": "S"
+            }
+          ],
+          "zoneFrom": "available",
+          "zoneTo": "spent",
+          "count": 1,
+          "spendAllPrimary": true
+        },
+        "damage": null,
+        "branches": null,
+        "area": null,
+        "target": {
+          "roles": [
+            "self"
+          ],
+          "rangeFeet": 0,
+          "maxSubjects": 1
+        },
+        "timing": {
+          "use": "own-turn",
+          "expiry": "endT+1",
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "cw1_20",
+        "price": {
+          "actionPoints": 1,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [],
+          "zoneFrom": null,
+          "zoneTo": null,
+          "count": 0,
+          "spendAllPrimary": false
+        },
+        "damage": null,
+        "branches": null,
+        "area": null,
+        "target": {
+          "roles": [
+            "self"
+          ],
+          "rangeFeet": 0,
+          "maxSubjects": 1
+        },
+        "timing": {
+          "use": "own-turn",
+          "expiry": null,
+          "oncePerRest": true
+        }
+      },
+      {
+        "id": "cw1_21",
+        "price": {
+          "actionPoints": 3,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [
+            {
+              "symbol": "S"
+            },
+            {
+              "symbol": "F"
+            }
+          ],
+          "zoneFrom": "available",
+          "zoneTo": "spent",
+          "count": 2,
+          "spendAllPrimary": true
+        },
+        "damage": null,
+        "branches": {
+          "selection": "uniform-by-primary-tile-id",
+          "sampleNote": "Uniform selection across the committed S and F tile IDs before any face is entered.",
+          "outcomes": {
+            "S": {
+              "damage": {
+                "formula": "3d6+3",
+                "damageTypes": [
+                  "wyrd"
+                ]
+              },
+              "ward": null,
+              "movement": null,
+              "note": "S: 3d6+3 Wyrd."
+            },
+            "F": {
+              "damage": {
+                "formula": "2d6",
+                "damageTypes": [
+                  "wyrd"
+                ]
+              },
+              "ward": null,
+              "movement": {
+                "kind": "penalty",
+                "feet": 10,
+                "until": "next-own-turn-start",
+                "usesRemainingMovement": true,
+                "optional": false
+              },
+              "note": "F: 2d6 Wyrd and caster movement−10ft until next own-turn start."
+            }
+          }
+        },
+        "area": null,
+        "target": {
+          "roles": [
+            "enemy"
+          ],
+          "rangeFeet": 30,
+          "maxSubjects": 1
+        },
+        "timing": {
+          "use": "own-turn",
+          "expiry": null,
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "cw1_22",
+        "price": {
+          "actionPoints": 2,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [
+            {
+              "symbol": "M"
+            }
+          ],
+          "zoneFrom": "available",
+          "zoneTo": "spent",
+          "count": 1,
+          "spendAllPrimary": true
+        },
+        "damage": null,
+        "branches": null,
+        "area": null,
+        "target": {
+          "roles": [
+            "self"
+          ],
+          "rangeFeet": 0,
+          "maxSubjects": 1
+        },
+        "timing": {
+          "use": "own-turn",
+          "expiry": null,
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "cw1_23",
+        "price": {
+          "actionPoints": 2,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [
+            {
+              "symbol": "F"
+            }
+          ],
+          "zoneFrom": "spent",
+          "zoneTo": "available",
+          "count": 1,
+          "spendAllPrimary": false
+        },
+        "damage": null,
+        "branches": null,
+        "area": null,
+        "target": {
+          "roles": [
+            "self"
+          ],
+          "rangeFeet": 0,
+          "maxSubjects": 1
+        },
+        "timing": {
+          "use": "own-turn",
+          "expiry": "next-caster-turn-start",
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "cw1_24",
+        "price": {
+          "actionPoints": 1,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [
+            {
+              "anyOf": [
+                "S",
+                "M",
+                "F"
+              ]
+            }
+          ],
+          "zoneFrom": "available",
+          "zoneTo": "bound",
+          "count": 1,
+          "spendAllPrimary": true
+        },
+        "damage": null,
+        "branches": null,
+        "area": {
+          "kind": "inert-preservation",
+          "radiusFeet": 0,
+          "placementRangeFeet": 0,
+          "trigger": "endT+2-or-1AP-release",
+          "triggerVictim": null,
+          "expires": "endT+2",
+          "occupiesAnomalySlot": true,
+          "boundary": "No living, active magical, temporal or limitless preservation; the record occupies the one anomaly slot.",
+          "dismissal": {
+            "costAP": 1,
+            "note": "Release sends the bound tile to spent."
+          },
+          "branches": null,
+          "manualNote": "The table tracks the preserved arrangement and release manually."
+        },
+        "target": {
+          "roles": [
+            "material"
+          ],
+          "rangeFeet": 0,
+          "maxSubjects": 1
+        },
+        "timing": {
+          "use": "own-turn",
+          "expiry": null,
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "cw1_25",
+        "price": {
+          "actionPoints": 3,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [
+            {
+              "symbol": "S"
+            },
+            {
+              "symbol": "M"
+            },
+            {
+              "symbol": "F"
+            }
+          ],
+          "zoneFrom": "available",
+          "zoneTo": "spent",
+          "count": 3,
+          "spendAllPrimary": true
+        },
+        "damage": null,
+        "branches": {
+          "selection": "uniform-by-primary-tile-id",
+          "sampleNote": "Uniform thirds across the committed S, M and F tile IDs before any face is entered.",
+          "outcomes": {
+            "S": {
+              "damage": {
+                "formula": "4d6",
+                "damageTypes": [
+                  "wyrd"
+                ]
+              },
+              "ward": null,
+              "movement": null,
+              "note": "S: 4d6 Wyrd."
+            },
+            "M": {
+              "damage": {
+                "formula": "2d6",
+                "damageTypes": [
+                  "wyrd"
+                ]
+              },
+              "ward": null,
+              "movement": {
+                "kind": "step",
+                "feet": 10,
+                "until": "immediate",
+                "usesRemainingMovement": true,
+                "optional": true
+              },
+              "note": "M: 2d6 Wyrd and caster 10ft step."
+            },
+            "F": {
+              "damage": {
+                "formula": "2d6",
+                "damageTypes": [
+                  "wyrd"
+                ]
+              },
+              "ward": null,
+              "movement": {
+                "kind": "penalty",
+                "feet": 10,
+                "until": "next-own-turn-start",
+                "usesRemainingMovement": true,
+                "optional": false
+              },
+              "note": "F: 2d6 Wyrd and caster−10ft until next own-turn start."
+            }
+          }
+        },
+        "area": null,
+        "target": {
+          "roles": [
+            "enemy"
+          ],
+          "rangeFeet": 30,
+          "maxSubjects": 1
+        },
+        "timing": {
+          "use": "own-turn",
+          "expiry": null,
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "cw1_26",
+        "price": {
+          "actionPoints": 2,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [
+            {
+              "symbol": "M"
+            }
+          ],
+          "zoneFrom": "available",
+          "zoneTo": "spent",
+          "count": 1,
+          "spendAllPrimary": true
+        },
+        "damage": null,
+        "branches": null,
+        "area": null,
+        "target": {
+          "roles": [
+            "ally"
+          ],
+          "rangeFeet": 30,
+          "maxSubjects": 1
+        },
+        "timing": {
+          "use": "own-turn",
+          "expiry": null,
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "cw1_27",
+        "price": {
+          "actionPoints": 2,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [
+            {
+              "symbol": "S"
+            },
+            {
+              "symbol": "F"
+            }
+          ],
+          "zoneFrom": "available",
+          "zoneTo": "spent",
+          "count": 2,
+          "spendAllPrimary": true
+        },
+        "damage": null,
+        "branches": {
+          "selection": "uniform-by-primary-tile-id",
+          "sampleNote": "Uniform selection across the committed S and F tile IDs before any face is entered.",
+          "outcomes": {
+            "S": {
+              "damage": null,
+              "ward": {
+                "amount": 8,
+                "until": "next-caster-turn-start",
+                "eventLimit": "next-wyrd-damage",
+                "appliesTo": "ally"
+              },
+              "movement": null,
+              "note": "S: ally ward 8."
+            },
+            "F": {
+              "damage": null,
+              "ward": {
+                "amount": 4,
+                "until": "next-caster-turn-start",
+                "eventLimit": "next-wyrd-damage",
+                "appliesTo": "ally"
+              },
+              "movement": {
+                "kind": "penalty",
+                "feet": 10,
+                "until": "next-own-turn-start",
+                "usesRemainingMovement": true,
+                "optional": false
+              },
+              "note": "F: ally ward 4 and caster−10ft until next own-turn start."
+            }
+          }
+        },
+        "area": null,
+        "target": {
+          "roles": [
+            "ally"
+          ],
+          "rangeFeet": 30,
+          "maxSubjects": 1
+        },
+        "timing": {
+          "use": "own-turn",
+          "expiry": null,
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "cw1_28",
+        "price": {
+          "actionPoints": 2,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [
+            {
+              "anyOf": [
+                "S",
+                "M",
+                "F"
+              ]
+            }
+          ],
+          "zoneFrom": "available",
+          "zoneTo": "spent",
+          "count": 1,
+          "spendAllPrimary": true
+        },
+        "damage": null,
+        "branches": null,
+        "area": null,
+        "target": {
+          "roles": [
+            "disturbance"
+          ],
+          "rangeFeet": 30,
+          "maxSubjects": 1
+        },
+        "timing": {
+          "use": "own-turn",
+          "expiry": null,
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "cw1_29",
+        "price": {
+          "actionPoints": 3,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [
+            {
+              "symbol": "S"
+            },
+            {
+              "symbol": "F"
+            }
+          ],
+          "zoneFrom": "available",
+          "zoneTo": "spent",
+          "count": 2,
+          "spendAllPrimary": true
+        },
+        "damage": null,
+        "branches": {
+          "selection": "uniform-by-primary-tile-id",
+          "sampleNote": "Uniform selection across the committed S and F tile IDs before any face is entered.",
+          "outcomes": {
+            "S": {
+              "damage": {
+                "formula": "4d6+2",
+                "damageTypes": [
+                  "wyrd"
+                ]
+              },
+              "ward": null,
+              "movement": null,
+              "note": "S: 4d6+2 Wyrd."
+            },
+            "F": {
+              "damage": {
+                "formula": "2d6+2",
+                "damageTypes": [
+                  "wyrd"
+                ]
+              },
+              "ward": null,
+              "movement": {
+                "kind": "penalty",
+                "feet": 10,
+                "until": "next-own-turn-start",
+                "usesRemainingMovement": true,
+                "optional": false
+              },
+              "note": "F: 2d6+2 Wyrd and caster−10ft until next own-turn start."
+            }
+          }
+        },
+        "area": null,
+        "target": {
+          "roles": [
+            "enemy"
+          ],
+          "rangeFeet": 30,
+          "maxSubjects": 1
+        },
+        "timing": {
+          "use": "own-turn",
+          "expiry": null,
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "cw1_30",
+        "price": {
+          "actionPoints": 2,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [
+            {
+              "symbol": "S"
+            },
+            {
+              "symbol": "F"
+            }
+          ],
+          "zoneFrom": "available",
+          "zoneTo": "spent",
+          "count": 2,
+          "spendAllPrimary": true
+        },
+        "damage": null,
+        "branches": {
+          "selection": "uniform-by-primary-tile-id",
+          "sampleNote": "Uniform selection across the committed S and F tile IDs before any face is entered.",
+          "outcomes": {
+            "S": {
+              "damage": null,
+              "ward": {
+                "amount": 6,
+                "until": "next-caster-turn-start",
+                "eventLimit": "next-wyrd-damage",
+                "appliesTo": "self"
+              },
+              "movement": null,
+              "note": "S: self ward 6."
+            },
+            "F": {
+              "damage": null,
+              "ward": null,
+              "movement": {
+                "kind": "penalty",
+                "feet": 10,
+                "until": "next-own-turn-start",
+                "usesRemainingMovement": true,
+                "optional": false
+              },
+              "note": "F: no ward and caster−10ft until next own-turn start."
+            }
+          }
+        },
+        "area": null,
+        "target": {
+          "roles": [
+            "point"
+          ],
+          "rangeFeet": 30,
+          "maxSubjects": 1
+        },
+        "timing": {
+          "use": "own-turn",
+          "expiry": null,
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "cw1_31",
+        "price": {
+          "actionPoints": 2,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [
+            {
+              "symbol": "M"
+            },
+            {
+              "symbol": "F"
+            }
+          ],
+          "zoneFrom": "available",
+          "zoneTo": "spent",
+          "count": 2,
+          "spendAllPrimary": true
+        },
+        "damage": null,
+        "branches": {
+          "selection": "uniform-by-primary-tile-id",
+          "sampleNote": "Uniform selection across the committed M and F tile IDs before any face is entered.",
+          "outcomes": {
+            "M": {
+              "damage": null,
+              "ward": null,
+              "movement": {
+                "kind": "displacement",
+                "feet": 20,
+                "until": "immediate",
+                "usesRemainingMovement": true,
+                "optional": false
+              },
+              "note": "M: 20ft legal displacement using remaining movement."
+            },
+            "F": {
+              "damage": null,
+              "ward": null,
+              "movement": {
+                "kind": "displacement",
+                "feet": 5,
+                "until": "immediate",
+                "usesRemainingMovement": true,
+                "optional": false
+              },
+              "note": "F: 5ft legal displacement and caster−10ft until next own-turn start."
+            }
+          }
+        },
+        "area": null,
+        "target": {
+          "roles": [
+            "self"
+          ],
+          "rangeFeet": 0,
+          "maxSubjects": 1
+        },
+        "timing": {
+          "use": "own-turn",
+          "expiry": null,
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "cw1_32",
+        "price": {
+          "actionPoints": 2,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [
+            {
+              "symbol": "S"
+            }
+          ],
+          "zoneFrom": "available",
+          "zoneTo": "spent",
+          "count": 1,
+          "spendAllPrimary": true
+        },
+        "damage": null,
+        "branches": null,
+        "area": null,
+        "target": {
+          "roles": [
+            "apparatus"
+          ],
+          "rangeFeet": 10,
+          "maxSubjects": 1
+        },
+        "timing": {
+          "use": "own-turn",
+          "expiry": null,
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "cw1_33",
+        "price": {
+          "actionPoints": 4,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [
+            {
+              "symbol": "S",
+              "count": 2
+            },
+            {
+              "symbol": "F"
+            }
+          ],
+          "zoneFrom": "available",
+          "zoneTo": "spent",
+          "count": 3,
+          "spendAllPrimary": true
+        },
+        "damage": null,
+        "branches": {
+          "selection": "uniform-by-primary-tile-id",
+          "sampleNote": "Uniform thirds across the committed S1, S2 and F tile IDs; all three are spent, one target.",
+          "outcomes": {
+            "S": {
+              "damage": {
+                "formula": "5d6",
+                "damageTypes": [
+                  "wyrd"
+                ]
+              },
+              "ward": null,
+              "movement": null,
+              "note": "S: 5d6 Wyrd."
+            },
+            "F": {
+              "damage": {
+                "formula": "2d6",
+                "damageTypes": [
+                  "wyrd"
+                ]
+              },
+              "ward": null,
+              "movement": {
+                "kind": "penalty",
+                "feet": 10,
+                "until": "end-next-own-turn",
+                "usesRemainingMovement": true,
+                "optional": false
+              },
+              "note": "F: 2d6 Wyrd and caster−10ft until end of next own turn."
+            }
+          }
+        },
+        "area": null,
+        "target": {
+          "roles": [
+            "enemy"
+          ],
+          "rangeFeet": 30,
+          "maxSubjects": 1
+        },
+        "timing": {
+          "use": "own-turn",
+          "expiry": null,
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "cw1_34",
+        "price": {
+          "actionPoints": 3,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [
+            {
+              "symbol": "S"
+            },
+            {
+              "symbol": "M"
+            },
+            {
+              "symbol": "F"
+            }
+          ],
+          "zoneFrom": "available",
+          "zoneTo": "spent",
+          "count": 3,
+          "spendAllPrimary": true
+        },
+        "damage": null,
+        "branches": {
+          "selection": "uniform-by-primary-tile-id",
+          "sampleNote": "Uniform thirds across the committed S, M and F tile IDs before any face is entered.",
+          "outcomes": {
+            "S": {
+              "damage": null,
+              "ward": {
+                "amount": 10,
+                "until": "end-caster-next-turn",
+                "eventLimit": "next-wyrd-damage",
+                "appliesTo": "ally"
+              },
+              "movement": null,
+              "note": "S: ward 10."
+            },
+            "M": {
+              "damage": null,
+              "ward": {
+                "amount": 6,
+                "until": "end-caster-next-turn",
+                "eventLimit": "next-wyrd-damage",
+                "appliesTo": "ally"
+              },
+              "movement": {
+                "kind": "step",
+                "feet": 5,
+                "until": "immediate",
+                "usesRemainingMovement": true,
+                "optional": true
+              },
+              "note": "M: ward 6 plus ally 5ft derived step."
+            },
+            "F": {
+              "damage": null,
+              "ward": {
+                "amount": 4,
+                "until": "end-caster-next-turn",
+                "eventLimit": "next-wyrd-damage",
+                "appliesTo": "ally"
+              },
+              "movement": {
+                "kind": "penalty",
+                "feet": 10,
+                "until": "end-next-own-turn",
+                "usesRemainingMovement": true,
+                "optional": false
+              },
+              "note": "F: ward 4 and caster−10ft to end next own turn."
+            }
+          }
+        },
+        "area": null,
+        "target": {
+          "roles": [
+            "ally"
+          ],
+          "rangeFeet": 30,
+          "maxSubjects": 1
+        },
+        "timing": {
+          "use": "own-turn",
+          "expiry": null,
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "cw1_35",
+        "price": {
+          "actionPoints": 2,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [
+            {
+              "anyOf": [
+                "S",
+                "M",
+                "F"
+              ]
+            }
+          ],
+          "zoneFrom": "available",
+          "zoneTo": "spent",
+          "count": 1,
+          "spendAllPrimary": true
+        },
+        "damage": null,
+        "branches": null,
+        "area": null,
+        "target": {
+          "roles": [
+            "material"
+          ],
+          "rangeFeet": 0,
+          "maxSubjects": 1
+        },
+        "timing": {
+          "use": "own-turn",
+          "expiry": null,
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "cw1_36",
+        "price": {
+          "actionPoints": 3,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [
+            {
+              "symbol": "S"
+            },
+            {
+              "symbol": "M"
+            }
+          ],
+          "zoneFrom": "available",
+          "zoneTo": "spent",
+          "count": 2,
+          "spendAllPrimary": true
+        },
+        "damage": null,
+        "branches": null,
+        "area": null,
+        "target": {
+          "roles": [
+            "apparatus"
+          ],
+          "rangeFeet": 30,
+          "maxSubjects": 1
+        },
+        "timing": {
+          "use": "own-turn",
+          "expiry": null,
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "cw1_37",
+        "price": {
+          "actionPoints": 4,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [
+            {
+              "tileIds": [
+                "S1",
+                "S2"
+              ]
+            },
+            {
+              "symbol": "M"
+            },
+            {
+              "symbol": "F"
+            }
+          ],
+          "zoneFrom": "available",
+          "zoneTo": "spent",
+          "count": 4,
+          "spendAllPrimary": true
+        },
+        "damage": null,
+        "branches": {
+          "selection": "uniform-by-primary-tile-id",
+          "sampleNote": "Uniform ID weights 1/2 Surge, 1/4 Shift, 1/4 Fracture; one enemy, no explosion.",
+          "outcomes": {
+            "S": {
+              "damage": {
+                "formula": "6d6",
+                "damageTypes": [
+                  "wyrd"
+                ]
+              },
+              "ward": null,
+              "movement": null,
+              "note": "S: 6d6 Wyrd (both Surge tiles carry this branch)."
+            },
+            "M": {
+              "damage": {
+                "formula": "3d6",
+                "damageTypes": [
+                  "wyrd"
+                ]
+              },
+              "ward": null,
+              "movement": {
+                "kind": "step",
+                "feet": 10,
+                "until": "immediate",
+                "usesRemainingMovement": true,
+                "optional": true
+              },
+              "note": "M: 3d6 Wyrd and caster 10ft step."
+            },
+            "F": {
+              "damage": {
+                "formula": "2d6",
+                "damageTypes": [
+                  "wyrd"
+                ]
+              },
+              "ward": null,
+              "movement": {
+                "kind": "penalty",
+                "feet": 10,
+                "until": "end-next-own-turn",
+                "usesRemainingMovement": true,
+                "optional": false
+              },
+              "note": "F: 2d6 Wyrd and caster−10ft through end of next own turn."
+            }
+          }
+        },
+        "area": null,
+        "target": {
+          "roles": [
+            "enemy"
+          ],
+          "rangeFeet": 30,
+          "maxSubjects": 1
+        },
+        "timing": {
+          "use": "own-turn",
+          "expiry": null,
+          "oncePerRest": true
+        }
+      },
+      {
+        "id": "cw1_38",
+        "price": {
+          "actionPoints": 3,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [
+            {
+              "anyTiles": 3,
+              "distinct": true
+            }
+          ],
+          "zoneFrom": "available",
+          "zoneTo": "spent",
+          "count": 3,
+          "spendAllPrimary": true
+        },
+        "damage": null,
+        "branches": null,
+        "area": null,
+        "target": {
+          "roles": [
+            "apparatus"
+          ],
+          "rangeFeet": 0,
+          "maxSubjects": 1
+        },
+        "timing": {
+          "use": "own-turn",
+          "expiry": null,
+          "oncePerRest": true
+        }
+      },
+      {
+        "id": "cw1_39",
+        "price": {
+          "actionPoints": 3,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [
+            {
+              "symbol": "M"
+            },
+            {
+              "symbol": "F"
+            }
+          ],
+          "zoneFrom": "available",
+          "zoneTo": "spent",
+          "count": 2,
+          "spendAllPrimary": true
+        },
+        "damage": null,
+        "branches": {
+          "selection": "uniform-by-primary-tile-id",
+          "sampleNote": "Uniform selection across the committed M and F tile IDs before any face is entered.",
+          "outcomes": {
+            "M": {
+              "damage": null,
+              "ward": null,
+              "movement": {
+                "kind": "displacement",
+                "feet": 20,
+                "until": "immediate",
+                "usesRemainingMovement": true,
+                "optional": false
+              },
+              "note": "M: ally 20ft legal derived displacement."
+            },
+            "F": {
+              "damage": null,
+              "ward": null,
+              "movement": {
+                "kind": "displacement",
+                "feet": 5,
+                "until": "immediate",
+                "usesRemainingMovement": true,
+                "optional": false
+              },
+              "note": "F: ally 5ft displacement and caster−10ft through end next own turn."
+            }
+          }
+        },
+        "area": null,
+        "target": {
+          "roles": [
+            "ally"
+          ],
+          "rangeFeet": 30,
+          "maxSubjects": 1
+        },
+        "timing": {
+          "use": "own-turn",
+          "expiry": null,
+          "oncePerRest": true
+        }
+      },
+      {
+        "id": "cw1_40",
+        "price": {
+          "actionPoints": 4,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [
+            {
+              "symbol": "S"
+            },
+            {
+              "symbol": "M"
+            },
+            {
+              "symbol": "F"
+            }
+          ],
+          "zoneFrom": "available",
+          "zoneTo": "spent",
+          "count": 3,
+          "spendAllPrimary": true
+        },
+        "damage": null,
+        "branches": {
+          "selection": "uniform-by-primary-tile-id",
+          "sampleNote": "Uniform thirds across the committed S, M and F tile IDs before any face is entered.",
+          "outcomes": {
+            "S": {
+              "damage": null,
+              "ward": {
+                "amount": 14,
+                "until": "end-caster-next-turn",
+                "eventLimit": "next-wyrd-damage",
+                "appliesTo": "ally"
+              },
+              "movement": null,
+              "note": "S: ward 14."
+            },
+            "M": {
+              "damage": null,
+              "ward": {
+                "amount": 8,
+                "until": "end-caster-next-turn",
+                "eventLimit": "next-wyrd-damage",
+                "appliesTo": "ally"
+              },
+              "movement": {
+                "kind": "step",
+                "feet": 5,
+                "until": "immediate",
+                "usesRemainingMovement": true,
+                "optional": true
+              },
+              "note": "M: ward 8 plus ally 5ft step."
+            },
+            "F": {
+              "damage": null,
+              "ward": {
+                "amount": 6,
+                "until": "end-caster-next-turn",
+                "eventLimit": "next-wyrd-damage",
+                "appliesTo": "ally"
+              },
+              "movement": {
+                "kind": "penalty",
+                "feet": 10,
+                "until": "end-next-own-turn",
+                "usesRemainingMovement": true,
+                "optional": false
+              },
+              "note": "F: ward 6 and caster−10ft through end of next turn."
+            }
+          }
+        },
+        "area": null,
+        "target": {
+          "roles": [
+            "ally"
+          ],
+          "rangeFeet": 30,
+          "maxSubjects": 1
+        },
+        "timing": {
+          "use": "own-turn",
+          "expiry": null,
+          "oncePerRest": true
+        }
+      },
+      {
+        "id": "cr1_chaos_weaver_fold_odds",
+        "price": {
+          "actionPoints": 1,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [
+            {
+              "anyOf": [
+                "S",
+                "M",
+                "F"
+              ],
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "zoneFrom": "spent",
+          "zoneTo": "available",
+          "count": 2,
+          "spendAllPrimary": false
+        },
+        "damage": null,
+        "branches": null,
+        "area": null,
+        "target": {
+          "roles": [
+            "self"
+          ],
+          "rangeFeet": 0,
+          "maxSubjects": 1
+        },
+        "timing": {
+          "use": "own-turn",
+          "expiry": null,
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "cr1_chaos_weaver_split_possibility",
+        "price": {
+          "actionPoints": 2,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [
+            {
+              "symbol": "F"
+            },
+            {
+              "anyOf": [
+                "S",
+                "M"
+              ]
+            }
+          ],
+          "zoneFrom": "available",
+          "zoneTo": "spent",
+          "count": 2,
+          "spendAllPrimary": true
+        },
+        "damage": null,
+        "branches": {
+          "selection": "uniform-by-primary-tile-id",
+          "sampleNote": "Publish the exact ordered pair and all branches before the face; uniformly select one ID; both become spent irrespective of result.",
+          "outcomes": {
+            "S": {
+              "damage": {
+                "formula": "2d6",
+                "damageTypes": [
+                  "wyrd"
+                ]
+              },
+              "ward": null,
+              "movement": null,
+              "note": "S: 2d6 Wyrd."
+            },
+            "M": {
+              "damage": {
+                "formula": "1d6",
+                "damageTypes": [
+                  "wyrd"
+                ]
+              },
+              "ward": null,
+              "movement": {
+                "kind": "step",
+                "feet": 5,
+                "until": "immediate",
+                "usesRemainingMovement": true,
+                "optional": true
+              },
+              "note": "M: 1d6 Wyrd and optional 5ft caster displacement using remaining legal movement."
+            },
+            "F": {
+              "damage": {
+                "formula": "1d6",
+                "damageTypes": [
+                  "wyrd"
+                ]
+              },
+              "ward": null,
+              "movement": {
+                "kind": "penalty",
+                "feet": 5,
+                "until": "next-own-turn-start",
+                "usesRemainingMovement": true,
+                "optional": false
+              },
+              "note": "F: 1d6 Wyrd and caster movement−5ft until next own-turn start."
+            }
+          }
+        },
+        "area": null,
+        "target": {
+          "roles": [
+            "enemy"
+          ],
+          "rangeFeet": 30,
+          "maxSubjects": 1
+        },
+        "timing": {
+          "use": "own-turn",
+          "expiry": null,
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "cw1_dismiss_anomaly",
+        "price": {
+          "actionPoints": 1,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [],
+          "zoneFrom": null,
+          "zoneTo": null,
+          "count": 0,
+          "spendAllPrimary": false
+        },
+        "damage": null,
+        "branches": null,
+        "area": null,
+        "target": {
+          "roles": [
+            "self"
+          ],
+          "rangeFeet": 0,
+          "maxSubjects": 1
+        },
+        "timing": {
+          "use": "own-turn",
+          "expiry": null,
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "cr1_chaos_weaver_bias_draw",
+        "price": {
+          "actionPoints": 2,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [
+            {
+              "symbol": "S",
+              "count": 2
+            },
+            {
+              "symbol": "F"
+            }
+          ],
+          "zoneFrom": "available",
+          "zoneTo": "spent",
+          "count": 3,
+          "spendAllPrimary": true
+        },
+        "damage": null,
+        "branches": {
+          "selection": "uniform-by-primary-tile-id",
+          "sampleNote": "Both Surge tiles plus one Fracture; uniform ID sampling gives 2/3 S, 1/3 F. C1 never changes tile weights or adds an invisible outcome.",
+          "outcomes": {
+            "S": {
+              "damage": {
+                "formula": "2d6",
+                "damageTypes": [
+                  "wyrd"
+                ]
+              },
+              "ward": null,
+              "movement": null,
+              "note": "S: the Split Surge branch — 2d6 Wyrd."
+            },
+            "F": {
+              "damage": {
+                "formula": "1d6",
+                "damageTypes": [
+                  "wyrd"
+                ]
+              },
+              "ward": null,
+              "movement": {
+                "kind": "penalty",
+                "feet": 5,
+                "until": "next-own-turn-start",
+                "usesRemainingMovement": true,
+                "optional": false
+              },
+              "note": "F: the Split Fracture branch — 1d6 Wyrd and caster movement−5ft until next own-turn start."
+            }
+          }
+        },
+        "area": null,
+        "target": {
+          "roles": [
+            "enemy"
+          ],
+          "rangeFeet": 30,
+          "maxSubjects": 1
+        },
+        "timing": {
+          "use": "own-turn",
+          "expiry": null,
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "cr1_chaos_weaver_unsteady_ground",
+        "price": {
+          "actionPoints": 2,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [
+            {
+              "symbol": "M"
+            },
+            {
+              "symbol": "F"
+            }
+          ],
+          "zoneFrom": "available",
+          "zoneTo": "bound",
+          "count": 2,
+          "spendAllPrimary": true
+        },
+        "damage": null,
+        "branches": null,
+        "area": {
+          "kind": "anomaly",
+          "radiusFeet": 5,
+          "placementRangeFeet": 30,
+          "trigger": "first-enemy-original-voluntary-entry",
+          "triggerVictim": "one-enemy",
+          "expires": "endT+2",
+          "occupancyNote": "Occupants at creation do not count as entry.",
+          "dismissal": {
+            "costAP": 1,
+            "note": "Paid 1-AP dismissal sends both IDs to spent."
+          },
+          "branches": {
+            "M": {
+              "damage": null,
+              "ward": null,
+              "movement": {
+                "kind": "ends-remaining-movement",
+                "feet": 0,
+                "until": "current-turn",
+                "usesRemainingMovement": true,
+                "optional": false
+              },
+              "note": "M: ends that actor’s remaining movement for the current turn."
+            },
+            "F": {
+              "damage": null,
+              "ward": null,
+              "movement": {
+                "kind": "penalty",
+                "feet": 5,
+                "until": "end-next-own-turn",
+                "usesRemainingMovement": true,
+                "optional": false
+              },
+              "note": "F: caster movement−5ft through end of next own turn."
+            }
+          },
+          "boundary": "No damage, refund, second target or forced-movement trigger. Either branch, expiry at endT+2, or paid 1-AP dismissal sends both IDs to spent.",
+          "manualNote": "The table confirms paths and relationship; the workshop never watches map pixels."
+        },
+        "target": {
+          "roles": [
+            "point"
+          ],
+          "rangeFeet": 30,
+          "maxSubjects": 1
+        },
+        "timing": {
+          "use": "own-turn",
+          "expiry": null,
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "cr1_chaos_weaver_second_possibility",
+        "price": {
+          "actionPoints": 3,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [
+            {
+              "symbol": "F"
+            },
+            {
+              "anyOf": [
+                "S",
+                "M"
+              ]
+            }
+          ],
+          "zoneFrom": "available",
+          "zoneTo": "spent",
+          "count": 2,
+          "spendAllPrimary": true
+        },
+        "damage": null,
+        "branches": {
+          "selection": "uniform-by-primary-tile-id",
+          "sampleNote": "Ordinary Split plus one predeclared willing ally within 30ft; after the retained primary branch, optionally spend one further available reserved tile for that ally’s legal 5ft displacement, or decline.",
+          "outcomes": {
+            "S": {
+              "damage": {
+                "formula": "2d6",
+                "damageTypes": [
+                  "wyrd"
+                ]
+              },
+              "ward": null,
+              "movement": null,
+              "note": "S: the Split Surge branch — 2d6 Wyrd."
+            },
+            "M": {
+              "damage": {
+                "formula": "1d6",
+                "damageTypes": [
+                  "wyrd"
+                ]
+              },
+              "ward": null,
+              "movement": {
+                "kind": "step",
+                "feet": 5,
+                "until": "immediate",
+                "usesRemainingMovement": true,
+                "optional": true
+              },
+              "note": "M: the Split Shift branch — 1d6 Wyrd and caster 5ft step."
+            },
+            "F": {
+              "damage": {
+                "formula": "1d6",
+                "damageTypes": [
+                  "wyrd"
+                ]
+              },
+              "ward": null,
+              "movement": {
+                "kind": "penalty",
+                "feet": 5,
+                "until": "next-own-turn-start",
+                "usesRemainingMovement": true,
+                "optional": false
+              },
+              "note": "F: the Split Fracture branch — 1d6 Wyrd and caster movement−5ft until next own-turn start."
+            }
+          }
+        },
+        "area": null,
+        "target": {
+          "roles": [
+            "enemy",
+            "ally"
+          ],
+          "rangeFeet": 30,
+          "maxSubjects": 2
+        },
+        "timing": {
+          "use": "own-turn",
+          "expiry": null,
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "cw1_closed_distribution",
+        "price": {
+          "actionPoints": 3,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [
+            {
+              "anyOf": [
+                "S",
+                "M"
+              ],
+              "count": 2,
+              "sameSymbol": true
+            },
+            {
+              "symbol": "F"
+            }
+          ],
+          "zoneFrom": "available",
+          "zoneTo": "spent",
+          "count": 3,
+          "spendAllPrimary": true
+        },
+        "damage": null,
+        "branches": {
+          "selection": "uniform-by-primary-tile-id",
+          "sampleNote": "Two same-symbol S or M tiles plus one F; uniform three-ID draw; all three spent; no guaranteed branch, extra tile or second sample.",
+          "outcomes": {
+            "S": {
+              "damage": {
+                "formula": "4d6",
+                "damageTypes": [
+                  "wyrd"
+                ]
+              },
+              "ward": null,
+              "movement": null,
+              "note": "S: 4d6 Wyrd."
+            },
+            "M": {
+              "damage": {
+                "formula": "2d6",
+                "damageTypes": [
+                  "wyrd"
+                ]
+              },
+              "ward": null,
+              "movement": {
+                "kind": "step",
+                "feet": 5,
+                "until": "immediate",
+                "usesRemainingMovement": true,
+                "optional": true
+              },
+              "note": "M: 2d6 Wyrd and caster 5ft step."
+            },
+            "F": {
+              "damage": {
+                "formula": "2d6",
+                "damageTypes": [
+                  "wyrd"
+                ]
+              },
+              "ward": null,
+              "movement": {
+                "kind": "penalty",
+                "feet": 5,
+                "until": "next-own-turn-start",
+                "usesRemainingMovement": true,
+                "optional": false
+              },
+              "note": "F: 2d6 Wyrd and the normal Fracture penalty."
+            }
+          }
+        },
+        "area": null,
+        "target": {
+          "roles": [
+            "enemy"
+          ],
+          "rangeFeet": 30,
+          "maxSubjects": 1
+        },
+        "timing": {
+          "use": "own-turn",
+          "expiry": null,
+          "oncePerRest": true
+        }
+      },
+      {
+        "id": "cw1_last_boundary",
+        "price": {
+          "actionPoints": 3,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [
+            {
+              "tileIds": [
+                "M1",
+                "M2"
+              ]
+            },
+            {
+              "symbol": "F"
+            }
+          ],
+          "zoneFrom": "available",
+          "zoneTo": "bound",
+          "count": 3,
+          "spendAllPrimary": true
+        },
+        "damage": null,
+        "branches": null,
+        "area": {
+          "kind": "anomaly",
+          "radiusFeet": 10,
+          "placementRangeFeet": 30,
+          "trigger": "first-enemy-original-voluntary-entry",
+          "triggerVictim": "one-enemy",
+          "expires": "endT+3",
+          "occupancyNote": "Occupants at creation do not count as entry.",
+          "dismissal": {
+            "costAP": 1,
+            "note": "Paid 1-AP dismissal sends all three IDs to spent."
+          },
+          "branches": {
+            "M": {
+              "damage": null,
+              "ward": null,
+              "movement": {
+                "kind": "ends-remaining-movement",
+                "feet": 0,
+                "until": "current-turn",
+                "usesRemainingMovement": true,
+                "optional": false
+              },
+              "note": "M: ends the victim’s remaining movement for the current turn."
+            },
+            "F": {
+              "damage": null,
+              "ward": null,
+              "movement": {
+                "kind": "penalty",
+                "feet": 10,
+                "until": "end-next-own-turn",
+                "usesRemainingMovement": true,
+                "optional": false
+              },
+              "note": "F: caster movement−10ft through end of next own turn."
+            }
+          },
+          "boundary": "All three spent on trigger, expiry or dismissal. Never coexists with another anomaly.",
+          "manualNote": "The table confirms paths and relationship; the workshop never watches map pixels."
+        },
+        "target": {
+          "roles": [
+            "point"
+          ],
+          "rangeFeet": 30,
+          "maxSubjects": 1
+        },
+        "timing": {
+          "use": "own-turn",
+          "expiry": null,
+          "oncePerRest": true
+        }
+      },
+      {
+        "id": "cw1_single_aftershock",
+        "price": {
+          "actionPoints": 4,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [
+            {
+              "symbol": "F"
+            },
+            {
+              "anyOf": [
+                "S",
+                "M"
+              ]
+            }
+          ],
+          "zoneFrom": "available",
+          "zoneTo": "spent",
+          "count": 2,
+          "spendAllPrimary": true
+        },
+        "damage": null,
+        "branches": {
+          "selection": "uniform-by-primary-tile-id",
+          "sampleNote": "Split pair plus one predeclared willing ally within 30ft, once/rest.",
+          "outcomes": {
+            "S": {
+              "damage": {
+                "formula": "3d6",
+                "damageTypes": [
+                  "wyrd"
+                ]
+              },
+              "ward": null,
+              "movement": null,
+              "note": "S: 3d6 Wyrd."
+            },
+            "M": {
+              "damage": {
+                "formula": "2d6",
+                "damageTypes": [
+                  "wyrd"
+                ]
+              },
+              "ward": null,
+              "movement": {
+                "kind": "step",
+                "feet": 5,
+                "until": "immediate",
+                "usesRemainingMovement": true,
+                "optional": true
+              },
+              "note": "M: 2d6 Wyrd + caster 5ft step."
+            },
+            "F": {
+              "damage": {
+                "formula": "2d6",
+                "damageTypes": [
+                  "wyrd"
+                ]
+              },
+              "ward": null,
+              "movement": {
+                "kind": "penalty",
+                "feet": 5,
+                "until": "next-own-turn-start",
+                "usesRemainingMovement": true,
+                "optional": false
+              },
+              "note": "F: 2d6 Wyrd + normal Fracture."
+            }
+          }
+        },
+        "area": null,
+        "target": {
+          "roles": [
+            "enemy",
+            "ally"
+          ],
+          "rangeFeet": 30,
+          "maxSubjects": 2
+        },
+        "timing": {
+          "use": "own-turn",
+          "expiry": null,
+          "oncePerRest": true
+        }
+      },
+      {
+        "id": "talent_spell_cw1_ps_n01",
+        "price": {
+          "actionPoints": 0,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [],
+          "zoneFrom": null,
+          "zoneTo": null,
+          "count": 0,
+          "spendAllPrimary": false
+        },
+        "damage": null,
+        "branches": null,
+        "area": null,
+        "target": {
+          "roles": [],
+          "rangeFeet": 0,
+          "maxSubjects": 0
+        },
+        "timing": {
+          "use": "passive",
+          "expiry": null,
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "talent_spell_cw1_ps_n02",
+        "price": {
+          "actionPoints": 0,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [],
+          "zoneFrom": null,
+          "zoneTo": null,
+          "count": 0,
+          "spendAllPrimary": false
+        },
+        "damage": null,
+        "branches": null,
+        "area": null,
+        "target": {
+          "roles": [],
+          "rangeFeet": 0,
+          "maxSubjects": 0
+        },
+        "timing": {
+          "use": "passive",
+          "expiry": null,
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "talent_spell_cw1_ps_n03",
+        "price": {
+          "actionPoints": 0,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [],
+          "zoneFrom": null,
+          "zoneTo": null,
+          "count": 0,
+          "spendAllPrimary": false
+        },
+        "damage": null,
+        "branches": null,
+        "area": null,
+        "target": {
+          "roles": [],
+          "rangeFeet": 0,
+          "maxSubjects": 0
+        },
+        "timing": {
+          "use": "passive",
+          "expiry": null,
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "talent_spell_cw1_ps_n04",
+        "price": {
+          "actionPoints": 0,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [],
+          "zoneFrom": null,
+          "zoneTo": null,
+          "count": 0,
+          "spendAllPrimary": false
+        },
+        "damage": null,
+        "branches": null,
+        "area": null,
+        "target": {
+          "roles": [],
+          "rangeFeet": 0,
+          "maxSubjects": 0
+        },
+        "timing": {
+          "use": "passive",
+          "expiry": null,
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "talent_spell_cw1_ps_n06",
+        "price": {
+          "actionPoints": 0,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [],
+          "zoneFrom": null,
+          "zoneTo": null,
+          "count": 0,
+          "spendAllPrimary": false
+        },
+        "damage": null,
+        "branches": null,
+        "area": null,
+        "target": {
+          "roles": [],
+          "rangeFeet": 0,
+          "maxSubjects": 0
+        },
+        "timing": {
+          "use": "passive",
+          "expiry": null,
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "talent_spell_cw1_ps_n07",
+        "price": {
+          "actionPoints": 0,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [],
+          "zoneFrom": null,
+          "zoneTo": null,
+          "count": 0,
+          "spendAllPrimary": false
+        },
+        "damage": null,
+        "branches": null,
+        "area": null,
+        "target": {
+          "roles": [],
+          "rangeFeet": 0,
+          "maxSubjects": 0
+        },
+        "timing": {
+          "use": "passive",
+          "expiry": null,
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "talent_spell_cw1_ps_n08",
+        "price": {
+          "actionPoints": 0,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [],
+          "zoneFrom": null,
+          "zoneTo": null,
+          "count": 0,
+          "spendAllPrimary": false
+        },
+        "damage": null,
+        "branches": null,
+        "area": null,
+        "target": {
+          "roles": [],
+          "rangeFeet": 0,
+          "maxSubjects": 0
+        },
+        "timing": {
+          "use": "passive",
+          "expiry": null,
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "talent_spell_cw1_ps_n09",
+        "price": {
+          "actionPoints": 0,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [],
+          "zoneFrom": null,
+          "zoneTo": null,
+          "count": 0,
+          "spendAllPrimary": false
+        },
+        "damage": null,
+        "branches": null,
+        "area": null,
+        "target": {
+          "roles": [],
+          "rangeFeet": 0,
+          "maxSubjects": 0
+        },
+        "timing": {
+          "use": "passive",
+          "expiry": null,
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "talent_spell_cw1_ps_n10",
+        "price": {
+          "actionPoints": 0,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [],
+          "zoneFrom": null,
+          "zoneTo": null,
+          "count": 0,
+          "spendAllPrimary": false
+        },
+        "damage": null,
+        "branches": null,
+        "area": null,
+        "target": {
+          "roles": [],
+          "rangeFeet": 0,
+          "maxSubjects": 0
+        },
+        "timing": {
+          "use": "passive",
+          "expiry": null,
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "talent_spell_cw1_ps_n11",
+        "price": {
+          "actionPoints": 0,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [],
+          "zoneFrom": null,
+          "zoneTo": null,
+          "count": 0,
+          "spendAllPrimary": false
+        },
+        "damage": null,
+        "branches": null,
+        "area": null,
+        "target": {
+          "roles": [],
+          "rangeFeet": 0,
+          "maxSubjects": 0
+        },
+        "timing": {
+          "use": "passive",
+          "expiry": null,
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "talent_spell_cw1_ps_n12",
+        "price": {
+          "actionPoints": 0,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [],
+          "zoneFrom": null,
+          "zoneTo": null,
+          "count": 0,
+          "spendAllPrimary": false
+        },
+        "damage": null,
+        "branches": null,
+        "area": null,
+        "target": {
+          "roles": [],
+          "rangeFeet": 0,
+          "maxSubjects": 0
+        },
+        "timing": {
+          "use": "passive",
+          "expiry": null,
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "talent_spell_cw1_ps_n13",
+        "price": {
+          "actionPoints": 0,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [],
+          "zoneFrom": null,
+          "zoneTo": null,
+          "count": 0,
+          "spendAllPrimary": false
+        },
+        "damage": null,
+        "branches": null,
+        "area": null,
+        "target": {
+          "roles": [],
+          "rangeFeet": 0,
+          "maxSubjects": 0
+        },
+        "timing": {
+          "use": "passive",
+          "expiry": null,
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "talent_spell_cw1_ps_n14",
+        "price": {
+          "actionPoints": 0,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [],
+          "zoneFrom": null,
+          "zoneTo": null,
+          "count": 0,
+          "spendAllPrimary": false
+        },
+        "damage": null,
+        "branches": null,
+        "area": null,
+        "target": {
+          "roles": [],
+          "rangeFeet": 0,
+          "maxSubjects": 0
+        },
+        "timing": {
+          "use": "passive",
+          "expiry": null,
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "talent_spell_cw1_ps_n15",
+        "price": {
+          "actionPoints": 0,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [],
+          "zoneFrom": null,
+          "zoneTo": null,
+          "count": 0,
+          "spendAllPrimary": false
+        },
+        "damage": null,
+        "branches": null,
+        "area": null,
+        "target": {
+          "roles": [],
+          "rangeFeet": 0,
+          "maxSubjects": 0
+        },
+        "timing": {
+          "use": "passive",
+          "expiry": null,
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "talent_spell_cw1_ps_n16",
+        "price": {
+          "actionPoints": 0,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [],
+          "zoneFrom": null,
+          "zoneTo": null,
+          "count": 0,
+          "spendAllPrimary": false
+        },
+        "damage": null,
+        "branches": null,
+        "area": null,
+        "target": {
+          "roles": [],
+          "rangeFeet": 0,
+          "maxSubjects": 0
+        },
+        "timing": {
+          "use": "passive",
+          "expiry": null,
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "talent_spell_cw1_ps_n17",
+        "price": {
+          "actionPoints": 0,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [],
+          "zoneFrom": null,
+          "zoneTo": null,
+          "count": 0,
+          "spendAllPrimary": false
+        },
+        "damage": null,
+        "branches": null,
+        "area": null,
+        "target": {
+          "roles": [],
+          "rangeFeet": 0,
+          "maxSubjects": 0
+        },
+        "timing": {
+          "use": "passive",
+          "expiry": null,
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "talent_spell_cw1_ab_n01",
+        "price": {
+          "actionPoints": 0,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [],
+          "zoneFrom": null,
+          "zoneTo": null,
+          "count": 0,
+          "spendAllPrimary": false
+        },
+        "damage": null,
+        "branches": null,
+        "area": null,
+        "target": {
+          "roles": [],
+          "rangeFeet": 0,
+          "maxSubjects": 0
+        },
+        "timing": {
+          "use": "passive",
+          "expiry": null,
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "talent_spell_cw1_ab_n02",
+        "price": {
+          "actionPoints": 0,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [],
+          "zoneFrom": null,
+          "zoneTo": null,
+          "count": 0,
+          "spendAllPrimary": false
+        },
+        "damage": null,
+        "branches": null,
+        "area": null,
+        "target": {
+          "roles": [],
+          "rangeFeet": 0,
+          "maxSubjects": 0
+        },
+        "timing": {
+          "use": "passive",
+          "expiry": null,
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "talent_spell_cw1_ab_n03",
+        "price": {
+          "actionPoints": 0,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [],
+          "zoneFrom": null,
+          "zoneTo": null,
+          "count": 0,
+          "spendAllPrimary": false
+        },
+        "damage": null,
+        "branches": null,
+        "area": null,
+        "target": {
+          "roles": [],
+          "rangeFeet": 0,
+          "maxSubjects": 0
+        },
+        "timing": {
+          "use": "passive",
+          "expiry": null,
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "talent_spell_cw1_ab_n04",
+        "price": {
+          "actionPoints": 0,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [],
+          "zoneFrom": null,
+          "zoneTo": null,
+          "count": 0,
+          "spendAllPrimary": false
+        },
+        "damage": null,
+        "branches": null,
+        "area": null,
+        "target": {
+          "roles": [],
+          "rangeFeet": 0,
+          "maxSubjects": 0
+        },
+        "timing": {
+          "use": "passive",
+          "expiry": null,
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "talent_spell_cw1_ab_n06",
+        "price": {
+          "actionPoints": 0,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [],
+          "zoneFrom": null,
+          "zoneTo": null,
+          "count": 0,
+          "spendAllPrimary": false
+        },
+        "damage": null,
+        "branches": null,
+        "area": null,
+        "target": {
+          "roles": [],
+          "rangeFeet": 0,
+          "maxSubjects": 0
+        },
+        "timing": {
+          "use": "passive",
+          "expiry": null,
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "talent_spell_cw1_ab_n07",
+        "price": {
+          "actionPoints": 0,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [],
+          "zoneFrom": null,
+          "zoneTo": null,
+          "count": 0,
+          "spendAllPrimary": false
+        },
+        "damage": null,
+        "branches": null,
+        "area": null,
+        "target": {
+          "roles": [],
+          "rangeFeet": 0,
+          "maxSubjects": 0
+        },
+        "timing": {
+          "use": "passive",
+          "expiry": null,
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "talent_spell_cw1_ab_n08",
+        "price": {
+          "actionPoints": 0,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [],
+          "zoneFrom": null,
+          "zoneTo": null,
+          "count": 0,
+          "spendAllPrimary": false
+        },
+        "damage": null,
+        "branches": null,
+        "area": null,
+        "target": {
+          "roles": [],
+          "rangeFeet": 0,
+          "maxSubjects": 0
+        },
+        "timing": {
+          "use": "passive",
+          "expiry": null,
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "talent_spell_cw1_ab_n09",
+        "price": {
+          "actionPoints": 0,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [],
+          "zoneFrom": null,
+          "zoneTo": null,
+          "count": 0,
+          "spendAllPrimary": false
+        },
+        "damage": null,
+        "branches": null,
+        "area": null,
+        "target": {
+          "roles": [],
+          "rangeFeet": 0,
+          "maxSubjects": 0
+        },
+        "timing": {
+          "use": "passive",
+          "expiry": null,
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "talent_spell_cw1_ab_n10",
+        "price": {
+          "actionPoints": 0,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [],
+          "zoneFrom": null,
+          "zoneTo": null,
+          "count": 0,
+          "spendAllPrimary": false
+        },
+        "damage": null,
+        "branches": null,
+        "area": null,
+        "target": {
+          "roles": [],
+          "rangeFeet": 0,
+          "maxSubjects": 0
+        },
+        "timing": {
+          "use": "passive",
+          "expiry": null,
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "talent_spell_cw1_ab_n11",
+        "price": {
+          "actionPoints": 0,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [],
+          "zoneFrom": null,
+          "zoneTo": null,
+          "count": 0,
+          "spendAllPrimary": false
+        },
+        "damage": null,
+        "branches": null,
+        "area": null,
+        "target": {
+          "roles": [],
+          "rangeFeet": 0,
+          "maxSubjects": 0
+        },
+        "timing": {
+          "use": "passive",
+          "expiry": null,
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "talent_spell_cw1_ab_n12",
+        "price": {
+          "actionPoints": 0,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [],
+          "zoneFrom": null,
+          "zoneTo": null,
+          "count": 0,
+          "spendAllPrimary": false
+        },
+        "damage": null,
+        "branches": null,
+        "area": null,
+        "target": {
+          "roles": [],
+          "rangeFeet": 0,
+          "maxSubjects": 0
+        },
+        "timing": {
+          "use": "passive",
+          "expiry": null,
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "talent_spell_cw1_ab_n13",
+        "price": {
+          "actionPoints": 0,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [],
+          "zoneFrom": null,
+          "zoneTo": null,
+          "count": 0,
+          "spendAllPrimary": false
+        },
+        "damage": null,
+        "branches": null,
+        "area": null,
+        "target": {
+          "roles": [],
+          "rangeFeet": 0,
+          "maxSubjects": 0
+        },
+        "timing": {
+          "use": "passive",
+          "expiry": null,
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "talent_spell_cw1_ab_n14",
+        "price": {
+          "actionPoints": 0,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [],
+          "zoneFrom": null,
+          "zoneTo": null,
+          "count": 0,
+          "spendAllPrimary": false
+        },
+        "damage": null,
+        "branches": null,
+        "area": null,
+        "target": {
+          "roles": [],
+          "rangeFeet": 0,
+          "maxSubjects": 0
+        },
+        "timing": {
+          "use": "passive",
+          "expiry": null,
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "talent_spell_cw1_ab_n15",
+        "price": {
+          "actionPoints": 0,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [],
+          "zoneFrom": null,
+          "zoneTo": null,
+          "count": 0,
+          "spendAllPrimary": false
+        },
+        "damage": null,
+        "branches": null,
+        "area": null,
+        "target": {
+          "roles": [],
+          "rangeFeet": 0,
+          "maxSubjects": 0
+        },
+        "timing": {
+          "use": "passive",
+          "expiry": null,
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "talent_spell_cw1_ab_n16",
+        "price": {
+          "actionPoints": 0,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [],
+          "zoneFrom": null,
+          "zoneTo": null,
+          "count": 0,
+          "spendAllPrimary": false
+        },
+        "damage": null,
+        "branches": null,
+        "area": null,
+        "target": {
+          "roles": [],
+          "rangeFeet": 0,
+          "maxSubjects": 0
+        },
+        "timing": {
+          "use": "passive",
+          "expiry": null,
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "talent_spell_cw1_ab_n17",
+        "price": {
+          "actionPoints": 0,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [],
+          "zoneFrom": null,
+          "zoneTo": null,
+          "count": 0,
+          "spendAllPrimary": false
+        },
+        "damage": null,
+        "branches": null,
+        "area": null,
+        "target": {
+          "roles": [],
+          "rangeFeet": 0,
+          "maxSubjects": 0
+        },
+        "timing": {
+          "use": "passive",
+          "expiry": null,
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "talent_spell_cw1_ca_n01",
+        "price": {
+          "actionPoints": 0,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [],
+          "zoneFrom": null,
+          "zoneTo": null,
+          "count": 0,
+          "spendAllPrimary": false
+        },
+        "damage": null,
+        "branches": null,
+        "area": null,
+        "target": {
+          "roles": [],
+          "rangeFeet": 0,
+          "maxSubjects": 0
+        },
+        "timing": {
+          "use": "passive",
+          "expiry": null,
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "talent_spell_cw1_ca_n02",
+        "price": {
+          "actionPoints": 0,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [],
+          "zoneFrom": null,
+          "zoneTo": null,
+          "count": 0,
+          "spendAllPrimary": false
+        },
+        "damage": null,
+        "branches": null,
+        "area": null,
+        "target": {
+          "roles": [],
+          "rangeFeet": 0,
+          "maxSubjects": 0
+        },
+        "timing": {
+          "use": "passive",
+          "expiry": null,
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "talent_spell_cw1_ca_n03",
+        "price": {
+          "actionPoints": 0,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [],
+          "zoneFrom": null,
+          "zoneTo": null,
+          "count": 0,
+          "spendAllPrimary": false
+        },
+        "damage": null,
+        "branches": null,
+        "area": null,
+        "target": {
+          "roles": [],
+          "rangeFeet": 0,
+          "maxSubjects": 0
+        },
+        "timing": {
+          "use": "passive",
+          "expiry": null,
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "talent_spell_cw1_ca_n04",
+        "price": {
+          "actionPoints": 0,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [],
+          "zoneFrom": null,
+          "zoneTo": null,
+          "count": 0,
+          "spendAllPrimary": false
+        },
+        "damage": null,
+        "branches": null,
+        "area": null,
+        "target": {
+          "roles": [],
+          "rangeFeet": 0,
+          "maxSubjects": 0
+        },
+        "timing": {
+          "use": "passive",
+          "expiry": null,
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "talent_spell_cw1_ca_n06",
+        "price": {
+          "actionPoints": 0,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [],
+          "zoneFrom": null,
+          "zoneTo": null,
+          "count": 0,
+          "spendAllPrimary": false
+        },
+        "damage": null,
+        "branches": null,
+        "area": null,
+        "target": {
+          "roles": [],
+          "rangeFeet": 0,
+          "maxSubjects": 0
+        },
+        "timing": {
+          "use": "passive",
+          "expiry": null,
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "talent_spell_cw1_ca_n07",
+        "price": {
+          "actionPoints": 0,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [],
+          "zoneFrom": null,
+          "zoneTo": null,
+          "count": 0,
+          "spendAllPrimary": false
+        },
+        "damage": null,
+        "branches": null,
+        "area": null,
+        "target": {
+          "roles": [],
+          "rangeFeet": 0,
+          "maxSubjects": 0
+        },
+        "timing": {
+          "use": "passive",
+          "expiry": null,
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "talent_spell_cw1_ca_n08",
+        "price": {
+          "actionPoints": 0,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [],
+          "zoneFrom": null,
+          "zoneTo": null,
+          "count": 0,
+          "spendAllPrimary": false
+        },
+        "damage": null,
+        "branches": null,
+        "area": null,
+        "target": {
+          "roles": [],
+          "rangeFeet": 0,
+          "maxSubjects": 0
+        },
+        "timing": {
+          "use": "passive",
+          "expiry": null,
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "talent_spell_cw1_ca_n09",
+        "price": {
+          "actionPoints": 0,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [],
+          "zoneFrom": null,
+          "zoneTo": null,
+          "count": 0,
+          "spendAllPrimary": false
+        },
+        "damage": null,
+        "branches": null,
+        "area": null,
+        "target": {
+          "roles": [],
+          "rangeFeet": 0,
+          "maxSubjects": 0
+        },
+        "timing": {
+          "use": "passive",
+          "expiry": null,
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "talent_spell_cw1_ca_n10",
+        "price": {
+          "actionPoints": 0,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [],
+          "zoneFrom": null,
+          "zoneTo": null,
+          "count": 0,
+          "spendAllPrimary": false
+        },
+        "damage": null,
+        "branches": null,
+        "area": null,
+        "target": {
+          "roles": [],
+          "rangeFeet": 0,
+          "maxSubjects": 0
+        },
+        "timing": {
+          "use": "passive",
+          "expiry": null,
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "talent_spell_cw1_ca_n11",
+        "price": {
+          "actionPoints": 0,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [],
+          "zoneFrom": null,
+          "zoneTo": null,
+          "count": 0,
+          "spendAllPrimary": false
+        },
+        "damage": null,
+        "branches": null,
+        "area": null,
+        "target": {
+          "roles": [],
+          "rangeFeet": 0,
+          "maxSubjects": 0
+        },
+        "timing": {
+          "use": "passive",
+          "expiry": null,
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "talent_spell_cw1_ca_n12",
+        "price": {
+          "actionPoints": 0,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [],
+          "zoneFrom": null,
+          "zoneTo": null,
+          "count": 0,
+          "spendAllPrimary": false
+        },
+        "damage": null,
+        "branches": null,
+        "area": null,
+        "target": {
+          "roles": [],
+          "rangeFeet": 0,
+          "maxSubjects": 0
+        },
+        "timing": {
+          "use": "passive",
+          "expiry": null,
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "talent_spell_cw1_ca_n13",
+        "price": {
+          "actionPoints": 0,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [],
+          "zoneFrom": null,
+          "zoneTo": null,
+          "count": 0,
+          "spendAllPrimary": false
+        },
+        "damage": null,
+        "branches": null,
+        "area": null,
+        "target": {
+          "roles": [],
+          "rangeFeet": 0,
+          "maxSubjects": 0
+        },
+        "timing": {
+          "use": "passive",
+          "expiry": null,
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "talent_spell_cw1_ca_n14",
+        "price": {
+          "actionPoints": 0,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [],
+          "zoneFrom": null,
+          "zoneTo": null,
+          "count": 0,
+          "spendAllPrimary": false
+        },
+        "damage": null,
+        "branches": null,
+        "area": null,
+        "target": {
+          "roles": [],
+          "rangeFeet": 0,
+          "maxSubjects": 0
+        },
+        "timing": {
+          "use": "passive",
+          "expiry": null,
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "talent_spell_cw1_ca_n15",
+        "price": {
+          "actionPoints": 0,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [],
+          "zoneFrom": null,
+          "zoneTo": null,
+          "count": 0,
+          "spendAllPrimary": false
+        },
+        "damage": null,
+        "branches": null,
+        "area": null,
+        "target": {
+          "roles": [],
+          "rangeFeet": 0,
+          "maxSubjects": 0
+        },
+        "timing": {
+          "use": "passive",
+          "expiry": null,
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "talent_spell_cw1_ca_n16",
+        "price": {
+          "actionPoints": 0,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [],
+          "zoneFrom": null,
+          "zoneTo": null,
+          "count": 0,
+          "spendAllPrimary": false
+        },
+        "damage": null,
+        "branches": null,
+        "area": null,
+        "target": {
+          "roles": [],
+          "rangeFeet": 0,
+          "maxSubjects": 0
+        },
+        "timing": {
+          "use": "passive",
+          "expiry": null,
+          "oncePerRest": false
+        }
+      },
+      {
+        "id": "talent_spell_cw1_ca_n17",
+        "price": {
+          "actionPoints": 0,
+          "mana": 0
+        },
+        "tile": {
+          "inputSymbols": [],
+          "zoneFrom": null,
+          "zoneTo": null,
+          "count": 0,
+          "spendAllPrimary": false
+        },
+        "damage": null,
+        "branches": null,
+        "area": null,
+        "target": {
+          "roles": [],
+          "rangeFeet": 0,
+          "maxSubjects": 0
+        },
+        "timing": {
+          "use": "passive",
+          "expiry": null,
+          "oncePerRest": false
+        }
+      }
+    ]
+  }
+}

@@ -208,6 +208,61 @@ const StepStats = ({ itemData, updateItemData }) => {
                 } else if (itemData.type === 'miscellaneous' && itemData.subtype === 'REAGENT') {
                     // Define the magic types within the scope
                     const MAGIC_TYPES = {
+                        ember: {
+                            name: 'Ember Magic',
+                            icon: 'Fire/Volcanic Corruption',
+                            description: 'Magic of stellar heat and subterranean furnace fires',
+                            color: '#D4380D'
+                        },
+                        rime: {
+                            name: 'Rime Magic',
+                            icon: 'Frost/Frostbite Variant 2',
+                            description: 'Magic of cosmic vacuum-cold and glacial ice',
+                            color: '#2C5F7C'
+                        },
+                        storm: {
+                            name: 'Storm Magic',
+                            icon: 'Lightning/Thunderstorm',
+                            description: 'Magic of atmospheric gale-vortexes and concussive lightning',
+                            color: '#8B7328'
+                        },
+                        primal: {
+                            name: 'Primal Magic',
+                            icon: 'Nature/Nature Natural 11',
+                            description: 'Magic of wild ironwood roots and living ocean spindrift',
+                            color: '#2D5A1E'
+                        },
+                        arcane: {
+                            name: 'Arcane Magic',
+                            icon: 'Arcane/Ebon Blaze',
+                            description: 'Magic of consequence grammar and structured spellwork',
+                            color: '#5B3A8C'
+                        },
+                        blight: {
+                            name: 'Blight Magic',
+                            icon: 'Necrotic/Necrotic Wither',
+                            description: 'Magic of corrosive spores, broken oaths, and pestilence',
+                            color: '#3D1F4E'
+                        },
+                        wyrd: {
+                            name: 'Wyrd Magic',
+                            icon: 'Psychic/Psychic Telepathy',
+                            description: 'Magic of entropic predator-breath, mind manipulation, and temporal chaos',
+                            color: '#7A2040'
+                        },
+                        sacred: {
+                            name: 'Sacred Magic',
+                            icon: 'Radiant/Radiant Divinity',
+                            description: 'Magic of harmonic binding song and divine protective order',
+                            color: '#DAA520'
+                        },
+                        healing: {
+                            name: 'Healing',
+                            icon: 'Healing/Golden Heart',
+                            description: 'Restorative energy that repairs damage and restores vitality',
+                            color: '#2E8B57'
+                        },
+                        // Legacy types
                         fire: {
                             name: 'Fire Magic',
                             icon: 'Fire/Flame Burst',

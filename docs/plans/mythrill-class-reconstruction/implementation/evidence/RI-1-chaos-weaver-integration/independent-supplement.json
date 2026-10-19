@@ -1,0 +1,1341 @@
+{
+  "legalPick": {
+    "ok": true,
+    "errors": [],
+    "characterLevel": 1,
+    "picks": [
+      {
+        "id": "cw1_01",
+        "classId": "chaos-weaver",
+        "rulesetVersion": "cr-cw-1",
+        "name": "Fraying Bolt",
+        "level": 1,
+        "source": "level-pick",
+        "treeId": null,
+        "spellType": "ACTION",
+        "icon": "Psychic/Psychic Telepathy",
+        "resourceCost": {
+          "actionPoints": 2,
+          "mana": 0
+        },
+        "tileRule": {
+          "inputSymbols": [
+            {
+              "symbol": "F"
+            }
+          ],
+          "zoneFrom": "available",
+          "zoneTo": "spent",
+          "count": 1,
+          "spendAllPrimary": true
+        },
+        "target": {
+          "roles": [
+            "enemy"
+          ],
+          "rangeFeet": 30,
+          "maxSubjects": 1
+        },
+        "branchRule": null,
+        "outcome": {
+          "damage": {
+            "formula": "1d6",
+            "damageTypes": [
+              "wyrd"
+            ]
+          },
+          "ward": null,
+          "movement": {
+            "kind": "penalty",
+            "feet": 5,
+            "until": "next-own-turn-start",
+            "usesRemainingMovement": true,
+            "optional": false
+          },
+          "penalty": null,
+          "note": "1d6 Wyrd; caster movement−5ft until next own-turn start. Deterministic authored result — confirm before settlement."
+        },
+        "timing": {
+          "use": "own-turn",
+          "expiry": null,
+          "oncePerRest": false
+        },
+        "damage": {
+          "formula": "1d6",
+          "damageTypes": [
+            "wyrd"
+          ]
+        },
+        "reaction": null,
+        "savingThrow": null,
+        "conditions": [],
+        "area": null,
+        "continuation": null,
+        "rankValues": null,
+        "requires": null,
+        "effectText": "1d6 Wyrd; caster movement−5ft until next own-turn start. Deliberate deterministic low-resource basic, not a sample.",
+        "sourceRefs": [
+          "CLASS-C1-CHAOS-WEAVER.md §5 row 01"
+        ],
+        "authoredOnly": true,
+        "executionEnabled": false,
+        "applicationMode": "manual-tabletop",
+        "automatedCapabilities": [],
+        "manualRequirements": [
+          "Manual tabletop only: no AP, tile, movement or effect is applied automatically.",
+          "Apply the caster movement−5ft penalty until the next own-turn start on the character’s turn."
+        ]
+      }
+    ],
+    "talentPoints": 0,
+    "talentBudget": 5,
+    "primaryTreeId": null,
+    "grantedSpellIds": [],
+    "previewParameters": {},
+    "allocation": {
+      "ranks": {},
+      "order": []
+    }
+  },
+  "recoveredRoundTrip": {
+    "ok": true,
+    "errors": [],
+    "draftRetained": true
+  },
+  "restedRoundTrip": {
+    "ok": true,
+    "errors": [],
+    "draftRetained": true
+  },
+  "closureRejections": {
+    "expiry": {
+      "ok": false,
+      "errors": [
+        "early expiry is invalid; this anomaly expires at the end of own turn 3"
+      ]
+    },
+    "counterseal": {
+      "ok": false,
+      "errors": [
+        "reason must be one of trigger, expiry, dismissal; Counterseal and Unbind are their own paid actions"
+      ]
+    },
+    "unbind": {
+      "ok": false,
+      "errors": [
+        "reason must be one of trigger, expiry, dismissal; Counterseal and Unbind are their own paid actions"
+      ]
+    },
+    "dismissal": {
+      "ok": false,
+      "errors": [
+        "dismissal requires the paid Dismiss Anomaly action first"
+      ]
+    }
+  },
+  "anomalyCompleteWitness": {
+    "session": {
+      "status": "active",
+      "label": "rereview",
+      "turn": {
+        "ownTurnNumber": 3,
+        "apAvailable": 2,
+        "remainingMovementFeet": 30
+      },
+      "tiles": {
+        "version": 1,
+        "rulesetVersion": "cr-cw-1",
+        "available": [
+          "S2",
+          "M1",
+          "M2",
+          "F1"
+        ],
+        "committed": [],
+        "bound": [],
+        "spent": [
+          "S1",
+          "F2"
+        ]
+      },
+      "pending": null,
+      "anomaly": null,
+      "penalties": [],
+      "usage": {
+        "completedRestId": null,
+        "oncePerRest": []
+      },
+      "settlements": [
+        {
+          "actionId": "action-2",
+          "kind": "settlement",
+          "spellId": "cr1_chaos_weaver_split_possibility",
+          "primaryTileIds": [
+            "S1",
+            "F2"
+          ],
+          "continuationTileId": null,
+          "selectedTileId": "S1",
+          "recordedFaces": [
+            1
+          ],
+          "merged": false,
+          "outcome": {
+            "damage": {
+              "formula": "2d6",
+              "damageTypes": [
+                "wyrd"
+              ]
+            },
+            "ward": null,
+            "movement": null,
+            "penalty": null,
+            "note": "S: 2d6 Wyrd."
+          },
+          "continuation": null,
+          "confirmed": [
+            "damage"
+          ],
+          "closedAnomaly": null
+        },
+        {
+          "actionId": "action-1",
+          "kind": "anomaly-trigger",
+          "spellId": "cr1_chaos_weaver_unsteady_ground",
+          "primaryTileIds": [
+            "M1",
+            "F1"
+          ],
+          "continuationTileId": null,
+          "selectedTileId": "M1",
+          "recordedFaces": [
+            1
+          ],
+          "merged": false,
+          "outcome": {
+            "damage": null,
+            "ward": null,
+            "movement": {
+              "kind": "ends-remaining-movement",
+              "feet": 0,
+              "until": "current-turn",
+              "usesRemainingMovement": true,
+              "optional": false
+            },
+            "penalty": null,
+            "note": "M: ends that actor’s remaining movement for the current turn."
+          },
+          "continuation": null,
+          "confirmed": [
+            "movement"
+          ],
+          "closedAnomaly": null
+        },
+        {
+          "actionId": "action-5",
+          "kind": "dismissal",
+          "spellId": "cw1_dismiss_anomaly",
+          "closedAnomaly": {
+            "actionId": "action-4",
+            "spellId": "cr1_chaos_weaver_unsteady_ground",
+            "tileIds": [
+              "M1",
+              "F1"
+            ]
+          }
+        }
+      ],
+      "log": [
+        {
+          "id": "log-0",
+          "kind": "session",
+          "text": "Rehearsal started. Local rehearsal — does not spend AP, move tokens or apply effects."
+        },
+        {
+          "id": "log-1",
+          "kind": "anomaly",
+          "text": "Unsteady Ground: bound M1, F1; one anomaly at unnamed point (5ft), expires end of own turn 3; mapping two-ids-d6-1-3-4-6 published before any face."
+        },
+        {
+          "id": "log-2",
+          "kind": "commit",
+          "text": "Split Possibility: commitment fixed — S1, F2; mapping two-ids-d6-1-3-4-6 retained before the face."
+        },
+        {
+          "id": "log-3",
+          "kind": "face",
+          "text": "Split Possibility: d6 face 1 selects S1."
+        },
+        {
+          "id": "log-4",
+          "kind": "settle",
+          "text": "Split Possibility: settlement recorded; primary tiles spent."
+        },
+        {
+          "id": "log-5",
+          "kind": "anomaly",
+          "text": "Unsteady Ground: trigger confirmed by the table — two-ids-d6-1-3-4-6 mapping retained; enter the physical face before settlement."
+        },
+        {
+          "id": "log-6",
+          "kind": "face",
+          "text": "Unsteady Ground: d6 face 1 selects M1."
+        },
+        {
+          "id": "log-7",
+          "kind": "settle",
+          "text": "Unsteady Ground: trigger settled — branch retained, M1, F1 spent with no refund."
+        },
+        {
+          "id": "log-8",
+          "kind": "turn",
+          "text": "Start of own turn 2; 0 movement penalty record(s) remain; remaining movement reset manually by the table."
+        },
+        {
+          "id": "log-9",
+          "kind": "recover",
+          "text": "Fold the Odds: recovered M1, F1 from spent to available (1 AP paid locally)."
+        },
+        {
+          "id": "log-10",
+          "kind": "anomaly",
+          "text": "Unsteady Ground: bound M1, F1; one anomaly at unnamed point (5ft), expires end of own turn 4; mapping two-ids-d6-1-3-4-6 published before any face."
+        },
+        {
+          "id": "log-11",
+          "kind": "turn",
+          "text": "Start of own turn 3; 0 movement penalty record(s) remain; remaining movement reset manually by the table."
+        },
+        {
+          "id": "log-12",
+          "kind": "anomaly",
+          "text": "Dismiss Anomaly: 1 AP paid locally — dismissal staged; resolve it to send bound M1, F1 to spent."
+        },
+        {
+          "id": "log-13",
+          "kind": "anomaly-resolved",
+          "text": "Anomaly at unnamed point closed by dismissal; bound M1, F1 spent with no refund."
+        },
+        {
+          "id": "log-14",
+          "kind": "recover",
+          "text": "Fold the Odds: recovered M1, F1 from spent to available (1 AP paid locally)."
+        }
+      ],
+      "actionSeq": 6
+    },
+    "roundTrip": true
+  },
+  "anomalyVoidRedraw": {
+    "afterVoid": {
+      "status": "active",
+      "label": "rereview",
+      "turn": {
+        "ownTurnNumber": 1,
+        "apAvailable": 18,
+        "remainingMovementFeet": 30
+      },
+      "tiles": {
+        "version": 1,
+        "rulesetVersion": "cr-cw-1",
+        "available": [
+          "S1",
+          "S2",
+          "M2",
+          "F2"
+        ],
+        "committed": [],
+        "bound": [],
+        "spent": [
+          "M1",
+          "F1"
+        ]
+      },
+      "pending": null,
+      "anomaly": null,
+      "penalties": [],
+      "usage": {
+        "completedRestId": null,
+        "oncePerRest": []
+      },
+      "settlements": [
+        {
+          "actionId": "action-1",
+          "kind": "void",
+          "reason": "table void",
+          "spellId": "cr1_chaos_weaver_unsteady_ground",
+          "primaryTileIds": [
+            "M1",
+            "F1"
+          ],
+          "continuationTileId": null,
+          "selectedTileId": "F1",
+          "recordedFaces": [
+            6
+          ]
+        }
+      ],
+      "log": [
+        {
+          "id": "log-0",
+          "kind": "session",
+          "text": "Rehearsal started. Local rehearsal — does not spend AP, move tokens or apply effects."
+        },
+        {
+          "id": "log-1",
+          "kind": "anomaly",
+          "text": "Unsteady Ground: bound M1, F1; one anomaly at unnamed point (5ft), expires end of own turn 3; mapping two-ids-d6-1-3-4-6 published before any face."
+        },
+        {
+          "id": "log-2",
+          "kind": "anomaly",
+          "text": "Unsteady Ground: trigger confirmed by the table — two-ids-d6-1-3-4-6 mapping retained; enter the physical face before settlement."
+        },
+        {
+          "id": "log-3",
+          "kind": "face",
+          "text": "Unsteady Ground: d6 face 6 selects F1."
+        },
+        {
+          "id": "log-4",
+          "kind": "void",
+          "text": "Unsteady Ground: GM void recorded (table void); the trigger closed without refund or redraw — its bound IDs are spent."
+        }
+      ],
+      "actionSeq": 1
+    },
+    "retrigger": false,
+    "newFace": null
+  },
+  "malformedPendingMapping": {
+    "ok": false,
+    "errors": [
+      "rehearsal: pending primary IDs do not satisfy the authored symbol requirement",
+      "rehearsal: a sampled pending action needs two to four committed IDs",
+      "rehearsal: pending.recordedFaces does not match the fixed mapping",
+      "rehearsal: committed tile F1 has no unresolved action owner"
+    ],
+    "draftRetained": true
+  },
+  "forgedPendingPrice": {
+    "ok": false,
+    "errors": [
+      "rehearsal: pending primary IDs do not satisfy the authored symbol requirement"
+    ],
+    "draftRetained": true
+  },
+  "deterministicFracture": {
+    "threw": "recordFace: this deterministic result has no physical face; settle it with its authored confirmations"
+  },
+  "paidCounterseal": {
+    "status": "active",
+    "label": "rereview",
+    "turn": {
+      "ownTurnNumber": 1,
+      "apAvailable": 16,
+      "remainingMovementFeet": 30
+    },
+    "tiles": {
+      "version": 1,
+      "rulesetVersion": "cr-cw-1",
+      "available": [
+        "S2",
+        "M2"
+      ],
+      "committed": [],
+      "bound": [],
+      "spent": [
+        "S1",
+        "M1",
+        "F1",
+        "F2"
+      ]
+    },
+    "pending": null,
+    "anomaly": null,
+    "penalties": [
+      {
+        "sourceActionId": "action-2",
+        "feet": 10,
+        "expiresBoundary": "next-own-turn-start",
+        "expiresOwnTurn": 2
+      }
+    ],
+    "usage": {
+      "completedRestId": null,
+      "oncePerRest": []
+    },
+    "settlements": [
+      {
+        "actionId": "action-2",
+        "kind": "settlement",
+        "spellId": "cw1_30",
+        "primaryTileIds": [
+          "S1",
+          "F2"
+        ],
+        "continuationTileId": null,
+        "selectedTileId": "F2",
+        "recordedFaces": [
+          6
+        ],
+        "merged": false,
+        "outcome": {
+          "damage": null,
+          "ward": null,
+          "movement": {
+            "kind": "penalty",
+            "feet": 10,
+            "until": "next-own-turn-start",
+            "usesRemainingMovement": true,
+            "optional": false
+          },
+          "penalty": null,
+          "note": "F: no ward and caster−10ft until next own-turn start."
+        },
+        "continuation": null,
+        "confirmed": [
+          "movement"
+        ],
+        "closedAnomaly": {
+          "actionId": "action-1",
+          "spellId": "cr1_chaos_weaver_unsteady_ground",
+          "tileIds": [
+            "M1",
+            "F1"
+          ]
+        }
+      }
+    ],
+    "log": [
+      {
+        "id": "log-0",
+        "kind": "session",
+        "text": "Rehearsal started. Local rehearsal — does not spend AP, move tokens or apply effects."
+      },
+      {
+        "id": "log-1",
+        "kind": "anomaly",
+        "text": "Unsteady Ground: bound M1, F1; one anomaly at unnamed point (5ft), expires end of own turn 3; mapping two-ids-d6-1-3-4-6 published before any face."
+      },
+      {
+        "id": "log-2",
+        "kind": "commit",
+        "text": "Counterseal: commitment fixed — S1, F2; mapping two-ids-d6-1-3-4-6 retained before the face."
+      },
+      {
+        "id": "log-3",
+        "kind": "face",
+        "text": "Counterseal: d6 face 6 selects F2."
+      },
+      {
+        "id": "log-4",
+        "kind": "settle",
+        "text": "Counterseal: settlement recorded; primary tiles spent; Counterseal closed the anomaly (M1, F1 to spent)."
+      }
+    ],
+    "actionSeq": 2
+  },
+  "retainedProbeChecks": [
+    {
+      "name": "all 54 node gates, predecessors and rank tuples against contract",
+      "checked": 54,
+      "passivesChecked": 48,
+      "defects": []
+    },
+    {
+      "name": "all optional prices and names against literal manifest",
+      "checked": 40,
+      "defects": []
+    },
+    {
+      "name": "structured branch/prose consistency",
+      "lateralFracture": {
+        "damage": null,
+        "ward": null,
+        "movement": {
+          "kind": "displacement",
+          "feet": 5,
+          "until": "immediate",
+          "usesRemainingMovement": true,
+          "optional": false
+        },
+        "penalty": {
+          "kind": "penalty",
+          "feet": 10,
+          "until": "next-own-turn-start",
+          "usesRemainingMovement": true,
+          "optional": false
+        },
+        "note": "F: 5ft legal displacement and caster−10ft until next own-turn start (both retained: displacement and caster penalty)."
+      },
+      "finalPassageFracture": {
+        "damage": null,
+        "ward": null,
+        "movement": {
+          "kind": "displacement",
+          "feet": 5,
+          "until": "immediate",
+          "usesRemainingMovement": true,
+          "optional": false
+        },
+        "penalty": {
+          "kind": "penalty",
+          "feet": 10,
+          "until": "end-next-own-turn",
+          "usesRemainingMovement": true,
+          "optional": false
+        },
+        "note": "F: ally 5ft displacement and caster−10ft through end next own turn (both retained: ally displacement and caster penalty)."
+      },
+      "skewedGuardWardTarget": "self-or-ally"
+    },
+    {
+      "name": "capstone extension and nonnumeric preview",
+      "writtenBoundaryOmitted": {
+        "unsteady-ground.triggerOptions": {
+          "value": "entry-or-exit-or-centerline-crossing-or-named-segment",
+          "nodeId": "cw1_ab_n08",
+          "rank": 3
+        }
+      }
+    },
+    {
+      "name": "reported fixes",
+      "foldSingleAndTwoSupported": true,
+      "continuationAP": 0,
+      "zeroCountNullZones": true,
+      "canonicalImport": true
+    },
+    {
+      "name": "legal price cw1_37",
+      "result": {
+        "ok": true,
+        "tiles": {
+          "version": 1,
+          "rulesetVersion": "cr-cw-1",
+          "available": [
+            "M2",
+            "F2"
+          ],
+          "committed": [
+            "S1",
+            "S2",
+            "M1",
+            "F1"
+          ],
+          "bound": [],
+          "spent": []
+        },
+        "ap": 16
+      }
+    },
+    {
+      "name": "legal price cw1_38",
+      "result": {
+        "ok": true,
+        "tiles": {
+          "version": 1,
+          "rulesetVersion": "cr-cw-1",
+          "available": [
+            "S2",
+            "M2",
+            "F2"
+          ],
+          "committed": [],
+          "bound": [],
+          "spent": [
+            "S1",
+            "M1",
+            "F1"
+          ]
+        },
+        "ap": 17
+      }
+    },
+    {
+      "name": "legal price cw1_last_boundary",
+      "result": {
+        "ok": true,
+        "tiles": {
+          "version": 1,
+          "rulesetVersion": "cr-cw-1",
+          "available": [
+            "S1",
+            "S2",
+            "F2"
+          ],
+          "committed": [],
+          "bound": [
+            "M1",
+            "M2",
+            "F1"
+          ],
+          "spent": []
+        },
+        "ap": 17
+      }
+    },
+    {
+      "name": "duplicate Fold invalid atomicity",
+      "result": {
+        "ok": false,
+        "errors": [
+          "duplicate tile IDs in the commitment"
+        ]
+      },
+      "inputUnchanged": true
+    },
+    {
+      "name": "hybrid gate",
+      "treePoints": 3,
+      "globalPoints": 5,
+      "gate5Allowed": false
+    },
+    {
+      "name": "respec gate recheck",
+      "ranks": {
+        "cw1_ps_n01": 3,
+        "cw1_ps_n02": 1
+      },
+      "gate5NodeRetained": false
+    },
+    {
+      "name": "build validation and primary order",
+      "corePickAccepted": false,
+      "unpaidSignatureAccepted": false,
+      "firstInvestedCascadeButSummary": "cascade-weaver"
+    },
+    {
+      "name": "Safe Rehearsal once/rest",
+      "usage": {
+        "completedRestId": null,
+        "oncePerRest": [
+          "cw1_20"
+        ]
+      },
+      "secondAllowed": false
+    },
+    {
+      "name": "continuation invalid symbols",
+      "fractureReservationAllowed": false,
+      "surgeWithoutC10Allowed": false
+    },
+    {
+      "name": "anomaly trigger",
+      "mapping": {
+        "order": [
+          "M1",
+          "F1"
+        ],
+        "dice": "d6",
+        "rule": "two-ids-d6-1-3-4-6",
+        "entries": [
+          {
+            "tileId": "M1",
+            "faces": [
+              1,
+              2,
+              3
+            ]
+          },
+          {
+            "tileId": "F1",
+            "faces": [
+              4,
+              5,
+              6
+            ]
+          }
+        ]
+      },
+      "pending": {
+        "kind": "anomaly-trigger",
+        "actionId": "action-1",
+        "spellId": "cr1_chaos_weaver_unsteady_ground",
+        "sourceLabel": "Unsteady Ground",
+        "targetLabel": "unnamed point",
+        "primaryTileIds": [
+          "M1",
+          "F1"
+        ],
+        "continuationTileId": null,
+        "mapping": {
+          "order": [
+            "M1",
+            "F1"
+          ],
+          "dice": "d6",
+          "rule": "two-ids-d6-1-3-4-6",
+          "entries": [
+            {
+              "tileId": "M1",
+              "faces": [
+                1,
+                2,
+                3
+              ]
+            },
+            {
+              "tileId": "F1",
+              "faces": [
+                4,
+                5,
+                6
+              ]
+            }
+          ]
+        },
+        "selectedTileId": null,
+        "recordedFaces": null,
+        "phase": "committed"
+      },
+      "settlements": [],
+      "penalties": [],
+      "log": {
+        "id": "log-2",
+        "kind": "anomaly",
+        "text": "Unsteady Ground: trigger confirmed by the table — two-ids-d6-1-3-4-6 mapping retained; enter the physical face before settlement."
+      }
+    },
+    {
+      "name": "manual anomaly closure bypass",
+      "threw": "Cannot read properties of undefined (reading 'turn')"
+    },
+    {
+      "name": "Fracture settlement worksheet",
+      "selected": "F1",
+      "penalties": [
+        {
+          "sourceActionId": "action-1",
+          "feet": 5,
+          "expiresBoundary": "next-own-turn-start",
+          "expiresOwnTurn": 2
+        }
+      ],
+      "movement": 30
+    },
+    {
+      "name": "import missingTurn",
+      "accepted": false,
+      "errors": [
+        "rehearsal: rehearsal missing turn",
+        "rehearsal: rehearsal.turn must be an object"
+      ]
+    },
+    {
+      "name": "import orphanCommitted",
+      "accepted": false,
+      "errors": [
+        "rehearsal: committed tile S1 has no unresolved action owner"
+      ]
+    },
+    {
+      "name": "import unknownWorksheet",
+      "accepted": false,
+      "errors": [
+        "rehearsal: rehearsal unknown fields customExtension"
+      ]
+    },
+    {
+      "name": "import unknownCost",
+      "accepted": false,
+      "errors": [
+        "spells must match the 49 certified C1 active records exactly"
+      ]
+    },
+    {
+      "name": "import changedBranch",
+      "accepted": false,
+      "errors": [
+        "spells must match the 49 certified C1 active records exactly"
+      ]
+    },
+    {
+      "name": "import missingContent",
+      "accepted": false,
+      "errors": [
+        "packet missing members: classData, progression, talents",
+        "classData must match the certified C1 class record exactly",
+        "progression must match the certified C1 progression exactly",
+        "spells must match the 49 certified C1 active records exactly",
+        "talents must match the certified C1 trees and passive records exactly"
+      ]
+    },
+    {
+      "name": "import wrongMapping",
+      "accepted": false,
+      "errors": [
+        "rehearsal: pending mapping does not match the fixed mapping for the committed IDs"
+      ]
+    },
+    {
+      "name": "null pending import robustness",
+      "result": {
+        "ok": false,
+        "errors": [
+          "rehearsal: pending must be null or an object"
+        ]
+      }
+    },
+    {
+      "name": "Counterseal and Unbind preconditions",
+      "countersealWithoutAnomaly": false,
+      "unbindWithoutRecord": false,
+      "dismissWithoutAnomaly": false
+    },
+    {
+      "name": "once/rest void cannot refund use",
+      "usageAfterPaidVoid": [
+        "cw1_closed_distribution"
+      ]
+    },
+    {
+      "name": "invalid counters",
+      "negative": false
+    },
+    {
+      "name": "round trips all worksheet phases",
+      "threw": "resolveContinuation: confirm the retained authored result first: missing damage, movement before declining"
+    },
+    {
+      "name": "Probability numerical witness",
+      "ap": 1,
+      "tiles": {
+        "version": 1,
+        "rulesetVersion": "cr-cw-1",
+        "available": [
+          "S1",
+          "M2",
+          "F2"
+        ],
+        "committed": [],
+        "bound": [],
+        "spent": [
+          "S2",
+          "M1",
+          "F1"
+        ]
+      },
+      "selections": [
+        "S2",
+        "S2",
+        "M1"
+      ]
+    },
+    {
+      "name": "Anomaly numerical witness",
+      "threw": "commitSpell: one unresolved action already exists,tile M1 is not spent,tile F1 is not spent"
+    },
+    {
+      "name": "Cascade numerical witness",
+      "threw": "resolveContinuation: confirm the retained authored result first: missing damage, movement before declining"
+    }
+  ],
+  "correctionComparison": [
+    {
+      "name": "all 54 node gates, predecessors and rank tuples against contract",
+      "exactCorrectionPayload": true
+    },
+    {
+      "name": "all optional prices and names against literal manifest",
+      "exactCorrectionPayload": true
+    },
+    {
+      "name": "structured branch/prose consistency",
+      "exactCorrectionPayload": true
+    },
+    {
+      "name": "capstone extension and nonnumeric preview",
+      "exactCorrectionPayload": true
+    },
+    {
+      "name": "reported fixes",
+      "exactCorrectionPayload": true
+    },
+    {
+      "name": "legal price cw1_37",
+      "exactCorrectionPayload": true
+    },
+    {
+      "name": "legal price cw1_38",
+      "exactCorrectionPayload": true
+    },
+    {
+      "name": "legal price cw1_last_boundary",
+      "exactCorrectionPayload": true
+    },
+    {
+      "name": "duplicate Fold invalid atomicity",
+      "exactCorrectionPayload": true
+    },
+    {
+      "name": "hybrid gate",
+      "exactCorrectionPayload": true
+    },
+    {
+      "name": "respec gate recheck",
+      "exactCorrectionPayload": true
+    },
+    {
+      "name": "build validation and primary order",
+      "exactCorrectionPayload": true
+    },
+    {
+      "name": "Safe Rehearsal once/rest",
+      "exactCorrectionPayload": true
+    },
+    {
+      "name": "continuation invalid symbols",
+      "exactCorrectionPayload": true
+    },
+    {
+      "name": "anomaly trigger",
+      "exactCorrectionPayload": true
+    },
+    {
+      "name": "manual anomaly closure bypass",
+      "exactCorrectionPayload": true
+    },
+    {
+      "name": "Fracture settlement worksheet",
+      "exactCorrectionPayload": true
+    },
+    {
+      "name": "import missingTurn",
+      "exactCorrectionPayload": true
+    },
+    {
+      "name": "import orphanCommitted",
+      "exactCorrectionPayload": true
+    },
+    {
+      "name": "import unknownWorksheet",
+      "exactCorrectionPayload": true
+    },
+    {
+      "name": "import unknownCost",
+      "exactCorrectionPayload": true
+    },
+    {
+      "name": "import changedBranch",
+      "exactCorrectionPayload": true
+    },
+    {
+      "name": "import missingContent",
+      "exactCorrectionPayload": true
+    },
+    {
+      "name": "import wrongMapping",
+      "exactCorrectionPayload": true
+    },
+    {
+      "name": "null pending import robustness",
+      "exactCorrectionPayload": true
+    },
+    {
+      "name": "Counterseal and Unbind preconditions",
+      "exactCorrectionPayload": true
+    },
+    {
+      "name": "once/rest void cannot refund use",
+      "exactCorrectionPayload": true
+    },
+    {
+      "name": "invalid counters",
+      "exactCorrectionPayload": true
+    },
+    {
+      "name": "round trips all worksheet phases",
+      "exactCorrectionPayload": false
+    },
+    {
+      "name": "Probability numerical witness",
+      "exactCorrectionPayload": true
+    },
+    {
+      "name": "Anomaly numerical witness",
+      "exactCorrectionPayload": true
+    },
+    {
+      "name": "Cascade numerical witness",
+      "exactCorrectionPayload": false
+    }
+  ],
+  "identities": [
+    {
+      "path": "vtt-react/src/data/classes/chaosWeaverData.js",
+      "expected": "fd27a919038ddd42d646458f143966fb53ea88b42825893e13c05708c46d5993",
+      "now": "3b144a761377d4015486235c771f04a5a971ca34071a9a60bad9b3e828ea4834",
+      "match": false
+    },
+    {
+      "path": "vtt-react/src/data/classes/chaosWeaverRules.js",
+      "expected": "07602a9ee181aacc1f1a4dbf4dc665f841df7901a8cb9bf55c9b763ac7b1cdae",
+      "now": "191d1b90fe246976da3796b0257cde7f3a7d155484da25b27af2ed458bd0ca72",
+      "match": false
+    },
+    {
+      "path": "vtt-react/src/data/talentTrees/chaosWeaver.js",
+      "expected": "8c8e7d5dd13e7d4af763d6832eb4ae291d30fea5608ac1c7520ea885944cced0",
+      "now": "74d9f844ce0324835df8fede6d236debb4528ff72fed31cd5ad9e5eea5f15624",
+      "match": false
+    },
+    {
+      "path": "vtt-react/src/components/hud/ChaosWeaverResourceDisplay.jsx",
+      "expected": "47a955463d9b1bc73e41c51a53ea75a26d335d5479c26820859c29ac8c8a68ba",
+      "now": "47a955463d9b1bc73e41c51a53ea75a26d335d5479c26820859c29ac8c8a68ba",
+      "match": true
+    },
+    {
+      "path": "vtt-react/src/components/rules/chaos-weaver/ChaosWeaverWorkshop.jsx",
+      "expected": "4711889565151d38d60cef0c8a683449b2b0c592c65cfff2f6ad8ce4f28c1918",
+      "now": "4711889565151d38d60cef0c8a683449b2b0c592c65cfff2f6ad8ce4f28c1918",
+      "match": true
+    },
+    {
+      "path": "vtt-react/src/components/rules/chaos-weaver/ChaosWeaverWorkshop.css",
+      "expected": "405a31facea44bb4941c7b9cfd2d373aa1f1627dcb80ea6c424dbb0614c2c66e",
+      "now": "405a31facea44bb4941c7b9cfd2d373aa1f1627dcb80ea6c424dbb0614c2c66e",
+      "match": true
+    },
+    {
+      "path": "vtt-react/src/data/classes/__tests__/chaosWeaverPackage.test.js",
+      "expected": "72c1a58c27807bd53d1dbec4a19ec39345c3c0d4218c4148c894629af852bf0c",
+      "now": "72c1a58c27807bd53d1dbec4a19ec39345c3c0d4218c4148c894629af852bf0c",
+      "match": true
+    },
+    {
+      "path": "vtt-react/src/data/classes/__tests__/chaosWeaverRules.test.js",
+      "expected": "07cff691e20f5072077c124fdb2ab294e19249f13b97fb9be170e5df9d3ea034",
+      "now": "d5a88a0f05d160b84eb65954a6a0931bbcb56b21017773b3e00c2e3140e22fd9",
+      "match": false
+    },
+    {
+      "path": "vtt-react/src/components/rules/chaos-weaver/__tests__/ChaosWeaverWorkshop.test.jsx",
+      "expected": "52f08d1f1027c0f8a9593d0f30a768e23a39301d39b52c893c1af8b8cbffb5ce",
+      "now": "52f08d1f1027c0f8a9593d0f30a768e23a39301d39b52c893c1af8b8cbffb5ce",
+      "match": true
+    },
+    {
+      "path": "vtt-react/src/components/hud/__tests__/ChaosWeaverResourceDisplay.test.jsx",
+      "expected": "51192670d39e83a6d7c2aaafab0afb0173f7133d89b598cf7863f5e4f1b88ebc",
+      "now": "51192670d39e83a6d7c2aaafab0afb0173f7133d89b598cf7863f5e4f1b88ebc",
+      "match": true
+    },
+    {
+      "path": "vtt-react/src/components/rules/ClassesDisplay.jsx",
+      "expected": "ebdab2dd19f28d101b371b135a3cbfc41538264c36d56b5041cf0adaa5c3fdbb",
+      "now": "86a4fc163696657e824135dc3333051082029fc79eba6111140c29389cff3f48",
+      "match": false
+    },
+    {
+      "path": "vtt-react/src/components/rules/__tests__/ClassesDisplay.test.jsx",
+      "expected": "5a3ae89ac0869c1be3deb864f5b8c532a11e936032355527aabdeb2d28c2de15",
+      "now": "ce2c0eeba467a66e18fc80b82262d393a2d783029e97a6f36b43f891f7d599a8",
+      "match": false
+    }
+  ],
+  "preservation": [
+    {
+      "path": "server/services/authoredSpellDefinitions.js",
+      "entry": "48b69255b8958ae75a7aa17ed7aa67c95b6d4c2bada63f4dcd24a305e20f0003",
+      "delivery": "48b69255b8958ae75a7aa17ed7aa67c95b6d4c2bada63f4dcd24a305e20f0003",
+      "now": "48b69255b8958ae75a7aa17ed7aa67c95b6d4c2bada63f4dcd24a305e20f0003",
+      "entryMatch": true,
+      "deliveryMatch": true
+    },
+    {
+      "path": "server/tests/authoredSpellDefinitions.test.js",
+      "entry": "6a2f58f23d9217fc8eddf6af81d6de7f63f2232d29b519156f05fbca74037aa4",
+      "delivery": "6a2f58f23d9217fc8eddf6af81d6de7f63f2232d29b519156f05fbca74037aa4",
+      "now": "6a2f58f23d9217fc8eddf6af81d6de7f63f2232d29b519156f05fbca74037aa4",
+      "entryMatch": true,
+      "deliveryMatch": true
+    },
+    {
+      "path": "server/tests/fixtures/crA1aDefinitionVectors.json",
+      "entry": "e6a98a497308b8535538b9887435c9189127afa768b60cd8e01af31cd3c55bdb",
+      "delivery": "e6a98a497308b8535538b9887435c9189127afa768b60cd8e01af31cd3c55bdb",
+      "now": "e6a98a497308b8535538b9887435c9189127afa768b60cd8e01af31cd3c55bdb",
+      "entryMatch": true,
+      "deliveryMatch": true
+    },
+    {
+      "path": "server/services/actorConsequences.js",
+      "entry": "c49a75e808435074eb498aed9ba7c79915e6e62156c4fffe0f8f8c1aa18c307a",
+      "delivery": "c49a75e808435074eb498aed9ba7c79915e6e62156c4fffe0f8f8c1aa18c307a",
+      "now": "c49a75e808435074eb498aed9ba7c79915e6e62156c4fffe0f8f8c1aa18c307a",
+      "entryMatch": true,
+      "deliveryMatch": true
+    },
+    {
+      "path": "server/services/spellPayments.js",
+      "entry": "b3d8194a9cb39286980b81f5b0deb2f4e4c6521e824373d4ce0d64e3ce9bd208",
+      "delivery": "b3d8194a9cb39286980b81f5b0deb2f4e4c6521e824373d4ce0d64e3ce9bd208",
+      "now": "b3d8194a9cb39286980b81f5b0deb2f4e4c6521e824373d4ce0d64e3ce9bd208",
+      "entryMatch": true,
+      "deliveryMatch": true
+    },
+    {
+      "path": "server/services/strikeApprovals.js",
+      "entry": "cb1333eb286d51e70a0ad4ea6d612fa66dfa0a12c3cdcc1d1fe496cacf893f61",
+      "delivery": "cb1333eb286d51e70a0ad4ea6d612fa66dfa0a12c3cdcc1d1fe496cacf893f61",
+      "now": "cb1333eb286d51e70a0ad4ea6d612fa66dfa0a12c3cdcc1d1fe496cacf893f61",
+      "entryMatch": true,
+      "deliveryMatch": true
+    },
+    {
+      "path": "server/services/blockApprovals.js",
+      "entry": "d40d1e9cce4516475b1751aca31a3cd2d8d22e7fa4a621bb4ef769cb4d71d3d4",
+      "delivery": "d6f3c56e5d98a70606bf347eead7ba37678c5e5b1ef8f7019019926d5e19d99d",
+      "now": "d6f3c56e5d98a70606bf347eead7ba37678c5e5b1ef8f7019019926d5e19d99d",
+      "entryMatch": false,
+      "deliveryMatch": true
+    },
+    {
+      "path": "server/handlers/actorConsequenceHandlers.js",
+      "entry": "a7723378cdd042e9546e8ac7c3396fef2bb4596021533ab1d8333ea899e7fefd",
+      "delivery": "aa615bcc7156fad1d499956abd4cb99180ee26f2e1c07d772f996233fdf29ccf",
+      "now": "aa615bcc7156fad1d499956abd4cb99180ee26f2e1c07d772f996233fdf29ccf",
+      "entryMatch": false,
+      "deliveryMatch": true
+    },
+    {
+      "path": "server/handlers/socketHandlers.js",
+      "entry": "2b44cc7f716e9cbc0aeb7b5fa4c1c967a928740d85317e8df0e6d300a2836aa9",
+      "delivery": "2b44cc7f716e9cbc0aeb7b5fa4c1c967a928740d85317e8df0e6d300a2836aa9",
+      "now": "2ec1d60a7238cc0a0eeb55babf0d25d5ebd9697363294c5866cd766966075900",
+      "entryMatch": false,
+      "deliveryMatch": false
+    },
+    {
+      "path": "server/services/roomAuthorityService.js",
+      "entry": "7395b0bb4ea0edf5fbf2767e138dadca2b123569848539568ae95b4e5660116c",
+      "delivery": "7395b0bb4ea0edf5fbf2767e138dadca2b123569848539568ae95b4e5660116c",
+      "now": "7395b0bb4ea0edf5fbf2767e138dadca2b123569848539568ae95b4e5660116c",
+      "entryMatch": true,
+      "deliveryMatch": true
+    },
+    {
+      "path": "server/services/roomCheckpoint.js",
+      "entry": "3eea1acb33cfa26d9b3f401ff82c4c93e113c9d8def54a7eece70badcc5ee07f",
+      "delivery": "3eea1acb33cfa26d9b3f401ff82c4c93e113c9d8def54a7eece70badcc5ee07f",
+      "now": "3eea1acb33cfa26d9b3f401ff82c4c93e113c9d8def54a7eece70badcc5ee07f",
+      "entryMatch": true,
+      "deliveryMatch": true
+    },
+    {
+      "path": "server/services/syncService.js",
+      "entry": "e49905bf64b350fea900125c94e34320ccc69e1ed2efe04c5b403418ef3102c4",
+      "delivery": "e49905bf64b350fea900125c94e34320ccc69e1ed2efe04c5b403418ef3102c4",
+      "now": "e49905bf64b350fea900125c94e34320ccc69e1ed2efe04c5b403418ef3102c4",
+      "entryMatch": true,
+      "deliveryMatch": true
+    },
+    {
+      "path": "server/services/firebaseService.js",
+      "entry": "40ea0af4ba9224cd901c3beb06f649a9aaed8b435e73e71ac83e474a2ac0676f",
+      "delivery": "40ea0af4ba9224cd901c3beb06f649a9aaed8b435e73e71ac83e474a2ac0676f",
+      "now": "40ea0af4ba9224cd901c3beb06f649a9aaed8b435e73e71ac83e474a2ac0676f",
+      "entryMatch": true,
+      "deliveryMatch": true
+    },
+    {
+      "path": "server/tests/p9SpellConsequences.production.test.js",
+      "entry": "5a4acd5f5a9bf8e9ec64bc1b4b73118c9e5a46e442f3607b7ba6e3150f02a923",
+      "delivery": "5a4acd5f5a9bf8e9ec64bc1b4b73118c9e5a46e442f3607b7ba6e3150f02a923",
+      "now": "5a4acd5f5a9bf8e9ec64bc1b4b73118c9e5a46e442f3607b7ba6e3150f02a923",
+      "entryMatch": true,
+      "deliveryMatch": true
+    },
+    {
+      "path": "server/tests/p12aWeaponStrike.production.test.js",
+      "entry": "69e756c945545a840dc26a4b1977964f892e96374905a9db1bc59404ba363bc0",
+      "delivery": "69e756c945545a840dc26a4b1977964f892e96374905a9db1bc59404ba363bc0",
+      "now": "69e756c945545a840dc26a4b1977964f892e96374905a9db1bc59404ba363bc0",
+      "entryMatch": true,
+      "deliveryMatch": true
+    },
+    {
+      "path": "server/tests/p12bBlockWear.production.test.js",
+      "entry": "b43683a7ac60843ac05fb1872bb9d3a2ae04479a3764046c12401b77c58439dc",
+      "delivery": "00ade31d9d9a70d7364fafa877f7a53a27b2602e434d879f88daed271e72b34f",
+      "now": "c5e597739a8de9c1f9cb0791f848980e6db022b95834b74be43857fd5e51c178",
+      "entryMatch": false,
+      "deliveryMatch": false
+    },
+    {
+      "path": "vtt-react/src/components/spellcrafting-wizard/components/steps/Step5Resources.jsx",
+      "entry": "6120e2b6d7af6ecf8c4692a2d13626dcc6fac036e4345500e8a19fe0b5b37431",
+      "delivery": "6120e2b6d7af6ecf8c4692a2d13626dcc6fac036e4345500e8a19fe0b5b37431",
+      "now": "6120e2b6d7af6ecf8c4692a2d13626dcc6fac036e4345500e8a19fe0b5b37431",
+      "entryMatch": true,
+      "deliveryMatch": true
+    },
+    {
+      "path": "vtt-react/src/components/spellcrafting-wizard/core/mechanics/resourceManager.js",
+      "entry": "ea27eb2c0bb6cfadd229c5407c652d0d44c67593a36d1f890c114ca3c28b4605",
+      "delivery": "ea27eb2c0bb6cfadd229c5407c652d0d44c67593a36d1f890c114ca3c28b4605",
+      "now": "ea27eb2c0bb6cfadd229c5407c652d0d44c67593a36d1f890c114ca3c28b4605",
+      "entryMatch": true,
+      "deliveryMatch": true
+    },
+    {
+      "path": "vtt-react/src/components/spellcrafting-wizard/core/utils/spellSerializer.js",
+      "entry": "b960862958d5752e06dbbcde7390b6243ea6bb01642ef97a7a364b7bf5dfaa5f",
+      "delivery": "b960862958d5752e06dbbcde7390b6243ea6bb01642ef97a7a364b7bf5dfaa5f",
+      "now": "b960862958d5752e06dbbcde7390b6243ea6bb01642ef97a7a364b7bf5dfaa5f",
+      "entryMatch": true,
+      "deliveryMatch": true
+    },
+    {
+      "path": "vtt-react/src/data/classes/index.js",
+      "entry": "6511efa7146619cef3308be5e843aef2a4028174a6df9f6811f4cf848de1eee2",
+      "delivery": "6511efa7146619cef3308be5e843aef2a4028174a6df9f6811f4cf848de1eee2",
+      "now": "76336625cb606dd332b1d17eb587b04a0b7a7eb316e52353f5c601e973c8b732",
+      "entryMatch": false,
+      "deliveryMatch": false
+    },
+    {
+      "path": "vtt-react/src/data/classHeritageRegistry.js",
+      "entry": "6e2843e933c7ca954ec8ef24e0c18f52d7df618e9b02462f0a3a7529013d127d",
+      "delivery": "6e2843e933c7ca954ec8ef24e0c18f52d7df618e9b02462f0a3a7529013d127d",
+      "now": "29d8d2217132f20d7077f645d66f0fb237a18f8f92542e60ecbf5c9433dce61f",
+      "entryMatch": false,
+      "deliveryMatch": false
+    },
+    {
+      "path": "vtt-react/src/data/talentTreeData.js",
+      "entry": "128e326be0d329d0a250ddf462695b116effe52db130eaf66c01883c27174171",
+      "delivery": "128e326be0d329d0a250ddf462695b116effe52db130eaf66c01883c27174171",
+      "now": "7586100fd8c30a47b7ad0dfebec82a7858458744e12ecf40601450063ee27e32",
+      "entryMatch": false,
+      "deliveryMatch": false
+    },
+    {
+      "path": "vtt-react/src/components/rules/ClassesDisplay.jsx",
+      "entry": "a996fd0db15da1443300b1930f04b0c8a12cfecf7a29c421ef3beb3d88249fdb",
+      "delivery": "092d30e652eadaef920e80c9b9413ac83b2d881a0c02a0137fad4efecb631ca7",
+      "now": "86a4fc163696657e824135dc3333051082029fc79eba6111140c29389cff3f48",
+      "entryMatch": false,
+      "deliveryMatch": false
+    },
+    {
+      "path": "docs/plans/mythrill-class-reconstruction/implementation/evidence/CR-A1a-independent-review/review.md",
+      "entry": "c5d81a1bb0a2e82938c0c0068b2f64939e4059cb018a2a9f6af2e4b762d41ddd",
+      "delivery": "c5d81a1bb0a2e82938c0c0068b2f64939e4059cb018a2a9f6af2e4b762d41ddd",
+      "now": "c5d81a1bb0a2e82938c0c0068b2f64939e4059cb018a2a9f6af2e4b762d41ddd",
+      "entryMatch": true,
+      "deliveryMatch": true
+    },
+    {
+      "path": "docs/plans/mythrill-class-reconstruction/implementation/evidence/CR-A1a-independent-review/independent-probes.cjs",
+      "entry": "79e9140eb3092b8c14a4f7c7efbcbd3e72cdfe32acf2a0564ebbadb6bdcc28f4",
+      "delivery": "79e9140eb3092b8c14a4f7c7efbcbd3e72cdfe32acf2a0564ebbadb6bdcc28f4",
+      "now": "79e9140eb3092b8c14a4f7c7efbcbd3e72cdfe32acf2a0564ebbadb6bdcc28f4",
+      "entryMatch": true,
+      "deliveryMatch": true
+    }
+  ]
+}

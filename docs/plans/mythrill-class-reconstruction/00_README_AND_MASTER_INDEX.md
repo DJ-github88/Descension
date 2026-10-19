@@ -1,8 +1,10 @@
 # Mythrill — Great Class Reconstruction
 
-**Status: seven core directions accepted for prototype development; CR-W1a/W1b/CR-A1a handoff contracts frozen. Exact tuning, abilities, specializations and natives remain provisional. Original master assignment INCOMPLETE. Application implementation/migration is not authorized.**
+**Current status (2026-10-18): creator-directed strategy reset. Stop per-class workshop delivery; implement the actual roster in bounded cohorts using the established class system. Completed C1 re-review is [BLOCK](implementation/evidence/CLASS-C1-chaos-weaver/independent-rereview/review.md) (B1–B7); its97-record/54-node content, rules and SVG are preserved for [RI-1 — Chaos Weaver repair and established-system integration](implementation/RI-1-CHAOS-WEAVER-INTEGRATION.md), directly executable by DeepSeek. Full schedule: [34 — Roster integration cohorts](34_ROSTER_INTEGRATION_COHORTS.md). Shared engine remains with Main Mythrill HeadQ.**
 
-**Current handoff:** [prototype acceptance and frozen execution order](32_FROZEN_HANDOFF_AND_PROTOTYPE_ACCEPTANCE.md), [CR-W1a](implementation/CR-W1a-ZERO-AP.md), [CR-W1b](implementation/CR-W1b-RESOURCE-COST-ROUNDTRIP.md), [CR-A1a](implementation/CR-A1a-DEFINITION-INFRASTRUCTURE.md). Infrastructure can be prepared independently; end-to-end Wizard acceptance needs both price corrections. No implementation work has been performed.
+**Current handoff:** [34 — Roster integration cohorts](34_ROSTER_INTEGRATION_COHORTS.md) and [RI-1 executable contract](implementation/RI-1-CHAOS-WEAVER-INTEGRATION.md). Earlier [33](33_CLASS_DELIVERY_RESET_AND_ENGINE_HANDOFF.md), [CLASS-C1](implementation/CLASS-C1-CHAOS-WEAVER.md), [32](32_FROZEN_HANDOFF_AND_PROTOTYPE_ACCEPTANCE.md) and W1/A1a contracts are preserved; A1a's final evidence remains correction plus verification.
+
+**Latest creator decisions:** implement through actual registration/detail/spells/pools/progression/talents/HUD/heritage; Gambit→Gambler/Fate Weaver/Chaos Weaver; Augur merges into Fate Weaver; Harbinger→Doomsayer; Oracle independent; Revenant→Deathcaller/Lichborne; Druid is the transformation name; Hunter preferred Apex direction; Animist retained under review. Legacy characters stay compatible through explicit non-converting mappings.
 
 **Current review entry point:** [Class HeadQ decision packet](30_CLASS_HEADQ_DECISION_PACKET.md). It contains the compact seven-class comparison, recommended rules/origins, remaining creator choices, blockers, exact original-assignment gaps and proposed next technical contract. The first investigation checkpoint is preserved; do not restart it.
 
@@ -62,6 +64,8 @@ Read the [frozen handoff](32_FROZEN_HANDOFF_AND_PROTOTYPE_ACCEPTANCE.md) first, 
 | [30 HeadQ decision packet](30_CLASS_HEADQ_DECISION_PACKET.md) | Current review deliverable; choices, blockers, unfinished original work and next contract |
 | [31 Druid naming decision](31_CREATOR_NAMING_DECISION_DRUID.md) | Creator-approved player-facing name/principle only; earlier alternatives superseded; no mechanics or migration approval |
 | [32 Prototype acceptance/frozen handoff](32_FROZEN_HANDOFF_AND_PROTOTYPE_ACCEPTANCE.md) | Core directions accepted for prototypes; three exact bounded contracts; independence/exact-price integration gate; original backlog retained |
+| [33 Delivery reset/HeadQ handoff](33_CLASS_DELIVERY_RESET_AND_ENGINE_HANDOFF.md) | Retained engine boundary; per-class workshop delivery superseded by34 |
+| [34 Roster integration cohorts](34_ROSTER_INTEGRATION_COHORTS.md) | Active creator strategy: established-system cohorts, compatibility mappings and [RI-1](implementation/RI-1-CHAOS-WEAVER-INTEGRATION.md) |
 
 ## Priority class design drafts
 

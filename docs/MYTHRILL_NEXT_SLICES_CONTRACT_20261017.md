@@ -1,12 +1,44 @@
 # Next slices after P12B — proposed contracts (awaiting HQ approval)
 
-2026-10-17 · **Status: PROPOSED. Nothing here is authorized or implemented.** Checkout `D:/VTT`
+**Latest 2026-10-19:** **P13B-W collection delivered**, bounded independent source/final delta review
+accepted and integrated Build3/App4 verified. [Exact handoff/limits](MYTHRILL_PROJECT_13B_CONTRACT.md#11-w-implementation-and-integrated-handoff--2026-10-19).
+No reaction payment/reservation/roll/effect execution; GM manual resolution remains explicit. Proposed
+E1a original Riposte AP/HP execution needs its own contract/go-ahead. Older blanket W-preparation-only
+status below is superseded; B2 acceptance remains unchanged and was not rerun.
+
+**Latest 2026-10-18:** creator approved G1/G3/G3a/G5, froze/authorized **B2 §8.1 only**, and that
+Radiant Burst circle/channel subset is implemented, independently source-reviewed and final build3/
+App7 verified. [B2 §15](MYTHRILL_PROJECT_12C_B2_CONTRACT.md#15-first-slice-implementation-and-verification--2026-10-18)
+has exact evidence/limits. Wider B2, obstruction enforcement, P13B execution and area execution remain conditional;
+earlier blanket preparation-only statements here do not reopen the completed subset.
+
+2026-10-17 · **Status (2026-10-18): P12B-r1, P13A and P12C-B1 authorized by HQ, frozen as
+[P12 rev 5 §3.9](MYTHRILL_PROJECT_12_CONTRACT.md), [P13A](MYTHRILL_PROJECT_13A_CONTRACT.md) and
+[P12C-B1](MYTHRILL_PROJECT_12C_B1_CONTRACT.md) with HQ's amendments, implemented and reviewed. Those
+frozen contracts win where they differ from this proposal. P12C-B2, P13B and area execution remain
+preparation only.** Checkout `D:/VTT`
 (uncommitted P12A/P12B work preserved). Builds on: [ENGINEERING_STATE.md](ENGINEERING_STATE.md),
 [MYTHRILL_P11_P14_ROADMAP.md](MYTHRILL_P11_P14_ROADMAP.md) (§11 records the allocation below),
 [MYTHRILL_PROJECT_12_CONTRACT.md](MYTHRILL_PROJECT_12_CONTRACT.md) rev 4,
 [MYTHRILL_PROJECT_12B_IMPLEMENTATION.md](MYTHRILL_PROJECT_12B_IMPLEMENTATION.md).
 Approved decisions are not reopened (C1/D-E and everything confirmed earlier). No AC, no
 numerical homogenization, no generic resource scalar.
+
+**Preparation continuation, 2026-10-18 (actual checkout HEAD `8ba81efbf935e08d4fcd488a9b597f5eb8031b0f`):**
+[P12C-B2 conditional draft](MYTHRILL_PROJECT_12C_B2_CONTRACT.md),
+[P13B conditional draft with cases A–D](MYTHRILL_PROJECT_13B_CONTRACT.md) and the existing
+[creator packet, now rev2](MYTHRILL_DECISIONS_AREA_AND_REACTIONS_BATCH1.md) are complete as preparation.
+No implementation or new creator decision is approved. These drafts replace the B2 sketch and earlier
+reaction suggestions as the current preparation objects. Shared dependencies/owners are in
+[coordination](MYTHRILL_CROSS_TRACK_COORDINATION.md); current class handoff33 parks A1b. The original
+proposal/research below is retained history: its “approve to implement” asks for the three completed
+slices and its proposed defaults are not new pending assignments or approvals.
+
+**Creator addition incorporated:** [B2 §9–§13](MYTHRILL_PROJECT_12C_B2_CONTRACT.md#9-targeting-and-propagation-coverage-matrix)
+contains the bounded all-type coverage matrix, per-mode propagation gaps, save-path findings/examples
+and recommended sequence. Selection/delivery/propagation/application are distinct. B2 remains static
+preview; actual reaction moments require P13B, multi-recipient effects P14, persistent/delayed/linked
+recipients named lifecycle follow-ons. No expansion of the implementation authorization.
 
 ## 0. Boundary for approval
 
@@ -15,8 +47,8 @@ numerical homogenization, no generic resource scalar.
 | 1 | **P12B-r1** | Recorded rolls survive the same-creature stale offer; no free rerolls | No (S1 has a safe default) | **Approve to implement** |
 | 2 | **P13A** | Accepted-result narration and calm floating combat text | No (consumes receipts only) | **Approve to implement** |
 | 3 | **P12C-B1** | Map targeting for the existing single-target controllers | No (advisory range, GM adjudicates as today) | **Approve to implement** |
-| — | P12C-B2 | Authored area-template preview, visibly manual | G1–G5 for anything beyond "ambiguous" | Prepare only |
-| — | P13B | Reaction windows and chains | D13-1…D13-8 | Own contract later |
+| — | P12C-B2 | Authored area-template preview, visibly manual | Explicit geometry policies/manual subset in the B2 draft | **Conditional draft prepared; not frozen** |
+| — | P13B | Reaction windows and chains | Policy/card/payment/privacy boundaries in the P13B draft | **Conditional draft prepared; not frozen** |
 | — | P14 | Area/multi-target consequences | G1–G5, D14-3, P7 N-actor question | Later |
 
 One slice at a time, each with its own bounded independent review. All three approved slices are
@@ -266,6 +298,12 @@ A highlighted token is a candidate, not a valid target and not an applied result
 
 ### 3.5 B2 (prepare only): authored area preview, still manual
 
+**Continuation:** this original sketch is expanded and qualified by
+[the complete B2 conditional draft](MYTHRILL_PROJECT_12C_B2_CONTRACT.md), including independent
+boundary-contact/gridless/source-anchor questions, explicit dimensions, malformed-data/manual fallbacks,
+visible-only output and identity changes. That draft wins over shorthand “inside”/range assertions here.
+G1/G3/G4/G5 remain recommendations, not approved conventions; G2/G6 remain manual.
+
 Shape and size from `aoeShape`/`aoeParameters`; origin bound to the source for `self_centered`,
 placed within the card range for `ranged`; membership computed over the viewer's **visible** tokens
 only; tokens shown as "inside" or "edge — GM decides"; nothing posted, rolled, spent or executed;
@@ -303,6 +341,9 @@ their custody modules for the roll-time draft. No server change.
 
 ## 4. Decisions to make (new, small, player-facing)
 
+Current compact questions/dependencies: [packet rev2](MYTHRILL_DECISIONS_AREA_AND_REACTIONS_BATCH1.md).
+The original table below is retained proposal history; S1/F1 remain open and no default is adopted.
+
 | # | For | Question | Default until decided |
 |---|---|---|---|
 | S1 | P12B-r1 | Ilse rolled a 1 to block, then unequipped her chest piece before the GM resolved. Should the attack resolve as **Don't block**, or does the GM decide each time? | GM decides; never a new roll |
@@ -320,3 +361,9 @@ wild combat-text animation; it is not a new question.
 - The device shell was unavailable in this session, so **no tests or witnesses were run**; every
   finding is source reading. Data counts come from HEAD and may differ slightly from the live tree.
 - No production file was changed. No commit, push or deployment.
+
+**2026-10-18 continuation evidence:** the live checkout and source owners were inspected directly in
+`D:/VTT` for the two new conditional drafts; the earlier unavailable-shell/read-only-clone limitation
+above applies only to the original preparation. Current source facts are in B2 §2–§3 and P13B §1–§4.
+Retained closure reports were reused, not rerun. Documentation changes only; current HEAD and pre-existing
+uncommitted changes are recorded in B2 §2 and ENGINEERING_STATE. No application implementation.

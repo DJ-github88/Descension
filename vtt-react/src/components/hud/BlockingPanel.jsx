@@ -68,6 +68,15 @@ function OfferCard({ offer, piece }) {
     {error && <p role="alert">{error}</p>}
   </article>;
 }
+/** P12B-r1 (§3.9 R4): closed attacks keep their recorded outcome; visible to the GM and the target's owner. */
+const CLOSED_WORDS = { consumed: 'applied', voided: 'voided by the GM', withdrawn: 'block roll withdrawn', withdrawn_by_gm: 'offer withdrawn by the GM', invalidated: 'closed (could no longer apply)' };
+function ClosedAttacks() {
+  const closed = useBlockingStore(s => s.closedOffers) || [];
+  const shown = closed.filter(c => c.code !== 'consumed').slice(-4);
+  if (!shown.length) return null;
+  return <details className="p12b-closed"><summary>Closed attacks ({shown.length})</summary><ul>{shown.map(c => <li key={c.commandId}>
+    {c.ability?.name}: attack [{(c.attackRoll?.faces || []).join(', ')}] · {c.outcome}{c.block ? ` · block face ${c.block.face} on ${c.block.slot} ${c.block.die}` : ''} — {CLOSED_WORDS[c.code] || c.code}. Cannot be rolled again.</li>)}</ul></details>;
+}
 function OwnerDialog({ onClose }) {
   const view = useBlockingStore(s => s.ownView), offers = useBlockingStore(s => s.offers), status = useBlockingStore(s => s.ownerStatus), notice = useBlockingStore(s => s.notice);
   const custody = useCharacterStore(s => s.roomEquipmentCustody);
@@ -98,6 +107,7 @@ function OwnerDialog({ onClose }) {
       {notice?.capacity && <p role="alert">Equipment custody is full of unresolved items from other rooms or attachments; wear from this room cannot be recorded on your sheet until they are resolved.</p>}
       {!!pending.length && <p role="status">A broken piece stays equipped (inert) until your pack has room. <button type="button" onClick={() => perform(async() => settleUnequip())}>Move broken piece to pack</button></p>}
       <DeclarationEditor declaration={view?.declaration} />
+      <ClosedAttacks />
       {saved?.declaration && ['unknown', 'submitting'].includes(saved.declaration.phase) && <button type="button" disabled={busy} onClick={() => perform(checkDeclaration)}>Check same declaration</button>}
       {saved?.owner?.approval && ['awaiting', 'unknown', 'prepared'].includes(saved.owner.phase) && <div className="p12-actions">
         <button type="button" disabled={busy} onClick={() => perform(checkBlockApproval)}>Check same block roll</button>
@@ -136,15 +146,29 @@ function GmPendingCard({ entry }) {
   const { approval } = entry;
   const offer = useBlockingStore(s => s.gmOffers[approval.attack.commandId]);
   const status = useBlockingStore(s => s.gmStatus[approval.attack.commandId]);
-  const [manual, setManual] = useState({}), [final, setFinal] = useState(''), [reason, setReason] = useState(''), [plan, setPlan] = useState(null);
+  const [manual, setManual] = useState({}), [final, setFinal] = useState(''), [reason, setReason] = useState(''), [plan, setPlan] = useState(null), [why, setWhy] = useState('');
   const { busy, error, perform } = usePerform();
   const required = offer ? requiredManual(offer.attack) : [];
   const draft = () => ({ manual: Object.entries(manual).filter(([, v]) => v.on).map(([category, v]) => ({ category, note: v.note || '' })), finalAmount: final === '' ? undefined : final, reason });
   const locked = ['submitting', 'unknown'].includes(status?.phase);
+  // P12B-r1 (§3.9): stale state never re-rolls. The GM confirms the recorded rolls or voids.
+  const revalidate = status?.phase === 'revalidate', blockRuling = status?.phase === 'blockRuling';
+  const changes = status?.details?.changes;
+  const pool = (label, value) => value ? `${label} ${value.before?.current ?? '?'}${value.before?.temp ? `+${value.before.temp}` : ''} → ${value.now?.current ?? '?'}${value.now?.temp ? `+${value.now.temp}` : ''}` : null;
   return <article className="p12-gm-card" aria-label="Pending block roll">
     <h4>{offer ? `${offer.attack.ability.name}: ${offer.attack.proposedDamage} ${offer.attack.damageType} (${offer.attack.outcome})` : 'Block roll'}</h4>
     <p>Owner rolled <strong>{approval.roll.faces[0]}</strong> ({approval.roll.mode}) on {approval.blocking.die} · slot {approval.blocking.slot}</p>
-    <button type="button" disabled={busy} onClick={() => perform(async() => setPlan((await gmPlanBlock(approval.approvalId, draft())).preview))}>Review block</button>
+    {revalidate && <section className="p12b-ruling" aria-label="Attack revalidation">
+      <p role="status">{status.message}</p>
+      {changes && <p className="p12-meta">Changed since the offer: {[pool('HP', changes.hp), pool('mana', changes.mana), pool('AP', changes.ap)].filter(Boolean).join(' · ')}{changes.conditionsChanged ? ' · conditions changed' : ''}{status.details?.reason === 'history_unavailable' ? ' · full history unavailable' : ''}</p>}
+      <label>Why the recorded rolls still stand (public, required) <input maxLength={300} value={why} onChange={e => setWhy(e.target.value)} /></label>
+      <button type="button" disabled={busy || !why.trim()} onClick={() => perform(() => gmAcceptBlock(approval.approvalId, { ...draft(), revalidation: { reason: why } }))}>Recorded rolls still stand — apply</button>
+    </section>}
+    {blockRuling && <section className="p12b-ruling" aria-label="Block ruling">
+      <p role="status">{status.message}</p>
+      {status.details?.recorded && <p className="p12-meta">Recorded: face {status.details.recorded.face} on {status.details.recorded.slot} {status.details.recorded.die} (revision {status.details.recorded.revision}) · now: {status.details.current ? `${status.details.current.slot} ${status.details.current.die} (revision ${status.details.current.revision})` : 'unavailable'}</p>}
+    </section>}
+    <button type="button" disabled={busy} onClick={() => perform(async() => setPlan((await gmPlanBlock(approval.approvalId, draft())).preview))}>{blockRuling ? 'Check the recorded piece again' : 'Review block'}</button>
     {plan && <p>{plan.piece.name}: face {plan.face}{plan.defending ? ' × 2 (Defending)' : ''} = {plan.reduction} → after block <strong>{plan.afterBlock}</strong>; wear {plan.piece.currentDie} → {plan.broken ? 'broken' : plan.afterDie}</p>}
     <fieldset disabled={busy || locked}><legend>GM rulings (not automated)</legend>
       {MANUAL.map(category => <div key={category}><label><input type="checkbox" checked={!!manual[category]?.on || false} onChange={e => setManual(m => ({ ...m, [category]: { ...m[category], on: e.target.checked } }))} />
@@ -154,8 +178,8 @@ function GmPendingCard({ entry }) {
       <label>Adjustment reason (public; required if different) <input maxLength={2000} value={reason} onChange={e => setReason(e.target.value)} /></label>
     </fieldset>
     <div className="p12-actions">
-      <button type="button" disabled={busy || locked} onClick={() => perform(() => gmAcceptBlock(approval.approvalId, draft()))}>Confirm and apply</button>
-      <button type="button" disabled={busy || locked} onClick={() => perform(() => gmDeclineBlock(approval.approvalId))}>Decline block</button>
+      {!blockRuling && !revalidate && <button type="button" disabled={busy || locked} onClick={() => perform(() => gmAcceptBlock(approval.approvalId, draft()))}>Confirm and apply</button>}
+      <button type="button" disabled={busy || locked} onClick={() => perform(() => gmDeclineBlock(approval.approvalId))}>{blockRuling ? 'Void block roll — resolve HP by hand' : 'Void attack (nothing applied)'}</button>
       {status?.command && <button type="button" disabled={busy} onClick={() => perform(() => gmCheckBlockCommand(approval.attack.commandId))}>Check same command</button>}
     </div>
     {status?.message && <p role="status">{status.message}</p>}{error && <p role="alert">{error}</p>}
@@ -168,7 +192,7 @@ export default function BlockingHost() {
   const gmPending = useBlockingStore(s => s.gmPending), gmOffers = useBlockingStore(s => s.gmOffers), gmStatus = useBlockingStore(s => s.gmStatus);
   const projection = useCharacterStore(s => s.roomActorProjection);
   useEffect(() => {
-    useBlockingStore.setState({ ownView: null, offers: {}, ownerStatus: null, gmOffers: {}, gmPending: {}, gmStatus: {}, gmViews: {}, notice: null });
+    useBlockingStore.setState({ ownView: null, offers: {}, ownerStatus: null, gmOffers: {}, gmPending: {}, gmStatus: {}, gmViews: {}, notice: null, closedOffers: [] });
     if (shared && uid && roomId) { refreshBlockLists(); if (!isGM) refreshOwnBlocking(); }
   }, [shared, uid, roomId, socket, isGM]);
   useEffect(() => { if (shared && !isGM && projection) refreshOwnBlocking(); }, [shared, isGM, projection?.ref?.instanceId]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -185,7 +209,8 @@ export default function BlockingHost() {
         <p>Waiting for the owner’s block roll: {o.attack.ability.name} ({o.attack.proposedDamage} {o.attack.damageType})</p>
         <button type="button" onClick={() => gmCancelOffer(o.commandId)}>Withdraw offer</button></article>)}
       {Object.values(gmPending).map(entry => <GmPendingCard key={entry.approval.approvalId} entry={entry} />)}
-      {Object.entries(gmStatus).filter(([id, s]) => !gmOffers[id] && ['accepted', 'unknown', 'refused'].includes(s.phase)).slice(-4).map(([id, s]) => <article key={id} className="p12-gm-card" role="status">
+      <ClosedAttacks />
+      {Object.entries(gmStatus).filter(([id, s]) => !gmOffers[id] && ['accepted', 'unknown', 'refused', 'voided'].includes(s.phase)).slice(-4).map(([id, s]) => <article key={id} className="p12-gm-card" role="status">
         <p>{s.message}</p>{s.phase === 'unknown' && <button type="button" onClick={() => gmCheckBlockCommand(id)}>Check same command</button>}</article>)}
     </section>}
   </>;

@@ -5,7 +5,7 @@ export const ENRICHED_CONSUMABLES = [
   type: 'consumable',
   subtype: 'POTION',
   quality: 'uncommon',
-  description: 'A warming potion that coats your skin in protective ash. Grants resistance to fire and heat, but leaves you sluggish and drowsy.',
+  description: 'A warming potion that coats your skin in protective ash. Grants resistance to ember and heat, but leaves you sluggish and drowsy.',
   iconId: 'Misc/Profession Resources/Alchemy/Red/red-potion-bottle-classic-squat-bulbous-rounded-body-narrower-neck-diagonal-bright-deep-red-liquid-two-thirds-light-beige-cream-glass-dark-brown-cylindrical-cork',
   value: { gold: 1, silver: 0, copper: 0 },
   stackable: true,
@@ -32,7 +32,7 @@ export const ENRICHED_CONSUMABLES = [
   type: 'consumable',
   subtype: 'ELIXIR',
   quality: 'uncommon',
-  description: 'An elixir that slows your heartbeat to near-freezing. Grants cold resistance, but weakens your physical strikes.',
+  description: 'An elixir that slows your heartbeat to near-freezing. Grants rime resistance, but weakens your physical strikes.',
   iconId: 'Misc/Profession Resources/Alchemy/Blue/blue-potion-bottle-classic-shape',
   value: { gold: 1, silver: 0, copper: 0 },
   stackable: true,
@@ -42,7 +42,7 @@ export const ENRICHED_CONSUMABLES = [
   rotation: 0,
   combatStats: {
    resistances: {
-    cold: { value: 10, isPercentage: false, duration: 300 }
+    rime: { value: 10, isPercentage: false, duration: 300 }
    }
   },
   baseStats: {
@@ -121,11 +121,13 @@ export const ENRICHED_CONSUMABLES = [
   rotation: 0,
   combatStats: {
    resistances: {
-    physical: { value: 5, isPercentage: false, duration: 300 },
+    smashing: { value: 5, isPercentage: false, duration: 300 },
+    stabbing: { value: 5, isPercentage: false, duration: 300 },
+    slicing: { value: 5, isPercentage: false, duration: 300 },
     ember: { value: 5, isPercentage: false, duration: 300 },
-    cold: { value: 5, isPercentage: false, duration: 300 },
+    rime: { value: 5, isPercentage: false, duration: 300 },
     storm: { value: 5, isPercentage: false, duration: 300 },
-    shadow: { value: 5, isPercentage: false, duration: 300 }
+    wyrd: { value: 5, isPercentage: false, duration: 300 }
    }
   },
   baseStats: {
@@ -225,7 +227,7 @@ export const ENRICHED_CONSUMABLES = [
   type: 'consumable',
   subtype: 'SCROLL',
   quality: 'rare',
-  description: 'A scroll containing the essence of an Iceheart Sea blizzard. Unleashes cold damage and boosts cold spellpower, but freezes the user briefly.',
+  description: 'A scroll containing the essence of an Iceheart Sea blizzard. Unleashes rime damage and boosts rime spellpower, but freezes the user briefly.',
   iconId: 'Misc/Books/book-scroll-rolled-red-wax-seal',
   value: { gold: 4, silver: 0, copper: 0 },
   stackable: true,
@@ -236,7 +238,7 @@ export const ENRICHED_CONSUMABLES = [
   combatStats: {
    spellDamage: {
     types: {
-     cold: { value: 10, isPercentage: false, duration: 600 },
+     rime: { value: 10, isPercentage: false, duration: 600 },
      storm: { value: 5, isPercentage: false, duration: 600 }
     }
    }
@@ -255,7 +257,7 @@ export const ENRICHED_CONSUMABLES = [
   type: 'consumable',
   subtype: 'ELIXIR',
   quality: 'rare',
-  description: 'A Vat-Breaker concoction that grants temporary immunity to disease and poison. The taste is unbearable.',
+  description: 'A Vat-Breaker concoction that grants temporary immunity to disease and blight. The taste is unbearable.',
   iconId: 'Misc/Profession Resources/Alchemy/Blue/teal-potion-magical',
   value: { gold: 3, silver: 50, copper: 0 },
   stackable: true,
@@ -265,8 +267,7 @@ export const ENRICHED_CONSUMABLES = [
   rotation: 0,
   combatStats: {
    resistances: {
-    blight: { value: 12, isPercentage: false, duration: 600 },
-    poison: { value: 12, isPercentage: false, duration: 600 }
+    blight: { value: 12, isPercentage: false, duration: 600 }
    }
   },
   baseStats: {
@@ -307,7 +308,7 @@ export const ENRICHED_CONSUMABLES = [
   type: 'consumable',
   subtype: 'SCROLL',
   quality: 'rare',
-  description: 'A scroll written in ink that absorbs light. Grants shadow spellpower and stealth, but weakens your connection to the sacred.',
+  description: 'A scroll written in ink that absorbs light. Grants wyrd spellpower and stealth, but weakens your connection to the sacred.',
   iconId: 'Misc/Books/book-scroll-rolled-red-wax-seal',
   value: { gold: 4, silver: 0, copper: 0 },
   stackable: true,
@@ -318,8 +319,7 @@ export const ENRICHED_CONSUMABLES = [
   combatStats: {
    spellDamage: {
     types: {
-     shadow: { value: 10, isPercentage: false, duration: 600 },
-     wyrd: { value: 5, isPercentage: false, duration: 600 }
+     wyrd: { value: 15, isPercentage: false, duration: 600 }
     }
    }
   },
@@ -399,7 +399,7 @@ export const ENRICHED_CONSUMABLES = [
   type: 'consumable',
   subtype: 'SCROLL',
   quality: 'epic',
-  description: 'A scroll that opens a window to the void between worlds. Grants incredible shadow and Wyrd power, but risks losing your mind to the darkness.',
+  description: 'A scroll that opens a window to the void between worlds. Grants incredible wyrd power, but risks losing your mind to the darkness.',
   iconId: 'Misc/Books/book-scroll-rolled-red-wax-seal',
   value: { gold: 10, silver: 0, copper: 0 },
   stackable: true,
@@ -410,8 +410,7 @@ export const ENRICHED_CONSUMABLES = [
   combatStats: {
    spellDamage: {
     types: {
-     shadow: { value: 15, isPercentage: false, duration: 300 },
-     wyrd: { value: 15, isPercentage: false, duration: 300 }
+     wyrd: { value: 30, isPercentage: false, duration: 300 }
     }
    }
   },

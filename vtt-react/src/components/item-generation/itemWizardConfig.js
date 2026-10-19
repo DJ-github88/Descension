@@ -642,6 +642,21 @@ export const COMBAT_STATS = {
         icon: 'Arcane/Enchanted Sword 2',
         description: 'Amount of action points restored (negative = drain)'
     },
+    smashingDamage: {
+        name: 'Smashing Damage',
+        icon: 'Bludgeoning/Hammer',
+        description: 'Additional smashing damage'
+    },
+    stabbingDamage: {
+        name: 'Stabbing Damage',
+        icon: 'Piercing/Scatter Shot',
+        description: 'Additional stabbing damage'
+    },
+    slicingDamage: {
+        name: 'Slicing Damage',
+        icon: 'Slashing/Bloody Meat Cleaver',
+        description: 'Additional slicing damage'
+    },
     piercingDamage: {
         name: 'Piercing Damage',
         icon: 'Piercing/Scatter Shot',

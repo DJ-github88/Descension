@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import useCharacterStore from '../../store/characterStore';
 import { migrateBlockId } from '../../utils/arcanoneerMigration';
@@ -6,7 +6,14 @@ import { normalizeManagedClassResource, getManagedSpellResourcePlan } from '../.
 import { MINSTREL_PITCHES, MINSTREL_MAX_PER_PITCH } from '../../data/classResourceBanks';
 import { spellDiagnostic } from '../../services/spellConsequenceService';
 import { strikeDiagnostic } from '../../services/weaponStrikeService';
+import { MANUAL_NOTE } from '../../services/manualActionGate';
 import './SpellCastConfirmation.css';
+import useSpellAoEStore from '../../store/spellAoEStore';
+import { RADIANT_BURST_ID, radiantPreviewProfile, previewFingerprint } from '../../services/areaPreview';
+import { ownerSource } from '../../services/spellConsequenceService';
+import { captureActorDelivery, currentActorDelivery } from '../../services/actorProjectionOrder';
+import { isPrivateProjectionIsolated } from '../../persistence/bootstrapPrivacyGate';
+import '../grid/ActionAreaPreview.css';
 
 const SpellCastConfirmation = ({ spell, onConfirm, onCancel, classResource: classResourceProp }) => {
     // Get current resources to check availability (hooks must be called unconditionally)
@@ -14,10 +21,28 @@ const SpellCastConfirmation = ({ spell, onConfirm, onCancel, classResource: clas
     const currentAP = useCharacterStore(state => state.actionPoints);
     const storeClassResource = useCharacterStore(state => state.classResource);
     const characterClass = useCharacterStore(state => state.class);
+    const [previewEffect, setPreviewEffect] = useState('damage');
+    const [previewError, setPreviewError] = useState('');
+    const previewButton = useRef(null);
+    const previewEntry = useRef({});
+    const preview = useSpellAoEStore(s => s.actionPreview);
+    const fingerprint = previewFingerprint(spell);
+    useEffect(() => {
+        const current = useSpellAoEStore.getState().actionPreview;
+        if (current?.entry === previewEntry.current && (current.action.id !== spell?.id ||
+            current.profile.fingerprint !== fingerprint || current.profile.effect !== previewEffect))
+            useSpellAoEStore.getState().endActionPreview();
+    }, [spell?.id, fingerprint, previewEffect]);
+    useEffect(() => {
+        const entry = previewEntry.current;
+        return () => {
+            if (useSpellAoEStore.getState().actionPreview?.entry === entry) useSpellAoEStore.getState().endActionPreview();
+        };
+    }, []);
     const resourceClass = classResourceProp?.type ? undefined : characterClass;
     const currentClassResource = normalizeManagedClassResource(classResourceProp || storeClassResource, resourceClass);
 
-    if (!spell) return null;
+    if (!spell || (preview?.placing && preview.action === spell)) return null;
     // P9: unsupported spells keep this manual path; shared rooms say why.
     const p9Diagnostic = strikeDiagnostic(spell) || spellDiagnostic(spell);
 
@@ -264,9 +289,30 @@ const SpellCastConfirmation = ({ spell, onConfirm, onCancel, classResource: clas
                 
                 <div className="spell-cast-confirmation-content">
                     {p9Diagnostic && (
-                        <div className="p9-manual-diagnostic" role="note">Manual — not applied to the room: {p9Diagnostic}</div>
+                        <div className="p9-manual-diagnostic" role="note">{MANUAL_NOTE} Reason: {p9Diagnostic}</div>
                     )}
                     <div className="spell-name">{spell.name || 'Unknown Spell'}</div>
+                    {p9Diagnostic && spell.id === RADIANT_BURST_ID && <div className="b2-entry">
+                        <label>Preview effect channel{' '}
+                            <select aria-label="Preview effect channel" value={previewEffect} onChange={event => setPreviewEffect(event.target.value)}>
+                                <option value="damage">Damage</option><option value="healing">Healing</option>
+                            </select>
+                        </label>
+                        <button type="button" ref={previewButton} onClick={() => {
+                            const profile = radiantPreviewProfile(spell, previewEffect), source = ownerSource();
+                            const context = captureActorDelivery();
+                            const error = profile.error || source.error ||
+                                (![source.token?.position?.x, source.token?.position?.y].every(Number.isFinite) && 'Manual geometry — source position is unavailable.') ||
+                                ((isPrivateProjectionIsolated() || !context.socket?.connected ||
+                                !currentActorDelivery(context, context.roomId)) && 'Current hydrated room connection required.');
+                            if (error) { setPreviewError(error); return; }
+                            setPreviewError('');
+                            useSpellAoEStore.getState().startActionPreview({ entry: previewEntry.current, action: spell, profile, sourceRef: source.ref, context,
+                                onReturn: () => requestAnimationFrame(() => previewButton.current?.focus()) });
+                        }}>Preview area</button>
+                        <p>Geometry only. No roll, cost, notice or effect.</p>
+                        {previewError && <p role="alert">{previewError}</p>}
+                    </div>}
                     
                     {resourceCosts.length > 0 && (
                         <div className="resource-costs-section">
@@ -362,12 +408,12 @@ const SpellCastConfirmation = ({ spell, onConfirm, onCancel, classResource: clas
                         Cancel
                     </button>
                     <button 
-                        className={`confirm-button ${!canCast ? 'disabled' : ''}`}
-                        onClick={(e) => canCast && handleButtonClick(e, onConfirm)}
+                        className={`confirm-button ${!canCast && !p9Diagnostic ? 'disabled' : ''}`}
+                        onClick={(e) => (canCast || p9Diagnostic) && handleButtonClick(e, onConfirm)}
                         onMouseDown={(e) => e.stopPropagation()}
-                        disabled={!canCast}
+                        disabled={!canCast && !p9Diagnostic}
                     >
-                        Cast
+                        {p9Diagnostic ? 'Post manual notice' : 'Cast'}
                     </button>
                 </div>
             </div>

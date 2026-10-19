@@ -1,0 +1,43 @@
+{
+  "capturedAt": "2026-10-19",
+  "app": "http://localhost:3000",
+  "levelUp": {
+    "route": "/rules?category=character-creation&sub=classes&class=Chaos%20Weaver",
+    "viewport": { "width": 1280, "height": 900 },
+    "className": "Chaos Weaver",
+    "currentLevel": 2,
+    "knownSpells": ["cw1_01"],
+    "spellIcons": 7,
+    "spellNames": [
+      "Sideways Spark",
+      "Survey the Seam",
+      "Fracture Brace",
+      "Lancing Variance",
+      "Chosen Crosscurrent",
+      "Read Instability",
+      "Counterweight"
+    ],
+    "expectedIds": [
+      "cw1_02",
+      "cw1_03",
+      "cw1_04",
+      "cw1_05",
+      "cw1_06",
+      "cr1_chaos_weaver_read_instability",
+      "cw1_08"
+    ],
+    "screenshot": "correction-levelup-1280.png"
+  },
+  "deterministicHud": {
+    "route": "/game (live component mount; authenticated sheet/HUD route state not present)",
+    "viewport": { "width": 1280, "height": 900 },
+    "rendered": true,
+    "text": "Deterministic result F1 recorded — no physical face; settle to finish.",
+    "inventedFace": false
+  },
+  "unexercised": [
+    "Authenticated creation-wizard/character-sheet talent grant sync route (auth redirect)",
+    "360px /game class-resource HUD route (PhoneGate redirects phones)"
+  ],
+  "console": "0 errors on the class route; /game demo-mode warnings only"
+}

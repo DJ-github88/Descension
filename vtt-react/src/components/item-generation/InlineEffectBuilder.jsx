@@ -496,9 +496,17 @@ const InlineEffectBuilder = ({ effect, onEffectChange, onRemove }) => {
                         <option value="damage">Damage Bonus</option>
                       </optgroup>
                       <optgroup label="Resistances">
-                        <option value="fire_resistance">Fire Resistance</option>
-                        <option value="cold_resistance">Cold Resistance</option>
-                        <option value="lightning_resistance">Lightning Resistance</option>
+                        <option value="ember_resistance">Ember Resistance</option>
+                        <option value="rime_resistance">Rime Resistance</option>
+                        <option value="storm_resistance">Storm Resistance</option>
+                        <option value="primal_resistance">Primal Resistance</option>
+                        <option value="arcane_resistance">Arcane Resistance</option>
+                        <option value="blight_resistance">Blight Resistance</option>
+                        <option value="wyrd_resistance">Wyrd Resistance</option>
+                        <option value="sacred_resistance">Sacred Resistance</option>
+                        <option value="smashing_resistance">Smashing Resistance</option>
+                        <option value="stabbing_resistance">Stabbing Resistance</option>
+                        <option value="slicing_resistance">Slicing Resistance</option>
                         <option value="all_resistance">All Resistances</option>
                       </optgroup>
                     </select>

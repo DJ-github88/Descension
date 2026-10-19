@@ -7,6 +7,7 @@ import { resolveTalentSpell, convertTalentSpellToLibrarySpell, extractTriggerFro
 import { loadLibraryFromStorage, saveLibraryToStorage } from '../spellcrafting-wizard/core/utils/libraryManager';
 import { TalentArrowRenderer } from '../windows/TalentArrow';
 import { ALL_CLASSES_DATA } from '../../data/classes';
+import { CHAOS_WEAVER_PROJECTED_SPELLS_BY_ID } from '../../data/classes/chaosWeaverIntegration';
 import { getIconUrl } from '../../utils/assetManager';
 import './TalentTreeContent.css';
 
@@ -125,6 +126,12 @@ export const getNodeTier = (node) => {
 
 // Points required in the current tree to unlock a given tier (5 points per tier, WoW Classic style)
 export const getRequiredPointsForTier = (tier) => Math.max(0, (tier - 1) * (TALENT_SYSTEM?.POINTS_PER_TIER_GATE || 5));
+
+// Candidate nodes may carry their own authored point gate (RI-1 Chaos Weaver);
+// fall back to the generic 5-per-tier ladder when they do not.
+export const getNodePointGate = (talent) => (
+    Number.isFinite(talent?.requiresPoints) ? talent.requiresPoints : getRequiredPointsForTier(getNodeTier(talent))
+);
 
 // Tree board layout constraints — keep nodes legible and guaranteed non-overlapping.
 const MAX_BOARD_WIDTH = 1000;   // desktop cap so the board does not stretch endlessly
@@ -478,7 +485,7 @@ export const TalentTreeContent = ({
     const syncTalentSpell = (talent, newRank) => {
         if (!talent?.spell) return;
         const spellbook = useSpellbookStore.getState();
-        const stableId = `talent-spell-${talent.id}`;
+        const stableId = talent.grantId || `talent-spell-${talent.id}`;
         const existing = (spellbook.spells || []).find(s => s.id === stableId);
 
         const currentLib = loadLibraryFromStorage() || { spells: [] };
@@ -493,8 +500,26 @@ export const TalentTreeContent = ({
             return;
         }
 
-        const librarySpell = convertTalentSpellToLibrarySpell(talent, newRank);
+        // Grant nodes own their canonical class spell identity (RI-1):
+        // materialise the authored record itself so ACTION type, AP cost,
+        // targeting and typed mechanics are preserved instead of passing
+        // through the legacy passive-oriented talent converter. Nodes
+        // without a grant keep the legacy `talent-spell-${id}` identity.
+        const canonicalGrant = talent.grantId
+            ? CHAOS_WEAVER_PROJECTED_SPELLS_BY_ID[talent.grantId]
+            : null;
+        const librarySpell = canonicalGrant
+            ? {
+                ...canonicalGrant,
+                source: 'talent',
+                talentId: talent.id,
+                talentRank: newRank,
+                maxRanks: talent.maxRanks || 1,
+                isCustom: false
+            }
+            : convertTalentSpellToLibrarySpell(talent, newRank);
         if (!librarySpell) return;
+        if (talent.grantId && !canonicalGrant) librarySpell.id = talent.grantId;
 
         if (existing) {
             spellbook.updateSpell(stableId, librarySpell);
@@ -526,10 +551,10 @@ export const TalentTreeContent = ({
     const canLearnTalent = (talent) => {
         if (pointsSpent >= availablePoints) return false;
 
-        // Tier Gatekeeping: Tier N requires (N - 1) * 5 points invested in this tree
-        const nodeTier = getNodeTier(talent);
-        const requiredInTree = getRequiredPointsForTier(nodeTier);
+        // Tier Gatekeeping: explicit authored gate when present, else (tier - 1) * 5 points in this tree
+        const requiredInTree = getNodePointGate(talent);
         if (treePointsSpent < requiredInTree) return false;
+        if (Number.isFinite(talent.minLevel) && level < talent.minLevel) return false;
 
         return arePrerequisitesMet(talent);
     };
@@ -538,8 +563,8 @@ export const TalentTreeContent = ({
     // prerequisite blocks it (distinct from simply being out of points).
     const isNodeLocked = (talent) => {
         if ((talents[talent.id] || 0) > 0) return false;
-        const nodeTier = getNodeTier(talent);
-        if (treePointsSpent < getRequiredPointsForTier(nodeTier)) return true;
+        if (treePointsSpent < getNodePointGate(talent)) return true;
+        if (Number.isFinite(talent.minLevel) && level < talent.minLevel) return true;
         return !arePrerequisitesMet(talent);
     };
 
@@ -591,6 +616,23 @@ export const TalentTreeContent = ({
                             reason: 'tier_gate',
                             requiredTier: T,
                             requiredPoints: requiredBelowT
+                        };
+                    }
+                }
+            }
+
+            // 3. Explicit authored gates (candidate nodes bring their own ladder)
+            for (const t of tree.talents) {
+                if ((sim[t.id] || 0) > 0 && Number.isFinite(t.requiresPoints)) {
+                    const pointsBelow = tree.talents
+                        .filter(n => (n.position?.y ?? 0) < (t.position?.y ?? 0))
+                        .reduce((sum, n) => sum + (sim[n.id] || 0), 0);
+                    if (pointsBelow < t.requiresPoints) {
+                        return {
+                            canUnlearn: false,
+                            reason: 'tier_gate',
+                            requiredTier: getNodeTier(t),
+                            requiredPoints: t.requiresPoints
                         };
                     }
                 }
@@ -664,13 +706,19 @@ export const TalentTreeContent = ({
 
     const resetTalents = () => {
         const spellbook = useSpellbookStore.getState();
+        const grantIds = trees
+            .flatMap(tree => tree.talents)
+            .map(t => t.grantId)
+            .filter(Boolean);
+        const isTalentOwnedSpell = (id) => Boolean(id) && (id.startsWith('talent-spell-') || grantIds.includes(id));
+
         (spellbook.spells || [])
-            .filter(s => s.id?.startsWith('talent-spell-'))
+            .filter(s => isTalentOwnedSpell(s.id))
             .forEach(s => spellbook.deleteSpell(s.id));
 
         const currentLib = loadLibraryFromStorage();
         if (currentLib?.spells) {
-            currentLib.spells = currentLib.spells.filter(s => !s.id?.startsWith('talent-spell-'));
+            currentLib.spells = currentLib.spells.filter(s => !isTalentOwnedSpell(s.id));
             saveLibraryToStorage(currentLib);
         }
 
@@ -796,13 +844,16 @@ export const TalentTreeContent = ({
     const treeAnalysis = React.useMemo(() => {
         const talentsList = currentTree?.talents || [];
 
+        const usesIdTiers = talentsList.some(t => t.id && /_t[1-7]_/i.test(t.id));
         const tierMap = {};
-        for (let tier = 1; tier <= 7; tier++) {
-            tierMap[tier] = tier - 1;
-        }
+        const tierGates = {};
 
         if (!talentsList.length) {
-            return { columns: [], minX: 0, maxX: 4, minGap: 1, maxTreeY: 6, tierMap };
+            for (let tier = 1; tier <= 7; tier++) {
+                tierMap[tier] = tier - 1;
+                tierGates[tier] = getRequiredPointsForTier(tier);
+            }
+            return { columns: [], minX: 0, maxX: 4, minGap: 1, maxTreeY: 6, tierMap, tierGates, tierCount: 7 };
         }
 
         const xs = talentsList.map(t => t.position?.x ?? 0);
@@ -833,14 +884,31 @@ export const TalentTreeContent = ({
         });
         if (!isFinite(minGap) || minGap <= 0) minGap = 1;
 
-        for (let tier = 1; tier <= 7; tier++) {
-            const tierTalents = talentsList.filter(t => t.id && t.id.toLowerCase().includes(`_t${tier}_`));
-            if (tierTalents.length > 0) {
-                tierMap[tier] = tierTalents[0].position?.y ?? (tier - 1);
+        let tierCount;
+        if (usesIdTiers) {
+            tierCount = 7;
+            for (let tier = 1; tier <= 7; tier++) {
+                tierMap[tier] = tier - 1;
+                tierGates[tier] = getRequiredPointsForTier(tier);
+                const tierTalents = talentsList.filter(t => t.id && t.id.toLowerCase().includes(`_t${tier}_`));
+                if (tierTalents.length > 0) {
+                    tierMap[tier] = tierTalents[0].position?.y ?? (tier - 1);
+                }
             }
+        } else {
+            const rows = Array.from(new Set(ys)).sort((a, b) => a - b);
+            tierCount = Math.max(1, rows.length);
+            rows.forEach((y, index) => {
+                const rowNodes = talentsList.filter(t => (t.position?.y ?? 0) === y);
+                const explicitGates = rowNodes.map(t => t.requiresPoints).filter(v => Number.isFinite(v));
+                tierMap[index + 1] = y;
+                tierGates[index + 1] = explicitGates.length
+                    ? Math.max(...explicitGates)
+                    : index * (TALENT_SYSTEM?.POINTS_PER_TIER_GATE || 5);
+            });
         }
 
-        return { columns, minX, maxX, minGap, maxTreeY, tierMap };
+        return { columns, minX, maxX, minGap, maxTreeY, tierMap, tierGates, tierCount };
     }, [currentTree]);
 
     const cellHeight = Math.max(76, Math.floor(gridDims.height / 7));
@@ -1173,10 +1241,10 @@ export const TalentTreeContent = ({
 
                         <div className="talent-tree-scroll-container">
                             <div className="talent-tier-rail" style={{ height: `${boardHeight}px` }}>
-                                {[1, 2, 3, 4, 5, 6, 7].map(tier => {
+                                {Array.from({ length: treeAnalysis.tierCount || 7 }, (_, i) => i + 1).map(tier => {
                                     const tierY = treeAnalysis.tierMap[tier] ?? (tier - 1);
                                     const { posY } = getNodePos(0, tierY);
-                                    const reqPoints = getRequiredPointsForTier(tier);
+                                    const reqPoints = treeAnalysis.tierGates?.[tier] ?? getRequiredPointsForTier(tier);
                                     const isTierLocked = treePointsSpent < reqPoints;
 
                                     return (
@@ -1226,11 +1294,13 @@ export const TalentTreeContent = ({
                                     const isLocked = isNodeLocked(talent);
                                     const isSelected = inspectedTalent?.id === talent.id;
 
-                                    const nodeTier = getNodeTier(talent);
-                                    const tierReqPoints = getRequiredPointsForTier(nodeTier);
-                                    const lockedTitle = treePointsSpent < tierReqPoints
-                                        ? `${talent.name} — locked: requires ${tierReqPoints} points spent in ${currentTree?.name || 'this tree'}`
-                                        : `${talent.name} — locked: complete its prerequisites first`;
+                                    const tierReqPoints = getNodePointGate(talent);
+                                    const levelLocked = Number.isFinite(talent.minLevel) && level < talent.minLevel;
+                                    const lockedTitle = levelLocked
+                                        ? `${talent.name} — locked: requires character level ${talent.minLevel}`
+                                        : treePointsSpent < tierReqPoints
+                                            ? `${talent.name} — locked: requires ${tierReqPoints} points spent in ${currentTree?.name || 'this tree'}`
+                                            : `${talent.name} — locked: complete its prerequisites first`;
 
                                     const { posX, posY } = getNodePos(talent.position?.x ?? 0, talent.position?.y ?? 0);
 
@@ -1287,8 +1357,9 @@ export const TalentTreeContent = ({
                     <div className="talent-inspector-page">
                         {inspectedTalent ? (() => {
                             const inspectedTier = getNodeTier(inspectedTalent);
-                            const inspectedReqTierPoints = getRequiredPointsForTier(inspectedTier);
+                            const inspectedReqTierPoints = getNodePointGate(inspectedTalent);
                             const isTierMet = treePointsSpent >= inspectedReqTierPoints;
+                            const isLevelMet = !Number.isFinite(inspectedTalent.minLevel) || level >= inspectedTalent.minLevel;
                             const unlearnCheck = canUnlearnTalent(inspectedTalent.id);
                             const inspectedCanUnlearn = unlearnCheck.canUnlearn;
 
@@ -1328,13 +1399,19 @@ export const TalentTreeContent = ({
                                     </div>
 
                                     {/* Requirements status */}
-                                    {(inspectedTier > 1 || inspectedTalent.requires) && (
+                                    {(inspectedReqTierPoints > 0 || inspectedTalent.requires || Number.isFinite(inspectedTalent.minLevel)) && (
                                         <div className="talent-inspector-reqs-box">
                                             <span className="req-box-title">Requirements:</span>
-                                            {inspectedTier > 1 && (
+                                            {inspectedReqTierPoints > 0 && (
                                                 <div className={`req-item-line ${readOnly ? 'met' : isTierMet ? 'met' : 'unmet'}`}>
                                                     <i className={`fas ${readOnly || isTierMet ? 'fa-check-circle' : 'fa-lock'}`}></i>
                                                     <span>Requires {inspectedReqTierPoints} points spent in {currentTree?.name || 'this tree'}</span>
+                                                </div>
+                                            )}
+                                            {Number.isFinite(inspectedTalent.minLevel) && (
+                                                <div className={`req-item-line ${readOnly || isLevelMet ? 'met' : 'unmet'}`}>
+                                                    <i className={`fas ${readOnly || isLevelMet ? 'fa-check-circle' : 'fa-lock'}`}></i>
+                                                    <span>Requires character level {inspectedTalent.minLevel}</span>
                                                 </div>
                                             )}
                                             {inspectedTalent.requires && (() => {

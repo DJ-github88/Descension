@@ -284,6 +284,33 @@ export const CLASS_SPECIALIZATIONS = {
     ]
   },
 
+  'Chaos Weaver': {
+    path: 'Arcane Path',
+    specializations: [
+      {
+        id: 'probability-sculptor',
+        name: 'Probability Sculptor',
+        description: 'Spend more known possibilities, not hidden luck. Improves published S/F odds and flat Surge/Fracture values without adding hidden outcomes.',
+        color: '#7A2040',
+        icon: 'Psychic/Psychic Telepathy'
+      },
+      {
+        id: 'anomaly-binder',
+        name: 'Anomaly Binder',
+        description: 'Place one avoidable, finite apparatus. A single visible anomaly with a published trigger, cheap dismissal and natural endT+2 expiry.',
+        color: '#2D5A1E',
+        icon: 'Psychic/Psychic Telepathy'
+      },
+      {
+        id: 'cascade-weaver',
+        name: 'Cascade Weaver',
+        description: 'Retain an option for one continuation. One predeclared follow-up for a willing ally, never part of the primary sample.',
+        color: '#5B3A8C',
+        icon: 'Psychic/Psychic Telepathy'
+      }
+    ]
+  },
+
   'Arcanoneer': {
 
     path: 'Arcane Path',

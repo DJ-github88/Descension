@@ -17,6 +17,9 @@ import { normalizeChronarchResource, updateChronarchResource, getChronarchSpellR
 import { normalizeLunarchResource, updateLunarchResource, getLunarchSpellResourcePlan, getLunarchPhaseIndex, advanceLunarchPhase } from './lunarchResourceContract';
 import { normalizeToxicologistResource, updateToxicologistResource, getToxicologistSpellResourcePlan, getToxicologistPoolValue } from './toxicologistResourceContract';
 import { normalizeWardenResource, updateWardenResource, getWardenSpellResourcePlan } from './wardenResourceContract';
+import { validateRehearsalState } from './classes/chaosWeaverRules';
+
+export const CHAOS_WEAVER_TILE_RESOURCE_ID = 'chaos-weaver-tiles';
 
 export const GAMBIT_FORTUNE_MAX = 7;
 export const GAMBIT_DEBT_MAX = 13;
@@ -51,10 +54,11 @@ export function getManagedResourceId(resource, className) {
     if (name === 'lunarch') return 'lunarPhases';
     if (name === 'toxicologist') return 'toxinVialsContraptions';
     if (name === 'warden') return 'vengeance-points';
+    if (name === 'chaos weaver') return CHAOS_WEAVER_TILE_RESOURCE_ID;
     return getBankResourceId(resource, className);
   }
   const id = resolveClassResourceEngineId(resource?.type);
-  return ['fortunePoints', 'devotionGauge', 'quarryMarksCompanion', 'infernoVeil', 'kineticFluxBodyToll', 'arcaneEnergyPoints', 'authority', 'bloodHeat', 'mayhemGauge', 'radiantFervor', 'benediction-malediction', 'revenant-toll', 'ancestralResonance', 'madnessPoints', 'virulenceCultivation', 'timeShardsStrain', 'lunarPhases', 'toxinVialsContraptions', 'vengeance-points'].includes(id) ? id : getBankResourceId(resource);
+  return ['fortunePoints', 'devotionGauge', 'quarryMarksCompanion', 'infernoVeil', 'kineticFluxBodyToll', 'arcaneEnergyPoints', 'authority', 'bloodHeat', 'mayhemGauge', 'radiantFervor', 'benediction-malediction', 'revenant-toll', 'ancestralResonance', 'madnessPoints', 'virulenceCultivation', 'timeShardsStrain', 'lunarPhases', 'toxinVialsContraptions', 'vengeance-points', CHAOS_WEAVER_TILE_RESOURCE_ID].includes(id) ? id : getBankResourceId(resource);
 }
 
 export function getMartyrLevelForDamage(damage) {
@@ -65,9 +69,46 @@ export function getMartyrLevelForDamage(damage) {
   return 0;
 }
 
+// Chaos Weaver six-tile record: detection only. The stored rehearsal session is
+// never repaired, sanitized or refilled here; an invalid draft stays exactly as
+// written and is reported through validationErrors.
+const normalizeChaosWeaverResource = (resource) => {
+  const base = { ...resource, type: CHAOS_WEAVER_TILE_RESOURCE_ID };
+  const rehearsal = resource.rehearsal ?? null;
+  if (!rehearsal) {
+    return {
+      ...base,
+      initialized: resource.initialized === true,
+      rehearsal: null,
+      tiles: null,
+      pending: null,
+      anomaly: null,
+      current: 0,
+      max: 0,
+      rehearsalValid: true,
+      validationErrors: []
+    };
+  }
+  const check = validateRehearsalState(rehearsal);
+  const tiles = rehearsal?.tiles ?? null;
+  return {
+    ...base,
+    initialized: true,
+    rehearsal,
+    tiles,
+    pending: rehearsal.pending ?? null,
+    anomaly: rehearsal.anomaly ?? null,
+    current: tiles && Array.isArray(tiles.available) ? tiles.available.length : 0,
+    max: 6,
+    rehearsalValid: check.ok,
+    validationErrors: [...check.errors]
+  };
+};
+
 export function normalizeManagedClassResource(resource, className) {
   if (!resource) return resource;
   const id = getManagedResourceId(resource, className);
+  if (id === CHAOS_WEAVER_TILE_RESOURCE_ID) return normalizeChaosWeaverResource(resource);
   if (id === 'quarryMarksCompanion') return normalizeApexResource(resource);
   if (id === 'infernoVeil') return normalizePyroResource(resource);
   if (id === 'kineticFluxBodyToll') return normalizeShaperResource(resource);
@@ -140,6 +181,7 @@ export function updateManagedClassResource(resource, className, field, value) {
   if (id === 'lunarPhases') return updateLunarchResource(normalized, field, value);
   if (id === 'toxinVialsContraptions') return updateToxicologistResource(normalized, field, value);
   if (id === 'vengeance-points') return updateWardenResource(normalized, field, value);
+  if (id === CHAOS_WEAVER_TILE_RESOURCE_ID) return normalizeChaosWeaverResource({ ...normalized, [field]: value });
   if (id === 'quarryMarksCompanion' && ['current', 'marks', 'quarry_marks', 'quarryMarks'].includes(field)) {
     return normalizeApexResource({ ...normalized, current: value?.current ?? value });
   }
@@ -189,6 +231,9 @@ export function getClassResourceValue(resource, className, resourceKey) {
 
 export function changeManagedClassResource(resource, className, amount, resourceKey) {
   const normalized = normalizeManagedClassResource(resource, className);
+  // Tile moves are deliberate zone transitions in the class rules; a bare
+  // +/- amount never mutates the six-ID record.
+  if (getManagedResourceId(normalized, className) === CHAOS_WEAVER_TILE_RESOURCE_ID) return normalized;
   if (getManagedResourceId(normalized, className) === 'benediction-malediction') {
     const pool = resourceKey === 'malediction' ? 'malediction' : 'benediction';
     return updateAugurResource(normalized, pool, getAugurPoolValue(normalized, pool) + amount);

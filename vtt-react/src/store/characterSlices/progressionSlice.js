@@ -4,6 +4,44 @@ import { getEncumbranceState } from '../characterHelpers';
 import { ALL_CLASSES_DATA } from '../../data/classes';
 import { ALL_CLASS_SPELLS } from '../../data/classSpellGenerator';
 import { checkLevelUp, getXPForLevel } from '../../utils/experienceUtils';
+import { TALENT_TREES } from '../../data/talentTreeData';
+import { pruneAllocationForLevel } from '../../data/classes/chaosWeaverRules';
+import useSpellbookStore from '../spellbookStore';
+import { loadLibraryFromStorage, saveLibraryToStorage } from '../../components/spellcrafting-wizard/core/utils/libraryManager';
+
+// Classes may declare that starter/level-up spells are never randomly
+// assigned or topped up (e.g. Chaos Weaver's one explicit optional pick).
+const forbidsAutomaticSpellAssignment = (classData) => {
+    const policy = classData?.progression?.policy;
+    return Boolean(policy && (policy.autoTopUpOnLoad === false || policy.randomizeStartingSpells === false));
+};
+
+const classTalentNodes = (className) =>
+    Object.values(TALENT_TREES[className] || {}).flat();
+
+// Reconcile a stored flat talent allocation after a level reduction or class
+// switch. Only policy classes (Chaos Weaver) have level-gated authored caps;
+// legacy classes keep their previous behaviour.
+export const pruneTalentsForChange = (talents, { previousClass, nextClass, level }) => {
+    const current = talents && typeof talents === 'object' ? { ...talents } : {};
+    if (previousClass && nextClass && previousClass !== nextClass) {
+        classTalentNodes(previousClass).forEach(node => { delete current[node.id]; });
+    }
+    if (ALL_CLASSES_DATA[nextClass]?.progression?.policy && Number.isInteger(level)) {
+        return pruneAllocationForLevel({ ranks: current, order: [] }, level).allocation.ranks;
+    }
+    return current;
+};
+
+export const derivedTalentGrantIds = (talents, className) =>
+    classTalentNodes(className)
+        .filter(node => node.grantId && (talents?.[node.id] || 0) >= (node.maxRanks || 1))
+        .map(node => node.grantId);
+
+export const removedTalentGrantIds = (before, after, className) => {
+    const remaining = new Set(derivedTalentGrantIds(after, className));
+    return derivedTalentGrantIds(before, className).filter(id => !remaining.has(id));
+};
 
 export const createProgressionSlice = (set, get) => ({
     // Level-up modal state
@@ -97,6 +135,7 @@ export const createProgressionSlice = (set, get) => ({
         const state = get();
         try {
             if (!className || className === 'Class') return false;
+            if (forbidsAutomaticSpellAssignment(ALL_CLASSES_DATA[className])) return false;
             const charLevel = Math.max(1, state.level || 1);
             const targetSpellCount = 3 + Math.max(0, charLevel - 1);
             const known = state.class_spells?.known_spells || [];
@@ -285,6 +324,7 @@ export const createProgressionSlice = (set, get) => ({
         // Import class data dynamically
         const classData = getClassData(characterClass);
         if (!classData) return;
+        if (forbidsAutomaticSpellAssignment(classData)) return;
 
         // Try to get spells from ALL_CLASS_SPELLS first (to ensure IDs match)
         let allClassSpells = [];
@@ -420,9 +460,66 @@ export const createProgressionSlice = (set, get) => ({
         get().syncWithMultiplayer();
     },
 
+    // Remove derived talent-granted spells that are no longer granted after a
+    // level reduction or class switch. Entries still used by another roster
+    // character, authored spells, and unrelated library records stay intact.
+    removeTalentGrantSpells: (grantIds) => {
+        if (!Array.isArray(grantIds) || grantIds.length === 0) return;
+        const state = get();
+        const stillNeeded = new Set();
+        (state.characters || []).forEach(char => {
+            if (char.id === state.currentCharacterId) return;
+            derivedTalentGrantIds(char.talents || {}, char.class || char.characterClass)
+                .forEach(id => stillNeeded.add(id));
+        });
+        const removable = grantIds.filter(id => !stillNeeded.has(id));
+        if (removable.length === 0) return;
+
+        const nodeByGrantId = Object.fromEntries(
+            Object.values(TALENT_TREES).flatMap(specs => Object.values(specs).flat())
+                .filter(node => node.grantId)
+                .map(node => [node.grantId, node.id])
+        );
+        const spellbook = useSpellbookStore.getState();
+        const library = loadLibraryFromStorage();
+        let libraryChanged = false;
+
+        removable.forEach(grantId => {
+            const nodeId = nodeByGrantId[grantId];
+            const spell = (spellbook.spells || []).find(entry => entry.id === grantId);
+            if (!spell || spell.source === 'talent' || spell.talentId === nodeId) {
+                spellbook.deleteSpell(grantId);
+            }
+            if (library && Array.isArray(library.spells)) {
+                const before = library.spells.length;
+                library.spells = library.spells.filter(entry => !(
+                    entry.id === grantId &&
+                    (entry.source === 'talent' || entry.talentId === nodeId)
+                ));
+                if (library.spells.length !== before) libraryChanged = true;
+            }
+        });
+
+        if (libraryChanged) saveLibraryToStorage(library);
+    },
+
     updateLevel: (newLevel) => {
+        let removedGrantIds = [];
+
         set(state => {
             const oldLevel = state.level;
+            const characterClass = state.class || state.characterClass;
+            let talents = state.talents || {};
+
+            if (newLevel < oldLevel) {
+                const pruned = pruneTalentsForChange(talents, {
+                    previousClass: characterClass,
+                    nextClass: characterClass,
+                    level: newLevel
+                });
+                removedGrantIds = removedTalentGrantIds(talents, pruned, characterClass);
+                talents = pruned;
+            }
 
             // Record character change for persistence
             if (state.currentCharacterId && newLevel !== oldLevel) {
@@ -434,12 +531,16 @@ export const createProgressionSlice = (set, get) => ({
                 });
             }
 
-            return { level: newLevel };
+            return newLevel < oldLevel ? { level: newLevel, talents } : { level: newLevel };
         });
+
+        if (removedGrantIds.length > 0) {
+            get().removeTalentGrantSpells(removedGrantIds);
+        }
 
         // Auto-assign spells based on new level
         const state = get();
-        const characterClass = state.characterClass;
+        const characterClass = state.class || state.characterClass;
         if (characterClass) {
             get().assignSpellsForLevel(newLevel, characterClass);
         }

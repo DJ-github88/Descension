@@ -14,6 +14,7 @@ import {
 } from '../../utils/AoETemplates';
 import { calculateVisibilityPolygon } from '../../utils/VisibilityCalculations';
 import './SpellAoE.css';
+import ActionAreaPreview from './ActionAreaPreview';
 
 /**
  * SpellAoEOverlay - Live spell AoE template layer for the game grid.
@@ -39,6 +40,7 @@ const SpellAoEOverlay = ({
   currentMapId = 'default'
 }) => {
   const tool = useSpellAoEStore((state) => state.tool);
+  const actionPreview = useSpellAoEStore(state => state.actionPreview);
   const anchor = useSpellAoEStore((state) => state.anchor);
   const cursor = useSpellAoEStore((state) => state.cursor);
   const placement = useSpellAoEStore((state) => state.placement);
@@ -227,6 +229,7 @@ const SpellAoEOverlay = ({
   };
 
   if (!gridSystem) return null;
+  if (actionPreview) return <ActionAreaPreview {...{ gridSystem, gridSize, feetPerTile, gridOffsetX, gridOffsetY, currentMapId }} />;
   if (!tool && !placement) return null;
 
   const activeColor = tool?.color || placement?.color;

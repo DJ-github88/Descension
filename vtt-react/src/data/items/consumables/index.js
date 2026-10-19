@@ -630,11 +630,11 @@ export const CONSUMABLES = [
  },
  {
   id: 'frost-resistance-elixir',
-  name: 'Frost Resistance Elixir',
+  name: 'Rime Resistance Elixir',
   type: 'consumable',
   subtype: 'ELIXIR',
   quality: 'uncommon',
-  description: 'An elixir that hardens the blood against the cold. Grants resistance to cold damage for a short time.',
+  description: 'An elixir that hardens the blood against the frost. Grants resistance to rime damage for a short time.',
   iconId: 'Misc/Profession Resources/Alchemy/Blue/blue-potion-bottle-classic-shape',
   value: { gold: 0, silver: 8, copper: 0 },
   stackable: true,
@@ -644,7 +644,7 @@ export const CONSUMABLES = [
   rotation: 0,
   combatStats: {
    resistances: {
-    cold: { value: 10, isPercentage: false, duration: 300 }
+    rime: { value: 10, isPercentage: false, duration: 300 }
    }
   },
   utilityStats: {

@@ -1,4 +1,17 @@
-# Augur, Oracle and Harbinger — joint differentiation decision
+# Fate Weaver / preserved Augur, Oracle and Doomsayer — current differentiation decision
+
+**Creator supersession, 2026-10-18:** Augur merges into Fate Weaver; Oracle remains an independent candidate; Harbinger's proposed player-facing name is **Doomsayer**. Preserve existing `augur`/`harbinger` application IDs, content, talents, cultures and saves; no migration is authorized. The older separate-Augur/keep-Harbinger-name comparison below is research history, not the current roster proposal.
+
+| Preserved Augur material | Fate Weaver assessment / disposition |
+|---|---|
+| Actual observed omens and material/ritual foci | Keep as acquisition/observation techniques; no knowledge of unrolled results or free thread generation from UI dice |
+| Auspex contrasting-sign interpretation | Candidate technique path for preparing/placing existing finite threads; preserve all source nodes for per-payload assessment |
+| Hostile `harbinger` specialization | Assess as **Ill Omen** Fate Weaver content, distinct from the independent Doomsayer; retain legacy spec ID |
+| Hierophant ally/communal rites | Assess consensual support/link techniques, not a second universal holy caster |
+| Benediction/Malediction and Omen Debt | Preserve legacy saves/data, do not automatically add a second resource bank or rest debt to Fate Weaver |
+| Elk/stellar/marine/native institutions | Retain full provenance and positive acquisition requirements; do not reassign every Augur native automatically to Oracle |
+
+Oracle's forecast commitments and Doomsayer's deliberately planted calamities retain separate candidate dossiers. Their full content is a bounded follow-on cohort, not a reason to delay the first class package.
 
 **Status: evidence-backed comparison and proposed directions, not three completed dossiers.**
 

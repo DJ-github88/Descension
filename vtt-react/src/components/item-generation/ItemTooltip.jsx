@@ -377,34 +377,90 @@ const getMagicTypeName = (type) => {
         return String(type || '') + ' Magic';
     }
     const MAGIC_TYPES = {
-        fire: 'Fire Magic',
-        cold: 'Cold Magic',
-        lightning: 'Lightning Magic',
-        acid: 'Acid Magic',
-        force: 'Force Magic',
-        necrotic: 'Necrotic Magic',
-        radiant: 'Radiant Magic',
-        poison: 'Poison Magic',
-        psychic: 'Psychic Magic',
-        thunder: 'Thunder Magic'
+        ember: 'Ember Magic',
+        rime: 'Rime Magic',
+        storm: 'Storm Magic',
+        primal: 'Primal Magic',
+        arcane: 'Arcane Magic',
+        blight: 'Blight Magic',
+        wyrd: 'Wyrd Magic',
+        sacred: 'Sacred Magic',
+        healing: 'Healing',
+        neutral: 'Neutral',
+        // Legacy aliases
+        fire: 'Ember Magic',
+        cold: 'Rime Magic',
+        frost: 'Rime Magic',
+        ice: 'Rime Magic',
+        lightning: 'Storm Magic',
+        thunder: 'Storm Magic',
+        wind: 'Storm Magic',
+        electric: 'Storm Magic',
+        nature: 'Primal Magic',
+        water: 'Primal Magic',
+        earth: 'Primal Magic',
+        acid: 'Blight Magic',
+        poison: 'Blight Magic',
+        plague: 'Blight Magic',
+        necrotic: 'Blight Magic',
+        force: 'Arcane Magic',
+        shadow: 'Wyrd Magic',
+        void: 'Wyrd Magic',
+        psychic: 'Wyrd Magic',
+        time: 'Wyrd Magic',
+        fey: 'Wyrd Magic',
+        chaos: 'Wyrd Magic',
+        radiant: 'Sacred Magic',
+        holy: 'Sacred Magic',
+        light: 'Sacred Magic',
+        order: 'Sacred Magic',
+        spirit: 'Sacred Magic'
     };
     return MAGIC_TYPES[type.toLowerCase()] || (safeCapitalize(type) + ' Magic');
 };
 
 const getMagicTypeColor = (type) => {
     const MAGIC_COLORS = {
-        fire: '#ff4400',
-        cold: '#3399ff',
-        lightning: '#ffff00',
-        acid: '#00ff00',
-        force: '#ff66ff',
-        necrotic: '#4B0082',
-        radiant: '#FFFACD',
-        poison: '#008000',
-        psychic: '#FF00FF',
-        thunder: '#0066ff'
+        ember: '#D4380D',
+        rime: '#2C5F7C',
+        storm: '#8B7328',
+        primal: '#2D5A1E',
+        arcane: '#5B3A8C',
+        blight: '#3D1F4E',
+        wyrd: '#7A2040',
+        sacred: '#DAA520',
+        healing: '#2E8B57',
+        neutral: '#9E9E9E',
+        // Legacy aliases
+        fire: '#D4380D',
+        cold: '#2C5F7C',
+        frost: '#2C5F7C',
+        ice: '#2C5F7C',
+        lightning: '#8B7328',
+        thunder: '#8B7328',
+        wind: '#8B7328',
+        electric: '#8B7328',
+        nature: '#2D5A1E',
+        water: '#2D5A1E',
+        earth: '#2D5A1E',
+        acid: '#3D1F4E',
+        poison: '#3D1F4E',
+        plague: '#3D1F4E',
+        necrotic: '#3D1F4E',
+        force: '#5B3A8C',
+        shadow: '#7A2040',
+        void: '#7A2040',
+        psychic: '#7A2040',
+        time: '#7A2040',
+        fey: '#7A2040',
+        chaos: '#7A2040',
+        radiant: '#DAA520',
+        holy: '#DAA520',
+        light: '#DAA520',
+        order: '#DAA520',
+        spirit: '#DAA520'
     };
-    return MAGIC_COLORS[type] || '#ffffff';
+    return MAGIC_COLORS[type?.toLowerCase?.()] || '#ffffff';
 };
 
 const getPreservationName = (method) => {
@@ -549,6 +605,9 @@ const getStatDescription = (stat, value, isPercentage = false) => {
         healingReceived: `Increases all healing received by ${value}${isPercentage ? '%' : '%'}.`,
 
         // Physical damage
+        smashingDamage: `Increases smashing damage dealt by ${formattedValue}.`,
+        stabbingDamage: `Increases stabbing damage dealt by ${formattedValue}.`,
+        slicingDamage: `Increases slicing damage dealt by ${formattedValue}.`,
         piercingDamage: `Increases piercing damage dealt by ${formattedValue}.`,
         bludgeoningDamage: `Increases bludgeoning damage dealt by ${formattedValue}.`,
         slashingDamage: `Increases slashing damage dealt by ${formattedValue}.`,
@@ -1719,31 +1778,41 @@ function ItemTooltip({ item }) {
             }))
         : [];
 
-    // Define damage type colors
-    // Damage type colors matching character sheet - using frost not cold
     const damageTypeColors = {
-        arcane: '#9370DB', // Purple - matches character sheet
-        bludgeoning: '#8B4513', // Brown - matches character sheet
-        blight: '#3D1F4E',
-        chaos: '#ec4899', // Pink - matches character sheet
+        // Canonical Mythrill types
+        smashing: '#8B5A2B',
+        stabbing: '#704214',
+        slicing: '#5C3317',
         ember: '#D4380D',
-        fire: '#FF4500', // Orange-red - matches character sheet
-        force: '#9370DB', // Purple - matches character sheet
-        frost: '#87CEEB', // Light blue - matches character sheet (using frost, not cold)
-        lightning: '#b8860b', // Gold - matches character sheet
-        nature: '#228B22', // Forest green - matches character sheet
-        necrotic: '#8B008B', // Dark magenta - matches character sheet
-        piercing: '#708090', // Slate grey - matches character sheet
-        poison: '#228B22', // Forest green - matches character sheet
-        primal: '#2D5A1E',
-        psychic: '#FF1493', // Deep pink - matches character sheet
-        radiant: '#b8860b', // Gold - matches character sheet
         rime: '#2C5F7C',
-        slashing: '#B22222', // Fire brick red - matches character sheet
         storm: '#8B7328',
-        thunder: '#2563eb', // Bright blue
-        void: '#1a1a2e', // Very dark blue - matches character sheet
-        wyrd: '#7A2040'
+        primal: '#2D5A1E',
+        arcane: '#5B3A8C',
+        blight: '#3D1F4E',
+        wyrd: '#7A2040',
+        sacred: '#DAA520',
+        healing: '#2E8B57',
+        // Legacy aliases
+        bludgeoning: '#8B5A2B',
+        piercing: '#704214',
+        slashing: '#5C3317',
+        physical: '#8B5A2B',
+        fire: '#D4380D',
+        cold: '#2C5F7C',
+        frost: '#2C5F7C',
+        ice: '#2C5F7C',
+        lightning: '#8B7328',
+        thunder: '#8B7328',
+        force: '#5B3A8C',
+        poison: '#3D1F4E',
+        acid: '#3D1F4E',
+        necrotic: '#3D1F4E',
+        radiant: '#DAA520',
+        psychic: '#7A2040',
+        shadow: '#7A2040',
+        void: '#7A2040',
+        nature: '#2D5A1E',
+        chaos: '#7A2040'
     };
 
     // Check for chance-on-being-hit effects
@@ -2479,9 +2548,9 @@ function ItemTooltip({ item }) {
                                                 switch (eff.effectType) {
                                                     case 'damage':
                                                         if (cfg.isDot) {
-                                                            return `Deal ${cfg.formula || '1d6'} ${formatName(cfg.damageType || 'fire')} damage to ${target} each ${cfg.dotTickFrequency || 'round'} for ${cfg.dotDuration || 3} rounds`;
+                                                            return `Deal ${cfg.formula || '1d6'} ${formatName(cfg.damageType || 'ember')} damage to ${target} each ${cfg.dotTickFrequency || 'round'} for ${cfg.dotDuration || 3} rounds`;
                                                         }
-                                                        return `Deal ${cfg.formula || '1d6'} ${formatName(cfg.damageType || 'fire')} damage to ${target}`;
+                                                        return `Deal ${cfg.formula || '1d6'} ${formatName(cfg.damageType || 'ember')} damage to ${target}`;
                                                     case 'healing':
                                                         if (cfg.isHot) {
                                                             return `Heal ${target} for ${cfg.healingFormula || '1d8'} each ${cfg.hotTickFrequency || 'round'} for ${cfg.hotDuration || 3} rounds`;

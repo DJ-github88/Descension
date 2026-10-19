@@ -31,7 +31,7 @@ export const ICEHEART_SEA_DROPS = [
     ],
     "gatheringMethod": "rare",
     "reagentType": "Herb",
-    "magicType": "water",
+    "magicType": "primal",
     "reagentState": "Raw"
   },
   {
@@ -400,7 +400,7 @@ export const ICEHEART_SEA_DROPS = [
     ],
     "gatheringMethod": "rare",
     "reagentType": "Essence",
-    "magicType": "water",
+    "magicType": "primal",
     "reagentState": "Pure"
   },
   {
@@ -574,7 +574,7 @@ export const ICEHEART_SEA_DROPS = [
     ],
     "gatheringMethod": "skinning",
     "reagentType": "Liquid",
-    "magicType": "water",
+    "magicType": "primal",
     "reagentState": "Pure"
   },
   {
@@ -601,7 +601,7 @@ export const ICEHEART_SEA_DROPS = [
     ],
     "gatheringMethod": "rare",
     "reagentType": "Essence",
-    "magicType": "earth",
+    "magicType": "primal",
     "reagentState": "Pure"
   },
   {
@@ -781,7 +781,7 @@ export const ICEHEART_SEA_DROPS = [
           "effectType": "damage",
           "effectConfig": {
             "formula": "1d6",
-            "damageType": "shadow",
+            "damageType": "wyrd",
             "isDot": true,
             "targetType": "target",
             "areaRadius": 0,
@@ -952,7 +952,7 @@ export const ICEHEART_SEA_DROPS = [
     ],
     "gatheringMethod": "rare",
     "reagentType": "Essence",
-    "magicType": "water",
+    "magicType": "primal",
     "reagentState": "Pure"
   },
   {
@@ -1032,7 +1032,7 @@ export const ICEHEART_SEA_DROPS = [
       "baseDamage": {
         "diceCount": 1,
         "diceType": "d8",
-        "damageType": "frost",
+        "damageType": "rime",
         "bonusDamage": 3
       }
     },
@@ -1147,7 +1147,7 @@ export const ICEHEART_SEA_DROPS = [
     ],
     "gatheringMethod": "rare",
     "reagentType": "Organ",
-    "magicType": "shadow",
+    "magicType": "wyrd",
     "reagentState": "Raw"
   },
   {
@@ -1198,7 +1198,7 @@ export const ICEHEART_SEA_DROPS = [
     ],
     "gatheringMethod": "rare",
     "reagentType": "Essence",
-    "magicType": "water",
+    "magicType": "primal",
     "reagentState": "Pure"
   },
   {
@@ -1251,7 +1251,7 @@ export const ICEHEART_SEA_DROPS = [
     ],
     "gatheringMethod": "rare",
     "reagentType": "Liquid",
-    "magicType": "time",
+    "magicType": "wyrd",
     "reagentState": "Pure"
   },
   {
@@ -1343,7 +1343,7 @@ export const ICEHEART_SEA_DROPS = [
     ],
     "gatheringMethod": "rare",
     "reagentType": "Essence",
-    "magicType": "light",
+    "magicType": "sacred",
     "reagentState": "Raw"
   },
   {

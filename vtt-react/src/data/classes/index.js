@@ -23,6 +23,7 @@ import { TOXICOLOGIST_DATA } from "./toxicologistData";
 import { WARDEN_DATA } from "./wardenData";
 import { AUGUR_DATA } from "./augurData";
 import { CRUSADER_DATA } from "./crusaderData";
+import { CHAOS_WEAVER_DATA } from "./chaosWeaverIntegration";
 import { withClassHeritageMetadata } from '../classHeritageRegistry';
 
 const createNereidClass = (baseData) => {
@@ -71,6 +72,7 @@ const CLASS_TEMPLATES = {
   Warden: WARDEN_DATA,
   Augur: AUGUR_DATA,
   Crusader: CRUSADER_DATA,
+  "Chaos Weaver": CHAOS_WEAVER_DATA,
   "Nereid Myrathil Apex": DEEPLING_MYRATHIL_APEX_DATA,
   "Nereid Myrathil Animist": DEEPLING_MYRATHIL_ANIMIST_DATA,
   "Nereid Myrathil Augur": DEEPLING_MYRATHIL_AUGUR_DATA,

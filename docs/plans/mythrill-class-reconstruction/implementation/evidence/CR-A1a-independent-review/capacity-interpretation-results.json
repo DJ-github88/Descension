@@ -1,0 +1,24 @@
+{
+  "capturedAt": "2026-10-18T11:57:36.871Z",
+  "minimizedValidConstruction": {
+    "definitionCount": 128,
+    "decisionCount": 256,
+    "utf8Bytes": 258657,
+    "capBytes": 262144,
+    "encodeResult": {
+      "ok": true,
+      "bytes": 258657
+    },
+    "decodeResult": true,
+    "finalRevokePlan": {
+      "ok": true,
+      "revision": 256,
+      "installed": false
+    }
+  },
+  "independentDescribe": true,
+  "regexCanonicalControls": {
+    "uuidNewlineAccepted": false,
+    "formulaNewlineAccepted": false
+  }
+}

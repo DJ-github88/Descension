@@ -39,6 +39,7 @@ const { registerJournalHandlers } = require('./journalHandlers');
 const { registerQuestHandlers } = require('./questHandlers');
 const { registerGmToolsHandlers } = require('./gmToolsHandlers');
 const { registerActorConsequenceHandlers } = require('./actorConsequenceHandlers');
+const { registerReactionWindowHandlers } = require('./reactionWindowHandlers');
 const actorConsequences = require('../services/actorConsequences');
 
 const { INVITATION_EXPIRY_MS } = require('../utils/constants');
@@ -60,6 +61,8 @@ const ECHO_PREVENTION_WINDOW_MS = 200;
  * Delayed/buffered work is epoch-bound at its own capture point.
  */
 const AUTHORITATIVE_ROOM_EVENTS = new Set([
+  'reaction_window_open', 'reaction_window_list', 'reaction_window_change', 'reaction_window_interrupt',
+  'actor_riposte_offer', 'actor_riposte_list', 'actor_riposte_cancel', 'actor_riposte_revalidate',
   'actor_snapshot', 'actor_bind', 'actor_consequence', 'actor_recovery', 'actor_propose', 'actor_adjudicate',
   // P9 owner spell approvals (same strict actor_ sanitization boundary)
   'actor_spell_approve', 'actor_spell_withdraw', 'actor_spell_decline', 'actor_spell_list',
@@ -855,6 +858,7 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
     // ==================== TOKEN MANAGEMENT HANDLERS ====================
     registerTokenHandlers(handlerCtx);
     registerActorConsequenceHandlers(handlerCtx);
+    registerReactionWindowHandlers(handlerCtx);
 
     // ==================== CHARACTER MANAGEMENT HANDLERS ====================
     registerCharacterHandlers(handlerCtx);

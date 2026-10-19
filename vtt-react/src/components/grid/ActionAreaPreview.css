@@ -1,0 +1,31 @@
+/* B2: calm geometry aid, on the same map plane as the incumbent AoE tool. */
+.b2-preview { pointer-events: none; }
+.b2-catcher { position: fixed; inset: 0; z-index: 500; pointer-events: auto; cursor: crosshair; }
+.b2-catcher:focus-visible { outline: 2px solid #1f4e69; outline-offset: -3px; }
+.b2-svg { position: fixed; inset: 0; z-index: 510; pointer-events: none; }
+.b2-range { fill: none; stroke: #1f4e69; stroke-width: 1.5; stroke-dasharray: 6 5; }
+.b2-source { fill: none; stroke: #1f4e69; stroke-width: 2; }
+.b2-area { fill: rgba(110, 79, 16, 0.12); stroke: #6e4f10; stroke-width: 2; }
+.b2-outside { stroke: #8b3a2a; stroke-dasharray: 5 4; }
+.b2-origin { stroke: #34251a; stroke-width: 2; }
+.b2-token-marker { position: absolute; inset: -4px; border: 2px dashed #68533e; border-radius: 50%; pointer-events: none; }
+.b2-token-edge, .b2-token-manual { border-style: dotted; }
+.b2-token-label { position: absolute; left: 50%; top: calc(100% + 20px); transform: translateX(-50%); white-space: nowrap;
+  padding: 1px 4px; background: #f6efe1; color: #2b2116; font: 13px/1.4 Georgia, serif; }
+.b2-panel { position: fixed; left: 16px; bottom: 102px; z-index: 520; pointer-events: auto;
+  width: min(420px, calc(100vw - 32px)); max-height: calc(100dvh - 140px); overflow: auto;
+  padding: 12px 16px; border: 1px solid #8a6d45; border-radius: 6px; background: #f6efe1;
+  color: #2b2116; font: 15px/1.4 'Crimson Text', Georgia, serif; }
+.b2-panel strong, .b2-panel > span { display: block; }
+.b2-panel p { margin: 8px 0; }
+.b2-panel ul { padding-left: 20px; max-height: 120px; overflow: auto; }
+.b2-panel summary { cursor: pointer; }
+.b2-controls { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.b2-controls button, .b2-entry button, .b2-entry select { min-height: 44px; font: inherit; padding: 6px 10px;
+  border: 1px solid #8a6d45; border-radius: 4px; background: #efe3c8; color: #2b2116; cursor: pointer; }
+.b2-controls button:hover, .b2-entry button:hover { background: #e4d3b0; }
+.b2-controls button:disabled { cursor: default; color: #68533e; background: #e5dfd3; }
+.b2-controls button:focus-visible, .b2-panel summary:focus-visible, .b2-entry :focus-visible { outline: 2px solid #71421e; outline-offset: 2px; }
+.b2-entry { margin: 12px 0; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.b2-entry p { flex-basis: 100%; margin: 0; }
+@media (max-width: 600px) { .b2-panel { bottom: 84px; max-height: 50dvh; } }

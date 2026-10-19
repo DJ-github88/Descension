@@ -4,6 +4,17 @@
 
 **Later HeadQ acceptance:** the seven **core design directions** are accepted for prototype development. Exact tuning, individual abilities, specializations and native assignments remain provisional. [Frozen handoff scope](32_FROZEN_HANDOFF_AND_PROTOTYPE_ACCEPTANCE.md) resolves only the correction/infrastructure contracts; no application implementation or migration is authorized.
 
+## Latest settled course correction — 2026-10-18
+
+| ID | Creator decision | Scope |
+|---|---|---|
+| CD17 | Augur merges into Fate Weaver | Preserve and assess material sign-reading, Auspex/Ill Omen/Hierophant content and origins; do not silently import both resource economies or delete legacy `augur` records |
+| CD18 | Harbinger becomes Doomsayer | Proposed player-facing class name settled; existing `harbinger` IDs and saves remain compatible |
+| CD19 | Oracle remains an independent candidate | Develop finite forecasts independently; no automatic merge into Fate Weaver/Doomsayer |
+| CD20 | Main Mythrill HeadQ owns combat authority/shared execution/persistence; stop A1b here | Complete class-local data/content/UI packages now; engine completion is not a class-design gate |
+
+These decisions supersede the older CD08/CD14 questions and separate-Augur recommendations below. All earlier restoration decisions remain in effect. [Current handoff](33_CLASS_DELIVERY_RESET_AND_ENGINE_HANDOFF.md).
+
 ## Settled — DESIGN INTENT, do not ask again
 
 Gambit/Revenant/Shaper future retirements; independent Gambler/Fate Weaver/Chaos Weaver and Deathcaller/Lichborne restoration; bodily transformation/adaptation retained with approved player-facing name **Druid**; **Metamorph rejected**; Hunter preferred provisionally; Animist retained under review; Monk independently investigated; roster size open; Arcanoneer all-eight generalist; Calm TTRPG/SVG resources; existing code/assets/saves preserved; planning only.
@@ -26,13 +37,13 @@ Full boundaries and retained historical/internal identifiers: [Druid naming deci
 | CD05 | Fate Weaver transfer boundaries | R1 recommends≤3 assigned burden after original mitigation/ward, no second mitigation/chaining; deterministic link priority and atomic plan | HeadQ rules approval + bounded N-actor contract |
 | CD06 | Chaos Weaver outcome-set model | R1 recommends6 fixed tiles, explicit committed sample, paid recovery; no free base exchange | Approval before compiler/runtime prototype |
 | CD07 | Lichborne survival rules | R1 recommends integrity12, return cost6 on confirmed death, dormant until completed rest at actual anchor, HP1/no new turn | HeadQ approval + death/anchor lifecycle |
-| CD08 | Oracle earns independent class? | Prepared finite forecasts need stronger prototype proof versus Ready/Augur | Oracle cohort selection |
+| CD08 | **Superseded by CD19: Oracle remains independent** | Develop prepared finite forecasts as its own candidate, not an Augur/Fate Weaver merge | Full Oracle content package, not another independence vote |
 | CD09 | Exorcist versus historical demon binder | Creator wants expulsion/purification; don't automatically import old demon leash | Exorcist identity and tree design |
 | CD10 | Inquisitor/Covenbane/Exorcist independent viability | Evaluate all three through authority/field countermeasure/expulsion economies | Final occult roster |
 | CD11 | Dreadnaught and fourth Martyr tree | Test independent equipment/brace fantasy; preserve Ironclad compatibility | Any tree transfer |
 | CD12 | Monk and Bladedancer separation | Investigate discipline/footwork versus weapon-sequence rhythm, no anatomy reuse | Their final dossiers |
 | CD13 | New cultural institutions/native assignments | All25/102 source-origin review complete;19 distinct priority pairings and specific school roles recommended in28 | HeadQ accepts/revises proposals; later final variants/executors |
-| CD14 | Harbinger/Doomsayer and Augur tree names | Keep Harbinger provisionally; rename Augur tree Ill Omen with ID compatibility | Content/name migration |
+| CD14 | **Superseded by CD17/CD18** | Doomsayer name settled; assess preserved Augur Ill Omen content inside Fate Weaver, keeping legacy IDs | Separate content/compatibility implementation, not a naming vote |
 
 Do not ask the creator to resolve source facts that can still be investigated. Exact spell counts, existing access precedence, current P9 support and historical registered trees are research, not creative questions. Shared P12–P14 decisions remain in their owning registers; do not silently approve them through this document.
 

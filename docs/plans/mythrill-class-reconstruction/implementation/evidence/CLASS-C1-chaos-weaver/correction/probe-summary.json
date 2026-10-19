@@ -1,0 +1,606 @@
+{
+  "checks": [
+    {
+      "name": "all 54 node gates, predecessors and rank tuples against contract",
+      "checked": 54,
+      "passivesChecked": 48,
+      "defects": []
+    },
+    {
+      "name": "all optional prices and names against literal manifest",
+      "checked": 40,
+      "defects": []
+    },
+    {
+      "name": "structured branch/prose consistency",
+      "lateralFracture": {
+        "damage": null,
+        "ward": null,
+        "movement": {
+          "kind": "displacement",
+          "feet": 5,
+          "until": "immediate",
+          "usesRemainingMovement": true,
+          "optional": false
+        },
+        "penalty": {
+          "kind": "penalty",
+          "feet": 10,
+          "until": "next-own-turn-start",
+          "usesRemainingMovement": true,
+          "optional": false
+        },
+        "note": "F: 5ft legal displacement and caster−10ft until next own-turn start (both retained: displacement and caster penalty)."
+      },
+      "finalPassageFracture": {
+        "damage": null,
+        "ward": null,
+        "movement": {
+          "kind": "displacement",
+          "feet": 5,
+          "until": "immediate",
+          "usesRemainingMovement": true,
+          "optional": false
+        },
+        "penalty": {
+          "kind": "penalty",
+          "feet": 10,
+          "until": "end-next-own-turn",
+          "usesRemainingMovement": true,
+          "optional": false
+        },
+        "note": "F: ally 5ft displacement and caster−10ft through end next own turn (both retained: ally displacement and caster penalty)."
+      },
+      "skewedGuardWardTarget": "self-or-ally"
+    },
+    {
+      "name": "capstone extension and nonnumeric preview",
+      "writtenBoundaryOmitted": {
+        "unsteady-ground.triggerOptions": {
+          "value": "entry-or-exit-or-centerline-crossing-or-named-segment",
+          "nodeId": "cw1_ab_n08",
+          "rank": 3
+        }
+      }
+    },
+    {
+      "name": "reported fixes",
+      "foldSingleAndTwoSupported": true,
+      "continuationAP": 0,
+      "zeroCountNullZones": true,
+      "canonicalImport": true
+    },
+    {
+      "name": "legal price cw1_37",
+      "result": {
+        "ok": true,
+        "tiles": {
+          "version": 1,
+          "rulesetVersion": "cr-cw-1",
+          "available": [
+            "M2",
+            "F2"
+          ],
+          "committed": [
+            "S1",
+            "S2",
+            "M1",
+            "F1"
+          ],
+          "bound": [],
+          "spent": []
+        },
+        "ap": 16
+      }
+    },
+    {
+      "name": "legal price cw1_38",
+      "result": {
+        "ok": true,
+        "tiles": {
+          "version": 1,
+          "rulesetVersion": "cr-cw-1",
+          "available": [
+            "S2",
+            "M2",
+            "F2"
+          ],
+          "committed": [],
+          "bound": [],
+          "spent": [
+            "S1",
+            "M1",
+            "F1"
+          ]
+        },
+        "ap": 17
+      }
+    },
+    {
+      "name": "legal price cw1_last_boundary",
+      "result": {
+        "ok": true,
+        "tiles": {
+          "version": 1,
+          "rulesetVersion": "cr-cw-1",
+          "available": [
+            "S1",
+            "S2",
+            "F2"
+          ],
+          "committed": [],
+          "bound": [
+            "M1",
+            "M2",
+            "F1"
+          ],
+          "spent": []
+        },
+        "ap": 17
+      }
+    },
+    {
+      "name": "duplicate Fold invalid atomicity",
+      "result": {
+        "ok": false,
+        "errors": [
+          "duplicate tile IDs in the commitment"
+        ]
+      },
+      "inputUnchanged": true
+    },
+    {
+      "name": "hybrid gate",
+      "treePoints": 3,
+      "globalPoints": 5,
+      "gate5Allowed": false
+    },
+    {
+      "name": "respec gate recheck",
+      "ranks": {
+        "cw1_ps_n01": 3,
+        "cw1_ps_n02": 1
+      },
+      "gate5NodeRetained": false
+    },
+    {
+      "name": "build validation and primary order",
+      "corePickAccepted": false,
+      "unpaidSignatureAccepted": false,
+      "firstInvestedCascadeButSummary": "cascade-weaver"
+    },
+    {
+      "name": "Safe Rehearsal once/rest",
+      "usage": {
+        "completedRestId": null,
+        "oncePerRest": [
+          "cw1_20"
+        ]
+      },
+      "secondAllowed": false
+    },
+    {
+      "name": "continuation invalid symbols",
+      "fractureReservationAllowed": false,
+      "surgeWithoutC10Allowed": false
+    },
+    {
+      "name": "anomaly trigger",
+      "mapping": {
+        "order": [
+          "M1",
+          "F1"
+        ],
+        "dice": "d6",
+        "rule": "two-ids-d6-1-3-4-6",
+        "entries": [
+          {
+            "tileId": "M1",
+            "faces": [
+              1,
+              2,
+              3
+            ]
+          },
+          {
+            "tileId": "F1",
+            "faces": [
+              4,
+              5,
+              6
+            ]
+          }
+        ]
+      },
+      "pending": {
+        "kind": "anomaly-trigger",
+        "actionId": "action-1",
+        "spellId": "cr1_chaos_weaver_unsteady_ground",
+        "sourceLabel": "Unsteady Ground",
+        "targetLabel": "unnamed point",
+        "primaryTileIds": [
+          "M1",
+          "F1"
+        ],
+        "continuationTileId": null,
+        "mapping": {
+          "order": [
+            "M1",
+            "F1"
+          ],
+          "dice": "d6",
+          "rule": "two-ids-d6-1-3-4-6",
+          "entries": [
+            {
+              "tileId": "M1",
+              "faces": [
+                1,
+                2,
+                3
+              ]
+            },
+            {
+              "tileId": "F1",
+              "faces": [
+                4,
+                5,
+                6
+              ]
+            }
+          ]
+        },
+        "selectedTileId": null,
+        "recordedFaces": null,
+        "phase": "committed"
+      },
+      "settlements": [],
+      "penalties": [],
+      "log": {
+        "id": "log-2",
+        "kind": "anomaly",
+        "text": "Unsteady Ground: trigger confirmed by the table — two-ids-d6-1-3-4-6 mapping retained; enter the physical face before settlement."
+      }
+    },
+    {
+      "name": "manual anomaly closure bypass",
+      "threw": "Cannot read properties of undefined (reading 'turn')"
+    },
+    {
+      "name": "Fracture settlement worksheet",
+      "selected": "F1",
+      "penalties": [
+        {
+          "sourceActionId": "action-1",
+          "feet": 5,
+          "expiresBoundary": "next-own-turn-start",
+          "expiresOwnTurn": 2
+        }
+      ],
+      "movement": 30
+    },
+    {
+      "name": "import missingTurn",
+      "accepted": false,
+      "errors": [
+        "rehearsal: rehearsal missing turn",
+        "rehearsal: rehearsal.turn must be an object"
+      ]
+    },
+    {
+      "name": "import orphanCommitted",
+      "accepted": false,
+      "errors": [
+        "rehearsal: committed tile S1 has no unresolved action owner"
+      ]
+    },
+    {
+      "name": "import unknownWorksheet",
+      "accepted": false,
+      "errors": [
+        "rehearsal: rehearsal unknown fields customExtension"
+      ]
+    },
+    {
+      "name": "import unknownCost",
+      "accepted": false,
+      "errors": [
+        "spells must match the 49 certified C1 active records exactly"
+      ]
+    },
+    {
+      "name": "import changedBranch",
+      "accepted": false,
+      "errors": [
+        "spells must match the 49 certified C1 active records exactly"
+      ]
+    },
+    {
+      "name": "import missingContent",
+      "accepted": false,
+      "errors": [
+        "packet missing members: classData, progression, talents",
+        "classData must match the certified C1 class record exactly",
+        "progression must match the certified C1 progression exactly",
+        "spells must match the 49 certified C1 active records exactly",
+        "talents must match the certified C1 trees and passive records exactly"
+      ]
+    },
+    {
+      "name": "import wrongMapping",
+      "accepted": false,
+      "errors": [
+        "rehearsal: pending mapping does not match the fixed mapping for the committed IDs"
+      ]
+    },
+    {
+      "name": "null pending import robustness",
+      "result": {
+        "ok": false,
+        "errors": [
+          "rehearsal: pending must be null or an object"
+        ]
+      }
+    },
+    {
+      "name": "Counterseal and Unbind preconditions",
+      "countersealWithoutAnomaly": false,
+      "unbindWithoutRecord": false,
+      "dismissWithoutAnomaly": false
+    },
+    {
+      "name": "once/rest void cannot refund use",
+      "usageAfterPaidVoid": [
+        "cw1_closed_distribution"
+      ]
+    },
+    {
+      "name": "invalid counters",
+      "negative": false
+    },
+    {
+      "name": "round trips all worksheet phases",
+      "exact": true
+    },
+    {
+      "name": "Probability numerical witness",
+      "ap": 1,
+      "tiles": {
+        "version": 1,
+        "rulesetVersion": "cr-cw-1",
+        "available": [
+          "S1",
+          "M2",
+          "F2"
+        ],
+        "committed": [],
+        "bound": [],
+        "spent": [
+          "S2",
+          "M1",
+          "F1"
+        ]
+      },
+      "selections": [
+        "S2",
+        "S2",
+        "M1"
+      ]
+    },
+    {
+      "name": "Anomaly numerical witness",
+      "threw": "commitSpell: one unresolved action already exists,tile M1 is not spent,tile F1 is not spent"
+    },
+    {
+      "name": "Cascade numerical witness",
+      "ap": 0,
+      "phase": "continuation-pending",
+      "tiles": {
+        "version": 1,
+        "rulesetVersion": "cr-cw-1",
+        "available": [
+          "S2",
+          "F2"
+        ],
+        "committed": [
+          "S1",
+          "M2",
+          "F1"
+        ],
+        "bound": [],
+        "spent": [
+          "M1"
+        ]
+      },
+      "penalties": []
+    }
+  ],
+  "witnesses": {
+    "probabilityFirstSelection": "S2"
+  },
+  "preservation": [
+    {
+      "path": "server/services/authoredSpellDefinitions.js",
+      "deliveryMatch": true,
+      "entryMatch": true
+    },
+    {
+      "path": "server/tests/authoredSpellDefinitions.test.js",
+      "deliveryMatch": true,
+      "entryMatch": true
+    },
+    {
+      "path": "server/tests/fixtures/crA1aDefinitionVectors.json",
+      "deliveryMatch": true,
+      "entryMatch": true
+    },
+    {
+      "path": "server/services/actorConsequences.js",
+      "deliveryMatch": true,
+      "entryMatch": true
+    },
+    {
+      "path": "server/services/spellPayments.js",
+      "deliveryMatch": true,
+      "entryMatch": true
+    },
+    {
+      "path": "server/services/strikeApprovals.js",
+      "deliveryMatch": true,
+      "entryMatch": true
+    },
+    {
+      "path": "server/services/blockApprovals.js",
+      "deliveryMatch": true,
+      "entryMatch": false
+    },
+    {
+      "path": "server/handlers/actorConsequenceHandlers.js",
+      "deliveryMatch": true,
+      "entryMatch": false
+    },
+    {
+      "path": "server/handlers/socketHandlers.js",
+      "deliveryMatch": true,
+      "entryMatch": true
+    },
+    {
+      "path": "server/services/roomAuthorityService.js",
+      "deliveryMatch": true,
+      "entryMatch": true
+    },
+    {
+      "path": "server/services/roomCheckpoint.js",
+      "deliveryMatch": true,
+      "entryMatch": true
+    },
+    {
+      "path": "server/services/syncService.js",
+      "deliveryMatch": true,
+      "entryMatch": true
+    },
+    {
+      "path": "server/services/firebaseService.js",
+      "deliveryMatch": true,
+      "entryMatch": true
+    },
+    {
+      "path": "server/tests/p9SpellConsequences.production.test.js",
+      "deliveryMatch": true,
+      "entryMatch": true
+    },
+    {
+      "path": "server/tests/p12aWeaponStrike.production.test.js",
+      "deliveryMatch": true,
+      "entryMatch": true
+    },
+    {
+      "path": "server/tests/p12bBlockWear.production.test.js",
+      "deliveryMatch": false,
+      "entryMatch": false
+    },
+    {
+      "path": "vtt-react/src/components/spellcrafting-wizard/components/steps/Step5Resources.jsx",
+      "deliveryMatch": true,
+      "entryMatch": true
+    },
+    {
+      "path": "vtt-react/src/components/spellcrafting-wizard/core/mechanics/resourceManager.js",
+      "deliveryMatch": true,
+      "entryMatch": true
+    },
+    {
+      "path": "vtt-react/src/components/spellcrafting-wizard/core/utils/spellSerializer.js",
+      "deliveryMatch": true,
+      "entryMatch": true
+    },
+    {
+      "path": "vtt-react/src/data/classes/index.js",
+      "deliveryMatch": true,
+      "entryMatch": true
+    },
+    {
+      "path": "vtt-react/src/data/classHeritageRegistry.js",
+      "deliveryMatch": true,
+      "entryMatch": true
+    },
+    {
+      "path": "vtt-react/src/data/talentTreeData.js",
+      "deliveryMatch": true,
+      "entryMatch": true
+    },
+    {
+      "path": "vtt-react/src/components/rules/ClassesDisplay.jsx",
+      "deliveryMatch": false,
+      "entryMatch": false
+    },
+    {
+      "path": "docs/plans/mythrill-class-reconstruction/implementation/evidence/CR-A1a-independent-review/review.md",
+      "deliveryMatch": true,
+      "entryMatch": true
+    },
+    {
+      "path": "docs/plans/mythrill-class-reconstruction/implementation/evidence/CR-A1a-independent-review/independent-probes.cjs",
+      "deliveryMatch": true,
+      "entryMatch": true
+    }
+  ],
+  "applicationHashes": [
+    {
+      "path": "vtt-react/src/data/classes/chaosWeaverData.js",
+      "deliveryMatch": false
+    },
+    {
+      "path": "vtt-react/src/data/classes/chaosWeaverRules.js",
+      "deliveryMatch": false
+    },
+    {
+      "path": "vtt-react/src/data/talentTrees/chaosWeaver.js",
+      "deliveryMatch": true
+    },
+    {
+      "path": "vtt-react/src/components/hud/ChaosWeaverResourceDisplay.jsx",
+      "deliveryMatch": false
+    },
+    {
+      "path": "vtt-react/src/components/rules/chaos-weaver/ChaosWeaverWorkshop.jsx",
+      "deliveryMatch": false
+    },
+    {
+      "path": "vtt-react/src/components/rules/chaos-weaver/ChaosWeaverWorkshop.css",
+      "deliveryMatch": false
+    },
+    {
+      "path": "vtt-react/src/data/classes/__tests__/chaosWeaverPackage.test.js",
+      "deliveryMatch": true
+    },
+    {
+      "path": "vtt-react/src/data/classes/__tests__/chaosWeaverRules.test.js",
+      "deliveryMatch": false
+    },
+    {
+      "path": "vtt-react/src/components/rules/chaos-weaver/__tests__/ChaosWeaverWorkshop.test.jsx",
+      "deliveryMatch": false
+    },
+    {
+      "path": "vtt-react/src/components/hud/__tests__/ChaosWeaverResourceDisplay.test.jsx",
+      "deliveryMatch": true
+    },
+    {
+      "path": "vtt-react/src/components/rules/ClassesDisplay.jsx",
+      "deliveryMatch": false
+    },
+    {
+      "path": "vtt-react/src/components/rules/__tests__/ClassesDisplay.test.jsx",
+      "deliveryMatch": false
+    }
+  ],
+  "counts": {
+    "optional": 40,
+    "core": 3,
+    "talentActives": 6,
+    "passives": 48,
+    "total": 97,
+    "nodes": 54,
+    "trees": 3
+  }
+}

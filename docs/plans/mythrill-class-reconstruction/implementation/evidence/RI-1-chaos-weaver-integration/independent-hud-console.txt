@@ -1,0 +1,83 @@
+Total messages: 51 (Errors: 8, Warnings: 3)
+Returning 8 messages for level "error"
+
+[ERROR] Sending error to server: {id: javascript_error_1792432742315_e8g4qx7x0, type: javascript_error, data: Object, timestamp: 2026-10-19T17:59:02.315Z, userId: anonymous} @ http://localhost:3000/static/js/bundle.js:745831
+[ERROR] [javascript_error] {message: Uncaught TypeError: Cannot read properties of null (reading '0'), filename: http://localhost:3000/static/js/src_components_hud_ClassResourceBar_jsx.chunk.js, lineno: 7975, colno: 39, error: TypeError: Cannot read properties of null (reading '0')
+    at pendingText (http://localhost:3000/s…} @ http://localhost:3000/static/js/bundle.js:745725
+[ERROR] Sending error to server: {id: javascript_error_1792432742337_05jg0nhxa, type: javascript_error, data: Object, timestamp: 2026-10-19T17:59:02.337Z, userId: anonymous} @ http://localhost:3000/static/js/bundle.js:745831
+[ERROR] [javascript_error] {message: Uncaught TypeError: Cannot read properties of null (reading '0'), filename: http://localhost:3000/static/js/src_components_hud_ClassResourceBar_jsx.chunk.js, lineno: 7975, colno: 39, error: TypeError: Cannot read properties of null (reading '0')
+    at pendingText (http://localhost:3000/s…} @ http://localhost:3000/static/js/bundle.js:745725
+[ERROR] The above error occurred in the <ChaosWeaverResourceDisplay> component:
+
+    at ChaosWeaverResourceDisplay (http://localhost:3000/static/js/src_components_hud_ClassResourceBar_jsx.chunk.js:8005:3)
+    at div
+    at ClassResourceBar (http://localhost:3000/static/js/src_components_hud_ClassResourceBar_jsx.chunk.js:8770:3)
+    at div
+    at div
+    at div
+    at PartyMemberFrame (http://localhost:3000/static/js/src_components_hud_HUDContainer_jsx.chunk.js:4703:3)
+    at div
+    at DraggableCore (http://localhost:3000/static/js/vendors-node_modules_react-resizable_index_js.chunk.js:605:5)
+    at Draggable (http://localhost:3000/static/js/vendors-node_modules_react-resizable_index_js.chunk.js:167:5)
+    at div
+    at PartyHUD (http://localhost:3000/static/js/src_components_hud_HUDContainer_jsx.chunk.js:7094:3)
+    at HUDContainer (http://localhost:3000/static/js/src_components_hud_HUDContainer_jsx.chunk.js:3892:102)
+    at div
+    at PrivateProjectionBoundary (http://localhost:3000/static/js/bundle.js:717472:3)
+    at ErrorBoundary (http://localhost:3000/static/js/bundle.js:419450:5)
+    at Suspense
+    at div
+    at ErrorBoundary (http://localhost:3000/static/js/bundle.js:419450:5)
+    at GameScreen (http://localhost:3000/static/js/bundle.js:407457:81)
+    at div
+    at PhoneGate (http://localhost:3000/static/js/bundle.js:407285:3)
+    at GameRouteWrapper (http://localhost:3000/static/js/bundle.js:407320:3)
+    at RenderedRoute (http://localhost:3000/static/js/bundle.js:391433:5)
+    at Routes (http://localhost:3000/static/js/bundle.js:392167:5)
+    at AppContent (http://localhost:3000/static/js/bundle.js:408583:3)
+    at Router (http://localhost:3000/static/js/bundle.js:392101:15)
+    at BrowserRouter (http://localhost:3000/static/js/bundle.js:390002:5)
+    at SpellLibraryProvider (http://localhost:3000/static/js/bundle.js:477099:3)
+    at RoomProvider (http://localhost:3000/static/js/bundle.js:532994:3)
+    at GameProvider (http://localhost:3000/static/js/bundle.js:409872:3)
+    at CharacterPersistenceProvider (http://localhost:3000/static/js/bundle.js:435640:3)
+    at PersistenceProvider (http://localhost:3000/static/js/bundle.js:435807:3)
+    at App (http://localhost:3000/static/js/bundle.js:408304:92)
+    at AppWrapper (http://localhost:3000/static/js/bundle.js:717299:3)
+    at ErrorBoundary (http://localhost:3000/static/js/bundle.js:419450:5)
+
+React will try to recreate this component tree from scratch using the error boundary you provided, ErrorBoundary. @ http://localhost:3000/static/js/bundle.js:350950
+[ERROR] ErrorBoundary caught an error TypeError: Cannot read properties of null (reading '0')
+    at pendingText (http://localhost:3000/static/js/src_components_hud_ClassResourceBar_jsx.chunk.js:7975:39)
+    at ChaosWeaverResourceDisplay (http://localhost:3000/static/js/src_components_hud_ClassResourceBar_jsx.chunk.js:8042:23)
+    at renderWithHooks (http://localhost:3000/static/js/bundle.js:348170:22)
+    at updateFunctionComponent (http://localhost:3000/static/js/bundle.js:351738:24)
+    at beginWork (http://localhost:3000/static/js/bundle.js:353457:20)
+    at beginWork$1 (http://localhost:3000/static/js/bundle.js:358404:18)
+    at performUnitOfWork (http://localhost:3000/static/js/bundle.js:357674:16)
+    at workLoopSync (http://localhost:3000/static/js/bundle.js:357597:9)
+    at renderRootSync (http://localhost:3000/static/js/bundle.js:357570:11)
+    at recoverFromConcurrentError (http://localhost:3000/static/js/bundle.js:357062:24) {componentStack: 
+    at ChaosWeaverResourceDisplay (http://localho…tp://localhost:3000/static/js/bundle.js:419450:5)} @ http://localhost:3000/static/js/bundle.js:419478
+TypeError: Cannot read properties of null (reading '0')
+    at pendingText (http://localhost:3000/static/js/src_components_hud_ClassResourceBar_jsx.chunk.js:7975:39)
+    at ChaosWeaverResourceDisplay (http://localhost:3000/static/js/src_components_hud_ClassResourceBar_jsx.chunk.js:8042:23)
+    at renderWithHooks (http://localhost:3000/static/js/bundle.js:348170:22)
+    at updateFunctionComponent (http://localhost:3000/static/js/bundle.js:351738:24)
+    at beginWork (http://localhost:3000/static/js/bundle.js:353457:20)
+    at HTMLUnknownElement.callCallback (http://localhost:3000/static/js/bundle.js:338426:18)
+    at Object.invokeGuardedCallbackDev (http://localhost:3000/static/js/bundle.js:338470:20)
+    at invokeGuardedCallback (http://localhost:3000/static/js/bundle.js:338527:35)
+    at beginWork$1 (http://localhost:3000/static/js/bundle.js:358426:11)
+    at performUnitOfWork (http://localhost:3000/static/js/bundle.js:357674:16)
+TypeError: Cannot read properties of null (reading '0')
+    at pendingText (http://localhost:3000/static/js/src_components_hud_ClassResourceBar_jsx.chunk.js:7975:39)
+    at ChaosWeaverResourceDisplay (http://localhost:3000/static/js/src_components_hud_ClassResourceBar_jsx.chunk.js:8042:23)
+    at renderWithHooks (http://localhost:3000/static/js/bundle.js:348170:22)
+    at updateFunctionComponent (http://localhost:3000/static/js/bundle.js:351738:24)
+    at beginWork (http://localhost:3000/static/js/bundle.js:353457:20)
+    at HTMLUnknownElement.callCallback (http://localhost:3000/static/js/bundle.js:338426:18)
+    at Object.invokeGuardedCallbackDev (http://localhost:3000/static/js/bundle.js:338470:20)
+    at invokeGuardedCallback (http://localhost:3000/static/js/bundle.js:338527:35)
+    at beginWork$1 (http://localhost:3000/static/js/bundle.js:358426:11)
+    at performUnitOfWork (http://localhost:3000/static/js/bundle.js:357674:16)

@@ -54,6 +54,16 @@ export function narrationReducer(state, action) {
     };
     return { ...state, current: null };
   }
+  if (action.type === 'history') {
+    // P13A: historical/recovered results enter history only (no banner, no announcement).
+    let next = state;
+    for (const input of action.events) {
+      const event = publicAnnouncement(input);
+      if (!event || next.history.some(item => item.id === event.id)) continue;
+      next = { ...next, history: [...next.history, { ...event, historical: true }] };
+    }
+    return next;
+  }
   if (action.type !== 'publish') return state;
   let next = state;
   for (const input of action.events) {

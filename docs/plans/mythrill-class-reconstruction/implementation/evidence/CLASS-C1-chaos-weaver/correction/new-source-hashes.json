@@ -1,0 +1,85 @@
+{
+  "capturedAt": "2026-10-18T18:41:52.309Z",
+  "scope": "CLASS-C1 Chaos Weaver correction pass (blocking findings R1-R6). Same 12 authorized paths as the original implementation; no new paths added.",
+  "newFiles": [
+    {
+      "path": "vtt-react/src/data/classes/chaosWeaverData.js",
+      "correctionSha256": "fd27a919038ddd42d646458f143966fb53ea88b42825893e13c05708c46d5993",
+      "lines": 1968,
+      "entryBaselineSha256": "ad768b4dc18f1dcc7006a6a24dab71a0c556a3008e4d48b760fec8305582852a"
+    },
+    {
+      "path": "vtt-react/src/data/classes/chaosWeaverRules.js",
+      "correctionSha256": "07602a9ee181aacc1f1a4dbf4dc665f841df7901a8cb9bf55c9b763ac7b1cdae",
+      "lines": 2445,
+      "entryBaselineSha256": "105159e577d32dff0f8c96aebc1989947a50bbc971f9a6a12aa087cddbf8fec4"
+    },
+    {
+      "path": "vtt-react/src/data/talentTrees/chaosWeaver.js",
+      "correctionSha256": "8c8e7d5dd13e7d4af763d6832eb4ae291d30fea5608ac1c7520ea885944cced0",
+      "lines": 1228,
+      "entryBaselineSha256": "8c8e7d5dd13e7d4af763d6832eb4ae291d30fea5608ac1c7520ea885944cced0"
+    },
+    {
+      "path": "vtt-react/src/components/hud/ChaosWeaverResourceDisplay.jsx",
+      "correctionSha256": "47a955463d9b1bc73e41c51a53ea75a26d335d5479c26820859c29ac8c8a68ba",
+      "lines": 394,
+      "entryBaselineSha256": "72f07d979be0aa6dc5a1e3e55ef82dee516939d8b7b28fa35eefd9b7c9d3a903"
+    },
+    {
+      "path": "vtt-react/src/components/rules/chaos-weaver/ChaosWeaverWorkshop.jsx",
+      "correctionSha256": "4711889565151d38d60cef0c8a683449b2b0c592c65cfff2f6ad8ce4f28c1918",
+      "lines": 1738,
+      "entryBaselineSha256": "acb9a8ac2e5f407b1ad3265ae6ca84b92f2bb7561152fa15a6991a315cbf38a6"
+    },
+    {
+      "path": "vtt-react/src/components/rules/chaos-weaver/ChaosWeaverWorkshop.css",
+      "correctionSha256": "405a31facea44bb4941c7b9cfd2d373aa1f1627dcb80ea6c424dbb0614c2c66e",
+      "lines": 544,
+      "entryBaselineSha256": "257aabd7f4ff5e3c553f9eb08979a1efedd1671085103df4f399dec8229d1bbc"
+    },
+    {
+      "path": "vtt-react/src/data/classes/__tests__/chaosWeaverPackage.test.js",
+      "correctionSha256": "72c1a58c27807bd53d1dbec4a19ec39345c3c0d4218c4148c894629af852bf0c",
+      "lines": 162,
+      "entryBaselineSha256": "72c1a58c27807bd53d1dbec4a19ec39345c3c0d4218c4148c894629af852bf0c"
+    },
+    {
+      "path": "vtt-react/src/data/classes/__tests__/chaosWeaverRules.test.js",
+      "correctionSha256": "07cff691e20f5072077c124fdb2ab294e19249f13b97fb9be170e5df9d3ea034",
+      "lines": 505,
+      "entryBaselineSha256": "24171a961110b2b8c00d1a0b2a2c9eeb5b09e3dcb85954ef9a28b968cad12136"
+    },
+    {
+      "path": "vtt-react/src/components/rules/chaos-weaver/__tests__/ChaosWeaverWorkshop.test.jsx",
+      "correctionSha256": "52f08d1f1027c0f8a9593d0f30a768e23a39301d39b52c893c1af8b8cbffb5ce",
+      "lines": 238,
+      "entryBaselineSha256": "2d902e419871f81edd2ace764a51a1da2c575139686f8d116943abab672cfa34"
+    },
+    {
+      "path": "vtt-react/src/components/hud/__tests__/ChaosWeaverResourceDisplay.test.jsx",
+      "correctionSha256": "51192670d39e83a6d7c2aaafab0afb0173f7133d89b598cf7863f5e4f1b88ebc",
+      "lines": 116,
+      "entryBaselineSha256": "51192670d39e83a6d7c2aaafab0afb0173f7133d89b598cf7863f5e4f1b88ebc"
+    }
+  ],
+  "modifiedFiles": [
+    {
+      "path": "vtt-react/src/components/rules/ClassesDisplay.jsx",
+      "correctionSha256": "ebdab2dd19f28d101b371b135a3cbfc41538264c36d56b5041cf0adaa5c3fdbb",
+      "lines": 481,
+      "entryBaselineSha256": "092d30e652eadaef920e80c9b9413ac83b2d881a0c02a0137fad4efecb631ca7"
+    },
+    {
+      "path": "vtt-react/src/components/rules/__tests__/ClassesDisplay.test.jsx",
+      "correctionSha256": "5a3ae89ac0869c1be3deb864f5b8c532a11e936032355527aabdeb2d28c2de15",
+      "lines": 51,
+      "entryBaselineSha256": "9ccbe4c2a83416b9be9c7b6b0d414609e94752c543d2ce2c15da8fb2667b9b3e"
+    }
+  ],
+  "testEvidence": {
+    "result": "5 suites passed, 5 total; 50 tests passed, 50 total (was 45 before correction)",
+    "eslint": "0 errors, 1 pre-existing warning (chaosWeaverRules.js no-loop-func in pruneRanks, unchanged by this pass)"
+  },
+  "commitPolicy": "No commits, amendments, pushes or deploys were made by the implementer."
+}

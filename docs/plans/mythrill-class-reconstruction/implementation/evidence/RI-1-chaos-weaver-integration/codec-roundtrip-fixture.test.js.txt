@@ -1,0 +1,66 @@
+import useCharacterStore from '../../characterStore';
+import { assembleCharacterWorkingData } from '../../characterHelpers';
+
+test('Chaos Weaver typed state survives an ordinary personal snapshot round-trip', () => {
+  const tiles = {
+    version: 1,
+    rulesetVersion: 'cr-cw-1',
+    available: ['S1', 'S2', 'M1', 'M2', 'F1'],
+    committed: [],
+    bound: [],
+    spent: ['F2']
+  };
+  const classResource = {
+    type: 'chaos-weaver-tiles',
+    initialized: true,
+    rehearsal: { label: 'table' },
+    tiles,
+    pending: null,
+    anomaly: null,
+    current: 0,
+    max: 0,
+    rehearsalValid: true,
+    validationErrors: []
+  };
+
+  useCharacterStore.setState({
+    currentCharacterId: 'cw-1',
+    characters: [{ id: 'cw-1', name: 'Variance Probe' }],
+    name: 'Variance Probe',
+    class: 'Chaos Weaver',
+    classAcquisition: { method: 'native', heritageId: 'drall_fexric' },
+    level: 2,
+    class_spells: {
+      known_spells: [
+        'cr1_chaos_weaver_fold_odds',
+        'cr1_chaos_weaver_split_possibility',
+        'cw1_dismiss_anomaly',
+        'cw1_05'
+      ]
+    },
+    levelUpHistory: [{ level: 2, choices: { spell: 'cw1_05' } }],
+    talents: { cw1_ps_n01: 1 },
+    primarySpecialization: 'probability-sculptor',
+    classResource,
+    health: { current: 10, max: 10 },
+    mana: { current: 5, max: 5 },
+    actionPoints: { current: 1, max: 3 },
+    equipment: {},
+    inventory: {
+      items: [],
+      currency: { platinum: 0, gold: 0, silver: 0, copper: 0 },
+      encumbranceState: 'normal'
+    },
+    stats: { constitution: 10, strength: 10, agility: 10, intelligence: 10, spirit: 10, charisma: 10 }
+  });
+
+  const payload = assembleCharacterWorkingData(useCharacterStore.getState());
+  const roundTripped = JSON.parse(JSON.stringify(payload));
+
+  expect(roundTripped.class_spells).toEqual(payload.class_spells);
+  expect(roundTripped.talents).toEqual(payload.talents);
+  expect(roundTripped.levelUpHistory).toEqual(payload.levelUpHistory);
+  expect(roundTripped.classResource).toEqual(payload.classResource);
+  expect(roundTripped.classResource.tiles).toEqual(tiles);
+  expect(roundTripped.class).toBe('Chaos Weaver');
+});

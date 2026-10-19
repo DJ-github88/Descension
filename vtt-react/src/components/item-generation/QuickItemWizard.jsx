@@ -304,7 +304,7 @@ const generateCombatStats = (type, quality, powerScale = 1) => {
         case 'weapon':
             // Add weapon-specific damage type for uncommon and above
             if (quality !== 'poor' && (quality !== 'common' || Math.random() < 0.5)) {
-                const extraDamageType = getRandomElement(['piercingDamage', 'bludgeoningDamage', 'slashingDamage']);
+                const extraDamageType = getRandomElement(['smashingDamage', 'stabbingDamage', 'slicingDamage']);
                 stats[extraDamageType] = {
                     value: Math.floor(Math.random() * (range.damage.max - range.damage.min + 1)) + range.damage.min,
                     isPercentage: false
@@ -437,7 +437,7 @@ const generateWeaponStats = (quality, powerScale = 1) => {
         bonusDamage = Math.floor(getRandomInt(0, 3) * multiplier);
     }
 
-    const damageType = getRandomElement(['slashing', 'piercing', 'bludgeoning']);
+    const damageType = getRandomElement(['slicing', 'stabbing', 'smashing']);
 
     // Only add bonus damage type for uncommon and above
     let bonusDamageType = null;
@@ -917,7 +917,7 @@ const QuickItemWizard = ({ onComplete, onCancel, initialData }) => {
                             subtype,
                             quality,
                             reagentType: getRandomElement(['Herb', 'Mineral', 'Crystal', 'Essence', 'Extract']),
-                            magicType: getRandomElement(['fire', 'frost', 'arcane', 'nature', 'shadow']),
+                            magicType: getRandomElement(['ember', 'rime', 'storm', 'primal', 'arcane', 'blight', 'wyrd', 'sacred']),
                             reagentState: getRandomElement(['Raw', 'Refined', 'Processed', 'Pure']),
                             requiredFor: 'Various magical concoctions',
                             description: generateDescription(type, quality, name)
@@ -1008,7 +1008,7 @@ const QuickItemWizard = ({ onComplete, onCancel, initialData }) => {
                 for (const type of damageTypes) {
                     if (userPrompt.toLowerCase().includes(type)) {
                         if (customWeaponStats) {
-                            customWeaponStats.baseDamage.bonusDamageType = type === 'toxic' ? 'poison' : type;
+                            customWeaponStats.baseDamage.bonusDamageType = type === 'toxic' ? 'blight' : type;
                             customWeaponStats.baseDamage.bonusDamage = Math.max(1, Math.floor(QUALITY_MULTIPLIERS[quality]));
                         }
                         break;

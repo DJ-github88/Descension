@@ -2454,7 +2454,7 @@ export const WEAPONS = [
       },
       spellDamage: {
         types: {
-          cold: { value: 2, isPercentage: false }
+          rime: { value: 2, isPercentage: false }
         }
       }
     },
@@ -2770,7 +2770,7 @@ export const WEAPONS = [
       },
       spellDamage: {
         types: {
-          shadow: { value: 4, isPercentage: false }
+          wyrd: { value: 4, isPercentage: false }
         }
       }
     },
@@ -3017,7 +3017,7 @@ export const WEAPONS = [
       },
       spellDamage: {
         types: {
-          shadow: { value: 7, isPercentage: false },
+          wyrd: { value: 7, isPercentage: false },
           blight: {	 value: 5, isPercentage: false }
         }
       }
@@ -3144,7 +3144,7 @@ export const WEAPONS = [
       },
       spellDamage: {
         types: {
-          cold: { value: 8, isPercentage: false }
+          rime: { value: 8, isPercentage: false }
         }
       }
     },
@@ -3561,7 +3561,7 @@ export const WEAPONS = [
     combatStats: {
       spellDamage: {
         types: {
-          cold: { value: 3, isPercentage: false }
+          rime: { value: 3, isPercentage: false }
         }
       }
     },

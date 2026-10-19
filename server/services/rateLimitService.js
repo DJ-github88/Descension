@@ -45,6 +45,14 @@ class RateLimitService {
       actor_block_withdraw: { maxPerMinute: 30, maxPerSecond: 3 },
       actor_block_decline: { maxPerMinute: 30, maxPerSecond: 3 },
       actor_block_list: { maxPerMinute: 60, maxPerSecond: 5 },
+      reaction_window_open: { maxPerMinute: 60, maxPerSecond: 4 },
+      actor_riposte_offer: { maxPerMinute: 60, maxPerSecond: 4 },
+      actor_riposte_list: { maxPerMinute: 180, maxPerSecond: 10 },
+      actor_riposte_cancel: { maxPerMinute: 60, maxPerSecond: 4 },
+      actor_riposte_revalidate: { maxPerMinute: 60, maxPerSecond: 4 },
+      reaction_window_list: { maxPerMinute: 180, maxPerSecond: 10 },
+      reaction_window_change: { maxPerMinute: 120, maxPerSecond: 15 },
+      reaction_window_interrupt: { maxPerMinute: 30, maxPerSecond: 3 },
       dice_rolled: { maxPerMinute: 60, maxPerSecond: 5 },
 
       // Item operations - moderate frequency

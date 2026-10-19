@@ -1,4 +1,8 @@
 // Frozen P12A A1–A9 + P11 closure in the actual optimized App. No component replacement.
+// Setup corrected 2026-10-18 (integration closure): rejoin recovery now runs through the App's single room_joined
+// listener, registered by `registerRoomJoinedListener` (services/roomRejoinBus.js), not a per-service socket listener.
+// This harness calls that same production registration on its socket (it does not mount MultiplayerApp); see
+// docs/MYTHRILL_SLICES_20261017_IMPLEMENTATION.md. The byte-identical earlier witness is app-browser.20261016-original.cjs.
 // Provider identity, canonical owner documents, lease backend and cloud transport are fixtures.
 const fs = require('fs'), path = require('path'), assert = require('assert/strict');
 const { chromium } = require('playwright');
@@ -20,6 +24,12 @@ async function setup(page, host, uid) {
     const custody = moduleWith('Strike device custody unavailable');
     window.__strikeCustody = { loadStrikeCustody: custody.loadStrikeCustody || custody.gY };
     __strike.registerWeaponStrikeHandlers({ socket: __socket }); await __strike.refreshStrikeApprovals(); await __strike.loadStrikeData();
+    // Production rejoin wiring: the socket's one room_joined listener is registered by the same production function
+    // the App's room lifecycle calls (registerRoomJoinedListener, services/roomRejoinBus.js). The harness does not
+    // mount MultiplayerApp, so it passes no UI join handler; registration, rejoin decision and relay are production code.
+    const registerRoomJoined = Object.values(moduleWith('[roomRejoin] subscriber failed')).find(fn => typeof fn === 'function' && fn.toString().includes('room_joined'));
+    if (!registerRoomJoined) throw Error('Missing compiled registerRoomJoinedListener');
+    registerRoomJoined(__socket);
     const on = __socket.on.bind(__socket);
     // Replace only transport delivery boundaries, never acceptance/price/recovery behavior.
     const registeredAccepted = __socket.listeners('actor_consequence_accepted');
@@ -136,6 +146,10 @@ async function main() {
     await gm.evaluate(() => { __socket.disconnect(); });
     await dropAction(owner, 'universal_attack'); await physical(owner, '3'); await approve();
     const missedId = await owner.evaluate(() => __strikeCustody.loadStrikeCustody().owner.approval.approvalId);
+    const ownerBytes = await owner.evaluate(() => JSON.stringify(__strikeCustody.loadStrikeCustody().owner.approval));
+    const listReads = () => gm.evaluate(() => __outbound.filter(v => v.event === 'actor_strike_list').length);
+    const readsBefore = await listReads(), receiptsBefore = host.room.gameState.actorConsequences.receipts.length;
+    const gmCustodyBefore = await gm.evaluate(() => JSON.stringify(__strikeCustody.loadStrikeCustody()?.gm || {}));
     await gm.evaluate(async() => {
       __socket.connect(); await new Promise(r => __socket.once('connect', r));
       const joined = new Promise(r => __socket.once('room_joined', r));
@@ -143,9 +157,20 @@ async function main() {
     });
     await card().waitFor();
     assert.ok(await gm.evaluate(id => !!__strike.useWeaponStrikeStore.getState().gmPending[id], missedId));
+    // Corrected-harness checks: one listener, one read per rejoin, recorded roll and custody unchanged, nothing applied.
+    assert.equal(await gm.evaluate(() => __socket.listeners('room_joined').length), 1, 'one room_joined listener');
+    assert.equal(await listReads() - readsBefore, 1, 'exactly one pending-list read for the rejoin');
+    assert.equal(await gm.evaluate(id => JSON.stringify(__strike.useWeaponStrikeStore.getState().gmPending[id].approval), missedId), ownerBytes, 'the GM sees the original recorded approval bytes');
+    assert.equal(await owner.evaluate(() => JSON.stringify(__strikeCustody.loadStrikeCustody().owner.approval)), ownerBytes, 'owner custody unchanged');
+    assert.equal(host.room.gameState.actorConsequences.receipts.length, receiptsBefore, 'a rejoin applies nothing');
+    assert.equal(await gm.evaluate(() => JSON.stringify(__strikeCustody.loadStrikeCustody()?.gm || {})), gmCustodyBefore, 'GM command custody unchanged by the rejoin');
+    const readsSecond = await listReads();
     await gm.evaluate(() => { __socket.disconnect(); }); await owner.getByRole('button', { name: 'Withdraw before acceptance' }).click();
     await gm.evaluate(async() => { __socket.connect(); await new Promise(r => __socket.once('connect', r)); const joined = new Promise(r => __socket.once('room_joined', r)); __socket.emit('join_room', { roomId: S('gameStore').getState().multiplayerRoom.id, playerName: 'app-gm', password: '' }); await joined; });
     await gm.waitForFunction(id => !__strike.useWeaponStrikeStore.getState().gmPending[id], missedId);
+    assert.equal(await gm.evaluate(() => __socket.listeners('room_joined').length), 1, 'still one listener after a second rejoin');
+    assert.equal(await listReads() - readsSecond, 1, 'one read for the second rejoin: no accumulated subscription');
+    assert.equal(host.room.gameState.actorConsequences.receipts.length, receiptsBefore, 'withdraw and rejoin apply nothing');
     evidence.witnesses.sameSocketRejoin = true;
     await owner.getByRole('button', { name: 'Close strike' }).click();
     // >32 completed commands: real services + registered handlers, preserving active custody.

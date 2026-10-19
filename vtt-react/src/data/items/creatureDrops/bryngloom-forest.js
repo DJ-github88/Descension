@@ -107,7 +107,7 @@ export const BRYNGLOOM_FOREST_DROPS = [
     ],
     "gatheringMethod": "skinning",
     "reagentType": "Liquid",
-    "magicType": "nature",
+    "magicType": "primal",
     "reagentState": "Raw"
   },
   {
@@ -254,7 +254,7 @@ export const BRYNGLOOM_FOREST_DROPS = [
     ],
     "gatheringMethod": "rare",
     "reagentType": "Crystal",
-    "magicType": "shadow",
+    "magicType": "wyrd",
     "reagentState": "Raw"
   },
   {
@@ -307,7 +307,7 @@ export const BRYNGLOOM_FOREST_DROPS = [
     ],
     "gatheringMethod": "herbalism",
     "reagentType": "Herb",
-    "magicType": "nature",
+    "magicType": "primal",
     "reagentState": "Raw"
   },
   {
@@ -357,7 +357,7 @@ export const BRYNGLOOM_FOREST_DROPS = [
     ],
     "gatheringMethod": "skinning",
     "reagentType": "Liquid",
-    "magicType": "water",
+    "magicType": "primal",
     "reagentState": "Raw"
   },
   {
@@ -409,7 +409,7 @@ export const BRYNGLOOM_FOREST_DROPS = [
     ],
     "gatheringMethod": "skinning",
     "reagentType": "Powder",
-    "magicType": "plague",
+    "magicType": "blight",
     "reagentState": "Raw"
   },
   {
@@ -607,7 +607,7 @@ export const BRYNGLOOM_FOREST_DROPS = [
     ],
     "gatheringMethod": "skinning",
     "reagentType": "Essence",
-    "magicType": "fire",
+    "magicType": "ember",
     "reagentState": "Raw"
   },
   {
@@ -659,7 +659,7 @@ export const BRYNGLOOM_FOREST_DROPS = [
     ],
     "gatheringMethod": "rare",
     "reagentType": "Liquid",
-    "magicType": "nature",
+    "magicType": "primal",
     "reagentState": "Pure"
   },
   {
@@ -686,7 +686,7 @@ export const BRYNGLOOM_FOREST_DROPS = [
     ],
     "gatheringMethod": "rare",
     "reagentType": "Essence",
-    "magicType": "shadow",
+    "magicType": "wyrd",
     "reagentState": "Raw"
   },
   {
@@ -860,7 +860,7 @@ export const BRYNGLOOM_FOREST_DROPS = [
     ],
     "gatheringMethod": "rare",
     "reagentType": "Essence",
-    "magicType": "shadow",
+    "magicType": "wyrd",
     "reagentState": "Pure"
   },
   {
@@ -913,7 +913,7 @@ export const BRYNGLOOM_FOREST_DROPS = [
     ],
     "gatheringMethod": "rare",
     "reagentType": "Essence",
-    "magicType": "fire",
+    "magicType": "ember",
     "reagentState": "Pure"
   },
   {
@@ -1039,7 +1039,7 @@ export const BRYNGLOOM_FOREST_DROPS = [
     ],
     "gatheringMethod": "herbalism",
     "reagentType": "Herb",
-    "magicType": "nature",
+    "magicType": "primal",
     "reagentState": "Raw"
   },
   {
@@ -1115,7 +1115,7 @@ export const BRYNGLOOM_FOREST_DROPS = [
     ],
     "gatheringMethod": "rare",
     "reagentType": "Essence",
-    "magicType": "light",
+    "magicType": "sacred",
     "reagentState": "Raw"
   },
   {
@@ -1189,7 +1189,7 @@ export const BRYNGLOOM_FOREST_DROPS = [
     ],
     "gatheringMethod": "rare",
     "reagentType": "Herb",
-    "magicType": "nature",
+    "magicType": "primal",
     "reagentState": "Raw"
   },
   {
@@ -1216,7 +1216,7 @@ export const BRYNGLOOM_FOREST_DROPS = [
     ],
     "gatheringMethod": "rare",
     "reagentType": "Liquid",
-    "magicType": "nature",
+    "magicType": "primal",
     "reagentState": "Pure"
   },
   {
@@ -1268,7 +1268,7 @@ export const BRYNGLOOM_FOREST_DROPS = [
     ],
     "gatheringMethod": "rare",
     "reagentType": "Liquid",
-    "magicType": "light",
+    "magicType": "sacred",
     "reagentState": "Pure"
   },
   {
@@ -1295,7 +1295,7 @@ export const BRYNGLOOM_FOREST_DROPS = [
     ],
     "gatheringMethod": "rare",
     "reagentType": "Essence",
-    "magicType": "time",
+    "magicType": "wyrd",
     "reagentState": "Pure"
   },
   {
@@ -1332,7 +1332,7 @@ export const BRYNGLOOM_FOREST_DROPS = [
     },
     "combatStats": {
       "resistances": {
-        "cold": {
+        "rime": {
           "value": 2,
           "isPercentage": false
         }
@@ -1440,7 +1440,7 @@ export const BRYNGLOOM_FOREST_DROPS = [
     ],
     "gatheringMethod": "rare",
     "reagentType": "Crystal",
-    "magicType": "time",
+    "magicType": "wyrd",
     "reagentState": "Pure"
   }
 ];

@@ -1,0 +1,152 @@
+﻿[
+    {
+        "path":  "server/services/authoredSpellDefinitions.js",
+        "expected":  "48b69255b8958ae75a7aa17ed7aa67c95b6d4c2bada63f4dcd24a305e20f0003",
+        "current":  "48b69255b8958ae75a7aa17ed7aa67c95b6d4c2bada63f4dcd24a305e20f0003",
+        "state":  "MATCH"
+    },
+    {
+        "path":  "server/tests/authoredSpellDefinitions.test.js",
+        "expected":  "6a2f58f23d9217fc8eddf6af81d6de7f63f2232d29b519156f05fbca74037aa4",
+        "current":  "6a2f58f23d9217fc8eddf6af81d6de7f63f2232d29b519156f05fbca74037aa4",
+        "state":  "MATCH"
+    },
+    {
+        "path":  "server/tests/fixtures/crA1aDefinitionVectors.json",
+        "expected":  "e6a98a497308b8535538b9887435c9189127afa768b60cd8e01af31cd3c55bdb",
+        "current":  "e6a98a497308b8535538b9887435c9189127afa768b60cd8e01af31cd3c55bdb",
+        "state":  "MATCH"
+    },
+    {
+        "path":  "server/services/actorConsequences.js",
+        "expected":  "c49a75e808435074eb498aed9ba7c79915e6e62156c4fffe0f8f8c1aa18c307a",
+        "current":  "c49a75e808435074eb498aed9ba7c79915e6e62156c4fffe0f8f8c1aa18c307a",
+        "state":  "MATCH"
+    },
+    {
+        "path":  "server/services/spellPayments.js",
+        "expected":  "b3d8194a9cb39286980b81f5b0deb2f4e4c6521e824373d4ce0d64e3ce9bd208",
+        "current":  "b3d8194a9cb39286980b81f5b0deb2f4e4c6521e824373d4ce0d64e3ce9bd208",
+        "state":  "MATCH"
+    },
+    {
+        "path":  "server/services/strikeApprovals.js",
+        "expected":  "cb1333eb286d51e70a0ad4ea6d612fa66dfa0a12c3cdcc1d1fe496cacf893f61",
+        "current":  "cb1333eb286d51e70a0ad4ea6d612fa66dfa0a12c3cdcc1d1fe496cacf893f61",
+        "state":  "MATCH"
+    },
+    {
+        "path":  "server/services/blockApprovals.js",
+        "expected":  "d40d1e9cce4516475b1751aca31a3cd2d8d22e7fa4a621bb4ef769cb4d71d3d4",
+        "current":  "d6f3c56e5d98a70606bf347eead7ba37678c5e5b1ef8f7019019926d5e19d99d",
+        "state":  "CHANGED"
+    },
+    {
+        "path":  "server/handlers/actorConsequenceHandlers.js",
+        "expected":  "a7723378cdd042e9546e8ac7c3396fef2bb4596021533ab1d8333ea899e7fefd",
+        "current":  "aa615bcc7156fad1d499956abd4cb99180ee26f2e1c07d772f996233fdf29ccf",
+        "state":  "CHANGED"
+    },
+    {
+        "path":  "server/handlers/socketHandlers.js",
+        "expected":  "2b44cc7f716e9cbc0aeb7b5fa4c1c967a928740d85317e8df0e6d300a2836aa9",
+        "current":  "2b44cc7f716e9cbc0aeb7b5fa4c1c967a928740d85317e8df0e6d300a2836aa9",
+        "state":  "MATCH"
+    },
+    {
+        "path":  "server/services/roomAuthorityService.js",
+        "expected":  "7395b0bb4ea0edf5fbf2767e138dadca2b123569848539568ae95b4e5660116c",
+        "current":  "7395b0bb4ea0edf5fbf2767e138dadca2b123569848539568ae95b4e5660116c",
+        "state":  "MATCH"
+    },
+    {
+        "path":  "server/services/roomCheckpoint.js",
+        "expected":  "3eea1acb33cfa26d9b3f401ff82c4c93e113c9d8def54a7eece70badcc5ee07f",
+        "current":  "3eea1acb33cfa26d9b3f401ff82c4c93e113c9d8def54a7eece70badcc5ee07f",
+        "state":  "MATCH"
+    },
+    {
+        "path":  "server/services/syncService.js",
+        "expected":  "e49905bf64b350fea900125c94e34320ccc69e1ed2efe04c5b403418ef3102c4",
+        "current":  "e49905bf64b350fea900125c94e34320ccc69e1ed2efe04c5b403418ef3102c4",
+        "state":  "MATCH"
+    },
+    {
+        "path":  "server/services/firebaseService.js",
+        "expected":  "40ea0af4ba9224cd901c3beb06f649a9aaed8b435e73e71ac83e474a2ac0676f",
+        "current":  "40ea0af4ba9224cd901c3beb06f649a9aaed8b435e73e71ac83e474a2ac0676f",
+        "state":  "MATCH"
+    },
+    {
+        "path":  "server/tests/p9SpellConsequences.production.test.js",
+        "expected":  "5a4acd5f5a9bf8e9ec64bc1b4b73118c9e5a46e442f3607b7ba6e3150f02a923",
+        "current":  "5a4acd5f5a9bf8e9ec64bc1b4b73118c9e5a46e442f3607b7ba6e3150f02a923",
+        "state":  "MATCH"
+    },
+    {
+        "path":  "server/tests/p12aWeaponStrike.production.test.js",
+        "expected":  "69e756c945545a840dc26a4b1977964f892e96374905a9db1bc59404ba363bc0",
+        "current":  "69e756c945545a840dc26a4b1977964f892e96374905a9db1bc59404ba363bc0",
+        "state":  "MATCH"
+    },
+    {
+        "path":  "server/tests/p12bBlockWear.production.test.js",
+        "expected":  "b43683a7ac60843ac05fb1872bb9d3a2ae04479a3764046c12401b77c58439dc",
+        "current":  "00ade31d9d9a70d7364fafa877f7a53a27b2602e434d879f88daed271e72b34f",
+        "state":  "CHANGED"
+    },
+    {
+        "path":  "vtt-react/src/components/spellcrafting-wizard/components/steps/Step5Resources.jsx",
+        "expected":  "6120e2b6d7af6ecf8c4692a2d13626dcc6fac036e4345500e8a19fe0b5b37431",
+        "current":  "6120e2b6d7af6ecf8c4692a2d13626dcc6fac036e4345500e8a19fe0b5b37431",
+        "state":  "MATCH"
+    },
+    {
+        "path":  "vtt-react/src/components/spellcrafting-wizard/core/mechanics/resourceManager.js",
+        "expected":  "ea27eb2c0bb6cfadd229c5407c652d0d44c67593a36d1f890c114ca3c28b4605",
+        "current":  "ea27eb2c0bb6cfadd229c5407c652d0d44c67593a36d1f890c114ca3c28b4605",
+        "state":  "MATCH"
+    },
+    {
+        "path":  "vtt-react/src/components/spellcrafting-wizard/core/utils/spellSerializer.js",
+        "expected":  "b960862958d5752e06dbbcde7390b6243ea6bb01642ef97a7a364b7bf5dfaa5f",
+        "current":  "b960862958d5752e06dbbcde7390b6243ea6bb01642ef97a7a364b7bf5dfaa5f",
+        "state":  "MATCH"
+    },
+    {
+        "path":  "vtt-react/src/data/classes/index.js",
+        "expected":  "6511efa7146619cef3308be5e843aef2a4028174a6df9f6811f4cf848de1eee2",
+        "current":  "6511efa7146619cef3308be5e843aef2a4028174a6df9f6811f4cf848de1eee2",
+        "state":  "MATCH"
+    },
+    {
+        "path":  "vtt-react/src/data/classHeritageRegistry.js",
+        "expected":  "6e2843e933c7ca954ec8ef24e0c18f52d7df618e9b02462f0a3a7529013d127d",
+        "current":  "6e2843e933c7ca954ec8ef24e0c18f52d7df618e9b02462f0a3a7529013d127d",
+        "state":  "MATCH"
+    },
+    {
+        "path":  "vtt-react/src/data/talentTreeData.js",
+        "expected":  "128e326be0d329d0a250ddf462695b116effe52db130eaf66c01883c27174171",
+        "current":  "128e326be0d329d0a250ddf462695b116effe52db130eaf66c01883c27174171",
+        "state":  "MATCH"
+    },
+    {
+        "path":  "vtt-react/src/components/rules/ClassesDisplay.jsx",
+        "expected":  "a996fd0db15da1443300b1930f04b0c8a12cfecf7a29c421ef3beb3d88249fdb",
+        "current":  "092d30e652eadaef920e80c9b9413ac83b2d881a0c02a0137fad4efecb631ca7",
+        "state":  "CHANGED"
+    },
+    {
+        "path":  "docs/plans/mythrill-class-reconstruction/implementation/evidence/CR-A1a-independent-review/review.md",
+        "expected":  "c5d81a1bb0a2e82938c0c0068b2f64939e4059cb018a2a9f6af2e4b762d41ddd",
+        "current":  "c5d81a1bb0a2e82938c0c0068b2f64939e4059cb018a2a9f6af2e4b762d41ddd",
+        "state":  "MATCH"
+    },
+    {
+        "path":  "docs/plans/mythrill-class-reconstruction/implementation/evidence/CR-A1a-independent-review/independent-probes.cjs",
+        "expected":  "79e9140eb3092b8c14a4f7c7efbcbd3e72cdfe32acf2a0564ebbadb6bdcc28f4",
+        "current":  "79e9140eb3092b8c14a4f7c7efbcbd3e72cdfe32acf2a0564ebbadb6bdcc28f4",
+        "state":  "MATCH"
+    }
+]

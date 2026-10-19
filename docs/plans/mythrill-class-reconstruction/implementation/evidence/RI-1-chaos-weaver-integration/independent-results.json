@@ -1,0 +1,1550 @@
+{
+  "manifest": {
+    "classId": "chaos-weaver",
+    "rulesetVersion": "cr-cw-1",
+    "displayName": "Chaos Weaver",
+    "developmentStatus": "development",
+    "activeCounts": {
+      "optional": 40,
+      "core": 3,
+      "talentActives": 6,
+      "total": 49
+    },
+    "uniqueAuthoredIdentities": 97,
+    "passiveRecords": 48,
+    "talentNodes": 54,
+    "trees": 3,
+    "treeIds": [
+      "probability-sculptor",
+      "anomaly-binder",
+      "cascade-weaver"
+    ],
+    "tileIds": [
+      "S1",
+      "S2",
+      "M1",
+      "M2",
+      "F1",
+      "F2"
+    ],
+    "zones": [
+      "available",
+      "committed",
+      "bound",
+      "spent"
+    ],
+    "ruleset": {
+      "classId": "chaos-weaver",
+      "rulesetVersion": "cr-cw-1",
+      "authoredOnly": true,
+      "executionEnabled": false,
+      "applicationMode": "manual-tabletop",
+      "tileIds": [
+        "S1",
+        "S2",
+        "M1",
+        "M2",
+        "F1",
+        "F2"
+      ],
+      "tileSymbols": {
+        "S1": "S",
+        "S2": "S",
+        "M1": "M",
+        "M2": "M",
+        "F1": "F",
+        "F2": "F"
+      },
+      "zones": [
+        "available",
+        "committed",
+        "bound",
+        "spent"
+      ],
+      "treeIds": [
+        "probability-sculptor",
+        "anomaly-binder",
+        "cascade-weaver"
+      ],
+      "talents": {
+        "nodesPerTree": 18,
+        "maxRanksPerTree": 50,
+        "characterPointCap": 50,
+        "pointsPerLevel": 5,
+        "signatureMinPoints": 10,
+        "signatureMinLevel": 3,
+        "capstoneMinPoints": 45,
+        "capstoneMinLevel": 10,
+        "prerequisiteRule": "Every listed predecessor must be fully ranked; prerequisites are AND. Gates count already-spent points in the same tree."
+      },
+      "levelCap": 10,
+      "nativeRule": "Prepared Exchange: once per completed long rest, before commitment and with no pending action, consume one actual prepared spare part; exchange one chosen spent ID with one chosen available ID of a different symbol (one each changes zone; no symbol changes); caster movement−5ft until next own-turn start. Additional AP 0, mana 0. Manual verification required, no automatic benefit."
+    },
+    "activeSpellIds": [
+      "cw1_01",
+      "cw1_02",
+      "cw1_03",
+      "cw1_04",
+      "cw1_05",
+      "cw1_06",
+      "cr1_chaos_weaver_read_instability",
+      "cw1_08",
+      "cw1_09",
+      "cw1_10",
+      "cw1_11",
+      "cw1_12",
+      "cw1_13",
+      "cw1_14",
+      "cw1_15",
+      "cw1_16",
+      "cw1_17",
+      "cw1_18",
+      "cw1_19",
+      "cw1_20",
+      "cw1_21",
+      "cw1_22",
+      "cw1_23",
+      "cw1_24",
+      "cw1_25",
+      "cw1_26",
+      "cw1_27",
+      "cw1_28",
+      "cw1_29",
+      "cw1_30",
+      "cw1_31",
+      "cw1_32",
+      "cw1_33",
+      "cw1_34",
+      "cw1_35",
+      "cw1_36",
+      "cw1_37",
+      "cw1_38",
+      "cw1_39",
+      "cw1_40",
+      "cr1_chaos_weaver_fold_odds",
+      "cr1_chaos_weaver_split_possibility",
+      "cw1_dismiss_anomaly",
+      "cr1_chaos_weaver_bias_draw",
+      "cr1_chaos_weaver_unsteady_ground",
+      "cr1_chaos_weaver_second_possibility",
+      "cw1_closed_distribution",
+      "cw1_last_boundary",
+      "cw1_single_aftershock"
+    ],
+    "passiveSpellIds": [
+      "talent_spell_cw1_ps_n01",
+      "talent_spell_cw1_ps_n02",
+      "talent_spell_cw1_ps_n03",
+      "talent_spell_cw1_ps_n04",
+      "talent_spell_cw1_ps_n06",
+      "talent_spell_cw1_ps_n07",
+      "talent_spell_cw1_ps_n08",
+      "talent_spell_cw1_ps_n09",
+      "talent_spell_cw1_ps_n10",
+      "talent_spell_cw1_ps_n11",
+      "talent_spell_cw1_ps_n12",
+      "talent_spell_cw1_ps_n13",
+      "talent_spell_cw1_ps_n14",
+      "talent_spell_cw1_ps_n15",
+      "talent_spell_cw1_ps_n16",
+      "talent_spell_cw1_ps_n17",
+      "talent_spell_cw1_ab_n01",
+      "talent_spell_cw1_ab_n02",
+      "talent_spell_cw1_ab_n03",
+      "talent_spell_cw1_ab_n04",
+      "talent_spell_cw1_ab_n06",
+      "talent_spell_cw1_ab_n07",
+      "talent_spell_cw1_ab_n08",
+      "talent_spell_cw1_ab_n09",
+      "talent_spell_cw1_ab_n10",
+      "talent_spell_cw1_ab_n11",
+      "talent_spell_cw1_ab_n12",
+      "talent_spell_cw1_ab_n13",
+      "talent_spell_cw1_ab_n14",
+      "talent_spell_cw1_ab_n15",
+      "talent_spell_cw1_ab_n16",
+      "talent_spell_cw1_ab_n17",
+      "talent_spell_cw1_ca_n01",
+      "talent_spell_cw1_ca_n02",
+      "talent_spell_cw1_ca_n03",
+      "talent_spell_cw1_ca_n04",
+      "talent_spell_cw1_ca_n06",
+      "talent_spell_cw1_ca_n07",
+      "talent_spell_cw1_ca_n08",
+      "talent_spell_cw1_ca_n09",
+      "talent_spell_cw1_ca_n10",
+      "talent_spell_cw1_ca_n11",
+      "talent_spell_cw1_ca_n12",
+      "talent_spell_cw1_ca_n13",
+      "talent_spell_cw1_ca_n14",
+      "talent_spell_cw1_ca_n15",
+      "talent_spell_cw1_ca_n16",
+      "talent_spell_cw1_ca_n17"
+    ]
+  },
+  "grants": [
+    {
+      "node": "cw1_ps_n05",
+      "grantId": "cr1_chaos_weaver_bias_draw",
+      "authoredType": "ACTION",
+      "materializedType": "ACTION",
+      "authoredAP": 2,
+      "materializedAP": 2,
+      "materializedId": "cr1_chaos_weaver_bias_draw",
+      "manualOnly": true,
+      "typedRecord": {
+        "classId": "chaos-weaver",
+        "rulesetVersion": "cr-cw-1",
+        "sourceRecordId": "cr1_chaos_weaver_bias_draw",
+        "source": "talent",
+        "treeId": "probability-sculptor",
+        "manualOnly": true,
+        "executionEnabled": false,
+        "applicationMode": "manual-tabletop",
+        "tileRule": {
+          "inputSymbols": [
+            {
+              "symbol": "S",
+              "count": 2
+            },
+            {
+              "symbol": "F"
+            }
+          ],
+          "zoneFrom": "available",
+          "zoneTo": "spent",
+          "count": 3,
+          "spendAllPrimary": true
+        },
+        "target": {
+          "roles": [
+            "enemy"
+          ],
+          "rangeFeet": 30,
+          "maxSubjects": 1
+        },
+        "branchRule": {
+          "selection": "uniform-by-primary-tile-id",
+          "sampleNote": "Both Surge tiles plus one Fracture; uniform ID sampling gives 2/3 S, 1/3 F. C1 never changes tile weights or adds an invisible outcome.",
+          "outcomes": {
+            "S": {
+              "damage": {
+                "formula": "2d6",
+                "damageTypes": [
+                  "wyrd"
+                ]
+              },
+              "ward": null,
+              "movement": null,
+              "penalty": null,
+              "note": "S: the Split Surge branch — 2d6 Wyrd."
+            },
+            "F": {
+              "damage": {
+                "formula": "1d6",
+                "damageTypes": [
+                  "wyrd"
+                ]
+              },
+              "ward": null,
+              "movement": {
+                "kind": "penalty",
+                "feet": 5,
+                "until": "next-own-turn-start",
+                "usesRemainingMovement": true,
+                "optional": false
+              },
+              "penalty": null,
+              "note": "F: the Split Fracture branch — 1d6 Wyrd and caster movement−5ft until next own-turn start."
+            }
+          }
+        },
+        "outcome": null,
+        "timing": {
+          "use": "own-turn",
+          "expiry": null,
+          "oncePerRest": false
+        },
+        "area": null,
+        "continuation": null,
+        "requires": {
+          "nodeId": "cw1_ps_n05",
+          "requiresPoints": 10,
+          "requiresAll": true,
+          "predecessorNodeIds": [
+            "cw1_ps_n03"
+          ],
+          "minLevel": 3
+        },
+        "rankValues": null,
+        "damage": null,
+        "sourceRefs": [
+          "CLASS-C1-CHAOS-WEAVER.md §3 rule 6",
+          "CLASS-C1-CHAOS-WEAVER.md §5 talent table"
+        ],
+        "manualRequirements": [
+          "Manual tabletop only: no AP, tile, movement or effect is applied automatically.",
+          "Publish the three-tile commitment and mapping before the face; uniform ID weights 2/3–1/3.",
+          "Base Split branches apply; Split-only talent modifiers apply only when a talent row explicitly names Bias the Draw."
+        ]
+      },
+      "legacyConverterId": "talent-spell-cw1_ps_n05",
+      "legacyConverterType": "ACTION",
+      "legacyConverterAP": 2
+    },
+    {
+      "node": "cw1_ps_n18",
+      "grantId": "cw1_closed_distribution",
+      "authoredType": "ACTION",
+      "materializedType": "ACTION",
+      "authoredAP": 3,
+      "materializedAP": 3,
+      "materializedId": "cw1_closed_distribution",
+      "manualOnly": true,
+      "typedRecord": {
+        "classId": "chaos-weaver",
+        "rulesetVersion": "cr-cw-1",
+        "sourceRecordId": "cw1_closed_distribution",
+        "source": "talent",
+        "treeId": "probability-sculptor",
+        "manualOnly": true,
+        "executionEnabled": false,
+        "applicationMode": "manual-tabletop",
+        "tileRule": {
+          "inputSymbols": [
+            {
+              "anyOf": [
+                "S",
+                "M"
+              ],
+              "count": 2,
+              "sameSymbol": true
+            },
+            {
+              "symbol": "F"
+            }
+          ],
+          "zoneFrom": "available",
+          "zoneTo": "spent",
+          "count": 3,
+          "spendAllPrimary": true
+        },
+        "target": {
+          "roles": [
+            "enemy"
+          ],
+          "rangeFeet": 30,
+          "maxSubjects": 1
+        },
+        "branchRule": {
+          "selection": "uniform-by-primary-tile-id",
+          "sampleNote": "Two same-symbol S or M tiles plus one F; uniform three-ID draw; all three spent; no guaranteed branch, extra tile or second sample.",
+          "outcomes": {
+            "S": {
+              "damage": {
+                "formula": "4d6",
+                "damageTypes": [
+                  "wyrd"
+                ]
+              },
+              "ward": null,
+              "movement": null,
+              "penalty": null,
+              "note": "S: 4d6 Wyrd."
+            },
+            "M": {
+              "damage": {
+                "formula": "2d6",
+                "damageTypes": [
+                  "wyrd"
+                ]
+              },
+              "ward": null,
+              "movement": {
+                "kind": "step",
+                "feet": 5,
+                "until": "immediate",
+                "usesRemainingMovement": true,
+                "optional": true
+              },
+              "penalty": null,
+              "note": "M: 2d6 Wyrd and caster 5ft step."
+            },
+            "F": {
+              "damage": {
+                "formula": "2d6",
+                "damageTypes": [
+                  "wyrd"
+                ]
+              },
+              "ward": null,
+              "movement": {
+                "kind": "penalty",
+                "feet": 5,
+                "until": "next-own-turn-start",
+                "usesRemainingMovement": true,
+                "optional": false
+              },
+              "penalty": null,
+              "note": "F: 2d6 Wyrd and the normal Fracture penalty."
+            }
+          }
+        },
+        "outcome": null,
+        "timing": {
+          "use": "own-turn",
+          "expiry": null,
+          "oncePerRest": true
+        },
+        "area": null,
+        "continuation": null,
+        "requires": {
+          "nodeId": "cw1_ps_n18",
+          "requiresPoints": 45,
+          "requiresAll": true,
+          "predecessorNodeIds": [
+            "cw1_ps_n05",
+            "cw1_ps_n16",
+            "cw1_ps_n17"
+          ],
+          "minLevel": 10
+        },
+        "rankValues": null,
+        "damage": null,
+        "sourceRefs": [
+          "CLASS-C1-CHAOS-WEAVER.md §5 talent table"
+        ],
+        "manualRequirements": [
+          "Manual tabletop only: no AP, tile, movement or effect is applied automatically.",
+          "The two chosen tiles must share one symbol (both S or both M) plus one F.",
+          "Once per rest; the grant does not refresh any once/rest use."
+        ]
+      },
+      "legacyConverterId": "talent-spell-cw1_ps_n18",
+      "legacyConverterType": "ACTION",
+      "legacyConverterAP": 3
+    },
+    {
+      "node": "cw1_ab_n05",
+      "grantId": "cr1_chaos_weaver_unsteady_ground",
+      "authoredType": "ACTION",
+      "materializedType": "ACTION",
+      "authoredAP": 2,
+      "materializedAP": 2,
+      "materializedId": "cr1_chaos_weaver_unsteady_ground",
+      "manualOnly": true,
+      "typedRecord": {
+        "classId": "chaos-weaver",
+        "rulesetVersion": "cr-cw-1",
+        "sourceRecordId": "cr1_chaos_weaver_unsteady_ground",
+        "source": "talent",
+        "treeId": "anomaly-binder",
+        "manualOnly": true,
+        "executionEnabled": false,
+        "applicationMode": "manual-tabletop",
+        "tileRule": {
+          "inputSymbols": [
+            {
+              "symbol": "M"
+            },
+            {
+              "symbol": "F"
+            }
+          ],
+          "zoneFrom": "available",
+          "zoneTo": "bound",
+          "count": 2,
+          "spendAllPrimary": true
+        },
+        "target": {
+          "roles": [
+            "point"
+          ],
+          "rangeFeet": 30,
+          "maxSubjects": 1
+        },
+        "branchRule": null,
+        "outcome": null,
+        "timing": {
+          "use": "own-turn",
+          "expiry": null,
+          "oncePerRest": false
+        },
+        "area": {
+          "kind": "anomaly",
+          "radiusFeet": 5,
+          "placementRangeFeet": 30,
+          "trigger": "first-enemy-original-voluntary-entry",
+          "triggerVictim": "one-enemy",
+          "expires": "endT+2",
+          "occupancyNote": "Occupants at creation do not count as entry.",
+          "dismissal": {
+            "costAP": 1,
+            "note": "Paid 1-AP dismissal sends both IDs to spent."
+          },
+          "branches": {
+            "M": {
+              "damage": null,
+              "ward": null,
+              "movement": {
+                "kind": "ends-remaining-movement",
+                "feet": 0,
+                "until": "current-turn",
+                "usesRemainingMovement": true,
+                "optional": false
+              },
+              "penalty": null,
+              "note": "M: ends that actor’s remaining movement for the current turn."
+            },
+            "F": {
+              "damage": null,
+              "ward": null,
+              "movement": {
+                "kind": "penalty",
+                "feet": 5,
+                "until": "end-next-own-turn",
+                "usesRemainingMovement": true,
+                "optional": false
+              },
+              "penalty": null,
+              "note": "F: caster movement−5ft through end of next own turn."
+            }
+          },
+          "boundary": "No damage, refund, second target or forced-movement trigger. Either branch, expiry at endT+2, or paid 1-AP dismissal sends both IDs to spent.",
+          "manualNote": "The table confirms paths and relationship; the workshop never watches map pixels."
+        },
+        "continuation": null,
+        "requires": {
+          "nodeId": "cw1_ab_n05",
+          "requiresPoints": 10,
+          "requiresAll": true,
+          "predecessorNodeIds": [
+            "cw1_ab_n03"
+          ],
+          "minLevel": 3
+        },
+        "rankValues": null,
+        "damage": null,
+        "sourceRefs": [
+          "CLASS-C1-CHAOS-WEAVER.md §3 rule 7",
+          "CLASS-C1-CHAOS-WEAVER.md §5 talent table"
+        ],
+        "manualRequirements": [
+          "Manual tabletop only: no AP, tile, movement or effect is applied automatically.",
+          "The table confirms the visible circle, the first enemy original voluntary entry and path legality.",
+          "Only one anomaly may exist; occupants at creation never count as entry."
+        ]
+      },
+      "legacyConverterId": "talent-spell-cw1_ab_n05",
+      "legacyConverterType": "ACTION",
+      "legacyConverterAP": 2
+    },
+    {
+      "node": "cw1_ab_n18",
+      "grantId": "cw1_last_boundary",
+      "authoredType": "ACTION",
+      "materializedType": "ACTION",
+      "authoredAP": 3,
+      "materializedAP": 3,
+      "materializedId": "cw1_last_boundary",
+      "manualOnly": true,
+      "typedRecord": {
+        "classId": "chaos-weaver",
+        "rulesetVersion": "cr-cw-1",
+        "sourceRecordId": "cw1_last_boundary",
+        "source": "talent",
+        "treeId": "anomaly-binder",
+        "manualOnly": true,
+        "executionEnabled": false,
+        "applicationMode": "manual-tabletop",
+        "tileRule": {
+          "inputSymbols": [
+            {
+              "tileIds": [
+                "M1",
+                "M2"
+              ]
+            },
+            {
+              "symbol": "F"
+            }
+          ],
+          "zoneFrom": "available",
+          "zoneTo": "bound",
+          "count": 3,
+          "spendAllPrimary": true
+        },
+        "target": {
+          "roles": [
+            "point"
+          ],
+          "rangeFeet": 30,
+          "maxSubjects": 1
+        },
+        "branchRule": null,
+        "outcome": null,
+        "timing": {
+          "use": "own-turn",
+          "expiry": null,
+          "oncePerRest": true
+        },
+        "area": {
+          "kind": "anomaly",
+          "radiusFeet": 10,
+          "placementRangeFeet": 30,
+          "trigger": "first-enemy-original-voluntary-entry",
+          "triggerVictim": "one-enemy",
+          "expires": "endT+3",
+          "occupancyNote": "Occupants at creation do not count as entry.",
+          "dismissal": {
+            "costAP": 1,
+            "note": "Paid 1-AP dismissal sends all three IDs to spent."
+          },
+          "branches": {
+            "M": {
+              "damage": null,
+              "ward": null,
+              "movement": {
+                "kind": "ends-remaining-movement",
+                "feet": 0,
+                "until": "current-turn",
+                "usesRemainingMovement": true,
+                "optional": false
+              },
+              "penalty": null,
+              "note": "M: ends the victim’s remaining movement for the current turn."
+            },
+            "F": {
+              "damage": null,
+              "ward": null,
+              "movement": {
+                "kind": "penalty",
+                "feet": 10,
+                "until": "end-next-own-turn",
+                "usesRemainingMovement": true,
+                "optional": false
+              },
+              "penalty": null,
+              "note": "F: caster movement−10ft through end of next own turn."
+            }
+          },
+          "boundary": "All three spent on trigger, expiry or dismissal. Never coexists with another anomaly.",
+          "manualNote": "The table confirms paths and relationship; the workshop never watches map pixels."
+        },
+        "continuation": null,
+        "requires": {
+          "nodeId": "cw1_ab_n18",
+          "requiresPoints": 45,
+          "requiresAll": true,
+          "predecessorNodeIds": [
+            "cw1_ab_n05",
+            "cw1_ab_n16",
+            "cw1_ab_n17"
+          ],
+          "minLevel": 10
+        },
+        "rankValues": null,
+        "damage": null,
+        "sourceRefs": [
+          "CLASS-C1-CHAOS-WEAVER.md §5 talent table"
+        ],
+        "manualRequirements": [
+          "Manual tabletop only: no AP, tile, movement or effect is applied automatically.",
+          "Both Shift tiles plus one Fracture are bound; exactly one anomaly may exist."
+        ]
+      },
+      "legacyConverterId": "talent-spell-cw1_ab_n18",
+      "legacyConverterType": "ACTION",
+      "legacyConverterAP": 3
+    },
+    {
+      "node": "cw1_ca_n05",
+      "grantId": "cr1_chaos_weaver_second_possibility",
+      "authoredType": "ACTION",
+      "materializedType": "ACTION",
+      "authoredAP": 3,
+      "materializedAP": 3,
+      "materializedId": "cr1_chaos_weaver_second_possibility",
+      "manualOnly": true,
+      "typedRecord": {
+        "classId": "chaos-weaver",
+        "rulesetVersion": "cr-cw-1",
+        "sourceRecordId": "cr1_chaos_weaver_second_possibility",
+        "source": "talent",
+        "treeId": "cascade-weaver",
+        "manualOnly": true,
+        "executionEnabled": false,
+        "applicationMode": "manual-tabletop",
+        "tileRule": {
+          "inputSymbols": [
+            {
+              "symbol": "F"
+            },
+            {
+              "anyOf": [
+                "S",
+                "M"
+              ]
+            }
+          ],
+          "zoneFrom": "available",
+          "zoneTo": "spent",
+          "count": 2,
+          "spendAllPrimary": true
+        },
+        "target": {
+          "roles": [
+            "enemy",
+            "ally"
+          ],
+          "rangeFeet": 30,
+          "maxSubjects": 2
+        },
+        "branchRule": {
+          "selection": "uniform-by-primary-tile-id",
+          "sampleNote": "Ordinary Split plus one predeclared willing ally within 30ft; after the retained primary branch, optionally spend one further available reserved tile for that ally’s legal 5ft displacement, or decline.",
+          "outcomes": {
+            "S": {
+              "damage": {
+                "formula": "2d6",
+                "damageTypes": [
+                  "wyrd"
+                ]
+              },
+              "ward": null,
+              "movement": null,
+              "penalty": null,
+              "note": "S: the Split Surge branch — 2d6 Wyrd."
+            },
+            "M": {
+              "damage": {
+                "formula": "1d6",
+                "damageTypes": [
+                  "wyrd"
+                ]
+              },
+              "ward": null,
+              "movement": {
+                "kind": "step",
+                "feet": 5,
+                "until": "immediate",
+                "usesRemainingMovement": true,
+                "optional": true
+              },
+              "penalty": null,
+              "note": "M: the Split Shift branch — 1d6 Wyrd and caster 5ft step."
+            },
+            "F": {
+              "damage": {
+                "formula": "1d6",
+                "damageTypes": [
+                  "wyrd"
+                ]
+              },
+              "ward": null,
+              "movement": {
+                "kind": "penalty",
+                "feet": 5,
+                "until": "next-own-turn-start",
+                "usesRemainingMovement": true,
+                "optional": false
+              },
+              "penalty": null,
+              "note": "F: the Split Fracture branch — 1d6 Wyrd and caster movement−5ft until next own-turn start."
+            }
+          }
+        },
+        "outcome": null,
+        "timing": {
+          "use": "own-turn",
+          "expiry": null,
+          "oncePerRest": false
+        },
+        "area": null,
+        "continuation": {
+          "kind": "single-optional-continuation",
+          "afterPrimaryResult": true,
+          "choices": [
+            {
+              "id": "ally-displacement",
+              "tileSymbols": [
+                "M"
+              ],
+              "baseFeet": 5,
+              "effectText": "Spend the reserved M for the predeclared ally’s legal 5ft displacement using its remaining movement.",
+              "requiresTalentId": null
+            },
+            {
+              "id": "ally-ward",
+              "tileSymbols": [
+                "S"
+              ],
+              "baseWard": 3,
+              "effectText": "Spend the reserved S for ward 3–5 to that ally until the next caster start (requires Optional Shelter).",
+              "requiresTalentId": "cw1_ca_n10"
+            }
+          ],
+          "reservationRule": "The optional tile must be reserved from availability before the primary draw; it occupies committed while the choice is pending. Decline returns only that unused reservation, never the primary tiles.",
+          "singleFollowUpRule": "Exactly one derived follow-up; it generates no new draw, tile, reaction or anomaly trigger.",
+          "chooseBeforeCommit": true
+        },
+        "requires": {
+          "nodeId": "cw1_ca_n05",
+          "requiresPoints": 10,
+          "requiresAll": true,
+          "predecessorNodeIds": [
+            "cw1_ca_n03"
+          ],
+          "minLevel": 3
+        },
+        "rankValues": null,
+        "damage": null,
+        "sourceRefs": [
+          "CLASS-C1-CHAOS-WEAVER.md §3 rule 8",
+          "CLASS-C1-CHAOS-WEAVER.md §5 talent table"
+        ],
+        "manualRequirements": [
+          "Manual tabletop only: no AP, tile, movement or effect is applied automatically.",
+          "Reserve the exact optional continuation ID before the primary draw; continuations never enter the primary sample.",
+          "Retain the branch selection/result first, then the one continuation choice, then record primary+continuation together.",
+          "No repeated primary effect while the choice is pending; one unresolved action across all casts."
+        ]
+      },
+      "legacyConverterId": "talent-spell-cw1_ca_n05",
+      "legacyConverterType": "ACTION",
+      "legacyConverterAP": 3
+    },
+    {
+      "node": "cw1_ca_n18",
+      "grantId": "cw1_single_aftershock",
+      "authoredType": "ACTION",
+      "materializedType": "ACTION",
+      "authoredAP": 4,
+      "materializedAP": 4,
+      "materializedId": "cw1_single_aftershock",
+      "manualOnly": true,
+      "typedRecord": {
+        "classId": "chaos-weaver",
+        "rulesetVersion": "cr-cw-1",
+        "sourceRecordId": "cw1_single_aftershock",
+        "source": "talent",
+        "treeId": "cascade-weaver",
+        "manualOnly": true,
+        "executionEnabled": false,
+        "applicationMode": "manual-tabletop",
+        "tileRule": {
+          "inputSymbols": [
+            {
+              "symbol": "F"
+            },
+            {
+              "anyOf": [
+                "S",
+                "M"
+              ]
+            }
+          ],
+          "zoneFrom": "available",
+          "zoneTo": "spent",
+          "count": 2,
+          "spendAllPrimary": true
+        },
+        "target": {
+          "roles": [
+            "enemy",
+            "ally"
+          ],
+          "rangeFeet": 30,
+          "maxSubjects": 2
+        },
+        "branchRule": {
+          "selection": "uniform-by-primary-tile-id",
+          "sampleNote": "Split pair plus one predeclared willing ally within 30ft, once/rest.",
+          "outcomes": {
+            "S": {
+              "damage": {
+                "formula": "3d6",
+                "damageTypes": [
+                  "wyrd"
+                ]
+              },
+              "ward": null,
+              "movement": null,
+              "penalty": null,
+              "note": "S: 3d6 Wyrd."
+            },
+            "M": {
+              "damage": {
+                "formula": "2d6",
+                "damageTypes": [
+                  "wyrd"
+                ]
+              },
+              "ward": null,
+              "movement": {
+                "kind": "step",
+                "feet": 5,
+                "until": "immediate",
+                "usesRemainingMovement": true,
+                "optional": true
+              },
+              "penalty": null,
+              "note": "M: 2d6 Wyrd + caster 5ft step."
+            },
+            "F": {
+              "damage": {
+                "formula": "2d6",
+                "damageTypes": [
+                  "wyrd"
+                ]
+              },
+              "ward": null,
+              "movement": {
+                "kind": "penalty",
+                "feet": 5,
+                "until": "next-own-turn-start",
+                "usesRemainingMovement": true,
+                "optional": false
+              },
+              "penalty": null,
+              "note": "F: 2d6 Wyrd + normal Fracture."
+            }
+          }
+        },
+        "outcome": null,
+        "timing": {
+          "use": "own-turn",
+          "expiry": null,
+          "oncePerRest": true
+        },
+        "area": null,
+        "continuation": {
+          "kind": "single-optional-continuation",
+          "afterPrimaryResult": true,
+          "choices": [
+            {
+              "id": "extra-shift-move",
+              "tileSymbols": [
+                "M"
+              ],
+              "baseFeet": 10,
+              "effectText": "Spend the reserved M for a 10ft derived step for the ally.",
+              "requiresTalentId": null
+            },
+            {
+              "id": "extra-surge-ward",
+              "tileSymbols": [
+                "S"
+              ],
+              "baseWard": 6,
+              "effectText": "Spend the reserved S for ward 6 to the ally until the next caster start.",
+              "requiresTalentId": null
+            }
+          ],
+          "reservationRule": "Reserve the exact optional ID before the primary draw; one choice, never both; decline returns only that unused reservation.",
+          "singleFollowUpRule": "Exactly one derived follow-up; no new draw, tile, reaction or anomaly trigger.",
+          "chooseBeforeCommit": true
+        },
+        "requires": {
+          "nodeId": "cw1_ca_n18",
+          "requiresPoints": 45,
+          "requiresAll": true,
+          "predecessorNodeIds": [
+            "cw1_ca_n05",
+            "cw1_ca_n16",
+            "cw1_ca_n17"
+          ],
+          "minLevel": 10
+        },
+        "rankValues": null,
+        "damage": null,
+        "sourceRefs": [
+          "CLASS-C1-CHAOS-WEAVER.md §5 talent table"
+        ],
+        "manualRequirements": [
+          "Manual tabletop only: no AP, tile, movement or effect is applied automatically.",
+          "Reserve the exact optional ID before the primary draw; the reserved ID never enters the primary sample."
+        ]
+      },
+      "legacyConverterId": "talent-spell-cw1_ca_n18",
+      "legacyConverterType": "ACTION",
+      "legacyConverterAP": 4
+    }
+  ],
+  "nativeIds": [
+    "drall_fexric"
+  ],
+  "nativeDeltaFromBlueprint": [
+    {
+      "heritage": "drall_fexric",
+      "class": "Chaos Weaver",
+      "change": "added"
+    }
+  ],
+  "nativeAccess": {
+    "status": "normal-tradition",
+    "selectable": true,
+    "className": "Chaos Weaver",
+    "heritageId": "drall_fexric",
+    "requirements": [
+      "anomaly_encounter",
+      "containment_training",
+      "stabilizing_interface"
+    ],
+    "reason": "An actual survived anomaly encounter, supervised containment training and a maintained stabilizing interface"
+  },
+  "brokenNativeAccess": {
+    "status": "normal-tradition",
+    "selectable": true,
+    "className": "Chaos Weaver",
+    "heritageId": "drall_fexric",
+    "requirements": [
+      "anomaly_encounter",
+      "containment_training",
+      "stabilizing_interface"
+    ],
+    "reason": "An actual survived anomaly encounter, supervised containment training and a maintained stabilizing interface"
+  },
+  "outsiderAccess": {
+    "status": "requires-qualification",
+    "selectable": false,
+    "className": "Chaos Weaver",
+    "heritageId": "skald_human",
+    "requirements": [
+      "anomaly_encounter",
+      "containment_training",
+      "stabilizing_interface"
+    ],
+    "reason": "An actual survived anomaly encounter, supervised containment training and a maintained stabilizing interface"
+  },
+  "qualifiedAccess": {
+    "status": "qualified-exception",
+    "selectable": true,
+    "className": "Chaos Weaver",
+    "heritageId": "skald_human",
+    "requirements": [
+      "anomaly_encounter",
+      "containment_training",
+      "stabilizing_interface"
+    ],
+    "reason": "An actual survived anomaly encounter, supervised containment training and a maintained stabilizing interface"
+  },
+  "deterministicPending": {
+    "actionId": "action-1",
+    "spellId": "cw1_01",
+    "sourceLabel": "Fraying Bolt",
+    "targetLabel": "unnamed target",
+    "primaryTileIds": [
+      "F1"
+    ],
+    "continuationTileId": null,
+    "mapping": {
+      "order": [
+        "F1"
+      ],
+      "dice": null,
+      "rule": "deterministic-no-sample",
+      "entries": []
+    },
+    "selectedTileId": null,
+    "recordedFaces": null,
+    "phase": "face-recorded"
+  },
+  "noFakeFace": false,
+  "deterministicDisplay": "rendered",
+  "deterministicSettlement": {
+    "penalties": [
+      {
+        "sourceActionId": "action-1",
+        "feet": 5,
+        "expiresBoundary": "next-own-turn-start",
+        "expiresOwnTurn": 2
+      }
+    ],
+    "settlements": [
+      {
+        "actionId": "action-1",
+        "kind": "settlement",
+        "spellId": "cw1_01",
+        "primaryTileIds": [
+          "F1"
+        ],
+        "continuationTileId": null,
+        "selectedTileId": null,
+        "recordedFaces": null,
+        "merged": false,
+        "outcome": {
+          "damage": {
+            "formula": "1d6",
+            "damageTypes": [
+              "wyrd"
+            ]
+          },
+          "ward": null,
+          "movement": {
+            "kind": "penalty",
+            "feet": 5,
+            "until": "next-own-turn-start",
+            "usesRemainingMovement": true,
+            "optional": false
+          },
+          "penalty": null,
+          "note": "1d6 Wyrd; caster movement−5ft until next own-turn start. Deterministic authored result — confirm before settlement."
+        },
+        "continuation": null,
+        "confirmed": [
+          "damage",
+          "movement"
+        ],
+        "closedAnomaly": null
+      }
+    ]
+  },
+  "unconfirmedDeclineAccepted": false,
+  "confirmedDecline": {
+    "tiles": {
+      "version": 1,
+      "rulesetVersion": "cr-cw-1",
+      "available": [
+        "S2",
+        "M1",
+        "M2",
+        "F2"
+      ],
+      "committed": [],
+      "bound": [],
+      "spent": [
+        "S1",
+        "F1"
+      ]
+    },
+    "penalties": [
+      {
+        "sourceActionId": "action-1",
+        "feet": 5,
+        "expiresBoundary": "next-own-turn-start",
+        "expiresOwnTurn": 2
+      }
+    ],
+    "roundTrip": true
+  },
+  "probabilityWitness": {
+    "ap": 1,
+    "tiles": {
+      "version": 1,
+      "rulesetVersion": "cr-cw-1",
+      "available": [
+        "S1",
+        "M2",
+        "F2"
+      ],
+      "committed": [],
+      "bound": [],
+      "spent": [
+        "S2",
+        "M1",
+        "F1"
+      ]
+    },
+    "pending": null,
+    "penalties": [],
+    "selections": [
+      "F1",
+      "S1",
+      "M1"
+    ],
+    "roundTrip": true
+  },
+  "anomalyWitnesses": [
+    {
+      "face": 1,
+      "avoidance": "manual no-trigger decision, not geometry execution",
+      "ap": 2,
+      "tiles": {
+        "version": 1,
+        "rulesetVersion": "cr-cw-1",
+        "available": [
+          "S2",
+          "M1",
+          "M2",
+          "F1"
+        ],
+        "committed": [],
+        "bound": [],
+        "spent": [
+          "S1",
+          "F2"
+        ]
+      },
+      "pending": null,
+      "penalties": [],
+      "selections": [
+        "S1",
+        "M1",
+        null
+      ],
+      "roundTrip": true
+    },
+    {
+      "face": 6,
+      "avoidance": "manual no-trigger decision, not geometry execution",
+      "ap": 2,
+      "tiles": {
+        "version": 1,
+        "rulesetVersion": "cr-cw-1",
+        "available": [
+          "S2",
+          "M1",
+          "M2",
+          "F1"
+        ],
+        "committed": [],
+        "bound": [],
+        "spent": [
+          "S1",
+          "F2"
+        ]
+      },
+      "pending": null,
+      "penalties": [
+        {
+          "sourceActionId": "action-1",
+          "feet": 5,
+          "expiresBoundary": "end-next-own-turn",
+          "expiresOwnTurn": 2
+        }
+      ],
+      "selections": [
+        "S1",
+        "F1",
+        null
+      ],
+      "roundTrip": true
+    }
+  ],
+  "cascadeWitness": {
+    "ap": 0,
+    "tiles": {
+      "version": 1,
+      "rulesetVersion": "cr-cw-1",
+      "available": [
+        "S2",
+        "F2"
+      ],
+      "committed": [
+        "S1",
+        "M2",
+        "F1"
+      ],
+      "bound": [],
+      "spent": [
+        "M1"
+      ]
+    },
+    "pending": {
+      "actionId": "action-5",
+      "spellId": "cr1_chaos_weaver_second_possibility",
+      "sourceLabel": "Second Possibility",
+      "targetLabel": "unnamed target",
+      "primaryTileIds": [
+        "S1",
+        "F1"
+      ],
+      "continuationTileId": "M2",
+      "mapping": {
+        "order": [
+          "S1",
+          "F1"
+        ],
+        "dice": "d6",
+        "rule": "two-ids-d6-1-3-4-6",
+        "entries": [
+          {
+            "tileId": "S1",
+            "faces": [
+              1,
+              2,
+              3
+            ]
+          },
+          {
+            "tileId": "F1",
+            "faces": [
+              4,
+              5,
+              6
+            ]
+          }
+        ]
+      },
+      "selectedTileId": "S1",
+      "recordedFaces": [
+        1
+      ],
+      "phase": "continuation-pending"
+    },
+    "penalties": [],
+    "selections": [
+      "S1",
+      "F1"
+    ],
+    "roundTrip": true
+  },
+  "entryManifestGroups": [
+    "capturedAt",
+    "scope",
+    "gitStatusSnapshot",
+    "writableExisting",
+    "newFilesAtEntry",
+    "serverControls",
+    "readOnlyControls",
+    "legacyClassData",
+    "legacyTalentTrees",
+    "retainedEvidence"
+  ],
+  "entryDrift": [
+    {
+      "group": "writableExisting",
+      "path": "vtt-react/src/data/classes/chaosWeaverData.js",
+      "entry": "fd27a919038ddd42d646458f143966fb53ea88b42825893e13c05708c46d5993",
+      "now": "3b144a761377d4015486235c771f04a5a971ca34071a9a60bad9b3e828ea4834"
+    },
+    {
+      "group": "writableExisting",
+      "path": "vtt-react/src/data/classes/chaosWeaverRules.js",
+      "entry": "07602a9ee181aacc1f1a4dbf4dc665f841df7901a8cb9bf55c9b763ac7b1cdae",
+      "now": "191d1b90fe246976da3796b0257cde7f3a7d155484da25b27af2ed458bd0ca72"
+    },
+    {
+      "group": "writableExisting",
+      "path": "vtt-react/src/data/talentTrees/chaosWeaver.js",
+      "entry": "8c8e7d5dd13e7d4af763d6832eb4ae291d30fea5608ac1c7520ea885944cced0",
+      "now": "74d9f844ce0324835df8fede6d236debb4528ff72fed31cd5ad9e5eea5f15624"
+    },
+    {
+      "group": "writableExisting",
+      "path": "vtt-react/src/components/hud/ChaosWeaverResourceDisplay.jsx",
+      "entry": "47a955463d9b1bc73e41c51a53ea75a26d335d5479c26820859c29ac8c8a68ba",
+      "now": "4a1647b045df17b5590d70c998d0171b783b3ac52cad16bdffb786d43e932604"
+    },
+    {
+      "group": "writableExisting",
+      "path": "vtt-react/src/data/classes/__tests__/chaosWeaverRules.test.js",
+      "entry": "07cff691e20f5072077c124fdb2ab294e19249f13b97fb9be170e5df9d3ea034",
+      "now": "d5a88a0f05d160b84eb65954a6a0931bbcb56b21017773b3e00c2e3140e22fd9"
+    },
+    {
+      "group": "writableExisting",
+      "path": "vtt-react/src/components/hud/__tests__/ChaosWeaverResourceDisplay.test.jsx",
+      "entry": "51192670d39e83a6d7c2aaafab0afb0173f7133d89b598cf7863f5e4f1b88ebc",
+      "now": "04ffa9a7ba1e227be3019476318a65eab011c17cfea4d9f5460661a1bf254687"
+    },
+    {
+      "group": "writableExisting",
+      "path": "vtt-react/src/data/classes/index.js",
+      "entry": "6511efa7146619cef3308be5e843aef2a4028174a6df9f6811f4cf848de1eee2",
+      "now": "76336625cb606dd332b1d17eb587b04a0b7a7eb316e52353f5c601e973c8b732"
+    },
+    {
+      "group": "writableExisting",
+      "path": "vtt-react/src/data/classes/classDisplayData.js",
+      "entry": "12aeab23b264bf2e27272e50d77a8b4ed2d32f4c599a9a6d8cf39eeed0c93a19",
+      "now": "0a12f854588a2f7ba8679c3b2cbc27ca2d65105cd13fc763d2458c78bc762c85"
+    },
+    {
+      "group": "writableExisting",
+      "path": "vtt-react/src/data/classSpellGenerator.js",
+      "entry": "daef544f634e45509a834f9494d3a9d2083c65cae185a53af29f92bd8a068cb8",
+      "now": "697ba6baab116f5cf5af02861c8b5588373fee81c838bb1f047087355dc6655d"
+    },
+    {
+      "group": "writableExisting",
+      "path": "vtt-react/src/data/classSpellCategories.js",
+      "entry": "e5d1a23df8909ed9bb6b214deb396cd88d47688bb08d279c422616c0a52f68ea",
+      "now": "d613c5c0601777ddbc6198ce239d811c41f5c1619512d8d545c763057328bbfc"
+    },
+    {
+      "group": "writableExisting",
+      "path": "vtt-react/src/data/talentTreeData.js",
+      "entry": "128e326be0d329d0a250ddf462695b116effe52db130eaf66c01883c27174171",
+      "now": "dac5c1ec0b0aa2332d7c3c137c5718c9555333799d265f42ea837c6c24236c13"
+    },
+    {
+      "group": "writableExisting",
+      "path": "vtt-react/src/data/classResources.js",
+      "entry": "51d7e4af844a3975a33ab1bddcd6e6aa6e92bb288b55fcb20df30167169ffee7",
+      "now": "0829f4ef7878634e2d4ae40602f83fc88176a70d5fb5287f7949bb6c8bac2ca9"
+    },
+    {
+      "group": "writableExisting",
+      "path": "vtt-react/src/data/classResourceContracts.js",
+      "entry": "e050444a55fedbba59aa008cef921f4c80fde6ed0e4205d5f685a0c36bc0e245",
+      "now": "6b04647b72140be94035c38225bca9fb93f67cddc50ff83195df6803440f84fd"
+    },
+    {
+      "group": "writableExisting",
+      "path": "vtt-react/src/data/resourceSystems/index.js",
+      "entry": "0716756d4b1102e336b959ff1844bde9e8c17cbc6093232abbe56b45b6277343",
+      "now": "20c2c4126a02d5fa5eaebafbcc26572941e98270e55b8fdc206808d451ad3ece"
+    },
+    {
+      "group": "writableExisting",
+      "path": "vtt-react/src/data/classHeritageRegistry.js",
+      "entry": "6e2843e933c7ca954ec8ef24e0c18f52d7df618e9b02462f0a3a7529013d127d",
+      "now": "29d8d2217132f20d7077f645d66f0fb237a18f8f92542e60ecbf5c9433dce61f"
+    },
+    {
+      "group": "writableExisting",
+      "path": "vtt-react/src/components/rules/ClassesDisplay.jsx",
+      "entry": "ebdab2dd19f28d101b371b135a3cbfc41538264c36d56b5041cf0adaa5c3fdbb",
+      "now": "86a4fc163696657e824135dc3333051082029fc79eba6111140c29389cff3f48"
+    },
+    {
+      "group": "writableExisting",
+      "path": "vtt-react/src/components/rules/ClassDetailDisplay.jsx",
+      "entry": "0bc2f05f79b0c1d8e3c2562aa511adbb93878ecf443141f506a691b3dbd3a85e",
+      "now": "54274a0059f2d4cd0968fbc183c7c430cb78d3b2d44c35fa9d011bcbcb194cb0"
+    },
+    {
+      "group": "writableExisting",
+      "path": "vtt-react/src/components/rules/ClassDetailDisplay.css",
+      "entry": "0c3e8956d7f334bf69f8cdfdc5de1ef16e92189066ab7719ff3b494b095aa48f",
+      "now": "d4de99bb794f1c11c27246662c8316ec3847def48ad407306baa77606781e3fe"
+    },
+    {
+      "group": "writableExisting",
+      "path": "vtt-react/src/components/rules/__tests__/ClassesDisplay.test.jsx",
+      "entry": "5a3ae89ac0869c1be3deb864f5b8c532a11e936032355527aabdeb2d28c2de15",
+      "now": "ce2c0eeba467a66e18fc80b82262d393a2d783029e97a6f36b43f891f7d599a8"
+    },
+    {
+      "group": "writableExisting",
+      "path": "vtt-react/src/components/hud/ClassResourceBar.jsx",
+      "entry": "30c419c8b02be235f72845b7b7bcb958686df2da9ca2ff115126ca16f9b7b7bc",
+      "now": "827ddcdb521d422ea4b529d4f4d7245ae7608f1906bbc441487e4cdfbb35ab7d"
+    },
+    {
+      "group": "writableExisting",
+      "path": "vtt-react/src/components/talent-tree/TalentTreeContent.jsx",
+      "entry": "cf6c69f7975d25420b9df986c5ea5781c4b20c4837052887eb905529217cd8d8",
+      "now": "32ec658020cd40652fb3f0e5419d278eb570d96c88640a5001f05addfd279b33"
+    },
+    {
+      "group": "writableExisting",
+      "path": "vtt-react/src/components/talent-tree/__tests__/TalentTreeContent.test.jsx",
+      "entry": "de124728d7675d259a005664df5a2eb2ec26f7ae9366d7286275272edb3d7677",
+      "now": "e7486a7033b60a720d8be04f44acaebec437540cae50b26c070045ea0d2f3fba"
+    },
+    {
+      "group": "writableExisting",
+      "path": "vtt-react/src/components/character-creation-wizard/steps/Step1CoreDraft.jsx",
+      "entry": "c9f35e51fb5d90b145a31332d0d1124c9e9558a72ed49d25cf6b305740af9366",
+      "now": "f56f6c5e3e4114ff9516315de0a6a3bf017ea14e20cef4bdb4a7cf22e3cde71b"
+    },
+    {
+      "group": "writableExisting",
+      "path": "vtt-react/src/components/character-creation-wizard/steps/Step9CharacterSummary.jsx",
+      "entry": "3a2a3dfaf3befb4da53164da26020d4b7733d606f77769ee5f0858537cfe29a3",
+      "now": "15f3bac936bf6d89dcf53e5cb30543471ae1b77bcc12ef53c844263b51b58c97"
+    },
+    {
+      "group": "writableExisting",
+      "path": "vtt-react/src/components/modals/LevelUpChoiceModal.jsx",
+      "entry": "d69fc544b00154cb700e977de72ae4052d7a0e4219ebdeee438cec47367bab4d",
+      "now": "ceb400a4ca68b8caa0ffe8de90fa61ccb3c7be933b53b1e8b79473685162c483"
+    },
+    {
+      "group": "writableExisting",
+      "path": "vtt-react/src/store/characterSlices/infoSlice.js",
+      "entry": "ce35da9a08025129fe92b2b57968f267035025470652b746667d7b7e858cfdca",
+      "now": "ba2690e9c0e594bfd1c91baba8d99bcdae677d7cd5a36052cb8a535506aab0d8"
+    },
+    {
+      "group": "writableExisting",
+      "path": "vtt-react/src/store/characterSlices/progressionSlice.js",
+      "entry": "f838ba7b41545d93dbda78ce3389645de40b21eb09bfd746e7ca608590d165ca",
+      "now": "4a605c1f0d710b3c56b35c0c17863d50e4f43c0d19c963dc0bf779b83dd3ee3b"
+    },
+    {
+      "group": "serverControls",
+      "path": "server/handlers/socketHandlers.js",
+      "entry": "2b44cc7f716e9cbc0aeb7b5fa4c1c967a928740d85317e8df0e6d300a2836aa9",
+      "now": "2ec1d60a7238cc0a0eeb55babf0d25d5ebd9697363294c5866cd766966075900"
+    },
+    {
+      "group": "readOnlyControls",
+      "path": "vtt-react/src/components/hud/PartyHUD.jsx",
+      "entry": "66a54fad1eb282c0eb7e02a00ce819cd98c7b7668c1bebaf939a50d5b556966c",
+      "now": "e88b0e3c2b13c1aa3685d20144f0c0b200fe330ec4e1cc63f67160b8f6d87430"
+    },
+    {
+      "group": "readOnlyControls",
+      "path": "vtt-react/src/components/rules/chaos-weaver/__tests__/ChaosWeaverWorkshop.test.jsx",
+      "entry": "52f08d1f1027c0f8a9593d0f30a768e23a39301d39b52c893c1af8b8cbffb5ce",
+      "now": "0287cbc91f82c66b44c7a4d0384279d28069a42069095705cf9a20f1e4634891"
+    },
+    {
+      "group": "retainedEvidence",
+      "path": "docs/plans/mythrill-class-reconstruction/implementation/evidence/CLASS-C1-chaos-weaver/independent-review/independent-probes.cjs",
+      "entry": "d3f76d240948d8df2018c95218c77694acc51e4249c967bf67b6a4c8992f5347",
+      "now": "b7f9c749fe0b8dc78deb9a74bdc0b4b84c19e5cff565c68eea6d2e38e72996a6"
+    }
+  ],
+  "phase2Drift": [
+    {
+      "path": "vtt-react/src/data/talentTreeData.js",
+      "phase2": "7586100fd8c30a47b7ad0dfebec82a7858458744e12ecf40601450063ee27e32",
+      "now": "dac5c1ec0b0aa2332d7c3c137c5718c9555333799d265f42ea837c6c24236c13"
+    },
+    {
+      "path": "vtt-react/src/store/characterSlices/infoSlice.js",
+      "phase2": "5c8439df8226d4ad27c4b10b5355c7efb3a47df079547c0043f027d0eb2edf65",
+      "now": "ba2690e9c0e594bfd1c91baba8d99bcdae677d7cd5a36052cb8a535506aab0d8"
+    },
+    {
+      "path": "vtt-react/src/store/characterSlices/progressionSlice.js",
+      "phase2": "1a8b526c2cfec78b34090f477f7bd41f9884d52c613230c9a84410ffe3502e6f",
+      "now": "4a605c1f0d710b3c56b35c0c17863d50e4f43c0d19c963dc0bf779b83dd3ee3b"
+    },
+    {
+      "path": "vtt-react/src/store/characterSlices/__tests__/chaosWeaverProgression.test.js",
+      "phase2": "6cd1b673db643be113147d6f3f1921fc250c18a4fd592c9234f52ad520a8784f",
+      "now": "8ca463bb2f10e9722abee49a8ed71fc097570ecfa1fba0805213051300cc4ba4"
+    },
+    {
+      "path": "vtt-react/src/components/modals/LevelUpChoiceModal.jsx",
+      "phase2": "8fde24736c916e69185f79010e932af87a2a141ca5a58b18439d2747ffec1225",
+      "now": "ceb400a4ca68b8caa0ffe8de90fa61ccb3c7be933b53b1e8b79473685162c483"
+    },
+    {
+      "path": "vtt-react/src/components/talent-tree/TalentTreeContent.jsx",
+      "phase2": "17ef94a3b5277450f915d25c1b57f29d57bab629c2dc74678367a351e60dc638",
+      "now": "32ec658020cd40652fb3f0e5419d278eb570d96c88640a5001f05addfd279b33"
+    }
+  ],
+  "retainedProbeDrift": [
+    "manual anomaly closure bypass",
+    "round trips all worksheet phases",
+    "Anomaly numerical witness",
+    "Cascade numerical witness"
+  ],
+  "retainedProbeExceptions": [],
+  "semanticChecks": [
+    {
+      "name": "all paid active grants retain authored active type/price/typed record (canonical id is applied by syncTalentSpell)",
+      "pass": true
+    },
+    {
+      "name": "valid deterministic pending renders without inventing a physical face",
+      "pass": true
+    },
+    {
+      "name": "unconfirmed decline refuses and confirmed decline retains downside",
+      "pass": true
+    },
+    {
+      "name": "only approved Alchemite native assignment activated",
+      "pass": true
+    }
+  ]
+}

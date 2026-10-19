@@ -359,6 +359,13 @@ const formatDescriptionText = (text) => {
   // (validateCurrentStep) so the UI never claims "ready" while Create is disabled.
   const validationErrors = state.validationErrors || {};
   const knownSpellCount = characterData.class_spells?.known_spells?.length || 0;
+  const summaryClassData = CLASS_DATA_MAP[characterData.class];
+  const summaryPolicy = summaryClassData?.progression?.policy || null;
+  const summaryPickPool = new Set(summaryPolicy ? (summaryClassData?.spellPools?.[1] || []) : []);
+  const knownPickCount = summaryPolicy
+    ? (characterData.class_spells?.known_spells || []).filter(id => summaryPickPool.has(id)).length
+    : knownSpellCount;
+  const requiredSpellPicks = summaryPolicy?.startingSpellPicks ?? 3;
   const bonusPoints = getTotalBonusPoints(characterData);
   const unspentPoints = calculateAvailablePoints(characterData.baseStats, bonusPoints);
   const checklistItems = [
@@ -367,7 +374,7 @@ const formatDescriptionText = (text) => {
     { label: 'Class', done: !validationErrors.class && !!characterData.class },
     { label: 'Background', done: !validationErrors.background && !!characterData.background },
     { label: 'Ability Scores (all points spent)', done: !validationErrors.stats && unspentPoints === 0 },
-    { label: 'Starting Spells (choose 3)', done: !validationErrors.spells && knownSpellCount === 3 },
+    { label: `Starting Spells (choose ${requiredSpellPicks})`, done: !validationErrors.spells && knownPickCount === requiredSpellPicks },
     { label: 'Skill Training (within budget)', done: !validationErrors.skillPoints },
     { label: 'Equipment Chosen', done: !!(characterData.selectedEquipment && characterData.selectedEquipment.length > 0) },
   ];
@@ -732,7 +739,7 @@ const formatDescriptionText = (text) => {
                     className="subrace-illustration"
                     onError={(e) => {
                       e.target.onerror = null;
-                      e.target.src = '/assets/images/races/human_thalren_city_greymark.jpg';
+                      e.target.src = '/assets/images/races/human_thalren_portrait_bust.jpg';
                     }}
                   />
                 </div>

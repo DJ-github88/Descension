@@ -41,7 +41,7 @@ export const CRAFTED_FROM_DROPS = [
     "type": "consumable",
     "subtype": "ELIXIR",
     "quality": "uncommon",
-    "description": "A numbing blue tonic cut with glacier-ice. Cold bites less for a time.",
+    "description": "A numbing blue tonic cut with glacier-ice. Rime bites less for a time.",
     "iconId": "Misc/Profession Resources/Alchemy/Blue/teal-potion-lightning-bolt-bottle",
     "value": {
       "gold": 0,
@@ -55,7 +55,7 @@ export const CRAFTED_FROM_DROPS = [
     "rotation": 0,
     "combatStats": {
       "resistances": {
-        "cold": {
+        "rime": {
           "value": 12,
           "isPercentage": false,
           "duration": 600
@@ -319,7 +319,7 @@ export const CRAFTED_FROM_DROPS = [
     "type": "weapon",
     "subtype": "SWORD",
     "quality": "rare",
-    "description": "A sword forged from deep-sea ice that has never melted. Cold flows along its edge.",
+    "description": "A sword forged from deep-sea ice that has never melted. Rime flows along its edge.",
     "iconId": "Weapons/Swords/sword-golden-guard-pommel-glowing-orange-yellow",
     "value": {
       "gold": 0,
@@ -340,7 +340,7 @@ export const CRAFTED_FROM_DROPS = [
       "baseDamage": {
         "diceCount": 1,
         "diceType": "d8",
-        "damageType": "frost",
+        "damageType": "rime",
         "bonusDamage": 2
       }
     },
@@ -373,7 +373,7 @@ export const CRAFTED_FROM_DROPS = [
           "effectType": "damage",
           "effectConfig": {
             "formula": "1d6",
-            "damageType": "cold",
+            "damageType": "rime",
             "isDot": true,
             "targetType": "target",
             "areaRadius": 0,
@@ -390,7 +390,7 @@ export const CRAFTED_FROM_DROPS = [
     "type": "accessory",
     "subtype": "CLOAK",
     "quality": "uncommon",
-    "description": "A sleek seal-skin cloak stitched from child-snatcher scraps. It sheds water and cold equally.",
+    "description": "A sleek seal-skin cloak stitched from child-snatcher scraps. It sheds water and rime equally.",
     "iconId": "Armor/Cloak/red-orange-trim-cloak",
     "value": {
       "gold": 0,
@@ -414,7 +414,7 @@ export const CRAFTED_FROM_DROPS = [
     },
     "combatStats": {
       "resistances": {
-        "cold": {
+        "rime": {
           "value": 3,
           "isPercentage": false
         }

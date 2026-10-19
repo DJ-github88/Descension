@@ -35,7 +35,7 @@ export const CREATURE_CRAFTING_RECIPES = [
     "id": "glacier-frostward-tonic-recipe",
     "name": "Glacier Frostward Tonic",
     "profession": "alchemy",
-    "description": "Cut with ice that will not melt. A tonic that turns the cold aside.",
+    "description": "Cut with ice that will not melt. A tonic that turns rime aside.",
     "requiredLevel": 2,
     "resultItemId": "glacier-frostward-tonic",
     "resultQuantity": 1,

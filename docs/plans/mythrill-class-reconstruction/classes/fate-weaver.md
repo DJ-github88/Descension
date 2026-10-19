@@ -1,5 +1,7 @@
 # Fate Weaver — HeadQ review R1
 
+**Creator update, 2026-10-18:** Augur merges into this independent restored class. Preserve/assess actual sign-reading/material foci, Auspex, Ill Omen and Hierophant techniques and all origins; do not automatically import both Benediction/Malediction banks or Omen Debt. [Explicit content disposition](prophecy-cluster.md). Oracle remains independent; Doomsayer is Harbinger's proposed name. Existing application IDs/saves stay compatible. This full next content cohort follows the complete Chaos Weaver C1 package and is not blocked on engine completion.
+
 **PROPOSED; review-ready design, not implementation or final roster approval.** R1 is the active recommendation. The investigation-v0 draft below is preserved but superseded.
 
 Shared timing/transfer/schema: [R1 contract](../29_PRIORITY_REVIEW_RULES_AND_SERIALIZATION.md). Evidence and native recommendations: [all25 cultural review](../28_HERITAGE_REVIEW_AND_PRIORITY_ORIGINS.md).

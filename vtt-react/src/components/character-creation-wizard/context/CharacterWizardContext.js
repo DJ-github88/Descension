@@ -10,6 +10,7 @@ import { getDefaultStats, validateStats, calculateFinalStats, getTotalBonusPoint
 // import { getPathStartingPoints, getPathStatModifiers } from '../../../data/pathData'; // Disciplines removed
 import { applyRacialModifiers } from '../../../data/raceData';
 import { validateCharacterClassAccess } from '../../../utils/characterClassAccess';
+import { CHAOS_WEAVER_DATA } from '../../../data/classes/chaosWeaverIntegration';
 import { calculatePointsSpent, calculateTotalSkillPoints } from '../../../constants/skillPointSystem';
 
 // Wizard steps configuration
@@ -490,10 +491,22 @@ export const validateCurrentStep = (state) => {
                 errors.stats = `You have ${availablePoints} unspent ability points. Please allocate all points.`;
             }
 
-            // Spells validation (must select 3 spells)
+            // Spells validation. Classes may declare a progression policy
+            // (RI-1 bounded amendment): granted core spells are never chosen
+            // picks, and the authored optional pool defines the exact number
+            // of picks. Classes without a policy keep the historical three.
             const knownSpells = characterData.class_spells?.known_spells || [];
-            if (knownSpells.length !== 3) {
-                errors.spells = `Please select exactly 3 starting spells (currently ${knownSpells.length} selected).`;
+            const policyClassData = characterData.class === 'Chaos Weaver' ? CHAOS_WEAVER_DATA : null;
+            const policy = policyClassData?.progression?.policy || null;
+            const expectedStartingSpells = policy?.startingSpellPicks ?? 3;
+            const pickPoolIds = new Set(policyClassData?.spellPools?.[1] || []);
+            const knownPickCount = policy
+                ? knownSpells.filter(id => pickPoolIds.has(id)).length
+                : knownSpells.length;
+            if (knownPickCount !== expectedStartingSpells) {
+                errors.spells = expectedStartingSpells === 3
+                    ? `Please select exactly 3 starting spells (currently ${knownPickCount} selected).`
+                    : `Please select exactly ${expectedStartingSpells} starting spell${expectedStartingSpells === 1 ? '' : 's'} (currently ${knownPickCount} selected).`;
             }
             break;
 

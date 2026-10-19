@@ -133,7 +133,7 @@ export const GATHERING_ITEMS = [
     reagentType: 'Flower',
     magicType: 'ember',
     reagentState: 'Raw',
-    requiredFor: 'Healing potions and fire resistance elixirs'
+    requiredFor: 'Healing potions and ember resistance elixirs'
   },
   {
     id: 'frostcap',
@@ -141,7 +141,7 @@ export const GATHERING_ITEMS = [
     type: 'miscellaneous',
     subtype: 'REAGENT',
     quality: 'uncommon',
-    description: 'A mushroom with a frosty cap that grows in cold regions. Used in cold-based alchemy.',
+    description: 'A mushroom with a frosty cap that grows in cold regions. Used in rime-based alchemy.',
     iconId: 'Misc/Profession Resources/Herbs and Plants/nature-mushroom-red-cap-spotted-beige-stem',
     value: { gold: 0, silver: 1, copper: 50 },
     stackable: true,
@@ -155,7 +155,7 @@ export const GATHERING_ITEMS = [
     reagentType: 'Mushroom',
     magicType: 'rime',
     reagentState: 'Raw',
-    requiredFor: 'Cold resistance and frost magic'
+    requiredFor: 'Rime resistance and rime magic'
   },
   {
     id: 'grave-thyme',
@@ -199,7 +199,7 @@ export const GATHERING_ITEMS = [
     reagentType: 'Flower',
     magicType: 'blight',
     reagentState: 'Raw',
-    requiredFor: 'Shadow magic and illusion spells'
+    requiredFor: 'Blight magic and wyrd spells'
   },
   {
     id: 'glowbulb',
@@ -268,7 +268,7 @@ export const GATHERING_ITEMS = [
     reagentType: 'Vine',
     magicType: 'primal',
     reagentState: 'Raw',
-    requiredFor: 'Life force potions and blood magic',
+    requiredFor: 'Life force potions and primal magic',
     preservationMethod: 'Living container'
   },
   {
@@ -289,9 +289,9 @@ export const GATHERING_ITEMS = [
     professions: ['Alchemy', 'Enchanting'],
     gatheringMethod: 'herbalism',
     reagentType: 'Flower',
-    magicType: 'spirit',
+    magicType: 'sacred',
     reagentState: 'Pure',
-    requiredFor: 'Spirit magic and resurrection rituals',
+    requiredFor: 'Sacred magic and resurrection rituals',
     preservationMethod: 'Crystal preservation'
   },
   {
@@ -312,9 +312,9 @@ export const GATHERING_ITEMS = [
     professions: ['Alchemy', 'Enchanting'],
     gatheringMethod: 'herbalism',
     reagentType: 'Fern',
-    magicType: 'time',
+    magicType: 'wyrd',
     reagentState: 'Pure',
-    requiredFor: 'Time manipulation magic',
+    requiredFor: 'Wyrd magic and temporal manipulation',
     preservationMethod: 'Temporal stasis'
   }
 ];

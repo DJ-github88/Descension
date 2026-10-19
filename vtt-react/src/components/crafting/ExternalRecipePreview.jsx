@@ -63,21 +63,34 @@ const ExternalRecipePreview = ({ recipeData, windowPosition, windowSize, isOpen 
     return stat || 0;
   };
 
-  // Damage type colors matching ItemTooltip
+  // Damage type colors matching canonical Mythrill damage types
   const damageTypeColors = {
-    acid: '#32CD32',
-    bludgeoning: '#8B4513',
-    cold: '#87CEEB',
-    fire: '#FF4500',
-    force: '#ff66ff',
-    lightning: '#FFD700',
-    necrotic: '#4B0082',
-    piercing: '#C0C0C0',
-    poison: '#008000',
-    psychic: '#FF69B4',
-    radiant: '#FFFACD',
-    slashing: '#A52A2A',
-    thunder: '#0066ff'
+    smashing: '#8B5A2B',
+    stabbing: '#704214',
+    slicing: '#5C3317',
+    ember: '#D4380D',
+    rime: '#2C5F7C',
+    storm: '#8B7328',
+    primal: '#2D5A1E',
+    arcane: '#5B3A8C',
+    blight: '#3D1F4E',
+    wyrd: '#7A2040',
+    sacred: '#DAA520',
+    healing: '#2E8B57',
+    // Legacy aliases
+    acid: '#3D1F4E',
+    bludgeoning: '#8B5A2B',
+    cold: '#2C5F7C',
+    fire: '#D4380D',
+    force: '#5B3A8C',
+    lightning: '#8B7328',
+    necrotic: '#3D1F4E',
+    piercing: '#704214',
+    poison: '#3D1F4E',
+    psychic: '#7A2040',
+    radiant: '#DAA520',
+    slashing: '#5C3317',
+    thunder: '#8B7328'
   };
 
   const getCraftingTimeText = (milliseconds) => {
@@ -301,7 +314,7 @@ const ExternalRecipePreview = ({ recipeData, windowPosition, windowSize, isOpen 
                         <span style={{
                           color: damageTypeColors[resultItem.weaponStats.baseDamage.bonusDamageType?.toLowerCase()] || '#ffffff'
                         }}>
-                          {' '}{resultItem.weaponStats.baseDamage.bonusDamageType?.toLowerCase() || 'force'} damage
+                          {' '}{resultItem.weaponStats.baseDamage.bonusDamageType?.toLowerCase() || 'arcane'} damage
                         </span>
                       </>
                     )}

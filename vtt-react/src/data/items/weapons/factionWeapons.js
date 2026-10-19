@@ -646,7 +646,7 @@ export const FACTION_WEAPONS = [
     combatStats: {
       spellDamage: {
         types: {
-          cold: { value: 3, isPercentage: false }
+          rime: { value: 3, isPercentage: false }
         }
       },
       onHitEffects: {
@@ -837,7 +837,7 @@ export const FACTION_WEAPONS = [
       spellDamage: {
         types: {
           arcane: { value: 3, isPercentage: false },
-          cold: { value: 2, isPercentage: false }
+          rime: { value: 2, isPercentage: false }
         }
       },
       onHitEffects: {
@@ -1221,8 +1221,7 @@ export const FACTION_WEAPONS = [
     combatStats: {
       spellDamage: {
         types: {
-          shadow: { value: 4, isPercentage: false },
-          wyrd: { value: 2, isPercentage: false }
+          wyrd: { value: 6, isPercentage: false }
         }
       },
       onHitEffects: {
@@ -1283,8 +1282,7 @@ export const FACTION_WEAPONS = [
     combatStats: {
       spellDamage: {
         types: {
-          poison: { value: 4, isPercentage: false },
-          blight: { value: 2, isPercentage: false }
+          blight: { value: 6, isPercentage: false }
         }
       },
       onHitEffects: {
@@ -1350,7 +1348,7 @@ export const FACTION_WEAPONS = [
       spellDamage: {
         types: {
           arcane: { value: 3, isPercentage: false },
-          psychic: { value: 2, isPercentage: false }
+          wyrd: { value: 2, isPercentage: false }
         }
       },
       onHitEffects: {

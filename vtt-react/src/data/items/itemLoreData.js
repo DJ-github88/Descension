@@ -1787,7 +1787,7 @@ const ITEM_LORE = {
   },
   'frost-guard-longsword': {
     origin: 'nordhalla',
-    loreText: 'House Skalvyr forges these from stel-iron quenched in Nordhalla\'s glacial lakes. The cold damage doesn\'t come from magic — it comes from the memory of the ice that made the blade.',
+    loreText: 'House Skalvyr forges these from stel-iron quenched in Nordhalla\'s glacial lakes. The rime damage doesn\'t come from magic — it comes from the memory of the ice that made the blade.',
     relatedLore: ['nordhalla', 'house_skalvyr']
   },
   'plague-biter': {
@@ -1881,7 +1881,7 @@ const ITEM_LORE = {
   },
   'tide-crusher': {
     origin: 'iceheart-sea',
-    loreText: 'A trident blessed by Mer-lyrisa in the deepest trench of the Iceheart Sea. The cold damage and knockback come from the memory of the sea-floor — the pressure of a thousand fathoms.',
+    loreText: 'A trident blessed by Mer-lyrisa in the deepest trench of the Iceheart Sea. The rime damage and knockback come from the memory of the sea-floor — the pressure of a thousand fathoms.',
     relatedLore: ['iceheart-sea', 'mer-lyrisa', 'tide_choir']
   },
   'star-fall-harp': {
@@ -1910,7 +1910,7 @@ const ITEM_LORE = {
   },
   'everfrost-crown-pike': {
     origin: 'nordhalla',
-    loreText: 'High King-Jarl Halvar Skalvyr\'s ancestral weapon. Its freeze is the absolute zero of Nordhalla\'s deepest glacier — a cold so profound it freezes the concept of warmth itself.',
+    loreText: 'High King-Jarl Halvar Skalvyr\'s ancestral weapon. Its freeze is the absolute zero of Nordhalla\'s deepest glacier — a rime so profound it freezes the concept of warmth itself.',
     relatedLore: ['nordhalla', 'halvar_skalvyr', 'house_skalvyr']
   },
   'storm-gods-wrath': {
@@ -1989,7 +1989,7 @@ const ITEM_LORE = {
   },
   'rime-scale-vest': {
     origin: 'nordhalla',
-    loreText: 'Nordhalla hunters craft these from stel-beast scales overlaid on cured leather. The vest is always cold to the touch, but warms against the skin — as if the cold remembers its purpose.',
+    loreText: 'Nordhalla hunters craft these from stel-beast scales overlaid on cured leather. The vest is always cold to the touch, but warms against the skin — as if the rime remembers its purpose.',
     relatedLore: ['nordhalla', 'house_skalvyr']
   },
   'storm-woven-chain': {
@@ -2019,7 +2019,7 @@ const ITEM_LORE = {
   },
   'tide-callers-belt': {
     origin: 'iceheart-sea',
-    loreText: 'A belt woven from Merrowport kelp-leather, inscribed with tidal runes. It grants resistance to cold and storm — the protection of the sea itself, worn close to the body.',
+    loreText: 'A belt woven from Merrowport kelp-leather, inscribed with tidal runes. It grants resistance to rime and storm — the protection of the sea itself, worn close to the body.',
     relatedLore: ['iceheart-sea', 'mer-lyrisa', 'tide_choir']
   },
 
@@ -2028,12 +2028,12 @@ const ITEM_LORE = {
   // =======================================================================
   'inferno-plate': {
     origin: 'sundale',
-    loreText: 'Full plate forged in Solbrand\'s deepest forges, quenched in liquid ember. The wearer is virtually immune to fire but moves slowly — the weight of Sol\'s protection is not light.',
+    loreText: 'Full plate forged in Solbrand\'s deepest forges, quenched in liquid ember. The wearer is virtually immune to ember but moves slowly — the weight of Sol\'s protection is not light.',
     relatedLore: ['sundale', 'solbrand']
   },
   'frost-warden-helm': {
     origin: 'nordhalla',
-    loreText: 'The helm of Nordhalla\'s frost-guard elite. The frozen immunity comes from a stel-bone lining — the same material that keeps the fjords frozen year-round.',
+    loreText: 'The helm of Nordhalla\'s frost-guard elite. The rime immunity comes from a stel-bone lining — the same material that keeps the fjords frozen year-round.',
     relatedLore: ['nordhalla', 'house_skalvyr', 'halvar_skalvyr']
   },
   'tempest-guard': {
@@ -2068,7 +2068,7 @@ const ITEM_LORE = {
   },
   'force-ward-vambraces': {
     origin: 'cragjaw-peaks',
-    loreText: 'Warden Chain-Lord vambraces forged from the metal of collapsed vats. The force damage they reflect is the kinetic memory of the Groven uprising — chains breaking free.',
+    loreText: 'Warden Chain-Lord vambraces forged from the metal of collapsed vats. The arcane damage they reflect is the kinetic memory of the Groven uprising — chains breaking free.',
     relatedLore: ['cragjaw-peaks', 'warden_chain_lords', 'the_groven_uprising']
   },
   'psychic-dampener': {
@@ -2087,7 +2087,7 @@ const ITEM_LORE = {
   },
   'absolute-zero': {
     origin: 'nordhalla',
-    loreText: 'Halvar Skalvyr\'s ancestral plate, carved from a single piece of ever-ice. The cold it radiates is so absolute that it freezes the air around the wearer — a walking glacier in human form.',
+    loreText: 'Halvar Skalvyr\'s ancestral plate, carved from a single piece of ever-ice. The rime it radiates is so absolute that it freezes the air around the wearer — a walking glacier in human form.',
     relatedLore: ['nordhalla', 'halvar_skalvyr', 'house_skalvyr']
   },
   'thunder-sovereigns-guard': {
@@ -2160,12 +2160,12 @@ const ITEM_LORE = {
   // =======================================================================
   'inferno-loop': {
     origin: 'sundale',
-    loreText: 'A ring of Solbrand gold set with an ember that never dies. Its burn immunity and fire damage make it the most sought-after treasure in Sundale\'s undercity.',
+    loreText: 'A ring of Solbrand gold set with an ember that never dies. Its burn immunity and ember damage make it the most sought-after treasure in Sundale\'s undercity.',
     relatedLore: ['sundale', 'solbrand']
   },
   'glacial-focus': {
     origin: 'nordhalla',
-    loreText: 'An amulet containing a drop of ever-ice from Nordhalla\'s deepest glacier. Its freeze effect and cold immunity make it invaluable for traversing the frost-tithe territories.',
+    loreText: 'An amulet containing a drop of ever-ice from Nordhalla\'s deepest glacier. Its freeze effect and rime immunity make it invaluable for traversing the frost-tithe territories.',
     relatedLore: ['nordhalla', 'house_skalvyr', 'frost_tithe']
   },
   'thunder-cage': {
@@ -2209,7 +2209,7 @@ const ITEM_LORE = {
   },
   'absolute-zero-pendant': {
     origin: 'nordhalla',
-    loreText: 'A pendant containing the concept of absolute cold. Halvar Skalvyr\'s shamans say it was carved from the frost-tithe itself — the price the land pays for the Skalvyr\'s survival.',
+    loreText: 'A pendant containing the concept of absolute rime. Halvar Skalvyr\'s shamans say it was carved from the frost-tithe itself — the price the land pays for the Skalvyr\'s survival.',
     relatedLore: ['nordhalla', 'house_skalvyr', 'frost_tithe']
   },
   'storm-majestys-crown': {
@@ -2224,7 +2224,7 @@ const ITEM_LORE = {
   },
   'mind-palace-key': {
     origin: 'sundrift-vale',
-    loreText: 'Mor-Vereth\'s masterwork — a key that opens doors in the mind. Its psychic immunity protects the wearer from all mental intrusion — because Mor-Vereth is already inside your head.',
+    loreText: 'Mor-Vereth\'s masterwork — a key that opens doors in the mind. Its wyrd immunity protects the wearer from all mental intrusion — because Mor-Vereth is already inside your head.',
     relatedLore: ['sundrift-vale', 'mor-vereth', 'false_prophet']
   },
 
@@ -2238,7 +2238,7 @@ const ITEM_LORE = {
   },
   'frost-walker-brew': {
     origin: 'nordhalla',
-    loreText: 'A Nordic elixir that slows the heart to near-freezing. Nordhalla scouts drink this before crossing ice-choked fjords — the cold resistance comes at the cost of weaker strikes.',
+    loreText: 'A Nordic elixir that slows the heart to near-freezing. Nordhalla scouts drink this before crossing ice-choked fjords — the rime resistance comes at the cost of weaker strikes.',
     relatedLore: ['nordhalla', 'house_skalvyr']
   },
   'storm-glass-vial': {
@@ -2277,7 +2277,7 @@ const ITEM_LORE = {
   },
   'scroll-of-ice-storm': {
     origin: 'nordhalla',
-    loreText: 'A scroll written in frost-runes during the coldest Nordhalla winter on record. It unleashes the fury of an Iceheart Sea blizzard — cold and storm damage amplified by frozen fury.',
+    loreText: 'A scroll written in frost-runes during the coldest Nordhalla winter on record. It unleashes the fury of an Iceheart Sea blizzard — rime and storm damage amplified by frozen fury.',
     relatedLore: ['nordhalla', 'halvar_skalvyr', 'house_skalvyr']
   },
   'plague-immunity-serum': {
@@ -2306,7 +2306,7 @@ const ITEM_LORE = {
   },
   'phoenix-tear': {
     origin: 'sundale',
-    loreText: 'A single tear from a phoenix that fell during the Sundering. It restores massive health and grants near-total fire immunity — but the pain of rebirth is said to be the most exquisite agony in existence.',
+    loreText: 'A single tear from a phoenix that fell during the Sundering. It restores massive health and grants near-total ember immunity — but the pain of rebirth is said to be the most exquisite agony in existence.',
     relatedLore: ['sundale', 'the_sunderers']
   },
   'scroll-of-the-void': {

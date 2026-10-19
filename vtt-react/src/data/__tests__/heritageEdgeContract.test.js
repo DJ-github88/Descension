@@ -12,7 +12,7 @@ test('every authored edge is a typed single edge + paired cost with no forbidden
 
 test('authored native edges cover every native heritage of the implemented classes', () => {
   const classes = getAuthoredHeritageEdgeClasses();
-  expect(classes).toEqual(['Animist', 'Apex', 'Arcanoneer', 'Augur', 'Berserker', 'Chronarch', 'Crusader', 'False Prophet', 'Gambit', 'Harbinger', 'Inquisitor', 'Lunarch', 'Martyr', 'Minstrel', 'Plaguebringer', 'Pyrofiend', 'Revenant', 'Shaper', 'Spellguard', 'Toxicologist', 'Warden']);
+  expect(classes).toEqual(['Animist', 'Apex', 'Arcanoneer', 'Augur', 'Berserker', 'Chaos Weaver', 'Chronarch', 'Crusader', 'False Prophet', 'Gambit', 'Harbinger', 'Inquisitor', 'Lunarch', 'Martyr', 'Minstrel', 'Plaguebringer', 'Pyrofiend', 'Revenant', 'Shaper', 'Spellguard', 'Toxicologist', 'Warden']);
   // The native roster is owned by classHeritageRegistry and is under concurrent
   // revision; do not re-derive it here. Assert every authored edge resolves back
   // to a registered native pair or a qualification-gated E pair instead.

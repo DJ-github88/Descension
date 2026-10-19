@@ -1,0 +1,463 @@
+{
+  "generatedAt": "2026-10-19T17:41:26.502Z",
+  "registeredClasses": [
+    "Arcanoneer",
+    "Berserker",
+    "Shaper",
+    "Harbinger",
+    "Chronarch",
+    "Inquisitor",
+    "Revenant",
+    "False Prophet",
+    "Gambit",
+    "Apex",
+    "Animist",
+    "Lunarch",
+    "Martyr",
+    "Minstrel",
+    "Plaguebringer",
+    "Pyrofiend",
+    "Spellguard",
+    "Toxicologist",
+    "Warden",
+    "Augur",
+    "Crusader",
+    "Chaos Weaver",
+    "Nereid Myrathil Apex",
+    "Nereid Myrathil Animist",
+    "Nereid Myrathil Augur"
+  ],
+  "chaosWeaver": {
+    "displayName": "Chaos Weaver",
+    "developmentStatus": "development",
+    "manualOnly": true,
+    "spellCount": 49,
+    "spellPools": {
+      "1": [
+        "cw1_01",
+        "cw1_02",
+        "cw1_03",
+        "cw1_04"
+      ],
+      "2": [
+        "cw1_05",
+        "cw1_06",
+        "cr1_chaos_weaver_read_instability",
+        "cw1_08"
+      ],
+      "3": [
+        "cw1_09",
+        "cw1_10",
+        "cw1_11",
+        "cw1_12"
+      ],
+      "4": [
+        "cw1_13",
+        "cw1_14",
+        "cw1_15",
+        "cw1_16"
+      ],
+      "5": [
+        "cw1_17",
+        "cw1_18",
+        "cw1_19",
+        "cw1_20"
+      ],
+      "6": [
+        "cw1_21",
+        "cw1_22",
+        "cw1_23",
+        "cw1_24"
+      ],
+      "7": [
+        "cw1_25",
+        "cw1_26",
+        "cw1_27",
+        "cw1_28"
+      ],
+      "8": [
+        "cw1_29",
+        "cw1_30",
+        "cw1_31",
+        "cw1_32"
+      ],
+      "9": [
+        "cw1_33",
+        "cw1_34",
+        "cw1_35",
+        "cw1_36"
+      ],
+      "10": [
+        "cw1_37",
+        "cw1_38",
+        "cw1_39",
+        "cw1_40"
+      ]
+    },
+    "policy": {
+      "classId": "chaos-weaver",
+      "rulesetVersion": "cr-cw-1",
+      "levelCap": 10,
+      "startingSpellPicks": 1,
+      "optionalPicksPerLevel": 1,
+      "allowEarlierUnchosen": true,
+      "grantedCoreSpellIds": [
+        "cr1_chaos_weaver_fold_odds",
+        "cr1_chaos_weaver_split_possibility",
+        "cw1_dismiss_anomaly"
+      ],
+      "randomizeStartingSpells": false,
+      "autoTopUpOnLoad": false,
+      "talentActivesAreGrants": true,
+      "manualOnly": true,
+      "rules": {
+        "levelCap": 10,
+        "optionalPickRule": "Exactly one optional spell pick at each level from that level or an earlier unchosen pool.",
+        "minimumNewOptionsPerLevel": 4,
+        "minimumNondamageOptionsPerLevel": 2,
+        "picksDoNotConsume": "Core actions, passives, signatures and capstones do not consume a spell pick.",
+        "noAutomaticScaling": "No automatic tile-cap or damage scaling by level.",
+        "primarySpecialization": "Primary specialization is the first tree invested in, not three free signatures.",
+        "respecPreview": "Class-local respec preview recomputes legality and removes dependent ranks; it never rewrites a character’s real talents. Table rest/training respec permission remains the campaign’s existing policy."
+      }
+    },
+    "trees": {
+      "probability-sculptor": {
+        "nodes": 18,
+        "grants": [
+          {
+            "nodeId": "cw1_ps_n05",
+            "grantId": "cr1_chaos_weaver_bias_draw"
+          },
+          {
+            "nodeId": "cw1_ps_n18",
+            "grantId": "cw1_closed_distribution"
+          }
+        ],
+        "nodeIds": [
+          "cw1_ps_n01",
+          "cw1_ps_n02",
+          "cw1_ps_n03",
+          "cw1_ps_n04",
+          "cw1_ps_n05",
+          "cw1_ps_n06",
+          "cw1_ps_n07",
+          "cw1_ps_n08",
+          "cw1_ps_n09",
+          "cw1_ps_n10",
+          "cw1_ps_n11",
+          "cw1_ps_n12",
+          "cw1_ps_n13",
+          "cw1_ps_n14",
+          "cw1_ps_n15",
+          "cw1_ps_n16",
+          "cw1_ps_n17",
+          "cw1_ps_n18"
+        ]
+      },
+      "anomaly-binder": {
+        "nodes": 18,
+        "grants": [
+          {
+            "nodeId": "cw1_ab_n05",
+            "grantId": "cr1_chaos_weaver_unsteady_ground"
+          },
+          {
+            "nodeId": "cw1_ab_n18",
+            "grantId": "cw1_last_boundary"
+          }
+        ],
+        "nodeIds": [
+          "cw1_ab_n01",
+          "cw1_ab_n02",
+          "cw1_ab_n03",
+          "cw1_ab_n04",
+          "cw1_ab_n05",
+          "cw1_ab_n06",
+          "cw1_ab_n07",
+          "cw1_ab_n08",
+          "cw1_ab_n09",
+          "cw1_ab_n10",
+          "cw1_ab_n11",
+          "cw1_ab_n12",
+          "cw1_ab_n13",
+          "cw1_ab_n14",
+          "cw1_ab_n15",
+          "cw1_ab_n16",
+          "cw1_ab_n17",
+          "cw1_ab_n18"
+        ]
+      },
+      "cascade-weaver": {
+        "nodes": 18,
+        "grants": [
+          {
+            "nodeId": "cw1_ca_n05",
+            "grantId": "cr1_chaos_weaver_second_possibility"
+          },
+          {
+            "nodeId": "cw1_ca_n18",
+            "grantId": "cw1_single_aftershock"
+          }
+        ],
+        "nodeIds": [
+          "cw1_ca_n01",
+          "cw1_ca_n02",
+          "cw1_ca_n03",
+          "cw1_ca_n04",
+          "cw1_ca_n05",
+          "cw1_ca_n06",
+          "cw1_ca_n07",
+          "cw1_ca_n08",
+          "cw1_ca_n09",
+          "cw1_ca_n10",
+          "cw1_ca_n11",
+          "cw1_ca_n12",
+          "cw1_ca_n13",
+          "cw1_ca_n14",
+          "cw1_ca_n15",
+          "cw1_ca_n16",
+          "cw1_ca_n17",
+          "cw1_ca_n18"
+        ]
+      }
+    },
+    "resource": {
+      "id": "chaos-weaver-tiles",
+      "visualType": "chaos-weaver-tiles",
+      "initialized": false,
+      "current": 0,
+      "max": 0,
+      "tileCount": 6
+    },
+    "provenance": {
+      "powerSource": "Real anomaly exposure and maintained finite stabilizing interfaces (contained variance, not foretelling or wagering)",
+      "acquisition": "An actual survived anomaly encounter, supervised containment training and a maintained stabilizing interface",
+      "institution": "The Variance Circle; Alchemite Sump workshops (proposed workshop network, no canonical NPC founder)",
+      "requirements": [
+        "anomaly_encounter",
+        "containment_training",
+        "stabilizing_interface"
+      ],
+      "incompatibleStates": [],
+      "heritageEffectsImplemented": false,
+      "firstDiscovery": "Alchemite variance containment around the Roulette Manifold/Sump workshops",
+      "institutionalFounding": "The Variance Circle transmits apprenticeship in surviving a real anomaly and maintaining a finite interface",
+      "founderState": "Jix is a documented cross-school contact, not newly declared founder of all Chaos Weavers"
+    },
+    "nativeVariants": [
+      "drall_fexric"
+    ],
+    "specializations": [
+      "probability-sculptor",
+      "anomaly-binder",
+      "cascade-weaver"
+    ]
+  },
+  "reconstructionCompatibility": [
+    {
+      "legacyKey": "gambit",
+      "legacyNames": [
+        "Gambit"
+      ],
+      "row": {
+        "relationship": "split",
+        "legacyResolutionRetained": true,
+        "automaticConversion": false,
+        "noAutomaticDestination": true,
+        "successors": [
+          {
+            "id": "gambler",
+            "name": "Gambler",
+            "relationship": "split"
+          },
+          {
+            "id": "fate-weaver",
+            "name": "Fate Weaver",
+            "relationship": "split"
+          },
+          {
+            "id": "chaos-weaver",
+            "name": "Chaos Weaver",
+            "relationship": "split"
+          }
+        ],
+        "notes": "Retain Gambit resolver/data/spells/talents/resources for existing saves. One-to-many successor choices only; no Fortune -> hand/thread/tile conversion. Legacy Mayhem and all current Gambit IDs keep resolving exactly.",
+        "recordDispositions": []
+      }
+    },
+    {
+      "legacyKey": "augur",
+      "legacyNames": [
+        "Augur",
+        "Nereid Myrathil Augur"
+      ],
+      "row": {
+        "relationship": "merged-design",
+        "legacyResolutionRetained": true,
+        "automaticConversion": false,
+        "noAutomaticDestination": true,
+        "successors": [
+          {
+            "id": "fate-weaver",
+            "name": "Fate Weaver",
+            "relationship": "merged-design"
+          }
+        ],
+        "notes": "Preserve old Augur saves, Nereid variant keys, omens/debt, spell/node/materialized IDs and provenance. Fate Weaver receives individually assessed techniques only; no wholesale dual-bank inheritance.",
+        "recordDispositions": []
+      }
+    },
+    {
+      "legacyKey": "harbinger",
+      "legacyNames": [
+        "Harbinger"
+      ],
+      "row": {
+        "relationship": "successor-name",
+        "legacyResolutionRetained": true,
+        "automaticConversion": false,
+        "successors": [
+          {
+            "id": "doomsayer",
+            "name": "Doomsayer",
+            "relationship": "successor-name"
+          }
+        ],
+        "notes": "Old Harbinger still loads exact Mayhem and known IDs. A display successor label never invokes class-change or resource reinitialization. Historical Doomsayer payloads require individual mapping.",
+        "recordDispositions": []
+      }
+    },
+    {
+      "legacyKey": "revenant",
+      "legacyNames": [
+        "Revenant"
+      ],
+      "row": {
+        "relationship": "split",
+        "legacyResolutionRetained": true,
+        "automaticConversion": false,
+        "noAutomaticDestination": true,
+        "successors": [
+          {
+            "id": "deathcaller",
+            "name": "Deathcaller",
+            "relationship": "split"
+          },
+          {
+            "id": "lichborne",
+            "name": "Lichborne",
+            "relationship": "split"
+          }
+        ],
+        "notes": "Explicit split map with no default destination; preserve Toll/anchor/known spell/talent bytes for old characters.",
+        "recordDispositions": []
+      }
+    },
+    {
+      "legacyKey": "shaper",
+      "legacyNames": [
+        "Shaper"
+      ],
+      "row": {
+        "relationship": "successor-name",
+        "legacyResolutionRetained": true,
+        "automaticConversion": false,
+        "successors": [
+          {
+            "id": "druid",
+            "name": "Druid",
+            "relationship": "successor-name"
+          }
+        ],
+        "notes": "Druid is the transformation name. Keep prior martial/body state and IDs resolvable; no Flux/stance -> anatomical-slot conversion. Bladedancer/Monk are separate reviews.",
+        "recordDispositions": []
+      }
+    },
+    {
+      "legacyKey": "formbender",
+      "legacyNames": [
+        "Formbender"
+      ],
+      "row": {
+        "relationship": "merged-design",
+        "legacyResolutionRetained": true,
+        "automaticConversion": false,
+        "successors": [
+          {
+            "id": "druid",
+            "name": "Druid",
+            "relationship": "merged-design"
+          }
+        ],
+        "notes": "Historical Formbender identity merged into the Druid design; raw IDs remain resolvable.",
+        "recordDispositions": []
+      }
+    },
+    {
+      "legacyKey": "apex",
+      "legacyNames": [
+        "Apex",
+        "Huntress",
+        "Nereid Myrathil Apex"
+      ],
+      "row": {
+        "relationship": "successor-name",
+        "legacyResolutionRetained": true,
+        "automaticConversion": false,
+        "successors": [
+          {
+            "id": "hunter",
+            "name": "Hunter",
+            "relationship": "successor-name"
+          }
+        ],
+        "notes": "Preserve old marks/companion/spec/save IDs, including Nereid variants; never conjure a new actor from an old counter.",
+        "recordDispositions": []
+      }
+    },
+    {
+      "legacyKey": "oracle",
+      "legacyNames": [
+        "Oracle"
+      ],
+      "row": {
+        "relationship": "under-review",
+        "legacyResolutionRetained": true,
+        "automaticConversion": false,
+        "successors": [],
+        "notes": "Register independently when its full content is delivered; no Augur alias/merger and no assumed Omen Debt restoration.",
+        "recordDispositions": []
+      }
+    },
+    {
+      "legacyKey": "animist",
+      "legacyNames": [
+        "Animist",
+        "Nereid Myrathil Animist"
+      ],
+      "row": {
+        "relationship": "under-review",
+        "legacyResolutionRetained": true,
+        "automaticConversion": false,
+        "successors": [],
+        "notes": "Retained under review: keep the actual class and existing content available. Do not silently replace resonance/spirits with a proposed network/seat economy.",
+        "recordDispositions": []
+      }
+    }
+  ],
+  "compatibilityAliases": {
+    "Nereid Myrathil Apex": {
+      "className": "Apex",
+      "heritageId": "deepling_myrathil"
+    },
+    "Nereid Myrathil Animist": {
+      "className": "Animist",
+      "heritageId": "deepling_myrathil"
+    },
+    "Nereid Myrathil Augur": {
+      "className": "Augur",
+      "heritageId": "deepling_myrathil"
+    }
+  }
+}

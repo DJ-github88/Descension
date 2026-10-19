@@ -10,6 +10,9 @@ import { sameExactRef } from '../../services/featherSlash';
 import { useSpellConsequenceStore, closeOwnerPanel, ownerSource, sendSpellApproval, checkSpellApproval, withdrawSpellApproval, reapproveSpell,
   restoreOwnerStatus, refreshSpellApprovals, gmAcceptSpell, gmDeclineSpell, gmCheckSpellCommand, markSpellReconciled } from '../../services/spellConsequenceService';
 import { loadLatestSpell, unresolvedSpell } from '../../services/spellConsequenceCustody';
+import { spellDraftContext, loadSpellDraft, loadDiscardedSpellDrafts, saveSpellDraft, discardSpellDraft } from '../../services/spellConsequenceService';
+import { describeDraft, sameDraftContext } from '../../services/targetPick';
+import useTargetingStore from '../../store/targetingStore';
 import './SpellConsequencePanel.css';
 
 const nameOf = token => token?.character?.name || token?.state?.customName || token?.name || token?.id || 'Unknown';
@@ -36,11 +39,20 @@ function OwnerPanel() {
   const gridSize = useGameStore(value => value.gridSize), feetPerTile = useGameStore(value => value.feetPerTile);
   const game = { gridSize, feetPerTile };
   const [targetKey, setTargetKey] = useState('');
-  const [roll, setRoll] = useState(null);
   const [physical, setPhysical] = useState({});
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
-  useEffect(() => { if (owner) restoreOwnerStatus(); setTargetKey(''); setRoll(null); setPhysical({}); setError(''); }, [owner]);
+  useSpellConsequenceStore(value => value.draftVersion);
+  const picking = useTargetingStore(value => value.pickSession?.id === 'p9-spell');
+  const startTargetPick = useTargetingStore(value => value.startTargetPick);
+  // A closed panel ends its own pick session (contract §1).
+  useEffect(() => { if (!owner) useTargetingStore.getState().cancelTargetPickFor('p9-spell'); }, [owner]);
+  useEffect(() => {
+    if (owner) restoreOwnerStatus();
+    // P12C-B1 §2: a retained draft for this same spell restores its target and roll.
+    const draft = loadSpellDraft();
+    setTargetKey(owner && draft?.context?.spellId === owner.spellId ? draft.targetKey || '' : ''); setPhysical({}); setError('');
+  }, [owner]);
   const support = useMemo(() => owner ? supportSpell({ id: owner.spellId }, character) : null, [owner, character]);
   if (!owner) return null;
   const source = ownerSource();
@@ -50,10 +62,24 @@ function OwnerPanel() {
   const latest = loadLatestSpell();
   const pending = unresolvedSpell(latest);
   const perform = async action => { setBusy(true); setError(''); try { await action(); } catch (e) { setError(e.message); } finally { setBusy(false); } };
+  // P12C-B1 §2: the recorded roll lives in a draft bound to this owner, character, attachment and spell.
+  const ctx = spellDraftContext({ characterId: character.currentCharacterId, sourceRef: source.ref, spellId: owner.spellId });
+  const draft = loadSpellDraft(), draftHere = draft && ctx && sameDraftContext(draft.context, ctx) ? draft : null;
+  const draftElsewhere = draft && !draftHere ? draft : null;
+  const roll = draftHere?.roll || null;
   const record = mode => {
-    try { setRoll(mode === 'digital' ? digitalRoll(support.reading) : recordRoll('physical', support.reading, support.reading.dice.map((group, i) => Array.from({ length: group.count }, (_, j) => Number(physical[`${i}:${j}`])))));
-      setError(''); } catch (e) { setError(e.message); }
+    try {
+      const value = mode === 'digital' ? digitalRoll(support.reading) : recordRoll('physical', support.reading, support.reading.dice.map((group, i) => Array.from({ length: group.count }, (_, j) => Number(physical[`${i}:${j}`]))));
+      saveSpellDraft({ context: ctx, label: support.name, roll: value, targetKey }); setError('');
+    } catch (e) { setError(e.message); }
   };
+  const chooseTarget = value => { setTargetKey(value); if (draftHere) { try { saveSpellDraft({ context: ctx, label: draftHere.label, roll: draftHere.roll, targetKey: value }); } catch (e) { setError(e.message); } } };
+  const rangeFeet = Number(support?.raw?.targetingConfig?.rangeDistance);
+  const rangeLabel = Number.isFinite(rangeFeet) && rangeFeet > 0 ? `card range ${rangeFeet} ft (${support.raw.targetingConfig.rangeType || 'authored'})` : '';
+  const pick = () => startTargetPick({ id: 'p9-spell', label: support.name, sourceRef: source.ref, candidates: candidates.map(token => refOf(token)), rangeFeet, rangeLabel,
+    reasonFor: () => 'Not an exact bound target for this spell (creatures and primary characters on your map).', onPick: value => chooseTarget(ref(value)), onCancel: () => {} });
+  const discarded = loadDiscardedSpellDrafts();
+  if (picking) return null; // the panel steps aside while picking on the map; its state is kept
   const ownerCandidates = all.filter(token => token.state?.actorContract?.primary && token.ownerUserId && refOf(token)?.characterId === character.currentCharacterId);
   const pools = source.token ? sourcePools(source.token) : null;
   return createPortal(<div className="p9-overlay" role="dialog" aria-label="Supported spell cast">
@@ -70,23 +96,27 @@ function OwnerPanel() {
         {!support.payment.affordable && <p className="p9-diagnostic">{support.payment.reason}</p>}
         {source.error ? <div className="p9-diagnostic"><p>{source.error}</p>
           {ownerCandidates.length === 1 && <button type="button" onClick={() => selectOwnerAttachment(refOf(ownerCandidates[0]))}>Use this owner attachment</button>}</div> : <>
-          <label>Target <select value={targetKey} disabled={pending || busy} onChange={event => { setTargetKey(event.target.value); setRoll(null); }}>
+          {draftElsewhere && <div className="p9-diagnostic p12c-draft" role="alert"><p>An unsent recorded roll is retained for <strong>{describeDraft(draftElsewhere)}</strong>. A recorded roll never moves to another spell: cast it from that spell, or discard it explicitly.</p>
+            <button type="button" disabled={busy} onClick={() => perform(async() => discardSpellDraft())}>Discard recorded roll</button></div>}
+          <div className="p12c-pick"><button type="button" disabled={pending || busy || !source.ref} onClick={pick}>Pick on map</button><span className="p9-meta">{rangeLabel ? `${rangeLabel} — advisory` : 'No card range — GM adjudicates'}</span></div>
+          <label>Target <select value={targetKey} disabled={pending || busy} onChange={event => chooseTarget(event.target.value)}>
             <option value="">Select an exact bound target</option>
             {candidates.map(token => <option key={ref(refOf(token))} value={ref(refOf(token))}>{nameOf(token)} · {refOf(token).kind} · {token.id}{sameExactRef(refOf(token), source.ref) ? ' (you)' : ''}</option>)}
           </select></label>
           {target && <p className="p9-advisory">{advisoryRange(source.token, target, game, `${support.raw.targetingConfig?.rangeType || ''} ${support.raw.targetingConfig?.rangeDistance ?? '?'} ft`)} {resistanceText(target)}</p>}
-          {target && !roll && !pending && <div className="p9-roll">
+          {target && !roll && !pending && !draftElsewhere && <div className="p9-roll">
             <button type="button" disabled={busy} onClick={() => record('digital')}>Roll {support.reading.dice.map(g => `${g.count}d${g.sides}`).join(' + ')} once</button>
             <span>or physical faces:</span>
             {support.reading.dice.flatMap((group, i) => Array.from({ length: group.count }, (_, j) => <input key={`${i}:${j}`} aria-label={`d${group.sides} face ${j + 1}`} type="number" min="1" max={group.sides}
               value={physical[`${i}:${j}`] || ''} onChange={event => setPhysical({ ...physical, [`${i}:${j}`]: event.target.value })} />))}
             <button type="button" disabled={busy} onClick={() => record('physical')}>Record physical roll</button>
           </div>}
-          {roll && <p className="p9-roll-result">Recorded {roll.mode} roll: [{roll.dice.map(group => group.faces.join(', ')).join(' | ')}] {roll.constant >= 0 ? '+' : '-'} {Math.abs(roll.constant)} = <strong>{roll.total}</strong>. The GM confirms the final amount.</p>}
+          {roll && <p className="p9-roll-result">Recorded {roll.mode} roll: [{roll.dice.map(group => group.faces.join(', ')).join(' | ')}] {roll.constant >= 0 ? '+' : '-'} {Math.abs(roll.constant)} = <strong>{roll.total}</strong>. The GM confirms the final amount. Kept on this device for this spell through target changes and reloads.</p>}
           {!pending && <button type="button" className="p9-primary" disabled={busy || !target || !roll || !support.payment.affordable || !affordable(pools, support.price)}
             onClick={() => perform(() => sendSpellApproval({ spellId: owner.spellId, targetRef: refOf(target), roll, origin: owner.origin }))}>Approve price and send to GM</button>}
         </>}
       </>}
+      {!!discarded.length && <details className="p12c-discarded"><summary>Discarded unsent rolls on this device ({discarded.length})</summary><ul>{discarded.map((d, i) => <li key={i}>{describeDraft(d)}</li>)}</ul></details>}
       {status && <div className="p9-status" role="status"><p>{status.message}</p>
         {status.latest?.approval && <p className="p9-meta">Approval {status.latest.approval.approvalId} · {status.latest.custody}</p>}
         {['awaiting', 'unknown', 'prepared'].includes(status.phase) && <button type="button" disabled={busy} onClick={() => perform(checkSpellApproval)}>Check this same approval</button>}

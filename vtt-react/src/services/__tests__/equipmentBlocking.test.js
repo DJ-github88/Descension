@@ -55,7 +55,26 @@ test('plan: Defending doubles the face; adjustments need a reason; stale declara
   const plan = planBlockCommand({ offer, entry: entryOf(offer, 1), sourceToken, targetToken: targetToken(defending), declaration, names: { source: 'G', target: 'I' } });
   expect(plan.preview).toMatchObject({ reduction: 2, afterBlock: 5, afterDie: 'd8' });
   expect(() => planBlockCommand({ offer, entry: entryOf(offer, 2), sourceToken, targetToken: targetToken(), declaration, names: { source: 'G', target: 'I' }, finalAmount: 4 })).toThrow(/Explain/);
-  expect(() => planBlockCommand({ offer, entry: entryOf(offer, 2, { revision: 2, slot: 'chest', itemId: 'weathered-hide', die: 'd8' }), sourceToken, targetToken: targetToken(), declaration, names: { source: 'G', target: 'I' } })).toThrow(/roll again/);
+  expect(() => planBlockCommand({ offer, entry: entryOf(offer, 2, { revision: 2, slot: 'chest', itemId: 'weathered-hide', die: 'd8' }), sourceToken, targetToken: targetToken(), declaration, names: { source: 'G', target: 'I' } })).toThrow(/recorded face is kept/);
+});
+test('P12B-r1: a changed piece is a GM ruling (never re-read or re-rolled); the creature plan uses its current revision', () => {
+  const offer = offerOf(attack());
+  const worn = { ...declaration, revision: 4, pieces: [{ ...declaration.pieces[0], currentDie: 'd6' }, declaration.pieces[1]] };
+  let error;
+  try { planBlockCommand({ offer, entry: entryOf(offer, 7), sourceToken, targetToken: targetToken(), declaration: worn, names: { source: 'G', target: 'I' } }); } catch (e) { error = e; }
+  expect(error.code).toBe('block_revalidation_required');
+  expect(error.message).toMatch(/face 7 on chest d8/);
+  expect(error.message).not.toMatch(/roll again/);
+  try { planBlockCommand({ offer, entry: entryOf(offer, 7), sourceToken, targetToken: targetToken(), declaration: { ...declaration, pieces: [] , mode: 'none' }, names: { source: 'G', target: 'I' } }); } catch (e) { error = e; }
+  expect(error.code).toBe('block_piece_unavailable');
+  const moved = { state: { ...sourceToken.state, currentActionPoints: 1, actorContract: { revision: 6 } } };
+  const plan = planBlockCommand({ offer, entry: entryOf(offer, 3), sourceToken: moved, targetToken: targetToken(), declaration, names: { source: 'G', target: 'I' } });
+  expect(plan.entries[0]).toEqual({ ref: foeRef, expectedRevision: 6, finalResources: { ap: { current: 0, temp: 0 } } });
+  expect('revalidation' in JSON.parse(plan.extra.adjudication.chosenResult)).toBe(false);
+  expect(() => planBlockCommand({ offer, entry: entryOf(offer, 3), sourceToken: moved, targetToken: targetToken(), declaration, names: { source: 'G', target: 'I' }, revalidation: { reason: '  ' } })).toThrow(/why/);
+  const confirmed = planBlockCommand({ offer, entry: entryOf(offer, 3), sourceToken: moved, targetToken: targetToken(), declaration, names: { source: 'G', target: 'I' }, revalidation: { reason: 'Already swinging' } });
+  expect(JSON.parse(confirmed.extra.adjudication.chosenResult).revalidation).toEqual({ fromRevision: 4, toRevision: 6, reason: 'Already swinging' });
+  expect(() => planBlockCommand({ offer, entry: entryOf(offer, 3), sourceToken, targetToken: targetToken(), declaration, names: { source: 'G', target: 'I' }, revalidation: { reason: 'x' } })).toThrow(/no revalidation/);
 });
 test('GM-adjudicated branches: critical vs armor has no block; critical shield and non-physical need explicit rulings', () => {
   const crit = offerOf(attack({ outcome: 'critical' }));
@@ -74,4 +93,12 @@ test('accepted text states only committed values and names manual rulings', () =
     actors: [{ ref: foeRef }, { ref: pcRef, equipmentWear: { slot: 'chest', name: 'Weathered Hide', kind: 'armor', beforeDie: 'd8', afterDie: 'd6', broken: false, naturalFace: 2, defending: false, blockingRevision: 3 } }] } };
   expect(blockReceipt(result).wear.afterDie).toBe('d6');
   expect(acceptedBlockText(result)).toBe("Accepted: Ilsa takes 5 HP from Grimmstalk's Raking Claw (AP −2). Weathered Hide blocked 2; worn d8 → d6. GM rulings: flat-dr.");
+});
+
+test('P12B-r1: the public result names a GM revalidation', () => {
+  const offer = offerOf(attack());
+  const moved = { state: { ...sourceToken.state, actorContract: { revision: 6 } } };
+  const plan = planBlockCommand({ offer, entry: entryOf(offer, 3), sourceToken: moved, targetToken: targetToken(), declaration, names: { source: 'G', target: 'I' }, revalidation: { reason: 'Already swinging' } });
+  const result = { success: true, receipt: { version: 1, adjudication: plan.extra.adjudication, actors: [{ ref: foeRef }, { ref: pcRef, equipmentWear: { name: 'Weathered Hide', beforeDie: 'd8', afterDie: 'd8', broken: false } }] } };
+  expect(acceptedBlockText(result)).toMatch(/GM confirmed the recorded rolls after the attacker changed: Already swinging\./);
 });

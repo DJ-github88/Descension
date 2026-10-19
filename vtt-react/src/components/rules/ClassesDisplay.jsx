@@ -83,8 +83,6 @@ const ClassesDisplay = ({ onSelectClass }) => {
 
     const [activeDamageType, setActiveDamageType] = useState(null);
 
-
-
     const filteredClasses = useMemo(() => {
 
         let result = CLASS_DATA;
@@ -146,8 +144,6 @@ const ClassesDisplay = ({ onSelectClass }) => {
                 </div>
 
             </div>
-
-
 
             <div className="classes-filters-section">
 
@@ -254,7 +250,7 @@ const ClassesDisplay = ({ onSelectClass }) => {
                     const slug = slugify(cls.name);
                     const isComingSoon = Boolean(cls.comingSoon);
 
-                    return (
+    return (
 
                     <button
 
@@ -300,6 +296,15 @@ const ClassesDisplay = ({ onSelectClass }) => {
                                 <span className="class-row-name">{cls.name}</span>
 
                                 <span className="class-row-role-badge">{cls.role}</span>
+
+                                {cls.developmentStatus === 'development' && (
+                                    <span
+                                        className="class-row-dev-badge"
+                                        title="Development class — selectable, with class-specific effects manual at the table."
+                                    >
+                                        Development
+                                    </span>
+                                )}
 
                             </div>
 

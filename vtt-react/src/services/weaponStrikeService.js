@@ -6,6 +6,9 @@ import { ownerSource } from './spellConsequenceService';
 import { findActor, inSharedRoom, refreshActorSnapshot, prepareActorCommand, submitPreparedActorCommand, requestActorEvent } from './actorConsequenceService';
 import { captureActorDelivery, currentActorDelivery } from './actorProjectionOrder';
 import { strikeContext, loadStrikeCustody, retainStrikeCustody, unresolvedStrike } from './weaponStrikeCustody';
+import { chatLineFor } from './acceptedResultFeed';
+import { onRoomRejoined } from './roomRejoinBus';
+import { draftContext, sameDraftContext, withDiscarded } from './targetPick';
 
 export const useWeaponStrikeStore = create(() => ({ owner: null, ownerStatus: null, gmPending: {}, gmStatus: {}, data: null, dataError: null }));
 const game = () => getStore('gameStore')?.getState() || {};
@@ -62,6 +65,51 @@ function keepOwner(context, value) {
   retainStrikeCustody(context, { owner: value });
   return setOwner({ ...value, message: ownerMessage(value) });
 }
+// ── P12C-B1 roll drafts (MYTHRILL_PROJECT_12C_B1_CONTRACT.md §2) ─────────────────────────────────────
+/** The exact action context of a recorded strike roll. */
+export function strikeDraftContext({ characterId, sourceRef, actionId, support }) {
+  if (!support?.supported || support.needsType || !sourceRef) return null;
+  return { ...draftContext('strike', { characterId, sourceRef, actionId, slot: support.weapon.slot, itemId: support.weapon.itemId, weaponType: support.weapon.weaponType, die: support.weapon.die }),
+    proficiencyDie: support.proficiency?.die ?? null };
+}
+export const loadStrikeDraft = () => loadStrikeCustody()?.draft || null;
+export const loadDiscardedStrikeDrafts = () => loadStrikeCustody()?.discardedDrafts || [];
+/** Retains the recorded rolls at roll time; refuses to replace a draft that belongs to another action. */
+export function saveStrikeDraft({ context: ctx, label, roll, proficiencyRoll, targetKey }) {
+  const context = strikeContext(), saved = loadStrikeCustody(context);
+  if (!ctx) throw Error('Choose the action and weapon type before rolling.');
+  // No second roll while an approval holds recorded rolls (withdraw returns those rolls instead).
+  if (unresolvedStrike(saved?.owner)) throw Error('A strike approval with recorded rolls is pending. Check, withdraw or reconcile it first.');
+  if (saved?.draft && !sameDraftContext(saved.draft.context, ctx)) throw Error('A recorded roll for another action is retained. Send it from that action or discard it first.');
+  const draft = { context: ctx, label: String(label || '').slice(0, 80), roll: roll || null, proficiencyRoll: proficiencyRoll || null, targetKey: targetKey || '', at: saved?.draft?.at || Date.now() };
+  retainStrikeCustody(context, { draft });
+  useWeaponStrikeStore.setState(s => ({ draftVersion: (s.draftVersion || 0) + 1 }));
+  return draft;
+}
+/** Explicit discard: the faces stay listed on this device (contract §2). */
+export function discardStrikeDraft() {
+  const context = strikeContext(), saved = loadStrikeCustody(context);
+  if (!saved?.draft) return;
+  retainStrikeCustody(context, { draft: null, discardedDrafts: withDiscarded(saved.discardedDrafts, saved.draft) });
+  useWeaponStrikeStore.setState(s => ({ draftVersion: (s.draftVersion || 0) + 1 }));
+}
+/** The recorded rolls of an approval that was not accepted, as a draft for the same action context. */
+function draftFromApproval(owner) {
+  const a = owner?.approval;
+  if (!a || !owner.actionId) return null;
+  const ctx = { ...draftContext('strike', { characterId: a.source.characterId, sourceRef: a.source, actionId: owner.actionId, slot: a.weapon.slot, itemId: a.weapon.itemId, weaponType: a.weapon.weaponType, die: a.weapon.die }),
+    proficiencyDie: a.proficiency.die };
+  return { context: ctx, label: a.weapon.name, roll: a.roll, proficiencyRoll: a.proficiency.roll, targetKey: '', at: Date.now(), fromApproval: a.approvalId };
+}
+/** P12C-B1 §2: returned rolls always win; a draft made meanwhile (only possible from older custody) is listed as discarded. */
+function returnRolls(context, owner) {
+  const draft = draftFromApproval(owner);
+  if (!draft) return;
+  const saved = loadStrikeCustody(context);
+  const displaced = saved?.draft && saved.draft.fromApproval !== draft.fromApproval ? saved.draft : null;
+  retainStrikeCustody(context, { draft, ...(displaced ? { discardedDrafts: withDiscarded(saved.discardedDrafts, displaced) } : {}) });
+  useWeaponStrikeStore.setState(s => ({ draftVersion: (s.draftVersion || 0) + 1 }));
+}
 export async function sendStrikeApproval({ action, ownerType, targetRef, roll, proficiencyRoll }) {
   const context = strikeContext(), delivery = captureActorDelivery();
   if (!context.current()) throw Error('Sign in and join the room.');
@@ -78,7 +126,9 @@ export async function sendStrikeApproval({ action, ownerType, targetRef, roll, p
   if (!findActor(targetRef)) throw Error('Exact bound target is no longer present.');
   const sourceToken = findActor(source.ref), pools = sourceToken.character;
   if (pools.actionPoints.current + (pools.tempActionPoints || 0) < 2) throw Error('Insufficient AP; price is 2 AP, temporary first.');
-  retainStrikeCustody(context, { owner: { phase: 'prepared', approval, sent: false } });
+  // P12C-B1: the draft becomes the approval atomically; the action id stays for a later withdraw.
+  retainStrikeCustody(context, { owner: { phase: 'prepared', approval, sent: false, actionId: action.id }, draft: null });
+  useWeaponStrikeStore.setState(s => ({ draftVersion: (s.draftVersion || 0) + 1 }));
   return submitApproval(context);
 }
 async function submitApproval(context) {
@@ -94,6 +144,8 @@ async function submitApproval(context) {
   const phase = result.code === 'awaiting_gm' ? 'awaiting' : ['approval_withdrawn', 'approval_declined'].includes(result.code) ? result.code.slice(9)
     : first && ['invalid_strike_approval', 'forbidden', 'insufficient_resources', 'actor_not_found', 'actor_binding_conflict', 'binding_required', 'secondary_attachment'].includes(result.code) ? 'refused' : 'unknown';
   keepOwner(context, { ...latest, sent: true, phase, result });
+  // A refused first submission was never accepted: its recorded rolls return for the same action.
+  if (phase === 'refused') returnRolls(context, latest);
 }
 export const checkStrikeApproval = () => submitApproval(strikeContext());
 export async function withdrawStrikeApproval() {
@@ -102,11 +154,16 @@ export async function withdrawStrikeApproval() {
   const result = await requestActorEvent('actor_strike_withdraw', { roomId: context.roomId, approvalId: latest.approval.approvalId });
   if (!context.current() || !currentActorDelivery(delivery, context.roomId)) return;
   if (result.receipt) return consumeStrikeReceipt(result);
-  keepOwner(context, { ...latest, phase: result.success && result.code === 'withdrawn' ? 'withdrawn' : 'unknown', result });
+  const withdrawn = result.success && result.code === 'withdrawn';
+  keepOwner(context, { ...latest, phase: withdrawn ? 'withdrawn' : 'unknown', result });
+  // P12C-B1 §2: the owner's withdrawn rolls return as a draft for the same action (re-approve, never reroll).
+  if (withdrawn) returnRolls(context, latest);
 }
+/** Only an unknown outcome can be reconciled; an approval awaiting the GM is checked or withdrawn instead. */
+export const reconcilableStrike = value => unresolvedStrike(value) && value.phase !== 'awaiting';
 export function reconcileStrike() {
   const context = strikeContext(), latest = loadStrikeCustody(context)?.owner;
-  if (unresolvedStrike(latest)) keepOwner(context, { ...latest, phase: 'reconciled' });
+  if (reconcilableStrike(latest)) keepOwner(context, { ...latest, phase: 'reconciled' });
 }
 export async function refreshStrikeApprovals() {
   const context = strikeContext(), delivery = captureActorDelivery();
@@ -175,7 +232,8 @@ export function consumeStrikeReceipt(result) {
   if (saved?.owner?.approval?.approvalId === id && view.receipt.source.ownerUid === context.uid) keepOwner(context, { ...saved.owner, phase: 'accepted', result: receiptResult });
   if (saved?.gm?.[id]) keepGm(context, id, { ...saved.gm[id], phase: 'accepted', result: receiptResult, message: text });
   const chat = getStore('chatStore'), notificationId = `p12a:${view.receipt.roomId}:${view.receipt.commandId}`;
-  if (chat && !chat.getState().notifications.combat.some(n => n.id === notificationId)) chat.getState().addNotification('combat', { id: notificationId, type: 'combat', timestamp: new Date(view.receipt.acceptedAt).toISOString(), content: text });
+  let line = text; try {line = chatLineFor(result, text);} catch (_) { line = null; } // P13A §4: never name actors this viewer cannot see
+  if (line && chat && !chat.getState().notifications.combat.some(n => n.id === notificationId)) chat.getState().addNotification('combat', { id: notificationId, type: 'combat', timestamp: new Date(view.receipt.acceptedAt).toISOString(), content: line });
   useWeaponStrikeStore.setState(s => { const gmPending = { ...s.gmPending }; delete gmPending[id]; return { gmPending }; });
   return view;
 }
@@ -192,6 +250,9 @@ export function registerWeaponStrikeHandlers({ socket }) {
     const ownerContext = strikeContext(), latest = loadStrikeCustody(ownerContext)?.owner;
     if (latest?.approval?.approvalId === value.approvalId && latest.phase !== 'accepted' && ['withdrawn', 'declined'].includes(value.code)) keepOwner(ownerContext, { ...latest, phase: value.code });
   };
+  // Authorized same-room rejoin (single room_joined listener → roomRejoinBus): re-read the server's pending list.
+  const rejoined = event => { if (event?.socket === socket && live(event.roomId)) refreshStrikeApprovals(); };
+  const offRejoin = onRoomRejoined(rejoined);
   socket.on('actor_strike_pending', pending); socket.on('actor_strike_closed', closed); socket.on('actor_consequence_accepted', accepted);
-  return () => { socket.off('actor_strike_pending', pending); socket.off('actor_strike_closed', closed); socket.off('actor_consequence_accepted', accepted); };
+  return () => { socket.off('actor_strike_pending', pending); socket.off('actor_strike_closed', closed); socket.off('actor_consequence_accepted', accepted); offRejoin(); };
 }

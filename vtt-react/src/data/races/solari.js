@@ -301,10 +301,6 @@ Forge-trials settle disputes between clans. No Solari may strike another Solari 
         {
           src: '/assets/images/races/solari_hollow_figure_malthor.jpg',
           caption: '“Let the basalt strike true; our faith is not a whisper, but an iron pact grounded in the rock.” — Templar-Warden Malthor'
-        },
-        {
-          src: '/assets/images/races/solari_hollow_culture_vigil.jpg',
-          caption: '“Between the volcanic steam and the cool stone, the Sol’s Breath awakens the spirit to ancient memory.” — Vault Liturgy'
         }
       ],
       visualDescription: `The fewest and the most deep-adapted. Korr skin is dark brown-beige, untouched by daylight, marked with the most elaborate ash-branding patterns of any Solari bloodline, stark and crisp from centuries of proximity to the Sol\'s Breath. Their enormous solid-black eyes are enlarged to read faint heat in absolute darkness, and their metabolisms are so slow their pulses are barely perceptible. Their bodies are conditioned for absolute stillness: elongated air-conserving lungs, dense bone, and a bearing so motionless that a sitting Korr can be mistaken for a carved votive. They wear their dreadlocks long and their ash-cloths thick against a daylight that pains them.`,
@@ -533,18 +529,6 @@ The current crisis is a Korr crisis. The tending-clan has concealed the Sol\'s B
         {
           src: '/assets/images/races/solari_waste_figure_kaelen.jpg',
           caption: '“The obsidian spearhead knows the scent of the dunes better than the eye can see.” — Scree-Runner Kaelen'
-        },
-        {
-          src: '/assets/images/races/solari_waste_location_plains_camp.jpg',
-          caption: '“Where the pack lizards bed down and the smoke climbs into the night, the clan finds home upon the shifting ash.” — Anhur Camp Maxim'
-        },
-        {
-          src: '/assets/images/races/solari_waste_city_screewatch.jpg',
-          caption: '“Perched high above the sulfur vents, the Bastion watches the horizons for the shadows that hunt the badlands.” — Scree-Watch Annals'
-        },
-        {
-          src: '/assets/images/races/solari_waste_culture_vent.png',
-          caption: '“Every drop wrung from the volcanic vapor is life bought back from the drought.” — Field Notes of the Ash-Scouts'
         }
       ],
       visualDescription: `The surface face of the Solari. Anhur bodies are leaner and more mobile than their deep-vault kin, built to range the volcanic ashlands rather than sit vigil in the dark. Their dark brown-beige skin is weathered from generations of surface exposure, and their ash-branding marks are fainter and blurred at the edges, softened by distance from the Sol\'s Breath. They shave their hair close and wrap themselves head to toe in heavy ash-insulating cloths against the cold of the open badlands, moving with the purposeful economy of scouts who have forgotten why stillness was ever necessary.`,

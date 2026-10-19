@@ -295,4 +295,40 @@ describe('Talent Tree System Tests', () => {
     const lockedNodes = container.querySelectorAll('.talent-node-button.locked');
     expect(lockedNodes.length).toBeGreaterThan(0);
   });
+
+  test('Chaos Weaver grant nodes materialise canonical ACTION spells with authored AP and typed mechanics', () => {
+    useCharacterStore.setState({
+      class: 'Chaos Weaver',
+      level: 10,
+      currentCharacterId: 'char-123',
+      talents: {
+        cw1_ps_n01: 3,
+        cw1_ps_n02: 3,
+        cw1_ps_n03: 3,
+        cw1_ps_n04: 1
+      },
+      primarySpecialization: ''
+    });
+    useSpellbookStore.setState({ spells: [] });
+
+    render(<TalentTreeContent />);
+    fireEvent.click(screen.getByTitle(/Bias the Draw/));
+
+    expect(useCharacterStore.getState().talents.cw1_ps_n05).toBe(1);
+    const spells = useSpellbookStore.getState().spells;
+    const grant = spells.find((spell) => spell.id === 'cr1_chaos_weaver_bias_draw');
+
+    expect(grant).toBeDefined();
+    expect(spells.filter((spell) => spell.id === 'cr1_chaos_weaver_bias_draw')).toHaveLength(1);
+    expect(spells.some((spell) => spell.id === 'talent-spell-cw1_ps_n05')).toBe(false);
+    expect(grant.spellType).toBe('ACTION');
+    expect(grant.resourceCost.actionPoints).toBe(2);
+    expect(grant.talentId).toBe('cw1_ps_n05');
+    expect(grant.source).toBe('talent');
+    expect(grant.specialMechanics.chaosWeaver).toMatchObject({
+      classId: 'chaos-weaver',
+      sourceRecordId: 'cr1_chaos_weaver_bias_draw',
+      manualOnly: true
+    });
+  });
 });

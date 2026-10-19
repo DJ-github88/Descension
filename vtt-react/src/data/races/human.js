@@ -223,16 +223,12 @@ Tessic children are born underground, and most will never see open sky. Educatio
       name: 'Tallyn',
       languages: ["Wayfarer's Cant"],
         crest: '/assets/images/crests/human_thalren_crest.png',
-      illustration: '/assets/images/races/human_thalren_city_greymark.jpg',
-      illustrationCaption: '“Behind the palisades of Greymark, we preserve the only truth that cannot rot: that we were here, and that our names were spoken.” — Thalra the Last Archivist',
+      illustration: '/assets/images/races/human_thalren_portrait_bust.jpg',
+      illustrationCaption: '“A life unwritten is a life the fog has already eaten.” — Tallyn Common Proverb',
       illustrations: [
         {
           src: '/assets/images/races/human_thalren_portrait_bust.jpg',
           caption: '“A life unwritten is a life the fog has already eaten.” — Tallyn Common Proverb'
-        },
-        {
-          src: '/assets/images/races/human_thalren_city_greymark.jpg',
-          caption: '“Behind the palisades of Greymark, we preserve the only truth that cannot rot: that we were here, and that our names were spoken.” — Thalra the Last Archivist'
         },
         {
           src: '/assets/images/races/human_thalren_location_scriptorium.jpg',
@@ -327,16 +323,12 @@ The fog-choked forests of Frostwood Reach shape the Tallyn body: lean, watchful,
       id: 'skald_human',
       name: 'Skald',
         crest: '/assets/images/crests/human_skald_crest.png',
-      illustration: '/assets/images/races/human_skald_city_skalvyrhold.jpg',
-      illustrationCaption: '“What the winter cannot break, it hammers into iron. Let the blizzard howl against our hall.” — Jarl Torvald Ice-Breaker',
+      illustration: '/assets/images/races/human_skald_portrait_bust.jpg',
+      illustrationCaption: '“Blood freezes before pride does. Stand your ground until the ice claims you.” — Skald Shield-Maiden',
       illustrations: [
         {
           src: '/assets/images/races/human_skald_portrait_bust.jpg',
           caption: '“Blood freezes before pride does. Stand your ground until the ice claims you.” — Skald Shield-Maiden'
-        },
-        {
-          src: '/assets/images/races/human_skald_city_skalvyrhold.jpg',
-          caption: '“What the winter cannot break, it hammers into iron. Let the blizzard howl against our hall.” — Jarl Torvald Ice-Breaker'
         },
         {
           src: '/assets/images/races/human_skald_location_frost_barrow.jpg',
@@ -642,16 +634,12 @@ The Iceheart Sea shapes the Merryn into something between sailor and storm. Lean
       id: 'ordan_human',
       name: 'Ordu',
         crest: '/assets/images/crests/human_ordan_crest.png',
-      illustration: '/assets/images/races/human_ordan_city_encampment.jpg',
-      illustrationCaption: '“A starless sky cannot blind a hunter whose songs remember every rise and ravine of the steppe.” — Bayarmaa, Ordu Khan',
+      illustration: '/assets/images/races/human_ordan_portrait_bust.jpg',
+      illustrationCaption: '“Release the arrow when the horse’s hooves leave the earth; in that silent breath, the wind cannot touch your aim.” — Steppe Archer',
       illustrations: [
         {
           src: '/assets/images/races/human_ordan_portrait_bust.jpg',
           caption: '“Release the arrow when the horse’s hooves leave the earth; in that silent breath, the wind cannot touch your aim.” — Steppe Archer'
-        },
-        {
-          src: '/assets/images/races/human_ordan_city_encampment.jpg',
-          caption: '“When the pastures exhaust their bounty, we pack our yurts into the saddlebags and ride with the dawn.” — Camp Elder'
         },
         {
           src: '/assets/images/races/human_ordan_location_astrolabe.jpg',

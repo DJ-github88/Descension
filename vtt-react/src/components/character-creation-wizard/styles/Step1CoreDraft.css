@@ -207,74 +207,323 @@
 }
 
 /* --------------------------------------------------------------------------
-   Heritage tokens: sigil + name + in-world epithet
+   Great Hall of Standards: Pure Organic Grandiose Lineage Banners
    -------------------------------------------------------------------------- */
 
 .core-draft-step-layout .race-buttons-grid {
-    gap: 0.55rem !important;
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    column-gap: 0.85rem !important;
+    row-gap: 1.25rem !important;
+    width: 100% !important;
+    padding: 0.5rem 0.15rem !important;
 }
 
-.core-draft-step-layout .race-button-token {
-    flex-direction: row !important;
+.core-draft-step-layout .race-button-token.race-banner-card {
+    position: relative !important;
+    display: flex !important;
+    flex-direction: column !important;
     align-items: center !important;
     justify-content: flex-start !important;
-    gap: 0.7rem !important;
+    gap: 0.35rem !important;
     height: auto !important;
-    min-height: 4.1rem;
-    padding: 0.6rem 0.75rem !important;
-    border: 1px solid rgba(153, 126, 85, 0.45) !important;
-    border-radius: 6px !important;
-    background: var(--draft-parchment-hi) !important;
+    min-height: auto !important;
+    padding: 0.25rem 0.25rem 0.65rem !important;
+    border: none !important;
+    border-radius: 8px !important;
+    background: transparent !important;
     box-shadow: none !important;
-    text-align: left;
-    transition: border-color 0.25s var(--draft-ease), background 0.25s var(--draft-ease), transform 0.25s var(--draft-ease), box-shadow 0.25s var(--draft-ease) !important;
+    text-align: center !important;
+    cursor: pointer !important;
+    user-select: none;
+    overflow: visible !important;
+    transition: transform 0.25s var(--draft-ease) !important;
 }
 
-.core-draft-step-layout .race-button-token:hover {
-    border-color: var(--draft-brown) !important;
-    background: #fdfaf2 !important;
-    transform: translateY(-1px) !important;
-    box-shadow: 0 4px 10px -4px rgba(46, 30, 15, 0.25) !important;
+/* Grandiose Banner Stage: Large, completely unboxed, natural silhouette (220px tall) */
+.core-draft-step-layout .race-banner-stage {
+    position: relative;
+    width: 100%;
+    height: 220px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: visible;
+    z-index: 1;
 }
 
-.core-draft-step-layout .race-button-token.selected {
-    border-color: var(--draft-umber) !important;
-    border-width: 1px !important;
-    background: var(--draft-parchment-set) !important;
-    box-shadow: inset 0 0 0 1px var(--draft-umber) !important;
+.core-draft-step-layout .race-banner-artwork {
+    width: auto;
+    height: 100%;
+    max-width: 100%;
+    max-height: 220px;
+    object-fit: contain;
+    filter: drop-shadow(0 6px 12px rgba(46, 30, 15, 0.24));
+    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
+                filter 0.3s ease;
+}
+
+/* Hover State: The banner lifts gracefully with warm candlelit backlight */
+.core-draft-step-layout .race-button-token.race-banner-card:hover {
+    transform: translateY(-5px) !important;
+}
+
+.core-draft-step-layout .race-button-token.race-banner-card:hover .race-banner-artwork {
+    transform: scale(1.05) translateY(-3px);
+    filter: drop-shadow(0 10px 18px rgba(46, 30, 15, 0.32)) drop-shadow(0 0 14px rgba(212, 175, 55, 0.45));
+}
+
+.core-draft-step-layout .race-button-token.race-banner-card:hover .race-banner-label {
+    color: #8f5812 !important;
+}
+
+/* WoW Classic Gold Standard Selected State */
+.core-draft-step-layout .race-button-token.race-banner-card.selected {
+    transform: translateY(-3px) !important;
+}
+
+.core-draft-step-layout .race-button-token.race-banner-card.selected .race-banner-artwork {
+    transform: scale(1.06) translateY(-2px);
+    filter: drop-shadow(0 10px 22px rgba(46, 30, 15, 0.38)) drop-shadow(0 0 18px rgba(255, 209, 0, 0.8));
+}
+
+.core-draft-step-layout .race-button-token.race-banner-card.selected .race-banner-label {
+    color: #78350f !important;
+    font-weight: 700;
+    text-shadow: 0 0 8px rgba(255, 209, 0, 0.45);
+}
+
+/* Nameplate Typography directly anchored under the tassels */
+.core-draft-step-layout .race-banner-nameplate {
+    position: relative;
+    width: 100% !important;
+    margin-top: 0.15rem !important;
+    padding: 0 !important;
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    gap: 0.1rem;
+    z-index: 1;
+}
+
+.core-draft-step-layout .race-banner-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.92rem !important;
+    font-weight: 700 !important;
+    color: var(--draft-ink) !important;
+    letter-spacing: 0.08em !important;
+    text-transform: uppercase !important;
+    line-height: 1.2;
+    text-align: center !important;
+    transition: color 0.2s ease;
+}
+
+.core-draft-step-layout .race-banner-essence {
+    font-family: 'Crimson Text', serif;
+    font-size: 0.8rem !important;
+    font-style: italic;
+    color: #7a5a35 !important;
+    line-height: 1.2;
+    white-space: normal;
+    text-align: center !important;
+    padding: 0 4px;
+}
+
+/* Wax Seal Pin in Corner */
+.core-draft-step-layout .race-banner-selected-seal {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #ffd100 0%, #b8860b 100%);
+    border: 1px solid #7c4a03;
+    color: #2b1800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.65rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+    z-index: 2;
+    animation: draftSealPop 0.2s ease-out;
+}
+
+/* --------------------------------------------------------------------------
+   Inline Lineage Drawer (Spans full width of 2 columns right beneath row)
+   -------------------------------------------------------------------------- */
+
+.core-draft-step-layout .inline-subrace-drawer {
+    grid-column: 1 / -1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.75rem !important;
+    padding: 0.85rem 0.75rem 1rem !important;
+    background: linear-gradient(180deg, rgba(253, 250, 242, 0.95) 0%, rgba(246, 237, 217, 0.85) 100%) !important;
+    border: 1.5px solid rgba(153, 126, 85, 0.45) !important;
+    border-radius: 8px !important;
+    box-shadow: inset 0 2px 6px rgba(46, 30, 15, 0.08), 0 4px 14px rgba(46, 30, 15, 0.12) !important;
+    margin: 0.25rem 0 0.75rem !important;
+    animation: unrollDrawer 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+@keyframes unrollDrawer {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.core-draft-step-layout .subrace-drawer-header {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 0.75rem !important;
+    padding-bottom: 0.5rem !important;
+    border-bottom: 1.5px solid rgba(153, 126, 85, 0.3) !important;
+}
+
+.core-draft-step-layout .subrace-drawer-title-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    text-align: right;
+    min-width: 0;
+}
+
+.core-draft-step-layout .subrace-drawer-title-group .subrace-parent-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: 'Cinzel', serif !important;
+    font-size: 0.88rem !important;
+    font-weight: 700 !important;
+    color: var(--draft-ink) !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.08em !important;
+    white-space: nowrap;
+}
+
+.core-draft-step-layout .subrace-drawer-essence {
+    font-family: 'Crimson Text', serif;
+    font-style: italic;
+    font-size: 0.82rem;
+    color: var(--draft-brown);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 260px;
+    line-height: 1.2;
+}
+
+@keyframes draftSealPop {
+    0% { transform: scale(0.4); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* Fallback Stage */
+.core-draft-step-layout .race-banner-fallback {
+    width: 65px;
+    height: 90px;
+    border: 1.5px dashed #8b6b3e;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    color: #8b6b3e;
+    background: rgba(139, 107, 62, 0.06);
+}
+
+.core-draft-step-layout .race-banner-fallback-icon {
+    font-size: 1.5rem;
+}
+
+.core-draft-step-layout .race-banner-fallback-text {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+}
+
+/* Breadcrumb parent banner miniature */
+.core-draft-step-layout .subrace-parent-banner-mini {
+    height: 32px;
+    width: auto;
+    object-fit: contain;
+    margin-right: 8px;
+    filter: drop-shadow(0 2px 5px rgba(46, 30, 15, 0.35));
+    vertical-align: middle;
 }
 
 .core-draft-step-layout .race-token-sigil {
     flex: none;
+    position: relative;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 2.3rem;
-    height: 2.3rem;
-    border-radius: 4px;
-    border: 1px solid rgba(153, 126, 85, 0.7);
-    background: var(--draft-parchment);
-    box-shadow: inset 0 0 0 3px var(--draft-parchment-hi), inset 0 0 0 4px rgba(153, 126, 85, 0.3);
-    transition: background 0.3s var(--draft-ease), border-color 0.3s var(--draft-ease);
+    width: 2.6rem;
+    height: 2.6rem;
+    border-radius: 5px;
+    border: 1.5px solid #8b6b3e;
+    background: radial-gradient(circle at 35% 35%, #2c1f15 0%, #150d08 100%);
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.6), 0 2px 4px rgba(46, 30, 15, 0.15);
+    overflow: hidden;
+    transition: background 0.3s var(--draft-ease),
+                border-color 0.3s var(--draft-ease),
+                box-shadow 0.3s var(--draft-ease);
+}
+
+.core-draft-step-layout .race-token-crest-img {
+    width: 86%;
+    height: 86%;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.5));
+    transition: transform 0.25s ease, opacity 0.2s ease;
+}
+
+.core-draft-step-layout .race-token-crest-img.loading {
+    opacity: 0;
+    position: absolute;
+}
+
+.core-draft-step-layout .race-token-crest-img.loaded {
+    opacity: 1;
+}
+
+.core-draft-step-layout .race-button-token:hover .race-token-crest-img {
+    transform: scale(1.08);
 }
 
 .core-draft-step-layout .race-token-icon {
-    font-size: 0.95rem !important;
-    color: var(--draft-brown) !important;
+    font-size: 1.05rem !important;
+    color: #e6c88b !important;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.6));
+    transition: color 0.25s ease, transform 0.25s ease;
 }
 
 .core-draft-step-layout .race-button-token:hover .race-token-sigil {
-    border-color: var(--draft-umber);
+    border-color: #d4af37;
+    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.8), 0 0 8px rgba(212, 175, 55, 0.35);
+}
+
+.core-draft-step-layout .race-button-token:hover .race-token-icon {
+    color: #ffd100 !important;
+    transform: scale(1.1);
 }
 
 .core-draft-step-layout .race-button-token.selected .race-token-sigil {
-    background: var(--draft-umber);
-    border-color: var(--draft-umber);
-    box-shadow: inset 0 0 0 3px var(--draft-umber), inset 0 0 0 4px rgba(247, 241, 226, 0.4);
+    border-color: #ffd100;
+    background: radial-gradient(circle at 35% 35%, #422915 0%, #1d1109 100%);
+    box-shadow: 0 0 10px rgba(255, 209, 0, 0.6), inset 0 0 6px rgba(255, 209, 0, 0.35);
 }
 
 .core-draft-step-layout .race-button-token.selected .race-token-icon {
-    color: var(--draft-parchment) !important;
+    color: #ffd100 !important;
+    transform: scale(1.1);
+    filter: drop-shadow(0 0 4px rgba(255, 209, 0, 0.8));
 }
 
 .core-draft-step-layout .race-token-text {
@@ -286,11 +535,17 @@
 
 .core-draft-step-layout .race-token-label {
     font-family: 'Cinzel', serif;
-    font-size: 0.82rem !important;
+    font-size: 0.84rem !important;
     font-weight: 700 !important;
     letter-spacing: 0.06em !important;
     text-align: left !important;
     color: var(--draft-ink-soft) !important;
+    transition: color 0.2s ease;
+}
+
+.core-draft-step-layout .race-button-token.selected .race-token-label {
+    color: var(--draft-ink) !important;
+    text-shadow: 0 0 1px rgba(212, 175, 55, 0.3);
 }
 
 .core-draft-step-layout .race-token-essence {
@@ -306,65 +561,517 @@
     overflow: hidden;
 }
 
-.core-draft-step-layout .race-button-token.selected .race-token-label {
-    color: var(--draft-ink) !important;
+/* --------------------------------------------------------------------------
+   Subrace (Lineage) Selection: 1995 RPG / WoW Classic Tactile Cards
+   -------------------------------------------------------------------------- */
+
+.core-draft-step-layout .subrace-selection-container {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.65rem !important;
+    animation: fadeInSubrace 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 
-/* Lineage (subrace) list */
-.core-draft-step-layout .subrace-back-row {
-    border-bottom: 1px solid rgba(153, 126, 85, 0.35) !important;
+@keyframes fadeInSubrace {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Breadcrumb Navigation Bar */
+.core-draft-step-layout .subrace-breadcrumb-bar {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 0.5rem !important;
+    padding: 0.4rem 0.25rem 0.65rem 0.25rem !important;
+    border-bottom: 2px solid rgba(153, 126, 85, 0.35) !important;
+    margin-bottom: 0.5rem !important;
+}
+
+.core-draft-step-layout .subrace-back-btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 0.45rem !important;
+    padding: 0.35rem 0.7rem !important;
+    border: 1px solid rgba(153, 126, 85, 0.6) !important;
+    border-radius: 4px !important;
+    background: linear-gradient(180deg, #fdfaf2 0%, #f1e6cf 100%) !important;
+    font-family: 'Cinzel', serif !important;
+    font-size: 0.74rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.05em !important;
+    color: var(--draft-ink) !important;
+    cursor: pointer !important;
+    box-shadow: 0 1px 3px rgba(46, 30, 15, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.8) !important;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.core-draft-step-layout .subrace-back-btn:hover {
+    background: linear-gradient(180deg, #ffffff 0%, #f6ebd5 100%) !important;
+    border-color: var(--draft-umber) !important;
+    color: #1a0f05 !important;
+    transform: translateX(-2px) !important;
+    box-shadow: 0 2px 6px rgba(46, 30, 15, 0.18), inset 0 1px 0 #ffffff !important;
+}
+
+.core-draft-step-layout .subrace-back-btn i {
+    font-size: 0.7rem;
+    transition: transform 0.2s ease;
+}
+
+.core-draft-step-layout .subrace-back-btn:hover i {
+    transform: translateX(-2px);
+}
+
+.core-draft-step-layout .subrace-breadcrumb-middle {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    min-width: 0;
+}
+
+.core-draft-step-layout .subrace-breadcrumb-sep {
+    color: var(--draft-brass);
+    font-size: 0.85rem;
+    font-weight: 300;
 }
 
 .core-draft-step-layout .subrace-parent-label {
-    letter-spacing: 0.08em;
-}
-
-.core-draft-step-layout .subrace-button-token {
-    padding: 0.7rem 0.95rem !important;
-    background: var(--draft-parchment-hi) !important;
-    transition: border-color 0.25s var(--draft-ease), background 0.25s var(--draft-ease), transform 0.25s var(--draft-ease) !important;
-}
-
-.core-draft-step-layout .subrace-button-token.selected {
-    border-color: var(--draft-umber) !important;
-    border-width: 1px !important;
-    background: var(--draft-parchment-set) !important;
-    box-shadow: inset 0 0 0 1px var(--draft-umber) !important;
-}
-
-.core-draft-step-layout .subrace-token-title {
-    font-family: 'Cinzel', serif;
-    letter-spacing: 0.04em;
-}
-
-.core-draft-step-layout .subrace-token-mods {
-    font-variant-numeric: tabular-nums;
-}
-
-.core-draft-step-layout .subrace-token-title-wrapper {
     display: inline-flex;
     align-items: center;
+    gap: 0.4rem;
+    font-family: 'Cinzel', serif !important;
+    font-size: 0.88rem !important;
+    font-weight: 700 !important;
+    color: var(--draft-ink) !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.08em !important;
+}
+
+.core-draft-step-layout .subrace-parent-icon {
+    font-size: 0.85rem;
+    color: var(--draft-brown);
+}
+
+.core-draft-step-layout .subrace-breadcrumb-hint {
+    font-family: 'Crimson Text', serif;
+    font-style: italic;
+    font-size: 0.85rem;
+    color: var(--draft-brown);
+    white-space: nowrap;
+}
+
+/* Subrace Cards Container */
+.core-draft-step-layout .subrace-buttons-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.85rem !important;
+    width: 100% !important;
+}
+
+/* Rich Tactile RPG Subrace Card */
+.core-draft-step-layout .rpg-subrace-card {
+    position: relative !important;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 1.15rem !important;
+    padding: 0.85rem 1.15rem !important;
+    min-height: 154px;
+    border: 1.5px solid rgba(153, 126, 85, 0.45) !important;
+    border-radius: 6px !important;
+    background: linear-gradient(135deg, #fdfaf2 0%, #f6edd9 100%) !important;
+    box-shadow: 0 2px 6px -1px rgba(46, 30, 15, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.85) !important;
+    cursor: pointer !important;
+    text-align: left;
+    overflow: hidden !important;
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.2s ease,
+                background 0.2s ease,
+                box-shadow 0.2s ease !important;
+}
+
+.core-draft-step-layout .rpg-subrace-card:hover {
+    transform: translateY(-2px) !important;
+    border-color: #8b6b3e !important;
+    background: linear-gradient(135deg, #ffffff 0%, #faf1de 100%) !important;
+    box-shadow: 0 6px 16px -3px rgba(46, 30, 15, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.95) !important;
+}
+
+/* Selected state: unmistakable WoW Classic golden glowing border */
+.core-draft-step-layout .rpg-subrace-card.selected {
+    border-color: #d4af37 !important;
+    background: linear-gradient(135deg, #fffdf8 0%, #f5e9c9 100%) !important;
+    box-shadow: 0 0 0 1.5px #d4af37,
+                0 6px 18px -2px rgba(184, 134, 11, 0.45),
+                inset 0 0 16px rgba(212, 175, 55, 0.18) !important;
+}
+
+/* Slot A: Iconic Gothic Fantasy Square Portrait / Crest Slot */
+.core-draft-step-layout .subrace-portrait-slot {
+    flex: 0 0 148px;
+    width: 148px;
+    height: 148px;
+    position: relative;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.core-draft-step-layout .subrace-portrait-frame {
+    position: relative;
+    width: 104px;
+    height: 104px;
+    border-radius: 4px;
+    background: radial-gradient(circle at 35% 35%, #2a1f16 0%, #120c08 100%);
+    border: 2px solid #5a3d1d;
+    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.7), 0 2px 5px rgba(0, 0, 0, 0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    transition: width 0.25s ease, height 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+/* When artwork image is present: Unbox the portrait! The artwork itself is the ornate frame. */
+.core-draft-step-layout .subrace-portrait-frame.has-artwork,
+.core-draft-step-layout .subrace-portrait-slot.has-artwork .subrace-portrait-frame {
+    width: 148px;
+    height: 148px;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    overflow: visible !important;
+}
+
+/* Hide artificial CSS corner brackets when custom artwork is loaded */
+.core-draft-step-layout .subrace-portrait-frame.has-artwork .subrace-frame-corner,
+.core-draft-step-layout .subrace-portrait-slot.has-artwork .subrace-frame-corner {
+    display: none !important;
+}
+
+.core-draft-step-layout .rpg-subrace-card:hover .subrace-portrait-frame {
+    border-color: #8b6b3e;
+    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.8), 0 0 8px rgba(212, 175, 55, 0.3);
+}
+
+.core-draft-step-layout .subrace-portrait-slot.selected .subrace-portrait-frame,
+.core-draft-step-layout .rpg-subrace-card.selected .subrace-portrait-frame {
+    border-color: #ffd100;
+    box-shadow: 0 0 12px rgba(255, 209, 0, 0.7), inset 0 0 6px rgba(255, 209, 0, 0.4);
+}
+
+/* Ornate Gothic Corner Brackets */
+.core-draft-step-layout .subrace-frame-corner {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    pointer-events: none;
+    border-color: #8b6b3e;
+    border-style: solid;
+    z-index: 2;
+    transition: border-color 0.25s ease;
+}
+
+.core-draft-step-layout .rpg-subrace-card:hover .subrace-frame-corner {
+    border-color: #d4af37;
+}
+
+.core-draft-step-layout .subrace-portrait-slot.selected .subrace-frame-corner,
+.core-draft-step-layout .rpg-subrace-card.selected .subrace-frame-corner {
+    border-color: #ffe87c;
+}
+
+.core-draft-step-layout .subrace-frame-corner.corner-nw {
+    top: 2px;
+    left: 2px;
+    border-width: 2px 0 0 2px;
+}
+
+.core-draft-step-layout .subrace-frame-corner.corner-ne {
+    top: 2px;
+    right: 2px;
+    border-width: 2px 2px 0 0;
+}
+
+.core-draft-step-layout .subrace-frame-corner.corner-sw {
+    bottom: 2px;
+    left: 2px;
+    border-width: 0 0 2px 2px;
+}
+
+.core-draft-step-layout .subrace-frame-corner.corner-se {
+    bottom: 2px;
+    right: 2px;
+    border-width: 0 2px 2px 0;
+}
+
+.core-draft-step-layout .subrace-portrait-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 4px 10px rgba(46, 30, 15, 0.45));
+    transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), filter 0.22s ease, opacity 0.2s ease;
+    z-index: 1;
+}
+
+.core-draft-step-layout .subrace-portrait-img.loading {
+    opacity: 0;
+}
+
+.core-draft-step-layout .subrace-portrait-img.loaded {
+    opacity: 1;
+}
+
+.core-draft-step-layout .rpg-subrace-card:hover .subrace-portrait-img {
+    transform: scale(1.06);
+    filter: drop-shadow(0 8px 16px rgba(46, 30, 15, 0.55));
+}
+
+.core-draft-step-layout .subrace-portrait-slot.selected .subrace-portrait-img,
+.core-draft-step-layout .rpg-subrace-card.selected .subrace-portrait-img {
+    filter: drop-shadow(0 0 12px rgba(255, 209, 0, 0.75)) drop-shadow(0 4px 8px rgba(46, 30, 15, 0.45));
+}
+
+.core-draft-step-layout .rpg-subrace-card.selected:hover .subrace-portrait-img {
+    transform: scale(1.07);
+    filter: drop-shadow(0 0 14px rgba(255, 209, 0, 0.85)) drop-shadow(0 6px 14px rgba(46, 30, 15, 0.5));
+}
+
+.core-draft-step-layout .subrace-portrait-fallback-sigil {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+.core-draft-step-layout .subrace-fallback-icon {
+    font-size: 1.85rem;
+    color: #e6c88b;
+    filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.7));
+}
+
+.core-draft-step-layout .rpg-subrace-card.selected .subrace-fallback-icon {
+    color: #ffd100;
+}
+
+/* Card Body */
+.core-draft-step-layout .subrace-card-body {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    position: relative;
+    z-index: 1;
+}
+
+/* Card Header */
+.core-draft-step-layout .subrace-card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
     gap: 0.5rem;
 }
 
-.core-draft-step-layout .subrace-token-crest-img {
-    width: 22px;
-    height: 22px;
+.core-draft-step-layout .subrace-card-titles {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    min-width: 0;
+}
+
+.core-draft-step-layout .subrace-card-name {
+    font-family: 'Cinzel', serif !important;
+    font-size: 1.02rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.05em !important;
+    line-height: 1.2 !important;
+    color: var(--draft-ink) !important;
+}
+
+.core-draft-step-layout .rpg-subrace-card.selected .subrace-card-name {
+    color: #1a0f05 !important;
+    text-shadow: 0 0 1px rgba(212, 175, 55, 0.3);
+}
+
+.core-draft-step-layout .subrace-card-epithet {
+    font-family: 'Crimson Text', Georgia, serif;
+    font-style: italic;
+    font-size: 0.88rem;
+    line-height: 1.2;
+    color: var(--draft-brown);
+}
+
+.core-draft-step-layout .subrace-card-status {
+    flex: none;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+/* Summary / Flavour Text */
+.core-draft-step-layout .subrace-card-flavor {
+    font-family: 'Crimson Text', Georgia, serif;
+    font-size: 0.88rem;
+    line-height: 1.35;
+    color: #4e361d;
+    margin: 0.15rem 0 0.25rem 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Color-coded Embossed RPG Stat Badges */
+.core-draft-step-layout .subrace-card-stats-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.35rem;
+    margin-top: 0.2rem;
+    max-width: calc(100% - 76px);
+}
+
+.core-draft-step-layout .rpg-stat-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.22rem;
+    padding: 0.18rem 0.48rem;
+    border-radius: 4px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: 0.04em;
+    font-variant-numeric: tabular-nums;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    user-select: none;
+    box-sizing: border-box;
+}
+
+.core-draft-step-layout .rpg-stat-pill.pos {
+    color: #1b531e;
+    background: linear-gradient(180deg, #f2f8f0 0%, #dbedd6 100%);
+    border: 1px solid rgba(52, 138, 56, 0.5);
+    box-shadow: 0 1px 2px rgba(46, 30, 15, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.core-draft-step-layout .rpg-stat-pill.neg {
+    color: #8c2419;
+    background: linear-gradient(180deg, #fbf0ee 0%, #f5d7d2 100%);
+    border: 1px solid rgba(168, 50, 38, 0.5);
+    box-shadow: 0 1px 2px rgba(46, 30, 15, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.core-draft-step-layout .rpg-stat-pill .stat-pill-val {
+    font-family: 'Cinzel', serif;
+    font-weight: 800;
+}
+
+.core-draft-step-layout .rpg-stat-pill .stat-pill-abbr {
+    font-family: 'Cinzel', serif;
+    font-size: 0.68rem;
+    font-weight: 700;
+    opacity: 0.92;
+    letter-spacing: 0.05em;
+}
+
+.core-draft-step-layout .rpg-subrace-card.selected .rpg-stat-pill.pos {
+    background: linear-gradient(180deg, #f5fcf3 0%, #d5edd0 100%);
+    border-color: #2e7d32;
+    box-shadow: 0 1px 3px rgba(46, 30, 15, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+}
+
+.core-draft-step-layout .rpg-subrace-card.selected .rpg-stat-pill.neg {
+    background: linear-gradient(180deg, #fcf2f0 0%, #f7d3ce 100%);
+    border-color: #b73223;
+    box-shadow: 0 1px 3px rgba(46, 30, 15, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+}
+
+/* Illuminated Manuscript Watermark Wash (Right Side) */
+.core-draft-step-layout .subrace-crest-watermark {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 140px;
+    height: 140px;
+    opacity: 0.12;
+    pointer-events: none;
+    z-index: 0;
+    transition: opacity 0.25s ease, transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), filter 0.25s ease;
+}
+
+.core-draft-step-layout .subrace-crest-watermark img {
+    width: 100%;
+    height: 100%;
     object-fit: contain;
-    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.4));
-    flex-shrink: 0;
+}
+
+.core-draft-step-layout .rpg-subrace-card:hover .subrace-crest-watermark {
+    opacity: 0.20;
+    transform: translateY(-50%) scale(1.04);
+}
+
+.core-draft-step-layout .rpg-subrace-card.selected .subrace-crest-watermark {
+    opacity: 0.25;
+    transform: translateY(-50%) scale(1.05);
+    filter: drop-shadow(0 0 12px rgba(212, 175, 55, 0.5));
+}
+
+/* Selected Ribbon Badge (Bottom-Right) */
+.core-draft-step-layout .subrace-card-selected-ribbon {
+    position: absolute;
+    bottom: 8px;
+    right: 12px;
+    border-radius: 12px;
+    padding: 2px 8px;
+    background: linear-gradient(135deg, #3a2712 0%, #1f1409 100%);
+    border: 1px solid #d4af37;
+    color: #ffd100;
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+    z-index: 2;
+    pointer-events: none;
+}
+
+.core-draft-step-layout .subrace-card-selected-ribbon i {
+    font-size: 0.62rem;
+}
+
+.core-draft-step-layout .subrace-card-selected-ribbon .selected-ribbon-text {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.65rem;
+    color: #ffd100;
+    line-height: 1;
 }
 
 /* Keyboard focus for every token in this step */
 .core-draft-step-layout .race-button-token:focus-visible,
+.core-draft-step-layout .rpg-subrace-card:focus-visible,
 .core-draft-step-layout .subrace-button-token:focus-visible,
+.core-draft-step-layout .subrace-back-btn:focus-visible,
 .core-draft-step-layout .class-icon-token:focus-visible,
 .core-draft-step-layout .background-button-token:focus-visible,
 .core-draft-step-layout .gender-toggle-btn:focus-visible,
 .core-draft-step-layout .launcher-trigger-btn:focus-visible,
 .core-draft-step-layout .dice-randomizer-btn:focus-visible,
 .core-draft-step-layout .portrait-avatar-wrapper:focus-visible {
-    outline: 2px solid var(--draft-gilt) !important;
+    outline: 2px solid #d4af37 !important;
     outline-offset: 2px;
 }
 
@@ -763,6 +1470,24 @@
     .core-draft-step-layout .canvas-frame-gothic {
         padding: 1.5rem 1.1rem 1.25rem;
     }
+
+    .core-draft-step-layout .rpg-subrace-card {
+        padding: 0.75rem 0.85rem !important;
+        gap: 0.85rem !important;
+        min-height: 110px;
+    }
+
+    .core-draft-step-layout .subrace-portrait-slot {
+        flex: 0 0 96px;
+        width: 96px;
+        height: 96px;
+    }
+
+    .core-draft-step-layout .subrace-portrait-frame.has-artwork,
+    .core-draft-step-layout .subrace-portrait-slot.has-artwork .subrace-portrait-frame {
+        width: 96px;
+        height: 96px;
+    }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -774,6 +1499,9 @@
     }
 
     .core-draft-step-layout .race-button-token:hover,
+    .core-draft-step-layout .rpg-subrace-card:hover,
+    .core-draft-step-layout .subrace-button-token:hover,
+    .core-draft-step-layout .subrace-back-btn:hover,
     .core-draft-step-layout .class-icon-token:hover,
     .core-draft-step-layout .dice-randomizer-btn:hover {
         transform: none !important;
@@ -957,3 +1685,79 @@
     font-size: 0.78rem !important;
     letter-spacing: 0.04em !important;
 }
+
+/* ============================================================================
+   Origin / Background Artwork Showcase in Grimoire Panel
+   ============================================================================ */
+.grimoire-origin-artwork-wrapper {
+    margin: 0.5rem 0 1.25rem 0;
+    width: 100%;
+}
+
+.grimoire-heritage-artwork-frame {
+    width: 100%;
+    max-height: 240px;
+    border-radius: 6px;
+    border: 2px solid #5a3d1d;
+    outline: 1px solid rgba(212, 175, 55, 0.4);
+    background: #18120c;
+    box-shadow: 0 6px 18px rgba(46, 30, 15, 0.35), inset 0 0 18px rgba(10, 6, 2, 0.7);
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.grimoire-heritage-artwork-frame::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    box-shadow: inset 0 0 20px 4px rgba(18, 12, 6, 0.6);
+    border-radius: 4px;
+    z-index: 2;
+}
+
+.grimoire-heritage-artwork-frame:hover {
+    transform: scale(1.015);
+    border-color: #8c5a2b;
+    box-shadow: 0 8px 24px rgba(46, 30, 15, 0.45), inset 0 0 14px rgba(10, 6, 2, 0.6);
+}
+
+.grimoire-heritage-artwork-frame .grimoire-large-heritage-icon {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    filter: contrast(1.02) saturate(1.02);
+    transition: transform 0.35s cubic-bezier(0.2, 0, 0.2, 1);
+}
+
+.grimoire-heritage-artwork-frame:hover .grimoire-large-heritage-icon {
+    transform: scale(1.04);
+}
+
+.grimoire-heritage-caption-tag {
+    margin-top: 0.45rem;
+    padding: 0.4rem 0.75rem;
+    background: linear-gradient(180deg, #f7efe1 0%, #ebe0ca 100%);
+    border: 1px solid rgba(139, 90, 43, 0.45);
+    border-radius: 4px;
+    font-family: 'Crimson Text', Georgia, serif;
+    font-style: italic;
+    font-size: 0.86rem;
+    line-height: 1.3;
+    color: #4a3219;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    box-shadow: 0 1px 4px rgba(46, 30, 15, 0.1);
+}
+
+.grimoire-heritage-caption-tag i {
+    color: #8c5a2b;
+    font-size: 0.8rem;
+    flex-shrink: 0;
+}
+

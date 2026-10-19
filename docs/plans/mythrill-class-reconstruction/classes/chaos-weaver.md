@@ -1,5 +1,7 @@
 # Chaos Weaver — HeadQ review R1
 
+**Current complete class-local handoff (2026-10-18):** [CLASS-C1 — Chaos Weaver](../implementation/CLASS-C1-CHAOS-WEAVER.md) completes the proposed level1–10 library, three50-point trees, native/authoring/SVG/manual-workshop assignment. C1 is the current implementation-package proposal; R1/v0 below remain preserved design provenance, not independent competing completion claims. Shared execution belongs to Main Mythrill HeadQ and does not gate content completion. “Harbinger” references in this earlier research correspond to the newly settled proposed name **Doomsayer**, with old application IDs unchanged.
+
 **PROPOSED; review-ready design, not implementation or final roster approval.** R1 is the active recommendation. The investigation-v0 draft below is preserved but superseded.
 
 Shared timing/transfer/schema: [R1 contract](../29_PRIORITY_REVIEW_RULES_AND_SERIALIZATION.md). Evidence and native recommendations: [all25 cultural review](../28_HERITAGE_REVIEW_AND_PRIORITY_ORIGINS.md).

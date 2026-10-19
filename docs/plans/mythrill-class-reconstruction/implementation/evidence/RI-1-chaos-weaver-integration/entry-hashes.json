@@ -1,0 +1,923 @@
+{
+  "capturedAt": "2026-10-18T19:24:30.571Z",
+  "scope": "RI-1 entry baseline before any edits. Writable = RI-1 authorized seam list; protected = read-only controls.",
+  "gitStatusSnapshot": "entry-git-status.txt",
+  "writableExisting": [
+    {
+      "path": "vtt-react/src/data/classes/chaosWeaverData.js",
+      "sha256": "fd27a919038ddd42d646458f143966fb53ea88b42825893e13c05708c46d5993",
+      "bytes": 74664
+    },
+    {
+      "path": "vtt-react/src/data/classes/chaosWeaverRules.js",
+      "sha256": "07602a9ee181aacc1f1a4dbf4dc665f841df7901a8cb9bf55c9b763ac7b1cdae",
+      "bytes": 104887
+    },
+    {
+      "path": "vtt-react/src/data/talentTrees/chaosWeaver.js",
+      "sha256": "8c8e7d5dd13e7d4af763d6832eb4ae291d30fea5608ac1c7520ea885944cced0",
+      "bytes": 45366
+    },
+    {
+      "path": "vtt-react/src/components/hud/ChaosWeaverResourceDisplay.jsx",
+      "sha256": "47a955463d9b1bc73e41c51a53ea75a26d335d5479c26820859c29ac8c8a68ba",
+      "bytes": 12201
+    },
+    {
+      "path": "vtt-react/src/data/classes/__tests__/chaosWeaverPackage.test.js",
+      "sha256": "72c1a58c27807bd53d1dbec4a19ec39345c3c0d4218c4148c894629af852bf0c",
+      "bytes": 6689
+    },
+    {
+      "path": "vtt-react/src/data/classes/__tests__/chaosWeaverRules.test.js",
+      "sha256": "07cff691e20f5072077c124fdb2ab294e19249f13b97fb9be170e5df9d3ea034",
+      "bytes": 20739
+    },
+    {
+      "path": "vtt-react/src/components/hud/__tests__/ChaosWeaverResourceDisplay.test.jsx",
+      "sha256": "51192670d39e83a6d7c2aaafab0afb0173f7133d89b598cf7863f5e4f1b88ebc",
+      "bytes": 4712
+    },
+    {
+      "path": "vtt-react/src/data/classes/index.js",
+      "sha256": "6511efa7146619cef3308be5e843aef2a4028174a6df9f6811f4cf848de1eee2",
+      "bytes": 3405
+    },
+    {
+      "path": "vtt-react/src/data/classes/classDisplayData.js",
+      "sha256": "12aeab23b264bf2e27272e50d77a8b4ed2d32f4c599a9a6d8cf39eeed0c93a19",
+      "bytes": 26023
+    },
+    {
+      "path": "vtt-react/src/data/classSpellGenerator.js",
+      "sha256": "daef544f634e45509a834f9494d3a9d2083c65cae185a53af29f92bd8a068cb8",
+      "bytes": 27697
+    },
+    {
+      "path": "vtt-react/src/data/classSpellCategories.js",
+      "sha256": "e5d1a23df8909ed9bb6b214deb396cd88d47688bb08d279c422616c0a52f68ea",
+      "bytes": 25855
+    },
+    {
+      "path": "vtt-react/src/data/talentTreeData.js",
+      "sha256": "128e326be0d329d0a250ddf462695b116effe52db130eaf66c01883c27174171",
+      "bytes": 14267
+    },
+    {
+      "path": "vtt-react/src/data/classResources.js",
+      "sha256": "51d7e4af844a3975a33ab1bddcd6e6aa6e92bb288b55fcb20df30167169ffee7",
+      "bytes": 68050
+    },
+    {
+      "path": "vtt-react/src/data/classResourceContracts.js",
+      "sha256": "e050444a55fedbba59aa008cef921f4c80fde6ed0e4205d5f685a0c36bc0e245",
+      "bytes": 22961
+    },
+    {
+      "path": "vtt-react/src/data/resourceSystems/index.js",
+      "sha256": "0716756d4b1102e336b959ff1844bde9e8c17cbc6093232abbe56b45b6277343",
+      "bytes": 2525
+    },
+    {
+      "path": "vtt-react/src/data/classHeritageRegistry.js",
+      "sha256": "6e2843e933c7ca954ec8ef24e0c18f52d7df618e9b02462f0a3a7529013d127d",
+      "bytes": 21036
+    },
+    {
+      "path": "vtt-react/src/components/rules/ClassesDisplay.jsx",
+      "sha256": "ebdab2dd19f28d101b371b135a3cbfc41538264c36d56b5041cf0adaa5c3fdbb",
+      "bytes": 13488
+    },
+    {
+      "path": "vtt-react/src/components/rules/ClassDetailDisplay.jsx",
+      "sha256": "0bc2f05f79b0c1d8e3c2562aa511adbb93878ecf443141f506a691b3dbd3a85e",
+      "bytes": 136392
+    },
+    {
+      "path": "vtt-react/src/components/rules/ClassDetailDisplay.css",
+      "sha256": "0c3e8956d7f334bf69f8cdfdc5de1ef16e92189066ab7719ff3b494b095aa48f",
+      "bytes": 116933
+    },
+    {
+      "path": "vtt-react/src/components/rules/__tests__/ClassesDisplay.test.jsx",
+      "sha256": "5a3ae89ac0869c1be3deb864f5b8c532a11e936032355527aabdeb2d28c2de15",
+      "bytes": 2830
+    },
+    {
+      "path": "vtt-react/src/components/rules/__tests__/ClassDetailDisplaySpells.test.jsx",
+      "sha256": "51ff7c42c48515d4a99c1cc405aa82571adc59f8b3c27d89f838af7700645638",
+      "bytes": 3838
+    },
+    {
+      "path": "vtt-react/src/components/hud/ClassResourceBar.jsx",
+      "sha256": "30c419c8b02be235f72845b7b7bcb958686df2da9ca2ff115126ca16f9b7b7bc",
+      "bytes": 88928
+    },
+    {
+      "path": "vtt-react/src/components/talent-tree/TalentTreeContent.jsx",
+      "sha256": "cf6c69f7975d25420b9df986c5ea5781c4b20c4837052887eb905529217cd8d8",
+      "bytes": 79206
+    },
+    {
+      "path": "vtt-react/src/components/talent-tree/TalentTreeContent.css",
+      "sha256": "353de41eb487fdc869fe976cfc54663aad36342f85afc4b9341617428881b4ac",
+      "bytes": 38885
+    },
+    {
+      "path": "vtt-react/src/components/talent-tree/__tests__/TalentTreeContent.test.jsx",
+      "sha256": "de124728d7675d259a005664df5a2eb2ec26f7ae9366d7286275272edb3d7677",
+      "bytes": 12481
+    },
+    {
+      "path": "vtt-react/src/components/character-creation-wizard/steps/Step1CoreDraft.jsx",
+      "sha256": "c9f35e51fb5d90b145a31332d0d1124c9e9558a72ed49d25cf6b305740af9366",
+      "bytes": 169418
+    },
+    {
+      "path": "vtt-react/src/components/character-creation-wizard/steps/Step9CharacterSummary.jsx",
+      "sha256": "3a2a3dfaf3befb4da53164da26020d4b7733d606f77769ee5f0858537cfe29a3",
+      "bytes": 61456
+    },
+    {
+      "path": "vtt-react/src/components/modals/LevelUpChoiceModal.jsx",
+      "sha256": "d69fc544b00154cb700e977de72ae4052d7a0e4219ebdeee438cec47367bab4d",
+      "bytes": 35871
+    },
+    {
+      "path": "vtt-react/src/store/characterSlices/infoSlice.js",
+      "sha256": "ce35da9a08025129fe92b2b57968f267035025470652b746667d7b7e858cfdca",
+      "bytes": 57276
+    },
+    {
+      "path": "vtt-react/src/store/characterSlices/progressionSlice.js",
+      "sha256": "f838ba7b41545d93dbda78ce3389645de40b21eb09bfd746e7ca608590d165ca",
+      "bytes": 25343
+    }
+  ],
+  "newFilesAtEntry": [
+    {
+      "path": "vtt-react/src/data/classes/chaosWeaverIntegration.js",
+      "missing": true
+    },
+    {
+      "path": "vtt-react/src/data/classes/classReconstructionCompatibility.js",
+      "missing": true
+    },
+    {
+      "path": "vtt-react/src/data/resourceSystems/chaosWeaverResourceGuide.js",
+      "missing": true
+    },
+    {
+      "path": "vtt-react/src/data/classes/__tests__/chaosWeaverIntegration.test.js",
+      "missing": true
+    },
+    {
+      "path": "vtt-react/src/components/hud/__tests__/ChaosWeaverClassResourceIntegration.test.jsx",
+      "missing": true
+    },
+    {
+      "path": "vtt-react/src/store/characterSlices/__tests__/chaosWeaverProgression.test.js",
+      "missing": true
+    }
+  ],
+  "serverControls": [
+    {
+      "path": "server/services/authoredSpellDefinitions.js",
+      "sha256": "48b69255b8958ae75a7aa17ed7aa67c95b6d4c2bada63f4dcd24a305e20f0003",
+      "bytes": 35744
+    },
+    {
+      "path": "server/tests/authoredSpellDefinitions.test.js",
+      "sha256": "6a2f58f23d9217fc8eddf6af81d6de7f63f2232d29b519156f05fbca74037aa4",
+      "bytes": 65340
+    },
+    {
+      "path": "server/tests/fixtures/crA1aDefinitionVectors.json",
+      "sha256": "e6a98a497308b8535538b9887435c9189127afa768b60cd8e01af31cd3c55bdb",
+      "bytes": 8520
+    },
+    {
+      "path": "server/services/actorConsequences.js",
+      "sha256": "c49a75e808435074eb498aed9ba7c79915e6e62156c4fffe0f8f8c1aa18c307a",
+      "bytes": 36242
+    },
+    {
+      "path": "server/services/spellPayments.js",
+      "sha256": "b3d8194a9cb39286980b81f5b0deb2f4e4c6521e824373d4ce0d64e3ce9bd208",
+      "bytes": 17684
+    },
+    {
+      "path": "server/services/strikeApprovals.js",
+      "sha256": "cb1333eb286d51e70a0ad4ea6d612fa66dfa0a12c3cdcc1d1fe496cacf893f61",
+      "bytes": 17528
+    },
+    {
+      "path": "server/services/blockApprovals.js",
+      "sha256": "d6f3c56e5d98a70606bf347eead7ba37678c5e5b1ef8f7019019926d5e19d99d",
+      "bytes": 33487
+    },
+    {
+      "path": "server/handlers/actorConsequenceHandlers.js",
+      "sha256": "aa615bcc7156fad1d499956abd4cb99180ee26f2e1c07d772f996233fdf29ccf",
+      "bytes": 45850
+    },
+    {
+      "path": "server/handlers/socketHandlers.js",
+      "sha256": "2b44cc7f716e9cbc0aeb7b5fa4c1c967a928740d85317e8df0e6d300a2836aa9",
+      "bytes": 38227
+    },
+    {
+      "path": "server/services/roomAuthorityService.js",
+      "sha256": "7395b0bb4ea0edf5fbf2767e138dadca2b123569848539568ae95b4e5660116c",
+      "bytes": 26757
+    },
+    {
+      "path": "server/services/roomCheckpoint.js",
+      "sha256": "3eea1acb33cfa26d9b3f401ff82c4c93e113c9d8def54a7eece70badcc5ee07f",
+      "bytes": 49969
+    },
+    {
+      "path": "server/services/syncService.js",
+      "sha256": "e49905bf64b350fea900125c94e34320ccc69e1ed2efe04c5b403418ef3102c4",
+      "bytes": 63797
+    },
+    {
+      "path": "server/services/firebaseService.js",
+      "sha256": "40ea0af4ba9224cd901c3beb06f649a9aaed8b435e73e71ac83e474a2ac0676f",
+      "bytes": 79902
+    },
+    {
+      "path": "server/tests/p9SpellConsequences.production.test.js",
+      "sha256": "5a4acd5f5a9bf8e9ec64bc1b4b73118c9e5a46e442f3607b7ba6e3150f02a923",
+      "bytes": 28619
+    },
+    {
+      "path": "server/tests/p12aWeaponStrike.production.test.js",
+      "sha256": "69e756c945545a840dc26a4b1977964f892e96374905a9db1bc59404ba363bc0",
+      "bytes": 30380
+    },
+    {
+      "path": "server/tests/p12bBlockWear.production.test.js",
+      "sha256": "c5e597739a8de9c1f9cb0791f848980e6db022b95834b74be43857fd5e51c178",
+      "bytes": 48403
+    }
+  ],
+  "readOnlyControls": [
+    {
+      "path": "vtt-react/src/components/hud/PartyHUD.jsx",
+      "sha256": "66a54fad1eb282c0eb7e02a00ce819cd98c7b7668c1bebaf939a50d5b556966c",
+      "bytes": 221721
+    },
+    {
+      "path": "vtt-react/src/store/characterSlices/coreSlice.js",
+      "sha256": "53ecc47d6888862d30cf9437b2e531e0496e7b8fa13b85c8f19258a8bd8b369c",
+      "bytes": 83245
+    },
+    {
+      "path": "vtt-react/src/store/characterSlices/resourceSlice.js",
+      "sha256": "d9af27963eb7e874f3668a20fca918ba6335d4f79c67c5d3222276956773d93a",
+      "bytes": 22988
+    },
+    {
+      "path": "vtt-react/src/store/characterHelpers.js",
+      "sha256": "bb69677e47d1f5754177af7768b06d69a6ef0a6bbed68a34cb9f98344861de4d",
+      "bytes": 9310
+    },
+    {
+      "path": "vtt-react/src/components/spellcrafting-wizard/components/steps/Step5Resources.jsx",
+      "sha256": "6120e2b6d7af6ecf8c4692a2d13626dcc6fac036e4345500e8a19fe0b5b37431",
+      "bytes": 39397
+    },
+    {
+      "path": "vtt-react/src/components/spellcrafting-wizard/core/mechanics/resourceManager.js",
+      "sha256": "ea27eb2c0bb6cfadd229c5407c652d0d44c67593a36d1f890c114ca3c28b4605",
+      "bytes": 27260
+    },
+    {
+      "path": "vtt-react/src/components/spellcrafting-wizard/core/utils/spellSerializer.js",
+      "sha256": "b960862958d5752e06dbbcde7390b6243ea6bb01642ef97a7a364b7bf5dfaa5f",
+      "bytes": 27834
+    },
+    {
+      "path": "vtt-react/src/hooks/useClassSpellLibrary.js",
+      "sha256": "6e9e618fb5e5fd8511fab0081a990d6fae45f26f309762b408a90f3ab9bde7ff",
+      "bytes": 9376
+    },
+    {
+      "path": "vtt-react/src/components/rules/chaos-weaver/ChaosWeaverWorkshop.jsx",
+      "sha256": "4711889565151d38d60cef0c8a683449b2b0c592c65cfff2f6ad8ce4f28c1918",
+      "bytes": 72579
+    },
+    {
+      "path": "vtt-react/src/components/rules/chaos-weaver/ChaosWeaverWorkshop.css",
+      "sha256": "405a31facea44bb4941c7b9cfd2d373aa1f1627dcb80ea6c424dbb0614c2c66e",
+      "bytes": 10955
+    },
+    {
+      "path": "vtt-react/src/components/rules/chaos-weaver/__tests__/ChaosWeaverWorkshop.test.jsx",
+      "sha256": "52f08d1f1027c0f8a9593d0f30a768e23a39301d39b52c893c1af8b8cbffb5ce",
+      "bytes": 13535
+    }
+  ],
+  "legacyClassData": [
+    {
+      "path": "vtt-react/src/data/classes/animistData.js",
+      "sha256": "77f8c733a2be50e959b85454f3c2eab960095d043e72df0fa3938b92a68857e2",
+      "bytes": 136891
+    },
+    {
+      "path": "vtt-react/src/data/classes/apexData.js",
+      "sha256": "cdf16299d0099b8ba2ab743bf98eebd8e1168b32ffa4de535dd4da1e9a55ca89",
+      "bytes": 174129
+    },
+    {
+      "path": "vtt-react/src/data/classes/arcanoneerData.js",
+      "sha256": "dd3767309d6989999758f169b7821b589b8e66e2488df288d4e6782b547a57d7",
+      "bytes": 195703
+    },
+    {
+      "path": "vtt-react/src/data/classes/augurData.js",
+      "sha256": "68a6e87e874c8933b007caf851c3bd3862aead27effebdb32b684ce8c9195c61",
+      "bytes": 149169
+    },
+    {
+      "path": "vtt-react/src/data/classes/berserkerData.js",
+      "sha256": "bdb6e3207a4d0c3605250470b12b9232fee5c313d00a4094d8d15f50c373364a",
+      "bytes": 143704
+    },
+    {
+      "path": "vtt-react/src/data/classes/chronarchData.js",
+      "sha256": "3dfa1ddc135e08916e1f46dcfb5731ea1e020100d1877e0a2efdbd2ce31754bf",
+      "bytes": 136627
+    },
+    {
+      "path": "vtt-react/src/data/classes/crusaderData.js",
+      "sha256": "3980949950eed362e097c2d0e117cf0748b62d21e726a9b088797745c28a48ca",
+      "bytes": 88875
+    },
+    {
+      "path": "vtt-react/src/data/classes/falseProphetData.js",
+      "sha256": "009c96cc08a93de17b53b393c4f5bc5068dce22e112bdac8fc078f158bfccff6",
+      "bytes": 166958
+    },
+    {
+      "path": "vtt-react/src/data/classes/gambitData.js",
+      "sha256": "e4eb3ef2b664fc4ebbdca45163fa56ac0b39fd5c19227d155280ccf9aef7671d",
+      "bytes": 183782
+    },
+    {
+      "path": "vtt-react/src/data/classes/harbingerData.js",
+      "sha256": "ad60d82e8a421a76123f0b4a8142c0e7b12d70a926032423e7c86f0025047411",
+      "bytes": 143657
+    },
+    {
+      "path": "vtt-react/src/data/classes/inquisitorData.js",
+      "sha256": "3e362b7990532df7112e45e859a7fff60653ce6699eea65aad63fc909f89330f",
+      "bytes": 152116
+    },
+    {
+      "path": "vtt-react/src/data/classes/lunarchData.js",
+      "sha256": "4207582e3ec457410a771a6e16a6df4ff5adb7defbdddcd2f5db36c32b49d441",
+      "bytes": 154298
+    },
+    {
+      "path": "vtt-react/src/data/classes/martyrData.js",
+      "sha256": "ca1c65247e24600de98c1f507994a7e61c070dd7b290c0ee90f56c2deeefb8c1",
+      "bytes": 155904
+    },
+    {
+      "path": "vtt-react/src/data/classes/minstrelData.js",
+      "sha256": "694bd460b28904da1a8e68e7cf1081ff5df6ab48403e1a9f642aa77b5f4698a5",
+      "bytes": 167221
+    },
+    {
+      "path": "vtt-react/src/data/classes/plaguebringerData.js",
+      "sha256": "9cc72b58a9cdc141f26243fa85c6ed84836bdf9ee200f98db2fffc5c7b7262c2",
+      "bytes": 144453
+    },
+    {
+      "path": "vtt-react/src/data/classes/pyrofiendData.js",
+      "sha256": "39ed932e418dc90b6d099a3c639afd49bf259c9df40eed5e5e0980b1343ce080",
+      "bytes": 155891
+    },
+    {
+      "path": "vtt-react/src/data/classes/revenantData.js",
+      "sha256": "30c67fe51dc3aadc4d5c796ac24b73604985f7fd0b566b0a05babbef6471c425",
+      "bytes": 128746
+    },
+    {
+      "path": "vtt-react/src/data/classes/shaperData.js",
+      "sha256": "9db9b8cf1cc748e1be9303c105320733667390fa6086ceee3e863c6352a76d46",
+      "bytes": 118882
+    },
+    {
+      "path": "vtt-react/src/data/classes/spellguardData.js",
+      "sha256": "4978787826e7d73a6ac08beb254b42df2c112d53b9e98d79d67df52c6fb6c838",
+      "bytes": 111889
+    },
+    {
+      "path": "vtt-react/src/data/classes/toxicologistData.js",
+      "sha256": "f850b768301d1178d6f8a362736b220dfd3bf7e752d7e2d4ecef448273afcb7b",
+      "bytes": 195677
+    },
+    {
+      "path": "vtt-react/src/data/classes/wardenData.js",
+      "sha256": "e3ea90b6080ef3e05568ddec96d9e79b74719b0e4b2a8f4392be25c7845a616b",
+      "bytes": 144983
+    },
+    {
+      "path": "vtt-react/src/data/classes/classFlavorProfiles.js",
+      "sha256": "9572e394b432921298fb626ab0d5d19d83bedd32d0f9d28e01b46df946e49f9c",
+      "bytes": 17149
+    }
+  ],
+  "legacyTalentTrees": [
+    {
+      "path": "vtt-react/src/data/talentTrees/animist.js",
+      "sha256": "ee30654f03622a0bec6f988f2cabcf3221f79ac793fee12a5470a405dfc5cd77",
+      "bytes": 69173
+    },
+    {
+      "path": "vtt-react/src/data/talentTrees/apex.js",
+      "sha256": "ccc242fbfd5669b28e2d8f5e5447620788bf0ff8f8681c952e4d1fa4400472a4",
+      "bytes": 66956
+    },
+    {
+      "path": "vtt-react/src/data/talentTrees/arcanoneer.js",
+      "sha256": "6a6840550996066ceb36fbd69e3a94c3b91c77d62b345a3d99b3ba06538c3edd",
+      "bytes": 505
+    },
+    {
+      "path": "vtt-react/src/data/talentTrees/arcanoneerEntropyWeaver.js",
+      "sha256": "16b541c91d7a2b210e838babbfe8e8f00460135026da152357945e12e12a008f",
+      "bytes": 25848
+    },
+    {
+      "path": "vtt-react/src/data/talentTrees/arcanoneerPrismMage.js",
+      "sha256": "74d981863b8717f37ad3456faef58f9ed628c64b7b5457cbb7b324f92ad4af6d",
+      "bytes": 24842
+    },
+    {
+      "path": "vtt-react/src/data/talentTrees/arcanoneerSphereArchitect.js",
+      "sha256": "913c5470093e260f54500b0f11c0e0ce75c2c5f3feef21707b5e7d1473f75110",
+      "bytes": 25952
+    },
+    {
+      "path": "vtt-react/src/data/talentTrees/augur.js",
+      "sha256": "06c4fd4a7963a9d16812d7d96864ac5c2e75b3aacbdd99d336b9a5fcb1af8532",
+      "bytes": 445
+    },
+    {
+      "path": "vtt-react/src/data/talentTrees/augurAuspice.js",
+      "sha256": "cc64a817089aa184c81399ac893b37e0943487be03a73a2cc803346fab981665",
+      "bytes": 21814
+    },
+    {
+      "path": "vtt-react/src/data/talentTrees/augurHarbinger.js",
+      "sha256": "81fcd7ff267f0ee923a7eae2f3fe96d0ae5d01d679b05a6ba25d2ee17ce99657",
+      "bytes": 21524
+    },
+    {
+      "path": "vtt-react/src/data/talentTrees/augurHierophant.js",
+      "sha256": "a39c9a03e8016e4512b5676a22f3873fb45f9d0dc849c179c233c35c3fdaf294",
+      "bytes": 21820
+    },
+    {
+      "path": "vtt-react/src/data/talentTrees/berserker.js",
+      "sha256": "4f9232aa0b97469644a390580238c2464c8b90ea8f0ab8a6f3e89e9061708761",
+      "bytes": 762
+    },
+    {
+      "path": "vtt-react/src/data/talentTrees/berserkerJuggernaut.js",
+      "sha256": "ef5b1eb8f8e81dd5aa499187265940313c90c7e9fdceecb3114ec68a3b872692",
+      "bytes": 22199
+    },
+    {
+      "path": "vtt-react/src/data/talentTrees/berserkerSavage.js",
+      "sha256": "a1d65a2da26f413822c0354876b46eaec467c260d61b4c377b4ef90cd92b380c",
+      "bytes": 22823
+    },
+    {
+      "path": "vtt-react/src/data/talentTrees/berserkerWarlord.js",
+      "sha256": "cf52b013bfcfc7887cfe7ac5e704ba0aaa8ff4aba722e21c5dd4f17adab49f0e",
+      "bytes": 22528
+    },
+    {
+      "path": "vtt-react/src/data/talentTrees/chronarch.js",
+      "sha256": "39a6bebf07f92476dae5cee9424a49b40550e37a0db15f360dc17344fb98aff5",
+      "bytes": 68714
+    },
+    {
+      "path": "vtt-react/src/data/talentTrees/crusader.js",
+      "sha256": "fe565a8fd0996d66a7f72939bbdb946cae4b02bebf32b401843ac99dda5c4152",
+      "bytes": 503
+    },
+    {
+      "path": "vtt-react/src/data/talentTrees/crusaderDawnBastion.js",
+      "sha256": "6eb7aadb42ef28d2e7ed77d4b4aac17f1becabe2d6b77254220676430fe096be",
+      "bytes": 22395
+    },
+    {
+      "path": "vtt-react/src/data/talentTrees/crusaderHarmonicInquisitor.js",
+      "sha256": "d59312d5dd382104af65ecad026376f1270e57ded64971daae4a57fc728880b2",
+      "bytes": 24647
+    },
+    {
+      "path": "vtt-react/src/data/talentTrees/crusaderSolarJusticiar.js",
+      "sha256": "03b3ba9ef488803b69a899a02952b30a811fba1beb25d353d6957eebaeb763d5",
+      "bytes": 23869
+    },
+    {
+      "path": "vtt-react/src/data/talentTrees/debug_script.js",
+      "sha256": "dc1fa62fa6ba8d24654d0b574c95244d438d6604fb3003fbee86f145fe143a22",
+      "bytes": 946
+    },
+    {
+      "path": "vtt-react/src/data/talentTrees/falseprophet.js",
+      "sha256": "e6ecdd742842bfa275d6d79bcd7eaef8e372ba035615dfbf272f83071b244faa",
+      "bytes": 505
+    },
+    {
+      "path": "vtt-react/src/data/talentTrees/falseprophetCultist.js",
+      "sha256": "a3384cdefea7f4a31412e72664049f748644bcff43336b2b4b88126298ed7310",
+      "bytes": 23769
+    },
+    {
+      "path": "vtt-react/src/data/talentTrees/falseprophetDeceiver.js",
+      "sha256": "bd67cc5387c07fdb678cac06956be8240c9e2842fcb2741e5f797d53daf8c60f",
+      "bytes": 24636
+    },
+    {
+      "path": "vtt-react/src/data/talentTrees/falseprophetSilenceSpeaker.js",
+      "sha256": "ead0e1d6a419ee27d42a3ac1458228ac89d6e4d5b9feea5942402b8c38e80941",
+      "bytes": 23276
+    },
+    {
+      "path": "vtt-react/src/data/talentTrees/gambit.js",
+      "sha256": "77229821f192a75e915052d8950296aa1ed652ece02f18d05ff6d24f275e21d1",
+      "bytes": 70185
+    },
+    {
+      "path": "vtt-react/src/data/talentTrees/harbinger.js",
+      "sha256": "2dd21626d8159d9017388d47f78e292771d2096e5a7520ee45ac38c173e2ae52",
+      "bytes": 68688
+    },
+    {
+      "path": "vtt-react/src/data/talentTrees/inquisitor.js",
+      "sha256": "2ba6362de7c51b7157a153f7c3ec6a0ae684b9f5d707cd130e8649316bab4f42",
+      "bytes": 497
+    },
+    {
+      "path": "vtt-react/src/data/talentTrees/inquisitorHollowSaint.js",
+      "sha256": "04d0169559039b04f276c359556f99dcfcf6dbd27c5e29aac8ca195ae28e6a9a",
+      "bytes": 22546
+    },
+    {
+      "path": "vtt-react/src/data/talentTrees/inquisitorIronVerdict.js",
+      "sha256": "b5df1685479feae356548c17ccc338a247010c59b764e7aeb849bf307f63eaf5",
+      "bytes": 23118
+    },
+    {
+      "path": "vtt-react/src/data/talentTrees/inquisitorWitchHammer.js",
+      "sha256": "a6c12c875e8a353c60395963b6f1cc6bf52d76dda2438c30605521d240ba3328",
+      "bytes": 22802
+    },
+    {
+      "path": "vtt-react/src/data/talentTrees/lunarch.js",
+      "sha256": "91206212cca4d014c0b4dda8b92ac769bcefbc7de683177358de9f75f32d71d7",
+      "bytes": 824
+    },
+    {
+      "path": "vtt-react/src/data/talentTrees/lunarchHollowSentinel.js",
+      "sha256": "b56849b061adc33712a2931624e7b21059e6b5bf1cd6def704c6a4b068931aa5",
+      "bytes": 25405
+    },
+    {
+      "path": "vtt-react/src/data/talentTrees/lunarchSanguineWarden.js",
+      "sha256": "fb86420d88a3ae3b7b910b6bcb90850b59050f9d6f5124e9043d4ef3310404bf",
+      "bytes": 23892
+    },
+    {
+      "path": "vtt-react/src/data/talentTrees/lunarchSilenceSpeaker.js",
+      "sha256": "df0d7c585ee49d55f3d9c9aa07260943958d1ca3acf3cbeb57ed38527960e359",
+      "bytes": 24715
+    },
+    {
+      "path": "vtt-react/src/data/talentTrees/martyr.js",
+      "sha256": "7bb9b4af0368b226ad688e3fc5db9dc02068746e2f0f46f04a5ea6bf83b8e57a",
+      "bytes": 501
+    },
+    {
+      "path": "vtt-react/src/data/talentTrees/martyrAscetic.js",
+      "sha256": "0e0fd56608f3b78e1fd2ea4a3d130f5b809db9f295c5f4d67fa1791f47308a1e",
+      "bytes": 21274
+    },
+    {
+      "path": "vtt-react/src/data/talentTrees/martyrIronclad.js",
+      "sha256": "8e3b00cbf91c1cfe6e3fd550e0efd4cf3aae3dedfaca9da728e2a13a1d6ff94f",
+      "bytes": 22114
+    },
+    {
+      "path": "vtt-react/src/data/talentTrees/martyrRedemption.js",
+      "sha256": "63e0b3b2522f5775a46d62aacd11ad250e1493a71f75b35f7dd433961ee300a7",
+      "bytes": 22730
+    },
+    {
+      "path": "vtt-react/src/data/talentTrees/martyrZealot.js",
+      "sha256": "daa77500f6c9c4ac3844ced4c03f9787cf8a52b67e228584954faf8a9131ced5",
+      "bytes": 23822
+    },
+    {
+      "path": "vtt-react/src/data/talentTrees/minstrel.js",
+      "sha256": "d0a43b89315964e067413d094f02ef534e6d6c0a0cc0f09c056bdc6773bbb860",
+      "bytes": 505
+    },
+    {
+      "path": "vtt-react/src/data/talentTrees/minstrelChordCombinations.js",
+      "sha256": "f08979d272c1758f051051edff39f3809ad150f4e31d02d3a15e74ade768f9c7",
+      "bytes": 23846
+    },
+    {
+      "path": "vtt-react/src/data/talentTrees/minstrelHarmonicWeaving.js",
+      "sha256": "a30b6f0a65c142e9abc7398c65169fe0b9928541628a87394c761125f6fbf841",
+      "bytes": 23228
+    },
+    {
+      "path": "vtt-react/src/data/talentTrees/minstrelMusicalMagic.js",
+      "sha256": "f3cf3720aa3332e05d54232cc2435d2bcdac85ff95a5a59e2675ac8da6183470",
+      "bytes": 25123
+    },
+    {
+      "path": "vtt-react/src/data/talentTrees/plaguebringer.js",
+      "sha256": "a7fece3845b474854e7f864fdaab2d2d2fdb899f21997e1f0eeec836766afb99",
+      "bytes": 538
+    },
+    {
+      "path": "vtt-react/src/data/talentTrees/plaguebringerDecayHarbinger.js",
+      "sha256": "686ee6baefd8086cd8785e4ca9973cfc036787d531a405b7ef7874e079e87fcc",
+      "bytes": 24775
+    },
+    {
+      "path": "vtt-react/src/data/talentTrees/plaguebringerTormentWeaver.js",
+      "sha256": "efe1faa3fa0f6c2e55ed55e76704c6b07200115f674092e4b144cf30d492d1fc",
+      "bytes": 24936
+    },
+    {
+      "path": "vtt-react/src/data/talentTrees/plaguebringerVirulentSpreader.js",
+      "sha256": "b0f1df840c743acaba6d3164f95f91108524aac827fcf1b7ccc01028429e298d",
+      "bytes": 24888
+    },
+    {
+      "path": "vtt-react/src/data/talentTrees/pyrofiend.js",
+      "sha256": "39572d281ffe3b47a9ce45de33566cac68d16acec79d61b0dbf319b2d0dffdad",
+      "bytes": 467
+    },
+    {
+      "path": "vtt-react/src/data/talentTrees/pyrofiendHellfire.js",
+      "sha256": "a888556a8589c434f39e3fac399fa7136f7a09dd1a7987b30e3526fe20832f5e",
+      "bytes": 22304
+    },
+    {
+      "path": "vtt-react/src/data/talentTrees/pyrofiendInferno.js",
+      "sha256": "60c64907c86aaaceb0b64f8c105d7ef8ec674c7026648888fbfe42c213522e89",
+      "bytes": 22213
+    },
+    {
+      "path": "vtt-react/src/data/talentTrees/pyrofiendWildfire.js",
+      "sha256": "deffb88130facdf6dae06653f2b0575f9bca7a1825b98d21651dd904d2c952d9",
+      "bytes": 22175
+    },
+    {
+      "path": "vtt-react/src/data/talentTrees/revenant.js",
+      "sha256": "a4fea187b3ad06bcfa1619746b33935a65aa29b264771e6d21eeded32c2ab5b7",
+      "bytes": 68914
+    },
+    {
+      "path": "vtt-react/src/data/talentTrees/shaper.js",
+      "sha256": "c9256579b9f1ba23efe1a08f169e99a6d2a24bd9108686c2d6b4223b3ea5b5b9",
+      "bytes": 467
+    },
+    {
+      "path": "vtt-react/src/data/talentTrees/shaperFlowMaster.js",
+      "sha256": "4fad39a4e4d55b9be856419fcebfda190b321cec55a5899959a2fba444b0db37",
+      "bytes": 23889
+    },
+    {
+      "path": "vtt-react/src/data/talentTrees/shaperIronDancer.js",
+      "sha256": "a413d91b735e5aa05fb4af2259d874d9f4f1733c32d2fed5e3c65267d186d495",
+      "bytes": 20982
+    },
+    {
+      "path": "vtt-react/src/data/talentTrees/shaperPrimalShadow.js",
+      "sha256": "e4407df8ef0dd68e3321b75e2214af2f7c9200ce02c8a8488b01832060540711",
+      "bytes": 21764
+    },
+    {
+      "path": "vtt-react/src/data/talentTrees/spellguard.js",
+      "sha256": "7833e863d3635633359d27fe49b98daea11449787a6f1fda2e0e3ab905cfe668",
+      "bytes": 499
+    },
+    {
+      "path": "vtt-react/src/data/talentTrees/spellguardArcaneWarden.js",
+      "sha256": "f745b7ca35326ae2b4bcbb569a8e518cdd340b0a878fc05f1ad76344a0a2f442",
+      "bytes": 22955
+    },
+    {
+      "path": "vtt-react/src/data/talentTrees/spellguardManaReaver.js",
+      "sha256": "ca6d0c388591cc6bd0466e09bdc0b316b42edba40dae1a2c7d71061f6509d330",
+      "bytes": 20846
+    },
+    {
+      "path": "vtt-react/src/data/talentTrees/spellguardSpellBreaker.js",
+      "sha256": "47294b9db59a2317122a4da432d7d3716f1301f9fba83d2f1c5c6d32d372db99",
+      "bytes": 22986
+    },
+    {
+      "path": "vtt-react/src/data/talentTrees/toxicologist.js",
+      "sha256": "7ac9e7c12c19e58107485f59724163ec82fc21712d85f6fde823cfa4faf90c09",
+      "bytes": 496
+    },
+    {
+      "path": "vtt-react/src/data/talentTrees/toxicologistGadgeteer.js",
+      "sha256": "e785ec0560be4bb8acb6d3a5f700c6c45cd7226e3467885bbabcccdf3efaef96",
+      "bytes": 23633
+    },
+    {
+      "path": "vtt-react/src/data/talentTrees/toxicologistSaboteur.js",
+      "sha256": "c95e24ae389a1fc5a01df4602ed035295477ea94a2559f8607aecbb97324c314",
+      "bytes": 24247
+    },
+    {
+      "path": "vtt-react/src/data/talentTrees/toxicologistVenomancer.js",
+      "sha256": "6bc4e6fbf9eb67344cb611f5f83c10125aeefc3e8e2872e344254015a0ae3139",
+      "bytes": 22797
+    },
+    {
+      "path": "vtt-react/src/data/talentTrees/transform_descriptions.js",
+      "sha256": "1dbc9b10febe0a35548c2c2bf7595852a3a3a1d2a6b6de2b69622cb147d8a014",
+      "bytes": 42095
+    },
+    {
+      "path": "vtt-react/src/data/talentTrees/warden.js",
+      "sha256": "3c5887624ede48df3045f4513e931545ef89626a83cb5093037af95940acce6a",
+      "bytes": 520
+    },
+    {
+      "path": "vtt-react/src/data/talentTrees/wardenJailer.js",
+      "sha256": "71da1f220f711ef30fdb4dee83bfc0a824e0cbcfe317e8b8e833b1ff92549788",
+      "bytes": 22044
+    },
+    {
+      "path": "vtt-react/src/data/talentTrees/wardenMonolith.js",
+      "sha256": "c0c44030d8b1c00fbdc7ba843ff73bd2a64f905280e32cbad8c2193e90fa2b74",
+      "bytes": 24796
+    },
+    {
+      "path": "vtt-react/src/data/talentTrees/wardenShadowblade.js",
+      "sha256": "ce58126fb79261e67ee698c42af5f0f36c49133852315699ba257b1656c01b2e",
+      "bytes": 22069
+    },
+    {
+      "path": "vtt-react/src/data/talentTrees/wardenVengeanceSeeker.js",
+      "sha256": "2768aaf5ab5d879721c8ff2712a643db6d4f2bcfdea60b2cf67790c0126b42a1",
+      "bytes": 23602
+    }
+  ],
+  "retainedEvidence": [
+    {
+      "path": "docs/plans/mythrill-class-reconstruction/implementation/evidence/CLASS-C1-chaos-weaver/independent-review/DEEPSEEK-CORRECTION.md",
+      "sha256": "94ae501221548dba1009cb1349bfd53d3508a24e49e96ef3631fcff0932c3039",
+      "bytes": 8701
+    },
+    {
+      "path": "docs/plans/mythrill-class-reconstruction/implementation/evidence/CLASS-C1-chaos-weaver/independent-review/desktop-locked-verified.png",
+      "sha256": "00881097dc23702fd36d71ee10a6a83cf89b1a45a8dbef079c9afef5037d33f0",
+      "bytes": 357092
+    },
+    {
+      "path": "docs/plans/mythrill-class-reconstruction/implementation/evidence/CLASS-C1-chaos-weaver/independent-review/independent-probes.cjs",
+      "sha256": "d3f76d240948d8df2018c95218c77694acc51e4249c967bf67b6a4c8992f5347",
+      "bytes": 14420
+    },
+    {
+      "path": "docs/plans/mythrill-class-reconstruction/implementation/evidence/CLASS-C1-chaos-weaver/independent-review/mobile-catalogue-after-interruption-2.png",
+      "sha256": "e649e2d43eee2a90042f7921f06c289228ad3cdb9a549130b96869ac946274c3",
+      "bytes": 171687
+    },
+    {
+      "path": "docs/plans/mythrill-class-reconstruction/implementation/evidence/CLASS-C1-chaos-weaver/independent-review/mobile-catalogue-after-interruption.png",
+      "sha256": "e649e2d43eee2a90042f7921f06c289228ad3cdb9a549130b96869ac946274c3",
+      "bytes": 171687
+    },
+    {
+      "path": "docs/plans/mythrill-class-reconstruction/implementation/evidence/CLASS-C1-chaos-weaver/independent-review/mobile-catalogue-snapshot.yml",
+      "sha256": "ae31590acd62b0a72ef8dc9ec260b24cc9137bc49da7a0218478121ee017f65c",
+      "bytes": 8204
+    },
+    {
+      "path": "docs/plans/mythrill-class-reconstruction/implementation/evidence/CLASS-C1-chaos-weaver/independent-review/mobile-locked-snapshot.yml",
+      "sha256": "dcaff2e5980f84f4dbef8edb86c8acd015335a47ff5393ea83ff0a7ee8072cfb",
+      "bytes": 12381
+    },
+    {
+      "path": "docs/plans/mythrill-class-reconstruction/implementation/evidence/CLASS-C1-chaos-weaver/independent-review/mobile-locked-verified.png",
+      "sha256": "7cd81c6db11d290bd898b0618e99685e2cbf9766535991c820c875bc180f3af1",
+      "bytes": 137184
+    },
+    {
+      "path": "docs/plans/mythrill-class-reconstruction/implementation/evidence/CLASS-C1-chaos-weaver/independent-review/mobile-rules-verified.png",
+      "sha256": "0424b59be7e145e277dd4ba8cd946db8887279a7fdd982bd673a79e72eb93592",
+      "bytes": 130519
+    },
+    {
+      "path": "docs/plans/mythrill-class-reconstruction/implementation/evidence/CLASS-C1-chaos-weaver/independent-review/probe-results.json",
+      "sha256": "4d3aa07fc0bca6ab5d5a16ca39ace58f9bdaae4d33d121881ea0022219ec70f1",
+      "bytes": 170348
+    },
+    {
+      "path": "docs/plans/mythrill-class-reconstruction/implementation/evidence/CLASS-C1-chaos-weaver/independent-review/review.md",
+      "sha256": "39821ef31f4a6ce5520c1dbd38182457daea541a9ada2023a7071479ae715bca",
+      "bytes": 23245
+    },
+    {
+      "path": "docs/plans/mythrill-class-reconstruction/implementation/evidence/CLASS-C1-chaos-weaver/independent-rereview/browser-check.js",
+      "sha256": "dffdbc35265e70f68d0a86a1a5b9b3cfd78de2df3cd9e9382093f60bb6bd0574",
+      "bytes": 5500
+    },
+    {
+      "path": "docs/plans/mythrill-class-reconstruction/implementation/evidence/CLASS-C1-chaos-weaver/independent-rereview/browser-results.json",
+      "sha256": "374533299f36bc8cda579b1be67c76ec30332916de7233618eaf2f09e16803e3",
+      "bytes": 28127
+    },
+    {
+      "path": "docs/plans/mythrill-class-reconstruction/implementation/evidence/CLASS-C1-chaos-weaver/independent-rereview/mobile-fracture-snapshot.yml",
+      "sha256": "a5696098bdee218a70a286fa8e3aba6334a3d15439e2d84892842913f79fc57d",
+      "bytes": 7096
+    },
+    {
+      "path": "docs/plans/mythrill-class-reconstruction/implementation/evidence/CLASS-C1-chaos-weaver/independent-rereview/review.md",
+      "sha256": "da65a84ed11dbf7bc27edb5a63c06f5fe6587a78a64ada6cbb0cab6c6412f682",
+      "bytes": 17528
+    },
+    {
+      "path": "docs/plans/mythrill-class-reconstruction/implementation/evidence/CLASS-C1-chaos-weaver/independent-rereview/supplement-results.json",
+      "sha256": "c350eaa3455f94388324c79cc5f750083f106f32a59b5859a5e1e9c3ab6f66af",
+      "bytes": 49417
+    },
+    {
+      "path": "docs/plans/mythrill-class-reconstruction/implementation/evidence/CLASS-C1-chaos-weaver/independent-rereview/supplement.cjs",
+      "sha256": "f9a8d70777a11d6289d17e34ec17b386c91c51fb091f46b91d1f68c555a227e7",
+      "bytes": 6073
+    },
+    {
+      "path": "docs/plans/mythrill-class-reconstruction/implementation/evidence/CLASS-C1-chaos-weaver/correction/new-source-hashes.json",
+      "sha256": "8ebc0a6c2bea8d1c013299459360fe6ca9a160407b8659c8e372dba71b88f4bb",
+      "bytes": 4201
+    },
+    {
+      "path": "docs/plans/mythrill-class-reconstruction/implementation/evidence/CLASS-C1-chaos-weaver/correction/playwright-360-hud-readable.png",
+      "sha256": "6bcbe835c6d6541b83f481bfa7d675099a1bf003bd3cb1f447fc27d06ea319f9",
+      "bytes": 68225
+    },
+    {
+      "path": "docs/plans/mythrill-class-reconstruction/implementation/evidence/CLASS-C1-chaos-weaver/correction/playwright-360-workshop-tabs.png",
+      "sha256": "06fe2d8d3c28819374d48d62f1e7d4004857562bd7ca04e569184f53a8187587",
+      "bytes": 92840
+    },
+    {
+      "path": "docs/plans/mythrill-class-reconstruction/implementation/evidence/CLASS-C1-chaos-weaver/correction/playwright-desktop-hud-readability.png",
+      "sha256": "d0fc3bdda36e8ec5a52162176c93d123d61b8e16cbd1e72118eaa9b5a4841935",
+      "bytes": 214531
+    },
+    {
+      "path": "docs/plans/mythrill-class-reconstruction/implementation/evidence/CLASS-C1-chaos-weaver/correction/playwright-desktop-workshop-top.png",
+      "sha256": "12680c397a1d1e024a8814988f5f88e667feea888d59ea27495927214c0da3e1",
+      "bytes": 297491
+    },
+    {
+      "path": "docs/plans/mythrill-class-reconstruction/implementation/evidence/CLASS-C1-chaos-weaver/correction/preservation-check.json",
+      "sha256": "c251200af26a9f308c55eaa603c7e8e5a58cdbe1693353b3420c489e6040709e",
+      "bytes": 11052
+    },
+    {
+      "path": "docs/plans/mythrill-class-reconstruction/implementation/evidence/CLASS-C1-chaos-weaver/correction/probe-diff.json",
+      "sha256": "78bee96b4344f420895edac26252aa6b5b11bb62cd1034d45dcb8858951956fe",
+      "bytes": 30307
+    },
+    {
+      "path": "docs/plans/mythrill-class-reconstruction/implementation/evidence/CLASS-C1-chaos-weaver/correction/probe-summary.json",
+      "sha256": "df385eb3b7d94aeb7403cede3ee4fdce3e103f9b0f31dea794a901545f7d5ced",
+      "bytes": 14893
+    },
+    {
+      "path": "docs/plans/mythrill-class-reconstruction/implementation/evidence/CLASS-C1-chaos-weaver/correction/report.md",
+      "sha256": "c5f68e74dc1ab4fcc57c8ebd678a3c3b6ee28618f7785a49a32497c474fdff4e",
+      "bytes": 8740
+    },
+    {
+      "path": "docs/plans/mythrill-class-reconstruction/implementation/evidence/CLASS-C1-chaos-weaver/correction/test-run.log",
+      "sha256": "8f7d82c3529a415962a98fc19081e39aa2e8c9bd7d9ccaf79d06375ee8f8088c",
+      "bytes": 12531
+    }
+  ]
+}

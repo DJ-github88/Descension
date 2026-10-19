@@ -1,6 +1,10 @@
 # Completion ledger and exact continuation
 
-**Master assignment: INCOMPLETE. Three bounded handoff contracts are frozen; implementation authorization: NO.** No application or canonical Laws files were intentionally written.
+**Current continuation (2026-10-18): creator-directed strategy reset.** Per-class workshop delivery is superseded by [34 — Roster integration cohorts](34_ROSTER_INTEGRATION_COHORTS.md). Independent re-review of corrected C1 is [BLOCK (B1–B7)](implementation/evidence/CLASS-C1-chaos-weaver/independent-rereview/review.md); its97-record/54-node content, rules and SVG are preserved for the first executable cohort [RI-1 — Chaos Weaver repair and established-system integration](implementation/RI-1-CHAOS-WEAVER-INTEGRATION.md). Gambler + Fate Weaver (with Augur merger) follows as RI-2. Shared engine authority/execution/persistence remain with Main Mythrill HeadQ; Wizard targeting/export preservation contracts remain separate.
+
+Latest settled decisions: Druid (not Metamorph); Augur into Fate Weaver with useful content preserved/assessed; Harbinger becomes Doomsayer; Oracle remains independent; earlier restorations remain. [Current class/engine boundary and cohort order](33_CLASS_DELIVERY_RESET_AND_ENGINE_HANDOFF.md). The infrastructure-first continuation and “do not produce full libraries” instruction below are historical and superseded by the explicit request for a complete first class package.
+
+**First full bounded class package:** [Chaos Weaver C1](implementation/CLASS-C1-CHAOS-WEAVER.md) supplies40 level-pick choices,3 core actions,6 active talent grants,48 three-rank passive talents, all three50-point trees and exact content/workshop files/tests. This is a complete proposed class-local delivery, not live execution or final playtest balance approval. Continue next with Gambler + Fate Weaver/Augur assessment; do not resume A1b here.
 
 ## Current handoff milestone
 

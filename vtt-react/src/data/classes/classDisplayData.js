@@ -2,7 +2,7 @@ import {
     faSkull, faMagic, faAtom, faClock,
     faGavel, faEye, faShieldAlt, faMoon, faCross, faYinYang,
     faWind, faBiohazard, faFlask, faMusic, faFire,
-    faDove, faHourglassHalf, faSeedling
+    faDove, faHourglassHalf, faSeedling, faDiceD6
 } from '@fortawesome/free-solid-svg-icons';
 import { CLASS_COMPATIBILITY_ALIASES } from '../classHeritageRegistry';
 
@@ -341,6 +341,24 @@ const CLASS_DISPLAY_ENTRIES = [
         quickStartPresets: {
             striker: { name: 'Solar Justiciar', description: 'Greatsword cleaves that generate fervor for massive smites.', spells: ['starlight_cleave', 'zealous_strike', 'crusader_beacon_of_truth'] },
             tank: { name: 'Dawn Bastion', description: 'Tower shield wall, consecrated territory, and party damage soak.', spells: ['bastion_stance', 'crusader_starlight_interposition', 'crusader_sanctified_hearth'] }
+        }
+    },
+    {
+        name: 'Chaos Weaver',
+        imageIcon: '/assets/icons/classes/chaos_weaver.png',
+        icon: faDiceD6,
+        role: 'Wyrd damage / uncertainty control',
+        resource: 'Possibility Tiles',
+        complexityRating: 3,
+        cognitiveTags: ['Six Tiles, Four Zones', 'Published Uniform Faces', 'Paid Recovery'],
+        playstyle: 'Publish a finite set of possible consequences, then spend those possibilities deliberately. Six exact tiles move through four zones, every branch is disclosed before the face, and recovery always costs real action points. Manual tabletop only.',
+        roleColor: '#7A2040',
+        damageTypes: ['wyrd'],
+        developmentStatus: 'development',
+        quickStartPresets: {
+            sculptor: { name: 'Probability Sculptor', description: 'Price more known possibilities and improve honest odds without hidden outcomes.', spells: ['cw1_01', 'cw1_05'] },
+            binder: { name: 'Anomaly Binder', description: 'Place one visible, avoidable apparatus and force the first entry decision.', spells: ['cw1_02', 'cw1_04'] },
+            control: { name: 'Cascade Weaver', description: 'Retain one continuation for a willing ally and read the seams around you.', spells: ['cw1_03', 'cr1_chaos_weaver_read_instability'] }
         }
     },
     {

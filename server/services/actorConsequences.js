@@ -246,6 +246,7 @@ function publicClassPayment(payment) {
 }
 function stage(room, player, uid, command, authorization, confirmedRevision) {
   validateCommand(command);
+  if (require('./riposteExecution').isCommand(command) && !command.approval) {fail('approval_required');}
   if (command.roomId !== room.id) {fail('actor_not_found');}
   const existing = knownReceipt(room, uid, command);
   if (existing) {return { existing };}

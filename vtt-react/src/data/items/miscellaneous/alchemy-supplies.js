@@ -115,11 +115,11 @@ export const ALCHEMY_SUPPLIES = [
   // === ESSENCES ===
   {
     id: 'fire-essence',
-    name: 'Fire Essence',
+    name: 'Ember Essence',
     type: 'miscellaneous',
     subtype: 'REAGENT',
     quality: 'uncommon',
-    description: 'A concentrated essence of fire energy. Glows with inner heat.',
+    description: 'A concentrated essence of ember energy. Glows with inner heat.',
     iconId: 'Misc/Profession Resources/Mining/resource-three-fragments-lava-ember-red-orange',
     value: { gold: 0, silver: 2, copper: 0 },
     stackable: true,
@@ -136,11 +136,11 @@ export const ALCHEMY_SUPPLIES = [
   },
   {
     id: 'frost-essence',
-    name: 'Frost Essence',
+    name: 'Rime Essence',
     type: 'miscellaneous',
     subtype: 'REAGENT',
     quality: 'uncommon',
-    description: 'A concentrated essence of cold energy. Crystals form on its surface.',
+    description: 'A concentrated essence of rime energy. Crystals form on its surface.',
     iconId: 'Misc/Profession Resources/Mining/resource-crystal-cluster-blue-teal-mineral',
     value: { gold: 0, silver: 2, copper: 0 },
     stackable: true,

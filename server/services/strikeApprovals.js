@@ -5,6 +5,7 @@
  */
 const actors = require('./actorConsequences');
 const spellPayments = require('./spellPayments');
+const riposte = require('./riposteExecution');
 
 const { fail, keys, own, hash } = actors;
 const CAPABILITY = 'p12a-strike:v1';
@@ -49,6 +50,7 @@ function validRoll(roll, die, maxFaces) {
     roll.faces.some(face => !int(face, 1, die))) {refuse();}
 }
 function validateApproval(approval) {
+  if (riposte.isApproval(approval)) {return riposte.validateApproval(approval);}
   exact(approval, ['version', 'roomId', 'approvalId', 'actionEpoch', 'baseCommitSequence', 'source', 'target', 'weapon', 'roll', 'proficiency', 'price'], refuse);
   if (approval.version !== 1 || !text(approval.roomId, 200) || typeof approval.approvalId !== 'string' || !UUID.test(approval.approvalId) || !text(approval.actionEpoch, 200) ||
     !int(approval.baseCommitSequence) || actors.bytes(approval) > 8192) {refuse();}
@@ -75,6 +77,7 @@ function validateApproval(approval) {
 }
 /** Current authoritative room state: bound source/target and a temp-first affordable price. */
 function checkAgainstRoom(room, approval) {
+  if (riposte.isApproval(approval)) {riposte.approvalCheck(room, approval); return { source: actors.locate(room, approval.source), target: actors.locate(room, approval.target) };}
   const source = actors.locate(room, approval.source);
   const target = actors.locate(room, approval.target);
   if (target.contract.kind !== 'creature') {fail('invalid_strike_approval');}
@@ -95,20 +98,23 @@ function registry(room) {
 function get(room, approvalId) { return approvals.get(room)?.get(approvalId) || null; }
 function pendingFor(room, ownerUid, characterId) {
   if (!room || !ownerUid) {return null;}
-  return Array.from(approvals.get(room)?.values() || []).find(entry => entry.approval.source.ownerUid === ownerUid &&
+  return Array.from(approvals.get(room)?.values() || []).find(entry => !riposte.isApproval(entry.approval) && entry.approval.source.ownerUid === ownerUid &&
     (characterId === undefined || entry.approval.source.characterId === characterId)) || null;
 }
 function add(room, entry) {
   const entries = registry(room);
-  if (pendingFor(room, entry.approval.source.ownerUid, entry.approval.source.characterId)) {fail('approval_pending');}
+  if (!riposte.isApproval(entry.approval) && pendingFor(room, entry.approval.source.ownerUid, entry.approval.source.characterId)) {fail('approval_pending');}
   // Reserve one never-evicted tombstone for every pending approval.
   if ((closedApprovals.get(room)?.size || 0) + entries.size >= CLOSED_LIMIT) {fail('approval_capacity');}
   if (entries.size >= 32 || actors.bytes(Array.from(entries.values()).map(value => value.approval).concat(entry.approval)) > 512 * 1024) {fail('approval_capacity');}
+  if (riposte.isApproval(entry.approval)) {riposte.attach(room, entry.approval);}
   entries.set(entry.approval.approvalId, entry);
   return entry;
 }
 function listAll(room) { return Array.from(approvals.get(room)?.values() || []); }
 function close(room, approvalId, code) {
+  const entry = get(room, approvalId);
+  if (riposte.isApproval(entry?.approval)) {riposte.closed(room, entry.approval, code);}
   let closed = closedApprovals.get(room);
   if (!closed) {closed = new Map(); closedApprovals.set(room, closed);}
   closed.set(approvalId, code);
@@ -116,7 +122,7 @@ function close(room, approvalId, code) {
 }
 function closedCode(room, approvalId) { return closedApprovals.get(room)?.get(approvalId) || null; }
 const isStrikeReceipt = receipt => receipt?.authorization?.kind === 'owner-approval-gm' && typeof receipt.adjudication?.definitionVersionOrHash === 'string' &&
-  receipt.adjudication.definitionVersionOrHash.startsWith(`${CAPABILITY}/`);
+  (receipt.adjudication.definitionVersionOrHash.startsWith(`${CAPABILITY}/`) || riposte.isReceipt(receipt));
 function consumedReceipt(room, approvalId) {
   return actors.ledger(room).receipts.find(receipt => isStrikeReceipt(receipt) && receipt.authorization.proposalId === approvalId) || null;
 }
@@ -200,6 +206,11 @@ function validateChosen(chosenText, approval, target) {
 }
 /** Binds a GM command to one pending strike approval (contract §2.6 GM command 1–12). */
 function bindCommand(room, player, command, authorization) {
+  if (riposte.isCommand(command)) {
+    const entry = get(room, command.approval?.approvalId);
+    if (!riposte.isApproval(entry?.approval)) {fail('approval_mismatch');}
+    return riposte.bind(room, player, command, authorization, entry);
+  }
   if (!player.isGM) {fail('forbidden');}
   if (authorization?.kind !== 'gm') {fail('approval_requires_gm');}
   keys(command.approval, ['approvalId', 'contentHash']);
@@ -238,8 +249,8 @@ function bindCommand(room, player, command, authorization) {
   });
   return entry;
 }
-const isStrikeCommand = command => typeof command?.adjudication?.definitionVersionOrHash === 'string' &&
-  command.adjudication.definitionVersionOrHash.startsWith(`${CAPABILITY}/`);
+const isStrikeCommand = command => riposte.isCommand(command) || (typeof command?.adjudication?.definitionVersionOrHash === 'string' &&
+  command.adjudication.definitionVersionOrHash.startsWith(`${CAPABILITY}/`));
 module.exports = { CAPABILITY, DEFINITION_ID, DEFINITION_HASH, STRIKE_AP, RANK_DIE, DAMAGE_TYPES, FIXED_TEXT, NOT_APPLIED_ORDER, MANUAL_SOURCES,
   derive, validChain, validateApproval, validateChosen, checkAgainstRoom, checkWindow, get, add, listAll, close, closedCode, pendingFor, consumedReceipt,
   foreignId, bindCommand, isStrikeCommand, afterTier, damageReductionConditions };

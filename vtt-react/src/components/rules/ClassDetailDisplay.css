@@ -1414,6 +1414,32 @@
   font-size: 0.75rem;
 }
 
+.class-dev-status-badge {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  max-width: 100%;
+  box-sizing: border-box;
+  white-space: normal;
+  word-break: break-word;
+  line-height: 1.3;
+  background: #f1ece1;
+  border: 1px solid #7A2040;
+  color: #4a1426;
+}
+
+.class-dev-status-badge i {
+  color: #7A2040;
+  font-size: 0.75rem;
+}
+
 /* ===== Center column: resource bar (centered in grid) ===== */
 .class-detail-display.premium-theme .class-header-resource {
   position: relative;

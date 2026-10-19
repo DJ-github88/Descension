@@ -108,7 +108,7 @@ export const FROSTWOOD_REACH_DROPS = [
     ],
     "gatheringMethod": "skinning",
     "reagentType": "Organ",
-    "magicType": "nature",
+    "magicType": "primal",
     "reagentState": "Raw"
   },
   {
@@ -364,7 +364,7 @@ export const FROSTWOOD_REACH_DROPS = [
     ],
     "gatheringMethod": "herbalism",
     "reagentType": "Herb",
-    "magicType": "nature",
+    "magicType": "primal",
     "reagentState": "Raw"
   },
   {
@@ -415,7 +415,7 @@ export const FROSTWOOD_REACH_DROPS = [
     ],
     "gatheringMethod": "rare",
     "reagentType": "Powder",
-    "magicType": "shadow",
+    "magicType": "wyrd",
     "reagentState": "Raw"
   },
   {
@@ -653,7 +653,7 @@ export const FROSTWOOD_REACH_DROPS = [
     ],
     "gatheringMethod": "rare",
     "reagentType": "Essence",
-    "magicType": "nature",
+    "magicType": "primal",
     "reagentState": "Pure"
   },
   {
@@ -941,7 +941,7 @@ export const FROSTWOOD_REACH_DROPS = [
     ],
     "gatheringMethod": "skinning",
     "reagentType": "Powder",
-    "magicType": "shadow",
+    "magicType": "wyrd",
     "reagentState": "Raw"
   },
   {
@@ -1014,7 +1014,7 @@ export const FROSTWOOD_REACH_DROPS = [
     ],
     "gatheringMethod": "skinning",
     "reagentType": "Liquid",
-    "magicType": "water",
+    "magicType": "primal",
     "reagentState": "Raw"
   },
   {
@@ -1091,7 +1091,7 @@ export const FROSTWOOD_REACH_DROPS = [
       "baseDamage": {
         "diceCount": 1,
         "diceType": "d6",
-        "damageType": "frost",
+        "damageType": "rime",
         "bonusDamage": 3
       }
     },
@@ -1124,7 +1124,7 @@ export const FROSTWOOD_REACH_DROPS = [
           "effectType": "damage",
           "effectConfig": {
             "formula": "1d6",
-            "damageType": "cold",
+            "damageType": "rime",
             "isDot": true,
             "targetType": "target",
             "areaRadius": 0,
@@ -1184,7 +1184,7 @@ export const FROSTWOOD_REACH_DROPS = [
     ],
     "gatheringMethod": "rare",
     "reagentType": "Powder",
-    "magicType": "shadow",
+    "magicType": "wyrd",
     "reagentState": "Raw"
   },
   {
@@ -1294,7 +1294,7 @@ export const FROSTWOOD_REACH_DROPS = [
     ],
     "gatheringMethod": "rare",
     "reagentType": "Powder",
-    "magicType": "fey",
+    "magicType": "wyrd",
     "reagentState": "Raw"
   },
   {
@@ -1346,7 +1346,7 @@ export const FROSTWOOD_REACH_DROPS = [
     ],
     "gatheringMethod": "herbalism",
     "reagentType": "Herb",
-    "magicType": "nature",
+    "magicType": "primal",
     "reagentState": "Raw"
   },
   {

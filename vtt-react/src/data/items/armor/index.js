@@ -908,7 +908,7 @@ export const ARMOR = [
     },
     combatStats: {
       resistances: {
-        shadow: { value: 5, isPercentage: false }
+        wyrd: { value: 5, isPercentage: false }
       },
       onHitEffects: {
         enabled: true,
@@ -1022,7 +1022,7 @@ export const ARMOR = [
     combatStats: {
       resistances: {
         blight: {	 value: 8, isPercentage: false },
-        physical: { value: 3, isPercentage: false }
+        smashing: { value: 3, isPercentage: false }
       },
       onHitEffects: {
         enabled: true,
@@ -1136,7 +1136,7 @@ export const ARMOR = [
     combatStats: {
       resistances: {
         ember: {	 value: 15, isPercentage: false },
-        physical: { value: 5, isPercentage: false }
+        smashing: { value: 5, isPercentage: false }
       },
       onHitEffects: {
         enabled: true,
@@ -1189,8 +1189,7 @@ export const ARMOR = [
     },
     combatStats: {
       resistances: {
-        shadow: { value: 15, isPercentage: false },
-        wyrd: {	 value: 10, isPercentage: false },
+        wyrd: {	 value: 25, isPercentage: false },
         arcane: { value: 8, isPercentage: false }
       },
       onHitEffects: {
@@ -1220,7 +1219,7 @@ export const ARMOR = [
       },
       spellDamage: {
         types: {
-          shadow: { value: 5, isPercentage: false }
+          wyrd: { value: 5, isPercentage: false }
         }
       },
       conditionModifiers: {
@@ -1262,7 +1261,7 @@ export const ARMOR = [
     },
     combatStats: {
       resistances: {
-        physical: { value: 5, isPercentage: false }
+        smashing: { value: 5, isPercentage: false }
       },
       conditionModifiers: {
         paralyzed: {

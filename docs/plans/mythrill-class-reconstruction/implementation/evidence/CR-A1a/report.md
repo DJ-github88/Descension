@@ -9,9 +9,21 @@ claimed: `executionEnabled:false`, plans are `installed:false`, describe is `mod
 
 | File | SHA-256 |
 | --- | --- |
-| `server/services/authoredSpellDefinitions.js` | `b2bc0c7e70fe9118203a23dab910158ba17e91812ba2db014551132993323b49` |
-| `server/tests/authoredSpellDefinitions.test.js` | `ea549faeb22b684858af28ed1fa3594db9b00a7732fe42dc9a8239abdc9df4b5` |
+| `server/services/authoredSpellDefinitions.js` | `48b69255b8958ae75a7aa17ed7aa67c95b6d4c2bada63f4dcd24a305e20f0003` |
+| `server/tests/authoredSpellDefinitions.test.js` | `6a2f58f23d9217fc8eddf6af81d6de7f63f2232d29b519156f05fbca74037aa4` |
 | `server/tests/fixtures/crA1aDefinitionVectors.json` | `e6a98a497308b8535538b9887435c9189127afa768b60cd8e01af31cd3c55bdb` |
+
+The two source hashes were refreshed 2026-10-18 by the bounded F1/F2 strict-input correction
+requested in `evidence/CR-A1a-independent-review/review.md` §7 (previous hashes retained in
+`new-source-hashes.json`). The fixture is unchanged.
+
+Bounded acceptance (2026-10-18): after this correction the retained independent probes pass
+40/40 against the pinned corrected source hash, and the retained identity check and legal
+128/256 capacity control both exit 0. This accepts the bounded CR-A1a structural scope only
+(unhooked, execution-disabled module); live authority, registry installation/CAS, actor adapter
+and Wizard integration remain A1b work, and A1b implementation is not authorized. The first
+executable A1b integration contract is prepared at
+`docs/plans/mythrill-class-reconstruction/implementation/CR-A1b-LIVE-INTEGRATION.md`.
 
 The fixture is a byte-identical copy of the frozen
 `implementation/fixtures/CR-A1a-definition-vectors.json` (same SHA-256 `e6a98a49…`); expected
@@ -28,7 +40,8 @@ side effects, no `eval`/`Function`/`vm`, no RNG.
 node --check services/authoredSpellDefinitions.js                 # OK
 node --check tests/authoredSpellDefinitions.test.js               # OK
 npx mocha tests/authoredSpellDefinitions.test.js --timeout 10000 --exit
-# 131 passing (~3s), 0 failing  (final run; full output: mocha-final-run.log)
+# 131 passing (~3s), 0 failing  (completion run)
+# 137 passing (~4s), 0 failing  (corrected run after F1/F2 regressions; full output: mocha-final-run.log)
 npx eslint services/authoredSpellDefinitions.js tests/authoredSpellDefinitions.test.js
 # exit 0, no errors (server/.eslintrc.js: sourceType module, no 'use strict' directive,
 # space-before-function-paren never, single quotes)
@@ -65,7 +78,10 @@ and distinct; name/version/class changes alter identity; ruleset changes fail
   empty/multiple/unknown/non-array/healing-with-damageTypes; formula
   parse/limits/signed-constant/leading-zero/multi-group/multiplication/non-string; deep structure;
   lone surrogate; dates/functions; `__proto__`; sparse arrays; non-enumerable/getter smuggling
-  (getter never invoked); >16 KiB canonical budget rejected while near-limit accepted.
+  (getter never invoked); own Symbol-keyed authored data and Symbol-keyed accessors rejected
+  without reading or invoking them; Symbol keys on nested arrays; subclassed and
+  altered-prototype arrays rejected without invoking inherited behavior (caller objects remain
+  unfrozen and unmodified); >16 KiB canonical budget rejected while near-limit accepted.
 - Compiler purity/detachment: inputs never mutated or frozen; results detached and equal.
 - Registry codec: revision-0 snapshot; deterministic round-trip; malformed inputs (non-string,
   bad JSON, oversized); future registry/compiler versions → `UNSUPPORTED_REGISTRY_VERSION`
@@ -80,7 +96,10 @@ and distinct; name/version/class changes alter identity; ruleset changes fail
   `REQUEST_ID_CONFLICT` (changed content, different principal); unknown/wrong-hash/wrong-room
   revokes; `ALREADY_REVOKED`; `DEFINITION_REVOKED`; original request replay stays idempotent
   after later revocation; malformed envelopes + corrupt registry rejected with zero authorizer
-  invocations; getters never invoked, never authorized.
+  invocations; getters never invoked, never authorized; Symbol-keyed request/registry inputs and
+  subclassed registry-definitions arrays rejected (`INVALID_DEFINITION`/`INVALID_REGISTRY`) with
+  zero authorizer invocations, inputs unchanged and unfrozen, and the ordinary JSON encode of the
+  same registry still accepted by `decodeRegistry`.
 - Authority port: factory `TypeError` for missing/non-function authorizer; absent/false/thrown/
   non-record/wrong-room/unbound/mismatched-uid/stale-policy/empty-uid all fail closed with
   `AUTHORITY_UNAVAILABLE`/`FORBIDDEN`/`SCOPE_MISMATCH`.
@@ -97,9 +116,11 @@ and distinct; name/version/class changes alter identity; ruleset changes fail
 - Describe: valid non-revoked version → descriptor + `modeled-only`; unknown → `DEFINITION_NOT_FOUND`;
   modified → `HASH_MISMATCH`; wrong room → `SCOPE_MISMATCH`; wrong binding → `UNSUPPORTED_BINDING`;
   revoked → `DEFINITION_REVOKED`; malformed params → `INVALID_DEFINITION`.
-- Capacity: 129th version → `CAPACITY` (no eviction); over-count snapshots (257 decisions /
-  129 definitions) → `CAPACITY` from all consumers; 256 KiB byte budget refusal via planner
-  (accepted snapshot remains encodable).
+- Capacity: 129th version → `CAPACITY` (no eviction); the legal 128-definition/256-decision
+  boundary (minimized valid construction, 258,657 UTF-8 bytes) is accepted by `encodeRegistry` /
+  `decodeRegistry` and the planner produces the final revoke at revision 256 with
+  `installed:false`; over-count snapshots (257 decisions / 129 definitions) → `CAPACITY` from all
+  consumers; 256 KiB byte budget refusal via planner (accepted snapshot remains encodable).
 - Module hygiene: only `require('./roomCheckpoint')`; no execution/network/filesystem/dynamic-code
   identifiers; artifacts execution-disabled.
 
@@ -125,12 +146,27 @@ and distinct; name/version/class changes alter identity; ruleset changes fail
   `expectedRegistryRevision = sequence − 1`. Scope-mismatch requests are rejected before replay
   resolution so foreign-room request IDs are never probed.
 - Capacity is enforced as ≤128 definition versions, ≤256 decisions and ≤256 KiB rebuilt-snapshot
-  bytes, all → `CAPACITY` with no eviction. Boundary observed: with the mandated UUID/hash
-  lengths, a 256-decision history cannot also fit the 256 KiB budget (empirically the byte budget
-  binds first: ~245 decisions with minimized content), so the planner-driven 256-decision count
-  path is unreachable for any valid content; the count caps are therefore proven as
-  defense-in-depth through every snapshot consumer with padded over-count snapshots. This is a
-  contract-consistent consequence of two frozen caps, not a deviation; both caps are tested.
+  bytes, all → `CAPACITY` with no eviction. **Corrected 2026-10-18 (independent review):** the
+  earlier claim that a legal 256-decision history cannot also fit the 256 KiB budget was false.
+  The review's minimized valid construction (128 distinct version-1 definitions with minimal
+  legal healing/targeting/text values and genuine hashes) is 258,657 UTF-8 bytes, below the
+  262,144-byte cap; the codec round-trips it and the planner produces the final (256th) revoke at
+  revision 256 with `installed:false`. This control is now a focused boundary regression in the
+  suite and passes against the corrected source. The earlier ~245-decision observation was
+  fixture-dependent (ordinary fixture-sized content), not a proof about all valid content. Padded
+  over-count snapshots (257 decisions / 129 definitions) remain early count-guard tests through
+  every consumer; no impossible legal 257th transition is asserted.
+- Correction record (2026-10-18, `evidence/CR-A1a-independent-review/review.md` §7 scope): F1 —
+  `strictCopy` now rejects own Symbol-keyed properties on objects and arrays via
+  `Object.getOwnPropertySymbols` without reading their values or invoking accessors; F2 — the
+  array branch now requires `Object.getPrototypeOf(value) === Array.prototype` before traversal,
+  so subclassed/altered-prototype arrays fail before any traversal. Both use the existing stable
+  boundary codes (`INVALID_DEFINITION`/`INVALID_REGISTRY`), strip/normalize nothing and change no
+  accepted-JSON behavior (golden vectors unchanged). Symbol properties and custom prototypes are
+  reachable only through the Node object APIs (like the existing Date/getter rejection class),
+  not through JSON strings. The retained independent probes now pass 40/40 (source hash pinned in
+  `probe-results.json`) and the retained identity check and capacity control both exit 0 against
+  the corrected source.
 - Server files run sloppy-mode per `server/.eslintrc.js` (`sourceType:'module'`, no `'use strict'`
   directive allowed), so frozen-mutation assertions use `Reflect.set` + value checks instead of
   `assert.throws`.
@@ -139,18 +175,26 @@ and distinct; name/version/class changes alter identity; ruleset changes fail
 
 - Entry baseline (HEAD `7f0abb8c…`): `entry-git-state.txt` + `entry-server-hashes.json`
   (108 server files). Re-verification at completion: all 108 byte-identical, zero mismatches.
-- HEAD moved twice during work by concurrent user commits (`120ea382…` → `7f0abb8c…` before entry;
-  `2a771767…`/`34d9db3f…`/`7f0abb8c…`/`501e5a9d…` spellbook work). `7f0abb8c..501e5a9d` touches
-  only `vtt-react/.../SpellLibrary.jsx` + a new grimoire test — no server files.
-- Final `git status` shows only the four new untracked paths (service, test, fixtures dir,
-  evidence dir); no tracked file modified; no commits made.
+- HEAD moved during/after work by concurrent user commits (`120ea382…` → `7f0abb8c…` before entry;
+  `2a771767…`/`34d9db3f…`/`7f0abb8c…`/`501e5a9d…` spellbook work; later `8ba81efb…` included the
+  then-staged A1a files plus frontend work). `7f0abb8c..501e5a9d` touches only
+  `vtt-react/.../SpellLibrary.jsx` + a new grimoire test — no server files.
+- After the 2026-10-18 F1/F2 correction, the retained identity probe exits 0: all 108 entry
+  baseline server files byte-identical, fixture byte-identical to the frozen source, all three
+  refreshed patch sections reconstruct the corrected sources exactly, targets absent at entry.
+  The correction modified only `server/services/authoredSpellDefinitions.js`,
+  `server/tests/authoredSpellDefinitions.test.js` and the two refreshed CR-A1a evidence artifacts;
+  concurrent race/wizard/items/spellbook work was untouched; no commits were made by the
+  implementer.
 
 ## 7. Evidence directory contents
 
 - `entry-git-state.txt`, `entry-server-hashes.json` — entry baseline
-- `new-source-hashes.json` — new-file hashes, fixture byte-equality, golden hashes, HEAD movement
-- `new-files.patch` — `git diff --no-index /dev/null` additions for the three new files
-- `mocha-final-run.log` — final green run (131 passing, 0 failing)
+- `new-source-hashes.json` — new-file hashes (refreshed after the F1/F2 correction), fixture
+  byte-equality, golden hashes, HEAD movement, correction record
+- `new-files.patch` — `git diff --no-index /dev/null` additions for the three files (refreshed
+  after the F1/F2 correction)
+- `mocha-final-run.log` — final green run (137 passing, 0 failing)
 - `report.md` — this report
 
 ## 8. Remaining A1b blockers (explicit)

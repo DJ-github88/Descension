@@ -13,8 +13,10 @@ import { captureActorDelivery, currentActorDelivery } from './actorProjectionOrd
 import { createInventoryItem } from '../utils/equipmentUtils';
 import { CAPABILITY, eligiblePieces, declarationEntry, firstAvailable, buildAttack, planBlockCommand, blockReceipt, acceptedBlockText, recordBlockFace } from './equipmentBlocking';
 import { normalizeCustody, findEntry, sameRef, canDeclare, recordDeclaration, applyWearReceipt, reconcileHome, resolveConflict, completeUnequip, pendingUnequips, pruneForCapacity, hasCapacityFor } from './blockingCustody';
+import { chatLineFor } from './acceptedResultFeed';
+import { onRoomRejoined } from './roomRejoinBus';
 
-export const useBlockingStore = create(() => ({ ownView: null, offers: {}, ownerStatus: null, ownerOpen: false, gmOffers: {}, gmPending: {}, gmStatus: {}, gmViews: {}, notice: null }));
+export const useBlockingStore = create(() => ({ ownView: null, offers: {}, ownerStatus: null, ownerOpen: false, gmOffers: {}, gmPending: {}, gmStatus: {}, gmViews: {}, notice: null, closedOffers: [] }));
 const storage = createScopedNativeFamily({ familyId: 'room.blockingLatest' });
 const game = () => getStore('gameStore')?.getState() || {};
 const characterStore = () => getStore('characterStore');
@@ -249,7 +251,7 @@ export async function withdrawBlock() {
   const result = await requestActorEvent('actor_block_withdraw', { roomId: context.roomId, approvalId: latest.approval.approvalId });
   if (result.receipt) return consumeBlockReceipt(result);
   retain(context, { owner: { ...latest, phase: result.success ? 'closed' : 'unknown', code: result.code } });
-  set({ ownerStatus: { phase: result.success ? 'closed' : 'unknown', message: result.success ? 'Block roll withdrawn; nothing was applied.' : `Withdraw unresolved (${result.code}).` } });
+  set({ ownerStatus: { phase: result.success ? 'closed' : 'unknown', message: result.success ? 'Block roll withdrawn; nothing was applied. This attack is now closed: the GM resolves it by hand, and it cannot be rolled again.' : `Withdraw unresolved (${result.code}).` } });
   return result;
 }
 
@@ -292,7 +294,11 @@ export async function gmPlanBlock(approvalId, draft) {
   if (!view?.success) throw Error(`Declaration unavailable (${view?.code}).`);
   const sourceToken = findActor(entry.approval.source), targetToken = findActor(entry.approval.target);
   if (!sourceToken || !targetToken) throw Error('Exact actors are no longer present.');
-  return planBlockCommand({ offer, entry, sourceToken, targetToken, declaration: view.declaration, names: { source: nameOf(sourceToken), target: nameOf(targetToken) }, ...draft });
+  const plan = planBlockCommand({ offer, entry, sourceToken, targetToken, declaration: view.declaration, names: { source: nameOf(sourceToken), target: nameOf(targetToken) }, ...draft });
+  // Review finding 1: the recorded piece is current again (for example re-equipped), so the ruling state clears.
+  const commandId = entry.approval.attack.commandId, kept = useBlockingStore.getState().gmStatus[commandId];
+  if (kept?.phase === 'blockRuling') keepGm(blockingContext(), commandId, { phase: 'offered', code: null, details: null, message: 'The recorded piece matches again; the recorded face can be applied.' });
+  return plan;
 }
 export async function gmAcceptBlock(approvalId, draft) {
   const context = blockingContext(), delivery = captureActorDelivery();
@@ -303,7 +309,11 @@ export async function gmAcceptBlock(approvalId, draft) {
   const snapshot = await refreshActorSnapshot();
   if (!context.current() || !currentActorDelivery(delivery, context.roomId)) return null;
   if (!snapshot.success) throw Error(`Current GM snapshot required (${snapshot.code}).`);
-  const plan = await gmPlanBlock(approvalId, draft);
+  let plan;
+  try {plan = await gmPlanBlock(approvalId, draft);} catch (error) {
+    if (RULINGS[error.code] && entry) keepGm(context, entry.approval.attack.commandId, { ...RULINGS[error.code], code: error.code, details: null });
+    throw error;
+  }
   const command = prepareActorCommand(plan.entries, plan.extra, { commandId: plan.commandId });
   keepGm(context, plan.commandId, { phase: 'submitting', command, approvalId, message: 'Submitting one HP + wear consequence…' });
   return settleGm(context, plan.commandId, await submitPreparedActorCommand(command));
@@ -312,9 +322,19 @@ function keepGm(context, commandId, value) {
   retain(context, { gm: { ...(loadBlockingCustody(context)?.gm || {}), [commandId]: { ...(loadBlockingCustody(context)?.gm?.[commandId] || {}), ...value } } });
   set(s => ({ gmStatus: { ...s.gmStatus, [commandId]: value } }));
 }
+// P12B-r1 (§3.9): stale state keeps the recorded rolls pending and asks the GM for an explicit ruling.
+const RULINGS = {
+  attack_revalidation_required: { phase: 'revalidate', message: 'The creature changed since this attack was offered. The recorded attack and block rolls are kept: confirm they still stand (with a reason) or void the attack.' },
+  block_revalidation_required: { phase: 'blockRuling', message: 'The recorded blocking piece changed since the owner rolled. The recorded face is kept and is not re-read on another die: void the block roll and resolve HP by hand.' },
+  block_piece_unavailable: { phase: 'blockRuling', message: 'The recorded blocking piece is no longer available. The recorded face is kept: void the block roll and resolve HP by hand (no automatic Don’t block).' }
+};
 function settleGm(context, commandId, result) {
   if (!context.current()) return null;
   if (result?.receipt) return consumeBlockReceipt(result);
+  if (RULINGS[result?.code]) {
+    keepGm(context, commandId, { ...RULINGS[result.code], code: result.code, details: result.details || null });
+    return result;
+  }
   const definitive = !['outcome_unknown', 'room_connection_unavailable'].includes(result?.code);
   keepGm(context, commandId, { phase: definitive ? 'refused' : 'unknown', code: result?.code,
     message: definitive ? `Command refused (${result?.code}). Review and prepare again; the original command is retained for checking.` : `Command outcome unresolved (${result?.code}). Check the same command.` });
@@ -327,16 +347,22 @@ export async function gmCheckBlockCommand(commandId) {
 }
 export async function gmDeclineBlock(approvalId) {
   const context = blockingContext();
+  const entry = useBlockingStore.getState().gmPending[approvalId];
   const result = await requestActorEvent('actor_block_decline', { roomId: context.roomId, approvalId });
   if (result.receipt) return consumeBlockReceipt(result);
-  if (result.success) set(s => { const gmPending = { ...s.gmPending }; delete gmPending[approvalId]; return { gmPending }; });
+  if (result.success) {
+    // §3.9 R4: a void closes this attack for good; its recorded rolls stay in the closed-attack history.
+    if (entry) keepGm(context, entry.approval.attack.commandId, { phase: 'voided', message: `Attack voided; nothing applied. Recorded block face ${entry.approval.roll.faces[0]} kept. Resolve HP by hand if the hit stands.` });
+    set(s => { const gmPending = { ...s.gmPending }, gmOffers = { ...s.gmOffers }; delete gmPending[approvalId]; if (entry) delete gmOffers[entry.approval.attack.commandId]; return { gmPending, gmOffers }; });
+    refreshBlockLists();
+  }
   return result;
 }
 export async function gmCancelOffer(commandId) {
   const context = blockingContext();
   const result = await requestActorEvent('actor_block_decline', { roomId: context.roomId, commandId });
   if (result.success) {
-    keepGm(context, commandId, { phase: 'closed', message: 'Offer withdrawn; nothing applied.' });
+    keepGm(context, commandId, { phase: 'closed', message: 'Offer withdrawn; nothing applied. This attack is closed.' });
     set(s => { const gmOffers = { ...s.gmOffers }; delete gmOffers[commandId]; return { gmOffers }; });
   }
   return result;
@@ -347,7 +373,8 @@ export async function refreshBlockLists() {
   const result = await requestActorEvent('actor_block_list', { roomId: context.roomId });
   if (!context.current() || !result?.success) return;
   const saved = loadBlockingCustody(context);
-  set({ offers: game().isGMMode ? useBlockingStore.getState().offers : Object.fromEntries((result.offered || []).map(o => [o.commandId, o])),
+  set({ closedOffers: Array.isArray(result.closedOffers) ? result.closedOffers : [],
+    offers: game().isGMMode ? useBlockingStore.getState().offers : Object.fromEntries((result.offered || []).map(o => [o.commandId, o])),
     ...(game().isGMMode ? { gmOffers: Object.fromEntries((result.offered || []).map(o => [o.commandId, o])), gmPending: Object.fromEntries((result.pending || []).filter(e => !e.own).map(e => [e.approval.approvalId, e])),
       gmStatus: Object.fromEntries(Object.entries(saved?.gm || {}).map(([id, v]) => [id, { ...v, phase: v.phase === 'submitting' ? 'unknown' : v.phase }])) } : {}) });
   if (saved?.owner?.approval && ['awaiting', 'unknown', 'prepared'].includes(saved.owner.phase)) set({ ownerStatus: { phase: saved.owner.phase, message: `Retained block roll ${saved.owner.approval.roll.faces[0]} on ${saved.owner.piece?.name}. Check the same roll.` } });
@@ -388,7 +415,8 @@ export function consumeBlockReceipt(result) {
   if (kept && game().isGMMode) keepGm(context, commandId, { phase: 'accepted', message: acceptedBlockText(result) });
   set(s => { const gmPending = { ...s.gmPending }, gmOffers = { ...s.gmOffers }, offers = { ...s.offers }; delete gmPending[view.approvalId]; delete gmOffers[commandId]; delete offers[commandId]; return { gmPending, gmOffers, offers }; });
   const chat = getStore('chatStore'), notificationId = `p12b:${view.receipt.roomId}:${commandId}`;
-  if (chat && !chat.getState().notifications.combat.some(n => n.id === notificationId)) chat.getState().addNotification('combat', { id: notificationId, type: 'combat', timestamp: new Date(view.receipt.acceptedAt).toISOString(), content: acceptedBlockText(result) });
+  let line = acceptedBlockText(result); try {line = chatLineFor(result, line);} catch (_) { line = null; } // P13A §4: never name actors this viewer cannot see
+  if (line && chat && !chat.getState().notifications.combat.some(n => n.id === notificationId)) chat.getState().addNotification('combat', { id: notificationId, type: 'combat', timestamp: new Date(view.receipt.acceptedAt).toISOString(), content: line });
   return view;
 }
 /** Sync receipts for the owner's own declaration (ACK may have been lost). */
@@ -402,7 +430,13 @@ export function registerBlockingHandlers({ socket }) {
   const registered = captureActorDelivery(socket);
   const live = roomId => currentActorDelivery({ ...registered, room: game().multiplayerRoom, roomId: game().multiplayerRoom?.id }, roomId);
   const offered = value => { if (live(value?.roomId)) { set(s => ({ offers: { ...s.offers, [value.commandId]: value }, ownerOpen: true })); } };
-  const offerClosed = value => { if (live(value?.roomId)) set(s => { const offers = { ...s.offers }; delete offers[value.commandId]; return { offers }; }); };
+  const offerClosed = value => {
+    if (!live(value?.roomId)) return;
+    // §3.9 R4: a closed attack is never offered again; its recorded outcome is shown to the owner and GM.
+    set(s => { const offers = { ...s.offers }, gmOffers = { ...s.gmOffers }; delete offers[value.commandId]; delete gmOffers[value.commandId];
+      const closedOffers = value.closed ? [...(s.closedOffers || []).filter(c => c.commandId !== value.commandId), value.closed].slice(-32) : (s.closedOffers || []);
+      return { offers, gmOffers, closedOffers }; });
+  };
   const pending = value => { if (live(value?.roomId) && game().isGMMode) set(s => ({ gmPending: { ...s.gmPending, [value.approval.approvalId]: value } })); };
   const closed = value => {
     if (!live(value?.roomId)) return;
@@ -410,7 +444,8 @@ export function registerBlockingHandlers({ socket }) {
     const context = blockingContext(), latest = loadBlockingCustody(context)?.owner;
     if (latest?.approval?.approvalId === value.approvalId && latest.phase !== 'accepted') {
       retain(context, { owner: { ...latest, phase: 'closed', code: value.code } });
-      set({ ownerStatus: { phase: 'closed', message: value.code === 'owner_reapproval_required' ? 'Your declaration changed; roll again if the GM re-offers.' : `Block roll ${value.code}; nothing was applied.` } });
+      const words = { declined: 'voided by the GM', withdrawn: 'withdrawn', invalidated: 'closed (the attack can no longer apply)' };
+      set({ ownerStatus: { phase: 'closed', message: `Block roll ${latest.approval.roll.faces[0]} ${words[value.code] || value.code}; nothing was applied. This attack is closed and cannot be rolled again.` } });
     }
   };
   const changed = value => {
@@ -427,5 +462,7 @@ export function registerBlockingHandlers({ socket }) {
   const events = [['actor_block_offered', offered], ['actor_block_offer_closed', offerClosed], ['actor_block_pending', pending], ['actor_block_closed', closed],
     ['actor_blocking_changed', changed], ['actor_consequence_accepted', accepted]];
   events.forEach(([event, handler]) => socket.on(event, handler));
-  return () => events.forEach(([event, handler]) => socket.off(event, handler));
+  // Authorized same-room rejoin (single room_joined listener → roomRejoinBus): re-read offers, pending and own view.
+  const offRejoin = onRoomRejoined(event => { if (event?.socket === socket && live(event.roomId)) { refreshBlockLists(); refreshOwnBlocking(); } });
+  return () => { events.forEach(([event, handler]) => socket.off(event, handler)); offRejoin(); };
 }

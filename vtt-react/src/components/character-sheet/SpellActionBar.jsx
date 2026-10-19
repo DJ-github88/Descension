@@ -18,6 +18,7 @@ import { flipMultipleCoins } from '../spellcrafting-wizard/core/mechanics/coinSy
 import { useCharacterSpells } from '../../hooks/useCharacterSpells';
 import { routeSpellCast, isP9Routed, spellDiagnostic } from '../../services/spellConsequenceService';
 import { routeWeaponStrike, strikeDiagnostic } from '../../services/weaponStrikeService';
+import { postManualNotice, MANUAL_NOTE } from '../../services/manualActionGate';
 import { createScopedNativeFamily } from '../../persistence/scopedNativeFamily';
 import EquipmentActionSlot from '../ui/EquipmentActionSlot';
 import { getActionsForSlot } from '../../data/weaponActionSpells';
@@ -959,6 +960,8 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
     }
     const charStore = useCharacterStore.getState();
     const playerName = charStore.name || 'Player';
+    // P12C-B1 §3: an unsupported action in a shared room is manual — nothing is spent locally.
+    if (postManualNotice(spellData, playerName)) return true;
 
     // 1. Calculate costs
     const manaCost = Number(spellData.manaCost || spellData.resourceCost?.mana || spellData.resourceCost?.resourceValues?.mana || 0);
@@ -2160,7 +2163,7 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
 
             <div className="spell-consume-confirm-body">
               {(strikeDiagnostic(pendingSpellCast.spell) || spellDiagnostic(pendingSpellCast.spell)) && (
-                <p className="spell-consume-confirm-desc spell-p9-manual" role="note">Manual — not applied to the room: {strikeDiagnostic(pendingSpellCast.spell) || spellDiagnostic(pendingSpellCast.spell)}</p>
+                <p className="spell-consume-confirm-desc spell-p9-manual" role="note">{MANUAL_NOTE} Reason: {strikeDiagnostic(pendingSpellCast.spell) || spellDiagnostic(pendingSpellCast.spell)}</p>
               )}
               {pendingSpellCast.spell.description && (
                 <p className="spell-consume-confirm-desc">{pendingSpellCast.spell.description}</p>
@@ -2417,7 +2420,7 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
                 onClick={executeConfirmCast}
               >
                 <i className="fas fa-wand-magic-sparkles"></i>
-                <span>Confirm & Cast</span>
+                <span>{(strikeDiagnostic(pendingSpellCast.spell) || spellDiagnostic(pendingSpellCast.spell)) ? 'Post manual notice' : 'Confirm & Cast'}</span>
               </button>
             </div>
           </div>

@@ -1,0 +1,38 @@
+import React from 'react';
+import { render, screen, fireEvent, act } from '@testing-library/react';
+import '@testing-library/jest-dom';
+import SpellCastConfirmation from '../SpellCastConfirmation';
+import useSpellAoEStore from '../../../store/spellAoEStore';
+import { MARTYR_DATA } from '../../../data/classes/martyrData';
+import { beginLoadingPhase, resetBootstrapGateForTests } from '../../../persistence/bootstrapPrivacyGate';
+jest.mock('../../../store/characterStore', () => ({ __esModule: true, default: selector => selector({ mana: { current: 30 }, actionPoints: { current: 4 }, class: 'Martyr' }) }));
+jest.mock('../../../services/spellConsequenceService', () => ({ spellDiagnostic: () => 'area is manual', ownerSource: () => ({ ref: { kind: 'character', characterId: 'c' }, token: { position: { x: 25, y: 25 } } }) }));
+jest.mock('../../../services/weaponStrikeService', () => ({ strikeDiagnostic: () => null }));
+jest.mock('../../../services/actorProjectionOrder', () => ({ captureActorDelivery: () => ({ uid: 'u', roomId: 'r', socket: { connected: true } }), currentActorDelivery: () => true }));
+const action = MARTYR_DATA.spells.find(s => s.id === 'martyr_radiant_burst');
+beforeEach(() => { resetBootstrapGateForTests(); useSpellAoEStore.setState({ actionPreview: null }); });
+test('preview is separate from manual post/cast; selected effect and entry lifetime bind exactly', () => {
+  const onConfirm = jest.fn(), onCancel = jest.fn();
+  const view = render(<SpellCastConfirmation spell={action} onConfirm={onConfirm} onCancel={onCancel} />);
+  fireEvent.click(screen.getByRole('button', { name: 'Preview area' }));
+  expect(useSpellAoEStore.getState().actionPreview.profile.effect).toBe('damage');
+  act(() => useSpellAoEStore.getState().updateActionPreview({ placing: false }));
+  view.rerender(<SpellCastConfirmation spell={action} onConfirm={onConfirm} onCancel={onCancel} />);
+  fireEvent.change(screen.getByRole('combobox', { name: 'Preview effect channel' }), { target: { value: 'healing' } });
+  expect(useSpellAoEStore.getState().actionPreview).toBeNull();
+  fireEvent.click(screen.getByRole('button', { name: 'Preview area' }));
+  expect(useSpellAoEStore.getState().actionPreview.profile.effect).toBe('healing');
+  view.unmount(); expect(useSpellAoEStore.getState().actionPreview).toBeNull();
+  expect(onConfirm).not.toHaveBeenCalled(); expect(onCancel).not.toHaveBeenCalled();
+});
+test('missing dimensions and already-loading context show explicit fallback without opening a session', () => {
+  const malformed = JSON.parse(JSON.stringify(action)); delete malformed.effectTargeting.damage.aoeParameters.radius;
+  const view = render(<SpellCastConfirmation spell={malformed} onConfirm={jest.fn()} onCancel={jest.fn()} />);
+  fireEvent.click(screen.getByRole('button', { name: 'Preview area' }));
+  expect(screen.getByRole('alert')).toHaveTextContent(/missing or malformed/);
+  expect(useSpellAoEStore.getState().actionPreview).toBeNull();
+  beginLoadingPhase(); view.rerender(<SpellCastConfirmation spell={action} onConfirm={jest.fn()} onCancel={jest.fn()} />);
+  fireEvent.click(screen.getByRole('button', { name: 'Preview area' }));
+  expect(screen.getByRole('alert')).toHaveTextContent(/hydrated room/);
+  expect(useSpellAoEStore.getState().actionPreview).toBeNull();
+});

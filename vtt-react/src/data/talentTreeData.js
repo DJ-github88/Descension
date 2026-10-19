@@ -161,6 +161,13 @@ import {
   CRUSADER_HARMONIC_INQUISITOR
 } from './talentTrees/crusader.js';
 
+import {
+  CHAOS_WEAVER_TREES
+} from './talentTrees/chaosWeaver.js';
+
+import { CHAOS_WEAVER_ICON } from './classes/chaosWeaverData';
+import { CHAOS_WEAVER_PROJECTED_SPELLS_BY_ID } from './classes/chaosWeaverIntegration';
+
 export const getTreeBackdrop = (className, specId) => {
   // Map class and specialization to high-res thematic background images from /assets/Backgrounds/
   const backdropMap = {
@@ -302,6 +309,44 @@ export const getFallbackBackground = (treeIndex) => {
   return backgrounds[treeIndex % backgrounds.length];
 };
 
+// Chaos Weaver (RI-1): authored column/row grid mapped onto the shared tree
+// node shape. Explicit gates (requiresPoints / minLevel) travel with each node
+// so the consumer can honour them instead of the generic 5-point ladder.
+const buildChaosWeaverTree = (treeId) => {
+  const tree = CHAOS_WEAVER_TREES.find((entry) => entry.id === treeId);
+  if (!tree) return [];
+  return tree.nodes.map((node) => ({
+    ...node,
+    icon: node.icon || CHAOS_WEAVER_ICON,
+    position: { x: node.column, y: node.row },
+    requires: node.requires.length === 0 ? null : node.requires.length === 1 ? node.requires[0] : node.requires,
+    description: node.effectText,
+    spell: node.grantId && CHAOS_WEAVER_PROJECTED_SPELLS_BY_ID[node.grantId]
+      ? {
+          ...CHAOS_WEAVER_PROJECTED_SPELLS_BY_ID[node.grantId],
+          // Legacy consumers read the AP cost from the top level of a talent
+          // spell; mirror the canonical authored cost for them.
+          actionPoints: CHAOS_WEAVER_PROJECTED_SPELLS_BY_ID[node.grantId].resourceCost?.actionPoints ?? 0,
+          treeId
+        }
+      : {
+          name: node.name,
+          description: node.rankValues?.[0]?.text || node.effectText,
+          flavorText: null,
+          source: 'talent',
+          class: 'Chaos Weaver',
+          treeId,
+          spellType: 'PASSIVE',
+          category: 'talent',
+          tags: ['chaos-weaver', 'talent', 'passive', treeId, 'manual-only']
+        },
+    rankUpgrades: (node.rankValues || []).slice(1).map((rank) => ({
+      description: rank.text,
+      values: rank.values
+    }))
+  }));
+};
+
 export const TALENT_TREES = {
   'Toxicologist': {
     'venomancer': TOXICOLOGIST_VENOMANCER,
@@ -409,6 +454,11 @@ export const TALENT_TREES = {
     'solar_justiciar': CRUSADER_SOLAR_JUSTICIAR,
     'dawn_bastion': CRUSADER_DAWN_BASTION,
     'harmonic_inquisitor': CRUSADER_HARMONIC_INQUISITOR
+  },
+  'Chaos Weaver': {
+    'probability-sculptor': buildChaosWeaverTree('probability-sculptor'),
+    'anomaly-binder': buildChaosWeaverTree('anomaly-binder'),
+    'cascade-weaver': buildChaosWeaverTree('cascade-weaver')
   }
 };
 

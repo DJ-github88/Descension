@@ -105,7 +105,7 @@ export const SUNDALE_DROPS = [
     ],
     "gatheringMethod": "rare",
     "reagentType": "Essence",
-    "magicType": "fire",
+    "magicType": "ember",
     "reagentState": "Raw"
   },
   {
@@ -206,7 +206,7 @@ export const SUNDALE_DROPS = [
     ],
     "gatheringMethod": "rare",
     "reagentType": "Crystal",
-    "magicType": "earth",
+    "magicType": "primal",
     "reagentState": "Pure"
   },
   {
@@ -347,7 +347,7 @@ export const SUNDALE_DROPS = [
     ],
     "gatheringMethod": "rare",
     "reagentType": "Essence",
-    "magicType": "wind",
+    "magicType": "storm",
     "reagentState": "Pure"
   },
   {
@@ -374,7 +374,7 @@ export const SUNDALE_DROPS = [
     ],
     "gatheringMethod": "skinning",
     "reagentType": "Liquid",
-    "magicType": "nature",
+    "magicType": "primal",
     "reagentState": "Raw"
   },
   {
@@ -594,7 +594,7 @@ export const SUNDALE_DROPS = [
     ],
     "gatheringMethod": "rare",
     "reagentType": "Organ",
-    "magicType": "fire",
+    "magicType": "ember",
     "reagentState": "Pure"
   },
   {
@@ -772,7 +772,7 @@ export const SUNDALE_DROPS = [
     ],
     "gatheringMethod": "rare",
     "reagentType": "Essence",
-    "magicType": "fire",
+    "magicType": "ember",
     "reagentState": "Pure"
   },
   {
@@ -799,7 +799,7 @@ export const SUNDALE_DROPS = [
     ],
     "gatheringMethod": "skinning",
     "reagentType": "Essence",
-    "magicType": "fire",
+    "magicType": "ember",
     "reagentState": "Raw"
   },
   {
@@ -827,7 +827,7 @@ export const SUNDALE_DROPS = [
     ],
     "gatheringMethod": "rare",
     "reagentType": "Powder",
-    "magicType": "shadow",
+    "magicType": "wyrd",
     "reagentState": "Raw"
   },
   {
@@ -854,7 +854,7 @@ export const SUNDALE_DROPS = [
     ],
     "gatheringMethod": "rare",
     "reagentType": "Crystal",
-    "magicType": "shadow",
+    "magicType": "wyrd",
     "reagentState": "Pure"
   },
   {
@@ -931,7 +931,7 @@ export const SUNDALE_DROPS = [
     ],
     "gatheringMethod": "rare",
     "reagentType": "Powder",
-    "magicType": "fire",
+    "magicType": "ember",
     "reagentState": "Pure"
   },
   {
@@ -958,7 +958,7 @@ export const SUNDALE_DROPS = [
     ],
     "gatheringMethod": "rare",
     "reagentType": "Essence",
-    "magicType": "shadow",
+    "magicType": "wyrd",
     "reagentState": "Pure"
   },
   {
@@ -1010,7 +1010,7 @@ export const SUNDALE_DROPS = [
     ],
     "gatheringMethod": "rare",
     "reagentType": "Essence",
-    "magicType": "nature",
+    "magicType": "primal",
     "reagentState": "Pure"
   },
   {
@@ -1062,7 +1062,7 @@ export const SUNDALE_DROPS = [
     ],
     "gatheringMethod": "rare",
     "reagentType": "Organ",
-    "magicType": "nature",
+    "magicType": "primal",
     "reagentState": "Raw"
   },
   {
@@ -1114,7 +1114,7 @@ export const SUNDALE_DROPS = [
     ],
     "gatheringMethod": "rare",
     "reagentType": "Powder",
-    "magicType": "fire",
+    "magicType": "ember",
     "reagentState": "Raw"
   },
   {
@@ -1142,7 +1142,7 @@ export const SUNDALE_DROPS = [
     ],
     "gatheringMethod": "rare",
     "reagentType": "Crystal",
-    "magicType": "shadow",
+    "magicType": "wyrd",
     "reagentState": "Pure"
   },
   {
@@ -1195,7 +1195,7 @@ export const SUNDALE_DROPS = [
     ],
     "gatheringMethod": "mining",
     "reagentType": "Crystal",
-    "magicType": "fire",
+    "magicType": "ember",
     "reagentState": "Pure"
   },
   {
@@ -1223,7 +1223,7 @@ export const SUNDALE_DROPS = [
     ],
     "gatheringMethod": "rare",
     "reagentType": "Crystal",
-    "magicType": "light",
+    "magicType": "sacred",
     "reagentState": "Pure"
   },
   {
@@ -1276,7 +1276,7 @@ export const SUNDALE_DROPS = [
     ],
     "gatheringMethod": "rare",
     "reagentType": "Liquid",
-    "magicType": "water",
+    "magicType": "primal",
     "reagentState": "Pure"
   },
   {
@@ -1303,7 +1303,7 @@ export const SUNDALE_DROPS = [
     ],
     "gatheringMethod": "skinning",
     "reagentType": "Crystal",
-    "magicType": "water",
+    "magicType": "primal",
     "reagentState": "Raw"
   },
   {
@@ -1330,7 +1330,7 @@ export const SUNDALE_DROPS = [
     ],
     "gatheringMethod": "rare",
     "reagentType": "Crystal",
-    "magicType": "shadow",
+    "magicType": "wyrd",
     "reagentState": "Pure"
   },
   {
@@ -1357,7 +1357,7 @@ export const SUNDALE_DROPS = [
     ],
     "gatheringMethod": "skinning",
     "reagentType": "Powder",
-    "magicType": "shadow",
+    "magicType": "wyrd",
     "reagentState": "Raw"
   },
   {
@@ -1409,7 +1409,7 @@ export const SUNDALE_DROPS = [
     ],
     "gatheringMethod": "rare",
     "reagentType": "Essence",
-    "magicType": "nature",
+    "magicType": "primal",
     "reagentState": "Pure"
   },
   {
@@ -1436,7 +1436,7 @@ export const SUNDALE_DROPS = [
     ],
     "gatheringMethod": "rare",
     "reagentType": "Powder",
-    "magicType": "fire",
+    "magicType": "ember",
     "reagentState": "Raw"
   },
   {
@@ -1516,7 +1516,7 @@ export const SUNDALE_DROPS = [
     ],
     "gatheringMethod": "rare",
     "reagentType": "Crystal",
-    "magicType": "void",
+    "magicType": "wyrd",
     "reagentState": "Pure"
   },
   {

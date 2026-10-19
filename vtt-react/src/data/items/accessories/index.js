@@ -189,7 +189,7 @@ export const ACCESSORIES = [
     },
     combatStats: {
       resistances: {
-        physical: { value: 2, isPercentage: false }
+        smashing: { value: 2, isPercentage: false }
       }
     }
   },
@@ -293,7 +293,7 @@ export const ACCESSORIES = [
       spellDamage: {
         types: {
           blight: {	 value: 3, isPercentage: false },
-          shadow: { value: 2, isPercentage: false }
+          wyrd: { value: 2, isPercentage: false }
         }
       }
     }
@@ -492,7 +492,7 @@ export const ACCESSORIES = [
     type: 'accessory',
     subtype: 'NECKLACE',
     quality: 'uncommon',
-    description: 'An amulet set with a sapphire that radiates cold. Your attacks sometimes freeze your enemies, slowing their movements.',
+    description: 'An amulet set with a sapphire that radiates rime. Your attacks sometimes freeze your enemies, slowing their movements.',
     iconId: 'Armor/Neck/teal-crystal-pendant',
     value: { gold: 1, silver: 0, copper: 0 },
     stackable: false,
@@ -509,7 +509,7 @@ export const ACCESSORIES = [
     combatStats: {
       spellDamage: {
         types: {
-          cold: { value: 3, isPercentage: false }
+          rime: { value: 3, isPercentage: false }
         }
       },
       onHitEffects: {
@@ -725,8 +725,7 @@ export const ACCESSORIES = [
     combatStats: {
       spellDamage: {
         types: {
-          shadow: { value: 5, isPercentage: false },
-          wyrd: {	 value: 3, isPercentage: false }
+          wyrd: { value: 8, isPercentage: false }
         }
       },
       onHitEffects: {
@@ -755,7 +754,7 @@ export const ACCESSORIES = [
         }
       },
       resistances: {
-        shadow: { value: 5, isPercentage: false }
+        wyrd: { value: 5, isPercentage: false }
       },
       conditionModifiers: {
         frightened: {
@@ -914,7 +913,7 @@ export const ACCESSORIES = [
       spellDamage: {
         types: {
           blight: {	 value: 10, isPercentage: false },
-          shadow: { value: 7, isPercentage: false }
+          wyrd: { value: 7, isPercentage: false }
         }
       },
       onHitEffects: {
@@ -945,7 +944,7 @@ export const ACCESSORIES = [
       maxHealth: { value: 25, isPercentage: false },
       resistances: {
         blight: {	 value: 10, isPercentage: false },
-        shadow: { value: 8, isPercentage: false }
+        wyrd: { value: 8, isPercentage: false }
       }
     }
   },
@@ -973,7 +972,7 @@ export const ACCESSORIES = [
     },
     combatStats: {
       resistances: {
-        cold: { value: 1, isPercentage: false }
+        rime: { value: 1, isPercentage: false }
       }
     }
   },
@@ -999,7 +998,7 @@ export const ACCESSORIES = [
     },
     combatStats: {
       resistances: {
-        cold: { value: 3, isPercentage: false }
+        rime: { value: 3, isPercentage: false }
       }
     }
   },
@@ -1026,7 +1025,7 @@ export const ACCESSORIES = [
     },
     combatStats: {
       resistances: {
-        shadow: { value: 5, isPercentage: false }
+        wyrd: { value: 5, isPercentage: false }
       },
       conditionModifiers: {
         frightened: {

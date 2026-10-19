@@ -1,0 +1,19 @@
+.rw-panel { font: 15px/1.4 'Crimson Text', Georgia, serif; color: #2b2116; background: #f6efe1; border: 1px solid #8a6d45; border-radius: 5px; padding: 12px; }
+.rw-panel h3, .rw-panel h4 { margin: 4px 0 8px; font-size: 17px; color: #2b2116; }
+.rw-panel p { margin: 8px 0; }
+.rw-panel ul { margin: 6px 0; padding-left: 20px; }
+.rw-panel label { display: block; margin: 6px 0; }
+.rw-panel input:not([type=checkbox]), .rw-panel select, .rw-panel textarea { display: block; box-sizing: border-box; width: 100%; min-height: 44px; padding: 6px; font: inherit; color: #2b2116; background: #fffaf1; border: 1px solid #8a6d45; }
+.rw-panel input[type=checkbox] { width: 20px; height: 20px; margin: 10px 8px 10px 0; vertical-align: middle; }
+.rw-panel fieldset { min-width: 0; margin: 8px 0; padding: 8px; border: 1px solid #b5a186; }
+.rw-panel button, .rw-panel summary { min-height: 44px; box-sizing: border-box; cursor: pointer; padding: 8px; font: inherit; }
+.rw-panel button { color: #2b2116; background: #efe3c8; border: 1px solid #8a6d45; border-radius: 4px; margin: 4px 6px 4px 0; }
+.rw-panel button:hover { background: #e4d3b0; }
+.rw-panel button:disabled { color: #68533e; background: #e5dfd3; cursor: default; }
+.rw-panel :focus-visible { outline: 2px solid #71421e; outline-offset: 2px; }
+.rw-panel [role=timer] { font-size: 21px; font-variant-numeric: tabular-nums; font-weight: bold; }
+.rw-overlay { position: fixed; top: 90px; left: 50%; transform: translateX(-50%); width: min(440px, calc(100vw - 32px)); box-sizing: border-box;
+  max-height: calc(100dvh - 190px); overflow: auto; z-index: 1400; }
+.rw-card { margin-top: 12px; padding-top: 8px; border-top: 1px solid #8a6d45; }
+.rw-boundary { font-weight: bold; }
+.rw-panel pre { white-space: pre-wrap; overflow-wrap: anywhere; font-size: 12px; }

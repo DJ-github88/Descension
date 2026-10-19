@@ -49,6 +49,20 @@ const buildDemoClassResource = (className) => {
  if (className === 'Animist') {
   return { current: 12, max: 20, spheres: [] };
  }
+ if (className === 'Chaos Weaver') {
+  // RI-1: the demo preview must never fabricate a filled six-tile hand.
+  // A fresh character's tiles are uninitialized until a manual rehearsal
+  // session is opened at the table, so the preview shows exactly that.
+  return {
+   current: 0,
+   max: 0,
+   initialized: false,
+   tiles: null,
+   pending: null,
+   anomaly: null,
+   spheres: []
+  };
+ }
 
  const m = cfg.mechanics;
 
@@ -345,6 +359,15 @@ const CLASS_REGIONS = {
    borderColor: '#a569bd',
    glowColor: 'rgba(165, 105, 189, 0.15)',
    icon: 'fas fa-exclamation-triangle'
+  },
+  'chaos-weaver': {
+   regionId: 'cragjaw-peaks',
+   regionName: 'Cragjaw Peaks',
+   accentColor: '#7A2040', // wyrd crimson
+   bgGradient: 'linear-gradient(135deg, rgba(122, 32, 64, 0.06) 0%, rgba(95, 75, 139, 0.02) 100%)',
+   borderColor: '#7A2040',
+   glowColor: 'rgba(122, 32, 64, 0.15)',
+   icon: 'fas fa-dice-d6'
   }
 };
 
@@ -3206,6 +3229,14 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
        <span className="class-role-badge">
         <i className="fas fa-shield-alt"></i> {classData.role}
        </span>
+       {classData.developmentStatus === 'development' && (
+        <span
+         className="class-dev-status-badge"
+         title="Development class — content is selectable, but class-specific effects remain manual at the table."
+        >
+         <i className="fas fa-hammer"></i> Development
+        </span>
+       )}
        {classData.damageTypes && classData.damageTypes.length > 0 && (() => {
         const uniqueDamageTypes = [...new Set(classData.damageTypes)];
         const damageStr = uniqueDamageTypes.map(d => d.charAt(0).toUpperCase() + d.slice(1)).join(', ');

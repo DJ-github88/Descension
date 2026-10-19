@@ -1,5 +1,7 @@
 # Candidate identity and overlap matrix
 
+**Latest creator supersession (2026-10-18):** Augur merges into Fate Weaver with useful content preserved/assessed; Harbinger's proposed identity is Doomsayer; Oracle is an independent candidate, not conditional on a new merger vote. Druid replaces Metamorph. Existing IDs/saves stay compatible. [Current class-first delivery](33_CLASS_DELIVERY_RESET_AND_ENGINE_HANDOFF.md); A1b is parked under Main Mythrill HeadQ ownership.
+
 **Current seven-candidate detail:** [HeadQ R1 comparison](30_CLASS_HEADQ_DECISION_PACKET.md) and active dossier sections supersede earlier loose tree/resource directions for those seven. The broader34-candidate frontier below remains continuing work; no final roster is approved.
 
 **PROPOSED research frontier, not approved final roster.** “Current” means a current registered identity; it does not mean all mechanics execute. Affinities below are thematic directions, distinct from the exact current tag census. Working trees for existing classes are listed by current intent where convenient; all need full manual audit. No roster quota is imposed.
@@ -11,7 +13,7 @@
 | Arcanoneer | Current, retain | Roll typed components, choose exact elemental recipe | Existing eight-type sphere collection | **All eight; no primary** | Prism Mage/Entropy Weaver/Sphere Architect; distinguish prepared glyphs |
 | Berserker | Current, retain/audit | Conditioned aggression under physiological stress | Existing Blood Heat, retain if risk loop earns it | Weapon-led, no forced magical primary | Savage/Juggernaut/Warlord; versus Dreadnaught/Titan |
 | Chronarch | Current, retain | Bank/rewrite bounded time through maintained anchors | Time Shards/Temporal Strain, inspect actual time effects | Arcane/Storm thematic, verify | Stasis/Displacement/Rewinding; no Oracle foreknowledge monopoly |
-| Harbinger | Current, redesign scope | Plant and bring a declared calamity | Proposed finite doom commitments | Wyrd/Blight; affinity review | Requiem/Endbringer/Rift Herald proposals; versus Chaos/Oracle |
+| Doomsayer | Creator-approved successor name to Harbinger; old ID retained | Plant and bring a declared calamity | Proposed finite doom commitments | Wyrd/Blight; affinity review | Requiem/Endbringer/Rift Herald proposals; versus Chaos/Oracle |
 | Inquisitor | Current, critical review | Bind/judge by actual institutional authority | Authority plus explicit warrants/bindings under review | Sacred/physical, inspect | Iron Verdict core; separate Witch Hammer/expulsion content |
 | False Prophet | Current, retain/audit | Maintain real psychic links through congregation | Existing Madness/linked minds, scope unresolved | Wyrd | Silence Speaker/Deceiver/Cultist; faith isn't belief-created life |
 | Lunarch | Current, retain/audit | Host moon-adapted organism through a forced cycle | Existing discrete phases | Sacred/Arcane/Rime theme requires data reconciliation | Hollow Sentinel/Silence Speaker/Sanguine Warden; versus Chronarch |
@@ -23,7 +25,7 @@
 | Spellguard | Current, retain | Intercept finite hostile magic, choose containment/vent | Captured energy/typed intake | Captured element, Arcane/Storm theme | Arcane Warden/Spell Breaker/Mana Reaver; distinct from institutional judgment |
 | Toxicologist | Current, retain distinction | Prepare actual compounds/tools/solutions | Vials/contraption parts and prepared content | Blight; chemistry not infection | Venomancer/Gadgeteer/Saboteur; item custody dependency |
 | Warden | Current, preserve fourth tree | Grafted territorial capture and chosen chain | Existing Tension/target-state review | Weapon-led | Iron Stalker/Iron Jailer/Relentless Tormentor/Monolith; versus Hunter/Dreadnaught |
-| Augur | Current, refine | Interpret actual signs into immediate choices | Dual omens; event identity/expiry review | Wyrd/ritual source | Auspex/Ill Omen/Hierophant proposal; no class/tree Harbinger ambiguity |
+| Augur → Fate Weaver | Creator-directed merge; current records preserved | Assess actual signs/material foci as Fate Weaver techniques | Legacy dual omens/debt preserved, not automatically added to Fate Weaver | Wyrd/ritual source | Preserve/assess Auspex/Ill Omen/Hierophant nodes and native provenance |
 | Crusader | Current, retain | Consecrated martial devotion and held territory | Fervor/relic commitment review | Sacred/Ember | Solar Justiciar/Dawn Bastion/Harmonic Inquisitor; versus Titan/Martyr |
 | Hunter | Apex/Huntress successor preferred | Pursuit and evidence, solo or pack | Exact quarry + distinct evidence tags | Weapon-led/Primal where warranted | Stalker/Beastmaster/glaive terrain; companion optional foundation |
 | Druid | Transformation name creator-approved; design remains proposed | Transform the actual body, occupy anatomical slots, choose lost capabilities | Slot loadouts + bounded recovery remain under HeadQ review | Primal/mineral/body source remains proposed; no nature worship inferred | Predator/Adaptive Bastion/Mimic under review; separate Monk; no companion or heritage inheritance from the name |
@@ -40,7 +42,7 @@
 | Primalist | Historical, candidate | Work with living ecological forces and environment | Environmental aspects/finite commitments unresolved | **Primal**/Storm/Rime as ecology warrants | Earthwarden/Stormbringer/Spiritcaller historical; remove ancestor monopoly |
 | Dreadnaught | Historical, candidate | Commit armor/footing and carry a line forward | Equipment/brace/load unresolved | Weapon-led, furnace affinity if established | Historical Shadow Citadel/Suffering Weaver/Doom Bringer versus Martyr Ironclad |
 | Bladedancer | Historical, candidate | Earn weapon sequences through position/motion | Sequence/footwork unresolved | Weapon-led | Flow Master/Duelist/Shadow Dancer historical; versus Druid/Monk |
-| Oracle | Historical, conditional candidate | Prepare for finite possible futures | Two forecast commitments proposal | Wyrd/Arcane only if supported | Seer/Peril/Pathfinder proposals; must exceed generic Ready |
+| Oracle | Independent candidate retained by creator | Prepare for finite possible futures | Two forecast commitments proposal | Wyrd/Arcane only if supported | Seer/Peril/Pathfinder proposals; develop distinct content beyond generic Ready |
 | Monk | Creator-requested independent candidate | Discipline, movement, striking and self-mastery | Breath/stance/sequence choice unresolved | Physical; spiritual source only if grounded | Three trees and native order need full design, not Shaper reuse |
 
 ## Compatibility identities and genealogical aliases

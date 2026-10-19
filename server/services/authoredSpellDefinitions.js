@@ -119,6 +119,8 @@ const strictCopy = (value, path, depth, code) => {
   if (depth > MAX_STRUCTURE_DEPTH) { return fail(code, path); }
 
   if (Array.isArray(value)) {
+    if (Object.getPrototypeOf(value) !== Array.prototype) { return fail(code, path); }
+    if (Object.getOwnPropertySymbols(value).length > 0) { return fail(code, path); }
     const names = Object.getOwnPropertyNames(value);
     if (names.length !== value.length + 1) { return fail(code, path); }
     const output = [];
@@ -135,6 +137,7 @@ const strictCopy = (value, path, depth, code) => {
   }
 
   if (!isPlainObject(value)) { return fail(code, path); }
+  if (Object.getOwnPropertySymbols(value).length > 0) { return fail(code, path); }
 
   const output = {};
   for (const key of Object.getOwnPropertyNames(value)) {

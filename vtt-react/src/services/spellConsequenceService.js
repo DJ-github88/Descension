@@ -8,6 +8,8 @@ import { supportSpell, buildApproval, planSpellCommand, spellReceipt, typedClass
 import { refOf, findActor, inSharedRoom, refreshActorSnapshot, prepareActorCommand, submitPreparedActorCommand, retryActorCommand,
   requestActorEvent, roomResourceProjection } from './actorConsequenceService';
 import { spellContext, loadLatestSpell, retainLatestSpell, unresolvedSpell } from './spellConsequenceCustody';
+import { chatLineFor } from './acceptedResultFeed';
+import { draftContext, sameDraftContext, withDiscarded } from './targetPick';
 
 export const useSpellConsequenceStore = create(() => ({ owner: null, ownerStatus: null, gmPending: {}, gmStatus: {} }));
 const UNKNOWN = ['outcome_unknown', 'room_connection_unavailable', 'retired_principal', 'snapshot_required'];
@@ -75,6 +77,35 @@ function describeRefusal(code) {
   return `Not registered (${String(code || 'refused').replace(/_/g, ' ')}) — no payment was recorded.`;
 }
 /** Owner: approve the exact price/typed result with one recorded roll. */
+// ── P12C-B1 roll drafts (MYTHRILL_PROJECT_12C_B1_CONTRACT.md §2) ─────────────────────────────────────
+export const spellDraftContext = ({ characterId, sourceRef, spellId }) => sourceRef && spellId ? draftContext('spell', { characterId, sourceRef, spellId }) : null;
+export const loadSpellDraft = () => loadLatestSpell()?.draft || null;
+export const loadDiscardedSpellDrafts = () => loadLatestSpell()?.discardedDrafts || [];
+const bumpDraft = () => useSpellConsequenceStore.setState(s => ({ draftVersion: (s.draftVersion || 0) + 1 }));
+/** Retains a recorded roll at roll time; never replaces a draft that belongs to another spell. */
+export function saveSpellDraft({ context: ctx, label, roll, targetKey }) {
+  const context = spellContext(), latest = loadLatestSpell(context);
+  if (!ctx) throw Error('Select your owner attachment before rolling.');
+  if (unresolvedSpell(latest)) throw Error('A spell approval with a recorded roll is pending. Check or withdraw it first.');
+  if (latest?.draft && !sameDraftContext(latest.draft.context, ctx)) throw Error('A recorded roll for another spell is retained. Cast it from that spell or discard it first.');
+  const { custody, ...rest } = latest || {}; // eslint-disable-line no-unused-vars
+  const draft = { context: ctx, label: String(label || '').slice(0, 80), roll: roll || null, targetKey: targetKey || '', at: latest?.draft?.at || Date.now() };
+  const kept = retainLatestSpell(context, { ...rest, draft });
+  bumpDraft();
+  if (!String(kept.custody || '').startsWith('Device')) throw Error(`Roll kept in memory only: ${kept.custody}`);
+  return draft;
+}
+export function discardSpellDraft() {
+  const context = spellContext(), latest = loadLatestSpell(context);
+  if (!latest?.draft) return;
+  const { custody, ...rest } = latest; // eslint-disable-line no-unused-vars
+  retainLatestSpell(context, { ...rest, draft: null, discardedDrafts: withDiscarded(latest.discardedDrafts, latest.draft) });
+  bumpDraft();
+}
+/** The recorded roll of an approval that was not accepted, as a draft for the same spell (contract §2). */
+function spellDraftFromApproval(a) {
+  return { context: draftContext('spell', { characterId: a.source.characterId, sourceRef: a.source, spellId: a.spell.definitionId }), label: a.spell.name, roll: a.roll, targetKey: '', at: Date.now(), fromApproval: a.approvalId };
+}
 export async function sendSpellApproval({ spellId, targetRef, roll, origin }) {
   const context = spellContext();
   if (!context.current()) return setOwnerStatus({ phase: 'refused', message: 'Sign in and join the room to cast with P9.' });
@@ -101,7 +132,9 @@ export async function sendSpellApproval({ spellId, targetRef, roll, origin }) {
       actionEpoch: snapshot.actionEpoch, baseCommitSequence: snapshot.commitSequence, roll, approvalId: crypto.randomUUID() });
   } catch (error) { return setOwnerStatus({ phase: 'refused', message: error.message }); }
   let retained;
-  try { retained = retainLatestSpell(context, { phase: 'prepared', approval, origin, cooldown: support.cooldown }); } catch (error) { return setOwnerStatus({ phase: 'refused', message: error.message }); }
+  // P12C-B1: the draft becomes the approval (the record is replaced); discards stay listed.
+  try { retained = retainLatestSpell(context, { phase: 'prepared', approval, origin, cooldown: support.cooldown, discardedDrafts: latest?.discardedDrafts || [] }); } catch (error) { return setOwnerStatus({ phase: 'refused', message: error.message }); }
+  bumpDraft();
   return submitApproval(context, retained);
 }
 async function submitApproval(context, current) {
@@ -121,8 +154,11 @@ async function submitApproval(context, current) {
     return setOwnerStatus({ phase: 'unknown', message: 'Outcome unknown. Check this same approval; it will not reroll or pay twice.', latest: kept });
   }
   const outcome = ownerRefusal(firstSubmission, result.code);
-  const kept = retainLatestSpell(context, { ...retained, phase: outcome.phase, result });
-  return setOwnerStatus({ ...outcome, latest: kept });
+  // A refused first submission was never registered: its recorded roll returns for the same spell.
+  const returned = outcome.phase === 'refused' ? { draft: spellDraftFromApproval(retained.approval) } : {};
+  const kept = retainLatestSpell(context, { ...retained, phase: outcome.phase, result, ...returned });
+  if (returned.draft) bumpDraft();
+  return setOwnerStatus({ ...outcome, ...(returned.draft ? { message: `${outcome.message} Your recorded roll is kept for this spell.` } : {}), latest: kept });
 }
 /** Owner: explicit reconciliation with the GM clears an unresolvable approval. */
 export function markSpellReconciled() {
@@ -144,8 +180,11 @@ export async function withdrawSpellApproval() {
   if (!context.current()) return null;
   if (result.success && result.receipt) { consumeSpellReceipt(result); return result; }
   if (result.success && result.code === 'withdrawn') {
-    const kept = retainLatestSpell(context, { ...latest, phase: 'withdrawn', result });
-    return setOwnerStatus({ phase: 'withdrawn', message: 'Withdrawn before GM acceptance — no payment was recorded.', latest: kept });
+    // P12C-B1 §2: the withdrawn roll returns as a draft for the same spell (re-approve, never reroll).
+    const draft = spellDraftFromApproval(latest.approval);
+    const kept = retainLatestSpell(context, { ...latest, phase: 'withdrawn', result, draft });
+    bumpDraft();
+    return setOwnerStatus({ phase: 'withdrawn', message: 'Withdrawn before GM acceptance — no payment was recorded. Your recorded roll is kept for this spell.', latest: kept });
   }
   if (['approval_consumed', 'retry_window_expired'].includes(result.code)) {
     const outcome = ownerRefusal(false, result.code);
@@ -232,9 +271,11 @@ export function consumeSpellReceipt(result) {
   const id = `p9:${view.receipt.roomId}:${view.receipt.submitterUid}:${view.receipt.commandId}`;
   const chat = getStore('chatStore');
   const { recorded, receipt } = view, adjudication = receipt.adjudication;
-  if (chat && !chat.getState().notifications.combat.some(note => note.id === id)) chat.getState().addNotification('combat', {
+  const fullLine = `${recorded.sourceName} → ${recorded.targetName}: ${recorded.spellName} · ${recorded.roll.mode} [${recorded.roll.dice.map(group => group.faces.join(', ')).join(' | ')}] ${recorded.roll.constant >= 0 ? '+' : '-'} ${Math.abs(recorded.roll.constant)} = ${recorded.roll.total}; GM final ${adjudication.finalAmount} ${recorded.kind === 'healing' ? 'healing' : (recorded.damageTypes || []).join('/')}${adjudication.adjustmentReason ? ` (${adjudication.adjustmentReason})` : ''}. Accepted receipt ${receipt.commandId}.`;
+  let line = fullLine; try {line = chatLineFor(result, fullLine);} catch (_) { line = null; } // P13A §4: never name actors this viewer cannot see
+  if (line && chat && !chat.getState().notifications.combat.some(note => note.id === id)) chat.getState().addNotification('combat', {
     id, type: 'combat', receiptId: id, timestamp: new Date(receipt.acceptedAt).toISOString(),
-    content: `${recorded.sourceName} → ${recorded.targetName}: ${recorded.spellName} · ${recorded.roll.mode} [${recorded.roll.dice.map(group => group.faces.join(', ')).join(' | ')}] ${recorded.roll.constant >= 0 ? '+' : '-'} ${Math.abs(recorded.roll.constant)} = ${recorded.roll.total}; GM final ${adjudication.finalAmount} ${recorded.kind === 'healing' ? 'healing' : (recorded.damageTypes || []).join('/')}${adjudication.adjustmentReason ? ` (${adjudication.adjustmentReason})` : ''}. Accepted receipt ${receipt.commandId}.`
+    content: line,
   });
   useSpellConsequenceStore.setState(current => {
     const gmPending = { ...current.gmPending }; delete gmPending[view.approvalId];

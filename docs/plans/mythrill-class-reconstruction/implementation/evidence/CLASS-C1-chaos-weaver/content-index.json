@@ -1,0 +1,1336 @@
+{
+  "evidenceLabel": "PROPOSED-C1-content-index-not-runtime-DTO",
+  "optional": [
+    {
+      "slot": "01",
+      "id": "cw1_01",
+      "level": 1,
+      "category": "damage",
+      "name": "Fraying Bolt",
+      "price": "2 / one F→spent",
+      "rule": "1d6 Wyrd; caster movement−5ft until next own-turn start. Deliberate deterministic low-resource basic, not a sample."
+    },
+    {
+      "slot": "02",
+      "id": "cw1_02",
+      "level": 1,
+      "category": "damage",
+      "name": "Sideways Spark",
+      "price": "2 / one M→spent",
+      "rule": "1d4 Wyrd; optional caster5ft step."
+    },
+    {
+      "slot": "03",
+      "id": "cw1_03",
+      "level": 1,
+      "category": "nondamage",
+      "name": "Survey the Seam",
+      "price": "1 / one M→spent",
+      "rule": "One visible inert object within10ft: identify one visible seam or likely mechanical load path, not hidden contents or structural immunity bypass; instant information."
+    },
+    {
+      "slot": "04",
+      "id": "cw1_04",
+      "level": 1,
+      "category": "nondamage",
+      "name": "Fracture Brace",
+      "price": "1 / one F→spent",
+      "rule": "Self ward2 versus next Wyrd assigned damage before next own-turn start; also caster−5ft movement to that start."
+    },
+    {
+      "slot": "05",
+      "id": "cw1_05",
+      "level": 2,
+      "category": "damage",
+      "name": "Lancing Variance",
+      "price": "2 / one S→spent",
+      "rule": "1d6+2 Wyrd. Deterministic basic giving up a Surge that could bias a set."
+    },
+    {
+      "slot": "06",
+      "id": "cw1_06",
+      "level": 2,
+      "category": "damage",
+      "name": "Chosen Crosscurrent",
+      "price": "2 / M+F sample",
+      "rule": "M:1d6+2 Wyrd and caster5ft step; F:1d6 Wyrd and normal Fracture penalty."
+    },
+    {
+      "slot": "07",
+      "id": "cr1_chaos_weaver_read_instability",
+      "level": 2,
+      "category": "nondamage",
+      "name": "Read Instability",
+      "price": "1 / any one→spent",
+      "rule": "Observable anomaly within30ft; choose **one** actual material, rough-boundary or stabilizer fact. No future rolls, hidden identities or invented facts. ID is `cr1_chaos_weaver_read_instability` (alias cw1_07 in tables only)."
+    },
+    {
+      "slot": "08",
+      "id": "cw1_08",
+      "level": 2,
+      "category": "nondamage",
+      "name": "Counterweight",
+      "price": "1 / F→spent",
+      "rule": "Touch a mundane carried load: +1 to one GM-called noncombat balance/handling check made before end of next own turn; caster−5ft movement to next start. Not advantage, armor or immunity."
+    },
+    {
+      "slot": "09",
+      "id": "cw1_09",
+      "level": 3,
+      "category": "damage",
+      "name": "Discordant Arc",
+      "price": "2 / S+F sample",
+      "rule": "S:2d6+2 Wyrd; F:1d6+2 Wyrd and normal Fracture penalty."
+    },
+    {
+      "slot": "10",
+      "id": "cw1_10",
+      "level": 3,
+      "category": "nondamage",
+      "name": "Slip Tether",
+      "price": "1 / M+F sample, self",
+      "rule": "M:caster10ft legal step; F:no step and normal Fracture penalty. Spend both; not teleport or escape from a binding without GM legality."
+    },
+    {
+      "slot": "11",
+      "id": "cw1_11",
+      "level": 3,
+      "category": "nondamage",
+      "name": "Measured Shelter",
+      "price": "2 / S→spent, willing self/ally30ft",
+      "rule": "Ward4 versus next Wyrd damage before next caster-turn start."
+    },
+    {
+      "slot": "12",
+      "id": "cw1_12",
+      "level": 3,
+      "category": "nondamage",
+      "name": "Signal Coin",
+      "price": "1 / M→spent",
+      "rule": "Touch one existing inert token: emits one declared audible click when physically jostled before endT+2, then inert. Does not sense invisible creatures, identify an intruder or create material."
+    },
+    {
+      "slot": "13",
+      "id": "cw1_13",
+      "level": 4,
+      "category": "damage",
+      "name": "Torsion Lance",
+      "price": "3 / S+F sample",
+      "rule": "S:3d6 Wyrd; F:1d6+2 Wyrd and normal Fracture penalty."
+    },
+    {
+      "slot": "14",
+      "id": "cw1_14",
+      "level": 4,
+      "category": "nondamage",
+      "name": "Skewed Guard",
+      "price": "2 / S-or-M +F sample, willing self/ally30ft",
+      "rule": "S:ward6; M:ward3 and caster5ft step; F:ward3 and normal caster Fracture. Ward expiry next caster-turn start, one Wyrd event."
+    },
+    {
+      "slot": "15",
+      "id": "cw1_15",
+      "level": 4,
+      "category": "nondamage",
+      "name": "Inert Margin",
+      "price": "1 / F→spent, touch",
+      "rule": "One mundane fragile object carried by caster: +2 to one GM-called noncombat check to stabilize it before endT+1; caster−5ft movement to next start. No automatic magical hazard shutdown."
+    },
+    {
+      "slot": "16",
+      "id": "cw1_16",
+      "level": 4,
+      "category": "nondamage",
+      "name": "Shared Survey",
+      "price": "2 / any one→spent",
+      "rule": "One willing ally within10ft participates in observing one actual visible anomaly within30ft. The table answers two distinct material/boundary/stabilizer questions to both; no hidden knowledge."
+    },
+    {
+      "slot": "17",
+      "id": "cw1_17",
+      "level": 5,
+      "category": "damage",
+      "name": "Resonance Fork",
+      "price": "3 / S+M+F sample",
+      "rule": "S:3d6 Wyrd; M:2d6 Wyrd and caster5ft step; F:1d6 Wyrd and normal Fracture. Uniform thirds, all spent."
+    },
+    {
+      "slot": "18",
+      "id": "cw1_18",
+      "level": 5,
+      "category": "nondamage",
+      "name": "Warning Boundary",
+      "price": "2 / M+F→bound, visible point30ft",
+      "rule": "5ft anomaly; first enemy voluntary entry: M creates an audible warning and optional caster5ft legal step; F gives caster−5ft to end next own turn. No attack/stop; expiry endT+2; same one-anomaly/dismiss rules."
+    },
+    {
+      "slot": "19",
+      "id": "cw1_19",
+      "level": 5,
+      "category": "nondamage",
+      "name": "Stabilizer's Kit",
+      "price": "2 / S→spent, self",
+      "rule": "Declare one carried mundane tool. +2 to one GM-called noncombat apparatus-calibration check this activity/endT+1. Does not manufacture tools, components or a free rest."
+    },
+    {
+      "slot": "20",
+      "id": "cw1_20",
+      "level": 5,
+      "category": "nondamage",
+      "name": "Safe Rehearsal",
+      "price": "1 / no tile, self, once/rest",
+      "rule": "+2 to one GM-called noncombat risk-explanation check about one currently legal published set in this scene, without commitment, tile movement or roll. Merely inspecting odds/branches is always free; this price buys only the check bonus, not access to basic information."
+    },
+    {
+      "slot": "21",
+      "id": "cw1_21",
+      "level": 6,
+      "category": "damage",
+      "name": "Deep Shear",
+      "price": "3 / S+F sample",
+      "rule": "S:3d6+3 Wyrd; F:2d6 Wyrd and caster−10ft until next own-turn start. Stronger branch buys a worse downside."
+    },
+    {
+      "slot": "22",
+      "id": "cw1_22",
+      "level": 6,
+      "category": "nondamage",
+      "name": "Return Line",
+      "price": "2 / M→spent, self",
+      "rule": "Up to15ft legal displacement along a previously observed clear route, using remaining movement. Not teleport, forced escape or obstacle removal."
+    },
+    {
+      "slot": "23",
+      "id": "cw1_23",
+      "level": 6,
+      "category": "nondamage",
+      "name": "Retune Apparatus",
+      "price": "2 / one chosen spent F→available, self",
+      "rule": "Recover exactly that F and give self ward4 to next caster-turn start. No other tile recovered; deliberately trades Fold's broad recovery for protection."
+    },
+    {
+      "slot": "24",
+      "id": "cw1_24",
+      "level": 6,
+      "category": "nondamage",
+      "name": "Hold the Sample",
+      "price": "1 / any one available→bound",
+      "rule": "Touch an actual inert material sample and preserve its observable arrangement until endT+2 or1-AP release; tile then spent. Occupies the anomaly slot; no living, active magical, temporal or limitless preservation."
+    },
+    {
+      "slot": "25",
+      "id": "cw1_25",
+      "level": 7,
+      "category": "damage",
+      "name": "Crossgrain Ray",
+      "price": "3 / S+M+F sample",
+      "rule": "S:4d6 Wyrd; M:2d6 Wyrd and caster10ft step; F:2d6 Wyrd and caster−10ft until next start."
+    },
+    {
+      "slot": "26",
+      "id": "cw1_26",
+      "level": 7,
+      "category": "nondamage",
+      "name": "Passed Opening",
+      "price": "2 / M→spent, willing ally30ft",
+      "rule": "Ally may immediately make one10ft legal derived displacement using remaining movement. No additional action, attack, reaction or resource generation."
+    },
+    {
+      "slot": "27",
+      "id": "cw1_27",
+      "level": 7,
+      "category": "nondamage",
+      "name": "Joint Containment",
+      "price": "2 / S+F sample, willing ally30ft",
+      "rule": "S:ally ward8; F:ally ward4 and caster−10ft until next start. One Wyrd event, expiry next caster-turn start; no ally tile pool."
+    },
+    {
+      "slot": "28",
+      "id": "cw1_28",
+      "level": 7,
+      "category": "nondamage",
+      "name": "Trace Disturbance",
+      "price": "2 / any one→spent",
+      "rule": "One visible mundane disturbance/anomaly30ft: identify direction of an actually observable change and one likely local stabilizer. No time travel, culprit identity or divination of future events."
+    },
+    {
+      "slot": "29",
+      "id": "cw1_29",
+      "level": 8,
+      "category": "damage",
+      "name": "Fault Needle",
+      "price": "3 / S+F sample",
+      "rule": "S:4d6+2 Wyrd; F:2d6+2 Wyrd and caster−10ft until next start."
+    },
+    {
+      "slot": "30",
+      "id": "cw1_30",
+      "level": 8,
+      "category": "nondamage",
+      "name": "Counterseal",
+      "price": "2 / S+F sample, point30ft",
+      "rule": "End **your own** anomaly: all its bound tiles become spent; S grants self ward6, F grants no ward and caster−10ft to next start. No hostile-effect dispel; impossible if an anomaly trigger is unresolved."
+    },
+    {
+      "slot": "31",
+      "id": "cw1_31",
+      "level": 8,
+      "category": "nondamage",
+      "name": "Lateral Refuge",
+      "price": "2 / M+F sample, self",
+      "rule": "M:20ft legal displacement; F:5ft legal displacement and caster−10ft until next start. Remaining movement still bounds both branches."
+    },
+    {
+      "slot": "32",
+      "id": "cw1_32",
+      "level": 8,
+      "category": "nondamage",
+      "name": "Public Experiment",
+      "price": "2 / S→spent",
+      "rule": "One visible apparatus/material and willing witnesses10ft: answer three distinct existing observable cause/boundary/stabilizer facts after a GM-adjudicated test. No generated loot or automatic success against an active hazard."
+    },
+    {
+      "slot": "33",
+      "id": "cw1_33",
+      "level": 9,
+      "category": "damage",
+      "name": "Wyrd Crucible",
+      "price": "4 / S1+S2+F sample",
+      "rule": "S:5d6 Wyrd; F:2d6 Wyrd and caster−10ft until end next own turn. All three spent; one target."
+    },
+    {
+      "slot": "34",
+      "id": "cw1_34",
+      "level": 9,
+      "category": "nondamage",
+      "name": "Partitioned Shelter",
+      "price": "3 / S+M+F sample, willing ally30ft",
+      "rule": "S:ward10; M:ward6 plus ally5ft derived step; F:ward4 and caster−10ft to end next own turn. One Wyrd event, ward expiry end caster's next turn."
+    },
+    {
+      "slot": "35",
+      "id": "cw1_35",
+      "level": 9,
+      "category": "nondamage",
+      "name": "Unbind the Test",
+      "price": "2 / any available tile→spent",
+      "rule": "Safely close **your own** inert Hold Sample/Signal Coin record early; its bound tile, if any, becomes spent; answer one observable failure-mode question. No undo of accepted outcomes or recovery of another caster's contents."
+    },
+    {
+      "slot": "36",
+      "id": "cw1_36",
+      "level": 9,
+      "category": "nondamage",
+      "name": "Read the Whole Apparatus",
+      "price": "3 / S+M→spent",
+      "rule": "Visible apparatus30ft: four distinct existing material/boundary/stabilizer/failure-path questions; no guaranteed correct future outcome, creature mind or unknown history."
+    },
+    {
+      "slot": "37",
+      "id": "cw1_37",
+      "level": 10,
+      "category": "damage",
+      "name": "Finite Cataclysm",
+      "price": "4 / S1+S2+M+F sample, once/rest",
+      "rule": "S:6d6 Wyrd; M:3d6 Wyrd and caster10ft step; F:2d6 Wyrd and caster−10ft through end next own turn. Uniform ID weights1/2,1/4,1/4; one enemy, no explosion."
+    },
+    {
+      "slot": "38",
+      "id": "cw1_38",
+      "level": 10,
+      "category": "nondamage",
+      "name": "Sixfold Audit",
+      "price": "3 / three distinct available IDs→spent, once/rest",
+      "rule": "Touch one visible inert apparatus/real anomaly; choose six distinct observable material/boundary/stabilizer/failure-path questions. Does not reveal hidden actors, passwords or future RNG."
+    },
+    {
+      "slot": "39",
+      "id": "cw1_39",
+      "level": 10,
+      "category": "nondamage",
+      "name": "Final Safe Passage",
+      "price": "3 / M+F sample, willing ally30ft, once/rest",
+      "rule": "M:ally20ft legal derived displacement; F:ally5ft and caster−10ft through end next own turn. All remaining movement/permission constraints stand."
+    },
+    {
+      "slot": "40",
+      "id": "cw1_40",
+      "level": 10,
+      "category": "nondamage",
+      "name": "Shelter of Alternatives",
+      "price": "4 / S+M+F sample, willing ally30ft, once/rest",
+      "rule": "S:ward14; M:ward8 plus ally5ft step; F:ward6 and caster−10ft through end next turn. One Wyrd event, ward expires end next caster turn."
+    }
+  ],
+  "core": [
+    "cr1_chaos_weaver_fold_odds",
+    "cr1_chaos_weaver_split_possibility",
+    "cw1_dismiss_anomaly"
+  ],
+  "talentActives": [
+    "cr1_chaos_weaver_bias_draw",
+    "cr1_chaos_weaver_unsteady_ground",
+    "cr1_chaos_weaver_second_possibility",
+    "cw1_closed_distribution",
+    "cw1_last_boundary",
+    "cw1_single_aftershock"
+  ],
+  "passiveIds": [
+    "talent_spell_cw1_ps_n01",
+    "talent_spell_cw1_ps_n02",
+    "talent_spell_cw1_ps_n03",
+    "talent_spell_cw1_ps_n04",
+    "talent_spell_cw1_ps_n06",
+    "talent_spell_cw1_ps_n07",
+    "talent_spell_cw1_ps_n08",
+    "talent_spell_cw1_ps_n09",
+    "talent_spell_cw1_ps_n10",
+    "talent_spell_cw1_ps_n11",
+    "talent_spell_cw1_ps_n12",
+    "talent_spell_cw1_ps_n13",
+    "talent_spell_cw1_ps_n14",
+    "talent_spell_cw1_ps_n15",
+    "talent_spell_cw1_ps_n16",
+    "talent_spell_cw1_ps_n17",
+    "talent_spell_cw1_ab_n01",
+    "talent_spell_cw1_ab_n02",
+    "talent_spell_cw1_ab_n03",
+    "talent_spell_cw1_ab_n04",
+    "talent_spell_cw1_ab_n06",
+    "talent_spell_cw1_ab_n07",
+    "talent_spell_cw1_ab_n08",
+    "talent_spell_cw1_ab_n09",
+    "talent_spell_cw1_ab_n10",
+    "talent_spell_cw1_ab_n11",
+    "talent_spell_cw1_ab_n12",
+    "talent_spell_cw1_ab_n13",
+    "talent_spell_cw1_ab_n14",
+    "talent_spell_cw1_ab_n15",
+    "talent_spell_cw1_ab_n16",
+    "talent_spell_cw1_ab_n17",
+    "talent_spell_cw1_ca_n01",
+    "talent_spell_cw1_ca_n02",
+    "talent_spell_cw1_ca_n03",
+    "talent_spell_cw1_ca_n04",
+    "talent_spell_cw1_ca_n06",
+    "talent_spell_cw1_ca_n07",
+    "talent_spell_cw1_ca_n08",
+    "talent_spell_cw1_ca_n09",
+    "talent_spell_cw1_ca_n10",
+    "talent_spell_cw1_ca_n11",
+    "talent_spell_cw1_ca_n12",
+    "talent_spell_cw1_ca_n13",
+    "talent_spell_cw1_ca_n14",
+    "talent_spell_cw1_ca_n15",
+    "talent_spell_cw1_ca_n16",
+    "talent_spell_cw1_ca_n17"
+  ],
+  "trees": [
+    {
+      "tree": "ps",
+      "maxRanks": 50,
+      "nodes": [
+        {
+          "prefix": "P",
+          "number": 1,
+          "name": "Measured Reach",
+          "rule": "Split enemy range35 /40 /45ft.",
+          "id": "cw1_ps_n01",
+          "maxRanks": 3,
+          "requiresPoints": 0,
+          "requiresAll": true,
+          "requires": []
+        },
+        {
+          "prefix": "P",
+          "number": 2,
+          "name": "Clean Surge",
+          "rule": "Split Surge damage flat bonus+1 /+2 /+3.",
+          "id": "cw1_ps_n02",
+          "maxRanks": 3,
+          "requiresPoints": 0,
+          "requiresAll": true,
+          "requires": []
+        },
+        {
+          "prefix": "P",
+          "number": 3,
+          "name": "Read the Fracture",
+          "rule": "Split Fracture damage flat bonus+1 /+2 /+3; movement cost unchanged.",
+          "id": "cw1_ps_n03",
+          "maxRanks": 3,
+          "requiresPoints": 5,
+          "requiresAll": true,
+          "requires": [
+            "cw1_ps_n01"
+          ]
+        },
+        {
+          "prefix": "P",
+          "number": 4,
+          "name": "Shared Notebook",
+          "rule": "Read Instability may answer2 /3 /4 distinct questions instead of1, still actual observable facts.",
+          "id": "cw1_ps_n04",
+          "maxRanks": 3,
+          "requiresPoints": 5,
+          "requiresAll": true,
+          "requires": [
+            "cw1_ps_n02"
+          ]
+        },
+        {
+          "prefix": "P",
+          "number": 5,
+          "name": "Bias the Draw",
+          "rule": "Grant `cr1_chaos_weaver_bias_draw`.",
+          "id": "cw1_ps_n05",
+          "maxRanks": 1,
+          "requiresPoints": 10,
+          "requiresAll": true,
+          "requires": [
+            "cw1_ps_n03"
+          ]
+        },
+        {
+          "prefix": "P",
+          "number": 6,
+          "name": "Extended Bias",
+          "rule": "Bias range40 /50 /60ft.",
+          "id": "cw1_ps_n06",
+          "maxRanks": 3,
+          "requiresPoints": 10,
+          "requiresAll": true,
+          "requires": [
+            "cw1_ps_n03"
+          ]
+        },
+        {
+          "prefix": "P",
+          "number": 7,
+          "name": "Narrow Lance",
+          "rule": "Lancing Variance flat damage bonus+1 /+2 /+3.",
+          "id": "cw1_ps_n07",
+          "maxRanks": 3,
+          "requiresPoints": 10,
+          "requiresAll": true,
+          "requires": [
+            "cw1_ps_n04"
+          ]
+        },
+        {
+          "prefix": "P",
+          "number": 8,
+          "name": "Calculated Arc",
+          "rule": "Discordant Arc Surge flat damage bonus+1 /+2 /+3.",
+          "id": "cw1_ps_n08",
+          "maxRanks": 3,
+          "requiresPoints": 15,
+          "requiresAll": true,
+          "requires": [
+            "cw1_ps_n06"
+          ]
+        },
+        {
+          "prefix": "P",
+          "number": 9,
+          "name": "Shelter Arithmetic",
+          "rule": "Measured Shelter ward5 /6 /7 instead of4.",
+          "id": "cw1_ps_n09",
+          "maxRanks": 3,
+          "requiresPoints": 15,
+          "requiresAll": true,
+          "requires": [
+            "cw1_ps_n07"
+          ]
+        },
+        {
+          "prefix": "P",
+          "number": 10,
+          "name": "Surveying Rod",
+          "rule": "Read Instability range40 /50 /60ft.",
+          "id": "cw1_ps_n10",
+          "maxRanks": 3,
+          "requiresPoints": 20,
+          "requiresAll": true,
+          "requires": [
+            "cw1_ps_n08"
+          ]
+        },
+        {
+          "prefix": "P",
+          "number": 11,
+          "name": "Fraying Focus",
+          "rule": "Fraying Bolt flat damage bonus+1 /+2 /+3; downside unchanged.",
+          "id": "cw1_ps_n11",
+          "maxRanks": 3,
+          "requiresPoints": 20,
+          "requiresAll": true,
+          "requires": [
+            "cw1_ps_n09"
+          ]
+        },
+        {
+          "prefix": "P",
+          "number": 12,
+          "name": "Published Proof",
+          "rule": "+1 /+2 /+3 to one GM-called noncombat check explaining a fully published finite distribution per completed-rest interval. No roll alteration.",
+          "id": "cw1_ps_n12",
+          "maxRanks": 3,
+          "requiresPoints": 25,
+          "requiresAll": true,
+          "requires": [
+            "cw1_ps_n10"
+          ]
+        },
+        {
+          "prefix": "P",
+          "number": 13,
+          "name": "Guard Equation",
+          "rule": "Skewed Guard Surge ward7 /8 /9; other branches unchanged.",
+          "id": "cw1_ps_n13",
+          "maxRanks": 3,
+          "requiresPoints": 25,
+          "requiresAll": true,
+          "requires": [
+            "cw1_ps_n11"
+          ]
+        },
+        {
+          "prefix": "P",
+          "number": 14,
+          "name": "Stable Bench",
+          "rule": "Stabilizer's Kit calibration bonus+3 /+4 /+5 instead of+2.",
+          "id": "cw1_ps_n14",
+          "maxRanks": 3,
+          "requiresPoints": 30,
+          "requiresAll": true,
+          "requires": [
+            "cw1_ps_n12"
+          ]
+        },
+        {
+          "prefix": "P",
+          "number": 15,
+          "name": "Deep Calculation",
+          "rule": "Deep Shear Surge flat damage bonus+1 /+2 /+3, not its Fracture branch/cost.",
+          "id": "cw1_ps_n15",
+          "maxRanks": 3,
+          "requiresPoints": 30,
+          "requiresAll": true,
+          "requires": [
+            "cw1_ps_n13"
+          ]
+        },
+        {
+          "prefix": "P",
+          "number": 16,
+          "name": "Audited Weights",
+          "rule": "Bias the Draw Surge flat damage bonus+1 /+2 /+3; also Closed Distribution's Surge when that capstone is learned.",
+          "id": "cw1_ps_n16",
+          "maxRanks": 3,
+          "requiresPoints": 35,
+          "requiresAll": true,
+          "requires": [
+            "cw1_ps_n14"
+          ]
+        },
+        {
+          "prefix": "P",
+          "number": 17,
+          "name": "Declared Margin",
+          "rule": "Split Shift legal step10 /15 /20ft instead of5; also Closed Distribution's Shift when learned; remaining movement bounds both.",
+          "id": "cw1_ps_n17",
+          "maxRanks": 3,
+          "requiresPoints": 35,
+          "requiresAll": true,
+          "requires": [
+            "cw1_ps_n15"
+          ]
+        },
+        {
+          "prefix": "P",
+          "number": 18,
+          "name": "Closed Distribution",
+          "rule": "Grant `cw1_closed_distribution`; does not refresh any once/rest use.",
+          "id": "cw1_ps_n18",
+          "maxRanks": 1,
+          "requiresPoints": 45,
+          "requiresAll": true,
+          "requires": [
+            "cw1_ps_n05",
+            "cw1_ps_n16",
+            "cw1_ps_n17"
+          ]
+        }
+      ],
+      "legalAllocation": [
+        1,
+        1,
+        1,
+        2,
+        2,
+        2,
+        3,
+        3,
+        3,
+        4,
+        5,
+        4,
+        4,
+        6,
+        6,
+        6,
+        7,
+        7,
+        7,
+        8,
+        8,
+        8,
+        9,
+        9,
+        9,
+        10,
+        10,
+        10,
+        11,
+        11,
+        11,
+        12,
+        12,
+        12,
+        13,
+        13,
+        13,
+        14,
+        14,
+        14,
+        15,
+        15,
+        15,
+        16,
+        16,
+        16,
+        17,
+        17,
+        17,
+        18
+      ],
+      "signatureAndCapstoneWitness": [
+        {
+          "node": "cw1_ps_n05",
+          "point": 11,
+          "earliestLevel": 3
+        },
+        {
+          "node": "cw1_ps_n18",
+          "point": 50,
+          "earliestLevel": 10
+        }
+      ]
+    },
+    {
+      "tree": "ab",
+      "maxRanks": 50,
+      "nodes": [
+        {
+          "prefix": "A",
+          "number": 1,
+          "name": "Ground Survey",
+          "rule": "Survey the Seam range15 /20 /25ft.",
+          "id": "cw1_ab_n01",
+          "maxRanks": 3,
+          "requiresPoints": 0,
+          "requiresAll": true,
+          "requires": []
+        },
+        {
+          "prefix": "A",
+          "number": 2,
+          "name": "Braced Interface",
+          "rule": "Fracture Brace ward3 /4 /5; penalty unchanged.",
+          "id": "cw1_ab_n02",
+          "maxRanks": 3,
+          "requiresPoints": 0,
+          "requiresAll": true,
+          "requires": []
+        },
+        {
+          "prefix": "A",
+          "number": 3,
+          "name": "Material Memory",
+          "rule": "Signal Coin jostle signal audible within20 /30 /40ft to normal listeners; no supernatural detection.",
+          "id": "cw1_ab_n03",
+          "maxRanks": 3,
+          "requiresPoints": 5,
+          "requiresAll": true,
+          "requires": [
+            "cw1_ab_n01"
+          ]
+        },
+        {
+          "prefix": "A",
+          "number": 4,
+          "name": "Close Observation",
+          "rule": "Shared Survey answers3 /4 /5 distinct existing questions instead of2.",
+          "id": "cw1_ab_n04",
+          "maxRanks": 3,
+          "requiresPoints": 5,
+          "requiresAll": true,
+          "requires": [
+            "cw1_ab_n02"
+          ]
+        },
+        {
+          "prefix": "A",
+          "number": 5,
+          "name": "Unsteady Ground",
+          "rule": "Grant `cr1_chaos_weaver_unsteady_ground`.",
+          "id": "cw1_ab_n05",
+          "maxRanks": 1,
+          "requiresPoints": 10,
+          "requiresAll": true,
+          "requires": [
+            "cw1_ab_n03"
+          ]
+        },
+        {
+          "prefix": "A",
+          "number": 6,
+          "name": "Placement Line",
+          "rule": "Unsteady Ground placement range40 /50 /60ft.",
+          "id": "cw1_ab_n06",
+          "maxRanks": 3,
+          "requiresPoints": 10,
+          "requiresAll": true,
+          "requires": [
+            "cw1_ab_n03"
+          ]
+        },
+        {
+          "prefix": "A",
+          "number": 7,
+          "name": "Broad Etching",
+          "rule": "Unsteady Ground radius6 /8 /10ft; still one first enemy trigger.",
+          "id": "cw1_ab_n07",
+          "maxRanks": 3,
+          "requiresPoints": 10,
+          "requiresAll": true,
+          "requires": [
+            "cw1_ab_n04"
+          ]
+        },
+        {
+          "prefix": "A",
+          "number": 8,
+          "name": "Written Boundary",
+          "rule": "Before placement, Unsteady Ground may select entry OR exit /entry OR exit OR voluntary crossing of its centerline /any of those plus a named boundary segment; exactly one published trigger selected, never several. Newly legal geometry remains manual/unimplemented.",
+          "id": "cw1_ab_n08",
+          "maxRanks": 3,
+          "requiresPoints": 15,
+          "requiresAll": true,
+          "requires": [
+            "cw1_ab_n06"
+          ]
+        },
+        {
+          "prefix": "A",
+          "number": 9,
+          "name": "Warning Call",
+          "rule": "Warning Boundary's caster step10 /15 /20ft instead of5, only its M branch and remaining movement.",
+          "id": "cw1_ab_n09",
+          "maxRanks": 3,
+          "requiresPoints": 15,
+          "requiresAll": true,
+          "requires": [
+            "cw1_ab_n07"
+          ]
+        },
+        {
+          "prefix": "A",
+          "number": 10,
+          "name": "Patient Anchor",
+          "rule": "Unsteady Ground expiry endT+3 /T+4 /T+5 instead ofT+2; no extra trigger.",
+          "id": "cw1_ab_n10",
+          "maxRanks": 3,
+          "requiresPoints": 20,
+          "requiresAll": true,
+          "requires": [
+            "cw1_ab_n08"
+          ]
+        },
+        {
+          "prefix": "A",
+          "number": 11,
+          "name": "Companion Shelter",
+          "rule": "Measured Shelter ward5 /6 /7; same field as P09 uses maximum, not sum.",
+          "id": "cw1_ab_n11",
+          "maxRanks": 3,
+          "requiresPoints": 20,
+          "requiresAll": true,
+          "requires": [
+            "cw1_ab_n09"
+          ]
+        },
+        {
+          "prefix": "A",
+          "number": 12,
+          "name": "Careful Seal",
+          "rule": "Counterseal Surge ward7 /8 /9; cannot refund anomaly tiles.",
+          "id": "cw1_ab_n12",
+          "maxRanks": 3,
+          "requiresPoints": 25,
+          "requiresAll": true,
+          "requires": [
+            "cw1_ab_n10"
+          ]
+        },
+        {
+          "prefix": "A",
+          "number": 13,
+          "name": "Inert Archive",
+          "rule": "Hold the Sample expiry endT+3 /T+4 /T+5; still inert-only and one anomaly slot.",
+          "id": "cw1_ab_n13",
+          "maxRanks": 3,
+          "requiresPoints": 25,
+          "requiresAll": true,
+          "requires": [
+            "cw1_ab_n11"
+          ]
+        },
+        {
+          "prefix": "A",
+          "number": 14,
+          "name": "Edge Witness",
+          "rule": "+1 /+2 /+3 to one GM-called noncombat check to document an actually visible anomaly boundary per completed-rest interval.",
+          "id": "cw1_ab_n14",
+          "maxRanks": 3,
+          "requiresPoints": 30,
+          "requiresAll": true,
+          "requires": [
+            "cw1_ab_n12"
+          ]
+        },
+        {
+          "prefix": "A",
+          "number": 15,
+          "name": "Calibrated Reagent",
+          "rule": "Retune Apparatus ward5 /6 /7; still recovers only one spent F.",
+          "id": "cw1_ab_n15",
+          "maxRanks": 3,
+          "requiresPoints": 30,
+          "requiresAll": true,
+          "requires": [
+            "cw1_ab_n13"
+          ]
+        },
+        {
+          "prefix": "A",
+          "number": 16,
+          "name": "Last Survey",
+          "rule": "Warning Boundary placement range40 /50 /60ft; also Last Boundary's placement range when learned; no price reduction.",
+          "id": "cw1_ab_n16",
+          "maxRanks": 3,
+          "requiresPoints": 35,
+          "requiresAll": true,
+          "requires": [
+            "cw1_ab_n14"
+          ]
+        },
+        {
+          "prefix": "A",
+          "number": 17,
+          "name": "Deep Etching",
+          "rule": "Warning Boundary radius6 /8 /10ft; also Last Boundary radius12 /14 /16ft when learned; still one enemy trigger.",
+          "id": "cw1_ab_n17",
+          "maxRanks": 3,
+          "requiresPoints": 35,
+          "requiresAll": true,
+          "requires": [
+            "cw1_ab_n15"
+          ]
+        },
+        {
+          "prefix": "A",
+          "number": 18,
+          "name": "Last Boundary",
+          "rule": "Grant `cw1_last_boundary`.",
+          "id": "cw1_ab_n18",
+          "maxRanks": 1,
+          "requiresPoints": 45,
+          "requiresAll": true,
+          "requires": [
+            "cw1_ab_n05",
+            "cw1_ab_n16",
+            "cw1_ab_n17"
+          ]
+        }
+      ],
+      "legalAllocation": [
+        1,
+        1,
+        1,
+        2,
+        2,
+        2,
+        3,
+        3,
+        3,
+        4,
+        5,
+        4,
+        4,
+        6,
+        6,
+        6,
+        7,
+        7,
+        7,
+        8,
+        8,
+        8,
+        9,
+        9,
+        9,
+        10,
+        10,
+        10,
+        11,
+        11,
+        11,
+        12,
+        12,
+        12,
+        13,
+        13,
+        13,
+        14,
+        14,
+        14,
+        15,
+        15,
+        15,
+        16,
+        16,
+        16,
+        17,
+        17,
+        17,
+        18
+      ],
+      "signatureAndCapstoneWitness": [
+        {
+          "node": "cw1_ab_n05",
+          "point": 11,
+          "earliestLevel": 3
+        },
+        {
+          "node": "cw1_ab_n18",
+          "point": 50,
+          "earliestLevel": 10
+        }
+      ]
+    },
+    {
+      "tree": "ca",
+      "maxRanks": 50,
+      "nodes": [
+        {
+          "prefix": "C",
+          "number": 1,
+          "name": "Sideways Reach",
+          "rule": "Sideways Spark enemy range35 /40 /45ft.",
+          "id": "cw1_ca_n01",
+          "maxRanks": 3,
+          "requiresPoints": 0,
+          "requiresAll": true,
+          "requires": []
+        },
+        {
+          "prefix": "C",
+          "number": 2,
+          "name": "Sure Footing",
+          "rule": "Sideways Spark legal caster step10 /15 /20ft; damage unchanged.",
+          "id": "cw1_ca_n02",
+          "maxRanks": 3,
+          "requiresPoints": 0,
+          "requiresAll": true,
+          "requires": []
+        },
+        {
+          "prefix": "C",
+          "number": 3,
+          "name": "Crosscurrent Hand",
+          "rule": "Chosen Crosscurrent M flat damage bonus+1 /+2 /+3.",
+          "id": "cw1_ca_n03",
+          "maxRanks": 3,
+          "requiresPoints": 5,
+          "requiresAll": true,
+          "requires": [
+            "cw1_ca_n01"
+          ]
+        },
+        {
+          "prefix": "C",
+          "number": 4,
+          "name": "Counterbalanced Load",
+          "rule": "Counterweight's noncombat check bonus+2 /+3 /+4 instead of+1.",
+          "id": "cw1_ca_n04",
+          "maxRanks": 3,
+          "requiresPoints": 5,
+          "requiresAll": true,
+          "requires": [
+            "cw1_ca_n02"
+          ]
+        },
+        {
+          "prefix": "C",
+          "number": 5,
+          "name": "Second Possibility",
+          "rule": "Grant `cr1_chaos_weaver_second_possibility`.",
+          "id": "cw1_ca_n05",
+          "maxRanks": 1,
+          "requiresPoints": 10,
+          "requiresAll": true,
+          "requires": [
+            "cw1_ca_n03"
+          ]
+        },
+        {
+          "prefix": "C",
+          "number": 6,
+          "name": "Passing Distance",
+          "rule": "Second Possibility ally step10 /15 /20ft; still one extra M, no extra allowance.",
+          "id": "cw1_ca_n06",
+          "maxRanks": 3,
+          "requiresPoints": 10,
+          "requiresAll": true,
+          "requires": [
+            "cw1_ca_n03"
+          ]
+        },
+        {
+          "prefix": "C",
+          "number": 7,
+          "name": "Shared Reach",
+          "rule": "Second Possibility predeclared ally range40 /50 /60ft; enemy range unchanged.",
+          "id": "cw1_ca_n07",
+          "maxRanks": 3,
+          "requiresPoints": 10,
+          "requiresAll": true,
+          "requires": [
+            "cw1_ca_n04"
+          ]
+        },
+        {
+          "prefix": "C",
+          "number": 8,
+          "name": "Slip the Knot",
+          "rule": "Slip Tether M step15 /20 /25ft; no effect on Fracture.",
+          "id": "cw1_ca_n08",
+          "maxRanks": 3,
+          "requiresPoints": 15,
+          "requiresAll": true,
+          "requires": [
+            "cw1_ca_n06"
+          ]
+        },
+        {
+          "prefix": "C",
+          "number": 9,
+          "name": "Return Practice",
+          "rule": "Return Line legal displacement20 /25 /30ft.",
+          "id": "cw1_ca_n09",
+          "maxRanks": 3,
+          "requiresPoints": 15,
+          "requiresAll": true,
+          "requires": [
+            "cw1_ca_n07"
+          ]
+        },
+        {
+          "prefix": "C",
+          "number": 10,
+          "name": "Optional Shelter",
+          "rule": "Second Possibility may predeclare an alternative follow-up: spend S for ward3 /4 /5 to its ally until next caster start. Choose S-ward OR M-move before primary commit; exactly one optional result.",
+          "id": "cw1_ca_n10",
+          "maxRanks": 3,
+          "requiresPoints": 20,
+          "requiresAll": true,
+          "requires": [
+            "cw1_ca_n08"
+          ]
+        },
+        {
+          "prefix": "C",
+          "number": 11,
+          "name": "Passed Momentum",
+          "rule": "Passed Opening ally displacement15 /20 /25ft.",
+          "id": "cw1_ca_n11",
+          "maxRanks": 3,
+          "requiresPoints": 20,
+          "requiresAll": true,
+          "requires": [
+            "cw1_ca_n09"
+          ]
+        },
+        {
+          "prefix": "C",
+          "number": 12,
+          "name": "Joint Reading",
+          "rule": "Joint Containment Surge ward9 /10 /11; downside unchanged.",
+          "id": "cw1_ca_n12",
+          "maxRanks": 3,
+          "requiresPoints": 25,
+          "requiresAll": true,
+          "requires": [
+            "cw1_ca_n10"
+          ]
+        },
+        {
+          "prefix": "C",
+          "number": 13,
+          "name": "Crossgrain Method",
+          "rule": "Crossgrain Ray Shift flat damage bonus+1 /+2 /+3; legal movement unchanged.",
+          "id": "cw1_ca_n13",
+          "maxRanks": 3,
+          "requiresPoints": 25,
+          "requiresAll": true,
+          "requires": [
+            "cw1_ca_n11"
+          ]
+        },
+        {
+          "prefix": "C",
+          "number": 14,
+          "name": "Refuge Route",
+          "rule": "Lateral Refuge M displacement25 /30 /35ft.",
+          "id": "cw1_ca_n14",
+          "maxRanks": 3,
+          "requiresPoints": 30,
+          "requiresAll": true,
+          "requires": [
+            "cw1_ca_n12"
+          ]
+        },
+        {
+          "prefix": "C",
+          "number": 15,
+          "name": "One Clear Signal",
+          "rule": "+1 /+2 /+3 to one GM-called noncombat check coordinating a predeclared safe route per completed-rest interval; no automatic ally action.",
+          "id": "cw1_ca_n15",
+          "maxRanks": 3,
+          "requiresPoints": 30,
+          "requiresAll": true,
+          "requires": [
+            "cw1_ca_n13"
+          ]
+        },
+        {
+          "prefix": "C",
+          "number": 16,
+          "name": "Aftershock Reach",
+          "rule": "Second Possibility's primary enemy range40 /50 /60ft; also Single Aftershock predeclared ally range40 /50 /60ft when learned.",
+          "id": "cw1_ca_n16",
+          "maxRanks": 3,
+          "requiresPoints": 35,
+          "requiresAll": true,
+          "requires": [
+            "cw1_ca_n14"
+          ]
+        },
+        {
+          "prefix": "C",
+          "number": 17,
+          "name": "Last Continuation",
+          "rule": "Second Possibility optional M displacement25 /30 /35ft or learned optional S ward6 /7 /8; Single Aftershock optional M15 /20 /25ft or S ward7 /8 /9 when learned. Still exactly one follow-up, with remaining movement bounding displacement.",
+          "id": "cw1_ca_n17",
+          "maxRanks": 3,
+          "requiresPoints": 35,
+          "requiresAll": true,
+          "requires": [
+            "cw1_ca_n15"
+          ]
+        },
+        {
+          "prefix": "C",
+          "number": 18,
+          "name": "Single Aftershock",
+          "rule": "Grant `cw1_single_aftershock`.",
+          "id": "cw1_ca_n18",
+          "maxRanks": 1,
+          "requiresPoints": 45,
+          "requiresAll": true,
+          "requires": [
+            "cw1_ca_n05",
+            "cw1_ca_n16",
+            "cw1_ca_n17"
+          ]
+        }
+      ],
+      "legalAllocation": [
+        1,
+        1,
+        1,
+        2,
+        2,
+        2,
+        3,
+        3,
+        3,
+        4,
+        5,
+        4,
+        4,
+        6,
+        6,
+        6,
+        7,
+        7,
+        7,
+        8,
+        8,
+        8,
+        9,
+        9,
+        9,
+        10,
+        10,
+        10,
+        11,
+        11,
+        11,
+        12,
+        12,
+        12,
+        13,
+        13,
+        13,
+        14,
+        14,
+        14,
+        15,
+        15,
+        15,
+        16,
+        16,
+        16,
+        17,
+        17,
+        17,
+        18
+      ],
+      "signatureAndCapstoneWitness": [
+        {
+          "node": "cw1_ca_n05",
+          "point": 11,
+          "earliestLevel": 3
+        },
+        {
+          "node": "cw1_ca_n18",
+          "point": 50,
+          "earliestLevel": 10
+        }
+      ]
+    }
+  ]
+}

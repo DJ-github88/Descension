@@ -25,9 +25,9 @@ export const ALCHEMY_RECIPES = [
   },
   {
     id: 'frost-resistance-elixir-recipe',
-    name: 'Frost Resistance Elixir',
+    name: 'Rime Resistance Elixir',
     profession: 'alchemy',
-    description: 'Distilled from hush-spore brews of the Mycellan deep-crypts. An elixir that provides resistance to cold damage.',
+    description: 'Distilled from hush-spore brews of the Mycellan deep-crypts. An elixir that provides resistance to rime damage.',
     requiredLevel: 2,
     resultItemId: 'frost-resistance-elixir',
     resultQuantity: 1,
@@ -43,9 +43,9 @@ export const ALCHEMY_RECIPES = [
   },
   {
     id: 'fire-essence-recipe',
-    name: 'Fire Essence',
+    name: 'Ember Essence',
     profession: 'alchemy',
-    description: 'A memory-glass distillate refined under Toxicologist supervision. Extract concentrated fire essence from ember ore.',
+    description: 'A memory-glass distillate refined under Toxicologist supervision. Extract concentrated ember essence from ember ore.',
     requiredLevel: 1,
     resultItemId: 'fire-essence',
     resultQuantity: 1,

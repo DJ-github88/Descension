@@ -5,6 +5,7 @@ import { preservePersonalConditionRecovery } from '../persistence/characterSaveO
 import { getBootstrapGateState } from '../persistence/bootstrapPrivacyGate';
 import { isSocketRetired } from '../persistence/handoff/socketPrincipalRetirement';
 import { captureActorDelivery, currentActorDelivery, prepareActorProjection, retainActorProjectionCandidate } from './actorProjectionOrder';
+import { captureBefore, publishAcceptedResult } from './acceptedResultFeed';
 
 const pools = { hp: ['currentHp', 'health', 'tempHealth'], mana: ['currentMana', 'mana', 'tempMana'], ap: ['currentActionPoints', 'actionPoints', 'tempActionPoints'] };
 const protectedKeys = new Set(['currentHp', 'currentMana', 'currentActionPoints', 'tempHealth', 'tempMana', 'tempActionPoints', 'conditions', 'health', 'mana', 'actionPoints']);
@@ -260,22 +261,29 @@ export function applyActorLifecycle(payload, context = captureActorDelivery()) {
 export function applyBoundActor(payload, context = captureActorDelivery()) {
   return applyActorLifecycle(payload, context);
 }
-export function applyAcceptedConsequence(result, context = captureActorDelivery()) {
+export function applyAcceptedConsequence(result, context = captureActorDelivery(), presentation = {}) {
   const receipt = result?.receipt;
   if (!receipt || receipt.version !== 1 || receipt.roomId !== state().multiplayerRoom?.id || !Array.isArray(receipt.actors)) return false;
   if (!currentActorDelivery(context, receipt.roomId)) return false;
+  // P13A: the viewer's own projection before this receipt (exact-revision guard) and the hydration mark.
+  // P13A review 1/2: liveness comes from the delivery channel plus the feed's own per-room mark (no hydration
+  // dependency); presentation can never block acceptance.
+  let before = {};
+  try {before = captureBefore(receipt);} catch (_) { before = {}; }
+  const live = presentation.live === true;
+  const present = (isLive, applied) => { try {publishAcceptedResult({ result, before, live: isLive && applied });} catch (_) { /* presentation never affects acceptance */ } };
   const snapshot = result.actorSnapshot;
   const lifecycle = prepareActorProjection(snapshot?.maps, { actorProjection: snapshot?.actorProjection, context });
   if (!lifecycle.ok) {
     if (lifecycle.code === 'actor_projection_stale') {
-      settleCommand(receipt, result); status({ ...result, historical: true }); return true;
+      settleCommand(receipt, result); status({ ...result, historical: true }); present(false, false); return true;
     }
     status({ success: false, code: lifecycle.code }); return false;
   }
   if (admission?.roomId === receipt.roomId && receipt.admissionEpoch !== admission.actionEpoch) {
     if (receipt.commitSequence <= admission.commitSequence) {
       settleCommand(receipt, result);
-      status({ ...result, historical: true }); return true;
+      status({ ...result, historical: true }); present(false, false); return true;
     }
     status({ success: false, code: 'snapshot_required' }); return false;
   }
@@ -346,7 +354,9 @@ export function applyAcceptedConsequence(result, context = captureActorDelivery(
     const store = getStore('characterStore');
     require('../store/characterHelpers').triggerCharacterAutoSave(() => store.getState().saveCurrentCharacter());
   }
-  settleCommand(receipt, result); status({ ...result, historical: staged.length === 0 }); return true;
+  settleCommand(receipt, result); status({ ...result, historical: staged.length === 0 });
+  present(live, staged.length > 0);
+  return true;
 }
 export async function submitActorEntries(entries, extra = {}) {
   {
@@ -392,7 +402,8 @@ export async function retryActorCommand(commandId) {
     origin.uid === getStore('authStore').getState().user?.uid && origin.accountGeneration === getBootstrapGateState().accountGeneration && origin.roomId === state().multiplayerRoom?.id) {
     return status({ ...origin.acceptedResult, commandId });
   }
-  if (result.success && !applyAcceptedConsequence(result)) return status({ success: false, code: 'snapshot_required', commandId, acceptedReceipt: result.receipt, status: result.status });
+  // P13A: only a fresh admission (the server marks it with `delivery`) is live; recoveries are historical.
+  if (result.success && !applyAcceptedConsequence(result, undefined, { live: typeof result.delivery === 'string' })) return status({ success: false, code: 'snapshot_required', commandId, acceptedReceipt: result.receipt, status: result.status });
   if (result.code === 'authorization_required' && origin.propose !== false) {
     const proposal = await request('actor_propose', command);
     return status({ ...proposal, commandId });
@@ -467,7 +478,8 @@ export function registerActorHandlers({ socket }) {
   const accepted = async result => {
     const context = delivery();
     if (!currentActorDelivery(context, result?.receipt?.roomId)) return;
-    if (!applyAcceptedConsequence(result, context)) {
+    // P13A: the room broadcast is live delivery; a retry after a snapshot refresh is historical.
+    if (!applyAcceptedConsequence(result, context, { live: true })) {
       const snapshot = await refreshActorSnapshot();
       if (snapshot.success && currentActorDelivery(context, result?.receipt?.roomId)) applyAcceptedConsequence(result, context);
     }
@@ -485,7 +497,7 @@ export function registerActorHandlers({ socket }) {
 }
 export async function approvePendingActorProposal(proposal) {
   const result = await request('actor_adjudicate', { roomId: state().multiplayerRoom?.id, proposalId: proposal.proposalId, contentHash: proposal.contentHash });
-  if (result.success) {applyAcceptedConsequence(result); getStore('gameStore').setState({ pendingActorProposal: null });}
+  if (result.success) {applyAcceptedConsequence(result, undefined, { live: typeof result.delivery === 'string' }); getStore('gameStore').setState({ pendingActorProposal: null });}
   return status(result);
 }
 export function hydrateActorConditions() {

@@ -1,0 +1,146 @@
+{
+  "probability": "← Back to classes\nChaos Weaver\n\nReconstruction preview — manual only · candidate class rulebook, talent trees and manual rehearsal worksheet.\n\nLocal rehearsal — does not spend AP, move tokens or apply effects. Manual tabletop only: no AP, tile, movement or effect is applied automatically.\nRules\nLevel Progression\nSpells\nTalents\nOrigins\nRehearsal\nAuthoring/Export\n\nRehearsal started. Class draft bytes (picks and preview ranks) are untouched.\n\nManual worksheet\n\nManual rehearsal · own turn 3 · local AP counter 1 · movement counter 30ft\n\nReset rehearsal\nAP AVAILABLE (MANUAL ENTRY)\nConfirm start of own turn\nConfirm end of own turn\nTURN NUMBER\nREMAINING MOVEMENT (FT)\nApply worksheet counters\nNEW COMPLETED LONG-REST LABEL\nConfirm completed long rest\n\nRest refuses while an unresolved draw or anomaly exists and requires a brand-new label; movement penalty now 0ft (largest of 0 record(s), manual rule).\n\nSix tiles\nAvailable\n3\nCommitted\n0\nBound\n0\nSpent\n3\nS1\nS2\nM1\nM2\nF1\nF2\n\n3 available · 0 committed · 0 bound · 3 spent\n\nNo unresolved draw.\n\nNo anomaly.\n\nInspect tiles\nInspect draw\nInspect anomaly\nCommit an action\nSPELL (CORE, GRANTED TALENT ACTIVES AND REHEARSAL PICKS)\nChoose an action…\nFold the Odds (Core grant, level 1, 1 AP / 0 mana)\nSplit Possibility (Core grant, level 1, 2 AP / 0 mana)\nDismiss Anomaly (Core grant, level 1, 1 AP / 0 mana)\nBias the Draw (Talent, level 3, 2 AP / 0 mana)\nPrepared Exchange (proposed native edge)\n\nOnce per completed long rest, no pending action, consume one actual prepared spare part; swap one spent and one available ID of different symbols; movement−5ft until next own-turn start. Manual verification required; no automatic benefit.\n\nPREPARED PART CONSUMED AT THE TABLE\nSPENT ID TO RECOVER\nChoose…\nS2\nM1\nF1\nAVAILABLE ID TO SPEND\nChoose…\nS1\nM2\nF2\nRecord Prepared Exchange\nWorksheet log\nRehearsal started. Local rehearsal — does not spend AP, move tokens or apply effects.\nBias the Draw: commitment fixed — S1, S2, F1; mapping three-ids-d6-1-2-3-4-5-6 retained before the face.\nBias the Draw: d6 face 6 selects F1.\nBias the Draw: settlement recorded; primary tiles spent.\nFold the Odds: recovered S1, F1 from spent to available (1 AP paid locally).\nStart of own turn 2; 0 movement penalty record(s) remain; remaining movement reset manually by the table.\nFold the Odds: recovered S2 from spent to available (1 AP paid locally).\nBias the Draw: commitment fixed — S1, S2, F2; mapping three-ids-d6-1-2-3-4-5-6 retained before the face.\nBias the Draw: d6 face 3 selects S2.\nBias the Draw: settlement recorded; primary tiles spent.\nStart of own turn 3; 0 movement penalty record(s) remain; remaining movement reset manually by the table.\nFold the Odds: recovered S1, F2 from spent to available (1 AP paid locally).\nSplit Possibility: commitment fixed — M1, F1; mapping two-ids-d6-1-3-4-6 retained before the face.\nSplit Possibility: d6 face 1 selects M1.\nSplit Possibility: settlement recorded; primary tiles spent.\n\nClosing or reloading has no durability guarantee; export the worksheet to keep it.",
+  "anomalyRetained": "← Back to classes\nChaos Weaver\n\nReconstruction preview — manual only · candidate class rulebook, talent trees and manual rehearsal worksheet.\n\nLocal rehearsal — does not spend AP, move tokens or apply effects. Manual tabletop only: no AP, tile, movement or effect is applied automatically.\nRules\nLevel Progression\nSpells\nTalents\nOrigins\nRehearsal\nAuthoring/Export\n\nRehearsal started. Class draft bytes (picks and preview ranks) are untouched.\n\nManual worksheet\n\nManual rehearsal · own turn 1 · local AP counter 0 · movement counter 30ft\n\nReset rehearsal\nAP AVAILABLE (MANUAL ENTRY)\nConfirm start of own turn\nConfirm end of own turn\nTURN NUMBER\nREMAINING MOVEMENT (FT)\nApply worksheet counters\nNEW COMPLETED LONG-REST LABEL\nConfirm completed long rest\n\nRest refuses while an unresolved draw or anomaly exists and requires a brand-new label; movement penalty now 0ft (largest of 0 record(s), manual rule).\n\nSix tiles\nAvailable\n2\nCommitted\n0\nBound\n2\nSpent\n2\nS1\nS2\nM1\nM2\nF1\nF2\n\n2 available · 0 committed · 2 bound · 2 spent\n\nFace 1 → M1 recorded — settle to finish.\n\nAnomaly: M1+F1 bound · 5ft · expires own turn 3.\n\nA draw is locked: no Fold, rest or native exchange until it settles or is voided.\n\nInspect tiles\nInspect draw\nInspect anomaly\nCommit an action\n\nOne unresolved action exists; settle or void it before a new commitment.\n\nUnresolved anomaly trigger\n\nUnsteady Ground to unnamed point · phase face-recorded\n\nM1: d6 faces 1/2/3\nF1: d6 faces 4/5/6\n\nRetained authored result (M): ends-remaining-movement 0ft until current-turn · M: ends that actor’s remaining movement for the current turn.\n\nMANUAL TABLE CONFIRMATIONS\nRecorded the authored movement worksheet by hand\nSettle: record the result and spend the primary IDs\nGM VOID REASON (RECORDED, NO REFUND, NO NEW FACE)\nVoid with reason\nVisible anomaly\n\nUnsteady Ground at unnamed point: 5ft radius, bound M1, F1, expires end of own turn 3.\n\nMapping published before any face: d6 — M1 faces 1/2/3; F1 faces 4/5/6\n\nM: ends-remaining-movement 0ft until current-turn · M: ends that actor’s remaining movement for the current turn.\nF: penalty 5ft until end-next-own-turn · F: caster movement−5ft through end of next own turn.\n\nFirst enemy original voluntary entry only; occupants at creation do not count; the table confirms paths. Avoided triggers never refund. Expiry is automatic at the end of own turn 3. Close early only through an authored paid action: Counterseal (cw1_30) or Unbind (cw1_35) as ordinary casts, or the paid dismissal below.\n\nTrigger: confirm the first enemy voluntary entry (locks the action; enter the face next)\nDismiss Anomaly (1 AP, spends the bound IDs)\nPrepared Exchange (proposed native edge)\n\nOnce per completed long rest, no pending action, consume one actual prepared spare part; swap one spent and one available ID of different symbols; movement−5ft until next own-turn start. Manual verification required; no automatic benefit.\n\nPREPARED PART CONSUMED AT THE TABLE\nSPENT ID TO RECOVER\nChoose…\nS1\nF2\nAVAILABLE ID TO SPEND\nChoose…\nS2\nM2\nRecord Prepared Exchange\nWorksheet log\nRehearsal started. Local rehearsal — does not spend AP, move tokens or apply effects.\nUnsteady Ground: bound M1, F1; one anomaly at unnamed point (5ft), expires end of own turn 3; mapping two-ids-d6-1-3-4-6 published before any face.\nSplit Possibility: commitment fixed — S1, F2; mapping two-ids-d6-1-3-4-6 retained before the face.\nSplit Possibility: d6 face 1 selects S1.\nSplit Possibility: settlement recorded; primary tiles spent.\nUnsteady Ground: trigger confirmed by the table — two-ids-d6-1-3-4-6 mapping retained; enter the physical face before settlement.\nUnsteady Ground: d6 face 1 selects M1.\n\nClosing or reloading has no durability guarantee; export the worksheet to keep it.",
+  "anomaly": "← Back to classes\nChaos Weaver\n\nReconstruction preview — manual only · candidate class rulebook, talent trees and manual rehearsal worksheet.\n\nLocal rehearsal — does not spend AP, move tokens or apply effects. Manual tabletop only: no AP, tile, movement or effect is applied automatically.\nRules\nLevel Progression\nSpells\nTalents\nOrigins\nRehearsal\nAuthoring/Export\n\nRehearsal started. Class draft bytes (picks and preview ranks) are untouched.\n\nManual worksheet\n\nManual rehearsal · own turn 3 · local AP counter 2 · movement counter 30ft\n\nReset rehearsal\nAP AVAILABLE (MANUAL ENTRY)\nConfirm start of own turn\nConfirm end of own turn\nTURN NUMBER\nREMAINING MOVEMENT (FT)\nApply worksheet counters\nNEW COMPLETED LONG-REST LABEL\nConfirm completed long rest\n\nRest refuses while an unresolved draw or anomaly exists and requires a brand-new label; movement penalty now 0ft (largest of 0 record(s), manual rule).\n\nSix tiles\nAvailable\n4\nCommitted\n0\nBound\n0\nSpent\n2\nS1\nS2\nM1\nM2\nF1\nF2\n\n4 available · 0 committed · 0 bound · 2 spent\n\nNo unresolved draw.\n\nNo anomaly.\n\nInspect tiles\nInspect draw\nInspect anomaly\nCommit an action\nSPELL (CORE, GRANTED TALENT ACTIVES AND REHEARSAL PICKS)\nChoose an action…\nFold the Odds (Core grant, level 1, 1 AP / 0 mana)\nSplit Possibility (Core grant, level 1, 2 AP / 0 mana)\nDismiss Anomaly (Core grant, level 1, 1 AP / 0 mana)\nUnsteady Ground (Talent, level 3, 2 AP / 0 mana)\nPrepared Exchange (proposed native edge)\n\nOnce per completed long rest, no pending action, consume one actual prepared spare part; swap one spent and one available ID of different symbols; movement−5ft until next own-turn start. Manual verification required; no automatic benefit.\n\nPREPARED PART CONSUMED AT THE TABLE\nSPENT ID TO RECOVER\nChoose…\nS1\nF2\nAVAILABLE ID TO SPEND\nChoose…\nS2\nM1\nM2\nF1\nRecord Prepared Exchange\nWorksheet log\nRehearsal started. Local rehearsal — does not spend AP, move tokens or apply effects.\nUnsteady Ground: bound M1, F1; one anomaly at unnamed point (5ft), expires end of own turn 3; mapping two-ids-d6-1-3-4-6 published before any face.\nSplit Possibility: commitment fixed — S1, F2; mapping two-ids-d6-1-3-4-6 retained before the face.\nSplit Possibility: d6 face 1 selects S1.\nSplit Possibility: settlement recorded; primary tiles spent.\nUnsteady Ground: trigger confirmed by the table — two-ids-d6-1-3-4-6 mapping retained; enter the physical face before settlement.\nUnsteady Ground: d6 face 1 selects M1.\nUnsteady Ground: trigger settled — branch retained, M1, F1 spent with no refund.\nStart of own turn 2; 0 movement penalty record(s) remain; remaining movement reset manually by the table.\nFold the Odds: recovered M1, F1 from spent to available (1 AP paid locally).\nUnsteady Ground: bound M1, F1; one anomaly at unnamed point (5ft), expires end of own turn 4; mapping two-ids-d6-1-3-4-6 published before any face.\nStart of own turn 3; 0 movement penalty record(s) remain; remaining movement reset manually by the table.\nDismiss Anomaly: 1 AP paid locally — dismissal staged; resolve it to send bound M1, F1 to spent.\nAnomaly at unnamed point closed by dismissal; bound M1, F1 spent with no refund.\nFold the Odds: recovered M1, F1 from spent to available (1 AP paid locally).\n\nClosing or reloading has no durability guarantee; export the worksheet to keep it.",
+  "anomalyImport": ", 4–6 second ID (sorted S1,S2,M1,M2,F1,F2)\nThree IDs: d6: 1–2 first, 3–4 second, 5–6 third\nFour IDs: d4 direct: 1 first, 2 second, 3 third, 4 fourth\n\nOne anomaly: At most one anomaly: an existing nonpending anomaly may coexist with a cast only if enough other IDs are available. One continuation: No repeated primary effect while the continuation choice is pending; record primary+continuation together.\n\nSources: CLASS-C1-CHAOS-WEAVER.md §5 row 01\n\nBranch replacement draft\n\nEditing here never touches the authored modules. A replacement may be saved as an unsupported custom draft; it is never executable C1 and stays outside certification.\n\nThis record has no branch table to replace.\n\nExport packet\n\nData only: schemaVersion 1, authoredOnly true, executionEnabled false, all 97 records plus resource rules, progression, talents, native variants and the active rehearsal worksheet.\n\nBuild export packet\nEXPORTED PACKET (COPY MANUALLY; NOTHING IS STORED)\nImport packet\nPASTE A C1 PACKET\nInspect and import\n\nNot certified C1. The original text is retained above as draft bytes and is never treated as validated content.\n\nrehearsal: settlement action-1: the selected ID must be spent after settlement",
+  "passive": true,
+  "declineBefore": "← Back to classes\nChaos Weaver\n\nReconstruction preview — manual only · candidate class rulebook, talent trees and manual rehearsal worksheet.\n\nLocal rehearsal — does not spend AP, move tokens or apply effects. Manual tabletop only: no AP, tile, movement or effect is applied automatically.\nRules\nLevel Progression\nSpells\nTalents\nOrigins\nRehearsal\nAuthoring/Export\n\nRehearsal started. Class draft bytes (picks and preview ranks) are untouched.\n\nManual worksheet\n\nManual rehearsal · own turn 2 · local AP counter 0 · movement counter 30ft\n\nReset rehearsal\nAP AVAILABLE (MANUAL ENTRY)\nConfirm start of own turn\nConfirm end of own turn\nTURN NUMBER\nREMAINING MOVEMENT (FT)\nApply worksheet counters\nNEW COMPLETED LONG-REST LABEL\nConfirm completed long rest\n\nRest refuses while an unresolved draw or anomaly exists and requires a brand-new label; movement penalty now 0ft (largest of 0 record(s), manual rule).\n\nSix tiles\nAvailable\n2\nCommitted\n3\nBound\n0\nSpent\n1\nS1\nS2\nM1\nM2\nF1\nF2\n\n2 available · 3 committed · 0 bound · 1 spent\n\nFace 6 → F1 recorded; M2 reserved — accept or decline.\n\nNo anomaly.\n\nA draw is locked: no Fold, rest or native exchange until it settles or is voided.\n\nInspect tiles\nInspect draw\nInspect anomaly\nCommit an action\n\nOne unresolved action exists; settle or void it before a new commitment.\n\nUnresolved draw\n\nSecond Possibility to unnamed target · phase continuation-pending\n\nS1: d6 faces 1/2/3\nF1: d6 faces 4/5/6\n\nContinuation reserved: M2 (committed, excluded from the primary sample).\n\nRetained authored result (F): damage 1d6 (wyrd) · penalty 5ft until next-own-turn-start · F: the Split Fracture branch — 1d6 Wyrd and caster movement−5ft until next own-turn start.\n\nMANUAL TABLE CONFIRMATIONS\nRecorded the authored damage worksheet by hand\nRecorded the authored movement worksheet by hand\nRecorded the retained primary result and the continuation worksheet by hand\n\nFace 6 selected F1. Retain the result, then choose the single continuation.\n\nAccept continuation (spend the reserved ID)\nDecline continuation (return reserved ID)\nGM VOID REASON (RECORDED, NO REFUND, NO NEW FACE)\nVoid with reason\nPrepared Exchange (proposed native edge)\n\nOnce per completed long rest, no pending action, consume one actual prepared spare part; swap one spent and one available ID of different symbols; movement−5ft until next own-turn start. Manual verification required; no automatic benefit.\n\nPREPARED PART CONSUMED AT THE TABLE\nSPENT ID TO RECOVER\nChoose…\nM1\nAVAILABLE ID TO SPEND\nChoose…\nS2\nF2\nRecord Prepared Exchange\nWorksheet log\nRehearsal started. Local rehearsal — does not spend AP, move tokens or apply effects.\nSecond Possibility: commitment fixed — S1, F1 + reserved continuation M1; mapping two-ids-d6-1-3-4-6 retained before the face.\nSecond Possibility: d6 face 1 selects S1.\nSecond Possibility: continuation accepted — M1 spent with the retained primary result; one derived follow-up recorded.\nStart of own turn 2; 0 movement penalty record(s) remain; remaining movement reset manually by the table.\nFold the Odds: recovered S1, F1 from spent to available (1 AP paid locally).\nSecond Possibility: commitment fixed — S1, F1 + reserved continuation M2; mapping two-ids-d6-1-3-4-6 retained before the face.\nSecond Possibility: d6 face 6 selects F1.\n\nClosing or reloading has no durability guarantee; export the worksheet to keep it.",
+  "declineAfter": "← Back to classes\nChaos Weaver\n\nReconstruction preview — manual only · candidate class rulebook, talent trees and manual rehearsal worksheet.\n\nLocal rehearsal — does not spend AP, move tokens or apply effects. Manual tabletop only: no AP, tile, movement or effect is applied automatically.\nRules\nLevel Progression\nSpells\nTalents\nOrigins\nRehearsal\nAuthoring/Export\n\nRehearsal started. Class draft bytes (picks and preview ranks) are untouched.\n\nManual worksheet\n\nManual rehearsal · own turn 2 · local AP counter 0 · movement counter 30ft\n\nReset rehearsal\nAP AVAILABLE (MANUAL ENTRY)\nConfirm start of own turn\nConfirm end of own turn\nTURN NUMBER\nREMAINING MOVEMENT (FT)\nApply worksheet counters\nNEW COMPLETED LONG-REST LABEL\nConfirm completed long rest\n\nRest refuses while an unresolved draw or anomaly exists and requires a brand-new label; movement penalty now 5ft (largest of 1 record(s), manual rule).\n\nSix tiles\nAvailable\n3\nCommitted\n0\nBound\n0\nSpent\n3\nS1\nS2\nM1\nM2\nF1\nF2\n\n3 available · 0 committed · 0 bound · 3 spent\n\nNo unresolved draw.\n\nNo anomaly.\n\nInspect tiles\nInspect draw\nInspect anomaly\nCommit an action\nSPELL (CORE, GRANTED TALENT ACTIVES AND REHEARSAL PICKS)\nChoose an action…\nFold the Odds (Core grant, level 1, 1 AP / 0 mana)\nSplit Possibility (Core grant, level 1, 2 AP / 0 mana)\nDismiss Anomaly (Core grant, level 1, 1 AP / 0 mana)\nSecond Possibility (Talent, level 3, 3 AP / 0 mana)\nPrepared Exchange (proposed native edge)\n\nOnce per completed long rest, no pending action, consume one actual prepared spare part; swap one spent and one available ID of different symbols; movement−5ft until next own-turn start. Manual verification required; no automatic benefit.\n\nPREPARED PART CONSUMED AT THE TABLE\nSPENT ID TO RECOVER\nChoose…\nS1\nM1\nF1\nAVAILABLE ID TO SPEND\nChoose…\nS2\nM2\nF2\nRecord Prepared Exchange\nWorksheet log\nMovement penalty 5ft (action-3), next-own-turn-start, own turn 3\nRehearsal started. Local rehearsal — does not spend AP, move tokens or apply effects.\nSecond Possibility: commitment fixed — S1, F1 + reserved continuation M1; mapping two-ids-d6-1-3-4-6 retained before the face.\nSecond Possibility: d6 face 1 selects S1.\nSecond Possibility: continuation accepted — M1 spent with the retained primary result; one derived follow-up recorded.\nStart of own turn 2; 0 movement penalty record(s) remain; remaining movement reset manually by the table.\nFold the Odds: recovered S1, F1 from spent to available (1 AP paid locally).\nSecond Possibility: commitment fixed — S1, F1 + reserved continuation M2; mapping two-ids-d6-1-3-4-6 retained before the face.\nSecond Possibility: d6 face 6 selects F1.\nSecond Possibility: settlement recorded; primary tiles spent.\nSecond Possibility: continuation declined — reserved M2 returns to available; primary result and its authored branch tiles stand.\n\nClosing or reloading has no durability guarantee; export the worksheet to keep it.",
+  "cascadeLocked": "← Back to classes\nChaos Weaver\n\nReconstruction preview — manual only · candidate class rulebook, talent trees and manual rehearsal worksheet.\n\nLocal rehearsal — does not spend AP, move tokens or apply effects. Manual tabletop only: no AP, tile, movement or effect is applied automatically.\nRules\nLevel Progression\nSpells\nTalents\nOrigins\nRehearsal\nAuthoring/Export\n\nRehearsal started. Class draft bytes (picks and preview ranks) are untouched.\n\nManual worksheet\n\nManual rehearsal · own turn 3 · local AP counter 0 · movement counter 30ft\n\nReset rehearsal\nAP AVAILABLE (MANUAL ENTRY)\nConfirm start of own turn\nConfirm end of own turn\nTURN NUMBER\nREMAINING MOVEMENT (FT)\nApply worksheet counters\nNEW COMPLETED LONG-REST LABEL\nConfirm completed long rest\n\nRest refuses while an unresolved draw or anomaly exists and requires a brand-new label; movement penalty now 0ft (largest of 0 record(s), manual rule).\n\nSix tiles\nAvailable\n2\nCommitted\n3\nBound\n0\nSpent\n1\nS1\nS2\nM1\nM2\nF1\nF2\n\n2 available · 3 committed · 0 bound · 1 spent\n\nFace 1 → S1 recorded; M2 reserved — accept or decline.\n\nNo anomaly.\n\nA draw is locked: no Fold, rest or native exchange until it settles or is voided.\n\nInspect tiles\nInspect draw\nInspect anomaly\nCommit an action\n\nOne unresolved action exists; settle or void it before a new commitment.\n\nUnresolved draw\n\nSecond Possibility to unnamed target · phase continuation-pending\n\nS1: d6 faces 1/2/3\nF1: d6 faces 4/5/6\n\nContinuation reserved: M2 (committed, excluded from the primary sample).\n\nRetained authored result (S): damage 2d6 (wyrd) · S: the Split Surge branch — 2d6 Wyrd.\n\nMANUAL TABLE CONFIRMATIONS\nRecorded the authored damage worksheet by hand\nRecorded the retained primary result and the continuation worksheet by hand\n\nFace 1 selected S1. Retain the result, then choose the single continuation.\n\nAccept continuation (spend the reserved ID)\nDecline continuation (return reserved ID)\nGM VOID REASON (RECORDED, NO REFUND, NO NEW FACE)\nVoid with reason\nPrepared Exchange (proposed native edge)\n\nOnce per completed long rest, no pending action, consume one actual prepared spare part; swap one spent and one available ID of different symbols; movement−5ft until next own-turn start. Manual verification required; no automatic benefit.\n\nPREPARED PART CONSUMED AT THE TABLE\nSPENT ID TO RECOVER\nChoose…\nM1\nAVAILABLE ID TO SPEND\nChoose…\nS2\nF2\nRecord Prepared Exchange\nWorksheet log\nRehearsal started. Local rehearsal — does not spend AP, move tokens or apply effects.\nSecond Possibility: commitment fixed — S1, F1 + reserved continuation M1; mapping two-ids-d6-1-3-4-6 retained before the face.\nSecond Possibility: d6 face 1 selects S1.\nSecond Possibility: continuation accepted — M1 spent with the retained primary result; one derived follow-up recorded.\nStart of own turn 2; 0 movement penalty record(s) remain; remaining movement reset manually by the table.\nFold the Odds: recovered S1, F1 from spent to available (1 AP paid locally).\nSecond Possibility: commitment fixed — S1, F1 + reserved continuation M2; mapping two-ids-d6-1-3-4-6 retained before the face.\nSecond Possibility: d6 face 6 selects F1.\nSecond Possibility: settlement recorded; primary tiles spent.\nSecond Possibility: continuation declined — reserved M2 returns to available; primary result and its authored branch tiles stand.\nStart of own turn 3; 0 movement penalty record(s) remain; remaining movement reset manually by the table.\nFold the Odds: recovered S1, F1 from spent to available (1 AP paid locally).\nSecond Possibility: commitment fixed — S1, F1 + reserved continuation M2; mapping two-ids-d6-1-3-4-6 retained before the face.\nSecond Possibility: d6 face 1 selects S1.\n\nClosing or reloading has no durability guarantee; export the worksheet to keep it.",
+  "mobile": [
+    {
+      "text": "Rules",
+      "width": 62.921875,
+      "height": 44,
+      "clientWidth": 61,
+      "scrollWidth": 61,
+      "color": "rgb(52, 37, 26)",
+      "bg": "rgb(241, 236, 225)"
+    },
+    {
+      "text": "Level Progression",
+      "width": 136.484375,
+      "height": 44,
+      "clientWidth": 134,
+      "scrollWidth": 134,
+      "color": "rgb(52, 37, 26)",
+      "bg": "rgb(241, 236, 225)"
+    },
+    {
+      "text": "Spells",
+      "width": 64.046875,
+      "height": 44,
+      "clientWidth": 62,
+      "scrollWidth": 62,
+      "color": "rgb(52, 37, 26)",
+      "bg": "rgb(241, 236, 225)"
+    },
+    {
+      "text": "Talents",
+      "width": 73.1875,
+      "height": 44,
+      "clientWidth": 71,
+      "scrollWidth": 71,
+      "color": "rgb(52, 37, 26)",
+      "bg": "rgb(241, 236, 225)"
+    },
+    {
+      "text": "Origins",
+      "width": 75.25,
+      "height": 44,
+      "clientWidth": 73,
+      "scrollWidth": 73,
+      "color": "rgb(52, 37, 26)",
+      "bg": "rgb(241, 236, 225)"
+    },
+    {
+      "text": "Rehearsal",
+      "width": 87.6875,
+      "height": 44,
+      "clientWidth": 86,
+      "scrollWidth": 86,
+      "color": "rgb(248, 245, 238)",
+      "bg": "rgb(102, 60, 50)"
+    },
+    {
+      "text": "Authoring/Export",
+      "width": 140.015625,
+      "height": 44,
+      "clientWidth": 138,
+      "scrollWidth": 138,
+      "color": "rgb(52, 37, 26)",
+      "bg": "rgb(241, 236, 225)"
+    }
+  ],
+  "overflow": {
+    "width": 360,
+    "scroll": 360
+  },
+  "inspectorFocus": "Inspector: Tile state",
+  "inspectorReturn": "Inspect tiles",
+  "rankSizes": {
+    "minWidth": 114,
+    "minHeight": 44
+  },
+  "lowLevelKnown": "Choose an action…\nFold the Odds (Core grant, level 1, 1 AP / 0 mana)\nSplit Possibility (Core grant, level 1, 2 AP / 0 mana)\nDismiss Anomaly (Core grant, level 1, 1 AP / 0 mana)\nSecond Possibility (Talent, level 3, 3 AP / 0 mana)",
+  "styles": [
+    {
+      "text": "← Back to classesChaos WeaverReconstruction preview — manual only · candidate class rulebo",
+      "color": "rgb(52, 37, 26)",
+      "background": "rgba(0, 0, 0, 0)",
+      "image": "linear-gradient(135deg, rgb(122, 59, 46) 0%, rgb(139, 69, 19) 60%, rgb(160, 82, 45) 100%)",
+      "font": "16px"
+    },
+    {
+      "text": "Reconstruction preview — manual only · candidate class rulebook, talent trees and manual r",
+      "color": "rgb(104, 83, 62)",
+      "background": "rgba(0, 0, 0, 0)",
+      "image": "none",
+      "font": "16.8px"
+    },
+    {
+      "text": "Rules",
+      "color": "rgb(248, 245, 238)",
+      "background": "rgb(102, 60, 50)",
+      "image": "none",
+      "font": "15.2px"
+    },
+    {
+      "text": "Chaos Weaver",
+      "color": "rgb(52, 37, 26)",
+      "background": "rgba(0, 0, 0, 0)",
+      "image": "none",
+      "font": "19.2px"
+    },
+    {
+      "text": "Choose which things may happen; spend those possibilities even when reality chooses the on",
+      "color": "rgb(104, 83, 62)",
+      "background": "rgba(0, 0, 0, 0)",
+      "image": "none",
+      "font": "16.8px"
+    },
+    {
+      "text": "Six Tiles and Four Zones",
+      "color": "rgb(52, 37, 26)",
+      "background": "rgba(0, 0, 0, 0)",
+      "image": "none",
+      "font": "19.2px"
+    },
+    {
+      "text": "Talent capacity",
+      "color": "rgb(52, 37, 26)",
+      "background": "rgba(0, 0, 0, 0)",
+      "image": "none",
+      "font": "19.2px"
+    }
+  ],
+  "backFocus": "Open class workshop",
+  "openFocus": "Chaos Weaver class workshop",
+  "headerContrast": [
+    1.161650256544088,
+    1.021748339380525,
+    1.2915074808625724
+  ],
+  "decimal": "own turn 1 · local AP counter 3",
+  "deterministicFracture": "← Back to classes\nChaos Weaver\n\nReconstruction preview — manual only · candidate class rulebook, talent trees and manual rehearsal worksheet.\n\nLocal rehearsal — does not spend AP, move tokens or apply effects. Manual tabletop only: no AP, tile, movement or effect is applied automatically.\nRules\nLevel Progression\nSpells\nTalents\nOrigins\nRehearsal\nAuthoring/Export\n\nRehearsal started. Class draft bytes (picks and preview ranks) are untouched.\n\nManual worksheet\n\nManual rehearsal · own turn 1 · local AP counter 1 · movement counter 0ft\n\nReset rehearsal\nAP AVAILABLE (MANUAL ENTRY)\nConfirm start of own turn\nConfirm end of own turn\nTURN NUMBER\nREMAINING MOVEMENT (FT)\nApply worksheet counters\nNEW COMPLETED LONG-REST LABEL\nConfirm completed long rest\n\nRest refuses while an unresolved draw or anomaly exists and requires a brand-new label; movement penalty now 0ft (largest of 0 record(s), manual rule).\n\nSix tiles\nAvailable\n5\nCommitted\n0\nBound\n0\nSpent\n1\nS1\nS2\nM1\nM2\nF1\nF2\n\n5 available · 0 committed · 0 bound · 1 spent\n\nNo unresolved draw.\n\nNo anomaly.\n\nInspect tiles\nInspect draw\nInspect anomaly\nCommit an action\nSPELL (CORE, GRANTED TALENT ACTIVES AND REHEARSAL PICKS)\nChoose an action…\nFold the Odds (Core grant, level 1, 1 AP / 0 mana)\nSplit Possibility (Core grant, level 1, 2 AP / 0 mana)\nDismiss Anomaly (Core grant, level 1, 1 AP / 0 mana)\nFraying Bolt (Level pick, level 1, 2 AP / 0 mana)\nPrepared Exchange (proposed native edge)\n\nOnce per completed long rest, no pending action, consume one actual prepared spare part; swap one spent and one available ID of different symbols; movement−5ft until next own-turn start. Manual verification required; no automatic benefit.\n\nPREPARED PART CONSUMED AT THE TABLE\nSPENT ID TO RECOVER\nChoose…\nF1\nAVAILABLE ID TO SPEND\nChoose…\nS1\nS2\nM1\nM2\nF2\nRecord Prepared Exchange\nWorksheet log\nRehearsal started. Local rehearsal — does not spend AP, move tokens or apply effects.\nFraying Bolt: spent F1 (2 AP paid locally).\n\nClosing or reloading has no durability guarantee; export the worksheet to keep it."
+}

@@ -12,6 +12,10 @@ import { supportStrike, digitalRoll, recordFaces, derive, proficiencyChoice, not
 import { useWeaponStrikeStore, closeStrikePanel, ownerSource, sendStrikeApproval, checkStrikeApproval, withdrawStrikeApproval,
   reconcileStrike, restoreStrikeCustody, refreshStrikeApprovals, loadStrikeData, strikeDefenses, gmAcceptStrike, gmCheckStrikeCommand, gmDeclineStrike, reconcileGmStrike } from '../../services/weaponStrikeService';
 import { unresolvedStrike } from '../../services/weaponStrikeCustody';
+import { strikeDraftContext, loadStrikeDraft, loadDiscardedStrikeDrafts, saveStrikeDraft, discardStrikeDraft, reconcilableStrike } from '../../services/weaponStrikeService';
+import { describeDraft, sameDraftContext, planarFeet, rangeText } from '../../services/targetPick';
+import useTargetingStore from '../../store/targetingStore';
+import { getWeaponRange } from '../../utils/weaponIntegration';
 import './WeaponStrikePanel.css';
 
 const keyOf = ref => ref ? `${ref.kind}:${ref.mapId}:${ref.tokenId}` : '';
@@ -39,18 +43,48 @@ function OwnerPanel() {
   const owner = useWeaponStrikeStore(s => s.owner), status = useWeaponStrikeStore(s => s.ownerStatus);
   const sheet = useCharacterStore(s => s), characters = useCharacterTokenStore(s => s.characterTokens), creatures = useCreatureStore(s => s.creatureTokens);
   const uid = useAuthStore(s => s.user?.uid);
-  const [type, setType] = useState(''), [targetKey, setTarget] = useState(''), [roll, setRoll] = useState(null), [proficiencyRoll, setProficiencyRoll] = useState(null);
+  const [type, setType] = useState(''), [targetKey, setTarget] = useState('');
   const [busy, setBusy] = useState(false), [error, setError] = useState('');
+  useWeaponStrikeStore(s => s.draftVersion);
+  const picking = useTargetingStore(s => s.pickSession?.id === 'p12a-strike');
+  const startTargetPick = useTargetingStore(s => s.startTargetPick);
   const dialog = useRef(null);
+  // A closed panel ends its own pick session (contract §1: the overlay never writes into a closed panel).
+  useEffect(() => { if (!owner) useTargetingStore.getState().cancelTargetPickFor('p12a-strike'); }, [owner]);
   useEffect(() => {
-    if (owner) { setType(''); setTarget(''); setRoll(null); setProficiencyRoll(null); setError(''); dialog.current?.showModal(); }
+    if (!owner) return;
+    // P12C-B1 §2: a retained draft for this same action restores its weapon type, target and rolls.
+    const draft = loadStrikeDraft(), mine = draft && draft.context.actionId === owner.action.id;
+    setType(mine ? draft.context.weaponType || '' : ''); setTarget(mine ? draft.targetKey || '' : ''); setError(''); dialog.current?.showModal();
   }, [owner]);
+  useEffect(() => {
+    // While picking on the map the modal steps aside; its state is kept.
+    if (!owner || !dialog.current) return;
+    if (picking && dialog.current.open) dialog.current.close();
+    else if (!picking && !dialog.current.open) dialog.current.showModal();
+  }, [picking, owner]);
   if (!owner) return null;
   const source = ownerSource(), support = supportStrike(owner.action, sheet, type), pending = unresolvedStrike(status);
   const candidates = creatures.filter(t => refOf(t)?.kind === 'creature' && refOf(t).mapId === source.ref?.mapId && refOf(t).roomId === source.ref?.roomId);
   const target = candidates.find(t => keyOf(refOf(t)) === targetKey);
   const ownerTokens = characters.filter(t => t.state?.actorContract?.primary && t.ownerUserId === uid && t.character?.id === sheet.currentCharacterId);
   const perform = async action => { setBusy(true); setError(''); try { await action(); } catch (e) { setError(e.message); } finally { setBusy(false); } };
+  // P12C-B1 §2: recorded rolls live in a draft bound to this exact action context.
+  const ctx = strikeDraftContext({ characterId: sheet.currentCharacterId, sourceRef: source.ref, actionId: owner.action.id, support });
+  const draft = loadStrikeDraft(), draftHere = draft && ctx && sameDraftContext(draft.context, ctx) ? draft : null;
+  const draftElsewhere = draft && !draftHere && !(draft.context.actionId === owner.action.id && !ctx) ? draft : null;
+  const roll = draftHere?.roll || null, proficiencyRoll = draftHere?.proficiencyRoll || null;
+  const keep = patch => perform(async() => saveStrikeDraft({ context: ctx, label: support.weapon?.name, roll, proficiencyRoll, targetKey, ...patch }));
+  const setRoll = value => keep({ roll: value }), setProficiencyRoll = value => keep({ proficiencyRoll: value });
+  const chooseTarget = value => { setTarget(value); if (draftHere) keep({ targetKey: value }); };
+  const rangeFeet = support.supported ? getWeaponRange(sheet.equipment?.[support.weapon.slot] || null) : null;
+  const rangeLabel = rangeFeet ? `card range ${rangeFeet} ft (weapon default)` : '';
+  const discarded = loadDiscardedStrikeDrafts();
+  const pick = () => startTargetPick({ id: 'p12a-strike', label: `${support.weapon.name} strike`, sourceRef: source.ref, candidates: candidates.map(refOf), rangeFeet, rangeLabel,
+    reasonFor: ref => ref.kind !== 'creature' ? 'A basic strike targets one bound creature.' : 'Not a bound creature on your map.',
+    onPick: ref => chooseTarget(keyOf(ref)), onCancel: () => {} });
+  const gameState = useGameStore.getState();
+  const distance = target && source.token ? planarFeet(source.token.position, target.position, gameState.gridSize, gameState.feetPerTile) : null;
   return createPortal(<dialog ref={dialog} className="p12-panel" aria-label="Basic weapon strike" onCancel={closeStrikePanel}>
     <header><h3>Basic weapon strike</h3><button type="button" onClick={closeStrikePanel} aria-label="Close strike">Close</button></header>
     <p>2 AP · temporary AP first. Approval spends nothing; the GM commits one AP/HP consequence.</p>
@@ -63,22 +97,28 @@ function OwnerPanel() {
       </>}
       {!support.supported ? <p role="alert">{support.reason}</p> : <>
         <p><strong>{support.weapon.name}</strong> · {support.weapon.slot} · d{support.weapon.die} {support.weapon.damageType} · {support.weapon.attribute} {support.weapon.score} ({support.weapon.modifier >= 0 ? '+' : ''}{support.weapon.modifier})</p>
-        {support.needsType && <label>Actual weapon type <select value={type} onChange={e => { setType(e.target.value); setProficiencyRoll(null); }}><option value="">Choose explicitly (item is unmapped)</option>{Object.entries(WEAPON_TYPE_META).map(([key, meta]) => <option key={key} value={key}>{meta.label}</option>)}</select></label>}
-        <label>Strike target <select value={targetKey} onChange={e => { setTarget(e.target.value); setRoll(null); setProficiencyRoll(null); }} disabled={busy}><option value="">Select one exact bound creature</option>{candidates.map(t => <option key={keyOf(refOf(t))} value={keyOf(refOf(t))}>{nameOf(t)} · {t.id}</option>)}</select></label>
+        {draftElsewhere && <section className="p12c-draft" role="alert"><p>An unsent recorded roll is retained for <strong>{describeDraft(draftElsewhere)}</strong>. A recorded roll never moves to another action or weapon: send it from that action, or discard it explicitly.</p>
+          <button type="button" disabled={busy} onClick={() => perform(async() => discardStrikeDraft())}>Discard recorded roll</button></section>}
+        {support.needsType && <label>Actual weapon type <select value={type} onChange={e => { setType(e.target.value); }}><option value="">Choose explicitly (item is unmapped)</option>{Object.entries(WEAPON_TYPE_META).map(([key, meta]) => <option key={key} value={key}>{meta.label}</option>)}</select></label>}
+        <div className="p12c-pick"><button type="button" disabled={busy || !source.ref} onClick={pick}>Pick on map</button><span className="p12-meta">{rangeLabel ? `${rangeLabel} — advisory` : ''}</span></div>
+        <label>Strike target <select value={targetKey} onChange={e => chooseTarget(e.target.value)} disabled={busy}><option value="">Select one exact bound creature</option>{candidates.map(t => <option key={keyOf(refOf(t))} value={keyOf(refOf(t))}>{nameOf(t)} · {t.id}</option>)}</select></label>
         {target && <ExactRef value={refOf(target)} revision={target.state.actorContract.revision} />}
-        {target && !support.needsType && <>
-          <RollInput key={`weapon:${targetKey}:${type}`} label="Weapon" die={support.weapon.die} value={roll} onChange={setRoll} />
+        {target && <p className="p12-meta">{rangeText(distance, rangeFeet, rangeLabel)}</p>}
+        {target && !support.needsType && !draftElsewhere && <>
+          <RollInput key={`weapon:${type}`} label="Weapon" die={support.weapon.die} value={roll} onChange={setRoll} />
           {roll && <p>{derive(support.weapon, roll).rollOutcome} · proposed {derive(support.weapon, roll).proposed}{derive(support.weapon, roll).rollOutcome === 'critical' ? ' (attribute modifier on critical is [Open])' : ''}</p>}
           <h4>Proficiency — manual ruling</h4>
           <p>{support.proficiency.weaponType} · {support.proficiency.rank} ({support.proficiency.rankSource}) · d{support.proficiency.die} · archetype {support.proficiency.table}</p>
           <p className="p12-meta">{OPEN_PROFICIENCY}</p><OutcomeTable weaponType={support.proficiency.weaponType} />
-          <RollInput key={`proficiency:${targetKey}:${type}`} label="Proficiency" proficiency die={support.proficiency.die} value={proficiencyRoll} onChange={setProficiencyRoll} />
+          <RollInput key={`proficiency:${type}`} label="Proficiency" proficiency die={support.proficiency.die} value={proficiencyRoll} onChange={setProficiencyRoll} />
+          {(roll || proficiencyRoll) && <p className="p12-meta">Recorded rolls are kept on this device for this action, through target changes and reloads.</p>}
           <button type="button" disabled={busy || !roll || !proficiencyRoll || source.error} onClick={() => perform(() => sendStrikeApproval({ action: owner.action, ownerType: type, targetRef: refOf(target), roll, proficiencyRoll }))}>Approve 2 AP and send to GM</button>
         </>}
       </>}
     </>}
+    {!!discarded.length && <details className="p12c-discarded"><summary>Discarded unsent rolls on this device ({discarded.length})</summary><ul>{discarded.map((d, i) => <li key={i}>{describeDraft(d)}</li>)}</ul></details>}
     {status && <section role="status"><p>{status.message}</p>{status.approval && <small>Approval {status.approval.approvalId} · Device retained</small>}
-      {pending && <div className="p12-actions"><button type="button" disabled={busy} onClick={() => perform(checkStrikeApproval)}>Check this same strike</button><button type="button" disabled={busy} onClick={() => perform(withdrawStrikeApproval)}>Withdraw before acceptance</button><button type="button" disabled={busy} onClick={reconcileStrike}>Reconciled with GM — clear strike</button></div>}
+      {pending && <div className="p12-actions"><button type="button" disabled={busy} onClick={() => perform(checkStrikeApproval)}>Check this same strike</button><button type="button" disabled={busy} onClick={() => perform(withdrawStrikeApproval)}>Withdraw before acceptance</button>{reconcilableStrike(status) && <button type="button" disabled={busy} onClick={reconcileStrike}>Reconciled with GM — clear strike</button>}</div>}
     </section>}{error && <p role="alert">{error}</p>}
   </dialog>, document.body);
 }
@@ -117,6 +157,7 @@ function GmCard({ entry }) {
         <label>Final HP damage <input type="number" min="0" max="100000" value={draft.final ?? defense.afterDefense} onChange={e => update({ final: e.target.value })} /></label>
         <label>Adjustment reason (public; required if different from {defense.afterDefense}) <input maxLength={2000} value={draft.reason} onChange={e => update({ reason: e.target.value })} /></label>
       </fieldset>
+      <p className="p12-meta">{(() => { const a = findActor(approval.source), b = findActor(approval.target), g = useGameStore.getState(); return rangeText(a && b ? planarFeet(a.position, b.position, g.gridSize, g.feetPerTile) : null, null, ''); })()} Range is advisory; you adjudicate.</p>
       <p><strong>Commit preview:</strong> attacker AP −2 and this creature HP damage {finalAmount} (temporary pools first). {derived.rollOutcome === 'miss' ? 'Miss — HP unchanged.' : ''} Adjudicate legality, reach and line of effect here.</p>
       <p><strong>Not applied by the VTT:</strong> {choice ? notApplied(approval, choice).map(e => e.source === 'proficiency-face' ? `${e.text}: ${choice.text}` : e.text).join('; ') || 'No additional recorded effects.' : 'Choose the manual proficiency outcome.'} No stun, wear, free attack, movement or other manual effect is committed.</p>
       <button type="button" disabled={busy || locked || !choice || (defense.manual.length > 0 && !draft.verdict)} onClick={() => perform(() => gmAcceptStrike(id, { defense, choice, verdict: draft.verdict, note: draft.note, finalAmount, reason: draft.reason }))}>Confirm and apply</button>

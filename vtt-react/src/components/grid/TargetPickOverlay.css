@@ -1,0 +1,17 @@
+/* P12C-B1 map picking: calm ink on parchment; preview only. */
+.tpo-root { pointer-events: none; }
+.tpo-catcher { position: fixed; inset: 0; z-index: 500; cursor: crosshair; pointer-events: all; background: rgba(52, 37, 26, 0.04); }
+.tpo-svg { position: fixed; top: 0; left: 0; z-index: 510; pointer-events: none; overflow: visible; }
+.tpo-range { fill: rgba(31, 78, 105, 0.06); stroke: #1f4e69; stroke-width: 1.5; stroke-dasharray: 6 5; }
+.tpo-candidate { fill: none; stroke: #365333; stroke-width: 1.5; stroke-dasharray: 3 4; }
+.tpo-source { fill: none; stroke: #1f4e69; stroke-width: 2.5; }
+.tpo-target { fill: none; stroke: #8b3a2a; stroke-width: 3; }
+.tpo-invalid { fill: none; stroke: #68533e; stroke-width: 2; stroke-dasharray: 2 4; }
+.tpo-aim { stroke: #34251a; stroke-width: 2; stroke-dasharray: 8 5; }
+.tpo-aim.tpo-far { stroke: #8a5a12; }
+.tpo-label { font: 700 14px 'Crimson Text', Georgia, serif; fill: #34251a; paint-order: stroke; stroke: #f8f5ee; stroke-width: 4px; }
+.tpo-bar { position: fixed; left: 50%; bottom: 96px; transform: translateX(-50%); z-index: 520; pointer-events: auto; display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px;
+  max-width: min(640px, calc(100vw - 32px)); padding: 8px 12px; background: #f6efe1; color: #2b2116; border: 1px solid #8a6d45; border-radius: 6px; font: 15px/1.4 'Crimson Text', Georgia, serif; }
+.tpo-meta { color: #5d4b33; font-size: 13px; }
+.tpo-bar button { font: inherit; padding: 4px 10px; background: #efe3c8; color: #2b2116; border: 1px solid #8a6d45; border-radius: 4px; cursor: pointer; }
+.tpo-bar button:focus-visible { outline: 2px solid #71421e; outline-offset: 2px; }

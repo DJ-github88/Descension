@@ -80,7 +80,10 @@ test('unsupported spells keep the manual confirmation with the P9 diagnostic', (
   const { container } = render(<ActionBar />);
   fireEvent.click(slotButton(container, 1), { button: 0 });
   expect(useSpellConsequenceStore.getState().owner).toBeNull();
-  expect(screen.getByText(/Manual — not applied to the room:/)).toBeInTheDocument();
+  expect(screen.getByText(/Manual — the VTT applies nothing in this room/)).toBeInTheDocument();
+  fireEvent.click(screen.getByText('Post manual notice'));
+  expect(mockCharacter.updateResource).not.toHaveBeenCalled();
+  expect(mockCharacter.consumeClassResource).not.toHaveBeenCalled();
 });
 
 test('offline play is unchanged: the supported spell uses the existing local confirmation', () => {

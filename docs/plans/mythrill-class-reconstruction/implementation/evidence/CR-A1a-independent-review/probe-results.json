@@ -1,0 +1,186 @@
+{
+  "capturedAt": "2026-10-18T11:57:36.651Z",
+  "sourceSha256": "48b69255b8958ae75a7aa17ed7aa67c95b6d4c2bada63f4dcd24a305e20f0003",
+  "total": 40,
+  "passed": 40,
+  "failed": 0,
+  "results": [
+    {
+      "name": "independent golden zero-ap-damage",
+      "pass": true,
+      "detail": {
+        "hash": "d0f251d988425dfa9c04011e9e86f02628838efdbce3716f41694ea2f507b351"
+      }
+    },
+    {
+      "name": "independent golden direct-healing",
+      "pass": true,
+      "detail": {
+        "hash": "8875e6cdf3e866e48fadddbba436d4194bd87e213dc123abeb7d84330f0dd692"
+      }
+    },
+    {
+      "name": "independent golden changed-price-different-identity",
+      "pass": true,
+      "detail": {
+        "hash": "c26c8d69d1d1c512d6e67c1098f44723a4301917265d64f280bb4421e7a7f49f"
+      }
+    },
+    {
+      "name": "explicit AP0/mana0 and changed scope/formula identities",
+      "pass": true
+    },
+    {
+      "name": "reject missing price",
+      "pass": true
+    },
+    {
+      "name": "reject undefined price",
+      "pass": true
+    },
+    {
+      "name": "reject null price",
+      "pass": true
+    },
+    {
+      "name": "reject boolean price",
+      "pass": true
+    },
+    {
+      "name": "reject extra class program",
+      "pass": true
+    },
+    {
+      "name": "reject extra resource state",
+      "pass": true
+    },
+    {
+      "name": "reject extra effect",
+      "pass": true
+    },
+    {
+      "name": "reject Date",
+      "pass": true
+    },
+    {
+      "name": "reject custom object prototype",
+      "pass": true
+    },
+    {
+      "name": "getter/toJSON not called: definition",
+      "pass": true
+    },
+    {
+      "name": "getter/toJSON not called: resourceCost",
+      "pass": true
+    },
+    {
+      "name": "getter/toJSON not called: damageTypes",
+      "pass": true
+    },
+    {
+      "name": "MUST reject own Symbol-keyed authored data instead of stripping it",
+      "pass": true
+    },
+    {
+      "name": "MUST reject a Symbol-keyed getter without invoking it",
+      "pass": true
+    },
+    {
+      "name": "MUST reject custom Array prototype even when its toJSON is never invoked",
+      "pass": true
+    },
+    {
+      "name": "emptyRegistry direct return and independent mutable callers",
+      "pass": true
+    },
+    {
+      "name": "real restart with fresh factory, version/revoke/replay semantics",
+      "pass": true
+    },
+    {
+      "name": "fresh authority failure prevents replay for admit AND revoke",
+      "pass": true
+    },
+    {
+      "name": "no cross-result aliases or caller freezing",
+      "pass": true
+    },
+    {
+      "name": "detached BEFORE synchronous authorizer side effects AND pending mutation: admit",
+      "pass": true,
+      "detail": {
+        "requestHash": "99e227c9b9a071f41a9e12566ca051d98e1f4b05bec5cd39c3d704296c5f8d70",
+        "expectedRegistryRevision": 1
+      }
+    },
+    {
+      "name": "detached BEFORE synchronous authorizer side effects AND pending mutation: revoke",
+      "pass": true,
+      "detail": {
+        "requestHash": "63b4ffa932ce814dfafbb65ecd29e5024246d588669dfafae56b18447a60c041",
+        "expectedRegistryRevision": 2
+      }
+    },
+    {
+      "name": "malformed JSON data and corrupt history rejected before authorizer invocation",
+      "pass": true
+    },
+    {
+      "name": "post-authorization revision/hash/scope semantics use detached snapshots",
+      "pass": true
+    },
+    {
+      "name": "stale concurrent plans never install or mutate original registry",
+      "pass": true
+    },
+    {
+      "name": "all five consumers reject history: duplicate requestId cross actions",
+      "pass": true
+    },
+    {
+      "name": "all five consumers reject history: version gap with valid definition records",
+      "pass": true
+    },
+    {
+      "name": "all five consumers reject history: out-of-order admits",
+      "pass": true
+    },
+    {
+      "name": "all five consumers reject history: orphan stored version",
+      "pass": true
+    },
+    {
+      "name": "all five consumers reject history: double revoke",
+      "pass": true
+    },
+    {
+      "name": "all five consumers reject history: revoke before admit",
+      "pass": true
+    },
+    {
+      "name": "all five consumers reject history: wrong reference hash",
+      "pass": true
+    },
+    {
+      "name": "all five consumers reject history: wrong decision request hash",
+      "pass": true
+    },
+    {
+      "name": "all five consumers reject history: revision-count mismatch",
+      "pass": true
+    },
+    {
+      "name": "describe stable precedence with a revoked valid record",
+      "pass": true
+    },
+    {
+      "name": "MUST reject symbol metadata at every object-input boundary",
+      "pass": true
+    },
+    {
+      "name": "MUST reject array subclass in registry before authorizer invocation",
+      "pass": true
+    }
+  ]
+}
