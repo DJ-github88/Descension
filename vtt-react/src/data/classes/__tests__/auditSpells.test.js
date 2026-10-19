@@ -49,11 +49,12 @@ describe('Audit Class Spells for Formatting', () => {
         const hasStatusEffects = (spell?.statusEffectsConfig || []).length > 0;
         const hasRollableTable = !!((spell?.mechanicsConfig?.rollableTable || spell?.rollableTable)?.enabled);
         const hasProphecy = !!(spell?.prophecyConfig || (Array.isArray(spell?.mechanicsConfig) && spell.mechanicsConfig.find(m => m.system === 'PROPHECY')?.prophecy));
+        const hasChaosWeaver = !!(spell?.specialMechanics?.chaosWeaver || spell?.applicationMode === 'manual-tabletop');
 
         const hasAnyStatContent = shouldRenderDamage || shouldRenderHealing ||
           hasBuffContent || hasDebuffContent || hasDuration || hasUtility || hasControl ||
           hasTerrain || hasSummoning || hasTransformation || hasPurification || hasRestoration ||
-          hasProphecy || hasRollableTable || hasStatusEffects;
+          hasProphecy || hasRollableTable || hasStatusEffects || hasChaosWeaver;
 
         if (!hasAnyStatContent) {
           unformatted.push({

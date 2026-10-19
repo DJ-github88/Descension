@@ -23,8 +23,8 @@ describe('classIconUtils', () => {
         expect(getClassPortraitId('Hunter')).toBeNull();
     });
 
-    it('exposes all 21 classes as portrait options', () => {
-        expect(CLASS_PORTRAIT_ICONS).toHaveLength(21);
+    it('exposes all classes as portrait options', () => {
+        expect(CLASS_PORTRAIT_ICONS).toHaveLength(22);
         CLASS_PORTRAIT_ICONS.forEach(icon => {
             expect(icon.id.startsWith('classes/')).toBe(true);
             expect(icon.folder).toBe('Classes');

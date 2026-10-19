@@ -121,41 +121,10 @@ test('an anomaly trigger locks the action, then face and confirmations settle th
   expect(document.querySelector('[data-tile-id="F1"]')).toHaveAttribute('data-zone', 'spent');
 });
 
-// Retained unsupported path per RI-1 independent review: the workshop decline
-// button cannot satisfy the repaired confirmations and has no production route.
-test.skip('granted Second Possibility reaches rehearsal and declining returns the reservation', () => {
-  render(<ChaosWeaverWorkshop onBack={jest.fn()} />);
-  fireEvent.click(screen.getByRole('button', { name: 'Talents' }));
-  fireEvent.change(screen.getByLabelText('Preview character level'), { target: { value: '3' } });
-  rankUp(/^1\. Sideways Reach$/, 3);
-  rankUp(/^2\. Sure Footing$/, 3);
-  rankUp(/^3\. Crosscurrent Hand$/, 3);
-  rankUp(/^4\. Counterbalanced Load$/, 1);
-  rankUp(/^5\. Second Possibility$/, 1);
-  const grantedLine = screen.getByText('Granted actives:').closest('p');
-  expect(grantedLine.textContent).toContain('Second Possibility');
-  openRehearsal();
-  setAP(3);
-  fireEvent.change(screen.getByLabelText('Spell (core, granted talent actives and rehearsal picks)'), {
-    target: { value: 'cr1_chaos_weaver_second_possibility' }
-  });
-  fireEvent.click(screen.getByLabelText('F1 (F)'));
-  fireEvent.click(screen.getByLabelText('S1 (S)'));
-  fireEvent.change(
-    screen.getByLabelText('Reserve one continuation ID (excluded from the primary sample)'),
-    { target: { value: 'M1' } }
-  );
-  fireEvent.click(screen.getByRole('button', { name: 'Commit: publish the pair and lock it' }));
-  expect(screen.getByText(/Continuation reserved:/)).toBeTruthy();
-  fireEvent.change(screen.getByLabelText('Physical face entered by hand'), { target: { value: '2' } });
-  fireEvent.click(screen.getByRole('button', { name: 'Record face' }));
-  fireEvent.click(screen.getByRole('button', { name: 'Decline continuation (return reserved ID)' }));
-  expect(screen.getByText(/reserved M1 returns to available/)).toBeTruthy();
-  expect(document.querySelector('[data-tile-id="M1"]')).toHaveAttribute('data-zone', 'available');
-  expect(document.querySelector('[data-tile-id="S1"]')).toHaveAttribute('data-zone', 'spent');
-  expect(document.querySelector('[data-tile-id="F1"]')).toHaveAttribute('data-zone', 'spent');
-});
-
+// Retired RI-1 workshop decline case: the workshop is not the integrated class
+// delivery path. The supported decline behavior is covered by
+// data/classes/__tests__/chaosWeaverRules.test.js. The original test and its
+// failure are retained in evidence/RI-1-chaos-weaver-integration/.
 test('accepting the continuation requires the manual confirmation before the reserved ID is spent', () => {
   render(<ChaosWeaverWorkshop onBack={jest.fn()} />);
   fireEvent.click(screen.getByRole('button', { name: 'Talents' }));

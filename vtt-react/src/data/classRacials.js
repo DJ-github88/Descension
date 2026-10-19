@@ -12642,6 +12642,72 @@ export const CLASS_RACIALS = {
         }
       }
     ]
+  },
+  "Chaos Weaver": {
+    "drall_fexric": [
+      {
+        "id": "cr_chaos_weaver_variance_sink",
+        "name": "Variance Sink",
+        "description": "When an anomaly or volatile weave surges within your aura, you ground a fraction of the excess into your stabilizer.",
+        "level": 1,
+        "icon": "Utility/Shield",
+        "actionPoints": 0,
+        "components": [],
+        "typeConfig": {
+          "category": "class-racial",
+          "school": "arcane",
+          "tags": [
+            "chaos_weaver",
+            "drall_fexric",
+            "passive",
+            "class_racial"
+          ]
+        },
+        "targetingConfig": {
+          "targetingType": "self",
+          "rangeType": "self_centered"
+        },
+        "spellType": "PASSIVE",
+        "effectTypes": [
+          "buff"
+        ],
+        "buffConfig": {
+          "buffType": "statusEffectBuff",
+          "effects": [
+            {
+              "id": "cr_chaos_weaver_variance_sink_effect",
+              "name": "Variance Sink",
+              "description": "When an anomaly or volatile weave surges within your aura, you ground a fraction of the excess into your stabilizer.",
+              "mechanicsText": "When an anomaly or volatile weave surges within your aura, you ground a fraction of the excess into your stabilizer.",
+              "statusEffect": {
+                "level": "minor",
+                "description": "When an anomaly or volatile weave surges within your aura, you ground a fraction of the excess into your stabilizer."
+              }
+            }
+          ],
+          "durationValue": 0,
+          "durationType": "permanent",
+          "durationUnit": "permanent",
+          "canBeDispelled": false
+        },
+        "utilityConfig": {
+          "utilityType": "special",
+          "selectedEffects": [],
+          "duration": 0,
+          "durationUnit": "permanent",
+          "power": "minor"
+        },
+        "resourceCost": {
+          "actionPoints": 0,
+          "mana": 0,
+          "components": []
+        },
+        "cooldownConfig": {
+          "cooldownType": "none",
+          "cooldownValue": 0
+        }
+      }
+    ]
   }
 };
 

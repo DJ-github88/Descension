@@ -19,7 +19,7 @@ describe('native class-heritage abilities (class racials)', () => {
     });
   });
 
-  test('all 21 base classes have a class-racial table', () => {
+  test('all base classes have a class-racial table', () => {
     Object.keys(CLASS_PROVENANCE).forEach((className) => {
       expect(CLASS_RACIALS[className]).toBeDefined();
     });

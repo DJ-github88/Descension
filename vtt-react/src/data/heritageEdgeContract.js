@@ -200,13 +200,6 @@ export const HERITAGE_EDGES = Object.freeze({
     edge: edge('capability', { capability: 'exploit_declared_transit_window', condition: condition('state', 'transit_window') }),
     cost: cost('obligation', { capability: 'window_mistiming' })
   },
-  'Chaos Weaver|drall_fexric': {
-    className: 'Chaos Weaver', heritageId: 'drall_fexric',
-    description: 'Alchemite Sump workshop training maintains one finite stabilizing interface around a declared real anomaly.',
-    costDescription: 'The interface is finite and must be maintained; losing it ends containment.',
-    edge: edge('capability', { capability: 'maintain_finite_stabilizing_interface', condition: condition('equipment', 'stabilizing_interface') }),
-    cost: cost('obligation', { capability: 'interface_maintenance_required' })
-  },
   'Chronarch|kethrin_fexric': {
     className: 'Chronarch', heritageId: 'kethrin_fexric',
     description: 'Nesta\'s calibrated gear interface retunes a prepared local effect.',
