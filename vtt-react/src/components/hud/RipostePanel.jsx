@@ -76,7 +76,7 @@ function OwnerAttempt({ p, perform, busy }) {
     </fieldset>
     {(saved?.roll || localRoll) && <p>Retained {(saved?.roll || localRoll).mode} faces: {(saved?.roll || localRoll).faces.join(', ')}. Revalidation never rerolls them.</p>}
     {saved?.approval && <p>Execution consent: {saved.phase}. This says nothing about manual fees or prior tabletop execution.</p>}
-    <button type="button" disabled={busy || !visible || !saved?.roll || p.status !== 'ready' || saved?.approval && !['withdrawn', 'declined', 'revalidated', 'refused'].includes(saved.phase)}
+    <button type="button" disabled={busy || !visible || !saved?.roll || p.status !== 'ready' || (saved?.approval && !['withdrawn', 'declined', 'revalidated', 'refused'].includes(saved.phase))}
       onClick={() => perform(() => approveRiposte(p))}>Approve exact target and1 AP Riposte</button>
     {saved?.approval && <><button type="button" disabled={busy} onClick={() => perform(() => checkRiposteApproval(p.id))}>Check exact Riposte approval</button>
       <button type="button" disabled={busy} onClick={() => perform(() => withdrawRiposte(p.id))}>Withdraw execution consent</button></>}

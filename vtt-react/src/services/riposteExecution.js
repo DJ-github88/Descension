@@ -15,7 +15,7 @@ export function recordRiposteRoll(mode, die, faces) {
 export function digitalRiposteRoll(die, rng = Math.random) { return digitalRoll(die, false, rng); }
 const nameOf = token => String(token?.character?.name || token?.state?.customName || token?.name || token?.id || 'Actor').slice(0, 60);
 export function ripostePlan({ approval: a, contentHash, tokens, outcome, amount, confirmed, parentKeys, offerHash }) {
-  if (!confirmed || !['hit', 'miss'].includes(outcome) || !Number.isSafeInteger(amount) || amount < 0 || amount > 100000 || outcome === 'miss' && amount !== 0) throw Error('GM confirms eligibility, outcome and final damage; a miss must remain zero.');
+  if (!confirmed || !['hit', 'miss'].includes(outcome) || !Number.isSafeInteger(amount) || amount < 0 || amount > 100000 || (outcome === 'miss' && amount !== 0)) throw Error('GM confirms eligibility, outcome and final damage; a miss must remain zero.');
   const source = exactActor(tokens, a.source, a.roomId, a.source.mapId), target = exactActor(tokens, a.target, a.roomId, a.source.mapId);
   if (!source || !target) throw Error('Exact source/attacker incarnation unavailable.');
   const ap = depleteTempFirst(source.character.actionPoints.current, source.character.tempActionPoints || 0, 1, true);
