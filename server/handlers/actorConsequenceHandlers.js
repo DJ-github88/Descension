@@ -540,6 +540,7 @@ function registerActorConsequenceHandlers(ctx) {
     const c = context(data.roomId); if (!c.player.isGM) {actors.fail('forbidden');}
     await confirm(c);
     const result = riposte.offer(c.room, c.uid, data);
+    if (result.receipt) {respondInstalled(ack, resultFor(c.room, result.receipt)); return;}
     respond(ack, { success: true, roomId: c.room.id, opportunity: riposte.project(c.room, result.opportunity, true), fresh: result.fresh });
     notifyRiposte(c.room, result.opportunity);
     if (result.fresh) {

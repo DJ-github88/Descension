@@ -1,0 +1,4 @@
+.rp-open { min-height: 44px; margin-top: 8px; padding: 8px; font: inherit; color: #2b2116; background: #f6efe1; border: 1px solid #8a6d45; border-radius: 4px; }
+.rp-open:focus-visible { outline: 2px solid #71421e; outline-offset: 2px; }
+.rp-dialog { position: fixed; right: 16px; top: 84px; z-index: 1600; box-sizing: border-box;
+  width: min(440px, calc(100vw - 32px)); max-height: calc(100dvh - 110px); overflow: auto; }

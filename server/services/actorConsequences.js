@@ -221,6 +221,16 @@ function publicReceipt(receipt) {
   if (receipt.adjudication) {out.adjudication = Object.fromEntries(['definitionId', 'definitionVersionOrHash', 'chosenResult', 'finalAmount', 'adjustmentReason']
     .filter(key => typeof receipt.adjudication[key] === 'string' || (typeof receipt.adjudication[key] === 'number' && Number.isFinite(receipt.adjudication[key])))
     .map(key => [key, receipt.adjudication[key]]));}
+  if (require('./riposteExecution').isReceipt(receipt) && out.adjudication) {
+    // Only executed Riposte facts go public. Parent dedupe keys are canonical receipt recovery data,
+    // not public Parry evidence; command/approval hashes must not fingerprint the hidden proof.
+    try {
+      const chosen = JSON.parse(receipt.adjudication.chosenResult);
+      out.adjudication.chosenResult = JSON.stringify(Object.fromEntries(['capability', 'approvalId', 'opportunityId', 'gmConfirmed', 'names', 'roll', 'rollOutcome', 'notApplied']
+        .filter(k => own(chosen, k)).map(k => [k, chosen[k]])));
+    } catch (_) {out.readOnly = true; delete out.adjudication.chosenResult;}
+    delete out.contentHash; delete out.authorization.approvalHash;
+  }
   out.actors = receipt.actors.map(actor => {
     try {validateRef(actor.ref);} catch (_) {return { readOnly: true };}
     return { ref: clone(actor.ref), beforeRevision: integer(actor.beforeRevision) ? actor.beforeRevision : null, afterRevision: integer(actor.afterRevision) ? actor.afterRevision : null,

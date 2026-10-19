@@ -14,7 +14,7 @@ export function recordRiposteRoll(mode, die, faces) {
 }
 export function digitalRiposteRoll(die, rng = Math.random) { return digitalRoll(die, false, rng); }
 const nameOf = token => String(token?.character?.name || token?.state?.customName || token?.name || token?.id || 'Actor').slice(0, 60);
-export function ripostePlan({ approval: a, contentHash, tokens, outcome, amount, confirmed }) {
+export function ripostePlan({ approval: a, contentHash, tokens, outcome, amount, confirmed, parentKeys, offerHash }) {
   if (!confirmed || !['hit', 'miss'].includes(outcome) || !Number.isSafeInteger(amount) || amount < 0 || amount > 100000 || outcome === 'miss' && amount !== 0) throw Error('GM confirms eligibility, outcome and final damage; a miss must remain zero.');
   const source = exactActor(tokens, a.source, a.roomId, a.source.mapId), target = exactActor(tokens, a.target, a.roomId, a.source.mapId);
   if (!source || !target) throw Error('Exact source/attacker incarnation unavailable.');
@@ -22,7 +22,7 @@ export function ripostePlan({ approval: a, contentHash, tokens, outcome, amount,
   const fromTemp = Math.min(target.state.tempHealth || 0, amount);
   const chosen = { capability: CAPABILITY, approvalId: a.approvalId, opportunityId: a.opportunityId, gmConfirmed: true,
     names: { source: nameOf(source), target: nameOf(target) }, weapon: a.weapon, roll: a.roll, rollOutcome: outcome,
-    positions: [source.position || null, target.position || null], notApplied: UNAPPLIED };
+    positions: [source.position || null, target.position || null], parentKeys, offerHash, notApplied: UNAPPLIED };
   return { entries: [{ ref: a.source, expectedRevision: source.state.actorContract.revision, finalResources: { ap } },
     { ref: a.target, expectedRevision: target.state.actorContract.revision, finalResources: { hp: {
       current: Math.max(0, target.state.currentHp - (amount - fromTemp)), temp: (target.state.tempHealth || 0) - fromTemp } } }],

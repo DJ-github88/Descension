@@ -68,7 +68,7 @@ function createGate({ windows = collector } = {}) {
     return { id: p.id, actionEpoch: p.epoch, source: clone(p.source), target: clone(p.target), definitionId: DEFINITION_ID,
       definitionHash: DEFINITION_HASH, proof: p.proof, windowId: p.windowId, deadlineAt: w?.deadlineAt, status,
       approvalId: p.approvalId, intentRevision: w?.intent?.revision || null, parryPayment: 'GM-attested-paid; not charged by Riposte',
-      ...(gm ? { attack: clone(p.attack), parry: clone(p.parry), paymentReference: p.receiptRef || null } : {}) };
+      ...(gm ? { attack: clone(p.attack), parry: clone(p.parry), parentKeys: clone(p.parentKeys), offerHash: p.offerHash, paymentReference: p.receiptRef || null } : {}) };
   }
   function list(room, viewer) {
     return [...state(room).byId.values()].filter(p => viewer.gm || p.source.ownerUid === viewer.uid).map(p => project(room, p, viewer.gm)).filter(Boolean);
@@ -76,14 +76,28 @@ function createGate({ windows = collector } = {}) {
   function offer(room, uid, data) {
     exact(data, ['roomId', 'requestId', 'actionEpoch', 'windowEpoch', 'windowId', 'attack', 'parry', 'source', 'target', 'receiptRef']);
     if (uid !== room.gmId || data.roomId !== room.id) { fail('forbidden'); }
-    if (!UUID.test(data.requestId) || data.actionEpoch !== actors.epoch(room) || actors.bytes(data) > 8192) { fail('riposte_opportunity_unavailable'); }
-    const s = state(room), requestHash = hash(data), priorRequest = s.requests.get(data.requestId);
-    if (priorRequest) { if (priorRequest.hash !== requestHash) { fail('command_id_conflict'); } return { opportunity: get(room, priorRequest.id), fresh: false }; }
-    if (s.requests.size >= 1024) { fail('riposte_capacity_manual'); }
+    if (!UUID.test(data.requestId) || actors.bytes(data) > 8192) { fail('riposte_opportunity_unavailable'); }
     exact(data.attack, ['id', 'attacker', 'defender']); exact(data.parry, ['id', 'success', 'paid', 'timingConfirmed', 'note']);
     if (!text(data.attack.id) || !text(data.parry.id) || data.parry.success !== true || data.parry.paid !== true ||
         data.parry.timingConfirmed !== true || !text(data.parry.note, 500)) { fail('invalid_riposte_attestation'); }
-    const source = actors.locate(room, data.source), target = actors.locate(room, data.target);
+    const requestHash = hash(data), parentKeys = { attack: hash([room.id, data.attack.id]), parry: hash([room.id, data.parry.id]) };
+    const previousReceipt = actors.ledger(room).receipts.find(r => isReceipt(r) && (() => {
+      try { const old = JSON.parse(r.adjudication.chosenResult).parentKeys; return old && (old.attack === parentKeys.attack || old.parry === parentKeys.parry); } catch (_) { return false; }
+    })());
+    if (previousReceipt) {
+      const old = JSON.parse(previousReceipt.adjudication.chosenResult);
+      if (hash(old.parentKeys) !== hash(parentKeys) || hash(previousReceipt.source) !== hash(data.source) || hash(previousReceipt.target) !== hash(data.target)) { fail('riposte_parent_conflict'); }
+      if (old.offerHash !== requestHash && data.receiptRef !== null) {
+        const referenced = actors.ledger(room).receipts.find(r => r.commandId === data.receiptRef);
+        if (!UUID.test(data.receiptRef) || !referenced || isReceipt(referenced) || !referenced.actors.some(a => hash(a.ref) === hash(data.source))) { fail('invalid_parry_receipt'); }
+      }
+      return { receipt: previousReceipt, fresh: false };
+    }
+    if (data.actionEpoch !== actors.epoch(room)) { fail('riposte_opportunity_unavailable'); }
+    const s = state(room), priorRequest = s.requests.get(data.requestId);
+    if (priorRequest) { if (priorRequest.hash !== requestHash) { fail('command_id_conflict'); } return { opportunity: get(room, priorRequest.id), fresh: false }; }
+    if (s.requests.size >= 1024) { fail('riposte_capacity_manual'); }
+    actors.locate(room, data.source); actors.locate(room, data.target);
     if (data.source.kind !== 'character' || data.target.kind !== 'creature' || data.source.mapId !== data.target.mapId ||
         hash(data.attack.attacker) !== hash(data.target) || hash(data.attack.defender) !== hash(data.source)) { fail('riposte_wrong_parent'); }
     if (data.receiptRef !== null) {
@@ -113,7 +127,7 @@ function createGate({ windows = collector } = {}) {
     const p = { id: crypto.randomUUID(), epoch: s.epoch, gmUid: uid, source: clone(data.source), target: clone(data.target),
       attack: clone(data.attack), parry: clone(data.parry), receiptRef: data.receiptRef, attestedAt: Date.now(),
       proof: crypto.randomBytes(32).toString('hex'), windowEpoch: w.epoch, windowId: w.windowId, status: 'offered', approvalId: null,
-      evidenceHash: null, attempt: null };
+      evidenceHash: null, parentKeys, offerHash: requestHash, attempt: null };
     s.byId.set(p.id, p); s.byAttack.set(data.attack.id, p.id); s.byParry.set(data.parry.id, p.id); s.byWindow.set(p.windowId, p.id);
     s.requests.set(data.requestId, { hash: requestHash, id: p.id });
     return { opportunity: p, fresh };
@@ -158,14 +172,15 @@ function createGate({ windows = collector } = {}) {
     if (p.approvalId !== a.approvalId || command.approval.contentHash !== entry.contentHash || hash(command.source) !== hash(a.source) || hash(command.target) !== hash(a.target)) { fail('riposte_approval_mismatch'); }
     if (command.adjudication?.definitionId !== DEFINITION_ID || command.adjudication?.definitionVersionOrHash !== DEFINITION_HASH) { fail('riposte_approval_mismatch'); }
     let chosen; try { chosen = JSON.parse(command.adjudication.chosenResult); } catch (_) { fail('invalid_riposte'); }
-    exact(chosen, ['capability', 'approvalId', 'opportunityId', 'gmConfirmed', 'names', 'weapon', 'roll', 'rollOutcome', 'positions', 'notApplied']);
+    exact(chosen, ['capability', 'approvalId', 'opportunityId', 'gmConfirmed', 'names', 'weapon', 'roll', 'rollOutcome', 'positions', 'parentKeys', 'offerHash', 'notApplied']);
     exact(chosen.names, ['source', 'target']);
     if (chosen.capability !== CAPABILITY || chosen.approvalId !== a.approvalId || chosen.opportunityId !== p.id || chosen.gmConfirmed !== true ||
         !text(chosen.names.source, 60) || !text(chosen.names.target, 60) || hash(chosen.weapon) !== hash(a.weapon) || hash(chosen.roll) !== hash(a.roll) ||
-        !['hit', 'miss'].includes(chosen.rollOutcome) || chosen.notApplied !== UNAPPLIED || command.adjudication.adjustmentReason !== RULING) { fail('riposte_approval_mismatch'); }
+        !['hit', 'miss'].includes(chosen.rollOutcome) || hash(chosen.parentKeys) !== hash(p.parentKeys) || chosen.offerHash !== p.offerHash || chosen.notApplied !== UNAPPLIED || command.adjudication.adjustmentReason !== RULING) { fail('riposte_approval_mismatch'); }
     const amount = command.adjudication.finalAmount;
     if (!int(amount) || chosen.rollOutcome === 'miss' && amount !== 0) { fail('invalid_final_amount'); }
     const source = actors.locate(room, a.source), target = actors.locate(room, a.target);
+    if (!payments.ownerMember(room, a.source.ownerUid)) { fail('owner_unavailable'); }
     if (hash(chosen.positions) !== hash([source.token.position || null, target.token.position || null])) { fail('riposte_ruling_stale'); }
     const pools = actors.resources(source.token, 'character'), hp = actors.resources(target.token, 'creature').hp;
     const ap = payments.tempFirst(pools.ap.current, pools.ap.temp, 1), fromTemp = Math.min(hp.temp, amount);

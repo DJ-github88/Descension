@@ -128,6 +128,10 @@ service/handler and one HUD mount, named accepted-feed parsing. One optimized-Ap
 migration. Preserve concurrent RI-1 files/checkpoint. Exactly one bounded independent E1a review;
 bulky evidence/build outputs external. No commit/push/deployment.
 
+E1a custody registration is additive in `src/persistence/privateStorageRegistry.js`: a user-only
+recoverable sibling family for Riposte bytes, using existing scoped-native helpers. No legacy key
+retirement, schema migration or change to basic-strike custody; focused registry checks only.
+
 **E1a contract preparation only, 2026-10-19:** Main HQ writes existing P13B §12, this coordination
 document, ENGINEERING_STATE/CURRENT_PRIORITIES and the existing creator packet. Collector W remains
 complete at §11's accepted identity; no review/build repeated. Proposed future shared writes are

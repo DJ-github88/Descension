@@ -40,6 +40,7 @@ import BlockingHost from './BlockingPanel';
 import AcceptedResultNarration from '../combat/AcceptedResultNarration';
 import ActorConsequenceLayer from './ActorConsequenceLayer';
 import ReactionWindowHost from './ReactionWindowPanel';
+import RiposteHost from './RipostePanel';
 // REMOVED: import './styles/ClassResourceBar.css'; // CAUSES CSS POLLUTION - loaded centrally
 
 // Athien and Human bloodlines carry only the bloodline name in race data; the
@@ -3682,7 +3683,7 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
 
             <div className="party-hud-frames">
                 {isInMultiplayer && (
-                    <ActorConsequenceLayer><ActorConsequenceControls /><SpellConsequenceHost /><WeaponStrikeHost /><BlockingHost /><AcceptedResultNarration /><ReactionWindowHost /></ActorConsequenceLayer>
+                    <ActorConsequenceLayer><ActorConsequenceControls /><SpellConsequenceHost /><WeaponStrikeHost /><BlockingHost /><AcceptedResultNarration /><ReactionWindowHost /><RiposteHost /></ActorConsequenceLayer>
                 )}
                 {resolvedDisplayMembers.map((member, index) => {
                     const memberKey = getMemberStableKey(member, myIds);

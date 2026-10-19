@@ -8,6 +8,7 @@ import { riposteContext, loadRiposteCustody, retainRiposteCustody } from './ripo
 import { CAPABILITY, weaponForRiposte, recordRiposteRoll, ripostePlan, riposteReceipt, riposteAcceptedText } from './riposteExecution';
 import { ownerSource } from './spellConsequenceService';
 import { reactionPrincipal } from './reactionWindowService';
+import { isPrivateProjectionIsolated } from '../persistence/bootstrapPrivacyGate';
 
 const initial = () => ({ principal: null, opportunities: [], pending: [], saved: null, status: '' });
 export const useRiposteStore = create(initial);
@@ -17,7 +18,7 @@ const tokens = () => [...(getStore('creatureStore')?.getState().creatureTokens |
 const character = () => getStore('characterStore')?.getState() || {};
 const unresolved = v => v?.command && !['accepted', 'refused', 'reconciled'].includes(v.phase);
 const scope = () => ({ context: riposteContext(), delivery: captureActorDelivery(), principal: reactionPrincipal(), binding });
-const live = s => s.binding === binding && s.principal === reactionPrincipal() && s.context.current() && currentActorDelivery(s.delivery, s.context.roomId);
+const live = s => s.binding === binding && s.principal === reactionPrincipal() && !isPrivateProjectionIsolated() && s.context.current() && currentActorDelivery(s.delivery, s.context.roomId);
 export function restoreRiposte() { const saved = loadRiposteCustody(); useRiposteStore.setState({ saved }); return saved; }
 function keep(context, family, id, value) {
   const previous = loadRiposteCustody(context) || {}, lane = { ...(previous[family] || {}), [id]: value };
@@ -50,6 +51,10 @@ export async function offerRiposte(fields) {
   keep(context, 'offers', id, { request, phase: 'unknown' });
   const result = await scoped('actor_riposte_offer', request);
   if (result.code === 'retired_principal') return result;
+  if (result.receipt) {
+    keep(context, 'offers', id, { request, phase: 'recorded', result: { success: true, receipt: result.receipt } });
+    consumeRiposte(result); await refreshRiposte(); return result;
+  }
   keep(context, 'offers', id, { request, phase: result.success ? 'recorded' : ['outcome_unknown', 'room_connection_unavailable'].includes(result.code) ? 'unknown' : 'refused', result });
   if (!result.success) throw Error(`Riposte offer: ${result.code}. Exact request retained; no automatic retry.`);
   await refreshRiposte(); return result;
@@ -99,9 +104,15 @@ export async function executeRiposte(entry, { outcome, amount, confirmed }) {
   const s = scope(), context = s.context, id = entry.approval.opportunityId;
   if (!context.current() || !game().isGMMode) throw Error('Current GM required.');
   if (unresolved(loadRiposteCustody(context)?.gm?.[id])) throw Error('Check the same prepared Riposte command first.');
-  const snapshot = await refreshActorSnapshot();
+  const rulingState = () => canonical([entry.approval.source, entry.approval.target].map(ref => {
+    const token = findActor(ref); return [token?.state?.actorContract?.revision, token?.position || null];
+  }));
+  const reviewed = rulingState(), snapshot = await refreshActorSnapshot();
   if (!live(s) || !snapshot.success || !game().isGMMode) return;
-  const plan = ripostePlan({ ...entry, tokens: tokens(), outcome, amount, confirmed });
+  if (reviewed !== rulingState()) throw Error('Actor state or position changed. Review the refreshed ruling before preparing execution.');
+  const p = useRiposteStore.getState().opportunities.find(p => p.id === id);
+  if (!p?.parentKeys) throw Error('Current GM parent proof unavailable; no command prepared.');
+  const plan = ripostePlan({ ...entry, tokens: tokens(), outcome, amount, confirmed, parentKeys: p.parentKeys, offerHash: p.offerHash });
   const command = prepareActorCommand(plan.entries, plan.extra);
   keep(context, 'gm', id, { phase: 'unknown', command });
   return checkRiposteCommand(id);
@@ -126,8 +137,9 @@ export function consumeRiposte(result) {
   const context = riposteContext(), view = riposteReceipt(result);
   if (!context.current() || !view || view.receipt.roomId !== context.roomId) return;
   const id = view.chosen.opportunityId, saved = loadRiposteCustody(context) || {};
-  if (saved.owner?.[id] && view.receipt.source.ownerUid === context.uid) keep(context, 'owner', id, { ...saved.owner[id], phase: 'accepted', result });
-  if (saved.gm?.[id]) keep(context, 'gm', id, { ...saved.gm[id], phase: 'accepted', result });
+  const accepted = Object.fromEntries(['success', 'receipt', 'status', 'durability'].filter(k => result[k] !== undefined).map(k => [k, result[k]]));
+  if (saved.owner?.[id] && view.receipt.source.ownerUid === context.uid) keep(context, 'owner', id, { ...saved.owner[id], phase: 'accepted', result: accepted });
+  if (saved.gm?.[id]) keep(context, 'gm', id, { ...saved.gm[id], phase: 'accepted', result: accepted });
   useRiposteStore.setState({ status: riposteAcceptedText(result) });
   return view;
 }
