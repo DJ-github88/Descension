@@ -18,7 +18,7 @@ const POOLS = { hp: ['currentHp', 'health', 'tempHealth', 'maxHp'], mana: ['curr
 const MODIFIERS = ['strength', 'agility', 'constitution', 'intelligence', 'spirit', 'charisma', 'armor', 'damageReduction', 'movementSpeed', 'healthRegen', 'manaRegen', 'maxHp', 'maxMana', 'maxAP', 'attackBonus', 'damageBonus', 'saveBonus'];
 const CONDITION_FIELDS = ['version', 'id', 'recordId', 'conditionKey', 'originalName', 'name', 'type', 'kind', 'target', 'targetId', 'targetType', 'source', 'sourceActor', 'sourceEntityId', 'effectOrigin', 'isMagical', 'icon', 'color', 'description', 'effectSummary', 'effects', 'duration', 'durationType', 'durationValue', 'remainingRounds', 'startTime', 'endTime', 'stackable', 'hasOverTimeEffect', 'overTimeType', 'overTimeFormula', 'overTimeElement', 'tickFrequency', 'tickFrequencyValue', 'tickFrequencyUnit', 'clockBoundary', 'sharedTiming'];
 const REF_KEYS = ['kind', 'roomId', 'mapId', 'tokenId', 'instanceId', 'ownerUid', 'characterId'];
-const PROTECTED = new Set(['actorContract', 'actorConsequences', 'classPayment', 'equipmentBlocking','health', 'mana', 'actionPoints', 'currentHp', 'currentMana', 'currentActionPoints', 'tempHealth', 'tempMana', 'tempActionPoints', 'hp', 'maxHp', 'maxMana', 'maxAP', 'maxActionPoints', 'conditions', 'buffs', 'debuffs', 'finalResources', 'expectedRevision']);
+const PROTECTED = new Set(['effectLifecycle', 'actorContract', 'actorConsequences', 'classPayment', 'equipmentBlocking','health', 'mana', 'actionPoints', 'currentHp', 'currentMana', 'currentActionPoints', 'tempHealth', 'tempMana', 'tempActionPoints', 'hp', 'maxHp', 'maxMana', 'maxAP', 'maxActionPoints', 'conditions', 'buffs', 'debuffs', 'finalResources', 'expectedRevision']);
 const runtimeEpochs = new WeakMap();
 
 function epoch(room) {
@@ -303,6 +303,15 @@ function stage(room, player, uid, command, authorization, confirmedRevision) {
   }
   const approved = binder ? binder.bindCommand(room, player, command, authorization) : null;
   const conditionProfile = require('../../vtt-react/src/services/sharedConditionProfile');
+  const shieldBash = require('../../vtt-react/src/services/shieldBashResult');
+  const shieldResult = shieldBash.readResult(command);
+  const shieldAdd = command.actors.some(actor => actor.conditions?.some(op => op.op === 'add' && shieldBash.namedRecord(op.record)));
+  if (shieldAdd || shieldResult) {
+    if (!player.isGM || authorization?.kind !== 'gm') {fail('shield_bash_gm_required');}
+    if (!shieldBash.validCommand(command)) {fail('invalid_shield_bash_result');}
+    if (prior.receipts.some(receipt => receipt.commandId === command.commandId)) {fail('shield_bash_already_recorded');}
+    locate(room, shieldResult.source); // Current source incarnation after handler authority awaits.
+  }
   const namedProfile = [conditionProfile.DEFENDING, conditionProfile.STUNNED].find(profile =>
     command.adjudication?.definitionVersionOrHash === profile.origin || command.actors.some(actor => actor.conditions?.some(op => op.record?.effectOrigin === profile.origin)));
   const namedCondition = !!namedProfile;
@@ -334,6 +343,9 @@ function stage(room, player, uid, command, authorization, confirmedRevision) {
     if (!Array.isArray(records)) {fail('legacy_reconciliation_required');}
     for (const operation of actor.conditions || []) {
       const index = records.findIndex(record => (record.recordId || record.id) === operation.recordId);
+      // C3 correction may retain a named identity, never introduce it by updating a generic marker.
+      if (operation.op === 'update' && shieldBash.namedRecord(operation.record) &&
+          (!conditionProfile.isStunned(records[index]) || !shieldBash.namedRecord(records[index]))) {fail('invalid_shield_bash_result');}
       if (operation.record && [conditionProfile.DEFENDING.origin, conditionProfile.STUNNED.origin].includes(operation.record.effectOrigin) && !conditionProfile.validManagedRecord(operation.record, actor.ref)) {fail('invalid_shared_condition');}
       if (namedCondition && (actor.conditions.length !== 1 || !['add', 'remove', ...(namedProfile === conditionProfile.STUNNED ? ['update'] : [])].includes(operation.op) ||
           operation.op !== 'remove' && operation.record?.effectOrigin !== namedProfile.origin ||
@@ -353,6 +365,7 @@ function stage(room, player, uid, command, authorization, confirmedRevision) {
         if (operation.op === 'remove') {records.splice(index, 1);}
         else {records[index] = validateRecord(operation.record, actor.ref);}
       }
+      require('./sharedEffectLifecycle').application(room, next, actor.ref, operation);
     }
     token.state.conditions = records;
     let classPayment = null;
@@ -387,9 +400,15 @@ function stage(room, player, uid, command, authorization, confirmedRevision) {
     entries.push({ ref: actor.ref, beforeRevision: actor.expectedRevision, afterRevision: actor.expectedRevision + 1, finalResources: resources(token, actor.ref.kind), conditions: clone(records),
       ...(classPayment ? { classPayment } : {}), ...(blocking ? { blocking } : {}), ...(equipmentWear ? { equipmentWear } : {}) });
   }
+  return finishStage(room, uid, command, approved ? { kind: 'owner-approval-gm', authorizerUid: uid, proposalId: approved.approval.approvalId, approvalHash: approved.contentHash } : authorization,
+    confirmedRevision, next, entries, approved, binder);
+}
+// Same ledger/pruning/projection finalizer for actor effects and bounded administrative turn state.
+function finishStage(room, uid, command, authorization, confirmedRevision, next, entries, approved = null, binder = null) {
+  const prior = ledger(room);
   const receipt = { version: 1, roomId: room.id, commandId: command.commandId, submitterUid: uid, contentHash: hash(command), admissionEpoch: epoch(room),
     commitSequence: prior.commitSequence + 1, checkpointRevision: 0, actors: entries,
-    authorization: approved ? { kind: 'owner-approval-gm', authorizerUid: uid, proposalId: approved.approval.approvalId, approvalHash: approved.contentHash } : authorization,
+    authorization,
     acceptedAt: Date.now() };
   if (command.source) {receipt.source = clone(command.source);}
   if (command.target) {receipt.target = clone(command.target);}
@@ -561,13 +580,17 @@ function authorityMetadataPath(value, depth = 0) {
   if (!value || typeof value !== 'object') {return null;}
   if (depth > 20) {return 'depth_limit';}
   for (const [key, child] of Object.entries(value)) {
-    if (['actorContract', 'actorConsequences'].includes(key)) {return key;}
+    if (['effectLifecycle', 'actorContract', 'actorConsequences'].includes(key)) {return key;}
     const found = authorityMetadataPath(child, depth + 1);
     if (found) {return `${key}.${found}`;}
   }
   return null;
 }
 function preserveImportedActorMetadata(gameState) {
+  if (gameState.combat?.effectLifecycle) {
+    gameState.actorConsequenceRecovery = { ...gameState.actorConsequenceRecovery, importedEffectLifecycle: gameState.combat.effectLifecycle, reason: 'untrusted-local-import' };
+    delete gameState.combat.effectLifecycle;
+  }
   if (own(gameState, 'actorProjection')) {
     gameState.actorConsequenceRecovery = { ...gameState.actorConsequenceRecovery, importedActorProjection: gameState.actorProjection, reason: 'untrusted-local-import' };
     delete gameState.actorProjection;
@@ -593,4 +616,4 @@ function preserveImportedActorMetadata(gameState) {
   }
   return gameState;
 }
-module.exports = { assertCanAct, assertCanMove, epoch, ledger, locate, permitted, resources, stage, knownReceipt, validateCommand, validateRef, refFor, hash, bytes, clone, fail, keys, own, publicCondition, publicContract, publicReceipt, protectedPath, authorityMetadataPath, preserveImportedActorMetadata, buildPaths, validateBuildEnvelope, prepareBuildUpdate, installBuildUpdate, CONDITION_FIELDS, POOLS };
+module.exports = { finishStage, assertCanAct, assertCanMove, epoch, ledger, locate, permitted, resources, stage, knownReceipt, validateCommand, validateRef, refFor, hash, bytes, clone, fail, keys, own, publicCondition, publicContract, publicReceipt, protectedPath, authorityMetadataPath, preserveImportedActorMetadata, buildPaths, validateBuildEnvelope, prepareBuildUpdate, installBuildUpdate, CONDITION_FIELDS, POOLS };

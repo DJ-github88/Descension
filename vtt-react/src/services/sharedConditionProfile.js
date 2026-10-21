@@ -12,8 +12,8 @@ const recordsFor = token => (Array.isArray(token?.state?.conditions) ? token.sta
 const holdsDefending = token => recordsFor(token).length > 0;
 const blockingReduction = (face, defending) => face * (defending ? DEFENDING.blockingMultiplier : 1);
 const preventsBlockingWear = defending => !!defending && DEFENDING.preventsBlockingWear;
-const expiryLabel = record => isStunned(record) ? record.effectSummary : isDefending(record) && record.target?.kind === 'character' ? DEFENDING.expiryLabel :
-  record?.sharedTiming === 'manual' ? 'GM manages timing.' : null;
+const expiryLabel = (record, combat) => require('./sharedEffectTiming').label(record, combat) || (isStunned(record) ? record.effectSummary : isDefending(record) && record.target?.kind === 'character' ? DEFENDING.expiryLabel :
+  record?.sharedTiming === 'manual' ? 'GM manages timing.' : null);
 function makeDefendingRecord(target, id, sourceMode = 'manual') {
   if (target?.kind !== 'character' || !REF_KEYS.every(k => typeof target[k] === 'string' && target[k]) || !uuid(id) || !['manual', 'self-defend'].includes(sourceMode)) throw Error('Exact primary PC, UUID instance and source mode required.');
   // Keep this Node/client module free of object-spread Babel helper imports (CRA otherwise marks CommonJS as ESM).

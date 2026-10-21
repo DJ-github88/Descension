@@ -448,34 +448,34 @@
 }
 
 .spell-confirm-btn.confirm-consume {
-  background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
-  border: 1.5px solid #4ade80;
-  color: #ffffff;
-  box-shadow: 0 2px 8px rgba(34, 197, 94, 0.4);
+  background: linear-gradient(135deg, #5f7f52 0%, #4a6840 100%);
+  border: 1.5px solid #a9bf96;
+  color: #fdf6e3;
+  box-shadow: 0 2px 6px rgba(52, 78, 44, 0.3);
   display: inline-flex;
   align-items: center;
   gap: 6px;
 }
 
 .spell-confirm-btn.confirm-consume:hover {
-  background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
-  box-shadow: 0 4px 14px rgba(34, 197, 94, 0.6);
+  background: linear-gradient(135deg, #6c8d5e 0%, #557549 100%);
+  box-shadow: 0 4px 10px rgba(52, 78, 44, 0.38);
   transform: translateY(-1px);
 }
 
 .spell-confirm-btn.confirm-cast {
-  background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
-  border: 1.5px solid #fde047;
-  color: #ffffff;
-  box-shadow: 0 2px 8px rgba(217, 119, 6, 0.4);
+  background: linear-gradient(135deg, #a8672a 0%, #8b4f1f 100%);
+  border: 1.5px solid #d4b574;
+  color: #fdf6e3;
+  box-shadow: 0 2px 6px rgba(92, 51, 16, 0.3);
   display: inline-flex;
   align-items: center;
   gap: 6px;
 }
 
 .spell-confirm-btn.confirm-cast:hover {
-  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-  box-shadow: 0 4px 14px rgba(245, 158, 11, 0.6);
+  background: linear-gradient(135deg, #b8762f 0%, #9a5a25 100%);
+  box-shadow: 0 4px 10px rgba(92, 51, 16, 0.38);
   transform: translateY(-1px);
 }
 
@@ -655,18 +655,18 @@
   font-weight: 700;
   padding: 1px 5px;
   border-radius: 4px;
-  background: rgba(220, 38, 38, 0.12);
-  color: #dc2626;
+  background: rgba(156, 74, 62, 0.12);
+  color: #8f3f33;
 }
 
 .spell-consume-diff-row .diff-after.insufficient {
-  color: #dc2626 !important;
-  text-decoration: underline wavy #ef4444;
+  color: #8f3f33 !important;
+  text-decoration: underline wavy #b4675a;
 }
 
 .spell-cast-sphere-preview {
-  background: linear-gradient(135deg, rgba(88, 28, 135, 0.1) 0%, rgba(59, 130, 246, 0.15) 100%);
-  border: 1.5px solid rgba(168, 85, 247, 0.5);
+  background: rgba(107, 79, 130, 0.08);
+  border: 1.5px solid rgba(107, 79, 130, 0.35);
   border-radius: 6px;
   padding: 8px 10px;
   display: flex;
@@ -686,7 +686,7 @@
 
 .spell-cast-sphere-preview .sphere-bank-count {
   font-size: 0.74rem;
-  color: #6b21a8;
+  color: #5d4377;
   font-weight: 600;
 }
 
@@ -708,15 +708,15 @@
 }
 
 .sphere-pill.cost {
-  background: linear-gradient(135deg, #7f1d1d 0%, #991b1b 100%);
-  color: #fecaca;
-  border: 1px solid #ef4444;
+  background: #8a4a3f;
+  color: #f7e4dc;
+  border: 1px solid #b4675a;
 }
 
 .sphere-pill.gain {
-  background: linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 100%);
-  color: #bfdbfe;
-  border: 1px solid #60a5fa;
+  background: #4a6180;
+  color: #e3ebf5;
+  border: 1px solid #8aa0bd;
 }
 
 .spell-cast-formula-preview {
@@ -803,9 +803,9 @@
   margin: 0;
   font-family: 'Crimson Text', serif;
   font-size: 0.95rem;
-  color: #5c3310;
+  color: #4a2a10;
   font-style: italic;
-  line-height: 1.35;
+  line-height: 1.4;
 }
 
 .spell-consume-preview-section {
@@ -842,15 +842,15 @@
 }
 
 .spell-consume-diff-row.health {
-  border-left: 2px solid #ef4444;
+  border-left: 3px solid #b4675a;
 }
 
 .spell-consume-diff-row.mana {
-  border-left: 2px solid #3b82f6;
+  border-left: 3px solid #6f8bb0;
 }
 
 .spell-consume-diff-row.ap {
-  border-left: 2px solid #eab308;
+  border-left: 3px solid #c9a24a;
 }
 
 .spell-consume-diff-row .diff-label {
@@ -863,9 +863,9 @@
   color: #3b1810;
 }
 
-.spell-consume-diff-row.health .diff-label i { color: #ef4444; }
-.spell-consume-diff-row.mana .diff-label i { color: #3b82f6; }
-.spell-consume-diff-row.ap .diff-label i { color: #d97706; }
+.spell-consume-diff-row.health .diff-label i { color: #9c4a3e; }
+.spell-consume-diff-row.mana .diff-label i { color: #4f6d94; }
+.spell-consume-diff-row.ap .diff-label i { color: #9a6a1c; }
 
 .spell-consume-diff-row .diff-values {
   display: flex;
@@ -890,8 +890,8 @@
   font-weight: 900;
 }
 
-.spell-consume-diff-row.health .diff-after { color: #15803d; }
-.spell-consume-diff-row.mana .diff-after { color: #1d4ed8; }
+.spell-consume-diff-row.health .diff-after { color: #3f6b36; }
+.spell-consume-diff-row.mana .diff-after { color: #3d5a85; }
 .spell-consume-diff-row.ap .diff-after { color: #b45309; }
 
 .spell-consume-diff-row .diff-max {
@@ -908,18 +908,18 @@
 }
 
 .spell-consume-diff-row.health .diff-gain {
-  background: rgba(34, 197, 94, 0.15);
-  color: #15803d;
+  background: rgba(95, 127, 82, 0.15);
+  color: #3f6b36;
 }
 
 .spell-consume-diff-row.mana .diff-gain {
-  background: rgba(59, 130, 246, 0.15);
-  color: #1d4ed8;
+  background: rgba(79, 109, 148, 0.15);
+  color: #3d5a85;
 }
 
 .spell-consume-diff-row.ap .diff-gain {
-  background: rgba(234, 179, 8, 0.15);
-  color: #b45309;
+  background: rgba(201, 162, 74, 0.18);
+  color: #8a5a14;
 }
 
 /* Buff Preview within Consume Modal */
@@ -1281,8 +1281,8 @@
 }
 
 .spell-quick-assign-tag.spell {
-  background: rgba(59, 130, 246, 0.15);
-  color: #1d4ed8;
+  background: rgba(79, 109, 148, 0.15);
+  color: #3d5a85;
   border: 1px solid rgba(59, 130, 246, 0.35);
 }
 

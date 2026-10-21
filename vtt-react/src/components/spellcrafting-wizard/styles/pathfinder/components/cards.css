@@ -3300,17 +3300,15 @@ body .pf-spell-card.wizard .wow-spell-card-header,
 
 /* ===== SPELL REQUIREMENT NOTICE ===== */
 .spell-requirement-notice {
-  display: flex;
-  align-items: baseline;
-  gap: 6px;
+  display: block;
   font-family: 'Crimson Text', 'Bookman Old Style', Georgia, serif;
   font-size: 13.5px;
-  color: #3d2415;
-  margin: 6px 0 8px 0;
-  padding: 3px 8px;
-  background: rgba(184, 134, 11, 0.08);
-  border-left: 3px solid rgba(184, 134, 11, 0.6);
-  border-radius: 2px;
+  color: #68533e;
+  margin: 12px 0 0;
+  padding: 10px 0 0;
+  border-top: 1px solid #c7b99f;
+  text-transform: none;
+  letter-spacing: normal;
   line-height: 1.4;
 }
 
@@ -3318,7 +3316,8 @@ body .pf-spell-card.wizard .wow-spell-card-header,
   font-family: 'Cinzel', serif;
   font-size: 10.5px;
   font-weight: 700;
-  color: #7c2d12;
+  color: #68533e;
+  margin-right: 6px;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   flex-shrink: 0;
@@ -3328,6 +3327,7 @@ body .pf-spell-card.wizard .wow-spell-card-header,
   font-family: 'Crimson Text', 'Bookman Old Style', Georgia, serif;
   font-size: 13.5px;
   font-weight: 400;
-  font-style: italic;
-  color: #2d1810;
+  font-style: normal;
+  color: #34251a;
+  text-transform: none;
 }

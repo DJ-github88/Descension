@@ -2021,7 +2021,7 @@ CLASS_RESOURCE_TYPES['Fate Weaver'] = {
  description: 'Three thread tokens in free, reserved or recovering; at most three consented links. Manual tabletop only; no native heritage edge.',
  visual: { type: 'fate-links', baseColor: '#4f5d75', activeColor: '#8fa3bf' },
  mechanics: { initialized: false, current: 0, max: 3, state: null, consumeVerb: 'reserve', gainVerb: 'recover' },
- tooltip: { title: 'Fate Links - manual tabletop', description: 'Three tokens, three links. Expired tokens recover only on a completed long rest; no reconnect or initiative refill.' }
+ tooltip: { title: 'Fate Links - manual tabletop', description: 'Three tokens, three links. A closed link recovers only at the owning caster next own turn; no long-rest, reconnect or initiative refill.' }
 };
 
 CLASS_RESOURCE_TYPES['Chaos Weaver'] = {

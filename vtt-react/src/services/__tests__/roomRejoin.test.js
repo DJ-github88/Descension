@@ -93,6 +93,21 @@ describe('the single room_joined listener', () => {
       addNotification: noop, showPlayerJoinNotification: noop, showPlayerLeaveNotification: noop, showGMDisconnectedNotification: noop,
       handleLeaveRoom: noop, navigate: noop };
   };
+  test('a first admission starts the transition even without a lobby join attempt', () => {
+    const socket = fakeSocket();
+    const context = ctx(socket);
+    context.currentRoomRef.current = null;
+    context.activeJoinIdRef.current = null;
+    context.startJoiningRoom = jest.fn();
+    context.setIsRoomReady = jest.fn();
+    context.setPendingRoomData = jest.fn();
+    const cleanup = registerRoomLifecycleHandlers(context);
+    socket.fire('room_joined', { room: { id: 'new-room', name: 'New Hall' }, player: { id: 'gm' }, isGM: true });
+    expect(context.startJoiningRoom).toHaveBeenCalledTimes(1);
+    expect(context.setIsRoomReady).toHaveBeenCalledWith(true);
+    expect(context.setPendingRoomData).toHaveBeenCalledWith(expect.objectContaining({ room: expect.objectContaining({ id: 'new-room' }), isGM: true }));
+    cleanup();
+  });
   test('notifies once for a rejoin of the current room, never for another room, and stays the only listener', () => {
     jest.spyOn(console, 'log').mockImplementation(() => {});
     const socket = fakeSocket(), seen = [];

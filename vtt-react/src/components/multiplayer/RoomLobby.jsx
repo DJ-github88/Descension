@@ -93,6 +93,16 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt }) => 
   const [charactersLoaded, setCharactersLoaded] = useState(false);
   const [conversionStatus, setConversionStatus] = useState(null); // S8-A conversion durability status
 
+  useEffect(() => {
+    if (!isCreatingRoom) return;
+    const timeout = setTimeout(() => {
+      setIsConnecting(false);
+      setIsCreatingRoom(false);
+      setError('Room creation has not been confirmed. Refresh the room list before trying again.');
+    }, 15000);
+    return () => clearTimeout(timeout);
+  }, [isCreatingRoom]);
+
   // S8-A: surface conversion lifecycle transitions (requested → acknowledged →
   // awaiting durable confirmation → confirmed / pending recovery).
   useEffect(() => subscribeConversionFlow((status) => {
@@ -670,6 +680,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt }) => 
     // nor let this operation clear one.
     const ownerContext = captureConversionTransfer();
     if (!ownerContext.ok) {
+      setError('Your account is still loading. Please wait a moment and try again.');
       setIsConnecting(false);
       setIsCreatingRoom(false);
       return;
@@ -690,21 +701,17 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt }) => 
       if (conversionTransfer && retryDestinationRoomId) {
         persistentRoomId = retryDestinationRoomId;
       } else {
-        try {
-          persistentRoomId = await createPersistentRoom({
-            name: creationFields.roomName,
-            description: creationFields.description,
-            password: creationFields.password,
-            gmName: creationFields.gmName,
-            maxPlayers: 6
-          });
-        } catch (firebaseError) {
-          console.warn('Firebase room creation failed, creating socket room only:', firebaseError);
-          // Continue with socket room creation even if Firebase fails
-        }
+        persistentRoomId = await createPersistentRoom({
+          name: creationFields.roomName,
+          description: creationFields.description,
+          password: creationFields.password,
+          gmName: creationFields.gmName,
+          maxPlayers: 6
+        });
       }
 
-      if (!isConsumerContextCurrent(ownerContext.context) || !socket.connected) return;
+      if (!isConsumerContextCurrent(ownerContext.context)) return;
+      if (!socket.connected) throw new Error('Multiplayer connection lost. Reconnect and try again.');
 
       // Converted local room game state (verified-owner scoped, captured above)
       let gameState = null;
@@ -801,8 +808,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt }) => 
     } catch (error) {
       if (!isConsumerContextCurrent(ownerContext.context)) return;
       console.error('Failed to create room:', error);
-      const errorMsg = error.message || 'Failed to create room';
-      setError(translateErrorToFantasy(errorMsg));
+      setError(error.message || 'The room could not be created. Please try again.');
       setIsConnecting(false);
       setIsCreatingRoom(false);
     }
@@ -894,7 +900,10 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt }) => 
 
   const handleCreateRoom = () => {
     const conversion = captureConversionTransfer();
-    if (!conversion.ok) return;
+    if (!conversion.ok) {
+      setError('Your account is still loading. Please wait a moment and try again.');
+      return;
+    }
     // Get active character name - this should be the primary player name
     const activeCharacter = getActiveCharacter();
     const characterName = activeCharacter?.name || activeCharacter?.baseName;

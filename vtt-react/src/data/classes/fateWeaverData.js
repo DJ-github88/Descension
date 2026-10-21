@@ -51,35 +51,52 @@ const record = (level, suffix, name, ap, targetingConfig, effectTypes, program, 
   description,
   classResourceProgram: program ? { version: 1, domain: 'fate-links', ...program } : null,
   manualMechanics: {
-    price: { actionPoints: ap, mana: 0, tokens: program?.args?.tokens || 0 },
+    price: { actionPoints: ap, mana: 0,
+      tokens: program?.args?.threadReservation || program?.args?.threadPrice || program?.args?.tokens || 0 },
     effects: effects.length ? effects : [linkEffect(program?.op || 'link.none', program?.args || {}, description)],
     executable: false
   },
-  sourceRefs: ['Phase 2B content lock']
+  sourceRefs: ['R1 review payload']
 });
 
 export const FATE_WEAVER_COMMON_MECHANICS = {
   price: 'AP and mana are explicit; links reserve thread tokens, never a second resource bank.',
   consent: 'Every link and covenant requires recorded consent from both actors. Consent can be withdrawn; withdrawal ends the link immediately.',
-  tokens: 'Exactly three tokens in free, reserved or recovering. One token per link. Max three links. Expired links recover only on a completed long rest; cut links recover per their authored rule.',
+  tokens: 'Exactly three tokens in free, reserved or recovering. One token per link, except an authored covenant may reserve two. Max three links. Reserved tokens become recovering when the link closes and return to free at the start of the owning caster next own turn.',
   links: 'Distinct endpoints, maximum 60 ft formation range unless a record says otherwise, one consequence per link per round, and no recursive transfer.',
   damage: 'Only original assigned damage after normal mitigation can be transferred; derived damage never qualifies. A transfer moves at most three points and is not a new damage event.',
-  expiry: 'Own-turn and explicit completed-long-rest timing only. No reconnect, initiative, class-change or scene-change refill.',
+  expiry: 'Own-turn and explicitly authored expiry timing only. No reconnect, initiative, class-change or scene-change refill.',
   information: 'Only visible links, observable endpoints and public terms. No mind reading, hidden clauses or future certainty.',
-  recovery: 'A completed long rest returns all recovering tokens to free. Eternal Tapestry and Eternal Thread change only their authored recovery cases.',
+  recovery: 'Reserved tokens recover at the start of the owning caster next own turn. Eternal Tapestry changes only its authored immediate recovery case.',
   native: 'Fate Weaver has no registered native heritage edge. Kessen Neth access is not implied, and no heritage benefit or cost is granted.'
 };
 
+const subsequentTurnEnd = { durationType: 'own_turns', durationValue: 2, durationUnit: 'subsequent_caster_turn_end' };
+
 export const FATE_WEAVER_CORE_RECORDS = [
-  record(1, 'tie_thread', 'Tie the Thread', 1, ally(), ['utility'], {
-    op: 'link.tie', args: { tokens: 1, maxLinks: 3, rangeFeet: 60, consentRequired: true, uses: 1, expires: NEXT }
-  }, 'Reserve one free thread token and link yourself to one willing ally within 60 ft. The link records both endpoints, public purpose, consent, one use and expiry at the start of your next turn. It transfers no damage by itself.', [
-    linkEffect('link.tie', { tokens: 1, maxLinks: 3, rangeFeet: 60, consentRequired: true, uses: 1, expires: NEXT }, 'Create one consented link; reserve one token.')
-  ], { source: 'core' }),
-  record(1, 'cut_clean', 'Cut Clean', 1, ally(), ['utility'], {
-    op: 'link.cut', args: { tokens: 0, maxLinks: 3, target: 'one-link', refund: 'free', rangeFeet: 60 }
-  }, 'End one link you created. Its token becomes free immediately; any remaining uses or unspent consequence are lost. No damage, transfer, extra attack or renewed link.', [
-    linkEffect('link.cut', { target: 'one-link', refund: 'free', rangeFeet: 60 }, 'Sever one existing link and free its token.')
+  record(1, 'tie_thread', 'Tie the Thread', 1, target(['ally', 'self'], 2, 30), ['buff'], {
+    op: 'link.tie', args: {
+      threadReservation: 1, fromSlot: 0, toSlot: 1, distinctEndpoints: true, consent: 'both',
+      formationRangeEach: 30, maintenanceSeparation: 60, uses: 1, transferMax: 3,
+      expiry: 'end-second-subsequent-caster-turn', event: 'original-assigned-damage', derivedEvents: false
+    }
+  }, 'Reserve one of three threads between two willing lives. On the next eligible original damage event, assign up to three of the protected actor post-mitigation damage to the bearer before temp HP.', [
+    linkEffect('link.tie', {
+      threadReservation: 1, fromSlot: 0, toSlot: 1, distinctEndpoints: true, consent: 'both',
+      formationRangeEach: 30, maintenanceSeparation: 60, uses: 1, transferMax: 3,
+      expiry: 'end-second-subsequent-caster-turn', event: 'original-assigned-damage', derivedEvents: false
+    }, 'Create one consented protective link; reserve one thread.')
+  ], { source: 'core', durationConfig: subsequentTurnEnd }),
+  record(1, 'cut_clean', 'Cut Clean', 1, self(), ['utility'], {
+    op: 'link.cut', args: {
+      target: 'own-active-link', threadDestination: 'recovering',
+      recoverAt: 'next-caster-own-turn', undoAcceptedConsequences: false
+    }
+  }, 'End one of your own untriggered links and recover its reserved threads at the start of your next own turn. Cutting is not an immediate refund or a reversal of damage.', [
+    linkEffect('link.cut', {
+      target: 'own-active-link', threadDestination: 'recovering',
+      recoverAt: 'next-caster-own-turn', undoAcceptedConsequences: false
+    }, 'End one owned link; its reserved threads become recovering.')
   ], { source: 'core' })
 ];
 
@@ -100,10 +117,18 @@ const optional = [
     { kind: 'save-penalty', amount: -1, uses: 1, expires: NEXT }
   ], { damageConfig: damage('1d6'), durationConfig: nextStart }),
 
-  record(2, 'read_bond', 'Read the Bond', 2, self(), ['utility'], {
-    op: 'bond.read', args: { inspect: 'one-visible-bond', rangeFeet: 30, reveals: ['public-purpose', 'consent-state', 'remaining-uses', 'expiry'], hiddenInformation: false }
-  }, 'Inspect one visible bond within 30 ft: public purpose, consent state, remaining uses and expiry. No private memory, hidden clause or future certainty.', [
-    linkEffect('bond.read', { rangeFeet: 30, reveals: ['public-purpose', 'consent-state', 'remaining-uses', 'expiry'] }, 'Read one visible bond public state.')
+  record(2, 'read_bond', 'Read the Bond', 2, target(['perceptible-bond'], 1, 30), ['utility'], {
+    op: 'bond.read', args: {
+      range: 30, targetKind: 'perceptible-bond',
+      reveals: ['endpoints-if-perceptible', 'public-event', 'remaining-public-uses', 'declared-expiry'],
+      hiddenKnowledge: false, createLink: false
+    }
+  }, 'Read the declared terms of one perceptible registered magical fate link or a witnessed voluntary obligation. This does not reveal unknown secrets or create a new bond.', [
+    linkEffect('bond.read', {
+      range: 30, targetKind: 'perceptible-bond',
+      reveals: ['endpoints-if-perceptible', 'public-event', 'remaining-public-uses', 'declared-expiry'],
+      hiddenKnowledge: false, createLink: false
+    }, 'Read one perceptible bond public terms.')
   ]),
   record(2, 'shared_burden', 'Shared Burden', 1, ally(), ['utility'], {
     op: 'link.transfer', args: { tokens: 0, target: 'linked-ally', amountMax: 2, event: 'original-assigned-damage', uses: 1, expires: NEXT, recursive: false }
@@ -291,19 +316,44 @@ const capstone = (suffix, name, treeId, ap, targetingConfig, program, descriptio
 
 export const FATE_WEAVER_TALENT_ACTIVES = [
   signature('witnessed_covenant', 'Witnessed Covenant', 'covenant', 2, {
-    op: 'link.covenant', args: { tokens: 1, maxLinks: 3, rangeFeet: 60, consentRequired: true, reciprocalObligation: true, usesMax: 2, expires: 'end-second-subsequent-turn' }
-  }, 'Create one covenant link to a willing ally within 60 ft. Both actors consent to one declared reciprocal obligation. Reserve one token; the link has at most two uses and expires at the end of the second subsequent turn. A broken obligation ends the link and sends its token to recovering.', [
-    linkEffect('link.covenant', { reciprocalObligation: true, usesMax: 2, expires: 'end-second-subsequent-turn' }, 'Create a consented reciprocal covenant.')
-  ], { effectTypes: ['utility'], target: otherAlly(1, 60), durationConfig: { durationType: 'own_turns', durationValue: 2, durationUnit: 'subsequent_turn_end' } }),
+    op: 'link.covenant', args: {
+      threadReservation: 2, fromSlot: 0, toSlot: 1, consent: 'both',
+      formationRangeEach: 30, maintenanceSeparation: 60, uses: 2, transferMax: 3,
+      expiry: 'end-second-subsequent-caster-turn', releaseOnlyWhenUsesZero: true,
+      threadRecovery: 'next-caster-own-turn-after-closure'
+    }
+  }, 'Reserve two threads in one protective covenant with two uses. Each eligible event transfers at most three; the two threads remain occupied until both uses are spent or the covenant ends.', [
+    linkEffect('link.covenant', {
+      threadReservation: 2, consent: 'both', formationRangeEach: 30, maintenanceSeparation: 60,
+      uses: 2, transferMax: 3, expiry: 'end-second-subsequent-caster-turn',
+      releaseOnlyWhenUsesZero: true, threadRecovery: 'next-caster-own-turn-after-closure'
+    }, 'Create one consented two-thread covenant.')
+  ], { effectTypes: ['buff'], target: target(['ally', 'self'], 2, 30), durationConfig: subsequentTurnEnd }),
   signature('sever_borrowed_crown', 'Sever the Borrowed Crown', 'severance', 2, {
-    op: 'link.sever', args: { tokens: 0, target: 'one-link', rangeFeet: 30, suppress: 'one-declared-benefit', suppressUntil: 'end-target-next-turn', damage: null }
-  }, 'End one link within 30 ft and suppress one declared benefit or condition sourced from that link until the end of the target next turn. No damage and no transfer.', [
-    linkEffect('link.sever', { suppress: 'one-declared-benefit', suppressUntil: 'end-target-next-turn' }, 'Sever and suppress one linked benefit.')
-  ], { effectTypes: ['control'], target: enemy() }),
+    op: 'link.sever', args: {
+      threadPrice: 1, priceDestination: 'recovering', range: 30,
+      allowedObjectKind: 'fate-link-v1', requiresIdentifiedObject: true,
+      enemyReservedThreads: 'recover-on-their-next-own-turn', automaticWithinScope: true
+    }
+  }, 'Sever one identified registered fate-link object within range. Commit one thread to recovering as the price; this does not dispel unrelated magic, bloodlines, gods or ordinary affection.', [
+    linkEffect('link.sever', {
+      threadPrice: 1, priceDestination: 'recovering', range: 30,
+      allowedObjectKind: 'fate-link-v1', requiresIdentifiedObject: true,
+      enemyReservedThreads: 'recover-on-their-next-own-turn', automaticWithinScope: true
+    }, 'Sever one identified fate link; pay one recovering thread.')
+  ], { effectTypes: ['control'], target: target(['identified-fate-link'], 1, 30) }),
   signature('reanchor_tapestry', 'Reanchor the Tapestry', 'tapestry', 1, {
-    op: 'link.reanchor', args: { tokens: 0, target: 'one-own-link', newEndpoint: 'willing-actor', rangeFeet: 30, preserve: ['source', 'token', 'uses', 'absoluteExpiry'], renewal: false }
-  }, 'Move one existing link you created to a willing actor within 30 ft, preserving its source, token, remaining uses and absolute expiry. No renewal, extra use or consent bypass.', [
-    linkEffect('link.reanchor', { rangeFeet: 30, preserve: ['source', 'token', 'uses', 'absoluteExpiry'] }, 'Move one link endpoint.')
+    op: 'link.reanchor', args: {
+      target: 'own-active-link', replaceEndpointsMax: 1, formationRangeNew: 30,
+      maintenanceSeparation: 60, requiresNewConsent: true, resetUses: false,
+      extendExpiry: false, afterTriggerBegins: false
+    }
+  }, 'Change one endpoint of your own existing link to a willing legal actor. The original event, use count and expiry remain unchanged; the link cannot be moved after its triggering event begins.', [
+    linkEffect('link.reanchor', {
+      target: 'own-active-link', replaceEndpointsMax: 1, formationRangeNew: 30,
+      maintenanceSeparation: 60, requiresNewConsent: true, resetUses: false,
+      extendExpiry: false, afterTriggerBegins: false
+    }, 'Move one endpoint of an owned link without renewal.')
   ], { effectTypes: ['utility'], target: ally() }),
   capstone('threefold_compact', 'Threefold Compact', 'covenant', 2, otherAlly(3), {
     op: 'link.threefold', args: { tokens: 3, maxLinks: 3, rangeFeet: 30, consentRequired: true, links: 3, sharedObligation: true, separateSeverance: true, sharedDamagePool: false, once: 'completed-long-rest' }
@@ -383,11 +433,86 @@ export const FATE_WEAVER_PROGRESSION_POLICY = {
   manualOnly: true
 };
 
-const findDuplicateEndpoint = links => {
-  if (!Array.isArray(links)) return false;
-  return links.some((link, index) => !link || !link.sourceId || !link.targetId || link.sourceId === link.targetId ||
-    links.findIndex(other => other && other.sourceId === link.sourceId && other.targetId === link.targetId) !== index);
+const fateNodeById = Object.fromEntries(FATE_WEAVER_TALENT_NODES.map(node => [node.id, node]));
+const fateTreePoints = (ranks, treeId) => FATE_WEAVER_TALENT_NODES
+  .filter(node => node.treeId === treeId)
+  .reduce((total, node) => total + (ranks[node.id] || 0), 0);
+
+// Reconcile a stored Fate allocation to the 5-point-per-level budget and the
+// same-tree level/prerequisite gates. Deterministic: highest-gated ranks are
+// removed first, then structurally invalid dependants.
+export const pruneFateWeaverTalents = (talents, characterLevel) => {
+  const ranks = talents && typeof talents === 'object' ? { ...talents } : {};
+  const level = Number.isInteger(characterLevel) ? Math.max(1, characterLevel) : 10;
+  Object.keys(ranks).forEach(nodeId => {
+    const node = fateNodeById[nodeId];
+    if (!node || !Number.isInteger(ranks[nodeId]) || ranks[nodeId] < 1 || ranks[nodeId] > node.maxRanks) {
+      delete ranks[nodeId];
+    }
+  });
+
+  const pruneStructure = () => {
+    let changed = true;
+    while (changed) {
+      changed = false;
+      for (const node of FATE_WEAVER_TALENT_NODES) {
+        const rank = ranks[node.id];
+        if (!rank) continue;
+        const gatePoints = fateTreePoints(ranks, node.treeId) - rank;
+        const predecessorMissing = node.requires.some(predecessorId => {
+          const predecessor = fateNodeById[predecessorId];
+          return !predecessor || (ranks[predecessorId] || 0) !== predecessor.maxRanks;
+        });
+        if (node.minLevel > level || gatePoints < node.requiresPoints || predecessorMissing) {
+          delete ranks[node.id];
+          changed = true;
+        }
+      }
+    }
+  };
+
+  pruneStructure();
+  const budget = Math.min(50, level * 5);
+  let guard = 0;
+  while (Object.values(ranks).reduce((total, rank) => total + rank, 0) > budget && guard < 200) {
+    guard += 1;
+    let target = null;
+    FATE_WEAVER_TALENT_NODES.forEach(node => {
+      if (!ranks[node.id]) return;
+      if (target === null || node.minLevel >= fateNodeById[target].minLevel) target = node.id;
+    });
+    if (target === null) break;
+    ranks[target] -= 1;
+    if (ranks[target] === 0) delete ranks[target];
+    pruneStructure();
+  }
+  return ranks;
 };
+
+const TOKEN_STATES = ['free', 'reserved', 'recovering'];
+const isIdentifier = value => (typeof value === 'string' && value.trim().length > 0) || Number.isFinite(value);
+const reservationIdsFor = link => {
+  if (!link || typeof link !== 'object') return [];
+  if (Array.isArray(link.tokenIds)) return link.tokenIds;
+  if (link.tokenId != null) return [link.tokenId];
+  if (link.reservationId != null) return [link.reservationId];
+  return [];
+};
+const hasBothConsent = link => {
+  const consent = link?.consent;
+  if (consent === 'both' || consent === 'mutual') return true;
+  if (consent && typeof consent === 'object') {
+    if (consent.both === true) return true;
+    return ['source', 'target', 'sourceId', 'targetId', 'from', 'to']
+      .filter(key => consent[key] === true).length >= 2;
+  }
+  return link?.sourceConsent === true && link?.targetConsent === true;
+};
+const hasExpiry = link => ['expiresAt', 'expiry', 'expires', 'expiryAt']
+  .some(key => {
+    const value = link?.[key];
+    return (typeof value === 'string' && value.trim().length > 0) || Number.isFinite(value);
+  });
 
 // Shape checks only. Never create, settle, move or repair a stored link.
 export function validateFateWeaverState(state) {
@@ -395,15 +520,66 @@ export function validateFateWeaverState(state) {
   if (!state || typeof state !== 'object') return { valid: false, errors: ['state must be an object'] };
   if (!Array.isArray(state.tokens) || state.tokens.length !== 3) errors.push('exactly three thread tokens required');
   if (state.links != null && !Array.isArray(state.links)) errors.push('links must be an array');
+  const tokens = Array.isArray(state.tokens) ? state.tokens : [];
   const links = Array.isArray(state.links) ? state.links : [];
   if (links.length > 3) errors.push('at most three links');
-  if (findDuplicateEndpoint(links)) errors.push('links require distinct endpoints');
-  links.forEach(link => {
-    if (!link || typeof link !== 'object') { errors.push('link must be an object'); return; }
-    if (!['free', 'reserved', 'recovering'].includes(link.tokenState)) errors.push('invalid token state');
+
+  const tokenById = new Map();
+  tokens.forEach((token, index) => {
+    if (!token || typeof token !== 'object') { errors.push(`token ${index} must be an object`); return; }
+    if (!isIdentifier(token.id)) errors.push(`token ${index} requires an id`);
+    else if (tokenById.has(token.id)) errors.push(`duplicate token id ${token.id}`);
+    else tokenById.set(token.id, token);
+    if (!TOKEN_STATES.includes(token.state)) errors.push(`token ${token.id ?? index} has invalid token state`);
+  });
+
+  const reservations = new Map();
+  const linkIds = new Set();
+  links.forEach((link, index) => {
+    if (!link || typeof link !== 'object') { errors.push(`link ${index} must be an object`); return; }
+    if (!isIdentifier(link.id)) errors.push(`link ${index} requires an id`);
+    else if (linkIds.has(link.id)) errors.push(`duplicate link id ${link.id}`);
+    else linkIds.add(link.id);
+    if (!isIdentifier(link.sourceId) || !isIdentifier(link.targetId)) {
+      errors.push(`link ${link.id ?? index} requires both endpoint ids`);
+    } else if (link.sourceId === link.targetId) {
+      errors.push(`link ${link.id ?? index} requires distinct endpoints`);
+    }
+    if (!hasBothConsent(link)) errors.push(`link ${link.id ?? index} requires recorded consent from both endpoints`);
+
+    const tokenIds = reservationIdsFor(link);
+    if (tokenIds.length === 0) errors.push(`link ${link.id ?? index} requires a reserved token association`);
+    if (new Set(tokenIds).size !== tokenIds.length) errors.push(`link ${link.id ?? index} repeats a reservation`);
+    if (link.threadReservation != null && link.threadReservation !== tokenIds.length) {
+      errors.push(`link ${link.id ?? index} reservation count is inconsistent`);
+    }
+    if (link.tokenState != null && link.tokenState !== 'reserved') {
+      errors.push(`link ${link.id ?? index} active token state must be reserved`);
+    }
+    tokenIds.forEach(tokenId => {
+      if (!isIdentifier(tokenId)) { errors.push(`link ${link.id ?? index} has an invalid reservation id`); return; }
+      const token = tokenById.get(tokenId);
+      if (!token) errors.push(`link ${link.id ?? index} references a missing reservation ${tokenId}`);
+      else if (token.state !== 'reserved') errors.push(`link ${link.id ?? index} references a ${token.state} reservation ${tokenId}`);
+      if (reservations.has(tokenId)) errors.push(`reservation ${tokenId} is associated with more than one link`);
+      else reservations.set(tokenId, link.id);
+    });
+
+    const uses = link.uses;
+    if (!Number.isInteger(uses) || uses < 1 || uses > 2) errors.push(`link ${link.id ?? index} uses must be 1 or 2`);
+    const usesRemaining = link.usesRemaining ?? link.remainingUses;
+    if (!Number.isInteger(usesRemaining) || usesRemaining < 0 || (Number.isInteger(uses) && usesRemaining > uses)) {
+      errors.push(`link ${link.id ?? index} remaining uses are inconsistent`);
+    }
+    if (!hasExpiry(link)) errors.push(`link ${link.id ?? index} requires an explicit expiry`);
     if (link.amountMax != null && (!Number.isFinite(link.amountMax) || link.amountMax > 3)) errors.push('transfer amount exceeds 3');
-    if (link.uses != null && (link.uses < 1 || link.uses > 2)) errors.push('uses must be 1 or 2');
     if (link.recursive === true) errors.push('recursive transfer is not allowed');
+  });
+
+  tokenById.forEach(token => {
+    if (token.state === 'reserved' && !reservations.has(token.id)) {
+      errors.push(`reserved token ${token.id} is not associated with a link`);
+    }
   });
   return { valid: errors.length === 0, errors };
 }
@@ -413,15 +589,20 @@ export function projectFateWeaverResource(resource, isOwner = false) {
   if (!state) return { initialized: false, valid: true, errors: [], tokens: { free: 0, reserved: 0, recovering: 0 }, links: [], maxLinks: 3 };
   const check = validateFateWeaverState(state);
   const tokens = [0, 1, 2].map(index => state.tokens?.[index]?.state).filter(value => ['free', 'reserved', 'recovering'].includes(value));
-  const links = Array.isArray(state.links) ? state.links.map(link => ({
-    id: link?.id || null,
-    sourceName: isOwner ? link?.sourceName || link?.source || 'Unknown endpoint' : 'Endpoint hidden',
-    targetName: isOwner ? link?.targetName || link?.target || 'Unknown endpoint' : 'Endpoint hidden',
-    purpose: link?.purpose || link?.publicPurpose || 'Unrecorded public purpose',
-    tokenState: link?.tokenState || 'unknown',
-    usesRemaining: Number.isFinite(link?.usesRemaining) ? link.usesRemaining : null,
-    expiresAt: link?.expiresAt || null
-  })) : [];
+  const links = Array.isArray(state.links) ? state.links.map(link => {
+    const reservationId = Array.isArray(link?.tokenIds) ? link.tokenIds[0] : (link?.tokenId ?? link?.reservationId);
+    const reservation = state.tokens?.find(token => token?.id === reservationId);
+    const remaining = link?.usesRemaining ?? link?.remainingUses;
+    return {
+      id: link?.id || null,
+      sourceName: isOwner ? link?.sourceName || link?.source || 'Unknown endpoint' : 'Endpoint hidden',
+      targetName: isOwner ? link?.targetName || link?.target || 'Unknown endpoint' : 'Endpoint hidden',
+      purpose: link?.purpose || link?.publicPurpose || 'Unrecorded public purpose',
+      tokenState: link?.tokenState || reservation?.state || 'unknown',
+      usesRemaining: Number.isFinite(remaining) ? remaining : null,
+      expiresAt: link?.expiresAt || link?.expiry || null
+    };
+  }) : [];
   return { initialized: true, valid: check.valid, errors: check.errors, maxLinks: 3,
     tokens: { free: tokens.filter(value => value === 'free').length, reserved: tokens.filter(value => value === 'reserved').length, recovering: tokens.filter(value => value === 'recovering').length },
     links };
@@ -430,14 +611,14 @@ export function projectFateWeaverResource(resource, isOwner = false) {
 export const FATE_WEAVER_RESOURCE_RULES = {
   tokenCount: 3, tokenStates: ['free', 'reserved', 'recovering'], maxLinks: 3,
   formationRangeFeet: 60, transferAmountMax: 3, usesMin: 1, usesMax: 2,
-  recovery: 'completed-long-rest', refreshOnReconnect: false, refreshOnInitiative: false,
+  recovery: 'next-caster-own-turn', refreshOnLongRest: false, refreshOnReconnect: false, refreshOnInitiative: false,
   recursiveTransfer: false, derivedDamageEligible: false,
   mechanicalHeritageBenefits: false
 };
 
 export const FATE_WEAVER_RESOURCE_SYSTEM = {
   id: 'fate-links', name: 'Fate Links', type: 'fate-links', base: 0, max: 3,
-  generationNote: 'Three tokens. A link reserves one token; an expired link leaves its token recovering until a completed long rest.',
+  generationNote: 'Three tokens. A link reserves one token, except an authored covenant may reserve two; reserved tokens become recovering on closure and return at the owning caster next own turn.',
   tokens: 3, maxLinks: 3, manualOnly: true
 };
 
@@ -451,14 +632,14 @@ export const FATE_WEAVER_DATA = {
   developmentStatus: 'development', statusLabel: 'Development - manual tabletop',
   heritageEffectsImplemented: false,
   classResource: { type: 'fate-links', base: 0, max: 3, initialized: false, state: null,
-    generationNote: 'Uninitialized until actual table state is recorded. Three tokens, max three links.' },
+    generationNote: 'Uninitialized until actual table state is recorded. Three tokens, max three links; closed links recover at the owning caster next own turn.' },
   restrictions: {
     allowedSubraces: [], hardBlocks: [], narrativeUnlock: true,
     acquisition: { records: [
       { id: 'witnessed_link', label: 'Witnessed link', text: 'Observed and recorded a real consented link or covenant with a public obligation and a visible cost.' },
       { id: 'severance_training', label: 'Severance training', text: 'Demonstrated a clean voluntary severance without harming either endpoint.' },
       { id: 'anchor_discipline', label: 'Anchor discipline', text: 'Maintained one link across two real rounds without inventing consent, uses or expiry.' },
-      { id: 'thread_accounting', label: 'Thread accounting', text: 'Recorded all three tokens, every state change and the completed-long-rest recovery exactly once.' }
+      { id: 'thread_accounting', label: 'Thread accounting', text: 'Recorded all three tokens, every state change and the next-own-turn recovery exactly once.' }
     ] },
     justification: 'Fate Weaver is development and qualification-gated; it grants no native heritage access or edge.'
   },

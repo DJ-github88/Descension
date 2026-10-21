@@ -294,6 +294,15 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
     { estimateHeight: 450, estimateWidth: 380, offsetX: 16, anchor: 'above' }
   );
 
+  // Hover spell card for action-bar orbs
+  const [hoverCardSpell, setHoverCardSpell] = useState(null);
+  const [hoverCardPos, setHoverCardPos] = useState({ x: 0, y: 0 });
+  const { adjustedPosition: hoverCardAdjPos, tooltipRef: hoverCardRef } = useTooltipPosition(
+    hoverCardPos,
+    !!hoverCardSpell,
+    { estimateHeight: 450, estimateWidth: 380, offsetX: 16, anchor: 'above' }
+  );
+
   const handleEquipmentActionClick = (action) => {
     setOpenEquipmentSlot(null);
     // P9: weapon actions resolve no original class definition and stay manual,
@@ -1381,8 +1390,15 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
                 draggable={!!spell}
                 onDragStart={(e) => handleSlotDragStart(e, index)}
                 onClick={() => handleSlotClick(index)}
-                onMouseEnter={() => setHoveredSlot(index)}
-                onMouseLeave={() => setHoveredSlot(null)}
+                onMouseEnter={(e) => {
+                  setHoveredSlot(index);
+                  if (spell && !isConsumable) {
+                    const rect = e.currentTarget.getBoundingClientRect();
+                    setHoverCardPos({ x: rect.left + rect.width / 2, y: rect.top });
+                    setHoverCardSpell(fullSpell || spell);
+                  }
+                }}
+                onMouseLeave={() => { setHoveredSlot(null); setHoverCardSpell(null); }}
                 title={spell ? (isConsumable ? `${spell.name} (Consumable • Click to Inspect / Hover to Use)` : `${spell.name} (Click to Inspect / Hover to Cast)`) : `Slot ${hotkey} (Empty)`}
               >
                 <span className="slot-number spell-slot-key">{hotkey}</span>
@@ -1421,8 +1437,8 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
                   <i className="fas fa-plus spell-slot-empty"></i>
                 )}
 
-                {/* Hover Tooltip */}
-                {isHovered && spell && (
+                {/* Hover Tooltip (consumables only; spells show the full card via portal) */}
+                {isHovered && spell && isConsumable && (
                   <div className="spell-slot-tooltip">
                     <span className="spell-slot-tooltip-name">{spell.name}</span>
                     <span className="spell-slot-tooltip-type">
@@ -1519,6 +1535,34 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
             ) : (
               <ItemTooltip item={equipmentTooltipItem} />
             )}
+          </div>
+        </TooltipPortal>
+      )}
+
+      {/* Floating spell card shown when hovering an action-bar orb */}
+      {hoverCardSpell && (
+        <TooltipPortal>
+          <div
+            ref={hoverCardRef}
+            className="equipment-slot-floating-tooltip"
+            style={{
+              position: 'fixed',
+              left: `${hoverCardAdjPos.x}px`,
+              top: `${hoverCardAdjPos.y}px`,
+              maxHeight: 'calc(100vh - 36px)',
+              overflowY: 'auto',
+              pointerEvents: 'none',
+              zIndex: 2147483647
+            }}
+          >
+            <UnifiedSpellCard
+              spell={hoverCardSpell}
+              variant="wizard"
+              showActions={false}
+              showDescription={true}
+              showStats={true}
+              showTags={true}
+            />
           </div>
         </TooltipPortal>
       )}

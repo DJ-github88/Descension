@@ -25,7 +25,9 @@
 .account-dashboard-page .account-dashboard {
   background: #e8e2d4;
   background-image: linear-gradient(rgba(232, 220, 198, 0.86), rgba(232, 220, 198, 0.86)), var(--workspace-texture);
-  background-size: auto, 600px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
   color: var(--workspace-ink);
 }
 

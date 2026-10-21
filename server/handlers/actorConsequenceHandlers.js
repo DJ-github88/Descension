@@ -35,6 +35,7 @@ function registerActorConsequenceHandlers(ctx) {
   const confirmed = room => Math.max(room.checkpointRevision || 0, writer?.getStatus?.(room.id)?.confirmedRevision || 0);
   const liveOnly = room => room.isPermanent !== true && !room.persistentRoomId;
   const resultFor = (room, receipt) => ({ success: true, receipt: actors.publicReceipt(receipt), actorSnapshot: require('../services/actorProjection').snapshot(room),
+    combat: actors.clone(room.gameState.combat || null), combatHash: actors.hash(room.gameState.combat || null),
     status: Number.isSafeInteger(receipt.checkpointRevision) && receipt.checkpointRevision > 0 && receipt.checkpointRevision <= confirmed(room) ? 'checkpoint-confirmed' : 'accepted-live',
     durability: receipt.checkpointRevision === null ? 'live-only' : 'checkpoint-eligible' });
   const entitledSession = (room, sid, player) => {
@@ -106,8 +107,24 @@ function registerActorConsequenceHandlers(ctx) {
     const { room } = context(data.roomId);
     const state = actors.ledger(room);
     respond(ack, { success: true, ...require('../services/actorProjection').snapshot(room), actionEpoch: actors.epoch(room), commitSequence: state.commitSequence, replayFloor: state.replayFloor,
+      combat: actors.clone(room.gameState.combat || null), combatHash: actors.hash(room.gameState.combat || null),
       bindings: Object.entries(room.gameState.maps || {}).flatMap(([mapId, map]) => ['tokens', 'creatures', 'characterTokens'].flatMap(field =>
         Object.entries(map[field] || {}).map(([tokenId, token]) => ({ mapId, tokenId, kind: field === 'characterTokens' ? 'character' : 'creature', snapshotHash: actors.hash(token) })))) });
+  });
+  run('actor_turn_boundary', async(data, ack) => {
+    const lifecycle = require('../services/sharedEffectLifecycle');
+    lifecycle.validate(data);
+    const captured = context(data.roomId);
+    if (!captured.isGM) {actors.fail('turn_gm_required');}
+    const old = actors.knownReceipt(captured.room, captured.uid, data);
+    if (old) {respondInstalled(ack, resultFor(captured.room, old)); return;}
+    await confirm(captured);
+    const staged = lifecycle.stage(captured.room, captured.player, captured.uid, data, confirmed(captured.room));
+    current(captured);
+    admit(captured.room, staged);
+    const result = resultFor(captured.room, staged.receipt);
+    publishInstalled(captured.room, 'actor_consequence_accepted', result, ack);
+    deliver(captured.room, 'combat_state_sync', { combat: result.combat });
   });
   run('actor_bind', async(data, ack) => {
     actors.keys(data, ['roomId', 'ref', 'snapshotHash', 'selection', 'replacePrimaryRef']);

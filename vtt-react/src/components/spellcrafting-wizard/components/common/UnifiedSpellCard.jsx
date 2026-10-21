@@ -509,14 +509,6 @@ const UnifiedSpellCard = ({
       </div>
      )}
 
-     {/* Requirement Notice */}
-     {(spell?.ancestry?.requires || spell?.requirement) && (
-      <div className="spell-requirement-notice">
-       <span className="spell-requirement-label">Requires:</span>
-       <span className="spell-requirement-value">{spell?.ancestry?.requires || spell?.requirement}</span>
-      </div>
-     )}
-
      {/* Global Triggers/Required Conditions - Will wrap effects below */}
 
      {/* Stats (varies by variant) - Only show if step 3 (Effects) has been completed */}
@@ -6288,10 +6280,16 @@ const UnifiedSpellCard = ({
        statContent
       );
      })()}
-    </div>
-   )}
+      {(spell?.ancestry?.requires || spell?.requirement) && (
+       <div className="spell-requirement-notice">
+        <span className="spell-requirement-label">Requires:</span>
+        <span className="spell-requirement-value">{spell?.ancestry?.requires || spell?.requirement}</span>
+       </div>
+      )}
+     </div>
+    )}
 
-   {/* Tags and Cooldown (at bottom of card) */}
+    {/* Tags and Cooldown (at bottom of card) */}
    {(() => {
     const tags = getSpellTags();
     const shouldShowTags = (variant === 'spellbook' || variant === 'wizard' || variant === 'library' || variant === 'collection' || variant === 'rules') && showTags;

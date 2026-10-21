@@ -85,6 +85,32 @@ does not authorize deployment or satisfy roadmap §20 release gates.
 
 ## Current work
 
+### P14-C3 Shield Bash manual-result adapter — implemented, repaired independent ACCEPT, Build1/App2 PASS
+
+[C3 contract/evidence](MYTHRILL_PROJECT_14_C3_CONTRACT.md#implementation-and-evidence) adds a GM-only
+**Record Shield Bash result** mode to the existing shared condition dialog/controller. Explicit exact
+source/target; manually confirmed Stunned only. One result/record/P7-command UUID, pinned original card,
+source-specific target-end-next-turn manual expiry. Accepted history/reopen never reapplies; unknown
+retains exact bytes and blocks replacement; separate later results have independent identities.
+
+- **Authority/mechanics:** current GM direct P7 result administration; no generic-record update can
+  introduce named identity. Existing exact-instance corrections/removal and C2 restrictions work.
+  No AP/mana/class/HP/inventory/equipment/movement mutation. Rolls, eligibility/STR-v-CON/order/costs,
+  prior payment verification, advantage and expiry remain manual; one-round structured conflict visible.
+- **Checks:**6 production cases, client9 controller tests (3 C3 +6 affected regressions), scoped lint0,
+  detector[]. One bounded F1 BLOCK→repair→ACCEPT, original probe retained. Build1 compilation0/C3 client
+  parity[]; App2 GM/owner/observer, token/sheet/GM same ID, adapter-alone action/movement refusal,
+  independent source removal, restored consent, historical non-replay, later result/lost ACK+broadcast/
+  reload/reopen/reconnect, unauthorized refusal, desktop/tablet.4 blocked-provider fetch errors retained.
+- **Identity/limits:** entry `master/8d23e50b`, concurrent external HEAD advanced to `9e653fc4`. C3's6
+  client runtime files match Build1; unrelated RoomLobby full-build drift disclosed. Protected W1/A1a/
+  universal-card hashes unchanged; concurrent Class/race/RI-2/account/room/spell changes/checkpoints
+  preserved, not accepted here. Source/lease/provider/cloud are fixture boundaries. No agent Git write.
+
+C1/C2 acceptance is carried forward. Candidate next bounded integration: bludgeoning-critical manual
+result with GM-resolved CON save and independent one-round metadata. Full Shield Bash/P14, A1b and
+automatic lifecycle remain open. No commit/push/deploy/reset/dependency change.
+
 ### P14-C2 shared Stunned — bounded implementation, independent ACCEPT, Build2/App5 PASS
 
 [C2 contract and evidence](MYTHRILL_PROJECT_14_C2_CONTRACT.md#implementation--evidence) extend C1's
@@ -111,8 +137,8 @@ names are not mechanically promoted. Source departure does not prevent timing-on
   identities unchanged; Class/race/RI-2 bytes/checkpoint preserved. This agent made no Git write.
 
 C1/E1a/W/B2 accepted evidence carries forward. Automatic lifecycle/full save/advantage automation,
-creature Defend and broader P14 remain open. Next smallest preparation: named Shield Bash manual
-result-entry source/timing adapter, with its own freeze. No commit/push/deployment or A1b.
+creature Defend and broader P14 remain open. The named Shield Bash manual result-entry source/timing
+adapter is subsequently delivered by C3 above. No commit/push/deployment or A1b.
 
 ### P14-C1 shared PC Defending — implemented, independently reviewed, real-App verified
 

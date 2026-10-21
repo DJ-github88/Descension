@@ -316,6 +316,7 @@ const applyCombat = (combat, options = {}) => {
         combatLog: [],
         combatConfig: { ...DEFAULT_COMBAT_CONFIG },
         currentTurnStartTime: null,
+        effectLifecycle: null,
         ...RESET_COMBAT_TRANSIENT
       });
     }
@@ -332,6 +333,7 @@ const applyCombat = (combat, options = {}) => {
   const round = Number.isFinite(record.round) ? record.round : 0;
 
   const patch = {};
+  patch.effectLifecycle = isPlainRecord(record.effectLifecycle) ? record.effectLifecycle : null;
   if (current.isInCombat !== active) { patch.isInCombat = active; }
   if (!sameJson(current.turnOrder, turnOrder)) { patch.turnOrder = turnOrder; }
   if (current.currentTurnIndex !== safeIndex) { patch.currentTurnIndex = safeIndex; }
@@ -346,6 +348,8 @@ const applyCombat = (combat, options = {}) => {
 
   store.setState({ ...patch, ...RESET_COMBAT_TRANSIENT });
 };
+// The same silent owner for correlated P7 combat reads; no gameplay callbacks or outbound sync.
+export const hydrateCombatSnapshot = combat => applyCombat(combat, { ownsDomain: true });
 
 const normalizeGridItems = (items) => asArray(items).map((item) => {
   if (!isPlainRecord(item)) { return item; }

@@ -5,7 +5,12 @@ roadmap ([MYTHRILL_NEXT_PHASE.md](MYTHRILL_NEXT_PHASE.md) §26) ends at P10 and 
 This document adds four bounded phases. **At creation only P11 was authorized.** Later bounded
 authorizations/status are recorded below; each further slice still needs its own contract/go-ahead.
 
-> **Latest delivery, 2026-10-21:** [P14-C2](MYTHRILL_PROJECT_14_C2_CONTRACT.md#implementation--evidence)
+> **Latest delivery, 2026-10-21:** [P14-C3](MYTHRILL_PROJECT_14_C3_CONTRACT.md#implementation-and-evidence)
+> Shield Bash manual-result adapter is implemented/review ACCEPT, Build1 C3 parity and App2 PASS.
+> Exact GM-selected actors and retained result identity use C2's shared Stunned path. Rolls/costs/
+> eligibility/save/expiry remain manual; this is neither full Shield Bash execution nor P14 completion.
+>
+> **Preserved C2 delivery:** [P14-C2](MYTHRILL_PROJECT_14_C2_CONTRACT.md#implementation--evidence)
 > bounded Stunned is implemented/review ACCEPT, Build2 compilation/C2 client parity and App5 PASS.
 > Same C1 condition spine; supported actions/reactions/voluntary player movement refuse, independent
 > source timings retained. Saves/advantage/source resolution/expiry remain manual. P14 is not complete.

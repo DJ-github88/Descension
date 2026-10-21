@@ -954,7 +954,10 @@ export const createInfoSlice = (set, get) => ({
         if (removedGrantIds.length > 0) {
             get().removeTalentGrantSpells(removedGrantIds);
         }
-        if (field === 'level') get().reconcileGamblerTalents?.();
+        if (field === 'level') {
+            get().reconcileGamblerTalents?.();
+            get().reconcileFateWeaverTalents?.();
+        }
 
         // Sync with multiplayer
         get().syncWithMultiplayer();

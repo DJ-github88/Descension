@@ -4,25 +4,30 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.85);
+    background: rgba(30, 24, 18, 0.75);
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 100000;
-    backdrop-filter: blur(5px);
+    padding: 20px;
+    box-sizing: border-box;
 }
 
 .profile-edit-modal {
-    background: var(--my-parchment-text);
-    border: 3px solid #8b7355;
-    border-radius: 12px;
+    background: #f8f5ee;
+    border: 1px solid #b6a080;
+    outline: 1px solid #b6a080;
+    outline-offset: -5px;
+    border-radius: 0;
     width: 90%;
     max-width: 450px;
     display: flex;
     flex-direction: column;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    font-family: 'Bookman Old Style', 'Garamond', serif;
-    overflow: hidden;
+    font-family: 'Crimson Text', Georgia, serif;
+    color: #34251a;
+    max-height: calc(100dvh - 40px);
+    overflow-y: auto;
     animation: modal-slide-in 0.3s ease-out;
 }
 
@@ -39,18 +44,36 @@
 }
 
 .profile-edit-header {
-    padding: 15px 20px;
-    border-bottom: 2px solid #d4c5b9;
+    padding: 20px 24px;
+    border-bottom: 1px solid #c7b99f;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: #e6dac3;
+    background: #eee7d7;
 }
 
 .profile-edit-header h3 {
     margin: 0;
     color: #3b2f1a;
     font-size: 1.3rem;
+    font-family: 'Cinzel', Georgia, serif;
+}
+
+.profile-edit-header .close-btn {
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    border: 1px solid transparent;
+    border-radius: 0;
+    background: transparent;
+    color: #68533e;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.profile-edit-header .close-btn:hover {
+    background: #e2d8c3;
+    border-color: #b6a080;
 }
 
 .profile-edit-body {
@@ -67,59 +90,61 @@
     gap: 10px;
 }
 
-.avatar-container {
+.profile-edit-modal .avatar-container {
     width: 120px;
     height: 120px;
-    border-radius: 50%;
-    border: 4px solid #d4af37;
-    background: #fdfbf8;
+    border-radius: 0;
+    border: 1px solid #b6a080;
+    background: #e8e2d4;
     position: relative;
     overflow: hidden;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-.avatar-preview {
+.profile-edit-modal .avatar-preview {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
-.avatar-placeholder {
+.profile-edit-modal .avatar-placeholder {
     width: 100%;
     height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 3rem;
-    color: #d4c5b9;
+    color: #68533e;
 }
 
-.avatar-overlay {
+.profile-edit-modal .avatar-overlay {
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.4);
-    opacity: 0;
+    background: rgba(48, 36, 25, 0.65);
+    opacity: 1;
     transition: opacity 0.2s;
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     justify-content: center;
-    gap: 15px;
+    gap: 8px;
+    padding: 8px;
+    top: auto;
 }
 
-.avatar-container:hover .avatar-overlay {
+.profile-edit-modal .avatar-container:hover .avatar-overlay {
     opacity: 1;
 }
 
-.avatar-action-btn {
-    background: #8b7355;
-    color: white;
-    border: 2px solid #d4af37;
+.profile-edit-modal .avatar-action-btn {
+    background: #eee7d7;
+    color: #34251a;
+    border: 1px solid #b6a080;
     width: 36px;
     height: 36px;
-    border-radius: 50%;
+    border-radius: 0;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -127,25 +152,25 @@
     transition: all 0.2s;
 }
 
-.avatar-action-btn:hover {
-    background: #5a3b2e;
-    transform: scale(1.1);
+.profile-edit-modal .avatar-action-btn:hover {
+    background: #ded3bd;
 }
 
-.avatar-hint {
+.profile-edit-modal .avatar-hint {
     font-size: 0.8rem;
-    color: #8b7355;
+    color: #68533e;
     margin: 0;
     font-style: italic;
 }
 
 .profile-edit-error {
-    background: #fee2e2;
-    border: 1px solid #ef4444;
-    color: #b91c1c;
+    background: #f0e4da;
+    border: 1px solid #ad8271;
+    color: #663c32;
     padding: 10px;
-    border-radius: 6px;
+    border-radius: 0;
     font-size: 0.9rem;
+    font-family: 'Cinzel', Georgia, serif;
 }
 
 .profile-edit-field {
@@ -163,16 +188,16 @@
 .profile-edit-field input {
     padding: 10px 15px;
     border: 1px solid #8b7355;
-    border-radius: 8px;
+    border-radius: 0;
     background: #f8f5eb;
     color: #3b2f1a;
-    font-family: inherit;
+    font: 16px/1.45 'Crimson Text', Georgia, serif;
     outline: none;
     transition: all 0.2s;
 }
 
 .profile-edit-field input:focus {
-    box-shadow: 0 0 0 3px rgba(139, 115, 85, 0.2);
+    box-shadow: none;
     border-color: #5a3b2e;
 }
 
@@ -181,26 +206,48 @@
     justify-content: flex-end;
     gap: 12px;
     margin-top: 10px;
+    padding-top: 18px;
+    border-top: 1px solid #c7b99f;
+    flex-wrap: wrap;
 }
 
-.save-pill-btn {
-    padding: 10px 25px;
-    background: #8b7355;
-    color: white;
-    border: none;
-    border-radius: 20px;
+.profile-edit-modal :is(.save-pill-btn, .cancel-pill-btn) {
+    min-height: 42px;
+    padding: 10px 18px;
+    background: #e8e2d4;
+    color: #34251a;
+    border: 1px solid #b6a080;
+    border-radius: 0;
     cursor: pointer;
-    font-family: inherit;
+    font: 600 12px/1.45 'Cinzel', Georgia, serif;
     font-weight: 600;
     transition: all 0.2s;
 }
 
-.save-pill-btn:hover:not(:disabled) {
-    background: #5a3b2e;
-    transform: translateY(-1px);
+.profile-edit-modal .save-pill-btn {
+    background: #663c32;
+    border-color: #4a3027;
+    color: #fbf7ee;
 }
 
-.save-pill-btn:disabled {
+.profile-edit-modal .save-pill-btn:hover:not(:disabled) {
+    background: #563229;
+}
+
+.profile-edit-modal .cancel-pill-btn:hover:not(:disabled) {
+    background: #ded3bd;
+}
+
+.profile-edit-modal :is(button, input, .avatar-action-btn):focus-visible {
+    outline: 2px solid #68533e;
+    outline-offset: 3px;
+}
+
+.profile-edit-modal button:disabled {
     opacity: 0.6;
     cursor: not-allowed;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .profile-edit-modal { animation: none; }
 }

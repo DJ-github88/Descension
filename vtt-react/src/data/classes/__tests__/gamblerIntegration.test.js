@@ -152,7 +152,7 @@ describe('accepted G1 package and normal registration', () => {
     GAMBIT_RECORD_DISPOSITIONS.forEach(r => expect(r).toMatchObject({ disposition: 'keep', destinationId: null, automaticConversion: false }));
     expect(getReconstructionCompatibility('gambit')).toMatchObject({ relationship: 'split', automaticConversion: false, legacyResolutionRetained: true });
     expect(getReconstructionCompatibility('augur').recordDispositions).toEqual(AUGUR_DISPOSITIONS);
-    expect(AUGUR_DISPOSITIONS).toHaveLength(380);
+    expect(AUGUR_DISPOSITIONS).toHaveLength(382);
     const legacy = ALL_CLASSES_DATA.Gambit;
     expect(legacy.id).toBe('gambit');
     expect(ALL_CLASSES_DATA['Nereid Myrathil Augur'].isCompatibilityAlias).toBe(true);

@@ -19,7 +19,7 @@ export function registerRoomLifecycleHandlers(ctx) {
     addUser, removeUser, addNotification,
     showPlayerJoinNotification, showPlayerLeaveNotification,
     showGMDisconnectedNotification,
-    handleLeaveRoom, navigate
+    handleLeaveRoom, navigate, startJoiningRoom
   } = ctx;
     if (!socket) return;
 
@@ -245,6 +245,9 @@ export function registerRoomLifecycleHandlers(ctx) {
       isAutoJoinSequenceRef.current = false;
 
       // Record room data for the transition
+      // Admission can originate in the lobby, a permanent-room draft, or a
+      // resume. Every successful admission must enter the loading flow.
+      startJoiningRoom?.();
       const roomData = {
         room: data.room,
         socket: socket,

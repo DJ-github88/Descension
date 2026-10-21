@@ -9,7 +9,7 @@ import characterSessionService from '../../services/firebase/characterSessionSer
 import { storeCharacterOffline } from '../../services/offlineService';
 import { getCustomBackgroundData } from '../../data/legacyDisciplineData';
 import { getBackgroundData } from '../../data/backgroundData';
-import { getCurrentUserId, isGuestUser, shouldUseFirebase, triggerCharacterAutoSave, consumeCharacterAutoSaveOriginContext, characterAutoSavePending, readInventoryWorkingData, assembleCharacterWorkingData } from '../characterHelpers';
+import { getCurrentUserId, isGuestUser, shouldUseFirebase, triggerCharacterAutoSave, consumeCharacterAutoSaveOriginContext, characterAutoSavePending, discardCharacterAutoSave, readInventoryWorkingData, assembleCharacterWorkingData } from '../characterHelpers';
 import {
     loadRoster,
     saveRoster,
@@ -823,43 +823,40 @@ export const createCoreSlice = (set, get) => ({
     },
 
     deleteCharacter: async (characterId) => {
+        const userId = getCurrentUserId();
+        const guest = isGuestUser();
+        const useFirebase = userId && shouldUseFirebase() && !guest;
+        const ownerGuard = captureOwnerGuard(useFirebase ? userId : null);
+        if (!ownerGuard.ok) throw new Error('Your account is still loading. Please try again shortly.');
         set({ isLoading: true, error: null });
         try {
-            const userId = getCurrentUserId();
-            const state = get();
-
-            if (userId && shouldUseFirebase() && !isGuestUser()) {
-                // Delete from Firebase if user is authenticated and Firebase is enabled
-                try {
-                    await characterPersistenceService.deleteCharacter(characterId, userId);
-                } catch (firebaseError) {
-                    console.warn('Failed to delete from Firebase, deleting locally:', firebaseError);
-                    // Continue with local delete if Firebase fails
-                }
+            if (get().currentCharacterId === characterId) discardCharacterAutoSave();
+            if (useFirebase) {
+                await characterPersistenceService.deleteCharacter(characterId, userId);
             }
+            if (!ownerGuard.isCurrent()) throw new Error('Account changed before deletion completed.');
 
+            const state = get();
             const updatedCharacters = state.characters.filter(char => char.id !== characterId);
 
-            // Save to scoped storage with quota management
-            saveRoster(isGuestUser(), updatedCharacters).then((result) => {
-                if (result && result.status !== 'OK' && result.status !== 'FORKED') {
-                    console.error('Failed to save characters to scoped storage:', result.status, result.reason || '');
-                }
-            }).catch((error) => {
-                console.error('Failed to save characters to scoped storage:', error);
-            });
+            // The vault reloads after deletion; finish the write before it can
+            // read the previous roster and bring the deleted character back.
+            const saved = await saveRoster(guest, updatedCharacters, { context: ownerGuard.context });
+            if (!ownerGuard.isCurrent()) throw new Error('Account changed before deletion completed.');
+            if (saved.status !== 'OK') throw new Error('Character removal could not be saved on this device. Please refresh and try again.');
+            if (get().currentCharacterId === characterId) clearActivePointer();
 
             set({
-                characters: updatedCharacters,
+                characters: get().characters.filter(char => char.id !== characterId),
                 isLoading: false,
                 // Clear current character if it was deleted
-                currentCharacterId: state.currentCharacterId === characterId ? null : state.currentCharacterId
+                currentCharacterId: get().currentCharacterId === characterId ? null : get().currentCharacterId
             });
 
             return true;
         } catch (error) {
             console.error('Error deleting character:', error);
-            set({ error: 'Failed to delete character', isLoading: false });
+            if (ownerGuard.isCurrent()) set({ error: error.message || 'Failed to delete character', isLoading: false });
             throw error;
         }
     },

@@ -43,6 +43,7 @@ import ReactionWindowHost from './ReactionWindowPanel';
 import RiposteHost from './RipostePanel';
 import { SharedConditionHost } from '../conditions/SharedDefendingEditor';
 import { expiryLabel as sharedExpiryLabel } from '../../services/sharedConditionProfile';
+import { useSharedConditionStore } from '../../services/sharedConditionService';
 // REMOVED: import './styles/ClassResourceBar.css'; // CAUSES CSS POLLUTION - loaded centrally
 
 // Athien and Human bloodlines carry only the bloodline name in race data; the
@@ -218,6 +219,7 @@ const MOUNT_RESOURCE_TYPE = { health: 'health', mana: 'mana', ap: 'actionPoints'
 const MOUNT_TITLES = { health: 'Health', mana: 'Mana', ap: 'Action Points' };
 
 const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContextMenu, onResourceAdjust, onBuffContextMenu, onClassResourceUpdate, onRegisterRefs }) => {
+    const effectCombat = useSharedConditionStore(state => state.combat);
     const frameRef = useRef(null);
     const healthBarRef = useRef(null);
     const manaBarRef = useRef(null);
@@ -556,7 +558,7 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
 
         // Format time to match TargetHUD
         const formatTime = (seconds, durationType = 'minutes') => {
-            if (sharedExpiryLabel(buff)) return sharedExpiryLabel(buff);
+            if (sharedExpiryLabel(buff, effectCombat)) return sharedExpiryLabel(buff, effectCombat);
             if (seconds <= 0) return durationType === 'rounds' ? '0 rounds' : '0:00';
             if (durationType === 'rounds') {
                 const rounds = Math.ceil(seconds / 6);
@@ -826,7 +828,7 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
 
         // Format time to match TargetHUD
         const formatTime = (seconds, durationType = 'minutes') => {
-            if (sharedExpiryLabel(debuff)) return sharedExpiryLabel(debuff);
+            if (sharedExpiryLabel(debuff, effectCombat)) return sharedExpiryLabel(debuff, effectCombat);
             if (seconds <= 0) return durationType === 'rounds' ? '0 rounds' : '0:00';
             if (durationType === 'rounds') {
                 const rounds = Math.ceil(seconds / 6);
@@ -1740,7 +1742,7 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
 
                                     // Format time to match TargetHUD
                                     const formatTime = (seconds, durationType = 'minutes') => {
-                                        if (sharedExpiryLabel(buff)) return sharedExpiryLabel(buff);
+                                        if (sharedExpiryLabel(buff, effectCombat)) return sharedExpiryLabel(buff, effectCombat);
                                         if (seconds <= 0) return durationType === 'rounds' ? '0 rounds' : '0:00';
                                         if (durationType === 'rounds') {
                                             const rounds = Math.ceil(seconds / 6);
@@ -1850,7 +1852,7 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
 
                                     // Format time to match TargetHUD
                                     const formatTime = (seconds, durationType = 'minutes') => {
-                                        if (sharedExpiryLabel(debuff)) return sharedExpiryLabel(debuff);
+                                        if (sharedExpiryLabel(debuff, effectCombat)) return sharedExpiryLabel(debuff, effectCombat);
                                         if (seconds <= 0) return durationType === 'rounds' ? '0 rounds' : '0:00';
                                         if (durationType === 'rounds') {
                                             const rounds = Math.ceil(seconds / 6);

@@ -4,7 +4,7 @@ import FateWeaverResourceDisplay from '../FateWeaverResourceDisplay';
 import ClassResourceBar from '../ClassResourceBar';
 
 const state = () => ({
-  tokens: [{ state: 'free' }, { state: 'reserved' }, { state: 'recovering' }],
+  tokens: [{ id: 't1', state: 'free' }, { id: 't2', state: 'reserved' }, { id: 't3', state: 'recovering' }],
   links: [{
     id: 'link-1',
     sourceId: 'actor-a',
@@ -12,6 +12,8 @@ const state = () => ({
     sourceName: 'A',
     targetName: 'B',
     purpose: 'guard the gate',
+    consent: 'both',
+    tokenIds: ['t2'],
     tokenState: 'reserved',
     usesRemaining: 1,
     amountMax: 2,

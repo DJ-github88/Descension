@@ -7,6 +7,10 @@ import { checkLevelUp, getXPForLevel } from '../../utils/experienceUtils';
 import { TALENT_TREES } from '../../data/talentTreeData';
 import { pruneAllocationForLevel } from '../../data/classes/chaosWeaverRules';
 import { pruneGamblerTalents, GAMBLER_PROJECTED_SPELLS_BY_ID } from '../../data/classes/gamblerData';
+import {
+    pruneFateWeaverTalents, FATE_WEAVER_PROJECTED_SPELLS_BY_ID,
+    FATE_WEAVER_OPTIONAL_RECORDS, FATE_WEAVER_SPELL_POOLS
+} from '../../data/classes/fateWeaverData';
 import useSpellbookStore from '../spellbookStore';
 import { loadLibraryFromStorage, saveLibraryToStorage } from '../../components/spellcrafting-wizard/core/utils/libraryManager';
 
@@ -20,9 +24,13 @@ const forbidsAutomaticSpellAssignment = (classData) => {
 const classTalentNodes = (className) =>
     Object.values(TALENT_TREES[className] || {}).flat();
 
+const fateOptionalById = Object.fromEntries(
+    FATE_WEAVER_OPTIONAL_RECORDS.map(record => [record.id, record])
+);
+
 // Reconcile a stored flat talent allocation after a level reduction or class
-// switch. Only policy classes (Chaos Weaver) have level-gated authored caps;
-// legacy classes keep their previous behaviour.
+// switch. Policy classes (Chaos Weaver, Gambler, Fate Weaver) have level-gated
+// authored caps; legacy classes keep their previous behaviour.
 export const pruneTalentsForChange = (talents, { previousClass, nextClass, level }) => {
     const current = talents && typeof talents === 'object' ? { ...talents } : {};
     if (previousClass && nextClass && previousClass !== nextClass) {
@@ -30,6 +38,7 @@ export const pruneTalentsForChange = (talents, { previousClass, nextClass, level
     }
     if (ALL_CLASSES_DATA[nextClass]?.progression?.policy && Number.isInteger(level)) {
         if (nextClass === 'Gambler') return pruneGamblerTalents(current, level);
+        if (nextClass === 'Fate Weaver') return pruneFateWeaverTalents(current, level);
         return pruneAllocationForLevel({ ranks: current, order: [] }, level).allocation.ranks;
     }
     return current;
@@ -425,7 +434,10 @@ export const createProgressionSlice = (set, get) => ({
 
         // Update both level and XP
         set({ level: newLevel });
-        if (newLevel < currentLevel) get().reconcileGamblerTalents();
+        if (newLevel < currentLevel) {
+            get().reconcileGamblerTalents();
+            get().reconcileFateWeaverTalents();
+        }
 
         // Only trigger updateExperience if leveling up (to avoid triggering modal when manually adjusting)
         if (levelChange > 0) {
@@ -532,9 +544,70 @@ export const createProgressionSlice = (set, get) => ({
         if (changed) saveLibraryToStorage(library);
     },
 
+    // Fate Weaver has level-gated talent ranks, optional picks and derived
+    // passive copies. Reconcile all three without topping up the library.
+    reconcileFateWeaverTalents: () => {
+        const state = get();
+        if ((state.class || state.characterClass) !== 'Fate Weaver') return;
+        const level = Math.max(1, Math.min(10, state.level || 1));
+        const currentTalents = state.talents || {};
+        const ranks = pruneFateWeaverTalents(currentTalents, level);
+        const removed = removedTalentGrantIds(currentTalents, ranks, 'Fate Weaver');
+        const currentKnown = state.class_spells?.known_spells || [];
+        let known = currentKnown.filter(spellId => {
+            const optional = fateOptionalById[spellId];
+            return !optional || optional.level <= level;
+        });
+        known = known.filter(spellId => !removed.includes(spellId));
+
+        const historySpellIds = new Set(Object.values(state.levelUpHistory || {})
+            .map(entry => entry?.spellId).filter(Boolean));
+        const optionalKnown = known.filter(spellId => fateOptionalById[spellId]);
+        if (optionalKnown.length > level) {
+            const removable = optionalKnown.filter(spellId => !historySpellIds.has(spellId))
+                .sort((a, b) => fateOptionalById[b].level - fateOptionalById[a].level);
+            const removeCount = optionalKnown.length - level;
+            const toRemove = new Set(removable.slice(0, removeCount));
+            if (toRemove.size < removeCount) {
+                optionalKnown.filter(spellId => !toRemove.has(spellId))
+                    .sort((a, b) => fateOptionalById[b].level - fateOptionalById[a].level)
+                    .slice(0, removeCount - toRemove.size)
+                    .forEach(spellId => toRemove.add(spellId));
+            }
+            known = known.filter(spellId => !toRemove.has(spellId));
+        }
+
+        const updates = {};
+        if (JSON.stringify(ranks) !== JSON.stringify(currentTalents)) updates.talents = ranks;
+        if (JSON.stringify(known) !== JSON.stringify(currentKnown)) {
+            updates.class_spells = { ...(state.class_spells || {}), known_spells: known };
+        }
+        if (Object.keys(updates).length > 0) set(updates);
+        if (removed.length) get().removeTalentGrantSpells(removed);
+
+        const spellbook = useSpellbookStore.getState();
+        const library = loadLibraryFromStorage();
+        let changed = false;
+        classTalentNodes('Fate Weaver').filter(node => node.passiveSpellId && ranks[node.id]).forEach(node => {
+            const rank = ranks[node.id];
+            const canonical = FATE_WEAVER_PROJECTED_SPELLS_BY_ID[node.passiveSpellId];
+            if (!canonical) return;
+            const view = { ...canonical, source: 'talent', talentId: node.id, talentRank: rank,
+                maxRanks: 3, description: node.rankValues[rank - 1].text,
+                learnedRankValues: node.rankValues[rank - 1].values };
+            const existing = (spellbook.spells || []).find(spell => spell.id === node.passiveSpellId);
+            if (existing?.source === 'talent') spellbook.updateSpell(view.id, view);
+            const index = library?.spells?.findIndex(spell => spell.id === node.passiveSpellId && spell.source === 'talent') ?? -1;
+            if (index >= 0) { library.spells[index] = view; changed = true; }
+        });
+        if (changed) saveLibraryToStorage(library);
+    },
+
+
     updateLevel: (newLevel) => {
         const before = get();
-        if ((before.class || before.characterClass) === 'Gambler' && newLevel < before.level) {
+        const beforeClass = before.class || before.characterClass;
+        if ((beforeClass === 'Gambler' || beforeClass === 'Fate Weaver') && newLevel < before.level) {
             for (let lostLevel = before.level; lostLevel > newLevel; lostLevel--) get().reverseLevelUpBonus(lostLevel);
         }
         let removedGrantIds = [];
@@ -571,6 +644,7 @@ export const createProgressionSlice = (set, get) => ({
             get().removeTalentGrantSpells(removedGrantIds);
         }
         get().reconcileGamblerTalents();
+        get().reconcileFateWeaverTalents();
 
         // Auto-assign spells based on new level
         const state = get();
@@ -662,7 +736,17 @@ export const createProgressionSlice = (set, get) => ({
                 known.filter(spellId => allOptions.includes(spellId)).length >= newLevel) return;
         }
 
-        // Build the level-up history entry
+        if ((state.class || state.characterClass) === 'Fate Weaver') {
+            const known = state.class_spells?.known_spells || [];
+            const allOptions = Object.values(FATE_WEAVER_SPELL_POOLS).flat();
+            const legal = Object.entries(FATE_WEAVER_SPELL_POOLS)
+                .filter(([level]) => Number(level) <= newLevel)
+                .flatMap(([, ids]) => ids);
+            if (newLevel < 1 || newLevel > 10 || state.levelUpHistory?.[newLevel] ||
+                !choice?.spellId || !legal.includes(choice.spellId) || known.includes(choice.spellId) ||
+                known.filter(spellId => allOptions.includes(spellId)).length >= newLevel) return;
+        }
+
         const historyEntry = {
             healthIncrease: choice.healthIncrease || 0,
             manaIncrease: choice.manaIncrease || 0,

@@ -1276,15 +1276,18 @@ export const createSpellLibraryCategoriesForClass = (className) => {
 
 
 
-  // G1 has real records at every level 1–10. Preserve legacy category IDs,
-  // while giving Gambler level 3/signatures and level 10/capstones a home.
-  if (className === 'Gambler') {
+  // G1 and the Fate Weaver package have real records at every level 1–10.
+  // Preserve legacy category IDs while giving level 3/signatures and
+  // level 10/capstones a home.
+  if (className === 'Gambler' || className === 'Fate Weaver') {
+    const prefix = className.toLowerCase();
     [3, 5, 7, 8, 9, 10].forEach(level => categories.push({
-      ...categories[0], id: `gambler_level_${level}`, name: `Level ${level}`,
-      description: `Gambler level ${level}: learned optional, core and paid talent records only.`, spellIds: []
+      ...categories[0], id: `${prefix}_level_${level}`, name: `Level ${level}`,
+      description: `${className} level ${level}: learned optional, core and paid talent records only.`, spellIds: []
     }));
     categories.sort((a, b) => Number(a.id.split('_').pop()) - Number(b.id.split('_').pop()));
   }
+
 
   // Add the custom spells category
 

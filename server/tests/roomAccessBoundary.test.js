@@ -79,6 +79,30 @@ describe('Project 4 room and private-data access boundary', function() {
     ...opts
   });
 
+  it('draft creation applies the server plan capacity instead of trusting the browser', async() => {
+    const owner = await openVerified();
+    let draft;
+    firebaseService.createRoomDraft = async(data) => {
+      draft = data;
+      return { ok: true, roomId: data.roomId, existing: false };
+    };
+    // As in the authority draft tests, avoid a real cloud tier lookup.
+    const admin = require('firebase-admin');
+    const hadApp = admin.apps.length > 0;
+    const appOptions = hadApp ? admin.app().options : null;
+    if (hadApp) {await admin.app().delete();}
+    let result;
+    try {
+      result = await emitAck(owner.client, 'create_room_draft', {
+        name: 'Quiet Hall', settings: { maxPlayers: 999 }
+      });
+    } finally {
+      if (hadApp && admin.apps.length === 0) {admin.initializeApp(appOptions);}
+    }
+    expect(result.success).to.equal(true);
+    expect(draft.settings.maxPlayers).to.equal(3);
+  });
+
   const join = async(client, roomId, payload = {}) => {
     const joined = once(client, 'room_joined');
     client.emit('join_room', {

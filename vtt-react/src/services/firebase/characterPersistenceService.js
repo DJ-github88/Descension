@@ -610,6 +610,10 @@ class CharacterPersistenceService {
           throw new Error('Access denied: Character does not belong to user');
         }
 
+        // Firestore requires all reads before the first transaction write.
+        const userRef = doc(db, COLLECTIONS.USERS, userId);
+        const userDoc = await transaction.get(userRef);
+
         // Soft delete by marking as deleted
         transaction.update(characterRef, {
           'metadata.deletedAt': serverTimestamp(),
@@ -617,9 +621,6 @@ class CharacterPersistenceService {
         });
 
         // Remove from user's character list
-        const userRef = doc(db, COLLECTIONS.USERS, userId);
-        const userDoc = await transaction.get(userRef);
-
         if (userDoc.exists()) {
           const userData = userDoc.data();
           const characters = (userData.characters || []).filter(id => id !== characterId);

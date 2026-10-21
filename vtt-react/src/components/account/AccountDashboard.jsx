@@ -1284,11 +1284,11 @@ const AccountDashboard = ({ user }) => {
                       <div className="character-limit-info">
                         <i className="fas fa-users"></i>
                         <span className="character-count">
-                          {characterLimitInfo.currentCount} / {characterLimitInfo.isUnlimited ? '∞' : characterLimitInfo.limit}
+                          {characterLimitInfo.currentCount} / {characterLimitInfo.isUnlimited ? '∞' : characterLimitInfo.limit} Slots
                         </span>
                       </div>
                     )}
-                    <div className="no-characters-icon"><i className="fas fa-users-slash"></i></div>
+                    <div className="no-characters-icon"><i className="fas fa-shield-halved"></i></div>
                     <h3>No Characters Yet</h3>
                     <p>Create your first hero to explore dungeons, forge alliances, and embark on campaigns!</p>
                     <button className="create-first-character-btn" onClick={handleCreateCharacter}>

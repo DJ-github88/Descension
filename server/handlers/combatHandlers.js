@@ -44,6 +44,10 @@ function registerCombatHandlers(ctx) {
 
       const { room, player } = validation;
 
+      if (room.gameState.combat?.effectLifecycle && (!socket.data?.authenticated || socket.data.userId !== room.gmId || !player.isGM || room.gm?.socketId !== socket.id || room.gm?.id !== player.id)) {
+        if (typeof ackCallback === 'function') {ackCallback({ success: false, code: 'turn_gm_required' });}
+        return;
+      }
       const auth = combatAuthority.canStartOrEndCombat(player, room);
       if (!auth.allowed) {
         logger.warn('[combat_started] rejected by authority check', {
@@ -101,6 +105,10 @@ function registerCombatHandlers(ctx) {
 
       const { room, player } = validation;
 
+      if (room.gameState.combat?.effectLifecycle && (!socket.data?.authenticated || socket.data.userId !== room.gmId || !player.isGM || room.gm?.socketId !== socket.id || room.gm?.id !== player.id)) {
+        if (typeof ackCallback === 'function') {ackCallback({ success: false, code: 'turn_gm_required' });}
+        return;
+      }
       const auth = combatAuthority.canStartOrEndCombat(player, room);
       if (!auth.allowed) {
         logger.warn('[combat_ended] rejected by authority check', {
@@ -173,6 +181,10 @@ function registerCombatHandlers(ctx) {
 
       const { room, player } = validation;
 
+      if (room.gameState.combat?.effectLifecycle) {
+        socket.emit('combat_turn_rejected', { reason: 'authenticated_boundary_required', currentTurnIndex: room.gameState.combat.currentTurnIndex });
+        return;
+      }
       if (!room.gameState.combat?.isActive) {
         logger.warn('[combat_turn_changed] ignored: combat not active', {
           roomId: data?.roomId || room.id, playerId: player?.id

@@ -35,10 +35,12 @@ const variants = Object.keys(AUGUR_DATA.subraceVariants || {});
 const heritageEdges = Object.entries(HERITAGE_TRADITIONS)
   .filter(([, heritage]) => (heritage.classes || []).includes('Augur'))
   .map(([heritageId]) => heritageId);
-const resourceIds = [
+const resourceIds = [...new Set([
   AUGUR_DATA.classResource?.type,
-  ...Object.values(AUGUR_DATA.classResource?.dualPool || {})
-].filter(Boolean);
+  ...Object.values(AUGUR_DATA.classResource?.dualPool || {}),
+  'omenDebt',
+  'benediction-malediction'
+].filter(Boolean))];
 const specializations = (AUGUR_DATA.specializations?.specs || []).map(spec => spec.id);
 
 export const AUGUR_DISPOSITIONS = [
@@ -93,7 +95,7 @@ export const AUGUR_DISPOSITIONS = [
   ...resourceIds.map(resourceId => keep(
     'resource',
     resourceId,
-    `Keep the legacy Augur resource ${resourceId}. Fate Weaver uses fate-links and imports no Benediction, Malediction or Omen Debt bank.`,
+    `Keep the legacy Augur resource ${resourceId}, including its live omenDebt and managed benediction-malediction state. Fate Weaver uses fate-links and imports no Benediction, Malediction or Omen Debt bank.`,
     { resourceId }
   )),
   ...specializations.map(specId => keep(

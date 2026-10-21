@@ -1,0 +1,40 @@
+﻿{
+    "head":  "9e653fc45f632eda984914a051cd5f319a507a41",
+    "generatedAt":  "2026-10-21T17:37:19Z",
+    "sourceHashes":  {
+                         "vtt-react/src/data/classes/fateWeaverData.js":  "228097809b8e3e689d17afa319a9d941d06848cad96d128ed2ab0ecdc2a53054",
+                         "vtt-react/src/data/talentTrees/fateWeaver.js":  "8c069081dc21dd443e8b525adeaaab4a48ad8578ba9d2b5916d5b4fe2d513417",
+                         "vtt-react/src/data/classSpellCategories.js":  "e910dfc293e61c8985038657587a333eb889efb437e50f50c7782a7f0bdf8cbd",
+                         "vtt-react/src/store/characterSlices/progressionSlice.js":  "45b439e1350140937bbdcdb45eb3ed17ccb3f81afbac9b9c7faf7b2206de0ad7",
+                         "vtt-react/src/store/characterSlices/infoSlice.js":  "3e7fd2cba2c2d44c2cbd0cff8f89f8f73455e659d2d2fb3e5d0c7993ce6ca3cc",
+                         "vtt-react/src/data/classes/augurDispositions.js":  "443909deb056a1e7eff2e727223695e1aa7bb0a9ec608e0e079766403c65ef7d",
+                         "vtt-react/src/data/resourceSystems/fateWeaverResourceGuide.js":  "bb2c08d07ebe33521aa9bfeeb685e7c6f2e75f117592eaf7f0cc92d3c6c77f15",
+                         "vtt-react/src/data/classResources.js":  "c814b86f895845087bb03ccd76097e7abfd80d0d0edeb9df75bc4cbd884eb0e4",
+                         "vtt-react/src/data/classes/__tests__/fateWeaverIntegration.test.js":  "538d3335f6ddbdd2b2e6b2a45b36c8bb77c54da39c2d2a3ef4e8d03056d5855e",
+                         "vtt-react/src/data/classes/__tests__/fateWeaverCorrections.test.js":  "63638a068d8473643ce0ba417a7ea53ad8b95357bee74d9031afb3c54ba762eb",
+                         "vtt-react/src/data/classes/__tests__/augurDispositions.test.js":  "d7e8f2a484153c46a935eacca58196e900e4567a5c507760f8d571453d126cdc",
+                         "vtt-react/src/data/classes/__tests__/gamblerIntegration.test.js":  "b2c1ab16abc46ab6df6f4e6f82482b7e2edad88ec02499992ad420dd3fdaf1f3",
+                         "vtt-react/src/components/hud/__tests__/FateWeaverResourceDisplay.test.jsx":  "47118c0e25dc552c56696569acf24a5bcb7ea3175f3df241a9f1c00c206454f6"
+                     },
+    "correctionEvidenceHashes":  {
+                                     "complete-manifest.json":  "f27dc96d3237844d0fd4708dbc021cc4b93c17e1227040c4827f5b1bd151dce8",
+                                     "augur-disposition.json":  "51d4679304a3a29187d675e641f15eb8035c6ccde6e087bbfd64973e9122056b",
+                                     "jest-correction.log":  "05bedc96978ff3d06d159706290a89999075a8da62e3192fcaa085fd6e73b4f2",
+                                     "sol-harness.log":  "392b9340b727c9e19a1f2b0928cfa8491393a1ff92ba8cfa751458eeb03d91f5",
+                                     "eslint-correction.json":  "2f8e1b609db135b3e7d9c2868e627b077f7f0865f5e03fe38a6eaeaee8f9cfab",
+                                     "correction.diff":  "b89aeb2719ad021925d45958e4a322a14077a060446834255616f691966a1fdb",
+                                     "build-correction.log":  "226b58d62a58597531c1f0d73768ecdcee05677f9e3e2af6ead93292d5c067e7",
+                                     "build-correction.exit":  "f0cd2be81098275c345e58ca0cef5486272045a97fcaaafeb7d3fd8c9a8e9588",
+                                     "CORRECTION-REPORT.md":  "a5a1bf6024fc80c236c56a3363727240e8350c0e982df9c6f5cd715f7b59746b",
+                                     "CONTENT-LOCK.md":  "1eaf983f42cd382b9f85d4942e319c5cf0711910bb8b708e62cdde3763500984",
+                                     "REPORT.md":  "48fa10d6ca059d083114286437b59cc4f35b98d400a4543e9f54f6a1aef2b3ae",
+                                     "AUGUR-DISPOSITION.md":  "bd9d1a08eedffc6246da888fbd513333dd24a624e38a6b4ba85b0e426a8841f5"
+                                 },
+    "immutablePhase2bHashes":  {
+                                   "complete-manifest.json":  "5eb5961e68bb0eb23ce53d3723619b72a627af748ab881ca0772739eee4a307b",
+                                   "augur-disposition.json":  "f5ee8059983430ef152145628f06b0651cf9ef1de3fa3ffd29513dad1a5dcf35",
+                                   "CONTENT-LOCK.md":  "5b5a1cf6a30bdab8082961c84b887dea40e9f7b98ad8b070284b8d609c98eec2",
+                                   "REPORT.md":  "a6ee4729d4a77726b21d0b58afbf950af8c36be701ec27470bf3fa6491c1d5e4",
+                                   "AUGUR-DISPOSITION.md":  "5c13e1a3a6172341e121fcca1f1004a293019ff10db58e50c9556194a439c6c9"
+                               }
+}

@@ -44,6 +44,13 @@ Complete edge descriptions, paired costs, conditions and provenance for each row
 
 ## Edge execution status
 
+**2026-10-21 Ancestral Loadout interface handoff:** the creator's25-heritage/core-plus-three-pairs/
+four-equipped/permanent-choice directive and dependency ownership are recorded in
+[shared coordination §8](../../MYTHRILL_CROSS_TRACK_COORDINATION.md#8-ancestral-loadout-directive--shared-capabilityinterface-handoff).
+This adds no ancestry numbers/content, revisits no completed cultural audit and changes no existing
+heritage IDs/class grants. C4's bounded shared expiry does not install ancestry admission or recurring
+passives. Definition/finalization compatibility requires its own Class/Heritage/shared freeze.
+
 heritageEdgeAdapter translates bounded numeric fields or named capabilities; heritageCapabilityConsumers maps condition types to routing names. A registered route is not an effect executor. The live sheet cast hook posts an advisory heritage notice; inspect each capability consumer before advertising a numerical or gameplay effect. heritageEffectsImplemented:true in provenance is too coarse to certify automatic combat behavior.
 
 Caps: attack +3, damage +4, defense +3, check +3, movement 15 ft, resource gain 5, discount 3, critical threshold 1, healing 10. Damage-dice edges have separate limits in heritageEdgeContract. Preserve one bounded advantage and one genuine paired cost; no class-cap bypass, infinite resurrection or companion-dependency bypass.

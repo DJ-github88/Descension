@@ -877,25 +877,33 @@
   align-items: center;
   gap: 8px;
   padding: 10px 22px;
-  background: linear-gradient(135deg, #663c32 0%, #4a2820 100%);
-  border: 1px solid #3d201a;
+  background: #e8e2d4;
+  border: 1px solid #b6a080;
   border-radius: 0 !important;
-  color: #fdfbf7;
+  color: #34251a;
   font-family: 'Cinzel', serif;
   font-size: 0.88rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 0.04em;
   cursor: pointer;
   transition: all 0.2s ease;
-  box-shadow: 0 2px 6px rgba(52, 37, 26, 0.25);
+  box-shadow: 0 2px 4px rgba(52, 37, 26, 0.1);
 }
 
 .create-room-prompt-btn:hover {
-  background: linear-gradient(135deg, #7a483c 0%, #583027 100%);
-  border-color: #c4ab79;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(102, 60, 50, 0.35);
+  background: #ded3bd;
+  border-color: #68533e;
+}
+
+.room-lobby .create-room-prompt-btn i {
+  margin: 0;
+  padding: 0;
+  font-size: 0.85rem;
+  color: #68533e;
+  background: none;
+  border: 0;
+  filter: none;
 }
 
 /* ==========================================================================
@@ -1103,10 +1111,10 @@
 .create-button {
   flex: 1;
   padding: 11px 16px;
-  background: linear-gradient(135deg, #663c32 0%, #4a2820 100%);
-  border: 1px solid #3d201a;
+  background: #e8e2d4;
+  border: 1px solid #b6a080;
   border-radius: 0 !important;
-  color: #fdfbf7;
+  color: #34251a;
   font-weight: 700;
   font-size: 0.85rem;
   cursor: pointer;
@@ -1118,25 +1126,28 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  box-shadow: 0 2px 6px rgba(52, 37, 26, 0.25);
+  box-shadow: 0 2px 4px rgba(52, 37, 26, 0.1);
 }
 
 .create-button:hover:not(:disabled) {
-  background: linear-gradient(135deg, #7a483c 0%, #583027 100%);
-  border-color: #c4ab79;
-  box-shadow: 0 4px 12px rgba(102, 60, 50, 0.35);
-  transform: translateY(-1px);
+  background: #ded3bd;
+  border-color: #68533e;
 }
 
 .create-button.persistent {
-  background: linear-gradient(135deg, #2d5a27 0%, #1e3f1a 100%);
-  border-color: #1e3f1a;
+  background: #663c32;
+  border-color: #4a3027;
+  color: #fbf7ee;
 }
 
 .create-button.persistent:hover:not(:disabled) {
-  background: linear-gradient(135deg, #3d6e36 0%, #2d5a27 100%);
-  border-color: #6da365;
-  box-shadow: 0 4px 12px rgba(45, 90, 39, 0.35);
+  background: #563229;
+  border-color: #4a3027;
+}
+
+.room-lobby :is(.create-button, .create-room-prompt-btn):focus-visible {
+  outline: 2px solid #68533e;
+  outline-offset: 3px;
 }
 
 .create-button:disabled {

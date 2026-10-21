@@ -375,11 +375,11 @@
 }
 
 .empty-state-actions .create-room-btn {
-  background: linear-gradient(135deg, #663c32 0%, #4a2820 100%);
-  color: #fbf7ee;
-  border: 1.5px solid #3d201a;
+  background: #e8e2d4;
+  color: #34251a;
+  border: 1px solid #b6a080;
   padding: 12px 24px;
-  border-radius: 8px;
+  border-radius: 0;
   font-family: 'Cinzel', serif;
   font-weight: 600;
   font-size: 14px;
@@ -388,13 +388,20 @@
   align-items: center;
   gap: 8px;
   transition: all 0.2s ease;
-  box-shadow: 0 3px 8px rgba(102, 60, 50, 0.25);
+  box-shadow: 0 2px 4px rgba(52, 37, 26, 0.1);
 }
 
 .empty-state-actions .create-room-btn:hover:not(:disabled) {
-  background: linear-gradient(135deg, #7a483c 0%, #583027 100%);
-  transform: translateY(-1px);
-  box-shadow: 0 6px 14px rgba(102, 60, 50, 0.35);
+  background: #ded3bd;
+  border-color: #68533e;
+}
+
+.empty-state-actions .create-room-btn i {
+  font-size: 14px;
+  color: inherit;
+  background: none;
+  margin: 0;
+  padding: 0;
 }
 
 .empty-state-actions .create-room-btn:disabled {
@@ -653,16 +660,106 @@
 /* Create Local Room Modal */
 .create-local-room-modal {
   background: #f8f5ee;
-  border: 2px solid #8B4513;
-  border-radius: 8px;
+  border: 1px solid #b6a080;
+  outline: 1px solid #b6a080;
+  outline-offset: -5px;
+  border-radius: 0;
   padding: 24px;
-  max-width: 400px;
+  max-width: 480px;
   width: 90%;
   font-family: 'Cinzel', serif;
   position: relative;
   margin: auto;
   max-height: 90vh;
   overflow-y: auto;
+}
+
+.create-local-room-modal .modal-subtitle {
+  font-family: 'Crimson Text', Georgia, serif;
+  font-size: 16px;
+  color: #68533e;
+  margin: 0 0 24px;
+  text-transform: none;
+}
+
+.create-local-room-modal .form-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: #34251a;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+}
+
+.modal-overlay .create-local-room-modal .form-group :is(input, textarea) {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  padding: 11px 12px;
+  border: 1px solid #b6a080;
+  border-radius: 0;
+  background: #fdfbf7;
+  color: #34251a;
+  font: 16px/1.45 'Crimson Text', Georgia, serif;
+}
+
+.create-local-room-modal textarea {
+  resize: vertical;
+}
+
+.create-local-room-modal :is(input, textarea)::placeholder {
+  color: #75634f;
+  font-style: normal;
+}
+
+.create-local-room-modal .modal-actions {
+  margin-top: 24px;
+  padding-top: 18px;
+  border-top: 1px solid #c7b99f;
+  flex-wrap: wrap;
+}
+
+.create-local-room-modal :is(.cancel-btn, .random-btn, .create-btn) {
+  min-height: 42px;
+  padding: 10px 16px;
+  border: 1px solid #b6a080;
+  border-radius: 0;
+  background: #e8e2d4;
+  color: #34251a;
+  box-shadow: none;
+  text-shadow: none;
+  font: 600 12px/1.45 'Cinzel', Georgia, serif;
+  transform: none;
+}
+
+.create-local-room-modal .create-btn {
+  background: #663c32;
+  border-color: #4a3027;
+  color: #fbf7ee;
+  justify-content: center;
+}
+
+.create-local-room-modal :is(.cancel-btn, .random-btn):hover:not(:disabled) {
+  background: #ded3bd;
+  color: #34251a;
+  box-shadow: none;
+  transform: none;
+}
+
+.create-local-room-modal .create-btn:hover:not(:disabled) {
+  background: #563229;
+  box-shadow: none;
+  transform: none;
+}
+
+.create-local-room-modal :is(button, input, textarea):focus-visible,
+.empty-state-actions .create-room-btn:focus-visible {
+  outline: 2px solid #68533e;
+  outline-offset: 3px;
+}
+
+.create-local-room-modal button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 .create-local-room-modal h3 {
@@ -678,18 +775,18 @@
 .create-local-room-modal input {
   width: 100%;
   padding: 12px;
-  border: 2px solid #8B4513;
-  border-radius: 6px;
-  font-family: 'Cinzel', serif;
-  font-size: 14px;
-  background: #ffffff;
-  color: #2d1810;
+  border: 1px solid #b6a080;
+  border-radius: 0;
+  font-family: 'Crimson Text', Georgia, serif;
+  font-size: 16px;
+  background: #fdfbf7;
+  color: #34251a;
 }
 
 .create-local-room-modal input:focus {
   outline: none;
-  border-color: #d4af37;
-  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+  border-color: #68533e;
+  box-shadow: none;
 }
 
 /* Responsive Design */

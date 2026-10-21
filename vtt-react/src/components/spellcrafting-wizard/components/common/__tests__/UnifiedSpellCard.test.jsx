@@ -376,7 +376,7 @@ describe('UnifiedSpellCard Component', () => {
     expect(screen.queryByText(/No stats configured yet/i)).not.toBeInTheDocument();
   });
 
-  it('renders requirement notice cleanly under description and omits redundant ancestral parameters block', () => {
+  it('renders requirements as the last body note and omits redundant ancestral parameters block', () => {
     const ancestrySpell = {
       id: 'ithran_chasm_leap',
       name: 'Chasm Leap',
@@ -402,11 +402,12 @@ describe('UnifiedSpellCard Component', () => {
     const body = container.querySelector('.pf-spell-card-body');
     expect(body).toBeInTheDocument();
 
-    // Requirement is shown cleanly under description
+    // Requirements follow the content rather than interrupting the effects.
     const reqNotice = body.querySelector('.spell-requirement-notice');
     expect(reqNotice).toBeInTheDocument();
     expect(reqNotice.querySelector('.spell-requirement-label').textContent).toBe('Requires:');
     expect(reqNotice.textContent).toContain('A landing you can see and grip, within 15 ft.');
+    expect(body.lastElementChild).toBe(reqNotice);
 
     // Redundant parameters block (origin, limits, counters) is not rendered
     expect(body.querySelector('.ancestral-rules-block')).not.toBeInTheDocument();

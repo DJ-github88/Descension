@@ -83,10 +83,10 @@ const ProfileEditModal = ({ isOpen, onClose }) => {
 
     return ReactDOM.createPortal(
         <div className="profile-edit-overlay" onClick={onClose}>
-            <div className="profile-edit-modal" onClick={e => e.stopPropagation()}>
+            <div className="profile-edit-modal" role="dialog" aria-modal="true" aria-labelledby="profile-edit-title" onClick={e => e.stopPropagation()}>
                 <div className="profile-edit-header">
-                    <h3>Edit Profile</h3>
-                    <button className="close-btn" onClick={onClose}>&times;</button>
+                    <h3 id="profile-edit-title">Edit Profile</h3>
+                    <button className="close-btn" aria-label="Close profile editor" onClick={onClose}>&times;</button>
                 </div>
 
                 <form onSubmit={handleSave} className="profile-edit-body">

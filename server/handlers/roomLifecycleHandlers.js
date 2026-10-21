@@ -929,7 +929,13 @@ function registerRoomHandlers(ctx) {
           userId: uid,
           name,
           description: data && typeof data.description === 'string' ? data.description : '',
-          settings,
+          settings: {
+            ...settings,
+            maxPlayers: Math.min(
+              Number.isSafeInteger(settings.maxPlayers) && settings.maxPlayers > 0 ? settings.maxPlayers : 3,
+              tierCheck.limits?.maxPlayersPerRoom || 3
+            )
+          },
           gmName: data && typeof data.gmName === 'string' ? data.gmName : undefined,
           authority: draftClaim ? draftClaim.token : null
         });

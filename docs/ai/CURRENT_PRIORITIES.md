@@ -1,7 +1,7 @@
 # Current priorities
 
-Updated 2026-10-21 (P14-C2 bounded Stunned delivered/reviewed/App verified). Actual build checkout HEAD:
-`8d23e50bba40168c50ffb0bc41c68a125dc656cb` (concurrent external commit), with reviewed combat bytes and concurrent work preserved. The full ledger,
+Updated 2026-10-21 (P14-C3 Shield Bash manual-result adapter delivered/reviewed/App verified). Build checkout HEAD:
+`9e653fc45f632eda984914a051cd5f319a507a41` (concurrent external commit), with reviewed combat bytes and concurrent work preserved. The full ledger,
 with source identities/evidence, is [`docs/ENGINEERING_STATE.md`](../ENGINEERING_STATE.md).
 
 ## Delivered projects
@@ -26,6 +26,7 @@ with source identities/evidence, is [`docs/ENGINEERING_STATE.md`](../ENGINEERING
 | P13B-E1a original universal Riposte | Implemented; bounded independent ACCEPT, Build1/App2 PASS. Structured originating-epoch parent/GM paid-success attestation, fresh choice, owner exact1-AP consent, retained rolls, GM HP/miss and atomic P7 consumption; broader rules manual |
 | P14-C1 shared PC Defending | Implemented; one bounded review ACCEPT after two adapter repairs, Build3 compilation/C1 byte parity and App11 PASS. Common exact-actor editor/P7 custody, actual2×/no-wear and retained-face correction; payment/expiry manual |
 | P14-C2 shared Stunned | Implemented; same-review repaired ACCEPT, Build2 compilation/C2 client parity and App5 PASS. Independent source/timing instances; supported action/E1a/voluntary-movement refusals; saves/advantage/source outcome/expiry remain manual |
+| P14-C3 Shield Bash manual-result adapter | Implemented; one repaired bounded ACCEPT, Build1 compilation/C3 parity and App2 PASS. GM exact source/target/result identity through same C2 controller; Stunned only, manual resolution/payment/expiry |
 
 Source acceptance is not deployment readiness. Current P12B evidence: [`MYTHRILL_PROJECT_12B_IMPLEMENTATION.md`](../MYTHRILL_PROJECT_12B_IMPLEMENTATION.md). P12A/P11 evidence:
 [`MYTHRILL_PROJECT_12A_IMPLEMENTATION.md`](../MYTHRILL_PROJECT_12A_IMPLEMENTATION.md).
@@ -70,12 +71,20 @@ same-deadline reconnect and no grace/pause/extension. No fee/refund/order/effect
 
 **Remaining wider capabilities require separate decisions/freeze/authorization:**
 
-**Latest bounded delivery:** [P14-C2](../MYTHRILL_PROJECT_14_C2_CONTRACT.md#implementation--evidence).
+**Latest bounded delivery:** [P14-C3](../MYTHRILL_PROJECT_14_C3_CONTRACT.md#implementation-and-evidence).
+GM **Record Shield Bash result** uses explicit exact actors and one result/record/command UUID through
+the existing shared controller/editor/custody. End-target-next-turn manual expiry; no roll/save/price/
+damage/movement/secondary execution.6 server cases,9 controller tests (3 new), repaired independent
+ACCEPT, Build1 exit0/C3 parity[] and production-App2 PASS. Source/build/concurrent RoomLobby drift and
+fixture limits are in C3. Next candidate: named bludgeoning-critical manual result after GM-resolved
+CON save, with distinct one-round metadata; separate freeze/authorization required. Full P14 stays open.
+
+**Preserved C2 delivery:** [P14-C2](../MYTHRILL_PROJECT_14_C2_CONTRACT.md#implementation--evidence).
 Shared Stunned through C1 editor/controller;6 new production checks plus46 affected server regressions,
 client39; independent ACCEPT; Build2 exit0/C2 parity[] and actual App5 PASS. Supported actions/E1a and
 player voluntary movement refuse with retained evidence/no partial spend. Source-specific manual expiry,
-STR/AGI automatic-failure recording and Prism advantage remain GM procedures. Next smallest preparation:
-named Shield Bash GM-resolved result-entry adapter, not automatic expiry/payment/execution. Wider P14
+STR/AGI automatic-failure recording and Prism advantage remain GM procedures. Named Shield Bash
+GM-resolved result entry is subsequently delivered by C3, not automatic expiry/payment/execution. Wider P14
 stays open. Class full-build drift and final server-only relay delta are disclosed in C2.
 
 **Preserved C1 delivery:** [P14-C1 §6](../MYTHRILL_PROJECT_14_C1_CONTRACT.md#6-implementation-and-verification).

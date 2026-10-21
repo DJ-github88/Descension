@@ -14,27 +14,16 @@ export function registerCombatHandlers(ctx) {
       const combatData = data.combat || data;
 
       // Update combat store with received state
-      useCombatStore.getState().forceResetCombat(); // Clear any existing state
-
-      // Set the combat state
-      useCombatStore.setState({
-        isInCombat: true,
-        turnOrder: combatData.turnOrder || [],
-        round: combatData.round || 1,
-        currentTurnIndex: combatData.currentTurnIndex || 0,
-        isSelectionMode: false,
-        selectedTokens: new Set()
-      });
+      applyRoomSnapshot({ scope: 'section', sections: { combat: { ...combatData, isActive: true } } });
 
       console.log('⚔️ Combat state synced - player should now see combat timeline');
     });
 
     socket.on('combat_ended', (data) => {
-      if (!data) return;
       console.log('ðŸ ³ï¸  Received combat_ended from server:', data);
 
       // Reset combat store
-      useCombatStore.getState().forceResetCombat();
+      applyRoomSnapshot({ scope: 'section', sections: { combat: null } });
 
       console.log('ðŸ³ï¸ Combat ended - timeline hidden');
     });

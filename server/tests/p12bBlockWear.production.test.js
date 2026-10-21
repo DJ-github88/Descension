@@ -120,6 +120,27 @@ describe('P12B creature hit → owner block → atomic HP and wear (registered p
     adjudication: { definitionId: conditionProfile.DEFENDING.definitionId, definitionVersionOrHash: conditionProfile.DEFENDING.origin,
       chosenResult: 'Manual state correction', adjustmentReason: 'No payment or expiry execution' } });
 
+  it('C4 confirmed next-start expiry ends actual doubled/no-wear blocking; pending face is retained and normal wear follows explicit revalidation', async() => {
+    await declare([ARMOR]);
+    assert.equal((await ack(gm, 'combat_started', { roomId: room.id, turnOrder: [pcRef, foeRef].map(ref => ({ tokenId: ref.tokenId, actorRef: ref })), currentTurnIndex: 0, round: 1 })).success, true);
+    const turn = async mode => {
+      const combat = live().gameState.combat, current = combat.effectLifecycle;
+      const result = await ack(gm, 'actor_turn_boundary', { ...base(), mode, combatHash: actors.hash(combat), expectedClock: mode === 'adopt' ? null : { id: current.id, sequence: current.sequence } });
+      assert.equal(result.success, true, JSON.stringify(result)); return result;
+    };
+    await turn('adopt'); const add = conditionCommand('add'); assert.equal((await ack(owner, 'actor_consequence', add)).success, true);
+    const active = await block(2); assert.equal(active.result.success, true, JSON.stringify(active.result));
+    assert.equal(JSON.parse(active.result.receipt.adjudication.chosenResult).block.reduction, 4); assert.equal(declaration().pieces[0].currentDie, 'd8');
+    const offered = await offer(), registered = await register(offered, 2), prepared = gmCommand(offered, registered);
+    await turn('advance'); assert.equal(conditionProfile.holdsDefending(pcToken()), true);
+    const expiry = await turn('advance'); assert.equal(conditionProfile.holdsDefending(pcToken()), false);
+    assert.equal(expiry.receipt.actors[0].conditions.length, 0);
+    assert.equal((await ack(gm, 'actor_consequence', prepared)).success, false);
+    assert.deepEqual(blocks.get(live(), registered.approved.approvalId).approval.roll.faces, [2]);
+    const corrected = await ack(gm, 'actor_consequence', gmCommand(offered, registered)); assert.equal(corrected.success, true, JSON.stringify(corrected));
+    const chosen = JSON.parse(corrected.receipt.adjudication.chosenResult); assert.deepEqual([chosen.block.face, chosen.block.reduction, chosen.block.defending], [2, 2, false]);
+    assert.equal(declaration().pieces[0].currentDie, 'd6'); assert.equal(pcToken().character.actionPoints.current, 4, 'clock restores/spends no AP');
+  });
   it('C1 named PC Defending is exact, idempotent, payment-free and survives checkpoint codec; fresh duplicates and malformed profiles refuse', async() => {
     const original = actors.clone(pcToken().character), command = conditionCommand('add', crypto.randomUUID(), 'self-defend');
     assert.equal((await ack(other, 'actor_consequence', command)).code, 'authorization_required');

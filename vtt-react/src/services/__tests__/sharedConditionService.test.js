@@ -1,12 +1,13 @@
 import { create } from 'zustand';
 import { registerStore } from '../../store/storeRegistry';
 import { activatePrivateScope, resetBootstrapGateForTests } from '../../persistence/bootstrapPrivacyGate';
-import { bindSharedConditions, editDefending, editSharedCondition, checkConditionCommand, resolveConditionActor } from '../sharedConditionService';
+import { bindSharedConditions, editDefending, editSharedCondition, checkConditionCommand, resolveConditionActor,
+  recordShieldBashResult, checkShieldBashResult, shieldBashResults, submitTurnBoundary, checkTurnBoundary, useSharedConditionStore } from '../sharedConditionService';
 import { conditionContext, loadConditionCustody, retainConditionCommand } from '../sharedConditionCustody';
 import { canonical, makeDefendingRecord, makeStunnedRecord } from '../sharedConditionProfile';
-import { refreshActorSnapshot, prepareActorCommand, submitPreparedActorCommand } from '../actorConsequenceService';
+import { refreshActorSnapshot, prepareActorCommand, submitPreparedActorCommand, requestActorEvent } from '../actorConsequenceService';
 
-jest.mock('../actorConsequenceService', () => ({ refreshActorSnapshot: jest.fn(), prepareActorCommand: jest.fn(), submitPreparedActorCommand: jest.fn(),
+jest.mock('../actorConsequenceService', () => ({ refreshActorSnapshot: jest.fn(), prepareActorCommand: jest.fn(), submitPreparedActorCommand: jest.fn(), requestActorEvent: jest.fn(),
   findActor: ref => require('../../store/storeRegistry').getStore('characterTokenStore').getState().characterTokens.find(t => t.id === ref?.tokenId),
   refOf: token => token?.state?.actorContract ? Object.fromEntries(['kind', 'roomId', 'mapId', 'tokenId', 'instanceId', 'ownerUid', 'characterId'].map(k => [k, token.state.actorContract[k]])) : null }));
 const ref = { kind: 'character', roomId: 'r', mapId: 'm', tokenId: 'pc', instanceId: 'i', ownerUid: 'u', characterId: 'c' };
@@ -21,10 +22,85 @@ beforeEach(() => {
   tokens = create(() => ({ characterTokens: [{ id: 'pc', state: { actorContract: { version: 1, primary: true, revision: 0, ...ref }, conditions: [] } }] }));
   registerStore('characterTokenStore', tokens);
   refreshActorSnapshot.mockResolvedValue({ success: true });
-  prepareActorCommand.mockImplementation((actors, extra) => ({ commandId: crypto.randomUUID(), actors, ...extra }));
+  prepareActorCommand.mockImplementation((actors, extra, options = {}) => ({ commandId: options.commandId || crypto.randomUUID(), actors, ...extra }));
   submitPreparedActorCommand.mockResolvedValue({ success: false, code: 'outcome_unknown' }); cleanup = bindSharedConditions(socket);
 });
 afterEach(() => cleanup());
+const bashSource = { ...ref, tokenId: 'source', instanceId: 'source-incarnation', ownerUid: 'gm-source', characterId: 'source-character' };
+function currentGM() {
+  cleanup(); game.setState({ isGMMode: true }); cleanup = bindSharedConditions(game.getState().multiplayerSocket);
+  tokens.getState().characterTokens.push({ id: 'source', state: { actorContract: { version: 1, primary: true, revision: 0, ...bashSource }, conditions: [] } });
+}
+test('C4 boundary uses existing persist-before-emission custody, exact unknown retry and no optimistic cursor; accepted zero-actor receipt settles it', async() => {
+  currentGM();
+  const combat = { isActive: true, currentTurnIndex: 0, round: 1, turnOrder: [{ tokenId: 'pc', actorRef: ref }] };
+  const snapshot = () => ({ success: true, roomId: 'r', combat, combatHash: 'a'.repeat(64), actionEpoch: 'e', commitSequence: 0,
+    actorProjection: { version: 1, roomId: 'r', epoch: 'e', cut: 0 } });
+  refreshActorSnapshot.mockImplementation(async() => snapshot());
+  requestActorEvent.mockImplementation(async(event, command) => {
+    expect(event).toBe('actor_turn_boundary');
+    expect(loadConditionCustody().entries[canonical(['turn-lifecycle', 'r'])].command).toEqual(command);
+    return { success: false, code: 'outcome_unknown' };
+  });
+  await submitTurnBoundary('adopt'); const entry = loadConditionCustody().entries[canonical(['turn-lifecycle', 'r'])];
+  expect(entry.kind).toBe('turn-boundary'); expect(useSharedConditionStore.getState().combat).toEqual(combat);
+  await expect(submitTurnBoundary('adopt')).rejects.toThrow(/outcome unknown/);
+  await checkTurnBoundary(); expect(requestActorEvent.mock.calls.map(([, command]) => command)).toEqual([entry.command, entry.command]);
+  requestActorEvent.mockResolvedValue({ success: true, receipt: { roomId: 'r', submitterUid: 'u', commandId: entry.command.commandId, actors: [] } });
+  await checkTurnBoundary(); expect(loadConditionCustody().entries[canonical(['turn-lifecycle', 'r'])].phase).toBe('accepted');
+});
+test('C4 stale boundary response is failed without removing conditions; role change across snapshot cannot send a new turn request', async() => {
+  currentGM();
+  const combat = { isActive: true, currentTurnIndex: 0, round: 1, turnOrder: [{ tokenId: 'pc', actorRef: ref }] };
+  refreshActorSnapshot.mockResolvedValue({ success: true, roomId: 'r', combat, combatHash: 'a'.repeat(64), actionEpoch: 'e', commitSequence: 0,
+    actorProjection: { version: 1, roomId: 'r', epoch: 'e', cut: 1 } });
+  requestActorEvent.mockResolvedValue({ success: false, code: 'stale_turn_state' });
+  const record = makeDefendingRecord(ref, crypto.randomUUID()); tokens.getState().characterTokens[0].state.conditions.push(record);
+  await submitTurnBoundary('adopt'); expect(loadConditionCustody().entries[canonical(['turn-lifecycle', 'r'])].phase).toBe('failed');
+  expect(tokens.getState().characterTokens[0].state.conditions).toEqual([record]);
+  let release; refreshActorSnapshot.mockReturnValueOnce(new Promise(resolve => { release = resolve; }));
+  const pending = submitTurnBoundary('adopt'); game.setState({ isGMMode: false }); release({ success: true }); await pending;
+  expect(requestActorEvent).toHaveBeenCalledTimes(1);
+});
+test('C3 one result/record/command ID is retained before emission; unknown/rebind/retry cannot replace it or activate locally', async() => {
+  currentGM();
+  submitPreparedActorCommand.mockImplementation(async command => {
+    expect(loadConditionCustody().entries[canonical(ref)].command).toEqual(command);
+    expect(command.commandId).toBe(command.actors[0].conditions[0].recordId);
+    return { success: false, code: 'outcome_unknown' };
+  });
+  await recordShieldBashResult(bashSource, ref, { stunnedConfirmed: true, previousCommandId: null });
+  const r = shieldBashResults()[0]; expect(r.definitionId).toBe('universal_shield_bash'); expect(r.source).toEqual(bashSource); expect(r.target).toEqual(ref);
+  expect(r.command.actors[0].conditions[0].record.clockBoundary).toBe('shield-bash-target-end');
+  expect(tokens.getState().characterTokens[0].state.conditions).toEqual([]);
+  await expect(recordShieldBashResult(bashSource, ref, { stunnedConfirmed: true, previousCommandId: null })).rejects.toThrow(/unknown/);
+  cleanup(); cleanup = bindSharedConditions(game.getState().multiplayerSocket);
+  expect(shieldBashResults()[0].resultId).toBe(r.resultId); await checkShieldBashResult(r.resultId);
+  expect(submitPreparedActorCommand.mock.calls.map(([command]) => command)).toEqual([r.command, r.command]);
+});
+test('C3 accepted history reopens without reapplication after removal; explicit separate later result keeps independent identity; stale tabs refuse', async() => {
+  currentGM();
+  submitPreparedActorCommand.mockImplementation(async command => ({ success: true, receipt: { commandId: command.commandId, roomId: 'r', submitterUid: 'u', actors: [{ ref }] } }));
+  await recordShieldBashResult(bashSource, ref, { stunnedConfirmed: true, previousCommandId: null });
+  const first = shieldBashResults()[0];
+  await expect(recordShieldBashResult(bashSource, ref, { stunnedConfirmed: true, previousCommandId: null })).rejects.toThrow(/lane changed/);
+  tokens.getState().characterTokens[0].state.conditions.push(first.command.actors[0].conditions[0].record);
+  await editSharedCondition(ref, 'remove', { recordId: first.resultId }); tokens.getState().characterTokens[0].state.conditions = [];
+  const calls = submitPreparedActorCommand.mock.calls.length; await checkShieldBashResult(first.resultId); expect(submitPreparedActorCommand).toHaveBeenCalledTimes(calls);
+  expect(shieldBashResults()[0].resultId).toBe(first.resultId);
+  await recordShieldBashResult(bashSource, ref, { stunnedConfirmed: true, previousCommandId: loadConditionCustody().entries[canonical(ref)].command.commandId });
+  expect(shieldBashResults()).toHaveLength(2); expect(shieldBashResults()[0].resultId).not.toBe(first.resultId);
+});
+test('C3 concurrent preparation, stale source, role changes and missing attestation never emit a new result', async() => {
+  currentGM();
+  await expect(recordShieldBashResult({ ...bashSource, instanceId: 'retired' }, ref, { stunnedConfirmed: true, previousCommandId: null })).rejects.toThrow(/source unavailable/);
+  await expect(recordShieldBashResult(bashSource, ref, { stunnedConfirmed: false, previousCommandId: null })).rejects.toThrow(/confirmed/);
+  let release; refreshActorSnapshot.mockReturnValueOnce(new Promise(resolve => { release = resolve; }));
+  const first = recordShieldBashResult(bashSource, ref, { stunnedConfirmed: true, previousCommandId: null });
+  await expect(recordShieldBashResult(bashSource, ref, { stunnedConfirmed: true, previousCommandId: null })).rejects.toThrow(/already pending/);
+  game.setState({ isGMMode: false }); release({ success: true }); await first;
+  expect(submitPreparedActorCommand).not.toHaveBeenCalled();
+});
 test('C2 Stunned uses same custody/accepted actor, independent source identity and exact timing edits/removal', async() => {
   const id = crypto.randomUUID(), first = makeStunnedRecord(ref, id, { sourceOccurrence: 'critical-1', timing: 'critical-one-round' });
   tokens.getState().characterTokens[0].state.conditions.push(first);

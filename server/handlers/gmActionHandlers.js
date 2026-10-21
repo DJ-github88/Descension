@@ -406,6 +406,7 @@ function registerGmActionHandlers(ctx) {
         break;
 
       case 'reset_combat':
+        if (room.gameState.combat?.effectLifecycle && (!socket.data?.authenticated || socket.data.userId !== room.gmId || room.gm?.socketId !== socket.id)) {return;}
         room.gameState.combat = {
           isActive: false,
           currentTurn: null,

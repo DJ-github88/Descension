@@ -296,6 +296,14 @@ const useCombatStore = create((set, get) => ({
 
     // End current turn and move to next
     nextTurn: () => set(state => {
+        const boundary = require('../services/actorConsequenceService');
+        const conditions = require('../services/sharedConditionService');
+        if (boundary.inSharedRoom() && (state.effectLifecycle || conditions.useSharedConditionStore.getState().combat?.effectLifecycle)) {
+            Promise.resolve().then(() => conditions.submitTurnBoundary('advance')).catch(error => {
+                getStore('gameStore').setState({ actorConsequenceStatus: { success: false, error: error.message } });
+            });
+            return state; // Authenticated server transition only: no local turn, AP, regen, cooldown or tick.
+        }
         const currentTime = Date.now();
         const currentCombatant = state.turnOrder[state.currentTurnIndex];
         const nextIndex = (state.currentTurnIndex + 1) % state.turnOrder.length;
@@ -627,6 +635,7 @@ const useCombatStore = create((set, get) => ({
             combatTimeline: [],
             turnTimers: new Map(),
             currentTurnStartTime: null,
+            effectLifecycle: null,
             turnMovementUsed: new Map(),
             movementUnlocked: new Set(),
             turnStartPositions: new Map(),

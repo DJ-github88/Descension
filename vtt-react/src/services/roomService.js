@@ -72,39 +72,17 @@ function requestServerEvent(event, payload, timeoutMs = 10000) {
  * @returns {Promise<string>} - Room ID
  */
 export const createPersistentRoom = async (roomData) => {
- try {
-  const { isDemoMode } = await import('../config/firebase');
-  if (isDemoMode) {
-   throw new Error('Room creation is disabled in Demo Mode. Please log in with a real account.');
-  }
- } catch (e) { }
-
- if (!db || !auth?.currentUser) {
-  throw new Error('Firebase not initialized or user not authenticated');
- }
-
- const userId = auth.currentUser.uid;
-
- const tier = await subscriptionService.getUserTier(userId);
-
- if (tier.id === 'guest') {
-  throw new Error('Guest accounts cannot create rooms. Please create a free account to host games.');
- }
-
- if (tier.roomLimit <= 0) {
-  throw new Error('Your plan does not allow room creation. Please upgrade your membership.');
- }
-
  // Project 4: safe draft creation is server-mediated. The server verifies the
  // durable account principal and refuses any id that already has a room root
  // or checkpoint fragments, so a new draft can never claim orphaned state.
- const maxPlayers = Math.min(roomData.maxPlayers || tier.maxPlayersPerRoom || 3, tier.maxPlayersPerRoom || 3);
+ // Account eligibility and plan limits are checked by that same server. Do not
+ // gate this request on the browser's Firestore initialization or a profile read.
  const response = await requestServerEvent('create_room_draft', {
   name: roomData.name,
   description: roomData.description || '',
   gmName: roomData.gmName || auth?.currentUser?.displayName || 'Game Master',
   settings: {
-   maxPlayers,
+   maxPlayers: roomData.maxPlayers || 3,
    allowSpectators: roomData.allowSpectators || false
   }
  });

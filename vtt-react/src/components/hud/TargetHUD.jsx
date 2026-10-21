@@ -14,6 +14,7 @@ import { normalizeRaceDisplayName } from '../../utils/raceDisplayNames';
 import { CONDITIONS } from '../../data/conditionsData';
 import useConditionStore from '../../store/conditionStore';
 import { expiryLabel as sharedExpiryLabel } from '../../services/sharedConditionProfile';
+import { useSharedConditionStore } from '../../services/sharedConditionService';
 import useChatStore from '../../store/chatStore';
 import ClassResourceBar from './ClassResourceBar';
 import HudStatBar from './HudStatBar';
@@ -133,6 +134,7 @@ const getFallbackConditionRemainingSeconds = (condition, now = Date.now()) => {
 };
 
 const TargetHUD = ({ position, onOpenCharacterSheet }) => {
+  const effectCombat = useSharedConditionStore(state => state.combat);
   const nodeRef = useRef(null);
   const [showContextMenu, setShowContextMenu] = useState(false);
   const [contextMenuPosition, setContextMenuPosition] = useState({ x: 0, y: 0 });
@@ -1842,7 +1844,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
 
   // Format time for display
   const formatTime = (seconds, durationType = 'minutes', record) => {
-    if (sharedExpiryLabel(record)) return sharedExpiryLabel(record);
+    if (sharedExpiryLabel(record, effectCombat)) return sharedExpiryLabel(record, effectCombat);
     if (seconds <= 0) return durationType === 'rounds' ? '0 rounds' : '0:00';
 
     if (durationType === 'rounds') {

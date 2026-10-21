@@ -108,21 +108,74 @@ describe('Fate Weaver Phase 2B package', () => {
   });
 
   test('validates tokens, links and the read-only projection', () => {
-    const state = { tokens: [{ state: 'free' }, { state: 'reserved' }, { state: 'recovering' }], links: [
-      { id: 'link-1', sourceId: 'actor-a', targetId: 'actor-b', sourceName: 'A', targetName: 'B', purpose: 'guard the gate', tokenState: 'free', usesRemaining: 1, amountMax: 2, uses: 1 }
-    ] };
-    expect(validateFateWeaverState(state).valid).toBe(true);
-    expect(validateFateWeaverState({ tokens: [{ state: 'free' }], links: [{ tokenState: 'free', amountMax: 4, uses: 3, recursive: true }] }).valid).toBe(false);
+    const state = {
+      tokens: [{ id: 't1', state: 'reserved' }, { id: 't2', state: 'free' }, { id: 't3', state: 'recovering' }],
+      links: [{
+        id: 'link-1', sourceId: 'actor-a', targetId: 'actor-b', sourceName: 'A', targetName: 'B',
+        purpose: 'guard the gate', consent: 'both', tokenIds: ['t1'], tokenState: 'reserved',
+        uses: 1, usesRemaining: 1, amountMax: 2, expiresAt: 'end-second-subsequent-caster-turn'
+      }]
+    };
+    expect(validateFateWeaverState(state)).toEqual({ valid: true, errors: [] });
+    expect(validateFateWeaverState({
+      tokens: [{ id: 't1', state: 'free' }],
+      links: [{ id: 'bad', sourceId: 'a', targetId: 'a', tokenState: 'free', amountMax: 4, uses: 3, recursive: true }]
+    }).valid).toBe(false);
     expect(projectFateWeaverResource({ state }).tokens).toEqual({ free: 1, reserved: 1, recovering: 1 });
-    expect(projectFateWeaverResource({ state }, true).links[0]).toMatchObject({ sourceName: 'A', targetName: 'B', purpose: 'guard the gate' });
+    expect(projectFateWeaverResource({ state }, true).links[0]).toMatchObject({ sourceName: 'A', targetName: 'B', purpose: 'guard the gate', tokenState: 'reserved' });
     expect(projectFateWeaverResource({ state }, false).links[0].sourceName).toBe('Endpoint hidden');
     expect(projectFateWeaverResource(null)).toMatchObject({ initialized: false, links: [] });
   });
+
+  test('rejects duplicate, missing and mismatched reservations without repairing them', () => {
+    const base = {
+      tokens: [{ id: 't1', state: 'reserved' }, { id: 't2', state: 'free' }, { id: 't3', state: 'free' }],
+      links: [{
+        id: 'l1', sourceId: 'a', targetId: 'b', consent: 'both', tokenIds: ['t1'],
+        uses: 1, usesRemaining: 1, expiresAt: 'end-of-turn'
+      }]
+    };
+    const invalid = [
+      { ...base, tokens: [{ id: 't1', state: 'reserved' }, { id: 't1', state: 'free' }, { id: 't3', state: 'free' }] },
+      { ...base, links: [{ ...base.links[0], consent: undefined }] },
+      { ...base, links: [{ ...base.links[0], tokenIds: [] }] },
+      { ...base, links: [{ ...base.links[0], tokenIds: ['t2'] }] },
+      { ...base, links: [{ ...base.links[0], threadReservation: 2 }] },
+      { ...base, links: [{ ...base.links[0], uses: 2, usesRemaining: 3 }] },
+      { ...base, links: [{ ...base.links[0], expiresAt: '' }] },
+      { ...base, links: [{ ...base.links[0], id: 'l1' }, { ...base.links[0], sourceId: 'c', targetId: 'd' }] }
+    ];
+    expect(validateFateWeaverState(base).valid).toBe(true);
+    invalid.forEach(candidate => expect(validateFateWeaverState(candidate).valid).toBe(false));
+  });
+
+  test('authors the R1 payload contract and no legacy suppression fields', () => {
+    const byId = Object.fromEntries(FATE_WEAVER_AUTHORED_RECORDS.map(record => [record.id, record]));
+    expect(byId.cr1_fate_weaver_tie_thread.classResourceProgram.args).toMatchObject({
+      threadReservation: 1, fromSlot: 0, toSlot: 1, distinctEndpoints: true, consent: 'both',
+      formationRangeEach: 30, maintenanceSeparation: 60, uses: 1, transferMax: 3,
+      expiry: 'end-second-subsequent-caster-turn', event: 'original-assigned-damage', derivedEvents: false
+    });
+    expect(byId.cr1_fate_weaver_cut_clean.classResourceProgram.args).toMatchObject({
+      threadDestination: 'recovering', recoverAt: 'next-caster-own-turn', undoAcceptedConsequences: false
+    });
+    expect(byId.cr1_fate_weaver_read_bond.classResourceProgram.args).toMatchObject({
+      range: 30, targetKind: 'perceptible-bond', hiddenKnowledge: false, createLink: false
+    });
+    expect(byId.cr1_fate_weaver_witnessed_covenant.classResourceProgram.args).toMatchObject({ threadReservation: 2, uses: 2, releaseOnlyWhenUsesZero: true });
+    expect(byId.cr1_fate_weaver_sever_borrowed_crown.classResourceProgram.args).toMatchObject({ threadPrice: 1, priceDestination: 'recovering', range: 30 });
+    expect(byId.cr1_fate_weaver_reanchor_tapestry.classResourceProgram.args).toMatchObject({ replaceEndpointsMax: 1, resetUses: false, extendExpiry: false });
+    expect(byId.cr1_fate_weaver_sever_borrowed_crown.classResourceProgram.args?.suppress).toBeUndefined();
+    expect(byId.cr1_fate_weaver_read_bond.classResourceProgram.args?.suppress).toBeUndefined();
+  });
 });
+
 
 afterAll(() => {
   if (process.env.RI2_EVIDENCE_EXPORT !== '1') return;
-  const output = path.resolve(process.cwd(), '../docs/plans/mythrill-class-reconstruction/implementation/evidence/RI-2-gambler-fate-weaver/phase-2b/complete-manifest.json');
+  const outputDir = path.resolve(process.cwd(), '../docs/plans/mythrill-class-reconstruction/implementation/evidence/RI-2-gambler-fate-weaver/phase-2b-correction');
+  fs.mkdirSync(outputDir, { recursive: true });
+  const output = path.join(outputDir, 'complete-manifest.json');
   fs.writeFileSync(output, JSON.stringify({
     manifest: FATE_WEAVER_MANIFEST,
     authoredRecords: FATE_WEAVER_AUTHORED_RECORDS,

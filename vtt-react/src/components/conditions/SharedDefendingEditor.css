@@ -10,3 +10,5 @@
 .sc-editor input { display: block; box-sizing: border-box; width: 100%; min-height: 44px; font: inherit; background: #fffaf1; color: #2b2116; border: 1px solid #8a6d45; }
 .sc-editor input::placeholder { color: #68533e; }
 .sc-editor section { margin-top: 20px; }
+.sc-editor .sc-confirm { display: flex; gap: 8px; align-items: flex-start; margin-top: 12px; }
+.sc-editor .sc-confirm input { width: 20px; height: 20px; min-height: 20px; flex-shrink: 0; margin-top: 2px; }

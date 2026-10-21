@@ -118,6 +118,44 @@ device before write-back.
 
 ## 5. Shared-file edits by the 2026-10-17 combat slices
 
+**P14-C4 authorized/frozen, 2026-10-21 — before production writes:** creator authorizes bounded
+authenticated turn expiry and ancestry interface handoff. [C4 contract](MYTHRILL_PROJECT_14_C4_CONTRACT.md)
+records verified timer seams, strict GM adoption/next occurrence, canonical PC Defending and named C3
+Shield Bash only, manual fallback/one-round preservation. Writable: new server sharedEffectLifecycle;
+P7 actorConsequences/handler, combatHandlers legacy guard and imported metadata protection; shared pure
+timing helper, additive sharedConditionService, existing shared editor/C3 form/GM controls, combatStore
+early route/silent hydration clock metadata, PartyHUD/TargetHUD timing-label mounts only. Existing
+writer/custody/admission reused; focused tests/App/evidence/status docs and heritage12 link. Fresh exact
+contexts preserve concurrent Class/account/room/card edits. No Wizard/A1a/card/resource/ancestry grant
+writes or A1b; ancestry directive/interface map is recorded below, not another roadmap.
+
+C4 registration dependency: additive `socketHandlers.js` authoritative-event set entry for the bounded
+P7 turn route; existing strict actor-prefix sanitization/default rate limiting remain owners.
+Legacy GM reset dependency: `gmActionHandlers.js` gets only a current authenticated GM-session guard
+when retiring an active lifecycle clock; no other GM administration/resource behavior is changed.
+C4 review repair scope also includes `components/multiplayer/socketHandlers/combatHandlers.js`: consume
+the existing payload-less combat-end event and retain the correct lifecycle metadata on start/end,
+using the existing silent combat hydration owner; no recurring/resource behavior is added.
+
+**P14-C3 closure, 2026-10-21:** [contract/evidence](MYTHRILL_PROJECT_14_C3_CONTRACT.md#implementation-and-evidence).
+GM-only named manual result, explicit source/target, one result/record/P7-command UUID; same shared
+controller/editor/custody/history, canonical C2 Stunned/end-target-next-turn manual expiry.6 production
+cases +9 controller tests (3 C3); one bounded F1 update-transition BLOCK→repaired ACCEPT. Build1 exit0/
+C3 six-client-file parity[]; production-App2 PASS,4 blocked-provider fetch errors retained. Current
+`master/9e653fc4` advanced externally; unrelated RoomLobby build drift and concurrent Class/race/RI-2/
+account/room/spell edits are outside acceptance. Protected W1/A1a/universal cards unchanged, parent
+checkpoint preserved. C1/C2 acceptance reused. No new execution/payment/recovery path, A1b, agent Git
+writes or full Shield Bash/P14 completion claim.
+
+**P14-C3 authorized/frozen, 2026-10-21 — before writes:** creator authorizes named Shield Bash
+manual-result adapter. [C3 contract](MYTHRILL_PROJECT_14_C3_CONTRACT.md) freezes result/condition/P7
+command UUID identity, exact source/target and GM-only direct result administration. Writable: new pure
+`shieldBashResult.js`, additive sharedConditionService, thin ShieldBashResultForm in existing shared
+condition dialog/CSS, GM ActorConsequenceControls entry, P7 actorConsequences guard, focused tests/App/
+evidence and status docs. Existing custody reused unchanged; no new event/store/payment/recovery engine.
+Class/race/RI-2 edits and parent checkpoint preserved; W1/A1a/universal cards read-only. C1/C2 accepted
+evidence reused; no automatic Shield Bash save/price/reaction/expiry or A1b.
+
 **P14-C2 closure, 2026-10-21:** [contract/evidence](MYTHRILL_PROJECT_14_C2_CONTRACT.md#implementation--evidence).
 Same C1 condition spine extended with strict source-specific Stunned; supported action/E1a/voluntary
 movement gates, manual saves/advantage/expiry and GM relocation exceptions.6 new C2 server cases +46
@@ -335,4 +373,41 @@ checkpoint is preserved; concurrent Main HQ recovery uses `projects/mythrill-vtt
    circle/channel and G1/G3/G3a/G5; recipient conflict explicit. G1b/G3b/G4
    remain independent manual/out-of-subset decisions. B2 §14 prepares obstruction diagnostics and later
    server enforcement (row24), not wall/cover/elevation rules or implemented validation. Class C1 is
-   concurrently under correction; its content/workshop work and parent-space checkpoint stay untouched.
+    concurrently under correction; its content/workshop work and parent-space checkpoint stay untouched.
+
+## 8. Ancestral Loadout directive — shared capability/interface handoff
+
+**Creator direction recorded 2026-10-21.** No saved loadout planning document was found during this
+focused handoff. This records the supplied directive in the existing coordination structure; it is not
+a competing roadmap or a repeat of the completed [all25 cultural review](plans/mythrill-class-reconstruction/28_HERITAGE_REVIEW_AND_PRIORITY_ORIGINS.md).
+
+-25 verified heritages, each with one core ability and three paired choices (seven definitions per
+heritage); exactly one choice from each pair = three optional selections and four equipped abilities.
+- Finalized choices are permanent. Creation, live play and Laws/Races simulation must share definitions
+and selected-ability identity/version, with real authority for execution/passive triggers.
+- Class/Heritage HQ owns authoring, unresolved numbers, pairing/finalization semantics and compatibility;
+Combat owns shared authority/timing/consequences. This task does not author175 abilities or approve example
+numbers. Stable heritage IDs and existing heritage/class grants remain until an explicit compatibility
+decision; no production migration or automatic removal/replacement of existing grants.
+
+| Capability | Reusable current boundary | Missing engine / ownership | Smallest bounded follow-on |
+|---|---|---|---|
+| Permanent loadout validation/finalization |25-row heritage registry; P5/P6 scoped drafts/save; existing grants/access contracts | No authoritative exactly-one-per-pair/permanent finalization receipt; **Class/Heritage +shared authority** | Freeze one definition-set/version and pure validator, then one immutable finalization command/compatibility decision; no backfill migration |
+| Selected ability identity/version | Stable heritage IDs, authored definition/hash groundwork (A1a), P7 exact provenance | No installed trusted ancestry definition/loadout registry; **Class authoring +Combat admission** | Exact core/pair/choice IDs and content hash interface, preserving legacy grants; installed admission only under separate authorization |
+| Active AP/HP consequences | P7 atomic actor CAS/receipts; named P9/P12/E1a paths and domain resource owners | No arbitrary ancestry execution; **Combat**, with **Class** authored prices/results | One named ability with exact consent, retained roll and typed price/result witnesses; no direct client HP write or racial payment service |
+| Conditions/temporary effects | C1–C3 shared definitions/controller/records; C4 bounded authenticated timing (only after delivery) | Other effect profiles/durations/source admission; **Combat**, shared source contracts | One source-supported canonical condition adapter or one reviewed timing profile through the same P7/timing owner |
+| Turn-triggered regeneration | P7 common-pool result admission; combatStore currently proposes manual resource results | No accepted exactly-once authored recurring trigger/price semantics; **Combat +Class rules** | One regeneration definition/occurrence/idempotent AP/HP command, separate from C4 expiry; no client tick claiming an authoritative trigger |
+| Suppression/stacking | Structured effects and narrow Inquisitor assistance adapter; independent condition sources | No general suppression order/stack groups; **Class rules +Combat** | Freeze one named interaction and structured rule; presentation buff/debuff labels do not define stacking |
+| Movement/environment predicates | Exact actor refs, C2 voluntary-movement guard, advisory B1/B2 geometry | No authoritative environment/LoE/water/light/terrain predicates; **map/Combat +Class** | One settled predicate with authoritative source/freshness and manual unknown state; no inferred racial bonuses |
+| Uses/recharge | Typed class resource banks, P7/P9 approved domains; cooldown metadata | No general ancestry uses/rest/recharge boundaries; **Class resource domain +Combat events** | One finite counter with conservation and one approved recharge event; no separate racial timer or rest guesses |
+| Reaction eligibility | P13B private collection; original E1a Riposte only | No general trigger detection/eligibility/order/reservation executor; **Combat**, **Class** source rules | One named authenticated parent/eligibility/consent/result adapter with explicit manual gaps |
+| Simulator/live calculation parity | Shared pure rule/domain helpers where actually consumed; Laws/Races authored displays | No complete ancestry mechanical calculator/live admission parity; **Class/Heritage +shared** | One pure versioned capability calculation used by both simulation and admitted live profile, with parity tests; simulation alone proves no authority |
+
+**Non-claims / protected boundaries:** P13B collection is not a general automatic reaction executor.
+Named P9 support does not execute arbitrary Wizard spells. A1a groundwork is not installed live admission;
+**A1b remains parked**. Current manual expiry cannot support automatic racial-effect expiry claims;
+C4's exact named profiles do not automatically admit ancestry effects. Mitigation order, Evasion/caps
+and environmental rules remain unresolved/manual where already documented, not implicit ancestry rules.
+One shared definition/application/mechanics/timing/recurrence/presentation separation is required across
+token, sheet, GM and Spell/Creature/Item Wizard authoring surfaces. Those authoring surfaces may retain
+unsupported metadata but must not advertise it as executable. No second effects/admission/payment engine.

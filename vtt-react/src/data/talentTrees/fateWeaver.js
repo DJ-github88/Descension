@@ -24,7 +24,7 @@ const rows = {
     ['steady_knot', 'Steady Knot', [1, 2, 3], 'link.severResistance', 'Add {v} to the DC or check to sever your links; does not prevent voluntary release.'],
     ['gentle_pull', 'Gentle Pull', [5, 10, 15], 'guiding_pull.distanceBonusFeet', 'Add {v} ft to the movement granted by Guiding Pull.'],
     ['covenant_ward', 'Covenant Ward', [1, 2, 3], 'link.wardCapacityBonus', 'Add {v} capacity to one-use link wards you create; never exceeds the authored ward maximum by more than 3.'],
-    ['echoed_oath', 'Echoed Oath', [1, 2, 3], 'covenant.extraUses', 'Add {v} total use to one covenant link you create; no reset and no extra slot.'],
+    ['echoed_oath', 'Echoed Oath', [1, 2, 3], 'covenant.formationCheckBonus', 'Add {v} to one check to form or maintain a covenant link; the hard maximum remains two uses and no extra slot is granted.'],
     ['clear_signal', 'Clear Signal', [1, 2, 3], 'link.readCheckBonus', 'Add {v} to one check to identify or read a visible link; no hidden information.'],
     ['shared_courage', 'Shared Courage', [1, 2, 3], 'linked-ally.fearSaveBonus', 'Add {v} to one save against fear for a linked ally; declared before rolling.'],
     ['woven_resilience', 'Woven Resilience', [1, 2, 3], 'linked-ally.damageReduction', 'Reduce one original damage event against a linked ally by {v}; once per link per round.'],
@@ -33,7 +33,7 @@ const rows = {
     ['twin_anchors', 'Twin Anchors', [1, 2, 3], 'link.rangeReprieveFeet', 'The first time each round a link would end from range, extend it by {v} ft instead; one reprieve.'],
     ['sheltering_weave', 'Sheltering Weave', [1, 2, 3], 'covenant-ward.capacityBonus', 'Add {v} capacity to a single covenant ward; does not stack with Covenant Ward beyond the larger value.'],
     ['covenant_memory', 'Covenant Memory', [1, 2, 3], 'link.recallMax', 'Recall the public terms of up to {v} links you created; no hidden clauses.'],
-    ['broad_shoulders', 'Broad Shoulders', [1, 2, 3], 'redirected-damage.reduction', 'When you take redirected damage, reduce it by {v}; once per round.'],
+    ['broad_shoulders', 'Broad Shoulders', [1, 2, 3], 'redirected-damage.composureCheckBonus', 'Add {v} to one save or check to remain steady when you accept assigned damage; the transferred amount is never reduced or re-mitigated.'],
     ['witnessed_mercy', 'Witnessed Mercy', [1, 2, 3], 'linked-ally.firstAidBonus', 'Add {v} to one stabilization or first-aid check on a linked ally.'],
     ['unbroken_chain', 'Unbroken Chain', [1, 2, 3], 'covenant.maxDurationRoundsBonus', 'Add {v} to the maximum number of rounds a covenant may remain before renewal; does not change token or link caps.']
   ],
@@ -51,8 +51,8 @@ const rows = {
     ['fraying_pressure', 'Fraying Pressure', [1, 2, 3], 'linked-actor.socialBonus', 'Add {v} to one Intimidation or Persuasion check against a linked actor.'],
     ['executioner_thread', 'Executioner Thread', [1, 2, 3], 'severed-target.woundedDamageBonus', 'Add +{v} raw wyrd against a target below half health after severing its link; once per target per round.'],
     ['snip_counter', 'Snip Counter', [1, 2, 3], 'link-formation.interruptBonus', 'Add {v} to one reaction check to interrupt a link formation; no free attack.'],
-    ['broken_crown', 'Broken Crown', [1, 2, 3], 'sever_borrowed_crown.suppressionBonus', 'Add {v} to the suppression check for Sever the Borrowed Crown; never exceeds two rounds.'],
-    ['throughline_precision', 'Throughline Precision', [1, 2, 3], 'sever_throughline.rawBonus', 'Add +{v} raw wyrd to Sever the Throughline; no extension of suppression.'],
+    ['broken_crown', 'Broken Crown', [1, 2, 3], 'sever_borrowed_crown.identificationCheckBonus', 'Add {v} to one check to identify or sever a registered fate-link with Sever the Borrowed Crown; no damage, suppression or extra token is granted.'],
+    ['throughline_precision', 'Throughline Precision', [1, 2, 3], 'sever_throughline.suppressionCheckBonus', 'Add {v} to one check to identify or suppress the source benefit of Sever the Throughline; the capstone deals no damage and suppression never exceeds two rounds.'],
     ['last_cut', 'Last Cut', [1, 2, 3], 'severed-capstone.rawBonus', 'Add +{v} raw wyrd to the final damage event of a severed capstone link.']
   ],
   tapestry: [
@@ -71,7 +71,7 @@ const rows = {
     ['relay_ready', 'Relay Ready', [1, 2, 3], 'grand_relay.extraLinks', 'Reanchor one additional link with The Grand Relay, up to {v} extra links; no extra tokens.'],
     ['threefold_edge', 'Threefold Edge', [1, 2, 3], 'threefold_compact.checkBonus', 'Add {v} to one check or save made by a link affected by Threefold Compact.'],
     ['woven_fate', 'Woven Fate', [1, 2, 3], 'link-consequence-check.bonus', 'Add {v} to one check to predict a visible link\'s immediate physical consequence; no future certainty.'],
-    ['eternal_thread', 'Eternal Thread', [1, 2, 3], 'long-rest.recoveryBonus', 'Return one additional recovering token on a long rest, up to {v} extra tokens.']
+    ['eternal_thread', 'Eternal Thread', [1, 2, 3], 'link-audit.recoveringCheckBonus', 'Add {v} to one check to identify or audit a reserved or recovering thread record; no extra token recovery.']
   ]
 };
 
