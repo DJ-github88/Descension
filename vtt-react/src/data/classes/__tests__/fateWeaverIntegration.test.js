@@ -235,7 +235,9 @@ describe('Fate Weaver Phase 2B package', () => {
 
 afterAll(() => {
   if (process.env.RI2_EVIDENCE_EXPORT !== '1') return;
-  const outputDir = path.resolve(process.cwd(), '../docs/plans/mythrill-class-reconstruction/implementation/evidence/RI-2-gambler-fate-weaver/phase-2b-correction');
+  const outputDir = process.env.RI2_EVIDENCE_DIR
+    ? path.resolve(process.env.RI2_EVIDENCE_DIR)
+    : path.resolve(process.cwd(), '../docs/plans/mythrill-class-reconstruction/implementation/evidence/RI-2-gambler-fate-weaver/phase-2b-correction');
   fs.mkdirSync(outputDir, { recursive: true });
   const output = path.join(outputDir, 'complete-manifest.json');
   fs.writeFileSync(output, JSON.stringify({

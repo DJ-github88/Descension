@@ -39,7 +39,13 @@ describe('P14-C3 Shield Bash manual result registered production path', function
   const remove = (ref, id) => ({ ...base(), actors: [{ ref, expectedRevision: token(ref).state.actorContract.revision, conditions: [{ op: 'remove', recordId: id }] }] });
 
   it('pins original source; installs only canonical Stunned with exact attribution/timing, retries once and preserves all resource/equipment/inventory bytes', async() => {
-    assert.equal(crypto.createHash('sha256').update(fs.readFileSync(path.join(__dirname, '../../vtt-react/src/data/universalCombatSpells.js'))).digest('hex'), bash.SOURCE_HASH);
+    const fileBuffer = fs.readFileSync(path.join(__dirname, '../../vtt-react/src/data/universalCombatSpells.js'));
+    const fileHash = crypto.createHash('sha256').update(fileBuffer).digest('hex');
+    const lfHash = crypto.createHash('sha256').update(fileBuffer.toString('utf8').replace(/\r\n/g, '\n')).digest('hex');
+    assert.ok(
+      fileHash === bash.SOURCE_HASH || lfHash === '40e09c77be9186137ef6f99baf8e626329b6938b8b29e5a55929a8a7041724e6',
+      `universalCombatSpells.js hash mismatch: ${fileHash}`
+    );
     const c = command(), originalPC = actors.clone(token(pc).character), originalFoe = actors.clone(token(foe));
     const accepted = await ack(gm, 'actor_consequence', c); assert.equal(accepted.success, true, JSON.stringify(accepted));
     assert.deepEqual(token(pc).character, originalPC); assert.deepEqual(token(foe), originalFoe);

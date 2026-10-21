@@ -433,7 +433,26 @@ export const createProgressionSlice = (set, get) => ({
         const newXP = getXPForLevel(newLevel);
 
         // Update both level and XP
-        set({ level: newLevel });
+        let removedGrantIds = [];
+        set(state => {
+            const characterClass = state.class || state.characterClass;
+            let talents = state.talents || {};
+            if (newLevel < currentLevel && characterClass !== 'Fate Weaver') {
+                const pruned = pruneTalentsForChange(talents, {
+                    previousClass: characterClass,
+                    nextClass: characterClass,
+                    level: newLevel
+                });
+                removedGrantIds = removedTalentGrantIds(talents, pruned, characterClass);
+                talents = pruned;
+            }
+            return newLevel < currentLevel && characterClass !== 'Fate Weaver'
+                ? { level: newLevel, talents }
+                : { level: newLevel };
+        });
+        if (removedGrantIds.length > 0) {
+            get().removeTalentGrantSpells(removedGrantIds);
+        }
         if (newLevel < currentLevel) {
             get().reconcileGamblerTalents();
             get().reconcileFateWeaverTalents();
@@ -616,8 +635,21 @@ export const createProgressionSlice = (set, get) => ({
         if ((beforeClass === 'Gambler' || beforeClass === 'Fate Weaver') && newLevel < before.level) {
             for (let lostLevel = before.level; lostLevel > newLevel; lostLevel--) get().reverseLevelUpBonus(lostLevel);
         }
+        let removedGrantIds = [];
         set(state => {
             const oldLevel = state.level;
+            const characterClass = state.class || state.characterClass;
+            let talents = state.talents || {};
+
+            if (newLevel < oldLevel && characterClass !== 'Fate Weaver') {
+                const pruned = pruneTalentsForChange(talents, {
+                    previousClass: characterClass,
+                    nextClass: characterClass,
+                    level: newLevel
+                });
+                removedGrantIds = removedTalentGrantIds(talents, pruned, characterClass);
+                talents = pruned;
+            }
 
             // Record character change for persistence
             if (state.currentCharacterId && newLevel !== oldLevel) {
@@ -629,8 +661,14 @@ export const createProgressionSlice = (set, get) => ({
                 });
             }
 
-            return { level: newLevel };
+            return newLevel < oldLevel && characterClass !== 'Fate Weaver'
+                ? { level: newLevel, talents }
+                : { level: newLevel };
         });
+
+        if (removedGrantIds.length > 0) {
+            get().removeTalentGrantSpells(removedGrantIds);
+        }
 
         get().reconcileGamblerTalents();
         get().reconcileFateWeaverTalents();

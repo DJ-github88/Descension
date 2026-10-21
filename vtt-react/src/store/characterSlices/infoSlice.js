@@ -180,6 +180,18 @@ export const createInfoSlice = (set, get) => ({
                         get().reverseLevelUpBonus(level);
                     }
 
+                    const className = state.class || state.characterClass;
+                    if (className !== 'Fate Weaver') {
+                        const currentTalents = state.talents || {};
+                        const prunedTalents = pruneTalentsForChange(currentTalents, {
+                            previousClass: className,
+                            nextClass: className,
+                            level: newLevel
+                        });
+                        removedGrantIds = removedTalentGrantIds(currentTalents, prunedTalents, className);
+                        newState.talents = prunedTalents;
+                    }
+
                     // Recalculate derived stats once after all reversals
                     // (health, mana, AP will reflect the pruned levelUpHistory)
                     setTimeout(() => get().initializeCharacter(), 0);
