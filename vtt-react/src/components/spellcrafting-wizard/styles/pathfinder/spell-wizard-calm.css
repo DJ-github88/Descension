@@ -876,6 +876,25 @@ html body .pf-spell-card.wow-spell-card .spell-rollable-table-container {
 html body .pf-spell-card.wow-spell-card {
   overflow: visible !important;
 }
+html body .pf-spell-card.wow-spell-card :is(.pf-spell-card-header, .wow-spell-card-header) {
+  position: relative !important;
+  z-index: 20 !important;
+}
+html body .pf-spell-card.wow-spell-card:has(.spell-component-pill-wrapper.active) :is(.pf-spell-card-header, .wow-spell-card-header),
+html body .pf-spell-card.wow-spell-card:has(.spell-component-pill-wrapper:hover) :is(.pf-spell-card-header, .wow-spell-card-header),
+html body :is(.pf-spell-card-header, .wow-spell-card-header).has-active-tooltip {
+  z-index: 100 !important;
+}
+html body .pf-spell-card.wow-spell-card .unified-spell-header-main.has-active-tooltip,
+html body .pf-spell-card.wow-spell-card .unified-spell-header-main:has(.spell-component-pill-wrapper.active),
+html body .pf-spell-card.wow-spell-card .unified-spell-header-main:has(.spell-component-pill-wrapper:hover) {
+  position: relative !important;
+  z-index: 50 !important;
+}
+html body .pf-spell-card.wow-spell-card .unified-spell-header-details {
+  position: relative !important;
+  z-index: 1 !important;
+}
 html body .pf-spell-card.wow-spell-card .spell-component-pills {
   gap: 4px !important;
 }

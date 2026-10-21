@@ -88,6 +88,7 @@ const SpellComponentPill = ({
   return (
     <div
       className={`spell-component-pill-wrapper ${isOpen ? 'active' : ''}`}
+      style={{ position: 'relative', zIndex: isOpen ? 100 : undefined }}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
       onClick={onClick}
@@ -105,7 +106,7 @@ const SpellComponentPill = ({
         <div
           ref={popoverRef}
           className={`pf-component-popover pf-component-popover--${compKey}`}
-          style={{ ...popoverPos }}
+          style={{ zIndex: 10000, ...popoverPos }}
         >
           <div className="pf-component-popover-arrow" style={arrowStyle} />
           <div className="pf-component-popover-header">
@@ -299,9 +300,15 @@ const SpellCardHeader = ({
       )}
 
       {/* Card Header */}
-      <div className="pf-spell-card-header wow-spell-card-header">
+      <div
+        className={`pf-spell-card-header wow-spell-card-header ${activeComponentTooltip ? 'has-active-tooltip' : ''}`}
+        style={{ position: 'relative', zIndex: activeComponentTooltip ? 100 : 20 }}
+      >
         {/* Header Main Row - Icon, Name, Resource Cost, Damage Types */}
-        <div className="unified-spell-header-main">
+        <div
+          className={`unified-spell-header-main ${activeComponentTooltip ? 'has-active-tooltip' : ''}`}
+          style={{ position: 'relative', zIndex: activeComponentTooltip ? 50 : 15 }}
+        >
           <div className="pf-spell-icon-container">
             <img
               src={getSpellIcon()}

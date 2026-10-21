@@ -155,4 +155,31 @@ describe('SpellComponentPill and Popover', () => {
     const numericLeft = parseFloat(popover.style.left);
     expect(numericLeft).toBeLessThanOrEqual(0);
   });
+
+  test('elevates header z-index above card body when popover is open', () => {
+    const { container } = render(
+      <UnifiedSpellCard spell={spellWithComponents} variant="wizard" />
+    );
+
+    const header = container.querySelector('.pf-spell-card-header');
+    const somaticPill = container.querySelector('.spell-component-pill--somatic');
+
+    // Initially header is not active
+    expect(header).not.toHaveClass('has-active-tooltip');
+
+    // Click to open
+    fireEvent.click(somaticPill);
+
+    // Header has active tooltip class and elevated z-index
+    expect(header).toHaveClass('has-active-tooltip');
+    expect(header.style.zIndex).toBe('100');
+
+    // Pill wrapper and popover have elevated z-index
+    const wrapper = container.querySelector('.spell-component-pill-wrapper.active');
+    expect(wrapper).toBeInTheDocument();
+    expect(wrapper.style.zIndex).toBe('100');
+
+    const popover = container.querySelector('.pf-component-popover--somatic');
+    expect(popover.style.zIndex).toBe('10000');
+  });
 });

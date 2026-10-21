@@ -215,6 +215,7 @@
   background: var(--my-gradient-header, linear-gradient(135deg, #7a3b2e 0%, #5e2e23 50%, #45211a 100%)) !important;
   border-bottom: var(--my-border-width-thick, 3px) solid var(--my-brown-medium, #8B4513) !important;
   position: relative !important;
+  z-index: 20 !important;
   gap: var(--my-space-2, 8px) !important;
   width: 100% !important;
   box-shadow:
@@ -223,6 +224,24 @@
   overflow: visible !important; /* Allow priority tag to overflow above header */
   border-top-left-radius: var(--my-border-radius-lg) !important;
   border-top-right-radius: var(--my-border-radius-lg) !important;
+}
+
+.pf-spell-card-header.has-active-tooltip,
+.pf-spell-card:has(.spell-component-pill-wrapper.active) .pf-spell-card-header,
+.pf-spell-card:has(.spell-component-pill-wrapper:hover) .pf-spell-card-header {
+  z-index: 100 !important;
+}
+
+.unified-spell-header-main.has-active-tooltip,
+.unified-spell-header-main:has(.spell-component-pill-wrapper.active),
+.unified-spell-header-main:has(.spell-component-pill-wrapper:hover) {
+  position: relative !important;
+  z-index: 50 !important;
+}
+
+.unified-spell-header-details {
+  position: relative;
+  z-index: 1;
 }
 
 /* Header Top Row - Icon, Name, and Resource Cost */
