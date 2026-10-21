@@ -1,7 +1,10 @@
+import React from 'react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import {
   FATE_WEAVER_CORE_RECORDS, FATE_WEAVER_OPTIONAL_RECORDS, FATE_WEAVER_PROJECTED_SPELLS_BY_ID,
   FATE_WEAVER_SPELL_POOLS, pruneFateWeaverTalents
 } from '../fateWeaverData';
+import TalentTreeContent from '../../../components/talent-tree/TalentTreeContent';
 import { FATE_WEAVER_TREES, FATE_WEAVER_TALENT_NODES } from '../../talentTrees/fateWeaver';
 import { createSpellLibraryCategoriesForClass } from '../../classSpellCategories';
 import useCharacterStore from '../../../store/characterStore';
@@ -63,10 +66,13 @@ describe('Fate Weaver Phase 2B corrections', () => {
     expect(FATE_WEAVER_PROJECTED_SPELLS_BY_ID[changedNode.passiveSpellId]).toBeTruthy();
     const passive = foldedPassive(changedNode);
     const optionalOne = optionalAt(1)[0].id;
-    const lostSpells = [id('tie_thread'), optionalOne, optionalAt(3)[0].id, optionalAt(4)[0].id];
+    const lostSpells = [id('tie_thread'), id(tree.meta.signature), optionalOne, optionalAt(3)[0].id, optionalAt(4)[0].id];
     stateFor({
       level: 5,
-      talents: { [tree.nodes[0].id]: 3, [tree.nodes[1].id]: 3, [tree.nodes[2].id]: 3, [changedNode.id]: 3 },
+      talents: {
+        [tree.nodes[0].id]: 3, [tree.nodes[1].id]: 3, [tree.nodes[2].id]: 3,
+        [changedNode.id]: 3, [tree.meta.signatureNode]: 1
+      },
       levelUpHistory: {
         3: { spellId: optionalAt(3)[0].id }, 4: { spellId: optionalAt(4)[0].id }, 5: { spellId: optionalAt(5)[0].id }
       },
@@ -109,6 +115,41 @@ describe('Fate Weaver Phase 2B corrections', () => {
     const afterSecond = useCharacterStore.getState();
     expect(JSON.stringify({ known: afterSecond.class_spells.known_spells, stats: afterSecond.stats, history: afterSecond.levelUpHistory })).toBe(snapshot);
     expect(afterSecond.levelUpHistory[3].spellId).toBe(levelThree[0]);
+  });
+
+  test('rejects a pick already recorded in earlier level history even when known_spells is stale', () => {
+    stateFor({
+      level: 2,
+      pendingLevelUpInfo: { newLevel: 3 },
+      class_spells: { known_spells: [id('tie_thread'), id('cut_clean')] },
+      levelUpHistory: { 2: { spellId: id('read_bond') } }
+    });
+    useCharacterStore.getState().handleLevelUpChoice({
+      spellId: id('read_bond'), healthIncrease: 9, attributes: ['body']
+    });
+    const state = useCharacterStore.getState();
+    expect(state.class_spells.known_spells).toEqual([id('tie_thread'), id('cut_clean')]);
+    expect(state.levelUpHistory).toEqual({ 2: { spellId: id('read_bond') } });
+    expect(state.level).toBe(2);
+  });
+
+  test('mounted Reset All clears signature and capstone known grants while preserving non-grant picks', () => {
+    const optionalOne = optionalAt(1)[0].id;
+    const custom = 'custom-unrelated-spell';
+    stateFor({
+      level: 10,
+      talents: fullTree,
+      class_spells: { known_spells: [
+        id('tie_thread'), id('cut_clean'), optionalOne,
+        id(tree.meta.signature), id(tree.meta.capstone), custom
+      ] }
+    });
+    render(React.createElement(TalentTreeContent, { selectedTreeIndex: 0 }));
+    fireEvent.click(screen.getByRole('button', { name: /Reset All/i }));
+
+    const state = useCharacterStore.getState();
+    expect(state.talents).toEqual({});
+    expect(state.class_spells.known_spells).toEqual([id('tie_thread'), id('cut_clean'), optionalOne, custom]);
   });
 
   test('fills Fate Weaver level categories 3/5/7/8/9/10 without changing Gambler', () => {

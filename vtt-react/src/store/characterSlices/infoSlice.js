@@ -180,18 +180,6 @@ export const createInfoSlice = (set, get) => ({
                         get().reverseLevelUpBonus(level);
                     }
 
-                    // Reconcile the stored talent allocation and its derived
-                    // grants with the reduced level (policy classes only).
-                    const className = state.class || state.characterClass;
-                    const currentTalents = state.talents || {};
-                    const prunedTalents = pruneTalentsForChange(currentTalents, {
-                        previousClass: className,
-                        nextClass: className,
-                        level: newLevel
-                    });
-                    removedGrantIds = removedTalentGrantIds(currentTalents, prunedTalents, className);
-                    newState.talents = prunedTalents;
-
                     // Recalculate derived stats once after all reversals
                     // (health, mana, AP will reflect the pruned levelUpHistory)
                     setTimeout(() => get().initializeCharacter(), 0);
@@ -964,7 +952,13 @@ export const createInfoSlice = (set, get) => ({
     },
 
     setTalents: (newTalents) => {
+        const previousTalents = get().talents || {};
         set({ talents: newTalents });
+
+        if ((get().class || get().characterClass) === 'Fate Weaver') {
+            const removed = removedTalentGrantIds(previousTalents, newTalents || {}, 'Fate Weaver');
+            if (removed.length > 0) get().removeTalentGrantSpells(removed);
+        }
 
         if (get().currentCharacterId) {
             const userId = getCurrentUserId();
@@ -977,6 +971,10 @@ export const createInfoSlice = (set, get) => ({
 
         if (get().currentCharacterId) {
             triggerCharacterAutoSave(() => get().saveCurrentCharacter());
+        }
+
+        if ((get().class || get().characterClass) === 'Fate Weaver') {
+            get().reconcileFateWeaverTalents?.();
         }
 
         get().syncWithMultiplayer();

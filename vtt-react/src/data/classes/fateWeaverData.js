@@ -21,7 +21,7 @@ const nextStart = { durationType: 'own_turns', durationValue: 1, durationUnit: N
 const minutes = (value = 10) => ({ durationType: 'minutes', durationValue: value, durationUnit: 'minutes' });
 const self = () => ({ targetingType: 'self', rangeType: 'self', rangeDistance: 0, targetRestrictions: ['self'], maxTargets: 1 });
 const target = (roles, maxTargets = 1, rangeDistance = 30) => ({
-  targetingType: maxTargets > 1 ? 'multiple' : 'single', rangeType: 'ranged',
+  targetingType: maxTargets > 1 ? 'multi' : 'single', rangeType: 'ranged',
   rangeDistance, targetRestrictions: roles, maxTargets
 });
 const ally = (n = 1, feet = 30) => target(['ally', 'self'], n, feet);
@@ -63,9 +63,9 @@ export const FATE_WEAVER_COMMON_MECHANICS = {
   price: 'AP and mana are explicit; links reserve thread tokens, never a second resource bank.',
   consent: 'Every link and covenant requires recorded consent from both actors. Consent can be withdrawn; withdrawal ends the link immediately.',
   tokens: 'Exactly three tokens in free, reserved or recovering. One token per link, except an authored covenant may reserve two. Max three links. Reserved tokens become recovering when the link closes and return to free at the start of the owning caster next own turn.',
-  links: 'Distinct endpoints, maximum 60 ft formation range unless a record says otherwise, one consequence per link per round, and no recursive transfer.',
+  links: 'Distinct endpoints, 30 ft formation range each and 60 ft maintenance separation unless a record says otherwise, one consequence per link per round, and no recursive transfer.',
   damage: 'Only original assigned damage after normal mitigation can be transferred; derived damage never qualifies. A transfer moves at most three points and is not a new damage event.',
-  expiry: 'Own-turn and explicitly authored expiry timing only. No reconnect, initiative, class-change or scene-change refill.',
+  expiry: 'Own-turn and explicitly authored expiry timing only. No long rest, reconnect, initiative, class-change or scene-change refill.',
   information: 'Only visible links, observable endpoints and public terms. No mind reading, hidden clauses or future certainty.',
   recovery: 'Reserved tokens recover at the start of the owning caster next own turn. Eternal Tapestry changes only its authored immediate recovery case.',
   native: 'Fate Weaver has no registered native heritage edge. Kessen Neth access is not implied, and no heritage benefit or cost is granted.'
@@ -303,7 +303,7 @@ const signature = (suffix, name, treeId, ap, program, description, effects, opti
   3, suffix, name, ap, options.target || otherAlly(options.targets || 1, options.rangeFeet || 30),
   options.effectTypes || ['utility'], program, description, effects, {
     source: 'talent-signature', specialization: treeId, treeId,
-    durationConfig: options.durationConfig || nextStart, conditions: options.conditions || []
+    durationConfig: options.durationConfig || instant, conditions: options.conditions || []
   }
 );
 
@@ -383,8 +383,13 @@ const nodeForRecord = record => FATE_WEAVER_TALENT_NODES.find(node =>
 );
 
 export function describeFateWeaverPrice(record) {
-  const tokens = record.classResourceProgram?.args?.tokens || 0;
-  return `${record.resourceCost.actionPoints} AP; 0 mana${tokens ? `; reserve ${tokens} thread token(s)` : '; no thread token'}; manual resolution.`;
+  const args = record.classResourceProgram?.args || {};
+  const reservation = args.threadReservation || args.tokens || 0;
+  const price = args.threadPrice || 0;
+  const threadTerm = reservation
+    ? `; reserve ${reservation} thread token(s)`
+    : price ? `; pay ${price} thread token(s) to recovering` : '; no thread token';
+  return `${record.resourceCost.actionPoints} AP; 0 mana${threadTerm}; manual resolution.`;
 }
 
 export const FATE_WEAVER_PROJECTED_SPELLS = FATE_WEAVER_AUTHORED_RECORDS.map(record => {
@@ -491,28 +496,69 @@ export const pruneFateWeaverTalents = (talents, characterLevel) => {
 
 const TOKEN_STATES = ['free', 'reserved', 'recovering'];
 const isIdentifier = value => (typeof value === 'string' && value.trim().length > 0) || Number.isFinite(value);
-const reservationIdsFor = link => {
-  if (!link || typeof link !== 'object') return [];
-  if (Array.isArray(link.tokenIds)) return link.tokenIds;
-  if (link.tokenId != null) return [link.tokenId];
-  if (link.reservationId != null) return [link.reservationId];
-  return [];
+const hasOwn = (value, key) => Object.prototype.hasOwnProperty.call(value, key);
+
+const reservationAliases = link => {
+  const tokenIdsPresent = link.tokenIds != null;
+  const tokenIdPresent = link.tokenId != null;
+  const reservationIdPresent = link.reservationId != null;
+  const errors = [];
+  if (tokenIdsPresent && !Array.isArray(link.tokenIds)) {
+    errors.push('tokenIds must be an array');
+  }
+  const tokenIds = Array.isArray(link.tokenIds) ? link.tokenIds : [];
+  if (tokenIdsPresent) {
+    if (tokenIdPresent && !tokenIds.includes(link.tokenId)) {
+      errors.push('tokenId conflicts with tokenIds');
+    }
+    if (reservationIdPresent && !tokenIds.includes(link.reservationId)) {
+      errors.push('reservationId conflicts with tokenIds');
+    }
+  }
+  if (tokenIdPresent && reservationIdPresent && link.tokenId !== link.reservationId) {
+    errors.push('tokenId conflicts with reservationId');
+  }
+  const ids = tokenIdsPresent ? tokenIds
+    : tokenIdPresent ? [link.tokenId]
+      : reservationIdPresent ? [link.reservationId] : [];
+  return { ids, errors, aliasesPresent: tokenIdsPresent || tokenIdPresent || reservationIdPresent };
 };
+
+const consentSide = (consent, keys) => {
+  const values = keys.filter(key => hasOwn(consent, key)).map(key => consent[key]);
+  if (values.length === 0) return { present: false, granted: false, contradictory: false };
+  const contradictory = values.some(value => typeof value !== 'boolean')
+    || (values.some(value => value === true) && values.some(value => value === false));
+  return { present: true, granted: !contradictory && values.every(value => value === true), contradictory };
+};
+
 const hasBothConsent = link => {
   const consent = link?.consent;
   if (consent === 'both' || consent === 'mutual') return true;
   if (consent && typeof consent === 'object') {
-    if (consent.both === true) return true;
-    return ['source', 'target', 'sourceId', 'targetId', 'from', 'to']
-      .filter(key => consent[key] === true).length >= 2;
+    const source = consentSide(consent, ['source', 'sourceId', 'from']);
+    const target = consentSide(consent, ['target', 'targetId', 'to']);
+    const both = hasOwn(consent, 'both') ? consent.both : undefined;
+    if (both !== undefined && typeof both !== 'boolean') return false;
+    if (both === false && (source.granted || target.granted)) return false;
+    if (source.contradictory || target.contradictory) return false;
+    return (both === true || (source.granted && target.granted))
+      && !(source.present && !source.granted) && !(target.present && !target.granted);
   }
   return link?.sourceConsent === true && link?.targetConsent === true;
 };
-const hasExpiry = link => ['expiresAt', 'expiry', 'expires', 'expiryAt']
-  .some(key => {
-    const value = link?.[key];
-    return (typeof value === 'string' && value.trim().length > 0) || Number.isFinite(value);
-  });
+
+const expiryAliases = link => {
+  const entries = ['expiresAt', 'expiry', 'expires', 'expiryAt']
+    .filter(key => link[key] !== undefined)
+    .map(key => [key, link[key]]);
+  const normalized = entries.map(([, value]) => JSON.stringify(value));
+  return {
+    values: entries,
+    conflict: new Set(normalized).size > 1,
+    valid: entries.some(([, value]) => (typeof value === 'string' && value.trim().length > 0) || Number.isFinite(value))
+  };
+};
 
 // Shape checks only. Never create, settle, move or repair a stored link.
 export function validateFateWeaverState(state) {
@@ -535,6 +581,7 @@ export function validateFateWeaverState(state) {
 
   const reservations = new Map();
   const linkIds = new Set();
+  const linkReservations = new Map();
   links.forEach((link, index) => {
     if (!link || typeof link !== 'object') { errors.push(`link ${index} must be an object`); return; }
     if (!isIdentifier(link.id)) errors.push(`link ${index} requires an id`);
@@ -547,7 +594,10 @@ export function validateFateWeaverState(state) {
     }
     if (!hasBothConsent(link)) errors.push(`link ${link.id ?? index} requires recorded consent from both endpoints`);
 
-    const tokenIds = reservationIdsFor(link);
+    const reservation = reservationAliases(link);
+    reservation.errors.forEach(message => errors.push(`link ${link.id ?? index} ${message}`));
+    const tokenIds = reservation.ids;
+    if (!reservation.aliasesPresent) errors.push(`link ${link.id ?? index} requires a reserved token association`);
     if (tokenIds.length === 0) errors.push(`link ${link.id ?? index} requires a reserved token association`);
     if (new Set(tokenIds).size !== tokenIds.length) errors.push(`link ${link.id ?? index} repeats a reservation`);
     if (link.threadReservation != null && link.threadReservation !== tokenIds.length) {
@@ -560,18 +610,29 @@ export function validateFateWeaverState(state) {
       if (!isIdentifier(tokenId)) { errors.push(`link ${link.id ?? index} has an invalid reservation id`); return; }
       const token = tokenById.get(tokenId);
       if (!token) errors.push(`link ${link.id ?? index} references a missing reservation ${tokenId}`);
-      else if (token.state !== 'reserved') errors.push(`link ${link.id ?? index} references a ${token.state} reservation ${tokenId}`);
+      else {
+        if (token.state !== 'reserved') errors.push(`link ${link.id ?? index} references a ${token.state} reservation ${tokenId}`);
+        if (token.linkId != null && token.linkId !== link.id) {
+          errors.push(`link ${link.id ?? index} reservation ${tokenId} points to another link`);
+        }
+      }
       if (reservations.has(tokenId)) errors.push(`reservation ${tokenId} is associated with more than one link`);
       else reservations.set(tokenId, link.id);
     });
+    if (isIdentifier(link.id)) linkReservations.set(link.id, tokenIds);
 
     const uses = link.uses;
     if (!Number.isInteger(uses) || uses < 1 || uses > 2) errors.push(`link ${link.id ?? index} uses must be 1 or 2`);
+    if (link.usesRemaining != null && link.remainingUses != null && link.usesRemaining !== link.remainingUses) {
+      errors.push(`link ${link.id ?? index} remaining-use aliases conflict`);
+    }
     const usesRemaining = link.usesRemaining ?? link.remainingUses;
     if (!Number.isInteger(usesRemaining) || usesRemaining < 0 || (Number.isInteger(uses) && usesRemaining > uses)) {
       errors.push(`link ${link.id ?? index} remaining uses are inconsistent`);
     }
-    if (!hasExpiry(link)) errors.push(`link ${link.id ?? index} requires an explicit expiry`);
+    const expiry = expiryAliases(link);
+    if (expiry.conflict) errors.push(`link ${link.id ?? index} expiry aliases conflict`);
+    if (!expiry.valid) errors.push(`link ${link.id ?? index} requires an explicit expiry`);
     if (link.amountMax != null && (!Number.isFinite(link.amountMax) || link.amountMax > 3)) errors.push('transfer amount exceeds 3');
     if (link.recursive === true) errors.push('recursive transfer is not allowed');
   });
@@ -579,6 +640,13 @@ export function validateFateWeaverState(state) {
   tokenById.forEach(token => {
     if (token.state === 'reserved' && !reservations.has(token.id)) {
       errors.push(`reserved token ${token.id} is not associated with a link`);
+    }
+    if (token.linkId != null) {
+      const linkedTokenIds = linkReservations.get(token.linkId);
+      if (!linkedTokenIds) errors.push(`token ${token.id} points to a missing link`);
+      else if (!linkedTokenIds.includes(token.id)) {
+        errors.push(`token ${token.id} backreference is not included by link ${token.linkId}`);
+      }
     }
   });
   return { valid: errors.length === 0, errors };
@@ -588,19 +656,23 @@ export function projectFateWeaverResource(resource, isOwner = false) {
   const state = resource?.state ?? null;
   if (!state) return { initialized: false, valid: true, errors: [], tokens: { free: 0, reserved: 0, recovering: 0 }, links: [], maxLinks: 3 };
   const check = validateFateWeaverState(state);
-  const tokens = [0, 1, 2].map(index => state.tokens?.[index]?.state).filter(value => ['free', 'reserved', 'recovering'].includes(value));
-  const links = Array.isArray(state.links) ? state.links.map(link => {
-    const reservationId = Array.isArray(link?.tokenIds) ? link.tokenIds[0] : (link?.tokenId ?? link?.reservationId);
-    const reservation = state.tokens?.find(token => token?.id === reservationId);
-    const remaining = link?.usesRemaining ?? link?.remainingUses;
+  const rawTokens = Array.isArray(state.tokens) ? state.tokens : [];
+  const tokens = rawTokens.slice(0, 3)
+    .map(token => token && typeof token === 'object' ? token.state : null)
+    .filter(value => ['free', 'reserved', 'recovering'].includes(value));
+  const links = Array.isArray(state.links) ? state.links.map(entry => {
+    const link = entry && typeof entry === 'object' ? entry : {};
+    const reservationId = Array.isArray(link.tokenIds) ? link.tokenIds[0] : (link.tokenId ?? link.reservationId);
+    const reservation = rawTokens.find(token => token && typeof token === 'object' && token.id === reservationId);
+    const remaining = link.usesRemaining ?? link.remainingUses;
     return {
-      id: link?.id || null,
-      sourceName: isOwner ? link?.sourceName || link?.source || 'Unknown endpoint' : 'Endpoint hidden',
-      targetName: isOwner ? link?.targetName || link?.target || 'Unknown endpoint' : 'Endpoint hidden',
-      purpose: link?.purpose || link?.publicPurpose || 'Unrecorded public purpose',
-      tokenState: link?.tokenState || reservation?.state || 'unknown',
+      id: link.id || null,
+      sourceName: isOwner ? link.sourceName || link.source || 'Unknown endpoint' : 'Endpoint hidden',
+      targetName: isOwner ? link.targetName || link.target || 'Unknown endpoint' : 'Endpoint hidden',
+      purpose: link.purpose || link.publicPurpose || 'Unrecorded public purpose',
+      tokenState: link.tokenState || reservation?.state || 'unknown',
       usesRemaining: Number.isFinite(remaining) ? remaining : null,
-      expiresAt: link?.expiresAt || link?.expiry || null
+      expiresAt: link.expiresAt || link.expiry || null
     };
   }) : [];
   return { initialized: true, valid: check.valid, errors: check.errors, maxLinks: 3,

@@ -490,6 +490,12 @@ export const createProgressionSlice = (set, get) => ({
         const removable = grantIds.filter(id => !stillNeeded.has(id));
         if (removable.length === 0) return;
 
+        const currentKnown = state.class_spells?.known_spells || [];
+        const known = currentKnown.filter(spellId => !removable.includes(spellId));
+        if (known.length !== currentKnown.length) {
+            set({ class_spells: { ...(state.class_spells || {}), known_spells: known } });
+        }
+
         const nodeByGrantId = Object.fromEntries(
             Object.values(TALENT_TREES).flatMap(specs => Object.values(specs).flat())
                 .filter(node => node.grantId || node.passiveSpellId)
@@ -610,22 +616,8 @@ export const createProgressionSlice = (set, get) => ({
         if ((beforeClass === 'Gambler' || beforeClass === 'Fate Weaver') && newLevel < before.level) {
             for (let lostLevel = before.level; lostLevel > newLevel; lostLevel--) get().reverseLevelUpBonus(lostLevel);
         }
-        let removedGrantIds = [];
-
         set(state => {
             const oldLevel = state.level;
-            const characterClass = state.class || state.characterClass;
-            let talents = state.talents || {};
-
-            if (newLevel < oldLevel) {
-                const pruned = pruneTalentsForChange(talents, {
-                    previousClass: characterClass,
-                    nextClass: characterClass,
-                    level: newLevel
-                });
-                removedGrantIds = removedTalentGrantIds(talents, pruned, characterClass);
-                talents = pruned;
-            }
 
             // Record character change for persistence
             if (state.currentCharacterId && newLevel !== oldLevel) {
@@ -637,12 +629,9 @@ export const createProgressionSlice = (set, get) => ({
                 });
             }
 
-            return newLevel < oldLevel ? { level: newLevel, talents } : { level: newLevel };
+            return { level: newLevel };
         });
 
-        if (removedGrantIds.length > 0) {
-            get().removeTalentGrantSpells(removedGrantIds);
-        }
         get().reconcileGamblerTalents();
         get().reconcileFateWeaverTalents();
 
@@ -742,8 +731,11 @@ export const createProgressionSlice = (set, get) => ({
             const legal = Object.entries(FATE_WEAVER_SPELL_POOLS)
                 .filter(([level]) => Number(level) <= newLevel)
                 .flatMap(([, ids]) => ids);
+            const recordedPicks = new Set(Object.values(state.levelUpHistory || {})
+                .map(entry => entry?.spellId).filter(Boolean));
             if (newLevel < 1 || newLevel > 10 || state.levelUpHistory?.[newLevel] ||
                 !choice?.spellId || !legal.includes(choice.spellId) || known.includes(choice.spellId) ||
+                recordedPicks.has(choice.spellId) ||
                 known.filter(spellId => allOptions.includes(spellId)).length >= newLevel) return;
         }
 

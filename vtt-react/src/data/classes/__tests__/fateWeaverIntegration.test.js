@@ -78,6 +78,19 @@ describe('Fate Weaver Phase 2B package', () => {
     expect(fateWeaverResourceGuide).toMatchObject({ version: 2, archetype: 'Finite Consented Links' });
   });
 
+  test('resource guide and tracker copy preserve bearer, 30/60 range and next-own-turn recovery', () => {
+    expect(fateWeaverResourceGuide.loop.spend.text).toContain('to the chosen bearer');
+    expect(fateWeaverResourceGuide.loop.spend.text).not.toContain('to the caster');
+    expect(fateWeaverResourceGuide.quickStart.rows[0][2]).toContain('second subsequent caster turn');
+    expect(fateWeaverResourceGuide.quickStart.rows[1][2]).toContain('owning caster next own turn');
+    expect(fateWeaverResourceGuide.playingInPerson.materials).toContain('A next-own-turn recovery marker');
+    expect(fateWeaverResourceGuide.playingInPerson.keepSections).toEqual(['tracking', 'consent', 'recovery label']);
+    const copy = JSON.stringify(fateWeaverResourceGuide);
+    ['free immediately', 'next turn start', 'completed-rest marker', 'to the caster'].forEach(stale => {
+      expect(copy).not.toContain(stale);
+    });
+  });
+
   test('all signature and capstone gates accept only the authored same-tree path', () => {
     const points = (treeId, talents) => FATE_WEAVER_TALENT_NODES
       .filter(node => node.treeId === treeId)
@@ -125,6 +138,55 @@ describe('Fate Weaver Phase 2B package', () => {
     expect(projectFateWeaverResource({ state }, true).links[0]).toMatchObject({ sourceName: 'A', targetName: 'B', purpose: 'guard the gate', tokenState: 'reserved' });
     expect(projectFateWeaverResource({ state }, false).links[0].sourceName).toBe('Endpoint hidden');
     expect(projectFateWeaverResource(null)).toMatchObject({ initialized: false, links: [] });
+  });
+
+  test('keeps R1 targeting, price and expiry terms in projected records', () => {
+    const tie = FATE_WEAVER_PROJECTED_SPELLS_BY_ID.cr1_fate_weaver_tie_thread;
+    expect(tie.targetingConfig).toMatchObject({ targetingType: 'multi', maxTargets: 2, rangeDistance: 30 });
+    expect(tie.durationConfig).toMatchObject({ durationType: 'own_turns', durationValue: 2, durationUnit: 'subsequent_caster_turn_end' });
+    expect(tie.specialMechanics.fateWeaver.priceSummary).toContain('reserve 1 thread token');
+    const covenant = FATE_WEAVER_PROJECTED_SPELLS_BY_ID.cr1_fate_weaver_witnessed_covenant;
+    expect(covenant.targetingConfig).toMatchObject({ targetingType: 'multi', maxTargets: 2 });
+    expect(covenant.specialMechanics.fateWeaver.priceSummary).toContain('reserve 2 thread token(s)');
+    const sever = FATE_WEAVER_PROJECTED_SPELLS_BY_ID.cr1_fate_weaver_sever_borrowed_crown;
+    expect(sever.specialMechanics.fateWeaver.priceSummary).toContain('pay 1 thread token(s) to recovering');
+    expect(sever.durationConfig.durationType).toBe('instant');
+    expect(FATE_WEAVER_PROJECTED_SPELLS_BY_ID.cr1_fate_weaver_reanchor_tapestry.durationConfig.durationType).toBe('instant');
+  });
+
+  test('distinguishes valid consent/alias pairs from conflicting or one-sided aliases', () => {
+    const base = {
+      tokens: [{ id: 't1', state: 'reserved' }, { id: 't2', state: 'free' }, { id: 't3', state: 'free' }],
+      links: [{
+        id: 'l1', sourceId: 'a', targetId: 'b', consent: 'both', tokenIds: ['t1'],
+        uses: 1, usesRemaining: 1, expiresAt: 'end-of-turn'
+      }]
+    };
+    const link = base.links[0];
+    const valid = [
+      { ...base, links: [{ ...link, consent: { source: true, target: true } }] },
+      { ...base, links: [{ ...link, tokenIds: ['t1'], tokenId: 't1' }] },
+      { ...base, links: [{ ...link, usesRemaining: 1, remainingUses: 1 }] },
+      { ...base, tokens: base.tokens.map(token => token.id === 't1' ? { ...token, linkId: 'l1' } : token) }
+    ];
+    valid.forEach(candidate => expect(validateFateWeaverState(candidate)).toEqual({ valid: true, errors: [] }));
+
+    const malformed = [
+      { ...base, links: [{ ...link, consent: { source: true, sourceId: true } }] },
+      { ...base, links: [{ ...link, usesRemaining: 0, remainingUses: 1 }] },
+      { ...base, links: [{ ...link, tokenIds: ['t1'], tokenId: 't2' }] },
+      { ...base, tokens: base.tokens.map(token => token.id === 't1' ? { ...token, linkId: 'other' } : token) }
+    ];
+    malformed.forEach(candidate => expect(validateFateWeaverState(candidate).valid).toBe(false));
+  });
+
+  test('projects malformed containers as invalid without throwing or inventing threads', () => {
+    const raw = { tokens: {}, links: [{}] };
+    const view = projectFateWeaverResource({ state: raw });
+    expect(view.valid).toBe(false);
+    expect(view.tokens).toEqual({ free: 0, reserved: 0, recovering: 0 });
+    expect(view.links).toHaveLength(1);
+    expect(projectFateWeaverResource({ state: { tokens: 'oops', links: [] } }).valid).toBe(false);
   });
 
   test('rejects duplicate, missing and mismatched reservations without repairing them', () => {

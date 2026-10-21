@@ -677,6 +677,7 @@ const useCombatStore = create((set, get) => ({
         // Force resetting combat state
         set({
             isInCombat: false,
+            effectLifecycle: null,
             isSelectionMode: false,
             round: 1,
             turnOrder: [],

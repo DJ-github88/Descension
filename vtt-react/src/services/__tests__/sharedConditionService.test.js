@@ -2,12 +2,16 @@ import { create } from 'zustand';
 import { registerStore } from '../../store/storeRegistry';
 import { activatePrivateScope, resetBootstrapGateForTests } from '../../persistence/bootstrapPrivacyGate';
 import { bindSharedConditions, editDefending, editSharedCondition, checkConditionCommand, resolveConditionActor,
-  recordShieldBashResult, checkShieldBashResult, shieldBashResults, submitTurnBoundary, checkTurnBoundary, useSharedConditionStore } from '../sharedConditionService';
+  recordShieldBashResult, checkShieldBashResult, shieldBashResults, submitTurnBoundary, checkTurnBoundary, useSharedConditionStore, refreshEffectLifecycle } from '../sharedConditionService';
+import useCombatStore from '../../store/combatStore';
+import { registerCombatHandlers } from '../../components/multiplayer/socketHandlers/combatHandlers';
+import { positionKey } from '../sharedEffectTiming';
 import { conditionContext, loadConditionCustody, retainConditionCommand } from '../sharedConditionCustody';
 import { canonical, makeDefendingRecord, makeStunnedRecord } from '../sharedConditionProfile';
 import { refreshActorSnapshot, prepareActorCommand, submitPreparedActorCommand, requestActorEvent } from '../actorConsequenceService';
 
 jest.mock('../actorConsequenceService', () => ({ refreshActorSnapshot: jest.fn(), prepareActorCommand: jest.fn(), submitPreparedActorCommand: jest.fn(), requestActorEvent: jest.fn(),
+  reconcileActorMirrors: jest.fn(), hydrateActorConditions: jest.fn(),
   findActor: ref => require('../../store/storeRegistry').getStore('characterTokenStore').getState().characterTokens.find(t => t.id === ref?.tokenId),
   refOf: token => token?.state?.actorContract ? Object.fromEntries(['kind', 'roomId', 'mapId', 'tokenId', 'instanceId', 'ownerUid', 'characterId'].map(k => [k, token.state.actorContract[k]])) : null }));
 const ref = { kind: 'character', roomId: 'r', mapId: 'm', tokenId: 'pc', instanceId: 'i', ownerUid: 'u', characterId: 'c' };
@@ -31,6 +35,29 @@ function currentGM() {
   cleanup(); game.setState({ isGMMode: true }); cleanup = bindSharedConditions(game.getState().multiplayerSocket);
   tokens.getState().characterTokens.push({ id: 'source', state: { actorContract: { version: 1, primary: true, revision: 0, ...bashSource }, conditions: [] } });
 }
+test('C4 actual legacy end/start callbacks retire clock and no-clock refresh clears ordinary Next Turn fence without outgoing reset; disconnect is unavailable', async() => {
+  currentGM(); registerStore('combatStore', useCombatStore);
+  const socket = game.getState().multiplayerSocket; socket.emit = jest.fn();
+  const combat = { isActive: true, currentTurnIndex: 0, round: 1, turnOrder: [{ tokenId: 'pc', actorRef: ref }, { tokenId: 'source', actorRef: bashSource }] };
+  combat.effectLifecycle = { version: 1, id: crypto.randomUUID(), sequence: 0, positionKey: positionKey(combat), schedules: {} };
+  let current = combat;
+  refreshActorSnapshot.mockImplementation(async() => ({ success: true, roomId: 'r', combat: current, combatHash: 'a'.repeat(64), actionEpoch: 'e', commitSequence: 0,
+    actorProjection: { version: 1, roomId: 'r', epoch: 'e', cut: 1 } }));
+  await refreshEffectLifecycle(); expect(useCombatStore.getState().effectLifecycle.id).toBe(combat.effectLifecycle.id);
+  const disconnect = socket.on.mock.calls.filter(([name]) => name === 'disconnect').slice(-1)[0][1]; socket.connected = false; disconnect();
+  expect(useSharedConditionStore.getState().clockPhase).toBe('unavailable'); socket.connected = true;
+  await refreshEffectLifecycle();
+  registerCombatHandlers({ socket, currentPlayer: { id: 'u' }, addNotification: jest.fn() });
+  current = { isActive: false, currentTurnIndex: null, turnOrder: [], round: 0 };
+  socket.on.mock.calls.filter(([name]) => name === 'combat_ended').forEach(([, callback]) => callback());
+  await Promise.resolve(); await Promise.resolve(); expect(useCombatStore.getState().effectLifecycle).toBeNull();
+  current = { ...combat }; delete current.effectLifecycle;
+  socket.on.mock.calls.filter(([name]) => name === 'combat_started').forEach(([, callback]) => callback({ combat: current }));
+  await Promise.resolve(); await Promise.resolve(); expect(useCombatStore.getState().effectLifecycle).toBeNull();
+  expect(useSharedConditionStore.getState().combat.effectLifecycle).toBeUndefined(); expect(socket.emit).not.toHaveBeenCalled();
+  // Refresh alone repairs a stale local guard, even if the legacy event was missed.
+  useCombatStore.setState({ effectLifecycle: combat.effectLifecycle }); await refreshEffectLifecycle(); expect(useCombatStore.getState().effectLifecycle).toBeNull();
+});
 test('C4 boundary uses existing persist-before-emission custody, exact unknown retry and no optimistic cursor; accepted zero-actor receipt settles it', async() => {
   currentGM();
   const combat = { isActive: true, currentTurnIndex: 0, round: 1, turnOrder: [{ tokenId: 'pc', actorRef: ref }] };

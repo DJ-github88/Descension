@@ -1,6 +1,7 @@
 const assert = require('assert/strict');
 const crypto = require('crypto');
 const { createProductionStackServer } = require('./helpers/productionStackServer');
+const { FirebaseBatchWriter } = require('../services/syncService');
 const actors = require('../services/actorConsequences');
 const profile = require('../../vtt-react/src/services/sharedConditionProfile');
 const timing = require('../../vtt-react/src/services/sharedEffectTiming');
@@ -13,7 +14,8 @@ describe('P14-C4 authenticated boundary production lifecycle', function() {
   this.timeout(15000);
   let server, room, gm, owner, pc, foe, ownerUid;
   beforeEach(async() => {
-    server = createProductionStackServer(); await server.start();
+    const writer = new FirebaseBatchWriter(60000, 50, { shouldPersist: () => true, persist: async() => ({ outcome: 'confirmed' }) });
+    server = createProductionStackServer({ firebaseBatchWriter: writer }); await server.start();
     for (const e of ['actor_bind', 'actor_consequence', 'actor_snapshot', 'actor_turn_boundary', 'combat_started', 'combat_turn_changed']) server.setEventLimits(e, { maxPerMinute: 2000, maxPerSecond: 2000 });
     const gmUid = server.nextUserId(); ownerUid = server.nextUserId(); server.registerAuthToken('gm', gmUid); server.registerAuthToken('owner', ownerUid);
     gm = server.connect({ token: 'gm' }); await once(gm, 'connect'); room = await server.seedRoom(gm.id, { gmUserId: gmUid });
@@ -102,5 +104,15 @@ describe('P14-C4 authenticated boundary production lifecycle', function() {
     const old = actors.clone(c); old.commandId = uuid(); assert.equal((await ack(gm, 'actor_turn_boundary', old)).code, 'outcome_unknown');
     const imported = actors.clone(room.gameState); actors.preserveImportedActorMetadata(imported); assert.equal(imported.combat.effectLifecycle, undefined); assert.ok(imported.actorConsequenceRecovery.importedEffectLifecycle);
     await advance(); assert.equal(token(pc).state.conditions.length, 0);
+  });
+  it('automatic per-boundary capacity respects P7 atomic limits; excess independent effects remain visible/manual without blocking combat', async() => {
+    room.isPermanent = true; room.persistentRoomId = room.id;
+    await adopt(); await server.firebaseBatchWriter.flush(); const records = [];
+    for (let i = 0; i < 33; i += 1) { records.push(await addBash()); if (i % 4 === 0) await server.firebaseBatchWriter.flush(); }
+    assert.equal(Object.keys(room.gameState.combat.effectLifecycle.schedules).length, 32);
+    assert.equal(timing.scheduleFor(records[32], room.gameState.combat), null); assert.match(profile.expiryLabel(records[32], room.gameState.combat), /GM removes/);
+    await advance(); await advance(); const result = await advance();
+    assert.equal(result.result.receipt.actors[0].conditions.length, 1); assert.deepEqual(token(pc).state.conditions, [records[32]]);
+    assert.equal(room.gameState.combat.effectLifecycle.sequence, 3); assert.throws(() => actors.assertCanAct(room, pc), /Stunned/);
   });
 });
