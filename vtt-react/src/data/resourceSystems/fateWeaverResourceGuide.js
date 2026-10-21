@@ -11,7 +11,7 @@ export const fateWeaverResourceGuide = {
   loop: {
     gain: { title: 'Reserve a Real Thread', icon: 'fa-link', text: 'Tie the Thread reserves one of three tokens and records both endpoints, a public purpose, consent, one use and expiry. Tie and Cut are core grants.' },
     hold: { title: 'Keep the Promise Visible', icon: 'fa-eye', text: 'Every link names its source, target, public purpose, token state, remaining uses and absolute expiry. At most three links and one consequence per link per round.' },
-    spend: { title: 'Choose Who Bears the Risk', icon: 'fa-scale-balanced', text: 'A transfer moves at most three points of original assigned damage after mitigation to the caster. Ward, severance and re-anchoring use the same token record; none is a second bank.' },
+    spend: { title: 'Choose Who Bears the Risk', icon: 'fa-scale-balanced', text: 'A transfer moves at most three points of original assigned damage after mitigation from the protected actor to the chosen bearer. Ward, severance and re-anchoring use the same token record; none is a second bank.' },
     risk: { title: 'A Broken Link Has a Price', icon: 'fa-scissors', text: 'A closed or expired link leaves its token recovering until the owning caster next own turn. Cut links follow their own authored destination. No reconnect, initiative or scene-change refill; consent withdrawal ends the link immediately.' }
   },
   exampleTurn: '**Turn 1:** Reserve one token with Tie the Thread and record a public purpose. **Turn 2:** Use Shared Burden to redirect up to 2 original damage, then mark the use once. **Turn 3:** Cut the link with Cut Clean, or let it expire; the token recovers at the owning caster next own turn. No automatic AP, damage, expiry or recovery is applied.',
@@ -22,8 +22,8 @@ export const fateWeaverResourceGuide = {
   ],
   quickStart: {
     title: 'The First Thread', headers: ['Action', 'Price', 'Result'], rows: [
-      ['Tie the Thread', '1 AP; reserve 1 token', 'One consented link, one use, expires at your next turn start'],
-      ['Cut Clean', '1 AP', 'End one link; its token becomes free immediately'],
+      ['Tie the Thread', '1 AP; reserve 1 token', 'One consented link, one use, expires at the end of the second subsequent caster turn'],
+      ['Cut Clean', '1 AP', 'End one link; its token becomes recovering until the owning caster next own turn'],
       ['Shared Burden', '1 AP; learned optional', 'Redirect up to 2 original damage to you, once'],
       ['Read the Bond', '2 AP; learned optional', 'Public purpose, consent, uses and expiry only'],
       ['Owning caster next own turn', 'Explicit settled event', 'Recovering tokens become free'],
@@ -38,7 +38,7 @@ export const fateWeaverResourceGuide = {
   }],
   tableMeta: { activePricingTable: { title: 'All 48 Active Prices', defaultOpen: false } },
   playingInPerson: {
-    materials: ['Three distinct thread tokens', 'Three link cards naming both endpoints and the public purpose', 'A consent record and a use/expiry record', 'A completed-rest marker'],
-    keepSections: ['tracking', 'consent', 'rest label']
+    materials: ['Three distinct thread tokens', 'Three link cards naming both endpoints and the public purpose', 'A consent record and a use/expiry record', 'A next-own-turn recovery marker'],
+    keepSections: ['tracking', 'consent', 'recovery label']
   }
 };
