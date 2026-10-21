@@ -406,4 +406,19 @@ describe('CreatureAbilityFanOut rendering', () => {
         // 7 real bubbles + 1 overflow bubble
         expect(document.querySelectorAll('.creature-ability-bubble')).toHaveLength(7);
     });
+
+it('applies counter-scale transform when squash < 1 for isometric/tilt views', () => {
+        const { container } = render(<CreatureAbilityFanOut abilities={[abilities[0]]} squash={0.5} />);
+        const fanout = container.querySelector('.creature-ability-fanout');
+        expect(fanout).toHaveStyle({
+            transform: 'scaleY(2)',
+            transformOrigin: '0 0'
+        });
+    });
+
+    it('does not apply counter-scale transform in flat 2D top-down view (squash = 1)', () => {
+        const { container } = render(<CreatureAbilityFanOut abilities={[abilities[0]]} squash={1} />);
+        const fanout = container.querySelector('.creature-ability-fanout');
+        expect(fanout.style.transform).toBe('');
+    });
 });

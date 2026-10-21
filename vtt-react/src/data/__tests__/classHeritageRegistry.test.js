@@ -53,8 +53,8 @@ test('registry also matches the separate forward dossier tables rather than only
     .split(/^### C-\d+: /m).slice(1);
   expect(dossiers).toHaveLength(21);
   dossiers.forEach(dossier => {
-    const name = dossier.split(' â€” ')[0];
-    const rows = [...dossier.matchAll(/^\| (.+?) â€” [NA](?:\/[NA])?â€ ? \|/gm)].map(match => nameToId[match[1]]);
+    const name = dossier.split(' — ')[0];
+    const rows = [...dossier.matchAll(/^\| (.+?) — [NA](?:\/[NA])?†? \|/gm)].map(match => nameToId[match[1]]);
     expect(rows.every(Boolean)).toBe(true);
     expect(rows.sort()).toEqual(getClassNativeHeritageIds(name).sort());
   });

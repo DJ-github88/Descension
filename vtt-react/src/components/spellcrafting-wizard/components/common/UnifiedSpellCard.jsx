@@ -479,7 +479,7 @@ const UnifiedSpellCard = ({
    role={onClick || onSelect ? "button" : undefined}
    aria-selected={isSelected}
    style={{
-    boxShadow: `0 4px 8px rgba(0, 0, 0, 0.5), 0 0 10px ${getBorderColor()}40`
+    boxShadow: isSelected ? '0 0 0 2px var(--adventure-seal, #663c32), 0 6px 18px rgba(52, 37, 26, 0.2)' : '0 4px 14px rgba(52, 37, 26, 0.12), 0 1px 3px rgba(52, 37, 26, 0.08)'
    }}
   >
    <SpellCardHeader
@@ -6239,14 +6239,12 @@ const UnifiedSpellCard = ({
         if (!tableData || !tableData.enabled) return null;
 
         return (
-         <div className="healing-effects">
-          <div className="healing-effects-section">
+         <div className="spell-rollable-table-container">
            <RollableTableSummary
             rollableTableData={tableData}
             variant="compact"
             showExpandButton={true}
            />
-          </div>
          </div>
         );
        })()}

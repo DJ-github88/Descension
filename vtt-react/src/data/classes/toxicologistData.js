@@ -431,7 +431,7 @@ The Toxicologist shines in tactical combats where they can prepare the battlefie
 
 **Starting State**: Vials: 7/7 | Contraption Parts: 5/5 | Mana: 40/50 | HP: 50/50 | Weapon Poison: None
 
-**Pre-Combat - Setting the Trap (Parts: 5 â†’ 3)**
+**Pre-Combat - Setting the Trap (Parts: 5 → 3)**
 
 *Five bandits and their leader approach. You smile. They're walking into YOUR laboratory.*
 
@@ -454,17 +454,17 @@ The Toxicologist shines in tactical combats where they can prepare the battlefie
 
 **Current State**: Vials: 7/7 | Parts: 2/5 | Mana: 40/50 | Weapon: None
 
-**Turn 1 - Opening Strike (Vials: 7 â†’ 3)**
+**Turn 1 - Opening Strike (Vials: 7 → 3)**
 
 *Roll initiative. The bandits charge. Two of them trigger the spike trap. One stumbles into the poison gas trap.*
 
 **Bandits #1, #2**: Trigger Spike Trap
-**Damage**: 3d6 â†’ [4, 5, 3] = 12 smashing damage each
-**Save**: DC 14 agility â†’ Bandit #1 fails (immobilized 1 round), Bandit #2 succeeds (half damage = 6)
+**Damage**: 3d6 → [4, 5, 3] = 12 smashing damage each
+**Save**: DC 14 agility → Bandit #1 fails (immobilized 1 round), Bandit #2 succeeds (half damage = 6)
 
 **Bandit #3**: Triggers Poison Gas Trap
 **Effect**: Poison cloud erupts (5ft radius)
-**Damage**: 2d6 â†’ [5, 4] = 9 blight damage
+**Damage**: 2d6 → [5, 4] = 9 blight damage
 **Effect**: -10ft movement for 2 rounds
 
 **Bandits #3, #4** (adjacent): Caught in poison cloud, take 9 blight damage each
@@ -479,13 +479,13 @@ The Toxicologist shines in tactical combats where they can prepare the battlefie
 **Vials**: 7 - 1 = **6/7**
 
 **Action**: Melee attack Bandit #1 (immobilized, has Neurotoxin on weapon)
-**Attack Roll**: d20+5 â†’ [16] = Hit!
-**Base Damage**: 2d6+3 â†’ [5, 4] + 3 = 12 smashing damage
-**Neurotoxin**: +1d8 poison â†’ [6] = +6 blight damage
+**Attack Roll**: d20+5 → [16] = Hit!
+**Base Damage**: 2d6+3 → [5, 4] + 3 = 12 smashing damage
+**Neurotoxin**: +1d8 poison → [6] = +6 blight damage
 **Total Damage**: 12 + 6 = **18 damage**
 **Effect**: Bandit #1 has -2 to attack rolls for 2 rounds
 
-**Bandit #1**: Takes 18 damage â†’ HEAVILY DAMAGED
+**Bandit #1**: Takes 18 damage → HEAVILY DAMAGED
 
 **Action (1 AP)**: Craft "Explosive Concoction" (3 toxin vials)
 **Effect**: Throwable explosive, 3d8 ember damage in 10ft radius (agility check DC 14 for half)
@@ -499,7 +499,7 @@ The Toxicologist shines in tactical combats where they can prepare the battlefie
 
 **Current State**: Vials: 3/7 | Parts: 2/5 | Mana: 40/50 | Weapon: Neurotoxin | Explosive ready
 
-**Turn 2 - The Explosion (Vials: 3 â†’ 2)**
+**Turn 2 - The Explosion (Vials: 3 → 2)**
 
 *The poison cloud continues. Bandits #3 and #4 take another 9 blight damage.*
 
@@ -508,7 +508,7 @@ The Toxicologist shines in tactical combats where they can prepare the battlefie
 
 **Action**: Throw "Explosive Concoction" at grouped bandits (no additional cost, already crafted)
 **Targets**: Bandits #2, #3, #4 (grouped together)
-**Damage**: 3d8 fire â†’ [7, 5, 6] = **18 ember damage each**
+**Damage**: 3d8 fire → [7, 5, 6] = **18 ember damage each**
 **Save**: Bandit #2 succeeds (9 damage), Bandit #3 fails (18 damage), Bandit #4 fails (18 damage)
 
 *You hurl the concoction. It EXPLODES in a massive fireball.*
@@ -529,18 +529,18 @@ The Toxicologist shines in tactical combats where they can prepare the battlefie
 
 **Current State**: Vials: 2/7 | Parts: 2/5 | Mana: 40/50 | Weapon: Cytotoxin
 
-**Turn 3 - Finishing Touches (Vials: 2 â†’ 0)**
+**Turn 3 - Finishing Touches (Vials: 2 → 0)**
 
 *Only Bandit #1, #2, #5, and the Leader remain.*
 
 **Action**: Melee attack Bandit #1 (has Cytotoxin on weapon)
-**Attack Roll**: d20+5 â†’ [17] = Hit!
-**Base Damage**: 2d6+3 â†’ [6, 5] + 3 = 14 smashing damage
-**Cytotoxin**: +2d6 necrotic â†’ [5, 4] = +9 blight damage
+**Attack Roll**: d20+5 → [17] = Hit!
+**Base Damage**: 2d6+3 → [6, 5] + 3 = 14 smashing damage
+**Cytotoxin**: +2d6 necrotic → [5, 4] = +9 blight damage
 **Total Damage**: 14 + 9 = **23 damage**
-**Effect**: Bandit #1's max HP reduced by 4 (1d4 â†’ [4])
+**Effect**: Bandit #1's max HP reduced by 4 (1d4 → [4])
 
-**Bandit #1**: Takes 23 damage â†’ **DEAD**
+**Bandit #1**: Takes 23 damage → **DEAD**
 
 **Action (1 AP)**: Craft "Antidote" (1 toxin vial)
 **Effect**: Cure poison/disease on ally, +2 CON saves vs poison for 1 hour
@@ -558,17 +558,17 @@ The Toxicologist shines in tactical combats where they can prepare the battlefie
 
 *Bandit #2, #5, and the Leader remain, all damaged from various sources.*
 
-**Your Party's Tank**: Attacks Bandit #2 â†’ DEAD
-**Your Party's Mage**: Casts Magic Missile at Leader â†’ HEAVILY DAMAGED
-**Your Party's Rogue**: Attacks Bandit #5 â†’ DEAD
+**Your Party's Tank**: Attacks Bandit #2 → DEAD
+**Your Party's Mage**: Casts Magic Missile at Leader → HEAVILY DAMAGED
+**Your Party's Rogue**: Attacks Bandit #5 → DEAD
 
 **Action**: Melee attack Leader (still has Cytotoxin on weapon)
-**Attack Roll**: d20+5 â†’ [14] = Hit!
-**Base Damage**: 2d6+3 â†’ [4, 3] + 3 = 10 smashing damage
-**Cytotoxin**: +2d6 necrotic â†’ [6, 2] = +8 blight damage
+**Attack Roll**: d20+5 → [14] = Hit!
+**Base Damage**: 2d6+3 → [4, 3] + 3 = 10 smashing damage
+**Cytotoxin**: +2d6 necrotic → [6, 2] = +8 blight damage
 **Total Damage**: 10 + 8 = **18 damage**
 
-**Leader**: Takes 18 damage â†’ **DEAD**
+**Leader**: Takes 18 damage → **DEAD**
 
 **Combat Over**
 

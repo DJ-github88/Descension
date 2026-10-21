@@ -1280,23 +1280,22 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
 
-    // Calculate tooltip position closer to the token
-    let x = rect.right + 8; // Much closer to token
-    let y = rect.top - 5; // Slightly above token center
+    // Calculate tooltip position closer to the token with realistic viewport bounds
+    const estWidth = 280;
+    const estHeight = 440;
+    const margin = 12;
 
-    // Adjust if tooltip would go off-screen horizontally
-    if (x + 280 > viewportWidth) {
-      x = rect.left - 288; // Show on left side instead
+    let x = rect.right + 10;
+    if (x + estWidth > viewportWidth - margin) {
+      x = Math.max(margin, rect.left - estWidth - 10);
     }
 
-    // Adjust if tooltip would go off-screen vertically
-    if (y + 150 > viewportHeight) {
-      y = viewportHeight - 160; // Move up to stay visible
+    let y = rect.top;
+    if (y + estHeight > viewportHeight - margin) {
+      y = Math.max(margin, viewportHeight - margin - estHeight);
     }
-
-    // Ensure tooltip doesn't go above screen
-    if (y < 10) {
-      y = 10;
+    if (y < margin) {
+      y = margin;
     }
 
     setTooltipPosition({ x, y });
@@ -2401,6 +2400,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
           <CreatureAbilityFanOut
             abilities={creatureAbilities}
             radius={Math.max(84, tokenSize / 2 + 48)}
+            squash={groundSquash}
             onUseAbility={handleQuickUseAbility}
             onFanHoverChange={handleAbilityFanHoverChange}
           />
@@ -3182,6 +3182,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
             tokenState={token.state}
             isGM={isGMMode}
             position={tooltipPosition}
+            anchorRect={tokenRef.current?.getBoundingClientRect()}
             activeConditions={allEffects}
             isInCombat={isInCombat}
             playerTooltipMode={playerTooltipMode}

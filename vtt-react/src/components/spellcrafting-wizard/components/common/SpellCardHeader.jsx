@@ -31,6 +31,135 @@ const SpellCardHeader = ({
       document.removeEventListener('touchend', handleOutsideClick);
     };
   }, [activeComponentTooltip]);
+
+  const renderPriorityRangeBadge = () => {
+    if (!spell?.priorityRange) return null;
+    const { min, max, resolution = 'DICE', cardCount = 1, coinCount = 1, cardPattern = 'any', coinPattern = 'any' } = spell.priorityRange;
+    let label = '';
+    if (resolution === 'DICE') {
+      label = `Roll ${min}-${max}`;
+    } else if (resolution === 'CARDS') {
+      const patternText = cardPattern === 'any' ? '' :
+        cardPattern === 'hearts' ? '♥' :
+        cardPattern === 'diamonds' ? '♦' :
+        cardPattern === 'clubs' ? '♣' :
+        cardPattern === 'spades' ? '♠' :
+        cardPattern === 'red' ? 'Red' :
+        cardPattern === 'black' ? 'Black' :
+        cardPattern === 'face' ? 'Face' :
+        cardPattern === 'ace' ? 'Ace' :
+        cardPattern === 'ace_of_hearts' ? 'A♥' :
+        cardPattern === 'ace_of_diamonds' ? 'A♦' :
+        cardPattern === 'ace_of_clubs' ? 'A♣' :
+        cardPattern === 'ace_of_spades' ? 'A♠' :
+        cardPattern;
+      label = `Draw ${cardCount}x${patternText ? ` ${patternText}` : ''}`;
+    } else if (resolution === 'COINS') {
+      const patternText = coinPattern === 'any' ? '' :
+        coinPattern === 'heads' ? 'H' :
+        coinPattern === 'tails' ? 'T' :
+        coinPattern === 'all_heads' ? 'All H' :
+        coinPattern === 'all_tails' ? 'All T' :
+        coinPattern === 'majority_heads' ? 'Maj H' :
+        coinPattern === 'majority_tails' ? 'Maj T' :
+        coinPattern;
+      label = `Flip ${coinCount}x${patternText ? ` ${patternText}` : ''}`;
+    } else {
+      label = `Roll ${min}-${max}`;
+    }
+
+    return (
+      <div className="pf-priority-range-tag-above-header pf-priority-badge" title="Tactics Priority Roll">
+        <span>{label}</span>
+      </div>
+    );
+  };
+
+  const renderTriggerConditionBadge = () => {
+    if (spell?.reactionTrigger) {
+      return (
+        <div className="pf-trigger-condition-tag-above-header pf-trigger-badge" title={spell.reactionTrigger}>
+          <span>⚡ {spell.reactionTrigger}</span>
+        </div>
+      );
+    }
+    if (spell?.spellType === 'REACTION' && spell?.trigger) {
+      return (
+        <div className="pf-trigger-condition-tag-above-header pf-trigger-badge" title={spell.trigger}>
+          <span>⚡ {spell.trigger}</span>
+        </div>
+      );
+    }
+    if (typeof spell?.triggerCondition === 'string') {
+      return (
+        <div className="pf-trigger-condition-tag-above-header pf-trigger-badge" title={spell.triggerCondition}>
+          <span>{spell.triggerCondition}</span>
+        </div>
+      );
+    }
+    if (spell?.spellType === 'PASSIVE' && spell?.trigger) {
+      return (
+        <div className="pf-trigger-condition-tag-above-header pf-trigger-badge" title={spell.trigger}>
+          <span>⚡ {spell.trigger}</span>
+        </div>
+      );
+    }
+    if (!spell?.triggerCondition) return null;
+    const { type, operator, value, statusEffect, resourceType, threshold, abilityName } = spell.triggerCondition;
+
+    let triggerContent = null;
+    if (type === 'hp_percentage' || type === 'hp_percentage_target') {
+      if (operator === 'below') {
+        const hpText = value <= 25 ? 'Low HP' : value <= 50 ? `Under ${value}%` : `HP < ${value}%`;
+        triggerContent = hpText;
+      } else if (operator === 'above') {
+        triggerContent = `HP > ${value}%`;
+      } else {
+        triggerContent = `HP = ${value}%`;
+      }
+    } else if (type === 'enemy_count') {
+      triggerContent = operator === 'at_least' ? `${value}+ Enemies` : operator === 'at_most' ? `≤${value} Enemies` : `${value} Enemies`;
+    } else if (type === 'ally_count') {
+      triggerContent = operator === 'at_least' ? `${value}+ Allies` : operator === 'at_most' ? `≤${value} Allies` : `${value} Allies`;
+    } else if (type === 'round_number') {
+      triggerContent = operator === 'at_least' ? `Round ${value}+` : operator === 'at_most' ? `Round ≤${value}` : `Round ${value}`;
+    } else if (type === 'turn_number') {
+      triggerContent = operator === 'at_least' ? `Turn ${value}+` : operator === 'at_most' ? `Turn ≤${value}` : `Turn ${value}`;
+    } else if (type === 'distance') {
+      triggerContent = operator === 'at_most' ? `Within ${value}ft` : operator === 'at_least' ? `Beyond ${value}ft` : `${value}ft away`;
+    } else if (type === 'status_effect_self' || type === 'status_effect_enemy') {
+      triggerContent = statusEffect ? statusEffect.substring(0, 10) : 'Has Status';
+    } else if (type === 'resource_level') {
+      const resource = resourceType ? resourceType.charAt(0).toUpperCase() + resourceType.slice(1) : 'Resource';
+      triggerContent = operator === 'below' ? `Low ${resource}` : operator === 'above' ? `High ${resource}` : `${resource} = ${value}%`;
+    } else if (type === 'action_points') {
+      triggerContent = operator === 'at_least' ? `${value}+ AP` : operator === 'at_most' ? `≤${value} AP` : `${value} AP`;
+    } else if (type === 'enemies_low_hp') {
+      const thresholdValue = threshold || 25;
+      const enemyText = value === 1 ? 'enemy' : 'enemies';
+      triggerContent = `If ${operator === 'at_least' ? `${value}+` : operator === 'at_most' ? `≤${value}` : `${value}`} ${enemyText} ≤${thresholdValue}% HP`;
+    } else if (type === 'surrounded') {
+      triggerContent = 'Surrounded';
+    } else if (type === 'first_turn') {
+      triggerContent = 'First Turn';
+    } else if (type === 'cooldown_ready') {
+      triggerContent = 'Ready';
+    } else if (type === 'phase') {
+      triggerContent = value ? value.replace('phase', '').replace('Phase', '').trim() || 'Phase' : 'Phase';
+    } else if (type === 'damage_taken') {
+      triggerContent = operator === 'at_least' ? `Took ${value}+` : operator === 'at_most' ? `Took ≤${value}` : `Took ${value}`;
+    } else if (type === 'ability_used') {
+      const abilName = abilityName ? abilityName.substring(0, 10) : 'Ability';
+      triggerContent = `After ${abilName}`;
+    }
+
+    if (!triggerContent) return null;
+    return (
+      <div className="pf-trigger-condition-tag-above-header pf-trigger-badge">
+        <span>{triggerContent}</span>
+      </div>
+    );
+  };
   return (
     <>
       {/* Card Gloss Effect */}
@@ -43,7 +172,7 @@ const SpellCardHeader = ({
             <div
               key={index}
               className="spell-card-category-indicator"
-              style={{ backgroundColor: category.color || '#3b82f6' }}
+              style={{ backgroundColor: category.color || '#8b7355' }}
             />
           ))}
         </div>
@@ -51,167 +180,6 @@ const SpellCardHeader = ({
 
       {/* Card Header */}
       <div className="pf-spell-card-header wow-spell-card-header">
-        {/* Priority Range Tag - Top Right of Header (for creature abilities) */}
-        {spell?.priorityRange && (
-          <div className="pf-priority-range-tag-above-header">
-            {(() => {
-              const { min, max, resolution = 'DICE', cardCount = 1, coinCount = 1, cardPattern = 'any', coinPattern = 'any' } = spell.priorityRange;
-              if (resolution === 'DICE') {
-                return <span>Roll {min}-{max}</span>;
-              } else if (resolution === 'CARDS') {
-                const patternText = cardPattern === 'any' ? '' :
-                  cardPattern === 'hearts' ? '♥' :
-                  cardPattern === 'diamonds' ? '♦' :
-                  cardPattern === 'clubs' ? '♣' :
-                  cardPattern === 'spades' ? '♠' :
-                  cardPattern === 'red' ? 'Red' :
-                  cardPattern === 'black' ? 'Black' :
-                  cardPattern === 'face' ? 'Face' :
-                  cardPattern === 'ace' ? 'Ace' :
-                  cardPattern === 'ace_of_hearts' ? 'A♥' :
-                  cardPattern === 'ace_of_diamonds' ? 'A♦' :
-                  cardPattern === 'ace_of_clubs' ? 'A♣' :
-                  cardPattern === 'ace_of_spades' ? 'A♠' :
-                  cardPattern;
-                return <span>Draw {cardCount}x{patternText ? ` ${patternText}` : ''}</span>;
-              } else if (resolution === 'COINS') {
-                const patternText = coinPattern === 'any' ? '' :
-                  coinPattern === 'heads' ? 'H' :
-                  coinPattern === 'tails' ? 'T' :
-                  coinPattern === 'all_heads' ? 'All H' :
-                  coinPattern === 'all_tails' ? 'All T' :
-                  coinPattern === 'majority_heads' ? 'Maj H' :
-                  coinPattern === 'majority_tails' ? 'Maj T' :
-                  coinPattern;
-                return <span>Flip {coinCount}x{patternText ? ` ${patternText}` : ''}</span>;
-              }
-              return <span>Roll {min}-{max}</span>;
-            })()}
-          </div>
-        )}
-        {/* Trigger Condition Tag - Top Right of Header, to the left of priority tag */}
-        {(spell?.triggerCondition || spell?.reactionTrigger || (spell?.spellType === 'REACTION' && spell?.trigger) || (spell?.spellType === 'PASSIVE' && spell?.trigger)) && (
-          <div className="pf-trigger-condition-tag-above-header">
-            {(() => {
-              if (spell.reactionTrigger) {
-                return <span>⚡ {spell.reactionTrigger}</span>;
-              }
-              if (spell.spellType === 'REACTION' && spell.trigger) {
-                return <span>⚡ {spell.trigger}</span>;
-              }
-              if (typeof spell.triggerCondition === 'string') {
-                return <span>{spell.triggerCondition}</span>;
-              }
-              if (spell.spellType === 'PASSIVE' && spell.trigger) {
-                return <span>⚡ {spell.trigger}</span>;
-              }
-              if (!spell.triggerCondition) return null;
-              const { type, operator, value, statusEffect, resourceType, threshold, abilityName } = spell.triggerCondition;
-              
-              if (type === 'hp_percentage' || type === 'hp_percentage_target') {
-                if (operator === 'below') {
-                  const hpText = value <= 25 ? 'Low HP' : value <= 50 ? `Under ${value}%` : `HP < ${value}%`;
-                  return <span>{hpText}</span>;
-                } else if (operator === 'above') {
-                  return <span>HP > {value}%</span>;
-                } else {
-                  return <span>HP = {value}%</span>;
-                }
-              } else if (type === 'enemy_count') {
-                if (operator === 'at_least') {
-                  return <span>{value}+ Enemies</span>;
-                } else if (operator === 'at_most') {
-                  return <span>≤{value} Enemies</span>;
-                } else {
-                  return <span>{value} Enemies</span>;
-                }
-              } else if (type === 'ally_count') {
-                if (operator === 'at_least') {
-                  return <span>{value}+ Allies</span>;
-                } else if (operator === 'at_most') {
-                  return <span>≤{value} Allies</span>;
-                } else {
-                  return <span>{value} Allies</span>;
-                }
-              } else if (type === 'round_number') {
-                if (operator === 'at_least') {
-                  return <span>Round {value}+</span>;
-                } else if (operator === 'at_most') {
-                  return <span>Round ≤{value}</span>;
-                } else {
-                  return <span>Round {value}</span>;
-                }
-              } else if (type === 'turn_number') {
-                if (operator === 'at_least') {
-                  return <span>Turn {value}+</span>;
-                } else if (operator === 'at_most') {
-                  return <span>Turn ≤{value}</span>;
-                } else {
-                  return <span>Turn {value}</span>;
-                }
-              } else if (type === 'distance') {
-                if (operator === 'at_most') {
-                  return <span>Within {value}ft</span>;
-                } else if (operator === 'at_least') {
-                  return <span>Beyond {value}ft</span>;
-                } else {
-                  return <span>{value}ft away</span>;
-                }
-              } else if (type === 'status_effect_self' || type === 'status_effect_enemy') {
-                const effectName = statusEffect ? statusEffect.substring(0, 10) : 'Has Status';
-                return <span>{effectName}</span>;
-              } else if (type === 'resource_level') {
-                const resource = resourceType ? resourceType.charAt(0).toUpperCase() + resourceType.slice(1) : 'Resource';
-                if (operator === 'below') {
-                  return <span>Low {resource}</span>;
-                } else if (operator === 'above') {
-                  return <span>High {resource}</span>;
-                } else {
-                  return <span>{resource} = {value}%</span>;
-                }
-              } else if (type === 'action_points') {
-                if (operator === 'at_least') {
-                  return <span>{value}+ AP</span>;
-                } else if (operator === 'at_most') {
-                  return <span>≤{value} AP</span>;
-                } else {
-                  return <span>{value} AP</span>;
-                }
-              } else if (type === 'enemies_low_hp') {
-                const thresholdValue = threshold || 25;
-                const enemyText = value === 1 ? 'enemy' : 'enemies';
-                if (operator === 'at_least') {
-                  return <span>If {value}+ {enemyText} ≤{thresholdValue}% HP</span>;
-                } else if (operator === 'at_most') {
-                  return <span>If ≤{value} {enemyText} ≤{thresholdValue}% HP</span>;
-                } else {
-                  return <span>If {value} {enemyText} ≤{thresholdValue}% HP</span>;
-                }
-              } else if (type === 'surrounded') {
-                return <span>Surrounded</span>;
-              } else if (type === 'first_turn') {
-                return <span>First Turn</span>;
-              } else if (type === 'cooldown_ready') {
-                return <span>Ready</span>;
-              } else if (type === 'phase') {
-                const phaseText = value ? value.replace('phase', '').replace('Phase', '').trim() || 'Phase' : 'Phase';
-                return <span>{phaseText}</span>;
-              } else if (type === 'damage_taken') {
-                if (operator === 'at_least') {
-                  return <span>Took {value}+</span>;
-                } else if (operator === 'at_most') {
-                  return <span>Took ≤{value}</span>;
-                } else {
-                  return <span>Took {value}</span>;
-                }
-              } else if (type === 'ability_used') {
-                const abilName = abilityName ? abilityName.substring(0, 10) : 'Ability';
-                return <span>After {abilName}</span>;
-              }
-              return null;
-            })()}
-          </div>
-        )}
         {/* Header Main Row - Icon, Name, Resource Cost, Damage Types */}
         <div className="unified-spell-header-main">
           <div className="pf-spell-icon-container">
@@ -379,6 +347,14 @@ const SpellCardHeader = ({
                     <div className="spell-component-pills">{pills}</div>
                   ) : null;
                 })()}
+
+                {/* Fallback for variants without details row */}
+                {!(variant === 'library' || variant === 'wizard' || variant === 'collection' || variant === 'spellbook' || variant === 'rules') && (
+                  <>
+                    {renderTriggerConditionBadge()}
+                    {renderPriorityRangeBadge()}
+                  </>
+                )}
               </div>
             )}
           </div>
@@ -422,9 +398,7 @@ const SpellCardHeader = ({
 
               {/* Trigger Role Badge - only show for non-conditional (auto-cast) */}
               {spell?.triggerConfig?.triggerRole?.mode && spell.triggerConfig.triggerRole.mode !== 'CONDITIONAL' && (
-                <div className="pf-action-type-badge" style={{
-                  background: 'rgba(147,112,219,0.15)', color: '#9370DB'
-                }}>
+                <div className="pf-action-type-badge pf-trigger-role-badge">
                   <div className="pf-action-type-content">
                     <span className="pf-action-type-name">
                       {spell.triggerConfig.triggerRole.mode === 'AUTO' ? 'Auto-Cast' : spell.triggerConfig.triggerRole.mode}
@@ -448,6 +422,12 @@ const SpellCardHeader = ({
                   <span>{formatPropagation()}</span>
                 </div>
               )}
+
+              {/* Trigger Condition Badge */}
+              {renderTriggerConditionBadge()}
+
+              {/* Priority Range Badge */}
+              {renderPriorityRangeBadge()}
             </div>
 
             {/* Bullet points row - appears below the badges */}

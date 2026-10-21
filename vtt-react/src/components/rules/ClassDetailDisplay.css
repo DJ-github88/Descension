@@ -4859,7 +4859,7 @@ div.class-detail-content::-webkit-scrollbar-thumb,
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--codex-paper, #f5ecd9) !important;
+  color: var(--folio-vellum, var(--codex-paper, #fcf8ee)) !important;
   cursor: pointer;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
   transition: all 0.2s ease;
@@ -4867,8 +4867,10 @@ div.class-detail-content::-webkit-scrollbar-thumb,
   padding: 0;
 }
 
-.illus-nav-btn i {
-  color: var(--codex-paper, #f5ecd9) !important;
+.illus-nav-btn i,
+.illus-nav-btn svg {
+  color: var(--folio-vellum, var(--codex-paper, #fcf8ee)) !important;
+  fill: var(--folio-vellum, var(--codex-paper, #fcf8ee)) !important;
   font-size: 1.15rem;
   line-height: 1;
 }
@@ -4879,8 +4881,10 @@ div.class-detail-content::-webkit-scrollbar-thumb,
   border-color: var(--codex-seal, #663c32) !important;
 }
 
-.illus-nav-btn:hover i {
+.illus-nav-btn:hover i,
+.illus-nav-btn:hover svg {
   color: #fff !important;
+  fill: #fff !important;
 }
 
 .illus-nav-btn.prev-btn {

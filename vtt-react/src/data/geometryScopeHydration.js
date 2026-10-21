@@ -1,5 +1,5 @@
 /**
- * Project 5 Wave B (B7) â€” public geometry seeds vs private authored overrides.
+ * Project 5 Wave B (B7) — public geometry seeds vs private authored overrides.
  *
  * The bundled geometry modules are public, reconstructible seeds. Authored
  * edits (custom names/descriptions, drawn boundaries, moved coordinates) are
@@ -162,7 +162,7 @@ export function snapshotAuthoredGeometry() {
 
 /**
  * Persist the current authored geometry under the active verified owner.
- * No active owner scope â†’ nothing is written (public seed stays in memory).
+ * No active owner scope → nothing is written (public seed stays in memory).
  */
 export function persistAuthoredGeometry(context = null) {
   const captured = context || captureConsumerContext().context;

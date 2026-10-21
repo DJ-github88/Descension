@@ -67,13 +67,13 @@ const useSpellMeta = ({ spell }) => {
 
   const getBorderColor = () => {
     const rarityColors = {
-      'common': '#9d9d9d',
-      'uncommon': '#1eff00',
-      'rare': '#0070dd',
-      'epic': '#a335ee',
-      'legendary': '#ff8000'
+      'common': '#b6a080',
+      'uncommon': '#5b7952',
+      'rare': '#8c5a2b',
+      'epic': '#644368',
+      'legendary': '#a48143'
     };
-    return rarityColors[spell?.rarity] || '#9d9d9d';
+    return rarityColors[spell?.rarity] || '#b6a080';
   };
 
   const getSpellIcon = () => {

@@ -673,16 +673,28 @@ const CharacterToken = ({
       clearTimeout(tooltipTimeoutRef.current);
     }
 
-    // Calculate tooltip position
+    // Calculate tooltip position with realistic viewport bounds
     const rect = tokenRef.current.getBoundingClientRect();
-    const x = rect.left + rect.width / 2;
-    const y = rect.top - 10; // Position above the token
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+    const estWidth = 280;
+    const estHeight = 380;
+    const margin = 12;
 
-    // Adjust position if tooltip would go off-screen
-    const adjustedX = x > window.innerWidth - 200 ? x - 200 : x;
-    const adjustedY = y < 100 ? rect.bottom + 10 : y;
+    let x = rect.right + 10;
+    if (x + estWidth > viewportWidth - margin) {
+      x = Math.max(margin, rect.left - estWidth - 10);
+    }
 
-    setTooltipPosition({ x: adjustedX, y: adjustedY });
+    let y = rect.top;
+    if (y + estHeight > viewportHeight - margin) {
+      y = Math.max(margin, viewportHeight - margin - estHeight);
+    }
+    if (y < margin) {
+      y = margin;
+    }
+
+    setTooltipPosition({ x, y });
 
     // Show tooltip after 1.5 second delay
     tooltipTimeoutRef.current = setTimeout(() => {
@@ -708,11 +720,26 @@ const CharacterToken = ({
     }
 
     const rect = tokenRef.current.getBoundingClientRect();
-    const x = rect.left + rect.width / 2;
-    const y = rect.top - 10;
-    const adjustedX = x > window.innerWidth - 200 ? x - 200 : x;
-    const adjustedY = y < 100 ? rect.bottom + 10 : y;
-    setTooltipPosition({ x: adjustedX, y: adjustedY });
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+    const estWidth = 280;
+    const estHeight = 380;
+    const margin = 12;
+
+    let x = rect.right + 10;
+    if (x + estWidth > viewportWidth - margin) {
+      x = Math.max(margin, rect.left - estWidth - 10);
+    }
+
+    let y = rect.top;
+    if (y + estHeight > viewportHeight - margin) {
+      y = Math.max(margin, viewportHeight - margin - estHeight);
+    }
+    if (y < margin) {
+      y = margin;
+    }
+
+    setTooltipPosition({ x, y });
     setShowTooltip(true);
   }, []);
 
@@ -3008,6 +3035,7 @@ const CharacterToken = ({
           characterData={characterData}
           characterImage={getCharacterImage()}
           position={tooltipPosition}
+          anchorRect={tokenRef.current?.getBoundingClientRect()}
           isInCombat={isInCombat}
           isMyTurn={isMyTurn}
           isTargeted={isTargeted}

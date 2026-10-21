@@ -160,6 +160,7 @@ const CreatureAbilityFanOut = ({
     abilities = [],
     isOpen = true,
     radius = 110,
+    squash = 1,
     onUseAbility,
     onFanHoverChange
 }) => {
@@ -270,7 +271,10 @@ const CreatureAbilityFanOut = ({
                 state.cameraX !== prevState.cameraX ||
                 state.cameraY !== prevState.cameraY ||
                 state.zoomLevel !== prevState.zoomLevel ||
-                state.playerZoom !== prevState.playerZoom
+                state.playerZoom !== prevState.playerZoom ||
+                state.viewTilt !== prevState.viewTilt ||
+                state.viewRotation !== prevState.viewRotation ||
+                state.viewMode !== prevState.viewMode
             ) {
                 syncFromBubble();
             }
@@ -326,8 +330,17 @@ const CreatureAbilityFanOut = ({
         onUseAbility(ability, null, raw);
     };
 
+    const counterScale = squash && squash < 0.999 ? 1 / Math.max(0.2, squash) : 1;
+
     return (
-        <div className="creature-ability-fanout" onClick={(e) => e.stopPropagation()}>
+        <div
+            className="creature-ability-fanout"
+            style={counterScale !== 1 ? {
+                transform: `scaleY(${counterScale})`,
+                transformOrigin: '0 0'
+            } : undefined}
+            onClick={(e) => e.stopPropagation()}
+        >
             {visible.items.map(({ raw, mapped: ability }, index) => {
                 const angleDeg = angles[index] || 0;
                 const angleRad = (angleDeg * Math.PI) / 180;
@@ -429,6 +442,7 @@ CreatureAbilityFanOut.propTypes = {
     abilities: PropTypes.array,
     isOpen: PropTypes.bool,
     radius: PropTypes.number,
+    squash: PropTypes.number,
     onUseAbility: PropTypes.func,
     onFanHoverChange: PropTypes.func
 };

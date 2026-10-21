@@ -1,14 +1,16 @@
-/* CreatureAbilityConfirmDialog.css — parchment confirmation for creature ability use */
+/* CreatureAbilityConfirmDialog.css — Calm Manuscript TTRPG Theme
+   Styled to match MovementConfirmationDialog and the calm parchment aesthetic */
 
 .creature-ability-confirm-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(20, 12, 6, 0.55);
+  background-color: rgba(20, 14, 9, 0.65);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 12000;
-  animation: abilityConfirmFadeIn 0.15s ease-out;
+  backdrop-filter: blur(3px);
+  animation: abilityConfirmFadeIn 0.18s ease-out;
 }
 
 @keyframes abilityConfirmFadeIn {
@@ -18,189 +20,416 @@
 
 .creature-ability-confirm-dialog {
   width: min(420px, calc(100vw - 32px));
-  background: linear-gradient(135deg, #f4ecd8 0%, #e8e2d4 100%);
+  background: linear-gradient(180deg, #fdf8ee 0%, #f4eee2 100%);
   border: 2px solid #8b6f47;
-  border-radius: 10px;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
-  font-family: 'Cinzel', serif;
-  color: #3a2c18;
+  border-radius: 8px;
+  box-shadow:
+    0 16px 40px rgba(24, 16, 10, 0.45),
+    0 2px 6px rgba(24, 16, 10, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  font-family: 'Cinzel', Georgia, serif;
+  color: #34251a;
+  animation: dialogSlideIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   overflow: hidden;
 }
 
-.ability-confirm-header {
+@keyframes dialogSlideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.creature-ability-confirm-dialog .dialog-header,
+.creature-ability-confirm-dialog .ability-confirm-header {
+  background: linear-gradient(180deg, #302419 0%, #231911 100%);
+  color: #f1ece1;
+  padding: 12px 20px;
+  border-bottom: 2px solid #b6a080;
+  text-align: center;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 14px;
-  background: linear-gradient(to bottom, #7a3b2e, #5e2e23);
-  color: #f1ece1;
-  border-bottom: 1px solid #8b6f47;
+  position: relative;
 }
 
-.ability-confirm-header h3 {
+.creature-ability-confirm-dialog .dialog-header h3,
+.creature-ability-confirm-dialog .ability-confirm-header h3 {
   margin: 0;
   font-size: 15px;
-  letter-spacing: 0.5px;
-}
-
-.ability-confirm-close {
-  background: rgba(240, 230, 210, 0.15);
-  border: 1px solid rgba(240, 230, 210, 0.35);
-  border-radius: 4px;
-  color: #f1ece1;
-  cursor: pointer;
-  padding: 3px 8px;
-  font-size: 12px;
-}
-
-.ability-confirm-close:hover {
-  background: rgba(240, 230, 210, 0.3);
-}
-
-.ability-confirm-content {
-  padding: 14px 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.ability-confirm-creature {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  align-items: center;
-  text-align: center;
-  font-size: 14px;
-}
-
-.ability-confirm-sub {
-  font-family: Georgia, serif;
-  font-style: italic;
-  font-size: 12px;
-  color: #7a6a4a;
-}
-
-.ability-confirm-name {
-  color: #7a3b2e;
-  font-size: 16px;
-}
-
-.ability-confirm-cost-row {
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  font-size: 13px;
-  flex-wrap: wrap;
+  flex: 1;
 }
 
-.cost-label {
-  color: #7a6a4a;
-  font-family: Georgia, serif;
-  font-style: italic;
+.creature-ability-confirm-dialog .dialog-header h3 i,
+.creature-ability-confirm-dialog .ability-confirm-header h3 i {
+  font-size: 14px;
+  opacity: 0.9;
+  color: #b6a080;
 }
 
-.cost-value {
-  font-weight: 700;
-  background: #3a2c18;
+.creature-ability-confirm-dialog .dialog-close-btn,
+.creature-ability-confirm-dialog .ability-confirm-close {
+  background: rgba(241, 236, 225, 0.12);
+  border: 1px solid rgba(182, 160, 128, 0.4);
+  border-radius: 4px;
   color: #f1ece1;
-  border-radius: 12px;
-  padding: 2px 10px;
+  padding: 4px 8px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-size: 12px;
+  line-height: 1;
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.creature-ability-confirm-dialog .dialog-close-btn:hover,
+.creature-ability-confirm-dialog .ability-confirm-close:hover {
+  background: rgba(241, 236, 225, 0.25);
+  border-color: #b6a080;
+}
+
+.creature-ability-confirm-dialog .dialog-content,
+.creature-ability-confirm-dialog .ability-confirm-content {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 16px 20px 14px 20px;
+}
+
+.creature-ability-confirm-dialog .creature-info,
+.creature-ability-confirm-dialog .ability-confirm-creature {
+  text-align: left;
+  font-size: 13px;
+  font-weight: 700;
+  color: #663c32;
+  letter-spacing: 0.6px;
+  border-bottom: 1px solid #c4baa6;
+  padding-bottom: 6px;
+  margin: 0;
+}
+
+/* Notice Callout Panel */
+.creature-ability-confirm-dialog .ability-notice-card {
+  background: rgba(176, 114, 40, 0.08);
+  border: 1px solid #c9beaa;
+  border-left: 3px solid #b07228;
+  border-radius: 6px;
+  padding: 10px 14px;
+  margin: 0;
+}
+
+.creature-ability-confirm-dialog .ability-notice-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: #7a6244;
+  margin-bottom: 6px;
+  font-family: 'Cinzel', Georgia, serif;
+}
+
+.creature-ability-confirm-dialog .ability-notice-badge i {
+  color: #b07228;
   font-size: 12px;
 }
 
-.ability-confirm-formula {
-  font-family: Georgia, serif;
-  font-size: 12px;
+.creature-ability-confirm-dialog .ability-notice-desc {
+  font-family: 'Crimson Text', Georgia, serif;
+  font-size: 13.5px;
+  line-height: 1.45;
+  color: #4a3828;
+  margin: 0;
+}
+
+/* Ability Intent Card */
+.creature-ability-confirm-dialog .ability-intent-card {
+  padding: 12px 14px;
+  background: rgba(255, 255, 255, 0.65);
+  border: 1px solid #c4baa6;
+  border-radius: 6px;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.creature-ability-confirm-dialog .ability-intent-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 2px;
+}
+
+.creature-ability-confirm-dialog .ability-confirm-sub {
+  font-family: 'Crimson Text', Georgia, serif;
+  font-style: italic;
+  font-size: 12.5px;
+  color: #7a6a4a;
+}
+
+.creature-ability-confirm-dialog .ability-confirm-name {
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: #663c32;
+  letter-spacing: 0.5px;
+}
+
+.creature-ability-confirm-dialog .ability-confirm-formula {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: 11.5px;
+  font-weight: 600;
   color: #5e2e23;
-  background: rgba(122, 59, 46, 0.12);
+  background: rgba(122, 59, 46, 0.09);
+  border: 1px solid rgba(122, 59, 46, 0.25);
   border-radius: 4px;
   padding: 2px 8px;
+  margin-top: 3px;
 }
 
-.ability-confirm-roll {
-  text-align: center;
-  font-family: Georgia, serif;
+.creature-ability-confirm-dialog .ability-confirm-formula i {
+  font-size: 10px;
+  color: #7a3b2e;
+}
+
+.creature-ability-confirm-dialog .ability-confirm-desc {
+  font-family: 'Crimson Text', Georgia, serif;
   font-size: 13px;
-  background: rgba(80, 110, 48, 0.12);
-  border: 1px solid rgba(80, 110, 48, 0.35);
-  border-radius: 6px;
-  padding: 6px 10px;
+  line-height: 1.45;
+  color: #584432;
+  margin: 0;
+  text-align: center;
 }
 
-.ability-confirm-resources {
-  background: rgba(58, 44, 24, 0.06);
-  border: 1px solid rgba(139, 111, 71, 0.4);
+/* Cost panel */
+.creature-ability-confirm-dialog .ability-cost-panel {
+  padding: 8px 12px;
+  background: rgba(176, 114, 40, 0.06);
+  border: 1px solid #c9beaa;
+  border-radius: 6px;
+  margin-top: 2px;
+}
+
+.creature-ability-confirm-dialog .cost-panel-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: #7a6244;
+  margin-bottom: 5px;
+  font-family: 'Cinzel', Georgia, serif;
+}
+
+.creature-ability-confirm-dialog .cost-panel-title i {
+  font-size: 10px;
+  color: #b07228;
+}
+
+.creature-ability-confirm-dialog .cost-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 2px 0;
+  font-size: 13px;
+}
+
+.creature-ability-confirm-dialog .cost-row-label {
+  color: #68533e;
+  font-family: 'Crimson Text', Georgia, serif;
+  font-size: 13.5px;
+}
+
+.creature-ability-confirm-dialog .cost-row-value {
+  font-weight: 700;
+  font-family: 'Cinzel', Georgia, serif;
+  color: #34251a;
+}
+
+/* Roll summary */
+.creature-ability-confirm-dialog .ability-confirm-roll {
+  text-align: center;
+  font-family: 'Crimson Text', Georgia, serif;
+  font-size: 13.5px;
+  background: rgba(80, 110, 48, 0.09);
+  border: 1px solid rgba(80, 110, 48, 0.3);
+  color: #2e541c;
   border-radius: 6px;
   padding: 8px 12px;
+}
+
+/* Current Resources Box */
+.creature-ability-confirm-dialog .ability-confirm-resources {
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid #c4baa6;
+  border-radius: 6px;
+  margin: 0;
   display: flex;
   flex-direction: column;
   gap: 4px;
-  font-size: 13px;
 }
 
-.resource-row {
+.creature-ability-confirm-dialog .resources-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: #7a6244;
+  margin-bottom: 4px;
+  font-family: 'Cinzel', Georgia, serif;
+}
+
+.creature-ability-confirm-dialog .resources-title i {
+  font-size: 10px;
+  color: #b07228;
+}
+
+.creature-ability-confirm-dialog .resource-row {
   display: flex;
   justify-content: space-between;
+  gap: 12px;
+  padding: 2px 0;
+  font-size: 13px;
 }
 
-.resource-row.insufficient {
+.creature-ability-confirm-dialog .resource-row span:first-child {
+  color: #68533e;
+  font-family: 'Crimson Text', Georgia, serif;
+  font-size: 13.5px;
+}
+
+.creature-ability-confirm-dialog .resource-row span:last-child {
+  font-weight: 700;
+  font-family: 'Cinzel', Georgia, serif;
+  color: #34251a;
+}
+
+.creature-ability-confirm-dialog .resource-row.insufficient span:first-child {
+  color: #8b3a2a;
+}
+
+.creature-ability-confirm-dialog .resource-row.insufficient span:last-child {
   color: #8b3a2a;
   font-weight: 700;
 }
 
-.ability-confirm-warning {
-  display: flex;
-  gap: 8px;
-  align-items: flex-start;
-  background: rgba(139, 58, 42, 0.12);
-  border: 1px solid rgba(139, 58, 42, 0.45);
-  color: #8b3a2a;
-  border-radius: 6px;
-  padding: 8px 10px;
-  font-family: Georgia, serif;
-  font-size: 12.5px;
+.creature-ability-confirm-dialog .res-current {
+  color: #2e6027;
 }
 
-.ability-confirm-actions {
+.creature-ability-confirm-dialog .res-projected {
+  color: #7a6244;
+  font-weight: 600;
+  font-size: 12px;
+}
+
+/* Warnings */
+.creature-ability-confirm-dialog .ability-confirm-warning {
+  background: rgba(139, 58, 42, 0.1);
+  border: 1px solid rgba(139, 58, 42, 0.4);
+  color: #8b3a2a;
+  padding: 8px 12px;
+  border-radius: 6px;
+  text-align: center;
+  font-family: 'Crimson Text', Georgia, serif;
+  font-size: 13px;
+  line-height: 1.4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 0;
+}
+
+/* Actions footer */
+.creature-ability-confirm-dialog .dialog-actions,
+.creature-ability-confirm-dialog .ability-confirm-actions {
   display: flex;
   gap: 10px;
-  padding: 0 16px 16px;
+  padding: 0 20px 18px 20px;
+  justify-content: stretch;
+  border-top: 1px solid #c4baa6;
+  padding-top: 14px;
 }
 
-.ability-confirm-btn {
+.creature-ability-confirm-dialog .dialog-button,
+.creature-ability-confirm-dialog .ability-confirm-btn {
   flex: 1;
-  padding: 9px 12px;
+  padding: 9px 16px;
+  border: 1px solid;
   border-radius: 6px;
-  font-family: 'Cinzel', serif;
   font-weight: 700;
-  font-size: 13px;
+  font-size: 12px;
   cursor: pointer;
-  border: 1px solid #8b6f47;
-  transition: filter 0.15s ease;
+  transition: all 0.15s ease;
+  font-family: 'Cinzel', Georgia, serif;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  min-width: 0;
 }
 
-.ability-confirm-btn.cancel {
+.creature-ability-confirm-dialog .dialog-button.cancel,
+.creature-ability-confirm-dialog .ability-confirm-btn.cancel {
   background: #e8e2d4;
-  color: #3a2c18;
+  border-color: #9c8970;
+  color: #34251a;
 }
 
-.ability-confirm-btn.cancel:hover {
-  filter: brightness(0.95);
+.creature-ability-confirm-dialog .dialog-button.cancel:hover,
+.creature-ability-confirm-dialog .ability-confirm-btn.cancel:hover {
+  background: #dfd8c8;
+  border-color: #8b7960;
 }
 
-.ability-confirm-btn.confirm {
-  background: linear-gradient(to bottom, #7a3b2e, #5e2e23);
-  color: #f1ece1;
+.creature-ability-confirm-dialog .dialog-button.confirm,
+.creature-ability-confirm-dialog .ability-confirm-btn.confirm {
+  background: linear-gradient(180deg, #663c32 0%, #4a2820 100%);
+  border-color: #8b5548;
+  color: #f7f2ea;
+  box-shadow: 0 2px 4px rgba(40, 15, 10, 0.35);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
 }
 
-.ability-confirm-btn.confirm:hover:not(:disabled) {
-  filter: brightness(1.1);
+.creature-ability-confirm-dialog .dialog-button.confirm:hover:not(:disabled),
+.creature-ability-confirm-dialog .ability-confirm-btn.confirm:hover:not(:disabled) {
+  background: linear-gradient(180deg, #78473c 0%, #593127 100%);
+  border-color: #9c6255;
+  box-shadow: 0 4px 8px rgba(40, 15, 10, 0.45);
 }
 
-.ability-confirm-btn.confirm.disabled,
-.ability-confirm-btn.confirm:disabled {
-  opacity: 0.6;
+.creature-ability-confirm-dialog .dialog-button.disabled,
+.creature-ability-confirm-dialog .dialog-button:disabled,
+.creature-ability-confirm-dialog .ability-confirm-btn.disabled,
+.creature-ability-confirm-dialog .ability-confirm-btn:disabled {
+  opacity: 0.55;
   cursor: not-allowed;
   filter: grayscale(0.4);
+  box-shadow: none;
 }

@@ -99,6 +99,28 @@ describe('ClassDetailDisplay Spells Spellbook Layout', () => {
     expect(screen.getByText(/Channel ancestral starvation/i)).toBeInTheDocument();
     expect(screen.getByText(/When hit in melee by an enemy/i)).toBeInTheDocument();
 
+    // Verify separator bullets and fleuron do not have mojibake
+    const cadenceSeps = document.querySelectorAll('.cadence-sep');
+    expect(cadenceSeps.length).toBeGreaterThan(0);
+    cadenceSeps.forEach(sep => {
+      expect(sep.textContent).toBe('•');
+      expect(sep.textContent).not.toContain('â');
+    });
+
+    const statlineSeps = document.querySelectorAll('.statline-sep');
+    expect(statlineSeps.length).toBeGreaterThan(0);
+    statlineSeps.forEach(sep => {
+      expect(sep.textContent).toBe('•');
+      expect(sep.textContent).not.toContain('â');
+    });
+
+    const fleurons = document.querySelectorAll('.inspect-fleuron');
+    expect(fleurons.length).toBeGreaterThan(0);
+    fleurons.forEach(f => {
+      expect(f.textContent).toBe('❧');
+      expect(f.textContent).not.toContain('â');
+    });
+
     // Clicking a spell opens the spellcard modal
     const hungerScentBtn = screen.getByRole('button', { name: /Inspect Hunger Scent/i });
     fireEvent.click(hungerScentBtn);

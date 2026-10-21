@@ -240,8 +240,8 @@ const usePresenceStore = create((set, get) => ({
    * Subscribe to all online users
    *
    * PERF: The Firestore onSnapshot fires on every field write including heartbeats.
-   * Each write comes in two phases (pending local â†’ committed server), which causes
-   * the online-user count to flicker 0â†’1â†’0â†’1 while server timestamps settle.
+   * Each write comes in two phases (pending local → committed server), which causes
+   * the online-user count to flicker 0→1→0→1 while server timestamps settle.
    * We fix this with two guards:
    *   1. Debounce: batch rapid Firestore events into a single update (500 ms window).
    *   2. Change-detection: skip set() if the serialized user list is identical.
@@ -1392,7 +1392,7 @@ const usePresenceStore = create((set, get) => ({
           return;
         }
 
-        console.log(`âœ… Your party invite was accepted by: ${memberName}`);
+        console.log(`✅ Your party invite was accepted by: ${memberName}`);
 
         // Show "accepted your invite" toast to the inviter
         get().addPartyEventNotification('accepted', {
@@ -1420,7 +1420,7 @@ const usePresenceStore = create((set, get) => ({
           return;
         }
 
-        console.log(`âœ… You joined party: ${partyName || partyId}`);
+        console.log(`✅ You joined party: ${partyName || partyId}`);
 
         // Show toast notification to the receiver
         get().addPartyEventNotification('you_joined', {
@@ -1763,7 +1763,7 @@ const usePresenceStore = create((set, get) => ({
       // NOTE: This event ONLY updates the sentPartyInvites list.
       // Notifications are handled by party_invite_accepted handler to prevent duplicates.
       socket.on('party_invitation_accepted', ({ invitationId, userId, userName }) => {
-        console.log('âœ… Party invitation accepted (list update):', userName, 'userId:', userId, 'invitationId:', invitationId);
+        console.log('✅ Party invitation accepted (list update):', userName, 'userId:', userId, 'invitationId:', invitationId);
 
         set(state => ({
           pendingPartyInvites: state.pendingPartyInvites.filter(inv => inv.id !== invitationId),
@@ -1813,7 +1813,7 @@ const usePresenceStore = create((set, get) => ({
 
       // Receiver confirmation - you declined an invite
       socket.on('invitation_declined_confirmed', ({ invitationId }) => {
-        console.log('âœ… Party invite declined');
+        console.log('✅ Party invite declined');
 
         // Show toast notification to the decliner
         get().addPartyEventNotification('you_declined', {
@@ -1962,7 +1962,7 @@ const usePresenceStore = create((set, get) => ({
       });
 
       socket.on('join_request_accepted', (data) => {
-        console.log('âœ… Join request accepted:', data);
+        console.log('✅ Join request accepted:', data);
 
         const { invitation } = data;
 
@@ -2029,7 +2029,7 @@ const usePresenceStore = create((set, get) => ({
       });
 
       socket.on('session_invitation_sent', (data) => {
-        console.log('âœ… Session invitation sent:', data);
+        console.log('✅ Session invitation sent:', data);
 
         get().addPartyEventNotification('session_invitation_sent', {
           message: 'Session invitation sent'
@@ -2063,7 +2063,7 @@ const usePresenceStore = create((set, get) => ({
 
       // Whisper sent confirmation (for global/presence socket)
       socket.on('whisper_sent', (message) => {
-        console.log('âœ… Whisper sent confirmation:', {
+        console.log('✅ Whisper sent confirmation:', {
           recipientId: message.recipientId,
           recipientName: message.recipientName,
           content: message.content?.substring(0, 30)
@@ -2143,7 +2143,7 @@ const usePresenceStore = create((set, get) => ({
       return;
     }
 
-    console.log('âœ… Accepting GM session invitation:', gmSessionInvitation.partyName);
+    console.log('✅ Accepting GM session invitation:', gmSessionInvitation.partyName);
 
     // Set flag to prevent social party from syncing to partyStore during transition
     sessionStorage.setItem('enteringMultiplayer', 'true');
@@ -2224,7 +2224,7 @@ const usePresenceStore = create((set, get) => ({
       return false;
     }
 
-    console.log(`${accepted ? 'âœ…' : 'âŒ'} Responding to join request:`, { requestId, accepted });
+    console.log(`${accepted ? '✅' : 'âŒ'} Responding to join request:`, { requestId, accepted });
 
     socket.emit('respond_to_join_request', {
       requestId,

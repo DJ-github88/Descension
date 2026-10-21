@@ -63,6 +63,45 @@ const DAMAGE_THEME_ICONS = {
   ranged: 'Piercing/Arrow Shot'
 };
 
+// Pools for thematic spreading when a creature has multiple abilities of the same theme
+const DAMAGE_THEME_POOLS = {
+  smashing: ['Bludgeoning/Beast Punch', 'Bludgeoning/Ceremonial Hammer', 'Bludgeoning/Hammer Crush'],
+  bludgeoning: ['Bludgeoning/Beast Punch', 'Bludgeoning/Ceremonial Hammer', 'Bludgeoning/Hammer Crush'],
+  slashing: ['Slashing/Axe Slash', 'Slashing/Aura Blade', 'Slashing/Slashing Cleave'],
+  slicing: ['Slashing/Axe Slash', 'Slashing/Aura Blade', 'Slashing/Slashing Cleave'],
+  piercing: ['Piercing/Backstab', 'Piercing/Arrow Shot', 'Piercing/Piercing Thrust 3'],
+  stabbing: ['Piercing/Backstab', 'Piercing/Arrow Shot', 'Piercing/Piercing Thrust 3'],
+  ember: ['Fire/Burning Touch', 'Fire/Burning Ember', 'Fire/Fiery Skull'],
+  fire: ['Fire/Burning Touch', 'Fire/Burning Ember', 'Fire/Fiery Skull'],
+  heat: ['Fire/Burning Ember', 'Fire/Burning Touch'],
+  rime: ['Frost/Blow Frost', 'Frost/Cold Bone Step', 'Frost/Frost Nova'],
+  frost: ['Frost/Blow Frost', 'Frost/Cold Bone Step', 'Frost/Frost Nova'],
+  ice: ['Frost/Blow Frost', 'Frost/Cold Bone Step', 'Frost/Frost Nova'],
+  cold: ['Frost/Cold Bone Step', 'Frost/Blow Frost', 'Frost/Frost Nova'],
+  storm: ['Lightning/Electric Strike', 'Lightning/Jagged Lightning', 'Lightning/Hail Thunder'],
+  lightning: ['Lightning/Electric Strike', 'Lightning/Jagged Lightning', 'Lightning/Hail Thunder'],
+  thunder: ['Lightning/Hail Thunder', 'Lightning/Electric Strike'],
+  arcane: ['Arcane/Abstract Rune', 'Arcane/Angular Rune', 'Arcane/Spiral Vortex', 'Arcane/Portal Archway', 'Arcane/Beckon Faith'],
+  force: ['Force/Diagonal Energy Beam', 'Arcane/Abstract Rune'],
+  primal: ['Nature/Beast Mark', 'Nature/Boar Head', 'Nature/Plant Growth'],
+  nature: ['Nature/Boar Head', 'Nature/Beast Mark', 'Nature/Plant Growth'],
+  blight: ['Necrotic/Blood Skull', 'Necrotic/Arise', 'Necrotic/Decayed Skull'],
+  necrotic: ['Necrotic/Blood Skull', 'Necrotic/Arise', 'Necrotic/Decayed Skull'],
+  shadow: ['Necrotic/Arise', 'Necrotic/Blood Skull', 'Necrotic/Decayed Skull'],
+  poison: ['Poison/Acid Splash', 'Poison/Acid Drip', 'Poison/Poison Venom'],
+  acid: ['Poison/Acid Drip', 'Poison/Acid Splash', 'Poison/Poison Venom'],
+  wyrd: ['Chaos/Chaotic Rupture', 'Chaos/Chaotic Shuffle'],
+  chaos: ['Chaos/Chaotic Shuffle', 'Chaos/Chaotic Rupture'],
+  sacred: ['Radiant/Angelic Sword', 'Radiant/Bright Explosion', 'Radiant/Angelic Ascension'],
+  radiant: ['Radiant/Bright Explosion', 'Radiant/Angelic Sword', 'Radiant/Radiant Aura'],
+  holy: ['Radiant/Angelic Ascension', 'Radiant/Bright Explosion', 'Radiant/Angelic Sword'],
+  psychic: ['Psychic/Agonizing Scream', 'Psychic/Brain Psionics', 'Psychic/Hypnotic Eye', 'Psychic/Cast Doubt'],
+  mind: ['Psychic/Brain Psionics', 'Psychic/Agonizing Scream', 'Psychic/Hypnotic Eye'],
+  healing: ['Healing/Golden Heart', 'Healing/Cure Within', 'Healing/Red Heart'],
+  heal: ['Healing/Cure Within', 'Healing/Golden Heart', 'Healing/Red Heart'],
+  void: ['Void/Black Hole']
+};
+
 // Fallback pools per ability type — every entry is a verified icon path.
 // Used when an ability has no icon and no damage theme, hashed by name so
 // different abilities on the same creature get different icons.
@@ -153,13 +192,22 @@ export const resolveCreatureAbilityIcon = (ability, salt = 0) => {
   const rawTheme = ability.damage?.damageType || ability.damageConfig?.elementType || ability.damageType;
   if (rawTheme && typeof rawTheme === 'string') {
     const canonical = (typeof normalizeDamageType === 'function' ? normalizeDamageType(rawTheme) : rawTheme) || rawTheme;
-    const themed = DAMAGE_THEME_ICONS[String(canonical).toLowerCase()];
+    const themeKey = String(canonical).toLowerCase();
+    const pool = DAMAGE_THEME_POOLS[themeKey];
+    if (pool && pool.length > 0 && salt > 0) {
+      return pool[salt % pool.length];
+    }
+    const themed = DAMAGE_THEME_ICONS[themeKey];
     if (themed) return themed;
   }
 
   const haystack = `${ability.name || ''} ${ability.title || ''} ${ability.description || ''}`.toLowerCase();
   for (const [keyword, theme] of THEME_KEYWORDS) {
     if (haystack.includes(keyword)) {
+      const pool = DAMAGE_THEME_POOLS[theme];
+      if (pool && pool.length > 0 && salt > 0) {
+        return pool[salt % pool.length];
+      }
       const themed = DAMAGE_THEME_ICONS[theme];
       if (themed) return themed;
     }

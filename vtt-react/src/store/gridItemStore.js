@@ -393,7 +393,7 @@ const useGridItemStore = create((set, get) => ({
    // If the original item doesn't exist, we can still use the grid item's properties
    // This handles items created directly in inventory (like test items or currency)
    // Use ALL properties from the grid item to ensure nothing is lost
-   // Priority: main item store â†’ temporary items â†’ originalItemStoreId â†’ grid item fallback
+   // Priority: main item store → temporary items → originalItemStoreId → grid item fallback
    // But preserve customName from grid item if it exists (for renamed items)
    const itemToUse = originalItem ? {
     ...originalItem,

@@ -1419,7 +1419,7 @@ setCursorPos(coords);
       <div className="custom-readonly-label">
        <i className="fas fa-eye"></i>
        <span>Immersive View</span>
-       <small>Reading & exploring â€” edits hidden</small>
+       <small>Reading & exploring — edits hidden</small>
       </div>
       <div className="custom-readonly-actions">
        <button type="button" className="custom-readonly-btn secondary" onClick={handleExitCustomReadOnlyToEdit}>

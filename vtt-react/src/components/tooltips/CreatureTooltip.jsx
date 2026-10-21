@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useState, useLayoutEffect } from 'react';
 import { createPortal } from 'react-dom';
 import {
   getHealthState,
@@ -29,6 +29,7 @@ const CreatureTooltip = ({
   tokenState,
   isGM,
   position,
+  anchorRect = null,
   activeConditions = [],
   isInCombat = false,
   combatInfo = null,
@@ -59,15 +60,71 @@ const CreatureTooltip = ({
   const sizeText = capitalize(creature.size);
   const typeText = capitalize(creature.type);
 
-  // Smart screen-edge positioning
-  const tooltipStyle = {
-    left: position.x,
-    top: position.y,
-    position: 'fixed',
-    transform: position.x > (typeof window !== 'undefined' ? window.innerWidth - 220 : 1000)
-      ? 'translateX(-100%)'
-      : 'none'
-  };
+  const tooltipRef = useRef(null);
+  const [coords, setCoords] = useState(() => {
+    const x = position?.x ?? 12;
+    const y = position?.y ?? 12;
+    const vw = typeof window !== 'undefined' ? window.innerWidth : 1200;
+    const vh = typeof window !== 'undefined' ? window.innerHeight : 800;
+    const estW = 280;
+    const estH = 440;
+    const margin = 12;
+    let initX = x;
+    let initY = y;
+    if (initX + estW > vw - margin) {
+      initX = Math.max(margin, vw - margin - estW);
+    }
+    if (initY + estH > vh - margin) {
+      initY = Math.max(margin, vh - margin - estH);
+    }
+    return { left: Math.max(margin, initX), top: Math.max(margin, initY) };
+  });
+
+  useLayoutEffect(() => {
+    const el = tooltipRef.current;
+    if (!el) return;
+
+    const clamp = () => {
+      const rect = el.getBoundingClientRect();
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      const margin = 12;
+
+      let left = position?.x ?? margin;
+      let top = position?.y ?? margin;
+
+      // Handle horizontal boundaries
+      if (anchorRect) {
+        if (left + rect.width > vw - margin) {
+          const leftFlip = anchorRect.left - rect.width - 10;
+          if (leftFlip >= margin) {
+            left = leftFlip;
+          } else {
+            left = Math.max(margin, vw - margin - rect.width);
+          }
+        }
+      } else {
+        if (left + rect.width > vw - margin) {
+          left = Math.max(margin, vw - margin - rect.width);
+        }
+      }
+      if (left < margin) left = margin;
+
+      // Handle vertical boundaries (guarantee bottom is never clipped)
+      if (top + rect.height > vh - margin) {
+        top = Math.max(margin, vh - margin - rect.height);
+      }
+      if (top < margin) top = margin;
+
+      const roundedLeft = Math.round(left);
+      const roundedTop = Math.round(top);
+      setCoords(prev => (prev.left === roundedLeft && prev.top === roundedTop ? prev : { left: roundedLeft, top: roundedTop }));
+    };
+
+    clamp();
+    window.addEventListener('resize', clamp);
+    return () => window.removeEventListener('resize', clamp);
+  }, [position?.x, position?.y, anchorRect]);
 
   const getConditionClass = (cond) => {
     if (cond.type === 'buff') return 'buff';
@@ -80,7 +137,15 @@ const CreatureTooltip = ({
   const immunities = resistances.filter(r => r.level === 'immune');
 
   return createPortal(
-    <div className="creature-tooltip" style={tooltipStyle}>
+    <div
+      ref={tooltipRef}
+      className="creature-tooltip"
+      style={{
+        left: `${coords.left}px`,
+        top: `${coords.top}px`,
+        position: 'fixed'
+      }}
+    >
       {/* ─── HEADER ─── */}
       <div className="creature-tooltip-header">
         <div className="tooltip-icon-wrapper">
@@ -235,7 +300,7 @@ const CreatureTooltip = ({
                             aria-hidden="true"
                             onError={(e) => { e.target.style.display = 'none'; }}
                           />
-                          {r.type}
+                          {r.label || capitalize(r.type)}
                         </span>
                       ))}
                     </div>

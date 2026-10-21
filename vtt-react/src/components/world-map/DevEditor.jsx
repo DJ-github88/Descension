@@ -308,7 +308,7 @@ const DevEditor = ({
     if (devTool !== 'placePin') return null;
     if (pinSourceType === 'world' && selectedZoneId) {
       const z = ZONE_DATA.find((item) => item.id === selectedZoneId);
-      return z ? { name: z.name, sub: `${z.type} â€¢ ${z.regionId}` } : null;
+      return z ? { name: z.name, sub: `${z.type} • ${z.regionId}` } : null;
     }
     if (pinSourceType === 'campaignLocation' && selectedCampaignLocId) {
       const cl = campaignLocations.find((l) => String(l.id) === String(selectedCampaignLocId));

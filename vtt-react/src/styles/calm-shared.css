@@ -5438,12 +5438,12 @@ html body .rules-page .skill-count-badge { color: #4a3626 !important; background
 
 /* NO YELLOW ICONS: icons on bare parchment take burgundy seal ink, while icons on dark ironwood chrome
    (sidebar, top bar) and crimson seals (hero badge, section title seals, quick-tile seals) are crisp light ivory with zero blur. */
-html body .rules-page :is(i.fas, i.far, i.fab, i.fa-solid, i.fa-regular):not(.class-codex *):not(.bestiary-res-pill *):not(.bestiary-res-icon):not(.rules-sidebar *):not(.rules-top-bar *):not(.rules-section-card-title *):not(.rules-hero-badge *):not(.rules-quick-tile-icon *):not(.active *):not(.race-card-icon *):not(.race-card-icon):not(.rules-search-header *):not(.lore-type-icon *):not([style*="color"]) {
+html body .rules-page :is(i.fas, i.far, i.fab, i.fa-solid, i.fa-regular):not(.class-codex *):not(.illus-nav-btn *):not(.class-spell-page-button *):not(.spellbook-popup-nav *):not(.class-codex-nav-scroll-hint *):not(.bestiary-res-pill *):not(.bestiary-res-icon):not(.rules-sidebar *):not(.rules-top-bar *):not(.rules-section-card-title *):not(.rules-hero-badge *):not(.rules-quick-tile-icon *):not(.active *):not(.race-card-icon *):not(.race-card-icon):not(.rules-search-header *):not(.lore-type-icon *):not([style*="color"]) {
   color: #663c32 !important;
   text-shadow: none !important;
   filter: none !important;
 }
-html body .rules-page :is(i.fa-chevron-right, i.fa-chevron-left, i.fa-chevron-down, i.fa-angle-right, i.fa-arrow-right):not(.class-codex *):not(.rules-sidebar *):not(.rules-top-bar *):not(.active *) {
+html body .rules-page :is(i.fa-chevron-right, i.fa-chevron-left, i.fa-chevron-down, i.fa-angle-right, i.fa-arrow-right):not(.class-codex *):not(.illus-nav-btn *):not(.class-spell-page-button *):not(.spellbook-popup-nav *):not(.class-codex-nav-scroll-hint *):not(.rules-sidebar *):not(.rules-top-bar *):not(.active *) {
   color: #68533e !important;
   text-shadow: none !important;
 }
@@ -5465,6 +5465,16 @@ html body .rules-page :is(.rules-sidebar, .rules-top-bar, .rules-section-card-ti
 }
 html body .rules-page .bestiary-res-icon { color: #fcf8ee !important; text-shadow: none !important; }
 html body .rules-page .stat-badge i { color: #663c32 !important; text-shadow: none !important; }
+html body .rules-page :is(.illus-nav-btn, .class-spell-page-button, .class-codex-nav-scroll-hint, .spellbook-popup-nav) :is(i, svg, i.fas, i.far, i.fa-solid, i.fa-regular, .fa-chevron-left, .fa-chevron-right) {
+  color: var(--folio-vellum, #fcf8ee) !important;
+  text-shadow: none !important;
+  filter: none !important;
+}
+html body .rules-page :is(.illus-nav-btn, .class-spell-page-button, .class-codex-nav-scroll-hint, .spellbook-popup-nav):hover :is(i, svg, i.fas, i.far, i.fa-solid, i.fa-regular, .fa-chevron-left, .fa-chevron-right) {
+  color: #ffffff !important;
+  text-shadow: none !important;
+  filter: none !important;
+}
 
 /* Gold text on the dark chrome (footer line, active mobile-menu item) becomes warm ivory. */
 html body :is(.landing-footer, footer, .site-footer) :is(p, span, a) { color: #cdbf9f !important; }

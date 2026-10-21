@@ -6,8 +6,8 @@ import './CreatureAbilityConfirmDialog.css';
 /**
  * CreatureAbilityConfirmDialog
  * Confirmation popup when the GM clicks an ability in the hover fan-out.
- * Displays authored cost and invokes the owning caller. P8 unsupported use is
- * explicitly notice-only; this presentation component never spends resources.
+ * Adheres to the calm manuscript TTRPG theme.
+ * P8 unsupported use is explicitly notice-only; this presentation component never spends resources.
  */
 const CreatureAbilityConfirmDialog = ({
   isOpen,
@@ -67,15 +67,18 @@ const CreatureAbilityConfirmDialog = ({
         className="creature-ability-confirm-dialog"
         role="dialog"
         aria-modal="true"
-        aria-label={`Use ${ability.name}?`}
+        aria-label={noticeOnly ? `Manual Notice: ${ability.name}` : `Use ${ability.name}?`}
         onClick={(e) => e.stopPropagation()}
         onMouseDown={(e) => e.stopPropagation()}
       >
-        <div className="ability-confirm-header">
-          <h3>{noticeOnly ? 'Manual ability notice' : 'Use Ability?'}</h3>
+        <div className="dialog-header ability-confirm-header">
+          <h3>
+            <i className={noticeOnly ? 'fas fa-scroll' : 'fas fa-hand-sparkles'} />
+            {noticeOnly ? 'Manual Ability Notice' : 'Confirm Ability'}
+          </h3>
           <button
             type="button"
-            className="ability-confirm-close"
+            className="dialog-close-btn ability-confirm-close"
             onClick={onCancel}
             aria-label="Close"
             title="Close (Esc)"
@@ -84,66 +87,114 @@ const CreatureAbilityConfirmDialog = ({
           </button>
         </div>
 
-        <div className="ability-confirm-content">
-          {noticeOnly && <p>Manual notice only / no target consequence. This does not roll, spend resources, resolve effects or create an accepted action. Use existing manual resource controls for the GM's adjudicated outcome.</p>}
-          <div className="ability-confirm-creature">
+        <div className="dialog-content ability-confirm-content">
+          <div className="creature-info ability-confirm-creature">
             <strong>{String(creatureName).toUpperCase()}</strong>
-            <span className="ability-confirm-sub">wants to use</span>
-            <strong className="ability-confirm-name">{ability.name}</strong>
           </div>
 
-          <div className="ability-confirm-cost-row">
-            <span className="cost-label">Cost:</span>
-            <span className="cost-value">{costLabel}</span>
-            {ability.formula && (
-              <span className="ability-confirm-formula" title="Damage formula">
-                {ability.formula}{ability.damageType ? ` ${ability.damageType}` : ''}
-              </span>
+          {noticeOnly && (
+            <div className="ability-notice-card">
+              <div className="ability-notice-badge">
+                <i className="fas fa-feather-pointed" />
+                <span>Notice Only · No Automated Consequence</span>
+              </div>
+              <p className="ability-notice-desc">
+                Manual notice only. This does not roll dice, spend resources, or resolve effects automatically. Use GM manual controls to adjudicate the final outcome.
+              </p>
+            </div>
+          )}
+
+          <div className="ability-intent-card">
+            <div className="ability-intent-header">
+              <span className="ability-confirm-sub">Intent to use</span>
+              <strong className="ability-confirm-name">{ability.name}</strong>
+              {ability.formula && (
+                <span className="ability-confirm-formula" title="Damage / Healing formula">
+                  <i className="fas fa-dice-d20" /> {ability.formula}{ability.damageType ? ` ${ability.damageType}` : ''}
+                </span>
+              )}
+            </div>
+
+            {ability.description && (
+              <p className="ability-confirm-desc">{ability.description}</p>
             )}
+
+            <div className="ability-cost-panel">
+              <div className="cost-panel-title">
+                <i className="fas fa-sparkles" />
+                <span>Resource Cost</span>
+              </div>
+              <div className="cost-row">
+                <span className="cost-row-label">Action Points:</span>
+                <span className="cost-row-value">{apCost > 0 ? `${apCost} AP` : 'Free'}</span>
+              </div>
+              {manaCost > 0 && (
+                <div className="cost-row">
+                  <span className="cost-row-label">Mana:</span>
+                  <span className="cost-row-value">{manaCost} MP</span>
+                </div>
+              )}
+            </div>
           </div>
 
           {rollText && (
             <div className="ability-confirm-roll">{rollText}</div>
           )}
 
-          {!noticeOnly && <div className="ability-confirm-resources">
-            <div className={`resource-row ${hasEnoughAP ? '' : 'insufficient'}`}>
-              <span>Action Points:</span>
-              <span>{effectiveAP} / {maxAP} {apCost > 0 ? `→ ${Math.max(0, effectiveAP - apCost)}` : ''}</span>
+          {!noticeOnly && (
+            <div className="ability-confirm-resources">
+              <div className="resources-title">
+                <i className="fas fa-bolt" />
+                <span>Current Resources</span>
+              </div>
+              <div className={`resource-row ${hasEnoughAP ? '' : 'insufficient'}`}>
+                <span>Action Points:</span>
+                <span>
+                  <strong className="res-current">{effectiveAP}</strong> / {maxAP}
+                  {apCost > 0 ? <span className="res-projected"> → {Math.max(0, effectiveAP - apCost)}</span> : null}
+                </span>
+              </div>
+              {maxMana > 0 && (
+                <div className={`resource-row ${hasEnoughMana ? '' : 'insufficient'}`}>
+                  <span>Mana:</span>
+                  <span>
+                    <strong className="res-current">{effectiveMana}</strong> / {maxMana}
+                    {manaCost > 0 ? <span className="res-projected"> → {Math.max(0, effectiveMana - manaCost)}</span> : null}
+                  </span>
+                </div>
+              )}
             </div>
-            <div className={`resource-row ${hasEnoughMana ? '' : 'insufficient'}`}>
-              <span>Mana:</span>
-              <span>{effectiveMana} / {maxMana} {manaCost > 0 ? `→ ${Math.max(0, effectiveMana - manaCost)}` : ''}</span>
-            </div>
-          </div>}
+          )}
 
           {!canAfford && (
             <div className="ability-confirm-warning">
               <i className="fas fa-exclamation-triangle" />
-              {!hasEnoughAP && !hasEnoughMana
-                ? `Insufficient resources! Needs ${costLabel}, has ${effectiveAP} AP and ${effectiveMana} MP.`
-                : !hasEnoughAP
-                  ? `Insufficient Action Points! Needs ${apCost} AP, has ${effectiveAP} AP.`
-                  : `Insufficient Mana! Needs ${manaCost} MP, has ${effectiveMana} MP.`}
+              <span>
+                {!hasEnoughAP && !hasEnoughMana
+                  ? `Insufficient resources! Needs ${costLabel}, has ${effectiveAP} AP and ${effectiveMana} MP.`
+                  : !hasEnoughAP
+                    ? `Insufficient Action Points! Needs ${apCost} AP, has ${effectiveAP} AP.`
+                    : `Insufficient Mana! Needs ${manaCost} MP, has ${effectiveMana} MP.`}
+              </span>
             </div>
           )}
         </div>
 
-        <div className="ability-confirm-actions">
+        <div className="dialog-actions ability-confirm-actions">
           <button
             type="button"
-            className="ability-confirm-btn cancel"
+            className="dialog-button ability-confirm-btn cancel"
             onClick={onCancel}
           >
             Cancel
           </button>
           <button
             type="button"
-            className={`ability-confirm-btn confirm ${canAfford ? '' : 'disabled'}`}
+            className={`dialog-button ability-confirm-btn confirm ${canAfford ? '' : 'disabled'}`}
             onClick={onConfirm}
             disabled={!canAfford}
           >
-            {noticeOnly ? 'Post manual notice only' : canAfford ? `Use ${ability.name} (${costLabel})` : 'Insufficient Resources'}
+            {noticeOnly ? 'Post Manual Notice' : canAfford ? `Use ${ability.name}` : 'Insufficient Resources'}
           </button>
         </div>
       </div>
@@ -163,6 +214,7 @@ CreatureAbilityConfirmDialog.propTypes = {
   maxAP: PropTypes.number,
   maxMana: PropTypes.number,
   rollText: PropTypes.string,
+  noticeOnly: PropTypes.bool,
   onConfirm: PropTypes.func,
   onCancel: PropTypes.func
 };

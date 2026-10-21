@@ -81,6 +81,12 @@ jest.mock('../../../../../utils/InfiniteGridSystem', () => ({
 
 jest.mock('../../../../common/useTabOverflow');
 
+jest.mock('../../../../spellcrafting-wizard/context/SpellLibraryContext', () => ({
+  useSpellLibrary: () => ({
+    getSpellById: () => null
+  })
+}));
+
 describe('EnhancedCreatureInspectView TTRPG Theme & Tab Overflow', () => {
   const mockCreature = {
     id: 'creature-dire-wolf',
@@ -254,5 +260,37 @@ describe('EnhancedCreatureInspectView TTRPG Theme & Tab Overflow', () => {
     const sectionHeaders = menu.querySelectorAll('.tab-dropdown-section-header');
     expect(sectionHeaders.length).toBeGreaterThan(0);
     expect(screen.getByText('Combat Mastery')).toBeInTheDocument();
+  });
+
+  test('navigates to Abilities & Spells and renders ability selector bar and card without crashing', () => {
+    const creatureWithAbilities = {
+      ...mockCreature,
+      abilities: [
+        {
+          id: 'bite-1',
+          name: 'Frostfang Bite',
+          description: 'A vicious bite dealing cold damage.',
+          damage: { diceCount: 2, diceType: 6, bonus: 3, damageType: 'frost' },
+          priorityRange: { min: 1, max: 20, resolution: 'DICE' }
+        }
+      ]
+    };
+
+    render(
+      <EnhancedCreatureInspectView
+        creature={creatureWithAbilities}
+        isOpen={true}
+        onClose={jest.fn()}
+      />
+    );
+
+    const abilitiesTab = screen.getByRole('button', { name: 'Abilities & Spells' });
+    fireEvent.click(abilitiesTab);
+
+    // Section header should be present
+    expect(screen.getByRole('heading', { level: 2, name: 'Abilities & Spells' })).toBeInTheDocument();
+    // Selector bar and ability title
+    expect(screen.getByRole('tablist', { name: 'Creature abilities' })).toBeInTheDocument();
+    expect(screen.getByText('Frostfang Bite', { selector: '.selected-ability-name' })).toBeInTheDocument();
   });
 });

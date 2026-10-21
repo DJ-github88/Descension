@@ -453,13 +453,21 @@ html body .pf-spell-card.pf-spell-card.pf-spell-card.wow-spell-card .wow-spell-c
   box-shadow: none !important;
   color: var(--adventure-paper, #f1ece1) !important;
 }
-html body .pf-spell-card.pf-spell-card.wow-spell-card :is(.pf-action-type-badge, .pf-range-badge, .pf-targeting-badge, .unified-spell-tag) {
+html body .pf-spell-card.pf-spell-card.wow-spell-card :is(.pf-action-type-badge, .pf-range-badge, .pf-targeting-badge, .pf-priority-range-tag-above-header, .pf-priority-badge, .pf-trigger-condition-tag-above-header, .pf-trigger-badge, .unified-spell-tag) {
   background: var(--adventure-paper, #f1ece1) !important;
   background-image: none !important;
   border: 1px solid var(--adventure-rule, #c4baa6) !important;
   border-radius: 3px !important;
   box-shadow: none !important;
   color: var(--adventure-ink, #34251a) !important;
+  transform: none !important;
+  position: static !important;
+  text-shadow: none !important;
+}
+html body .pf-spell-card.pf-spell-card.wow-spell-card :is(.pf-priority-range-tag-above-header, .pf-priority-badge) {
+  border-color: var(--adventure-seal, #663c32) !important;
+  color: var(--adventure-seal, #663c32) !important;
+  font-weight: 600 !important;
 }
 html body .pf-spell-card.wow-spell-card :is(.pf-damage-type-badge, .pf-spell-icon, .unified-spell-cooldown, .prophecy-summary, .healing-effects, .prophecy-effects-container) {
   box-shadow: none !important;
@@ -734,26 +742,219 @@ body .pathfinder-tooltip:not(.unified-resourcebar-tooltip) .pathfinder-tooltip-s
 }
 
 /* Gold / yellow call-to-action buttons become the quiet seal button used elsewhere */
-/* Damage-type pill on the card header: plain paper chip, text carries the meaning */
+/* Damage-type badges on calm card header: illuminated manuscript pigment tones */
 html body .pf-spell-card.pf-spell-card.wow-spell-card .pf-damage-type-badge {
-  background: var(--adventure-paper, #f1ece1) !important;
+  background: rgba(30, 20, 14, 0.45) !important;
   background-image: none !important;
-  border: 1px solid var(--adventure-rule, #c4baa6) !important;
+  border: 1px solid rgba(248, 245, 238, 0.28) !important;
   border-radius: 3px !important;
   box-shadow: none !important;
-  color: var(--adventure-ink, #34251a) !important;
+  color: #faf6ee !important;
+  padding: 2px 7px !important;
+  font-family: 'Cinzel', Georgia, serif !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.04em !important;
+  text-shadow: none !important;
 }
-html body .pf-spell-card.pf-spell-card.wow-spell-card .pf-damage-type-badge * { color: inherit !important; }
+html body .pf-spell-card.pf-spell-card.wow-spell-card .pf-damage-type-badge * {
+  color: inherit !important;
+  text-shadow: none !important;
+}
+html body .pf-spell-card.pf-spell-card.wow-spell-card .pf-damage-type-badge:is(.ember, .fire) {
+  background: rgba(139, 38, 29, 0.35) !important;
+  border-color: rgba(220, 110, 95, 0.55) !important;
+  color: #ffe0d9 !important;
+}
+html body .pf-spell-card.pf-spell-card.wow-spell-card .pf-damage-type-badge:is(.rime, .frost, .cold, .ice) {
+  background: rgba(36, 77, 107, 0.35) !important;
+  border-color: rgba(120, 185, 220, 0.55) !important;
+  color: #d6eefb !important;
+}
+html body .pf-spell-card.pf-spell-card.wow-spell-card .pf-damage-type-badge:is(.storm, .lightning, .thunder, .electric) {
+  background: rgba(140, 103, 27, 0.35) !important;
+  border-color: rgba(225, 185, 95, 0.55) !important;
+  color: #fff0c7 !important;
+}
+html body .pf-spell-card.pf-spell-card.wow-spell-card .pf-damage-type-badge:is(.arcane, .force) {
+  background: rgba(94, 56, 130, 0.35) !important;
+  border-color: rgba(185, 145, 225, 0.55) !important;
+  color: #f0e1fb !important;
+}
+html body .pf-spell-card.pf-spell-card.wow-spell-card .pf-damage-type-badge:is(.primal, .nature) {
+  background: rgba(44, 91, 41, 0.35) !important;
+  border-color: rgba(135, 195, 125, 0.55) !important;
+  color: #dff6d9 !important;
+}
+html body .pf-spell-card.pf-spell-card.wow-spell-card .pf-damage-type-badge:is(.blight, .necrotic, .shadow) {
+  background: rgba(84, 37, 102, 0.35) !important;
+  border-color: rgba(180, 130, 200, 0.55) !important;
+  color: #ecdcf4 !important;
+}
+html body .pf-spell-card.pf-spell-card.wow-spell-card .pf-damage-type-badge:is(.wyrd, .psychic, .chaos) {
+  background: rgba(126, 34, 94, 0.35) !important;
+  border-color: rgba(215, 135, 180, 0.55) !important;
+  color: #fbdde9 !important;
+}
+html body .pf-spell-card.pf-spell-card.wow-spell-card .pf-damage-type-badge:is(.divine, .radiant, .holy, .sacred) {
+  background: rgba(156, 119, 30, 0.35) !important;
+  border-color: rgba(230, 195, 110, 0.55) !important;
+  color: #fff4d1 !important;
+}
+html body .pf-spell-card.pf-spell-card.wow-spell-card .pf-damage-type-badge:is(.physical, .slashing, .piercing, .bludgeoning) {
+  background: rgba(77, 87, 94, 0.35) !important;
+  border-color: rgba(175, 185, 190, 0.55) !important;
+  color: #eef2f4 !important;
+}
 html body .pf-spell-card.pf-spell-card.wow-spell-card :is(div, button, span, img, input):where(:not([class*='icon'], [class*='circle'])) {
   border-radius: 3px;
 }
-html body .pf-spell-card.pf-spell-card.wow-spell-card :is(.item-description, .damage-effects, .healing-effects, .buff-effects, .debuff-effects, .utility-effects, .prophecy-effects-container, .unified-spell-tags-footer) {
+html body .pf-spell-card.pf-spell-card.wow-spell-card :is(.item-description, .damage-effects, .healing-effects, .buff-effects, .debuff-effects, .utility-effects, .prophecy-effects-container) {
   background: var(--adventure-paper, #f1ece1) !important;
   background-image: none !important;
   border: 1px solid var(--adventure-rule, #c4baa6) !important;
   border-radius: 3px !important;
   box-shadow: none !important;
 }
+
+/* Strip nested frames inside effect containers (calm: no frames-within-frames) */
+html body .pf-spell-card.pf-spell-card.wow-spell-card :is([class*='-effects-content'], [class*='-effects-section'], [class*='-effect-item']) {
+  background: transparent !important;
+  background-image: none !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+html body .pf-spell-card.pf-spell-card.wow-spell-card :is([class*='effect-name'], [class*='effect-title']) {
+  color: var(--adventure-seal, #663c32) !important;
+  font-family: 'Cinzel', Georgia, serif !important;
+  font-size: 0.85rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.04em !important;
+  text-shadow: none !important;
+}
+html body .pf-spell-card.pf-spell-card.wow-spell-card :is([class*='effect-description'], [class*='effect-mechanics']) {
+  color: var(--adventure-ink, #34251a) !important;
+  font-family: 'Crimson Text', Georgia, serif !important;
+  font-size: 0.95rem !important;
+  line-height: 1.45 !important;
+  text-shadow: none !important;
+}
+
+/* Card footer: seamless flat footer separated by the card divider line */
+html body .pf-spell-card.pf-spell-card.wow-spell-card .unified-spell-tags-footer {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  padding: 4px 6px 2px !important;
+}
+html body .pf-spell-card.pf-spell-card.wow-spell-card .unified-spell-cooldown {
+  background: var(--adventure-panel, #e8e2d4) !important;
+  border: 1px solid var(--adventure-rule, #c4baa6) !important;
+  border-radius: 3px !important;
+  box-shadow: none !important;
+  color: var(--adventure-seal, #663c32) !important;
+}
+html body .pf-spell-card.pf-spell-card.wow-spell-card .unified-spell-cooldown :is(.cooldown-label, .cooldown-value) {
+  color: var(--adventure-seal, #663c32) !important;
+  text-shadow: none !important;
+}
+
+/* Rollable Table container inside calm spell card */
+html body .pf-spell-card.wow-spell-card .spell-rollable-table-container {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  margin: 4px 0 !important;
+}
+
+/* Component pills (V, S, M, C) on calm spell card */
+html body .pf-spell-card.wow-spell-card .spell-component-pills {
+  gap: 4px !important;
+}
+html body .pf-spell-card.wow-spell-card .spell-component-pill {
+  width: 16px !important;
+  height: 16px !important;
+  min-width: 16px !important;
+  min-height: 16px !important;
+  border-radius: 3px !important;
+  background: rgba(48, 36, 25, 0.45) !important;
+  border: 1px solid rgba(248, 245, 238, 0.35) !important;
+  color: #faf6ee !important;
+  font-family: 'Cinzel', Georgia, serif !important;
+  font-size: 9px !important;
+  font-weight: 700 !important;
+  text-shadow: none !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+html body .pf-spell-card.wow-spell-card .spell-component-pill:hover,
+html body .pf-spell-card.wow-spell-card .spell-component-pill.active {
+  background: rgba(48, 36, 25, 0.8) !important;
+  border-color: rgba(248, 245, 238, 0.65) !important;
+  color: #ffffff !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+html body .pf-spell-card.wow-spell-card .spell-component-pill--verbal {
+  border-color: rgba(140, 180, 210, 0.5) !important;
+  color: #e6f0f8 !important;
+}
+html body .pf-spell-card.wow-spell-card .spell-component-pill--somatic {
+  border-color: rgba(150, 190, 145, 0.5) !important;
+  color: #edf7eb !important;
+}
+html body .pf-spell-card.wow-spell-card .spell-component-pill--material {
+  border-color: rgba(210, 185, 140, 0.5) !important;
+  color: #fbf5e6 !important;
+}
+html body .pf-spell-card.wow-spell-card .spell-component-pill--concentration {
+  border-color: rgba(185, 160, 205, 0.5) !important;
+  color: #f5eff9 !important;
+}
+
+/* Component Popover on calm spell card */
+html body .pf-component-popover {
+  background: var(--adventure-paper, #f1ece1) !important;
+  border: 1px solid var(--adventure-rule, #c4baa6) !important;
+  border-radius: 3px !important;
+  box-shadow: 0 4px 16px rgba(52, 37, 26, 0.22) !important;
+  color: var(--adventure-ink, #34251a) !important;
+}
+html body .pf-component-popover .pf-component-popover-header {
+  color: var(--adventure-seal, #663c32) !important;
+  font-family: 'Cinzel', Georgia, serif !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.04em !important;
+  border-bottom: 1px solid var(--adventure-rule, #c4baa6) !important;
+  padding-bottom: 3px !important;
+  margin-bottom: 4px !important;
+}
+html body .pf-component-popover .pf-component-popover-body {
+  color: var(--adventure-ink, #34251a) !important;
+  font-family: 'Crimson Text', Georgia, serif !important;
+  font-size: 13px !important;
+  line-height: 1.4 !important;
+  font-style: italic !important;
+}
+
+/* Calm TTRPG Rarity borders (bookcloth and manuscript leather tones) */
+html body .pf-spell-card.wow-spell-card.rarity-common,
+html body .pf-spell-card.wow-spell-card.common { border-color: var(--adventure-rule, #c4baa6) !important; }
+html body .pf-spell-card.wow-spell-card.rarity-uncommon,
+html body .pf-spell-card.wow-spell-card.uncommon { border-color: #5b7952 !important; }
+html body .pf-spell-card.wow-spell-card.rarity-rare,
+html body .pf-spell-card.wow-spell-card.rare { border-color: #8c5a2b !important; }
+html body .pf-spell-card.wow-spell-card.rarity-epic,
+html body .pf-spell-card.wow-spell-card.epic { border-color: #644368 !important; }
+html body .pf-spell-card.wow-spell-card.rarity-legendary,
+html body .pf-spell-card.wow-spell-card.legendary { border-color: #a48143 !important; }
+html body .pf-spell-card.wow-spell-card.artifact { border-color: #7a2b22 !important; }
 
 /* Breathing room: step body, stacked groups, grids */
 .wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel .spell-wizard-step-content {

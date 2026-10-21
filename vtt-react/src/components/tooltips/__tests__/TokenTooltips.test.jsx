@@ -214,5 +214,54 @@ describe('CharacterTooltip', () => {
         expect(screen.getByText('58')).toBeInTheDocument();
         expect(screen.getByText('90')).toBeInTheDocument();
     });
+
+it('clamps CreatureTooltip position when near screen edges', () => {
+        // Position near bottom-right on a 800x600 screen
+        window.innerWidth = 800;
+        window.innerHeight = 600;
+
+        const { container } = render(
+            <CreatureTooltip
+                creature={baseCreature}
+                tokenState={baseTokenState}
+                isGM={true}
+                position={{ x: 750, y: 550 }}
+            />
+        );
+
+        const tooltip = document.querySelector('.creature-tooltip');
+        expect(tooltip).toBeInTheDocument();
+        // Top and left should be clamped within viewport bounds (< 600, < 800)
+        const leftVal = parseInt(tooltip.style.left, 10);
+        const topVal = parseInt(tooltip.style.top, 10);
+        expect(leftVal).toBeLessThanOrEqual(800 - 12);
+        expect(leftVal).toBeGreaterThanOrEqual(12);
+        expect(topVal).toBeLessThanOrEqual(600 - 12);
+        expect(topVal).toBeGreaterThanOrEqual(12);
+    });
+
+    it('clamps CharacterTooltip position when near screen edges', () => {
+        window.innerWidth = 800;
+        window.innerHeight = 600;
+
+        render(
+            <CharacterTooltip
+                characterData={characterData}
+                characterImage={null}
+                position={{ x: 780, y: 580 }}
+                tokenId="tok-1"
+                isGM={true}
+            />
+        );
+
+        const tooltip = document.querySelector('.creature-tooltip');
+        expect(tooltip).toBeInTheDocument();
+        const leftVal = parseInt(tooltip.style.left, 10);
+        const topVal = parseInt(tooltip.style.top, 10);
+        expect(leftVal).toBeLessThanOrEqual(800 - 12);
+        expect(leftVal).toBeGreaterThanOrEqual(12);
+        expect(topVal).toBeLessThanOrEqual(600 - 12);
+        expect(topVal).toBeGreaterThanOrEqual(12);
+    });
 });
 

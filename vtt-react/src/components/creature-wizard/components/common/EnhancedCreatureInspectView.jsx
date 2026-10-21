@@ -14,7 +14,7 @@ import InlineMarkdown from '../../../common/InlineMarkdown';
 import { DAMAGE_TYPES, normalizeDamageType } from '../../../spellcrafting-wizard/core/data/damageTypes';
 import { getQualityColor } from '../../../../constants/itemConstants';
 import { getAbilityIconUrl, getCustomIconUrl, getIconUrl, getCreatureTokenIconUrl } from '../../../../utils/assetManager';
-import { transformAbilityToSpell, resolveCreatureAbilityIcon } from '../../../../utils/creatureAbilityUtils';
+import { transformAbilityToSpell, resolveCreatureAbilityIcon, PLACEHOLDER_ABILITY_ICONS } from '../../../../utils/creatureAbilityUtils';
 import { SKILL_DEFINITIONS, SKILL_CATEGORIES, SKILL_RANKS } from '../../../../constants/skillDefinitions';
 import { ROLLABLE_TABLES } from '../../../../constants/rollableTables';
 import BESTIARY_DATA from '../../../../data/creatureData.json';
@@ -2039,37 +2039,56 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
 
     // Combine spells and abilities into one unified list, preserving original order
     const allPowers = Array.isArray(creature.abilities) ? creature.abilities : [];
+    const currentPower = allPowers[selectedAbilityIndex] || allPowers[0];
+    const currentIndex = allPowers[selectedAbilityIndex] ? selectedAbilityIndex : 0;
+    const currentIcon = currentPower ? resolveCreatureAbilityIcon(currentPower, currentIndex) : null;
+    const currentSpell = currentPower ? transformAbilityToSpell({
+      ...currentPower,
+      icon: currentPower.icon && !PLACEHOLDER_ABILITY_ICONS.has(currentPower.icon) ? currentPower.icon : currentIcon
+    }) : null;
 
     return (
-      <div className="stats-section">
-        <h3>Abilities & Spells</h3>
-
-        {/* Path-style icon strip for all powers */}
-        <div className="ability-icon-strip">
-          {allPowers.map((power, idx) => (
-            <button
-              key={idx}
-              className={`ability-icon-btn ${selectedAbilityIndex === idx ? 'selected' : ''}`}
-              onClick={() => setSelectedAbilityIndex(idx)}
-              title={power.name}
-            >
-              <img 
-                src={getAbilityIconUrlLocal(resolveCreatureAbilityIcon(power, idx))} 
-                alt={power.name}
-                onError={(e) => {
-                  e.target.onerror = null;
-                  e.target.src = getAbilityIconUrl('utility/question-mark');
-                }}
-              />
-            </button>
-          ))}
+      <div className="creature-abilities-inspect-panel">
+        {/* Ability selector bar */}
+        <div className="ability-selector-bar">
+          <div className="ability-icon-strip" role="tablist" aria-label="Creature abilities">
+            {allPowers.map((power, idx) => {
+              const iconPath = resolveCreatureAbilityIcon(power, idx);
+              const isSelected = selectedAbilityIndex === idx;
+              return (
+                <button
+                  key={idx}
+                  role="tab"
+                  aria-selected={isSelected}
+                  className={`ability-icon-btn ${isSelected ? 'selected' : ''}`}
+                  onClick={() => setSelectedAbilityIndex(idx)}
+                  title={power.name}
+                >
+                  <img 
+                    src={getAbilityIconUrlLocal(iconPath)} 
+                    alt={power.name}
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = getAbilityIconUrl('utility/question-mark');
+                    }}
+                  />
+                </button>
+              );
+            })}
+          </div>
+          {currentPower && (
+            <div className="selected-ability-meta">
+              <span className="selected-ability-label">Ability:</span>
+              <span className="selected-ability-name">{currentPower.name}</span>
+            </div>
+          )}
         </div>
 
         {/* Single card view for the selected power */}
-        {allPowers[selectedAbilityIndex] && (
+        {currentSpell && (
           <div className="spell-card-wrapper single">
             <UnifiedSpellCard
-              spell={transformAbilityToSpell(allPowers[selectedAbilityIndex])}
+              spell={currentSpell}
               variant="wizard"
               showActions={false}
               showDescription={true}
