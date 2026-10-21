@@ -77,6 +77,7 @@ function validateApproval(approval) {
 }
 /** Current authoritative room state: bound source/target and a temp-first affordable price. */
 function checkAgainstRoom(room, approval) {
+  actors.assertCanAct(room, approval.source);
   if (riposte.isApproval(approval)) {riposte.approvalCheck(room, approval); return { source: actors.locate(room, approval.source), target: actors.locate(room, approval.target) };}
   const source = actors.locate(room, approval.source);
   const target = actors.locate(room, approval.target);

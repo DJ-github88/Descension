@@ -428,9 +428,9 @@ export function routeTokenState(tokenId, updates) {
     const before = token.state.conditions || [], after = updates.conditions;
     for (const record of before) if (!after.some(value => value.id === record.id)) operations.push({ op: 'remove', recordId: record.recordId || record.id });
     for (const raw of after) {
-      const record = roomCondition(raw, ref);
+      const record = raw.version === 1 && raw.recordId && sameRef(raw.target, ref) ? raw : roomCondition(raw, ref);
       const old = before.find(value => value.id === record.id);
-      if (!old || !same(old, record)) operations.push({ op: old ? 'update' : 'add', recordId: record.id, record });
+      if (!old || require('./sharedConditionProfile').canonical(old) !== require('./sharedConditionProfile').canonical(record)) operations.push({ op: old ? 'update' : 'add', recordId: record.id, record });
     }
   }
   submitActorEntries([{ ref, expectedRevision: token.state.actorContract.revision,
@@ -440,9 +440,11 @@ export function routeTokenState(tokenId, updates) {
 export function roomCondition(raw, ref) {
   const id = raw.recordId || raw.id || crypto.randomUUID();
   const aliases = { slow: 'slowed', slowed: 'slowed', haste: 'hastened', hasted: 'hastened', hastened: 'hastened', defend: 'defending', defending: 'defending' };
-  const fields = ['icon', 'color', 'description', 'effectSummary', 'effects', 'source', 'sourceEntityId', 'effectOrigin', 'isMagical', 'duration', 'durationType', 'durationValue', 'remainingRounds', 'startTime', 'endTime', 'stackable', 'hasOverTimeEffect', 'overTimeType', 'overTimeFormula', 'overTimeElement', 'tickFrequency', 'tickFrequencyValue', 'tickFrequencyUnit', 'clockBoundary'];
+  const fields = ['icon', 'color', 'description', 'effectSummary', 'effects', 'source', 'sourceActor', 'sourceEntityId', 'effectOrigin', 'isMagical', 'duration', 'durationType', 'durationValue', 'remainingRounds', 'startTime', 'endTime', 'stackable', 'hasOverTimeEffect', 'overTimeType', 'overTimeFormula', 'overTimeElement', 'tickFrequency', 'tickFrequencyValue', 'tickFrequencyUnit', 'clockBoundary'];
+  const nameKey = aliases[raw.name?.toLowerCase()] || raw.name?.toLowerCase();
+  const conditionKey = raw.conditionKey || (nameKey === 'defending' ? `manual-marker:${id}` : nameKey);
   return { ...Object.fromEntries(fields.filter(key => raw[key] !== undefined).map(key => [key, raw[key]])), version: 1, id, recordId: id,
-    name: raw.name, originalName: raw.originalName || raw.name, conditionKey: aliases[raw.name?.toLowerCase()] || raw.name?.toLowerCase(),
+    name: raw.name, originalName: raw.originalName || raw.name, conditionKey,
     type: ['buff', 'debuff'].includes(raw.type) ? raw.type : 'marker', kind: raw.kind || (raw.effects ? 'effect' : 'marker'),
      target: ref, targetId: ref.tokenId, targetType: ref.kind, source: raw.source === undefined ? 'manual' : raw.source,
      sharedTiming: 'manual', durationType: raw.durationType || 'manual' };

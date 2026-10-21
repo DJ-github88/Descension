@@ -375,5 +375,43 @@ describe('UnifiedSpellCard Component', () => {
     expect(screen.getByText(/2 rounds/i)).toBeInTheDocument();
     expect(screen.queryByText(/No stats configured yet/i)).not.toBeInTheDocument();
   });
+
+  it('renders requirement notice cleanly under description and omits redundant ancestral parameters block', () => {
+    const ancestrySpell = {
+      id: 'ithran_chasm_leap',
+      name: 'Chasm Leap',
+      spellType: 'ACTION',
+      description: 'Leap up to 15 ft across a gap.',
+      ancestry: {
+        origin: 'Biological · long-limbed spanners',
+        requires: 'A landing you can see and grip, within 15 ft.',
+        limits: 'Not while rooted, grappled or prone.',
+        counters: 'Blocking or occupying the landing.'
+      }
+    };
+
+    const { container } = render(
+      <UnifiedSpellCard
+        spell={ancestrySpell}
+        variant="wizard"
+        showDescription={true}
+        showStats={true}
+      />
+    );
+
+    const body = container.querySelector('.pf-spell-card-body');
+    expect(body).toBeInTheDocument();
+
+    // Requirement is shown cleanly under description
+    const reqNotice = body.querySelector('.spell-requirement-notice');
+    expect(reqNotice).toBeInTheDocument();
+    expect(reqNotice.querySelector('.spell-requirement-label').textContent).toBe('Requires:');
+    expect(reqNotice.textContent).toContain('A landing you can see and grip, within 15 ft.');
+
+    // Redundant parameters block (origin, limits, counters) is not rendered
+    expect(body.querySelector('.ancestral-rules-block')).not.toBeInTheDocument();
+    expect(body.textContent).not.toContain('Ancestral Parameters');
+    expect(body.textContent).not.toContain('Biological · long-limbed spanners');
+  });
 });
 

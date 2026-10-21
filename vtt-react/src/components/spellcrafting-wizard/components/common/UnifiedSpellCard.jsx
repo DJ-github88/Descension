@@ -500,12 +500,20 @@ const UnifiedSpellCard = ({
    />
 
    {/* Card Body */}
-   {(showDescription || (showStats && spell?.effectTypes && spell.effectTypes.length > 0)) && (
+   {(showDescription || (showStats && spell?.effectTypes && spell.effectTypes.length > 0) || Boolean(spell?.ancestry?.requires || spell?.requirement)) && (
     <div className="pf-spell-card-body wow-spell-card-body">
      {/* Description - First element in body */}
      {spell?.description && (
       <div className="item-description">
        {renderRichDescription(spell.description)}
+      </div>
+     )}
+
+     {/* Requirement Notice */}
+     {(spell?.ancestry?.requires || spell?.requirement) && (
+      <div className="spell-requirement-notice">
+       <span className="spell-requirement-label">Requires:</span>
+       <span className="spell-requirement-value">{spell?.ancestry?.requires || spell?.requirement}</span>
       </div>
      )}
 

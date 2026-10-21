@@ -1,0 +1,12 @@
+.sc-editor, .sc-dialog { color: #2b2116; background: #f6efe1; font: 15px/1.4 'Crimson Text', Georgia, serif; padding: 12px; border: 1px solid #8a6d45; border-radius: 5px; overflow-wrap: anywhere; }
+.sc-editor h3 { color: #2b2116; font-size: 18px; margin: 4px 0 10px; }
+.sc-editor p { margin: 8px 0; }
+.sc-expiry { font-weight: bold; }
+.sc-editor select { display: block; box-sizing: border-box; width: 100%; min-height: 44px; font: inherit; background: #fffaf1; color: #2b2116; border: 1px solid #8a6d45; }
+.sc-editor button, .sc-dialog > button, .sc-entry { min-height: 44px; margin: 6px 8px 6px 0; padding: 7px 10px; font: inherit; cursor: pointer; background: #efe3c8; color: #2b2116; border: 1px solid #8a6d45; border-radius: 4px; }
+.sc-editor button:disabled { cursor: default; background: #e5dfd3; color: #68533e; }
+.sc-editor :focus-visible, .sc-dialog > button:focus-visible, .sc-entry:focus-visible { outline: 2px solid #71421e; outline-offset: 2px; }
+.sc-dialog { position: fixed; right: 16px; top: 90px; width: min(460px, calc(100vw - 32px)); max-height: calc(100dvh - 120px); box-sizing: border-box; overflow: auto; z-index: 210000; }
+.sc-editor input { display: block; box-sizing: border-box; width: 100%; min-height: 44px; font: inherit; background: #fffaf1; color: #2b2116; border: 1px solid #8a6d45; }
+.sc-editor input::placeholder { color: #68533e; }
+.sc-editor section { margin-top: 20px; }

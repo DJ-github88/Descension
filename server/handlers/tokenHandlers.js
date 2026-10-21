@@ -317,6 +317,7 @@ function registerTokenHandlers(ctx) {
         return;
       }
 
+      actorConsequences.assertCanMove(record.token, player);
       movementDebouncer.queueMove(room.id, data.tokenId, {
         position: data.position,
         velocity: data.velocity,
@@ -331,6 +332,7 @@ function registerTokenHandlers(ctx) {
 
     } catch (error) {
       logger.error('[token_moved] Error:', { error: error.message });
+      socket.emit('room_error', { code: error.code || 'movement_refused', event: 'token_moved', message: error.message });
     }
   });
 
@@ -368,6 +370,7 @@ function registerTokenHandlers(ctx) {
         return;
       }
 
+      actorConsequences.assertCanMove(record.token, player, updates);
       const prepared = actorConsequences.prepareBuildUpdate(record.token, updates, record.kind === 'character_token' ? 'character' : 'creature');
       prepared.token.updatedAt = Date.now();
       const field = record.kind === 'character_token' ? 'characterTokens' : record.kind === 'creature' ? 'creatures' : 'tokens';
@@ -651,6 +654,7 @@ function registerTokenHandlers(ctx) {
       const projectedStateUpdates = data.stateUpdates && typeof data.stateUpdates === 'object'
         ? roomAccess.projectStateUpdates(data.stateUpdates)
         : null;
+      actorConsequences.assertCanMove(record.token, player, data.stateUpdates || {});
       actorConsequences.validateBuildEnvelope('character_token_updated', data);
       actorConsequences.prepareBuildUpdate(record.token, {
         ...(data.character ? { character: data.character } : {}),

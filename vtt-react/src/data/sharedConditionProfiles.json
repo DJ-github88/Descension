@@ -1,0 +1,32 @@
+{
+  "stunned": {
+    "conditionKey": "stunned",
+    "origin": "shared-condition:stunned:v1",
+    "definitionId": "manual-shared-stunned",
+    "name": "Stunned",
+    "description": "No actions, reactions or voluntary movement. Automatically fail STR/AGI saves; attacks against you have advantage.",
+    "manualLabel": "Saves: GM records automatic STR/AGI failure. Advantage: GM applies the table's Prism procedure and enters the final result. Forced movement/teleportation: GM adjudicates and repositions. Expiry: GM removes each exact source instance.",
+    "type": "debuff",
+    "color": "#80651e",
+    "icon": "/assets/icons/Status/mental/spiral-dizzy.png",
+    "timings": {
+      "manual": "GM-adjudicated duration — GM removes.",
+      "critical-one-round": "One round (bludgeoning critical) — GM tracks the round and removes.",
+      "shield-bash-target-end": "Until end of target's next turn (Shield Bash) — GM removes."
+    }
+  },
+  "defending": {
+    "conditionKey": "defending",
+    "origin": "shared-condition:defending:v1",
+    "definitionId": "manual-pc-defending",
+    "name": "Defending",
+    "description": "Until your next turn, your blocking piece's DR rolls count double and never wear it. No Armor/AC or flat-DR bonus.",
+    "expiryLabel": "Until your next turn — GM removes.",
+    "type": "buff",
+    "color": "#4682B4",
+    "icon": "/assets/icons/Status/buff/shield-protection.png",
+    "clockBoundary": "manual-next-own-turn",
+    "blockingMultiplier": 2,
+    "preventsBlockingWear": true
+  }
+}

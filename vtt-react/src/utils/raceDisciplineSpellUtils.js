@@ -9,6 +9,8 @@ import { RACE_DATA, getSubraceData, getFullRaceData } from '../data/raceData';
 
 // Native class-heritage abilities (free spells for a native subrace x class combo)
 import { getClassRacialTraits } from '../data/classRacials';
+// Ancestral Gifts: a character's permanent heritage loadout (core + one pick per row)
+import { applyAncestryToTraits } from '../data/ancestryLoadouts';
 
 // Import spell library context (avoid circular import by importing at top)
 import { libraryActionCreators } from '../components/spellcrafting-wizard/context/SpellLibraryContext';
@@ -125,7 +127,7 @@ export function isPassiveStatModifier(trait) {
  * @param {string} subraceId - The subrace ID
  * @returns {Array} Array of spell objects (excluding passive stat modifiers)
  */
-export function getRacialSpells(raceId, subraceId, className) {
+export function getRacialSpells(raceId, subraceId, className, ancestry = null) {
     const spells = [];
 
     if (!raceId || !RACE_DATA[raceId]) {
@@ -150,7 +152,8 @@ export function getRacialSpells(raceId, subraceId, className) {
         return spells;
     }
 
-    const allTraits = fullRaceData.combinedTraits.traits;
+    // Ancestral Gifts: without a (matching) ancestry the heritage keeps every trait (legacy).
+    const allTraits = applyAncestryToTraits(fullRaceData.combinedTraits.traits, raceId, fullRaceData.subrace?.id || subraceId, ancestry);
     const actualSpells = allTraits.filter(trait => !isPassiveStatModifier(trait));
     spells.push(...actualSpells);
 
@@ -173,7 +176,7 @@ export function getRacialSpells(raceId, subraceId, className) {
  * @param {string} subraceId - The subrace ID
  * @returns {Array} Array of passive stat modifier objects
  */
-export function getRacialStatModifiers(raceId, subraceId) {
+export function getRacialStatModifiers(raceId, subraceId, ancestry = null) {
     const modifiers = [];
 
     if (!raceId || !RACE_DATA[raceId]) {
@@ -185,7 +188,8 @@ export function getRacialStatModifiers(raceId, subraceId) {
         return modifiers;
     }
 
-    const passiveModifiers = fullRaceData.combinedTraits.traits.filter(trait => isPassiveStatModifier(trait));
+    const traits = applyAncestryToTraits(fullRaceData.combinedTraits.traits, raceId, fullRaceData.subrace?.id || subraceId, ancestry);
+    const passiveModifiers = traits.filter(trait => isPassiveStatModifier(trait));
     modifiers.push(...passiveModifiers);
 
     return modifiers;

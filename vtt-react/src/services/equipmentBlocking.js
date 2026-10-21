@@ -64,10 +64,10 @@ export function firstAvailable(declaration, sharedEquipment) {
   return declaration.pieces.find(piece => !piece.broken && sharedEquipment?.[piece.slot]?.id === piece.itemId && kindOf(sharedEquipment[piece.slot]) === piece.kind) || null;
 }
 export function holdsDefending(token) {
-  return (Array.isArray(token?.state?.conditions) ? token.state.conditions : []).some(record => record?.version === 1 && record.conditionKey === 'defending');
+  return require('./sharedConditionProfile').holdsDefending(token);
 }
 export function deriveWear(kind, beforeDie, face, defending) {
-  const wears = !defending && (kind === 'armor' ? face <= 2 : face === 1);
+  const wears = !require('./sharedConditionProfile').preventsBlockingWear(defending) && (kind === 'armor' ? face <= 2 : face === 1);
   const afterDie = wears ? stepDown(beforeDie) : beforeDie;
   return { afterDie, broken: afterDie === 'broken' };
 }
@@ -113,7 +113,7 @@ export function planBlockCommand({ offer, entry, sourceToken, targetToken, decla
   const required = requiredManual(offer.attack);
   const categories = manual.map(item => item.category);
   if (required.some(category => !categories.includes(category))) throw Error('A GM ruling is required for this branch.');
-  const face = approval.roll.faces[0], defending = holdsDefending(targetToken), reduction = face * (defending ? 2 : 1);
+  const face = approval.roll.faces[0], defending = holdsDefending(targetToken), reduction = require('./sharedConditionProfile').blockingReduction(face, defending);
   const afterBlock = Math.max(0, offer.attack.proposedDamage - reduction);
   const amount = finalAmount === undefined || finalAmount === '' ? afterBlock : Number(finalAmount);
   if (!Number.isSafeInteger(amount) || amount < 0 || amount > 100000) throw Error('Final HP damage must be a whole number.');

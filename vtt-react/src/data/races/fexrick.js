@@ -255,10 +255,11 @@ In the campaign present, failing turbines, incomplete songs and renewed vat oper
                 }
             ],
 
+            visualDescription: `Elegantly constructed and obsessive in their maintenance, Brasskin stand 4'1" to 4'6" with burnished bronze and polished brass clockwork prosthetics seamlessly socketed into organic flesh. Their chests conceal ticking escapement hearts behind filigreed brass inspection hatches, and finely turned brass gears interface with delicate finger-servos. They wear high-collared velvet coats lined with grease-resistant chamois, multiple brass magnifying loupes affixed to their temples, and fine leather tool-gloves. Their eyes are sharp and calculating, one often replaced by a multifaceted brass ocular that clicks softly as it cycles focal lenses.`,
             tooltipSummary: 'Retrofuturistic artisan engineers adorned with exposed ticking gears, brass dials, and diving-suit goggles, channeling machine-songs through intricate mechanical prosthetics.',
             description: 'The Brasskin are retrofuturistic artisan engineers born into the corporate guild system, inheritors of formal training, ancient proprietary oral traditions, and the proud aesthetic of exposed, precision-machined brass. Heavily influenced by an industrial diving-suit and art-deco workshop aesthetic, they wear heavy brass diving-suit goggles with swiveling magnifying loupes, analog needle pressure gauges, and chest-mounted pressure regulators. Their beards are meticulously braided with copper wire, gear-teeth, and fiber-optic strands. Every Brasskin sports visible mechanical prosthetics—articulated brass arms with pneumatic piston joints, exposed escapement ratchets, or whirring clockwork tickers in their chest cavities—awarded by guild syndicates as both trade credential and status symbol. Their hands are precise. Their minds are methodical. The Guild-Bound Brasskin trace their lineage to Brasskin Gear-Father, who founded the first holdfast eight millennia before the Freezing Era, maintaining oral maintenance songs that are the oldest continuous knowledge transmission in the known world.',
             culturalBackground: 'Brasskin culture is built on intellectual property preservation. They maintain the old songs exactly as they were taught, follow security protocols without deviation, and believe the Fex\'s survival depends on guarding what remains of the original knowledge. They are not wrong. The oral traditions are the only record of how the oldest machines function, and every deviation introduces error, and errors compound over millennia. A Brasskin who innovates is a Brasskin who has admitted the old ways are insufficient, and that admission is the first crack in the foundation of guild authority.\n\nGuild hierarchy is rigid and hereditary. Children are apprenticed to their parents\' guild syndicate at age five. Promotion is slow, based on demonstrated mastery and political patience. A Brasskin elder has spent two centuries accumulating the copper wires and gear-teeth in their beard, and they do not share hard-won blueprints with juniors who have not yet earned it. The Craft-Hoarding is not cruelty. It is corporate tradition. A technique shared too freely loses value. A formula given without proper apprenticeship is a formula wasted.\n\nKethrin dominate the holdfast councils, control access to the best machine-tending positions, and speak for the Fex in what little trade occurs with the surface. They view the Clan-Free with a mixture of pity and contempt, untrained, undisciplined, unpredictable. They do not see that the Clan-Free are fixing machines the Guilds have already written off as lost.',
-            statModifiers: { intelligence: 2, agility: 1, spirit: 1, strength: -1 },
+            statModifiers: { intelligence: 3, agility: 1, spirit: -2 },
             baseStats: { hp: 6, mana: 6, ap: 3, initiative: 0 },
             savingThrowModifiers: { advantage: ['investigation'], disadvantage: ['grapple_effects'] },
             currentCrisis: 'The First Turbine is dying. The oldest machine in the oldest holdfast, the one that has been running since before speech was invented, has begun emitting a grinding harmonic that vibrates through the entire geothermal grid. The Brasskin guild councils have quarantined the turbine chamber and forbidden discussion, but the harmonic is spreading through the pipes. Every holdfast feels it now. The Guild-Bound are hoarding their maintenance songs tighter than ever, convinced that revealing the full scope of the failure would trigger a panic that could collapse Fex civilization. The older Brasskin know the songs are incomplete. The younger Brasskin know the elders are hiding something. Neither generation trusts the other enough to share what they know, and the turbine\'s song is getting louder.',
@@ -302,7 +303,7 @@ In the campaign present, failing turbines, incomplete songs and renewed vat oper
                 {
                     id: 'guild_precision_kethrin',
                     name: 'Guild Precision',
-                    description: 'Advantage on all checks to repair, disable, or modify mechanical devices and traps; when you spend at least 1 minute on a task that normally takes 1 action, treat any roll of 9 or lower as a 10. You suffer disadvantage on initiative rolls; precision is not speed. (The muscle memory of your guild lives in your fingers, four thousand years deep, and those hands have not fumbled in millennia.)',
+                    description: 'Advantage on all checks to repair, disable, or modify mechanical devices and traps; when you spend at least 1 minute on a task that normally takes 1 action, treat any roll of 9 or lower as a 10. However, your rigid clockwork mindset leaves you blind to organic nuances: you suffer disadvantage on Spirit saving throws and Insight checks against non-construct creatures.',
                     level: 1,
                     icon: 'ability_rogue_findweakness',
                     spellType: 'PASSIVE',
@@ -320,12 +321,20 @@ In the campaign present, failing turbines, incomplete songs and renewed vat oper
                     },
                     debuffConfig: {
                         debuffType: 'statusEffect',
-                        effects: [{
-                            id: 'deliberate_pace',
-                            name: 'Deliberate Pace',
-                            description: 'Disadvantage on initiative rolls. You do not rush. Rushing is for amateurs.',
-                            statusEffect: { penaltyType: 'initiative', magnitude: 'disadvantage' }
-                        }],
+                        effects: [
+                            {
+                                id: 'deliberate_pace',
+                                name: 'Deliberate Pace',
+                                description: 'Disadvantage on initiative rolls. You do not rush. Rushing is for amateurs.',
+                                statusEffect: { penaltyType: 'initiative', magnitude: 'disadvantage' }
+                            },
+                            {
+                                id: 'clockwork_rigidity',
+                                name: 'Clockwork Rigidity',
+                                description: 'Disadvantage on Spirit saving throws and Insight checks against non-constructs.',
+                                statusEffect: { penaltyType: 'spirit_and_insight', magnitude: 'disadvantage' }
+                            }
+                        ],
                         durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
                     },
                     targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
@@ -426,12 +435,13 @@ In the campaign present, failing turbines, incomplete songs and renewed vat oper
             ],
 
 
+            visualDescription: `Stocky, scarred, and perpetually smelling of acid and fermented spores, Alchemite stand 3'10" to 4'4" in heavy vulcanized rubber suits, lead-shielded aprons, and archaic brass respirators with twin ribbed hoses connected to lumbar filters. Chemical burns marble their grey-green skin, and their makeshift cybernetics feature glass retorts, hand-beaten copper valves, and glowing chemical siphon lines that bubble with virulent catalysts. Multiple glass vials, retort flasks, and brass syringe kits rattle in bandoliers strapped across their chests, and their round glass porthole goggles glow with faint phosphorescent reflections from the deep sump.`,
             tooltipSummary: 'Mad-scientist sump alchemists combining botanical greenhouse alembics, fungal distillations, and volatile mineral tinctures inside BioShock-style rubberized suits and brass respirators.',
             description: 'The Alchemite are Clan-Free survivors who combine volatile industrial chemistry with earthy, subterranean botanical and fungal distillation. Embracing a mad-scientist BioShock flair, they outfit themselves in heavy vulcanized rubber suits, lead-lined aprons, and archaic brass respirators with twin ribbed rubber hoses and circular glass portholes. Rather than adopting rigid mechanical clockwork, they harvest alchemical runoff, phosphorescent cave mosses, and giant shelf-fungi to brew volatile acids, herbal tinctures, and revitalizing nerve-salts. Their cybernetic replacements are custom-built alchemical grafts: chemical-injectors, pressurized glass retorts, and copper-valve distribution lines integrated directly into their bodies. They live in the deep sump-tunnels, salvaging the chemical runoffs discarded by the corporate holdfasts above and transforming toxic waste into subterranean life.',
 
             culturalBackground: 'Alchemite culture is built on survival chemistry, subterranean botany, and alchemical rebellion. They do not have the luxury of proprietary blueprints; they have greenhouse alembics, bubbling retorts, glowing copper pipes, and terrariums cultivating phosphorescent lichen and spore-fungi. A Alchemite workshop is a chaotic laboratory filled with glass flasks, coils of rubber siphon tubing, acid-stained slate tables, and hand-etched copper syringe kits. They share botanical formulas freely, knowing that a single block in a ventilation line or a contaminated water filter could wipe out an entire community. They barter their medicinal tinctures, acid flasks, glow-lamps, and deep-cavern chemical components in the Sump-Markets in exchange for guild-made hardware. The Clan-Free Alchemite swelled in numbers during the Contraction (Years 200-450) as failing geothermal systems collapsed holdfasts and forced Fex out of the guild system. The Alchemite have been the Fex diaspora\'s improvising majority for over 400 years.',
 
-            statModifiers: { constitution: 2, intelligence: 2, agility: 1, charisma: -2 },
+            statModifiers: { constitution: 3, intelligence: 1, charisma: -2, agility: -2 },
             baseStats: { hp: 7, mana: 4, ap: 3, initiative: 2 },
             savingThrowModifiers: { advantage: ['traps'], disadvantage: ['lightning_effects'] },
             currentCrisis: 'The Sump-Markets are flooding, not with water, with Brasskin. As the guild system tightens its information lockdown around the dying turbines, disillusioned apprentices, disgraced journeymen, and expelled guild members descend into the sump-tunnels seeking Clan-Free shelter. The Alchemite were never designed to absorb this many refugees. Their salvage-based economy is straining beyond capacity. Their improvisational repair techniques, never tested at industrial scale, are being asked to keep critical infrastructure running. And whispered rumors from the deepest sump-levels suggest that the Deep Alchemists, the same faction that created the Groven, have begun offering sanctuary to Alchemite exiles in exchange for test subjects. The Alchemite must decide whether to absorb the guild refugees, turn them away, or ally with the one faction every Fex has sworn never to trust again.',
@@ -501,7 +511,7 @@ In the campaign present, failing turbines, incomplete songs and renewed vat oper
                     level: 1,
                     icon: 'ability_creature_disease_05',
                     spellType: 'PASSIVE',
-                    effectTypes: ['buff'],
+                    effectTypes: ['buff', 'debuff'],
                     typeConfig: { category: 'racial', school: 'smashing' },
                     buffConfig: {
                         buffType: 'triggeredEffect',
@@ -512,6 +522,16 @@ In the campaign present, failing turbines, incomplete songs and renewed vat oper
                             statusEffect: { level: 'minor', description: 'You caught the gear before it hit the sump floor' }
                         }],
                         durationValue: 1, durationType: 'hours', durationUnit: 'hours', canBeDispelled: false
+                    },
+                    debuffConfig: {
+                        debuffType: 'statusEffect',
+                        effects: [{
+                            id: 'caustic_stench',
+                            name: 'Caustic Stench & Chemical Scars',
+                            description: 'Disadvantage on Charisma checks with non-Alchemite.',
+                            statusEffect: { penaltyType: 'charisma_checks', magnitude: 'disadvantage' }
+                        }],
+                        durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
                     },
                     targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
                     resourceCost: { actionPoints: 0, mana: 0, components: [] },

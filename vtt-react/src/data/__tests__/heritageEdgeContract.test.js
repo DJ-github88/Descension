@@ -58,3 +58,11 @@ test('validation rejects prose-only, unbounded, multi-effect or condition-less e
   const outOfBounds = { edge: { kind: 'attack_bonus', unit: 'flat', magnitude: 99 }, cost: { kind: 'risk', unit: 'capability', capability: 'x' } };
   expect(validateHeritageEdge(outOfBounds)).toContain('edge magnitude out of bounds');
 });
+
+test('approved Gambler native access does not imply authored mechanical heritage benefits', () => {
+  expect(HERITAGE_TRADITIONS.merryn_human.classes).toContain('Gambler');
+  expect(HERITAGE_TRADITIONS.drall_fexric.classes).toContain('Gambler');
+  expect(getAuthoredHeritageEdgeClasses()).not.toContain('Gambler');
+  expect(getHeritageEdge('Gambler', 'merryn_human')).toBeNull();
+  expect(getHeritageEdge('Gambler', 'drall_fexric')).toBeNull();
+});

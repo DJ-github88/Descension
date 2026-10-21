@@ -331,4 +331,14 @@ describe('Talent Tree System Tests', () => {
       manualOnly: true
     });
   });
+
+  test('Gambler Codex tree inspection never changes the active legacy character or grants a spell', () => {
+    useCharacterStore.setState({ class: 'Gambit', level: 10, talents: { ps_t1_calculated_nudge: 2 } });
+    const before = useCharacterStore.getState().talents;
+    render(<TalentTreeContent customClass="Gambler" readOnly selectedTreeIndex={0} />);
+    fireEvent.click(screen.getByTitle(/Double or Nothing/));
+    expect(useCharacterStore.getState().class).toBe('Gambit');
+    expect(useCharacterStore.getState().talents).toBe(before);
+    expect(useSpellbookStore.getState().spells).toEqual([]);
+  });
 });

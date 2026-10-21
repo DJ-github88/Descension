@@ -155,14 +155,14 @@ function createCollector({ now = Date.now, elapsed = () => performance.now() } =
   function followup(room, { epoch, windowId, parryId, source }) {
     const s = state(room);
     if (epoch !== s.epoch) { fail('window_unavailable'); }
-    const matches = [...s.windows.values()].filter(w => w.moment === 'follow_up' && w.trigger.causeId === parryId && refKey(w.source) === refKey(source));
+    const matches = [...s.windows.values()].filter(w => w.moment === 'follow_up' && (parryId === undefined || w.trigger.causeId === parryId) && refKey(w.source) === refKey(source));
     const w = windowId ? s.windows.get(windowId) : matches.length === 1 ? matches[0] : null;
     if (windowId && !matches.includes(w) || matches.length > 1 && !windowId) { fail('riposte_wrong_followup'); }
     if (!w) { return null; }
     touch(room, w);
     if (w.invited.length !== 1 || refKey(w.invited[0]) !== refKey(source)) { fail('riposte_wrong_followup'); }
     const intent = w.owners.get(source.ownerUid)?.intents.get('universal_riposte');
-    return { windowId: w.id, status: w.status, openedAt: w.openedAt, deadlineAt: w.deadlineAt,
+    return { windowId: w.id, causeId: w.trigger.causeId, status: w.status, openedAt: w.openedAt, deadlineAt: w.deadlineAt,
       intent: intent ? clone(intent) : null, epoch: s.epoch };
   }
   return { open, change, interrupt, snapshot, followup };

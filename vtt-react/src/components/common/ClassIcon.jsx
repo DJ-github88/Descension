@@ -23,7 +23,8 @@ const SIZE_MAP = {
     tiny:   { dir: 'tiny',   px: 64  },
     small:  { dir: 'small',  px: 128 },
     medium: { dir: 'medium', px: 256 },
-    large:  { dir: 'large',  px: 512 }
+    large:  { dir: 'large',  px: 512 },
+    xlarge: { dir: 'large',  px: 1024 }
 };
 
 // Cache for which thumbnails exist (avoids repeated 404s)
@@ -41,8 +42,9 @@ function resolveBaseSrc(originalSrc, variant = 'framed') {
 
 function getThumbSrc(originalSrc, sizeHint, variant = 'framed') {
     if (!originalSrc) return null;
-    const sizeInfo = SIZE_MAP[sizeHint] || SIZE_MAP.small;
     const baseResolved = resolveBaseSrc(originalSrc, variant);
+    if (sizeHint === 'xlarge') return baseResolved;
+    const sizeInfo = SIZE_MAP[sizeHint] || SIZE_MAP.small;
     
     // Convert '/assets/icons/classes/berserker.png' → '/assets/icons/classes/thumbs/small/berserker.png'
     const dir = baseResolved.substring(0, baseResolved.lastIndexOf('/'));
@@ -60,6 +62,7 @@ const ClassIcon = memo(({
     className = '',
     dataClass,
     style,
+    sizes: sizesProp,
     onClick
 }) => {
     const [loaded, setLoaded] = useState(false);
@@ -78,13 +81,17 @@ const ClassIcon = memo(({
         const baseName = filename.replace(/\.\w+$/, '');
         
         const sets = [];
-        for (const [, info] of Object.entries(SIZE_MAP)) {
+        for (const [key, info] of Object.entries(SIZE_MAP)) {
+            if (key === 'xlarge') continue;
             sets.push(`${dir}/thumbs/${info.dir}/${baseName}.png ${info.px}w`);
         }
+        // Always include original 1024w master asset so high-DPI viewports, large cards, and hover zoom remain razor-sharp
+        sets.push(`${effectiveSrc} 1024w`);
         return sets.join(', ');
     };
 
     const getSizes = () => {
+        if (sizesProp) return sizesProp;
         const sizeInfo = SIZE_MAP[size] || SIZE_MAP.small;
         return `${sizeInfo.px}px`;
     };

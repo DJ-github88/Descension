@@ -585,12 +585,12 @@ export const createCoreSlice = (set, get) => ({
                             : fullRaceData.race.name;
                     }
                     if (!newCharacter.racialTraits || newCharacter.racialTraits.length === 0) {
-                        newCharacter.racialTraits = getRacialSpells(newCharacter.race, newCharacter.subrace, newCharacter.class);
+                        newCharacter.racialTraits = getRacialSpells(newCharacter.race, newCharacter.subrace, newCharacter.class, newCharacter.ancestry);
                     }
                     if (!newCharacter.movementSpeed) {
                         newCharacter.movementSpeed = fullRaceData.combinedTraits.speed || 30;
                     }
-                    const passives = getRacialStatModifiers(newCharacter.race, newCharacter.subrace);
+                    const passives = getRacialStatModifiers(newCharacter.race, newCharacter.subrace, newCharacter.ancestry);
                     let initialDurability = newCharacter.durability || 0;
                     let initialDR = newCharacter.damageReduction || 0;
                     passives.forEach(p => {
@@ -916,6 +916,7 @@ export const createCoreSlice = (set, get) => ({
                 tokenSettings: character.tokenSettings || get().tokenSettings,
                 skillRanks: character.skillRanks || {},
                     class_spells: character.class_spells || { known_spells: [] },
+                    ancestry: character.ancestry || null,
                 levelUpHistory: character.levelUpHistory || {},
                 talents: character.talents || {},
                 primarySpecialization: character.primarySpecialization || '',
@@ -962,10 +963,10 @@ export const createCoreSlice = (set, get) => ({
                 const raceData = getFullRaceData(character.race, character.subrace);
                 if (raceData) {
                     // Only include actual spells in racialTraits (filter out passive stat modifiers)
-                    const updatedRacialTraits = getRacialSpells(character.race, character.subrace, character.class);
+                    const updatedRacialTraits = getRacialSpells(character.race, character.subrace, character.class, character.ancestry);
 
                     // Apply passive stat modifiers (resistances, vulnerabilities, immunities, durability, DR) to character stats
-                    const passiveModifiers = getRacialStatModifiers(character.race, character.subrace);
+                    const passiveModifiers = getRacialStatModifiers(character.race, character.subrace, character.ancestry);
 
                     let racialDurability = 0;
                     let racialDR = 0;

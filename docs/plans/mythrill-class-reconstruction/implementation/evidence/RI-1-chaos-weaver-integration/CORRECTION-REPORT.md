@@ -1,11 +1,11 @@
 # RI-1 correction report (bounded)
 
-**Disposition:** Corrections 1-5 implemented from the independent review's copy-ready instruction. Focused suites, independent probes, and live checks pass; retained unsupported paths are explicit. Ready for independent re-review.
+**Disposition:** Corrections 1-5 plus the HeadQ-authorized bounded scope amendment are **ACCEPTED** by the read-only RI-1 final review ([FINAL-REVIEW.md](FINAL-REVIEW.md), 2026-10-19). The final amendment batch passes 17/17 suites (232 tests), ESLint is clean on the five amendment paths, all 15 source hashes match, and the live class route renders no unapproved edge. Acceptance remains limited to the manual-tabletop integration and the documented automation limits in the final review.
 
 ## 1. Level-2 policy pick (7 options)
 
 - `LevelUpChoiceModal.jsx:963` bypasses the legacy `currentLevel === 2` three-option random slice when the class has `progression.policy`.
-- New regression `components/modals/__tests__/LevelUpChoiceModal.test.jsx` asserts the 7 authored IDs by rendered portal icons.
+- Regression `components/modals/__tests__/LevelUpChoiceModal.test.jsx` wraps the production modal in `SpellLibraryProvider`, asserts the 7 authored IDs by rendered portal icons, selects Sideways Spark, spends health/mana, confirms, and checks the emitted `onChoiceSelected` payload. A legacy Minstrel case still asserts exactly 3 random icons.
 - Live at 1280px on the real class route with a CW store fixture: 7 icons — Sideways Spark, Survey the Seam, Fracture Brace, Lancing Variance, Chosen Crosscurrent, Read Instability, Counterweight. Screenshot `correction-levelup-1280.png`; result `correction-live-checks.json`.
 
 ## 2. Canonical talent-grant actives
@@ -28,16 +28,18 @@
 - Regression in `ChaosWeaverResourceDisplay.test.jsx`; independent probe `deterministicDisplay: "rendered"`.
 - Live component mount at 1280px rendered the exact deterministic line (see `correction-live-checks.json`).
 
-## 5. Heritage baseline (22nd class)
+## 5. Heritage baseline (22nd class, bounded amendment)
 
-- `classHeritageRegistry.test.js` now deliberately expects 22 provenance/base classes, 550 combinations, CW native `['drall_fexric']`, and preserves the 25-heritage/102-native checks.
-- Added the missing typed native edge `Chaos Weaver|drall_fexric` in `heritageEdgeContract.js` (finite stabilizing interface, equipment condition, maintenance cost) so `heritageRosterCoverage` and the edge contract agree with the approved 22nd class; `heritageEdgeContract.test.js` expects 22 authored classes.
-- Retained workshop decline path is explicitly retired with `test.skip` and a reason comment; the assertion was not weakened.
+- `classHeritageRegistry.test.js` deliberately expects 22 provenance/base classes, 550 combinations, CW native `['drall_fexric']`, and preserves the 25-heritage/102-native checks.
+- `heritageEdgeContract.js` does **not** contain `Chaos Weaver|drall_fexric`; the approved native access remains in the registry, while the mechanical edge is explicitly pending. `heritageEdgeContract.test.js` expects 21 authored edge classes.
+- `heritageRosterCoverage.test.js` asserts the exact pending pair, a null mechanical edge, and `heritageEffectsImplemented === false`, while continuing to require authored edges for every other native pair.
+- The obsolete workshop decline case is retired without `test.skip`; the original test and failure are retained in `retained-ChaosWeaverWorkshop.test.jsx.txt` and `retained-workshop-decline-failure.log`. Supported decline behavior remains covered by `chaosWeaverRules.test.js`.
 
 ## Test and probe results
 
-- Focused Jest: **18 suites passed, 153 passed / 1 skipped, 0 failed** (`correction-focused-tests.log`).
-- ESLint on 14 changed JS/JSX paths: **0 errors, 13 pre-existing warnings** (`correction-eslint.log`).
+- Final amendment Jest batch: **17 suites passed, 232 tests passed, 0 failed** (`amendment-regressions.log`).
+- ESLint on the five amendment paths: **0 errors, 0 warnings**, exit 0 (`amendment-eslint.log`). Earlier 14-path correction run retained: 0 errors, 13 pre-existing warnings (`correction-eslint.log`).
+- Live Chaos Weaver overview at 1280x900: overview rendered, no `Trained heritage` heading, no `Drall`, no horizontal overflow, 0 console errors (`amendment-live-check.json`).
 - Independent review probe: all four semantic checks true; `retainedProbeExceptions: []`; `deterministicDisplay: "rendered"`.
 - Retained probes: 32 checks, 0 throws; the four formerly throwing probes now use repaired confirmation/input sequencing and are the only intentional payload drift. No app rules were relaxed.
 
@@ -45,7 +47,7 @@
 
 ```
 ceb400a4ca68b8caa0ffe8de90fa61ccb3c7be933b53b1e8b79473685162c483  vtt-react/src/components/modals/LevelUpChoiceModal.jsx
-6f617361ae1caf2daa4fc6b7a83d87b1aa8b5f454c0b05a4b63525081b6ef04c  vtt-react/src/components/modals/__tests__/LevelUpChoiceModal.test.jsx
+b635ec0b50b81c7b5deea84f9b364f66f90bf79bbaa3dc1bf4b8a7858e682090  vtt-react/src/components/modals/__tests__/LevelUpChoiceModal.test.jsx
 dac5c1ec0b0aa2332d7c3c137c5718c9555333799d265f42ea837c6c24236c13  vtt-react/src/data/talentTreeData.js
 32ec658020cd40652fb3f0e5419d278eb570d96c88640a5001f05addfd279b33  vtt-react/src/components/talent-tree/TalentTreeContent.jsx
 e7486a7033b60a720d8be04f44acaebec437540cae50b26c070045ea0d2f3fba  vtt-react/src/components/talent-tree/__tests__/TalentTreeContent.test.jsx
@@ -54,14 +56,16 @@ ba2690e9c0e594bfd1c91baba8d99bcdae677d7cd5a36052cb8a535506aab0d8  vtt-react/src/
 8ca463bb2f10e9722abee49a8ed71fc097570ecfa1fba0805213051300cc4ba4  vtt-react/src/store/characterSlices/__tests__/chaosWeaverProgression.test.js
 4a1647b045df17b5590d70c998d0171b783b3ac52cad16bdffb786d43e932604  vtt-react/src/components/hud/ChaosWeaverResourceDisplay.jsx
 04ffa9a7ba1e227be3019476318a65eab011c17cfea4d9f5460661a1bf254687  vtt-react/src/components/hud/__tests__/ChaosWeaverResourceDisplay.test.jsx
-ae46f54d16fb2ebadb276d58c55c5a61d3f1dea1a3ad0e2d2a709f4f4db42e8f  vtt-react/src/data/heritageEdgeContract.js
-94a60472a3d61abf641f88848e002f64d390080131f16b42c576e6b9b0bb9a2e  vtt-react/src/data/__tests__/heritageEdgeContract.test.js
+35fe2d092893a51d081f6009d82a5a0c06579caacb56a1f8e88b5d1955c298b0  vtt-react/src/data/heritageEdgeContract.js
+764b5071174d6502bd029acc896522206335764b02c4a290251ea850768d9a0d  vtt-react/src/data/__tests__/heritageEdgeContract.test.js
 4c4cbeb2ce094120cefd0beb77bedca2c3579746551804e38519934b6e3489bb  vtt-react/src/data/__tests__/classHeritageRegistry.test.js
-0287cbc91f82c66b44c7a4d0384279d28069a42069095705cf9a20f1e4634891  vtt-react/src/components/rules/chaos-weaver/__tests__/ChaosWeaverWorkshop.test.jsx
+f2c61ce528e4b4b38c1cc0050d6965f791e9d1ee7060f054346d239145c91314  vtt-react/src/components/rules/chaos-weaver/__tests__/ChaosWeaverWorkshop.test.jsx
+b8a918b10a9ad6144a977e5b60e52ac8b96010feb154a4bf6e788df47a99704c  vtt-react/src/data/__tests__/heritageRosterCoverage.test.js
 ```
 
 ## Remaining limitations
 
+- Chaos Weaver native heritage access is approved, but its mechanical heritage edge/effects remain explicitly pending. No edge is authored, displayed as implemented, or executed.
 - Authenticated creation-wizard/character-sheet route was not exercisable (auth redirect), so grant materialization is evidenced by the real-component regression + applied-record probe rather than that route.
 - 360px `/game` class-resource HUD is gated by PhoneGate; the deterministic HUD was verified through a live component mount and unit regression.
 - No commit, push, or deploy performed; concurrent work and read-only seams untouched.

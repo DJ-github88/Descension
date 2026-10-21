@@ -1,7 +1,7 @@
 # Current priorities
 
-Updated 2026-10-19 (W accepted complete; E1a execution contract prepared only; B2 acceptance retained). Actual checkout HEAD:
-`8ba81efbf935e08d4fcd488a9b597f5eb8031b0f`, with substantial preserved uncommitted work. The full ledger,
+Updated 2026-10-21 (P14-C1 manual PC Defending delivered/reviewed/App verified). Actual build checkout HEAD:
+`f9527d315f0a5fd338bc29bc0efee493285e58d7`, with reviewed E1a working-tree deltas and concurrent work preserved. The full ledger,
 with source identities/evidence, is [`docs/ENGINEERING_STATE.md`](../ENGINEERING_STATE.md).
 
 ## Delivered projects
@@ -23,6 +23,8 @@ with source identities/evidence, is [`docs/ENGINEERING_STATE.md`](../ENGINEERING
 | P12C-B1 single-target map picking | Implemented/reviewed; advisory range/aim, exact refs, retained rolls; unsupported shared-room actions post manual notice and spend nothing |
 | P12C-B2 §8.1 original Radiant Burst preview | Implemented; bounded independent source review accepted after repairs; final build3/App7 PASS. Selected channel,10ft circle/20ft origin reach, square grid; geometry only, not recipients/effects |
 | P13B-W private declaration collector | Implemented; bounded independent source + final delta acceptance, final Build3/App4 PASS.8s, prior GM seal, private revisions/withdrawal, same-deadline reconnect, manual review/interruption; no payment/reservation/effect/execution |
+| P13B-E1a original universal Riposte | Implemented; bounded independent ACCEPT, Build1/App2 PASS. Structured originating-epoch parent/GM paid-success attestation, fresh choice, owner exact1-AP consent, retained rolls, GM HP/miss and atomic P7 consumption; broader rules manual |
+| P14-C1 shared PC Defending | Implemented; one bounded review ACCEPT after two adapter repairs, Build3 compilation/C1 byte parity and App11 PASS. Common exact-actor editor/P7 custody, actual2×/no-wear and retained-face correction; payment/expiry manual |
 
 Source acceptance is not deployment readiness. Current P12B evidence: [`MYTHRILL_PROJECT_12B_IMPLEMENTATION.md`](../MYTHRILL_PROJECT_12B_IMPLEMENTATION.md). P12A/P11 evidence:
 [`MYTHRILL_PROJECT_12A_IMPLEMENTATION.md`](../MYTHRILL_PROJECT_12A_IMPLEMENTATION.md).
@@ -67,6 +69,14 @@ same-deadline reconnect and no grace/pause/extension. No fee/refund/order/effect
 
 **Remaining wider capabilities require separate decisions/freeze/authorization:**
 
+**Latest bounded delivery:** [P14-C1 §6](../MYTHRILL_PROJECT_14_C1_CONTRACT.md#6-implementation-and-verification).
+Common PC Defending profile/controller/editor through P7, token↔sheet/GM, accepted-only state,
+idempotent Apply and retained unknown command recovery. 50 server /33 client tests; independent review
+ACCEPT; Build3 compilation passes with C1 mismatches `[]` (unrelated concurrent Class build drift retained).
+App11 verifies actual P12B2×/no-wear, pending removal retains face/normal wear, lost ACK/reload/same-ID
+recovery and reconnect. Prior Defend action/payment and expiry stay manual; Stunned/creature Defend/
+automatic lifecycle remain separately named follow-ons. E1a/W/B2 evidence is carried forward.
+
 1. [`P12C-B2 conditional contract`](../MYTHRILL_PROJECT_12C_B2_CONTRACT.md): action-bound area preview,
    explicit geometry/origins, visible candidates, worked boundary/Large/gridless cases. No roll, payment,
    proposal, chat or effect. **§8.1 is delivered** under approved G1/G3/G3a/G5; G1b/G3b/G4 remain open,
@@ -80,15 +90,13 @@ same-deadline reconnect and no grace/pause/extension. No fee/refund/order/effect
    G1b/G3b/G4 remain independent for widening. **Obstruction preparation (§14):** four-state diagnostics,
    door/transparent/partial/unknown handling, spatial freshness and scoped GM ruling; future shared P7
    enforcement seam identified. No current authoritative wall/cover/area rule or source repair implied.
-2. [`P13B E1a proposal §12`](../MYTHRILL_PROJECT_13B_CONTRACT.md#12-smallest-next-execution-candidate--e1a-not-authorized):
-   **Contract prepared for approval, no code authorized.** Exact original card/source hash,1-AP price,
-   particular attack/Parry and authenticated GM success/prior-payment attestation; exact owner/target
-   consent, retained physical/digital rolls, GM damage, single P7 AP/HP+once-only opportunity consumption.
-   Bind a valid fresh closed Riposte follow-up, or manually attest/open that fresh8s follow-up through W;
-   same execution path, no name-only authority or automatic counter-attack. Prior Parry is not charged
-   again. Cancellation/stale/ACK/rejoin/restart/privacy semantics are specified. W acceptance unchanged;
-   no review/build repeated. No new rule answer blocks manual arithmetic/eligibility/fees, but contract/
-   implementation go-ahead is still required; no automatic Parry/chain/typed price/A1b.
+2. [`P13B E1a handoff §13`](../MYTHRILL_PROJECT_13B_CONTRACT.md#13-e1a-implementation-and-verification--2026-10-19):
+   **Delivered**, not the next code assignment. Original RP only, strict1 AP/no second Parry debit;
+   fresh opener and closed follow-up converge with server-issued parent provenance/current consent.
+   Atomic AP/HP/consumption; private proof withheld. Source review ACCEPT; server58/client27 scoped
+   checks; Build1/App2 PASS with actual accepted HP feedback and lost-ACK/reconnect/reapproval/paid miss.
+   No automatic Parry/event/eligibility/arithmetic or wider reaction engine. Any next capability needs a
+   separately bounded contract/go-ahead; do not reopen completed collector/Riposte acceptance.
 3. [`Compact creator packet rev4`](../MYTHRILL_DECISIONS_AREA_AND_REACTIONS_BATCH1.md): collection decisions
    answered. Card arithmetic/order/own-turn/unexecuted fees remain manual unless a later named slice actually
    automates them; do not ask those questions merely to reopen the completed collector.
@@ -106,11 +114,12 @@ hash `48b69255…` are preserved; A1a is server-only/unhooked (correction-plus-v
 reported local manual workshop is not shared execution. Cards/wagers, typed banks, links, real entities,
 body/loadouts and delayed effects remain distinct. R1/CR-L1 proposals are not approved payment schemas.
 
-**Class update:**33's delivery model is superseded by34/RI-1 normal class integration. Latest parent
-checkpoint reports RI-1 independent BLOCK/corrections pending; its recovery state/class paths are
-preserved. Normal-surface integration does not establish reaction execution or resource reservations.
+**Class update:**33→34/RI-1 normal class integration has a later amended development/manual **ACCEPT**
+report; original C1 workshop BLOCK remains historical. RI-2 Gambler/Fate Weaver is separately assigned
+with a content-lock gate. Class/race work/checkpoints remain separate; no class reaction execution or
+resource reservations are inferred from those delivery statuses.
 
-No **wider** B2/P13B execution/area execution implementation is authorized by the completed B2/W slices. Next shared-engine
+No **wider** B2/P13B reaction/area execution implementation is authorized by the completed B2/W/E1a slices. Next shared-engine
 slice requires its own bounded freeze/authorization; Class-owned zero/export preservation continues
 independently. No commit/push/deployment in this task.
 

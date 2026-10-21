@@ -13,6 +13,7 @@ import useCharacterTokenStore from '../../store/characterTokenStore';
 import { normalizeRaceDisplayName } from '../../utils/raceDisplayNames';
 import { CONDITIONS } from '../../data/conditionsData';
 import useConditionStore from '../../store/conditionStore';
+import { expiryLabel as sharedExpiryLabel } from '../../services/sharedConditionProfile';
 import useChatStore from '../../store/chatStore';
 import ClassResourceBar from './ClassResourceBar';
 import HudStatBar from './HudStatBar';
@@ -1840,7 +1841,8 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
   };
 
   // Format time for display
-  const formatTime = (seconds, durationType = 'minutes') => {
+  const formatTime = (seconds, durationType = 'minutes', record) => {
+    if (sharedExpiryLabel(record)) return sharedExpiryLabel(record);
     if (seconds <= 0) return durationType === 'rounds' ? '0 rounds' : '0:00';
 
     if (durationType === 'rounds') {
@@ -2476,7 +2478,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                           effectSummary: effectSummary,
                           description: buff.description,
                           effects: buff.effects,
-                          duration: formatTime(remainingTime, buff.durationType),
+                          duration: formatTime(remainingTime, buff.durationType, buff),
                           durationType: buff.durationType,
                           remainingSeconds: remainingTime,
                         };
@@ -2519,7 +2521,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                               marginTop: '2px',
                               fontFamily: 'Cinzel, serif'
                             }}>
-                              {formatTime(remainingTime, buff.durationType)}
+                              {formatTime(remainingTime, buff.durationType, buff)}
                             </div>
                           </div>
                         );
@@ -2543,7 +2545,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                           effectSummary: effectSummary,
                           description: debuff.description,
                           effects: debuff.effects,
-                          duration: formatTime(remainingTime, debuff.durationType),
+                          duration: formatTime(remainingTime, debuff.durationType, debuff),
                           durationType: debuff.durationType,
                           remainingSeconds: remainingTime,
                         };
@@ -2586,7 +2588,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                               marginTop: '2px',
                               fontFamily: 'Cinzel, serif'
                             }}>
-                              {formatTime(remainingTime, debuff.durationType)}
+                              {formatTime(remainingTime, debuff.durationType, debuff)}
                             </div>
                           </div>
                         );

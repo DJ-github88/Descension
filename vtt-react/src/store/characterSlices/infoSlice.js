@@ -48,6 +48,9 @@ export const createInfoSlice = (set, get) => ({
         known_spells: [] // Array of spell IDs the character knows
     },
 
+    // Ancestral Gifts: permanent heritage loadout { heritageId, core, picks, catalogVersion, finalizedAt }
+    ancestry: null,
+
     // Racial traits and information
     racialTraits: [],
     racialLanguages: [],
@@ -455,7 +458,7 @@ export const createInfoSlice = (set, get) => ({
             // If class is being changed, refresh racial traits so native
             // class-heritage abilities (free spells) are granted/removed with the class.
             if (field === 'class' && value !== state.class) {
-                newState.racialTraits = getRacialSpells(state.race, state.subrace, value);
+                newState.racialTraits = getRacialSpells(state.race, state.subrace, value, state.ancestry);
             }
 
             // If subrace is being changed, update racial traits
@@ -464,7 +467,7 @@ export const createInfoSlice = (set, get) => ({
                 if (raceData) {
                     // Only include actual spells in racialTraits (filter out passive stat modifiers)
                     // Passive stat modifiers are handled separately and applied directly to stats
-                    newState.racialTraits = getRacialSpells(state.race, value, state.class);
+                    newState.racialTraits = getRacialSpells(state.race, value, state.class, state.ancestry);
                     newState.racialLanguages = raceData.combinedTraits.languages;
                     newState.racialSpeed = raceData.combinedTraits.speed;
                     // Show only the subrace name. The race is implied by the subrace
@@ -473,7 +476,7 @@ export const createInfoSlice = (set, get) => ({
                     newState.raceDisplayName = raceData.subrace.name;
 
                     // Apply passive stat modifiers (resistances, vulnerabilities, immunities) to character stats
-                    const passiveModifiers = getRacialStatModifiers(state.race, value);
+                    const passiveModifiers = getRacialStatModifiers(state.race, value, state.ancestry);
 
                     // Start with current resistances and immunities, or initialize if they don't exist
                     let updatedResistances = { ...state.resistances };
@@ -951,6 +954,7 @@ export const createInfoSlice = (set, get) => ({
         if (removedGrantIds.length > 0) {
             get().removeTalentGrantSpells(removedGrantIds);
         }
+        if (field === 'level') get().reconcileGamblerTalents?.();
 
         // Sync with multiplayer
         get().syncWithMultiplayer();

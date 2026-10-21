@@ -1,13 +1,15 @@
 # Area targeting and reactions — compact creator decision packet
 
-**Revision 4, 2026-10-19 — declaration collector handoff complete.** B2 §8.1 is completed/accepted at its
+**Revision 5, 2026-10-19 — original E1a execution delivered.** B2 §8.1 is completed/accepted at its
 retained source/build identities; G1/G3/G3a/G5 stay approved, with no widening or verification rerun.
 **P13B-W approved/frozen for implementation, 2026-10-19:** D13-6b full8s, D13-11 private pre-cutoff
 correction/withdrawal with revision history, D13-10 manual interruption/no fresh timer/grace/pause/extension.
 W is implemented, independently source/delta accepted and Build3/App4 verified; [P13B §11](MYTHRILL_PROJECT_13B_CONTRACT.md#11-w-implementation-and-integrated-handoff--2026-10-19)
-records exact identities/limits. No payment/refund/order/execution rule approved. The three lifecycle
-rows below are answered history; both correction and withdrawal were approved. You can leave later rows
-a row **GM decides/manual**; that limits automation rather than deciding the rule by default.
+records exact identities/limits. Collection decisions settle no general fee/refund/order rule.
+**E1a separately authorized/delivered**: original Riposte1 AP +GM damage/paid miss, structured GM prior-
+payment attestation and one P7 consequence/consumption; [§13](MYTHRILL_PROJECT_13B_CONTRACT.md#13-e1a-implementation-and-verification--2026-10-19).
+No automatic Parry/comparison/typed price or wider reaction execution thereby approved. The collection
+rows are answered history. Later unresolved rows remain **GM decides/manual**, not adopted defaults.
 
 Contracts and conditional follow-ons, for implementers rather than required creator reading:
 [P12C-B2 preview](MYTHRILL_PROJECT_12C_B2_CONTRACT.md),
@@ -27,7 +29,7 @@ before the static B2 preview. No additional universal propagation rule is propos
 |---|---|
 | **Confirmed direction** | Eight seconds to declare, not roll; actual eligible triggers only; silence is allowed; no mandatory Pass; no click-speed priority; reactions can create reactions, including your own Parry→Riposte. Full cost for an **executed** reaction even if later unnecessary. Hidden declarations; GM choices committed before seeing player declarations |
 | **Authored data** | Parry 1 AP; universal Riposte 1 AP/enemy 5 ft. Martyr Intervene 1 AP+4 mana/ally 30 ft in the card, but trigger/reward wording conflicts. Several different authored counterspells exist; they are not one universal price/rule |
-| **Current execution** | Accepted P12A/P12B-thin/r1, P13A, B1 and bounded B2 §8.1 unchanged. **W private declaration collection now delivered**, not automated reactions/reservations. B2 remains geometry only; existing P7 commands affect at most source+one target |
+| **Current execution** | Accepted P12A/P12B-thin/r1, P13A, B1/B2 unchanged. W collects only; **E1a original Riposte named execution delivered** through explicit owner/GM consent. No wider automation/reservations; P7 still source+one target |
 | **Implemented W** | Private intents for8 server-timed seconds after immutable GM sealing, then GM-only review/manual handoff. Pre-cutoff corrections/withdrawal, original-deadline reconnect, interrupted/unavailable manual takeover. No payment/reservation/effect or free-declaration ruling |
 
 ## 2. Area choices — preview only
@@ -109,18 +111,18 @@ resolution examples. A declaration receipt, a GM-attested execution and an accep
 distinct. A collection timeout executes nothing and decides no fee/refund. W's collection choices are
 settled; other rule recommendations remain unapproved/manual. This handoff authorizes no further code.
 
-### Smallest next execution — E1a contract prepared, not code-authorized
+### Delivered original E1a — wider automation needs a separate contract
 
-One `universal_riposte` attempt → one creature, after GM-attested successful/paid Parry. Owner-approved
-1 AP and GM-adjudicated HP consequence would enter **one P7 admission** with once-only intent linkage.
+One `universal_riposte` attempt → original attacking creature, after GM-attested successful/paid Parry.
+Owner-approved1 AP and GM-adjudicated HP consequence enter **one P7 admission** with once-only intent linkage.
 The exact card/source hash, typed GM attestation of the particular attack/Parry, fresh follow-up/closed
 intent convergence, private consent/roll custody and cancel/stale/ACK/restart rules are now specified
 in §12. A free-text declaration/card name or closed Parry window is insufficient. Parry is not charged
 again; its prior payment remains explicitly GM-attested, not automatically verified. The manual opener
 offers a fresh8s **choice**, never auto Riposte or a second execution timer.
-GM keeps eligibility/range, modifier/mitigation, ordering and unexecuted fees manual. **No new creator
-rule answer blocks this deliberately manual boundary**; its named execution contract and implementation
-still need separate freeze/go-ahead. [P13B §12](MYTHRILL_PROJECT_13B_CONTRACT.md#12-smallest-next-execution-candidate--e1a-not-authorized).
+GM keeps eligibility/range, modifier/mitigation, ordering and unexecuted fees manual. The original scope
+is now frozen/authorized/delivered; wider capabilities still need their own go-ahead.
+[P13B §13](MYTHRILL_PROJECT_13B_CONTRACT.md#13-e1a-implementation-and-verification--2026-10-19).
 The card-wording questions below block automating those rules, not this limited consequence bridge.
 
 ## 4. Card wording that blocks automation (can stay manual)
@@ -132,8 +134,8 @@ or provide replacement wording; general policies above cannot resolve conflictin
 |---|---|---|
 | **D13-5a** | Parry: declare before the attack roll is seen, or after? | **After the retained roll.** Unapproved recommendation. Required for automatic Parry timing; E1a starts after a GM-attested parent |
 | **D13-5c** | Independently: compare die faces alone or full totals? Attacker face 4+3 versus Parry total 6 | **Totals.** Unapproved recommendation. Required for automatic Parry comparison, not GM-adjudicated E1a |
-| **D13-5d** | Independently: does a tied Parry succeed? Both totals 7 | **Strictly higher.** Unapproved; card text conflicts. Required for automatic success/child generation, not the manual-parent E1a proposal |
-| **D13-5b** | Riposte weapon die 3, modifier +2: 3 or 5? Universal card says no modifier; Laws example adds it | **Recommend card's 3**, unapproved. Required if computing base damage; proposed E1a records GM damage. Generated weapon-range variants stay separate |
+| **D13-5d** | Independently: does a tied Parry succeed? Both totals 7 | **Strictly higher.** Unapproved; card text conflicts. Required for automatic success/child generation, not manual-parent E1a |
+| **D13-5b** | Riposte weapon die 3, modifier +2: 3 or 5? Universal card says no modifier; Laws example adds it | **Recommend card's 3**, unapproved. Required if computing base damage; E1a records GM damage. Generated weapon-range variants stay separate |
 | **D13-12a (timing)** | Can Martyr Intervene be declared at ally-targeting, or only once assigned damage exists? | **Recommend targeting declaration, reward only actual intercepted damage.** Allows case A's shared opportunity. If damage-time only, it gets a later window and cannot join the earlier counter opportunity. Gates that adapter, not universal Parry |
 | **D13-12a (reward)** | Intercept 15 damage: card prose says damage/10 min 1; structured gain says +2; under 10 says mana loop | **Keep manual; Class HeadQ supplies one exact reward/rounding rule.** Do not grant both or grant on a cancelled/no-hit spell. Gates Intervene rewards only |
 | **D13-12b** | Which Counterspell does Marcus hold? Test 0 AP/25 mana, Spell Break 1 AP/ward charge, or Silence Suppression 1 AP/10 mana/15 AEP? | **Use exact selected card.** Worked case uses Silence Suppression with success/failure, without approving its save/AEP rules. Universal Counterspell requires an actual pinned card; no invented 2-AP surcharge |
@@ -148,12 +150,15 @@ or provide replacement wording; general policies above cannot resolve conflictin
 - Class HeadQ supplies reviewed per-domain rules; Combat/Main HQ supplies one shared authority/payment
   seam. Current P9 planners cannot reserve cards or even hard-lock AP. **Implemented W reserves nothing.**
 - Current class handoff33→34/RI-1 keeps A1b parked and now integrates Chaos Weaver into the normal class
-  system. RI-1 owns HUD/detail/progression corrections under its latest independent BLOCK; this establishes no admitted reactions,
-  reservations or acceptance of C1's original BLOCK. Class continuation rules are not universal refunds.
+  system. Its later FINAL-REVIEW accepts amended development/manual integration, not combat or original
+  C1 workshop acceptance; RI-2 is separately assigned. No reservations/shared class execution follow.
 - HQ must explicitly freeze/authorize each slice after answers/manual boundaries. Preparing these
   drafts approves no rule and closes no live Firebase, deployment, second-device or human-table gate.
 
 ## Revision history
+
+Revision5 records HQ's E1a authorization and completed original-Riposte execution review/build/App
+workflow. It changes no unresolved formula/ordering/fee policy and promotes no other reaction card.
 
 Revision3 records creator-accepted B2 §8.1 without rerun/widening and narrows W to declaration collection.
 It defers payment/order/own-turn/card arithmetic explicitly and asks only collection lifecycle choices.

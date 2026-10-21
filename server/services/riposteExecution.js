@@ -17,7 +17,24 @@ function exact(o, fields) {
   if (fields.some(k => !actors.own(o, k))) { fail('invalid_riposte'); }
 }
 const isApproval = a => a?.capability === CAPABILITY;
-const isCommand = c => c?.adjudication?.definitionId === DEFINITION_ID || (typeof c?.adjudication?.definitionVersionOrHash === 'string' && c.adjudication.definitionVersionOrHash.startsWith(`${CAPABILITY}/`));
+function isCommand(c) {
+  if (c?.adjudication?.definitionId === DEFINITION_ID || (typeof c?.adjudication?.definitionVersionOrHash === 'string' && c.adjudication.definitionVersionOrHash.startsWith(`${CAPABILITY}/`))) { return true; }
+  const stack = [c?.adjudication?.chosenResult]; let checked = 0;
+  while (stack.length && checked++ < 2048) {
+    const value = stack.pop();
+    if (typeof value === 'string') {
+      if (/^\s*[[{]/.test(value)) { try { stack.push(JSON.parse(value)); } catch (_) { /* ordinary manual text */ } }
+    } else if (value && typeof value === 'object') {
+      for (const [key, child] of Object.entries(value)) {
+        if (['opportunityId', 'parentKeys', 'offerHash'].includes(key)) { return true; }
+        if (key === 'capability' && child === CAPABILITY || key === 'definitionId' && child === DEFINITION_ID ||
+            key === 'definitionVersionOrHash' && typeof child === 'string' && child.startsWith(`${CAPABILITY}/`)) { return true; }
+        stack.push(child);
+      }
+    }
+  }
+  return stack.length > 0;
+}
 const isReceipt = r => r?.adjudication?.definitionVersionOrHash === DEFINITION_HASH;
 function validateApproval(a) {
   exact(a, ['version', 'capability', 'roomId', 'approvalId', 'actionEpoch', 'baseCommitSequence', 'source', 'target',
@@ -46,13 +63,60 @@ function createGate({ windows = collector } = {}) {
     const epoch = actors.epoch(room), identity = `${epoch}:${room.gmId}`;
     let s = states.get(room);
     if (!s || s.identity !== identity) {
-      s = { identity, epoch, byId: new Map(), byAttack: new Map(), byParry: new Map(), byWindow: new Map(), requests: new Map() }; states.set(room, s);
+      s = { identity, epoch, byId: new Map(), byAttack: new Map(), byParry: new Map(), byWindow: new Map(), requests: new Map(),
+        parents: new Map(), parentRequests: new Map(), parentByParry: new Map(), parentByWindow: new Map(), manualAttack: new Map(), manualParry: new Map() }; states.set(room, s);
     }
     return s;
   }
   function get(room, id) { return state(room).byId.get(id); }
   function receipt(room, id) { return actors.ledger(room).receipts.find(r => isReceipt(r) && (() => { try { return JSON.parse(r.adjudication.chosenResult).opportunityId === id; } catch (_) { return false; } })()); }
-  function windowFor(room, p) { return windows.followup(room, { epoch: p.windowEpoch, windowId: p.windowId, parryId: p.parry.id, source: p.source }); }
+  function windowFor(room, p) { return windows.followup(room, { epoch: p.windowEpoch, windowId: p.windowId, parryId: p.windowCauseId, source: p.source }); }
+  function registerParent(room, uid, data) {
+    exact(data, ['roomId', 'requestId', 'actionEpoch', 'windowEpoch', 'existingWindowId', 'source', 'target', 'attackReference', 'parryReference']);
+    if (uid !== room.gmId || data.roomId !== room.id) { fail('forbidden'); }
+    if (!UUID.test(data.requestId) || data.actionEpoch !== actors.epoch(room) || actors.bytes(data) > 8192 ||
+        !text(data.attackReference) || !text(data.parryReference)) { fail('riposte_parent_unavailable'); }
+    const s = state(room), requestHash = hash(data), prior = s.parentRequests.get(data.requestId);
+    if (prior) { if (prior.hash !== requestHash) { fail('command_id_conflict'); } return clone(s.parents.get(prior.id)); }
+    if (s.parentRequests.size >= 1024 || s.parents.size >= 64) { fail('riposte_capacity_manual'); }
+    actors.locate(room, data.source); actors.locate(room, data.target);
+    if (data.source.kind !== 'character' || data.target.kind !== 'creature' || data.source.mapId !== data.target.mapId) { fail('riposte_wrong_parent'); }
+    let w = null, existing = null;
+    if (data.existingWindowId !== null) {
+      w = windows.followup(room, { epoch: data.windowEpoch, windowId: data.existingWindowId, source: data.source });
+      if (!w || w.status !== 'closed' || !w.intent || w.intent.withdrawn) { fail('riposte_closed_intent_required'); }
+      if (/^e1a-parry:/i.test(w.causeId)) {
+        existing = s.parents.get(s.parentByParry.get(w.causeId));
+        if (!existing) { fail('riposte_parent_unavailable'); }
+      } else {
+        if (data.parryReference !== w.causeId) { fail('riposte_wrong_parent'); }
+        existing = s.parents.get(s.parentByWindow.get(w.windowId));
+      }
+    }
+    if (!existing) {
+      // Client-readable references are descriptive aliases, never canonical IDs or renewal tokens.
+      if (/^e1a-(parent|attack|parry):/i.test(data.attackReference) || /^e1a-(parent|attack|parry):/i.test(data.parryReference)) { fail('riposte_parent_unavailable'); }
+      const ids = [s.manualAttack.get(data.attackReference), s.manualParry.get(data.parryReference)].filter(Boolean);
+      if (ids.length) {
+        if (ids.some(id => id !== ids[0])) { fail('riposte_parent_conflict'); }
+        existing = s.parents.get(ids[0]);
+        if (existing.attackReference !== data.attackReference || existing.parryReference !== data.parryReference) { fail('riposte_parent_conflict'); }
+      }
+    }
+    if (existing) {
+      if (hash(existing.source) !== hash(data.source) || hash(existing.target) !== hash(data.target)) { fail('riposte_parent_conflict'); }
+      s.parentRequests.set(data.requestId, { hash: requestHash, id: existing.id }); return clone(existing);
+    }
+    const parent = { id: `e1a-parent:${s.epoch}:${crypto.randomUUID()}`, originEpoch: s.epoch, proof: crypto.randomBytes(32).toString('hex'),
+      attackId: `e1a-attack:${s.epoch}:${crypto.randomUUID()}`, parryId: `e1a-parry:${s.epoch}:${crypto.randomUUID()}`,
+      source: clone(data.source), target: clone(data.target), attackReference: data.attackReference, parryReference: data.parryReference,
+      windowCauseId: null, issuedAt: Date.now(), issuerUid: uid };
+    parent.windowCauseId = w?.causeId || parent.parryId;
+    s.parents.set(parent.id, parent); s.parentByParry.set(parent.parryId, parent.id);
+    s.manualAttack.set(data.attackReference, parent.id); s.manualParry.set(data.parryReference, parent.id);
+    if (w) { s.parentByWindow.set(w.windowId, parent.id); }
+    s.parentRequests.set(data.requestId, { hash: requestHash, id: parent.id }); return clone(parent);
+  }
   function check(room, p) {
     if (!p || p.epoch !== actors.epoch(room)) { fail('riposte_opportunity_unavailable'); }
     actors.locate(room, p.source); actors.locate(room, p.target);
@@ -67,14 +131,15 @@ function createGate({ windows = collector } = {}) {
     const status = p.status === 'offered' ? (w?.status === 'open' ? 'collecting' : ready ? 'ready' : 'manual') : p.status;
     return { id: p.id, actionEpoch: p.epoch, source: clone(p.source), target: clone(p.target), definitionId: DEFINITION_ID,
       definitionHash: DEFINITION_HASH, proof: p.proof, windowId: p.windowId, deadlineAt: w?.deadlineAt, status,
-      approvalId: p.approvalId, intentRevision: w?.intent?.revision || null, parryPayment: 'GM-attested-paid; not charged by Riposte',
+      approvalId: p.approvalId, intentRevision: !gm || w?.status === 'closed' ? w?.intent?.revision || null : null,
+      parryPayment: 'GM-attested-paid; not charged by Riposte',
       ...(gm ? { attack: clone(p.attack), parry: clone(p.parry), parentKeys: clone(p.parentKeys), offerHash: p.offerHash, paymentReference: p.receiptRef || null } : {}) };
   }
   function list(room, viewer) {
     return [...state(room).byId.values()].filter(p => viewer.gm || p.source.ownerUid === viewer.uid).map(p => project(room, p, viewer.gm)).filter(Boolean);
   }
   function offer(room, uid, data) {
-    exact(data, ['roomId', 'requestId', 'actionEpoch', 'windowEpoch', 'windowId', 'attack', 'parry', 'source', 'target', 'receiptRef']);
+    exact(data, ['roomId', 'requestId', 'actionEpoch', 'windowEpoch', 'windowId', 'attack', 'parry', 'source', 'target', 'receiptRef', 'parentId', 'parentEpoch', 'parentProof']);
     if (uid !== room.gmId || data.roomId !== room.id) { fail('forbidden'); }
     if (!UUID.test(data.requestId) || actors.bytes(data) > 8192) { fail('riposte_opportunity_unavailable'); }
     exact(data.attack, ['id', 'attacker', 'defender']); exact(data.parry, ['id', 'success', 'paid', 'timingConfirmed', 'note']);
@@ -97,6 +162,9 @@ function createGate({ windows = collector } = {}) {
     const s = state(room), priorRequest = s.requests.get(data.requestId);
     if (priorRequest) { if (priorRequest.hash !== requestHash) { fail('command_id_conflict'); } return { opportunity: get(room, priorRequest.id), fresh: false }; }
     if (s.requests.size >= 1024) { fail('riposte_capacity_manual'); }
+    const parent = s.parents.get(data.parentId);
+    if (!parent || parent.originEpoch !== data.parentEpoch || parent.originEpoch !== s.epoch || parent.proof !== data.parentProof ||
+        parent.attackId !== data.attack.id || parent.parryId !== data.parry.id || hash(parent.source) !== hash(data.source) || hash(parent.target) !== hash(data.target)) { fail('riposte_parent_unavailable'); }
     actors.locate(room, data.source); actors.locate(room, data.target);
     if (data.source.kind !== 'character' || data.target.kind !== 'creature' || data.source.mapId !== data.target.mapId ||
         hash(data.attack.attacker) !== hash(data.target) || hash(data.attack.defender) !== hash(data.source)) { fail('riposte_wrong_parent'); }
@@ -115,18 +183,19 @@ function createGate({ windows = collector } = {}) {
       return { opportunity: old, fresh: false };
     }
     if (s.byId.size >= 64) { fail('riposte_capacity_manual'); }
-    let w = windows.followup(room, { epoch: data.windowEpoch, windowId: data.windowId, parryId: data.parry.id, source: data.source });
+    let w = windows.followup(room, { epoch: data.windowEpoch, windowId: data.windowId, parryId: parent.windowCauseId, source: data.source });
     if (data.windowId && (!w || w.status !== 'closed' || !w.intent || w.intent.withdrawn)) { fail('riposte_closed_intent_required'); }
     let fresh = false;
     if (!w) {
       const opened = windows.open(room, { uid, gm: true }, { roomId: room.id, requestId: data.requestId, epoch: data.windowEpoch,
-        trigger: { causeId: data.parry.id, moment: 'follow_up', occurrence: '1', basis: 'gm-manual' }, source: data.source, invited: [data.source],
+        trigger: { causeId: parent.windowCauseId, moment: 'follow_up', occurrence: '1', basis: 'gm-manual' }, source: data.source, invited: [data.source],
         gmCommit: { refs: [], note: '' } });
       w = { windowId: opened.window.id, epoch: data.windowEpoch }; fresh = opened.fresh;
     }
     const p = { id: crypto.randomUUID(), epoch: s.epoch, gmUid: uid, source: clone(data.source), target: clone(data.target),
       attack: clone(data.attack), parry: clone(data.parry), receiptRef: data.receiptRef, attestedAt: Date.now(),
-      proof: crypto.randomBytes(32).toString('hex'), windowEpoch: w.epoch, windowId: w.windowId, status: 'offered', approvalId: null,
+      proof: crypto.randomBytes(32).toString('hex'), parentId: parent.id, windowCauseId: parent.windowCauseId,
+      windowEpoch: w.epoch, windowId: w.windowId, status: 'offered', approvalId: null,
       evidenceHash: null, parentKeys, offerHash: requestHash, attempt: null };
     s.byId.set(p.id, p); s.byAttack.set(data.attack.id, p.id); s.byParry.set(data.parry.id, p.id); s.byWindow.set(p.windowId, p.id);
     s.requests.set(data.requestId, { hash: requestHash, id: p.id });
@@ -203,7 +272,7 @@ function createGate({ windows = collector } = {}) {
       }
     }
   }
-  return { offer, get, list, project, receipt, approvalCheck, attach, closed, revalidate, cancel, bind, refused };
+  return { registerParent, offer, get, list, project, receipt, approvalCheck, attach, closed, revalidate, cancel, bind, refused };
 }
 const gate = createGate();
 module.exports = { CAPABILITY, DEFINITION_ID, DEFINITION_HASH, SOURCE_HASH, RULING, UNAPPLIED, isApproval, isCommand, isReceipt, validateApproval, createGate, ...gate };

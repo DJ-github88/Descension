@@ -24,6 +24,8 @@ import { WARDEN_DATA } from "./wardenData";
 import { AUGUR_DATA } from "./augurData";
 import { CRUSADER_DATA } from "./crusaderData";
 import { CHAOS_WEAVER_DATA } from "./chaosWeaverIntegration";
+import { GAMBLER_DATA } from "./gamblerData";
+import { FATE_WEAVER_DATA } from "./fateWeaverData";
 import { withClassHeritageMetadata } from '../classHeritageRegistry';
 
 const createNereidClass = (baseData) => {
@@ -60,6 +62,8 @@ const CLASS_TEMPLATES = {
   Revenant: REVENANT_DATA,
   "False Prophet": FALSE_PROPHET_DATA,
   Gambit: GAMBIT_DATA,
+  Gambler: GAMBLER_DATA,
+  "Fate Weaver": FATE_WEAVER_DATA,
   Apex: APEX_DATA,
   Animist: ANIMIST_DATA,
   Lunarch: LUNARCH_DATA,

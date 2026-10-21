@@ -311,6 +311,24 @@ export const CLASS_SPECIALIZATIONS = {
     ]
   },
 
+  'Gambler': {
+    path: 'Specialist Path',
+    specializations: [
+      { id: 'high-roller', name: 'High Roller', description: 'Commit the bank before the result; finite loss and no free credit.', color: '#76542b', icon: 'Social/Dice Roll' },
+      { id: 'card-sharp', name: 'Card Sharp', description: 'Preserve actual ranks and suits or spend the pattern now.', color: '#475e43', icon: 'Social/Dice Roll' },
+      { id: 'odds-broker', name: 'Odds Broker', description: 'Choose an ally and an original event before its face.', color: '#45546c', icon: 'Social/Dice Roll' }
+    ]
+  },
+
+  'Fate Weaver': {
+    path: 'Thread Discipline',
+    specializations: [
+      { id: 'covenant', name: 'Covenant Weaver', description: 'Bind willing actors to a declared reciprocal obligation.', color: '#4f5d75', icon: 'Psychic/Psychic Telepathy' },
+      { id: 'severance', name: 'Thread Cutter', description: 'End a link cleanly before its cost comes due.', color: '#76544a', icon: 'Psychic/Psychic Telepathy' },
+      { id: 'tapestry', name: 'Tapestry Keeper', description: 'Move an anchor without renewing the promise.', color: '#596b52', icon: 'Psychic/Psychic Telepathy' }
+    ]
+  },
+
   'Arcanoneer': {
 
     path: 'Arcane Path',
@@ -1257,6 +1275,16 @@ export const createSpellLibraryCategoriesForClass = (className) => {
   ];
 
 
+
+  // G1 has real records at every level 1–10. Preserve legacy category IDs,
+  // while giving Gambler level 3/signatures and level 10/capstones a home.
+  if (className === 'Gambler') {
+    [3, 5, 7, 8, 9, 10].forEach(level => categories.push({
+      ...categories[0], id: `gambler_level_${level}`, name: `Level ${level}`,
+      description: `Gambler level ${level}: learned optional, core and paid talent records only.`, spellIds: []
+    }));
+    categories.sort((a, b) => Number(a.id.split('_').pop()) - Number(b.id.split('_').pop()));
+  }
 
   // Add the custom spells category
 

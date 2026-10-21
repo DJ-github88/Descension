@@ -129,6 +129,8 @@ import { withClassHeritageMetadata } from '../../../data/classHeritageRegistry';
 
 
 import UnifiedSpellCard from '../../spellcrafting-wizard/components/common/UnifiedSpellCard';
+import { AncestralGiftsDrawer, AncestralGiftsCodex } from '../components/AncestralGifts';
+import { hasAncestryLoadout, validateAncestry } from '../../../data/ancestryLoadouts';
 import '../styles/Step1CoreDraft.css';
 
 
@@ -954,28 +956,24 @@ const HeraldicRaceSigil = ({ raceObj, isSelected }) => {
 };
 
 const HeraldicRaceBanner = ({ raceObj, isSelected }) => {
-    const [imgLoaded, setImgLoaded] = useState(false);
     const [imgFailed, setImgFailed] = useState(false);
     const bannerSrc = raceObj?.banner || `/assets/images/banners/${raceObj?.id}_banner.png`;
 
     useEffect(() => {
-        setImgLoaded(false);
         setImgFailed(false);
     }, [bannerSrc]);
 
     return (
         <div className={`race-banner-stage ${isSelected ? 'selected' : ''}`} aria-hidden="true">
             <span className="race-token-sigil" style={{ display: 'none' }} />
-            {!imgFailed && (
+            {!imgFailed ? (
                 <img
                     src={bannerSrc}
                     alt={`${raceObj?.name || 'Lineage'} banner`}
-                    className={`race-banner-artwork ${imgLoaded ? 'loaded' : 'loading'}`}
-                    onLoad={() => setImgLoaded(true)}
+                    className="race-banner-artwork loaded"
                     onError={() => setImgFailed(true)}
                 />
-            )}
-            {(!imgLoaded || imgFailed) && (
+            ) : (
                 <div className="race-banner-fallback">
                     <i className={`${raceObj?.icon || getModuleRaceIcon(raceObj?.name)} race-banner-fallback-icon`} />
                 </div>
@@ -1161,6 +1159,7 @@ const Step1CoreDraft = () => {
             dispatch(wizardActionCreators.setBackground(justificationTarget.id));
 
             setFocusedSection('background');
+            setIsEditingOrigin(false);
 
         }
 
@@ -1197,12 +1196,16 @@ const Step1CoreDraft = () => {
     const [showRestrictedBackgrounds, setShowRestrictedBackgrounds] = useState(false);
 
     const [showSpellsDrawer, setShowSpellsDrawer] = useState(false);
+    const [showGiftsDrawer, setShowGiftsDrawer] = useState(false);
 
     const [focusedSection, setFocusedSection] = useState('race'); // 'race', 'class', 'background'
 
     const [expandedRace, setExpandedRace] = useState(race || 'myrathil');
 
     const [activeRaceSelection, setActiveRaceSelection] = useState(race || null);
+    const [isEditingHeritage, setIsEditingHeritage] = useState(false);
+    const [isEditingCalling, setIsEditingCalling] = useState(false);
+    const [isEditingOrigin, setIsEditingOrigin] = useState(false);
     const friezeRef = useRef(null);
     const otherFriezeRef = useRef(null);
 
@@ -1221,6 +1224,18 @@ const Step1CoreDraft = () => {
     // Lore sections now displayed on a single scrollable page (no tab switching)
 
     const [lightboxImage, setLightboxImage] = useState(null);
+
+    // Close lightbox on Escape key
+    useEffect(() => {
+        if (!lightboxImage) return;
+        const handleKeyDown = (e) => {
+            if (e.key === 'Escape') {
+                setLightboxImage(null);
+            }
+        };
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [lightboxImage]);
 
     const [heritageIllIndex, setHeritageIllIndex] = useState(0);
 
@@ -1612,12 +1627,14 @@ const Step1CoreDraft = () => {
     const handleSubraceSelect = (raceId, subraceId) => {
         if (subrace === subraceId) {
             dispatch(wizardActionCreators.setSubrace(''));
+            setIsEditingHeritage(true);
             return;
         }
 
         dispatch(wizardActionCreators.setRace(raceId));
 
         dispatch(wizardActionCreators.setSubrace(subraceId));
+        setIsEditingHeritage(false);
 
         setFocusedSection('class');
 
@@ -1640,6 +1657,7 @@ const Step1CoreDraft = () => {
         if (characterData.class === className) {
             dispatch(wizardActionCreators.setClass(''));
             dispatch(wizardActionCreators.setStartingSpells([]));
+            setIsEditingCalling(true);
             return;
         }
         // A draft may explore an exceptional path; final validation requires
@@ -1648,6 +1666,7 @@ const Step1CoreDraft = () => {
         const coreGrantIds = nextClassData?.progression?.policy?.grantedCoreSpellIds || [];
         dispatch(wizardActionCreators.setClass(className));
         setFocusedSection('class');
+        setIsEditingCalling(false);
         if (characterData.class !== className) dispatch(wizardActionCreators.setStartingSpells(coreGrantIds));
         window.setTimeout(() => scrollCodexTo('grimoire-calling'), 80);
     };
@@ -1662,6 +1681,7 @@ const Step1CoreDraft = () => {
     const handleBackgroundChange = (bgId) => {
         if (background === bgId) {
             dispatch(wizardActionCreators.setBackground(''));
+            setIsEditingOrigin(true);
             return;
         }
 
@@ -1676,6 +1696,7 @@ const Step1CoreDraft = () => {
             dispatch(wizardActionCreators.setBackground(bgId));
 
             setFocusedSection('background');
+            setIsEditingOrigin(false);
 
         } else {
 
@@ -1916,6 +1937,7 @@ const Step1CoreDraft = () => {
                                 dispatch(wizardActionCreators.setRace(''));
                                 dispatch(wizardActionCreators.setSubrace(''));
                                 setActiveRaceSelection(null);
+                                setIsEditingHeritage(true);
                             } : null}
                         />
 
@@ -1999,37 +2021,8 @@ const Step1CoreDraft = () => {
                                 );
                             };
 
-                            const renderSubraceDrawer = (activeRaceId) => {
-                                const currentRaceData = getRaceData(activeRaceId);
-                                if (!currentRaceData) return null;
+                            const renderSubraceCard = (subObj, activeRaceId) => {
 
-                                return (
-                                    <div className="subrace-selection-container inline-subrace-drawer" key={`drawer-${activeRaceId}`}>
-                                        <div className="subrace-breadcrumb-bar subrace-drawer-header">
-                                            <button
-                                                type="button"
-                                                className="subrace-back-btn"
-                                                onClick={() => setActiveRaceSelection(null)}
-                                                title="Collapse lineages view"
-                                            >
-                                                <i className="fas fa-times" aria-hidden="true"></i>
-                                                <span>All Races</span>
-                                            </button>
-                                            <div className="subrace-drawer-title-group">
-                                                <span className="subrace-parent-label">
-                                                    <i className={`${getRaceIcon(currentRaceData?.name)} subrace-parent-icon`} aria-hidden="true"></i>
-                                                    <span className="subrace-parent-name">{currentRaceData?.name} Lineages</span>
-                                                </span>
-                                                {currentRaceData?.essence && (
-                                                    <span className="subrace-drawer-essence">
-                                                        {currentRaceData.essence}
-                                                    </span>
-                                                )}
-                                            </div>
-                                        </div>
-
-                                        <div className="subrace-buttons-grid">
-                                            {(currentRaceData?.subraces ? Object.values(currentRaceData.subraces) : []).map((subObj) => {
                                                 const isSelectedSubrace = subrace === subObj.id;
                                                 const isNativeLineage = !heritageNarrowing.isNarrowed || heritageNarrowing.nativeSubraceIds.has(subObj.id);
                                                 const epithet = getSubraceEpithet(subObj);
@@ -2092,25 +2085,26 @@ const Step1CoreDraft = () => {
                                                         <div className="subrace-card-body">
                                                             <div className="subrace-card-header">
                                                                 <div className="subrace-card-titles">
-                                                                    <span className="subrace-card-name">{subObj.name}</span>
+                                                                    <div className="subrace-card-title-row">
+                                                                        <span className="subrace-card-name">{subObj.name}</span>
+                                                                        {heritageNarrowing.isNarrowed && (
+                                                                            <div className="subrace-card-status">
+                                                                                {isNativeLineage ? (
+                                                                                    <span className="subrace-native-badge">
+                                                                                        <i className="fas fa-check" aria-hidden="true"></i> Native
+                                                                                    </span>
+                                                                                ) : (
+                                                                                    <span className="subrace-rare-badge">
+                                                                                        <i className="fas fa-compass" aria-hidden="true"></i> Sourced
+                                                                                    </span>
+                                                                                )}
+                                                                            </div>
+                                                                        )}
+                                                                    </div>
                                                                     {epithet && (
                                                                         <span className="subrace-card-epithet">{epithet}</span>
                                                                     )}
                                                                 </div>
-
-                                                                {heritageNarrowing.isNarrowed && (
-                                                                    <div className="subrace-card-status">
-                                                                        {isNativeLineage ? (
-                                                                            <span className="subrace-native-badge">
-                                                                                <i className="fas fa-check" aria-hidden="true"></i> Native
-                                                                            </span>
-                                                                        ) : (
-                                                                            <span className="subrace-rare-badge">
-                                                                                <i className="fas fa-compass" aria-hidden="true"></i> Sourced
-                                                                            </span>
-                                                                        )}
-                                                                    </div>
-                                                                )}
                                                             </div>
 
                                                             {summaryText && (
@@ -2137,6 +2131,28 @@ const Step1CoreDraft = () => {
                                                                     })}
                                                                 </div>
                                                             )}
+
+                                                            {isSelectedSubrace && (
+                                                                <div className="subrace-card-gifts-row">
+                                                                    <button
+                                                                        type="button"
+                                                                        className="subrace-card-gifts-btn"
+                                                                        onClick={(e) => {
+                                                                            e.stopPropagation();
+                                                                            setShowGiftsDrawer(true);
+                                                                        }}
+                                                                        title={hasAncestryLoadout(subObj.id) ? 'Configure Ancestral Gifts' : 'Inspect Heritage Traits'}
+                                                                    >
+                                                                        <i className="fas fa-dna" aria-hidden="true"></i>
+                                                                        <span className="gifts-btn-label">
+                                                                            {hasAncestryLoadout(subObj.id)
+                                                                                ? `Ancestral Gifts (${validateAncestry(subObj.id, characterData.ancestry).chosen}/3)`
+                                                                                : 'Inspect Traits'}
+                                                                        </span>
+                                                                        <i className="fas fa-chevron-right gifts-btn-arrow" aria-hidden="true"></i>
+                                                                    </button>
+                                                                </div>
+                                                            )}
                                                         </div>
 
                                                         {isSelectedSubrace && (
@@ -2147,7 +2163,39 @@ const Step1CoreDraft = () => {
                                                         )}
                                                     </div>
                                                 );
-                                            })}
+                            };
+
+                            const renderSubraceDrawer = (activeRaceId) => {
+                                const currentRaceData = getRaceData(activeRaceId);
+                                if (!currentRaceData) return null;
+
+                                return (
+                                    <div className="subrace-selection-container inline-subrace-drawer" key={`drawer-${activeRaceId}`}>
+                                        <div className="subrace-breadcrumb-bar subrace-drawer-header">
+                                            <button
+                                                type="button"
+                                                className="subrace-back-btn"
+                                                onClick={() => setActiveRaceSelection(null)}
+                                                title="Collapse lineages view"
+                                            >
+                                                <i className="fas fa-times" aria-hidden="true"></i>
+                                                <span>All Races</span>
+                                            </button>
+                                            <div className="subrace-drawer-title-group">
+                                                <span className="subrace-parent-label">
+                                                    <i className={`${getRaceIcon(currentRaceData?.name)} subrace-parent-icon`} aria-hidden="true"></i>
+                                                    <span className="subrace-parent-name">{currentRaceData?.name} Lineages</span>
+                                                </span>
+                                                {currentRaceData?.essence && (
+                                                    <span className="subrace-drawer-essence">
+                                                        {currentRaceData.essence}
+                                                    </span>
+                                                )}
+                                            </div>
+                                        </div>
+
+                                        <div className="subrace-buttons-grid">
+                                            {(currentRaceData?.subraces ? Object.values(currentRaceData.subraces) : []).map((subObj) => renderSubraceCard(subObj, activeRaceId))}
                                         </div>
                                     </div>
                                 );
@@ -2174,6 +2222,57 @@ const Step1CoreDraft = () => {
                                     </div>
                                 );
                             };
+
+                            if (race && subrace && !isEditingHeritage) {
+                                const chosenRaceData = getRaceData(race);
+                                const chosenSubraceObj = chosenRaceData?.subraces
+                                    ? (Array.isArray(chosenRaceData.subraces)
+                                        ? chosenRaceData.subraces.find(s => s.id === subrace)
+                                        : chosenRaceData.subraces[subrace] || Object.values(chosenRaceData.subraces).find(s => s.id === subrace))
+                                    : null;
+
+                                return (
+                                    <div className="subrace-selection-container inline-subrace-drawer heritage-locked-showcase" key="drawer-locked">
+                                        <div className="subrace-breadcrumb-bar subrace-drawer-header">
+                                            <div className="subrace-header-actions">
+                                                <button
+                                                    type="button"
+                                                    className="subrace-back-btn"
+                                                    onClick={() => {
+                                                        setIsEditingHeritage(true);
+                                                        setActiveRaceSelection(null);
+                                                    }}
+                                                    title="Change lineage or view all homelands"
+                                                >
+                                                    <i className="fas fa-undo-alt" aria-hidden="true"></i>
+                                                    <span>All Races</span>
+                                                </button>
+                                                <button
+                                                    type="button"
+                                                    className="subrace-change-lineage-btn"
+                                                    onClick={() => {
+                                                        setIsEditingHeritage(true);
+                                                        setActiveRaceSelection(race);
+                                                    }}
+                                                    title={`Change ${chosenRaceData?.name || 'Lineage'}`}
+                                                >
+                                                    <i className="fas fa-exchange-alt" aria-hidden="true"></i>
+                                                    <span>Change Lineage</span>
+                                                </button>
+                                            </div>
+                                            <div className="subrace-drawer-title-group">
+                                                <span className="subrace-parent-label">
+                                                    <i className={`${getRaceIcon(chosenRaceData?.name)} subrace-parent-icon`} aria-hidden="true"></i>
+                                                    <span className="subrace-parent-name">{chosenRaceData?.name} Lineage Chosen</span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div className="subrace-buttons-grid">
+                                            {chosenSubraceObj && renderSubraceCard(chosenSubraceObj, race)}
+                                        </div>
+                                    </div>
+                                );
+                            }
 
                             return (
                                 <>
@@ -2231,6 +2330,7 @@ const Step1CoreDraft = () => {
                             onClear={characterData.class ? () => {
                                 dispatch(wizardActionCreators.setClass(''));
                                 dispatch(wizardActionCreators.setStartingSpells([]));
+                                setIsEditingCalling(true);
                             } : null}
                         />
 
@@ -2312,13 +2412,20 @@ const Step1CoreDraft = () => {
                                             <ClassIcon 
                                                 src={classInfo?.imageIcon || `/assets/icons/classes/${clsName.toLowerCase().replace(' ', '_')}.png`} 
                                                 alt={clsName} 
-                                                size="medium" 
+                                                size={isLockedCalling ? "xlarge" : "medium"} 
+                                                sizes={isLockedCalling ? "(max-width: 768px) 100vw, 512px" : "(max-width: 768px) 25vw, 128px"} 
                                                 className="class-pixel-icon-token" 
                                                 dataClass={clsName} 
                                             />
                                         </div>
                                     );
                                 };
+
+                                const isLockedCalling = Boolean(characterData.class && !isEditingCalling);
+                                const classesToShow = isLockedCalling
+                                    ? compatibleClasses.filter(c => c === characterData.class)
+                                    : compatibleClasses;
+                                const chosenClassInfo = characterData.class ? CLASS_DATA_MAP[characterData.class] : null;
 
                                 const callingSectionTitle = race
                                     ? "Native & Qualified Callings"
@@ -2331,13 +2438,52 @@ const Step1CoreDraft = () => {
                                     : "Other Callings (Non-Thematic to Origin)";
 
                                 return (
-                                    <>
-                                        <h4 className="categorized-section-title">{callingSectionTitle}</h4>
-                                        <div className="class-icons-grid">
-                                            {compatibleClasses.map(renderClassToken)}
+                                    <div className={`calling-selection-container ${isLockedCalling ? 'inline-subrace-drawer calling-locked-showcase' : ''}`}>
+                                        {isLockedCalling ? (
+                                            <div className="subrace-breadcrumb-bar subrace-drawer-header">
+                                                <button
+                                                    type="button"
+                                                    className="subrace-back-btn"
+                                                    onClick={() => setIsEditingCalling(true)}
+                                                    title="Change calling or view all callings"
+                                                >
+                                                    <i className="fas fa-undo-alt" aria-hidden="true"></i>
+                                                    <span>All Callings</span>
+                                                </button>
+                                                <div className="subrace-drawer-title-group">
+                                                    <span className="subrace-parent-label">
+                                                        <span className="subrace-parent-name">{characterData.class} Calling Chosen</span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        ) : (
+                                            <h4 className="categorized-section-title">{callingSectionTitle}</h4>
+                                        )}
+
+                                        <div className={`class-icons-grid ${isLockedCalling ? 'calling-locked-grid' : ''}`}>
+                                            {classesToShow.map(renderClassToken)}
                                         </div>
 
-                                        {restrictedClasses.length > 0 && (
+                                        {isLockedCalling && chosenClassInfo && (
+                                            <div className="calling-locked-details-plate">
+                                                <div className="calling-showcase-title-row">
+                                                    <span className="calling-showcase-name">{characterData.class}</span>
+                                                    {chosenClassInfo.role && (
+                                                        <span className="calling-showcase-role-pill">{chosenClassInfo.role}</span>
+                                                    )}
+                                                    {chosenClassInfo.overview?.theme && (
+                                                        <span className="calling-showcase-theme">
+                                                            Theme: {chosenClassInfo.overview.theme}
+                                                        </span>
+                                                    )}
+                                                </div>
+                                                <p className="calling-showcase-desc">
+                                                    {getClassSummary(chosenClassInfo)}
+                                                </p>
+                                            </div>
+                                        )}
+
+                                        {!isLockedCalling && restrictedClasses.length > 0 && (
                                             <div className="restricted-toggle-container">
                                                 <button
                                                     type="button"
@@ -2365,7 +2511,7 @@ const Step1CoreDraft = () => {
                                                 )}
                                             </div>
                                         )}
-                                    </>
+                                    </div>
                                 );
                             })()}
 
@@ -2436,6 +2582,7 @@ const Step1CoreDraft = () => {
                             required={!!validationErrors.background}
                             onClear={background ? () => {
                                 dispatch(wizardActionCreators.setBackground(''));
+                                setIsEditingOrigin(true);
                             } : null}
                         />
 
@@ -2508,6 +2655,12 @@ const Step1CoreDraft = () => {
                                     );
                                 };
 
+                                const isLockedOrigin = Boolean(background && !isEditingOrigin);
+                                const backgroundsToShow = isLockedOrigin
+                                    ? compatibleBackgrounds.filter(bg => bg.id === background)
+                                    : compatibleBackgrounds;
+                                const chosenBg = background ? BACKGROUND_DATA[background] : null;
+
                                 const originSectionTitle = race
                                     ? "Lore-Fitting Origins"
                                     : characterData.class
@@ -2519,13 +2672,49 @@ const Step1CoreDraft = () => {
                                     : "Other Origins (Non-Thematic to Calling)";
 
                                 return (
-                                    <>
-                                        <h4 className="categorized-section-title">{originSectionTitle}</h4>
-                                        <div className="background-buttons-grid">
-                                            {compatibleBackgrounds.map(renderBackgroundToken)}
+                                    <div className={`origin-selection-container ${isLockedOrigin ? 'inline-subrace-drawer origin-locked-showcase' : ''}`}>
+                                        {isLockedOrigin ? (
+                                            <div className="subrace-breadcrumb-bar subrace-drawer-header">
+                                                <button
+                                                    type="button"
+                                                    className="subrace-back-btn"
+                                                    onClick={() => setIsEditingOrigin(true)}
+                                                    title="Change origin or view all origins"
+                                                >
+                                                    <i className="fas fa-undo-alt" aria-hidden="true"></i>
+                                                    <span>All Origins</span>
+                                                </button>
+                                                <div className="subrace-drawer-title-group">
+                                                    <span className="subrace-parent-label">
+                                                        <span className="subrace-parent-name">{chosenBg?.name || background} Origin Chosen</span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        ) : (
+                                            <h4 className="categorized-section-title">{originSectionTitle}</h4>
+                                        )}
+
+                                        <div className={`background-buttons-grid ${isLockedOrigin ? 'origin-locked-grid' : ''}`}>
+                                            {backgroundsToShow.map(renderBackgroundToken)}
                                         </div>
 
-                                        {restrictedBackgrounds.length > 0 && (
+                                        {isLockedOrigin && chosenBg && (
+                                            <div className="origin-locked-details-plate">
+                                                <div className="origin-showcase-title-row">
+                                                    <span className="origin-showcase-name">{chosenBg.name}</span>
+                                                    {chosenBg.feature?.name && (
+                                                        <span className="origin-showcase-feature-pill">
+                                                            Feature: {chosenBg.feature.name}
+                                                        </span>
+                                                    )}
+                                                </div>
+                                                <p className="origin-showcase-desc">
+                                                    {getBackgroundSummary(chosenBg)}
+                                                </p>
+                                            </div>
+                                        )}
+
+                                        {!isLockedOrigin && restrictedBackgrounds.length > 0 && (
                                             <div className="restricted-toggle-container">
                                                 <button
                                                     type="button"
@@ -2553,7 +2742,7 @@ const Step1CoreDraft = () => {
                                                 )}
                                             </div>
                                         )}
-                                    </>
+                                    </div>
                                 );
                             })()}
 
@@ -2732,6 +2921,26 @@ const Step1CoreDraft = () => {
 
                                 <button
                                     type="button"
+                                    className={`launcher-trigger-btn ${validationErrors.ancestry ? 'warning' : ''} ${hasAncestryLoadout(subrace) ? (validateAncestry(subrace, characterData.ancestry).complete ? 'is-complete' : '') : (subrace ? 'is-complete' : '')}`}
+                                    onClick={() => setShowGiftsDrawer(true)}
+                                    disabled={!subrace}
+                                    title={!subrace ? 'Choose a lineage first' : (hasAncestryLoadout(subrace) ? 'Choose ancestral gifts' : 'View canonical traits')}
+                                    data-testid="ancestral-gifts-launcher"
+                                >
+                                    <i className="fas fa-dna" aria-hidden="true"></i>
+                                    <span className="launcher-label">Ancestral Gifts</span>
+                                    <span className="launcher-value">
+                                        {!subrace
+                                            ? 'Choose a lineage first'
+                                            : (hasAncestryLoadout(subrace)
+                                                ? `${validateAncestry(subrace, characterData.ancestry).chosen} of 3 chosen`
+                                                : 'Canonical traits')}
+                                    </span>
+                                    <i className="fas fa-chevron-right launcher-chevron" aria-hidden="true"></i>
+                                </button>
+
+                                <button
+                                    type="button"
                                     className={`launcher-trigger-btn ${validationErrors.spells ? 'warning' : ''} ${selectedOptionalPicks.length === startingSpellPicks ? 'is-complete' : ''}`}
                                     onClick={() => setShowSpellsDrawer(true)}
                                     disabled={!characterData.class}
@@ -2870,7 +3079,10 @@ const Step1CoreDraft = () => {
                                     <div className="grimoire-heritage-showcase">
                                         <div
                                             className="grimoire-heritage-icon-wrapper"
-                                            onClick={() => setLightboxImage(currentHeritageIll.src)}
+                                            onClick={() => setLightboxImage({
+                                                src: currentHeritageIll.src,
+                                                caption: currentHeritageIll.caption || (selectedSubrace ? selectedSubrace.name : selectedRace?.name)
+                                            })}
                                             title="Click to zoom race illustration"
                                         >
                                             <img 
@@ -3027,40 +3239,58 @@ const Step1CoreDraft = () => {
 
                                     </table>
 
-                                    {selectedSubrace && selectedSubrace.traits && selectedSubrace.traits.length > 0 && (
-
+                                    {selectedSubrace && (
                                         <>
-
-                                            <h4 className="grimoire-section-header">Racial Traits</h4>
-
-                                            <div className="grimoire-traits-list">
-
-                                                {selectedSubrace.traits.map(trait => (
-
-                                                    <div key={trait.id} className="grimoire-trait-card">
-
-                                                        <div className="grimoire-trait-header">
-
-                                                            <div className="grimoire-trait-icon">
-
-                                                                <i className={trait.icon ? (trait.icon.startsWith('fa') ? trait.icon : 'fas fa-star') : 'fas fa-star'}></i>
-
-                                                            </div>
-
-                                                            <span className="grimoire-trait-title">{trait.name}</span>
-
-                                                        </div>
-
-                                                        <span className="grimoire-trait-desc">{trait.description}</span>
-
-                                                    </div>
-
-                                                ))}
-
+                                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '1rem', marginBottom: '0.4rem' }}>
+                                                <h4 className="grimoire-section-header" style={{ margin: 0 }}>
+                                                    {hasAncestryLoadout(selectedSubrace.id) ? 'Ancestral Gifts' : 'Racial Traits'}
+                                                </h4>
+                                                <button
+                                                    type="button"
+                                                    onClick={() => setShowGiftsDrawer(true)}
+                                                    style={{
+                                                        background: 'rgba(153, 126, 85, 0.15)',
+                                                        border: '1px solid rgba(153, 126, 85, 0.4)',
+                                                        borderRadius: '4px',
+                                                        color: '#7a5a35',
+                                                        fontSize: '0.72rem',
+                                                        fontWeight: 600,
+                                                        padding: '2px 8px',
+                                                        cursor: 'pointer'
+                                                    }}
+                                                >
+                                                    <i className="fas fa-dna"></i> {hasAncestryLoadout(selectedSubrace.id) ? 'Choose Gifts' : 'Inspect Details'}
+                                                </button>
                                             </div>
-
+                                            {hasAncestryLoadout(selectedSubrace.id) ? (
+                                                <AncestralGiftsCodex
+                                                    raceId={race}
+                                                    subraceId={selectedSubrace.id}
+                                                    ancestry={characterData.ancestry}
+                                                    onOpenDrawer={() => setShowGiftsDrawer(true)}
+                                                />
+                                            ) : (
+                                                <div className="grimoire-traits-list">
+                                                    {selectedSubrace.traits && selectedSubrace.traits.map(trait => (
+                                                        <div
+                                                            key={trait.id}
+                                                            className="grimoire-trait-card"
+                                                            onClick={() => setShowGiftsDrawer(true)}
+                                                            style={{ cursor: 'pointer' }}
+                                                            title="Click to inspect trait details"
+                                                        >
+                                                            <div className="grimoire-trait-header">
+                                                                <div className="grimoire-trait-icon">
+                                                                    <i className={trait.icon ? (trait.icon.startsWith('fa') ? trait.icon : 'fas fa-star') : 'fas fa-star'}></i>
+                                                                </div>
+                                                                <span className="grimoire-trait-title">{trait.name}</span>
+                                                            </div>
+                                                            <span className="grimoire-trait-desc">{trait.description}</span>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            )}
                                         </>
-
                                     )}
 
                                 </div>
@@ -3145,7 +3375,10 @@ const Step1CoreDraft = () => {
                                                     <>
                                                         <div
                                                             className="grimoire-class-art-frame"
-                                                            onClick={() => setLightboxImage(currentClassIll.src)}
+                                                            onClick={() => setLightboxImage({
+                                                                src: currentClassIll.src,
+                                                                caption: currentClassIll.caption || characterData.class
+                                                            })}
                                                             title="Click to zoom class illustration"
                                                         >
                                                             <img 
@@ -3213,10 +3446,14 @@ const Step1CoreDraft = () => {
                                                         <ClassIcon 
                                                             src={CLASS_DATA_MAP[characterData.class]?.imageIcon || `/assets/icons/classes/${characterData.class.toLowerCase().replace(' ', '_')}.png`}
                                                             alt={characterData.class}
-                                                            size="large"
+                                                            size="xlarge"
+                                                            sizes="(max-width: 768px) 100vw, 600px"
                                                             className="grimoire-large-class-icon grimoire-zoomable"
                                                             dataClass={characterData.class}
-                                                            onClick={() => setLightboxImage(CLASS_DATA_MAP[characterData.class]?.imageIcon || `/assets/icons/classes/${characterData.class.toLowerCase().replace(' ', '_')}.png`)}
+                                                            onClick={() => setLightboxImage({
+                                                                src: CLASS_DATA_MAP[characterData.class]?.imageIcon || `/assets/icons/classes/${characterData.class.toLowerCase().replace(' ', '_')}.png`,
+                                                                caption: characterData.class
+                                                            })}
                                                         />
                                                     </div>
                                                 )}
@@ -4263,31 +4500,54 @@ const Step1CoreDraft = () => {
 
 
 
+            {/* D. ANCESTRAL GIFTS DRAWER */}
+            {showGiftsDrawer && subrace && (
+                <AncestralGiftsDrawer
+                    raceId={race}
+                    subraceId={subrace}
+                    ancestry={characterData.ancestry}
+                    sealed={state.sealedAncestry?.heritageId === subrace}
+                    onPick={(rowId, giftId) => dispatch(wizardActionCreators.setAncestryPick(rowId, giftId))}
+                    onClose={() => setShowGiftsDrawer(false)}
+                    getIconUrl={(id) => { const m = typeof id === 'string' ? mapSpellIcon(id) : null; return m ? getCustomIconUrl(m, 'abilities') : getSpellIconUrl(id); }}
+                />
+            )}
+
             {/* Unified Tooltip System */}
 
             <UnifiedTooltip {...tooltipState} />
 
             {/* Image Lightbox */}
 
-            {lightboxImage && (
-
-                <div className="grimoire-lightbox-overlay" onClick={() => setLightboxImage(null)}>
-
-                    <div className="grimoire-lightbox-content" onClick={(e) => e.stopPropagation()}>
-
-                        <button type="button" className="grimoire-lightbox-close" onClick={() => setLightboxImage(null)}>
-
-                            <i className="fas fa-times"></i>
-
-                        </button>
-
-                        <img src={lightboxImage} alt="Enlarged view" className="grimoire-lightbox-img" />
-
+            {lightboxImage && (() => {
+                const src = typeof lightboxImage === 'string' ? lightboxImage : lightboxImage?.src;
+                const caption = typeof lightboxImage === 'object' ? lightboxImage?.caption : null;
+                return (
+                    <div className="grimoire-lightbox-overlay" onClick={() => setLightboxImage(null)}>
+                        <div className="grimoire-lightbox-content" onClick={(e) => e.stopPropagation()}>
+                            <button
+                                type="button"
+                                className="grimoire-lightbox-close"
+                                onClick={() => setLightboxImage(null)}
+                                title="Close (Esc)"
+                                aria-label="Close enlarged view"
+                            >
+                                <i className="fas fa-times"></i>
+                            </button>
+                            <img
+                                src={src}
+                                alt={caption || "Enlarged view"}
+                                className="grimoire-lightbox-img"
+                            />
+                            {caption && (
+                                <div className="grimoire-lightbox-caption">
+                                    <i className="fas fa-compass"></i> {caption}
+                                </div>
+                            )}
+                        </div>
                     </div>
-
-                </div>
-
-            )}
+                );
+            })()}
 
         </div>
 

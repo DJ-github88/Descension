@@ -20,6 +20,8 @@ import { revenantResourceGuide } from './revenantResourceGuide';
 import { falseProphetResourceGuide } from './falseProphetResourceGuide';
 import { gambitResourceGuide } from './gambitResourceGuide';
 import { chaosWeaverResourceGuide } from './chaosWeaverResourceGuide';
+import { gamblerResourceGuide } from './gamblerResourceGuide';
+import { fateWeaverResourceGuide } from './fateWeaverResourceGuide';
 
 /**
  * Registry of classes whose Resource System tab uses the v2 layout.
@@ -49,6 +51,8 @@ export const RESOURCE_SYSTEM_GUIDES = {
  false_prophet: falseProphetResourceGuide,
  gambit: gambitResourceGuide,
  'chaos-weaver': chaosWeaverResourceGuide,
+ gambler: gamblerResourceGuide,
+ 'fate-weaver': fateWeaverResourceGuide,
 };
 
 export const getResourceSystemGuide = (classId) =>

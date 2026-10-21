@@ -130,7 +130,7 @@
 
 .account-welcome .user-display-name {
   margin: 0;
-  color: #2d1810;
+  color: var(--workspace-paper, #f0e3c4);
   font-size: 1.15rem;
   font-weight: 700;
   font-family: 'Cinzel', serif;

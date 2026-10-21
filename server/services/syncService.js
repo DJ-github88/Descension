@@ -1232,27 +1232,45 @@ class MovementDebouncer {
       if (move.playerRef && currentPlayer !== move.playerRef) {continue;}
       if (move.roomRef && rooms.get(move.roomId) !== move.roomRef) {continue;}
 
+      // C2: map-specific current actor after authority await, never a stale root mirror.
+      const moveMap = room.gameState.maps?.[move.mapId || room.gameState.defaultMapId || 'default'];
+      const moveField = moveMap?.characterTokens?.[move.tokenId] ? 'characterTokens' : 'tokens';
+      const moveToken = moveMap?.[moveField]?.[move.tokenId];
+      if (move.roomRef && !moveToken) {continue;} // Never recreate a disappeared originating attachment from a root mirror.
+      if (moveToken) {
+        const authority = require('../handlers/tokenHandlers').resolveTokenAuthority(room, currentPlayer, move.tokenId, moveToken,
+          move.mapId || room.gameState.defaultMapId || 'default', move.userId || currentPlayer.userId);
+        if (authority === 'none') {continue;}
+        try {require('./actorConsequences').assertCanMove(moveToken, currentPlayer);} catch (error) {
+          io.to(move.playerId).emit('room_error', { code: error.code, event: 'token_moved', message: error.message });
+          continue;
+        }
+      }
+
       // Update room state
       if (!room.gameState.tokens) {
         room.gameState.tokens = {};
       }
 
-      const existingToken = room.gameState.tokens[move.tokenId];
+      const existingToken = moveToken || room.gameState.tokens[move.tokenId];
       if (existingToken) {
-        room.gameState.tokens[move.tokenId] = {
+        const movedToken = {
           ...existingToken,
           position: move.position,
           velocity: move.velocity,
           lastMoved: Date.now()
         };
+        const rootField = moveField === 'characterTokens' ? 'characterTokens' : 'tokens';
+        room.gameState[rootField] = room.gameState[rootField] || {};
+        room.gameState[rootField][move.tokenId] = movedToken;
 
         // Also update map-specific token if available
         const mapId = move.mapId || room.gameState.defaultMapId || 'default';
         if (room.gameState.maps && room.gameState.maps[mapId]) {
-          if (!room.gameState.maps[mapId].tokens) {
-            room.gameState.maps[mapId].tokens = {};
+          if (!room.gameState.maps[mapId][moveField]) {
+            room.gameState.maps[mapId][moveField] = {};
           }
-          room.gameState.maps[mapId].tokens[move.tokenId] = {
+          room.gameState.maps[mapId][moveField][move.tokenId] = {
             ...existingToken,
             position: move.position,
             velocity: move.velocity,

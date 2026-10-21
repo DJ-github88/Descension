@@ -1,5 +1,6 @@
 // Shared Conditions Data
 // Used by ConditionsWindow and BuffDebuffCreatorModal
+import { DEFENDING, STUNNED } from '../services/sharedConditionProfile';
 
 export const CONDITION_CATEGORIES = {
   MOVEMENT: 'Movement',
@@ -13,7 +14,7 @@ export const CONDITIONS = {
   // Movement Conditions
   stunned: {
     name: 'Stunned',
-    description: 'Every condition is a contract between body and world. cannot move or take actions',
+    description: STUNNED.description,
     category: CONDITION_CATEGORIES.MOVEMENT,
     type: 'debuff',
     color: '#FFD700',
@@ -146,12 +147,12 @@ export const CONDITIONS = {
     severity: 'beneficial'
   },
   defending: {
-    name: 'Defending',
-    description: 'Increased armor and damage resistance',
+    name: DEFENDING.name,
+    description: DEFENDING.description,
     category: CONDITION_CATEGORIES.COMBAT,
     type: 'buff',
-    color: '#4682B4',
-    icon: '/assets/icons/Status/buff/shield-protection.png',
+    color: DEFENDING.color,
+    icon: DEFENDING.icon,
     severity: 'beneficial'
   }
 };
@@ -221,4 +222,3 @@ export const getAllStatusIconsByCategory = async (category) => {
 
 // Flattened list of all condition icons for the icon picker
 export const ALL_CONDITION_ICONS = Object.values(CONDITION_ICONS_BY_CATEGORY).flat();
-

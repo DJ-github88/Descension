@@ -100,7 +100,7 @@ export const createResourceSlice = (set, get) => ({
                 });
 
                 const encumbranceState = getEncumbranceState();
-                newDerivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, encumbranceState, state.exhaustionLevel || 0, newResource, state.race, state.subrace);
+                newDerivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, encumbranceState, state.exhaustionLevel || 0, newResource, state.race, state.subrace, undefined, state.ancestry);
                 updates.derivedStats = newDerivedStats;
             }
 

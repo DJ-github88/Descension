@@ -1,3 +1,9 @@
+import React from 'react';
+import { render, screen, fireEvent } from '@testing-library/react';
+import '@testing-library/jest-dom';
+import ClassDetailDisplay from '../ClassDetailDisplay';
+import { GAMBLER_DATA } from '../../../data/classes/gamblerData';
+
 // Polyfill global fetch if needed
 if (!global.fetch) {
   global.fetch = jest.fn(() =>
@@ -8,10 +14,6 @@ if (!global.fetch) {
   );
 }
 
-import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
-import '@testing-library/jest-dom';
-import ClassDetailDisplay from '../ClassDetailDisplay';
 
 // Mock dependencies that aren't under test
 jest.mock('../../../utils/assetManager', () => ({
@@ -104,4 +106,15 @@ describe('ClassDetailDisplay Spells Spellbook Layout', () => {
     expect(screen.getByTestId('unified-spell-card')).toBeInTheDocument();
     expect(screen.getByText('Available at Level 1')).toBeInTheDocument();
   });
+});
+
+test('Gambler detail renders complete cards at all levels and a real uninitialized resource preview', () => {
+  render(<ClassDetailDisplay classData={GAMBLER_DATA} onBack={jest.fn()} />);
+  fireEvent.click(screen.getByRole('button', { name: /spells/i }));
+  expect(screen.getByRole('button', { name: /Inspect Read the Table/ })).toBeInTheDocument();
+  for (let page = 0; page < 4; page++) fireEvent.click(screen.getByRole('button', { name: 'Next page' }));
+  expect(screen.getByRole('button', { name: /Inspect House Compact/ })).toBeInTheDocument();
+  expect(screen.getByRole('button', { name: /Inspect The Last Stake/ })).toBeInTheDocument();
+  fireEvent.click(screen.getByRole('button', { name: /Inspect House Compact/ }));
+  expect(screen.getByTestId('unified-spell-card').textContent).toContain('two fixed leg identities');
 });

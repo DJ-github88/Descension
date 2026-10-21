@@ -274,14 +274,14 @@ The toll is sacred. Every outsider who crosses an Ancestor-Span must pay somethi
       tooltipSummary: 'Massive, primal stone ogre quarry-masons and hall-builders (1.50m-1.60m) with monolithic granite frames and ancient Thrumm bulk, carving cyclopean mountain halls and peak-fastnesses.',
       description: 'Massive, monolithic, and primal, the Morgh are rock-hewn stone ogre-like humanoids carrying ancient Thrumm blood closest to the surface. Standing 1.50m to 1.60m (4\'11" to 5\'3"), they are broad-shouldered, deep-chested, and immovable, built as cyclopean quarry-masons and subterranean hall-builders of Cragjaw Peaks. Their stone-skin grows in dense, rough cracked granite plates across shoulders, spine, and limbs. Their speech is slow and resonant, vibrating like grinding tectonic plates. They inhabit cyclopean stone halls and subterranean vat-fortresses carved deep into the mid-crag, gathering around common magma-kilns and forging megalithic stonework. A Morgh sentinel pulls a heavy ox-hide cowl over their craggy stone brow, leans on a staff, and does not move for days. The Morgh have been the Groven\'s bedrock craftsmen, hall-keepers, and forge-laborers since the Vat-Breakers\' Revolt.',
       culturalBackground: 'The Morgh trace their lineage to the Groven who fled the vats but could not shed the old Thrumm instincts, the need to build, to guard, to bear weight in silence. Their hall-hearths are cyclopean subterranean halls carved deep into the Cragjaw Peaks, communal caverns heated by geothermal vents, shared among extended family around one great central fire. They speak the old earth tongue in the hall depths, reserving Common for dealings with Amordjin and outsiders. Their children learn stone-quarrying and bridge-tending before they learn bridge-tolling. Their elders die in the chasms, becoming the foundations of spans their grandchildren will walk.',
-      statModifiers: { strength: 2, constitution: 2, spirit: 2, agility: -3 },
+      statModifiers: { strength: 3, constitution: 2, agility: -2, charisma: -2 },
       baseStats: { hp: 12, mana: 5, ap: 3, initiative: -1 },
       savingThrowModifiers: { advantage: ['constitution', 'strength'], disadvantage: ['agility', 'fire'] },
       traits: [
         {
           id: 'morgh_stone_scales',
           name: 'Stone-Scale Plating',
-          description: 'Your dense interlocking mineral plates grant +1 Durability (flat damage reduction against physical damage) and 15% physical damage resistance (permanent). You have 100% ember vulnerability.',
+          description: 'Your dense interlocking mineral plates grant +1 Durability (flat damage reduction against physical damage) and 25% physical damage resistance (take 1/4 less damage) (permanent). You have 100% ember vulnerability, suffer disadvantage on all Agility checks, and instantly sink like a boulder in water (cannot swim).',
           level: 1,
           icon: 'ability_warrior_shieldmastery',
           spellType: 'PASSIVE',
@@ -296,14 +296,13 @@ The toll is sacred. Every outsider who crosses an Ancestor-Span must pay somethi
             effects: [{
               id: 'stone_plating_resistance',
               name: 'Stone-Scale Plating',
-              description: '+1 Durability and 15% physical damage resistance from dense mineral plates.',
+              description: '+1 Durability and 25% physical damage resistance (take 1/4 less damage) from dense mineral plates.',
               statModifier: {
                 durability: 1,
                 stat: 'smashing',
-                magnitude: 15,
-                magnitudeType: 'resistance'
+                magnitude: 25, magnitudeType: 'percentage'
               },
-              mechanicsText: 'Gain +1 Durability against physical damage and resist 15% of incoming physical damage from your dense mineral scale plating.'
+              mechanicsText: 'Gain +1 Durability against physical damage and resist 25% of incoming physical damage from your dense mineral scale plating.'
             }],
             durationValue: 0,
             durationType: 'permanent',
@@ -568,12 +567,7 @@ The toll is sacred. Every outsider who crosses an Ancestor-Span must pay somethi
         weight: '180-240 lbs',
         build: 'Tall, athletic, and predatory: a statuesque horned stone-troll with slate-blue mineral skin, sweeping crown horns, braided dreadlocks, lower under-fangs, fine shoulder scales, and clawed span-reaching limbs built for alpine suspension bridges and sheer mountain cliffs.'
       },
-      statModifiers: {
-        agility: 2,
-        intelligence: 1,
-        charisma: 1,
-        constitution: -1
-      },
+      statModifiers: { agility: 3, charisma: 2, constitution: -2, spirit: -1 },
       traits: [
         {
           id: 'ithran_span_reach',

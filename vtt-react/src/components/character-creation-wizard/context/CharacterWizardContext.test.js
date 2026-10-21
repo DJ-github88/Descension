@@ -2,9 +2,11 @@ import {
     characterWizardReducer,
     validateCurrentStep,
     initialState,
-    ACTION_TYPES
+    ACTION_TYPES,
+    wizardActionCreators
 } from './CharacterWizardContext';
 import { CLASS_PROVENANCE } from '../../../data/classHeritageRegistry';
+import { buildAncestry } from '../../../data/ancestryLoadouts';
 
 const baseCharacter = {
     ...initialState.characterData,
@@ -54,4 +56,86 @@ test('CORE_DRAFT validation accepts a fully sourced exceptional calling', () => 
     };
     const state = { ...initialState, characterData: sourced, currentStep: 1, originalCalling: null };
     expect(validateCurrentStep(state).class).toBeUndefined();
+});
+
+describe('Ancestral Gifts in CharacterWizardContext', () => {
+    const grovenState = {
+        ...initialState,
+        characterData: {
+            ...baseCharacter,
+            race: 'groven',
+            subrace: 'ithran_groven'
+        }
+    };
+
+    test('SET_ANCESTRY_PICK records picks for current subrace and ignores invalid options', () => {
+        const s1 = characterWizardReducer(grovenState, wizardActionCreators.setAncestryPick('traversal', 'ithran_chasm_leap'));
+        expect(s1.characterData.ancestry.picks.traversal).toBe('ithran_chasm_leap');
+
+        const sInvalid = characterWizardReducer(s1, wizardActionCreators.setAncestryPick('traversal', 'morgh_stone_scales'));
+        expect(sInvalid.characterData.ancestry.picks.traversal).toBe('ithran_chasm_leap');
+    });
+
+    test('changing race or subrace clears ancestry picks unless returning to a sealed heritage', () => {
+        const s1 = characterWizardReducer(grovenState, wizardActionCreators.setAncestryPick('traversal', 'ithran_chasm_leap'));
+        const sSubraceChanged = characterWizardReducer(s1, wizardActionCreators.setSubrace('morgh_groven'));
+        expect(sSubraceChanged.characterData.ancestry).toBeNull();
+
+        const sRaceChanged = characterWizardReducer(s1, wizardActionCreators.setRace('human'));
+        expect(sRaceChanged.characterData.ancestry).toBeNull();
+    });
+
+    test('sealed ancestry is read-only for its heritage and restored when switching back', () => {
+        const sealed = {
+            ...buildAncestry('ithran_groven', {
+                traversal: 'ithran_chasm_leap',
+                reading: 'toll_keepers_eye',
+                hunt: 'fiber_cord_snare_ithran'
+            }),
+            finalizedAt: '2026-10-20T22:00:00.000Z'
+        };
+        const loaded = characterWizardReducer(initialState, {
+            type: ACTION_TYPES.LOAD_CHARACTER,
+            payload: {
+                name: 'SealedGroven',
+                race: 'groven',
+                subrace: 'ithran_groven',
+                class: 'Berserker',
+                ancestry: sealed
+            }
+        });
+        expect(loaded.sealedAncestry).toEqual(sealed);
+
+        // Attempting to change pick on sealed heritage does nothing
+        const afterAttempt = characterWizardReducer(loaded, wizardActionCreators.setAncestryPick('traversal', 'ithran_span_reach'));
+        expect(afterAttempt.characterData.ancestry.picks.traversal).toBe('ithran_chasm_leap');
+
+        // Switching to another subrace clears ancestry, switching back restores sealed
+        const switched = characterWizardReducer(loaded, wizardActionCreators.setSubrace('morgh_groven'));
+        expect(switched.characterData.ancestry).toBeNull();
+        const restored = characterWizardReducer(switched, wizardActionCreators.setSubrace('ithran_groven'));
+        expect(restored.characterData.ancestry).toEqual(sealed);
+    });
+
+    test('validation requires complete ancestry for new Groven characters but exempts legacy edits on original heritage', () => {
+        expect(validateCurrentStep(grovenState).ancestry).toMatch(/Choose one Ancestral Gift/i);
+
+        const completeAncestry = buildAncestry('ithran_groven', {
+            traversal: 'ithran_chasm_leap',
+            reading: 'toll_keepers_eye',
+            hunt: 'fiber_cord_snare_ithran'
+        });
+        const completeState = {
+            ...grovenState,
+            characterData: { ...grovenState.characterData, ancestry: completeAncestry }
+        };
+        expect(validateCurrentStep(completeState).ancestry).toBeUndefined();
+
+        // Legacy edit on same heritage without ancestry is exempt
+        const legacyEditState = {
+            ...grovenState,
+            originalCalling: { class: 'Berserker', race: 'groven', subrace: 'ithran_groven' }
+        };
+        expect(validateCurrentStep(legacyEditState).ancestry).toBeUndefined();
+    });
 });

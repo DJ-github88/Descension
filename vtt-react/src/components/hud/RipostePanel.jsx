@@ -26,14 +26,14 @@ function AttestForm({ busy, perform }) {
   const [note, setNote] = useState(''), [receipt, setReceipt] = useState('');
   const pcs = characters.filter(t => refOf(t)?.kind === 'character' && t.state.actorContract.primary);
   const foes = creatures.filter(t => refOf(t)?.kind === 'creature');
-  const known = saved?.offers?.[requestId];
+  const known = saved?.offers?.[requestId], parentKnown = saved?.parents?.[requestId];
   return <details open><summary>Structured Parry attestation / fresh Riposte offer</summary>
     <p>Original universal_riposte: exactly1 AP. Prior Parry success/payment is GM-attested, not automatically verified. No second Parry charge.</p>
     <form onSubmit={e => { e.preventDefault(); perform(() => offerRiposte({ requestId, windowEpoch: collection.epoch, windowId: windowId || null,
       source: refOf(pcs.find(t => key(refOf(t)) === source)), target: refOf(foes.find(t => key(refOf(t)) === target)),
       attack: { id: attackId, attacker: refOf(foes.find(t => key(refOf(t)) === target)), defender: refOf(pcs.find(t => key(refOf(t)) === source)) },
       parry: { id: parryId, success, paid, timingConfirmed: timing, note }, receiptRef: receipt || null })); }}>
-      <fieldset disabled={busy || !!known}><legend>Exact attack and Parry</legend>
+      <fieldset disabled={busy || !!known || !!parentKnown}><legend>Exact attack and Parry references — server issues canonical provenance</legend>
         <label>Triggering attack occurrence<input required maxLength={120} value={attackId} onChange={e => setAttackId(e.target.value)} /></label>
         <label>Parry occurrence<input required maxLength={120} value={parryId} onChange={e => setParryId(e.target.value)} /></label>
         <label>Exact parrying PC<select required value={source} onChange={e => setSource(e.target.value)}><option value="">Choose primary PC</option>{pcs.map(t => <option key={key(refOf(t))} value={key(refOf(t))}>{label(t)}</option>)}</select></label>
@@ -50,9 +50,11 @@ function AttestForm({ busy, perform }) {
         <label>Private payment/Parry attestation note<textarea required maxLength={500} value={note} onChange={e => setNote(e.target.value)} /></label>
         <label>Optional existing payment receipt ID<input value={receipt} onChange={e => setReceipt(e.target.value)} /></label>
       </fieldset>
-      {!known && <button type="submit" disabled={busy || !collection.epoch}>Attest Parry and offer Riposte</button>}
+      {!known && !parentKnown && <button type="submit" disabled={busy || !collection.epoch}>Attest Parry and offer Riposte</button>}
       {known && <><p>Exact offer request retained: {known.phase}. Editing it cannot mint another opportunity.</p>
         <button type="button" disabled={busy} onClick={() => perform(() => offerRiposte(known.request))}>Check exact retained offer</button></>}
+      {!known && parentKnown && <><p>Original-epoch parent registration retained: {parentKnown.phase}; no opportunity recreated after restart.</p>
+        <button type="button" disabled={busy} onClick={() => perform(() => offerRiposte(parentKnown.fields))}>Check exact retained parent and offer</button></>}
     </form>
   </details>;
 }
@@ -116,6 +118,7 @@ export default function RiposteHost() {
   useEffect(() => { if (!collecting) return; const t = setInterval(refreshRiposte, 1000); return () => clearInterval(t); }, [collecting]);
   const perform = async fn => { setBusy(true); setError(''); try { await fn(); } catch (e) { setError(e.message); } finally { setBusy(false); } };
   if (!socket || !roomId || !uid || isPrivateProjectionIsolated() || state.principal !== reactionPrincipal()) return null;
+  if (!socket.connected) return <p role="status">Riposte disconnected/unavailable — original deadline continues, exact custody retained, no automatic replay.</p>;
   if (!gm && !state.opportunities.length && !state.saved?.owner) return null;
   return <>
     <button ref={opener} className="rp-open" type="button" onClick={() => setShow(true)}>Riposte execution — structured opportunity</button>
@@ -133,6 +136,9 @@ export default function RiposteHost() {
       </article>)}
       {Object.entries(state.saved?.gm || {}).filter(([id, record]) => record.command && !state.opportunities.some(p => p.id === id)).map(([id, record]) =>
         <div key={id}><p>Retained previous-runtime command — {record.phase}; no opportunity recreated.</p><button type="button" disabled={busy} onClick={() => perform(() => checkRiposteCommand(id))}>Check retained command {id.slice(0, 8)}</button></div>)}
+      {!gm && Object.entries(state.saved?.owner || {}).filter(([id, record]) => record.approval && !state.opportunities.some(p => p.id === id)).map(([id, record]) =>
+        <div key={id}><p>Retained previous-runtime approval — {record.phase}; faces {record.roll?.faces.join(', ')}. No opportunity recreated; reconcile manually if unknown.</p>
+          <button type="button" disabled={busy} onClick={() => perform(() => checkRiposteApproval(id))}>Check retained approval {id.slice(0, 8)}</button></div>)}
     </section>, document.body)}
   </>;
 }

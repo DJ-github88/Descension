@@ -178,8 +178,8 @@ describe('Race Trait Integration Tests', () => {
         const oken = getFullRaceData('florae', 'florae_unified');
         expect(viridian.combinedTraits.reproduction).toMatch(/Biological birth/);
         expect(oken.combinedTraits.reproduction).toMatch(/Sapling-Sprout/);
-        expect(applyRacialModifiers(baseline, 'florae', 'viridian')).toEqual({ ...baseline, agility: 12, spirit: 11, charisma: 11, constitution: 9 });
-        expect(applyRacialModifiers(baseline, 'florae', 'oken')).toEqual({ ...baseline, constitution: 12, spirit: 11, strength: 11, charisma: 9 });
+        expect(applyRacialModifiers(baseline, 'florae', 'viridian')).toEqual({ ...baseline, agility: 13, spirit: 11, constitution: 8, charisma: 9 });
+        expect(applyRacialModifiers(baseline, 'florae', 'oken')).toEqual({ ...baseline, constitution: 13, strength: 12, agility: 8, intelligence: 9 });
         expect(viridian.combinedTraits.statModifiers.dexterity).toBeUndefined();
         expect(oken.combinedTraits.statModifiers.wisdom).toBeUndefined();
     });

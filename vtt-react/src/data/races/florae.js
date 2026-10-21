@@ -197,18 +197,18 @@ They reject the Fog Compact entirely. Where House Thalreth traded the Frostwood 
 
 Their oral tradition is fierce and short-spoken. They keep the names of every house that broke the Great Binding, every house that marched its firstborn north, and they sing them only as warnings. A Briaren who leaves the deep groves does so as a partisan, carrying the refusal into the Ledgered world at great personal cost. The fog erodes them faster than it erodes the Oaken, and they know it.`,
       baseTraits: { reproduction: 'Biological birth; contract-barbs emerge at adolescence' },
-      statModifiers: { agility: 2, spirit: 1, charisma: 1, constitution: -1 },
+      statModifiers: { agility: 3, spirit: 1, constitution: -2, charisma: -1 },
       baseStats: { hp: 7, mana: 9, ap: 3, initiative: 1 },
       savingThrowModifiers: { advantage: ['insight', 'deception'], disadvantage: ['fire'] },
       traits: [
         {
           id: 'thorn_barb_bristle_viridian',
           name: 'Thorn-Barb Bristle',
-          description: 'Your forearms bristle with living contract-barbs. Unarmed strikes deal 1d6 + Agility piercing damage instead of bludgeoning; a creature grappling you or hitting you with melee within 5 feet takes 1d4 piercing damage. Pruning cannot remove or suppress these permanent barbs.',
+          description: 'Your forearms bristle with living contract-barbs. Unarmed strikes deal 1d6 + Agility piercing damage. However, your hollow, fae-bramble bone structure is brittle against heavy impacts: you suffer disadvantage on Constitution saving throws against crushing, bludgeoning, and sonic damage.',
           level: 1,
           icon: 'Nature/Thorny Entanglement',
           spellType: 'PASSIVE',
-          effectTypes: ['buff'],
+          effectTypes: ['buff', 'debuff'],
           typeConfig: { school: 'primal', icon: 'Nature/Thorny Entanglement', tags: ['thorns', 'fae-contract', 'piercing', 'passive'] },
           buffConfig: {
             buffType: 'combatEnhancement',
@@ -220,6 +220,16 @@ Their oral tradition is fierce and short-spoken. They keep the names of every ho
                 mechanicsText: 'Unarmed strikes deal 1d6 + Dex piercing; barbs deal 1d4 to adjacent melee attackers.'
               }
             ],
+            durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
+          },
+          debuffConfig: {
+            debuffType: 'statusEffect',
+            effects: [{
+              id: 'bramble_frailty',
+              name: 'Hollow Bramble Frailty',
+              description: 'Disadvantage on Constitution saving throws against crushing, bludgeoning, and sonic damage.',
+              statusEffect: { penaltyType: 'constitution_saves_crushing', magnitude: 'disadvantage' }
+            }],
             durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
           },
           targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
@@ -326,14 +336,14 @@ Oaken younglings are not born biologically; they are planted. Every youngling be
 
 Whether an Oaken appears 'Wild' (unkempt with leafy crowns and mossy shoulders in deep groves) or 'Pruned' (groomed and manicured under high-collared traveler coats in human cities) is a matter of personal choice and lifestyle. Both carry the same warm heartwood core, the same copper water-flask, and the same blank unstitched Viridane crest patch.`,
       baseTraits: { reproduction: 'Sapling-Sprout ground nursery' },
-      statModifiers: { constitution: 2, spirit: 1, strength: 1, charisma: -1 },
+      statModifiers: { constitution: 3, strength: 2, agility: -2, intelligence: -1 },
       baseStats: { hp: 9, mana: 6, ap: 3, initiative: 0 },
       savingThrowModifiers: { advantage: ['nature', 'survival'], disadvantage: ['fire'] },
       traits: [
         {
           id: 'heartwood_durability_oken',
           name: 'Heartwood Density',
-          description: 'Your trunk and limbs are forged from dense living timber (oak, birch, or rowan) instead of soft flesh. You gain +1 Durability (flat reduction against all physical damage). However, this ancient timber density reduces your base movement speed by 5 feet.',
+          description: 'Your trunk and limbs are forged from dense living timber (oak, birch, or rowan) instead of soft flesh. You gain +2 Durability against physical damage and advantage on saving throws against being knocked prone. However, your massive ironwood bulk is lumbering and slow: your base movement speed is reduced by 5 ft, and you suffer permanent disadvantage on all Agility checks and Dexterity saving throws.',
           level: 1,
           icon: 'Nature/Earth Shield',
           spellType: 'PASSIVE',
@@ -376,7 +386,7 @@ Whether an Oaken appears 'Wild' (unkempt with leafy crowns and mossy shoulders i
           level: 1,
           icon: 'Nature/Wood Hand',
           spellType: 'PASSIVE',
-          effectTypes: ['buff'],
+          effectTypes: ['buff', 'debuff'],
           typeConfig: { school: 'primal', icon: 'Nature/Wood Hand', tags: ['reach', 'climb', 'canopy', 'passive'] },
           buffConfig: {
             buffType: 'utility',
@@ -388,6 +398,16 @@ Whether an Oaken appears 'Wild' (unkempt with leafy crowns and mossy shoulders i
                 mechanicsText: '+5 ft melee reach and +20 ft climb speed.'
               }
             ],
+            durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
+          },
+          debuffConfig: {
+            debuffType: 'statusEffect',
+            effects: [{
+              id: 'lumbering_timber',
+              name: 'Lumbering Ironwood Bulk',
+              description: 'Base speed reduced by 5 ft, disadvantage on Agility checks and Dexterity saving throws.',
+              statusEffect: { penaltyType: 'agility_checks_and_saves', magnitude: 'disadvantage' }
+            }],
             durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
           },
           targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },

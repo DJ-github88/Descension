@@ -32,6 +32,8 @@ import { AUGUR_DATA } from './classes/augurData';
 import { CRUSADER_DATA } from './classes/crusaderData';
 import { DEEPLING_MYRATHIL_APEX_DATA, DEEPLING_MYRATHIL_ANIMIST_DATA, DEEPLING_MYRATHIL_AUGUR_DATA } from './classes/index';
 import { CHAOS_WEAVER_DATA } from './classes/chaosWeaverIntegration';
+import { GAMBLER_DATA } from './classes/gamblerData';
+import { FATE_WEAVER_DATA } from './classes/fateWeaverData';
 import { UNIVERSAL_COMBAT_SPELLS } from './universalCombatSpells';
 
 // ===== CLASS DATA MAP =====
@@ -61,7 +63,9 @@ export const CLASS_DATA_MAP = {
    'Augur': AUGUR_DATA,
   'Crusader': CRUSADER_DATA,
   'Chaos Weaver': CHAOS_WEAVER_DATA,
-  'Nereid Myrathil Apex': DEEPLING_MYRATHIL_APEX_DATA,
+ 'Gambler': GAMBLER_DATA,
+ 'Fate Weaver': FATE_WEAVER_DATA,
+ 'Nereid Myrathil Apex': DEEPLING_MYRATHIL_APEX_DATA,
   'Nereid Myrathil Animist': DEEPLING_MYRATHIL_ANIMIST_DATA,
   'Nereid Myrathil Augur': DEEPLING_MYRATHIL_AUGUR_DATA
 };
@@ -548,7 +552,9 @@ if (CLASS_DATA_MAP['Chaos Weaver']?.spells || CLASS_DATA_MAP['Chaos Weaver']?.ex
 
 // ===== PROCESS REMAINING CLASSES =====
 // Generic processing for all classes not handled above
-const processedClasses = ['Arcanoneer', 'Pyrofiend', 'Minstrel', 'Chronarch', 'Martyr', 'Gambit', 'Harbinger', 'Chaos Weaver'];
+generatedSpells.Gambler = GAMBLER_DATA.spells.map(spell => normalizeClassSpell(spell, 'Gambler', entry => entry.specialization));
+generatedSpells['Fate Weaver'] = FATE_WEAVER_DATA.spells.map(spell => normalizeClassSpell(spell, 'Fate Weaver', entry => entry.specialization));
+const processedClasses = ['Arcanoneer', 'Pyrofiend', 'Minstrel', 'Chronarch', 'Martyr', 'Gambit', 'Harbinger', 'Chaos Weaver', 'Gambler', 'Fate Weaver'];
 const remainingClasses = Object.keys(CLASS_DATA_MAP).filter(className => !processedClasses.includes(className));
 
 // Generic spell processor for classes without special processing

@@ -70,6 +70,7 @@ export const createMultiplayerSlice = (set, get) => ({
                     skillRanks: state.skillRanks,
                     skillProgress: state.skillProgress,
                     class_spells: state.class_spells,
+                    ancestry: state.ancestry || null,
                     path: state.path,
                     pathDisplayName: state.pathDisplayName,
                     pathPassives: state.pathPassives || [],

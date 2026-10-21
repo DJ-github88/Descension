@@ -254,7 +254,7 @@ Tessic children are born underground, and most will never see open sky. Educatio
 
 The fog-choked forests of Frostwood Reach shape the Tallyn body: lean, watchful, with the pale complexion of people who live under perpetual mist. Their hands are ink-stained from a lifetime of journal-keeping, the first skill a Tallyn child learns, before speech, before walking, because a Tallyn who has not written themselves down does not, in any sense that matters, exist. Their eyes carry the particular tension of someone who has forgotten something important and knows it. They check their journals constantly. They ask strangers to repeat their names. They carve lineage into heart-pine because paper rots and memory rots faster, and a life that rots with it was, by the only measure the Tallyn recognize, a life that never happened. To be Tallyn is to understand that existence is a document, and that the unrecorded life, the unwitnessed name, the day no pen touched, is simply not worth living. House Thalreth struck the Fog Compact in the early generations of the Slow Cracks. Their culture of journal-keeping and ledger-dependence is a direct response to four centuries of memory-eating fog.`,
       culturalBackground: 'Tallyn culture is an arms race against oblivion, recently weaponized by Jarl-Archivist Kaelen Thalreth’s Sovereign Ledger. Because the protective fog degrades memory over generations, Kaelen has decreed that only those with registered lineages in Greymark’s tapestries hold legal rights, splitting the populace into the documented Ledgered and the unrecorded, outlawed Forgotten. The Scribe-Cartel maintains a stranglehold on life-preserving Soot-Resin Ink and Peat-Parchment, leaving the Forgotten to barter for black-market ink in Greymark\'s Shallows. Meanwhile, children showing magical spark are taken by force to the keep’s Tapestry-Wards, where their ancestral animism is systematically erased in favor of structured runic logic, and the Ironwood Palisade is patrolled by heavy Wardens to enforce Kaelen\'s taxes and shut out the undocumented.',
-      statModifiers: { intelligence: 2, spirit: 1, charisma: 1, strength: -1 },
+      statModifiers: { intelligence: 3, spirit: 1, strength: -1, constitution: -1 },
       baseStats: { hp: 22, mana: 7, ap: 3, initiative: 0 },
       savingThrowModifiers: { advantage: ['intelligence'], disadvantage: ['constitution'] },
       traits: [
@@ -292,13 +292,23 @@ The fog-choked forests of Frostwood Reach shape the Tallyn body: lean, watchful,
         {
           id: 'written_word_thalren',
           name: 'The Written Word',
-          description: 'Advantage on checks to detect forgery, decipher codes, and identify altered documents. After spending 10 minutes writing a detailed account of any event witnessed in the last 24 hours, that account is treated as a reliable record. The fog takes memory, but ink resists; you have read what others wrote your whole life, and you know when the hand is wrong.',
+          description: 'Advantage on checks to detect forgery, decipher codes, and identify altered documents. However, generations of cloistered scriptorium life leave you physically soft: you suffer disadvantage on Constitution saving throws against physical exhaustion and heavy manual labor.',
           level: 1,
           icon: 'spell_arcane_manashield',
           spellType: 'PASSIVE',
-          effectTypes: ['buff'],
+          effectTypes: ['buff', 'debuff'],
           typeConfig: { category: 'racial', school: 'arcane' },
           buffConfig: { buffType: 'utilityEnhancement', effects: [{ id: 'document_expert', name: 'Document Expertise', description: 'Advantage on detecting forgery, deciphering codes, and identifying altered documents.', mechanicsText: 'Grants advantage on checks to detect forgery, decipher codes, and identify altered documents. Permanent.', statusEffect: { level: 'minor' } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
+          debuffConfig: {
+            debuffType: 'statusEffect',
+            effects: [{
+              id: 'scriptorium_softness',
+              name: 'Cloistered Softness',
+              description: 'Disadvantage on Constitution saving throws against physical exhaustion and manual labor.',
+              statusEffect: { penaltyType: 'exhaustion_saves', magnitude: 'disadvantage' }
+            }],
+            durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
+          },
           targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
           resourceCost: { actionPoints: 0, mana: 0, components: [] },
           cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
@@ -362,7 +372,7 @@ The Frozen Archive, an ancient glacier-carved library-fortress held by the Skald
 Recently, Skald society has been fractured by the rise of **King-Jarl Halvar Skalvyr (Jarn-Tand)**. Having consolidated the regional clans under one crown with brutal force, Jarn-Tand constructed the **Sunder-Wall**, a colossal wall of glacier-ice and black granite cutting across the tundra to restrict and tax the movements of the nomadic clans. This has split the Skald into two hostile groups: the **Vaegfolk** — the settled clans within the Sunder-Wall — who swore fealty in exchange for geothermal valleys and southern grain subsidies, and the **Øsling** — the highland clans beyond the Wall — who live as nomads, hunted on sight.
 
 Adding to the tension is the **Icechamber Syndicate**, a southern trade monopoly backed by the crown that chokes the local economy, and the **Runic Academies** in the Frozen Archive, where children showing magic are taken by force to be "structured" and stripped of their ancestral animism. Jarn-Tand's **Cleansing of the Hearth** has outlawed the old shamanistic practices, burning sacred pine-groves and hunting down the tribal Animists. Meanwhile, in the Black Firth, massive steam-powered ironclads hunt the fjord's mythic sea-beasts, polluting the waters and destroying the fishing grounds of the coastal clans.`,
-      statModifiers: { strength: 2, constitution: 2, charisma: 1, intelligence: -2 },
+      statModifiers: { strength: 3, constitution: 1, agility: -2, intelligence: -2 },
       languages: ["Wayfarer's Cant", 'Old Nord'],
       baseStats: { hp: 30, mana: 4, ap: 3, initiative: 0 },
       savingThrowModifiers: { advantage: ['rime', 'endurance'], disadvantage: ['heat', 'persuasion'] },
@@ -463,14 +473,14 @@ Adding to the tension is the **Icechamber Syndicate**, a southern trade monopoly
 
 The snow-buried keeps of the Cragjaw Peaks produce a particular kind of human: pale, watchful, with the slightly hunched posture of people who spend their lives in vertical, stone-tunneled keeps. Tessic skin has not seen direct sunlight in generations. Their eyes are adapted to lamplight and the red geothermal glow of steam pipes. They speak softly, generations of close quarters and fear of triggering avalanches have made loud voices a social violation. They record their lives not in ink (which freezes) but in knotted cord-cords, carrying themselves with a quiet caution. House Tesshan's Blizzard-Veil bargain, in the early generations of the Freezing Era, traded visibility for concealment. The Tessic have not left their snow-buried keeps in sixteen generations, and in that time isolation has stopped being a condition and become an identity. Where other peoples reach outward, the Tessic have turned the stone wall into a virtue and the sealed door into a creed. They would say, if they ever spoke to outsiders long enough to say it, that no man is an island; the Tessic know better, because they are one, and have been for four hundred years, and they have made of their solitude a country no caravan can cross.`,
       culturalBackground: 'Tessic culture is a vertical pressure-cooker governed by Jarl-Tesshan Oda Tesshan and the Steam-Cartel. The keeps are carved into the cliffs and connected by calcified bone-bridges grown from the dead (the Groven). Society is split between the high-born Terraced, who control the geothermal agricultural andenes, and the impoverished Chasm-Dwellers who perform the mandatory corvée labor to maintain the pipes. The state enforces ancestor veneration of the Groven, brutally persecuting the traditional "Rock-Speakers" who commune with mountain rock-spirits. This has angered the mountain powers, causing hostile native mountain spirits like the Yukiona and Karasen to stalk the rope-bridges.',
-      statModifiers: { agility: 2, spirit: 1, constitution: 1, strength: -1 },
+      statModifiers: { agility: 3, intelligence: 1, strength: -2 },
       baseStats: { hp: 26, mana: 5, ap: 3, initiative: -1 },
       savingThrowModifiers: { advantage: ['disease', 'isolation'], disadvantage: ['social', 'initiative'] },
       traits: [
         {
           id: 'keep_rat_tessen',
           name: 'Keep-Rat',
-          description: 'Advantage on Perception checks to notice environmental changes indoors, and you cannot be surprised in indoor environments. Disadvantage on Survival checks in open wilderness. A lifetime in finite stone rooms attuned your instincts to wall and draft, never to sky.',
+          description: 'Advantage on Stealth checks, escaping restraints, and saving throws against disease. However, your twitchy, rodent-like suspicion and gutter demeanor put respectable society on edge: you suffer disadvantage on Charisma checks in formal or diplomatic settings.',
           level: 1,
           icon: 'ability_rogue_stealth',
           spellType: 'PASSIVE',
@@ -519,9 +529,19 @@ The snow-buried keeps of the Cragjaw Peaks produce a particular kind of human: p
           level: 1,
           icon: 'spell_fire_incinerate',
           spellType: 'PASSIVE',
-          effectTypes: ['buff'],
+          effectTypes: ['buff', 'debuff'],
           typeConfig: { category: 'racial', school: 'ember' },
           buffConfig: { buffType: 'sensoryEnhancement', effects: [{ id: 'heat_through_stone', name: 'Heat Through Stone', description: 'Sense heat sources through stone walls within 30ft. Advantage on Perception to detect creatures, traps, or features behind solid stone.', mechanicsText: 'You sense heat sources through stone within 30ft and gain advantage on Perception to find creatures, traps, or features behind solid stone. Permanent.', statusEffect: { level: 'moderate' } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
+          debuffConfig: {
+            debuffType: 'statusEffect',
+            effects: [{
+              id: 'gutter_demeanor',
+              name: 'Gutter Demeanor',
+              description: 'Disadvantage on Charisma checks in formal or diplomatic settings.',
+              statusEffect: { penaltyType: 'charisma_checks_formal', magnitude: 'disadvantage' }
+            }],
+            durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
+          },
           targetingConfig: { targetingType: 'self', rangeType: 'self_centered', aoeSize: 30 },
           resourceCost: { actionPoints: 0, mana: 0, components: [] },
           cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
@@ -565,14 +585,14 @@ The snow-buried keeps of the Cragjaw Peaks produce a particular kind of human: p
 
 The Iceheart Sea shapes the Merryn into something between sailor and storm. Lean, scarred, perpetually salt-stained, with the restless eyes of people who have learned that stillness means death. Their skin is a canvas, every contract, every debt, every oath tattooed into their flesh in black ink because paper rots at sea. A Merryn's body is a legal document, and a Merryn's self is the sum of the obligations written there: to be Merryn is not to carry a name or a bloodline first, but to carry the contracts you have kept and the ones you have yet to honor, and a contract made is a contract kept, full stop, inked into the skin so the sea cannot wash it away and the holder cannot pretend to forget. Their hands are callused from rope and salt. They walk with the rolling gait of people who spent their lives on pitching decks, and they distrust anyone who cannot swim, and they distrust, more deeply still, anyone who speaks of a promise as if a promise were a flexible thing. House Mereval's Sea-Charter, in the early generations of the Freezing Era, traded calm seas for navigable storm-lanes. The Merryn tattooing tradition, skin as legal document, evolved over centuries of storm trade.`,
       culturalBackground: 'Merryn culture is a floating hierarchy governed by the Mereval Board of Trade and Grand Admiral Osric. While captains traditionally voted on the Drift-Council at Merrowport, the rise of the Brine-Bond Syndicate has split the populace: wealthy Deck-Born officers control the trade ships, while pressed Bilge-Dwellers crew the heavy coal-clads under legal Press-Warrants. Traditional "Tide-Speak" animism has been outlawed under the state-enforced Luck-Ledger, forcing mariners to purchase temple luck-coins to protect against Yukiona-like storm wraiths. Meanwhile, steam-trawling engines pollute the unfreezing currents, driving the amphibious Deep-Born Myrathil to madness.',
-      statModifiers: { agility: 2, constitution: 1, charisma: 1, spirit: -1 },
+      statModifiers: { strength: 2, agility: 2, intelligence: -2, spirit: -1 },
       baseStats: { hp: 24, mana: 5, ap: 3, initiative: 2 },
       savingThrowModifiers: { advantage: ['water', 'navigation'], disadvantage: ['restraint'] },
       traits: [
         {
           id: 'sea_legs_merryn',
           name: 'Sea-Legs',
-          description: 'Swim speed equals your walking speed; advantage on checks to climb rigging, balance on unstable surfaces, and keep footing during storms; immunity to seasickness. Disadvantage on Stealth and Acrobatics on solid, unmoving ground. Born on the water, you will likely die on it; the land feels wrong under your feet, too still, too dead.',
+          description: 'You cannot be knocked prone while on moving surfaces, and you have advantage on Athletics checks to swim and climb rigging. However, deep-seated maritime superstition haunts you: you suffer disadvantage on saving throws against supernatural, psychic, and occult fear effects.',
           level: 1,
           icon: 'spell_nature_wind',
           spellType: 'PASSIVE',
@@ -606,9 +626,19 @@ The Iceheart Sea shapes the Merryn into something between sailor and storm. Lean
           level: 1,
           icon: 'spell_arcane_blink',
           spellType: 'PASSIVE',
-          effectTypes: ['buff'],
+          effectTypes: ['buff', 'debuff'],
           typeConfig: { category: 'racial', school: 'storm' },
           buffConfig: { buffType: 'triggeredEffect', effects: [{ id: 'luck_reroll', name: "Sailor's Luck", description: 'Once per long rest, reroll a failed save that would result in death or incapacitation.', mechanicsText: 'Once per long rest, reroll a failed saving throw that would cause death or incapacitation and take the new result. Instant.', statusEffect: { level: 'extreme' } }], durationValue: 0, durationType: 'instant', durationUnit: 'instant', canBeDispelled: false },
+          debuffConfig: {
+            debuffType: 'statusEffect',
+            effects: [{
+              id: 'deep_superstition',
+              name: 'Maritime Superstition',
+              description: 'Disadvantage on saving throws against supernatural, psychic, and occult fear effects.',
+              statusEffect: { penaltyType: 'saves_occult_fear', magnitude: 'disadvantage' }
+            }],
+            durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
+          },
           targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
           cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
           resourceCost: { actionPoints: 0, mana: 0, components: [] }
@@ -663,7 +693,7 @@ The Iceheart Sea shapes the Merryn into something between sailor and storm. Lean
       tooltipSummary: 'Public steppe herders and throat-singers, with hidden remnants of a purged noble line among their communities.',
       description: `Ordu culture survived the purge of its oath-bearing noble line. Pastoral migrations, throat-sung ancestor-maps and community rites remain public. Concealed noble descent is a particular history, not a requirement that every Ordu disguise their culture or inherit a universal secret spellcasting gift.`,
       culturalBackground: 'Ordu communities follow Mound-Camp circuits, gather ceremonially at Khagan-Gora, and preserve routes in throat-song. Kumis Downs is a pastoral heartland, not a permanent stone capital. Bayarmaa leads a recognized political successor/cadet house; her title Ordu Khan does not prove an uninterrupted original Blood Seal.',
-      statModifiers: { agility: 2, intelligence: 1, spirit: 1, strength: -1 },
+      statModifiers: { agility: 2, constitution: 2, intelligence: -2 },
       languages: ["Wayfarer's Cant", 'Moundsong'],
       baseStats: { hp: 24, mana: 5, ap: 3, initiative: 1 },
       savingThrowModifiers: { advantage: ['endurance', 'navigation'], disadvantage: ['confinement'] },

@@ -332,20 +332,20 @@ Now the ritual continues. The Selunis-rite is performed every night in scattered
             description: 'Lumian traditions include scholars, ritual-tenders and chart-readers, using internal Lumia resonance and carried records under a starless sky. Their organic pale skin and crystalline markings do not make every descendant peaceful or morally innocent by birth. Specific institutions and choices, not the whole heritage, own their political acts.',
             culturalBackground: 'Lumian communities preserve carried charts, internal Lumia patterns and lunar timing in Synod Hold and observatory archives. Their star-reading does not require visible local constellations under Sundrift\'s starless sky.',
 
-            statModifiers: { spirit: 2, intelligence: 2, charisma: 1, strength: -2 },
+            statModifiers: { spirit: 4, strength: -2, constitution: -1 },
             baseStats: { hp: 7, mana: 8, ap: 3, initiative: 1 },
             savingThrowModifiers: { advantage: ['spirit'], disadvantage: ['physical'] },
             traits: [
                 {
                     id: 'starlight_resonance_vashir',
                     name: 'Starlight Resonance',
-                    description: 'Your starlight-infused blood grants 15% sacred and spirit damage resistance. The light of Lumia that endures in your veins protects your mind and spirit from corruption.',
+                    description: 'Your starlight-infused blood grants 50% sacred and spirit damage resistance (take half damage), protecting your mind and spirit from corruption. However, your ethereal star-vessel is delicate: you suffer disadvantage on Strength saving throws and physical grapple checks.',
                     level: 1,
                     icon: 'Radiant/Divine Illumination',
                     spellType: 'PASSIVE',
                     actionPoints: 0,
                     components: [],
-                    effectTypes: ['buff'],
+                    effectTypes: ['buff', 'debuff'],
                     typeConfig: { category: 'racial', school: 'primal' },
                     buffConfig: {
                         buffType: 'damageMitigation',
@@ -353,10 +353,28 @@ Now the ritual continues. The Selunis-rite is performed every night in scattered
                             {
                                 id: 'starlight_shield_vashir',
                                 name: 'Starlight Shield',
-                                description: '15% sacred and spirit damage resistance. Starlight memory protects your spirit.',
-                                mechanicsText: 'You take 15% less sacred and spirit damage.',
-                                statModifier: { stat: 'sacred', magnitude: 15, magnitudeType: 'resistance' },
+                                description: '50% sacred and spirit damage resistance (take half damage). Starlight memory protects your spirit.',
+                                mechanicsText: 'You take 50% less sacred and spirit damage (take half damage).',
+                                statModifier: { stat: 'sacred', magnitude: 50, magnitudeType: 'percentage' },
                                 statusEffect: { level: 'moderate', description: 'Starlight memory shields your spirit' }
+                            }
+                        ],
+                        durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
+                    },
+                    debuffConfig: {
+                        debuffType: 'statusEffect',
+                        effects: [
+                            {
+                                id: 'celestial_frailty_vashir',
+                                name: 'Celestial Frailty',
+                                description: 'Disadvantage on Strength saving throws and grapple checks.',
+                                mechanicsText: 'Your delicate cosmic biology suffers disadvantage on Strength saving throws and physical grapple checks.',
+                                statusEffect: {
+                                    level: 'moderate',
+                                    description: 'Ethereal star-vessel is delicate against brute physical force',
+                                    penaltyType: 'strength_saves',
+                                    magnitude: 'disadvantage'
+                                }
                             }
                         ],
                         durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
@@ -481,7 +499,7 @@ Now the ritual continues. The Selunis-rite is performed every night in scattered
             tooltipSummary: 'Organic Astril with dark violet-grey skin, slit-pupil eyes and fractured crystalline markings; martial and craft traditions vary by institution.',
             description: 'Kordak carry organic flesh, reptilian slit pupils and fractured Lumia markings, not uniformly solid-crystal or pupilless bodies. Particular martial authorities coerced the Ordu noble purge; that history does not make every child a conqueror or every suppression discipline universal.',
             culturalBackground: 'Kordak enclaves operate as high-tech military strongholds in Sundrift Vale. They enforce strict surveillance over hidden human remnants, harnessing void-crystal technology to maintain undisputed dominance over their territories.',
-            statModifiers: { strength: 2, constitution: 2, spirit: 1, charisma: -2 },
+            statModifiers: { strength: 3, constitution: 2, agility: -2, charisma: -1 },
             baseStats: { hp: 6, mana: 7, ap: 3, initiative: 0 },
             savingThrowModifiers: { advantage: ['spirit'], disadvantage: ['physical'] },
             traits: [
@@ -534,13 +552,13 @@ Now the ritual continues. The Selunis-rite is performed every night in scattered
                 {
                     id: 'lunar_attunement_silath',
                     name: 'Lunar Attunement',
-                    description: 'Your slit-pupil eyes and Lumia resonance read lunar dream-signs. Advantage on Insight and Perception involving dreams, omens or lunar influence; once per long rest a ritual yields a cryptic interpretation of one question. This is not omniscient sight or a spoken command from an awakened Selunis.',
+                    description: 'Your slit-pupil eyes and Lumia resonance read lunar dream-signs, granting advantage on Insight and Perception involving dreams, omens or lunar influence. However, your immense void-crystal density and heavy void-iron bulk encumber your reflexes: you suffer disadvantage on Agility (Stealth and Acrobatics) checks as your crystalline plates crunch loudly underfoot.',
                     level: 1,
                     icon: 'Utility/Crescent Moon',
                     spellType: 'PASSIVE',
                     actionPoints: 0,
                     components: [],
-                    effectTypes: ['buff'],
+                    effectTypes: ['buff', 'debuff'],
                     typeConfig: { category: 'racial', school: 'ember' },
                     buffConfig: {
                         buffType: 'statusEffectBuff',
@@ -551,6 +569,24 @@ Now the ritual continues. The Selunis-rite is performed every night in scattered
                                 description: 'Advantage on Insight and Perception checks involving dreams, omens, or Selunis. Once per long rest, commune with the dream for a cryptic answer to one question. The Kordak see what the sleeper shows them.',
                                 mechanicsText: 'You gain advantage on Insight and Perception checks involving dreams, omens, or Selunis, plus one cryptic answer per long rest.',
                                 statusEffect: { level: 'moderate', description: 'Your eyes reflect the dream of a sleeping god' }
+                            }
+                        ],
+                        durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
+                    },
+                    debuffConfig: {
+                        debuffType: 'statusEffect',
+                        effects: [
+                            {
+                                id: 'void_bulk_silath',
+                                name: 'Void-Crystalline Bulk',
+                                description: 'Disadvantage on Agility (Stealth and Acrobatics) checks.',
+                                mechanicsText: 'Dense void-crystal bulk and void-iron armor impose disadvantage on Agility (Stealth and Acrobatics) checks.',
+                                statusEffect: {
+                                    level: 'moderate',
+                                    description: 'Heavy crystalline plates crunch underfoot and hinder acrobatic agility',
+                                    penaltyType: 'agility_checks',
+                                    magnitude: 'disadvantage'
+                                }
                             }
                         ],
                         durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false

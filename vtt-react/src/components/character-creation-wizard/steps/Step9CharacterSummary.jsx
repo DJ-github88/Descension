@@ -20,6 +20,7 @@ import UnifiedSpellCard from '../../spellcrafting-wizard/components/common/Unifi
 import { ALL_CLASS_SPELLS, CLASS_DATA_MAP } from '../../../data/classSpellGenerator';
 import { CLASS_ACCESS_LABELS, getCharacterHeritageOptions, validateCharacterClassAccess } from '../../../utils/characterClassAccess';
 import { getHeritageImage, getHeritageIllustrations } from '../../../data/raceData';
+import { validateAncestry, getResolvedAncestryLoadout } from '../../../data/ancestryLoadouts';
 
 import '../styles/Step9CharacterSummary.css';
 
@@ -368,6 +369,14 @@ const formatDescriptionText = (text) => {
   const requiredSpellPicks = summaryPolicy?.startingSpellPicks ?? 3;
   const bonusPoints = getTotalBonusPoints(characterData);
   const unspentPoints = calculateAvailablePoints(characterData.baseStats, bonusPoints);
+  // Ancestral Gifts: mirrors validateCurrentStep (legacy edits on the original heritage are exempt).
+  const ancestryCheck = validateAncestry(characterData.subrace, characterData.ancestry);
+  const ancestryExempt = !!state.originalCalling && state.originalCalling.subrace === characterData.subrace && !characterData.ancestry;
+  const ancestryLoadout = ancestryCheck.required ? getResolvedAncestryLoadout(characterData.race, characterData.subrace) : null;
+  const ancestryPicks = (characterData.ancestry && characterData.ancestry.heritageId === characterData.subrace && characterData.ancestry.picks) || {};
+  const ancestralGifts = ancestryLoadout
+    ? [{ slot: 'Core', gift: ancestryLoadout.core }, ...ancestryLoadout.rows.map(row => ({ slot: row.label, gift: row.options.find(o => o && o.id === ancestryPicks[row.id]) || null }))]
+    : [];
   const checklistItems = [
     { label: 'Character Name', done: !validationErrors.name && !!(characterData.name && characterData.name.trim()) },
     { label: 'Race & Subrace', done: !validationErrors.race && !validationErrors.subrace },
@@ -375,6 +384,7 @@ const formatDescriptionText = (text) => {
     { label: 'Background', done: !validationErrors.background && !!characterData.background },
     { label: 'Ability Scores (all points spent)', done: !validationErrors.stats && unspentPoints === 0 },
     { label: `Starting Spells (choose ${requiredSpellPicks})`, done: !validationErrors.spells && knownPickCount === requiredSpellPicks },
+    ...(ancestryCheck.required && !ancestryExempt ? [{ label: 'Ancestral Gifts (one per row)', done: !validationErrors.ancestry && ancestryCheck.complete }] : []),
     { label: 'Skill Training (within budget)', done: !validationErrors.skillPoints },
     { label: 'Equipment Chosen', done: !!(characterData.selectedEquipment && characterData.selectedEquipment.length > 0) },
   ];
@@ -964,6 +974,22 @@ const formatDescriptionText = (text) => {
             </div>
           </div>
 
+          {/* Ancestral Gifts */}
+          {ancestralGifts.length > 0 && (
+            <div className="summary-dashboard-section" data-testid="summary-ancestral-gifts">
+              <h3 className="section-title">
+                <i className="fas fa-dna"></i> Ancestral Gifts
+              </h3>
+              <div className="languages-compact-list">
+                {ancestralGifts.map(({ slot, gift }) => (
+                  <div key={slot} className="language-compact-badge" title={gift ? gift.description : 'Not chosen yet'}>
+                    <i className={gift ? 'fas fa-star' : 'far fa-circle'}></i> {slot}: {gift ? gift.name : 'Not chosen'}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
           {/* Starting Spells Grid */}
           {characterData.class && chosenSpells.length > 0 && (
             <div className="summary-dashboard-section">
@@ -1302,22 +1328,14 @@ const formatDescriptionText = (text) => {
             className="spell-modal-container"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="spell-modal-header">
-              <div className="spell-modal-title-row">
-                <span className="spell-modal-icon">
-                  <i className="fas fa-book-sparkles"></i>
-                </span>
-                <h3 className="spell-modal-title">{selectedSpellModal.name}</h3>
-              </div>
-              <button
-                type="button"
-                className="spell-modal-close-btn"
-                onClick={() => setSelectedSpellModal(null)}
-                aria-label="Close spell card"
-              >
-                <i className="fas fa-times"></i>
-              </button>
-            </div>
+            <button
+              type="button"
+              className="spell-modal-close-btn"
+              onClick={() => setSelectedSpellModal(null)}
+              aria-label="Close spell card"
+            >
+              <i className="fas fa-times"></i>
+            </button>
             <div className="spell-modal-body">
               <UnifiedSpellCard
                 spell={selectedSpellModal}

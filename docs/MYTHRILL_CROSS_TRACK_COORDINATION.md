@@ -54,6 +54,7 @@ only by agreement recorded here.
 | Authored definitions | `server/services/authoredSpellDefinitions.js` and its test and fixture | Class/authoring | A1a: server-only, unhooked, execution disabled |
 | Class resources and data | `classResourceContracts.js`, `classResourceBanks.js`, `ClassResourceBar.jsx`, `ResourceTooltip.jsx`, `data/classes/**`, resourceSlice | Class | Combat makes no edits |
 | Universal reaction source (read-only dependency) | `data/universalCombatSpells.js` | Shared coordination; no content write assignment here | Combat pins original Parry/Riposte bytes; any content correction needs agreed Main/Class HQ handoff. No ID migration or generated-variant support implied |
+| Shared condition integration | `conditionsData.js`, `conditionStore.js`, condition normalizer/editor, sheet/GM/manual-card adapters; closed profile/predicate | **Shared**: Combat authority/mechanics; Class content/source mapping and sheet/casting compatibility | P14-C1 manual PC Defending delivered/reviewed; exact §6 identities. Preserve class/race work. No A1b/spell-wide execution |
 | Shared checkpoint helpers | `server/services/roomCheckpoint.js` | Combat (persistence) | A1a reuses it read-only (`3eea1acb…`) |
 | Area-preview owners | `store/spellAoEStore.js`, `components/grid/SpellAoEOverlay.jsx`, `utils/AoETemplates.js`; map transforms | Combat with map/UI co-review | B2 reuses existing picker/geometry; authored schema corrections remain Class-owned. Current free tool is not action-bound/rule-authoritative |
 
@@ -94,7 +95,7 @@ device before write-back.
 | 4 | Exact single-target selection | **Supported (P12C-B1)** for P8, P9, P12A | None | Combat | — | targeting files |
 | 5 | Selecting linked actors, companions, summons, endpoints | Pick session takes exact P7 refs plus a refusal reason; one ref per session | Role-labelled picks returning exact refs; legality and execution stay with controller and server | Combat (picker); Class (roles) | CR-L1 reviewed; summon actors admitted (row 9) | targeting files; future controllers |
 | 6 | Positional relationships (path, zone entry, adjacency, authoritative range/LoE) | Advisory planar centre distance only; no authoritative movement-trigger feed | Separate geometry/movement-event capability; B2 preview (row19) does not supply authority | Combat with map/UI | Approved range/LoE/elevation/movement rules; no silent tool-default adoption | future movement/authority files |
-| 7 | Reaction reservation and payment | **Missing.** P9 planners/conservation support spheres/notes/Devotion payment, not reservations; P12B pending approval is not escrow | W reserves/pays nothing. Later named reaction binder consumes exact consent through P7. Hard holds need per-domain claim/consume/release enforced across competing spend paths, not generic numerical subtraction | Combat/Main HQ (timing, P7 boundary); Class (reviewed operations/validators) | D13-1 fees remain manual; approved D13-11 collection withdrawal is not a payment/refund policy. Per-card execution freeze/reviewed domain rules required; R1/CR-L1 not approval | future P13B binder; existing P7 staging; class-owned planners, coordinated before edits |
+| 7 | Named reaction payment / reservations | **E1a original Riposte1-AP execution supported**, not a hold. All reservations and other reaction-payment adapters remain missing; P9 planners/P12B pending are not escrow | W still pays/reserves nothing. Other named binders need exact consent/P7; hard holds need per-domain conservation across competing spend paths | Combat/Main HQ (timing/P7); Class (reviewed typed domains) | D13-1 fees manual; collection withdrawal is no refund rule. R1/CR-L1 not payment approval | Shared strike/P7 E1a branch; future typed domain work separately coordinated |
 | 8 | Atomic multi-actor consequence (candidate cap ≤4) | P7: source + at most one target | Proposed bounded N ≤4 plan per approved capability, or per-target commands only where genuinely equivalent; link coupling is not equivalent | Combat | D14-3 choice; domain-specific atomic coupling review | `actorConsequences.js`, handlers |
 | 9 | Entity lifecycle (summons, pattern vitality, anchor object) | Creature actors with exact refs | Admitted creation/removal; narrow class-object projection | Combat (infra); Class (rules) | CR-L1 reviewed | follow-on project |
 | 10 | Own-turn, rest, encounter boundaries | Manual | Once-only boundary event records | Combat | R1 boundary rules reviewed | follow-on project |
@@ -107,14 +108,67 @@ device before write-back.
 | 17 | Fallback for unsupported actions | **Manual (P12C-B1 §3)**: shared rooms post a notice and spend nothing | Optional "pay listed costs" through existing resource controls | Combat (gate); Class (costs) | Creator decision | casting entry points |
 | 18 | Heritage edge effects and paired costs | Advisory named routes | Closed per-edge consumers | Class | Class HeadQ review | class-owned |
 | 19 | Action-bound area preview | **B2 §8.1 implemented, bounded source review accepted; final production build3/App7 PASS**: original Radiant Burst10ft circle/20ft reach, selected channel, square grid; exact evidence B2 §15 | Wider shapes/spells/modes remain conditional. One transient interaction, token-gated visible geometric markers; no roll/cost/proposal/chat/effect | Combat (interaction/geometry); map/UI (transforms); Class (authored data) | **G1/G3/G3a/G5 approved** and §8.1 authorized; G1b/G3b/G4 remain independent, G2/G6/manual recipient conflict retained | `targetingStore`, `spellAoEStore`, existing `SpellAoEOverlay`, `ActionAreaPreview`, `TokenAreaCandidate`, shared confirmation entry; no Class edits |
-| 20 | Private timed declarations / manual handoff | **P13B-W implemented; independent source+final delta acceptance, Build3/App4 PASS.**8s server cutoff, immutable GM precommit, owner-only revisions/withdrawal, GM-only closed review, silence, same-deadline reconnect; no auto execution/payment/reservations | E1a original Riposte1-AP/one-creature HP bridge is the smallest proposed execution, GM-adjudicated and separately frozen; no Parry automation | Combat/Main HQ; Class retains card/domain semantics | W D13-6b/11/10 approved. All eligibility/card arithmetic/order/fees remain GM-adjudicated; no new rule answer blocks the proposed manual E1a boundary, but no execution go-ahead exists | Exact W runtime/review/build/result hashes P13B §11; E1a §12 proposal only |
+| 20 | Private timed declarations / manual handoff | **P13B-W implemented; independent source+final delta acceptance, Build3/App4 PASS.**8s, immutable GM precommit, private revisions/withdrawal, GM-only closed review, silence/same-deadline reconnect; declarations still pay/execute nothing | E1a original Riposte separately delivered (row25); no automatic Parry or wider reaction engine | Combat/Main HQ; Class retains card/domain semantics | W D13-6b/11/10 approved; other rule interpretations stay GM-adjudicated | W accepted boundary §11; named E1a §13 |
 | 21 | Durable secret reaction/card state | W uses private server WeakMap and scoped in-memory pending/unavailable audit, not gameState/public snapshots; same-runtime recovery only | Durable private restart storage is **not delivered**; current restart/authority change hands off manually, never reopens old timer | Main HQ/Combat (storage/transport); Class (domain privacy) | Separate private durability contract if wanted; W capacity is technical, not a card/use cap | Existing checkpoint/projection owners; no new independent cloud ledger |
 | 22 | Targeting/propagation authoring preservation | Whole-draft JSON retains fields; outer saves/normalizers alter zero range/count; legacy propagation fields and per-effect updates can disagree; game-code export is lossy | **Inventory prepared** in B2 §9–§11. Separate bounded preservation/mapping contract, not silent schema/rule conversion or a W1 resource-cost rewrite | Class/authoring; Combat co-reviews descriptors | Exact schema/profile mapping and parity contract + separate implementation authorization | Wizard Step4/context/APP/Review/serializer/normalizer; no edits assigned here |
 | 23 | Multiple selections / propagation path aids and execution | Local selectedTargets array, Wizard dummy chains/branches and B1 one-ref picker; no shared propagation executor | Proposed later role-labelled list or one named path using existing interaction. Execution stays P14/named follow-on; intermediate opportunities only when actually eligible, via P13B | Combat (selection/path/consequence); Class (card rules); map/UI (segments) | Profile-specific chooser, range basis, count/revisits/filter/each-segment LoE/stops/roll/cost/reaction/invalidation; atomicity choice | Existing targeting/AoE owners and future named P7 binder/domain seams, not a new engine |
 | 24 | Obstruction-aware aiming and later enforcement | Separate sight/movement flags, wall endpoints/index and visual object bounds; B1 aim is advisory. Door state/identity encodings differ; actor CAS does not version movement | **Conditional boundary prepared, B2 §14**: clear/blocked/partial/unknown per diagnostic; visible-only feedback; exact GM ruling; later server check at existing P7 stage/binder, with settled spatial evidence | Combat/Main HQ + map/multiplayer; Class supplies exact authored exceptions | Separate spatial profile/state parity/freshness/override freeze and authorization; no automatic conversion of movement/sight flags to LoE, cover or blast rules | Existing geometry/target overlay, map/movement writers and P7 stage/handlers (future only); no assigned source writes |
-| 25 | Named universal Riposte execution | **Missing; contract prepared only.** W strings/closed windows are not execution authority; P12A has fixed2-AP strike rules | E1a §12: structured GM attack/Parry success+prior-payment attestation, one fresh follow-up/closed intent, server opportunity, exact1-AP owner consent, retained roll and GM damage; one P7 AP/HP receipt + once-only consumption | Combat (named approval/binder/custody/W bridge); Class (read-only original card/domain ownership) | Explicit contract/freeze + code go-ahead. No new arithmetic/timing/fee answer while manual; atomic consumption/privacy/restart fail-closed are required engineering work | Existing strike approval/actor handler/P7 admission/custody/collector/presentation seams; no production edits assigned now |
+| 25 | Named universal Riposte execution | **E1a delivered/review ACCEPT/Build1-App2 PASS.** Typed GM parent/paid attestation +server origin provenance, fresh follow-up/closed intent, owner1-AP consent/retained roll, GM damage; one P7 AP/HP+consumption receipt | No Parry auto-comparison, highlighting, generic trigger feed, ordering, condition lifecycle or other-card execution | Combat (shared approval/binder/custody/W bridge); Class (content/domain compatibility) | §12 HQ frozen/authorized; rules/fees remain manual. Exact identities/limits in §13; no A1b/class migration | Named helpers/shared strike/P7/routing; additive user-only custody; RP UI/receipt feed; original2-AP basic path preserved |
+| 26 | One shared condition definition/write/read path | **P14-C1 delivered/review ACCEPT/Build3 C1 parity/App11 PASS**: one PC Defending profile/controller/editor and P7, token↔sheet, real2×/no-wear/retained-face correction and exact recovery | Manual expiry/prior-action cost. Stunned full action gate, creature Defend and lifecycle remain separate | Combat +Class/source/UI coordination | HQ authorized frozen PC/manual scope; exact evidence/limits P14-C1 §6 | Shared profile/service/custody/editor and existing P7/condition/token/sheet/manual-card/block adapters |
 
 ## 5. Shared-file edits by the 2026-10-17 combat slices
+
+**P14-C2 authorized/frozen, 2026-10-21 — before source edits:** creator directs bounded Stunned
+implementation using C1. [C2 contract](MYTHRILL_PROJECT_14_C2_CONTRACT.md) names exact writable files:
+closed profile/controller/editor/catalogue/token adapters; shared P7 stage/approval checks; token,
+character and creature movement handlers plus post-await debouncer settlement; focused tests/App witness
+and status documents. Existing sheet/GM entry mounts are reused. Current Class/race/RI-2 dirty bytes and
+parent Mind checkpoint stay owned by Class HQ. No class/Wizard/resource/A1a/A1b or migration work.
+Source occurrence-specific manual expiry and manual save/advantage adjudication remain explicit.
+
+C2 App-driven repair scope: `conditionStore.js` protects canonical Stunned from custom-title replacement
+and routes exact HUD removal through the same shared controller; `riposteService.js`,
+`weaponStrikeService.js` and `spellConsequence.js` classify the new authoritative `actor_stunned`
+refusal truthfully while retaining command/roll custody. These are bounded adapters, not execution paths.
+
+**P14-C1 closure, 2026-10-21:** [§6](MYTHRILL_PROJECT_14_C1_CONTRACT.md#6-implementation-and-verification)
+records one independent BLOCK→repair→ACCEPT review and final24-file identity. Adapter repairs hide/guard
+the old token X and preserve canonical Defending on custom-title collision. 50 server/33 client tests;
+final2 C1 restore/pruned-receipt cases pass. Build3 compilation exit0, C1 mismatches `[]`; concurrent
+Class `Step1CoreDraft.jsx` drift is disclosed, not accepted. Real-App11 token↔sheet/GM/observer,
+actual doubled/no-wear blocks, pending exact removal/retained face, lost ACK/reload/same-command,
+reconnect and checkpoint-codec proof pass. Manual action/payment/expiry remains explicit. Class/race/
+RI-2 work and E1a/W/B2 acceptance preserved; external evidence only, no commit/push/deployment.
+
+**P14-C1 authorized/frozen, 2026-10-20 — source writes before edits:** Combat adds one shared pure
+`services/sharedConditionProfile.js` +closed JSON definition, `sharedConditionService.js`/custody and
+`SharedDefendingEditor.jsx`/entry/host with styles/tests. Existing P7 condition stage gets a strict named
+profile guard; both Defending predicates delegate to the same pure implementation. Normalizer preserves
+semantic/source identity, condition projections/cleanup preserve accepted shared records; registry adds
+user-only custody with no migration. Thin token ConditionsWindow/CharacterToken props, GM controls,
+sheet CharacterStats entry, and a read-only identity field in InspectionContext are **additive only**;
+preserve concurrent class/race/stat/resource edits. Shared manual Defend card entry is result administration,
+not a casting/payment adapter. HUD profile expiry labels reference the shared definition. No Stunned
+gate, timed lifecycle, generic effects/A1b or class/authoring/resource-rule edits. Main owns the new
+condition editor/P7 seams; Class HQ keeps all current character/race/class work. One bounded review,
+focused regressions and external optimized-build/App evidence. No commit/push/deployment.
+
+**Shared-condition contract preparation, 2026-10-20:** documentation only. Main adds one bounded
+`MYTHRILL_PROJECT_14_C1_CONTRACT.md` (P14-C1, distinct from the old Class C1 workshop), and updates
+this coordination file, ledger/priorities, roadmap/next-slices pointers and E1a's completion acknowledgement.
+No production file assignment, migration, A1b or new generic effect engine. Proposed future shared
+interfaces/condition content need Class HQ coordination before code; preserve active class/race work and
+the accepted resource/E1a/W/B2 paths. E1a acceptance is carried forward, not re-reviewed or rebuilt.
+
+**E1a completion, 2026-10-19:** the single bounded review is ACCEPT after provenance/custody/generic-
+claim repairs and same-review identity handoff; original RED probes retained. Focused server58/client27,
+optimized Build1 exit0/drift[] and real GM/owner/observer App2 PASS. Both origins, exact1 AP/no second
+Parry debit, physical/digital retained rolls, AP competition/reapproval/paid miss, accepted HP floats/
+narration and lost ACK/delivery→real reconnect→same-command receipt are verified. No new broad audit.
+Exact15 runtime/test/witness/evidence hashes and explicit build coverage:
+[P13B §13](MYTHRILL_PROJECT_13B_CONTRACT.md#13-e1a-implementation-and-verification--2026-10-19).
+Concurrent commits advanced build HEAD to `f9527d31`; this agent made no commit/push/reset/deployment.
+Class/race edits were preserved and are not accepted by E1a verification.
 
 **E1a implementation authorized/frozen, 2026-10-19 — writable scope before edits:** Combat adds named
 `server/services/riposteExecution.js` and focused tests, extends the existing `strikeApprovals.js`,
@@ -132,7 +186,7 @@ E1a custody registration is additive in `src/persistence/privateStorageRegistry.
 recoverable sibling family for Riposte bytes, using existing scoped-native helpers. No legacy key
 retirement, schema migration or change to basic-strike custody; focused registry checks only.
 
-**E1a contract preparation only, 2026-10-19:** Main HQ writes existing P13B §12, this coordination
+**Historical E1a contract preparation (superseded by explicit authorization/delivery), 2026-10-19:** Main HQ writes existing P13B §12, this coordination
 document, ENGINEERING_STATE/CURRENT_PRIORITIES and the existing creator packet. Collector W remains
 complete at §11's accepted identity; no review/build repeated. Proposed future shared writes are
 bounded in §12; no application file is assigned for editing now. Class HQ retains card content,
@@ -235,9 +289,9 @@ checkpoint is preserved; concurrent Main HQ recovery uses `projects/mythrill-vtt
   keeps B2 static preview bounded; rows22–23 name authoring and later selection/path dependencies.
 - **P13B.** [W declaration-only contract](MYTHRILL_PROJECT_13B_CONTRACT.md#11-declaration-only-first-slice--conditional-change-contract)
   delivered/reviewed/integrated under approved D13-6b/11/10 (rows7/20/21). **Collection, not automated
-  reactions.** Creator acknowledges accepted completion; no review/build rerun. E1a's bounded original
-  Riposte **contract is prepared, not code-authorized** (row25/§12); both entries share one fresh
-  opportunity/P7 path. Four broader cases stay manual; typed execution still needs rule1.5.
+  reactions.** E1a original Riposte is subsequently delivered (row25/§13): both entries share one fresh
+  opportunity and explicitly owner/GM-approved P7 execution. Parry truth/payment remains GM-attested.
+  Four broader cases/automatic triggers stay manual; other typed execution still needs rule1.5.
 - **P14.** Approved consequence capabilities, one at a time. **P14 completion does not mean every reconstructed
   class is automated.** Unready capabilities split into bounded follow-on projects:
   - FO-N: N-actor consequences (row 8);
@@ -255,9 +309,10 @@ checkpoint is preserved; concurrent Main HQ recovery uses `projects/mythrill-vtt
 2. **HEAD versus reviewed A1a:** the reviewed F1/F2 correction is uncommitted; HEAD holds the earlier bytes.
 3. **Concurrent commits:** writers re-check device bytes before every shared write (rule 1.6).
 4. **Reviewed class requirements:** current33/34/RI-1 now supersede workshop-only delivery with normal
-   class catalogue/detail/learning/talent/HUD integration. The parent RI-1 checkpoint now records an
-   independent **BLOCK/corrections pending** (2026-10-19T18:17Z), not an accepted class integration.
-   C1's original BLOCK is not retroactively accepted by an assignment or new files. R1/CR-L1 remain
+   class catalogue/detail/learning/talent/HUD integration. Its later [RI-1 FINAL-REVIEW](plans/mythrill-class-reconstruction/implementation/evidence/RI-1-chaos-weaver-integration/FINAL-REVIEW.md)
+   is **ACCEPT for amended development/manual integration**, superseding the stale parent BLOCK
+   checkpoint status; original C1 workshop BLOCK stays retained. RI-2 has a separate Gambler/Fate Weaver
+   assignment and content-lock gate, not Main HQ work or shared execution. R1/CR-L1 remain
    proposals. No reviewed
    live card reservation adapter was found. Obtain exact Class HeadQ-reviewed versions before execution
    freeze; preserve cards/wagers, typed banks, links, summons/companions, body/loadouts and delayed state.

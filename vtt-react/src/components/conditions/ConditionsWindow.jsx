@@ -6,6 +6,10 @@ import ConditionDurationModal from '../modals/ConditionDurationModal';
 import { CONDITIONS, CONDITION_CATEGORIES, CONDITION_ICONS_BY_CATEGORY } from '../../data/conditionsData';
 import { loadAllIcons } from '../../utils/statusIconLoader';
 import './ConditionsWindow.css';
+import useGameStore from '../../store/gameStore';
+import { findActor } from '../../services/actorConsequenceService';
+import { SharedDefendingEditor } from './SharedDefendingEditor';
+import { isDefending, isStunned } from '../../services/sharedConditionProfile';
 
 const ConditionIcon = ({ icon, color }) => {
   if (icon && icon.startsWith('/assets/')) {
@@ -84,9 +88,10 @@ const STATUS_TO_CATEGORY = {
   Control: 'Control', Other: 'Physical', Social: 'Mental',
 };
 
-const ConditionsWindow = ({ isOpen, onClose, tokenId, creature }) => {
+const ConditionsWindow = ({ isOpen, onClose, tokenId, creature, actorRef }) => {
   const { updateTokenState, tokens } = useCreatureStore();
   const { characterTokens, updateCharacterTokenState } = useCharacterTokenStore();
+  const shared = useGameStore(s => s.isInMultiplayer);
   const [selectedCategory, setSelectedCategory] = useState('ALL');
   const [searchTerm, setSearchTerm] = useState('');
   const [showDurationModal, setShowDurationModal] = useState(false);
@@ -167,21 +172,21 @@ const ConditionsWindow = ({ isOpen, onClose, tokenId, creature }) => {
 
   if (!isOpen) return null;
 
-  let token = tokens.find(t => t.id === tokenId);
-  let isCharacterToken = false;
-  if (!token) {
+  let token = actorRef ? findActor(actorRef) : tokens.find(t => t.id === tokenId);
+  let isCharacterToken = actorRef?.kind === 'character';
+  if (!token && !actorRef) {
     token = characterTokens.find(t => t.id === tokenId);
     isCharacterToken = !!token;
   }
 
   if (!token) return null;
 
-  if (!token.state) { token.state = {}; }
-  if (!token.state.conditions) { token.state.conditions = []; }
-
-  const currentConditions = token.state.conditions || [];
+  const currentConditions = token.state?.conditions || [];
+  const sharedPC = shared && isCharacterToken;
 
   const filteredConditions = Object.entries(CONDITIONS).filter(([key, condition]) => {
+    if (sharedPC && key === 'defending') return false; // The same named editor below owns this profile.
+    if (shared && key === 'stunned') return false;
     const matchesCategory = selectedCategory === 'ALL' || condition.category === selectedCategory;
     const matchesSearch = condition.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          condition.description.toLowerCase().includes(searchTerm.toLowerCase());
@@ -223,6 +228,8 @@ const ConditionsWindow = ({ isOpen, onClose, tokenId, creature }) => {
   };
 
   const handleRemoveCondition = (conditionId) => {
+    if (shared && currentConditions.some(c => c.id === conditionId && isStunned(c))) return;
+    if (sharedPC && currentConditions.some(c => c.id === conditionId && isDefending(c))) return; // Exact-instance editor owns removal and custody.
     const updatedConditions = currentConditions.filter(c => c.id !== conditionId);
     if (isCharacterToken) {
       updateCharacterTokenState(tokenId, { conditions: updatedConditions });
@@ -234,6 +241,10 @@ const ConditionsWindow = ({ isOpen, onClose, tokenId, creature }) => {
   const handleCustomSubmit = () => {
     const trimmedName = customName.trim();
     if (!trimmedName) return;
+    if (sharedPC && /^(defend|defending)$/i.test(trimmedName)) {
+      setCustomDescription('Use the explicit shared PC Defending profile above; a custom title is not mechanical identity.');
+      return;
+    }
     const customId = `custom_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
     setSelectedCondition({
       key: customId,
@@ -267,6 +278,7 @@ const ConditionsWindow = ({ isOpen, onClose, tokenId, creature }) => {
         </div>
 
         <div className="conditions-content">
+          {shared && <SharedDefendingEditor targetRef={actorRef} />}
           <div className="conditions-controls">
             <div className="search-box">
               <i className="fas fa-search"></i>
@@ -388,9 +400,9 @@ const ConditionsWindow = ({ isOpen, onClose, tokenId, creature }) => {
                       </div>
                       <div className="condition-description">{condition.description}</div>
                     </div>
-                    <button className="remove-condition" onClick={() => handleRemoveCondition(condition.id)}>
+                    {!(shared && isStunned(condition) || sharedPC && isDefending(condition)) && <button className="remove-condition" onClick={() => handleRemoveCondition(condition.id)}>
                       <i className="fas fa-times"></i>
-                    </button>
+                    </button>}
                   </div>
                 ))}
               </div>

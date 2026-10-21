@@ -262,6 +262,8 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
  // Use character store race/subrace if available (for wizard), otherwise use activeChar
  const currentRace = characterStoreRace || activeChar?.race;
  const currentSubrace = characterStoreSubrace || activeChar?.subrace;
+ const characterStoreAncestry = useCharacterStore(state => state.ancestry);
+ const currentAncestry = characterStoreAncestry || activeChar?.ancestry || null;
  const currentPath = characterStorePath || activeChar?.path;
  const activeCharacterLevel = activeChar?.level || characterLevel || 1;
  // Reset active category when class changes to avoid stale category filters
@@ -323,7 +325,16 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
     if (Array.isArray(tree)) {
      const node = tree.find(t => t.id === talentId);
      if (node && node.spell) {
-      const spell = convertTalentSpellToLibrarySpell(node, rank);
+       // Canonical reconstructed classes own complete ACTION/passive records.
+       // The legacy converter invents talent-spell-* IDs and discards typed manual data.
+       const spell = ['gambler', 'fate-weaver'].includes(node.classId) ? {
+        ...node.spell, id: node.grantId || node.passiveSpellId,
+        source: 'talent', talentId: node.id, talentRank: rank, maxRanks: node.maxRanks,
+        ...(node.passiveSpellId ? {
+         description: node.rankValues?.[rank - 1]?.text || node.spell.description,
+         learnedRankValues: node.rankValues?.[rank - 1]?.values || {}
+        } : {})
+       } : convertTalentSpellToLibrarySpell(node, rank);
       if (spell) {
        learned.push(spell);
       }
@@ -346,7 +357,7 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
   }
 
   const currentRacialSpells = currentRace && currentSubrace
-   ? getRacialSpells(currentRace, currentSubrace, characterClass)
+   ? getRacialSpells(currentRace, currentSubrace, characterClass, currentAncestry)
    : [];
   const currentRacialSpellIds = new Set(currentRacialSpells.map(s => s.id));
 
@@ -367,7 +378,7 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
 
    return true;
   });
- }, [library.spells, hasActiveCharacter, currentCharacterId, currentRace, currentSubrace, currentPath]);
+ }, [library.spells, hasActiveCharacter, currentCharacterId, currentRace, currentSubrace, currentAncestry, currentPath]);
 
  // Combine spell categories with general categories
  // Only show: General Actions, General Reactions, and class name (if class selected)
@@ -490,7 +501,7 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
 
    // Fallback: pull directly from race data if library has none
    const fallbackRacial = currentRace && currentSubrace
-    ? getRacialSpells(currentRace, currentSubrace, characterClass).filter(spell => !isPassiveStatModifier(spell))
+    ? getRacialSpells(currentRace, currentSubrace, characterClass, currentAncestry).filter(spell => !isPassiveStatModifier(spell))
     : [];
 
    const racialSpells = racialSpellsInLibrary.length > 0 ? racialSpellsInLibrary : fallbackRacial;
@@ -575,7 +586,7 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
   }
 
   return combined;
- }, [spellCategories, filteredGeneralSpells, hasActiveCharacter, hasClassSpells, characterClass, rawClassSpells, activeCharKnownSpells, activeCharacterLevel, currentCharacterId, activeChar, filteredLibrarySpellsForCategories, currentRace, currentSubrace, currentPath, library.spells, characterTalentSpells]);
+ }, [spellCategories, filteredGeneralSpells, hasActiveCharacter, hasClassSpells, characterClass, rawClassSpells, activeCharKnownSpells, activeCharacterLevel, currentCharacterId, activeChar, filteredLibrarySpellsForCategories, currentRace, currentSubrace, currentAncestry, currentPath, library.spells, characterTalentSpells]);
 
  // Track deleted spell IDs to prevent reloading them from Firebase
  const getDeletedSpellIds = () => {
@@ -996,7 +1007,7 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
    if (hasActiveCharacter && currentCharacterId) {
     // Get current character's racial spells - use character store values for real-time updates
     const currentRacialSpells = currentRace && currentSubrace
-     ? getRacialSpells(currentRace, currentSubrace, characterClass)
+     ? getRacialSpells(currentRace, currentSubrace, characterClass, currentAncestry)
      : [];
     const currentRacialSpellIds = new Set(currentRacialSpells.map(s => s.id));
 
@@ -1110,7 +1121,7 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
      } else {
       // Fallback: pull racial spells directly from race data (filter out passives)
       const fallbackRacial = currentRace && currentSubrace
-       ? getRacialSpells(currentRace, currentSubrace, characterClass).filter(spell => !isPassiveStatModifier(spell))
+       ? getRacialSpells(currentRace, currentSubrace, characterClass, currentAncestry).filter(spell => !isPassiveStatModifier(spell))
        : [];
       spellsToFilter = fallbackRacial;
      }
@@ -1325,6 +1336,7 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
   rawClassSpells,
   currentRace,
   currentSubrace,
+  currentAncestry,
   currentPath,
   activeChar,
   characterTalentSpells

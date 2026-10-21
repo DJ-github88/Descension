@@ -313,10 +313,9 @@ const getPassiveSummary = (passive = {}) => {
         return 'Background feature';
     }
 
-    // Extract first sentence of description as flavor text
+    // Return authored description directly to prevent duplicate/redundant text
     if (passive.description) {
-        const firstSentence = passive.description.split(/[.!?]+/)[0].trim();
-        if (firstSentence) parts.push(firstSentence + '.');
+        return passive.description;
     }
 
     // Extract condition from triggerConfig if present
@@ -649,6 +648,7 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
         baseName: state.baseName,
         race: state.race,
         subrace: state.subrace,
+        ancestry: state.ancestry,
         pathPassives: state.pathPassives,
         background: state.background,
         class: state.class,
@@ -688,6 +688,7 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
         baseName,
         race,
         subrace,
+        ancestry = null,
         pathPassives = [],
         background,
         class: characterClass,
@@ -944,7 +945,7 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
             // Add new racial spells (only if both race and subrace are set)
             // Note: Old spells were already removed above before updating lastRaceSubracePath
             if (current.race && current.subrace) {
-                const racialSpells = getRacialSpells(current.race, current.subrace, current.class);
+                const racialSpells = getRacialSpells(current.race, current.subrace, current.class, ancestry);
 
                 // Filter out the spells we just removed from the existing spells list
                 // This prevents them from being filtered out as "already existing" when we try to add them
@@ -2282,7 +2283,7 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
     // Render passives summary section
     const renderPassives = () => {
         // Get all passive abilities from racial stat modifiers, path passives, and background passives
-        const racialPassives = race && subrace ? getRacialStatModifiers(race, subrace) : [];
+        const racialPassives = race && subrace ? getRacialStatModifiers(race, subrace, ancestry) : [];
 
         // Get background passives (abilities) and features
         let backgroundPassives = [];
@@ -2479,7 +2480,7 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
         const encumbranceState = inspectionData
             ? (characterContext.encumbranceState || 'normal')
             : (useInventoryStore.getState().encumbranceState || 'normal');
-        const freshDerivedStats = calculateDerivedStats(totalStats, equipmentBonuses || {}, {}, encumbranceState, exhaustionLevel || 0, health, race, subrace);
+        const freshDerivedStats = calculateDerivedStats(totalStats, equipmentBonuses || {}, {}, encumbranceState, exhaustionLevel || 0, health, race, subrace, undefined, ancestry);
 
         totalStats.maxHealth = Math.round(freshDerivedStats.maxHealth || getDerivedStatBreakdown('maxHealth', characterContext).finalValue);
         totalStats.maxMana = Math.round(freshDerivedStats.maxMana || getDerivedStatBreakdown('maxMana', characterContext).finalValue);

@@ -4,6 +4,7 @@ import useCharacterTokenStore from '../../store/characterTokenStore';
 import useCreatureStore from '../../store/creatureStore';
 import useMapStore from '../../store/mapStore';
 import useCombatStore from '../../store/combatStore';
+import { SharedConditionEntry } from '../conditions/SharedDefendingEditor';
 import { bindActor, refOf, selectOwnerAttachment, approvePendingActorProposal, retryActorCommand, acceptRecoveredActorSnapshot } from '../../services/actorConsequenceService';
 
 /** Explicit attachment selection and truthful authorization/retry status. */
@@ -39,6 +40,7 @@ export default function ActorConsequenceControls() {
       <button disabled={busy} onClick={() => perform(() => bindActor(candidate.token.id, candidate.kind, { selection: 'root' }))}>Bind root legacy values</button>
     </div>}
     {candidate?.kind === 'character' && refOf(candidate.token) && <button disabled={busy} onClick={() => selectOwnerAttachment(refOf(candidate.token))}>Use this owner attachment</button>}
+    {candidate && refOf(candidate.token) && <SharedConditionEntry targetRef={refOf(candidate.token)} label="Edit selected shared conditions" />}
     {outcome && <p role="status">{outcome.success ? outcome.status || outcome.code || 'Accepted live' : outcome.error || outcome.code?.replace(/_/g, ' ')}</p>}
     {outcome?.durability === 'live-only' && <p>Temporary room: live-only, nonpersistent. No checkpoint confirmation or crash durability.</p>}
     {outcome?.commandId && !outcome.success && <button disabled={busy} onClick={() => perform(() => retryActorCommand(outcome.commandId))}>Check same command</button>}

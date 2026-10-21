@@ -4,7 +4,9 @@
  * Manages shifting loading of class-specific spells based on active character
  */
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
+import { GAMBLER_TALENT_NODES } from '../data/talentTrees/gambler';
+import { FATE_WEAVER_TALENT_NODES } from '../data/talentTrees/fateWeaver';
 import useCharacterStore from '../store/characterStore';
 import { ALL_CLASS_SPELLS } from '../data/classSpellGenerator';
 import { createSpellLibraryCategoriesForClass } from '../data/classSpellCategories';
@@ -20,11 +22,24 @@ export const useClassSpellLibrary = () => {
  const currentCharacterId = useCharacterStore(state => state.currentCharacterId);
  const characters = useCharacterStore(state => state.characters);
  const currentClass = useCharacterStore(state => state.class);
- const knownSpells = useCharacterStore(state => state.class_spells?.known_spells || []);
+  const knownSpells = useCharacterStore(state => state.class_spells?.known_spells || []);
+ const talents = useCharacterStore(state => state.talents);
 
  // Get active character
  const activeCharacter = characters.find(char => char.id === currentCharacterId);
- const characterClass = activeCharacter?.class || currentClass;
+  const characterClass = activeCharacter?.class || currentClass;
+ const talentNodes = useMemo(() => characterClass === 'Gambler' ? GAMBLER_TALENT_NODES
+  : characterClass === 'Fate Weaver' ? FATE_WEAVER_TALENT_NODES : null, [characterClass]);
+ const learnedSpells = useMemo(() => talentNodes
+  ? [...new Set([...knownSpells, ...talentNodes.filter(node => (talents?.[node.id] || 0) > 0).map(node => node.grantId || node.passiveSpellId)])]
+  : knownSpells, [knownSpells, talents, talentNodes]);
+ const withLearnedRank = useCallback(spell => {
+  if (!talentNodes) return spell;
+  const node = talentNodes.find(entry => entry.passiveSpellId === spell.id);
+  const rank = node ? talents?.[node.id] : 0;
+  return rank > 0 && rank <= (node?.maxRanks || 3) ? { ...spell, talentRank: rank,
+   description: node.rankValues[rank - 1].text, learnedRankValues: node.rankValues[rank - 1].values } : spell;
+ }, [talentNodes, talents]);
 
  /**
   * Load spells for a specific class
@@ -152,15 +167,15 @@ export const useClassSpellLibrary = () => {
 
   // Filter to only show spells the character has learned
   // Universal spells and custom internal spells are always visible regardless of known spells
-  if (knownSpells.length > 0) {
+   if (learnedSpells.length > 0) {
    const filtered = allSpells.filter(spell =>
-    knownSpells.includes(spell.id) ||
+     learnedSpells.includes(spell.id) ||
     spell.id?.startsWith('universal_') ||
     spell.categoryIds?.includes('custom_spells') ||
     spell.isCustom ||
     spell.source === 'wizard'
    );
-   return filtered;
+    return filtered.map(withLearnedRank);
   }
 
   // If no known spells, still return universal spells (they're always available)
@@ -171,7 +186,7 @@ export const useClassSpellLibrary = () => {
   //  universalIds: universalSpells.map(s => s.id)
   // });
   return universalSpells;
- }, [spellCategories, knownSpells]);
+  }, [spellCategories, learnedSpells, withLearnedRank]);
 
  /**
   * Get spells by category
@@ -184,15 +199,15 @@ export const useClassSpellLibrary = () => {
 
   // Filter to only show spells the character has learned
   // Universal spells are always visible regardless of known spells
-  if (knownSpells.length > 0) {
+   if (learnedSpells.length > 0) {
    return categorySpells.filter(spell =>
-    knownSpells.includes(spell.id) || spell.id?.startsWith('universal_')
-   );
+     learnedSpells.includes(spell.id) || spell.id?.startsWith('universal_')
+    ).map(withLearnedRank);
   }
 
   // If no known spells, still return universal spells from this category
   return categorySpells.filter(spell => spell.id?.startsWith('universal_'));
- }, [spellCategories, knownSpells]);
+  }, [spellCategories, learnedSpells, withLearnedRank]);
 
  /**
   * Get category information

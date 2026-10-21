@@ -69,7 +69,7 @@ describe('Step1CoreDraft 1995 RPG / WoW Classic Subrace Cards', () => {
         const coraliCard = screen.getByText('Corali').closest('.rpg-subrace-card');
         const posPills = coraliCard.querySelectorAll('.rpg-stat-pill.pos');
         const negPills = coraliCard.querySelectorAll('.rpg-stat-pill.neg');
-        expect(posPills.length).toBeGreaterThanOrEqual(3); // +2 CHA, +2 AGI, +1 SPI
+        expect(posPills.length).toBeGreaterThanOrEqual(2); // e.g. +3 CHA, +1 CON
         expect(negPills.length).toBeGreaterThanOrEqual(1); // -2 STR
 
         // Check flavour / summary text
@@ -88,8 +88,9 @@ describe('Step1CoreDraft 1995 RPG / WoW Classic Subrace Cards', () => {
         fireEvent.click(coraliCard);
 
         // Card should have selected class and ribbon
-        expect(coraliCard).toHaveClass('selected');
-        expect(coraliCard.querySelector('.subrace-card-selected-ribbon')).toBeInTheDocument();
+        const selectedCoraliCard = document.querySelector('.subrace-buttons-grid .rpg-subrace-card');
+        expect(selectedCoraliCard).toHaveClass('selected');
+        expect(selectedCoraliCard.querySelector('.subrace-card-selected-ribbon')).toBeInTheDocument();
 
         // Click Back to Races button
         const backBtn = screen.getByRole('button', { name: /All Races/i });

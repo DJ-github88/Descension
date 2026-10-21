@@ -138,6 +138,7 @@ function registerEnvironmentHandlers(ctx) {
         }
 
         const actors = require('../services/actorConsequences');
+        actors.assertCanMove(map[field][creatureId], player, updates);
         const prepared = actors.prepareBuildUpdate(map[field][creatureId], updates, 'creature');
         actors.installBuildUpdate(room, map, field, creatureId, prepared);
 

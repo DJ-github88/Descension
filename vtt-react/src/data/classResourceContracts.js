@@ -18,6 +18,8 @@ import { normalizeLunarchResource, updateLunarchResource, getLunarchSpellResourc
 import { normalizeToxicologistResource, updateToxicologistResource, getToxicologistSpellResourcePlan, getToxicologistPoolValue } from './toxicologistResourceContract';
 import { normalizeWardenResource, updateWardenResource, getWardenSpellResourcePlan } from './wardenResourceContract';
 import { validateRehearsalState } from './classes/chaosWeaverRules';
+import { validateGamblerState } from './classes/gamblerData';
+import { validateFateWeaverState } from './classes/fateWeaverData';
 
 export const CHAOS_WEAVER_TILE_RESOURCE_ID = 'chaos-weaver-tiles';
 
@@ -36,6 +38,8 @@ export function getManagedResourceId(resource, className) {
   if (className) {
     const name = String(className).replace(/\s*\([^)]*\)\s*$/, '').trim().toLowerCase();
     if (name === 'gambit') return 'fortunePoints';
+    if (name === 'gambler') return 'gambler-hand';
+    if (name === 'fate weaver') return 'fate-links';
     if (name === 'martyr') return 'devotionGauge';
     if (name === 'apex') return 'quarryMarksCompanion';
     if (name === 'pyrofiend') return 'infernoVeil';
@@ -57,8 +61,10 @@ export function getManagedResourceId(resource, className) {
     if (name === 'chaos weaver') return CHAOS_WEAVER_TILE_RESOURCE_ID;
     return getBankResourceId(resource, className);
   }
+  if (resource?.type === 'gambler-hand') return 'gambler-hand';
+  if (resource?.type === 'fate-links') return 'fate-links';
   const id = resolveClassResourceEngineId(resource?.type);
-  return ['fortunePoints', 'devotionGauge', 'quarryMarksCompanion', 'infernoVeil', 'kineticFluxBodyToll', 'arcaneEnergyPoints', 'authority', 'bloodHeat', 'mayhemGauge', 'radiantFervor', 'benediction-malediction', 'revenant-toll', 'ancestralResonance', 'madnessPoints', 'virulenceCultivation', 'timeShardsStrain', 'lunarPhases', 'toxinVialsContraptions', 'vengeance-points', CHAOS_WEAVER_TILE_RESOURCE_ID].includes(id) ? id : getBankResourceId(resource);
+  return ['fortunePoints', 'devotionGauge', 'quarryMarksCompanion', 'infernoVeil', 'kineticFluxBodyToll', 'arcaneEnergyPoints', 'authority', 'bloodHeat', 'mayhemGauge', 'radiantFervor', 'benediction-malediction', 'revenant-toll', 'ancestralResonance', 'madnessPoints', 'virulenceCultivation', 'timeShardsStrain', 'lunarPhases', 'toxinVialsContraptions', 'vengeance-points', 'fate-links', CHAOS_WEAVER_TILE_RESOURCE_ID].includes(id) ? id : getBankResourceId(resource);
 }
 
 export function getMartyrLevelForDamage(damage) {
@@ -108,6 +114,27 @@ const normalizeChaosWeaverResource = (resource) => {
 export function normalizeManagedClassResource(resource, className) {
   if (!resource) return resource;
   const id = getManagedResourceId(resource, className);
+  if (id === 'gambler-hand') {
+    // A legacy/foreign envelope stays byte-for-byte intact even if a saved
+    // display name says Gambler. Class selection, not hydration, initializes
+    // a new hand; never relabel or zero a legacy Fortune/debt record.
+    if (resource.type && resource.type !== 'gambler-hand') return resource;
+    // Detection only: keep invalid bytes and unknown pending outcomes; never
+    // reinterpret legacy Fortune/cards as a new hand or create a reset.
+    const state = resource.state ?? null;
+    const check = state ? validateGamblerState(state) : { ok: true, errors: [] };
+    return { ...resource, type: id, state, initialized: state !== null,
+      current: check.ok && state ? state.fortune : 0, max: 7,
+      stateValid: check.ok, validationErrors: check.errors };
+  }
+  if (id === 'fate-links') {
+    if (resource.type && resource.type !== 'fate-links') return resource;
+    const state = resource.state ?? null;
+    const check = state ? validateFateWeaverState(state) : { valid: true, errors: [] };
+    return { ...resource, type: id, state, initialized: state !== null,
+      current: check.valid && Array.isArray(state?.tokens) ? state.tokens.filter(token => token?.state === 'free').length : 0,
+      max: 3, stateValid: check.valid, validationErrors: check.errors };
+  }
   if (id === CHAOS_WEAVER_TILE_RESOURCE_ID) return normalizeChaosWeaverResource(resource);
   if (id === 'quarryMarksCompanion') return normalizeApexResource(resource);
   if (id === 'infernoVeil') return normalizePyroResource(resource);
@@ -165,6 +192,8 @@ export function normalizeManagedClassResource(resource, className) {
 export function updateManagedClassResource(resource, className, field, value) {
   const normalized = normalizeManagedClassResource(resource, className);
   const id = getManagedResourceId(normalized, className);
+  if (id === 'gambler-hand') return normalized; // Read-only: no generic scalar mutation or partial-state repair.
+  if (id === 'fate-links') return normalized; // Read-only: links change only through authored manual operations.
   if (id === 'infernoVeil') return updatePyroResource(normalized, field, value);
   if (id === 'kineticFluxBodyToll') return updateShaperResource(normalized, field, value);
   if (id === 'arcaneEnergyPoints') return updateSpellguardResource(normalized, field, value);
@@ -210,6 +239,7 @@ export function updateManagedClassResource(resource, className, field, value) {
 
 export function getClassResourceValue(resource, className, resourceKey) {
   const normalized = normalizeManagedClassResource(resource, className);
+  if (getManagedResourceId(normalized, className) === 'fate-links') return finite(normalized?.current);
   if (getManagedResourceId(normalized, className) === 'benediction-malediction') return getAugurPoolValue(normalized, resourceKey);
   if (getManagedResourceId(normalized, className) === 'revenant-toll') return getRevenantPoolValue(normalized, resourceKey);
   if (getManagedResourceId(normalized, className) === 'virulenceCultivation' &&
@@ -234,6 +264,7 @@ export function changeManagedClassResource(resource, className, amount, resource
   // Tile moves are deliberate zone transitions in the class rules; a bare
   // +/- amount never mutates the six-ID record.
   if (getManagedResourceId(normalized, className) === CHAOS_WEAVER_TILE_RESOURCE_ID) return normalized;
+  if (getManagedResourceId(normalized, className) === 'fate-links') return normalized;
   if (getManagedResourceId(normalized, className) === 'benediction-malediction') {
     const pool = resourceKey === 'malediction' ? 'malediction' : 'benediction';
     return updateAugurResource(normalized, pool, getAugurPoolValue(normalized, pool) + amount);

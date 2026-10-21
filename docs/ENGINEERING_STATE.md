@@ -85,25 +85,72 @@ does not authorize deployment or satisfy roadmap §20 release gates.
 
 ## Current work
 
-### P13B-E1a — 2026-10-19 (contract prepared only; no execution code authorized)
+### P14-C1 shared PC Defending — implemented, independently reviewed, real-App verified
 
-Creator records collector W complete at its accepted boundary and requests the bounded original
-`universal_riposte` execution contract. [P13B §12](MYTHRILL_PROJECT_13B_CONTRACT.md#12-smallest-next-execution-candidate--e1a-not-authorized)
-now pins the authored source/card and1-AP price, exact attacking creature/Parry, authenticated GM
-success/prior-payment attestation, a fresh Riposte choice, exact owner consent/retained rolls, GM final
-damage and one P7 AP/HP/consumption receipt. A closed collector intent and the manual Parry-follow-up
-opener converge through that same opportunity; neither card text nor a closed Parry window authorizes it.
+HQ authorized the frozen manual PC scope. [P14-C1 §6](MYTHRILL_PROJECT_14_C1_CONTRACT.md#6-implementation-and-verification)
+centralizes exact source/review/build/App identities and limits. One closed definition/predicate and
+one exact-actor P7 controller/custody/editor serve token, sheet, GM and manual Defend result entry.
 
-The contract reuses P12A/P9 consent/custody/payment/receipt machinery with a strict named branch, **not**
-P12A's2-AP/formula path. Prior Parry payment remains **GM-attested**, never charged again by E1a.
-Cancellation/stale/unknown/rejoin/restart and private proof/public receipt boundaries are specified;
-no new timer for execution or pre-restart reissue. Unresolved rules stay GM-adjudicated; unsupported
-conditions/extras unapplied. Required engineering gates are not falsely claimed to exist already.
+- **Actual rules:** PC Defend1 AP/on-own-turn/until-next-turn doubles blocking DR rolls and prevents wear.
+  No Armor/AC/flatDR bonus. Creature Defend has separate unresolved amount/cost/duration. Stunned's
+  published incapacitated rule includes no actions/reactions, no movement, failed STR/AGI saves and
+  advantage against target; source durations differ (critical1round vs Shield Bash end-next-turn).
+- **Delivered:** UUID instances, explicit semantic/source identity, exact inspected actor/no fallback,
+  canonical accepted state, idempotent Apply, exact removal, unknown pre-emission command custody and
+  same-command recovery. Existing v1/key mechanics preserved; custom name collision cannot delete them.
+- **Expiry:** shared cleanup guards and manual HUD labels; **Until your next turn — GM removes.**
+- **Verification:** 50 server /33 client tests pass; final C1 restore/pruned-receipt cases2 pass. One
+  independent review BLOCK→repaired→ACCEPT. Build3 compilation exit0 and C1 source mismatches `[]`;
+  concurrent Class `Step1CoreDraft.jsx` full-build drift is explicitly outside this acceptance.
+- **Real App11 PASS:** token→sheet and reverse exact-instance edits, GM/observer parity, two actual
+  d8 face2→4/no-wear hits, pending correction retains face2→2/d8→d6; lost ACK+broadcast/reload/same-ID
+  receipt recovery, reconnect and checkpoint codec. Permanent checkpoint/new-runtime/pruned-receipt
+  behavior is production-stack tested. Provider/cloud remain fixtures; four blocked-fetch errors retained.
 
-No new rule answer blocks this manual boundary; explicit contract/freeze and implementation go-ahead
-remain required. Eligible-card highlighting/real triggers, Counterspell/Intervene/chains, shared condition
-lifecycle and obstruction/propagation remain future tracks (§12.7). Documentation only: collector review/
-build/App not repeated, no payment/effect code or Class/RI-1/Wizard/A1b edits, migration, commit/push/deploy.
+Stunned enforcement, automatic expiry and generic creature Defend remain follow-ons. Reaction
+highlighting/actual triggers/Counterspell-Intervene chains, obstruction and propagation stay visible in
+the roadmap. Class/RI-2/Wizard/resource ownership preserved; no A1b, migration, commit/push/deploy.
+
+### P13B-E1a — 2026-10-19 (implemented, independently reviewed, real-App verified)
+
+HQ froze/authorized [§12](MYTHRILL_PROJECT_13B_CONTRACT.md#12-smallest-next-execution-candidate--e1a-not-authorized).
+Original `universal_riposte` only, one primary owner PC → its particular attacking creature. Authenticated
+GM attests exact Parry success and **prior payment (not automatically verified)**; a validated optional
+receipt reference establishes room/parrier linkage only. Parent is never charged again. Server-issued
+canonical parent IDs/nonce bind the originating epoch; descriptive references/card names alone cannot
+authorize, renew or multiply opportunities. Fresh opener and existing closed follow-up use one gate
+after the fresh8s choice, with no extra execution deadline.
+
+Owner retains physical/digital weapon faces and explicitly approves exact target and1 AP. GM chooses
+hit/paid miss/final damage and confirms current manual eligibility/mitigation. Existing strike/P7 path
+atomically installs **1-AP temp-first + HP + once-only opportunity consumption**. No basic-strike formula,
+proficiency roll, typed class price or extra condition/effect. Conditions, wear, movement, ammunition,
+class gains and critical/fumble follow-ons stay visibly unapplied. Basic strike remains2 AP.
+
+- **Bounded independent review ACCEPT** after repairs to epoch provenance, concurrent custody,
+  generic-command downgrade and omitted/history custody preservation. Same-review handoff carries
+  acceptance to all15 runtime paths/witness; original RED evidence retained, no broad audit.
+- **Server58 PASS**: E1a14 +focused P12A13/P9 9/P12B22. **Client6 suites/27 PASS**, scoped lint0.
+- Detached optimized **Build1 exit0/drift[]**; **App2 PASS** (GM/owner/observer1440 +owner820 bounds).
+  Fresh opener physical roll →GM damage7: temp AP2→1, normal AP2 unchanged; temp HP4→0, HP30→27.
+  Accepted P13A narration and `−3 HP`/`4 absorbed` float observed. Lost GM ACK+delivery and real rejoin
+  preserve exact command; retry returns original command at sequence3, no second debit.
+- Closed follow-up adoption adds no window; competing AP spend refuses before effect, explicit
+  revalidation/new consent retains digital `[7]`; paid miss costs1 AP with HP unchanged. Captured
+  owner/observer RP/accepted event payloads omit parent evidence; no observer execution control.
+- Exact source/build/review/test/witness hashes and coverage limits:
+  [§13](MYTHRILL_PROJECT_13B_CONTRACT.md#13-e1a-implementation-and-verification--2026-10-19).
+  Build HEAD `f9527d315f0a5fd338bc29bc0efee493285e58d7` (concurrent commits preserved), asset
+  `d696977c4e08b288e38740a8608b1474c6e55bf04fe6b108ac0aca99b20f64f4`.
+
+**Limits:** GM still adjudicates actual events/card holding/5ft/obstruction, arithmetic/mitigation,
+ordering/own-turn and unexecuted fees. No automatic Parry, parent payment verification, trigger feed,
+eligible-card highlighting, Counterspell/Intervene/chains or common condition lifecycle. Restart recovery
+is exact known receipt first; old unknown/pruned provenance requires manual reconciliation, never silent
+recreation. Live parent state is not durable private storage; device custody is not an offline replay queue.
+Fixture provider/lease/cloud, physical-device/human urgency/fairness and deployment gates remain open;
+three deliberately refused Firebase fetch errors retained. W/B2/earlier reviewed boundaries reused,
+not reopened. No A1b/class migration or this agent's commit/push/deployment.
 
 ### P13B-W declaration collector — 2026-10-19 (implemented, reviewed, integrated handoff complete)
 
@@ -143,14 +190,13 @@ root/map `actorProjection.cut` exclusions. Three deliberate fixture Firebase fet
 unknown/unavailable audit is in-memory. IDs/bytes survive same-principal rebind, not reload durability.
 GM form has one controlled reactor+bundled note/explicit none; card IDs/labels are unverified references.
 Capacity, real Firebase/rules, second-device/human urgency/fairness and deployment limits remain stated in
-§11. Class RI-1's own review is BLOCK/correction pending per its parent checkpoint; no class acceptance
-or payment support is inferred. Parent checkpoint/class files and accepted B2/rejoin evidence preserved.
+§11. Class RI-1 is now accepted for its amended **development/manual** integration per its later
+FINAL-REVIEW; original C1 workshop BLOCK is not erased and no class payment/execution is inferred.
+Class ownership/checkpoint and accepted B2/rejoin evidence are preserved.
 
-**Next proposal only:** [E1a §12](MYTHRILL_PROJECT_13B_CONTRACT.md#12-smallest-next-execution-candidate--e1a-not-authorized),
-one universal Riposte1-AP/one-creature HP consequence after a GM-attested successful, paid Parry, with
-GM arithmetic/eligibility and exact owner consent. No new rule answer blocks that manual boundary;
-the execution/consumption contract and implementation still require separate freeze/go-ahead. No new
-automatic payments/effects, A1b, commit, push or deployment in this handoff.
+**Subsequent E1a delivery:** [§13](MYTHRILL_PROJECT_13B_CONTRACT.md#13-e1a-implementation-and-verification--2026-10-19)
+records the authorized original Riposte execution separately. It adds no payment/effect on W declarations
+or timeout; all other reaction execution/actual-trigger integration still needs its own named go-ahead.
 
 ### P12C-B2 §8.1 — 2026-10-18 (implemented, reviewed, locally verified)
 

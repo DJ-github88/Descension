@@ -21,6 +21,8 @@ import AscensionBloodResourceBar from './AscensionBloodResourceBar';
 import TimeShardsStrainResourceBar from './TimeShardsStrainResourceBar';
 import MayhemModifiersResourceBar from './MayhemModifiersResourceBar';
 import ChaosWeaverResourceDisplay from './ChaosWeaverResourceDisplay';
+import GamblerResourceDisplay from './GamblerResourceDisplay';
+import FateWeaverResourceDisplay from './FateWeaverResourceDisplay';
 import { BRICK, INK, PAPER } from './calmBarPalette';
 import PropheticVisionsResourceBar from './PropheticVisionsResourceBar';
 import DominanceDieResourceBar from './DominanceDieResourceBar';
@@ -1253,6 +1255,10 @@ const ClassResourceBar = ({
     // Render different resource types
     const renderResourceDisplay = () => {
         switch (finalConfig.visual.type) {
+            case 'gambler-hand':
+                return <GamblerResourceDisplay resource={finalClassResource} isOwner={isOwner} />;
+            case 'fate-links':
+                return <FateWeaverResourceDisplay resource={finalClassResource} isOwner={isOwner} />;
             case 'chaos-weaver-tiles':
                 return renderChaosWeaverTiles();
             case 'orbs':
@@ -1942,7 +1948,9 @@ const ClassResourceBar = ({
         'mayhem-gauge',          // Harbinger
         'dual-omen',             // Augur
         'fervor-gauge',          // Crusader
-        'chaos-weaver-tiles'     // Chaos Weaver
+        'chaos-weaver-tiles',    // Chaos Weaver
+        'gambler-hand',         // Gambler: separate from legacy Gambit/Fate Weaver
+        'fate-links'            // Fate Weaver: finite consented links
     ]);
     const hasDedicatedBar = DEDICATED_BAR_TYPES.has(finalConfig.visual?.type);
 
@@ -1952,7 +1960,7 @@ const ClassResourceBar = ({
     // "no rehearsal session set up" notice while uninitialized (max === 0).
     if (
         (!finalClassResource.max || finalClassResource.max === 0) &&
-        finalConfig.visual?.type !== 'chaos-weaver-tiles'
+        !['chaos-weaver-tiles', 'gambler-hand'].includes(finalConfig.visual?.type)
     ) {
         return null;
     }

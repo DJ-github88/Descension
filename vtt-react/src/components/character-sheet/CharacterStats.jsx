@@ -12,6 +12,7 @@ import { getXPProgress, formatXP } from '../../utils/experienceUtils';
 import { getRacialStatModifiers } from '../../utils/raceDisciplineSpellUtils';
 import { getRacialSavingThrowModifiers } from '../../data/raceData';
 import { PC_BASE_ACTION_POINTS } from '../../data/firstTableRules';
+import { SharedConditionEntry } from '../conditions/SharedDefendingEditor';
 import StatTooltip from '../tooltips/StatTooltip';
 import GeneralStatTooltip from '../tooltips/GeneralStatTooltip';
 import ResistanceTooltip from '../tooltips/ResistanceTooltip';
@@ -271,6 +272,7 @@ export default function CharacterStats({ selectedStatGroup: propGroup, setSelect
         pathPassives = [],
         race,
         subrace,
+        ancestry = null,
         updateStat
     } = dataSource || {};
 
@@ -361,7 +363,7 @@ export default function CharacterStats({ selectedStatGroup: propGroup, setSelect
 
         // Calculate derived stats with equipment bonuses and encumbrance
         const finalExhaustionLevel = storeExhaustionLevel !== undefined ? storeExhaustionLevel : (exhaustionLevel !== undefined ? exhaustionLevel : (dataSource?.exhaustionLevel || 0));
-        const calculatedDerivedStats = calculateDerivedStats(totalStats, equipmentBonuses || {}, {}, currentEncumbranceState, finalExhaustionLevel, health, race, subrace);
+        const calculatedDerivedStats = calculateDerivedStats(totalStats, equipmentBonuses || {}, {}, currentEncumbranceState, finalExhaustionLevel, health, race, subrace, undefined, ancestry);
 
         totalStats.healthRegen = calculatedDerivedStats.healthRegen || 0;
         totalStats.manaRegen = calculatedDerivedStats.manaRegen || 0;
@@ -1270,7 +1272,7 @@ export default function CharacterStats({ selectedStatGroup: propGroup, setSelect
         
         // Get passive modifiers from race/subrace
         if (race && subrace) {
-            const passiveModifiers = getRacialStatModifiers(race, subrace);
+            const passiveModifiers = getRacialStatModifiers(race, subrace, ancestry);
             const healthPercentage = health ? (health.current / health.max) * 100 : 100;
             
             passiveModifiers.forEach(modifier => {
@@ -1491,7 +1493,7 @@ export default function CharacterStats({ selectedStatGroup: propGroup, setSelect
         
         // Get passive modifiers from race/subrace
         if (race && subrace) {
-            const passiveModifiers = getRacialStatModifiers(race, subrace);
+            const passiveModifiers = getRacialStatModifiers(race, subrace, ancestry);
             const healthPercentage = health ? (health.current / health.max) * 100 : 100;
             
             passiveModifiers.forEach(modifier => {
@@ -1977,7 +1979,7 @@ export default function CharacterStats({ selectedStatGroup: propGroup, setSelect
             }
             
             // Get racial passives
-            const racialPassives = race && subrace ? getRacialStatModifiers(race, subrace) : [];
+            const racialPassives = race && subrace ? getRacialStatModifiers(race, subrace, ancestry) : [];
             
             // Combine all passives (racial + path)
             const allPassives = [...racialPassives, ...pathPassives];
@@ -2518,6 +2520,7 @@ export default function CharacterStats({ selectedStatGroup: propGroup, setSelect
             )}
 
             <div className="stats-content-area">
+                <SharedConditionEntry ownCharacter={!inspectionData} identity={inspectionData?.sharedConditionIdentity} label="Sheet shared PC Defending" />
                 <div className="stats-section-header">
                     <div className="stats-header-icon-box">
                         <img

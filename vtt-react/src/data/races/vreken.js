@@ -304,12 +304,12 @@ Bedel children are educated in the scriptoriums from the age when their lantern-
 They view the Cromyx with a complex, carefully unspoken mixture of pity and fear. The Cromyx are their siblings, their cousins, their children who inherited a different strain. The Bedel recognize the Cromyx's sharper perception of the Root-Veil. They rely on it, the best cultivators and readers of the underground in Mycellan society are overwhelmingly Cromyx. But the Bedel also control the institutions that record, govern, and trade, and none of those institutions have a Cromyx majority. The Bedel call this "stability." The Cromyx call it what it is.
 
 The Bedel rarely leave the Bryngloom Forest. When they do, they travel in monastic vestments, dark cassocks with fungal-thread embroidery marking their bloodline and vocation, and their rust-amber eyes draw stares in human settlements, Athien trade-hubs, and Solari forge-halls alike. The Bedel are accustomed to being stared at. They are not accustomed to being doubted.`,
- statModifiers: { spirit: 2, intelligence: 2, constitution: 1, strength: -2 },
+ statModifiers: { intelligence: 3, spirit: 1, strength: -2 },
  traits: [
  {
   id: 'deep_glow_blood_clean',
   name: 'Deep-Glow Blood',
-   description: 'Immune to the Over-Lit (Hush) addiction and resistant to blight damage; darkvision limited to 30 feet; disadvantage on Intimidation checks against non-Mycellan. The Deep-Glow strain that protects you is warm, steady, and mercifully dim, a crypt-keeper\'s light rather than a predator\'s, though it also leaves your perception of the Root-Veil fainter than the Cromyx\'s.',
+   description: 'Immune to the Over-Lit (Hush) addiction and 50% Blight Resistance (take half damage from blight); darkvision limited to 30 feet; disadvantage on Intimidation checks against non-Mycellan. The Deep-Glow strain that protects you is warm, steady, and mercifully dim, a crypt-keeper\'s light rather than a predator\'s, though it also leaves your perception of the Root-Veil fainter than the Cromyx\'s.',
   level: 1,
   icon: 'spell_nature_resistnature',
   spellType: 'PASSIVE',
@@ -321,9 +321,9 @@ The Bedel rarely leave the Bryngloom Forest. When they do, they travel in monast
   {
   id: 'overlit_immunity',
   name: 'Hush-Immunity',
-  description: 'Immune to the Over-Lit addiction and resistant to blight damage. Your Deep-Glow blood is stable, ancient, and cannot be intoxicated by the fungal strains that consume the Cromyx.',
+  description: 'Immune to the Over-Lit addiction and 50% Blight Resistance (take half damage from blight). Your Deep-Glow blood is stable, ancient, and cannot be intoxicated by the fungal strains that consume the Cromyx.',
   statusEffect: { level: 'moderate', description: 'Immune to Over-Lit addiction. Resistant to blight damage.' },
-  mechanicsText: 'Immune to the Over-Lit (hush) addiction and resistant to blight damage from the stable Deep-Glow bloodline.'
+  mechanicsText: 'Immune to the Over-Lit (hush) addiction and 50% Blight Resistance (take half damage from blight) from the stable Deep-Glow bloodline.'
   }
   ],
   durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
@@ -460,7 +460,7 @@ Every Cromyx family has at least one Over-Lit relative. The numbers are not a ma
 The Cromyx are disproportionately represented among the Inquisitors, the order that hunts Over-Lit Mycellan who have progressed past recovery. This is not because the Bedel forbid Bedel from joining. It is because the Bedel's fainter Root-Veil sense makes them less effective trackers, and because the psychological burden of killing your own kind falls more heavily on a Bedel who has never felt the hush's pull than on a Cromyx who has spent their entire life fighting it. The Cromyx who join the Inquisition are the most respected and most isolated Mycellan in the Gloom, feared by the Over-Lit they hunt, pitied by the Bedel who no longer sit beside them at crypt-feasts, and quietly, desperately envied by the Cromyx who have not yet fallen.
 
 The Cromyx rarely serve as trade delegates or diplomatic envoys. Their eyes are too bright, they unsettle human merchants, make Athien negotiators uncomfortable, and remind the Solari of something their Sun-Speakers have been prophesying for centuries but will not name. When a Cromyx leaves the Bryngloom Forest, it is because they have chosen to, and the choice marks them as someone who has accepted that the outside world will stare and flinch and reach for iron that does not burn them but still, somehow, hurts to look at.`,
- statModifiers: { agility: 2, spirit: 2, strength: 1, charisma: -2 },
+ statModifiers: { agility: 3, strength: 1, charisma: -2, intelligence: -1 },
  traits: [
  {
   id: 'ghost_mycelium_sight_marked',

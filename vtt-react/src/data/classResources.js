@@ -999,7 +999,12 @@ export const initializeClassResource = (className, characterStats) => {
    baseResource.max = ARCANONEER_BANK_MAX;
    baseResource.rollsPerTurn = ARCANONEER_ROLL_COUNT;
   baseResource.rerollsUsed = 0;
- } else if (className === 'Chaos Weaver') {
+  } else if (className === 'Gambler') {
+   baseResource.initialized = false;
+   baseResource.state = null;
+   baseResource.current = 0;
+   baseResource.max = 7;
+  } else if (className === 'Chaos Weaver') {
   // Personal six-tile record starts uninitialized — never a silent refill of
   // six usable tiles. A stored manual rehearsal session carries the live zones.
   baseResource.initialized = false;
@@ -2002,6 +2007,22 @@ CLASS_RESOURCE_TYPES['Crusader'] = {
 };
 
 // Doomsayer resource removed (merged into Harbinger as Mayhem gauge)
+
+CLASS_RESOURCE_TYPES.Gambler = {
+ id: 'gambler-hand', name: 'Hand & Fortune', shortName: 'Hand', type: 'gambler_hand',
+ description: 'Twenty actual cards, hand five, Fortune seven and one unresolved wager. Manual tabletop only; native benefits pending.',
+ visual: { type: 'gambler-hand', baseColor: '#76542b', activeColor: '#76542b' },
+ mechanics: { initialized: false, current: 0, max: 7, state: null, consumeVerb: 'stake', gainVerb: 'settle' },
+ tooltip: { title: 'Hand & Fortune — manual tabletop', description: 'No fabricated cards, draws or refills. Owners see their actual hand; observers see public counts only.' }
+};
+
+CLASS_RESOURCE_TYPES['Fate Weaver'] = {
+ id: 'fate-links', name: 'Fate Links', shortName: 'Threads', type: 'fate_links',
+ description: 'Three thread tokens in free, reserved or recovering; at most three consented links. Manual tabletop only; no native heritage edge.',
+ visual: { type: 'fate-links', baseColor: '#4f5d75', activeColor: '#8fa3bf' },
+ mechanics: { initialized: false, current: 0, max: 3, state: null, consumeVerb: 'reserve', gainVerb: 'recover' },
+ tooltip: { title: 'Fate Links - manual tabletop', description: 'Three tokens, three links. Expired tokens recover only on a completed long rest; no reconnect or initiative refill.' }
+};
 
 CLASS_RESOURCE_TYPES['Chaos Weaver'] = {
  id: 'chaos-weaver-tiles',

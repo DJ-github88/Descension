@@ -1,0 +1,202 @@
+{
+  "capturedAt": "2026-10-20T21:37:51.884Z",
+  "head": "f9527d315f0a5fd338bc29bc0efee493285e58d7",
+  "applicationChanges": [
+    {
+      "path": "vtt-react/src/data/classes/gamblerData.js",
+      "entry": "absent",
+      "current": "939a9dfc56b1add499e238c323c701f0efa49886d072e6393a50158fb4b6f39b"
+    },
+    {
+      "path": "vtt-react/src/data/talentTrees/gambler.js",
+      "entry": "absent",
+      "current": "a2f5fcaaef3a9c459164c646cccabc379ddae23ba1acb8fc7f36f34d0bbfec2e"
+    },
+    {
+      "path": "vtt-react/src/components/rules/RulesPage.jsx",
+      "entry": "ca8ecca9ed522bd44a7ae3d37fad19a87381851e9c15526f4575b4c66ae8bd2e",
+      "current": "76d4ee5585884ded138d21d0192ef3af6defe4688917410ee5fc24cff892b806"
+    },
+    {
+      "path": "vtt-react/src/components/spellcrafting-wizard/components/library/SpellLibrary.jsx",
+      "entry": "8ad04cba92bd11ad5ab78b3ab4395064d9f81b7aeea9cf4c2a5e6de970d0972e",
+      "current": "9308273e1559163dbb320ebad4bb22468f06bfd109a18c463abf93348d2ae501"
+    },
+    {
+      "path": "vtt-react/src/data/resourceSystems/gamblerResourceGuide.js",
+      "entry": "absent",
+      "current": "d4c70dbc2f6ccc86b0db9cbd988328c5a0f8d26b24f37200a73bc039e7ab9bc8"
+    },
+    {
+      "path": "vtt-react/src/components/hud/GamblerResourceDisplay.jsx",
+      "entry": "absent",
+      "current": "3e4e4e2244d1e32b23380f684ead08fb05627d27f4ae323db47ef80cd780ce8c"
+    },
+    {
+      "path": "vtt-react/src/data/classes/__tests__/gamblerIntegration.test.js",
+      "entry": "absent",
+      "current": "c524dfd1e8b9fe74af9fb77c0c05d17bfff1cea9586cb776ee05c33de49065a7"
+    },
+    {
+      "path": "vtt-react/src/components/hud/__tests__/GamblerResourceDisplay.test.jsx",
+      "entry": "absent",
+      "current": "726d9043d84a5fc6962a6485574d44318b41d384cba1830a7f80b4b2fcee9e71"
+    },
+    {
+      "path": "vtt-react/src/data/classes/index.js",
+      "entry": "76336625cb606dd332b1d17eb587b04a0b7a7eb316e52353f5c601e973c8b732",
+      "current": "7cd49312afb7e9531c485943c733c366fe69315354f529287d72243b7337ac2c"
+    },
+    {
+      "path": "vtt-react/src/data/classes/classDisplayData.js",
+      "entry": "0a12f854588a2f7ba8679c3b2cbc27ca2d65105cd13fc763d2458c78bc762c85",
+      "current": "8d33e78321317b1ea3d0b0165945481321183690731ff0efed4942f5fb1dfe4c"
+    },
+    {
+      "path": "vtt-react/src/data/classes/classReconstructionCompatibility.js",
+      "entry": "16518386eceaa9717299b694f54a3e56082bfe7c73bef4e5bf1c4765fd4da4c1",
+      "current": "959032cf4eee65122e13534660a551ceef98b253a88d4af596e423084b6499cb"
+    },
+    {
+      "path": "vtt-react/src/data/classSpellGenerator.js",
+      "entry": "697ba6baab116f5cf5af02861c8b5588373fee81c838bb1f047087355dc6655d",
+      "current": "368ccaa1c4fbfd0fbc095f0a73359ffb1c3723395146c0c3a840b8e5fa7ff7d7"
+    },
+    {
+      "path": "vtt-react/src/data/classSpellCategories.js",
+      "entry": "d613c5c0601777ddbc6198ce239d811c41f5c1619512d8d545c763057328bbfc",
+      "current": "9148c8e722bfb6dee7d45c2157a1a3bc9396f4280641fb1c7d116be126b43e50"
+    },
+    {
+      "path": "vtt-react/src/data/talentTreeData.js",
+      "entry": "dac5c1ec0b0aa2332d7c3c137c5718c9555333799d265f42ea837c6c24236c13",
+      "current": "2b80205930f6ac65a222e2843442515c5808c6fd9034055675acac41bd01deb6"
+    },
+    {
+      "path": "vtt-react/src/data/classResources.js",
+      "entry": "0829f4ef7878634e2d4ae40602f83fc88176a70d5fb5287f7949bb6c8bac2ca9",
+      "current": "475003ad63cb39c811f7b6ca191ee3faaba57a7c275c912375ca0511b50ab139"
+    },
+    {
+      "path": "vtt-react/src/data/classResourceContracts.js",
+      "entry": "6b04647b72140be94035c38225bca9fb93f67cddc50ff83195df6803440f84fd",
+      "current": "cd93df7b6fa8d44367df9f8ca3ed71a48305204334356f34b6d1527d4cfdbe12"
+    },
+    {
+      "path": "vtt-react/src/data/resourceSystems/index.js",
+      "entry": "20c2c4126a02d5fa5eaebafbcc26572941e98270e55b8fdc206808d451ad3ece",
+      "current": "0b792ef3e53985d19e7b44a7aeadeb0804c46846e513eb0c8fdd57e8d860bcc7"
+    },
+    {
+      "path": "vtt-react/src/data/classHeritageRegistry.js",
+      "entry": "29d8d2217132f20d7077f645d66f0fb237a18f8f92542e60ecbf5c9433dce61f",
+      "current": "cf054e0289aa4ef8783e0c0f7e6a688645a27875e6668a53190b2405dd18f718"
+    },
+    {
+      "path": "vtt-react/src/components/rules/ClassDetailDisplay.jsx",
+      "entry": "54274a0059f2d4cd0968fbc183c7c430cb78d3b2d44c35fa9d011bcbcb194cb0",
+      "current": "38d50f3a45bd86d59e04275c54381105e1e8dcbb5edaeab4c5ac96d77123a6eb"
+    },
+    {
+      "path": "vtt-react/src/components/hud/ClassResourceBar.jsx",
+      "entry": "827ddcdb521d422ea4b529d4f4d7245ae7608f1906bbc441487e4cdfbb35ab7d",
+      "current": "7694604c8a3d12958b58b1ff64bf16e6d41d1738fab53eb507eb5e9baee9d903"
+    },
+    {
+      "path": "vtt-react/src/components/talent-tree/TalentTreeContent.jsx",
+      "entry": "32ec658020cd40652fb3f0e5419d278eb570d96c88640a5001f05addfd279b33",
+      "current": "f41134f58667f37c270ce4f7702ce00db567e9321779a425b336f447139d56ad"
+    },
+    {
+      "path": "vtt-react/src/components/character-creation-wizard/steps/Step1CoreDraft.jsx",
+      "entry": "f56f6c5e3e4114ff9516315de0a6a3bf017ea14e20cef4bdb4a7cf22e3cde71b",
+      "current": "085ffa9bff8e68d0e00999b97abe5514dafbb8a9b8d93455f75295739d99dc39"
+    },
+    {
+      "path": "vtt-react/src/components/modals/LevelUpChoiceModal.jsx",
+      "entry": "ceb400a4ca68b8caa0ffe8de90fa61ccb3c7be933b53b1e8b79473685162c483",
+      "current": "1ba87181ea5e51fb374c2fc4b2e188a9e7ad989662f8de2779afe0f8347d07c2"
+    },
+    {
+      "path": "vtt-react/src/store/characterSlices/infoSlice.js",
+      "entry": "ba2690e9c0e594bfd1c91baba8d99bcdae677d7cd5a36052cb8a535506aab0d8",
+      "current": "f4800e0ae0c94ddadf1544bbf7e94cbecb266f98fd03574f2168c5d352b06c1f"
+    },
+    {
+      "path": "vtt-react/src/store/characterSlices/progressionSlice.js",
+      "entry": "4a605c1f0d710b3c56b35c0c17863d50e4f43c0d19c963dc0bf779b83dd3ee3b",
+      "current": "b866db9eba3f36889164a214baa27b28b542902e12857d099eb4db4107fc9065"
+    },
+    {
+      "path": "vtt-react/src/hooks/useClassSpellLibrary.js",
+      "entry": "6e9e618fb5e5fd8511fab0081a990d6fae45f26f309762b408a90f3ab9bde7ff",
+      "current": "0195babbb23f2921f4729987e966eeb0e954c08a9f657979a0582824d01aba16"
+    },
+    {
+      "path": "vtt-react/src/data/resourceSystems/__tests__/allGuides.test.js",
+      "entry": "01ae8ce44f8ed159a9cce2f19e65fc613f464500d948f8cb31cef998e5a45c5e",
+      "current": "4107139d7bcf9ea48a12fa0068f8854c8db08cf84576658faeb6795d8871a89d"
+    },
+    {
+      "path": "vtt-react/src/data/__tests__/classHeritageRegistry.test.js",
+      "entry": "4c4cbeb2ce094120cefd0beb77bedca2c3579746551804e38519934b6e3489bb",
+      "current": "6e529f7beb2a1223dd3132b2a107fec843c9133c0801805ab62d20c5cd66f117"
+    },
+    {
+      "path": "vtt-react/src/data/__tests__/heritageEdgeContract.test.js",
+      "entry": "764b5071174d6502bd029acc896522206335764b02c4a290251ea850768d9a0d",
+      "current": "fddb65f9ae785767431316a07f0bbff1d3c6dcf76d4859e95f7706f1ae585b85"
+    },
+    {
+      "path": "vtt-react/src/data/__tests__/heritageRosterCoverage.test.js",
+      "entry": "b8a918b10a9ad6144a977e5b60e52ac8b96010feb154a4bf6e788df47a99704c",
+      "current": "3633921f705a6e6161dacdf2015d64ad7545b499c1ed7bced09f38a7b623d1af"
+    },
+    {
+      "path": "vtt-react/src/utils/__tests__/classIconUtils.test.js",
+      "entry": "72cb9d1199cd9f4db071af1c3f0324d81d0c65390f376cbdcad747e165223486",
+      "current": "4d7a03101a5062215c94799783e03ed8df33c5c2eb20e1805f32d3498f32691a"
+    },
+    {
+      "path": "vtt-react/src/components/rules/__tests__/ClassesDisplay.test.jsx",
+      "entry": "ce2c0eeba467a66e18fc80b82262d393a2d783029e97a6f36b43f891f7d599a8",
+      "current": "50df8736b566c237af970ef8be266a83ec623414f1c2c6e2eda741953d17ff80"
+    },
+    {
+      "path": "vtt-react/src/components/rules/__tests__/ClassDetailDisplaySpells.test.jsx",
+      "entry": "51ff7c42c48515d4a99c1cc405aa82571adc59f8b3c27d89f838af7700645638",
+      "current": "c278d648a2ea97d1c27b507ffac7bed765032cb465607f7c42057bebb7c90096"
+    },
+    {
+      "path": "vtt-react/src/components/talent-tree/__tests__/TalentTreeContent.test.jsx",
+      "entry": "e7486a7033b60a720d8be04f44acaebec437540cae50b26c070045ea0d2f3fba",
+      "current": "202c5bd66ebeb7e1a3c96258ceb914df74a5fdc882d15e95bbef70c05ffa9825"
+    }
+  ],
+  "concurrentOnlyWritableChanges": [
+    {
+      "path": "vtt-react/src/components/character-creation-wizard/steps/Step9CharacterSummary.jsx",
+      "entry": "15f3bac936bf6d89dcf53e5cb30543471ae1b77bcc12ef53c844263b51b58c97",
+      "current": "9755d11f65e541305829746099d26693fb03f809492f23607f3f897ffefd32e1"
+    }
+  ],
+  "plan": {
+    "path": "docs/plans/mythrill-class-reconstruction/implementation/RI-2-GAMBLER-FATE-WEAVER.md",
+    "entry": "852dbf017c0f2b47317fee1b50bef8db91dde154345a5f4097fb7ad166e1d756",
+    "current": "1026643fa15bf3fd0d75ed7ecfd911f3806bbff8df95f9251e0ecf7eaf5c4c79"
+  },
+  "concurrentProtectedChangesObserved": [
+    "vtt-react/src/store/characterSlices/coreSlice.js",
+    "vtt-react/src/store/characterSlices/resourceSlice.js",
+    "vtt-react/src/components/hud/PartyHUD.jsx",
+    "docs/ENGINEERING_STATE.md",
+    "docs/MYTHRILL_CROSS_TRACK_COORDINATION.md",
+    "docs/MYTHRILL_NEXT_SLICES_CONTRACT_20261017.md",
+    "docs/MYTHRILL_P11_P14_ROADMAP.md",
+    "docs/MYTHRILL_PROJECT_13B_CONTRACT.md",
+    "docs/ai/CURRENT_PRIORITIES.md",
+    "server/services/actorConsequences.js",
+    "vtt-react/src/components/character-sheet/CharacterPanel.jsx"
+  ],
+  "note": "Whole-working-file hashes. Existing/concurrent hunks in writable seams are retained; not every working-tree hunk belongs to RI-2."
+}

@@ -204,6 +204,7 @@ export const assembleCharacterWorkingData = (state, inventoryData = null) => {
     tokenSettings: state.tokenSettings,
     skillRanks: state.skillRanks,
     class_spells: state.class_spells,
+    ancestry: state.ancestry || null,
     levelUpHistory: state.levelUpHistory,
     talents: state.talents,
     primarySpecialization: state.primarySpecialization,

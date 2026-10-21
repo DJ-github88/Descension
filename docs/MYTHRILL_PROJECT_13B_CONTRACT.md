@@ -1,4 +1,4 @@
-# P13B — declaration collection delivered; reaction execution conditional
+# P13B — collection and bounded Riposte delivered; wider reactions conditional
 
 2026-10-19 · **W §1.1 FROZEN and authorized for implementation by the creator.** D13-6b full8s/no normal
 early close; D13-11 private pre-cutoff correction/withdrawal with retained revisions/one current intent
@@ -6,7 +6,9 @@ per card/occurrence; D13-10 explicit interrupted/unavailable manual takeover, sa
 no grace/pause/extension. These approve no prices, refunds, resolution order or reaction execution.
 **W handoff complete:** implemented, bounded independent source review plus final delta review accepted,
 integrated Build3/App4 verified. [§11](#11-w-implementation-and-integrated-handoff--2026-10-19) records
-exact identities, workflow and limits. E1/E1a and wider execution remain proposals, not authorized code.
+exact identities, workflow and limits. **E1a was subsequently authorized and delivered:** §12 is its
+frozen original Riposte contract; [§13](#13-e1a-implementation-and-verification--2026-10-19) records the
+completed bounded review/build/App workflow. Broader E1/other-card automation remains future.
 Read with the compact [creator packet](MYTHRILL_DECISIONS_AREA_AND_REACTIONS_BATCH1.md)
 and [ownership/dependencies](MYTHRILL_CROSS_TRACK_COORDINATION.md). This replaces the *planning*
 assumptions in roadmap §6/§9 where they conflict; it changes no published Laws. Historical proposed
@@ -40,7 +42,8 @@ W's focused verification and completed handoff are in §11.
 **P13B-W: one server-timed private declaration opportunity, then a GM manual handoff.** No named
 Parry/Counterspell/Intervene execution pilot is required for this collector. Their existing cases remain
 manual examples, not mandatory arithmetic decisions. This narrowing supersedes broader W requirements
-below where those would require scheduling/resolving/charging reactions. Only W is authorized; E1 remains separate.
+below where those would require scheduling/resolving/charging reactions. W and original E1a were
+separately authorized and delivered; broader E1 remains separate.
 
 ### 1.1 Declaration-only first slice — conditional change contract
 
@@ -652,12 +655,15 @@ Key final runtime source identities (full set/tests/witness in the integrated ha
 The original report's pending-build/App wording is historical; the delta report explicitly reconciles
 the final Build3/App4 bytes. This handoff edits documentation/status only after review, not runtime.
 
-## 12. Smallest next execution candidate — E1a, NOT authorized
+<a id="12-smallest-next-execution-candidate--e1a-not-authorized"></a>
+## 12. E1a universal Riposte — frozen implementation contract
 
 **FROZEN and implementation authorized by HQ, 2026-10-19.** One exact primary PC
 counter-attacks the particular attacking creature after a GM-attested successful, paid universal Parry.
 Original attacker only is an **implementation ceiling**, not a new rule forbidding other tabletop targets.
 No Parry automation, generic reaction executor, resource reservation, class migration or A1b installation.
+Implementation/verification complete at §13. Future-tense requirements below are the frozen contract,
+not permission to widen the profile or claims that arithmetic/trigger integration is automated.
 
 ### 12.1 Pinned original card and manual boundary
 
@@ -708,6 +714,12 @@ or renewed8s is invented. GM attests current timing/own-turn legality and revali
 
 Reuse P12A's8KiB approval/chosen-result bounds and GM final-damage range0–100000; reject malformed or
 unknown fields. Capacity refusal is explicit/manual, never silent history loss or a tabletop reaction cap.
+Canonical manual parent provenance is server-issued and origin-epoch bound, not the GM's descriptive
+reference text. Register through `actor_riposte_parent`; offer must present that live parent ID/nonce/
+origin epoch. Current transport epochs cannot renew old canonical parents, including via a newly opened
+window. New manual-event registration is explicit, never a retry. Original-epoch registration bytes are
+retained before emission and never rewritten after reconnect/restart. Existing closed-window adoption
+must identify a real same-runtime follow-up; unknown old canonical cause IDs are not imported as new labels.
 Unsupported weapon/dice models remain manual. No new die, explosion, proficiency roll or miss percentage
 is invented. Existing recorded evidence survives targeting, consent, stale-state and recovery changes;
 an incompatible old weapon/context is preserved as unusable/manual evidence, not silently rerolled.
@@ -810,3 +822,135 @@ App witness/build and one independent slice review; reuse unchanged collector/P1
 | Counterspell/Intervene + later chains | Exact moment/variant, saves/redirect/rewards/typed prices and later reaction opportunities; no universal priority or automatic chain |
 | Shared condition/buff/debuff lifecycle | Existing P7 record operations are not common turn/round/expiry/proc/stacking automation; E1a extras remain unapplied |
 | Obstruction + broader propagation | B2 §14 authoritative LoS/LoE/cover/elevation and §9–13 per-profile chain/bounce/seeking/spread/lifecycle work remain separate; advisory geometry is not traversal or validation |
+
+## 13. E1a implementation and verification — 2026-10-19
+
+**Implemented, bounded independently source-accepted, optimized App verified.** Original
+`universal_riposte` only, one owner primary PC → its particular attacking creature. Explicit
+owner-consented/GM-adjudicated execution, not automatic Parry, eligibility, ordering or a reaction engine.
+
+**Creator records E1a complete at this boundary, 2026-10-20.** Shared-condition contract preparation
+reuses these identities/evidence unchanged: no repeated E1a acceptance/review/build and no backfilled
+condition effects. P14-C1 is separate proposed integration, not a widening of Riposte.
+
+### Actual player/GM workflow
+
+1. GM opens **Riposte execution — structured opportunity**. Enter descriptive attack/Parry references,
+   exact parrier/original creature attacker, explicit success/paid/timing confirmations, private payment
+   note and optional receipt ID. Server issues canonical originating-epoch parent IDs/nonce. References
+   are not execution authority; changing transport epochs cannot renew an old canonical parent.
+2. **Fresh opener B:** attest and offer opens the existing collector's fresh8s follow-up, sealing explicit
+   no additional GM declarations. Owner chooses `universal_riposte` or silence; corrections/withdrawal
+   and cutoff remain W's rules. No cost, parent debit or automatic counter-attack from offer/closure.
+3. **Closed-entry A:** select a real same-runtime closed fresh follow-up whose source/audience/cause
+   match the parrier, with final non-withdrawn `universal_riposte`. Its structured GM parent attestation
+   binds to the same gate **without** a second window. Legacy human-reference chronology remains
+   GM-attested; unknown old canonical cause IDs cannot be imported into a new current-runtime window.
+4. Owner opens the same execution panel, records physical/digital weapon faces once, then explicitly
+   approves the exact original target and1 AP. Only supported P12A weapon/roll encodings are reused;
+   **no proficiency roll or basic-strike damage/mitigation formula is imported**. The unmodified universal
+   profile is the support boundary; variant/extra typed prices remain manual/outside it.
+5. GM selects hit/paid miss and final damage and confirms current eligibility/arithmetic/mitigation.
+   **Execute approved Riposte —1 AP and HP once** uses the shared strike approval/P7 command path.
+   Admission couples1-AP temp-first debit, target temp-HP-first/clamped HP and opaque once-only
+   opportunity consumption; paid miss costs1 AP and changes no HP. Unsupported extras stay visibly
+   unapplied. Prior Parry success/payment stays **GM-attested**, never mechanically certified or debited again.
+6. Exact command/approval IDs and bytes are retained before emission. Unknown outcomes permit same-ID
+   checking only; reconnect reads status without resubmission. Stale affordability/positions/ruling require
+   explicit GM revalidation/new owner consent with the **same** retained faces. No execution timer is added.
+7. Consumed/cancelled opportunities cannot be reused through aliases, duplicate attestations, new windows,
+   the other entry path or a replacement command. Restart discards live authorizations: retained exact
+   P7 receipts recover first; unknown/pruned old provenance stops for manual reconciliation, not a new
+   parent/opportunity. New explicit manual-event registration is not replay of old canonical provenance.
+
+**Manual:** actual trigger/Parry truth, prior payment semantics, card ownership,5ft/enemy/obstruction,
+hit/miss, modifier/critical/mitigation/equipment interpretation, order, own-turn permission and unexecuted
+fees remain GM rulings. Optional receipt is checked for existence/room/parrier linkage; that does not
+prove which tabletop action it paid. GM must reconcile source pools before consenting to Riposte.
+E1a neither stops/rewinds the original attack nor applies conditions, buffs/debuffs, wear, movement,
+ammunition, class gains or later procs. The collector remains a separate collection/history display;
+only explicit E1a execution has an accepted AP/HP result. No A1b/class migration was installed.
+
+### Engineering safeguards exercised
+
+- Current-GM attestation after fresh authority checks, immutable originating-epoch manual parent IDs/
+  nonce and canonical actor incarnations. Wrong parent/actor, name-only aliases, old provenance with
+  refreshed transport epochs and imported old canonical IDs are refused.
+- Parent/attack/window indexes plus private canonical receipt fingerprints prevent duplicate executable
+  rights across attestations/windows/origins. Full parent notes/proofs never enter public receipts or
+  narration. Public E1a receipt whitelist excludes private keys/offer hash/command and approval hashes;
+  inconsistent generic/manual E1 claims refuse and old inconsistent proof projections are withheld.
+- Per-principal/opportunity preparation serialization **and** strict actual custody boundary: unknown/
+  accepted ID replacement or changed bytes refuses, omitted family entries survive, archived old refused
+  attempts stay immutable (16 history bound, no eviction). A user-only scoped-native sibling family
+  preserves basic-strike custody; no save migration/offline replay queue.
+- Existing P7 known-receipt-first recovery, authority/owner/CAS checks, shared approval namespace,
+  receipt/consumption installation and synchronous close; no sequential cost/damage/consumption commands.
+- Pre-cutoff GM opportunity polling reveals no intent revision/count. Retired binding/role/scope and
+  stale response/failure fences preserve current consent/custody. Basic P12A stays2 AP.
+
+### Verification and independent review
+
+| Check | Observed result |
+|---|---|
+| E1a server | **14 PASS**:10 deterministic unit +4 registered-stack cases; both entries, refreshed/pruned restart, duplicate parents, wrong actors, bad receipt, insufficient AP, paid miss, cancel, stale reapproval, privacy |
+| Affected server regressions | **44 PASS**: P12A13 +P9 9 +P12B22; **58 total distinct server checks** with E1a. Existing completed project acceptance is reused, not re-audited |
+| Client | **6 suites/27 PASS**: RP execution/service/real custody/UI, accepted feed and retained strike rolls. Scoped lint0 errors/0 warnings |
+| One bounded independent review | Initial3High BLOCK (restart provenance, concurrent custody replacement, generic downgrade) repaired; residual custody/history removal blocker repaired; **final ACCEPT**, original RED evidence preserved |
+| Same-review identity handoff | **Carry existing ACCEPT**,21 original accepted inputs stable;15 runtime/9 test path coverage + witness/support/evidence hashes. No new tests/build/App audit in this reconciliation |
+| Production build | Detached direct optimized **Build1 exit0/drift[]**, external output, no source snapshot/copied evidence asset tree |
+| Real App | **App2 PASS**, GM/owner/observer1440 and owner820 bounds; real fresh-opener B/closed-entry A, exact1-AP payment, HP/absorbed float +P13A narration, missing-ACK/reconnect/retry and paid miss |
+
+**Concrete App evidence:** independent manual P7 prior-Parry payment occurs before each attestation;
+E1a hit changes temporary AP2→1 with normal AP2 unchanged, target temp HP4→0 and HP30→27 for GM
+damage7. Live feedback is `−3 HP` and `4 absorbed`; one P13A history entry says Riposte, AP−1 and those
+deltas. Both GM ACK and accepted-handler delivery were dropped; real GM transport rejoin retains exact
+command bytes and one persistent room_joined listener; explicit retry returns the same command at
+commitSequence3, no second payment. Closed-entry adoption adds no window. After a competing AP spend,
+refusal creates no receipt; explicit revalidation/new consent retains digital `[7]`; paid miss takes
+AP2→1 and leaves HP27/tempHP0. Captured owner/observer RP/accepted payloads contain none of the private
+parent markers. No unrelated observer execution control is exposed.
+
+App1 is retained as a locator failure (two accepted-text elements); the corrected locator scopes the
+exact opportunity without production changes/assertion weakening. Screenshots/ARIA were inspected.
+Three deliberately refused Firebase fetch errors (one/principal) remain recorded; no zero-error/live claim.
+
+### Exact source/build identity and coverage
+
+Concurrent commits advanced the checkout from initial `8ba81efb…` to recorded build HEAD
+**`f9527d315f0a5fd338bc29bc0efee493285e58d7`**. This agent made no commit/push/reset/deployment and
+preserved other writers' changes. Exact reviewed working-tree hashes, not HEAD alone, identify E1a.
+Artifact base: `D:/AppData/Temp/opencode/` (all bulky output external).
+
+| Artifact | SHA-256 |
+|---|---|
+| `e1a-closeout-identity.json` — current15 runtime hashes, source/test/witness identities, build/Git-source reconciliation and results | `6896b1781e20300c992696c88ea042294ac2f108a41f12f40c0fd481a3e5e217` |
+| `e1a-review/final-review.md` | `613f12b447681ebcd2fb8c224145fc54a21c5bafbc073738bba9217023a9c4e4` |
+| `e1a-review/integrated-review.md` | `f4fe21c0e1dd077cc55ae783f8bc328ab01dd183d61ce80204b0760e413540a4` |
+| `e1a-review/final-integrated-hashes.json` | `742186e52cd6569d5864e4cb18da0815a7b1c826f1c310de621a583338c48e18` |
+| `e1a-20261019-build1/build.json` | `f18f027368916444eaff16e35421676340bf1d34b652da571994b3c50570c5eb` |
+| Build1/App2 asset manifest | `d696977c4e08b288e38740a8608b1474c6e55bf04fe6b108ac0aca99b20f64f4` |
+| `e1a-20261019-app2/result.json` | `8fa8bddca8167bf21ec8c7ae9e1efa7a5c5d03280d47e347dfd3c2d3aca29868` |
+
+The existing build runner hashes changed/untracked paths plus fixed dependencies, not a full tree.
+The reviewer records three clean client sources absent from that list: RP pure execution,
+privateStorageRegistry and acceptedResultFeed. Identity-only closeout matches their raw Git blobs at
+recorded HEAD (commit20:44Z, before build21:15Z) to current/reviewed bytes; the other five E1a client
+runtime paths match build.before/after. No reviewed source drift. This augments the older report's
+coverage limit; it is **not full-repository reproducible-build equivalence or acceptance of concurrent
+class/race edits**. The witness hash is recorded at handoff; its historical result does not itself
+cryptographically record a witness-source hash at execution.
+
+### Remaining limits / broader roadmap
+
+Live-only parent/attestation/collection state remains bounded; device command/roll custody is existing
+private recovery, not live cloud/private restart durability. GM manual statements are not independent
+proof of a physical event or prior payment. A new explicit manual event is not permission to replay old
+canonical provenance. No automatic card inventory, trigger highlighting, comparison/mitigation,
+ordering, refund or full chain. P13A feedback is receipt-based; RP execution and collection history
+remain separate displays. Captured wire assertions are the RP/accepted-event subset, not all-network audit.
+
+Provider identity/canonical ownership/leases/cloud persistence are fixture boundaries; manual pool setup
+and human Parry adjudication are inputs.820px checks are bounds/overflow, not physical-device/exhaustive
+responsive validation. Live Firebase/rules, human urgency/fairness, private restart durability,
+second-device and deployment gates remain separate. The broader roadmap in §12.7 stays future.

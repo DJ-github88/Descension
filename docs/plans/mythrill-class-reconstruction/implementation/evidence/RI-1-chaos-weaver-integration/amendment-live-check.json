@@ -1,0 +1,11 @@
+{
+  "capturedAt": "2026-10-19",
+  "route": "/rules?category=character-creation&sub=classes&class=Chaos%20Weaver",
+  "viewport": { "width": 1280, "height": 900 },
+  "overviewVisible": true,
+  "hasTrainedHeritageHeading": false,
+  "hasDrall": false,
+  "horizontalOverflow": false,
+  "consoleErrors": 0,
+  "note": "Live Chaos Weaver overview after removal of the unapproved mechanical heritage edge. The approved native-access registration remains test-covered but no edge is rendered as implemented."
+}

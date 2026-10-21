@@ -26,6 +26,7 @@ import MythrillWindow from '../windows/MythrillWindow';
 import CreatureWindow from '../windows/CreatureWindow';
 import EnhancedCreatureInspectView from '../creature-wizard/components/common/EnhancedCreatureInspectView';
 import ConditionsWindow from '../conditions/ConditionsWindow';
+import { refOf as conditionActorRef } from '../../services/actorConsequenceService';
 import BuffDebuffCreatorModal from '../modals/BuffDebuffCreatorModal';
 import '../../styles/creature-token.css';
 import ShopWindow from '../shop/ShopWindow';
@@ -2078,6 +2079,9 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
   const handleMouseDown = (e) => {
     if (e.button !== 0) return; // Only left mouse button
     if (showContextMenu) return; // Don't start dragging if context menu is open
+    if (isInMultiplayer && !isGMMode && require('../../services/sharedConditionProfile').holdsStunned(token)) {
+      e.stopPropagation(); setShowTooltip(false); return;
+    }
 
     // CRITICAL FIX: Set global flag to prevent grid click handling in production builds
     window.tokenInteractionActive = true;
@@ -3239,6 +3243,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
         isOpen={showConditionsWindow}
         onClose={() => setShowConditionsWindow(false)}
         tokenId={tokenId}
+        actorRef={conditionActorRef(token)}
         creature={creature}
       />
 

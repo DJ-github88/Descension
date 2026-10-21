@@ -311,12 +311,7 @@ Forge-trials settle disputes between clans. No Solari may strike another Solari 
 The Korr are the smallest bloodline and the most politically powerful. They hold the Sol\'s Breath. They interpret the silence. They officiate the Solstice Vigil and apply the newborn's forge-marks and determine, through decades of listening, whether a given omen means war or peace or nothing at all. Their word is final, because no other clan can perform the tending. The Vault-Breath required to endure the Deep-Vault for more than an hour is a Korr-specific adaptation; a Anhur who attempts the full vigil risks freezing.
 
 The current crisis is a Korr crisis. The tending-clan has concealed the Sol\'s Breath's dimming for three generations, and the Sun-Speakers are no longer unified. Some still believe Sol will speak again. Some believe the ember is Keth Amar's tether and must be extinguished. Some, the Scoured, have defaced their marks and left the Deep-Vault entirely. Thaeron, the eldest Korr, has told no one what he believes. He is still listening.`,
-      statModifiers: {
-        constitution: 2,
-        spirit: 2,
-        strength: 1,
-        agility: -2
-      },
+      statModifiers: { constitution: 3, spirit: 2, agility: -2, charisma: -1 },
       traits: [
         {
           id: 'listening_dark_korr',
@@ -423,7 +418,7 @@ The current crisis is a Korr crisis. The tending-clan has concealed the Sol\'s B
         {
           id: 'deep_curse_korr',
           name: 'Deep-Curse',
-          description: '-5 ft movement speed, you cannot swim (you sink in water), and disadvantage on saving throws against cold effects. The oxygen-starved Deep-Vault that sheltered your ancestors kept you alive at the cost of leaving your marrow fragile to the very cold it was built to escape.',
+          description: '-5 ft movement speed, you cannot swim (you sink in water like a stone), you have disadvantage on all Agility checks, and you suffer disadvantage on saving throws against cold effects. (The deep earth accepted you; the surface refuses to bend.)',
           level: 1,
           icon: 'spell_frost_chillingbolt',
           spellType: 'PASSIVE',
@@ -539,12 +534,7 @@ The current crisis is a Korr crisis. The tending-clan has concealed the Sol\'s B
 The Anhur are the Solari's connection to the surface, even now that the surface has been partially reclaimed. They map the ash-wastes, scout the frontier, and carry message-tubes between outposts. Vaelith, the most trusted messenger of the clans, is a Anhur.
 
 The Anhur were the first to notice the evidence of the Sol\'s Breath's dimming. They spend more time on the surface, and they see the volcanic vents cooling and the glaciers encroaching. They are agitating for transparency and access to secondary heat resources. The Korr are refusing, fearing a panicked exodus that would deplete the Vault's core thermal grid.`,
-      statModifiers: {
-        agility: 2,
-        constitution: 1,
-        spirit: 1,
-        intelligence: -1
-      },
+      statModifiers: { agility: 4, constitution: 1, intelligence: -2, charisma: -1 },
       currentCrisis: 'The surface thermal vents the Anhur depend on are cooling. Not everywhere or all at once, but the pattern is unmistakable: secondary geothermal fields that sustained Anhur outposts for centuries are dropping in temperature year by year. Anhur scouts have returned from the northern frontier reporting that entire vent-clusters have gone cold, their basalt crusts sealing over like healed wounds. The Anhur have begun migrating their outposts southward, closer to Emberspire\'s core heat, but that brings them into direct competition with Korr-claimed territories and the forge-clan hierarchy they have spent generations avoiding. The Korr refuse to acknowledge the cooling. The Anhur cannot ignore it. For the first time in centuries, the surface-scouts are being forced to choose: freeze on the frontier or submit to a Deep-Vault hierarchy that has never respected them.',
       traits: [
         {
@@ -600,11 +590,11 @@ The Anhur were the first to notice the evidence of the Sol\'s Breath's dimming. 
         {
           id: 'ash_skimmer_thrask',
           name: 'Ash-Skimmer',
-          description: 'Treat non-magical difficult terrain from snow, ice, ash, or loose stone as normal terrain, and leap up to 15 ft as part of a Dash without a running start. Decades of running volcanic scree taught your splay-toed feet to ride the drifts as though they were solid ground.',
+          description: 'Treat non-magical difficult terrain from snow, ice, ash, or loose stone as normal terrain, and leap up to 10 feet horizontally without a running start. However, your instinct-driven predator mind struggles with abstract reasoning: you suffer disadvantage on Intelligence checks and saving throws against magical illusions.',
           level: 1,
           icon: 'ability_rogue_sprint',
           spellType: 'PASSIVE',
-          effectTypes: ['buff'],
+          effectTypes: ['buff', 'debuff'],
           typeConfig: {
             school: 'smashing',
             icon: 'ability_rogue_sprint',
@@ -625,6 +615,16 @@ The Anhur were the first to notice the evidence of the Sol\'s Breath's dimming. 
             durationValue: 0,
             durationUnit: 'permanent',
             canBeDispelled: false
+          },
+          debuffConfig: {
+            debuffType: 'statusEffect',
+            effects: [{
+              id: 'predator_mind',
+              name: 'Instinctive Predator Mind',
+              description: 'Disadvantage on Intelligence checks and saving throws against magical illusions.',
+              statusEffect: { penaltyType: 'intelligence_and_illusions', magnitude: 'disadvantage' }
+            }],
+            durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
           },
           targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
           resourceCost: { actionPoints: 0, mana: 0, components: [] },

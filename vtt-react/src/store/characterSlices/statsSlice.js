@@ -217,7 +217,7 @@ export const createStatsSlice = (set, get) => ({
             });
 
             const encumbranceState = getEncumbranceState();
-            const derivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, encumbranceState, state.exhaustionLevel || 0, state.health, state.race, state.subrace, combinedModifiers);
+            const derivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, encumbranceState, state.exhaustionLevel || 0, state.health, state.race, state.subrace, combinedModifiers, state.ancestry);
 
             // Update health and mana max values from derivedStats
             let newHealth = { ...state.health };
@@ -325,7 +325,7 @@ export const createStatsSlice = (set, get) => ({
             });
 
             const encumbranceState = getEncumbranceState();
-            const derivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, encumbranceState, state.exhaustionLevel || 0, state.health, state.race, state.subrace, combinedModifiers);
+            const derivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, encumbranceState, state.exhaustionLevel || 0, state.health, state.race, state.subrace, combinedModifiers, state.ancestry);
 
             let newHealth = { ...state.health };
             let newMana = { ...state.mana };
@@ -689,7 +689,7 @@ export const createStatsSlice = (set, get) => ({
 
         // Calculate derived stats with all effects
         const encumbranceState = getEncumbranceState();
-        const derivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, encumbranceState, state.exhaustionLevel || 0, state.health, state.race, state.subrace);
+        const derivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, encumbranceState, state.exhaustionLevel || 0, state.health, state.race, state.subrace, undefined, state.ancestry);
 
         // Add derived stats to total stats
         totalStats.maxHealth = Math.round(derivedStats.maxHealth || state.health.max);
@@ -764,7 +764,7 @@ export const createStatsSlice = (set, get) => ({
             }
         });
 
-        const derivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, encumbranceState, state.exhaustionLevel || 0, state.health, state.race, state.subrace);
+        const derivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, encumbranceState, state.exhaustionLevel || 0, state.health, state.race, state.subrace, undefined, state.ancestry);
 
         // Update health and mana max values based on new derived stats
         const newMaxHealth = Math.round(derivedStats.maxHealth);
@@ -793,7 +793,7 @@ export const createStatsSlice = (set, get) => ({
     recalculateResistancesFromPassives: () => {
         const state = get();
         if (!state.race || !state.subrace) return;
-        const passiveModifiers = getRacialStatModifiers(state.race, state.subrace);
+        const passiveModifiers = getRacialStatModifiers(state.race, state.subrace, state.ancestry);
 
         let updatedResistances = { ...state.resistances };
         let updatedImmunities = [...(state.immunities || [])];

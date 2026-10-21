@@ -49,3 +49,15 @@ test('a class click invokes the selection callback exactly once', () => {
   expect(onSelectClass).toHaveBeenCalledWith('Berserker');
   expect(onSelectClass).toHaveBeenCalledTimes(1);
 });
+
+test('Gambler is selectable development content with a distinct hand resource', () => {
+  const select = jest.fn();
+  render(<ClassesDisplay onSelectClass={select} />);
+  const row = screen.getByRole('button', { name: 'Explore Gambler' });
+  expect(row).not.toBeDisabled();
+  expect(row.textContent).toContain('Development');
+  expect(row.textContent).toContain('Hand & Fortune');
+  fireEvent.click(row);
+  expect(select).toHaveBeenCalledWith('Gambler');
+  expect(select).toHaveBeenCalledTimes(1);
+});

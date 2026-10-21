@@ -19,6 +19,7 @@ import { getClassIconUrl } from '../../utils/classIconUtils';
 import useSettingsStore from '../../store/settingsStore';
 import CharacterTooltip from '../tooltips/CharacterTooltip';
 import ConditionsWindow from '../conditions/ConditionsWindow';
+import { refOf as conditionActorRef } from '../../services/actorConsequenceService';
 import BuffDebuffCreatorModal from '../modals/BuffDebuffCreatorModal';
 import MovementConfirmationDialog from '../combat/MovementConfirmationDialog';
 import Button from '../common/Button';
@@ -809,6 +810,9 @@ const CharacterToken = ({
   const handleMouseDown = (e) => {
     if (e.button !== 0) return; // Only left mouse button
     if (showContextMenu) return; // Don't start dragging if context menu is open
+    if (isInMultiplayer && !isGMMode && require('../../services/sharedConditionProfile').holdsStunned(token)) {
+      e.stopPropagation(); setShowTooltip(false); return;
+    }
 
     // CRITICAL FIX: Set global flag to prevent grid click handling in production builds
     window.tokenInteractionActive = true;
@@ -3032,6 +3036,7 @@ const CharacterToken = ({
         isOpen={showConditionsWindow}
         onClose={() => setShowConditionsWindow(false)}
         tokenId={tokenId}
+        actorRef={conditionActorRef(token)}
         creature={{
           name: characterData.name,
           stats: {

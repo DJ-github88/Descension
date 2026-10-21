@@ -15,6 +15,7 @@ import Step2SkillsLanguages from './steps/Step7SkillsLanguages';
 import Step3EquipmentSelection from './steps/Step10EquipmentSelection';
 import Step4LoreDetails from './steps/Step8LoreDetails';
 import Step5CharacterSummary from './steps/Step9CharacterSummary';
+import { validateAncestry } from '../../data/ancestryLoadouts';
 
 
 // Import styles
@@ -89,6 +90,14 @@ const CharacterCreationWizardContent = ({ onComplete, onCancel, isLoading, exist
         setIsMenuOpen(false);
     };
 
+    // Ancestral Gifts are sealed when the character is saved. A loadout sealed earlier
+    // is passed back unchanged; an incomplete or foreign one is not saved.
+    const sealAncestry = (data, sealed) => {
+        if (sealed && sealed.heritageId === data.subrace) return sealed;
+        if (!data.ancestry || !validateAncestry(data.subrace, data.ancestry).complete) return null;
+        return { ...data.ancestry, finalizedAt: new Date().toISOString() };
+    };
+
     const handleComplete = () => {
         if (state.isValid && onComplete) {
             // Prepare character data for creation
@@ -121,6 +130,7 @@ const CharacterCreationWizardContent = ({ onComplete, onCancel, isLoading, exist
                 iconBackgroundOffsetX: state.characterData.iconBackgroundOffsetX,
                 iconBackgroundOffsetY: state.characterData.iconBackgroundOffsetY,
                 class_spells: state.characterData.class_spells,
+                ancestry: sealAncestry(state.characterData, state.sealedAncestry),
                 selectedEquipment: state.characterData.selectedEquipment || [],
                 remainingCurrency: state.characterData.remainingCurrency || {
                     platinum: 0,

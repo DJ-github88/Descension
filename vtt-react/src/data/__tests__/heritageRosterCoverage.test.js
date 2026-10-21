@@ -6,7 +6,7 @@ import { getHeritageEdge } from '../heritageEdgeContract';
 // authored edge so no native path lacks a typed benefit/cost contract.
 // Chaos Weaver native access is approved, but its mechanical edge remains
 // explicitly pending under the RI-1 scope amendment.
-const PENDING_NATIVE_EDGE_PAIR = 'Chaos Weaver|drall_fexric';
+const PENDING_NATIVE_EDGE_PAIRS = ['Chaos Weaver|drall_fexric', 'Gambler|merryn_human', 'Gambler|drall_fexric'];
 
 test('every native class-heritage pair has an authored edge except the explicitly pending Chaos Weaver edge', () => {
   const missing = [];
@@ -15,7 +15,7 @@ test('every native class-heritage pair has an authored edge except the explicitl
       if (!getHeritageEdge(className, heritageId)) missing.push(`${className}|${heritageId}`);
     });
   });
-  expect(missing).toEqual([PENDING_NATIVE_EDGE_PAIR]);
+  expect(missing.sort()).toEqual([...PENDING_NATIVE_EDGE_PAIRS].sort());
 });
 
 test('Chaos Weaver native access is registered while its mechanical edge and effects remain pending', () => {
@@ -35,4 +35,13 @@ test('the roster has no duplicate native pair', () => {
     });
   });
   expect(dupes).toEqual([]);
+});
+
+test('Gambler native trained access is separate from unimplemented mechanical heritage edges', () => {
+  expect(getClassNativeHeritageIds('Gambler')).toEqual(['merryn_human', 'drall_fexric']);
+  expect(CLASS_PROVENANCE.Gambler.heritageEffectsImplemented).toBe(false);
+  expect(CLASS_PROVENANCE.Gambler.requirements).toEqual(['house_wager', 'initiation_survival', 'wager_discipline', 'finite_deck_training']);
+  ['merryn_human', 'drall_fexric'].forEach(id => expect(getHeritageEdge('Gambler', id)).toBeNull());
+  // 102 blueprint pairs + accepted RI-1 Chaos Weaver + two RI-2 Gambler pairs.
+  expect(Object.values(HERITAGE_TRADITIONS).reduce((n, row) => n + row.classes.length, 0)).toBe(105);
 });

@@ -313,6 +313,7 @@ export function ownerRefusal(firstSubmission, code) {
   return { phase: 'unresolved', message: `The server can no longer confirm this approval (${codeLabel(code)}). A payment may have been recorded; reconcile with the GM. It is never re-sent automatically.` };
 }
 export function gmRefusal(isRetry, code) {
+  if (code === 'actor_stunned') return { phase: 'retry', message: 'Stunned: no actions or reactions. Nothing applied. Retain the command and roll; remove all source instances, then review and accept again.' };
   if (isRetry || code === 'retry_window_expired') return { phase: 'unresolved', message: `The server can no longer confirm this command (${codeLabel(code)}). It may have been applied; reconcile before acting again. It was not resubmitted.` };
   if (code === 'owner_reapproval_required') return { phase: 'reapproval', message: 'The class price or typed result changed. The owner must approve again; nothing was applied.' };
   if (['stale_actor_revision', 'insufficient_resources'].includes(code)) return { phase: 'retry', message: `Actors changed (${codeLabel(code)}). Nothing was applied; review and accept again.` };

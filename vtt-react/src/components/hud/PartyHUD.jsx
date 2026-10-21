@@ -41,6 +41,8 @@ import AcceptedResultNarration from '../combat/AcceptedResultNarration';
 import ActorConsequenceLayer from './ActorConsequenceLayer';
 import ReactionWindowHost from './ReactionWindowPanel';
 import RiposteHost from './RipostePanel';
+import { SharedConditionHost } from '../conditions/SharedDefendingEditor';
+import { expiryLabel as sharedExpiryLabel } from '../../services/sharedConditionProfile';
 // REMOVED: import './styles/ClassResourceBar.css'; // CAUSES CSS POLLUTION - loaded centrally
 
 // Athien and Human bloodlines carry only the bloodline name in race data; the
@@ -550,10 +552,11 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
             tooltipTimeoutRef.current = null;
         }
 
-        const remainingTime = getRemainingTime(buff.id);
+        const remainingTime = getRemainingTime('buff', buff.id);
 
         // Format time to match TargetHUD
         const formatTime = (seconds, durationType = 'minutes') => {
+            if (sharedExpiryLabel(buff)) return sharedExpiryLabel(buff);
             if (seconds <= 0) return durationType === 'rounds' ? '0 rounds' : '0:00';
             if (durationType === 'rounds') {
                 const rounds = Math.ceil(seconds / 6);
@@ -823,6 +826,7 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
 
         // Format time to match TargetHUD
         const formatTime = (seconds, durationType = 'minutes') => {
+            if (sharedExpiryLabel(debuff)) return sharedExpiryLabel(debuff);
             if (seconds <= 0) return durationType === 'rounds' ? '0 rounds' : '0:00';
             if (durationType === 'rounds') {
                 const rounds = Math.ceil(seconds / 6);
@@ -1736,6 +1740,7 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
 
                                     // Format time to match TargetHUD
                                     const formatTime = (seconds, durationType = 'minutes') => {
+                                        if (sharedExpiryLabel(buff)) return sharedExpiryLabel(buff);
                                         if (seconds <= 0) return durationType === 'rounds' ? '0 rounds' : '0:00';
                                         if (durationType === 'rounds') {
                                             const rounds = Math.ceil(seconds / 6);
@@ -1845,6 +1850,7 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
 
                                     // Format time to match TargetHUD
                                     const formatTime = (seconds, durationType = 'minutes') => {
+                                        if (sharedExpiryLabel(debuff)) return sharedExpiryLabel(debuff);
                                         if (seconds <= 0) return durationType === 'rounds' ? '0 rounds' : '0:00';
                                         if (durationType === 'rounds') {
                                             const rounds = Math.ceil(seconds / 6);
@@ -3683,7 +3689,7 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
 
             <div className="party-hud-frames">
                 {isInMultiplayer && (
-                    <ActorConsequenceLayer><ActorConsequenceControls /><SpellConsequenceHost /><WeaponStrikeHost /><BlockingHost /><AcceptedResultNarration /><ReactionWindowHost /><RiposteHost /></ActorConsequenceLayer>
+                    <ActorConsequenceLayer><ActorConsequenceControls /><SpellConsequenceHost /><WeaponStrikeHost /><BlockingHost /><AcceptedResultNarration /><ReactionWindowHost /><RiposteHost /><SharedConditionHost /></ActorConsequenceLayer>
                 )}
                 {resolvedDisplayMembers.map((member, index) => {
                     const memberKey = getMemberStableKey(member, myIds);

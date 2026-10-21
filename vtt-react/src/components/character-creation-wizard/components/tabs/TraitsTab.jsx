@@ -10,12 +10,12 @@ import { getIconUrl } from '../../../../utils/assetManager';
 import { isPassiveStatModifier } from '../../../../utils/raceDisciplineSpellUtils';
 
 const getPassiveSummary = (trait = {}) => {
-    const parts = [];
-    
+    // If the trait already has an authored description, return it directly to avoid duplicate/redundant text
     if (trait.description) {
-        const firstSentence = trait.description.split(/[.!?]+/)[0].trim();
-        if (firstSentence) parts.push(firstSentence + '.');
+        return trait.description;
     }
+
+    const parts = [];
 
     let conditionText = '';
     if (trait.triggerConfig?.global?.compoundTriggers) {

@@ -21,3 +21,21 @@ test('user-only sibling custody round trips exact bytes and never overwrites acc
   auth.setState({ user: { uid: 'v' } }); activatePrivateScope({ scopeKind: 'user', scopeId: 'v' });
   expect(loadRiposteCustody()).toBeNull(); expect(() => retainRiposteCustody(c, {})).toThrow(/Retired/);
 });
+test('the custody boundary refuses unknown replacement and retains old refused command bytes', () => {
+  const c = riposteContext(), first = { commandId: 'first', value: 1 };
+  retainRiposteCustody(c, { gm: { opp: { phase: 'unknown', command: first } } });
+  expect(() => retainRiposteCustody(c, { gm: { opp: { phase: 'unknown', command: { commandId: 'second', value: 2 } } } })).toThrow(/cannot be replaced/);
+  expect(() => retainRiposteCustody(c, { gm: { opp: { phase: 'unknown', command: { ...first, value: 3 } } } })).toThrow(/bytes/);
+  retainRiposteCustody(c, { gm: { opp: { phase: 'refused', command: first } } });
+  retainRiposteCustody(c, { gm: { opp: { phase: 'unknown', command: { commandId: 'second', value: 2 } } } });
+  expect(loadRiposteCustody(c).gm.opp.history[0].command).toEqual(first);
+  retainRiposteCustody(c, { gm: {} }); expect(loadRiposteCustody(c).gm.opp.command.commandId).toBe('second');
+  retainRiposteCustody(c, { gm: { other: { phase: 'unknown', command: { commandId: 'other' } } } });
+  expect(loadRiposteCustody(c).gm.opp.history[0].command).toEqual(first);
+  retainRiposteCustody(c, { gm: { opp: { phase: 'refused', command: { commandId: 'second', value: 2 } } } });
+  expect(loadRiposteCustody(c).gm.opp.history[0].command).toEqual(first);
+  expect(() => retainRiposteCustody(c, { gm: { opp: { history: [] } } })).toThrow(/history is immutable/);
+  const original = { requestId: 'parent-request', actionEpoch: 'old' };
+  retainRiposteCustody(c, { parents: { p: { phase: 'unknown', request: original } } });
+  expect(() => retainRiposteCustody(c, { parents: { p: { phase: 'unknown', request: { ...original, actionEpoch: 'refreshed' } } } })).toThrow(/bytes/);
+});

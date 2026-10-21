@@ -273,6 +273,8 @@ const CLASS_DATA_LOADERS = {
   // map; without this single entry the Chaos Weaver detail cannot resolve its
   // projected spells/pools and would fail acceptance checks #3/#4.
   'Chaos Weaver': () => import('../../data/classes/chaosWeaverIntegration').then(m => m.CHAOS_WEAVER_DATA),
+  'Gambler': () => import('../../data/classes/gamblerData').then(m => m.GAMBLER_DATA),
+  'Fate Weaver': () => import('../../data/classes/fateWeaverData').then(m => m.FATE_WEAVER_DATA),
 
   'Lunarch': () => import('../../data/classes/lunarchData').then(m => m.LUNARCH_DATA),
   'Nereid Myrathil Apex': () => import('../../data/classes/index').then(m => m.DEEPLING_MYRATHIL_APEX_DATA),

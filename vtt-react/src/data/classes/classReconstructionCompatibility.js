@@ -17,6 +17,26 @@
  * per-node and per-variant dispositions to `recordDispositions`.
  */
 
+import { GAMBIT_DATA } from './gambitData';
+import { AUGUR_DISPOSITIONS } from './augurDispositions';
+import { GAMBIT_PROBABILITY_SAVANT, GAMBIT_HIGH_ROLLER, GAMBIT_KARMIC_WEAVER } from '../talentTrees/gambit';
+
+const gambitTrees = [
+  ['probability_savant', GAMBIT_PROBABILITY_SAVANT],
+  ['high_roller', GAMBIT_HIGH_ROLLER],
+  ['karmic_weaver', GAMBIT_KARMIC_WEAVER]
+];
+const retained = (sourceType, sourceId) => ({
+  sourceType, sourceId, sourceClassId: 'gambit', disposition: 'keep',
+  destinationClassId: 'gambit', destinationId: null, automaticConversion: false,
+  rationale: `Keep ${sourceType} ${sourceId} under its exact legacy Gambit identity and semantics. Accepted G1 uses new cr1_gambler_* definitions, not a semantic or saved-state conversion.`
+});
+export const GAMBIT_RECORD_DISPOSITIONS = [
+  ...[...new Set([...(GAMBIT_DATA.spells || GAMBIT_DATA.exampleSpells || []).map(spell => spell.id), ...Object.values(GAMBIT_DATA.spellPools || {}).flat()])].map(spellId => retained('spell', spellId)),
+  ...gambitTrees.map(([treeId]) => retained('talent-tree', treeId)),
+  ...gambitTrees.flatMap(([, nodes]) => nodes.map(node => retained('materialized-talent', `talent-spell-${node.id}`)))
+];
+
 export const RECONSTRUCTION_RELATIONSHIPS = [
   'split',
   'merged-design',
@@ -42,7 +62,7 @@ export const RECONSTRUCTION_COMPATIBILITY_ROWS = [
         'Retain Gambit resolver/data/spells/talents/resources for existing saves. ' +
         'One-to-many successor choices only; no Fortune -> hand/thread/tile conversion. ' +
         'Legacy Mayhem and all current Gambit IDs keep resolving exactly.',
-      recordDispositions: []
+      recordDispositions: GAMBIT_RECORD_DISPOSITIONS
     }
   },
   {
@@ -57,7 +77,7 @@ export const RECONSTRUCTION_COMPATIBILITY_ROWS = [
       notes:
         'Preserve old Augur saves, Nereid variant keys, omens/debt, spell/node/materialized IDs and provenance. ' +
         'Fate Weaver receives individually assessed techniques only; no wholesale dual-bank inheritance.',
-      recordDispositions: []
+      recordDispositions: AUGUR_DISPOSITIONS
     }
   },
   {

@@ -19,9 +19,14 @@ describe('E1a named Riposte gate (deterministic collection clock)', () => {
           currentActionPoints: 2, maxAP: 2, conditions: [], actorContract: { version: 1, revision: 0, ...target } } } }
       } } } };
   });
-  const fields = () => ({ roomId: 'r', requestId: uuid(), actionEpoch: actors.epoch(room), windowEpoch: windows.snapshot(room, { uid: 'gm', gm: true }).epoch,
-    windowId: null, attack: { id: uuid(), attacker: target, defender: source },
-    parry: { id: uuid(), success: true, paid: true, timingConfirmed: true, note: 'PARENT_PRIVATE_NOTE' }, source, target, receiptRef: null });
+  const fields = () => {
+    const actionEpoch = actors.epoch(room), windowEpoch = windows.snapshot(room, { uid: 'gm', gm: true }).epoch;
+    const parent = gate.registerParent(room, 'gm', { roomId: 'r', requestId: uuid(), actionEpoch, windowEpoch, existingWindowId: null,
+      source, target, attackReference: uuid(), parryReference: uuid() });
+    return { roomId: 'r', requestId: uuid(), actionEpoch, windowEpoch, parentId: parent.id, parentEpoch: parent.originEpoch, parentProof: parent.proof,
+      windowId: null, attack: { id: parent.attackId, attacker: target, defender: source },
+      parry: { id: parent.parryId, success: true, paid: true, timingConfirmed: true, note: 'PARENT_PRIVATE_NOTE' }, source, target, receiptRef: null };
+  };
   function declare(p, cardKey = 'universal_riposte', withdrawn = false) {
     windows.change(room, { uid: 'owner', gm: false }, { roomId: 'r', requestId: uuid(), epoch: p.windowEpoch, windowId: p.windowId,
       reactor: source, cardKey, expectedRevision: 0, label: cardKey, note: '', withdrawn });
@@ -46,8 +51,15 @@ describe('E1a named Riposte gate (deterministic collection clock)', () => {
     assert.equal(windows.snapshot(room, { uid: 'gm', gm: true }).windows.length, 1);
     const alias = { ...d, requestId: uuid() }; gate.offer(room, 'gm', alias);
     assert.throws(() => gate.offer(room, 'gm', { ...alias, parry: { ...d.parry, note: 'changed bytes' } }), /command_id_conflict/);
-    assert.throws(() => gate.offer(room, 'gm', { ...d, requestId: uuid(), attack: { ...d.attack, id: uuid() } }), /riposte_parent_conflict/);
-    assert.throws(() => gate.offer(room, 'gm', { ...d, requestId: uuid(), parry: { ...d.parry, id: uuid() } }), /riposte_parent_conflict/);
+    assert.throws(() => gate.offer(room, 'gm', { ...d, requestId: uuid(), attack: { ...d.attack, id: uuid() } }), /riposte_parent_(conflict|unavailable)/);
+    assert.throws(() => gate.offer(room, 'gm', { ...d, requestId: uuid(), parry: { ...d.parry, id: uuid() } }), /riposte_parent_(conflict|unavailable)/);
+  });
+  it('GM opportunity polling before cutoff cannot reveal whether the owner declared or revised', () => {
+    const d = fields(), p = gate.offer(room, 'gm', d).opportunity;
+    const before = gate.project(room, p, true); declare(p);
+    const after = gate.project(room, p, true);
+    assert.deepEqual(after, before); assert.equal(after.intentRevision, null);
+    assert.equal(gate.project(room, p, false).intentRevision, 1);
   });
   it('existing closed fresh collector intent joins the same execution gate without a new8s window', () => {
     const d = fields();
@@ -62,7 +74,7 @@ describe('E1a named Riposte gate (deterministic collection clock)', () => {
     const d = fields(), p = gate.offer(room, 'gm', d).opportunity; declare(p, 'Riposte'); time += 8000;
     assert.throws(() => gate.approvalCheck(room, approval(p)), /riposte_closed_intent_required/);
     assert.throws(() => gate.offer(room, 'owner', d), /forbidden/);
-    assert.throws(() => gate.offer(room, 'gm', { ...fields(), attack: { ...d.attack, attacker: source } }), /riposte_wrong_parent/);
+    assert.throws(() => gate.offer(room, 'gm', { ...d, requestId: uuid(), attack: { ...d.attack, attacker: source } }), /riposte_wrong_parent/);
     assert.throws(() => gate.offer(room, 'gm', { ...fields(), receiptRef: uuid() }), /invalid_parry_receipt/);
     assert.throws(() => gate.offer(room, 'gm', { ...fields(), parry: { ...d.parry, paid: false } }), /invalid_riposte_attestation/);
   });
@@ -106,5 +118,29 @@ describe('E1a named Riposte gate (deterministic collection clock)', () => {
     assert.equal(windows.snapshot(room, { uid: 'gm', gm: true }).windows.length, 0, 'no reopened window after restart');
     const unexecuted = { ...d, requestId: uuid(), attack: { ...d.attack, id: uuid() }, parry: { ...d.parry, id: uuid() } };
     assert.throws(() => gate.offer(room, 'gm', unexecuted), /riposte_opportunity_unavailable/);
+  });
+  it('transport epoch refresh cannot renew old server-issued parent provenance, including via a new window', () => {
+    const { d } = ready(); room = { ...room, gameState: actors.clone(room.gameState) };
+    const epoch = actors.epoch(room), windowEpoch = windows.snapshot(room, { uid: 'gm', gm: true }).epoch;
+    assert.throws(() => gate.offer(room, 'gm', { ...d, actionEpoch: epoch, windowEpoch }), /riposte_parent_unavailable/);
+    assert.throws(() => gate.registerParent(room, 'gm', { roomId: 'r', requestId: uuid(), actionEpoch: epoch, windowEpoch, existingWindowId: null,
+      source, target, attackReference: d.attack.id, parryReference: d.parry.id }), /riposte_parent_unavailable/);
+    const w = windows.open(room, { uid: 'gm', gm: true }, { roomId: 'r', requestId: uuid(), epoch: windowEpoch,
+      trigger: { causeId: d.parry.id, moment: 'follow_up', occurrence: '1', basis: 'gm-manual' }, source, invited: [source], gmCommit: { refs: [], note: '' } }).window;
+    declare({ windowId: w.id, windowEpoch }); time += 8000;
+    assert.throws(() => gate.registerParent(room, 'gm', { roomId: 'r', requestId: uuid(), actionEpoch: epoch, windowEpoch, existingWindowId: w.id,
+      source, target, attackReference: d.attack.id, parryReference: d.parry.id }), /riposte_parent_unavailable/);
+  });
+  it('a pre-existing manual closed follow-up receives server provenance, not name-only execution authority', () => {
+    const windowEpoch = windows.snapshot(room, { uid: 'gm', gm: true }).epoch, cause = uuid();
+    const w = windows.open(room, { uid: 'gm', gm: true }, { roomId: 'r', requestId: uuid(), epoch: windowEpoch,
+      trigger: { causeId: cause, moment: 'follow_up', occurrence: '1', basis: 'gm-manual' }, source, invited: [source], gmCommit: { refs: [], note: '' } }).window;
+    declare({ windowId: w.id, windowEpoch }); time += 8000;
+    const parent = gate.registerParent(room, 'gm', { roomId: 'r', requestId: uuid(), actionEpoch: actors.epoch(room), windowEpoch,
+      existingWindowId: w.id, source, target, attackReference: uuid(), parryReference: cause });
+    const d = { roomId: 'r', requestId: uuid(), actionEpoch: actors.epoch(room), windowEpoch, windowId: w.id, source, target, receiptRef: null,
+      parentId: parent.id, parentEpoch: parent.originEpoch, parentProof: parent.proof,
+      attack: { id: parent.attackId, attacker: target, defender: source }, parry: { id: parent.parryId, success: true, paid: true, timingConfirmed: true, note: 'manual evidence' } };
+    const p = gate.offer(room, 'gm', d).opportunity; assert.equal(p.windowId, w.id); assert.equal(gate.project(room, p, false).status, 'ready');
   });
 });

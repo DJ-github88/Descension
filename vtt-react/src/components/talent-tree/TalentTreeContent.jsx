@@ -365,6 +365,8 @@ export const TalentTreeContent = ({
 }) => {
     const characterStore = useCharacterStore();
     const characterClass = customClass || characterStore.class;
+    const usesAuthoredTalentGates = ['Gambler', 'Fate Weaver'].includes(characterClass);
+    const storedGamblerTalents = usesAuthoredTalentGates ? characterStore.talents : null;
     const level = characterStore.level || 1;
     const currentCharacterId = characterStore.currentCharacterId;
     const primarySpecialization = characterStore.primarySpecialization || '';
@@ -427,7 +429,7 @@ export const TalentTreeContent = ({
         } else {
             setTalents({});
         }
-    }, [currentCharacterId, readOnly]);
+    }, [currentCharacterId, readOnly, characterClass, storedGamblerTalents]);
 
     // Responsive container sizing. We always measure the scroll container (never
     // the board itself) so a board that grows wider than the viewport can expose
@@ -485,7 +487,7 @@ export const TalentTreeContent = ({
     const syncTalentSpell = (talent, newRank) => {
         if (!talent?.spell) return;
         const spellbook = useSpellbookStore.getState();
-        const stableId = talent.grantId || `talent-spell-${talent.id}`;
+        const stableId = talent.grantId || talent.passiveSpellId || `talent-spell-${talent.id}`;
         const existing = (spellbook.spells || []).find(s => s.id === stableId);
 
         const currentLib = loadLibraryFromStorage() || { spells: [] };
@@ -505,12 +507,16 @@ export const TalentTreeContent = ({
         // targeting and typed mechanics are preserved instead of passing
         // through the legacy passive-oriented talent converter. Nodes
         // without a grant keep the legacy `talent-spell-${id}` identity.
-        const canonicalGrant = talent.grantId
-            ? CHAOS_WEAVER_PROJECTED_SPELLS_BY_ID[talent.grantId]
+        const canonicalGrant = talent.grantId || talent.passiveSpellId
+            ? CHAOS_WEAVER_PROJECTED_SPELLS_BY_ID[stableId] || ALL_CLASSES_DATA[characterClass]?.spells?.find(spell => spell.id === stableId)
             : null;
         const librarySpell = canonicalGrant
             ? {
-                ...canonicalGrant,
+                 ...canonicalGrant,
+                 ...(talent.passiveSpellId ? {
+                     description: talent.rankValues?.[newRank - 1]?.text || canonicalGrant.description,
+                     learnedRankValues: talent.rankValues?.[newRank - 1]?.values || {}
+                 } : {}),
                 source: 'talent',
                 talentId: talent.id,
                 talentRank: newRank,
@@ -598,7 +604,7 @@ export const TalentTreeContent = ({
             }
 
             // 2. Check tier gatekeeping
-            for (let T = 2; T <= 7; T++) {
+            for (let T = 2; !usesAuthoredTalentGates && T <= 7; T++) {
                 const hasTalentsAtOrAboveT = tree.talents.some(t => {
                     const tTier = getNodeTier(t);
                     return tTier >= T && (sim[t.id] || 0) > 0;
@@ -625,7 +631,7 @@ export const TalentTreeContent = ({
             for (const t of tree.talents) {
                 if ((sim[t.id] || 0) > 0 && Number.isFinite(t.requiresPoints)) {
                     const pointsBelow = tree.talents
-                        .filter(n => (n.position?.y ?? 0) < (t.position?.y ?? 0))
+                        .filter(n => usesAuthoredTalentGates ? n.id !== t.id : (n.position?.y ?? 0) < (t.position?.y ?? 0))
                         .reduce((sum, n) => sum + (sim[n.id] || 0), 0);
                     if (pointsBelow < t.requiresPoints) {
                         return {
@@ -708,7 +714,7 @@ export const TalentTreeContent = ({
         const spellbook = useSpellbookStore.getState();
         const grantIds = trees
             .flatMap(tree => tree.talents)
-            .map(t => t.grantId)
+            .map(t => t.grantId || t.passiveSpellId)
             .filter(Boolean);
         const isTalentOwnedSpell = (id) => Boolean(id) && (id.startsWith('talent-spell-') || grantIds.includes(id));
 

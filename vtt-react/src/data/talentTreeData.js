@@ -167,6 +167,10 @@ import {
 
 import { CHAOS_WEAVER_ICON } from './classes/chaosWeaverData';
 import { CHAOS_WEAVER_PROJECTED_SPELLS_BY_ID } from './classes/chaosWeaverIntegration';
+import { GAMBLER_TREES } from './talentTrees/gambler';
+import { GAMBLER_PROJECTED_SPELLS_BY_ID, GAMBLER_ICON } from './classes/gamblerData';
+import { FATE_WEAVER_TREES } from './talentTrees/fateWeaver';
+import { FATE_WEAVER_PROJECTED_SPELLS_BY_ID, FATE_WEAVER_ICON } from './classes/fateWeaverData';
 
 export const getTreeBackdrop = (className, specId) => {
   // Map class and specialization to high-res thematic background images from /assets/Backgrounds/
@@ -348,6 +352,26 @@ const buildChaosWeaverTree = (treeId) => {
 };
 
 export const TALENT_TREES = {
+  'Gambler': Object.fromEntries(GAMBLER_TREES.map(tree => [tree.id, tree.nodes.map(node => {
+    const canonical = GAMBLER_PROJECTED_SPELLS_BY_ID[node.grantId || node.passiveSpellId];
+    return {
+      ...node, icon: GAMBLER_ICON, position: { x: node.column, y: node.row },
+      description: node.grantId ? canonical.description : node.effectText,
+      requires: node.requires.length ? node.requires : null,
+      spell: { ...canonical, actionPoints: canonical.resourceCost.actionPoints },
+      rankUpgrades: node.rankValues.slice(1).map(rank => ({ description: rank.text, values: rank.values }))
+    };
+  })])),
+  'Fate Weaver': Object.fromEntries(FATE_WEAVER_TREES.map(tree => [tree.id, tree.nodes.map(node => {
+    const canonical = FATE_WEAVER_PROJECTED_SPELLS_BY_ID[node.grantId || node.passiveSpellId];
+    return {
+      ...node, icon: FATE_WEAVER_ICON, position: { x: node.column, y: node.row },
+      description: node.grantId ? canonical.description : node.effectText,
+      requires: node.requires.length ? node.requires : null,
+      spell: { ...canonical, actionPoints: canonical.resourceCost.actionPoints },
+      rankUpgrades: node.rankValues.slice(1).map(rank => ({ description: rank.text, values: rank.values }))
+    };
+  })])),
   'Toxicologist': {
     'venomancer': TOXICOLOGIST_VENOMANCER,
     'gadgeteer': TOXICOLOGIST_GADGETEER,

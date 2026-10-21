@@ -31,3 +31,12 @@ No other application or engine path is in scope. No migration, combat change, co
 ## Verification
 
 Run the affected heritage, workshop, modal, and RI-1 regressions. Refresh source hashes and preservation evidence. Reuse existing browser/functional evidence where the source is unchanged.
+
+### Results (2026-10-19)
+
+- Jest amendment batch: **17 suites passed, 232 tests passed, 0 failed** (`amendment-regressions.log`). Covered heritage contract/roster/registry/adapter/consumers, level-up modal, workshop, Chaos Weaver rules/progression/integration/package, talent grants, HUD/resource integration, class detail/display, and guides.
+- ESLint on the five amendment paths: **0 errors, 0 warnings**, exit 0 (`amendment-eslint.log`).
+- Live Chaos Weaver overview at 1280x900: overview rendered, no `Trained heritage` heading, no `Drall`, no horizontal overflow, 0 console errors (`amendment-live-check.json`).
+- Workshop evidence retained: `retained-ChaosWeaverWorkshop.test.jsx.txt` and `retained-workshop-decline-failure.log`. The completed suite contains no `test.skip`.
+- Final amendment paths are the five listed above; the modal test is the only amendment path still uncommitted at verification time (HEAD `f9527d31`). No other application or test files were changed for this amendment.
+- Unrelated concurrent working-tree changes under `server/` and the riposte frontend/service paths are not part of this amendment.

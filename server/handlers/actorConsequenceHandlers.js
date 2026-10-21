@@ -18,11 +18,11 @@ function registerActorConsequenceHandlers(ctx) {
     const { room, player } = membership;
     if (room.id !== roomId || players.get(socket.id) !== player || sessionUid(room, player, socket.id) !== socket.data.userId) {actors.fail('actor_binding_conflict');}
     if (!entitledSession(room, socket.id, player)) {actors.fail('forbidden');}
-    return { room, player, uid: socket.data.userId, token: room.authorityToken, socketId: socket.id, socketRef: socket };
+    return { room, player, uid: socket.data.userId, isGM: player.isGM === true, token: room.authorityToken, socketId: socket.id, socketRef: socket };
   };
   const current = captured => {
     const now = context(captured.room.id);
-    if (rooms.get(captured.room.id) !== captured.room || now.room !== captured.room || now.player !== captured.player || now.uid !== captured.uid ||
+    if (rooms.get(captured.room.id) !== captured.room || now.room !== captured.room || now.player !== captured.player || now.uid !== captured.uid || now.isGM !== captured.isGM ||
       (authorityService && !authorityService.validateCurrent(captured.token))) {actors.fail('room_binding_changed');}
     return now;
   };
@@ -536,6 +536,10 @@ function registerActorConsequenceHandlers(ctx) {
     toGm(room, 'actor_riposte_changed', { roomId: room.id });
     toUid(room, opportunity.source.ownerUid, 'actor_riposte_changed', { roomId: room.id });
   };
+  run('actor_riposte_parent', async(data, ack) => {
+    const c = context(data.roomId); if (!c.player.isGM) {actors.fail('forbidden');} await confirm(c);
+    respond(ack, { success: true, roomId: c.room.id, parent: riposte.registerParent(c.room, c.uid, data) });
+  });
   run('actor_riposte_offer', async(data, ack) => {
     const c = context(data.roomId); if (!c.player.isGM) {actors.fail('forbidden');}
     await confirm(c);
@@ -619,6 +623,7 @@ function registerActorConsequenceHandlers(ctx) {
     const { room } = captured;
     if (data.attack.source.roomId !== room.id) {actors.fail('invalid_block_offer');}
     const check = () => {
+      actors.assertCanAct(room, data.attack.source);
       const source = actors.locate(room, data.attack.source);
       if (source.contract.revision !== data.attack.sourceRevision) {actors.fail('stale_actor_revision');}
       blocks.checkOfferTarget(room, data.attack);

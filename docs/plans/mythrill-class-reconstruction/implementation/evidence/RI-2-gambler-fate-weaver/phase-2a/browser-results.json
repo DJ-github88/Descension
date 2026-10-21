@@ -1,0 +1,138 @@
+{
+  "route": "http://localhost:3000/rules?category=character-creation&sub=classes&class=Gambler",
+  "checks": [
+    {
+      "width": 1280,
+      "height": 900,
+      "nativeNames": [
+        "Merryn",
+        "Alchemite"
+      ],
+      "fourAcquisitionRequirements": true,
+      "mechanicalBenefitsPending": true,
+      "uninitializedPreview": true,
+      "levels": [
+        [
+          " Level I",
+          " Level II"
+        ],
+        [
+          " Level III",
+          " Level IV"
+        ],
+        [
+          " Level V",
+          " Level VI"
+        ],
+        [
+          " Level VII",
+          " Level VIII"
+        ],
+        [
+          " Level IX",
+          " Level X"
+        ]
+      ],
+      "compactInspection": true,
+      "trees": [
+        {
+          "name": "High Roller",
+          "nodes": 18
+        },
+        {
+          "name": "Card Sharp",
+          "nodes": 18
+        },
+        {
+          "name": "Odds Broker",
+          "nodes": 18
+        }
+      ],
+      "resourceOverflow": 0,
+      "cardOverflow": 0,
+      "treeOverflow": 0,
+      "brokenImages": []
+    },
+    {
+      "width": 360,
+      "height": 900,
+      "nativeNames": [
+        "Merryn",
+        "Alchemite"
+      ],
+      "fourAcquisitionRequirements": true,
+      "mechanicalBenefitsPending": true,
+      "uninitializedPreview": true,
+      "levels": [
+        [
+          " Level I",
+          " Level II"
+        ],
+        [
+          " Level III",
+          " Level IV"
+        ],
+        [
+          " Level V",
+          " Level VI"
+        ],
+        [
+          " Level VII",
+          " Level VIII"
+        ],
+        [
+          " Level IX",
+          " Level X"
+        ]
+      ],
+      "compactInspection": true,
+      "trees": [
+        {
+          "name": "High Roller",
+          "nodes": 18
+        },
+        {
+          "name": "Card Sharp",
+          "nodes": 18
+        },
+        {
+          "name": "Odds Broker",
+          "nodes": 18
+        }
+      ],
+      "resourceOverflow": 0,
+      "cardOverflow": 0,
+      "treeOverflow": 0,
+      "brokenImages": []
+    }
+  ],
+  "pageErrors": [],
+  "consoleErrors": [],
+  "limitations": [
+    {
+      "route": "/account/characters/create",
+      "url": "http://localhost:3000/",
+      "body": "Mythrill\nHome\nLaws & Lore\nMembership\nCommunity\nPrivacy\nLogin\nMythrill\nPLAY ONLINE\nAdventure with friends\nIMMERSE\nExplore the world map\nSANDBOX MODE\nTest tools & experiment\n© 2026 Out of Mana Studios. All rights reserved."
+    },
+    {
+      "route": "/game",
+      "width": 360,
+      "url": "http://localhost:3000/",
+      "body": "Mythrill\nHome\nLaws & Lore\nMembership\nCommunity\nLogin\nPrivacy Policy\nMythrill\nPLAY ONLINE\nAdventure with friends\nIMMERSE\nExplore the world map\nSANDBOX MODE\nTest tools & experiment\n\nYou're on a phone: the tactical grid is designed for larger screens. Character Creation, Lore and the world map are fully available.\n\n© 2026 Out of Mana Studios. All rights reserved.\nLarger screen required\nThe tactical grid is designed for tablets and desktops. Character creation, rules, and the world map remain fully available on your phone."
+    }
+  ],
+  "legacyRoutes": [
+    {
+      "name": "Gambit",
+      "loaded": true
+    },
+    {
+      "name": "Augur",
+      "loaded": true
+    },
+    {
+      "name": "Chaos Weaver",
+      "loaded": true
+    }
+  ]
+}

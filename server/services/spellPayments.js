@@ -150,6 +150,7 @@ function sourcePools(token) {
 }
 /** Checks an approval against current authoritative room state. */
 function checkAgainstRoom(room, approval) {
+  actors.assertCanAct(room, approval.source);
   const source = actors.locate(room, approval.source);
   const target = actors.locate(room, approval.target);
   const pools = sourcePools(source.token);

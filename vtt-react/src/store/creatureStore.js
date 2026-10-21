@@ -492,6 +492,7 @@ const useCreatureStore = create((set, get) => ({
 
   // Clean up expired conditions from all creature tokens
   cleanupExpiredConditions: () => set(state => {
+    if (getStore('gameStore')?.getState().isInMultiplayer) return state;
     const currentTime = Date.now();
     let hasChanges = false;
 

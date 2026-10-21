@@ -14,6 +14,7 @@ import { ownerSource } from '../../services/spellConsequenceService';
 import { captureActorDelivery, currentActorDelivery } from '../../services/actorProjectionOrder';
 import { isPrivateProjectionIsolated } from '../../persistence/bootstrapPrivacyGate';
 import '../grid/ActionAreaPreview.css';
+import { SharedConditionEntry } from '../conditions/SharedDefendingEditor';
 
 const SpellCastConfirmation = ({ spell, onConfirm, onCancel, classResource: classResourceProp }) => {
     // Get current resources to check availability (hooks must be called unconditionally)
@@ -292,6 +293,7 @@ const SpellCastConfirmation = ({ spell, onConfirm, onCancel, classResource: clas
                         <div className="p9-manual-diagnostic" role="note">{MANUAL_NOTE} Reason: {p9Diagnostic}</div>
                     )}
                     <div className="spell-name">{spell.name || 'Unknown Spell'}</div>
+                    {p9Diagnostic && spell.id === 'universal_defend' && <SharedConditionEntry ownCharacter label="Enter manually resolved Defending" />}
                     {p9Diagnostic && spell.id === RADIANT_BURST_ID && <div className="b2-entry">
                         <label>Preview effect channel{' '}
                             <select aria-label="Preview effect channel" value={previewEffect} onChange={event => setPreviewEffect(event.target.value)}>

@@ -6,6 +6,10 @@ describe('native class-heritage abilities (class racials)', () => {
     Object.entries(HERITAGE_TRADITIONS).forEach(([heritageId, row]) => {
       row.classes.forEach((className) => {
         const traits = getClassRacialTraits(className, row.raceId, heritageId);
+        if (!CLASS_RACIALS[className]) {
+          expect(traits).toEqual([]);
+          return;
+        }
         expect(traits.length).toBeGreaterThanOrEqual(1);
         expect(traits.length).toBeLessThanOrEqual(2);
         traits.forEach((trait) => {
@@ -19,10 +23,9 @@ describe('native class-heritage abilities (class racials)', () => {
     });
   });
 
-  test('all base classes have a class-racial table', () => {
-    Object.keys(CLASS_PROVENANCE).forEach((className) => {
-      expect(CLASS_RACIALS[className]).toBeDefined();
-    });
+  test('class-racial tables exist only for classes with authored payloads', () => {
+    const missing = Object.keys(CLASS_PROVENANCE).filter((className) => !CLASS_RACIALS[className]);
+    expect(missing.sort()).toEqual(['Fate Weaver', 'Gambler']);
   });
 
   test('non-native combinations grant nothing', () => {

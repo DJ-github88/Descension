@@ -13,7 +13,7 @@ describe('E1a real registered approval/P7 installation', function() {
   beforeEach(async() => {
     server = createProductionStackServer({ characterOwners: { c: 'owner' } }); await server.start();
     for (const event of ['actor_bind', 'actor_snapshot', 'actor_consequence', 'actor_status', 'actor_strike_approve', 'actor_strike_list', 'actor_strike_withdraw',
-      'reaction_window_open', 'reaction_window_list', 'reaction_window_change', 'actor_riposte_offer', 'actor_riposte_list', 'actor_riposte_cancel', 'actor_riposte_revalidate']) server.setEventLimits(event, { maxPerMinute: 2000, maxPerSecond: 2000 });
+      'reaction_window_open', 'reaction_window_list', 'reaction_window_change', 'actor_riposte_parent', 'actor_riposte_offer', 'actor_riposte_list', 'actor_riposte_cancel', 'actor_riposte_revalidate']) server.setEventLimits(event, { maxPerMinute: 2000, maxPerSecond: 2000 });
     for (const uid of ['gm', 'owner', 'observer']) server.registerAuthToken(uid, uid);
     gm = server.connect({ token: 'gm' }); await once(gm, 'connect'); room = await server.seedRoom(gm.id, { gmUserId: 'gm' });
     for (const uid of ['owner', 'observer']) { const s = server.connect({ token: uid }); await once(s, 'connect'); const joined = once(s, 'room_joined'); s.emit('join_room', { roomId: room.id, playerName: uid, password: '' }); await joined; if (uid === 'owner') owner = s; else observer = s; }
@@ -26,8 +26,14 @@ describe('E1a real registered approval/P7 installation', function() {
     assert.ok(source && target);
   });
   afterEach(async() => { gm.disconnect(); owner.disconnect(); observer.disconnect(); await server.stop(); });
-  const config = async() => ({ roomId: room.id, requestId: uuid(), actionEpoch: actors.epoch(room), windowEpoch: (await ack(gm, 'reaction_window_list', { roomId: room.id })).epoch,
-    windowId: null, attack: { id: uuid(), attacker: target, defender: source }, parry: { id: uuid(), success: true, paid: true, timingConfirmed: true, note: 'PARENT_PRIVATE_NOTE' }, source, target, receiptRef: null });
+  const config = async() => {
+    const actionEpoch = actors.epoch(room), windowEpoch = (await ack(gm, 'reaction_window_list', { roomId: room.id })).epoch;
+    const result = await ack(gm, 'actor_riposte_parent', { roomId: room.id, requestId: uuid(), actionEpoch, windowEpoch, existingWindowId: null,
+      source, target, attackReference: uuid(), parryReference: uuid() });
+    assert.equal(result.success, true, JSON.stringify(result)); const parent = result.parent;
+    return { roomId: room.id, requestId: uuid(), actionEpoch, windowEpoch, parentId: parent.id, parentEpoch: parent.originEpoch, parentProof: parent.proof,
+      windowId: null, attack: { id: parent.attackId, attacker: target, defender: source }, parry: { id: parent.parryId, success: true, paid: true, timingConfirmed: true, note: 'PARENT_PRIVATE_NOTE' }, source, target, receiptRef: null };
+  };
   async function declaration(p) {
     const changed = await ack(owner, 'reaction_window_change', { roomId: room.id, requestId: uuid(), epoch: (await ack(owner, 'reaction_window_list', { roomId: room.id })).epoch,
       windowId: p.windowId, reactor: source, cardKey: 'universal_riposte', label: 'Riposte', note: '', expectedRevision: 0, withdrawn: false });
@@ -66,6 +72,36 @@ describe('E1a real registered approval/P7 installation', function() {
       actors: [{ ref: source, expectedRevision: pc.contract.revision, finalResources: { ap: { current, temp } } }] };
     const result = await ack(gm, 'actor_consequence', c); assert.equal(result.success, true, JSON.stringify(result));
   }
+  it('C2 Stunned refuses consent and pre-existing E1a installation without AP/HP/consumption; removal/revalidation retains original roll', async() => {
+    const { p } = await offer(), a = approval(p); await register(a); const c = command(a, p);
+    const profile = require('../../vtt-react/src/services/sharedConditionProfile');
+    const id = uuid(), record = profile.makeStunnedRecord(source, id, { sourceOccurrence: 'bash-1', timing: 'shield-bash-target-end', sourceActor: target });
+    const correct = op => ({ version: 1, roomId: room.id, commandId: uuid(), actionEpoch: actors.epoch(room), baseCommitSequence: actors.ledger(room).commitSequence,
+      target: source, actors: [{ ref: source, expectedRevision: actors.locate(room, source).contract.revision, conditions: [{ op, recordId: id, ...(op === 'add' ? { record } : {}) }] }],
+      adjudication: { definitionId: profile.STUNNED.definitionId, definitionVersionOrHash: profile.STUNNED.origin, chosenResult: 'Manual correction' } });
+    // Hold the real authority await of an already-consented command; apply Stunned while it yields.
+    const originalAssert = server.authorityService.assertCurrent;
+    let release, entered;
+    const gate = new Promise(resolve => { release = resolve; }), reached = new Promise(resolve => { entered = resolve; });
+    let hold = true;
+    server.authorityService.assertCurrent = async(...args) => {
+      if (hold) { hold = false; entered(); await gate; }
+      return originalAssert(...args);
+    };
+    const installing = ack(gm, 'actor_consequence', c); await reached;
+    assert.equal((await ack(owner, 'actor_consequence', correct('add'))).success, true);
+    const before = actors.clone(room.gameState), retained = actors.clone(require('../services/strikeApprovals').get(room, a.approvalId));
+    release(); assert.equal((await installing).code, 'actor_stunned'); server.authorityService.assertCurrent = originalAssert;
+    assert.equal((await ack(owner, 'actor_strike_approve', { ...a, approvalId: uuid() })).code, 'actor_stunned');
+    assert.equal((await ack(gm, 'actor_consequence', c)).code, 'actor_stunned');
+    assert.deepEqual(room.gameState, before);
+    assert.deepEqual(require('../services/strikeApprovals').get(room, a.approvalId), retained);
+    assert.notEqual(rp.get(room, p.id).status, 'consumed');
+    assert.equal((await ack(gm, 'actor_consequence', correct('remove'))).success, true);
+    assert.equal((await ack(gm, 'actor_riposte_revalidate', { roomId: room.id, opportunityId: p.id })).success, true);
+    const next = approval(p); assert.deepEqual(next.roll, a.roll); await register(next);
+    const accepted = await ack(gm, 'actor_consequence', command(next, p)); assert.equal(accepted.success, true, JSON.stringify(accepted));
+  });
   it('fresh-choice entry, duplicate parent guards, exact consent, atomic payment/HP and original retries', async() => {
     const { data, p } = await offer(); const a = approval(p); await register(a);
     assert.equal((await ack(observer, 'actor_strike_approve', { ...a, approvalId: uuid() })).success, false);
@@ -98,6 +134,8 @@ describe('E1a real registered approval/P7 installation', function() {
     const wrong = await ack(gm, 'actor_riposte_offer', { ...data, requestId: uuid(), attack: { ...data.attack, defender: target } }); assert.equal(wrong.success, false);
     const c = command(a, p), noConsent = { ...c, commandId: uuid() }; delete noConsent.approval;
     assert.equal((await ack(gm, 'actor_consequence', noConsent)).code, 'approval_required');
+    const disguised = { ...noConsent, commandId: uuid(), adjudication: { ...c.adjudication, definitionId: 'manual', definitionVersionOrHash: 'manual:v1' } };
+    assert.equal((await ack(gm, 'actor_consequence', disguised)).code, 'riposte_definition_mismatch');
     const cancelled = await ack(gm, 'actor_riposte_cancel', { roomId: room.id, opportunityId: p.id }); assert.equal(cancelled.success, true);
     assert.equal((await ack(gm, 'actor_consequence', c)).success, false); assert.equal(actors.ledger(room).receipts.length, 0);
     assert.equal(room.gameState.maps.default.characterTokens.pc.character.tempActionPoints, 1);
@@ -112,5 +150,9 @@ describe('E1a real registered approval/P7 installation', function() {
     const duplicate = await ack(gm, 'actor_riposte_offer', data); assert.equal(duplicate.receipt.commandId, c.commandId);
     const unknown = { ...data, requestId: uuid(), attack: { ...data.attack, id: uuid() }, parry: { ...data.parry, id: uuid() } };
     assert.equal((await ack(gm, 'actor_riposte_offer', unknown)).success, false); assert.equal(actors.ledger(room).commitSequence, 1);
+    room.gameState.actorConsequences.receipts = []; room.gameState.actorConsequences.replayFloor = 1;
+    const refreshed = { ...data, actionEpoch: actors.epoch(room), windowEpoch: (await ack(gm, 'reaction_window_list', { roomId: room.id })).epoch };
+    assert.equal((await ack(gm, 'actor_riposte_offer', refreshed)).code, 'riposte_parent_unavailable');
+    assert.equal((await ack(gm, 'reaction_window_list', { roomId: room.id })).windows.length, 0);
   });
 });

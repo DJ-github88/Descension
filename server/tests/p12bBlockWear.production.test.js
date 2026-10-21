@@ -8,6 +8,7 @@ const { FirebaseBatchWriter } = require('../services/syncService');
 const actors = require('../services/actorConsequences');
 const blocks = require('../services/blockApprovals');
 const strikes = require('../services/strikeApprovals');
+const conditionProfile = require('../../vtt-react/src/services/sharedConditionProfile');
 
 const ack = (client, event, payload) => new Promise((resolve, reject) => {
   const timer = setTimeout(() => reject(new Error(`ack timeout: ${event}`)), 5000);
@@ -113,6 +114,68 @@ describe('P12B creature hit → owner block → atomic HP and wear (registered p
     const result = await ack(owner, 'actor_consequence', { ...base(), actors: [{ ref: pcRef, expectedRevision: revision(pcRef), conditions: [{ op: 'add', recordId: id, record }] }] });
     assert.equal(result.success, true, JSON.stringify(result));
   };
+  const conditionCommand = (operation, recordId = crypto.randomUUID(), sourceMode = 'manual') => ({ ...base(), target: pcRef,
+    actors: [{ ref: pcRef, expectedRevision: revision(pcRef), conditions: [{ op: operation, recordId,
+      ...(operation === 'add' ? { record: conditionProfile.makeDefendingRecord(pcRef, recordId, sourceMode) } : {}) }] }],
+    adjudication: { definitionId: conditionProfile.DEFENDING.definitionId, definitionVersionOrHash: conditionProfile.DEFENDING.origin,
+      chosenResult: 'Manual state correction', adjustmentReason: 'No payment or expiry execution' } });
+
+  it('C1 named PC Defending is exact, idempotent, payment-free and survives checkpoint codec; fresh duplicates and malformed profiles refuse', async() => {
+    const original = actors.clone(pcToken().character), command = conditionCommand('add', crypto.randomUUID(), 'self-defend');
+    assert.equal((await ack(other, 'actor_consequence', command)).code, 'authorization_required');
+    const accepted = await ack(owner, 'actor_consequence', command);
+    assert.equal(accepted.success, true, JSON.stringify(accepted));
+    assert.deepEqual((await ack(owner, 'actor_consequence', command)).receipt, accepted.receipt);
+    assert.deepEqual(pcToken().character, original, 'condition administration changes no resource or equipment');
+    assert.equal(pcToken().state.conditions.length, 1);
+    assert.deepEqual(pcToken().state.conditions[0].sourceActor, pcRef);
+    assert.equal((await ack(owner, 'actor_consequence', conditionCommand('add'))).code, 'condition_already_active');
+    const codec = require('../services/roomCheckpoint');
+    const built = codec.buildCheckpointDocuments({ roomId: room.id, gameState: live().gameState, revision: 1 });
+    const decoded = codec.decodeCanonicalCheckpoint({ checkpoint: built.manifest, globalDoc: built.global.data,
+      mapDocsById: Object.fromEntries(built.maps.map(doc => [doc.mapId, doc.data])) });
+    assert.equal(decoded.ok, true);
+    assert.deepEqual(decoded.maps.default.characterTokens.pc.state.conditions, pcToken().state.conditions);
+    // Install a new runtime from the permanent-room checkpoint, with old add receipt pruned.
+    const restored = { ...live(), gameState: { ...decoded.global, maps: decoded.maps, ...codec.deriveRootMirrors(decoded.maps) }, checkpointRevision: 1 };
+    restored.gameState.actorConsequences.receipts = [];
+    restored.gameState.actorConsequences.replayFloor = restored.gameState.actorConsequences.commitSequence;
+    server.rooms.set(room.id, restored);
+    assert.equal((await ack(owner, 'actor_consequence', command)).success, false, 'an old unknown add is never replay authority');
+    assert.equal(pcToken().state.conditions.length, 1, 'current checkpoint condition survives receipt pruning/runtime change');
+    assert.equal(conditionProfile.holdsDefending(pcToken()), true);
+    epoch = (await ack(owner, 'actor_snapshot', { roomId: room.id })).actionEpoch;
+    const remove = conditionCommand('remove', command.actors[0].conditions[0].recordId);
+    assert.equal((await ack(gm, 'actor_consequence', remove)).success, true);
+    assert.equal(pcToken().state.conditions.length, 0);
+    for (const change of [record => { record.effects = { armor: 2 }; }, record => { record.recordId = record.id = 'not-a-uuid'; },
+      record => { record.sourceActor = { ...pcRef, characterId: 'someone-else' }; }]) {
+      const bad = conditionCommand('add'); change(bad.actors[0].conditions[0].record);
+      bad.actors[0].conditions[0].recordId = bad.actors[0].conditions[0].record.recordId;
+      assert.equal((await ack(owner, 'actor_consequence', bad)).code, 'invalid_shared_condition');
+    }
+    const mixed = conditionCommand('add'); mixed.actors[0].finalResources = { ap: { current: 0, temp: 0 } };
+    assert.equal((await ack(owner, 'actor_consequence', mixed)).code, 'invalid_shared_condition');
+    assert.deepEqual(pcToken().character, original);
+  });
+  it('C1 named Defending doubles actual d8 face 2 repeatedly without wear; pending removal retains the face and requires fresh GM interpretation', async() => {
+    await declare([ARMOR]);
+    const add = conditionCommand('add'); assert.equal((await ack(owner, 'actor_consequence', add)).success, true);
+    for (let hit = 0; hit < 2; hit += 1) {
+      const applied = await block(2); assert.equal(applied.result.success, true, JSON.stringify(applied.result));
+      assert.equal(JSON.parse(applied.result.receipt.adjudication.chosenResult).block.reduction, 4);
+      assert.equal(declaration().pieces[0].currentDie, 'd8'); assert.equal(pcToken().state.conditions.length, 1);
+    }
+    const offered = await offer(), registered = await register(offered, 2), stale = gmCommand(offered, registered);
+    assert.equal((await ack(gm, 'actor_consequence', conditionCommand('remove', add.actors[0].conditions[0].recordId))).success, true);
+    assert.equal((await ack(gm, 'actor_consequence', stale)).success, false, 'stale active summary cannot consume');
+    assert.deepEqual(blocks.get(live(), registered.approved.approvalId).approval.roll.faces, [2]);
+    const corrected = await ack(gm, 'actor_consequence', gmCommand(offered, registered));
+    assert.equal(corrected.success, true, JSON.stringify(corrected));
+    const chosen = JSON.parse(corrected.receipt.adjudication.chosenResult);
+    assert.deepEqual([chosen.block.face, chosen.block.reduction, chosen.block.defending], [2, 2, false]);
+    assert.equal(declaration().pieces[0].currentDie, 'd6');
+  });
 
   it('B1 owner declares out of combat; only owner and GM can read it; public receipts carry the revision only', async() => {
     const observer = once(other, 'actor_consequence_accepted');

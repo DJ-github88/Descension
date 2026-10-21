@@ -463,12 +463,12 @@ A Athien's power is their voice. When they invoke a clause aloud, a binding, a s
 The flaw is inseparable from the gift: a knowingly false pact-enforced assertion is forbidden, and an actual obligation carries consequences. Withholding, literal loopholes, and conditional statements require careful wording but are not automatically new obligations. First Contract jurisdiction is bounded; it does not turn every child's protest or hypothetical into an omniscient universal contract.
 
 They view the Weft with a mixture of admiration and unease, the Weft see the web behind the text, the implications the Athien cannot perceive, and that makes them useful and unpredictable. They view the Riven with something closer to horror, the Riven are what happens when a Athien decides the pact's weight is heavier than the silence, and the Athien cannot process a choice that results in legal non-existence.`,
-  statModifiers: { spirit: 2, intelligence: 2, charisma: 1, strength: -2 },
+  statModifiers: { intelligence: 3, charisma: 2, strength: -2, agility: -1 },
   traits: [
   {
    id: 'bound_tongue_velun',
    name: 'Bound Tongue',
-    description: 'Advantage on Persuasion when negotiating formal agreements. Knowingly false pact-enforced assertions are forbidden. Breaking an actual First Contract commitment deals the recorded 1d4 wyrd damage and Deception penalty; hypothetical statements, withholding and unrelated bargains are not automatically enforceable clauses.',
+    description: 'Advantage on Persuasion when negotiating formal agreements. Breaking an actual First Contract commitment deals 1d4 wyrd damage and Deception penalties. In addition, generations of sedentary chancery law practice leave you physically soft: you suffer disadvantage on Athletics and Acrobatics checks.',
    level: 1,
    icon: 'spell_holy_innerfire',
    spellType: 'PASSIVE',
@@ -660,7 +660,7 @@ They view the Weft with a mixture of admiration and unease, the Weft see the web
   tooltipSummary: 'Sly and cunning under-fog shadow-brokers who exploit obligation-webs, trading contraband, secrets, and probability in subterranean canals.',
   description: 'The sly and cunning underworld subrace of the Athien. Operating in the misty subterranean canals and shadowed vaults beneath Atropolis, the Weft perceive the invisible obligation-threads of the world and exploit them with ruthless ingenuity. Rather than serving the rigid letter of the First Contract, they weave through its loopholes, trading in contraband debts, secret pledges, forged passes, and probability itself.',
   culturalBackground: `Under-Ledger is the lower canal/undercity district among Atropolis's grown ironwood root works. Weft brokers, appraisers, couriers, and information merchants read obligation-threads and negotiate loopholes; criminal syndicates are particular institutions, not every person's morality. Their coin-silver eyes and pale frames carry the history of raw Well over-drawing. They remain pact-bound, with preservation and Fraying obligations distinct from the House's separate credit.`,
-  statModifiers: { agility: 2, spirit: 2, intelligence: 1, strength: -2 },
+  statModifiers: { agility: 3, spirit: 1, strength: -2 },
   traits: [
   {
    id: 'keepers_sight_kessen',
@@ -865,12 +865,12 @@ They view the Weft with a mixture of admiration and unease, the Weft see the web
   tooltipSummary: 'Riven, finite-lived Athien who eat, drink, sleep, and build lives beyond the First Contract; ruin-scriveners are one of their traditions.',
   description: 'The Riven descend from deliberate Severing, pioneered by Saren-Vel after the First Contract\'s founding. Burning their signatures from the pact removes its preservation and enforcement. They eat, drink, sleep, and slowly age. Pact authorities call this ancestral sin; it is not author truth that their souls were stolen. Their removed signatures defeat First Contract-keyed detection, not ordinary sight or every magical sensor.',
   culturalBackground: `Riven communities include ruin-scriveners, epigraphers, enchanters, couriers, and outcasts. Severance Hold preserves fallen libraries and underground workshops; Over-Shanty and Deep-Quarter serve other lives beyond pact administration. Scholars take rubbings and study salvaged relics for knowledge, restoration, or chosen craft, not a universal obligation to recover stolen souls. Ordinary trade and trust-based promises remain possible outside First Contract jurisdiction.`,
-  statModifiers: { agility: 2, constitution: 2, strength: 1, spirit: -2 },
+  statModifiers: { constitution: 3, strength: 1, spirit: -2, charisma: -2 },
   traits: [
   {
    id: 'severed_drun',
    name: 'Severed',
-    description: 'Your removed First Contract signature cannot be invoked for pact enforcement, signature-keyed detection, or Fraying. This is not universal magic immunity or invisibility. You lack pact preservation, eat, drink, sleep, and slowly age. Pact-dependent legal standing is lost; ordinary trade elsewhere remains possible.',
+    description: 'Your removed First Contract signature cannot be invoked for pact enforcement, signature-keyed detection, or Fraying. You lack pact preservation, eat, drink, sleep, and slowly age. Having severed your soul-threads from the Great Contract, magical healing applied to you restores 50% less HP (half healing), and you suffer disadvantage on Spirit and Charisma checks.',
    level: 1,
    icon: 'spell_fire_fireball',
    spellType: 'PASSIVE',
@@ -954,7 +954,7 @@ They view the Weft with a mixture of admiration and unease, the Weft see the web
   {
    id: 'bog_survival_drun',
    name: 'Bog-Hardened',
-    description: 'Resistance to blight damage and advantage on Survival checks in swamps, bogs, or the Bryngloom Forest. When you enter a location holding a strong First Contract copy (Atropolis, Ironjaw Port), you must make a DC 12 Constitution save or be sickened for 1 hour. (You survived the Severing and the bog that followed; the deep wild has stopped trying to kill you.)',
+    description: '50% Blight Resistance (take half damage from blight) and advantage on Survival checks in swamps, bogs, or the Bryngloom Forest. When you enter a location holding a strong First Contract copy (Atropolis, Ironjaw Port), you must make a DC 12 Constitution save or be sickened for 1 hour. (You survived the Severing and the bog that followed; the deep wild has stopped trying to kill you.)',
    level: 1,
    icon: 'spell_nature_resistnature',
    spellType: 'PASSIVE',

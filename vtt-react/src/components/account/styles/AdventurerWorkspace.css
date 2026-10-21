@@ -61,6 +61,7 @@
 }
 
 .account-dashboard-page .account-avatar-large i,
+.account-dashboard-page .account-welcome .user-display-name,
 .account-dashboard-page .user-display-name {
   color: var(--workspace-paper);
 }

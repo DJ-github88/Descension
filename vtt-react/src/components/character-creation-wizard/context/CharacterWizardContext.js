@@ -12,6 +12,7 @@ import { applyRacialModifiers } from '../../../data/raceData';
 import { validateCharacterClassAccess } from '../../../utils/characterClassAccess';
 import { CHAOS_WEAVER_DATA } from '../../../data/classes/chaosWeaverIntegration';
 import { calculatePointsSpent, calculateTotalSkillPoints } from '../../../constants/skillPointSystem';
+import { buildAncestry, getAncestryLoadout, validateAncestry } from '../../../data/ancestryLoadouts';
 
 // Wizard steps configuration
 export const WIZARD_STEPS = {
@@ -57,6 +58,8 @@ export const initialState = {
     totalSteps: Object.keys(WIZARD_STEPS).length,
     completedSteps: [],
     originalCalling: null,
+    // Ancestral Gifts sealed on the character being edited (read-only for that heritage)
+    sealedAncestry: null,
 
     // Character data
     characterData: {
@@ -80,6 +83,9 @@ export const initialState = {
         // Race and subrace
         race: '',
         subrace: '',
+
+        // Ancestral Gifts: { heritageId, core, picks: { rowId: giftId }, catalogVersion }
+        ancestry: null,
 
         // Class
         class: '',
@@ -153,6 +159,7 @@ export const ACTION_TYPES = {
     UPDATE_BASE_STATS: 'UPDATE_BASE_STATS',
     RECALCULATE_FINAL_STATS: 'RECALCULATE_FINAL_STATS',
     SET_STARTING_SPELLS: 'SET_STARTING_SPELLS',
+    SET_ANCESTRY_PICK: 'SET_ANCESTRY_PICK',
 
     // Validation
     SET_VALIDATION_ERRORS: 'SET_VALIDATION_ERRORS',
@@ -215,18 +222,42 @@ export const characterWizardReducer = (state, action) => {
                 characterData: {
                     ...state.characterData,
                     race: action.payload,
-                    subrace: '' // Reset subrace when race changes
+                    subrace: '', // Reset subrace when race changes
+                    ancestry: null // Gifts belong to a heritage
                 }
             };
 
-        case ACTION_TYPES.SET_SUBRACE:
+        case ACTION_TYPES.SET_SUBRACE: {
+            // Gifts never leak between heritages. A sealed loadout comes back only for its own heritage.
+            const keepCurrent = state.characterData.ancestry?.heritageId === action.payload;
+            const sealedMatch = state.sealedAncestry?.heritageId === action.payload ? state.sealedAncestry : null;
             return {
                 ...state,
                 characterData: {
                     ...state.characterData,
-                    subrace: action.payload
+                    subrace: action.payload,
+                    ancestry: sealedMatch || (keepCurrent ? state.characterData.ancestry : null)
                 }
             };
+        }
+
+        case ACTION_TYPES.SET_ANCESTRY_PICK: {
+            const { rowId, giftId } = action.payload || {};
+            const subraceId = state.characterData.subrace;
+            const loadout = getAncestryLoadout(subraceId);
+            const row = loadout?.rows.find(r => r.id === rowId);
+            if (!row || (giftId !== null && !row.options.includes(giftId))) return state;
+            // A sealed loadout cannot be changed by ordinary editing.
+            if (state.sealedAncestry?.heritageId === subraceId) return state;
+            const current = state.characterData.ancestry?.heritageId === subraceId ? state.characterData.ancestry.picks : {};
+            return {
+                ...state,
+                characterData: {
+                    ...state.characterData,
+                    ancestry: buildAncestry(subraceId, { ...current, [rowId]: giftId })
+                }
+            };
+        }
 
         case ACTION_TYPES.SET_CLASS:
             return {
@@ -376,6 +407,7 @@ export const characterWizardReducer = (state, action) => {
             return {
                 ...state,
                 originalCalling: { class: existingChar.class, race: existingChar.race, subrace: existingChar.subrace },
+                sealedAncestry: existingChar.ancestry?.finalizedAt ? existingChar.ancestry : null,
                 characterData: {
                     // Basic information
                     name: existingChar.name || '',
@@ -388,6 +420,7 @@ export const characterWizardReducer = (state, action) => {
                     // Race and subrace
                     race: existingChar.race || '',
                     subrace: existingChar.subrace || '',
+                    ancestry: existingChar.ancestry || null,
 
                     // Class
                     class: existingChar.class || '',
@@ -508,6 +541,18 @@ export const validateCurrentStep = (state) => {
                     ? `Please select exactly 3 starting spells (currently ${knownPickCount} selected).`
                     : `Please select exactly ${expectedStartingSpells} starting spell${expectedStartingSpells === 1 ? '' : 's'} (currently ${knownPickCount} selected).`;
             }
+
+            // Ancestral Gifts: one gift per row for heritages that have a loadout.
+            // Editing a character made before this feature, on its original heritage,
+            // never blocks (choosing gifts there is optional until migration is decided).
+            if (characterData.subrace) {
+                const editingSameHeritage = !!state.originalCalling && state.originalCalling.subrace === characterData.subrace;
+                const ancestryCheck = validateAncestry(characterData.subrace, characterData.ancestry);
+                const needsGifts = ancestryCheck.required && !(editingSameHeritage && !characterData.ancestry);
+                if (needsGifts && !ancestryCheck.complete) {
+                    errors.ancestry = `Choose one Ancestral Gift in each row (${ancestryCheck.chosen} of ${ancestryCheck.chosen + ancestryCheck.missingRows.length} chosen).`;
+                }
+            }
             break;
 
         case WIZARD_STEPS.SKILLS_LANGUAGES: {
@@ -607,6 +652,7 @@ export const wizardActionCreators = {
     updateLore: (lore) => ({ type: ACTION_TYPES.UPDATE_LORE, payload: lore }),
     updateBaseStats: (stats) => ({ type: ACTION_TYPES.UPDATE_BASE_STATS, payload: stats }),
     setStartingSpells: (spellIds) => ({ type: ACTION_TYPES.SET_STARTING_SPELLS, payload: spellIds }),
+    setAncestryPick: (rowId, giftId) => ({ type: ACTION_TYPES.SET_ANCESTRY_PICK, payload: { rowId, giftId } }),
 
     setValidationErrors: (errors) => ({ type: ACTION_TYPES.SET_VALIDATION_ERRORS, payload: errors }),
     validateCurrentStep: () => ({ type: ACTION_TYPES.VALIDATE_CURRENT_STEP }),

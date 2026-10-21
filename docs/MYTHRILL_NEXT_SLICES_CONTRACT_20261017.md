@@ -1,5 +1,15 @@
 # Next slices after P12B — proposed contracts (awaiting HQ approval)
 
+**Current delivery, 2026-10-21:** [P14-C1 §6](MYTHRILL_PROJECT_14_C1_CONTRACT.md#6-implementation-and-verification)
+shared PC Defending is implemented/review ACCEPT, Build3 compilation/C1 byte parity and App11 PASS:
+one exact-actor P7 editor/custody path, actual blocking/removal/retained-face recovery proof. Prior action
+cost/expiry stay manual. E1a evidence carries forward; reaction/obstruction/propagation work remains open.
+
+**E1a latest, 2026-10-19:** original universal Riposte named execution is delivered/review ACCEPT/
+Build1-App2 PASS under the separately approved §12 scope. One P7 AP/HP/consumption, exactly1 AP,
+GM-attested successful/paid Parry not charged again; [§13](MYTHRILL_PROJECT_13B_CONTRACT.md#13-e1a-implementation-and-verification--2026-10-19).
+No broader reaction automation/A1b. Historical E1a “needs approval” notes below do not reopen this slice.
+
 **Latest 2026-10-19:** **P13B-W collection delivered**, bounded independent source/final delta review
 accepted and integrated Build3/App4 verified. [Exact handoff/limits](MYTHRILL_PROJECT_13B_CONTRACT.md#11-w-implementation-and-integrated-handoff--2026-10-19).
 No reaction payment/reservation/roll/effect execution; GM manual resolution remains explicit. Proposed

@@ -33,6 +33,13 @@ function registerCharacterHandlers(ctx) {
       const uid = socket.data && socket.data.userId ? socket.data.userId : null;
       const mapId = data.mapId || room.gameState.defaultMapId || 'default';
 
+      // Bound PC movement must name the attachment. Legacy character/name relay cannot evade Stunned.
+      const actors = require('../services/actorConsequences');
+      if (!player.isGM && !data.tokenId && Object.values(room.gameState.maps || {}).some(map =>
+        Object.values(map.characterTokens || {}).some(token => token.ownerUserId === uid && token.state?.actorContract))) {
+        actors.fail('actor_binding_conflict', 'Select the exact room token for movement.');
+      }
+
       // A supplied foreign tokenId is never movable by an ordinary member.
       if (data.tokenId) {
         const maps = room.gameState && room.gameState.maps ? room.gameState.maps : {};
@@ -60,6 +67,13 @@ function registerCharacterHandlers(ctx) {
             });
             return;
           }
+          actors.assertCanMove(record, player);
+          if (record.state?.actorContract) {
+            if (recordMapId !== mapId) actors.fail('actor_binding_conflict');
+            record.position = data.position;
+            room.gameState.characterTokens = require('../services/roomCheckpoint').deriveRootMirrors(room.gameState.maps).characterTokens;
+            firebaseBatchWriter.queueWrite(room.id, room.gameState);
+          }
         }
       }
 
@@ -83,6 +97,7 @@ function registerCharacterHandlers(ctx) {
 
     } catch (error) {
       logger.error('[character_moved] Error:', { error: error.message });
+      socket.emit('room_error', { code: error.code || 'movement_refused', event: 'character_moved', message: error.message });
     }
   });
 

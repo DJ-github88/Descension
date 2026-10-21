@@ -346,17 +346,12 @@ The name "Sereth" is invoked in every prayer and carved into every threshold. It
         tooltipSummary: 'Canopy-dwelling fae nobles wearing ancient beast-carved wooden masks to hide their perceived hideousness, patrolling treetop pathways closer to the sky as they await their departed god.',
         description: 'The Mimir were conceived as a god\'s grand quest to fashion the perfect entity. But perfection is an impossible horizon; their creator was never satisfied, remodeling and restructuring them across millennia. Each iteration left the Mimir feeling inadequate and unaccepted, cursed with the belief that their true form was a hideous failure. In truth, their features are not hideous at all, but rather carry innate demonic fae grace. To hide this "flaw," they were bestowed ancient wooden masks hand-carved with the visages of primal beasts. The Arch Mimir view themselves as the noble, rightful inheritors of this divine design. However, while the Broken Mimir achieved liberation by discarding masks and embracing their demonic traits openly, the Arch Mimir\'s rigid aristocratic denial only causes their demonic traits to fester and curdle beneath the wood. They dwell at the very summit of titanic trees, constructing dizzying networks of wooden sky-paths and suspended platforms—partly to look down in haughty judgment upon the forest below, and partly to be physically closer to their deity, whom they believe will one day return, completely unaware that he was consumed by his own grief and committed suicide long ago.',
         culturalBackground: 'Arch Mimir society is a hierarchy of sacred denial and skyward vigilance. Suspended hundreds of feet above the fog, their cities are sprawling webs of wooden sky-walks, rope gantries, and hollowed ironwood crowns. They live in the treetops for two reasons: to look down upon the "lesser" ground-dwellers and to wait at the highest vantage point for their god\'s return. Mask culture is absolute and hereditary; each mask is an ancient heirloom carved from sacred timber in the likeness of ancient beasts (serpents, predatory stags, raptors, and horned chimeras). To be seen unmasked in Arch society is the ultimate shame and blasphemy, as they believe exposure reveals a monstrous failure that offended their creator.',
-        statModifiers: {
-          charisma: 2,
-          intelligence: 2,
-          spirit: 1,
-          strength: -2
-        },
+        statModifiers: { charisma: 3, intelligence: 2, strength: -2, constitution: -1 },
         traits: [
           {
             id: 'heartwood_lineage_maskborne',
             name: 'Heartwood Lineage',
-            description: 'You gain +2 to Persuasion and Insight checks against Arch Mimir NPCs, whose carved records name and respect your lineage. You suffer disadvantage on Deception and Stealth checks against Broken Mimir, who read your aristocratic bearing as a tell before you speak. (Your heartwood mask carries eleven generations of ancestry legible to every Arch Mimir \u2014 among the Broken Mimir, that privilege is a wall they learned to recognize long before they learned to speak.)',
+            description: 'You gain +2 to Persuasion and Insight checks against Arch Mimir NPCs. However, your delicate porcelain vessel and sheltered high-canopy nobility leave you frail: you suffer disadvantage on Constitution saving throws against physical trauma and bludgeoning damage.',
             level: 1,
             icon: 'spell_holy_divinefavor',
             spellType: 'PASSIVE',
@@ -393,7 +388,7 @@ The name "Sereth" is invoked in every prayer and carved into every threshold. It
                 {
                   id: 'aristocratic_bearing',
                   name: 'Aristocratic Bearing',
-                  description: 'Disadvantage on Deception and Stealth checks against Broken Mimir. Your bearing marks you before you speak.',
+                  description: 'Disadvantage on Deception and Stealth checks against Broken Mimir; disadvantage on Constitution saving throws against physical trauma.',
                   statModifier: { stat: 'deception', magnitude: 0, magnitudeType: 'disadvantage', conditions: { npcSubrace: ['tethered'] } },
                   mechanicsText: 'Disadvantage on Deception checks when interacting with Broken Mimir NPCs.'
                 },
@@ -513,7 +508,7 @@ The name "Sereth" is invoked in every prayer and carved into every threshold. It
             level: 1,
             icon: 'spell_shadow_disguise',
             spellType: 'ACTION',
-            effectTypes: ['buff'],
+            effectTypes: ['buff', 'debuff'],
             typeConfig: {
               school: 'wyrd',
               icon: 'spell_shadow_disguise',
@@ -532,6 +527,16 @@ The name "Sereth" is invoked in every prayer and carved into every threshold. It
                 }
               ],
               durationValue: 10, durationType: 'minutes', durationUnit: 'minutes', canBeDispelled: false
+            },
+            debuffConfig: {
+              debuffType: 'statusEffect',
+              effects: [{
+                id: 'fractured_psyche',
+                name: 'Fractured Psyche',
+                description: 'Disadvantage on Concentration checks and Charisma (Persuasion) checks.',
+                statusEffect: { penaltyType: 'concentration_and_persuasion', magnitude: 'disadvantage' }
+              }],
+              durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
             },
             targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
             resourceCost: { actionPoints: 1, mana: 0, components: ['somatic'] },
@@ -587,12 +592,7 @@ The name "Sereth" is invoked in every prayer and carved into every threshold. It
         tooltipSummary: 'Hopeful, unmasked Mimir who completely shun masks, bearing demon facial scarring, unique pointed ears with elaborate jewelry, and companion spirit motes.',
         description: 'Exiles, siblings born without ancestral heirlooms, or rebels who chose to throw their masks away forever. The Broken Mimir have discarded the rigid nobility and suffocating mask-traditions of the Arch Mimir, descending from the high canopy-holds to build lively shanty communities on the mossy forest floor and riverbanks. They wear NO masks at all. Instead, their faces are proudly bared, distinguished by intricate demon facial scarring, pointed demon-fae ears heavy with dangling rings, cuffs, and silver chains, and wide, soulful eyes. They live with child-like glee, hopeful curiosity, and defiant joy, accompanied by warm floating golden spirit motes.',
         culturalBackground: 'Broken Mimir society is founded on emotional liberation, rustic riverfront community, and the complete rejection of mask-bound shame. Far removed from the porcelain-shrouded canopy temples, they dwell in vibrant settlements like Revel\'s End along forest rivers and mossy grounds. Having abandoned masks entirely, they celebrate self-identity through elaborate ear jewelry, body adornments, and the distinct demon facial scars that mark their lineage. They navigate life with open curiosity and carnival joy, unburdened by ancestral guilt and guided by loyal floating spirit motes.',
-        statModifiers: {
-          agility: 2,
-          spirit: 2,
-          constitution: 1,
-          charisma: -2
-        },
+        statModifiers: { charisma: 3, agility: 2, strength: -2, constitution: -1 },
         traits: [
           {
             id: 'storm_glass_senses_mistwoven',

@@ -142,7 +142,7 @@ async function submitApproval(context) {
   if (loadStrikeCustody(context)?.owner?.phase === 'accepted') return;
   if (result.receipt) return consumeStrikeReceipt(result);
   const phase = result.code === 'awaiting_gm' ? 'awaiting' : ['approval_withdrawn', 'approval_declined'].includes(result.code) ? result.code.slice(9)
-    : first && ['invalid_strike_approval', 'forbidden', 'insufficient_resources', 'actor_not_found', 'actor_binding_conflict', 'binding_required', 'secondary_attachment'].includes(result.code) ? 'refused' : 'unknown';
+    : first && ['actor_stunned', 'invalid_strike_approval', 'forbidden', 'insufficient_resources', 'actor_not_found', 'actor_binding_conflict', 'binding_required', 'secondary_attachment'].includes(result.code) ? 'refused' : 'unknown';
   keepOwner(context, { ...latest, sent: true, phase, result });
   // A refused first submission was never accepted: its recorded rolls return for the same action.
   if (phase === 'refused') returnRolls(context, latest);
@@ -204,7 +204,7 @@ function settleGm(context, delivery, id, result) {
   if (result.receipt) return consumeStrikeReceipt(result);
   const previous = loadStrikeCustody(context)?.gm?.[id];
   if (previous?.phase === 'accepted') return;
-  const definitive = ['stale_actor_revision', 'insufficient_resources', 'approval_mismatch', 'invalid_strike_adjudication', 'adjustment_reason_required', 'defense_ruling_required', 'miss_requires_zero', 'not_applied_mismatch', 'forbidden', 'authorization_required', 'room_authority_lost', 'room_binding_changed', 'actor_not_found', 'actor_binding_conflict', 'secondary_attachment'].includes(result.code);
+  const definitive = ['actor_stunned', 'stale_actor_revision', 'insufficient_resources', 'approval_mismatch', 'invalid_strike_adjudication', 'adjustment_reason_required', 'defense_ruling_required', 'miss_requires_zero', 'not_applied_mismatch', 'forbidden', 'authorization_required', 'room_authority_lost', 'room_binding_changed', 'actor_not_found', 'actor_binding_conflict', 'secondary_attachment'].includes(result.code);
   keepGm(context, id, { ...previous, phase: definitive ? 'refused' : 'unknown', result,
     message: definitive ? `Command refused (${result.code}). Review the current summary and explicitly prepare again; original command retained for checking.` : `Command outcome unresolved (${result.code}). Check same command; reconcile with the GM before preparing another.` });
 }

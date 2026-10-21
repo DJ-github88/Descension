@@ -3245,3 +3245,37 @@ body .pf-spell-card.wizard .wow-spell-card-header,
   color: var(--my-parchment);
   border-color: #991b1b;
 }
+
+/* ===== SPELL REQUIREMENT NOTICE ===== */
+.spell-requirement-notice {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  font-family: 'Crimson Text', 'Bookman Old Style', Georgia, serif;
+  font-size: 13.5px;
+  color: #3d2415;
+  margin: 6px 0 8px 0;
+  padding: 3px 8px;
+  background: rgba(184, 134, 11, 0.08);
+  border-left: 3px solid rgba(184, 134, 11, 0.6);
+  border-radius: 2px;
+  line-height: 1.4;
+}
+
+.spell-requirement-label {
+  font-family: 'Cinzel', serif;
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #7c2d12;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  flex-shrink: 0;
+}
+
+.spell-requirement-value {
+  font-family: 'Crimson Text', 'Bookman Old Style', Georgia, serif;
+  font-size: 13.5px;
+  font-weight: 400;
+  font-style: italic;
+  color: #2d1810;
+}

@@ -27,8 +27,12 @@ import { REVENANT_DATA } from '../../classes/revenantData';
 import { FALSE_PROPHET_DATA } from '../../classes/falseProphetData';
 import { GAMBIT_DATA } from '../../classes/gambitData';
 import { CHAOS_WEAVER_DATA } from '../../classes/chaosWeaverIntegration';
+import { GAMBLER_DATA } from '../../classes/gamblerData';
+import { FATE_WEAVER_DATA } from '../../classes/fateWeaverData';
 
 const CLASS_DATA = {
+ gambler: GAMBLER_DATA,
+ 'fate-weaver': FATE_WEAVER_DATA,
  warden: WARDEN_DATA,
  augur: AUGUR_DATA,
  chronarch: CHRONARCH_DATA,

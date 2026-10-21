@@ -363,7 +363,7 @@ export function calculateEquipmentBonuses(equipment = {}) {
   return bonuses;
 }
 
-export function calculateDerivedStats(totalStats, equipmentBonuses = {}, skillBonuses = {}, encumbranceStatus = 'normal', exhaustionLevel = 0, health = null, race = null, subrace = null, buffModifiers = {}) {
+export function calculateDerivedStats(totalStats, equipmentBonuses = {}, skillBonuses = {}, encumbranceStatus = 'normal', exhaustionLevel = 0, health = null, race = null, subrace = null, buffModifiers = {}, ancestry = null) {
   // Apply skill bonuses to base stats first
   const modifiedStats = { ...totalStats };
 
@@ -527,7 +527,7 @@ export function calculateDerivedStats(totalStats, equipmentBonuses = {}, skillBo
   // Apply always-active racial passive effects (like max HP reduction)
   if (race && subrace) {
     try {
-      const passiveModifiers = getRacialStatModifiers(race, subrace);
+      const passiveModifiers = getRacialStatModifiers(race, subrace, ancestry);
       
       passiveModifiers.forEach(passive => {
         // If it has triggers, skip here (handled in the conditional block below)
@@ -674,7 +674,7 @@ export function calculateDerivedStats(totalStats, equipmentBonuses = {}, skillBo
 
     // Import dynamically to avoid circular dependency
     const raceDisciplineSpellUtils = require('./raceDisciplineSpellUtils');
-    const passiveModifiers = raceDisciplineSpellUtils.getRacialStatModifiers(race, subrace);
+    const passiveModifiers = raceDisciplineSpellUtils.getRacialStatModifiers(race, subrace, ancestry);
 
     // Check each passive for health threshold conditions
     passiveModifiers.forEach(passive => {

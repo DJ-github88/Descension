@@ -1,4 +1,4 @@
-import fs from 'fs';
+﻿import fs from 'fs';
 import path from 'path';
 import {
   HERITAGE_TRADITIONS, CLASS_PROVENANCE, CLASS_COMPATIBILITY_ALIASES,
@@ -24,12 +24,12 @@ const specRows = inverseSection.split('\n').filter(line => /^\|.*`[^`]+`/.test(l
 
 test('registry matches the independently authored blueprint inverse and all 102 native relationships', () => {
   expect(specRows).toHaveLength(25);
-  expect(Object.keys(CLASS_PROVENANCE)).toHaveLength(22);
+  expect(Object.keys(CLASS_PROVENANCE)).toHaveLength(24);
   expect(Object.keys(HERITAGE_TRADITIONS)).toHaveLength(25);
   expect(specRows.reduce((total, row) => total + row.classes.length, 0)).toBe(102);
   // Chaos Weaver (RI-1) is a deliberate registry extension beyond the
   // blueprint's 21 dossiers; filter it only for the blueprint parity checks.
-  const blueprintClasses = classes => classes.filter(name => name !== 'Chaos Weaver');
+  const blueprintClasses = classes => classes.filter(name => !['Chaos Weaver', 'Gambler', 'Fate Weaver'].includes(name));
   specRows.forEach(row => {
     expect(blueprintClasses(HERITAGE_TRADITIONS[row.id].classes).slice().sort()).toEqual(row.classes.slice().sort());
     expect(new Set(HERITAGE_TRADITIONS[row.id].classes).size).toBe(HERITAGE_TRADITIONS[row.id].classes.length);
@@ -38,12 +38,13 @@ test('registry matches the independently authored blueprint inverse and all 102 
       .toEqual(row.classes.slice().sort());
   });
   Object.keys(CLASS_PROVENANCE).forEach(name => {
-    const expected = name === 'Chaos Weaver'
-      ? ['drall_fexric']
+    const expected = name === 'Gambler' ? ['merryn_human', 'drall_fexric'] : name === 'Chaos Weaver'
+      ? ['drall_fexric'] : name === 'Fate Weaver' ? []
       : specRows.filter(row => row.classes.includes(name)).map(row => row.id);
     expect(getClassNativeHeritageIds(name).sort()).toEqual(expected.sort());
   });
   expect(getClassNativeHeritageIds('Chaos Weaver')).toEqual(['drall_fexric']);
+  expect(getClassNativeHeritageIds('Fate Weaver')).toEqual([]);
 });
 
 test('registry also matches the separate forward dossier tables rather than only its inverse', () => {
@@ -52,19 +53,20 @@ test('registry also matches the separate forward dossier tables rather than only
     .split(/^### C-\d+: /m).slice(1);
   expect(dossiers).toHaveLength(21);
   dossiers.forEach(dossier => {
-    const name = dossier.split(' — ')[0];
-    const rows = [...dossier.matchAll(/^\| (.+?) — [NA](?:\/[NA])?†? \|/gm)].map(match => nameToId[match[1]]);
+    const name = dossier.split(' â€” ')[0];
+    const rows = [...dossier.matchAll(/^\| (.+?) â€” [NA](?:\/[NA])?â€ ? \|/gm)].map(match => nameToId[match[1]]);
     expect(rows.every(Boolean)).toBe(true);
     expect(rows.sort()).toEqual(getClassNativeHeritageIds(name).sort());
   });
 });
 
-test('creation and validation agree across all 550 canonical class/heritage combinations', () => {
+test('creation and validation agree across all 600 canonical class/heritage combinations', () => {
   specRows.forEach(row => {
     const raceId = HERITAGE_TRADITIONS[row.id].raceId;
     Object.keys(CLASS_PROVENANCE).forEach(name => {
       const expected = row.classes.includes(name) ||
-        (name === 'Chaos Weaver' && row.id === 'drall_fexric');
+        (name === 'Chaos Weaver' && row.id === 'drall_fexric') ||
+        (name === 'Gambler' && ['merryn_human', 'drall_fexric'].includes(row.id));
       expect(isClassCompatible(name, raceId, row.id)).toBe(expected);
       expect(validateCharacterSelection(raceId, row.id, ALL_CLASSES_DATA[name], null).isValid).toBe(expected);
     });
@@ -124,9 +126,9 @@ test('Skald Martyr normal method is Ironclad and Witness is extra acquired train
 });
 
 test('Nereid lookup aliases stay compatible without becoming three extra base classes', () => {
-  expect(Object.keys(BASE_CLASSES_DATA)).toHaveLength(22);
-  expect(Object.keys(ALL_CLASSES_DATA)).toHaveLength(25);
-  expect(CLASS_DISPLAY_DATA).toHaveLength(22);
+  expect(Object.keys(BASE_CLASSES_DATA)).toHaveLength(24);
+  expect(Object.keys(ALL_CLASSES_DATA)).toHaveLength(27);
+  expect(CLASS_DISPLAY_DATA).toHaveLength(24);
   expect(CLASS_DISPLAY_ALIASES).toHaveLength(3);
   Object.entries(CLASS_COMPATIBILITY_ALIASES).forEach(([name, alias]) => {
     expect(ALL_CLASSES_DATA[name].name).toBe(alias.className);
@@ -146,3 +148,4 @@ test('custom metadata is preserved and legacy existing characters get acquisitio
   const effectsImplemented = Object.entries(CLASS_PROVENANCE).filter(([, profile]) => profile.heritageEffectsImplemented).map(([name]) => name).sort();
   expect(effectsImplemented).toEqual(['Animist', 'Apex', 'Arcanoneer', 'Augur', 'Berserker', 'Chronarch', 'Crusader', 'False Prophet', 'Gambit', 'Harbinger', 'Inquisitor', 'Lunarch', 'Martyr', 'Minstrel', 'Plaguebringer', 'Pyrofiend', 'Revenant', 'Shaper', 'Spellguard', 'Toxicologist', 'Warden']);
 });
+

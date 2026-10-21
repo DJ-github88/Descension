@@ -250,10 +250,16 @@
 }
 
 .damage-effect-mechanics,
-.healing-effect-mechanics {
+.healing-effect-mechanics,
+.buff-effect-mechanics,
+.debuff-effect-mechanics {
+    font-family: 'Crimson Text', 'Bookman Old Style', Georgia, 'Times New Roman', serif !important;
     color: var(--my-text-primary, #2d1810) !important;
-    font-size: 14px !important;
-    font-weight: 600 !important;
+    font-size: 13.5px !important;
+    font-weight: 400 !important;
+    text-transform: none !important;
+    letter-spacing: normal !important;
+    line-height: 1.45 !important;
     margin-top: 2px !important;
     padding: 0 !important;
     background: transparent !important;
@@ -305,10 +311,15 @@
 }
 
 .rules-page .damage-effect-mechanics,
-.rules-page .healing-effect-mechanics {
-    font-family: 'Crimson Text', 'Times New Roman', serif !important;
-    font-size: 14px !important;
-    font-weight: 600 !important;
+.rules-page .healing-effect-mechanics,
+.rules-page .buff-effect-mechanics,
+.rules-page .debuff-effect-mechanics {
+    font-family: 'Crimson Text', 'Bookman Old Style', Georgia, 'Times New Roman', serif !important;
+    font-size: 13.5px !important;
+    font-weight: 400 !important;
+    text-transform: none !important;
+    letter-spacing: normal !important;
+    line-height: 1.45 !important;
     color: #2d1810 !important;
     background: transparent !important;
     padding: 0 !important;
@@ -407,11 +418,18 @@
 
 .spell-library-tab .damage-effect-mechanics,
 .spell-library-tab .healing-effect-mechanics,
+.spell-library-tab .buff-effect-mechanics,
+.spell-library-tab .debuff-effect-mechanics,
 .spellbook-layout .damage-effect-mechanics,
-.spellbook-layout .healing-effect-mechanics {
-    font-family: 'Crimson Text', 'Times New Roman', serif !important;
-    font-size: 14px !important;
-    font-weight: 600 !important;
+.spellbook-layout .healing-effect-mechanics,
+.spellbook-layout .buff-effect-mechanics,
+.spellbook-layout .debuff-effect-mechanics {
+    font-family: 'Crimson Text', 'Bookman Old Style', Georgia, 'Times New Roman', serif !important;
+    font-size: 13.5px !important;
+    font-weight: 400 !important;
+    text-transform: none !important;
+    letter-spacing: normal !important;
+    line-height: 1.45 !important;
     color: #2d1810 !important;
     background: transparent !important;
     padding: 0 !important;

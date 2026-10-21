@@ -85,6 +85,17 @@ function resources(token, kind) {
   }
   return out;
 }
+function assertCanAct(room, ref) {
+  if (require('../../vtt-react/src/services/sharedConditionProfile').holdsStunned(locate(room, ref).token)) {
+    fail('actor_stunned', 'Stunned: no actions or reactions. Retain this command and roll; GM removes each source instance before revalidation.');
+  }
+}
+function assertCanMove(token, player, updates) {
+  if (!player?.isGM && require('../../vtt-react/src/services/sharedConditionProfile').holdsStunned(token) &&
+      (!updates || ['position', 'gridPosition', 'x', 'y'].some(k => own(updates, k)))) {
+    fail('actor_stunned', 'Stunned: no voluntary movement. Forced movement, teleportation and corrections require GM adjudication/repositioning.');
+  }
+}
 function validateRecord(record, ref) {
   keys(record, CONDITION_FIELDS);
   if (record.version !== 1 || !string(record.id) || record.id !== record.recordId || !string(record.name) ||
@@ -230,6 +241,9 @@ function publicReceipt(receipt) {
         .filter(k => own(chosen, k)).map(k => [k, chosen[k]])));
     } catch (_) {out.readOnly = true; delete out.adjudication.chosenResult;}
     delete out.contentHash; delete out.authorization.approvalHash;
+  } else if (require('./riposteExecution').isCommand(receipt) && out.adjudication) {
+    // An older inconsistent/manual claim is not upgraded to E1a, nor allowed to disclose its proof.
+    delete out.adjudication.chosenResult; delete out.contentHash; delete out.authorization.approvalHash; out.readOnly = true;
   }
   out.actors = receipt.actors.map(actor => {
     try {validateRef(actor.ref);} catch (_) {return { readOnly: true };}
@@ -256,7 +270,11 @@ function publicClassPayment(payment) {
 }
 function stage(room, player, uid, command, authorization, confirmedRevision) {
   validateCommand(command);
-  if (require('./riposteExecution').isCommand(command) && !command.approval) {fail('approval_required');}
+  const riposte = require('./riposteExecution');
+  if (riposte.isCommand(command)) {
+    if (command.adjudication?.definitionId !== riposte.DEFINITION_ID || command.adjudication?.definitionVersionOrHash !== riposte.DEFINITION_HASH) {fail('riposte_definition_mismatch');}
+    if (!command.approval) {fail('approval_required');}
+  }
   if (command.roomId !== room.id) {fail('actor_not_found');}
   const existing = knownReceipt(room, uid, command);
   if (existing) {return { existing };}
@@ -270,6 +288,9 @@ function stage(room, player, uid, command, authorization, confirmedRevision) {
   // P9/P12A: an owner approval binds exactly one pending entry in the registry its capability names.
   const strikes = require('./strikeApprovals'), blocks = require('./blockApprovals');
   const binder = command.approval ? (strikes.isStrikeCommand(command) ? strikes : blocks.isBlockCommand(command) ? blocks : require('./spellPayments')) : null;
+  // Named production execution only. Generic manual correction/recovery is administration.
+  if (command.source && (binder || command.adjudication?.definitionVersionOrHash === 'feather-slash:v1/abilities:1.4.0' ||
+      command.adjudication?.definitionVersionOrHash === 'p12b-block:v1/creature-attack-block')) assertCanAct(room, command.source);
   if (binder) {
     // Cross-capability IDs cannot be consumed even when P9 registration wins/loses an async race.
     // Keep the P9 registry/handlers unchanged; domain collisions fail at the shared boundary.
@@ -281,6 +302,14 @@ function stage(room, player, uid, command, authorization, confirmedRevision) {
     if (collision) {fail('command_id_conflict');}
   }
   const approved = binder ? binder.bindCommand(room, player, command, authorization) : null;
+  const conditionProfile = require('../../vtt-react/src/services/sharedConditionProfile');
+  const namedProfile = [conditionProfile.DEFENDING, conditionProfile.STUNNED].find(profile =>
+    command.adjudication?.definitionVersionOrHash === profile.origin || command.actors.some(actor => actor.conditions?.some(op => op.record?.effectOrigin === profile.origin)));
+  const namedCondition = !!namedProfile;
+  if (namedCondition && (command.actors.length !== 1 || namedProfile === conditionProfile.DEFENDING && command.actors[0].ref.kind !== 'character' || command.actors[0].finalResources ||
+      command.actors[0].classPayment || command.actors[0].equipmentWear || command.actors[0].blockingDeclaration || command.approval ||
+       command.adjudication?.definitionId !== namedProfile.definitionId ||
+       command.adjudication?.definitionVersionOrHash !== namedProfile.origin)) {fail('invalid_shared_condition');}
   const next = clone(room.gameState);
   const entries = [];
   for (const actor of command.actors) {
@@ -305,6 +334,17 @@ function stage(room, player, uid, command, authorization, confirmedRevision) {
     if (!Array.isArray(records)) {fail('legacy_reconciliation_required');}
     for (const operation of actor.conditions || []) {
       const index = records.findIndex(record => (record.recordId || record.id) === operation.recordId);
+      if (operation.record && [conditionProfile.DEFENDING.origin, conditionProfile.STUNNED.origin].includes(operation.record.effectOrigin) && !conditionProfile.validManagedRecord(operation.record, actor.ref)) {fail('invalid_shared_condition');}
+      if (namedCondition && (actor.conditions.length !== 1 || !['add', 'remove', ...(namedProfile === conditionProfile.STUNNED ? ['update'] : [])].includes(operation.op) ||
+          operation.op !== 'remove' && operation.record?.effectOrigin !== namedProfile.origin ||
+          operation.op === 'remove' && index !== -1 && !(namedProfile === conditionProfile.DEFENDING ? conditionProfile.isDefending(records[index]) : conditionProfile.isStunned(records[index])))) {fail('invalid_shared_condition');}
+      if (operation.op === 'update' && index !== -1 && conditionProfile.isStunned(records[index]) &&
+          (!namedCondition || operation.record?.effectOrigin !== conditionProfile.STUNNED.origin || !conditionProfile.sameStunnedSource(records[index], operation.record))) {fail('invalid_shared_condition');}
+      if (operation.record?.effectOrigin === conditionProfile.STUNNED.origin) {
+        if (operation.op === 'add' && operation.record.sourceActor) locate(room, operation.record.sourceActor);
+        if (records.some((r, i) => i !== index && conditionProfile.isStunned(r) && conditionProfile.sameStunnedSource(r, operation.record))) fail('condition_already_active');
+      }
+      if (operation.op === 'add' && operation.record?.effectOrigin === conditionProfile.DEFENDING.origin && records.some(conditionProfile.isDefending)) {fail('condition_already_active');}
       if (operation.op === 'add') {
         if (index !== -1) {fail('condition_id_conflict');}
         records.push(validateRecord(operation.record, actor.ref));
@@ -553,4 +593,4 @@ function preserveImportedActorMetadata(gameState) {
   }
   return gameState;
 }
-module.exports = { epoch, ledger, locate, permitted, resources, stage, knownReceipt, validateCommand, validateRef, refFor, hash, bytes, clone, fail, keys, own, publicCondition, publicContract, publicReceipt, protectedPath, authorityMetadataPath, preserveImportedActorMetadata, buildPaths, validateBuildEnvelope, prepareBuildUpdate, installBuildUpdate, CONDITION_FIELDS, POOLS };
+module.exports = { assertCanAct, assertCanMove, epoch, ledger, locate, permitted, resources, stage, knownReceipt, validateCommand, validateRef, refFor, hash, bytes, clone, fail, keys, own, publicCondition, publicContract, publicReceipt, protectedPath, authorityMetadataPath, preserveImportedActorMetadata, buildPaths, validateBuildEnvelope, prepareBuildUpdate, installBuildUpdate, CONDITION_FIELDS, POOLS };

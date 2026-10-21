@@ -5,6 +5,18 @@ roadmap ([MYTHRILL_NEXT_PHASE.md](MYTHRILL_NEXT_PHASE.md) §26) ends at P10 and 
 This document adds four bounded phases. **At creation only P11 was authorized.** Later bounded
 authorizations/status are recorded below; each further slice still needs its own contract/go-ahead.
 
+> **Latest delivery, 2026-10-21:** [P14-C1 §6](MYTHRILL_PROJECT_14_C1_CONTRACT.md#6-implementation-and-verification)
+> shared PC Defending is implemented/review ACCEPT, Build3 compilation/C1 byte parity and App11 PASS.
+> One exact-actor editor/P7 path, actual P12B2×/no-wear and retained-face removal/recovery. Prior action
+> cost/expiry remain manual. E1a/W/B2 acceptance is carried forward; broader condition/trigger work stays open.
+
+> **Latest E1a status, 2026-10-19:** original universal Riposte PC→original creature attacker execution
+> delivered, bounded independent ACCEPT, optimized Build1/App2 PASS. Exactly1 AP/no second Parry debit,
+> fresh choice/structured GM prior-payment attestation, owner consent, retained rolls and one P7 AP/HP/
+> consumption receipt; [exact source/evidence/limits](MYTHRILL_PROJECT_13B_CONTRACT.md#13-e1a-implementation-and-verification--2026-10-19).
+> No automatic Parry/trigger/eligibility/mitigation/ordering or broader reaction engine; old E1a-proposal
+> wording below is historical. Other roadmap tracks still need separately named approval.
+
 > **Latest 2026-10-19:** P13B-W declaration collector is implemented, independently source/delta accepted,
 > integrated Build3/App4 verified. [Exact handoff](MYTHRILL_PROJECT_13B_CONTRACT.md#11-w-implementation-and-integrated-handoff--2026-10-19).
 > Collection does not pay, reserve, roll or resolve reactions. E1a original Riposte AP/HP bridge is a
@@ -262,7 +274,7 @@ table mode; narration shows outcome after acceptance and never a sealed choice.
 
 ## 7. P14 — Remaining Consequences and End-to-End Table Readiness
 
-**Workflow delivered.** A full first-table fight runs end to end: elixirs drunk
+**Target workflow (future, not a completion claim).** A full first-table fight runs end to end: elixirs drunk
 off-turn for 0 AP, supported class payments and cooldowns, supported conditions
 applied from actions, bounded multi-target actions, GM override everywhere, and a
 printed reference that matches the screen.
@@ -274,7 +286,10 @@ printed reference that matches the screen.
 - Class payments for further domains, one domain at a time, through the existing
   managed resource planners (no common resource scalar).
 - Durable turn-based cooldowns for supported actions (room-scoped, from receipts).
-- Applying an authored typed condition from a supported action; timing stays manual.
+- Shared conditions first: proposed P14-C1 PC Defending manual-result bridge through the same P7 path
+  from token/context, sheet, GM and manual Defend card entry; actual block mechanics/removal/recovery
+  must agree. Later authored spell conditions require exact source mapping; timing remains manual until
+  its own clock contract. No generic action execution from a condition name/icon.
 - Bounded multi-target: an explicit list of exact refs, capped (proposed ≤6),
   as **one P7 command per target** with a shared exchange id, not an atomic batch,
   unless P7 is extended to N actors under its own contract.
@@ -285,6 +300,14 @@ rooms, summons, transformations, any card with unparsed fields.
 
 **Reuse.** Everything above; P5/P6 personal persistence for inventory; release
 checklist from P10.
+
+**P14-C1 does not replace the other tracks.** Shared condition storage/readers are prerequisites for
+later Stunned action/reaction gates and lifecycle events, not proof those exist. Reaction-card
+highlighting/actual authored triggers, Counterspell/Intervene and subsequent chains remain P13 follow-ons;
+E1a is original Riposte only. Targeting obstruction retains its separate B2 §14 geometry/authority/override
+freeze. Chain/bounce/seeking/fork/persistent propagation retains the completed B2 inventory and per-card
+recipient/path/timing decisions. A shared condition can later be an output of those capabilities; it
+does not supply traversal, targeting legality, atomic N-actor payment or a scheduler.
 
 **Decisions needed.** D14-1 elixir timing cutoffs; D14-2 which items count as
 elixirs; D14-3 whether multi-target needs atomic all-or-nothing; D14-4 `<attr>/K`
@@ -318,8 +341,8 @@ evidence for them.
 | Blocking (favored piece, backups, Don't block) | **P12** | Owner sets on own turn. |
 | Equipment DR die vs flat DR | **P12** | Separate fields; flat DR never wears. |
 | Resistance / vulnerability | **P12** | Creature-authored; order open (D12-1). |
-| Defend | **P12** | Player Defend automated; creature Defend GM-applied. |
-| Conditions and timing | **Existing (P7 records) + P14** | Apply from supported actions; timing stays manual in shared rooms. |
+| Defend | **P12B + proposed P14-C1** | P12B consumes canonical PC Defending for2×/no-wear; unified application/Defend action payment is not thereby automated. Creature Defend manual. |
+| Conditions and timing | **Existing P7 storage + P14-C1 proposal** | Surface integration, mechanics and clocks are separate; PC Defending first, Stunned full admission/expiry later. No icon-as-enforcement claim. |
 | Resource / class payment | **Existing (P9 three domains) + P14** | Further domains one at a time. |
 | Cooldowns | **Existing (local, P9) + P14** | Durable room cooldowns in P14. |
 | Equipment wear and breakage | **P12** | Typed wear entry in the same receipt. |

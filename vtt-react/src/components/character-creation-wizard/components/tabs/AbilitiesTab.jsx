@@ -10,12 +10,12 @@ import { normalizeDisciplineAbility } from '../../../../utils/raceDisciplineSpel
 import { getAbilityIconUrl } from '../../../../utils/assetManager';
 
 const getPassiveSummary = (benefit = {}) => {
-    const parts = [];
-
+    // Return authored description directly to prevent duplicate/redundant text
     if (benefit.description) {
-        const firstSentence = benefit.description.split(/[.!?]+/)[0].trim();
-        if (firstSentence) parts.push(firstSentence + '.');
+        return benefit.description;
     }
+
+    const parts = [];
 
     let conditionText = '';
     if (benefit.triggerConfig?.global?.compoundTriggers) {

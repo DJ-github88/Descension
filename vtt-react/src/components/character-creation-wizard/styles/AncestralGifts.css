@@ -1,0 +1,802 @@
+/* ==========================================================================
+   ANCESTRAL GIFTS / RACIALS MODAL & CODEX STYLES (Step 1)
+   Calm, Warm Parchment & Antique Bronze TTRPG Aesthetic — Zero-Scroll Compact Layout
+   ========================================================================== */
+
+/* --- Overlay Backdrop --- */
+.ancestral-modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(28, 20, 14, 0.65);
+    backdrop-filter: blur(4px);
+    animation: ancestralFadeIn 0.16s ease-out;
+    padding: 16px;
+    box-sizing: border-box;
+}
+
+@keyframes ancestralFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* --- The Main Racials Panel (Warm Antique Parchment Tome) --- */
+.ancestral-racials-panel {
+    width: 520px;
+    max-width: min(520px, 95vw);
+    max-height: calc(100vh - 32px);
+    overflow-y: auto;
+    overflow-x: hidden;
+    background: linear-gradient(175deg, #fdfbf7 0%, #f7f1e4 50%, #ede1c8 100%);
+    border: 2px solid #8b6b3e;
+    border-radius: 6px;
+    box-shadow: 
+        0 0 0 1px rgba(139, 107, 62, 0.35),
+        0 14px 40px rgba(46, 30, 15, 0.45),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.75),
+        inset 0 0 24px rgba(139, 107, 62, 0.1);
+    padding: 14px 18px 12px 18px;
+    position: relative;
+    color: #2e1e0f;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    scrollbar-width: thin;
+    scrollbar-color: #c4a882 #f4ebd9;
+}
+
+.ancestral-racials-panel::-webkit-scrollbar {
+    width: 5px;
+}
+.ancestral-racials-panel::-webkit-scrollbar-track {
+    background: #f4ebd9;
+}
+.ancestral-racials-panel::-webkit-scrollbar-thumb {
+    background: #c4a882;
+    border-radius: 3px;
+}
+
+/* --- Panel Header --- */
+.ancestral-panel-header {
+    text-align: center;
+    position: relative;
+    margin-bottom: 8px;
+    padding-bottom: 6px;
+    border-bottom: 1.5px solid rgba(139, 107, 62, 0.3);
+}
+
+.ancestral-header-ornament {
+    font-size: 11px;
+    color: #8b6b3e;
+    letter-spacing: 0.25em;
+    margin-bottom: 1px;
+    opacity: 0.85;
+}
+
+.ancestral-modal-close {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    background: transparent;
+    border: none;
+    color: #7a5a35;
+    font-size: 15px;
+    cursor: pointer;
+    padding: 4px 6px;
+    border-radius: 4px;
+    transition: color 0.15s ease, background 0.15s ease;
+    line-height: 1;
+}
+
+.ancestral-modal-close:hover {
+    color: #2e1e0f;
+    background: rgba(139, 107, 62, 0.15);
+}
+
+.ancestral-racials-title {
+    font-family: 'Cinzel', 'Palatino Linotype', 'Book Antiqua', Palatino, serif;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    margin: 0;
+    color: #2e1e0f;
+}
+
+.ancestral-racials-subtitle {
+    font-size: 11.5px;
+    font-weight: 500;
+    color: #7a5a35;
+    margin: 2px 0 0 0;
+    letter-spacing: 0.02em;
+    font-family: 'Crimson Text', Georgia, serif;
+    font-style: italic;
+}
+
+/* --- Section Headers --- */
+.ancestral-section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 4px;
+    padding: 0 2px;
+}
+
+.ancestral-section-title {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #7a5a35;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-family: 'Cinzel', serif;
+}
+
+.ancestral-locked-badge {
+    font-size: 9.5px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 1px 7px;
+    border-radius: 3px;
+    background: rgba(139, 107, 62, 0.12);
+    border: 1px solid rgba(139, 107, 62, 0.35);
+    color: #6b5032;
+}
+
+.ancestral-choice-count {
+    font-size: 10px;
+    font-weight: 600;
+    color: #8b6b3e;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    font-family: 'Cinzel', serif;
+}
+
+/* --- Innate Birthright Card (Locked Power) --- */
+.ancestral-locked-section {
+    margin-bottom: 8px;
+}
+
+.ancestral-power-card.locked-birthright {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 5px 10px;
+    background: linear-gradient(135deg, #f9f4ea 0%, #ece1c9 100%);
+    border: 1.5px solid #8b6b3e;
+    border-radius: 4px;
+    box-shadow: 
+        inset 0 1px 0 rgba(255, 255, 255, 0.8),
+        0 1px 4px rgba(46, 30, 15, 0.08);
+    cursor: pointer;
+    transition: box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.ancestral-power-card.locked-birthright:hover {
+    border-color: #b8860b;
+    box-shadow: 
+        inset 0 1px 0 rgba(255, 255, 255, 0.9),
+        0 2px 6px rgba(184, 134, 11, 0.2);
+}
+
+.ancestral-gold-lock {
+    margin-left: auto;
+    color: #8b6b3e;
+    font-size: 12px;
+    opacity: 0.85;
+}
+
+/* --- Choice Rows Container --- */
+.ancestral-rows-container {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.ancestral-choice-row {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.ancestral-row-label-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2px;
+}
+
+.ancestral-row-name {
+    font-size: 10px;
+    font-weight: 700;
+    color: #7a5a35;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-family: 'Cinzel', serif;
+}
+
+.ancestral-row-alert {
+    font-size: 9px;
+    font-weight: 600;
+    color: #a85028;
+    background: rgba(168, 80, 40, 0.1);
+    padding: 1px 6px;
+    border-radius: 3px;
+    border: 1px solid rgba(168, 80, 40, 0.3);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+/* --- Options Pair Grid --- */
+.ancestral-options-pair {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 8px;
+}
+
+/* --- Power Card Base (Buttons) --- */
+.ancestral-power-card.choice-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 8px;
+    min-height: 42px;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: left;
+    position: relative;
+    box-sizing: border-box;
+    transition: transform 0.12s ease, border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+    font-family: inherit;
+    width: 100%;
+    min-width: 0;
+    overflow: hidden;
+}
+
+/* SELECTED State: Warm Illuminated Gold Parchment */
+.ancestral-power-card.choice-option.selected {
+    background: linear-gradient(135deg, #fffdf8 0%, #f6eacb 100%);
+    border: 1.5px solid #d4af37;
+    box-shadow: 
+        0 0 0 1px #d4af37,
+        0 2px 6px rgba(184, 134, 11, 0.25),
+        inset 0 0 10px rgba(212, 175, 55, 0.2);
+}
+
+.ancestral-power-card.choice-option.selected .ancestral-power-name {
+    color: #2e1e0f;
+    font-weight: 700;
+}
+
+.ancestral-power-card.choice-option.selected .ancestral-power-subtext {
+    color: #5c432d;
+}
+
+.ancestral-power-card.choice-option.selected .ancestral-icon-box img {
+    filter: none;
+    opacity: 1;
+}
+
+/* UNSELECTED State: Soft Calm Weathered Parchment Plate */
+.ancestral-power-card.choice-option.unselected {
+    background: #faf5ea;
+    border: 1.5px solid rgba(139, 107, 62, 0.35);
+    box-shadow: 0 1px 2px rgba(46, 30, 15, 0.05);
+}
+
+.ancestral-power-card.choice-option.unselected .ancestral-power-name {
+    color: #4a3828;
+    font-weight: 600;
+}
+
+.ancestral-power-card.choice-option.unselected .ancestral-power-subtext {
+    color: #7a624b;
+}
+
+.ancestral-power-card.choice-option.unselected .ancestral-icon-box img {
+    filter: grayscale(40%) contrast(0.9);
+    opacity: 0.85;
+}
+
+/* UNSELECTED Hover */
+.ancestral-power-card.choice-option.unselected:hover:not(:disabled) {
+    border-color: #8b6b3e;
+    background: #fffcf5;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 5px rgba(46, 30, 15, 0.12);
+}
+
+.ancestral-power-card.choice-option.unselected:hover:not(:disabled) .ancestral-icon-box img {
+    filter: none;
+    opacity: 0.95;
+}
+
+.ancestral-power-card.choice-option:disabled {
+    cursor: default;
+}
+
+/* --- Corner Notch Checkmark --- */
+.ancestral-corner-notch {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    width: 14px;
+    height: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #8b6b3e;
+    font-size: 10px;
+    line-height: 1;
+}
+
+/* --- Power Card Typography & Info --- */
+.ancestral-power-info {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    flex: 1;
+    gap: 1px;
+}
+
+.ancestral-power-name {
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: #2e1e0f;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.2;
+}
+
+.ancestral-power-subtext {
+    font-family: 'Crimson Text', Georgia, serif;
+    font-size: 10px;
+    font-style: italic;
+    color: #5c432d;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    white-space: normal;
+    line-height: 1.15;
+}
+
+/* --- Spell Icon Container --- */
+.ancestral-icon-box {
+    width: 30px;
+    height: 30px;
+    flex-shrink: 0;
+    border: 1px solid rgba(139, 107, 62, 0.45);
+    border-radius: 3px;
+    overflow: hidden;
+    background: radial-gradient(circle at 35% 35%, #f5eee0 0%, #e2d4bd 100%);
+    box-shadow: inset 0 0 3px rgba(46, 30, 15, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ancestral-icon-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: filter 0.15s ease, opacity 0.15s ease;
+}
+
+.ancestral-icon-box i {
+    font-size: 14px;
+    color: #8b6b3e;
+}
+
+/* --- Canonical Trait Variation (all selected) --- */
+.ancestral-power-card.canonical-trait {
+    cursor: pointer;
+}
+
+/* --- Panel Footer & Mahogany RPG Button --- */
+.ancestral-panel-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1.5px solid rgba(139, 107, 62, 0.3);
+}
+
+.ancestral-tip-text {
+    font-family: 'Crimson Text', Georgia, serif;
+    font-size: 10.5px;
+    font-style: italic;
+    color: #7a5a35;
+    line-height: 1.25;
+    flex: 1;
+}
+
+.ancestral-tip-label {
+    font-weight: 700;
+    font-style: normal;
+    color: #5a3d1d;
+    font-family: 'Cinzel', serif;
+    font-size: 9.5px;
+    text-transform: uppercase;
+}
+
+.ancestral-footer-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.ancestral-rpg-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    background: linear-gradient(180deg, #663c32 0%, #4a2828 100%);
+    border: 1.5px solid #c4a882;
+    border-radius: 4px;
+    color: #fff9ee;
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    padding: 5px 16px;
+    cursor: pointer;
+    box-shadow: 
+        0 2px 5px rgba(46, 30, 15, 0.35),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    transition: background 0.15s ease, border-color 0.15s ease, transform 0.1s ease, box-shadow 0.15s ease;
+    white-space: nowrap;
+}
+
+.ancestral-rpg-btn:hover:not(:disabled) {
+    background: linear-gradient(180deg, #7a483c 0%, #593030 100%);
+    border-color: #ffd100;
+    color: #ffffff;
+    box-shadow: 0 3px 8px rgba(46, 30, 15, 0.45);
+    transform: translateY(-1px);
+}
+
+.ancestral-rpg-btn:active:not(:disabled) {
+    transform: translateY(1px);
+    box-shadow: 0 1px 2px rgba(46, 30, 15, 0.3);
+}
+
+.ancestral-rpg-btn:disabled {
+    background: #6c5a53;
+    border-color: #8c786a;
+    color: #c9bfb8;
+    opacity: 0.65;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+.ancestral-btn-arrow {
+    font-size: 9px;
+}
+
+/* --- Floating RPG Spell Tooltip (Warm Parchment Codex) --- */
+.ancestral-floating-tooltip {
+    position: fixed;
+    z-index: 10001;
+    width: min(460px, 94vw);
+    max-height: calc(100vh - 24px);
+    display: flex;
+    flex-direction: column;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    box-sizing: border-box;
+    pointer-events: auto;
+    animation: ancestralTooltipIn 0.12s ease-out;
+    font-family: 'Crimson Text', Georgia, serif;
+    color: #2e1e0f;
+}
+
+@keyframes ancestralTooltipIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.ancestral-tooltip-header {
+    border-bottom: 1px solid rgba(139, 107, 62, 0.3);
+    padding-bottom: 4px;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.ancestral-tooltip-name {
+    font-family: 'Cinzel', serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: #2e1e0f;
+    margin: 0;
+}
+
+.ancestral-tooltip-type {
+    font-size: 10px;
+    color: #7a5a35;
+    font-style: italic;
+    white-space: nowrap;
+}
+
+.ancestral-tooltip-cooldown {
+    font-size: 10px;
+    color: #8b6b3e;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.ancestral-tooltip-body {
+    margin-bottom: 6px;
+}
+
+.ancestral-tooltip-desc {
+    font-size: 11.5px;
+    line-height: 1.35;
+    color: #3e2e1f;
+    margin: 0;
+}
+
+.ancestral-tooltip-rules {
+    background: rgba(139, 107, 62, 0.08);
+    border-left: 2px solid #8b6b3e;
+    padding: 4px 6px;
+    margin-bottom: 6px;
+    border-radius: 0 3px 3px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.ancestral-rule-row {
+    font-size: 10px;
+    display: flex;
+    gap: 4px;
+    line-height: 1.25;
+}
+
+.ancestral-rule-row .rule-key {
+    font-weight: 700;
+    color: #5a3d1d;
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    text-transform: uppercase;
+    flex-shrink: 0;
+}
+
+.ancestral-rule-row .rule-val {
+    color: #3e2e1f;
+}
+
+.ancestral-tooltip-status {
+    border-top: 1px solid rgba(139, 107, 62, 0.25);
+    padding-top: 4px;
+    font-size: 10px;
+    font-style: italic;
+}
+
+.ancestral-tooltip-status .status-core {
+    color: #8b6b3e;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-weight: 600;
+}
+
+.ancestral-tooltip-status .status-selected {
+    color: #276738;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-weight: 600;
+}
+
+.ancestral-tooltip-status .status-prompt {
+    color: #7a5a35;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* --- Step 1 Codex (Annals of Heritage) Styles --- */
+.ancestral-codex-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.ancestral-codex-tag {
+    margin-left: auto;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #7a5a35;
+    background: rgba(139, 107, 62, 0.12);
+    padding: 1px 6px;
+    border-radius: 3px;
+    border: 1px solid rgba(139, 107, 62, 0.3);
+}
+
+.grimoire-trait-card.ancestral-slot-empty {
+    border-style: dashed !important;
+    opacity: 0.75;
+}
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 560px) {
+    .ancestral-racials-panel {
+        width: 100%;
+        padding: 12px;
+    }
+
+    .ancestral-options-pair {
+        grid-template-columns: 1fr;
+    }
+
+    .ancestral-floating-tooltip {
+        width: 280px;
+    }
+}
+
+/* --- Unified Spell Card Hover Shell with Self-Contained Scrolling --- */
+.ancestral-floating-tooltip {
+    width: min(460px, 94vw);
+    max-height: calc(100vh - 24px);
+    pointer-events: auto;
+}
+
+.ancestral-tooltip-scrollable {
+    display: flex;
+    flex-direction: column;
+    max-height: calc(100vh - 72px);
+    overflow-y: auto;
+    overflow-x: hidden;
+    border-radius: 6px;
+    box-shadow: 0 10px 28px rgba(46, 30, 15, 0.45);
+    background: #f6edd9;
+    /* Calm TTRPG Custom Scrollbar */
+    scrollbar-width: thin;
+    scrollbar-color: #8b6b3e rgba(139, 107, 62, 0.15);
+}
+
+.ancestral-tooltip-scrollable::-webkit-scrollbar {
+    width: 6px;
+}
+.ancestral-tooltip-scrollable::-webkit-scrollbar-track {
+    background: rgba(139, 107, 62, 0.12);
+    border-radius: 3px;
+}
+.ancestral-tooltip-scrollable::-webkit-scrollbar-thumb {
+    background: #8b6b3e;
+    border-radius: 3px;
+}
+.ancestral-tooltip-scrollable::-webkit-scrollbar-thumb:hover {
+    background: #5a3d1d;
+}
+
+.ancestral-floating-tooltip .ancestral-tooltip-card {
+    width: 100%;
+    background: #f6edd9;
+    opacity: 1;
+}
+
+.ancestral-floating-tooltip .ancestral-tooltip-card,
+.ancestral-floating-tooltip .ancestral-tooltip-card * {
+    box-sizing: border-box;
+    min-width: 0;
+}
+
+.ancestral-floating-tooltip .ancestral-tooltip-card > * {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+}
+
+.ancestral-floating-tooltip .ancestral-tooltip-card p,
+.ancestral-floating-tooltip .ancestral-tooltip-card span,
+.ancestral-floating-tooltip .ancestral-tooltip-card div {
+    overflow-wrap: anywhere;
+}
+
+.ancestral-floating-tooltip .ancestral-tooltip-card [class*='tags'],
+.ancestral-floating-tooltip .ancestral-tooltip-card [class*='footer'],
+.ancestral-floating-tooltip .ancestral-tooltip-card [class*='header'] {
+    flex-wrap: wrap;
+}
+
+.ancestral-floating-tooltip .pf-spell-card,
+.ancestral-floating-tooltip .wow-spell-card {
+    margin: 0 !important;
+}
+
+/* Allow the spell card body to expand into the scroll container without double-scrollbars */
+.ancestral-floating-tooltip .pf-spell-card-body,
+.ancestral-floating-tooltip .wow-spell-card-body {
+    max-height: none !important;
+    overflow: visible !important;
+}
+
+.ancestral-floating-tooltip .ancestral-tooltip-status {
+    margin-top: 4px;
+    padding: 5px 10px;
+    background: #f6edd9;
+    border: 1px solid #8b6b3e;
+    border-radius: 4px;
+    font-size: 11px;
+    font-style: italic;
+    color: #5c432d;
+    box-shadow: 0 2px 6px rgba(46, 30, 15, 0.2);
+    flex-shrink: 0;
+}
+
+/* Calm typography for spellcard effects in Ancestral Gifts & floating tooltip */
+.ancestral-floating-tooltip .pf-spell-card .damage-effect-mechanics,
+.ancestral-floating-tooltip .pf-spell-card .healing-effect-mechanics,
+.ancestral-floating-tooltip .pf-spell-card .buff-effect-mechanics,
+.ancestral-floating-tooltip .pf-spell-card .debuff-effect-mechanics,
+.ancestral-racials-panel .pf-spell-card .damage-effect-mechanics,
+.ancestral-racials-panel .pf-spell-card .healing-effect-mechanics,
+.ancestral-racials-panel .pf-spell-card .buff-effect-mechanics,
+.ancestral-racials-panel .pf-spell-card .debuff-effect-mechanics {
+    font-family: 'Crimson Text', 'Bookman Old Style', Georgia, 'Times New Roman', serif !important;
+    font-size: 13.5px !important;
+    font-weight: 400 !important;
+    text-transform: none !important;
+    letter-spacing: normal !important;
+    line-height: 1.45 !important;
+    color: #2d1810 !important;
+}
+
+/* Requirement line styling */
+.pf-spell-card .spell-requirement-notice,
+.wow-spell-card .spell-requirement-notice {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    font-family: 'Crimson Text', 'Bookman Old Style', Georgia, serif;
+    font-size: 13.5px;
+    color: #3d2415;
+    margin: 6px 0 8px 0;
+    padding: 3px 8px;
+    background: rgba(184, 134, 11, 0.08);
+    border-left: 3px solid rgba(184, 134, 11, 0.6);
+    border-radius: 2px;
+    line-height: 1.4;
+}
+
+.pf-spell-card .spell-requirement-label,
+.wow-spell-card .spell-requirement-label {
+    font-family: 'Cinzel', serif;
+    font-size: 10.5px;
+    font-weight: 700;
+    color: #7c2d12;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    flex-shrink: 0;
+}
+
+.pf-spell-card .spell-requirement-value,
+.wow-spell-card .spell-requirement-value {
+    font-family: 'Crimson Text', 'Bookman Old Style', Georgia, serif;
+    font-size: 13.5px;
+    font-weight: 400;
+    font-style: italic;
+    color: #2d1810;
+}

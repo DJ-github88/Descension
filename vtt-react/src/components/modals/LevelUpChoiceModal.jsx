@@ -160,6 +160,7 @@ import { WARDEN_DATA } from '../../data/classes/wardenData';
 import { AUGUR_DATA } from '../../data/classes/augurData';
 import { CRUSADER_DATA } from '../../data/classes/crusaderData';
 import { CHAOS_WEAVER_DATA } from '../../data/classes/chaosWeaverIntegration';
+import { GAMBLER_DATA } from '../../data/classes/gamblerData';
 
 
 
@@ -188,6 +189,7 @@ import './LevelUpChoiceModal.css';
 
 
 const CLASS_DATA_MAP = {
+    'Gambler': GAMBLER_DATA,
 
 
 

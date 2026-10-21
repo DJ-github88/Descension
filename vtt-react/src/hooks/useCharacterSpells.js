@@ -50,6 +50,7 @@ export function useCharacterSpells(characterId = null) {
   const characterLevel = Number(activeChar?.level || charStore.level || 1);
   const race = activeChar?.race || charStore.race;
   const subrace = activeChar?.subrace || charStore.subrace;
+  const ancestry = activeChar?.ancestry || charStore.ancestry || null;
   const path = activeChar?.path || charStore.path;
   const talents = activeChar?.talents || charStore.talents || {};
   const knownSpells = activeChar?.class_spells?.known_spells || charStore.class_spells?.known_spells || [];
@@ -145,7 +146,7 @@ export function useCharacterSpells(characterId = null) {
       const raceLabel = fullRace?.subrace?.name 
         ? `${fullRace.subrace.name} Trait` 
         : (fullRace?.race?.name ? `${fullRace.race.name} Trait` : `${subrace || race} Trait`);
-      const racial = getRacialSpells(race, subrace, characterClass).filter(s => !isPassiveStatModifier(s));
+      const racial = getRacialSpells(race, subrace, characterClass, ancestry).filter(s => !isPassiveStatModifier(s));
       racial.forEach(spell => {
         addSpell(spell, 'racial', raceLabel);
       });
@@ -242,6 +243,7 @@ export function useCharacterSpells(characterId = null) {
     characterLevel,
     race,
     subrace,
+    ancestry,
     path,
     talents,
     knownSpells,

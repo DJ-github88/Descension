@@ -1,4 +1,4 @@
-import React, { useState, useRef, useMemo, useEffect, useCallback } from 'react';
+﻿import React, { useState, useRef, useMemo, useEffect, useCallback } from 'react';
 import { sanitizeHtml } from '../../utils/sanitizeHtml';
 import UnifiedSpellCard from '../spellcrafting-wizard/components/common/UnifiedSpellCard';
 import { getSpellRollableTable } from '../spellcrafting-wizard/core/utils/spellCardTransformer';
@@ -49,7 +49,13 @@ const buildDemoClassResource = (className) => {
  if (className === 'Animist') {
   return { current: 12, max: 20, spheres: [] };
  }
- if (className === 'Chaos Weaver') {
+  if (className === 'Gambler') {
+   return { type: 'gambler-hand', initialized: false, state: null, current: 0, max: 7 };
+  }
+  if (className === 'Fate Weaver') {
+   return { type: 'fate-links', initialized: false, state: null, current: 0, max: 3 };
+  }
+  if (className === 'Chaos Weaver') {
   // RI-1: the demo preview must never fabricate a filled six-tile hand.
   // A fresh character's tiles are uninitialized until a manual rehearsal
   // session is opened at the table, so the preview shows exactly that.
@@ -437,9 +443,9 @@ const getNotableFiguresForClass = (regionSection, className) => {
  const figures = [];
  for (const line of lines) {
   const trimmed = line.trim();
-  if (trimmed.startsWith('*') || trimmed.startsWith('•') || trimmed.startsWith('-')) {
+  if (trimmed.startsWith('*') || trimmed.startsWith('â€¢') || trimmed.startsWith('-')) {
    // Format: * **Name**: description
-   const nameMatch = trimmed.match(/^[*\-•]\s*\*\*(.*?)\*\*\s*:\s*(.*)$/);
+   const nameMatch = trimmed.match(/^[*\-â€¢]\s*\*\*(.*?)\*\*\s*:\s*(.*)$/);
    if (nameMatch) {
     // Strip trailing HTML tags like </div> or </p> from the description, while keeping LoreLink
     const rawDesc = nameMatch[2].trim();
@@ -449,7 +455,7 @@ const getNotableFiguresForClass = (regionSection, className) => {
      description: cleanDesc
     });
    } else {
-    const cleanLine = trimmed.replace(/^[*\-•]\s*/, '');
+    const cleanLine = trimmed.replace(/^[*\-â€¢]\s*/, '');
     if (cleanLine) {
      const cleanDesc = cleanLine.replace(/<(?!LoreLink\b|\/LoreLink\b)\/?[a-zA-Z0-9]+[^>]*>/g, '').trim();
      figures.push({
@@ -583,7 +589,7 @@ const parseCombatRole = (content) => {
    // Append bullet/numbered points or append to string
    if (currentKey === 'howYouFight') {
     const itemMatch = trimmed.match(/^\d+\.\s*(.*)/);
-    const bulletMatch = trimmed.match(/^[-•*]\s*(.*)/);
+    const bulletMatch = trimmed.match(/^[-â€¢*]\s*(.*)/);
     if (itemMatch) {
      result.howYouFight.push(itemMatch[1]);
     } else if (bulletMatch) {
@@ -592,14 +598,14 @@ const parseCombatRole = (content) => {
      result.howYouFight.push(trimmed);
     }
    } else if (currentKey === 'strengths') {
-    const bulletMatch = trimmed.match(/^[-•*]\s*(.*)/);
+    const bulletMatch = trimmed.match(/^[-â€¢*]\s*(.*)/);
     if (bulletMatch) {
      result.strengths.push(bulletMatch[1]);
     } else {
      result.strengths.push(trimmed);
     }
    } else if (currentKey === 'weaknesses') {
-    const bulletMatch = trimmed.match(/^[-•*]\s*(.*)/);
+    const bulletMatch = trimmed.match(/^[-â€¢*]\s*(.*)/);
     if (bulletMatch) {
      result.weaknesses.push(bulletMatch[1]);
     } else {
@@ -754,7 +760,7 @@ const getSpellIconUrl = (spell) => {
  if (iconId.startsWith('inv_') || iconId.startsWith('spell_') || iconId.startsWith('ability_') || iconId.startsWith('achievement_')) {
   const mappedIcon = mapSpellIcon(iconId);
   if (mappedIcon) {
-   // mapSpellIcon already returns a fully-resolved URL — do not wrap it again
+   // mapSpellIcon already returns a fully-resolved URL â€” do not wrap it again
    return mappedIcon;
   }
   // If no mapping found, use default instead of getAbilityIconUrl (which adds creature- prefix)
@@ -767,139 +773,139 @@ const getSpellIconUrl = (spell) => {
 
 const classFallbacks = {
 	arcanoneer: [
-		{ url: '/assets/images/classes/arcanoneer_high_nethien.jpg', caption: '“Every spark has a debt attached; we simply negotiate the interest rate before releasing the bolt.” — Pact-Tinkerer Vael, High Archive' },
-		{ url: '/assets/images/classes/arcanoneer_clockwork_fexric.jpg', caption: '“If the pressure gauge stays in the green, you are not working hard enough. Vent through the manifold and strike.” — Master Artificer Boros' },
-		{ url: '/assets/images/classes/arcanoneer_caustic_fexric.jpg', caption: '“One scrap of salvaged wire, three drops of caustic condensate, and a fortress gate becomes an open door.” — Scrap-Alchemist Rix' },
-		{ url: '/assets/images/classes/arcanoneer_stargazer_astril.jpg', caption: '“The stars do not wander aimlessly across the sphere; why should your fire?” — Stargazer Lyra, Celestial Spire' }
+		{ url: '/assets/images/classes/arcanoneer_high_nethien.jpg', caption: 'â€œEvery spark has a debt attached; we simply negotiate the interest rate before releasing the bolt.â€ â€” Pact-Tinkerer Vael, High Archive' },
+		{ url: '/assets/images/classes/arcanoneer_clockwork_fexric.jpg', caption: 'â€œIf the pressure gauge stays in the green, you are not working hard enough. Vent through the manifold and strike.â€ â€” Master Artificer Boros' },
+		{ url: '/assets/images/classes/arcanoneer_caustic_fexric.jpg', caption: 'â€œOne scrap of salvaged wire, three drops of caustic condensate, and a fortress gate becomes an open door.â€ â€” Scrap-Alchemist Rix' },
+		{ url: '/assets/images/classes/arcanoneer_stargazer_astril.jpg', caption: 'â€œThe stars do not wander aimlessly across the sphere; why should your fire?â€ â€” Stargazer Lyra, Celestial Spire' }
 	],
 	berserker: [
-		{ url: '/assets/images/classes/berserker_skald_raider.jpg', caption: '“The ice does not ask if you are cold; it merely claims the weak. Strike until the rime turns to steam.” — Frost-Clan War-Mother' },
-		{ url: '/assets/images/classes/berserker_skald_elder.jpg', caption: '“The weight of an ancestral axe is measured in years, not iron. Carry it until the final hunt.” — Elder Torvald' },
-		{ url: '/assets/images/classes/berserker_morgh_groven.jpg', caption: '“They thought brass chains could bind living stone. We taught them the cadence of fracturing bedrock.” — The Unbroken' },
-		{ url: '/assets/images/classes/berserker_waste_solari.jpg', caption: '“Fire remembers the first caldera. Let the enemy feel how deep the magma runs.” — Cinder-Rider Kael' }
+		{ url: '/assets/images/classes/berserker_skald_raider.jpg', caption: 'â€œThe ice does not ask if you are cold; it merely claims the weak. Strike until the rime turns to steam.â€ â€” Frost-Clan War-Mother' },
+		{ url: '/assets/images/classes/berserker_skald_elder.jpg', caption: 'â€œThe weight of an ancestral axe is measured in years, not iron. Carry it until the final hunt.â€ â€” Elder Torvald' },
+		{ url: '/assets/images/classes/berserker_morgh_groven.jpg', caption: 'â€œThey thought brass chains could bind living stone. We taught them the cadence of fracturing bedrock.â€ â€” The Unbroken' },
+		{ url: '/assets/images/classes/berserker_waste_solari.jpg', caption: 'â€œFire remembers the first caldera. Let the enemy feel how deep the magma runs.â€ â€” Cinder-Rider Kael' }
 	],
 
  false_prophet: [
-  { url: '/assets/images/classes/false_prophet_clean_vreken.jpg', caption: '“The debt is written in bone, but the ledger can always be amended for the faithful.” — Abbot of the Sunken Spire' },
-  { url: '/assets/images/classes/false_prophet_ordan_human.jpg', caption: '“Listen past the wind; the herd only follows the shepherd who knows the rhythm of their hunger.” — Steppe Shamanic Voice' },
-  { url: '/assets/images/classes/false_prophet_tessen_human.jpg', caption: '“They built stone walls to keep out judgment. The scripture will dismantle them from within.” — The Gate Preacher' },
-  { url: '/assets/images/classes/false_prophet_stargazer_astril.jpg', caption: '“A false star burns twice as bright as a true one, and men will march into the sea for warmth.” — Star-Seeker Maren' },
-  { url: '/assets/images/classes/false_prophet_brutish_astril.jpg', caption: '“Faith is fragile as blown glass; only an iron fist decides which prayer endures.” — The Unforgiving Canon' }
+  { url: '/assets/images/classes/false_prophet_clean_vreken.jpg', caption: 'â€œThe debt is written in bone, but the ledger can always be amended for the faithful.â€ â€” Abbot of the Sunken Spire' },
+  { url: '/assets/images/classes/false_prophet_ordan_human.jpg', caption: 'â€œListen past the wind; the herd only follows the shepherd who knows the rhythm of their hunger.â€ â€” Steppe Shamanic Voice' },
+  { url: '/assets/images/classes/false_prophet_tessen_human.jpg', caption: 'â€œThey built stone walls to keep out judgment. The scripture will dismantle them from within.â€ â€” The Gate Preacher' },
+  { url: '/assets/images/classes/false_prophet_stargazer_astril.jpg', caption: 'â€œA false star burns twice as bright as a true one, and men will march into the sea for warmth.â€ â€” Star-Seeker Maren' },
+  { url: '/assets/images/classes/false_prophet_brutish_astril.jpg', caption: 'â€œFaith is fragile as blown glass; only an iron fist decides which prayer endures.â€ â€” The Unforgiving Canon' }
  ],
 	shaper: [
-		{ url: '/assets/images/classes/shaper_veiled_mimir.jpg', caption: '“Motion is simply form shedding its hesitation. Deliver the strike before the thought settles.” — Master of the Crimson Palm' },
-		{ url: '/assets/images/classes/shaper_tethered_mimir.jpg', caption: '“The veil broke, yet our stance remains. The forest learns what the hands have endured.” — Sylvan Sentinel' },
-		{ url: '/assets/images/classes/shaper_morgh_groven.jpg', caption: '“Mountains do not step aside for the storm; they allow the tempest to break itself upon the stone.” — Earth-Troll Monastic' },
-		{ url: '/assets/images/classes/shaper_ithran_groven.jpg', caption: '“A bridge holds only so long as it sways with the wind; rigidity is the beginning of the fall.” — High Pass Warden' },
-		{ url: '/assets/images/classes/shaper_marked_vreken.jpg', caption: '“Under the soil, roots weave without speaking. To shape the strike, become the loam.” — Ascetic of the Lower Root' }
+		{ url: '/assets/images/classes/shaper_veiled_mimir.jpg', caption: 'â€œMotion is simply form shedding its hesitation. Deliver the strike before the thought settles.â€ â€” Master of the Crimson Palm' },
+		{ url: '/assets/images/classes/shaper_tethered_mimir.jpg', caption: 'â€œThe veil broke, yet our stance remains. The forest learns what the hands have endured.â€ â€” Sylvan Sentinel' },
+		{ url: '/assets/images/classes/shaper_morgh_groven.jpg', caption: 'â€œMountains do not step aside for the storm; they allow the tempest to break itself upon the stone.â€ â€” Earth-Troll Monastic' },
+		{ url: '/assets/images/classes/shaper_ithran_groven.jpg', caption: 'â€œA bridge holds only so long as it sways with the wind; rigidity is the beginning of the fall.â€ â€” High Pass Warden' },
+		{ url: '/assets/images/classes/shaper_marked_vreken.jpg', caption: 'â€œUnder the soil, roots weave without speaking. To shape the strike, become the loam.â€ â€” Ascetic of the Lower Root' }
 	],
 
  revenant: [
-  { url: '/assets/images/classes/revenant_clean_vreken.jpg', caption: '“Death is merely an unpaid toll. We burn the incense until the creditor is satisfied.” — Keeper of the Peat Tombs' },
-  { url: '/assets/images/classes/revenant_tessen_human.jpg', caption: '“The banner still stands above the keep, and so do the fallen who swore to hold it.” — Guardian of the Waked Vigil' },
-  { url: '/assets/images/classes/revenant_merryn_human.jpg', caption: '“The depths do not return what they claim, but they permit the drowned to finish their business.” — Harpooner of Driftmark' },
-  { url: '/assets/images/classes/revenant_high_nethien.jpg', caption: '“A signed seal is binding across both lives. Stasis is merely an extended recess in the trial.” — Scribe of the Frozen Ledger' }
+  { url: '/assets/images/classes/revenant_clean_vreken.jpg', caption: 'â€œDeath is merely an unpaid toll. We burn the incense until the creditor is satisfied.â€ â€” Keeper of the Peat Tombs' },
+  { url: '/assets/images/classes/revenant_tessen_human.jpg', caption: 'â€œThe banner still stands above the keep, and so do the fallen who swore to hold it.â€ â€” Guardian of the Waked Vigil' },
+  { url: '/assets/images/classes/revenant_merryn_human.jpg', caption: 'â€œThe depths do not return what they claim, but they permit the drowned to finish their business.â€ â€” Harpooner of Driftmark' },
+  { url: '/assets/images/classes/revenant_high_nethien.jpg', caption: 'â€œA signed seal is binding across both lives. Stasis is merely an extended recess in the trial.â€ â€” Scribe of the Frozen Ledger' }
  ],
  animist: [
-  { url: '/assets/images/classes/animist_skald_human.jpg', caption: '“The great bear does not slumber while the wolf is at the door. Call the rime to witness.” — Shaman of the Rime-Ridge' },
-  { url: '/assets/images/classes/animist_ordan_human.jpg', caption: '“The throat carries the thunder of ten thousand hooves; the steppes remember every spirit that ran.” — Chantress of the Steppe' },
-  { url: '/assets/images/classes/animist_clean_vreken.jpg', caption: '“The bog breathes through spore and rot; every decaying timber remembers the first bloom.” — Fen Medium' },
-  { url: '/assets/images/classes/animist_stargazer_astril.jpg', caption: '“Look not to the earth for companions when the constellations roam the heavens untamed.” — Celestial Astromancer' }
+  { url: '/assets/images/classes/animist_skald_human.jpg', caption: 'â€œThe great bear does not slumber while the wolf is at the door. Call the rime to witness.â€ â€” Shaman of the Rime-Ridge' },
+  { url: '/assets/images/classes/animist_ordan_human.jpg', caption: 'â€œThe throat carries the thunder of ten thousand hooves; the steppes remember every spirit that ran.â€ â€” Chantress of the Steppe' },
+  { url: '/assets/images/classes/animist_clean_vreken.jpg', caption: 'â€œThe bog breathes through spore and rot; every decaying timber remembers the first bloom.â€ â€” Fen Medium' },
+  { url: '/assets/images/classes/animist_stargazer_astril.jpg', caption: 'â€œLook not to the earth for companions when the constellations roam the heavens untamed.â€ â€” Celestial Astromancer' }
  ],
  pyrofiend: [
-  { url: '/assets/images/classes/pyrofiend_hollow_solari.jpg', caption: '“To bank the flame is not to quench it; in total stillness, the hearth grows hot enough to melt glass.” — Monastic of the Hearth' },
-  { url: '/assets/images/classes/pyrofiend_waste_solari.jpg', caption: '“When the fissure opens, do not flee the heat. Become the obsidian that cuts the ash.” — Caldera Scout' },
-  { url: '/assets/images/classes/pyrofiend_clockwork_fexric.jpg', caption: '“The boiler does not care whose blood oils the piston. Open the bypass and let it roar.” — Foundry Supervisor' }
+  { url: '/assets/images/classes/pyrofiend_hollow_solari.jpg', caption: 'â€œTo bank the flame is not to quench it; in total stillness, the hearth grows hot enough to melt glass.â€ â€” Monastic of the Hearth' },
+  { url: '/assets/images/classes/pyrofiend_waste_solari.jpg', caption: 'â€œWhen the fissure opens, do not flee the heat. Become the obsidian that cuts the ash.â€ â€” Caldera Scout' },
+  { url: '/assets/images/classes/pyrofiend_clockwork_fexric.jpg', caption: 'â€œThe boiler does not care whose blood oils the piston. Open the bypass and let it roar.â€ â€” Foundry Supervisor' }
  ],
  martyr: [
-  { url: '/assets/images/classes/martyr_hollow_solari.jpg', caption: '“Let the vault crack; behind this basalt slab stands the covenant of the unyielding.” — Vault Sentinel' },
-  { url: '/assets/images/classes/martyr_waste_solari.jpg', caption: '“Every scar is an ember that refused to die. Stand in the breach until the ashes cool.” — Ash-Crusader' },
-  { url: '/assets/images/classes/martyr_morgh_groven.jpg', caption: '“Bedrock never weeps when the hammer falls; it only becomes sharper at the break.” — Megalithic Warden' },
-  { url: '/assets/images/classes/martyr_ithran_groven.jpg', caption: '“Severed lines can be held if the will does not snap. The chasm claims nothing today.” — Cable-Anchor' },
-  { url: '/assets/images/classes/martyr_skald_human.jpg', caption: '“A clan shield is not iron alone; it is the frozen resolve of every oath sworn before the frost.” — Shield-Lord of the Pass' }
+  { url: '/assets/images/classes/martyr_hollow_solari.jpg', caption: 'â€œLet the vault crack; behind this basalt slab stands the covenant of the unyielding.â€ â€” Vault Sentinel' },
+  { url: '/assets/images/classes/martyr_waste_solari.jpg', caption: 'â€œEvery scar is an ember that refused to die. Stand in the breach until the ashes cool.â€ â€” Ash-Crusader' },
+  { url: '/assets/images/classes/martyr_morgh_groven.jpg', caption: 'â€œBedrock never weeps when the hammer falls; it only becomes sharper at the break.â€ â€” Megalithic Warden' },
+  { url: '/assets/images/classes/martyr_ithran_groven.jpg', caption: 'â€œSevered lines can be held if the will does not snap. The chasm claims nothing today.â€ â€” Cable-Anchor' },
+  { url: '/assets/images/classes/martyr_skald_human.jpg', caption: 'â€œA clan shield is not iron alone; it is the frozen resolve of every oath sworn before the frost.â€ â€” Shield-Lord of the Pass' }
  ],
  toxicologist: [
-  { url: '/assets/images/classes/toxicologist_thalren_human.jpg', caption: '“The difference between poison and medicine is merely the precision of the droplet.” — Apothecary of Greymark' },
-  { url: '/assets/images/classes/toxicologist_broken_mimir.jpg', caption: '“The fungal floor keeps no secrets from those willing to harvest in the dark.” — Sylvan Scout' },
-  { url: '/assets/images/classes/toxicologist_briaren_florae.jpg', caption: '“The briar does not warn the deer; it simply blooms and waits for the thorn to bite.” — Bramble-Weaver' },
-  { url: '/assets/images/classes/toxicologist_oaken_florae.jpg', caption: '“The sweetest timber hides the most enduring sap. Drink deeply, traveler.” — Timber Artisan' },
-  { url: '/assets/images/classes/toxicologist_riven.jpg', caption: '“Silence is the purest solvent; it dissolves bone, iron, and memory alike.” — Outcast Distiller' }
+  { url: '/assets/images/classes/toxicologist_thalren_human.jpg', caption: 'â€œThe difference between poison and medicine is merely the precision of the droplet.â€ â€” Apothecary of Greymark' },
+  { url: '/assets/images/classes/toxicologist_broken_mimir.jpg', caption: 'â€œThe fungal floor keeps no secrets from those willing to harvest in the dark.â€ â€” Sylvan Scout' },
+  { url: '/assets/images/classes/toxicologist_briaren_florae.jpg', caption: 'â€œThe briar does not warn the deer; it simply blooms and waits for the thorn to bite.â€ â€” Bramble-Weaver' },
+  { url: '/assets/images/classes/toxicologist_oaken_florae.jpg', caption: 'â€œThe sweetest timber hides the most enduring sap. Drink deeply, traveler.â€ â€” Timber Artisan' },
+  { url: '/assets/images/classes/toxicologist_riven.jpg', caption: 'â€œSilence is the purest solvent; it dissolves bone, iron, and memory alike.â€ â€” Outcast Distiller' }
  ],
  plaguebringer: [
-  { url: '/assets/images/classes/plaguebringer_withered_nethien.jpg', caption: '“The shroud is not an ending; it is the seedbed for everything that blooms in the dark.” — Sower of the Black Harvest' },
-  { url: '/assets/images/classes/plaguebringer_clean_vreken.jpg', caption: '“Rot is merely life moving too quickly for the living to comprehend.” — Cultivator of the Peat-Weft' },
-  { url: '/assets/images/classes/plaguebringer_marked_vreken.jpg', caption: '“Blight travels through the root before the leaf ever knows it has withered.” — Blight-Vector of the Root-Veil' }
+  { url: '/assets/images/classes/plaguebringer_withered_nethien.jpg', caption: 'â€œThe shroud is not an ending; it is the seedbed for everything that blooms in the dark.â€ â€” Sower of the Black Harvest' },
+  { url: '/assets/images/classes/plaguebringer_clean_vreken.jpg', caption: 'â€œRot is merely life moving too quickly for the living to comprehend.â€ â€” Cultivator of the Peat-Weft' },
+  { url: '/assets/images/classes/plaguebringer_marked_vreken.jpg', caption: 'â€œBlight travels through the root before the leaf ever knows it has withered.â€ â€” Blight-Vector of the Root-Veil' }
  ],
  minstrel: [
-  { url: '/assets/images/classes/minstrel_merryn_human.jpg', caption: '“Sing above the gale, or the gale will sing the final verse for your vessel.” — Navigator of the Drift' },
-  { url: '/assets/images/classes/minstrel_shoreling_myrathil.jpg', caption: '“The tides obey no sovereign save the rhythm of the moon and the coral horn.” — Sea-Conductor' },
-  { url: '/assets/images/classes/minstrel_riverling_myrathil.jpg', caption: '“A river never returns the same path twice; keep your tempo or drown in the eddy.” — Rapid-Scout' },
-  { url: '/assets/images/classes/minstrel_deepling_myrathil.jpg', caption: '“In the abyss, light is a rumor, but sound travels to the bottom of the world.” — Trench-Seer' },
-  { url: '/assets/images/classes/minstrel_clean_vreken.jpg', caption: '“The fungus pulses to a song older than sunlight. Pluck the root, and the bog will answer.” — Mire-Chanter' }
+  { url: '/assets/images/classes/minstrel_merryn_human.jpg', caption: 'â€œSing above the gale, or the gale will sing the final verse for your vessel.â€ â€” Navigator of the Drift' },
+  { url: '/assets/images/classes/minstrel_shoreling_myrathil.jpg', caption: 'â€œThe tides obey no sovereign save the rhythm of the moon and the coral horn.â€ â€” Sea-Conductor' },
+  { url: '/assets/images/classes/minstrel_riverling_myrathil.jpg', caption: 'â€œA river never returns the same path twice; keep your tempo or drown in the eddy.â€ â€” Rapid-Scout' },
+  { url: '/assets/images/classes/minstrel_deepling_myrathil.jpg', caption: 'â€œIn the abyss, light is a rumor, but sound travels to the bottom of the world.â€ â€” Trench-Seer' },
+  { url: '/assets/images/classes/minstrel_clean_vreken.jpg', caption: 'â€œThe fungus pulses to a song older than sunlight. Pluck the root, and the bog will answer.â€ â€” Mire-Chanter' }
  ],
  inquisitor: [
-  { url: '/assets/images/classes/inquisitor_thalren_human.jpg', caption: '“Null-salt burns away the falsehood; what remains is either steel or ash.” — Auditor of the Salt Mark' },
-  { url: '/assets/images/classes/inquisitor_marked_vreken.jpg', caption: '“No lie can burrow deeper than the barb of the root-whip can reach.” — Root-Hunter' },
-  { url: '/assets/images/classes/inquisitor_clean_vreken.jpg', caption: '“The peat preserves all things — especially the crimes men thought forgotten in the dark.” — Gavel of the Sunken Hall' },
-  { url: '/assets/images/classes/inquisitor_broken_mimir.jpg', caption: '“We watched the palisade fall once; we will not allow the rot to cross it a second time.” — Palisade Warden' }
+  { url: '/assets/images/classes/inquisitor_thalren_human.jpg', caption: 'â€œNull-salt burns away the falsehood; what remains is either steel or ash.â€ â€” Auditor of the Salt Mark' },
+  { url: '/assets/images/classes/inquisitor_marked_vreken.jpg', caption: 'â€œNo lie can burrow deeper than the barb of the root-whip can reach.â€ â€” Root-Hunter' },
+  { url: '/assets/images/classes/inquisitor_clean_vreken.jpg', caption: 'â€œThe peat preserves all things â€” especially the crimes men thought forgotten in the dark.â€ â€” Gavel of the Sunken Hall' },
+  { url: '/assets/images/classes/inquisitor_broken_mimir.jpg', caption: 'â€œWe watched the palisade fall once; we will not allow the rot to cross it a second time.â€ â€” Palisade Warden' }
  ],
  apex: [
-  { url: '/assets/images/classes/apex_arch_mimir.jpg', caption: '“To hunt without a mask is to let the mist know your name before the arrow flies.” — Shadow-Stalker' },
-  { url: '/assets/images/classes/apex_skald_human.jpg', caption: '“The white wolf tracks the scent the snow has buried. Where the pack leads, winter follows.” — Glacier Hunter' },
-  { url: '/assets/images/classes/apex_marked_vreken.jpg', caption: '“The predator that moves below ground never warns the quarry with a footstep.” — Burrow-Stalker' },
-  { url: '/assets/images/classes/apex_waste_solari.jpg', caption: '“The scoria will cut tender feet. Only the cinder-born keep pace across the lava fields.” — Ash-Scout' }
+  { url: '/assets/images/classes/apex_arch_mimir.jpg', caption: 'â€œTo hunt without a mask is to let the mist know your name before the arrow flies.â€ â€” Shadow-Stalker' },
+  { url: '/assets/images/classes/apex_skald_human.jpg', caption: 'â€œThe white wolf tracks the scent the snow has buried. Where the pack leads, winter follows.â€ â€” Glacier Hunter' },
+  { url: '/assets/images/classes/apex_marked_vreken.jpg', caption: 'â€œThe predator that moves below ground never warns the quarry with a footstep.â€ â€” Burrow-Stalker' },
+  { url: '/assets/images/classes/apex_waste_solari.jpg', caption: 'â€œThe scoria will cut tender feet. Only the cinder-born keep pace across the lava fields.â€ â€” Ash-Scout' }
  ],
  warden: [
-  { url: '/assets/images/classes/warden_morgh_groven.jpg', caption: '“The chain is grafted to bone so that when the beast pulls, it must drag the mountain itself.” — Deep-Vat Keeper' },
-  { url: '/assets/images/classes/warden_amordjin_groven.jpg', caption: '“Anchor both sides of the bridgehead, and no horror crosses the gorge while breath remains.” — Span-Jailer' },
-  { url: '/assets/images/classes/warden_skald_human.jpg', caption: '“Let the glacier freeze the shackles fast; what we cage in the ice stays caged.” — Warden of the Northern Drift' },
-  { url: '/assets/images/classes/warden_alchemite_fex.jpg', caption: '“Ratchets do not fatigue, and winches do not feel fear. Turn the key and seal the gate.” — Gear-Jailer' },
-  { url: '/assets/images/classes/warden_clean_vreken.jpg', caption: '“The peat grips tighter than forged iron; pull until the swamp swallows what was caught.” — Peat-Gaoler' }
+  { url: '/assets/images/classes/warden_morgh_groven.jpg', caption: 'â€œThe chain is grafted to bone so that when the beast pulls, it must drag the mountain itself.â€ â€” Deep-Vat Keeper' },
+  { url: '/assets/images/classes/warden_amordjin_groven.jpg', caption: 'â€œAnchor both sides of the bridgehead, and no horror crosses the gorge while breath remains.â€ â€” Span-Jailer' },
+  { url: '/assets/images/classes/warden_skald_human.jpg', caption: 'â€œLet the glacier freeze the shackles fast; what we cage in the ice stays caged.â€ â€” Warden of the Northern Drift' },
+  { url: '/assets/images/classes/warden_alchemite_fex.jpg', caption: 'â€œRatchets do not fatigue, and winches do not feel fear. Turn the key and seal the gate.â€ â€” Gear-Jailer' },
+  { url: '/assets/images/classes/warden_clean_vreken.jpg', caption: 'â€œThe peat grips tighter than forged iron; pull until the swamp swallows what was caught.â€ â€” Peat-Gaoler' }
  ],
  gambit: [
-  { url: '/assets/images/classes/gambit_veldun_nethien.jpg', caption: '“Every contract has an unwritten clause; the art is flipping the parchment before it is read.” — Canal Broker' },
-  { url: '/assets/images/classes/gambit_merryn_human.jpg', caption: '“The sea rolls dice with every breaker; I merely bet on where the foam will settle.” — Tide-Gambler' },
-  { url: '/assets/images/classes/gambit_caustic_fexric.jpg', caption: '“Probability is just chemistry with fewer beakers and faster explosions.” — Sump Hustler' },
-  { url: '/assets/images/classes/gambit_shoreling_myrathil.jpg', caption: '“A pearl dropped into the surf creates ripples you can ride all the way to shore.” — Wave-Wagerer' }
+  { url: '/assets/images/classes/gambit_veldun_nethien.jpg', caption: 'â€œEvery contract has an unwritten clause; the art is flipping the parchment before it is read.â€ â€” Canal Broker' },
+  { url: '/assets/images/classes/gambit_merryn_human.jpg', caption: 'â€œThe sea rolls dice with every breaker; I merely bet on where the foam will settle.â€ â€” Tide-Gambler' },
+  { url: '/assets/images/classes/gambit_caustic_fexric.jpg', caption: 'â€œProbability is just chemistry with fewer beakers and faster explosions.â€ â€” Sump Hustler' },
+  { url: '/assets/images/classes/gambit_shoreling_myrathil.jpg', caption: 'â€œA pearl dropped into the surf creates ripples you can ride all the way to shore.â€ â€” Wave-Wagerer' }
  ],
  chronarch: [
-  { url: '/assets/images/classes/chronarch_clockwork_fexric.jpg', caption: '“Time is not a stream; it is an escapement mechanism that can be paused with a brass peg.” — Gear-Stitcher' },
-  { url: '/assets/images/classes/chronarch_ithran_groven.jpg', caption: '“Stasis holds the arch when stone would crumble; buy the masonry another century to set.” — Bone-Calibrator' },
-  { url: '/assets/images/classes/chronarch_tessen_human.jpg', caption: '“Fix the keystone in yesterday, and tomorrow’s siege cannot bring the tower down.” — Keep-Anchor' },
-  { url: '/assets/images/classes/chronarch_high_nethien.jpg', caption: '“A memory etched in legal glass cannot fade, alter, or be perjured.” — Archive Master' }
+  { url: '/assets/images/classes/chronarch_clockwork_fexric.jpg', caption: 'â€œTime is not a stream; it is an escapement mechanism that can be paused with a brass peg.â€ â€” Gear-Stitcher' },
+  { url: '/assets/images/classes/chronarch_ithran_groven.jpg', caption: 'â€œStasis holds the arch when stone would crumble; buy the masonry another century to set.â€ â€” Bone-Calibrator' },
+  { url: '/assets/images/classes/chronarch_tessen_human.jpg', caption: 'â€œFix the keystone in yesterday, and tomorrowâ€™s siege cannot bring the tower down.â€ â€” Keep-Anchor' },
+  { url: '/assets/images/classes/chronarch_high_nethien.jpg', caption: 'â€œA memory etched in legal glass cannot fade, alter, or be perjured.â€ â€” Archive Master' }
  ],
  spellguard: [
-  { url: '/assets/images/classes/spellguard_hollow_solari.jpg', caption: '“Cast what you will against the slab; the branding scars thirst for the fire.” — Monastic Bastion' },
-  { url: '/assets/images/classes/spellguard_waste_solari.jpg', caption: '“Angle the shield so the magical blast deflects into the earth that birthed it.” — Forge-Shield' },
-  { url: '/assets/images/classes/spellguard_high_nethien.jpg', caption: '“Your spell was nullified under Subsection Four before the incantation was even complete.” — Clause-Canceller' },
-  { url: '/assets/images/classes/spellguard_thalren_human.jpg', caption: '“Ground the wild flux through copper coils; magic is just lightning waiting for an earth rod.” — Frontier Sapper' }
+  { url: '/assets/images/classes/spellguard_hollow_solari.jpg', caption: 'â€œCast what you will against the slab; the branding scars thirst for the fire.â€ â€” Monastic Bastion' },
+  { url: '/assets/images/classes/spellguard_waste_solari.jpg', caption: 'â€œAngle the shield so the magical blast deflects into the earth that birthed it.â€ â€” Forge-Shield' },
+  { url: '/assets/images/classes/spellguard_high_nethien.jpg', caption: 'â€œYour spell was nullified under Subsection Four before the incantation was even complete.â€ â€” Clause-Canceller' },
+  { url: '/assets/images/classes/spellguard_thalren_human.jpg', caption: 'â€œGround the wild flux through copper coils; magic is just lightning waiting for an earth rod.â€ â€” Frontier Sapper' }
  ],
  augur: [
-  { url: '/assets/images/classes/augur_skald_human.jpg', caption: '“The elk bone splits along the fault of the winter to come; read the rime before you march.” — Rime Haruspex' },
-  { url: '/assets/images/classes/augur_vashir_astril.jpg', caption: '“Stress fractures in starlight glass show where the sky will fracture next.” — Star-Seer' },
-  { url: '/assets/images/classes/augur_clean_vreken.jpg', caption: '“Floating tablets in the spore-basin never lie; the green rot foretells the decay of kings.” — Mire Diviner' },
-  { url: '/assets/images/classes/augur_deepling_myrathil.jpg', caption: '“The pressure gauge turns clockwise when disaster rises from the deep ocean trench.” — Trench Astrolabe' },
-  { url: '/assets/images/classes/augur_korr_solari.jpg', caption: '“Watch the breath of the ember; when the smoke rises straight, the vault is safe.” — Hearth-Augur' }
+  { url: '/assets/images/classes/augur_skald_human.jpg', caption: 'â€œThe elk bone splits along the fault of the winter to come; read the rime before you march.â€ â€” Rime Haruspex' },
+  { url: '/assets/images/classes/augur_vashir_astril.jpg', caption: 'â€œStress fractures in starlight glass show where the sky will fracture next.â€ â€” Star-Seer' },
+  { url: '/assets/images/classes/augur_clean_vreken.jpg', caption: 'â€œFloating tablets in the spore-basin never lie; the green rot foretells the decay of kings.â€ â€” Mire Diviner' },
+  { url: '/assets/images/classes/augur_deepling_myrathil.jpg', caption: 'â€œThe pressure gauge turns clockwise when disaster rises from the deep ocean trench.â€ â€” Trench Astrolabe' },
+  { url: '/assets/images/classes/augur_korr_solari.jpg', caption: 'â€œWatch the breath of the ember; when the smoke rises straight, the vault is safe.â€ â€” Hearth-Augur' }
  ],
  crusader: [
-  { url: '/assets/images/classes/crusader_skald_human.jpg', caption: '“Light the hearth-blade in the blizzard; where the flame cuts, the darkness retreats.” — Hearth-Vanguard' },
-  { url: '/assets/images/classes/crusader_anhur_solari.jpg', caption: '“Forged in tectonic fire, sealed in obsidian; no shield of the faith bends before the storm.” — Magma Crusader' },
-  { url: '/assets/images/classes/crusader_kordak_astril.jpg', caption: '“Crystal reflects judgment without mercy; face the blade with your conscience clean.” — Quartz Templar' },
-  { url: '/assets/images/classes/crusader_lumian_astril.jpg', caption: '“The starlight vanguard does not wait for morning; we carry the dawn upon our standards.” — Celestial Knight' },
-  { url: '/assets/images/classes/crusader_korr_solari.jpg', caption: '“The great-maul answers what prayer cannot; break the foundation and the heresy falls.” — Vault Templar' }
+  { url: '/assets/images/classes/crusader_skald_human.jpg', caption: 'â€œLight the hearth-blade in the blizzard; where the flame cuts, the darkness retreats.â€ â€” Hearth-Vanguard' },
+  { url: '/assets/images/classes/crusader_anhur_solari.jpg', caption: 'â€œForged in tectonic fire, sealed in obsidian; no shield of the faith bends before the storm.â€ â€” Magma Crusader' },
+  { url: '/assets/images/classes/crusader_kordak_astril.jpg', caption: 'â€œCrystal reflects judgment without mercy; face the blade with your conscience clean.â€ â€” Quartz Templar' },
+  { url: '/assets/images/classes/crusader_lumian_astril.jpg', caption: 'â€œThe starlight vanguard does not wait for morning; we carry the dawn upon our standards.â€ â€” Celestial Knight' },
+  { url: '/assets/images/classes/crusader_korr_solari.jpg', caption: 'â€œThe great-maul answers what prayer cannot; break the foundation and the heresy falls.â€ â€” Vault Templar' }
  ],
  harbinger: [
-  { url: '/assets/images/classes/harbinger_stargazer_astril.jpg', caption: '“Orbits decay whether or not mortals avert their eyes; I merely chart the final alignment.” — Astromancer of the Fall' },
-  { url: '/assets/images/classes/harbinger_skald_human.jpg', caption: '“Extinction is simple arithmetic carved in granite. Subtract the sun, and what remains?” — Doom-Scribe' },
-  { url: '/assets/images/classes/harbinger_waste_solari.jpg', caption: '“The cooling of the fissure is not a season; it is the pulse of a world growing cold.” — Caldera Scribe' },
-  { url: '/assets/images/classes/harbinger_brutish_astril.jpg', caption: '“When the earth’s geometry breaks, even the mountains will find nowhere to rest.” — Geomancer of the Void' },
-  { url: '/assets/images/classes/harbinger_tessen_human.jpg', caption: '“The hourglass of extinction does not drop sand; it drops the years of all who listen.” — Keeper of the Final Hour' }
+  { url: '/assets/images/classes/harbinger_stargazer_astril.jpg', caption: 'â€œOrbits decay whether or not mortals avert their eyes; I merely chart the final alignment.â€ â€” Astromancer of the Fall' },
+  { url: '/assets/images/classes/harbinger_skald_human.jpg', caption: 'â€œExtinction is simple arithmetic carved in granite. Subtract the sun, and what remains?â€ â€” Doom-Scribe' },
+  { url: '/assets/images/classes/harbinger_waste_solari.jpg', caption: 'â€œThe cooling of the fissure is not a season; it is the pulse of a world growing cold.â€ â€” Caldera Scribe' },
+  { url: '/assets/images/classes/harbinger_brutish_astril.jpg', caption: 'â€œWhen the earthâ€™s geometry breaks, even the mountains will find nowhere to rest.â€ â€” Geomancer of the Void' },
+  { url: '/assets/images/classes/harbinger_tessen_human.jpg', caption: 'â€œThe hourglass of extinction does not drop sand; it drops the years of all who listen.â€ â€” Keeper of the Final Hour' }
  ],
  lunarch: [
-  { url: '/assets/images/classes/lunarch_viridian_florae.jpg', caption: '“The silver sickle reaps only under the full moon, when the thorns drink the pale light.” — Thorn-Priestess' },
-  { url: '/assets/images/classes/lunarch_oken_florae.jpg', caption: '“The heartwood splits when the lunar silence falls; within that fracture burns the cold tide.” — Oak-Chanter' },
-  { url: '/assets/images/classes/lunarch_arch_mimir.jpg', caption: '“To wear the mask of the owl is to see what the sun was invented to conceal.” — Canopy Hierophant' },
-  { url: '/assets/images/classes/lunarch_thalren_human.jpg', caption: '“Exile teaches that true light does not come from banners, but from the silent sickle in the dark.” — Mist-Scholar' }
+  { url: '/assets/images/classes/lunarch_viridian_florae.jpg', caption: 'â€œThe silver sickle reaps only under the full moon, when the thorns drink the pale light.â€ â€” Thorn-Priestess' },
+  { url: '/assets/images/classes/lunarch_oken_florae.jpg', caption: 'â€œThe heartwood splits when the lunar silence falls; within that fracture burns the cold tide.â€ â€” Oak-Chanter' },
+  { url: '/assets/images/classes/lunarch_arch_mimir.jpg', caption: 'â€œTo wear the mask of the owl is to see what the sun was invented to conceal.â€ â€” Canopy Hierophant' },
+  { url: '/assets/images/classes/lunarch_thalren_human.jpg', caption: 'â€œExile teaches that true light does not come from banners, but from the silent sickle in the dark.â€ â€” Mist-Scholar' }
  ]
 };
 
@@ -1090,7 +1096,7 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
     const coreLoopMatch = overview.quickOverview.content.match(/\*\*Core Loop\*\*:\s*([^\n]+)/i) ||
                overview.quickOverview.content.match(/\*\*Core Mechanic\*\*:\s*([^\n]+)/i);
     if (coreLoopMatch && coreLoopMatch[1]) {
-     const steps = coreLoopMatch[1].split('→').map(s => s.trim().replace(/\*\*/g, ''));
+     const steps = coreLoopMatch[1].split('â†’').map(s => s.trim().replace(/\*\*/g, ''));
      if (steps.length > 1) {
       data.howYouFight = steps;
      }
@@ -1283,13 +1289,13 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
     continue;
    }
 
-   const isBullet = line.startsWith('- ') || line.startsWith('• ');
+   const isBullet = line.startsWith('- ') || line.startsWith('â€¢ ');
    const isNumbered = /^\d+\.\s/.test(line);
    const boldOnlyMatch = line.match(/^\*\*(.*?)\*\*$/);
    const boldColonMatch = line.match(/^\*\*(.*?)\*\*:\s*(.*)/);
 
    if (isBullet) {
-    const text = line.replace(/^[-•]\s*/, '');
+    const text = line.replace(/^[-â€¢]\s*/, '');
     currentItems.push({ text, style: 'bullet' });
    } else if (isNumbered) {
     const numMatch = line.match(/^(\d+)\.\s*(.*)/);
@@ -1411,7 +1417,7 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
      }
 
      // 4. Interactive 3D Dice Tray
-     const rollMatch = trimmed.match(/^\*\*Roll (\d+d\d+)\*\*:\s*\[(.*?)\]\s*(?:→|->)\s*(.*)/i);
+     const rollMatch = trimmed.match(/^\*\*Roll (\d+d\d+)\*\*:\s*\[(.*?)\]\s*(?:â†’|->)\s*(.*)/i);
      if (rollMatch) {
       const diceValues = rollMatch[2].split(',').map(d => d.trim());
       return (
@@ -1505,7 +1511,7 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
          <h4>Trained heritage paths</h4>
          <ul className="class-heritage-paths">{summarizeHeritageEdgesForClass(classData.variantName || classData.name).map(row => (
           <li key={row.heritageId}>
-           <h5>{row.heritageName}{heritageClass === 'Martyr' && row.heritageId === 'skald_human' ? ' — Ironclad method' : ''}</h5>
+           <h5>{row.heritageName}{heritageClass === 'Martyr' && row.heritageId === 'skald_human' ? ' â€” Ironclad method' : ''}</h5>
            {row.implemented && <dl>
             <div><dt>Edge</dt><dd>{row.edge}</dd></div>
             <div><dt>Cost</dt><dd>{row.cost}</dd></div>
@@ -1525,7 +1531,10 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
        </div>
        <details className="class-training-notes">
         <summary>Training requirements &amp; heritage rules</summary>
-        <p>Other heritages require the actual acquisition and training above. Current incompatible body or interface states still apply.</p>
+         <p>Other heritages require the actual acquisition and training above. Current incompatible body or interface states still apply.</p>
+         {['Gambler', 'Fate Weaver'].includes(heritageClass) && <ul>{(classData.restrictions?.acquisition?.records || []).map(record => (
+          <li key={record.id}><strong>{record.label}</strong> ({record.id}): {record.text}</li>
+         ))}</ul>}
         {profile.heritageEffectsImplemented
          ? <p>These paths share the class chassis. Each native heritage has one bounded edge and one paired cost shown above; the edge applies only while its declared condition is met, and the class caps, collapse and other risks still apply.</p>
          : <p>These paths share the class chassis. Heritage-specific numerical edges and costs are pending implementation.</p>}
@@ -1816,7 +1825,7 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
         {combatRoleData.whyBringMe && (
          <div className="dossier-sub-section">
           <span className="sub-label">Why This Tradition Endures</span>
-          <p className="sub-text italic-promise">“{parseTextWithLoreLinks(combatRoleData.whyBringMe)}”</p>
+          <p className="sub-text italic-promise">â€œ{parseTextWithLoreLinks(combatRoleData.whyBringMe)}â€</p>
          </div>
         )}
 
@@ -1855,7 +1864,7 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
       <div className="overview-chronicles-column">
        <header className="guide-badge-header overview-opening">
         <h3>Overview</h3>
-        {overview.subtitle && <div className="guide-subtitle">“{overview.subtitle}”</div>}
+        {overview.subtitle && <div className="guide-subtitle">â€œ{overview.subtitle}â€</div>}
        </header>
        {overview.description && (
         <div className="overview-concept-quote">
@@ -2070,8 +2079,8 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
      currentSection = 'mechanics';
     }
 
-    // Extract bullet points (• or -)
-    if (trimmed.startsWith('•') || (trimmed.startsWith('-') && !trimmed.match(/^-+$/))) {
+    // Extract bullet points (â€¢ or -)
+    if (trimmed.startsWith('â€¢') || (trimmed.startsWith('-') && !trimmed.match(/^-+$/))) {
      const text = trimmed.substring(1).trim();
      if (currentSection === 'generation') {
       data.generation.push(text);
@@ -3043,7 +3052,7 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
              <span className="class-spell-entry-name">{spell.name}</span>
              <span className="class-spell-entry-cadence">
               {apCost != null && apCost > 0 && <span className="cadence-ap">{apCost} AP</span>}
-              {apCost != null && apCost > 0 && <span className="cadence-sep" aria-hidden="true">•</span>}
+              {apCost != null && apCost > 0 && <span className="cadence-sep" aria-hidden="true">â€¢</span>}
               <span className={`cadence-action action-${actionBadge.key}`}>{actionBadge.label}</span>
              </span>
             </span>
@@ -3051,7 +3060,7 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
              <span className="class-spell-statline">
               {statlineItems.map((item, idx) => (
                <React.Fragment key={idx}>
-                {idx > 0 && <span className="statline-sep" aria-hidden="true">•</span>}
+                {idx > 0 && <span className="statline-sep" aria-hidden="true">â€¢</span>}
                 <span className={`statline-item statline-item--${item.type}`}>{item.text}</span>
                </React.Fragment>
               ))}
@@ -3062,7 +3071,7 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
             )}
             <span className="class-spell-entry-foot">
              <span className="class-spell-inspect-action">
-              Read Inscription <span className="inspect-fleuron" aria-hidden="true">❧</span>
+              Read Inscription <span className="inspect-fleuron" aria-hidden="true">â§</span>
              </span>
             </span>
            </span>
@@ -3186,8 +3195,32 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
         showDescription={true}
         showStats={true}
         showTags={true}
-        rollableTableData={getSpellRollableTable(selectedSpell)}
-       />
+         rollableTableData={getSpellRollableTable(selectedSpell)}
+        />
+        {selectedSpell.specialMechanics?.gambler && (
+         <details style={{ padding: 12, overflowWrap: 'anywhere' }}>
+          <summary style={{ minHeight: 44, cursor: 'pointer' }}>Manual prices, branches and rank rules</summary>
+          <p>{selectedSpell.specialMechanics.gambler.priceSummary}</p>
+          <p>Manual tabletop only. These authored terms do not admit or execute new opcodes.</p>
+          <pre style={{ whiteSpace: 'pre-wrap', maxWidth: '100%', fontSize: '0.85rem' }}>{JSON.stringify(
+           selectedSpell.specialMechanics.gambler.authoredSpell.classResourceProgram ||
+           selectedSpell.specialMechanics.gambler.authoredSpell.manualMechanics, null, 2
+          )}</pre>
+          <ul>{Object.entries(selectedSpell.specialMechanics.gambler.commonRules).map(([key, text]) => <li key={key}>{text}</li>)}</ul>
+         </details>
+        )}
+        {selectedSpell.specialMechanics?.fateWeaver && (
+         <details style={{ padding: 12, overflowWrap: 'anywhere' }}>
+          <summary style={{ minHeight: 44, cursor: 'pointer' }}>Manual thread price and link rules</summary>
+          <p>{selectedSpell.specialMechanics.fateWeaver.priceSummary}</p>
+          <p>Manual tabletop only. These authored terms do not admit or execute new opcodes.</p>
+          <pre style={{ whiteSpace: 'pre-wrap', maxWidth: '100%', fontSize: '0.85rem' }}>{JSON.stringify(
+           selectedSpell.specialMechanics.fateWeaver.authoredSpell.classResourceProgram ||
+           selectedSpell.specialMechanics.fateWeaver.authoredSpell.manualMechanics, null, 2
+          )}</pre>
+          <ul>{Object.entries(selectedSpell.specialMechanics.fateWeaver.commonRules).map(([key, text]) => <li key={key}>{text}</li>)}</ul>
+         </details>
+        )}
       </div>
       <button
        className="spellbook-popup-nav spellbook-popup-nav-next"
@@ -3214,8 +3247,8 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
     <div className="class-header-left">
      <div className="class-header-icon-container">
       <ClassIcon 
-       src={getClassIconUrl(classData.name, { variant: 'transparent' }) || `/assets/icons/classes/transparent/${(classData.name || '').toLowerCase().replace(/ /g, '_')}.png`}
-       variant="transparent" 
+       src={['gambler', 'fate-weaver'].includes(classData.id) ? classData.imageIcon : getClassIconUrl(classData.name, { variant: 'transparent' }) || `/assets/icons/classes/transparent/${(classData.name || '').toLowerCase().replace(/ /g, '_')}.png`}
+       variant={['gambler', 'fate-weaver'].includes(classData.id) ? 'framed' : 'transparent'}
        alt={classData.name} 
        size="large"
        className="header-pixel-icon" 
@@ -3232,7 +3265,7 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
        {classData.developmentStatus === 'development' && (
         <span
          className="class-dev-status-badge"
-         title="Development class — content is selectable, but class-specific effects remain manual at the table."
+         title="Development class â€” content is selectable, but class-specific effects remain manual at the table."
         >
          <i className="fas fa-hammer"></i> Development
         </span>
@@ -3338,3 +3371,4 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
 };
 
 export default ClassDetailDisplay;
+

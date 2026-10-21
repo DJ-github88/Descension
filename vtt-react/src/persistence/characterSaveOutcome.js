@@ -258,6 +258,10 @@ function validateConsumedTypes(payload, lane) {
     optional(payload, ['level', 'experience', 'durability', 'damageReduction'], numeric);
     optional(payload, ['classAcquisition', 'class_spells', 'levelUpHistory', 'talents', 'resistances', 'spellPower', 'tokenSettings'], isRecord);
     optional(payload, ['pathPassives', 'immunities'], Array.isArray);
+    // Ancestral Gifts: null (none / legacy) or { heritageId, core, picks: { rowId: giftId|null } }.
+    optional(payload, ['ancestry'], value => value === null || (isRecord(value) && typeof value.heritageId === 'string'
+      && typeof value.core === 'string' && isRecord(value.picks)
+      && Object.values(value.picks).every(pick => pick === null || typeof pick === 'string')));
     optional(payload.class_spells, ['known_spells'], value => Array.isArray(value) && value.every(spell => typeof spell === 'string'));
     if (payload.levelUpHistory) for (const entry of Object.values(payload.levelUpHistory)) {
       if (!isRecord(entry)) throw new Error('Invalid canonical levelUpHistory entry');

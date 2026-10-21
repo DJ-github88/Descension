@@ -63,6 +63,7 @@ const ECHO_PREVENTION_WINDOW_MS = 200;
 const AUTHORITATIVE_ROOM_EVENTS = new Set([
   'reaction_window_open', 'reaction_window_list', 'reaction_window_change', 'reaction_window_interrupt',
   'actor_riposte_offer', 'actor_riposte_list', 'actor_riposte_cancel', 'actor_riposte_revalidate',
+  'actor_riposte_parent',
   'actor_snapshot', 'actor_bind', 'actor_consequence', 'actor_recovery', 'actor_propose', 'actor_adjudicate',
   // P9 owner spell approvals (same strict actor_ sanitization boundary)
   'actor_spell_approve', 'actor_spell_withdraw', 'actor_spell_decline', 'actor_spell_list',

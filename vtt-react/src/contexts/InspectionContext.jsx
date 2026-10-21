@@ -144,11 +144,14 @@ export const InspectionProvider = ({ character, children }) => {
 
     // Create a character store-like object from the inspected character data
     const inspectionStore = {
+        // Identity-only seam for shared condition editing; missing data is intentionally unavailable.
+        sharedConditionIdentity: { kind: 'inspection', ownerUid: currentMemberData?.userId || characterData?.ownerUserId || characterData?.ownerUid || null, characterId: characterData?.id || null },
         // Basic character info - prioritize member name over character name, then fallback to character data name
         name: memberName || characterData?.name || 'Unknown',
         baseName: characterData?.baseName || memberName || characterData?.name || 'Unknown',
         race: characterData?.race || 'Unknown',
         subrace: characterData?.subrace || '',
+        ancestry: characterData?.ancestry || null,
         class: characterData?.class || 'Unknown',
         primarySpecialization: characterData?.primarySpecialization || null,
         level: characterData?.level || 1,

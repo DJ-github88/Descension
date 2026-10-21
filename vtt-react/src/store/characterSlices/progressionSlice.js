@@ -6,6 +6,7 @@ import { ALL_CLASS_SPELLS } from '../../data/classSpellGenerator';
 import { checkLevelUp, getXPForLevel } from '../../utils/experienceUtils';
 import { TALENT_TREES } from '../../data/talentTreeData';
 import { pruneAllocationForLevel } from '../../data/classes/chaosWeaverRules';
+import { pruneGamblerTalents, GAMBLER_PROJECTED_SPELLS_BY_ID } from '../../data/classes/gamblerData';
 import useSpellbookStore from '../spellbookStore';
 import { loadLibraryFromStorage, saveLibraryToStorage } from '../../components/spellcrafting-wizard/core/utils/libraryManager';
 
@@ -28,6 +29,7 @@ export const pruneTalentsForChange = (talents, { previousClass, nextClass, level
         classTalentNodes(previousClass).forEach(node => { delete current[node.id]; });
     }
     if (ALL_CLASSES_DATA[nextClass]?.progression?.policy && Number.isInteger(level)) {
+        if (nextClass === 'Gambler') return pruneGamblerTalents(current, level);
         return pruneAllocationForLevel({ ranks: current, order: [] }, level).allocation.ranks;
     }
     return current;
@@ -35,8 +37,8 @@ export const pruneTalentsForChange = (talents, { previousClass, nextClass, level
 
 export const derivedTalentGrantIds = (talents, className) =>
     classTalentNodes(className)
-        .filter(node => node.grantId && (talents?.[node.id] || 0) >= (node.maxRanks || 1))
-        .map(node => node.grantId);
+        .filter(node => (node.grantId || node.passiveSpellId) && (talents?.[node.id] || 0) > 0)
+        .map(node => node.grantId || node.passiveSpellId);
 
 export const removedTalentGrantIds = (before, after, className) => {
     const remaining = new Set(derivedTalentGrantIds(after, className));
@@ -92,7 +94,7 @@ export const createProgressionSlice = (set, get) => ({
         });
 
         const encumbranceState = getEncumbranceState();
-        const derivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, encumbranceState, state.exhaustionLevel || 0, state.health, state.race, state.subrace);
+        const derivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, encumbranceState, state.exhaustionLevel || 0, state.health, state.race, state.subrace, undefined, state.ancestry);
 
         // Calculate total level-up bonuses from history
         let totalHealthBonus = 0;
@@ -423,6 +425,7 @@ export const createProgressionSlice = (set, get) => ({
 
         // Update both level and XP
         set({ level: newLevel });
+        if (newLevel < currentLevel) get().reconcileGamblerTalents();
 
         // Only trigger updateExperience if leveling up (to avoid triggering modal when manually adjusting)
         if (levelChange > 0) {
@@ -477,8 +480,8 @@ export const createProgressionSlice = (set, get) => ({
 
         const nodeByGrantId = Object.fromEntries(
             Object.values(TALENT_TREES).flatMap(specs => Object.values(specs).flat())
-                .filter(node => node.grantId)
-                .map(node => [node.grantId, node.id])
+                .filter(node => node.grantId || node.passiveSpellId)
+                .map(node => [node.grantId || node.passiveSpellId, node.id])
         );
         const spellbook = useSpellbookStore.getState();
         const library = loadLibraryFromStorage();
@@ -503,7 +506,37 @@ export const createProgressionSlice = (set, get) => ({
         if (libraryChanged) saveLibraryToStorage(library);
     },
 
+    // G1 has canonical ranked passive identities as well as ACTION grants.
+    // Reconcile existing derived copies only; never top up a library on load.
+    reconcileGamblerTalents: () => {
+        const state = get();
+        if ((state.class || state.characterClass) !== 'Gambler') return;
+        const ranks = pruneGamblerTalents(state.talents || {}, state.level);
+        const removed = removedTalentGrantIds(state.talents, ranks, 'Gambler');
+        if (JSON.stringify(ranks) !== JSON.stringify(state.talents)) set({ talents: ranks });
+        if (removed.length) get().removeTalentGrantSpells(removed);
+        const spellbook = useSpellbookStore.getState();
+        const library = loadLibraryFromStorage();
+        let changed = false;
+        classTalentNodes('Gambler').filter(node => node.passiveSpellId && ranks[node.id]).forEach(node => {
+            const rank = ranks[node.id];
+            const canonical = GAMBLER_PROJECTED_SPELLS_BY_ID[node.passiveSpellId];
+            const view = { ...canonical, source: 'talent', talentId: node.id, talentRank: rank,
+                maxRanks: 3, description: node.rankValues[rank - 1].text,
+                learnedRankValues: node.rankValues[rank - 1].values };
+            const existing = (spellbook.spells || []).find(spell => spell.id === node.passiveSpellId);
+            if (existing?.source === 'talent') spellbook.updateSpell(view.id, view);
+            const index = library?.spells?.findIndex(spell => spell.id === node.passiveSpellId && spell.source === 'talent') ?? -1;
+            if (index >= 0) { library.spells[index] = view; changed = true; }
+        });
+        if (changed) saveLibraryToStorage(library);
+    },
+
     updateLevel: (newLevel) => {
+        const before = get();
+        if ((before.class || before.characterClass) === 'Gambler' && newLevel < before.level) {
+            for (let lostLevel = before.level; lostLevel > newLevel; lostLevel--) get().reverseLevelUpBonus(lostLevel);
+        }
         let removedGrantIds = [];
 
         set(state => {
@@ -537,6 +570,7 @@ export const createProgressionSlice = (set, get) => ({
         if (removedGrantIds.length > 0) {
             get().removeTalentGrantSpells(removedGrantIds);
         }
+        get().reconcileGamblerTalents();
 
         // Auto-assign spells based on new level
         const state = get();
@@ -582,7 +616,7 @@ export const createProgressionSlice = (set, get) => ({
             });
 
             const encumbranceState = getEncumbranceState();
-            const derivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, encumbranceState, newExhaustionLevel, state.health, state.race, state.subrace);
+            const derivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, encumbranceState, newExhaustionLevel, state.health, state.race, state.subrace, undefined, state.ancestry);
 
             // Update health and mana max values based on new derived stats
             const newMaxHealth = Math.round(derivedStats.maxHealth);
@@ -618,6 +652,15 @@ export const createProgressionSlice = (set, get) => ({
     handleLevelUpChoice: (choice) => {
         const state = get();
         const newLevel = state.pendingLevelUpInfo?.newLevel || state.level;
+        if ((state.class || state.characterClass) === 'Gambler') {
+            const data = ALL_CLASSES_DATA.Gambler;
+            const known = state.class_spells?.known_spells || [];
+            const legal = Object.entries(data.spellPools).filter(([level]) => Number(level) <= newLevel).flatMap(([, ids]) => ids);
+            const allOptions = Object.values(data.spellPools).flat();
+            if (newLevel < 1 || newLevel > 10 || state.levelUpHistory?.[newLevel]?.spellId ||
+                !legal.includes(choice?.spellId) || known.includes(choice.spellId) ||
+                known.filter(spellId => allOptions.includes(spellId)).length >= newLevel) return;
+        }
 
         // Build the level-up history entry
         const historyEntry = {

@@ -262,12 +262,7 @@ The Tide-Sing occurs at spawning gales. When a storm approaches that carries the
         tooltipSummary: 'Corali-born diplomats who broker deals between sea and land, their vein-colors betraying every emotion they cannot hide.',
         description: 'The first Myrathil, spawned from the meeting of volcanic foam and glacial melt, ages before the sun was buried. The most numerous and the ambassadors their people present to the world. Born where waves hammer shore, the collision of sea meeting land, of volcanic warmth meeting glacial melt, of the Iceheart Sea\'s patient fury meeting the continents it can never quite claim. The Corali are the most numerous Myrathil, the ambassadors, the face their people present to a world that collects them. Their bodies are built for both worlds and belong fully to neither, lungs for air, gill-veins for water, webbed fingers that flush with blood when they remember what they are. Unlike their Nereid and Ondine kin, the Corali can long rest on dry land without submersion, though they recover faster and more fully when sleeping in salt water. They are the most adaptable Myrathil, the diplomats and traders who run trade posts and negotiate with port authorities. They broker deals between ship-captains and shore-towns in ports from Frostwood Reach to Sundale. They mediate disputes in tide pools and trading posts. They carry the weight of being the diplomats of a people who have no nations, no armies, and no exploit except the quiet threat that the sea, should she choose, could take back every coastline she ever lent to the land. The flaw they carry is the flaw of the middle: they mediate everyone else\'s conflicts but cannot resolve their own. A Corali who picks a side, land or sea, is seen as having failed at being Myrathil.',
         culturalBackground: 'Corali are the most visible Myrathil in the wider world. They maintain the trade posts from Salt-Hinge to the Frostwood Reach coast, negotiate with port authorities in cities that barely acknowledge their right to exist, and have developed a social fluency that other Myrathil find exhausting. They learn land-languages young, the tongues of Sundale, the trade-pidgins of the Iceheart Sea routes, the formal speech of Athien merchants who have learned that a Myrathil trader is more reliable than a human one. Their camps are the most permanent, relatively speaking, and their kelp-weave tends toward the practical and presentable rather than the ceremonial. They are the Myrathil most likely to marry into land-settlements, most likely to have human friends, and most likely to wake up at night in a dry bed feeling the tide pull in two directions at once. When the Sundered Monolith in the Treakous Rift began its new resonance, it was Corali who carried the news to every Myrathil community along every coastline within a month. It is Corali who now carry the difficult questions: negotiate or retreat? Treaty or disappearance? Mareth is not answering. She has never answered directly. She only sends more storms.',
-        statModifiers: {
-          charisma: 2,
-          agility: 2,
-          spirit: 1,
-          strength: -2
-        },
+        statModifiers: { charisma: 3, constitution: 1, strength: -2 },
         traits: [
           {
             id: 'amphibious_shore',
@@ -514,13 +509,7 @@ The Tide-Sing occurs at spawning gales. When a storm approaches that carries the
         tooltipSummary: 'Abyss-born mystics who hum into the ocean trench and speak a language older than words, finding the surface world unbearably loud.',
         description: 'Emerged in the first century of the Freezing Era as the Iceheart Sea reached thermal equilibrium. Abyss-adapted mystics who hum into the Treakous Rift. Born from foam in the open Iceheart Sea during moonless gales, far from any coast. Sometimes they drift for weeks before finding land, arriving on beaches already half-grown, salt-crusted, speaking only the low-frequency hum that Myrathil use underwater. Their biology skews further toward sea than their Corali kin: longer submersion tolerance, stronger swimming muscles, less comfort with spoken language. They must hydrate frequently; prolonged dryness is exhausting, and after 24 hours in arid conditions cumulative fatigue sets in. Moist or humid environments suffice for comfort, but they need proximity to water for a true long rest. Being dry is not dangerous, but it is draining, like holding your breath: they can do it, but they would rather not. They are the mystics who hum into the Treakous Rift and record what answers, the sea-herders who tend the deep kelp-forests and migration routes, the guardians of knowledge the surface world would call madness and they call home. The flaw they carry is distance: land-folk feel alien and exhausting to them, their customs incomprehensible, their desperate need to fill silence with speech a constant irritation. A Nereid who spends too long on land begins to feel their own heartbeat as an intrusion, a reminder that they carry something warm inside them, and warmth is not what the deep prepared them for.',
         culturalBackground: 'Nereid communities are the most isolated of all Myrathil. Their raft-villages drift far from shipping lanes, tethered over submerged volcanic ridges where the water runs warmer and the kelp grows thicker. Their submerged rest-chambers are too deep for surface-folk to reach without magic. Their culture is built around listening rather than speaking, the Ulvir tradition of humming into the abyss and recording what answers. When the Sundered Monolith in the Treakous Rift changed its resonance, the Nereid were the first to know. They had been listening to it for generations: a background hum, constant and ignorable. Now it thrums with purpose, and every Nereid within a hundred miles can feel it. The elders debate what this means. Some say the Shard is calling to its siblings, that the 7 Shards are waking, one by one, and the Myrathil have been guardian of one for millennia without knowing it. Others say the Shard is calling to Mareth herself, and that she is finally preparing to answer. Many Nereid go their entire lives without speaking to a non-Myrathil. They prefer the low hum. The surface world is unbearably loud.',
-        statModifiers: {
-          constitution: 2,
-          strength: 2,
-          spirit: 1,
-          agility: -1,
-          charisma: -1
-        },
+        statModifiers: { constitution: 3, spirit: 2, agility: -2, charisma: -2 },
         traits: [
           {
             id: 'amphibious_deep',
@@ -602,7 +591,7 @@ The Tide-Sing occurs at spawning gales. When a storm approaches that carries the
           {
             id: 'abyssal_adaptation_deep',
             name: 'Abyssal Adaptation',
-            description: 'While submerged you gain Darkvision 60 ft, 25% Cold Resistance, and can hold your breath for 30 minutes. Every 12 hours continuously on land without submersion costs -1 to all ability checks (cumulative, max -3), resetting the moment you submerge in salt water. The deep left its mark on your body \u2014 lungs that compress without pain, eyes built for absolute dark, skin that barely feels the cold that kills surface-swimmers.',
+            description: 'While submerged you gain Darkvision 60 ft, 50% Cold Resistance (take half damage from cold), and can hold your breath for 30 minutes. Every 12 hours continuously on land without submersion costs -1 to all ability checks (cumulative, max -3), resetting the moment you submerge in salt water. The deep left its mark on your body \u2014 lungs that compress without pain, eyes built for absolute dark, skin that barely feels the cold that kills surface-swimmers.',
             level: 1,
             icon: 'spell_nature_water',
             spellType: 'PASSIVE',
@@ -628,12 +617,11 @@ The Tide-Sing occurs at spawning gales. When a storm approaches that carries the
                 {
                   id: 'cold_resistance_deep',
                   name: 'Deep Cold',
-                  description: '25% cold resistance while submerged. Deep water does not freeze, and neither do you.',
+                  description: '50% cold resistance while submerged (take half damage). Deep water does not freeze, and neither do you.',
                   mechanicsText: 'While submerged, the creature gains 25% resistance to cold damage.',
                   statModifier: {
                     stat: 'cold_resistance',
-                    magnitude: 25,
-                    magnitudeType: 'percentage'
+                    magnitude: 50, magnitudeType: 'percentage'
                   }
                 },
                 {
@@ -818,12 +806,7 @@ The Tide-Sing occurs at spawning gales. When a storm approaches that carries the
         description: 'Emerged in the early centuries of the Freezing Era when Venn the Salt-Walker discovered the Mother\'s Mirror and proved Myrathil could survive in freshwater. The wanderers who follow rivers inland. Born where freshwater meets salt, river mouths, estuaries, mangrove deltas, in brackish water that is neither one world nor the other. Unlike other Myrathil, they can submerge in freshwater without the salt-irritation that makes their kin avoid the rivers that vein the continents. This makes them the wanderers: the ones who follow waterways inland from the Frostwood Reach to the edge of Sundale\'s volcanic deserts, who have crossed the Sundrift Vale by following a seasonal stream that no map recorded, who become scouts and explorers seeing mountains for the first time in Myrathil history. They are the most adaptable and self-sufficient of the Myrathil, needing only some contact with water to sustain themselves where their kin require submersion. Their yearning is for flowing freshwater: a Ondine Myrathil who returns to a river after long absence feels the current in their veins reawaken, like a pulse finding its rhythm again. They return with maps and stories and a look in their eyes that other Myrathil find hard to hold. The flaw they carry is suspicion from their own kind. A Ondine who stays inland too long "forgets the taste of mother." Corali treat them as too land-ish. Nereid treat them as practically human. They are the ones caught between loyalties, accused of not being Myrathil enough, and yet they are the only Myrathil who have seen the inland territories where the Sundered Monoliths rest, who have walked the Sundrift Vale and mapped the rivers that flow toward the Bryngloom Forest\'s swampy heart.',
         culturalBackground: 'Ondine are the explorers of Myrathil society, but they are also the bearers of the most urgent intelligence. When word of the Sundered Monolith\'s awakening in the Treakous Rift reached the delta camps, it was Ondine who connected it to what they had seen inland: other old magics stirring, ancient burial mounds humming in the Sundrift Vale, a murky pool in the Bryngloom Forest that had begun to glow with light that did not behave like light. They follow rivers inland, trading with land-settlements far from the coast, mapping territories no other Myrathil has seen. Their camps are temporary, their possessions are minimal, and their relationships with land-folk are the most genuine, they are the Myrathil most likely to have human friends rather than human collectors. They return to the delta or coast every few years to share their maps and stories at the Tide-Share. Some settle inland permanently, marrying into land-communities and raising children who have never seen the sea. These are mourned as lost by their kin, even while they are still alive and happy, Mareth\'s children who chose the land, and whom the land, in its own way, accepted. When the crisis over the spawning gales escalates, it will be the Ondine who carry the messages between the retreating Nereid and the negotiating Corali, as they have always carried the messages between worlds that do not speak the same language.',
         currentCrisis: 'The rivers are changing faster than any Ondine can map. The Great Silver River has dropped three feet in the last decade. Seasonal streams that have flowed since before the sun was buried are drying to gravel beds. Ondine who followed those streams inland, who built trading posts and lives far from the coast, are being forced to retreat \u2014 or to stay and watch the water vanish around them. The land-folk blame the volcanic winter shifting rainfall. The Nereid blame the Sundered Monolith in the Treakous Rift, its awakening pulling thermal currents in directions no one can predict. The Corali say nothing, because saying "we told you so" to a Ondine whose homeland is evaporating would be cruel. The Ondine are running out of rivers \u2014 and for the first time, asking whether Mareth ever intended them to go so far inland at all.',
-        statModifiers: {
-          agility: 2,
-          intelligence: 1,
-          constitution: 1,
-          charisma: -1
-        },
+        statModifiers: { agility: 3, intelligence: 1, strength: -2 },
         traits: [
           {
             id: 'amphibious_brook',
@@ -915,7 +898,7 @@ The Tide-Sing occurs at spawning gales. When a storm approaches that carries the
           {
             id: 'brackish_heritage_brook',
             name: 'Brackish Heritage',
-            description: 'You are immune to freshwater-exposure effects that afflict other Myrathil and gain 25% Poison Resistance; you also gain +5 ft movement speed when traveling along rivers or streams. When more than 50 miles from any natural water source (river, lake, or coast), you lose 1 Spirit. Spawned where two waters meet, your body remembers the blend \u2014 but the further you travel from any water, the fainter Mareth\'s voice becomes in your chest.',
+            description: 'You are immune to freshwater-exposure effects that afflict other Myrathil and gain 50% Poison/Blight Resistance (take half damage from poison); you also gain +5 ft movement speed when traveling along rivers or streams. When more than 50 miles from any natural water source (river, lake, or coast), you lose 1 Spirit. Spawned where two waters meet, your body remembers the blend \u2014 but the further you travel from any water, the fainter Mareth\'s voice becomes in your chest.',
             level: 1,
             icon: 'spell_nature_water',
             spellType: 'PASSIVE',
@@ -931,12 +914,11 @@ The Tide-Sing occurs at spawning gales. When a storm approaches that carries the
                 {
                   id: 'freshwater_immunity',
                   name: 'Brackish Blood',
-                  description: 'Immune to negative effects from freshwater exposure that affect other Myrathil. Resistant to poison (25% damage reduction).',
+                  description: 'Immune to negative effects from freshwater exposure that affect other Myrathil. Resistant to poison (50% damage reduction).',
                   mechanicsText: 'Grants immunity to freshwater-exposure effects that harm other Myrathil and 25% resistance to poison damage.',
                   statModifier: {
                     stat: 'poison_resistance',
-                    magnitude: 25,
-                    magnitudeType: 'percentage'
+                    magnitude: 50, magnitudeType: 'percentage'
                   }
                 },
                 {

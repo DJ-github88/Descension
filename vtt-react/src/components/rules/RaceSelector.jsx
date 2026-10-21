@@ -1104,13 +1104,12 @@ const StatModifiersFull = React.memo(({ statModifiers }) => (
 
 // Derive concise passive summaries: 1 line flavor text, then game mechanics
 const getPassiveSummary = (trait = {}) => {
-  const parts = [];
-
-  // Extract first sentence of description as flavor text
+  // Return authored description directly to prevent duplicate/redundant text
   if (trait.description) {
-    const firstSentence = trait.description.split(/[.!?]+/)[0].trim();
-    if (firstSentence) parts.push(firstSentence + '.');
+    return trait.description;
   }
+
+  const parts = [];
 
   // Extract condition from triggerConfig if present
   let conditionText = '';

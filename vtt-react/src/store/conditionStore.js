@@ -4,6 +4,7 @@ import { persist } from 'zustand/middleware';
 import { createScopedStorageConfig } from '../persistence/scopedStoreStorage';
 import useGameStore from './gameStore';
 import { getAssistanceDecisionForTarget } from '../services/inquisitorAssistanceService';
+import { DEFENDING, isDefending, isStunned } from '../services/sharedConditionProfile';
 
 const POLARITY_CONFIG = {
     buff: {
@@ -71,6 +72,8 @@ const buildConditionRecord = (polarity, condition) => {
         description: condition.description,
         effectSummary: condition.effectSummary || '',
         effects: condition.effects || {},
+        conditionKey: condition.conditionKey,
+        sourceActor: condition.sourceActor,
         duration: condition.duration ?? 60,
         startTime: condition.startTime ?? Date.now(),
         sharedTiming: condition.sharedTiming,
@@ -227,13 +230,21 @@ const useConditionStore = create(
 
             addCondition: (polarity, condition, silent = false) => {
                 const boundary = require('../services/actorConsequenceService');
+                if (silent && boundary.inSharedRoom() && condition.target?.roomId) return;
+                if (!silent && boundary.inSharedRoom() && condition.conditionKey === DEFENDING.conditionKey) {
+                    if (!condition.target && !condition.targetId) return boundary.routeTokenState(undefined, { conditions: [] });
+                    const token = boundary.findActor(condition.target || condition.targetId);
+                    const ref = boundary.refOf(token);
+                    if (ref?.kind !== 'character') return boundary.routeTokenState(undefined, { conditions: [] });
+                    return require('../services/sharedConditionService').editDefending(ref, 'add');
+                }
                 if (!silent && boundary.inSharedRoom()) {
                     const token = boundary.findActor(condition.target || condition.targetId || 'player');
                     if (!token?.state?.actorContract) return boundary.routeTokenState(condition.targetId || 'player', { conditions: [] });
                     const record = { ...buildConditionRecord(polarity, condition), id: condition.recordId || crypto.randomUUID(),
                         targetId: token.id, targetType: token.state.actorContract.kind };
                     const existing = token.state?.conditions || [];
-                    const next = record.stackable ? [...existing, record] : [...existing.filter(value => !(value.name === record.name && value.targetId === record.targetId)), record];
+                    const next = record.stackable ? [...existing, record] : [...existing.filter(value => isDefending(value) || isStunned(value) || !(value.name === record.name && value.targetId === record.targetId)), record];
                     return boundary.routeTokenState(token.id, { conditions: next });
                 }
                 const cfg = POLARITY_CONFIG[polarity];
@@ -278,6 +289,17 @@ const useConditionStore = create(
                 const cfg = POLARITY_CONFIG[polarity];
                 const list = get()[cfg.stateKey];
                 const recordToRemove = list.find(c => c.id === id);
+                const boundary = require('../services/actorConsequenceService');
+                if (silent && boundary.inSharedRoom() && recordToRemove?.target?.roomId) return;
+                if (!silent && boundary.inSharedRoom()) {
+                    const all = [...(getStore('characterTokenStore')?.getState().characterTokens || []), ...(getStore('creatureStore')?.getState().creatureTokens || [])];
+                    const matches = all.flatMap(token => (token.state?.conditions || []).filter(record => (record.recordId || record.id) === id && record.type === polarity).map(record => ({ token, record })));
+                    if (matches.length === 1 && isDefending(matches[0].record) && boundary.refOf(matches[0].token)?.kind === 'character')
+                        return require('../services/sharedConditionService').editDefending(boundary.refOf(matches[0].token), 'remove', { recordId: id });
+                    if (matches.length === 1 && isStunned(matches[0].record))
+                        return require('../services/sharedConditionService').editSharedCondition(boundary.refOf(matches[0].token), 'remove', { recordId: id });
+                    if (matches.length > 1) return boundary.routeTokenState(undefined, { conditions: [] });
+                }
                 if (!silent && recordToRemove?.sharedTiming === 'manual') {
                     const boundary = require('../services/actorConsequenceService');
                     const token = boundary.findActor(recordToRemove.target);
@@ -450,6 +472,12 @@ const useConditionStore = create(
             },
 
             getConditionsForTarget: (polarity, targetId) => {
+                const boundary = require('../services/actorConsequenceService');
+                if (boundary.inSharedRoom()) {
+                    const token = boundary.findActor(targetId);
+                    if (boundary.refOf(token)) return (token.state?.conditions || []).filter(record => record.type === polarity);
+                    return [];
+                }
                 const cfg = POLARITY_CONFIG[polarity];
                 const list = get()[cfg.stateKey];
                 return list.filter(record => record.targetId === targetId);

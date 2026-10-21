@@ -8,6 +8,22 @@ import { CLASS_COMPATIBILITY_ALIASES } from '../classHeritageRegistry';
 
 const CLASS_DISPLAY_ENTRIES = [
     {
+        name: 'Gambler', imageIcon: '/assets/icons/classes/gambler.png', icon: faDiceD6,
+        role: 'Burst Damage / Support', resource: 'Hand & Fortune', complexityRating: 4,
+        cognitiveTags: ['Finite Hand', 'Committed Stakes', 'Manual Tabletop'],
+        playstyle: 'Expose an actual card, commit Fortune before the result, preserve a pattern or underwrite an ally. Twenty cards, hand five, bank seven; no foreign rerolls or free refills. Development — manual tabletop.',
+        roleColor: '#76542b', damageTypes: ['wyrd'], developmentStatus: 'development',
+        quickStartPresets: { broker: { name: 'The First Stake', description: 'Choose exactly one optional; Wager Strike and Recut are separate core grants.', spells: ['cr1_gambler_beginners_cover'] } }
+    },
+    {
+        name: 'Fate Weaver', imageIcon: '/assets/icons/classes/fate_weaver.png', icon: faHourglassHalf,
+        role: 'Support / Control', resource: 'Fate Links', complexityRating: 4,
+        cognitiveTags: ['Finite Threads', 'Consent', 'Manual Tabletop'],
+        playstyle: 'Reserve three finite threads, bind willing actors to public obligations and sever or re-anchor before a consequence lands. No second bank, no native heritage edge. Development - manual tabletop.',
+        roleColor: '#4f5d75', damageTypes: ['wyrd'], developmentStatus: 'development',
+        quickStartPresets: { weaver: { name: 'The First Thread', description: 'Choose exactly one level-1 optional; Tie the Thread and Cut Clean are separate core grants.', spells: ['cr1_fate_weaver_trace_the_line'] } }
+    },
+    {
         name: 'Arcanoneer',
         imageIcon: '/assets/icons/classes/arcanoneer.png',
         icon: faAtom,

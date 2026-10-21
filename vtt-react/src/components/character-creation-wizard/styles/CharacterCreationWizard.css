@@ -13462,47 +13462,74 @@ select.lore-field-input option,
     left: 0 !important;
     width: 100vw !important;
     height: 100vh !important;
-    background: rgba(30, 20, 10, 0.85) !important;
+    background: rgba(14, 10, 6, 0.88) !important;
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
     z-index: 9999 !important;
     cursor: pointer !important;
     animation: lightboxFadeIn 0.2s ease !important;
+    padding: 2rem !important;
+    box-sizing: border-box !important;
 }
 
 @keyframes lightboxFadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from { opacity: 0; transform: scale(0.98); }
+    to { opacity: 1; transform: scale(1); }
 }
 
 .grimoire-lightbox-content {
     position: relative !important;
-    max-width: 80vw !important;
-    max-height: 85vh !important;
+    max-width: 90vw !important;
+    max-height: 90vh !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
     cursor: default !important;
 }
 
 .grimoire-lightbox-img {
-    max-width: 80vw !important;
-    max-height: 85vh !important;
+    max-width: 85vw !important;
+    max-height: 78vh !important;
     object-fit: contain !important;
     border-radius: 8px !important;
     border: 3px solid #7a5a35 !important;
-    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5) !important;
+    box-shadow: 0 16px 45px rgba(0, 0, 0, 0.85), 0 0 25px rgba(122, 90, 53, 0.25) !important;
+    background: #14110f !important;
+    display: block !important;
+}
+
+.grimoire-lightbox-caption {
+    margin-top: 0.85rem !important;
+    padding: 0.55rem 1.4rem !important;
+    background: rgba(26, 20, 15, 0.95) !important;
+    border: 1px solid rgba(182, 160, 128, 0.45) !important;
+    border-radius: 20px !important;
+    color: #f4efe1 !important;
+    font-size: 0.9rem !important;
+    font-style: italic !important;
+    text-align: center !important;
+    max-width: 80vw !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6) !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+    font-family: 'Crimson Text', serif !important;
 }
 
 .grimoire-lightbox-close {
     position: absolute !important;
-    top: -12px !important;
-    right: -12px !important;
-    width: 32px !important;
-    height: 32px !important;
+    top: -14px !important;
+    right: -14px !important;
+    width: 36px !important;
+    height: 36px !important;
     border-radius: 50% !important;
     border: 2px solid #7a5a35 !important;
     background: #f4efe1 !important;
     color: #5a3d1d !important;
-    font-size: 0.9rem !important;
+    font-size: 1rem !important;
     cursor: pointer !important;
     display: flex !important;
     align-items: center !important;
@@ -13510,6 +13537,7 @@ select.lore-field-input option,
     z-index: 10 !important;
     transition: all 0.2s ease !important;
     padding: 0 !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
 }
 
 .grimoire-lightbox-close:hover {
