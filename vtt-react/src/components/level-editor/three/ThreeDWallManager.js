@@ -407,6 +407,186 @@ export function resolveWallModelUrlForType(type) {
   return WALL_MODELS.straight;
 }
 
+let collapsedWindowJambMaterial = null;
+let collapsedWindowSillMaterial = null;
+let collapsedWindowGlassMaterial = null;
+let collapsedWindowFrameMaterial = null;
+let collapsedWindowIronMaterial = null;
+
+function getCollapsedWindowJambMaterial(typeLower = '') {
+  const isWood = typeLower.includes('wood');
+  const isBrick = typeLower.includes('brick');
+  const isHedge = typeLower.includes('hedge');
+  const color = isWood ? 0x6e4a2d : isBrick ? 0x7d493b : isHedge ? 0x3a5d38 : 0x63615e;
+  return new THREE.MeshStandardMaterial({
+    color,
+    roughness: 0.85,
+    metalness: 0.05
+  });
+}
+
+function getCollapsedWindowSillMaterial() {
+  if (!collapsedWindowSillMaterial) {
+    collapsedWindowSillMaterial = new THREE.MeshStandardMaterial({
+      color: 0x787672,
+      roughness: 0.8,
+      metalness: 0.05
+    });
+  }
+  return collapsedWindowSillMaterial;
+}
+
+function getCollapsedWindowGlassMaterial() {
+  if (!collapsedWindowGlassMaterial) {
+    collapsedWindowGlassMaterial = new THREE.MeshStandardMaterial({
+      color: 0x88d4f5,
+      roughness: 0.1,
+      metalness: 0.15,
+      transparent: true,
+      opacity: 0.65,
+      emissive: 0x1a4565,
+      emissiveIntensity: 0.65,
+      depthWrite: false
+    });
+  }
+  return collapsedWindowGlassMaterial;
+}
+
+function getCollapsedWindowFrameMaterial() {
+  if (!collapsedWindowFrameMaterial) {
+    collapsedWindowFrameMaterial = new THREE.MeshStandardMaterial({
+      color: 0x3d2b1f,
+      roughness: 0.7,
+      metalness: 0.05
+    });
+  }
+  return collapsedWindowFrameMaterial;
+}
+
+function getCollapsedWindowIronMaterial() {
+  if (!collapsedWindowIronMaterial) {
+    collapsedWindowIronMaterial = new THREE.MeshStandardMaterial({
+      color: 0x242428,
+      roughness: 0.35,
+      metalness: 0.85
+    });
+  }
+  return collapsedWindowIronMaterial;
+}
+
+export function createCollapsedWindowModel(type = '', typeData = {}) {
+  const group = new THREE.Group();
+  group.name = 'collapsed_window_root';
+
+  const typeLower = String(type || '').toLowerCase();
+  const isBarred = typeLower.includes('bar') || typeLower.includes('slit');
+  const isSlit = typeLower.includes('slit');
+  const isOpen = typeLower.includes('open');
+
+  const jambMat = getCollapsedWindowJambMaterial(typeLower);
+  const sillMat = getCollapsedWindowSillMaterial();
+  const frameMat = getCollapsedWindowFrameMaterial();
+  const ironMat = getCollapsedWindowIronMaterial();
+  const glassMat = getCollapsedWindowGlassMaterial();
+
+  if (isSlit) {
+    // Arrow slit: wide masonry cheeks and a narrow vertical opening with a bar
+    const leftCheek = new THREE.Mesh(new THREE.BoxGeometry(1.6, 4, 1), jambMat);
+    leftCheek.position.set(-1.2, 2, 0);
+    leftCheek.castShadow = true;
+    leftCheek.receiveShadow = true;
+    group.add(leftCheek);
+
+    const rightCheek = new THREE.Mesh(new THREE.BoxGeometry(1.6, 4, 1), jambMat);
+    rightCheek.position.set(1.2, 2, 0);
+    rightCheek.castShadow = true;
+    rightCheek.receiveShadow = true;
+    group.add(rightCheek);
+
+    const slitSill = new THREE.Mesh(new THREE.BoxGeometry(0.8, 1.8, 1.04), sillMat);
+    slitSill.position.set(0, 0.9, 0);
+    group.add(slitSill);
+
+    const slitBar = new THREE.Mesh(new THREE.BoxGeometry(0.12, 2.2, 0.12), ironMat);
+    slitBar.position.set(0, 2.9, 0);
+    slitBar.castShadow = true;
+    group.add(slitBar);
+  } else {
+    // Standard window: left stub, right stub, recessed sill, and window feature
+    const leftStub = new THREE.Mesh(new THREE.BoxGeometry(0.7, 4, 1), jambMat);
+    leftStub.position.set(-1.65, 2, 0);
+    leftStub.castShadow = true;
+    leftStub.receiveShadow = true;
+    group.add(leftStub);
+
+    const rightStub = new THREE.Mesh(new THREE.BoxGeometry(0.7, 4, 1), jambMat);
+    rightStub.position.set(1.65, 2, 0);
+    rightStub.castShadow = true;
+    rightStub.receiveShadow = true;
+    group.add(rightStub);
+
+    // Recessed sill lowered to 1.6 vs 4.0 curb
+    const sill = new THREE.Mesh(new THREE.BoxGeometry(2.6, 1.6, 1.04), sillMat);
+    sill.position.set(0, 0.8, 0);
+    sill.castShadow = true;
+    sill.receiveShadow = true;
+    group.add(sill);
+
+    if (isBarred) {
+      const barCount = 4;
+      const barSpacing = 2.2 / (barCount - 1);
+      for (let i = 0; i < barCount; i += 1) {
+        const bx = -1.1 + i * barSpacing;
+        const bar = new THREE.Mesh(new THREE.BoxGeometry(0.1, 2.4, 0.1), ironMat);
+        bar.position.set(bx, 2.8, 0);
+        bar.castShadow = true;
+        group.add(bar);
+      }
+      const crossrail = new THREE.Mesh(new THREE.BoxGeometry(2.4, 0.12, 0.12), ironMat);
+      crossrail.position.set(0, 2.8, 0);
+      group.add(crossrail);
+    } else if (isOpen) {
+      const frameLeft = new THREE.Mesh(new THREE.BoxGeometry(0.15, 2.4, 0.25), frameMat);
+      frameLeft.position.set(-1.225, 2.8, 0);
+      group.add(frameLeft);
+
+      const frameRight = new THREE.Mesh(new THREE.BoxGeometry(0.15, 2.4, 0.25), frameMat);
+      frameRight.position.set(1.225, 2.8, 0);
+      group.add(frameRight);
+
+      const frameTop = new THREE.Mesh(new THREE.BoxGeometry(2.5, 0.15, 0.25), frameMat);
+      frameTop.position.set(0, 3.95, 0);
+      group.add(frameTop);
+    } else {
+      // Glass pane
+      const glassPane = new THREE.Mesh(new THREE.BoxGeometry(2.4, 2.3, 0.1), glassMat);
+      glassPane.position.set(0, 2.75, 0);
+      group.add(glassPane);
+
+      // Wood frame border
+      const frameLeft = new THREE.Mesh(new THREE.BoxGeometry(0.12, 2.4, 0.2), frameMat);
+      frameLeft.position.set(-1.22, 2.8, 0);
+      group.add(frameLeft);
+
+      const frameRight = new THREE.Mesh(new THREE.BoxGeometry(0.12, 2.4, 0.2), frameMat);
+      frameRight.position.set(1.22, 2.8, 0);
+      group.add(frameRight);
+
+      const frameTop = new THREE.Mesh(new THREE.BoxGeometry(2.45, 0.12, 0.2), frameMat);
+      frameTop.position.set(0, 3.95, 0);
+      group.add(frameTop);
+
+      // Center mullion divider
+      const mullion = new THREE.Mesh(new THREE.BoxGeometry(0.1, 2.3, 0.16), frameMat);
+      mullion.position.set(0, 2.75, 0);
+      group.add(mullion);
+    }
+  }
+
+  group.rotation.set(Math.PI / 2, 0, 0, 'XYZ');
+  return group;
+}
+
 export class ThreeDWallManager {
   constructor(scene) {
     this.scene = scene;
@@ -426,7 +606,15 @@ export class ThreeDWallManager {
     const typeId = (typeof wall === 'string' ? wall : wall?.type) || '';
     if (wall && typeof wall === 'object' && wall.isWallDoor) return true;
     const typeData = WALL_TYPES[typeId] || {};
-    return !!typeData.interactive || String(typeId).toLowerCase().includes('door');
+    const lower = String(typeId).toLowerCase();
+    return !!typeData.interactive || lower.includes('door') || (lower.includes('gate') && lower !== 'wall_gated') || lower === 'wall_doorway';
+  }
+
+  isWindowWall(wall) {
+    const typeId = (typeof wall === 'string' ? wall : wall?.type) || '';
+    const typeData = WALL_TYPES[typeId] || {};
+    const lower = String(typeId).toLowerCase();
+    return !!typeData.isWindow || lower.includes('window') || lower.includes('slit');
   }
 
   /**
@@ -830,12 +1018,13 @@ export class ThreeDWallManager {
       if (!ends || !ends.start || !ends.end) continue;
 
       const isDoor = this.isDoorWall(wall);
-      const appearance = isDoor ? null : this.resolveWallAppearance(wall);
+      const isWindow = this.isWindowWall(wall);
+      const appearance = (isDoor || isWindow) ? null : this.resolveWallAppearance(wall);
       const typeData = WALL_TYPES[wall && typeof wall === 'object' ? wall.type : wall] || {};
       const heightWorld = wallsCollapsed
         ? getWallCollapsedHeightWorld(gridSize)
         : getWallBodyHeightWorld(wall, gridSize, typeData);
-      wallRecords.push({ key, wall, parsed, ends, isDoor, appearance, heightWorld });
+      wallRecords.push({ key, wall, parsed, ends, isDoor, isWindow, appearance, heightWorld });
 
       // Junction analysis includes doors: their doorway model occupies the tile,
       // so neighbouring walls must not cap themselves against the opening.
@@ -905,13 +1094,18 @@ export class ThreeDWallManager {
     }
 
     // 1. Wall segments (one model per tile when the run is axis-aligned/tile-exact)
-    for (const { key, wall, parsed, ends, isDoor, appearance, heightWorld } of wallRecords) {
+    for (const { key, wall, parsed, ends, isDoor, isWindow, appearance, heightWorld } of wallRecords) {
       // Doors are rendered by ThreeDPropManager with interactive swing hinges
       if (isDoor) continue;
 
       currentWallKeys.add(key);
       const modelUrl = this.resolveWallModelUrl(wall);
       const baseZ = this.resolveElevationZ(wall, parsed, elevationData, gridSize);
+      const pieceMetrics = (appearance?.energy)
+        ? ENERGY_PANE_METRICS
+        : (isWindow && wallsCollapsed)
+          ? DEFAULT_WALL_METRICS
+          : wallModelMetrics(modelUrl);
       const pieces = this.computeWallPieces({
         start: ends.start,
         end: ends.end,
@@ -919,7 +1113,7 @@ export class ThreeDWallManager {
         heightWorld,
         baseZ,
         gridType,
-        metrics: appearance?.energy ? ENERGY_PANE_METRICS : wallModelMetrics(modelUrl)
+        metrics: pieceMetrics
       });
       // Curved corners replace the tile each run ends on at the vertex.
       if (skippedEnds.has(`${key}:start`)) pieces.shift();
@@ -934,7 +1128,7 @@ export class ThreeDWallManager {
       }
 
       let entry = this.wallInstances.get(key);
-      if (entry && (entry.modelUrl !== modelUrl || entry.appearanceKey !== (appearance?.key || null))) {
+      if (entry && (entry.modelUrl !== modelUrl || entry.appearanceKey !== (appearance?.key || null) || entry.isCollapsed !== wallsCollapsed)) {
         this.group.remove(entry.group);
         this.wallInstances.delete(key);
         entry = null;
@@ -944,6 +1138,7 @@ export class ThreeDWallManager {
           key,
           modelUrl,
           appearanceKey: appearance?.key || null,
+          isCollapsed: wallsCollapsed,
           group: new THREE.Group(),
           pieces: []
         };
@@ -958,7 +1153,7 @@ export class ThreeDWallManager {
         y1: parsed.y1,
         x2: parsed.x2,
         y2: parsed.y2
-      });
+      }, isWindow, wallsCollapsed, wall);
 
       for (let i = 0; i < entry.pieces.length; i += 1) {
         const piece = entry.pieces[i];
@@ -1104,9 +1299,19 @@ export class ThreeDWallManager {
     });
   }
 
-  syncPieces(entry, pieces, modelUrl, appearance, userData) {
+  syncPieces(entry, pieces, modelUrl, appearance, userData, isWindow = false, wallsCollapsed = false, wall = null) {
     const createInnerModel = () => {
       if (appearance?.energy) return this.createEnergyPane(appearance);
+      if (isWindow && wallsCollapsed) {
+        const typeId = typeof wall === 'string' ? wall : wall?.type;
+        const collapsedWindow = createCollapsedWindowModel(typeId, WALL_TYPES[typeId] || {});
+        collapsedWindow.traverse(child => {
+          if (child.isMesh) {
+            child.userData = { ...userData, is3DWall: true, isWindow: true };
+          }
+        });
+        return collapsedWindow;
+      }
       const instance = modelCache.createInstance(modelUrl);
       if (!instance) return null;
       const metrics = wallModelMetrics(modelUrl);

@@ -147,6 +147,38 @@ describe('ThreeDWallManager', () => {
     expect(cornerEntry.innerModel.scale.y).toBeCloseTo(4 / 4);
   });
 
+  it('renders visible recessed sill and window feature when wallsCollapsed is active', () => {
+    const walls = {
+      '0,0,1,0': { type: 'glass_window' }
+    };
+    manager.updateWalls(walls, {}, GRID, {}, true);
+
+    const entry = manager.wallInstances.get('0,0,1,0');
+    expect(entry).toBeDefined();
+    expect(entry.isCollapsed).toBe(true);
+
+    const inner = entry.pieces[0].innerModel;
+    expect(inner.name).toBe('collapsed_window_root');
+
+    let foundWindowMesh = false;
+    inner.traverse(child => {
+      if (child.isMesh && child.userData.isWindow) foundWindowMesh = true;
+    });
+    expect(foundWindowMesh).toBe(true);
+  });
+
+  it('renders iron bars for barred window in collapsed view', () => {
+    const walls = {
+      '0,0,1,0': { type: 'barred_window' }
+    };
+    manager.updateWalls(walls, {}, GRID, {}, true);
+
+    const entry = manager.wallInstances.get('0,0,1,0');
+    const inner = entry.pieces[0].innerModel;
+    expect(inner.name).toBe('collapsed_window_root');
+    expect(entry.isCollapsed).toBe(true);
+  });
+
   describe('junction resolution', () => {
     it('does nothing for collinear straight-through joints', () => {
       expect(manager.resolveJunction([{ x: 1, y: 0 }, { x: -1, y: 0 }], false)).toBeNull();

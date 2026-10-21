@@ -284,6 +284,28 @@ describe('ThreeDPropManager wall door seating', () => {
     const collapsedEntry = manager.wallDoorInstances.get('5,5,6,5');
     expect(collapsedEntry.innerModel.scale.y).toBeCloseTo(4 / 4);
   });
+
+  it('renders a distinct visible door with jambs, threshold, and door leaf when wallsCollapsed is active', () => {
+    manager.updateWallDoors({ '5,5,6,5': { type: 'wooden_door', state: 'closed' } }, GRID, {}, {}, true);
+    const entry = manager.wallDoorInstances.get('5,5,6,5');
+    expect(entry.isCollapsed).toBe(true);
+    expect(entry.doorNode).toBeDefined();
+    const meshNames = [];
+    entry.innerModel.traverse(c => { if (c.name) meshNames.push(c.name); });
+    expect(meshNames).toContain('doorNode');
+    expect(meshNames).toContain('door');
+  });
+
+  it('renders gate pickets for iron/metal gates in collapsed view', () => {
+    manager.updateWallDoors({ '5,5,6,5': { type: 'iron_gate', state: 'open' } }, GRID, {}, {}, true);
+    const entry = manager.wallDoorInstances.get('5,5,6,5');
+    expect(entry.isCollapsed).toBe(true);
+    expect(entry.isOpen).toBe(true);
+    expect(entry.currentDoorAngle).toBeCloseTo(1.57);
+    const meshNames = [];
+    entry.innerModel.traverse(c => { if (c.name) meshNames.push(c.name); });
+    expect(meshNames).toContain('gateLeaf');
+  });
 });
 
 describe('ThreeDPropManager world bounds', () => {
