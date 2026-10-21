@@ -1,0 +1,197 @@
+{
+  "capturedAt": "2026-10-21T10:09:23.163Z",
+  "head": "8d23e50bba40168c50ffb0bc41c68a125dc656cb",
+  "applicationChanges": [
+    {
+      "path": "vtt-react/src/data/classes/fateWeaverData.js",
+      "entry": "absent",
+      "current": "99cd4ad25288ed595bc8e6ec4f6985d94b926e1dfbeae626fd747b8eb7453527"
+    },
+    {
+      "path": "vtt-react/src/data/talentTrees/fateWeaver.js",
+      "entry": "absent",
+      "current": "438f531eeca6af37263fddf97ccc48aad694e98172cefa64204c2f70183077b7"
+    },
+    {
+      "path": "vtt-react/src/data/resourceSystems/fateWeaverResourceGuide.js",
+      "entry": "absent",
+      "current": "bdf59748601dc65ab4ed8e7cf1a5e7f16e78d4dfe2cc1424fc74977cd4b068b7"
+    },
+    {
+      "path": "vtt-react/src/components/hud/FateWeaverResourceDisplay.jsx",
+      "entry": "absent",
+      "current": "01d9e7588286e96119a200b7bcc98df96f81f0be9ffd55db8d56b7bbcc3e9cf8"
+    },
+    {
+      "path": "vtt-react/src/data/classes/__tests__/fateWeaverIntegration.test.js",
+      "entry": "absent",
+      "current": "ce861fbcb9b3f06d765f4e39e02fc89799885633c5a393ab8c01ccf8e6d5f733"
+    },
+    {
+      "path": "vtt-react/src/data/classes/__tests__/gamblerIntegration.test.js",
+      "entry": "c524dfd1e8b9fe74af9fb77c0c05d17bfff1cea9586cb776ee05c33de49065a7",
+      "current": "65f75cf1fe464d92167df9f1e8994b1ca2950b8929ca3ca3f79d653777a135f2"
+    },
+    {
+      "path": "vtt-react/src/data/classes/augurDispositions.js",
+      "entry": "absent",
+      "current": "c6b8464fa380c6f971f9c01e8bd30d7b9e9e861ed02dd6ee48c2b8ed61f77f39"
+    },
+    {
+      "path": "vtt-react/src/data/classes/__tests__/augurDispositions.test.js",
+      "entry": "absent",
+      "current": "ddf81a953ab790724492eb6514e77f40dfb0e82ab96143024905d1a4a6dc3a22"
+    },
+    {
+      "path": "vtt-react/src/components/character-creation-wizard/steps/__tests__/Step1CoreDraftFateWeaver.test.jsx",
+      "entry": "absent",
+      "current": "534a92e1d1fca94e71df07c7f5fad362746768098c38e9ee8d5befdd96b1c8eb"
+    },
+    {
+      "path": "vtt-react/src/components/rules/RulesPage.jsx",
+      "entry": "76d4ee5585884ded138d21d0192ef3af6defe4688917410ee5fc24cff892b806",
+      "current": "cad11034c2c49b4d56645f4f1b72ca69c652e8f34ffae0f6df32c3777d71ddf3"
+    },
+    {
+      "path": "vtt-react/src/components/hud/__tests__/FateWeaverResourceDisplay.test.jsx",
+      "entry": "absent",
+      "current": "e168d39b14a58771ac3c9251dea13718864cc40b9261677b6c29156f8cbb4624"
+    },
+    {
+      "path": "vtt-react/src/data/classes/index.js",
+      "entry": "7cd49312afb7e9531c485943c733c366fe69315354f529287d72243b7337ac2c",
+      "current": "93c679ac1194fa71b99d2bd0c25fe9b1e07fb4c5b2ee23a200bf9a97d46a0a24"
+    },
+    {
+      "path": "vtt-react/src/data/classes/classDisplayData.js",
+      "entry": "8d33e78321317b1ea3d0b0165945481321183690731ff0efed4942f5fb1dfe4c",
+      "current": "f2bbfa4da8ea58de9cd30e1673c470f063bcca0aba56765030af9a00d7bf47d8"
+    },
+    {
+      "path": "vtt-react/src/data/classes/classReconstructionCompatibility.js",
+      "entry": "959032cf4eee65122e13534660a551ceef98b253a88d4af596e423084b6499cb",
+      "current": "4d758f47d1a24017f8d150579592f58be9e193c56acd1f5582f9664bee2e97c5"
+    },
+    {
+      "path": "vtt-react/src/data/classSpellGenerator.js",
+      "entry": "368ccaa1c4fbfd0fbc095f0a73359ffb1c3723395146c0c3a840b8e5fa7ff7d7",
+      "current": "2beb492ee1a266ad99255fc95e056521399b358c110fc515f28101f401d4800f"
+    },
+    {
+      "path": "vtt-react/src/data/classSpellCategories.js",
+      "entry": "9148c8e722bfb6dee7d45c2157a1a3bc9396f4280641fb1c7d116be126b43e50",
+      "current": "3413c29324e0668d217682e8450d8568f60317aa10466d9e6781caa1a09e8515"
+    },
+    {
+      "path": "vtt-react/src/data/talentTreeData.js",
+      "entry": "2b80205930f6ac65a222e2843442515c5808c6fd9034055675acac41bd01deb6",
+      "current": "22209215140e4a7060595f5bfea2043d92b69d858b3acf2859261eea8127bd00"
+    },
+    {
+      "path": "vtt-react/src/data/classResources.js",
+      "entry": "475003ad63cb39c811f7b6ca191ee3faaba57a7c275c912375ca0511b50ab139",
+      "current": "5f898dee49b29450d8cd3932b658fab76b755ac864804fb9b32efc1e0e4bfbe7"
+    },
+    {
+      "path": "vtt-react/src/data/classResourceContracts.js",
+      "entry": "cd93df7b6fa8d44367df9f8ca3ed71a48305204334356f34b6d1527d4cfdbe12",
+      "current": "e0727b58a30e60e706980fecd68320d939d8353a63851a844142001d2da78888"
+    },
+    {
+      "path": "vtt-react/src/data/resourceSystems/index.js",
+      "entry": "0b792ef3e53985d19e7b44a7aeadeb0804c46846e513eb0c8fdd57e8d860bcc7",
+      "current": "2927cb13ab3651ed2102c9e0318256ad403336dea676e5be44f94f6738226ed5"
+    },
+    {
+      "path": "vtt-react/src/data/classHeritageRegistry.js",
+      "entry": "cf054e0289aa4ef8783e0c0f7e6a688645a27875e6668a53190b2405dd18f718",
+      "current": "6e1fabfb145295cdf34e00a95037bac252d810a1a7c5c570bbcc1ff0ff240fb6"
+    },
+    {
+      "path": "vtt-react/src/components/rules/ClassDetailDisplay.jsx",
+      "entry": "38d50f3a45bd86d59e04275c54381105e1e8dcbb5edaeab4c5ac96d77123a6eb",
+      "current": "ff01511740bee18a9cb5c2e0f761edcbddee6dc4746a888b7b6701ccea03d3b3"
+    },
+    {
+      "path": "vtt-react/src/components/hud/ClassResourceBar.jsx",
+      "entry": "7694604c8a3d12958b58b1ff64bf16e6d41d1738fab53eb507eb5e9baee9d903",
+      "current": "c98d6927cacf3115b7ba04b9022570d24737c29cb646539625e3c70ece01e2db"
+    },
+    {
+      "path": "vtt-react/src/components/talent-tree/TalentTreeContent.jsx",
+      "entry": "f41134f58667f37c270ce4f7702ce00db567e9321779a425b336f447139d56ad",
+      "current": "c1c0e4280fefd00acf148ebabb3f6fa63808fcff203e27a095103f44c0c48eab"
+    },
+    {
+      "path": "vtt-react/src/components/character-creation-wizard/steps/Step1CoreDraft.jsx",
+      "entry": "d4f3b633e3f18d27556ac09555bd5ca4c7a217e7de0dbd0c34eb0e2d3959a585",
+      "current": "8baeb035f6ac0a4614504326ea976db4b728e8c567e4f893917db6bb492496b7"
+    },
+    {
+      "path": "vtt-react/src/components/modals/LevelUpChoiceModal.jsx",
+      "entry": "1ba87181ea5e51fb374c2fc4b2e188a9e7ad989662f8de2779afe0f8347d07c2",
+      "current": "7a5a4eab13d8658f5b3a98dbfe67fee342ff85be2e8b7b5d7aa6c21904ebc68b"
+    },
+    {
+      "path": "vtt-react/src/hooks/useClassSpellLibrary.js",
+      "entry": "0195babbb23f2921f4729987e966eeb0e954c08a9f657979a0582824d01aba16",
+      "current": "6e0992c05dff886978fe6a2a112787a8bf0291420f3c837a21da38de78eb1d2f"
+    },
+    {
+      "path": "vtt-react/src/components/spellcrafting-wizard/components/library/SpellLibrary.jsx",
+      "entry": "9308273e1559163dbb320ebad4bb22468f06bfd109a18c463abf93348d2ae501",
+      "current": "97843cf81715d8d63882db77e2451244e5beb3ea0b5fcdc165f8d8069657ea28"
+    },
+    {
+      "path": "vtt-react/src/data/resourceSystems/__tests__/allGuides.test.js",
+      "entry": "4107139d7bcf9ea48a12fa0068f8854c8db08cf84576658faeb6795d8871a89d",
+      "current": "3f2e98b3094626c04aecf8aa252df3cbde46b4a2a7821b4419a26e2b1b5af89e"
+    },
+    {
+      "path": "vtt-react/src/data/__tests__/classHeritageRegistry.test.js",
+      "entry": "6e529f7beb2a1223dd3132b2a107fec843c9133c0801805ab62d20c5cd66f117",
+      "current": "6d220904ed968f3569f4af8b3bc1c9bab189096329ecafe5ec2bdffc87345bbf"
+    },
+    {
+      "path": "vtt-react/src/utils/__tests__/classIconUtils.test.js",
+      "entry": "4d7a03101a5062215c94799783e03ed8df33c5c2eb20e1805f32d3498f32691a",
+      "current": "305719e613801ef6d6ffe4dbd2690ab474d34be4f1b3cf49e296870c10348663"
+    }
+  ],
+  "concurrentOnlyWritableChanges": [],
+  "plan": {
+    "path": "docs/plans/mythrill-class-reconstruction/implementation/RI-2-GAMBLER-FATE-WEAVER.md",
+    "entry": "1026643fa15bf3fd0d75ed7ecfd911f3806bbff8df95f9251e0ecf7eaf5c4c79",
+    "current": "d7b49baa44c2b5de1c99c2801c3d10dcbaf378f16d598545caa7124ebc343c95"
+  },
+  "concurrentProtectedChangesObserved": [
+    "docs/ENGINEERING_STATE.md",
+    "docs/MYTHRILL_CROSS_TRACK_COORDINATION.md",
+    "docs/MYTHRILL_P11_P14_ROADMAP.md",
+    "docs/ai/CURRENT_PRIORITIES.md",
+    "server/handlers/actorConsequenceHandlers.js",
+    "server/services/actorConsequences.js",
+    "server/tests/p13bRiposte.production.test.js",
+    "vtt-react/src/components/character-creation-wizard/styles/Step1CoreDraft.css",
+    "vtt-react/src/components/conditions/ConditionsWindow.jsx",
+    "vtt-react/src/components/grid/CharacterToken.jsx",
+    "vtt-react/src/components/grid/CreatureToken.jsx",
+    "vtt-react/src/components/hud/ActorConsequenceControls.jsx",
+    "vtt-react/src/data/conditionsData.js",
+    "vtt-react/src/services/__tests__/riposteService.test.js",
+    "vtt-react/src/services/riposteService.js",
+    "vtt-react/src/store/conditionStore.js",
+    "vtt-react/src/components/character-creation-wizard/components/AncestralGifts.jsx",
+    "vtt-react/src/components/character-creation-wizard/steps/__tests__/Step1AncestralGifts.test.jsx",
+    "vtt-react/src/components/character-creation-wizard/styles/AncestralGifts.css",
+    "vtt-react/src/components/conditions/SharedDefendingEditor.css",
+    "vtt-react/src/components/conditions/SharedDefendingEditor.jsx",
+    "vtt-react/src/data/ancestryLoadouts.js",
+    "vtt-react/src/data/sharedConditionProfiles.json",
+    "vtt-react/src/services/__tests__/sharedConditionAdapters.test.js",
+    "vtt-react/src/services/__tests__/sharedConditionService.test.js",
+    "vtt-react/src/services/sharedConditionProfile.js",
+    "vtt-react/src/services/sharedConditionService.js"
+  ],
+  "note": "Whole-working-file hashes. Existing/concurrent hunks in writable seams are retained; not every working-tree hunk belongs to RI-2."
+}

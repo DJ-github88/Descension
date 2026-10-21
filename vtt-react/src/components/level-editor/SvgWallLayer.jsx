@@ -383,10 +383,33 @@ const renderWindow = (item) => {
       <line {...lineProps(w.sillEdge)} stroke={frameEdge} strokeWidth={Math.max(1.6, item.thickness * 0.14)} />
       <line {...lineProps(w.headEdge)} stroke={frameEdge} strokeWidth={Math.max(1.4, item.thickness * 0.12)} opacity="0.85" />
 
-      <polygon points={pointsAttr(item.faces.top)} fill={mulColor(masonry, 1.07 + Math.max(0, light.top) * 0.05)} />
-      {item.pattern && <polygon points={pointsAttr(item.faces.top)} fill={`url(#${item.pattern.top.id})`} opacity="0.9" />}
-      <polygon points={pointsAttr(item.faces.top)} fill="url(#svgWallTopShade)" />
-      <polygon points={pointsAttr(item.faces.top)} fill="none" stroke="rgba(0,0,0,0.48)" strokeWidth="1" />
+      {!item.wallsCollapsed ? (
+        <>
+          <polygon points={pointsAttr(item.faces.top)} fill={mulColor(masonry, 1.07 + Math.max(0, light.top) * 0.05)} />
+          {item.pattern && <polygon points={pointsAttr(item.faces.top)} fill={`url(#${item.pattern.top.id})`} opacity="0.9" />}
+          <polygon points={pointsAttr(item.faces.top)} fill="url(#svgWallTopShade)" />
+          <polygon points={pointsAttr(item.faces.top)} fill="none" stroke="rgba(0,0,0,0.48)" strokeWidth="1" />
+        </>
+      ) : (
+        <>
+          {w.sideStart?.near && w.sideStart?.far && (
+            <polygon
+              points={pointsAttr([w.sideStart.near[3], w.sideStart.near[2], w.sideStart.far[2], w.sideStart.far[3]])}
+              fill={mulColor(masonry, 1.07 + Math.max(0, light.top) * 0.05)}
+              stroke="rgba(0,0,0,0.48)"
+              strokeWidth="1"
+            />
+          )}
+          {w.sideEnd?.near && w.sideEnd?.far && (
+            <polygon
+              points={pointsAttr([w.sideEnd.near[3], w.sideEnd.near[2], w.sideEnd.far[2], w.sideEnd.far[3]])}
+              fill={mulColor(masonry, 1.07 + Math.max(0, light.top) * 0.05)}
+              stroke="rgba(0,0,0,0.48)"
+              strokeWidth="1"
+            />
+          )}
+        </>
+      )}
     </>
   );
 };
@@ -532,10 +555,33 @@ const renderDoor = (item, updateWall) => {
         strokeWidth={Math.max(1.6, item.thickness * 0.18)}
       />
 
-      <polygon points={pointsAttr(item.faces.top)} fill={mulColor(masonry, 1.07 + Math.max(0, light.top) * 0.05)} />
-      {item.pattern && <polygon points={pointsAttr(item.faces.top)} fill={`url(#${item.pattern.top.id})`} opacity="0.9" />}
-      <polygon points={pointsAttr(item.faces.top)} fill="url(#svgWallTopShade)" />
-      <polygon points={pointsAttr(item.faces.top)} fill="none" stroke="rgba(0,0,0,0.48)" strokeWidth="1" />
+      {!item.wallsCollapsed ? (
+        <>
+          <polygon points={pointsAttr(item.faces.top)} fill={mulColor(masonry, 1.07 + Math.max(0, light.top) * 0.05)} />
+          {item.pattern && <polygon points={pointsAttr(item.faces.top)} fill={`url(#${item.pattern.top.id})`} opacity="0.9" />}
+          <polygon points={pointsAttr(item.faces.top)} fill="url(#svgWallTopShade)" />
+          <polygon points={pointsAttr(item.faces.top)} fill="none" stroke="rgba(0,0,0,0.48)" strokeWidth="1" />
+        </>
+      ) : (
+        <>
+          {d.stubStart?.near && d.stubStart?.far && (
+            <polygon
+              points={pointsAttr([d.stubStart.near[3], d.stubStart.near[2], d.stubStart.far[2], d.stubStart.far[3]])}
+              fill={mulColor(masonry, 1.07 + Math.max(0, light.top) * 0.05)}
+              stroke="rgba(0,0,0,0.48)"
+              strokeWidth="1"
+            />
+          )}
+          {d.stubEnd?.near && d.stubEnd?.far && (
+            <polygon
+              points={pointsAttr([d.stubEnd.near[3], d.stubEnd.near[2], d.stubEnd.far[2], d.stubEnd.far[3]])}
+              fill={mulColor(masonry, 1.07 + Math.max(0, light.top) * 0.05)}
+              stroke="rgba(0,0,0,0.48)"
+              strokeWidth="1"
+            />
+          )}
+        </>
+      )}
 
       {d.swing && (
         <>

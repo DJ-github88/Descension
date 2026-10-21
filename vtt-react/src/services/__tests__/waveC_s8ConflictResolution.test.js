@@ -21,7 +21,7 @@ jest.mock('../campaignCloudService', () => ({
     isUsableAccount: jest.fn(() => true),
     canUseCloud: jest.fn(() => true),
     readCampaignCloudState: jest.fn(),
-    saveCampaignCloudCas: jest.fn(),
+    saveCampaignCloudCas: jest.fn(async () => ({ ok: false, result: 'CLOUD_UNAVAILABLE' })),
     upgradeLegacyCampaignCloud: jest.fn(),
     createCampaignCloudIfAbsent: jest.fn()
   }

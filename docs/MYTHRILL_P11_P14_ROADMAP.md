@@ -5,7 +5,12 @@ roadmap ([MYTHRILL_NEXT_PHASE.md](MYTHRILL_NEXT_PHASE.md) §26) ends at P10 and 
 This document adds four bounded phases. **At creation only P11 was authorized.** Later bounded
 authorizations/status are recorded below; each further slice still needs its own contract/go-ahead.
 
-> **Latest delivery, 2026-10-21:** [P14-C1 §6](MYTHRILL_PROJECT_14_C1_CONTRACT.md#6-implementation-and-verification)
+> **Latest delivery, 2026-10-21:** [P14-C2](MYTHRILL_PROJECT_14_C2_CONTRACT.md#implementation--evidence)
+> bounded Stunned is implemented/review ACCEPT, Build2 compilation/C2 client parity and App5 PASS.
+> Same C1 condition spine; supported actions/reactions/voluntary player movement refuse, independent
+> source timings retained. Saves/advantage/source resolution/expiry remain manual. P14 is not complete.
+>
+> **Preserved C1 delivery:** [P14-C1 §6](MYTHRILL_PROJECT_14_C1_CONTRACT.md#6-implementation-and-verification)
 > shared PC Defending is implemented/review ACCEPT, Build3 compilation/C1 byte parity and App11 PASS.
 > One exact-actor editor/P7 path, actual P12B2×/no-wear and retained-face removal/recovery. Prior action
 > cost/expiry remain manual. E1a/W/B2 acceptance is carried forward; broader condition/trigger work stays open.

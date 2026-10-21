@@ -21,6 +21,8 @@ import { GAMBIT_DATA } from './gambitData';
 import { AUGUR_DISPOSITIONS } from './augurDispositions';
 import { GAMBIT_PROBABILITY_SAVANT, GAMBIT_HIGH_ROLLER, GAMBIT_KARMIC_WEAVER } from '../talentTrees/gambit';
 
+export { AUGUR_DISPOSITIONS } from './augurDispositions';
+
 const gambitTrees = [
   ['probability_savant', GAMBIT_PROBABILITY_SAVANT],
   ['high_roller', GAMBIT_HIGH_ROLLER],

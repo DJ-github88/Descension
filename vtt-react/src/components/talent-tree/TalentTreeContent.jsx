@@ -1007,7 +1007,7 @@ export const TalentTreeContent = ({
                                         <span className="talent-spec-class-tag">{characterClass} Specialization</span>
                                         {readOnly ? (
                                             <span className="talent-spec-invested-pill codex-pill">
-                                                <i className="fas fa-sitemap"></i> 50 Capacity • 7 Tiers
+                                                <i className="fas fa-sitemap"></i> 50 Capacity • {treeAnalysis.tierCount || 7} Tiers
                                             </span>
                                         ) : (
                                             <>
@@ -1087,8 +1087,8 @@ export const TalentTreeContent = ({
                 <div className="talent-help-panel" role="note">
                     <div className="talent-help-row">
                         <span className="talent-help-chip"><i className="fas fa-star"></i> 5 points per level · 50 total</span>
-                        <span className="talent-help-chip"><i className="fas fa-sitemap"></i> Max one tree, or split across trees (capstones need 30 in-tree)</span>
-                        <span className="talent-help-chip"><i className="fas fa-lock"></i> Tier T# unlocks after 5 × (T# − 1) points in that tree</span>
+                        <span className="talent-help-chip"><i className="fas fa-sitemap"></i> Max one tree, or split across trees (capstones use their authored in-tree gate)</span>
+                        <span className="talent-help-chip"><i className="fas fa-lock"></i> Tier T# unlocks after its authored same-tree point gate</span>
                     </div>
                     <div className="talent-help-row talent-help-legend">
                         <span className="talent-help-legend-item"><i className="talent-help-swatch swatch-available"></i> Available</span>

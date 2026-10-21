@@ -7,7 +7,7 @@ import {
   getWallBodyHeightWorld,
   getWallCollapsedHeightWorld
 } from '../../../utils/WallGeometry';
-import { wallModelMetrics, WALL_DOOR_MODELS } from './ThreeDWallManager';
+import { wallModelMetrics, WALL_DOOR_MODELS, WALL_MODEL_UNIT } from './ThreeDWallManager';
 import { getGridSystem } from '../../../utils/InfiniteGridSystem';
 import { getTileElevation, getElevationLevelAtWorld } from '../../../utils/ElevationUtils';
 import useLevelEditorStore from '../../../store/levelEditorStore';
@@ -24,7 +24,6 @@ import {
   clearPropWorldBoundsResolver
 } from './propWorldBounds';
 
-const WALL_MODEL_UNIT = 4;
 
 // 3D stand-in models for placed light sources (the kit has no dedicated
 // lantern/campfire pieces, so the nearest light fixture is reused).
@@ -987,6 +986,192 @@ function sampleGroundLevel(elevationData, rampData, gridSystem, { gridSize, grid
   return getElevationLevelAtWorld({ elevationData, rampData, gridSystem: system, worldX, worldY });
 }
 
+let collapsedJambMaterial = null;
+let collapsedThreshMaterial = null;
+let collapsedWoodDoorMaterial = null;
+let collapsedStoneDoorMaterial = null;
+let collapsedWoodGateMaterial = null;
+let collapsedIronMaterial = null;
+let collapsedBrassMaterial = null;
+
+function getCollapsedJambMaterial(typeLower = '') {
+  const isWood = typeLower.includes('wood');
+  const isBrick = typeLower.includes('brick');
+  const isHedge = typeLower.includes('hedge');
+  const color = isWood ? 0x6e4a2d : isBrick ? 0x7d493b : isHedge ? 0x3a5d38 : 0x63615e;
+  return new THREE.MeshStandardMaterial({
+    color,
+    roughness: 0.85,
+    metalness: 0.05
+  });
+}
+
+function getCollapsedThresholdMaterial() {
+  if (!collapsedThreshMaterial) {
+    collapsedThreshMaterial = new THREE.MeshStandardMaterial({
+      color: 0x3e3934,
+      roughness: 0.8,
+      metalness: 0.1
+    });
+  }
+  return collapsedThreshMaterial;
+}
+
+function getCollapsedWoodDoorMaterial() {
+  if (!collapsedWoodDoorMaterial) {
+    collapsedWoodDoorMaterial = new THREE.MeshStandardMaterial({
+      color: 0x734826,
+      roughness: 0.65,
+      metalness: 0.08
+    });
+  }
+  return collapsedWoodDoorMaterial;
+}
+
+function getCollapsedStoneDoorMaterial() {
+  if (!collapsedStoneDoorMaterial) {
+    collapsedStoneDoorMaterial = new THREE.MeshStandardMaterial({
+      color: 0x787066,
+      roughness: 0.85,
+      metalness: 0.05
+    });
+  }
+  return collapsedStoneDoorMaterial;
+}
+
+function getCollapsedWoodGateMaterial() {
+  if (!collapsedWoodGateMaterial) {
+    collapsedWoodGateMaterial = new THREE.MeshStandardMaterial({
+      color: 0x8c5b32,
+      roughness: 0.7,
+      metalness: 0.05
+    });
+  }
+  return collapsedWoodGateMaterial;
+}
+
+function getCollapsedIronMaterial() {
+  if (!collapsedIronMaterial) {
+    collapsedIronMaterial = new THREE.MeshStandardMaterial({
+      color: 0x242428,
+      roughness: 0.35,
+      metalness: 0.85
+    });
+  }
+  return collapsedIronMaterial;
+}
+
+function getCollapsedBrassMaterial() {
+  if (!collapsedBrassMaterial) {
+    collapsedBrassMaterial = new THREE.MeshStandardMaterial({
+      color: 0xc89e43,
+      roughness: 0.3,
+      metalness: 0.9
+    });
+  }
+  return collapsedBrassMaterial;
+}
+
+export function createCollapsedDoorModel(type = '', typeData = {}) {
+  const group = new THREE.Group();
+  group.name = 'collapsed_door_root';
+
+  const typeLower = String(type || '').toLowerCase();
+  const isGate = typeLower.includes('gate');
+  const isIronGate = isGate && (typeLower.includes('iron') || typeLower.includes('metal') || typeLower.includes('crypt') || typeLower.includes('grave') || typeLower.includes('fence'));
+  const isStone = typeLower.includes('stone');
+
+  const jambMat = getCollapsedJambMaterial(typeLower);
+  const threshMat = getCollapsedThresholdMaterial();
+  const ironMat = getCollapsedIronMaterial();
+  const brassMat = getCollapsedBrassMaterial();
+  const doorMat = isIronGate
+    ? ironMat
+    : isStone
+      ? getCollapsedStoneDoorMaterial()
+      : isGate
+        ? getCollapsedWoodGateMaterial()
+        : getCollapsedWoodDoorMaterial();
+
+  // 1. Left jamb (masonry / wall curb post)
+  const leftJambGeo = new THREE.BoxGeometry(0.7, 4, 1);
+  const leftJamb = new THREE.Mesh(leftJambGeo, jambMat);
+  leftJamb.position.set(-1.65, 2, 0);
+  leftJamb.castShadow = true;
+  leftJamb.receiveShadow = true;
+  group.add(leftJamb);
+
+  // 2. Right jamb (masonry / wall curb post)
+  const rightJambGeo = new THREE.BoxGeometry(0.7, 4, 1);
+  const rightJamb = new THREE.Mesh(rightJambGeo, jambMat);
+  rightJamb.position.set(1.65, 2, 0);
+  rightJamb.castShadow = true;
+  rightJamb.receiveShadow = true;
+  group.add(rightJamb);
+
+  // 3. Threshold plate on the floor between jambs
+  const threshGeo = new THREE.BoxGeometry(2.6, 0.7, 0.9);
+  const threshold = new THREE.Mesh(threshGeo, threshMat);
+  threshold.position.set(0, 0.35, 0);
+  threshold.receiveShadow = true;
+  group.add(threshold);
+
+  // 4. Door leaf pivot at inner left jamb edge: X = -1.3
+  const doorNode = new THREE.Group();
+  doorNode.name = 'doorNode';
+  doorNode.position.set(-1.3, 0, 0);
+
+  if (isIronGate) {
+    const leafGroup = new THREE.Group();
+    leafGroup.name = 'gateLeaf';
+    const railBottom = new THREE.Mesh(new THREE.BoxGeometry(2.55, 0.25, 0.18), ironMat);
+    railBottom.position.set(1.275, 0.7, 0);
+    const railTop = new THREE.Mesh(new THREE.BoxGeometry(2.55, 0.25, 0.18), ironMat);
+    railTop.position.set(1.275, 3.4, 0);
+    leafGroup.add(railBottom);
+    leafGroup.add(railTop);
+
+    for (let i = 0; i < 5; i += 1) {
+      const bx = 0.25 + i * 0.51;
+      const bar = new THREE.Mesh(new THREE.BoxGeometry(0.12, 3.6, 0.12), ironMat);
+      bar.position.set(bx, 1.9, 0);
+      bar.castShadow = true;
+      leafGroup.add(bar);
+    }
+    const latch = new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.4, 0.25), brassMat);
+    latch.position.set(2.4, 2.0, 0);
+    leafGroup.add(latch);
+    doorNode.add(leafGroup);
+  } else {
+    const leafGeo = new THREE.BoxGeometry(2.55, 3.7, 0.28);
+    const leaf = new THREE.Mesh(leafGeo, doorMat);
+    leaf.name = 'door';
+    leaf.position.set(1.275, 1.95, 0);
+    leaf.castShadow = true;
+    leaf.receiveShadow = true;
+    doorNode.add(leaf);
+
+    const strapTopGeo = new THREE.BoxGeometry(2.55, 0.3, 0.32);
+    const strapTop = new THREE.Mesh(strapTopGeo, ironMat);
+    strapTop.position.set(1.275, 2.9, 0);
+    doorNode.add(strapTop);
+
+    const strapBotGeo = new THREE.BoxGeometry(2.55, 0.3, 0.32);
+    const strapBot = new THREE.Mesh(strapBotGeo, ironMat);
+    strapBot.position.set(1.275, 1.0, 0);
+    doorNode.add(strapBot);
+
+    const handleGeo = new THREE.BoxGeometry(0.15, 0.4, 0.42);
+    const handle = new THREE.Mesh(handleGeo, brassMat);
+    handle.position.set(2.25, 1.95, 0);
+    doorNode.add(handle);
+  }
+
+  group.add(doorNode);
+  group.rotation.set(Math.PI / 2, 0, 0, 'XYZ');
+  return { group, doorNode };
+}
+
 export class ThreeDPropManager {
   constructor(scene) {
     this.scene = scene;
@@ -1463,6 +1648,7 @@ export class ThreeDPropManager {
     return changed;
   }
 
+
   updateWallDoors(wallData = {}, gridState = {}, fogState = {}, elevationData = {}, wallsCollapsed = false) {
     const { gridSize = 50, gridOffsetX = 0, gridOffsetY = 0 } = gridState;
     const currentDoorKeys = new Set();
@@ -1531,7 +1717,7 @@ export class ThreeDPropManager {
         y: metrics.rotateY ? -(metrics.centerZ || 0) : (metrics.centerZ || 0)
       };
 
-      if (entry && entry.doorwayUrl !== doorwayUrl) {
+      if (entry && (entry.doorwayUrl !== doorwayUrl || entry.isCollapsed !== wallsCollapsed)) {
         this.group.remove(entry.mesh);
         this.wallDoorInstances.delete(key);
         entry = null;
@@ -1561,11 +1747,32 @@ export class ThreeDPropManager {
         : getWallBodyHeightWorld(wall, gridSize, typeData);
 
       if (!entry) {
-        const modelScene = modelCache.createInstance(doorwayUrl);
-        if (!modelScene) return; // Still loading
+        let modelScene = null;
+        let doorNode = null;
+        let effectiveLength = modelLength;
+        let effectiveHeight = modelHeight;
+        let effectiveOffset = innerOffset;
 
-        // Upright orientation with authored yaw
-        modelScene.rotation.set(Math.PI / 2, rotateY, 0, 'XYZ');
+        if (wallsCollapsed) {
+          const collapsed = createCollapsedDoorModel(type, typeData);
+          modelScene = collapsed.group;
+          doorNode = collapsed.doorNode;
+          effectiveLength = WALL_MODEL_UNIT;
+          effectiveHeight = WALL_MODEL_UNIT;
+          effectiveOffset = { x: 0, y: 0 };
+        } else {
+          modelScene = modelCache.createInstance(doorwayUrl);
+          if (!modelScene) return; // Still loading
+
+          // Upright orientation with authored yaw
+          modelScene.rotation.set(Math.PI / 2, rotateY, 0, 'XYZ');
+
+          modelScene.traverse(child => {
+            if (child.name === 'wall_doorway_door' || child.name === 'door' || child.name === 'gate') {
+              doorNode = child;
+            }
+          });
+        }
 
         const wrapperGroup = new THREE.Group();
         wrapperGroup.name = `walldoor_${key}`;
@@ -1586,21 +1793,15 @@ export class ThreeDPropManager {
           }
         });
 
-        let doorNode = null;
-        modelScene.traverse(child => {
-          if (child.name === 'wall_doorway_door' || child.name === 'door' || child.name === 'gate') {
-            doorNode = child;
-          }
-        });
-
         const isDoorOpen = wall?.state === 'open';
 
         entry = {
           key,
           doorwayUrl,
-          modelLength,
-          modelHeight,
-          innerOffset,
+          modelLength: effectiveLength,
+          modelHeight: effectiveHeight,
+          innerOffset: effectiveOffset,
+          isCollapsed: wallsCollapsed,
           ...parsed,
           mesh: wrapperGroup,
           innerModel: modelScene,

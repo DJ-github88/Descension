@@ -121,6 +121,8 @@ import { WARDEN_DATA } from '../../../data/classes/wardenData';
 import { AUGUR_DATA } from '../../../data/classes/augurData';
 import { CRUSADER_DATA } from '../../../data/classes/crusaderData';
 import { CHAOS_WEAVER_DATA } from '../../../data/classes/chaosWeaverIntegration';
+import { GAMBLER_DATA } from '../../../data/classes/gamblerData';
+import { FATE_WEAVER_DATA } from '../../../data/classes/fateWeaverData';
 import { DEEPLING_MYRATHIL_APEX_DATA, DEEPLING_MYRATHIL_ANIMIST_DATA, DEEPLING_MYRATHIL_AUGUR_DATA } from '../../../data/classes/index';
 import { withClassHeritageMetadata } from '../../../data/classHeritageRegistry';
 
@@ -393,6 +395,10 @@ const CLASS_DATA_MAP = Object.fromEntries(Object.entries({
 
     'Chaos Weaver': CHAOS_WEAVER_DATA,
 
+    'Gambler': GAMBLER_DATA,
+
+    'Fate Weaver': FATE_WEAVER_DATA,
+
     'Nereid Myrathil Apex': DEEPLING_MYRATHIL_APEX_DATA,
 
     'Nereid Myrathil Animist': DEEPLING_MYRATHIL_ANIMIST_DATA,
@@ -414,7 +420,7 @@ const CLASS_GROUPS = {
 
     ZEALOTS: ['Inquisitor', 'False Prophet', 'Lunarch', 'Martyr', 'Crusader'],
 
-    SPECIALISTS: ['Minstrel', 'Plaguebringer', 'Pyrofiend', 'Animist', 'Augur', 'Gambit', 'Chaos Weaver']
+    SPECIALISTS: ['Minstrel', 'Plaguebringer', 'Pyrofiend', 'Animist', 'Augur', 'Gambit', 'Chaos Weaver', 'Gambler', 'Fate Weaver']
 
 };
 
@@ -2060,6 +2066,9 @@ const Step1CoreDraft = () => {
                                                     </div>
                                                 );
 
+                                                const validation = hasAncestryLoadout(subObj.id) ? validateAncestry(subObj.id, characterData.ancestry) : null;
+                                                const isGiftsComplete = validation ? validation.complete : false;
+
                                                 return (
                                                     <div
                                                         key={subObj.id}
@@ -2136,17 +2145,17 @@ const Step1CoreDraft = () => {
                                                                 <div className="subrace-card-gifts-row">
                                                                     <button
                                                                         type="button"
-                                                                        className="subrace-card-gifts-btn"
+                                                                        className={`subrace-card-gifts-btn ${isGiftsComplete ? 'is-complete' : 'needs-choice'}`}
                                                                         onClick={(e) => {
                                                                             e.stopPropagation();
                                                                             setShowGiftsDrawer(true);
                                                                         }}
                                                                         title={hasAncestryLoadout(subObj.id) ? 'Configure Ancestral Gifts' : 'Inspect Heritage Traits'}
                                                                     >
-                                                                        <i className="fas fa-dna" aria-hidden="true"></i>
+                                                                        <i className={`fas ${isGiftsComplete ? 'fa-check-circle' : 'fa-dna'}`} aria-hidden="true"></i>
                                                                         <span className="gifts-btn-label">
                                                                             {hasAncestryLoadout(subObj.id)
-                                                                                ? `Ancestral Gifts (${validateAncestry(subObj.id, characterData.ancestry).chosen}/3)`
+                                                                                ? `Ancestral Gifts (${validation?.chosen || 0}/3)`
                                                                                 : 'Inspect Traits'}
                                                                         </span>
                                                                         <i className="fas fa-chevron-right gifts-btn-arrow" aria-hidden="true"></i>
@@ -2234,19 +2243,13 @@ const Step1CoreDraft = () => {
                                 return (
                                     <div className="subrace-selection-container inline-subrace-drawer heritage-locked-showcase" key="drawer-locked">
                                         <div className="subrace-breadcrumb-bar subrace-drawer-header">
+                                            <div className="subrace-drawer-title-group">
+                                                <span className="subrace-parent-label">
+                                                    <i className={`${getRaceIcon(chosenRaceData?.name)} subrace-parent-icon`} aria-hidden="true"></i>
+                                                    <span className="subrace-parent-name">{chosenRaceData?.name} Lineage Chosen</span>
+                                                </span>
+                                            </div>
                                             <div className="subrace-header-actions">
-                                                <button
-                                                    type="button"
-                                                    className="subrace-back-btn"
-                                                    onClick={() => {
-                                                        setIsEditingHeritage(true);
-                                                        setActiveRaceSelection(null);
-                                                    }}
-                                                    title="Change lineage or view all homelands"
-                                                >
-                                                    <i className="fas fa-undo-alt" aria-hidden="true"></i>
-                                                    <span>All Races</span>
-                                                </button>
                                                 <button
                                                     type="button"
                                                     className="subrace-change-lineage-btn"
@@ -2259,12 +2262,18 @@ const Step1CoreDraft = () => {
                                                     <i className="fas fa-exchange-alt" aria-hidden="true"></i>
                                                     <span>Change Lineage</span>
                                                 </button>
-                                            </div>
-                                            <div className="subrace-drawer-title-group">
-                                                <span className="subrace-parent-label">
-                                                    <i className={`${getRaceIcon(chosenRaceData?.name)} subrace-parent-icon`} aria-hidden="true"></i>
-                                                    <span className="subrace-parent-name">{chosenRaceData?.name} Lineage Chosen</span>
-                                                </span>
+                                                <button
+                                                    type="button"
+                                                    className="subrace-back-btn"
+                                                    onClick={() => {
+                                                        setIsEditingHeritage(true);
+                                                        setActiveRaceSelection(null);
+                                                    }}
+                                                    title="Change lineage or view all homelands"
+                                                >
+                                                    <i className="fas fa-undo-alt" aria-hidden="true"></i>
+                                                    <span>All Races</span>
+                                                </button>
                                             </div>
                                         </div>
                                         <div className="subrace-buttons-grid">
@@ -2441,19 +2450,21 @@ const Step1CoreDraft = () => {
                                     <div className={`calling-selection-container ${isLockedCalling ? 'inline-subrace-drawer calling-locked-showcase' : ''}`}>
                                         {isLockedCalling ? (
                                             <div className="subrace-breadcrumb-bar subrace-drawer-header">
-                                                <button
-                                                    type="button"
-                                                    className="subrace-back-btn"
-                                                    onClick={() => setIsEditingCalling(true)}
-                                                    title="Change calling or view all callings"
-                                                >
-                                                    <i className="fas fa-undo-alt" aria-hidden="true"></i>
-                                                    <span>All Callings</span>
-                                                </button>
                                                 <div className="subrace-drawer-title-group">
                                                     <span className="subrace-parent-label">
                                                         <span className="subrace-parent-name">{characterData.class} Calling Chosen</span>
                                                     </span>
+                                                </div>
+                                                <div className="subrace-header-actions">
+                                                    <button
+                                                        type="button"
+                                                        className="subrace-back-btn"
+                                                        onClick={() => setIsEditingCalling(true)}
+                                                        title="Change calling or view all callings"
+                                                    >
+                                                        <i className="fas fa-undo-alt" aria-hidden="true"></i>
+                                                        <span>All Callings</span>
+                                                    </button>
                                                 </div>
                                             </div>
                                         ) : (
@@ -2675,19 +2686,21 @@ const Step1CoreDraft = () => {
                                     <div className={`origin-selection-container ${isLockedOrigin ? 'inline-subrace-drawer origin-locked-showcase' : ''}`}>
                                         {isLockedOrigin ? (
                                             <div className="subrace-breadcrumb-bar subrace-drawer-header">
-                                                <button
-                                                    type="button"
-                                                    className="subrace-back-btn"
-                                                    onClick={() => setIsEditingOrigin(true)}
-                                                    title="Change origin or view all origins"
-                                                >
-                                                    <i className="fas fa-undo-alt" aria-hidden="true"></i>
-                                                    <span>All Origins</span>
-                                                </button>
                                                 <div className="subrace-drawer-title-group">
                                                     <span className="subrace-parent-label">
                                                         <span className="subrace-parent-name">{chosenBg?.name || background} Origin Chosen</span>
                                                     </span>
+                                                </div>
+                                                <div className="subrace-header-actions">
+                                                    <button
+                                                        type="button"
+                                                        className="subrace-back-btn"
+                                                        onClick={() => setIsEditingOrigin(true)}
+                                                        title="Change origin or view all origins"
+                                                    >
+                                                        <i className="fas fa-undo-alt" aria-hidden="true"></i>
+                                                        <span>All Origins</span>
+                                                    </button>
                                                 </div>
                                             </div>
                                         ) : (

@@ -1,0 +1,614 @@
+{
+  "capturedAt": "2026-10-21T10:09:23.163Z",
+  "head": "8d23e50bba40168c50ffb0bc41c68a125dc656cb",
+  "status": " M docs/ENGINEERING_STATE.md\n M docs/MYTHRILL_CROSS_TRACK_COORDINATION.md\n M docs/MYTHRILL_P11_P14_ROADMAP.md\n M docs/MYTHRILL_PROJECT_14_C2_CONTRACT.md\n M docs/ai/CURRENT_PRIORITIES.md\n M docs/plans/mythrill-class-reconstruction/implementation/RI-2-GAMBLER-FATE-WEAVER.md\n M docs/plans/mythrill-class-reconstruction/implementation/evidence/RI-2-gambler-fate-weaver/phase-2b/CONTENT-LOCK.md\n M docs/plans/mythrill-class-reconstruction/implementation/evidence/RI-2-gambler-fate-weaver/phase-2b/capture.cjs\n M docs/plans/mythrill-class-reconstruction/implementation/evidence/RI-2-gambler-fate-weaver/phase-2b/entry-hashes.json\n M server/handlers/characterHandlers.js\n M server/tests/p14c2Stunned.production.test.js\n M server/tests/p9SpellConsequences.production.test.js\n M vtt-react/src/components/character-creation-wizard/steps/Step1CoreDraft.jsx\n M vtt-react/src/components/character-creation-wizard/styles/Step1CoreDraft.css\n M vtt-react/src/components/modals/LevelUpChoiceModal.jsx\n M vtt-react/src/components/talent-tree/TalentTreeContent.jsx\n M vtt-react/src/data/classes/__tests__/fateWeaverIntegration.test.js\n M vtt-react/src/data/classes/__tests__/gamblerIntegration.test.js\n M vtt-react/src/data/classes/classReconstructionCompatibility.js\n M vtt-react/verification/p14/stunned-app-browser.cjs\n?? docs/plans/mythrill-class-reconstruction/implementation/evidence/RI-2-gambler-fate-weaver/phase-2b/AUGUR-DISPOSITION.md\n?? docs/plans/mythrill-class-reconstruction/implementation/evidence/RI-2-gambler-fate-weaver/phase-2b/REPORT.md\n?? docs/plans/mythrill-class-reconstruction/implementation/evidence/RI-2-gambler-fate-weaver/phase-2b/augur-disposition.json\n?? docs/plans/mythrill-class-reconstruction/implementation/evidence/RI-2-gambler-fate-weaver/phase-2b/browser-results.json\n?? docs/plans/mythrill-class-reconstruction/implementation/evidence/RI-2-gambler-fate-weaver/phase-2b/complete-manifest.json\n?? docs/plans/mythrill-class-reconstruction/implementation/evidence/RI-2-gambler-fate-weaver/phase-2b/current-hashes.json\n?? docs/plans/mythrill-class-reconstruction/implementation/evidence/RI-2-gambler-fate-weaver/phase-2b/eslint-results.json\n?? docs/plans/mythrill-class-reconstruction/implementation/evidence/RI-2-gambler-fate-weaver/phase-2b/fate-detail-1280.png\n?? docs/plans/mythrill-class-reconstruction/implementation/evidence/RI-2-gambler-fate-weaver/phase-2b/fate-detail-360.png\n?? docs/plans/mythrill-class-reconstruction/implementation/evidence/RI-2-gambler-fate-weaver/phase-2b/fate-tree-360.png\n?? docs/plans/mythrill-class-reconstruction/implementation/evidence/RI-2-gambler-fate-weaver/phase-2b/jest-results.json\n?? docs/plans/mythrill-class-reconstruction/implementation/evidence/RI-2-gambler-fate-weaver/phase-2b/task-changes.json\n?? docs/plans/mythrill-class-reconstruction/implementation/evidence/RI-2-gambler-fate-weaver/phase-2b/verify-lint.cjs\n?? vtt-react/src/components/character-creation-wizard/steps/__tests__/Step1CoreDraftFateWeaver.test.jsx\n?? vtt-react/src/components/hud/__tests__/FateWeaverResourceDisplay.test.jsx\n?? vtt-react/src/data/classes/__tests__/augurDispositions.test.js\n?? vtt-react/verification/p14/record-stunned-evidence.cjs\n",
+  "writable": [
+    "vtt-react/src/data/classes/fateWeaverData.js",
+    "vtt-react/src/data/talentTrees/fateWeaver.js",
+    "vtt-react/src/data/resourceSystems/fateWeaverResourceGuide.js",
+    "vtt-react/src/components/hud/FateWeaverResourceDisplay.jsx",
+    "vtt-react/src/data/classes/__tests__/fateWeaverIntegration.test.js",
+    "vtt-react/src/data/classes/__tests__/fateWeaverDisposition.test.js",
+    "vtt-react/src/data/classes/__tests__/gamblerIntegration.test.js",
+    "vtt-react/src/data/classes/augurDispositions.js",
+    "vtt-react/src/data/classes/__tests__/augurDispositions.test.js",
+    "vtt-react/src/components/character-creation-wizard/steps/__tests__/Step1CoreDraftFateWeaver.test.jsx",
+    "vtt-react/src/components/rules/RulesPage.jsx",
+    "vtt-react/src/components/hud/__tests__/FateWeaverResourceDisplay.test.jsx",
+    "vtt-react/src/data/classes/index.js",
+    "vtt-react/src/data/classes/classDisplayData.js",
+    "vtt-react/src/data/classes/classReconstructionCompatibility.js",
+    "vtt-react/src/data/classSpellGenerator.js",
+    "vtt-react/src/data/classSpellCategories.js",
+    "vtt-react/src/data/talentTreeData.js",
+    "vtt-react/src/data/classResources.js",
+    "vtt-react/src/data/classResourceContracts.js",
+    "vtt-react/src/data/classResourceAliases.js",
+    "vtt-react/src/data/resourceSystems/index.js",
+    "vtt-react/src/data/classHeritageRegistry.js",
+    "vtt-react/src/components/rules/ClassesDisplay.jsx",
+    "vtt-react/src/components/rules/ClassDetailDisplay.jsx",
+    "vtt-react/src/components/rules/ClassDetailDisplay.css",
+    "vtt-react/src/components/hud/ClassResourceBar.jsx",
+    "vtt-react/src/components/talent-tree/TalentTreeContent.jsx",
+    "vtt-react/src/components/talent-tree/TalentTreeContent.css",
+    "vtt-react/src/components/character-creation-wizard/steps/Step1CoreDraft.jsx",
+    "vtt-react/src/components/character-creation-wizard/steps/Step9CharacterSummary.jsx",
+    "vtt-react/src/components/modals/LevelUpChoiceModal.jsx",
+    "vtt-react/src/store/characterSlices/infoSlice.js",
+    "vtt-react/src/store/characterSlices/progressionSlice.js",
+    "vtt-react/src/hooks/useClassSpellLibrary.js",
+    "vtt-react/src/components/spellcrafting-wizard/components/library/SpellLibrary.jsx",
+    "vtt-react/src/data/resourceSystems/__tests__/allGuides.test.js",
+    "vtt-react/src/data/__tests__/classHeritageRegistry.test.js",
+    "vtt-react/src/data/__tests__/heritageEdgeContract.test.js",
+    "vtt-react/src/data/__tests__/heritageRosterCoverage.test.js",
+    "vtt-react/src/utils/__tests__/classIconUtils.test.js",
+    "vtt-react/src/components/rules/__tests__/ClassesDisplay.test.jsx",
+    "vtt-react/src/components/rules/__tests__/ClassDetailDisplaySpells.test.jsx",
+    "vtt-react/src/components/talent-tree/__tests__/TalentTreeContent.test.jsx"
+  ],
+  "protectedPaths": [
+    "vtt-react/src/data/classes/gambitData.js",
+    "vtt-react/src/data/classes/augurData.js",
+    "vtt-react/src/data/classes/gamblerData.js",
+    "vtt-react/src/data/talentTrees/gambit.js",
+    "vtt-react/src/data/talentTrees/gambler.js",
+    "vtt-react/src/data/talentTrees/augur.js",
+    "vtt-react/src/data/talentTrees/augurAuspice.js",
+    "vtt-react/src/data/talentTrees/augurHarbinger.js",
+    "vtt-react/src/data/talentTrees/augurHierophant.js",
+    "vtt-react/src/data/augurResourceContract.js",
+    "vtt-react/src/data/resourceSystems/gambitResourceGuide.js",
+    "vtt-react/src/data/resourceSystems/gamblerResourceGuide.js",
+    "vtt-react/src/data/heritageEdgeContract.js",
+    "vtt-react/src/data/classes/chaosWeaverData.js",
+    "vtt-react/src/data/classes/chaosWeaverIntegration.js",
+    "vtt-react/src/data/classes/chaosWeaverRules.js",
+    "vtt-react/src/data/talentTrees/chaosWeaver.js",
+    "vtt-react/src/store/characterSlices/coreSlice.js",
+    "vtt-react/src/store/characterSlices/resourceSlice.js",
+    "vtt-react/src/components/hud/PartyHUD.jsx",
+    "vtt-react/src/components/hud/GamblerResourceDisplay.jsx"
+  ],
+  "files": {
+    "vtt-react/src/data/classes/fateWeaverData.js": "99cd4ad25288ed595bc8e6ec4f6985d94b926e1dfbeae626fd747b8eb7453527",
+    "vtt-react/src/data/talentTrees/fateWeaver.js": "438f531eeca6af37263fddf97ccc48aad694e98172cefa64204c2f70183077b7",
+    "vtt-react/src/data/resourceSystems/fateWeaverResourceGuide.js": "bdf59748601dc65ab4ed8e7cf1a5e7f16e78d4dfe2cc1424fc74977cd4b068b7",
+    "vtt-react/src/components/hud/FateWeaverResourceDisplay.jsx": "01d9e7588286e96119a200b7bcc98df96f81f0be9ffd55db8d56b7bbcc3e9cf8",
+    "vtt-react/src/data/classes/__tests__/fateWeaverIntegration.test.js": "ce861fbcb9b3f06d765f4e39e02fc89799885633c5a393ab8c01ccf8e6d5f733",
+    "vtt-react/src/data/classes/__tests__/fateWeaverDisposition.test.js": "absent",
+    "vtt-react/src/data/classes/__tests__/gamblerIntegration.test.js": "65f75cf1fe464d92167df9f1e8994b1ca2950b8929ca3ca3f79d653777a135f2",
+    "vtt-react/src/data/classes/augurDispositions.js": "c6b8464fa380c6f971f9c01e8bd30d7b9e9e861ed02dd6ee48c2b8ed61f77f39",
+    "vtt-react/src/data/classes/__tests__/augurDispositions.test.js": "ddf81a953ab790724492eb6514e77f40dfb0e82ab96143024905d1a4a6dc3a22",
+    "vtt-react/src/components/character-creation-wizard/steps/__tests__/Step1CoreDraftFateWeaver.test.jsx": "534a92e1d1fca94e71df07c7f5fad362746768098c38e9ee8d5befdd96b1c8eb",
+    "vtt-react/src/components/rules/RulesPage.jsx": "cad11034c2c49b4d56645f4f1b72ca69c652e8f34ffae0f6df32c3777d71ddf3",
+    "vtt-react/src/components/hud/__tests__/FateWeaverResourceDisplay.test.jsx": "e168d39b14a58771ac3c9251dea13718864cc40b9261677b6c29156f8cbb4624",
+    "vtt-react/src/data/classes/index.js": "93c679ac1194fa71b99d2bd0c25fe9b1e07fb4c5b2ee23a200bf9a97d46a0a24",
+    "vtt-react/src/data/classes/classDisplayData.js": "f2bbfa4da8ea58de9cd30e1673c470f063bcca0aba56765030af9a00d7bf47d8",
+    "vtt-react/src/data/classes/classReconstructionCompatibility.js": "4d758f47d1a24017f8d150579592f58be9e193c56acd1f5582f9664bee2e97c5",
+    "vtt-react/src/data/classSpellGenerator.js": "2beb492ee1a266ad99255fc95e056521399b358c110fc515f28101f401d4800f",
+    "vtt-react/src/data/classSpellCategories.js": "3413c29324e0668d217682e8450d8568f60317aa10466d9e6781caa1a09e8515",
+    "vtt-react/src/data/talentTreeData.js": "22209215140e4a7060595f5bfea2043d92b69d858b3acf2859261eea8127bd00",
+    "vtt-react/src/data/classResources.js": "5f898dee49b29450d8cd3932b658fab76b755ac864804fb9b32efc1e0e4bfbe7",
+    "vtt-react/src/data/classResourceContracts.js": "e0727b58a30e60e706980fecd68320d939d8353a63851a844142001d2da78888",
+    "vtt-react/src/data/classResourceAliases.js": "051b060df4794bf5aa1543ad39425ca4451689ad109f870c769f56ba4978976f",
+    "vtt-react/src/data/resourceSystems/index.js": "2927cb13ab3651ed2102c9e0318256ad403336dea676e5be44f94f6738226ed5",
+    "vtt-react/src/data/classHeritageRegistry.js": "6e1fabfb145295cdf34e00a95037bac252d810a1a7c5c570bbcc1ff0ff240fb6",
+    "vtt-react/src/components/rules/ClassesDisplay.jsx": "86a4fc163696657e824135dc3333051082029fc79eba6111140c29389cff3f48",
+    "vtt-react/src/components/rules/ClassDetailDisplay.jsx": "ff01511740bee18a9cb5c2e0f761edcbddee6dc4746a888b7b6701ccea03d3b3",
+    "vtt-react/src/components/rules/ClassDetailDisplay.css": "d4de99bb794f1c11c27246662c8316ec3847def48ad407306baa77606781e3fe",
+    "vtt-react/src/components/hud/ClassResourceBar.jsx": "c98d6927cacf3115b7ba04b9022570d24737c29cb646539625e3c70ece01e2db",
+    "vtt-react/src/components/talent-tree/TalentTreeContent.jsx": "c1c0e4280fefd00acf148ebabb3f6fa63808fcff203e27a095103f44c0c48eab",
+    "vtt-react/src/components/talent-tree/TalentTreeContent.css": "353de41eb487fdc869fe976cfc54663aad36342f85afc4b9341617428881b4ac",
+    "vtt-react/src/components/character-creation-wizard/steps/Step1CoreDraft.jsx": "8baeb035f6ac0a4614504326ea976db4b728e8c567e4f893917db6bb492496b7",
+    "vtt-react/src/components/character-creation-wizard/steps/Step9CharacterSummary.jsx": "9755d11f65e541305829746099d26693fb03f809492f23607f3f897ffefd32e1",
+    "vtt-react/src/components/modals/LevelUpChoiceModal.jsx": "7a5a4eab13d8658f5b3a98dbfe67fee342ff85be2e8b7b5d7aa6c21904ebc68b",
+    "vtt-react/src/store/characterSlices/infoSlice.js": "f4800e0ae0c94ddadf1544bbf7e94cbecb266f98fd03574f2168c5d352b06c1f",
+    "vtt-react/src/store/characterSlices/progressionSlice.js": "b866db9eba3f36889164a214baa27b28b542902e12857d099eb4db4107fc9065",
+    "vtt-react/src/hooks/useClassSpellLibrary.js": "6e0992c05dff886978fe6a2a112787a8bf0291420f3c837a21da38de78eb1d2f",
+    "vtt-react/src/components/spellcrafting-wizard/components/library/SpellLibrary.jsx": "97843cf81715d8d63882db77e2451244e5beb3ea0b5fcdc165f8d8069657ea28",
+    "vtt-react/src/data/resourceSystems/__tests__/allGuides.test.js": "3f2e98b3094626c04aecf8aa252df3cbde46b4a2a7821b4419a26e2b1b5af89e",
+    "vtt-react/src/data/__tests__/classHeritageRegistry.test.js": "6d220904ed968f3569f4af8b3bc1c9bab189096329ecafe5ec2bdffc87345bbf",
+    "vtt-react/src/data/__tests__/heritageEdgeContract.test.js": "fddb65f9ae785767431316a07f0bbff1d3c6dcf76d4859e95f7706f1ae585b85",
+    "vtt-react/src/data/__tests__/heritageRosterCoverage.test.js": "3633921f705a6e6161dacdf2015d64ad7545b499c1ed7bced09f38a7b623d1af",
+    "vtt-react/src/utils/__tests__/classIconUtils.test.js": "305719e613801ef6d6ffe4dbd2690ab474d34be4f1b3cf49e296870c10348663",
+    "vtt-react/src/components/rules/__tests__/ClassesDisplay.test.jsx": "50df8736b566c237af970ef8be266a83ec623414f1c2c6e2eda741953d17ff80",
+    "vtt-react/src/components/rules/__tests__/ClassDetailDisplaySpells.test.jsx": "c278d648a2ea97d1c27b507ffac7bed765032cb465607f7c42057bebb7c90096",
+    "vtt-react/src/components/talent-tree/__tests__/TalentTreeContent.test.jsx": "202c5bd66ebeb7e1a3c96258ceb914df74a5fdc882d15e95bbef70c05ffa9825",
+    "vtt-react/src/data/classes/gambitData.js": "e4eb3ef2b664fc4ebbdca45163fa56ac0b39fd5c19227d155280ccf9aef7671d",
+    "vtt-react/src/data/classes/augurData.js": "68a6e87e874c8933b007caf851c3bd3862aead27effebdb32b684ce8c9195c61",
+    "vtt-react/src/data/classes/gamblerData.js": "939a9dfc56b1add499e238c323c701f0efa49886d072e6393a50158fb4b6f39b",
+    "vtt-react/src/data/talentTrees/gambit.js": "77229821f192a75e915052d8950296aa1ed652ece02f18d05ff6d24f275e21d1",
+    "vtt-react/src/data/talentTrees/gambler.js": "a2f5fcaaef3a9c459164c646cccabc379ddae23ba1acb8fc7f36f34d0bbfec2e",
+    "vtt-react/src/data/talentTrees/augur.js": "06c4fd4a7963a9d16812d7d96864ac5c2e75b3aacbdd99d336b9a5fcb1af8532",
+    "vtt-react/src/data/talentTrees/augurAuspice.js": "cc64a817089aa184c81399ac893b37e0943487be03a73a2cc803346fab981665",
+    "vtt-react/src/data/talentTrees/augurHarbinger.js": "81fcd7ff267f0ee923a7eae2f3fe96d0ae5d01d679b05a6ba25d2ee17ce99657",
+    "vtt-react/src/data/talentTrees/augurHierophant.js": "a39c9a03e8016e4512b5676a22f3873fb45f9d0dc849c179c233c35c3fdaf294",
+    "vtt-react/src/data/augurResourceContract.js": "bd17e7d7c2b3d1ca0ca76be341ff1559c3cad0a692cc202e59a3b4a85f6201fc",
+    "vtt-react/src/data/resourceSystems/gambitResourceGuide.js": "3332523beb6a4fd03bff5c3361903cc36904e830f42c036bd560dbc0e5af9fe7",
+    "vtt-react/src/data/resourceSystems/gamblerResourceGuide.js": "d4c70dbc2f6ccc86b0db9cbd988328c5a0f8d26b24f37200a73bc039e7ab9bc8",
+    "vtt-react/src/data/heritageEdgeContract.js": "35fe2d092893a51d081f6009d82a5a0c06579caacb56a1f8e88b5d1955c298b0",
+    "vtt-react/src/data/classes/chaosWeaverData.js": "3b144a761377d4015486235c771f04a5a971ca34071a9a60bad9b3e828ea4834",
+    "vtt-react/src/data/classes/chaosWeaverIntegration.js": "802334918b8165151524b39506bff503ef3b85349d9963dd5e6c7fcd5721d789",
+    "vtt-react/src/data/classes/chaosWeaverRules.js": "191d1b90fe246976da3796b0257cde7f3a7d155484da25b27af2ed458bd0ca72",
+    "vtt-react/src/data/talentTrees/chaosWeaver.js": "74d9f844ce0324835df8fede6d236debb4528ff72fed31cd5ad9e5eea5f15624",
+    "vtt-react/src/store/characterSlices/coreSlice.js": "bf29d6a1a4c68eb6234a8985a799a213d4daa85628576f6c5587e236a56d23f1",
+    "vtt-react/src/store/characterSlices/resourceSlice.js": "0b9ad2b930fd219fd65d77b70be374d0c0b3867744be804da1fac5275e2aff74",
+    "vtt-react/src/components/hud/PartyHUD.jsx": "19f24b72e6599fda6af74c5ef10ad980f40eaca056626687d7f5e320e10cbd80",
+    "vtt-react/src/components/hud/GamblerResourceDisplay.jsx": "3e4e4e2244d1e32b23380f684ead08fb05627d27f4ae323db47ef80cd780ce8c",
+    "docs/ENGINEERING_STATE.md": "52060576d28866a727f1e42957ddf4254bd75f444a5e8372c208595b49e33ba3",
+    "docs/MYTHRILL_CROSS_TRACK_COORDINATION.md": "21ca01bf4d3a24af12291ccac6b30c4cad02be234a071b03b6f8e1eecd0a15d0",
+    "docs/MYTHRILL_DECISIONS_AREA_AND_REACTIONS_BATCH1.md": "86f28ea2e6be76775a2033887b8c821d4e4c6060d7b6e2b0e11a491fb959c837",
+    "docs/MYTHRILL_NEXT_SLICES_CONTRACT_20261017.md": "2cce0f0a9fa2f2a8f689157f5f37a6da859fc3927c5ac2c2ec1e3e6fbcf43c0a",
+    "docs/MYTHRILL_P11_P14_ROADMAP.md": "012821af7e1dcae54d7c6940bbed9854730ea0546a8547eb25e9b6451e918ff4",
+    "docs/MYTHRILL_PROJECT_13B_CONTRACT.md": "4eaeece942dc9ed291517764e9a028a108de3a4419277dfc1ad15ea48fd7081a",
+    "docs/ai/CURRENT_PRIORITIES.md": "02eca1304a75c02be7b854b3ca86cc635f15981e93bbffc69c94a685bcd433a2",
+    "docs/plans/mythrill-class-reconstruction/implementation/evidence/RI-1-chaos-weaver-integration/CORRECTION-REPORT.md": "26c6b18f6c49ded3750750b6f6e0741d19fde7308898c015a48b35a9a359c48c",
+    "docs/plans/mythrill-class-reconstruction/implementation/evidence/RI-1-chaos-weaver-integration/RI-1-SCOPE-AMENDMENT.md": "d5514183b5373b7e1dce9fd54a834c8d2a8eda29738c2569f276e3d3b7a6f295",
+    "server/handlers/actorConsequenceHandlers.js": "1562a108dd778bdf7ace4b109ab987ca48926999f11db00d6c156225c5beb96e",
+    "server/handlers/socketHandlers.js": "f8ccfa17539d20c12e1f8129a215efbac491896416a51b0d8ce0d5c29d72822a",
+    "server/services/actorConsequences.js": "1df1d2baaf97fe03b7e3300c618982473543a92c745aa23218ef3327a07b77ca",
+    "server/services/blockApprovals.js": "20dea10a70f8965081f2615a46149cd667b968704f3b3ce7ad7e77c8cf058ba8",
+    "server/services/rateLimitService.js": "e9d9fa94f6964bede4c2a7685f98667574aa02e593cac2d9159e484d677aaa7a",
+    "server/services/reactionWindows.js": "b0c585c90c9ba52a3ecb77e5e56881a817d3878e6438f2dd614da667471ca9a8",
+    "server/services/riposteExecution.js": "e07eedb1e3de692dff28d810e96a874269e3fcee63254f8cd98979c1b8167c32",
+    "server/tests/p12bBlockWear.production.test.js": "5881be591d3dbe02765ec48dc8e13f4a43f5a1cfc0e0761338e0ebebd4381c2b",
+    "server/tests/p13bRiposte.production.test.js": "15b04a3b94764b2f0ce38de6c30d9cbd5f15c01e30df8045341c59d56a8833de",
+    "server/tests/p13bRiposte.test.js": "20a51be7e82bdc165c5965f03e521fdf45ab3bbfcabf1eed8a35f7595f4eb2a8",
+    "vtt-react/src/components/account/styles/AccountDashboard.css": "1ac6bdb952c43495ee19715faa5f8d65f59c5437bce00408dd8e3b5569068f95",
+    "vtt-react/src/components/account/styles/AdventurerWorkspace.css": "4a86b804574df2b736be46577a0ce560d2195b12a281ae378128b25ec5658cf1",
+    "vtt-react/src/components/character-creation-wizard/CharacterCreationWizard.jsx": "319eb47ce50b060008e94b60efd1dd4eae585556ae84be5bba972b0c9846231a",
+    "vtt-react/src/components/character-creation-wizard/components/tabs/AbilitiesTab.jsx": "080a69fe56809862f48b922a6c04d3c12de03f83669315310bfebaf2d941a137",
+    "vtt-react/src/components/character-creation-wizard/components/tabs/PassivesTab.jsx": "d1172d35c87e5990aab20ac9865d58221b2380a97ac791acc9ec6bbc8a00b383",
+    "vtt-react/src/components/character-creation-wizard/components/tabs/TraitsTab.jsx": "f5b3d447a13b3620e7248349859b6cfb1be02c6564a0523a8c6bbf008224acbe",
+    "vtt-react/src/components/character-creation-wizard/context/CharacterWizardContext.js": "c9e4dd6c664618e16b7059aaca733080b712de06c2d4747745a21cfb760b8c80",
+    "vtt-react/src/components/character-creation-wizard/context/CharacterWizardContext.test.js": "d342b3c56fb5e4ce9a38fe0f99f2d47d7d67d7245077818abec590fc64bba6c1",
+    "vtt-react/src/components/character-creation-wizard/steps/__tests__/Step1CoreDraftSubraceCards.test.jsx": "ff20aaad767a373d663bef2b8df85b2d2a539d59043173c52bbcbdb8044d4eee",
+    "vtt-react/src/components/character-creation-wizard/styles/Step1CoreDraft.css": "b24cc2ccbafed692fe7d9bcb79e116b8d243b5ad389ed9205047ea29e0cf0b28",
+    "vtt-react/src/components/character-creation-wizard/styles/Step9CharacterSummary.css": "53eafbb930f63dde15cd0b9c23ca64bc6287cd0d910e42ba3df903063dd13129",
+    "vtt-react/src/components/character-sheet/CharacterPanel.jsx": "556c45a27d019b8ad4f936316a125c715a11eb5c6c27cb37f094b5db2739382d",
+    "vtt-react/src/components/character-sheet/CharacterStats.jsx": "1397083cdc9c325dee9d8ff8e397ac6f0c1a3108c90bdd7931e9cae2e223aeab",
+    "vtt-react/src/components/conditions/ConditionsWindow.jsx": "113b583f9f47c3dd2a57775d458af634b258a4d2b35545458b3c1569e782c3c4",
+    "vtt-react/src/components/grid/CharacterToken.jsx": "fc7e4a008826d21edb009a388555ee9480dec3dd3d6e2752ce948cf0fd329af5",
+    "vtt-react/src/components/grid/CreatureToken.jsx": "6dd408ad7fb419f6525d97c4da68c51c16ba53384f39df6e8d59c09888b3e2d4",
+    "vtt-react/src/components/hud/ActorConsequenceControls.jsx": "4e9584e1fe3002d37995606f71e7b1aa6dc4beb64d2a83296430655fcd92944c",
+    "vtt-react/src/components/hud/RipostePanel.css": "5e75f06d653854e9637b08a53061fd40c7d35299e4561c4dbc2db8d326ad3bf7",
+    "vtt-react/src/components/hud/RipostePanel.jsx": "a3f1c460df3c6984b59df747f413516b73d44ec4c91978bc710308d91aa5ab23",
+    "vtt-react/src/components/hud/TargetHUD.jsx": "04e5a1c63a2999f7a2e33f7ad6bdeba146b331c4017c56b66b4300ffb71b45c2",
+    "vtt-react/src/components/modals/__tests__/LevelUpChoiceModal.test.jsx": "b635ec0b50b81c7b5deea84f9b364f66f90bf79bbaa3dc1bf4b8a7858e682090",
+    "vtt-react/src/components/rules/RaceSelector.jsx": "4c81976e22d3d39d8cd25fe9dfc31a7f4599902be5533b0a4788b314d6fe3154",
+    "vtt-react/src/components/ui/SpellCastConfirmation.jsx": "58bb462c607385bdbcd9027bfe639fcccfb52b721ff9a77366daf3ab9abaf4e4",
+    "vtt-react/src/contexts/InspectionContext.jsx": "3749062b9de444e33190810ad7eac5d238793eb545f772d4cfb0c255674dab5e",
+    "vtt-react/src/data/__tests__/raceTraitIntegration.test.js": "56529b7d55ff18c40964a772e7d6d2808aa4dbe344cfa8593eec476a01b386e1",
+    "vtt-react/src/data/conditionsData.js": "dac60c4a227b91d918a8590804c6cabbba007cbee1d49864c2f7444bd2d448fc",
+    "vtt-react/src/data/races/astril.js": "912239f3fce316b94ae9b1f65647ef239bb92a603e4baf164e0fa6dd01df749b",
+    "vtt-react/src/data/races/fexrick.js": "ab67cf50bea2f605c1de7f3b7629279fb476d827c2de4c04fc4164ddb120e570",
+    "vtt-react/src/data/races/florae.js": "440457b153c31c33e33ef2425998544f7d4492cbdfe5fd2dab57053c869bf1f3",
+    "vtt-react/src/data/races/groven.js": "c781b738b720f9747c726f73e0168371605ab2087d5c5d43ccc2c3a052ad7b99",
+    "vtt-react/src/data/races/human.js": "c676536ef2d1f885b6ef527e89144a3c9483396f3fa7d9009a813aef881bfd00",
+    "vtt-react/src/data/races/mimir.js": "c14dc16877c8a33b52629c7a68d172f0a47177041dbea7fc0701ccc5c7215963",
+    "vtt-react/src/data/races/myrathil.js": "061b8a600242b954432f3b116b8c91835057f5dcb89ab5957524c28f802c82a5",
+    "vtt-react/src/data/races/neth.js": "8a5c779b482619337bd84120793ea2491fb2a9817649585f62c48c2b19e09051",
+    "vtt-react/src/data/races/solari.js": "547fb219f7a9be27590bb967e55301028c438a752ffecad415b8d67ec696848b",
+    "vtt-react/src/data/races/vreken.js": "f320a2113b3cfd249a88574ba01d4c622c489beb66df3ddced71704c0619a28e",
+    "vtt-react/src/hooks/useCharacterSpells.js": "2fcdf2ddd0b8fa8ac41f83e2c1b19a346ec6799daf9d2da50e0f75e561013169",
+    "vtt-react/src/persistence/characterSaveOutcome.js": "fa5a26545149ae58052e8f762bd7700b2f801044df1da17b4e00085df925708f",
+    "vtt-react/src/persistence/privateStorageRegistry.js": "838a908aa3d914dc12663d913427023552fe8958506d2af12c7afd85ebf07ca0",
+    "vtt-react/src/services/__tests__/riposteCustody.test.js": "50e1dd4385ca69896c54d470caa4ab4d9c8c3ee677b77655f39af11414402860",
+    "vtt-react/src/services/__tests__/riposteService.test.js": "cf72cc1b179876e1d058c1f578cc19e824f1649c43465dff3b708c93fc612bb5",
+    "vtt-react/src/services/actorConsequenceService.js": "4d30a951bf3b50090792f0b25bcbc4eec79026736860be3ebf5bc8860477bfb2",
+    "vtt-react/src/services/equipmentBlocking.js": "d17316c008a1227b8d7e516bc7b18d03f40adba8b2953644c909faefc7efa8ba",
+    "vtt-react/src/services/riposteCustody.js": "22a34a74cdf9413a7cb31613b5a56144abfdd91011669188ad33bb7a152b3081",
+    "vtt-react/src/services/riposteService.js": "da43486d5bed88aada62d26083c16635d8496bf73fc186ffab0aeda04ceb171c",
+    "vtt-react/src/store/characterHelpers.js": "2e39218be222978b9b1f26393fc61dc1c2a55457a5eefc23553faca15a7fcf77",
+    "vtt-react/src/store/characterSlices/multiplayerSlice.js": "f3c56612dc3a733072723eabbcad268c74ddff2fe1b654511c4422ca4de38f7f",
+    "vtt-react/src/store/characterSlices/statsSlice.js": "8f54965ddcb4036539deb36bdc9444f1e77a66b48b88d3f85e2e4b1ac6812cb0",
+    "vtt-react/src/store/conditionStore.js": "dc3d2ab81124c3a90553c827571d6eb51130bef907edbcbc720b916d59a20040",
+    "vtt-react/src/store/creatureStore.js": "63be2c17ba40c221c6483400c7446743ccfd5a478529d53d6b4142c290abb88a",
+    "vtt-react/src/utils/characterUtils.js": "ad71606d3712711240c7f370c159e31f1875a0b5ed5f1f886340a6d51698b3bc",
+    "vtt-react/src/utils/raceDisciplineSpellUtils.js": "f2d89d12c55aaaa948dab21edfaca0aa415535ccddb742f9c97adf3f16f4566f",
+    "vtt-react/verification/p7/evidence/server-results.json": "a84bcc7faf1b5bb354151fcbcf7f9274971bdd2560c225720607cd2458418169",
+    "claude/ancestral-loadout/ANCESTRAL_GIFTS_DRAFT_LOADOUTS.md": "cf2874cb8932e7021425b49f3add8ee140e1bba05a227e91b6662ef7a7e2a43d",
+    "claude/ancestral-loadout/ANCESTRAL_GIFTS_HANDOFF.md": "caac4b869cdc9d3d83f80197a85677919949abbf166580261cd2eadc073332da",
+    "claude/ancestral-loadout/ancestral_gifts_wip.patch": "27fbf67be1392bc87c793e799cbda872dc6e8cd9c348561652cc7f32d2ae0a37",
+    "docs/MYTHRILL_PROJECT_14_C1_CONTRACT.md": "f9494f8222fca0b1cc48e67cc0222c09c4929b061bb1f6a65cbcb77b41fd31c0",
+    "docs/plans/mythrill-class-reconstruction/implementation/RI-2-GAMBLER-FATE-WEAVER.md": "d7b49baa44c2b5de1c99c2801c3d10dcbaf378f16d598545caa7124ebc343c95",
+    "docs/plans/mythrill-class-reconstruction/implementation/evidence/RI-1-chaos-weaver-integration/FINAL-REVIEW.md": "70126098297a3eeb93446a072647947aa065d64a0804a07791df67efdad609ac",
+    "docs/plans/mythrill-class-reconstruction/implementation/evidence/RI-1-chaos-weaver-integration/amendment-live-check.json": "33c6485fd12552cbc5570000c6526aafce5820fe5b0ddc5a55651aa033f9ae15",
+    "docs/plans/mythrill-class-reconstruction/implementation/evidence/RI-2-gambler-fate-weaver/phase-2a/REPORT.md": "b10272e91b2a8fdda0c4a104e0b2fd292d1261dff66f4bd51d5a4e97d5c616fb",
+    "docs/plans/mythrill-class-reconstruction/implementation/evidence/RI-2-gambler-fate-weaver/phase-2a/browser-results.json": "414b36fb4516f027f1fc97b3b286c7ae3a8548cfc0ce1d58d674563a3ae7c33e",
+    "docs/plans/mythrill-class-reconstruction/implementation/evidence/RI-2-gambler-fate-weaver/phase-2a/capture.cjs": "0438d1349466e1e53c1d56be743aea1ad3427ed9d901c9c68e0198110e4a895f",
+    "docs/plans/mythrill-class-reconstruction/implementation/evidence/RI-2-gambler-fate-weaver/phase-2a/complete-manifest.json": "f69ce645319906c3a86a70fe2c706e2c5158a197a5aa1cdd20c7b3e88fed4314",
+    "docs/plans/mythrill-class-reconstruction/implementation/evidence/RI-2-gambler-fate-weaver/phase-2a/current-hashes.json": "700d8a4f3a7672753dcdbebfd88b45e1fe2d136e0fc4b1e3aa1637c58b1f7084",
+    "docs/plans/mythrill-class-reconstruction/implementation/evidence/RI-2-gambler-fate-weaver/phase-2a/entry-hashes.json": "a0ce63328c2f006aa9876a0588120ca5e1012378ca7bbadd510513ed5833edf4",
+    "docs/plans/mythrill-class-reconstruction/implementation/evidence/RI-2-gambler-fate-weaver/phase-2a/eslint-results.json": "02fe133f393e72d31da843f3765a93d349dd413d1bfecc2bf73259869e1a0cce",
+    "docs/plans/mythrill-class-reconstruction/implementation/evidence/RI-2-gambler-fate-weaver/phase-2a/jest-results.json": "079c2dccbb421efb74971ff560dd4c9d97f1150399a1a096a4d528e4d6ef308e",
+    "docs/plans/mythrill-class-reconstruction/implementation/evidence/RI-2-gambler-fate-weaver/phase-2a/resource-1280.png": "e31b2259d329b6e83c71629b81ae3744c4ff82ef6af1a96a0e960c3be1fe1d5f",
+    "docs/plans/mythrill-class-reconstruction/implementation/evidence/RI-2-gambler-fate-weaver/phase-2a/resource-360.png": "56c6fac396acc1290caf44c4407a0aa9b83b81a287d06cd38813ac177a087a6d",
+    "docs/plans/mythrill-class-reconstruction/implementation/evidence/RI-2-gambler-fate-weaver/phase-2a/task-changes.json": "706d1fbb2d65aeba3d7318b004e9973f88980b4f5f3b470599530d011dffeb78",
+    "docs/plans/mythrill-class-reconstruction/implementation/evidence/RI-2-gambler-fate-weaver/phase-2a/verify-lint.cjs": "a07f20af89acf03e8a20a875bda75252f59a87232e20d80d27af98d7b93c4e57",
+    "docs/plans/mythrill-class-reconstruction/implementation/evidence/RI-2-gambler-fate-weaver/phase-2b/CONTENT-LOCK.md": "5b5a1cf6a30bdab8082961c84b887dea40e9f7b98ad8b070284b8d609c98eec2",
+    "docs/plans/mythrill-class-reconstruction/implementation/evidence/RI-2-gambler-fate-weaver/phase-2b/capture.cjs": "ea912f0f623dfc9f97a714c7788e82dbb280b62af60c61011b1e11f9f9ac8a51",
+    "vtt-react/src/components/character-creation-wizard/components/AncestralGifts.jsx": "d282aeed1f2759d4ecb68cb0cb177e3cb8ed3d2c51756b9f2e951f80c1070cce",
+    "vtt-react/src/components/character-creation-wizard/steps/__tests__/Step1AncestralGifts.test.jsx": "bbe112fc160c4a4edb930305a08901cdceac65f8fed43d330bd7eb4bb5891376",
+    "vtt-react/src/components/character-creation-wizard/styles/AncestralGifts.css": "7001d3007a480fed8c39d138583429c2a5d51d6647907bf4b4ac3cc36c69e46f",
+    "vtt-react/src/components/conditions/SharedDefendingEditor.css": "c322212d031dab1edbf7343efa0f23189a90169ab42876ee07de714cca5a0580",
+    "vtt-react/src/components/conditions/SharedDefendingEditor.jsx": "2093039119fccae72298b0aceda6d6d2da1b64298fb2579c70e9887d75b52903",
+    "vtt-react/src/components/hud/__tests__/GamblerResourceDisplay.test.jsx": "726d9043d84a5fc6962a6485574d44318b41d384cba1830a7f80b4b2fcee9e71",
+    "vtt-react/src/components/hud/__tests__/RipostePanel.test.jsx": "f5fe54e6c4316c291789cac2938be320cd657aa55de1b02d6ae6899ff453dfd5",
+    "vtt-react/src/data/__tests__/ancestryLoadouts.test.js": "68e3be08ca5976e055cf5f52b6d9c4cc83cf0bedf7c092f299847c19f3d5ba0e",
+    "vtt-react/src/data/ancestryGiftRecords.js": "2534ecad8f4244e009c0b4050d0d08091bfe83162116e48cc7a22079585a1a22",
+    "vtt-react/src/data/ancestryLoadouts.js": "735b10b1655d934661b1c7e91bf18ab96b2d3ea5d6a9d2226187c7ed0fa9dffc",
+    "vtt-react/src/data/sharedConditionProfiles.json": "4e48d8011ca3eccdcb6ddd92953e1564e1fba6ba4c169754f3249bcb340446cf",
+    "vtt-react/src/services/__tests__/sharedConditionAdapters.test.js": "004d79f310671a4aafbc1962d89760ae8df5ad8a265d19a0441e1ed61680d175",
+    "vtt-react/src/services/__tests__/sharedConditionService.test.js": "b3c4fe1320af98aa5adb0ed876fce403218aad38375f981ff86aa736dbf0ca64",
+    "vtt-react/src/services/sharedConditionCustody.js": "e63619d3de49a3d42fecedb615db02f0c605deee78e60b2fe491a7d3209f796b",
+    "vtt-react/src/services/sharedConditionProfile.js": "077eafd5ea154059add9fe01baef1a7cbf0beedc936003060a14b9d75e6de8ec",
+    "vtt-react/src/services/sharedConditionService.js": "f159a90cb75d6df65efda7e5da2a74113902b209c4e0fbecba8d6f3193a4d9e8",
+    "vtt-react/verification/p13/riposte-app-browser.cjs": "55d5216788ca5d1f8b27b8be4c194ae87f1cdba2fb7572f2f2c140260cb4dd17",
+    "vtt-react/verification/p14/defending-app-browser.cjs": "78ab8b8156c5c2d2919dce8c6d65a1b7f26e54310aa3ea9f6b0f66dea753c542",
+    "vtt-react/verification/p14/record-evidence.cjs": "d8efe1b4b09c85728b077aa2d8c7badb205716efd9952eeae3e4fbb5aab07da2"
+  },
+  "changed": [
+    {
+      "path": "vtt-react/src/data/classes/fateWeaverData.js",
+      "entry": "absent",
+      "current": "99cd4ad25288ed595bc8e6ec4f6985d94b926e1dfbeae626fd747b8eb7453527"
+    },
+    {
+      "path": "vtt-react/src/data/talentTrees/fateWeaver.js",
+      "entry": "absent",
+      "current": "438f531eeca6af37263fddf97ccc48aad694e98172cefa64204c2f70183077b7"
+    },
+    {
+      "path": "vtt-react/src/data/resourceSystems/fateWeaverResourceGuide.js",
+      "entry": "absent",
+      "current": "bdf59748601dc65ab4ed8e7cf1a5e7f16e78d4dfe2cc1424fc74977cd4b068b7"
+    },
+    {
+      "path": "vtt-react/src/components/hud/FateWeaverResourceDisplay.jsx",
+      "entry": "absent",
+      "current": "01d9e7588286e96119a200b7bcc98df96f81f0be9ffd55db8d56b7bbcc3e9cf8"
+    },
+    {
+      "path": "vtt-react/src/data/classes/__tests__/fateWeaverIntegration.test.js",
+      "entry": "absent",
+      "current": "ce861fbcb9b3f06d765f4e39e02fc89799885633c5a393ab8c01ccf8e6d5f733"
+    },
+    {
+      "path": "vtt-react/src/data/classes/__tests__/gamblerIntegration.test.js",
+      "entry": "c524dfd1e8b9fe74af9fb77c0c05d17bfff1cea9586cb776ee05c33de49065a7",
+      "current": "65f75cf1fe464d92167df9f1e8994b1ca2950b8929ca3ca3f79d653777a135f2"
+    },
+    {
+      "path": "vtt-react/src/data/classes/augurDispositions.js",
+      "entry": "absent",
+      "current": "c6b8464fa380c6f971f9c01e8bd30d7b9e9e861ed02dd6ee48c2b8ed61f77f39"
+    },
+    {
+      "path": "vtt-react/src/data/classes/__tests__/augurDispositions.test.js",
+      "entry": "absent",
+      "current": "ddf81a953ab790724492eb6514e77f40dfb0e82ab96143024905d1a4a6dc3a22"
+    },
+    {
+      "path": "vtt-react/src/components/character-creation-wizard/steps/__tests__/Step1CoreDraftFateWeaver.test.jsx",
+      "entry": "absent",
+      "current": "534a92e1d1fca94e71df07c7f5fad362746768098c38e9ee8d5befdd96b1c8eb"
+    },
+    {
+      "path": "vtt-react/src/components/rules/RulesPage.jsx",
+      "entry": "76d4ee5585884ded138d21d0192ef3af6defe4688917410ee5fc24cff892b806",
+      "current": "cad11034c2c49b4d56645f4f1b72ca69c652e8f34ffae0f6df32c3777d71ddf3"
+    },
+    {
+      "path": "vtt-react/src/components/hud/__tests__/FateWeaverResourceDisplay.test.jsx",
+      "entry": "absent",
+      "current": "e168d39b14a58771ac3c9251dea13718864cc40b9261677b6c29156f8cbb4624"
+    },
+    {
+      "path": "vtt-react/src/data/classes/index.js",
+      "entry": "7cd49312afb7e9531c485943c733c366fe69315354f529287d72243b7337ac2c",
+      "current": "93c679ac1194fa71b99d2bd0c25fe9b1e07fb4c5b2ee23a200bf9a97d46a0a24"
+    },
+    {
+      "path": "vtt-react/src/data/classes/classDisplayData.js",
+      "entry": "8d33e78321317b1ea3d0b0165945481321183690731ff0efed4942f5fb1dfe4c",
+      "current": "f2bbfa4da8ea58de9cd30e1673c470f063bcca0aba56765030af9a00d7bf47d8"
+    },
+    {
+      "path": "vtt-react/src/data/classes/classReconstructionCompatibility.js",
+      "entry": "959032cf4eee65122e13534660a551ceef98b253a88d4af596e423084b6499cb",
+      "current": "4d758f47d1a24017f8d150579592f58be9e193c56acd1f5582f9664bee2e97c5"
+    },
+    {
+      "path": "vtt-react/src/data/classSpellGenerator.js",
+      "entry": "368ccaa1c4fbfd0fbc095f0a73359ffb1c3723395146c0c3a840b8e5fa7ff7d7",
+      "current": "2beb492ee1a266ad99255fc95e056521399b358c110fc515f28101f401d4800f"
+    },
+    {
+      "path": "vtt-react/src/data/classSpellCategories.js",
+      "entry": "9148c8e722bfb6dee7d45c2157a1a3bc9396f4280641fb1c7d116be126b43e50",
+      "current": "3413c29324e0668d217682e8450d8568f60317aa10466d9e6781caa1a09e8515"
+    },
+    {
+      "path": "vtt-react/src/data/talentTreeData.js",
+      "entry": "2b80205930f6ac65a222e2843442515c5808c6fd9034055675acac41bd01deb6",
+      "current": "22209215140e4a7060595f5bfea2043d92b69d858b3acf2859261eea8127bd00"
+    },
+    {
+      "path": "vtt-react/src/data/classResources.js",
+      "entry": "475003ad63cb39c811f7b6ca191ee3faaba57a7c275c912375ca0511b50ab139",
+      "current": "5f898dee49b29450d8cd3932b658fab76b755ac864804fb9b32efc1e0e4bfbe7"
+    },
+    {
+      "path": "vtt-react/src/data/classResourceContracts.js",
+      "entry": "cd93df7b6fa8d44367df9f8ca3ed71a48305204334356f34b6d1527d4cfdbe12",
+      "current": "e0727b58a30e60e706980fecd68320d939d8353a63851a844142001d2da78888"
+    },
+    {
+      "path": "vtt-react/src/data/resourceSystems/index.js",
+      "entry": "0b792ef3e53985d19e7b44a7aeadeb0804c46846e513eb0c8fdd57e8d860bcc7",
+      "current": "2927cb13ab3651ed2102c9e0318256ad403336dea676e5be44f94f6738226ed5"
+    },
+    {
+      "path": "vtt-react/src/data/classHeritageRegistry.js",
+      "entry": "cf054e0289aa4ef8783e0c0f7e6a688645a27875e6668a53190b2405dd18f718",
+      "current": "6e1fabfb145295cdf34e00a95037bac252d810a1a7c5c570bbcc1ff0ff240fb6"
+    },
+    {
+      "path": "vtt-react/src/components/rules/ClassDetailDisplay.jsx",
+      "entry": "38d50f3a45bd86d59e04275c54381105e1e8dcbb5edaeab4c5ac96d77123a6eb",
+      "current": "ff01511740bee18a9cb5c2e0f761edcbddee6dc4746a888b7b6701ccea03d3b3"
+    },
+    {
+      "path": "vtt-react/src/components/hud/ClassResourceBar.jsx",
+      "entry": "7694604c8a3d12958b58b1ff64bf16e6d41d1738fab53eb507eb5e9baee9d903",
+      "current": "c98d6927cacf3115b7ba04b9022570d24737c29cb646539625e3c70ece01e2db"
+    },
+    {
+      "path": "vtt-react/src/components/talent-tree/TalentTreeContent.jsx",
+      "entry": "f41134f58667f37c270ce4f7702ce00db567e9321779a425b336f447139d56ad",
+      "current": "c1c0e4280fefd00acf148ebabb3f6fa63808fcff203e27a095103f44c0c48eab"
+    },
+    {
+      "path": "vtt-react/src/components/character-creation-wizard/steps/Step1CoreDraft.jsx",
+      "entry": "d4f3b633e3f18d27556ac09555bd5ca4c7a217e7de0dbd0c34eb0e2d3959a585",
+      "current": "8baeb035f6ac0a4614504326ea976db4b728e8c567e4f893917db6bb492496b7"
+    },
+    {
+      "path": "vtt-react/src/components/modals/LevelUpChoiceModal.jsx",
+      "entry": "1ba87181ea5e51fb374c2fc4b2e188a9e7ad989662f8de2779afe0f8347d07c2",
+      "current": "7a5a4eab13d8658f5b3a98dbfe67fee342ff85be2e8b7b5d7aa6c21904ebc68b"
+    },
+    {
+      "path": "vtt-react/src/hooks/useClassSpellLibrary.js",
+      "entry": "0195babbb23f2921f4729987e966eeb0e954c08a9f657979a0582824d01aba16",
+      "current": "6e0992c05dff886978fe6a2a112787a8bf0291420f3c837a21da38de78eb1d2f"
+    },
+    {
+      "path": "vtt-react/src/components/spellcrafting-wizard/components/library/SpellLibrary.jsx",
+      "entry": "9308273e1559163dbb320ebad4bb22468f06bfd109a18c463abf93348d2ae501",
+      "current": "97843cf81715d8d63882db77e2451244e5beb3ea0b5fcdc165f8d8069657ea28"
+    },
+    {
+      "path": "vtt-react/src/data/resourceSystems/__tests__/allGuides.test.js",
+      "entry": "4107139d7bcf9ea48a12fa0068f8854c8db08cf84576658faeb6795d8871a89d",
+      "current": "3f2e98b3094626c04aecf8aa252df3cbde46b4a2a7821b4419a26e2b1b5af89e"
+    },
+    {
+      "path": "vtt-react/src/data/__tests__/classHeritageRegistry.test.js",
+      "entry": "6e529f7beb2a1223dd3132b2a107fec843c9133c0801805ab62d20c5cd66f117",
+      "current": "6d220904ed968f3569f4af8b3bc1c9bab189096329ecafe5ec2bdffc87345bbf"
+    },
+    {
+      "path": "vtt-react/src/utils/__tests__/classIconUtils.test.js",
+      "entry": "4d7a03101a5062215c94799783e03ed8df33c5c2eb20e1805f32d3498f32691a",
+      "current": "305719e613801ef6d6ffe4dbd2690ab474d34be4f1b3cf49e296870c10348663"
+    },
+    {
+      "path": "docs/ENGINEERING_STATE.md",
+      "entry": "04a3c7d0a727d2c85531fb38dd53e85378f017af6c4b9f9ab520f90c05948d74",
+      "current": "52060576d28866a727f1e42957ddf4254bd75f444a5e8372c208595b49e33ba3"
+    },
+    {
+      "path": "docs/MYTHRILL_CROSS_TRACK_COORDINATION.md",
+      "entry": "290002d963b7ff8211e7db1bc4f04823539ca87dcbb6f5e733beb91ac59e9c0e",
+      "current": "21ca01bf4d3a24af12291ccac6b30c4cad02be234a071b03b6f8e1eecd0a15d0"
+    },
+    {
+      "path": "docs/MYTHRILL_P11_P14_ROADMAP.md",
+      "entry": "84af2bc38fe32022767f7987545d6e4fcd3a2282ccbd194e54921b543fa57ad0",
+      "current": "012821af7e1dcae54d7c6940bbed9854730ea0546a8547eb25e9b6451e918ff4"
+    },
+    {
+      "path": "docs/ai/CURRENT_PRIORITIES.md",
+      "entry": "a48238c45761f643a642d5fbfca6f9f9fbd572b1f8b5f13470365c92632edeb5",
+      "current": "02eca1304a75c02be7b854b3ca86cc635f15981e93bbffc69c94a685bcd433a2"
+    },
+    {
+      "path": "server/handlers/actorConsequenceHandlers.js",
+      "entry": "e81467bb787f92dccf1ed5232448f1c66bc90790498eb0f4a05e6f92f43f893b",
+      "current": "1562a108dd778bdf7ace4b109ab987ca48926999f11db00d6c156225c5beb96e"
+    },
+    {
+      "path": "server/services/actorConsequences.js",
+      "entry": "a39fe79f73687dd458c817060ff5c11a55e7e30a80a7941571069be17293d3c3",
+      "current": "1df1d2baaf97fe03b7e3300c618982473543a92c745aa23218ef3327a07b77ca"
+    },
+    {
+      "path": "server/tests/p13bRiposte.production.test.js",
+      "entry": "9e8de1091b480d1b3a80d8cc18a1e4a4d2693594b0ad4cc9d83c4869ae6abf43",
+      "current": "15b04a3b94764b2f0ce38de6c30d9cbd5f15c01e30df8045341c59d56a8833de"
+    },
+    {
+      "path": "vtt-react/src/components/character-creation-wizard/styles/Step1CoreDraft.css",
+      "entry": "c0687eeb6b9efd9678bb34059aff8e8a7f8b7821aa6f75a2024242162c9f9945",
+      "current": "b24cc2ccbafed692fe7d9bcb79e116b8d243b5ad389ed9205047ea29e0cf0b28"
+    },
+    {
+      "path": "vtt-react/src/components/conditions/ConditionsWindow.jsx",
+      "entry": "8e3b06b87ea7f8705a7a1d94713a1e77baa0757c1f94e2e7b371120dc11be337",
+      "current": "113b583f9f47c3dd2a57775d458af634b258a4d2b35545458b3c1569e782c3c4"
+    },
+    {
+      "path": "vtt-react/src/components/grid/CharacterToken.jsx",
+      "entry": "aa07b7477883c33e8dd54754b67d2ab52a000c7126d97c19d5ffc5878d0d1c49",
+      "current": "fc7e4a008826d21edb009a388555ee9480dec3dd3d6e2752ce948cf0fd329af5"
+    },
+    {
+      "path": "vtt-react/src/components/grid/CreatureToken.jsx",
+      "entry": "719e5f0c676b3272c7de5270755fa03d474a3271217f1976dc71acc3fafc0b6f",
+      "current": "6dd408ad7fb419f6525d97c4da68c51c16ba53384f39df6e8d59c09888b3e2d4"
+    },
+    {
+      "path": "vtt-react/src/components/hud/ActorConsequenceControls.jsx",
+      "entry": "c0474942496415f7803fc11527906afc627ba25965a77aa190dcb3ee759fa989",
+      "current": "4e9584e1fe3002d37995606f71e7b1aa6dc4beb64d2a83296430655fcd92944c"
+    },
+    {
+      "path": "vtt-react/src/data/conditionsData.js",
+      "entry": "33cc40bb551b351a6a7523a451d0aaf581c6b6e8261af1f3602e492deaabee07",
+      "current": "dac60c4a227b91d918a8590804c6cabbba007cbee1d49864c2f7444bd2d448fc"
+    },
+    {
+      "path": "vtt-react/src/services/__tests__/riposteService.test.js",
+      "entry": "cc79d6d400c39ca55955d55907bfbb31de38db521993aae057231958b111bb1d",
+      "current": "cf72cc1b179876e1d058c1f578cc19e824f1649c43465dff3b708c93fc612bb5"
+    },
+    {
+      "path": "vtt-react/src/services/riposteService.js",
+      "entry": "a2e83b890baf733a7fbd4ac48b27012c60a7485b79ae4ca54cb940583d57f9c0",
+      "current": "da43486d5bed88aada62d26083c16635d8496bf73fc186ffab0aeda04ceb171c"
+    },
+    {
+      "path": "vtt-react/src/store/conditionStore.js",
+      "entry": "cbb2939c6210382f563547a601e015580a29c7ecae9049f0743406977fe8e1e8",
+      "current": "dc3d2ab81124c3a90553c827571d6eb51130bef907edbcbc720b916d59a20040"
+    },
+    {
+      "path": "docs/plans/mythrill-class-reconstruction/implementation/RI-2-GAMBLER-FATE-WEAVER.md",
+      "entry": "1026643fa15bf3fd0d75ed7ecfd911f3806bbff8df95f9251e0ecf7eaf5c4c79",
+      "current": "d7b49baa44c2b5de1c99c2801c3d10dcbaf378f16d598545caa7124ebc343c95"
+    },
+    {
+      "path": "docs/plans/mythrill-class-reconstruction/implementation/evidence/RI-2-gambler-fate-weaver/phase-2a/REPORT.md",
+      "entry": "f16fe74890f0f8fe20d9e7efca414a0f86dbeeb321b200e5515eb3604261e860",
+      "current": "b10272e91b2a8fdda0c4a104e0b2fd292d1261dff66f4bd51d5a4e97d5c616fb"
+    },
+    {
+      "path": "docs/plans/mythrill-class-reconstruction/implementation/evidence/RI-2-gambler-fate-weaver/phase-2b/CONTENT-LOCK.md",
+      "entry": "c375583ec002d15df46b495f85388504ca63a4decde76340829bf9676cd58583",
+      "current": "5b5a1cf6a30bdab8082961c84b887dea40e9f7b98ad8b070284b8d609c98eec2"
+    },
+    {
+      "path": "docs/plans/mythrill-class-reconstruction/implementation/evidence/RI-2-gambler-fate-weaver/phase-2b/capture.cjs",
+      "entry": "27cd3455dd729c1bacedc407d5b77a75905099a571ba25c4858a346ed11472d3",
+      "current": "ea912f0f623dfc9f97a714c7788e82dbb280b62af60c61011b1e11f9f9ac8a51"
+    },
+    {
+      "path": "vtt-react/src/components/character-creation-wizard/components/AncestralGifts.jsx",
+      "entry": "4bf704f0a7c996b67e85877eefca120415bb54fa7cd3f4691dbe5a0dd55c32c7",
+      "current": "d282aeed1f2759d4ecb68cb0cb177e3cb8ed3d2c51756b9f2e951f80c1070cce"
+    },
+    {
+      "path": "vtt-react/src/components/character-creation-wizard/steps/__tests__/Step1AncestralGifts.test.jsx",
+      "entry": "dd96458dcb4b4a2d7623b9f4f0aee915cc586a0c5666583ec3ccf5ba3f33aa14",
+      "current": "bbe112fc160c4a4edb930305a08901cdceac65f8fed43d330bd7eb4bb5891376"
+    },
+    {
+      "path": "vtt-react/src/components/character-creation-wizard/styles/AncestralGifts.css",
+      "entry": "93c168d1bbd0bcfb46c8ab32ead1f09b7fb24146870801a2cfd385ac574b6434",
+      "current": "7001d3007a480fed8c39d138583429c2a5d51d6647907bf4b4ac3cc36c69e46f"
+    },
+    {
+      "path": "vtt-react/src/components/conditions/SharedDefendingEditor.css",
+      "entry": "273f8c75675b90f75bfaef937ccc4e8c59d83e1c67209d33d27b480afe3336f8",
+      "current": "c322212d031dab1edbf7343efa0f23189a90169ab42876ee07de714cca5a0580"
+    },
+    {
+      "path": "vtt-react/src/components/conditions/SharedDefendingEditor.jsx",
+      "entry": "0d75dc8eea63fb647eb0127909354a7fc1c50b704165b79e091c4d8d5232422c",
+      "current": "2093039119fccae72298b0aceda6d6d2da1b64298fb2579c70e9887d75b52903"
+    },
+    {
+      "path": "vtt-react/src/data/ancestryLoadouts.js",
+      "entry": "2bc57cf16ed88b3c32c31de62bbda67388155662e5aadccc6240d414f69c3d9b",
+      "current": "735b10b1655d934661b1c7e91bf18ab96b2d3ea5d6a9d2226187c7ed0fa9dffc"
+    },
+    {
+      "path": "vtt-react/src/data/sharedConditionProfiles.json",
+      "entry": "24d531b2707f0e549b26a368b74c9c600aa7a1aa18a7b8e99877fb6c0bad95fc",
+      "current": "4e48d8011ca3eccdcb6ddd92953e1564e1fba6ba4c169754f3249bcb340446cf"
+    },
+    {
+      "path": "vtt-react/src/services/__tests__/sharedConditionAdapters.test.js",
+      "entry": "78c66f8f3aabf2bbd59a7289716d7a74aeaa63af05b4efce6264a68c47517592",
+      "current": "004d79f310671a4aafbc1962d89760ae8df5ad8a265d19a0441e1ed61680d175"
+    },
+    {
+      "path": "vtt-react/src/services/__tests__/sharedConditionService.test.js",
+      "entry": "a58541ce473a9218b1bfd1302bd68f5e240dd6ac585b2e8942104d7d9d89b565",
+      "current": "b3c4fe1320af98aa5adb0ed876fce403218aad38375f981ff86aa736dbf0ca64"
+    },
+    {
+      "path": "vtt-react/src/services/sharedConditionProfile.js",
+      "entry": "eb23ac9266112dc8c4225c08a7ad9907ccadaf9215b3efe919f4e3ebe1b608e4",
+      "current": "077eafd5ea154059add9fe01baef1a7cbf0beedc936003060a14b9d75e6de8ec"
+    },
+    {
+      "path": "vtt-react/src/services/sharedConditionService.js",
+      "entry": "1698fffd1f8bcbb739c895e4305dec539f0b22e123aa63fc1ae95a84ff01a947",
+      "current": "f159a90cb75d6df65efda7e5da2a74113902b209c4e0fbecba8d6f3193a4d9e8"
+    }
+  ],
+  "protectedChangesSinceEntry": [
+    "docs/ENGINEERING_STATE.md",
+    "docs/MYTHRILL_CROSS_TRACK_COORDINATION.md",
+    "docs/MYTHRILL_P11_P14_ROADMAP.md",
+    "docs/ai/CURRENT_PRIORITIES.md",
+    "server/handlers/actorConsequenceHandlers.js",
+    "server/services/actorConsequences.js",
+    "server/tests/p13bRiposte.production.test.js",
+    "vtt-react/src/components/character-creation-wizard/styles/Step1CoreDraft.css",
+    "vtt-react/src/components/conditions/ConditionsWindow.jsx",
+    "vtt-react/src/components/grid/CharacterToken.jsx",
+    "vtt-react/src/components/grid/CreatureToken.jsx",
+    "vtt-react/src/components/hud/ActorConsequenceControls.jsx",
+    "vtt-react/src/data/conditionsData.js",
+    "vtt-react/src/services/__tests__/riposteService.test.js",
+    "vtt-react/src/services/riposteService.js",
+    "vtt-react/src/store/conditionStore.js",
+    "vtt-react/src/components/character-creation-wizard/components/AncestralGifts.jsx",
+    "vtt-react/src/components/character-creation-wizard/steps/__tests__/Step1AncestralGifts.test.jsx",
+    "vtt-react/src/components/character-creation-wizard/styles/AncestralGifts.css",
+    "vtt-react/src/components/conditions/SharedDefendingEditor.css",
+    "vtt-react/src/components/conditions/SharedDefendingEditor.jsx",
+    "vtt-react/src/data/ancestryLoadouts.js",
+    "vtt-react/src/data/sharedConditionProfiles.json",
+    "vtt-react/src/services/__tests__/sharedConditionAdapters.test.js",
+    "vtt-react/src/services/__tests__/sharedConditionService.test.js",
+    "vtt-react/src/services/sharedConditionProfile.js",
+    "vtt-react/src/services/sharedConditionService.js"
+  ],
+  "whitespaceCheck": {
+    "exitCode": 0,
+    "stdout": "",
+    "stderr": "warning: in the working copy of 'vtt-react/src/components/character-creation-wizard/steps/Step1CoreDraft.jsx', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of 'vtt-react/src/components/modals/LevelUpChoiceModal.jsx', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of 'vtt-react/src/components/talent-tree/TalentTreeContent.jsx', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of 'vtt-react/src/data/classes/__tests__/fateWeaverIntegration.test.js', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of 'vtt-react/src/data/classes/__tests__/gamblerIntegration.test.js', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of 'vtt-react/src/data/classes/classReconstructionCompatibility.js', LF will be replaced by CRLF the next time Git touches it\n"
+  },
+  "artifactHashes": {
+    "CONTENT-LOCK.md": "5b5a1cf6a30bdab8082961c84b887dea40e9f7b98ad8b070284b8d609c98eec2",
+    "AUGUR-DISPOSITION.md": "5c13e1a3a6172341e121fcca1f1004a293019ff10db58e50c9556194a439c6c9",
+    "augur-disposition.json": "f5ee8059983430ef152145628f06b0651cf9ef1de3fa3ffd29513dad1a5dcf35",
+    "complete-manifest.json": "5eb5961e68bb0eb23ce53d3723619b72a627af748ab881ca0772739eee4a307b",
+    "jest-results.json": "3be11fdc3b53a2c5638f9f7c407b911a61a295cce20e3f3dca3c49455386dfaf",
+    "eslint-results.json": "1528f7fd0994182c17307603025e13fa1bfd52905f89066f72e6a27bd135e499",
+    "browser-results.json": "3eec890fe67ab863e22b6d0480e39e24f16bf1452df0b87983513124a70308db",
+    "fate-detail-1280.png": "d0566d539caa3fc8702b34d3d8aa0e78000e80d1edf63c29432250403009f8b2",
+    "fate-detail-360.png": "ab08a6acfe979d724b873bb588514943d992b79dce1e15cbf73016e068032b2e",
+    "fate-tree-360.png": "a84e6d026119f6d1107793601b1a63bda069406abaeb0071bd8d7884a3b8fb27",
+    "REPORT.md": "a6ee4729d4a77726b21d0b58afbf950af8c36be701ec27470bf3fa6491c1d5e4",
+    "capture.cjs": "ea912f0f623dfc9f97a714c7788e82dbb280b62af60c61011b1e11f9f9ac8a51",
+    "verify-lint.cjs": "42c30235776b8201f07679c39eedae8fb73dcac5f5cdfd38c5098999b2b60c72"
+  }
+}

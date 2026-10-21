@@ -118,6 +118,15 @@ device before write-back.
 
 ## 5. Shared-file edits by the 2026-10-17 combat slices
 
+**P14-C2 closure, 2026-10-21:** [contract/evidence](MYTHRILL_PROJECT_14_C2_CONTRACT.md#implementation--evidence).
+Same C1 condition spine extended with strict source-specific Stunned; supported action/E1a/voluntary
+movement gates, manual saves/advantage/expiry and GM relocation exceptions.6 new C2 server cases +46
+affected regressions/client39; one bounded repaired ACCEPT; Build2 compilation/C2 client parity[] and
+App5 PASS. Final server-only legacy-relay guard rechecked after App5. Full-build Class/test drift,
+provider/cloud fixtures and4 blocked-fetch errors retained.29 reviewed runtime dependencies hashed;
+current `master/8d23e50b` comes from a concurrent external commit, not this agent's Git write.
+Class/race/RI-2 checkpoint and W1/A1a/card bytes preserved. P14/A1b/full lifecycle remain open.
+
 **P14-C2 authorized/frozen, 2026-10-21 — before source edits:** creator directs bounded Stunned
 implementation using C1. [C2 contract](MYTHRILL_PROJECT_14_C2_CONTRACT.md) names exact writable files:
 closed profile/controller/editor/catalogue/token adapters; shared P7 stage/approval checks; token,

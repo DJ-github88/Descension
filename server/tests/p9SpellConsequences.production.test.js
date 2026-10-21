@@ -73,6 +73,25 @@ describe('P9 owner-approved spell consequences (registered production stack)', f
       adjudication: { definitionId: 'arc_spark_bolt', definitionVersionOrHash: DEF_HASH, chosenResult: chosen, finalAmount: final, adjustmentReason: final === 10 ? '' : 'Durability bypass ruled' } });
   };
 
+  it('C2 Stunned refuses P9 consent and installation of an earlier consent; typed bank, AP/mana, HP and original roll remain unchanged', async() => {
+    assert.equal((await sync(null, { domain: 'elementalSpheres', value: spheres(['arcane', 'arcane', 'ember']) })).success, true);
+    const approved = approval(), registered = await ack(owner, 'actor_spell_approve', approved);
+    assert.equal(registered.code, 'awaiting_gm'); const prepared = await gmCommand(approved, registered.contentHash);
+    const p = require('../../vtt-react/src/services/sharedConditionProfile'), id = crypto.randomUUID();
+    const record = p.makeStunnedRecord(pcRef, id, { sourceOccurrence: 'C2 critical' });
+    const correction = op => command(gm, [{ ref: pcRef, expectedRevision: revision(pcRef), conditions: [{ op, recordId: id, ...(op === 'add' ? { record } : {}) }] }], {
+      target: pcRef, adjudication: { definitionId: p.STUNNED.definitionId, definitionVersionOrHash: p.STUNNED.origin, chosenResult: 'Manual state correction' }
+    });
+    assert.equal((await ack(gm, 'actor_consequence', await correction('add'))).success, true);
+    const before = actors.clone(room.gameState), retained = actors.clone(payments.get(room, approved.approvalId));
+    assert.equal((await ack(owner, 'actor_spell_approve', approval())).code, 'actor_stunned');
+    assert.equal((await ack(gm, 'actor_consequence', prepared)).code, 'actor_stunned');
+    assert.deepEqual(room.gameState, before); assert.deepEqual(payments.get(room, approved.approvalId), retained);
+    assert.equal((await ack(gm, 'actor_consequence', await correction('remove'))).success, true);
+    const accepted = await ack(gm, 'actor_consequence', await gmCommand(approved, registered.contentHash));
+    assert.equal(accepted.success, true, JSON.stringify(accepted));
+    assert.deepEqual(payments.consumedReceipt(room, approved.approvalId).source, pcRef);
+  });
   it('S3/S9 owner sync, approval, GM adjudication and one atomic receipt; public receipt carries no private class fields', async() => {
     const synced = await sync(null, { domain: 'elementalSpheres', value: spheres(['arcane', 'arcane', 'ember']) });
     assert.equal(synced.success, true, JSON.stringify(synced));

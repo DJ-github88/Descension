@@ -30,7 +30,7 @@ This bounded amendment supersedes the provenance-only Gambler access instruction
 
 **Mounted-library scope correction (explicitly approved during Phase 2A):** add `vtt-react/src/components/spellcrafting-wizard/components/library/SpellLibrary.jsx` for a Gambler-only canonical talent projection. This consumer rematerializes talents independently of the tree/hook and otherwise creates legacy `talent-spell-*` identities and drops typed manual data. Reuse the complete canonical `node.spell`, exact grant/passive IDs and learned rank; retain existing Map deduplication. Leave legacy conversion and all Wizard schema/core admission paths unchanged. Capture the entry hash before editing and test the mounted library, not just its hook.
 
-**Phase 2A delivery:** Implementation complete; focused verification passed; independent review deferred. Complete authored/projected manifest, node/rank tables, entry/current hashes, focused Jest/ESLint evidence and actual-route browser results are in `evidence/RI-2-gambler-fate-weaver/phase-2a/`. Phase 2B is in progress.
+**Phase 2A delivery:** Implementation complete; focused verification passed; independent review deferred. Complete authored/projected manifest, node/rank tables, entry/current hashes, focused Jest/ESLint evidence and actual-route browser results are in `evidence/RI-2-gambler-fate-weaver/phase-2a/`. **Phase 2B delivery:** Implementation complete; focused verification passed; independent review deferred. Its manifest, Augur dispositions, hashes, Jest/ESLint evidence and actual-route browser results are in `evidence/RI-2-gambler-fate-weaver/phase-2b/`.
 
 Read before editing:
 

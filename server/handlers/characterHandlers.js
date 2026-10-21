@@ -36,7 +36,7 @@ function registerCharacterHandlers(ctx) {
       // Bound PC movement must name the attachment. Legacy character/name relay cannot evade Stunned.
       const actors = require('../services/actorConsequences');
       if (!player.isGM && !data.tokenId && Object.values(room.gameState.maps || {}).some(map =>
-        Object.values(map.characterTokens || {}).some(token => token.ownerUserId === uid && token.state?.actorContract))) {
+        Object.values(map.characterTokens || {}).some(token => token.state?.actorContract))) {
         actors.fail('actor_binding_conflict', 'Select the exact room token for movement.');
       }
 

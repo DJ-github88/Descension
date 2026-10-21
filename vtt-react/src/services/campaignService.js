@@ -940,7 +940,7 @@ class CampaignService {
       expected: this.cloudBaseline
     });
 
-    if (!ownerGuard.isCurrent()) return false;
+    if (!ownerGuard.isCurrent() || !result) return false;
 
     if (result.ok) {
       this.cloudBaseline = {

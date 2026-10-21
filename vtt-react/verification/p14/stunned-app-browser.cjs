@@ -117,7 +117,9 @@ async function main() {
     await owner.waitForFunction(id => __rp.getState().saved.owner[id].phase === 'accepted', p.id); result.checks.removalRestoresRetainedRiposte = true;
     await o.getByRole('button', { name: 'Close Riposte panel' }).click(); await g.getByRole('button', { name: 'Close Riposte panel' }).click();
     await owner.keyboard.press('c'); await owner.getByRole('dialog', { name: 'Character Sheet', exact: true }).getByRole('button', { name: 'Stats', exact: true }).click();
-    await owner.getByRole('button', { name: 'Sheet shared PC Defending', exact: true }).click();
+    await owner.mouse.move(1300, 850);
+    await owner.getByRole('button', { name: 'Sheet shared PC Defending', exact: true }).focus();
+    await owner.getByRole('button', { name: 'Sheet shared PC Defending', exact: true }).press('Enter');
     // Lost ACK + withheld receipt broadcast: same custody command survives reload, no optimistic replacement.
     await owner.evaluate(() => {
       const handlers = __socket.listeners('actor_consequence_accepted'); __socket.removeAllListeners('actor_consequence_accepted');

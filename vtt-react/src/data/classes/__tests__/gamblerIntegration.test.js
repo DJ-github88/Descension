@@ -14,7 +14,7 @@ import { TALENT_TREES } from '../../talentTreeData';
 import { getClassHeritageAccess, getClassNativeHeritageIds, CLASS_PROVENANCE } from '../../classHeritageRegistry';
 import { getHeritageEdge } from '../../heritageEdgeContract';
 import { getClassRacialTraits } from '../../classRacials';
-import { getReconstructionCompatibility, GAMBIT_RECORD_DISPOSITIONS } from '../classReconstructionCompatibility';
+import { getReconstructionCompatibility, GAMBIT_RECORD_DISPOSITIONS, AUGUR_DISPOSITIONS } from '../classReconstructionCompatibility';
 import { initializeClassResource } from '../../classResources';
 import { getManagedResourceId, normalizeManagedClassResource, updateManagedClassResource } from '../../classResourceContracts';
 import useCharacterStore from '../../../store/characterStore';
@@ -151,7 +151,8 @@ describe('accepted G1 package and normal registration', () => {
     expect(GAMBIT_RECORD_DISPOSITIONS.map(r => r.sourceId).sort()).toEqual(expected);
     GAMBIT_RECORD_DISPOSITIONS.forEach(r => expect(r).toMatchObject({ disposition: 'keep', destinationId: null, automaticConversion: false }));
     expect(getReconstructionCompatibility('gambit')).toMatchObject({ relationship: 'split', automaticConversion: false, legacyResolutionRetained: true });
-    expect(getReconstructionCompatibility('augur').recordDispositions).toEqual([]);
+    expect(getReconstructionCompatibility('augur').recordDispositions).toEqual(AUGUR_DISPOSITIONS);
+    expect(AUGUR_DISPOSITIONS).toHaveLength(380);
     const legacy = ALL_CLASSES_DATA.Gambit;
     expect(legacy.id).toBe('gambit');
     expect(ALL_CLASSES_DATA['Nereid Myrathil Augur'].isCompatibilityAlias).toBe(true);

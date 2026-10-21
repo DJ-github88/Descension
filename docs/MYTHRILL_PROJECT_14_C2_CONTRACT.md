@@ -87,4 +87,112 @@ production build with source identity/drift. Bulky artifacts under `D:/AppData/T
 
 ## Implementation / evidence
 
-Pending. This freeze is not an acceptance claim.
+**Delivered at this bounded boundary. Independent review ACCEPT after concrete repairs; optimized
+Build2 compilation exit0 / C2 client mismatches `[]`; production-App5 PASS.** P14 remains open.
+
+### What works / manual procedure
+
+Token Conditions → the existing shared editor; sheet Stats → existing **Sheet shared PC Defending**
+entry (same editor now includes Stunned); GM exact attachment → **Edit selected shared conditions**.
+The component/export and sheet button retain their C1 names for compatibility. Bound creatures use
+their token/GM entry; the personal sheet continues to address only its exact primary PC.
+
+Each explicit Stunned episode has its own UUID, source occurrence reference, optional exact known
+source actor and source-specific manual timing. Add/remove/timing correction use the same P7/controller/
+custody path; HUD exact removal also routes there. Custom same-name conditions preserve canonical
+episodes and remain manual. Removing one episode does not clear its sibling or restore availability
+until the last canonical episode is removed. Unchanged historical source attribution survives source
+departure; fresh adds require an explicitly selected known source actor to still exist.
+
+**Enforced:** no P8 Feather Slash, P9 supported spell, P12A basic strike, P12B acting-creature attack,
+or E1a Riposte execution by a canonically Stunned actor. Owner approval and final P7 installation both
+recheck current state; a prior consent/closed opportunity cannot override it. Retained receipts are
+read first. Refusal has no AP/mana/HP/class-bank/wear/opportunity installation, and retains commands,
+consent and original roll. Explicit GM revalidation/new consent follows the existing action's procedure.
+Blocking itself is not newly interpreted as an AP reaction. W remains declaration collection only.
+
+**Movement:** player/delegate voluntary token/character movement and alternate position edits refuse;
+queued moves recheck current actor after authority awaits and cannot recreate a disappeared original
+attachment from root mirrors. Normal token drag is guarded; the server is decisive. GM repositioning
+remains administrative. Forced movement/teleportation require GM adjudication and repositioning, with
+no client-declared exception or automated relocation rule. Legacy no-token character relays cannot
+relocate bound PCs; production validation already requires a token ID, with an additional handler guard.
+
+**Manual:** initial source attack/critical/save/payment, automatically failed STR/AGI saves (GM records
+failure without rolling), advantage against the target (GM uses the table's Prism procedure and enters
+the final ruling), and expiry. GM tracks **one round** or **end of target's next turn** separately and
+removes the exact episode. Unknown manual duration stays labelled. No automatic source-spell execution,
+expiry/round clock, advantage dice operator, generic rule evaluator, A1b or migration.
+
+### Focused verification and review
+
+- **6 new C2 registered-production cases PASS:** dedicated suite4; isolated E1a1; isolated P9 typed
+  payment1. Full middleware/registered handlers, strict canonical vs legacy identity, multi-source timing,
+  foreign refusal, same-command receipt, checkpoint codec/new runtime/pruned receipt, removal and GM
+  correction, movement siblings/GM exception, actual held-authority-await race, unchanged consent/roll/
+  pools/bank and no opportunity consumption. Post-source-departure timing correction also checked.
+- **46 affected server regressions PASS:** P12A13, P12B24 (including C1's actual doubled/no-wear and
+  retained-face removal behavior), P9's prior9. These are affected-path regressions, not renewed phase
+  acceptance. E1a's historical acceptance is reused; only its new C2 case was independently executed.
+- **Client5 suites /39 tests PASS:** shared controller/adapters, Riposte service, spell consequence,
+  equipment blocking. Retained unknown bytes/no optimistic activation, exact-instance edits, independent
+  custom-title preservation and authoritative-refusal recovery. Review independently ran3 suites/24
+  overlapping checks. Scoped changed service/editor/store lint0 errors/0 warnings; UI detector `[]`.
+- **One bounded independent review:** original R1 missing-map fallback and R2 departed-source timing
+  BLOCK → repairs/probes PASS → ACCEPT. Same review closed App-driven refusal classification/custom-title
+  repairs and the narrow legacy-relay guard/test correction; no outstanding findings. Original failures
+  and probes retained externally. Source sets are not relabelled as a new broad audit.
+- **Production-App5 PASS:** GM/owner/observer; actual E1a controls create/consent to original physical
+  face3, then token Stunned makes execution definitively refused with AP/HP/sequence/roll unchanged.
+  Supported basic-strike consent and voluntary movement/alternate position write refuse. Token→sheet
+  reads same two independent episode IDs, removes each separately, and restores explicit revalidation/
+  consent using face3 for an accepted paid miss. Reverse sheet episode, withheld ACK+broadcast, reload,
+  original command recovery and real reconnect preserve the exact instance. Foreign observer refuses.
+  Desktop1440×1000/tablet1024×768 captured; scrolling editor has no horizontal overflow; sheet entry
+  exercised by keyboard Enter. Four deliberately blocked provider/cloud `Failed to fetch` errors are
+  retained; not a zero-error/live-Firebase claim. App1 path-separator fixture failure, App2 lookup issue,
+  App3 truthful-refusal defect and App4 unrelated hover-menu interception remain external history.
+- Final server-only no-token relay guard widening followed App5; its explicit production validation
+  case plus direct registered-handler probe were rechecked by the same reviewer. App5's actual exact
+  token-ID paths are unchanged. No frontend runtime changed after Build2/App5.
+
+### Source/build identity and concurrency
+
+Entry HEAD `f9527d315f0a5fd338bc29bc0efee493285e58d7`; concurrent external commit advanced `master` to
+`8d23e50bba40168c50ffb0bc41c68a125dc656cb` during this task and included previously dirty combat/Class
+work. **This agent issued no commit, push, deployment, reset or Git write.** Current source is the
+reviewed device bytes, not an assertion that entry HEAD contained C1 corrections.
+
+Build2 input/output C2 runtime parity is empty mismatches across21 client runtime dependencies. Full
+build drift is nonempty: concurrent Class `classReconstructionCompatibility.js`/`gamblerIntegration.test.js`
+and this agent's in-progress `riposteService.test.js`/`sharedConditionAdapters.test.js`. Test-only drift
+is not bundled runtime drift; Class content is not accepted here. All A1a/W1a/W1b and original universal
+card hashes were rechecked unchanged against the retained accepted identities. Context7 was unavailable
+in this harness; implementation reused existing React/Zustand APIs/patterns and added no dependency.
+
+All artifacts below are under `D:/AppData/Temp/opencode/`; regenerate final current-byte verification
+with `node vtt-react/verification/p14/record-stunned-evidence.cjs` from repo root.
+
+| Artifact | SHA-256 |
+|---|---|
+| Build2 asset manifest | `95490a5687e14fc178accef5e13c19cd5518b5fdf0dec99d0360c653f7ef542b` |
+| `p14c2-review1/final-runtime.sha256` | `b3cd91329b2ecd872f4d322c86c9e2bcc7be5849c8eea5306b77adf185db31a0` |
+| `p14c2-review1/REPORT.md` | `bcb350c834d3cf4d5c180257935ab102a84e53fa74a4a8f629133321ed287ec1` |
+| `p14c2-build2/build.json` | `4dd6f00bd5006b4b7aa15f4417b507d5ac9c5564f575e1e8252bb140db5e0bc3` |
+| `p14c2-app5/result.json` | `23b12d66393799932baf7feddcdf5a35838a4045ed23b2bf3dffba2fee603863` |
+| repo `verification/p14/stunned-app-browser.cjs` | `c385dfe5a8c3ad299dcd3af25472236e3576dff7098ffeae890870c9673122ab` |
+
+`p14c2-review1/REPORT.md` + `final-runtime.sha256` identify all29 reviewed runtime dependencies and
+focused test bytes. `p14c2-final-evidence.json` ties those identities to Build2/App5 and protected sources.
+No bulky artifacts were added to Git. Permanent live Firebase durability, two physical devices and human
+table validation remain existing environment gates. Class HQ's parent Mind checkpoint is preserved.
+
+### Remaining / next smallest useful slice
+
+No unresolved creator rule blocks this delivered boundary. Complete Stunned automation remains blocked
+on an approved Prism advantage execution procedure, actual save integration and authenticated timing
+boundaries (including the interpretation of one round). Smallest useful next preparation: a named
+Shield Bash result-entry adapter that supplies exact source/target and end-target-next-turn metadata to
+this controller after GM-resolved STR-v-CON; automatic payment/reaction execution or expiry would need
+their own separate freeze. General lifecycle/creature Defend, other conditions, trigger highlighting,
+Counterspell/Intervene, obstruction and propagation remain open. **Do not declare all P14 complete.**

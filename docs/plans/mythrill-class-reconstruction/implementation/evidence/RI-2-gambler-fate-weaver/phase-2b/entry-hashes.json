@@ -240,6 +240,20 @@
     "vtt-react/src/services/sharedConditionService.js": "1698fffd1f8bcbb739c895e4305dec539f0b22e123aa63fc1ae95a84ff01a947",
     "vtt-react/verification/p13/riposte-app-browser.cjs": "55d5216788ca5d1f8b27b8be4c194ae87f1cdba2fb7572f2f2c140260cb4dd17",
     "vtt-react/verification/p14/defending-app-browser.cjs": "78ab8b8156c5c2d2919dce8c6d65a1b7f26e54310aa3ea9f6b0f66dea753c542",
-    "vtt-react/verification/p14/record-evidence.cjs": "d8efe1b4b09c85728b077aa2d8c7badb205716efd9952eeae3e4fbb5aab07da2"
-  }
+    "vtt-react/verification/p14/record-evidence.cjs": "d8efe1b4b09c85728b077aa2d8c7badb205716efd9952eeae3e4fbb5aab07da2",
+    "vtt-react/src/data/classes/augurDispositions.js": "absent",
+    "vtt-react/src/data/classes/__tests__/augurDispositions.test.js": "absent",
+    "vtt-react/src/components/character-creation-wizard/steps/__tests__/Step1CoreDraftFateWeaver.test.jsx": "absent"
+  },
+  "scopeAmendments": [
+    {
+      "at": "2026-10-21T09:40:48.553Z",
+      "paths": [
+        "vtt-react/src/data/classes/augurDispositions.js",
+        "vtt-react/src/data/classes/__tests__/augurDispositions.test.js",
+        "vtt-react/src/components/character-creation-wizard/steps/__tests__/Step1CoreDraftFateWeaver.test.jsx"
+      ],
+      "reason": "New Phase 2B path added after preflight; entry state recorded as absent."
+    }
+  ]
 }

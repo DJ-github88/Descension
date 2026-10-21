@@ -85,6 +85,11 @@ describe('P14-C2 Stunned registered production paths', function() {
   });
   it('supported movement siblings refuse voluntary movement, generic position update cannot bypass; GM can reposition and removal restores movement', async() => {
     const r = (await add()).r, start = actors.clone(token(pc).position);
+    // The production receiver accepts characterId as a token ID on the old relay. No-token legacy
+    // requests must not move any bound PC, including when sender has no attachment of their own.
+    const ambiguous = once(other, 'validation_error');
+    other.emit('character_moved', { roomId: room.id, characterId: 'pc', mapId: 'default', position: { x: 900, y: 25 } });
+    assert.equal((await ambiguous).event, 'character_moved'); assert.deepEqual(token(pc).position, start);
     for (const event of ['character_moved', 'token_moved']) {
       const error = once(owner, 'room_error'); owner.emit(event, { roomId: room.id, tokenId: 'pc', mapId: 'default', position: { x: 200, y: 25 } });
       assert.equal((await error).code, 'actor_stunned'); assert.deepEqual(token(pc).position, start);

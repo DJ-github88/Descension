@@ -9,6 +9,10 @@ const writable = [
   'data/classes/fateWeaverData.js', 'data/talentTrees/fateWeaver.js',
   'data/resourceSystems/fateWeaverResourceGuide.js', 'components/hud/FateWeaverResourceDisplay.jsx',
   'data/classes/__tests__/fateWeaverIntegration.test.js', 'data/classes/__tests__/fateWeaverDisposition.test.js',
+  'data/classes/__tests__/gamblerIntegration.test.js', 'data/classes/augurDispositions.js',
+  'data/classes/__tests__/augurDispositions.test.js',
+  'components/character-creation-wizard/steps/__tests__/Step1CoreDraftFateWeaver.test.jsx',
+  'components/rules/RulesPage.jsx',
   'components/hud/__tests__/FateWeaverResourceDisplay.test.jsx',
   'data/classes/index.js', 'data/classes/classDisplayData.js', 'data/classes/classReconstructionCompatibility.js',
   'data/classSpellGenerator.js', 'data/classSpellCategories.js', 'data/talentTreeData.js',
@@ -45,8 +49,8 @@ const hash = p => fs.existsSync(path.join(root, p)) && fs.statSync(path.join(roo
 if (entry) {
   const added = writable.filter(p => !(p in entry.files));
   if (added.length) {
-    added.forEach(p => { entry.files[p] = hash(p); });
-    entry.scopeAmendments = [...(entry.scopeAmendments || []), { at: new Date().toISOString(), paths: added, reason: 'Phase 2B scope captured before edit.' }];
+    added.forEach(p => { entry.files[p] = 'absent'; });
+    entry.scopeAmendments = [...(entry.scopeAmendments || []), { at: new Date().toISOString(), paths: added, reason: 'New Phase 2B path added after preflight; entry state recorded as absent.' }];
     fs.writeFileSync(entryPath, JSON.stringify(entry, null, 2));
   }
 }
@@ -70,7 +74,7 @@ if (!entry) {
   ledger.artifactHashes = Object.fromEntries([
     'CONTENT-LOCK.md', 'AUGUR-DISPOSITION.md', 'augur-disposition.json', 'complete-manifest.json',
     'jest-results.json', 'eslint-results.json', 'browser-results.json', 'resource-1280.png', 'resource-360.png',
-    'REPORT.md', 'capture.cjs', 'verify-lint.cjs'
+    'fate-detail-1280.png', 'fate-detail-360.png', 'fate-tree-360.png', 'REPORT.md', 'capture.cjs', 'verify-lint.cjs'
   ].filter(name => fs.existsSync(path.join(__dirname, name))).map(name => [name,
     crypto.createHash('sha256').update(fs.readFileSync(path.join(__dirname, name))).digest('hex')]));
   fs.writeFileSync(path.join(__dirname, 'task-changes.json'), JSON.stringify({

@@ -141,5 +141,5 @@ Each passive has exactly three ranks. Absolute rank values are authored below; o
 The machine-readable inventory is `augur-disposition.json` and its summary is `AUGUR-DISPOSITION.md`. Coverage is fixed at:
 
 - 45 active spells + 44 pool entries + 57 nodes + 150 rank rows + 57 materialized grants + 11 subrace variants + 1 variant alias + 9 heritage edges + 3 resource IDs + 3 specializations = 380 rows.
-- Every row has `keep`, `adapt` or `retire`; every `adapt` has a real `cr1_fate_weaver_*` destination; every legacy row is `keep` with `automaticConversion: false`.
+- Every row records an explicit `keep`, `adapt` or `legacy-only` disposition. All 380 rows are `keep` because no authored exact crosswalk exists; no row claims a Fate Weaver destination, and every row has `automaticConversion: false`.
 - No legacy ID is renamed or deleted. Fate Weaver imports no Benediction, Malediction or Omen Debt bank and gains no heritage edge.

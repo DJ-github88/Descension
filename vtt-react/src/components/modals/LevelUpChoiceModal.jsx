@@ -161,6 +161,7 @@ import { AUGUR_DATA } from '../../data/classes/augurData';
 import { CRUSADER_DATA } from '../../data/classes/crusaderData';
 import { CHAOS_WEAVER_DATA } from '../../data/classes/chaosWeaverIntegration';
 import { GAMBLER_DATA } from '../../data/classes/gamblerData';
+import { FATE_WEAVER_DATA } from '../../data/classes/fateWeaverData';
 
 
 
@@ -281,7 +282,9 @@ const CLASS_DATA_MAP = {
 
     'Crusader': CRUSADER_DATA,
 
-    'Chaos Weaver': CHAOS_WEAVER_DATA
+    'Chaos Weaver': CHAOS_WEAVER_DATA,
+
+    'Fate Weaver': FATE_WEAVER_DATA
 
 };
 

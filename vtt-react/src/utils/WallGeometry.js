@@ -763,7 +763,8 @@ export function buildWallRenderItem({
     patternId,
     pattern,
     window: null,
-    door: null
+    door: null,
+    wallsCollapsed: !!wallsCollapsed
   };
 
   if (isWindow) {

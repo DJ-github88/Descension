@@ -85,6 +85,35 @@ does not authorize deployment or satisfy roadmap §20 release gates.
 
 ## Current work
 
+### P14-C2 shared Stunned — bounded implementation, independent ACCEPT, Build2/App5 PASS
+
+[C2 contract and evidence](MYTHRILL_PROJECT_14_C2_CONTRACT.md#implementation--evidence) extend C1's
+same exact-actor editor/controller/P7 path. Primary PCs and bound creature instances have independent
+source occurrence/UUID/timing records; token↔sheet/GM/exact HUD removal agree. Legacy/custom Stunned
+names are not mechanically promoted. Source departure does not prevent timing-only correction.
+
+- **Enforced:** supported P8/P9/P12A/P12B acting-source actions and original E1a reaction refuse while
+  canonically Stunned, at owner approval and post-await final P7 stage. Old consent/opportunity does
+  not override it. Zero partial pools/bank/HP/opportunity changes; roll/custody retained. Voluntary player/
+  delegate movement refuses through supported move/position siblings and post-await debouncer.
+- **Manual:** initial source outcome/save/payment, STR/AGI automatic-failure recording, table's Prism
+  advantage procedure, independent source-specific expiry. Critical1round and Shield Bash target-end-
+  next-turn remain distinct; GM removes each exact instance. GM repositioning handles forced movement/
+  teleport/correction; generic administration/recovery remains available.
+- **Verification:**6 new C2 production cases +46 affected server regressions; client5 suites39 tests.
+  Single review BLOCK→repair→ACCEPT, final focused delta rechecks;29 runtime dependency hashes retained.
+  Build2 compilation exit0/C2 client mismatches `[]`; App5 real token→sheet/reverse, independent sources,
+  actual E1a refusal/restoration with face3, basic-strike/movement refusal, lost ACK+broadcast/reload/
+  same-command/reconnect, observer refusal and desktop/tablet.4 intentionally blocked-fetch errors.
+- **Identity:** entry `master/f9527d31`; concurrent external commit advanced HEAD to `8d23e50b`. Build2
+  full drift includes two concurrent Class files and two in-progress test files, explicitly outside
+  runtime parity. Final server-only legacy-relay guard rechecked after App5. Protected W1/A1a/card
+  identities unchanged; Class/race/RI-2 bytes/checkpoint preserved. This agent made no Git write.
+
+C1/E1a/W/B2 accepted evidence carries forward. Automatic lifecycle/full save/advantage automation,
+creature Defend and broader P14 remain open. Next smallest preparation: named Shield Bash manual
+result-entry source/timing adapter, with its own freeze. No commit/push/deployment or A1b.
+
 ### P14-C1 shared PC Defending — implemented, independently reviewed, real-App verified
 
 HQ authorized the frozen manual PC scope. [P14-C1 §6](MYTHRILL_PROJECT_14_C1_CONTRACT.md#6-implementation-and-verification)
@@ -107,7 +136,7 @@ one exact-actor P7 controller/custody/editor serve token, sheet, GM and manual D
   receipt recovery, reconnect and checkpoint codec. Permanent checkpoint/new-runtime/pruned-receipt
   behavior is production-stack tested. Provider/cloud remain fixtures; four blocked-fetch errors retained.
 
-Stunned enforcement, automatic expiry and generic creature Defend remain follow-ons. Reaction
+Stunned's bounded enforcement is subsequently delivered by C2 above; automatic expiry and generic creature Defend remain follow-ons. Reaction
 highlighting/actual triggers/Counterspell-Intervene chains, obstruction and propagation stay visible in
 the roadmap. Class/RI-2/Wizard/resource ownership preserved; no A1b, migration, commit/push/deploy.
 

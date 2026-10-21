@@ -1,3 +1,5 @@
+import fs from 'fs';
+import path from 'path';
 import {
   FATE_WEAVER_DATA, FATE_WEAVER_MANIFEST, FATE_WEAVER_AUTHORED_RECORDS,
   FATE_WEAVER_OPTIONAL_RECORDS, FATE_WEAVER_CORE_RECORDS, FATE_WEAVER_TALENT_ACTIVES,
@@ -5,6 +7,14 @@ import {
   validateFateWeaverState, projectFateWeaverResource
 } from '../fateWeaverData';
 import { FATE_WEAVER_TREES, FATE_WEAVER_TALENT_NODES } from '../../talentTrees/fateWeaver';
+import { ALL_CLASSES_DATA } from '..';
+import { CLASS_PROVENANCE, getClassNativeHeritageIds } from '../../classHeritageRegistry';
+import { AUGUR_DISPOSITIONS } from '../classReconstructionCompatibility';
+import { ALL_CLASS_SPELLS } from '../../classSpellGenerator';
+import { TALENT_TREES } from '../../talentTreeData';
+import { CLASS_SPECIALIZATIONS } from '../../classSpellCategories';
+import { CLASS_DISPLAY_DATA } from '../classDisplayData';
+import { fateWeaverResourceGuide } from '../../resourceSystems/fateWeaverResourceGuide';
 
 describe('Fate Weaver Phase 2B package', () => {
   test('has the locked record and node shape', () => {
@@ -57,6 +67,46 @@ describe('Fate Weaver Phase 2B package', () => {
     expect(FATE_WEAVER_DATA.resource).toBe('Fate Links');
   });
 
+  test('registers the class in ordinary catalogue, generator, tree, display and guide surfaces', () => {
+    expect(ALL_CLASSES_DATA['Fate Weaver']).toMatchObject({ id: 'fate-weaver', name: 'Fate Weaver', isCompatibilityAlias: false });
+    expect(ALL_CLASS_SPELLS['Fate Weaver']).toHaveLength(114);
+    expect(ALL_CLASS_SPELLS['Fate Weaver'].filter(spell => spell.source !== 'general')).toHaveLength(96);
+    expect(new Set(ALL_CLASS_SPELLS['Fate Weaver'].map(spell => spell.id)).size).toBe(114);
+    expect(TALENT_TREES['Fate Weaver']).toBeTruthy();
+    expect(CLASS_SPECIALIZATIONS['Fate Weaver'].specializations.map(spec => spec.id)).toEqual(['covenant', 'severance', 'tapestry']);
+    expect(CLASS_DISPLAY_DATA.find(entry => entry.name === 'Fate Weaver')).toMatchObject({ role: 'Support / Control' });
+    expect(fateWeaverResourceGuide).toMatchObject({ version: 2, archetype: 'Finite Consented Links' });
+  });
+
+  test('all signature and capstone gates accept only the authored same-tree path', () => {
+    const points = (treeId, talents) => FATE_WEAVER_TALENT_NODES
+      .filter(node => node.treeId === treeId)
+      .reduce((total, node) => total + (talents[node.id] || 0), 0);
+    const canUnlock = (node, talents, level) => level >= node.minLevel
+      && points(node.treeId, talents) >= node.requiresPoints
+      && node.requires.every(id => (talents[id] || 0) >= node.maxRanks);
+
+    FATE_WEAVER_TREES.forEach(tree => {
+      const signature = tree.nodes.find(node => node.id === tree.meta.signatureNode);
+      const capstone = tree.nodes.find(node => node.id === tree.meta.capstoneNode);
+      const justShort = { [tree.nodes[0].id]: 3, [tree.nodes[1].id]: 3, [tree.nodes[2].id]: 3 };
+      const atThreshold = { ...justShort, [tree.nodes[3].id]: 1 };
+      const fullTree = Object.fromEntries(tree.nodes.map(node => [node.id, node.maxRanks]));
+      const otherTree = Object.fromEntries(FATE_WEAVER_TALENT_NODES.filter(node => node.treeId !== tree.id).map(node => [node.id, node.maxRanks]));
+
+      expect(signature).toMatchObject({ minLevel: 3, requiresPoints: 10, requiresAll: true, maxRanks: 1 });
+      expect(capstone).toMatchObject({ minLevel: 10, requiresPoints: 45, requiresAll: true, maxRanks: 1 });
+      expect(canUnlock(signature, justShort, 3)).toBe(false);
+      expect(canUnlock(signature, otherTree, 10)).toBe(false);
+      expect(canUnlock(signature, { ...atThreshold, [tree.nodes[0].id]: 0 }, 3)).toBe(false);
+      expect(canUnlock(signature, justShort, 2)).toBe(false);
+      expect(canUnlock(signature, atThreshold, 3)).toBe(true);
+      expect(canUnlock(capstone, { ...fullTree, [signature.id]: 0 }, 10)).toBe(false);
+      expect(canUnlock(capstone, fullTree, 9)).toBe(false);
+      expect(canUnlock(capstone, fullTree, 10)).toBe(true);
+    });
+  });
+
   test('validates tokens, links and the read-only projection', () => {
     const state = { tokens: [{ state: 'free' }, { state: 'reserved' }, { state: 'recovering' }], links: [
       { id: 'link-1', sourceId: 'actor-a', targetId: 'actor-b', sourceName: 'A', targetName: 'B', purpose: 'guard the gate', tokenState: 'free', usesRemaining: 1, amountMax: 2, uses: 1 }
@@ -68,4 +118,24 @@ describe('Fate Weaver Phase 2B package', () => {
     expect(projectFateWeaverResource({ state }, false).links[0].sourceName).toBe('Endpoint hidden');
     expect(projectFateWeaverResource(null)).toMatchObject({ initialized: false, links: [] });
   });
+});
+
+afterAll(() => {
+  if (process.env.RI2_EVIDENCE_EXPORT !== '1') return;
+  const output = path.resolve(process.cwd(), '../docs/plans/mythrill-class-reconstruction/implementation/evidence/RI-2-gambler-fate-weaver/phase-2b/complete-manifest.json');
+  fs.writeFileSync(output, JSON.stringify({
+    manifest: FATE_WEAVER_MANIFEST,
+    authoredRecords: FATE_WEAVER_AUTHORED_RECORDS,
+    projectedSpells: FATE_WEAVER_DATA.spells,
+    talentTrees: FATE_WEAVER_TREES,
+    progression: FATE_WEAVER_DATA.progression,
+    resourceSystem: FATE_WEAVER_DATA.resourceSystem,
+    resourceGuide: fateWeaverResourceGuide,
+    nativeProvenance: CLASS_PROVENANCE['Fate Weaver'],
+    acquisitionRecords: FATE_WEAVER_DATA.restrictions.acquisition.records,
+    nativeVariants: FATE_WEAVER_DATA.subraceVariants,
+    capabilityStatus: { authored: true, selectableDevelopment: true, manuallyUsable: true, automaticallyAdmitted: false, independentReview: 'pending' },
+    nativeAccess: getClassNativeHeritageIds('Fate Weaver'),
+    augurDispositions: AUGUR_DISPOSITIONS
+  }, null, 2));
 });

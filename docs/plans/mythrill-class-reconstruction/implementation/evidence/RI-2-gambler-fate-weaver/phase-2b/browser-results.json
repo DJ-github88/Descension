@@ -1,0 +1,95 @@
+{
+  "capturedAt": "2026-10-21T09:44:20.000Z",
+  "baseUrl": "http://localhost:3000",
+  "route": "/?section=rules&category=character-creation&sub=classes&class=Fate%20Weaver",
+  "browser": "Playwright Chromium",
+  "console": {
+    "errors": 0,
+    "warnings": 1,
+    "warning": "Scoped character save not persisted: NO_ACTIVE_SCOPE (expected outside an active character scope)"
+  },
+  "viewports": [
+    {
+      "width": 1280,
+      "height": 900,
+      "horizontalOverflow": false,
+      "screenshot": "fate-detail-1280.png"
+    },
+    {
+      "width": 360,
+      "height": 800,
+      "horizontalOverflow": false,
+      "screenshot": "fate-detail-360.png",
+      "scope": "class detail"
+    },
+    {
+      "width": 360,
+      "height": 800,
+      "horizontalOverflow": false,
+      "screenshot": "fate-tree-360.png",
+      "scope": "Tapestry Keeper talent tree"
+    }
+  ],
+  "checks": [
+    {
+      "name": "class detail heading",
+      "passed": true,
+      "observed": "Fate Weaver"
+    },
+    {
+      "name": "overview identity",
+      "passed": true,
+      "observed": "A positional support/controller who reserves three finite threads..."
+    },
+    {
+      "name": "manual resource copy",
+      "passed": true,
+      "observed": "Three threads, three links, and a public promise before the consequence."
+    },
+    {
+      "name": "resource boundaries",
+      "passed": true,
+      "observed": ["3 tokens | max 3 links", "recorded both ways", "completed long rest only", "manual tabletop only"]
+    },
+    {
+      "name": "uninitialized tracker",
+      "passed": true,
+      "observed": "Fate Links - not initialized. Record the actual tokens and links; opening this display never creates or recovers a thread."
+    },
+    {
+      "name": "specializations",
+      "passed": true,
+      "observed": ["Covenant Weaver", "Thread Cutter", "Tapestry Keeper"]
+    },
+    {
+      "name": "talent gates",
+      "passed": true,
+      "observed": "Five talent points per level, global cap fifty. Signatures require ten same-tree points at level three; capstones forty-five at level ten."
+    },
+    {
+      "name": "talent tree header and help",
+      "passed": true,
+      "observed": "50 Capacity; 11 authored rows; capstone and tier copy defer to authored same-tree gates."
+    },
+    {
+      "name": "all three talent trees",
+      "passed": true,
+      "observed": ["Covenant Weaver: 18 nodes", "Thread Cutter: 18 nodes", "Tapestry Keeper: 18 nodes"]
+    },
+    {
+      "name": "spell browser",
+      "passed": true,
+      "observed": "Page 1 of 5; Level I; Tie the Thread and Cut Clean render with manual action text."
+    },
+    {
+      "name": "phone-width layout",
+      "passed": true,
+      "observed": "No horizontal overflow at 360px on the class-detail route."
+    }
+  ],
+  "limitations": [
+    "Authenticated /account/characters/create and saved-character persistence were unavailable in this browser session.",
+    "360px /game remains gated by PhoneGate; phone-width evidence applies to the class-detail route only.",
+    "Creation and level-up selectability are covered by focused jsdom tests, not authenticated browser persistence."
+  ]
+}
