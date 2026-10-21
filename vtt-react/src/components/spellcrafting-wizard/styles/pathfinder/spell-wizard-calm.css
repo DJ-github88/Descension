@@ -873,6 +873,9 @@ html body .pf-spell-card.wow-spell-card .spell-rollable-table-container {
 }
 
 /* Component pills (V, S, M, C) on calm spell card */
+html body .pf-spell-card.wow-spell-card {
+  overflow: visible !important;
+}
 html body .pf-spell-card.wow-spell-card .spell-component-pills {
   gap: 4px !important;
 }
@@ -882,11 +885,11 @@ html body .pf-spell-card.wow-spell-card .spell-component-pill {
   min-width: 16px !important;
   min-height: 16px !important;
   border-radius: 3px !important;
-  background: rgba(48, 36, 25, 0.45) !important;
-  border: 1px solid rgba(248, 245, 238, 0.35) !important;
+  background: rgba(35, 25, 18, 0.65) !important;
+  border: 1px solid rgba(248, 245, 238, 0.4) !important;
   color: #faf6ee !important;
   font-family: 'Cinzel', Georgia, serif !important;
-  font-size: 9px !important;
+  font-size: 9.5px !important;
   font-weight: 700 !important;
   text-shadow: none !important;
   box-shadow: none !important;
@@ -894,53 +897,97 @@ html body .pf-spell-card.wow-spell-card .spell-component-pill {
 }
 html body .pf-spell-card.wow-spell-card .spell-component-pill:hover,
 html body .pf-spell-card.wow-spell-card .spell-component-pill.active {
-  background: rgba(48, 36, 25, 0.8) !important;
-  border-color: rgba(248, 245, 238, 0.65) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
   color: #ffffff !important;
-  transform: none !important;
-  box-shadow: none !important;
 }
 html body .pf-spell-card.wow-spell-card .spell-component-pill--verbal {
-  border-color: rgba(140, 180, 210, 0.5) !important;
-  color: #e6f0f8 !important;
+  border-color: rgba(145, 180, 215, 0.65) !important;
+  color: #e2effa !important;
+  background: rgba(32, 48, 64, 0.7) !important;
+}
+html body .pf-spell-card.wow-spell-card .spell-component-pill--verbal:hover,
+html body .pf-spell-card.wow-spell-card .spell-component-pill--verbal.active {
+  border-color: #c2def5 !important;
+  background: rgba(45, 70, 95, 0.9) !important;
 }
 html body .pf-spell-card.wow-spell-card .spell-component-pill--somatic {
-  border-color: rgba(150, 190, 145, 0.5) !important;
-  color: #edf7eb !important;
+  border-color: rgba(145, 185, 140, 0.65) !important;
+  color: #e5f4e3 !important;
+  background: rgba(34, 52, 34, 0.7) !important;
+}
+html body .pf-spell-card.wow-spell-card .spell-component-pill--somatic:hover,
+html body .pf-spell-card.wow-spell-card .spell-component-pill--somatic.active {
+  border-color: #bce6b8 !important;
+  background: rgba(48, 75, 48, 0.9) !important;
 }
 html body .pf-spell-card.wow-spell-card .spell-component-pill--material {
-  border-color: rgba(210, 185, 140, 0.5) !important;
-  color: #fbf5e6 !important;
+  border-color: rgba(215, 185, 130, 0.65) !important;
+  color: #fbf2de !important;
+  background: rgba(58, 44, 24, 0.7) !important;
+}
+html body .pf-spell-card.wow-spell-card .spell-component-pill--material:hover,
+html body .pf-spell-card.wow-spell-card .spell-component-pill--material.active {
+  border-color: #fae3ac !important;
+  background: rgba(82, 62, 32, 0.9) !important;
 }
 html body .pf-spell-card.wow-spell-card .spell-component-pill--concentration {
-  border-color: rgba(185, 160, 205, 0.5) !important;
-  color: #f5eff9 !important;
+  border-color: rgba(185, 160, 205, 0.65) !important;
+  color: #f3eaf8 !important;
+  background: rgba(50, 36, 62, 0.7) !important;
+}
+html body .pf-spell-card.wow-spell-card .spell-component-pill--concentration:hover,
+html body .pf-spell-card.wow-spell-card .spell-component-pill--concentration.active {
+  border-color: #e1cbf2 !important;
+  background: rgba(72, 50, 90, 0.9) !important;
 }
 
 /* Component Popover on calm spell card */
 html body .pf-component-popover {
-  background: var(--adventure-paper, #f1ece1) !important;
-  border: 1px solid var(--adventure-rule, #c4baa6) !important;
-  border-radius: 3px !important;
-  box-shadow: 0 4px 16px rgba(52, 37, 26, 0.22) !important;
+  background: var(--adventure-paper, #faf6ee) !important;
+  border: 1px solid var(--adventure-rule, #b6a080) !important;
+  border-radius: 4px !important;
+  box-shadow: 0 6px 20px rgba(45, 24, 16, 0.28), 0 2px 6px rgba(45, 24, 16, 0.16) !important;
   color: var(--adventure-ink, #34251a) !important;
+  text-align: left !important;
 }
 html body .pf-component-popover .pf-component-popover-header {
-  color: var(--adventure-seal, #663c32) !important;
   font-family: 'Cinzel', Georgia, serif !important;
   font-size: 11px !important;
   font-weight: 700 !important;
-  letter-spacing: 0.04em !important;
+  letter-spacing: 0.05em !important;
   border-bottom: 1px solid var(--adventure-rule, #c4baa6) !important;
-  padding-bottom: 3px !important;
-  margin-bottom: 4px !important;
+  padding-bottom: 4px !important;
+  margin-bottom: 2px !important;
+}
+html body .pf-component-popover--verbal .pf-component-popover-header {
+  color: #2b4766 !important;
+  border-color: rgba(145, 180, 215, 0.4) !important;
+}
+html body .pf-component-popover--somatic .pf-component-popover-header {
+  color: #2f542b !important;
+  border-color: rgba(145, 185, 140, 0.4) !important;
+}
+html body .pf-component-popover--material .pf-component-popover-header {
+  color: #73501a !important;
+  border-color: rgba(215, 185, 130, 0.4) !important;
+}
+html body .pf-component-popover--concentration .pf-component-popover-header {
+  color: #503063 !important;
+  border-color: rgba(185, 160, 205, 0.4) !important;
 }
 html body .pf-component-popover .pf-component-popover-body {
   color: var(--adventure-ink, #34251a) !important;
   font-family: 'Crimson Text', Georgia, serif !important;
   font-size: 13px !important;
-  line-height: 1.4 !important;
+  line-height: 1.45 !important;
   font-style: italic !important;
+}
+html body .pf-component-popover .pf-component-popover-arrow {
+  border-bottom-color: var(--adventure-rule, #b6a080) !important;
+}
+html body .pf-component-popover .pf-component-popover-arrow::after {
+  border-bottom-color: var(--adventure-paper, #faf6ee) !important;
 }
 
 /* Calm TTRPG Rarity borders (bookcloth and manuscript leather tones) */

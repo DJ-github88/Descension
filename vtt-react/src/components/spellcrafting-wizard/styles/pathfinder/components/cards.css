@@ -1987,25 +1987,17 @@ body .pf-spell-card.wizard .wow-spell-card-header,
 
   .pf-component-popover {
     min-width: 140px;
-    max-width: 220px;
+    max-width: min(240px, calc(100vw - 24px));
     padding: 6px 9px;
-    font-size: 10px;
-    left: 0;
-    transform: none;
-  }
-
-  .pf-component-popover::before {
-    left: 12px;
-    transform: none;
   }
 
   .pf-component-popover-header {
-    font-size: 9.5px;
+    font-size: 10px;
   }
 
   .pf-component-popover-body {
-    font-size: 10px;
-    line-height: 1.25;
+    font-size: 12px;
+    line-height: 1.35;
   }
 
   /* New spell-header-top responsive */
