@@ -1,5 +1,125 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useLayoutEffect, useEffect } from 'react';
 import { getCustomIconUrl } from '../../../../utils/assetManager';
+
+const useIsomorphicLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect;
+
+/**
+ * Single spell component pill (V, S, M, C) with smart boundary clamping
+ * so popovers never get cut off by card edges or parent containers.
+ */
+const SpellComponentPill = ({
+  compKey,
+  label,
+  name,
+  icon,
+  fullText,
+  isOpen,
+  onMouseEnter,
+  onMouseLeave,
+  onClick,
+}) => {
+  const pillRef = useRef(null);
+  const popoverRef = useRef(null);
+  const [popoverPos, setPopoverPos] = useState({ left: 'auto', right: '-6px', transform: 'none' });
+  const [arrowStyle, setArrowStyle] = useState({});
+
+  useIsomorphicLayoutEffect(() => {
+    if (!isOpen || !pillRef.current || !popoverRef.current) return;
+
+    const updatePosition = () => {
+      const pillEl = pillRef.current;
+      const popoverEl = popoverRef.current;
+      if (!pillEl || !popoverEl) return;
+
+      const cardEl = popoverEl.closest('.pf-spell-card') ||
+                     popoverEl.closest('.wow-spell-card') ||
+                     popoverEl.closest('.spell-card-header') ||
+                     document.body;
+
+      const pillRect = pillEl.getBoundingClientRect();
+      const popoverRect = popoverEl.getBoundingClientRect();
+      const cardRect = cardEl.getBoundingClientRect();
+      const wrapperRect = pillEl.parentElement ? pillEl.parentElement.getBoundingClientRect() : pillRect;
+
+      const pillCenter = pillRect.left + pillRect.width / 2;
+      const popoverWidth = popoverRect.width || 240;
+
+      // Determine boundaries within card and viewport (with comfortable padding)
+      const minLeft = Math.max(cardRect.left + 8, 8);
+      const maxRight = Math.min(cardRect.right - 8, (window.innerWidth || 1200) - 8);
+
+      // Default preference: centered under pill
+      let targetLeft = pillCenter - popoverWidth / 2;
+
+      // Clamp right edge so it never overflows card or window
+      if (targetLeft + popoverWidth > maxRight) {
+        targetLeft = maxRight - popoverWidth;
+      }
+      // Clamp left edge so it never overflows left edge
+      if (targetLeft < minLeft) {
+        targetLeft = minLeft;
+      }
+
+      // Convert to coordinate relative to wrapper
+      const relativeLeft = targetLeft - wrapperRect.left;
+      // Arrow points to pillCenter relative to popover
+      const arrowLeft = Math.max(12, Math.min(popoverWidth - 12, pillCenter - targetLeft));
+
+      setPopoverPos({
+        left: `${relativeLeft}px`,
+        right: 'auto',
+        transform: 'none',
+        opacity: 1,
+      });
+      setArrowStyle({
+        left: `${arrowLeft}px`,
+        right: 'auto',
+        transform: 'translateX(-50%)',
+      });
+    };
+
+    updatePosition();
+    window.addEventListener('resize', updatePosition);
+    return () => window.removeEventListener('resize', updatePosition);
+  }, [isOpen]);
+
+  const cleanText = fullText ? fullText.replace(/^["'“](.*)["'”]$/, '$1').trim() : '';
+
+  return (
+    <div
+      className={`spell-component-pill-wrapper ${isOpen ? 'active' : ''}`}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+      onClick={onClick}
+    >
+      <span
+        ref={pillRef}
+        className={`spell-component-pill spell-component-pill--${compKey} ${isOpen ? 'active' : ''}`}
+        role="button"
+        tabIndex={0}
+      >
+        {label}
+      </span>
+
+      {isOpen && fullText && (
+        <div
+          ref={popoverRef}
+          className={`pf-component-popover pf-component-popover--${compKey}`}
+          style={{ ...popoverPos }}
+        >
+          <div className="pf-component-popover-arrow" style={arrowStyle} />
+          <div className="pf-component-popover-header">
+            <i className={`fas ${icon}`}></i>
+            <span>{name}</span>
+          </div>
+          <div className="pf-component-popover-body">
+            “{cleanText}”
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
 
 const SpellCardHeader = ({
   spell,
@@ -302,9 +422,14 @@ const SpellCardHeader = ({
                       const isOpen = activeComponentTooltip === c;
 
                       return (
-                        <div
+                        <SpellComponentPill
                           key={i}
-                          className="spell-component-pill-wrapper"
+                          compKey={c}
+                          label={label}
+                          name={name}
+                          icon={icon}
+                          fullText={fullText}
+                          isOpen={isOpen}
                           onMouseEnter={() => {
                             if (typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(hover: hover)').matches) {
                               setActiveComponentTooltip(c);
@@ -319,27 +444,7 @@ const SpellCardHeader = ({
                             e.stopPropagation();
                             setActiveComponentTooltip(prev => prev === c ? null : c);
                           }}
-                        >
-                          <span
-                            className={`spell-component-pill spell-component-pill--${c} ${isOpen ? 'active' : ''}`}
-                            role="button"
-                            tabIndex={0}
-                          >
-                            {label}
-                          </span>
-
-                          {isOpen && fullText && (
-                            <div className={`pf-component-popover pf-component-popover--${c}`}>
-                              <div className="pf-component-popover-header">
-                                <i className={`fas ${icon}`}></i>
-                                <span>{name}</span>
-                              </div>
-                              <div className="pf-component-popover-body">
-                                "{fullText}"
-                              </div>
-                            </div>
-                          )}
-                        </div>
+                        />
                       );
                     });
 
