@@ -66,7 +66,7 @@ test('production creature placement and template propagation preserve detached i
 test('unsupported whole content stays inspectable and exposes no casting or admission control', () => {
   const association = newItemAbility('d2398809-d3cf-4931-b8f6-24e5a382e1a5'); association.record.authoredDraft.effectTypes.push('debuff');
   render(<CreatureAbilityDetails association={association} saved />);
-  expect(screen.getByText(/Unsupported\/manual/)).toBeInTheDocument(); expect(screen.getByText(/Creature casting unavailable/)).toBeInTheDocument();
+  expect(screen.getByText(/Unsupported\/manual/)).toBeInTheDocument(); expect(screen.getByText(/Library admission alone does not authorize/)).toBeInTheDocument();
   expect(screen.queryByRole('button')).not.toBeInTheDocument(); expect(screen.getByText(/"debuff"/)).toBeInTheDocument();
 });
 test('session drafts are keyed by exact creature identity, never substituted for a different edit', () => {

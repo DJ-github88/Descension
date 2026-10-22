@@ -62,12 +62,12 @@ const record = (level, suffix, name, ap, targetingConfig, effectTypes, program, 
 export const FATE_WEAVER_COMMON_MECHANICS = {
   price: 'AP and mana are explicit; links reserve thread tokens, never a second resource bank.',
   consent: 'Every link and covenant requires recorded consent from both actors. Consent can be withdrawn; withdrawal ends the link immediately.',
-  tokens: 'Exactly three tokens in free, reserved or recovering. One token per link, except an authored covenant may reserve two. Max three links. Reserved tokens become recovering when the link closes and return to free at the start of the owning caster next own turn.',
+  tokens: 'Exactly three tokens in free, reserved or recovering. One token per link, except an authored covenant may reserve two. Max three links. Reserved tokens become recovering only when the link is closed and its uses are exhausted, returning to free at the start of the owning caster next own turn.',
   links: 'Distinct endpoints, 30 ft formation range each and 60 ft maintenance separation unless a record says otherwise, one consequence per link per round, and no recursive transfer.',
   damage: 'Only original assigned damage after normal mitigation can be transferred; derived damage never qualifies. A transfer moves at most three points and is not a new damage event.',
   expiry: 'Own-turn and explicitly authored expiry timing only. No long rest, reconnect, initiative, class-change or scene-change refill.',
   information: 'Only visible links, observable endpoints and public terms. No mind reading, hidden clauses or future certainty.',
-  recovery: 'Reserved tokens recover at the start of the owning caster next own turn. Eternal Tapestry changes only its authored immediate recovery case.',
+  recovery: 'Recovery begins only after the link is closed and its uses are exhausted; the reserved token then returns at the start of the owning caster next own turn. Eternal Tapestry changes only its authored immediate recovery case.',
   native: 'Fate Weaver has no registered native heritage edge. Kessen Neth access is not implied, and no heritage benefit or cost is granted.'
 };
 
@@ -699,15 +699,16 @@ export function projectFateWeaverResource(resource, isOwner = false) {
 
 export const FATE_WEAVER_RESOURCE_RULES = {
   tokenCount: 3, tokenStates: ['free', 'reserved', 'recovering'], maxLinks: 3,
-  formationRangeFeet: 60, transferAmountMax: 3, usesMin: 1, usesMax: 2,
-  recovery: 'next-caster-own-turn', refreshOnLongRest: false, refreshOnReconnect: false, refreshOnInitiative: false,
+  formationRangeEachFeet: 30, maintenanceSeparationFeet: 60, transferAmountMax: 3, usesMin: 1, usesMax: 2,
+  recovery: 'next-caster-own-turn-after-closure-and-uses-exhausted',
+  refreshOnLongRest: false, refreshOnReconnect: false, refreshOnInitiative: false,
   recursiveTransfer: false, derivedDamageEligible: false,
   mechanicalHeritageBenefits: false
 };
 
 export const FATE_WEAVER_RESOURCE_SYSTEM = {
   id: 'fate-links', name: 'Fate Links', type: 'fate-links', base: 0, max: 3,
-  generationNote: 'Three tokens. A link reserves one token, except an authored covenant may reserve two; reserved tokens become recovering on closure and return at the owning caster next own turn.',
+  generationNote: 'Three tokens. A link reserves one token, except an authored covenant may reserve two; a link recovers only after it is closed and its uses are exhausted, returning its token at the start of the owning caster next own turn.',
   tokens: 3, maxLinks: 3, manualOnly: true
 };
 
@@ -721,7 +722,7 @@ export const FATE_WEAVER_DATA = {
   developmentStatus: 'development', statusLabel: 'Development - manual tabletop',
   heritageEffectsImplemented: false,
   classResource: { type: 'fate-links', base: 0, max: 3, initialized: false, state: null,
-    generationNote: 'Uninitialized until actual table state is recorded. Three tokens, max three links; closed links recover at the owning caster next own turn.' },
+    generationNote: 'Uninitialized until actual table state is recorded. Three tokens, max three links; a link recovers only after it is closed and its uses are exhausted, returning its token at the start of the owning caster next own turn.' },
   restrictions: {
     allowedSubraces: [], hardBlocks: [], narrativeUnlock: true,
     acquisition: { records: [

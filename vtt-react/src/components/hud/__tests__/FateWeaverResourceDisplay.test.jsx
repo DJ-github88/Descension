@@ -48,6 +48,7 @@ test('owner sees actual token counts and link terms without mutation', () => {
   const rules = container.textContent;
   expect(rules).toMatch(/30 ft each with 60 ft maintenance separation/);
   expect(rules).toMatch(/No long rest, reconnect, initiative or scene-change refill/);
+  expect(rules).toMatch(/closed and its uses are exhausted/i);
   expect(rules).toMatch(/owning caster next own turn/);
 });
 
@@ -69,6 +70,17 @@ test.each([
   const { container } = render(<FateWeaverResourceDisplay resource={{ state: raw }} />);
   expect(screen.getByText(/Fate Link state needs review/)).toBeInTheDocument();
   expect(container.textContent).not.toMatch(/Free 3\/3/);
+});
+
+test('integrated HUD treats conflicting consent aliases as a review state', () => {
+  const raw = state();
+  raw.links[0].consent = { source: true, target: true };
+  raw.links[0].sourceConsent = true;
+  raw.links[0].targetConsent = false;
+  const { container } = render(<ClassResourceBar characterClass="Fate Weaver" classResource={{ type: 'fate-links', state: raw, current: 1, max: 3 }} isOwner />);
+  expect(screen.getByText(/Fate Link state needs review/)).toBeInTheDocument();
+  expect(container.textContent).not.toMatch(/Free 1\/3/);
+  expect(container.textContent).not.toContain('guard the gate');
 });
 
 test('invalid state is reported without repairing or leaking malformed values', () => {

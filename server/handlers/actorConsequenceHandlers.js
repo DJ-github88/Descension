@@ -132,16 +132,31 @@ function registerActorConsequenceHandlers(ctx) {
     const captured = context(data.roomId);
     await confirm(captured);
     respond(ack, { success: true, roomId: captured.room.id, ...require('../services/installedAuthoredAbilities').list(captured.room),
+      ...(captured.isGM ? { creatureSources: require('../services/installedAuthoredAbilities').creatureSources(captured.room) } : {}),
       durability: liveOnly(captured.room) ? 'live-only' : 'checkpoint-eligible' });
   });
   for (const operation of ['admit', 'revoke']) {
     run(`actor_authored_${operation}`, async(input, ack) => {
-      actors.keys(input, operation === 'admit' ? ['roomId', 'requestId', 'expectedRegistryRevision', 'record', 'definitionVersion', 'classId'] : ['roomId', 'requestId', 'expectedRegistryRevision', 'definitionRef']);
+      actors.keys(input, operation === 'admit' ? ['roomId', 'requestId', 'expectedRegistryRevision', 'record', 'definitionVersion', 'classId', 'source', 'expectedSourceRevision'] : ['roomId', 'requestId', 'expectedRegistryRevision', 'definitionRef']);
       if (actors.bytes(input) > 128 * 1024) {actors.fail('authored_record_capacity');}
       const data = actors.clone(input), captured = context(data.roomId);
       if (!captured.isGM) {actors.fail('forbidden');}
       const installed = require('../services/installedAuthoredAbilities'), definitions = require('../services/authoredSpellDefinitions');
+      if (operation === 'admit' && data.source) {
+        if (data.record !== undefined || data.classId !== undefined) actors.fail('invalid_consequence');
+        const staged = await installed.planCreatureAdmission(captured.room, captured.uid, data, async() => {
+          await confirm(captured);
+          if (!current(captured).isGM) actors.fail('forbidden');
+          return { ok: true, roomId: captured.room.id, uid: captured.uid, gmUid: captured.room.gmId, principalBound: true, authorityCurrent: true, rulesetId: 'prism', rulesetVersion: 'cr-a1a-pilot-1' };
+        });
+        current(captured);
+        if (staged.next) admit(captured.room, staged);
+        respondInstalled(ack, { success: true, roomId: captured.room.id, definitionRef: staged.definitionRef, ...installed.list(captured.room),
+          creatureSources: installed.creatureSources(captured.room), actorSnapshot: require('../services/actorProjection').snapshot(captured.room), status: liveOnly(captured.room) ? 'admitted live-only' : 'admitted-live / checkpoint pending' });
+        return;
+      }
       const before = installed.registry(captured.room);
+      if ((actors.ledger(captured.room).authoredSourceAdmissions || []).some(e => e.requestId === data.requestId)) actors.fail('REQUEST_ID_CONFLICT');
       const request = { roomId: data.roomId, requestId: data.requestId, expectedRegistryRevision: data.expectedRegistryRevision };
       if (operation === 'admit') {
         const mapped = require('../../vtt-react/src/services/authoredAbility').definitionFromWizard(data.record, { roomId: data.roomId, definitionVersion: data.definitionVersion, classId: data.classId });
@@ -343,22 +358,23 @@ function registerActorConsequenceHandlers(ctx) {
   };
   // P9 owner approval: the owner authorizes their own price/typed result; the GM
   // later adjudicates the cross-actor outcome through one strict actor_consequence.
-  run('actor_spell_approve', async(approval, ack) => {
-    payments.validateApproval(approval);
+  for (const event of ['actor_spell_approve', 'actor_spell_prepare_creature']) run(event, async(approval, ack) => {
+    const creature = event === 'actor_spell_prepare_creature';
+    (creature ? payments.validateCreatureApproval : payments.validateApproval)(approval);
     approval = actors.clone(approval);
     const captured = context(approval.roomId);
     const { room, player, uid } = captured;
-    if (uid !== approval.source.ownerUid) {actors.fail('forbidden');}
+    if (creature ? !captured.isGM || uid !== approval.sourceAuthority.gmUid : uid !== approval.source.ownerUid) {actors.fail('forbidden');}
     const contentHash = actors.hash(approval);
     const consumed = payments.consumedReceipt(room, approval.approvalId);
     if (consumed) {
-      if (consumed.authorization.approvalHash !== contentHash || consumed.source?.ownerUid !== uid) {actors.fail('command_id_conflict');}
+      if (consumed.authorization.approvalHash !== contentHash || (creature ? consumed.submitterUid !== uid : consumed.source?.ownerUid !== uid)) {actors.fail('command_id_conflict');}
       respondInstalled(ack, resultFor(room, consumed)); return;
     }
     const existing = payments.get(room, approval.approvalId);
     if (existing) {
       if (existing.contentHash !== contentHash) {actors.fail('command_id_conflict');}
-      respond(ack, { success: false, code: 'awaiting_gm', approvalId: approval.approvalId, contentHash }); return;
+      if (!creature) {respond(ack, { success: false, code: 'awaiting_gm', approvalId: approval.approvalId, contentHash }); return;}
     }
     if (payments.closedCode(room, approval.approvalId)) {
       // A consumed approval whose receipt was pruned cannot be re-registered or re-confirmed.
@@ -366,18 +382,18 @@ function registerActorConsequenceHandlers(ctx) {
     }
     if (approval.actionEpoch !== actors.epoch(room)) {actors.fail('outcome_unknown');}
     payments.checkWindow(room, approval);
-    if (uid !== approval.source.ownerUid) {actors.fail('forbidden');}
+    if (!creature && uid !== approval.source.ownerUid) {actors.fail('forbidden');}
     const source = actors.locate(room, approval.source);
-    if (!actors.permitted(room, player, uid, approval.source, source.token) || source.token.ownerUserId !== uid) {actors.fail('forbidden');}
+    if (!creature && (!actors.permitted(room, player, uid, approval.source, source.token) || source.token.ownerUserId !== uid)) {actors.fail('forbidden');}
     payments.checkAgainstRoom(room, approval);
     await confirm(captured);
     const afterReceipt = payments.consumedReceipt(room, approval.approvalId);
     if (afterReceipt) {
-      if (afterReceipt.authorization.approvalHash !== contentHash || afterReceipt.source?.ownerUid !== uid) {actors.fail('command_id_conflict');}
+      if (afterReceipt.authorization.approvalHash !== contentHash || (creature ? afterReceipt.submitterUid !== uid : afterReceipt.source?.ownerUid !== uid)) {actors.fail('command_id_conflict');}
       respondInstalled(ack, resultFor(room, afterReceipt)); return;
     }
     const latest = actors.locate(room, approval.source);
-    if (!actors.permitted(room, captured.player, uid, approval.source, latest.token) || latest.token.ownerUserId !== uid) {actors.fail('forbidden');}
+    if (!creature && (!actors.permitted(room, captured.player, uid, approval.source, latest.token) || latest.token.ownerUserId !== uid)) {actors.fail('forbidden');}
     payments.checkAgainstRoom(room, approval);
     const afterPending = payments.get(room, approval.approvalId);
     if (afterPending) {
@@ -393,16 +409,26 @@ function registerActorConsequenceHandlers(ctx) {
     respond(ack, { success: false, code: 'awaiting_gm', approvalId: approval.approvalId, contentHash });
   });
   run('actor_spell_withdraw', async(data, ack) => {
-    actors.keys(data, ['roomId', 'approvalId']);
-    const { room, uid } = context(data.roomId);
+    actors.keys(data, ['roomId', 'approvalId', 'approval']);
+    const { room, uid, isGM } = context(data.roomId);
     const consumed = payments.consumedReceipt(room, data.approvalId);
     if (consumed) {
-      if (consumed.source?.ownerUid !== uid) {actors.fail('forbidden');}
+      if (consumed.source?.kind === 'creature' ? !isGM || consumed.submitterUid !== uid : consumed.source?.ownerUid !== uid) {actors.fail('forbidden');}
       respondInstalled(ack, resultFor(room, consumed)); return;
     }
     const entry = payments.get(room, data.approvalId);
-    if (!entry) {actors.fail(payments.closedCode(room, data.approvalId) ? `approval_${payments.closedCode(room, data.approvalId)}` : 'outcome_unknown');}
-    if (entry.approval.source.ownerUid !== uid) {actors.fail('forbidden');}
+    if (!entry) {
+      if (data.approval && !payments.closedCode(room, data.approvalId)) {
+        payments.validateCreatureApproval(data.approval);
+        if (!isGM || data.approval.sourceAuthority.gmUid !== uid || data.approval.approvalId !== data.approvalId || data.approval.roomId !== room.id) actors.fail('forbidden');
+        if (data.approval.actionEpoch !== actors.epoch(room)) actors.fail('outcome_unknown');
+        payments.checkWindow(room, data.approval);
+        payments.close(room, data.approvalId, 'withdrawn');
+        respond(ack, { success: true, code: 'withdrawn', approvalId: data.approvalId, contentHash: actors.hash(data.approval) }); return;
+      }
+      actors.fail(payments.closedCode(room, data.approvalId) ? `approval_${payments.closedCode(room, data.approvalId)}` : 'outcome_unknown');
+    }
+    if (entry.approval.source.kind === 'creature' ? !isGM || entry.ownerUid !== uid : entry.approval.source.ownerUid !== uid) {actors.fail('forbidden');}
     closeApproval(room, data.approvalId, 'withdrawn');
     respond(ack, { success: true, code: 'withdrawn', approvalId: data.approvalId, contentHash: entry.contentHash });
   });

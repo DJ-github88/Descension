@@ -94,7 +94,8 @@ jest.mock('../../../store/characterStore', () => {
       iconBackgroundColor: '#f8f5eb'
     },
     updateResource: jest.fn(),
-    updateTempResource: jest.fn()
+    updateTempResource: jest.fn(),
+    updateExhaustionLevel: jest.fn()
   };
   const mockHook = (selector) => (selector ? selector(store) : store);
   mockHook.getState = () => store;
@@ -416,6 +417,33 @@ describe('PartyHUD Component', () => {
     expect(exhaustionBadge.querySelector('.party-exhaustion-select')).toBeInTheDocument();
     expect(exhaustionBadge.querySelector('.exhaustion-label')).toHaveTextContent('Exhaustion');
     expect(exhaustionBadge.querySelector('.exhaustion-value')).toHaveTextContent('0');
+
+    // No native title attributes on badge or select to prevent unstyled browser tooltip boxes
+    expect(exhaustionBadge).not.toHaveAttribute('title');
+    expect(exhaustionBadge.querySelector('.party-exhaustion-select')).not.toHaveAttribute('title');
+    expect(exhaustionBadge.querySelector('.exhaustion-plate-svg')).toBeInTheDocument();
+    expect(exhaustionBadge.querySelector('.exh-hourglass-glyph')).toBeInTheDocument();
+
+    // Hovering the exhaustion plaque triggers the calm TTRPG tooltip
+    fireEvent.mouseEnter(exhaustionBadge, { clientX: 100, clientY: 200 });
+    const calmCard = document.querySelector('.calm-exhaustion-card');
+    expect(calmCard).toBeInTheDocument();
+    expect(calmCard).toHaveTextContent('Cumulative Penalties');
+    expect(calmCard).toHaveTextContent('Level 0 • Refreshed');
+    expect(calmCard).toHaveTextContent('Disadvantage on all ability checks');
+
+    // Clicking the exhaustion plaque opens the custom calm TTRPG dropdown menu
+    fireEvent.click(exhaustionBadge);
+    const dropdown = document.querySelector('.calm-exhaustion-dropdown');
+    expect(dropdown).toBeInTheDocument();
+    expect(dropdown).toHaveTextContent('Adjust Exhaustion');
+    expect(dropdown).toHaveTextContent('Normal');
+    expect(dropdown).toHaveTextContent('Stage 1');
+
+    // Selecting a stage updates the level and closes the dropdown
+    const stage1Option = dropdown.querySelector('.calm-dropdown-item.level-1');
+    fireEvent.click(stage1Option);
+    expect(document.querySelector('.calm-exhaustion-dropdown')).toBeNull();
 
     // Member header top row contains only the name and alignment
     const topRow = container.querySelector('.member-header-top-row');

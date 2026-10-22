@@ -2793,7 +2793,7 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
             )}
 
             <div className="creature-section-content">
-              {activeSection === 'abilities' && <CreatureAbilityDetails association={token ? token.authoredAbility : creature.authoredAbility} saved />}
+              {activeSection === 'abilities' && <CreatureAbilityDetails association={token ? token.authoredAbility : creature.authoredAbility} token={token} saved />}
               {renderContent()}
             </div>
           </div>

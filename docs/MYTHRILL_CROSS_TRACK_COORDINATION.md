@@ -120,6 +120,22 @@ device before write-back.
 
 ## 5. Shared-file edits by the 2026-10-17 combat slices
 
+**P14-A4 authorized/frozen, 2026-10-22 — before runtime writes:** exact GM-controlled placed
+creature → distinct placed creature only. [A4 contract](MYTHRILL_PROJECT_14_A4_SOURCE_AUTHORITY_CONTRACT.md)
+freezes source-incarnation/association admission under protected actorContract, existing installed
+registry/P9 custody/payment/P7 atomic install and C2 rechecks. Shared writes: admission/controller/
+planner/host, CreatureAbilityDetails and inspect mount, handler/payment/installed lookup/socket set,
+focused tests/witnesses/Laws/status. A1a/W1/Class/Heritage/RI-2/overflow UI remain protected; no catalogue,
+loadout, grant, economy or migration writes. Entry master/485c0bba, existing dirty contributions retained.
+
+**P14-A3 authorized/frozen/delivered, 2026-10-22:** [contract](MYTHRILL_PROJECT_14_A3_CONTRACT.md)
+records scope before edits; [acceptance](MYTHRILL_PROJECT_14_A3_ACCEPTANCE.md) pins final bytes. Main HQ
+writes only shared compact form options, Creature Wizard/context/Step3 and whole-record preservation,
+duplicate/placement/propagation isolation, inspect/manual status, tests/witness/status docs. No Spell
+Wizard/export/W1/compiler/engine/Class/Heritage writes. Actual producer/admission delivered; no creature
+cast. One review F1–F3 repairs accepted; Build1/App9 independently appraised. Concurrent external commits
+and later overflow UI drift retained; no full current-tree build parity or deployment claim. §11 handoff.
+
 **P14-A1 closure, 2026-10-22:** [implementation/evidence](MYTHRILL_PROJECT_14_A1_CONTRACT.md#implementation-and-verification--2026-10-22),
 [same-reviewer repaired ACCEPT](MYTHRILL_PROJECT_14_A1_ACCEPTANCE.md). Real Wizard2 definitions, explicit0
 AP/mana/range and immutable versions, existing P9 consent/custody/GM final + P7 payment/HP; unsupported
@@ -493,3 +509,21 @@ One review repaired F1–F4 and accepted final bytes. Build3/App10 pass at recor
 five fetch errors and unrelated persistent P13 disconnected notice visibly overlaying upper Inventory
 after fixture rejoin. This does not close P13/live-network/physical-device/cloud/deployment gates or
 reopen accepted phases. All initial concurrent Class/Heritage/RI-2/A1/C4 work is retained.
+
+## 11. P14-A3 Creature producer and separate source-authority handoff
+
+[Delivered producer](MYTHRILL_PROJECT_14_A3_CONTRACT.md) · [acceptance](MYTHRILL_PROJECT_14_A3_ACCEPTANCE.md).
+
+| Seam / owner | Delivered / protected boundary |
+|---|---|
+| Whole-record producer / Main HQ | Optional creature.authoredAbility uses A2 snapshot schema/pure helpers/shared CompactForm. No item-specific entitlement, new format or legacy-ability conversion. Missing/duplicate Spell Library IDs visibly unselectable |
+| Creature persistence / Main HQ narrow slice | Whole existing abilities/unknown/null/zero/malformed data retained on Edit/save; session drafts keyed by exact creature/account, Cancel removes them. No schema/catalogue migration; reload durability not added |
+| Instance isolation / existing creature store | Duplicate/store-add/placement detach association; template updates retain unrelated propagation but exclude authoredAbility and token ID; placed Inspect explicitly reads instance including absence |
+| A1 authority / shared Main+Class | Existing adapter/GM admission/version/hash and binding vocabulary unchanged. All22 reused A1 dependencies match accepted A2; seven protected identities match. No creature Cast/Use control, fake owner, local payment or partial execution |
+| Class/Heritage/RI-2 / existing owners | Wizard/export targeting preservation, reconstructed classes, permanent ancestral selection, content/grants/IDs/resources remain those tracks; no maxTargets:0 or conflicting-schema reinterpretation |
+| Follow-on source authority / Main HQ with Class compatibility | [A4 preparation only](MYTHRILL_PROJECT_14_A4_SOURCE_AUTHORITY_CONTRACT.md): exact placed-source GM permission, existing AP/mana/P7/P8/A1 custody; proposed creature-only first target subset; PC-owner blocking/consent separately frozen |
+
+Build1/App9 prove bounded production workflow/no spend/no HP/no receipt/PC-only creature refusal;
+same reviewer independently ran8 repair probes, appraised implementer build/App. Later unrelated
+Inventory/CreatureToken/TargetHUD overflow edits are preserved, not accepted/built by this slice.
+Fixture/live-only,1 fetch error and partly-scrolled horizontal viewport limits remain explicit.

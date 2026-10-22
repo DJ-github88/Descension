@@ -84,7 +84,7 @@ async function main() {
     const healing = await author(gm, { creature: 'Witness Doe', name: 'Doe Mending', kind: 'healing', formula: '1d8+1', ap: 0, mana: 0, range: 0 });
     report.checks.actualDamageHealingSaveReopenAdmission = { damage, healing };
     // Use the actual production placement method; library saves must leave this snapshot intact.
-    await gm.evaluate(creature => S('creatureStore').getState().addCreatureToken(creature, { x: 650, y: 450 }, false, 'a3-placed', false, 'app-hall'), healing);
+    await gm.evaluate(creature => S('creatureStore').getState().addCreatureToken(creature, { x: 0, y: -100 }, false, 'a3-placed', false, 'app-hall'), healing);
     const instanceBefore = await gm.evaluate(() => S('creatureStore').getState().tokens.find(t => t.id === 'a3-placed').authoredAbility);
     const registryBefore = JSON.parse(JSON.stringify(host.room.gameState.authoredSpellRegistry));
     await cardAction(gm, healing.name, 'Edit'); await wizard(gm).getByRole('button', { name: '3 Abilities', exact: true }).click();
@@ -96,12 +96,65 @@ async function main() {
     assert.deepEqual(host.room.gameState.authoredSpellRegistry, registryBefore);
     const region = await inspect(gm, healing.name); await region.getByText(/Changed since admitted/).waitFor();
     await region.getByRole('button', { name: 'Admit this saved version', exact: true }).click(); await region.getByText(/version 2/).waitFor();
+    assert.deepEqual(host.room.gameState.authoredSpellRegistry.definitions.slice(0, registryBefore.definitions.length), registryBefore.definitions);
     save('v2-admission.aria.yml', await region.ariaSnapshot()); await closeInspect(gm);
     report.checks.explicitV2PlacedV1Isolated = { instanceBefore, revised, registry: host.room.gameState.authoredSpellRegistry };
+    // Fixture a saved Spell Library definition through the actual mounted production reducer.
+    // Selection/inspection/Keep/save below are real controls, not a separate component harness.
+    const libraryRecord = { ...damage.authoredAbility.record, id: 'a3-saved-library' };
+    await gm.evaluate(record => {
+      let fiber = document.querySelector('.creature-library'); fiber = fiber[Object.keys(fiber).find(k => k.startsWith('__reactFiber'))];
+      for (; fiber; fiber = fiber.return) if (fiber.memoizedProps?.value?.spells && typeof fiber.child?.memoizedProps?.value === 'function') {
+        fiber.child.memoizedProps.value({ type: 'ADD_SPELL', payload: record }); return;
+      }
+      throw Error('Production Spell Library provider not found');
+    }, libraryRecord);
+    await tab(gm, 'Create New'); await wizard(gm).locator('#creature-name').fill('Witness Library Copy'); await wizard(gm).getByRole('button', { name: '3 Abilities', exact: true }).click();
+    const selectedLibraryRecord = await gm.evaluate(id => {
+      let fiber = document.querySelector('.creature-wizard-layout'); fiber = fiber[Object.keys(fiber).find(k => k.startsWith('__reactFiber'))];
+      for (; fiber; fiber = fiber.return) if (fiber.memoizedProps?.value?.spells) return fiber.memoizedProps.value.spells.find(s => s.id === id);
+    }, libraryRecord.id);
+    await wizard(gm).getByRole('combobox', { name: 'Compatible Spell Library definition', exact: true }).selectOption(libraryRecord.id);
+    assert.equal(await wizard(gm).getByLabel('Ability name', { exact: true }).inputValue(), libraryRecord.name);
+    await wizard(gm).getByRole('button', { name: 'Keep ability on creature', exact: true }).click(); await finish(gm);
+    const libraryCopy = await saved(gm, 'Witness Library Copy'); assert.equal(libraryCopy.authoredAbility.librarySpellId, libraryRecord.id); assert.deepEqual(libraryCopy.authoredAbility.record, selectedLibraryRecord);
+    await gm.evaluate(id => {
+      let fiber = document.querySelector('.creature-library'); fiber = fiber[Object.keys(fiber).find(k => k.startsWith('__reactFiber'))];
+      for (; fiber; fiber = fiber.return) if (fiber.memoizedProps?.value?.spells && typeof fiber.child?.memoizedProps?.value === 'function') { fiber.child.memoizedProps.value({ type: 'DELETE_SPELL', payload: id }); return; }
+    }, libraryRecord.id);
+    assert.deepEqual((await saved(gm, 'Witness Library Copy')).authoredAbility, libraryCopy.authoredAbility);
+    report.checks.actualLibrarySelectionDetachedAfterDeletion = libraryCopy.authoredAbility;
+    const manual = JSON.parse(JSON.stringify(damage)); manual.id = 'a3-manual'; manual.name = 'Witness Manual';
+    manual.abilities = [{ id: 'legacy', name: 'Legacy complex', description: 'Original trigger and duration', range: 0, manaCost: null, damage: { formula: '2d6+STR' }, targetingConfig: { maxTargets: 0 }, priorityRange: null, triggerCondition: { type: 'hp_percentage', value: 0 }, customNotes: { untouched: true } }];
+    manual.authoredAbility.record.authoredDraft.effectTypes.push('debuff'); manual.authoredAbility.record.effectTypes.push('debuff'); manual.customStorage = { retain: null };
+    await gm.evaluate(creature => S('creatureStore').getState().addCreature(creature), manual);
+    await cardAction(gm, manual.name, 'Edit'); await wizard(gm).getByRole('button', { name: '3 Abilities', exact: true }).click();
+    await wizard(gm).getByText(/Unsupported\/manual/).first().waitFor(); await finish(gm);
+    const manualSaved = await saved(gm, manual.name); assert.deepEqual(manualSaved.abilities, manual.abilities); assert.deepEqual(manualSaved.authoredAbility, manual.authoredAbility); assert.deepEqual(manualSaved.customStorage, manual.customStorage);
+    const manualRegion = await inspect(gm, manual.name); assert.equal(await manualRegion.getByRole('button').count(), 0); save('manual.aria.yml', await manualRegion.ariaSnapshot()); await closeInspect(gm);
+    report.checks.actualComplexAndLegacyPreservedManual = true;
+    // Real placed-instance Inspect must display its old snapshot, not the revised template.
+    await gm.locator('.library-window').getByRole('button', { name: 'Close', exact: true }).click();
+    await gm.locator('.library-window').getByRole('button', { name: 'Close', exact: true }).click();
+    await gm.locator('.creature-token').last().click({ button: 'right' }); await gm.getByRole('button', { name: /Token Actions/ }).hover(); await gm.getByText('Inspect', { exact: true }).last().click();
+    const placedTab = gm.getByRole('button', { name: 'Abilities & Spells', exact: true }).last(); await placedTab.focus(); await placedTab.press('Enter');
+    const placedRegion = gm.getByRole('region', { name: 'Creature activated ability', exact: true });
+    await placedRegion.getByRole('heading', { name: 'Doe Mending', exact: true }).waitFor(); assert.equal(await placedRegion.getByText('Doe Mending revised', { exact: true }).count(), 0);
+    assert.equal(await placedRegion.getByRole('button', { name: /Cast|Use .*ability/ }).count(), 0); save('placed-v1.aria.yml', await placedRegion.ariaSnapshot()); await closeInspect(gm);
+    report.checks.actualPlacedDetailOldSnapshotNoCast = true;
     assert.equal(JSON.stringify({ tokens: host.room.gameState.maps['app-hall'].tokens, pcs: host.room.gameState.maps['app-hall'].characterTokens }), before);
     assert.equal(actors.ledger(host.room).receipts.length, receipts);
     assert.equal(await gm.evaluate(() => __outbound.filter(e => ['actor_consequence', 'actor_spell_approve'].includes(e.event)).length), 0);
     report.checks.noPaymentHpReceiptOrCreatureExecution = true;
+    const entry = host.room.gameState.authoredSpellRegistry.definitions[0];
+    const attempted = { version: 1, roomId: host.room.id, approvalId: require('crypto').randomUUID(), actionEpoch: actors.epoch(host.room), baseCommitSequence: actors.ledger(host.room).commitSequence,
+      source: host.refs.A, target: host.refs.pc,
+      spell: { definitionId: pure.actionId(entry.definitionRef), definitionHash: `${pure.CAPABILITY}/${entry.definitionRef.definitionHash}`, name: entry.canonicalDefinition.name, kind: 'damage', damageTypes: ['arcane'] },
+      roll: { mode: 'physical', dice: [{ sides: 6, faces: [4] }], constant: 2, total: 6, reading: pure.readFormula('1d6+2').reading }, price: { ap: 1, mana: 3 }, classPayment: null };
+    const allBeforeRefusal = JSON.stringify(host.room.gameState);
+    const refused = await new Promise(resolve => host.seed.emit('actor_spell_approve', attempted, resolve));
+    assert.equal(refused.success, false); assert.equal(JSON.stringify(host.room.gameState), allBeforeRefusal);
+    report.checks.registeredPcOnlyHandlerRejectsCreatureSource = refused;
     report.passed = true;
   } catch (e) { report.failure = e.stack; if (gm) { save('failure.aria.yml', await gm.locator('body').ariaSnapshot()); await gm.screenshot({ path: path.join(out, 'failure.png') }); } throw e; }
   finally { report.sourceAfter = require('./record-creature-evidence.cjs').snapshot(); save('result.json', report); await browser.close(); await host.stop(); }

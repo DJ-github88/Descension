@@ -24,6 +24,7 @@ import { showPlayerLeaveNotification } from '../../utils/playerNotifications';
 import { getRaceHeritageLabel } from '../../utils/raceDisplayNames';
 import { getBackgroundData } from '../../data/backgroundData';
 import Button from '../common/Button';
+import ResourceOverflowModal from '../common/ResourceOverflowModal';
 import { getCustomBackgroundData, getEnhancedPathData } from '../../data/legacyDisciplineData';
 import { getIconUrl, getCustomIconUrl } from '../../utils/assetManager';
 import { getClassIconUrl } from '../../utils/classIconUtils';
@@ -292,6 +293,69 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
     // Inline edit of the current value inside the mount popover (null = not editing)
     const [mountEditValue, setMountEditValue] = useState(null);
     const mountEditCommittedRef = useRef(false);
+
+    // Custom Calm TTRPG dropdown menu for setting exhaustion level
+    const [exhaustionMenu, setExhaustionMenu] = useState(null);
+    const exhaustionMenuRef = useRef(null);
+
+    const openExhaustionMenu = (e) => {
+        e.stopPropagation();
+        if (!isExhaustionEditable) return;
+        const rect = e.currentTarget.getBoundingClientRect();
+        const menuWidth = 290;
+        const menuHeight = 350;
+        const x = Math.max(8, Math.min(rect.left + rect.width / 2 - menuWidth / 2, window.innerWidth - menuWidth - 8));
+        // Prefer popping above the plaque (since it sits at bottom of card)
+        const y = rect.top - menuHeight - 8 >= 8
+            ? rect.top - menuHeight - 8
+            : Math.min(window.innerHeight - menuHeight - 8, rect.bottom + 8);
+        setShowTooltip(false); // Do not cover the menu with hover tooltip
+        setExhaustionMenu({ x, y });
+    };
+
+    const handleSelectExhaustionLevel = (newVal) => {
+        const val = parseInt(newVal, 10) || 0;
+        try {
+            if (isCurrentPlayer) {
+                const store = useCharacterStore.getState();
+                if (typeof store.updateExhaustionLevel === 'function') {
+                    store.updateExhaustionLevel(val);
+                }
+            } else if (typeof updatePartyMember === 'function') {
+                updatePartyMember(member.id, {
+                    character: {
+                        ...member.character,
+                        exhaustionLevel: val
+                    }
+                });
+            }
+        } catch (err) {
+            console.error('Failed to update exhaustion level:', err);
+        }
+        setExhaustionMenu(null);
+    };
+
+    // Close exhaustion menu on outside click or escape
+    useEffect(() => {
+        if (!exhaustionMenu) return;
+        const onDown = (e) => {
+            if (exhaustionMenuRef.current && !exhaustionMenuRef.current.contains(e.target)) {
+                setExhaustionMenu(null);
+            }
+        };
+        const onKey = (e) => {
+            if (e.key === 'Escape') setExhaustionMenu(null);
+        };
+        const id = setTimeout(() => {
+            document.addEventListener('mousedown', onDown);
+            document.addEventListener('keydown', onKey);
+        }, 0);
+        return () => {
+            clearTimeout(id);
+            document.removeEventListener('mousedown', onDown);
+            document.removeEventListener('keydown', onKey);
+        };
+    }, [exhaustionMenu]);
 
     // Long names shrink to fit the header row instead of spilling out of the
     // frame (min-width: min-content would otherwise defeat ellipsis).
@@ -1407,98 +1471,255 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                         onMouseEnter={(e) => handleExhaustionMouseEnter(e, exhaustionLevel)}
                         onMouseMove={handleBuffMouseMove}
                         onMouseLeave={handleBuffMouseLeave}
+                        onClick={openExhaustionMenu}
                         aria-label={`Exhaustion Level ${exhaustionLevel}${isExhaustionEditable ? ' (Click to adjust)' : ''}`}
                         role="button"
                         tabIndex={0}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter' || e.key === ' ') {
+                                e.preventDefault();
+                                openExhaustionMenu(e);
+                            }
+                        }}
                     >
-                        <svg className="exhaustion-plate-svg" viewBox="0 0 130 22" preserveAspectRatio="none" aria-hidden="true">
+                        <svg className="exhaustion-plate-svg" viewBox="0 0 152 28" preserveAspectRatio="none" aria-hidden="true">
                             <defs>
+                                <filter id={`exhDropShadow-${member.id}`} x="-15%" y="-20%" width="130%" height="150%">
+                                    <feDropShadow dx="0" dy="2" stdDeviation="2.5" floodColor="#000000" floodOpacity="0.75" />
+                                </filter>
                                 <linearGradient id={`exhPlateGrad-${member.id}`} x1="0" y1="0" x2="0" y2="1">
-                                    <stop offset="0%" stopColor="#eeddb2" />
-                                    <stop offset="18%" stopColor="#d5bc80" />
-                                    <stop offset="55%" stopColor="#a4884c" />
-                                    <stop offset="85%" stopColor="#7a6230" />
-                                    <stop offset="100%" stopColor="#55421c" />
+                                    <stop offset="0%" stopColor="#faecd0" />
+                                    <stop offset="12%" stopColor="#e3c582" />
+                                    <stop offset="38%" stopColor="#b4934e" />
+                                    <stop offset="70%" stopColor="#7a5d24" />
+                                    <stop offset="90%" stopColor="#543c14" />
+                                    <stop offset="100%" stopColor="#302008" />
                                 </linearGradient>
-                                <linearGradient id={`exhBevelGrad-${member.id}`} x1="0" y1="0" x2="1" y2="1">
-                                    <stop offset="0%" stopColor="#fff6df" />
-                                    <stop offset="50%" stopColor="#c5a662" />
-                                    <stop offset="100%" stopColor="#433214" />
+                                <linearGradient id={`exhInnerGrad-${member.id}`} x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0%" stopColor="#1e1206" />
+                                    <stop offset="25%" stopColor="#33210d" />
+                                    <stop offset="70%" stopColor="#432c12" />
+                                    <stop offset="100%" stopColor="#251607" />
                                 </linearGradient>
-                                <radialGradient id={`exhRivetGrad-${member.id}`} cx="0.35" cy="0.3" r="0.85">
-                                    <stop offset="0%" stopColor="#fff8e4" />
-                                    <stop offset="45%" stopColor="#d5bc80" />
-                                    <stop offset="80%" stopColor="#7a6230" />
-                                    <stop offset="100%" stopColor="#3d2d12" />
+                                <radialGradient id={`exhRivetGrad-${member.id}`} cx="0.32" cy="0.28" r="0.75">
+                                    <stop offset="0%" stopColor="#ffffff" />
+                                    <stop offset="30%" stopColor="#f5dc9e" />
+                                    <stop offset="70%" stopColor="#9e7b36" />
+                                    <stop offset="100%" stopColor="#3d280b" />
+                                </radialGradient>
+                                <linearGradient id={`exhSandGrad-${member.id}`} x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0%" stopColor={exhaustionLevel >= 5 ? '#ff7878' : exhaustionLevel >= 3 ? '#ffb366' : '#fff3a8'} />
+                                    <stop offset="50%" stopColor={exhaustionLevel >= 5 ? '#cc2222' : exhaustionLevel >= 3 ? '#e06d1b' : '#d99e2b'} />
+                                    <stop offset="100%" stopColor={exhaustionLevel >= 5 ? '#5e0707' : exhaustionLevel >= 3 ? '#6e2b05' : '#734c10'} />
+                                </linearGradient>
+                                <radialGradient id={`exhMedallionGrad-${member.id}`} cx="0.35" cy="0.3" r="0.8">
+                                    {exhaustionLevel === 0 && (
+                                        <>
+                                            <stop offset="0%" stopColor="#fff8df" />
+                                            <stop offset="25%" stopColor="#e5c882" />
+                                            <stop offset="65%" stopColor="#8c6a28" />
+                                            <stop offset="100%" stopColor="#3a270a" />
+                                        </>
+                                    )}
+                                    {(exhaustionLevel === 1 || exhaustionLevel === 2) && (
+                                        <>
+                                            <stop offset="0%" stopColor="#fff2cf" />
+                                            <stop offset="30%" stopColor="#ffa733" />
+                                            <stop offset="70%" stopColor="#a35405" />
+                                            <stop offset="100%" stopColor="#451e00" />
+                                        </>
+                                    )}
+                                    {(exhaustionLevel === 3 || exhaustionLevel === 4) && (
+                                        <>
+                                            <stop offset="0%" stopColor="#ffe4d6" />
+                                            <stop offset="30%" stopColor="#ff5722" />
+                                            <stop offset="70%" stopColor="#a82803" />
+                                            <stop offset="100%" stopColor="#4d0e00" />
+                                        </>
+                                    )}
+                                    {exhaustionLevel === 5 && (
+                                        <>
+                                            <stop offset="0%" stopColor="#ffd4d4" />
+                                            <stop offset="30%" stopColor="#e52424" />
+                                            <stop offset="70%" stopColor="#870a0a" />
+                                            <stop offset="100%" stopColor="#3d0000" />
+                                        </>
+                                    )}
+                                    {exhaustionLevel >= 6 && (
+                                        <>
+                                            <stop offset="0%" stopColor="#ffa3a3" />
+                                            <stop offset="30%" stopColor="#8f0f0f" />
+                                            <stop offset="70%" stopColor="#380404" />
+                                            <stop offset="100%" stopColor="#120000" />
+                                        </>
+                                    )}
                                 </radialGradient>
                             </defs>
+
+                            {/* Heavy Outer Cast Cartouche Plate with Finials */}
                             <path
                                 className="plate-outer-bevel"
-                                d="M 7 1 L 123 1 L 128 6 L 128 16 L 123 21 L 7 21 L 2 16 L 2 6 Z"
+                                d="M 14 1.5 L 138 1.5 Q 143 1.5 146 5 L 150 10.5 Q 152 14 150 17.5 L 146 23 Q 143 26.5 138 26.5 L 14 26.5 Q 9 26.5 6 23 L 2 17.5 Q 0 14 2 10.5 L 6 5 Q 9 1.5 14 1.5 Z"
                                 fill={`url(#exhPlateGrad-${member.id})`}
-                                stroke="#382610"
+                                stroke="#2b1a07"
                                 strokeWidth="1.2"
+                                filter={`url(#exhDropShadow-${member.id})`}
                                 vectorEffect="non-scaling-stroke"
                             />
+
+                            {/* Top Specular Rim Reflection */}
                             <path
-                                className="plate-inner-rim"
-                                d="M 8.5 3 L 121.5 3 L 125.5 7 L 125.5 15 L 121.5 19 L 8.5 19 L 4.5 15 L 4.5 7 Z"
-                                fill="none"
-                                stroke="#2b1a0a"
-                                strokeWidth="0.8"
-                                opacity="0.65"
-                                vectorEffect="non-scaling-stroke"
-                            />
-                            <path
-                                d="M 9 2.5 L 121 2.5"
-                                stroke="rgba(255, 248, 228, 0.75)"
-                                strokeWidth="0.9"
+                                d="M 14 2.8 L 138 2.8 Q 142 2.8 144.5 5.5 L 148 10.5"
+                                stroke="rgba(255, 252, 238, 0.85)"
+                                strokeWidth="1"
                                 fill="none"
                                 vectorEffect="non-scaling-stroke"
                             />
+
+                            {/* Bottom Cast Shadow Accent */}
                             <path
-                                d="M 9 19.5 L 121 19.5"
-                                stroke="rgba(30, 18, 6, 0.65)"
-                                strokeWidth="0.9"
+                                d="M 14 25.2 L 138 25.2 Q 142 25.2 144.5 22.5 L 148 17.5"
+                                stroke="rgba(20, 10, 3, 0.75)"
+                                strokeWidth="1"
                                 fill="none"
                                 vectorEffect="non-scaling-stroke"
                             />
-                            <g className="plate-rivets" stroke="#382610" strokeWidth="0.6">
-                                <circle cx="5" cy="6.5" r="1.6" fill={`url(#exhRivetGrad-${member.id})`} />
-                                <circle cx="125" cy="6.5" r="1.6" fill={`url(#exhRivetGrad-${member.id})`} />
-                                <circle cx="5" cy="15.5" r="1.6" fill={`url(#exhRivetGrad-${member.id})`} />
-                                <circle cx="125" cy="15.5" r="1.6" fill={`url(#exhRivetGrad-${member.id})`} />
+
+                            {/* Inset Darkened Relief Tray */}
+                            <path
+                                className="plate-inner-tray"
+                                d="M 15 4.5 L 137 4.5 Q 140 4.5 142.5 7 L 145.5 11 Q 147 14 145.5 17 L 142.5 21 Q 140 23.5 137 23.5 L 15 23.5 Q 12 23.5 9.5 21 L 6.5 17 Q 5 14 6.5 11 L 9.5 7 Q 12 4.5 15 4.5 Z"
+                                fill={`url(#exhInnerGrad-${member.id})`}
+                                stroke="#1a0e04"
+                                strokeWidth="1"
+                                vectorEffect="non-scaling-stroke"
+                            />
+
+                            {/* Four Raised Corner Studs */}
+                            <g className="plate-rivets" stroke="#2b1a07" strokeWidth="0.6">
+                                <circle cx="9.5" cy="8" r="1.8" fill={`url(#exhRivetGrad-${member.id})`} />
+                                <circle cx="142.5" cy="8" r="1.8" fill={`url(#exhRivetGrad-${member.id})`} />
+                                <circle cx="9.5" cy="20" r="1.8" fill={`url(#exhRivetGrad-${member.id})`} />
+                                <circle cx="142.5" cy="20" r="1.8" fill={`url(#exhRivetGrad-${member.id})`} />
+                            </g>
+
+                            {/* Illustrated Fantasy Hourglass (Left side) */}
+                            <g className="exh-hourglass-glyph" transform="translate(14, 4)">
+                                <ellipse cx="9" cy="18.5" rx="6.5" ry="1.2" fill="rgba(0,0,0,0.5)" />
+                                <path d="M 4 1.5 H 14 Q 15 1.5 15 2.5 V 3.5 H 3 V 2.5 Q 3 1.5 4 1.5 Z" fill={`url(#exhPlateGrad-${member.id})`} stroke="#241403" strokeWidth="0.7" />
+                                <circle cx="9" cy="1" r="1" fill={`url(#exhRivetGrad-${member.id})`} stroke="#241403" strokeWidth="0.5" />
+                                <path d="M 4 17.5 H 14 Q 15 17.5 15 16.5 V 15.5 H 3 V 16.5 Q 3 17.5 4 17.5 Z" fill={`url(#exhPlateGrad-${member.id})`} stroke="#241403" strokeWidth="0.7" />
+                                <circle cx="9" cy="18" r="1" fill={`url(#exhRivetGrad-${member.id})`} stroke="#241403" strokeWidth="0.5" />
+                                <line x1="4.2" y1="3.5" x2="4.2" y2="15.5" stroke="#7a5b23" strokeWidth="1" />
+                                <line x1="3.8" y1="3.5" x2="3.8" y2="15.5" stroke="#faecd0" strokeWidth="0.5" opacity="0.8" />
+                                <line x1="13.8" y1="3.5" x2="13.8" y2="15.5" stroke="#7a5b23" strokeWidth="1" />
+                                <line x1="13.4" y1="3.5" x2="13.4" y2="15.5" stroke="#faecd0" strokeWidth="0.5" opacity="0.8" />
+                                <path
+                                    d="M 5 3.5 C 5 7.5 7.5 9 9 9.5 C 10.5 9 13 7.5 13 3.5 Z M 5 15.5 C 5 11.5 7.5 10 9 9.5 C 10.5 10 13 11.5 13 15.5 Z"
+                                    fill="rgba(24, 38, 48, 0.45)"
+                                    stroke="#1b2830"
+                                    strokeWidth="0.7"
+                                />
+                                {exhaustionLevel < 6 && (
+                                    <path
+                                        d="M 5.8 4.2 C 5.8 7 7.8 8.2 9 8.8 C 10.2 8.2 12.2 7 12.2 4.2 Z"
+                                        fill={`url(#exhSandGrad-${member.id})`}
+                                    />
+                                )}
+                                {exhaustionLevel > 0 && exhaustionLevel < 6 && (
+                                    <line x1="9" y1="9" x2="9" y2="14" stroke={`url(#exhSandGrad-${member.id})`} strokeWidth="0.8" strokeDasharray="1.2,0.8" />
+                                )}
+                                {exhaustionLevel > 0 && (
+                                    <path
+                                        d="M 6 15 C 6 13.5 7.8 12.5 9 12 C 10.2 12.5 12 13.5 12 15 Z"
+                                        fill={`url(#exhSandGrad-${member.id})`}
+                                    />
+                                )}
+                                <path d="M 5.8 4.5 C 5.8 6.5 6.6 7.8 7.4 8.2" stroke="#ffffff" strokeWidth="0.6" strokeLinecap="round" fill="none" opacity="0.75" />
+                                <path d="M 5.8 14.5 C 5.8 13 6.6 11.8 7.4 11.2" stroke="#ffffff" strokeWidth="0.6" strokeLinecap="round" fill="none" opacity="0.6" />
+                                <ellipse cx="9" cy="9.5" rx="1.6" ry="0.9" fill="#201203" stroke="#cca862" strokeWidth="0.6" />
+                            </g>
+
+                            {/* Decorative Filigree Diamonds flanking "EXHAUSTION" */}
+                            <g className="exh-filigree-accents" fill="#cca862" stroke="#241403" strokeWidth="0.5">
+                                <path d="M 33 14 L 36.5 12 L 40 14 L 36.5 16 Z" />
+                                <line x1="41" y1="14" x2="45" y2="14" stroke="#cca862" strokeWidth="0.8" />
+                                <line x1="107" y1="14" x2="111" y2="14" stroke="#cca862" strokeWidth="0.8" />
+                                <path d="M 112 14 L 115.5 12 L 119 14 L 115.5 16 Z" />
+                            </g>
+
+                            {/* Engraved "Exhaustion" Label with Dimensional Relief */}
+                            <text
+                                x="76"
+                                y="17.5"
+                                textAnchor="middle"
+                                fontFamily="'Cinzel', Georgia, serif"
+                                fontSize="9.5px"
+                                fontWeight="800"
+                                letterSpacing="1.2px"
+                                fill="#0f0701"
+                                style={{ userSelect: 'none' }}
+                            >
+                                Exhaustion
+                            </text>
+                            <text
+                                x="76"
+                                y="16.5"
+                                textAnchor="middle"
+                                fontFamily="'Cinzel', Georgia, serif"
+                                fontSize="9.5px"
+                                fontWeight="800"
+                                letterSpacing="1.2px"
+                                fill="#fcedcb"
+                                className="exhaustion-label"
+                                style={{ userSelect: 'none' }}
+                            >
+                                Exhaustion
+                            </text>
+
+                            {/* Sculpted Jeweled Medallion Socket (Right side) */}
+                            <g className="exh-medallion-group" transform="translate(133, 14)">
+                                <circle cx="0" cy="0" r="8.5" fill={`url(#exhPlateGrad-${member.id})`} stroke="#241403" strokeWidth="0.8" />
+                                <circle cx="0" cy="0" r="7.2" fill="#180e03" stroke="#543c14" strokeWidth="0.5" />
+                                <circle cx="0" cy="0" r="6.5" fill={`url(#exhMedallionGrad-${member.id})`} />
+                                <path d="M -4.5 -3.5 A 5.5 5.5 0 0 1 3.5 -4.5 A 5.5 4 0 0 0 -4.5 -3.5 Z" fill="#ffffff" opacity="0.65" />
+                                <text
+                                    x="0"
+                                    y="3.5"
+                                    textAnchor="middle"
+                                    fontFamily="'Cinzel', Georgia, serif"
+                                    fontSize="9px"
+                                    fontWeight="900"
+                                    fill="#0f0701"
+                                    style={{ userSelect: 'none' }}
+                                >
+                                    {exhaustionLevel}
+                                </text>
+                                <text
+                                    x="0"
+                                    y="2.8"
+                                    textAnchor="middle"
+                                    fontFamily="'Cinzel', Georgia, serif"
+                                    fontSize="9px"
+                                    fontWeight="900"
+                                    fill={exhaustionLevel === 0 ? '#ffffff' : '#fff8e6'}
+                                    className="exhaustion-value"
+                                    style={{ userSelect: 'none' }}
+                                >
+                                    {exhaustionLevel}
+                                </text>
                             </g>
                         </svg>
-                        <span className="exhaustion-mini-glyph-wrap" aria-hidden="true">
-                            <svg className="exhaustion-mini-glyph" viewBox="0 0 10 13" fill="none">
-                                <path d="M1 1.5 H9 M1 11.5 H9" stroke="#3a270f" strokeWidth="1.2" strokeLinecap="round" />
-                                <path d="M2 2 C2 4.6 4.3 5.7 5 6.2 C5.7 5.7 8 4.6 8 2 Z" fill="#d9be7f" stroke="#3a270f" strokeWidth="0.8" />
-                                <path d="M2 11 C2 8.4 4.3 7.3 5 6.8 C5.7 7.3 8 8.4 8 11 Z" fill="#b38a42" stroke="#3a270f" strokeWidth="0.8" />
-                                <circle cx="5" cy="6.5" r="0.75" fill="#3a270f" />
-                            </svg>
-                        </span>
-                        <span className="exhaustion-label">Exhaustion</span>
-                        <span className="exhaustion-value">{exhaustionLevel}</span>
+
+                        {/* Hidden native select preserved for headless/unit test queries */}
                         {isExhaustionEditable && (
                             <select
                                 value={exhaustionLevel}
-                                onChange={(e) => {
-                                    const newVal = parseInt(e.target.value, 10) || 0;
-                                    if (isCurrentPlayer) {
-                                        useCharacterStore.getState().updateExhaustionLevel(newVal);
-                                    } else {
-                                        updatePartyMember(member.id, {
-                                            character: {
-                                                ...member.character,
-                                                exhaustionLevel: newVal
-                                            }
-                                        });
-                                    }
-                                }}
+                                onChange={(e) => handleSelectExhaustionLevel(e.target.value)}
                                 className="party-exhaustion-select"
-                                onClick={(e) => e.stopPropagation()}
-                                aria-label="Set exhaustion level"
+                                style={{ display: 'none' }}
+                                tabIndex={-1}
+                                aria-hidden="true"
                             >
                                 <option value="0">0 (Normal)</option>
                                 <option value="1">1 (Disadv. Checks)</option>
@@ -1665,6 +1886,99 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                             </div>
                         );
                     })(),
+                    document.body
+                )}
+                {exhaustionMenu && createPortal(
+                    <div
+                        ref={exhaustionMenuRef}
+                        className="calm-exhaustion-dropdown"
+                        style={{
+                            position: 'fixed',
+                            left: `${exhaustionMenu.x}px`,
+                            top: `${exhaustionMenu.y}px`
+                        }}
+                        onClick={(e) => e.stopPropagation()}
+                        onMouseDown={(e) => e.stopPropagation()}
+                        onContextMenu={(e) => e.preventDefault()}
+                        role="dialog"
+                        aria-label="Adjust Exhaustion Level"
+                    >
+                        <div className="calm-corner calm-corner-tl" aria-hidden="true" />
+                        <div className="calm-corner calm-corner-tr" aria-hidden="true" />
+                        <div className="calm-corner calm-corner-bl" aria-hidden="true" />
+                        <div className="calm-corner calm-corner-br" aria-hidden="true" />
+
+                        <div className="calm-dropdown-header">
+                            <div className="calm-dropdown-title-group">
+                                <span className="calm-dropdown-icon" aria-hidden="true">
+                                    <i className="fas fa-hourglass-half"></i>
+                                </span>
+                                <span className="calm-dropdown-title">Adjust Exhaustion</span>
+                            </div>
+                            <button
+                                type="button"
+                                className="calm-dropdown-close"
+                                onClick={() => setExhaustionMenu(null)}
+                                aria-label="Close"
+                            >
+                                ✕
+                            </button>
+                        </div>
+
+                        <div className="calm-ttrpg-divider" aria-hidden="true">
+                            <span className="calm-ttrpg-divider-line" />
+                            <span className="calm-ttrpg-divider-diamond">◆</span>
+                            <span className="calm-ttrpg-divider-line" />
+                        </div>
+
+                        <div className="calm-dropdown-list" role="listbox">
+                            {[
+                                { lvl: 0, roman: '0', title: 'Normal', desc: 'Active & healthy, no penalties' },
+                                { lvl: 1, roman: 'I', title: 'Stage 1', desc: 'Disadvantage on ability checks' },
+                                { lvl: 2, roman: 'II', title: 'Stage 2', desc: 'Movement speed is halved' },
+                                { lvl: 3, roman: 'III', title: 'Stage 3', desc: 'Disadvantage on attacks & saves' },
+                                { lvl: 4, roman: 'IV', title: 'Stage 4', desc: 'Maximum hit points halved' },
+                                { lvl: 5, roman: 'V', title: 'Stage 5', desc: 'Movement speed reduced to 0' },
+                                { lvl: 6, roman: 'VI', title: 'Stage 6', desc: 'Instantaneous death' }
+                            ].map((item) => {
+                                const isSelected = exhaustionLevel === item.lvl;
+                                return (
+                                    <div
+                                        key={item.lvl}
+                                        className={`calm-dropdown-item level-${item.lvl} ${isSelected ? 'selected' : ''}`}
+                                        onClick={() => handleSelectExhaustionLevel(item.lvl)}
+                                        role="option"
+                                        aria-selected={isSelected}
+                                        tabIndex={0}
+                                        onKeyDown={(e) => {
+                                            if (e.key === 'Enter' || e.key === ' ') {
+                                                e.preventDefault();
+                                                handleSelectExhaustionLevel(item.lvl);
+                                            }
+                                        }}
+                                    >
+                                        <span className="calm-dropdown-item-badge">
+                                            {item.lvl === 6 ? <i className="fas fa-skull"></i> : item.roman}
+                                        </span>
+                                        <div className="calm-dropdown-item-info">
+                                            <span className="calm-dropdown-item-title">{item.title}</span>
+                                            <span className="calm-dropdown-item-desc">{item.desc}</span>
+                                        </div>
+                                        {isSelected && (
+                                            <span className="calm-dropdown-item-check" aria-hidden="true">
+                                                <i className="fas fa-check"></i>
+                                            </span>
+                                        )}
+                                    </div>
+                                );
+                            })}
+                        </div>
+
+                        <div className="calm-dropdown-footer">
+                            <i className="fas fa-campground" aria-hidden="true"></i>
+                            <span>Long Rest removes 1 level (with food & water).</span>
+                        </div>
+                    </div>,
                     document.body
                 )}
             </div>
@@ -2929,13 +3243,28 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
             if (wouldOverheal) {
                 // Show confirmation modal for temporary resources
                 const overhealAmount = (currentValue + adjustment) - maxValue;
+                const tempFieldMap = {
+                    'health': 'tempHealth',
+                    'mana': 'tempMana',
+                    'actionPoints': 'tempActionPoints'
+                };
+                const tempField = tempFieldMap[resourceType];
+                let currentTemp = 0;
+                if (isSelfId(memberId, undefined, myIds)) {
+                    const charState = useCharacterStore.getState();
+                    currentTemp = charState[tempField] || 0;
+                } else {
+                    const member = findMemberById(memberId);
+                    currentTemp = member?.character?.[tempField] || 0;
+                }
                 setOverhealData({
                     memberId,
                     resourceType,
                     adjustment,
                     overhealAmount,
                     currentValue,
-                    maxValue
+                    maxValue,
+                    currentTemp: Number(currentTemp) || 0
                 });
                 setShowOverhealModal(true);
                 return; // Don't apply yet, wait for user confirmation
@@ -4471,7 +4800,7 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                 />
             )}
 
-            {/* Custom Amount Modal */}
+            {/* Custom Amount Modal — Calm TTRPG Manuscript Theme */}
             {showCustomAmountModal && (
                 <div
                     className="modal-overlay"
@@ -4481,7 +4810,9 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                         left: 0,
                         right: 0,
                         bottom: 0,
-                        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                        backgroundColor: 'rgba(14, 10, 7, 0.72)',
+                        backdropFilter: 'blur(4px)',
+                        WebkitBackdropFilter: 'blur(4px)',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
@@ -4495,188 +4826,186 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                     <div
                         className="custom-amount-modal"
                         style={{
-                            backgroundColor: '#f0e6d2',
-                            border: '2px solid #a08c70',
+                            background: 'linear-gradient(175deg, #fdfbf7 0%, #f6f0e4 45%, #eee4d1 100%)',
+                            border: '2px solid #8b6f47',
                             borderRadius: '8px',
-                            padding: '20px',
-                            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
-                            fontFamily: "'Bookman Old Style', 'Garamond', serif",
-                            color: '#7a3b2e',
-                            minWidth: '300px',
-                            textAlign: 'center'
+                            boxShadow: '0 20px 50px rgba(18, 12, 8, 0.65), 0 2px 8px rgba(18, 12, 8, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.9), inset 0 0 24px rgba(139, 69, 19, 0.06)',
+                            fontFamily: "'Cinzel', Georgia, serif",
+                            color: '#34251a',
+                            width: 'min(380px, calc(100vw - 32px))',
+                            overflow: 'hidden',
+                            boxSizing: 'border-box'
                         }}
                         onClick={(e) => e.stopPropagation()}
                     >
-                        <h3 style={{ margin: '0 0 15px 0', fontSize: '16px' }}>
-                            {customAmountType === 'damage' && 'Custom Damage Amount'}
-                            {customAmountType === 'heal' && 'Custom Heal Amount'}
-                            {customAmountType === 'mana-damage' && 'Custom Mana Drain Amount'}
-                            {customAmountType === 'mana-heal' && 'Custom Mana Restore Amount'}
-                            {customAmountType === 'ap-spend' && 'Custom Action Points Spend Amount'}
-                            {customAmountType === 'ap-restore' && 'Custom Action Points Restore Amount'}
-                            {customAmountType === 'xp' && 'Award Experience Points'}
-                        </h3>
-                        <input
-                            type="number"
-                            min={customAmountType === 'xp' ? undefined : "1"}
-                            placeholder={customAmountType === 'xp' ? 'Enter amount (+ or -)...' : 'Enter amount...'}
-                            style={{
-                                width: '100%',
-                                padding: '8px',
-                                border: '1px solid #a08c70',
-                                borderRadius: '4px',
+                        {/* 3px Gilded Accent Bar */}
+                        <div style={{
+                            width: '100%',
+                            height: '3px',
+                            background: customAmountType?.includes('mana') 
+                                ? 'linear-gradient(90deg, #1d3557 0%, #3a75a4 50%, #1d3557 100%)'
+                                : customAmountType?.includes('ap')
+                                ? 'linear-gradient(90deg, #8a5717 0%, #d49a43 50%, #8a5717 100%)'
+                                : customAmountType === 'xp'
+                                ? 'linear-gradient(90deg, #6b4423 0%, #b89758 50%, #6b4423 100%)'
+                                : 'linear-gradient(90deg, #7a221b 0%, #c47a52 50%, #7a221b 100%)'
+                        }} />
+
+                        {/* Header Banner */}
+                        <div style={{
+                            background: 'linear-gradient(180deg, #2b2016 0%, #1c140d 100%)',
+                            color: '#f1ece1',
+                            padding: '12px 18px',
+                            borderBottom: '2px solid #b6a080',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            gap: '8px'
+                        }}>
+                            <i className={
+                                customAmountType === 'heal' ? 'fas fa-heart' :
+                                customAmountType === 'damage' ? 'fas fa-heart-crack' :
+                                customAmountType === 'mana-heal' ? 'fas fa-wand-magic-sparkles' :
+                                customAmountType === 'mana-damage' ? 'fas fa-tint-slash' :
+                                customAmountType === 'ap-restore' ? 'fas fa-bolt' :
+                                customAmountType === 'ap-spend' ? 'fas fa-hourglass-half' :
+                                'fas fa-award'
+                            } style={{
+                                color: customAmountType?.includes('mana') ? '#93c5fd' :
+                                       customAmountType?.includes('ap') ? '#fcd34d' :
+                                       customAmountType === 'xp' ? '#e9d5a1' : '#fca5a5'
+                            }} />
+                            <h3 style={{
+                                margin: 0,
                                 fontSize: '14px',
-                                marginBottom: '15px',
-                                textAlign: 'center'
-                            }}
-                            autoFocus
-                            onKeyDown={(e) => {
-                                if (e.key === 'Enter') {
-                                    handleCustomAmountSubmit(e.target.value);
-                                } else if (e.key === 'Escape') {
-                                    setShowCustomAmountModal(false);
-                                    setCustomAmountType('');
-                                }
-                            }}
-                        />
-                        <div style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
-                            <button
-                                style={{
-                                    padding: '8px 16px',
-                                    border: '1px solid #a08c70',
+                                fontWeight: 700,
+                                letterSpacing: '1px',
+                                textTransform: 'uppercase',
+                                color: '#f1ece1',
+                                textShadow: '0 1px 2px rgba(0, 0, 0, 0.7)'
+                            }}>
+                                {customAmountType === 'damage' && 'Damage Amount'}
+                                {customAmountType === 'heal' && 'Heal Amount'}
+                                {customAmountType === 'mana-damage' && 'Mana Drain Amount'}
+                                {customAmountType === 'mana-heal' && 'Mana Restore Amount'}
+                                {customAmountType === 'ap-spend' && 'Spend Action Points'}
+                                {customAmountType === 'ap-restore' && 'Restore Action Points'}
+                                {customAmountType === 'xp' && 'Award Experience'}
+                            </h3>
+                        </div>
+
+                        {/* Content */}
+                        <div style={{ padding: '16px 20px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
+                            {contextMenuMember && (
+                                <div style={{
+                                    fontSize: '12px',
+                                    fontWeight: 600,
+                                    color: '#522d25',
+                                    textAlign: 'center',
+                                    background: 'rgba(139, 69, 19, 0.06)',
+                                    border: '1px solid #c4baa6',
                                     borderRadius: '4px',
-                                    backgroundColor: '#d4c4a8',
-                                    color: '#7a3b2e',
-                                    cursor: 'pointer',
-                                    fontSize: '12px'
-                                }}
-                                onClick={(e) => {
-                                    const input = e.target.parentElement.parentElement.querySelector('input');
-                                    handleCustomAmountSubmit(input.value);
-                                }}
-                            >
-                                Apply
-                            </button>
-                            <button
+                                    padding: '4px 8px'
+                                }}>
+                                    <i className="fas fa-shield-halved" style={{ marginRight: '5px' }}></i>
+                                    {getCharacterName(contextMenuMember.id)}
+                                </div>
+                            )}
+
+                            <input
+                                type="number"
+                                min={customAmountType === 'xp' ? undefined : "1"}
+                                placeholder={customAmountType === 'xp' ? 'Enter XP (+ or -)...' : 'Enter amount...'}
                                 style={{
-                                    padding: '8px 16px',
-                                    border: '1px solid #a08c70',
-                                    borderRadius: '4px',
-                                    backgroundColor: '#e8dcc0',
-                                    color: '#7a3b2e',
-                                    cursor: 'pointer',
-                                    fontSize: '12px'
+                                    width: '100%',
+                                    padding: '8px 12px',
+                                    border: '1.5px solid #8b6f47',
+                                    borderRadius: '5px',
+                                    fontSize: '15px',
+                                    fontFamily: "'Cinzel', Georgia, serif",
+                                    color: '#2b1c12',
+                                    background: '#ffffff',
+                                    boxSizing: 'border-box',
+                                    textAlign: 'center',
+                                    outline: 'none',
+                                    boxShadow: 'inset 0 1px 3px rgba(139, 69, 19, 0.08)'
                                 }}
-                                onClick={() => {
-                                    setShowCustomAmountModal(false);
-                                    setCustomAmountType('');
+                                autoFocus
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter') {
+                                        handleCustomAmountSubmit(e.target.value);
+                                    } else if (e.key === 'Escape') {
+                                        setShowCustomAmountModal(false);
+                                        setCustomAmountType('');
+                                    }
                                 }}
-                            >
-                                Cancel
-                            </button>
+                            />
+
+                            <div style={{
+                                display: 'flex',
+                                gap: '10px',
+                                justifyContent: 'flex-end',
+                                borderTop: '1px solid #c4baa6',
+                                paddingTop: '12px'
+                            }}>
+                                <button
+                                    type="button"
+                                    className="overflow-btn overflow-btn-cancel"
+                                    onClick={() => {
+                                        setShowCustomAmountModal(false);
+                                        setCustomAmountType('');
+                                    }}
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    type="button"
+                                    className="overflow-btn overflow-btn-primary"
+                                    onClick={(e) => {
+                                        const input = e.target.closest('.custom-amount-modal').querySelector('input');
+                                        handleCustomAmountSubmit(input.value);
+                                    }}
+                                >
+                                    Apply
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
             )}
 
-            {/* Overheal Confirmation Modal */}
-            {showOverhealModal && overhealData && (
-                <div
-                    className="modal-overlay"
-                    style={{
-                        position: 'fixed',
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        bottom: 0,
-                        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        zIndex: 10001
-                    }}
-                    onClick={() => {
-                        setShowOverhealModal(false);
-                        setOverhealData(null);
-                    }}
-                >
-                    <div
-                        className="overheal-modal"
-                        style={{
-                            backgroundColor: '#f0e6d2',
-                            backgroundImage: 'url("https://www.transparenttextures.com/patterns/parchment.png")',
-                            border: '3px solid #8b4513',
-                            borderRadius: '12px',
-                            padding: '24px',
-                            boxShadow: '0 10px 30px rgba(0, 0, 0, 0.5), inset 0 0 60px rgba(139, 69, 19, 0.1)',
-                            fontFamily: "'Cinzel', serif",
-                            color: '#1a0f08',
-                            minWidth: '400px',
-                            maxWidth: '500px',
-                            textAlign: 'center',
-                            position: 'relative'
-                        }}
-                        onClick={(e) => e.stopPropagation()}
-                    >
-                        <h3 style={{ 
-                            margin: '0 0 20px 0', 
-                            fontSize: '22px', 
-                            color: '#7a3b2e',
-                            borderBottom: '2px solid #8b4513',
-                            paddingBottom: '10px',
-                            textTransform: 'uppercase',
-                            letterSpacing: '1px'
-                        }}>
-                            Overheal Detected
-                        </h3>
-                        <p style={{ margin: '0 0 15px 0', fontSize: '16px', color: '#4a3728' }}>
-                            This would restore <strong>{overhealData.adjustment}</strong> {overhealData.resourceType === 'health' ? 'HP' : overhealData.resourceType === 'mana' ? 'Mana' : 'AP'},
-                            but the current value is {overhealData.currentValue}/{overhealData.maxValue}.
-                            <br />
-                            <strong style={{ color: '#7a3b2e' }}>{overhealData.overhealAmount}</strong> would exceed the maximum.
-                        </p>
-                        
-                        <div style={{ 
-                            display: 'flex', 
-                            gap: '12px', 
-                            justifyContent: 'center', 
-                            marginTop: '25px',
-                            paddingTop: '20px',
-                            borderTop: '1px solid rgba(139, 69, 19, 0.2)'
-                        }}>
-                            <Button
-                                variant="game-secondary"
-                                onClick={() => {
-                                    setShowOverhealModal(false);
-                                    setOverhealData(null);
-                                }}
-                            >
-                                Cancel
-                            </Button>
-                            <Button
-                                variant="game-secondary"
-                                onClick={() => {
-                                    applyResourceAdjustment(overhealData.memberId, overhealData.resourceType, overhealData.maxValue - overhealData.currentValue, false);
-                                    setShowOverhealModal(false);
-                                    setOverhealData(null);
-                                }}
-                            >
-                                Cap at Max
-                            </Button>
-                            <Button
-                                variant="game-primary"
-                                onClick={() => {
-                                    applyResourceAdjustment(overhealData.memberId, overhealData.resourceType, overhealData.adjustment, true);
-                                    setShowOverhealModal(false);
-                                    setOverhealData(null);
-                                }}
-                            >
-                                Add Temporary
-                            </Button>
-                        </div>
-                    </div>
-                </div>
-            )}
+            {/* Resource Overflow / Overheal Confirmation Modal — Calm TTRPG Manuscript Theme */}
+            <ResourceOverflowModal
+                isOpen={showOverhealModal && !!overhealData}
+                data={overhealData}
+                targetName={contextMenuMember ? getCharacterName(contextMenuMember.id) : (overhealData?.memberId ? getCharacterName(overhealData.memberId) : null)}
+                onCancel={() => {
+                    setShowOverhealModal(false);
+                    setOverhealData(null);
+                }}
+                onCap={() => {
+                    if (!overhealData) return;
+                    applyResourceAdjustment(
+                        overhealData.memberId,
+                        overhealData.resourceType,
+                        overhealData.maxValue - overhealData.currentValue,
+                        false
+                    );
+                    setShowOverhealModal(false);
+                    setOverhealData(null);
+                }}
+                onAddTemporary={() => {
+                    if (!overhealData) return;
+                    applyResourceAdjustment(
+                        overhealData.memberId,
+                        overhealData.resourceType,
+                        overhealData.adjustment,
+                        true
+                    );
+                    setShowOverhealModal(false);
+                    setOverhealData(null);
+                }}
+            />
 
             <SummonTokenBar
                 isOpen={showSummonTokenBar}

@@ -1,0 +1,538 @@
+diff --git a/vtt-react/src/components/hud/FateWeaverResourceDisplay.jsx b/vtt-react/src/components/hud/FateWeaverResourceDisplay.jsx
+index 7b929756..cb0a1637 100644
+--- a/vtt-react/src/components/hud/FateWeaverResourceDisplay.jsx
++++ b/vtt-react/src/components/hud/FateWeaverResourceDisplay.jsx
+@@ -26,7 +26,7 @@ export default function FateWeaverResourceDisplay({ resource = null, isOwner = f
+       <details>
+         <summary style={{ minHeight: 44, padding: '12px 4px', cursor: 'pointer', boxSizing: 'border-box' }}>Inspect link rules</summary>
+         <p>Three tokens: free, reserved or recovering. A link reserves one token, except an authored covenant that reserves two; at most three links. Formation range is 30 ft each with 60 ft maintenance separation unless a record says otherwise. Original assigned damage only, at most 3 points per transfer; no recursion.</p>
+-        <p>Closed or expired links leave their tokens recovering until the start of the owning caster next own turn. No long rest, reconnect, initiative or scene-change refill; Eternal Tapestry is the sole authored immediate-recovery exception. Consent is recorded and can be withdrawn; withdrawal ends the link immediately.</p>
++        <p>Recovery begins only after the link is closed and its uses are exhausted; the reserved token then returns at the start of the owning caster next own turn. No long rest, reconnect, initiative or scene-change refill; Eternal Tapestry is the sole authored immediate-recovery exception. Consent is recorded and can be withdrawn; withdrawal ends the link immediately.</p>
+         <p>{FATE_WEAVER_MANUAL_NOTICE}</p>
+       </details>
+     </section>
+diff --git a/vtt-react/src/components/hud/__tests__/FateWeaverResourceDisplay.test.jsx b/vtt-react/src/components/hud/__tests__/FateWeaverResourceDisplay.test.jsx
+index 00eb82d4..0ce988b1 100644
+--- a/vtt-react/src/components/hud/__tests__/FateWeaverResourceDisplay.test.jsx
++++ b/vtt-react/src/components/hud/__tests__/FateWeaverResourceDisplay.test.jsx
+@@ -48,6 +48,7 @@ test('owner sees actual token counts and link terms without mutation', () => {
+   const rules = container.textContent;
+   expect(rules).toMatch(/30 ft each with 60 ft maintenance separation/);
+   expect(rules).toMatch(/No long rest, reconnect, initiative or scene-change refill/);
++  expect(rules).toMatch(/closed and its uses are exhausted/i);
+   expect(rules).toMatch(/owning caster next own turn/);
+ });
+ 
+@@ -71,6 +72,17 @@ test.each([
+   expect(container.textContent).not.toMatch(/Free 3\/3/);
+ });
+ 
++test('integrated HUD treats conflicting consent aliases as a review state', () => {
++  const raw = state();
++  raw.links[0].consent = { source: true, target: true };
++  raw.links[0].sourceConsent = true;
++  raw.links[0].targetConsent = false;
++  const { container } = render(<ClassResourceBar characterClass="Fate Weaver" classResource={{ type: 'fate-links', state: raw, current: 1, max: 3 }} isOwner />);
++  expect(screen.getByText(/Fate Link state needs review/)).toBeInTheDocument();
++  expect(container.textContent).not.toMatch(/Free 1\/3/);
++  expect(container.textContent).not.toContain('guard the gate');
++});
++
+ test('invalid state is reported without repairing or leaking malformed values', () => {
+   const raw = state();
+   raw.links[0].recursive = true;
+diff --git a/vtt-react/src/components/rules/__tests__/ClassDetailDisplaySpells.test.jsx b/vtt-react/src/components/rules/__tests__/ClassDetailDisplaySpells.test.jsx
+index 9bcd080b..708630e3 100644
+--- a/vtt-react/src/components/rules/__tests__/ClassDetailDisplaySpells.test.jsx
++++ b/vtt-react/src/components/rules/__tests__/ClassDetailDisplaySpells.test.jsx
+@@ -3,6 +3,7 @@ import { render, screen, fireEvent } from '@testing-library/react';
+ import '@testing-library/jest-dom';
+ import ClassDetailDisplay from '../ClassDetailDisplay';
+ import { GAMBLER_DATA } from '../../../data/classes/gamblerData';
++import { FATE_WEAVER_DATA } from '../../../data/classes/fateWeaverData';
+ 
+ // Polyfill global fetch if needed
+ if (!global.fetch) {
+@@ -140,3 +141,13 @@ test('Gambler detail renders complete cards at all levels and a real uninitializ
+   fireEvent.click(screen.getByRole('button', { name: /Inspect House Compact/ }));
+   expect(screen.getByTestId('unified-spell-card').textContent).toContain('two fixed leg identities');
+ });
++
++test('Fate Weaver Codex popup carries closure-gated recovery and distinct 30/60 ranges', () => {
++  render(<ClassDetailDisplay classData={FATE_WEAVER_DATA} onBack={jest.fn()} />);
++  fireEvent.click(screen.getByRole('button', { name: /spells/i }));
++  fireEvent.click(screen.getByRole('button', { name: /Inspect Tie the Thread/ }));
++  fireEvent.click(screen.getByText('Manual thread price and link rules'));
++  const popup = document.querySelector('.spellbook-popup-content');
++  expect(popup.textContent).toMatch(/closed and its uses are exhausted/i);
++  expect(popup.textContent).toMatch(/30 ft formation range each and 60 ft maintenance separation/i);
++});
+diff --git a/vtt-react/src/components/talent-tree/TalentTreeContent.jsx b/vtt-react/src/components/talent-tree/TalentTreeContent.jsx
+index 5357d0ee..ac5ca397 100644
+--- a/vtt-react/src/components/talent-tree/TalentTreeContent.jsx
++++ b/vtt-react/src/components/talent-tree/TalentTreeContent.jsx
+@@ -712,24 +712,21 @@ export const TalentTreeContent = ({
+ 
+     const resetTalents = () => {
+         const spellbook = useSpellbookStore.getState();
++        const currentLib = loadLibraryFromStorage();
+         const grantIds = trees
+             .flatMap(tree => tree.talents)
+             .map(t => t.grantId || t.passiveSpellId)
+             .filter(Boolean);
+-        const isTalentOwnedSpell = (id) => Boolean(id) && (id.startsWith('talent-spell-') || grantIds.includes(id));
+-
+-        (spellbook.spells || [])
+-            .filter(s => isTalentOwnedSpell(s.id))
+-            .forEach(s => spellbook.deleteSpell(s.id));
+-
+-        const currentLib = loadLibraryFromStorage();
+-        if (currentLib?.spells) {
+-            currentLib.spells = currentLib.spells.filter(s => !isTalentOwnedSpell(s.id));
+-            saveLibraryToStorage(currentLib);
+-        }
++        const legacyIds = [
++            ...(spellbook.spells || []),
++            ...(currentLib?.spells || [])
++        ].map(entry => entry?.id)
++            .filter(spellId => typeof spellId === 'string' && spellId.startsWith('talent-spell-'));
+ 
+         setTalents({});
+-        useCharacterStore.getState().setTalents({});
++        useCharacterStore.getState().setTalents({}, {
++            grantIds: [...new Set([...grantIds, ...legacyIds])]
++        });
+         useCharacterStore.getState().setPrimarySpecialization?.('');
+     };
+ 
+diff --git a/vtt-react/src/data/classes/__tests__/fateWeaverCorrections.test.js b/vtt-react/src/data/classes/__tests__/fateWeaverCorrections.test.js
+index d312a65c..f1000bd2 100644
+--- a/vtt-react/src/data/classes/__tests__/fateWeaverCorrections.test.js
++++ b/vtt-react/src/data/classes/__tests__/fateWeaverCorrections.test.js
+@@ -1,5 +1,6 @@
+ import React from 'react';
+-import { render, screen, fireEvent } from '@testing-library/react';
++import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
++import { useClassSpellLibrary } from '../../../hooks/useClassSpellLibrary';
+ import {
+   FATE_WEAVER_CORE_RECORDS, FATE_WEAVER_OPTIONAL_RECORDS, FATE_WEAVER_PROJECTED_SPELLS_BY_ID,
+   FATE_WEAVER_SPELL_POOLS, pruneFateWeaverTalents
+@@ -136,20 +137,83 @@ describe('Fate Weaver Phase 2B corrections', () => {
+   test('mounted Reset All clears signature and capstone known grants while preserving non-grant picks', () => {
+     const optionalOne = optionalAt(1)[0].id;
+     const custom = 'custom-unrelated-spell';
++    const signatureId = id(tree.meta.signature);
++    const capstoneId = id(tree.meta.capstone);
++    const signatureNode = FATE_WEAVER_TALENT_NODES.find(node => node.id === tree.meta.signatureNode);
++    const capstoneNode = FATE_WEAVER_TALENT_NODES.find(node => node.id === tree.meta.capstoneNode);
++    const copies = [signatureNode, capstoneNode].map(node => ({
++      ...FATE_WEAVER_PROJECTED_SPELLS_BY_ID[node.grantId], source: 'talent', talentId: node.id
++    }));
+     stateFor({
+       level: 10,
+       talents: fullTree,
+       class_spells: { known_spells: [
+         id('tie_thread'), id('cut_clean'), optionalOne,
+-        id(tree.meta.signature), id(tree.meta.capstone), custom
++        signatureId, capstoneId, custom
+       ] }
+     });
++    useSpellbookStore.setState({ spells: copies });
++    __setLibrary({ spells: copies });
+     render(React.createElement(TalentTreeContent, { selectedTreeIndex: 0 }));
+     fireEvent.click(screen.getByRole('button', { name: /Reset All/i }));
+ 
+     const state = useCharacterStore.getState();
+     expect(state.talents).toEqual({});
+     expect(state.class_spells.known_spells).toEqual([id('tie_thread'), id('cut_clean'), optionalOne, custom]);
++    expect(useSpellbookStore.getState().spells).toEqual([]);
++    expect(__getLibrary().spells).toEqual([]);
++  });
++
++  test('mounted Reset All prunes only the active character while another roster owner keeps shared grant copies', async () => {
++    const optionalOne = optionalAt(1)[0].id;
++    const custom = 'custom-unrelated-spell';
++    const signatureId = id(tree.meta.signature);
++    const capstoneId = id(tree.meta.capstone);
++    const signatureNode = FATE_WEAVER_TALENT_NODES.find(node => node.id === tree.meta.signatureNode);
++    const capstoneNode = FATE_WEAVER_TALENT_NODES.find(node => node.id === tree.meta.capstoneNode);
++    const sharedCopies = [signatureNode, capstoneNode].map(node => ({
++      ...FATE_WEAVER_PROJECTED_SPELLS_BY_ID[node.grantId], source: 'talent', talentId: node.id
++    }));
++    const otherCharacter = {
++      id: 'other-roster-character', class: 'Fate Weaver', level: 10, talents: fullTree,
++      class_spells: { known_spells: [id('tie_thread'), signatureId, capstoneId] }
++    };
++    stateFor({
++      level: 10,
++      currentCharacterId: 'active-roster-character',
++      talents: fullTree,
++      class_spells: { known_spells: [
++        id('tie_thread'), id('cut_clean'), optionalOne, signatureId, capstoneId, custom
++      ] },
++      characters: [
++        { id: 'active-roster-character', class: 'Fate Weaver', level: 10, talents: fullTree },
++        otherCharacter
++      ]
++    });
++    useSpellbookStore.setState({ spells: sharedCopies });
++    __setLibrary({ spells: sharedCopies });
++    render(React.createElement(TalentTreeContent, { selectedTreeIndex: 0 }));
++    fireEvent.click(screen.getByRole('button', { name: /Reset All/i }));
++
++    const state = useCharacterStore.getState();
++    expect(state.talents).toEqual({});
++    expect(state.class_spells.known_spells).toEqual([id('tie_thread'), id('cut_clean'), optionalOne, custom]);
++    expect(state.characters.find(char => char.id === otherCharacter.id)).toEqual(otherCharacter);
++    expect(useSpellbookStore.getState().spells.map(spell => spell.id))
++      .toEqual(expect.arrayContaining([signatureId, capstoneId]));
++    expect(__getLibrary().spells.map(spell => spell.id))
++      .toEqual(expect.arrayContaining([signatureId, capstoneId]));
++
++    act(() => useCharacterStore.setState({ level: 1 }));
++    function LibraryProbe() {
++      const library = useClassSpellLibrary();
++      return <output aria-label="fate-library">{library.getAllSpells().map(spell => spell.id).join(',')}</output>;
++    }
++    render(<LibraryProbe />);
++    await waitFor(() => expect(screen.getByLabelText('fate-library').textContent).toContain(optionalOne));
++    const visible = screen.getByLabelText('fate-library').textContent;
++    expect(visible).not.toContain(signatureId);
++    expect(visible).not.toContain(capstoneId);
+   });
+ 
+   test('fills Fate Weaver level categories 3/5/7/8/9/10 without changing Gambler', () => {
+diff --git a/vtt-react/src/data/classes/__tests__/fateWeaverIntegration.test.js b/vtt-react/src/data/classes/__tests__/fateWeaverIntegration.test.js
+index 8922c3e5..5703f325 100644
+--- a/vtt-react/src/data/classes/__tests__/fateWeaverIntegration.test.js
++++ b/vtt-react/src/data/classes/__tests__/fateWeaverIntegration.test.js
+@@ -78,19 +78,39 @@ describe('Fate Weaver Phase 2B package', () => {
+     expect(fateWeaverResourceGuide).toMatchObject({ version: 2, archetype: 'Finite Consented Links' });
+   });
+ 
+-  test('resource guide and tracker copy preserve bearer, 30/60 range and next-own-turn recovery', () => {
++  test('resource guide and tracker copy preserve bearer, distinct 30/60 range and closure-gated recovery', () => {
+     expect(fateWeaverResourceGuide.loop.spend.text).toContain('to the chosen bearer');
+     expect(fateWeaverResourceGuide.loop.spend.text).not.toContain('to the caster');
+     expect(fateWeaverResourceGuide.quickStart.rows[0][2]).toContain('second subsequent caster turn');
+     expect(fateWeaverResourceGuide.quickStart.rows[1][2]).toContain('owning caster next own turn');
+-    expect(fateWeaverResourceGuide.playingInPerson.materials).toContain('A next-own-turn recovery marker');
++    expect(fateWeaverResourceGuide.playingInPerson.materials.join(' ')).toContain('A next-own-turn recovery marker');
+     expect(fateWeaverResourceGuide.playingInPerson.keepSections).toEqual(['tracking', 'consent', 'recovery label']);
+     const copy = JSON.stringify(fateWeaverResourceGuide);
++    expect(copy).toContain('30 ft formation each');
++    expect(copy).toContain('60 ft maintenance separation');
++    expect(copy).toMatch(/closed and its uses are exhausted/i);
+     ['free immediately', 'next turn start', 'completed-rest marker', 'to the caster'].forEach(stale => {
+       expect(copy).not.toContain(stale);
+     });
+   });
+ 
++  test('resource rules separate formation distance from maintenance separation and gate recovery', () => {
++    expect(FATE_WEAVER_RESOURCE_RULES).toMatchObject({
++      formationRangeEachFeet: 30,
++      maintenanceSeparationFeet: 60,
++      recovery: 'next-caster-own-turn-after-closure-and-uses-exhausted',
++      refreshOnLongRest: false
++    });
++    expect(FATE_WEAVER_RESOURCE_RULES.formationRangeFeet).toBeUndefined();
++    const commonRules = FATE_WEAVER_PROJECTED_SPELLS_BY_ID
++      .cr1_fate_weaver_tie_thread.specialMechanics.fateWeaver.commonRules;
++    expect(commonRules.tokens).toMatch(/closed and its uses are exhausted/i);
++    expect(commonRules.recovery).toMatch(/closed and its uses are exhausted/i);
++    expect(commonRules.recovery).toMatch(/owning caster next own turn/i);
++    expect(JSON.stringify(FATE_WEAVER_DATA.resourceSystem)).toMatch(/closed and its uses are exhausted/i);
++    expect(FATE_WEAVER_DATA.classResource.generationNote).toMatch(/closed and its uses are exhausted/i);
++  });
++
+   test('all signature and capstone gates accept only the authored same-tree path', () => {
+     const points = (treeId, talents) => FATE_WEAVER_TALENT_NODES
+       .filter(node => node.treeId === treeId)
+@@ -165,6 +185,9 @@ describe('Fate Weaver Phase 2B package', () => {
+     const link = base.links[0];
+     const valid = [
+       { ...base, links: [{ ...link, consent: { source: true, target: true } }] },
++      { ...base, links: [{ ...link, consent: { source: true, target: true }, sourceConsent: true, targetConsent: true }] },
++      { ...base, links: [{ ...link, consent: { source: true, target: true }, sourceConsent: true }] },
++      { ...base, links: [{ ...link, consent: { source: true }, targetConsent: true }] },
+       { ...base, links: [{ ...link, tokenIds: ['t1'], tokenId: 't1' }] },
+       { ...base, links: [{ ...link, usesRemaining: 1, remainingUses: 1 }] },
+       { ...base, tokens: base.tokens.map(token => token.id === 't1' ? { ...token, linkId: 'l1' } : token) }
+@@ -173,6 +196,11 @@ describe('Fate Weaver Phase 2B package', () => {
+ 
+     const malformed = [
+       { ...base, links: [{ ...link, consent: { source: true, sourceId: true } }] },
++      { ...base, links: [{ ...link, consent: { source: true, target: true }, sourceConsent: true, targetConsent: false }] },
++      { ...base, links: [{ ...link, consent: { source: true, target: true }, sourceConsent: false, targetConsent: true }] },
++      { ...base, links: [{ ...link, consent: { both: true }, sourceConsent: false }] },
++      { ...base, links: [{ ...link, consent: 'both', targetConsent: false }] },
++      { ...base, links: [{ ...link, consent: undefined, sourceConsent: true }] },
+       { ...base, links: [{ ...link, usesRemaining: 0, remainingUses: 1 }] },
+       { ...base, links: [{ ...link, tokenIds: ['t1'], tokenId: 't2' }] },
+       { ...base, tokens: base.tokens.map(token => token.id === 't1' ? { ...token, linkId: 'other' } : token) }
+diff --git a/vtt-react/src/data/classes/fateWeaverData.js b/vtt-react/src/data/classes/fateWeaverData.js
+index 2ecb6954..2b1716e8 100644
+--- a/vtt-react/src/data/classes/fateWeaverData.js
++++ b/vtt-react/src/data/classes/fateWeaverData.js
+@@ -62,12 +62,12 @@ const record = (level, suffix, name, ap, targetingConfig, effectTypes, program,
+ export const FATE_WEAVER_COMMON_MECHANICS = {
+   price: 'AP and mana are explicit; links reserve thread tokens, never a second resource bank.',
+   consent: 'Every link and covenant requires recorded consent from both actors. Consent can be withdrawn; withdrawal ends the link immediately.',
+-  tokens: 'Exactly three tokens in free, reserved or recovering. One token per link, except an authored covenant may reserve two. Max three links. Reserved tokens become recovering when the link closes and return to free at the start of the owning caster next own turn.',
++  tokens: 'Exactly three tokens in free, reserved or recovering. One token per link, except an authored covenant may reserve two. Max three links. Reserved tokens become recovering only when the link is closed and its uses are exhausted, returning to free at the start of the owning caster next own turn.',
+   links: 'Distinct endpoints, 30 ft formation range each and 60 ft maintenance separation unless a record says otherwise, one consequence per link per round, and no recursive transfer.',
+   damage: 'Only original assigned damage after normal mitigation can be transferred; derived damage never qualifies. A transfer moves at most three points and is not a new damage event.',
+   expiry: 'Own-turn and explicitly authored expiry timing only. No long rest, reconnect, initiative, class-change or scene-change refill.',
+   information: 'Only visible links, observable endpoints and public terms. No mind reading, hidden clauses or future certainty.',
+-  recovery: 'Reserved tokens recover at the start of the owning caster next own turn. Eternal Tapestry changes only its authored immediate recovery case.',
++  recovery: 'Recovery begins only after the link is closed and its uses are exhausted; the reserved token then returns at the start of the owning caster next own turn. Eternal Tapestry changes only its authored immediate recovery case.',
+   native: 'Fate Weaver has no registered native heritage edge. Kessen Neth access is not implied, and no heritage benefit or cost is granted.'
+ };
+ 
+@@ -526,6 +526,20 @@ const reservationAliases = link => {
+ 
+ const consentSide = (consent, keys) => {
+   const values = keys.filter(key => hasOwn(consent, key)).map(key => consent[key]);
++  if (values.length === 0) return { present: false, granted: false, contradictory: false, values };
++  const contradictory = values.some(value => typeof value !== 'boolean')
++    || (values.some(value => value === true) && values.some(value => value === false));
++  return { present: true, granted: !contradictory && values.every(value => value === true), contradictory, values };
++};
++
++const consentEndpoint = (link, consent, keys, topLevelKey) => {
++  const nested = consent && typeof consent === 'object'
++    ? consentSide(consent, keys)
++    : { present: false, granted: false, contradictory: false, values: [] };
++  const values = [
++    ...nested.values,
++    ...(hasOwn(link || {}, topLevelKey) ? [link[topLevelKey]] : [])
++  ];
+   if (values.length === 0) return { present: false, granted: false, contradictory: false };
+   const contradictory = values.some(value => typeof value !== 'boolean')
+     || (values.some(value => value === true) && values.some(value => value === false));
+@@ -534,18 +548,21 @@ const consentSide = (consent, keys) => {
+ 
+ const hasBothConsent = link => {
+   const consent = link?.consent;
+-  if (consent === 'both' || consent === 'mutual') return true;
+-  if (consent && typeof consent === 'object') {
+-    const source = consentSide(consent, ['source', 'sourceId', 'from']);
+-    const target = consentSide(consent, ['target', 'targetId', 'to']);
+-    const both = hasOwn(consent, 'both') ? consent.both : undefined;
+-    if (both !== undefined && typeof both !== 'boolean') return false;
+-    if (both === false && (source.granted || target.granted)) return false;
+-    if (source.contradictory || target.contradictory) return false;
+-    return (both === true || (source.granted && target.granted))
+-      && !(source.present && !source.granted) && !(target.present && !target.granted);
++  const namedConsent = consent === 'both' || consent === 'mutual';
++  if (consent !== undefined && consent !== null && typeof consent !== 'object' && !namedConsent) return false;
++  const source = consentEndpoint(link, consent, ['source', 'sourceId', 'from'], 'sourceConsent');
++  const target = consentEndpoint(link, consent, ['target', 'targetId', 'to'], 'targetConsent');
++  if (source.contradictory || target.contradictory) return false;
++  if (namedConsent) {
++    return !(source.present && !source.granted) && !(target.present && !target.granted);
+   }
+-  return link?.sourceConsent === true && link?.targetConsent === true;
++  const both = consent && typeof consent === 'object' && hasOwn(consent, 'both') ? consent.both : undefined;
++  if (both !== undefined && typeof both !== 'boolean') return false;
++  if (both === false && (source.granted || target.granted)) return false;
++  if (both === true && ((source.present && !source.granted) || (target.present && !target.granted))) return false;
++  const sourceOk = source.present ? source.granted : both === true;
++  const targetOk = target.present ? target.granted : both === true;
++  return sourceOk && targetOk && (source.present || target.present || both === true);
+ };
+ 
+ const expiryAliases = link => {
+@@ -682,15 +699,16 @@ export function projectFateWeaverResource(resource, isOwner = false) {
+ 
+ export const FATE_WEAVER_RESOURCE_RULES = {
+   tokenCount: 3, tokenStates: ['free', 'reserved', 'recovering'], maxLinks: 3,
+-  formationRangeFeet: 60, transferAmountMax: 3, usesMin: 1, usesMax: 2,
+-  recovery: 'next-caster-own-turn', refreshOnLongRest: false, refreshOnReconnect: false, refreshOnInitiative: false,
++  formationRangeEachFeet: 30, maintenanceSeparationFeet: 60, transferAmountMax: 3, usesMin: 1, usesMax: 2,
++  recovery: 'next-caster-own-turn-after-closure-and-uses-exhausted',
++  refreshOnLongRest: false, refreshOnReconnect: false, refreshOnInitiative: false,
+   recursiveTransfer: false, derivedDamageEligible: false,
+   mechanicalHeritageBenefits: false
+ };
+ 
+ export const FATE_WEAVER_RESOURCE_SYSTEM = {
+   id: 'fate-links', name: 'Fate Links', type: 'fate-links', base: 0, max: 3,
+-  generationNote: 'Three tokens. A link reserves one token, except an authored covenant may reserve two; reserved tokens become recovering on closure and return at the owning caster next own turn.',
++  generationNote: 'Three tokens. A link reserves one token, except an authored covenant may reserve two; a link recovers only after it is closed and its uses are exhausted, returning its token at the start of the owning caster next own turn.',
+   tokens: 3, maxLinks: 3, manualOnly: true
+ };
+ 
+@@ -704,7 +722,7 @@ export const FATE_WEAVER_DATA = {
+   developmentStatus: 'development', statusLabel: 'Development - manual tabletop',
+   heritageEffectsImplemented: false,
+   classResource: { type: 'fate-links', base: 0, max: 3, initialized: false, state: null,
+-    generationNote: 'Uninitialized until actual table state is recorded. Three tokens, max three links; closed links recover at the owning caster next own turn.' },
++    generationNote: 'Uninitialized until actual table state is recorded. Three tokens, max three links; a link recovers only after it is closed and its uses are exhausted, returning its token at the start of the owning caster next own turn.' },
+   restrictions: {
+     allowedSubraces: [], hardBlocks: [], narrativeUnlock: true,
+     acquisition: { records: [
+diff --git a/vtt-react/src/data/resourceSystems/fateWeaverResourceGuide.js b/vtt-react/src/data/resourceSystems/fateWeaverResourceGuide.js
+index a57873f7..583d2208 100644
+--- a/vtt-react/src/data/resourceSystems/fateWeaverResourceGuide.js
++++ b/vtt-react/src/data/resourceSystems/fateWeaverResourceGuide.js
+@@ -4,17 +4,18 @@ export const fateWeaverResourceGuide = {
+   archetype: 'Finite Consented Links',
+   vitals: [
+     { icon: 'fa-link', label: 'Threads', value: '3 tokens | max 3 links' },
++    { icon: 'fa-ruler-combined', label: 'Range', value: '30 ft formation each | 60 ft maintenance separation' },
+     { icon: 'fa-handshake', label: 'Consent', value: 'recorded both ways' },
+-    { icon: 'fa-hourglass-half', label: 'Recovery', value: 'owning caster next own turn' },
++    { icon: 'fa-hourglass-half', label: 'Recovery', value: 'closed + exhausted | owning caster next own turn' },
+     { icon: 'fa-book', label: 'Mode', value: 'manual tabletop only' }
+   ],
+   loop: {
+     gain: { title: 'Reserve a Real Thread', icon: 'fa-link', text: 'Tie the Thread reserves one of three tokens and records both endpoints, a public purpose, consent, one use and expiry. Tie and Cut are core grants.' },
+-    hold: { title: 'Keep the Promise Visible', icon: 'fa-eye', text: 'Every link names its source, target, public purpose, token state, remaining uses and absolute expiry. At most three links and one consequence per link per round.' },
++    hold: { title: 'Keep the Promise Visible', icon: 'fa-eye', text: 'Every link names its source, target, public purpose, token state, remaining uses and absolute expiry. Distinct endpoints stay within 30 ft formation range each and 60 ft maintenance separation. At most three links and one consequence per link per round.' },
+     spend: { title: 'Choose Who Bears the Risk', icon: 'fa-scale-balanced', text: 'A transfer moves at most three points of original assigned damage after mitigation from the protected actor to the chosen bearer. Ward, severance and re-anchoring use the same token record; none is a second bank.' },
+-    risk: { title: 'A Broken Link Has a Price', icon: 'fa-scissors', text: 'A closed or expired link leaves its token recovering until the owning caster next own turn. Cut links follow their own authored destination. No reconnect, initiative or scene-change refill; consent withdrawal ends the link immediately.' }
++    risk: { title: 'A Broken Link Has a Price', icon: 'fa-scissors', text: 'Recovery begins only after the link is closed and its uses are exhausted. Its token then becomes recovering until the start of the owning caster next own turn. Cut links follow their own authored destination. No reconnect, initiative or scene-change refill; consent withdrawal ends the link immediately.' }
+   },
+-  exampleTurn: '**Turn 1:** Reserve one token with Tie the Thread and record a public purpose. **Turn 2:** Use Shared Burden to redirect up to 2 original damage, then mark the use once. **Turn 3:** Cut the link with Cut Clean, or let it expire; the token recovers at the owning caster next own turn. No automatic AP, damage, expiry or recovery is applied.',
++  exampleTurn: '**Turn 1:** Reserve one token with Tie the Thread and record a public purpose. **Turn 2:** Use Shared Burden to redirect up to 2 original damage, then mark the use once. **Turn 3:** Cut the link with Cut Clean, or let it expire; once the link is closed and its uses are exhausted, the token returns at the start of the owning caster next own turn. No automatic AP, damage, expiry or recovery is applied.',
+   weaveIn: [
+     { text: 'Forty optional records and two core records; every price, consent term and expiry stays visible.', tab: 'spells', tabLabel: 'browse the spellbook' },
+     { text: 'Covenant Weaver, Thread Cutter and Tapestry Keeper each have a signature and capstone with tree gates.', tab: 'specializations', tabLabel: 'compare the three paths' },
+@@ -23,10 +24,10 @@ export const fateWeaverResourceGuide = {
+   quickStart: {
+     title: 'The First Thread', headers: ['Action', 'Price', 'Result'], rows: [
+       ['Tie the Thread', '1 AP; reserve 1 token', 'One consented link, one use, expires at the end of the second subsequent caster turn'],
+-      ['Cut Clean', '1 AP', 'End one link; its token becomes recovering until the owning caster next own turn'],
++      ['Cut Clean', '1 AP', 'End one link; after closure and use exhaustion, its token returns at the owning caster next own turn'],
+       ['Shared Burden', '1 AP; learned optional', 'Redirect up to 2 original damage to you, once'],
+       ['Read the Bond', '2 AP; learned optional', 'Public purpose, consent, uses and expiry only'],
+-      ['Owning caster next own turn', 'Explicit settled event', 'Recovering tokens become free'],
++      ['Owning caster next own turn', 'Closed and exhausted link', 'Recovering tokens become free'],
+       ['Sever the Borrowed Crown', '2 AP; learned signature', 'Sever one identified fate link; pay one recovering thread']
+     ],
+     footnote: 'Read-only display: no token, link, AP, HP, movement, expiry or recovery is automatically applied.'
+@@ -34,11 +35,11 @@ export const fateWeaverResourceGuide = {
+   trackerHint: 'The integrated tracker starts uninitialized. It never invents a token, link, consent record, expiry or refill. Observer projections contain counts and public terms only.',
+   extraSections: [{
+     kind: 'prose', id: 'fateWeaverLedger', title: 'The Thread Ledger', icon: 'fa-link',
+-    content: 'Record each link exactly once: both endpoints, public purpose, consent, token state, remaining uses and absolute expiry. Three tokens and three links are hard caps. A closed link recovers only at the owning caster next own turn. This is a manual tabletop record, not an automated combat authority.'
++    content: 'Record each link exactly once: both endpoints, public purpose, consent, token state, remaining uses and absolute expiry. Distinct endpoints stay within 30 ft formation range each and 60 ft maintenance separation. Three tokens and three links are hard caps. Recovery begins only after the link is closed and its uses are exhausted; the token then returns at the start of the owning caster next own turn. This is a manual tabletop record, not an automated combat authority.'
+   }],
+   tableMeta: { activePricingTable: { title: 'All 48 Active Prices', defaultOpen: false } },
+   playingInPerson: {
+-    materials: ['Three distinct thread tokens', 'Three link cards naming both endpoints and the public purpose', 'A consent record and a use/expiry record', 'A next-own-turn recovery marker'],
++    materials: ['Three distinct thread tokens', 'Three link cards naming both endpoints and the public purpose', 'A consent record and a use/expiry record', 'A next-own-turn recovery marker used only after closure and use exhaustion'],
+     keepSections: ['tracking', 'consent', 'recovery label']
+   }
+ };
+diff --git a/vtt-react/src/store/characterSlices/infoSlice.js b/vtt-react/src/store/characterSlices/infoSlice.js
+index 290e0181..06399c3a 100644
+--- a/vtt-react/src/store/characterSlices/infoSlice.js
++++ b/vtt-react/src/store/characterSlices/infoSlice.js
+@@ -963,13 +963,23 @@ export const createInfoSlice = (set, get) => ({
+         get().syncWithMultiplayer();
+     },
+ 
+-    setTalents: (newTalents) => {
+-        const previousTalents = get().talents || {};
+-        set({ talents: newTalents });
++    setTalents: (newTalents, options = {}) => {
++        const state = get();
++        const previousTalents = state.talents || {};
++        const className = state.class || state.characterClass;
++        const removed = new Set(options.grantIds || []);
+ 
+-        if ((get().class || get().characterClass) === 'Fate Weaver') {
+-            const removed = removedTalentGrantIds(previousTalents, newTalents || {}, 'Fate Weaver');
+-            if (removed.length > 0) get().removeTalentGrantSpells(removed);
++        if (className === 'Fate Weaver') {
++            removedTalentGrantIds(previousTalents, newTalents || {}, 'Fate Weaver')
++                .forEach(id => removed.add(id));
++        }
++
++        if (removed.size > 0) {
++            // One store update carries the reset talents and the active
++            // character's pruned known-spell list before shared copies settle.
++            get().removeTalentGrantSpells([...removed], { talents: newTalents });
++        } else {
++            set({ talents: newTalents });
+         }
+ 
+         if (get().currentCharacterId) {
+diff --git a/vtt-react/src/store/characterSlices/progressionSlice.js b/vtt-react/src/store/characterSlices/progressionSlice.js
+index 2d71690c..07092cc9 100644
+--- a/vtt-react/src/store/characterSlices/progressionSlice.js
++++ b/vtt-react/src/store/characterSlices/progressionSlice.js
+@@ -497,23 +497,41 @@ export const createProgressionSlice = (set, get) => ({
+     // Remove derived talent-granted spells that are no longer granted after a
+     // level reduction or class switch. Entries still used by another roster
+     // character, authored spells, and unrelated library records stay intact.
+-    removeTalentGrantSpells: (grantIds) => {
+-        if (!Array.isArray(grantIds) || grantIds.length === 0) return;
++    removeTalentGrantSpells: (grantIds, options = {}) => {
++        const ids = Array.isArray(grantIds) ? [...new Set(grantIds)] : [];
++        if (ids.length === 0) {
++            if (options.talents !== undefined) set({ talents: options.talents });
++            return;
++        }
+         const state = get();
++        const className = state.class || state.characterClass;
++        const nextTalents = options.talents !== undefined ? options.talents : state.talents;
++        const stillGrantedHere = new Set(derivedTalentGrantIds(nextTalents || {}, className));
+         const stillNeeded = new Set();
+         (state.characters || []).forEach(char => {
+             if (char.id === state.currentCharacterId) return;
+             derivedTalentGrantIds(char.talents || {}, char.class || char.characterClass)
+                 .forEach(id => stillNeeded.add(id));
++            (char.class_spells?.known_spells || [])
++                .filter(id => ids.includes(id))
++                .forEach(id => stillNeeded.add(id));
+         });
+-        const removable = grantIds.filter(id => !stillNeeded.has(id));
+-        if (removable.length === 0) return;
++        // The active character loses every removed talent grant from stored
++        // known spells even when another roster character also uses that spell.
++        const removableKnown = ids.filter(id => !stillGrantedHere.has(id));
++        // Shared derived copies may only be pruned when no other roster
++        // character still owns or needs the same grant.
++        const removableShared = ids.filter(id => !stillNeeded.has(id));
+ 
+         const currentKnown = state.class_spells?.known_spells || [];
+-        const known = currentKnown.filter(spellId => !removable.includes(spellId));
++        const known = currentKnown.filter(spellId => !removableKnown.includes(spellId));
++        const patch = {};
++        if (options.talents !== undefined) patch.talents = options.talents;
+         if (known.length !== currentKnown.length) {
+-            set({ class_spells: { ...(state.class_spells || {}), known_spells: known } });
++            patch.class_spells = { ...(state.class_spells || {}), known_spells: known };
+         }
++        if (Object.keys(patch).length > 0) set(patch);
++        if (removableShared.length === 0) return;
+ 
+         const nodeByGrantId = Object.fromEntries(
+             Object.values(TALENT_TREES).flatMap(specs => Object.values(specs).flat())
+@@ -524,17 +542,17 @@ export const createProgressionSlice = (set, get) => ({
+         const library = loadLibraryFromStorage();
+         let libraryChanged = false;
+ 
+-        removable.forEach(grantId => {
++        removableShared.forEach(grantId => {
+             const nodeId = nodeByGrantId[grantId];
++            const isLegacyId = grantId.startsWith('talent-spell-');
++            const isTalentCopy = entry => isLegacyId || entry.source === 'talent'
++                || (nodeId !== undefined && entry.talentId === nodeId);
+             const spell = (spellbook.spells || []).find(entry => entry.id === grantId);
+-            if (!spell || spell.source === 'talent' || spell.talentId === nodeId) {
+-                spellbook.deleteSpell(grantId);
+-            }
++            if (!spell || isTalentCopy(spell)) spellbook.deleteSpell(grantId);
+             if (library && Array.isArray(library.spells)) {
+                 const before = library.spells.length;
+                 library.spells = library.spells.filter(entry => !(
+-                    entry.id === grantId &&
+-                    (entry.source === 'talent' || entry.talentId === nodeId)
++                    entry.id === grantId && isTalentCopy(entry)
+                 ));
+                 if (library.spells.length !== before) libraryChanged = true;
+             }

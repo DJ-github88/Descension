@@ -1,6 +1,6 @@
 # Mythrill / Prism — engineering state
 
-Updated: 2026-10-22 (bounded P14-A2 item producer handoff). Checkout: `D:/VTT` (the old `D:/Mythrill/Descension`
+Updated: 2026-10-22 (bounded P14-A3 creature producer handoff). Checkout: `D:/VTT` (the old `D:/Mythrill/Descension`
 path in CLAUDE.md is historical). Roadmap authority: [MYTHRILL_NEXT_PHASE.md](MYTHRILL_NEXT_PHASE.md).
 
 ## Accepted baseline
@@ -84,6 +84,39 @@ P5-05/07/09/10/11/12/13/31/32 remain environment-blocked. Source acceptance
 does not authorize deployment or satisfy roadmap §20 release gates.
 
 ## Current work
+
+### P14-A3 Creature Wizard ability producer — bounded independent ACCEPT, Build1/App9 PASS (qualified)
+
+[Frozen contract/workflow](MYTHRILL_PROJECT_14_A3_CONTRACT.md) ·
+[independent acceptance/identities](MYTHRILL_PROJECT_14_A3_ACCEPTANCE.md).
+Actual Bestiary Creature Wizard compact damage/healing or compatible saved Spell Library snapshot →
+explicit Keep → normal save/reopen → Inspect → existing A1 GM admission. Detached whole Wizard
+record/UUID/provenance; explicitv2 leaves installedv1 and already placed copy unchanged. Creature
+Inspect shows its instance snapshot and honest **creature casting unavailable**; no new cast launcher.
+
+- Whole legacy/rich/malformed ability lists/entries/unknown fields/zero/null retained; no partial
+  execution or targeting reinterpretation. Session pending drafts exact-creature/account keyed;
+  Cancel never resurrects. Library duplicate/store add/placement detach; existing unrelated template
+  propagation retained while association/token identity excluded. A2 compact form reused narrowly.
+- Implementer6 client suites54 tests (A3/A2/W1), A1 server10; scoped lint0/new UI0, detector[]. One
+  reviewer F1 wrong-draft/F2 malformed/F3 shallow-copy BLOCK→repairs→ACCEPT; final8 independent probes,
+  final6 tests (earlier groups overlap). Build/App implementer-executed, independently appraised.
+- App9 actual damage and0-AP/0-mana/range0 healing, save/reopen, library selection/deletion, explicitv2,
+  legacy/manual preservation and old placed Inspect; zero resource/HP/consequence receipt change,
+  no approval emission; registered PC-only handler refuses creature ref with entire state unchanged.
+- Entry clean master/652aad2b; external commits369864bb→5594c33b→485c0bba included ongoing work; no
+  agent Git writes. Build1 exit0/mirror+live drift[] at completion; all A3/reused A1 scoped sources
+  match. Later unrelated Inventory/CreatureToken/TargetHUD resource-overflow drift is preserved;
+  no full current-tree build parity claim. All22 A1 dependencies match accepted A2; seven protected
+  A1a/W1/card hashes match. Manifest83272664…; gate76dee86c…; bulk external p14a3-build1/app9/review1.
+- Limits: one fetch error; provider/ownership/lease/cloud/library/placement fixtures, live-only room
+  admission. Enter/focus and horizontal1440/1024 fit proven, partly scrolled captures—not comprehensive
+  unobstructed tablet/accessibility certification. Pending edits same-page-session, not reload-durable.
+
+[Next creature-source contract](MYTHRILL_PROJECT_14_A4_SOURCE_AUTHORITY_CONTRACT.md) is preparation only:
+exact placed-source GM permission through existing admission/P7/P8/A1 custody; proposed first
+creature→creature subset avoids bypassing PC-owner blocking. No creature execution, new engine,
+Class/Heritage/RI-2/ancestral-selection change, migration, deployment or P14 completion claim.
 
 ### P14-A2 Item Wizard ability producer — bounded independent ACCEPT, Build3/App10 PASS (qualified UI evidence)
 

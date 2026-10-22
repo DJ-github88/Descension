@@ -14,8 +14,9 @@ import { spellDraftContext, loadSpellDraft, loadDiscardedSpellDrafts, saveSpellD
 import { describeDraft, sameDraftContext } from '../../services/targetPick';
 import useTargetingStore from '../../store/targetingStore';
 import './SpellConsequencePanel.css';
-import { actionId } from '../../services/authoredAbility';
+import { actionId, readFormula as readAuthoredFormula } from '../../services/authoredAbility';
 import { refreshAuthoredAbilities, changeAuthoredAdmission, routeSpellCast } from '../../services/spellConsequenceService';
+import { creatureAttempt, saveCreatureRoll, prepareCreatureAbility, cancelCreatureAbility, revalidateCreatureContext } from '../../services/spellConsequenceService';
 
 const nameOf = token => token?.character?.name || token?.state?.customName || token?.name || token?.id || 'Unknown';
 const ref = value => value ? `${value.kind}:${value.mapId}:${value.tokenId}` : '';
@@ -152,7 +153,7 @@ function GmPanel() {
   const [drafts, setDrafts] = useState({});
   const [busy, setBusy] = useState(false);
   useEffect(() => { if (isGM) refreshSpellApprovals(); }, [isGM]);
-  const entries = Object.values(pending);
+   const entries = Object.values(pending).filter(e => e.approval.source.kind !== 'creature');
   const extra = Object.entries(status).filter(([id, value]) => !pending[id] && ['unknown', 'unresolved', 'reapproval', 'accepted', 'declined', 'refused', 'retry'].includes(value.phase));
   if (!entries.length && !extra.length) return null;
   const all = [...characters, ...creatures];
@@ -182,6 +183,74 @@ function GmPanel() {
     {extra.map(([id, value]) => <p key={id} role="status" className="p9-meta">Spell {id.slice(0, 8)}: {value.message}
       {value.phase === 'unknown' && <button type="button" disabled={busy} onClick={() => perform(() => gmCheckSpellCommand(id))}>Check same command</button>}</p>)}
   </section>;
+}
+
+/** Same authored action workflow, with the current GM as the explicit creature authority. */
+function CreaturePanel() {
+  const open = useSpellConsequenceStore(s => s.creatureOpen), gm = useGameStore(s => s.isGMMode);
+  useSpellConsequenceStore(s => s.draftVersion);
+  const gmStatus = useSpellConsequenceStore(s => s.gmStatus), pending = useSpellConsequenceStore(s => s.gmPending);
+  const message = useSpellConsequenceStore(s => s.creatureMessage);
+  const creatures = useCreatureStore(s => s.creatureTokens);
+  const [physical, setPhysical] = useState({}), [targetKey, setTargetKey] = useState(''), [busy, setBusy] = useState(false), [error, setError] = useState('');
+  const [amount, setAmount] = useState(''), [reason, setReason] = useState(''), [adjudicated, setAdjudicated] = useState(false);
+  const picking = useTargetingStore(s => s.pickSession?.id === 'p14-creature');
+  const latest = creatureAttempt(), c = latest?.creature;
+  useEffect(() => {
+    if (!open) useTargetingStore.getState().cancelTargetPickFor('p14-creature');
+    if (!open) return undefined;
+    const launcher = document.activeElement;
+    document.querySelector('[aria-label="Creature ability action"] button')?.focus();
+    return () => { if (launcher?.isConnected) launcher.focus(); };
+  }, [open]);
+  const initialTarget = c?.target ? ref(c.target) : '';
+  useEffect(() => { setTargetKey(initialTarget); setPhysical({}); setAmount(''); setReason(''); setAdjudicated(false); setError(''); }, [c?.attemptId, initialTarget]);
+  if (!gm || !c) return null;
+  if (!open) return <p className="p9-chip" role="status">{c.entry.canonicalDefinition.name} · retained {latest.phase}
+    <button type="button" onClick={() => { useSpellConsequenceStore.setState({ creatureOpen: true }); refreshSpellApprovals(); }}>Open retained creature action</button></p>;
+  const close = () => useSpellConsequenceStore.setState({ creatureOpen: false });
+  const perform = async action => { setBusy(true); setError(''); try { await action(); } catch (e) { setError(e.message); } finally { setBusy(false); } };
+  const source = creatures.find(t => sameExactRef(refOf(t), c.source)), d = c.entry.canonicalDefinition, reading = readAuthoredFormula(d.effect.formula);
+  const candidates = creatures.filter(t => refOf(t)?.kind === 'creature' && refOf(t).mapId === c.source.mapId && !sameExactRef(refOf(t), c.source));
+  const target = candidates.find(t => ref(refOf(t)) === targetKey), roll = c.roll, id = latest.approval?.approvalId, status = gmStatus[id];
+  const choose = value => { setTargetKey(ref(value)); if (roll) saveCreatureRoll(roll, value); setAdjudicated(false); };
+  const record = mode => perform(async () => saveCreatureRoll(mode === 'digital' ? digitalRoll(reading) : recordRoll('physical', reading, reading.dice.map((g, i) => Array.from({ length: g.count }, (_, j) => Number(physical[`${i}:${j}`])))), refOf(target)));
+  const canAccept = latest.phase === 'awaiting' && pending[id] && !['preparing', 'submitting', 'unknown', 'accepted', 'unresolved'].includes(status?.phase);
+  if (picking) return null;
+  return createPortal(<div className="p9-overlay" role="dialog" aria-modal="true" aria-label="Creature ability action" onKeyDown={e => { if (e.key === 'Escape') close(); }}>
+    <div className="p9-panel">
+      <header><h3>{d.name}</h3><button type="button" aria-label="Close creature action" onClick={close}>×</button></header>
+      <p>Source: {nameOf(source)} · {c.source.mapId} / {c.source.tokenId} · incarnation {c.source.instanceId}</p>
+      <p>Admitted version {c.entry.definitionRef.definitionVersion} · {d.effect.kind} · {d.effect.formula} · {d.effect.damageTypes?.join('/') || 'healing'}</p>
+      <p>Exact price: {c.entry.descriptor.price.ap} AP / {c.entry.descriptor.price.mana} mana · temporary first. Nothing spent before confirmation.</p>
+      <p>Authored range {d.targeting.rangeFeet} ft · one {d.targeting.restriction} target. PC targets and self-targeting are unsupported. Flat DR, resistances/vulnerabilities and specific defensive effects remain GM-adjudicated.</p>
+      {!latest.approval && <>
+        <button type="button" disabled={busy} onClick={() => useTargetingStore.getState().startTargetPick({ id: 'p14-creature', label: d.name, sourceRef: c.source, candidates: candidates.map(refOf), rangeFeet: d.targeting.rangeFeet, rangeLabel: `Authored ${d.targeting.rangeFeet} ft — advisory`, reasonFor: () => 'Choose a distinct exact placed creature on this map; PC targets are unsupported.', onPick: choose, onCancel: () => {} })}>Pick creature on map</button>
+        <label>Creature target<select value={targetKey} disabled={busy} onChange={e => choose(refOf(candidates.find(t => ref(refOf(t)) === e.target.value)))}>
+          <option value="">Select an exact placed creature</option>{candidates.map(t => <option key={ref(refOf(t))} value={ref(refOf(t))}>{nameOf(t)} · {t.id}</option>)}
+        </select></label>
+        {target && !roll && <div className="p9-roll"><button type="button" disabled={busy} onClick={() => record('digital')}>Roll {d.effect.formula} once</button>
+          {reading.dice.flatMap((g, i) => Array.from({ length: g.count }, (_, j) => <label key={`${i}:${j}`}>d{g.sides} face {j + 1}<input type="number" min="1" max={g.sides} value={physical[`${i}:${j}`] ?? ''} onChange={e => setPhysical({ ...physical, [`${i}:${j}`]: e.target.value })} /></label>))}
+          <button type="button" disabled={busy} onClick={() => record('physical')}>Record physical roll</button></div>}
+      </>}
+      {roll && <p className="p9-roll-result">Retained {roll.mode} faces [{roll.dice.map(g => g.faces.join(', ')).join(' | ')}] · {roll.reading} = {roll.total}. Closing/reloading retains this attempt and its faces.</p>}
+      {c.target && <p>Target: {nameOf(creatures.find(t => sameExactRef(refOf(t), c.target)))} · {c.target.mapId} / {c.target.tokenId} · incarnation {c.target.instanceId}</p>}
+      {roll && !['accepted', 'reconciled', 'unresolved'].includes(latest.phase) && <button type="button" disabled={busy || ['preparing', 'submitting', 'unknown', 'unresolved'].includes(status?.phase)} onClick={() => perform(prepareCreatureAbility)}>{latest.approval ? 'Revalidate original attempt (same roll)' : 'Validate source, target and retained roll'}</button>}
+      {roll && latest.approval && !['accepted', 'reconciled', 'unknown', 'unresolved'].includes(latest.phase) && !['preparing', 'submitting', 'unknown', 'unresolved'].includes(status?.phase) && <button type="button" disabled={busy} onClick={() => perform(revalidateCreatureContext)}>Refresh admission or change target (keep faces)</button>}
+      {canAccept && <>
+        <label><input type="checkbox" checked={adjudicated} onChange={e => setAdjudicated(e.target.checked)} /> I adjudicated legality, range, target restrictions, defense and mitigation</label>
+        <label>Final {d.effect.kind === 'damage' ? 'damage' : 'healing'}<input type="number" min="0" value={amount} onChange={e => setAmount(e.target.value)} /></label>
+        <label>Reason (required if different from {roll.total})<input type="text" value={reason} onChange={e => setReason(e.target.value)} /></label>
+        <button type="button" className="p9-primary" disabled={busy || !adjudicated || amount === ''} onClick={() => perform(() => gmAcceptSpell(id, { finalAmount: amount === '' ? NaN : Number(amount), reason, adjudicated }))}>Confirm one creature consequence</button>
+      </>}
+      {status?.phase === 'unknown' && <button type="button" disabled={busy} onClick={() => perform(() => gmCheckSpellCommand(id))}>Check same command</button>}
+      {(status?.phase === 'unresolved' || latest.phase === 'unresolved') && <p role="alert">Exact recovery unavailable. Manual reconciliation required; no new attempt is created.</p>}
+      <p role="status">{latest.phase === 'accepted' ? `Accepted · ${latest.result?.status || 'accepted live'} · receipt ${latest.result?.receipt?.commandId}` : status?.message || message || `Retained ${latest.phase}.`}</p>
+      {latest.result?.receipt && <p>Payment and HP installed together. {latest.result.receipt.actors.map(a => `${a.ref.tokenId}: AP ${a.finalResources.ap.current}+${a.finalResources.ap.temp} temp, mana ${a.finalResources.mana.current}+${a.finalResources.mana.temp} temp, HP ${a.finalResources.hp.current}+${a.finalResources.hp.temp} temp`).join(' · ')}</p>}
+      {!['unknown', 'unresolved'].includes(status?.phase) && <button type="button" disabled={busy} onClick={() => perform(cancelCreatureAbility)}>Finish or explicitly cancel (keep evidence)</button>}
+      {error && <p className="p9-diagnostic" role="alert">{error}</p>}
+    </div>
+  </div>, document.body);
 }
 
 function OwnerChip() {
@@ -214,5 +283,5 @@ export default function SpellConsequenceHost() {
   const shared = useGameStore(value => value.isInMultiplayer);
   useEffect(() => { if (shared) restoreOwnerStatus(); }, [shared]);
   if (!shared) return null;
-  return <><AdmittedAbilities /><OwnerPanel /><OwnerChip /><GmPanel /></>;
+  return <><AdmittedAbilities /><OwnerPanel /><OwnerChip /><GmPanel /><CreaturePanel /></>;
 }

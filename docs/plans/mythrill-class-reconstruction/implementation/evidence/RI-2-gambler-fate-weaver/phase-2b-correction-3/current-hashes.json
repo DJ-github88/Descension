@@ -1,0 +1,68 @@
+{
+  "baseline": "652aad2b12eaa130be12a2d2d56abaafac8d7d57",
+  "head": "485c0bbab9171879e2ea47cd83b44ddc0f046deb",
+  "generatedAt": "2026-10-22T18:17:57.999Z",
+  "correctionSource": [
+    "vtt-react/src/store/characterSlices/progressionSlice.js",
+    "vtt-react/src/store/characterSlices/infoSlice.js",
+    "vtt-react/src/components/talent-tree/TalentTreeContent.jsx",
+    "vtt-react/src/data/classes/fateWeaverData.js",
+    "vtt-react/src/data/resourceSystems/fateWeaverResourceGuide.js",
+    "vtt-react/src/components/hud/FateWeaverResourceDisplay.jsx",
+    "vtt-react/src/data/classes/__tests__/fateWeaverIntegration.test.js",
+    "vtt-react/src/data/classes/__tests__/fateWeaverCorrections.test.js",
+    "vtt-react/src/components/hud/__tests__/FateWeaverResourceDisplay.test.jsx",
+    "vtt-react/src/components/rules/__tests__/ClassDetailDisplaySpells.test.jsx"
+  ],
+  "worktreeModified": [
+    "vtt-react/src/components/hud/FateWeaverResourceDisplay.jsx",
+    "vtt-react/src/components/hud/__tests__/FateWeaverResourceDisplay.test.jsx",
+    "vtt-react/src/components/rules/__tests__/ClassDetailDisplaySpells.test.jsx",
+    "vtt-react/src/data/classes/__tests__/fateWeaverCorrections.test.js",
+    "vtt-react/src/data/classes/__tests__/fateWeaverIntegration.test.js",
+    "vtt-react/src/data/classes/fateWeaverData.js",
+    "vtt-react/src/data/resourceSystems/fateWeaverResourceGuide.js"
+  ],
+  "sourceHashes": {
+    "vtt-react/src/store/characterSlices/progressionSlice.js": "874712a98ab169878a566099c409659eef96ebfefc038b95beb5e62257951ae4",
+    "vtt-react/src/store/characterSlices/infoSlice.js": "695aa4c83f27af86b119f01170a2bee2e11c69f885fd7026bdca983b1ec74802",
+    "vtt-react/src/components/talent-tree/TalentTreeContent.jsx": "afc4e45d604631aee996beeff3297f98ec2bc8512f08e0f55265930645eb557f",
+    "vtt-react/src/data/classes/fateWeaverData.js": "f88ecd15694dcf3acc1ee0e2a2a83da77bef6f92e03bc59e24ecaaa4eca9e2a5",
+    "vtt-react/src/data/resourceSystems/fateWeaverResourceGuide.js": "65cdc97eeff1faed0667b3c553547eee62fb094b7f19eef2d031c2563025f516",
+    "vtt-react/src/components/hud/FateWeaverResourceDisplay.jsx": "fba0c9369147e26b2d149c20413b2370d4ba2b2cabb4f7835fd85a19a5acf9c3",
+    "vtt-react/src/data/classes/__tests__/fateWeaverIntegration.test.js": "1d10c9f797670618f62add9829ba98a1ae0522575959cbf0315255d37be760d5",
+    "vtt-react/src/data/classes/__tests__/fateWeaverCorrections.test.js": "4cfb872e44a94fab4d97d33265924d72be15c6c2869295563c41de7c4528baa2",
+    "vtt-react/src/components/hud/__tests__/FateWeaverResourceDisplay.test.jsx": "5579f778099ee6ccb288aab74f29a045e332a62612b4df0289017d6ebf9961f1",
+    "vtt-react/src/components/rules/__tests__/ClassDetailDisplaySpells.test.jsx": "80cd2c2e392b35a29ea05e3e89ca54890fcf67f49b3b3bafbc007ee582ac07f4"
+  },
+  "correctionEvidenceHashes": {
+    "complete-manifest.json": "c21583fd183a26079f0fd7fd17893c6cff4ac3ada12e3486ed1dd35f43401fd7",
+    "jest-correction3.log": "b2253d16c0fa443b7dce60f685dd93c69872f518b157e998e48987fe04433d8e",
+    "jest-correction3.exit": "13bf7b3039c63bf5a50491fa3cfd8eb4e699d1ba1436315aef9cbe5711530354",
+    "manifest-audit.json": "9a383a65bfcbde76dd2381d8f80ce4f4fdf27d2910a1916bea01fa474d234787",
+    "eslint-correction.json": "07671003a6e66c186bce9aa974caed92e6a5942c61e62d722960645ffb205db2",
+    "build-correction-3.log": "d2fc149437e245a1ea3f29eeecffc9a3c4ae8b05d35fb0977132808d45ba7cb0",
+    "build-correction-3.exit": "f0cd2be81098275c345e58ca0cef5486272045a97fcaaafeb7d3fd8c9a8e9588",
+    "correction.diff": "4bc55b26880dfddfd13fabe1a84e0fe34458b7c204da8cee3280c6b62eb88368",
+    "REPORT.md": "d89d02ed1c8eb41b48842bb6cba9451af479b696319bb14736dcad062d4b237c"
+  },
+  "immutablePhase2bHashes": {
+    "docs/plans/mythrill-class-reconstruction/implementation/evidence/RI-2-gambler-fate-weaver/phase-2b/complete-manifest.json": "5eb5961e68bb0eb23ce53d3723619b72a627af748ab881ca0772739eee4a307b",
+    "docs/plans/mythrill-class-reconstruction/implementation/evidence/RI-2-gambler-fate-weaver/phase-2b/augur-disposition.json": "f5ee8059983430ef152145628f06b0651cf9ef1de3fa3ffd29513dad1a5dcf35",
+    "docs/plans/mythrill-class-reconstruction/implementation/evidence/RI-2-gambler-fate-weaver/phase-2b/CONTENT-LOCK.md": "5b5a1cf6a30bdab8082961c84b887dea40e9f7b98ad8b070284b8d609c98eec2",
+    "docs/plans/mythrill-class-reconstruction/implementation/evidence/RI-2-gambler-fate-weaver/phase-2b/REPORT.md": "a6ee4729d4a77726b21d0b58afbf950af8c36be701ec27470bf3fa6491c1d5e4",
+    "docs/plans/mythrill-class-reconstruction/implementation/evidence/RI-2-gambler-fate-weaver/phase-2b/AUGUR-DISPOSITION.md": "5c13e1a3a6172341e121fcca1f1004a293019ff10db58e50c9556194a439c6c9"
+  },
+  "priorCorrection2Hashes": {
+    "docs/plans/mythrill-class-reconstruction/implementation/evidence/RI-2-gambler-fate-weaver/phase-2b-correction-2/complete-manifest.json": "1e46316af6661890c8d7ef91feb5a524b70ea3c30a6d998b9463d36a4b1d1998",
+    "docs/plans/mythrill-class-reconstruction/implementation/evidence/RI-2-gambler-fate-weaver/phase-2b-correction-2/jest-correction.log": "ed420cc0e0e9c02936ad4e5684f423bffdd3eb5007fd5fad9b732944da15fcf9",
+    "docs/plans/mythrill-class-reconstruction/implementation/evidence/RI-2-gambler-fate-weaver/phase-2b-correction-2/sol-harness.log": "a0964c37176994c094787a436eb8ef36b94a32d0a187e485b6369bd66c53fd5e",
+    "docs/plans/mythrill-class-reconstruction/implementation/evidence/RI-2-gambler-fate-weaver/phase-2b-correction-2/eslint-correction.json": "95125ef9e542b57b6815933240f5e913efd1ef18d2d9d53d3e157396359f5ec2",
+    "docs/plans/mythrill-class-reconstruction/implementation/evidence/RI-2-gambler-fate-weaver/phase-2b-correction-2/correction.diff": "d2d42258c8589d69f28203802608f432f5406b11fd7525d851067f4f2beae4e4",
+    "docs/plans/mythrill-class-reconstruction/implementation/evidence/RI-2-gambler-fate-weaver/phase-2b-correction-2/build-correction.log": "e8c1ecfd47c7a03eba250d0c897a451c2290d7ce984f4ee7f0a8214aef1d29ed",
+    "docs/plans/mythrill-class-reconstruction/implementation/evidence/RI-2-gambler-fate-weaver/phase-2b-correction-2/build-correction.exit": "f0cd2be81098275c345e58ca0cef5486272045a97fcaaafeb7d3fd8c9a8e9588",
+    "docs/plans/mythrill-class-reconstruction/implementation/evidence/RI-2-gambler-fate-weaver/phase-2b-correction-2/manifest-audit.json": "f143a36188750d3705e75fe86a118977608bb5beecc372452b125c4166ab6b86",
+    "docs/plans/mythrill-class-reconstruction/implementation/evidence/RI-2-gambler-fate-weaver/phase-2b-correction-2/LEDGER-RECONCILIATION.md": "683696d6e86038cb4b627f8889a7fd37485773c9412403629981b3292961c228",
+    "docs/plans/mythrill-class-reconstruction/implementation/evidence/RI-2-gambler-fate-weaver/phase-2b-correction-2/REPORT.md": "d1fac86b7dcff77c11a747b3a75009715958231ac9b1bc34ec4c0c6d929375a4"
+  }
+}

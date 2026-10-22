@@ -5,7 +5,12 @@ roadmap ([MYTHRILL_NEXT_PHASE.md](MYTHRILL_NEXT_PHASE.md) §26) ends at P10 and 
 This document adds four bounded phases. **At creation only P11 was authorized.** Later bounded
 authorizations/status are recorded below; each further slice still needs its own contract/go-ahead.
 
-> **Latest delivery, 2026-10-22:** [P14-A1](MYTHRILL_PROJECT_14_A1_CONTRACT.md#implementation-and-verification--2026-10-22)
+> **Latest delivery, 2026-10-22:** [P14-A3](MYTHRILL_PROJECT_14_A3_CONTRACT.md), bounded independent
+> ACCEPT/Build1-App9 PASS (qualified): Creature Wizard whole-record producer/save/reopen/preservation,
+> normal A1 admission and detached placed copies. Creature casting unavailable. [A4 source authority](MYTHRILL_PROJECT_14_A4_SOURCE_AUTHORITY_CONTRACT.md)
+> is preparation only, separately authorized. Later unrelated UI drift/fixture/device limits explicit; see §16.
+>
+> **Preserved delivery:** [P14-A1](MYTHRILL_PROJECT_14_A1_CONTRACT.md#implementation-and-verification--2026-10-22)
 > Wizard-authored immediate damage/healing implemented; same-review repaired independent source/evidence
 > ACCEPT, Build4/App7 PASS. Actual normal save/reopen/admission/version identity, exact owner roll/consent,
 > GM final, existing P9/P7 payment+HP and recovery. No second engine or name exception. Scope/fixtures and
@@ -522,7 +527,7 @@ Existing binding vocabulary and class/ancestry content/grants/IDs remain unchang
 parking only for this newly authorized reconciled scope. C4 and other completed acceptance stand.
 
 **Subsequent producer delivery:** P14-A2 (§15) adds the Item editor through this exact
-preserved-record/installed-ref interface. A Creature producer is the next bounded candidate; acting-creature execution and new
+preserved-record/installed-ref interface; A3 (§16) delivers the Creature producer. Acting-creature execution and new
 class/ancestry eligibility need separate authority/resource bindings. Main HQ owns execution; Class/
 Heritage HQ owns content,25-heritage selection/loadouts and compatibility proposals.
 
@@ -557,8 +562,28 @@ tests and accepted source/evidence. Build/App were implementer-executed, indepen
 Five fetch errors and incumbent P13 collection notice overlaying upper Inventory qualify viewport/UI
 evidence. Provider/cloud/delivery are fixtures; no deployment/physical-tablet/second-device claim.
 
-**Next smallest useful producer:** Creature Wizard may reuse the same record editor/adapter/admission
-interface under its own preservation/access contract, initially owner-PC source. Creature-origin
+**Subsequent producer:** A3 below reuses the same record editor/adapter/admission
+interface under its own preservation/access contract, still owner-PC execution. Creature-origin
 execution requires a separate exact source-authority contract. A possession/equipment entitlement,
 if desired, similarly requires a server-validated extension; none follows from this button.
 Wider §14 mechanics, Class/Heritage/RI-2/ancestral-selection work and existing phase boundaries stand.
+
+## 16. P14-A3 — Creature Wizard producer; creature execution separate
+
+[Contract/workflow](MYTHRILL_PROJECT_14_A3_CONTRACT.md) · [independent acceptance](MYTHRILL_PROJECT_14_A3_ACCEPTANCE.md).
+Actual compact damage/healing or compatible saved Spell Library snapshot, exact mechanics/Keep,
+normal save/reopen/Inspect and existing A1 GM admission. Detached whole definition/UUID/provenance,
+explicitv2/immutablev1; rich legacy/manual/unknown/zero/null content preserved. Exact-creature/account
+session draft retention, duplicate/template/placed isolation, old placed Inspect; no creature Cast.
+
+One bounded review F1–F3 BLOCK→repairs→ACCEPT; independent8 final probes/final6 tests. Implementer
+6 suites54 tests/A1 server10, one optimized Build1/App9 PASS. All A3/reused A1 scoped inputs match;
+later unrelated Inventory/CreatureToken/TargetHUD overflow changes preserved, no full current-tree
+parity. One fetch error; provider/cloud/library/placement fixtures/live-only admission, Enter/focus
+and horizontal1440/1024 fit with partly-scrolled captures, not physical-device/deployment certification.
+
+**Next bounded contract:** [A4 source authority](MYTHRILL_PROJECT_14_A4_SOURCE_AUTHORITY_CONTRACT.md),
+preparation only. Exact GM-controlled placed ref/incarnation, independent source permission, existing
+common-pool payment/P7 atomic HP and P8/A1 retained-command custody. Proposed creature→creature first;
+PC target-owner blocking/consent bridge requires its own freeze. No new engine/generic endpoint,
+creature execution, class-binding widening or general P14 completion follows from A3.

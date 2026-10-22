@@ -1,0 +1,118 @@
+{
+  "generatedAt": "2026-10-22T18:01:59.570Z",
+  "completeManifest": {
+    "path": "docs/plans/mythrill-class-reconstruction/implementation/evidence/RI-2-gambler-fate-weaver/phase-2b-correction-3/complete-manifest.json",
+    "sha256": "c21583fd183a26079f0fd7fd17893c6cff4ac3ada12e3486ed1dd35f43401fd7",
+    "size": 1631316
+  },
+  "r1Manifest": {
+    "path": "docs/plans/mythrill-class-reconstruction/classes/manifests/fate-weaver-review-r1.json",
+    "sha256": "30bfdbb659342575c12e998e4bfdd3f8a31c761021a89288847df51189720fc0"
+  },
+  "actualCounts": {
+    "authoredRecords": 96,
+    "projectedSpells": 96,
+    "manifestRecords": 96,
+    "uniqueRecords": 96,
+    "activeRecords": 48,
+    "passiveRecords": 48,
+    "optional": 40,
+    "core": 2,
+    "talentActives": 6,
+    "talentTrees": 3,
+    "nodes": 54,
+    "augurDispositions": 382
+  },
+  "expectedCounts": {
+    "authoredRecords": 96,
+    "projectedSpells": 96,
+    "manifestRecords": 96,
+    "uniqueRecords": 96,
+    "activeRecords": 48,
+    "passiveRecords": 48,
+    "optional": 40,
+    "core": 2,
+    "talentActives": 6,
+    "talentTrees": 3,
+    "nodes": 54,
+    "augurDispositions": 382
+  },
+  "r1Programs": [
+    {
+      "id": "cr1_fate_weaver_tie_thread",
+      "name": "Tie the Thread",
+      "found": true,
+      "programExact": true,
+      "targetingExact": true,
+      "durationExact": true
+    },
+    {
+      "id": "cr1_fate_weaver_cut_clean",
+      "name": "Cut Clean",
+      "found": true,
+      "programExact": true,
+      "targetingExact": true,
+      "durationExact": true
+    },
+    {
+      "id": "cr1_fate_weaver_read_bond",
+      "name": "Read the Bond",
+      "found": true,
+      "programExact": true,
+      "targetingExact": true,
+      "durationExact": true
+    },
+    {
+      "id": "cr1_fate_weaver_witnessed_covenant",
+      "name": "Witnessed Covenant",
+      "found": true,
+      "programExact": true,
+      "targetingExact": true,
+      "durationExact": true
+    },
+    {
+      "id": "cr1_fate_weaver_sever_borrowed_crown",
+      "name": "Sever the Borrowed Crown",
+      "found": true,
+      "programExact": true,
+      "targetingExact": true,
+      "durationExact": true
+    },
+    {
+      "id": "cr1_fate_weaver_reanchor_tapestry",
+      "name": "Reanchor the Tapestry",
+      "found": true,
+      "programExact": true,
+      "targetingExact": true,
+      "durationExact": true
+    }
+  ],
+  "checks": {
+    "countsExact": true,
+    "manifestNodesExact": true,
+    "treeCapacityExact": true,
+    "r1ProgramsExact": true,
+    "r1TargetingExact": true,
+    "r1DurationExact": true,
+    "r1CountExact": true,
+    "commonTokensClosure": true,
+    "commonRecoveryClosure": true,
+    "commonRecoveryOwningCaster": true,
+    "systemGenerationClosure": true,
+    "guideRiskClosure": true,
+    "guideExampleClosure": true,
+    "guideLedgerClosure": true,
+    "guideRangeCopy": true,
+    "guideCutClosure": true,
+    "resourceRulesRange": true,
+    "resourceRulesRecovery": true,
+    "resourceRulesNoLegacyRange": true,
+    "resourceRulesNoRefill": true,
+    "manualBoundary": true,
+    "projectedManualOnly": true,
+    "noStaleGuideCopy": true,
+    "noOldRecoveryEnum": true
+  },
+  "failures": [],
+  "pass": true
+}

@@ -57,6 +57,10 @@ export const getResourceConfig = (rawType) => {
  * ResourceOverflowModal — Calm TTRPG Manuscript Modal
  * Replaces generic overheal alerts with a detailed, thematic manuscript popup
  * for Health (Overheal), Mana (Surge), and Action Points (Surge).
+ *
+ * Fully accounts for existing temporary reserves (e.g. 3/3 Base + 4 Temp AP = 7 AP)
+ * so incoming adjustments (+2 AP -> 9 total) are crystal-clear and mathematically intuitive:
+ * 7 AP + 2 AP = 9 AP.
  */
 const ResourceOverflowModal = ({
   isOpen = true,
@@ -109,7 +113,7 @@ const ResourceOverflowModal = ({
         icon: 'fas fa-flask',
         themeClass: 'theme-multi',
         explanation:
-          'Multiple vitals have exceeded their natural boundaries. Choose whether to cap at the limits or preserve the surplus as temporary reserves.',
+          'Multiple vitals have exceeded their natural boundaries. Choose whether to cap each pool at capacity or preserve the surplus in temporary reserves.',
         capButtonText: 'Cap All at Max',
         tempButtonText: 'Add All Temporary'
       }
@@ -121,6 +125,20 @@ const ResourceOverflowModal = ({
     primaryItem.item?.name ||
     primaryItem.itemName ||
     null;
+
+  // Primary math calculations for single-item display
+  const primaryCurrent = primaryItem.currentValue ?? 0;
+  const primaryMax = primaryItem.maxValue ?? 0;
+  const primaryTemp = primaryItem.currentTemp ?? primaryItem.temp ?? 0;
+  const primaryIncoming = primaryItem.adjustment ?? primaryItem.amount ?? 0;
+  const primaryFillAmount = Math.max(0, Math.min(primaryIncoming, primaryMax - primaryCurrent));
+  const primaryExcess =
+    primaryItem.overhealAmount ??
+    Math.max(0, (primaryCurrent + primaryIncoming) - primaryMax);
+  const primaryProjectedBase = Math.min(primaryMax, primaryCurrent + primaryFillAmount);
+  const primaryProjectedTemp = primaryTemp + primaryExcess;
+  const primaryTotalCurrent = primaryCurrent + primaryTemp;
+  const primaryTotalProjected = primaryProjectedBase + primaryProjectedTemp;
 
   const content = (
     <div
@@ -172,10 +190,16 @@ const ResourceOverflowModal = ({
               const cfg = getResourceConfig(item.resourceType);
               const current = item.currentValue ?? 0;
               const max = item.maxValue ?? 0;
-              const restore = item.adjustment ?? item.amount ?? 0;
+              const currentTemp = item.currentTemp ?? item.temp ?? 0;
+              const incoming = item.adjustment ?? item.amount ?? 0;
+              const fillAmount = Math.max(0, Math.min(incoming, max - current));
               const excess =
                 item.overhealAmount ??
-                Math.max(0, current + restore - max);
+                Math.max(0, (current + incoming) - max);
+              const projectedBase = Math.min(max, current + fillAmount);
+              const projectedTemp = currentTemp + excess;
+              const totalCurrent = current + currentTemp;
+              const totalProjected = projectedBase + projectedTemp;
 
               return (
                 <div
@@ -191,29 +215,108 @@ const ResourceOverflowModal = ({
                     </span>
                   </div>
 
+                  {/* Mathematical Arithmetic Ledger: Current Total + Incoming = Projected Total | Temp Reserve */}
                   <div className="ledger-stats-grid">
                     <div className="ledger-stat-col">
-                      <span className="stat-label">Current</span>
+                      <span className="stat-label">
+                        {currentTemp > 0 ? 'Current Total' : 'Current'}
+                      </span>
                       <span className="stat-val">
-                        {current} / {max}
+                        {currentTemp > 0 ? `${totalCurrent} ${cfg.shortLabel}` : `${current} / ${max}`}
+                      </span>
+                      {currentTemp > 0 ? (
+                        <span className="stat-subval-temp">{current}/{max} + {currentTemp} Temp</span>
+                      ) : (
+                        <span className="stat-subval-temp">Base Pool</span>
+                      )}
+                    </div>
+
+                    <div className="ledger-stat-math-sign">+</div>
+
+                    <div className="ledger-stat-col">
+                      <span className="stat-label">Incoming</span>
+                      <span className="stat-val incoming">
+                        +{incoming} {cfg.shortLabel}
+                      </span>
+                      <span className="stat-subval-temp">
+                        {fillAmount > 0 && excess > 0 ? `+${fillAmount} Base, +${excess} Temp` : 'To Reserves'}
                       </span>
                     </div>
-                    <div className="ledger-stat-arrow">
-                      <i className="fas fa-arrow-right" />
-                    </div>
+
+                    <div className="ledger-stat-math-sign">=</div>
+
                     <div className="ledger-stat-col">
-                      <span className="stat-label">Restoring</span>
-                      <span className="stat-val restore">
-                        +{restore} {cfg.shortLabel}
+                      <span className="stat-label">
+                        {currentTemp > 0 ? 'Projected Total' : 'Projected'}
+                      </span>
+                      <span className="stat-val projected">
+                        {totalProjected} {cfg.shortLabel}
+                      </span>
+                      <span className="stat-subval-temp">
+                        {projectedBase}/{max} + {projectedTemp} Temp
                       </span>
                     </div>
-                    <div className="ledger-stat-arrow">
-                      <i className="fas fa-equals" />
-                    </div>
+
+                    <div className="ledger-stat-math-sign">|</div>
+
                     <div className="ledger-stat-col">
-                      <span className="stat-label">Exceeds By</span>
-                      <span className="stat-val excess">+{excess}</span>
+                      <span className="stat-label">
+                        {currentTemp > 0 ? 'Temp Reserve' : 'Surplus'}
+                      </span>
+                      <span className="stat-val excess">
+                        +{projectedTemp} {cfg.shortLabel}
+                      </span>
+                      <span className="stat-subval-temp">
+                        {currentTemp > 0 ? `was +${currentTemp} Temp` : 'New Reserve'}
+                      </span>
                     </div>
+                  </div>
+
+                  {/* Clarifying subrow showing exact allocation */}
+                  <div className="ledger-breakdown-subrow">
+                    {currentTemp > 0 ? (
+                      fillAmount > 0 ? (
+                        <>
+                          <span className="breakdown-fill">
+                            <i className="fas fa-arrow-up" /> Fills base: +{fillAmount} {cfg.shortLabel} ({max}/{max})
+                          </span>
+                          <span className="breakdown-dot">•</span>
+                          <span className="breakdown-overflow">
+                            <i className="fas fa-shield" /> Temp Reserve: {currentTemp} + {excess} = {projectedTemp} {cfg.shortLabel}
+                          </span>
+                        </>
+                      ) : (
+                        <>
+                          <span className="breakdown-fill">
+                            <i className="fas fa-check" /> Base pool full ({max}/{max})
+                          </span>
+                          <span className="breakdown-dot">•</span>
+                          <span className="breakdown-overflow">
+                            <i className="fas fa-shield" /> Temp Reserve: {currentTemp} + {excess} = {projectedTemp} {cfg.shortLabel}
+                          </span>
+                        </>
+                      )
+                    ) : fillAmount > 0 ? (
+                      <>
+                        <span className="breakdown-fill">
+                          <i className="fas fa-arrow-up" /> Fills base: +{fillAmount} {cfg.shortLabel} ({max}/{max})
+                        </span>
+                        <span className="breakdown-dot">•</span>
+                        <span className="breakdown-overflow">
+                          <i className="fas fa-shield" /> Excess: +{excess} {cfg.shortLabel}
+                        </span>
+                      </>
+                    ) : (
+                      <>
+                        <span className="breakdown-fill">
+                          <i className="fas fa-check" /> Base pool full ({max}/{max})
+                        </span>
+                        <span className="breakdown-dot">•</span>
+                        <span className="breakdown-overflow">
+                          <i className="fas fa-shield" /> All +{excess} {cfg.shortLabel} overflows
+                        </span>
+                      </>
+                    )}
                   </div>
 
                   {/* Individual actions for multi-resource lists */}
@@ -233,7 +336,9 @@ const ResourceOverflowModal = ({
                           onAddTemporary && onAddTemporary(item.resourceType)
                         }
                       >
-                        Add {cfg.shortLabel} as Temp
+                        {currentTemp > 0
+                          ? `Add +${excess} (${projectedTemp} Temp Total)`
+                          : `Add +${excess} Temp ${cfg.shortLabel}`}
                       </button>
                     </div>
                   )}
@@ -246,40 +351,63 @@ const ResourceOverflowModal = ({
           <p className="resource-overflow-narrative">
             {isMulti ? (
               <>
-                These restorations exceed natural maximum thresholds. Choose whether
-                to cap each reserve at its limit or channel the excess into temporary
-                vitality.
+                These restorations exceed pool maximums. Choose whether to cap each
+                pool at capacity or preserve the surplus in temporary reserves.
+              </>
+            ) : primaryTemp > 0 ? (
+              primaryFillAmount === 0 ? (
+                <>
+                  You currently have a total of <strong>{primaryTotalCurrent} {primaryConfig.shortLabel}</strong> (<strong>{primaryCurrent}/{primaryMax} Base</strong> plus{' '}
+                  <strong>+{primaryTemp} Temporary {primaryConfig.shortLabel}</strong>).
+                  Adding <strong>+{primaryIncoming} {primaryConfig.shortLabel}</strong> brings your total to{' '}
+                  <strong>{primaryTotalProjected} {primaryConfig.shortLabel}</strong> (increasing your Temporary reserve from{' '}
+                  <strong>+{primaryTemp}</strong> to <strong>+{primaryProjectedTemp}</strong>).
+                </>
+              ) : (
+                <>
+                  You currently have a total of <strong>{primaryTotalCurrent} {primaryConfig.shortLabel}</strong> (<strong>{primaryCurrent}/{primaryMax} Base</strong> plus{' '}
+                  <strong>+{primaryTemp} Temporary {primaryConfig.shortLabel}</strong>).
+                  Incoming <strong>+{primaryIncoming} {primaryConfig.shortLabel}</strong> restores{' '}
+                  <strong>+{primaryFillAmount} {primaryConfig.shortLabel}</strong> to fill your base pool to capacity (
+                  <strong>{primaryMax}/{primaryMax}</strong>), while the remaining{' '}
+                  <strong>+{primaryExcess} {primaryConfig.shortLabel}</strong> increases your Temporary reserve from{' '}
+                  <strong>+{primaryTemp}</strong> to <strong>+{primaryProjectedTemp}</strong>, giving you{' '}
+                  <strong>{primaryTotalProjected} total {primaryConfig.shortLabel}</strong>.
+                </>
+              )
+            ) : primaryFillAmount === 0 ? (
+              <>
+                Your <strong>{primaryConfig.label}</strong> is already at maximum capacity (
+                <strong>
+                  {primaryCurrent}/{primaryMax}
+                </strong>
+                ). The entire incoming{' '}
+                <strong>
+                  +{primaryIncoming} {primaryConfig.shortLabel}
+                </strong>{' '}
+                exceeds your limit and can be channeled into temporary reserve (
+                <strong>+{primaryExcess} Temporary {primaryConfig.shortLabel}</strong>, {primaryTotalProjected} total).
               </>
             ) : (
-              (() => {
-                const restore =
-                  primaryItem.adjustment ?? primaryItem.amount ?? 0;
-                const excess =
-                  primaryItem.overhealAmount ??
-                  Math.max(
-                    0,
-                    (primaryItem.currentValue || 0) +
-                      restore -
-                      (primaryItem.maxValue || 0)
-                  );
-                return (
-                  <>
-                    This restoration would restore{' '}
-                    <strong>
-                      +{restore} {primaryConfig.shortLabel}
-                    </strong>
-                    , but current capacity is{' '}
-                    <strong>
-                      {primaryItem.currentValue}/{primaryItem.maxValue}
-                    </strong>
-                    .{' '}
-                    <strong>
-                      +{excess} {primaryConfig.shortLabel}
-                    </strong>{' '}
-                    would exceed the maximum.
-                  </>
-                );
-              })()
+              <>
+                Incoming{' '}
+                <strong>
+                  +{primaryIncoming} {primaryConfig.shortLabel}
+                </strong>{' '}
+                will restore{' '}
+                <strong>
+                  +{primaryFillAmount} {primaryConfig.shortLabel}
+                </strong>{' '}
+                to reach full capacity (
+                <strong>
+                  {primaryMax}/{primaryMax}
+                </strong>
+                ), while the remaining{' '}
+                <strong>
+                  +{primaryExcess} {primaryConfig.shortLabel}
+                </strong>{' '}
+                can be channeled into temporary reserve ({primaryTotalProjected} total {primaryConfig.shortLabel}).
+              </>
             )}
           </p>
 
@@ -318,7 +446,9 @@ const ResourceOverflowModal = ({
                   onAddTemporary && onAddTemporary(primaryItem.resourceType)
                 }
               >
-                Add Temporary
+                {primaryTemp > 0
+                  ? `Add Temporary (+${primaryExcess} ${primaryConfig.shortLabel} → ${primaryProjectedTemp} Temp Total)`
+                  : `Add Temporary (+${primaryExcess} ${primaryConfig.shortLabel})`}
               </button>
             </>
           ) : (

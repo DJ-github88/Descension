@@ -302,6 +302,10 @@ export function digitalRoll(reading, random = Math.random) {
 
 // ── Owner approval and GM command ───────────────────────────────────────────
 export function sourcePools(token) {
+  if (token?.state?.actorContract?.kind === 'creature') return {
+    ap: { current: token.state.currentActionPoints, temp: token.state.tempActionPoints ?? 0 },
+    mana: { current: token.state.currentMana, temp: token.state.tempMana ?? 0 }
+  };
   const c = token?.character || {};
   return { ap: { current: c.actionPoints?.current, temp: c.tempActionPoints || 0 }, mana: { current: c.mana?.current, temp: c.tempMana || 0 } };
 }
@@ -362,7 +366,7 @@ export function planSpellCommand({ approval, contentHash, tokens, roomId, mapId,
 /** Parses an accepted P9 receipt for presentation; null for anything else. */
 export function spellReceipt(result) {
   const receipt = result?.receipt, adjudication = receipt?.adjudication;
-  if (!result?.success || receipt?.version !== 1 || receipt.authorization?.kind !== 'owner-approval-gm' || ![P9_CAPABILITY, AUTHORED].some(cap => String(adjudication?.definitionVersionOrHash || '').startsWith(`${cap}/`))) return null;
+  if (!result?.success || receipt?.version !== 1 || !['owner-approval-gm', 'gm-creature-ability'].includes(receipt.authorization?.kind) || ![P9_CAPABILITY, AUTHORED].some(cap => String(adjudication?.definitionVersionOrHash || '').startsWith(`${cap}/`))) return null;
   try {
     const recorded = JSON.parse(adjudication.chosenResult);
     if (![P9_CAPABILITY, AUTHORED].includes(recorded.capability) || recorded.approvalId !== receipt.authorization.proposalId || !integer(adjudication.finalAmount, 0, 100000)) return null;

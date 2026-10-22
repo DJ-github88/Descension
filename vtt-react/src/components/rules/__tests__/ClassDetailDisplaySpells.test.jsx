@@ -3,6 +3,7 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import ClassDetailDisplay from '../ClassDetailDisplay';
 import { GAMBLER_DATA } from '../../../data/classes/gamblerData';
+import { FATE_WEAVER_DATA } from '../../../data/classes/fateWeaverData';
 
 // Polyfill global fetch if needed
 if (!global.fetch) {
@@ -139,4 +140,14 @@ test('Gambler detail renders complete cards at all levels and a real uninitializ
   expect(screen.getByRole('button', { name: /Inspect The Last Stake/ })).toBeInTheDocument();
   fireEvent.click(screen.getByRole('button', { name: /Inspect House Compact/ }));
   expect(screen.getByTestId('unified-spell-card').textContent).toContain('two fixed leg identities');
+});
+
+test('Fate Weaver Codex popup carries closure-gated recovery and distinct 30/60 ranges', () => {
+  render(<ClassDetailDisplay classData={FATE_WEAVER_DATA} onBack={jest.fn()} />);
+  fireEvent.click(screen.getByRole('button', { name: /spells/i }));
+  fireEvent.click(screen.getByRole('button', { name: /Inspect Tie the Thread/ }));
+  fireEvent.click(screen.getByText('Manual thread price and link rules'));
+  const popup = document.querySelector('.spellbook-popup-content');
+  expect(popup.textContent).toMatch(/closed and its uses are exhausted/i);
+  expect(popup.textContent).toMatch(/30 ft formation range each and 60 ft maintenance separation/i);
 });

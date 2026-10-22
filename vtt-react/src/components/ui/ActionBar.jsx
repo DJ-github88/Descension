@@ -7,6 +7,7 @@ import useCombatStore from '../../store/combatStore';
 import useGameStore from '../../store/gameStore';
 import { RARITY_COLORS } from '../../constants/itemConstants';
 import Button from '../common/Button';
+import ResourceOverflowModal from '../common/ResourceOverflowModal';
 import ItemTooltip from '../item-generation/ItemTooltip';
 import TooltipPortal from '../tooltips/TooltipPortal';
 import { useTooltipPosition } from '../common/useTooltipPosition';
@@ -365,6 +366,7 @@ const ActionBar = () => {
                     overhealAmount,
                     currentValue,
                     maxValue,
+                    currentTemp: Number(currentTemp) || 0,
                     item
                 }
             };
@@ -2465,314 +2467,78 @@ const ActionBar = () => {
                 />
             )}
 
-            {/* Overheal Confirmation Modal */}
-            {showOverhealModal && overhealData && ReactDOM.createPortal(
-                <div
-                    className="modal-overlay"
-                    style={{
-                        position: 'fixed',
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        bottom: 0,
-                        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        zIndex: 10001,
-                        margin: 0,
-                        padding: 0
-                    }}
-                    onClick={() => {
-                        setShowOverhealModal(false);
-                        setOverhealData(null);
-                    }}
-                >
-                    <div
-                        className="overheal-modal"
-                        style={{
-                            backgroundColor: '#f0e6d2',
-                            backgroundImage: 'url("https://www.transparenttextures.com/patterns/parchment.png")',
-                            border: '3px solid #8b4513',
-                            borderRadius: '12px',
-                            padding: '24px',
-                            boxShadow: '0 10px 30px rgba(0, 0, 0, 0.5), inset 0 0 60px rgba(139, 69, 19, 0.1)',
-                            fontFamily: "'Cinzel', serif",
-                            color: '#1a0f08',
-                            minWidth: '400px',
-                            maxWidth: '500px',
-                            textAlign: 'center',
-                            position: 'relative'
-                        }}
-                        onClick={(e) => e.stopPropagation()}
-                    >
-                        {(() => {
-                            // Ensure overhealData is valid and convert to array
-                            if (!overhealData) return null;
-                            
-                            // Defensive conversion to array with explicit type checking
-                            let overhealsArray = [];
-                            try {
-                                if (Array.isArray(overhealData)) {
-                                    overhealsArray = overhealData.filter(oh => oh != null && typeof oh === 'object');
-                                } else if (overhealData && typeof overhealData === 'object' && !Array.isArray(overhealData)) {
-                                    overhealsArray = [overhealData];
-                                } else {
-                                    // If it's not an array or object, return null
-                                    console.warn('Invalid overhealData type:', typeof overhealData, overhealData);
-                                    return null;
-                                }
-                                
-                                // Force conversion to array if somehow it's still not an array
-                                if (!Array.isArray(overhealsArray)) {
-                                    overhealsArray = [];
-                                }
-                            } catch (e) {
-                                console.error('Error processing overhealData:', e, overhealData);
-                                return null;
-                            }
-                            
-                            // Safety check: ensure overhealsArray is an array with valid entries
-                            if (!Array.isArray(overhealsArray)) {
-                                console.error('overhealsArray is not an array after processing:', typeof overhealsArray, overhealsArray);
-                                return null;
-                            }
-                            
-                            if (overhealsArray.length === 0) {
-                                return null;
-                            }
-                            
-                            // Final verification that map function exists
-                            if (typeof overhealsArray.map !== 'function') {
-                                console.error('overhealsArray.map is not a function:', typeof overhealsArray, overhealsArray);
-                                // Try to force it to be an array
-                                overhealsArray = Array.from(overhealsArray);
-                                if (typeof overhealsArray.map !== 'function') {
-                                    return null;
-                                }
-                            }
-                            
-                            const firstOverheal = overhealsArray[0];
-                            const item = firstOverheal?.item;
-                            
-                            return (
-                                <>
-                                    <h3 style={{ 
-                                        margin: '0 0 20px 0', 
-                                        fontSize: '22px', 
-                                        color: '#7a3b2e',
-                                        borderBottom: '2px solid #8b4513',
-                                        paddingBottom: '10px',
-                                        textTransform: 'uppercase',
-                                        letterSpacing: '1px'
-                                    }}>
-                                        {overhealsArray.length > 1 ? 'Overheals Detected' : 'Overheal Detected'}
-                                    </h3>
-                                    
-                                    {item && (() => {
-                                        const inventoryItem = inventoryItems.find(invItem =>
-                                            invItem.originalItemId === item.originalItemId || 
-                                            invItem.id === item.originalItemId
-                                        );
-                                        const itemName = inventoryItem?.name || item.name || 'Item';
-                                        return (
-                                            <p style={{ margin: '0 0 15px 0', fontSize: '18px', fontWeight: 'bold', color: '#4a3728' }}>
-                                                {itemName}
-                                            </p>
-                                        );
-                                    })()}
-                                    
-                                    {(() => {
-                                        // Final safety check right before rendering
-                                        if (!Array.isArray(overhealsArray) || overhealsArray.length === 0) {
-                                            return null;
-                                        }
-                                        return overhealsArray.map((overheal, index) => {
-                                            if (!overheal || typeof overheal !== 'object') return null;
-                                            const resourceLabel = overheal.resourceType === 'health' ? 'HP' : 
-                                                             overheal.resourceType === 'mana' ? 'Mana' : 'AP';
-                                            return (
-                                                <div key={index} style={{ 
-                                                    marginBottom: index < overhealsArray.length - 1 ? '15px' : '20px',
-                                                    padding: '10px',
-                                                    backgroundColor: 'rgba(160, 140, 112, 0.1)',
-                                                    borderRadius: '4px'
-                                                }}>
-                                                    <p style={{ margin: '0 0 8px 0', fontSize: '14px' }}>
-                                                        This would restore <strong>{overheal.amount}</strong> {resourceLabel}, 
-                                                        but the current value is {overheal.currentValue}/{overheal.maxValue}.
-                                                    </p>
-                                                    <p style={{ margin: '0 0 10px 0', fontSize: '13px', fontWeight: 'bold' }}>
-                                                        <strong>{overheal.overhealAmount}</strong> would exceed the maximum.
-                                                    </p>
-                                                    {Array.isArray(overhealsArray) && overhealsArray.length > 1 && (
-                                                        <div style={{ display: 'flex', gap: '8px', justifyContent: 'center', marginTop: '8px' }}>
-                                                            <button
-                                                                style={{
-                                                                    padding: '6px 12px',
-                                                                    border: '1px solid #a08c70',
-                                                                    borderRadius: '4px',
-                                                                    backgroundColor: '#d4c4a8',
-                                                                    color: 'black',
-                                                                    cursor: 'pointer',
-                                                                    fontSize: '11px'
-                                                                }}
-                                                                onClick={() => applyResourceWithTemporary(true, overheal.resourceType)}
-                                                            >
-                                                                Add {resourceLabel} as Temporary
-                                                            </button>
-                                                            <button
-                                                                style={{
-                                                                    padding: '6px 12px',
-                                                                    border: '1px solid #a08c70',
-                                                                    borderRadius: '4px',
-                                                                    backgroundColor: '#d4c4a8',
-                                                                    color: 'black',
-                                                                    cursor: 'pointer',
-                                                                    fontSize: '11px'
-                                                                }}
-                                                                onClick={() => applyResourceWithTemporary(false, overheal.resourceType)}
-                                                            >
-                                                                Cap {resourceLabel} at Max
-                                                            </button>
-                                                        </div>
-                                                    )}
-                                                </div>
-                                            );
-                                        });
-                                    })()}
-                                    
-                                    <div style={{ 
-                                        display: 'flex', 
-                                        gap: '12px', 
-                                        justifyContent: 'center', 
-                                        marginTop: '25px',
-                                        paddingTop: '20px',
-                                        borderTop: '1px solid rgba(139, 69, 19, 0.2)'
-                                    }}>
-                                        <Button
-                                            variant="game-secondary"
-                                            onClick={() => {
-                                                setShowOverhealModal(false);
-                                                setOverhealData(null);
-                                            }}
-                                        >
-                                            Cancel
-                                        </Button>
-                                        
-                                        {Array.isArray(overhealsArray) && overhealsArray.length === 1 && (
-                                            <>
-                                                <Button
-                                                    variant="game-secondary"
-                                                    onClick={() => applyResourceWithTemporary(false)}
-                                                >
-                                                    Cap at Max
-                                                </Button>
-                                                <Button
-                                                    variant="game-primary"
-                                                    onClick={() => applyResourceWithTemporary(true)}
-                                                >
-                                                    Add Temporary
-                                                </Button>
-                                            </>
-                                        )}
-                                        
-                                        {Array.isArray(overhealsArray) && overhealsArray.length > 1 && (
-                                            <>
-                                                <Button
-                                                    variant="game-secondary"
-                                                    onClick={() => {
-                                                        // Process all overheals at once
-                                                        (Array.isArray(overhealsArray) ? overhealsArray : []).forEach(oh => {
-                                                            updateResource(oh.resourceType, oh.maxValue, oh.maxValue);
-                                                        });
-                                                        
-                                                        // Continue with consumable effects
-                                                        const item = firstOverheal?.item;
-                                                        if (item) {
-                                                            const inventoryItem = inventoryItems.find(invItem =>
-                                                                invItem.originalItemId === item.originalItemId || 
-                                                                invItem.id === item.originalItemId
-                                                            );
-                                                            if (inventoryItem) {
-                                                                applyRemainingConsumableEffects(inventoryItem);
-                                                            }
-                                                        }
-                                                        
-                                                        // Remove item
-                                                        if (item) {
-                                                            const inventoryItem = inventoryItems.find(invItem =>
-                                                                invItem.originalItemId === item.originalItemId || 
-                                                                invItem.id === item.originalItemId
-                                                            );
-                                                            if (inventoryItem) {
-                                                                removeItem(inventoryItem.id, 1);
-                                                            }
-                                                        }
-                                                        
-                                                        setShowOverhealModal(false);
-                                                        setOverhealData(null);
-                                                    }}
-                                                >
-                                                    Cap All
-                                                </Button>
-                                                <Button
-                                                    variant="game-primary"
-                                                    onClick={() => {
-                                                        // Process all overheals at once
-                                                        (Array.isArray(overhealsArray) ? overhealsArray : []).forEach(oh => {
-                                                            const tempFieldMap = {
-                                                                'health': 'tempHealth',
-                                                                'mana': 'tempMana',
-                                                                'actionPoints': 'tempActionPoints'
-                                                            };
-                                                            const tempField = tempFieldMap[oh.resourceType];
-                                                            const currentTemp = tempField === 'tempHealth' ? tempHealth : 
-                                                                               tempField === 'tempMana' ? tempMana : tempActionPoints;
-                                                            const overhealAmount = (oh.currentValue + oh.amount) - oh.maxValue;
-                                                            updateResource(oh.resourceType, oh.maxValue, oh.maxValue, undefined, true);
-                                                            updateTempResource(oh.resourceType, currentTemp + overhealAmount);
-                                                        });
-                                                        
-                                                        // Continue with consumable effects
-                                                        const item = firstOverheal?.item;
-                                                        if (item) {
-                                                            const inventoryItem = inventoryItems.find(invItem =>
-                                                                invItem.originalItemId === item.originalItemId || 
-                                                                invItem.id === item.originalItemId
-                                                            );
-                                                            if (inventoryItem) {
-                                                                applyRemainingConsumableEffects(inventoryItem);
-                                                            }
-                                                        }
-                                                        
-                                                        // Remove item
-                                                        if (item) {
-                                                            const inventoryItem = inventoryItems.find(invItem =>
-                                                                invItem.originalItemId === item.originalItemId || 
-                                                                invItem.id === item.originalItemId
-                                                            );
-                                                            if (inventoryItem) {
-                                                                removeItem(inventoryItem.id, 1);
-                                                            }
-                                                        }
-                                                        
-                                                        setShowOverhealModal(false);
-                                                        setOverhealData(null);
-                                                    }}
-                                                >
-                                                    Add All Temp
-                                                </Button>
-                                            </>
-                                        )}
-                                    </div>
-                                </>
-                            );
-                        })()}
-                    </div>
-                </div>,
-                document.body
-            )}
+            {/* Resource Overflow / Overheal Confirmation Modal — Calm TTRPG Manuscript Theme */}
+            <ResourceOverflowModal
+                isOpen={showOverhealModal && !!overhealData}
+                data={overhealData}
+                itemName={(() => {
+                    const firstOverheal = Array.isArray(overhealData) ? overhealData[0] : overhealData;
+                    const item = firstOverheal?.item;
+                    if (!item) return null;
+                    const inventoryItem = inventoryItems.find(invItem =>
+                        invItem.originalItemId === item.originalItemId || 
+                        invItem.id === item.originalItemId
+                    );
+                    return inventoryItem?.name || item?.name || null;
+                })()}
+                onCancel={() => {
+                    setShowOverhealModal(false);
+                    setOverhealData(null);
+                }}
+                onCap={(resourceType) => applyResourceWithTemporary(false, resourceType)}
+                onAddTemporary={(resourceType) => applyResourceWithTemporary(true, resourceType)}
+                onCapAll={() => {
+                    const overhealsArray = Array.isArray(overhealData) ? overhealData : [overhealData];
+                    overhealsArray.forEach(oh => {
+                        if (oh) updateResource(oh.resourceType, oh.maxValue, oh.maxValue);
+                    });
+                    const firstOverheal = overhealsArray[0];
+                    const item = firstOverheal?.item;
+                    if (item) {
+                        const inventoryItem = inventoryItems.find(invItem =>
+                            invItem.originalItemId === item.originalItemId || 
+                            invItem.id === item.originalItemId
+                        );
+                        if (inventoryItem) {
+                            applyRemainingConsumableEffects(inventoryItem);
+                            removeItem(inventoryItem.id, 1);
+                        }
+                    }
+                    setShowOverhealModal(false);
+                    setOverhealData(null);
+                }}
+                onAddTemporaryAll={() => {
+                    const overhealsArray = Array.isArray(overhealData) ? overhealData : [overhealData];
+                    overhealsArray.forEach(oh => {
+                        if (!oh) return;
+                        const tempFieldMap = {
+                            'health': 'tempHealth',
+                            'mana': 'tempMana',
+                            'actionPoints': 'tempActionPoints'
+                        };
+                        const tempField = tempFieldMap[oh.resourceType];
+                        const currentTemp = tempField === 'tempHealth' ? tempHealth : 
+                                            tempField === 'tempMana' ? tempMana : tempActionPoints;
+                        const overhealAmount = (oh.currentValue + oh.amount) - oh.maxValue;
+                        updateResource(oh.resourceType, oh.maxValue, oh.maxValue, undefined, true);
+                        updateTempResource(oh.resourceType, currentTemp + overhealAmount);
+                    });
+                    const firstOverheal = overhealsArray[0];
+                    const item = firstOverheal?.item;
+                    if (item) {
+                        const inventoryItem = inventoryItems.find(invItem =>
+                            invItem.originalItemId === item.originalItemId || 
+                            invItem.id === item.originalItemId
+                        );
+                        if (inventoryItem) {
+                            applyRemainingConsumableEffects(inventoryItem);
+                            removeItem(inventoryItem.id, 1);
+                        }
+                    }
+                    setShowOverhealModal(false);
+                    setOverhealData(null);
+                }}
+            />
 
             {/* Experience Bar - Below Action Bar */}
             <ExperienceBar currentXP={experience} />

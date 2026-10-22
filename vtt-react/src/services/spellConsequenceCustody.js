@@ -22,7 +22,7 @@ export function loadLatestSpell(context = spellContext()) {
   if (retained) return retained;
   const saved = storage.load([context.roomId]);
   if (!saved || saved.version !== 1 || saved.capability !== P9_CAPABILITY || saved.uid !== context.uid || saved.roomId !== context.roomId ||
-    (saved.approval && (saved.approval.roomId !== context.roomId || saved.approval.source?.ownerUid !== context.uid))) return null;
+    (saved.approval && (saved.approval.roomId !== context.roomId || (saved.route === 'creature' ? saved.approval.sourceAuthority?.gmUid !== context.uid : saved.approval.source?.ownerUid !== context.uid)))) return null;
   return { ...saved, custody: 'Device retained' };
 }
 export const unresolvedSpell = value => !!value?.approval && UNRESOLVED.includes(value.phase);

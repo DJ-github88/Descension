@@ -23,6 +23,7 @@ import { refOf as conditionActorRef } from '../../services/actorConsequenceServi
 import BuffDebuffCreatorModal from '../modals/BuffDebuffCreatorModal';
 import MovementConfirmationDialog from '../combat/MovementConfirmationDialog';
 import Button from '../common/Button';
+import ResourceOverflowModal from '../common/ResourceOverflowModal';
 import '../../styles/unified-context-menu.css';
 import '../../styles/creature-token.css';
 import useLongPressContextMenu from '../../hooks/useLongPressContextMenu';
@@ -1864,7 +1865,8 @@ const CharacterToken = ({
         adjustment: amount,
         overhealAmount: (currentHp + amount) - maxHp,
         currentValue: currentHp,
-        maxValue: maxHp
+        maxValue: maxHp,
+        currentTemp: Number(characterData?.tempHealth) || 0
       });
       setShowOverhealModal(true);
       setShowContextMenu(false); // Close context menu when showing modal
@@ -1935,7 +1937,8 @@ const CharacterToken = ({
         adjustment: amount,
         overhealAmount: (currentMp + amount) - maxMp,
         currentValue: currentMp,
-        maxValue: maxMp
+        maxValue: maxMp,
+        currentTemp: Number(characterData?.tempMana) || 0
       });
       setShowOverhealModal(true);
       setShowContextMenu(false);
@@ -2001,7 +2004,8 @@ const CharacterToken = ({
         adjustment: amount,
         overhealAmount: (currentAP + amount) - maxAP,
         currentValue: currentAP,
-        maxValue: maxAP
+        maxValue: maxAP,
+        currentTemp: Number(characterData?.tempActionPoints) || 0
       });
       setShowOverhealModal(true);
       setShowContextMenu(false);
@@ -3093,104 +3097,28 @@ const CharacterToken = ({
         }}
         initialType={buffDebuffInitialType}
       />
-      {/* Overheal Confirmation Modal */}
-      {showOverhealModal && overhealData && createPortal(
-        <div
-          className="modal-overlay"
-          style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            zIndex: 10001
-          }}
-          onClick={() => {
-            setShowOverhealModal(false);
-            setOverhealData(null);
-          }}
-        >
-          <div
-            className="overheal-modal"
-            style={{
-              backgroundColor: '#f0e6d2',
-              backgroundImage: 'url("https://www.transparenttextures.com/patterns/parchment.png")',
-              border: '3px solid #8b4513',
-              borderRadius: '12px',
-              padding: '24px',
-              boxShadow: '0 10px 30px rgba(0, 0, 0, 0.5), inset 0 0 60px rgba(139, 69, 19, 0.1)',
-              fontFamily: "'Cinzel', serif",
-              color: '#1a0f08',
-              minWidth: '400px',
-              maxWidth: '500px',
-              textAlign: 'center',
-              position: 'relative'
-            }}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <h3 style={{ 
-              margin: '0 0 20px 0', 
-              fontSize: '22px', 
-              color: '#7a3b2e',
-              borderBottom: '2px solid #8b4513',
-              paddingBottom: '10px',
-              textTransform: 'uppercase',
-              letterSpacing: '1px'
-            }}>
-              Overheal Detected
-            </h3>
-            <p style={{ margin: '0 0 15px 0', fontSize: '16px', color: '#4a3728' }}>
-              {characterData.name} is being healed for <strong>{overhealData.adjustment}</strong> points of {overhealData.resourceType}, which exceeds their maximum.
-              <br />
-              <strong style={{ color: '#7a3b2e' }}>{overhealData.overhealAmount}</strong> would exceed the maximum.
-            </p>
-            
-            <div style={{ 
-              display: 'flex', 
-              gap: '12px', 
-              justifyContent: 'center', 
-              marginTop: '25px',
-              paddingTop: '20px',
-              borderTop: '1px solid rgba(139, 69, 19, 0.2)'
-            }}>
-              <Button
-                variant="game-secondary"
-                onClick={() => {
-                  setShowOverhealModal(false);
-                  setOverhealData(null);
-                }}
-              >
-                Cancel
-              </Button>
-              <Button
-                variant="game-secondary"
-                onClick={() => {
-                  handleResourceUpdate(overhealData.resourceType, overhealData.maxValue, overhealData.adjustment, false);
-                  setShowOverhealModal(false);
-                  setOverhealData(null);
-                }}
-              >
-                Cap at Max
-              </Button>
-              <Button
-                variant="game-primary"
-                onClick={() => {
-                  handleResourceUpdate(overhealData.resourceType, overhealData.maxValue, overhealData.adjustment, true);
-                  setShowOverhealModal(false);
-                  setOverhealData(null);
-                }}
-              >
-                Add Temporary
-              </Button>
-            </div>
-          </div>
-        </div>,
-        document.body
-      )}
+      {/* Resource Overflow / Overheal Confirmation Modal — Calm TTRPG Manuscript Theme */}
+      <ResourceOverflowModal
+        isOpen={showOverhealModal && !!overhealData}
+        data={overhealData}
+        targetName={characterData?.name}
+        onCancel={() => {
+          setShowOverhealModal(false);
+          setOverhealData(null);
+        }}
+        onCap={() => {
+          if (!overhealData) return;
+          handleResourceUpdate(overhealData.resourceType, overhealData.maxValue, overhealData.adjustment, false);
+          setShowOverhealModal(false);
+          setOverhealData(null);
+        }}
+        onAddTemporary={() => {
+          if (!overhealData) return;
+          handleResourceUpdate(overhealData.resourceType, overhealData.maxValue, overhealData.adjustment, true);
+          setShowOverhealModal(false);
+          setOverhealData(null);
+        }}
+      />
     </>
   );
 };

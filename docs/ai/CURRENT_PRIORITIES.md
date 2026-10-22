@@ -1,7 +1,7 @@
 # Current priorities
 
-Updated 2026-10-22 (P14-A2 Item Wizard producer delivered/reviewed/Build3-App10 verified with fixture/UI qualifications; A1/C4 acceptance carried forward). Final checked HEAD:
-`ad93fd78048a49030f28af18e23bcf0e91a2aa85` (concurrent external commit); C4 Build2 HEAD `f23bab5b`. Reviewed combat bytes and concurrent work preserved. The full ledger,
+Updated 2026-10-22 (P14-A3 Creature Wizard producer delivered/reviewed/Build1-App9 verified with fixture/UI qualifications; A1/A2/C4 acceptance carried forward). Evidence-gate HEAD:
+`485c0bbab9171879e2ea47cd83b44ddc0f046deb` (concurrent external commits). Exact scoped bytes and unrelated drift in A3 acceptance. The full ledger,
 with source identities/evidence, is [`docs/ENGINEERING_STATE.md`](../ENGINEERING_STATE.md).
 
 ## Delivered projects
@@ -30,6 +30,7 @@ with source identities/evidence, is [`docs/ENGINEERING_STATE.md`](../ENGINEERING
 | P14-C4 authenticated turn expiry | Implemented; one repaired bounded ACCEPT, Build2 compilation/source identity and App4 PASS. Fresh own-turn canonical PC Defending next-start and named C3 Bash next-target-end only; existing/one-round/other/recurring effects manual |
 | P14-A1 authored immediate abilities | Implemented; one repaired bounded independent source/evidence ACCEPT, Build4/App7 PASS. Actual Wizard/library/admission/explicit versions and zeros, existing P9 owner roll/consent + GM final + one P7 payment/HP, original-byte recovery; one direct damage OR healing, exact source+target only |
 | P14-A2 Item Wizard ability producer | Implemented; one repaired bounded independent ACCEPT, Build3/App10 PASS with P13-overlay/fetch fixture qualifications. Whole Wizard snapshot, compact authoring/library selection, exact admission/version and real Inventory launch into A1; no item entitlement/new engine |
+| P14-A3 Creature Wizard ability producer | Implemented; one repaired bounded independent ACCEPT, Build1/App9 PASS (qualified). Compact/library whole snapshot, Keep/save/reopen, legacy preservation, exact normal A1 admission/v2, detached template/copy/placed isolation; creature casting unavailable |
 
 Source acceptance is not deployment readiness. Current P12B evidence: [`MYTHRILL_PROJECT_12B_IMPLEMENTATION.md`](../MYTHRILL_PROJECT_12B_IMPLEMENTATION.md). P12A/P11 evidence:
 [`MYTHRILL_PROJECT_12A_IMPLEMENTATION.md`](../MYTHRILL_PROJECT_12A_IMPLEMENTATION.md).
@@ -72,7 +73,20 @@ same-deadline reconnect and no grace/pause/extension. No fee/refund/order/effect
 
 ## Next
 
-**Latest producer delivery:** [P14-A2](../MYTHRILL_PROJECT_14_A2_CONTRACT.md#implementation-and-verification--2026-10-22).
+**Latest delivery:** [P14-A3](../MYTHRILL_PROJECT_14_A3_CONTRACT.md) and
+[acceptance/identity](../MYTHRILL_PROJECT_14_A3_ACCEPTANCE.md). Actual Creature Wizard → retained whole
+definition → save/reopen/Inspect → normal explicit GM admission. Damage/healing/zeros, library
+selection/deletion, manual preservation, immutablev1/v2 and old placed Inspect verified without spend/
+HP/receipt; hostile creature-source PC approval refused.6 client suites54/A1 server10; one repaired
+review ACCEPT/final8 probes; one production build/App9. Later unrelated overflow UI drift,1 fetch
+error, fixture/live-only and partly-scrolled viewport qualifications explicit. A1/A2/W1 preserved.
+
+**Next bounded execution candidate:** [A4 source-authority preparation](../MYTHRILL_PROJECT_14_A4_SOURCE_AUTHORITY_CONTRACT.md).
+Needs separate HQ freeze/authorization of exact GM-controlled placed-creature permission and target
+subset; proposed creature→creature first, PC-owner blocking/consent bridge separate. A3 grants no
+creature-origin execution and does not widen class/source binding. Wider mechanics/ancestry stay open.
+
+**Preserved producer delivery:** [P14-A2](../MYTHRILL_PROJECT_14_A2_CONTRACT.md#implementation-and-verification--2026-10-22).
 Item Wizard Basic Info → whole-record ability → save/reopen → explicit normal GM admission → Inventory
 item ability launcher → unchanged A1 consent/payment/P7. Damage/healing, explicit zeros, immutablev1/v2,
 template/instance/manual preservation and original-byte lost-ACK/reload/rejoin verified. One independent
@@ -90,8 +104,7 @@ exit0/drift[]/22-runtime identity and production-App7 PASS. Reviewer's independe
 appraisal and hash measurement, not independent execution. App auth/lease/cloud are fixtures/live-only,
 with3 retained fetch errors. Exact source/limits in contract and independent report. C4 is not reopened.
 
-**Next smallest extension:** reuse the lightweight producer in Creature Wizard with a separate
-preservation/access contract and existing owner-PC source. Reconstructed class/ancestry bindings, acting-creature
+**Producer handoff completed by A3 above.** Reconstructed class/ancestry bindings, acting-creature
 sources, conditions/multiple components/periodic/expiry-triggered effects, suppression/stacking/recharge,
 reaction chains, obstruction/propagation and environment/tile predicates remain separately frozen
 extensions. Class/Heritage owns content/loadouts/grants; Main HQ owns shared authority/execution.

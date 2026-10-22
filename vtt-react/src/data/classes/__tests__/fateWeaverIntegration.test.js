@@ -78,17 +78,37 @@ describe('Fate Weaver Phase 2B package', () => {
     expect(fateWeaverResourceGuide).toMatchObject({ version: 2, archetype: 'Finite Consented Links' });
   });
 
-  test('resource guide and tracker copy preserve bearer, 30/60 range and next-own-turn recovery', () => {
+  test('resource guide and tracker copy preserve bearer, distinct 30/60 range and closure-gated recovery', () => {
     expect(fateWeaverResourceGuide.loop.spend.text).toContain('to the chosen bearer');
     expect(fateWeaverResourceGuide.loop.spend.text).not.toContain('to the caster');
     expect(fateWeaverResourceGuide.quickStart.rows[0][2]).toContain('second subsequent caster turn');
     expect(fateWeaverResourceGuide.quickStart.rows[1][2]).toContain('owning caster next own turn');
-    expect(fateWeaverResourceGuide.playingInPerson.materials).toContain('A next-own-turn recovery marker');
+    expect(fateWeaverResourceGuide.playingInPerson.materials.join(' ')).toContain('A next-own-turn recovery marker');
     expect(fateWeaverResourceGuide.playingInPerson.keepSections).toEqual(['tracking', 'consent', 'recovery label']);
     const copy = JSON.stringify(fateWeaverResourceGuide);
+    expect(copy).toContain('30 ft formation each');
+    expect(copy).toContain('60 ft maintenance separation');
+    expect(copy).toMatch(/closed and its uses are exhausted/i);
     ['free immediately', 'next turn start', 'completed-rest marker', 'to the caster'].forEach(stale => {
       expect(copy).not.toContain(stale);
     });
+  });
+
+  test('resource rules separate formation distance from maintenance separation and gate recovery', () => {
+    expect(FATE_WEAVER_RESOURCE_RULES).toMatchObject({
+      formationRangeEachFeet: 30,
+      maintenanceSeparationFeet: 60,
+      recovery: 'next-caster-own-turn-after-closure-and-uses-exhausted',
+      refreshOnLongRest: false
+    });
+    expect(FATE_WEAVER_RESOURCE_RULES.formationRangeFeet).toBeUndefined();
+    const commonRules = FATE_WEAVER_PROJECTED_SPELLS_BY_ID
+      .cr1_fate_weaver_tie_thread.specialMechanics.fateWeaver.commonRules;
+    expect(commonRules.tokens).toMatch(/closed and its uses are exhausted/i);
+    expect(commonRules.recovery).toMatch(/closed and its uses are exhausted/i);
+    expect(commonRules.recovery).toMatch(/owning caster next own turn/i);
+    expect(JSON.stringify(FATE_WEAVER_DATA.resourceSystem)).toMatch(/closed and its uses are exhausted/i);
+    expect(FATE_WEAVER_DATA.classResource.generationNote).toMatch(/closed and its uses are exhausted/i);
   });
 
   test('all signature and capstone gates accept only the authored same-tree path', () => {
@@ -165,6 +185,9 @@ describe('Fate Weaver Phase 2B package', () => {
     const link = base.links[0];
     const valid = [
       { ...base, links: [{ ...link, consent: { source: true, target: true } }] },
+      { ...base, links: [{ ...link, consent: { source: true, target: true }, sourceConsent: true, targetConsent: true }] },
+      { ...base, links: [{ ...link, consent: { source: true, target: true }, sourceConsent: true }] },
+      { ...base, links: [{ ...link, consent: { source: true }, targetConsent: true }] },
       { ...base, links: [{ ...link, tokenIds: ['t1'], tokenId: 't1' }] },
       { ...base, links: [{ ...link, usesRemaining: 1, remainingUses: 1 }] },
       { ...base, tokens: base.tokens.map(token => token.id === 't1' ? { ...token, linkId: 'l1' } : token) }
@@ -173,6 +196,11 @@ describe('Fate Weaver Phase 2B package', () => {
 
     const malformed = [
       { ...base, links: [{ ...link, consent: { source: true, sourceId: true } }] },
+      { ...base, links: [{ ...link, consent: { source: true, target: true }, sourceConsent: true, targetConsent: false }] },
+      { ...base, links: [{ ...link, consent: { source: true, target: true }, sourceConsent: false, targetConsent: true }] },
+      { ...base, links: [{ ...link, consent: { both: true }, sourceConsent: false }] },
+      { ...base, links: [{ ...link, consent: 'both', targetConsent: false }] },
+      { ...base, links: [{ ...link, consent: undefined, sourceConsent: true }] },
       { ...base, links: [{ ...link, usesRemaining: 0, remainingUses: 1 }] },
       { ...base, links: [{ ...link, tokenIds: ['t1'], tokenId: 't2' }] },
       { ...base, tokens: base.tokens.map(token => token.id === 't1' ? { ...token, linkId: 'other' } : token) }

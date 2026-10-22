@@ -255,6 +255,10 @@ function registerTokenHandlers(ctx) {
       if (supplied.state) {supplied.state = { ...supplied.state }; delete supplied.state.actorContract; delete supplied.state.actorRecovery;}
       const token = {
         ...supplied,
+        // A4 captures the whole placed association; admission remains a separate GM/P7 decision.
+        ...(data.creature && Object.prototype.hasOwnProperty.call(data.creature, 'authoredAbility') ? { authoredAbility: require('../services/actorConsequences').clone(data.creature.authoredAbility) } : {}),
+        ...(typeof data.creature?.name === 'string' ? { name: data.creature.name } : {}),
+        ...(Number.isFinite(data.position?.x) && Number.isFinite(data.position?.y) ? { position: { x: data.position.x, y: data.position.y } } : {}),
         // Owning creature snapshot supplies bounds; P7 never invents maxima.
         ...(data.creature?.stats ? { stats: stripUndefined(data.creature.stats) } : {}),
         id: tokenId,

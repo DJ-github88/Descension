@@ -305,6 +305,14 @@ export function applyAcceptedConsequence(result, context = captureActorDelivery(
     if (actor.ref.kind === 'character') next.character = { ...token.character };
     for (const [pool, [stateKey, pcKey, tempKey]] of Object.entries(pools)) {
       const values = actor.finalResources[pool];
+      // A4: an unused unavailable creature pool remains absent, never fabricated as zero.
+      // Both the receipt and its authoritative snapshot must agree on that absence.
+      if (actor.ref.kind === 'creature' && values && (values.current === undefined || values.max === undefined)) {
+        const maxKey = { hp: 'maxHp', mana: 'maxMana', ap: 'maxAP' }[pool];
+        const max = token.state?.[maxKey] ?? token.stats?.[maxKey] ?? token.creature?.stats?.[maxKey] ?? (pool === 'ap' ? token.stats?.maxActionPoints : undefined);
+        if (values.current === token.state?.[stateKey] && values.max === max && values.temp === (token.state?.[tempKey] ?? 0) &&
+          [values.current, values.max, values.temp].every(v => v === undefined || (Number.isFinite(v) && v >= 0))) continue;
+      }
       if (!values || ![values.current, values.temp, values.max].every(Number.isFinite)) return false;
       if (actor.ref.kind === 'character') {
         next.character[pcKey] = { ...token.character[pcKey], current: values.current, max: values.max };

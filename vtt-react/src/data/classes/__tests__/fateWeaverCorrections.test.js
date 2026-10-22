@@ -1,5 +1,6 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
+import { useClassSpellLibrary } from '../../../hooks/useClassSpellLibrary';
 import {
   FATE_WEAVER_CORE_RECORDS, FATE_WEAVER_OPTIONAL_RECORDS, FATE_WEAVER_PROJECTED_SPELLS_BY_ID,
   FATE_WEAVER_SPELL_POOLS, pruneFateWeaverTalents
@@ -136,20 +137,83 @@ describe('Fate Weaver Phase 2B corrections', () => {
   test('mounted Reset All clears signature and capstone known grants while preserving non-grant picks', () => {
     const optionalOne = optionalAt(1)[0].id;
     const custom = 'custom-unrelated-spell';
+    const signatureId = id(tree.meta.signature);
+    const capstoneId = id(tree.meta.capstone);
+    const signatureNode = FATE_WEAVER_TALENT_NODES.find(node => node.id === tree.meta.signatureNode);
+    const capstoneNode = FATE_WEAVER_TALENT_NODES.find(node => node.id === tree.meta.capstoneNode);
+    const copies = [signatureNode, capstoneNode].map(node => ({
+      ...FATE_WEAVER_PROJECTED_SPELLS_BY_ID[node.grantId], source: 'talent', talentId: node.id
+    }));
     stateFor({
       level: 10,
       talents: fullTree,
       class_spells: { known_spells: [
         id('tie_thread'), id('cut_clean'), optionalOne,
-        id(tree.meta.signature), id(tree.meta.capstone), custom
+        signatureId, capstoneId, custom
       ] }
     });
+    useSpellbookStore.setState({ spells: copies });
+    __setLibrary({ spells: copies });
     render(React.createElement(TalentTreeContent, { selectedTreeIndex: 0 }));
     fireEvent.click(screen.getByRole('button', { name: /Reset All/i }));
 
     const state = useCharacterStore.getState();
     expect(state.talents).toEqual({});
     expect(state.class_spells.known_spells).toEqual([id('tie_thread'), id('cut_clean'), optionalOne, custom]);
+    expect(useSpellbookStore.getState().spells).toEqual([]);
+    expect(__getLibrary().spells).toEqual([]);
+  });
+
+  test('mounted Reset All prunes only the active character while another roster owner keeps shared grant copies', async () => {
+    const optionalOne = optionalAt(1)[0].id;
+    const custom = 'custom-unrelated-spell';
+    const signatureId = id(tree.meta.signature);
+    const capstoneId = id(tree.meta.capstone);
+    const signatureNode = FATE_WEAVER_TALENT_NODES.find(node => node.id === tree.meta.signatureNode);
+    const capstoneNode = FATE_WEAVER_TALENT_NODES.find(node => node.id === tree.meta.capstoneNode);
+    const sharedCopies = [signatureNode, capstoneNode].map(node => ({
+      ...FATE_WEAVER_PROJECTED_SPELLS_BY_ID[node.grantId], source: 'talent', talentId: node.id
+    }));
+    const otherCharacter = {
+      id: 'other-roster-character', class: 'Fate Weaver', level: 10, talents: fullTree,
+      class_spells: { known_spells: [id('tie_thread'), signatureId, capstoneId] }
+    };
+    stateFor({
+      level: 10,
+      currentCharacterId: 'active-roster-character',
+      talents: fullTree,
+      class_spells: { known_spells: [
+        id('tie_thread'), id('cut_clean'), optionalOne, signatureId, capstoneId, custom
+      ] },
+      characters: [
+        { id: 'active-roster-character', class: 'Fate Weaver', level: 10, talents: fullTree },
+        otherCharacter
+      ]
+    });
+    useSpellbookStore.setState({ spells: sharedCopies });
+    __setLibrary({ spells: sharedCopies });
+    render(React.createElement(TalentTreeContent, { selectedTreeIndex: 0 }));
+    fireEvent.click(screen.getByRole('button', { name: /Reset All/i }));
+
+    const state = useCharacterStore.getState();
+    expect(state.talents).toEqual({});
+    expect(state.class_spells.known_spells).toEqual([id('tie_thread'), id('cut_clean'), optionalOne, custom]);
+    expect(state.characters.find(char => char.id === otherCharacter.id)).toEqual(otherCharacter);
+    expect(useSpellbookStore.getState().spells.map(spell => spell.id))
+      .toEqual(expect.arrayContaining([signatureId, capstoneId]));
+    expect(__getLibrary().spells.map(spell => spell.id))
+      .toEqual(expect.arrayContaining([signatureId, capstoneId]));
+
+    act(() => useCharacterStore.setState({ level: 1 }));
+    function LibraryProbe() {
+      const library = useClassSpellLibrary();
+      return <output aria-label="fate-library">{library.getAllSpells().map(spell => spell.id).join(',')}</output>;
+    }
+    render(<LibraryProbe />);
+    await waitFor(() => expect(screen.getByLabelText('fate-library').textContent).toContain(optionalOne));
+    const visible = screen.getByLabelText('fate-library').textContent;
+    expect(visible).not.toContain(signatureId);
+    expect(visible).not.toContain(capstoneId);
   });
 
   test('fills Fate Weaver level categories 3/5/7/8/9/10 without changing Gambler', () => {

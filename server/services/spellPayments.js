@@ -117,12 +117,12 @@ function validateRoll(roll) {
   if (roll.total !== total) {fail('invalid_spell_approval');}
   return roll;
 }
-function validateApproval(approval) {
-  keys(approval, ['version', 'roomId', 'approvalId', 'actionEpoch', 'baseCommitSequence', 'source', 'target', 'spell', 'roll', 'price', 'classPayment']);
+function validateApprovalShape(approval, creature = false) {
+  keys(approval, ['version', 'roomId', 'approvalId', 'actionEpoch', 'baseCommitSequence', 'source', 'target', 'spell', 'roll', 'price', 'classPayment', ...(creature ? ['sourceAuthority'] : [])]);
   if (approval.version !== 1 || !text(approval.roomId) || !UUID.test(approval.approvalId || '') || !text(approval.actionEpoch) || !int(approval.baseCommitSequence) ||
     actors.bytes(approval) > 32768) {fail('invalid_spell_approval');}
   actors.validateRef(approval.source); actors.validateRef(approval.target);
-  if (approval.source.kind !== 'character' || approval.source.roomId !== approval.roomId || approval.target.roomId !== approval.roomId ||
+  if (approval.source.kind !== (creature ? 'creature' : 'character') || approval.source.roomId !== approval.roomId || approval.target.roomId !== approval.roomId ||
     approval.target.mapId !== approval.source.mapId) {fail('invalid_spell_approval');}
   keys(approval.spell, ['definitionId', 'definitionHash', 'name', 'kind', 'damageTypes']);
   if (!text(approval.spell.definitionId) || !/^(p9-spell:v1|authored-immediate:v1)\/[0-9a-f]{64}$/.test(approval.spell.definitionHash || '') || !text(approval.spell.name) ||
@@ -137,6 +137,15 @@ function validateApproval(approval) {
   }
   return approval;
 }
+function validateApproval(approval) { return validateApprovalShape(approval); }
+function validateCreatureApproval(approval) {
+  validateApprovalShape(approval, true);
+  keys(approval.sourceAuthority, ['admissionId', 'associationHash', 'gmUid']);
+  if (!UUID.test(approval.sourceAuthority.admissionId || '') || !/^[0-9a-f]{64}$/.test(approval.sourceAuthority.associationHash || '') || !text(approval.sourceAuthority.gmUid) ||
+    approval.target.kind !== 'creature' || hash(approval.source) === hash(approval.target) || approval.classPayment !== null ||
+    !approval.spell.definitionHash.startsWith('authored-immediate:v1/')) fail('unsupported_creature_target');
+  return approval;
+}
 /** Temporary pools are counted and spent first (approved creator rule). */
 function tempFirst(current, temp, amount) {
   if (![current, temp, amount].every(value => typeof value === 'number' && Number.isFinite(value) && value >= 0)) {fail('invalid_resources');}
@@ -144,9 +153,13 @@ function tempFirst(current, temp, amount) {
   const fromTemp = Math.min(temp, amount);
   return { current: current - (amount - fromTemp), temp: temp - fromTemp };
 }
-function sourcePools(token) {
-  const values = actors.resources(token, 'character');
+function sourcePools(token, kind = 'character') {
+  const values = actors.resources(token, kind);
   return values;
+}
+function validPool(pool) {
+  if (![pool.current, pool.temp, pool.max].every(v => typeof v === 'number' && Number.isFinite(v) && v >= 0) || pool.current > pool.max) fail('invalid_resources');
+  return pool;
 }
 /** Checks an approval against current authoritative room state. */
 function checkAgainstRoom(room, approval) {
@@ -157,10 +170,11 @@ function checkAgainstRoom(room, approval) {
   actors.assertCanAct(room, approval.source);
   const source = actors.locate(room, approval.source);
   const target = actors.locate(room, approval.target);
-  const pools = sourcePools(source.token);
+  const pools = sourcePools(source.token, approval.source.kind);
   for (const [pool, key] of [['ap', 'ap'], ['mana', 'mana']]) {
-    if (approval.price[key] > 0) {tempFirst(pools[pool].current, pools[pool].temp, approval.price[key]);}
+    if (approval.price[key] > 0) {if (approval.source.kind === 'creature') validPool(pools[pool]); tempFirst(pools[pool].current, pools[pool].temp, approval.price[key]);}
   }
+  if (approval.source.kind === 'creature') { validPool(pools.ap); validPool(actors.resources(target.token, 'creature').hp); }
   if (approval.classPayment) {
     if (hash(home(source.token)) !== hash({ domain: approval.classPayment.domain, value: approval.classPayment.before })) {fail('class_home_required');}
   }
@@ -179,7 +193,7 @@ function pendingFor(room, ownerUid, characterId) {
 }
 function add(room, entry) {
   const entries = registry(room);
-  if (pendingFor(room, entry.approval.source.ownerUid, entry.approval.source.characterId)) {fail('approval_pending');}
+  if (entry.approval.source.kind === 'creature' ? listAll(room).some(e => hash(e.approval.source) === hash(entry.approval.source)) : pendingFor(room, entry.approval.source.ownerUid, entry.approval.source.characterId)) {fail('approval_pending');}
   if ((closedApprovals.get(room)?.size || 0) >= CLOSED_LIMIT) {fail('approval_capacity');}
   if (entries.size >= 32 || actors.bytes(Array.from(entries.values()).map(value => value.approval).concat(entry.approval)) > 512 * 1024) {fail('approval_capacity');}
   entries.set(entry.approval.approvalId, entry);
@@ -199,7 +213,7 @@ function close(room, approvalId, code) {
 }
 function closedCode(room, approvalId) { return closedApprovals.get(room)?.get(approvalId) || null; }
 function consumedReceipt(room, approvalId) {
-  return actors.ledger(room).receipts.find(receipt => receipt.authorization?.kind === 'owner-approval-gm' && receipt.authorization.proposalId === approvalId) || null;
+  return actors.ledger(room).receipts.find(receipt => ['owner-approval-gm', 'gm-creature-ability'].includes(receipt.authorization?.kind) && receipt.authorization.proposalId === approvalId) || null;
 }
 /** GM-visible privacy projection: class values are reduced to public fields. */
 function gmProjection(entry) {
@@ -235,9 +249,12 @@ function bindCommand(room, player, command, authorization) {
   const capability = authored.isAuthored(approval.spell) ? authored.CAPABILITY : CAPABILITY;
   if (capability === authored.CAPABILITY) {
     checkAgainstRoom(room, approval);
-    if (actors.locate(room, approval.source).token.ownerUserId !== approval.source.ownerUid) {fail('forbidden');}
+    if (approval.source.kind === 'character' && actors.locate(room, approval.source).token.ownerUserId !== approval.source.ownerUid) {fail('forbidden');}
   }
-  if (!ownerMember(room, approval.source.ownerUid)) {fail('owner_unavailable');}
+  if (approval.source.kind === 'creature') {
+    validateCreatureApproval(approval);
+    if (entry.ownerUid !== room.gmId || authorization.authorizerUid !== room.gmId) fail('forbidden');
+  } else if (!ownerMember(room, approval.source.ownerUid)) {fail('owner_unavailable');}
   if (hash(command.source) !== hash(approval.source) || hash(command.target) !== hash(approval.target)) {fail('approval_mismatch');}
   const adjudication = command.adjudication || {};
   if (adjudication.definitionId !== approval.spell.definitionId || adjudication.definitionVersionOrHash !== approval.spell.definitionHash) {fail('approval_mismatch');}
@@ -256,7 +273,7 @@ function bindCommand(room, player, command, authorization) {
   }
   if (approval.classPayment && hash(home(source.token)) !== hash({ domain: approval.classPayment.domain, value: approval.classPayment.before })) {fail('owner_reapproval_required');}
   const self = hash(approval.source) === hash(approval.target);
-  const pools = sourcePools(source.token);
+  const pools = sourcePools(source.token, approval.source.kind);
   const expectedSource = {};
   for (const pool of ['ap', 'mana']) {
     if (approval.price[pool] > 0) {expectedSource[pool] = tempFirst(pools[pool].current, pools[pool].temp, approval.price[pool]);}
@@ -281,5 +298,5 @@ function bindCommand(room, player, command, authorization) {
   });
   return entry;
 }
-module.exports = { CAPABILITY, DOMAINS, ELEMENTS, PITCHES, validateValue, validatePrice, conserve, publicValue, home, validateEntry, validateApproval,
+module.exports = { CAPABILITY, DOMAINS, ELEMENTS, PITCHES, validateValue, validatePrice, conserve, publicValue, home, validateEntry, validateApproval, validateCreatureApproval,
   validateRoll, tempFirst, checkAgainstRoom, checkWindow, get, add, remove, listAll, close, closedCode, pendingFor, consumedReceipt, gmProjection, bindCommand, ownerMember };

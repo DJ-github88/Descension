@@ -1,3 +1,4 @@
+import ResourceOverflowModal from '../common/ResourceOverflowModal';
 import React, { useState, useEffect, useMemo } from 'react';
 import ReactDOM from 'react-dom';
 import useCharacterStore from '../../store/characterStore';
@@ -541,7 +542,7 @@ const BottleResource = ({ current, max, temp = 0, label, resourceType, onUpdate,
                     <span className="potion-name">{label}</span>
                     <span className="potion-values">
                         {current} / {max}
-                        {temp > 0 && <span className="potion-temp"> +{temp}</span>}
+                        {temp > 0 && <span className="potion-temp"> (+{temp})</span>}
                     </span>
                 </div>
             </div>
@@ -2028,12 +2029,20 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
         // Check for overheal (positive adjustment that would exceed max)
         if (adjustment > 0 && newValue > actualMax) {
             const overhealAmount = newValue - actualMax;
+            const tempFieldMap = {
+                'health': 'tempHealth',
+                'mana': 'tempMana',
+                'actionPoints': 'tempActionPoints'
+            };
+            const tempField = tempFieldMap[resourceType];
+            const currentTemp = (tempField && dataSource[tempField]) ? Number(dataSource[tempField]) : 0;
             setOverhealData({
                 resourceType,
                 adjustment,
                 overhealAmount,
                 currentValue,
-                maxValue: actualMax
+                maxValue: actualMax,
+                currentTemp
             });
             setShowOverhealModal(true);
             return; // Don't apply yet, wait for user confirmation
@@ -2845,107 +2854,18 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
                 />
             )}
 
-            {/* Overheal Confirmation Modal */}
-            {showOverhealModal && overhealData && ReactDOM.createPortal(
-                <div
-                    className="modal-overlay"
-                    style={{
-                        position: 'fixed',
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        bottom: 0,
-                        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        zIndex: 10001,
-                        margin: 0,
-                        padding: 0
-                    }}
-                    onClick={() => {
-                        setShowOverhealModal(false);
-                        setOverhealData(null);
-                    }}
-                >
-                    <div
-                        className="overheal-modal"
-                        style={{
-                            backgroundColor: '#f0e6d2',
-                            border: '2px solid #a08c70',
-                            borderRadius: '8px',
-                            padding: '20px',
-                            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
-                            fontFamily: "'Bookman Old Style', 'Garamond', serif",
-                            color: '#7a3b2e',
-                            minWidth: '350px',
-                            textAlign: 'center'
-                        }}
-                        onClick={(e) => e.stopPropagation()}
-                    >
-                        <h3 style={{ margin: '0 0 15px 0', fontSize: '16px' }}>
-                            Overheal Detected
-                        </h3>
-                        <p style={{ margin: '0 0 20px 0', fontSize: '14px' }}>
-                            This would restore {overhealData.adjustment} {overhealData.resourceType === 'health' ? 'HP' : overhealData.resourceType === 'mana' ? 'Mana' : 'AP'},
-                            but the current value is {overhealData.currentValue}/{overhealData.maxValue}.
-                            <br />
-                            <strong>{overhealData.overhealAmount}</strong> would exceed the maximum.
-                        </p>
-                        <p style={{ margin: '0 0 20px 0', fontSize: '13px', fontStyle: 'italic' }}>
-                            Would you like to add the excess as temporary {overhealData.resourceType === 'health' ? 'HP' : overhealData.resourceType === 'mana' ? 'Mana' : 'AP'}?
-                        </p>
-                        <div style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
-                            <button
-                                style={{
-                                    padding: '8px 16px',
-                                    border: '1px solid #a08c70',
-                                    borderRadius: '4px',
-                                    backgroundColor: '#d4c4a8',
-                                    color: '#7a3b2e',
-                                    cursor: 'pointer',
-                                    fontSize: '12px'
-                                }}
-                                onClick={() => applyResourceAdjustment(true)}
-                            >
-                                Add as Temporary
-                            </button>
-                            <button
-                                style={{
-                                    padding: '8px 16px',
-                                    border: '1px solid #a08c70',
-                                    borderRadius: '4px',
-                                    backgroundColor: '#d4c4a8',
-                                    color: '#7a3b2e',
-                                    cursor: 'pointer',
-                                    fontSize: '12px'
-                                }}
-                                onClick={() => applyResourceAdjustment(false)}
-                            >
-                                Cap at Maximum
-                            </button>
-                            <button
-                                style={{
-                                    padding: '8px 16px',
-                                    border: '1px solid #a08c70',
-                                    borderRadius: '4px',
-                                    backgroundColor: '#e8dcc0',
-                                    color: '#7a3b2e',
-                                    cursor: 'pointer',
-                                    fontSize: '12px'
-                                }}
-                                onClick={() => {
-                                    setShowOverhealModal(false);
-                                    setOverhealData(null);
-                                }}
-                            >
-                                Cancel
-                            </button>
-                        </div>
-                    </div>
-                </div>,
-                document.body
-            )}
+            {/* Resource Overflow / Overheal Confirmation Modal — Calm TTRPG Manuscript Theme */}
+            <ResourceOverflowModal
+                isOpen={showOverhealModal && !!overhealData}
+                data={overhealData}
+                targetName={dataSource?.name || name || 'Character'}
+                onCancel={() => {
+                    setShowOverhealModal(false);
+                    setOverhealData(null);
+                }}
+                onCap={() => applyResourceAdjustment(false)}
+                onAddTemporary={() => applyResourceAdjustment(true)}
+            />
 
             {hoveredStat && (
                 <TooltipPortal>

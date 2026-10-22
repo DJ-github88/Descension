@@ -1,6 +1,6 @@
 # P14-A3 — Creature Wizard ability producer
 
-2026-10-22 · **FROZEN before implementation.** Authorized bounded producer; execution remains PC-only.
+2026-10-22 · **FROZEN before implementation; delivered; bounded independent ACCEPT; Build1/App9 PASS (qualified).** Execution remains PC-only.
 
 ## Current source and workflow
 
@@ -62,3 +62,36 @@ one detached production build with source identity, production App walkthrough a
 independent delta review. Bulk evidence external; no commit/push/deploy/reset/upgrade/migration.
 
 Creature-source authority is a separate follow-on contract, not implemented by this producer.
+
+## Delivered workflow and evidence
+
+1. Tools → Library → Bestiary → Create New, or right-click a saved creature → Edit.
+   Open step3 Abilities → Separate activated ability. Add, or choose a compatible saved
+   Spell Library definition; inspect/edit name, type/formula, explicit AP/mana/range and
+   one target. **Keep ability on creature** explicitly retains it. Keep/Cancel gates step
+   navigation/save; session drafts are exact-creature/account scoped and survive window/
+   tab close/reopen. Cancelled new abilities do not resurrect. Page reload durability is
+   not added. Existing creature abilities remain separate and retain their full records.
+2. Step5 Shop Config → Save Creature. Reopen Edit → Abilities to inspect/edit the same
+   UUID/content. Right-click the library creature → Inspect → Abilities & Spells; inspect
+   the whole JSON when needed. Choose an existing class binding → **Admit this saved
+   version**. This is normal A1 admission, no resources spent and no creature casting.
+3. Placed token → Token Actions → Inspect → Abilities & Spells shows its own preserved
+   association. Editing the template leaves this old instance unchanged. Explicitly
+   admitting a template's revised record creates/selects A1's immutable version; old
+   history remains unchanged. A1's incumbent status compares the latest installed version;
+   an older placed copy may say Changed sincev2 even though itsv1 remains installed.
+4. Normal owner-PC Admitted abilities can reuse the definition only under unchanged A1
+   permissions. The creature surfaces expose **no Cast/Use launcher**. Unsupported whole
+   records remain inspectable/manual; never execute a supported fragment.
+
+[Independent acceptance and exact identities](MYTHRILL_PROJECT_14_A3_ACCEPTANCE.md) records
+6 client suites54 tests, A1 server10, reviewer8 repair probes/final6 tests, one optimized
+build and App9. Runtime files: shared ItemAbilityEditor compact form options only;
+CreatureAuthoredAbility; CreatureWizardApp/context/Step3; CreatureLibrary duplicate;
+ExternalCreaturePreview/EnhancedCreatureInspectView; CreatureWizard.css; creatureStore.
+Tests/witnesses: CreatureAuthoredAbility.test.jsx, creature-app-browser.cjs and
+record-creature-evidence.cjs. No A1 engine/W1/compiler/Class/Heritage writes by this agent.
+All bulk stays external. Later concurrent overflow UI drift is disclosed, not overwritten
+or claimed built. [A4 preparation](MYTHRILL_PROJECT_14_A4_SOURCE_AUTHORITY_CONTRACT.md)
+identifies the new creature-source authority capability actually required.

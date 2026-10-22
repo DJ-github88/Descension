@@ -401,7 +401,7 @@ function stage(room, player, uid, command, authorization, confirmedRevision) {
     entries.push({ ref: actor.ref, beforeRevision: actor.expectedRevision, afterRevision: actor.expectedRevision + 1, finalResources: resources(token, actor.ref.kind), conditions: clone(records),
       ...(classPayment ? { classPayment } : {}), ...(blocking ? { blocking } : {}), ...(equipmentWear ? { equipmentWear } : {}) });
   }
-  return finishStage(room, uid, command, approved ? { kind: 'owner-approval-gm', authorizerUid: uid, proposalId: approved.approval.approvalId, approvalHash: approved.contentHash } : authorization,
+  return finishStage(room, uid, command, approved ? { kind: binder === require('./spellPayments') && approved.approval.source.kind === 'creature' ? 'gm-creature-ability' : 'owner-approval-gm', authorizerUid: uid, proposalId: approved.approval.approvalId, approvalHash: approved.contentHash } : authorization,
     confirmedRevision, next, entries, approved, binder);
 }
 // Same ledger/pruning/projection finalizer for actor effects and bounded administrative turn state.
@@ -422,7 +422,8 @@ function finishStage(room, uid, command, authorization, confirmedRevision, next,
     if (!retained.length || retained[0].checkpointRevision === null || retained[0].checkpointRevision > confirmedRevision) {fail('receipt_capacity');}
     replayFloor = retained.shift().commitSequence;
   }
-  next.actorConsequences = { version: 1, admissionEpoch: epoch(room), commitSequence: receipt.commitSequence, replayFloor, receipts: [...retained, receipt] };
+  next.actorConsequences = { version: 1, admissionEpoch: epoch(room), commitSequence: receipt.commitSequence, replayFloor, receipts: [...retained, receipt],
+    ...(prior.authoredSourceAdmissions ? { authoredSourceAdmissions: clone(prior.authoredSourceAdmissions) } : {}) };
   const mirrors = checkpoint.deriveRootMirrors(next.maps);
   if (mirrors.collisions.length) {fail('actor_binding_conflict');}
   next.tokens = mirrors.tokens; next.characterTokens = mirrors.characterTokens; next.gridItems = mirrors.gridItems;
