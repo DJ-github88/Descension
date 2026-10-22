@@ -526,6 +526,20 @@ const reservationAliases = link => {
 
 const consentSide = (consent, keys) => {
   const values = keys.filter(key => hasOwn(consent, key)).map(key => consent[key]);
+  if (values.length === 0) return { present: false, granted: false, contradictory: false, values };
+  const contradictory = values.some(value => typeof value !== 'boolean')
+    || (values.some(value => value === true) && values.some(value => value === false));
+  return { present: true, granted: !contradictory && values.every(value => value === true), contradictory, values };
+};
+
+const consentEndpoint = (link, consent, keys, topLevelKey) => {
+  const nested = consent && typeof consent === 'object'
+    ? consentSide(consent, keys)
+    : { present: false, granted: false, contradictory: false, values: [] };
+  const values = [
+    ...nested.values,
+    ...(hasOwn(link || {}, topLevelKey) ? [link[topLevelKey]] : [])
+  ];
   if (values.length === 0) return { present: false, granted: false, contradictory: false };
   const contradictory = values.some(value => typeof value !== 'boolean')
     || (values.some(value => value === true) && values.some(value => value === false));
@@ -534,18 +548,21 @@ const consentSide = (consent, keys) => {
 
 const hasBothConsent = link => {
   const consent = link?.consent;
-  if (consent === 'both' || consent === 'mutual') return true;
-  if (consent && typeof consent === 'object') {
-    const source = consentSide(consent, ['source', 'sourceId', 'from']);
-    const target = consentSide(consent, ['target', 'targetId', 'to']);
-    const both = hasOwn(consent, 'both') ? consent.both : undefined;
-    if (both !== undefined && typeof both !== 'boolean') return false;
-    if (both === false && (source.granted || target.granted)) return false;
-    if (source.contradictory || target.contradictory) return false;
-    return (both === true || (source.granted && target.granted))
-      && !(source.present && !source.granted) && !(target.present && !target.granted);
+  const namedConsent = consent === 'both' || consent === 'mutual';
+  if (consent !== undefined && consent !== null && typeof consent !== 'object' && !namedConsent) return false;
+  const source = consentEndpoint(link, consent, ['source', 'sourceId', 'from'], 'sourceConsent');
+  const target = consentEndpoint(link, consent, ['target', 'targetId', 'to'], 'targetConsent');
+  if (source.contradictory || target.contradictory) return false;
+  if (namedConsent) {
+    return !(source.present && !source.granted) && !(target.present && !target.granted);
   }
-  return link?.sourceConsent === true && link?.targetConsent === true;
+  const both = consent && typeof consent === 'object' && hasOwn(consent, 'both') ? consent.both : undefined;
+  if (both !== undefined && typeof both !== 'boolean') return false;
+  if (both === false && (source.granted || target.granted)) return false;
+  if (both === true && ((source.present && !source.granted) || (target.present && !target.granted))) return false;
+  const sourceOk = source.present ? source.granted : both === true;
+  const targetOk = target.present ? target.granted : both === true;
+  return sourceOk && targetOk && (source.present || target.present || both === true);
 };
 
 const expiryAliases = link => {

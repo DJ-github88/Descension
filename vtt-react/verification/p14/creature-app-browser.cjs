@@ -26,7 +26,7 @@ async function finish(page) { await wizard(page).getByRole('button', { name: '5 
 async function inspect(page, name) {
   await cardAction(page, name, 'Inspect');
   const view = page.locator('.creature-inspect-container'); await view.waitFor();
-  await page.getByRole('button', { name: 'Abilities & Spells', exact: true }).last().click();
+  const abilities = page.getByRole('button', { name: 'Abilities & Spells', exact: true }).last(); await abilities.focus(); await abilities.press('Enter');
   const region = page.getByRole('region', { name: 'Creature activated ability', exact: true }); await region.waitFor();
   assert.equal(await region.getByRole('button', { name: /Cast|Use .*ability/ }).count(), 0);
   return region;
