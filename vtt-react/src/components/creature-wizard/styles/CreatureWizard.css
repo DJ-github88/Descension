@@ -571,3 +571,4 @@
   opacity: 0.8;
   margin-top: 2px;
 }
+.creature-ability-json { white-space: pre-wrap; overflow-wrap: anywhere; max-height: 20rem; overflow: auto; color: #30271d; }

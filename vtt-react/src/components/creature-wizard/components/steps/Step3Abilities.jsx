@@ -4,6 +4,7 @@ import '../../styles/WizardSteps.css';
 import './Step3Abilities.css';
 
 import BasicAbilityCreator from '../windows/BasicAbilityCreator';
+import CreatureAbilityEditor from '../common/CreatureAuthoredAbility';
 import { showConfirm } from '../../../../utils/dialogService';
 import UnifiedSpellCard from '../../../spellcrafting-wizard/components/common/UnifiedSpellCard';
 import '../../../spellcrafting-wizard/styles/pathfinder/main.css';
@@ -1274,6 +1275,7 @@ const Step3Abilities = () => {
   return (
       <div className="wizard-step">
         <div className="abilities-inner-content">
+          <CreatureAbilityEditor />
           <div className="abilities-header-section">
             <h2>Abilities & Spells</h2>
             <div className="abilities-header-buttons">

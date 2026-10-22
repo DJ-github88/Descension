@@ -4,9 +4,10 @@ import { newItemAbility, snapshotAbility, itemAbilitySupport, editItemAbility } 
 import './ItemAbility.css';
 
 const types = ['arcane', 'sacred', 'blight', 'ember', 'rime', 'primal', 'storm', 'wyrd', 'slicing', 'stabbing', 'smashing'];
-function CompactForm({ association, onKeep, onCancel }) {
+export function CompactForm({ association, onKeep, onCancel, subject = 'item', initialValues, onValuesChange }) {
   const d = itemAbilitySupport(association).definition;
-  const [values, setValues] = useState({ name: d.name, description: d.description, kind: d.effect.kind, formula: d.effect.formula, damageType: d.effect.damageTypes?.[0] || 'arcane', ap: d.resourceCost.actionPoints, mana: d.resourceCost.mana, range: d.targeting.rangeFeet, restriction: d.targeting.restriction });
+  const [values, setLocalValues] = useState(initialValues || { name: d.name, description: d.description, kind: d.effect.kind, formula: d.effect.formula, damageType: d.effect.damageTypes?.[0] || 'arcane', ap: d.resourceCost.actionPoints, mana: d.resourceCost.mana, range: d.targeting.rangeFeet, restriction: d.targeting.restriction });
+  const setValues = change => { const next = change(values); setLocalValues(next); onValuesChange?.(next); };
   const [error, setError] = useState('');
   const text = key => ({ value: values[key], onChange: e => setValues(v => ({ ...v, [key]: e.target.value })) });
   const number = key => ({ value: values[key], onChange: e => setValues(v => ({ ...v, [key]: e.target.value === '' ? '' : Number(e.target.value) })) });
@@ -24,7 +25,7 @@ function CompactForm({ association, onKeep, onCancel }) {
     </div>
     <label>One target<select {...text('restriction')}><option value="any">Any supported target</option><option value="self">Self</option><option value="ally">Ally — GM confirms</option><option value="enemy">Enemy — GM confirms</option></select></label>
     {error && <p role="alert">{error}</p>}
-    <button type="button" onClick={() => { try { onKeep(editItemAbility(association, values)); } catch (e) { setError(e.message); } }}>Keep ability on item</button>
+    <button type="button" onClick={() => { try { onKeep(editItemAbility(association, values)); } catch (e) { setError(e.message); } }}>Keep ability on {subject}</button>
     <button type="button" onClick={onCancel}>Cancel ability edit</button>
   </div>;
 }

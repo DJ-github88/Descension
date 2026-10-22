@@ -17,6 +17,7 @@ jest.mock('../../../../../persistence/spellLibraryScopedStorage', () => ({
 }));
 
 jest.mock('../../../../../utils/assetManager', () => ({
+  getIconUrl: jest.fn(() => 'test-icon.png'),
   getAbilityIconUrl: jest.fn(() => 'test-icon.png'),
   getCustomIconUrl: jest.fn(() => 'fallback-icon.png')
 }));

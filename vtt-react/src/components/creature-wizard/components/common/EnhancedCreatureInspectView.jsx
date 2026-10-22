@@ -35,6 +35,7 @@ import '../../../spellcrafting-wizard/styles/pathfinder/main.css';
 import '../../../../styles/skills.css';
 import '../../../../styles/character-sheet.css';
 import './EnhancedCreatureInspectView.css';
+import { CreatureAbilityDetails } from './CreatureAuthoredAbility';
 
 // Helper function to calculate ability modifier
 const calculateModifier = (value) => {
@@ -2791,6 +2792,7 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
             )}
 
             <div className="creature-section-content">
+              {activeSection === 'abilities' && <CreatureAbilityDetails association={token ? token.authoredAbility : creature.authoredAbility} saved />}
               {renderContent()}
             </div>
           </div>

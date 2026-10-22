@@ -143,6 +143,9 @@ const useCreatureStore = create((set, get) => ({
     // This ensures all tokens have proper state structure
     // MUST be computed BEFORE sync block (line 136) to avoid ReferenceError
     const normalizedCreature = normalizeTokenData(creatureData, 'creature');
+    if (Object.prototype.hasOwnProperty.call(creatureData, 'authoredAbility')) {
+      normalizedCreature.authoredAbility = JSON.parse(JSON.stringify(creatureData.authoredAbility));
+    }
 
     set((state) => {
       // Use captured mapId unless creature specifically defines one
@@ -421,6 +424,8 @@ const useCreatureStore = create((set, get) => ({
 
   // Update creature data in BOTH the library and any placed grid tokens
   updateCreature: (creatureId, updates) => set(state => {
+    // A template save must never replace an existing instance's detached ability or identity.
+    const { authoredAbility, id, ...instanceUpdates } = updates;
     // Update library creatures array
     const updatedLibrary = (state.creatures || []).map(c =>
       c.id === creatureId
@@ -431,7 +436,7 @@ const useCreatureStore = create((set, get) => ({
     // Update all grid tokens that reference this creature (by creatureId OR token id)
     const updatedTokens = (state.creatureTokens || []).map(token =>
       (token.id === creatureId || token.creatureId === creatureId)
-        ? { ...token, ...updates }
+        ? { ...token, ...instanceUpdates }
         : token
     );
 
@@ -446,15 +451,15 @@ const useCreatureStore = create((set, get) => ({
 
         gameStore.multiplayerSocket.emit('token_updated', {
           tokenId: creatureId,
-          updates: updates,
+          updates: instanceUpdates,
           mapId: currentMapId,
           updatedBy: gameStore.multiplayerSocket.id
         });
 
         gameStore.multiplayerSocket.emit('creature_updated', {
           tokenId: creatureId,
-          updates: updates,
-          stateUpdates: updates,
+          updates: instanceUpdates,
+          stateUpdates: instanceUpdates,
           mapId: currentMapId
         });
       }

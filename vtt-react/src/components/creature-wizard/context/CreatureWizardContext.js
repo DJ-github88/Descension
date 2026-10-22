@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useReducer, useEffect } from 'react';
+import useAuthStore from '../../../store/authStore';
 
 // Creature types and sizes
 export const CREATURE_TYPES = {
@@ -64,6 +65,8 @@ const DEFAULT_STATS = {
 
 // Initial state for the wizard
 const initialState = {
+  abilityEdit: null,
+  _authoringKey: '__new__',
   // Basic info
   id: null,
   name: '',
@@ -358,18 +361,21 @@ function creatureWizardReducer(state, action) {
       };
 
     case ACTION_TYPES.NEXT_STEP:
+      if (state.abilityEdit) return state;
       return {
         ...state,
         currentStep: Math.min(state.currentStep + 1, state.totalSteps)
       };
       
     case ACTION_TYPES.PREV_STEP:
+      if (state.abilityEdit) return state;
       return {
         ...state,
         currentStep: Math.max(state.currentStep - 1, 1)
       };
       
     case ACTION_TYPES.GO_TO_STEP:
+      if (state.abilityEdit) return state;
       return {
         ...state,
         currentStep: Math.max(1, Math.min(action.payload, state.totalSteps))
@@ -425,6 +431,7 @@ function creatureWizardReducer(state, action) {
       return {
         ...initialState,
         ...action.payload,
+        _authoringKey: `edit_${action.payload.id}`,
         originalCreatureId: action.payload.id,
         currentStep: 1
       };
@@ -445,8 +452,17 @@ const CreatureWizardStateContext = createContext();
 const CreatureWizardDispatchContext = createContext();
 
 // Provider component
+// Session-only unfinished editor state. No durable storage, authority or replay queue.
+let retainedWizardState = null;
+let retainedOwner = null;
 export function CreatureWizardProvider({ children }) {
-  const [state, dispatch] = useReducer(creatureWizardReducer, initialState);
+  const owner = useAuthStore(s => s.user?.uid || null);
+  const [state, dispatch] = useReducer(creatureWizardReducer, retainedOwner === owner ? retainedWizardState || initialState : initialState);
+  const ownerRef = React.useRef(owner);
+  useEffect(() => {
+    if (ownerRef.current !== owner) { ownerRef.current = owner; retainedWizardState = null; retainedOwner = owner; dispatch({ type: ACTION_TYPES.RESET_WIZARD }); }
+    else { retainedOwner = owner; retainedWizardState = state; }
+  }, [state, owner]);
   
   // Validate current step only when step changes (not on every state change)
   useEffect(() => {

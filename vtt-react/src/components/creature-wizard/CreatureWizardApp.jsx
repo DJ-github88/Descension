@@ -10,6 +10,7 @@ import Step4LootTable from './components/steps/Step4LootTable';
 import Step5ShopConfiguration from './components/steps/Step5ShopConfiguration';
 import ExternalCreaturePreview from './components/common/ExternalCreaturePreview';
 import './styles/CreatureWizard.css';
+import { clone } from '../../services/itemAuthoredAbility';
 
 import { normalizeDangerLevel, CREATURE_PRESETS } from '../books/BookTtrpgBlocks';
 
@@ -36,19 +37,8 @@ export const normalizeCreatureForWizard = (raw = {}) => {
 
   // Build abilities list from existing abilities, traits, and actions
   let abilities = [];
-  if (Array.isArray(raw.abilities) && raw.abilities.length > 0) {
-    abilities = raw.abilities.map((a) => ({
-      id: a.id || generateUniqueId(),
-      name: a.name || a.title || 'Ability',
-      type: a.type || 'melee',
-      description: a.description || a.desc || '',
-      actionPointCost: typeof a.actionPointCost === 'number' ? a.actionPointCost : (typeof a.cost === 'number' ? a.cost : 1),
-      manaCost: Number(a.manaCost) || 0,
-      damage: a.damage || { diceCount: 1, diceType: 6, bonus: 0, damageType: 'smashing' },
-      range: Number(a.range) || 5,
-      cooldown: Number(a.cooldown) || 0,
-      effects: Array.isArray(a.effects) ? a.effects : []
-    }));
+  if (Array.isArray(raw.abilities)) {
+    abilities = clone(raw.abilities);
   } else {
     if (Array.isArray(raw.traits)) {
       raw.traits.forEach((t) => {
@@ -92,6 +82,7 @@ export const normalizeCreatureForWizard = (raw = {}) => {
   const customImg = raw.customTokenImage || (raw.illustration || (raw.image && raw.image.startsWith('http') ? raw.image : null));
 
   return {
+    ...clone(raw),
     id: raw.id || generateUniqueId(),
     name: raw.name || raw.title || 'Unnamed Creature',
     description: raw.description || raw.desc || raw.lore || '',
@@ -117,6 +108,7 @@ export const normalizeCreatureForWizard = (raw = {}) => {
     illustration: raw.illustration || (raw.image && raw.image.startsWith('http') ? raw.image : null),
     illustrationCaption: raw.illustrationCaption || '',
     stats: {
+      ...clone(stats),
       strength: Number(stats.strength ?? raw.strength ?? 10) || 10,
       agility: Number(stats.agility ?? raw.agility ?? 10) || 10,
       constitution: Number(stats.constitution ?? raw.constitution ?? 10) || 10,
@@ -204,6 +196,14 @@ const CreatureWizardApp = ({
   const loadedRef = React.useRef(null);
 
   useEffect(() => {
+    // Reopening the same session edit must not replace pending values with its template.
+    if (loadedRef.current === null && (wizardState.abilityEdit || wizardState.authoredAbility !== undefined)) {
+      const requestedKey = initialCreature ? `edit_${initialCreature.id}` : editMode ? `edit_${creatureId}` : '__new__';
+      if (wizardState.abilityEdit || requestedKey === wizardState._authoringKey) {
+        loadedRef.current = initialCreature ? `init_${initialCreature.id || initialCreature.name}` : requestedKey;
+        return;
+      }
+    }
     if (initialCreature && (initialCreature.name || initialCreature.id)) {
       const initKey = `init_${initialCreature.id || initialCreature.name}`;
       if (loadedRef.current !== initKey) {
@@ -262,11 +262,13 @@ const CreatureWizardApp = ({
 
   // Handle save button click
   const handleSave = async () => {
+    if (wizardState.abilityEdit) return;
     setIsSubmitting(true);
 
     try {
       // Prepare creature data
       const creatureData = {
+        ...Object.fromEntries(Object.entries(wizardState).filter(([key]) => !['currentStep', 'totalSteps', 'isValid', 'validationErrors', 'editMode', 'originalCreatureId', 'abilityEdit', '_authoringKey'].includes(key))),
         name: wizardState.name,
         description: wizardState.description,
         type: wizardState.type,
@@ -304,8 +306,8 @@ const CreatureWizardApp = ({
 
       let finalSavedCreature = null;
 
-      if (editMode || wizardState.originalCreatureId || creatureId) {
-        const targetId = wizardState.originalCreatureId || creatureId || generateUniqueId();
+      if (wizardState.originalCreatureId) {
+        const targetId = wizardState.originalCreatureId;
         finalSavedCreature = {
           ...creatureData,
           id: targetId,
@@ -432,7 +434,7 @@ const CreatureWizardApp = ({
               type="button"
               className="creature-wizard-button secondary creature-wizard-back"
               onClick={handlePrevStep}
-              disabled={isSubmitting || wizardState.currentStep <= 1}
+                disabled={isSubmitting || !!wizardState.abilityEdit || wizardState.currentStep <= 1}
             >
               <i className="fas fa-arrow-left"></i> Back
             </button>
@@ -441,7 +443,7 @@ const CreatureWizardApp = ({
           <div className="wizard-step-rail">
             {stepNames.map((step, index) => (
               <React.Fragment key={index}>
-                <div 
+                <button type="button" disabled={!!wizardState.abilityEdit}
                   className={`wizard-step-indicator ${getStepStatus(index)}`}
                   onClick={() => wizardDispatch(wizardActionCreators.goToStep(index + 1))}
                   title={step.description}
@@ -452,7 +454,7 @@ const CreatureWizardApp = ({
                   <div className="step-label-container">
                     <span className="step-nav-name">{step.name}</span>
                   </div>
-                </div>
+                </button>
                 {index < stepNames.length - 1 && (
                   <div className={`wizard-step-connector ${index + 1 < wizardState.currentStep ? 'completed' : ''}`} />
                 )}
@@ -466,7 +468,7 @@ const CreatureWizardApp = ({
               <button
                 className="creature-wizard-button primary"
                 onClick={handleNextStep}
-                disabled={isSubmitting}
+                disabled={isSubmitting || !!wizardState.abilityEdit}
               >
                 Next: {stepNames[wizardState.currentStep]?.name || 'Step'} <i className="fas fa-arrow-right"></i>
               </button>
@@ -474,7 +476,7 @@ const CreatureWizardApp = ({
               <button
                 className="creature-wizard-button primary"
                 onClick={handleSave}
-                disabled={isSubmitting || !wizardState.isValid}
+                disabled={isSubmitting || !!wizardState.abilityEdit || !wizardState.isValid}
               >
                 {isSubmitting ? 'Saving...' : 'Save Creature'} <i className="fas fa-check"></i>
               </button>

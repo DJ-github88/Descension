@@ -20,6 +20,7 @@ jest.mock('../../../context/SpellLibraryContext', () => ({
 }));
 
 jest.mock('../../../../../utils/assetManager', () => ({
+  getIconUrl: (icon) => `http://mock-icons/${icon}.png`,
   getAbilityIconUrl: (icon) => `http://mock-icons/${icon}.png`,
   getCustomIconUrl: (icon) => `http://mock-icons/${icon}.png`
 }));
