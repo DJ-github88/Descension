@@ -19,7 +19,7 @@ export function CreatureAbilityDetails({ association: suppliedAssociation, saved
   const sourceInstance = sourceRef?.instanceId;
   useEffect(() => { if (token && sourceInstance && gm && shared) refreshAuthoredAbilities(); }, [token, sourceInstance, gm, shared]);
   const perform = async action => { setBusy(true); try { const r = await action(); if (r?.success === false) setMessage(r.error || r.code); else setMessage(''); } catch (e) { setMessage(e.message); } finally { setBusy(false); } };
-  if (association === undefined) return null;
+  if (association === undefined) return token && shared && gm && !sourceRef ? <section className="item-ability" aria-label="Creature activated ability"><h3>Placed creature ability</h3><p>Bind this exact placed actor to inspect its saved association securely. Binding spends nothing.</p><button type="button" disabled={busy} onClick={() => perform(() => bindActor(token.id, 'creature'))}>Bind this placed creature</button>{message && <p role="status">{message}</p>}</section> : null;
   const support = itemAbilitySupport(association), d = support.definition;
   return <section className="item-ability" aria-label="Creature activated ability">
     <h3>{association?.record?.name || 'Preserved activated ability'}</h3>

@@ -94,6 +94,9 @@ Production-placement reconciliation adds a narrow `tokenHandlers.js` capture of 
 from the existing creature placement payload (plus its existing name/position). Ordinary public token
 projection does not publish raw Wizard drafts. GM-only authored lookup supplies exact placed snapshots
 for Inspect, including after reload; observer lookup does not expose them. Request-ID identity history
+also requires `roomAccessService.js` to expose a positive numeric stat/bounds projection for placed
+associated custom creatures: without it a client with no local template cannot render the token after
+reload. Raw draft/private fields remain excluded. No armor field or mitigation rule is added.
 is bounded under the existing protected actorConsequences ledger and retained by its finalizer.
 The shared actorConsequenceService projection additionally preserves authoritative unavailable unused
 creature pools as absent; it never turns them into zero or rejects an otherwise accepted A4 receipt.

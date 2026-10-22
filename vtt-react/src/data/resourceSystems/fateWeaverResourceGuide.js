@@ -6,8 +6,7 @@ export const fateWeaverResourceGuide = {
     { icon: 'fa-link', label: 'Threads', value: '3 tokens | max 3 links' },
     { icon: 'fa-ruler-combined', label: 'Range', value: '30 ft formation each | 60 ft maintenance separation' },
     { icon: 'fa-handshake', label: 'Consent', value: 'recorded both ways' },
-    { icon: 'fa-hourglass-half', label: 'Recovery', value: 'closed + exhausted | owning caster next own turn' },
-    { icon: 'fa-book', label: 'Mode', value: 'manual tabletop only' }
+    { icon: 'fa-hourglass-half', label: 'Recovery', value: 'closed + exhausted | owning caster next own turn' }
   ],
   loop: {
     gain: { title: 'Reserve a Real Thread', icon: 'fa-link', text: 'Tie the Thread reserves one of three tokens and records both endpoints, a public purpose, consent, one use and expiry. Tie and Cut are core grants.' },

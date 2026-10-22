@@ -173,6 +173,7 @@ function registerActorConsequenceHandlers(ctx) {
       const plan = await (operation === 'admit' ? planner.planAdmit(before, request) : planner.planRevoke(before, request));
       if (!plan.ok) {actors.fail(plan.code, plan.path);}
       current(captured);
+      if ((actors.ledger(captured.room).authoredSourceAdmissions || []).some(e => e.requestId === data.requestId)) actors.fail('REQUEST_ID_CONFLICT');
       if (actors.hash(installed.registry(captured.room)) !== actors.hash(before)) {actors.fail('REVISION_CONFLICT');}
       if (plan.kind === 'transition') {
         const next = actors.clone(captured.room.gameState); next.authoredSpellRegistry = actors.clone(plan.nextRegistry);
@@ -418,12 +419,19 @@ function registerActorConsequenceHandlers(ctx) {
     }
     const entry = payments.get(room, data.approvalId);
     if (!entry) {
+      const closed = payments.closedEntry(room, data.approvalId);
+      if (data.approval && closed?.code === 'withdrawn') {
+        payments.validateCreatureApproval(data.approval);
+        if (!isGM || closed.ownerUid !== uid || data.approval.sourceAuthority.gmUid !== uid || data.approval.approvalId !== data.approvalId || data.approval.roomId !== room.id) actors.fail('forbidden');
+        if (closed.contentHash !== actors.hash(data.approval)) actors.fail('command_id_conflict');
+        respond(ack, { success: true, code: 'withdrawn', approvalId: data.approvalId, contentHash: closed.contentHash }); return;
+      }
       if (data.approval && !payments.closedCode(room, data.approvalId)) {
         payments.validateCreatureApproval(data.approval);
         if (!isGM || data.approval.sourceAuthority.gmUid !== uid || data.approval.approvalId !== data.approvalId || data.approval.roomId !== room.id) actors.fail('forbidden');
         if (data.approval.actionEpoch !== actors.epoch(room)) actors.fail('outcome_unknown');
         payments.checkWindow(room, data.approval);
-        payments.close(room, data.approvalId, 'withdrawn');
+        payments.close(room, data.approvalId, 'withdrawn', { contentHash: actors.hash(data.approval), ownerUid: uid });
         respond(ack, { success: true, code: 'withdrawn', approvalId: data.approvalId, contentHash: actors.hash(data.approval) }); return;
       }
       actors.fail(payments.closedCode(room, data.approvalId) ? `approval_${payments.closedCode(room, data.approvalId)}` : 'outcome_unknown');

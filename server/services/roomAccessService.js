@@ -997,6 +997,11 @@ function projectStateUpdates(updates) {
 function projectTokenCharacter(token) {
   if (!token || typeof token !== 'object' || Array.isArray(token)) {return null;}
   const out = {};
+  // A4 placed custom creatures must remain inspectable after library-less reload.
+  // Public numeric display bounds only; raw associated drafts still use GM-only lookup.
+  if (Object.prototype.hasOwnProperty.call(token, 'authoredAbility') && token.stats && !token.character) {
+    out.stats = Object.fromEntries(['strength', 'agility', 'constitution', 'intelligence', 'spirit', 'charisma', 'maxHp', 'maxMana', 'maxAP', 'maxActionPoints', 'damageReduction', 'speed', 'sightRange', 'darkvision'].filter(k => Number.isFinite(token.stats[k])).map(k => [k, token.stats[k]]));
+  }
   for (const key of SUPPORTED_TOKEN_KEYS) {
     if (!(key in token)) {continue;}
     const value = token[key];

@@ -205,13 +205,14 @@ function listAll(room) { return Array.from(approvals.get(room)?.values() || []);
 // A runtime change resets them, but a new runtime also has a new admission epoch,
 // so an old approval is outcome_unknown there and can never be registered again.
 const CLOSED_LIMIT = 4096;
-function close(room, approvalId, code) {
+function close(room, approvalId, code, evidence = get(room, approvalId)) {
   let closed = closedApprovals.get(room);
   if (!closed) {closed = new Map(); closedApprovals.set(room, closed);}
-  closed.set(approvalId, code);
+  closed.set(approvalId, { code, contentHash: evidence?.contentHash, ownerUid: evidence?.ownerUid });
   return remove(room, approvalId);
 }
-function closedCode(room, approvalId) { return closedApprovals.get(room)?.get(approvalId) || null; }
+function closedEntry(room, approvalId) { return closedApprovals.get(room)?.get(approvalId) || null; }
+function closedCode(room, approvalId) { return closedEntry(room, approvalId)?.code || null; }
 function consumedReceipt(room, approvalId) {
   return actors.ledger(room).receipts.find(receipt => ['owner-approval-gm', 'gm-creature-ability'].includes(receipt.authorization?.kind) && receipt.authorization.proposalId === approvalId) || null;
 }
@@ -299,4 +300,4 @@ function bindCommand(room, player, command, authorization) {
   return entry;
 }
 module.exports = { CAPABILITY, DOMAINS, ELEMENTS, PITCHES, validateValue, validatePrice, conserve, publicValue, home, validateEntry, validateApproval, validateCreatureApproval,
-  validateRoll, tempFirst, checkAgainstRoom, checkWindow, get, add, remove, listAll, close, closedCode, pendingFor, consumedReceipt, gmProjection, bindCommand, ownerMember };
+  validateRoll, tempFirst, checkAgainstRoom, checkWindow, get, add, remove, listAll, close, closedCode, closedEntry, pendingFor, consumedReceipt, gmProjection, bindCommand, ownerMember };
