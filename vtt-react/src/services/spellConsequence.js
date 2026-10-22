@@ -7,6 +7,9 @@ import { CLASS_DATA_MAP } from '../data/classSpellGenerator';
 import { getManagedSpellResourcePlan, normalizeManagedClassResource, getManagedResourceId, changeManagedClassResource } from '../data/classResourceContracts';
 import { toCanonicalSphere, MINSTREL_PITCHES } from '../data/classResourceBanks';
 import { canonical, depleteTempFirst, exactActor, sameExactRef } from './featherSlash';
+import { authoredSupport } from './authoredAbilityRegistry';
+import { CAPABILITY as AUTHORED, isAuthored } from './authoredAbility';
+import { getStore } from '../store/storeRegistry';
 
 /** Rollback switch (contract F9 rollback): false returns every producer to manual. */
 export const P9_SPELL_EXECUTION = true;
@@ -264,8 +267,9 @@ export function supportSpell(spellLike, character) {
 }
 function supportSpellUnchecked(spellLike, character) {
   if (!P9_SPELL_EXECUTION) return manual('P9 execution is disabled (rollback); manual play only.');
+  if (isAuthored(spellLike)) return authoredSupport(spellLike.id, getStore('gameStore')?.getState().multiplayerRoom?.id, character?.class);
   const raw = resolveOriginalSpell(character?.class, spellLike?.id);
-  if (!raw) return manual('No original authored class definition for this action — library, custom, formulation and weapon actions stay manual.');
+  if (!raw) return manual('No original class definition or admitted execution reference for this card. Use Admitted abilities for a GM-admitted Wizard version; other library, formulation and weapon actions stay manual.');
   // A slot/library copy that carries different mechanics is not the authored original.
   const mechanics = ['spellType', 'typeConfig', 'targetingConfig', 'resourceCost', 'effectTypes', 'damageConfig', 'healingConfig'];
   const altered = mechanics.filter(key => spellLike[key] !== undefined && canonical(spellLike[key]) !== canonical(raw[key]));
@@ -344,23 +348,24 @@ export function planSpellCommand({ approval, contentHash, tokens, roomId, mapId,
     : { current: Math.min(targetValues.max, targetValues.current + finalAmount), temp: targetValues.temp };
   if (![hp.current, hp.temp].every(Number.isFinite)) throw Error('Target resources are unavailable; refresh the room snapshot.');
   const self = sameExactRef(approval.source, approval.target);
+  if (isAuthored(approval.spell) && !self && !Object.keys(payment).length) payment.ap = depleteTempFirst(pools.ap.current, pools.ap.temp, 0, true);
   const classPayment = approval.classPayment ? { classPayment: { mode: 'spell', domain: approval.classPayment.domain, approvalHash: contentHash } } : {};
   const entries = [{ ref: approval.source, expectedRevision: source.state.actorContract.revision, finalResources: self ? { ...payment, hp } : payment, ...classPayment }];
   if (!self) entries.push({ ref: approval.target, expectedRevision: target.state.actorContract.revision, finalResources: { hp } });
   const names = { sourceName: source.character?.name || source.name || source.id, targetName: target.character?.name || target.state?.customName || target.name || target.id };
   return { entries, extra: { source: approval.source, target: approval.target, approval: { approvalId: approval.approvalId, contentHash },
     adjudication: { definitionId: approval.spell.definitionId, definitionVersionOrHash: approval.spell.definitionHash,
-      chosenResult: JSON.stringify({ capability: P9_CAPABILITY, approvalId: approval.approvalId, roll: approval.roll, kind: approval.spell.kind,
+      chosenResult: JSON.stringify({ capability: isAuthored(approval.spell) ? AUTHORED : P9_CAPABILITY, approvalId: approval.approvalId, roll: approval.roll, kind: approval.spell.kind,
         damageTypes: approval.spell.damageTypes, spellName: approval.spell.name, ...names, gmConfirmed: true }),
       finalAmount, adjustmentReason: reason.trim() } } };
 }
 /** Parses an accepted P9 receipt for presentation; null for anything else. */
 export function spellReceipt(result) {
   const receipt = result?.receipt, adjudication = receipt?.adjudication;
-  if (!result?.success || receipt?.version !== 1 || receipt.authorization?.kind !== 'owner-approval-gm' || !String(adjudication?.definitionVersionOrHash || '').startsWith(`${P9_CAPABILITY}/`)) return null;
+  if (!result?.success || receipt?.version !== 1 || receipt.authorization?.kind !== 'owner-approval-gm' || ![P9_CAPABILITY, AUTHORED].some(cap => String(adjudication?.definitionVersionOrHash || '').startsWith(`${cap}/`))) return null;
   try {
     const recorded = JSON.parse(adjudication.chosenResult);
-    if (recorded.capability !== P9_CAPABILITY || recorded.approvalId !== receipt.authorization.proposalId || !integer(adjudication.finalAmount, 0, 100000)) return null;
+    if (![P9_CAPABILITY, AUTHORED].includes(recorded.capability) || recorded.approvalId !== receipt.authorization.proposalId || !integer(adjudication.finalAmount, 0, 100000)) return null;
     const source = receipt.actors.find(actor => sameExactRef(actor.ref, receipt.source)), target = receipt.actors.find(actor => sameExactRef(actor.ref, receipt.target));
     if (!source || !target) return null;
     return { receipt, recorded, source, target, approvalId: receipt.authorization.proposalId,

@@ -60,12 +60,14 @@ const ExternalLivePreview = () => {
         aoeType: state.targetingConfig?.aoeType || state.targetingConfig?.aoeShape || 'sphere',
         targetingType: state.targetingConfig?.targetingType || 'single',
         rangeType: state.targetingConfig?.rangeType || 'ranged',
-        rangeDistance: state.targetingConfig?.rangeDistance || 30
+        rangeDistance: state.targetingConfig?.rangeDistance
       };
 
       // Create spell data from wizard state
       const spellData = {
         ...state,
+        authoredDraft: JSON.parse(JSON.stringify(Object.fromEntries(Object.entries(state).filter(([key]) => key !== 'authoredDraft')))),
+        authoredDefinitionId: state.authoredDefinitionId || crypto.randomUUID(),
         id: `custom-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
         source: 'wizard',
         isCustom: true,
@@ -384,9 +386,8 @@ const ExternalLivePreview = () => {
         if (rangeType === 'sight') return 'Sight';
         if (rangeType === 'unlimited') return 'Unlimited';
         if (rangeType === 'self_centered' || spellState.targetingConfig?.targetingType === 'self') return 'Self';
-        if (rangeType === 'ranged' && rangeDistance) return `${rangeDistance} ft`;
-        if (rangeDistance) return `${rangeDistance} ft`;
-        return '30 ft';
+        if (Number.isSafeInteger(rangeDistance) && rangeDistance >= 0) return `${rangeDistance} ft`;
+        return 'Range unset';
       })(),
       rangeType: spellState.targetingConfig?.rangeType || 'ranged',
 
@@ -403,7 +404,7 @@ const ExternalLivePreview = () => {
         spellState.targetingConfig?.targetSelectionMethod || 'manual',
       targetSelectionMethod: spellState.targetingConfig?.targetSelectionMethod ||
         spellState.targetingConfig?.selectionMethod || 'manual',
-      rangeDistance: spellState.targetingConfig?.rangeDistance || 30,
+      rangeDistance: spellState.targetingConfig?.rangeDistance,
 
       // AOE information
       aoeShape: spellState.targetingConfig?.aoeShape || 'circle',
@@ -418,7 +419,7 @@ const ExternalLivePreview = () => {
         aoeType: spellState.targetingConfig?.aoeType || spellState.targetingConfig?.aoeShape || 'sphere',
         targetingType: spellState.targetingConfig?.targetingType || 'single',
         rangeType: spellState.targetingConfig?.rangeType || 'ranged',
-        rangeDistance: spellState.targetingConfig?.rangeDistance || 30
+        rangeDistance: spellState.targetingConfig?.rangeDistance
       } || {},
       // CRITICAL: Include targetingMode and effectTargeting for effect-specific targeting
       targetingMode: spellState.targetingMode || 'unified',

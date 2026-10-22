@@ -5,7 +5,19 @@ roadmap ([MYTHRILL_NEXT_PHASE.md](MYTHRILL_NEXT_PHASE.md) §26) ends at P10 and 
 This document adds four bounded phases. **At creation only P11 was authorized.** Later bounded
 authorizations/status are recorded below; each further slice still needs its own contract/go-ahead.
 
-> **Latest delivery, 2026-10-21:** [P14-C3](MYTHRILL_PROJECT_14_C3_CONTRACT.md#implementation-and-evidence)
+> **Latest delivery, 2026-10-22:** [P14-A1](MYTHRILL_PROJECT_14_A1_CONTRACT.md#implementation-and-verification--2026-10-22)
+> Wizard-authored immediate damage/healing implemented; same-review repaired independent source/evidence
+> ACCEPT, Build4/App7 PASS. Actual normal save/reopen/admission/version identity, exact owner roll/consent,
+> GM final, existing P9/P7 payment+HP and recovery. No second engine or name exception. Scope/fixtures and
+> independent-execution limit are explicit. Wider P14/Class/ancestry execution remains open; see §14.
+>
+> **Preserved delivery, 2026-10-22:** [P14-C4](MYTHRILL_PROJECT_14_C4_CONTRACT.md#implementation-and-evidence)
+> bounded authenticated turn expiry implemented/repaired ACCEPT, Build2/App4 PASS. Fresh own-turn PC
+> Defending next-start and named Shield Bash next-target-end only; existing/one-round/other effects
+> remain manual. No recurring engine. Ancestral Loadout capability/ownership interface is in coordination
+> §8; no ancestry numbers,175 abilities, migration or general execution. P14 is not complete.
+>
+> **Preserved C3 delivery:** [P14-C3](MYTHRILL_PROJECT_14_C3_CONTRACT.md#implementation-and-evidence)
 > Shield Bash manual-result adapter is implemented/review ACCEPT, Build1 C3 parity and App2 PASS.
 > Exact GM-selected actors and retained result identity use C2's shared Stunned path. Rolls/costs/
 > eligibility/save/expiry remain manual; this is neither full Shield Bash execution nor P14 completion.
@@ -490,3 +502,63 @@ application/timing remain distinct, including chain-as-link versus chain-as-trav
   sustain/interrupt, delayed/compulsory triggers, links and return coordinates need FO-B/E/N (private
   projection FO-P when applicable). Seeking hidden discovery, wall/object ricochet and recursive forks
   remain manual until exact rules/capabilities are frozen. No universal propagation policy is adopted.
+
+## 14. P14-A1 — first authored authoring-to-authority capability
+
+[Contract, implementation and handoff](MYTHRILL_PROJECT_14_A1_CONTRACT.md) ·
+[bounded independent acceptance](MYTHRILL_PROJECT_14_A1_ACCEPTANCE.md).
+
+**Delivered:** `authored-immediate:v1`; GM-authored through actual Spell Wizard, saved/reopened through
+normal library, immutable room admission/version/hash/revocation using unchanged A1a and existing P7
+writer, primary owner PC → one exact PC/creature (self allowed), explicit AP/mana integers including0,
+one direct damage OR healing, one `NdM` group with optional signed integer constant. Existing P9 physical/
+digital custody, exact consent, GM final amount, temp-first/caps, one P7 consequence, owner projection and
+accepted feedback/recovery. No name allow-list. Unsupported whole drafts remain saved/manual.
+
+The historical A1b parallel-binder/no-owner-edits proposal was not adopted. Bounded extensions of the
+existing payment/controller/admission owners avoid duplication. A1a descriptor executionEnabled:false
+continues to describe syntax only; trusted installed lookup separately establishes this runtime capability.
+Existing binding vocabulary and class/ancestry content/grants/IDs remain unchanged. P14-A1 supersedes
+parking only for this newly authorized reconciled scope. C4 and other completed acceptance stand.
+
+**Subsequent producer delivery:** P14-A2 (§15) adds the Item editor through this exact
+preserved-record/installed-ref interface. A Creature producer is the next bounded candidate; acting-creature execution and new
+class/ancestry eligibility need separate authority/resource bindings. Main HQ owns execution; Class/
+Heritage HQ owns content,25-heritage selection/loadouts and compatibility proposals.
+
+**Retained extension requirements (not delivered by A1):**
+- Damage plus secondary conditions; self-costs and multiple effect components.
+- Periodic effects with changes at specified duration points; expiration-triggered outcomes.
+- Suppression, stacking and recharge.
+- Reaction chains and their causal/consent/resource semantics.
+- Obstruction-aware and propagated targeting.
+- Environmental/tile predicates.
+
+These extend the shared mechanics interface one bounded capability at a time. They are not permission
+to author racial tuning, regenerate racial resources, migrate characters or automate all custom spells.
+
+## 15. P14-A2 — Item Wizard producer and item access association
+
+[Contract/implementation](MYTHRILL_PROJECT_14_A2_CONTRACT.md) ·
+[bounded independent acceptance](MYTHRILL_PROJECT_14_A2_ACCEPTANCE.md).
+
+**Delivered:** compact activated-ability editor in actual Item Wizard Basic Info, or compatible saved
+Spell Library snapshot; the same whole Wizard record/UUID, exact prices/range including0, normal item
+save/reopen, detached library/instance preservation, immutable A1 matching/admission/re-admission and
+real Inventory item launcher into existing owner-PC consent/retained-roll/GM-final/P7 path. No second
+format/resolver/custody/authority engine. Item association grants no possession/equipment/holding/
+consumption/charge entitlement. Original complex/manual item and ability content remains intact.
+
+Actual damage and0-AP/range0 healing examples, lost owner+GM acknowledgements/item reopen/reload/real
+socket rejoin/original-byte checks, no pre-spend/once-only price+HP/feedback, explicitv2 and original
+instance isolation pass in production-App10. Detached Build3 exit0/drift[],31runtime identities/gated
+client parity[] and seven protected inputs match. One independent review repaired F1–F4, ran A2 probes/
+tests and accepted source/evidence. Build/App were implementer-executed, independently appraised.
+Five fetch errors and incumbent P13 collection notice overlaying upper Inventory qualify viewport/UI
+evidence. Provider/cloud/delivery are fixtures; no deployment/physical-tablet/second-device claim.
+
+**Next smallest useful producer:** Creature Wizard may reuse the same record editor/adapter/admission
+interface under its own preservation/access contract, initially owner-PC source. Creature-origin
+execution requires a separate exact source-authority contract. A possession/equipment entitlement,
+if desired, similarly requires a server-validated extension; none follows from this button.
+Wider §14 mechanics, Class/Heritage/RI-2/ancestral-selection work and existing phase boundaries stand.

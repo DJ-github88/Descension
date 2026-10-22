@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import useGameStore from '../../store/gameStore';
 import useCharacterStore from '../../store/characterStore';
@@ -14,6 +14,8 @@ import { spellDraftContext, loadSpellDraft, loadDiscardedSpellDrafts, saveSpellD
 import { describeDraft, sameDraftContext } from '../../services/targetPick';
 import useTargetingStore from '../../store/targetingStore';
 import './SpellConsequencePanel.css';
+import { actionId } from '../../services/authoredAbility';
+import { refreshAuthoredAbilities, changeAuthoredAdmission, routeSpellCast } from '../../services/spellConsequenceService';
 
 const nameOf = token => token?.character?.name || token?.state?.customName || token?.name || token?.id || 'Unknown';
 const ref = value => value ? `${value.kind}:${value.mapId}:${value.tokenId}` : '';
@@ -53,7 +55,14 @@ function OwnerPanel() {
     const draft = loadSpellDraft();
     setTargetKey(owner && draft?.context?.spellId === owner.spellId ? draft.targetKey || '' : ''); setPhysical({}); setError('');
   }, [owner]);
-  const support = useMemo(() => owner ? supportSpell({ id: owner.spellId }, character) : null, [owner, character]);
+  useEffect(() => {
+    if (!owner?.origin?.producer?.startsWith('item: ')) return undefined;
+    const launcher = document.activeElement;
+    document.querySelector('.p9-panel button[aria-label="Close"]')?.focus();
+    return () => { if (launcher?.isConnected) launcher.focus(); };
+  }, [owner]);
+  useSpellConsequenceStore(s => s.registryRevision);
+  const support = owner ? supportSpell({ id: owner.spellId }, character) : null;
   if (!owner) return null;
   const source = ownerSource();
   const all = [...characters, ...creatures];
@@ -85,8 +94,9 @@ function OwnerPanel() {
   return createPortal(<div className="p9-overlay" role="dialog" aria-label="Supported spell cast">
     <div className="p9-panel">
       <header><h3>{support?.name || owner.spellId}</h3><button type="button" onClick={closeOwnerPanel} aria-label="Close">×</button></header>
+      {owner.origin?.producer?.startsWith('item: ') && <p>From {owner.origin.producer}. Item requirements remain GM-managed.</p>}
       {!support?.supported ? <p className="p9-diagnostic">{support?.reason}</p> : <>
-        <p className="p9-note">Room spell (P9): nothing is spent until the GM accepts. One roll, one payment, one result.</p>
+        <p className="p9-note">Supported room ability: nothing is spent until the GM accepts. One roll, one payment, one result.</p>
         <dl className="p9-facts">
           <dt>Effect</dt><dd>{support.kind === 'damage' ? `${support.damageTypes.join('/')} damage` : 'direct healing'} · {support.reading.reading}</dd>
           <dt>Price</dt><dd>{support.price.ap} AP · {support.price.mana} mana{pools ? ` (temporary first; you have AP ${pools.ap.current}+${pools.ap.temp} temp, mana ${pools.mana.current}+${pools.mana.temp} temp)` : ''}</dd>
@@ -95,7 +105,8 @@ function OwnerPanel() {
         </dl>
         {!support.payment.affordable && <p className="p9-diagnostic">{support.payment.reason}</p>}
         {source.error ? <div className="p9-diagnostic"><p>{source.error}</p>
-          {ownerCandidates.length === 1 && <button type="button" onClick={() => selectOwnerAttachment(refOf(ownerCandidates[0]))}>Use this owner attachment</button>}</div> : <>
+           {ownerCandidates.length === 1 && <button type="button" onClick={() => selectOwnerAttachment(refOf(ownerCandidates[0]))}>Use this owner attachment</button>}</div> : <>
+          {owner.origin?.producer?.startsWith('item: ') && <p>Source: {nameOf(source.token)} · selected primary owner PC</p>}
           {draftElsewhere && <div className="p9-diagnostic p12c-draft" role="alert"><p>An unsent recorded roll is retained for <strong>{describeDraft(draftElsewhere)}</strong>. A recorded roll never moves to another spell: cast it from that spell, or discard it explicitly.</p>
             <button type="button" disabled={busy} onClick={() => perform(async() => discardSpellDraft())}>Discard recorded roll</button></div>}
           <div className="p12c-pick"><button type="button" disabled={pending || busy || !source.ref} onClick={pick}>Pick on map</button><span className="p9-meta">{rangeLabel ? `${rangeLabel} — advisory` : 'No card range — GM adjudicates'}</span></div>
@@ -161,7 +172,7 @@ function GmPanel() {
         <label>Final {approval.spell.kind === 'damage' ? 'damage' : 'healing'} <input type="number" min="0" value={draft.final ?? ''} onChange={event => update({ final: event.target.value })} /></label>
         <label>Reason (required if different from {approval.roll.total}) <input type="text" value={draft.reason || ''} onChange={event => update({ reason: event.target.value })} /></label>
         <div className="p9-actions">
-          <button type="button" className="p9-primary" disabled={busy || ['submitting', 'unknown'].includes(state?.phase)} onClick={() => perform(() => gmAcceptSpell(approval.approvalId, { finalAmount: draft.final === '' || draft.final === undefined ? NaN : Number(draft.final), reason: draft.reason || '', adjudicated: draft.adjudicated === true }))}>Accept one consequence</button>
+          <button type="button" className="p9-primary" disabled={busy || ['preparing', 'submitting', 'unknown', 'accepted'].includes(state?.phase)} onClick={() => perform(() => gmAcceptSpell(approval.approvalId, { finalAmount: draft.final === '' || draft.final === undefined ? NaN : Number(draft.final), reason: draft.reason || '', adjudicated: draft.adjudicated === true }))}>Accept one consequence</button>
           <button type="button" disabled={busy || ['submitting', 'unknown'].includes(state?.phase)} onClick={() => perform(() => gmDeclineSpell(approval.approvalId))}>Decline</button>
           {state?.phase === 'unknown' && <button type="button" disabled={busy} onClick={() => perform(() => gmCheckSpellCommand(approval.approvalId))}>Check same command</button>}
         </div>
@@ -181,9 +192,27 @@ function OwnerChip() {
     <button type="button" onClick={() => useSpellConsequenceStore.setState({ owner: { spellId: status.latest.approval.spell.definitionId, origin: status.latest.origin } })}>Open</button></p>;
 }
 
+function AdmittedAbilities() {
+  const roomId = useGameStore(s => s.multiplayerRoom?.id), gm = useGameStore(s => s.isGMMode);
+  const entries = useSpellConsequenceStore(s => s.authoredRoomId === roomId ? s.authoredEntries : null) || [];
+  const [busy, setBusy] = useState(false), [message, setMessage] = useState('Refresh to check current room admission.');
+  const perform = async action => { setBusy(true); try { const r = await action(); setMessage(r?.success ? 'Room admission refreshed. Range, defense and final amount remain GM-adjudicated.' : `Unavailable (${r?.code || 'unknown'}).`); } catch (e) { setMessage(e.message); } finally { setBusy(false); } };
+  return <details className="p9-admitted"><summary>Admitted abilities</summary><section aria-label="Admitted abilities">
+    <p>Wizard abilities execute only after the GM admits an exact version, you approve its cost and roll, and the GM accepts its final result.</p>
+    <button type="button" disabled={busy} onClick={() => perform(refreshAuthoredAbilities)}>Refresh admitted abilities</button>
+    <p role="status">{message}</p>
+    {!entries.length && <p>No admitted ability has been loaded for this room.</p>}
+    {entries.map(e => <div key={actionId(e.definitionRef)} className="p9-admitted-row"><strong>{e.canonicalDefinition.name}</strong> · version {e.definitionRef.definitionVersion} · {e.descriptor.price.ap} AP / {e.descriptor.price.mana} mana · {e.canonicalDefinition.effect.formula} · {e.descriptor.targeting.rangeFeet} ft
+      <span>{e.revoked ? ' — Revoked (history retained)' : ' — Admitted for immediate damage/healing'}</span>
+      {!e.revoked && <button type="button" disabled={busy} onClick={() => { if (!routeSpellCast({ id: actionId(e.definitionRef) }, { producer: 'admitted-library' })) setMessage('This installed binding is unavailable to your current character.'); }}>Use admitted ability</button>}
+      {gm && !e.revoked && <button type="button" disabled={busy} onClick={() => perform(() => changeAuthoredAdmission('revoke', e.definitionRef))}>Revoke this version</button>}
+    </div>)}
+  </section></details>;
+}
+
 export default function SpellConsequenceHost() {
   const shared = useGameStore(value => value.isInMultiplayer);
   useEffect(() => { if (shared) restoreOwnerStatus(); }, [shared]);
   if (!shared) return null;
-  return <><OwnerPanel /><OwnerChip /><GmPanel /></>;
+  return <><AdmittedAbilities /><OwnerPanel /><OwnerChip /><GmPanel /></>;
 }

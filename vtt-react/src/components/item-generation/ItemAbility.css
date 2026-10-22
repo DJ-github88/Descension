@@ -1,0 +1,34 @@
+.item-ability {
+  color: #30251b;
+  background: #f4ead7;
+  border: 1px solid #9c8461;
+  padding: 12px;
+  margin-block: 12px;
+  font: inherit;
+  line-height: 1.5;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+.item-ability summary { cursor: pointer; font-weight: 700; }
+.item-ability p { margin-block: 8px; max-width: 70ch; }
+.item-ability label { display: grid; gap: 4px; margin-block: 8px; }
+.item-ability input, .item-ability select, .item-ability textarea, .item-ability button {
+  font: inherit;
+  color: #30251b;
+  background: #fff9ed;
+  border: 1px solid #9c8461;
+  border-radius: 3px;
+  padding: 7px 10px;
+  min-height: 40px;
+  min-width: 0;
+  max-width: 100%;
+  caret-color: #624224;
+}
+.item-ability button { margin: 4px 8px 4px 0; cursor: pointer; }
+.item-ability button:hover:not(:disabled) { background: #e6d6b9; }
+.item-ability button:disabled { color: #675a48; cursor: default; }
+.item-ability :focus-visible { outline: 3px solid #624224; outline-offset: 2px; }
+.item-ability ::selection { color: #fff9ed; background: #624224; }
+.item-ability-numbers { display: flex; flex-wrap: wrap; gap: 12px; }
+.item-ability-numbers label { flex: 1 1 100px; }
+.item-card:focus-visible, .item-list-row:focus-visible, .wow-progress-segment:focus-visible { outline: 3px solid #624224; outline-offset: -3px; }

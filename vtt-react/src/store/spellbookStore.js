@@ -27,6 +27,7 @@ const initialState = {
   selectedSpell: null,
   selectedCollection: null,
   activeTab: 'wizard',
+  wizardEditRequest: null, // transient owner-guarded handoff; deliberately excluded from partialize
   filters: {
     searchText: '',
     categories: [],

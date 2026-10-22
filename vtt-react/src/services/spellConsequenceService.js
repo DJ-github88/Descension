@@ -10,8 +10,48 @@ import { refOf, findActor, inSharedRoom, refreshActorSnapshot, prepareActorComma
 import { spellContext, loadLatestSpell, retainLatestSpell, unresolvedSpell } from './spellConsequenceCustody';
 import { chatLineFor } from './acceptedResultFeed';
 import { draftContext, sameDraftContext, withDiscarded } from './targetPick';
+import { replaceAuthoredRegistry } from './authoredAbilityRegistry';
+import { isAuthored } from './authoredAbility';
+import { conditionContext, loadConditionCustody, retainConditionCommand } from './sharedConditionCustody';
 
 export const useSpellConsequenceStore = create(() => ({ owner: null, ownerStatus: null, gmPending: {}, gmStatus: {} }));
+export async function refreshAuthoredAbilities() {
+  const context = spellContext(), socket = gameState().multiplayerSocket;
+  const result = await requestActorEvent('actor_authored_list', { roomId: context.roomId });
+  if (!context.current() || gameState().multiplayerSocket !== socket) return { success: false, code: 'retired_principal' };
+  if (result.success) {
+    replaceAuthoredRegistry(context.roomId, result.entries);
+    useSpellConsequenceStore.setState({ authoredEntries: result.entries, registryRevision: result.revision, authoredRoomId: context.roomId });
+  }
+  return result;
+}
+export function authoredRegistryWork() { return loadConditionCustody()?.entries?.['authored-registry'] || null; }
+export async function changeAuthoredAdmission(operation, recordOrRef, classId) {
+  const context = conditionContext(), old = authoredRegistryWork();
+  if (old && !['accepted', 'failed'].includes(old.phase)) throw Error('Admission outcome unknown. Check the original request before making another change.');
+  const result = await refreshAuthoredAbilities();
+  if (!result.success || !context.current()) throw Error(result.code || 'Room unavailable');
+  const data = { roomId: context.roomId, requestId: crypto.randomUUID(), expectedRegistryRevision: result.revision };
+  if (operation === 'admit') {
+    data.record = recordOrRef; data.classId = classId;
+    data.definitionVersion = 1 + Math.max(0, ...result.entries.filter(e => e.definitionRef.definitionId === recordOrRef.authoredDefinitionId).map(e => e.definitionRef.definitionVersion));
+  } else data.definitionRef = recordOrRef;
+  const entry = { kind: 'authored-registry', event: `actor_authored_${operation}`, command: { commandId: data.requestId, ...data }, phase: 'prepared' };
+  retainConditionCommand(context, 'authored-registry', entry);
+  return checkAuthoredAdmission();
+}
+export async function checkAuthoredAdmission() {
+  const context = conditionContext(), old = authoredRegistryWork();
+  if (!old || old.phase === 'accepted') return old?.result;
+  const { commandId, ...data } = old.command;
+  const result = await requestActorEvent(old.event, data);
+  if (!context.current()) return { success: false, code: 'retired_principal' };
+  const phase = result.success ? 'accepted' : UNKNOWN.includes(result.code) ? 'unknown' : 'failed';
+  retainConditionCommand(context, 'authored-registry', { ...old, phase, result });
+  await refreshAuthoredAbilities();
+  useSpellConsequenceStore.setState(s => ({ registryWorkVersion: (s.registryWorkVersion || 0) + 1 }));
+  return result;
+}
 const UNKNOWN = ['outcome_unknown', 'room_connection_unavailable', 'retired_principal', 'snapshot_required'];
 const characterState = () => getStore('characterStore')?.getState() || {};
 const gameState = () => getStore('gameStore')?.getState() || {};
@@ -134,10 +174,12 @@ export async function sendSpellApproval({ spellId, targetRef, roll, origin }) {
   let retained;
   // P12C-B1: the draft becomes the approval (the record is replaced); discards stay listed.
   try { retained = retainLatestSpell(context, { phase: 'prepared', approval, origin, cooldown: support.cooldown, discardedDrafts: latest?.discardedDrafts || [] }); } catch (error) { return setOwnerStatus({ phase: 'refused', message: error.message }); }
+  if (isAuthored(approval.spell) && !String(retained.custody).startsWith('Device')) return setOwnerStatus({ phase: 'prepared', latest: retained, message: 'Device custody unavailable; nothing emitted. Restore device storage before checking this exact approval.' });
   bumpDraft();
   return submitApproval(context, retained);
 }
 async function submitApproval(context, current) {
+  if (isAuthored(current.approval?.spell) && !String(current.custody).startsWith('Device')) return setOwnerStatus({ phase: 'prepared', latest: current, message: 'Device custody unavailable; nothing emitted.' });
   // Mark the bytes as sent before the first emission: afterwards no refusal may say "no payment".
   const firstSubmission = !current.sent;
   const retained = firstSubmission ? retainLatestSpell(context, { ...current, sent: true }) : current;
@@ -309,11 +351,19 @@ export async function refreshSpellApprovals() {
   const gmPending = {};
   for (const entry of result.pending || []) if (!entry.own) gmPending[entry.approval.approvalId] = entry;
   useSpellConsequenceStore.setState({ gmPending });
+  for (const saved of Object.values(loadConditionCustody()?.entries || {})) {
+    if (saved.kind === 'authored-execution') setGm(saved.command.approval.approvalId, { phase: saved.phase === 'prepared' ? 'unknown' : saved.phase, commandId: saved.command.commandId,
+      message: saved.phase === 'accepted' ? 'Accepted (retained original result).' : 'Retained original command. Check it before confirming another result.' });
+  }
   return result;
 }
 export async function gmAcceptSpell(approvalId, { finalAmount, reason, adjudicated }) {
   const entry = useSpellConsequenceStore.getState().gmPending[approvalId];
   if (!entry) return setGm(approvalId, { phase: 'refused', message: 'Approval no longer pending.' });
+  const authored = isAuthored(entry.approval.spell), context = conditionContext();
+  const prior = loadConditionCustody(context)?.entries?.[`authored-spell:${approvalId}`];
+  if (authored && (['preparing', 'submitting', 'unknown', 'accepted'].includes(useSpellConsequenceStore.getState().gmStatus[approvalId]?.phase) || (prior && !['failed'].includes(prior.phase)))) return;
+  setGm(approvalId, { phase: 'preparing', message: 'Preparing the exact result…' });
   const snapshot = await refreshActorSnapshot();
   if (!snapshot.success) return setGm(approvalId, { phase: 'refused', message: `Room snapshot unavailable (${snapshot.code}).` });
   let command;
@@ -321,9 +371,11 @@ export async function gmAcceptSpell(approvalId, { finalAmount, reason, adjudicat
     const plan = planSpellCommand({ approval: entry.approval, contentHash: entry.contentHash, tokens: tokens(), roomId: snapshot.roomId, mapId: entry.approval.source.mapId,
       finalAmount, reason, adjudicated });
     command = prepareActorCommand(plan.entries, plan.extra);
+    if (authored) retainConditionCommand(context, `authored-spell:${approvalId}`, { kind: 'authored-execution', phase: 'prepared', command });
   } catch (error) { return setGm(approvalId, { phase: 'refused', message: `${error.message} Nothing submitted.` }); }
   setGm(approvalId, { phase: 'submitting', commandId: command.commandId, message: 'Submitting one consequence…' });
   const result = await submitPreparedActorCommand(command);
+  if (authored && context.current()) retainConditionCommand(context, `authored-spell:${approvalId}`, { command, phase: result.success ? 'accepted' : UNKNOWN.includes(result.code) ? 'unknown' : 'failed', result });
   return settleGm(approvalId, command.commandId, result, false);
 }
 function settleGm(approvalId, commandId, result, isRetry) {
@@ -337,7 +389,10 @@ function settleGm(approvalId, commandId, result, isRetry) {
 export async function gmCheckSpellCommand(approvalId) {
   const status = useSpellConsequenceStore.getState().gmStatus[approvalId];
   if (!status?.commandId) return null;
-  return settleGm(approvalId, status.commandId, await retryActorCommand(status.commandId), true);
+  const context = conditionContext(), saved = loadConditionCustody(context)?.entries?.[`authored-spell:${approvalId}`];
+  const result = saved ? await submitPreparedActorCommand(saved.command) : await retryActorCommand(status.commandId);
+  if (saved && context.current()) retainConditionCommand(context, `authored-spell:${approvalId}`, { ...saved, phase: result.success ? 'accepted' : UNKNOWN.includes(result.code) ? 'unknown' : 'failed', result });
+  return settleGm(approvalId, status.commandId, result, true);
 }
 export async function gmDeclineSpell(approvalId) {
   const result = await requestActorEvent('actor_spell_decline', { roomId: gameState().multiplayerRoom?.id, approvalId });

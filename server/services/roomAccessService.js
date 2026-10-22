@@ -1061,6 +1061,7 @@ function projectGameStateForClient(gameState) {
   if (!gameState || typeof gameState !== 'object') {return gameState === undefined ? null : gameState;}
   const out = { ...gameState };
   delete out.actorConsequenceRecovery; // Preserved private import evidence, never a public receipt lane.
+  delete out.authoredSpellRegistry; // P14-A1: explicit public capability lookup, no raw decisions.
   if (out.actorConsequences) {
     const ledger = out.actorConsequences;
     out.actorConsequences = ledger.version === 1 ? {

@@ -2607,12 +2607,12 @@ const Step10Review = ({
         // Ensure all targeting fields are present
         targetingType: spellState.targetingConfig?.targetingType || 'single',
         rangeType: spellState.targetingConfig?.rangeType || 'ranged',
-        rangeDistance: spellState.targetingConfig?.rangeDistance || 30,
+        rangeDistance: spellState.targetingConfig?.rangeDistance,
         aoeShape: spellState.targetingConfig?.aoeShape || 'circle',
         aoeParameters: spellState.targetingConfig?.aoeParameters || {},
         targetRestrictions: spellState.targetingConfig?.targetRestrictions || 
                           (spellState.targetingConfig?.targetRestriction ? [spellState.targetingConfig.targetRestriction] : ['any']),
-        maxTargets: spellState.targetingConfig?.maxTargets || 1,
+        maxTargets: spellState.targetingConfig?.maxTargets,
         selectionMethod: spellState.targetingConfig?.selectionMethod || 
                         spellState.targetingConfig?.targetSelectionMethod || 'manual',
         targetSelectionMethod: spellState.targetingConfig?.targetSelectionMethod || 
@@ -2623,6 +2623,8 @@ const Step10Review = ({
       // Create a complete spell object for the library
       const librarySpell = {
         ...spellState,
+        authoredDraft: JSON.parse(JSON.stringify(Object.fromEntries(Object.entries(spellState).filter(([key]) => key !== 'authoredDraft')))),
+        authoredDefinitionId: spellState.authoredDefinitionId || crypto.randomUUID(),
         id: generateSpellId(spellState.name),
         dateCreated: new Date().toISOString(),
         lastModified: new Date().toISOString(),

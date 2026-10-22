@@ -1,4 +1,12 @@
 /* Original P9 spell consequence panels: calm, readable, no rule logic. */
+.p9-admitted, .p9-admission { pointer-events: auto; color: #2b2116; background: #f6efe1; font-size: 13px; padding: 8px; overflow-wrap: anywhere; }
+.p9-admitted summary { cursor: pointer; font-weight: 600; padding: 6px 0; }
+.p9-admitted-row { padding: 12px 0; border-top: 1px solid #c9b48c; }
+.p9-admission p, .p9-admitted p { margin: 6px 0; }
+.p9-admission label { display: block; }
+.p9-admission button, .p9-admitted button, .p9-admission select { min-height: 36px; padding: 6px 8px; margin: 4px 6px 4px 0; max-width: 100%; color: #2b2116; background: #efe3c8; border: 1px solid #8a6d45; border-radius: 4px; cursor: pointer; }
+.p9-admission button:disabled, .p9-admitted button:disabled { opacity: .65; cursor: default; }
+.p9-admission :focus-visible, .p9-admitted :focus-visible { outline: 2px solid #34588f; outline-offset: 2px; }
 .p9-overlay { position: fixed; inset: 0; background: rgba(20, 16, 12, 0.45); display: flex; align-items: center; justify-content: center; z-index: 10050; pointer-events: auto; }
 .p9-panel { width: min(520px, calc(100vw - 32px)); max-height: calc(100vh - 48px); overflow: auto; background: #f6efe1; color: #2b2116; border: 1px solid #8a6d45; border-radius: 8px; padding: 16px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35); font-size: 14px; }
 .p9-panel header { display: flex; justify-content: space-between; align-items: center; gap: 8px; }

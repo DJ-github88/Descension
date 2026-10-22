@@ -10,7 +10,8 @@ only by agreement recorded here.
 - **Class/authoring** owns class mechanics, heritage, resource schemas, content, the Spell Wizard, authored
   definitions and migration recommendations (`docs/plans/mythrill-class-reconstruction/`).
 - **Main HQ / combat HQ** owns shared execution/authority/persistence decisions and freezes cross-track
-  contracts. CR-A1b is currently **parked**, not the next authorized implementation. Class HeadQ's current
+  contracts. Historical CR-A1b stays **parked outside delivered P14-A1**; the newly reconciled bounded
+  [authored pilot](MYTHRILL_PROJECT_14_A1_CONTRACT.md) is implemented/accepted, not the old draft wholesale. Class HeadQ's current
    handoff is [33](plans/mythrill-class-reconstruction/33_CLASS_DELIVERY_RESET_AND_ENGINE_HANDOFF.md),
    with class delivery superseded by [34](plans/mythrill-class-reconstruction/34_ROSTER_INTEGRATION_COHORTS.md)
    and [RI-1](plans/mythrill-class-reconstruction/implementation/RI-1-CHAOS-WEAVER-INTEGRATION.md).
@@ -19,15 +20,15 @@ only by agreement recorded here.
 
 1. **No second engine.** Class resources stay with the existing class-owned owners (`classResourceContracts.js`,
    `classResourceBanks.js`, resourceSlice, ClassResourceBar/ResourceTooltip). Payment, approval and receipt stay
-   on the existing P7/P9/P12 paths. Admission stays with `authoredSpellDefinitions.js` (A1a) and its future
-   frozen A1b integration. Neither track builds a parallel admission or execution engine.
+   on the existing P7/P9/P12 paths. P14-A1 uses unchanged `authoredSpellDefinitions.js` (A1a) with the
+   existing P7 handler/writer and a thin installed lookup. Neither track builds a parallel engine.
 2. **No stable-ID changes or save migrations** come from class roster directions. Existing class IDs (Gambit,
    Revenant and Shaper compatibility included) stay until an approved migration exists.
 3. **Accepted authoring fixes are preserved.** Combat does not edit the CR-W1a/W1b files and does not add
    server-side default prices that could mask authoring loss.
-4. **CR-A1b is not implemented** until Main HQ reconciles and freezes its live admission, persistence and
-   casting boundary. The **parked** `CR-A1b-LIVE-INTEGRATION.md` retains investigated seams, not a selected
-   architecture or permission. Class design/content does not wait for it.
+4. Historical **parked** `CR-A1b-LIVE-INTEGRATION.md` retains investigated seams, not blanket permission.
+   Main HQ reconciled/froze/delivered only [P14-A1](MYTHRILL_PROJECT_14_A1_CONTRACT.md). Wider authored
+   combinations/new bindings still need named extensions. Class design/content does not wait for them.
 5. **Before freezing a reaction-payment (P13B) or expanded-consequence (P14 or follow-on) contract**, combat reads
    and cites the class package's *reviewed* requirements. Candidate schemas (R1 opcodes, `classResourceProgram`,
    lifecycle envelopes) are proposals until Class HeadQ marks them reviewed.
@@ -50,8 +51,9 @@ only by agreement recorded here.
 | Party HUD | `PartyHUD.jsx` | **Shared** | Class: ClassResourceBar/domain presenters, now RI-1 normal-HUD integration; progress is not shared execution acceptance. RI-1 keeps PartyHUD read-only unless separately amended. Combat: actor-consequence layer (`ActorConsequenceLayer.jsx`) |
 | Socket lifecycle | `components/multiplayer/socketHandlers/*`, `useSocketConnection`, `services/roomRejoinBus.js` | **Shared** (multiplayer) | Exactly one `room_joined` listener per socket, registered only through `registerRoomJoinedListener`; services subscribe with `onRoomRejoined`, never to the socket event |
 | Tokens and map | `CreatureToken.jsx`, `CharacterToken.jsx`, `Grid.jsx` | Shared with map/UI work | Combat adds mounts only |
-| Spell Wizard | `components/spellcrafting-wizard/**` (incl. `Step5Resources.jsx`, `resourceManager.js`, `spellSerializer.js`) | Class/authoring | CR-W1a/W1b accepted; combat makes no edits |
-| Authored definitions | `server/services/authoredSpellDefinitions.js` and its test and fixture | Class/authoring | A1a: server-only, unhooked, execution disabled |
+| Spell Wizard | `components/spellcrafting-wizard/**` (incl. `Step5Resources.jsx`, `resourceManager.js`, `spellSerializer.js`) | Class/authoring | W1 resource editor/manager/serializer protected. P14-A1's explicitly coordinated narrow timing/range/whole-draft/reopen/library writes are recorded in §5 |
+| Authored definitions | `server/services/authoredSpellDefinitions.js` and its test and fixture | Class/authoring | A1a compiler/planner unchanged and syntax descriptor execution-disabled; P14-A1 adds installed authority outside it |
+| Installed authored capability | `installedAuthoredAbilities.js`, shared `authoredAbility.js`, P9/P7 bounded extensions, library/controller/cache | Main HQ/shared with Class producer mapping | P14-A1 delivered/review ACCEPT/Build4/App7 PASS. No parallel payment/persistence owner; new bindings/producers require coordination |
 | Class resources and data | `classResourceContracts.js`, `classResourceBanks.js`, `ClassResourceBar.jsx`, `ResourceTooltip.jsx`, `data/classes/**`, resourceSlice | Class | Combat makes no edits |
 | Universal reaction source (read-only dependency) | `data/universalCombatSpells.js` | Shared coordination; no content write assignment here | Combat pins original Parry/Riposte bytes; any content correction needs agreed Main/Class HQ handoff. No ID migration or generated-variant support implied |
 | Shared condition integration | `conditionsData.js`, `conditionStore.js`, condition normalizer/editor, sheet/GM/manual-card adapters; closed profile/predicate | **Shared**: Combat authority/mechanics; Class content/source mapping and sheet/casting compatibility | P14-C1 manual PC Defending delivered/reviewed; exact §6 identities. Preserve class/race work. No A1b/spell-wide execution |
@@ -102,7 +104,7 @@ device before write-back.
 | 11 | Durable cooldowns | None | Durable cooldown records | Combat | P14 contract | P14 |
 | 12 | Body/form trait permissions | Authored config only | Trait-permission adapter | Class (rules); Combat (seam) | Druid/Lichborne mechanics approved | follow-on project |
 | 13 | Private hand/deck/bag | P5/P6 private custody; P7 private intents | Server-only domain projection | Class (domain); Combat (transport) | Gambler/Chaos Weaver domains approved | follow-on project |
-| 14 | Authored Wizard spells become executable | P9 executes original definitions only; **A1a** verified (§3), unhooked; **A1b PARKED** by current handoff33 | Main HQ evaluates retained admission/persistence/casting seams before selecting/finalizing integration; no competing registry/payment path | Main HQ/Combat (shared engine); Class (authored records/requirements), per handoff33 | **Separate Main HQ freeze/authorization**, not granted by P13B preparation | Parked A1b draft's candidate modules/seams are investigation, not an edit assignment |
+| 14 | Authored Wizard abilities become executable | **P14-A1 delivered**, repaired independent source/evidence ACCEPT, Build4/App7 PASS: real Wizard/library/versioned GM admission → existing P9 exact owner consent/roll → GM final → P7 AP/mana+HP/recovery | Wider producers/bindings/mechanics remain separate named extensions; historical A1b draft not implemented wholesale | Main HQ/Combat execution; Class authored records/requirements | Creator authorized/frozen bounded A1, not every custom/class/ancestral mechanic | A1 contract/acceptance; unchanged A1a plus existing P7/P9 owners and thin installed lookup |
 | 15 | Authoring prerequisite: explicit 0 AP preserved | **CR-W1a accepted** (§3) | — | Class | — | Wizard files |
 | 16 | Authoring prerequisite: `resourceCost` survives serialization/export/templates | **CR-W1b accepted** (§3) | — | Class | — | `spellSerializer.js` |
 | 17 | Fallback for unsupported actions | **Manual (P12C-B1 §3)**: shared rooms post a notice and spend nothing | Optional "pay listed costs" through existing resource controls | Combat (gate); Class (costs) | Creator decision | casting entry points |
@@ -117,6 +119,43 @@ device before write-back.
 | 26 | One shared condition definition/write/read path | **P14-C1 delivered/review ACCEPT/Build3 C1 parity/App11 PASS**: one PC Defending profile/controller/editor and P7, token↔sheet, real2×/no-wear/retained-face correction and exact recovery | Manual expiry/prior-action cost. Stunned full action gate, creature Defend and lifecycle remain separate | Combat +Class/source/UI coordination | HQ authorized frozen PC/manual scope; exact evidence/limits P14-C1 §6 | Shared profile/service/custody/editor and existing P7/condition/token/sheet/manual-card/block adapters |
 
 ## 5. Shared-file edits by the 2026-10-17 combat slices
+
+**P14-A1 closure, 2026-10-22:** [implementation/evidence](MYTHRILL_PROJECT_14_A1_CONTRACT.md#implementation-and-verification--2026-10-22),
+[same-reviewer repaired ACCEPT](MYTHRILL_PROJECT_14_A1_ACCEPTANCE.md). Real Wizard2 definitions, explicit0
+AP/mana/range and immutable versions, existing P9 consent/custody/GM final + P7 payment/HP; unsupported
+whole records/manual preserved. Actual production library edit uses owner-guarded transient handoff;
+free remote actions compare-and-set unchanged AP within existing P7 bounds.10 server cases; affected
+seams and client checks pass; Build4 exit0/drift[]/16-client parity, App7 PASS/22-runtime parity. Reviewer
+independently read source/evidence and measured hashes, did not execute runs. Seven protected identities
+unchanged.3 fetch errors and provider/lease/cloud fixtures/live-only App limits retained. Entry/final
+master/ad93fd78 unchanged; no Git writes or Class/heritage content/grant/ID/migration changes. §9 handoff.
+
+**P14-A1 authorized/frozen, 2026-10-22 — before production writes:** user authorizes the bounded
+Wizard-authored immediate ability pilot in [A1 contract](MYTHRILL_PROJECT_14_A1_CONTRACT.md).
+Main HQ owns installed authority/execution. Narrow coordinated Class-owned writes: Review retains whole
+draft and explicit range0; library mounts admission controls. W1 resource editor/manager/serializer and
+A1a compiler/tests/fixtures remain protected. Existing P9 approval/payment/controller/custody and P7
+handler/writer/receipt are extended, not copied into parallel binders. Additive pure adapter and installed
+registry helper; access/import/legacy protections, socket authority set, existing result feed/panel,
+focused tests/App/Laws/status docs. Initial dirty C4/status and RI-2 evidence remain preserved.
+This supersedes A1b parking only for this frozen capability; historical draft remains retained.
+Actual production Spellbook trace adds `ExternalLivePreview.jsx` (the visible Complete Spell save),
+`SpellwizardApp.jsx` normal save/reopen identity, Step2 explicit immediate ACTION selection and Step4
+range0 initializer/validation/control. These are narrow producer preservation/choice writes under the
+same A1 authorization. No resource editor/manager/serializer rewrite or other export cleanup.
+Production library→Wizard edit also needs a transient, owner-guarded request in the existing spellbook
+UI store: the library tab unmounts the Wizard, so the old event-before-mount loses the edit. The same
+normal reopen mapping consumes the request after mount; no persistence family or authority is added.
+
+**P14-C4 closure, 2026-10-22:** [contract/evidence](MYTHRILL_PROJECT_14_C4_CONTRACT.md#implementation-and-evidence).
+One GM-authenticated roster/occurrence chain, same P7 receipt/custody/writer; atomic cursor+due instance
+removal, exact corrections and manual fallbacks. Fresh canonical own-turn PC Defending next-start and
+named C3 Bash strictly-next-target-end only.8 server/15 client cases +4 independent probes; same-review
+capacity/retirement repairs ACCEPT; Build2 compilation0/recorded drift[] and production-App4 PASS.
+Source identity18 runtime/12 client dependencies, one clean receiver CRLF/LF caveat; external commits
+advanced9e653fc4→f23bab5b→ad93fd78, not this agent's Git write. Existing sandbox guards preserved.
+Ancestry directive/reuse/missing/owner/follow-on map in §8; heritage12 cross-link only. No grant/ID/number/
+Wizard/A1a/card/resource/migration changes; no recurring executor, general racial timers or A1b.
 
 **P14-C4 authorized/frozen, 2026-10-21 — before production writes:** creator authorizes bounded
 authenticated turn expiry and ancestry interface handoff. [C4 contract](MYTHRILL_PROJECT_14_C4_CONTRACT.md)
@@ -381,7 +420,7 @@ checkpoint is preserved; concurrent Main HQ recovery uses `projects/mythrill-vtt
 focused handoff. This records the supplied directive in the existing coordination structure; it is not
 a competing roadmap or a repeat of the completed [all25 cultural review](plans/mythrill-class-reconstruction/28_HERITAGE_REVIEW_AND_PRIORITY_ORIGINS.md).
 
--25 verified heritages, each with one core ability and three paired choices (seven definitions per
+- 25 verified heritages, each with one core ability and three paired choices (seven definitions per
 heritage); exactly one choice from each pair = three optional selections and four equipped abilities.
 - Finalized choices are permanent. Creation, live play and Laws/Races simulation must share definitions
 and selected-ability identity/version, with real authority for execution/passive triggers.
@@ -404,10 +443,53 @@ decision; no production migration or automatic removal/replacement of existing g
 | Simulator/live calculation parity | Shared pure rule/domain helpers where actually consumed; Laws/Races authored displays | No complete ancestry mechanical calculator/live admission parity; **Class/Heritage +shared** | One pure versioned capability calculation used by both simulation and admitted live profile, with parity tests; simulation alone proves no authority |
 
 **Non-claims / protected boundaries:** P13B collection is not a general automatic reaction executor.
-Named P9 support does not execute arbitrary Wizard spells. A1a groundwork is not installed live admission;
-**A1b remains parked**. Current manual expiry cannot support automatic racial-effect expiry claims;
+Original named P9 alone does not admit Wizard records; P14-A1 now installs only its bounded immediate
+damage/healing shape. A1a compilation alone is not live authority; historical **A1b remains parked
+outside P14-A1**. Current manual expiry cannot support automatic racial-effect expiry claims;
 C4's exact named profiles do not automatically admit ancestry effects. Mitigation order, Evasion/caps
 and environmental rules remain unresolved/manual where already documented, not implicit ancestry rules.
 One shared definition/application/mechanics/timing/recurrence/presentation separation is required across
 token, sheet, GM and Spell/Creature/Item Wizard authoring surfaces. Those authoring surfaces may retain
 unsupported metadata but must not advertise it as executable. No second effects/admission/payment engine.
+
+## 9. P14-A1 delivered shared-capability handoff
+
+| Interface / owner | Delivered boundary | Future producer obligation |
+|---|---|---|
+| Preserved authoring record / Class producer | Whole Wizard draft + outer record; exact prices/range, inactive defaults explicitly checked, conflicts/manual reasons | Embedded editors preserve their complete source and positively map one admitted shape; never silently strip secondary effects |
+| Pure capability mapping / shared Main+Class | `authoredAbility.definitionFromWizard(record,{roomId,definitionVersion,classId})`; `readFormula` yields existing roll input | Laws simulations reuse this pure vocabulary/calculation boundary, without granting authority or creating another resolver |
+| Immutable definition / unchanged A1a | Exact room/UUID/sequential version/hash, existing binding IDs, strict compiler and validated registry history | New class/ancestry eligibility/bindings need separate reviewed contracts. Package inclusion, loadout selection and a display name do not admit execution |
+| Installed authority / Main HQ | Current GM `actor_authored_admit/revoke/list` within existing P7 context/writer; protected room-owned registry | Reuse this installation/revocation/status interface. Local save and writer admission are separate transactions; do not claim cloud confirmation |
+| Consent/execution / Main HQ | Existing P9 approval/roll/custody/adjudication plus P7 temp-first AP/mana+HP/receipt; exact primary PC source and one PC/creature target | Producers reuse installed refs and the same usable action surfaces. Acting-creature sources, typed new resources and additional recipients/components need named extensions |
+| Result/recovery / existing P7/P9/P13A owners | Original-byte retries, epoch/receipt recovery, matching personal projection and accepted-only narration/HP feedback | Keep unknown blocking and owner privacy; no local fallback debit, automatic reconnect submission or parallel replay ledger |
+
+**Producer extension delivered:** P14-A2 below adds Item Wizard authoring/access for the same shape and
+existing source eligibility. Future damage+conditions, self-costs/multiple components, specified-duration periodic
+changes, expiration outcomes, suppression/stacking/recharge, reaction chains, obstruction/propagation
+and environmental/tile predicates remain in roadmap §14. Class/Heritage owns its content,175 potential
+definitions, selection/finalization and legacy compatibility; Main HQ owns shared execution. No new
+Gambler/Fate Weaver/Chaos Weaver/ancestry admission, racial numbers/regen/edge grants, ID rename or migration.
+
+## 10. P14-A2 Item producer ownership and Creature Wizard handoff
+
+[Frozen boundary, implementation and evidence](MYTHRILL_PROJECT_14_A2_CONTRACT.md) ·
+[bounded independent acceptance](MYTHRILL_PROJECT_14_A2_ACCEPTANCE.md).
+
+| Seam / owner | Delivered / protected boundary |
+|---|---|
+| Item producer / Main HQ | `ItemAbilityEditor` + pure `itemAuthoredAbility` helpers; complete detached Wizard record in `item.authoredAbility`, UUID retained, optional library-ID provenance only; no name substitution |
+| Normal item persistence/access / Main HQ | ItemWizard/ItemLibrary save/reopen/manual-field preservation, exact detached inventory copies/no association stacking, keyboard selection and real Inventory item launcher; template/instance/definition/version/approval/command IDs distinct |
+| Reused A1 interfaces / shared owners | `definitionFromWizard`, normal `AuthoredAdmission`, trusted installed room list/version/ref, exact canonical match and `routeSpellCast`; existing P9 consent/custody/retained rolls/P7 payment+HP/P13A feedback, no item-only engine/storage |
+| Protected execution inputs / Main HQ +Class | A1a compiler/tests/fixtures, W1 resource editor/manager/serializer, A1 server authority/payment/installed registry/custody bodies unchanged; current primary owner/class/Stunned/revisions/installed-version checks remain authoritative |
+| Class/Heritage and RI-2 owners | Content, compatibility, permanent ancestral selection, grants/IDs/resources remain their tracks; no additional reconstructed-class/ancestry binding, migration or tuning |
+| Future Creature Wizard producer / separate bounded contract | Can reuse compact whole-Wizard record editor/snapshot and pure adapter/admission interfaces. This delivery still has an owner-PC source; creature-origin execution needs exact new source-authority validation, not a producer button |
+
+Association is authoring/access only, **not possession/equipment/holding/charges/consumption entitlement**.
+GM adjudicates unsupported item requirements/effects. Original mixed/passive/on-hit data remains intact/
+manual; only an explicitly separate supported activated definition can enter A1. Edits require explicit
+re-admission; installed history and other item copies do not silently change. Lost ACK uses shared custody.
+
+One review repaired F1–F4 and accepted final bytes. Build3/App10 pass at recorded identities, qualified by
+five fetch errors and unrelated persistent P13 disconnected notice visibly overlaying upper Inventory
+after fixture rejoin. This does not close P13/live-network/physical-device/cloud/deployment gates or
+reopen accepted phases. All initial concurrent Class/Heritage/RI-2/A1/C4 work is retained.

@@ -61,6 +61,7 @@ const ECHO_PREVENTION_WINDOW_MS = 200;
  * Delayed/buffered work is epoch-bound at its own capture point.
  */
 const AUTHORITATIVE_ROOM_EVENTS = new Set([
+  'actor_authored_list', 'actor_authored_admit', 'actor_authored_revoke',
   'reaction_window_open', 'reaction_window_list', 'reaction_window_change', 'reaction_window_interrupt',
   'actor_riposte_offer', 'actor_riposte_list', 'actor_riposte_cancel', 'actor_riposte_revalidate',
   'actor_riposte_parent',

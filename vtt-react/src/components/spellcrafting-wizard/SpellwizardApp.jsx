@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import MythrillWindow from '../windows/MythrillWindow';
 import { showConfirm } from '../../utils/dialogService';
+import useSpellbookStore from '../../store/spellbookStore';
 import {
   SpellWizardProvider,
   useSpellWizardState,
@@ -185,6 +186,11 @@ const AppContent = ({ hideHeader = false }) => {
 
     // Expose handleLoadSpell globally for direct access
     window.handleLoadSpell = handleLoadSpell;
+    const edit = useSpellbookStore.getState().wizardEditRequest;
+    if (edit) {
+      useSpellbookStore.setState({ wizardEditRequest: null });
+      if (edit.guard?.isCurrent()) handleLoadSpell(edit.spell, true);
+    }
 
     // Clean up
     return () => {
@@ -238,12 +244,12 @@ const AppContent = ({ hideHeader = false }) => {
         aoeType: wizardState.targetingConfig?.aoeType || wizardState.targetingConfig?.aoeShape || 'sphere',
         targetingType: wizardState.targetingConfig?.targetingType || 'single',
         rangeType: wizardState.targetingConfig?.rangeType || 'ranged',
-        rangeDistance: wizardState.targetingConfig?.rangeDistance || 30,
+        rangeDistance: wizardState.targetingConfig?.rangeDistance,
         aoeShape: wizardState.targetingConfig?.aoeShape || 'circle',
         aoeParameters: wizardState.targetingConfig?.aoeParameters || {},
         targetRestrictions: wizardState.targetingConfig?.targetRestrictions || 
                           (wizardState.targetingConfig?.targetRestriction ? [wizardState.targetingConfig.targetRestriction] : ['any']),
-        maxTargets: wizardState.targetingConfig?.maxTargets || 1,
+        maxTargets: wizardState.targetingConfig?.maxTargets,
         selectionMethod: wizardState.targetingConfig?.selectionMethod || 
                         wizardState.targetingConfig?.targetSelectionMethod || 'manual',
         targetSelectionMethod: wizardState.targetingConfig?.targetSelectionMethod || 
@@ -254,6 +260,8 @@ const AppContent = ({ hideHeader = false }) => {
       // Create a serialized version of the spell
       const spellData = {
         ...wizardState,
+        authoredDraft: JSON.parse(JSON.stringify(Object.fromEntries(Object.entries(wizardState).filter(([key]) => key !== 'authoredDraft')))),
+        authoredDefinitionId: wizardState.authoredDefinitionId || crypto.randomUUID(),
         lastModified: new Date().toISOString(),
         lastSaved: new Date().toISOString(),
         // Ensure we have all the necessary properties for the spell card
@@ -480,6 +488,8 @@ const AppContent = ({ hideHeader = false }) => {
 
       // Ensure the spell data has all the required fields
       const formattedSpellData = {
+        ...spellCopy.authoredDraft,
+        authoredDefinitionId: spellCopy.authoredDefinitionId,
         // Create a default state with all required fields
         // Basic information
         name: spellCopy.name || '',

@@ -18,12 +18,16 @@ import StepUtility from './steps/StepUtility';
 import StepValue from './steps/StepValue';
 import StepDurability from './steps/StepDurability';
 import StepAppearance from './steps/StepAppearance';
+import ItemAbilityEditor from './ItemAbilityEditor';
+import { clone } from '../../services/itemAuthoredAbility';
 
 export default function ItemWizard({ onClose, onComplete, onCancel, initialData = {}, isEditing = false }) {
 
     const handleClose = (item = null) => {
+        if (item && abilityEditing) return;
         if (item) {
             const formattedItem = {
+                ...clone(itemData),
                 id: itemData.id || crypto.randomUUID(),
                 name: itemData.name || 'Unnamed Item',
                 quality: itemData.quality || 'common',
@@ -303,6 +307,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
     }
 
     const [currentStep, setCurrentStep] = useState(STEPS.ITEM_TYPE);
+    const [abilityEditing, setAbilityEditing] = useState(false);
     const [itemData, setItemData] = useState(() => {
         const defaultData = {
             type: '',
@@ -397,7 +402,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
     const mergeDeep = (target, source) => {
         const result = { ...target };
         for (const key of Object.keys(source)) {
-            if (source[key] && typeof source[key] === 'object' && !Array.isArray(source[key]) &&
+            if (key !== 'onHitEffects' && source[key] && typeof source[key] === 'object' && !Array.isArray(source[key]) &&
                 target[key] && typeof target[key] === 'object' && !Array.isArray(target[key])) {
                 result[key] = mergeDeep(target[key], source[key]);
             } else {
@@ -409,7 +414,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
 
     useEffect(() => {
         if (Object.keys(initialData).length > 0) {
-            setItemData(prev => mergeDeep(prev, initialData));
+            setItemData(prev => mergeDeep(prev, clone(initialData)));
         }
     }, []);
 
@@ -454,7 +459,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
             case STEPS.ITEM_TYPE:
                 return <StepItemType itemData={itemData} updateItemData={updateItemData} />;
             case STEPS.BASIC_INFO:
-                return <StepBasicInfo itemData={itemData} updateItemData={updateItemData} />;
+                return <><StepBasicInfo itemData={itemData} updateItemData={updateItemData} /><ItemAbilityEditor itemData={itemData} updateItemData={updateItemData} onEditingChange={setAbilityEditing} /></>;
             case STEPS.SLOT_AND_SIZE:
                 return <StepSlotAndSize itemData={itemData} updateItemData={updateItemData} />;
             case STEPS.STATS:
@@ -572,6 +577,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
     }, [isDragging, dragOffset]);
 
     const prevStep = () => {
+        if (abilityEditing) return;
         let newStep = currentStep - 1;
         if (itemData.type === 'miscellaneous' || itemData.type === 'currency') {
             if (newStep === STEPS.UTILITY || newStep === STEPS.CHANCE_ON_HIT || newStep === STEPS.DURABILITY || newStep === STEPS.COMBAT_STATS) {
@@ -582,6 +588,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
     };
 
     const nextStep = () => {
+        if (abilityEditing) return;
         let newStep = currentStep + 1;
         if (itemData.type === 'miscellaneous' || itemData.type === 'currency') {
             if (newStep === STEPS.COMBAT_STATS || newStep === STEPS.DURABILITY || newStep === STEPS.CHANCE_ON_HIT || newStep === STEPS.UTILITY) {
@@ -649,7 +656,12 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                 key={stepName}
                                 className={`wow-progress-segment ${stepIndex < currentStep ? 'completed' : ''
                                     } ${stepIndex === currentStep ? 'active' : ''}`}
-                                onClick={() => setCurrentStep(stepIndex)}
+                                role="button"
+                                tabIndex={0}
+                                aria-label={stepInfo.name}
+                                aria-disabled={abilityEditing}
+                                onClick={() => { if (!abilityEditing) setCurrentStep(stepIndex); }}
+                                onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); if (!abilityEditing) setCurrentStep(stepIndex); } }}
                                 onMouseEnter={(e) => handleStepMouseEnter(e, stepName, stepInfo)}
                                 onMouseLeave={handleStepMouseLeave}
                             >
@@ -753,7 +765,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                         <button
                             className="wizard-nav-btn wizard-nav-previous"
                             onClick={prevStep}
-                            disabled={currentStep === 0}
+                            disabled={currentStep === 0 || abilityEditing}
                         >
                             <i className="fas fa-chevron-left"></i> Previous
                         </button>
@@ -763,6 +775,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                         {isLastStep ? (
                             <button
                                 className="wizard-nav-btn wizard-nav-create"
+                                disabled={abilityEditing}
                                 onClick={() => handleClose(itemData)}
                             >
                                 <i className="fas fa-wand-magic-sparkles"></i> Create Item
@@ -770,6 +783,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                         ) : (
                             <button
                                 className="wizard-nav-btn wizard-nav-next"
+                                disabled={abilityEditing}
                                 onClick={nextStep}
                             >
                                 Next <i className="fas fa-chevron-right"></i>

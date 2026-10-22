@@ -1,0 +1,41 @@
+import { newItemAbility, editItemAbility, snapshotAbility, itemAbilitySupport, matchingItemVersions, clone } from '../itemAuthoredAbility';
+import useInventoryStore from '../../store/inventoryStore';
+const id = 'd2398809-d3cf-4931-b8f6-24e5a382e1a5';
+const values = { name: 'Item Mending', description: 'Verification only', kind: 'healing', formula: '1d8+1', damageType: 'arcane', ap: 0, mana: 0, range: 0, restriction: 'any' };
+test('same whole-Wizard shape; exact zeros, UUID and snapshots survive edit/copy/JSON reopen without source mutation', () => {
+  const source = newItemAbility(id), original = clone(source);
+  const library = snapshotAbility(source.record, 'spell-library-id');
+  const healed = editItemAbility(library, values);
+  expect(source).toEqual(original); expect(library.record).toEqual(source.record);
+  expect(healed.record.authoredDefinitionId).toBe(id);
+  expect(itemAbilitySupport(JSON.parse(JSON.stringify(healed))).definition).toMatchObject({ effect: { kind: 'healing', formula: '1d8+1' }, resourceCost: { actionPoints: 0, mana: 0 }, targeting: { rangeFeet: 0 } });
+  const definition = itemAbilitySupport(healed).definition;
+  const entry = { canonicalDefinition: definition, definitionRef: { roomId: 'item-preview', definitionId: id, definitionVersion: 1, definitionHash: 'saved' } };
+  expect(matchingItemVersions(healed, [entry], 'item-preview')).toEqual([entry]);
+  expect(matchingItemVersions(editItemAbility(healed, { ...values, formula: '1d6' }), [entry], 'item-preview')).toEqual([]);
+  expect(matchingItemVersions(healed, [entry], 'another-room')).toEqual([]);
+});
+test('unsupported whole records/missing references stay intact/manual; editing never extracts the supported fragment', () => {
+  const a = newItemAbility(id); a.record.authoredDraft.effectTypes.push('debuff'); a.record.effectTypes.push('debuff');
+  a.record.authoredDraft.debuffConfig = a.record.debuffConfig = { enabled: true, custom: { keep: 'all of it' } };
+  const before = clone(a);
+  expect(itemAbilitySupport(a).ok).toBe(false); expect(() => editItemAbility(a, values)).toThrow(/whole definition stays manual/);
+  expect(a).toEqual(before); expect(matchingItemVersions(a, [], 'room')).toEqual([]);
+  expect(itemAbilitySupport({ schemaVersion: 1, librarySpellId: 'deleted' }).ok).toBe(false);
+  expect(itemAbilitySupport({ ...newItemAbility(id), librarySpellId: 'deleted' }).ok).toBe(true);
+  for (const change of [{ ap: '' }, { ap: -1 }, { mana: 0.5 }, { range: null }, { formula: '1d6+1d4' }]) expect(() => editItemAbility(newItemAbility(id), { ...values, ...change })).toThrow();
+});
+test('standard library copies and explicit stacks never overwrite another instance association, even with identical names', () => {
+  useInventoryStore.setState({ items: [] });
+  const template = { id: 'template', name: 'Same Name', type: 'miscellaneous', width: 1, height: 1, stackable: true, authoredAbility: newItemAbility(id) };
+  const inv = useInventoryStore.getState();
+  inv.addItemFromLibrary(template);
+  const first = clone(useInventoryStore.getState().items[0]);
+  template.authoredAbility = editItemAbility(template.authoredAbility, values);
+  inv.addItemFromLibrary(template);
+  const items = useInventoryStore.getState().items;
+  expect(items).toHaveLength(2); expect(items[0]).toEqual(first); expect(items[1].id).not.toBe(items[0].id); expect(items[1].originalItemId).toBe('template');
+  expect(items[1].authoredAbility).toEqual(template.authoredAbility); expect(items[1].authoredAbility).not.toBe(template.authoredAbility);
+  inv.mergeStacks(items[0].id, items[1].id); expect(useInventoryStore.getState().items).toEqual(items);
+  inv.addItemFromLibrary({ ...template, authoredAbility: undefined }); expect(useInventoryStore.getState().items).toHaveLength(3);
+});

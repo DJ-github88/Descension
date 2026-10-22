@@ -126,6 +126,47 @@ function registerActorConsequenceHandlers(ctx) {
     publishInstalled(captured.room, 'actor_consequence_accepted', result, ack);
     deliver(captured.room, 'combat_state_sync', { combat: result.combat });
   });
+  // P14-A1: A1a plans, P7 authority/admission/install. No parallel persistence owner.
+  run('actor_authored_list', async(data, ack) => {
+    actors.keys(data, ['roomId']);
+    const captured = context(data.roomId);
+    await confirm(captured);
+    respond(ack, { success: true, roomId: captured.room.id, ...require('../services/installedAuthoredAbilities').list(captured.room),
+      durability: liveOnly(captured.room) ? 'live-only' : 'checkpoint-eligible' });
+  });
+  for (const operation of ['admit', 'revoke']) {
+    run(`actor_authored_${operation}`, async(input, ack) => {
+      actors.keys(input, operation === 'admit' ? ['roomId', 'requestId', 'expectedRegistryRevision', 'record', 'definitionVersion', 'classId'] : ['roomId', 'requestId', 'expectedRegistryRevision', 'definitionRef']);
+      if (actors.bytes(input) > 128 * 1024) {actors.fail('authored_record_capacity');}
+      const data = actors.clone(input), captured = context(data.roomId);
+      if (!captured.isGM) {actors.fail('forbidden');}
+      const installed = require('../services/installedAuthoredAbilities'), definitions = require('../services/authoredSpellDefinitions');
+      const before = installed.registry(captured.room);
+      const request = { roomId: data.roomId, requestId: data.requestId, expectedRegistryRevision: data.expectedRegistryRevision };
+      if (operation === 'admit') {
+        const mapped = require('../../vtt-react/src/services/authoredAbility').definitionFromWizard(data.record, { roomId: data.roomId, definitionVersion: data.definitionVersion, classId: data.classId });
+        if (!mapped.ok) {actors.fail(mapped.code, mapped.reason);}
+        const compiled = definitions.compileDefinition(mapped.definition);
+        if (!compiled.ok) {actors.fail(compiled.code, compiled.path);}
+        request.definition = compiled.canonicalDefinition; request.expectedDefinitionHash = compiled.definitionHash;
+      } else {request.definitionRef = data.definitionRef;}
+      const planner = definitions.createDefinitionRegistry({ authorize: async() => {
+        await confirm(captured);
+        if (!current(captured).isGM) {actors.fail('forbidden');}
+        return { ok: true, roomId: captured.room.id, uid: captured.uid, gmUid: captured.room.gmId, principalBound: true, authorityCurrent: true, rulesetId: 'prism', rulesetVersion: 'cr-a1a-pilot-1' };
+      } });
+      const plan = await (operation === 'admit' ? planner.planAdmit(before, request) : planner.planRevoke(before, request));
+      if (!plan.ok) {actors.fail(plan.code, plan.path);}
+      current(captured);
+      if (actors.hash(installed.registry(captured.room)) !== actors.hash(before)) {actors.fail('REVISION_CONFLICT');}
+      if (plan.kind === 'transition') {
+        const next = actors.clone(captured.room.gameState); next.authoredSpellRegistry = actors.clone(plan.nextRegistry);
+        admit(captured.room, { next });
+      }
+      respondInstalled(ack, { success: true, roomId: captured.room.id, definitionRef: plan.definitionRef,
+        ...installed.list(captured.room), status: `${operation === 'revoke' ? 'revoked' : 'admitted'}${liveOnly(captured.room) ? ' live-only' : '-live / checkpoint pending'}` });
+    });
+  }
   run('actor_bind', async(data, ack) => {
     actors.keys(data, ['roomId', 'ref', 'snapshotHash', 'selection', 'replacePrimaryRef']);
     if (!/^[0-9a-f]{64}$/.test(data.snapshotHash || '') || (data.selection !== undefined && !['root', 'nested'].includes(data.selection))) {actors.fail('invalid_consequence');}
@@ -304,8 +345,10 @@ function registerActorConsequenceHandlers(ctx) {
   // later adjudicates the cross-actor outcome through one strict actor_consequence.
   run('actor_spell_approve', async(approval, ack) => {
     payments.validateApproval(approval);
+    approval = actors.clone(approval);
     const captured = context(approval.roomId);
     const { room, player, uid } = captured;
+    if (uid !== approval.source.ownerUid) {actors.fail('forbidden');}
     const contentHash = actors.hash(approval);
     const consumed = payments.consumedReceipt(room, approval.approvalId);
     if (consumed) {
@@ -328,10 +371,23 @@ function registerActorConsequenceHandlers(ctx) {
     if (!actors.permitted(room, player, uid, approval.source, source.token) || source.token.ownerUserId !== uid) {actors.fail('forbidden');}
     payments.checkAgainstRoom(room, approval);
     await confirm(captured);
+    const afterReceipt = payments.consumedReceipt(room, approval.approvalId);
+    if (afterReceipt) {
+      if (afterReceipt.authorization.approvalHash !== contentHash || afterReceipt.source?.ownerUid !== uid) {actors.fail('command_id_conflict');}
+      respondInstalled(ack, resultFor(room, afterReceipt)); return;
+    }
     const latest = actors.locate(room, approval.source);
     if (!actors.permitted(room, captured.player, uid, approval.source, latest.token) || latest.token.ownerUserId !== uid) {actors.fail('forbidden');}
     payments.checkAgainstRoom(room, approval);
-    if (payments.get(room, approval.approvalId)) {respond(ack, { success: false, code: 'awaiting_gm', approvalId: approval.approvalId, contentHash }); return;}
+    const afterPending = payments.get(room, approval.approvalId);
+    if (afterPending) {
+      if (afterPending.contentHash !== contentHash) {actors.fail('command_id_conflict');}
+      respond(ack, { success: false, code: 'awaiting_gm', approvalId: approval.approvalId, contentHash }); return;
+    }
+    const closed = payments.closedCode(room, approval.approvalId);
+    if (closed) {actors.fail(closed === 'consumed' ? 'retry_window_expired' : `approval_${closed}`);}
+    if (approval.actionEpoch !== actors.epoch(room)) {actors.fail('outcome_unknown');}
+    payments.checkWindow(room, approval);
     const entry = payments.add(room, { approval: actors.clone(approval), contentHash, ownerUid: uid });
     toGm(room, 'actor_spell_pending', { roomId: room.id, approval: payments.gmProjection(entry), contentHash, submitterUid: uid });
     respond(ack, { success: false, code: 'awaiting_gm', approvalId: approval.approvalId, contentHash });

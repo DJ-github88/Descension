@@ -1,6 +1,6 @@
 # Mythrill / Prism — engineering state
 
-Updated: 2026-10-18. Checkout: `D:/VTT` (the old `D:/Mythrill/Descension`
+Updated: 2026-10-22 (bounded P14-A2 item producer handoff). Checkout: `D:/VTT` (the old `D:/Mythrill/Descension`
 path in CLAUDE.md is historical). Roadmap authority: [MYTHRILL_NEXT_PHASE.md](MYTHRILL_NEXT_PHASE.md).
 
 ## Accepted baseline
@@ -85,6 +85,100 @@ does not authorize deployment or satisfy roadmap §20 release gates.
 
 ## Current work
 
+### P14-A2 Item Wizard ability producer — bounded independent ACCEPT, Build3/App10 PASS (qualified UI evidence)
+
+[Frozen contract/implementation](MYTHRILL_PROJECT_14_A2_CONTRACT.md) and
+[independent verdict](MYTHRILL_PROJECT_14_A2_ACCEPTANCE.md): compact Basic Info editor or compatible
+Spell Library snapshot, normal item save/reopen, existing A1 exact GM admission, real Inventory item
+launcher→existing owner consent/roll/GM final/P7 payment+HP. Whole Wizard definition/UUID preserved;
+immutable version matching, explicit re-admission, instance/template isolation. Item association adds
+authoring/access only, no possession/equipment/consumption/charges or creature-origin authority.
+
+- Actual Quill Spark damage and Ribbon Mending healing (0 AP/0 mana/range0), physical/digital; no
+  approval debit, temp-first/caps, once-only feedback. Lost owner ACK→item reopen/reload/real rejoin→same
+  approval; lost GM ACK+broadcast→unknown→reload→same command/receipt. Actualv2 leavesv1/old instance
+  unchanged. Mixed/manual/on-hit/unknown data survive real Edit/save intact and spend nothing.
+- One review F1 stacking/F2 manual-field loss/F3 unfinished-edit loss/F4 keyboard access repaired;
+  reviewer independently ran eight repair checks +two suites/five tests, then appraised final evidence.
+  Implementer: final4 client suites14, earlier6 suites25 (overlap), W1 three suites43, A1 server10 PASS;
+  lint0errors32 incumbentwarnings/new helper+UI0; detector[]. Historical acceptance is reused.
+- `master/ad93fd78048a49030f28af18e23bcf0e91a2aa85`, reviewed uncommitted bytes; detached Build3 exit0/
+  drift[], all31 runtime current/App/final hashes and gated client build parity match; seven protected
+  identities unchanged. Manifest `15cbc77d…`; gate `c42435d5…`. Bulk external `p14a2-build3/app10/review1`.
+- Limits: Build/App implementer-executed, independently appraised. Five fetch errors; incumbent P13
+  disconnected notice visibly overlays upper Inventory after fixture rejoin, so no pristine networking/
+  universally unobstructed tablet claim. Auth/ownership/lease/cloud and delivery are fixtures; receipts
+  temporary-live-only. A1's prior reviewer did not independently execute its runs because its sandbox
+  was unavailable; that qualification stands. No deployment, physical tablet or second-device claim.
+
+Coordination §10 hands the same whole-record producer boundary to Creature Wizard, still owner-PC
+execution until a separate creature-source authority contract. Class/Heritage/RI-2/ancestral-selection,
+A1a/W1 and accepted A1/C1–C4 work preserved. No commit/push/deploy/reset/upgrade/migration.
+
+### P14-A1 Wizard-authored immediate ability — bounded independent ACCEPT, Build4/App7 PASS
+
+[Frozen contract and implementation](MYTHRILL_PROJECT_14_A1_CONTRACT.md#implementation-and-verification--2026-10-22)
+and [same-reviewer final verdict](MYTHRILL_PROJECT_14_A1_ACCEPTANCE.md) deliver the first actual Wizard →
+normal library/save/reopen → GM-installed immutable definition → owner consent/retained roll → GM final
+→ existing P9/P7 payment+HP workflow. `authored-immediate:v1`: immediate ACTION, one primary owner PC,
+one exact PC/creature target, explicit integer AP/mana (including0), one direct damage OR healing,
+bounded `NdM[+K|-K]`. No display-name exception. A1a/compiler/fixtures and W1 resource owners unchanged.
+
+- **Authority/conservation:** installed registry uses existing P7 context/confirm/writer admission;
+  original class-binding vocabulary, exact refs/revisions/status/price/roll, current ownership and Stunned
+  rechecked. Temp-first AP/mana/HP, capped healing; no pre-spend. Free remote actions compare-and-set
+  unchanged source AP to retain P7's nonempty-entry bound. One synchronous payment/HP/receipt/consumption
+  install; no new payment, approval or persistence engine. Unsupported whole records stay saved/manual.
+- **Actual App7:** independently named Ink Lance/Quiet Mending authored with real controls/Complete
+  Spell, close/reopen/admit, physical/digital faces, owner projection and observer narration/HP floats.
+  Lost GM ACK+broadcast → unknown/disabled replacement → reload → original-byte check; one receipt/chat.
+  Owner reload emits no new action. Actual Edit preserves UUID and0 AP/mana/range; explicitv2/newhash,
+  original installedv1 unchanged. Healing+debuff record preserved/manual, no spend.1440/1024 viewports.
+- **Checks:**10 new server cases;70 affected production seams plus final affected P9 group10 PASS;
+  final client6 suites74 tests plus earlier65 condition/feed/Laws and4 roll tests PASS (overlap not summed).
+  One review F1/F2 BLOCK→repaired source closure→final ACCEPT;15 retained independent probes pass when
+  run by implementer. Reviewer independently inspected source/runtime evidence and measured hashes,
+  **did not independently execute** tests/build/App because its sandbox was unavailable.
+- **Identity:** `master/ad93fd78048a49030f28af18e23bcf0e91a2aa85`, reviewed uncommitted bytes. Build4
+  exit0, mirror/live drift[], all16 client runtime inputs match, all22 runtime hashes match App7/final;
+  seven protected identities unchanged. Manifest `03fe9b4c…`; final gate SHA256 `94f806db…`, complete
+  exact identities/evidence paths in contract. Three nonfatal provider-fetch errors retained. Auth,
+  ownership, lease/cloud are fixtures; App receipts temporary-room/live-only. Permanent writer refusal
+  and checkpoint codec/new-epoch recovery are focused server evidence, not live cloud/deployment proof.
+
+C4 acceptance carries forward; wider P14, reactions/areas/conditions/recurrence/new resources and broader
+Class/ancestry execution stay open. Coordination §9 hands this same pure definition/installed-ref/P7
+interface to future editors; no reconstructed-class/heritage admission, grant/ID change or migration.
+Initial C4/status/RI-2 work preserved. No commit/push/deploy/reset/dependency change.
+
+### P14-C4 shared turn-boundary expiry — repaired independent ACCEPT, Build2/App4 PASS
+
+[C4 contract](MYTHRILL_PROJECT_14_C4_CONTRACT.md#implementation-and-evidence) contains the verified
+9-row timer/buff/debuff capability table and exact source/evidence boundaries. GM explicitly adopts an
+exact bound server roster, then confirms validated next occurrences through the existing P7 handler/
+receipt/custody/admission owner. Cursor+due removals install in one admitted gameState.
+
+- **Automatic only for fresh supported instances:** canonical PC Defending applied on its own current
+  turn → strictly next start; named C3 Shield Bash → end of target's strictly next turn. Ongoing target
+  turn end is too early. No wall-clock/encounter-end/restart cleanup, retroactive anchoring or AP/regen.
+- **Manual:** existing/out-of-turn corrections, generic C2 Stunned, critical one-round, unsupported
+  durations, all recurring/ancestry effects; costs/saves/advantage remain at accepted boundaries. Edits
+  cancel exact schedules; other sources remain independent. Retirement keeps effects; stale refs block.
+- **Checks:**8 focused server cases,15 client tests; same-review F1 capacity/F2 retirement repairs ACCEPT
+  plus4 independent probes. Excess beyond32 due removals is retained/manual before promising automatic
+  expiry. Actual P12B face2→4/no wear before expiry, retained face2→2/d8→d6 after confirmed expiry and
+  revalidation. App4 GM/owner/observer, labels/token↔sheet, ordinary Next Turn, lost ACK/broadcast/reload/
+  original retry, correct Bash boundary/manual critical/reconnect and end/restart; desktop/tablet PASS.
+- **Identity:**18 runtime dependencies reviewed;12 client sources match Build2 recorded inputs/build HEAD
+  (one legacy receiver newline-only normalization caveat). Build2 compilation0/recorded drift[]; App4
+  retains4 blocked-provider fetch errors. Entry9e653fc4→external buildHEADf23bab5b→finalad93fd78.
+  No this-agent Git writes; protected W1/A1a/universal hashes unchanged; other tracks remain preserved.
+
+[Coordination §8](MYTHRILL_CROSS_TRACK_COORDINATION.md#8-ancestral-loadout-directive--shared-capabilityinterface-handoff)
+records the Ancestral Loadout directive and ownership/dependency map. No175 abilities, numbers, grants,
+character migrations or second engine. Candidate next preparation: versioned permanent-loadout validator/
+finalization and compatibility contract; regeneration/passive execution needs separate named admission.
+
 ### P14-C3 Shield Bash manual-result adapter — implemented, repaired independent ACCEPT, Build1/App2 PASS
 
 [C3 contract/evidence](MYTHRILL_PROJECT_14_C3_CONTRACT.md#implementation-and-evidence) adds a GM-only
@@ -108,8 +202,8 @@ retains exact bytes and blocks replacement; separate later results have independ
   preserved, not accepted here. Source/lease/provider/cloud are fixture boundaries. No agent Git write.
 
 C1/C2 acceptance is carried forward. Candidate next bounded integration: bludgeoning-critical manual
-result with GM-resolved CON save and independent one-round metadata. Full Shield Bash/P14, A1b and
-automatic lifecycle remain open. No commit/push/deploy/reset/dependency change.
+result with GM-resolved CON save and independent one-round metadata. C4 subsequently delivers only
+bounded turn expiry above; full Shield Bash/P14, A1b and general lifecycle remain open. No commit/push/deploy/reset/dependency change.
 
 ### P14-C2 shared Stunned — bounded implementation, independent ACCEPT, Build2/App5 PASS
 

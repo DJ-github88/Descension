@@ -209,7 +209,7 @@ const Step4Targeting = ({ onNext, onPrevious, stepNumber, totalSteps }) => {
     height: 20
   });
   const [rangeType, setRangeType] = useState(targetingConfig.rangeType || 'touch');
-  const [rangeDistance, setRangeDistance] = useState(targetingConfig.rangeDistance || 30);
+  const [rangeDistance, setRangeDistance] = useState(Object.prototype.hasOwnProperty.call(targetingConfig, 'rangeDistance') ? targetingConfig.rangeDistance : 30);
   const [errors, setErrors] = useState({});
   const [hoveredCell, setHoveredCell] = useState(null);
   const [targetPosition, setTargetPosition] = useState(null);
@@ -398,7 +398,7 @@ const Step4Targeting = ({ onNext, onPrevious, stepNumber, totalSteps }) => {
       newErrors.aoeShape = 'Please select an area shape';
     }
 
-    if (rangeType === 'ranged' && (!rangeDistance || rangeDistance <= 0)) {
+    if (rangeType === 'ranged' && (!Number.isSafeInteger(rangeDistance) || rangeDistance < 0)) {
       newErrors.rangeDistance = 'Please specify a valid range distance';
     }
 
@@ -426,7 +426,7 @@ const Step4Targeting = ({ onNext, onPrevious, stepNumber, totalSteps }) => {
       newErrors.rangeType = 'Please select a range type';
     }
 
-    if (rangeType === 'ranged' && (!rangeDistance || rangeDistance <= 0)) {
+    if (rangeType === 'ranged' && (!Number.isSafeInteger(rangeDistance) || rangeDistance < 0)) {
       newErrors.rangeDistance = 'Please enter a valid range distance';
     }
 
@@ -2755,7 +2755,7 @@ const Step4Targeting = ({ onNext, onPrevious, stepNumber, totalSteps }) => {
                       <div className="range-slider">
                         <input
                           type="range"
-                          min={5}
+                          min={0}
                           max={120}
                           step={5}
                           value={rangeDistance}

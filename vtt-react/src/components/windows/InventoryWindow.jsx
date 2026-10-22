@@ -22,6 +22,7 @@ import { getInventoryGridDimensions } from '../../utils/characterUtils';
 import Button from '../common/Button';
 import InventoryShareToggle from './InventoryShareToggle';
 import UnifiedContextMenu from '../level-editor/UnifiedContextMenu';
+import ItemAbilityAccess from '../item-generation/ItemAbilityAccess';
 import { getIconUrl } from '../../utils/assetManager';
 import {
     collectBuffEffects,
@@ -2481,6 +2482,7 @@ const InventoryWindow = memo(() => {
             </div>
 
             {/* Item Context Menu - Render at document level for proper positioning */}
+            {items.some(i => i.authoredAbility) && <section aria-label="Inventory item abilities"><h3>Item abilities</h3>{items.filter(i => i.authoredAbility).map(item => <ItemAbilityAccess key={item.id} item={item} />)}</section>}
             {contextMenu.visible && ReactDOM.createPortal((() => {
                 const item = items.find(i => i.id === contextMenu.itemId);
                 const isContainer = item?.type === 'container';

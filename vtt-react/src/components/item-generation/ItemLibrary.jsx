@@ -7,6 +7,7 @@ import ItemWizard from './ItemWizard';
 import CategoryDialog from './CategoryDialog';
 import ItemCard from './ItemCard';
 import ItemContextMenu from './ItemContextMenu';
+import ItemAbilityAccess from './ItemAbilityAccess';
 import CategoryContextMenu from './CategoryContextMenu';
 import CategorizeModal from './CategorizeModal';
 import QuickItemGeneratorModal from './QuickItemGeneratorModal';
@@ -285,6 +286,10 @@ const ListItemRow = memo(({ item, isSelected, onClick, onContextMenu, onDragOver
             <div
                 ref={rowRef}
                 className={`item-list-row ${isSelected ? 'selected' : ''}`}
+                role="button"
+                tabIndex={0}
+                aria-label={`Inspect ${item.name}`}
+                onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onClick?.(e, item); } }}
                 onClick={(e) => onClick?.(e, item)}
                 onContextMenu={(e) => {
                     e.preventDefault();
@@ -639,7 +644,9 @@ const ItemLibrary = ({ onClose, contentOnly = false, initialTab = null }) => {
                     ) || itemToEdit.subtype || 'SWORD'
                 ) : itemToEdit.subtype,
                 weaponStats: itemToEdit.type === 'weapon' ? {
+                    ...itemToEdit.weaponStats,
                     baseDamage: {
+                        ...itemToEdit.weaponStats?.baseDamage,
                         diceCount: parseInt(itemToEdit.weaponStats?.baseDamage?.diceCount) || 1,
                         diceType: (itemToEdit.weaponStats?.baseDamage?.diceType || 'd6').toString().toLowerCase(),
                         damageType: itemToEdit.weaponStats?.baseDamage?.damageType || 'slashing',
@@ -648,6 +655,7 @@ const ItemLibrary = ({ onClose, contentOnly = false, initialTab = null }) => {
                     }
                 } : undefined,
                 baseStats: {
+                    ...itemToEdit.baseStats,
                     constitution: { value: parseInt(itemToEdit.baseStats?.constitution?.value) || 0, isPercentage: itemToEdit.baseStats?.constitution?.isPercentage || false },
                     strength: { value: parseInt(itemToEdit.baseStats?.strength?.value) || 0, isPercentage: itemToEdit.baseStats?.strength?.isPercentage || false },
                     agility: { value: parseInt(itemToEdit.baseStats?.agility?.value) || 0, isPercentage: itemToEdit.baseStats?.agility?.isPercentage || false },
@@ -656,6 +664,7 @@ const ItemLibrary = ({ onClose, contentOnly = false, initialTab = null }) => {
                     charisma: { value: parseInt(itemToEdit.baseStats?.charisma?.value) || 0, isPercentage: itemToEdit.baseStats?.charisma?.isPercentage || false }
                 },
                 combatStats: {
+                    ...itemToEdit.combatStats,
                     healthRestore: { value: parseInt(itemToEdit.combatStats?.healthRestore?.value) || 0, isPercentage: itemToEdit.combatStats?.healthRestore?.isPercentage || false },
                     manaRestore: { value: parseInt(itemToEdit.combatStats?.manaRestore?.value) || 0, isPercentage: itemToEdit.combatStats?.manaRestore?.isPercentage || false },
                     apRestore: { value: parseInt(itemToEdit.combatStats?.apRestore?.value) || 0, isPercentage: itemToEdit.combatStats?.apRestore?.isPercentage || false },
@@ -673,14 +682,17 @@ const ItemLibrary = ({ onClose, contentOnly = false, initialTab = null }) => {
                     armor: { value: parseInt(itemToEdit.combatStats?.armor?.value) || 0, isPercentage: itemToEdit.combatStats?.armor?.isPercentage || false },
 
                     spellDamage: {
+                        ...itemToEdit.combatStats?.spellDamage,
                         types: itemToEdit.combatStats?.spellDamage?.types || {}
                     },
                     resistances: itemToEdit.combatStats?.resistances || {}
                 },
                 utilityStats: {
+                    ...itemToEdit.utilityStats,
                     movementSpeed: { value: parseInt(itemToEdit.utilityStats?.movementSpeed?.value) || 0, isPercentage: itemToEdit.utilityStats?.movementSpeed?.isPercentage || false },
                     carryingCapacity: { enabled: itemToEdit.utilityStats?.carryingCapacity?.enabled || false, slots: parseInt(itemToEdit.utilityStats?.carryingCapacity?.slots) || 1 },
                     duration: {
+                        ...itemToEdit.utilityStats?.duration,
                         type: itemToEdit.utilityStats?.duration?.type || 'ROUNDS',
                         value: parseInt(itemToEdit.utilityStats?.duration?.value) || 1
                     }
@@ -1239,6 +1251,7 @@ const ItemLibrary = ({ onClose, contentOnly = false, initialTab = null }) => {
                                     </div>
 
                                     <div className="header-actions">
+                                        <button type="button" className="action-btn primary" onClick={() => { setEditingItem(null); setShowItemWizard(true); }}>Create Item</button>
                                         <button
                                             onClick={() => setShowQuickItemGenerator(true)}
                                             className="action-btn primary"
@@ -1275,6 +1288,7 @@ const ItemLibrary = ({ onClose, contentOnly = false, initialTab = null }) => {
                                 onDrop={handleItemDrop}
                                 viewMode={viewMode}
                             />
+                            {items.find(i => i.id === selectedItem)?.authoredAbility && <ItemAbilityAccess key={selectedItem} item={items.find(i => i.id === selectedItem)} />}
                         </div>
                 ) : activeTab === 'designer' ? (
                     <div className="item-designer-container">

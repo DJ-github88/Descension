@@ -121,4 +121,121 @@ review. Bulky artifacts under `D:/AppData/Temp/opencode/`. C1–C3 historical ac
 
 ## Implementation and evidence
 
-Pending.
+**Delivered at this bounded opt-in boundary. One repaired independent ACCEPT; Build2 compilation exit0;
+production-App4 PASS. C1–C3 acceptance remains carried forward.**
+
+### What now expires / what stays manual
+
+GM opens **Shared turn expiry** in existing actor-consequence controls, then enables tracking for the
+exact active server roster. Only fresh strict canonical PC Defending on its own ongoing turn and fresh
+named C3 Shield Bash are anchored. Defending expires at the actor's strictly next start; Shield Bash at
+departure from the target's strictly next start. Adoption never invents a turn or retroactively arms an
+old instance. Ordinary Next Turn routes to the authenticated command in this mode, with no local turn,
+AP restoration, regeneration, cooldown or overtime mutation. GM can use the same shared editor to remove
+or correct exact instances. Any accepted condition update cancels its old schedule.
+
+Pre-adoption/out-of-own-turn Defending corrections, generic C2 Stunned, weapon-critical **one round**,
+other durations, recurring effects and ancestry effects remain manual. Price/initial action/save/
+eligibility/advantage remain at C1–C3 boundaries. Retiring combat never removes an effect; stale roster/
+actor binding blocks advance instead of guessing. Client timers remain fenced in shared rooms and work
+locally in sandbox. The pre-C4 source table above plus this delivered overlay is the current capability
+map; there is no generic shared buff/debuff timer or recurrent executor.
+
+Technical bounds: exact roster1–64 actors,256 tracked instances globally, and at most32 scheduled
+removals per boundary (P7's existing atomic condition-operation capacity). Excess instances are **still
+accepted and visible with GM-managed expiry**, not rejected or advertised as automatic. These are not
+ancestry/game-use caps. At most incoming/outgoing actors are included in one expiry admission.
+
+### Focused verification / one bounded review
+
+- **Server8 cases PASS:**7 C4 lifecycle production cases +1 new C4 P12B integration case. Correct and
+  earlier boundaries, ongoing-target-turn Bash, independent later source/manual critical, duplicate
+  receipt/retry, no retrospective arming, source/target/roster/cursor identity, current-GM versus cooperative
+  request, duration correction, authority-await race, actual writer rejection, checkpoint/new runtime,
+  import metadata stripping and old unknown commands.33 effects demonstrate32 automatic+1 manual and
+  an unblocked atomic boundary. Resource/HP/inventory/equipment bytes remain unchanged by expiry.
+- **Client2 suites /15 tests PASS:**6 C4 controller/timing cases plus9 affected controller regressions.
+  Same pre-emission custody, original unknown command, no optimistic cursor/removal, zero-actor receipt,
+  stale/retired role, exact timing labels, local cleanup guards versus sandbox, ordinary Next Turn early
+  routing, actual legacy start/payload-less-end receivers, no outbound reset and no-clock snapshot repair.
+- **Independent review: initial BLOCK → repaired ACCEPT, same report.** F1:33 automatic effects could
+  exceed P7's32-operation admission; scheduling now leaves excess sources manual before promising expiry.
+  F2: legacy end/start and refresh left client clock metadata active; real receivers now use the existing
+  silent owner, reset metadata clears, no-clock reads repair the ordinary-advance guard, retired receipts
+  cannot restore labels. Supporting disconnect observation is closed: timing becomes unavailable without
+  losing custody. Reviewer independently reran8 server/15 client cases plus2 server and2 client probes,
+  including cursor+two-actor expiry in one admission. Original failures retained; no outstanding findings.
+- Scoped new/changed condition/helper lint **0 errors /0 warnings**, UI detector `[]`. Existing large HUD/
+  combat files are not declared globally lint-clean. No timer cleanup was removed or generalized.
+
+### Real production-App4 witness
+
+Real optimized App/router/components + registered backend, GM/owner/observer. The actual shared dialog
+adopts the roster and shows exact occurrence. Token→sheet labels agree on automatic own-next-start
+Defending. Real P12B d8 face2 gives reduction4/no wear. Ordinary production `nextTurn` changes no local
+cursor before acceptance; earlier boundary preserves Defending. The due boundary removes it, even when
+its ACK and actor broadcast to GM are withheld. Reload retains the original turn UUID/bytes and blocks
+replacement; exact check recovers without another receipt/expiry. Original face2 remains in custody;
+stale block interpretation refuses, fresh explicit interpretation gives reduction2 and d8→d6 wear.
+
+At ongoing PC occurrence2, the real C3 result form creates a named Bash due at5. Reconnect preserves
+anchor/instance. Occurrence3 current end and4 next start do not remove it; occurrence5 removes only Bash.
+Independent one-round critical survives, still restricts movement and cannot be deleted by shared local
+timer callbacks; explicit sheet removal restores the final source state. End/restart retires the clock,
+preserves an out-of-turn manual Defending record and leaves no recursive reset. Desktop1440×1000 and
+tablet1024×768 captured; same scrollable parchment/ink dialog, no horizontal overflow, keyboard sheet
+entry works.4 deliberately blocked provider `Failed to fetch` errors retained.
+
+App1's production-stripped console marker, App2's pre-existing timeline-over-sheet pointer interception,
+and App3's fixture lookup of an unregistered combat store are retained as fixture history. App4 uses
+the actual compiled combat singleton; no runtime source changed to accommodate those fixture repairs.
+The real mounted SharedConditionHost consumes retirement and silent hydration in this fixture; legacy
+receiver callbacks are separately production-module-tested, not claimed as an additional App mount.
+
+### Identity, concurrent work and durable boundaries
+
+Entry `master/9e653fc45f632eda984914a051cd5f319a507a41`; Build2 recorded HEAD
+`f23bab5b23b220b435629672e6e7d2f42b866afe`; final checked HEAD
+`ad93fd78048a49030f28af18e23bcf0e91a2aa85`. Concurrent external commits included working C4/Class/room
+changes. **This agent issued no commit, push, reset, deployment or Git write.** Working-tree corrections,
+Class/race/heritage grants, Wizard fixes, corrected A1a, original universal cards and unrelated account/
+room/spell edits were preserved. Their presence in the App build is not acceptance of those tracks.
+
+The18 reviewed runtime dependencies and4 focused test files match the repaired source manifest. All12
+client dependencies match Build2's recorded dirty inputs or its recorded committed HEAD. One clean legacy
+combat receiver has working CRLF versus committed LF: content identity is verified after newline
+normalization and this raw-byte limitation is retained explicitly. Build2's recorded before/after drift
+is `[]`; this is not a freeze of every concurrent source file or a deployed-current-tree claim.
+
+All evidence below is outside Git under `D:/AppData/Temp/opencode/`. Reproduce current code/review/build/
+App/protected-source matching with `node vtt-react/verification/p14/record-lifecycle-evidence.cjs`.
+
+| Artifact | SHA-256 |
+|---|---|
+| `p14c4-review1/REPORT.md` | `12b24db2bf7e833ae0465830e2c546905ebf45be6d16058328fa8190b61cd963` |
+| `p14c4-review1/source-hashes-and-results-repaired.json` | `c6002c96abc555bc7d642f581afd49fb73dbf45ea9f35dd919ab65db1be5549f` |
+| `p14c4-build2/build.json` | `9ac727763d13802389de2cd68547c7e94ff76ece9457f58658af2e73c9132187` |
+| Build2 asset manifest | `27fcd731b94cb8a70ca90c18538e69a22fb9f55c5244e991bbf6c36d3b1cf3bb` |
+| `p14c4-app4/result.json` | `3377f14bf9cea8c040b8627a2b9544b6fb1846e231a31f83bfc639231b568bf5` |
+| repo `verification/p14/lifecycle-app-browser.cjs` | `fa202f0d14786166e91e21aa3502c02486fcbf0e415ebec8c28582f148dd13fb` |
+
+`p14c4-final-evidence.json` ties these records together. Permanent writer admission and checkpoint codec
+are exercised; live cloud/provider/lease/second-device/deployed restart remain fixture/environment gates.
+An admission refusal has no cursor/removal effect. An accepted-live transition can have uncertain cloud
+durability/delivery; its original receipt and canonical snapshot, not a client countdown, establish state.
+No independent durable turn store or paired-operation atomicity claim was introduced.
+
+### Ancestry handoff / next smallest useful slice
+
+[Coordination §8](MYTHRILL_CROSS_TRACK_COORDINATION.md#8-ancestral-loadout-directive--shared-capabilityinterface-handoff)
+records the supplied25-heritage/core-plus-three-pairs/four-equipped/permanent-finalization directive and
+the10-row reuse/missing/owner/follow-on map. Heritage12 links to it; the completed cultural audit was
+not reopened. C4 supplies named timing infrastructure, **not** ancestry admission, numerical rules,
+regeneration, suppression or passive execution. Current grants/IDs persist until explicit compatibility.
+P13B is collection, P9 is named support, A1a is uninstalled groundwork and A1b remains parked.
+
+Next smallest coordinated preparation: freeze the ancestry definition-set/version and pure permanent
+loadout validator/finalization interface, including legacy-grant compatibility, before any named ability
+is admitted. A turn-start regeneration adapter needs one settled authored profile and separate freeze;
+do not turn C4's expiry transition into a general recurring-effect trigger. **P14 and ancestral execution
+remain open; no175-ability authoring, racial numbers or migrations were implemented.**

@@ -26,9 +26,11 @@ import {
 // Pathfinder styles imported via main.css
 
 import SpellContextMenu from './SpellContextMenu';
+import AuthoredAdmission from './AuthoredAdmission';
 import ConfirmationDialog from '../../../item-generation/ConfirmationDialog';
 import ShareToCommunityDialog from './ShareToCommunityDialog';
 import useSpellbookStore from '../../../../store/spellbookStore';
+import { captureOwnerGuard } from '../../../../persistence/scopedConsumer';
 
 // Helper function to get spell icon URL using local ability icons
 const getSpellIconUrl = (spell) => {
@@ -1422,16 +1424,17 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
    const originalSpell = selectedSpell;
 
    // Prefer direct prop if provided (within SpellwizardApp)
-   if (onLoadSpell) {
-    onLoadSpell(originalSpell, true);
-   } else if (typeof window !== 'undefined' && typeof window.handleLoadSpell === 'function') {
-    // Use globally exposed handler from SpellwizardApp when available
-    window.handleLoadSpell(originalSpell, true);
-   } else if (typeof window !== 'undefined') {
-    // Fallback: dispatch internal event that SpellwizardApp listens for
-    window.dispatchEvent(new CustomEvent('internalLoadSpell', {
-     detail: { spell: originalSpell, editMode: true }
-    }));
+    if (onLoadSpell) {
+     onLoadSpell(originalSpell, true);
+    } else if (typeof window !== 'undefined' && typeof window.handleLoadSpell === 'function') {
+     window.handleLoadSpell(originalSpell, true);
+    } else {
+     // The production library tab unmounts the Wizard: deliver after its next mount,
+     // using the same owner guard as other scoped drafts, rather than a lost DOM event.
+     const guard = captureOwnerGuard(user?.uid);
+     if (!guard.ok) return;
+     useSpellbookStore.setState({ wizardEditRequest: { spell: JSON.parse(JSON.stringify(originalSpell)), guard }, activeTab: 'wizard' });
+     return;
    }
 
    // If the SpellbookWindow is open, switch to the Wizard tab via Zustand store
@@ -2207,7 +2210,13 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
            return (
             <div
              key={spell.id}
-             className={`wow-spell-row class-spell-entry ${selectedSpell?.id === spell.id ? 'selected' : ''}`}
+              className={`wow-spell-row class-spell-entry ${selectedSpell?.id === spell.id ? 'selected' : ''}`}
+              role="button"
+              tabIndex={0}
+              aria-label={`${spell.name} details`}
+              onKeyDown={e => {
+               if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); isShowingPopupRef.current = true; setSelectedSpell(spell); }
+              }}
              onContextMenu={(e) => handleSpellContextMenu(e, spell.id)}
              draggable={true}
              onDragStart={(e) => {
@@ -2543,7 +2552,8 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
             data-spell-id={spell.id}
             title="Click to select, drag to Action Bar, right-click for options"
            >
-            {/* Clean edit button */}
+             {/* Clean edit button */}
+             <AuthoredAdmission spell={spell} />
             <div className="edit-button-container">
              <button
               onClick={(e) => {
@@ -2698,7 +2708,8 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
        showStats={true}
        showTags={true}
        rollableTableData={getSpellRollableTable(selectedSpell)}
-      />
+       />
+       <AuthoredAdmission spell={selectedSpell} />
       <div className="spell-detail-actions" style={{
         display: 'flex',
         gap: '10px',

@@ -151,6 +151,10 @@ const ItemCard = ({ item, onClick, onContextMenu, isSelected, onDragOver, onDrop
             <div
                 ref={cardRef}
                 className={`item-card ${isSelected ? 'selected' : ''}`}
+                role="button"
+                tabIndex={0}
+                aria-label={`Inspect ${item.name}`}
+                onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onClick?.(e, item); } }}
                 style={{ borderColor: getQualityBorderColor(item.quality) }}
                 onClick={(e) => onClick?.(e, item)}
                 onContextMenu={(e) => {

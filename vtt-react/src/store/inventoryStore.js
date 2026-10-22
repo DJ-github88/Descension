@@ -539,10 +539,12 @@ const useInventoryStore = create(persist((set, get) => ({
             newItem.stackable = true;
         }
 
-        const isStackable = isStackableType && (effectiveStackable !== false);
+        // An item-associated definition is a detached snapshot, never a name-based stack update.
+        const isStackable = !newItem.authoredAbility && isStackableType && (effectiveStackable !== false);
 
         if (isStackable) {
             const existingItemIndex = state.items.findIndex(item =>
+                !item.authoredAbility &&
                 item.name === newItem.name &&
                 item.type === newItem.type
             );
@@ -766,7 +768,7 @@ const useInventoryStore = create(persist((set, get) => ({
         // Adding item to inventory
 
         // Check if we should preserve all properties
-        const shouldPreserveProperties = options.preserveProperties === true;
+        const shouldPreserveProperties = options.preserveProperties === true || libraryItem.authoredAbility !== undefined;
 
         // If preserveProperties is true, start with a copy of the original item
         // This ensures ALL properties are preserved, even ones we don't explicitly list
@@ -1238,6 +1240,7 @@ const useInventoryStore = create(persist((set, get) => ({
 
         // Check if items can be stacked
         const canStack = sourceItem.name === targetItem.name &&
+            !sourceItem.authoredAbility && !targetItem.authoredAbility &&
             sourceItem.type === targetItem.type &&
             sourceItem.quality === targetItem.quality &&
             sourceItem.stackable !== false &&

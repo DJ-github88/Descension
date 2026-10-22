@@ -1,0 +1,135 @@
+{
+  "manifest": "complete-manifest.json",
+  "sourceManifest": "docs/plans/mythrill-class-reconstruction/classes/manifests/fate-weaver-review-r1.json",
+  "counts": {
+    "authoredRecords": 96,
+    "projectedSpells": 96,
+    "talentTrees": 3,
+    "talentNodes": 54,
+    "optional": 40,
+    "core": 2,
+    "talentActives": 6,
+    "augurDispositions": 382
+  },
+  "r1ClassResourcePrograms": {
+    "count": 6,
+    "allExact": true,
+    "records": [
+      {
+        "id": "cr1_fate_weaver_tie_thread",
+        "op": "link.tie",
+        "exact": true
+      },
+      {
+        "id": "cr1_fate_weaver_cut_clean",
+        "op": "link.cut",
+        "exact": true
+      },
+      {
+        "id": "cr1_fate_weaver_read_bond",
+        "op": "bond.read",
+        "exact": true
+      },
+      {
+        "id": "cr1_fate_weaver_witnessed_covenant",
+        "op": "link.covenant",
+        "exact": true
+      },
+      {
+        "id": "cr1_fate_weaver_sever_borrowed_crown",
+        "op": "link.sever",
+        "exact": true
+      },
+      {
+        "id": "cr1_fate_weaver_reanchor_tapestry",
+        "op": "link.reanchor",
+        "exact": true
+      }
+    ]
+  },
+  "r1ProjectedTerms": {
+    "tieThread": {
+      "targeting": {
+        "targetingType": "multi",
+        "rangeType": "ranged",
+        "rangeDistance": 30,
+        "targetRestrictions": [
+          "ally",
+          "self"
+        ],
+        "maxTargets": 2
+      },
+      "duration": {
+        "durationType": "own_turns",
+        "durationValue": 2,
+        "durationUnit": "subsequent_caster_turn_end"
+      },
+      "price": "1 AP; 0 mana; reserve 1 thread token(s); manual resolution."
+    },
+    "witnessedCovenant": {
+      "targeting": {
+        "targetingType": "multi",
+        "rangeType": "ranged",
+        "rangeDistance": 30,
+        "targetRestrictions": [
+          "ally",
+          "self"
+        ],
+        "maxTargets": 2
+      },
+      "duration": {
+        "durationType": "own_turns",
+        "durationValue": 2,
+        "durationUnit": "subsequent_caster_turn_end"
+      },
+      "price": "2 AP; 0 mana; reserve 2 thread token(s); manual resolution."
+    },
+    "severBorrowedCrown": {
+      "targeting": {
+        "targetingType": "single",
+        "rangeType": "ranged",
+        "rangeDistance": 30,
+        "targetRestrictions": [
+          "identified-fate-link"
+        ],
+        "maxTargets": 1
+      },
+      "duration": {
+        "durationType": "instant",
+        "durationValue": 0,
+        "durationUnit": "instant"
+      },
+      "price": "2 AP; 0 mana; pay 1 thread token(s) to recovering; manual resolution."
+    },
+    "reanchorTapestry": {
+      "targeting": {
+        "targetingType": "single",
+        "rangeType": "ranged",
+        "rangeDistance": 30,
+        "targetRestrictions": [
+          "ally",
+          "self"
+        ],
+        "maxTargets": 1
+      },
+      "duration": {
+        "durationType": "instant",
+        "durationValue": 0,
+        "durationUnit": "instant"
+      },
+      "price": "1 AP; 0 mana; no thread token; manual resolution."
+    }
+  },
+  "manualBoundary": {
+    "allAuthoredManual": true,
+    "allProjectedManual": true,
+    "automatedCapabilities": []
+  },
+  "capabilityStatus": {
+    "authored": true,
+    "selectableDevelopment": true,
+    "manuallyUsable": true,
+    "automaticallyAdmitted": false,
+    "independentReview": "pending"
+  }
+}

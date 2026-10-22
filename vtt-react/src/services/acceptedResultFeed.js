@@ -73,7 +73,7 @@ export function capabilityOf(receipt) {
   if (hashId === RIPOSTE) return { kind: 'riposte', label: 'Riposte', outcome: chosen.rollOutcome, damage: chosen.rollOutcome !== 'miss' };
   if (hashId === BLOCK) return { kind: 'block', label: chosen.attack?.ability?.name, blockName: chosen.block?.name, reduction: chosen.block?.reduction, damage: true };
   if (hashId === FEATHER) return { kind: 'feather', label: 'Feather Slash', damage: true };
-  if (hashId.startsWith(SPELL_PREFIX)) return { kind: 'spell', label: chosen.spellName, damage: chosen.kind === 'damage' };
+  if (hashId.startsWith(SPELL_PREFIX) || hashId.startsWith('authored-immediate:v1/')) return { kind: 'spell', label: chosen.spellName, damage: chosen.kind === 'damage' };
   return { kind: 'none' };
 }
 /** HP float parts. "absorbed" only when the accepted consequence establishes damage absorption (§2). */

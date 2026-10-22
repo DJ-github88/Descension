@@ -125,7 +125,7 @@ function validateApproval(approval) {
   if (approval.source.kind !== 'character' || approval.source.roomId !== approval.roomId || approval.target.roomId !== approval.roomId ||
     approval.target.mapId !== approval.source.mapId) {fail('invalid_spell_approval');}
   keys(approval.spell, ['definitionId', 'definitionHash', 'name', 'kind', 'damageTypes']);
-  if (!text(approval.spell.definitionId) || !/^p9-spell:v1\/[0-9a-f]{64}$/.test(approval.spell.definitionHash || '') || !text(approval.spell.name) ||
+  if (!text(approval.spell.definitionId) || !/^(p9-spell:v1|authored-immediate:v1)\/[0-9a-f]{64}$/.test(approval.spell.definitionHash || '') || !text(approval.spell.name) ||
     !['damage', 'healing'].includes(approval.spell.kind) || !Array.isArray(approval.spell.damageTypes) || approval.spell.damageTypes.length > 8 ||
     approval.spell.damageTypes.some(type => !text(type, 40)) || (approval.spell.kind === 'damage' && !approval.spell.damageTypes.length)) {fail('invalid_spell_approval');}
   validateRoll(approval.roll);
@@ -150,6 +150,10 @@ function sourcePools(token) {
 }
 /** Checks an approval against current authoritative room state. */
 function checkAgainstRoom(room, approval) {
+  const authored = require('../../vtt-react/src/services/authoredAbility');
+  if (authored.isAuthored(approval.spell) || approval.spell.definitionHash.startsWith(`${authored.CAPABILITY}/`)) {
+    require('./installedAuthoredAbilities').checkApproval(room, approval);
+  }
   actors.assertCanAct(room, approval.source);
   const source = actors.locate(room, approval.source);
   const target = actors.locate(room, approval.target);
@@ -227,13 +231,19 @@ function bindCommand(room, player, command, authorization) {
   }
   if (entry.contentHash !== command.approval.contentHash) {fail('command_id_conflict');}
   const { approval } = entry;
+  const authored = require('../../vtt-react/src/services/authoredAbility');
+  const capability = authored.isAuthored(approval.spell) ? authored.CAPABILITY : CAPABILITY;
+  if (capability === authored.CAPABILITY) {
+    checkAgainstRoom(room, approval);
+    if (actors.locate(room, approval.source).token.ownerUserId !== approval.source.ownerUid) {fail('forbidden');}
+  }
   if (!ownerMember(room, approval.source.ownerUid)) {fail('owner_unavailable');}
   if (hash(command.source) !== hash(approval.source) || hash(command.target) !== hash(approval.target)) {fail('approval_mismatch');}
   const adjudication = command.adjudication || {};
   if (adjudication.definitionId !== approval.spell.definitionId || adjudication.definitionVersionOrHash !== approval.spell.definitionHash) {fail('approval_mismatch');}
   let chosen;
   try {chosen = JSON.parse(adjudication.chosenResult);} catch (_) {fail('approval_mismatch');}
-  if (!chosen || chosen.capability !== CAPABILITY || chosen.approvalId !== approval.approvalId || chosen.kind !== approval.spell.kind ||
+  if (!chosen || chosen.capability !== capability || chosen.approvalId !== approval.approvalId || chosen.kind !== approval.spell.kind ||
     chosen.gmConfirmed !== true || hash(chosen.roll) !== hash(approval.roll)) {fail('approval_mismatch');}
   const amount = adjudication.finalAmount;
   if (!int(amount, 0, 100000)) {fail('invalid_final_amount');}
@@ -251,6 +261,9 @@ function bindCommand(room, player, command, authorization) {
   for (const pool of ['ap', 'mana']) {
     if (approval.price[pool] > 0) {expectedSource[pool] = tempFirst(pools[pool].current, pools[pool].temp, approval.price[pool]);}
   }
+  // P7 requires an explicit operation on every participating actor. For a free remote action,
+  // compare-and-set the unchanged AP projection; this is not an inferred price or a debit.
+  if (capability === authored.CAPABILITY && !self && !Object.keys(expectedSource).length) {expectedSource.ap = tempFirst(pools.ap.current, pools.ap.temp, 0);}
   const targetPools = actors.resources(target.token, approval.target.kind);
   const hp = approval.spell.kind === 'damage' ? (() => {
     const fromTemp = Math.min(targetPools.hp.temp, amount);
@@ -262,6 +275,7 @@ function bindCommand(room, player, command, authorization) {
   if (command.actors.length !== expected.length) {fail('approval_mismatch');}
   expected.forEach((value, index) => {
     const actual = command.actors[index];
+    if (capability === authored.CAPABILITY && (actual.equipmentWear !== undefined || actual.blockingDeclaration !== undefined)) {fail('approval_mismatch');}
     if (hash(actual.ref) !== hash(value.ref) || actual.conditions !== undefined ||
       hash(actual.finalResources || {}) !== hash(value.finalResources) || hash(actual.classPayment || null) !== hash(value.classPayment || null)) {fail('approval_mismatch');}
   });

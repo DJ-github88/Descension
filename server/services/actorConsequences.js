@@ -18,7 +18,7 @@ const POOLS = { hp: ['currentHp', 'health', 'tempHealth', 'maxHp'], mana: ['curr
 const MODIFIERS = ['strength', 'agility', 'constitution', 'intelligence', 'spirit', 'charisma', 'armor', 'damageReduction', 'movementSpeed', 'healthRegen', 'manaRegen', 'maxHp', 'maxMana', 'maxAP', 'attackBonus', 'damageBonus', 'saveBonus'];
 const CONDITION_FIELDS = ['version', 'id', 'recordId', 'conditionKey', 'originalName', 'name', 'type', 'kind', 'target', 'targetId', 'targetType', 'source', 'sourceActor', 'sourceEntityId', 'effectOrigin', 'isMagical', 'icon', 'color', 'description', 'effectSummary', 'effects', 'duration', 'durationType', 'durationValue', 'remainingRounds', 'startTime', 'endTime', 'stackable', 'hasOverTimeEffect', 'overTimeType', 'overTimeFormula', 'overTimeElement', 'tickFrequency', 'tickFrequencyValue', 'tickFrequencyUnit', 'clockBoundary', 'sharedTiming'];
 const REF_KEYS = ['kind', 'roomId', 'mapId', 'tokenId', 'instanceId', 'ownerUid', 'characterId'];
-const PROTECTED = new Set(['effectLifecycle', 'actorContract', 'actorConsequences', 'classPayment', 'equipmentBlocking','health', 'mana', 'actionPoints', 'currentHp', 'currentMana', 'currentActionPoints', 'tempHealth', 'tempMana', 'tempActionPoints', 'hp', 'maxHp', 'maxMana', 'maxAP', 'maxActionPoints', 'conditions', 'buffs', 'debuffs', 'finalResources', 'expectedRevision']);
+const PROTECTED = new Set(['authoredSpellRegistry', 'effectLifecycle', 'actorContract', 'actorConsequences', 'classPayment', 'equipmentBlocking','health', 'mana', 'actionPoints', 'currentHp', 'currentMana', 'currentActionPoints', 'tempHealth', 'tempMana', 'tempActionPoints', 'hp', 'maxHp', 'maxMana', 'maxAP', 'maxActionPoints', 'conditions', 'buffs', 'debuffs', 'finalResources', 'expectedRevision']);
 const runtimeEpochs = new WeakMap();
 
 function epoch(room) {
@@ -270,6 +270,7 @@ function publicClassPayment(payment) {
 }
 function stage(room, player, uid, command, authorization, confirmedRevision) {
   validateCommand(command);
+  if ((String(command.adjudication?.definitionId || '').startsWith('authored:') || String(command.adjudication?.definitionVersionOrHash || '').startsWith('authored-immediate:v1/')) && !command.approval) {fail('approval_required');}
   const riposte = require('./riposteExecution');
   if (riposte.isCommand(command)) {
     if (command.adjudication?.definitionId !== riposte.DEFINITION_ID || command.adjudication?.definitionVersionOrHash !== riposte.DEFINITION_HASH) {fail('riposte_definition_mismatch');}
@@ -580,13 +581,17 @@ function authorityMetadataPath(value, depth = 0) {
   if (!value || typeof value !== 'object') {return null;}
   if (depth > 20) {return 'depth_limit';}
   for (const [key, child] of Object.entries(value)) {
-    if (['effectLifecycle', 'actorContract', 'actorConsequences'].includes(key)) {return key;}
+    if (['authoredSpellRegistry', 'effectLifecycle', 'actorContract', 'actorConsequences'].includes(key)) {return key;}
     const found = authorityMetadataPath(child, depth + 1);
     if (found) {return `${key}.${found}`;}
   }
   return null;
 }
 function preserveImportedActorMetadata(gameState) {
+  if (own(gameState, 'authoredSpellRegistry')) {
+    gameState.actorConsequenceRecovery = { ...gameState.actorConsequenceRecovery, importedAuthoredSpellRegistry: gameState.authoredSpellRegistry, reason: 'untrusted-local-import' };
+    delete gameState.authoredSpellRegistry;
+  }
   if (gameState.combat?.effectLifecycle) {
     gameState.actorConsequenceRecovery = { ...gameState.actorConsequenceRecovery, importedEffectLifecycle: gameState.combat.effectLifecycle, reason: 'untrusted-local-import' };
     delete gameState.combat.effectLifecycle;

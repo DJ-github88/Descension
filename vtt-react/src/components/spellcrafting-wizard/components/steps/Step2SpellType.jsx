@@ -147,6 +147,15 @@ const Step2SpellType = ({ onNext, onPrevious, stepNumber, totalSteps, isActive }
         ))}
       </div>
 
+      {state.spellType === 'ACTION' && <div className="spell-type-config">
+        <label htmlFor="authoredActionTiming" className="spell-wizard-label">Action timing</label>
+        <select id="authoredActionTiming" name="castTimeType" className="spell-wizard-select" value={state.typeConfig.castTimeType || ''} onChange={handleConfigChange}>
+          <option value="">Choose timing explicitly</option>
+          <option value="IMMEDIATE">Immediate</option>
+          <option value="MANUAL">Other timing — GM-managed</option>
+        </select>
+        <p>Shared authored execution supports immediate actions only. Saving remains separate from room admission.</p>
+      </div>}
       {state.spellType && state.spellType !== 'ACTION' && state.spellType !== 'ZONE' && (
         <div className="spell-type-config">
           <h4>{state.spellType} Configuration</h4>
