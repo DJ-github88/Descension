@@ -194,7 +194,7 @@ function pendingFor(room, ownerUid, characterId) {
 function add(room, entry) {
   const entries = registry(room);
   if (entry.approval.source.kind === 'creature' ? listAll(room).some(e => hash(e.approval.source) === hash(entry.approval.source)) : pendingFor(room, entry.approval.source.ownerUid, entry.approval.source.characterId)) {fail('approval_pending');}
-  if ((closedApprovals.get(room)?.size || 0) >= CLOSED_LIMIT) {fail('approval_capacity');}
+  if ((closedApprovals.get(room)?.size || 0) + entries.size >= CLOSED_LIMIT) {fail('approval_capacity');}
   if (entries.size >= 32 || actors.bytes(Array.from(entries.values()).map(value => value.approval).concat(entry.approval)) > 512 * 1024) {fail('approval_capacity');}
   entries.set(entry.approval.approvalId, entry);
   return entry;
@@ -208,6 +208,7 @@ const CLOSED_LIMIT = 4096;
 function close(room, approvalId, code, evidence = get(room, approvalId)) {
   let closed = closedApprovals.get(room);
   if (!closed) {closed = new Map(); closedApprovals.set(room, closed);}
+  if (!closed.has(approvalId) && closed.size + (approvals.get(room)?.size || 0) - (get(room, approvalId) ? 1 : 0) >= CLOSED_LIMIT) fail('approval_capacity');
   closed.set(approvalId, { code, contentHash: evidence?.contentHash, ownerUid: evidence?.ownerUid });
   return remove(room, approvalId);
 }

@@ -123,6 +123,8 @@ import { CRUSADER_DATA } from '../../../data/classes/crusaderData';
 import { CHAOS_WEAVER_DATA } from '../../../data/classes/chaosWeaverIntegration';
 import { GAMBLER_DATA } from '../../../data/classes/gamblerData';
 import { FATE_WEAVER_DATA } from '../../../data/classes/fateWeaverData';
+import { DEATHCALLER_DATA } from '../../../data/classes/deathcallerData';
+import { LICHBORNE_DATA } from '../../../data/classes/lichborneData';
 import { DEEPLING_MYRATHIL_APEX_DATA, DEEPLING_MYRATHIL_ANIMIST_DATA, DEEPLING_MYRATHIL_AUGUR_DATA } from '../../../data/classes/index';
 import { withClassHeritageMetadata } from '../../../data/classHeritageRegistry';
 
@@ -358,7 +360,10 @@ const CLASS_DATA_MAP = Object.fromEntries(Object.entries({
 
     'Inquisitor': INQUISITOR_DATA,
 
-    // 'Deathcaller' and 'Lichborne' merged into Revenant as Phase 1.10 consolidation
+    'Deathcaller': DEATHCALLER_DATA,
+
+    'Lichborne': LICHBORNE_DATA,
+
     'Revenant': REVENANT_DATA,
 
     // 'Exorcist' removed (merged into Inquisitor with Covenbane)
@@ -416,11 +421,11 @@ const CLASS_GROUPS = {
 
     MARTIALS: ['Berserker', 'Shaper', 'Spellguard', 'Warden', 'Apex', 'Animist'],
 
-    CASTERS: ['Arcanoneer', 'Harbinger', 'Chronarch', 'Revenant', 'Animist', 'Toxicologist'],
+    CASTERS: ['Arcanoneer', 'Harbinger', 'Chronarch', 'Revenant', 'Animist', 'Toxicologist', 'Lichborne'],
 
     ZEALOTS: ['Inquisitor', 'False Prophet', 'Lunarch', 'Martyr', 'Crusader'],
 
-    SPECIALISTS: ['Minstrel', 'Plaguebringer', 'Pyrofiend', 'Animist', 'Augur', 'Gambit', 'Chaos Weaver', 'Gambler', 'Fate Weaver']
+    SPECIALISTS: ['Minstrel', 'Plaguebringer', 'Pyrofiend', 'Animist', 'Augur', 'Gambit', 'Chaos Weaver', 'Gambler', 'Fate Weaver', 'Deathcaller']
 
 };
 

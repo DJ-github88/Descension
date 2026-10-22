@@ -12,7 +12,8 @@ import { BERSERKER_DATA } from './classes/berserkerData';
 import { SHAPER_DATA } from './classes/shaperData';
 import { HARBINGER_DATA } from './classes/harbingerData';
 import { CHRONARCH_DATA } from './classes/chronarchData';
-// 'Deathcaller' and 'Lichborne' merged into Revenant as Phase 1.10 consolidation
+import { DEATHCALLER_DATA } from './classes/deathcallerData';
+import { LICHBORNE_DATA } from './classes/lichborneData';
 import { REVENANT_DATA } from './classes/revenantData';
 // 'Covenbane' and 'Exorcist' merged into Inquisitor as Phase 1.9 consolidation
 import { INQUISITOR_DATA } from './classes/inquisitorData';
@@ -46,7 +47,8 @@ export const CLASS_DATA_MAP = {
  'Chronarch': CHRONARCH_DATA,
  // 'Covenbane' and 'Exorcist' merged into Inquisitor as Phase 1.9 consolidation
  'Inquisitor': INQUISITOR_DATA,
- // 'Deathcaller' and 'Lichborne' merged into Revenant as Phase 1.10 consolidation
+ 'Deathcaller': DEATHCALLER_DATA,
+ 'Lichborne': LICHBORNE_DATA,
  'Revenant': REVENANT_DATA,
  'False Prophet': FALSE_PROPHET_DATA,
  'Gambit': GAMBIT_DATA,
@@ -554,7 +556,9 @@ if (CLASS_DATA_MAP['Chaos Weaver']?.spells || CLASS_DATA_MAP['Chaos Weaver']?.ex
 // Generic processing for all classes not handled above
 generatedSpells.Gambler = GAMBLER_DATA.spells.map(spell => normalizeClassSpell(spell, 'Gambler', entry => entry.specialization));
 generatedSpells['Fate Weaver'] = FATE_WEAVER_DATA.spells.map(spell => normalizeClassSpell(spell, 'Fate Weaver', entry => entry.specialization));
-const processedClasses = ['Arcanoneer', 'Pyrofiend', 'Minstrel', 'Chronarch', 'Martyr', 'Gambit', 'Harbinger', 'Chaos Weaver', 'Gambler', 'Fate Weaver'];
+generatedSpells.Deathcaller = DEATHCALLER_DATA.spells.map(spell => normalizeClassSpell(spell, 'Deathcaller', entry => entry.specialization));
+generatedSpells.Lichborne = LICHBORNE_DATA.spells.map(spell => normalizeClassSpell(spell, 'Lichborne', entry => entry.specialization));
+const processedClasses = ['Arcanoneer', 'Pyrofiend', 'Minstrel', 'Chronarch', 'Martyr', 'Gambit', 'Harbinger', 'Chaos Weaver', 'Gambler', 'Fate Weaver', 'Deathcaller', 'Lichborne'];
 const remainingClasses = Object.keys(CLASS_DATA_MAP).filter(className => !processedClasses.includes(className));
 
 // Generic spell processor for classes without special processing

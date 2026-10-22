@@ -257,6 +257,7 @@ function registerTokenHandlers(ctx) {
         ...supplied,
         // A4 captures the whole placed association; admission remains a separate GM/P7 decision.
         ...(data.creature && Object.prototype.hasOwnProperty.call(data.creature, 'authoredAbility') ? { authoredAbility: require('../services/actorConsequences').clone(data.creature.authoredAbility) } : {}),
+        ...Object.fromEntries(['resistances', 'vulnerabilities', 'abilities'].filter(key => data.creature && Object.prototype.hasOwnProperty.call(data.creature, key)).map(key => [key, require('../services/actorConsequences').clone(data.creature[key])])),
         ...(typeof data.creature?.name === 'string' ? { name: data.creature.name } : {}),
         ...(Number.isFinite(data.position?.x) && Number.isFinite(data.position?.y) ? { position: { x: data.position.x, y: data.position.y } } : {}),
         // Owning creature snapshot supplies bounds; P7 never invents maxima.

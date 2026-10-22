@@ -329,6 +329,24 @@ export const CLASS_SPECIALIZATIONS = {
     ]
   },
 
+  'Deathcaller': {
+    path: 'Muster Discipline',
+    specializations: [
+      { id: 'grave-marshal', name: 'Grave Marshal', description: 'Turn a prepared dead pattern into a disciplined, bounded formation.', color: '#4d5b4a', icon: 'Psychic/Psychic Telepathy' },
+      { id: 'soul-shepherd', name: 'Soul Shepherd', description: 'Guide the living and the manifested dead without claiming their souls.', color: '#596b52', icon: 'Psychic/Psychic Telepathy' },
+      { id: 'ossuary-architect', name: 'Ossuary Architect', description: 'Build a visible bastion from bone, memory and exact geometry.', color: '#76544a', icon: 'Psychic/Psychic Telepathy' }
+    ]
+  },
+
+  'Lichborne': {
+    path: 'Vessel Discipline',
+    specializations: [
+      { id: 'rime-sovereign', name: 'Rime Sovereign', description: 'Command cold as a precise, temporary sentence rather than a permanent curse.', color: '#45607a', icon: 'Psychic/Psychic Telepathy' },
+      { id: 'phylactery-keeper', name: 'Phylactery Keeper', description: 'Protect the vessel, record its integrity and keep recovery explicit.', color: '#45546c', icon: 'Psychic/Psychic Telepathy' },
+      { id: 'veil-scholar', name: 'Veil Scholar', description: 'Study death without becoming its unquestioned master.', color: '#596b52', icon: 'Psychic/Psychic Telepathy' }
+    ]
+  },
+
   'Arcanoneer': {
 
     path: 'Arcane Path',
@@ -1279,7 +1297,7 @@ export const createSpellLibraryCategoriesForClass = (className) => {
   // G1 and the Fate Weaver package have real records at every level 1–10.
   // Preserve legacy category IDs while giving level 3/signatures and
   // level 10/capstones a home.
-  if (className === 'Gambler' || className === 'Fate Weaver') {
+  if (['Gambler', 'Fate Weaver', 'Deathcaller', 'Lichborne'].includes(className)) {
     const prefix = className.toLowerCase();
     [3, 5, 7, 8, 9, 10].forEach(level => categories.push({
       ...categories[0], id: `${prefix}_level_${level}`, name: `Level ${level}`,

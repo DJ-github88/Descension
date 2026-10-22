@@ -7,6 +7,8 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { GAMBLER_TALENT_NODES } from '../data/talentTrees/gambler';
 import { FATE_WEAVER_TALENT_NODES } from '../data/talentTrees/fateWeaver';
+import { DEATHCALLER_TALENT_NODES } from '../data/classes/deathcallerData';
+import { LICHBORNE_TALENT_NODES } from '../data/classes/lichborneData';
 import useCharacterStore from '../store/characterStore';
 import { ALL_CLASS_SPELLS } from '../data/classSpellGenerator';
 import { createSpellLibraryCategoriesForClass } from '../data/classSpellCategories';
@@ -28,8 +30,10 @@ export const useClassSpellLibrary = () => {
  // Get active character
  const activeCharacter = characters.find(char => char.id === currentCharacterId);
   const characterClass = activeCharacter?.class || currentClass;
- const talentNodes = useMemo(() => characterClass === 'Gambler' ? GAMBLER_TALENT_NODES
-  : characterClass === 'Fate Weaver' ? FATE_WEAVER_TALENT_NODES : null, [characterClass]);
+const talentNodes = useMemo(() => characterClass === 'Gambler' ? GAMBLER_TALENT_NODES
+ : characterClass === 'Fate Weaver' ? FATE_WEAVER_TALENT_NODES
+ : characterClass === 'Deathcaller' ? DEATHCALLER_TALENT_NODES
+ : characterClass === 'Lichborne' ? LICHBORNE_TALENT_NODES : null, [characterClass]);
  const learnedSpells = useMemo(() => talentNodes
   ? [...new Set([...knownSpells, ...talentNodes.filter(node => (talents?.[node.id] || 0) > 0).map(node => node.grantId || node.passiveSpellId)])]
   : knownSpells, [knownSpells, talents, talentNodes]);

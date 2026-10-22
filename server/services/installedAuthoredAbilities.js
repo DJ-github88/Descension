@@ -35,7 +35,10 @@ function matchAssociation(room, association, entry) {
 function creatureSources(room) {
   return Object.values(room.gameState.maps || {}).flatMap(map => Object.values(map.tokens || {}).flatMap(token => {
     const c = token.state?.actorContract;
-    return c?.kind === 'creature' && token.authoredAbility !== undefined ? [{ source: actors.refFor(c), admission: c.authoredAdmission ? actors.clone(c.authoredAdmission) : null, association: actors.clone(token.authoredAbility) }] : [];
+    return c?.kind === 'creature' ? [{ source: actors.refFor(c), admission: c.authoredAdmission ? actors.clone(c.authoredAdmission) : null,
+      ...(token.authoredAbility !== undefined ? { association: actors.clone(token.authoredAbility) } : {}),
+      defenses: actors.clone({ flatDR: token.stats?.damageReduction ?? token.creature?.stats?.damageReduction ?? null,
+        resistances: token.resistances ?? token.stats?.resistances ?? {}, vulnerabilities: token.vulnerabilities ?? token.stats?.vulnerabilities ?? {}, authoredAbilities: token.abilities ?? [] }) }] : [];
   }));
 }
 async function planCreatureAdmission(room, uid, data, authorize) {

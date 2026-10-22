@@ -3,7 +3,8 @@ import { BERSERKER_DATA } from "./berserkerData";
 import { SHAPER_DATA } from "./shaperData";
 import { HARBINGER_DATA } from "./harbingerData";
 import { CHRONARCH_DATA } from "./chronarchData";
-// 'Deathcaller' and 'Lichborne' merged into Revenant as Phase 1.10 consolidation
+import { DEATHCALLER_DATA } from "./deathcallerData";
+import { LICHBORNE_DATA } from "./lichborneData";
 import { REVENANT_DATA } from "./revenantData";
 // 'Dreadnaught' removed (absorbed into Martyr as Ironclad specialization)
 // 'Covenbane' and 'Exorcist' merged into Inquisitor as Phase 1.9 consolidation
@@ -59,6 +60,8 @@ const CLASS_TEMPLATES = {
   Harbinger: HARBINGER_DATA,
   Chronarch: CHRONARCH_DATA,
   Inquisitor: INQUISITOR_DATA,
+  Deathcaller: DEATHCALLER_DATA,
+  Lichborne: LICHBORNE_DATA,
   Revenant: REVENANT_DATA,
   "False Prophet": FALSE_PROPHET_DATA,
   Gambit: GAMBIT_DATA,

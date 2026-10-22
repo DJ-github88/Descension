@@ -191,6 +191,20 @@ export const pruneDeathcallerTalents = (talents, level) => pruneCr1Talents(talen
 
 export const DEATHCALLER_DATA = {
   ...built.data,
+  id: DEATHCALLER_CLASS_ID,
+  variantName: 'Deathcaller',
+  imageIcon: '/assets/icons/classes/deathcaller.png',
+  role: 'Summoner / Commander',
+  resource: 'Dead Muster',
+  primaryStat: 'Charisma',
+  secondaryStat: 'Intelligence',
+  damageTypes: ['wyrd'],
+  developmentStatus: 'development',
+  statusLabel: 'Development - manual tabletop',
+  classResource: {
+    type: 'dead_muster', current: 0, max: 2, initialized: false, state: null,
+    note: 'Record prepared patterns, manifestations and orders manually.'
+  },
   equipment: { weapons: ['staff', 'dagger'], protectiveGear: ['robes', 'light_ward'], offHand: ['empty', 'tome'] },
   subraceVariants: {},
   specializations: {

@@ -120,7 +120,7 @@ describe('P14-A4 exact creature authored route — registered production handler
     const pending = ack(gm, 'actor_consequence', c); await entered; token(source).state.conditions.push(stunned); token(source).state.actorContract.revision++; const before = actors.clone(room.gameState); release(); assert.equal((await pending).code, 'actor_stunned'); assert.deepEqual(room.gameState, before); server.authorityService.assertCurrent = original;
     token(source).state.conditions = []; token(source).state.actorContract.revision++; assert.equal((await ack(gm, 'actor_consequence', command(a))).success, true); assert.deepEqual(JSON.parse(actors.ledger(room).receipts.at(-1).adjudication.chosenResult).roll, a.roll);
   });
-  it('Stunned and revocation during preparation authority await install no attempt', async() => {
+  it('Stunned during preparation authority await installs no attempt', async() => {
     await admit(); const a = attempt(), original = server.authorityService.assertCurrent; let enter, release; const entered = new Promise(r => { enter = r; }), gate = new Promise(r => { release = r; });
     server.authorityService.assertCurrent = async(...args) => { enter(); await gate; return original(...args); };
     const pending = ack(gm, 'actor_spell_prepare_creature', a); await entered; token(source).state.conditions.push(profile.makeStunnedRecord(source, uuid(), { sourceOccurrence: 'async-prepare', timing: 'manual' })); const before = actors.clone(room.gameState); release(); assert.equal((await pending).code, 'actor_stunned'); assert.deepEqual(room.gameState, before); assert.equal(payments.get(room, a.approvalId), null); server.authorityService.assertCurrent = original;
@@ -130,13 +130,40 @@ describe('P14-A4 exact creature authored route — registered production handler
     token(source).state.conditions.push(profile.makeStunnedRecord(source, uuid(), { sourceOccurrence: 'pending-revalidate', timing: 'manual' })); await refused('actor_spell_prepare_creature', a, 'actor_stunned');
     token(source).state.conditions = []; await admit(); await refused('actor_spell_prepare_creature', a, 'creature_admission_changed');
   });
-  it('revocation and replacement of the current GM during preparation awaits refuse without partial state', async() => {
+  it('revocation during preparation awaits refuses without partial state', async() => {
     await admit(); const a = attempt(), original = server.authorityService.assertCurrent; let enter, release, held = true;
     const entered = new Promise(r => { enter = r; }), gate = new Promise(r => { release = r; });
     server.authorityService.assertCurrent = async(...args) => { if (held) { held = false; enter(); await gate; } return original(...args); };
     const pending = ack(gm, 'actor_spell_prepare_creature', a); await entered;
     const ref = token(source).state.actorContract.authoredAdmission.definitionRef;
     await ack(gm, 'actor_authored_revoke', { roomId: room.id, requestId: uuid(), expectedRegistryRevision: installed.registry(room).revision, definitionRef: ref }); const before = actors.clone(room.gameState); release(); assert.equal((await pending).code, 'definition_revoked'); assert.deepEqual(room.gameState, before); server.authorityService.assertCurrent = original;
+  });
+  it('same withdrawal bytes recover positive closure after lost ACK; changed bytes refuse', async() => {
+    await admit(); const a = attempt(); await prepare(a); const data = { roomId: room.id, approvalId: a.approvalId, approval: a };
+    const first = await ack(gm, 'actor_spell_withdraw', data); assert.equal(first.code, 'withdrawn'); assert.equal(first.success, true);
+    assert.deepEqual(await ack(gm, 'actor_spell_withdraw', data), { ...first, contentHash: actors.hash(a) });
+    await refused('actor_spell_withdraw', { ...data, approval: { ...a, roll: { ...a.roll, mode: 'digital' } } }, 'command_id_conflict');
+  });
+  it('cross-route request collision is checked again after asynchronous PC registry planning', async() => {
+    await admit(); const id = uuid(), original = server.authorityService.assertCurrent; let enter, release, held = true;
+    const entered = new Promise(r => { enter = r; }), gate = new Promise(r => { release = r; });
+    server.authorityService.assertCurrent = async(...args) => { if (held) { held = false; enter(); await gate; } return original(...args); };
+    const pending = ack(gm, 'actor_authored_admit', { roomId: room.id, requestId: id, expectedRegistryRevision: installed.registry(room).revision, record: record(), classId: 'arcanoneer', definitionVersion: 1 }); await entered;
+    assert.equal((await ack(gm, 'actor_authored_admit', { ...admission(sibling), requestId: id })).success, true); const before = actors.clone(room.gameState); release(); assert.equal((await pending).code, 'REQUEST_ID_CONFLICT'); assert.deepEqual(room.gameState, before); server.authorityService.assertCurrent = original;
+  });
+  it('real placement captures detached content, GM private lookup and finite display stats without public drafts or armor', async() => {
+    const creature = { id: 'disposable-template', name: 'Placed witness', stats: { maxHp: 20, maxMana: 0, maxAP: 4, damageReduction: 0, armor: 999, private: 'secret' }, authoredAbility: { schemaVersion: 1, record: record(), librarySpellId: null } };
+    const result = await ack(gm, 'token_created', { roomId: room.id, mapId: 'default', token: { id: 'real-placement', creatureId: creature.id, state: { currentHp: 20, currentMana: 0, currentActionPoints: 4 } }, creature, position: { x: 15, y: 20 } }); assert.equal(result.success, true);
+    const placed = room.gameState.maps.default.tokens['real-placement']; assert.deepEqual(placed.authoredAbility, creature.authoredAbility); creature.authoredAbility.record.name = 'input mutated'; assert.notEqual(placed.authoredAbility.record.name, creature.authoredAbility.record.name);
+    const projected = require('../services/roomAccessService').projectTokenForClient(placed); assert.equal(projected.authoredAbility, undefined); assert.equal(projected.stats.damageReduction, 0); assert.equal(projected.stats.armor, undefined); assert.equal(projected.stats.private, undefined);
+    const bound = await ack(gm, 'actor_bind', { roomId: room.id, ref: { kind: 'creature', roomId: room.id, mapId: 'default', tokenId: placed.id }, snapshotHash: actors.hash(placed) }); assert.equal(bound.success, true);
+    assert.deepEqual((await ack(gm, 'actor_authored_list', { roomId: room.id })).creatureSources.find(e => e.source.tokenId === placed.id).association, placed.authoredAbility); assert.equal((await ack(observer, 'actor_authored_list', { roomId: room.id })).creatureSources, undefined);
+  });
+  it('replaced current GM during preparation await refuses without registering an attempt', async() => {
+    await admit(); const a = attempt(), original = server.authorityService.assertCurrent; let enter, release;
+    const entered = new Promise(r => { enter = r; }), gate = new Promise(r => { release = r; });
+    server.authorityService.assertCurrent = async(...args) => { enter(); await gate; return original(...args); };
+    const pending = ack(gm, 'actor_spell_prepare_creature', a); await entered; const oldSocket = room.gm.socketId; room.gm.socketId = observer.id; const before = actors.clone(room.gameState); release(); assert.equal((await pending).success, false); assert.deepEqual(room.gameState, before); assert.equal(payments.get(room, a.approvalId), null); room.gm.socketId = oldSocket; server.authorityService.assertCurrent = original;
   });
   it('stale CAS, competing spend and writer refusal leave unconsumed attempts and no partial install', async() => {
     await admit(); const a = attempt(); await prepare(a); const c = command(a); token(target).state.actorContract.revision++; await refused('actor_consequence', c, 'stale_actor_revision');

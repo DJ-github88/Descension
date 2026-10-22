@@ -2,11 +2,27 @@ import {
     faSkull, faMagic, faAtom, faClock,
     faGavel, faEye, faShieldAlt, faMoon, faCross, faYinYang,
     faWind, faBiohazard, faFlask, faMusic, faFire,
-    faDove, faHourglassHalf, faSeedling, faDiceD6
+    faDove, faHourglassHalf, faSeedling, faDiceD6, faSnowflake
 } from '@fortawesome/free-solid-svg-icons';
 import { CLASS_COMPATIBILITY_ALIASES } from '../classHeritageRegistry';
 
 const CLASS_DISPLAY_ENTRIES = [
+    {
+        name: 'Deathcaller', imageIcon: '/assets/icons/classes/deathcaller.png', icon: faSkull,
+        role: 'Summoner / Commander', resource: 'Dead Muster', complexityRating: 4,
+        cognitiveTags: ['Prepared Patterns', 'Bounded Commands', 'Manual Tabletop'],
+        playstyle: 'Prepare a finite muster, give each manifestation one public command action and recover only what the table records. No free army, permanent battery or second turn. Development - manual tabletop.',
+        roleColor: '#4d5b4a', damageTypes: ['wyrd'], developmentStatus: 'development',
+        quickStartPresets: { commander: { name: 'The First Muster', description: 'Choose exactly one level-1 optional; Manifest Retainer and Grave Order are separate core grants.', spells: ['cr1_deathcaller_bone_whistle'] } }
+    },
+    {
+        name: 'Lichborne', imageIcon: '/assets/icons/classes/lichborne.png', icon: faSnowflake,
+        role: 'Anchor Mage / Controller', resource: 'Lich Anchor', complexityRating: 4,
+        cognitiveTags: ['Anchor Integrity', 'Explicit Recovery', 'Manual Tabletop'],
+        playstyle: 'Bind your continuity to a declared vessel, track its integrity and stage by hand and pay openly for cold control. No effortless immortality loop or hidden phylactery. Development - manual tabletop.',
+        roleColor: '#45607a', damageTypes: ['cold', 'wyrd'], developmentStatus: 'development',
+        quickStartPresets: { controller: { name: 'The First Vessel', description: 'Choose exactly one level-1 optional; Veil Unbound and Repair Vessel are separate core grants.', spells: ['cr1_lichborne_rime_ward'] } }
+    },
     {
         name: 'Gambler', imageIcon: '/assets/icons/classes/gambler.png', icon: faDiceD6,
         role: 'Burst Damage / Support', resource: 'Hand & Fortune', complexityRating: 4,
