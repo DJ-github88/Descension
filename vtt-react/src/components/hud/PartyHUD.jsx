@@ -759,15 +759,18 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
             "Level 6: Instantaneous death."
         ];
 
+        const safeLevel = Math.min(6, Math.max(0, Number(level) || 0));
+
         setTooltipData({
-            title: `Exhaustion (Level ${level})`,
-            effectSummary: summaries[level] || summaries[0],
-            description: getExhaustionTooltipDescription(level)
+            type: 'exhaustion',
+            level: safeLevel,
+            title: `Exhaustion (Level ${safeLevel})`,
+            effectSummary: summaries[safeLevel] || summaries[0]
         });
 
         // Calculate position to keep tooltip on screen
-        const tooltipWidth = 350;
-        const tooltipHeight = 220; // Exhaustion list is short
+        const tooltipWidth = 360;
+        const tooltipHeight = 360;
         const padding = 10;
         const offset = 15;
 
@@ -1404,40 +1407,77 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                         onMouseEnter={(e) => handleExhaustionMouseEnter(e, exhaustionLevel)}
                         onMouseMove={handleBuffMouseMove}
                         onMouseLeave={handleBuffMouseLeave}
-                        title={`Exhaustion: Level ${exhaustionLevel}${isExhaustionEditable ? ' (Click to adjust)' : ''}`}
+                        aria-label={`Exhaustion Level ${exhaustionLevel}${isExhaustionEditable ? ' (Click to adjust)' : ''}`}
+                        role="button"
+                        tabIndex={0}
                     >
-                        <svg className="exhaustion-plate-svg" viewBox="0 0 120 20" preserveAspectRatio="none" aria-hidden="true">
+                        <svg className="exhaustion-plate-svg" viewBox="0 0 130 22" preserveAspectRatio="none" aria-hidden="true">
                             <defs>
                                 <linearGradient id={`exhPlateGrad-${member.id}`} x1="0" y1="0" x2="0" y2="1">
-                                    <stop offset="0%" stopColor="#dcc795" />
-                                    <stop offset="35%" stopColor="#b49b60" />
-                                    <stop offset="72%" stopColor="#8b7442" />
-                                    <stop offset="100%" stopColor="#6a5530" />
+                                    <stop offset="0%" stopColor="#eeddb2" />
+                                    <stop offset="18%" stopColor="#d5bc80" />
+                                    <stop offset="55%" stopColor="#a4884c" />
+                                    <stop offset="85%" stopColor="#7a6230" />
+                                    <stop offset="100%" stopColor="#55421c" />
                                 </linearGradient>
-                                <radialGradient id={`exhRivetGrad-${member.id}`} cx="0.35" cy="0.3" r="0.9">
-                                    <stop offset="0%" stopColor="#efe0b3" />
-                                    <stop offset="55%" stopColor="#a89257" />
-                                    <stop offset="100%" stopColor="#5d4a26" />
+                                <linearGradient id={`exhBevelGrad-${member.id}`} x1="0" y1="0" x2="1" y2="1">
+                                    <stop offset="0%" stopColor="#fff6df" />
+                                    <stop offset="50%" stopColor="#c5a662" />
+                                    <stop offset="100%" stopColor="#433214" />
+                                </linearGradient>
+                                <radialGradient id={`exhRivetGrad-${member.id}`} cx="0.35" cy="0.3" r="0.85">
+                                    <stop offset="0%" stopColor="#fff8e4" />
+                                    <stop offset="45%" stopColor="#d5bc80" />
+                                    <stop offset="80%" stopColor="#7a6230" />
+                                    <stop offset="100%" stopColor="#3d2d12" />
                                 </radialGradient>
                             </defs>
                             <path
-                                className="plate-body"
-                                d="M10 3 L110 2.3 Q114.2 2.2 113.8 6.1 L113.1 14.2 Q112.9 17.7 108.8 17.4 L11.2 17.8 Q6.9 17.9 7.3 14.1 L8 5.9 Q8.3 3.1 10 3 Z"
+                                className="plate-outer-bevel"
+                                d="M 7 1 L 123 1 L 128 6 L 128 16 L 123 21 L 7 21 L 2 16 L 2 6 Z"
                                 fill={`url(#exhPlateGrad-${member.id})`}
-                                stroke="#3b2e17"
-                                strokeWidth="1.4"
+                                stroke="#382610"
+                                strokeWidth="1.2"
                                 vectorEffect="non-scaling-stroke"
                             />
-                            <path d="M13 5.4 L107.5 4.7" stroke="rgba(255, 243, 206, 0.42)" strokeWidth="1" fill="none" vectorEffect="non-scaling-stroke" />
-                            <path d="M13 15.1 L107.5 15.5" stroke="rgba(43, 32, 12, 0.5)" strokeWidth="1" fill="none" vectorEffect="non-scaling-stroke" />
-                            <path d="M20 9.2 L98 8.8 M24 11.4 L104 11.1" stroke="rgba(58, 44, 18, 0.12)" strokeWidth="0.8" fill="none" vectorEffect="non-scaling-stroke" />
-                            <g className="plate-rivets" stroke="#3b2e17" strokeWidth="0.8">
-                                <circle cx="12.5" cy="6" r="1.9" fill={`url(#exhRivetGrad-${member.id})`} />
-                                <circle cx="107.5" cy="5.8" r="1.9" fill={`url(#exhRivetGrad-${member.id})`} />
-                                <circle cx="12.5" cy="14.2" r="1.9" fill={`url(#exhRivetGrad-${member.id})`} />
-                                <circle cx="107.5" cy="14.4" r="1.9" fill={`url(#exhRivetGrad-${member.id})`} />
+                            <path
+                                className="plate-inner-rim"
+                                d="M 8.5 3 L 121.5 3 L 125.5 7 L 125.5 15 L 121.5 19 L 8.5 19 L 4.5 15 L 4.5 7 Z"
+                                fill="none"
+                                stroke="#2b1a0a"
+                                strokeWidth="0.8"
+                                opacity="0.65"
+                                vectorEffect="non-scaling-stroke"
+                            />
+                            <path
+                                d="M 9 2.5 L 121 2.5"
+                                stroke="rgba(255, 248, 228, 0.75)"
+                                strokeWidth="0.9"
+                                fill="none"
+                                vectorEffect="non-scaling-stroke"
+                            />
+                            <path
+                                d="M 9 19.5 L 121 19.5"
+                                stroke="rgba(30, 18, 6, 0.65)"
+                                strokeWidth="0.9"
+                                fill="none"
+                                vectorEffect="non-scaling-stroke"
+                            />
+                            <g className="plate-rivets" stroke="#382610" strokeWidth="0.6">
+                                <circle cx="5" cy="6.5" r="1.6" fill={`url(#exhRivetGrad-${member.id})`} />
+                                <circle cx="125" cy="6.5" r="1.6" fill={`url(#exhRivetGrad-${member.id})`} />
+                                <circle cx="5" cy="15.5" r="1.6" fill={`url(#exhRivetGrad-${member.id})`} />
+                                <circle cx="125" cy="15.5" r="1.6" fill={`url(#exhRivetGrad-${member.id})`} />
                             </g>
                         </svg>
+                        <span className="exhaustion-mini-glyph-wrap" aria-hidden="true">
+                            <svg className="exhaustion-mini-glyph" viewBox="0 0 10 13" fill="none">
+                                <path d="M1 1.5 H9 M1 11.5 H9" stroke="#3a270f" strokeWidth="1.2" strokeLinecap="round" />
+                                <path d="M2 2 C2 4.6 4.3 5.7 5 6.2 C5.7 5.7 8 4.6 8 2 Z" fill="#d9be7f" stroke="#3a270f" strokeWidth="0.8" />
+                                <path d="M2 11 C2 8.4 4.3 7.3 5 6.8 C5.7 7.3 8 8.4 8 11 Z" fill="#b38a42" stroke="#3a270f" strokeWidth="0.8" />
+                                <circle cx="5" cy="6.5" r="0.75" fill="#3a270f" />
+                            </svg>
+                        </span>
                         <span className="exhaustion-label">Exhaustion</span>
                         <span className="exhaustion-value">{exhaustionLevel}</span>
                         {isExhaustionEditable && (
@@ -1458,7 +1498,7 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                                 }}
                                 className="party-exhaustion-select"
                                 onClick={(e) => e.stopPropagation()}
-                                title={`Exhaustion Level: ${exhaustionLevel}`}
+                                aria-label="Set exhaustion level"
                             >
                                 <option value="0">0 (Normal)</option>
                                 <option value="1">1 (Disadv. Checks)</option>
@@ -1940,7 +1980,7 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
             {/* Buff/Debuff/Condition Tooltip - Match TargetHUD - Rendered via Portal to avoid transform issues */}
             {showTooltip && tooltipData && createPortal(
                 <div
-                    className="equipment-slot-tooltip"
+                    className={`equipment-slot-tooltip party-hud-tooltip ${tooltipData.type ? `party-hud-tooltip-${tooltipData.type}` : ''}`}
                     style={{
                         position: 'fixed',
                         left: `${tooltipPosition.x}px`,
@@ -1950,49 +1990,162 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                         pointerEvents: 'none'
                     }}
                 >
-                    <div className="equipment-slot-name">{tooltipData.title}</div>
-                    {tooltipData.effectSummary && (
-                        <div style={{
-                            fontSize: '12px',
-                            color: '#34251a',
-                            fontWeight: '600',
-                            marginTop: '4px',
-                            padding: '4px 8px',
-                            backgroundColor: 'rgba(102, 60, 50, 0.08)',
-                            borderRadius: '3px',
-                            borderLeft: '3px solid #663c32'
-                        }}>
-                            {tooltipData.effectSummary}
+                    {tooltipData.type === 'exhaustion' ? (
+                        <div className="calm-exhaustion-card">
+                            <div className="calm-corner calm-corner-tl" aria-hidden="true" />
+                            <div className="calm-corner calm-corner-tr" aria-hidden="true" />
+                            <div className="calm-corner calm-corner-bl" aria-hidden="true" />
+                            <div className="calm-corner calm-corner-br" aria-hidden="true" />
+
+                            <div className="calm-exhaustion-header">
+                                <div className="calm-exhaustion-icon-wrap" aria-hidden="true">
+                                    <svg viewBox="0 0 20 20" className="calm-exhaustion-header-glyph" fill="none">
+                                        <path d="M4 2.5 H16 M4 17.5 H16" stroke="#4a3319" strokeWidth="1.8" strokeLinecap="round" />
+                                        <path d="M5 3.5 C5 7.5 8.5 9 10 10 C11.5 9 15 7.5 15 3.5 Z" fill="#eeddb2" stroke="#4a3319" strokeWidth="1.2" />
+                                        <path d="M5 16.5 C5 12.5 8.5 11 10 10 C11.5 11 15 12.5 15 16.5 Z" fill="#b38a42" stroke="#4a3319" strokeWidth="1.2" />
+                                        <circle cx="10" cy="10" r="1.2" fill="#7a5528" />
+                                    </svg>
+                                </div>
+                                <div className="calm-exhaustion-title-block">
+                                    <div className="calm-exhaustion-subhead">TTRPG Physical Condition</div>
+                                    <div className="calm-exhaustion-maintitle">
+                                        <span>Exhaustion</span>
+                                        <span className={`calm-stage-badge level-${tooltipData.level}`}>
+                                            {tooltipData.level === 0 ? 'Level 0 • Refreshed' : `Level ${tooltipData.level} / 6`}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="calm-ttrpg-divider" aria-hidden="true">
+                                <span className="calm-ttrpg-divider-line" />
+                                <span className="calm-ttrpg-divider-diamond">◆</span>
+                                <span className="calm-ttrpg-divider-line" />
+                            </div>
+
+                            <div className={`calm-status-cartouche level-${tooltipData.level}`}>
+                                <div className="calm-status-head">
+                                    <span className="calm-status-bullet" aria-hidden="true">
+                                        <i className={`fas ${tooltipData.level === 0 ? 'fa-shield-heart' : tooltipData.level >= 5 ? 'fa-skull' : 'fa-exclamation-triangle'}`}></i>
+                                    </span>
+                                    <span className="calm-status-name">
+                                        {tooltipData.level === 0
+                                            ? 'Level 0: Active and Healthy'
+                                            : `Active Burden — Level ${tooltipData.level}`}
+                                    </span>
+                                </div>
+                                <div className="calm-status-body">
+                                    {tooltipData.effectSummary}
+                                </div>
+                            </div>
+
+                            <div className="calm-ladder-section">
+                                <div className="calm-ladder-header">
+                                    <span className="calm-ladder-title">Cumulative Penalties</span>
+                                    {tooltipData.level > 0 ? (
+                                        <span className="calm-ladder-stack-badge">
+                                            Levels 1–{tooltipData.level} active
+                                        </span>
+                                    ) : (
+                                        <span className="calm-ladder-stack-badge neutral">
+                                            No penalties active
+                                        </span>
+                                    )}
+                                </div>
+                                <div className="calm-ladder-list">
+                                    {[
+                                        { level: 1, roman: 'I', text: 'Disadvantage on all ability checks' },
+                                        { level: 2, roman: 'II', text: 'Movement speed is halved' },
+                                        { level: 3, roman: 'III', text: 'Disadvantage on attack rolls & saving throws' },
+                                        { level: 4, roman: 'IV', text: 'Maximum hit points are halved' },
+                                        { level: 5, roman: 'V', text: 'Movement speed is reduced to 0' },
+                                        { level: 6, roman: 'VI', text: 'Instantaneous death' }
+                                    ].map((step) => {
+                                        const isCurrent = tooltipData.level === step.level;
+                                        const isPassed = tooltipData.level > step.level;
+                                        const isActive = tooltipData.level >= step.level;
+                                        return (
+                                            <div
+                                                key={step.level}
+                                                className={`calm-ladder-step ${isCurrent ? 'current' : ''} ${isPassed ? 'passed' : ''} ${isActive ? 'active' : 'inactive'}`}
+                                            >
+                                                <span className="calm-ladder-step-marker" aria-hidden="true">
+                                                    {isCurrent ? (
+                                                        step.level === 6 ? <i className="fas fa-skull"></i> : <i className="fas fa-bolt"></i>
+                                                    ) : isPassed ? (
+                                                        <i className="fas fa-check"></i>
+                                                    ) : (
+                                                        <span className="roman-numeral">{step.roman}</span>
+                                                    )}
+                                                </span>
+                                                <span className="calm-ladder-step-level">Level {step.level}:</span>
+                                                <span className="calm-ladder-step-text">{step.text}</span>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+
+                            <div className="calm-exhaustion-footer">
+                                <div className="calm-footer-rule">
+                                    <i className="fas fa-campground" aria-hidden="true"></i>
+                                    <span>Long Rest with food & drink removes 1 exhaustion level.</span>
+                                </div>
+                                {isExhaustionEditable && (
+                                    <div className="calm-footer-edit-hint">
+                                        <i className="fas fa-hand-pointer" aria-hidden="true"></i>
+                                        <span>Click HUD plaque to adjust stage</span>
+                                    </div>
+                                )}
+                            </div>
                         </div>
-                    )}
-                    {tooltipData.effects && !tooltipData.effectSummary && (
-                        <div style={{
-                            fontSize: '12px',
-                            color: '#34251a',
-                            fontWeight: '600',
-                            marginTop: '4px',
-                            padding: '4px 8px',
-                            backgroundColor: 'rgba(102, 60, 50, 0.08)',
-                            borderRadius: '3px',
-                            borderLeft: '3px solid #663c32'
-                        }}>
-                            {formatBuffEffects(tooltipData.effects)}
-                        </div>
-                    )}
-                    {tooltipData.description && (
-                        <div className="equipment-slot-description" style={{ marginTop: '6px' }}>
-                            {tooltipData.description}
-                        </div>
-                    )}
-                    {tooltipData.duration && (
-                        <div style={{
-                            marginTop: '8px',
-                            fontSize: '12px',
-                            color: '#663c32',
-                            fontWeight: 'bold'
-                        }}>
-                            Duration: {tooltipData.duration}
-                        </div>
+                    ) : (
+                        <>
+                            <div className="equipment-slot-name">{tooltipData.title}</div>
+                            {tooltipData.effectSummary && (
+                                <div style={{
+                                    fontSize: '12px',
+                                    color: '#34251a',
+                                    fontWeight: '600',
+                                    marginTop: '4px',
+                                    padding: '4px 8px',
+                                    backgroundColor: 'rgba(102, 60, 50, 0.08)',
+                                    borderRadius: '3px',
+                                    borderLeft: '3px solid #663c32'
+                                }}>
+                                    {tooltipData.effectSummary}
+                                </div>
+                            )}
+                            {tooltipData.effects && !tooltipData.effectSummary && (
+                                <div style={{
+                                    fontSize: '12px',
+                                    color: '#34251a',
+                                    fontWeight: '600',
+                                    marginTop: '4px',
+                                    padding: '4px 8px',
+                                    backgroundColor: 'rgba(102, 60, 50, 0.08)',
+                                    borderRadius: '3px',
+                                    borderLeft: '3px solid #663c32'
+                                }}>
+                                    {formatBuffEffects(tooltipData.effects)}
+                                </div>
+                            )}
+                            {tooltipData.description && (
+                                <div className="equipment-slot-description" style={{ marginTop: '6px' }}>
+                                    {tooltipData.description}
+                                </div>
+                            )}
+                            {tooltipData.duration && (
+                                <div style={{
+                                    marginTop: '8px',
+                                    fontSize: '12px',
+                                    color: '#663c32',
+                                    fontWeight: 'bold'
+                                }}>
+                                    Duration: {tooltipData.duration}
+                                </div>
+                            )}
+                        </>
                     )}
                 </div>,
                 document.body

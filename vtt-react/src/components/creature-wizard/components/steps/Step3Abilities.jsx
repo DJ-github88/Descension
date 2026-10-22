@@ -195,6 +195,7 @@ const Step3Abilities = () => {
 
   // Render the ability list
   const renderAbilityList = () => {
+    if (!Array.isArray(wizardState.abilities)) return <p role="status">Unsupported/manual ability list preserved exactly. Author a separate activated definition above; the original list is not converted.</p>;
     if (wizardState.abilities.length === 0) {
       return (
         <div className="no-abilities-message">
@@ -207,6 +208,7 @@ const Step3Abilities = () => {
     return (
       <div className="ability-list">
         {wizardState.abilities.map((ability, index) => {
+          if (!ability || typeof ability !== 'object' || Array.isArray(ability)) return <p key={index} role="status">Unsupported/manual ability entry {index + 1} preserved: {JSON.stringify(ability)}</p>;
           // Convert ability to spell format for UnifiedSpellCard
           // UnifiedSpellCard normalizes the data, so we just need to pass it as a spell
           const spellData = {

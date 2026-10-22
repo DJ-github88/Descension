@@ -497,23 +497,41 @@ export const createProgressionSlice = (set, get) => ({
     // Remove derived talent-granted spells that are no longer granted after a
     // level reduction or class switch. Entries still used by another roster
     // character, authored spells, and unrelated library records stay intact.
-    removeTalentGrantSpells: (grantIds) => {
-        if (!Array.isArray(grantIds) || grantIds.length === 0) return;
+    removeTalentGrantSpells: (grantIds, options = {}) => {
+        const ids = Array.isArray(grantIds) ? [...new Set(grantIds)] : [];
+        if (ids.length === 0) {
+            if (options.talents !== undefined) set({ talents: options.talents });
+            return;
+        }
         const state = get();
+        const className = state.class || state.characterClass;
+        const nextTalents = options.talents !== undefined ? options.talents : state.talents;
+        const stillGrantedHere = new Set(derivedTalentGrantIds(nextTalents || {}, className));
         const stillNeeded = new Set();
         (state.characters || []).forEach(char => {
             if (char.id === state.currentCharacterId) return;
             derivedTalentGrantIds(char.talents || {}, char.class || char.characterClass)
                 .forEach(id => stillNeeded.add(id));
+            (char.class_spells?.known_spells || [])
+                .filter(id => ids.includes(id))
+                .forEach(id => stillNeeded.add(id));
         });
-        const removable = grantIds.filter(id => !stillNeeded.has(id));
-        if (removable.length === 0) return;
+        // The active character loses every removed talent grant from stored
+        // known spells even when another roster character also uses that spell.
+        const removableKnown = ids.filter(id => !stillGrantedHere.has(id));
+        // Shared derived copies may only be pruned when no other roster
+        // character still owns or needs the same grant.
+        const removableShared = ids.filter(id => !stillNeeded.has(id));
 
         const currentKnown = state.class_spells?.known_spells || [];
-        const known = currentKnown.filter(spellId => !removable.includes(spellId));
+        const known = currentKnown.filter(spellId => !removableKnown.includes(spellId));
+        const patch = {};
+        if (options.talents !== undefined) patch.talents = options.talents;
         if (known.length !== currentKnown.length) {
-            set({ class_spells: { ...(state.class_spells || {}), known_spells: known } });
+            patch.class_spells = { ...(state.class_spells || {}), known_spells: known };
         }
+        if (Object.keys(patch).length > 0) set(patch);
+        if (removableShared.length === 0) return;
 
         const nodeByGrantId = Object.fromEntries(
             Object.values(TALENT_TREES).flatMap(specs => Object.values(specs).flat())
@@ -524,17 +542,17 @@ export const createProgressionSlice = (set, get) => ({
         const library = loadLibraryFromStorage();
         let libraryChanged = false;
 
-        removable.forEach(grantId => {
+        removableShared.forEach(grantId => {
             const nodeId = nodeByGrantId[grantId];
+            const isLegacyId = grantId.startsWith('talent-spell-');
+            const isTalentCopy = entry => isLegacyId || entry.source === 'talent'
+                || (nodeId !== undefined && entry.talentId === nodeId);
             const spell = (spellbook.spells || []).find(entry => entry.id === grantId);
-            if (!spell || spell.source === 'talent' || spell.talentId === nodeId) {
-                spellbook.deleteSpell(grantId);
-            }
+            if (!spell || isTalentCopy(spell)) spellbook.deleteSpell(grantId);
             if (library && Array.isArray(library.spells)) {
                 const before = library.spells.length;
                 library.spells = library.spells.filter(entry => !(
-                    entry.id === grantId &&
-                    (entry.source === 'talent' || entry.talentId === nodeId)
+                    entry.id === grantId && isTalentCopy(entry)
                 ));
                 if (library.spells.length !== before) libraryChanged = true;
             }

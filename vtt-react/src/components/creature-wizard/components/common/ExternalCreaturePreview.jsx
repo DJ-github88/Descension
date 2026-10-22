@@ -77,7 +77,8 @@ const ExternalCreaturePreview = ({ creatureData, isOpen, activeView }) => {
       vulnerabilities: creatureData.vulnerabilities || {},
 
       // Abilities
-      abilities: creatureData.abilities || [],
+      // Display projection only; malformed original entries remain untouched in the Wizard.
+      abilities: Array.isArray(creatureData.abilities) ? creatureData.abilities.filter(a => a && typeof a === 'object' && !Array.isArray(a)) : [],
 
       // Loot table
       lootTable: creatureData.lootTable || {

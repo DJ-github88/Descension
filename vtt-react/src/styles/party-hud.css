@@ -1881,21 +1881,21 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 4px;
+    gap: 5px;
     font-family: 'Cinzel', serif;
-    font-size: 8px;
+    font-size: 8.5px;
     font-weight: 800;
-    letter-spacing: 0.8px;
+    letter-spacing: 0.9px;
     text-transform: uppercase;
     white-space: nowrap;
-    padding: 2.5px 12px;
+    padding: 3px 12px;
     border-radius: 4px;
     line-height: 1.25;
     cursor: pointer;
     user-select: none;
     pointer-events: auto;
     background: transparent;
-    transition: filter 0.2s ease;
+    transition: filter 0.2s ease, transform 0.15s ease;
 }
 
 .party-member-frame .party-exhaustion-badge .exhaustion-plate-svg {
@@ -1905,7 +1905,24 @@
     height: 100%;
     pointer-events: none;
     overflow: visible;
-    filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.65));
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.6));
+}
+
+.party-member-frame .party-exhaustion-badge .exhaustion-mini-glyph-wrap {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 10px;
+    height: 13px;
+    position: relative;
+    z-index: 1;
+    filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.4));
+}
+
+.party-member-frame .party-exhaustion-badge .exhaustion-mini-glyph {
+    width: 100%;
+    height: 100%;
+    display: block;
 }
 
 .party-member-frame .party-exhaustion-badge .exhaustion-label,
@@ -1916,8 +1933,10 @@
 
 .party-member-frame .party-exhaustion-badge .exhaustion-label {
     font-family: 'Cinzel', serif;
-    color: #3a2c12;
-    text-shadow: 0 1px 0 rgba(255, 240, 200, 0.45);
+    color: #2b1c09;
+    font-weight: 800;
+    letter-spacing: 0.9px;
+    text-shadow: 0 1px 0 rgba(255, 245, 215, 0.55), 0 -1px 0 rgba(40, 25, 10, 0.4);
 }
 
 /* Level counter: bright enamel disc inset into the brass plate */
@@ -1931,24 +1950,24 @@
     padding: 0 2px;
     margin-left: 2px;
     border-radius: 50%;
-    background: radial-gradient(circle at 35% 30%, #3b2a14 0%, #1c1206 75%);
+    background: radial-gradient(circle at 35% 30%, #4a3418 0%, #1e1408 80%);
     border: 1.5px solid #d9a94e;
-    color: #ffd100;
-    font-size: 11px;
+    color: #ffd84d;
+    font-size: 10px;
     font-weight: 900;
     line-height: 1;
-    text-shadow: 0 0 4px rgba(255, 209, 0, 0.65);
+    text-shadow: 0 0 3px rgba(255, 216, 77, 0.6);
     box-shadow:
         inset 0 1px 2px rgba(0, 0, 0, 0.9),
-        0 0 5px rgba(255, 209, 0, 0.35);
+        0 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 .party-member-frame .party-exhaustion-badge.level-0 {
-    opacity: 0.75;
+    opacity: 0.82;
 }
 
 .party-member-frame .party-exhaustion-badge.level-0 .exhaustion-plate-svg {
-    filter: saturate(0.6) brightness(0.92) drop-shadow(0 2px 3px rgba(0, 0, 0, 0.65));
+    filter: saturate(0.7) brightness(0.95) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.55));
 }
 
 .party-member-frame .party-exhaustion-badge.level-0 .exhaustion-value {
@@ -1960,11 +1979,12 @@
 
 .party-member-frame .party-exhaustion-badge:hover {
     opacity: 1;
-    filter: brightness(1.08);
+    filter: brightness(1.1) drop-shadow(0 2px 6px rgba(0, 0, 0, 0.55));
+    transform: translateX(-50%) translateY(-1px);
 }
 
 .party-member-frame .party-exhaustion-badge.level-1 .exhaustion-plate-svg {
-    filter: drop-shadow(0 0 4px rgba(255, 209, 0, 0.35)) drop-shadow(0 2px 3px rgba(0, 0, 0, 0.65));
+    filter: drop-shadow(0 0 4px rgba(255, 209, 0, 0.35)) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.65));
 }
 
 .party-member-frame .party-exhaustion-badge.level-2 .exhaustion-value,
@@ -1979,7 +1999,7 @@
 
 .party-member-frame .party-exhaustion-badge.level-2 .exhaustion-plate-svg,
 .party-member-frame .party-exhaustion-badge.level-3 .exhaustion-plate-svg {
-    filter: drop-shadow(0 0 4px rgba(255, 159, 67, 0.45)) drop-shadow(0 2px 3px rgba(0, 0, 0, 0.65));
+    filter: drop-shadow(0 0 4px rgba(255, 159, 67, 0.45)) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.65));
 }
 
 .party-member-frame .party-exhaustion-badge.level-4 .exhaustion-value,
@@ -1994,11 +2014,11 @@
 
 .party-member-frame .party-exhaustion-badge.level-4 .exhaustion-plate-svg,
 .party-member-frame .party-exhaustion-badge.level-5 .exhaustion-plate-svg {
-    filter: drop-shadow(0 0 5px rgba(255, 77, 77, 0.5)) drop-shadow(0 2px 3px rgba(0, 0, 0, 0.65));
+    filter: drop-shadow(0 0 5px rgba(255, 77, 77, 0.5)) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.65));
 }
 
 .party-member-frame .party-exhaustion-badge.level-6 .exhaustion-plate-svg {
-    filter: drop-shadow(0 0 6px rgba(255, 77, 77, 0.7)) drop-shadow(0 2px 3px rgba(0, 0, 0, 0.65)) saturate(1.15);
+    filter: drop-shadow(0 0 6px rgba(255, 77, 77, 0.7)) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.65)) saturate(1.15);
 }
 
 .party-member-frame .party-exhaustion-badge.level-6 .exhaustion-value {
@@ -2023,6 +2043,425 @@
     -webkit-appearance: none;
     appearance: none;
     z-index: 2;
+}
+
+/* ==========================================================================
+   Calm TTRPG Tooltip Styling for Party HUD & Exhaustion
+   ========================================================================== */
+.equipment-slot-tooltip.party-hud-tooltip {
+    background: linear-gradient(172deg, #fdfbf7 0%, #f6f0e3 50%, #ede3cf 100%);
+    border: 1.5px solid #8c7353;
+    border-radius: 4px;
+    padding: 12px 14px;
+    box-shadow:
+        0 0 0 1px #8c7353,
+        0 0 0 3px #f7f2e7,
+        0 0 0 4.5px #b0956b,
+        0 10px 28px rgba(45, 30, 18, 0.35);
+    color: #34251a;
+    font-family: 'Crimson Text', 'Bookman Old Style', Georgia, serif;
+    backdrop-filter: none;
+}
+
+.equipment-slot-tooltip.party-hud-tooltip-exhaustion {
+    padding: 0 !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    max-width: 360px !important;
+    width: 360px !important;
+    pointer-events: none;
+}
+
+.calm-exhaustion-card {
+    position: relative;
+    background: linear-gradient(172deg, #fdfbf7 0%, #f6f0e3 50%, #ede3cf 100%);
+    border: 1.5px solid #8c7353;
+    border-radius: 4px;
+    padding: 14px 16px 12px;
+    box-shadow:
+        0 0 0 1px #8c7353,
+        0 0 0 3px #f7f2e7,
+        0 0 0 4.5px #b0956b,
+        0 10px 28px rgba(45, 30, 18, 0.35),
+        0 2px 6px rgba(45, 30, 18, 0.18);
+    color: #34251a;
+    font-family: 'Crimson Text', 'Bookman Old Style', Georgia, serif;
+    box-sizing: border-box;
+}
+
+/* Ornate corner filigree accents */
+.calm-exhaustion-card .calm-corner {
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    pointer-events: none;
+}
+
+.calm-exhaustion-card .calm-corner::before {
+    content: '';
+    position: absolute;
+    width: 9px;
+    height: 9px;
+    border-color: #8c7353;
+    border-style: solid;
+}
+
+.calm-exhaustion-card .calm-corner::after {
+    content: '';
+    position: absolute;
+    width: 2.5px;
+    height: 2.5px;
+    background: #8c7353;
+    border-radius: 50%;
+}
+
+.calm-exhaustion-card .calm-corner-tl { top: 4px; left: 4px; }
+.calm-exhaustion-card .calm-corner-tl::before { top: 0; left: 0; border-width: 1.5px 0 0 1.5px; }
+.calm-exhaustion-card .calm-corner-tl::after { top: 3px; left: 3px; }
+
+.calm-exhaustion-card .calm-corner-tr { top: 4px; right: 4px; }
+.calm-exhaustion-card .calm-corner-tr::before { top: 0; right: 0; border-width: 1.5px 1.5px 0 0; }
+.calm-exhaustion-card .calm-corner-tr::after { top: 3px; right: 3px; }
+
+.calm-exhaustion-card .calm-corner-bl { bottom: 4px; left: 4px; }
+.calm-exhaustion-card .calm-corner-bl::before { bottom: 0; left: 0; border-width: 0 0 1.5px 1.5px; }
+.calm-exhaustion-card .calm-corner-bl::after { bottom: 3px; left: 3px; }
+
+.calm-exhaustion-card .calm-corner-br { bottom: 4px; right: 4px; }
+.calm-exhaustion-card .calm-corner-br::before { bottom: 0; right: 0; border-width: 0 1.5px 1.5px 0; }
+.calm-exhaustion-card .calm-corner-br::after { bottom: 3px; right: 3px; }
+
+.calm-exhaustion-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 6px;
+}
+
+.calm-exhaustion-icon-wrap {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #f4ebd6 0%, #d8be8d 70%, #9e7f4c 100%);
+    border: 1.5px solid #7a6039;
+    box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.7), 0 1px 3px rgba(45, 30, 18, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.calm-exhaustion-header-glyph {
+    width: 18px;
+    height: 18px;
+}
+
+.calm-exhaustion-title-block {
+    flex: 1;
+    min-width: 0;
+}
+
+.calm-exhaustion-subhead {
+    font-family: 'Cinzel', serif;
+    font-size: 8.5px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: #8c6e4b;
+    line-height: 1.2;
+}
+
+.calm-exhaustion-maintitle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    font-family: 'Cinzel', serif;
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: 0.8px;
+    color: #382414;
+    line-height: 1.2;
+}
+
+.calm-stage-badge {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    padding: 2px 7px;
+    border-radius: 10px;
+    text-transform: uppercase;
+    line-height: 1.2;
+    background: #eadecb;
+    border: 1px solid #bba482;
+    color: #553d26;
+}
+
+.calm-stage-badge.level-0 {
+    background: rgba(76, 120, 72, 0.12);
+    border-color: rgba(76, 120, 72, 0.35);
+    color: #2e5927;
+}
+
+.calm-stage-badge.level-1,
+.calm-stage-badge.level-2 {
+    background: rgba(184, 115, 34, 0.14);
+    border-color: rgba(184, 115, 34, 0.4);
+    color: #824b0e;
+}
+
+.calm-stage-badge.level-3,
+.calm-stage-badge.level-4 {
+    background: rgba(196, 68, 38, 0.14);
+    border-color: rgba(196, 68, 38, 0.4);
+    color: #9c2e17;
+}
+
+.calm-stage-badge.level-5,
+.calm-stage-badge.level-6 {
+    background: rgba(148, 22, 22, 0.16);
+    border-color: rgba(148, 22, 22, 0.45);
+    color: #800e0e;
+}
+
+.calm-ttrpg-divider {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 6px 0 8px;
+    color: #9e8461;
+}
+
+.calm-ttrpg-divider-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, transparent, #b0956b 30%, #b0956b 70%, transparent);
+}
+
+.calm-ttrpg-divider-diamond {
+    font-size: 7px;
+    line-height: 1;
+    color: #8c7353;
+}
+
+.calm-status-cartouche {
+    position: relative;
+    background: rgba(235, 226, 210, 0.65);
+    border: 1px solid #c9b699;
+    border-left: 3.5px solid #8c7353;
+    border-radius: 3px;
+    padding: 7px 10px;
+    margin-bottom: 8px;
+}
+
+.calm-status-cartouche.level-0 {
+    background: rgba(85, 128, 79, 0.08);
+    border-color: rgba(85, 128, 79, 0.28);
+    border-left-color: #4f8049;
+}
+
+.calm-status-cartouche.level-1,
+.calm-status-cartouche.level-2 {
+    background: rgba(184, 115, 34, 0.09);
+    border-color: rgba(184, 115, 34, 0.32);
+    border-left-color: #b87322;
+}
+
+.calm-status-cartouche.level-3,
+.calm-status-cartouche.level-4 {
+    background: rgba(186, 68, 38, 0.09);
+    border-color: rgba(186, 68, 38, 0.32);
+    border-left-color: #b83d1e;
+}
+
+.calm-status-cartouche.level-5,
+.calm-status-cartouche.level-6 {
+    background: rgba(140, 20, 20, 0.1);
+    border-color: rgba(140, 20, 20, 0.35);
+    border-left-color: #8c1414;
+}
+
+.calm-status-head {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 3px;
+}
+
+.calm-status-bullet {
+    font-size: 11px;
+    color: #7a5528;
+    display: inline-flex;
+    align-items: center;
+}
+
+.calm-status-cartouche.level-0 .calm-status-bullet { color: #3b6e35; }
+.calm-status-cartouche.level-1 .calm-status-bullet,
+.calm-status-cartouche.level-2 .calm-status-bullet { color: #a46114; }
+.calm-status-cartouche.level-3 .calm-status-bullet,
+.calm-status-cartouche.level-4 .calm-status-bullet { color: #b83818; }
+.calm-status-cartouche.level-5 .calm-status-bullet,
+.calm-status-cartouche.level-6 .calm-status-bullet { color: #8a1010; }
+
+.calm-status-name {
+    font-family: 'Cinzel', serif;
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: #382414;
+}
+
+.calm-status-body {
+    font-size: 12.5px;
+    line-height: 1.4;
+    color: #422f20;
+    font-style: italic;
+}
+
+.calm-ladder-section {
+    margin-top: 6px;
+    margin-bottom: 8px;
+}
+
+.calm-ladder-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 3px;
+    margin-bottom: 4px;
+    border-bottom: 1px solid rgba(176, 147, 104, 0.4);
+}
+
+.calm-ladder-title {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: #523822;
+}
+
+.calm-ladder-stack-badge {
+    font-size: 9.5px;
+    font-style: italic;
+    color: #925c27;
+}
+
+.calm-ladder-stack-badge.neutral {
+    color: #617859;
+}
+
+.calm-ladder-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5px;
+}
+
+.calm-ladder-step {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 2.5px 6px;
+    border-radius: 3px;
+    font-size: 12px;
+    line-height: 1.35;
+    transition: background 0.15s ease;
+}
+
+.calm-ladder-step.current {
+    background: rgba(184, 115, 34, 0.14);
+    border: 1px solid rgba(184, 115, 34, 0.38);
+    font-weight: 600;
+    color: #2d1b0c;
+}
+
+.calm-ladder-step.current .calm-ladder-step-marker {
+    background: #a86b1f;
+    border-color: #6d420e;
+    color: #fff6e0;
+    box-shadow: 0 0 5px rgba(184, 115, 34, 0.4);
+}
+
+.calm-ladder-step.passed {
+    color: #634329;
+}
+
+.calm-ladder-step.passed .calm-ladder-step-marker {
+    background: #d8c39e;
+    border-color: #8c7353;
+    color: #4a341f;
+}
+
+.calm-ladder-step.inactive {
+    color: #8a7a6c;
+    opacity: 0.78;
+}
+
+.calm-ladder-step.inactive .calm-ladder-step-marker {
+    background: transparent;
+    border-color: #b5a48b;
+    color: #9c8a73;
+}
+
+.calm-ladder-step-marker {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    border: 1px solid #b5a48b;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 8px;
+    flex-shrink: 0;
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+}
+
+.calm-ladder-step-marker .roman-numeral {
+    font-size: 8px;
+    line-height: 1;
+}
+
+.calm-ladder-step-level {
+    font-weight: 600;
+    font-size: 11px;
+    font-family: 'Cinzel', serif;
+    letter-spacing: 0.3px;
+    flex-shrink: 0;
+}
+
+.calm-ladder-step-text {
+    flex: 1;
+}
+
+.calm-exhaustion-footer {
+    padding-top: 6px;
+    border-top: 1px solid rgba(176, 147, 104, 0.4);
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    font-size: 11px;
+    color: #73593e;
+}
+
+.calm-footer-rule,
+.calm-footer-edit-hint {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.calm-footer-rule i,
+.calm-footer-edit-hint i {
+    font-size: 10px;
+    color: #8c7353;
+}
+
+.calm-footer-edit-hint {
+    font-style: italic;
+    color: #8c5a24;
 }
 
 .resource-bars-container {

@@ -1,8 +1,8 @@
 import React from 'react';
-import { render, screen, fireEvent, cleanup } from '@testing-library/react';
+import { render, screen, fireEvent, cleanup, act } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import CreatureAbilityEditor, { CreatureAbilityDetails } from '../CreatureAuthoredAbility';
-import { CreatureWizardProvider, useCreatureWizard, useCreatureWizardDispatch, wizardActionCreators as a } from '../../../context/CreatureWizardContext';
+import { CreatureWizardProvider, useCreatureWizard, useCreatureWizardDispatch, wizardActionCreators as a, retainedCreatureDraft } from '../../../context/CreatureWizardContext';
 import { SpellLibraryStateContext } from '../../../../spellcrafting-wizard/context/SpellLibraryContext';
 import { newItemAbility, itemAbilitySupport } from '../../../../../services/itemAuthoredAbility';
 import useCreatureStore from '../../../../../store/creatureStore';
@@ -11,9 +11,9 @@ import { normalizeCreatureForWizard } from '../../../CreatureWizardApp';
 jest.mock('../../../../books/BookTtrpgBlocks', () => ({ normalizeDangerLevel: () => 'Medium', CREATURE_PRESETS: [] }));
 jest.mock('../ExternalCreaturePreview', () => () => null);
 beforeAll(() => { Object.defineProperty(global, 'crypto', { value: require('crypto').webcrypto, configurable: true }); });
-let current;
+let current, send;
 function Harness() {
-  current = useCreatureWizard(); const dispatch = useCreatureWizardDispatch();
+  current = useCreatureWizard(); const dispatch = useCreatureWizardDispatch(); send = dispatch;
   return <><button onClick={() => dispatch(a.resetWizard())}>Reset test</button><button onClick={() => dispatch(a.nextStep())}>Next test</button><CreatureAbilityEditor /></>;
 }
 const mount = spells => render(<SpellLibraryStateContext.Provider value={{ spells: spells || [] }}><CreatureWizardProvider><Harness /></CreatureWizardProvider></SpellLibraryStateContext.Provider>);
@@ -49,6 +49,7 @@ test('normal wizard reopen preserves whole legacy/rich records and association, 
   const opened = normalizeCreatureForWizard(raw); expect(opened.abilities).toEqual(raw.abilities); expect(opened.custom).toEqual(raw.custom); expect(opened.authoredAbility).toEqual(raw.authoredAbility);
   opened.authoredAbility.record.name = 'edited copy'; opened.abilities[0].periodic.unknown = false;
   expect(raw.authoredAbility.record.name).not.toBe('edited copy'); expect(raw.abilities[0].periodic.unknown).toBe(true);
+  for (const value of [null, { malformed: true }, [null]]) expect(normalizeCreatureForWizard({ abilities: value }).abilities).toEqual(value);
 });
 test('production creature placement and template propagation preserve detached instance association and token identity', () => {
   const association = newItemAbility('d2398809-d3cf-4931-b8f6-24e5a382e1a5');
@@ -67,4 +68,18 @@ test('unsupported whole content stays inspectable and exposes no casting or admi
   render(<CreatureAbilityDetails association={association} saved />);
   expect(screen.getByText(/Unsupported\/manual/)).toBeInTheDocument(); expect(screen.getByText(/Creature casting unavailable/)).toBeInTheDocument();
   expect(screen.queryByRole('button')).not.toBeInTheDocument(); expect(screen.getByText(/"debuff"/)).toBeInTheDocument();
+});
+test('session drafts are keyed by exact creature identity, never substituted for a different edit', () => {
+  mount(); fireEvent.click(screen.getByText('Reset test'));
+  act(() => send(a.loadCreature({ id: 'creature-A', name: 'A', abilities: [] })));
+  fireEvent.click(screen.getByText('Add activated ability'));
+  fireEvent.change(screen.getByLabelText('Ability name'), { target: { value: 'A unfinished' } });
+  const pending = retainedCreatureDraft('edit_creature-A');
+  act(() => send(a.loadCreature({ id: 'creature-B', name: 'B', abilities: [] })));
+  expect(current.originalCreatureId).toBe('creature-B'); expect(current.abilityEdit).toBeNull();
+  expect(retainedCreatureDraft('edit_creature-A').abilityEdit.values.name).toBe('A unfinished');
+  act(() => send(a.resumeDraft(pending))); expect(screen.getByLabelText('Ability name')).toHaveValue('A unfinished');
+  expect(current.originalCreatureId).toBe('creature-A');
+  fireEvent.click(screen.getByText('Cancel ability edit'));
+  expect(retainedCreatureDraft('edit_creature-A')).toBeUndefined();
 });

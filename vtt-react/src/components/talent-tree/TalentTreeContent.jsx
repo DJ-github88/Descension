@@ -712,24 +712,21 @@ export const TalentTreeContent = ({
 
     const resetTalents = () => {
         const spellbook = useSpellbookStore.getState();
+        const currentLib = loadLibraryFromStorage();
         const grantIds = trees
             .flatMap(tree => tree.talents)
             .map(t => t.grantId || t.passiveSpellId)
             .filter(Boolean);
-        const isTalentOwnedSpell = (id) => Boolean(id) && (id.startsWith('talent-spell-') || grantIds.includes(id));
-
-        (spellbook.spells || [])
-            .filter(s => isTalentOwnedSpell(s.id))
-            .forEach(s => spellbook.deleteSpell(s.id));
-
-        const currentLib = loadLibraryFromStorage();
-        if (currentLib?.spells) {
-            currentLib.spells = currentLib.spells.filter(s => !isTalentOwnedSpell(s.id));
-            saveLibraryToStorage(currentLib);
-        }
+        const legacyIds = [
+            ...(spellbook.spells || []),
+            ...(currentLib?.spells || [])
+        ].map(entry => entry?.id)
+            .filter(spellId => typeof spellId === 'string' && spellId.startsWith('talent-spell-'));
 
         setTalents({});
-        useCharacterStore.getState().setTalents({});
+        useCharacterStore.getState().setTalents({}, {
+            grantIds: [...new Set([...grantIds, ...legacyIds])]
+        });
         useCharacterStore.getState().setPrimarySpecialization?.('');
     };
 

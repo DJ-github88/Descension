@@ -206,6 +206,7 @@ const ACTION_TYPES = {
   VALIDATE_STEP: 'VALIDATE_STEP',
   RESET_WIZARD: 'RESET_WIZARD',
   LOAD_CREATURE: 'LOAD_CREATURE',
+  RESUME_DRAFT: 'RESUME_DRAFT',
   SET_EDIT_MODE: 'SET_EDIT_MODE'
 };
 
@@ -435,6 +436,8 @@ function creatureWizardReducer(state, action) {
         originalCreatureId: action.payload.id,
         currentStep: 1
       };
+    case ACTION_TYPES.RESUME_DRAFT:
+      return action.payload;
       
     case ACTION_TYPES.SET_EDIT_MODE:
       return {
@@ -455,19 +458,32 @@ const CreatureWizardDispatchContext = createContext();
 // Session-only unfinished editor state. No durable storage, authority or replay queue.
 let retainedWizardState = null;
 let retainedOwner = null;
+const retainedDrafts = new Map();
+export const retainedCreatureDraft = key => retainedDrafts.get(key);
 export function CreatureWizardProvider({ children }) {
   const owner = useAuthStore(s => s.user?.uid || null);
-  const [state, dispatch] = useReducer(creatureWizardReducer, retainedOwner === owner ? retainedWizardState || initialState : initialState);
+  const [state, baseDispatch] = useReducer(creatureWizardReducer, owner, currentOwner => {
+    if (retainedOwner !== currentOwner) { retainedDrafts.clear(); retainedWizardState = null; retainedOwner = currentOwner; }
+    return retainedWizardState || initialState;
+  });
+  const dispatch = React.useCallback(action => {
+    if (action.type === ACTION_TYPES.RESET_WIZARD) retainedDrafts.delete(state._authoringKey);
+    baseDispatch(action);
+  }, [state._authoringKey]);
   const ownerRef = React.useRef(owner);
   useEffect(() => {
-    if (ownerRef.current !== owner) { ownerRef.current = owner; retainedWizardState = null; retainedOwner = owner; dispatch({ type: ACTION_TYPES.RESET_WIZARD }); }
-    else { retainedOwner = owner; retainedWizardState = state; }
-  }, [state, owner]);
+    if (ownerRef.current !== owner) { ownerRef.current = owner; retainedWizardState = null; retainedOwner = owner; retainedDrafts.clear(); dispatch({ type: ACTION_TYPES.RESET_WIZARD }); }
+    else {
+      retainedOwner = owner; retainedWizardState = state;
+      if (state.abilityEdit || state.authoredAbility !== undefined) retainedDrafts.set(state._authoringKey, state);
+      else retainedDrafts.delete(state._authoringKey);
+    }
+  }, [state, owner, dispatch]);
   
   // Validate current step only when step changes (not on every state change)
   useEffect(() => {
     dispatch({ type: ACTION_TYPES.VALIDATE_STEP, payload: state.currentStep });
-  }, [state.currentStep]);
+  }, [state.currentStep, dispatch]);
   
   return (
     <CreatureWizardStateContext.Provider value={state}>
@@ -497,6 +513,7 @@ export const useCreatureWizardDispatch = () => {
 
 // Action creators
 export const wizardActionCreators = {
+  resumeDraft: draft => ({ type: ACTION_TYPES.RESUME_DRAFT, payload: draft }),
   setBasicInfo: (info) => ({
     type: ACTION_TYPES.SET_BASIC_INFO,
     payload: info

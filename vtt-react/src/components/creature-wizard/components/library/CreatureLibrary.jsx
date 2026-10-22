@@ -247,7 +247,7 @@ const CreatureLibrary = ({ onEdit, onCreateNew }) => {
       const newId = generateUniqueId();
 
       const duplicatedCreature = {
-        ...creatureToDuplicate,
+        ...JSON.parse(JSON.stringify(creatureToDuplicate)),
         id: newId,
         name: `${creatureToDuplicate.name} (Copy)`,
         dateCreated: new Date().toISOString(),

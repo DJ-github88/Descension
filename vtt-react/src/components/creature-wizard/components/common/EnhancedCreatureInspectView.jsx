@@ -2030,7 +2030,7 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
 
   // Render the Abilities section
   const renderAbilitiesSection = () => {
-    if (!creature.abilities || creature.abilities.length === 0) {
+    if (!Array.isArray(creature.abilities) || creature.abilities.length === 0) {
       return (
         <div className="creature-inspect-section empty-section">
           <p>This creature has no abilities.</p>
@@ -2039,7 +2039,8 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
     }
 
     // Combine spells and abilities into one unified list, preserving original order
-    const allPowers = Array.isArray(creature.abilities) ? creature.abilities : [];
+    const allPowers = creature.abilities.filter(a => a && typeof a === 'object' && !Array.isArray(a));
+    if (!allPowers.length) return <p role="status">Unsupported/manual legacy ability entries are preserved; inspect the original definition with the GM.</p>;
     const currentPower = allPowers[selectedAbilityIndex] || allPowers[0];
     const currentIndex = allPowers[selectedAbilityIndex] ? selectedAbilityIndex : 0;
     const currentIcon = currentPower ? resolveCreatureAbilityIcon(currentPower, currentIndex) : null;

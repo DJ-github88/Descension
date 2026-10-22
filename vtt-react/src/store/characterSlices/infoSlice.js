@@ -963,13 +963,23 @@ export const createInfoSlice = (set, get) => ({
         get().syncWithMultiplayer();
     },
 
-    setTalents: (newTalents) => {
-        const previousTalents = get().talents || {};
-        set({ talents: newTalents });
+    setTalents: (newTalents, options = {}) => {
+        const state = get();
+        const previousTalents = state.talents || {};
+        const className = state.class || state.characterClass;
+        const removed = new Set(options.grantIds || []);
 
-        if ((get().class || get().characterClass) === 'Fate Weaver') {
-            const removed = removedTalentGrantIds(previousTalents, newTalents || {}, 'Fate Weaver');
-            if (removed.length > 0) get().removeTalentGrantSpells(removed);
+        if (className === 'Fate Weaver') {
+            removedTalentGrantIds(previousTalents, newTalents || {}, 'Fate Weaver')
+                .forEach(id => removed.add(id));
+        }
+
+        if (removed.size > 0) {
+            // One store update carries the reset talents and the active
+            // character's pruned known-spell list before shared copies settle.
+            get().removeTalentGrantSpells([...removed], { talents: newTalents });
+        } else {
+            set({ talents: newTalents });
         }
 
         if (get().currentCharacterId) {

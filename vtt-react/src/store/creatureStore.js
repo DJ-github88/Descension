@@ -79,6 +79,7 @@ const useCreatureStore = create((set, get) => ({
     set(state => ({
       creatures: [...(state.creatures || []), {
         ...creature,
+        ...(Object.prototype.hasOwnProperty.call(creature, 'authoredAbility') ? { authoredAbility: JSON.parse(JSON.stringify(creature.authoredAbility)) } : {}),
         id: creature.id || `creature_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
         dateCreated: new Date().toISOString(),
         lastModified: new Date().toISOString()

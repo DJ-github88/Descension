@@ -1,0 +1,530 @@
+/* ==========================================================================
+   Resource Overflow Modal — Calm TTRPG Manuscript Theme
+   Handles Overheal (HP), Mana Surge (MP), and Action Surge (AP)
+   ========================================================================== */
+
+.resource-overflow-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(14, 10, 7, 0.72);
+  z-index: 100000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  padding: 16px;
+  animation: overflowFadeIn 0.18s ease-out forwards;
+}
+
+@keyframes overflowFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.resource-overflow-dialog {
+  position: relative;
+  background: linear-gradient(175deg, #fdfbf7 0%, #f6f0e4 45%, #eee4d1 100%);
+  border: 2px solid #8b6f47;
+  border-radius: 8px;
+  box-shadow:
+    0 20px 50px rgba(18, 12, 8, 0.65),
+    0 2px 8px rgba(18, 12, 8, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    inset 0 0 24px rgba(139, 69, 19, 0.06);
+  width: min(470px, calc(100vw - 32px));
+  color: #34251a;
+  font-family: 'Cinzel', Georgia, serif;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  animation: overflowScaleIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  box-sizing: border-box;
+}
+
+@keyframes overflowScaleIn {
+  from {
+    transform: scale(0.94) translateY(6px);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+
+/* 3px Gilded Accent Bar */
+.resource-overflow-accent-bar {
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, #6b4423 0%, #b89758 50%, #6b4423 100%);
+  flex-shrink: 0;
+}
+
+.resource-overflow-dialog.theme-health .resource-overflow-accent-bar {
+  background: linear-gradient(90deg, #7a221b 0%, #c47a52 40%, #c89d53 50%, #c47a52 60%, #7a221b 100%);
+}
+
+.resource-overflow-dialog.theme-mana .resource-overflow-accent-bar {
+  background: linear-gradient(90deg, #1d3557 0%, #3a75a4 40%, #c89d53 50%, #3a75a4 60%, #1d3557 100%);
+}
+
+.resource-overflow-dialog.theme-ap .resource-overflow-accent-bar {
+  background: linear-gradient(90deg, #8a5717 0%, #d49a43 40%, #c89d53 50%, #d49a43 60%, #8a5717 100%);
+}
+
+/* Header */
+.resource-overflow-header {
+  background: linear-gradient(180deg, #2b2016 0%, #1c140d 100%);
+  color: #f1ece1;
+  padding: 12px 20px;
+  border-bottom: 2px solid #b6a080;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  text-align: center;
+}
+
+.resource-overflow-icon-frame {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1.5px solid #b6a080;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+  flex-shrink: 0;
+  background: #3b2a1a;
+  color: #e9d5a1;
+}
+
+.resource-overflow-dialog.theme-health .resource-overflow-icon-frame {
+  background: #5c1d18;
+  color: #fca5a5;
+  border-color: #c47a52;
+}
+
+.resource-overflow-dialog.theme-mana .resource-overflow-icon-frame {
+  background: #183354;
+  color: #93c5fd;
+  border-color: #60a5fa;
+}
+
+.resource-overflow-dialog.theme-ap .resource-overflow-icon-frame {
+  background: #5e3b10;
+  color: #fcd34d;
+  border-color: #d49a43;
+}
+
+.resource-overflow-title {
+  margin: 0;
+  font-size: 14.5px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: #f1ece1;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
+}
+
+/* Content Body */
+.resource-overflow-body {
+  padding: 16px 20px 14px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-sizing: border-box;
+}
+
+/* Context Pill */
+.resource-overflow-context-pill {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 5px 12px;
+  background: rgba(139, 69, 19, 0.06);
+  border: 1px solid #c4baa6;
+  border-radius: 4px;
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #522d25;
+  text-align: center;
+  line-height: 1.3;
+}
+
+.resource-overflow-context-pill .context-sep {
+  opacity: 0.5;
+  font-size: 8px;
+}
+
+.resource-overflow-context-pill i {
+  margin-right: 4px;
+  opacity: 0.85;
+}
+
+/* Ledger List */
+.resource-overflow-ledger-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.resource-overflow-ledger-card {
+  background: rgba(255, 255, 255, 0.65);
+  border: 1px solid #c4baa6;
+  border-radius: 6px;
+  padding: 10px 14px;
+  box-shadow: inset 0 1px 2px rgba(139, 69, 19, 0.04);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ledger-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #dcd3c4;
+  padding-bottom: 6px;
+}
+
+.ledger-resource-name {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #34251a;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ledger-resource-name i {
+  font-size: 12px;
+}
+
+.ledger-excess-badge {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  padding: 2px 7px;
+  border-radius: 4px;
+  background: rgba(139, 69, 19, 0.1);
+  color: #522d25;
+  border: 1px solid rgba(139, 69, 19, 0.25);
+  text-transform: uppercase;
+}
+
+.resource-overflow-ledger-card.theme-health .ledger-excess-badge {
+  background: rgba(139, 58, 42, 0.12);
+  color: #8b3a2a;
+  border-color: rgba(139, 58, 42, 0.35);
+}
+
+.resource-overflow-ledger-card.theme-mana .ledger-excess-badge {
+  background: rgba(29, 78, 216, 0.1);
+  color: #1e40af;
+  border-color: rgba(29, 78, 216, 0.3);
+}
+
+.resource-overflow-ledger-card.theme-ap .ledger-excess-badge {
+  background: rgba(176, 114, 40, 0.12);
+  color: #92540f;
+  border-color: rgba(176, 114, 40, 0.35);
+}
+
+/* Stats 3-Col Grid */
+.ledger-stats-grid {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  padding: 2px 0;
+}
+
+.ledger-stat-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+}
+
+.ledger-stat-col .stat-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+  color: #7a6244;
+  margin-bottom: 2px;
+}
+
+.ledger-stat-col .stat-val {
+  font-size: 13px;
+  font-weight: 700;
+  color: #34251a;
+  font-family: 'Cinzel', Georgia, serif;
+}
+
+.ledger-stat-col .stat-val.restore {
+  color: #2e6027;
+}
+
+.ledger-stat-col .stat-val.excess {
+  color: #8b3a2a;
+}
+
+.resource-overflow-ledger-card.theme-mana .ledger-stat-col .stat-val.excess {
+  color: #1e40af;
+}
+
+.resource-overflow-ledger-card.theme-ap .ledger-stat-col .stat-val.excess {
+  color: #92540f;
+}
+
+.ledger-stat-arrow {
+  color: #a89a84;
+  font-size: 11px;
+}
+
+/* Per-item action buttons (for multi-resource array) */
+.ledger-item-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  margin-top: 4px;
+  padding-top: 6px;
+  border-top: 1px dashed #dcd3c4;
+}
+
+/* Narrative text */
+.resource-overflow-narrative {
+  margin: 0;
+  font-family: 'Crimson Text', Georgia, serif;
+  font-size: 15px;
+  line-height: 1.5;
+  color: #34251a;
+  text-align: center;
+}
+
+.resource-overflow-narrative strong {
+  font-family: 'Cinzel', Georgia, serif;
+  font-weight: 700;
+  color: #2b1c12;
+}
+
+/* Tactical Tip */
+.resource-overflow-tip {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 9px 12px;
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid #c9beaa;
+  border-left: 3px solid #8b6f47;
+  border-radius: 4px;
+  font-family: Georgia, serif;
+  font-size: 12px;
+  line-height: 1.45;
+  color: #523e2d;
+}
+
+.resource-overflow-tip.theme-health {
+  border-left-color: #8b3a2a;
+}
+
+.resource-overflow-tip.theme-mana {
+  border-left-color: #2563eb;
+}
+
+.resource-overflow-tip.theme-ap {
+  border-left-color: #b07228;
+}
+
+.resource-overflow-tip .tip-icon {
+  font-size: 13px;
+  color: #8b6f47;
+  margin-top: 1px;
+  flex-shrink: 0;
+}
+
+.resource-overflow-tip.theme-health .tip-icon {
+  color: #8b3a2a;
+}
+
+.resource-overflow-tip.theme-mana .tip-icon {
+  color: #2563eb;
+}
+
+.resource-overflow-tip.theme-ap .tip-icon {
+  color: #b07228;
+}
+
+.resource-overflow-tip .tip-text {
+  flex: 1;
+}
+
+/* Footer / Actions */
+.resource-overflow-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 12px 20px 16px 20px;
+  border-top: 1px solid #c4baa6;
+  background: rgba(139, 69, 19, 0.03);
+}
+
+/* Standard Calm TTRPG Buttons */
+.overflow-btn {
+  padding: 8px 14px;
+  border: 1px solid;
+  border-radius: 5px;
+  font-weight: 700;
+  font-size: 11.5px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-family: 'Cinzel', Georgia, serif;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.overflow-btn:focus-visible {
+  outline: 2px solid #8b6f47;
+  outline-offset: 2px;
+}
+
+.overflow-btn-cancel {
+  background: #e8e2d4;
+  border-color: #9c8970;
+  color: #34251a;
+  box-shadow: 0 1px 3px rgba(40, 30, 20, 0.1);
+}
+
+.overflow-btn-cancel:hover {
+  background: #ded6c5;
+  border-color: #83725b;
+  color: #231911;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 5px rgba(40, 30, 20, 0.15);
+}
+
+.overflow-btn-cap {
+  background: #f4eee2;
+  border-color: #8b6f47;
+  color: #522d25;
+  box-shadow: 0 1px 3px rgba(40, 30, 20, 0.1);
+}
+
+.overflow-btn-cap:hover {
+  background: #e8dec8;
+  border-color: #6e5433;
+  color: #3d1b14;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 5px rgba(60, 40, 20, 0.18);
+}
+
+/* Primary Seal Buttons */
+.overflow-btn-primary {
+  background: linear-gradient(180deg, #663c32 0%, #522d25 100%);
+  border-color: #421e17;
+  color: #fdf8ee;
+  box-shadow: 0 2px 5px rgba(60, 20, 15, 0.25);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+.overflow-btn-primary:hover {
+  background: linear-gradient(180deg, #78473c 0%, #60362c 100%);
+  border-color: #4f261e;
+  color: #ffffff;
+  box-shadow: 0 3px 8px rgba(60, 20, 15, 0.35);
+  transform: translateY(-1px);
+}
+
+.overflow-btn-primary.theme-mana {
+  background: linear-gradient(180deg, #24466b 0%, #17314d 100%);
+  border-color: #112338;
+  box-shadow: 0 2px 5px rgba(20, 45, 80, 0.25);
+}
+
+.overflow-btn-primary.theme-mana:hover {
+  background: linear-gradient(180deg, #2d5582 0%, #1f3f63 100%);
+  border-color: #173250;
+  box-shadow: 0 3px 8px rgba(20, 45, 80, 0.35);
+}
+
+.overflow-btn-primary.theme-ap {
+  background: linear-gradient(180deg, #8a5717 0%, #6e430f 100%);
+  border-color: #523108;
+  box-shadow: 0 2px 5px rgba(80, 50, 15, 0.25);
+}
+
+.overflow-btn-primary.theme-ap:hover {
+  background: linear-gradient(180deg, #a0681f 0%, #7d4d14 100%);
+  border-color: #613b0c;
+  box-shadow: 0 3px 8px rgba(80, 50, 15, 0.35);
+}
+
+.overflow-btn-subtle {
+  padding: 4px 8px;
+  font-size: 10.5px;
+  background: #f4eee2;
+  border-color: #8b6f47;
+  color: #522d25;
+}
+
+.overflow-btn-subtle:hover {
+  background: #e8dec8;
+  transform: translateY(-1px);
+}
+
+.overflow-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* Fallback: Ensure any lingering .overheal-modal inline element also looks Calm TTRPG */
+body .modal-overlay .overheal-modal {
+  background: linear-gradient(175deg, #fdfbf7 0%, #f6f0e4 45%, #eee4d1 100%) !important;
+  border: 2px solid #8b6f47 !important;
+  border-radius: 8px !important;
+  box-shadow:
+    0 20px 50px rgba(18, 12, 8, 0.65),
+    0 2px 8px rgba(18, 12, 8, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    inset 0 0 24px rgba(139, 69, 19, 0.06) !important;
+  color: #34251a !important;
+  font-family: 'Cinzel', Georgia, serif !important;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .resource-overflow-dialog {
+    width: calc(100vw - 20px);
+  }
+
+  .resource-overflow-actions {
+    flex-direction: column-reverse;
+  }
+
+  .overflow-btn {
+    width: 100%;
+  }
+
+  .ledger-stats-grid {
+    flex-wrap: wrap;
+  }
+}

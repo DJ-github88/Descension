@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { v4 as generateUniqueId } from 'uuid';
-import { useCreatureWizard, useCreatureWizardDispatch, wizardActionCreators } from './context/CreatureWizardContext';
+import { useCreatureWizard, useCreatureWizardDispatch, wizardActionCreators, retainedCreatureDraft } from './context/CreatureWizardContext';
 import { useCreatureLibrary, useCreatureLibraryDispatch, libraryActionCreators } from './context/CreatureLibraryContext';
 import useCreatureStore from '../../store/creatureStore';
 import Step1BasicInfo from './components/steps/Step1BasicInfo';
@@ -38,6 +38,8 @@ export const normalizeCreatureForWizard = (raw = {}) => {
   // Build abilities list from existing abilities, traits, and actions
   let abilities = [];
   if (Array.isArray(raw.abilities)) {
+    abilities = clone(raw.abilities);
+  } else if (Object.prototype.hasOwnProperty.call(raw, 'abilities')) {
     abilities = clone(raw.abilities);
   } else {
     if (Array.isArray(raw.traits)) {
@@ -196,13 +198,13 @@ const CreatureWizardApp = ({
   const loadedRef = React.useRef(null);
 
   useEffect(() => {
-    // Reopening the same session edit must not replace pending values with its template.
-    if (loadedRef.current === null && (wizardState.abilityEdit || wizardState.authoredAbility !== undefined)) {
-      const requestedKey = initialCreature ? `edit_${initialCreature.id}` : editMode ? `edit_${creatureId}` : '__new__';
-      if (wizardState.abilityEdit || requestedKey === wizardState._authoringKey) {
-        loadedRef.current = initialCreature ? `init_${initialCreature.id || initialCreature.name}` : requestedKey;
-        return;
-      }
+    const requestedKey = initialCreature ? `edit_${initialCreature.id}` : editMode ? `edit_${creatureId}` : '__new__';
+    const loadKey = initialCreature ? `init_${initialCreature.id || initialCreature.name}` : requestedKey;
+    const draft = retainedCreatureDraft(requestedKey);
+    if (loadedRef.current !== loadKey && draft) {
+      loadedRef.current = loadKey;
+      wizardDispatch(wizardActionCreators.resumeDraft(draft));
+      return;
     }
     if (initialCreature && (initialCreature.name || initialCreature.id)) {
       const initKey = `init_${initialCreature.id || initialCreature.name}`;
