@@ -11,6 +11,14 @@ import {
     pruneFateWeaverTalents, FATE_WEAVER_PROJECTED_SPELLS_BY_ID,
     FATE_WEAVER_OPTIONAL_RECORDS, FATE_WEAVER_SPELL_POOLS
 } from '../../data/classes/fateWeaverData';
+import {
+    pruneDeathcallerTalents, DEATHCALLER_PROJECTED_SPELLS_BY_ID,
+    DEATHCALLER_OPTIONAL_RECORDS, DEATHCALLER_SPELL_POOLS
+} from '../../data/classes/deathcallerData';
+import {
+    pruneLichborneTalents, LICHBORNE_PROJECTED_SPELLS_BY_ID,
+    LICHBORNE_OPTIONAL_RECORDS, LICHBORNE_SPELL_POOLS
+} from '../../data/classes/lichborneData';
 import useSpellbookStore from '../spellbookStore';
 import { loadLibraryFromStorage, saveLibraryToStorage } from '../../components/spellcrafting-wizard/core/utils/libraryManager';
 
@@ -28,9 +36,29 @@ const fateOptionalById = Object.fromEntries(
     FATE_WEAVER_OPTIONAL_RECORDS.map(record => [record.id, record])
 );
 
+const CR1_POLICY_CLASSES = {
+    Deathcaller: {
+        prune: pruneDeathcallerTalents,
+        projectedById: DEATHCALLER_PROJECTED_SPELLS_BY_ID,
+        optionalRecords: DEATHCALLER_OPTIONAL_RECORDS,
+        spellPools: DEATHCALLER_SPELL_POOLS
+    },
+    Lichborne: {
+        prune: pruneLichborneTalents,
+        projectedById: LICHBORNE_PROJECTED_SPELLS_BY_ID,
+        optionalRecords: LICHBORNE_OPTIONAL_RECORDS,
+        spellPools: LICHBORNE_SPELL_POOLS
+    }
+};
+
+const cr1OptionalById = Object.fromEntries(
+    Object.values(CR1_POLICY_CLASSES).flatMap(config =>
+        config.optionalRecords.map(record => [record.id, record]))
+);
+
 // Reconcile a stored flat talent allocation after a level reduction or class
-// switch. Policy classes (Chaos Weaver, Gambler, Fate Weaver) have level-gated
-// authored caps; legacy classes keep their previous behaviour.
+// switch. Policy classes have level-gated authored caps; legacy classes keep
+// their previous behaviour.
 export const pruneTalentsForChange = (talents, { previousClass, nextClass, level }) => {
     const current = talents && typeof talents === 'object' ? { ...talents } : {};
     if (previousClass && nextClass && previousClass !== nextClass) {
@@ -39,6 +67,7 @@ export const pruneTalentsForChange = (talents, { previousClass, nextClass, level
     if (ALL_CLASSES_DATA[nextClass]?.progression?.policy && Number.isInteger(level)) {
         if (nextClass === 'Gambler') return pruneGamblerTalents(current, level);
         if (nextClass === 'Fate Weaver') return pruneFateWeaverTalents(current, level);
+        if (CR1_POLICY_CLASSES[nextClass]) return CR1_POLICY_CLASSES[nextClass].prune(current, level);
         return pruneAllocationForLevel({ ranks: current, order: [] }, level).allocation.ranks;
     }
     return current;
@@ -456,6 +485,8 @@ export const createProgressionSlice = (set, get) => ({
         if (newLevel < currentLevel) {
             get().reconcileGamblerTalents();
             get().reconcileFateWeaverTalents();
+            get().reconcileDeathcallerTalents();
+            get().reconcileLichborneTalents();
         }
 
         // Only trigger updateExperience if leveling up (to avoid triggering modal when manually adjusting)
@@ -647,10 +678,74 @@ export const createProgressionSlice = (set, get) => ({
     },
 
 
+    // CR1 policy classes gate optional picks by level and prune talent ranks on
+    // level loss. Reconcile existing state only; never auto-fill a choice.
+    reconcileCr1PolicyTalents: (className) => {
+        const config = CR1_POLICY_CLASSES[className];
+        if (!config) return;
+        const state = get();
+        if ((state.class || state.characterClass) !== className) return;
+        const level = Math.max(1, Math.min(10, state.level || 1));
+        const currentTalents = state.talents || {};
+        const ranks = config.prune(currentTalents, level);
+        const removed = removedTalentGrantIds(currentTalents, ranks, className);
+        const currentKnown = state.class_spells?.known_spells || [];
+        let known = currentKnown.filter(spellId => {
+            const optional = cr1OptionalById[spellId];
+            return !optional || optional.level <= level;
+        });
+        known = known.filter(spellId => !removed.includes(spellId));
+
+        const historySpellIds = new Set(Object.values(state.levelUpHistory || {})
+            .map(entry => entry?.spellId).filter(Boolean));
+        const optionalKnown = known.filter(spellId => cr1OptionalById[spellId]);
+        if (optionalKnown.length > level) {
+            const removable = optionalKnown.filter(spellId => !historySpellIds.has(spellId))
+                .sort((a, b) => cr1OptionalById[b].level - cr1OptionalById[a].level);
+            const removeCount = optionalKnown.length - level;
+            const toRemove = new Set(removable.slice(0, removeCount));
+            if (toRemove.size < removeCount) {
+                optionalKnown.filter(spellId => !toRemove.has(spellId))
+                    .sort((a, b) => cr1OptionalById[b].level - cr1OptionalById[a].level)
+                    .slice(0, removeCount - toRemove.size)
+                    .forEach(spellId => toRemove.add(spellId));
+            }
+            known = known.filter(spellId => !toRemove.has(spellId));
+        }
+
+        const updates = {};
+        if (JSON.stringify(ranks) !== JSON.stringify(currentTalents)) updates.talents = ranks;
+        if (JSON.stringify(known) !== JSON.stringify(currentKnown)) {
+            updates.class_spells = { ...(state.class_spells || {}), known_spells: known };
+        }
+        if (Object.keys(updates).length > 0) set(updates);
+        if (removed.length) get().removeTalentGrantSpells(removed);
+
+        const spellbook = useSpellbookStore.getState();
+        const library = loadLibraryFromStorage();
+        let changed = false;
+        classTalentNodes(className).filter(node => node.passiveSpellId && ranks[node.id]).forEach(node => {
+            const rank = ranks[node.id];
+            const canonical = config.projectedById[node.passiveSpellId];
+            if (!canonical) return;
+            const view = { ...canonical, source: 'talent', talentId: node.id, talentRank: rank,
+                maxRanks: 3, description: node.rankValues[rank - 1].text,
+                learnedRankValues: node.rankValues[rank - 1].values };
+            const existing = (spellbook.spells || []).find(spell => spell.id === node.passiveSpellId);
+            if (existing?.source === 'talent') spellbook.updateSpell(view.id, view);
+            const index = library?.spells?.findIndex(spell => spell.id === node.passiveSpellId && spell.source === 'talent') ?? -1;
+            if (index >= 0) { library.spells[index] = view; changed = true; }
+        });
+        if (changed) saveLibraryToStorage(library);
+    },
+
+    reconcileDeathcallerTalents: () => get().reconcileCr1PolicyTalents('Deathcaller'),
+    reconcileLichborneTalents: () => get().reconcileCr1PolicyTalents('Lichborne'),
+
     updateLevel: (newLevel) => {
         const before = get();
         const beforeClass = before.class || before.characterClass;
-        if ((beforeClass === 'Gambler' || beforeClass === 'Fate Weaver') && newLevel < before.level) {
+        if (['Gambler', 'Fate Weaver', 'Deathcaller', 'Lichborne'].includes(beforeClass) && newLevel < before.level) {
             for (let lostLevel = before.level; lostLevel > newLevel; lostLevel--) get().reverseLevelUpBonus(lostLevel);
         }
         let removedGrantIds = [];
@@ -690,6 +785,8 @@ export const createProgressionSlice = (set, get) => ({
 
         get().reconcileGamblerTalents();
         get().reconcileFateWeaverTalents();
+        get().reconcileDeathcallerTalents();
+        get().reconcileLichborneTalents();
 
         // Auto-assign spells based on new level
         const state = get();
@@ -785,6 +882,24 @@ export const createProgressionSlice = (set, get) => ({
             const known = state.class_spells?.known_spells || [];
             const allOptions = Object.values(FATE_WEAVER_SPELL_POOLS).flat();
             const legal = Object.entries(FATE_WEAVER_SPELL_POOLS)
+                .filter(([level]) => Number(level) <= newLevel)
+                .flatMap(([, ids]) => ids);
+            const recordedPicks = new Set(Object.values(state.levelUpHistory || {})
+                .map(entry => entry?.spellId).filter(Boolean));
+            if (newLevel < 1 || newLevel > 10 || state.levelUpHistory?.[newLevel] ||
+                !choice?.spellId || !legal.includes(choice.spellId) || known.includes(choice.spellId) ||
+                recordedPicks.has(choice.spellId) ||
+                known.filter(spellId => allOptions.includes(spellId)).length >= newLevel) return;
+        }
+
+        const cr1Class = state.class || state.characterClass;
+        const cr1Config = CR1_POLICY_CLASSES[cr1Class];
+        if (cr1Config) {
+            const data = ALL_CLASSES_DATA[cr1Class];
+            const spellPools = data?.spellPools || cr1Config.spellPools;
+            const known = state.class_spells?.known_spells || [];
+            const allOptions = Object.values(spellPools).flat();
+            const legal = Object.entries(spellPools)
                 .filter(([level]) => Number(level) <= newLevel)
                 .flatMap(([, ids]) => ids);
             const recordedPicks = new Set(Object.values(state.levelUpHistory || {})
