@@ -62,7 +62,7 @@ describe('P14-A6 exact self healing — registered production handlers', functio
     assert.equal(r.receipt.actors.length, 1); assert.equal(r.receipt.actors[0].afterRevision, before.actorContract.revision + 1);
     assert.deepEqual(actors.resources(token(), 'creature'), { hp: { current: 10, temp: 2, max: 10 }, mana: { current: 9, temp: 0, max: 10 }, ap: { current: 3, temp: 0, max: 4 } });
     assert.equal(JSON.parse(r.receipt.adjudication.chosenResult).actualHealing, 2); assert.equal(r.receipt.adjudication.finalAmount, 5);
-    assert.deepEqual(actors.locate(room, sibling).token, sib); assert.equal(r.actorSnapshot.actors.filter(e => e.ref.tokenId === source.tokenId).length, 1);
+    assert.deepEqual(actors.locate(room, sibling).token, sib); assert.equal(Object.values(r.actorSnapshot.maps.default.tokens).filter(e => e.id === source.tokenId).length, 1);
     assert.equal(room.gameState.tokens.source.state.currentHp, 10); assert.equal(room.gameState.tokens.source.state.currentMana, 9);
   });
   it('zero AP/mana and explicit range0 any remain zero, absent unused mana stays absent, digital faces retained', async() => {
@@ -81,7 +81,7 @@ describe('P14-A6 exact self healing — registered production handlers', functio
   });
   it('incompatible per-effect target profile and mixed effects refuse without partial execution', async() => {
     const r = record(); r.healingConfig.targetType = r.authoredDraft.healingConfig.targetType = 'ally'; token().authoredAbility.record = r; await admit(); await refused('actor_spell_prepare_creature', attempt(), 'unsupported_creature_target');
-    r.authoredDraft.effectTypes.push('buff'); const res = await ack(gm, 'actor_authored_admit', { roomId: room.id, requestId: uuid(), expectedRegistryRevision: installed.registry(room).revision, source, expectedSourceRevision: token().state.actorContract.revision, definitionVersion: 2 }); assert.equal(res.code, 'unsupported_wizard_record');
+    token().authoredAbility.record.authoredDraft.effectTypes.push('buff'); const res = await ack(gm, 'actor_authored_admit', { roomId: room.id, requestId: uuid(), expectedRegistryRevision: installed.registry(room).revision, source, expectedSourceRevision: token().state.actorContract.revision, definitionVersion: 2 }); assert.equal(res.code, 'unsupported_wizard_record');
   });
   it('same-template sibling cannot substitute for Self or reuse source admission', async() => {
     await admit(); const a = attempt(); await refused('actor_spell_prepare_creature', { ...a, target: sibling }, 'distinct_target_range_required'); await refused('actor_spell_prepare_creature', { ...a, source: sibling, target: sibling }, 'creature_admission_changed');
@@ -101,8 +101,8 @@ describe('P14-A6 exact self healing — registered production handlers', functio
   it('source deletion/recreation, admission mismatch/readmission and revocation refuse', async() => {
     await admit(); const a = attempt(); await prepare(a); const c = command(a), original = actors.clone(token());
     delete room.gameState.maps.default.tokens.source; await refused('actor_consequence', c, 'actor_not_found'); room.gameState.maps.default.tokens.source = original;
-    token().state.actorContract.instanceId = uuid(); await refused('actor_consequence', c, 'actor_binding_conflict'); token().state.actorContract.instanceId = source.instanceId;
-    await refused('actor_spell_prepare_creature', { ...a, sourceAuthority: { ...a.sourceAuthority, associationHash: 'a'.repeat(64) } }, 'creature_admission_changed');
+    const currentToken = token(); currentToken.state.actorContract.instanceId = uuid(); await refused('actor_consequence', c, 'actor_binding_conflict'); currentToken.state.actorContract.instanceId = source.instanceId;
+    await refused('actor_spell_prepare_creature', { ...a, approvalId: uuid(), sourceAuthority: { ...a.sourceAuthority, associationHash: 'a'.repeat(64) } }, 'creature_admission_changed');
     await admit(); await refused('actor_consequence', c, 'creature_admission_changed'); const b = attempt(); await prepare(b); const d = command(b);
     token().authoredAbility.record.name = 'changed'; await refused('actor_consequence', d, 'creature_admission_changed'); token().authoredAbility.record.name = original.authoredAbility.record.name;
     const ref = token().state.actorContract.authoredAdmission.definitionRef; assert.equal((await ack(gm, 'actor_authored_revoke', { roomId: room.id, requestId: uuid(), expectedRegistryRevision: installed.registry(room).revision, definitionRef: ref })).success, true); await refused('actor_consequence', d, 'definition_revoked');
@@ -114,7 +114,7 @@ describe('P14-A6 exact self healing — registered production handlers', functio
   async function during(event, data, change, code) {
     const original = server.authorityService.assertCurrent; let enter, release;
     const entered = new Promise(r => { enter = r; }), gate = new Promise(r => { release = r; });
-    server.authorityService.assertCurrent = async(...args) => { enter(); await gate; return original(...args); };
+    server.authorityService.assertCurrent = async(...args) => { if (new Error().stack.includes('actorConsequenceHandlers.js')) { enter(); await gate; } return original(...args); };
     const pending = ack(gm, event, data); await entered; change(); const before = actors.clone(room.gameState); release(); const r = await pending; server.authorityService.assertCurrent = original;
     assert.equal(r.code, code, JSON.stringify(r)); assert.deepEqual(room.gameState, before);
   }

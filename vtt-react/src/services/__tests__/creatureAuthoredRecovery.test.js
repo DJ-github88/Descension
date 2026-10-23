@@ -1,4 +1,4 @@
-import { prepareCreatureAbility, cancelCreatureAbility, revalidateCreatureContext, useSpellConsequenceStore, gmCheckSpellCommand, refreshSpellApprovals } from '../spellConsequenceService';
+import { prepareCreatureAbility, cancelCreatureAbility, revalidateCreatureContext, saveCreatureRoll, useSpellConsequenceStore, gmCheckSpellCommand, refreshSpellApprovals } from '../spellConsequenceService';
 import { requestActorEvent, refreshActorSnapshot, submitPreparedActorCommand } from '../actorConsequenceService';
 import { newItemAbility } from '../itemAuthoredAbility';
 import { definitionFromWizard, actionId } from '../authoredAbility';
@@ -39,6 +39,14 @@ test('physical evidence and attempt bytes persist before emission and explicit r
   await prepareCreatureAbility(); const original = JSON.parse(JSON.stringify(box.latest.approval));
   expect(box.latest.phase).toBe('awaiting'); expect(original.roll).toEqual(roll); expect(original.source.kind).toBe('creature');
   await prepareCreatureAbility(); expect(requestActorEvent.mock.calls.filter(([e]) => e === 'actor_spell_prepare_creature').map(([, a]) => a)).toEqual([original, original]);
+});
+test('A6 explicit self/distinct target changes retain faces; prepared target changes require positive closure', async () => {
+  box.latest.creature.target = source; box.latest.creature.selfAllowed = true;
+  saveCreatureRoll(roll, target); expect(box.latest.creature.roll).toEqual(roll);
+  saveCreatureRoll(roll, source); await prepareCreatureAbility(); const original = JSON.parse(JSON.stringify(box.latest.approval));
+  expect(original.target).toEqual(original.source); expect(jest.requireMock('../blockingService').gmOfferAuthoredAbility).not.toHaveBeenCalled();
+  expect(() => saveCreatureRoll(roll, target)).toThrow(/immutable/);
+  await revalidateCreatureContext(); expect(box.latest.attemptHistory[0].approval).toEqual(original); expect(box.latest.creature.roll).toEqual(roll);
 });
 test('pruned attempt is unresolved, blocks cancellation/material replacement and retains original faces', async () => {
   requestActorEvent.mockResolvedValue({ success: false, code: 'retry_window_expired' }); await prepareCreatureAbility();
