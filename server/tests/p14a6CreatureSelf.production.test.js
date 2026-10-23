@@ -103,7 +103,9 @@ describe('P14-A6 exact self healing — registered production handlers', functio
     delete room.gameState.maps.default.tokens.source; await refused('actor_consequence', c, 'actor_not_found'); room.gameState.maps.default.tokens.source = original;
     const currentToken = token(); currentToken.state.actorContract.instanceId = uuid(); await refused('actor_consequence', c, 'actor_binding_conflict'); currentToken.state.actorContract.instanceId = source.instanceId;
     await refused('actor_spell_prepare_creature', { ...a, approvalId: uuid(), sourceAuthority: { ...a.sourceAuthority, associationHash: 'a'.repeat(64) } }, 'creature_admission_changed');
-    await admit(); await refused('actor_consequence', c, 'creature_admission_changed'); const b = attempt(); await prepare(b); const d = command(b);
+    await admit(); await refused('actor_consequence', c, 'creature_admission_changed');
+    assert.equal((await ack(gm, 'actor_spell_withdraw', { roomId: room.id, approvalId: a.approvalId, approval: a })).success, true);
+    const b = attempt(); await prepare(b); const d = command(b);
     token().authoredAbility.record.name = 'changed'; await refused('actor_consequence', d, 'creature_admission_changed'); token().authoredAbility.record.name = original.authoredAbility.record.name;
     const ref = token().state.actorContract.authoredAdmission.definitionRef; assert.equal((await ack(gm, 'actor_authored_revoke', { roomId: room.id, requestId: uuid(), expectedRegistryRevision: installed.registry(room).revision, definitionRef: ref })).success, true); await refused('actor_consequence', d, 'definition_revoked');
   });
