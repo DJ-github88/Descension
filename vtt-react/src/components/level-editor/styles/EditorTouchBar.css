@@ -1,0 +1,114 @@
+/* Floating touch controls for the level editor (tablets, touch laptops, stylus) */
+
+.vtt-touch-bar {
+    position: fixed;
+    left: 50%;
+    bottom: 132px;
+    transform: translateX(-50%);
+    z-index: 1500;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    max-width: calc(100vw - 24px);
+    padding: 8px 10px;
+    background: rgba(241, 236, 225, 0.96);
+    border: 1px solid var(--adventure-rule, #a08c70);
+    border-radius: 14px;
+    box-shadow: 0 6px 22px rgba(30, 20, 10, 0.35);
+    /* The bar itself must never start a map gesture. */
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.vtt-touch-group {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.vtt-touch-group + .vtt-touch-group {
+    padding-left: 8px;
+    border-left: 1px solid rgba(160, 140, 112, 0.5);
+}
+
+.vtt-touch-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    /* Comfortable finger target (WCAG 2.5.5 recommends 44px). */
+    min-width: 48px;
+    min-height: 48px;
+    padding: 0 12px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #3b2a1c;
+    background: var(--folio-vellum-hi, #f7f2e6);
+    border: 1px solid var(--adventure-rule, #a08c70);
+    border-radius: 10px;
+    cursor: pointer;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.vtt-touch-btn:active:not(:disabled) {
+    background: #e6dcc5;
+    transform: translateY(1px);
+}
+
+.vtt-touch-btn:disabled {
+    opacity: 0.4;
+    cursor: default;
+}
+
+.vtt-touch-btn:focus-visible {
+    outline: 3px solid #4a8eff;
+    outline-offset: 2px;
+}
+
+.vtt-touch-btn > span[aria-hidden='true'] {
+    font-size: 20px;
+    line-height: 1;
+}
+
+.vtt-touch-toggle.is-pan {
+    background: #dbe8ff;
+    border-color: #4a8eff;
+}
+
+.vtt-touch-primary {
+    color: #fff;
+    background: var(--adventure-seal, #663c32);
+    border-color: var(--adventure-seal, #663c32);
+}
+
+.vtt-touch-primary:active:not(:disabled) {
+    background: #4d2c24;
+}
+
+.vtt-touch-danger {
+    color: #7a1f1f;
+    border-color: #b34040;
+}
+
+.vtt-touch-status {
+    padding: 0 6px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #5a4632;
+    white-space: nowrap;
+}
+
+/* Narrow screens: icons only, so the bar fits in one or two rows. */
+@media (max-width: 720px) {
+    .vtt-touch-label {
+        display: none;
+    }
+
+    .vtt-touch-btn {
+        padding: 0 10px;
+    }
+}

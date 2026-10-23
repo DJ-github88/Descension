@@ -17,6 +17,42 @@
  * - Renamed exampleSpells -> spells and added level-based spellPools to match standard class structures.
  */
 
+import { PLAGUEBRINGER_VIRULENT_SPREADER } from '../talentTrees/plaguebringerVirulentSpreader';
+import { PLAGUEBRINGER_TORMENT_WEAVER } from '../talentTrees/plaguebringerTormentWeaver';
+import { PLAGUEBRINGER_DECAY_HARBINGER } from '../talentTrees/plaguebringerDecayHarbinger';
+import { talentTier, tierUnlockCost } from '../talentTrees/talentSystem.mjs';
+import { pruneCr1Talents } from './cr1ClassBuilder';
+
+export const PLAGUEBRINGER_CORE_SPELL_IDS = [
+  'pb_curse_of_agony',
+  'pb_whisper_of_decay'
+];
+
+const withTalentGrantIds = (nodes) => nodes.map(node => ({
+  ...node,
+  grantId: node.grantId || `talent-spell-${node.id}`
+}));
+
+export const PLAGUEBRINGER_TREES = {
+  virulent_spreader: withTalentGrantIds(PLAGUEBRINGER_VIRULENT_SPREADER),
+  torment_weaver: withTalentGrantIds(PLAGUEBRINGER_TORMENT_WEAVER),
+  decay_harbinger: withTalentGrantIds(PLAGUEBRINGER_DECAY_HARBINGER)
+};
+
+export const PLAGUEBRINGER_TALENT_NODES = Object.entries(PLAGUEBRINGER_TREES)
+  .flatMap(([treeId, nodes]) => nodes.map(node => ({
+    ...node,
+    treeId,
+    minLevel: 1,
+    requires: node.requires
+      ? (Array.isArray(node.requires) ? node.requires : [node.requires])
+      : [],
+    requiresPoints: tierUnlockCost(talentTier(node))
+  })));
+
+export const prunePlaguebringerTalents = (talents, level) =>
+  pruneCr1Talents(talents, level, PLAGUEBRINGER_TALENT_NODES);
+
 export const PLAGUEBRINGER_DATA = {
  restrictions: {
   "allowedSubraces": [
@@ -3620,13 +3656,27 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   }
  ],
 
+ progression: {
+  levelCap: 10,
+  policy: {
+   classId: "plaguebringer",
+   rulesetVersion: "cr-review-r1",
+   levelCap: 10,
+   startingSpellPicks: 1,
+   optionalPicksPerLevel: 1,
+   allowEarlierUnchosen: true,
+   grantedCoreSpellIds: PLAGUEBRINGER_CORE_SPELL_IDS,
+   randomizeStartingSpells: false,
+   autoTopUpOnLoad: false,
+   talentActivesAreGrants: true,
+   manualOnly: true
+  }
+ },
 
  // Spell Pools by Level
  spellPools: {
   1: [
-   "pb_curse_of_agony",
    "pb_venomous_touch",
-   "pb_whisper_of_decay",
    "virulent-lavender_mask",
    "pb_rot_touch",
    "pb_mycelium_sense",
@@ -3692,5 +3742,17 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
    "pb_apotheosis_of_rot"
   ]
  }};
+
+export const PLAGUEBRINGER_SPELL_POOLS = PLAGUEBRINGER_DATA.spellPools;
+export const PLAGUEBRINGER_PROGRESSION_POLICY = PLAGUEBRINGER_DATA.progression.policy;
+
+const PLAGUEBRINGER_OPTIONAL_SPELL_IDS = new Set(
+  Object.values(PLAGUEBRINGER_SPELL_POOLS).flat()
+);
+
+export const PLAGUEBRINGER_OPTIONAL_RECORDS = PLAGUEBRINGER_DATA.spells
+  .filter(spell => PLAGUEBRINGER_OPTIONAL_SPELL_IDS.has(spell.id));
+
+export const PLAGUEBRINGER_PROJECTED_SPELLS_BY_ID = {};
 
 export default PLAGUEBRINGER_DATA;

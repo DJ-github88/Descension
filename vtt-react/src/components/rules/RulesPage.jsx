@@ -228,15 +228,15 @@ const CLASS_DATA_LOADERS = {
 
 
 
-  // 'Deathcaller' and 'Lichborne' merged into Revenant as Phase 1.10 consolidation
+  'Deathcaller': () => import('../../data/classes/deathcallerData').then(m => m.DEATHCALLER_DATA),
+  'Lichborne': () => import('../../data/classes/lichborneData').then(m => m.LICHBORNE_DATA),
 
+  // Revenant remains a separate consolidated class; CR-1 restores Deathcaller
+  // and Lichborne as standalone options.
   'Revenant': () => import('../../data/classes/revenantData').then(m => m.REVENANT_DATA),
 
 
   'Plaguebringer': () => import('../../data/classes/plaguebringerData').then(m => m.PLAGUEBRINGER_DATA),
-
-
-  // REMOVED: 'Lichborne' merged into Revenant as Phase 1.10 consolidation
 
 
   'Spellguard': () => import('../../data/classes/spellguardData').then(m => m.SPELLGUARD_DATA),

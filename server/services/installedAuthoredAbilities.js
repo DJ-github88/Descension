@@ -10,7 +10,10 @@ function registry(room) {
 }
 function list(room) {
   const r = registry(room);
-  return { revision: r.revision, entries: r.definitions.map(entry => ({ ...actors.clone(entry), revoked: r.decisions.some(d => d.action === 'revoke' && pure.actionId(d.definitionRef) === pure.actionId(entry.definitionRef)) })) };
+  const sourceRequests = new Set((actors.ledger(room).authoredSourceAdmissions || []).map(e => e.requestId));
+  return { revision: r.revision, entries: r.definitions.map(entry => ({ ...actors.clone(entry),
+    creatureOnly: r.decisions.some(d => d.action === 'admit' && sourceRequests.has(d.requestId) && pure.actionId(d.definitionRef) === pure.actionId(entry.definitionRef)),
+    revoked: r.decisions.some(d => d.action === 'revoke' && pure.actionId(d.definitionRef) === pure.actionId(entry.definitionRef)) })) };
 }
 function lookup(room, spell) {
   const entry = list(room).entries.find(e => pure.actionId(e.definitionRef) === spell.definitionId);
@@ -94,30 +97,34 @@ async function planCreatureAdmission(room, uid, data, authorize) {
   const mirrors = require('./roomCheckpoint').deriveRootMirrors(next.maps); next.tokens = mirrors.tokens; next.characterTokens = mirrors.characterTokens;
   return { next, definitionRef: plan.definitionRef };
 }
-function checkCreatureAuthority(room, approval) {
+function checkCreatureAuthority(room, approval, primaryPc = false) {
   const source = creatureSource(room, approval.source), grant = source.contract.authoredAdmission;
   const authority = approval.sourceAuthority;
   if (!grant || !authority || grant.gmUid !== room.gmId || authority.gmUid !== room.gmId ||
     grant.requestId !== authority.admissionId || grant.associationHash !== authority.associationHash ||
     actors.hash(grant.source) !== actors.hash(approval.source) || actors.hash(source.association) !== grant.associationHash ||
     pure.actionId(grant.definitionRef) !== approval.spell.definitionId) actors.fail('creature_admission_changed');
-  if (approval.target.kind !== 'creature' || approval.source.mapId !== approval.target.mapId || actors.hash(approval.source) === actors.hash(approval.target)) actors.fail('unsupported_creature_target');
+  const self = actors.hash(approval.source) === actors.hash(approval.target);
+  if (approval.target.kind !== (primaryPc ? 'character' : 'creature') || approval.source.mapId !== approval.target.mapId || (primaryPc && self)) actors.fail('unsupported_creature_target');
   const target = actors.locate(room, approval.target);
-  if (target.token.character || target.token.id !== approval.target.tokenId) actors.fail('unsupported_creature_target');
+  if ((!primaryPc && target.token.character) || target.token.id !== approval.target.tokenId) actors.fail('unsupported_creature_target');
   const entry = lookup(room, approval.spell);
   matchAssociation(room, source.association, entry);
-  if (entry.canonicalDefinition.targeting.rangeFeet === 0 || entry.canonicalDefinition.targeting.restriction === 'self') actors.fail('distinct_target_range_required');
+  if (self) {
+    if (!pure.creatureSelfHealing(entry.canonicalDefinition, source.association.record)) actors.fail('unsupported_creature_target');
+  } else if (entry.canonicalDefinition.targeting.rangeFeet === 0 || entry.canonicalDefinition.targeting.restriction === 'self') actors.fail('distinct_target_range_required');
   return entry;
 }
-function checkApproval(room, approval) {
+function checkApproval(room, approval, primaryPc = false) {
   const entry = lookup(room, approval.spell), d = entry.canonicalDefinition, desc = entry.descriptor;
   const wanted = { definitionId: pure.actionId(entry.definitionRef), definitionHash: `${pure.CAPABILITY}/${entry.definitionRef.definitionHash}`, name: d.name, kind: d.effect.kind, damageTypes: desc.effect.damageTypes };
   if (actors.hash(approval.spell) !== actors.hash(wanted) || actors.hash(approval.price) !== actors.hash(desc.price) || approval.classPayment !== null) actors.fail('authored_approval_mismatch');
   const reading = pure.readFormula(d.effect.formula), roll = approval.roll;
   if (roll.constant !== reading.constant || roll.reading !== reading.reading || roll.dice.length !== 1 || roll.dice[0].sides !== reading.dice[0].sides || roll.dice[0].faces.length !== reading.dice[0].count) actors.fail('authored_roll_mismatch');
   const source = actors.locate(room, approval.source);
-  if (approval.source.kind === 'creature') checkCreatureAuthority(room, approval);
+  if (approval.source.kind === 'creature') checkCreatureAuthority(room, approval, primaryPc);
   else {
+    if (entry.creatureOnly) actors.fail('unsupported_source_route');
     const classId = String(source.token.character?.class || '').toLowerCase().replace(/ /g, '_');
     if (classId !== d.binding.classId) actors.fail('unsupported_binding');
   }

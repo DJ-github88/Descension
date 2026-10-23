@@ -218,6 +218,21 @@ const useSettingsStore = create(
         get().updateSettings({ skillSystemMode: mode });
       },
 
+      // Group loot rolls (Need / Greed / Pass with a d20)
+      setLootRollEnabled: (enabled) => {
+        get().updateSettings({ lootRollEnabled: !!enabled });
+      },
+
+      setLootRollMinQuality: (quality) => {
+        const allowed = ['poor', 'common', 'uncommon', 'rare', 'epic', 'legendary'];
+        get().updateSettings({ lootRollMinQuality: allowed.includes(quality) ? quality : 'poor' });
+      },
+
+      setLootRollDuration: (seconds) => {
+        const clamped = Math.max(10, Math.min(120, Math.round(Number(seconds) || 30)));
+        get().updateSettings({ lootRollDuration: clamped });
+      },
+
       // Vision & Fog Settings
       setViewUpdateOnPlacement: (enabled) => {
         get().updateSettings({ viewUpdateOnPlacement: enabled });
@@ -444,6 +459,9 @@ const useSettingsStore = create(
         viewUpdateOnPlacement: state.viewUpdateOnPlacement,
         playerTooltipMode: state.playerTooltipMode,
         skillSystemMode: state.skillSystemMode,
+        lootRollEnabled: state.lootRollEnabled,
+        lootRollDuration: state.lootRollDuration,
+        lootRollMinQuality: state.lootRollMinQuality,
 
         // Audio
         masterVolume: state.masterVolume,

@@ -379,3 +379,161 @@
         grid-template-columns: repeat(4, 1fr);
     }
 }
+
+/* ───────── Brush presets, line options, hints (touch / stylus drawing) ───────── */
+
+.tool-hint {
+    margin: 0 0 8px;
+    font-size: 12px;
+    line-height: 1.4;
+    color: #5a3a2a;
+}
+
+.tool-hint:last-child {
+    margin-bottom: 0;
+}
+
+.selection-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.selection-action-btn {
+    flex: 1;
+    min-height: 34px;
+    padding: 6px 10px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #3b2a1c;
+    background: var(--folio-vellum-hi, #f4f1e8);
+    border: 1px solid var(--adventure-rule, #a08c70);
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.selection-action-btn:hover {
+    background: #f0e6d2;
+}
+
+.selection-action-btn.danger {
+    color: #7a1f1f;
+    border-color: #b34040;
+}
+
+.brush-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(92px, 1fr));
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.brush-chip {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-height: 48px;
+    padding: 8px 6px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #3b2a1c;
+    background: var(--folio-vellum-hi, #f4f1e8);
+    border: 1px solid var(--adventure-rule, #a08c70);
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.brush-chip:hover {
+    background: #f0e6d2;
+}
+
+.brush-chip.active {
+    color: #f8f5ee;
+    background: var(--adventure-seal, #663c32);
+    border-color: #522f27;
+}
+
+.brush-sample {
+    display: block;
+    width: 60%;
+    border-radius: 999px;
+    background: currentColor;
+}
+
+.segmented {
+    display: flex;
+    border: 1px solid var(--adventure-rule, #a08c70);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.segmented-btn {
+    flex: 1;
+    min-height: 34px;
+    padding: 6px 8px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #3b2a1c;
+    background: var(--folio-vellum-hi, #f4f1e8);
+    border: 0;
+    border-right: 1px solid var(--adventure-rule, #a08c70);
+    cursor: pointer;
+}
+
+.segmented-btn:last-child {
+    border-right: 0;
+}
+
+.segmented-btn.active {
+    color: #f8f5ee;
+    background: var(--adventure-seal, #663c32);
+}
+
+/* Fingers need bigger targets than the compact mouse-sized layout allows. */
+@media (pointer: coarse) {
+    .drawing-tools .drawing-tool-btn {
+        min-height: 72px;
+    }
+
+    .drawing-tools .color-swatch {
+        width: 34px;
+        height: 34px;
+    }
+
+    .drawing-tools .brush-chip,
+    .drawing-tools .segmented-btn,
+    .drawing-tools .selection-action-btn {
+        min-height: 46px;
+    }
+
+    .drawing-tools .checkbox-label {
+        min-height: 40px;
+        gap: 10px;
+    }
+
+    .drawing-tools .checkbox-label input[type='checkbox'] {
+        width: 22px;
+        height: 22px;
+    }
+
+    .drawing-tools input[type='range'] {
+        min-height: 32px;
+    }
+}
+
+@media (pointer: coarse) {
+    .drawing-tools .stroke-slider::-webkit-slider-thumb,
+    .drawing-tools .opacity-slider::-webkit-slider-thumb {
+        width: 28px;
+        height: 28px;
+    }
+
+    .drawing-tools .stroke-slider::-moz-range-thumb,
+    .drawing-tools .opacity-slider::-moz-range-thumb {
+        width: 28px;
+        height: 28px;
+    }
+}

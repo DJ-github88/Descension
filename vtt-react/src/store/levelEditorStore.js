@@ -1874,6 +1874,14 @@ const initialState = {
     snapToWall: false,
     showPreview: true,
     strokeWidth: 2,
+    // Drawing tools: brush feel, line look and whether shapes snap to grid corners.
+    brushPreset: 'pen',
+    usePressure: true,
+    smoothing: 0.5,
+    lineStyle: 'solid',
+    sketch: false,
+    arrowHead: 'end',
+    drawSnap: true,
     fillOpacity: 50,
     objectScale: 1,
     objectRotation: 0,
@@ -3594,7 +3602,11 @@ const useLevelEditorStore = create((set, get) => ({
   },
 
   // Drawing tools
-  addDrawingPath: (path, mapId = null) => {
+  // options.allowDuplicate: skip the "same stroke twice within a second" guard
+  //   (the touch/stylus drawing controller already de-dupes at the gesture level).
+  // options.keepLayer: honour path.layer instead of forcing the active layer, so
+  //   drawings always land on the Drawings layer however the layers panel is set.
+  addDrawingPath: (path, mapId = null, options = {}) => {
     const state = get();
 
     // Check for duplicate paths (same tool, similar points, recent timestamp)
@@ -3602,7 +3614,7 @@ const useLevelEditorStore = create((set, get) => ({
     const duplicateThreshold = 1000; // 1 second threshold for duplicate detection
     const pointSimilarityThreshold = 5; // 5 pixels threshold for point similarity
 
-    const isDuplicate = state.drawingPaths.some(existingPath => {
+    const isDuplicate = !options.allowDuplicate && state.drawingPaths.some(existingPath => {
       // Check if same tool and layer
       if (existingPath.tool !== path.tool || existingPath.layer !== state.activeLayer) {
         return false;
@@ -3648,7 +3660,7 @@ const useLevelEditorStore = create((set, get) => ({
     const newPath = {
       id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
       ...path,
-      layer: state.activeLayer,
+      layer: options.keepLayer && path.layer ? path.layer : state.activeLayer,
       timestamp: now
     };
     const newDrawingPaths = [...state.drawingPaths, newPath];
@@ -5381,6 +5393,17 @@ const useLevelEditorStore = create((set, get) => ({
     }
 
     set({ _undoStack: newUndoStack, _redoStack: [] });
+  },
+
+  // Drop the newest undo entry without applying it. A gesture pushes its
+  // snapshot when it starts; if the gesture is then cancelled (a second finger
+  // landed, the pen was lifted off-canvas) nothing changed, so the entry would
+  // be a no-op the user has to step over.
+  cancelLastHistoryEntry: () => {
+    const s = get();
+    if (s._undoStack.length === 0) return false;
+    set({ _undoStack: s._undoStack.slice(0, -1) });
+    return true;
   },
 
   undo: () => {

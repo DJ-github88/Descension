@@ -15,10 +15,15 @@ jest.mock('../sharedConditionCustody', () => {
 });
 jest.mock('../actorConsequenceService', () => ({ requestActorEvent: jest.fn(), refreshActorSnapshot: jest.fn(), submitPreparedActorCommand: jest.fn(), findActor: () => ({ state: { actorContract: { revision: 3 } } }) }));
 jest.mock('../acceptedResultFeed', () => ({ chatLineFor: () => null }));
+jest.mock('../blockingService', () => {
+  const box = { gm: {} };
+  return { __box: box, loadBlockingCustody: () => box, gmOfferAuthoredAbility: jest.fn(), gmCancelOffer: jest.fn() };
+});
 const box = jest.requireMock('../spellConsequenceCustody').__box, commands = jest.requireMock('../sharedConditionCustody').__box;
 let entry, grant, source, target, roll, association;
 beforeEach(() => {
   jest.clearAllMocks(); commands.entries = {}; useSpellConsequenceStore.setState({ gmPending: {}, gmStatus: {} });
+  const blocking = jest.requireMock('../blockingService'); blocking.__box.gm = {}; blocking.gmOfferAuthoredAbility.mockResolvedValue({ commandId: 'attempt-original' }); blocking.gmCancelOffer.mockResolvedValue({ success: true });
   source = { kind: 'creature', roomId: 'r', mapId: 'm', tokenId: 'source', instanceId: 'source-incarnation' }; target = { ...source, tokenId: 'target', instanceId: 'target-incarnation' };
   association = newItemAbility('33333333-3333-4333-8333-333333333333');
   entry = { canonicalDefinition: definitionFromWizard(association.record, { roomId: 'r', definitionVersion: 1, classId: 'arcanoneer' }).definition,
@@ -55,4 +60,24 @@ test('reload retains pruned command as unresolved and exact checking never prepa
   requestActorEvent.mockResolvedValueOnce({ success: true, pending: [] }); await refreshSpellApprovals(); expect(useSpellConsequenceStore.getState().gmStatus[id].phase).toBe('unresolved');
   submitPreparedActorCommand.mockResolvedValue({ success: false, code: 'retry_window_expired' }); await gmCheckSpellCommand(id);
   expect(commands.entries[`authored-spell:${id}`].phase).toBe('unresolved'); expect(submitPreparedActorCommand).toHaveBeenCalledWith(command); await expect(revalidateCreatureContext()).rejects.toThrow(/cannot be replaced/);
+});
+test('A5 compatible material refresh closes the old offer then adopts current A4 admission with the same faces', async () => {
+  target = { kind: 'character', roomId: 'r', mapId: 'm', tokenId: 'pc', instanceId: 'pc-incarnation', ownerUid: 'owner', characterId: 'pc-character' };
+  box.latest.creature.target = target;
+  await prepareCreatureAbility({ proposedAmount: 4, blockApplicable: true, ruling: 'GM rules blocking applicable' });
+  const prior = JSON.parse(JSON.stringify(box.latest.approval)), blocking = jest.requireMock('../blockingService'); blocking.__box.gm['attempt-original'] = { phase: 'offered' };
+  await revalidateCreatureContext();
+  expect(blocking.gmCancelOffer).toHaveBeenCalledWith('attempt-original'); expect(box.latest.creature.grant.requestId).toBe('fresh-admission'); expect(box.latest.creature.roll).toEqual(roll);
+  expect(box.latest.attemptHistory[0].approval).toEqual(prior); expect(box.latest.pcOffer).toBeUndefined();
+  await prepareCreatureAbility({ proposedAmount: 5, blockApplicable: false, ruling: 'Revised proposal requires new owner acceptance' });
+  expect(blocking.gmOfferAuthoredAbility.mock.calls[1][0]).toMatchObject({ approvalId: 'fresh-validation-id', sourceAuthority: { admissionId: 'fresh-admission' }, roll });
+});
+test('A5 pre-emission failure restores same-face draft, but retained unknown offer cannot be replaced', async () => {
+  box.latest.creature.target = { ...target, kind: 'character', ownerUid: 'owner', characterId: 'pc-character' };
+  const blocking = jest.requireMock('../blockingService'); blocking.gmOfferAuthoredAbility.mockRejectedValue(Error('snapshot unavailable before custody'));
+  await expect(prepareCreatureAbility({ proposedAmount: 4, ruling: 'GM ruling' })).rejects.toThrow(/snapshot/);
+  expect(box.latest.approval).toBeUndefined(); expect(box.latest.creature.roll).toEqual(roll);
+  blocking.gmOfferAuthoredAbility.mockImplementation(async a => { blocking.__box.gm[a.approvalId] = { phase: 'unknown' }; throw Error('lost offer ACK'); });
+  await expect(prepareCreatureAbility({ proposedAmount: 4, ruling: 'GM ruling' })).rejects.toThrow(/lost/);
+  await expect(revalidateCreatureContext()).rejects.toThrow(/cannot be replaced/); expect(box.latest.creature.roll).toEqual(roll);
 });

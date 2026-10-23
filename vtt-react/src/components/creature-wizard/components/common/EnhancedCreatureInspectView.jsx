@@ -20,7 +20,9 @@ import { ROLLABLE_TABLES } from '../../../../constants/rollableTables';
 import BESTIARY_DATA from '../../../../data/creatureData.json';
 import { calculateStatModifier } from '../../../../utils/characterUtils';
 import useCreatureStore, { getCreatureSizeMapping } from '../../../../store/creatureStore';
-import useGridItemStore from '../../../../store/gridItemStore';
+import useGridItemStore, { showNothingDroppedNotification } from '../../../../store/gridItemStore';
+import useSettingsStore from '../../../../store/settingsStore';
+import { startLocalLootRoll, getTestPlayers } from '../../../../services/localLootRollService';
 import useInventoryStore from '../../../../store/inventoryStore';
 import useItemStore from '../../../../store/itemStore';
 import useDiceStore from '../../../../store/diceStore';
@@ -2137,6 +2139,46 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
     }
 
     const uniq = () => `${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
+
+    // Group loot rolls (Settings → Group Loot Rolls): item drops are locked on the
+    // grid until the players have rolled Need / Greed / Pass for them. Only works
+    // with a live room - solo/local play keeps the old free-for-all behaviour.
+    const lootSettings = useSettingsStore.getState();
+    const mpSocket = gameState?.multiplayerSocket;
+    const mpRoomId = gameState?.multiplayerRoom?.id;
+    const rollDurationSec = Math.max(10, Math.min(120, Number(lootSettings.lootRollDuration) || 30));
+    const isOnlineRoll = !!(lootSettings.lootRollEnabled && gameState?.isInMultiplayer && mpSocket?.connected && mpRoomId);
+    // Offline: roll locally against the party's test players (party HUD → Add Test Player).
+    const isLocalRoll = !!(lootSettings.lootRollEnabled && !gameState?.isInMultiplayer && getTestPlayers().length > 0);
+    const rollSessionId = (isOnlineRoll || isLocalRoll) ? `lootroll_${uniq()}` : null;
+    // Creature token art for the popups / roll frames (same source the grid token uses).
+    let creaturePortrait = null;
+    try {
+      creaturePortrait = creatureToken?.state?.customIcon
+        || creature?.customTokenImage
+        || getCreatureTokenIconUrl(creature?.tokenIcon || creature?.icon, creature?.type)
+        || resolveCreaturePortrait(creature, creatureToken)
+        || null;
+    } catch (e) {
+      creaturePortrait = null;
+    }
+    const rollLock = rollSessionId
+      ? {
+        lootRollLocked: true,
+        lootRollSessionId: rollSessionId,
+        // Safety valve in case the roll never finishes (server restart etc.)
+        lootRollExpiresAt: Date.now() + (rollDurationSec + 300) * 1000
+      }
+      : {};
+
+    // Settings → Group Loot Rolls → quality: items below the threshold aren't rolled for.
+    const QUALITY_ORDER = ['poor', 'common', 'uncommon', 'rare', 'epic', 'legendary', 'artifact'];
+    const minQualityIndex = Math.max(0, QUALITY_ORDER.indexOf(lootSettings.lootRollMinQuality || 'poor'));
+    const meetsRollQuality = (it) => {
+      const idx = QUALITY_ORDER.indexOf(String(it?.quality || it?.rarity || 'common').toLowerCase());
+      return (idx === -1 ? 1 : idx) >= minQualityIndex;
+    };
+
     const rollRange = (range) => {
       if (!range || !(range.max > 0)) return 0;
       const min = Math.max(0, range.min || 0);
@@ -2183,10 +2225,13 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
       const baseId = item.id ? String(item.id) : `inline_${uniq()}`;
       const isInline = baseId.startsWith('inline_');
       const quantity = typeof item.quantity === 'number' ? item.quantity : 1;
+      const rollThisItem = !!rollSessionId && meetsRollQuality(item);
       drops.push({
         label: quantity > 1 ? `${item.name} ×${quantity}` : item.name,
+        rolled: rollThisItem,
         gridItem: {
           ...item,
+          ...(rollThisItem ? rollLock : {}),
           id: `${baseId}__drop_${uniq()}`,
           // Library items keep pointing at their item-store entry for looting;
           // inline items are looked up by their own (unique) temporary id.
@@ -2204,8 +2249,9 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
 
     // ---- 2. Place orbs around the creature ----
     const placedLabels = [];
+    const rolledDrops = [];
+    const mapId = getStore('mapStore')?.getState?.()?.currentMapId || 'default';
     if (drops.length > 0) {
-      const mapId = getStore('mapStore')?.getState?.()?.currentMapId || 'default';
       const blockedKeys = new Set();
       useGridItemStore.getState().gridItems.forEach(gi => {
         if (gi?.gridPosition && (gi.mapId || 'default') === mapId) {
@@ -2240,14 +2286,95 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
           gridPosition: { row: tile.gridY, col: tile.gridX }
         }, true);
         placedLabels.push(drop.label);
+        if (drop.rolled) {
+          const rawId = String(drop.gridItem.id);
+          rolledDrops.push({
+            gridItemId: rawId.startsWith('grid-item-') ? rawId : `grid-item-${rawId}`,
+            name: drop.gridItem.customName || drop.gridItem.name,
+            quality: drop.gridItem.quality || drop.gridItem.rarity || 'common',
+            iconId: drop.gridItem.iconId || '',
+            quantity: typeof drop.gridItem.quantity === 'number' ? drop.gridItem.quantity : 1
+          });
+        }
       });
+    }
+
+    // ---- 2b. Start the Need / Greed / Pass roll for the locked item orbs ----
+    if (isLocalRoll && rolledDrops.length > 0) {
+      const started = startLocalLootRoll({
+        sessionId: rollSessionId,
+        creatureName,
+        creatureImage: creaturePortrait,
+        durationSec: rollDurationSec,
+        items: rolledDrops
+      });
+      if (!started) {
+        const store = useGridItemStore.getState();
+        rolledDrops.forEach(d => store.updateGridItemProperties(d.gridItemId, {
+          lootRollLocked: false, lootRollSessionId: null, lootRollExpiresAt: null
+        }, false));
+      }
+    } else if (rollSessionId && rolledDrops.length > 0) {
+      const unlockAll = () => {
+        const store = useGridItemStore.getState();
+        rolledDrops.forEach(d => {
+          if ((store.gridItems || []).some(gi => gi?.id === d.gridItemId)) {
+            store.updateGridItemProperties(d.gridItemId, {
+              lootRollLocked: false,
+              lootRollSessionId: null,
+              lootRollExpiresAt: null
+            }, true);
+          }
+        });
+      };
+      let settled = false;
+      // If the server never answers (e.g. it predates loot rolls) don't leave the loot locked.
+      const fallbackTimer = setTimeout(() => {
+        if (settled) return;
+        settled = true;
+        console.warn('[Loot] Loot roll did not start (no server response); loot left free to take.');
+        unlockAll();
+      }, 10000);
+      mpSocket.emit('loot_roll_start', {
+        roomId: mpRoomId,
+        sessionId: rollSessionId,
+        mapId,
+        creatureName,
+        creatureImage: creaturePortrait,
+        durationSec: rollDurationSec,
+        items: rolledDrops
+      }, (ack) => {
+        if (settled) return;
+        settled = true;
+        clearTimeout(fallbackTimer);
+        if (!ack || ack.success === false) {
+          console.warn('[Loot] Loot roll rejected; loot left free to take.', ack?.error);
+          unlockAll();
+          return;
+        }
+        if (ack.noRollers) {
+          // The server already unlocked the orbs.
+          useChatStore.getState().addSocialNotification?.({
+            sender: { name: 'Loot', class: 'system', level: 0 },
+            content: `No players in the room to roll for ${creatureName}'s loot — it's free to take.`,
+            type: 'system'
+          });
+        }
+      });
+    }
+
+    // Small popup for the roller when the creature had nothing on it
+    // (other players get theirs when the announcement below reaches them).
+    if (placedLabels.length === 0) {
+      showNothingDroppedNotification(creatureName, creaturePortrait);
     }
 
     // ---- 3. Tell the GM and players what happened (also when nothing dropped) ----
     useChatStore.getState().addLootRollNotification({
       creatureName,
       dropped: placedLabels,
-      roller
+      roller,
+      creatureImage: creaturePortrait
     });
   };
 

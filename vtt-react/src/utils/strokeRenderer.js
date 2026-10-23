@@ -38,6 +38,24 @@ export const TOOL_STROKE_PRESETS = {
     start: { taper: 0, cap: true },
     end: { taper: 0, cap: true }
   },
+  // Constant-width felt marker: round ends, no pressure thinning.
+  marker: {
+    size: 6,
+    thinning: 0,
+    smoothing: 0.55,
+    streamline: 0.5,
+    start: { taper: 0, cap: true },
+    end: { taper: 0, cap: true }
+  },
+  // Dry, slightly uneven pencil line with soft tapered ends.
+  pencil: {
+    size: 2.5,
+    thinning: 0.35,
+    smoothing: 0.4,
+    streamline: 0.35,
+    start: { taper: 6, cap: true },
+    end: { taper: 10, cap: true }
+  },
   eraser: {
     size: 16,
     thinning: 0,
@@ -166,6 +184,23 @@ export function getSvgPathFromStroke(outline) {
     },
     ['M', ...outline[0], 'Q']
   ).concat(['Z']).join(' ');
+}
+
+/**
+ * Creates a Rough.js drawing surface for a canvas, or null when Rough.js
+ * cannot be initialised (the caller then draws the plain shape).
+ *
+ * @param {HTMLCanvasElement} canvas
+ */
+export function createRoughCanvas(canvas) {
+  if (!canvas) return null;
+  try {
+    if (typeof rough.canvas === 'function') return rough.canvas(canvas);
+    if (rough.default && typeof rough.default.canvas === 'function') return rough.default.canvas(canvas);
+  } catch (err) {
+    console.warn('Rough.js canvas unavailable:', err);
+  }
+  return null;
 }
 
 /**

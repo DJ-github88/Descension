@@ -106,4 +106,10 @@ function definitionFromWizard(record, { roomId, definitionVersion, classId }) {
 }
 const actionId = ref => `authored:${ref.definitionId}:${ref.definitionVersion}:${ref.definitionHash}`;
 const isAuthored = spell => String(spell?.definitionId || spell?.id || '').startsWith('authored:');
-module.exports = { CAPABILITY, ADAPTER_VERSION, CLASS_IDS, readFormula, definitionFromWizard, actionId, isAuthored };
+// A6: eligibility is explicit targeting, never an inference from range zero. Ally stays manual.
+function creatureSelfHealing(definition, record) {
+  const targetType = record?.authoredDraft?.healingConfig?.targetType;
+  return definition?.effect?.kind === 'healing' && ['self', 'any'].includes(definition?.targeting?.restriction) &&
+    (targetType === undefined || ['self', 'any'].includes(targetType));
+}
+module.exports = { CAPABILITY, ADAPTER_VERSION, CLASS_IDS, readFormula, definitionFromWizard, actionId, isAuthored, creatureSelfHealing };

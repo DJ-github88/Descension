@@ -9,7 +9,7 @@ import { ownerSource } from '../../services/spellConsequenceService';
 import { DAMAGE_TYPES, MANUAL, MANUAL_LABELS, requiredManual, firstAvailable, SIZES } from '../../services/equipmentBlocking';
 import { findEntry, pendingUnequips } from '../../services/blockingCustody';
 import { useBlockingStore, refreshOwnBlocking, refreshBlockLists, ownEligiblePieces, submitDeclaration, checkDeclaration, resolveOwnConflict, settleUnequip,
-  approveBlock, checkBlockApproval, withdrawBlock, loadBlockingCustody, gmOfferBlock, gmPlanBlock, gmAcceptBlock, gmCheckBlockCommand, gmDeclineBlock, gmCancelOffer } from '../../services/blockingService';
+  approveBlock, checkBlockApproval, withdrawBlock, rejectCreatureOffer, loadBlockingCustody, gmOfferBlock, gmPlanBlock, gmAcceptBlock, gmCheckBlockCommand, gmDeclineBlock, gmCancelOffer } from '../../services/blockingService';
 import './WeaponStrikePanel.css';
 import './BlockingPanel.css';
 
@@ -54,17 +54,26 @@ function OfferCard({ offer, piece }) {
   const [mode, setMode] = useState('physical'), [face, setFace] = useState('');
   const { busy, error, perform } = usePerform();
   const a = offer.attack;
+  const authored = a.authored, healing = authored?.attempt.spell.kind === 'healing';
+  const retained = loadBlockingCustody()?.owner;
+  const pending = retained?.approval && ['prepared', 'awaiting', 'unknown'].includes(retained.phase);
+  const canBlock = !authored || (!healing && authored.blockApplicable);
   return <article className="p12-gm-card" aria-label={`Block roll for ${a.ability.name}`}>
     <h4>{a.ability.name}: {a.proposedDamage} {a.damageType} ({a.outcome})</h4>
-    <p className="p12-meta">GM-declared hit · attack {a.roll.dice} [{a.roll.faces.join(', ')}]</p>
-    {piece && a.outcome === 'critical' && piece.kind === 'armor' ? <p>Criticals go around armor: no block roll. The GM resolves this hit without a block.</p> : piece ? <>
+    <p className="p12-meta">{healing ? 'GM healing proposal' : 'GM-declared hit'} · recorded {a.roll.dice} [{a.roll.faces.join(', ')}]</p>
+    {authored && <><p>Source {a.source.tokenId} → {a.target.tokenId} · exact primary PC owner {a.target.ownerUid}. {authored.attempt.price.ap} AP / {authored.attempt.price.mana} mana paid by creature only on acceptance.</p>
+      <p>{authored.ruling} · {healing ? 'Explicit healing acceptance; no equipment involved.' : authored.blockApplicable ? 'GM rules equipment blocking applicable; nonphysical/critical branches still require a ruling.' : 'GM rules equipment blocking not applicable.'}</p>
+      <p>Authored targeting: {authored.targeting.rangeFeet} ft · {authored.targeting.restriction}. Retained result {authored.attempt.roll.total}.</p>
+      <button type="button" disabled={busy || pending} onClick={() => perform(() => approveBlock(offer.commandId, { noBlock: true }))}>{healing ? 'Accept this healing proposal' : 'Don’t block — accept damage proposal'}</button>
+      <button type="button" disabled={busy || pending} onClick={() => perform(() => rejectCreatureOffer(offer.commandId))}>Reject proposal (nothing applied)</button></>}
+    {canBlock && (piece && a.outcome === 'critical' && piece.kind === 'armor' ? <p>Criticals go around armor: no block roll. The GM resolves this hit without a block.</p> : piece ? <>
       <p>Blocks with <strong>{piece.name}</strong> · {piece.kind} · {piece.currentDie}</p>
       <fieldset disabled={busy}><legend>Block roll · {piece.currentDie}</legend>
         <label><input type="radio" checked={mode === 'digital'} onChange={() => setMode('digital')} /> Roll digitally</label>
         <label><input type="radio" checked={mode === 'physical'} onChange={() => setMode('physical')} /> Physical face</label>
         {mode === 'physical' && <label>Natural face (1–{SIZES[piece.currentDie]}) <input inputMode="numeric" value={face} onChange={e => setFace(e.target.value)} /></label>}
-        <button type="button" onClick={() => perform(() => approveBlock(offer.commandId, { mode, face }))}>Approve block roll</button>
-      </fieldset></> : <p>No available blocking piece. The GM resolves this hit without a block.</p>}
+        <button type="button" disabled={pending} onClick={() => perform(() => approveBlock(offer.commandId, { mode, face }))}>Approve block roll</button>
+      </fieldset></> : <p>No available blocking piece. Choose Don’t block for this proposal, or resolve with the GM.</p>)}
     {error && <p role="alert">{error}</p>}
   </article>;
 }
@@ -152,29 +161,29 @@ function GmPendingCard({ entry }) {
   const draft = () => ({ manual: Object.entries(manual).filter(([, v]) => v.on).map(([category, v]) => ({ category, note: v.note || '' })), finalAmount: final === '' ? undefined : final, reason });
   const locked = ['submitting', 'unknown'].includes(status?.phase);
   // P12B-r1 (§3.9): stale state never re-rolls. The GM confirms the recorded rolls or voids.
-  const revalidate = status?.phase === 'revalidate', blockRuling = status?.phase === 'blockRuling';
+  const revalidate = ['revalidate', 'targetRevalidate'].includes(status?.phase), blockRuling = status?.phase === 'blockRuling';
   const changes = status?.details?.changes;
   const pool = (label, value) => value ? `${label} ${value.before?.current ?? '?'}${value.before?.temp ? `+${value.before.temp}` : ''} → ${value.now?.current ?? '?'}${value.now?.temp ? `+${value.now.temp}` : ''}` : null;
   return <article className="p12-gm-card" aria-label="Pending block roll">
     <h4>{offer ? `${offer.attack.ability.name}: ${offer.attack.proposedDamage} ${offer.attack.damageType} (${offer.attack.outcome})` : 'Block roll'}</h4>
-    <p>Owner rolled <strong>{approval.roll.faces[0]}</strong> ({approval.roll.mode}) on {approval.blocking.die} · slot {approval.blocking.slot}</p>
+    {approval.blocking ? <p>Owner rolled <strong>{approval.roll.faces[0]}</strong> ({approval.roll.mode}) on {approval.blocking.die} · slot {approval.blocking.slot}</p> : <p>Exact owner explicitly accepted this proposal without equipment. No block roll or wear.</p>}
     {revalidate && <section className="p12b-ruling" aria-label="Attack revalidation">
       <p role="status">{status.message}</p>
       {changes && <p className="p12-meta">Changed since the offer: {[pool('HP', changes.hp), pool('mana', changes.mana), pool('AP', changes.ap)].filter(Boolean).join(' · ')}{changes.conditionsChanged ? ' · conditions changed' : ''}{status.details?.reason === 'history_unavailable' ? ' · full history unavailable' : ''}</p>}
       <label>Why the recorded rolls still stand (public, required) <input maxLength={300} value={why} onChange={e => setWhy(e.target.value)} /></label>
-      <button type="button" disabled={busy || !why.trim()} onClick={() => perform(() => gmAcceptBlock(approval.approvalId, { ...draft(), revalidation: { reason: why } }))}>Recorded rolls still stand — apply</button>
+      <button type="button" disabled={busy || !why.trim()} onClick={() => perform(() => gmAcceptBlock(approval.approvalId, { ...draft(), targetRevalidation: { reason: why }, revalidation: { reason: why } }))}>Recorded rolls still stand — apply</button>
     </section>}
     {blockRuling && <section className="p12b-ruling" aria-label="Block ruling">
       <p role="status">{status.message}</p>
       {status.details?.recorded && <p className="p12-meta">Recorded: face {status.details.recorded.face} on {status.details.recorded.slot} {status.details.recorded.die} (revision {status.details.recorded.revision}) · now: {status.details.current ? `${status.details.current.slot} ${status.details.current.die} (revision ${status.details.current.revision})` : 'unavailable'}</p>}
     </section>}
     <button type="button" disabled={busy} onClick={() => perform(async() => setPlan((await gmPlanBlock(approval.approvalId, draft())).preview))}>{blockRuling ? 'Check the recorded piece again' : 'Review block'}</button>
-    {plan && <p>{plan.piece.name}: face {plan.face}{plan.defending ? ' × 2 (Defending)' : ''} = {plan.reduction} → after block <strong>{plan.afterBlock}</strong>; wear {plan.piece.currentDie} → {plan.broken ? 'broken' : plan.afterDie}</p>}
+    {plan && <p>{plan.piece ? `${plan.piece.name}: face ${plan.face}${plan.defending ? ' × 2 (Defending)' : ''} = ${plan.reduction}; wear ${plan.piece.currentDie} → ${plan.broken ? 'broken' : plan.afterDie}` : 'No equipment'} → proposal after block <strong>{plan.afterBlock}</strong></p>}
     <fieldset disabled={busy || locked}><legend>GM rulings (not automated)</legend>
       {MANUAL.map(category => <div key={category}><label><input type="checkbox" checked={!!manual[category]?.on || false} onChange={e => setManual(m => ({ ...m, [category]: { ...m[category], on: e.target.checked } }))} />
         {MANUAL_LABELS[category]}{required.includes(category) ? ' — required' : ''}</label>
         {manual[category]?.on && <input aria-label={`${category} note`} maxLength={300} value={manual[category].note || ''} onChange={e => setManual(m => ({ ...m, [category]: { ...m[category], note: e.target.value } }))} />}</div>)}
-      <label>Final HP damage {plan ? `(after block ${plan.afterBlock})` : ''} <input inputMode="numeric" value={final} onChange={e => setFinal(e.target.value)} placeholder="defaults to after-block amount" /></label>
+      <label>Final HP {offer?.attack.authored?.attempt.spell.kind === 'healing' ? 'healing (must match accepted proposal)' : 'damage'} {plan ? `(after block ${plan.afterBlock})` : ''} <input inputMode="numeric" value={final} onChange={e => setFinal(e.target.value)} placeholder="defaults to accepted proposal after block" /></label>
       <label>Adjustment reason (public; required if different) <input maxLength={2000} value={reason} onChange={e => setReason(e.target.value)} /></label>
     </fieldset>
     <div className="p12-actions">

@@ -1,51 +1,54 @@
 /**
- * Plaguebringer — Resource System tab v2 authored guide.
- * Copy drafted from plaguebringerData.js resourceSystem (Virulence 0–100,
- * stage thresholds, ember sensitivity). No classResources entry.
+ * Plaguebringer resource guide.
+ *
+ * Virulence is a manual tabletop meter (0-100). The shared combat engine does
+ * not apply seeds, stage advances, decay, ember purges, or resource gains.
+ * Players use spell text and the resource bar controls to record the result.
  */
 export const plaguebringerResourceGuide = {
- version: 2,
+ version: 3,
 
  tagline:
-  'Seed infections, cultivate stages, and harvest what grows — mind the fire.',
- archetype: 'Culture Meter (0–100)',
+  'Seed infections, cultivate stages, and harvest what grows - track every point by hand.',
+
+ archetype: 'Manual culture meter (0-100)',
 
  vitals: [
   { icon: 'fa-seedling', label: 'Grow', value: 'seeds and cultivation' },
-  { icon: 'fa-skull', label: 'Thresholds', value: '25 Sprouting · 50 Blooming · 75+ Peak' },
-  { icon: 'fa-biohazard', label: 'Harvest', value: 'Stage 3 detonations' },
-  { icon: 'fa-fire', label: 'Risk', value: 'ember burns cultures' },
+  { icon: 'fa-skull', label: 'Thresholds', value: '25 Sprouting / 50 Blooming / 75 Peak Harvest' },
+  { icon: 'fa-biohazard', label: 'Spend', value: 'harvest and advanced rites' },
+  { icon: 'fa-hand-paper', label: 'Authority', value: 'manual only; no automatic application' },
  ],
 
  loop: {
   gain: {
-   title: 'Seed and Cultivate',
+   title: 'Record the Spell',
    icon: 'fa-seedling',
-   text: 'Planting a base seed adds +10 Virulence, sowing contagion +5, cultivating a stage +15, and bursting a corpse +20. The culture decays −2 per round without care.',
+   text: 'When a spell says it seeds, cultivates, or grants Virulence, apply its listed classResource value by hand. Gains in the authored data are 10, 15, 20, or 25 depending on the spell.',
   },
   hold: {
-   title: 'The Growth Curve',
+   title: 'Track the Thresholds',
    icon: 'fa-skull',
-   text: 'Outbreaks pass 25 (Sprouting) and 50 (Blooming) on the way to Peak Harvest at 75+, where dispels start failing. Keep multiple Stage 1 infections spreading for compounding ticks.',
+   text: 'Keep the meter visible. At 25 Virulence you are Sprouting, at 50 Blooming, and at 75 or more Peak Harvest. Treat the listed bonus as table guidance, not an automatic engine effect.',
   },
   spend: {
-   title: 'Harvest',
+   title: 'Pay the Cost',
    icon: 'fa-biohazard',
-   text: 'Harvest mature Stage-3 infections for necrotic explosions that spread spores to everyone nearby. The garden pays out all at once.',
+   text: 'Spells with a Virulence cost deduct that amount when the table resolves the cast. If the cost cannot be paid, the cast is not legal and should not be recorded.',
   },
   risk: {
-   title: 'Fire and Decay',
-   icon: 'fa-fire',
-   text: 'Ember damage burns your cultures: −1 stage and −25 Virulence. Kill fire casters first or lose the harvest.',
+   title: 'No Hidden Ticks',
+   icon: 'fa-hand-paper',
+   text: 'The engine does not automatically decay Virulence, purge it on ember damage, spread infections, or apply stage ticks. If your table uses those hazards, adjudicate and record them manually.',
   },
  },
 
  exampleTurn:
-  '**Round 1:** you seed two cultists (+10 each) and let the first Stage 1 tick. **Round 3:** a cultivate (+15) pushes you past Blooming at 50 while both targets suffer. **Round 5:** Peak Harvest at 78 — the mage\'s dispel fails, you trigger the corpse burst (+20) and harvest a Stage 3 for the detonation that finishes the room, all before the ember caster acts again.',
+  '**Round 1:** resolve Wasting Curse, mark its listed Virulence gain, and note the Seed. **Round 2:** resolve Whisper of Decay against the seeded target, mark its gain, and advance the stage only if the table confirms the condition. **Round 3:** check the meter before spending on an advanced rite; record the deduction and any table-adjudicated result. No step is applied automatically by shared combat.',
 
  weaveIn: [
   {
-   text: 'Affliction spells advance stages; harvest abilities cash Stage 3 infections for the payoff.',
+   text: 'Spell cards state their Virulence gain or cost; the resource bar records the manual result.',
    tab: 'spells',
    tabLabel: 'browse the spellbook',
   },
@@ -55,7 +58,7 @@ export const plaguebringerResourceGuide = {
    tabLabel: 'compare the three paths',
   },
   {
-   text: 'Thresholds are your real spend meter: 25 / 50 / 75 change what your existing infections do.',
+   text: 'Thresholds are guidance for the table: 25 / 50 / 75 change what your existing infections can attempt.',
   },
  ],
 
@@ -63,15 +66,13 @@ export const plaguebringerResourceGuide = {
   title: 'Virulence at a Glance',
   headers: ['Action', 'Virulence', 'What it does'],
   rows: [
-   ['Apply base seed', '+10', 'Main growth'],
-   ['Sow contagion', '+5', 'Spread the culture'],
-   ['Cultivate a stage', '+15', 'Accelerate a target'],
-   ['Corpse burst', '+20', 'Death feeds the garden'],
-   ['Round decay', '−2', 'Cultures cool without care'],
-   ['25 / 50 / 75+', 'Sprouting / Blooming / Peak', 'Escalating payoff thresholds'],
-   ['Ember damage', '−1 stage, −25 Virulence', 'Fire is the hard counter'],
+   ['Apply a seed', 'listed gain', 'Record the spell value by hand'],
+   ['Cultivate a stage', 'listed gain', 'Advance only when the table confirms'],
+   ['Pay a harvest or rite', 'listed cost', 'Deduct before resolving'],
+   ['25 / 50 / 75+', 'Sprouting / Blooming / Peak Harvest', 'Threshold guidance'],
+   ['Automatic changes', 'none', 'Shared combat applies nothing'],
   ],
   footnote:
-   'Virulence runs 0–100; harvest is only possible from mature Stage-3 infections.',
+   'Virulence runs 0-100. All seeding, spreading, decay, ember hazards, and spends are manual tabletop decisions.',
  },
 };

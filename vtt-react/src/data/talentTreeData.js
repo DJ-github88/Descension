@@ -81,11 +81,7 @@ import {
   INQUISITOR_HOLLOW_SAINT
 } from './talentTrees/inquisitor.js';
 
-import {
-  PLAGUEBRINGER_VIRULENT_SPREADER,
-  PLAGUEBRINGER_TORMENT_WEAVER,
-  PLAGUEBRINGER_DECAY_HARBINGER
-} from './talentTrees/plaguebringer.js';
+import { PLAGUEBRINGER_TREES } from './classes/plaguebringerData';
 
 // 'Deathcaller' and 'Lichborne' merged into Revenant as Phase 1.10 consolidation
 import {
@@ -411,9 +407,9 @@ export const TALENT_TREES = {
     'cultist': FALSE_PROPHET_CULTIST
   },
   'Plaguebringer': {
-    'virulent_spreader': PLAGUEBRINGER_VIRULENT_SPREADER,
-    'torment_weaver': PLAGUEBRINGER_TORMENT_WEAVER,
-    'decay_harbinger': PLAGUEBRINGER_DECAY_HARBINGER
+    'virulent_spreader': PLAGUEBRINGER_TREES.virulent_spreader,
+    'torment_weaver': PLAGUEBRINGER_TREES.torment_weaver,
+    'decay_harbinger': PLAGUEBRINGER_TREES.decay_harbinger
   },
   'Revenant': {
     'sanguine_harvest': REVENANT_SANGUINE_HARVEST,

@@ -1,5 +1,6 @@
-/* Resource glyphs (health flask, mana crystal, AP winged boot).
-   Calm by default; light only shows when a pool is full or overcharged. */
+/* Resource glyphs (heart flask, mana crystal, winged boot, hourglass).
+   Calm by default: motion is slow and small, and only marks a state change
+   (full pool glint, critical ebb, temporary surplus aura). */
 
 .resource-glyph {
   display: block;
@@ -9,56 +10,40 @@
   pointer-events: none;
 }
 
-/* full pool: slow breathing glow + glint */
-.resource-glyph .rg-glow { opacity: 0.45; transform-box: fill-box; }
-.resource-glyph.rg-phase-max .rg-glow { animation: rgBreathe 3.2s ease-in-out infinite; }
-.resource-glyph .rg-glint { transform-box: fill-box; transform-origin: center; }
-.resource-glyph.rg-phase-max .rg-glint { animation: rgTwinkle 2.6s ease-in-out infinite; }
-.resource-glyph.rg-phase-max .rg-glint + .rg-glint { animation-delay: 1.3s; }
+/* full pool: one slow glint */
+.resource-glyph .rg-glint { transform-box: fill-box; transform-origin: center; opacity: 0.85; }
+.resource-glyph.rg-phase-max .rg-glint { animation: rgTwinkle 4.5s ease-in-out infinite; }
 
-/* critical: the remaining charge flickers, the AP wing trembles, exhaustion stream sputters */
-.resource-glyph.rg-phase-critical .rg-fill { animation: rgFlicker 1.6s steps(1, end) infinite; }
-.resource-glyph.rg-ap.rg-phase-critical .rg-wing { animation: rgTremble 0.9s ease-in-out infinite; transform-box: fill-box; transform-origin: 0% 100%; }
-.resource-glyph.rg-exhaustion.rg-phase-critical .rg-stream { animation: rgFlicker 1.4s steps(1, end) infinite; }
-.resource-glyph.rg-exhaustion .rg-vitality-star { animation: rgTwinkle 2.8s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
-.resource-glyph .rg-stream-flow { animation: rgSandFlow 1.2s linear infinite; }
-.resource-glyph .rg-soul-eye { animation: rgSoulPulse 2.2s ease-in-out infinite; }
+/* critical: the remaining charge ebbs softly; the AP wing sways */
+.resource-glyph.rg-phase-critical .rg-fill { animation: rgEbb 2.8s ease-in-out infinite; }
+.resource-glyph.rg-ap.rg-phase-critical .rg-wing { animation: rgSway 3.2s ease-in-out infinite; transform-box: fill-box; transform-origin: 100% 60%; }
+.resource-glyph .rg-stream-flow { animation: rgSandFlow 2s linear infinite; }
 
-/* empty: shattered pieces sit still, slightly faded */
-.resource-glyph.rg-phase-empty { opacity: 0.85; }
+/* empty: broken pieces sit still, slightly faded */
+.resource-glyph.rg-phase-empty { opacity: 0.88; }
 
-/* temporary surplus: coloured aura on top of any phase */
-.resource-glyph.rg-surplus { animation: rgAura 2.4s ease-in-out infinite; }
+/* temporary surplus: soft coloured aura on top of any phase */
+.resource-glyph.rg-surplus { animation: rgAura 3.2s ease-in-out infinite; }
 
-@keyframes rgBreathe {
-  0%, 100% { opacity: 0.3; }
+@keyframes rgTwinkle {
+  0%, 100% { opacity: 0.25; transform: scale(0.7); }
+  50% { opacity: 0.95; transform: scale(1); }
+}
+@keyframes rgEbb {
+  0%, 100% { opacity: 1; }
   50% { opacity: 0.7; }
 }
-@keyframes rgTwinkle {
-  0%, 100% { opacity: 0.2; transform: scale(0.6); }
-  50% { opacity: 1; transform: scale(1.1); }
-}
-@keyframes rgFlicker {
-  0%, 62%, 100% { opacity: 1; }
-  64% { opacity: 0.45; }
-  70% { opacity: 1; }
-  76% { opacity: 0.6; }
-}
-@keyframes rgTremble {
+@keyframes rgSway {
   0%, 100% { transform: rotate(0deg); }
-  50% { transform: rotate(-4deg); }
+  50% { transform: rotate(-3deg); }
 }
 @keyframes rgAura {
-  0%, 100% { filter: drop-shadow(0 0 2px var(--rg-aura)); }
-  50% { filter: drop-shadow(0 0 7px var(--rg-aura)) drop-shadow(0 0 2px var(--rg-aura)); }
+  0%, 100% { filter: drop-shadow(0 0 1.5px var(--rg-aura)); }
+  50% { filter: drop-shadow(0 0 4px var(--rg-aura)); }
 }
 @keyframes rgSandFlow {
   from { stroke-dashoffset: 0; }
-  to { stroke-dashoffset: -12; }
-}
-@keyframes rgSoulPulse {
-  0%, 100% { opacity: 0.45; }
-  50% { opacity: 1; }
+  to { stroke-dashoffset: -10; }
 }
 
 .party-vial-readout .readout-stage-name {
@@ -76,24 +61,24 @@
 
 @media (prefers-reduced-motion: reduce) {
   .resource-glyph *, .resource-glyph { animation: none !important; }
-  .resource-glyph.rg-phase-max .rg-glow { opacity: 0.5; }
-  .resource-glyph.rg-surplus { filter: drop-shadow(0 0 5px var(--rg-aura)); }
+  .resource-glyph.rg-surplus { filter: drop-shadow(0 0 3px var(--rg-aura)); }
 }
 
 /* Party HUD corner mounts: the glyph replaces the old PNG, so retire the
    PNG-era drop shadows and surplus keyframes that targeted .party-vial-icon. */
 .party-vial .resource-glyph.resource-glyph.party-vial-icon {
   object-fit: initial;
-  filter: none;
+  /* a soft ink shadow seats the glyph on the frame instead of a painted ground shadow */
+  filter: drop-shadow(0 1px 1px rgba(52, 37, 26, 0.3));
   animation: none;
 }
 .party-vial .resource-glyph.resource-glyph.party-vial-icon.rg-surplus {
-  animation: rgAura 2.4s ease-in-out infinite;
+  animation: rgAura 3.2s ease-in-out infinite;
 }
 .party-hud-frames .party-corner-mount:hover .party-vial { filter: none; }
-.party-corner-mount:hover .party-vial .resource-glyph { filter: drop-shadow(0 0 3px rgba(52, 37, 26, 0.35)); }
+.party-corner-mount:hover .party-vial .resource-glyph.resource-glyph.party-vial-icon { filter: drop-shadow(0 1px 3px rgba(52, 37, 26, 0.4)); }
 @media (prefers-reduced-motion: reduce) {
-  .party-vial .resource-glyph.resource-glyph.party-vial-icon.rg-surplus { animation: none; filter: drop-shadow(0 0 5px var(--rg-aura)); }
+  .party-vial .resource-glyph.resource-glyph.party-vial-icon.rg-surplus { animation: none; filter: drop-shadow(0 0 3px var(--rg-aura)); }
 }
 
 /* Target HUD bars: the glyph replaces the socket PNG; drop the PNG-era shadows. */

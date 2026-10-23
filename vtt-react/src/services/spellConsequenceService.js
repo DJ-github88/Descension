@@ -11,7 +11,7 @@ import { spellContext, loadLatestSpell, retainLatestSpell, unresolvedSpell } fro
 import { chatLineFor } from './acceptedResultFeed';
 import { draftContext, sameDraftContext, withDiscarded } from './targetPick';
 import { replaceAuthoredRegistry } from './authoredAbilityRegistry';
-import { isAuthored, actionId, CAPABILITY } from './authoredAbility';
+import { isAuthored, actionId, CAPABILITY, creatureSelfHealing } from './authoredAbility';
 import { matchingItemVersions } from './itemAuthoredAbility';
 import { conditionContext, loadConditionCustody, retainConditionCommand } from './sharedConditionCustody';
 
@@ -114,8 +114,9 @@ export async function openCreatureAbility(sourceRef) {
   const source = findActor(sourceRef), savedSource = result.creatureSources?.find(e => sameExactRef(e.source, sourceRef)), grant = savedSource?.admission;
   const entry = result.entries.find(e => grant && actionId(e.definitionRef) === actionId(grant.definitionRef));
   if (!source || !grant || !entry || entry.revoked || grant.gmUid !== context.uid || !matchingItemVersions(savedSource.association, [entry], context.roomId).length) throw Error('Admit this exact placed creature and saved version first.');
-  if (entry.canonicalDefinition.targeting.rangeFeet === 0 || entry.canonicalDefinition.targeting.restriction === 'self') throw Error('Range 0 or self-only: distinct creature targets are unavailable in this slice. The authored definition is unchanged.');
-  retainLatestSpell(context, { route: 'creature', phase: 'draft', creature: { source: sourceRef, entry, grant, roll: null, target: null, attemptId: crypto.randomUUID(), actionEpoch: snapshot.actionEpoch, baseCommitSequence: snapshot.commitSequence } });
+  const selfAllowed = creatureSelfHealing(entry.canonicalDefinition, savedSource.association.record);
+  if (!selfAllowed && (entry.canonicalDefinition.targeting.rangeFeet === 0 || entry.canonicalDefinition.targeting.restriction === 'self')) throw Error('This targeting profile cannot use a supported target. Self requires explicit self-compatible direct healing; range 0 alone grants nothing.');
+  retainLatestSpell(context, { route: 'creature', phase: 'draft', creature: { source: sourceRef, entry, grant, selfAllowed, roll: null, target: null, attemptId: crypto.randomUUID(), actionEpoch: snapshot.actionEpoch, baseCommitSequence: snapshot.commitSequence } });
   useSpellConsequenceStore.setState({ creatureOpen: true }); bumpDraft();
 }
 export function saveCreatureRoll(roll, target) {
@@ -127,10 +128,11 @@ export function saveCreatureRoll(roll, target) {
   const kept = retainLatestSpell(context, { ...latest, creature, draft }); bumpDraft();
   if (!String(kept.custody).startsWith('Device')) throw Error('Device custody unavailable. Faces remain in memory; nothing emitted.');
 }
-export async function prepareCreatureAbility() {
+export async function prepareCreatureAbility(proposal) {
   const context = spellContext(), latest = creatureAttempt(), c = latest?.creature;
   if (!c?.roll || !c.target) throw Error('Choose an exact target and retain the roll first.');
   if (latest.phase === 'accepted') return;
+  if (c.target.kind === 'character' && (!Number.isSafeInteger(Number(proposal?.proposedAmount)) || Number(proposal?.proposedAmount) < 0 || !proposal?.ruling?.trim())) throw Error('Enter the proposal amount and explicit targeting/block-applicability ruling first.');
   const d = c.entry.canonicalDefinition;
   const approval = latest.approval || { version: 1, roomId: context.roomId, approvalId: c.attemptId, actionEpoch: c.actionEpoch, baseCommitSequence: c.baseCommitSequence,
     source: c.source, target: c.target, sourceAuthority: { admissionId: c.grant.requestId, gmUid: c.grant.gmUid, associationHash: c.grant.associationHash },
@@ -138,6 +140,21 @@ export async function prepareCreatureAbility() {
     price: c.entry.descriptor.price, classPayment: null, roll: c.roll };
   const retained = retainLatestSpell(context, { ...latest, approval, phase: 'prepared' });
   if (!String(retained.custody).startsWith('Device')) throw Error('Device custody unavailable; nothing emitted.');
+  if (c.target.kind === 'character') {
+    const blocks = require('./blockingService');
+    const kept = retainLatestSpell(context, { ...retained, pcOffer: true });
+    let offered;
+    try { offered = await blocks.gmOfferAuthoredAbility(approval, { ...proposal, targeting: d.targeting }); }
+    catch (error) {
+      // No blocking custody means failure preceded emission. Restore the editable same-face draft.
+      if (context.current() && !blocks.loadBlockingCustody()?.gm?.[approval.approvalId]) { retainLatestSpell(context, latest); bumpDraft(); }
+      throw error;
+    }
+    if (!context.current()) return;
+    retainLatestSpell(context, { ...kept, phase: offered?.closed ? 'reconciled' : 'awaiting' });
+    useSpellConsequenceStore.setState({ creatureOpen: false, creatureMessage: 'Owner proposal retained. Continue in the existing block/consent adjudication panel.' }); bumpDraft();
+    return offered;
+  }
   useSpellConsequenceStore.setState({ creatureMessage: 'Validating exact source, admission, target and retained roll…' });
   const result = await requestActorEvent('actor_spell_prepare_creature', approval);
   if (!context.current()) return;
@@ -151,6 +168,16 @@ export async function prepareCreatureAbility() {
 export async function cancelCreatureAbility() {
   const context = spellContext(), latest = creatureAttempt();
   if (!latest) return;
+  if (latest.pcOffer) {
+    const blocks = require('./blockingService'), saved = blocks.loadBlockingCustody()?.gm?.[latest.creature.attemptId];
+    if (['submitting', 'unknown'].includes(saved?.phase)) throw Error('Check the original offer or command before closing this attempt.');
+    if (saved?.phase !== 'accepted') {
+      const result = await blocks.gmCancelOffer(latest.creature.attemptId);
+      if (!result?.success) throw Error(`Original offer closure unproved (${result?.code}).`);
+    }
+    retainLatestSpell(context, { ...latest, phase: 'reconciled', draft: null });
+    useSpellConsequenceStore.setState({ creatureOpen: false }); bumpDraft(); return;
+  }
   const command = latest.approval && loadConditionCustody(context)?.entries?.[`authored-spell:${latest.approval.approvalId}`];
   if (['unknown', 'unresolved'].includes(latest.phase) || unavailableOutcome(command) || (command && !['failed', 'accepted'].includes(command.phase))) throw Error('Check the original command before cancelling. Its outcome is unknown or unavailable; manual reconciliation may be required.');
   if (latest.approval && latest.phase !== 'accepted') {
@@ -167,6 +194,13 @@ export async function cancelCreatureAbility() {
 export async function revalidateCreatureContext() {
   const context = spellContext(), latest = creatureAttempt(), c = latest?.creature;
   if (!c?.roll || ['accepted', 'unknown', 'unresolved'].includes(latest.phase)) throw Error('Resolve the original outcome before changing its context.');
+  if (latest.pcOffer) {
+    const blocks = require('./blockingService'), saved = blocks.loadBlockingCustody()?.gm?.[c.attemptId];
+    if (['submitting', 'unknown', 'accepted'].includes(saved?.phase)) throw Error('Check the original outcome; an accepted or unknown attempt cannot be replaced.');
+    const closed = await blocks.gmCancelOffer(c.attemptId);
+    if (!closed?.success || !context.current()) throw Error('Old offer not positively closed. Original evidence retained.');
+    // Continue through A4's shared compatible-formula/current-admission refresh below.
+  }
   const saved = latest.approval && loadConditionCustody(context)?.entries?.[`authored-spell:${latest.approval.approvalId}`];
   if (saved && (saved.phase !== 'failed' || unavailableOutcome(saved))) throw Error('Check the original command; it cannot be replaced.');
   const result = await refreshAuthoredAbilities(), snapshot = await refreshActorSnapshot();
@@ -175,7 +209,7 @@ export async function revalidateCreatureContext() {
   const entry = result.entries.find(e => grant && actionId(e.definitionRef) === actionId(grant.definitionRef));
   if (!source || !entry || entry.revoked || grant.gmUid !== context.uid || !matchingItemVersions(savedSource.association, [entry], context.roomId).length || entry.canonicalDefinition.effect.formula !== c.roll.reading || entry.canonicalDefinition.effect.kind !== c.entry.canonicalDefinition.effect.kind)
     throw Error('Exact source, effect or formula is incompatible. Original evidence remains retained for manual reconciliation.');
-  if (latest.approval) {
+  if (latest.approval && !latest.pcOffer) {
     const closed = await requestActorEvent('actor_spell_withdraw', { roomId: context.roomId, approvalId: latest.approval.approvalId, approval: latest.approval });
     if (!context.current()) return;
     if (closed.success && closed.receipt) { consumeSpellReceipt(closed, { historical: true }); return; }
@@ -185,7 +219,7 @@ export async function revalidateCreatureContext() {
   if (history.length >= 64) throw Error('Evidence history full; manual reconciliation required.');
   const { attemptHistory, custody, ...evidence } = latest; // eslint-disable-line no-unused-vars
   retainLatestSpell(context, { route: 'creature', phase: 'draft', supersedes: latest.approval?.approvalId, attemptHistory: [...history, evidence],
-    creature: { ...c, entry, grant, attemptId: crypto.randomUUID(), actionEpoch: snapshot.actionEpoch, baseCommitSequence: snapshot.commitSequence }, draft: latest.draft });
+    creature: { ...c, entry, grant, selfAllowed: creatureSelfHealing(entry.canonicalDefinition, savedSource.association.record), attemptId: crypto.randomUUID(), actionEpoch: snapshot.actionEpoch, baseCommitSequence: snapshot.commitSequence }, draft: latest.draft });
   useSpellConsequenceStore.setState({ creatureMessage: 'Old attempt positively closed. Original faces retained. Explicitly select/review the target, then validate the refreshed admission.' }); bumpDraft();
 }
 
@@ -416,7 +450,8 @@ export function consumeSpellReceipt(result, { historical = false } = {}) {
   const id = `p9:${view.receipt.roomId}:${view.receipt.submitterUid}:${view.receipt.commandId}`;
   const chat = getStore('chatStore');
   const { recorded, receipt } = view, adjudication = receipt.adjudication;
-  const fullLine = `${recorded.sourceName} → ${recorded.targetName}: ${recorded.spellName} · ${recorded.roll.mode} [${recorded.roll.dice.map(group => group.faces.join(', ')).join(' | ')}] ${recorded.roll.constant >= 0 ? '+' : '-'} ${Math.abs(recorded.roll.constant)} = ${recorded.roll.total}; GM final ${adjudication.finalAmount} ${recorded.kind === 'healing' ? 'healing' : (recorded.damageTypes || []).join('/')}${adjudication.adjustmentReason ? ` (${adjudication.adjustmentReason})` : ''}. Accepted receipt ${receipt.commandId}.`;
+  const self = sameExactRef(receipt.source, receipt.target);
+  const fullLine = `${self ? `${recorded.sourceName} (Self)` : `${recorded.sourceName} → ${recorded.targetName}`}: ${recorded.spellName} · ${recorded.roll.mode} [${recorded.roll.dice.map(group => group.faces.join(', ')).join(' | ')}] ${recorded.roll.constant >= 0 ? '+' : '-'} ${Math.abs(recorded.roll.constant)} = ${recorded.roll.total}; GM final ${adjudication.finalAmount} ${recorded.kind === 'healing' ? 'healing' : (recorded.damageTypes || []).join('/')}${self && Number.isFinite(recorded.actualHealing) ? `; actual HP restored ${recorded.actualHealing}` : ''}${adjudication.adjustmentReason ? ` (${adjudication.adjustmentReason})` : ''}. Accepted receipt ${receipt.commandId}.`;
   let line = fullLine; try {line = chatLineFor(result, fullLine);} catch (_) { line = null; } // P13A §4: never name actors this viewer cannot see
   if (!historical && line && chat && !chat.getState().notifications.combat.some(note => note.id === id)) chat.getState().addNotification('combat', {
     id, type: 'combat', receiptId: id, timestamp: new Date(receipt.acceptedAt).toISOString(),

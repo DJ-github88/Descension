@@ -1,0 +1,132 @@
+- generic [ref=f4e3]:
+  - banner [ref=f4e4]:
+    - generic [ref=f4e5]:
+      - button "Return to Mythrill Home" [ref=f4e7] [cursor=pointer]:
+        - generic [ref=f4e8]: 
+        - generic [ref=f4e9]: Mythrill
+      - navigation [ref=f4e11]:
+        - button " Home" [ref=f4e12] [cursor=pointer]:
+          - generic [ref=f4e13]: 
+          - text: Home
+        - button " Laws & Lore" [ref=f4e14] [cursor=pointer]:
+          - generic [ref=f4e15]: 
+          - text: Laws & Lore
+        - button "More navigation items" [ref=f4e17] [cursor=pointer]:
+          - generic [ref=f4e18]: +
+      - generic [ref=f4e19]:
+        - button " Privacy" [ref=f4e20] [cursor=pointer]:
+          - generic [ref=f4e21]: 
+          - text: Privacy
+        - button " Login" [ref=f4e22] [cursor=pointer]:
+          - generic [ref=f4e23]: 
+          - text: Login
+    - text:      
+  - main [ref=f4e24]:
+    - generic [ref=f4e26]:
+      - complementary [ref=f4e27]:
+        - navigation [ref=f4e28]:
+          - button "Search the Codex" [ref=f4e30] [cursor=pointer]:
+            - generic [ref=f4e31]: 
+          - text: 
+          - button "" [ref=f4e34] [cursor=pointer]
+          - button "" [ref=f4e37] [cursor=pointer]
+          - button "" [ref=f4e40] [cursor=pointer]
+          - button "" [ref=f4e43] [cursor=pointer]
+          - button "" [ref=f4e46] [cursor=pointer]
+          - button "" [ref=f4e49] [cursor=pointer]
+          - button "" [ref=f4e52] [cursor=pointer]
+          - button "" [ref=f4e55] [cursor=pointer]
+          - button "" [ref=f4e58] [cursor=pointer]
+        - text:   
+      - main [ref=f4e59]:
+        - generic [ref=f4e60]:
+          - generic [ref=f4e61]:
+            - button "Navigate to Laws overview" [ref=f4e62] [cursor=pointer]:
+              - generic [ref=f4e63]: 
+              - text: Laws
+            - generic [ref=f4e64]: 
+            - text: 
+            - button "Navigate to Classes list" [ref=f4e65] [cursor=pointer]: Classes
+            - generic [ref=f4e66]: 
+            - generic [ref=f4e67]: Deathcaller
+          - group "Laws and Lore" [ref=f4e68]:
+            - button " Laws" [pressed] [ref=f4e69] [cursor=pointer]:
+              - generic [ref=f4e70]: 
+              - generic [ref=f4e71]: Laws
+            - generic [aria-hidden] [ref=f4e72]: 
+            - button " Lore" [ref=f4e73] [cursor=pointer]:
+              - generic [ref=f4e74]: 
+              - generic [ref=f4e75]: Lore
+          - button "Search Codex" [ref=f4e76] [cursor=pointer]:
+            - generic [ref=f4e77]: 
+            - generic [ref=f4e78]: Ctrl K
+        - generic [ref=f4e80]:
+          - generic [ref=f4e81]:
+            - generic [ref=f4e82]:
+              - img "Deathcaller" [ref=f4e84]
+              - generic [ref=f4e85]:
+                - heading "Deathcaller" [level=2] [ref=f4e86]
+                - generic [ref=f4e87]:
+                  - generic [ref=f4e88]:
+                    - generic [ref=f4e89]: 
+                    - text: Summoner / Commander
+                  - generic "Development class — content is selectable, but class-specific effects remain manual at the table." [ref=f4e90]:
+                    - generic [ref=f4e91]: 
+                    - text: Development
+                  - generic "Wyrd" [ref=f4e92]:
+                    - generic [ref=f4e93]: 
+                    - text: Wyrd
+            - generic [ref=f4e95]:
+              - 'button "Previous class: Chaos Weaver" [ref=f4e96] [cursor=pointer]':
+                - generic [ref=f4e97]: 
+                - generic [ref=f4e98]: Chaos Weaver
+              - button "Back to all classes" [ref=f4e99] [cursor=pointer]:
+                - generic [ref=f4e100]: All classes
+              - 'button "Next class: Lichborne" [ref=f4e101] [cursor=pointer]':
+                - generic [ref=f4e102]: Lichborne
+                - generic [ref=f4e103]: 
+          - navigation "Class sections" [ref=f4e105]:
+            - button "Overview" [pressed] [ref=f4e106] [cursor=pointer]:
+              - generic [aria-hidden] [ref=f4e107]: 
+            - button "Tradition" [ref=f4e109] [cursor=pointer]:
+              - generic [aria-hidden] [ref=f4e110]: 
+            - button "Resource System" [ref=f4e112] [cursor=pointer]:
+              - generic [aria-hidden] [ref=f4e113]: 
+            - button "Specializations" [ref=f4e115] [cursor=pointer]:
+              - generic [aria-hidden] [ref=f4e116]: 
+            - button "Spells" [ref=f4e118] [cursor=pointer]:
+              - generic [aria-hidden] [ref=f4e119]: 
+          - region "Overview" [ref=f4e121]:
+            - generic [ref=f4e123]:
+              - generic [ref=f4e126]:
+                - generic [ref=f4e127]:
+                  - generic [ref=f4e128]:
+                    - generic [ref=f4e129]: 
+                    - text: ROLE
+                  - generic [ref=f4e130]: Summoner / Commander
+                - generic [ref=f4e132]:
+                  - generic [ref=f4e133]: 
+                  - text: RESOURCE
+                - generic [ref=f4e134]:
+                  - generic [ref=f4e135]:
+                    - generic [ref=f4e136]: 
+                    - text: DAMAGE
+                  - generic [ref=f4e137]: Wyrd
+              - generic [ref=f4e139]:
+                - generic [ref=f4e140]:
+                  - heading "Overview" [level=3] [ref=f4e141]
+                  - generic [ref=f4e142]: “Every retainer is prepared before it is called.”
+                - paragraph [ref=f4e145]: Reserve up to three named dead patterns, manifest at most two, and spend no more than two orders on your own turn. The dead do not gain free turns or hidden resources.
+                - generic [ref=f4e146]:
+                  - generic [ref=f4e147]: The flow of battle
+                  - generic [ref=f4e148]:
+                    - generic [ref=f4e149]:
+                      - generic [ref=f4e150]: "1"
+                      - generic [ref=f4e151]: Build momentum through precise strikes and advantageous positioning.
+                    - generic [ref=f4e152]:
+                      - generic [ref=f4e153]: "2"
+                      - generic [ref=f4e154]: Read the battlefield for the moment of maximum exploit before committing.
+                    - generic [ref=f4e155]:
+                      - generic [ref=f4e156]: "3"
+                      - generic [ref=f4e157]: "Unleash the decisive blow when the conditions align: no sooner, no later."
+                - generic [ref=f4e158]: Expert tactics

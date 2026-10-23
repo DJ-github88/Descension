@@ -1,8 +1,6 @@
 const RULESET_VERSION = 'cr-review-r1';
-const NEXT_TURN = 'next_caster_turn_start';
 const instant = { durationType: 'instant', durationValue: 0, durationUnit: 'instant' };
 const noCooldown = { cooldownType: 'none', cooldownValue: 0 };
-const nextStart = { durationType: 'own_turns', durationValue: 1, durationUnit: NEXT_TURN };
 const selfTarget = { targetingType: 'self', rangeType: 'self', rangeDistance: 0, targetRestrictions: ['self'], maxTargets: 1 };
 
 const target = (roles, maxTargets = 1, rangeDistance = 30) => ({
@@ -18,7 +16,6 @@ const apCost = actionPoints => ({
   resourceValues: { actionPoints, mana: 0 }, useFormulas: {},
   components: ['somatic'], somaticText: 'Present the class focus and declare the exact operation before resolution.'
 });
-const damage = formula => ({ formula, damageTypes: ['wyrd'], resolution: 'DICE' });
 
 const gates = [
   [1, 0, []], [1, 0, []], [1, 0, []], [2, 5, ['p01']],
@@ -32,21 +29,25 @@ const makeFlags = (classId, notice) => ({
   automatedCapabilities: [], manualNotice: notice
 });
 
-const normalizeManifest = (spell, flags, className, source, treeId = null) => ({
-  ...spell, ...flags, class: className, source, specialization: treeId, treeId, categoryIds: [],
-  tags: [...new Set([...(spell.typeConfig?.tags || []), spell.classId, 'manual-only', source])],
-  typeConfig: {
-    ...(spell.typeConfig || {}),
-    tags: [...new Set([...(spell.typeConfig?.tags || []), spell.classId, 'manual-only', source])]
-  },
-  manualMechanics: {
-    price: spell.resourceCost || { actionPoints: 0, mana: 0 },
-    effects: [{ kind: 'manual-resource-program', operation: spell.classResourceProgram?.op || 'manual', executable: false }],
-    executable: false
-  },
-  manualRequirements: [flags.manualNotice],
-  sourceRefs: ['R1 review payload']
-});
+const normalizeManifest = (spell, flags, className, source, treeId = null) => {
+  const record = {
+    ...spell, ...flags, class: className, source, specialization: treeId, treeId, categoryIds: [],
+    tags: [...new Set([...(spell.typeConfig?.tags || []), spell.classId, 'manual-only', source])],
+    typeConfig: {
+      ...(spell.typeConfig || {}),
+      tags: [...new Set([...(spell.typeConfig?.tags || []), spell.classId, 'manual-only', source])]
+    },
+    manualMechanics: {
+      price: spell.resourceCost || { actionPoints: 0, mana: 0 },
+      effects: [{ kind: 'manual-resource-program', operation: spell.classResourceProgram?.op || 'manual', executable: false }],
+      executable: false
+    },
+    manualRequirements: [flags.manualNotice],
+    sourceRefs: ['R1 review payload']
+  };
+  Object.defineProperty(record, 'sourceSpell', { value: spell, enumerable: false });
+  return record;
+};
 
 const makeOptional = (flags, classId, className, resourceDomain, row) => ({
   ...flags, id: `cr1_${classId}_${row.suffix}`, class: className, name: row.name, level: row.level,
@@ -154,7 +155,7 @@ const projectRecord = ({ flags, classId, className, record, node }) => ({
   tags: [...new Set([classId, 'manual-only', record.source])], categoryIds: [],
   specialMechanics: {
     [classId]: {
-      ...flags, sourceRecordId: record.id, authoredSpell: record,
+      ...flags, sourceRecordId: record.id, authoredSpell: record.sourceSpell || record,
       rankValues: record.rankValues || null, requires: record.requires || null
     }
   }
@@ -235,7 +236,13 @@ const projectLichborne = (state, isOwner) => {
     summary: `Anchor ${state.anchor?.status || 'unknown'}; integrity ${state.integrity}/12; undeath stage ${state.undeathStage}; ${state.lifeState}.`,
     anchor: isOwner ? state.anchor : { status: state.anchor?.status || 'unknown' },
     integrity: state.integrity, maxIntegrity: 12, undeathStage: state.undeathStage,
-    activeTraitCount: state.activeTraits?.length || 0, lifeState: state.lifeState
+    preparedTraitCount: state.preparedTraits?.length || 0,
+    activeTraitCount: state.activeTraits?.length || 0, lifeState: state.lifeState,
+    ...(isOwner ? {
+      preparedTraits: state.preparedTraits,
+      activeTraits: state.activeTraits,
+      suppressedUntilOwnTurn: state.suppressedUntilOwnTurn
+    } : {})
   };
 };
 

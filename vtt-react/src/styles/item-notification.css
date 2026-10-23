@@ -23,7 +23,7 @@
     font-family: 'Crimson Text', Georgia, serif;
     margin-bottom: 8px;
     border: 1px solid var(--adventure-rule, #c4baa6);
-    border-left: 4px solid var(--adventure-border, #8b7355);
+    border-radius: 6px;
     pointer-events: none;
     box-sizing: border-box;
 }
@@ -33,34 +33,7 @@
     opacity: 1;
 }
 
-/* Quality-specific left accent borders */
-.item-notification.poor {
-    border-left-color: #7a7266;
-}
-
-.item-notification.common {
-    border-left-color: #8b7355;
-}
-
-.item-notification.uncommon {
-    border-left-color: #2d5a27;
-}
-
-.item-notification.rare {
-    border-left-color: #1f4e79;
-}
-
-.item-notification.epic {
-    border-left-color: #5c2d6e;
-}
-
-.item-notification.legendary {
-    border-left-color: #965b14;
-}
-
-.item-notification.artifact {
-    border-left-color: #8b3a1a;
-}
+/* Quality shows on the name and icon ring only (no coloured side stripe) */
 
 /* Content layout */
 .item-notification-content {
@@ -115,7 +88,7 @@
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.8px;
-    color: var(--adventure-muted, #7c6853);
+    color: #5a4836;
 }
 
 .item-notification-quantity {
@@ -173,7 +146,7 @@
     font-family: 'Crimson Text', Georgia, serif;
     font-size: 12.5px;
     font-style: italic;
-    color: var(--adventure-muted, #68533e);
+    color: #4a3a2c;
     line-height: 1.35;
     margin-top: 3px;
     display: -webkit-box;
@@ -223,7 +196,6 @@
     font-family: 'Crimson Text', Georgia, serif;
     margin-bottom: 8px;
     border: 1px solid var(--adventure-rule, #c4baa6);
-    border-left: 4px solid #b8973b;
     pointer-events: none;
     box-sizing: border-box;
 }
@@ -326,3 +298,22 @@
     color: var(--adventure-rule, #c4baa6);
     font-size: 11px;
 }
+
+/* Creature token portrait (e.g. "Nothing dropped from <creature>") */
+.item-notification-icon-wrapper.is-portrait {
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.item-notification-icon-wrapper.is-portrait img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Quality ring on the icon (replaces the old coloured left stripe) */
+.item-notification-icon-wrapper.uncommon { border-color: #2c6127; }
+.item-notification-icon-wrapper.rare { border-color: #1d4a7e; }
+.item-notification-icon-wrapper.epic { border-color: #5e2c80; }
+.item-notification-icon-wrapper.legendary { border-color: #8c520a; }
+.item-notification-icon-wrapper.artifact { border-color: #86351a; }

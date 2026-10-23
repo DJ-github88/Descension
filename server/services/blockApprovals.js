@@ -118,18 +118,49 @@ function applyDeclaration(room, token, ref, entry) {
 
 // ── GM attack offer and owner block approval ───────────────────────────────
 function validateAttack(attack, code = 'invalid_block_offer') {
-  exact(attack, ['capability', 'source', 'target', 'sourceRevision', 'ability', 'roll', 'outcome', 'damageType', 'proposedDamage', 'apCost'], code);
+  exact(attack, ['capability', 'source', 'target', 'sourceRevision', 'ability', 'roll', 'outcome', 'damageType', 'proposedDamage', 'apCost', ...(own(attack || {}, 'authored') ? ['authored'] : [])], code);
   if (attack.capability !== ATTACK_CAPABILITY || !int(attack.sourceRevision)) {fail(code);}
   refOk(attack.source, 'creature', code); refOk(attack.target, 'character', code);
   if (attack.source.roomId !== attack.target.roomId || attack.source.mapId !== attack.target.mapId) {fail(code);}
   exact(attack.ability, ['id', 'name'], code);
   if (!(attack.ability.id === null || text(attack.ability.id, 120)) || !text(attack.ability.name, 80)) {fail(code);}
+  if (String(attack.ability.id || '').startsWith('authored:') && !attack.authored) fail('authored_reference_required');
   exact(attack.roll, ['mode', 'dice', 'faces'], code);
   if (!['digital', 'physical'].includes(attack.roll.mode) || !text(attack.roll.dice, 40) || !/^[0-9dD+\- ]+$/.test(attack.roll.dice) ||
-    !Array.isArray(attack.roll.faces) || !attack.roll.faces.length || attack.roll.faces.length > 20 || attack.roll.faces.some(face => !int(face, 1, 1000))) {fail(code);}
-  if (!['hit', 'critical'].includes(attack.outcome) || !DAMAGE_TYPES.includes(attack.damageType) || !int(attack.proposedDamage, 0, 100000) || !int(attack.apCost, 0, 20)) {fail(code);}
-  if (actors.bytes(attack) > 4096) {fail(code);}
+    !Array.isArray(attack.roll.faces) || !attack.roll.faces.length || attack.roll.faces.length > (attack.authored ? 50 : 20) || attack.roll.faces.some(face => !int(face, 1, 1000))) {fail(code);}
+  if (!['hit', 'critical'].includes(attack.outcome) || !(DAMAGE_TYPES.includes(attack.damageType) || attack.authored?.attempt?.spell?.kind === 'healing' && attack.damageType === 'healing') || !int(attack.proposedDamage, 0, 100000) || !int(attack.apCost, 0, attack.authored ? 100 : 20)) {fail(code);}
+  if (attack.authored) {
+    const a = attack.authored;
+    exact(a, ['attempt', 'targetRevision', 'blockApplicable', 'ruling', 'targeting'], code);
+    spellPayments.validateCreatureApproval(a.attempt, true);
+    if (!int(a.targetRevision) || typeof a.blockApplicable !== 'boolean' || !text(a.ruling, 300) || !a.ruling.trim() ||
+      hash(a.attempt.source) !== hash(attack.source) || hash(a.attempt.target) !== hash(attack.target) ||
+      attack.ability.id !== a.attempt.spell.definitionId || attack.ability.name !== a.attempt.spell.name || attack.apCost !== a.attempt.price.ap ||
+      hash(attack.roll) !== hash({ mode: a.attempt.roll.mode, dice: a.attempt.roll.reading, faces: a.attempt.roll.dice.flatMap(g => g.faces) }) ||
+      (a.attempt.spell.kind === 'healing' ? a.blockApplicable || attack.damageType !== 'healing' : attack.damageType !== a.attempt.spell.damageTypes[0])) fail(code);
+  }
+  if (actors.bytes(attack) > (attack.authored ? 32768 : 4096)) {fail(code);}
   return attack;
+}
+/** A5 uses A4 proof without admitting a PC target to A4's direct, consent-free handler. */
+function checkAuthored(room, attack) {
+  if (!attack.authored) return;
+  const a = attack.authored.attempt;
+  if (a.actionEpoch !== actors.epoch(room)) fail('outcome_unknown');
+  spellPayments.checkWindow(room, a);
+  const entry = require('./installedAuthoredAbilities').checkApproval(room, a, true);
+  if (hash(entry.canonicalDefinition.targeting) !== hash(attack.authored.targeting)) fail('authored_target_mismatch');
+  actors.assertCanAct(room, a.source);
+  const source = actors.locate(room, a.source), target = actors.locate(room, a.target);
+  if (target.token.ownerUserId !== a.target.ownerUid || !spellPayments.ownerMember(room, a.target.ownerUid)) fail('owner_unavailable');
+  const pools = actors.resources(source.token, 'creature');
+  for (const p of ['ap', 'mana']) if (a.price[p] > 0 || p === 'ap') {
+    const pool = pools[p];
+    if (![pool.current, pool.temp, pool.max].every(v => Number.isFinite(v) && v >= 0) || pool.current > pool.max) fail('invalid_resources');
+    spellPayments.tempFirst(pool.current, pool.temp, a.price[p]);
+  }
+  const hp = actors.resources(target.token, 'character').hp;
+  if (![hp.current, hp.temp, hp.max].every(v => Number.isFinite(v) && v >= 0) || hp.current > hp.max) fail('invalid_resources');
 }
 function offerRegistry(room) {
   let entries = offers.get(room);
@@ -138,7 +169,9 @@ function offerRegistry(room) {
 }
 /** Offers only make sense when a block roll can apply (critical vs armor: no roll, approved rule). */
 function checkOfferTarget(room, attack) {
+  checkAuthored(room, attack);
   const target = actors.locate(room, attack.target);
+  if (attack.authored) return null; // Owner may explicitly accept without blocking; no automatic choice.
   const { piece } = firstAvailable(target.token);
   if (attack.outcome === 'critical' && piece.kind === 'armor') {fail('critical_bypasses_armor');}
   return piece;
@@ -158,6 +191,7 @@ const closedOfferRegistry = room => {
 const closedOffer = (room, commandId) => closedOffers.get(room)?.get(commandId) || null;
 function addOffer(room, commandId, attack, baseline = null) {
   if (typeof commandId !== 'string' || !UUID.test(commandId)) {fail('invalid_block_offer');}
+  if (attack.authored && commandId !== attack.authored.attempt.approvalId) fail('approval_mismatch');
   const attackHash = hash(attack), entries = offerRegistry(room), existing = entries.get(commandId);
   if (existing) {
     if (existing.attackHash !== attackHash) {fail('command_id_conflict');}
@@ -182,7 +216,7 @@ function closeOffer(room, commandId, code, approval = null) {
   const { attack } = offer;
   const tombstone = { commandId, code, closedAt: Date.now(), source: actors.clone(attack.source), target: actors.clone(attack.target),
     ability: actors.clone(attack.ability), attackRoll: actors.clone(attack.roll), outcome: attack.outcome, damageType: attack.damageType, proposedDamage: attack.proposedDamage,
-    block: approval ? { approvalId: approval.approvalId, slot: approval.blocking.slot, die: approval.blocking.die, face: approval.roll.faces[0], mode: approval.roll.mode } : null };
+    block: approval?.blocking ? { approvalId: approval.approvalId, slot: approval.blocking.slot, die: approval.blocking.die, face: approval.roll.faces[0], mode: approval.roll.mode } : null };
   closedOfferRegistry(room).set(commandId, tombstone);
   return tombstone;
 }
@@ -201,6 +235,7 @@ function validateApproval(approval) {
   if (approval.source.roomId !== approval.roomId || approval.target.roomId !== approval.roomId || approval.source.mapId !== approval.target.mapId) {fail(code);}
   exact(approval.attack, ['commandId', 'attackHash'], code);
   if (typeof approval.attack.commandId !== 'string' || !UUID.test(approval.attack.commandId) || !/^[0-9a-f]{64}$/.test(approval.attack.attackHash || '')) {fail(code);}
+  if (approval.blocking === null && approval.roll === null) return approval; // Only an A5 offer may consume this shape.
   exact(approval.blocking, ['revision', 'slot', 'itemId', 'die'], code);
   if (!int(approval.blocking.revision, 1) || !SLOTS.includes(approval.blocking.slot) || !text(approval.blocking.itemId, 120) || !own(SIZES, approval.blocking.die)) {fail(code);}
   exact(approval.roll, ['mode', 'faces'], code);
@@ -222,6 +257,11 @@ function checkAgainstRoom(room, approval) {
   if (!offer && closedOffer(room, approval.attack.commandId)) {fail('offer_closed');}
   if (!offer || offer.attackHash !== approval.attack.attackHash) {fail('offer_not_found');}
   if (hash(offer.attack.source) !== hash(approval.source) || hash(offer.attack.target) !== hash(approval.target)) {fail('approval_mismatch');}
+  checkAuthored(room, offer.attack);
+  if (offer.attack.authored) {
+    if (!approval.blocking) return { source, target, offer };
+    if (!offer.attack.authored.blockApplicable || offer.attack.authored.attempt.spell.kind !== 'damage') fail('block_not_applicable');
+  } else if (!approval.blocking) fail('invalid_block_approval');
   const { piece } = checkPiece(target.token, approval.blocking);
   if (offer.attack.outcome === 'critical' && piece.kind === 'armor') {fail('critical_bypasses_armor');}
   return { source, target, offer };
@@ -277,7 +317,11 @@ function validateChosen(chosenText, approval, target) {
   let chosen;
   try {chosen = JSON.parse(chosenText);} catch (_) {fail(bad);}
   const required = ['capability', 'approvalId', 'gmConfirmed', 'names', 'attack', 'block', 'afterBlock', 'manual'];
-  exact(chosen, own(chosen || {}, 'revalidation') ? [...required, 'revalidation'] : required, bad);
+  exact(chosen, [...required, ...(own(chosen || {}, 'revalidation') ? ['revalidation'] : []), ...(own(chosen || {}, 'targetRevalidation') ? ['targetRevalidation'] : [])], bad);
+  if (own(chosen, 'targetRevalidation')) {
+    exact(chosen.targetRevalidation, ['fromRevision', 'toRevision', 'reason'], bad);
+    if (!int(chosen.targetRevalidation.fromRevision) || !int(chosen.targetRevalidation.toRevision) || !text(chosen.targetRevalidation.reason, 300) || !chosen.targetRevalidation.reason.trim()) fail(bad);
+  }
   if (own(chosen, 'revalidation')) {
     exact(chosen.revalidation, ['fromRevision', 'toRevision', 'reason'], bad);
     if (!int(chosen.revalidation.fromRevision) || !int(chosen.revalidation.toRevision) || !text(chosen.revalidation.reason, 300) || !chosen.revalidation.reason.trim()) {fail(bad);}
@@ -288,6 +332,10 @@ function validateChosen(chosenText, approval, target) {
   validateAttack(chosen.attack, bad);
   // Exactly the attack the owner approved a roll for (contract §3.4).
   if (hash(chosen.attack) !== approval.attack.attackHash || hash(chosen.attack.source) !== hash(approval.source) || hash(chosen.attack.target) !== hash(approval.target)) {fail('approval_mismatch');}
+  if (!approval.blocking) {
+    if (!chosen.attack.authored || chosen.block !== null || chosen.afterBlock !== chosen.attack.proposedDamage || !Array.isArray(chosen.manual) || chosen.manual.length) fail(bad);
+    return { chosen, afterBlock: chosen.afterBlock };
+  }
   const { piece } = checkPiece(target.token, approval.blocking);
   const block = chosen.block, face = approval.roll.faces[0], defending = holdsDefending(target.token);
   exact(block, ['slot', 'name', 'kind', 'die', 'face', 'defending', 'reduction'], bad);
@@ -321,6 +369,7 @@ function validateWearEntry(entry) {
 }
 /** §3.9 R3: the recorded block (revision, piece, die) must still be the current first available piece. */
 function checkRecordedPiece(token, approval) {
+  if (!approval.blocking) return;
   const recorded = approval.blocking;
   const declaration = token?.state?.[HOME];
   const piece = declaration?.version === 1 && Array.isArray(declaration.pieces) ? declaration.pieces.find(entry => entry.slot === recorded.slot && entry.itemId === recorded.itemId) : null;
@@ -392,8 +441,15 @@ function bindCommand(room, player, command, authorization) {
   // §3.9 R3: the recorded face belongs to the recorded piece and die; a changed piece needs a GM ruling.
   checkRecordedPiece(target.token, approval);
   const { chosen, afterBlock } = validateChosen(adjudication.chosenResult, approval, target);
+  checkAgainstRoom(room, approval);
+  if (chosen.attack.authored) {
+    const from = chosen.attack.authored.targetRevision, to = target.contract.revision;
+    if (from !== to && !chosen.targetRevalidation) fail('target_revalidation_required');
+    if (chosen.targetRevalidation && (from === to || chosen.targetRevalidation.fromRevision !== from || chosen.targetRevalidation.toRevision !== to)) fail('approval_mismatch');
+  }
   const amount = adjudication.finalAmount;
   if (!int(amount, 0, 100000)) {fail('invalid_final_amount');}
+  if (chosen.attack.authored?.attempt.spell.kind === 'healing' && amount !== chosen.attack.proposedDamage) fail('owner_reapproval_required');
   if (typeof adjudication.adjustmentReason !== 'string' || adjudication.adjustmentReason.length > 2000 ||
     (amount !== afterBlock && !adjudication.adjustmentReason.trim())) {fail('adjustment_reason_required');}
   if (command.actors.length !== 2) {fail('approval_mismatch');}
@@ -405,7 +461,7 @@ function bindCommand(room, player, command, authorization) {
   } else {
     const explained = explainSourceChange(room, getOffer(room, approval.attack.commandId), chosen.attack, source);
     if (explained.ok) {
-      if (own(chosen, 'revalidation')) {fail('approval_mismatch');}
+      if (own(chosen, 'revalidation') && (!chosen.attack.authored || chosen.revalidation.fromRevision !== chosen.attack.sourceRevision || chosen.revalidation.toRevision !== current)) {fail('approval_mismatch');}
     } else if (!own(chosen, 'revalidation')) {
       const error = new Error('attack_revalidation_required'); error.code = 'attack_revalidation_required';
       error.details = { fromRevision: chosen.attack.sourceRevision, toRevision: current, reason: explained.reason, changes: explained.changes };
@@ -416,18 +472,21 @@ function bindCommand(room, player, command, authorization) {
     if (actors.locate(room, actor.ref).contract.revision !== actor.expectedRevision) {fail('stale_actor_revision');}
   }
   if (command.actors[0].expectedRevision !== current) {fail('approval_mismatch');}
-  const sourcePools = actors.resources(source.token, 'creature').ap;
-  const ap = spellPayments.tempFirst(sourcePools.current, sourcePools.temp, chosen.attack.apCost);
+  const sourcePools = actors.resources(source.token, 'creature');
+  const price = chosen.attack.authored?.attempt.price || { ap: chosen.attack.apCost, mana: 0 }, payment = {};
+  for (const p of ['ap', 'mana']) if (price[p] > 0) payment[p] = spellPayments.tempFirst(sourcePools[p].current, sourcePools[p].temp, price[p]);
+  if (!Object.keys(payment).length) payment.ap = spellPayments.tempFirst(sourcePools.ap.current, sourcePools.ap.temp, 0);
   const hpPool = actors.resources(target.token, 'character').hp;
   const fromTemp = Math.min(hpPool.temp, amount);
-  const hp = { current: Math.max(0, hpPool.current - (amount - fromTemp)), temp: hpPool.temp - fromTemp };
-  const wear = expectedWear(target.token, approval).entry;
+  const hp = chosen.attack.authored?.attempt.spell.kind === 'healing' ? { current: Math.min(hpPool.max, hpPool.current + amount), temp: hpPool.temp }
+    : { current: Math.max(0, hpPool.current - (amount - fromTemp)), temp: hpPool.temp - fromTemp };
+  const wear = approval.blocking ? expectedWear(target.token, approval).entry : undefined;
   const [first, second] = command.actors;
   if (hash(first.ref) !== hash(approval.source) || Object.keys(first).some(key => !['ref', 'expectedRevision', 'finalResources'].includes(key)) ||
-    hash(first.finalResources || {}) !== hash({ ap })) {fail('approval_mismatch');}
+    hash(first.finalResources || {}) !== hash(payment)) {fail('approval_mismatch');}
   if (hash(second.ref) !== hash(approval.target) || Object.keys(second).some(key => !['ref', 'expectedRevision', 'finalResources', 'equipmentWear'].includes(key)) ||
     hash(second.finalResources || {}) !== hash({ hp })) {fail('approval_mismatch');}
-  if (hash(second.equipmentWear) !== hash(wear)) {fail('invalid_equipment_wear');}
+  if (hash(second.equipmentWear || null) !== hash(wear || null)) {fail('invalid_equipment_wear');}
   return entry;
 }
 /** Applies the wear entry to the staged clone; recomputed, never trusted (contract §3.5). */
@@ -460,5 +519,5 @@ const isBlockCommand = command => typeof command?.adjudication?.definitionVersio
   command.adjudication.definitionVersionOrHash.startsWith(`${CAPABILITY}/`);
 module.exports = { CAPABILITY, ATTACK_CAPABILITY, DEFINITION_ID, DEFINITION_HASH, HOME, LADDER, SIZES, SLOTS, DAMAGE_TYPES, PHYSICAL, MANUAL,
   kindOf, stepDown, holdsDefending, firstAvailable, deriveWear, selectionWindow, validateDeclarationEntry, applyDeclaration, validateAttack,
-  checkOfferTarget, addOffer, getOffer, removeOffer, listOffers, sourceBaseline, closeOffer, closedOffer, listClosedOffers, checkRecordedPiece, explainSourceChange, validateApproval, checkAgainstRoom, checkWindow, get, add, listAll, close, closedCode, pendingFor,
+  checkAuthored, checkOfferTarget, addOffer, getOffer, removeOffer, listOffers, sourceBaseline, closeOffer, closedOffer, listClosedOffers, checkRecordedPiece, explainSourceChange, validateApproval, checkAgainstRoom, checkWindow, get, add, listAll, close, closedCode, pendingFor,
   consumedReceipt, foreignId, validateChosen, expectedWear, validateWearEntry, bindCommand, applyWear, publicWear, scopedView, isBlockCommand };

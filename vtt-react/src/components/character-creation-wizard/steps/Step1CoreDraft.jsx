@@ -1440,6 +1440,12 @@ const Step1CoreDraft = () => {
         }));
     }, [characterData.class]);
 
+    const selectedSpellPool = useMemo(() => {
+        const classData = CLASS_DATA_MAP[characterData.class];
+        const classSpells = classData?.spells || classData?.exampleSpells || [];
+        return classSpells.length > 0 ? classSpells : level1SpellPool;
+    }, [characterData.class, level1SpellPool]);
+
 
 
     const [viewingSpellId, setViewingSpellId] = useState(level1SpellPool[0]?.id || null);
@@ -3551,7 +3557,7 @@ const Step1CoreDraft = () => {
 
                                                         {selectedSpells.map(spellId => {
 
-                                                            const spell = level1SpellPool.find(s => s.id === spellId);
+                                                            const spell = selectedSpellPool.find(s => s.id === spellId);
 
                                                             if (!spell) return null;
 

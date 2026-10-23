@@ -61,6 +61,9 @@ export const DEFAULT_USER_SETTINGS = {
   viewUpdateOnPlacement: true, // When true: fog/view only updates on token drop, not during drag
   playerTooltipMode: 'vague', // 'vague' | 'partial' | 'full' - what info players see on creature tooltips
   skillSystemMode: 'simple', // 'simple' | 'advanced' - simplified die-based skills vs full quest-based system
+  lootRollEnabled: false, // When true, creature drops go to a Need/Greed/Pass d20 group roll before anyone can loot them
+  lootRollDuration: 30, // Seconds players have to choose Need/Greed/Pass
+  lootRollMinQuality: 'poor', // Lowest item quality that gets rolled for; anything below is free to take
 
   // Audio Settings
   masterVolume: 0.8,

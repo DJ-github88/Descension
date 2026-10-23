@@ -232,6 +232,17 @@ function publicReceipt(receipt) {
   if (receipt.adjudication) {out.adjudication = Object.fromEntries(['definitionId', 'definitionVersionOrHash', 'chosenResult', 'finalAmount', 'adjustmentReason']
     .filter(key => typeof receipt.adjudication[key] === 'string' || (typeof receipt.adjudication[key] === 'number' && Number.isFinite(receipt.adjudication[key])))
     .map(key => [key, receipt.adjudication[key]]));}
+  if (require('./blockApprovals').isBlockCommand(receipt) && out.adjudication) {
+    try {
+      const chosen = JSON.parse(out.adjudication.chosenResult);
+      if (chosen.attack?.authored) {
+        const a = chosen.attack.authored;
+        chosen.attack.authored = { kind: a.attempt.spell.kind, price: a.attempt.price, blockApplicable: a.blockApplicable, ruling: a.ruling };
+        out.adjudication.chosenResult = JSON.stringify(chosen);
+        delete out.contentHash; delete out.authorization.approvalHash;
+      }
+    } catch (_) { delete out.adjudication.chosenResult; out.readOnly = true; }
+  }
   if (require('./riposteExecution').isReceipt(receipt) && out.adjudication) {
     // Only executed Riposte facts go public. Parent dedupe keys are canonical receipt recovery data,
     // not public Parry evidence; command/approval hashes must not fingerprint the hidden proof.

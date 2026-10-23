@@ -19,6 +19,10 @@ import {
     pruneLichborneTalents, LICHBORNE_PROJECTED_SPELLS_BY_ID,
     LICHBORNE_OPTIONAL_RECORDS, LICHBORNE_SPELL_POOLS
 } from '../../data/classes/lichborneData';
+import {
+    prunePlaguebringerTalents, PLAGUEBRINGER_PROJECTED_SPELLS_BY_ID,
+    PLAGUEBRINGER_OPTIONAL_RECORDS, PLAGUEBRINGER_SPELL_POOLS
+} from '../../data/classes/plaguebringerData';
 import useSpellbookStore from '../spellbookStore';
 import { loadLibraryFromStorage, saveLibraryToStorage } from '../../components/spellcrafting-wizard/core/utils/libraryManager';
 
@@ -48,6 +52,12 @@ const CR1_POLICY_CLASSES = {
         projectedById: LICHBORNE_PROJECTED_SPELLS_BY_ID,
         optionalRecords: LICHBORNE_OPTIONAL_RECORDS,
         spellPools: LICHBORNE_SPELL_POOLS
+    },
+    Plaguebringer: {
+        prune: prunePlaguebringerTalents,
+        projectedById: PLAGUEBRINGER_PROJECTED_SPELLS_BY_ID,
+        optionalRecords: PLAGUEBRINGER_OPTIONAL_RECORDS,
+        spellPools: PLAGUEBRINGER_SPELL_POOLS
     }
 };
 
@@ -487,6 +497,7 @@ export const createProgressionSlice = (set, get) => ({
             get().reconcileFateWeaverTalents();
             get().reconcileDeathcallerTalents();
             get().reconcileLichborneTalents();
+            get().reconcilePlaguebringerTalents();
         }
 
         // Only trigger updateExperience if leveling up (to avoid triggering modal when manually adjusting)
@@ -741,11 +752,12 @@ export const createProgressionSlice = (set, get) => ({
 
     reconcileDeathcallerTalents: () => get().reconcileCr1PolicyTalents('Deathcaller'),
     reconcileLichborneTalents: () => get().reconcileCr1PolicyTalents('Lichborne'),
+    reconcilePlaguebringerTalents: () => get().reconcileCr1PolicyTalents('Plaguebringer'),
 
     updateLevel: (newLevel) => {
         const before = get();
         const beforeClass = before.class || before.characterClass;
-        if (['Gambler', 'Fate Weaver', 'Deathcaller', 'Lichborne'].includes(beforeClass) && newLevel < before.level) {
+        if (['Gambler', 'Fate Weaver', 'Deathcaller', 'Lichborne', 'Plaguebringer'].includes(beforeClass) && newLevel < before.level) {
             for (let lostLevel = before.level; lostLevel > newLevel; lostLevel--) get().reverseLevelUpBonus(lostLevel);
         }
         let removedGrantIds = [];
@@ -787,6 +799,7 @@ export const createProgressionSlice = (set, get) => ({
         get().reconcileFateWeaverTalents();
         get().reconcileDeathcallerTalents();
         get().reconcileLichborneTalents();
+        get().reconcilePlaguebringerTalents();
 
         // Auto-assign spells based on new level
         const state = get();

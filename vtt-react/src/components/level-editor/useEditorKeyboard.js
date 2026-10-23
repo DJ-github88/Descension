@@ -140,6 +140,9 @@ export const useEditorKeyboard = ({
                         setIsObjectLocked(false);
                         onClearDragRefs();
                     } else if (selectedDrawings.length > 0) {
+                        // One undo step for the whole delete, so Ctrl+Z (and the touch bar's Undo) brings it back.
+                        const historyState = useLevelEditorStore.getState();
+                        if (typeof historyState.pushHistorySnapshot === 'function') historyState.pushHistorySnapshot();
                         selectedDrawings.forEach(id => removeDrawingPath(id));
                         clearDrawingSelection();
                     }

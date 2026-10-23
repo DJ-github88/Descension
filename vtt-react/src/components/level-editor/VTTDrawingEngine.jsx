@@ -2,7 +2,30 @@ import React, { useRef, useEffect, useCallback } from 'react';
 import useLevelEditorStore from '../../store/levelEditorStore';
 import useGameStore from '../../store/gameStore';
 import { getGridSystem } from '../../utils/InfiniteGridSystem';
-import { renderSmoothStroke } from '../../utils/strokeRenderer';
+import { renderSmoothStroke, createRoughCanvas } from '../../utils/strokeRenderer';
+import { paintDrawingPath, paintSelection, buildPathStyle, PAINTED_TOOLS } from '../../utils/drawingRender';
+
+// Tools that live on the Drawings layer regardless of the layer id stored with them.
+const DRAWING_LAYER_TOOLS = [...PAINTED_TOOLS, 'text'];
+
+/**
+ * Size a canvas to its CSS box at the device pixel ratio, clear it, and leave
+ * the context scaled so all drawing code keeps working in CSS pixels.
+ * Without this a stroke is blurry on tablets and retina laptops.
+ */
+const prepareCanvas = (canvas) => {
+    const rect = canvas.getBoundingClientRect();
+    const dpr = (typeof window !== 'undefined' && window.devicePixelRatio) || 1;
+    const width = Math.round(rect.width * dpr);
+    const height = Math.round(rect.height * dpr);
+    if (canvas.width !== width) canvas.width = width;
+    if (canvas.height !== height) canvas.height = height;
+    const ctx = canvas.getContext('2d');
+    if (typeof ctx.setTransform === 'function') ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    if (typeof ctx.setTransform === 'function') ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    return ctx;
+};
 
 const VTTDrawingEngine = () => {
     const canvasRef = useRef(null);
@@ -12,13 +35,9 @@ const VTTDrawingEngine = () => {
     const {
         drawingPaths,
         drawingLayers,
-        activeLayer,
+        selectedDrawings,
         isEditorMode,
-        activeTool,
         toolSettings,
-        setTerrain,
-        setFogOfWar,
-        addLightSource,
         currentDrawingPath,
         isCurrentlyDrawing,
         currentDrawingTool
@@ -32,7 +51,6 @@ const VTTDrawingEngine = () => {
         cameraY,
         zoomLevel,
         playerZoom,
-        isGMMode,
         viewMode,
         viewRotation,
         viewTilt
@@ -60,296 +78,324 @@ const VTTDrawingEngine = () => {
         }
     }, [gridSize, gridOffsetX, gridOffsetY, cameraX, cameraY, effectiveZoom]);
 
-    // Render drawing paths on canvas
+    // Projection handed to the shared painter (see utils/drawingRender.js).
+    const makePaintEnv = (canvas, needsRough) => {
+        const gridSystem = getGridSystem();
+        const viewport = gridSystem.getViewportDimensions();
+        const isHex = gridSystem.getGridState().gridType === 'hex';
+        return {
+            gridToWorldCorner: (gx, gy) => gridSystem.gridToWorldCorner(gx, gy),
+            worldToScreen: (x, y) => gridSystem.worldToScreen(x, y, viewport.width, viewport.height),
+            zoom: effectiveZoom,
+            rough: needsRough ? createRoughCanvas(canvas) : null,
+            hexBoundary: isHex ? (minX, maxX, minY, maxY) => gridSystem.getHexBoundary(minX, maxX, minY, maxY) : null
+        };
+    };
+
+    // Committed drawings. The live stroke is NOT drawn here: it has its own
+    // canvas (below), so every new stylus sample repaints one stroke instead of
+    // every drawing on the map.
     const renderDrawings = useCallback(() => {
         const canvas = canvasRef.current;
         if (!canvas) return;
 
-        const ctx = canvas.getContext('2d');
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        const ctx = prepareCanvas(canvas);
+        const env = makePaintEnv(canvas, drawingPaths.some((p) => p && p.style && p.style.sketch));
 
-        // Set canvas size to match viewport
-        const rect = canvas.getBoundingClientRect();
-        canvas.width = rect.width;
-        canvas.height = rect.height;
+        const layerById = new Map(drawingLayers.map((layer) => [layer.id, layer]));
+        const drawingsLayerVisible = !!(layerById.get('drawings') && layerById.get('drawings').visible);
 
-        // Render each visible layer
-        drawingLayers.forEach(layer => {
-            if (!layer.visible) return;
+        // NOTE: Drawings are GM tools for pointing things out to players.
+        // They should ALWAYS be visible regardless of fog/explored areas/view range.
+        // This is intentional - drawings render ABOVE fog (z-index 45) for this purpose.
+        drawingPaths.forEach(path => {
+            if (!path || !path.points || path.points.length === 0) return;
+            const ownLayer = layerById.get(path.layer);
+            const onVisibleLayer = !!(ownLayer && ownLayer.visible);
+            const isDrawingTool = DRAWING_LAYER_TOOLS.includes(path.tool);
+            if (!onVisibleLayer && !(isDrawingTool && drawingsLayerVisible)) return;
 
-            // Filter paths for this layer - only render drawing tools on drawings layer
-            const layerPaths = drawingPaths.filter(path => {
-                if (layer.id === 'drawings') {
-                    // Only show drawing tools (freehand, line, rectangle, circle, polygon, text) on drawings layer
-                    return path.layer === 'drawings' ||
-                           ['freehand', 'line', 'rectangle', 'circle', 'polygon', 'text'].includes(path.tool);
-                }
-                return path.layer === layer.id;
-            });
+            const style = path.style || {};
 
-            // NOTE: Drawings are GM tools for pointing things out to players.
-            // They should ALWAYS be visible regardless of fog/explored areas/view range.
-            // This is intentional - drawings render ABOVE fog (z-index 45) for this purpose.
-            layerPaths.forEach(path => {
-                if (!path.points || path.points.length === 0) return;
-
-                ctx.save();
-
-                // Apply path style
-                ctx.strokeStyle = path.style.strokeColor || '#000000';
-                ctx.fillStyle = path.style.fillColor || 'transparent';
-                ctx.lineWidth = (path.style.strokeWidth || 2) * effectiveZoom;
-                // The UI slider bottoms out at 10%; anything below that is
-                // corrupt data (opacity was repeatedly divided by 100 by an
-                // old bug) and would render the stroke invisibly. Restore it.
-                const pathOpacity = path.style.opacity;
-                ctx.globalAlpha = (typeof pathOpacity === 'number' && pathOpacity >= 0.1)
-                    ? Math.min(1, pathOpacity)
-                    : 1;
-                ctx.lineCap = 'round';
-                ctx.lineJoin = 'round';
-
-                // Render based on tool type
-                switch (path.tool) {
-                    case 'freehand':
-                        renderFreehandPath(ctx, path.points);
-                        break;
-                    case 'line':
-                        renderLinePath(ctx, path.points);
-                        break;
-                    case 'rectangle':
-                        renderRectanglePath(ctx, path.points);
-                        break;
-                    case 'circle':
-                        renderCirclePath(ctx, path.points);
-                        break;
-                    case 'polygon':
-                        renderPolygonPath(ctx, path.points);
-                        break;
-                    case 'text':
-                        renderTextPath(ctx, path);
-                        break;
-                    case 'terrain_brush':
-                        renderTerrainBrush(ctx, path.points);
-                        break;
-                    case 'wall_draw':
-                        renderWallPath(ctx, path.points);
-                        break;
-                    case 'fog_brush':
-                        renderFogBrush(ctx, path.points);
-                        break;
-                    default:
-                        renderFreehandPath(ctx, path.points);
-                        break;
-                }
-
-                ctx.restore();
-            });
-        });
-
-        // Render current drawing path in real-time on main canvas
-        if (isCurrentlyDrawing && currentDrawingPath && Array.isArray(currentDrawingPath) && currentDrawingPath.length > 0) {
+            // Everything except text is drawn by the shared painter.
+            if (paintDrawingPath(ctx, path, env)) return;
 
             ctx.save();
 
-            // Apply current tool style
-            ctx.strokeStyle = toolSettings.strokeColor || '#4a8eff';
-            ctx.fillStyle = toolSettings.fillColor || 'transparent';
-            ctx.lineWidth = (toolSettings.strokeWidth || 2) * effectiveZoom;
-            ctx.globalAlpha = 1; // Full opacity for real-time drawing
+            // Apply path style
+            ctx.strokeStyle = style.strokeColor || '#000000';
+            ctx.fillStyle = style.fillColor || 'transparent';
+            ctx.lineWidth = (style.strokeWidth || 2) * effectiveZoom;
+            // The UI slider bottoms out at 10%; anything below that is
+            // corrupt data (opacity was repeatedly divided by 100 by an
+            // old bug) and would render the stroke invisibly. Restore it.
+            const pathOpacity = style.opacity;
+            ctx.globalAlpha = (typeof pathOpacity === 'number' && pathOpacity >= 0.1)
+                ? Math.min(1, pathOpacity)
+                : 1;
             ctx.lineCap = 'round';
             ctx.lineJoin = 'round';
 
-            // Render based on current tool type
-            switch (currentDrawingTool) {
-                case 'freehand':
-
-                    renderFreehandPath(ctx, currentDrawingPath);
+            switch (path.tool) {
+                case 'text':
+                    renderTextPath(ctx, { ...path, style });
                     break;
-                case 'line':
-                    renderLinePath(ctx, currentDrawingPath);
+                case 'terrain_brush':
+                    renderTerrainBrush(ctx, path.points);
                     break;
-                case 'rectangle':
-                    renderRectanglePath(ctx, currentDrawingPath);
+                case 'wall_draw':
+                    renderWallPath(ctx, path.points);
                     break;
-                case 'circle':
-                    renderCirclePath(ctx, currentDrawingPath);
+                case 'fog_brush':
+                    renderFogBrush(ctx, path.points);
                     break;
-                case 'polygon':
-                    renderPolygonPath(ctx, currentDrawingPath);
-                    break;
-                case 'wall_draw': {
-                    // Ghost preview of the wall being drawn (dashed gold line + endpoint dots)
-                    if (currentDrawingPath.length < 1) break;
-                    const previewGridSystem = getGridSystem();
-                    const previewGridType = previewGridSystem.getGridState().gridType;
-                    const isEdgePath = currentDrawingPath[0] && currentDrawingPath[0].isHexEdge;
-                    const isSegmentPath = currentDrawingPath[0] && currentDrawingPath[0].isHexSegment;
-
-                    ctx.save();
-                    ctx.strokeStyle = '#FFD700';
-                    ctx.globalAlpha = 0.85;
-                    ctx.lineWidth = Math.max(3, ctx.lineWidth);
-                    ctx.setLineDash([10, 6]);
-
-                    if (isSegmentPath) {
-                        // Straight corner-to-corner hex wall preview
-                        const viewport = previewGridSystem.getViewportDimensions();
-                        const segment = currentDrawingPath[0];
-                        const startScreen = previewGridSystem.worldToScreen(
-                            segment.start.x, segment.start.y, viewport.width, viewport.height
-                        );
-                        const endScreen = previewGridSystem.worldToScreen(
-                            segment.end.x, segment.end.y, viewport.width, viewport.height
-                        );
-                        if (Math.hypot(endScreen.x - startScreen.x, endScreen.y - startScreen.y) > 1) {
-                            ctx.beginPath();
-                            ctx.moveTo(startScreen.x, startScreen.y);
-                            ctx.lineTo(endScreen.x, endScreen.y);
-                            ctx.stroke();
-                        }
-                        ctx.setLineDash([]);
-
-                        ctx.fillStyle = '#FFD700';
-                        ctx.strokeStyle = '#000';
-                        ctx.lineWidth = 1.5;
-                        [startScreen, endScreen].forEach(pt => {
-                            ctx.beginPath();
-                            ctx.arc(pt.x, pt.y, 5, 0, Math.PI * 2);
-                            ctx.fill();
-                            ctx.stroke();
-                        });
-                    } else if (isEdgePath) {
-                        const viewport = previewGridSystem.getViewportDimensions();
-                        const mids = [];
-                        ctx.beginPath();
-                        for (const item of currentDrawingPath) {
-                            const parsed = previewGridSystem.parseHexEdgeKey(item.edgeKey);
-                            if (!parsed) continue;
-                            const edge = previewGridSystem.getHexEdge(parsed.x1, parsed.y1, parsed.x2, parsed.y2);
-                            if (!edge) continue;
-                            const edgeStart = previewGridSystem.worldToScreen(edge.start.x, edge.start.y, viewport.width, viewport.height);
-                            const edgeEnd = previewGridSystem.worldToScreen(edge.end.x, edge.end.y, viewport.width, viewport.height);
-                            ctx.moveTo(edgeStart.x, edgeStart.y);
-                            ctx.lineTo(edgeEnd.x, edgeEnd.y);
-                            mids.push({ x: (edgeStart.x + edgeEnd.x) / 2, y: (edgeStart.y + edgeEnd.y) / 2 });
-                        }
-                        ctx.stroke();
-                        ctx.setLineDash([]);
-
-                        ctx.fillStyle = '#FFD700';
-                        ctx.strokeStyle = '#000';
-                        ctx.lineWidth = 1.5;
-                        [mids[0], mids[mids.length - 1]].forEach(pt => {
-                            if (!pt) return;
-                            ctx.beginPath();
-                            ctx.arc(pt.x, pt.y, 5, 0, Math.PI * 2);
-                            ctx.fill();
-                            ctx.stroke();
-                        });
-                    } else if (previewGridType === 'hex') {
-                        const viewport = previewGridSystem.getViewportDimensions();
-                        const first = currentDrawingPath[0];
-                        const last = currentDrawingPath[currentDrawingPath.length - 1];
-                        const startWorld = previewGridSystem.gridToWorld(first.gridX, first.gridY);
-                        const endWorld = previewGridSystem.gridToWorld(last.gridX, last.gridY);
-                        const startScreen = previewGridSystem.worldToScreen(startWorld.x, startWorld.y, viewport.width, viewport.height);
-                        const endScreen = previewGridSystem.worldToScreen(endWorld.x, endWorld.y, viewport.width, viewport.height);
-
-                        ctx.beginPath();
-                        for (let i = 0; i + 1 < currentDrawingPath.length; i++) {
-                            const a = currentDrawingPath[i];
-                            const b = currentDrawingPath[i + 1];
-                            const edge = previewGridSystem.getHexEdge(a.gridX, a.gridY, b.gridX, b.gridY);
-                            if (!edge) continue;
-                            const edgeStart = previewGridSystem.worldToScreen(edge.start.x, edge.start.y, viewport.width, viewport.height);
-                            const edgeEnd = previewGridSystem.worldToScreen(edge.end.x, edge.end.y, viewport.width, viewport.height);
-                            ctx.moveTo(edgeStart.x, edgeStart.y);
-                            ctx.lineTo(edgeEnd.x, edgeEnd.y);
-                        }
-                        ctx.stroke();
-                        ctx.setLineDash([]);
-
-                        ctx.fillStyle = '#FFD700';
-                        ctx.strokeStyle = '#000';
-                        ctx.lineWidth = 1.5;
-                        [startScreen, endScreen].forEach(pt => {
-                            ctx.beginPath();
-                            ctx.arc(pt.x, pt.y, 5, 0, Math.PI * 2);
-                            ctx.fill();
-                            ctx.stroke();
-                        });
-                    } else {
-                        if (currentDrawingPath.length < 2) {
-                            ctx.restore();
-                            break;
-                        }
-                        const wallMode = toolSettings.wallMode || 'continuous';
-                        if (wallMode === 'rectangle') {
-                            const minX = Math.min(currentDrawingPath[0].gridX, currentDrawingPath[currentDrawingPath.length - 1].gridX);
-                            const maxX = Math.max(currentDrawingPath[0].gridX, currentDrawingPath[currentDrawingPath.length - 1].gridX);
-                            const minY = Math.min(currentDrawingPath[0].gridY, currentDrawingPath[currentDrawingPath.length - 1].gridY);
-                            const maxY = Math.max(currentDrawingPath[0].gridY, currentDrawingPath[currentDrawingPath.length - 1].gridY);
-
-                            const c0 = gridToScreen(minX, minY);
-                            const c1 = gridToScreen(maxX, minY);
-                            const c2 = gridToScreen(maxX, maxY);
-                            const c3 = gridToScreen(minX, maxY);
-
-                            ctx.beginPath();
-                            ctx.moveTo(c0.x, c0.y);
-                            ctx.lineTo(c1.x, c1.y);
-                            ctx.lineTo(c2.x, c2.y);
-                            ctx.lineTo(c3.x, c3.y);
-                            ctx.closePath();
-                            ctx.stroke();
-                            ctx.setLineDash([]);
-
-                            // Endpoint markers on all 4 corners
-                            ctx.fillStyle = '#FFD700';
-                            ctx.strokeStyle = '#000';
-                            ctx.lineWidth = 1.5;
-                            [c0, c1, c2, c3].forEach(pt => {
-                                ctx.beginPath();
-                                ctx.arc(pt.x, pt.y, 5, 0, Math.PI * 2);
-                                ctx.fill();
-                                ctx.stroke();
-                            });
-                        } else {
-                            const wallStart = gridToScreen(currentDrawingPath[0].gridX, currentDrawingPath[0].gridY);
-                            const wallEnd = gridToScreen(currentDrawingPath[currentDrawingPath.length - 1].gridX, currentDrawingPath[currentDrawingPath.length - 1].gridY);
-
-                            ctx.beginPath();
-                            ctx.moveTo(wallStart.x, wallStart.y);
-                            ctx.lineTo(wallEnd.x, wallEnd.y);
-                            ctx.stroke();
-                            ctx.setLineDash([]);
-
-                            // Endpoint markers
-                            ctx.fillStyle = '#FFD700';
-                            ctx.strokeStyle = '#000';
-                            ctx.lineWidth = 1.5;
-                            [wallStart, wallEnd].forEach(pt => {
-                                ctx.beginPath();
-                                ctx.arc(pt.x, pt.y, 5, 0, Math.PI * 2);
-                                ctx.fill();
-                                ctx.stroke();
-                            });
-                        }
-                    }
-                    ctx.restore();
-                    break;
-                }
                 default:
-                    renderFreehandPath(ctx, currentDrawingPath);
+                    renderFreehandPath(ctx, path.points);
                     break;
             }
 
             ctx.restore();
-        }
-    }, [drawingPaths, drawingLayers, effectiveZoom, gridToScreen, isCurrentlyDrawing, currentDrawingPath, currentDrawingTool, toolSettings, cameraX, cameraY, viewMode, viewRotation, viewTilt]);
+        });
+    }, [drawingPaths, drawingLayers, effectiveZoom, gridToScreen, cameraX, cameraY, viewMode, viewRotation, viewTilt]);
 
-    // Render freehand drawing with perfect-freehand smooth tapering
+    // Ghost preview of the wall being drawn (dashed gold line + endpoint dots).
+    // Unchanged from the original engine apart from living in its own function.
+    const renderWallGhost = (ctx, currentDrawingPath) => {
+        ctx.strokeStyle = toolSettings.strokeColor || '#4a8eff';
+        ctx.fillStyle = toolSettings.fillColor || 'transparent';
+        ctx.lineWidth = (toolSettings.strokeWidth || 2) * effectiveZoom;
+        ctx.globalAlpha = 1;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        if (currentDrawingPath.length < 1) return;
+        const previewGridSystem = getGridSystem();
+        const previewGridType = previewGridSystem.getGridState().gridType;
+        const isEdgePath = currentDrawingPath[0] && currentDrawingPath[0].isHexEdge;
+        const isSegmentPath = currentDrawingPath[0] && currentDrawingPath[0].isHexSegment;
+
+        ctx.save();
+        ctx.strokeStyle = '#FFD700';
+        ctx.globalAlpha = 0.85;
+        ctx.lineWidth = Math.max(3, ctx.lineWidth);
+        ctx.setLineDash([10, 6]);
+
+        if (isSegmentPath) {
+            // Straight corner-to-corner hex wall preview
+            const viewport = previewGridSystem.getViewportDimensions();
+            const segment = currentDrawingPath[0];
+            const startScreen = previewGridSystem.worldToScreen(
+                segment.start.x, segment.start.y, viewport.width, viewport.height
+            );
+            const endScreen = previewGridSystem.worldToScreen(
+                segment.end.x, segment.end.y, viewport.width, viewport.height
+            );
+            if (Math.hypot(endScreen.x - startScreen.x, endScreen.y - startScreen.y) > 1) {
+                ctx.beginPath();
+                ctx.moveTo(startScreen.x, startScreen.y);
+                ctx.lineTo(endScreen.x, endScreen.y);
+                ctx.stroke();
+            }
+            ctx.setLineDash([]);
+
+            ctx.fillStyle = '#FFD700';
+            ctx.strokeStyle = '#000';
+            ctx.lineWidth = 1.5;
+            [startScreen, endScreen].forEach(pt => {
+                ctx.beginPath();
+                ctx.arc(pt.x, pt.y, 5, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.stroke();
+            });
+        } else if (isEdgePath) {
+            const viewport = previewGridSystem.getViewportDimensions();
+            const mids = [];
+            ctx.beginPath();
+            for (const item of currentDrawingPath) {
+                const parsed = previewGridSystem.parseHexEdgeKey(item.edgeKey);
+                if (!parsed) continue;
+                const edge = previewGridSystem.getHexEdge(parsed.x1, parsed.y1, parsed.x2, parsed.y2);
+                if (!edge) continue;
+                const edgeStart = previewGridSystem.worldToScreen(edge.start.x, edge.start.y, viewport.width, viewport.height);
+                const edgeEnd = previewGridSystem.worldToScreen(edge.end.x, edge.end.y, viewport.width, viewport.height);
+                ctx.moveTo(edgeStart.x, edgeStart.y);
+                ctx.lineTo(edgeEnd.x, edgeEnd.y);
+                mids.push({ x: (edgeStart.x + edgeEnd.x) / 2, y: (edgeStart.y + edgeEnd.y) / 2 });
+            }
+            ctx.stroke();
+            ctx.setLineDash([]);
+
+            ctx.fillStyle = '#FFD700';
+            ctx.strokeStyle = '#000';
+            ctx.lineWidth = 1.5;
+            [mids[0], mids[mids.length - 1]].forEach(pt => {
+                if (!pt) return;
+                ctx.beginPath();
+                ctx.arc(pt.x, pt.y, 5, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.stroke();
+            });
+        } else if (previewGridType === 'hex') {
+            const viewport = previewGridSystem.getViewportDimensions();
+            const first = currentDrawingPath[0];
+            const last = currentDrawingPath[currentDrawingPath.length - 1];
+            const startWorld = previewGridSystem.gridToWorld(first.gridX, first.gridY);
+            const endWorld = previewGridSystem.gridToWorld(last.gridX, last.gridY);
+            const startScreen = previewGridSystem.worldToScreen(startWorld.x, startWorld.y, viewport.width, viewport.height);
+            const endScreen = previewGridSystem.worldToScreen(endWorld.x, endWorld.y, viewport.width, viewport.height);
+
+            ctx.beginPath();
+            for (let i = 0; i + 1 < currentDrawingPath.length; i++) {
+                const a = currentDrawingPath[i];
+                const b = currentDrawingPath[i + 1];
+                const edge = previewGridSystem.getHexEdge(a.gridX, a.gridY, b.gridX, b.gridY);
+                if (!edge) continue;
+                const edgeStart = previewGridSystem.worldToScreen(edge.start.x, edge.start.y, viewport.width, viewport.height);
+                const edgeEnd = previewGridSystem.worldToScreen(edge.end.x, edge.end.y, viewport.width, viewport.height);
+                ctx.moveTo(edgeStart.x, edgeStart.y);
+                ctx.lineTo(edgeEnd.x, edgeEnd.y);
+            }
+            ctx.stroke();
+            ctx.setLineDash([]);
+
+            ctx.fillStyle = '#FFD700';
+            ctx.strokeStyle = '#000';
+            ctx.lineWidth = 1.5;
+            [startScreen, endScreen].forEach(pt => {
+                ctx.beginPath();
+                ctx.arc(pt.x, pt.y, 5, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.stroke();
+            });
+        } else {
+            if (currentDrawingPath.length < 2) {
+                ctx.restore();
+                return;
+            }
+            const wallMode = toolSettings.wallMode || 'continuous';
+            if (wallMode === 'rectangle') {
+                const minX = Math.min(currentDrawingPath[0].gridX, currentDrawingPath[currentDrawingPath.length - 1].gridX);
+                const maxX = Math.max(currentDrawingPath[0].gridX, currentDrawingPath[currentDrawingPath.length - 1].gridX);
+                const minY = Math.min(currentDrawingPath[0].gridY, currentDrawingPath[currentDrawingPath.length - 1].gridY);
+                const maxY = Math.max(currentDrawingPath[0].gridY, currentDrawingPath[currentDrawingPath.length - 1].gridY);
+
+                const c0 = gridToScreen(minX, minY);
+                const c1 = gridToScreen(maxX, minY);
+                const c2 = gridToScreen(maxX, maxY);
+                const c3 = gridToScreen(minX, maxY);
+
+                ctx.beginPath();
+                ctx.moveTo(c0.x, c0.y);
+                ctx.lineTo(c1.x, c1.y);
+                ctx.lineTo(c2.x, c2.y);
+                ctx.lineTo(c3.x, c3.y);
+                ctx.closePath();
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                // Endpoint markers on all 4 corners
+                ctx.fillStyle = '#FFD700';
+                ctx.strokeStyle = '#000';
+                ctx.lineWidth = 1.5;
+                [c0, c1, c2, c3].forEach(pt => {
+                    ctx.beginPath();
+                    ctx.arc(pt.x, pt.y, 5, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.stroke();
+                });
+            } else {
+                const wallStart = gridToScreen(currentDrawingPath[0].gridX, currentDrawingPath[0].gridY);
+                const wallEnd = gridToScreen(currentDrawingPath[currentDrawingPath.length - 1].gridX, currentDrawingPath[currentDrawingPath.length - 1].gridY);
+
+                ctx.beginPath();
+                ctx.moveTo(wallStart.x, wallStart.y);
+                ctx.lineTo(wallEnd.x, wallEnd.y);
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                // Endpoint markers
+                ctx.fillStyle = '#FFD700';
+                ctx.strokeStyle = '#000';
+                ctx.lineWidth = 1.5;
+                [wallStart, wallEnd].forEach(pt => {
+                    ctx.beginPath();
+                    ctx.arc(pt.x, pt.y, 5, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.stroke();
+                });
+            }
+        }
+        ctx.restore();
+    };
+
+    // Live layer: the stroke being drawn, the edit tool's selection handles and
+    // the wall previews. Repainted on every new sample, so it only ever holds a
+    // handful of paths.
+    const renderLive = useCallback(() => {
+        const canvas = overlayCanvasRef.current;
+        if (!canvas) return;
+
+        const ctx = prepareCanvas(canvas);
+        const hasLive = isCurrentlyDrawing && Array.isArray(currentDrawingPath) && currentDrawingPath.length > 0;
+        const livePainted = hasLive && PAINTED_TOOLS.includes(currentDrawingTool);
+        const selected = isEditorMode && Array.isArray(selectedDrawings) && selectedDrawings.length > 0
+            ? drawingPaths.filter((p) => p && selectedDrawings.includes(p.id))
+            : [];
+        const needsRough = !!(livePainted && toolSettings && toolSettings.sketch);
+
+        // Wall previews (existing behaviour: gold ghost first, brown preview on top).
+        if (hasLive && currentDrawingTool === 'wall_draw') {
+            ctx.save();
+            renderWallGhost(ctx, currentDrawingPath);
+            ctx.restore();
+
+            ctx.save();
+            ctx.strokeStyle = toolSettings.strokeColor || '#4a8eff';
+            ctx.lineWidth = Math.max(4, 8 * effectiveZoom);
+            ctx.globalAlpha = 0.7; // Semi-transparent preview
+            ctx.lineCap = 'square';
+            ctx.lineJoin = 'round';
+            // Pass wall mode to renderWallPath for proper rectangle preview
+            renderWallPath(ctx, currentDrawingPath, toolSettings.wallMode || 'continuous');
+            ctx.restore();
+            return;
+        }
+
+        if (selected.length > 0 || livePainted) {
+            const env = makePaintEnv(canvas, needsRough);
+
+            selected.forEach((path) => paintSelection(ctx, path, env));
+
+            if (livePainted) {
+                paintDrawingPath(ctx, {
+                    id: 'live-stroke',
+                    tool: currentDrawingTool,
+                    points: currentDrawingPath,
+                    style: buildPathStyle(toolSettings, currentDrawingTool)
+                }, env);
+
+                // Polygon corners: dots for each placed corner, a ring on the
+                // first one once the shape can be closed.
+                if (currentDrawingTool === 'polygon') {
+                    ctx.save();
+                    ctx.lineWidth = 2;
+                    ctx.strokeStyle = '#4a8eff';
+                    ctx.fillStyle = '#ffffff';
+                    currentDrawingPath.forEach((pt, index) => {
+                        const s = pt.isWorldCoords
+                            ? env.worldToScreen(pt.worldX, pt.worldY)
+                            : gridToScreen(pt.gridX, pt.gridY);
+                        ctx.beginPath();
+                        ctx.arc(s.x, s.y, index === 0 && currentDrawingPath.length > 3 ? 9 : 5, 0, Math.PI * 2);
+                        ctx.fill();
+                        ctx.stroke();
+                    });
+                    ctx.restore();
+                }
+            }
+        }
+    }, [currentDrawingPath, currentDrawingTool, isCurrentlyDrawing, toolSettings, effectiveZoom, drawingPaths, selectedDrawings, isEditorMode, gridToScreen, cameraX, cameraY, viewMode, viewRotation, viewTilt]);
+
+    // Render freehand drawing with perfect-freehand smooth tapering (legacy fallback for unknown tools)
     const renderFreehandPath = (ctx, points) => {
         if (!points || points.length === 0) return;
 
@@ -385,130 +431,6 @@ const VTTDrawingEngine = () => {
         });
         ctx.fillStyle = previousFillStyle;
     };
-
-    // Render straight line
-    const renderLinePath = (ctx, points) => {
-        if (points.length < 2) return;
-
-        const start = gridToScreen(points[0].gridX, points[0].gridY);
-        const end = gridToScreen(points[points.length - 1].gridX, points[points.length - 1].gridY);
-
-        ctx.beginPath();
-        ctx.moveTo(start.x, start.y);
-        ctx.lineTo(end.x, end.y);
-        ctx.stroke();
-    };
-
-    // Render rectangle
-    const renderRectanglePath = (ctx, points) => {
-        if (points.length < 2) return;
-
-        const gridSystem = getGridSystem();
-        const { gridType } = gridSystem.getGridState();
-        
-        if (gridType === 'hex') {
-            // For hex grids, render a hex boundary shape
-            const minX = Math.min(points[0].gridX, points[points.length - 1].gridX);
-            const maxX = Math.max(points[0].gridX, points[points.length - 1].gridX);
-            const minY = Math.min(points[0].gridY, points[points.length - 1].gridY);
-            const maxY = Math.max(points[0].gridY, points[points.length - 1].gridY);
-            
-            // Get boundary points
-            const boundaryPoints = gridSystem.getHexBoundary(minX, maxX, minY, maxY);
-            
-            if (boundaryPoints.length > 0) {
-                ctx.beginPath();
-                const viewport = gridSystem.getViewportDimensions();
-                const firstPoint = gridSystem.worldToScreen(boundaryPoints[0].x, boundaryPoints[0].y, viewport.width, viewport.height);
-                ctx.moveTo(firstPoint.x, firstPoint.y);
-                
-                for (let i = 1; i < boundaryPoints.length; i++) {
-                    const screenPoint = gridSystem.worldToScreen(boundaryPoints[i].x, boundaryPoints[i].y, viewport.width, viewport.height);
-                    ctx.lineTo(screenPoint.x, screenPoint.y);
-                }
-                ctx.closePath();
-                
-                if (ctx.fillStyle !== 'transparent') {
-                    ctx.fill();
-                }
-                ctx.stroke();
-            }
-        } else {
-            // Square grid: project the 4 grid corners so the quadrilateral
-            // matches the tiles in 3D perspective / tilted / rotated camera views
-            const minX = Math.min(points[0].gridX, points[points.length - 1].gridX);
-            const maxX = Math.max(points[0].gridX, points[points.length - 1].gridX);
-            const minY = Math.min(points[0].gridY, points[points.length - 1].gridY);
-            const maxY = Math.max(points[0].gridY, points[points.length - 1].gridY);
-
-            const c0 = gridToScreen(minX, minY);
-            const c1 = gridToScreen(maxX, minY);
-            const c2 = gridToScreen(maxX, maxY);
-            const c3 = gridToScreen(minX, maxY);
-
-            ctx.beginPath();
-            ctx.moveTo(c0.x, c0.y);
-            ctx.lineTo(c1.x, c1.y);
-            ctx.lineTo(c2.x, c2.y);
-            ctx.lineTo(c3.x, c3.y);
-            ctx.closePath();
-            
-            if (ctx.fillStyle !== 'transparent') {
-                ctx.fill();
-            }
-            ctx.stroke();
-        }
-    };
-
-    // Render circle
-    const renderCirclePath = (ctx, points) => {
-        if (points.length < 2) return;
-
-        const center = gridToScreen(points[0].gridX, points[0].gridY);
-        const edge = gridToScreen(points[points.length - 1].gridX, points[points.length - 1].gridY);
-
-        const radius = Math.sqrt(
-            Math.pow(edge.x - center.x, 2) + Math.pow(edge.y - center.y, 2)
-        );
-
-        ctx.beginPath();
-        ctx.arc(center.x, center.y, radius, 0, 2 * Math.PI);
-
-        if (ctx.fillStyle !== 'transparent') {
-            ctx.fill();
-        }
-        ctx.stroke();
-    };
-
-    // Render polygon
-    const renderPolygonPath = (ctx, points) => {
-        if (points.length < 2) return; // Need at least 2 points
-
-        ctx.beginPath();
-
-        // Start with the first point
-        const startPoint = gridToScreen(points[0].gridX, points[0].gridY);
-        ctx.moveTo(startPoint.x, startPoint.y);
-
-        // Draw lines to each subsequent point
-        for (let i = 1; i < points.length; i++) {
-            const point = gridToScreen(points[i].gridX, points[i].gridY);
-            ctx.lineTo(point.x, point.y);
-        }
-
-        // For polygons with 3+ points, close the shape
-        if (points.length >= 3) {
-            ctx.closePath();
-
-            if (ctx.fillStyle !== 'transparent') {
-                ctx.fill();
-            }
-        }
-
-        ctx.stroke();
-    };
-
-
 
     // Render text with enhanced styling
     const renderTextPath = (ctx, path) => {
@@ -802,73 +724,33 @@ const VTTDrawingEngine = () => {
         });
     };
 
-    // Render current drawing path on overlay canvas (for wall previews only)
-    const renderCurrentPath = useCallback(() => {
-        const canvas = overlayCanvasRef.current;
-        if (!canvas) return;
-
-        const ctx = canvas.getContext('2d');
-
-        // Set canvas size to match viewport
-        const rect = canvas.getBoundingClientRect();
-        canvas.width = rect.width;
-        canvas.height = rect.height;
-
-        // Clear previous drawing
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        // Only render wall previews on overlay (since walls aren't drawn on main canvas)
-        if (isCurrentlyDrawing && currentDrawingPath && currentDrawingPath.length > 0 && currentDrawingTool === 'wall_draw') {
-            ctx.save();
-            ctx.strokeStyle = toolSettings.strokeColor || '#4a8eff';
-            ctx.lineWidth = Math.max(4, 8 * effectiveZoom);
-            ctx.globalAlpha = 0.7; // Semi-transparent preview
-            ctx.lineCap = 'square';
-            ctx.lineJoin = 'round';
-
-            // Pass wall mode to renderWallPath for proper rectangle preview
-            const wallMode = toolSettings.wallMode || 'continuous';
-            renderWallPath(ctx, currentDrawingPath, wallMode);
-
-            ctx.restore();
-        }
-    }, [currentDrawingPath, currentDrawingTool, isCurrentlyDrawing, toolSettings, effectiveZoom, viewMode, viewRotation, viewTilt]);
-
-    // Update canvas when dependencies change
+    // Repaint committed drawings when they, the camera or the view change
     useEffect(() => {
         renderDrawings();
     }, [renderDrawings]);
 
-    // Update overlay canvas when current path changes
+    // Repaint the live layer for every new stroke sample / selection change
     useEffect(() => {
-        renderCurrentPath();
-    }, [renderCurrentPath]);
-
-    // Force immediate re-render when currentDrawingPath changes for real-time drawing
-    useEffect(() => {
-        if (isCurrentlyDrawing && currentDrawingPath && Array.isArray(currentDrawingPath) && currentDrawingPath.length > 0) {
-
-            // Immediate render for real-time feedback
-            renderDrawings();
-        }
-    }, [currentDrawingPath, isCurrentlyDrawing, renderDrawings]);
+        renderLive();
+    }, [renderLive]);
 
     // Handle window resize
     useEffect(() => {
         const handleResize = () => {
             renderDrawings();
+            renderLive();
         };
 
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
-    }, [renderDrawings]);
+    }, [renderDrawings, renderLive]);
 
     // Always render drawings (visible even when editor is closed)
     // Z-INDEX: 45 (ABOVE fog at 40, so drawings are always visible to aid players)
     // Drawings and text labels serve as visual aids and should be visible through fog
     return (
         <>
-            {/* Main drawing canvas */}
+            {/* Committed drawings */}
             <canvas
                 ref={canvasRef}
                 className="vtt-drawing-canvas"
@@ -882,8 +764,8 @@ const VTTDrawingEngine = () => {
                     pointerEvents: 'none'
                 }}
             />
-            
-            {/* Overlay canvas for current drawing */}
+
+            {/* Live stroke, selection handles and wall previews */}
             <canvas
                 ref={overlayCanvasRef}
                 className="vtt-drawing-overlay-canvas"

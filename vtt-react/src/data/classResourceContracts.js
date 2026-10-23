@@ -20,6 +20,8 @@ import { normalizeWardenResource, updateWardenResource, getWardenSpellResourcePl
 import { validateRehearsalState } from './classes/chaosWeaverRules';
 import { validateGamblerState } from './classes/gamblerData';
 import { validateFateWeaverState } from './classes/fateWeaverData';
+import { validateDeathcallerState } from './classes/deathcallerData';
+import { validateLichborneState } from './classes/lichborneData';
 
 export const CHAOS_WEAVER_TILE_RESOURCE_ID = 'chaos-weaver-tiles';
 
@@ -40,6 +42,8 @@ export function getManagedResourceId(resource, className) {
     if (name === 'gambit') return 'fortunePoints';
     if (name === 'gambler') return 'gambler-hand';
     if (name === 'fate weaver') return 'fate-links';
+    if (name === 'deathcaller') return 'dead-muster';
+    if (name === 'lichborne') return 'lich-anchor';
     if (name === 'martyr') return 'devotionGauge';
     if (name === 'apex') return 'quarryMarksCompanion';
     if (name === 'pyrofiend') return 'infernoVeil';
@@ -63,8 +67,10 @@ export function getManagedResourceId(resource, className) {
   }
   if (resource?.type === 'gambler-hand') return 'gambler-hand';
   if (resource?.type === 'fate-links') return 'fate-links';
+  if (resource?.type === 'dead-muster' || resource?.type === 'dead_muster') return 'dead-muster';
+  if (resource?.type === 'lich-anchor' || resource?.type === 'lich_anchor') return 'lich-anchor';
   const id = resolveClassResourceEngineId(resource?.type);
-  return ['fortunePoints', 'devotionGauge', 'quarryMarksCompanion', 'infernoVeil', 'kineticFluxBodyToll', 'arcaneEnergyPoints', 'authority', 'bloodHeat', 'mayhemGauge', 'radiantFervor', 'benediction-malediction', 'revenant-toll', 'ancestralResonance', 'madnessPoints', 'virulenceCultivation', 'timeShardsStrain', 'lunarPhases', 'toxinVialsContraptions', 'vengeance-points', 'fate-links', CHAOS_WEAVER_TILE_RESOURCE_ID].includes(id) ? id : getBankResourceId(resource);
+  return ['fortunePoints', 'devotionGauge', 'quarryMarksCompanion', 'infernoVeil', 'kineticFluxBodyToll', 'arcaneEnergyPoints', 'authority', 'bloodHeat', 'mayhemGauge', 'radiantFervor', 'benediction-malediction', 'revenant-toll', 'ancestralResonance', 'madnessPoints', 'virulenceCultivation', 'timeShardsStrain', 'lunarPhases', 'toxinVialsContraptions', 'vengeance-points', 'fate-links', 'dead-muster', 'lich-anchor', CHAOS_WEAVER_TILE_RESOURCE_ID].includes(id) ? id : getBankResourceId(resource);
 }
 
 export function getMartyrLevelForDamage(damage) {
@@ -135,6 +141,24 @@ export function normalizeManagedClassResource(resource, className) {
       current: check.valid && Array.isArray(state?.tokens) ? state.tokens.filter(token => token?.state === 'free').length : 0,
       max: 3, stateValid: check.valid, validationErrors: check.errors };
   }
+  if (id === 'dead-muster') {
+    // Legacy or foreign envelopes stay intact; only the CR-1 marker belongs here.
+    if (resource.type && !['dead-muster', 'dead_muster'].includes(resource.type)) return resource;
+    const state = resource.state ?? null;
+    const check = state ? validateDeathcallerState(state) : { valid: true, errors: [] };
+    return { ...resource, type: id, state, initialized: state !== null,
+      current: check.valid && Array.isArray(state?.manifestations) ? state.manifestations.length : 0,
+      max: 2, stateValid: check.valid, validationErrors: check.errors };
+  }
+  if (id === 'lich-anchor') {
+    // The removed legacy phylactery bar is not this CR-1 anchor.
+    if (resource.type && !['lich-anchor', 'lich_anchor'].includes(resource.type)) return resource;
+    const state = resource.state ?? null;
+    const check = state ? validateLichborneState(state) : { valid: true, errors: [] };
+    return { ...resource, type: id, state, initialized: state !== null,
+      current: check.valid && state ? finite(state.integrity) : 0,
+      max: 12, stateValid: check.valid, validationErrors: check.errors };
+  }
   if (id === CHAOS_WEAVER_TILE_RESOURCE_ID) return normalizeChaosWeaverResource(resource);
   if (id === 'quarryMarksCompanion') return normalizeApexResource(resource);
   if (id === 'infernoVeil') return normalizePyroResource(resource);
@@ -194,6 +218,7 @@ export function updateManagedClassResource(resource, className, field, value) {
   const id = getManagedResourceId(normalized, className);
   if (id === 'gambler-hand') return normalized; // Read-only: no generic scalar mutation or partial-state repair.
   if (id === 'fate-links') return normalized; // Read-only: links change only through authored manual operations.
+  if (id === 'dead-muster' || id === 'lich-anchor') return normalized; // Manual records change only through authored table events.
   if (id === 'infernoVeil') return updatePyroResource(normalized, field, value);
   if (id === 'kineticFluxBodyToll') return updateShaperResource(normalized, field, value);
   if (id === 'arcaneEnergyPoints') return updateSpellguardResource(normalized, field, value);
@@ -240,6 +265,11 @@ export function updateManagedClassResource(resource, className, field, value) {
 export function getClassResourceValue(resource, className, resourceKey) {
   const normalized = normalizeManagedClassResource(resource, className);
   if (getManagedResourceId(normalized, className) === 'fate-links') return finite(normalized?.current);
+  if (getManagedResourceId(normalized, className) === 'dead-muster') return finite(normalized?.current);
+  if (getManagedResourceId(normalized, className) === 'lich-anchor') {
+    if (['stage', 'undeathStage', 'undeath_stage'].includes(resourceKey)) return finite(normalized?.state?.undeathStage);
+    return finite(normalized?.current);
+  }
   if (getManagedResourceId(normalized, className) === 'benediction-malediction') return getAugurPoolValue(normalized, resourceKey);
   if (getManagedResourceId(normalized, className) === 'revenant-toll') return getRevenantPoolValue(normalized, resourceKey);
   if (getManagedResourceId(normalized, className) === 'virulenceCultivation' &&
@@ -265,6 +295,7 @@ export function changeManagedClassResource(resource, className, amount, resource
   // +/- amount never mutates the six-ID record.
   if (getManagedResourceId(normalized, className) === CHAOS_WEAVER_TILE_RESOURCE_ID) return normalized;
   if (getManagedResourceId(normalized, className) === 'fate-links') return normalized;
+  if (['dead-muster', 'lich-anchor'].includes(getManagedResourceId(normalized, className))) return normalized;
   if (getManagedResourceId(normalized, className) === 'benediction-malediction') {
     const pool = resourceKey === 'malediction' ? 'malediction' : 'benediction';
     return updateAugurResource(normalized, pool, getAugurPoolValue(normalized, pool) + amount);

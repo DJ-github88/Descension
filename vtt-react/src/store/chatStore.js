@@ -140,7 +140,7 @@ const useChatStore = create(
    // Announce that a creature's loot was rolled (and what, if anything, dropped).
    // Shows in the Loot tab + a one-line system message in Social, and is relayed to
    // everyone in the room so the GM and all players see it, even if nothing dropped.
-   addLootRollNotification: ({ creatureName = 'creature', dropped = [], roller = 'GM' } = {}) => {
+   addLootRollNotification: ({ creatureName = 'creature', dropped = [], roller = 'GM', creatureImage = null } = {}) => {
     const { addNotification, combatSyncSocket, combatSyncRoomId } = get();
     const nothingDropped = !dropped || dropped.length === 0;
     const content = nothingDropped
@@ -153,6 +153,9 @@ const useChatStore = create(
      dropped: dropped || [],
      nothingDropped,
      roller,
+     // Token portrait for the "Nothing dropped" popup. Skip inline data: images so
+     // the relay stays small; receivers fall back to a pouch icon.
+     creatureImage: (typeof creatureImage === 'string' && creatureImage.length < 2000 && !creatureImage.startsWith('data:')) ? creatureImage : null,
      content,
      sender: { name: 'Loot', class: 'system', level: 0 }
     };

@@ -341,4 +341,26 @@ describe('Talent Tree System Tests', () => {
     expect(useCharacterStore.getState().talents).toBe(before);
     expect(useSpellbookStore.getState().spells).toEqual([]);
   });
+
+  test('Deathcaller Codex tree exposes its authored tier ladder, signature and capstone', () => {
+    useCharacterStore.setState({ class: 'Deathcaller', level: 10, talents: {}, primarySpecialization: '' });
+    render(<TalentTreeContent customClass="Deathcaller" readOnly selectedTreeIndex={0} />);
+
+    expect(screen.getByText('Grave Marshal')).toBeInTheDocument();
+    expect(screen.getByText(/50 Capacity/)).toBeInTheDocument();
+    expect(screen.getByTitle(/Command Voice/)).toBeInTheDocument();
+    expect(screen.getByTitle(/Coordinated Muster/)).toBeInTheDocument();
+    expect(screen.getByTitle(/The Muster Eternal/)).toBeInTheDocument();
+  });
+
+  test('Lichborne Codex tree exposes its authored tier ladder, signature and capstone', () => {
+    useCharacterStore.setState({ class: 'Lichborne', level: 10, talents: {}, primarySpecialization: '' });
+    render(<TalentTreeContent customClass="Lichborne" readOnly selectedTreeIndex={0} />);
+
+    expect(screen.getByText('Rime Sovereign')).toBeInTheDocument();
+    expect(screen.getByText(/50 Capacity/)).toBeInTheDocument();
+    expect(screen.getByTitle(/Winter Affinity/)).toBeInTheDocument();
+    expect(screen.getByTitle(/Winter Edict/)).toBeInTheDocument();
+    expect(screen.getByTitle(/Winter Without End/)).toBeInTheDocument();
+  });
 });

@@ -2,19 +2,24 @@ import React, { useId, useRef } from 'react';
 import './resource-glyphs.css';
 
 /**
- * ResourceGlyph — painted SVG resource icons (replace the old PNG icons).
+ * ResourceGlyph — ink-and-wash SVG resource icons for the party HUD and target bars.
  *
- *   health → heart-shaped potion flask with brass collar and corked neck
- *   mana   → cut arcane crystal in a brass claw setting
- *   ap     → feathered winged boot on a brass-rimmed shield
+ *   health     → heart-shaped potion flask with a cork and brass lip
+ *   mana       → cut arcane crystal resting in a brass cradle
+ *   ap         → winged boot that fills with gold
+ *   exhaustion → brass-capped hourglass that drains as exhaustion rises
  *
- * Each glyph fills to the live ratio and moves through phases:
- *   max      full, soft breathing glow and a glint
+ * Drawn for ~40px: one ink weight, muted page-friendly colours, a single
+ * highlight and one craft detail each, so the glyphs read at a glance and sit
+ * calmly on the parchment frame.
+ *
+ * Phases (by fill ratio):
+ *   max      full, a slow glint
  *   high     filled to the ratio
- *   low      first hairline crack (AP: wing starts to droop)
- *   critical more cracks, the fill flickers (AP: wing trembles)
- *   empty    shattered: missing shard, split crystal, broken wing, fragments
- * `surplus` (temporary resources) adds a coloured aura on top of any phase.
+ *   low      a hairline crack (AP: wing starts to droop)
+ *   critical a second crack, the fill ebbs softly (AP: wing hangs low)
+ *   empty    broken: chipped glass, split crystal, snapped wing, spilled sand
+ * `surplus` (temporary resources) adds a soft coloured aura on top of any phase.
  */
 
 export const getResourcePhase = (current, max, kind) => {
@@ -39,14 +44,19 @@ export const getResourcePhase = (current, max, kind) => {
 /** Legacy four-state name kept for existing class hooks (vial-state-*, heart-state-*). */
 export const legacyStateFor = (phase) => (phase === 'critical' ? 'low' : phase);
 
-const INK = '#2c1f16';
-const PAGE = '#f8f5ee';
+/* One ink, one line weight: matches the frame's printed-sheet look. */
+const INK = '#34251a';
+const LINE = 3.4;
+const PAGE = '#f6f1e6';
+const SPENT_LIGHT = '#eee8dc';
+const SPENT_DARK = '#c9bfad';
 
+/* Muted, earthy pigments — readable on parchment without shouting. */
 const PALETTE = {
-    health: { hi: '#ff7a7f', fill: '#c0283c', deep: '#5e0b19', glow: '#e0485a', aura: '#ff6a5a', foam: '#ffc2c6' },
-    mana: { hi: '#bfe0ff', fill: '#3a74d6', deep: '#132a66', glow: '#4f8cf0', aura: '#6fb6ff', foam: '#d8ecff' },
-    ap: { hi: '#ffe39a', fill: '#d6a23c', deep: '#7c5513', glow: '#e8bf5c', aura: '#ffd36a', foam: '#fff1c4' },
-    exhaustion: { hi: '#d9c8f2', fill: '#7b4397', deep: '#250f36', glow: '#b79ae0', aura: '#9d4edd', foam: '#ffd56b' },
+    health: { hi: '#e08a86', fill: '#a8363c', deep: '#5c1a1f', aura: '#d0605f', foam: '#f3c4bd' },
+    mana: { hi: '#a9c2e6', fill: '#4a6fae', deep: '#1f3463', aura: '#7fa0d6', foam: '#dbe7f6' },
+    ap: { hi: '#f1d896', fill: '#c99a42', deep: '#7d5a1e', aura: '#ddb862', foam: '#fbefcf' },
+    exhaustion: { hi: '#e9cf8f', fill: '#c99a4e', deep: '#7c5a26', aura: '#a08ac0', foam: '#f6e6bd' },
 };
 
 const clamp01 = (n) => Math.min(1, Math.max(0, n));
@@ -58,169 +68,110 @@ let glyphCounter = 0;
 /* Shared bits                                                         */
 /* ------------------------------------------------------------------ */
 
-const Glow = ({ id, color, children }) => (
-    <g className="rg-glow" aria-hidden="true">
-        <defs>
-            <filter id={id} x="-40%" y="-40%" width="180%" height="180%">
-                <feGaussianBlur stdDeviation="6" />
-            </filter>
-        </defs>
-        <g filter={`url(#${id})`} fill={color}>{children}</g>
-    </g>
-);
-
 const Glint = ({ x, y, s = 1 }) => (
     <path
         className="rg-glint"
-        d={`M${x} ${y - 8 * s} L${x + 1.5 * s} ${y - 1.5 * s} L${x + 8 * s} ${y} L${x + 1.5 * s} ${y + 1.5 * s} L${x} ${y + 8 * s} L${x - 1.5 * s} ${y + 1.5 * s} L${x - 8 * s} ${y} L${x - 1.5 * s} ${y - 1.5 * s} Z`}
+        d={`M${x} ${y - 7 * s} Q${x + 1 * s} ${y - 1 * s} ${x + 7 * s} ${y} Q${x + 1 * s} ${y + 1 * s} ${x} ${y + 7 * s} Q${x - 1 * s} ${y + 1 * s} ${x - 7 * s} ${y} Q${x - 1 * s} ${y - 1 * s} ${x} ${y - 7 * s} Z`}
         fill="#fffdf6"
     />
 );
 
-const Crack = ({ d, w = 1.5 }) => (
+/** Hairline crack: ink line over a faint light edge so it reads on glass and fill alike. */
+const Crack = ({ d, w = 1.8 }) => (
     <g className="rg-crack">
-        <path d={d} fill="none" stroke="#ffffff" strokeWidth={w + 1.6} strokeLinecap="round" strokeLinejoin="round" opacity="0.45" />
+        <path d={d} fill="none" stroke="#fffaf0" strokeWidth={w + 1.4} strokeLinecap="round" strokeLinejoin="round" opacity="0.55" />
         <path d={d} fill="none" stroke={INK} strokeWidth={w} strokeLinecap="round" strokeLinejoin="round" />
     </g>
 );
 
-/** Brass gradient used by collars, rims and settings. */
-const BrassDefs = ({ id }) => (
+/** Soft aged brass — low contrast so fittings support the glyph instead of competing. */
+const BrassDefs = ({ id, tarnished = false }) => (
     <linearGradient id={id} x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0" stopColor="#f6e2a0" />
-        <stop offset="0.45" stopColor="#c9993f" />
-        <stop offset="1" stopColor="#7a5418" />
+        <stop offset="0" stopColor={tarnished ? '#c8b88f' : '#ead39a'} />
+        <stop offset="0.55" stopColor={tarnished ? '#9a8a66' : '#b98d45'} />
+        <stop offset="1" stopColor={tarnished ? '#6c6047' : '#7f5f27'} />
     </linearGradient>
 );
 
-const Rivet = ({ x, y, r = 2.2 }) => (
-    <g>
-        <circle cx={x} cy={y} r={r} fill="#8a6220" stroke={INK} strokeWidth="0.8" />
-        <circle cx={x - r * 0.3} cy={y - r * 0.3} r={r * 0.4} fill="#fbeec2" />
-    </g>
+/** Vertical liquid gradient: bright surface, rich body, deep base. */
+const LiquidDefs = ({ id, c }) => (
+    <linearGradient id={id} x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stopColor={c.hi} />
+        <stop offset="0.3" stopColor={c.fill} />
+        <stop offset="1" stopColor={c.deep} />
+    </linearGradient>
 );
 
-const GroundShadow = ({ cx = 50, cy = 119, rx = 26 }) => (
-    <ellipse cx={cx} cy={cy} rx={rx} ry="3.2" fill={INK} opacity="0.16" />
+const GlassDefs = ({ id, dulled = false }) => (
+    <radialGradient id={id} cx="0.35" cy="0.3" r="0.8">
+        <stop offset="0" stopColor="#fffdf8" />
+        <stop offset="0.6" stopColor={dulled ? '#e6e0d4' : '#f3eee4'} />
+        <stop offset="1" stopColor={dulled ? '#cfc7b8' : '#ddd5c5'} />
+    </radialGradient>
 );
 
 /* ------------------------------------------------------------------ */
 /* Heart flask (health)                                                */
 /* ------------------------------------------------------------------ */
 
-const HEART = 'M50 113 C22 94 8 75 9 55 C10 37 23 28 36 30 C43 31 48 35 50 40 C52 35 57 31 64 30 C77 28 90 37 91 55 C92 75 78 94 50 113 Z';
-const HEART_TOP = 30;
-const HEART_BOTTOM = 113;
-const BUBBLES = [[34, 92, 2.2], [58, 98, 1.6], [66, 80, 2.6], [42, 74, 1.4], [28, 70, 1.8], [72, 64, 1.5], [52, 58, 1.9]];
+const HEART = 'M50 114 C24 96 9 77 10 56 C11 39 23 30 36 31 C43 32 48 36 50 41 C52 36 57 32 64 31 C77 30 89 39 90 56 C91 77 76 96 50 114 Z';
+const HEART_TOP = 31;
+const HEART_BOTTOM = 114;
 
 const HeartFlask = ({ ratio, phase, uid }) => {
     const c = PALETTE.health;
     const shattered = phase === 'empty';
     const liquidTop = HEART_TOP + (1 - ratio) * (HEART_BOTTOM - HEART_TOP);
-    const swirlY = liquidTop + (HEART_BOTTOM - liquidTop) * 0.45;
     return (
         <>
-            <GroundShadow />
-            {phase === 'max' && <Glow id={`${uid}-g`} color={c.glow}><path d={HEART} /></Glow>}
             <defs>
                 <clipPath id={`${uid}-clip`}><path d={HEART} /></clipPath>
-                <radialGradient id={`${uid}-glass`} cx="0.36" cy="0.34" r="0.75">
-                    <stop offset="0" stopColor="#ffffff" />
-                    <stop offset="0.55" stopColor={shattered ? '#d9d6cf' : '#e9efec'} />
-                    <stop offset="1" stopColor={shattered ? '#a9a49a' : '#b4c2bd'} />
-                </radialGradient>
-                <linearGradient id={`${uid}-liq`} x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0" stopColor={c.hi} />
-                    <stop offset="0.25" stopColor={c.fill} />
-                    <stop offset="1" stopColor={c.deep} />
-                </linearGradient>
-                <radialGradient id={`${uid}-vig`} cx="0.42" cy="0.45" r="0.62">
-                    <stop offset="0.55" stopColor="#000000" stopOpacity="0" />
-                    <stop offset="1" stopColor="#1a0306" stopOpacity="0.55" />
-                </radialGradient>
-                <linearGradient id={`${uid}-cork`} x1="0" y1="0" x2="1" y2="0">
-                    <stop offset="0" stopColor="#7b4b26" />
-                    <stop offset="0.4" stopColor="#c99561" />
-                    <stop offset="1" stopColor="#6c4020" />
-                </linearGradient>
-                <linearGradient id={`${uid}-neck`} x1="0" y1="0" x2="1" y2="0">
-                    <stop offset="0" stopColor="#b9c6c1" />
-                    <stop offset="0.35" stopColor="#ffffff" />
-                    <stop offset="1" stopColor="#a8b6b1" />
-                </linearGradient>
+                <GlassDefs id={`${uid}-glass`} dulled={shattered} />
+                <LiquidDefs id={`${uid}-liq`} c={c} />
                 <BrassDefs id={`${uid}-brass`} />
             </defs>
 
-            {/* cork with grain */}
-            <path d="M40 4 C40 2 42 1 44 1 H56 C58 1 60 2 60 4 V15 H40 Z" fill={`url(#${uid}-cork)`} stroke={INK} strokeWidth="2" />
-            <path d="M44 5 V13 M49 3 V14 M54 5 V12" stroke="#5a3418" strokeWidth="0.9" opacity="0.6" />
-            {/* glass neck */}
-            <path d="M42 15 H58 V26 C58 28 60 30 63 31 L37 31 C40 30 42 28 42 26 Z" fill={`url(#${uid}-neck)`} stroke={INK} strokeWidth="2" strokeLinejoin="round" />
-            {/* brass collar with rivets and twine */}
-            <rect x="38" y="13" width="24" height="6" rx="2" fill={`url(#${uid}-brass)`} stroke={INK} strokeWidth="1.6" />
-            <Rivet x={42} y={16} r={1.3} />
-            <Rivet x={58} y={16} r={1.3} />
-            <path d="M42 22 L58 25 M42 25 L58 22" stroke="#8b6a44" strokeWidth="1.1" opacity="0.8" />
+            {/* neck, cork and brass lip — the one craft detail */}
+            <path d="M43 17 H57 V25 C57 28 59 30 62 31.5 H38 C41 30 43 28 43 25 Z" fill={`url(#${uid}-glass)`} stroke={INK} strokeWidth={LINE * 0.8} strokeLinejoin="round" />
+            <path d="M42 7 C42 5 44 4 46 4 H54 C56 4 58 5 58 7 V15 H42 Z" fill={shattered ? '#b8a68e' : '#b4875a'} stroke={INK} strokeWidth={LINE * 0.8} strokeLinejoin="round" />
+            <path d="M46 7 V13 M50 6 V13 M54 7 V13" stroke={INK} strokeWidth="0.9" opacity="0.3" strokeLinecap="round" />
+            <rect x="39.5" y="14" width="21" height="5.5" rx="2.75" fill={`url(#${uid}-brass)`} stroke={INK} strokeWidth="1.8" />
 
             {/* glass body */}
             <path d={HEART} fill={`url(#${uid}-glass)`} />
 
-            {/* liquid: depth gradient, inner swirl, bubbles, meniscus */}
+            {/* liquid with a soft meniscus */}
             {!shattered && ratio > 0 && (
                 <g clipPath={`url(#${uid}-clip)`} className="rg-fill">
                     <rect x="0" y={liquidTop} width="100" height={HEART_BOTTOM - liquidTop + 4} fill={`url(#${uid}-liq)`} />
-                    <path
-                        d={`M14 ${swirlY} C30 ${swirlY - 9} 44 ${swirlY + 10} 58 ${swirlY + 2} S80 ${swirlY - 8} 88 ${swirlY + 4}`}
-                        fill="none" stroke={c.hi} strokeWidth="3" strokeLinecap="round" opacity="0.35"
-                    />
-                    <path
-                        d={`M20 ${swirlY + 12} C36 ${swirlY + 4} 50 ${swirlY + 18} 70 ${swirlY + 12}`}
-                        fill="none" stroke={c.hi} strokeWidth="1.6" strokeLinecap="round" opacity="0.25"
-                    />
-                    {BUBBLES.filter(([, y]) => y > liquidTop + 4).map(([x, y, r]) => (
-                        <circle key={`${x}-${y}`} cx={x} cy={y} r={r} fill="none" stroke={c.foam} strokeWidth="0.9" opacity="0.75" />
-                    ))}
-                    <rect x="0" y={liquidTop} width="100" height={HEART_BOTTOM - liquidTop + 4} fill={`url(#${uid}-vig)`} />
-                    <ellipse cx="50" cy={liquidTop} rx="46" ry="2.4" fill={c.foam} opacity="0.55" />
+                    <path d={`M0 ${liquidTop + 1.2} H100`} stroke={c.foam} strokeWidth="2" opacity="0.7" />
                 </g>
             )}
 
-            {/* glass shine and rim light */}
-            {!shattered && (
-                <>
-                    <path d="M20 54 C19 43 26 36 35 36" fill="none" stroke="#ffffff" strokeWidth="4.5" strokeLinecap="round" opacity="0.8" />
-                    <circle cx="20" cy="62" r="1.8" fill="#ffffff" opacity="0.75" />
-                    <path d="M83 50 C85 64 78 80 64 94" fill="none" stroke="#ffffff" strokeWidth="2" strokeLinecap="round" opacity="0.4" />
-                </>
-            )}
-
-            {/* shattered: punched-out shard, dried stain at the bottom */}
+            {/* broken: dried residue and a punched-out chip */}
             {shattered && (
                 <>
                     <g clipPath={`url(#${uid}-clip)`}>
-                        <path d="M30 104 C40 100 60 100 70 104 L70 120 L30 120 Z" fill={c.deep} opacity="0.55" />
+                        <path d="M28 106 C40 101 60 101 72 106 V120 H28 Z" fill={c.deep} opacity="0.35" />
                     </g>
-                    <path d="M62 44 L77 40 L73 57 L64 52 Z" fill={PAGE} stroke={INK} strokeWidth="1.8" strokeLinejoin="round" />
+                    <path d="M63 45 L76 41 L72 56 L65 52 Z" fill={PAGE} stroke={INK} strokeWidth="1.8" strokeLinejoin="round" />
                 </>
             )}
 
-            <path d={HEART} fill="none" stroke={INK} strokeWidth="2.6" strokeLinejoin="round" />
+            {/* single curved highlight */}
+            <path d="M22 58 C20 47 26 40 35 39" fill="none" stroke="#ffffff" strokeWidth="4" strokeLinecap="round" opacity={shattered ? 0.35 : 0.75} />
 
-            {(phase === 'low' || phase === 'critical' || shattered) && <Crack d="M67 39 L70 47 L66 53 L71 61" />}
-            {(phase === 'critical' || shattered) && <Crack d="M30 49 L36 59 L32 67 L38 77" />}
+            <path d={HEART} fill="none" stroke={INK} strokeWidth={LINE} strokeLinejoin="round" />
+
+            {(phase === 'low' || phase === 'critical' || shattered) && <Crack d="M68 42 L71 50 L66 57 L71 65" />}
+            {(phase === 'critical' || shattered) && <Crack d="M30 54 L36 63 L32 71 L37 80" />}
             {shattered && (
-                <>
-                    <Crack d="M50 61 L56 71 L50 81 L54 93" w={1.7} />
-                    <Crack d="M64 52 L58 62" />
-                    <g className="rg-shards" stroke={INK} strokeWidth="1.2" strokeLinejoin="round">
-                        <path d="M28 116 L36 113 L34 120 Z" fill="#dfe5e2" />
-                        <path d="M60 117 L68 114 L66 121 Z" fill="#cfd8d4" />
-                        <path d="M76 111 L82 110 L79 116 Z" fill="#e6ece9" />
-                        <circle cx="45" cy="120" r="1.6" fill={c.fill} stroke="none" />
-                    </g>
-                </>
+                <g className="rg-shards" stroke={INK} strokeWidth="1.3" strokeLinejoin="round">
+                    <path d="M30 117 L38 114 L36 121 Z" fill="#e6e0d4" />
+                    <path d="M62 118 L70 115 L68 122 Z" fill="#d9d2c4" />
+                </g>
             )}
-            {phase === 'max' && <Glint x={30} y={45} s={0.9} />}
+            {phase === 'max' && <Glint x={31} y={50} s={0.75} />}
         </>
     );
 };
@@ -229,25 +180,18 @@ const HeartFlask = ({ ratio, phase, uid }) => {
 /* Arcane crystal (mana)                                               */
 /* ------------------------------------------------------------------ */
 
-const GEM = 'M50 4 L78 34 L72 98 L50 116 L28 98 L22 34 Z';
-const GEM_LEFT = 'M50 4 L50 116 L28 98 L22 34 Z';
-const GEM_RIGHT = 'M50 4 L78 34 L72 98 L50 116 Z';
-const GEM_TOP = 4;
-const GEM_BOTTOM = 116;
+const GEM = 'M50 5 L77 35 L71 96 L50 112 L29 96 L23 35 Z';
+const GEM_LEFT = 'M50 5 L50 112 L29 96 L23 35 Z';
+const GEM_RIGHT = 'M50 5 L77 35 L71 96 L50 112 Z';
+const GEM_TOP = 5;
+const GEM_BOTTOM = 112;
 
-// Facets, each with a light value (0 = lit side, 1 = shadow side).
+// Four broad facets (0 = lit, 1 = shadow) — enough to read as cut stone.
 const FACETS = [
-    ['M50 4 L22 34 L50 42 Z', 0.1],
-    ['M50 4 L78 34 L50 42 Z', 0.45],
-    ['M22 34 L50 42 L36 66 Z', 0.25],
-    ['M22 34 L36 66 L28 98 Z', 0.4],
-    ['M78 34 L50 42 L64 66 Z', 0.6],
-    ['M78 34 L64 66 L72 98 Z', 0.85],
-    ['M50 42 L36 66 L50 88 L64 66 Z', 0],
-    ['M28 98 L36 66 L50 88 Z', 0.5],
-    ['M28 98 L50 88 L50 116 Z', 0.65],
-    ['M72 98 L64 66 L50 88 Z', 0.75],
-    ['M72 98 L50 88 L50 116 Z', 0.95],
+    ['M50 5 L23 35 L50 45 Z', 0.05],
+    ['M50 5 L77 35 L50 45 Z', 0.4],
+    ['M23 35 L50 45 L50 112 L29 96 Z', 0.3],
+    ['M77 35 L50 45 L50 112 L71 96 Z', 0.8],
 ];
 
 const mix = (a, b, t) => {
@@ -256,31 +200,23 @@ const mix = (a, b, t) => {
     return `#${pa.map((v, i) => Math.round(v + (pb[i] - v) * t).toString(16).padStart(2, '0')).join('')}`;
 };
 
-const Facets = ({ light, dark }) => (
+const Facets = ({ light, dark, only }) => (
     <g>
-        {FACETS.map(([d, t]) => (
+        {FACETS.filter((_, i) => !only || only.includes(i)).map(([d, t]) => (
             <path key={d} d={d} fill={mix(light, dark, t)} />
         ))}
     </g>
 );
 
-const FacetLines = ({ opacity = 0.55 }) => (
-    <g fill="none" stroke={INK} strokeWidth="0.9" strokeLinejoin="round" opacity={opacity}>
-        <path d="M22 34 L50 42 L78 34" />
-        <path d="M50 4 L50 42 M50 88 L50 116" />
-        <path d="M28 98 L50 88 L72 98" />
-        <path d="M50 42 L36 66 L50 88 L64 66 Z" />
-        <path d="M22 34 L36 66 L28 98 M78 34 L64 66 L72 98" />
-    </g>
+const FacetLines = () => (
+    <path d="M23 35 L50 45 L77 35 M50 45 V112" fill="none" stroke={INK} strokeWidth="1.2" strokeLinejoin="round" opacity="0.5" />
 );
 
-const BrassSetting = ({ uid }) => (
+/** Brass cradle under the stone — the one craft detail. */
+const Cradle = ({ uid }) => (
     <g>
-        <path d="M22 86 L30 82 L33 104 L24 100 Z" fill={`url(#${uid}-brass)`} stroke={INK} strokeWidth="1.5" strokeLinejoin="round" />
-        <path d="M78 86 L70 82 L67 104 L76 100 Z" fill={`url(#${uid}-brass)`} stroke={INK} strokeWidth="1.5" strokeLinejoin="round" />
-        <path d="M36 108 Q50 124 64 108 L60 118 Q50 125 40 118 Z" fill={`url(#${uid}-brass)`} stroke={INK} strokeWidth="1.5" strokeLinejoin="round" />
-        <Rivet x={26} y={92} r={1.4} />
-        <Rivet x={74} y={92} r={1.4} />
+        <path d="M30 92 L37 106 Q50 120 63 106 L70 92" fill="none" stroke={INK} strokeWidth="6.4" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M30 92 L37 106 Q50 120 63 106 L70 92" fill="none" stroke={`url(#${uid}-brass)`} strokeWidth="3.4" strokeLinecap="round" strokeLinejoin="round" />
     </g>
 );
 
@@ -292,25 +228,21 @@ const ArcaneCrystal = ({ ratio, phase, uid }) => {
     if (shattered) {
         return (
             <g className="rg-split">
-                <GroundShadow rx={30} />
                 <defs><BrassDefs id={`${uid}-brass`} /></defs>
-                <g transform="translate(-6 4) rotate(-8 36 60)">
+                <g transform="translate(-5 3) rotate(-7 36 60)">
                     <clipPath id={`${uid}-l`}><path d={GEM_LEFT} /></clipPath>
-                    <g clipPath={`url(#${uid}-l)`}><Facets light="#e3e7ee" dark="#7d8696" /></g>
-                    <path d={GEM_LEFT} fill="none" stroke={INK} strokeWidth="2.3" strokeLinejoin="round" />
-                    <path d="M22 34 L50 42 M36 66 L50 88 M22 34 L36 66 L28 98" fill="none" stroke={INK} strokeWidth="0.9" opacity="0.5" />
+                    <g clipPath={`url(#${uid}-l)`}><Facets light={SPENT_LIGHT} dark={SPENT_DARK} /></g>
+                    <path d={GEM_LEFT} fill="none" stroke={INK} strokeWidth={LINE} strokeLinejoin="round" />
                 </g>
-                <g transform="translate(7 7) rotate(8 64 60)">
+                <g transform="translate(6 6) rotate(7 64 60)">
                     <clipPath id={`${uid}-r`}><path d={GEM_RIGHT} /></clipPath>
-                    <g clipPath={`url(#${uid}-r)`}><Facets light="#e3e7ee" dark="#7d8696" /></g>
-                    <path d={GEM_RIGHT} fill="none" stroke={INK} strokeWidth="2.3" strokeLinejoin="round" />
-                    <path d="M50 42 L78 34 M64 66 L50 88 M78 34 L64 66 L72 98" fill="none" stroke={INK} strokeWidth="0.9" opacity="0.5" />
+                    <g clipPath={`url(#${uid}-r)`}><Facets light={SPENT_LIGHT} dark={SPENT_DARK} /></g>
+                    <path d={GEM_RIGHT} fill="none" stroke={INK} strokeWidth={LINE} strokeLinejoin="round" />
                 </g>
-                <BrassSetting uid={uid} />
-                <g className="rg-shards" stroke={INK} strokeWidth="1.2" strokeLinejoin="round">
-                    <path d="M42 121 L49 116 L51 122 Z" fill="#d6dce6" />
-                    <path d="M60 119 L67 118 L63 123 Z" fill="#b8c1cf" />
-                    <path d="M14 112 L19 109 L19 115 Z" fill="#c9d0db" />
+                <Cradle uid={uid} />
+                <g className="rg-shards" stroke={INK} strokeWidth="1.3" strokeLinejoin="round">
+                    <path d="M44 120 L50 116 L52 122 Z" fill="#e2dccf" />
+                    <path d="M16 112 L21 109 L21 115 Z" fill="#d5cdbe" />
                 </g>
             </g>
         );
@@ -318,64 +250,47 @@ const ArcaneCrystal = ({ ratio, phase, uid }) => {
 
     return (
         <>
-            <GroundShadow rx={28} />
-            {phase === 'max' && <Glow id={`${uid}-g`} color={c.glow}><path d={GEM} /></Glow>}
             <defs>
                 <clipPath id={`${uid}-clip`}><path d={GEM} /></clipPath>
                 <clipPath id={`${uid}-lvl`}><rect x="0" y={level} width="100" height={GEM_BOTTOM - level + 2} /></clipPath>
-                <radialGradient id={`${uid}-core`} cx="0.5" cy="0.55" r="0.5">
-                    <stop offset="0" stopColor="#ffffff" stopOpacity="0.9" />
-                    <stop offset="0.35" stopColor={c.hi} stopOpacity="0.6" />
-                    <stop offset="1" stopColor={c.fill} stopOpacity="0" />
-                </radialGradient>
                 <BrassDefs id={`${uid}-brass`} />
             </defs>
 
-            {/* spent crystal: cloudy, grey-blue */}
+            {/* spent stone: pale, parchment-grey */}
             <g clipPath={`url(#${uid}-clip)`}>
-                <Facets light="#e6ebf2" dark="#8f9bb0" />
+                <Facets light={SPENT_LIGHT} dark={SPENT_DARK} />
             </g>
 
-            {/* charged part: deep blue facets with a glowing core */}
+            {/* charged part of the stone */}
             {ratio > 0 && (
                 <g clipPath={`url(#${uid}-lvl)`} className="rg-fill">
                     <g clipPath={`url(#${uid}-clip)`}>
-                        <Facets light="#9cc8ff" dark={c.deep} />
-                        <ellipse cx="50" cy="66" rx="20" ry="30" fill={`url(#${uid}-core)`} />
-                        <path d="M40 92 C44 80 56 76 52 62 C49 52 56 46 60 40" fill="none" stroke="#e6f2ff" strokeWidth="1.2" opacity="0.55" />
-                        <line x1="0" y1={level} x2="100" y2={level} stroke={c.foam} strokeWidth="1.6" opacity="0.9" />
+                        <Facets light={c.hi} dark={c.deep} />
+                        <line x1="0" y1={level + 1} x2="100" y2={level + 1} stroke={c.foam} strokeWidth="1.8" opacity="0.85" />
                     </g>
                 </g>
             )}
 
             <FacetLines />
             {/* table highlight */}
-            <path d="M28 36 L46 41 L35 62 Z" fill="#ffffff" opacity="0.35" />
-            <path d="M30 37 L44 41" stroke="#ffffff" strokeWidth="2.4" strokeLinecap="round" opacity="0.85" />
-            <path d={GEM} fill="none" stroke={INK} strokeWidth="2.6" strokeLinejoin="round" />
-            <BrassSetting uid={uid} />
+            <path d="M31 38 L45 43" stroke="#ffffff" strokeWidth="3" strokeLinecap="round" opacity="0.8" />
+            <path d={GEM} fill="none" stroke={INK} strokeWidth={LINE} strokeLinejoin="round" />
+            <Cradle uid={uid} />
 
-            {(phase === 'low' || phase === 'critical') && <Crack d="M66 46 L62 56 L68 64 L63 74" />}
-            {phase === 'critical' && <Crack d="M33 74 L40 82 L35 92" />}
-            {phase === 'max' && (
-                <>
-                    <Glint x={64} y={24} s={0.9} />
-                    <Glint x={36} y={80} s={0.55} />
-                </>
-            )}
+            {(phase === 'low' || phase === 'critical') && <Crack d="M64 48 L60 58 L66 66 L62 76" />}
+            {phase === 'critical' && <Crack d="M35 72 L41 80 L37 89" />}
+            {phase === 'max' && <Glint x={63} y={24} s={0.75} />}
         </>
     );
 };
 
 /* ------------------------------------------------------------------ */
-/* Winged boot on a shield (action points)                             */
+/* Winged boot (action points)                                         */
 /* ------------------------------------------------------------------ */
 
-const SHIELD = 'M14 17 C34 10 66 10 86 17 V60 C86 87 69 105 50 118 C31 105 14 87 14 60 Z';
-const FIELD = 'M21 22 C38 17 62 17 79 22 V60 C79 83 65 98 50 109 C35 98 21 83 21 60 Z';
-const FIELD_TOP = 18;
-const FIELD_BOTTOM = 109;
-const BOOT = 'M35 36 H56 V68 C64 70 74 74 78 80 C81 85 79 92 73 92 H33 C30 92 30 87 32 83 L35 74 Z';
+const BOOT = 'M44 24 H70 V68 C80 70 91 76 94 86 C96 93 92 99 85 99 H44 C40 99 38 96 39 92 Z';
+const BOOT_TOP = 24;
+const BOOT_BOTTOM = 99;
 
 const leaf = (bx, by, tx, ty, w) => {
     const dx = tx - bx;
@@ -386,427 +301,170 @@ const leaf = (bx, by, tx, ty, w) => {
     const mx = bx + dx * 0.55;
     const my = by + dy * 0.55;
     const f = (n) => n.toFixed(1);
-    return `M${f(bx)} ${f(by)} Q${f(mx + nx * w)} ${f(my + ny * w)} ${f(tx)} ${f(ty)} Q${f(mx - nx * w * 0.5)} ${f(my - ny * w * 0.5)} ${f(bx)} ${f(by)} Z`;
+    return `M${f(bx)} ${f(by)} Q${f(mx + nx * w)} ${f(my + ny * w)} ${f(tx)} ${f(ty)} Q${f(mx - nx * w * 0.45)} ${f(my - ny * w * 0.45)} ${f(bx)} ${f(by)} Z`;
 };
 
-// Feathers fan from the heel of the wing; back row first.
-const FEATHERS = [
-    [56, 46, 88, 6, 11],
-    [56, 48, 94, 20, 10],
-    [56, 50, 95, 34, 9],
-    [56, 51, 88, 47, 8],
-];
-const FEATHERS_BROKEN = [
-    [56, 49, 74, 32, 8],
-    [56, 51, 80, 46, 7],
-];
+// Wing silhouette: rounded leading edge, scalloped primaries; base hides behind the shaft.
+const WING = 'M58 38 C46 28 30 15 10 9 C3 8 1 14 7 18 L12 21 C3 24 3 31 10 32 L15 34 C6 39 8 46 15 46 L21 47 C14 53 18 59 25 57 L31 57 C28 63 34 66 40 62 L58 58 Z';
+const WING_VEINS = 'M54 44 L13 21 M54 47 L16 34 M54 50 L22 47 M55 53 L32 57';
+const WING_COVERT = 'M57 41 C47 37 37 36 29 38 C34 43 44 46 57 47';
+const WING_BROKEN = 'M58 46 C48 43 38 43 28 46 L33 49 L26 53 L32 55 C29 60 34 63 40 61 L58 58 Z';
 
 const WingedBoot = ({ ratio, phase, uid }) => {
     const c = PALETTE.ap;
     const shattered = phase === 'empty';
-    const level = FIELD_TOP + (1 - ratio) * (FIELD_BOTTOM - FIELD_TOP);
-    const droop = phase === 'critical' ? 'rotate(26 57 49)' : phase === 'low' ? 'rotate(12 57 49)' : undefined;
-    const feathers = shattered ? FEATHERS_BROKEN : FEATHERS;
+    const level = BOOT_TOP + (1 - ratio) * (BOOT_BOTTOM - BOOT_TOP);
+    const droop = phase === 'critical' ? 'rotate(-22 54 50)' : phase === 'low' ? 'rotate(-10 54 50)' : undefined;
 
     return (
         <>
-            <GroundShadow rx={30} />
-            {phase === 'max' && <Glow id={`${uid}-g`} color={c.glow}><path d={SHIELD} /></Glow>}
             <defs>
-                <clipPath id={`${uid}-clip`}><path d={FIELD} /></clipPath>
+                <clipPath id={`${uid}-clip`}><path d={BOOT} /></clipPath>
+                <LiquidDefs id={`${uid}-charge`} c={c} />
                 <BrassDefs id={`${uid}-brass`} />
-                <radialGradient id={`${uid}-field`} cx="0.4" cy="0.3" r="0.8">
-                    <stop offset="0" stopColor={shattered ? '#e2ddd3' : '#fbf6ea'} />
-                    <stop offset="1" stopColor={shattered ? '#b9b1a3' : '#d9ccb0'} />
-                </radialGradient>
-                <linearGradient id={`${uid}-charge`} x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0" stopColor={c.hi} />
-                    <stop offset="0.4" stopColor={c.fill} />
-                    <stop offset="1" stopColor={c.deep} />
-                </linearGradient>
-                <linearGradient id={`${uid}-leather`} x1="0" y1="0" x2="1" y2="0">
-                    <stop offset="0" stopColor={shattered ? '#8c8478' : '#5a341b'} />
-                    <stop offset="0.4" stopColor={shattered ? '#b3aa9c' : '#9a6234'} />
-                    <stop offset="1" stopColor={shattered ? '#7c7468' : '#4a2a14'} />
-                </linearGradient>
-                <linearGradient id={`${uid}-feather`} x1="0" y1="1" x2="1" y2="0">
-                    <stop offset="0" stopColor={shattered ? '#d6cfc2' : '#efe6d2'} />
-                    <stop offset="1" stopColor="#ffffff" />
-                </linearGradient>
             </defs>
 
-            {/* brass rim and field */}
-            <path d={SHIELD} fill={`url(#${uid}-brass)`} stroke={INK} strokeWidth="2.4" strokeLinejoin="round" />
-            <path d={FIELD} fill={`url(#${uid}-field)`} stroke={INK} strokeWidth="1.4" strokeLinejoin="round" />
+            {/* wing first, so it grows out from behind the shaft */}
+            <g className="rg-wing" transform={droop}>
+                <path d={shattered ? WING_BROKEN : WING} fill={shattered ? '#e6dfd2' : '#fbf7ee'} stroke={INK} strokeWidth="2.6" strokeLinejoin="round" />
+                {!shattered && (
+                    <>
+                        <path d={WING_VEINS} fill="none" stroke={INK} strokeWidth="1.1" strokeLinecap="round" opacity="0.35" />
+                        <path d={WING_COVERT} fill={`url(#${uid}-brass)`} stroke={INK} strokeWidth="1.8" strokeLinejoin="round" />
+                    </>
+                )}
+                {shattered && <path d="M28 46 L33 49 L26 53" fill="none" stroke={INK} strokeWidth="1.6" strokeLinejoin="round" />}
+            </g>
+
+            {/* boot: empty leather is pale; AP fills it with gold */}
+            <path d={BOOT} fill={shattered ? '#e3dccf' : PAGE} />
             {!shattered && ratio > 0 && (
                 <g clipPath={`url(#${uid}-clip)`} className="rg-fill">
-                    <rect x="0" y={level} width="100" height={FIELD_BOTTOM - level + 2} fill={`url(#${uid}-charge)`} opacity="0.8" />
-                    <line x1="0" y1={level} x2="100" y2={level} stroke={c.foam} strokeWidth="1.6" opacity="0.9" />
+                    <rect x="0" y={level} width="100" height={BOOT_BOTTOM - level + 2} fill={`url(#${uid}-charge)`} />
+                    <path d={`M0 ${level + 1} H100`} stroke={c.foam} strokeWidth="1.8" opacity="0.8" />
                 </g>
             )}
-            <Rivet x={20} y={19} />
-            <Rivet x={80} y={19} />
-            <Rivet x={17} y={62} />
-            <Rivet x={83} y={62} />
-            <Rivet x={50} y={113} r={1.8} />
+            <path d={BOOT} fill="none" stroke={INK} strokeWidth={LINE} strokeLinejoin="round" />
 
-            {/* boot: leather shading, folded cuff, laces, brass buckle, sole */}
-            <path d={BOOT} fill={`url(#${uid}-leather)`} stroke={INK} strokeWidth="2.2" strokeLinejoin="round" />
-            <path d="M33 36 H58 V45 H33 Z" fill={shattered ? '#a59d90' : '#b47a45'} stroke={INK} strokeWidth="1.8" strokeLinejoin="round" />
-            <path d="M40 50 L52 56 M52 50 L40 56 M40 58 L52 64 M52 58 L40 64" stroke={shattered ? '#e4ded2' : '#efe3c8'} strokeWidth="1.2" strokeLinecap="round" />
-            <path d="M60 72 C68 74 74 77 76 82" fill="none" stroke={shattered ? '#d2cabd' : '#d29a63'} strokeWidth="1.4" opacity="0.8" />
-            <rect x="36" y="68" width="9" height="7" rx="1.2" fill="none" stroke={`url(#${uid}-brass)`} strokeWidth="2" />
-            <path d="M31 88 C31 92 33 94 36 94 H74 C78 94 81 92 80 88" fill="none" stroke={INK} strokeWidth="3" strokeLinecap="round" />
-            <path d="M33 85 H76" stroke="#2a170b" strokeWidth="1" strokeDasharray="2 2" opacity="0.6" />
+            {/* folded brass-trimmed cuff and sole — the craft detail */}
+            <path d="M41 18 H73 C74 18 75 19 75 20 V29 C75 30 74 31 73 31 H41 C40 31 39 30 39 29 V20 C39 19 40 18 41 18 Z" fill={`url(#${uid}-brass)`} stroke={INK} strokeWidth="2.4" strokeLinejoin="round" />
+            <path d="M38 99 H88 C93 99 96 101 95 104 C94 107 91 108 88 108 H41 C38 108 36 106 37 103 Z" fill="#5d4532" stroke={INK} strokeWidth="2.2" strokeLinejoin="round" />
 
-            {/* wing: proud when full, droops as AP runs low, snaps when empty */}
-            {/* mirrored so the wing sprouts from the heel (back of the boot, toe points right) */}
-            <g transform="translate(35 0) scale(-0.8 1) translate(-56 0)">
-            <g className="rg-wing" transform={droop}>
-                {feathers.map(([bx, by, tx, ty, w]) => (
-                    <g key={`${tx}-${ty}`}>
-                        <path d={leaf(bx, by, tx, ty, w)} fill={`url(#${uid}-feather)`} stroke={INK} strokeWidth="1.6" strokeLinejoin="round" />
-                        <path d={`M${bx} ${by} L${bx + (tx - bx) * 0.85} ${by + (ty - by) * 0.85}`} stroke="#b9a98a" strokeWidth="0.8" />
-                    </g>
-                ))}
-                {/* gilded coverts at the heel of the wing */}
-                <path
-                    d="M52 52 C55 40 64 34 74 33 C72 40 68 46 62 50 C66 50 70 50 72 49 C68 54 62 56 54 56 Z"
-                    fill={shattered ? '#b9b1a3' : `url(#${uid}-brass)`}
-                    stroke={INK} strokeWidth="1.6" strokeLinejoin="round"
-                />
-                {shattered && <path d="M76 30 L74 36 L79 37 L76 42" fill="none" stroke={INK} strokeWidth="1.4" strokeLinejoin="round" />}
-            </g>
-            </g>
-
-            {(phase === 'critical' || shattered) && <Crack d="M27 30 L32 40 L28 50" />}
+            {(phase === 'critical' || shattered) && <Crack d="M63 40 L58 50 L63 58" />}
             {shattered && (
                 <>
-                    <Crack d="M50 96 L46 103 L51 108" w={1.7} />
-                    <Crack d="M76 58 L70 64" />
-                    <g className="rg-shards" stroke={INK} strokeWidth="1.2" strokeLinejoin="round">
-                        <path d={leaf(84, 112, 96, 100, 3)} fill="#e9e2d4" />
-                        <path d={leaf(88, 120, 99, 114, 2.5)} fill="#ddd5c6" />
+                    <Crack d="M80 76 L75 85" />
+                    <g className="rg-shards" stroke={INK} strokeWidth="1.3" strokeLinejoin="round">
+                        <path d={leaf(8, 118, 26, 110, 5)} fill="#ece6da" />
                     </g>
                 </>
             )}
-            {phase === 'max' && <Glint x={30} y={28} s={0.8} />}
+            {phase === 'max' && <Glint x={61} y={44} s={0.7} />}
         </>
     );
 };
 
 /* ------------------------------------------------------------------ */
-/* Hourglass of Vitality (exhaustion)                                  */
+/* Hourglass (exhaustion)                                              */
 /* ------------------------------------------------------------------ */
 
-const HG_GLASS = 'M33 18 C31 32 31 46 45 60 C47 62 47 62 45 64 C31 78 31 92 33 104 H67 C69 92 69 78 55 64 C53 62 53 62 55 60 C69 46 69 32 67 18 Z';
+const HG_GLASS = 'M33 19 C31 33 32 46 45 59 C47 61 47 63 45 65 C32 78 31 91 33 105 H67 C69 91 68 78 55 65 C53 63 53 61 55 59 C68 46 69 33 67 19 Z';
 
-export const ExhaustionHourglass = ({ current = 0, phase, uid, stage: propStage }) => {
+export const ExhaustionHourglass = ({ current = 0, uid, stage: propStage }) => {
     const stage = propStage !== undefined
         ? propStage
         : Math.min(6, Math.max(0, Math.round(Number(current) || 0)));
-    const c = PALETTE.exhaustion;
     const shattered = stage === 6;
+    const weary = stage >= 4;
 
-    // Top bulb sand fill levels (y coordinate of top sand surface, draining down to waist at 62)
-    const topSandTops = [22, 28, 37, 45, 53, 61, 62];
-    const topSandY = topSandTops[stage];
+    // Top bulb sand surface (drains toward the waist at 62).
+    const topSandY = [24, 31, 38, 45, 52, 59, 62][stage];
+    // Bottom bulb mound surface (rises from 105).
+    const btmSandY = [105, 98, 90, 82, 75, 69, 105][stage];
 
-    // Bottom bulb sand mound levels (y coordinate of sand surface rising from 104)
-    const btmSandTops = [104, 98, 88, 78, 70, 64, 104];
-    const btmSandY = btmSandTops[stage];
-
-    // Waist bezel gem colors across stages
-    const gemColors = ['#fff59d', '#f59e0b', '#f59e0b', '#d97706', '#8b5cf6', '#7c3aed', '#180824'];
-    const gemGlows = ['#ffd56b', '#f59e0b', '#f59e0b', '#d97706', '#c084fc', '#a855f7', '#3b184a'];
+    const sandHi = weary ? '#c7b7cf' : '#ecd193';
+    const sandMid = weary ? '#9a86a8' : '#c99a4e';
+    const sandDeep = weary ? '#5e4b6e' : '#7c5a26';
 
     return (
         <g className={`rg-exhaustion-stage-${stage}`}>
-            <GroundShadow rx={28} />
-            {stage === 0 && (
-                <Glow id={`${uid}-g`} color={c.glow}>
-                    <path d={HG_GLASS} />
-                </Glow>
-            )}
-            {stage >= 4 && !shattered && (
-                <Glow id={`${uid}-dark`} color={c.aura}>
-                    <ellipse cx="50" cy="85" rx="16" ry="18" />
-                </Glow>
-            )}
-
             <defs>
                 <clipPath id={`${uid}-glass-clip`}><path d={HG_GLASS} /></clipPath>
-                <BrassDefs id={`${uid}-brass`} />
-                <linearGradient id={`${uid}-brass-tarnished`} x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0" stopColor="#bfa36c" />
-                    <stop offset="0.5" stopColor="#7a6136" />
-                    <stop offset="1" stopColor="#403018" />
+                <BrassDefs id={`${uid}-brass`} tarnished={weary} />
+                <linearGradient id={`${uid}-sand`} x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0" stopColor={sandHi} />
+                    <stop offset="0.35" stopColor={sandMid} />
+                    <stop offset="1" stopColor={sandDeep} />
                 </linearGradient>
-                <linearGradient id={`${uid}-sand-gold`} x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0" stopColor="#fff3a8" />
-                    <stop offset="0.3" stopColor="#e5a828" />
-                    <stop offset="1" stopColor="#8f5713" />
-                </linearGradient>
-                <linearGradient id={`${uid}-sand-shadow`} x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0" stopColor={stage >= 4 ? '#5b2b73' : '#b27a38'} />
-                    <stop offset="0.5" stopColor={stage >= 4 ? '#38164a' : '#734418'} />
-                    <stop offset="1" stopColor="#1e0929" />
-                </linearGradient>
-                <radialGradient id={`${uid}-glass-tint`} cx="0.4" cy="0.3" r="0.75">
-                    <stop offset="0" stopColor="#ffffff" stopOpacity="0.45" />
-                    <stop offset="0.55" stopColor={stage >= 3 ? '#e0d2eb' : '#f0f4f5'} stopOpacity="0.25" />
-                    <stop offset="1" stopColor={stage >= 4 ? '#683f7a' : '#99b0aa'} stopOpacity={stage >= 4 ? '0.45' : '0.3'} />
-                </radialGradient>
+                <GlassDefs id={`${uid}-glass`} dulled={stage >= 3} />
             </defs>
 
-            {/* Inner glass background */}
-            {!shattered && <path d={HG_GLASS} fill={`url(#${uid}-glass-tint)`} />}
+            {/* posts behind the glass */}
+            <rect x="26" y="18" width="4" height="88" fill={`url(#${uid}-brass)`} stroke={INK} strokeWidth="1.8" transform={shattered ? 'rotate(-5 28 106)' : undefined} />
+            <rect x="70" y="18" width="4" height="88" fill={`url(#${uid}-brass)`} stroke={INK} strokeWidth="1.8" />
 
-            {/* Bottom Bulb Sand (conical dune with natural slope) */}
-            {!shattered && stage > 0 && btmSandY < 104 && (
+            <path d={HG_GLASS} fill={`url(#${uid}-glass)`} />
+
+            {/* sand */}
+            {!shattered && (
                 <g clipPath={`url(#${uid}-glass-clip)`} className="rg-fill">
-                    <path
-                        d={`M32 105 L32 ${Math.min(104, btmSandY + 12)} Q40 ${btmSandY + 3} 50 ${btmSandY} Q60 ${btmSandY + 3} 68 ${Math.min(104, btmSandY + 12)} L68 105 Z`}
-                        fill={`url(#${uid}-sand-shadow)`}
-                    />
-                    {/* Shadow skull silhouette inside lower sand at stages 4 and 5 */}
-                    {stage >= 4 && (
-                        <g opacity={stage === 5 ? '0.9' : '0.7'}>
-                            {/* Cranium */}
-                            <path d="M42 83 C42 74 58 74 58 83 C58 89 56 92 55 95 H45 C44 92 42 89 42 83 Z" fill="#160522" stroke={INK} strokeWidth="1" />
-                            {/* Eye sockets with pulsing violet soul embers */}
-                            <circle cx="46" cy="83" r="2.2" fill="#2d0b3b" stroke={INK} strokeWidth="0.8" />
-                            <circle cx="54" cy="83" r="2.2" fill="#2d0b3b" stroke={INK} strokeWidth="0.8" />
-                            <circle cx="46" cy="83" r="1.1" fill="#e0b8ff" className="rg-soul-eye" />
-                            <circle cx="54" cy="83" r="1.1" fill="#e0b8ff" className="rg-soul-eye" />
-                            {/* Nasal cavity */}
-                            <path d="M49 87 L51 87 L50 90 Z" fill="#2d0b3b" />
-                            {/* Teeth marks */}
-                            <path d="M47 93 V96 M50 92 V96 M53 93 V96" stroke={INK} strokeWidth="0.9" />
-                        </g>
+                    {topSandY < 61 && (
+                        <path d={`M20 ${topSandY} Q50 ${topSandY + (stage === 0 ? 0 : 5)} 80 ${topSandY} V64 H20 Z`} fill={`url(#${uid}-sand)`} />
+                    )}
+                    {btmSandY < 105 && (
+                        <path d={`M20 106 V${Math.min(105, btmSandY + 11)} Q36 ${btmSandY + 2} 50 ${btmSandY} Q64 ${btmSandY + 2} 80 ${Math.min(105, btmSandY + 11)} V106 Z`} fill={`url(#${uid}-sand)`} />
                     )}
                 </g>
             )}
 
-            {/* Falling Sand Trickle (stages 1 to 5) with animated flowing dash */}
+            {/* falling thread of sand */}
             {!shattered && stage >= 1 && stage <= 4 && (
                 <g className="rg-stream">
-                    {/* Shimmer glow */}
-                    <line x1="50" y1="60" x2="50" y2={btmSandY} stroke="#e5a828" strokeWidth="2.8" opacity="0.35" />
-                    {/* Flowing center stream */}
-                    <line x1="50" y1="60" x2="50" y2={btmSandY} stroke="#fff1a8" strokeWidth="1.6" strokeDasharray="4 2" className="rg-stream-flow" />
-                    {/* Airborne falling grains */}
-                    <circle cx="49" cy={60 + (btmSandY - 60) * 0.35} r="1.1" fill="#fff5b8" opacity="0.85" />
-                    <circle cx="51.2" cy={60 + (btmSandY - 60) * 0.7} r="1" fill="#ffe285" opacity="0.8" />
-                    {/* Impact splash at dune peak */}
-                    <ellipse cx="50" cy={btmSandY} rx="3" ry="1.2" fill="#fff9c7" opacity="0.8" />
+                    <line x1="50" y1="63" x2="50" y2={btmSandY} stroke={sandMid} strokeWidth="1.6" strokeDasharray="3 2" className="rg-stream-flow" />
                 </g>
             )}
             {!shattered && stage === 5 && (
-                <g className="rg-stream" opacity="0.75">
-                    {/* Broken stream drops */}
-                    <line x1="50" y1="61" x2="50" y2="65" stroke="#ffd56b" strokeWidth="1.2" />
-                    <circle cx="50" cy="73" r="1.2" fill="#ffd56b" />
-                    <circle cx="50.4" cy="82" r="1" fill="#ffd56b" />
+                <g className="rg-stream" fill={sandMid}>
+                    <circle cx="50" cy="67" r="1.2" />
+                    <circle cx="50" cy="73" r="1" />
                 </g>
             )}
 
-            {/* Top Bulb Sand (funnel vortex dip toward the waist) */}
-            {!shattered && stage < 5 && topSandY < 62 && (
-                <g clipPath={`url(#${uid}-glass-clip)`} className="rg-fill">
-                    <path
-                        d={`M28 ${topSandY} Q50 ${topSandY + (stage === 0 ? 0 : 5)} 72 ${topSandY} L72 63 L28 63 Z`}
-                        fill={`url(#${uid}-sand-gold)`}
-                    />
-                    {/* Top sand surface curve highlight */}
-                    <path d={`M30 ${topSandY} Q50 ${topSandY + (stage === 0 ? 0 : 4)} 70 ${topSandY}`} fill="none" stroke="#fff7c2" strokeWidth="1.2" opacity="0.65" />
-                    {/* Gold sand granular stippling */}
-                    <g fill="#ffeaa0" opacity="0.6">
-                        <circle cx="42" cy="38" r="0.8" />
-                        <circle cx="57" cy="42" r="0.7" />
-                        <circle cx="38" cy="49" r="0.8" />
-                        <circle cx="53" cy="53" r="0.7" />
-                    </g>
-                    {/* Stage 0 vitality sigil: Sun of Vitality */}
-                    {stage === 0 && (
-                        <g className="rg-vitality-star">
-                            <circle cx="50" cy="38" r="5" fill="none" stroke="#ffffff" strokeWidth="1.2" opacity="0.8" />
-                            <path d="M50 30 V46 M42 38 H58 M44 32 L56 44 M44 44 L56 32" stroke="#ffffff" strokeWidth="1.1" strokeLinecap="round" opacity="0.85" />
-                        </g>
-                    )}
-                </g>
-            )}
-            {/* Stage 5: Dying grains in top bulb */}
-            {!shattered && stage === 5 && (
-                <g fill="#ffd56b" stroke={INK} strokeWidth="0.6">
-                    <circle cx="47" cy="58" r="1.3" />
-                    <circle cx="52" cy="59" r="1.1" />
-                    <circle cx="50" cy="61" r="1.2" />
+            {/* stage 0: a small sparkle of vitality in the full bulb */}
+            {stage === 0 && (
+                <g className="rg-vitality-star">
+                    <Glint x={50} y={38} s={0.6} />
                 </g>
             )}
 
-            {/* Glass Highlights */}
-            {!shattered && (
-                <>
-                    <path d="M35 24 C33 34 35 46 44 56" fill="none" stroke="#ffffff" strokeWidth="2.2" strokeLinecap="round" opacity="0.75" />
-                    <path d="M65 72 C67 82 66 94 58 102" fill="none" stroke="#ffffff" strokeWidth="1.8" strokeLinecap="round" opacity="0.45" />
-                    <circle cx="36" cy="22" r="1.5" fill="#ffffff" opacity="0.8" />
-                </>
-            )}
+            {/* glass highlight + outline */}
+            <path d="M37 25 C35 35 37 46 44 54" fill="none" stroke="#ffffff" strokeWidth="2.8" strokeLinecap="round" opacity={shattered ? 0.3 : 0.75} />
+            <path d={HG_GLASS} fill="none" stroke={INK} strokeWidth={LINE * 0.85} strokeLinejoin="round" />
 
-            {/* Glass Outer Stroke */}
-            {!shattered && <path d={HG_GLASS} fill="none" stroke={INK} strokeWidth="2.2" strokeLinejoin="round" />}
+            {/* wear builds up with the stages */}
+            {stage >= 2 && <Crack d="M37 30 L41 38 L37 45" />}
+            {stage >= 4 && <Crack d="M63 80 L58 88 L63 96" />}
+            {stage >= 5 && <path d="M62 35 L67 42 L60 44 Z" fill={PAGE} stroke={INK} strokeWidth="1.6" strokeLinejoin="round" />}
 
-            {/* Cracks across stages */}
-            {stage === 2 && <Crack d="M36 29 L41 37 L37 45" />}
-            {stage === 3 && (
-                <>
-                    <Crack d="M36 29 L41 37 L37 45 L43 51" />
-                    <Crack d="M63 78 L59 86 L64 94" />
-                </>
-            )}
-            {stage === 4 && (
-                <>
-                    <Crack d="M34 27 L41 37 L36 46 L44 54" w={1.7} />
-                    <Crack d="M63 76 L57 85 L64 95" w={1.6} />
-                    <Crack d="M48 34 L54 41" />
-                </>
-            )}
-            {stage === 5 && (
-                <>
-                    <Crack d="M33 26 L42 36 L36 46 L45 56" w={2} />
-                    <Crack d="M64 74 L56 84 L64 96" w={1.8} />
-                    <Crack d="M46 32 L55 40 L51 48" />
-                    {/* Missing chip */}
-                    <path d="M64 36 L68 43 L61 45 Z" fill={PAGE} stroke={INK} strokeWidth="1.6" strokeLinejoin="round" />
-                </>
-            )}
-
-            {/* Stage 6 Shattered & Carved Death Skull Motif */}
+            {/* broken: sand spilled on the ground */}
             {shattered && (
                 <>
-                    {/* Jagged glass shards clinging to rims */}
-                    <g opacity="0.8">
-                        <path d="M33 18 L38 34 L43 28 L50 38 L57 26 L63 36 L67 18 Z" fill="#e5dfd5" stroke={INK} strokeWidth="1.8" strokeLinejoin="round" />
-                        <path d="M33 104 L37 90 L43 98 L50 88 L58 100 L64 89 L67 104 Z" fill="#cfc8bd" stroke={INK} strokeWidth="1.8" strokeLinejoin="round" />
-                    </g>
-                    {/* Spilled ash & sand heap on base and ground */}
-                    <path d="M18 114 C28 108 72 108 82 114 L78 121 H22 Z" fill="#241030" stroke={INK} strokeWidth="1.8" />
-                    <ellipse cx="50" cy="114" rx="26" ry="3.5" fill="#4d2b5c" opacity="0.6" />
-
-                    {/* Escaping ghostly soul wisps */}
-                    <path d="M47 50 Q43 40 48 30 Q53 20 49 12" fill="none" stroke="#c084fc" strokeWidth="1.2" opacity="0.55" strokeDasharray="3 3" />
-                    <path d="M53 54 Q57 44 52 34 Q47 24 51 16" fill="none" stroke="#c084fc" strokeWidth="1" opacity="0.45" strokeDasharray="3 3" />
-
-                    {/* Central carved bone skull talisman of death */}
-                    <g transform="translate(0, 8)">
-                        {/* Cranium */}
-                        <path
-                            d="M39 52 C39 39 61 39 61 52 C61 60 58 64 57 70 H43 C42 64 39 60 39 52 Z"
-                            fill="#ede6d8" stroke={INK} strokeWidth="2.2" strokeLinejoin="round"
-                        />
-                        {/* Cranium brow crack */}
-                        <path d="M49 41 L52 47 L48 53" fill="none" stroke={INK} strokeWidth="1.2" />
-                        {/* Hollow Eyes */}
-                        <circle cx="45" cy="52" r="3.2" fill="#1b0824" stroke={INK} strokeWidth="1" />
-                        <circle cx="55" cy="52" r="3.2" fill="#1b0824" stroke={INK} strokeWidth="1" />
-                        {/* Nasal cavity */}
-                        <path d="M49 57 L51 57 L50 60 Z" fill="#1b0824" />
-                        {/* Teeth lines */}
-                        <path d="M46 66 V70 M50 65 V70 M54 66 V70" stroke={INK} strokeWidth="1.2" />
-                    </g>
-
-                    {/* Glass shards on floor */}
-                    <g className="rg-shards" stroke={INK} strokeWidth="1.2" strokeLinejoin="round">
-                        <path d="M18 118 L25 115 L23 121 Z" fill="#e8e2d5" />
-                        <path d="M74 117 L82 115 L79 122 Z" fill="#dcd5c8" />
-                        <path d="M58 120 L65 118 L63 122 Z" fill="#ede8dc" />
-                        <circle cx="32" cy="119" r="1.1" fill="#ffeaa0" />
-                        <circle cx="68" cy="119" r="1" fill="#2d123d" />
+                    <Crack d="M50 22 L46 34 L52 44 L47 56" w={2} />
+                    <Crack d="M44 70 L50 82 L45 94" w={2} />
+                    <path d="M14 117 C24 110 40 109 50 113 C60 109 76 110 86 117 Z" fill={`url(#${uid}-sand)`} stroke={INK} strokeWidth="1.6" strokeLinejoin="round" />
+                    <g className="rg-shards" stroke={INK} strokeWidth="1.3" strokeLinejoin="round">
+                        <path d="M10 120 L17 117 L15 123 Z" fill="#e6e0d4" />
+                        <path d="M80 121 L88 118 L86 124 Z" fill="#d9d2c4" />
                     </g>
                 </>
             )}
 
-            {/* Brass Frame: Top Cap, Bottom Pedestal, Spindles, Rivets */}
-            {/* Top Plate */}
-            <g transform={stage === 6 ? 'rotate(-6 50 14)' : stage === 5 ? 'rotate(-2 50 14)' : undefined}>
-                <path
-                    d="M24 13 C24 9 37 7 50 7 C63 7 76 9 76 13 L72 19 H28 Z"
-                    fill={stage >= 4 ? `url(#${uid}-brass-tarnished)` : `url(#${uid}-brass)`}
-                    stroke={INK} strokeWidth="2" strokeLinejoin="round"
-                />
-                <Rivet x={30} y={15} r={1.5} />
-                <Rivet x={70} y={15} r={1.5} />
-                {/* Decorative corner acanthus brackets hugging glass */}
-                <path d="M28 18 C28 22 32 25 35 25" fill="none" stroke={INK} strokeWidth="1.4" opacity="0.6" />
-                <path d="M72 18 C72 22 68 25 65 25" fill="none" stroke={INK} strokeWidth="1.4" opacity="0.6" />
-                {/* Finial / Knob */}
-                <circle cx="50" cy="5" r="2.8" fill={`url(#${uid}-brass)`} stroke={INK} strokeWidth="1.4" />
-                <circle cx="49" cy="4" r="0.9" fill="#fff7db" />
+            {/* brass caps and waist ring — the craft detail */}
+            <g transform={shattered ? 'rotate(-6 50 14)' : undefined}>
+                <path d="M25 10 H75 C77 10 78 12 77 14 L74 19 H26 L23 14 C22 12 23 10 25 10 Z" fill={`url(#${uid}-brass)`} stroke={INK} strokeWidth="2.2" strokeLinejoin="round" />
             </g>
-
-            {/* Bottom Pedestal */}
-            <path
-                d="M28 105 H72 L76 111 C76 115 63 117 50 117 C37 117 24 115 24 111 Z"
-                fill={stage >= 4 ? `url(#${uid}-brass-tarnished)` : `url(#${uid}-brass)`}
-                stroke={INK} strokeWidth="2" strokeLinejoin="round"
-            />
-            <Rivet x={30} y={109} r={1.5} />
-            <Rivet x={70} y={109} r={1.5} />
-            {/* Bottom corner brackets */}
-            <path d="M28 105 C28 101 32 98 35 98" fill="none" stroke={INK} strokeWidth="1.4" opacity="0.6" />
-            <path d="M72 105 C72 101 68 98 65 98" fill="none" stroke={INK} strokeWidth="1.4" opacity="0.6" />
-
-            {/* Left and Right Brass Columns / Pilasters */}
-            {/* Left Pilaster */}
-            <g transform={stage === 5 ? 'scale(1.04 1) translate(-2 0)' : undefined}>
-                <path
-                    d={stage === 6 ? 'M25 19 H29 L28 50 L24 48 Z' : 'M25 19 H29 V105 H25 Z'}
-                    fill={stage >= 4 ? `url(#${uid}-brass-tarnished)` : `url(#${uid}-brass)`}
-                    stroke={INK} strokeWidth="1.6" strokeLinejoin="round"
-                />
-                <rect x="24" y="21" width="6" height="3" rx="0.8" fill={`url(#${uid}-brass)`} stroke={INK} strokeWidth="1" />
-                <rect x="24" y="100" width="6" height="3" rx="0.8" fill={`url(#${uid}-brass)`} stroke={INK} strokeWidth="1" />
-            </g>
-
-            {/* Right Pilaster */}
-            <g>
-                <path
-                    d={stage === 6 ? 'M71 65 L75 67 V105 H71 Z' : 'M71 19 H75 V105 H71 Z'}
-                    fill={stage >= 4 ? `url(#${uid}-brass-tarnished)` : `url(#${uid}-brass)`}
-                    stroke={INK} strokeWidth="1.6" strokeLinejoin="round"
-                />
-                <rect x="70" y="21" width="6" height="3" rx="0.8" fill={`url(#${uid}-brass)`} stroke={INK} strokeWidth="1" />
-                <rect x="70" y="100" width="6" height="3" rx="0.8" fill={`url(#${uid}-brass)`} stroke={INK} strokeWidth="1" />
-                {stage === 6 && (
-                    <path d="M71 65 L73 61 L75 66" stroke={INK} strokeWidth="1.6" fill="none" />
-                )}
-            </g>
-
-            {/* Waist Collar with Heraldic Bezel Gem (shifts from vitality gold to death void) */}
-            {!shattered && (
-                <g>
-                    <path
-                        d="M43 60 H57 V64 H43 Z"
-                        fill={stage >= 4 ? `url(#${uid}-brass-tarnished)` : `url(#${uid}-brass)`}
-                        stroke={INK} strokeWidth="1.4" strokeLinejoin="round"
-                    />
-                    {/* Bezel */}
-                    <path d="M47 62 L50 59 L53 62 L50 65 Z" fill={`url(#${uid}-brass)`} stroke={INK} strokeWidth="0.8" />
-                    {/* Inset gemstone */}
-                    <circle cx="50" cy="62" r="1.8" fill={gemColors[stage]} stroke={INK} strokeWidth="0.6" />
-                    <circle cx="49.5" cy="61.5" r="0.6" fill="#ffffff" opacity="0.8" />
-                </g>
-            )}
-
-            {/* Glints on Stage 0 */}
-            {stage === 0 && (
-                <>
-                    <Glint x={50} y={5} s={0.8} />
-                    <Glint x={34} y={23} s={0.7} />
-                    <Glint x={68} y={107} s={0.6} />
-                </>
-            )}
+            <path d="M26 105 H74 L77 110 C78 112 77 114 75 114 H25 C23 114 22 112 23 110 Z" fill={`url(#${uid}-brass)`} stroke={INK} strokeWidth="2.2" strokeLinejoin="round" />
+            {!shattered && <ellipse cx="50" cy="62" rx="5.5" ry="2.4" fill={`url(#${uid}-brass)`} stroke={INK} strokeWidth="1.4" />}
         </g>
     );
 };

@@ -1,5 +1,6 @@
 import useCombatStore from '../../../store/combatStore';
 import { applyRoomSnapshot } from '../../../services/silentRoomHydration';
+import { showNothingDroppedNotification } from '../../../store/gridItemStore';
 
 export function registerCombatHandlers(ctx) {
   const {
@@ -130,6 +131,9 @@ export function registerCombatHandlers(ctx) {
         if (notification.targetTab === 'loot') {
           // Loot roll announcements (including "nothing dropped") go to the Loot tab
           addNotification('loot', notification);
+          if (notification.type === 'loot_rolled' && notification.nothingDropped) {
+            showNothingDroppedNotification(notification.creatureName || 'creature', notification.creatureImage || null);
+          }
           if (notification.mirrorToSocial && notification.content) {
             addNotification('social', {
               sender: { name: 'System', class: 'system', level: 0 },

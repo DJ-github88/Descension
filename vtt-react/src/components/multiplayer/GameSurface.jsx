@@ -23,6 +23,7 @@ import ActionBar from '../ui/ActionBar';
 import CombatSelectionWindow from '../combat/CombatSelectionOverlay';
 import CombatTimeline from '../combat/CombatTimeline';
 import { FloatingCombatTextManager } from '../combat/FloatingCombatText';
+import LootRollManager from '../loot/LootRollManager';
 import DialogueSystem from '../dialogue/DialogueSystem';
 import DialogueControls from '../dialogue/DialogueControls';
 // DiceRollingSystem is mounted globally in App.jsx — do NOT add a second instance here.
@@ -199,6 +200,7 @@ const MultiplayerGameContent = ({
         <CombatSelectionWindow />
         <CombatTimeline />
         <FloatingCombatTextManager />
+        <LootRollManager />
         <DialogueSystem />
         {isGMMode && <DialogueControls />}
         {/* DiceRollingSystem is mounted globally in App.jsx */}

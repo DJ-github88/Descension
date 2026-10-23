@@ -220,6 +220,12 @@ const SettingsWindow = memo(function SettingsWindow({ activeTab: propActiveTab }
   const setPlayerTooltipMode = useSettingsStore(state => state.setPlayerTooltipMode);
   const skillSystemMode = useSettingsStore(state => state.skillSystemMode || 'simple');
   const setSkillSystemMode = useSettingsStore(state => state.setSkillSystemMode);
+  const lootRollEnabled = useSettingsStore(state => !!state.lootRollEnabled);
+  const setLootRollEnabled = useSettingsStore(state => state.setLootRollEnabled);
+  const lootRollDuration = useSettingsStore(state => state.lootRollDuration || 30);
+  const setLootRollDuration = useSettingsStore(state => state.setLootRollDuration);
+  const lootRollMinQuality = useSettingsStore(state => state.lootRollMinQuality || 'poor');
+  const setLootRollMinQuality = useSettingsStore(state => state.setLootRollMinQuality);
 
   // Speech bubble settings
   const showSpeechBubbles = useSettingsStore(state => state.showSpeechBubbles);
@@ -842,6 +848,106 @@ const SettingsWindow = memo(function SettingsWindow({ activeTab: propActiveTab }
                 </div>
               ))}
             </div>
+          </div>
+        )}
+
+        {/* GM Authority: Group Loot Rolls */}
+        {isGMMode && (
+          <div className="settings-section-card">
+            <div className="settings-section-header">
+              <i className="fas fa-dice-d20 settings-section-icon" />
+              <div className="settings-section-title-wrap">
+                <h3 className="settings-section-title">Group Loot Rolls</h3>
+                <p className="settings-section-desc">
+                  Game Master Authority: Decide how creature drops are shared out when you roll for loot.
+                </p>
+              </div>
+            </div>
+
+            <label className={`calm-toggle-row ${lootRollEnabled ? 'active' : ''}`}>
+              <div className="calm-toggle-info">
+                <div className="calm-toggle-title">Roll Need / Greed / Pass for Drops</div>
+                <div className="calm-toggle-desc">
+                  {lootRollEnabled
+                    ? 'Every player chooses Need, Greed or Pass and rolls a d20 for each dropped item. Need beats Greed, ties reroll against each other, and the winner gets the item straight into their inventory. Drops stay locked on the grid until the rolls are done; if everyone passes, the item stays on the ground. Coins are never rolled for.'
+                    : 'Off: drops land on the grid and whoever clicks an orb first takes it.'}
+                </div>
+              </div>
+              <input
+                type="checkbox"
+                checked={lootRollEnabled}
+                onChange={(e) => setLootRollEnabled(e.target.checked)}
+                className="calm-toggle-checkbox"
+              />
+              <span className="calm-toggle-switch" />
+            </label>
+
+            {lootRollEnabled && (
+              <div className="loot-quality-setting">
+                <div className="loot-quality-setting-head">
+                  <span className="loot-quality-setting-title">Roll for items of quality</span>
+                  <span className="loot-quality-setting-desc">
+                    {lootRollMinQuality === 'poor'
+                      ? 'Every item drop is rolled for.'
+                      : 'Items below this quality are left free to take; this quality and better are rolled for.'}
+                  </span>
+                </div>
+                <div className="loot-quality-picker" role="radiogroup" aria-label="Lowest quality to roll for">
+                  {[
+                    { value: 'poor', label: 'All items' },
+                    { value: 'common', label: 'Common+' },
+                    { value: 'uncommon', label: 'Uncommon+' },
+                    { value: 'rare', label: 'Rare+' },
+                    { value: 'epic', label: 'Epic+' },
+                    { value: 'legendary', label: 'Legendary' }
+                  ].map(opt => (
+                    <button
+                      key={opt.value}
+                      type="button"
+                      role="radio"
+                      aria-checked={lootRollMinQuality === opt.value}
+                      className={`loot-quality-option q-${opt.value} ${lootRollMinQuality === opt.value ? 'selected' : ''}`}
+                      onClick={() => setLootRollMinQuality(opt.value)}
+                    >
+                      {opt.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {lootRollEnabled && (
+              <div className="settings-choice-group" role="radiogroup" aria-label="Time to choose">
+                {[
+                  { value: 15, label: '15 seconds', desc: 'Brisk — keeps combat moving.' },
+                  { value: 30, label: '30 seconds', desc: 'Standard — time to read the item.' },
+                  { value: 60, label: '60 seconds', desc: 'Relaxed — time to talk it over.' }
+                ].map((opt) => (
+                  <div
+                    key={opt.value}
+                    className={`settings-choice-card ${lootRollDuration === opt.value ? 'selected' : ''}`}
+                    onClick={() => setLootRollDuration(opt.value)}
+                    role="radio"
+                    aria-checked={lootRollDuration === opt.value}
+                    tabIndex={0}
+                    onKeyDown={(e) => {
+                      if (e.key === ' ' || e.key === 'Enter') {
+                        e.preventDefault();
+                        setLootRollDuration(opt.value);
+                      }
+                    }}
+                  >
+                    <div className="settings-choice-radio-indicator">
+                      <div className="settings-choice-radio-dot" />
+                    </div>
+                    <div className="settings-choice-content">
+                      <div className="settings-choice-title">{opt.label}</div>
+                      <div className="settings-choice-desc">{opt.desc}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         )}
 

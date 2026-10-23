@@ -1,0 +1,255 @@
+- generic [ref=f2e3]:
+  - banner [ref=f2e4]:
+    - generic [ref=f2e5]:
+      - button "Return to Mythrill Home" [ref=f2e7] [cursor=pointer]:
+        - generic [ref=f2e8]: 
+        - generic [ref=f2e9]: Mythrill
+      - navigation [ref=f2e11]:
+        - button " Home" [ref=f2e12] [cursor=pointer]:
+          - generic [ref=f2e13]: 
+          - text: Home
+        - button " Laws & Lore" [ref=f2e14] [cursor=pointer]:
+          - generic [ref=f2e15]: 
+          - text: Laws & Lore
+        - button "More navigation items" [ref=f2e17] [cursor=pointer]:
+          - generic [ref=f2e18]: +
+      - generic [ref=f2e19]:
+        - button " Privacy" [ref=f2e20] [cursor=pointer]:
+          - generic [ref=f2e21]: 
+          - text: Privacy
+        - button " Login" [ref=f2e22] [cursor=pointer]:
+          - generic [ref=f2e23]: 
+          - text: Login
+    - text:      
+  - main [ref=f2e24]:
+    - generic [ref=f2e26]:
+      - complementary [ref=f2e27]:
+        - navigation [ref=f2e28]:
+          - button "Search the Codex" [ref=f2e30] [cursor=pointer]:
+            - generic [ref=f2e31]: 
+          - text: 
+          - button "" [ref=f2e34] [cursor=pointer]
+          - button "" [ref=f2e37] [cursor=pointer]
+          - button "" [ref=f2e40] [cursor=pointer]
+          - button "" [ref=f2e43] [cursor=pointer]
+          - button "" [ref=f2e46] [cursor=pointer]
+          - button "" [ref=f2e49] [cursor=pointer]
+          - button "" [ref=f2e52] [cursor=pointer]
+          - button "" [ref=f2e55] [cursor=pointer]
+          - button "" [ref=f2e58] [cursor=pointer]
+        - text:   
+      - main [ref=f2e59]:
+        - generic [ref=f2e60]:
+          - generic [ref=f2e61]:
+            - button "Navigate to Laws overview" [ref=f2e62] [cursor=pointer]:
+              - generic [ref=f2e63]: 
+              - text: Laws
+            - generic [ref=f2e64]: 
+            - text: 
+            - button "Navigate to Classes list" [ref=f2e65] [cursor=pointer]: Classes
+            - generic [ref=f2e66]: 
+            - generic [ref=f2e67]: Lichborne
+          - group "Laws and Lore" [ref=f2e68]:
+            - button " Laws" [pressed] [ref=f2e69] [cursor=pointer]:
+              - generic [ref=f2e70]: 
+              - generic [ref=f2e71]: Laws
+            - generic [aria-hidden] [ref=f2e72]: 
+            - button " Lore" [ref=f2e73] [cursor=pointer]:
+              - generic [ref=f2e74]: 
+              - generic [ref=f2e75]: Lore
+          - button "Search Codex" [ref=f2e76] [cursor=pointer]:
+            - generic [ref=f2e77]: 
+            - generic [ref=f2e78]: Ctrl K
+        - generic [ref=f2e80]:
+          - generic [ref=f2e81]:
+            - generic [ref=f2e82]:
+              - img "Lichborne" [ref=f2e160]
+              - generic [ref=f2e85]:
+                - heading "Lichborne" [level=2] [ref=f2e161]
+                - generic [ref=f2e87]:
+                  - generic [ref=f2e88]:
+                    - generic [ref=f2e89]: 
+                    - text: Anchor Mage / Controller
+                  - generic "Development class — content is selectable, but class-specific effects remain manual at the table." [ref=f2e90]:
+                    - generic [ref=f2e91]: 
+                    - text: Development
+                  - generic "Cold, Wyrd" [ref=f2e162]:
+                    - generic [ref=f2e93]: 
+                    - text: Cold, Wyrd
+            - generic [ref=f2e95]:
+              - 'button "Previous class: Deathcaller" [ref=f2e163] [cursor=pointer]':
+                - generic [ref=f2e97]: 
+                - generic [ref=f2e98]: Deathcaller
+              - button "Back to all classes" [ref=f2e99] [cursor=pointer]:
+                - generic [ref=f2e100]: All classes
+              - 'button "Next class: Gambler" [ref=f2e164] [cursor=pointer]':
+                - generic [ref=f2e102]: Gambler
+                - generic [ref=f2e103]: 
+          - navigation "Class sections" [ref=f2e105]:
+            - button "Overview" [ref=f2e106] [cursor=pointer]:
+              - generic [aria-hidden] [ref=f2e107]: 
+            - button "Tradition" [ref=f2e109] [cursor=pointer]:
+              - generic [aria-hidden] [ref=f2e110]: 
+            - button "Resource System" [active] [pressed] [ref=f2e112] [cursor=pointer]:
+              - generic [aria-hidden] [ref=f2e113]: 
+            - button "Specializations" [ref=f2e115] [cursor=pointer]:
+              - generic [aria-hidden] [ref=f2e116]: 
+            - button "Spells" [ref=f2e118] [cursor=pointer]:
+              - generic [aria-hidden] [ref=f2e119]: 
+          - region "Resource System" [ref=f2e166]:
+            - generic [ref=f2e168]:
+              - generic [ref=f2e169]:
+                - generic [ref=f2e170]:
+                  - text: 
+                  - heading "Lichborne Resource" [level=3] [ref=f2e171]
+                  - paragraph [ref=f2e172]: The vessel can break. Track the anchor before you spend what keeps you here.
+                  - generic [ref=f2e173]:
+                    - generic [ref=f2e174]: 
+                    - text: Vulnerable Anchor
+                - generic [ref=f2e175]:
+                  - generic [ref=f2e176]:
+                    - generic [ref=f2e177]: 
+                    - generic [ref=f2e178]:
+                      - generic [ref=f2e179]: Integrity
+                      - generic [ref=f2e180]: 0-12
+                  - generic [ref=f2e181]:
+                    - generic [ref=f2e182]: 
+                    - generic [ref=f2e183]:
+                      - generic [ref=f2e184]: Stage
+                      - generic [ref=f2e185]: 0-2
+                  - generic [ref=f2e186]:
+                    - generic [ref=f2e187]: 
+                    - generic [ref=f2e188]:
+                      - generic [ref=f2e189]: Traits
+                      - generic [ref=f2e190]: 2 prepared | active <= stage
+                  - generic [ref=f2e191]:
+                    - generic [ref=f2e192]: 
+                    - generic [ref=f2e193]:
+                      - generic [ref=f2e194]: Anchor
+                      - generic [ref=f2e195]: intact or destroyed
+                - generic [ref=f2e196]:
+                  - generic [ref=f2e197]:
+                    - generic [ref=f2e198]: 
+                    - text: Interactive Preview
+                  - note [ref=f2e201]:
+                    - strong [ref=f2e202]: Lich Anchor
+                    - text: "- not initialized. Record the actual anchor, integrity, stage and traits; opening this display never creates an anchor, repairs integrity or grants a trait."
+                  - generic [ref=f2e203]:
+                    - generic [ref=f2e204]: 
+                    - text: The integrated tracker starts uninitialized. It never invents an anchor, integrity value, stage, prepared trait, suppression or repair. Observer projections hide the anchor location and ward.
+              - tablist "Resource system sections" [ref=f2e205]:
+                - tab " Essentials" [selected] [ref=f2e206] [cursor=pointer]:
+                  - generic [ref=f2e207]: 
+                  - text: Essentials
+                - tab " Deep Dive" [ref=f2e208] [cursor=pointer]:
+                  - generic [ref=f2e209]: 
+                  - text: Deep Dive
+              - tabpanel "Essentials" [ref=f2e210]:
+                - generic [ref=f2e211]:
+                  - heading " The Core Loop" [level=4] [ref=f2e213]:
+                    - generic [ref=f2e214]: 
+                    - text: The Core Loop
+                  - generic [ref=f2e215]:
+                    - generic [ref=f2e216]:
+                      - generic [ref=f2e217]:
+                        - generic [ref=f2e218]: 
+                        - generic [ref=f2e220]: "1"
+                      - generic [ref=f2e221]: Record the Vessel
+                      - paragraph [ref=f2e223]: Name the physical anchor, its location, ward and public condition. The anchor is a place and object, not an invisible backup.
+                    - text: 
+                    - generic [ref=f2e224]:
+                      - generic [ref=f2e225]:
+                        - generic [ref=f2e226]: 
+                        - generic [ref=f2e228]: "2"
+                      - generic [ref=f2e229]: Track Integrity and Stage
+                      - paragraph [ref=f2e231]: Anchor integrity runs 0-12 and undeath stage 0-2. Exactly two traits are prepared; active traits cannot exceed the stage, and the table records every suppression.
+                    - text: 
+                    - generic [ref=f2e232]:
+                      - generic [ref=f2e233]:
+                        - generic [ref=f2e234]: 
+                        - generic [ref=f2e236]: "3"
+                      - generic [ref=f2e237]: Pay for Cold Power
+                      - paragraph [ref=f2e239]: Spend integrity only as an authored record or manual table decision. Cold control and borrowed mortality never create a hidden second resource or free recovery.
+                    - text: 
+                    - generic [ref=f2e240]:
+                      - generic [ref=f2e241]:
+                        - generic [ref=f2e242]: 
+                        - generic [ref=f2e244]: "4"
+                      - generic [ref=f2e245]: The Vessel Can Break
+                      - paragraph [ref=f2e247]: An anchor is intact or destroyed, and the life state is active, dormant or dead. Repair only through authored records or a completed rest; no class-change, reconnect or initiative refill.
+                  - generic [ref=f2e248]:
+                    - generic [ref=f2e249]:
+                      - generic [ref=f2e250]: 
+                      - text: In play
+                    - paragraph [ref=f2e252]:
+                      - strong [ref=f2e253]: "Before play:"
+                      - text: record the anchor id, location, ward and intact status, starting integrity 12, stage 0 and two prepared traits.
+                      - strong [ref=f2e254]: "In play:"
+                      - text: spend or lose integrity only by an explicit record, then update the stage and active traits by hand.
+                      - strong [ref=f2e255]: "After a rest:"
+                      - text: apply only the recovery the table actually recorded; nothing repairs automatically.
+                - generic [ref=f2e256]:
+                  - heading " How It Weaves Into Your Class" [level=4] [ref=f2e258]:
+                    - generic [ref=f2e259]: 
+                    - text: How It Weaves Into Your Class
+                  - list [ref=f2e260]:
+                    - listitem [ref=f2e261]:
+                      - generic [ref=f2e262]: 
+                      - generic [ref=f2e263]: Two core grants and forty optional records keep integrity, traits, stage and recovery public.
+                      - button "browse the spellbook " [ref=f2e264] [cursor=pointer]:
+                        - text: browse the spellbook
+                        - generic [ref=f2e265]: 
+                    - listitem [ref=f2e266]:
+                      - generic [ref=f2e267]: 
+                      - generic [ref=f2e268]: Rime Sovereign, Phylactery Keeper and Veil Scholar each have a signature and capstone with tree gates.
+                      - button "compare the three paths " [ref=f2e269] [cursor=pointer]:
+                        - text: compare the three paths
+                        - generic [ref=f2e270]: 
+                    - listitem [ref=f2e271]:
+                      - generic [ref=f2e272]: 
+                      - generic [ref=f2e273]:
+                        - button "Lichborne" [ref=f2e274] [cursor=pointer]
+                        - text: has no registered native heritage edge. Velun Neth and Tessen
+                        - button "Human" [ref=f2e275] [cursor=pointer]
+                        - text: are recommendations only; the four acquisition requirements must be recorded.
+                - generic [ref=f2e276]:
+                  - generic [ref=f2e277]:
+                    - generic [ref=f2e278]:
+                      - generic [ref=f2e279]: 
+                      - text: The First Vessel
+                    - generic [ref=f2e280]: 6 rows
+                  - generic [ref=f2e281]:
+                    - table [ref=f2e283]:
+                      - rowgroup [ref=f2e284]:
+                        - row [ref=f2e285]:
+                          - columnheader "Action" [ref=f2e286]
+                          - columnheader "Price" [ref=f2e287]
+                          - columnheader "Result" [ref=f2e288]
+                      - rowgroup [ref=f2e289]:
+                        - row [ref=f2e290]:
+                          - cell "Record the anchor" [ref=f2e291]
+                          - cell "Name id, location and ward" [ref=f2e292]
+                          - cell "A physical vessel with a public condition" [ref=f2e293]
+                        - row [ref=f2e294]:
+                          - cell "Start play" [ref=f2e295]
+                          - cell "Integrity 12; stage 0" [ref=f2e296]
+                          - cell "Two prepared traits; no active trait yet" [ref=f2e297]
+                        - row [ref=f2e298]:
+                          - cell "Raise the stage" [ref=f2e299]
+                          - cell "Authored record only" [ref=f2e300]
+                          - cell "Stage 0-2; active traits cannot exceed it" [ref=f2e301]
+                        - row [ref=f2e302]:
+                          - cell "Lose integrity" [ref=f2e303]
+                          - cell "Record 0-12" [ref=f2e304]
+                          - cell "No automatic death save or repair" [ref=f2e305]
+                        - row [ref=f2e306]:
+                          - cell "Destroy the anchor" [ref=f2e307]
+                          - cell "Record destroyed" [ref=f2e308]
+                          - cell "No immunity or hidden replacement vessel" [ref=f2e309]
+                        - row [ref=f2e310]:
+                          - cell "Completed rest or authored repair" [ref=f2e311]
+                          - cell "Recorded recovery" [ref=f2e312]
+                          - cell "Integrity changes only by that record" [ref=f2e313]
+                    - generic [ref=f2e314]:
+                      - generic [ref=f2e315]: 
+                      - text: "Read-only display: no integrity, trait, suppression, stage, life state or repair is applied automatically."

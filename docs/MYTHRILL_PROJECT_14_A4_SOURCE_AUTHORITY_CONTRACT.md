@@ -1,6 +1,6 @@
 # P14-A4 — exact placed-creature execution
 
-2026-10-22 · **FROZEN before runtime edits. Authorized by Main HQ's P14-A4 execution prompt.**
+2026-10-22 · **FROZEN before runtime edits; implemented; bounded independent ACCEPT (qualified); Build4/App10 PASS. Authorized by Main HQ's P14-A4 execution prompt.**
 
 ## Reconciled source and ownership
 
@@ -42,6 +42,10 @@ can reuse an existing installed version; changed content needs sequential new ve
 class syntax remains byte-protected: the adapter's legacy `arcanoneer` syntax anchor is serialization
 only on this route, **never evidence of a creature class or execution entitlement**. Exact source
 admission, whole association comparison and current GM supply creature authority independently.
+Versions first installed through this route are identified from trusted source-admission history as
+creature-only at the runtime lookup; the syntax anchor never implicitly admits them for a PC. A PC
+needs its own explicit normal admission/new version. A source grant may reuse an already PC-admitted
+matching version, without changing that version's existing PC eligibility. No compiler flag is changed.
 Original PC admission/class checks and PC-only actor_spell_approve remain strict and unchanged in scope.
 
 Replacement/recreation changes incarnation and never inherits admission. Duplication cannot use another
@@ -94,12 +98,16 @@ Production-placement reconciliation adds a narrow `tokenHandlers.js` capture of 
 from the existing creature placement payload (plus its existing name/position). Ordinary public token
 projection does not publish raw Wizard drafts. GM-only authored lookup supplies exact placed snapshots
 for Inspect, including after reload; observer lookup does not expose them. Request-ID identity history
-also requires `roomAccessService.js` to expose a positive numeric stat/bounds projection for placed
+is bounded under the existing protected actorConsequences ledger and retained by its finalizer.
+This also requires `roomAccessService.js` to expose a positive numeric stat/bounds projection for placed
 associated custom creatures: without it a client with no local template cannot render the token after
 reload. Raw draft/private fields remain excluded. No armor field or mitigation rule is added.
-is bounded under the existing protected actorConsequences ledger and retained by its finalizer.
 The shared actorConsequenceService projection additionally preserves authoritative unavailable unused
 creature pools as absent; it never turns them into zero or rejects an otherwise accepted A4 receipt.
+The existing acceptedResultFeed computes exact revision-matched HP feedback even when an unused
+creature AP/mana pool is unavailable; it omits that pool's arithmetic, with no invented values.
+Placed resistance/vulnerability/ability fields are detached on creation and inspectable through the
+same GM-only lookup, alongside authored flat DR. All remain GM adjudication, not automatic mitigation.
 Protect A1a compiler/tests/fixtures, W1 resource editor/manager/serializer, class/heritage/card/resource
 content and unrelated UI. Fresh-context patches in the shared tree; any separate-workspace writeback
 must compare live bytes first. No commit/push/reset/deploy/dependency upgrade/migration.
@@ -123,3 +131,9 @@ movement/equipment costs/new economies/automatic mitigation. Next is a preparati
 contract using P12B exact owner block offer/consent/final damage and this route's source payment,
 PC HP/equipment wear atomically; healing needs explicit separate target-consent policy and no blocking.
 Class/Heritage content/loadouts/selection remain their track's work. P14 remains open.
+
+## Implementation evidence
+
+[A4 implementation/acceptance](MYTHRILL_PROJECT_14_A4_ACCEPTANCE.md) records exact walkthrough, source
+hashes, focused tests, same single bounded reviewer/repairs, Build4/App10 and honest fixture/drift limits.
+The next target bridge is [A5 preparation only](MYTHRILL_PROJECT_14_A5_CREATURE_PC_PREPARATION.md).

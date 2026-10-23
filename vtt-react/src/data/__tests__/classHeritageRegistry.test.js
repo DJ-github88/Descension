@@ -1,4 +1,4 @@
-﻿import fs from 'fs';
+import fs from 'fs';
 import path from 'path';
 import {
   HERITAGE_TRADITIONS, CLASS_PROVENANCE, CLASS_COMPATIBILITY_ALIASES,
@@ -126,9 +126,9 @@ test('Skald Martyr normal method is Ironclad and Witness is extra acquired train
 });
 
 test('Nereid lookup aliases stay compatible without becoming three extra base classes', () => {
-  expect(Object.keys(BASE_CLASSES_DATA)).toHaveLength(24);
-  expect(Object.keys(ALL_CLASSES_DATA)).toHaveLength(27);
-  expect(CLASS_DISPLAY_DATA).toHaveLength(24);
+  expect(Object.keys(BASE_CLASSES_DATA)).toHaveLength(26);
+  expect(Object.keys(ALL_CLASSES_DATA)).toHaveLength(29);
+  expect(CLASS_DISPLAY_DATA).toHaveLength(26);
   expect(CLASS_DISPLAY_ALIASES).toHaveLength(3);
   Object.entries(CLASS_COMPATIBILITY_ALIASES).forEach(([name, alias]) => {
     expect(ALL_CLASSES_DATA[name].name).toBe(alias.className);
@@ -148,4 +148,3 @@ test('custom metadata is preserved and legacy existing characters get acquisitio
   const effectsImplemented = Object.entries(CLASS_PROVENANCE).filter(([, profile]) => profile.heritageEffectsImplemented).map(([name]) => name).sort();
   expect(effectsImplemented).toEqual(['Animist', 'Apex', 'Arcanoneer', 'Augur', 'Berserker', 'Chronarch', 'Crusader', 'False Prophet', 'Gambit', 'Harbinger', 'Inquisitor', 'Lunarch', 'Martyr', 'Minstrel', 'Plaguebringer', 'Pyrofiend', 'Revenant', 'Shaper', 'Spellguard', 'Toxicologist', 'Warden']);
 });
-

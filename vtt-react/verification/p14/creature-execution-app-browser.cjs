@@ -58,7 +58,7 @@ async function main() {
     await setup(gm, host.url, 'app-gm'); const observer = await browser.newPage({ viewport: { width: 1440, height: 1000 } }); pages.push(observer); observer.on('pageerror', e => report.errors.push({ role: 'observer', error: e.message })); await setup(observer, host.url, 'app-observer');
     let dialog = await admitAndOpen(gm, 'a4-source'); await dialog.waitFor(); const sourceRef = actors.refFor(host.room.gameState.maps['app-hall'].tokens['a4-source'].state.actorContract);
     assert.equal(host.room.gameState.maps['app-hall'].tokens['a4-sibling'].state.actorContract?.authoredAdmission, undefined);
-    await dialog.getByRole('combobox', { name: 'Creature target', exact: true }).selectOption('creature:app-hall:B'); await dialog.getByLabel('d6 face 1', { exact: true }).fill('4'); await dialog.getByRole('button', { name: 'Record physical roll', exact: true }).click();
+    await dialog.getByRole('combobox', { name: 'Creature or primary PC target', exact: true }).selectOption('creature:app-hall:B'); await dialog.getByLabel('d6 face 1', { exact: true }).fill('4'); await dialog.getByRole('button', { name: 'Record physical roll', exact: true }).click();
     const sourceBefore = actors.clone(host.room.gameState.maps['app-hall'].tokens['a4-source'].state), hpBefore = host.room.gameState.maps['app-hall'].tokens.B.state.currentHp;
     await dialog.getByRole('button', { name: 'Validate source, target and retained roll', exact: true }).click(); await dialog.getByRole('button', { name: 'Confirm one creature consequence', exact: true }).waitFor(); assert.deepEqual(host.room.gameState.maps['app-hall'].tokens['a4-source'].state, sourceBefore);
     // Explicitly replace admission while keeping the first physical evidence. Lose the withdrawal
@@ -70,8 +70,10 @@ async function main() {
     await sourceRegion.getByRole('button', { name: 'Use for this creature', exact: true }).click();
     await gm.evaluate(() => { const emit = __socket.emit.bind(__socket); let drop = true; __socket.emit = (event, ...args) => { if (event === 'actor_spell_withdraw' && drop && typeof args[1] === 'function') { drop = false; args[1] = () => {}; } return emit(event, ...args); }; });
     await dialog.getByRole('button', { name: 'Refresh admission or change target (keep faces)', exact: true }).click(); await dialog.getByRole('alert').filter({ hasText: /not positively closed/ }).waitFor({ timeout: 15000 });
-    await dialog.getByRole('button', { name: 'Refresh admission or change target (keep faces)', exact: true }).click(); await dialog.getByRole('combobox', { name: 'Creature target', exact: true }).waitFor();
-    await dialog.getByRole('combobox', { name: 'Creature target', exact: true }).selectOption('creature:app-hall:A'); await dialog.getByRole('combobox', { name: 'Creature target', exact: true }).selectOption('creature:app-hall:B');
+    await dialog.getByRole('button', { name: 'Refresh admission or change target (keep faces)', exact: true }).click(); await dialog.getByRole('combobox', { name: 'Creature or primary PC target', exact: true }).waitFor();
+    await dialog.getByRole('button', { name: 'Pick creature on map', exact: true }).click(); const pickBounds = await (await tokenLocator(gm, 'A')).boundingBox(); assert.ok(pickBounds); await gm.mouse.click(pickBounds.x + pickBounds.width / 2, pickBounds.y + pickBounds.height / 2); await dialog.waitFor();
+    assert.equal(await dialog.getByRole('combobox', { name: 'Creature or primary PC target', exact: true }).inputValue(), 'creature:app-hall:A');
+    await dialog.getByRole('combobox', { name: 'Creature or primary PC target', exact: true }).selectOption('creature:app-hall:B');
     assert.equal(await dialog.getByRole('button', { name: 'Record physical roll', exact: true }).count(), 0);
     await dialog.getByRole('button', { name: 'Validate source, target and retained roll', exact: true }).click(); await dialog.getByRole('button', { name: 'Confirm one creature consequence', exact: true }).waitFor();
     const refreshedAttempt = require('../../../server/services/spellPayments').listAll(host.room).find(e => e.approval.source.tokenId === 'a4-source').approval;
@@ -91,7 +93,7 @@ async function main() {
     assert.deepEqual(await gm.evaluate(() => __outbound.filter(x => x.event === 'actor_consequence').at(-1).payload), original); assert.equal(actors.ledger(host.room).receipts.length, count); assert.equal(await observer.evaluate(id => S('chatStore').getState().notifications.combat.filter(n => n.receiptId?.endsWith(id)).length, receipt.commandId), 1); report.checks.lostAckReloadSameCommand = original;
     await dialog.getByRole('button', { name: 'Finish or explicitly cancel (keep evidence)', exact: true }).click();
     // Second actual source: zero-price digital healing. Canonical Stunned arrives after preparation.
-    dialog = await admitAndOpen(gm, 'a4-healer'); await dialog.getByRole('combobox', { name: 'Creature target', exact: true }).selectOption('creature:app-hall:B'); await dialog.getByRole('button', { name: 'Roll 1d8+1 once', exact: true }).click(); await dialog.getByRole('button', { name: 'Validate source, target and retained roll', exact: true }).click(); await dialog.getByRole('button', { name: 'Confirm one creature consequence', exact: true }).waitFor();
+    dialog = await admitAndOpen(gm, 'a4-healer'); await dialog.getByRole('combobox', { name: 'Creature or primary PC target', exact: true }).selectOption('creature:app-hall:B'); await dialog.getByRole('button', { name: 'Roll 1d8+1 once', exact: true }).click(); await dialog.getByRole('button', { name: 'Validate source, target and retained roll', exact: true }).click(); await dialog.getByRole('button', { name: 'Confirm one creature consequence', exact: true }).waitFor();
     const healerRef = actors.refFor(host.room.gameState.maps['app-hall'].tokens['a4-healer'].state.actorContract), healer = () => actors.locate(host.room, healerRef).token;
     const recorded = require('../../../server/services/spellPayments').listAll(host.room).find(e => e.approval.source.tokenId === 'a4-healer').approval.roll;
     const stunned = profile.makeStunnedRecord(healerRef, require('crypto').randomUUID(), { sourceOccurrence: 'a4-app-stunned', timing: 'manual' });
@@ -110,14 +112,31 @@ async function main() {
     const removal = { ...conditionCommand, commandId: require('crypto').randomUUID(), baseCommitSequence: actors.ledger(host.room).commitSequence, actors: [{ ref: healerRef, expectedRevision: healer().state.actorContract.revision, conditions: [{ op: 'remove', recordId: stunned.recordId }] }] };
     const removed = await gm.evaluate(command => new Promise(resolve => __socket.emit('actor_consequence', command, resolve)), removal); assert.equal(removed.success, true, JSON.stringify(removed));
     await dialog.getByRole('button', { name: 'Revalidate original attempt (same roll)', exact: true }).click(); await dialog.getByRole('button', { name: 'Confirm one creature consequence', exact: true }).click(); await dialog.getByText(/^Accepted ·/).waitFor();
+    await observer.locator('.fct-chip').filter({ hasText: '+222 HP' }).waitFor({ timeout: 5000 }); report.checks.healingFloatWithUnusedPoolsAbsent = await observer.locator('.fct-chip').allTextContents();
     const healed = actors.ledger(host.room).receipts.at(-1); assert.deepEqual(JSON.parse(healed.adjudication.chosenResult).roll, recorded); assert.equal(host.room.gameState.maps['app-hall'].tokens.B.state.currentHp, 250); assert.equal(healer().state.currentActionPoints, 6); assert.equal(healer().state.currentMana, undefined); report.checks.digitalZeroPriceStunnedRetainedRevalidation = healed;
     assert.deepEqual(await gm.evaluate(() => { const tokens = S('creatureStore').getState().creatureTokens; return { hp: tokens.find(t => t.id === 'B').state.currentHp, targetManaPresent: Object.hasOwn(tokens.find(t => t.id === 'B').state, 'currentMana'), sourceManaPresent: Object.hasOwn(tokens.find(t => t.id === 'a4-healer').state, 'currentMana') }; }), { hp: 250, targetManaPresent: false, sourceManaPresent: false });
     report.checks.unavailableUnusedPoolsProjectWithoutFabrication = true;
     for (const viewport of [{ width: 1440, height: 1000 }, { width: 1024, height: 768 }]) { await gm.setViewportSize(viewport); const bounds = await dialog.locator('.p9-panel').evaluate(el => ({ width: el.clientWidth, scrollWidth: el.scrollWidth, rect: el.getBoundingClientRect().toJSON() })); assert.ok(bounds.scrollWidth <= bounds.width + 1); save(`layout-${viewport.width}.json`, bounds); save(`action-${viewport.width}.aria.yml`, await dialog.ariaSnapshot()); await gm.screenshot({ path: path.join(out, `action-${viewport.width}.png`) }); }
     await dialog.getByRole('button', { name: 'Finish or explicitly cancel (keep evidence)', exact: true }).click(); await closeInspect(gm);
+    const healingCommand = await gm.evaluate(() => __outbound.filter(x => x.event === 'actor_consequence' && x.payload.source?.tokenId === 'a4-healer').at(-1).payload), receiptCount = actors.ledger(host.room).receipts.length;
+    await setup(gm, host.url, 'app-gm');
+    const historicalChatBefore = await gm.evaluate(id => S('chatStore').getState().notifications.combat.filter(n => n.receiptId?.endsWith(id)).length, healed.commandId);
+    await gm.evaluate(async id => {
+      // Production webpack may mangle these exported names; select the same retained-command
+      // controller by its immutable protocol strings, as setup does for handler registration.
+      const functions = Object.values(__spell).filter(f => typeof f === 'function');
+      const refresh = functions.find(f => f.toString().includes('actor_spell_list'));
+      const checks = functions.filter(f => f.toString().includes('authored-spell:') && f.toString().includes('.gmStatus') && !f.toString().includes('Preparing the exact result') && !f.toString().includes('Retained original command'));
+      if (!refresh || checks.length !== 1) throw Error(`Production recovery controller discovery failed (${checks.length})`);
+      await refresh(); await checks[0](id);
+    }, healingCommand.approval.approvalId);
+    assert.deepEqual(await gm.evaluate(() => __outbound.filter(x => x.event === 'actor_consequence').at(-1).payload), healingCommand); assert.equal(actors.ledger(host.room).receipts.length, receiptCount);
+    assert.equal(await gm.locator('.fct-chip').count(), 0, 'historical reload/check does not replay floats'); assert.equal(await gm.evaluate(id => S('chatStore').getState().notifications.combat.filter(n => n.receiptId?.endsWith(id)).length, healed.commandId), historicalChatBefore, 'historical reload/check does not replay chat');
+    assert.equal(await observer.evaluate(id => S('chatStore').getState().notifications.combat.filter(n => n.receiptId?.endsWith(id)).length, healed.commandId), 1); report.checks.absentPoolsHistoricalRecoverySilent = healingCommand;
     report.checks.observerPrivacy = await observer.evaluate(async () => new Promise(resolve => __socket.emit('actor_authored_list', { roomId: S('gameStore').getState().multiplayerRoom.id }, r => resolve({ hasCreatureSources: Object.hasOwn(r, 'creatureSources'), sourceDraftsInPublicTokens: S('creatureStore').getState().creatureTokens.some(t => t.authoredAbility) })))); assert.deepEqual(report.checks.observerPrivacy, { hasCreatureSources: false, sourceDraftsInPublicTokens: false });
     report.passed = true;
   } catch (e) { report.failure = e.stack; for (let i = 0; i < pages.length; i++) { save(`failure-${i}.aria.yml`, await pages[i].locator('body').ariaSnapshot().catch(() => 'unavailable')); await pages[i].screenshot({ path: path.join(out, `failure-${i}.png`) }).catch(() => {}); } throw e; }
   finally { report.sourceAfter = require('./record-creature-execution-evidence.cjs').snapshot(); save('result.json', report); await browser.close(); await host.stop(); }
 }
 if (require.main === module) main().then(() => process.exit(0), e => { console.error(e); process.exit(1); });
+module.exports = { author, openBestiary, closeLibrary, admitAndOpen, closeInspect };

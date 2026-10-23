@@ -7,6 +7,7 @@ import {
 } from './CharacterWizardContext';
 import { CLASS_PROVENANCE } from '../../../data/classHeritageRegistry';
 import { buildAncestry } from '../../../data/ancestryLoadouts';
+import { PLAGUEBRINGER_CORE_SPELL_IDS } from '../../../data/classes/plaguebringerData';
 
 const baseCharacter = {
     ...initialState.characterData,
@@ -39,6 +40,27 @@ test('LOAD_CHARACTER carries acquisition evidence/body states and records the or
 test('CORE_DRAFT validation blocks an unsourced exceptional calling', () => {
     const state = { ...initialState, characterData: baseCharacter, currentStep: 1, originalCalling: null };
     expect(validateCurrentStep(state).class).toMatch(/acquisition/i);
+});
+
+test('Plaguebringer validation requires one optional pick beyond its core grants', () => {
+    const plaguebringer = {
+        ...baseCharacter,
+        class: 'Plaguebringer',
+        class_spells: {
+            known_spells: [...PLAGUEBRINGER_CORE_SPELL_IDS, 'pb_venomous_touch']
+        }
+    };
+    const state = { ...initialState, characterData: plaguebringer, currentStep: 1, originalCalling: null };
+    expect(validateCurrentStep(state).spells).toBeUndefined();
+
+    const missingPick = {
+        ...state,
+        characterData: {
+            ...plaguebringer,
+            class_spells: { known_spells: [...PLAGUEBRINGER_CORE_SPELL_IDS] }
+        }
+    };
+    expect(validateCurrentStep(missingPick).spells).toMatch(/exactly 1 starting spell/i);
 });
 
 test('CORE_DRAFT validation accepts a fully sourced exceptional calling', () => {

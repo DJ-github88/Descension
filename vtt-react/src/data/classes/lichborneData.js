@@ -134,7 +134,7 @@ const resource = makeCr1ResourceSystem({
   shortName: 'Anchor',
   type: 'lich_anchor',
   description: 'One intact or destroyed anchor, integrity 0-12, undeath stage 0-2, two prepared traits and a bounded life state. Manual tabletop only.',
-  mechanics: { initialized: false, current: 12, max: 12, state: null, consumeVerb: 'spend integrity', gainVerb: 'repair' },
+  mechanics: { initialized: false, current: 0, max: 12, state: null, consumeVerb: 'spend integrity', gainVerb: 'repair' },
   tooltip: { title: 'Lich Anchor - manual tabletop', description: 'No trait, anchor ward, death save, stage or integrity change is applied automatically. The table must record every change.' },
   rules: {
     integrityMax: 12, initialIntegrity: 12, stageMax: 2, preparedTraitCount: 2,
@@ -202,7 +202,7 @@ export const LICHBORNE_DATA = {
   developmentStatus: 'development',
   statusLabel: 'Development - manual tabletop',
   classResource: {
-    type: 'lich_anchor', current: 12, max: 12, initialized: false, state: null,
+    type: 'lich_anchor', current: 0, max: 12, initialized: false, state: null,
     note: 'Record anchor integrity, stage, prepared traits and life state manually.'
   },
   equipment: { weapons: ['staff', 'dagger'], protectiveGear: ['light_ward', 'robes'], offHand: ['empty', 'phylactery_focus'] },

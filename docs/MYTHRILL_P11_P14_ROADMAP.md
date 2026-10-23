@@ -5,10 +5,23 @@ roadmap ([MYTHRILL_NEXT_PHASE.md](MYTHRILL_NEXT_PHASE.md) §26) ends at P10 and 
 This document adds four bounded phases. **At creation only P11 was authorized.** Later bounded
 authorizations/status are recorded below; each further slice still needs its own contract/go-ahead.
 
-> **Latest delivery, 2026-10-22:** [P14-A3](MYTHRILL_PROJECT_14_A3_CONTRACT.md), bounded independent
+> **Active bounded extension:** [P14-A5](MYTHRILL_PROJECT_14_A5_CONTRACT.md) is now explicitly authorized
+> and implemented: bounded independent ACCEPT (qualified), Build5/App6 PASS; [exact evidence](MYTHRILL_PROJECT_14_A5_ACCEPTANCE.md). Exact admitted creature → primary PC damage
+> uses P12B owner block/Don't block, retained faces and atomic source AP/mana+PC HP+wear. Healing requires
+> explicit owner acceptance of the exact proposal with no equipment; no universal tabletop consent rule.
+> Earlier A5 preparation-only text is historical. No broader P14 execution or release gate is closed.
+
+> **Latest bounded execution, 2026-10-22:** [P14-A4](MYTHRILL_PROJECT_14_A4_SOURCE_AUTHORITY_CONTRACT.md)
+> exact current-GM placed creature → distinct same-map creature, whole-definition/version/source
+> admission, retained roll, GM final and existing P7 authored-price AP/mana+HP/recovery. Final qualified
+> single-review repaired ACCEPT / Build4-App10 PASS: [A4 acceptance](MYTHRILL_PROJECT_14_A4_ACCEPTANCE.md). No implicit PC use,
+> self/range0 workaround, complex ability engine or all-P14 completion. [A5 creature→PC](MYTHRILL_PROJECT_14_A5_CREATURE_PC_PREPARATION.md)
+> prepares P12B target-owner block/consent/wear and healing policy only; not implemented.
+>
+> **Preserved producer delivery, 2026-10-22:** [P14-A3](MYTHRILL_PROJECT_14_A3_CONTRACT.md), bounded independent
 > ACCEPT/Build1-App9 PASS (qualified): Creature Wizard whole-record producer/save/reopen/preservation,
-> normal A1 admission and detached placed copies. Creature casting unavailable. [A4 source authority](MYTHRILL_PROJECT_14_A4_SOURCE_AUTHORITY_CONTRACT.md)
-> is preparation only, separately authorized. Later unrelated UI drift/fixture/device limits explicit; see §16.
+> normal A1 admission and detached placed copies. Creature casting was unavailable at A3's boundary;
+> A4's separately authorized exact source extension is above. A3 fixture/device limits remain; see §16.
 >
 > **Preserved delivery:** [P14-A1](MYTHRILL_PROJECT_14_A1_CONTRACT.md#implementation-and-verification--2026-10-22)
 > Wizard-authored immediate damage/healing implemented; same-review repaired independent source/evidence

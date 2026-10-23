@@ -1,7 +1,8 @@
 import React, { useState, useRef, useMemo } from 'react';
 import useItemStore from '../../store/itemStore';
-import useGridItemStore from '../../store/gridItemStore';
+import useGridItemStore, { isLootRollLockActive } from '../../store/gridItemStore';
 import useGameStore from '../../store/gameStore';
+import useLootRollStore from '../../store/lootRollStore';
 import useLevelEditorStore from '../../store/levelEditorStore';
 import { getGridSystem } from '../../utils/InfiniteGridSystem';
 import { getTileElevation } from '../../utils/ElevationUtils';
@@ -13,6 +14,7 @@ import { RARITY_COLORS } from '../../constants/itemConstants';
 import { getIconUrl } from '../../utils/assetManager';
 import { isPointInPolygon, getPolygonBBox } from '../../utils/VisibilityCalculations';
 import '../../styles/grid-container.css'; // Re-use grid-container styles for now or basic styles
+import '../loot/LootRollManager.css'; // rolling / reserved loot orb styles
 
 const GridItem = ({ gridItem }) => {
   const [showTooltip, setShowTooltip] = useState(false);
@@ -36,6 +38,9 @@ const GridItem = ({ gridItem }) => {
 
   // Get level editor state for visibility calculations
   const isGMMode = useGameStore(state => state.isGMMode); // Note: isGMMode is in gameStore
+  const gameStorePlayerId = useGameStore(state => state.currentPlayer?.id);
+  const lootRollPlayerId = useLootRollStore(state => state.myPlayerId);
+  const myPlayerId = lootRollPlayerId || gameStorePlayerId;
   const viewingFromToken = useLevelEditorStore(state => state.viewingFromToken);
   const dynamicFogEnabled = useLevelEditorStore(state => state.dynamicFogEnabled);
   const visibleArea = useLevelEditorStore(state => state.visibleArea);
@@ -342,11 +347,23 @@ const GridItem = ({ gridItem }) => {
   const qualityColor = RARITY_COLORS[item.quality?.toLowerCase()]?.border || RARITY_COLORS.common.border;
   const itemSize = gridSize * effectiveZoom * 0.6; // Slightly smaller than tile
 
+  // Group loot rolls: locked while players roll; afterwards reserved for the winner.
+  const isRollLocked = isLootRollLockActive(gridItem);
+  const isReservedForOther = !isRollLocked && !!gridItem.lootRollWinnerId && !!myPlayerId && gridItem.lootRollWinnerId !== myPlayerId;
+  const orbClassName = [
+    'grid-item-orb',
+    isRollLocked ? 'grid-item-orb--rolling' : '',
+    isReservedForOther ? 'grid-item-orb--reserved' : ''
+  ].filter(Boolean).join(' ');
+
   return (
     <>
       <div
-        className="grid-item-orb"
-        draggable={true}
+        className={orbClassName}
+        draggable={!isRollLocked || !!isGMMode}
+        title={isRollLocked
+          ? 'Being rolled for — Need / Greed / Pass in progress'
+          : (isReservedForOther ? `Won by ${gridItem.lootRollWinnerName || 'another player'}` : undefined)}
         onPointerDown={handlePointerDown}
         onPointerUp={handlePointerUp}
         onDragStart={handleDragStart}
@@ -383,6 +400,11 @@ const GridItem = ({ gridItem }) => {
         onMouseLeave={handleMouseLeave}
       >
         {isOccluded && <span className="token-occlusion-ring" aria-hidden="true" />}
+        {(isRollLocked || isReservedForOther) && (
+          <span className={`grid-item-orb-roll-badge ${isReservedForOther ? 'reserved' : ''}`} aria-hidden="true">
+            <i className={isRollLocked ? 'fas fa-dice-d20' : 'fas fa-lock'} />
+          </span>
+        )}
         {!item.iconId && (
           <div style={{
             width: '100%',

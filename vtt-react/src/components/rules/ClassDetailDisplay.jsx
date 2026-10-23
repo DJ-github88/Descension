@@ -55,6 +55,12 @@ const buildDemoClassResource = (className) => {
   if (className === 'Fate Weaver') {
    return { type: 'fate-links', initialized: false, state: null, current: 0, max: 3 };
   }
+  if (className === 'Deathcaller') {
+   return { type: 'dead-muster', initialized: false, state: null, current: 0, max: 2 };
+  }
+  if (className === 'Lichborne') {
+   return { type: 'lich-anchor', initialized: false, state: null, current: 0, max: 12 };
+  }
   if (className === 'Chaos Weaver') {
   // RI-1: the demo preview must never fabricate a filled six-tile hand.
   // A fresh character's tiles are uninitialized until a manual rehearsal
@@ -195,16 +201,24 @@ const CLASS_REGIONS = {
   glowColor: 'rgba(30, 132, 73, 0.15)',
   icon: 'fas fa-vial'
  },
- // REMOVED: lichborne merged into Revenant as Phase 1.10 consolidation
- // lichborne: {
- //  regionId: 'bryngloom-forest',
- //  regionName: 'Bryngloom Forest',
- //  accentColor: '#16a085',
- //  bgGradient: 'linear-gradient(135deg, rgba(22, 160, 133, 0.06) 0%, rgba(26, 188, 156, 0.02) 100%)',
- //  borderColor: '#16a085',
- //  glowColor: 'rgba(22, 160, 133, 0.15)',
- //  icon: 'fas fa-skull'
- // },
+ deathcaller: {
+  regionId: 'bryngloom-forest',
+  regionName: 'Bryngloom Forest',
+  accentColor: '#4d5b4a',
+  bgGradient: 'linear-gradient(135deg, rgba(77, 91, 74, 0.06) 0%, rgba(143, 163, 191, 0.02) 100%)',
+  borderColor: '#4d5b4a',
+  glowColor: 'rgba(77, 91, 74, 0.15)',
+  icon: 'fas fa-skull'
+ },
+ lichborne: {
+  regionId: 'bryngloom-forest',
+  regionName: 'Bryngloom Forest',
+  accentColor: '#45607a',
+  bgGradient: 'linear-gradient(135deg, rgba(69, 96, 122, 0.06) 0%, rgba(143, 163, 191, 0.02) 100%)',
+  borderColor: '#45607a',
+  glowColor: 'rgba(69, 96, 122, 0.15)',
+  icon: 'fas fa-snowflake'
+ },
   pyrofiend: {
    regionId: 'sundale',
    regionName: 'Sundale Badlands',
@@ -2942,8 +2956,8 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
    'martyr': 'fas fa-heart',
    'chronarch': 'fas fa-clock',
    'fate-weaver': 'fas fa-cards',
-   // REMOVED: lichborne icon merged into Revenant as Phase 1.10 consolidation
-   // 'lichborne': 'fas fa-snowflake',
+   'deathcaller': 'fas fa-skull',
+   'lichborne': 'fas fa-snowflake',
    'animist': 'fas fa-wind',
    'inquisitor': 'fas fa-gavel',
    'arcanoneer': 'fas fa-atom',

@@ -58,6 +58,9 @@ export function exactDeltas(before, actor) {
   const out = {};
   for (const pool of Object.keys(POOLS)) {
     const a = actor.finalResources?.[pool], b = before.pools?.[pool];
+    // A4: an unavailable unused creature pool cannot suppress an exact HP delta.
+    // No value or payment is inferred for that pool; revision matching still applies.
+    if (actor.ref?.kind === 'creature' && a?.current === undefined && b?.current === undefined) { out[pool] = null; continue; }
     if (![a?.current, a?.temp, b?.current, b?.temp].every(Number.isFinite)) return null;
     out[pool] = { current: a.current - b.current, temp: a.temp - b.temp };
   }
@@ -71,7 +74,7 @@ export function capabilityOf(receipt) {
   if (!chosen || typeof hashId !== 'string') return { kind: 'none' };
   if (hashId === STRIKE) return { kind: 'strike', label: chosen.weapon?.name, outcome: chosen.rollOutcome, damage: chosen.rollOutcome !== 'miss' };
   if (hashId === RIPOSTE) return { kind: 'riposte', label: 'Riposte', outcome: chosen.rollOutcome, damage: chosen.rollOutcome !== 'miss' };
-  if (hashId === BLOCK) return { kind: 'block', label: chosen.attack?.ability?.name, blockName: chosen.block?.name, reduction: chosen.block?.reduction, damage: true };
+  if (hashId === BLOCK) return { kind: 'block', label: chosen.attack?.ability?.name, blockName: chosen.block?.name, reduction: chosen.block?.reduction, damage: (chosen.attack?.authored?.kind || chosen.attack?.authored?.attempt?.spell?.kind) !== 'healing' };
   if (hashId === FEATHER) return { kind: 'feather', label: 'Feather Slash', damage: true };
   if (hashId.startsWith(SPELL_PREFIX) || hashId.startsWith('authored-immediate:v1/')) return { kind: 'spell', label: chosen.spellName, damage: chosen.kind === 'damage' };
   return { kind: 'none' };
@@ -91,8 +94,8 @@ function actorWords(delta, establishesAbsorption, wear, miss) {
   if (miss) words.push('miss');
   if (delta) {
     words.push(...hpParts(delta, establishesAbsorption).map(part => part.text));
-    if (delta.ap.current || delta.ap.temp) words.push(`AP ${signed(delta.ap.current + delta.ap.temp, '').trim()}`);
-    if (delta.mana.current || delta.mana.temp) words.push(`mana ${signed(delta.mana.current + delta.mana.temp, '').trim()}`);
+    if (delta.ap?.current || delta.ap?.temp) words.push(`AP ${signed(delta.ap.current + delta.ap.temp, '').trim()}`);
+    if (delta.mana?.current || delta.mana?.temp) words.push(`mana ${signed(delta.mana.current + delta.mana.temp, '').trim()}`);
   }
   if (wear && typeof wear.name === 'string' && wear.beforeDie !== wear.afterDie) words.push(`${wear.name} ${wear.beforeDie} → ${wear.broken ? 'broken' : wear.afterDie}`);
   return words;
@@ -133,8 +136,8 @@ export function buildFeed({ result, before = {}, viewer, live }) {
     const src = nameOf(receipt.source) || 'Someone', tgt = nameOf(receipt.target) || 'someone', label = typeof capability.label === 'string' ? capability.label.slice(0, 80) : 'an action';
     const lead = capability.kind === 'strike' ? `${src} ${capability.outcome === 'miss' ? 'misses' : 'strikes'} ${tgt} with ${label}${capability.outcome === 'critical' ? ' (critical)' : ''}`
       : capability.kind === 'riposte' ? `${src} ${capability.outcome === 'miss' ? 'misses' : 'counter-attacks'} ${tgt} with Riposte`
-        : capability.kind === 'block' ? `${src}’s ${label} hits ${tgt}${capability.blockName ? `; ${capability.blockName} blocks ${capability.reduction}` : ''}`
-        : capability.kind === 'spell' ? `${src} casts ${label} on ${tgt}`
+        : capability.kind === 'block' ? `${src}’s ${label} ${capability.damage ? 'hits' : 'heals'} ${tgt}${capability.blockName ? `; ${capability.blockName} blocks ${capability.reduction}` : ''}`
+         : capability.kind === 'spell' ? `${src} casts ${label} on ${sameRef(receipt.source, receipt.target) ? 'Self' : tgt}`
           : `${src}’s ${label} hits ${tgt}`;
     text = `${lead}. ${body}.`;
     arithmetic = capability.kind === 'riposte' ? riposteAcceptedText(result) : capability.kind === 'strike' ? acceptedText(result) || '' : capability.kind === 'block' ? acceptedBlockText(result) || '' : '';

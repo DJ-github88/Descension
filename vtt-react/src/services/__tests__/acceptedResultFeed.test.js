@@ -14,6 +14,19 @@ const strikeReceipt = (finalHp, finalTemp, { outcome = 'hit' } = {}) => ({ succe
   actors: [{ ref: pc, beforeRevision: 3, afterRevision: 4, finalResources: pools(30, 0, 2) }, { ref: foe, beforeRevision: 7, afterRevision: 8, finalResources: pools(finalHp, finalTemp) }] } });
 const allVisible = { reportable: () => true, rendered: () => true };
 
+test('A4 unavailable unused creature pools retain exact healing feedback, visibility and historical silence', () => {
+  const result = strikeReceipt(36, 0); result.receipt.authorization.kind = 'gm-creature-ability';
+  result.receipt.adjudication = { definitionVersionOrHash: `authored-immediate:v1/${'a'.repeat(64)}`, chosenResult: JSON.stringify({ kind: 'healing', spellName: 'Authored healing' }) };
+  const prior = { [actorKey(foe)]: before(7, 30, 0, 4, 'Visible creature'), [actorKey(pc)]: before(3, 30) };
+  for (const p of ['ap', 'mana']) { delete prior[actorKey(foe)].pools[p].current; delete result.receipt.actors[1].finalResources[p].current; }
+  const live = buildFeed({ result, before: prior, viewer: allVisible, live: true });
+  expect(live.floats).toEqual([{ key: actorKey(foe), parts: [{ kind: 'heal', amount: 6, text: '+6 HP' }] }]);
+  expect(live.narration.text).toContain('Visible creature +6 HP');
+  expect(buildFeed({ result, before: prior, viewer: allVisible, live: false }).floats).toEqual([]);
+  const hidden = buildFeed({ result, before: prior, viewer: { reportable: r => r.kind === 'character', rendered: () => false }, live: true });
+  expect(hidden.floats).toEqual([]); expect(hidden.narration.text).not.toContain('Visible creature');
+});
+
 test('exact numbers only at beforeRevision; overkill floats the actual drop', () => {
   const result = strikeReceipt(0, 0);
   const feed = buildFeed({ result, before: { [actorKey(pc)]: before(3, 30, 0, 4, 'Ilsa'), [actorKey(foe)]: before(7, 5, 0, 4, 'Branvig') }, viewer: allVisible, live: true });

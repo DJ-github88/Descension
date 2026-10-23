@@ -23,6 +23,8 @@ import MayhemModifiersResourceBar from './MayhemModifiersResourceBar';
 import ChaosWeaverResourceDisplay from './ChaosWeaverResourceDisplay';
 import GamblerResourceDisplay from './GamblerResourceDisplay';
 import FateWeaverResourceDisplay from './FateWeaverResourceDisplay';
+import DeathcallerResourceDisplay from './DeathcallerResourceDisplay';
+import LichborneResourceDisplay from './LichborneResourceDisplay';
 import { BRICK, INK, PAPER } from './calmBarPalette';
 import PropheticVisionsResourceBar from './PropheticVisionsResourceBar';
 import DominanceDieResourceBar from './DominanceDieResourceBar';
@@ -1259,6 +1261,10 @@ const ClassResourceBar = ({
                 return <GamblerResourceDisplay resource={finalClassResource} isOwner={isOwner} />;
             case 'fate-links':
                 return <FateWeaverResourceDisplay resource={finalClassResource} isOwner={isOwner} />;
+            case 'dead_muster':
+                return <DeathcallerResourceDisplay resource={finalClassResource} isOwner={isOwner} />;
+            case 'lich_anchor':
+                return <LichborneResourceDisplay resource={finalClassResource} isOwner={isOwner} />;
             case 'chaos-weaver-tiles':
                 return renderChaosWeaverTiles();
             case 'orbs':
@@ -1950,7 +1956,9 @@ const ClassResourceBar = ({
         'fervor-gauge',          // Crusader
         'chaos-weaver-tiles',    // Chaos Weaver
         'gambler-hand',         // Gambler: separate from legacy Gambit/Fate Weaver
-        'fate-links'            // Fate Weaver: finite consented links
+        'fate-links',           // Fate Weaver: finite consented links
+        'dead_muster',          // Deathcaller: manual prepared muster
+        'lich_anchor'           // Lichborne: manual anchor record
     ]);
     const hasDedicatedBar = DEDICATED_BAR_TYPES.has(finalConfig.visual?.type);
 
@@ -1960,7 +1968,7 @@ const ClassResourceBar = ({
     // "no rehearsal session set up" notice while uninitialized (max === 0).
     if (
         (!finalClassResource.max || finalClassResource.max === 0) &&
-        !['chaos-weaver-tiles', 'gambler-hand'].includes(finalConfig.visual?.type)
+        !['chaos-weaver-tiles', 'gambler-hand', 'dead_muster', 'lich_anchor'].includes(finalConfig.visual?.type)
     ) {
         return null;
     }

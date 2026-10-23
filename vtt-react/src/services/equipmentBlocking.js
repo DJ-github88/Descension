@@ -99,48 +99,64 @@ const tempFirst = (current, temp, amount) => {
   return { current: current - (amount - fromTemp), temp: temp - fromTemp };
 };
 /** Server-checked consumption plan: [creature {ap}, character {hp, equipmentWear}] under the offer's command ID. */
-export function planBlockCommand({ offer, entry, sourceToken, targetToken, declaration, names, manual = [], finalAmount, reason = '', revalidation = null }) {
+export function planBlockCommand({ offer, entry, sourceToken, targetToken, declaration, names, manual = [], finalAmount, reason = '', revalidation = null, targetRevalidation = null }) {
   const { approval, contentHash } = entry;
   if (approval.attack.commandId !== offer.commandId || approval.attack.attackHash !== offer.attackHash) throw Error('The approval names a different attack.');
-  const piece = firstAvailable(declaration, targetToken.character?.equipment);
-  if (!piece || declaration.revision !== approval.blocking.revision || piece.slot !== approval.blocking.slot || piece.itemId !== approval.blocking.itemId || piece.currentDie !== approval.blocking.die) {
+  const piece = approval.blocking ? firstAvailable(declaration, targetToken.character?.equipment) : null;
+  if (approval.blocking && (!piece || declaration.revision !== approval.blocking.revision || piece.slot !== approval.blocking.slot || piece.itemId !== approval.blocking.itemId || piece.currentDie !== approval.blocking.die)) {
     // P12B-r1 (§3.9 R3): the recorded face is never re-read on another die and never re-rolled.
     const error = Error(`The recorded block (face ${approval.roll.faces[0]} on ${approval.blocking.slot} ${approval.blocking.die}) no longer matches the current piece${piece ? ` (${piece.slot} ${piece.currentDie})` : ' (unavailable)'}. The recorded face is kept: void the block roll and resolve HP by hand.`);
     error.code = piece ? 'block_revalidation_required' : 'block_piece_unavailable';
     throw error;
   }
-  if (offer.attack.outcome === 'critical' && piece.kind === 'armor') throw Error('Criticals go around armor: no block roll. Resolve HP without a block.');
-  const required = requiredManual(offer.attack);
+  if (offer.attack.outcome === 'critical' && piece?.kind === 'armor') throw Error('Criticals go around armor: no block roll. Resolve HP without a block.');
+  const required = piece ? requiredManual(offer.attack) : [];
   const categories = manual.map(item => item.category);
   if (required.some(category => !categories.includes(category))) throw Error('A GM ruling is required for this branch.');
-  const face = approval.roll.faces[0], defending = holdsDefending(targetToken), reduction = require('./sharedConditionProfile').blockingReduction(face, defending);
+  const face = approval.roll?.faces[0] ?? null, defending = holdsDefending(targetToken), reduction = piece ? require('./sharedConditionProfile').blockingReduction(face, defending) : 0;
   const afterBlock = Math.max(0, offer.attack.proposedDamage - reduction);
   const amount = finalAmount === undefined || finalAmount === '' ? afterBlock : Number(finalAmount);
+  const healing = offer.attack.authored?.attempt.spell.kind === 'healing';
+  if (healing && amount !== offer.attack.proposedDamage) throw Error('Healing amount changed: close this offer and request owner acceptance again with the retained source roll.');
   if (!Number.isSafeInteger(amount) || amount < 0 || amount > 100000) throw Error('Final HP damage must be a whole number.');
   if (amount !== afterBlock && !String(reason).trim()) throw Error(`Explain the change from ${afterBlock}.`);
   const sourceAp = { current: sourceToken.state.currentActionPoints, temp: sourceToken.state.tempActionPoints || 0 };
   const hpPool = { current: targetToken.character.health.current, temp: targetToken.character.tempHealth || 0 };
   const fromTemp = Math.min(hpPool.temp, amount);
-  const hp = { current: Math.max(0, hpPool.current - (amount - fromTemp)), temp: hpPool.temp - fromTemp };
-  const { afterDie, broken } = deriveWear(piece.kind, piece.currentDie, face, defending);
+  const hp = healing ? { current: Math.min(targetToken.character.health.max, hpPool.current + amount), temp: hpPool.temp }
+    : { current: Math.max(0, hpPool.current - (amount - fromTemp)), temp: hpPool.temp - fromTemp };
+  const { afterDie, broken } = piece ? deriveWear(piece.kind, piece.currentDie, face, defending) : {};
+  const price = offer.attack.authored?.attempt.price || { ap: offer.attack.apCost, mana: 0 }, payment = {};
+  if (price.ap > 0) payment.ap = tempFirst(sourceAp.current, sourceAp.temp, price.ap);
+  if (price.mana > 0) payment.mana = tempFirst(sourceToken.state.currentMana, sourceToken.state.tempMana || 0, price.mana);
+  if (!Object.keys(payment).length) payment.ap = tempFirst(sourceAp.current, sourceAp.temp, 0);
   const currentRevision = sourceToken.state.actorContract.revision;
+  const targetRevision = targetToken.state.actorContract.revision;
+  if (offer.attack.authored && targetRevision !== offer.attack.authored.targetRevision && !targetRevalidation) {
+    const error = Error('The target changed. Explicitly revalidate this target context with the retained original faces.'); error.code = 'target_revalidation_required'; throw error;
+  }
   const chosen = { capability: CAPABILITY, approvalId: approval.approvalId, gmConfirmed: true, names: { source: String(names.source).slice(0, 60), target: String(names.target).slice(0, 60) },
-    attack: offer.attack, block: { slot: piece.slot, name: piece.name, kind: piece.kind, die: piece.currentDie, face, defending, reduction }, afterBlock,
-    manual: manual.map(item => ({ category: item.category, note: String(item.note || '').slice(0, 300) })) };
-  if (revalidation) {
+    attack: offer.attack, block: piece ? { slot: piece.slot, name: piece.name, kind: piece.kind, die: piece.currentDie, face, defending, reduction } : null, afterBlock,
+    manual: piece ? manual.map(item => ({ category: item.category, note: String(item.note || '').slice(0, 300) })) : [] };
+  if (revalidation && (!offer.attack.authored || currentRevision !== offer.attack.sourceRevision)) {
     // §3.9 R2: the GM states why the recorded rolls still stand after the creature changed.
     const why = String(revalidation.reason || '').trim();
     if (!why) throw Error('Say why the recorded rolls still stand.');
     if (currentRevision === offer.attack.sourceRevision) throw Error('The creature has not changed since the offer; no revalidation is needed.');
     chosen.revalidation = { fromRevision: offer.attack.sourceRevision, toRevision: currentRevision, reason: why.slice(0, 300) };
   }
+  if (targetRevalidation && offer.attack.authored && targetRevision !== offer.attack.authored.targetRevision) {
+    const why = String(targetRevalidation.reason || '').trim();
+    if (!why) throw Error('Explain why the target context still permits this retained proposal.');
+    chosen.targetRevalidation = { fromRevision: offer.attack.authored.targetRevision, toRevision: targetRevision, reason: why.slice(0, 300) };
+  }
   return {
     commandId: offer.commandId,
     entries: [
       // §3.9 R1: the creature's current revision; AP from its current pools (temp first).
-      { ref: approval.source, expectedRevision: currentRevision, finalResources: { ap: tempFirst(sourceAp.current, sourceAp.temp, offer.attack.apCost) } },
+      { ref: approval.source, expectedRevision: currentRevision, finalResources: payment },
       { ref: approval.target, expectedRevision: targetToken.state.actorContract.revision, finalResources: { hp },
-        equipmentWear: { slot: piece.slot, itemId: piece.itemId, blockingRevision: declaration.revision, beforeDie: piece.currentDie, afterDie, broken } }],
+        ...(piece ? { equipmentWear: { slot: piece.slot, itemId: piece.itemId, blockingRevision: declaration.revision, beforeDie: piece.currentDie, afterDie, broken } } : {}) }],
     extra: { source: approval.source, target: approval.target, approval: { approvalId: approval.approvalId, contentHash },
       adjudication: { definitionId: DEFINITION_ID, definitionVersionOrHash: DEFINITION_HASH, chosenResult: JSON.stringify(chosen), finalAmount: amount, adjustmentReason: String(reason).trim() } },
     preview: { face, defending, reduction, afterBlock, amount, afterDie, broken, piece }
@@ -152,7 +168,7 @@ export function blockReceipt(result) {
   if (!result?.success || receipt?.version !== 1 || adjudication?.definitionId !== DEFINITION_ID || adjudication.definitionVersionOrHash !== DEFINITION_HASH) return null;
   try {
     const chosen = JSON.parse(adjudication.chosenResult);
-    const target = receipt.actors.find(actor => actor.equipmentWear);
+    const target = receipt.actors.find(actor => actor.ref?.kind === 'character');
     if (!target || chosen.capability !== CAPABILITY) return null;
     return { receipt, chosen, wear: target.equipmentWear, target: target.ref, approvalId: chosen.approvalId };
   } catch (_) { return null; }
@@ -163,10 +179,11 @@ export function acceptedBlockText(result) {
   if (!view) return null;
   const { chosen, wear, receipt } = view;
   const source = receipt.actors.find(actor => actor.ref.kind === 'creature');
-  const wearText = wear.afterDie === wear.beforeDie ? `${wear.name} blocked ${chosen.block.reduction} (no wear${wear.defending ? ', Defending' : ''})`
+   const wearText = !wear ? 'No equipment block or wear' : wear.afterDie === wear.beforeDie ? `${wear.name} blocked ${chosen.block.reduction} (no wear${wear.defending ? ', Defending' : ''})`
     : `${wear.name} blocked ${chosen.block.reduction}; worn ${wear.beforeDie} → ${wear.broken ? 'broken' : wear.afterDie}`;
   const rulings = chosen.manual.length ? ` GM rulings: ${chosen.manual.map(item => item.category).join(', ')}.` : '';
   // P12B-r1 (§3.9 R2, review finding 3): the GM's revalidation is part of the public result.
   const revalidated = chosen.revalidation ? ` GM confirmed the recorded rolls after the attacker changed: ${chosen.revalidation.reason}.` : '';
-  return `Accepted: ${chosen.names.target} takes ${receipt.adjudication.finalAmount} HP from ${chosen.names.source}'s ${chosen.attack.ability.name}${source && chosen.attack.apCost ? ` (AP −${chosen.attack.apCost})` : ''}. ${wearText}.${rulings}${revalidated}`;
+   const healing = (chosen.attack.authored?.kind || chosen.attack.authored?.attempt?.spell.kind) === 'healing';
+   return `Accepted: ${chosen.names.target} ${healing ? 'receives' : 'takes'} ${receipt.adjudication.finalAmount} ${healing ? 'healing' : 'HP'} from ${chosen.names.source}'s ${chosen.attack.ability.name}${source && chosen.attack.apCost ? ` (AP −${chosen.attack.apCost})` : ''}. ${wearText}.${rulings}${revalidated}`;
 }

@@ -62,6 +62,12 @@ export const SPELL_RESOURCE_KEY_TO_ENGINE_ID = {
   inferno_veil: 'infernoVeil',
   inferno_ascend: 'infernoVeil',
   inferno_required: 'infernoVeil',
+  // Deathcaller
+  dead_muster: 'dead-muster',
+  muster: 'dead-muster',
+  // Lichborne
+  lich_anchor: 'lich-anchor',
+  anchor_integrity: 'lich-anchor',
   // Revenant
   toll: 'revenant-toll',
   deathToll: 'revenant-toll',

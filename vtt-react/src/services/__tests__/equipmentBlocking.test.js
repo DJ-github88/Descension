@@ -24,6 +24,25 @@ test('wear: armor 1–2, shield 1, none while Defending; ladder d20 → d12 … 
   expect(stepDown('d20')).toBe('d12');
   expect(deriveWear('armor', 'd4', 1, false)).toEqual({ afterDie: 'broken', broken: true });
 });
+test('A5 healing binds accepted amount, pays authored mana/AP zeros, caps HP without block or wear', () => {
+  const a = attack(); a.authored = { attempt: { spell: { kind: 'healing' }, price: { ap: 0, mana: 0 } }, targetRevision: 9 }; a.proposedDamage = 100;
+  const offer = offerOf(a), entry = entryOf(offer, 2); entry.approval.blocking = null; entry.approval.roll = null;
+  const target = targetToken(); target.character.health.max = 40;
+  const input = { offer, entry, sourceToken, targetToken: target, declaration: null, names: { source: 'Creature', target: 'PC' } };
+  const plan = planBlockCommand(input);
+  expect(plan.entries[0].finalResources).toEqual({ ap: { current: 3, temp: 1 } });
+  expect(plan.entries[1].finalResources.hp).toEqual({ current: 40, temp: 2 }); expect(plan.entries[1].equipmentWear).toBeUndefined();
+  expect(JSON.parse(plan.extra.adjudication.chosenResult).block).toBeNull();
+  expect(() => planBlockCommand({ ...input, finalAmount: 99 })).toThrow(/acceptance again/);
+});
+test('A5 target changes demand explicit same-face revalidation, never a fresh block face', () => {
+  const a = attack(); a.authored = { attempt: { spell: { kind: 'damage' }, price: { ap: 1, mana: 3 } }, targetRevision: 8 };
+  const offer = offerOf(a), entry = entryOf(offer, 2), input = { offer, entry, sourceToken: { state: { ...sourceToken.state, currentMana: 4, tempMana: 1 } }, targetToken: targetToken(), declaration, names: { source: 'Creature', target: 'PC' } };
+  expect(() => planBlockCommand(input)).toThrow(/target changed/);
+  const plan = planBlockCommand({ ...input, targetRevalidation: { reason: 'Reviewed canonical condition expiry; original face stands' } });
+  expect(JSON.parse(plan.extra.adjudication.chosenResult).block.face).toBe(2);
+  expect(plan.entries[0].finalResources.mana).toEqual({ current: 2, temp: 0 });
+});
 test('first available skips broken pieces and pieces no longer in their shared slot', () => {
   expect(firstAvailable(declaration, equipment).slot).toBe('chest');
   expect(firstAvailable({ ...declaration, pieces: [{ ...declaration.pieces[0], broken: true }, declaration.pieces[1]] }, equipment).slot).toBe('offHand');

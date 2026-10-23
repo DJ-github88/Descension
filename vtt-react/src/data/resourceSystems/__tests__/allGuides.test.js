@@ -29,10 +29,15 @@ import { GAMBIT_DATA } from '../../classes/gambitData';
 import { CHAOS_WEAVER_DATA } from '../../classes/chaosWeaverIntegration';
 import { GAMBLER_DATA } from '../../classes/gamblerData';
 import { FATE_WEAVER_DATA } from '../../classes/fateWeaverData';
+import { DEATHCALLER_DATA } from '../../classes/deathcallerData';
+import { LICHBORNE_DATA } from '../../classes/lichborneData';
+
 
 const CLASS_DATA = {
  gambler: GAMBLER_DATA,
  'fate-weaver': FATE_WEAVER_DATA,
+ deathcaller: DEATHCALLER_DATA,
+ lichborne: LICHBORNE_DATA,
  warden: WARDEN_DATA,
  augur: AUGUR_DATA,
  chronarch: CHRONARCH_DATA,

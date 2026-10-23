@@ -138,11 +138,11 @@ function validateApprovalShape(approval, creature = false) {
   return approval;
 }
 function validateApproval(approval) { return validateApprovalShape(approval); }
-function validateCreatureApproval(approval) {
+function validateCreatureApproval(approval, primaryPc = false) {
   validateApprovalShape(approval, true);
   keys(approval.sourceAuthority, ['admissionId', 'associationHash', 'gmUid']);
   if (!UUID.test(approval.sourceAuthority.admissionId || '') || !/^[0-9a-f]{64}$/.test(approval.sourceAuthority.associationHash || '') || !text(approval.sourceAuthority.gmUid) ||
-    approval.target.kind !== 'creature' || hash(approval.source) === hash(approval.target) || approval.classPayment !== null ||
+    approval.target.kind !== (primaryPc ? 'character' : 'creature') || (hash(approval.source) === hash(approval.target) && (primaryPc || approval.spell.kind !== 'healing')) || approval.classPayment !== null ||
     !approval.spell.definitionHash.startsWith('authored-immediate:v1/')) fail('unsupported_creature_target');
   return approval;
 }
@@ -160,6 +160,12 @@ function sourcePools(token, kind = 'character') {
 function validPool(pool) {
   if (![pool.current, pool.temp, pool.max].every(v => typeof v === 'number' && Number.isFinite(v) && v >= 0) || pool.current > pool.max) fail('invalid_resources');
   return pool;
+}
+// A6 validation evidence belongs to the existing pending attempt, not a second actor/store.
+function selfState(room, approval) {
+  if (approval.source.kind !== 'creature' || hash(approval.source) !== hash(approval.target)) return null;
+  const source = actors.locate(room, approval.source);
+  return hash({ contract: source.contract, resources: actors.resources(source.token, 'creature'), conditions: source.token.state?.conditions || [] });
 }
 /** Checks an approval against current authoritative room state. */
 function checkAgainstRoom(room, approval) {
@@ -251,6 +257,7 @@ function bindCommand(room, player, command, authorization) {
   const capability = authored.isAuthored(approval.spell) ? authored.CAPABILITY : CAPABILITY;
   if (capability === authored.CAPABILITY) {
     checkAgainstRoom(room, approval);
+    if (selfState(room, approval) !== (entry.selfState ?? null)) fail('creature_revalidation_required');
     if (approval.source.kind === 'character' && actors.locate(room, approval.source).token.ownerUserId !== approval.source.ownerUid) {fail('forbidden');}
   }
   if (approval.source.kind === 'creature') {
@@ -288,6 +295,7 @@ function bindCommand(room, player, command, authorization) {
     const fromTemp = Math.min(targetPools.hp.temp, amount);
     return { current: Math.max(0, targetPools.hp.current - (amount - fromTemp)), temp: targetPools.hp.temp - fromTemp };
   })() : { current: Math.min(targetPools.hp.max, targetPools.hp.current + amount), temp: targetPools.hp.temp };
+  if (self && approval.source.kind === 'creature' && chosen.actualHealing !== hp.current - targetPools.hp.current) fail('approval_mismatch');
   const expected = [{ ref: approval.source, finalResources: self ? { ...expectedSource, hp } : expectedSource,
     ...(approval.classPayment ? { classPayment: { mode: 'spell', domain: approval.classPayment.domain, approvalHash: entry.contentHash } } : {}) }];
   if (!self) {expected.push({ ref: approval.target, finalResources: { hp } });}
@@ -301,4 +309,4 @@ function bindCommand(room, player, command, authorization) {
   return entry;
 }
 module.exports = { CAPABILITY, DOMAINS, ELEMENTS, PITCHES, validateValue, validatePrice, conserve, publicValue, home, validateEntry, validateApproval, validateCreatureApproval,
-  validateRoll, tempFirst, checkAgainstRoom, checkWindow, get, add, remove, listAll, close, closedCode, closedEntry, pendingFor, consumedReceipt, gmProjection, bindCommand, ownerMember };
+  validateRoll, tempFirst, selfState, checkAgainstRoom, checkWindow, get, add, remove, listAll, close, closedCode, closedEntry, pendingFor, consumedReceipt, gmProjection, bindCommand, ownerMember };

@@ -6,6 +6,7 @@ export const installedEntries = room => roomId === room ? entries : [];
 export function authoredSupport(id, room, className) {
   const entry = installedEntries(room).find(e => actionId(e.definitionRef) === id);
   if (!entry || entry.revoked) return { supported: false, reason: entry?.revoked ? 'This installed version was revoked. Manual play only.' : 'Refresh admitted abilities in this room before using this version.' };
+  if (entry.creatureOnly) return { supported: false, reason: 'This version was admitted only for an exact creature source. Use the placed creature Inspect workflow; PC execution needs its own explicit admission.' };
   const raw = entry.canonicalDefinition, descriptor = entry.descriptor;
   if (String(className || '').toLowerCase().replace(/ /g, '_') !== raw.binding.classId) return { supported: false, reason: 'This installed ability has a different class binding.' };
   return { supported: true, raw: { targetingConfig: { rangeDistance: raw.targeting.rangeFeet, rangeType: raw.targeting.restriction } },

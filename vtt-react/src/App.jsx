@@ -45,6 +45,7 @@ import UnifiedTransitionOverlay from "./components/multiplayer/UnifiedTransition
 import QuickSwitcher from "./components/common/QuickSwitcher";
 import QuickPeekDrawer from "./components/common/QuickPeekDrawer";
 import { clearLocalRoom } from "./utils/localRoom";
+import LootRollManager from "./components/loot/LootRollManager";
 import { safeLocalStorageItem, safeLocalStorageGet, safeLocalStorageRemove } from "./utils/storageUtils";
 import useLocalRoomAutoSave from "./hooks/useLocalRoomAutoSave";
 import initChatStore from './utils/initChatStore';
@@ -919,6 +920,9 @@ function GameScreen() {
           )}
           <ErrorBoundary name="Achievements">
             <AchievementNotificationOverlay />
+          </ErrorBoundary>
+          <ErrorBoundary name="LootRolls">
+            <LootRollManager />
           </ErrorBoundary>
           <ErrorBoundary name="HUD">
             <PrivateProjectionBoundary>

@@ -1,8 +1,32 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { getIconUrl } from '../../../utils/assetManager';
+import { BRUSH_PRESETS, BRUSH_ORDER } from '../../../utils/drawingRender';
 import './styles/DrawingTools.css';
 
-const DrawingTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) => {
+const SHAPE_TOOLS = ['line', 'arrow', 'rectangle', 'circle', 'ellipse', 'polygon'];
+const FILL_TOOLS = ['rectangle', 'circle', 'ellipse', 'polygon', 'fill', 'freehand'];
+const LINE_STYLES = [
+    { id: 'solid', label: 'Solid' },
+    { id: 'dashed', label: 'Dashed' },
+    { id: 'dotted', label: 'Dotted' }
+];
+
+const TOOL_HINTS = {
+    freehand: 'Draw freely. With a stylus, pressing harder makes the line thicker.',
+    polygon: 'Tap or click to place corners. Tap the first corner again, or press Done, to finish.',
+    fill: 'Tap a closed shape to fill it with the fill colour (or the stroke colour if no fill is set).',
+    draw_edit: 'Tap a drawing to select it. Drag it to move, drag a corner to resize. Changes below apply to the selected drawing.'
+};
+
+const DrawingTools = ({
+    selectedTool,
+    onToolSelect,
+    settings,
+    onSettingsChange,
+    selectionCount = 0,
+    onDeleteSelection,
+    onDuplicateSelection
+}) => {
     // Stored opacity is a 0-1 fraction; the slider works in percent (min 10).
     // Legacy percentage values are tolerated, and decayed fractions (< 0.1 are
     // not reachable from the slider) are treated as corrupt and reset to full.
@@ -20,10 +44,12 @@ const DrawingTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }
         return Math.min(1, percent / 100);
     };
 
-    const [strokeColor, setStrokeColor] = useState(settings.strokeColor || '#000000');
-    const [fillColor, setFillColor] = useState(settings.fillColor || 'transparent');
-    const [strokeWidth, setStrokeWidth] = useState(settings.strokeWidth || 2);
-    const [opacity, setOpacity] = useState(() => opacityToPercent(settings.opacity));
+    // The settings live in the editor store (the edit tool loads a selected
+    // drawing's style into them), so the panel just reflects what it is given.
+    const strokeColor = settings.strokeColor || '#000000';
+    const fillColor = settings.fillColor || 'transparent';
+    const strokeWidth = settings.strokeWidth || 2;
+    const opacity = opacityToPercent(settings.opacity);
 
     // Text theme presets
     const getTextThemeSettings = (theme) => {
@@ -159,6 +185,12 @@ const DrawingTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }
             description: 'Draw straight lines'
         },
         {
+            id: 'arrow',
+            name: 'Arrow',
+            icon: 'Piercing/Piercing Shots',
+            description: 'Draw an arrow to point something out'
+        },
+        {
             id: 'rectangle',
             name: 'Rectangle',
             icon: 'Utility/Utility',
@@ -168,13 +200,31 @@ const DrawingTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }
             id: 'circle',
             name: 'Circle',
             icon: 'Arcane/Orb Manipulation',
-            description: 'Draw circles and ellipses'
+            description: 'Draw a circle from its centre outwards'
+        },
+        {
+            id: 'ellipse',
+            name: 'Ellipse',
+            icon: 'Arcane/Orb Manipulation',
+            description: 'Draw an oval by dragging its corners'
         },
         {
             id: 'polygon',
             name: 'Polygon',
             icon: 'Utility/Utility Gear',
-            description: 'Draw polygons by clicking and dragging'
+            description: 'Place corners one by one to build any shape'
+        },
+        {
+            id: 'fill',
+            name: 'Fill',
+            icon: 'Utility/Utility Tool',
+            description: 'Tap a closed shape to colour it in'
+        },
+        {
+            id: 'draw_edit',
+            name: 'Edit',
+            icon: 'Utility/Target Crosshair',
+            description: 'Select, move, resize, recolour or delete what you drew'
         },
         {
             id: 'text',
@@ -285,45 +335,10 @@ const DrawingTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }
         return style;
     };
 
-    const handleStrokeColorChange = (color) => {
-        setStrokeColor(color);
-        onSettingsChange({
-            strokeColor: color,
-            fillColor,
-            strokeWidth,
-            opacity: percentToOpacity(opacity)
-        });
-    };
-
-    const handleFillColorChange = (color) => {
-        setFillColor(color);
-        onSettingsChange({
-            strokeColor,
-            fillColor: color,
-            strokeWidth,
-            opacity: percentToOpacity(opacity)
-        });
-    };
-
-    const handleStrokeWidthChange = (width) => {
-        setStrokeWidth(width);
-        onSettingsChange({
-            strokeColor,
-            fillColor,
-            strokeWidth: width,
-            opacity: percentToOpacity(opacity)
-        });
-    };
-
-    const handleOpacityChange = (newOpacity) => {
-        setOpacity(newOpacity);
-        onSettingsChange({
-            strokeColor,
-            fillColor,
-            strokeWidth,
-            opacity: percentToOpacity(newOpacity)
-        });
-    };
+    const handleStrokeColorChange = (color) => onSettingsChange({ strokeColor: color });
+    const handleFillColorChange = (color) => onSettingsChange({ fillColor: color });
+    const handleStrokeWidthChange = (width) => onSettingsChange({ strokeWidth: width });
+    const handleOpacityChange = (percent) => onSettingsChange({ opacity: percentToOpacity(percent) });
 
     return (
         <div className="drawing-tools">
@@ -353,8 +368,134 @@ const DrawingTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }
                 </div>
             </div>
 
+            {TOOL_HINTS[selectedTool] && (
+                <div className="tool-section">
+                    <p className="tool-hint" data-testid="drawing-tool-hint">{TOOL_HINTS[selectedTool]}</p>
+                    {selectedTool === 'draw_edit' && selectionCount > 0 && (
+                        <div className="selection-actions">
+                            <button type="button" className="selection-action-btn" onClick={onDuplicateSelection}>
+                                Duplicate
+                            </button>
+                            <button type="button" className="selection-action-btn danger" onClick={onDeleteSelection}>
+                                Delete
+                            </button>
+                        </div>
+                    )}
+                </div>
+            )}
+
+            {/* Brush feel (freehand) */}
+            {selectedTool === 'freehand' && (
+                <div className="tool-section">
+                    <h4>Brush</h4>
+                    <div className="brush-grid" role="group" aria-label="Brush">
+                        {BRUSH_ORDER.map((id) => {
+                            const preset = BRUSH_PRESETS[id];
+                            const active = (settings.brushPreset || 'pen') === id;
+                            return (
+                                <button
+                                    key={id}
+                                    type="button"
+                                    className={`brush-chip ${active ? 'active' : ''}`}
+                                    aria-pressed={active}
+                                    onClick={() => onSettingsChange({ brushPreset: id })}
+                                >
+                                    <span
+                                        className="brush-sample"
+                                        style={{
+                                            height: `${Math.max(2, Math.min(10, 2 * preset.widthScale + 1))}px`,
+                                            opacity: preset.alpha
+                                        }}
+                                    />
+                                    <span>{preset.label}</span>
+                                </button>
+                            );
+                        })}
+                    </div>
+                    <div className="setting-group">
+                        <label htmlFor="drawing-smoothing">Smoothing:</label>
+                        <div className="stroke-width-controls">
+                            <input
+                                id="drawing-smoothing"
+                                type="range"
+                                min="0"
+                                max="100"
+                                value={Math.round((typeof settings.smoothing === 'number' ? settings.smoothing : 0.5) * 100)}
+                                onChange={(e) => onSettingsChange({ smoothing: parseInt(e.target.value, 10) / 100 })}
+                                className="stroke-slider"
+                            />
+                            <span className="stroke-value">
+                                {Math.round((typeof settings.smoothing === 'number' ? settings.smoothing : 0.5) * 100)}%
+                            </span>
+                        </div>
+                    </div>
+                    <label className="checkbox-label">
+                        <input
+                            type="checkbox"
+                            checked={settings.usePressure !== false}
+                            onChange={(e) => onSettingsChange({ usePressure: e.target.checked })}
+                        />
+                        Use stylus pressure
+                    </label>
+                </div>
+            )}
+
+            {/* Line look + placement (shapes) */}
+            {(SHAPE_TOOLS.includes(selectedTool) || (selectedTool === 'draw_edit' && selectionCount > 0)) && (
+                <div className="tool-section">
+                    <h4>Line &amp; Placement</h4>
+                    <div className="setting-group">
+                        <label>Line Style:</label>
+                        <div className="segmented" role="group" aria-label="Line style">
+                            {LINE_STYLES.map((style) => (
+                                <button
+                                    key={style.id}
+                                    type="button"
+                                    className={`segmented-btn ${(settings.lineStyle || 'solid') === style.id ? 'active' : ''}`}
+                                    aria-pressed={(settings.lineStyle || 'solid') === style.id}
+                                    onClick={() => onSettingsChange({ lineStyle: style.id })}
+                                >
+                                    {style.label}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+                    {(selectedTool === 'arrow' || selectedTool === 'draw_edit') && (
+                        <div className="setting-group">
+                            <label htmlFor="drawing-arrow-head">Arrow Heads:</label>
+                            <select
+                                id="drawing-arrow-head"
+                                value={settings.arrowHead || 'end'}
+                                onChange={(e) => onSettingsChange({ arrowHead: e.target.value })}
+                                className="theme-select"
+                            >
+                                <option value="end">At the end</option>
+                                <option value="both">Both ends</option>
+                                <option value="none">None</option>
+                            </select>
+                        </div>
+                    )}
+                    <label className="checkbox-label">
+                        <input
+                            type="checkbox"
+                            checked={!!settings.sketch}
+                            onChange={(e) => onSettingsChange({ sketch: e.target.checked })}
+                        />
+                        Hand-drawn sketch style
+                    </label>
+                    <label className="checkbox-label">
+                        <input
+                            type="checkbox"
+                            checked={settings.drawSnap !== false}
+                            onChange={(e) => onSettingsChange({ drawSnap: e.target.checked })}
+                        />
+                        Snap to grid corners
+                    </label>
+                </div>
+            )}
+
             {/* Stroke Settings */}
-            {selectedTool !== 'select' && selectedTool !== 'text' && (
+            {selectedTool !== 'select' && selectedTool !== 'text' && selectedTool !== 'fill' && (selectedTool !== 'draw_edit' || selectionCount > 0) && (
                 <div className="tool-section">
                     <h4>Stroke Settings</h4>
                     
@@ -410,9 +551,12 @@ const DrawingTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }
             )}
 
             {/* Fill Settings */}
-            {(selectedTool === 'rectangle' || selectedTool === 'circle' || selectedTool === 'polygon') && (
+            {(FILL_TOOLS.includes(selectedTool) || (selectedTool === 'draw_edit' && selectionCount > 0)) && (
                 <div className="tool-section">
                     <h4>Fill Settings</h4>
+                    {selectedTool === 'freehand' && (
+                        <p className="tool-hint">Closing a loop with your stroke lets it take this fill colour.</p>
+                    )}
                     
                     <div className="setting-group">
                         <label>Fill Color:</label>
@@ -449,7 +593,7 @@ const DrawingTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }
             )}
 
             {/* Opacity Settings */}
-            {selectedTool !== 'select' && (
+            {selectedTool !== 'select' && selectedTool !== 'fill' && (selectedTool !== 'draw_edit' || selectionCount > 0) && (
                 <div className="tool-section">
                     <h4>Opacity</h4>
                     <div className="setting-group">

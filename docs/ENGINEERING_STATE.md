@@ -1,6 +1,6 @@
 # Mythrill / Prism — engineering state
 
-Updated: 2026-10-22 (bounded P14-A3 creature producer handoff). Checkout: `D:/VTT` (the old `D:/Mythrill/Descension`
+Updated: 2026-10-23 (bounded P14-A5 creature→primary-PC execution). Checkout: `D:/VTT` (the old `D:/Mythrill/Descension`
 path in CLAUDE.md is historical). Roadmap authority: [MYTHRILL_NEXT_PHASE.md](MYTHRILL_NEXT_PHASE.md).
 
 ## Accepted baseline
@@ -84,6 +84,71 @@ P5-05/07/09/10/11/12/13/31/32 remain environment-blocked. Source acceptance
 does not authorize deployment or satisfy roadmap §20 release gates.
 
 ## Current work
+
+### P14-A5 admitted creature → exact primary PC — bounded independent ACCEPT, Build5/App6 PASS (qualified)
+
+[Frozen contract](MYTHRILL_PROJECT_14_A5_CONTRACT.md) · [acceptance/identities](MYTHRILL_PROJECT_14_A5_ACCEPTANCE.md). Current authenticated GM/A4 exact source
+admission feeds the existing P12B owner offer/approval/binder. Damage retains equipment choice/face,
+derived reduction/wear and GM final HP; healing requires exact-owner explicit acceptance of the proposed
+amount, with no equipment. Existing two-actor P7 installs authored AP/mana+HP+optional wear once.
+Target/source revision changes require explicit same-face revalidation; material healing amount changes
+require positive old-offer closure and new acceptance. Range0 distinct targets remain refused.
+
+Final registered A5/A4/A1/P12B/C4 group79 PASS including16 A5; client5 suites47 PASS (earlier groups
+overlap, not summed). One reviewer R1–R4 repaired → ACCEPT: target revalidation, pre-emission custody,
+sibling-AP interaction and positive never-registered closure; compatible current-admission refresh also
+cleared. Reviewer independently hashed53 current/App sources, protected7 and11,351 recorded build inputs;
+no independent target execution (sandbox unavailable). Implementer Build5 exit0/mirror+current drift[] /
+App6 PASS: source prices+PC tempHP/HP+wear once, private sheet, lost ACK/rejoin1listener/reload/original
+command, Defending/pending removal retained face, healing100→99 reapproval and readmission same digital
+faces, cap/zero/no-equipment, foreignowner/secondary refusal, narration1 and1440/1024 panel fit.
+Gate269f83e2… names exact bytes; **late concurrent map/drawing/touch work** subsequently changed9
+recorded client inputs plus added unlisted files. Runtime53/protected7 remain unchanged; full-current-tree
+build parity is no longer claimed (drift6f23010f…/same-review addendum in A5 acceptance).
+Final master14b21cfe includes pre-existing A4/Class/UI dirty work and
+current Class build inputs, without accepting Class semantics. Four unattributed fetch errors, visible
+collector notice and provider/ownership/lease/cloud fixtures/live-only/device limits remain explicit.
+Concurrent Class/Heritage/UI preserved; no Git writes, migration, upgrade or deployment. Next candidate:
+separately frozen exact admitted creature self-healing using the same one-actor payment/HP path.
+
+### P14-A4 exact creature-source execution — bounded independent ACCEPT, Build4/App10 PASS (qualified)
+
+[Frozen source/payment/recovery contract](MYTHRILL_PROJECT_14_A4_SOURCE_AUTHORITY_CONTRACT.md) ·
+[implementation/acceptance](MYTHRILL_PROJECT_14_A4_ACCEPTANCE.md) ·
+[next creature→PC preparation](MYTHRILL_PROJECT_14_A5_CREATURE_PC_PREPARATION.md).
+
+GM Creature Wizard whole-definition author/select → Keep/save/place → exact placed Inspect/bind/admit →
+Use for this creature → exact distinct creature target, physical/digital retained faces → GM final →
+one existing P7 AP/mana+HP consequence. No second engine or PC owner impersonation. Source admission
+binds map/token/incarnation, whole placement association, immutable version/hash and current GM UID.
+Compiler class syntax is not authority; creature-only installation does not implicitly grant PC use.
+Authored prices/zeros, temp-first payment/damage, healing cap and accepted-zero semantics preserved.
+
+- Existing command/roll custody retains unknowns and original bytes; reload does not submit. Positive
+  withdrawal recovery and explicit material revalidation retain compatible faces/history. Pruned/unavailable
+  exact outcomes remain manual; current Stunned/authority/revisions/writer refusal cannot partially install.
+- Actual shared placement captures detached association/defenses. GM-only lookup restores placed Inspect;
+  finite numeric public bounds let custom tokens render after library-less reload, without raw drafts/armor.
+  Unavailable unused pools stay absent; exact HP feedback remains possible without invented AP/mana values.
+- Final21 A4+10 A1 server PASS; earlier affected45-server and separate45-server groups overlap.
+  Client6 suites40 and final feed/pure/custody3 suites27 PASS (overlap). Build4 exit0/mirrorDrift[];
+  App10 physical damage/digital0-price healing, lost ACK+broadcast/reload/original receipt, lost withdrawal
+  ACK/material refresh/map pick/same faces, Stunned retained revalidation, unavailable unused pools and
+  live HP floats/silent historical recovery PASS.43-runtime/scoped client parity[] and protected7 match.
+  Same single reviewer repaired ACCEPT; independently executed focused tests/probes and verified43 hashes,
+  protected7, actual frozen client inputs and artifact digests; Build4/App10 implementer-executed and
+  independently appraised. Production App/build and review are attributed and
+  identity-bound in the acceptance record. Historical P7–A3 acceptance carries forward; no renewed audit.
+- Entry master/485c0bba; concurrent external commits integrated working bytes, later HEAD14b21cfe.
+  This agent made no Git writes. Class/Fate Weaver/overflow and later progression/info edits preserved;
+  exact build/current drift is disclosed. Provider/lease/cloud fixtures, temporary-room/live-only and
+  viewport/device limits remain explicit. Build4 excludes later Class lichborneData/classResourceContracts/
+  classResources drift; App10 has5 unattributed fetch errors. No full-current-tree parity, deployment-
+  readiness or all-P14/all-creature-abilities claim.
+
+PC targets, self/range0 distinct targets, complex/mixed/area/reaction/periodic/entity/equipment economies
+remain manual. A5 prepares the existing P12B owner block/consent/wear bridge and a separate healing
+consent decision; it does not implement them or change Class/Heritage content/loadouts/migrations.
 
 ### P14-A3 Creature Wizard ability producer — bounded independent ACCEPT, Build1/App9 PASS (qualified)
 

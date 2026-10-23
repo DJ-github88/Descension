@@ -1,0 +1,465 @@
+/* ==========================================================================
+   Group Loot Rolls (Need / Greed / Pass, d20)
+   Parchment card, ink text, one warm bronze accent. Quality only colours the
+   item name and the icon ring - no coloured side stripes.
+   ========================================================================== */
+
+.loot-roll-stack {
+  --lr-page: #fbf8f1;
+  --lr-panel: #f3eee3;
+  --lr-ink: #231912;
+  --lr-ink-2: #46372a;
+  --lr-muted: #6b5946;
+  --lr-rule: #d8cdb8;
+  --lr-rule-strong: #b9aa8f;
+  --lr-accent: #7a4c12;
+  --lr-accent-soft: rgba(122, 76, 18, 0.09);
+  --lr-good: #2f5f2a;
+  --lr-bad: #8a321a;
+
+  position: fixed;
+  left: 50%;
+  bottom: 150px;
+  transform: translateX(-50%);
+  z-index: 9998;
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 8px;
+  width: 340px;
+  max-width: calc(100vw - 32px);
+  pointer-events: none;
+  font-family: 'Crimson Text', Georgia, serif;
+}
+
+.loot-roll-frame {
+  pointer-events: auto;
+  background: var(--lr-page);
+  color: var(--lr-ink);
+  border: 1px solid var(--lr-rule-strong);
+  border-radius: 6px;
+  padding: 10px 12px 8px;
+  box-shadow: 0 6px 20px rgba(35, 25, 18, 0.2), 0 1px 2px rgba(35, 25, 18, 0.1);
+  animation: loot-roll-in 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-sizing: border-box;
+}
+
+@keyframes loot-roll-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ---- Header ---- */
+.loot-roll-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.loot-roll-icon {
+  --lr-q: var(--lr-rule-strong);
+  position: relative;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: 4px;
+  border: 1px solid var(--lr-q);
+  box-shadow: 0 0 0 2px var(--lr-page), 0 0 0 3px color-mix(in srgb, var(--lr-q) 35%, transparent);
+  background: var(--lr-panel);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loot-roll-icon img {
+  width: 34px;
+  height: 34px;
+  object-fit: contain;
+}
+
+.loot-roll-qty {
+  position: absolute;
+  right: -5px;
+  bottom: -5px;
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: 10px;
+  font-weight: 700;
+  background: var(--lr-ink);
+  color: var(--lr-page);
+  border-radius: 3px;
+  padding: 0 4px;
+}
+
+.loot-roll-title {
+  flex: 1;
+  min-width: 0;
+}
+
+.loot-roll-name {
+  font-family: 'Cinzel', Georgia, serif;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1.25;
+  color: var(--lr-ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Quality: darkened so every tier stays readable on parchment */
+.loot-roll-name.poor { color: #5f574d; }
+.loot-roll-name.common { color: var(--lr-ink); }
+.loot-roll-name.uncommon { color: #2c6127; }
+.loot-roll-name.rare { color: #1d4a7e; }
+.loot-roll-name.epic { color: #5e2c80; }
+.loot-roll-name.legendary { color: #8c520a; }
+.loot-roll-name.artifact { color: #86351a; }
+
+.loot-roll-icon.poor { --lr-q: #8f877b; }
+.loot-roll-icon.uncommon { --lr-q: #2c6127; }
+.loot-roll-icon.rare { --lr-q: #1d4a7e; }
+.loot-roll-icon.epic { --lr-q: #5e2c80; }
+.loot-roll-icon.legendary { --lr-q: #8c520a; }
+.loot-roll-icon.artifact { --lr-q: #86351a; }
+
+.loot-roll-source {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 13px;
+  font-style: italic;
+  color: var(--lr-ink-2);
+}
+
+.loot-roll-creature {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--lr-rule-strong);
+  flex-shrink: 0;
+}
+
+.loot-roll-local-tag {
+  font-style: normal;
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: 8.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  padding: 0 4px;
+  border-radius: 2px;
+  background: var(--lr-panel);
+  border: 1px solid var(--lr-rule);
+  color: var(--lr-muted);
+}
+
+.loot-roll-close {
+  align-self: flex-start;
+  background: none;
+  border: none;
+  color: var(--lr-muted);
+  cursor: pointer;
+  padding: 2px 4px;
+  font-size: 12px;
+  line-height: 1;
+  border-radius: 3px;
+}
+
+.loot-roll-close:hover {
+  color: var(--lr-ink);
+  background: var(--lr-panel);
+}
+
+/* ---- Timer ---- */
+.loot-roll-timer {
+  position: relative;
+  height: 6px;
+  margin: 18px 0 8px;
+  border-radius: 3px;
+  background: var(--lr-panel);
+  box-shadow: inset 0 0 0 1px var(--lr-rule);
+}
+
+.loot-roll-timer-fill {
+  height: 100%;
+  border-radius: 3px;
+  background: var(--lr-accent);
+  transition: width 0.25s linear;
+}
+
+.loot-roll-timer-fill.urgent { background: var(--lr-bad); }
+
+.loot-roll-timer-text {
+  position: absolute;
+  right: 0;
+  top: -15px;
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--lr-ink-2);
+}
+
+/* ---- Buttons ---- */
+.loot-roll-actions {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  margin: 2px 0 8px;
+}
+
+.loot-roll-btn {
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  padding: 7px 6px;
+  border-radius: 4px;
+  border: 1px solid var(--lr-rule-strong);
+  background: var(--lr-page);
+  color: var(--lr-ink);
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease, transform 0.1s ease;
+}
+
+.loot-roll-btn i { margin-right: 3px; color: var(--lr-muted); }
+.loot-roll-btn:hover { transform: translateY(-1px); background: var(--lr-panel); border-color: var(--lr-ink-2); }
+.loot-roll-btn:active { transform: translateY(0); }
+.loot-roll-btn:focus-visible { outline: 2px solid var(--lr-accent); outline-offset: 1px; }
+
+/* Need is the primary action */
+.loot-roll-btn.need {
+  background: var(--lr-ink);
+  border-color: var(--lr-ink);
+  color: var(--lr-page);
+}
+.loot-roll-btn.need i { color: var(--lr-page); }
+.loot-roll-btn.need:hover { background: #3a2b1f; border-color: #3a2b1f; }
+
+.loot-roll-btn.pass { color: var(--lr-ink-2); }
+
+.loot-roll-btn.reroll {
+  width: 100%;
+  margin-top: 6px;
+  background: var(--lr-ink);
+  border-color: var(--lr-ink);
+  color: var(--lr-page);
+  animation: loot-roll-nudge 1.4s ease-in-out infinite;
+}
+.loot-roll-btn.reroll i { color: var(--lr-page); }
+
+@keyframes loot-roll-nudge {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(122, 76, 18, 0); }
+  50% { box-shadow: 0 0 0 3px rgba(122, 76, 18, 0.25); }
+}
+
+.loot-roll-status {
+  font-size: 13.5px;
+  color: var(--lr-ink-2);
+  margin: 2px 0 6px;
+}
+
+.loot-roll-status strong { color: var(--lr-ink); }
+
+.loot-roll-tie {
+  margin: 2px 0 6px;
+  padding: 7px 9px;
+  border-radius: 4px;
+  background: var(--lr-panel);
+  border: 1px solid var(--lr-rule);
+}
+
+.loot-roll-tie-text { font-size: 13.5px; color: var(--lr-ink); }
+.loot-roll-tie-text i { color: var(--lr-muted); margin-right: 2px; }
+
+/* ---- Roster ---- */
+.loot-roll-roster {
+  list-style: none;
+  margin: 4px 0 0;
+  padding: 0;
+  border-top: 1px solid var(--lr-rule);
+}
+
+.loot-roll-row {
+  display: grid;
+  grid-template-columns: 1fr auto 30px;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 4px;
+  font-size: 14px;
+  color: var(--lr-ink);
+  border-bottom: 1px solid var(--lr-rule);
+  border-radius: 3px;
+}
+
+.loot-roll-row:last-child { border-bottom: none; }
+.loot-roll-row.me .loot-roll-player { font-weight: 700; }
+.loot-roll-row.winner { background: var(--lr-accent-soft); }
+
+.loot-roll-player {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Choice labels stay ink-coloured; only the small icon carries meaning */
+.loot-roll-choice {
+  font-size: 12.5px;
+  color: var(--lr-ink-2);
+  white-space: nowrap;
+}
+.loot-roll-choice i { margin-right: 3px; font-size: 11px; }
+.choice-need i { color: var(--lr-good); }
+.choice-greed i { color: var(--lr-accent); }
+.choice-pass, .choice-none { color: var(--lr-muted); }
+strong.choice-need, strong.choice-greed, strong.choice-pass { color: var(--lr-ink); }
+.loot-roll-waiting { font-style: italic; color: var(--lr-muted); }
+
+.loot-roll-die {
+  justify-self: end;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 26px;
+  height: 20px;
+  box-sizing: border-box;
+  font-family: 'Cinzel', Georgia, serif;
+  font-weight: 700;
+  font-size: 12px;
+  padding: 0 4px;
+  border-radius: 4px;
+  border: 1px solid var(--lr-rule-strong);
+  background: var(--lr-page);
+  color: var(--lr-ink);
+}
+
+.loot-roll-row.winner .loot-roll-die {
+  background: var(--lr-accent);
+  border-color: var(--lr-accent);
+  color: var(--lr-page);
+}
+
+.loot-roll-rerolls {
+  margin-top: 6px;
+  font-size: 12.5px;
+  color: var(--lr-ink-2);
+}
+
+.loot-roll-reroll-label { font-weight: 700; color: var(--lr-ink); }
+
+.loot-roll-result {
+  margin-top: 8px;
+  padding-top: 6px;
+  border-top: 1px solid var(--lr-rule);
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--lr-ink);
+}
+
+.loot-roll-result i { margin-right: 4px; }
+.loot-roll-result.won i { color: var(--lr-accent); }
+.loot-roll-result.passed { color: var(--lr-ink-2); }
+.loot-roll-result.passed i { color: var(--lr-muted); }
+
+.loot-roll-more {
+  pointer-events: auto;
+  align-self: center;
+  font-size: 12.5px;
+  font-style: italic;
+  color: var(--lr-ink);
+  background: var(--lr-page);
+  border: 1px solid var(--lr-rule-strong);
+  border-radius: 10px;
+  padding: 1px 10px;
+}
+
+@media (max-width: 600px) {
+  .loot-roll-stack { bottom: 110px; }
+}
+
+/* ---- Tumbling d20s ---- */
+.loot-roll-die.small {
+  display: inline-flex;
+  min-width: 22px;
+  height: 18px;
+  font-size: 11px;
+  padding: 0 3px;
+  margin: 0 1px;
+  vertical-align: middle;
+}
+
+.loot-roll-die.rolling {
+  color: var(--lr-muted);
+  border-style: dashed;
+  animation: loot-die-tumble 0.32s linear infinite;
+}
+
+@keyframes loot-die-tumble {
+  0%   { transform: rotate(0deg) scale(0.92); }
+  25%  { transform: rotate(90deg) scale(1.08) translateY(-1px); }
+  50%  { transform: rotate(180deg) scale(0.95); }
+  75%  { transform: rotate(270deg) scale(1.08) translateY(1px); }
+  100% { transform: rotate(360deg) scale(0.92); }
+}
+
+.loot-roll-die.landed.fresh {
+  animation: loot-die-land 0.45s cubic-bezier(0.2, 1.6, 0.4, 1);
+}
+
+@keyframes loot-die-land {
+  0%   { transform: scale(1.7); box-shadow: 0 0 0 4px rgba(122, 76, 18, 0.3); }
+  60%  { transform: scale(0.92); }
+  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(122, 76, 18, 0); }
+}
+
+.loot-roll-die.landed.crit { color: var(--lr-good); border-color: var(--lr-good); }
+.loot-roll-die.landed.fumble { color: var(--lr-bad); border-color: var(--lr-bad); }
+.loot-roll-row.winner .loot-roll-die.landed.crit { color: var(--lr-page); background: var(--lr-good); }
+
+.loot-roll-tumbling i {
+  display: inline-block;
+  color: var(--lr-muted);
+  animation: loot-die-tumble 0.6s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loot-roll-frame,
+  .loot-roll-btn.reroll,
+  .loot-roll-die.rolling,
+  .loot-roll-die.landed.fresh,
+  .loot-roll-tumbling i { animation: none; }
+}
+
+/* ---- Loot orbs on the grid that are being rolled for / reserved ---- */
+.grid-item-orb.grid-item-orb--rolling {
+  animation: loot-orb-rolling 1.6s ease-in-out infinite;
+  cursor: not-allowed !important;
+}
+
+.grid-item-orb.grid-item-orb--reserved {
+  filter: grayscale(0.4) brightness(0.92);
+}
+
+.grid-item-orb-roll-badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  color: #fbf8f1;
+  background: #231912;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+}
+
+.grid-item-orb-roll-badge.reserved { background: #7a4c12; }
+
+@keyframes loot-orb-rolling {
+  0%, 100% { filter: brightness(0.85); }
+  50% { filter: brightness(1.1); }
+}

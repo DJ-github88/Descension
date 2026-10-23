@@ -40,6 +40,7 @@ const { registerQuestHandlers } = require('./questHandlers');
 const { registerGmToolsHandlers } = require('./gmToolsHandlers');
 const { registerActorConsequenceHandlers } = require('./actorConsequenceHandlers');
 const { registerReactionWindowHandlers } = require('./reactionWindowHandlers');
+const { registerLootRollHandlers } = require('./lootRollHandlers');
 const actorConsequences = require('../services/actorConsequences');
 
 const { INVITATION_EXPIRY_MS } = require('../utils/constants');
@@ -90,6 +91,8 @@ const AUTHORITATIVE_ROOM_EVENTS = new Set([
   'sync_map_state', 'set_scene_mode', 'sync_location_scene_state', 'sync_party_marker', 'pull_players_to_map',
   // combat
   'combat_started', 'combat_ended', 'combat_log', 'dice_update', 'combat_turn_changed', 'item_looted',
+  // group loot rolls (need / greed / pass)
+  'loot_roll_start', 'loot_roll_choice', 'loot_roll_reroll',
   'inventory_update', 'inventory_share_grant', 'inventory_share_revoke', 'spell_cast', 'dice_roll',
   // shared chat
   'chat_message', 'user_typing', 'user_stopped_typing',
@@ -877,6 +880,9 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
 
     // ==================== COMBAT HANDLERS ====================
     registerCombatHandlers(handlerCtx);
+
+    // ==================== LOOT ROLL HANDLERS ====================
+    registerLootRollHandlers(handlerCtx);
 
     // ==================== CHAT HANDLERS ====================
     registerChatHandlers(handlerCtx);

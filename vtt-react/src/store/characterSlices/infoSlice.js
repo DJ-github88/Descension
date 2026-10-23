@@ -959,6 +959,7 @@ export const createInfoSlice = (set, get) => ({
             get().reconcileFateWeaverTalents?.();
             get().reconcileDeathcallerTalents?.();
             get().reconcileLichborneTalents?.();
+            get().reconcilePlaguebringerTalents?.();
         }
 
         // Sync with multiplayer
@@ -971,7 +972,7 @@ export const createInfoSlice = (set, get) => ({
         const className = state.class || state.characterClass;
         const removed = new Set(options.grantIds || []);
 
-        if (['Fate Weaver', 'Deathcaller', 'Lichborne'].includes(className)) {
+        if (['Fate Weaver', 'Deathcaller', 'Lichborne', 'Plaguebringer'].includes(className)) {
             removedTalentGrantIds(previousTalents, newTalents || {}, className)
                 .forEach(id => removed.add(id));
         }
@@ -1005,6 +1006,9 @@ export const createInfoSlice = (set, get) => ({
         }
         if ((get().class || get().characterClass) === 'Lichborne') {
             get().reconcileLichborneTalents?.();
+        }
+        if ((get().class || get().characterClass) === 'Plaguebringer') {
+            get().reconcilePlaguebringerTalents?.();
         }
 
         get().syncWithMultiplayer();

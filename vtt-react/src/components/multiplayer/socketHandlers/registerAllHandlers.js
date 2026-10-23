@@ -11,6 +11,7 @@ import { registerQuestHandlers } from './questHandlers';
 import { registerGmHandlers } from './gmHandlers';
 import { registerJournalHandlers } from './journalHandlers';
 import { registerInventoryHandlers } from './inventoryHandlers';
+import { registerLootRollHandlers } from './lootRollHandlers';
 import { registerAudioGameSessionHandlers } from './audioGameSessionHandlers';
 import { registerErrorHandlers } from './errorHandlers';
 import { isSocketRetired } from '../../../persistence/handoff/socketPrincipalRetirement';
@@ -44,6 +45,7 @@ export function registerAllSocketHandlers(ctx) {
     registerGmHandlers(ctx),
     registerJournalHandlers(ctx),
     registerInventoryHandlers(ctx),
+    registerLootRollHandlers(ctx),
     registerAudioGameSessionHandlers(ctx),
     registerErrorHandlers(ctx)
   ];

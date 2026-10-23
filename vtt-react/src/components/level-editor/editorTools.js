@@ -22,9 +22,13 @@ export const EDITOR_TABS = {
             { id: 'area_remove', name: 'Area Remove', icon: 'Utility/Broken', cursor: 'crosshair' },
             { id: 'freehand', name: 'Freehand', icon: 'Utility/Utility Tool', cursor: 'crosshair' },
             { id: 'line', name: 'Line', icon: 'Piercing/Piercing Shots', cursor: 'crosshair' },
+            { id: 'arrow', name: 'Arrow', icon: 'Piercing/Piercing Shots', cursor: 'crosshair' },
             { id: 'rectangle', name: 'Rectangle', icon: 'Utility/Utility', cursor: 'crosshair' },
             { id: 'circle', name: 'Circle', icon: 'Arcane/Orb Manipulation', cursor: 'crosshair' },
+            { id: 'ellipse', name: 'Ellipse', icon: 'Arcane/Orb Manipulation', cursor: 'crosshair' },
             { id: 'polygon', name: 'Polygon', icon: 'Utility/Utility', cursor: 'crosshair' },
+            { id: 'fill', name: 'Fill', icon: 'Utility/Utility Tool', cursor: 'cell' },
+            { id: 'draw_edit', name: 'Edit', icon: 'Utility/Target Crosshair', cursor: 'default' },
             { id: 'text', name: 'Text', icon: 'Utility/Utility', cursor: 'text' },
             { id: 'eraser', name: 'Eraser', icon: 'Utility/Broken', cursor: 'crosshair' }
         ]

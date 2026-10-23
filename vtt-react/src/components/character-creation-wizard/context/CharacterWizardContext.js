@@ -10,7 +10,7 @@ import { getDefaultStats, validateStats, calculateFinalStats, getTotalBonusPoint
 // import { getPathStartingPoints, getPathStatModifiers } from '../../../data/pathData'; // Disciplines removed
 import { applyRacialModifiers } from '../../../data/raceData';
 import { validateCharacterClassAccess } from '../../../utils/characterClassAccess';
-import { CHAOS_WEAVER_DATA } from '../../../data/classes/chaosWeaverIntegration';
+import { CLASS_DATA_MAP } from '../../../data/classSpellGenerator';
 import { calculatePointsSpent, calculateTotalSkillPoints } from '../../../constants/skillPointSystem';
 import { buildAncestry, getAncestryLoadout, validateAncestry } from '../../../data/ancestryLoadouts';
 
@@ -529,7 +529,7 @@ export const validateCurrentStep = (state) => {
             // picks, and the authored optional pool defines the exact number
             // of picks. Classes without a policy keep the historical three.
             const knownSpells = characterData.class_spells?.known_spells || [];
-            const policyClassData = characterData.class === 'Chaos Weaver' ? CHAOS_WEAVER_DATA : null;
+            const policyClassData = CLASS_DATA_MAP[characterData.class] || null;
             const policy = policyClassData?.progression?.policy || null;
             const expectedStartingSpells = policy?.startingSpellPicks ?? 3;
             const pickPoolIds = new Set(policyClassData?.spellPools?.[1] || []);

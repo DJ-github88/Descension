@@ -5,6 +5,7 @@ import useItemStore from './itemStore';
 import useInventoryStore from './inventoryStore';
 import useChatStore from './chatStore';
 import useGameStore from './gameStore';
+import { getMyLootPlayerId } from './lootRollStore';
 import { ensureArray, safeGet } from '../utils/prodDevParity';
 import { getIconUrl } from '../utils/assetManager';
 import { getItemThematicExcerpt } from '../utils/lootItemUtils';
@@ -108,6 +109,71 @@ const enqueueItemNotification = (html, quality = 'common', displayDuration = 250
   showNextItemNotification();
  }
 };
+
+const escapePopupText = (str) => {
+ if (str === null || str === undefined) return '';
+ return String(str)
+  .replace(/&/g, '&amp;')
+  .replace(/</g, '&lt;')
+  .replace(/>/g, '&gt;')
+  .replace(/"/g, '&quot;')
+  .replace(/'/g, '&#39;');
+};
+
+/**
+ * Small loot-style popup (same card as the "Looted" notification), queued so it
+ * never overlaps other item popups.
+ */
+const LOOT_POPUP_FALLBACK_ICON = 'Container/Pouch/brown-tied-pouch';
+
+export const showLootPopup = ({
+ badge = 'Loot',
+ title = '',
+ subtitle = '',
+ quality = 'common',
+ iconId = LOOT_POPUP_FALLBACK_ICON,
+ imageUrl = null, // e.g. the creature's token portrait - shown instead of an item icon
+ duration = 2800
+} = {}) => {
+ const safeQuality = String(quality || 'common').toLowerCase().replace(/[^a-z]/g, '') || 'common';
+ const fallbackUrl = getIconUrl(LOOT_POPUP_FALLBACK_ICON, 'items', true);
+ const iconUrl = imageUrl || getIconUrl(iconId || LOOT_POPUP_FALLBACK_ICON, 'items', true) || fallbackUrl;
+ const html = `
+   <div class="item-notification-content">
+    <div class="item-notification-icon-wrapper ${safeQuality}${imageUrl ? ' is-portrait' : ''}">
+     <img src="${escapePopupText(iconUrl)}" alt="" onerror="this.onerror=null; this.src='${escapePopupText(fallbackUrl)}'; this.parentNode.classList.remove('is-portrait');" />
+    </div>
+    <div class="item-notification-details">
+     <div class="item-notification-top-row">
+      <span class="item-notification-badge">${escapePopupText(badge)}</span>
+     </div>
+     <div class="item-notification-name ${safeQuality}">${escapePopupText(title)}</div>
+     ${subtitle ? `<div class="item-notification-flavor">${escapePopupText(subtitle)}</div>` : ''}
+    </div>
+   </div>
+  `;
+ enqueueItemNotification(html, safeQuality, duration);
+};
+
+// "Nothing dropped from <creature>" - shown to everyone when a loot roll comes up empty.
+export const showNothingDroppedNotification = (creatureName = 'creature', creatureImage = null) => {
+ showLootPopup({
+  badge: 'No Loot',
+  title: 'Nothing dropped',
+  subtitle: `from ${creatureName}`,
+  quality: 'poor',
+  imageUrl: creatureImage || null
+ });
+};
+
+// A loot orb that is still being rolled for (or that someone else won).
+const isLootRollLockActive = (gridItem) => {
+ if (!gridItem?.lootRollLocked) return false;
+ // Safety valve: a lock never outlives its expiry (e.g. server restarted mid-roll).
+ if (gridItem.lootRollExpiresAt && Date.now() > gridItem.lootRollExpiresAt) return false;
+ return true;
+};
+export { isLootRollLockActive };
 
 // Create the grid item store
 // NOTE: localStorage persistence removed - grid items are now persisted to database via room gameState
@@ -358,9 +424,45 @@ const useGridItemStore = create((set, get) => ({
  }),
 
  // Loot an item from the grid and add it to inventory
- lootItem: (gridItemId, characterId = 'default', looterName = 'Player', sendToServer = true) => {
+ // options.force: skip the loot-roll lock (used when the server says you won the roll)
+ lootItem: (gridItemId, characterId = 'default', looterName = 'Player', sendToServer = true, options = {}) => {
   if (_lootInFlight.has(gridItemId)) {
    return false;
+  }
+
+  // Group loot rolls: the orb can't be taken while players are still rolling for it,
+  // and once someone wins it, only they (or the GM) can pick it up.
+  if (!options.force) {
+   const target = (get().gridItems || []).find(gi => gi?.id === gridItemId);
+   if (target) {
+    const itemLabel = target.customName || target.name || 'This item';
+    if (isLootRollLockActive(target)) {
+     showLootPopup({
+      badge: 'Rolling',
+      title: itemLabel,
+      subtitle: 'Players are still rolling for this item.',
+      quality: target.quality || 'common',
+      iconId: target.iconId || LOOT_POPUP_FALLBACK_ICON,
+      duration: 2200
+     });
+     return false;
+    }
+    if (target.lootRollWinnerId) {
+     const gameState = useGameStore.getState();
+     const myId = getMyLootPlayerId();
+     if (!gameState.isGMMode && myId && myId !== target.lootRollWinnerId) {
+      showLootPopup({
+       badge: 'Reserved',
+       title: itemLabel,
+       subtitle: `Won by ${target.lootRollWinnerName || 'another player'}.`,
+       quality: target.quality || 'common',
+       iconId: target.iconId || LOOT_POPUP_FALLBACK_ICON,
+       duration: 2200
+      });
+      return false;
+     }
+    }
+   }
   }
   _lootInFlight.add(gridItemId);
   try {
@@ -750,7 +852,7 @@ const useGridItemStore = create((set, get) => ({
          miscellaneous: 'Misc/Profession Resources/resource-ore-cluster-orange-red-veins',
          material: 'Misc/Profession Resources/First Aid/first-aid-bandage-rolled-fabric-beige-tan',
          quest: 'Misc/Books/book-folded-letter-envelope',
-         container: 'Container/Pouch/pouch-01'
+         container: LOOT_POPUP_FALLBACK_ICON
         };
 
         return typeIcons[type] || 'Misc/Profession Resources/resource-ore-cluster-orange-red-veins';

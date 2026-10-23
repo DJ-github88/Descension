@@ -12,6 +12,9 @@ import { getWallWorldEndpoints, parseWallKey } from '../../utils/WallGeometry';
 import { getObjectScreenBounds, getObjectSelectionHandles } from '../../utils/ObjectSelectionBounds';
 import { getTileElevation, screenToWorldElevated } from '../../utils/ElevationUtils';
 import { useLevelEditorPersistence } from '../../hooks/useLevelEditorPersistence';
+import useOverlayTouchInput from '../../hooks/useOverlayTouchInput';
+import { hitTestPath, hitTestFill, isLegacyPoint } from '../../utils/drawingGeometry';
+import { DrawingInputController, DRAW_CONTROLLER_TOOLS, STYLE_SETTING_KEYS } from '../../utils/drawingInputController';
 
 import DrawingTools from './tools/DrawingTools';
 import TerrainTools from './tools/TerrainTools';
@@ -32,6 +35,7 @@ import { resolveObjectWheelTransform, toToolSettingsPatch } from './objectWheelT
 import { resolveWallMountPlacement } from './objects/wallAttachment';
 import { LIGHT_PRESETS } from '../../utils/LightingCalculations';
 import LayersPanel from './LayersPanel';
+import EditorTouchBar from './EditorTouchBar';
 import TabDropdownButton from '../../components/common/TabDropdownButton';
 
 import { useEditorKeyboard } from './useEditorKeyboard';
@@ -186,6 +190,22 @@ const ProfessionalVTTEditor = () => {
     const windowRef = useRef(null);
     const overlayRef = useRef(null);
     const textInputRef = useRef(null);
+
+    // Drawing tools (freehand, shapes, polygon, fill, edit) are driven by a
+    // controller that keeps its own state instead of React state, so a fast
+    // stylus stroke can never read a stale closure. Mouse, finger and pen all
+    // feed the same controller.
+    const drawingInputRef = useRef(null);
+    if (!drawingInputRef.current) {
+        drawingInputRef.current = new DrawingInputController({
+            store: useLevelEditorStore,
+            getGridSystem: () => getGridSystem(),
+            getOverlayRect: () => (overlayRef.current ? overlayRef.current.getBoundingClientRect() : null),
+            getGameState: () => useGameStore.getState(),
+            getMapId: () => useMapStore.getState().currentMapId || 'default'
+        });
+    }
+    const drawingInput = drawingInputRef.current;
 
     // Throttled hover preview updates - store latest position in ref and update state via RAF
     const hoverPreviewRef = useRef({ show: false, gridX: 0, gridY: 0, brushSize: 1 });
@@ -405,6 +425,7 @@ const elevationStrokePaintedRef = useRef(null);
 
     // Handle tool selection
     const handleToolSelect = (toolId) => {
+        drawingInput.reset();
         setSelectedTool(toolId);
         setActiveTool(toolId);
         clearDrawingSelection();
@@ -428,6 +449,50 @@ const elevationStrokePaintedRef = useRef(null);
     const handleToolSettingsChange = (newSettings) => {
         const patch = typeof newSettings === 'function' ? newSettings(toolSettings) : newSettings;
         useLevelEditorStore.getState().setToolSettings(patch);
+        applySettingsToSelectedDrawings(patch);
+    };
+
+    // With the Edit tool, changing a colour / width / line style in the panel
+    // restyles the selected drawing instead of only the next one.
+    const lastSelectionRestyleRef = useRef(0);
+    const applySettingsToSelectedDrawings = (patch) => {
+        if (selectedTool !== 'draw_edit' || !patch) return;
+        const store = useLevelEditorStore.getState();
+        const ids = store.selectedDrawings || [];
+        if (ids.length === 0) return;
+        const keys = Object.keys(patch).filter(key => STYLE_SETTING_KEYS.includes(key) || key === 'brushPreset');
+        if (keys.length === 0) return;
+
+        const updates = [];
+        ids.forEach(id => {
+            const path = (store.drawingPaths || []).find(p => p.id === id);
+            if (!path || path.tool === 'text') return;
+            const style = { ...(path.style || {}) };
+            keys.forEach(key => {
+                const value = patch[key];
+                if (key === 'brushPreset') {
+                    if (path.tool !== 'freehand') return;
+                    if (value === 'pen') delete style.brush;
+                    else style.brush = value;
+                    return;
+                }
+                if ((key === 'lineStyle' || key === 'sketch' || key === 'arrowHead') && path.tool === 'freehand') return;
+                if (key === 'arrowHead' && path.tool !== 'arrow') return;
+                if ((key === 'lineStyle' && value === 'solid') || (key === 'sketch' && !value)) {
+                    delete style[key];
+                    return;
+                }
+                style[key] = value;
+            });
+            if (JSON.stringify(style) !== JSON.stringify(path.style || {})) updates.push({ id, style });
+        });
+        if (updates.length === 0) return;
+
+        // A burst of changes (dragging a slider) is one undo step.
+        const now = Date.now();
+        if (now - lastSelectionRestyleRef.current > 900) store.pushHistorySnapshot();
+        lastSelectionRestyleRef.current = now;
+        updates.forEach(({ id, style }) => store.updateDrawingPath(id, { style }, getExplicitCurrentMapId()));
     };
 
     // Publish the active tool to the shared store. Other systems read it to
@@ -586,7 +651,7 @@ const elevationStrokePaintedRef = useRef(null);
         const handlePointerMoveGlobal = (e) => {
             if (!overlayRef.current) return;
             // If actively drawing a stroke, don't interrupt it mid-gesture
-            if (isDrawingRef.current) {
+            if (isDrawingRef.current || drawingInputRef.current?.isActive()) {
                 overlayRef.current.style.pointerEvents = 'auto';
                 return;
             }
@@ -1177,55 +1242,45 @@ const elevationStrokePaintedRef = useRef(null);
         return style;
     }, [toolSettings]);
 
-    // Handle drawing eraser
-    const handleDrawingErase = useCallback((clientX, clientY) => {
+    // Handle drawing eraser. A drawing is erased when the pointer touches its
+    // outline (or the inside of a filled shape); fingers get a wider reach.
+    const handleDrawingErase = useCallback((clientX, clientY, pointerType) => {
         const rect = overlayRef.current?.getBoundingClientRect();
         if (!rect) return;
 
         const mouseX = clientX - rect.left;
         const mouseY = clientY - rect.top;
-        const eraseRadius = 15; // Increased pixel radius for easier erasing
+        const eraseRadius = pointerType === 'touch' ? 26 : pointerType === 'pen' ? 18 : 15;
+
+        const gridSystem = getGridSystem();
+        const viewport = gridSystem.getViewportDimensions();
+        const world = gridSystem.screenToWorld(mouseX, mouseY, viewport.width, viewport.height);
+        const worldTolerance = eraseRadius / Math.max(1e-6, (zoomLevel || 1) * (playerZoom || 1));
+        const gridToWorldCorner = (gx, gy) => gridSystem.gridToWorldCorner(gx, gy);
 
         // Find drawings that intersect with the eraser position
         const pathsToRemove = drawingPaths.filter(path => {
             if (!path.points || path.points.length === 0) return false;
 
-            // Check if any point in the path is within eraser radius
-            return path.points.some(point => {
-                let pointX, pointY;
+            // Old screen-space strokes cannot be mapped to the world, so they
+            // keep the original "any vertex under the pointer" test.
+            if (path.points.some(isLegacyPoint)) {
+                return path.points.some(point => {
+                    if (!point.isFreehand) return false;
+                    return Math.hypot(mouseX - point.x, mouseY - point.y) <= eraseRadius;
+                });
+            }
 
-                if (point.isWorldCoords) {
-                    // New freehand drawings use world coordinates - convert to screen
-                    const gridSystem = getGridSystem();
-                    const viewport = gridSystem.getViewportDimensions();
-                    const screenPos = gridSystem.worldToScreen(point.worldX, point.worldY, viewport.width, viewport.height);
-                    pointX = screenPos.x;
-                    pointY = screenPos.y;
-                } else if (point.isFreehand) {
-                    // Legacy freehand coordinates are already screen coordinates
-                    pointX = point.x;
-                    pointY = point.y;
-                } else if (point.gridX !== undefined) {
-                    // Grid coordinates need to be converted to screen coordinates
-                    const screenPos = gridToScreen(point.gridX, point.gridY);
-                    pointX = screenPos.x;
-                    pointY = screenPos.y;
-                } else {
-                    return false;
-                }
-
-                const distance = Math.sqrt(
-                    Math.pow(mouseX - pointX, 2) + Math.pow(mouseY - pointY, 2)
-                );
-                return distance <= eraseRadius;
-            });
+            if (hitTestPath(path, world.x, world.y, worldTolerance, gridToWorldCorner)) return true;
+            const filled = path.style && path.style.fillColor && path.style.fillColor !== 'transparent';
+            return !!filled && hitTestFill(path, world.x, world.y, gridToWorldCorner);
         });
 
         // Remove the found paths
         pathsToRemove.forEach(path => {
             removeDrawingPath(path.id, activeMapIdRef.current);
         });
-    }, [drawingPaths, removeDrawingPath, gridToScreen]);
+    }, [drawingPaths, removeDrawingPath, zoomLevel, playerZoom]);
 
     // Find all objects in the selected screen area
     const findObjectsInArea = useCallback((minScreenX, minScreenY, maxScreenX, maxScreenY) => {
@@ -1483,6 +1538,15 @@ const elevationStrokePaintedRef = useRef(null);
             return;
         }
 
+        // Freehand, shapes, polygon, fill and the edit tool run in the drawing
+        // controller (it takes the history snapshot itself).
+        if (DRAW_CONTROLLER_TOOLS.includes(selectedTool)) {
+            const overUi = (document.elementsFromPoint ? document.elementsFromPoint(e.clientX, e.clientY) : [])
+                .some(el => isInteractiveUiElement(el));
+            if (!overUi) drawingInput.start(e, selectedTool);
+            return;
+        }
+
         // Push undo snapshot before any editing operation (non-select tools only)
         const nonEditingTools = ['select', 'wall_select', 'grid_settings', 'grid_toggle', 'lighting_settings'];
         if (!nonEditingTools.includes(selectedTool)) {
@@ -1687,7 +1751,7 @@ const elevationStrokePaintedRef = useRef(null);
                 return;
             case 'eraser':
                 // Handle drawing eraser
-                handleDrawingErase(e.clientX, e.clientY);
+                handleDrawingErase(e.clientX, e.clientY, e.pointerType);
                 setIsDrawing(true); // Enable for continuous erasing
                 return;
             case 'area_remove':
@@ -2539,6 +2603,12 @@ const elevationStrokePaintedRef = useRef(null);
             return;
         }
 
+        // Drawing-controller tools (a polygon also rubber-bands while hovering)
+        if (DRAW_CONTROLLER_TOOLS.includes(selectedTool)) {
+            drawingInput.move(e, selectedTool);
+            return;
+        }
+
         // Update selection rectangle for area_remove tool
         if (selectedTool === 'area_remove' && selectionRect && isDrawing) {
             const rect = overlayRef.current?.getBoundingClientRect();
@@ -2782,7 +2852,7 @@ const elevationStrokePaintedRef = useRef(null);
             }
             case 'eraser':
                 // Handle drawing eraser - continuously erase while dragging
-                handleDrawingErase(e.clientX, e.clientY);
+                handleDrawingErase(e.clientX, e.clientY, e.pointerType);
                 break;
 
             case 'fog_erase':
@@ -3420,6 +3490,11 @@ const elevationStrokePaintedRef = useRef(null);
             return;
         }
 
+        if (DRAW_CONTROLLER_TOOLS.includes(selectedTool)) {
+            drawingInput.end(e);
+            return;
+        }
+
         // Handle area selection completion
         if (selectedTool === 'area_remove' && selectionRect && isDrawing) {
             const rect = overlayRef.current?.getBoundingClientRect();
@@ -3660,32 +3735,137 @@ const elevationStrokePaintedRef = useRef(null);
 
         e.preventDefault(); // Prevent default context menu
 
-        // Complete polygon on right-click if currently drawing a polygon
-        if (selectedTool === 'polygon' && isDrawing && currentPath.length >= 3) {
-            const pathData = {
-                tool: 'polygon',
-                points: currentPath,
-                style: {
-                    strokeWidth: toolSettings.strokeWidth || 2,
-                    strokeColor: toolSettings.strokeColor || '#000000',
-                    fillColor: toolSettings.fillColor || 'transparent',
-                    opacity: toolSettings.opacity || 1
-                },
-                layer: 'drawings',
-                timestamp: Date.now()
-            };
-
-            addDrawingPath(pathData, activeMapIdRef.current);
-
-            // Reset drawing state
-            setIsDrawing(false);
-            setCurrentPath([]);
-            clearCurrentDrawing();
-            setIsCurrentlyDrawing(false);
-            setCurrentDrawingTool('');
-            activeMapIdRef.current = null;
+        // Right-click finishes the polygon being built
+        if (selectedTool === 'polygon' && drawingInput.hasPendingPolygon()) {
+            drawingInput.finishPolygon();
         }
     }, [selectedTool, isDrawing, currentPath, toolSettings, addDrawingPath, clearCurrentDrawing, setIsCurrentlyDrawing, setCurrentDrawingTool]);
+
+    // ── Touch / stylus input ────────────────────────────────────────────────
+    // Fingers and pens arrive as Pointer Events and leave as the same
+    // start / move / end calls a mouse makes (see hooks/useOverlayTouchInput).
+    const selectedToolRef = useRef(selectedTool);
+    selectedToolRef.current = selectedTool;
+    const legacyHandlersRef = useRef({});
+    legacyHandlersRef.current = { handleMouseDown, handleMouseMove, handleMouseUp };
+    const legacyStrokeRef = useRef({ active: false, pushed: false });
+
+    const isUiAtPoint = useCallback((x, y) => {
+        const elements = document.elementsFromPoint ? document.elementsFromPoint(x, y) : [];
+        return elements.some(el => isInteractiveUiElement(el));
+    }, []);
+
+    // Abandon a stroke made with the editor's older mouse-style tools (terrain,
+    // walls, fog...): put back the snapshot taken when it started.
+    const abortLegacyStroke = () => {
+        const legacy = legacyStrokeRef.current;
+        legacyStrokeRef.current = { active: false, pushed: false };
+        if (!legacy.active) return;
+        setIsDrawing(false);
+        setIsCurrentlyDrawing(false);
+        setCurrentPath([]);
+        clearCurrentDrawing();
+        setSelectionRect(null);
+        wallChainRef.current = null;
+        terrainFillStartRef.current = null;
+        lastTerrainBrushPosRef.current = null;
+        elevationStrokePaintedRef.current = null;
+        rampStrokePaintedRef.current = null;
+        activeMapIdRef.current = null;
+        if (typeof window !== 'undefined') window._isDrawingFog = false;
+        if (legacy.pushed) {
+            undo();
+            // The abandoned stroke must not be re-appliable with Redo.
+            useLevelEditorStore.setState({ _redoStack: [] });
+        }
+    };
+
+    const touchInput = useOverlayTouchInput({
+        overlayRef,
+        enabled: isEditorMode && selectedTool !== 'select',
+        isUiAt: isUiAtPoint,
+        needsFlush: () => !DRAW_CONTROLLER_TOOLS.includes(selectedToolRef.current),
+        onStart: (ev) => {
+            const tool = selectedToolRef.current;
+            if (DRAW_CONTROLLER_TOOLS.includes(tool)) {
+                drawingInput.start(ev, tool);
+                return;
+            }
+            const before = useLevelEditorStore.getState()._undoStack.length;
+            legacyHandlersRef.current.handleMouseDown(ev);
+            legacyStrokeRef.current = {
+                active: true,
+                pushed: useLevelEditorStore.getState()._undoStack.length > before
+            };
+        },
+        onMove: (ev) => {
+            const tool = selectedToolRef.current;
+            if (DRAW_CONTROLLER_TOOLS.includes(tool)) drawingInput.move(ev, tool);
+            else legacyHandlersRef.current.handleMouseMove(ev);
+        },
+        onEnd: (ev) => {
+            const tool = selectedToolRef.current;
+            if (DRAW_CONTROLLER_TOOLS.includes(tool)) {
+                drawingInput.end(ev);
+            } else {
+                legacyHandlersRef.current.handleMouseUp(ev);
+                legacyStrokeRef.current = { active: false, pushed: false };
+            }
+        },
+        onCancel: () => {
+            if (DRAW_CONTROLLER_TOOLS.includes(selectedToolRef.current)) drawingInput.cancel();
+            else abortLegacyStroke();
+        }
+    });
+
+    // Changing tool or closing the editor abandons any gesture and half-built polygon.
+    useEffect(() => {
+        drawingInput.reset();
+        touchInput.reset();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [selectedTool, isEditorMode]);
+
+    // Keyboard equivalents for polygon building (the touch bar has buttons for these).
+    useEffect(() => {
+        if (!isEditorMode) return undefined;
+        const onKeyDown = (e) => {
+            const target = e.target;
+            if (target && (['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName) || target.isContentEditable)) return;
+            if (e.key === 'Escape' && (drawingInput.isActive() || drawingInput.hasPendingPolygon())) {
+                drawingInput.reset();
+                e.preventDefault();
+                e.stopImmediatePropagation();
+            } else if (e.key === 'Enter' && drawingInput.hasPendingPolygon()) {
+                drawingInput.finishPolygon();
+                e.preventDefault();
+            } else if (e.key === 'Backspace' && drawingInput.hasPendingPolygon()) {
+                drawingInput.undoPolygonPoint();
+                e.preventDefault();
+            }
+        };
+        window.addEventListener('keydown', onKeyDown, true);
+        return () => window.removeEventListener('keydown', onKeyDown, true);
+    }, [isEditorMode, drawingInput]);
+
+    const canUndo = useLevelEditorStore(state => state._undoStack.length > 0);
+    const canRedo = useLevelEditorStore(state => state._redoStack.length > 0);
+
+    const handleTouchUndo = () => {
+        drawingInput.reset();
+        clearDrawingSelection();
+        undo();
+    };
+    const handleTouchRedo = () => {
+        drawingInput.reset();
+        clearDrawingSelection();
+        redo();
+    };
+    const nudgeZoom = (factor) => {
+        const game = useGameStore.getState();
+        const floor = 0.6 / (game.zoomLevel || 1);
+        const next = Math.max(floor, Math.min(game.maxPlayerZoom, Math.max(game.minPlayerZoom, game.playerZoom * factor)));
+        game.setPlayerZoom(next);
+    };
 
     // Keyboard shortcuts (extracted to useEditorKeyboard hook)
     useEditorKeyboard({
@@ -3943,6 +4123,9 @@ const elevationStrokePaintedRef = useRef(null);
                                 onToolSelect={handleToolSelect}
                                 settings={toolSettings}
                                 onSettingsChange={handleToolSettingsChange}
+                                selectionCount={selectedTool === 'draw_edit' ? (selectedDrawings || []).length : 0}
+                                onDeleteSelection={() => drawingInput.deleteSelection()}
+                                onDuplicateSelection={() => drawingInput.duplicateSelection()}
                             />
                         )}
                         {activeTab === 'terrain' && !String(selectedTool).startsWith('elevation') && (
@@ -4038,10 +4221,12 @@ const elevationStrokePaintedRef = useRef(null);
                     onMouseMove={handleMouseMove}
                     onMouseUp={handleMouseUp}
                     onMouseLeave={() => {
-                        if (isDrawing) handleMouseUp();
+                        if (drawingInput.isActive()) drawingInput.end();
+                        else if (isDrawing) handleMouseUp();
                         setHoverPreview({ show: false, gridX: 0, gridY: 0, brushSize: 1 });
                     }}
                     onContextMenu={handleContextMenu}
+                    {...touchInput.handlers}
                     style={{
                         position: 'absolute',
                         top: 0,
@@ -4049,6 +4234,12 @@ const elevationStrokePaintedRef = useRef(null);
                         width: '100%',
                         height: '100%',
                         zIndex: 100,
+                        // Fingers and pens draw here: the browser must not scroll,
+                        // zoom or long-press-select instead.
+                        touchAction: 'none',
+                        WebkitUserSelect: 'none',
+                        userSelect: 'none',
+                        WebkitTouchCallout: 'none',
                         cursor: (selectedTool === 'wall_select' && isDraggingWall && dragEndpointRef.current)
                             ? 'grabbing'
                             : (selectedTool === 'wall_select' && handleHover)
@@ -4058,6 +4249,27 @@ const elevationStrokePaintedRef = useRef(null);
                     }}
                 />
             )}
+
+            {/* Touch / stylus controls: undo, finger mode, polygon + selection actions */}
+            <EditorTouchBar
+                visible={isEditorMode && touchInput.isTouchDevice}
+                canUndo={canUndo}
+                canRedo={canRedo}
+                onUndo={handleTouchUndo}
+                onRedo={handleTouchRedo}
+                fingerAction={touchInput.fingerAction}
+                penDetected={touchInput.penDetected}
+                onToggleFingerAction={() => touchInput.setFingerMode(touchInput.fingerAction === 'pan' ? 'draw' : 'pan')}
+                onZoomIn={() => nudgeZoom(1.25)}
+                onZoomOut={() => nudgeZoom(0.8)}
+                polygonPointCount={selectedTool === 'polygon' && drawingInput.poly ? drawingInput.poly.points.length : 0}
+                onFinishPolygon={() => drawingInput.finishPolygon()}
+                onUndoPolygonPoint={() => drawingInput.undoPolygonPoint()}
+                onCancelPolygon={() => drawingInput.reset()}
+                selectionCount={selectedTool === 'draw_edit' ? (selectedDrawings || []).length : 0}
+                onDeleteSelection={() => drawingInput.deleteSelection()}
+                onDuplicateSelection={() => drawingInput.duplicateSelection()}
+            />
 
             {/* Hover Preview for Brush Tools / Area Fill Rectangle */}
             {isEditorMode && hoverPreview.show && (selectedTool === 'terrain_brush' || selectedTool === 'terrain_erase' || selectedTool === 'terrain_fill_area' || selectedTool === 'fog_erase' || selectedTool === 'fog_draw' || String(selectedTool).startsWith('elevation')) && (

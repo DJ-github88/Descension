@@ -105,6 +105,14 @@ describe('P14-A4 exact creature authored route — registered production handler
     const wrong = actors.clone(a); wrong.sourceAuthority.gmUid = 'foreign'; await refused('actor_spell_prepare_creature', wrong, 'forbidden');
     await prepare(a); const c = command(a), prior = room.gmId; room.gmId = 'replacement'; await refused('actor_consequence', c); room.gmId = prior;
   });
+  it('creature admission never uses its compiler syntax anchor to implicitly grant a PC execution route', async() => {
+    await admit(); const a = attempt(); assert.equal(installed.lookup(room, a.spell).creatureOnly, true);
+    server.setCharacterOwner('gm-character', gmUid);
+    const pc = { id: 'gm-pc', ownerUserId: gmUid, character: { id: 'gm-character', class: 'Arcanoneer', health: { current: 10, max: 10 }, mana: { current: 10, max: 10 }, actionPoints: { current: 4, max: 4 } }, state: { conditions: [] } };
+    room.gameState.maps.default.characterTokens[pc.id] = pc;
+    const bound = await ack(gm, 'actor_bind', { roomId: room.id, ref: { kind: 'character', roomId: room.id, mapId: 'default', tokenId: pc.id, ownerUid: gmUid, characterId: pc.character.id }, snapshotHash: actors.hash(pc) }); assert.equal(bound.success, true);
+    delete a.sourceAuthority; a.source = bound.ref; await refused('actor_spell_approve', a, 'unsupported_source_route');
+  });
   it('exact token/map/incarnation, deletion/recreation and PC-shaped substitute refuse', async() => {
     await admit(); const a = attempt(); await prepare(a); const c = command(a), original = actors.clone(token(source));
     token(source).state.actorContract.instanceId = uuid(); await refused('actor_consequence', c, 'actor_binding_conflict'); room.gameState.maps.default.tokens.source = original;

@@ -1,0 +1,253 @@
+- generic [ref=f3e3]:
+  - banner [ref=f3e4]:
+    - generic [ref=f3e5]:
+      - button "Return to Mythrill Home" [ref=f3e7] [cursor=pointer]:
+        - generic [ref=f3e8]: 
+        - generic [ref=f3e9]: Mythrill
+      - navigation [ref=f3e11]:
+        - button " Home" [ref=f3e12] [cursor=pointer]:
+          - generic [ref=f3e13]: 
+          - text: Home
+        - button " Laws & Lore" [ref=f3e14] [cursor=pointer]:
+          - generic [ref=f3e15]: 
+          - text: Laws & Lore
+        - button "More navigation items" [ref=f3e17] [cursor=pointer]:
+          - generic [ref=f3e18]: +
+      - generic [ref=f3e19]:
+        - button " Privacy" [ref=f3e20] [cursor=pointer]:
+          - generic [ref=f3e21]: 
+          - text: Privacy
+        - button " Login" [ref=f3e22] [cursor=pointer]:
+          - generic [ref=f3e23]: 
+          - text: Login
+    - text:      
+  - main [ref=f3e24]:
+    - generic [ref=f3e26]:
+      - complementary [ref=f3e27]:
+        - navigation [ref=f3e28]:
+          - button "Search the Codex" [ref=f3e30] [cursor=pointer]:
+            - generic [ref=f3e31]: 
+          - text: 
+          - button "" [ref=f3e34] [cursor=pointer]
+          - button "" [ref=f3e37] [cursor=pointer]
+          - button "" [ref=f3e40] [cursor=pointer]
+          - button "" [ref=f3e43] [cursor=pointer]
+          - button "" [ref=f3e46] [cursor=pointer]
+          - button "" [ref=f3e49] [cursor=pointer]
+          - button "" [ref=f3e52] [cursor=pointer]
+          - button "" [ref=f3e55] [cursor=pointer]
+          - button "" [ref=f3e58] [cursor=pointer]
+        - text:   
+      - main [ref=f3e59]:
+        - generic [ref=f3e60]:
+          - generic [ref=f3e61]:
+            - button "Navigate to Laws overview" [ref=f3e62] [cursor=pointer]:
+              - generic [ref=f3e63]: 
+              - text: Laws
+            - generic [ref=f3e64]: 
+            - text: 
+            - button "Navigate to Classes list" [ref=f3e65] [cursor=pointer]: Classes
+            - generic [ref=f3e66]: 
+            - generic [ref=f3e67]: Deathcaller
+          - group "Laws and Lore" [ref=f3e68]:
+            - button " Laws" [pressed] [ref=f3e69] [cursor=pointer]:
+              - generic [ref=f3e70]: 
+              - generic [ref=f3e71]: Laws
+            - generic [aria-hidden] [ref=f3e72]: 
+            - button " Lore" [ref=f3e73] [cursor=pointer]:
+              - generic [ref=f3e74]: 
+              - generic [ref=f3e75]: Lore
+          - button "Search Codex" [ref=f3e76] [cursor=pointer]:
+            - generic [ref=f3e77]: 
+            - generic [ref=f3e78]: Ctrl K
+        - generic [ref=f3e83]:
+          - generic [ref=f3e84]:
+            - generic [ref=f3e85]:
+              - img "Deathcaller" [ref=f3e87]
+              - generic [ref=f3e88]:
+                - heading "Deathcaller" [level=2] [ref=f3e89]
+                - generic [ref=f3e90]:
+                  - generic [ref=f3e91]:
+                    - generic [ref=f3e92]: 
+                    - text: Summoner / Commander
+                  - generic "Development class — content is selectable, but class-specific effects remain manual at the table." [ref=f3e93]:
+                    - generic [ref=f3e94]: 
+                    - text: Development
+                  - generic "Wyrd" [ref=f3e95]:
+                    - generic [ref=f3e96]: 
+                    - text: Wyrd
+            - generic [ref=f3e98]:
+              - 'button "Previous class: Chaos Weaver" [ref=f3e99] [cursor=pointer]':
+                - generic [ref=f3e100]: 
+                - generic [ref=f3e101]: Chaos Weaver
+              - button "Back to all classes" [ref=f3e102] [cursor=pointer]:
+                - generic [ref=f3e103]: All classes
+              - 'button "Next class: Lichborne" [ref=f3e104] [cursor=pointer]':
+                - generic [ref=f3e105]: Lichborne
+                - generic [ref=f3e106]: 
+          - navigation "Class sections" [ref=f3e108]:
+            - button "Overview" [ref=f3e109] [cursor=pointer]:
+              - generic [aria-hidden] [ref=f3e110]: 
+            - button "Tradition" [ref=f3e112] [cursor=pointer]:
+              - generic [aria-hidden] [ref=f3e113]: 
+            - button "Resource System" [active] [pressed] [ref=f3e115] [cursor=pointer]:
+              - generic [aria-hidden] [ref=f3e116]: 
+            - button "Specializations" [ref=f3e118] [cursor=pointer]:
+              - generic [aria-hidden] [ref=f3e119]: 
+            - button "Spells" [ref=f3e121] [cursor=pointer]:
+              - generic [aria-hidden] [ref=f3e122]: 
+          - region "Resource System" [ref=f3e163]:
+            - generic [ref=f3e165]:
+              - generic [ref=f3e166]:
+                - generic [ref=f3e167]:
+                  - text: 
+                  - heading "Deathcaller Resource" [level=3] [ref=f3e168]
+                  - paragraph [ref=f3e169]: Every retainer is prepared before it is called, and every order is counted.
+                  - generic [ref=f3e170]:
+                    - generic [ref=f3e171]: 
+                    - text: Bounded Prepared Muster
+                - generic [ref=f3e172]:
+                  - generic [ref=f3e173]:
+                    - generic [ref=f3e174]: 
+                    - generic [ref=f3e175]:
+                      - generic [ref=f3e176]: Prepared
+                      - generic [ref=f3e177]: max 3 patterns
+                  - generic [ref=f3e178]:
+                    - generic [ref=f3e179]: 
+                    - generic [ref=f3e180]:
+                      - generic [ref=f3e181]: Manifested
+                      - generic [ref=f3e182]: max 2 active
+                  - generic [ref=f3e183]:
+                    - generic [ref=f3e184]: 
+                    - generic [ref=f3e185]:
+                      - generic [ref=f3e186]: Orders
+                      - generic [ref=f3e187]: 2 per own turn
+                  - generic [ref=f3e188]:
+                    - generic [ref=f3e189]: 
+                    - generic [ref=f3e190]:
+                      - generic [ref=f3e191]: Vitality
+                      - generic [ref=f3e192]: 0-10 per pattern
+                - generic [ref=f3e193]:
+                  - generic [ref=f3e194]:
+                    - generic [ref=f3e195]: 
+                    - text: Interactive Preview
+                  - note [ref=f3e198]:
+                    - strong [ref=f3e199]: Dead Muster
+                    - text: "- not initialized. Record the actual prepared patterns, manifestations and orders; opening this display never creates, commands or recovers a manifestation."
+                  - generic [ref=f3e200]:
+                    - generic [ref=f3e201]: 
+                    - text: The integrated tracker starts uninitialized. It never invents a prepared pattern, active manifestation, order, vitality value or rest recovery. Observer projections contain counts only.
+              - tablist "Resource system sections" [ref=f3e202]:
+                - tab " Essentials" [selected] [ref=f3e203] [cursor=pointer]:
+                  - generic [ref=f3e204]: 
+                  - text: Essentials
+                - tab " Deep Dive" [ref=f3e205] [cursor=pointer]:
+                  - generic [ref=f3e206]: 
+                  - text: Deep Dive
+              - tabpanel "Essentials" [ref=f3e207]:
+                - generic [ref=f3e208]:
+                  - heading " The Core Loop" [level=4] [ref=f3e210]:
+                    - generic [ref=f3e211]: 
+                    - text: The Core Loop
+                  - generic [ref=f3e212]:
+                    - generic [ref=f3e213]:
+                      - generic [ref=f3e214]:
+                        - generic [ref=f3e215]: 
+                        - generic [ref=f3e217]: "1"
+                      - generic [ref=f3e218]: Prepare the Pattern
+                      - paragraph [ref=f3e220]: Before a manifestation exists, record one of up to three named patterns. Preparation is a manual table record and does not create a creature.
+                    - text: 
+                    - generic [ref=f3e221]:
+                      - generic [ref=f3e222]:
+                        - generic [ref=f3e223]: 
+                        - generic [ref=f3e225]: "2"
+                      - generic [ref=f3e226]: Respect Capacity
+                      - paragraph [ref=f3e228]: At most two manifestations may be active at once. Each keeps its own pattern vitality from 0-10 and its exact position and condition.
+                    - text: 
+                    - generic [ref=f3e229]:
+                      - generic [ref=f3e230]:
+                        - generic [ref=f3e231]: 
+                        - generic [ref=f3e233]: "3"
+                      - generic [ref=f3e234]: Issue a Bounded Order
+                      - paragraph [ref=f3e236]: Spend no more than two orders on your own turn. A manifestation may take one actor action per caster own turn; it never receives a free turn or hidden action.
+                    - text: 
+                    - generic [ref=f3e237]:
+                      - generic [ref=f3e238]:
+                        - generic [ref=f3e239]: 
+                        - generic [ref=f3e241]: "4"
+                      - generic [ref=f3e242]: Exhaustion Is Recorded
+                      - paragraph [ref=f3e244]: Exhausted patterns recover only at a completed rest or through an authored effect. No reconnect, initiative or class-change refill, and no automatic summon, movement, healing or expiry.
+                  - generic [ref=f3e245]:
+                    - generic [ref=f3e246]:
+                      - generic [ref=f3e247]: 
+                      - text: In play
+                    - paragraph [ref=f3e249]:
+                      - strong [ref=f3e250]: "Before combat:"
+                      - text: record up to three prepared patterns and their exact templates.
+                      - strong [ref=f3e251]: "Turn 1:"
+                      - text: manifest one pattern in a legal space and issue one order; mark the order.
+                      - strong [ref=f3e252]: "Turn 2:"
+                      - text: issue a second order to the same or another manifestation, never exceeding two orders total. At the end of the turn, record vitality and condition by hand; nothing is applied automatically.
+                - generic [ref=f3e253]:
+                  - heading " How It Weaves Into Your Class" [level=4] [ref=f3e255]:
+                    - generic [ref=f3e256]: 
+                    - text: How It Weaves Into Your Class
+                  - list [ref=f3e257]:
+                    - listitem [ref=f3e258]:
+                      - generic [ref=f3e259]: 
+                      - generic [ref=f3e260]: Two core grants and forty optional records keep preparation, manifestation and orders finite and public.
+                      - button "browse the spellbook " [ref=f3e261] [cursor=pointer]:
+                        - text: browse the spellbook
+                        - generic [ref=f3e262]: 
+                    - listitem [ref=f3e263]:
+                      - generic [ref=f3e264]: 
+                      - generic [ref=f3e265]: Grave Marshal, Soul Shepherd and Ossuary Architect each have a signature and capstone with tree gates.
+                      - button "compare the three paths " [ref=f3e266] [cursor=pointer]:
+                        - text: compare the three paths
+                        - generic [ref=f3e267]: 
+                    - listitem [ref=f3e268]:
+                      - generic [ref=f3e269]: 
+                      - generic [ref=f3e270]:
+                        - button "Deathcaller" [ref=f3e271] [cursor=pointer]
+                        - text: has no registered native heritage edge. Clean Vreken and Velun Neth are recommendations only; the four acquisition requirements must be recorded.
+                - generic [ref=f3e272]:
+                  - generic [ref=f3e273]:
+                    - generic [ref=f3e274]:
+                      - generic [ref=f3e275]: 
+                      - text: The First Muster
+                    - generic [ref=f3e276]: 6 rows
+                  - generic [ref=f3e277]:
+                    - table [ref=f3e279]:
+                      - rowgroup [ref=f3e280]:
+                        - row [ref=f3e281]:
+                          - columnheader "Action" [ref=f3e282]
+                          - columnheader "Price" [ref=f3e283]
+                          - columnheader "Result" [ref=f3e284]
+                      - rowgroup [ref=f3e285]:
+                        - row [ref=f3e286]:
+                          - cell "Prepare a pattern" [ref=f3e287]
+                          - cell "Record one of three slots" [ref=f3e288]
+                          - cell "A named pattern and exact template exist on paper" [ref=f3e289]
+                        - row [ref=f3e290]:
+                          - cell "Manifest a pattern" [ref=f3e291]
+                          - cell "Use one prepared pattern" [ref=f3e292]
+                          - cell "At most two active manifestations" [ref=f3e293]
+                        - row [ref=f3e294]:
+                          - cell "Issue an order" [ref=f3e295]
+                          - cell "1 of 2 orders this own turn" [ref=f3e296]
+                          - cell "One bounded actor action; no extra turn" [ref=f3e297]
+                        - row [ref=f3e298]:
+                          - cell "Pattern takes vitality damage" [ref=f3e299]
+                          - cell "Record 0-10" [ref=f3e300]
+                          - cell "No automatic healing or expiry" [ref=f3e301]
+                        - row [ref=f3e302]:
+                          - cell "Completed rest or authored effect" [ref=f3e303]
+                          - cell "Recorded recovery" [ref=f3e304]
+                          - cell "An exhausted pattern may return; nothing refills on reconnect" [ref=f3e305]
+                        - row [ref=f3e306]:
+                          - cell "Class change or initiative" [ref=f3e307]
+                          - cell "No recovery" [ref=f3e308]
+                          - cell "The manual record stays exactly as written" [ref=f3e309]
+                    - generic [ref=f3e310]:
+                      - generic [ref=f3e311]: 
+                      - text: "Read-only display: no pattern, manifestation, order, vitality, movement or recovery is applied automatically."

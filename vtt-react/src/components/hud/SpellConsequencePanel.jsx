@@ -17,6 +17,7 @@ import './SpellConsequencePanel.css';
 import { actionId, readFormula as readAuthoredFormula } from '../../services/authoredAbility';
 import { refreshAuthoredAbilities, changeAuthoredAdmission, routeSpellCast } from '../../services/spellConsequenceService';
 import { creatureAttempt, saveCreatureRoll, prepareCreatureAbility, cancelCreatureAbility, revalidateCreatureContext } from '../../services/spellConsequenceService';
+import { gmCheckOffer, useBlockingStore, gmCheckBlockCommand } from '../../services/blockingService';
 
 const nameOf = token => token?.character?.name || token?.state?.customName || token?.name || token?.id || 'Unknown';
 const ref = value => value ? `${value.kind}:${value.mapId}:${value.tokenId}` : '';
@@ -193,8 +194,11 @@ function CreaturePanel() {
   const message = useSpellConsequenceStore(s => s.creatureMessage);
   const sourceDetails = useSpellConsequenceStore(s => s.creatureSources) || [];
   const creatures = useCreatureStore(s => s.creatureTokens);
+  const characters = useCharacterTokenStore(s => s.characterTokens);
+  const blockStatuses = useBlockingStore(s => s.gmStatus);
   const [physical, setPhysical] = useState({}), [targetKey, setTargetKey] = useState(''), [busy, setBusy] = useState(false), [error, setError] = useState('');
   const [amount, setAmount] = useState(''), [reason, setReason] = useState(''), [adjudicated, setAdjudicated] = useState(false);
+  const [blockApplicable, setBlockApplicable] = useState(false);
   const picking = useTargetingStore(s => s.pickSession?.id === 'p14-creature');
   const latest = creatureAttempt(), c = latest?.creature;
   useEffect(() => {
@@ -212,8 +216,12 @@ function CreaturePanel() {
   const close = () => useSpellConsequenceStore.setState({ creatureOpen: false });
   const perform = async action => { setBusy(true); setError(''); try { await action(); } catch (e) { setError(e.message); } finally { setBusy(false); } };
   const source = creatures.find(t => sameExactRef(refOf(t), c.source)), d = c.entry.canonicalDefinition, reading = readAuthoredFormula(d.effect.formula);
-  const candidates = creatures.filter(t => refOf(t)?.kind === 'creature' && refOf(t).mapId === c.source.mapId && !sameExactRef(refOf(t), c.source));
-  const target = candidates.find(t => ref(refOf(t)) === targetKey), roll = c.roll, id = latest.approval?.approvalId, status = gmStatus[id];
+   const candidates = [...creatures, ...characters].filter(t => refOf(t) && refOf(t).mapId === c.source.mapId &&
+     (sameExactRef(refOf(t), c.source) ? c.selfAllowed : d.targeting.rangeFeet > 0 && d.targeting.restriction !== 'self' && (refOf(t).kind === 'creature' || t.state.actorContract.primary)));
+   const target = candidates.find(t => ref(refOf(t)) === targetKey), roll = c.roll, id = latest.approval?.approvalId, status = gmStatus[id];
+   const selected = [...creatures, ...characters].find(t => sameExactRef(refOf(t), c.target)) || target;
+   const hp = selected && (refOf(selected)?.kind === 'creature' ? { current: selected.state?.currentHp, max: selected.state?.maxHp ?? selected.stats?.maxHp } : selected.character?.health);
+   const capped = hp && amount !== '' && Number.isSafeInteger(Number(amount)) && Number(amount) >= 0 ? Math.max(0, Math.min(Number(amount), hp.max - hp.current)) : null;
   const defenses = sourceDetails.find(e => sameExactRef(e.source, c.target || refOf(target)))?.defenses;
   const choose = value => { setTargetKey(ref(value)); if (roll) saveCreatureRoll(roll, value); setAdjudicated(false); };
   const record = mode => perform(async () => saveCreatureRoll(mode === 'digital' ? digitalRoll(reading) : recordRoll('physical', reading, reading.dice.map((g, i) => Array.from({ length: g.count }, (_, j) => Number(physical[`${i}:${j}`])))), refOf(target)));
@@ -225,22 +233,31 @@ function CreaturePanel() {
       <p>Source: {nameOf(source)} · {c.source.mapId} / {c.source.tokenId} · incarnation {c.source.instanceId}</p>
       <p>Admitted version {c.entry.definitionRef.definitionVersion} · {d.effect.kind} · {d.effect.formula} · {d.effect.damageTypes?.join('/') || 'healing'}</p>
       <p>Exact price: {c.entry.descriptor.price.ap} AP / {c.entry.descriptor.price.mana} mana · temporary first. Nothing spent before confirmation.</p>
-      <p>Authored range {d.targeting.rangeFeet} ft · one {d.targeting.restriction} target. PC targets and self-targeting are unsupported. Flat DR, resistances/vulnerabilities and specific defensive effects remain GM-adjudicated.</p>
+        <p>Authored range {d.targeting.rangeFeet} ft · one {d.targeting.restriction} target. {c.selfAllowed ? 'Self healing uses this exact creature; no owner offer or equipment.' : 'Self is unavailable for this targeting/effect profile.'} Primary PCs require the exact owner’s acceptance. Defensive effects remain GM-adjudicated.</p>
       {!latest.approval && <>
-        <button type="button" disabled={busy} onClick={() => useTargetingStore.getState().startTargetPick({ id: 'p14-creature', label: d.name, sourceRef: c.source, candidates: candidates.map(refOf), rangeFeet: d.targeting.rangeFeet, rangeLabel: `Authored ${d.targeting.rangeFeet} ft — advisory`, reasonFor: () => 'Choose a distinct exact placed creature on this map; PC targets are unsupported.', onPick: choose, onCancel: () => {} })}>Pick creature on map</button>
-        <label>Creature target<select value={targetKey} disabled={busy} onChange={e => choose(refOf(candidates.find(t => ref(refOf(t)) === e.target.value)))}>
-          <option value="">Select an exact placed creature</option>{candidates.map(t => <option key={ref(refOf(t))} value={ref(refOf(t))}>{nameOf(t)} · {t.id}</option>)}
+          <button type="button" disabled={busy} onClick={() => useTargetingStore.getState().startTargetPick({ id: 'p14-creature', label: d.name, sourceRef: c.source, candidates: candidates.map(refOf), rangeFeet: d.targeting.rangeFeet, rangeLabel: `Authored ${d.targeting.rangeFeet} ft — advisory`, reasonFor: () => 'Choose an eligible exact bound target on this map; Self requires compatible direct healing.', onPick: choose, onCancel: () => {} })}>Pick creature on map</button>
+         <label>Creature or primary PC target<select value={targetKey} disabled={busy} onChange={e => choose(refOf(candidates.find(t => ref(refOf(t)) === e.target.value)))}>
+           <option value="">Select an exact placed creature</option>{candidates.map(t => <option key={ref(refOf(t))} value={ref(refOf(t))}>{sameExactRef(refOf(t), c.source) ? `Self — ${nameOf(t)}` : nameOf(t)} · {t.id}</option>)}
         </select></label>
         {target && !roll && <div className="p9-roll"><button type="button" disabled={busy} onClick={() => record('digital')}>Roll {d.effect.formula} once</button>
           {reading.dice.flatMap((g, i) => Array.from({ length: g.count }, (_, j) => <label key={`${i}:${j}`}>d{g.sides} face {j + 1}<input type="number" min="1" max={g.sides} value={physical[`${i}:${j}`] ?? ''} onChange={e => setPhysical({ ...physical, [`${i}:${j}`]: e.target.value })} /></label>))}
           <button type="button" disabled={busy} onClick={() => record('physical')}>Record physical roll</button></div>}
       </>}
       {roll && <p className="p9-roll-result">Retained {roll.mode} faces [{roll.dice.map(g => g.faces.join(', ')).join(' | ')}] · {roll.reading} = {roll.total}. Closing/reloading retains this attempt and its faces.</p>}
-      {c.target && <p>Target: {nameOf(creatures.find(t => sameExactRef(refOf(t), c.target)))} · {c.target.mapId} / {c.target.tokenId} · incarnation {c.target.instanceId}</p>}
+        {c.target && <p>Target: {nameOf([...creatures, ...characters].find(t => sameExactRef(refOf(t), c.target)))} · {c.target.mapId} / {c.target.tokenId} · incarnation {c.target.instanceId}</p>}
+       {hp && <p>Current HP: {hp.current} / {hp.max}{d.effect.kind === 'healing' && capped !== null && latest.phase !== 'accepted' ? ` · Proposed healing ${amount} · Actual HP to restore after cap: ${capped}` : ''}</p>}
       {defenses && <details><summary>Target's authored defenses and abilities (GM adjudication)</summary><p>Flat DR: {defenses.flatDR ?? 'not declared'}. Resistances/vulnerabilities and specific defensive effects remain manual.</p><pre className="creature-ability-json">{JSON.stringify(defenses, null, 2)}</pre></details>}
-      {roll && !['accepted', 'reconciled', 'unresolved'].includes(latest.phase) && <button type="button" disabled={busy || ['preparing', 'submitting', 'unknown', 'unresolved'].includes(status?.phase)} onClick={() => perform(prepareCreatureAbility)}>{latest.approval ? 'Revalidate original attempt (same roll)' : 'Validate source, target and retained roll'}</button>}
+       {roll && c.target?.kind === 'character' && !latest.approval && <fieldset disabled={busy}><legend>Exact owner proposal</legend>
+         <label>Proposed {d.effect.kind === 'healing' ? 'healing' : 'damage before equipment block'}<input type="number" min="0" value={amount} onChange={e => setAmount(e.target.value)} /></label>
+         {d.effect.kind === 'damage' && <label><input type="checkbox" checked={blockApplicable} onChange={e => setBlockApplicable(e.target.checked)} /> I rule that equipment blocking applies to this ability</label>}
+         <label>Targeting and {d.effect.kind === 'healing' ? 'healing' : 'blocking applicability'} ruling (required)<input maxLength={300} value={reason} onChange={e => setReason(e.target.value)} /></label>
+         <p>Healing requires explicit owner acceptance of this amount, with no equipment. Changing it requires a new acceptance with these retained source faces.</p>
+       </fieldset>}
+       {roll && !['accepted', 'reconciled', 'unresolved'].includes(latest.phase) && !latest.pcOffer && <button type="button" disabled={busy || ['preparing', 'submitting', 'unknown', 'unresolved'].includes(status?.phase)} onClick={() => perform(() => prepareCreatureAbility({ proposedAmount: amount === '' ? NaN : Number(amount), blockApplicable, ruling: reason }))}>{latest.approval ? 'Revalidate original attempt (same roll)' : c.target?.kind === 'character' ? 'Offer exact proposal to PC owner' : 'Validate source, target and retained roll'}</button>}
+       {latest.pcOffer && <p role="status">Continue in block/consent adjudication below. {blockStatuses[c.attemptId]?.message || 'Original owner offer retained.'}
+         <button type="button" disabled={busy} onClick={() => perform(() => blockStatuses[c.attemptId]?.command ? gmCheckBlockCommand(c.attemptId) : gmCheckOffer(c.attemptId))}>Check original PC offer or command</button></p>}
       {roll && latest.approval && !['accepted', 'reconciled', 'unknown', 'unresolved'].includes(latest.phase) && !['preparing', 'submitting', 'unknown', 'unresolved'].includes(status?.phase) && <button type="button" disabled={busy} onClick={() => perform(revalidateCreatureContext)}>Refresh admission or change target (keep faces)</button>}
-      {canAccept && <>
+       {canAccept && !latest.pcOffer && <>
         <label><input type="checkbox" checked={adjudicated} onChange={e => setAdjudicated(e.target.checked)} /> I adjudicated legality, range, target restrictions, defense and mitigation</label>
         <label>Final {d.effect.kind === 'damage' ? 'damage' : 'healing'}<input type="number" min="0" value={amount} onChange={e => setAmount(e.target.value)} /></label>
         <label>Reason (required if different from {roll.total})<input type="text" value={reason} onChange={e => setReason(e.target.value)} /></label>
@@ -249,7 +266,8 @@ function CreaturePanel() {
       {status?.phase === 'unknown' && <button type="button" disabled={busy} onClick={() => perform(() => gmCheckSpellCommand(id))}>Check same command</button>}
       {(status?.phase === 'unresolved' || latest.phase === 'unresolved') && <p role="alert">Exact recovery unavailable. Manual reconciliation required; no new attempt is created.</p>}
       <p role="status">{latest.phase === 'accepted' ? `Accepted · ${latest.result?.status || 'accepted live'} · receipt ${latest.result?.receipt?.commandId}` : status?.message || message || `Retained ${latest.phase}.`}</p>
-      {latest.result?.receipt && <p>Payment and HP installed together. {latest.result.receipt.actors.map(a => `${a.ref.tokenId}: AP ${a.finalResources.ap.current ?? 'unavailable'}+${a.finalResources.ap.temp} temp, mana ${a.finalResources.mana.current ?? 'unavailable'}+${a.finalResources.mana.temp} temp, HP ${a.finalResources.hp.current}+${a.finalResources.hp.temp} temp`).join(' · ')}</p>}
+       {latest.result?.receipt && <p>Payment and HP installed together. {latest.result.receipt.actors.map(a => `${a.ref.tokenId}: AP ${a.finalResources.ap.current ?? 'unavailable'}+${a.finalResources.ap.temp} temp, mana ${a.finalResources.mana.current ?? 'unavailable'}+${a.finalResources.mana.temp} temp, HP ${a.finalResources.hp.current}+${a.finalResources.hp.temp} temp`).join(' · ')}</p>}
+       {latest.result?.receipt && d.effect.kind === 'healing' && <p>GM-approved healing: {latest.result.receipt.adjudication.finalAmount}. Actual HP restored: {JSON.parse(latest.result.receipt.adjudication.chosenResult).actualHealing ?? 'see accepted HP result'}.</p>}
       {!['unknown', 'unresolved'].includes(status?.phase) && <button type="button" disabled={busy} onClick={() => perform(cancelCreatureAbility)}>Finish or explicitly cancel (keep evidence)</button>}
       {error && <p className="p9-diagnostic" role="alert">{error}</p>}
     </div>
@@ -275,8 +293,8 @@ function AdmittedAbilities() {
     <p role="status">{message}</p>
     {!entries.length && <p>No admitted ability has been loaded for this room.</p>}
     {entries.map(e => <div key={actionId(e.definitionRef)} className="p9-admitted-row"><strong>{e.canonicalDefinition.name}</strong> · version {e.definitionRef.definitionVersion} · {e.descriptor.price.ap} AP / {e.descriptor.price.mana} mana · {e.canonicalDefinition.effect.formula} · {e.descriptor.targeting.rangeFeet} ft
-      <span>{e.revoked ? ' — Revoked (history retained)' : ' — Admitted for immediate damage/healing'}</span>
-      {!e.revoked && <button type="button" disabled={busy} onClick={() => { if (!routeSpellCast({ id: actionId(e.definitionRef) }, { producer: 'admitted-library' })) setMessage('This installed binding is unavailable to your current character.'); }}>Use admitted ability</button>}
+      <span>{e.revoked ? ' — Revoked (history retained)' : e.creatureOnly ? ' — Exact creature-source admission; use placed Inspect' : ' — Admitted for immediate damage/healing'}</span>
+      {!e.revoked && !e.creatureOnly && <button type="button" disabled={busy} onClick={() => { if (!routeSpellCast({ id: actionId(e.definitionRef) }, { producer: 'admitted-library' })) setMessage('This installed binding is unavailable to your current character.'); }}>Use admitted ability</button>}
       {gm && !e.revoked && <button type="button" disabled={busy} onClick={() => perform(() => changeAuthoredAdmission('revoke', e.definitionRef))}>Revoke this version</button>}
     </div>)}
   </section></details>;

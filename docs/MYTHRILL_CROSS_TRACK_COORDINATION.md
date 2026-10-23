@@ -120,6 +120,43 @@ device before write-back.
 
 ## 5. Shared-file edits by the 2026-10-17 combat slices
 
+**P14-A6 authorized/frozen (2026-10-23), before runtime edits:** [A6 contract](MYTHRILL_PROJECT_14_A6_CONTRACT.md).
+Exact admitted creature self-healing reuses existing merged one-actor P7 payment/HP path. Shared writes:
+installed source predicate, spell validation/handler pending baseline, controller/panel and focused
+tests/witnesses/help/docs. No new engine/storage/DTO; A1/A5 consent routes protected. A5 runtime51/53
+match; remaining2 are concurrent loot additions in socket registration/Inspect, preserved alongside
+Class/map/touch/settings work. Protected7 match. Current-tree build identity will be measured anew.
+
+**P14-A5 Main HQ-authorized delta (2026-10-22):** frozen scope in
+[A5 contract](MYTHRILL_PROJECT_14_A5_CONTRACT.md). Combat edits existing installed source predicate,
+spell validation, P12B offer/approval/binder, P7 public-proof redaction, existing spell/block controllers
+and panels, accepted-result healing wording and Laws. Existing two-actor operation/wear writer and
+custody families remain owners; no new engine/storage. A1a/W1/Class/Heritage and unrelated UI protected.
+Entry master14b21cfe includes dirty accepted A4 fixes and concurrent Class/UI work, with fresh-context
+patches preserving them. Later RulesPage/ClassDetailDisplay/talent-tree/class-icon work is unrelated
+concurrent drift. [Final A5 acceptance](MYTHRILL_PROJECT_14_A5_ACCEPTANCE.md) records79 server/47 client,
+Build5/App6 PASS and same-review repaired qualified ACCEPT; gate269f83e2… binds53 runtime/protected7/
+recorded client inputs. Independent static hashes/evidence appraisal, zero independent target execution;
+four fetch errors and provider/cloud/live-only/device limits retained. Class semantics remain separately
+owned and unreviewed by this execution slice despite their current bytes being included in Build5.
+Late map/drawing/touch work is also preserved: handoff drift6f23010f… at07:18:56Z names9 recorded
+client inputs plus unlisted additions, with A5 runtime53/protected7 unchanged. Full-current-tree build
+parity is not claimed; same reviewer independently confirmed the late-drift addendum.
+
+**P14-A4 implementation handoff, 2026-10-22:** source/payment/recovery freeze above is implemented.
+Same single bounded reviewer repaired **ACCEPT**, final optimized **Build4/App10 PASS** with scoped43
+runtime/frozen-client parity and protected7 match; five fetch errors and concurrent Class drift qualified.
+Actual placement additionally required tokenHandlers detached association/defenses capture and positive
+numeric roomAccess projection for custom-token reload; GM-only lookup keeps raw whole drafts private.
+Shared actor projection/feed retain absent unused pools without suppressing exact HP feedback.
+Source-admission request history stays in existing protected P7 ledger, not a new permissions store;
+creature-only installed versions cannot inherit PC permission from compiler syntax. Existing P9 custody,
+shared command custody, writer/receipt and C2 gates remain owners. Source, tests, optimized App/build,
+same-review repair/evidence provenance and concurrent external Git drift are in
+[A4 acceptance](MYTHRILL_PROJECT_14_A4_ACCEPTANCE.md). No Class/Heritage/RI-2/ancestral or overflow/progression
+edits by this agent. [Next creature→PC preparation](MYTHRILL_PROJECT_14_A5_CREATURE_PC_PREPARATION.md) reuses
+P12B owner consent/block/wear; healing policy remains an explicit decision. No implementation assigned.
+
 **P14-A4 authorized/frozen, 2026-10-22 — before runtime writes:** exact GM-controlled placed
 creature → distinct placed creature only. [A4 contract](MYTHRILL_PROJECT_14_A4_SOURCE_AUTHORITY_CONTRACT.md)
 freezes source-incarnation/association admission under protected actorContract, existing installed

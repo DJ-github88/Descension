@@ -387,6 +387,7 @@ function registerActorConsequenceHandlers(ctx) {
     const source = actors.locate(room, approval.source);
     if (!creature && (!actors.permitted(room, player, uid, approval.source, source.token) || source.token.ownerUserId !== uid)) {actors.fail('forbidden');}
     payments.checkAgainstRoom(room, approval);
+    const selfState = payments.selfState(room, approval);
     await confirm(captured);
     const afterReceipt = payments.consumedReceipt(room, approval.approvalId);
     if (afterReceipt) {
@@ -396,16 +397,18 @@ function registerActorConsequenceHandlers(ctx) {
     const latest = actors.locate(room, approval.source);
     if (!creature && (!actors.permitted(room, captured.player, uid, approval.source, latest.token) || latest.token.ownerUserId !== uid)) {actors.fail('forbidden');}
     payments.checkAgainstRoom(room, approval);
+    if (selfState !== payments.selfState(room, approval)) actors.fail('creature_revalidation_required');
     const afterPending = payments.get(room, approval.approvalId);
     if (afterPending) {
       if (afterPending.contentHash !== contentHash) {actors.fail('command_id_conflict');}
+      if (selfState) afterPending.selfState = selfState; // Explicit same-face revalidation only.
       respond(ack, { success: false, code: 'awaiting_gm', approvalId: approval.approvalId, contentHash }); return;
     }
     const closed = payments.closedCode(room, approval.approvalId);
     if (closed) {actors.fail(closed === 'consumed' ? 'retry_window_expired' : `approval_${closed}`);}
     if (approval.actionEpoch !== actors.epoch(room)) {actors.fail('outcome_unknown');}
     payments.checkWindow(room, approval);
-    const entry = payments.add(room, { approval: actors.clone(approval), contentHash, ownerUid: uid });
+    const entry = payments.add(room, { approval: actors.clone(approval), contentHash, ownerUid: uid, ...(selfState ? { selfState } : {}) });
     toGm(room, 'actor_spell_pending', { roomId: room.id, approval: payments.gmProjection(entry), contentHash, submitterUid: uid });
     respond(ack, { success: false, code: 'awaiting_gm', approvalId: approval.approvalId, contentHash });
   });
@@ -724,6 +727,7 @@ function registerActorConsequenceHandlers(ctx) {
   });
   run('actor_block_offer', async(data, ack) => {
     actors.keys(data, ['roomId', 'commandId', 'attack']);
+    data = actors.clone(data);
     const captured = context(data.roomId);
     if (!captured.player.isGM) {actors.fail('forbidden');}
     blocks.validateAttack(data.attack);
@@ -733,6 +737,7 @@ function registerActorConsequenceHandlers(ctx) {
       actors.assertCanAct(room, data.attack.source);
       const source = actors.locate(room, data.attack.source);
       if (source.contract.revision !== data.attack.sourceRevision) {actors.fail('stale_actor_revision');}
+      if (data.attack.authored && actors.locate(room, data.attack.target).contract.revision !== data.attack.authored.targetRevision) actors.fail('stale_actor_revision');
       blocks.checkOfferTarget(room, data.attack);
     };
     check();
@@ -746,8 +751,10 @@ function registerActorConsequenceHandlers(ctx) {
   });
   run('actor_block_approve', async(approval, ack) => {
     blocks.validateApproval(approval);
+    approval = actors.clone(approval);
     const captured = context(approval.roomId);
     const { room, player, uid } = captured;
+    if (uid !== approval.target.ownerUid) {actors.fail('forbidden');}
     const contentHash = actors.hash(approval);
     const settled = () => {
       const consumed = blocks.consumedReceipt(room, approval.approvalId);
@@ -781,8 +788,17 @@ function registerActorConsequenceHandlers(ctx) {
     respond(ack, { success: false, code: 'awaiting_gm', approvalId: approval.approvalId, contentHash });
   });
   run('actor_block_withdraw', async(data, ack) => {
-    actors.keys(data, ['roomId', 'approvalId']);
+    actors.keys(data, ['roomId', 'approvalId', 'commandId']);
     const { room, uid } = context(data.roomId);
+    if (data.commandId && !data.approvalId) {
+      const offer = blocks.getOffer(room, data.commandId) || blocks.closedOffer(room, data.commandId);
+      if (!offer) actors.fail('outcome_unknown');
+      const target = offer.attack?.target || offer.target;
+      if (target.ownerUid !== uid) actors.fail('forbidden');
+      if (blocks.listAll(room).some(e => e.approval.attack.commandId === data.commandId)) actors.fail('approval_pending');
+      closeOfferFor(room, data.commandId, 'withdrawn');
+      respond(ack, { success: true, code: 'withdrawn', commandId: data.commandId }); return;
+    }
     const consumed = blocks.consumedReceipt(room, data.approvalId);
     if (consumed) {
       if (consumed.target?.ownerUid !== uid) {actors.fail('forbidden');}
@@ -796,7 +812,7 @@ function registerActorConsequenceHandlers(ctx) {
     respond(ack, { success: true, code: 'withdrawn', approvalId: data.approvalId, contentHash: entry.contentHash });
   });
   run('actor_block_decline', async(data, ack) => {
-    actors.keys(data, ['roomId', 'approvalId', 'commandId']);
+    actors.keys(data, ['roomId', 'approvalId', 'commandId', 'attack']);
     const captured = context(data.roomId);
     if (!captured.player.isGM) {actors.fail('forbidden');}
     const { room } = captured;
@@ -812,6 +828,22 @@ function registerActorConsequenceHandlers(ctx) {
     // Withdraw an unapproved offer; an approval naming it can no longer register.
     if (typeof data.commandId !== 'string') {actors.fail('invalid_consequence');}
     if (blocks.listAll(room).some(entry => entry.approval.attack.commandId === data.commandId)) {actors.fail('approval_pending');}
+    if (!blocks.getOffer(room, data.commandId) && !blocks.closedOffer(room, data.commandId)) {
+      const receipt = actors.ledger(room).receipts.find(r => r.commandId === data.commandId);
+      if (receipt) {
+        if (receipt.submitterUid !== captured.uid) actors.fail('forbidden');
+        respondInstalled(ack, resultFor(room, receipt)); return;
+      }
+      // A5 positive closure of retained never-registered bytes. This creates only the existing
+      // offer tombstone, never action authority. Old epochs/unknown-pruned windows cannot renew it.
+      if (!data.attack?.authored) actors.fail('outcome_unknown');
+      blocks.validateAttack(data.attack);
+      const a = data.attack.authored.attempt;
+      if (a.sourceAuthority.gmUid !== captured.uid || a.roomId !== room.id) actors.fail('forbidden');
+      if (a.actionEpoch !== actors.epoch(room)) actors.fail('outcome_unknown');
+      payments.checkWindow(room, a);
+      blocks.addOffer(room, data.commandId, data.attack);
+    }
     closeOfferFor(room, data.commandId, 'withdrawn_by_gm');
     respond(ack, { success: true, code: 'offer_closed', commandId: data.commandId });
   });

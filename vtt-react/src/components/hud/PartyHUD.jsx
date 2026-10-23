@@ -32,6 +32,7 @@ import PortraitLightbox from './PortraitLightbox';
 import useFitText from './useFitText';
 import './PortraitLightbox.css';
 import UnifiedContextMenu from '../level-editor/UnifiedContextMenu';
+import { addTestPlayer, removeTestPlayer, removeAllTestPlayers, getTestPlayers } from '../../services/localLootRollService';
 // REMOVED: import 'react-resizable/css/styles.css'; // CAUSES CSS POLLUTION - loaded centrally
 // REMOVED: import '../../styles/party-hud.css'; // CAUSES CSS POLLUTION - loaded centrally
 import ActorConsequenceControls from './ActorConsequenceControls';
@@ -1464,7 +1465,7 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                     </div>
                 </div>
 
-                {/* Exhaustion Plaque: Riveted Metal Plate Mounted on the Bottom Wooden Frame Border */}
+                {/* Exhaustion plaque: parchment tab on the bottom frame border */}
                 {(exhaustionLevel > 0 || isExhaustionEditable) && (
                     <div
                         className={`party-exhaustion-badge level-${exhaustionLevel} ${isExhaustionEditable ? 'editable' : ''}`}
@@ -1482,234 +1483,75 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                             }
                         }}
                     >
-                        <svg className="exhaustion-plate-svg" viewBox="0 0 152 28" preserveAspectRatio="none" aria-hidden="true">
-                            <defs>
-                                <filter id={`exhDropShadow-${member.id}`} x="-15%" y="-20%" width="130%" height="150%">
-                                    <feDropShadow dx="0" dy="2" stdDeviation="2.5" floodColor="#000000" floodOpacity="0.75" />
-                                </filter>
-                                <linearGradient id={`exhPlateGrad-${member.id}`} x1="0" y1="0" x2="0" y2="1">
-                                    <stop offset="0%" stopColor="#faecd0" />
-                                    <stop offset="12%" stopColor="#e3c582" />
-                                    <stop offset="38%" stopColor="#b4934e" />
-                                    <stop offset="70%" stopColor="#7a5d24" />
-                                    <stop offset="90%" stopColor="#543c14" />
-                                    <stop offset="100%" stopColor="#302008" />
-                                </linearGradient>
-                                <linearGradient id={`exhInnerGrad-${member.id}`} x1="0" y1="0" x2="0" y2="1">
-                                    <stop offset="0%" stopColor="#1e1206" />
-                                    <stop offset="25%" stopColor="#33210d" />
-                                    <stop offset="70%" stopColor="#432c12" />
-                                    <stop offset="100%" stopColor="#251607" />
-                                </linearGradient>
-                                <radialGradient id={`exhRivetGrad-${member.id}`} cx="0.32" cy="0.28" r="0.75">
-                                    <stop offset="0%" stopColor="#ffffff" />
-                                    <stop offset="30%" stopColor="#f5dc9e" />
-                                    <stop offset="70%" stopColor="#9e7b36" />
-                                    <stop offset="100%" stopColor="#3d280b" />
-                                </radialGradient>
-                                <linearGradient id={`exhSandGrad-${member.id}`} x1="0" y1="0" x2="0" y2="1">
-                                    <stop offset="0%" stopColor={exhaustionLevel >= 5 ? '#ff7878' : exhaustionLevel >= 3 ? '#ffb366' : '#fff3a8'} />
-                                    <stop offset="50%" stopColor={exhaustionLevel >= 5 ? '#cc2222' : exhaustionLevel >= 3 ? '#e06d1b' : '#d99e2b'} />
-                                    <stop offset="100%" stopColor={exhaustionLevel >= 5 ? '#5e0707' : exhaustionLevel >= 3 ? '#6e2b05' : '#734c10'} />
-                                </linearGradient>
-                                <radialGradient id={`exhMedallionGrad-${member.id}`} cx="0.35" cy="0.3" r="0.8">
-                                    {exhaustionLevel === 0 && (
-                                        <>
-                                            <stop offset="0%" stopColor="#fff8df" />
-                                            <stop offset="25%" stopColor="#e5c882" />
-                                            <stop offset="65%" stopColor="#8c6a28" />
-                                            <stop offset="100%" stopColor="#3a270a" />
-                                        </>
-                                    )}
-                                    {(exhaustionLevel === 1 || exhaustionLevel === 2) && (
-                                        <>
-                                            <stop offset="0%" stopColor="#fff2cf" />
-                                            <stop offset="30%" stopColor="#ffa733" />
-                                            <stop offset="70%" stopColor="#a35405" />
-                                            <stop offset="100%" stopColor="#451e00" />
-                                        </>
-                                    )}
-                                    {(exhaustionLevel === 3 || exhaustionLevel === 4) && (
-                                        <>
-                                            <stop offset="0%" stopColor="#ffe4d6" />
-                                            <stop offset="30%" stopColor="#ff5722" />
-                                            <stop offset="70%" stopColor="#a82803" />
-                                            <stop offset="100%" stopColor="#4d0e00" />
-                                        </>
-                                    )}
-                                    {exhaustionLevel === 5 && (
-                                        <>
-                                            <stop offset="0%" stopColor="#ffd4d4" />
-                                            <stop offset="30%" stopColor="#e52424" />
-                                            <stop offset="70%" stopColor="#870a0a" />
-                                            <stop offset="100%" stopColor="#3d0000" />
-                                        </>
-                                    )}
-                                    {exhaustionLevel >= 6 && (
-                                        <>
-                                            <stop offset="0%" stopColor="#ffa3a3" />
-                                            <stop offset="30%" stopColor="#8f0f0f" />
-                                            <stop offset="70%" stopColor="#380404" />
-                                            <stop offset="100%" stopColor="#120000" />
-                                        </>
-                                    )}
-                                </radialGradient>
-                            </defs>
+                        {(() => {
+                            // Severity lives in the numeral disc and the sand only:
+                            // ink brown at rest, then ochre → rust → oxblood.
+                            const exhTone = exhaustionLevel >= 5 ? '#7e2a2c'
+                                : exhaustionLevel >= 3 ? '#a45a32'
+                                : exhaustionLevel >= 1 ? '#b0863a'
+                                : '#8c7353';
+                            const sandTone = exhaustionLevel === 0 ? '#c99a4e' : exhTone;
+                            return (
+                                <svg className="exhaustion-plate-svg" viewBox="0 0 128 24" aria-hidden="true">
+                                    {/* Parchment tab with a printed inner rule */}
+                                    <rect x="0.75" y="0.75" width="126.5" height="22.5" rx="11.25" fill="#f8f4ea" stroke="#8c7353" strokeWidth="1" />
+                                    <rect x="3.25" y="3.25" width="121.5" height="17.5" rx="8.75" fill="none" stroke="#cdbfa5" strokeWidth="0.7" />
 
-                            {/* Heavy Outer Cast Cartouche Plate with Finials */}
-                            <path
-                                className="plate-outer-bevel"
-                                d="M 14 1.5 L 138 1.5 Q 143 1.5 146 5 L 150 10.5 Q 152 14 150 17.5 L 146 23 Q 143 26.5 138 26.5 L 14 26.5 Q 9 26.5 6 23 L 2 17.5 Q 0 14 2 10.5 L 6 5 Q 9 1.5 14 1.5 Z"
-                                fill={`url(#exhPlateGrad-${member.id})`}
-                                stroke="#2b1a07"
-                                strokeWidth="1.2"
-                                filter={`url(#exhDropShadow-${member.id})`}
-                                vectorEffect="non-scaling-stroke"
-                            />
+                                    {/* Hourglass: sand runs to the bottom bulb as exhaustion builds */}
+                                    <g className="exh-hourglass-glyph" transform="translate(10.5, 5)">
+                                        {exhaustionLevel < 3 && (
+                                            <path d="M2.4 2.2 C2.7 4.6 4 5.7 5 6.4 C6 5.7 7.3 4.6 7.6 2.2 Z" fill={sandTone} opacity={exhaustionLevel === 0 ? 1 : 0.55} />
+                                        )}
+                                        {exhaustionLevel > 0 && (
+                                            <path d="M2.4 12.4 C2.8 10.4 4 9.6 5 9.2 C6 9.6 7.2 10.4 7.6 12.4 Z" fill={sandTone} />
+                                        )}
+                                        <path
+                                            d="M1.6 1.2 C1.6 4.6 3.4 6 5 7 C6.6 6 8.4 4.6 8.4 1.2 M1.6 12.8 C1.6 9.4 3.4 8 5 7 C6.6 8 8.4 9.4 8.4 12.8"
+                                            fill="none" stroke="#34251a" strokeWidth="1" strokeLinejoin="round"
+                                        />
+                                        <path d="M0.4 0.9 H9.6 M0.4 13.1 H9.6" stroke="#34251a" strokeWidth="1.6" strokeLinecap="round" />
+                                    </g>
 
-                            {/* Top Specular Rim Reflection */}
-                            <path
-                                d="M 14 2.8 L 138 2.8 Q 142 2.8 144.5 5.5 L 148 10.5"
-                                stroke="rgba(255, 252, 238, 0.85)"
-                                strokeWidth="1"
-                                fill="none"
-                                vectorEffect="non-scaling-stroke"
-                            />
+                                    <text
+                                        x="62"
+                                        y="15.2"
+                                        textAnchor="middle"
+                                        fontFamily="'Cinzel', Georgia, serif"
+                                        fontSize="7.6px"
+                                        fontWeight="700"
+                                        letterSpacing="1.2px"
+                                        fill="#5a4632"
+                                        className="exhaustion-label"
+                                        style={{ userSelect: 'none' }}
+                                    >
+                                        Exhaustion
+                                    </text>
 
-                            {/* Bottom Cast Shadow Accent */}
-                            <path
-                                d="M 14 25.2 L 138 25.2 Q 142 25.2 144.5 22.5 L 148 17.5"
-                                stroke="rgba(20, 10, 3, 0.75)"
-                                strokeWidth="1"
-                                fill="none"
-                                vectorEffect="non-scaling-stroke"
-                            />
-
-                            {/* Inset Darkened Relief Tray */}
-                            <path
-                                className="plate-inner-tray"
-                                d="M 15 4.5 L 137 4.5 Q 140 4.5 142.5 7 L 145.5 11 Q 147 14 145.5 17 L 142.5 21 Q 140 23.5 137 23.5 L 15 23.5 Q 12 23.5 9.5 21 L 6.5 17 Q 5 14 6.5 11 L 9.5 7 Q 12 4.5 15 4.5 Z"
-                                fill={`url(#exhInnerGrad-${member.id})`}
-                                stroke="#1a0e04"
-                                strokeWidth="1"
-                                vectorEffect="non-scaling-stroke"
-                            />
-
-                            {/* Four Raised Corner Studs */}
-                            <g className="plate-rivets" stroke="#2b1a07" strokeWidth="0.6">
-                                <circle cx="9.5" cy="8" r="1.8" fill={`url(#exhRivetGrad-${member.id})`} />
-                                <circle cx="142.5" cy="8" r="1.8" fill={`url(#exhRivetGrad-${member.id})`} />
-                                <circle cx="9.5" cy="20" r="1.8" fill={`url(#exhRivetGrad-${member.id})`} />
-                                <circle cx="142.5" cy="20" r="1.8" fill={`url(#exhRivetGrad-${member.id})`} />
-                            </g>
-
-                            {/* Illustrated Fantasy Hourglass (Left side) */}
-                            <g className="exh-hourglass-glyph" transform="translate(14, 4)">
-                                <ellipse cx="9" cy="18.5" rx="6.5" ry="1.2" fill="rgba(0,0,0,0.5)" />
-                                <path d="M 4 1.5 H 14 Q 15 1.5 15 2.5 V 3.5 H 3 V 2.5 Q 3 1.5 4 1.5 Z" fill={`url(#exhPlateGrad-${member.id})`} stroke="#241403" strokeWidth="0.7" />
-                                <circle cx="9" cy="1" r="1" fill={`url(#exhRivetGrad-${member.id})`} stroke="#241403" strokeWidth="0.5" />
-                                <path d="M 4 17.5 H 14 Q 15 17.5 15 16.5 V 15.5 H 3 V 16.5 Q 3 17.5 4 17.5 Z" fill={`url(#exhPlateGrad-${member.id})`} stroke="#241403" strokeWidth="0.7" />
-                                <circle cx="9" cy="18" r="1" fill={`url(#exhRivetGrad-${member.id})`} stroke="#241403" strokeWidth="0.5" />
-                                <line x1="4.2" y1="3.5" x2="4.2" y2="15.5" stroke="#7a5b23" strokeWidth="1" />
-                                <line x1="3.8" y1="3.5" x2="3.8" y2="15.5" stroke="#faecd0" strokeWidth="0.5" opacity="0.8" />
-                                <line x1="13.8" y1="3.5" x2="13.8" y2="15.5" stroke="#7a5b23" strokeWidth="1" />
-                                <line x1="13.4" y1="3.5" x2="13.4" y2="15.5" stroke="#faecd0" strokeWidth="0.5" opacity="0.8" />
-                                <path
-                                    d="M 5 3.5 C 5 7.5 7.5 9 9 9.5 C 10.5 9 13 7.5 13 3.5 Z M 5 15.5 C 5 11.5 7.5 10 9 9.5 C 10.5 10 13 11.5 13 15.5 Z"
-                                    fill="rgba(24, 38, 48, 0.45)"
-                                    stroke="#1b2830"
-                                    strokeWidth="0.7"
-                                />
-                                {exhaustionLevel < 6 && (
-                                    <path
-                                        d="M 5.8 4.2 C 5.8 7 7.8 8.2 9 8.8 C 10.2 8.2 12.2 7 12.2 4.2 Z"
-                                        fill={`url(#exhSandGrad-${member.id})`}
-                                    />
-                                )}
-                                {exhaustionLevel > 0 && exhaustionLevel < 6 && (
-                                    <line x1="9" y1="9" x2="9" y2="14" stroke={`url(#exhSandGrad-${member.id})`} strokeWidth="0.8" strokeDasharray="1.2,0.8" />
-                                )}
-                                {exhaustionLevel > 0 && (
-                                    <path
-                                        d="M 6 15 C 6 13.5 7.8 12.5 9 12 C 10.2 12.5 12 13.5 12 15 Z"
-                                        fill={`url(#exhSandGrad-${member.id})`}
-                                    />
-                                )}
-                                <path d="M 5.8 4.5 C 5.8 6.5 6.6 7.8 7.4 8.2" stroke="#ffffff" strokeWidth="0.6" strokeLinecap="round" fill="none" opacity="0.75" />
-                                <path d="M 5.8 14.5 C 5.8 13 6.6 11.8 7.4 11.2" stroke="#ffffff" strokeWidth="0.6" strokeLinecap="round" fill="none" opacity="0.6" />
-                                <ellipse cx="9" cy="9.5" rx="1.6" ry="0.9" fill="#201203" stroke="#cca862" strokeWidth="0.6" />
-                            </g>
-
-                            {/* Decorative Filigree Diamonds flanking "EXHAUSTION" */}
-                            <g className="exh-filigree-accents" fill="#cca862" stroke="#241403" strokeWidth="0.5">
-                                <path d="M 33 14 L 36.5 12 L 40 14 L 36.5 16 Z" />
-                                <line x1="41" y1="14" x2="45" y2="14" stroke="#cca862" strokeWidth="0.8" />
-                                <line x1="107" y1="14" x2="111" y2="14" stroke="#cca862" strokeWidth="0.8" />
-                                <path d="M 112 14 L 115.5 12 L 119 14 L 115.5 16 Z" />
-                            </g>
-
-                            {/* Engraved "Exhaustion" Label with Dimensional Relief */}
-                            <text
-                                x="76"
-                                y="17.5"
-                                textAnchor="middle"
-                                fontFamily="'Cinzel', Georgia, serif"
-                                fontSize="9.5px"
-                                fontWeight="800"
-                                letterSpacing="1.2px"
-                                fill="#0f0701"
-                                style={{ userSelect: 'none' }}
-                            >
-                                Exhaustion
-                            </text>
-                            <text
-                                x="76"
-                                y="16.5"
-                                textAnchor="middle"
-                                fontFamily="'Cinzel', Georgia, serif"
-                                fontSize="9.5px"
-                                fontWeight="800"
-                                letterSpacing="1.2px"
-                                fill="#fcedcb"
-                                className="exhaustion-label"
-                                style={{ userSelect: 'none' }}
-                            >
-                                Exhaustion
-                            </text>
-
-                            {/* Sculpted Jeweled Medallion Socket (Right side) */}
-                            <g className="exh-medallion-group" transform="translate(133, 14)">
-                                <circle cx="0" cy="0" r="8.5" fill={`url(#exhPlateGrad-${member.id})`} stroke="#241403" strokeWidth="0.8" />
-                                <circle cx="0" cy="0" r="7.2" fill="#180e03" stroke="#543c14" strokeWidth="0.5" />
-                                <circle cx="0" cy="0" r="6.5" fill={`url(#exhMedallionGrad-${member.id})`} />
-                                <path d="M -4.5 -3.5 A 5.5 5.5 0 0 1 3.5 -4.5 A 5.5 4 0 0 0 -4.5 -3.5 Z" fill="#ffffff" opacity="0.65" />
-                                <text
-                                    x="0"
-                                    y="3.5"
-                                    textAnchor="middle"
-                                    fontFamily="'Cinzel', Georgia, serif"
-                                    fontSize="9px"
-                                    fontWeight="900"
-                                    fill="#0f0701"
-                                    style={{ userSelect: 'none' }}
-                                >
-                                    {exhaustionLevel}
-                                </text>
-                                <text
-                                    x="0"
-                                    y="2.8"
-                                    textAnchor="middle"
-                                    fontFamily="'Cinzel', Georgia, serif"
-                                    fontSize="9px"
-                                    fontWeight="900"
-                                    fill={exhaustionLevel === 0 ? '#ffffff' : '#fff8e6'}
-                                    className="exhaustion-value"
-                                    style={{ userSelect: 'none' }}
-                                >
-                                    {exhaustionLevel}
-                                </text>
-                            </g>
-                        </svg>
+                                    {/* Numeral disc */}
+                                    <g className="exh-medallion-group" transform="translate(114, 12)">
+                                        <circle
+                                            cx="0" cy="0" r="7.25"
+                                            fill={exhaustionLevel === 0 ? '#f8f4ea' : exhTone}
+                                            stroke={exhaustionLevel === 0 ? '#8c7353' : '#34251a'}
+                                            strokeWidth={exhaustionLevel === 0 ? 0.9 : 0.6}
+                                        />
+                                        <text
+                                            x="0"
+                                            y="3.2"
+                                            textAnchor="middle"
+                                            fontFamily="'Cinzel', Georgia, serif"
+                                            fontSize="9px"
+                                            fontWeight="700"
+                                            fill={exhaustionLevel === 0 ? '#5a4632' : '#fbf6ea'}
+                                            className="exhaustion-value"
+                                            style={{ userSelect: 'none' }}
+                                        >
+                                            {exhaustionLevel}
+                                        </text>
+                                    </g>
+                                </svg>
+                            );
+                        })()}
 
                         {/* Hidden native select preserved for headless/unit test queries */}
                         {isExhaustionEditable && (
@@ -4045,6 +3887,8 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                 isSelfId(member.id, member.userId, myIds) ||
                 isSelfId(member.socketId, member.userId, myIds);
             if (isSelf || member.id === 'current-player') return true;
+            // Test players (local-only stand-ins) never show in a live room
+            if (member.isTestPlayer && isInMultiplayer) return false;
             // Only show other members if they are actually connected to the room
             return member.isConnected === true;
         })
@@ -4326,6 +4170,48 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                         }
                     });
 
+                    menuItems.push({ type: 'separator' });
+                }
+
+                // Test players: pretend party members for trying things out offline
+                // (e.g. Need / Greed / Pass loot rolls). Local play only.
+                if (!isInMultiplayer) {
+                    if (contextMenuMember?.isTestPlayer) {
+                        menuItems.push({
+                            icon: <i className="fas fa-user-minus"></i>,
+                            label: `Remove ${contextMenuMember.name || 'Test Player'}`,
+                            onClick: () => {
+                                removeTestPlayer(contextMenuMember.id);
+                                setShowContextMenu(false);
+                                setContextMenuMember(null);
+                            },
+                            className: 'danger'
+                        });
+                    }
+                    menuItems.push({
+                        icon: <i className="fas fa-user-plus"></i>,
+                        label: 'Add Test Player',
+                        title: 'Add a pretend player to the party (local mode only) - they join loot rolls',
+                        onClick: () => {
+                            const selfEntry = resolvedDisplayMembers.find(m =>
+                                !m.isTestPlayer && (m.id === 'current-player' || isSelfId(m.id, m.userId, myIds))
+                            ) || resolvedDisplayMembers[0];
+                            addTestPlayer(selfEntry && !selfEntry.isTestPlayer ? selfEntry : null);
+                            setShowContextMenu(false);
+                        }
+                    });
+                    if (getTestPlayers().length > 1) {
+                        menuItems.push({
+                            icon: <i className="fas fa-users-slash"></i>,
+                            label: 'Remove All Test Players',
+                            onClick: () => {
+                                removeAllTestPlayers();
+                                setShowContextMenu(false);
+                                setContextMenuMember(null);
+                            },
+                            className: 'danger'
+                        });
+                    }
                     menuItems.push({ type: 'separator' });
                 }
 

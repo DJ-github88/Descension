@@ -275,8 +275,8 @@ const CLASS_DISPLAY_ENTRIES = [
         roleColor: '#e67e22',
         damageTypes: ['blight'],
         quickStartPresets: {
-            aoe: { name: 'Virulent Spreader', description: 'Infect entire groups with contagious, spreading mycelial spores.', spells: ['pb_ghost_spore_seed', 'pb_epidemic_wave'] },
-            singleTarget: { name: 'Torment Weaver', description: 'Stack lethal 3-stage diseases on bosses to trigger massive harvests.', spells: ['pb_festering_boil', 'pb_black_death_harvest'] }
+            aoe: { name: 'Virulent Spreader', description: 'Infect entire groups with contagious, spreading mycelial spores.', spells: ['pb_venomous_touch', 'pb_epidemic'] },
+            singleTarget: { name: 'Torment Weaver', description: 'Stack lethal 3-stage diseases on bosses to trigger massive harvests.', spells: ['pb_curse_of_agony', 'pb_black_death'] }
         }
     },
     {

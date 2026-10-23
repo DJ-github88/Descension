@@ -1,6 +1,6 @@
 # Current priorities
 
-Updated 2026-10-22 (P14-A3 Creature Wizard producer delivered/reviewed/Build1-App9 verified with fixture/UI qualifications; A1/A2/C4 acceptance carried forward). Evidence-gate HEAD:
+Updated 2026-10-23 (P14-A5 creature→exact primary PC; qualified independent ACCEPT/Build5-App6 PASS in A5 acceptance; A1–A4/C4 carried forward). Historical A3 evidence-gate HEAD:
 `485c0bbab9171879e2ea47cd83b44ddc0f046deb` (concurrent external commits). Exact scoped bytes and unrelated drift in A3 acceptance. The full ledger,
 with source identities/evidence, is [`docs/ENGINEERING_STATE.md`](../ENGINEERING_STATE.md).
 
@@ -31,6 +31,8 @@ with source identities/evidence, is [`docs/ENGINEERING_STATE.md`](../ENGINEERING
 | P14-A1 authored immediate abilities | Implemented; one repaired bounded independent source/evidence ACCEPT, Build4/App7 PASS. Actual Wizard/library/admission/explicit versions and zeros, existing P9 owner roll/consent + GM final + one P7 payment/HP, original-byte recovery; one direct damage OR healing, exact source+target only |
 | P14-A2 Item Wizard ability producer | Implemented; one repaired bounded independent ACCEPT, Build3/App10 PASS with P13-overlay/fetch fixture qualifications. Whole Wizard snapshot, compact authoring/library selection, exact admission/version and real Inventory launch into A1; no item entitlement/new engine |
 | P14-A3 Creature Wizard ability producer | Implemented; one repaired bounded independent ACCEPT, Build1/App9 PASS (qualified). Compact/library whole snapshot, Keep/save/reopen, legacy preservation, exact normal A1 admission/v2, detached template/copy/placed isolation; creature casting unavailable |
+| P14-A4 exact creature-source execution | Implemented; one repaired bounded independent ACCEPT, Build4/App10 PASS (qualified). Exact placed source/whole-association/version/current-GM admission, distinct same-map creature, retained roll/GM final and one P7 authored-price payment+HP. Scope/identities/limits in A4 acceptance |
+| P14-A5 admitted creature→primary PC | Implemented; one repaired bounded independent ACCEPT, Build5/App6 PASS (qualified). Existing P12B exact-owner block/Don't block or explicit healing acceptance, A4 source authority and one P7 AP/mana+HP+wear. Source identities, four fetch errors and independent-execution limits in A5 acceptance |
 
 Source acceptance is not deployment readiness. Current P12B evidence: [`MYTHRILL_PROJECT_12B_IMPLEMENTATION.md`](../MYTHRILL_PROJECT_12B_IMPLEMENTATION.md). P12A/P11 evidence:
 [`MYTHRILL_PROJECT_12A_IMPLEMENTATION.md`](../MYTHRILL_PROJECT_12A_IMPLEMENTATION.md).
@@ -73,7 +75,31 @@ same-deadline reconnect and no grace/pause/extension. No fee/refund/order/effect
 
 ## Next
 
-**Latest delivery:** [P14-A3](../MYTHRILL_PROJECT_14_A3_CONTRACT.md) and
+**Latest delivered integration:** [P14-A5 contract](../MYTHRILL_PROJECT_14_A5_CONTRACT.md) and
+[acceptance](../MYTHRILL_PROJECT_14_A5_ACCEPTANCE.md), admitted
+creature → exact primary PC using A4 source authority and existing P12B offer/owner choice/atomic
+payment+HP+wear. Healing explicitly requires exact-owner proposal acceptance, no equipment. Runtime is
+implemented; server79 PASS, client5/47 PASS, final Build5/App6 PASS and same-review qualified ACCEPT.
+53 runtime/protected7/recorded client build parity verified; four fetch errors/fixture/live-only/device
+limits remain. Later unrelated map/drawing/touch drift changes9 recorded client inputs plus unlisted
+files;53/protected7 stay unchanged. No full-current-tree build parity claim; exact timestamp/drift and
+same-review addendum in A5 acceptance. Next smallest candidate: separately frozen exact creature
+self-healing, same writer.
+The older A5 preparation-only wording below is historical and superseded by this authorization.
+
+**Carried-forward creature-target execution:** [P14-A4 contract](../MYTHRILL_PROJECT_14_A4_SOURCE_AUTHORITY_CONTRACT.md) and
+[acceptance](../MYTHRILL_PROJECT_14_A4_ACCEPTANCE.md). Actual placed Inspect → exact-source admission →
+Use for this creature → distinct creature, physical/digital retained faces → GM-confirmed final amount →
+atomic authored AP/mana+HP. Creature-only versions do not grant PC use. Shared custody/writer/receipt/
+Stunned/visibility owners reused; no fake owner approval. Range0 stays0 and is manual for distinct targets.
+Uncertain outcomes block replacements; positive close and compatible explicit refresh retain faces.
+
+**Historical A5 preparation:** [original candidate](../MYTHRILL_PROJECT_14_A5_CREATURE_PC_PREPARATION.md)
+is superseded by the delivered contract above. Explicit healing owner acceptance is selected and
+implemented, with no equipment. This adds no Class/Heritage loadout/content, ancestry grant, migration
+or deployment widening. Wider P14 stays open.
+
+**Preserved producer delivery:** [P14-A3](../MYTHRILL_PROJECT_14_A3_CONTRACT.md) and
 [acceptance/identity](../MYTHRILL_PROJECT_14_A3_ACCEPTANCE.md). Actual Creature Wizard → retained whole
 definition → save/reopen/Inspect → normal explicit GM admission. Damage/healing/zeros, library
 selection/deletion, manual preservation, immutablev1/v2 and old placed Inspect verified without spend/
@@ -81,10 +107,8 @@ HP/receipt; hostile creature-source PC approval refused.6 client suites54/A1 ser
 review ACCEPT/final8 probes; one production build/App9. Later unrelated overflow UI drift,1 fetch
 error, fixture/live-only and partly-scrolled viewport qualifications explicit. A1/A2/W1 preserved.
 
-**Next bounded execution candidate:** [A4 source-authority preparation](../MYTHRILL_PROJECT_14_A4_SOURCE_AUTHORITY_CONTRACT.md).
-Needs separate HQ freeze/authorization of exact GM-controlled placed-creature permission and target
-subset; proposed creature→creature first, PC-owner blocking/consent bridge separate. A3 grants no
-creature-origin execution and does not widen class/source binding. Wider mechanics/ancestry stay open.
+**A3's historical follow-on is now the authorized A4 above.** A3 alone grants no creature authority;
+A4 adds its explicit exact placed-source route. A5 now separately delivers PC-owner blocking/consent.
 
 **Preserved producer delivery:** [P14-A2](../MYTHRILL_PROJECT_14_A2_CONTRACT.md#implementation-and-verification--2026-10-22).
 Item Wizard Basic Info → whole-record ability → save/reopen → explicit normal GM admission → Inventory

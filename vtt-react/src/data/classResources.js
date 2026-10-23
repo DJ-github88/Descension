@@ -843,9 +843,62 @@ export const CLASS_RESOURCE_TYPES = {
   }
  },
 
- // REMOVED: 'Lichborne' section merged into Revenant as Phase 1.10 consolidation
- // Original Lichborne resource: Eternal Frost Aura & Phylactery (frost_undead)
- // Key mechanics preserved in Revenant's combined resource system
+ 'Deathcaller': {
+  id: 'dead-muster',
+  name: 'Dead Muster',
+  shortName: 'Muster',
+  type: 'dead_muster',
+  description: 'Up to three prepared patterns, two active manifestations and two orders per own turn. Manual tabletop only; no automatic summon, command, vitality or recovery.',
+  visual: {
+   type: 'dead_muster',
+   baseColor: '#2f3b45',
+   activeColor: '#8fa3bf',
+   glowColor: '#8fa3bf',
+   icon: 'fas fa-skull'
+  },
+  mechanics: {
+   max: 2,
+   current: 0,
+   initialized: false,
+   state: null,
+   consumeVerb: 'order',
+   gainVerb: 'prepare'
+  },
+  tooltip: {
+   title: 'Dead Muster - manual tabletop',
+   description: 'Prepared patterns and active manifestations are a recorded manual state. No manifestation is created, moved, healed or expired automatically.'
+  }
+ },
+
+ 'Lichborne': {
+  id: 'lich-anchor',
+  name: 'Lich Anchor',
+  shortName: 'Anchor',
+  type: 'lich_anchor',
+  description: 'One intact or destroyed anchor, integrity 0-12, undeath stage 0-2, two prepared traits and a bounded life state. Manual tabletop only.',
+  visual: {
+   type: 'lich_anchor',
+   baseColor: '#2f3b45',
+   activeColor: '#8fa3bf',
+   glowColor: '#8fa3bf',
+   icon: 'fas fa-snowflake'
+  },
+  mechanics: {
+   max: 12,
+   current: 0,
+   initialized: false,
+   state: null,
+   consumeVerb: 'spend integrity',
+   gainVerb: 'repair'
+  },
+  tooltip: {
+   title: 'Lich Anchor - manual tabletop',
+   description: 'No trait, anchor ward, death save, stage or integrity change is applied automatically. The table must record every change.'
+  }
+ },
+
+ // REMOVED: legacy Lichborne phylactery bar merged into Revenant as Phase 1.10 consolidation.
+ // The CR-1 Lichborne Anchor above is a separate manual resource record.
 };
 
 export const getClassResourceConfig = (className) => {
@@ -890,6 +943,11 @@ export const initializeClassResource = (className, characterStats) => {
   current = config.mechanics.current || 0;
   max = config.mechanics.max;
  }
+ // Virulence is authored as maxVirulence/currentVirulence, not mechanics.max.
+ else if (config.mechanics.maxVirulence !== undefined) {
+  current = config.mechanics.currentVirulence || 0;
+  max = config.mechanics.maxVirulence;
+ }
  
  const baseResource = {
   type: config.id,
@@ -924,6 +982,13 @@ export const initializeClassResource = (className, characterStats) => {
   lastUpdate: Date.now()
  };
 
+ if (config.mechanics.maxVirulence !== undefined) {
+  baseResource.virulence = current;
+  baseResource.maxVirulence = max;
+  baseResource.afflictions = config.mechanics.activeAfflictions || 0;
+  baseResource.maxAfflictions = config.mechanics.maxAfflictions || 0;
+ }
+
  // Calculate max based on character stats for certain classes
  if (config.mechanics.max === 'calculated') {
   const intMod = Math.floor((characterStats.intelligence - 10) / 2);
@@ -954,6 +1019,19 @@ export const initializeClassResource = (className, characterStats) => {
    default:
     baseResource.max = 5; // Default fallback
   }
+ }
+
+ // CR-1 manual resources start without an invented summon, anchor or trait.
+ if (className === 'Deathcaller') {
+  baseResource.initialized = false;
+  baseResource.state = null;
+  baseResource.current = 0;
+  baseResource.max = 2;
+ } else if (className === 'Lichborne') {
+  baseResource.initialized = false;
+  baseResource.state = null;
+  baseResource.current = 0;
+  baseResource.max = 12;
  }
 
  // Initialize custom fields for Revenant, Apex, and Arcanoneer

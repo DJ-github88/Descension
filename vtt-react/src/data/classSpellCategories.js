@@ -639,7 +639,8 @@ export const CLASS_SPECIALIZATIONS = {
 
 
 
-  // 'Deathcaller' and 'Lichborne' merged into Revenant as Phase 1.10 consolidation
+  // Revenant remains a separate consolidated class; CR-1 restores Deathcaller
+  // and Lichborne as standalone options.
   'Revenant': {
 
     path: 'Necrotic & Frost Path',

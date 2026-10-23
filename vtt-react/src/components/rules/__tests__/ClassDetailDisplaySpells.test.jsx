@@ -4,6 +4,8 @@ import '@testing-library/jest-dom';
 import ClassDetailDisplay from '../ClassDetailDisplay';
 import { GAMBLER_DATA } from '../../../data/classes/gamblerData';
 import { FATE_WEAVER_DATA } from '../../../data/classes/fateWeaverData';
+import { DEATHCALLER_DATA } from '../../../data/classes/deathcallerData';
+import { LICHBORNE_DATA } from '../../../data/classes/lichborneData';
 
 // Polyfill global fetch if needed
 if (!global.fetch) {
@@ -150,4 +152,38 @@ test('Fate Weaver Codex popup carries closure-gated recovery and distinct 30/60 
   const popup = document.querySelector('.spellbook-popup-content');
   expect(popup.textContent).toMatch(/closed and its uses are exhausted/i);
   expect(popup.textContent).toMatch(/30 ft formation range each and 60 ft maintenance separation/i);
+});
+
+test('Deathcaller detail exposes its manual resource, three specializations and projected spells', () => {
+  render(<ClassDetailDisplay classData={DEATHCALLER_DATA} onBack={jest.fn()} />);
+
+  fireEvent.click(screen.getByRole('button', { name: 'Resource System' }));
+  expect(screen.getAllByText(/not initialized/i).length).toBeGreaterThan(0);
+  expect(screen.getByText(/Dead Muster/)).toBeInTheDocument();
+
+  fireEvent.click(screen.getByRole('button', { name: 'Specializations' }));
+  ['Grave Marshal', 'Soul Shepherd', 'Ossuary Architect'].forEach(name => {
+    expect(screen.getByRole('tab', { name: new RegExp(name) })).toBeInTheDocument();
+  });
+
+  fireEvent.click(screen.getByRole('button', { name: 'Spells' }));
+  expect(screen.getByRole('button', { name: /Inspect Manifest Retainer/ })).toBeInTheDocument();
+  expect(screen.getByRole('button', { name: /Inspect Grave Order/ })).toBeInTheDocument();
+});
+
+test('Lichborne detail exposes its anchored resource, three specializations and projected spells', () => {
+  render(<ClassDetailDisplay classData={LICHBORNE_DATA} onBack={jest.fn()} />);
+
+  fireEvent.click(screen.getByRole('button', { name: 'Resource System' }));
+  expect(screen.getAllByText(/not initialized/i).length).toBeGreaterThan(0);
+  expect(screen.getByText(/Lich Anchor/)).toBeInTheDocument();
+
+  fireEvent.click(screen.getByRole('button', { name: 'Specializations' }));
+  ['Rime Sovereign', 'Phylactery Keeper', 'Veil Scholar'].forEach(name => {
+    expect(screen.getByRole('tab', { name: new RegExp(name) })).toBeInTheDocument();
+  });
+
+  fireEvent.click(screen.getByRole('button', { name: 'Spells' }));
+  expect(screen.getByRole('button', { name: /Inspect Veil Unbound/ })).toBeInTheDocument();
+  expect(screen.getByRole('button', { name: /Inspect Repair the Vessel/ })).toBeInTheDocument();
 });
