@@ -1,6 +1,6 @@
 # P14-A6 — exact admitted creature self-healing
 
-Frozen 2026-10-23 before runtime edits. Main HQ authorizes implementation, focused verification,
+Frozen 2026-10-23 before runtime edits; implemented, bounded independent PASS. Main HQ authorizes implementation, focused verification,
 optimized App proof and one bounded independent review. [Acceptance](MYTHRILL_PROJECT_14_A6_ACCEPTANCE.md).
 
 ## Source and scope
@@ -34,6 +34,11 @@ one entry when exact refs match. Reuse unchanged P7 stage/writer: one consistent
 one revision increment, one receipt actor, combined projection/checkpoint and synchronous attempt
 consumption. Duplicate immutable command returns original receipt; conflicting bytes refuse.
 No independent mutable source/target copies, new endpoint/controller/receipt store or P7 operation.
+
+Production-App reconciliation: source admission increments the actor revision but previously only
+returned that projection to the GM. For self-as-target, observers then lack an exact beforeRevision
+and correctly suppress HP arithmetic/float. Publish the public admission snapshot through existing
+`actor_bound` lifecycle delivery after installation; no receipt/feedback/raw draft/grant is broadcast.
 
 Reuse A4 current-GM, room/map/token/incarnation, whole association hash, admission ID and immutable
 installed version/hash/revocation. Add a narrow self-only current-state validation baseline in the

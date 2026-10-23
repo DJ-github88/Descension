@@ -8,6 +8,7 @@ import { refOf, bindActor } from '../../../../services/actorConsequenceService';
 import { openCreatureAbility, refreshAuthoredAbilities, useSpellConsequenceStore } from '../../../../services/spellConsequenceService';
 import useGameStore from '../../../../store/gameStore';
 import useCreatureStore from '../../../../store/creatureStore';
+import { creatureSelfHealing } from '../../../../services/authoredAbility';
 
 export function CreatureAbilityDetails({ association: suppliedAssociation, saved = false, token }) {
   const gm = useGameStore(s => s.isGMMode), shared = useGameStore(s => s.isInMultiplayer);
@@ -20,18 +21,19 @@ export function CreatureAbilityDetails({ association: suppliedAssociation, saved
   useEffect(() => { if (token && sourceInstance && gm && shared) refreshAuthoredAbilities(); }, [token, sourceInstance, gm, shared]);
   const perform = async action => { setBusy(true); try { const r = await action(); if (r?.success === false) setMessage(r.error || r.code); else setMessage(''); } catch (e) { setMessage(e.message); } finally { setBusy(false); } };
   if (association === undefined) return token && shared && gm && !sourceRef ? <section className="item-ability" aria-label="Creature activated ability"><h3>Placed creature ability</h3><p>Bind this exact placed actor to inspect its saved association securely. Binding spends nothing.</p><button type="button" disabled={busy} onClick={() => perform(() => bindActor(token.id, 'creature'))}>Bind this placed creature</button>{message && <p role="status">{message}</p>}</section> : null;
-  const support = itemAbilitySupport(association), d = support.definition;
+   const support = itemAbilitySupport(association), d = support.definition;
+   const selfAllowed = creatureSelfHealing(d, association?.record);
   return <section className="item-ability" aria-label="Creature activated ability">
     <h3>{association?.record?.name || 'Preserved activated ability'}</h3>
     <p role="status">{support.ok ? `Supported immediate ACTION · ${d.effect.kind} · ${d.effect.formula} ${d.effect.damageTypes?.join(', ') || 'healing'} · ${d.resourceCost.actionPoints} AP / ${d.resourceCost.mana} mana · ${d.targeting.rangeFeet} ft · one ${d.targeting.restriction} target` : `Unsupported/manual — ${support.reason}`}</p>
     {d?.description && <p>{d.description}</p>}
-    <p>{token ? 'GM creature action: one distinct exact placed creature target on the same map. Admission, rolling and preparation spend nothing; confirmation installs payment and HP together.' : 'Library admission alone does not authorize a creature source. Place this creature, then Inspect its saved ability and admit that exact placed source.'}</p>
-    {d && (d.targeting.rangeFeet === 0 || d.targeting.restriction === 'self') && <p role="status">Authored range {d.targeting.rangeFeet} ft / {d.targeting.restriction}. This distinct-creature slice cannot resolve range 0 or self-only abilities. Keep this definition manual; its range is unchanged.</p>}
+    <p>{token ? 'GM creature action: one exact target on the same map, including Self for compatible direct healing. Admission, rolling and preparation spend nothing; confirmation installs payment and HP together.' : 'Library admission alone does not authorize a creature source. Place this creature, then Inspect its saved ability and admit that exact placed source.'}</p>
+    {d && (d.targeting.rangeFeet === 0 || d.targeting.restriction === 'self') && <p role="status">Authored range {d.targeting.rangeFeet} ft / {d.targeting.restriction}. {selfAllowed ? 'Choose Self for direct capped healing.' : 'No compatible self route; keep this definition manual.'} Distinct range-zero targets remain unsupported.</p>}
     {association?.librarySpellId && <p>Detached Spell Library snapshot. Library edits or deletion do not replace this content.</p>}
     <details><summary>Inspect whole preserved definition</summary><pre className="creature-ability-json">{JSON.stringify(association, null, 2)}</pre></details>
     {saved && support.ok && (!token || sourceRef) && <AuthoredAdmission spell={association.record} sourceRef={sourceRef} />}
     {token && shared && gm && !sourceRef && <button type="button" disabled={busy} onClick={() => perform(() => bindActor(token.id, 'creature'))}>Bind this placed creature</button>}
-    {token && shared && gm && sourceRef && support.ok && <button type="button" disabled={busy || d.targeting.rangeFeet === 0 || d.targeting.restriction === 'self'} onClick={() => perform(() => openCreatureAbility(sourceRef))}>Use for this creature</button>}
+    {token && shared && gm && sourceRef && support.ok && <button type="button" disabled={busy || (!selfAllowed && (d.targeting.rangeFeet === 0 || d.targeting.restriction === 'self'))} onClick={() => perform(() => openCreatureAbility(sourceRef))}>Use for this creature</button>}
     {message && <p role="status">{message}</p>}
     {!saved && <p>Not saved/admitted from this editor. Save the creature, then inspect its library entry for explicit room admission.</p>}
   </section>;

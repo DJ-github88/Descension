@@ -1446,6 +1446,11 @@ const Step1CoreDraft = () => {
         return classSpells.length > 0 ? classSpells : level1SpellPool;
     }, [characterData.class, level1SpellPool]);
 
+    const grantedCoreSpells = useMemo(() => {
+        const coreIds = CLASS_DATA_MAP[characterData.class]?.progression?.policy?.grantedCoreSpellIds || [];
+        return coreIds.map(id => selectedSpellPool.find(spell => spell.id === id)).filter(Boolean);
+    }, [characterData.class, selectedSpellPool]);
+
 
 
     const [viewingSpellId, setViewingSpellId] = useState(level1SpellPool[0]?.id || null);
@@ -4053,6 +4058,13 @@ const Step1CoreDraft = () => {
                             {/* Left Spell List Grid */}
 
                             <div className="spellbook-spell-list-side">
+
+                                {grantedCoreSpells.length > 0 && (
+                                    <div style={{ padding: '0 0.75rem 0.75rem', color: '#c8b48b', fontSize: '0.8rem', lineHeight: 1.5 }}>
+                                        <strong style={{ color: '#e8d5a8' }}>Granted by calling:</strong>{' '}
+                                        {grantedCoreSpells.map(spell => spell.name).join(' · ')}
+                                    </div>
+                                )}
 
                                 {level1SpellPool.length === 0 ? (
 

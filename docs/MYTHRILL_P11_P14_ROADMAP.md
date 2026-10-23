@@ -5,7 +5,13 @@ roadmap ([MYTHRILL_NEXT_PHASE.md](MYTHRILL_NEXT_PHASE.md) §26) ends at P10 and 
 This document adds four bounded phases. **At creation only P11 was authorized.** Later bounded
 authorizations/status are recorded below; each further slice still needs its own contract/go-ahead.
 
-> **Active bounded extension:** [P14-A5](MYTHRILL_PROJECT_14_A5_CONTRACT.md) is now explicitly authorized
+> **Latest bounded delivery:** [P14-A6](MYTHRILL_PROJECT_14_A6_ACCEPTANCE.md), exact creature Self healing:
+> bounded independent PASS, Build2/App4 PASS (qualified). Explicit self/any targeting, authored prices,
+> retained roll/GM final and one-actor atomic capped HP+payment. Exact source/drift/fixtures in acceptance.
+> [Next reusable authored condition profile](MYTHRILL_PROJECT_14_AUTHORED_CONDITION_RECOMMENDATION.md)
+> is recommendation only: canonical Stunned, explicit GM outcome/manual timing and same P7 owners.
+>
+> **Preserved bounded extension:** [P14-A5](MYTHRILL_PROJECT_14_A5_CONTRACT.md) is now explicitly authorized
 > and implemented: bounded independent ACCEPT (qualified), Build5/App6 PASS; [exact evidence](MYTHRILL_PROJECT_14_A5_ACCEPTANCE.md). Exact admitted creature → primary PC damage
 > uses P12B owner block/Don't block, retained faces and atomic source AP/mana+PC HP+wear. Healing requires
 > explicit owner acceptance of the exact proposal with no equipment; no universal tabletop consent rule.

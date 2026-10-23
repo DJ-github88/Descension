@@ -150,7 +150,12 @@ function registerActorConsequenceHandlers(ctx) {
           return { ok: true, roomId: captured.room.id, uid: captured.uid, gmUid: captured.room.gmId, principalBound: true, authorityCurrent: true, rulesetId: 'prism', rulesetVersion: 'cr-a1a-pilot-1' };
         });
         current(captured);
-        if (staged.next) admit(captured.room, staged);
+        if (staged.next) {
+          admit(captured.room, staged);
+          // A6: admission advances this actor's revision. Observers need its public before-state
+          // for exact-revision self-healing feedback; use the existing lifecycle projection channel.
+          deliver(captured.room, 'actor_bound', { success: true, roomId: captured.room.id, actorSnapshot: require('../services/actorProjection').snapshot(captured.room) });
+        }
         respondInstalled(ack, { success: true, roomId: captured.room.id, definitionRef: staged.definitionRef, ...installed.list(captured.room),
           creatureSources: installed.creatureSources(captured.room), actorSnapshot: require('../services/actorProjection').snapshot(captured.room), status: liveOnly(captured.room) ? 'admitted live-only' : 'admitted-live / checkpoint pending' });
         return;

@@ -120,6 +120,16 @@ device before write-back.
 
 ## 5. Shared-file edits by the 2026-10-17 combat slices
 
+**P14-A6 completion (2026-10-23):** [acceptance](MYTHRILL_PROJECT_14_A6_ACCEPTANCE.md), bounded independent
+PASS/Build2-App4 PASS. Exact Self healing reuses merged one-actor P7 path; narrow pending baseline,
+server-verified actual restoration, launcher/panel and public admission lifecycle projection. Final91
+server/4 suites29 client; reviewer independently18 A6+47 A4/A5/A1 and55/protected7/44-client hashes.
+Build/App independently appraised, not reviewer-executed. Gate908450b1… at external HEAD76012be8;
+unrelated Class drift and four fetch errors/fixture/live-only/device limits retained. [Next recommendation](MYTHRILL_PROJECT_14_AUTHORED_CONDITION_RECOMMENDATION.md)
+separates authored application/source from canonical mechanics, manual duration, atomic payment,
+independent instances and whole mixed-effect refusal. Class field mapping needs separate coordination;
+no buff values, durations, stacking/timers, catalogue rewrite or follow-on implementation.
+
 **P14-A6 authorized/frozen (2026-10-23), before runtime edits:** [A6 contract](MYTHRILL_PROJECT_14_A6_CONTRACT.md).
 Exact admitted creature self-healing reuses existing merged one-actor P7 payment/HP path. Shared writes:
 installed source predicate, spell validation/handler pending baseline, controller/panel and focused

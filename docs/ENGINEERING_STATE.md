@@ -1,6 +1,6 @@
 # Mythrill / Prism — engineering state
 
-Updated: 2026-10-23 (bounded P14-A5 creature→primary-PC execution). Checkout: `D:/VTT` (the old `D:/Mythrill/Descension`
+Updated: 2026-10-23 (bounded P14-A6 exact creature self-healing). Checkout: `D:/VTT` (the old `D:/Mythrill/Descension`
 path in CLAUDE.md is historical). Roadmap authority: [MYTHRILL_NEXT_PHASE.md](MYTHRILL_NEXT_PHASE.md).
 
 ## Accepted baseline
@@ -84,6 +84,22 @@ P5-05/07/09/10/11/12/13/31/32 remain environment-blocked. Source acceptance
 does not authorize deployment or satisfy roadmap §20 release gates.
 
 ## Current work
+
+### P14-A6 exact creature self-healing — bounded independent PASS, Build2/App4 PASS (qualified)
+
+[Contract](MYTHRILL_PROJECT_14_A6_CONTRACT.md) · [acceptance/identities](MYTHRILL_PROJECT_14_A6_ACCEPTANCE.md).
+Creature Wizard direct healing → exact placed admission → existing launcher **Self — name** → retained
+physical/digital faces → explicit final → one existing P7 combined AP/mana+HP actor/revision/receipt.
+Explicit self/any profiles including range0; enemy refuses, ally ambiguous/manual. Temp-first authored
+prices/zeros, capped HP, approved versus actual healing, no owner/equipment offer. Current authority/
+canonical Stunned/bounds/conditions recheck; explicit same-face state revalidation. Public admission
+lifecycle projection closes observer beforeRevision gap; one actual healing float, silent original-byte
+lost-ACK/reload recovery. Final server91 PASS, client4/29 PASS. Same reviewer independently18 A6+47 A4/A5/A1,
+55 runtime/protected7/44 client identities; Build2/App4 implementer-executed, independently appraised.
+Final gate908450b1… at master76012be8 (external commits; no agent Git writes). Scoped parity[], unrelated
+Step1CoreDraft/talent test drift prevents identical-current-full-tree build claim. Four fetch errors,
+provider/cloud fixtures/live-only/device limits explicit. [Next reusable condition recommendation](MYTHRILL_PROJECT_14_AUTHORED_CONDITION_RECOMMENDATION.md)
+is manual-timing single Stunned application through existing canonical engine, not implemented.
 
 ### P14-A5 admitted creature → exact primary PC — bounded independent ACCEPT, Build5/App6 PASS (qualified)
 

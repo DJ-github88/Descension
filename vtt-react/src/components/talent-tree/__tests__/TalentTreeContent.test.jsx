@@ -342,6 +342,28 @@ describe('Talent Tree System Tests', () => {
     expect(useSpellbookStore.getState().spells).toEqual([]);
   });
 
+  test('Plaguebringer grant nodes materialise authored ACTIVE spells', () => {
+    useCharacterStore.setState({
+      class: 'Plaguebringer',
+      level: 10,
+      currentCharacterId: 'char-123',
+      talents: {},
+      primarySpecialization: ''
+    });
+    useSpellbookStore.setState({ spells: [] });
+
+    render(<TalentTreeContent selectedTreeIndex={0} />);
+    fireEvent.click(screen.getByTitle(/Spore Volley/));
+
+    const spells = useSpellbookStore.getState().spells;
+    const grant = spells.find((spell) => spell.id === 'talent-spell-vs_t1_spore_volley');
+
+    expect(grant).toBeDefined();
+    expect(grant.spellType).toBe('ACTION');
+    expect(grant.talentId).toBe('vs_t1_spore_volley');
+    expect(grant.description).toContain('volatile spores');
+  });
+
   test('Deathcaller Codex tree exposes its authored tier ladder, signature and capstone', () => {
     useCharacterStore.setState({ class: 'Deathcaller', level: 10, talents: {}, primarySpecialization: '' });
     render(<TalentTreeContent customClass="Deathcaller" readOnly selectedTreeIndex={0} />);

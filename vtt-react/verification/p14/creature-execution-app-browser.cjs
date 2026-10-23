@@ -17,6 +17,7 @@ async function author(page, config) {
   await wizard(page).getByRole('button', { name: '3 Abilities', exact: true }).click(); await wizard(page).getByRole('button', { name: 'Add activated ability', exact: true }).click();
   await wizard(page).getByLabel('Ability name', { exact: true }).fill(config.name); await wizard(page).getByRole('combobox', { name: 'Effect', exact: true }).selectOption(config.kind); await wizard(page).getByLabel('Formula', { exact: true }).fill(config.formula);
   for (const [label, value] of [['AP price', config.ap], ['Mana price', config.mana], ['Range (ft)', config.range]]) await wizard(page).getByLabel(label, { exact: true }).fill(String(value));
+  if (config.restriction) await wizard(page).getByRole('combobox', { name: 'One target', exact: true }).selectOption(config.restriction);
   await wizard(page).getByRole('button', { name: 'Keep ability on creature', exact: true }).click(); await finish(page);
   const creature = await page.evaluate(name => S('creatureStore').getState().creatures.find(c => c.name === name), config.creature); assert.ok(creature?.authoredAbility);
   await page.locator('.creature-library').getByPlaceholder('Search...', { exact: true }).fill(config.creature); await page.locator('.creature-card-wrapper').filter({ hasText: config.creature }).first().click({ button: 'right' }); await page.getByText('Edit', { exact: true }).last().click();

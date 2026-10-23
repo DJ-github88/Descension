@@ -65,6 +65,15 @@ describe('P14-A6 exact self healing — registered production handlers', functio
     assert.deepEqual(actors.locate(room, sibling).token, sib); assert.equal(Object.values(r.actorSnapshot.maps.default.tokens).filter(e => e.id === source.tokenId).length, 1);
     assert.equal(room.gameState.tokens.source.state.currentHp, 10); assert.equal(room.gameState.tokens.source.state.currentMana, 9);
   });
+  it('admission publishes one public lifecycle revision to observers, without source drafts/grants or result feedback', async() => {
+    const expected = token().state.actorContract.revision + 1;
+    const received = new Promise(resolve => { const listener = event => { if (event.actorSnapshot?.maps.default.tokens.source?.state.actorContract.revision === expected) { observer.off('actor_bound', listener); resolve(event); } }; observer.on('actor_bound', listener); });
+    await admit(); const event = await received;
+    const projection = event.actorSnapshot.maps.default.tokens.source;
+    assert.equal(projection.state.actorContract.revision, token().state.actorContract.revision);
+    assert.equal(projection.authoredAbility, undefined); assert.equal(projection.state.actorContract.authoredAdmission, undefined);
+    assert.equal(event.receipt, undefined); assert.equal(actors.ledger(room).receipts.length, 0);
+  });
   it('zero AP/mana and explicit range0 any remain zero, absent unused mana stays absent, digital faces retained', async() => {
     token().authoredAbility.record = record(0, 0, 'any', 0); await admit(); delete token().state.currentMana;
     const a = attempt('digital'); await prepare(a); const r = await ack(gm, 'actor_consequence', command(a)); assert.equal(r.success, true, JSON.stringify(r));
