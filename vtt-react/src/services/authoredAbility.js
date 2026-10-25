@@ -2,9 +2,12 @@
  * No RNG, storage, authority or execution. Unknown mechanics refuse instead of being stripped. */
 const CAPABILITY = 'authored-immediate:v1';
 const ADAPTER_VERSION = 'p14-a1-wizard-1';
+const CONDITION_CAPABILITY = 'authored-condition:v1';
 const CLASS_IDS = ['arcanoneer', 'berserker', 'shaper', 'harbinger', 'chronarch', 'inquisitor', 'revenant', 'false_prophet', 'gambit', 'apex', 'animist', 'lunarch', 'martyr', 'minstrel', 'plaguebringer', 'pyrofiend', 'spellguard', 'toxicologist', 'warden', 'augur', 'crusader'];
 const FORMULA = /^([1-9][0-9]?)d([1-9][0-9]{0,2})(?:([+-])([1-9][0-9]{0,4}))?$/;
-const canonical = value => JSON.stringify(value && typeof value === 'object' ? Array.isArray(value) ? value.map(v => JSON.parse(canonical(v))) : Object.fromEntries(Object.keys(value).sort().map(k => [k, JSON.parse(canonical(value[k]))])) : value);
+// Match the actual JSON transport: absent optional properties stay absent, never parse undefined.
+const canonical = value => JSON.stringify(value, (_key, child) => child && typeof child === 'object' && !Array.isArray(child)
+  ? Object.fromEntries(Object.keys(child).sort().map(k => [k, child[k]])) : child);
 const int = (v, max) => Number.isSafeInteger(v) && v >= 0 && v <= max;
 const empty = v => v === undefined || v === null || (typeof v === 'object' && Object.keys(v).length === 0);
 const refuse = path => { throw Error(`${path}: unsupported or conflicting mechanics; keep this ability manual.`); };
@@ -40,19 +43,22 @@ function definitionFromWizard(record, { roomId, definitionVersion, classId }) {
     only(d.typeConfig, ['school', 'secondaryElement', 'icon', 'tags', 'castTime', 'castTimeType', 'element'], 'typeConfig');
     if (d.typeConfig.secondaryElement) refuse('secondaryElement');
     if (d.typeConfig.castTime !== undefined && d.typeConfig.castTime !== 0) refuse('conflicting cast time');
-    const kind = canonical(d.effectTypes) === '["damage"]' ? 'damage' : canonical(d.effectTypes) === '["healing"]' ? 'healing' : null;
+    const condition = d.controlConfig?.authoredCondition?.profile === CONDITION_CAPABILITY;
+    const kind = canonical(d.effectTypes) === '["damage"]' ? 'damage' : canonical(d.effectTypes) === '["healing"]' ? 'healing' : condition && canonical(d.effectTypes) === '["control"]' ? 'control' : null;
     if (!kind) refuse('Exactly one damage or healing effect required');
+    if (condition && kind !== 'control') refuse('Exactly one condition effect required; mixed definitions stay manual');
     if (!empty(d.effectsMap) && (Object.entries(d.effectsMap).some(([k, v]) => typeof v !== 'boolean' || v !== (k === kind)) || d.effectsMap[kind] !== true)) refuse('effectsMap');
-    for (const key of ['buffConfig', 'debuffConfig', 'utilityConfig', 'controlConfig', 'summoningConfig', 'transformationConfig', 'purificationConfig', 'restorationConfig', 'rollableTable', 'effectMechanicsConfigs', 'mechanicsAvailableEffects', 'combinedEffects', 'mechanicsAvailableCombinedEffects', 'effectTargeting', 'targetingTags', 'persistentConfig', 'prophecyOptions', 'trapConfig', 'channelingConfig', 'statusEffectsConfig']) if (!empty(d[key])) refuse(key);
+    for (const key of ['buffConfig', 'debuffConfig', 'utilityConfig', ...(condition ? [] : ['controlConfig']), 'summoningConfig', 'transformationConfig', 'purificationConfig', 'restorationConfig', 'rollableTable', 'effectMechanicsConfigs', 'mechanicsAvailableEffects', 'combinedEffects', 'mechanicsAvailableCombinedEffects', 'effectTargeting', 'targetingTags', 'persistentConfig', 'prophecyOptions', 'trapConfig', 'channelingConfig', 'statusEffectsConfig']) if (!empty(d[key])) refuse(key);
     if (!empty(d.propagation)) {
       only(d.propagation, ['method', 'behavior', 'parameters'], 'propagation');
       if (d.propagation.method !== 'none' || d.propagation.behavior !== '') refuse('propagation');
       only(d.propagation.parameters, ['count', 'range', 'decay', 'secondaryRadius', 'spreadRate', 'forkCount'], 'inactive propagation parameters');
       if (Object.values(d.propagation.parameters).some(v => !int(v, 10000))) refuse('inactive propagation parameters');
     }
-    if (!empty(d[kind === 'damage' ? 'healingConfig' : 'damageConfig'])) refuse('mixed effect configuration');
+    if (!empty(d[kind === 'damage' ? 'healingConfig' : 'damageConfig']) || (condition && !empty(d.healingConfig))) refuse('mixed effect configuration');
     if (d.targetingMode !== undefined && d.targetingMode !== 'unified') refuse('targetingMode');
-    if (!empty(d.durationConfig) && canonical(d.durationConfig) !== '{"durationType":"instant"}') refuse('durationConfig');
+    if (!condition && !empty(d.durationConfig) && canonical(d.durationConfig) !== '{"durationType":"instant"}') refuse('durationConfig');
+    if (condition && canonical(record.durationConfig ?? null) !== canonical(d.durationConfig ?? null)) refuse('library/draft durationConfig');
     const mech = d.mechanicsConfig;
     if (!empty(mech) && canonical(mech) !== canonical({ cards: null, combos: null, coins: null, stateRequirements: [], stateOptions: { thresholds: [] } })) refuse('mechanicsConfig');
     if (!empty(d.triggerConfig)) {
@@ -85,6 +91,18 @@ function definitionFromWizard(record, { roomId, definitionVersion, classId }) {
     for (const k of ['selectionMethod', 'targetSelectionMethod']) if ((t[k] !== undefined && t[k] !== 'manual') || (record.targetingConfig[k] !== undefined && record.targetingConfig[k] !== 'manual')) refuse(k);
     const restrictions = t.targetRestrictions;
     if (!Array.isArray(restrictions) || restrictions.length !== 1 || !['self', 'ally', 'enemy', 'any'].includes(restrictions[0]) || (t.targetRestriction && t.targetRestriction !== restrictions[0])) refuse('targetRestrictions');
+    if (condition) {
+      only(d.controlConfig, ['authoredCondition'], 'controlConfig (use the explicit canonical condition profile)');
+      const c = d.controlConfig.authoredCondition;
+      only(c, ['profile', 'conditionKey', 'expiryPolicy', 'durationText', 'gmNote'], 'authoredCondition');
+      if (c.conditionKey !== 'stunned' || c.expiryPolicy !== 'gm-manual' || typeof c.durationText !== 'string' || !c.durationText.trim() || c.durationText.length > 300 || typeof c.gmNote !== 'string' || !c.gmNote.trim() || c.gmNote.length > 1000) refuse('Explicit canonical Stunned, manual expiry, authored duration and GM note required');
+      if (!empty(d.effectResolutions) && canonical(d.effectResolutions) !== '{"control":"MANUAL"}') refuse('condition resolution');
+      if (restrictions[0] === 'self' || t.rangeDistance === 0) refuse('distinct creature targeting required');
+      return { ok: true, definition: { schemaVersion: 2, capability: CONDITION_CAPABILITY, scope: { roomId }, definitionId: record.authoredDefinitionId, definitionVersion,
+        name: d.name, description: d.description, binding: { rulesetId: 'prism', rulesetVersion: 'cr-a1a-pilot-1', classId }, spellType: 'ACTION', castTimeType: 'IMMEDIATE',
+        targeting: { kind: 'single', maxTargets: 1, rangeFeet: t.rangeDistance, restriction: restrictions[0] }, resourceCost: { actionPoints: cost.actionPoints, mana: manaValues[0] },
+        effect: { kind: 'condition', conditionKey: c.conditionKey }, timing: { expiryPolicy: c.expiryPolicy, durationText: c.durationText, authoredDuration: d.durationConfig ?? null, gmNote: c.gmNote } } };
+    }
     const e = d[kind === 'damage' ? 'damageConfig' : 'healingConfig'];
     const allowed = ['formula', 'resolution', 'globalResolution', 'description', 'criticalConfig', 'canCrit', 'critMultiplier', 'critDiceOnly', 'chanceOnHitConfig', 'savingThrowConfig', 'savingThrow', 'difficultyClass', 'partialEffect', 'partialEffectFormula'];
     only(e, [...allowed, ...(kind === 'damage' ? ['damageType', 'elementType', 'secondaryElementType', 'damageTypes', 'hasDotEffect', 'dotConfig'] : ['healingType', 'targetType', 'shieldType', 'shieldDuration', 'duration', 'tickFrequency', 'scalingType', 'specialEffects', 'hasHotEffect', 'hasShieldEffect', 'hotFormula', 'shieldFormula'])], `${kind}Config`);
@@ -112,4 +130,4 @@ function creatureSelfHealing(definition, record) {
   return definition?.effect?.kind === 'healing' && ['self', 'any'].includes(definition?.targeting?.restriction) &&
     (targetType === undefined || ['self', 'any'].includes(targetType));
 }
-module.exports = { CAPABILITY, ADAPTER_VERSION, CLASS_IDS, readFormula, definitionFromWizard, actionId, isAuthored, creatureSelfHealing };
+module.exports = { CAPABILITY, CONDITION_CAPABILITY, ADAPTER_VERSION, CLASS_IDS, readFormula, definitionFromWizard, actionId, isAuthored, creatureSelfHealing };

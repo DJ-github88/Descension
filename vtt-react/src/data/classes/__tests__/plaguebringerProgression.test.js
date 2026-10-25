@@ -74,6 +74,18 @@ describe('Plaguebringer progression policy', () => {
     expect(prunePlaguebringerTalents(talents, 2)).toEqual(talents);
   });
 
+  test('gates capstones at level 10 and 45 tree points', () => {
+    const nodes = PLAGUEBRINGER_TALENT_NODES.filter(node => node.treeId === 'virulent_spreader');
+    const maxed = Object.fromEntries(nodes.map(node => [node.id, node.maxRanks]));
+
+    expect(prunePlaguebringerTalents(maxed, 9)).not.toHaveProperty('vs_t7_patient_zero');
+    expect(prunePlaguebringerTalents(maxed, 10).vs_t7_patient_zero).toBe(1);
+
+    const belowGate = { ...maxed };
+    delete belowGate.vs_t7_waste_spore_doctrine;
+    expect(prunePlaguebringerTalents(belowGate, 10)).not.toHaveProperty('vs_t7_patient_zero');
+  });
+
   test('routes Plaguebringer through the shared policy pruner', () => {
     const talents = {
       vs_t1_spore_volley: 3,

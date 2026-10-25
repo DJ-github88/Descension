@@ -376,6 +376,13 @@ function spellLibraryReducer(state, action) {
 
 // Provider component
 function SpellLibraryProvider({ children }) {
+  // App already owns this account's library. Nested book/item windows must share its state and
+  // dispatch, otherwise a newly saved Wizard definition is invisible to the Creature selector.
+  const parent = useContext(SpellLibraryStateContext);
+  return parent === undefined ? <OwnedSpellLibraryProvider>{children}</OwnedSpellLibraryProvider> : <>{children}</>;
+}
+
+function OwnedSpellLibraryProvider({ children }) {
   // Initialize state from local storage, falling back to initialState
   const [state, dispatch] = useReducer(
     spellLibraryReducer,

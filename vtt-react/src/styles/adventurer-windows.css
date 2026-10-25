@@ -513,6 +513,21 @@
 :is(.wow-window.adventurer-window, .character-view-page) :is(.lore-book-page, .library-book-page-sheet) { background: linear-gradient(rgba(245, 236, 217, 0.9), rgba(245, 236, 217, 0.9)), var(--adventure-texture) !important; background-size: cover !important; background-position: center !important; box-shadow: none !important; }
 /* An open character folio, not a framed binder inside another window frame. */
 :is(.wow-window.adventurer-window, .character-view-page) .lore-book-spread { border: 0 !important; border-radius: 0 !important; background: transparent !important; }
+
+/* Character Sheet Window Custom Backdrop */
+.wow-window.adventurer-window.character-sheet-window.has-custom-backdrop .window-content {
+  background-image: linear-gradient(rgba(245, 236, 217, 0.86), rgba(245, 236, 217, 0.90)), var(--sheet-backdrop) !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+}
+
+.wow-window.adventurer-window.character-sheet-window.has-custom-backdrop :is(.lore-book-page, .library-book-page-sheet, .stats-container, .skills-container, .character-container) {
+  background: linear-gradient(rgba(245, 236, 217, 0.86), rgba(245, 236, 217, 0.90)), var(--sheet-backdrop) !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+}
 :is(.wow-window.adventurer-window, .character-view-page) .lore-book-page { padding: 18px 22px; }
 .character-folio-page { display: flex; flex-direction: column; height: 100%; min-height: 0; }
 .character-folio-fold { flex: 0 0 14px; height: 100%; background: transparent; }

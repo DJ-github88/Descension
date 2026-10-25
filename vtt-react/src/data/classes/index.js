@@ -27,6 +27,8 @@ import { CRUSADER_DATA } from "./crusaderData";
 import { CHAOS_WEAVER_DATA } from "./chaosWeaverIntegration";
 import { GAMBLER_DATA } from "./gamblerData";
 import { FATE_WEAVER_DATA } from "./fateWeaverData";
+import { DOOMSAYER_DATA } from "./doomsayerData";
+import { ORACLE_DATA } from "./oracleData";
 import { withClassHeritageMetadata } from '../classHeritageRegistry';
 
 const createNereidClass = (baseData) => {
@@ -80,6 +82,8 @@ const CLASS_TEMPLATES = {
   Augur: AUGUR_DATA,
   Crusader: CRUSADER_DATA,
   "Chaos Weaver": CHAOS_WEAVER_DATA,
+  Doomsayer: DOOMSAYER_DATA,
+  Oracle: ORACLE_DATA,
   "Nereid Myrathil Apex": DEEPLING_MYRATHIL_APEX_DATA,
   "Nereid Myrathil Animist": DEEPLING_MYRATHIL_ANIMIST_DATA,
   "Nereid Myrathil Augur": DEEPLING_MYRATHIL_AUGUR_DATA,

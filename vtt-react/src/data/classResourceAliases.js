@@ -68,6 +68,14 @@ export const SPELL_RESOURCE_KEY_TO_ENGINE_ID = {
   // Lichborne
   lich_anchor: 'lich-anchor',
   anchor_integrity: 'lich-anchor',
+  // Doomsayer
+  doom_calamities: 'doom-calamities',
+  calamities: 'doom-calamities',
+  calamity: 'doom-calamities',
+  // Oracle
+  oracle_forecasts: 'oracle-forecasts',
+  forecasts: 'oracle-forecasts',
+  forecast: 'oracle-forecasts',
   // Revenant
   toll: 'revenant-toll',
   deathToll: 'revenant-toll',

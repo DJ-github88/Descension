@@ -347,6 +347,24 @@ export const CLASS_SPECIALIZATIONS = {
     ]
   },
 
+  'Doomsayer': {
+    path: 'Doom Discipline',
+    specializations: [
+      { id: 'requiem', name: 'Requiem', description: 'Finish one declared ending before it can be answered.', color: '#6b3a3a', icon: 'Psychic/Psychic Telepathy' },
+      { id: 'endbringer', name: 'Endbringer', description: 'Make a public calamity heavier, wider and later.', color: '#8a4a32', icon: 'Psychic/Psychic Telepathy' },
+      { id: 'forewarner', name: 'Forewarner', description: 'Publish the ending early enough that allies can survive it.', color: '#4d5b4a', icon: 'Psychic/Psychic Telepathy' }
+    ]
+  },
+
+  'Oracle': {
+    path: 'Reading Discipline',
+    specializations: [
+      { id: 'seer', name: 'Seer', description: 'Prepare one personal certainty before the next step.', color: '#4f5d75', icon: 'Psychic/Psychic Telepathy' },
+      { id: 'witness', name: 'Witness of Peril', description: 'Name one danger to one ally and prepare the answer.', color: '#596b52', icon: 'Psychic/Psychic Telepathy' },
+      { id: 'pathfinder', name: 'Pathfinder', description: 'Commit to a route and make the prepared way real.', color: '#76544a', icon: 'Psychic/Psychic Telepathy' }
+    ]
+  },
+
   'Arcanoneer': {
 
     path: 'Arcane Path',
@@ -1298,7 +1316,7 @@ export const createSpellLibraryCategoriesForClass = (className) => {
   // G1 and the Fate Weaver package have real records at every level 1–10.
   // Preserve legacy category IDs while giving level 3/signatures and
   // level 10/capstones a home.
-  if (['Gambler', 'Fate Weaver', 'Deathcaller', 'Lichborne'].includes(className)) {
+  if (['Gambler', 'Fate Weaver', 'Deathcaller', 'Lichborne', 'Doomsayer', 'Oracle'].includes(className)) {
     const prefix = className.toLowerCase();
     [3, 5, 7, 8, 9, 10].forEach(level => categories.push({
       ...categories[0], id: `${prefix}_level_${level}`, name: `Level ${level}`,

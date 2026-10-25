@@ -5,11 +5,30 @@ roadmap ([MYTHRILL_NEXT_PHASE.md](MYTHRILL_NEXT_PHASE.md) §26) ends at P10 and 
 This document adds four bounded phases. **At creation only P11 was authorized.** Later bounded
 authorizations/status are recorded below; each further slice still needs its own contract/go-ahead.
 
-> **Latest bounded delivery:** [P14-A6](MYTHRILL_PROJECT_14_A6_ACCEPTANCE.md), exact creature Self healing:
-> bounded independent PASS, Build2/App4 PASS (qualified). Explicit self/any targeting, authored prices,
+> **Latest bounded delivery:** [P14-A8](MYTHRILL_PROJECT_14_A8_ACCEPTANCE.md), exact primary owner
+> Arcanoneer PC→distinct creature using the same authored-condition:v1 registry/C2 primitive,
+> normal explicit PC admission, immutable owner terms and private GM success/manual timing,
+> one P7 temp-first payment+condition. Same-review repaired bounded ACCEPT; prejoin-corrected
+> Build4/App10 PASS (qualified),254 server/11 suites73 client.63runtime/51client/protected7/
+> 11,383 frozen inputs; drift[] at final measurement. Ten fetch errors/provider/cloud/live-only/
+> device limits retained; concurrent Class/Heritage/UI semantics are not accepted by this slice.
+> [PC-target contract preparation](MYTHRILL_PROJECT_14_PC_TARGET_CONDITION_PREPARATION.md) remains
+> unimplemented; hostile target acknowledgement versus GM authority is an explicit creator decision.
+>
+> **Preserved bounded delivery:** [P14-A7](MYTHRILL_PROJECT_14_A7_ACCEPTANCE.md), Wizard-authored canonical Stunned:
+> repaired bounded independent ACCEPT, Build4/App4 PASS (qualified). One explicit versioned condition
+> profile, current-GM exact admitted creature→distinct creature, manual success/timing/evidence and atomic
+> authored AP/mana+canonical C2 Stunned. Independent instances/exact removals, existing restrictions and
+> silent original-command recovery.244 server/12 suites82 client;62 runtime/protected7/recorded inputs
+> parity. Six fetch errors/fixtures/live-only/device limits explicit. No arbitrary buffs/debuffs or
+> automatic expiry/PC/item condition execution. Next recommendation: one PC-source→creature route with
+> existing owner consent, before separate PC-target consent/numeric modifiers/general duration support.
+>
+> **Preserved bounded delivery:** [P14-A6](MYTHRILL_PROJECT_14_A6_ACCEPTANCE.md), exact creature Self healing:
+> bounded independent PASS, Build2/App6 PASS (qualified). Explicit self/any targeting, authored prices,
 > retained roll/GM final and one-actor atomic capped HP+payment. Exact source/drift/fixtures in acceptance.
 > [Next reusable authored condition profile](MYTHRILL_PROJECT_14_AUTHORED_CONDITION_RECOMMENDATION.md)
-> is recommendation only: canonical Stunned, explicit GM outcome/manual timing and same P7 owners.
+> was subsequently frozen/delivered by A7 above: canonical Stunned, explicit GM outcome/manual timing and same P7 owners.
 >
 > **Preserved bounded extension:** [P14-A5](MYTHRILL_PROJECT_14_A5_CONTRACT.md) is now explicitly authorized
 > and implemented: bounded independent ACCEPT (qualified), Build5/App6 PASS; [exact evidence](MYTHRILL_PROJECT_14_A5_ACCEPTANCE.md). Exact admitted creature → primary PC damage

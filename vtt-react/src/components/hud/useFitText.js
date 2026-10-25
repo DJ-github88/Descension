@@ -4,8 +4,8 @@ import { useLayoutEffect, useRef } from 'react';
  * Auto-shrinks an element's text to fit its parent's width.
  *
  * Needed for wide user-supplied names that would otherwise spill out of their
- * layout: the party HUD name (`.member-name-text`, which keeps its natural
- * width via `min-width: min-content`) and the character sheet book title
+ * layout: the party HUD name (`.hud-sheet-name`, which wraps between words
+ * and only shrinks for a single over-long word) and the character sheet book title
  * (`.character-book-name`, which clips at the page edge). The hook measures
  * the actual text width at the CSS-defined size and applies a smaller inline
  * font-size until it fits, with a `minSize` floor.

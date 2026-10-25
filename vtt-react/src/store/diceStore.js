@@ -40,9 +40,9 @@ export const DICE_PRESETS = {
     id: 'frozen',
     name: 'Glacial Frost',
     icon: 'fas fa-snowflake',
-    bodyColor: '#16406e',
-    edgeColor: '#a8dcff',
-    numberColor: '#e8f7ff',
+    bodyColor: '#a9d3f0',
+    edgeColor: '#bfe6ff',
+    numberColor: '#173f6e',
     emissive: '#2a6ab8',
     emissiveIntensity: 0.7,
     transparent: false,
@@ -258,6 +258,16 @@ export const DICE_MATERIALS = {
   },
 };
 
+// A standard 52-card deck for card draws.
+const CARD_SUITS = [
+  { name: 'Spades', symbol: '♠' },
+  { name: 'Hearts', symbol: '♥' },
+  { name: 'Diamonds', symbol: '♦' },
+  { name: 'Clubs', symbol: '♣' },
+];
+const CARD_RANKS = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
+const CARD_RANK_NAMES = { A: 'Ace', J: 'Jack', Q: 'Queen', K: 'King' };
+
 const initialState = {
   selectedDice: [],
   isRolling: false,
@@ -269,7 +279,19 @@ const initialState = {
   diceMaterial: 'stone',
   diceColor: '#14092b',
   rollContext: null,
+  rollId: 0,
   skillOutcome: null,
+  // Coin flips. The live flip is held here (not in the dice panel) so it keeps
+  // running when the panel closes; only the chosen coin look is persisted.
+  coinTheme: 'ancient_gold',
+  coinFlip: null,       // { id, theme, coins: [{ id, result }] } while on the table
+  lastCoinFlip: null,   // { id, count, heads, tails } of the latest settled flip
+  // Card draws work the same way: the live hand is held here, and the deck
+  // look + reveal mode are remembered.
+  cardTheme: 'royal_velvet',
+  cardRevealMode: false, // true = deal face down, click each card to turn it
+  cardDraw: null,       // { id, theme, manual, cards: [{ id, suit, suitSymbol, rank, name }] }
+  lastCardDraw: null,   // { id, count, cards: 'A♠, 7♥' }
   physicsSettings: {
     gravity: -9.81,
     restitution: 0.6,
@@ -363,11 +385,16 @@ const useDiceStore = create(
             return;
           }
         }
-        set({ isRolling: true, rollResults: [], rollContext: context });
+        // rollId distinguishes a brand-new roll from a re-render, so a roll
+        // started while another is still tumbling replaces it cleanly.
+        set({ isRolling: true, rollResults: [], rollContext: context, rollId: (get().rollId || 0) + 1 });
       },
 
       finishRoll: (results) => {
-        const validResults = Array.isArray(results) ? results.filter(r => r && r.value !== undefined && r.value !== null && r.value > 0) : [];
+        // A standalone D% legitimately rolls "00" (value 0) — keep it.
+        const validResults = Array.isArray(results)
+          ? results.filter(r => r && r.value !== undefined && r.value !== null && (r.value > 0 || (r.type === 'dpercent' && r.value === 0)))
+          : [];
         const state = get();
         const shouldAddToHistory = validResults.length > 0 && state.selectedDice.length > 0;
         let newHistory = state.rollHistory;
@@ -407,6 +434,65 @@ const useDiceStore = create(
           get().syncDiceUpdate('dice_rolled', rollEntry);
         }
       },
+
+      setCoinTheme: (themeId) => set({ coinTheme: themeId || 'ancient_gold' }),
+
+      // Start a flip of 1–10 fair coins. Results are decided here; the 3D scene
+      // only shows them. Returns false if a flip is already on the table.
+      startCoinFlip: (count = 1) => {
+        if (get().coinFlip) return false;
+        const n = Math.max(1, Math.min(10, Math.floor(Number(count)) || 1));
+        const id = `flip_${Date.now()}`;
+        const coins = Array.from({ length: n }, (_, i) => ({
+          id: `${id}_${i}`,
+          result: Math.random() < 0.5 ? 'heads' : 'tails',
+        }));
+        set({ coinFlip: { id, theme: get().coinTheme, coins } });
+        return true;
+      },
+
+      finishCoinFlip: (results = []) => {
+        const flip = get().coinFlip;
+        const heads = results.filter(c => c.result === 'heads').length;
+        set({ lastCoinFlip: { id: flip?.id || null, count: results.length, heads, tails: results.length - heads } });
+      },
+
+      clearCoinFlip: () => set({ coinFlip: null }),
+
+      setCardTheme: (themeId) => set({ cardTheme: themeId || 'royal_velvet' }),
+      setCardRevealMode: (manual) => set({ cardRevealMode: !!manual }),
+
+      // Deal 1–10 cards from a freshly shuffled 52-card deck (no repeats in a
+      // hand). Returns false if a hand is already on the table.
+      startCardDraw: (count = 1) => {
+        if (get().cardDraw) return false;
+        const n = Math.max(1, Math.min(10, Math.floor(Number(count)) || 1));
+        const id = `draw_${Date.now()}`;
+        const deck = [];
+        CARD_SUITS.forEach((suit) => {
+          CARD_RANKS.forEach((rank) => deck.push({ suit, rank }));
+        });
+        for (let i = deck.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [deck[i], deck[j]] = [deck[j], deck[i]];
+        }
+        const cards = deck.slice(0, n).map(({ suit, rank }, i) => ({
+          id: `${id}_${i}`,
+          suit: suit.name,
+          suitSymbol: suit.symbol,
+          rank,
+          name: `${CARD_RANK_NAMES[rank] || rank} of ${suit.name}`,
+        }));
+        set({ cardDraw: { id, theme: get().cardTheme, manual: get().cardRevealMode, cards } });
+        return true;
+      },
+
+      finishCardDraw: (summary) => {
+        const draw = get().cardDraw;
+        set({ lastCardDraw: { id: draw?.id || null, count: draw?.cards?.length || 0, cards: summary } });
+      },
+
+      clearCardDraw: () => set({ cardDraw: null }),
 
       toggleDiceBar: () => set(state => ({ isDiceBarVisible: !state.isDiceBarVisible })),
       setTheme: (theme) => set({ selectedTheme: theme }),
@@ -458,6 +544,9 @@ const useDiceStore = create(
         diceColor: state.diceColor,
         activePreset: state.activePreset,
         diceMaterial: state.diceMaterial,
+        coinTheme: state.coinTheme,
+        cardTheme: state.cardTheme,
+        cardRevealMode: state.cardRevealMode,
       })
     })
   )

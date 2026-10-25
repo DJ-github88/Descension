@@ -4,9 +4,11 @@ import './resource-glyphs.css';
 /**
  * ResourceGlyph — ink-and-wash SVG resource icons for the party HUD and target bars.
  *
- *   health     → heart-shaped potion flask with a cork and brass lip
- *   mana       → cut arcane crystal resting in a brass cradle
- *   ap         → winged boot that fills with gold
+ *   health     → heart-shaped potion flask: cork, brass collar, rounded liquid
+ *   mana       → faceted crystal phial with the same cork and collar, so the
+ *                two read as one apothecary set
+ *   ap         → winged boot; each primary feather is one action point and
+ *                spent feathers stay as dashed outlines, so the count reads
  *   exhaustion → brass-capped hourglass that drains as exhaustion rises
  *
  * Drawn for ~40px: one ink weight, muted page-friendly colours, a single
@@ -16,9 +18,9 @@ import './resource-glyphs.css';
  * Phases (by fill ratio):
  *   max      full, a slow glint
  *   high     filled to the ratio
- *   low      a hairline crack (AP: wing starts to droop)
- *   critical a second crack, the fill ebbs softly (AP: wing hangs low)
- *   empty    broken: chipped glass, split crystal, snapped wing, spilled sand
+ *   low      a hairline crack
+ *   critical a second crack, the fill ebbs softly
+ *   empty    broken: chipped glass and dried residue; AP: every feather spent
  * `surplus` (temporary resources) adds a soft coloured aura on top of any phase.
  */
 
@@ -48,14 +50,19 @@ export const legacyStateFor = (phase) => (phase === 'critical' ? 'low' : phase);
 const INK = '#34251a';
 const LINE = 3.4;
 const PAGE = '#f6f1e6';
-const SPENT_LIGHT = '#eee8dc';
-const SPENT_DARK = '#c9bfad';
 
 /* Muted, earthy pigments — readable on parchment without shouting. */
 const PALETTE = {
-    health: { hi: '#e08a86', fill: '#a8363c', deep: '#5c1a1f', aura: '#d0605f', foam: '#f3c4bd' },
-    mana: { hi: '#a9c2e6', fill: '#4a6fae', deep: '#1f3463', aura: '#7fa0d6', foam: '#dbe7f6' },
-    ap: { hi: '#f1d896', fill: '#c99a42', deep: '#7d5a1e', aura: '#ddb862', foam: '#fbefcf' },
+    health: {
+        hi: '#e08a86', fill: '#a8363c', deep: '#5c1a1f', aura: '#d0605f', foam: '#f6c9c2',
+        vhi: '#d9645f', vfill: '#a5323a', vdeep: '#55141b', bubble: '#f3b3ac',
+    },
+    mana: {
+        hi: '#a9c2e6', fill: '#4a6fae', deep: '#1f3463', aura: '#7fa0d6', foam: '#dbe7f6',
+        vhi: '#7f9fd6', vfill: '#3f62a3', vdeep: '#1a2c56', bubble: '#b8cdee',
+    },
+    // ap: pale tan leather for the boot; the feathers carry the count
+    ap: { hi: '#f3e9d6', fill: '#e6d6b8', deep: '#cdb48a', aura: '#ddb862', foam: '#fbefcf' },
     exhaustion: { hi: '#e9cf8f', fill: '#c99a4e', deep: '#7c5a26', aura: '#a08ac0', foam: '#f6e6bd' },
 };
 
@@ -111,175 +118,169 @@ const GlassDefs = ({ id, dulled = false }) => (
 );
 
 /* ------------------------------------------------------------------ */
+/* Apothecary vessels: shared glass, stopper and liquid                */
+/* ------------------------------------------------------------------ */
+
+/** Rounded liquid: lit near the upper left, deepening toward the far wall. */
+const VolumeDefs = ({ id, c }) => (
+    <radialGradient id={id} cx="0.36" cy="0.42" r="0.75">
+        <stop offset="0" stopColor={c.vhi} />
+        <stop offset="0.45" stopColor={c.vfill} />
+        <stop offset="1" stopColor={c.vdeep} />
+    </radialGradient>
+);
+
+/** Glass neck, brass collar and a stout cork with a darker cap. Health and mana
+    share it, so the two bottom corners read as one set. */
+const Stopper = ({ uid, spent = false }) => (
+    <g className="rg-stopper">
+        <path d="M42 18 H58 V27 C58 30 60 32 63 33.5 H37 C40 32 42 30 42 27 Z" fill={`url(#${uid}-glass)`} stroke={INK} strokeWidth="2.7" strokeLinejoin="round" />
+        <path d="M41.5 5 C41.5 3 43.5 2 46 2 H54 C56.5 2 58.5 3 58.5 5 V16 H41.5 Z" fill={spent ? '#b8a68e' : '#b4875a'} stroke={INK} strokeWidth="2.7" strokeLinejoin="round" />
+        <path d="M41.5 5 C41.5 3 43.5 2 46 2 H54 C56.5 2 58.5 3 58.5 5 V7 H41.5 Z" fill={spent ? '#9a8a72' : '#8a6440'} />
+        <rect x="38.5" y="14.5" width="23" height="6.5" rx="3" fill={`url(#${uid}-brass)`} stroke={INK} strokeWidth="1.9" />
+    </g>
+);
+
+/** Liquid up to `level`, with a curved surface and a few rising bubbles. */
+const Liquid = ({ uid, c, level, bottom, ratio }) => {
+    const bubbleY = level + (bottom - level) * 0.45;
+    return (
+        <g clipPath={`url(#${uid}-clip)`} className="rg-fill">
+            <path d={`M0 ${level + 2} Q50 ${level - 2} 100 ${level + 2} V124 H0 Z`} fill={`url(#${uid}-vol)`} />
+            <path d={`M4 ${level + 2} Q50 ${level - 2} 96 ${level + 2}`} fill="none" stroke={c.foam} strokeWidth="2.4" opacity="0.85" />
+            {ratio > 0.35 && (
+                <g fill={c.bubble}>
+                    <circle cx="63" cy={bubbleY} r="2.6" opacity="0.75" />
+                    <circle cx="57" cy={bubbleY + 9} r="1.7" opacity="0.6" />
+                    <circle cx="68" cy={bubbleY + 13} r="1.3" opacity="0.55" />
+                </g>
+            )}
+        </g>
+    );
+};
+
+/** Pale inner rim: reads as the thickness of the glass. */
+const GlassRim = ({ uid, d }) => (
+    <g clipPath={`url(#${uid}-clip)`}>
+        <path d={d} fill="none" stroke="#fffaf2" strokeWidth="5" opacity="0.45" />
+    </g>
+);
+
+/* ------------------------------------------------------------------ */
 /* Heart flask (health)                                                */
 /* ------------------------------------------------------------------ */
 
-const HEART = 'M50 114 C24 96 9 77 10 56 C11 39 23 30 36 31 C43 32 48 36 50 41 C52 36 57 32 64 31 C77 30 89 39 90 56 C91 77 76 96 50 114 Z';
-const HEART_TOP = 31;
-const HEART_BOTTOM = 114;
+const HEART = 'M50 115 C26 98 10 80 10 59 C10 42 22 32 35.5 32 C43 32 48 36.5 50 42 C52 36.5 57 32 64.5 32 C78 32 90 42 90 59 C90 80 74 98 50 115 Z';
+const HEART_TOP = 32;
+const HEART_BOTTOM = 115;
 
 const HeartFlask = ({ ratio, phase, uid }) => {
     const c = PALETTE.health;
     const shattered = phase === 'empty';
-    const liquidTop = HEART_TOP + (1 - ratio) * (HEART_BOTTOM - HEART_TOP);
+    const level = HEART_TOP + (1 - ratio) * (HEART_BOTTOM - HEART_TOP);
     return (
         <>
             <defs>
                 <clipPath id={`${uid}-clip`}><path d={HEART} /></clipPath>
                 <GlassDefs id={`${uid}-glass`} dulled={shattered} />
-                <LiquidDefs id={`${uid}-liq`} c={c} />
+                <VolumeDefs id={`${uid}-vol`} c={c} />
                 <BrassDefs id={`${uid}-brass`} />
             </defs>
 
-            {/* neck, cork and brass lip — the one craft detail */}
-            <path d="M43 17 H57 V25 C57 28 59 30 62 31.5 H38 C41 30 43 28 43 25 Z" fill={`url(#${uid}-glass)`} stroke={INK} strokeWidth={LINE * 0.8} strokeLinejoin="round" />
-            <path d="M42 7 C42 5 44 4 46 4 H54 C56 4 58 5 58 7 V15 H42 Z" fill={shattered ? '#b8a68e' : '#b4875a'} stroke={INK} strokeWidth={LINE * 0.8} strokeLinejoin="round" />
-            <path d="M46 7 V13 M50 6 V13 M54 7 V13" stroke={INK} strokeWidth="0.9" opacity="0.3" strokeLinecap="round" />
-            <rect x="39.5" y="14" width="21" height="5.5" rx="2.75" fill={`url(#${uid}-brass)`} stroke={INK} strokeWidth="1.8" />
-
-            {/* glass body */}
+            <Stopper uid={uid} spent={shattered} />
             <path d={HEART} fill={`url(#${uid}-glass)`} />
 
-            {/* liquid with a soft meniscus */}
             {!shattered && ratio > 0 && (
-                <g clipPath={`url(#${uid}-clip)`} className="rg-fill">
-                    <rect x="0" y={liquidTop} width="100" height={HEART_BOTTOM - liquidTop + 4} fill={`url(#${uid}-liq)`} />
-                    <path d={`M0 ${liquidTop + 1.2} H100`} stroke={c.foam} strokeWidth="2" opacity="0.7" />
-                </g>
+                <Liquid uid={uid} c={c} level={level} bottom={HEART_BOTTOM} ratio={ratio} />
             )}
 
             {/* broken: dried residue and a punched-out chip */}
             {shattered && (
-                <>
-                    <g clipPath={`url(#${uid}-clip)`}>
-                        <path d="M28 106 C40 101 60 101 72 106 V120 H28 Z" fill={c.deep} opacity="0.35" />
-                    </g>
-                    <path d="M63 45 L76 41 L72 56 L65 52 Z" fill={PAGE} stroke={INK} strokeWidth="1.8" strokeLinejoin="round" />
-                </>
+                <g clipPath={`url(#${uid}-clip)`}>
+                    <path d="M30 107 C42 102 58 102 70 107 V122 H30 Z" fill={c.deep} opacity="0.3" />
+                </g>
             )}
 
-            {/* single curved highlight */}
-            <path d="M22 58 C20 47 26 40 35 39" fill="none" stroke="#ffffff" strokeWidth="4" strokeLinecap="round" opacity={shattered ? 0.35 : 0.75} />
+            <GlassRim uid={uid} d={HEART} />
+
+            {/* a crescent on the left lobe, a fleck on the right */}
+            <path d="M20 64 C17 51 23 41 33 39.5" fill="none" stroke="#ffffff" strokeWidth="4.6" strokeLinecap="round" opacity={shattered ? 0.4 : 0.85} />
+            <circle cx="74" cy="46" r="2.6" fill="#ffffff" opacity={shattered ? 0.35 : 0.8} />
 
             <path d={HEART} fill="none" stroke={INK} strokeWidth={LINE} strokeLinejoin="round" />
 
-            {(phase === 'low' || phase === 'critical' || shattered) && <Crack d="M68 42 L71 50 L66 57 L71 65" />}
-            {(phase === 'critical' || shattered) && <Crack d="M30 54 L36 63 L32 71 L37 80" />}
+            {(phase === 'low' || phase === 'critical' || shattered) && <Crack d="M69 44 L72 52 L67 59 L72 67" />}
+            {(phase === 'critical' || shattered) && <Crack d="M30 56 L36 65 L32 73 L37 82" />}
             {shattered && (
-                <g className="rg-shards" stroke={INK} strokeWidth="1.3" strokeLinejoin="round">
-                    <path d="M30 117 L38 114 L36 121 Z" fill="#e6e0d4" />
-                    <path d="M62 118 L70 115 L68 122 Z" fill="#d9d2c4" />
-                </g>
+                <>
+                    <path d="M62 46 L75 42 L71 57 L64 53 Z" fill={PAGE} stroke={INK} strokeWidth="1.8" strokeLinejoin="round" />
+                    <g className="rg-shards" stroke={INK} strokeWidth="1.3" strokeLinejoin="round">
+                        <path d="M30 118 L38 115 L36 122 Z" fill="#e6e0d4" />
+                        <path d="M62 119 L70 116 L68 123 Z" fill="#d9d2c4" />
+                    </g>
+                </>
             )}
-            {phase === 'max' && <Glint x={31} y={50} s={0.75} />}
+            {phase === 'max' && <Glint x={30} y={54} s={0.75} />}
         </>
     );
 };
 
 /* ------------------------------------------------------------------ */
-/* Arcane crystal (mana)                                               */
+/* Crystal phial (mana)                                                */
 /* ------------------------------------------------------------------ */
 
-const GEM = 'M50 5 L77 35 L71 96 L50 112 L29 96 L23 35 Z';
-const GEM_LEFT = 'M50 5 L50 112 L29 96 L23 35 Z';
-const GEM_RIGHT = 'M50 5 L77 35 L71 96 L50 112 Z';
-const GEM_TOP = 5;
-const GEM_BOTTOM = 112;
+const PHIAL = 'M37 33.5 H63 L77 48 L72 99 L50 117 L28 99 L23 48 Z';
+const PHIAL_TOP = 35;
+const PHIAL_BOTTOM = 117;
 
-// Four broad facets (0 = lit, 1 = shadow) — enough to read as cut stone.
-const FACETS = [
-    ['M50 5 L23 35 L50 45 Z', 0.05],
-    ['M50 5 L77 35 L50 45 Z', 0.4],
-    ['M23 35 L50 45 L50 112 L29 96 Z', 0.3],
-    ['M77 35 L50 45 L50 112 L71 96 Z', 0.8],
-];
-
-const mix = (a, b, t) => {
-    const pa = a.match(/\w\w/g).map((h) => parseInt(h, 16));
-    const pb = b.match(/\w\w/g).map((h) => parseInt(h, 16));
-    return `#${pa.map((v, i) => Math.round(v + (pb[i] - v) * t).toString(16).padStart(2, '0')).join('')}`;
-};
-
-const Facets = ({ light, dark, only }) => (
-    <g>
-        {FACETS.filter((_, i) => !only || only.includes(i)).map(([d, t]) => (
-            <path key={d} d={d} fill={mix(light, dark, t)} />
-        ))}
-    </g>
-);
-
-const FacetLines = () => (
-    <path d="M23 35 L50 45 L77 35 M50 45 V112" fill="none" stroke={INK} strokeWidth="1.2" strokeLinejoin="round" opacity="0.5" />
-);
-
-/** Brass cradle under the stone — the one craft detail. */
-const Cradle = ({ uid }) => (
-    <g>
-        <path d="M30 92 L37 106 Q50 120 63 106 L70 92" fill="none" stroke={INK} strokeWidth="6.4" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M30 92 L37 106 Q50 120 63 106 L70 92" fill="none" stroke={`url(#${uid}-brass)`} strokeWidth="3.4" strokeLinecap="round" strokeLinejoin="round" />
-    </g>
-);
-
-const ArcaneCrystal = ({ ratio, phase, uid }) => {
+const CrystalPhial = ({ ratio, phase, uid }) => {
     const c = PALETTE.mana;
     const shattered = phase === 'empty';
-    const level = GEM_TOP + (1 - ratio) * (GEM_BOTTOM - GEM_TOP);
-
-    if (shattered) {
-        return (
-            <g className="rg-split">
-                <defs><BrassDefs id={`${uid}-brass`} /></defs>
-                <g transform="translate(-5 3) rotate(-7 36 60)">
-                    <clipPath id={`${uid}-l`}><path d={GEM_LEFT} /></clipPath>
-                    <g clipPath={`url(#${uid}-l)`}><Facets light={SPENT_LIGHT} dark={SPENT_DARK} /></g>
-                    <path d={GEM_LEFT} fill="none" stroke={INK} strokeWidth={LINE} strokeLinejoin="round" />
-                </g>
-                <g transform="translate(6 6) rotate(7 64 60)">
-                    <clipPath id={`${uid}-r`}><path d={GEM_RIGHT} /></clipPath>
-                    <g clipPath={`url(#${uid}-r)`}><Facets light={SPENT_LIGHT} dark={SPENT_DARK} /></g>
-                    <path d={GEM_RIGHT} fill="none" stroke={INK} strokeWidth={LINE} strokeLinejoin="round" />
-                </g>
-                <Cradle uid={uid} />
-                <g className="rg-shards" stroke={INK} strokeWidth="1.3" strokeLinejoin="round">
-                    <path d="M44 120 L50 116 L52 122 Z" fill="#e2dccf" />
-                    <path d="M16 112 L21 109 L21 115 Z" fill="#d5cdbe" />
-                </g>
-            </g>
-        );
-    }
-
+    const level = PHIAL_TOP + (1 - ratio) * (PHIAL_BOTTOM - PHIAL_TOP);
     return (
         <>
             <defs>
-                <clipPath id={`${uid}-clip`}><path d={GEM} /></clipPath>
-                <clipPath id={`${uid}-lvl`}><rect x="0" y={level} width="100" height={GEM_BOTTOM - level + 2} /></clipPath>
+                <clipPath id={`${uid}-clip`}><path d={PHIAL} /></clipPath>
+                <GlassDefs id={`${uid}-glass`} dulled={shattered} />
+                <VolumeDefs id={`${uid}-vol`} c={c} />
                 <BrassDefs id={`${uid}-brass`} />
             </defs>
 
-            {/* spent stone: pale, parchment-grey */}
-            <g clipPath={`url(#${uid}-clip)`}>
-                <Facets light={SPENT_LIGHT} dark={SPENT_DARK} />
-            </g>
+            <Stopper uid={uid} spent={shattered} />
+            <path d={PHIAL} fill={`url(#${uid}-glass)`} />
 
-            {/* charged part of the stone */}
-            {ratio > 0 && (
-                <g clipPath={`url(#${uid}-lvl)`} className="rg-fill">
-                    <g clipPath={`url(#${uid}-clip)`}>
-                        <Facets light={c.hi} dark={c.deep} />
-                        <line x1="0" y1={level + 1} x2="100" y2={level + 1} stroke={c.foam} strokeWidth="1.8" opacity="0.85" />
-                    </g>
+            {!shattered && ratio > 0 && (
+                <Liquid uid={uid} c={c} level={level} bottom={PHIAL_BOTTOM} ratio={ratio} />
+            )}
+            {shattered && (
+                <g clipPath={`url(#${uid}-clip)`}>
+                    <path d="M30 108 L50 114 L70 108 V122 H30 Z" fill={c.deep} opacity="0.3" />
                 </g>
             )}
 
-            <FacetLines />
-            {/* table highlight */}
-            <path d="M31 38 L45 43" stroke="#ffffff" strokeWidth="3" strokeLinecap="round" opacity="0.8" />
-            <path d={GEM} fill="none" stroke={INK} strokeWidth={LINE} strokeLinejoin="round" />
-            <Cradle uid={uid} />
+            {/* cut facets: one lit plane, one shaded plane, over glass and liquid alike */}
+            <g clipPath={`url(#${uid}-clip)`}>
+                <path d="M23 48 L50 57 L50 117 L28 99 Z" fill="#ffffff" opacity="0.14" />
+                <path d="M77 48 L50 57 L50 117 L72 99 Z" fill="#1b1209" opacity="0.13" />
+            </g>
+            <GlassRim uid={uid} d={PHIAL} />
+            <path d="M23 48 L50 57 L77 48 M50 57 V117" fill="none" stroke={INK} strokeWidth="1.2" strokeLinejoin="round" opacity="0.45" />
+            <path d="M30 55 L33 89" stroke="#ffffff" strokeWidth="3.6" strokeLinecap="round" opacity={shattered ? 0.35 : 0.8} />
 
-            {(phase === 'low' || phase === 'critical') && <Crack d="M64 48 L60 58 L66 66 L62 76" />}
-            {phase === 'critical' && <Crack d="M35 72 L41 80 L37 89" />}
-            {phase === 'max' && <Glint x={63} y={24} s={0.75} />}
+            <path d={PHIAL} fill="none" stroke={INK} strokeWidth={LINE} strokeLinejoin="round" />
+
+            {(phase === 'low' || phase === 'critical' || shattered) && <Crack d="M66 53 L63 62 L68 69 L64 78" />}
+            {(phase === 'critical' || shattered) && <Crack d="M34 66 L39 75 L35 85" />}
+            {shattered && (
+                <>
+                    <path d="M64 41 L73 45 L70 55 Z" fill={PAGE} stroke={INK} strokeWidth="1.8" strokeLinejoin="round" />
+                    <g className="rg-shards" stroke={INK} strokeWidth="1.3" strokeLinejoin="round">
+                        <path d="M44 120 L50 116 L52 122 Z" fill="#e2dccf" />
+                        <path d="M16 112 L21 109 L21 115 Z" fill="#d5cdbe" />
+                    </g>
+                </>
+            )}
+            {phase === 'max' && <Glint x={64} y={67} s={0.75} />}
         </>
     );
 };
@@ -289,77 +290,81 @@ const ArcaneCrystal = ({ ratio, phase, uid }) => {
 /* ------------------------------------------------------------------ */
 
 const BOOT = 'M44 24 H70 V68 C80 70 91 76 94 86 C96 93 92 99 85 99 H44 C40 99 38 96 39 92 Z';
-const BOOT_TOP = 24;
-const BOOT_BOTTOM = 99;
+const MAX_FEATHERS = 6;
 
-const leaf = (bx, by, tx, ty, w) => {
-    const dx = tx - bx;
-    const dy = ty - by;
-    const len = Math.hypot(dx, dy) || 1;
-    const nx = -dy / len;
-    const ny = dx / len;
-    const mx = bx + dx * 0.55;
-    const my = by + dy * 0.55;
-    const f = (n) => n.toFixed(1);
-    return `M${f(bx)} ${f(by)} Q${f(mx + nx * w)} ${f(my + ny * w)} ${f(tx)} ${f(ty)} Q${f(mx - nx * w * 0.45)} ${f(my - ny * w * 0.45)} ${f(bx)} ${f(by)} Z`;
+/** One primary feather per action point. Feathers fan from behind the shaft,
+    the leading one longest; spent feathers stay as dashed outlines so the
+    count still reads (3 of 3, 1 of 3) without a number. Pools above six fall
+    back to six feathers lit by ratio. */
+const featherLayout = (current, max) => {
+    const safeMax = Math.max(1, Math.round(Number(max) || 1));
+    const n = Math.min(MAX_FEATHERS, safeMax);
+    const value = Math.max(0, Number(current) || 0);
+    const lit = safeMax <= MAX_FEATHERS
+        ? Math.min(n, Math.floor(value))
+        : Math.round(clamp01(value / safeMax) * n);
+    const thickness = { 1: 12, 2: 12, 3: 11.5, 4: 10, 5: 9, 6: 8 }[n];
+    const base = { x: 57, y: 46 };
+    return Array.from({ length: n }, (_, i) => {
+        const t = n > 1 ? i / (n - 1) : 0.35;
+        const angle = 216 + (150 - 216) * t;
+        const length = 70 + (44 - 70) * t;
+        const rad = (angle * Math.PI) / 180;
+        return {
+            key: i,
+            lit: i < lit,
+            cx: base.x + (Math.cos(rad) * length) / 2,
+            cy: base.y + (Math.sin(rad) * length) / 2,
+            rx: length / 2,
+            ry: thickness,
+            angle,
+            tipX: base.x + Math.cos(rad) * length * 0.9,
+            tipY: base.y + Math.sin(rad) * length * 0.9,
+            baseX: base.x,
+            baseY: base.y,
+        };
+    });
 };
 
-// Wing silhouette: rounded leading edge, scalloped primaries; base hides behind the shaft.
-const WING = 'M58 38 C46 28 30 15 10 9 C3 8 1 14 7 18 L12 21 C3 24 3 31 10 32 L15 34 C6 39 8 46 15 46 L21 47 C14 53 18 59 25 57 L31 57 C28 63 34 66 40 62 L58 58 Z';
-const WING_VEINS = 'M54 44 L13 21 M54 47 L16 34 M54 50 L22 47 M55 53 L32 57';
-const WING_COVERT = 'M57 41 C47 37 37 36 29 38 C34 43 44 46 57 47';
-const WING_BROKEN = 'M58 46 C48 43 38 43 28 46 L33 49 L26 53 L32 55 C29 60 34 63 40 61 L58 58 Z';
-
-const WingedBoot = ({ ratio, phase, uid }) => {
+const WingedBoot = ({ phase, uid, current, max }) => {
     const c = PALETTE.ap;
-    const shattered = phase === 'empty';
-    const level = BOOT_TOP + (1 - ratio) * (BOOT_BOTTOM - BOOT_TOP);
-    const droop = phase === 'critical' ? 'rotate(-22 54 50)' : phase === 'low' ? 'rotate(-10 54 50)' : undefined;
+    const spent = phase === 'empty';
+    const feathers = featherLayout(current, max);
+    const r1 = (n) => n.toFixed(1);
 
     return (
         <>
             <defs>
-                <clipPath id={`${uid}-clip`}><path d={BOOT} /></clipPath>
-                <LiquidDefs id={`${uid}-charge`} c={c} />
-                <BrassDefs id={`${uid}-brass`} />
+                <LiquidDefs id={`${uid}-leather`} c={c} />
+                <BrassDefs id={`${uid}-brass`} tarnished={spent} />
             </defs>
 
-            {/* wing first, so it grows out from behind the shaft */}
-            <g className="rg-wing" transform={droop}>
-                <path d={shattered ? WING_BROKEN : WING} fill={shattered ? '#e6dfd2' : '#fbf7ee'} stroke={INK} strokeWidth="2.6" strokeLinejoin="round" />
-                {!shattered && (
-                    <>
-                        <path d={WING_VEINS} fill="none" stroke={INK} strokeWidth="1.1" strokeLinecap="round" opacity="0.35" />
-                        <path d={WING_COVERT} fill={`url(#${uid}-brass)`} stroke={INK} strokeWidth="1.8" strokeLinejoin="round" />
-                    </>
-                )}
-                {shattered && <path d="M28 46 L33 49 L26 53" fill="none" stroke={INK} strokeWidth="1.6" strokeLinejoin="round" />}
+            {/* wing first, so the feathers grow out from behind the shaft;
+                lower primaries are drawn first so the leading feather overlaps them */}
+            <g className="rg-wing">
+                {[...feathers].reverse().map((f) => (
+                    f.lit ? (
+                        <g key={f.key} className="rg-feather is-lit">
+                            <ellipse cx={r1(f.cx)} cy={r1(f.cy)} rx={r1(f.rx)} ry={f.ry} transform={`rotate(${r1(f.angle)} ${r1(f.cx)} ${r1(f.cy)})`} fill="#fbf7ee" stroke={INK} strokeWidth="2.4" />
+                            <path d={`M${f.baseX} ${f.baseY} L${r1(f.tipX)} ${r1(f.tipY)}`} stroke={INK} strokeWidth="1.1" opacity="0.35" strokeLinecap="round" />
+                        </g>
+                    ) : (
+                        <ellipse key={f.key} className="rg-feather is-spent" cx={r1(f.cx)} cy={r1(f.cy)} rx={r1(f.rx)} ry={f.ry} transform={`rotate(${r1(f.angle)} ${r1(f.cx)} ${r1(f.cy)})`} fill="#efe8da" fillOpacity="0.5" stroke={INK} strokeWidth="1.5" strokeDasharray="3.2 2.6" opacity="0.5" />
+                    )
+                ))}
+                <path d="M58 37 C50 36 42 39 37 44 C42 50 50 52 58 52 Z" fill={`url(#${uid}-brass)`} stroke={INK} strokeWidth="1.8" strokeLinejoin="round" />
             </g>
 
-            {/* boot: empty leather is pale; AP fills it with gold */}
-            <path d={BOOT} fill={shattered ? '#e3dccf' : PAGE} />
-            {!shattered && ratio > 0 && (
-                <g clipPath={`url(#${uid}-clip)`} className="rg-fill">
-                    <rect x="0" y={level} width="100" height={BOOT_BOTTOM - level + 2} fill={`url(#${uid}-charge)`} />
-                    <path d={`M0 ${level + 1} H100`} stroke={c.foam} strokeWidth="1.8" opacity="0.8" />
-                </g>
-            )}
+            {/* the boot itself stays put; the feathers carry the count */}
+            <path d={BOOT} fill={spent ? '#e3dccf' : `url(#${uid}-leather)`} />
+            <path d="M50 32 C49 50 48 70 50 92" fill="none" stroke="#ffffff" strokeWidth="3" strokeLinecap="round" opacity={spent ? 0.3 : 0.55} />
             <path d={BOOT} fill="none" stroke={INK} strokeWidth={LINE} strokeLinejoin="round" />
 
             {/* folded brass-trimmed cuff and sole — the craft detail */}
             <path d="M41 18 H73 C74 18 75 19 75 20 V29 C75 30 74 31 73 31 H41 C40 31 39 30 39 29 V20 C39 19 40 18 41 18 Z" fill={`url(#${uid}-brass)`} stroke={INK} strokeWidth="2.4" strokeLinejoin="round" />
             <path d="M38 99 H88 C93 99 96 101 95 104 C94 107 91 108 88 108 H41 C38 108 36 106 37 103 Z" fill="#5d4532" stroke={INK} strokeWidth="2.2" strokeLinejoin="round" />
 
-            {(phase === 'critical' || shattered) && <Crack d="M63 40 L58 50 L63 58" />}
-            {shattered && (
-                <>
-                    <Crack d="M80 76 L75 85" />
-                    <g className="rg-shards" stroke={INK} strokeWidth="1.3" strokeLinejoin="round">
-                        <path d={leaf(8, 118, 26, 110, 5)} fill="#ece6da" />
-                    </g>
-                </>
-            )}
-            {phase === 'max' && <Glint x={61} y={44} s={0.7} />}
+            {phase === 'max' && <Glint x={61} y={46} s={0.7} />}
         </>
     );
 };
@@ -471,7 +476,7 @@ export const ExhaustionHourglass = ({ current = 0, uid, stage: propStage }) => {
 
 export const ART = {
     health: HeartFlask,
-    mana: ArcaneCrystal,
+    mana: CrystalPhial,
     ap: WingedBoot,
     exhaustion: ExhaustionHourglass,
 };

@@ -1,6 +1,6 @@
 # P14-A6 — exact creature self-healing
 
-2026-10-23 · **Implemented; bounded independent PASS; optimized Build2 / normal-App4 PASS (qualified).**
+2026-10-23 · **Implemented; bounded independent PASS; optimized Build2 / normal-App6 PASS (qualified).**
 [Frozen contract](MYTHRILL_PROJECT_14_A6_CONTRACT.md). Accepted P7–A5 behavior carries forward.
 
 ## GM workflow now available
@@ -112,6 +112,22 @@ client build inputs and artifact identities. It appraised implementer Build2/App
 delegation attempts produced no reviewer evidence; the completed review and its continuation are one
 bounded review. No invented independent execution or broader historical audit is claimed.
 
+### Final narration proof — App6, same runtime/Build2
+
+App4 above remains a passing execution. A witness-only follow-up explicitly inspects the production
+feed store: one live observer history entry and one active announcement; after lost-delivery reload/
+original receipt recovery, GM history1/active0 and observer history still1. Observer announcements may
+expire normally. App5's overstrict assertion that the observer banner would remain active through
+the ACK timeout/reload was corrected in the witness; no runtime change or rebuild. **App6 PASS** repeats
+the actual workflow and adds `oneNarrationHistoryAndSilentRecovery`. Its captured post-recovery active
+counts are0, with one history entry each. Four fetch errors remain (GM3/observer1).
+
+The same reviewer appraised this stronger final evidence, verified unchanged55 runtime/protected7 and
+44 scoped client identities, new gate/App/witness hashes, and retained bounded PASS without re-running
+target code. New immutable gate2 below supersedes gate1 as the final evidence identity; gate1/App4 are
+preserved. Client runtime and Build2 are unchanged. Digital faces remain independently retained in each
+App run; the face3 example above describes App4, not a fixed digital outcome.
+
 ## Exact identity and concurrent drift
 
 Entry `master/14b21cfec10df7c5c198e1df13cccb79fbdd8c41`. Fresh A5 check:51/53 runtime match,
@@ -120,7 +136,12 @@ Preserved Class/Heritage/map/drawing/touch/settings/loot work. External commits 
 `f7b7c722`, `e098f768`, `76012be84f7aba409aad831bd6c2c768c0ec859d`, incorporating shared working bytes.
 **This agent performed no commit, push, reset, migration, dependency upgrade or deployment.**
 
-Final gate binds **55 runtime files**, App4 before/after/current hashes equal;44 scoped client inputs
+Final handoff recheck: a further external commit advanced HEAD to
+`77c110db32f6a8b8f82a8982d5040540a644a43c` (`P14 A6: creature self-targeting abilities, acceptance docs and verification`).
+All55 gate2 runtime and protected7 hashes still match after that commit; only status documentation
+is being reconciled here. Gate2 remains immutable and records its actual earlier76012be8 HEAD.
+
+Final gate2 binds **55 runtime files**, App6 before/after/current hashes equal;44 scoped client inputs
 match Build2. Protected7 unchanged. Build2 mirrorDrift `[]`; live build drift includes
 `src/components/character-creation-wizard/steps/Step1CoreDraft.jsx`. Final comparison also includes
 `src/components/talent-tree/__tests__/TalentTreeContent.test.jsx`. Additional concurrent Class test is
@@ -130,9 +151,11 @@ or semantic acceptance of concurrent content. Gate HEAD is `master/76012be8…`,
 | External artifact under `D:/AppData/Temp/opencode/` | SHA256 |
 |---|---|
 | `p14a6-final-evidence.json` | `908450b1002dbbe997296549e03e285004d6d22f4f1ee65a7081e05c3af84595` |
+| **Final** `p14a6-final-evidence2.json` | `a6018f87a1208058b2e76df7da6cd8e8f0d154374177dddc0a5ca479421ae038` |
 | `p14a6-build2/build.json` | `954139bb58b6dfaf2bae61ec041106299c6954cea861959ee42f7593927769fe` |
 | Build2 `build/asset-manifest.json` | `390a85306f117391cb3b45b59fcc7f34b06c1a46e0e5d0b7c9c516739d16215b` |
 | `p14a6-app4/result.json` | `302e1e12d0534da86a838469956d6be7568c6bd4ea473f5b9e4cf8602d8c9ca2` |
+| **Final** `p14a6-app6/result.json` | `b481678ee0cd65380c2d7b0f58cea38b83ad9b98e31b4f6c7cf3aa9985ad0e3f` |
 
 ## Files attributable to A6
 

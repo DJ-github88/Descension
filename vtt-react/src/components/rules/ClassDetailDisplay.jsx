@@ -61,6 +61,12 @@ const buildDemoClassResource = (className) => {
   if (className === 'Lichborne') {
    return { type: 'lich-anchor', initialized: false, state: null, current: 0, max: 12 };
   }
+  if (className === 'Doomsayer') {
+   return { type: 'doom-calamities', initialized: false, state: null, current: 0, max: 2, havoc: 0, havocMax: 15 };
+  }
+  if (className === 'Oracle') {
+   return { type: 'oracle-forecasts', initialized: false, state: null, current: 0, max: 2 };
+  }
   if (className === 'Chaos Weaver') {
   // RI-1: the demo preview must never fabricate a filled six-tile hand.
   // A fresh character's tiles are uninitialized until a manual rehearsal
@@ -388,6 +394,24 @@ const CLASS_REGIONS = {
    borderColor: '#7A2040',
    glowColor: 'rgba(122, 32, 64, 0.15)',
    icon: 'fas fa-dice-d6'
+  },
+  doomsayer: {
+   regionId: 'sundrift-vale',
+   regionName: 'Sundrift Vale',
+   accentColor: '#6b3a3a',
+   bgGradient: 'linear-gradient(135deg, rgba(107, 58, 58, 0.06) 0%, rgba(59, 47, 53, 0.02) 100%)',
+   borderColor: '#6b3a3a',
+   glowColor: 'rgba(107, 58, 58, 0.15)',
+   icon: 'fas fa-hourglass-half'
+  },
+  oracle: {
+   regionId: 'sundrift-vale',
+   regionName: 'Sundrift Vale',
+   accentColor: '#4f5d75',
+   bgGradient: 'linear-gradient(135deg, rgba(79, 93, 117, 0.06) 0%, rgba(47, 58, 68, 0.02) 100%)',
+   borderColor: '#4f5d75',
+   glowColor: 'rgba(79, 93, 117, 0.15)',
+   icon: 'fas fa-eye'
   }
 };
 

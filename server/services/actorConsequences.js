@@ -97,7 +97,7 @@ function assertCanMove(token, player, updates) {
   }
 }
 function validateRecord(record, ref) {
-  keys(record, CONDITION_FIELDS);
+  keys(record, [...CONDITION_FIELDS, 'authoredDuration']);
   if (record.version !== 1 || !string(record.id) || record.id !== record.recordId || !string(record.name) ||
     typeof record.originalName !== 'string' || !record.originalName.trim() || typeof record.source !== 'string' || !record.source.trim() ||
      !['buff', 'debuff', 'marker'].includes(record.type) || !['effect', 'marker', 'legacy-manual'].includes(record.kind) ||
@@ -197,7 +197,7 @@ function knownReceipt(room, uid, command) {
 function publicCondition(record) {
   if (!record || typeof record !== 'object') {return null;}
   const out = {};
-  for (const key of CONDITION_FIELDS) {
+  for (const key of [...CONDITION_FIELDS, 'authoredDuration']) {
     if (!own(record, key)) {continue;}
     const value = record[key];
     if (key === 'target' || key === 'sourceActor') {
@@ -209,6 +209,7 @@ function publicCondition(record) {
       if (icon) {out.icon = icon;}
     } else if (value === null || ['string', 'boolean'].includes(typeof value) || (typeof value === 'number' && Number.isFinite(value))) {out[key] = value;}
   }
+  if (record.target?.kind === 'character' && String(record.sourceEntityId || '').startsWith('authored-condition:')) delete out.sourceActor;
   return out;
 }
 function publicContract(contract) {
@@ -232,6 +233,20 @@ function publicReceipt(receipt) {
   if (receipt.adjudication) {out.adjudication = Object.fromEntries(['definitionId', 'definitionVersionOrHash', 'chosenResult', 'finalAmount', 'adjustmentReason']
     .filter(key => typeof receipt.adjudication[key] === 'string' || (typeof receipt.adjudication[key] === 'number' && Number.isFinite(receipt.adjudication[key])))
     .map(key => [key, receipt.adjudication[key]]));}
+  if (String(receipt.adjudication?.definitionVersionOrHash || '').startsWith('authored-condition:v1/') && out.adjudication) {
+    try {
+      const c = JSON.parse(out.adjudication.chosenResult), r = c.resolution;
+      c.resolution = { gmConfirmed: r.gmConfirmed, ...(receipt.source?.kind === 'creature' && receipt.target?.kind !== 'character' ? { timingNote: r.timingNote } : {}), timing: { durationText: r.timing.durationText, expiryPolicy: r.timing.expiryPolicy } };
+      if (receipt.target?.kind === 'character') {
+        c.spellName = 'GM-resolved Stunned';
+        delete out.source;
+        out.adjudication.definitionId = 'authored-condition:undisclosed';
+        out.adjudication.definitionVersionOrHash = 'authored-condition:v1/undisclosed';
+      }
+      out.adjudication.chosenResult = JSON.stringify(c);
+    } catch (_) { out.readOnly = true; delete out.adjudication.chosenResult; }
+    delete out.contentHash; delete out.authorization.approvalHash;
+  }
   if (require('./blockApprovals').isBlockCommand(receipt) && out.adjudication) {
     try {
       const chosen = JSON.parse(out.adjudication.chosenResult);
@@ -265,6 +280,7 @@ function publicReceipt(receipt) {
       ...(Number.isSafeInteger(actor.blocking?.revision) ? { blocking: { revision: actor.blocking.revision } } : {}),
       ...(actor.equipmentWear ? { equipmentWear: require('./blockApprovals').publicWear(actor.equipmentWear) } : {}) };
   });
+  if (out.adjudication?.definitionVersionOrHash === 'authored-condition:v1/undisclosed') out.actors = out.actors.filter(a => hash(a.ref) === hash(receipt.target));
   return out;
 }
 function publicClassPayment(payment) {
@@ -315,6 +331,8 @@ function stage(room, player, uid, command, authorization, confirmedRevision) {
   }
   const approved = binder ? binder.bindCommand(room, player, command, authorization) : null;
   const conditionProfile = require('../../vtt-react/src/services/sharedConditionProfile');
+  const authoredCondition = require('../../vtt-react/src/services/authoredCondition');
+  const authoredApplication = !!approved && binder === require('./spellPayments') && authoredCondition.isCondition(approved.approval);
   const shieldBash = require('../../vtt-react/src/services/shieldBashResult');
   const shieldResult = shieldBash.readResult(command);
   const shieldAdd = command.actors.some(actor => actor.conditions?.some(op => op.op === 'add' && shieldBash.namedRecord(op.record)));
@@ -326,7 +344,7 @@ function stage(room, player, uid, command, authorization, confirmedRevision) {
   }
   const namedProfile = [conditionProfile.DEFENDING, conditionProfile.STUNNED].find(profile =>
     command.adjudication?.definitionVersionOrHash === profile.origin || command.actors.some(actor => actor.conditions?.some(op => op.record?.effectOrigin === profile.origin)));
-  const namedCondition = !!namedProfile;
+  const namedCondition = !!namedProfile && !authoredApplication;
   if (namedCondition && (command.actors.length !== 1 || namedProfile === conditionProfile.DEFENDING && command.actors[0].ref.kind !== 'character' || command.actors[0].finalResources ||
       command.actors[0].classPayment || command.actors[0].equipmentWear || command.actors[0].blockingDeclaration || command.approval ||
        command.adjudication?.definitionId !== namedProfile.definitionId ||
@@ -353,8 +371,19 @@ function stage(room, player, uid, command, authorization, confirmedRevision) {
     }
     const records = token.state.conditions || [];
     if (!Array.isArray(records)) {fail('legacy_reconciliation_required');}
-    for (const operation of actor.conditions || []) {
+    for (let operation of actor.conditions || []) {
       const index = records.findIndex(record => (record.recordId || record.id) === operation.recordId);
+      if (actor.ref.kind === 'character' && authoredCondition.namedRecord(records[index])) {
+        if (!player.isGM || authorization?.kind !== 'gm') fail('authored_condition_gm_correction_required');
+        // Correction may originate in the privacy-safe GM view. Restore only the original
+        // immutable attribution, never client-substituted source identities.
+        if (operation.op === 'update' && operation.record && !operation.record.sourceActor) operation = { ...operation, record: { ...operation.record, sourceActor: records[index].sourceActor } };
+      }
+      // A7: a generic add/update cannot manufacture paid execution provenance (C3-style seam).
+      if (authoredCondition.namedRecord(operation.record)) {
+        if (operation.op === 'add' && !authoredApplication || operation.op === 'update' &&
+            (!conditionProfile.isStunned(records[index]) || !authoredCondition.namedRecord(records[index]) || !conditionProfile.sameStunnedSource(records[index], operation.record))) fail('authored_condition_approval_required');
+      }
       // C3 correction may retain a named identity, never introduce it by updating a generic marker.
       if (operation.op === 'update' && shieldBash.namedRecord(operation.record) &&
           (!conditionProfile.isStunned(records[index]) || !shieldBash.namedRecord(records[index]))) {fail('invalid_shield_bash_result');}
@@ -425,6 +454,7 @@ function finishStage(room, uid, command, authorization, confirmedRevision, next,
   if (command.source) {receipt.source = clone(command.source);}
   if (command.target) {receipt.target = clone(command.target);}
   if (command.adjudication) {receipt.adjudication = clone(command.adjudication);}
+  if (approved?.targetPolicy) receipt.targetAcceptance = clone(approved.targetPolicy);
   if (!Number.isSafeInteger(receipt.commitSequence)) {fail('revision_exhausted');}
   const retained = clone(prior.receipts);
   let replayFloor = prior.replayFloor;

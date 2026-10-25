@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import useCharacterStore from '../../store/characterStore';
 import { getAllBackgrounds } from '../../data/backgroundData';
+import { getOriginIllustration } from '../../data/backgroundAssets';
 import { useInspectionCharacter } from '../../contexts/InspectionContext';
 import { getFullRaceData, getSubraceData, getRaceData, getRaceList, getSubraceList } from '../../data/raceData';
 import { LORE_PLACEHOLDERS, LORE_FIELD_HINTS } from '../../constants/loreConstants';
@@ -53,7 +54,8 @@ export default function Lore({ initialSection }) {
         alignment: state.alignment,
         updateCharacterInfo: state.updateCharacterInfo,
         updateBaseName: state.updateBaseName,
-        background: state.background
+        background: state.background,
+        backgroundDisplayName: state.backgroundDisplayName
     }));
 
     const user = useAuthStore(state => state.user);
@@ -73,7 +75,8 @@ export default function Lore({ initialSection }) {
         updateCharacterInfo,
         updateBaseName,
         updateBackground,
-        background
+        background,
+        backgroundDisplayName
     } = dataSource;
 
     // Token settings are only available when not in inspection mode
@@ -146,10 +149,11 @@ export default function Lore({ initialSection }) {
                 { key: 'class', label: 'Class', type: 'classSelect' },
                 { key: 'race', label: 'Ancestry (Race)', type: 'raceSelect' },
                 { key: 'subrace', label: 'Subrace', type: 'subraceSelect' },
-                { key: 'alignment', label: 'Alignment', type: 'alignmentSelect' }
+                { key: 'alignment', label: 'Alignment', type: 'alignmentSelect' },
+                { key: 'background', label: 'Social Background', type: 'backgroundSelect' }
             ],
             rightFields: [
-                { key: 'background', label: 'Social Background', type: 'backgroundSelect' },
+
                 { key: 'backstory', label: 'Origin Story', hint: LORE_FIELD_HINTS.backstory, placeholder: LORE_PLACEHOLDERS.backstory, type: 'textarea', fullPage: true }
             ]
         },
@@ -369,14 +373,25 @@ export default function Lore({ initialSection }) {
     };
 
     const hasPortrait = !!(lore.characterImage || lore.characterIcon);
+    const originIll = !lore.iconBackgroundImage && (background || (lore.background && getAllBackgrounds().find(b => b.name === lore.background)?.id))
+        ? getOriginIllustration(background || getAllBackgrounds().find(b => b.name === lore.background)?.id)
+        : null;
+    const effectiveBgImage = lore.iconBackgroundImage
+        ? `/assets/Backgrounds/${encodeURIComponent(lore.iconBackgroundImage)}`
+        : (originIll?.src || null);
+
     const portraitPreviewStyle = {
-        backgroundColor: lore.iconBackgroundImage ? '#1a140e' : (lore.iconBackgroundColor || '#f8f5eb'),
+        backgroundColor: effectiveBgImage ? '#1a140e' : (lore.iconBackgroundColor || '#f8f5eb'),
         borderColor: lore.iconBorderColor || '#d4af37',
-        backgroundImage: lore.iconBackgroundImage
-            ? `url(/assets/Backgrounds/${encodeURIComponent(lore.iconBackgroundImage)})`
+        backgroundImage: effectiveBgImage
+            ? `url(${effectiveBgImage})`
             : 'none',
-        backgroundSize: 'cover',
-        backgroundPosition: `calc(50% + ${lore.iconBackgroundOffsetX || 0}px) center`,
+        backgroundSize: lore.iconBackgroundImage
+            ? `${(lore.iconBackgroundScale || 2.5) * 100}%`
+            : 'cover',
+        backgroundPosition: lore.iconBackgroundImage
+            ? `calc(50% + ${lore.iconBackgroundOffsetX || 0}px) calc(50% + ${lore.iconBackgroundOffsetY || 0}px)`
+            : 'center',
         backgroundRepeat: 'no-repeat'
     };
 
@@ -581,15 +596,16 @@ export default function Lore({ initialSection }) {
                 </div>
             );
         } else if (field.type === 'backgroundSelect') {
+            const backgrounds = getAllBackgrounds();
+            const currentBgValue = background || (lore.background ? backgrounds.find(b => b.name === lore.background)?.id : '') || '';
             return (
                 <div key={field.key} className="lore-field">
                     {renderFieldLabel(field)}
                     <select
                         className="lore-select"
-                        value={background || ''}
+                        value={currentBgValue}
                         onChange={(e) => {
                             const bgId = e.target.value;
-                            const backgrounds = getAllBackgrounds();
                             const selectedBg = backgrounds.find(bg => bg.id === bgId);
                             if (selectedBg) {
                                 if (updateBackground) updateBackground(selectedBg.id, selectedBg.name);
@@ -838,31 +854,78 @@ export default function Lore({ initialSection }) {
                             ))}
                         </div>
                         <div className="token-preview" style={{
-                            marginTop: '12px',
+                            marginTop: '16px',
                             display: 'flex',
                             alignItems: 'center',
-                            gap: '12px'
+                            gap: '14px',
+                            padding: '10px 14px',
+                            background: 'rgba(139, 115, 85, 0.08)',
+                            borderRadius: '8px',
+                            border: '1px dashed #c5b597'
                         }}>
-                            <span style={{ color: '#ccc', fontSize: '14px' }}>Preview:</span>
+                            <span style={{ color: '#5c4033', fontSize: '13px', fontFamily: "'Cinzel', Georgia, serif", fontWeight: '600' }}>
+                                Token Preview:
+                            </span>
                             <div
                                 style={{
-                                    width: '48px',
-                                    height: '48px',
+                                    width: '52px',
+                                    height: '52px',
                                     borderRadius: '50%',
                                     border: `3px solid ${tokenSettings?.borderColor || '#506e30'}`,
-                                    backgroundImage: lore.characterImage ? `url(${lore.characterImage})` : 'none',
-                                    backgroundColor: lore.characterImage ? 'transparent' : '#333',
-                                    backgroundSize: 'cover',
-                                    backgroundPosition: 'center',
+                                    position: 'relative',
+                                    overflow: 'hidden',
+                                    backgroundColor: effectiveBgImage ? '#1a140e' : (lore.iconBackgroundColor || '#f8f5eb'),
+                                    backgroundImage: effectiveBgImage ? `url(${effectiveBgImage})` : 'none',
+                                    backgroundSize: lore.iconBackgroundImage ? `${(lore.iconBackgroundScale || 2.5) * 100}%` : 'cover',
+                                    backgroundPosition: lore.iconBackgroundImage
+                                        ? `calc(50% + ${lore.iconBackgroundOffsetX || 0}px) calc(50% + ${lore.iconBackgroundOffsetY || 0}px)`
+                                        : 'center',
+                                    backgroundRepeat: 'no-repeat',
                                     display: 'flex',
                                     alignItems: 'center',
                                     justifyContent: 'center',
-                                    color: '#fff',
-                                    fontSize: '18px',
-                                    fontWeight: 'bold'
+                                    boxShadow: '0 3px 8px rgba(0, 0, 0, 0.25)',
+                                    flexShrink: 0
                                 }}
                             >
-                                {!lore.characterImage && (dataSource.name ? dataSource.name.charAt(0).toUpperCase() : '?')}
+                                {lore.characterImage ? (
+                                    <img
+                                        src={lore.characterImage}
+                                        alt="Token"
+                                        style={{
+                                            width: '100%',
+                                            height: '100%',
+                                            objectFit: 'cover',
+                                            transform: `scale(${lore.imageTransformations?.scale || 1}) rotate(${lore.imageTransformations?.rotation || 0}deg) translate(${lore.imageTransformations?.positionX || 0}px, ${lore.imageTransformations?.positionY || 0}px)`
+                                        }}
+                                        draggable={false}
+                                    />
+                                ) : lore.characterIcon ? (
+                                    <img
+                                        src={getCustomIconUrl(lore.characterIcon, 'creatures')}
+                                        alt="Token"
+                                        style={{
+                                            width: '100%',
+                                            height: '100%',
+                                            objectFit: 'cover',
+                                            transform: `scale(${(lore.iconScale || 1) * 1.1}) translate(${lore.iconOffsetX || 0}px, ${lore.iconOffsetY || 0}px)`
+                                        }}
+                                        onError={(e) => {
+                                            e.target.onerror = null;
+                                            e.target.src = getCustomIconUrl('Human/Icon1', 'creatures');
+                                        }}
+                                        draggable={false}
+                                    />
+                                ) : (
+                                    <span style={{
+                                        color: '#5c4033',
+                                        fontSize: '18px',
+                                        fontWeight: 'bold',
+                                        fontFamily: "'Cinzel', Georgia, serif"
+                                    }}>
+                                        {dataSource.name ? dataSource.name.charAt(0).toUpperCase() : '?'}
+                                    </span>
+                                )}
                             </div>
                         </div>
                     </div>
@@ -915,9 +978,12 @@ export default function Lore({ initialSection }) {
                                 />
                             )
                         ) : (
-                            <div className="book-portrait-empty">
+                            <div 
+                                className="book-portrait-empty"
+                                style={effectiveBgImage ? { background: 'rgba(20, 14, 10, 0.45)', color: '#f8f5eb', borderRadius: '50%', width: '100%', height: '100%' } : undefined}
+                            >
                                 <i className="fas fa-user-plus"></i>
-                                <span>Craft Portrait</span>
+                                <span style={effectiveBgImage ? { color: '#f8f5eb', textShadow: '0 1px 3px rgba(0,0,0,0.8)' } : undefined}>Craft Portrait</span>
                             </div>
                         )}
                         {!inspectionData && (
@@ -950,7 +1016,7 @@ export default function Lore({ initialSection }) {
                         </div>
                         <div className="meta-row-item">
                             <span className="meta-item-label">Social Background</span>
-                            <span className="meta-item-val">{lore.background || 'Commoner'}</span>
+                            <span className="meta-item-val">{lore?.background || backgroundDisplayName || (background && getAllBackgrounds().find(b => b.id === background)?.name) || 'Commoner'}</span>
                         </div>
                     </div>
                 </div>

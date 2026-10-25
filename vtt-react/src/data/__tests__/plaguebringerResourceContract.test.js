@@ -3,6 +3,8 @@ import {
   getPlaguebringerTier, PLAGUEBRINGER_VIRULENCE_MAX, PLAGUEBRINGER_AFFLICTION_MAX
 } from '../plaguebringerResourceContract';
 import { normalizeManagedClassResource, getManagedSpellResourcePlan, getClassResourceValue } from '../classResourceContracts';
+import { convertTalentSpellToLibrarySpell } from '../talentTrees/talentSystem.mjs';
+import { PLAGUEBRINGER_TREES } from '../classes/plaguebringerData';
 import { createResourceSlice } from '../../store/characterSlices/resourceSlice';
 
 jest.mock('../../store/customLineageStore', () => ({ __esModule: true, default: { getState: () => ({ getLineage: () => null }) } }));
@@ -44,4 +46,14 @@ test('plans follow gain/cost and the shared router', () => {
   expect(getPlaguebringerSpellResourcePlan({ resourceCost: { classResource: { type: 'virulence', cost: 50 } } }, { virulence: 20 }, 'virulenceCultivation').affordable).toBe(false);
   expect(normalizeManagedClassResource({ type: 'virulence', current: 30 }, 'Plaguebringer').virulence).toBe(30);
   expect(getManagedSpellResourcePlan({ resourceCost: { classResource: { type: 'virulence', gain: 10 } } }, { type: 'virulenceCultivation', virulence: 5 }, 'Plaguebringer')).toMatchObject({ handled: true, id: 'virulenceCultivation' });
+});
+
+test('reads virulence costs projected from talent spells', () => {
+  const node = PLAGUEBRINGER_TREES.virulent_spreader.find(entry => entry.id === 'vs_t2_vector_detonation');
+  const spell = convertTalentSpellToLibrarySpell(node, 1);
+
+  expect(spell.resourceCost.resourceTypes).toContain('virulence');
+  expect(spell.resourceCost.resourceValues.virulence).toBe(2);
+  expect(getPlaguebringerSpellResourcePlan(spell, { virulence: 1 }, 'virulenceCultivation')).toMatchObject({ handled: true, cost: 2, affordable: false });
+  expect(getManagedSpellResourcePlan(spell, { type: 'virulenceCultivation', virulence: 2 }, 'Plaguebringer')).toMatchObject({ handled: true, cost: 2, affordable: true });
 });

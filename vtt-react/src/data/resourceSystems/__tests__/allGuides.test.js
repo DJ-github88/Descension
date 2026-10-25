@@ -31,6 +31,8 @@ import { GAMBLER_DATA } from '../../classes/gamblerData';
 import { FATE_WEAVER_DATA } from '../../classes/fateWeaverData';
 import { DEATHCALLER_DATA } from '../../classes/deathcallerData';
 import { LICHBORNE_DATA } from '../../classes/lichborneData';
+import { DOOMSAYER_DATA } from '../../classes/doomsayerData';
+import { ORACLE_DATA } from '../../classes/oracleData';
 
 
 const CLASS_DATA = {
@@ -38,6 +40,8 @@ const CLASS_DATA = {
  'fate-weaver': FATE_WEAVER_DATA,
  deathcaller: DEATHCALLER_DATA,
  lichborne: LICHBORNE_DATA,
+ doomsayer: DOOMSAYER_DATA,
+ oracle: ORACLE_DATA,
  warden: WARDEN_DATA,
  augur: AUGUR_DATA,
  chronarch: CHRONARCH_DATA,

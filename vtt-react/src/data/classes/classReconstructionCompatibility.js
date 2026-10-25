@@ -19,9 +19,13 @@
 
 import { GAMBIT_DATA } from './gambitData';
 import { AUGUR_DISPOSITIONS } from './augurDispositions';
+import { HARBINGER_RECORD_DISPOSITIONS } from './harbingerDispositions';
+import { ORACLE_RECORD_DISPOSITIONS } from './oracleDispositions';
 import { GAMBIT_PROBABILITY_SAVANT, GAMBIT_HIGH_ROLLER, GAMBIT_KARMIC_WEAVER } from '../talentTrees/gambit';
 
 export { AUGUR_DISPOSITIONS } from './augurDispositions';
+export { HARBINGER_RECORD_DISPOSITIONS } from './harbingerDispositions';
+export { ORACLE_RECORD_DISPOSITIONS } from './oracleDispositions';
 
 const gambitTrees = [
   ['probability_savant', GAMBIT_PROBABILITY_SAVANT],
@@ -43,7 +47,8 @@ export const RECONSTRUCTION_RELATIONSHIPS = [
   'split',
   'merged-design',
   'successor-name',
-  'under-review'
+  'under-review',
+  'independent'
 ];
 
 export const RECONSTRUCTION_COMPATIBILITY_ROWS = [
@@ -93,7 +98,7 @@ export const RECONSTRUCTION_COMPATIBILITY_ROWS = [
       notes:
         'Old Harbinger still loads exact Mayhem and known IDs. A display successor label never invokes ' +
         'class-change or resource reinitialization. Historical Doomsayer payloads require individual mapping.',
-      recordDispositions: []
+      recordDispositions: HARBINGER_RECORD_DISPOSITIONS
     }
   },
   {
@@ -156,13 +161,14 @@ export const RECONSTRUCTION_COMPATIBILITY_ROWS = [
     legacyKey: 'oracle',
     legacyNames: ['Oracle'],
     row: {
-      relationship: 'under-review',
+      relationship: 'independent',
       legacyResolutionRetained: true,
       automaticConversion: false,
       successors: [],
       notes:
-        'Register independently when its full content is delivered; no Augur alias/merger and no assumed Omen Debt restoration.',
-      recordDispositions: []
+        'Registered independently under RI-5; no Augur alias/merger and no assumed Omen Debt restoration. ' +
+        'Historical Oracle spell, tree, node and debt records remain legacy evidence only.',
+      recordDispositions: ORACLE_RECORD_DISPOSITIONS
     }
   },
   {

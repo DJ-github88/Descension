@@ -66,7 +66,7 @@ const CombatTab = () => {
           .map(([dieType, values]) => {
             const count = values.length;
             const valuesStr = values.map(v => `(${v})`).join(' ');
-            return `${count}${dieType} ${valuesStr}`;
+            return `${count}${dieType === 'dpercent' ? 'd%' : dieType} ${valuesStr}`;
           });
 
         return formattedParts.join(' ');

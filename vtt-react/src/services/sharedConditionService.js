@@ -148,7 +148,7 @@ export async function editSharedCondition(ref, operation, { recordId, sourceMode
     if (operation === 'update' && !old) throw Error('Exact condition instance unavailable. Refresh before correcting timing.');
     const id = operation === 'add' ? candidate?.recordId || crypto.randomUUID() : recordId;
     const record = profile === 'stunned' ? operation === 'remove' ? null : candidate || makeStunnedRecord(ref, id, {
-      sourceOccurrence: old.sourceEntityId, sourceActor: old.sourceActor, timing
+      sourceOccurrence: old.sourceEntityId, sourceActor: old.sourceActor, timing, authoredDuration: old.authoredDuration
     }) : makeDefendingRecord(ref, id, sourceMode);
     const op = operation === 'remove' ? { op: 'remove', recordId: id } : { op: operation, recordId: id, record };
     const command = prepareActorCommand([{ ref, expectedRevision: token.state.actorContract.revision, conditions: [op] }], {

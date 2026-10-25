@@ -1,239 +1,204 @@
 import React, { useRef, useEffect, useState } from 'react';
 import * as THREE from 'three';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+import { drawEmblemShape } from './PhysicsCoinScene';
 import './PhysicsCardScene.css';
 
-// Card Themes Definition with expanded themes & PBR settings
+// Deck themes: back colours, frame colours and the emblem on the back.
+// (Emblems are vector-drawn — the old emoji backs rendered differently on
+// every OS and read as clip-art.)
 export const CARD_THEMES = {
   royal_velvet: {
     id: 'royal_velvet',
     name: 'Royal Velvet',
-    bgStart: '#7a001e',
-    bgEnd: '#36000c',
-    borderColor: '#d4af37',
-    edgeColor: '#ffd700',
-    backSymbol: '👑',
-    metallic: 0.65,
-    roughness: 0.35,
+    bgStart: '#6e0b1f',
+    bgEnd: '#32040d',
+    borderColor: '#c9a24a',
+    edgeColor: '#e3c477',
+    emblem: { type: 'crown_sun', heads: true },
   },
   mystic_arcana: {
     id: 'mystic_arcana',
     name: 'Mystic Arcana',
-    bgStart: '#0f172a',
-    bgEnd: '#1e1b4b',
-    borderColor: '#38bdf8',
-    edgeColor: '#7dd3fc',
-    backSymbol: '✨',
-    metallic: 0.7,
-    roughness: 0.3,
+    bgStart: '#172340',
+    bgEnd: '#0c1226',
+    borderColor: '#93b4cc',
+    edgeColor: '#c3d6e4',
+    emblem: { type: 'arcana_compass', heads: true },
   },
   dragon_scale: {
     id: 'dragon_scale',
     name: 'Dragon Scale',
-    bgStart: '#2d120d',
-    bgEnd: '#120705',
-    borderColor: '#ea580c',
-    edgeColor: '#f97316',
-    backSymbol: '🐉',
-    metallic: 0.55,
-    roughness: 0.45,
+    bgStart: '#3a160c',
+    bgEnd: '#170805',
+    borderColor: '#c4733a',
+    edgeColor: '#dd9a62',
+    emblem: { type: 'phoenix_shield', heads: true },
   },
   celestial_silver: {
     id: 'celestial_silver',
     name: 'Celestial Silver',
-    bgStart: '#334155',
-    bgEnd: '#0f172a',
-    borderColor: '#e2e8f0',
-    edgeColor: '#ffffff',
-    backSymbol: '🌙',
-    metallic: 0.85,
-    roughness: 0.2,
+    bgStart: '#3a4556',
+    bgEnd: '#171d29',
+    borderColor: '#d4dae2',
+    edgeColor: '#eef1f5',
+    emblem: { type: 'moon_star', heads: true },
   },
   vintage_parchment: {
     id: 'vintage_parchment',
     name: 'Vintage Parchment',
     bgStart: '#8c6d46',
-    bgEnd: '#543d22',
-    borderColor: '#d4af37',
-    edgeColor: '#c49a50',
-    backSymbol: '📜',
-    metallic: 0.4,
-    roughness: 0.5,
+    bgEnd: '#5a4126',
+    borderColor: '#e2c98f',
+    edgeColor: '#f0dfb4',
+    emblem: { type: 'shield_swords', heads: false },
   },
   blood_ruby: {
     id: 'blood_ruby',
     name: 'Blood Ruby',
-    bgStart: '#450a0a',
-    bgEnd: '#180202',
-    borderColor: '#f87171',
-    edgeColor: '#ef4444',
-    backSymbol: '♦',
-    metallic: 0.75,
-    roughness: 0.28,
+    bgStart: '#4a0c0e',
+    bgEnd: '#1c0304',
+    borderColor: '#c46a62',
+    edgeColor: '#dc938a',
+    emblem: { type: 'moon_star', heads: false },
   },
   arcane_brass: {
     id: 'arcane_brass',
     name: 'Arcane Brass',
-    bgStart: '#451a03',
-    bgEnd: '#1c0a00',
-    borderColor: '#f59e0b',
-    edgeColor: '#fbbf24',
-    backSymbol: '⚙',
-    metallic: 0.8,
-    roughness: 0.3,
+    bgStart: '#4a2408',
+    bgEnd: '#1e0e03',
+    borderColor: '#c99a3e',
+    edgeColor: '#e0bc6e',
+    emblem: { type: 'gear_clockwork', heads: true },
   },
 };
 
-// Procedural Height Bump Map for Card Back Embossing
-function createCardBackBumpMap() {
-  const width = 512;
-  const height = 768;
-  const canvas = document.createElement('canvas');
-  canvas.width = width;
-  canvas.height = height;
-  const ctx = canvas.getContext('2d');
+// ─── Card geometry & layout ─────────────────────────────────────────────────
+const CARD_W = 2.0;
+const CARD_H = 3.0;
+const CARD_RADIUS = 0.13;
+const CARD_THICK = 0.014;
+const GAP = 0.28;
+const DEAL_SECONDS = 0.55;
+const DEAL_STAGGER = 0.09;
+const FLIP_SECONDS = 0.38;
+const CHIP_RESERVE_PX = 170;
+const TEX_W = 512;
+const TEX_H = 768;
 
-  ctx.fillStyle = '#808080';
-  ctx.fillRect(0, 0, width, height);
-
-  // Outer border relief
-  ctx.lineWidth = 18;
-  ctx.strokeStyle = '#ffffff';
-  ctx.strokeRect(20, 20, width - 40, height - 40);
-
-  ctx.lineWidth = 6;
-  ctx.strokeStyle = '#303030';
-  ctx.strokeRect(32, 32, width - 64, height - 64);
-
-  // Center medallion bump
-  const cx = width / 2;
-  const cy = height / 2;
-
-  ctx.lineWidth = 10;
-  ctx.strokeStyle = '#ffffff';
-  ctx.beginPath();
-  ctx.arc(cx, cy, 110, 0, Math.PI * 2);
-  ctx.stroke();
-
-  ctx.lineWidth = 4;
-  ctx.strokeStyle = '#202020';
-  ctx.beginPath();
-  ctx.arc(cx, cy, 95, 0, Math.PI * 2);
-  ctx.stroke();
-
-  const texture = new THREE.CanvasTexture(canvas);
-  texture.anisotropy = 8;
-  return texture;
+function roundedRectShape(w, h, r) {
+  const s = new THREE.Shape();
+  const x = -w / 2;
+  const y = -h / 2;
+  s.moveTo(x + r, y);
+  s.lineTo(x + w - r, y);
+  s.quadraticCurveTo(x + w, y, x + w, y + r);
+  s.lineTo(x + w, y + h - r);
+  s.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+  s.lineTo(x + r, y + h);
+  s.quadraticCurveTo(x, y + h, x, y + h - r);
+  s.lineTo(x, y + r);
+  s.quadraticCurveTo(x, y, x + r, y);
+  return s;
 }
 
-// Procedural Card Back Texture
-function createCardBackTexture(themeKey = 'royal_velvet') {
-  const theme = CARD_THEMES[themeKey] || CARD_THEMES.royal_velvet;
-  const width = 512;
-  const height = 768;
-  const canvas = document.createElement('canvas');
-  canvas.width = width;
-  canvas.height = height;
-  const ctx = canvas.getContext('2d');
+// ShapeGeometry UVs are in shape units — remap them to 0..1 over the card.
+function faceGeometry(shape) {
+  const g = new THREE.ShapeGeometry(shape, 6);
+  const pos = g.attributes.position;
+  const uv = g.attributes.uv;
+  for (let i = 0; i < pos.count; i++) {
+    uv.setXY(i, (pos.getX(i) + CARD_W / 2) / CARD_W, (pos.getY(i) + CARD_H / 2) / CARD_H);
+  }
+  uv.needsUpdate = true;
+  return g;
+}
 
-  const grad = ctx.createLinearGradient(0, 0, width, height);
+// Lay out n cards in one or two centred rows, scaled down if needed so the
+// whole hand fits between the result chip and the bottom of the screen.
+function layoutHand(n, area) {
+  const rows = n > 5 ? 2 : 1;
+  const perRow = rows === 2 ? Math.ceil(n / 2) : n;
+  const needW = perRow * CARD_W + (perRow - 1) * GAP;
+  const needH = rows * CARD_H + (rows - 1) * GAP;
+  const scale = Math.min(1, (area.right - area.left) / needW, (area.top - area.bottom) / needH);
+  const cx = (area.left + area.right) / 2;
+  const cy = (area.top + area.bottom) / 2;
+  const slots = [];
+  for (let i = 0; i < n; i++) {
+    const row = rows === 2 && i >= perRow ? 1 : 0;
+    const inRow = row === 0 ? Math.min(n, perRow) : n - perRow;
+    const col = row === 0 ? i : i - perRow;
+    const x = cx + (col - (inRow - 1) / 2) * (CARD_W + GAP) * scale;
+    const y = cy + (rows === 2 ? (row === 0 ? 0.5 : -0.5) * (CARD_H + GAP) * scale : 0);
+    slots.push({ x, y, rot: (Math.random() - 0.5) * 0.06 });
+  }
+  return { slots, scale };
+}
+
+// ─── Card art ───────────────────────────────────────────────────────────────
+function createCardBackTexture(theme) {
+  const canvas = document.createElement('canvas');
+  canvas.width = TEX_W;
+  canvas.height = TEX_H;
+  const ctx = canvas.getContext('2d');
+  const w = TEX_W;
+  const h = TEX_H;
+
+  const grad = ctx.createLinearGradient(0, 0, w, h);
   grad.addColorStop(0, theme.bgStart);
   grad.addColorStop(1, theme.bgEnd);
   ctx.fillStyle = grad;
-  ctx.fillRect(0, 0, width, height);
+  ctx.fillRect(0, 0, w, h);
 
-  // Crosshatch filigree pattern
-  ctx.strokeStyle = 'rgba(255, 255, 255, 0.04)';
-  ctx.lineWidth = 2;
-  for (let i = -height; i < width + height; i += 24) {
-    ctx.beginPath();
-    ctx.moveTo(i, 0);
-    ctx.lineTo(i + height, height);
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.moveTo(i, height);
-    ctx.lineTo(i + height, 0);
-    ctx.stroke();
+  // Fine diamond lattice.
+  ctx.save();
+  ctx.strokeStyle = 'rgba(255, 255, 255, 0.055)';
+  ctx.lineWidth = 1.5;
+  for (let i = -h; i < w + h; i += 22) {
+    ctx.beginPath(); ctx.moveTo(i, 0); ctx.lineTo(i + h, h); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(i, h); ctx.lineTo(i + h, 0); ctx.stroke();
   }
+  ctx.restore();
 
-  // Vignette darkening toward the edges for depth
-  const vignette = ctx.createRadialGradient(width / 2, height / 2, height * 0.2, width / 2, height / 2, height * 0.72);
+  // Soft vignette.
+  const vignette = ctx.createRadialGradient(w / 2, h / 2, h * 0.2, w / 2, h / 2, h * 0.72);
   vignette.addColorStop(0, 'rgba(0, 0, 0, 0)');
-  vignette.addColorStop(1, 'rgba(0, 0, 0, 0.38)');
+  vignette.addColorStop(1, 'rgba(0, 0, 0, 0.32)');
   ctx.fillStyle = vignette;
-  ctx.fillRect(0, 0, width, height);
+  ctx.fillRect(0, 0, w, h);
 
-  // Outer gold filigree frame
-  ctx.lineWidth = 16;
+  // Double frame.
+  ctx.lineWidth = 10;
   ctx.strokeStyle = theme.borderColor;
-  ctx.strokeRect(20, 20, width - 40, height - 40);
-
-  ctx.lineWidth = 4;
-  ctx.strokeStyle = 'rgba(255, 255, 255, 0.5)';
-  ctx.strokeRect(32, 32, width - 64, height - 64);
-
-  // Corner gemstones — rotated diamond studs
-  [
-    [20, 20],
-    [width - 20, 20],
-    [20, height - 20],
-    [width - 20, height - 20],
-  ].forEach(([x, y]) => {
-    ctx.save();
-    ctx.translate(x, y);
-    ctx.rotate(Math.PI / 4);
-    ctx.fillStyle = theme.borderColor;
-    ctx.fillRect(-11, -11, 22, 22);
-    ctx.fillStyle = theme.edgeColor;
-    ctx.fillRect(-6, -6, 12, 12);
-    ctx.restore();
-  });
-
-  const cx = width / 2;
-  const cy = height / 2;
-
-  // Center medallion — dark field, double ring, radial glow
-  const glow = ctx.createRadialGradient(cx, cy, 10, cx, cy, 130);
-  glow.addColorStop(0, 'rgba(255, 255, 255, 0.16)');
-  glow.addColorStop(1, 'rgba(0, 0, 0, 0)');
-  ctx.fillStyle = glow;
-  ctx.beginPath();
-  ctx.arc(cx, cy, 130, 0, Math.PI * 2);
-  ctx.fill();
-
-  ctx.fillStyle = 'rgba(0, 0, 0, 0.45)';
-  ctx.beginPath();
-  ctx.arc(cx, cy, 110, 0, Math.PI * 2);
-  ctx.fill();
-
-  ctx.lineWidth = 6;
-  ctx.strokeStyle = theme.borderColor;
-  ctx.beginPath();
-  ctx.arc(cx, cy, 110, 0, Math.PI * 2);
-  ctx.stroke();
-
-  // Beaded inner ring
-  ctx.fillStyle = theme.edgeColor;
-  for (let i = 0; i < 24; i++) {
-    const a = (i / 24) * Math.PI * 2;
-    ctx.beginPath();
-    ctx.arc(cx + Math.cos(a) * 96, cy + Math.sin(a) * 96, 3, 0, Math.PI * 2);
-    ctx.fill();
-  }
-
-  ctx.font = '92px serif';
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  ctx.fillStyle = theme.edgeColor;
-  ctx.shadowColor = 'rgba(0, 0, 0, 0.8)';
-  ctx.shadowBlur = 10;
-  ctx.fillText(theme.backSymbol, cx, cy + 4);
-  // Soft re-stamp above for a gilded double-strike look
-  ctx.globalAlpha = 0.35;
-  ctx.shadowBlur = 0;
-  ctx.fillText(theme.backSymbol, cx, cy - 4);
+  ctx.strokeRect(30, 30, w - 60, h - 60);
+  ctx.lineWidth = 2;
+  ctx.strokeStyle = theme.edgeColor;
+  ctx.globalAlpha = 0.7;
+  ctx.strokeRect(44, 44, w - 88, h - 88);
   ctx.globalAlpha = 1;
+
+  // Centre medallion with the deck emblem.
+  const cx = w / 2;
+  const cy = h / 2;
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.32)';
+  ctx.beginPath(); ctx.arc(cx, cy, 112, 0, Math.PI * 2); ctx.fill();
+  ctx.lineWidth = 5;
+  ctx.strokeStyle = theme.borderColor;
+  ctx.beginPath(); ctx.arc(cx, cy, 112, 0, Math.PI * 2); ctx.stroke();
+  ctx.lineWidth = 1.5;
+  ctx.strokeStyle = theme.edgeColor;
+  ctx.beginPath(); ctx.arc(cx, cy, 100, 0, Math.PI * 2); ctx.stroke();
+
+  ctx.save();
+  ctx.translate(cx, cy);
+  ctx.scale(70, 70);
+  ctx.fillStyle = theme.edgeColor;
+  ctx.shadowColor = 'rgba(0, 0, 0, 0.6)';
+  ctx.shadowBlur = 6; // shadow settings are in canvas pixels, not scaled
+  ctx.shadowOffsetY = 2;
+  drawEmblemShape(ctx, theme.emblem.type, theme.emblem.heads);
+  ctx.restore();
 
   const texture = new THREE.CanvasTexture(canvas);
   texture.colorSpace = THREE.SRGBColorSpace;
@@ -241,9 +206,6 @@ function createCardBackTexture(themeKey = 'royal_velvet') {
   return texture;
 }
 
-// Standard playing-card pip layouts. Coordinates are in "pip space":
-// x ∈ {-1, 0, 1} columns, y ∈ [-1, 1] rows. Bottom-half pips (y > 0) are
-// rotated 180° like a real deck.
 const PIP_LAYOUTS = {
   '2': [[0, -1], [0, 1]],
   '3': [[0, -1], [0, 0], [0, 1]],
@@ -274,10 +236,10 @@ function drawSuitGlyph(ctx, glyph, x, y, size, color, rotated) {
   ctx.restore();
 }
 
-// Procedural Card Front Texture
+
 function createCardFrontTexture(card) {
-  const width = 512;
-  const height = 768;
+  const width = TEX_W;
+  const height = TEX_H;
   const canvas = document.createElement('canvas');
   canvas.width = width;
   canvas.height = height;
@@ -286,135 +248,69 @@ function createCardFrontTexture(card) {
   ctx.fillStyle = '#f8f3e6';
   ctx.fillRect(0, 0, width, height);
 
-  // Linen texture grain
+  // Linen grain.
   ctx.fillStyle = 'rgba(180, 160, 120, 0.07)';
   for (let i = 0; i < 500; i++) {
-    const rx = Math.random() * width;
-    const ry = Math.random() * height;
-    ctx.fillRect(rx, ry, 2, 2);
+    ctx.fillRect(Math.random() * width, Math.random() * height, 2, 2);
   }
 
-  // Double borders — outer leather tone, inner gold
-  ctx.lineWidth = 8;
-  ctx.strokeStyle = '#7c4a21';
-  ctx.strokeRect(18, 18, width - 36, height - 36);
-
+  // Thin ruled frame.
   ctx.lineWidth = 3;
-  ctx.strokeStyle = '#d4af37';
+  ctx.strokeStyle = 'rgba(102, 60, 50, 0.55)';
   ctx.strokeRect(26, 26, width - 52, height - 52);
 
-  const isRed = card.suit === '♥' || card.suit === '♦' || card.suit === 'Hearts' || card.suit === 'Diamonds';
-  const color = isRed ? '#b3121f' : '#151b2e';
-
-  const suitSymbol = card.suitSymbol || (card.suit === 'Hearts' ? '♥' : card.suit === 'Diamonds' ? '♦' : card.suit === 'Clubs' ? '♣' : '♠');
-  const rank = String(card.value || card.rank || 'A').toUpperCase();
-
+  const isRed = card.suit === 'Hearts' || card.suit === 'Diamonds';
+  const color = isRed ? '#a3171f' : '#1b1f2e';
+  const suitSymbol = card.suitSymbol;
+  const rank = card.rank;
   const cx = width / 2;
   const cy = height / 2;
 
-  // Corner indices — large with a white outline so they stay readable from
-  // across the table.
   const drawCornerIndex = (x, y, flipped) => {
     ctx.save();
     ctx.translate(x, y);
     if (flipped) ctx.rotate(Math.PI);
     ctx.textAlign = 'center';
     ctx.textBaseline = 'alphabetic';
-
     ctx.font = 'bold 64px "Cinzel", "Times New Roman", serif';
-    ctx.lineWidth = 6;
-    ctx.strokeStyle = 'rgba(255, 255, 255, 0.9)';
-    ctx.strokeText(rank, 0, 0);
     ctx.fillStyle = color;
     ctx.fillText(rank, 0, 0);
-
     ctx.font = 'bold 50px serif';
-    ctx.lineWidth = 5;
-    ctx.strokeStyle = 'rgba(255, 255, 255, 0.9)';
-    ctx.strokeText(suitSymbol, 0, 54);
-    ctx.fillStyle = color;
     ctx.fillText(suitSymbol, 0, 54);
     ctx.restore();
   };
-  drawCornerIndex(66, 88, false);
-  drawCornerIndex(width - 66, height - 100, true);
+  drawCornerIndex(70, 98, false);
+  drawCornerIndex(width - 70, height - 98, true);
 
   const faceGlyph = FACE_GLYPHS[rank];
-
   if (faceGlyph) {
-    // Face cards (J/Q/K): ornate framed portrait panel with the royal glyph,
-    // suit-colored backing and gold accents.
     const panelW = 250;
     const panelH = 380;
     const px = cx - panelW / 2;
-    const py = cy - panelH / 2 - 14;
-
-    const panelGrad = ctx.createLinearGradient(px, py, px + panelW, py + panelH);
-    panelGrad.addColorStop(0, isRed ? 'rgba(179, 18, 31, 0.10)' : 'rgba(21, 27, 46, 0.10)');
-    panelGrad.addColorStop(1, isRed ? 'rgba(179, 18, 31, 0.02)' : 'rgba(21, 27, 46, 0.02)');
-    ctx.fillStyle = panelGrad;
-    ctx.beginPath();
-    ctx.roundRect(px, py, panelW, panelH, 18);
-    ctx.fill();
-
-    ctx.lineWidth = 6;
-    ctx.strokeStyle = '#d4af37';
-    ctx.beginPath();
-    ctx.roundRect(px, py, panelW, panelH, 18);
-    ctx.stroke();
-    ctx.lineWidth = 2;
-    ctx.strokeStyle = 'rgba(212, 175, 55, 0.6)';
-    ctx.beginPath();
-    ctx.roundRect(px + 12, py + 12, panelW - 24, panelH - 24, 12);
-    ctx.stroke();
-
-    drawSuitGlyph(ctx, faceGlyph, cx, cy - 40, 210, color, false);
-
-    // Small suit pips in the panel corners
+    const py = cy - panelH / 2;
+    ctx.fillStyle = isRed ? 'rgba(163, 23, 31, 0.07)' : 'rgba(27, 31, 46, 0.07)';
+    ctx.fillRect(px, py, panelW, panelH);
+    ctx.lineWidth = 4;
+    ctx.strokeStyle = 'rgba(102, 60, 50, 0.6)';
+    ctx.strokeRect(px, py, panelW, panelH);
+    ctx.lineWidth = 1.5;
+    ctx.strokeRect(px + 10, py + 10, panelW - 20, panelH - 20);
+    drawSuitGlyph(ctx, faceGlyph, cx, cy - 20, 200, color, false);
     const pipOff = 34;
     [[px + pipOff, py + pipOff], [px + panelW - pipOff, py + pipOff],
      [px + pipOff, py + panelH - pipOff], [px + panelW - pipOff, py + panelH - pipOff]]
       .forEach(([qx, qy], i) => drawSuitGlyph(ctx, suitSymbol, qx, qy, 34, color, i > 1));
   } else if (rank === 'A') {
-    // Ace: one grand center emblem
-    drawSuitGlyph(ctx, suitSymbol, cx, cy - 20, 240, color, false);
-
-    ctx.strokeStyle = isRed ? 'rgba(179, 18, 31, 0.25)' : 'rgba(21, 27, 46, 0.25)';
-    ctx.lineWidth = 4;
-    ctx.beginPath();
-    ctx.arc(cx, cy - 20, 150, 0, Math.PI * 2);
-    ctx.stroke();
+    drawSuitGlyph(ctx, suitSymbol, cx, cy, 230, color, false);
+    ctx.strokeStyle = isRed ? 'rgba(163, 23, 31, 0.22)' : 'rgba(27, 31, 46, 0.22)';
+    ctx.lineWidth = 3;
+    ctx.beginPath(); ctx.arc(cx, cy, 150, 0, Math.PI * 2); ctx.stroke();
   } else {
     const layout = PIP_LAYOUTS[rank];
-    if (layout) {
-      // Number cards: classic pip grid
-      const pipX = 96;
-      const pipY = 178;
-      layout.forEach(([lx, ly]) => {
-        drawSuitGlyph(ctx, suitSymbol, cx + lx * pipX, cy - 20 + ly * pipY, 78, color, ly > 0);
-      });
-    } else {
-      // Unknown rank fallback: big center suit
-      drawSuitGlyph(ctx, suitSymbol, cx, cy - 20, 180, color, false);
-    }
+    (layout || [[0, 0]]).forEach(([lx, ly]) => {
+      drawSuitGlyph(ctx, suitSymbol, cx + lx * 96, cy + ly * 178, layout ? 78 : 180, color, ly > 0);
+    });
   }
-
-  // Card Name Footer — recessed parchment ribbon keeps it legible without
-  // fighting the pips.
-  const footerY = height - 52;
-  ctx.fillStyle = 'rgba(60, 44, 22, 0.85)';
-  ctx.beginPath();
-  ctx.roundRect(cx - 150, footerY - 24, 300, 38, 10);
-  ctx.fill();
-  ctx.lineWidth = 1.5;
-  ctx.strokeStyle = 'rgba(212, 175, 55, 0.5)';
-  ctx.stroke();
-
-  ctx.font = 'bold 24px "Cinzel", "Times New Roman", serif';
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  ctx.fillStyle = '#f2e6c9';
-  ctx.fillText(card.name || `${rank} of ${card.suit}`, cx, footerY - 4);
 
   const texture = new THREE.CanvasTexture(canvas);
   texture.colorSpace = THREE.SRGBColorSpace;
@@ -422,349 +318,296 @@ function createCardFrontTexture(card) {
   return texture;
 }
 
-const PhysicsCardScene = ({
-  cardsToDraw = [],
-  cardTheme = 'royal_velvet',
-  manualFlip = false,
-  onDrawComplete,
-  onDismiss,
-  isVisible = false,
-}) => {
+const SUIT_IS_RED = { Hearts: true, Diamonds: true };
+export const cardLabel = (c) => `${c.rank}${c.suitSymbol}`;
+
+// ─── Component ──────────────────────────────────────────────────────────────
+const PhysicsCardScene = ({ draw, onAllRevealed, onDismiss }) => {
   const mountRef = useRef(null);
-  const [revealedSet, setRevealedSet] = useState(new Set());
-  const [allDrawn, setAllDrawn] = useState(false);
+  const controlsRef = useRef(null); // { revealAll }
+  const onRevealedRef = useRef(onAllRevealed);
+  onRevealedRef.current = onAllRevealed;
 
-  const animFrameRef = useRef(null);
-  const cardObjectsRef = useRef([]);
-  const raycasterRef = useRef(new THREE.Raycaster());
-  const mouseRef = useRef(new THREE.Vector2());
+  const [dealt, setDealt] = useState(false);
+  const [revealed, setRevealed] = useState([]);
+  const [hoverCard, setHoverCard] = useState(false);
 
-  const theme = CARD_THEMES[cardTheme] || CARD_THEMES.royal_velvet;
+  const drawId = draw?.id;
+  const theme = CARD_THEMES[draw?.theme] || CARD_THEMES.royal_velvet;
 
   useEffect(() => {
-    if (!isVisible || !mountRef.current || cardsToDraw.length === 0) return;
+    const mount = mountRef.current;
+    if (!draw || !mount || !draw.cards?.length) return undefined;
 
-    setRevealedSet(new Set());
-    setAllDrawn(false);
+    const cards = draw.cards;
+    const manual = !!draw.manual;
+    const deckTheme = CARD_THEMES[draw.theme] || CARD_THEMES.royal_velvet;
+    setDealt(false);
+    setRevealed(cards.map(() => !manual));
 
-    const width = mountRef.current.clientWidth || window.innerWidth;
-    const height = mountRef.current.clientHeight || window.innerHeight;
+    const width = mount.clientWidth || window.innerWidth;
+    const height = mount.clientHeight || window.innerHeight;
 
-    // Three.js Scene
-    const scene = new THREE.Scene();
-
-    const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100);
-    camera.position.set(0, 0, 11);
+    // Long lens looking straight down at the table (the XY plane here).
+    const FOV = 20;
+    const camera = new THREE.PerspectiveCamera(FOV, width / Math.max(1, height), 1, 200);
+    const viewH = 9.1;
+    camera.position.set(0, 0, viewH / (2 * Math.tan((FOV * Math.PI) / 360)));
     camera.lookAt(0, 0, 0);
+
+    const halfH = viewH / 2;
+    const halfW = halfH * (width / Math.max(1, height));
+    const pxToWorld = viewH / Math.max(1, height);
+    const area = {
+      left: -halfW + 0.5,
+      right: halfW - 0.5,
+      top: halfH - Math.min(CHIP_RESERVE_PX, height * 0.32) * pxToWorld,
+      bottom: -halfH + 0.45,
+    };
+    const { slots, scale } = layoutHand(cards.length, area);
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(width, height);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
     renderer.setClearColor(0x000000, 0);
+    // Paper and ink: no filmic tone mapping (it greys the card stock and
+    // dulls the red suits).
+    renderer.toneMapping = THREE.NoToneMapping;
     renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFShadowMap;
+    mount.appendChild(renderer.domElement);
 
-    mountRef.current.appendChild(renderer.domElement);
+    const scene = new THREE.Scene();
+    const pmrem = new THREE.PMREMGenerator(renderer);
+    const envTexture = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+    pmrem.dispose();
+    scene.environment = envTexture;
+    scene.environmentIntensity = 0.35;
 
-    const pmremGenerator = new THREE.PMREMGenerator(renderer);
-    scene.environment = pmremGenerator.fromScene(new RoomEnvironment(), 0.04).texture;
+    scene.add(new THREE.AmbientLight(0xfff6e8, 0.75));
+    const key = new THREE.DirectionalLight(0xfff3e0, 1.7);
+    key.position.set(2.5, 3.5, 12);
+    key.castShadow = true;
+    key.shadow.mapSize.set(1024, 1024);
+    key.shadow.radius = 4;
+    key.shadow.bias = -0.0005;
+    Object.assign(key.shadow.camera, { left: -halfW - 2, right: halfW + 2, top: halfH + 2, bottom: -halfH - 3, near: 1, far: 40 });
+    scene.add(key);
 
-    const ambientLight = new THREE.AmbientLight(0xfffaed, 0.6);
-    scene.add(ambientLight);
+    const groundGeo = new THREE.PlaneGeometry(80, 80);
+    const groundMat = new THREE.ShadowMaterial({ color: 0x2a1d12, opacity: 0.24 });
+    const ground = new THREE.Mesh(groundGeo, groundMat);
+    ground.position.z = -0.02;
+    ground.receiveShadow = true;
+    scene.add(ground);
 
-    const dirLight = new THREE.DirectionalLight(0xfff5e6, 0.75);
-    dirLight.position.set(6, 10, 8);
-    dirLight.castShadow = true;
-    scene.add(dirLight);
+    const shape = roundedRectShape(CARD_W, CARD_H, CARD_RADIUS);
+    const faceGeo = faceGeometry(shape);
+    const edgeGeo = new THREE.ExtrudeGeometry(shape, { depth: CARD_THICK, bevelEnabled: false, curveSegments: 6 });
+    edgeGeo.translate(0, 0, -CARD_THICK / 2);
+    const hiddenMat = new THREE.MeshBasicMaterial({ visible: false });
+    const edgeMat = new THREE.MeshStandardMaterial({ color: '#efe6d2', roughness: 0.8 });
+    const backTex = createCardBackTexture(deckTheme);
+    const backMat = new THREE.MeshStandardMaterial({ map: backTex, roughness: 0.55, metalness: 0.05 });
+    const frontTexes = [];
+    const frontMats = [];
 
-    const bumpMap = createCardBackBumpMap();
-    const backTex = createCardBackTexture(cardTheme);
-    const backMat = new THREE.MeshStandardMaterial({
-      map: backTex,
-      bumpMap: bumpMap,
-      bumpScale: 0.04,
-      metalness: 0.2,
-      roughness: 0.6,
-    });
-    const edgeMat = new THREE.MeshStandardMaterial({
-      color: theme.edgeColor,
-      metalness: 0.4,
-      roughness: 0.5,
-    });
-    const cardGeometry = new THREE.BoxGeometry(2.0, 3.0, 0.04);
-    const count = cardsToDraw.length;
+    const deckStart = new THREE.Vector3(halfW * 0.15, -halfH - CARD_H, 1.2);
+    const items = cards.map((card, i) => {
+      const group = new THREE.Group();
+      const frontTex = createCardFrontTexture(card);
+      // Slightly toned so cream card stock doesn't blow out to pure white.
+      const frontMat = new THREE.MeshStandardMaterial({ map: frontTex, color: '#ece5d6', roughness: 0.7 });
+      frontTexes.push(frontTex);
+      frontMats.push(frontMat);
 
-    const maxCols = count > 5 ? Math.ceil(count / 2) : count;
-    const spacingX = Math.min(2.1, 8.5 / maxCols);
+      const front = new THREE.Mesh(faceGeo, frontMat);
+      front.position.z = CARD_THICK / 2 + 0.001;
+      const back = new THREE.Mesh(faceGeo, backMat);
+      back.rotation.y = Math.PI;
+      back.position.z = -CARD_THICK / 2 - 0.001;
+      const edge = new THREE.Mesh(edgeGeo, [hiddenMat, edgeMat]);
+      [front, back, edge].forEach((m) => { m.castShadow = true; group.add(m); });
+      group.scale.setScalar(scale);
+      group.position.copy(deckStart);
+      group.rotation.set(0, Math.PI, 0.5);
+      group.userData.index = i;
+      scene.add(group);
 
-    const cardObjects = [];
-
-    cardsToDraw.forEach((cardData, idx) => {
-      const frontTex = createCardFrontTexture(cardData);
-      const frontMat = new THREE.MeshStandardMaterial({
-        map: frontTex,
-        metalness: 0.0,
-        roughness: 0.72,
-      });
-      const materials = [edgeMat, edgeMat, edgeMat, edgeMat, frontMat, backMat];
-      const mesh = new THREE.Mesh(cardGeometry, materials);
-      mesh.castShadow = true;
-
-      const row = count > 5 && idx >= maxCols ? 1 : 0;
-      const colIdx = row === 1 ? idx - maxCols : idx;
-      const rowCount = row === 1 ? count - maxCols : maxCols;
-
-      const targetX = (colIdx - (rowCount - 1) / 2) * spacingX;
-      const targetY = row === 1 ? -1.8 : count > 5 ? 1.5 : 0;
-      const targetRotZ = (colIdx - (rowCount - 1) / 2) * -0.04;
-
-      mesh.position.set(6, 6, -2);
-      mesh.rotation.set(0, Math.PI, Math.PI * 0.2); // Start face down
-
-      scene.add(mesh);
-
-      cardObjects.push({
-        mesh,
-        targetX,
-        targetY,
-        targetZ: 0,
-        targetRotZ,
-        cardData,
-        idx,
-        isFlipped: !manualFlip,
-        currRotY: Math.PI,
-        targetRotY: manualFlip ? Math.PI : 0, // 0 = front face, PI = back face
-        delay: idx * 0.12,
-        flipProgress: manualFlip ? 0 : 1,
-      });
+      return {
+        group,
+        slot: slots[i],
+        start: i * DEAL_STAGGER,
+        faceUp: !manual,
+        flipFrom: Math.PI,
+        flipTo: manual ? Math.PI : 0,
+        flipStart: null,
+      };
     });
 
-    cardObjectsRef.current = cardObjects;
+    let raf = 0;
+    let finished = false;
+    let reported = false;
+    const t0 = performance.now();
 
-    const startTime = performance.now();
-    const duration = 1.2;
+    const reportIfAllUp = () => {
+      if (reported || !items.every((it) => it.faceUp)) return;
+      reported = true;
+      if (onRevealedRef.current) onRevealedRef.current(cards);
+    };
 
-    const animate = (currentTime) => {
-      const elapsed = (currentTime - startTime) / 1000;
-      let allLanded = true;
+    const ease = (x) => 1 - Math.pow(1 - x, 3);
 
-      cardObjects.forEach((c) => {
-        const localTime = Math.max(0, elapsed - c.delay);
-        const p = Math.min(1, localTime / duration);
+    const tick = () => {
+      const now = (performance.now() - t0) / 1000;
+      let busy = false;
 
-        if (p < 1.0) {
-          allLanded = false;
-          const easeP = 1 - Math.pow(1 - p, 3);
+      items.forEach((it) => {
+        const g = it.group;
+        const p = Math.min(1, Math.max(0, (now - it.start) / DEAL_SECONDS));
+        if (p < 1) busy = true;
+        const e = ease(p);
+        // Deal: slide in from the player's side on a low arc, settling into
+        // place; auto-reveal cards turn over in flight.
+        g.position.x = THREE.MathUtils.lerp(deckStart.x, it.slot.x, e);
+        g.position.y = THREE.MathUtils.lerp(deckStart.y, it.slot.y, e);
+        let z = THREE.MathUtils.lerp(deckStart.z, 0, e) + Math.sin(Math.PI * p) * 0.9;
+        g.rotation.z = THREE.MathUtils.lerp(0.5, it.slot.rot, e);
+        let rotY = THREE.MathUtils.lerp(Math.PI, it.flipTo, it.flipStart === null ? e * e : 1);
 
-          c.mesh.position.x = 6 + (c.targetX - 6) * easeP;
-          c.mesh.position.y = 6 * (1 - easeP) + c.targetY * easeP;
-          c.mesh.position.z = -2 * (1 - easeP);
-
-          c.mesh.rotation.z = (Math.PI * 0.2) * (1 - easeP) + c.targetRotZ * easeP;
-
-          // Y rotation flip lerp
-          c.currRotY = THREE.MathUtils.lerp(Math.PI, c.targetRotY, easeP * easeP * (3 - 2 * easeP));
-          c.mesh.rotation.y = c.currRotY;
-        } else {
-          c.mesh.position.x = c.targetX;
-          c.mesh.position.y = c.targetY;
-          c.mesh.rotation.z = c.targetRotZ;
-
-          // Smooth lerp Y rotation for manual click flips with height pop (Z offset during flip)
-          const rotDiff = Math.abs(c.currRotY - c.targetRotY);
-          if (rotDiff > 0.005) {
-            c.currRotY = THREE.MathUtils.lerp(c.currRotY, c.targetRotY, 0.18);
-            c.mesh.rotation.y = c.currRotY;
-
-            // Height pop offset during mid-flip
-            const flipSin = Math.sin((c.currRotY / Math.PI) * Math.PI);
-            c.mesh.position.z = Math.abs(flipSin) * 0.8;
-          } else {
-            c.currRotY = c.targetRotY;
-            c.mesh.rotation.y = c.targetRotY;
-            c.mesh.position.z = 0;
-          }
+        // Click-to-reveal flip after landing: lift, turn, set down.
+        if (it.flipStart !== null) {
+          const f = Math.min(1, (now - it.flipStart) / FLIP_SECONDS);
+          if (f < 1) busy = true;
+          rotY = THREE.MathUtils.lerp(it.flipFrom, it.flipTo, ease(f));
+          z += Math.sin(Math.PI * f) * 0.7;
         }
+        g.position.z = z;
+        g.rotation.y = rotY;
       });
 
       renderer.render(scene, camera);
 
-      // Keep rendering as long as cards are dealing or being flipped
-      const needsFlip = cardObjects.some((c) => Math.abs(c.currRotY - c.targetRotY) > 0.005);
-      if (!allLanded || needsFlip) {
-        animFrameRef.current = requestAnimationFrame(animate);
-      } else {
-        animFrameRef.current = null;
-        setAllDrawn(true);
+      if (!finished && now >= items[items.length - 1].start + DEAL_SECONDS) {
+        finished = true;
+        setDealt(true);
+        reportIfAllUp();
       }
+      raf = busy ? requestAnimationFrame(tick) : 0;
+    };
+    const wake = () => { if (!raf) raf = requestAnimationFrame(tick); };
+    raf = requestAnimationFrame(tick);
+
+    const flip = (it) => {
+      if (it.faceUp) return;
+      it.faceUp = true;
+      it.flipFrom = Math.PI;
+      it.flipTo = 0;
+      it.flipStart = (performance.now() - t0) / 1000;
+      setRevealed(items.map((x) => x.faceUp));
+      wake();
+      reportIfAllUp();
     };
 
-    const triggerFlipAnimation = () => {
-      if (!animFrameRef.current) {
-        animFrameRef.current = requestAnimationFrame(animate);
-      }
+    // Clicking a face-down card turns it over.
+    const raycaster = new THREE.Raycaster();
+    const ndc = new THREE.Vector2();
+    const pick = (event) => {
+      const rect = mount.getBoundingClientRect();
+      ndc.set(((event.clientX - rect.left) / rect.width) * 2 - 1, -((event.clientY - rect.top) / rect.height) * 2 + 1);
+      raycaster.setFromCamera(ndc, camera);
+      const hit = raycaster.intersectObjects(items.map((it) => it.group), true)[0];
+      if (!hit) return null;
+      let o = hit.object;
+      while (o && o.userData.index === undefined) o = o.parent;
+      return o ? items[o.userData.index] : null;
     };
-
-    animFrameRef.current = requestAnimationFrame(animate);
-
-    // Click Raycasting on the WebGL Canvas for 3D Card Flipping
-    const handlePointerDown = (event) => {
-      if (event && event.stopPropagation) {
+    const handleClick = (event) => {
+      const it = pick(event);
+      if (it && !it.faceUp) {
         event.stopPropagation();
-      }
-
-      if (!mountRef.current) return;
-
-      const rect = mountRef.current.getBoundingClientRect();
-      mouseRef.current.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-      mouseRef.current.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
-
-      raycasterRef.current.setFromCamera(mouseRef.current, camera);
-      const intersects = raycasterRef.current.intersectObjects(cardObjects.map((c) => c.mesh));
-
-      if (intersects.length > 0) {
-        const hitMesh = intersects[0].object;
-        const hitCard = cardObjects.find((c) => c.mesh === hitMesh);
-
-        if (hitCard) {
-          // Toggle card flip state (works both individually or in reveal mode)
-          hitCard.isFlipped = !hitCard.isFlipped;
-          hitCard.targetRotY = hitCard.isFlipped ? 0 : Math.PI; // 0 = front face, Math.PI = back face
-
-          setRevealedSet((prev) => {
-            const next = new Set(prev);
-            if (hitCard.isFlipped) {
-              next.add(hitCard.idx);
-            } else {
-              next.delete(hitCard.idx);
-            }
-            return next;
-          });
-
-          // Trigger smooth 3D flip animation loop
-          triggerFlipAnimation();
-        }
+        flip(it);
       }
     };
+    const handleMove = (event) => {
+      const it = pick(event);
+      setHoverCard(!!(it && !it.faceUp));
+    };
+    mount.addEventListener('click', handleClick);
+    mount.addEventListener('pointermove', handleMove);
 
-    const domElement = mountRef.current;
-    domElement.addEventListener('pointerdown', handlePointerDown);
+    controlsRef.current = { revealAll: () => items.forEach(flip) };
 
     const handleResize = () => {
-      if (!mountRef.current || !renderer) return;
-      const w = mountRef.current.clientWidth;
-      const h = mountRef.current.clientHeight;
-      camera.aspect = w / h;
+      const w = mount.clientWidth || window.innerWidth;
+      const h = mount.clientHeight || window.innerHeight;
+      camera.aspect = w / Math.max(1, h);
       camera.updateProjectionMatrix();
       renderer.setSize(w, h);
+      renderer.render(scene, camera);
     };
-
     window.addEventListener('resize', handleResize);
 
     return () => {
+      controlsRef.current = null;
       window.removeEventListener('resize', handleResize);
-      if (domElement) domElement.removeEventListener('pointerdown', handlePointerDown);
-      if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
-      if (mountRef.current && renderer.domElement) {
-        mountRef.current.removeChild(renderer.domElement);
-      }
+      mount.removeEventListener('click', handleClick);
+      mount.removeEventListener('pointermove', handleMove);
+      cancelAnimationFrame(raf);
+      [faceGeo, edgeGeo, groundGeo].forEach((g) => g.dispose());
+      [hiddenMat, edgeMat, backMat, groundMat, ...frontMats].forEach((m) => m.dispose());
+      [backTex, envTexture, ...frontTexes].forEach((t) => t.dispose());
       renderer.dispose();
+      renderer.forceContextLoss();
+      if (renderer.domElement.parentNode === mount) mount.removeChild(renderer.domElement);
     };
-  }, [isVisible, cardTheme, manualFlip]);
+    // A new draw id restarts the scene; theme/cards/mode come with the draw.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [drawId]);
 
-  if (!isVisible) return null;
+  if (!draw) return null;
 
-  const revealedCount = manualFlip ? revealedSet.size : cardsToDraw.length;
-
-  const handleRevealAll = (e) => {
-    e.stopPropagation();
-    if (!cardObjectsRef.current) return;
-
-    cardObjectsRef.current.forEach((c) => {
-      c.isFlipped = true;
-      c.targetRotY = 0; // Rotate all to front face
-    });
-    const allIndices = new Set(cardsToDraw.map((_, i) => i));
-    setRevealedSet(allIndices);
-
-    // Trigger smooth 3D flip animation loop for all cards
-    if (!animFrameRef.current && mountRef.current) {
-      const renderNext = () => {
-        let needsFlip = false;
-        if (cardObjectsRef.current) {
-          cardObjectsRef.current.forEach((c) => {
-            const rotDiff = Math.abs(c.currRotY - c.targetRotY);
-            if (rotDiff > 0.005) {
-              needsFlip = true;
-              c.currRotY = THREE.MathUtils.lerp(c.currRotY, c.targetRotY, 0.18);
-              c.mesh.rotation.y = c.currRotY;
-              const flipSin = Math.sin((c.currRotY / Math.PI) * Math.PI);
-              c.mesh.position.z = Math.abs(flipSin) * 0.8;
-            } else {
-              c.currRotY = c.targetRotY;
-              c.mesh.rotation.y = c.targetRotY;
-              c.mesh.position.z = 0;
-            }
-          });
-        }
-        if (needsFlip) {
-          animFrameRef.current = requestAnimationFrame(renderNext);
-        } else {
-          animFrameRef.current = null;
-        }
-      };
-      animFrameRef.current = requestAnimationFrame(renderNext);
-    }
-  };
-
-  const handleContainerClick = (e) => {
-    e.stopPropagation();
-  };
+  const cards = draw.cards || [];
+  const allUp = revealed.length > 0 && revealed.every(Boolean);
+  const upCount = revealed.filter(Boolean).length;
 
   return (
     <div
-      className="physics-card-overlay"
-      onClick={handleContainerClick}
-      onMouseDown={handleContainerClick}
-      onPointerDown={handleContainerClick}
+      className={`physics-card-overlay ${dealt ? 'dealt' : ''} ${allUp ? 'settled' : ''} ${hoverCard ? 'over-card' : ''}`}
+      onClick={dealt && allUp ? () => onDismiss(revealed) : undefined}
+      title={dealt && allUp ? 'Click anywhere to clear the cards' : undefined}
     >
       <div className="card-canvas-container" ref={mountRef} />
 
-      {/* Floating Card Summary Chip at top center */}
-      {allDrawn && (
+      {dealt && (
         <div className="card-3d-result-area" onClick={(e) => e.stopPropagation()}>
-          <div className="card-result-header">
-            <span className="card-result-title">Card Draw</span>
-            <span className="card-theme-badge">{theme.name}</span>
+          <div className="card-result-main">
+            <span className="card-result-label">
+              {cards.length === 1 ? 'Card draw' : `${cards.length} cards`} · <em>{theme.name}</em>
+            </span>
+            <span className="card-drawn-list">
+              {cards.map((c, i) => (
+                <span
+                  key={c.id}
+                  className={`card-drawn ${revealed[i] ? (SUIT_IS_RED[c.suit] ? 'red' : 'black') : 'down'}`}
+                  title={revealed[i] ? c.name : 'Face down — click the card to turn it'}
+                >
+                  {revealed[i] ? cardLabel(c) : '?'}
+                </span>
+              ))}
+            </span>
+            {cards.length === 1 && revealed[0] && <span className="card-result-name">{cards[0].name}</span>}
           </div>
-
-          {manualFlip && revealedCount < cardsToDraw.length && (
-            <button className="card-reveal-all-btn" onClick={handleRevealAll}>
-              Reveal All ({revealedCount}/{cardsToDraw.length})
+          <div className="card-result-actions">
+            {!allUp && (
+              <button type="button" className="card-reveal-all-btn" onClick={() => controlsRef.current?.revealAll()}>
+                Reveal all ({upCount}/{cards.length})
+              </button>
+            )}
+            <button type="button" className="card-close-btn" onClick={() => onDismiss(revealed)}>
+              Done
             </button>
-          )}
-
-          <div className="card-drawn-list">
-            {cardsToDraw.map((card, idx) => {
-              const isRevealed = !manualFlip || revealedSet.has(idx);
-              return (
-                <div key={idx} className={`drawn-card-pill ${isRevealed ? 'revealed' : 'hidden'}`}>
-                  <span className="card-rank">{isRevealed ? card.rank : '?'}</span>
-                  <span className="card-suit">{isRevealed ? card.suitSymbol : '🂠'}</span>
-                  <span className="card-title">{isRevealed ? card.name : 'Card'}</span>
-                </div>
-              );
-            })}
           </div>
-
-          <button
-            className="card-close-btn"
-            onClick={(e) => {
-              e.stopPropagation();
-              onDismiss();
-            }}
-          >
-            Done
-          </button>
         </div>
       )}
     </div>

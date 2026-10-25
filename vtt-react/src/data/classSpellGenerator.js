@@ -35,6 +35,8 @@ import { DEEPLING_MYRATHIL_APEX_DATA, DEEPLING_MYRATHIL_ANIMIST_DATA, DEEPLING_M
 import { CHAOS_WEAVER_DATA } from './classes/chaosWeaverIntegration';
 import { GAMBLER_DATA } from './classes/gamblerData';
 import { FATE_WEAVER_DATA } from './classes/fateWeaverData';
+import { DOOMSAYER_DATA } from './classes/doomsayerData';
+import { ORACLE_DATA } from './classes/oracleData';
 import { UNIVERSAL_COMBAT_SPELLS } from './universalCombatSpells';
 
 // ===== CLASS DATA MAP =====
@@ -65,9 +67,11 @@ export const CLASS_DATA_MAP = {
    'Augur': AUGUR_DATA,
   'Crusader': CRUSADER_DATA,
   'Chaos Weaver': CHAOS_WEAVER_DATA,
- 'Gambler': GAMBLER_DATA,
- 'Fate Weaver': FATE_WEAVER_DATA,
- 'Nereid Myrathil Apex': DEEPLING_MYRATHIL_APEX_DATA,
+  'Gambler': GAMBLER_DATA,
+  'Fate Weaver': FATE_WEAVER_DATA,
+  'Doomsayer': DOOMSAYER_DATA,
+  'Oracle': ORACLE_DATA,
+  'Nereid Myrathil Apex': DEEPLING_MYRATHIL_APEX_DATA,
   'Nereid Myrathil Animist': DEEPLING_MYRATHIL_ANIMIST_DATA,
   'Nereid Myrathil Augur': DEEPLING_MYRATHIL_AUGUR_DATA
 };
@@ -558,7 +562,9 @@ generatedSpells.Gambler = GAMBLER_DATA.spells.map(spell => normalizeClassSpell(s
 generatedSpells['Fate Weaver'] = FATE_WEAVER_DATA.spells.map(spell => normalizeClassSpell(spell, 'Fate Weaver', entry => entry.specialization));
 generatedSpells.Deathcaller = DEATHCALLER_DATA.spells.map(spell => normalizeClassSpell(spell, 'Deathcaller', entry => entry.specialization));
 generatedSpells.Lichborne = LICHBORNE_DATA.spells.map(spell => normalizeClassSpell(spell, 'Lichborne', entry => entry.specialization));
-const processedClasses = ['Arcanoneer', 'Pyrofiend', 'Minstrel', 'Chronarch', 'Martyr', 'Gambit', 'Harbinger', 'Chaos Weaver', 'Gambler', 'Fate Weaver', 'Deathcaller', 'Lichborne'];
+generatedSpells.Doomsayer = DOOMSAYER_DATA.spells.map(spell => normalizeClassSpell(spell, 'Doomsayer', entry => entry.specialization));
+generatedSpells.Oracle = ORACLE_DATA.spells.map(spell => normalizeClassSpell(spell, 'Oracle', entry => entry.specialization));
+const processedClasses = ['Arcanoneer', 'Pyrofiend', 'Minstrel', 'Chronarch', 'Martyr', 'Gambit', 'Harbinger', 'Chaos Weaver', 'Gambler', 'Fate Weaver', 'Deathcaller', 'Lichborne', 'Doomsayer', 'Oracle'];
 const remainingClasses = Object.keys(CLASS_DATA_MAP).filter(className => !processedClasses.includes(className));
 
 // Generic spell processor for classes without special processing

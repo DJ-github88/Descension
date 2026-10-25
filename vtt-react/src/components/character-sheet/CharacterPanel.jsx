@@ -20,6 +20,7 @@ import { useSpellLibrary, useSpellLibraryDispatch, libraryActionCreators } from 
 import {   getRacialSpells, getRacialStatModifiers, addSpellsToLibrary, removeSpellsByCategory } from '../../utils/raceDisciplineSpellUtils';
 import { getPassiveAbilities } from '../../data/backgroundAbilities';
 import { getBackgroundData } from '../../data/backgroundData';
+import { getOriginIllustration } from '../../data/backgroundAssets';
 import '../../styles/character-sheet.css';
 import '../../styles/resistance-styles.css';
 import '../../styles/racial-traits.css';
@@ -1754,11 +1755,17 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
                         <div className="character-center-section">
                             {(() => {
                                 const bgImage = lore?.iconBackgroundImage;
+                                const originIll = !bgImage && (character?.background || characterData?.background)
+                                    ? getOriginIllustration(character?.background || characterData?.background)
+                                    : null;
+                                const effectiveBgUrl = bgImage
+                                    ? `/assets/Backgrounds/${encodeURIComponent(bgImage)}`
+                                    : (originIll?.src || null);
                                 const bgColor = lore?.iconBackgroundColor || 'transparent';
                                 const bgOffX = lore?.iconBackgroundOffsetX || 0;
-                                const imageContainerStyle = bgImage
+                                const imageContainerStyle = effectiveBgUrl
                                   ? {
-                                      backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.25)), url(/assets/Backgrounds/${encodeURIComponent(bgImage)})`,
+                                      backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.25)), url(${effectiveBgUrl})`,
                                       backgroundSize: '100% 100%, cover',
                                       backgroundPosition: `center, calc(50% + ${bgOffX}px) center`,
                                       backgroundRepeat: 'no-repeat',

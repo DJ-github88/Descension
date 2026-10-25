@@ -1,0 +1,879 @@
+/* ==========================================================================
+   calm-refine.css — Mythrill's quiet, hand-bound look
+   --------------------------------------------------------------------------
+   Why this file exists
+   The campaign / world screens had picked up the usual generated-UI habits:
+   pill buttons, one big radius on everything, gradient washes, lift-on-hover
+   cards, coloured left-edge stripes on every callout, ALL-CAPS tracked labels,
+   traffic-light pills and a dot-and-line timeline. This layer replaces them.
+
+   Rules this file follows (keep following them in new UI):
+   1. Radius is 3px on controls and chips, 4px on panels. Round only when the
+      thing is physically round (a seal, an avatar). Never pill-shaped.
+   2. No coloured left/top edge stripes. A callout is a full hairline box, or
+      just typography (italic text with a hanging quote mark).
+   3. Flat paper. No gradient washes, no lift-on-hover. Hover = border darkens.
+   4. Labels are sentence case in the body serif. Cinzel is for titles only.
+   5. Status is text colour + icon, not a filled pill.
+   6. Structure carries meaning: ledgers, margins, folder tabs, hairline rules.
+   7. Fields get room. Nothing truncates a label; toolbars wrap, never clip.
+
+   Specificity: component sheets lean on !important and lazy-load after the
+   main bundle, so every selector here carries an `html body` prefix instead
+   of depending on source order.
+   ========================================================================== */
+
+:root {
+  --cr-paper: #f7f2e7;
+  --cr-paper-deep: #ece4d1;
+  --cr-field: #fdfbf5;
+  --cr-rule: #d3c8ae;
+  --cr-rule-strong: #b3a27d;
+  --cr-ink: #34251a;
+  --cr-ink-soft: #5a4733;
+  --cr-ink-faint: #7d6a52;
+  --cr-accent: #7b5a2a;
+  --cr-accent-ink: #fbf7ec;
+  --cr-accent-wash: rgba(123, 90, 42, 0.09);
+  --cr-moss: #3d5f45;
+  --cr-blood: #7a2f27;
+  --cr-slate: #46627a;
+  --cr-r-sm: 3px;
+  --cr-r-md: 4px;
+  --cr-body: 'Crimson Text', 'Spectral', Georgia, serif;
+  --cr-display: 'Cinzel', 'Times New Roman', serif;
+}
+
+/* ==========================================================================
+   1. CAMPAIGN MANAGER (account → campaign sections)
+   ========================================================================== */
+
+/* --- Section header: a title over a rule, not a boxed banner --- */
+html body .account-main .tab-content .campaign-manager-dashboard .section-header {
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--cr-rule);
+  border-radius: 0;
+  box-shadow: none;
+  padding: 0 2px 14px;
+  margin-bottom: 22px;
+}
+html body .account-main .tab-content .campaign-manager-dashboard .section-header h3 {
+  font-family: var(--cr-display);
+  font-size: 1.35rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  text-transform: none;
+  color: var(--cr-ink);
+}
+html body .account-main .tab-content .campaign-manager-dashboard .section-header p {
+  color: var(--cr-ink-soft) !important;
+  font-family: var(--cr-body);
+  font-size: 1rem !important;
+  margin-top: 2px !important;
+}
+
+/* --- Card grid: cards get a real working width.
+       auto-fit (not auto-fill) so a lone card stretches instead of leaving
+       empty tracks beside it; max-width stops it becoming a billboard. --- */
+html body .account-main .tab-content .campaign-manager-dashboard .cards-grid {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 34rem), 1fr)) !important;
+  gap: 20px !important;
+  align-items: start !important;
+}
+html body .account-main .tab-content .campaign-manager-dashboard .cards-grid > .content-card {
+  max-width: 68rem !important;
+}
+html body .account-main .tab-content .campaign-manager-dashboard .content-card {
+  min-width: 0 !important;
+  padding: 22px !important;
+  background: var(--cr-paper) !important;
+  border: 1px solid var(--cr-rule) !important;
+  border-radius: var(--cr-r-md) !important;
+  box-shadow: none !important;
+  transform: none !important;
+  transition: border-color 0.15s ease !important;
+}
+html body .account-main .tab-content .campaign-manager-dashboard .content-card:hover {
+  border-color: var(--cr-rule-strong) !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+html body .account-main .tab-content .campaign-manager-dashboard .content-card .card-header {
+  border-bottom-color: var(--cr-rule) !important;
+}
+
+/* --- Buttons: rectangles with a quiet 3px corner --- */
+html body .account-main .tab-content .campaign-manager-dashboard .add-btn,
+html body .account-main .tab-content .campaign-manager-dashboard .section-header-actions .add-btn {
+  background: var(--cr-accent) !important;
+  color: var(--cr-accent-ink) !important;
+  border: 1px solid var(--cr-accent) !important;
+  border-radius: var(--cr-r-sm) !important;
+  box-shadow: none !important;
+  font-family: var(--cr-body) !important;
+  font-size: 0.98rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+  padding: 7px 14px !important;
+  transform: none !important;
+}
+html body .account-main .tab-content .campaign-manager-dashboard .add-btn:hover { background: #664a21 !important; border-color: #664a21 !important; }
+html body .account-main .tab-content .campaign-manager-dashboard .add-btn.secondary,
+html body .account-main .tab-content .campaign-manager-dashboard .section-header-actions .add-btn.secondary {
+  background: transparent !important;
+  color: var(--cr-accent) !important;
+  border-color: var(--cr-rule-strong) !important;
+}
+html body .account-main .tab-content .campaign-manager-dashboard .add-btn.secondary:hover {
+  background: var(--cr-accent-wash) !important;
+  border-color: var(--cr-accent) !important;
+}
+
+html body .account-main .tab-content .campaign-manager-dashboard .remove-card-btn {
+  background: transparent;
+  border: 1px solid var(--cr-rule-strong);
+  color: var(--cr-blood);
+  border-radius: var(--cr-r-sm);
+  transform: none;
+  box-shadow: none;
+}
+html body .account-main .tab-content .campaign-manager-dashboard .remove-card-btn:hover {
+  background: rgba(122, 47, 39, 0.08);
+  border-color: var(--cr-blood);
+  color: var(--cr-blood);
+  transform: none;
+  box-shadow: none;
+}
+html body .account-main .tab-content .campaign-manager-dashboard .remove-card-btn.mini { border-radius: var(--cr-r-sm); }
+
+/* --- Fields: calm paper inputs, labels in sentence case --- */
+html body .account-main .tab-content .campaign-manager-dashboard .card-field-input,
+html body .account-main .tab-content .campaign-manager-dashboard .card-field-select,
+html body .account-main .tab-content .campaign-manager-dashboard .card-title-input,
+html body .account-main .tab-content .campaign-manager-dashboard .card-field-textarea {
+  background: var(--cr-field);
+  border: 1px solid var(--cr-rule-strong);
+  border-radius: var(--cr-r-sm);
+  box-shadow: none;
+  color: var(--cr-ink);
+}
+html body .account-main .tab-content .campaign-manager-dashboard .card-field-input:focus,
+html body .account-main .tab-content .campaign-manager-dashboard .card-field-select:focus,
+html body .account-main .tab-content .campaign-manager-dashboard .card-title-input:focus,
+html body .account-main .tab-content .campaign-manager-dashboard .card-field-textarea:focus {
+  outline: none;
+  border-color: var(--cr-accent);
+  box-shadow: 0 0 0 2px rgba(123, 90, 42, 0.22);
+  background: #fff;
+}
+html body .account-main .tab-content .campaign-manager-dashboard .field-label {
+  font-family: var(--cr-body);
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--cr-ink-soft);
+  min-height: 0;
+  line-height: 1.25;
+}
+html body .account-main .tab-content .campaign-manager-dashboard .field-label i {
+  color: var(--cr-ink-faint);
+  font-size: 0.8em;
+  width: 1.1em;
+  text-align: center;
+}
+/* Short selects/inputs flow onto as many columns as fit, never a squeezed 2-up */
+html body .account-main .tab-content .campaign-manager-dashboard .card-meta-grid-2col {
+  grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+  gap: 12px;
+}
+html body .account-main .tab-content .campaign-manager-dashboard .card-meta-grid-2col .field-label { min-height: 0; margin-bottom: 0; }
+html body .account-main .tab-content .campaign-manager-dashboard .card-field-header-top { flex-wrap: wrap; }
+html body .account-main .tab-content .campaign-manager-dashboard .card-field-header-top > .field-group { flex: 1 1 14rem; min-width: 0; }
+
+/* --- Portrait / artwork drop zones: paper with a dashed rule, not a dark slab --- */
+html body .account-main .tab-content .campaign-manager-dashboard .card-media-banner-container {
+  background: var(--cr-paper-deep);
+  border: 1px solid var(--cr-rule-strong);
+  border-radius: var(--cr-r-md);
+  box-shadow: none;
+}
+html body .account-main .tab-content .campaign-manager-dashboard .media-hero-preview.portrait,
+html body .account-main .tab-content .campaign-manager-dashboard .media-hero-placeholder.portrait {
+  border-radius: var(--cr-r-md);
+  border: 1px solid var(--cr-rule-strong);
+  box-shadow: none;
+}
+html body .account-main .tab-content .campaign-manager-dashboard .media-hero-placeholder.portrait {
+  background: var(--cr-paper-deep);
+  border-style: dashed;
+  color: var(--cr-ink-soft);
+}
+html body .account-main .tab-content .campaign-manager-dashboard .media-banner-placeholder {
+  background: var(--cr-paper-deep);
+  border: 1px dashed var(--cr-rule-strong);
+  border-radius: var(--cr-r-md);
+  color: var(--cr-ink-soft);
+  font-family: var(--cr-body);
+  font-size: 1rem;
+  font-weight: 600;
+  transform: none;
+}
+html body .account-main .tab-content .campaign-manager-dashboard .media-banner-placeholder i { color: var(--cr-ink-faint); }
+html body .account-main .tab-content .campaign-manager-dashboard .media-banner-placeholder:hover {
+  background: var(--cr-accent-wash);
+  border-color: var(--cr-accent);
+  color: var(--cr-ink);
+  transform: none;
+}
+html body .account-main .tab-content .campaign-manager-dashboard .media-banner-placeholder:hover i { transform: none; color: var(--cr-accent); }
+html body .account-main .tab-content .campaign-manager-dashboard .media-clear-btn-pill,
+html body .account-main .tab-content .campaign-manager-dashboard .media-change-btn { border-radius: var(--cr-r-sm); }
+
+/* --- Location tabs: ledger folder-tabs on a baseline, not a boxed pill grid --- */
+html body .account-main .tab-content .campaign-manager-dashboard .location-card-subtabs-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--cr-rule-strong);
+  border-radius: 0;
+  padding: 0;
+  margin: 14px 0 16px;
+}
+html body .account-main .tab-content .campaign-manager-dashboard .loc-subtab-btn {
+  background: transparent;
+  border: 1px solid transparent;
+  border-bottom: 0;
+  border-radius: var(--cr-r-sm) var(--cr-r-sm) 0 0;
+  color: var(--cr-ink-soft);
+  font-family: var(--cr-body);
+  font-size: 0.98rem;
+  font-weight: 500;
+  padding: 7px 13px;
+  margin-bottom: -1px;
+  box-shadow: none;
+}
+html body .account-main .tab-content .campaign-manager-dashboard .loc-subtab-btn:hover { background: var(--cr-accent-wash); color: var(--cr-ink); border-color: transparent; }
+html body .account-main .tab-content .campaign-manager-dashboard .loc-subtab-btn.active {
+  background: var(--cr-paper);
+  border-color: var(--cr-rule-strong);
+  box-shadow: 0 1px 0 var(--cr-paper);
+  color: var(--cr-ink);
+  font-weight: 700;
+}
+html body .account-main .tab-content .campaign-manager-dashboard .loc-subtab-btn i { color: var(--cr-ink-faint); }
+html body .account-main .tab-content .campaign-manager-dashboard .loc-subtab-btn.active i { color: var(--cr-accent); }
+html body .account-main .tab-content .campaign-manager-dashboard .loc-quick-pill { border-radius: var(--cr-r-sm); background: var(--cr-field); border-color: var(--cr-rule); }
+
+/* --- Linked-entity racks (gear, spells, lore…): plain buttons, flat chips,
+       and no per-type coloured edge on the chips --- */
+html body .account-main .tab-content .campaign-manager-dashboard .entity-rack-header { color: var(--cr-ink-soft); font-family: var(--cr-body); font-size: 1rem; font-weight: 600; letter-spacing: 0; text-transform: none; }
+html body .account-main .tab-content .campaign-manager-dashboard .entity-rack-header i { color: var(--cr-ink-faint); }
+html body .account-main .tab-content .campaign-manager-dashboard .entity-chip-add-btn {
+  background: transparent !important;
+  border: 1px solid var(--cr-rule-strong) !important;
+  border-radius: var(--cr-r-sm) !important;
+  color: var(--cr-accent) !important;
+  font-family: var(--cr-body) !important;
+  font-size: 0.95rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+  height: auto !important;
+  min-height: 26px;
+  padding: 2px 10px !important;
+  box-shadow: none !important;
+}
+html body .account-main .tab-content .campaign-manager-dashboard .entity-chip-add-btn:hover { background: var(--cr-accent-wash) !important; border: 1px solid var(--cr-accent) !important; color: var(--cr-ink) !important; }
+html body .account-main .tab-content .campaign-manager-dashboard .entity-chip-pill:is(.item-chip, .monster-chip, .spell-chip, .lore-chip, .npc-chip, .loc-chip, .quest-chip) {
+  background: var(--cr-field);
+  border: 1px solid var(--cr-rule);
+  border-left: 1px solid var(--cr-rule);
+  border-radius: var(--cr-r-sm);
+  box-shadow: none;
+}
+html body .account-main .tab-content .campaign-manager-dashboard .entity-chip-pill { border-radius: var(--cr-r-sm); font-size: 0.92rem; }
+html body .account-main .tab-content .campaign-manager-dashboard .entity-description-preview {
+  border-left: 0;
+  background: transparent;
+  padding-left: 0;
+  font-style: italic;
+  color: var(--cr-ink-soft);
+}
+
+/* ==========================================================================
+   2. RICH CAMPAIGN EDITOR (used in NPCs, locations, lore, family trees)
+   The label used to fight the Write/Preview toggle and the toolbar clipped
+   its own buttons. Now the bar wraps and the toolbar stays fully visible.
+   ========================================================================== */
+html body .rich-campaign-editor .rich-editor-top-bar {
+  background: var(--cr-paper-deep);
+  border-bottom: 1px solid var(--cr-rule);
+  flex-wrap: wrap;
+  row-gap: 4px;
+  padding: 6px 10px;
+}
+html body .rich-campaign-editor.rich-campaign-editor .rich-editor-label {
+  flex: 1 1 11rem;
+  min-width: 0;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
+  font-family: var(--cr-body);
+  font-size: 0.98rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--cr-ink-soft);
+}
+html body .rich-campaign-editor.rich-campaign-editor .rich-editor-label i { color: var(--cr-ink-faint); }
+html body .rich-campaign-editor .rich-mode-toggle {
+  background: var(--cr-field);
+  border: 1px solid var(--cr-rule-strong);
+  border-radius: var(--cr-r-sm);
+}
+html body .rich-campaign-editor .rich-mode-btn {
+  border-radius: 2px;
+  font-family: var(--cr-body);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--cr-ink-soft);
+  padding: 2px 9px;
+}
+html body .rich-campaign-editor .rich-mode-btn:hover { background: var(--cr-accent-wash); color: var(--cr-ink); }
+html body .rich-campaign-editor .rich-mode-btn.active {
+  background: var(--cr-accent);
+  color: var(--cr-accent-ink);
+  box-shadow: none;
+}
+html body .rich-campaign-editor .rich-editor-toolbar-strip {
+  background: var(--cr-paper);
+  border-bottom: 1px solid var(--cr-rule);
+  flex-wrap: wrap;
+  overflow: visible;
+  row-gap: 4px;
+  padding: 5px 8px;
+}
+html body .rich-campaign-editor .rich-tool-btn {
+  background: var(--cr-field);
+  border: 1px solid var(--cr-rule);
+  color: var(--cr-ink-soft);
+  border-radius: var(--cr-r-sm);
+  box-shadow: none;
+}
+html body .rich-campaign-editor .rich-tool-btn:hover {
+  background: var(--cr-accent-wash);
+  border-color: var(--cr-accent);
+  color: var(--cr-ink);
+}
+/* the three "special" tools keep a meaning-colour on the icon only */
+html body .rich-campaign-editor .rich-tool-btn:is(.narrative-btn, .secret-btn, .image-btn) {
+  background: var(--cr-field);
+  border-color: var(--cr-rule);
+}
+html body .rich-campaign-editor .rich-tool-btn.narrative-btn i { color: var(--cr-moss); }
+html body .rich-campaign-editor .rich-tool-btn.secret-btn i { color: var(--cr-blood); }
+html body .rich-campaign-editor .rich-tool-btn.image-btn i { color: var(--cr-slate); }
+html body .rich-campaign-editor .rich-tool-btn .btn-label-text { font-family: var(--cr-body); text-transform: none; letter-spacing: 0; }
+
+/* ==========================================================================
+   3. ORDERS (world → factions)
+   A register of entries: crest hangs in the margin, text reads down the page.
+   ========================================================================== */
+html body .world-dashboard .faction-category-pill {
+  background: var(--cr-field);
+  border: 1px solid var(--cr-rule-strong);
+  border-radius: var(--cr-r-sm);
+  box-shadow: none;
+  color: var(--cr-ink-soft);
+  font-family: var(--cr-body);
+  font-size: 0.98rem;
+  font-weight: 600;
+  padding: 5px 11px;
+  transform: none;
+}
+html body .world-dashboard .faction-category-pill i { color: var(--cr-ink-faint); }
+html body .world-dashboard .faction-category-pill:hover { background: var(--cr-accent-wash); border-color: var(--cr-accent); transform: none; }
+html body .world-dashboard .faction-category-pill.active {
+  background: var(--cr-accent);
+  border-color: var(--cr-accent);
+  color: var(--cr-accent-ink);
+  box-shadow: none;
+}
+html body .world-dashboard .faction-category-pill.active i { color: var(--cr-accent-ink); }
+html body .world-dashboard .faction-category-pill .cat-count {
+  background: none;
+  padding: 0;
+  border-radius: 0;
+  font-weight: 500;
+  font-size: 0.9em;
+  opacity: 0.75;
+  color: inherit;
+}
+
+html body .world-dashboard .world-factions-chronicle-grid {
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 24rem), 1fr));
+  gap: 14px 18px;
+}
+html body .world-dashboard .world-faction-chronicle-card {
+  background: var(--cr-paper) !important;
+  border: 1px solid var(--cr-rule) !important;
+  border-radius: var(--cr-r-md) !important;
+  box-shadow: none !important;
+  transform: none !important;
+  transition: border-color 0.15s ease !important;
+}
+html body .world-dashboard .world-faction-chronicle-card:hover {
+  border-color: var(--cr-accent) !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+html body .world-dashboard .world-faction-chronicle-card:focus-visible { outline: 2px solid var(--cr-accent) !important; outline-offset: 2px; }
+html body .world-dashboard .world-faction-chronicle-card .dossier-top-accent { display: none !important; }
+
+/* crest hangs in the left margin; everything else reads in one column */
+html body .world-dashboard .world-faction-chronicle-card .dossier-body {
+  padding: 16px 18px 14px 76px !important;
+  gap: 8px !important;
+}
+html body .world-dashboard .world-faction-chronicle-card .dossier-header-row { display: contents !important; }
+html body .world-dashboard .world-faction-chronicle-card .dossier-crest {
+  position: absolute !important;
+  left: 18px;
+  top: 16px;
+  width: 42px !important;
+  height: 42px !important;
+  min-width: 42px !important;
+  border-width: 1px !important;
+  box-shadow: none !important;
+}
+html body .world-dashboard .world-faction-chronicle-card .dossier-title-area { min-width: 0; }
+html body .world-dashboard .world-faction-chronicle-card .dossier-title-area h4 {
+  font-family: var(--cr-display) !important;
+  font-size: 1.05rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.01em !important;
+  text-transform: none !important;
+  color: var(--cr-ink) !important;
+}
+html body .world-dashboard .world-faction-chronicle-card .dossier-meta-badges { gap: 12px !important; margin: 0 0 3px !important; }
+html body .world-dashboard .world-faction-chronicle-card .dossier-type-badge {
+  background: none !important;
+  border: 0 !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  font-family: var(--cr-body) !important;
+  font-size: 0.92rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+  color: var(--cr-ink-faint) !important;
+}
+html body .world-dashboard .world-faction-chronicle-card .dossier-type-badge i { color: var(--cr-ink-faint) !important; }
+html body .world-dashboard .world-faction-chronicle-card .dossier-region-chip {
+  font-family: var(--cr-body) !important;
+  font-size: 0.92rem !important;
+  font-weight: 500 !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+  color: var(--cr-accent) !important;
+  border-bottom: 1px dotted var(--cr-rule-strong) !important;
+  padding: 0 1px !important;
+}
+html body .world-dashboard .world-faction-chronicle-card .dossier-leader-tag {
+  border-left: 0 !important;
+  padding-left: 0 !important;
+  font-family: var(--cr-body) !important;
+  font-size: 0.95rem !important;
+  font-weight: 500 !important;
+  font-style: italic;
+  color: var(--cr-ink-soft) !important;
+}
+html body .world-dashboard .world-faction-chronicle-card .dossier-leader-tag i { color: var(--cr-ink-faint) !important; }
+
+/* motto: typography only — a hanging quote mark, no bar, no tinted box */
+html body .world-dashboard .world-faction-chronicle-card .dossier-goal-quote {
+  background: none !important;
+  border: 0 !important;
+  border-left: 0 !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  gap: 6px !important;
+}
+html body .world-dashboard .world-faction-chronicle-card .dossier-goal-quote .quote-icon { color: var(--cr-rule-strong) !important; opacity: 1 !important; }
+html body .world-dashboard .world-faction-chronicle-card .dossier-goal-quote p {
+  font-family: var(--cr-body) !important;
+  font-size: 1.02rem !important;
+  line-height: 1.45 !important;
+  color: var(--cr-ink) !important;
+}
+html body .world-dashboard .world-faction-chronicle-card .dossier-desc {
+  font-family: var(--cr-body) !important;
+  font-size: 0.98rem !important;
+  line-height: 1.5 !important;
+  color: var(--cr-ink-soft) !important;
+}
+
+/* holdings / allies / rivals: facts as text, colour only where it means something */
+html body .world-dashboard .world-faction-chronicle-card .dossier-intel-row { gap: 4px 16px !important; }
+html body .world-dashboard .world-faction-chronicle-card .dossier-intel-pill,
+html body .world-dashboard .world-faction-chronicle-card .diplomacy-pill {
+  background: none !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  font-family: var(--cr-body) !important;
+  font-size: 0.95rem !important;
+  font-weight: 500 !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+  color: var(--cr-ink-soft) !important;
+}
+html body .world-dashboard .world-faction-chronicle-card .dossier-intel-pill i { color: var(--cr-ink-faint) !important; }
+html body .world-dashboard .world-faction-chronicle-card .diplomacy-pill.ally,
+html body .world-dashboard .world-faction-chronicle-card .diplomacy-pill.ally i { color: var(--cr-moss) !important; }
+html body .world-dashboard .world-faction-chronicle-card .diplomacy-pill.rival,
+html body .world-dashboard .world-faction-chronicle-card .diplomacy-pill.rival i { color: var(--cr-blood) !important; }
+
+html body .world-dashboard .world-faction-chronicle-card .dossier-classes-label {
+  font-family: var(--cr-body) !important;
+  font-size: 0.95rem !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+  color: var(--cr-ink-faint) !important;
+}
+html body .world-dashboard .world-faction-chronicle-card .dossier-class-chip {
+  background: var(--cr-field) !important;
+  border: 1px solid var(--cr-rule) !important;
+  border-radius: var(--cr-r-sm) !important;
+  font-family: var(--cr-body) !important;
+  font-size: 0.92rem !important;
+  font-weight: 500 !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+  color: var(--cr-ink-soft) !important;
+}
+html body .world-dashboard .world-faction-chronicle-card .dossier-class-chip:hover { border-color: var(--cr-accent) !important; color: var(--cr-ink) !important; }
+
+html body .world-dashboard .world-faction-chronicle-card .dossier-actions-row {
+  justify-content: flex-start !important;
+  gap: 8px !important;
+  border-top: 1px solid var(--cr-rule) !important;
+  padding-top: 10px !important;
+}
+html body .world-dashboard .world-faction-chronicle-card .dossier-actions-row::before { display: none !important; }
+html body .world-dashboard .world-faction-chronicle-card .btn-dossier-inspect {
+  flex: 0 0 auto !important;
+  width: auto !important;
+  background: transparent !important;
+  border: 1px solid var(--cr-rule-strong) !important;
+  border-radius: var(--cr-r-sm) !important;
+  box-shadow: none !important;
+  color: var(--cr-accent) !important;
+  font-family: var(--cr-body) !important;
+  font-size: 0.98rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+  padding: 5px 12px !important;
+  transform: none !important;
+}
+html body .world-dashboard .world-faction-chronicle-card .btn-dossier-inspect:hover {
+  background: var(--cr-accent-wash) !important;
+  border-color: var(--cr-accent) !important;
+  color: var(--cr-ink) !important;
+}
+html body .world-dashboard .world-faction-chronicle-card .btn-dossier-web {
+  background: transparent !important;
+  border: 1px solid var(--cr-rule) !important;
+  border-radius: var(--cr-r-sm) !important;
+  box-shadow: none !important;
+  color: var(--cr-ink-faint) !important;
+  transform: none !important;
+}
+html body .world-dashboard .world-faction-chronicle-card .btn-dossier-web:hover { border-color: var(--cr-accent) !important; color: var(--cr-accent) !important; }
+
+/* ==========================================================================
+   4. CHRONICLE (world → timeline)
+   Annals layout: dates run down a left margin, entries read as running text
+   between hairline rules. No dots, no connecting line, no card per event.
+   ========================================================================== */
+html body .world-panel-timeline .chronicon-master-header,
+html body .world-panel-timeline .chronicon-era-banner,
+html body .world-panel-timeline .chronicon-toolbar,
+html body .world-panel-timeline .chronicon-calendar-drawer {
+  background: var(--cr-paper);
+  border: 1px solid var(--cr-rule);
+  border-radius: var(--cr-r-md);
+  box-shadow: none;
+}
+html body .world-panel-timeline .chronicon-era-banner { border-left: 1px solid var(--cr-rule); }
+html body .world-panel-timeline .era-banner-badge {
+  background: none;
+  padding: 0;
+  border-radius: 0;
+  font-family: var(--cr-body);
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--cr-ink-faint);
+  margin-bottom: 2px;
+}
+html body .world-panel-timeline .era-banner-heading { font-weight: 600; letter-spacing: 0.01em; text-transform: none; }
+html body .world-panel-timeline .era-banner-dates { font-family: var(--cr-body); font-size: 1rem; font-weight: 500; color: var(--cr-ink-soft); text-transform: none; }
+html body .world-panel-timeline .era-banner-prose { font-family: var(--cr-body); font-size: 1.08rem; color: var(--cr-ink-soft); }
+html body .world-panel-timeline .btn-chronicon-action { border-radius: var(--cr-r-sm); box-shadow: none; transform: none; }
+
+/* era picker: one joined strip, selected era is simply the one on deeper paper */
+html body .world-panel-timeline .era-stepper-track {
+  gap: 1px;
+  background: var(--cr-rule);
+  border: 1px solid var(--cr-rule);
+  border-radius: var(--cr-r-md);
+  overflow: hidden;
+}
+html body .world-panel-timeline .era-step-card {
+  background: var(--cr-field);
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  transform: none;
+  padding: 12px 16px;
+}
+html body .world-panel-timeline .era-step-card:hover { background: var(--cr-accent-wash); transform: none; box-shadow: none; }
+html body .world-panel-timeline .era-step-card.active {
+  background: var(--cr-paper-deep);
+  box-shadow: inset 0 0 0 1px var(--cr-accent);
+  color: var(--cr-ink);
+}
+html body .world-panel-timeline .era-step-num,
+html body .world-panel-timeline .era-step-card.active .era-step-num {
+  font-family: var(--cr-body);
+  font-size: 0.92rem;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--cr-ink-faint);
+}
+html body .world-panel-timeline .era-step-title { font-weight: 600; font-size: 0.95rem; color: var(--cr-ink); }
+html body .world-panel-timeline .era-step-card.active .era-step-title { color: var(--cr-ink); }
+html body .world-panel-timeline .era-step-range,
+html body .world-panel-timeline .era-step-card.active .era-step-range { font-family: var(--cr-body); font-size: 0.95rem; font-weight: 500; color: var(--cr-ink-soft); }
+html body .world-panel-timeline .era-step-footer { border-top-color: var(--cr-rule); }
+html body .world-panel-timeline .era-step-card.active .era-step-footer { border-top-color: var(--cr-rule-strong); }
+html body .world-panel-timeline .era-event-count,
+html body .world-panel-timeline .era-step-card.active .era-event-count {
+  font-family: var(--cr-body);
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--cr-ink-faint);
+  text-transform: none;
+}
+
+html body .world-panel-timeline .chronicon-search-box input { border-radius: var(--cr-r-sm); border-color: var(--cr-rule-strong); background: var(--cr-field); }
+html body .world-panel-timeline .type-filter-pill {
+  background: var(--cr-field);
+  border: 1px solid var(--cr-rule-strong);
+  border-radius: var(--cr-r-sm);
+  box-shadow: none;
+  color: var(--cr-ink-soft);
+  font-family: var(--cr-body);
+  font-size: 0.98rem;
+  font-weight: 600;
+  padding: 4px 11px;
+}
+html body .world-panel-timeline .type-filter-pill:hover { background: var(--cr-accent-wash); border-color: var(--cr-accent); color: var(--cr-ink); }
+html body .world-panel-timeline .type-filter-pill.active { background: var(--cr-accent); border-color: var(--cr-accent); color: var(--cr-accent-ink); box-shadow: none; }
+html body .world-panel-timeline .pill-count { font-weight: 500; opacity: 0.75; }
+
+/* the annals */
+html body .world-panel-timeline .chronicon-event-list {
+  gap: 0;
+  border-top: 1px solid var(--cr-rule);
+  /* the margin rule between dates and entries */
+  background: linear-gradient(var(--cr-rule), var(--cr-rule)) calc(10rem + 14px) 0 / 1px 100% no-repeat;
+}
+html body .world-panel-timeline .chronicon-event-card {
+  display: grid;
+  grid-template-columns: 10rem minmax(0, 1fr);
+  column-gap: 28px;
+  row-gap: 0;
+  align-items: start;
+  padding: 18px 12px 18px 0;
+  border-bottom: 1px solid var(--cr-rule);
+  transition: background-color 0.15s ease;
+}
+html body .world-panel-timeline .chronicon-event-card:hover { background-color: rgba(255, 255, 255, 0.4); }
+html body .world-panel-timeline .chronicon-event-card.is-selected { background-color: var(--cr-paper); }
+html body .world-panel-timeline .event-gutter { display: none; }
+html body .world-panel-timeline .event-card-body,
+html body .world-panel-timeline .event-card-header {
+  display: contents;
+}
+html body .world-panel-timeline .event-card-body { background: none; border: 0; box-shadow: none; transform: none; }
+
+html body .world-panel-timeline .event-year-tag {
+  grid-column: 1;
+  grid-row: 1 / span 8;
+  align-self: start;
+  font-family: var(--cr-display);
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  line-height: 1.35;
+  color: var(--cr-ink-soft);
+  text-transform: none;
+  background: none;
+  border-radius: 0;
+  padding: 0 4px;
+}
+html body .world-panel-timeline .event-year-tag i { display: none; }
+
+html body .world-panel-timeline .event-title {
+  order: 1;
+  grid-column: 2;
+  margin: 0;
+  font-family: var(--cr-display);
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  text-transform: none;
+  line-height: 1.3;
+  color: var(--cr-ink);
+}
+html body .world-panel-timeline .chronicon-event-card:hover .event-title { color: var(--cr-accent); }
+html body .world-panel-timeline .event-header-right {
+  order: 2;
+  grid-column: 2;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-self: start;
+  margin: 3px 0 0;
+}
+html body .world-panel-timeline .event-description {
+  order: 3;
+  grid-column: 2;
+  max-width: 68ch;
+  margin: 8px 0 0;
+  font-family: var(--cr-body);
+  font-size: 1.08rem;
+  line-height: 1.6;
+  color: var(--cr-ink-soft);
+}
+html body .world-panel-timeline .event-expanded-drawer { order: 4; grid-column: 2; margin-top: 14px; max-width: 72ch; }
+html body .world-panel-timeline .event-card-footer { display: flex; justify-content: flex-start; order: 5; grid-column: 2; margin-top: 10px; padding-top: 0; border-top: 0; }
+html body .world-panel-timeline .event-expand-link {
+  justify-content: flex-start;
+  font-family: var(--cr-body);
+  font-size: 0.98rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--cr-accent);
+}
+
+/* type is a quiet note: coloured icon, plain words */
+html body .world-panel-timeline .event-category-badge {
+  background: none;
+  border: 0;
+  padding: 0;
+  border-radius: 0;
+  font-family: var(--cr-body);
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--cr-ink-faint);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+html body .world-panel-timeline .event-category-badge.type-cosmic i { color: #5a3e6b; }
+html body .world-panel-timeline .event-category-badge.type-ritual i { color: #355d7a; }
+html body .world-panel-timeline .event-category-badge.type-pact i { color: #2f6a4a; }
+html body .world-panel-timeline .event-category-badge:is(.type-catastrophe, .type-conflict) i { color: #7c2d25; }
+html body .world-panel-timeline .event-category-badge.type-founding i { color: #3c724e; }
+html body .world-panel-timeline .event-category-badge.type-political i { color: #876823; }
+html body .world-panel-timeline .event-category-badge.type-discovery i { color: #256b62; }
+html body .world-panel-timeline .event-category-badge.type-conspiracy i { color: #4d3156; }
+html body .world-panel-timeline .event-category-badge.type-disaster i { color: #925820; }
+html body .world-panel-timeline .btn-event-edit-action {
+  background: transparent;
+  border: 1px solid var(--cr-rule);
+  border-radius: var(--cr-r-sm);
+  box-shadow: none;
+  color: var(--cr-ink-faint);
+}
+html body .world-panel-timeline .btn-event-edit-action:hover { border-color: var(--cr-accent); color: var(--cr-accent); background: var(--cr-accent-wash); }
+html body .world-panel-timeline .btn-event-drawer-edit,
+html body .world-panel-timeline .btn-causal-jump { border-radius: var(--cr-r-sm); }
+
+@media (max-width: 720px) {
+  html body .world-panel-timeline .chronicon-event-list { background: none; }
+  html body .world-panel-timeline .chronicon-event-card { grid-template-columns: minmax(0, 1fr); padding-right: 0; }
+  html body .world-panel-timeline .event-year-tag { grid-row: auto; grid-column: 1; padding: 0 0 4px; order: 0; }
+  html body .world-panel-timeline .event-title,
+  html body .world-panel-timeline .event-header-right,
+  html body .world-panel-timeline .event-description,
+  html body .world-panel-timeline .event-expanded-drawer,
+  html body .world-panel-timeline .event-card-footer { grid-column: 1; }
+}
+
+/* ==========================================================================
+   5. CALLOUTS: coloured left-edge stripes → full hairline boxes
+   Anything quoted or highlighted in the world pages becomes either plain
+   italic text or a quiet bordered box. Tree/connector lines are left alone:
+   those are structure, not decoration.
+   ========================================================================== */
+html body :is(.world-panel, .campaign-manager-dashboard) :is(
+  .class-codex-hero,
+  .lineage-physio-box,
+  .compact-expanded-narrative,
+  .world-holiday-card,
+  .event-dm-hook-seal,
+  .region-subregion-group-card,
+  .dossier-history-section,
+  .npc-hooks-box,
+  .class-tagline-box
+) {
+  border-left: 1px solid var(--cr-rule) !important;
+  border-top: 1px solid var(--cr-rule);
+  border-right: 1px solid var(--cr-rule);
+  border-bottom: 1px solid var(--cr-rule);
+  border-radius: var(--cr-r-md);
+  background: var(--cr-paper-deep);
+  box-shadow: none;
+}
+/* pull-quotes: no box at all, just the voice */
+html body :is(.world-panel, .campaign-manager-dashboard) :is(.world-quote, .faction-detail-panel .world-quote) {
+  border: 0 !important;
+  border-left: 0 !important;
+  border-radius: 0 !important;
+  background: none !important;
+  padding-left: 0 !important;
+  font-style: italic;
+}
+html body .region-detail-panel .explorer-loc-item.selected {
+  border-left: 1px solid var(--cr-rule-strong);
+  background: var(--cr-paper-deep);
+  box-shadow: inset 0 0 0 1px var(--cr-accent);
+}
+html body .campaign-manager-dashboard .campaign-library-slot-card.spell-slot {
+  border-left: 1px solid var(--cr-rule) !important;
+}
+
+/* keyboard focus stays visible everywhere in these screens */
+html body :is(.campaign-manager-dashboard, .world-panel) :is(button, [role="button"], a, input, select, textarea):focus-visible {
+  outline: 2px solid var(--cr-accent);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html body :is(.campaign-manager-dashboard, .world-panel) * { transition: none !important; animation: none !important; }
+}

@@ -4,7 +4,7 @@ import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import * as CANNON from 'cannon-es';
 import './PhysicsCoinScene.css';
 
-// Coin Themes Definition with PBR properties and emblem definitions
+// Coin themes: face colors, metal finish and the emblem pair (heads / tails).
 export const COIN_THEMES = {
   ancient_gold: {
     id: 'ancient_gold',
@@ -99,774 +99,841 @@ export const COIN_THEMES = {
   },
 };
 
-// Draw classical embossed vector emblems with crisp contrast
-function drawCoinEmblem(ctx, cx, cy, radius, symbolType, isHeads, color) {
-  ctx.save();
-  ctx.fillStyle = color;
-  ctx.strokeStyle = color;
-  ctx.lineWidth = 5;
-  ctx.shadowColor = 'rgba(0, 0, 0, 0.8)';
-  ctx.shadowBlur = 6;
-  ctx.shadowOffsetX = 2;
-  ctx.shadowOffsetY = 3;
 
-  if (symbolType === 'crown_sun') {
-    if (isHeads) {
-      ctx.beginPath();
-      ctx.moveTo(cx - 50, cy + 20);
-      ctx.lineTo(cx - 60, cy - 30);
-      ctx.lineTo(cx - 25, cy - 5);
-      ctx.lineTo(cx, cy - 45);
-      ctx.lineTo(cx + 25, cy - 5);
-      ctx.lineTo(cx + 60, cy - 30);
-      ctx.lineTo(cx + 50, cy + 20);
-      ctx.closePath();
-      ctx.fill();
-      ctx.stroke();
+// ─── Scale & timing ─────────────────────────────────────────────────────────
+// World units: the camera sits ~19u above the table, so a 0.7u coin reads as
+// a real coin next to the dice (~80–90px on a desktop screen).
+const COIN_RADIUS = 0.7;
+const COIN_THICKNESS = 0.075;
+const SIM_HZ = 120;                 // fixed physics step (deterministic replay)
+const SIM_DT = 1 / SIM_HZ;
+const RECORD_EVERY = 2;             // keyframe every 2 steps = 60 keyframes/s
+const KEYFRAME_DT = RECORD_EVERY / SIM_HZ;
+const MAX_SIM_SECONDS = 4;          // hard cap — flips settle in ~1.5–2.5s
+const STAGGER_SECONDS = 0.09;       // cascade multiple coins off the thumb
+const CHIP_RESERVE_PX = 150;        // keep coins clear of the result chip
 
-      ctx.fillStyle = '#ffffff';
-      [cx - 60, cx, cx + 60].forEach((px) => {
-        ctx.beginPath();
-        ctx.arc(px, cy - 35, 6, 0, Math.PI * 2);
-        ctx.fill();
-      });
-    } else {
-      ctx.beginPath();
-      ctx.arc(cx, cy - 10, 30, 0, Math.PI * 2);
-      ctx.fill();
-      for (let i = 0; i < 12; i++) {
-        const a = (i / 12) * Math.PI * 2;
-        ctx.beginPath();
-        ctx.moveTo(cx + Math.cos(a) * 36, cy - 10 + Math.sin(a) * 36);
-        ctx.lineTo(cx + Math.cos(a) * 58, cy - 10 + Math.sin(a) * 58);
-        ctx.stroke();
+const rand = (a, b) => a + Math.random() * (b - a);
+
+// ─── Camera & tray ──────────────────────────────────────────────────────────
+// Near top-down with a slight tilt: coins read as tokens lying on the map,
+// while the tilt still gives the flip some depth. A long lens from further
+// away (like the dice camera) keeps coins near the screen edge from looking
+// stretched; the table area covered is the same as before.
+function createCamera(width, height) {
+  const camera = new THREE.PerspectiveCamera(24, width / Math.max(1, height), 1, 200);
+  camera.position.set(0, 27.4, 4.9);
+  camera.lookAt(0, 0, 0.3);
+  camera.updateProjectionMatrix();
+  camera.updateMatrixWorld();
+  return camera;
+}
+
+// Where a screen point (normalized device coords) meets the table (y = 0).
+function ndcToTable(camera, nx, ny) {
+  const p = new THREE.Vector3(nx, ny, 0.5).unproject(camera);
+  const dir = p.sub(camera.position).normalize();
+  const t = -camera.position.y / dir.y;
+  return camera.position.clone().addScaledVector(dir, t);
+}
+
+// The walls are fitted to what the camera actually sees, so a coin can never
+// come to rest off-screen or underneath the result chip at the top.
+function computeTray(camera, width, height) {
+  const reservePx = Math.min(CHIP_RESERVE_PX, height * 0.3);
+  const reserveNdcY = 1 - (2 * reservePx) / Math.max(1, height);
+  const topL = ndcToTable(camera, -1, reserveNdcY);
+  const topR = ndcToTable(camera, 1, reserveNdcY);
+  const botL = ndcToTable(camera, -1, -1);
+  const botR = ndcToTable(camera, 1, -1);
+  const margin = COIN_RADIUS + 0.2;
+  const halfX = Math.max(1.2, Math.min(-topL.x, topR.x, -botL.x, botR.x) - margin);
+  const maxZ = Math.min(botL.z, botR.z) - margin;
+  const minZ = Math.min(Math.max(topL.z, topR.z) + margin, maxZ - 2.4);
+  return { minX: -halfX, maxX: halfX, minZ, maxZ };
+}
+
+// ─── Physics: simulate the whole flip first, then replay it ────────────────
+// The result of each coin is decided up front (fair coin), so instead of
+// steering a live simulation (the old scripted "tip-over" pop), the flight is
+// simulated to rest at a fixed step, and the face that physics leaves on top
+// is simply painted with the requested side. A coin is symmetric, so swapping
+// which cap carries heads changes nothing physically — the motion you see is
+// exactly the motion that was simulated.
+function simulateFlip(coins, tray) {
+  const world = new CANNON.World({ gravity: new CANNON.Vec3(0, -32, 0) });
+  world.solver.iterations = 14;
+  // Resting coins go to sleep: cheaper to simulate, no micro-jitter, and a
+  // sleeping coin is our "has come to rest" signal. Contacts still wake them.
+  world.allowSleep = true;
+
+  const coinMat = new CANNON.Material('coin');
+  const tableMat = new CANNON.Material('table');
+  world.addContactMaterial(new CANNON.ContactMaterial(coinMat, tableMat, { friction: 0.38, restitution: 0.26 }));
+  world.addContactMaterial(new CANNON.ContactMaterial(coinMat, coinMat, { friction: 0.3, restitution: 0.22 }));
+
+  const addPlane = (x, z, angleAxis, angle) => {
+    const body = new CANNON.Body({ mass: 0, material: tableMat });
+    body.addShape(new CANNON.Plane());
+    body.position.set(x, 0, z);
+    body.quaternion.setFromAxisAngle(angleAxis, angle);
+    world.addBody(body);
+  };
+  const X = new CANNON.Vec3(1, 0, 0);
+  const Y = new CANNON.Vec3(0, 1, 0);
+  addPlane(0, 0, X, -Math.PI / 2);              // table
+  addPlane(tray.minX, 0, Y, Math.PI / 2);       // left wall (normal +x)
+  addPlane(tray.maxX, 0, Y, -Math.PI / 2);      // right wall (normal -x)
+  addPlane(0, tray.minZ, Y, 0);                 // far wall (normal +z)
+  addPlane(0, tray.maxZ, Y, Math.PI);           // near wall (normal -z)
+
+  // cannon-es cylinders are Y-aligned, same as THREE.CylinderGeometry.
+  const shape = new CANNON.Cylinder(COIN_RADIUS, COIN_RADIUS, COIN_THICKNESS, 14);
+  const n = coins.length;
+  const cx = (tray.minX + tray.maxX) / 2;
+  const cz = (tray.minZ + tray.maxZ) / 2;
+  const spanX = tray.maxX - tray.minX;
+  const spanZ = tray.maxZ - tray.minZ;
+
+  const entries = coins.map((coin, i) => {
+    const body = new CANNON.Body({ mass: 0.3, material: coinMat, linearDamping: 0.04, angularDamping: 0.06 });
+    body.addShape(shape);
+    body.allowSleep = true;
+    body.sleepSpeedLimit = 0.12;
+    body.sleepTimeLimit = 0.15;
+
+    // Launch from just below centre (the player's side of the table), fanned
+    // out so a handful of coins land spread rather than stacked.
+    const ang = (i / Math.max(1, n)) * Math.PI * 2 + rand(-0.5, 0.5);
+    const spread = n > 1 ? rand(0.5, 1) * Math.min(spanX, spanZ) * 0.18 : rand(0, 0.3);
+    body.position.set(
+      cx + Math.cos(ang) * spread,
+      0.5 + rand(0, 0.25),
+      cz + spanZ * 0.12 + Math.sin(ang) * spread
+    );
+    // More coins → wider fan, so they land side by side instead of piled up.
+    const drift = n > 1 ? rand(1.1, 2.2) + n * 0.12 : rand(0.2, 0.7);
+    body.velocity.set(
+      Math.cos(ang) * drift + rand(-0.3, 0.3),
+      rand(13.5, 16),
+      Math.sin(ang) * drift - rand(0.9, 1.9)
+    );
+    body.quaternion.setFromEuler(rand(-0.15, 0.15), rand(0, Math.PI * 2), rand(-0.15, 0.15));
+
+    // Thumb flick: fast end-over-end spin about a random horizontal axis.
+    const axis = rand(0, Math.PI * 2);
+    const spin = rand(24, 36) * (Math.random() < 0.5 ? -1 : 1);
+    body.angularVelocity.set(Math.cos(axis) * spin, rand(-1.2, 1.2), Math.sin(axis) * spin);
+
+    return {
+      id: coin.id,
+      result: coin.result === 'tails' ? 'tails' : 'heads',
+      body,
+      addStep: Math.round(i * STAGGER_SECONDS * SIM_HZ),
+      added: false,
+      localSteps: 0,
+      frames: [],
+      restFrame: null,
+      landed: false,
+      kicks: 0,
+    };
+  });
+
+  const record = (e) => {
+    const { position: p, quaternion: q } = e.body;
+    e.frames.push([p.x, p.y, p.z, q.x, q.y, q.z, q.w]);
+  };
+
+  const up = new THREE.Vector3();
+  const q = new THREE.Quaternion();
+  const isAsleep = (b) => b.sleepState === CANNON.Body.SLEEPING;
+
+  const maxSteps = MAX_SIM_SECONDS * SIM_HZ;
+  for (let step = 0; step < maxSteps; step++) {
+    for (const e of entries) {
+      if (!e.added && step >= e.addStep) {
+        world.addBody(e.body);
+        e.added = true;
+        record(e);
       }
     }
-  } else if (symbolType === 'moon_star') {
-    if (isHeads) {
-      ctx.beginPath();
-      ctx.arc(cx - 10, cy - 10, 42, 0, Math.PI * 2);
-      ctx.arc(cx + 8, cy - 18, 38, 0, Math.PI * 2, true);
-      ctx.fill();
-    } else {
-      for (let i = 0; i < 8; i++) {
-        const a = (i / 8) * Math.PI * 2;
-        const r1 = 55;
-        const r2 = 22;
-        ctx.beginPath();
-        ctx.moveTo(cx, cy - 10);
-        ctx.lineTo(cx + Math.cos(a) * r1, cy - 10 + Math.sin(a) * r1);
-        ctx.lineTo(cx + Math.cos(a + Math.PI / 8) * r2, cy - 10 + Math.sin(a + Math.PI / 8) * r2);
-        ctx.fill();
+
+    world.step(SIM_DT);
+
+    for (const e of entries) {
+      if (!e.added) continue;
+      const b = e.body;
+      e.localSteps += 1;
+
+      // Once a coin is back on the table, scrub its spin and slide quickly:
+      // cannon's faceted cylinder under-models rim friction, so without this
+      // coins wobble and skate far longer than a real coin does.
+      if (!e.landed && b.position.y < COIN_THICKNESS * 3 && b.velocity.y <= 0.5) {
+        e.landed = true;
+        b.linearDamping = 0.4;
+        b.angularDamping = 0.7;
       }
-    }
-  } else if (symbolType === 'shield_swords') {
-    if (isHeads) {
-      ctx.beginPath();
-      ctx.moveTo(cx - 40, cy - 45);
-      ctx.lineTo(cx + 40, cy - 45);
-      ctx.lineTo(cx + 40, cy);
-      ctx.quadraticCurveTo(cx + 35, cy + 45, cx, cy + 55);
-      ctx.quadraticCurveTo(cx - 35, cy + 45, cx - 40, cy);
-      ctx.closePath();
-      ctx.fill();
-      ctx.stroke();
-    } else {
-      ctx.lineWidth = 6;
-      ctx.beginPath();
-      ctx.moveTo(cx - 45, cy - 45);
-      ctx.lineTo(cx + 45, cy + 35);
-      ctx.moveTo(cx + 45, cy - 45);
-      ctx.lineTo(cx - 45, cy + 35);
-      ctx.stroke();
-    }
-  } else if (symbolType === 'phoenix_shield') {
-    if (isHeads) {
-      ctx.beginPath();
-      ctx.moveTo(cx, cy - 50);
-      ctx.bezierCurveTo(cx - 50, cy - 20, cx - 40, cy + 30, cx, cy + 50);
-      ctx.bezierCurveTo(cx + 40, cy + 30, cx + 50, cy - 20, cx, cy - 50);
-      ctx.fill();
-      ctx.stroke();
-    } else {
-      for (let i = 0; i < 4; i++) {
-        const a = (i / 4) * Math.PI * 2 + Math.PI / 4;
-        ctx.beginPath();
-        ctx.arc(cx + Math.cos(a) * 20, cy - 10 + Math.sin(a) * 20, 16, 0, Math.PI * 2);
-        ctx.stroke();
+
+      if (isAsleep(b) && e.localSteps > SIM_HZ * 0.3) {
+        q.set(b.quaternion.x, b.quaternion.y, b.quaternion.z, b.quaternion.w);
+        up.set(0, 1, 0).applyQuaternion(q);
+        if (Math.abs(up.y) < 0.8 && e.kicks < 4) {
+          // Came to rest propped on its edge (against a wall or another
+          // coin): topple it with a small physical nudge, like a bumped table.
+          e.kicks += 1;
+          e.restFrame = null;
+          const axis = new THREE.Vector3().crossVectors(up, new THREE.Vector3(0, 1, 0)).normalize();
+          b.wakeUp();
+          b.velocity.y += 1.4;
+          b.angularVelocity.set(axis.x * 6, 0, axis.z * 6);
+        } else if (e.restFrame === null) {
+          e.restFrame = e.frames.length;
+        }
+      } else if (e.restFrame !== null && !isAsleep(b) && b.velocity.length() > 0.2) {
+        e.restFrame = null; // knocked loose by another coin
       }
+
+      if (e.localSteps % RECORD_EVERY === 0) record(e);
     }
-  } else if (symbolType === 'gear_clockwork') {
-    if (isHeads) {
-      ctx.beginPath();
-      ctx.arc(cx, cy - 10, 32, 0, Math.PI * 2);
-      ctx.fill();
-      for (let i = 0; i < 8; i++) {
-        const a = (i / 8) * Math.PI * 2;
-        ctx.fillRect(cx + Math.cos(a) * 32 - 6, cy - 10 + Math.sin(a) * 32 - 6, 12, 12);
+
+    if (entries.every((e) => e.added && isAsleep(e.body) && e.restFrame !== null)) {
+      entries.forEach(record); // final resting pose
+      break;
+    }
+  }
+
+  const finals = entries.map((e) => e.frames[e.frames.length - 1]);
+
+  return entries.map((e, idx) => {
+    const last = finals[idx];
+    const q = new THREE.Quaternion(last[3], last[4], last[5], last[6]);
+    const up = new THREE.Vector3(0, 1, 0).applyQuaternion(q);
+
+    // Still propped up after the nudges (against an invisible wall or a
+    // neighbour) or caught mid-topple by the time cap — rare: lay it onto
+    // its nearer face over a short ease so the result is never ambiguous and
+    // nothing is left leaning on thin air or frozen mid-fall.
+    if (Math.abs(up.y) < 0.9) {
+      const flat = new THREE.Quaternion().setFromUnitVectors(up, new THREE.Vector3(0, up.y >= 0 ? 1 : -1, 0)).multiply(q);
+      const from = q.clone();
+      // Come to rest on top of any coin it overlaps, not through it.
+      const under = finals.filter((f, j) => j !== idx && Math.hypot(f[0] - last[0], f[2] - last[2]) < COIN_RADIUS * 1.8);
+      const restY = COIN_THICKNESS / 2 + (under.length ? COIN_THICKNESS : 0);
+      const steps = Math.round(0.3 / KEYFRAME_DT);
+      for (let k = 1; k <= steps; k++) {
+        const t = k / steps;
+        const ease = 1 - Math.pow(1 - t, 3);
+        const qq = from.clone().slerp(flat, ease);
+        const y = THREE.MathUtils.lerp(last[1], restY, ease);
+        e.frames.push([last[0], y, last[2], qq.x, qq.y, qq.z, qq.w]);
       }
-    } else {
-      ctx.beginPath();
-      ctx.arc(cx, cy - 10, 24, 0, Math.PI * 2);
-      ctx.stroke();
-      ctx.beginPath();
-      ctx.arc(cx, cy - 10, 44, 0, Math.PI * 2);
-      ctx.stroke();
+      e.restFrame = e.frames.length - 1;
+      up.set(0, 1, 0).applyQuaternion(flat);
     }
-  } else {
-    ctx.lineWidth = 5;
+
+    return {
+      id: e.id,
+      result: e.result,
+      startTime: e.addStep / SIM_HZ,
+      frames: e.frames,
+      // Label appears once the coin has come to rest (or at its last frame).
+      settleTime: e.addStep / SIM_HZ + (e.restFrame ?? e.frames.length - 1) * KEYFRAME_DT,
+      endTime: e.addStep / SIM_HZ + (e.frames.length - 1) * KEYFRAME_DT,
+      topCapUp: up.y >= 0,
+    };
+  });
+}
+
+// ─── Coin face art ──────────────────────────────────────────────────────────
+// Emblems are drawn in a normalized space (-1..1) on an offscreen canvas in
+// white, then used three ways: tinted for the colour map, as the relief of the
+// bump map, and offset dark for an engraved drop shadow.
+export function drawEmblemShape(ctx, symbolType, isHeads) {
+  const circle = (x, y, r) => { ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill(); };
+  const star = (points, rOuter, rInner, rot = -Math.PI / 2) => {
     ctx.beginPath();
-    ctx.arc(cx, cy - 10, 45, 0, Math.PI * 2);
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.moveTo(cx - 45, cy - 10);
-    ctx.lineTo(cx + 45, cy - 10);
-    ctx.moveTo(cx, cy - 55);
-    ctx.lineTo(cx, cy + 35);
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.arc(cx, cy - 10, 16, 0, Math.PI * 2);
+    for (let i = 0; i < points * 2; i++) {
+      const r = i % 2 === 0 ? rOuter : rInner;
+      const a = rot + (i * Math.PI) / points;
+      ctx[i === 0 ? 'moveTo' : 'lineTo'](Math.cos(a) * r, Math.sin(a) * r);
+    }
+    ctx.closePath();
     ctx.fill();
-  }
+  };
+  const cutOut = (fn) => {
+    ctx.save();
+    ctx.globalCompositeOperation = 'destination-out';
+    fn();
+    ctx.restore();
+  };
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
 
-  ctx.restore();
+  switch (symbolType) {
+    case 'crown_sun':
+      if (isHeads) {
+        ctx.beginPath();
+        ctx.moveTo(-0.62, 0.3);
+        ctx.lineTo(-0.74, -0.34);
+        ctx.lineTo(-0.34, -0.02);
+        ctx.lineTo(0, -0.56);
+        ctx.lineTo(0.34, -0.02);
+        ctx.lineTo(0.74, -0.34);
+        ctx.lineTo(0.62, 0.3);
+        ctx.closePath();
+        ctx.fill();
+        ctx.fillRect(-0.66, 0.36, 1.32, 0.18);
+        circle(-0.74, -0.42, 0.09);
+        circle(0, -0.66, 0.1);
+        circle(0.74, -0.42, 0.09);
+        cutOut(() => { circle(-0.33, 0.45, 0.045); circle(0, 0.45, 0.045); circle(0.33, 0.45, 0.045); });
+      } else {
+        star(16, 0.78, 0.5);
+        cutOut(() => circle(0, 0, 0.42));
+        circle(0, 0, 0.34);
+      }
+      break;
+    case 'moon_star':
+      if (isHeads) {
+        circle(-0.08, 0, 0.66);
+        cutOut(() => circle(0.2, -0.12, 0.56));
+        ctx.save();
+        ctx.translate(0.32, 0.12);
+        star(4, 0.2, 0.06);
+        ctx.restore();
+      } else {
+        star(8, 0.76, 0.3, -Math.PI / 2);
+        cutOut(() => circle(0, 0, 0.12));
+      }
+      break;
+    case 'shield_swords':
+      if (isHeads) {
+        ctx.beginPath();
+        ctx.moveTo(-0.56, -0.62);
+        ctx.lineTo(0.56, -0.62);
+        ctx.lineTo(0.56, 0.02);
+        ctx.quadraticCurveTo(0.5, 0.52, 0, 0.78);
+        ctx.quadraticCurveTo(-0.5, 0.52, -0.56, 0.02);
+        ctx.closePath();
+        ctx.fill();
+        cutOut(() => {
+          ctx.beginPath();
+          ctx.moveTo(-0.44, -0.08); ctx.lineTo(0, 0.24); ctx.lineTo(0.44, -0.08);
+          ctx.lineTo(0.44, 0.08); ctx.lineTo(0, 0.4); ctx.lineTo(-0.44, 0.08);
+          ctx.closePath(); ctx.fill();
+        });
+      } else {
+        [-1, 1].forEach((dir) => {
+          ctx.save();
+          ctx.rotate((dir * Math.PI) / 4);
+          ctx.beginPath();
+          ctx.moveTo(0, -0.82); ctx.lineTo(0.07, -0.68); ctx.lineTo(0.07, 0.36);
+          ctx.lineTo(-0.07, 0.36); ctx.lineTo(-0.07, -0.68); ctx.closePath(); ctx.fill();
+          ctx.fillRect(-0.24, 0.36, 0.48, 0.08);
+          ctx.fillRect(-0.045, 0.44, 0.09, 0.24);
+          circle(0, 0.74, 0.08);
+          ctx.restore();
+        });
+      }
+      break;
+    case 'arcana_compass':
+      if (isHeads) {
+        star(4, 0.8, 0.17);
+        ctx.save(); ctx.rotate(Math.PI / 4); star(4, 0.46, 0.13); ctx.restore();
+        ctx.lineWidth = 0.06;
+        ctx.strokeStyle = ctx.fillStyle;
+        ctx.beginPath(); ctx.arc(0, 0, 0.56, 0, Math.PI * 2); ctx.stroke();
+        cutOut(() => circle(0, 0, 0.07));
+      } else {
+        ctx.lineWidth = 0.13;
+        ctx.strokeStyle = ctx.fillStyle;
+        ctx.beginPath();
+        ctx.moveTo(0, -0.7); ctx.lineTo(0, 0.7);
+        ctx.moveTo(0, -0.12); ctx.lineTo(-0.42, -0.6);
+        ctx.moveTo(0, -0.12); ctx.lineTo(0.42, -0.6);
+        ctx.moveTo(0, 0.2); ctx.lineTo(-0.36, 0.56);
+        ctx.moveTo(0, 0.2); ctx.lineTo(0.36, 0.56);
+        ctx.stroke();
+      }
+      break;
+    case 'void_eye':
+      if (isHeads) {
+        ctx.beginPath();
+        ctx.moveTo(-0.8, 0);
+        ctx.quadraticCurveTo(0, -0.62, 0.8, 0);
+        ctx.quadraticCurveTo(0, 0.62, -0.8, 0);
+        ctx.fill();
+        cutOut(() => circle(0, 0, 0.3));
+        circle(0, 0, 0.17);
+      } else {
+        ctx.lineWidth = 0.09;
+        ctx.strokeStyle = ctx.fillStyle;
+        for (let i = 0; i < 3; i++) {
+          const r = 0.28 + i * 0.22;
+          const a0 = i * 1.3;
+          ctx.beginPath(); ctx.arc(0, 0, r, a0, a0 + Math.PI * 1.45); ctx.stroke();
+        }
+        circle(0, 0, 0.1);
+      }
+      break;
+    case 'phoenix_shield':
+      if (isHeads) {
+        ctx.beginPath();
+        ctx.moveTo(0, -0.78);
+        ctx.bezierCurveTo(0.22, -0.42, 0.58, -0.2, 0.46, 0.24);
+        ctx.bezierCurveTo(0.38, 0.6, 0.12, 0.74, 0, 0.74);
+        ctx.bezierCurveTo(-0.12, 0.74, -0.38, 0.6, -0.46, 0.24);
+        ctx.bezierCurveTo(-0.56, -0.12, -0.24, -0.3, -0.16, -0.5);
+        ctx.bezierCurveTo(-0.1, -0.3, 0.02, -0.4, 0, -0.78);
+        ctx.fill();
+        cutOut(() => {
+          ctx.beginPath();
+          ctx.moveTo(0.02, -0.1);
+          ctx.bezierCurveTo(0.2, 0.1, 0.26, 0.4, 0, 0.54);
+          ctx.bezierCurveTo(-0.24, 0.42, -0.18, 0.14, 0.02, -0.1);
+          ctx.fill();
+        });
+      } else {
+        ctx.lineWidth = 0.1;
+        ctx.strokeStyle = ctx.fillStyle;
+        for (let i = 0; i < 4; i++) {
+          const a = (i / 4) * Math.PI * 2 + Math.PI / 4;
+          ctx.beginPath(); ctx.arc(Math.cos(a) * 0.3, Math.sin(a) * 0.3, 0.3, 0, Math.PI * 2); ctx.stroke();
+        }
+      }
+      break;
+    case 'gear_clockwork':
+    default:
+      if (isHeads) {
+        circle(0, 0, 0.52);
+        for (let i = 0; i < 10; i++) {
+          ctx.save();
+          ctx.rotate((i / 10) * Math.PI * 2);
+          ctx.fillRect(-0.1, -0.74, 0.2, 0.3);
+          ctx.restore();
+        }
+        cutOut(() => circle(0, 0, 0.2));
+      } else {
+        ctx.beginPath();
+        ctx.moveTo(-0.42, -0.6); ctx.lineTo(0.42, -0.6); ctx.lineTo(0.06, 0);
+        ctx.lineTo(0.42, 0.6); ctx.lineTo(-0.42, 0.6); ctx.lineTo(-0.06, 0);
+        ctx.closePath(); ctx.fill();
+        ctx.fillRect(-0.56, -0.74, 1.12, 0.12);
+        ctx.fillRect(-0.56, 0.62, 1.12, 0.12);
+      }
+      break;
+  }
 }
 
-function createCoinEdgeTexture(themeKey) {
-  const theme = COIN_THEMES[themeKey] || COIN_THEMES.ancient_gold;
-  const canvas = document.createElement('canvas');
-  canvas.width = 512;
-  canvas.height = 64;
-  const ctx = canvas.getContext('2d');
-
-  ctx.fillStyle = theme.edgeColor;
-  ctx.fillRect(0, 0, 512, 64);
-
-  const grooveCount = 64;
-  const w = 512 / grooveCount;
-  for (let i = 0; i < grooveCount; i++) {
-    if (i % 2 === 0) {
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.45)';
-      ctx.fillRect(i * w, 0, w, 64);
-    } else {
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.15)';
-      ctx.fillRect(i * w, 0, w / 2, 64);
-    }
-  }
-
-  const texture = new THREE.CanvasTexture(canvas);
-  texture.wrapS = THREE.RepeatWrapping;
-  texture.wrapT = THREE.ClampToEdgeWrapping;
-  texture.repeat.set(4, 1);
-  return texture;
+function renderEmblemMask(size, symbolType, isHeads, scale) {
+  const c = document.createElement('canvas');
+  c.width = size;
+  c.height = size;
+  const ctx = c.getContext('2d');
+  ctx.translate(size / 2, size / 2);
+  ctx.scale(scale, scale);
+  ctx.fillStyle = '#ffffff';
+  drawEmblemShape(ctx, symbolType, isHeads);
+  return c;
 }
 
-// Procedural Bump Map for Coin Relief Depth
-function createCoinBumpMap(side, symbolType) {
-  const size = 512;
+function tintedCopy(mask, color) {
+  const c = document.createElement('canvas');
+  c.width = mask.width;
+  c.height = mask.height;
+  const ctx = c.getContext('2d');
+  ctx.drawImage(mask, 0, 0);
+  ctx.globalCompositeOperation = 'source-in';
+  ctx.fillStyle = color;
+  ctx.fillRect(0, 0, c.width, c.height);
+  return c;
+}
+
+function shade(hex, amount) {
+  const c = new THREE.Color(hex);
+  return `#${c.lerp(new THREE.Color(amount > 0 ? '#ffffff' : '#000000'), Math.abs(amount)).getHexString()}`;
+}
+
+const FACE_SIZE = 512;
+
+function createCoinFaceTextures(side, theme) {
+  const size = FACE_SIZE;
+  const cx = size / 2;
+  const cy = size / 2;
+  const R = size / 2;
+  const isHeads = side === 'heads';
+
+  // ── Colour map ──
   const canvas = document.createElement('canvas');
   canvas.width = size;
   canvas.height = size;
   const ctx = canvas.getContext('2d');
 
-  ctx.fillStyle = '#808080';
+  // Full-bleed base: the cylinder cap samples right to the canvas edge, so
+  // nothing may be left transparent (that rendered as a black ring before).
+  ctx.fillStyle = theme.secondaryColor;
   ctx.fillRect(0, 0, size, size);
 
-  const cx = size / 2;
-  const cy = size / 2;
-  const radius = size * 0.46;
-
-  // Outer relief rim
-  ctx.lineWidth = 14;
-  ctx.strokeStyle = '#ffffff';
+  // Field — struck metal lit from the upper left.
+  const field = ctx.createRadialGradient(cx - R * 0.3, cy - R * 0.35, R * 0.05, cx, cy, R);
+  field.addColorStop(0, shade(theme.primaryColor, 0.12));
+  field.addColorStop(0.55, theme.primaryColor);
+  field.addColorStop(1, theme.secondaryColor);
+  ctx.fillStyle = field;
   ctx.beginPath();
-  ctx.arc(cx, cy, radius - 8, 0, Math.PI * 2);
-  ctx.stroke();
-
-  ctx.lineWidth = 6;
-  ctx.strokeStyle = '#303030';
-  ctx.beginPath();
-  ctx.arc(cx, cy, radius - 20, 0, Math.PI * 2);
-  ctx.stroke();
-
-  // Beaded rim dots
-  const dotCount = 36;
-  for (let i = 0; i < dotCount; i++) {
-    const angle = (i / dotCount) * Math.PI * 2;
-    const dx = cx + Math.cos(angle) * (radius - 14);
-    const dy = cy + Math.sin(angle) * (radius - 14);
-    ctx.fillStyle = '#ffffff';
-    ctx.beginPath();
-    ctx.arc(dx, dy, 4, 0, Math.PI * 2);
-    ctx.fill();
-  }
-
-  // Draw Emblem Bump
-  drawCoinEmblem(ctx, cx, cy, radius, symbolType, side === 'heads', '#ffffff');
-
-  const texture = new THREE.CanvasTexture(canvas);
-  texture.anisotropy = 8;
-  return texture;
-}
-
-// Procedural Matte Metallic Face Texture
-function createCoinFaceTexture(side, themeKey = 'ancient_gold') {
-  const theme = COIN_THEMES[themeKey] || COIN_THEMES.ancient_gold;
-  const size = 512;
-  const canvas = document.createElement('canvas');
-  canvas.width = size;
-  canvas.height = size;
-  const ctx = canvas.getContext('2d');
-
-  const cx = size / 2;
-  const cy = size / 2;
-  const radius = size * 0.46;
-
-  // Metallic radial gradient
-  const bgGrad = ctx.createRadialGradient(cx, cy, size * 0.05, cx, cy, radius);
-  bgGrad.addColorStop(0, theme.primaryColor);
-  bgGrad.addColorStop(0.65, theme.secondaryColor);
-  bgGrad.addColorStop(1, theme.edgeColor);
-  ctx.fillStyle = bgGrad;
-  ctx.beginPath();
-  ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+  ctx.arc(cx, cy, R, 0, Math.PI * 2);
   ctx.fill();
 
-  // Recessed inner disc
-  ctx.fillStyle = 'rgba(0, 0, 0, 0.25)';
-  ctx.beginPath();
-  ctx.arc(cx, cy, radius - 28, 0, Math.PI * 2);
-  ctx.fill();
-
-  // Outer relief rim
-  ctx.lineWidth = 16;
-  ctx.strokeStyle = 'rgba(0, 0, 0, 0.4)';
-  ctx.stroke();
-
-  ctx.lineWidth = 8;
-  ctx.strokeStyle = theme.edgeColor;
-  ctx.stroke();
-
-  // Beaded rim dots
-  const dotCount = 36;
-  for (let i = 0; i < dotCount; i++) {
-    const angle = (i / dotCount) * Math.PI * 2;
-    const dx = cx + Math.cos(angle) * (radius - 16);
-    const dy = cy + Math.sin(angle) * (radius - 16);
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
-    ctx.beginPath();
-    ctx.arc(dx, dy, 3.5, 0, Math.PI * 2);
-    ctx.fill();
-  }
-
-  ctx.lineWidth = 3;
-  ctx.strokeStyle = 'rgba(255, 255, 255, 0.35)';
-  ctx.beginPath();
-  ctx.arc(cx, cy, radius - 28, 0, Math.PI * 2);
-  ctx.stroke();
-
-  // Draw Emblem
-  drawCoinEmblem(ctx, cx, cy, radius, theme.symbolType, side === 'heads', theme.glowColor);
-
-  // Label banner ("HEADS" / "TAILS") — a recessed dark plate makes the text
-  // readable at any angle and against any emblem color.
-  const label = side === 'heads' ? theme.headsLabel : theme.tailsLabel;
-  const labelY = cy + radius * 0.62;
-
+  // Fine patina so the field isn't plastic-flat.
   ctx.save();
-  ctx.fillStyle = 'rgba(15, 10, 4, 0.66)';
-  ctx.beginPath();
-  ctx.roundRect(cx - 96, labelY - 26, 192, 44, 12);
-  ctx.fill();
-  ctx.lineWidth = 2;
-  ctx.strokeStyle = 'rgba(255, 255, 255, 0.22)';
-  ctx.stroke();
+  ctx.globalAlpha = 0.06;
+  for (let i = 0; i < 260; i++) {
+    const a = Math.random() * Math.PI * 2;
+    const r = Math.random() * R * 0.8;
+    ctx.fillStyle = Math.random() < 0.5 ? '#000000' : '#ffffff';
+    ctx.fillRect(cx + Math.cos(a) * r, cy + Math.sin(a) * r, 1 + Math.random() * 2, 1);
+  }
   ctx.restore();
 
-  ctx.font = 'bold 34px "Cinzel", "Times New Roman", serif';
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
+  // Raised rim: a lit band with a recessed line inside it.
+  const rim = ctx.createLinearGradient(cx - R, cy - R, cx + R, cy + R);
+  rim.addColorStop(0, shade(theme.primaryColor, 0.35));
+  rim.addColorStop(0.5, theme.primaryColor);
+  rim.addColorStop(1, shade(theme.secondaryColor, -0.25));
+  ctx.lineWidth = R * 0.11;
+  ctx.strokeStyle = rim;
+  ctx.beginPath();
+  ctx.arc(cx, cy, R * 0.93, 0, Math.PI * 2);
+  ctx.stroke();
+  ctx.lineWidth = R * 0.018;
+  ctx.strokeStyle = 'rgba(0, 0, 0, 0.35)';
+  ctx.beginPath();
+  ctx.arc(cx, cy, R * 0.865, 0, Math.PI * 2);
+  ctx.stroke();
 
-  ctx.fillStyle = 'rgba(0, 0, 0, 0.9)';
-  ctx.fillText(label, cx + 2, labelY + 2);
+  // Beaded border.
+  const beads = 48;
+  for (let i = 0; i < beads; i++) {
+    const a = (i / beads) * Math.PI * 2;
+    const bx = cx + Math.cos(a) * R * 0.8;
+    const by = cy + Math.sin(a) * R * 0.8;
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.28)';
+    ctx.beginPath(); ctx.arc(bx + 1.5, by + 2, R * 0.017, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = shade(theme.primaryColor, 0.45);
+    ctx.beginPath(); ctx.arc(bx, by, R * 0.017, 0, Math.PI * 2); ctx.fill();
+  }
 
-  ctx.fillStyle = '#ffffff';
-  ctx.fillText(label, cx, labelY);
+  // Emblem: engraved shadow, metal body, top-left highlight.
+  const emblemScale = R * 0.6;
+  const mask = renderEmblemMask(size, theme.symbolType, isHeads, emblemScale);
+  const emblemColor = shade(theme.primaryColor, 0.2);
+  ctx.save();
+  ctx.globalAlpha = 0.7;
+  ctx.drawImage(tintedCopy(mask, shade(theme.secondaryColor, -0.6)), 3, 5);
+  ctx.restore();
+  ctx.drawImage(tintedCopy(mask, emblemColor), 0, 0);
+  ctx.save();
+  ctx.globalAlpha = 0.22;
+  ctx.drawImage(tintedCopy(mask, '#ffffff'), -1.5, -2);
+  ctx.restore();
 
-  const texture = new THREE.CanvasTexture(canvas);
-  texture.colorSpace = THREE.SRGBColorSpace;
-  texture.anisotropy = 8;
-  return texture;
+  const map = new THREE.CanvasTexture(canvas);
+  map.colorSpace = THREE.SRGBColorSpace;
+  map.anisotropy = 8;
+
+  // ── Bump map (relief) ──
+  const bump = document.createElement('canvas');
+  bump.width = size;
+  bump.height = size;
+  const b = bump.getContext('2d');
+  b.fillStyle = '#7a7a7a';
+  b.fillRect(0, 0, size, size);
+  b.lineWidth = R * 0.11;
+  b.strokeStyle = '#d8d8d8';
+  b.beginPath(); b.arc(cx, cy, R * 0.93, 0, Math.PI * 2); b.stroke();
+  b.lineWidth = R * 0.018;
+  b.strokeStyle = '#404040';
+  b.beginPath(); b.arc(cx, cy, R * 0.865, 0, Math.PI * 2); b.stroke();
+  for (let i = 0; i < beads; i++) {
+    const a = (i / beads) * Math.PI * 2;
+    b.fillStyle = '#e0e0e0';
+    b.beginPath(); b.arc(cx + Math.cos(a) * R * 0.8, cy + Math.sin(a) * R * 0.8, R * 0.017, 0, Math.PI * 2); b.fill();
+  }
+  b.filter = 'blur(2px)';
+  b.drawImage(tintedCopy(mask, '#e6e6e6'), 0, 0);
+  b.filter = 'none';
+  const bumpMap = new THREE.CanvasTexture(bump);
+  bumpMap.anisotropy = 8;
+
+  return { map, bumpMap };
 }
 
-const PhysicsCoinScene = ({
-  coinsToFlip = [],
-  coinTheme = 'ancient_gold',
-  onFlipComplete,
-  onDismiss,
-  isVisible = false,
-}) => {
+function createCoinEdgeTexture(theme) {
+  const canvas = document.createElement('canvas');
+  canvas.width = 512;
+  canvas.height = 32;
+  const ctx = canvas.getContext('2d');
+  ctx.fillStyle = shade(theme.secondaryColor, -0.1);
+  ctx.fillRect(0, 0, 512, 32);
+  // Reeded edge: fine vertical ridges.
+  const grooves = 96;
+  const w = 512 / grooves;
+  for (let i = 0; i < grooves; i++) {
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.32)';
+    ctx.fillRect(i * w, 0, w * 0.45, 32);
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.12)';
+    ctx.fillRect(i * w + w * 0.5, 0, w * 0.2, 32);
+  }
+  const tex = new THREE.CanvasTexture(canvas);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  tex.wrapS = THREE.RepeatWrapping;
+  tex.repeat.set(2, 1);
+  return tex;
+}
+
+// ─── Component ──────────────────────────────────────────────────────────────
+const PhysicsCoinScene = ({ flip, onFlipComplete, onDismiss }) => {
   const mountRef = useRef(null);
-  const [isSettled, setIsSettled] = useState(false);
-  const [landedMarkers, setLandedMarkers] = useState([]);
-  const [finalResults, setFinalResults] = useState([]);
+  const [markers, setMarkers] = useState([]);
+  const [results, setResults] = useState(null);
+  const onCompleteRef = useRef(onFlipComplete);
+  onCompleteRef.current = onFlipComplete;
 
-  const animFrameRef = useRef(null);
-  const activeTheme = COIN_THEMES[coinTheme] || COIN_THEMES.ancient_gold;
-  const coinsDataRef = useRef(coinsToFlip);
-  coinsDataRef.current = coinsToFlip;
-
-  const sessionIdRef = useRef(0);
+  const flipId = flip?.id;
+  const theme = COIN_THEMES[flip?.theme] || COIN_THEMES.ancient_gold;
 
   useEffect(() => {
-    if (!isVisible || !mountRef.current || coinsToFlip.length === 0) return;
+    const mount = mountRef.current;
+    if (!flip || !mount || !flip.coins?.length) return undefined;
 
-    sessionIdRef.current += 1;
-    const currentSessionId = sessionIdRef.current;
-    setIsSettled(false);
-    setLandedMarkers([]);
-    setFinalResults([]);
+    setMarkers([]);
+    setResults(null);
 
-    const width = mountRef.current.clientWidth || window.innerWidth;
-    const height = mountRef.current.clientHeight || window.innerHeight;
+    const width = mount.clientWidth || window.innerWidth;
+    const height = mount.clientHeight || window.innerHeight;
+    const coinTheme = COIN_THEMES[flip.theme] || COIN_THEMES.ancient_gold;
 
-    // Three.js Scene
-    const scene = new THREE.Scene();
-
-    // 3D Perspective camera angled down for clear, realistic tabletop view
-    const camera = new THREE.PerspectiveCamera(38, width / height, 0.1, 100);
-    camera.position.set(0, 9.0, 4.0);
-    camera.lookAt(0, 0.2, 0);
+    const camera = createCamera(width, height);
+    const tray = computeTray(camera, width, height);
+    const plan = simulateFlip(flip.coins, tray);
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(width, height);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
     renderer.setClearColor(0x000000, 0);
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 0.92;
     renderer.shadowMap.enabled = true;
-    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.shadowMap.type = THREE.PCFShadowMap;
+    mount.appendChild(renderer.domElement);
 
-    mountRef.current.appendChild(renderer.domElement);
+    const scene = new THREE.Scene();
+    const pmrem = new THREE.PMREMGenerator(renderer);
+    const envTexture = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+    pmrem.dispose();
+    scene.environment = envTexture;
+    scene.environmentIntensity = 0.42;
 
-    const pmremGenerator = new THREE.PMREMGenerator(renderer);
-    scene.environment = pmremGenerator.fromScene(new RoomEnvironment(), 0.01).texture;
+    scene.add(new THREE.AmbientLight(0xfff6e8, 0.35));
+    const key = new THREE.DirectionalLight(0xfff3e0, 1.35);
+    key.position.set(5, 20, 8);
+    key.castShadow = true;
+    key.shadow.mapSize.set(1024, 1024);
+    key.shadow.bias = -0.0004;
+    key.shadow.radius = 3;
+    const extent = Math.max(tray.maxX, tray.maxZ - tray.minZ) + 2;
+    Object.assign(key.shadow.camera, { left: -extent, right: extent, top: extent, bottom: -extent, near: 1, far: 40 });
+    scene.add(key);
+    const fill = new THREE.DirectionalLight(0xc8d6ff, 0.35);
+    fill.position.set(-8, 10, -6);
+    scene.add(fill);
 
-    // Ambient & Directional Lighting for crisp metallic shading
-    const ambientLight = new THREE.AmbientLight(0xfffaed, 0.7);
-    scene.add(ambientLight);
+    // Invisible table that only catches the coins' soft shadows.
+    const groundGeo = new THREE.PlaneGeometry(80, 80);
+    const groundMat = new THREE.ShadowMaterial({ color: 0x2a1d12, opacity: 0.24 });
+    const ground = new THREE.Mesh(groundGeo, groundMat);
+    ground.rotation.x = -Math.PI / 2;
+    ground.receiveShadow = true;
+    scene.add(ground);
 
-    const keyLight = new THREE.DirectionalLight(0xfff5e6, 0.6);
-    keyLight.position.set(8, 14, 6);
-    keyLight.castShadow = true;
-    keyLight.shadow.mapSize.width = 1024;
-    keyLight.shadow.mapSize.height = 1024;
-    keyLight.shadow.bias = -0.0005;
-    scene.add(keyLight);
-
-    const fillLight = new THREE.DirectionalLight(0x90b0ff, 0.3);
-    fillLight.position.set(-6, 10, -5);
-    scene.add(fillLight);
-
-    // =========================================================================
-    // CANNON-ES REAL RIGID BODY PHYSICS WORLD SETUP
-    // =========================================================================
-    const world = new CANNON.World();
-    world.gravity.set(0, -18, 0);
-
-    // Realistic metal coin & tabletop contact materials
-    const coinMat = new CANNON.Material({ restitution: 0.28, friction: 0.30 });
-    const floorMat = new CANNON.Material({ restitution: 0.28, friction: 0.30 });
-    const contactMat = new CANNON.ContactMaterial(coinMat, floorMat, {
-      restitution: 0.28,
-      friction: 0.30,
-    });
-    world.addContactMaterial(contactMat);
-
-    // Self-contact between coins
-    const coinCoinContactMat = new CANNON.ContactMaterial(coinMat, coinMat, {
-      restitution: 0.25,
-      friction: 0.30,
-    });
-    world.addContactMaterial(coinCoinContactMat);
-
-    // Tabletop Floor Plane
-    const floorShape = new CANNON.Plane();
-    const floorBody = new CANNON.Body({ mass: 0, material: floorMat });
-    floorBody.addShape(floorShape);
-    floorBody.quaternion.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), -Math.PI / 2);
-    world.addBody(floorBody);
-
-    // Bounding Walls
-    const wallShapeX = new CANNON.Plane();
-    const wallLeft = new CANNON.Body({ mass: 0, material: floorMat });
-    wallLeft.addShape(wallShapeX);
-    wallLeft.position.set(-5.5, 0, 0);
-    wallLeft.quaternion.setFromAxisAngle(new CANNON.Vec3(0, 1, 0), Math.PI / 2);
-    world.addBody(wallLeft);
-
-    const wallRight = new CANNON.Body({ mass: 0, material: floorMat });
-    wallRight.addShape(wallShapeX);
-    wallRight.position.set(5.5, 0, 0);
-    wallRight.quaternion.setFromAxisAngle(new CANNON.Vec3(0, 1, 0), -Math.PI / 2);
-    world.addBody(wallRight);
-
-    const wallShapeZ = new CANNON.Plane();
-    const wallTop = new CANNON.Body({ mass: 0, material: floorMat });
-    wallTop.addShape(wallShapeZ);
-    wallTop.position.set(0, 0, -3.8);
-    wallTop.quaternion.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), 0);
-    world.addBody(wallTop);
-
-    const wallBottom = new CANNON.Body({ mass: 0, material: floorMat });
-    wallBottom.addShape(wallShapeZ);
-    wallBottom.position.set(0, 0, 4.2);
-    wallBottom.quaternion.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), Math.PI);
-    world.addBody(wallBottom);
-
-    // Textures & Materials
-    const headsTex = createCoinFaceTexture('heads', coinTheme);
-    const tailsTex = createCoinFaceTexture('tails', coinTheme);
+    const heads = createCoinFaceTextures('heads', coinTheme);
+    const tails = createCoinFaceTextures('tails', coinTheme);
     const edgeTex = createCoinEdgeTexture(coinTheme);
-    const headsBump = createCoinBumpMap('heads', activeTheme.symbolType);
-    const tailsBump = createCoinBumpMap('tails', activeTheme.symbolType);
+    const faceParams = {
+      bumpScale: 1.6,
+      metalness: Math.min(0.85, coinTheme.metallic ?? 0.7),
+      roughness: Math.max(0.3, coinTheme.roughness ?? 0.35),
+    };
+    const headsMat = new THREE.MeshStandardMaterial({ map: heads.map, bumpMap: heads.bumpMap, ...faceParams });
+    const tailsMat = new THREE.MeshStandardMaterial({ map: tails.map, bumpMap: tails.bumpMap, ...faceParams });
+    const rimMat = new THREE.MeshStandardMaterial({ map: edgeTex, metalness: faceParams.metalness, roughness: faceParams.roughness + 0.05 });
+    const coinGeo = new THREE.CylinderGeometry(COIN_RADIUS, COIN_RADIUS, COIN_THICKNESS, 64);
 
-    const headsMaterial = new THREE.MeshStandardMaterial({
-      map: headsTex,
-      bumpMap: headsBump,
-      bumpScale: 0.04,
-      metalness: 0.4,
-      roughness: 0.4,
-    });
-    const tailsMaterial = new THREE.MeshStandardMaterial({
-      map: tailsTex,
-      bumpMap: tailsBump,
-      bumpScale: 0.04,
-      metalness: 0.4,
-      roughness: 0.4,
-    });
-    const rimMaterial = new THREE.MeshStandardMaterial({
-      map: edgeTex,
-      color: activeTheme.edgeColor,
-      metalness: 0.4,
-      roughness: 0.4,
-    });
-
-    // Realistic smaller coin scale
-    const coinRadius = 0.55;
-    const coinThickness = 0.05;
-    const coinGeometry = new THREE.CylinderGeometry(coinRadius, coinRadius, coinThickness, 48);
-    const materials = [rimMaterial, headsMaterial, tailsMaterial];
-
-    const currentCoins = coinsDataRef.current;
-    const count = currentCoins.length;
-    const coinPhysicsPairs = [];
-
-    // Staggered launch setup for cascading flips
-    currentCoins.forEach((item, index) => {
-      const group = new THREE.Group();
-      group.visible = false; // Initially hidden until launch delay
-      const mesh = new THREE.Mesh(coinGeometry, materials);
+    const coins = plan.map((p) => {
+      // Cylinder material groups: [side, top cap (+Y), bottom cap (-Y)].
+      // Paint the requested side on whichever cap physics leaves facing up.
+      const up = p.result === 'heads' ? headsMat : tailsMat;
+      const down = p.result === 'heads' ? tailsMat : headsMat;
+      const mesh = new THREE.Mesh(coinGeo, p.topCapUp ? [rimMat, up, down] : [rimMat, down, up]);
       mesh.castShadow = true;
-      mesh.receiveShadow = true;
-      group.add(mesh);
-      scene.add(group);
-
-      const coinShape = new CANNON.Cylinder(coinRadius, coinRadius, coinThickness, 24);
-      // NOTE: cannon-es Cylinder is aligned along Y — the same axis as the
-      // THREE CylinderGeometry mesh. The old code rotated the shape by PI/2
-      // around X (a leftover from classic cannon.js where the cylinder was
-      // Z-aligned), which made the physics coin tumble on its EDGE while the
-      // visual mesh was flat — the "always lands on its side and glitches
-      // into place" bug. The shape must share the mesh's axis.
-
-      const coinBody = new CANNON.Body({
-        mass: 0.5,
-        material: coinMat,
-        linearDamping: 0.08,
-        angularDamping: 0.12,
-      });
-      coinBody.addShape(coinShape);
-
-      const requestedResult = item.result || (Math.random() < 0.5 ? 'heads' : 'tails');
-      const startPitch = requestedResult === 'heads' ? 0 : Math.PI;
-      const initialEuler = new THREE.Euler(startPitch, (Math.random() - 0.5) * 1.2, 0, 'YXZ');
-      const initialQuat = new THREE.Quaternion().setFromEuler(initialEuler);
-      coinBody.quaternion.copy(initialQuat);
-
-      const spreadAngle = (index / Math.max(1, count)) * Math.PI * 2 + (Math.random() - 0.5) * 0.3;
-      const startDist = 0.15 + Math.random() * 0.3;
-      const startX = Math.cos(spreadAngle) * startDist;
-      const startZ = Math.sin(spreadAngle) * startDist + 0.3;
-      coinBody.position.set(startX, 2.2 + Math.random() * 0.3, startZ);
-
-      const launchVy = 10.5 + Math.random() * 2.0;
-      const scatterSpeed = 0.6 + Math.random() * 0.6;
-      const launchVx = Math.cos(spreadAngle) * scatterSpeed;
-      const launchVz = Math.sin(spreadAngle) * scatterSpeed;
-
-      // Whole number of half-flip multiples (PI * even) preserves the launch
-      // face parity through the air, so the coin usually lands on the
-      // requested face naturally; the settle animation covers the rest.
-      const flipDirection = Math.random() > 0.5 ? 1 : -1;
-      const spinX = flipDirection * Math.PI * (14 + 2 * Math.floor(Math.random() * 3));
-      const spinY = (Math.random() - 0.5) * 1.6;
-      const spinZ = (Math.random() - 0.5) * 1.6;
-
-      coinBody.velocity.set(launchVx, launchVy, launchVz);
-      coinBody.angularVelocity.set(spinX, spinY, spinZ);
-
-      coinPhysicsPairs.push({
-        id: item.id,
-        group,
-        mesh,
-        body: coinBody,
-        delay: index * 0.12, // 120ms stagger delay between coins
-        launched: false,
-        requestedResult,
-        settled: false,
-        settleFrames: 0,
-        touchTime: null,
-        settleAnimating: false,
-        settleT: 0,
-        settleDuration: 0.22,
-        settleFrom: new THREE.Quaternion(),
-        settleFromPos: new THREE.Vector3(),
-        needsTipOver: false,
-        finalResult: requestedResult,
-        landedPos: new THREE.Vector3(),
-        landedQuat: new THREE.Quaternion(),
-        slerpProgress: 0,
-      });
+      mesh.visible = false;
+      scene.add(mesh);
+      return { ...p, mesh, labelled: false };
     });
 
-    const startTime = performance.now();
-    let lastTime = performance.now();
+    const qa = new THREE.Quaternion();
+    const qb = new THREE.Quaternion();
+    const poseAt = (coin, t) => {
+      const local = t - coin.startTime;
+      if (local < 0) return false;
+      const f = local / KEYFRAME_DT;
+      const last = coin.frames.length - 1;
+      const i0 = Math.min(Math.floor(f), last);
+      const i1 = Math.min(i0 + 1, last);
+      const a = Math.min(1, f - i0);
+      const A = coin.frames[i0];
+      const B = coin.frames[i1];
+      coin.mesh.position.set(
+        A[0] + (B[0] - A[0]) * a,
+        A[1] + (B[1] - A[1]) * a,
+        A[2] + (B[2] - A[2]) * a
+      );
+      qa.set(A[3], A[4], A[5], A[6]);
+      qb.set(B[3], B[4], B[5], B[6]);
+      coin.mesh.quaternion.slerpQuaternions(qa, qb, a);
+      return true;
+    };
 
-    const animate = (currentTime) => {
-      if (sessionIdRef.current !== currentSessionId) return;
+    const toScreen = (coin) => {
+      const p = coin.mesh.position.clone().project(camera);
+      const edge = coin.mesh.position.clone().add(new THREE.Vector3(0, 0, -COIN_RADIUS)).project(camera);
+      const x = ((p.x + 1) * width) / 2;
+      const yCenter = ((-p.y + 1) * height) / 2;
+      const yTop = ((-edge.y + 1) * height) / 2;
+      return { x, y: Math.min(yCenter, yTop) - 6 };
+    };
 
-      const dt = Math.min((currentTime - lastTime) / 1000, 0.04);
-      lastTime = currentTime;
-      const totalElapsed = (currentTime - startTime) / 1000;
-
-      world.step(1 / 60, dt, 3);
-
-      let allSettled = true;
-      const updatedMarkers = [];
-
-      coinPhysicsPairs.forEach((pair) => {
-        // Handle staggered launching
-        if (!pair.launched) {
-          if (totalElapsed >= pair.delay) {
-            pair.launched = true;
-            pair.group.visible = true;
-            world.addBody(pair.body);
-          } else {
-            allSettled = false;
-            return;
+    // Lay the tags out so two coins that landed close (or stacked) don't print
+    // their tags on top of each other: nudge the later one upward.
+    const layoutMarkers = (list) => {
+      const placed = [];
+      list
+        .map((c) => ({ id: c.id, result: c.result, ...toScreen(c) }))
+        .sort((a, b) => b.y - a.y)
+        .forEach((m) => {
+          let y = m.y;
+          for (let guard = 0; guard < 10; guard++) {
+            const hit = placed.find((p) => Math.abs(p.x - m.x) < 62 && Math.abs(p.y - y) < 19);
+            if (!hit) break;
+            y = hit.y - 20;
           }
-        }
+          placed.push({ ...m, y });
+        });
+      return placed;
+    };
 
-        const { group, body } = pair;
-        const restY = coinThickness / 2 + 0.003;
+    const duration = Math.max(...coins.map((c) => c.endTime));
+    let raf = 0;
+    let finished = false;
+    const start = performance.now();
 
-        if (!pair.settled) {
-          allSettled = false;
+    const tick = () => {
+      const t = (performance.now() - start) / 1000;
+      let labelsChanged = false;
 
-          // While descending near the table, bleed off spin so the coin
-          // stops fluttering and settles naturally instead of grinding on
-          // its rim. Pure physics otherwise — no forced rotation mid-air.
-          if (body.position.y < 1.4 && body.velocity.y < 0) {
-            const damp = Math.max(0, 1 - dt * 4.5);
-            body.angularVelocity.x *= damp;
-            body.angularVelocity.y *= damp;
-            body.angularVelocity.z *= damp;
-          }
-
-          group.position.copy(body.position);
-          group.quaternion.copy(body.quaternion);
-
-          const speed = body.velocity.length();
-          const angSpeed = body.angularVelocity.length();
-          const isNearFloor = body.position.y < restY + 0.09;
-
-          if (isNearFloor && speed < 0.35 && angSpeed < 0.7) {
-            pair.settleFrames += 1;
-            body.velocity.scale(0.82);
-            body.angularVelocity.scale(0.82);
-          } else {
-            pair.settleFrames = 0;
-          }
-
-          // First touchdown: the coin only gets a short window of real
-          // bouncing before the scripted settle takes over, so every flip
-          // resolves in about the same, brisk time instead of grinding on.
-          if (pair.touchTime === null && body.position.y < restY + 0.06 && body.velocity.y <= 0.5) {
-            pair.touchTime = totalElapsed;
-          }
-          const bouncedLongEnough = pair.touchTime !== null && totalElapsed - pair.touchTime > 0.4;
-
-          if (pair.settleFrames > 4 || bouncedLongEnough || totalElapsed > pair.delay + 3.4) {
-            body.velocity.set(0, 0, 0);
-            body.angularVelocity.set(0, 0, 0);
-            world.removeBody(body);
-
-            const currentQuat = new THREE.Quaternion(
-              body.quaternion.x, body.quaternion.y, body.quaternion.z, body.quaternion.w
-            );
-            pair.settleFrom.copy(currentQuat);
-            pair.settleFromPos.copy(group.position);
-
-            // Which face is closest to "up" right now?
-            const upNow = new THREE.Vector3(0, 1, 0).applyQuaternion(currentQuat);
-            const landedSide = upNow.y >= 0 ? 'heads' : 'tails';
-
-            // The result is predetermined — guarantee the coin finishes on
-            // the requested face. If physics already agrees, do a tiny
-            // flattening flutter; otherwise animate one natural tip-over
-            // (small pop + half rotation) so it never snaps.
-            pair.needsTipOver = landedSide !== pair.requestedResult;
-            const euler = new THREE.Euler().setFromQuaternion(currentQuat, 'YXZ');
-            const targetPitch = pair.requestedResult === 'heads' ? 0 : Math.PI;
-            pair.landedQuat.setFromEuler(new THREE.Euler(targetPitch, euler.y, 0, 'YXZ'));
-            pair.landedPos.set(body.position.x, restY, body.position.z);
-
-            pair.settleT = 0;
-            pair.settleDuration = pair.needsTipOver ? 0.55 : 0.22;
-            pair.settled = true;
-            pair.settleAnimating = true;
-          }
-        } else if (pair.settleAnimating) {
-          // Scripted final settle — eases the coin onto its face. The
-          // tip-over variant pops it up slightly and half-rotates it, which
-          // reads as a deliberate last-moment flip rather than a glitch.
-          allSettled = false;
-          pair.settleT += dt;
-          const t = Math.min(1, pair.settleT / pair.settleDuration);
-          const ease = 1 - Math.pow(1 - t, 3);
-
-          group.quaternion.slerpQuaternions(pair.settleFrom, pair.landedQuat, ease);
-
-          const popHeight = pair.needsTipOver ? 0.55 : 0.06;
-          const pop = Math.sin(Math.PI * t) * popHeight;
-          group.position.set(
-            THREE.MathUtils.lerp(pair.settleFromPos.x, pair.landedPos.x, ease),
-            THREE.MathUtils.lerp(pair.settleFromPos.y, pair.landedPos.y, ease) + pop,
-            THREE.MathUtils.lerp(pair.settleFromPos.z, pair.landedPos.z, ease)
-          );
-
-          if (t >= 1) {
-            group.position.copy(pair.landedPos);
-            group.quaternion.copy(pair.landedQuat);
-            pair.settleAnimating = false;
-          }
-        } else {
-          group.position.copy(pair.landedPos);
-          group.quaternion.copy(pair.landedQuat);
-        }
-
-        // Calculate screen markers from camera projection of the live coin
-        // position so the label tracks the settle/tip-over animation.
-        if (pair.settled) {
-          const screenPos = group.position.clone().project(camera);
-          const px = ((screenPos.x + 1) * width) / 2;
-          const edgePos = group.position.clone().add(new THREE.Vector3(coinRadius, 0, 0)).project(camera);
-          const radiusPx = Math.abs(((edgePos.x - screenPos.x) * width) / 2);
-          // Sit the label just above the coin's top edge, never on its face
-          const py = ((-screenPos.y + 1) * height) / 2 - radiusPx * 0.75;
-          updatedMarkers.push({
-            id: pair.id,
-            result: pair.finalResult,
-            x: px,
-            y: py,
-          });
+      coins.forEach((coin) => {
+        coin.mesh.visible = poseAt(coin, t);
+        if (!coin.labelled && t >= coin.settleTime) {
+          coin.labelled = true;
+          labelsChanged = true;
         }
       });
 
-      setLandedMarkers(updatedMarkers);
       renderer.render(scene, camera);
 
-      if (!allSettled) {
-        animFrameRef.current = requestAnimationFrame(animate);
-      } else {
-        const finalResultsList = coinPhysicsPairs.map((c) => ({
-          id: c.id,
-          result: c.finalResult,
-        }));
-        setFinalResults(finalResultsList);
-        setIsSettled(true);
-        if (onFlipComplete) {
-          onFlipComplete(finalResultsList);
-        }
+      if (labelsChanged) {
+        setMarkers(layoutMarkers(coins.filter((c) => c.labelled)));
       }
-    };
 
-    animFrameRef.current = requestAnimationFrame(animate);
+      if (t >= duration) {
+        if (!finished) {
+          finished = true;
+          // Final positions (a coin nudged after its label appeared moves the label too).
+          setMarkers(layoutMarkers(coins));
+          const out = coins.map((c) => ({ id: c.id, result: c.result }));
+          setResults(out);
+          if (onCompleteRef.current) onCompleteRef.current(out);
+        }
+        return; // static from here on — no need to keep rendering
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
 
     const handleResize = () => {
-      if (!mountRef.current || !renderer) return;
-      const w = mountRef.current.clientWidth;
-      const h = mountRef.current.clientHeight;
-      camera.aspect = w / h;
+      const w = mount.clientWidth || window.innerWidth;
+      const h = mount.clientHeight || window.innerHeight;
+      camera.aspect = w / Math.max(1, h);
       camera.updateProjectionMatrix();
       renderer.setSize(w, h);
+      renderer.render(scene, camera);
     };
-
     window.addEventListener('resize', handleResize);
 
     return () => {
       window.removeEventListener('resize', handleResize);
-      if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
-      if (mountRef.current && renderer.domElement) {
-        mountRef.current.removeChild(renderer.domElement);
-      }
+      cancelAnimationFrame(raf);
+      coins.forEach((c) => scene.remove(c.mesh));
+      [coinGeo, groundGeo].forEach((g) => g.dispose());
+      [headsMat, tailsMat, rimMat, groundMat].forEach((m) => m.dispose());
+      [heads.map, heads.bumpMap, tails.map, tails.bumpMap, edgeTex, envTexture].forEach((tex) => tex.dispose());
       renderer.dispose();
+      renderer.forceContextLoss();
+      if (renderer.domElement.parentNode === mount) mount.removeChild(renderer.domElement);
     };
-  }, [isVisible, coinTheme]);
+    // A new flip id restarts the scene; theme/coins are captured with the flip.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [flipId]);
 
-  if (!isVisible) return null;
+  if (!flip) return null;
 
-  const displayCoins = finalResults.length > 0 ? finalResults : coinsToFlip;
-  const headsCount = displayCoins.filter((c) => c.result === 'heads').length;
-  const tailsCount = displayCoins.filter((c) => c.result === 'tails').length;
+  const shown = results || [];
+  const headsCount = shown.filter((c) => c.result === 'heads').length;
+  const tailsCount = shown.length - headsCount;
+  const single = shown.length === 1;
 
   return (
-    <div className="physics-coin-overlay" onClick={onDismiss}>
+    <div
+      className={`physics-coin-overlay ${results ? 'settled' : ''}`}
+      onClick={results ? onDismiss : undefined}
+      title={results ? 'Click anywhere to clear the coins' : undefined}
+    >
       <div className="coin-canvas-container" ref={mountRef} />
 
-      {/* World-space Landed Coin Markers */}
-      {landedMarkers.map((marker) => (
+      {markers.map((m) => (
         <div
-          key={marker.id}
-          className={`landed-coin-marker ${marker.result}`}
-          style={{
-            left: `${marker.x}px`,
-            top: `${marker.y}px`,
-          }}
+          key={m.id}
+          className={`landed-coin-marker ${m.result}`}
+          style={{ left: `${m.x}px`, top: `${m.y}px` }}
         >
-          <span>{marker.result.toUpperCase()}</span>
+          {m.result === 'heads' ? 'Heads' : 'Tails'}
         </div>
       ))}
 
-      {/* Floating Result Chip at top center */}
-      {isSettled && (
+      {results && (
         <div className="coin-3d-result-area" onClick={(e) => e.stopPropagation()}>
-          <div className="coin-result-header">
-            <span className="coin-result-title">Coin Flip Results</span>
-            <span className="coin-theme-badge">{activeTheme.name}</span>
+          <div className="coin-result-main">
+            <span className="coin-result-label">{single ? 'Coin flip' : `${shown.length} coins`}</span>
+            {single ? (
+              <span className="coin-result-value">{headsCount ? 'Heads' : 'Tails'}</span>
+            ) : (
+              <span className="coin-result-value">
+                {headsCount} heads <span className="coin-result-sep">·</span> {tailsCount} tails
+              </span>
+            )}
+            <span className="coin-theme-badge">{theme.name}</span>
           </div>
-
-          <div className="coin-result-counts">
-            <div className="coin-count-pill heads">
-              <span>Heads: {headsCount}</span>
-            </div>
-            <div className="coin-count-pill tails">
-              <span>Tails: {tailsCount}</span>
-            </div>
-          </div>
-
-          <button className="coin-close-btn" onClick={onDismiss}>
+          <button type="button" className="coin-close-btn" onClick={onDismiss}>
             Done
           </button>
         </div>

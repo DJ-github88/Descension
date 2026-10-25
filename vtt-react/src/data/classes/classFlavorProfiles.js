@@ -296,6 +296,34 @@ export const CLASS_FLAVOR_PROFILES = {
     keyFeatures: ['Grafted Chain Tethers', 'Forced Single Duels', 'Area Lockdown'],
     loreSnippet: 'Originating from the subterranean bastions of Frostmaw Holdfast, wardens lock down colossal beasts and hold the line with unbreakable chain tactics.',
     playstyle: 'Harpoon and tether dangerous enemies to yourself, forcing them into a locked duel while generating Tension whenever they strike you.'
+  },
+
+  doomsayer: {
+    id: 'doomsayer',
+    name: 'Doomsayer',
+    role: 'Doom Caster & Forewarner',
+    roleIcon: 'fa-bolt',
+    tradition: 'Doom Discipline',
+    resourceName: 'Calamities & Havoc',
+    resourceIcon: 'fa-hourglass-half',
+    tagline: 'Declare a finite public ending with an exact trigger, clock and disruption method, then collect Havoc only when the doom actually arrives.',
+    keyFeatures: ['Two Public Calamities', 'Havoc 0-15', 'Forewarning Wards'],
+    loreSnippet: 'The Doomsayer inherits the Frozen Archive doom-arithmetic, Anhur vent-readings and Tessic rehearsal traditions without restoring the old Mayhem pressure engine.',
+    playstyle: 'Plant one or two visible calamities, let the table see the clock, resolve each once and spend Havoc on bounded finishers or ally warnings.'
+  },
+
+  oracle: {
+    id: 'oracle',
+    name: 'Oracle',
+    role: 'Insight Support & Forecaster',
+    roleIcon: 'fa-eye',
+    tradition: 'Reading Discipline',
+    resourceName: 'Forecasts',
+    resourceIcon: 'fa-eye',
+    tagline: 'Commit two exact forecasts with a named subject, event category, published benefit and one-or-two own-turn expiry, without debt or die replacement.',
+    keyFeatures: ['Two Forecast Slots', 'No Omen Debt', 'Bounded Readings'],
+    loreSnippet: 'The Oracle reads observable signs and bounded visions from the star-watching and route-reading traditions, never claiming hidden omniscience.',
+    playstyle: 'Prepare a personal certainty or an ally protection before the named event, apply each benefit once and record failure or expiry honestly.'
   }
 };
 

@@ -6,14 +6,17 @@ import { normalizeManagedClassResource } from '../data/classResourceContracts';
 import { canonical, sameExactRef } from './featherSlash';
 import { supportSpell, buildApproval, planSpellCommand, spellReceipt, typedClassValue, ownerRefusal, gmRefusal, P9_SPELL_EXECUTION } from './spellConsequence';
 import { refOf, findActor, inSharedRoom, refreshActorSnapshot, prepareActorCommand, submitPreparedActorCommand, retryActorCommand,
-  requestActorEvent, roomResourceProjection } from './actorConsequenceService';
+  requestActorEvent, roomResourceProjection, applyAcceptedConsequence } from './actorConsequenceService';
+import { captureActorDelivery } from './actorProjectionOrder';
 import { spellContext, loadLatestSpell, retainLatestSpell, unresolvedSpell } from './spellConsequenceCustody';
 import { chatLineFor } from './acceptedResultFeed';
 import { draftContext, sameDraftContext, withDiscarded } from './targetPick';
 import { replaceAuthoredRegistry } from './authoredAbilityRegistry';
-import { isAuthored, actionId, CAPABILITY, creatureSelfHealing } from './authoredAbility';
+import { isAuthored, actionId, creatureSelfHealing } from './authoredAbility';
 import { matchingItemVersions } from './itemAuthoredAbility';
-import { conditionContext, loadConditionCustody, retainConditionCommand } from './sharedConditionCustody';
+import { conditionContext, loadConditionCustody, retainConditionCommand, retainConditionResolution } from './sharedConditionCustody';
+import { CONDITION_CAPABILITY } from './authoredAbility';
+import { onRoomRejoined } from './roomRejoinBus';
 
 export const useSpellConsequenceStore = create(() => ({ owner: null, ownerStatus: null, gmPending: {}, gmStatus: {} }));
 export async function refreshAuthoredAbilities() {
@@ -104,7 +107,7 @@ export const closeOwnerPanel = () => useSpellConsequenceStore.setState({ owner: 
 export const creatureAttempt = () => { const r = loadLatestSpell(); return r?.route === 'creature' ? r : null; };
 export async function openCreatureAbility(sourceRef) {
   const latest = loadLatestSpell();
-  if (latest?.route === 'creature' && !['accepted', 'reconciled'].includes(latest.phase) && (latest.creature?.roll || latest.approval)) {
+  if (latest?.route === 'creature' && !['accepted', 'reconciled'].includes(latest.phase) && (latest.creature?.roll || latest.creature?.resolution || latest.approval)) {
     useSpellConsequenceStore.setState({ creatureOpen: true }); return;
   }
   if (unresolvedSpell(latest) || latest?.draft?.roll) throw Error('A recorded ability roll is retained. Finish or explicitly reconcile it first.');
@@ -116,7 +119,14 @@ export async function openCreatureAbility(sourceRef) {
   if (!source || !grant || !entry || entry.revoked || grant.gmUid !== context.uid || !matchingItemVersions(savedSource.association, [entry], context.roomId).length) throw Error('Admit this exact placed creature and saved version first.');
   const selfAllowed = creatureSelfHealing(entry.canonicalDefinition, savedSource.association.record);
   if (!selfAllowed && (entry.canonicalDefinition.targeting.rangeFeet === 0 || entry.canonicalDefinition.targeting.restriction === 'self')) throw Error('This targeting profile cannot use a supported target. Self requires explicit self-compatible direct healing; range 0 alone grants nothing.');
-  retainLatestSpell(context, { route: 'creature', phase: 'draft', creature: { source: sourceRef, entry, grant, selfAllowed, roll: null, target: null, attemptId: crypto.randomUUID(), actionEpoch: snapshot.actionEpoch, baseCommitSequence: snapshot.commitSequence } });
+  const history = latest?.attemptHistory || [];
+  let attemptHistory = history;
+  if (latest?.route === 'creature' && latest.creature?.resolution) {
+    if (history.length >= 64) throw Error('Condition evidence history full; preserve/reconcile it before preparing another action.');
+    const { attemptHistory: priorHistory, custody, ...evidence } = latest; // eslint-disable-line no-unused-vars
+    attemptHistory = [...history, evidence];
+  }
+  retainLatestSpell(context, { route: 'creature', phase: 'draft', ...(attemptHistory.length ? { attemptHistory } : {}), creature: { source: sourceRef, entry, grant, selfAllowed, roll: null, target: null, attemptId: crypto.randomUUID(), actionEpoch: snapshot.actionEpoch, baseCommitSequence: snapshot.commitSequence } });
   useSpellConsequenceStore.setState({ creatureOpen: true }); bumpDraft();
 }
 export function saveCreatureRoll(roll, target) {
@@ -128,19 +138,26 @@ export function saveCreatureRoll(roll, target) {
   const kept = retainLatestSpell(context, { ...latest, creature, draft }); bumpDraft();
   if (!String(kept.custody).startsWith('Device')) throw Error('Device custody unavailable. Faces remain in memory; nothing emitted.');
 }
+export function saveCreatureResolution(resolution, target) {
+  const context = spellContext(), latest = creatureAttempt();
+  if (!latest || latest.approval || latest.creature.entry.descriptor.capabilityId !== CONDITION_CAPABILITY) throw Error('Prepared evidence is immutable. Explicitly revalidate its context first.');
+  const kept = retainLatestSpell(context, { ...latest, creature: { ...latest.creature, resolution, target } }); bumpDraft();
+  if (!String(kept.custody).startsWith('Device')) throw Error('Device custody unavailable. Nothing emitted.');
+}
 export async function prepareCreatureAbility(proposal) {
   const context = spellContext(), latest = creatureAttempt(), c = latest?.creature;
-  if (!c?.roll || !c.target) throw Error('Choose an exact target and retain the roll first.');
+  const condition = c?.entry.descriptor.capabilityId === CONDITION_CAPABILITY;
+  if ((!c?.roll && !condition) || !c.target || (condition && c.resolution?.gmConfirmed !== true)) throw Error('Choose an exact target and retain the roll or confirmed condition outcome first.');
   if (latest.phase === 'accepted') return;
-  if (c.target.kind === 'character' && (!Number.isSafeInteger(Number(proposal?.proposedAmount)) || Number(proposal?.proposedAmount) < 0 || !proposal?.ruling?.trim())) throw Error('Enter the proposal amount and explicit targeting/block-applicability ruling first.');
+  if (!condition && c.target.kind === 'character' && (!Number.isSafeInteger(Number(proposal?.proposedAmount)) || Number(proposal?.proposedAmount) < 0 || !proposal?.ruling?.trim())) throw Error('Enter the proposal amount and explicit targeting/block-applicability ruling first.');
   const d = c.entry.canonicalDefinition;
   const approval = latest.approval || { version: 1, roomId: context.roomId, approvalId: c.attemptId, actionEpoch: c.actionEpoch, baseCommitSequence: c.baseCommitSequence,
     source: c.source, target: c.target, sourceAuthority: { admissionId: c.grant.requestId, gmUid: c.grant.gmUid, associationHash: c.grant.associationHash },
-    spell: { definitionId: actionId(c.entry.definitionRef), definitionHash: `${CAPABILITY}/${c.entry.definitionRef.definitionHash}`, name: d.name, kind: d.effect.kind, damageTypes: c.entry.descriptor.effect.damageTypes },
-    price: c.entry.descriptor.price, classPayment: null, roll: c.roll };
+    spell: { definitionId: actionId(c.entry.definitionRef), definitionHash: `${c.entry.descriptor.capabilityId}/${c.entry.definitionRef.definitionHash}`, name: d.name, kind: d.effect.kind, damageTypes: c.entry.descriptor.effect.damageTypes || [] },
+    price: c.entry.descriptor.price, classPayment: null, roll: c.roll, ...(condition ? { resolution: c.resolution } : {}) };
   const retained = retainLatestSpell(context, { ...latest, approval, phase: 'prepared' });
   if (!String(retained.custody).startsWith('Device')) throw Error('Device custody unavailable; nothing emitted.');
-  if (c.target.kind === 'character') {
+  if (!condition && c.target.kind === 'character') {
     const blocks = require('./blockingService');
     const kept = retainLatestSpell(context, { ...retained, pcOffer: true });
     let offered;
@@ -193,7 +210,7 @@ export async function cancelCreatureAbility() {
 /** Explicit material revalidation: positive close first, same source/formula/faces, new provenance. */
 export async function revalidateCreatureContext() {
   const context = spellContext(), latest = creatureAttempt(), c = latest?.creature;
-  if (!c?.roll || ['accepted', 'unknown', 'unresolved'].includes(latest.phase)) throw Error('Resolve the original outcome before changing its context.');
+  if ((!c?.roll && !c?.resolution) || ['accepted', 'unknown', 'unresolved'].includes(latest.phase)) throw Error('Resolve the original outcome before changing its context.');
   if (latest.pcOffer) {
     const blocks = require('./blockingService'), saved = blocks.loadBlockingCustody()?.gm?.[c.attemptId];
     if (['submitting', 'unknown', 'accepted'].includes(saved?.phase)) throw Error('Check the original outcome; an accepted or unknown attempt cannot be replaced.');
@@ -207,7 +224,7 @@ export async function revalidateCreatureContext() {
   if (!result.success || !snapshot.success || !context.current()) throw Error('Current room context unavailable. Original evidence retained.');
   const source = findActor(c.source), savedSource = result.creatureSources?.find(e => sameExactRef(e.source, c.source)), grant = savedSource?.admission;
   const entry = result.entries.find(e => grant && actionId(e.definitionRef) === actionId(grant.definitionRef));
-  if (!source || !entry || entry.revoked || grant.gmUid !== context.uid || !matchingItemVersions(savedSource.association, [entry], context.roomId).length || entry.canonicalDefinition.effect.formula !== c.roll.reading || entry.canonicalDefinition.effect.kind !== c.entry.canonicalDefinition.effect.kind)
+  if (!source || !entry || entry.revoked || grant.gmUid !== context.uid || !matchingItemVersions(savedSource.association, [entry], context.roomId).length || (c.roll && entry.canonicalDefinition.effect.formula !== c.roll.reading) || entry.canonicalDefinition.effect.kind !== c.entry.canonicalDefinition.effect.kind)
     throw Error('Exact source, effect or formula is incompatible. Original evidence remains retained for manual reconciliation.');
   if (latest.approval && !latest.pcOffer) {
     const closed = await requestActorEvent('actor_spell_withdraw', { roomId: context.roomId, approvalId: latest.approval.approvalId, approval: latest.approval });
@@ -219,7 +236,7 @@ export async function revalidateCreatureContext() {
   if (history.length >= 64) throw Error('Evidence history full; manual reconciliation required.');
   const { attemptHistory, custody, ...evidence } = latest; // eslint-disable-line no-unused-vars
   retainLatestSpell(context, { route: 'creature', phase: 'draft', supersedes: latest.approval?.approvalId, attemptHistory: [...history, evidence],
-    creature: { ...c, entry, grant, selfAllowed: creatureSelfHealing(entry.canonicalDefinition, savedSource.association.record), attemptId: crypto.randomUUID(), actionEpoch: snapshot.actionEpoch, baseCommitSequence: snapshot.commitSequence }, draft: latest.draft });
+    creature: { ...c, ...(c.resolution ? { resolution: { ...c.resolution, gmConfirmed: false, timing: entry.canonicalDefinition.timing } } : {}), entry, grant, selfAllowed: creatureSelfHealing(entry.canonicalDefinition, savedSource.association.record), attemptId: crypto.randomUUID(), actionEpoch: snapshot.actionEpoch, baseCommitSequence: snapshot.commitSequence }, draft: latest.draft });
   useSpellConsequenceStore.setState({ creatureMessage: 'Old attempt positively closed. Original faces retained. Explicitly select/review the target, then validate the refreshed admission.' }); bumpDraft();
 }
 
@@ -303,6 +320,7 @@ export async function sendSpellApproval({ spellId, targetRef, roll, origin }) {
   support = supportSpell({ id: spellId }, characterState());
   const current = ownerSource();
   if (current.error) return setOwnerStatus({ phase: 'refused', message: current.error });
+  if (!context.current() || !sameExactRef(source.ref, current.ref)) return setOwnerStatus({ phase: 'refused', message: 'Owner attachment changed during preparation. Review the exact source and approve again.' });
   let approval;
   try {
     approval = buildApproval({ support, tokens: tokens(), sourceRef: current.ref, targetRef, roomId: snapshot.roomId, mapId: current.mapId,
@@ -316,6 +334,7 @@ export async function sendSpellApproval({ spellId, targetRef, roll, origin }) {
   return submitApproval(context, retained);
 }
 async function submitApproval(context, current) {
+  if (current.approval.spell.kind === 'condition' && current.approval.source.characterId !== characterState().currentCharacterId) return setOwnerStatus({ phase: 'refused', message: 'This approval belongs to another character. Return to that character to recover it; it cannot be adopted here.' });
   if (isAuthored(current.approval?.spell) && !String(current.custody).startsWith('Device')) return setOwnerStatus({ phase: 'prepared', latest: current, message: 'Device custody unavailable; nothing emitted.' });
   // Mark the bytes as sent before the first emission: afterwards no refusal may say "no payment".
   const firstSubmission = !current.sent;
@@ -323,7 +342,7 @@ async function submitApproval(context, current) {
   setOwnerStatus({ phase: 'awaiting', message: 'Submitting approval…', latest: retained });
   const result = await requestActorEvent('actor_spell_approve', retained.approval);
   if (!context.current()) return { success: false, code: 'retired_principal' };
-  if (result.success) { consumeSpellReceipt(result); return result; }
+  if (result.success) { consumeSpellReceipt(result, { historical: !firstSubmission }); return result; }
   if (result.code === 'awaiting_gm') {
     const kept = retainLatestSpell(context, { ...retained, phase: 'awaiting', contentHash: result.contentHash });
     return setOwnerStatus({ phase: 'awaiting', message: 'Awaiting GM adjudication. Nothing is spent until the GM accepts.', latest: kept });
@@ -334,7 +353,7 @@ async function submitApproval(context, current) {
   }
   const outcome = ownerRefusal(firstSubmission, result.code);
   // A refused first submission was never registered: its recorded roll returns for the same spell.
-  const returned = outcome.phase === 'refused' ? { draft: spellDraftFromApproval(retained.approval) } : {};
+  const returned = outcome.phase === 'refused' && retained.approval.roll ? { draft: spellDraftFromApproval(retained.approval) } : {};
   const kept = retainLatestSpell(context, { ...retained, phase: outcome.phase, result, ...returned });
   if (returned.draft) bumpDraft();
   return setOwnerStatus({ ...outcome, ...(returned.draft ? { message: `${outcome.message} Your recorded roll is kept for this spell.` } : {}), latest: kept });
@@ -355,15 +374,16 @@ export async function checkSpellApproval() {
 export async function withdrawSpellApproval() {
   const context = spellContext(), latest = loadLatestSpell(context);
   if (!latest?.approval) return null;
-  const result = await requestActorEvent('actor_spell_withdraw', { roomId: latest.approval.roomId, approvalId: latest.approval.approvalId });
+  if (latest.approval.spell.kind === 'condition' && latest.approval.source.characterId !== characterState().currentCharacterId) throw Error('Return to the original character to withdraw this approval.');
+  const result = await requestActorEvent('actor_spell_withdraw', { roomId: latest.approval.roomId, approvalId: latest.approval.approvalId, approval: latest.approval });
   if (!context.current()) return null;
   if (result.success && result.receipt) { consumeSpellReceipt(result); return result; }
   if (result.success && result.code === 'withdrawn') {
     // P12C-B1 §2: the withdrawn roll returns as a draft for the same spell (re-approve, never reroll).
-    const draft = spellDraftFromApproval(latest.approval);
+    const draft = latest.approval.roll ? spellDraftFromApproval(latest.approval) : null;
     const kept = retainLatestSpell(context, { ...latest, phase: 'withdrawn', result, draft });
     bumpDraft();
-    return setOwnerStatus({ phase: 'withdrawn', message: 'Withdrawn before GM acceptance — no payment was recorded. Your recorded roll is kept for this spell.', latest: kept });
+    return setOwnerStatus({ phase: 'withdrawn', message: `Withdrawn before GM acceptance — no payment was recorded. ${draft ? 'Your recorded roll is kept for this spell.' : 'Prior consent terms remain retained; review changed terms before approving again.'}`, latest: kept });
   }
   if (['approval_consumed', 'retry_window_expired'].includes(result.code)) {
     const outcome = ownerRefusal(false, result.code);
@@ -375,6 +395,11 @@ export async function withdrawSpellApproval() {
 export async function reapproveSpell() {
   const context = spellContext(), latest = loadLatestSpell(context);
   if (latest?.phase !== 'reapproval') return null;
+  if (latest.approval.spell.kind === 'condition') {
+    if (latest.approval.source.characterId !== characterState().currentCharacterId) throw Error('Return to the original character to review this consent.');
+    const kept = retainLatestSpell(context, { ...latest, phase: 'withdrawn' });
+    return setOwnerStatus({ phase: 'withdrawn', latest: kept, message: 'Old consent closed by the server. Refresh admitted abilities, select the intended version and target, then explicitly approve its displayed terms. Prior evidence is retained.' });
+  }
   const source = ownerSource();
   if (source.error) return setOwnerStatus({ phase: 'reapproval', message: source.error, latest });
   let support = supportSpell({ id: latest.approval.spell.definitionId }, characterState());
@@ -451,7 +476,7 @@ export function consumeSpellReceipt(result, { historical = false } = {}) {
   const chat = getStore('chatStore');
   const { recorded, receipt } = view, adjudication = receipt.adjudication;
   const self = sameExactRef(receipt.source, receipt.target);
-  const fullLine = `${self ? `${recorded.sourceName} (Self)` : `${recorded.sourceName} → ${recorded.targetName}`}: ${recorded.spellName} · ${recorded.roll.mode} [${recorded.roll.dice.map(group => group.faces.join(', ')).join(' | ')}] ${recorded.roll.constant >= 0 ? '+' : '-'} ${Math.abs(recorded.roll.constant)} = ${recorded.roll.total}; GM final ${adjudication.finalAmount} ${recorded.kind === 'healing' ? 'healing' : (recorded.damageTypes || []).join('/')}${self && Number.isFinite(recorded.actualHealing) ? `; actual HP restored ${recorded.actualHealing}` : ''}${adjudication.adjustmentReason ? ` (${adjudication.adjustmentReason})` : ''}. Accepted receipt ${receipt.commandId}.`;
+  const fullLine = recorded.kind === 'condition' ? `${recorded.spellName}: canonical Stunned applied. Instance ${recorded.conditionInstanceId}. ${recorded.resolution.timing.durationText} — GM removes. Accepted receipt ${receipt.commandId}.` : `${self ? `${recorded.sourceName} (Self)` : `${recorded.sourceName} → ${recorded.targetName}`}: ${recorded.spellName} · ${recorded.roll.mode} [${recorded.roll.dice.map(group => group.faces.join(', ')).join(' | ')}] ${recorded.roll.constant >= 0 ? '+' : '-'} ${Math.abs(recorded.roll.constant)} = ${recorded.roll.total}; GM final ${adjudication.finalAmount} ${recorded.kind === 'healing' ? 'healing' : (recorded.damageTypes || []).join('/')}${self && Number.isFinite(recorded.actualHealing) ? `; actual HP restored ${recorded.actualHealing}` : ''}${adjudication.adjustmentReason ? ` (${adjudication.adjustmentReason})` : ''}. Accepted receipt ${receipt.commandId}.`;
   let line = fullLine; try {line = chatLineFor(result, fullLine);} catch (_) { line = null; } // P13A §4: never name actors this viewer cannot see
   if (!historical && line && chat && !chat.getState().notifications.combat.some(note => note.id === id)) chat.getState().addNotification('combat', {
     id, type: 'combat', receiptId: id, timestamp: new Date(receipt.acceptedAt).toISOString(),
@@ -460,7 +485,7 @@ export function consumeSpellReceipt(result, { historical = false } = {}) {
   useSpellConsequenceStore.setState(current => {
     const gmPending = { ...current.gmPending }; delete gmPending[view.approvalId];
     const gmStatus = { ...current.gmStatus, ...(current.gmStatus[view.approvalId] ? { [view.approvalId]: { phase: 'accepted', checkpointRevision: view.receipt.checkpointRevision, message: `Accepted · ${durabilityLabel(view.receipt, view.status)}` } } : {}) };
-    return { gmPending, gmStatus };
+    return { gmPending, gmStatus, targetProposals: (current.targetProposals || []).filter(p => p.approvalId !== view.approvalId) };
   });
   const context = spellContext();
   const creature = loadLatestSpell(context);
@@ -468,7 +493,7 @@ export function consumeSpellReceipt(result, { historical = false } = {}) {
     retainLatestSpell(context, { ...creature, phase: 'accepted', result });
     bumpDraft();
   }
-  if (context.current() && view.receipt.source.ownerUid === context.uid) {
+   if (context.current() && (view.receipt.source?.ownerUid === context.uid || (recorded.kind === 'condition' && loadLatestSpell(context)?.approval?.approvalId === view.approvalId && loadLatestSpell(context)?.approval?.source?.ownerUid === context.uid))) {
     const latest = loadLatestSpell(context);
     if (latest?.approval?.approvalId === view.approvalId) {
       if (latest.phase !== 'accepted') {
@@ -476,8 +501,8 @@ export function consumeSpellReceipt(result, { historical = false } = {}) {
         startCooldown(latest.origin, latest.cooldown, view.receipt.adjudication.definitionId);
       }
       const kept = retainLatestSpell(context, { ...latest, phase: 'accepted', result });
-      setOwnerStatus({ phase: 'accepted', message: `Accepted · ${durabilityLabel(view.receipt, view.status)}. GM final ${adjudication.finalAmount}.`, latest: kept });
-    } else if (view.receipt.source.characterId === characterState().currentCharacterId) {
+      setOwnerStatus({ phase: 'accepted', message: `Accepted · ${durabilityLabel(view.receipt, view.status)}. ${recorded.kind === 'condition' ? `Canonical Stunned instance ${recorded.conditionInstanceId}. ${recorded.resolution.timing.durationText} — GM removes.` : `GM final ${adjudication.finalAmount}.`}`, latest: kept });
+    } else if (view.receipt.source?.characterId === characterState().currentCharacterId) {
       applyOwnerClassFromHome(view);
     }
   }
@@ -487,18 +512,55 @@ export function consumeSpellReceipt(result, { historical = false } = {}) {
 // ── GM adjudication ─────────────────────────────────────────────────────────
 const setGm = (approvalId, status) => useSpellConsequenceStore.setState(current => ({ gmStatus: { ...current.gmStatus, [approvalId]: { ...current.gmStatus[approvalId], ...status } } }));
 export async function refreshSpellApprovals() {
-  const roomId = gameState().multiplayerRoom?.id;
+  const context = spellContext(), socket = gameState().multiplayerSocket, roomId = context.roomId;
   if (!roomId) return null;
   const result = await requestActorEvent('actor_spell_list', { roomId });
+  if (!context.current() || gameState().multiplayerSocket !== socket) return { success: false, code: 'retired_principal' };
   if (!result?.success) return result;
   const gmPending = {};
   for (const entry of result.pending || []) if (!entry.own) gmPending[entry.approval.approvalId] = entry;
-  useSpellConsequenceStore.setState({ gmPending });
+   useSpellConsequenceStore.setState({ gmPending, targetProposals: result.targetProposals || [] });
   for (const saved of Object.values(loadConditionCustody()?.entries || {})) {
     if (saved.kind === 'authored-execution') setGm(saved.command.approval.approvalId, { phase: saved.phase === 'prepared' ? 'unknown' : saved.phase === 'failed' && ['retry_window_expired', 'approval_consumed'].includes(saved.result?.code) ? 'unresolved' : saved.phase, commandId: saved.command.commandId,
       message: saved.phase === 'accepted' ? 'Accepted (retained original result).' : 'Retained original command. Check it before confirming another result.' });
   }
   return result;
+}
+export const gmConditionResolution = approvalId => loadConditionCustody()?.resolutions?.[approvalId] || null;
+export async function designateVoluntaryCondition(approvalId) {
+  const context = spellContext(), entry = useSpellConsequenceStore.getState().gmPending[approvalId];
+  if (!entry || !gameState().isGMMode) throw Error('Current GM pending application required.');
+  const result = await requestActorEvent('actor_spell_target_designate', { roomId: context.roomId, approvalId, contentHash: entry.contentHash });
+  if (!context.current()) return;
+  if (!result.success) throw Error(`Voluntary designation not confirmed (${result.code}). Check pending work before proceeding.`);
+  await refreshSpellApprovals();
+}
+export async function respondToVoluntaryCondition(proposal, accept) {
+  const context = conditionContext();
+  if (characterState().currentCharacterId !== proposal.target.characterId) throw Error('Return to the exact target character.');
+  const key = `target-consent:${proposal.proposalId}:${accept ? 'accept' : 'withdraw'}`;
+  const old = loadConditionCustody(context)?.entries?.[key];
+  const command = old?.command || { commandId: crypto.randomUUID(), roomId: context.roomId, approvalId: proposal.approvalId, proposalId: proposal.proposalId, termsHash: proposal.termsHash, target: proposal.target, accept };
+  retainConditionCommand(context, key, { kind: 'target-consent', command, phase: 'prepared', proposal });
+  const delivery = captureActorDelivery();
+  const { commandId, ...data } = command; // eslint-disable-line no-unused-vars
+  const result = await requestActorEvent('actor_spell_target_respond', data);
+  if (!context.current() || characterState().currentCharacterId !== proposal.target.characterId) return;
+  if (result.success && result.receipt) {
+    if (!applyAcceptedConsequence(result, delivery, { live: false })) throw Error('Original installed result needs authoritative snapshot recovery; keep this response and refresh.');
+    consumeSpellReceipt(result, { historical: true });
+  }
+  retainConditionCommand(context, key, { command, phase: result.success ? 'accepted' : [...UNKNOWN, 'retry_window_expired'].includes(result.code) ? 'unknown' : 'failed', result });
+  await refreshSpellApprovals();
+  if (!result.success) throw Error(`Target response unconfirmed (${result.code}). Check the original proposal; silence never accepts.`);
+}
+export function retainedTargetResponses() {
+  return Object.values(loadConditionCustody()?.entries || {}).filter(e => e.kind === 'target-consent' && ['prepared', 'unknown'].includes(e.phase) && e.command.target.characterId === characterState().currentCharacterId);
+}
+export function saveGmConditionResolution(approvalId, resolution) {
+  if (!gameState().isGMMode) throw Error('Current GM required.');
+  retainConditionResolution(conditionContext(), approvalId, resolution);
+  bumpDraft();
 }
 export async function gmAcceptSpell(approvalId, { finalAmount, reason, adjudicated }) {
   const entry = useSpellConsequenceStore.getState().gmPending[approvalId];
@@ -512,7 +574,7 @@ export async function gmAcceptSpell(approvalId, { finalAmount, reason, adjudicat
   let command;
   try {
     const plan = planSpellCommand({ approval: entry.approval, contentHash: entry.contentHash, tokens: tokens(), roomId: snapshot.roomId, mapId: entry.approval.source.mapId,
-      finalAmount, reason, adjudicated });
+      finalAmount, reason, adjudicated, resolution: gmConditionResolution(approvalId) });
     command = prepareActorCommand(plan.entries, plan.extra);
     if (authored) retainConditionCommand(context, `authored-spell:${approvalId}`, { kind: 'authored-execution', phase: 'prepared', command });
   } catch (error) { return setGm(approvalId, { phase: 'refused', message: `${error.message} Nothing submitted.` }); }
@@ -549,7 +611,9 @@ export async function gmDeclineSpell(approvalId) {
 
 export function registerSpellConsequenceHandlers({ socket }) {
   if (!socket) return () => {};
-  const live = () => gameState().multiplayerSocket === socket;
+  const context = spellContext();
+  // Socket handlers are installed before room_joined. Capture the account, not that absent room.
+  const live = () => (context.accountCurrent || context.current)() && gameState().multiplayerSocket === socket;
   // The server delivers pending approvals to entitled GM sessions only.
   const pending = value => {
     if (!live() || value?.roomId !== gameState().multiplayerRoom?.id || !value.approval?.approvalId) return;
@@ -557,7 +621,7 @@ export function registerSpellConsequenceHandlers({ socket }) {
   };
   const closed = value => {
     if (!live() || value?.roomId !== gameState().multiplayerRoom?.id) return;
-    useSpellConsequenceStore.setState(current => { const gmPending = { ...current.gmPending }; delete gmPending[value.approvalId]; return { gmPending }; });
+    useSpellConsequenceStore.setState(current => { const gmPending = { ...current.gmPending }; delete gmPending[value.approvalId]; return { gmPending, targetProposals: (current.targetProposals || []).filter(p => p.approvalId !== value.approvalId) }; });
     const context = spellContext(), latest = loadLatestSpell(context);
     if (latest?.approval?.approvalId !== value.approvalId || latest.phase === 'accepted') return;
     const phase = value.code === 'owner_reapproval_required' ? 'reapproval' : value.code === 'declined' ? 'declined' : value.code === 'withdrawn' ? 'withdrawn' : latest.phase;
@@ -566,6 +630,7 @@ export function registerSpellConsequenceHandlers({ socket }) {
       : phase === 'declined' ? 'Declined by the GM before acceptance — no payment was recorded.' : phase === 'withdrawn' ? 'Withdrawn before GM acceptance — no payment was recorded.' : latest.phase });
   };
   const accepted = result => { if (live()) consumeSpellReceipt(result); };
+  const targetPending = value => { if (live() && value?.roomId === gameState().multiplayerRoom?.id) refreshSpellApprovals(); };
   // Checkpoint confirmation upgrades the accepted label only from the writer's confirmed revision.
   const saved = value => {
     if (!live() || value?.roomId !== gameState().multiplayerRoom?.id || !Number.isSafeInteger(value.confirmedRevision)) return;
@@ -582,5 +647,11 @@ export function registerSpellConsequenceHandlers({ socket }) {
     }
   };
   socket.on('actor_spell_pending', pending); socket.on('actor_spell_closed', closed); socket.on('actor_consequence_accepted', accepted); socket.on('room_save_status', saved);
-  return () => { socket.off('actor_spell_pending', pending); socket.off('actor_spell_closed', closed); socket.off('actor_consequence_accepted', accepted); socket.off('room_save_status', saved); };
+  socket.on('actor_spell_target_pending', targetPending);
+  const unsubscribe = onRoomRejoined(event => {
+    if (live() && event.socket === socket && event.roomId === gameState().multiplayerRoom?.id) {
+      refreshSpellApprovals(); refreshAuthoredAbilities(); restoreOwnerStatus();
+    }
+  });
+  return () => { unsubscribe(); socket.off('actor_spell_target_pending', targetPending); socket.off('actor_spell_pending', pending); socket.off('actor_spell_closed', closed); socket.off('actor_consequence_accepted', accepted); socket.off('room_save_status', saved); };
 }

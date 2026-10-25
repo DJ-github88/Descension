@@ -2,6 +2,10 @@
 
 2026-10-23 · Recommendation only after [A6](MYTHRILL_PROJECT_14_A6_ACCEPTANCE.md). Not frozen/implemented.
 
+**Subsequent disposition:** this bounded recommendation was separately authorized, frozen and delivered
+as [P14-A7](MYTHRILL_PROJECT_14_A7_ACCEPTANCE.md), repaired independent ACCEPT/Build4-App4 PASS (qualified).
+The original preparation below remains historical rationale; A7's contract/acceptance owns current scope.
+
 **Recommend one reusable first profile:** immediate ACTION, one exact admitted placed creature source,
 one exact distinct placed creature target, exactly one **Stunned** condition, GM explicitly confirms the
 already-resolved applicability/save outcome, explicit authored AP/mana, **manual duration/expiry only**.

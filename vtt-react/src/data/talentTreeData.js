@@ -169,6 +169,10 @@ import { FATE_WEAVER_TREES } from './talentTrees/fateWeaver';
 import { FATE_WEAVER_PROJECTED_SPELLS_BY_ID, FATE_WEAVER_ICON } from './classes/fateWeaverData';
 import { DEATHCALLER_TREES, DEATHCALLER_PROJECTED_SPELLS_BY_ID, DEATHCALLER_ICON } from './classes/deathcallerData';
 import { LICHBORNE_TREES, LICHBORNE_PROJECTED_SPELLS_BY_ID, LICHBORNE_ICON } from './classes/lichborneData';
+import { DOOMSAYER_TREES } from './talentTrees/doomsayer';
+import { DOOMSAYER_PROJECTED_SPELLS_BY_ID, DOOMSAYER_ICON } from './classes/doomsayerData';
+import { ORACLE_TREES } from './talentTrees/oracle';
+import { ORACLE_PROJECTED_SPELLS_BY_ID, ORACLE_ICON } from './classes/oracleData';
 
 export const getTreeBackdrop = (className, specId) => {
   // Map class and specialization to high-res thematic background images from /assets/Backgrounds/
@@ -365,6 +369,8 @@ export const TALENT_TREES = {
   'Fate Weaver': buildCr1TalentTrees(FATE_WEAVER_TREES, FATE_WEAVER_PROJECTED_SPELLS_BY_ID, FATE_WEAVER_ICON),
   'Deathcaller': buildCr1TalentTrees(DEATHCALLER_TREES, DEATHCALLER_PROJECTED_SPELLS_BY_ID, DEATHCALLER_ICON),
   'Lichborne': buildCr1TalentTrees(LICHBORNE_TREES, LICHBORNE_PROJECTED_SPELLS_BY_ID, LICHBORNE_ICON),
+  'Doomsayer': buildCr1TalentTrees(DOOMSAYER_TREES, DOOMSAYER_PROJECTED_SPELLS_BY_ID, DOOMSAYER_ICON),
+  'Oracle': buildCr1TalentTrees(ORACLE_TREES, ORACLE_PROJECTED_SPELLS_BY_ID, ORACLE_ICON),
   'Toxicologist': {
     'venomancer': TOXICOLOGIST_VENOMANCER,
     'gadgeteer': TOXICOLOGIST_GADGETEER,

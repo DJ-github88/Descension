@@ -28,26 +28,35 @@ export const PLAGUEBRINGER_CORE_SPELL_IDS = [
   'pb_whisper_of_decay'
 ];
 
-const withTalentGrantIds = (nodes) => nodes.map(node => ({
-  ...node,
-  grantId: node.grantId || `talent-spell-${node.id}`
-}));
+const TALENT_MIN_LEVEL_BY_TIER = { 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6, 7: 8 };
+
+const withTalentMetadata = (nodes) => nodes.map(node => {
+  const tier = talentTier(node);
+  const capstone = tier === 7 && node.maxRanks === 1 && node.spell?.spellType === 'ACTIVE';
+  return {
+    ...node,
+    grantId: node.grantId || `talent-spell-${node.id}`,
+    minLevel: capstone ? 10 : TALENT_MIN_LEVEL_BY_TIER[tier] ?? 1,
+    requiresPoints: capstone ? 45 : tierUnlockCost(tier),
+    capstone
+  };
+});
 
 export const PLAGUEBRINGER_TREES = {
-  virulent_spreader: withTalentGrantIds(PLAGUEBRINGER_VIRULENT_SPREADER),
-  torment_weaver: withTalentGrantIds(PLAGUEBRINGER_TORMENT_WEAVER),
-  decay_harbinger: withTalentGrantIds(PLAGUEBRINGER_DECAY_HARBINGER)
+  virulent_spreader: withTalentMetadata(PLAGUEBRINGER_VIRULENT_SPREADER),
+  torment_weaver: withTalentMetadata(PLAGUEBRINGER_TORMENT_WEAVER),
+  decay_harbinger: withTalentMetadata(PLAGUEBRINGER_DECAY_HARBINGER)
 };
 
 export const PLAGUEBRINGER_TALENT_NODES = Object.entries(PLAGUEBRINGER_TREES)
   .flatMap(([treeId, nodes]) => nodes.map(node => ({
     ...node,
     treeId,
-    minLevel: 1,
+    minLevel: node.minLevel ?? 1,
     requires: node.requires
       ? (Array.isArray(node.requires) ? node.requires : [node.requires])
       : [],
-    requiresPoints: tierUnlockCost(talentTier(node))
+    requiresPoints: node.requiresPoints ?? tierUnlockCost(talentTier(node))
   })));
 
 export const prunePlaguebringerTalents = (talents, level) =>

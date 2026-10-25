@@ -25,9 +25,9 @@ export function CreatureAbilityDetails({ association: suppliedAssociation, saved
    const selfAllowed = creatureSelfHealing(d, association?.record);
   return <section className="item-ability" aria-label="Creature activated ability">
     <h3>{association?.record?.name || 'Preserved activated ability'}</h3>
-    <p role="status">{support.ok ? `Supported immediate ACTION · ${d.effect.kind} · ${d.effect.formula} ${d.effect.damageTypes?.join(', ') || 'healing'} · ${d.resourceCost.actionPoints} AP / ${d.resourceCost.mana} mana · ${d.targeting.rangeFeet} ft · one ${d.targeting.restriction} target` : `Unsupported/manual — ${support.reason}`}</p>
+    <p role="status">{support.ok ? `Supported immediate ACTION · ${d.effect.kind === 'condition' ? `canonical Stunned · ${d.timing.durationText} — GM removes` : `${d.effect.kind} · ${d.effect.formula} ${d.effect.damageTypes?.join(', ') || 'healing'}`} · ${d.resourceCost.actionPoints} AP / ${d.resourceCost.mana} mana · ${d.targeting.rangeFeet} ft · one ${d.targeting.restriction} target` : `Unsupported/manual — ${support.reason}`}</p>
     {d?.description && <p>{d.description}</p>}
-    <p>{token ? 'GM creature action: one exact target on the same map, including Self for compatible direct healing. Admission, rolling and preparation spend nothing; confirmation installs payment and HP together.' : 'Library admission alone does not authorize a creature source. Place this creature, then Inspect its saved ability and admit that exact placed source.'}</p>
+    <p>{token ? 'GM creature action: one exact target on the same map, including Self for compatible direct healing. Preparation spends nothing; confirmation installs authored payment and the supported effect together. Condition success and expiry are GM-managed.' : 'Library admission alone does not authorize a creature source. Place this creature, then Inspect its saved ability and admit that exact placed source.'}</p>
     {d && (d.targeting.rangeFeet === 0 || d.targeting.restriction === 'self') && <p role="status">Authored range {d.targeting.rangeFeet} ft / {d.targeting.restriction}. {selfAllowed ? 'Choose Self for direct capped healing.' : 'No compatible self route; keep this definition manual.'} Distinct range-zero targets remain unsupported.</p>}
     {association?.librarySpellId && <p>Detached Spell Library snapshot. Library edits or deletion do not replace this content.</p>}
     <details><summary>Inspect whole preserved definition</summary><pre className="creature-ability-json">{JSON.stringify(association, null, 2)}</pre></details>
@@ -52,7 +52,7 @@ export default function CreatureAbilityEditor() {
   const ambiguous = spells.some(s => !s.id || spells.filter(other => other.id === s.id).length > 1);
   return <section className="item-ability" aria-label="Creature ability authoring">
     <h3>Separate activated ability</h3>
-    <p>Author one immediate damage or healing definition. Existing creature abilities, triggers and tactics remain separate and manual.</p>
+    <p>Author one immediate damage, healing or canonical Stunned definition. Select condition definitions saved in Spell Wizard; existing creature abilities, triggers and tactics remain manual.</p>
     <CreatureAbilityDetails association={state.authoredAbility} />
     {edit ? <CompactForm association={edit.association} initialValues={edit.values} subject="creature" onValuesChange={values => update({ abilityEdit: { ...edit, values } })}
       onKeep={association => update({ authoredAbility: association, abilityEdit: null })} onCancel={() => update({ abilityEdit: null })} /> : <>

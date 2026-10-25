@@ -126,9 +126,9 @@ test('Skald Martyr normal method is Ironclad and Witness is extra acquired train
 });
 
 test('Nereid lookup aliases stay compatible without becoming three extra base classes', () => {
-  expect(Object.keys(BASE_CLASSES_DATA)).toHaveLength(26);
-  expect(Object.keys(ALL_CLASSES_DATA)).toHaveLength(29);
-  expect(CLASS_DISPLAY_DATA).toHaveLength(26);
+  expect(Object.keys(BASE_CLASSES_DATA)).toHaveLength(28);
+  expect(Object.keys(ALL_CLASSES_DATA)).toHaveLength(31);
+  expect(CLASS_DISPLAY_DATA).toHaveLength(28);
   expect(CLASS_DISPLAY_ALIASES).toHaveLength(3);
   Object.entries(CLASS_COMPATIBILITY_ALIASES).forEach(([name, alias]) => {
     expect(ALL_CLASSES_DATA[name].name).toBe(alias.className);

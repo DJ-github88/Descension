@@ -8,6 +8,7 @@ import TalentTreeContent from '../talent-tree/TalentTreeContent';
 import { SKILL_CATEGORIES, SKILL_DEFINITIONS } from '../../constants/skillDefinitions';
 import useTabOverflow from '../common/useTabOverflow';
 import { useInspectionCharacter } from '../../contexts/InspectionContext';
+import { getOriginIllustration } from '../../data/backgroundAssets';
 
 const CharacterPanel = lazy(() => import('./CharacterPanel'));
 const CharacterStats = lazy(() => import('./CharacterStats'));
@@ -98,9 +99,26 @@ function CharacterSheetWindow({ isOpen, onClose, title, inspection = false, init
     const inspectionData = useInspectionCharacter();
     const storeClass = useCharacterStore(state => state.class);
     const storePrimarySpecialization = useCharacterStore(state => state.primarySpecialization);
+    const storeLore = useCharacterStore(state => state.lore);
+    const storeIconBg = useCharacterStore(state => state.iconBackgroundImage);
+    const storeBackground = useCharacterStore(state => state.background);
     const characterClass = inspectionData ? inspectionData.class : storeClass;
     const primarySpecialization = inspectionData ? inspectionData.primarySpecialization : storePrimarySpecialization;
     const [activeTalentTree, setActiveTalentTree] = useState(0);
+
+    const characterLore = inspectionData ? (inspectionData.lore || {}) : (storeLore || {});
+    const iconBackgroundImage = characterLore.iconBackgroundImage || (inspectionData ? inspectionData.iconBackgroundImage : storeIconBg);
+    const backgroundId = inspectionData ? inspectionData.background : storeBackground;
+
+    let effectiveBgUrl = null;
+    if (iconBackgroundImage) {
+        effectiveBgUrl = `/assets/Backgrounds/${encodeURIComponent(iconBackgroundImage)}`;
+    } else if (backgroundId) {
+        const originIll = getOriginIllustration(backgroundId);
+        if (originIll?.src) {
+            effectiveBgUrl = originIll.src;
+        }
+    }
 
     // Define character sheet sections with dropdown sub-sections matching the exact component tabs
     const characterSections = {
@@ -287,6 +305,8 @@ function CharacterSheetWindow({ isOpen, onClose, title, inspection = false, init
             defaultPosition={savedPos}
             onDrag={handleDrag}
             onResize={handleResize}
+            className={`character-sheet-window ${effectiveBgUrl ? 'has-custom-backdrop' : ''}`}
+            style={effectiveBgUrl ? { '--sheet-backdrop': `url(${effectiveBgUrl})` } : undefined}
             customHeader={
                 <div className="spellbook-tab-container tab-overflow-root character-sheet-tabs" ref={tabsTrackRef}>
                     {sectionKeys.filter(key => !hiddenTabIds.includes(key)).map(key => {
@@ -490,7 +510,10 @@ function CharacterSheetWindow({ isOpen, onClose, title, inspection = false, init
                 </div>
             }
         >
-            <div className="character-sheet">
+            <div 
+                className="character-sheet"
+                style={effectiveBgUrl ? { '--sheet-backdrop': `url(${effectiveBgUrl})` } : undefined}
+            >
                 <div className="character-sheet-content">
                     <Suspense fallback={<div>Loading character sheet...</div>}>
                         {renderContent()}

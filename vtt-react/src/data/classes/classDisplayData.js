@@ -2,7 +2,7 @@ import {
     faSkull, faMagic, faAtom, faClock,
     faGavel, faEye, faShieldAlt, faMoon, faCross, faYinYang,
     faWind, faBiohazard, faFlask, faMusic, faFire,
-    faDove, faHourglassHalf, faSeedling, faDiceD6, faSnowflake
+    faDove, faHourglassHalf, faSeedling, faDiceD6, faSnowflake, faBolt
 } from '@fortawesome/free-solid-svg-icons';
 import { CLASS_COMPATIBILITY_ALIASES } from '../classHeritageRegistry';
 
@@ -38,6 +38,28 @@ const CLASS_DISPLAY_ENTRIES = [
         playstyle: 'Reserve three finite threads, bind willing actors to public obligations and sever or re-anchor before a consequence lands. No second bank, no native heritage edge. Development - manual tabletop.',
         roleColor: '#4f5d75', damageTypes: ['wyrd'], developmentStatus: 'development',
         quickStartPresets: { weaver: { name: 'The First Thread', description: 'Choose exactly one level-1 optional; Tie the Thread and Cut Clean are separate core grants.', spells: ['cr1_fate_weaver_trace_the_line'] } }
+    },
+    {
+        name: 'Doomsayer', imageIcon: '/assets/icons/classes/doomsayer.png', icon: faBolt,
+        role: 'Doom Caster / Control', resource: 'Calamities & Havoc', complexityRating: 3,
+        cognitiveTags: ['Two Public Calamities', 'Havoc 0-15', 'Manual Tabletop'],
+        playstyle: 'Declare a finite public calamity with an exact trigger, clock, effect and disruption method. Resolve it once, collect Havoc only when it arrives and keep at most two records. No hidden clocks, no dice reuse, no native heritage edge. Development - manual tabletop.',
+        roleColor: '#6b3a3a', damageTypes: ['wyrd', 'blight', 'ember', 'storm'], developmentStatus: 'development',
+        quickStartPresets: {
+            requiem: { name: 'The First Ending', description: 'Choose exactly one level-1 optional; Plant the Calamity and Dismantle the Sign are separate core grants.', spells: ['cr1_doomsayer_doom_bolt'] },
+            forewarner: { name: 'The Public Warning', description: 'Warn allies against your own declared calamity and spend Havoc on a bounded finisher.', spells: ['cr1_doomsayer_forewarned_step'] }
+        }
+    },
+    {
+        name: 'Oracle', imageIcon: '/assets/icons/classes/oracle.png', icon: faEye,
+        role: 'Support / Insight', resource: 'Forecasts', complexityRating: 3,
+        cognitiveTags: ['Two Forecast Slots', 'No Debt', 'Manual Tabletop'],
+        playstyle: 'Commit up to two exact forecasts with a named subject, event category, published benefit and one-or-two own-turn expiry. Apply each benefit once or record failure, with no debt, no dice replacement and no hidden omniscience. Development - manual tabletop.',
+        roleColor: '#4f5d75', damageTypes: ['wyrd', 'storm'], developmentStatus: 'development',
+        quickStartPresets: {
+            seer: { name: 'The Next Step', description: 'Choose exactly one level-1 optional; Commit a Forecast and Release the Forecast are separate core grants.', spells: ['cr1_oracle_shared_vision'] },
+            witness: { name: 'The Named Peril', description: 'Protect one ally against a named event category and keep the benefit bounded.', spells: ['cr1_oracle_prophetic_shield'] }
+        }
     },
     {
         name: 'Arcanoneer',

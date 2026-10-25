@@ -275,6 +275,8 @@ const CLASS_DATA_LOADERS = {
   'Chaos Weaver': () => import('../../data/classes/chaosWeaverIntegration').then(m => m.CHAOS_WEAVER_DATA),
   'Gambler': () => import('../../data/classes/gamblerData').then(m => m.GAMBLER_DATA),
   'Fate Weaver': () => import('../../data/classes/fateWeaverData').then(m => m.FATE_WEAVER_DATA),
+  'Doomsayer': () => import('../../data/classes/doomsayerData').then(m => m.DOOMSAYER_DATA),
+  'Oracle': () => import('../../data/classes/oracleData').then(m => m.ORACLE_DATA),
 
   'Lunarch': () => import('../../data/classes/lunarchData').then(m => m.LUNARCH_DATA),
   'Nereid Myrathil Apex': () => import('../../data/classes/index').then(m => m.DEEPLING_MYRATHIL_APEX_DATA),
@@ -347,6 +349,14 @@ const CLASS_ICON_MAP = {
 
 
   'Harbinger': faHourglassHalf,
+
+
+
+  'Doomsayer': faBolt,
+
+
+
+  'Oracle': faEye,
 
 
 

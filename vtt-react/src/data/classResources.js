@@ -897,6 +897,61 @@ export const CLASS_RESOURCE_TYPES = {
   }
  },
 
+ 'Doomsayer': {
+  id: 'doom-calamities',
+  name: 'Calamities & Havoc',
+  shortName: 'Calamity',
+  type: 'doom-calamities',
+  description: 'At most two public calamities with exact trigger, clock, effect and disruption method; Havoc 0-15 earned only by resolution. Manual tabletop only.',
+  visual: {
+   type: 'doom-calamities',
+   baseColor: '#3b2f35',
+   activeColor: '#a65d57',
+   glowColor: '#c98a7d',
+   icon: 'fas fa-hourglass-half'
+  },
+  mechanics: {
+   max: 2,
+   current: 0,
+   havocMax: 15,
+   initialized: false,
+   state: null,
+   consumeVerb: 'resolve',
+   gainVerb: 'declare'
+  },
+  tooltip: {
+   title: 'Calamities & Havoc - manual tabletop',
+   description: 'No calamity, clock, Havoc, damage, ward, movement or expiry is applied automatically. Trigger resolution grants 3 Havoc, expiry grants 1 and dismantle grants 0.'
+  }
+ },
+
+ 'Oracle': {
+  id: 'oracle-forecasts',
+  name: 'Forecasts',
+  shortName: 'Forecast',
+  type: 'oracle-forecasts',
+  description: 'Exactly two prepared forecasts, each with an exact subject, closed event category, published benefit and one-or-two own-turn expiry. No Omen Debt and no dice replacement.',
+  visual: {
+   type: 'oracle-forecasts',
+   baseColor: '#2f3a44',
+   activeColor: '#8aa0b3',
+   glowColor: '#b7c8d6',
+   icon: 'fas fa-eye'
+  },
+  mechanics: {
+   max: 2,
+   current: 0,
+   initialized: false,
+   state: null,
+   consumeVerb: 'fulfill',
+   gainVerb: 'prepare'
+  },
+  tooltip: {
+   title: 'Forecasts - manual tabletop',
+   description: 'No forecast, slot, benefit, expiry, damage, ward, movement or hidden information is applied automatically. A failed or expired forecast grants nothing.'
+  }
+ },
+
  // REMOVED: legacy Lichborne phylactery bar merged into Revenant as Phase 1.10 consolidation.
  // The CR-1 Lichborne Anchor above is a separate manual resource record.
 };
@@ -1027,12 +1082,25 @@ export const initializeClassResource = (className, characterStats) => {
   baseResource.state = null;
   baseResource.current = 0;
   baseResource.max = 2;
- } else if (className === 'Lichborne') {
-  baseResource.initialized = false;
-  baseResource.state = null;
-  baseResource.current = 0;
-  baseResource.max = 12;
- }
+  } else if (className === 'Lichborne') {
+   baseResource.initialized = false;
+   baseResource.state = null;
+   baseResource.current = 0;
+   baseResource.max = 12;
+  } else if (className === 'Doomsayer') {
+   baseResource.initialized = false;
+   baseResource.state = null;
+   baseResource.current = 0;
+   baseResource.max = 2;
+   baseResource.havoc = 0;
+   baseResource.havocMax = 15;
+  } else if (className === 'Oracle') {
+   baseResource.initialized = false;
+   baseResource.state = null;
+   baseResource.current = 0;
+   baseResource.max = 2;
+   baseResource.slots = [];
+  }
 
  // Initialize custom fields for Revenant, Apex, and Arcanoneer
  if (className === 'Revenant') {

@@ -1,4 +1,6 @@
-/* Physics Card Scene - Transparent "on the tabletop" overlay */
+/* Physics Card Scene — transparent "on the table" overlay.
+   Click-through while the hand is dealt; once the cards are down the overlay
+   takes clicks (turn a face-down card, or click the table to clear). */
 
 .physics-card-overlay {
   position: fixed;
@@ -6,74 +8,131 @@
   z-index: 10002;
   pointer-events: none;
   background: transparent;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
 }
+
+.physics-card-overlay.dealt { pointer-events: auto; }
+.physics-card-overlay.settled,
+.physics-card-overlay.over-card { cursor: pointer; }
 
 .card-canvas-container {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  pointer-events: auto;
 }
 
 .card-canvas-container canvas {
   display: block;
   width: 100% !important;
   height: 100% !important;
-  pointer-events: auto;
-  cursor: pointer;
 }
 
-/* Floating card result: a small linen note, flat, ruled */
+/* Result chip — same linen note as the dice and coin results */
 .card-3d-result-area {
   position: absolute;
   top: 78px;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 10003;
+  z-index: 4;
   display: flex;
   align-items: center;
-  gap: 16px;
-  max-width: min(92vw, 680px);
-  padding: 10px 16px;
+  gap: 18px;
+  width: max-content;
+  max-width: min(92vw, 640px);
+  padding: 10px 12px 10px 18px;
   pointer-events: auto;
+  cursor: default;
   background: #f8f5ee;
   border: 1px solid #c4baa6;
   border-radius: 4px;
   box-shadow: 0 6px 18px rgba(52, 37, 26, 0.28);
   color: #34251a;
-  font-family: 'Cinzel', Georgia, serif;
-  animation: chipDropIn 0.25s ease-out;
+  animation: cardChipIn 0.22s ease-out both;
 }
-@keyframes chipDropIn {
-  from { opacity: 0; transform: translate(-50%, -8px); }
+
+@keyframes cardChipIn {
+  from { opacity: 0; transform: translate(-50%, -6px); }
   to { opacity: 1; transform: translate(-50%, 0); }
 }
-.card-result-header { display: flex; flex-direction: column; gap: 1px; padding-right: 14px; border-right: 1px solid #c4baa6; }
-.card-result-title { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #34251a; }
-.card-theme-badge { font-family: 'Crimson Text', Georgia, serif; font-style: italic; font-size: 0.85rem; text-transform: none; letter-spacing: 0; color: #68533e; }
-.card-reveal-all-btn {
-  font-family: 'Cinzel', Georgia, serif; font-size: 0.66rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
-  padding: 6px 10px; border-radius: 3px; border: 1px solid #663c32; background: transparent; color: #663c32; cursor: pointer; white-space: nowrap;
+
+.card-result-main {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
 }
-.card-reveal-all-btn:hover { background: #663c32; color: #f8f5ee; box-shadow: none; }
-.card-drawn-list { display: flex; flex-wrap: wrap; gap: 6px 14px; }
-.drawn-card-pill {
-  display: flex; align-items: baseline; gap: 6px; padding: 0; background: transparent; border: 0; border-radius: 0;
-  font-family: 'Crimson Text', Georgia, serif; color: #34251a; box-shadow: none;
+
+.card-result-label {
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #68533e;
 }
-.drawn-card-pill.hidden { background: transparent; border: 0; color: #8a7a62; }
-.drawn-card-pill.revealed { background: transparent; border: 0; box-shadow: none; }
-.card-rank { font-size: 1.25rem; font-weight: 700; color: #34251a; }
-.card-suit { font-size: 1.1rem; }
-.drawn-card-pill:has(.card-suit) .card-suit { color: inherit; }
-.card-title { font-size: 0.9rem; font-style: italic; color: #68533e; }
+
+.card-result-label em {
+  font-family: 'Crimson Text', Georgia, serif;
+  font-size: 0.85rem;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.card-drawn-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 12px;
+}
+
+.card-drawn {
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.card-drawn.black { color: #1b1f2e; }
+.card-drawn.red { color: #8b2b1d; }
+.card-drawn.down { color: #a8987f; }
+
+.card-result-name {
+  font-family: 'Crimson Text', Georgia, serif;
+  font-style: italic;
+  font-size: 0.95rem;
+  color: #68533e;
+}
+
+.card-result-actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.card-reveal-all-btn,
 .card-close-btn {
-  font-family: 'Cinzel', Georgia, serif; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
-  padding: 7px 14px; border-radius: 3px; cursor: pointer; border: 1px solid #663c32; color: #f8f5ee; background: #663c32; box-shadow: none; pointer-events: auto;
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 7px 14px;
+  border-radius: 3px;
+  cursor: pointer;
+  border: 1px solid #663c32;
+  box-shadow: none;
+  white-space: nowrap;
 }
-.card-close-btn:hover { background: #7a4a3e; transform: none; }
+
+.card-reveal-all-btn { background: transparent; color: #663c32; }
+.card-reveal-all-btn:hover { background: rgba(102, 60, 50, 0.08); }
+.card-close-btn { background: #663c32; color: #f8f5ee; }
+.card-close-btn:hover { background: #7a4a3e; }
+.card-reveal-all-btn:focus-visible,
+.card-close-btn:focus-visible { outline: 2px solid #663c32; outline-offset: 2px; }
+
+@media (max-width: 640px) {
+  .card-3d-result-area { top: 64px; gap: 12px; padding: 8px 10px 8px 14px; flex-wrap: wrap; }
+  .card-drawn { font-size: 1.1rem; }
+}

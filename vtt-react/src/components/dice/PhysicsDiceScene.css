@@ -49,6 +49,9 @@
   top: 78px;
   left: 50%;
   transform: translateX(-50%);
+  /* Centered abs-pos boxes shrink to the space right of 50% — size to the
+     content instead, or the chip squeezes into a narrow column. */
+  width: max-content;
   z-index: 10;
   display: flex;
   align-items: center;

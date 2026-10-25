@@ -125,6 +125,8 @@ import { GAMBLER_DATA } from '../../../data/classes/gamblerData';
 import { FATE_WEAVER_DATA } from '../../../data/classes/fateWeaverData';
 import { DEATHCALLER_DATA } from '../../../data/classes/deathcallerData';
 import { LICHBORNE_DATA } from '../../../data/classes/lichborneData';
+import { DOOMSAYER_DATA } from '../../../data/classes/doomsayerData';
+import { ORACLE_DATA } from '../../../data/classes/oracleData';
 import { DEEPLING_MYRATHIL_APEX_DATA, DEEPLING_MYRATHIL_ANIMIST_DATA, DEEPLING_MYRATHIL_AUGUR_DATA } from '../../../data/classes/index';
 import { withClassHeritageMetadata } from '../../../data/classHeritageRegistry';
 
@@ -404,6 +406,10 @@ const CLASS_DATA_MAP = Object.fromEntries(Object.entries({
 
     'Fate Weaver': FATE_WEAVER_DATA,
 
+    'Doomsayer': DOOMSAYER_DATA,
+
+    'Oracle': ORACLE_DATA,
+
     'Nereid Myrathil Apex': DEEPLING_MYRATHIL_APEX_DATA,
 
     'Nereid Myrathil Animist': DEEPLING_MYRATHIL_ANIMIST_DATA,
@@ -425,7 +431,7 @@ const CLASS_GROUPS = {
 
     ZEALOTS: ['Inquisitor', 'False Prophet', 'Lunarch', 'Martyr', 'Crusader'],
 
-    SPECIALISTS: ['Minstrel', 'Plaguebringer', 'Pyrofiend', 'Animist', 'Augur', 'Gambit', 'Chaos Weaver', 'Gambler', 'Fate Weaver', 'Deathcaller']
+    SPECIALISTS: ['Minstrel', 'Plaguebringer', 'Pyrofiend', 'Animist', 'Augur', 'Gambit', 'Chaos Weaver', 'Gambler', 'Fate Weaver', 'Deathcaller', 'Doomsayer', 'Oracle']
 
 };
 
@@ -4222,7 +4228,8 @@ const Step1CoreDraft = () => {
 
                             >
 
-                                <i className="fas fa-check"></i> Confirm Spells (Need {startingSpellPicks})
+                                <i className="fas fa-check"></i> Confirm Spells
+                                {selectedOptionalPicks.length < startingSpellPicks && ` (Need ${startingSpellPicks - selectedOptionalPicks.length})`}
 
                             </button>
 

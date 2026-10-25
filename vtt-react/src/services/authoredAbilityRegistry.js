@@ -1,5 +1,5 @@
 /** Entitled server lookup cache, scoped to the exact current connection by its caller. */
-import { actionId, CAPABILITY, readFormula } from './authoredAbility';
+import { actionId, CAPABILITY, CONDITION_CAPABILITY, readFormula } from './authoredAbility';
 let roomId = null, entries = [];
 export function replaceAuthoredRegistry(room, values) { roomId = room; entries = JSON.parse(JSON.stringify(values || [])); }
 export const installedEntries = room => roomId === room ? entries : [];
@@ -10,7 +10,7 @@ export function authoredSupport(id, room, className) {
   const raw = entry.canonicalDefinition, descriptor = entry.descriptor;
   if (String(className || '').toLowerCase().replace(/ /g, '_') !== raw.binding.classId) return { supported: false, reason: 'This installed ability has a different class binding.' };
   return { supported: true, raw: { targetingConfig: { rangeDistance: raw.targeting.rangeFeet, rangeType: raw.targeting.restriction } },
-    kind: raw.effect.kind, formula: raw.effect.formula, damageTypes: descriptor.effect.damageTypes, price: descriptor.price,
-    cooldown: { type: 'none', value: 0 }, payment: { affordable: true, classPayment: null }, reading: readFormula(raw.effect.formula),
-    name: raw.name, definitionId: id, definitionHash: `${CAPABILITY}/${entry.definitionRef.definitionHash}` };
+    kind: raw.effect.kind, formula: raw.effect.formula, damageTypes: descriptor.effect.damageTypes || [], price: descriptor.price, timing: raw.timing,
+    cooldown: { type: 'none', value: 0 }, payment: { affordable: true, classPayment: null }, reading: raw.effect.kind === 'condition' ? null : readFormula(raw.effect.formula),
+    name: raw.name, definitionId: id, definitionHash: `${raw.effect.kind === 'condition' ? CONDITION_CAPABILITY : CAPABILITY}/${entry.definitionRef.definitionHash}` };
 }

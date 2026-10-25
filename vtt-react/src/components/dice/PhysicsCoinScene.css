@@ -1,4 +1,6 @@
-/* Physics Coin Scene - Transparent "on the tabletop" overlay */
+/* Physics Coin Scene — transparent "on the table" overlay.
+   Click-through while coins are in the air; once they settle, a click
+   anywhere clears them (the result chip keeps its own Done button). */
 
 .physics-coin-overlay {
   position: fixed;
@@ -6,10 +8,11 @@
   z-index: 10002;
   pointer-events: none;
   background: transparent;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
+}
+
+.physics-coin-overlay.settled {
+  pointer-events: auto;
+  cursor: pointer;
 }
 
 .coin-canvas-container {
@@ -27,40 +30,120 @@
   pointer-events: none;
 }
 
-/* Landed coin markers: a small linen label under the coin */
+/* Small linen tag just above each landed coin */
 .landed-coin-marker {
-  position: absolute; transform: translate(-50%, -100%); pointer-events: none; z-index: 10003;
-  padding: 2px 9px; border-radius: 3px; font-family: 'Cinzel', Georgia, serif; font-size: 10px; font-weight: 700;
-  letter-spacing: 0.12em; text-transform: uppercase; text-shadow: none; box-shadow: 0 2px 6px rgba(52, 37, 26, 0.3);
-  animation: markerFadeIn 0.25s ease-out forwards; margin-top: -4px; background: #f8f5ee; color: #34251a; border: 1px solid #c4baa6;
+  position: absolute;
+  transform: translate(-50%, -100%);
+  pointer-events: none;
+  z-index: 3;
+  padding: 1px 8px 2px;
+  border-radius: 3px;
+  background: #f8f5ee;
+  border: 1px solid #c4baa6;
+  box-shadow: 0 1px 4px rgba(52, 37, 26, 0.22);
+  color: #34251a;
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  animation: coinMarkerIn 0.2s ease-out both;
 }
-@keyframes markerFadeIn {
+
+.landed-coin-marker.heads { color: #663c32; border-color: #b8a07e; }
+.landed-coin-marker.tails { color: #34251a; }
+
+@keyframes coinMarkerIn {
   from { opacity: 0; transform: translate(-50%, -80%); }
   to { opacity: 1; transform: translate(-50%, -100%); }
 }
-.landed-coin-marker.heads { background: #f8f5ee; border-color: #8f6a22; color: #6b4e14; }
-.landed-coin-marker.tails { background: #f8f5ee; border-color: #68533e; color: #34251a; }
 
-/* Floating result: flat linen note */
+/* Result chip — same linen note as the dice result */
 .coin-3d-result-area {
-  position: absolute; top: 78px; left: 50%; transform: translateX(-50%); z-index: 10004;
-  display: flex; align-items: center; gap: 16px; max-width: min(92vw, 560px); padding: 10px 16px; pointer-events: auto;
-  background: #f8f5ee; border: 1px solid #c4baa6; border-radius: 4px; box-shadow: 0 6px 18px rgba(52, 37, 26, 0.28);
-  color: #34251a; font-family: 'Cinzel', Georgia, serif; animation: chipDropIn 0.25s ease-out;
+  position: absolute;
+  top: 78px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  width: max-content;
+  max-width: min(92vw, 520px);
+  padding: 10px 12px 10px 18px;
+  pointer-events: auto;
+  cursor: default;
+  background: #f8f5ee;
+  border: 1px solid #c4baa6;
+  border-radius: 4px;
+  box-shadow: 0 6px 18px rgba(52, 37, 26, 0.28);
+  color: #34251a;
+  animation: coinChipIn 0.22s ease-out both;
 }
-@keyframes chipDropIn {
-  from { opacity: 0; transform: translate(-50%, -8px); }
+
+@keyframes coinChipIn {
+  from { opacity: 0; transform: translate(-50%, -6px); }
   to { opacity: 1; transform: translate(-50%, 0); }
 }
-.coin-result-header { display: flex; flex-direction: column; gap: 1px; padding-right: 14px; border-right: 1px solid #c4baa6; }
-.coin-result-title { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #34251a; }
-.coin-theme-badge { font-family: 'Crimson Text', Georgia, serif; font-style: italic; font-size: 0.85rem; text-transform: none; letter-spacing: 0; color: #68533e; }
-.coin-result-counts { display: flex; gap: 16px; }
-.coin-count-pill { display: flex; align-items: baseline; gap: 6px; padding: 0; border-radius: 0; background: transparent; border: 0; font-family: 'Crimson Text', Georgia, serif; font-size: 1.1rem; font-weight: 700; color: #34251a; }
-.coin-count-pill.heads { background: transparent; border: 0; color: #6b4e14; }
-.coin-count-pill.tails { background: transparent; border: 0; color: #34251a; }
-.coin-close-btn {
-  font-family: 'Cinzel', Georgia, serif; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
-  padding: 7px 14px; border-radius: 3px; cursor: pointer; border: 1px solid #663c32; color: #f8f5ee; background: #663c32; box-shadow: none; pointer-events: auto;
+
+.coin-result-main {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
 }
-.coin-close-btn:hover { background: #7a4a3e; transform: none; }
+
+.coin-result-label {
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #68533e;
+}
+
+.coin-result-value {
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  line-height: 1.15;
+  color: #34251a;
+  white-space: nowrap;
+}
+
+.coin-result-sep {
+  color: #a8987f;
+  margin: 0 2px;
+}
+
+.coin-theme-badge {
+  font-family: 'Crimson Text', Georgia, serif;
+  font-style: italic;
+  font-size: 0.85rem;
+  color: #68533e;
+}
+
+.coin-close-btn {
+  flex-shrink: 0;
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 7px 14px;
+  border-radius: 3px;
+  cursor: pointer;
+  border: 1px solid #663c32;
+  color: #f8f5ee;
+  background: #663c32;
+  box-shadow: none;
+}
+
+.coin-close-btn:hover { background: #7a4a3e; }
+.coin-close-btn:focus-visible { outline: 2px solid #663c32; outline-offset: 2px; }
+
+@media (max-width: 640px) {
+  .coin-3d-result-area { top: 64px; gap: 12px; padding: 8px 10px 8px 14px; }
+  .coin-result-value { font-size: 1.1rem; }
+}

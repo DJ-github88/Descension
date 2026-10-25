@@ -1,0 +1,1476 @@
+{
+  "schema": "mythrill.plaguebringer-content-lock/r1",
+  "date": "2026-10-23",
+  "status": "locked-legacy-snapshot",
+  "sourceFiles": {
+    "vtt-react/src/data/classes/plaguebringerData.js": "1daffb16c51e43e1937ef65d32652f269c88a9abb1a7f8c097664cdf1f34fc98",
+    "vtt-react/src/data/plaguebringerResourceContract.js": "6bd3ba21f103a771328af7b53e6fc5508debe1feb3a704d7352d6a8a2625e6e8",
+    "vtt-react/src/data/talentTrees/plaguebringerVirulentSpreader.js": "b0f1df840c743acaba6d3164f95f91108524aac827fcf1b7ccc01028429e298d",
+    "vtt-react/src/data/talentTrees/plaguebringerTormentWeaver.js": "efe1faa3fa0f6c2e55ed55e76704c6b07200115f674092e4b144cf30d492d1fc",
+    "vtt-react/src/data/talentTrees/plaguebringerDecayHarbinger.js": "686ee6baefd8086cd8785e4ca9973cfc036787d531a405b7ef7874e079e87fcc"
+  },
+  "counts": {
+    "spells": 50,
+    "core": 2,
+    "optional": 46,
+    "nodes": 57,
+    "trees": 3,
+    "capstones": 3
+  },
+  "spells": [
+    {
+      "id": "pb_miasma_form",
+      "name": "Miasma Form",
+      "level": 3,
+      "spellType": "ACTION",
+      "resource": "1 AP, 5 mana",
+      "targeting": "self, self",
+      "timing": "IMMEDIATE 1 / 2 turn_based",
+      "description": "Dissolve your body into a floating green rot-cloud for 10 minutes. Float through keyholes, iron grates, and narrow cracks."
+    },
+    {
+      "id": "pb_curse_of_agony",
+      "name": "Wasting Curse",
+      "level": 1,
+      "spellType": "ACTION",
+      "resource": "1 AP, 3 mana, +15 Vir",
+      "targeting": "single, ranged, 40 ft",
+      "timing": "IMMEDIATE 1",
+      "description": "Plant a seed of decay: 1d6 + intelligence blight now, then 1d6 blight at their turn start for 4 rounds, and the target's affliction stage advances by 1. Cultivates as Decay."
+    },
+    {
+      "id": "pb_venomous_touch",
+      "name": "Venomous Touch",
+      "level": 1,
+      "spellType": "ACTION",
+      "resource": "1 AP, 4 mana, +10 Vir",
+      "targeting": "single, melee, 5 ft",
+      "timing": "IMMEDIATE 1",
+      "description": "Strike a target with rotting fluid, dealing 1d8 + intelligence blight damage and applying a Stage 0 Seed. Cultivates as a Fester category spell."
+    },
+    {
+      "id": "pb_whisper_of_decay",
+      "name": "Whisper of Decay",
+      "level": 1,
+      "spellType": "ACTION",
+      "resource": "1 AP, 4 mana, +15 Vir",
+      "targeting": "single, ranged, 50 ft",
+      "timing": "IMMEDIATE 1",
+      "description": "Whisper a tragic dirge into the victim's mind, dealing 1d6 + intelligence wyrd damage. If the target has an active Seed, advance it to Stage 1. Cultivates as a Torment category spell."
+    },
+    {
+      "id": "pb_fever_dream",
+      "name": "Fever Dream",
+      "level": 2,
+      "spellType": "ACTION",
+      "resource": "1 AP, 6 mana, +15 Vir",
+      "targeting": "single, ranged, 40 ft",
+      "timing": "IMMEDIATE 1 / 2 turn_based",
+      "description": "Plunge an infected target into a sweating delirium, dealing 2d6 wyrd damage and reducing Agility by 3 for 3 rounds. Requires an active affliction. Cultivates as a Torment category spell."
+    },
+    {
+      "id": "pb_mark_of_the_pestilent",
+      "name": "Mark of the Pestilent",
+      "level": 2,
+      "spellType": "ACTION",
+      "resource": "1 AP, 6 mana, +15 Vir",
+      "targeting": "single, ranged, 30 ft",
+      "timing": "IMMEDIATE 1 / 2 turn_based",
+      "description": "Brand a target with a searing sigil of rot, dealing 2d8 blight damage and reducing DR by 5 for 3 rounds. Cultivates as a Weaken category spell."
+    },
+    {
+      "id": "pb_enfeebling_fog",
+      "name": "Enfeebling Fog",
+      "level": 2,
+      "spellType": "ACTION",
+      "resource": "1 AP, 4 mana, +10 Vir",
+      "targeting": "area, ranged, 45 ft",
+      "timing": "IMMEDIATE 1 / 3 turn_based",
+      "description": "Exhale a thick, greenish cloud of rot in a 20ft radius. Enemies inside are enfeebled, suffering -4 Strength and -4 Agility. Cultivates active afflictions as Weaken."
+    },
+    {
+      "id": "pb_drain_vitality",
+      "name": "Drain Vitality",
+      "level": 3,
+      "spellType": "ACTION",
+      "resource": "1 AP, 8 mana, +15 Vir",
+      "targeting": "single, ranged, 35 ft",
+      "timing": "IMMEDIATE 1 / 2 turn_based",
+      "description": "Siphon the life force of a diseased enemy, dealing 3d6 blight damage and healing the caster for 50% of the damage dealt. Requires active affliction. Cultivates as a Decay category spell."
+    },
+    {
+      "id": "pb_hallucinogenic_spores",
+      "name": "Hallucinogenic Spores",
+      "level": 3,
+      "spellType": "ACTION",
+      "resource": "1 AP, 6 mana, +15 Vir",
+      "targeting": "area, ranged, 30 ft",
+      "timing": "IMMEDIATE 1 / 3 turn_based",
+      "description": "Throw a handful of fungal dust in a 15ft radius. Enemies failing a Spirit save are confused for 2 rounds. Cultivates as a Torment category spell."
+    },
+    {
+      "id": "pb_agonizing_wail",
+      "name": "Wail of Decay",
+      "level": 3,
+      "spellType": "ACTION",
+      "resource": "2 AP, 9 mana, +15 Vir",
+      "targeting": "area, ranged, 15 ft",
+      "timing": "IMMEDIATE 1 / 4 turn_based",
+      "description": "A tragic scream of despair deals 3d8 wyrd to all enemies in a 15ft cone; targets with 2+ active afflictions lose their reaction next round. Cultivates as Torment."
+    },
+    {
+      "id": "pb_infectious_sores",
+      "name": "Infectious Sores",
+      "level": 4,
+      "spellType": "ACTION",
+      "resource": "1 AP, 6 mana, +20 Vir",
+      "targeting": "single, ranged, 35 ft",
+      "timing": "IMMEDIATE 1 / 3 turn_based",
+      "description": "Existing infections blister and burst for 2d6 blight. If the target is Stage 1+, the sores rupture, applying Stage 0 Seeds to 2 enemies within 10ft. Cultivates as Fester."
+    },
+    {
+      "id": "pb_plague_of_flies",
+      "name": "Plague of Flies",
+      "level": 4,
+      "spellType": "ACTION",
+      "resource": "1 AP, 8 mana, +15 Vir",
+      "targeting": "area, ranged, 40 ft",
+      "timing": "IMMEDIATE 1 / 4 turn_based",
+      "description": "Summon a biting black cloud on a target: 2d4 blight per round for 3 rounds; enemies in the swarm have disadvantage on physical attacks. Cultivates as Fester."
+    },
+    {
+      "id": "pb_necrotic_burst",
+      "name": "Necrotic Burst",
+      "level": 4,
+      "spellType": "ACTION",
+      "resource": "1 AP, 9 mana, +20 Vir",
+      "targeting": "area, ranged, 45 ft",
+      "timing": "IMMEDIATE 1 / 3 turn_based",
+      "description": "Detonate the blighted decay in a host, dealing 4d6 blight damage to all enemies in a 15ft radius. Requires a Stage 1+ affliction on the primary host. Cultivates as a Decay category spell."
+    },
+    {
+      "id": "pb_wither_touch",
+      "name": "Wither Touch",
+      "level": 5,
+      "spellType": "ACTION",
+      "resource": "1 AP, 10 mana, +15 Vir",
+      "targeting": "single, melee, 5 ft",
+      "timing": "IMMEDIATE 1 / 3 turn_based",
+      "description": "Touch a target to wither their physical strength, dealing 4d8 blight damage and imposing disadvantage on Strength checks for 2 rounds. Cultivates as a Decay category spell."
+    },
+    {
+      "id": "pb_dark_rejuvenation",
+      "name": "Dark Rejuvenation",
+      "level": 5,
+      "spellType": "ACTION",
+      "resource": "1 AP, 8 mana, +10 Vir",
+      "targeting": "self, self",
+      "timing": "IMMEDIATE 1 / 4 turn_based",
+      "description": "Drain 2d10 HP from your active afflictions to heal yourself. Triggers a self-debuff reducing all stats by 2 for 2 rounds. Cultivates as a Torment category spell."
+    },
+    {
+      "id": "pb_sufferings_echo",
+      "name": "Suffering's Echo",
+      "level": 5,
+      "spellType": "ACTION",
+      "resource": "1 AP, 9 mana, +20 Vir",
+      "targeting": "single, ranged, 45 ft",
+      "timing": "IMMEDIATE 1 / 3 turn_based",
+      "description": "Cause a target's active affliction to echo in an adjacent healthy enemy. Deals 4d6 wyrd damage to the second target and copies the first target's active Seed. Cultivates as a Fester category spell."
+    },
+    {
+      "id": "pb_pain_magnification",
+      "name": "Pain Magnification",
+      "level": 6,
+      "spellType": "ACTION",
+      "resource": "2 AP, 12 mana, +20 Vir",
+      "targeting": "area, self_centered",
+      "timing": "IMMEDIATE 1 / 4 turn_based",
+      "description": "Magnify the pain of all active afflictions, forcing every infected enemy to immediately take 1 tick of all their active DoT damages. Cultivates as an Amplify category spell."
+    },
+    {
+      "id": "pb_essence_corruption",
+      "name": "Essence Corruption",
+      "level": 6,
+      "spellType": "ACTION",
+      "resource": "1 AP, 14 mana, +15 Vir",
+      "targeting": "single, ranged, 50 ft",
+      "timing": "IMMEDIATE 1 / 4 turn_based",
+      "description": "Corrupt the mana pool of an enemy spellcaster, dealing 5d8 wyrd damage and locking their mana regeneration for 1 round. Cultivates as a Torment category spell."
+    },
+    {
+      "id": "pb_affliction_mark",
+      "name": "Affliction Mark",
+      "level": 6,
+      "spellType": "ACTION",
+      "resource": "1 AP, 10 mana, +20 Vir",
+      "targeting": "single, ranged, 45 ft",
+      "timing": "IMMEDIATE 1 / 4 turn_based",
+      "description": "Mark an enemy with volatile contagion: Dodge -6 and Agility -4. If they die, the corpse bursts, applying Stage 0 Seeds to all enemies within 15ft. Cultivates as Fester."
+    },
+    {
+      "id": "pb_plague_burst",
+      "name": "Plague Burst",
+      "level": 7,
+      "spellType": "ACTION",
+      "resource": "2 AP, 15 mana, +20 Vir",
+      "targeting": "area, ranged, 40 ft",
+      "timing": "IMMEDIATE 1 / 4 turn_based",
+      "description": "Harvest all active afflictions in a 20ft radius (max 6), consuming each to deal 5d6 blight to its host and all adjacent targets. Cultivates as Weaken."
+    },
+    {
+      "id": "pb_mass_affliction",
+      "name": "Mass Affliction",
+      "level": 7,
+      "spellType": "ACTION",
+      "resource": "2 AP, 18 mana, +25 Vir",
+      "targeting": "area, self_centered",
+      "timing": "IMMEDIATE 1 / 5 turn_based",
+      "description": "Unleash a wave of contagion that applies a Stage 0 Seed to all enemies within 30ft. Cultivates as a Fester category spell."
+    },
+    {
+      "id": "pb_pandemic",
+      "name": "Pandemic",
+      "level": 7,
+      "spellType": "ACTION",
+      "resource": "2 AP, 20 mana, +25 Vir",
+      "targeting": "area, self_centered",
+      "timing": "IMMEDIATE 1 / 5 turn_based",
+      "description": "Force all active afflictions to immediately spread to up to 3 adjacent enemies in 15ft. Deals 4d8 blight damage to all targets in the cascade. Cultivates as a Fester category spell."
+    },
+    {
+      "id": "pb_decay_field",
+      "name": "Decay Field",
+      "level": 7,
+      "spellType": "ACTION",
+      "resource": "2 AP, 22 mana, +20 Vir",
+      "targeting": "area, ranged, 40 ft",
+      "timing": "IMMEDIATE 1 / 4 turn_based",
+      "description": "Saturate a 30ft radius circle in creeping rot, dealing 5d8 blight damage per round for 4 rounds. Enemies inside have Dodge reduced by 5. Cultivates active afflictions as Decay."
+    },
+    {
+      "id": "pb_gardens_wrath",
+      "name": "Garden's Wrath",
+      "level": 7,
+      "spellType": "ACTION",
+      "resource": "2 AP, 26 mana, +10 Vir",
+      "targeting": "self, self_centered",
+      "timing": "IMMEDIATE 1 / 5 turn_based",
+      "description": "Trigger every active affliction across all targets to deal its full DoT damage simultaneously in one devastating tick. Requires 3+ active afflictions. Cultivates as Amplify."
+    },
+    {
+      "id": "pb_mind_plague",
+      "name": "Mind Plague",
+      "level": 7,
+      "spellType": "ACTION",
+      "resource": "2 AP, 27 mana, +5 Vir",
+      "targeting": "area, ranged, 50 ft",
+      "timing": "IMMEDIATE 1 / 5 turn_based",
+      "description": "Infect the minds of all enemies in 25ft: 8d8 wyrd, +2d8 per active affliction stage on them; those failing a Spirit save are confused 2 rounds. Cultivates as Torment."
+    },
+    {
+      "id": "pb_plague_incarnate",
+      "name": "Plague Incarnate",
+      "level": 8,
+      "spellType": "ACTION",
+      "resource": "2 AP, 32 mana, +25 Vir",
+      "targeting": "self, self",
+      "timing": "IMMEDIATE 1 / 5 turn_based",
+      "description": "Become a living vessel of disease for 5 rounds: weapon attacks apply random Stage 0 Seeds; enemies starting their turn within 15ft make a Con DC 16 save or contract a Seed. Cultivates as Torment."
+    },
+    {
+      "id": "pb_epidemic",
+      "name": "Epidemic",
+      "level": 8,
+      "spellType": "ACTION",
+      "resource": "2 AP, 30 mana, +5 Vir",
+      "targeting": "single, ranged, 50 ft",
+      "timing": "IMMEDIATE 1 / 5 turn_based",
+      "description": "Start an epidemic chain: 8d6 blight to the primary, then chain to up to 8 enemies within 20ft, +2d6 per active affliction already on each target. Cultivates as Fester."
+    },
+    {
+      "id": "pb_black_death",
+      "name": "Black Death",
+      "level": 9,
+      "spellType": "ACTION",
+      "resource": "3 AP, 36 mana, +10 Vir",
+      "targeting": "area, ranged, 60 ft",
+      "timing": "IMMEDIATE 1 / 6 turn_based",
+      "description": "The ultimate plague. Targets below 30% HP with an active Stage 2+ affliction die instantly. Other targets with active afflictions take 12d10 blight damage. Cultivates as a Torment category spell."
+    },
+    {
+      "id": "pb_necrotic_eruption",
+      "name": "Necrotic Eruption",
+      "level": 9,
+      "spellType": "ACTION",
+      "resource": "3 AP, 34 mana",
+      "targeting": "self, self_centered",
+      "timing": "IMMEDIATE 1 / 6 turn_based",
+      "description": "Consume all active afflictions across all targets (max 8). Each consumed affliction explodes in a 30ft radius, dealing 4d8 blight damage (Stage 3 afflictions deal 6d8 instead). Cultivates as Decay."
+    },
+    {
+      "id": "pb_plague_god",
+      "name": "Plague God",
+      "level": 10,
+      "spellType": "ACTION",
+      "resource": "3 AP, 40 mana, +25 Vir",
+      "targeting": "self, self",
+      "timing": "IMMEDIATE 1 / 1 long_rest",
+      "description": "Ascend as the Plague God for 4 rounds: +8 Int, +8 Con, +6 Spirit; afflictions deal +50%; attacks apply random Stage 2 afflictions; Virulence locks at 100. Cultivates as Decay."
+    },
+    {
+      "id": "pb_ultimate_affliction",
+      "name": "Ultimate Affliction",
+      "level": 10,
+      "spellType": "ACTION",
+      "resource": "3 AP, 36 mana, +25 Vir",
+      "targeting": "single, ranged, 60 ft",
+      "timing": "IMMEDIATE 1 / 1 long_rest",
+      "description": "Apply the ultimate plague: 15d10 blight now and 5d10 per round for 6 rounds; healing received -50% and all attributes -4. Requires 5+ active afflictions on the field. Cultivates as Amplify."
+    },
+    {
+      "id": "plague_incubation_period",
+      "name": "Incubation Period",
+      "level": 1,
+      "spellType": "PASSIVE",
+      "resource": "—",
+      "targeting": "self",
+      "timing": "PASSIVE",
+      "description": "All diseases have a 1-round delay before dealing damage or applying debuffs. Enemies can seek cures or kill you before the plague takes hold."
+    },
+    {
+      "id": "plague_sterile_environment",
+      "name": "Sterile Environment",
+      "level": 3,
+      "spellType": "PASSIVE",
+      "resource": "—",
+      "targeting": "self",
+      "timing": "PASSIVE",
+      "description": "In cleansed areas (primal magic, healing, alchemical purification), diseases are suppressed. Cannot apply new diseases; existing ones stop dealing damage. Purity is your weakness."
+    },
+    {
+      "id": "virulent-lavender_mask",
+      "name": "Lavender Mask",
+      "level": 1,
+      "spellType": "ACTION",
+      "resource": "1 AP, 3 mana",
+      "targeting": "area, self_centered, circle",
+      "timing": "IMMEDIATE 1",
+      "description": "Exhale a thick purple mist; harmless despite its look, it fills the room with lavender and blocks all scent-based tracking."
+    },
+    {
+      "id": "pb_rot_touch",
+      "name": "Rot-Touch",
+      "level": 1,
+      "spellType": "ACTION",
+      "resource": "1 AP, 4 mana",
+      "targeting": "single, touch",
+      "timing": "IMMEDIATE 1",
+      "description": "Lay a hand on dead organic matter (rope, leather, wood, a corpse) and accelerate decay: rope crumbles, leather splits, wood fails, corpses rot to bone. Living/magic materials resist. Out of combat."
+    },
+    {
+      "id": "pb_mycelium_sense",
+      "name": "Mycelium-Web Sense",
+      "level": 1,
+      "spellType": "ACTION",
+      "resource": "1 AP, 4 mana",
+      "targeting": "self, self",
+      "timing": "IMMEDIATE 1",
+      "description": "Press skin to earth and listen through the Ghost-Mycelium: feel every creature treading connected ground in range, and the sting of Wyrd-touch. Stone, deep water, dead earth break the web."
+    },
+    {
+      "id": "pb_plague_reader",
+      "name": "Plague-Reader",
+      "level": 2,
+      "spellType": "ACTION",
+      "resource": "1 AP, 5 mana",
+      "targeting": "single, touch",
+      "timing": "IMMEDIATE 1",
+      "description": "Taste blood, breath, or sweat, or touch a substance, and read the disease, poison, or affliction there: what it is, its cause, its progress, and whether it spreads. Out of combat."
+    },
+    {
+      "id": "pb_counter_culture",
+      "name": "Counter-Culture",
+      "level": 2,
+      "spellType": "ACTION",
+      "resource": "1 AP, 8 mana",
+      "targeting": "single, touch",
+      "timing": "MINUTES 10 / 1 long_rest",
+      "description": "Culture a counter-strain to a diagnosed disease or poison from your own substrate, briefly hosting it to brew an antidote, neutralizing spore, or break-fever, then deliver the cure. Out of combat."
+    },
+    {
+      "id": "pb_cadaver_puppet",
+      "name": "Cadaver-Puppet",
+      "level": 3,
+      "spellType": "ACTION",
+      "resource": "1 AP, 10 mana, 15 Vir",
+      "targeting": "single, touch",
+      "timing": "MINUTES 10",
+      "description": "Seed a fresh corpse with pestilence and raise it as a mindless servant for an hour: carries, springs traps, blocks doorways, distracts. It collapses when the rot runs dry. Out of combat."
+    },
+    {
+      "id": "pb_spore_scout",
+      "name": "Spore Scout",
+      "level": 1,
+      "spellType": "ACTION",
+      "resource": "1 AP, 4 mana, +5 Vir",
+      "targeting": "single, ranged, 80 ft",
+      "timing": "IMMEDIATE 1",
+      "description": "Exhale bioluminescent fungal spores that float up to 80ft ahead through passages or brush, returning tactile warnings of living creatures, hidden predators, or poisonous air. Out of combat."
+    },
+    {
+      "id": "pb_miasma_veil",
+      "name": "Miasma Veil",
+      "level": 2,
+      "spellType": "ACTION",
+      "resource": "1 AP, 6 mana, 10 Vir",
+      "targeting": "area, self",
+      "timing": "IMMEDIATE 1 / 1 turn_based",
+      "description": "Release a low acrid mist in a 20ft radius: masks humanoid scent, dissolves fresh footprints into black mulch, and gives tracking predators disadvantage on Perception to follow. Out of combat."
+    },
+    {
+      "id": "pb_septic_shroud",
+      "name": "Septic Shroud",
+      "level": 4,
+      "spellType": "ACTION",
+      "resource": "1 AP, 7 mana, +15 Vir",
+      "targeting": "area, self",
+      "timing": "IMMEDIATE 1 / 3 turn_based",
+      "description": "Surround yourself in churning rot-fog for 3 rounds (15ft): enemies inside have disadvantage on attacks and cannot take reactions. The spores irritate your lungs, dealing 3 self-damage on cast."
+    },
+    {
+      "id": "pb_parasitic_graft",
+      "name": "Parasitic Graft",
+      "level": 5,
+      "spellType": "ACTION",
+      "resource": "1 AP, 9 mana, 20 Vir",
+      "targeting": "single, ranged, 25 ft",
+      "timing": "IMMEDIATE 1 / 3 turn_based",
+      "description": "Implant a feeding graft within 25ft. Enemy: siphon 50% of their healing for 3 rounds as temp HP. Ally: purge 1 non-blight condition, grant 15 temp HP, but 2 blight per turn."
+    },
+    {
+      "id": "pb_calcifying_rot",
+      "name": "Calcifying Rot",
+      "level": 6,
+      "spellType": "ACTION",
+      "resource": "1 AP, 12 mana, +25 Vir",
+      "targeting": "single, ranged, 40 ft",
+      "timing": "IMMEDIATE 1 / 4 turn_based",
+      "description": "Infect a target's joints with petrifying spore growth: speed 0 on round 1, halved on rounds 2-3. Physical actions require a Con save or lose 1 AP to stiffened cartilage."
+    },
+    {
+      "id": "pb_bubonic_detonation",
+      "name": "Bubonic Detonation",
+      "level": 8,
+      "spellType": "ACTION",
+      "resource": "2 AP, 16 mana, 40 Vir",
+      "targeting": "area, ranged, 60 ft",
+      "timing": "IMMEDIATE 1 / 4 turn_based",
+      "description": "Detonate every dormant pustule in a 25ft radius: 6d8 blight to hostiles; targets suffering an affliction take double damage dice and are blinded 2 rounds."
+    },
+    {
+      "id": "pb_spore_hive_quarantine",
+      "name": "Spore-Hive Quarantine",
+      "level": 8,
+      "spellType": "ACTION",
+      "resource": "1 AP, 15 mana, 35 Vir",
+      "targeting": "area, ranged, 50 ft",
+      "timing": "IMMEDIATE 1 / 4 turn_based",
+      "description": "Erect a 20ft bio-dome of fungal mycelium for 3 rounds: blocks line of sight and passage. Traversing the wall requires a DC 17 Con save or become silenced and blinded 1 round."
+    },
+    {
+      "id": "pb_chitinous_carapace",
+      "name": "Chitinous Mycocarapace",
+      "level": 9,
+      "spellType": "ACTION",
+      "resource": "1 AP, 18 mana, 50 Vir",
+      "targeting": "self, self",
+      "timing": "IMMEDIATE 1 / 5 turn_based",
+      "description": "Transmute your skin into layered fungal chitin for 3 rounds: DR 8 against physical and elemental damage, immunity to crits and bleed/poison, and melee attackers contract Stage 2 Wasting Sickness."
+    },
+    {
+      "id": "pb_symbiotic_resurrection",
+      "name": "Symbiotic Re-Germination",
+      "level": 9,
+      "spellType": "ACTION",
+      "resource": "2 AP, 20 mana, 60 Vir",
+      "targeting": "single, touch",
+      "timing": "IMMEDIATE 2 / 1 long_rest",
+      "description": "Touch a creature that died within the last round: mycorrhizal threads knit organs and re-ignite nerves, reviving it at 25% max HP. For 1 hour: +2 Con, pain immunity, fungal marks."
+    },
+    {
+      "id": "pb_world_blight_cataclysm",
+      "name": "World-Blight Cataclysm",
+      "level": 10,
+      "spellType": "ACTION",
+      "resource": "2 AP, 24 mana, 80 Vir",
+      "targeting": "area, ranged, 100 ft",
+      "timing": "IMMEDIATE 2 / 1 long_rest",
+      "description": "Unleash the Bryngloom's rot-fissures across 40ft: cracks spew bile and spore gas for 8d10 blight, leaving mire that halves movement and infects survivors with Terminal Rot (3d10 blight at turn start)."
+    },
+    {
+      "id": "pb_apotheosis_of_rot",
+      "name": "Apotheosis of Rot",
+      "level": 10,
+      "spellType": "ACTION",
+      "resource": "2 AP, 25 mana, 100 Vir",
+      "targeting": "self, self",
+      "timing": "IMMEDIATE 2 / 1 long_rest",
+      "description": "Become a living spore god for 1 minute: cannot drop below 1 HP; teleport between diseased/fungal entities within 120ft as a bonus action; enemies within 30ft advance 1 affliction stage, no save."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "vs_t1_spore_volley",
+      "treeId": "virulent_spreader",
+      "name": "Spore Volley",
+      "tier": 1,
+      "maxRanks": 3,
+      "minLevel": 1,
+      "requiresPoints": 0,
+      "requires": [],
+      "spellType": "ACTIVE",
+      "grantId": "talent-spell-vs_t1_spore_volley",
+      "capstone": false,
+      "description": "Launch a cluster of volatile spores: strikes up to 3 targets within 45 feet, dealing 2d6 blight damage and applying a Stage 1 Seed to each."
+    },
+    {
+      "id": "vs_t1_rapid_contagion",
+      "treeId": "virulent_spreader",
+      "name": "Rapid Contagion",
+      "tier": 1,
+      "maxRanks": 3,
+      "minLevel": 1,
+      "requiresPoints": 0,
+      "requires": [],
+      "spellType": "PASSIVE",
+      "grantId": "talent-spell-vs_t1_rapid_contagion",
+      "capstone": false,
+      "description": "Whenever an affliction spreads to an adjacent target, it deals 1d6 blight damage upon spreading and increases your Virulence by 1."
+    },
+    {
+      "id": "vs_t1_virulence_surge",
+      "treeId": "virulent_spreader",
+      "name": "Airborne Proliferation",
+      "tier": 1,
+      "maxRanks": 2,
+      "minLevel": 1,
+      "requiresPoints": 0,
+      "requires": [],
+      "spellType": "PASSIVE",
+      "grantId": "talent-spell-vs_t1_virulence_surge",
+      "capstone": false,
+      "description": "All your affliction and contagion spread radii are increased by +10 feet. Maximum Virulence increased by 2."
+    },
+    {
+      "id": "vs_t2_vector_detonation",
+      "treeId": "virulent_spreader",
+      "name": "Vector Detonation",
+      "tier": 2,
+      "maxRanks": 3,
+      "minLevel": 2,
+      "requiresPoints": 5,
+      "requires": [
+        "vs_t1_spore_volley"
+      ],
+      "spellType": "ACTIVE",
+      "grantId": "talent-spell-vs_t2_vector_detonation",
+      "capstone": false,
+      "description": "Spend 2 Virulence: detonate the spores inside an infected target within 45 feet. Deals 3d8 blight damage in a 20-foot radius and forces all victims to gain Stage 1 Seeds."
+    },
+    {
+      "id": "vs_t2_chain_infection",
+      "treeId": "virulent_spreader",
+      "name": "Chain Contagion",
+      "tier": 2,
+      "maxRanks": 3,
+      "minLevel": 2,
+      "requiresPoints": 5,
+      "requires": [
+        "vs_t1_rapid_contagion"
+      ],
+      "spellType": "PASSIVE",
+      "grantId": "talent-spell-vs_t2_chain_infection",
+      "capstone": false,
+      "description": "When an infected target takes damage from any source, there is a 35 points chance they emit a toxic cough dealing 1d6 blight to all adjacent enemies."
+    },
+    {
+      "id": "vs_t3_pandemic_wave",
+      "treeId": "virulent_spreader",
+      "name": "Pandemic Gale",
+      "tier": 3,
+      "maxRanks": 3,
+      "minLevel": 3,
+      "requiresPoints": 10,
+      "requires": [
+        "vs_t2_vector_detonation"
+      ],
+      "spellType": "ACTIVE",
+      "grantId": "talent-spell-vs_t3_pandemic_wave",
+      "capstone": false,
+      "description": "Spend 3 Virulence: summon a 35-foot gust of toxic wind in a cone. Deals 3d8 blight damage and pushes all active afflictions from the closest targets onto every enemy behind them."
+    },
+    {
+      "id": "vs_t3_infectious_aura",
+      "treeId": "virulent_spreader",
+      "name": "Infectious Miasma",
+      "tier": 3,
+      "maxRanks": 3,
+      "minLevel": 3,
+      "requiresPoints": 10,
+      "requires": [
+        "vs_t2_chain_infection"
+      ],
+      "spellType": "PASSIVE",
+      "grantId": "talent-spell-vs_t3_infectious_aura",
+      "capstone": false,
+      "description": "Enemies within 15 feet of any target carrying an affliction take 1d8 blight damage per turn and cannot regain health above 75 points."
+    },
+    {
+      "id": "vs_t4_plague_zone",
+      "treeId": "virulent_spreader",
+      "name": "Plague Zone",
+      "tier": 4,
+      "maxRanks": 3,
+      "minLevel": 4,
+      "requiresPoints": 15,
+      "requires": [
+        "vs_t3_pandemic_wave"
+      ],
+      "spellType": "ACTIVE",
+      "grantId": "talent-spell-vs_t4_plague_zone",
+      "capstone": false,
+      "description": "Spend 3 Virulence: seed a 25-foot radius on the ground for 1 minute. Enemies inside take 2d8 blight damage per round, are slowed by 15 feet, and gain a new Stage 1 Seed every round."
+    },
+    {
+      "id": "vs_t4_viral_burst",
+      "treeId": "virulent_spreader",
+      "name": "Spore Multiplication",
+      "tier": 4,
+      "maxRanks": 2,
+      "minLevel": 4,
+      "requiresPoints": 15,
+      "requires": [
+        "vs_t3_infectious_aura"
+      ],
+      "spellType": "PASSIVE",
+      "grantId": "talent-spell-vs_t4_viral_burst",
+      "capstone": false,
+      "description": "Whenever an afflicted enemy dies, they burst: all enemies within 20 feet take 2d8 blight damage and receive all afflictions the dead host had."
+    },
+    {
+      "id": "vs_t5_epidemic_surge",
+      "treeId": "virulent_spreader",
+      "name": "Epidemic Surge",
+      "tier": 5,
+      "maxRanks": 2,
+      "minLevel": 5,
+      "requiresPoints": 20,
+      "requires": [
+        "vs_t4_plague_zone"
+      ],
+      "spellType": "ACTIVE",
+      "grantId": "talent-spell-vs_t5_epidemic_surge",
+      "capstone": false,
+      "description": "Spend 4 Virulence: instantly advance every active affliction on ALL enemies within 60 feet by 1 full stage, and trigger their stage damage immediately."
+    },
+    {
+      "id": "vs_t5_strain_banking",
+      "treeId": "virulent_spreader",
+      "name": "Pathogen Reservoir",
+      "tier": 5,
+      "maxRanks": 3,
+      "minLevel": 5,
+      "requiresPoints": 20,
+      "requires": [
+        "vs_t4_viral_burst"
+      ],
+      "spellType": "PASSIVE",
+      "grantId": "talent-spell-vs_t5_strain_banking",
+      "capstone": false,
+      "description": "Your maximum Virulence increases by 4. Whenever you have 5 or more Virulence, your movement speed is increased by 15 feet and all blight damage you deal is increased by +1d6 damage."
+    },
+    {
+      "id": "vs_t6_global_pandemic",
+      "treeId": "virulent_spreader",
+      "name": "Global Pandemic",
+      "tier": 6,
+      "maxRanks": 1,
+      "minLevel": 6,
+      "requiresPoints": 25,
+      "requires": [
+        "vs_t5_epidemic_surge"
+      ],
+      "spellType": "ACTIVE",
+      "grantId": "talent-spell-vs_t6_global_pandemic",
+      "capstone": false,
+      "description": "Spend 5 Virulence: copy every active affliction on every infected enemy to ALL uninfected enemies within 80 feet, maintaining their highest active stage."
+    },
+    {
+      "id": "vs_t6_cross_infection",
+      "treeId": "virulent_spreader",
+      "name": "Vector Cascade",
+      "tier": 6,
+      "maxRanks": 2,
+      "minLevel": 6,
+      "requiresPoints": 25,
+      "requires": [
+        "vs_t5_strain_banking"
+      ],
+      "spellType": "PASSIVE",
+      "grantId": "talent-spell-vs_t6_cross_infection",
+      "capstone": false,
+      "description": "Whenever an enemy takes damage from an affliction while within 10 feet of another infected enemy, both take an additional 2d6 blight crossfire damage."
+    },
+    {
+      "id": "vs_t6_superbug_mutation",
+      "treeId": "virulent_spreader",
+      "name": "Superbug Mutation",
+      "tier": 6,
+      "maxRanks": 2,
+      "minLevel": 6,
+      "requiresPoints": 25,
+      "requires": [
+        "vs_t5_strain_banking"
+      ],
+      "spellType": "PASSIVE",
+      "grantId": "talent-spell-vs_t6_superbug_mutation",
+      "capstone": false,
+      "description": "Your spread afflictions mutate: they reduce enemy movement speed by 25 points and reduce all outgoing enemy damage by 15 points."
+    },
+    {
+      "id": "vs_t7_patient_zero",
+      "treeId": "virulent_spreader",
+      "name": "Patient Zero",
+      "tier": 7,
+      "maxRanks": 1,
+      "minLevel": 10,
+      "requiresPoints": 45,
+      "requires": [
+        "vs_t6_global_pandemic"
+      ],
+      "spellType": "ACTIVE",
+      "grantId": "talent-spell-vs_t7_patient_zero",
+      "capstone": true,
+      "description": "ULTIMATE: Designate one enemy as Patient Zero for 1 minute: all afflictions on the battlefield constantly pulse out from Patient Zero in a 40-foot aura every round, dealing 4d8 blight damage to all nearby enemies and seeding all victims at Stage 3. If Patient Zero dies, the aura detonates for 10d8 blight across 50 feet."
+    },
+    {
+      "id": "vs_t7_waste_spore_doctrine",
+      "treeId": "virulent_spreader",
+      "name": "Waste Spore Doctrine",
+      "tier": 7,
+      "maxRanks": 5,
+      "minLevel": 8,
+      "requiresPoints": 30,
+      "requires": [
+        "vs_t6_global_pandemic"
+      ],
+      "spellType": "PASSIVE",
+      "grantId": "talent-spell-vs_t7_waste_spore_doctrine",
+      "capstone": false,
+      "description": "The Peat-Wastes bloom without boundary. All blight AoE damage and contagion damage you deal is increased by +1d6 damage."
+    },
+    {
+      "id": "vs_t7_continuous_blooming",
+      "treeId": "virulent_spreader",
+      "name": "Continuous Blooming",
+      "tier": 7,
+      "maxRanks": 3,
+      "minLevel": 8,
+      "requiresPoints": 30,
+      "requires": [
+        "vs_t6_cross_infection"
+      ],
+      "spellType": "PASSIVE",
+      "grantId": "talent-spell-vs_t7_continuous_blooming",
+      "capstone": false,
+      "description": "Whenever 3 or more enemies are infected simultaneously, you generate 2 Virulence at the start of your turn."
+    },
+    {
+      "id": "vs_t7_plague_wind",
+      "treeId": "virulent_spreader",
+      "name": "Pandemic Overdrive",
+      "tier": 7,
+      "maxRanks": 3,
+      "minLevel": 8,
+      "requiresPoints": 30,
+      "requires": [
+        "vs_t6_cross_infection"
+      ],
+      "spellType": "PASSIVE",
+      "grantId": "talent-spell-vs_t7_plague_wind",
+      "capstone": false,
+      "description": "All contagion spread procs have their ranges doubled, and contagion spread damage crits on 18+."
+    },
+    {
+      "id": "vs_t7_spore_carrier",
+      "treeId": "virulent_spreader",
+      "name": "Living Pathogen",
+      "tier": 7,
+      "maxRanks": 3,
+      "minLevel": 8,
+      "requiresPoints": 30,
+      "requires": [
+        "vs_t6_superbug_mutation"
+      ],
+      "spellType": "PASSIVE",
+      "grantId": "talent-spell-vs_t7_spore_carrier",
+      "capstone": false,
+      "description": "You emit a 15-foot passive pathogen aura: all enemies inside take 2d6 blight damage per round and you heal for all damage dealt by the aura."
+    },
+    {
+      "id": "tw_t1_agony_tether",
+      "treeId": "torment_weaver",
+      "name": "Agony Tether",
+      "tier": 1,
+      "maxRanks": 3,
+      "minLevel": 1,
+      "requiresPoints": 0,
+      "requires": [],
+      "spellType": "ACTIVE",
+      "grantId": "talent-spell-tw_t1_agony_tether",
+      "capstone": false,
+      "description": "Shoot a psychic tether binding an enemy within 45 feet to a secondary target within 30 feet of it for 1 minute: whenever the primary target takes damage, the secondary takes 25 points of that damage as wyrd damage."
+    },
+    {
+      "id": "tw_t1_resonance_damage",
+      "treeId": "torment_weaver",
+      "name": "Resonant Agony",
+      "tier": 1,
+      "maxRanks": 3,
+      "minLevel": 1,
+      "requiresPoints": 0,
+      "requires": [],
+      "spellType": "PASSIVE",
+      "grantId": "talent-spell-tw_t1_resonance_damage",
+      "capstone": false,
+      "description": "Whenever a linked target takes damage from any source, all other linked targets take 1d4 additional wyrd damage."
+    },
+    {
+      "id": "tw_t1_shared_torment",
+      "treeId": "torment_weaver",
+      "name": "Shared Torment",
+      "tier": 1,
+      "maxRanks": 2,
+      "minLevel": 1,
+      "requiresPoints": 0,
+      "requires": [],
+      "spellType": "PASSIVE",
+      "grantId": "talent-spell-tw_t1_shared_torment",
+      "capstone": false,
+      "description": "Whenever a debuff or crowd control effect (slow, stun, silence) is applied to one linked target, all other linked targets suffer 25 points of the duration."
+    },
+    {
+      "id": "tw_t2_synaptic_siphon",
+      "treeId": "torment_weaver",
+      "name": "Synaptic Siphon",
+      "tier": 2,
+      "maxRanks": 3,
+      "minLevel": 2,
+      "requiresPoints": 5,
+      "requires": [
+        "tw_t1_agony_tether"
+      ],
+      "spellType": "ACTIVE",
+      "grantId": "talent-spell-tw_t2_synaptic_siphon",
+      "capstone": false,
+      "description": "Spend 2 Virulence: siphon through the psychic web. Deals 2d8 wyrd damage to ALL currently linked targets simultaneously and heals you for 50 points of the total damage dealt."
+    },
+    {
+      "id": "tw_t2_nightmare_fuel",
+      "treeId": "torment_weaver",
+      "name": "Psychic Vulnerability",
+      "tier": 2,
+      "maxRanks": 3,
+      "minLevel": 2,
+      "requiresPoints": 5,
+      "requires": [
+        "tw_t1_resonance_damage"
+      ],
+      "spellType": "PASSIVE",
+      "grantId": "talent-spell-tw_t2_nightmare_fuel",
+      "capstone": false,
+      "description": "Linked enemies have their saving throws reduced by -2 and suffer +1d6 bonus damage from all psychic and wyrd sources."
+    },
+    {
+      "id": "tw_t3_torment_web",
+      "treeId": "torment_weaver",
+      "name": "Torment Web",
+      "tier": 3,
+      "maxRanks": 3,
+      "minLevel": 3,
+      "requiresPoints": 10,
+      "requires": [
+        "tw_t2_synaptic_siphon"
+      ],
+      "spellType": "ACTIVE",
+      "grantId": "talent-spell-tw_t3_torment_web",
+      "capstone": false,
+      "description": "Spend 3 Virulence: trap up to 4 enemies in a 30-foot area inside an Agony Mesh for 1 minute. All trapped targets are permanently linked together: 25 points of damage taken by any one target is dealt to all others."
+    },
+    {
+      "id": "tw_t3_cascade_finale",
+      "treeId": "torment_weaver",
+      "name": "Sympathetic Cascade",
+      "tier": 3,
+      "maxRanks": 3,
+      "minLevel": 3,
+      "requiresPoints": 10,
+      "requires": [
+        "tw_t2_nightmare_fuel"
+      ],
+      "spellType": "PASSIVE",
+      "grantId": "talent-spell-tw_t3_cascade_finale",
+      "capstone": false,
+      "description": "When any linked target is hit by a critical strike, ALL other linked targets take 2d8 wyrd damage."
+    },
+    {
+      "id": "tw_t4_psychic_storm",
+      "treeId": "torment_weaver",
+      "name": "Psychic Storm",
+      "tier": 4,
+      "maxRanks": 3,
+      "minLevel": 4,
+      "requiresPoints": 15,
+      "requires": [
+        "tw_t3_torment_web"
+      ],
+      "spellType": "ACTIVE",
+      "grantId": "talent-spell-tw_t4_psychic_storm",
+      "capstone": false,
+      "description": "Spend 4 Virulence: summon a 30-foot vortex of shrieking psychic agony for 3 rounds. Deals 3d8 wyrd damage per round to all enemies inside, and doubles the damage transfer rate of all links passing through it."
+    },
+    {
+      "id": "tw_t4_sympathetic_pain",
+      "treeId": "torment_weaver",
+      "name": "Nerve Relay",
+      "tier": 4,
+      "maxRanks": 2,
+      "minLevel": 4,
+      "requiresPoints": 15,
+      "requires": [
+        "tw_t3_cascade_finale"
+      ],
+      "spellType": "PASSIVE",
+      "grantId": "talent-spell-tw_t4_sympathetic_pain",
+      "capstone": false,
+      "description": "When an ally damages any linked enemy, that ally heals for for 2d6 Hit Points as the psychic feedback siphons vitality."
+    },
+    {
+      "id": "tw_t5_mass_resonance",
+      "treeId": "torment_weaver",
+      "name": "Mass Resonance",
+      "tier": 5,
+      "maxRanks": 2,
+      "minLevel": 5,
+      "requiresPoints": 20,
+      "requires": [
+        "tw_t4_psychic_storm"
+      ],
+      "spellType": "ACTIVE",
+      "grantId": "talent-spell-tw_t5_mass_resonance",
+      "capstone": false,
+      "description": "Spend 4 Virulence: force a catastrophic feedback loop across the entire web. Every linked enemy takes 5d8 wyrd damage, is stunned for 1 round, and the links remain active."
+    },
+    {
+      "id": "tw_t5_torment_economy",
+      "treeId": "torment_weaver",
+      "name": "Agony Harvest",
+      "tier": 5,
+      "maxRanks": 3,
+      "minLevel": 5,
+      "requiresPoints": 20,
+      "requires": [
+        "tw_t4_sympathetic_pain"
+      ],
+      "spellType": "PASSIVE",
+      "grantId": "talent-spell-tw_t5_torment_economy",
+      "capstone": false,
+      "description": "Whenever a linked enemy dies, their death rattle deals 4d8 wyrd damage to all remaining linked targets and grants you 4 Virulence."
+    },
+    {
+      "id": "tw_t6_sympathetic_collapse",
+      "treeId": "torment_weaver",
+      "name": "Sympathetic Collapse",
+      "tier": 6,
+      "maxRanks": 1,
+      "minLevel": 6,
+      "requiresPoints": 25,
+      "requires": [
+        "tw_t5_mass_resonance"
+      ],
+      "spellType": "ACTIVE",
+      "grantId": "talent-spell-tw_t6_sympathetic_collapse",
+      "capstone": false,
+      "description": "Spend 5 Virulence: target one linked enemy. For 2 rounds, 40 points of ALL damage taken by that target is duplicated to EVERY other linked target on the field."
+    },
+    {
+      "id": "tw_t6_web_reinforcement",
+      "treeId": "torment_weaver",
+      "name": "Unbreakable Lattice",
+      "tier": 6,
+      "maxRanks": 2,
+      "minLevel": 6,
+      "requiresPoints": 25,
+      "requires": [
+        "tw_t5_torment_economy"
+      ],
+      "spellType": "PASSIVE",
+      "grantId": "talent-spell-tw_t6_web_reinforcement",
+      "capstone": false,
+      "description": "While you maintain at least 2 linked targets, you gain +4 Durability Steps to equipped durability, 4 Damage Reduction against all-damage, and you transfer 25 points of all damage you suffer directly to the linked enemies."
+    },
+    {
+      "id": "tw_t6_synaptic_overload",
+      "treeId": "torment_weaver",
+      "name": "Synaptic Overload",
+      "tier": 6,
+      "maxRanks": 2,
+      "minLevel": 6,
+      "requiresPoints": 25,
+      "requires": [
+        "tw_t5_torment_economy"
+      ],
+      "spellType": "PASSIVE",
+      "grantId": "talent-spell-tw_t6_synaptic_overload",
+      "capstone": false,
+      "description": "Whenever a linked target takes damage from an echo or resonance, it has a 30 points chance to be interrupted and lose its current concentration."
+    },
+    {
+      "id": "tw_t7_grand_puppet",
+      "treeId": "torment_weaver",
+      "name": "The Grand Puppet",
+      "tier": 7,
+      "maxRanks": 1,
+      "minLevel": 10,
+      "requiresPoints": 45,
+      "requires": [
+        "tw_t6_sympathetic_collapse"
+      ],
+      "spellType": "ACTIVE",
+      "grantId": "talent-spell-tw_t7_grand_puppet",
+      "capstone": true,
+      "description": "ULTIMATE: Take full control of one linked enemy for 1 minute: the target becomes your Grand Puppet, immediately taking a full turn under your control. While puppeted, 100 points of damage dealt to any enemy on the field is dealt to the Puppet, and 100 points of damage dealt to the Puppet is dealt to all other enemies."
+    },
+    {
+      "id": "tw_t7_agony_doctrine",
+      "treeId": "torment_weaver",
+      "name": "Agony Doctrine",
+      "tier": 7,
+      "maxRanks": 5,
+      "minLevel": 8,
+      "requiresPoints": 30,
+      "requires": [
+        "tw_t6_sympathetic_collapse"
+      ],
+      "spellType": "PASSIVE",
+      "grantId": "talent-spell-tw_t7_agony_doctrine",
+      "capstone": false,
+      "description": "Suffering is an exact science. All wyrd damage and resonance echo damage you deal is increased by +1d6 damage."
+    },
+    {
+      "id": "tw_t7_infinite_lattice",
+      "treeId": "torment_weaver",
+      "name": "Infinite Lattice",
+      "tier": 7,
+      "maxRanks": 3,
+      "minLevel": 8,
+      "requiresPoints": 30,
+      "requires": [
+        "tw_t6_web_reinforcement"
+      ],
+      "spellType": "PASSIVE",
+      "grantId": "talent-spell-tw_t7_infinite_lattice",
+      "capstone": false,
+      "description": "You may maintain up to 3 additional linked targets simultaneously, and links never break due to range or line of sight."
+    },
+    {
+      "id": "tw_t7_psychic_scourge",
+      "treeId": "torment_weaver",
+      "name": "Psychic Scourge",
+      "tier": 7,
+      "maxRanks": 3,
+      "minLevel": 8,
+      "requiresPoints": 30,
+      "requires": [
+        "tw_t6_web_reinforcement"
+      ],
+      "spellType": "PASSIVE",
+      "grantId": "talent-spell-tw_t7_psychic_scourge",
+      "capstone": false,
+      "description": "Whenever a linked enemy casts a spell or makes an attack, it takes 2d8 wyrd damage from the strain on the neural web."
+    },
+    {
+      "id": "tw_t7_vampiric_mesh",
+      "treeId": "torment_weaver",
+      "name": "Vampiric Mesh",
+      "tier": 7,
+      "maxRanks": 3,
+      "minLevel": 8,
+      "requiresPoints": 30,
+      "requires": [
+        "tw_t6_synaptic_overload"
+      ],
+      "spellType": "PASSIVE",
+      "grantId": "talent-spell-tw_t7_vampiric_mesh",
+      "capstone": false,
+      "description": "You and all allies within 30 feet heal for 15 points of all resonance and echo damage dealt across the entire network."
+    },
+    {
+      "id": "dh_t1_cultivate_rot",
+      "treeId": "decay_harbinger",
+      "name": "Cultivate Rot",
+      "tier": 1,
+      "maxRanks": 3,
+      "minLevel": 1,
+      "requiresPoints": 0,
+      "requires": [],
+      "spellType": "ACTIVE",
+      "grantId": "talent-spell-dh_t1_cultivate_rot",
+      "capstone": false,
+      "description": "Inject concentrated peat-rot into a target within 40 feet: deals 2d6 blight damage and applies 2 permanent Decay Stacks (max 10). Permanent stacks deal 1d4 blight damage per round and do not expire."
+    },
+    {
+      "id": "dh_t1_infinite_growth",
+      "treeId": "decay_harbinger",
+      "name": "Infinite Rooting",
+      "tier": 1,
+      "maxRanks": 3,
+      "minLevel": 1,
+      "requiresPoints": 0,
+      "requires": [],
+      "spellType": "PASSIVE",
+      "grantId": "talent-spell-dh_t1_infinite_growth",
+      "capstone": false,
+      "description": "Whenever an enemy with Decay Stacks takes blight damage from any spell, apply +1 permanent Decay Stack (up to stack cap)."
+    },
+    {
+      "id": "dh_t1_dark_rejuvenation",
+      "treeId": "decay_harbinger",
+      "name": "Dark Rejuvenation",
+      "tier": 1,
+      "maxRanks": 2,
+      "minLevel": 1,
+      "requiresPoints": 0,
+      "requires": [],
+      "spellType": "PASSIVE",
+      "grantId": "talent-spell-dh_t1_dark_rejuvenation",
+      "capstone": false,
+      "description": "Whenever you apply a Decay Stack, heal for 1d4 health, and the target's healing received is reduced by 10% for 2 rounds (stacks up to 50%)."
+    },
+    {
+      "id": "dh_t2_withering_siphon",
+      "treeId": "decay_harbinger",
+      "name": "Withering Siphon",
+      "tier": 2,
+      "maxRanks": 3,
+      "minLevel": 2,
+      "requiresPoints": 5,
+      "requires": [
+        "dh_t1_cultivate_rot"
+      ],
+      "spellType": "ACTIVE",
+      "grantId": "talent-spell-dh_t2_withering_siphon",
+      "capstone": false,
+      "description": "Spend 2 Virulence: channel necrotic threads into a target with Decay Stacks for 3 rounds. Deals 1d8 blight damage per 2 Decay Stacks on the target each round, healing you for the full amount."
+    },
+    {
+      "id": "dh_t2_necrotic_burst",
+      "treeId": "decay_harbinger",
+      "name": "Necrotic Cyst",
+      "tier": 2,
+      "maxRanks": 3,
+      "minLevel": 2,
+      "requiresPoints": 5,
+      "requires": [
+        "dh_t1_infinite_growth"
+      ],
+      "spellType": "PASSIVE",
+      "grantId": "talent-spell-dh_t2_necrotic_burst",
+      "capstone": false,
+      "description": "When a target reaches 5 permanent Decay Stacks, a necrotic cyst bursts: deals 3d8 blight damage in a 15-foot radius and applies 2 Decay Stacks to all enemies hit."
+    },
+    {
+      "id": "dh_t3_rupture_cyst",
+      "treeId": "decay_harbinger",
+      "name": "Rupture Cyst",
+      "tier": 3,
+      "maxRanks": 3,
+      "minLevel": 3,
+      "requiresPoints": 10,
+      "requires": [
+        "dh_t2_withering_siphon"
+      ],
+      "spellType": "ACTIVE",
+      "grantId": "talent-spell-dh_t3_rupture_cyst",
+      "capstone": false,
+      "description": "Spend 3 Virulence: detonate the decay inside your target. Deals 1d10 blight damage PER permanent Decay Stack on the target (does not consume the stacks)."
+    },
+    {
+      "id": "dh_t3_withering_aura",
+      "treeId": "decay_harbinger",
+      "name": "Withering Atmosphere",
+      "tier": 3,
+      "maxRanks": 3,
+      "minLevel": 3,
+      "requiresPoints": 10,
+      "requires": [
+        "dh_t2_necrotic_burst"
+      ],
+      "spellType": "PASSIVE",
+      "grantId": "talent-spell-dh_t3_withering_aura",
+      "capstone": false,
+      "description": "Targets with 5+ Decay Stacks emit a 20-foot rotting mire: enemies inside take 1d6 blight damage per turn and have their saving throws reduced by -2."
+    },
+    {
+      "id": "dh_t4_organ_collapse",
+      "treeId": "decay_harbinger",
+      "name": "Organ Collapse",
+      "tier": 4,
+      "maxRanks": 3,
+      "minLevel": 4,
+      "requiresPoints": 15,
+      "requires": [
+        "dh_t3_rupture_cyst"
+      ],
+      "spellType": "ACTIVE",
+      "grantId": "talent-spell-dh_t4_organ_collapse",
+      "capstone": false,
+      "description": "Spend 4 Virulence: force all Decay Stacks on the target to instantly tick 2 times in rapid succession. The target is crippled (disadvantage on all rolls) for 2 rounds."
+    },
+    {
+      "id": "dh_t4_vampiric_decay",
+      "treeId": "decay_harbinger",
+      "name": "Symbiotic Rot",
+      "tier": 4,
+      "maxRanks": 2,
+      "minLevel": 4,
+      "requiresPoints": 15,
+      "requires": [
+        "dh_t3_withering_aura"
+      ],
+      "spellType": "PASSIVE",
+      "grantId": "talent-spell-dh_t4_vampiric_decay",
+      "capstone": false,
+      "description": "Whenever your target takes damage from Decay Stacks, you gain 3 temporary health per stack on them (up to 30 temp HP)."
+    },
+    {
+      "id": "dh_t5_miasmic_shroud",
+      "treeId": "decay_harbinger",
+      "name": "Miasmic Shroud",
+      "tier": 5,
+      "maxRanks": 2,
+      "minLevel": 5,
+      "requiresPoints": 20,
+      "requires": [
+        "dh_t4_organ_collapse"
+      ],
+      "spellType": "ACTIVE",
+      "grantId": "talent-spell-dh_t5_miasmic_shroud",
+      "capstone": false,
+      "description": "Spend 3 Virulence: shroud yourself in vaporized rot for 1 minute. You gain +3 Durability Steps to equipped durability and 4 Damage Reduction against all-damage. Attackers who strike you in melee immediately gain 2 permanent Decay Stacks."
+    },
+    {
+      "id": "dh_t5_total_collapse",
+      "treeId": "decay_harbinger",
+      "name": "Corpse Bloom",
+      "tier": 5,
+      "maxRanks": 3,
+      "minLevel": 5,
+      "requiresPoints": 20,
+      "requires": [
+        "dh_t4_vampiric_decay"
+      ],
+      "spellType": "PASSIVE",
+      "grantId": "talent-spell-dh_t5_total_collapse",
+      "capstone": false,
+      "description": "When an enemy with 5+ Decay Stacks dies, they erupt in a corpse bloom: deals 4d8 blight damage to all enemies within 20 feet and transfers all their Decay Stacks divided among the survivors."
+    },
+    {
+      "id": "dh_t6_apocalyptic_decay",
+      "treeId": "decay_harbinger",
+      "name": "Apocalyptic Decay",
+      "tier": 6,
+      "maxRanks": 1,
+      "minLevel": 6,
+      "requiresPoints": 25,
+      "requires": [
+        "dh_t5_miasmic_shroud"
+      ],
+      "spellType": "ACTIVE",
+      "grantId": "talent-spell-dh_t6_apocalyptic_decay",
+      "capstone": false,
+      "description": "Spend 5 Virulence: copy all Decay Stacks currently on your primary target onto ALL enemies within 30 feet of it. For 3 rounds, all your single-target decay spells hit every stacked enemy simultaneously."
+    },
+    {
+      "id": "dh_t6_deep_rooted",
+      "treeId": "decay_harbinger",
+      "name": "Deep-Rooted Weeds",
+      "tier": 6,
+      "maxRanks": 2,
+      "minLevel": 6,
+      "requiresPoints": 25,
+      "requires": [
+        "dh_t5_total_collapse"
+      ],
+      "spellType": "PASSIVE",
+      "grantId": "talent-spell-dh_t6_deep_rooted",
+      "capstone": false,
+      "description": "Your Decay Stacks cannot be cleansed, dispelled, or transferred by any magic short of divine intervention. Any dispel attempt deals 3d8 blight damage to the caster."
+    },
+    {
+      "id": "dh_t6_rot_memory",
+      "treeId": "decay_harbinger",
+      "name": "Rot Memory",
+      "tier": 6,
+      "maxRanks": 2,
+      "minLevel": 6,
+      "requiresPoints": 25,
+      "requires": [
+        "dh_t5_total_collapse"
+      ],
+      "spellType": "PASSIVE",
+      "grantId": "talent-spell-dh_t6_rot_memory",
+      "capstone": false,
+      "description": "Enemies who have ever carried 5+ Decay Stacks permanently suffer +1d6 bonus damage from all your spells for the remainder of the encounter."
+    },
+    {
+      "id": "dh_t7_the_deep_garden",
+      "treeId": "decay_harbinger",
+      "name": "The Deep Garden",
+      "tier": 7,
+      "maxRanks": 1,
+      "minLevel": 10,
+      "requiresPoints": 45,
+      "requires": [
+        "dh_t6_apocalyptic_decay"
+      ],
+      "spellType": "ACTIVE",
+      "grantId": "talent-spell-dh_t7_the_deep_garden",
+      "capstone": true,
+      "description": "ULTIMATE: Designate one target as the Garden's Heartwood for 1 minute: its Decay Stack cap becomes UNLIMITED. All your attacks add +2 stacks. At the end of the duration or upon death, the Heartwood implodes: deals 2d10 blight damage PER STACK on it to itself and seeds all enemies within 60 feet with half its total stacks."
+    },
+    {
+      "id": "dh_t7_peat_heart",
+      "treeId": "decay_harbinger",
+      "name": "Peat-Heart Doctrine",
+      "tier": 7,
+      "maxRanks": 5,
+      "minLevel": 8,
+      "requiresPoints": 30,
+      "requires": [
+        "dh_t6_apocalyptic_decay"
+      ],
+      "spellType": "PASSIVE",
+      "grantId": "talent-spell-dh_t7_peat_heart",
+      "capstone": false,
+      "description": "The Wastes beat slowly in your chest. All blight damage you deal is increased by +1d6 damage."
+    },
+    {
+      "id": "dh_t7_slow_gardener",
+      "treeId": "decay_harbinger",
+      "name": "Rot Acceleration",
+      "tier": 7,
+      "maxRanks": 3,
+      "minLevel": 8,
+      "requiresPoints": 30,
+      "requires": [
+        "dh_t6_deep_rooted"
+      ],
+      "spellType": "PASSIVE",
+      "grantId": "talent-spell-dh_t7_slow_gardener",
+      "capstone": false,
+      "description": "Permanent Decay Stacks tick twice per round instead of once (at start and end of turn)."
+    },
+    {
+      "id": "dh_t7_compost_engine",
+      "treeId": "decay_harbinger",
+      "name": "Compost Engine",
+      "tier": 7,
+      "maxRanks": 3,
+      "minLevel": 8,
+      "requiresPoints": 30,
+      "requires": [
+        "dh_t6_deep_rooted"
+      ],
+      "spellType": "PASSIVE",
+      "grantId": "talent-spell-dh_t7_compost_engine",
+      "capstone": false,
+      "description": "Whenever an enemy dies while carrying Decay Stacks, you gain 4 Virulence and heal for 3d8 health."
+    },
+    {
+      "id": "dh_t7_eternal_gardener",
+      "treeId": "decay_harbinger",
+      "name": "Eternal Gardener",
+      "tier": 7,
+      "maxRanks": 3,
+      "minLevel": 8,
+      "requiresPoints": 30,
+      "requires": [
+        "dh_t6_rot_memory"
+      ],
+      "spellType": "PASSIVE",
+      "grantId": "talent-spell-dh_t7_eternal_gardener",
+      "capstone": false,
+      "description": "While any enemy holds 5+ Decay Stacks, lethal damage reduces you to 1 health instead and immediately draws 50 health from the stacked enemy (once per combat)."
+    }
+  ],
+  "recordTypes": {
+    "core": [
+      "pb_curse_of_agony",
+      "pb_whisper_of_decay"
+    ],
+    "optional": [
+      "pb_miasma_form",
+      "pb_venomous_touch",
+      "pb_fever_dream",
+      "pb_mark_of_the_pestilent",
+      "pb_enfeebling_fog",
+      "pb_drain_vitality",
+      "pb_hallucinogenic_spores",
+      "pb_agonizing_wail",
+      "pb_infectious_sores",
+      "pb_plague_of_flies",
+      "pb_necrotic_burst",
+      "pb_wither_touch",
+      "pb_dark_rejuvenation",
+      "pb_sufferings_echo",
+      "pb_pain_magnification",
+      "pb_essence_corruption",
+      "pb_affliction_mark",
+      "pb_plague_burst",
+      "pb_mass_affliction",
+      "pb_pandemic",
+      "pb_decay_field",
+      "pb_gardens_wrath",
+      "pb_mind_plague",
+      "pb_plague_incarnate",
+      "pb_epidemic",
+      "pb_black_death",
+      "pb_necrotic_eruption",
+      "pb_plague_god",
+      "pb_ultimate_affliction",
+      "virulent-lavender_mask",
+      "pb_rot_touch",
+      "pb_mycelium_sense",
+      "pb_plague_reader",
+      "pb_counter_culture",
+      "pb_cadaver_puppet",
+      "pb_spore_scout",
+      "pb_miasma_veil",
+      "pb_septic_shroud",
+      "pb_parasitic_graft",
+      "pb_calcifying_rot",
+      "pb_bubonic_detonation",
+      "pb_spore_hive_quarantine",
+      "pb_chitinous_carapace",
+      "pb_symbiotic_resurrection",
+      "pb_world_blight_cataclysm",
+      "pb_apotheosis_of_rot"
+    ],
+    "unslottedPassives": [
+      "plague_incubation_period",
+      "plague_sterile_environment"
+    ]
+  }
+}

@@ -2,11 +2,12 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useSpellLibrary } from '../spellcrafting-wizard/context/SpellLibraryContext';
 import { newItemAbility, snapshotAbility, itemAbilitySupport, editItemAbility } from '../../services/itemAuthoredAbility';
 import './ItemAbility.css';
+import AuthoredConditionFields from '../spellcrafting-wizard/components/common/AuthoredConditionFields';
 
 const types = ['arcane', 'sacred', 'blight', 'ember', 'rime', 'primal', 'storm', 'wyrd', 'slicing', 'stabbing', 'smashing'];
 export function CompactForm({ association, onKeep, onCancel, subject = 'item', initialValues, onValuesChange }) {
   const d = itemAbilitySupport(association).definition;
-  const [values, setLocalValues] = useState(initialValues || { name: d.name, description: d.description, kind: d.effect.kind, formula: d.effect.formula, damageType: d.effect.damageTypes?.[0] || 'arcane', ap: d.resourceCost.actionPoints, mana: d.resourceCost.mana, range: d.targeting.rangeFeet, restriction: d.targeting.restriction });
+  const [values, setLocalValues] = useState(initialValues || { name: d.name, description: d.description, kind: d.effect.kind, formula: d.effect.formula, authoredCondition: association.record.authoredDraft.controlConfig?.authoredCondition, damageType: d.effect.damageTypes?.[0] || 'arcane', ap: d.resourceCost.actionPoints, mana: d.resourceCost.mana, range: d.targeting.rangeFeet, restriction: d.targeting.restriction });
   const setValues = change => { const next = change(values); setLocalValues(next); onValuesChange?.(next); };
   const [error, setError] = useState('');
   const text = key => ({ value: values[key], onChange: e => setValues(v => ({ ...v, [key]: e.target.value })) });
@@ -14,10 +15,10 @@ export function CompactForm({ association, onKeep, onCancel, subject = 'item', i
   return <div className="item-ability-fields">
     <label>Ability name<input autoFocus maxLength="120" {...text('name')} /></label>
     <label>Description<textarea maxLength="4000" {...text('description')} /></label>
-    <label>Effect<select {...text('kind')}><option value="damage">Direct damage</option><option value="healing">Direct healing</option></select></label>
+    {d.effect.kind === 'condition' ? <AuthoredConditionFields value={values.authoredCondition} onChange={authoredCondition => setValues(v => ({ ...v, authoredCondition }))} /> : <label>Effect<select {...text('kind')}><option value="damage">Direct damage</option><option value="healing">Direct healing</option></select></label>}
     {values.kind === 'damage' && <label>Damage type<select {...text('damageType')}>{types.map(t => <option key={t}>{t}</option>)}</select></label>}
-    <label>Formula<input {...text('formula')} aria-describedby="item-formula-help" /></label>
-    <p id="item-formula-help">One dice group, optionally plus or minus a whole number: 1d6+2.</p>
+    {values.kind !== 'condition' && <><label>Formula<input {...text('formula')} aria-describedby="item-formula-help" /></label>
+    <p id="item-formula-help">One dice group, optionally plus or minus a whole number: 1d6+2.</p></>}
     <div className="item-ability-numbers">
       <label>AP price<input type="number" min="0" max="20" step="1" {...number('ap')} /></label>
       <label>Mana price<input type="number" min="0" max="10000" step="1" {...number('mana')} /></label>

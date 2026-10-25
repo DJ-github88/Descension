@@ -326,26 +326,29 @@ describe('PartyHUD Component', () => {
     expect(container.querySelector('.party-frame-user-456')).toBeInTheDocument();
   });
 
-  it('displays alignment tag in the top header row without truncating identity lines', () => {
+  it('states alignment in the calling line and keeps ancestry and background whole', () => {
     const { container } = render(<PartyHUD onOpenCharacterSheet={jest.fn()} onCreateToken={jest.fn()} />);
 
-    // Legolas alignment tag is Neutral Good in top row
-    const alignmentTags = container.querySelectorAll('.member-alignment-tag');
-    expect(alignmentTags.length).toBeGreaterThan(0);
+    // Alignment is text in the calling line, not a plaque on the top border
+    expect(container.querySelector('.member-alignment-tag')).toBeNull();
+    const alignments = container.querySelectorAll('.hud-sheet-alignment');
+    expect(alignments).toHaveLength(2);
     expect(screen.getByText('Neutral Good')).toBeInTheDocument();
+    expect(alignments[0].closest('.hud-sheet-calling')).not.toBeNull();
+    expect(alignments[0]).toHaveClass('good');
 
-    // Heritage and background lines exist for both members
-    expect(container.querySelectorAll('.member-heritage-line')).toHaveLength(2);
-    expect(container.querySelectorAll('.member-background-line')).toHaveLength(2);
+    // Ancestry and background exist for both members
+    expect(container.querySelectorAll('.hud-sheet-ancestry')).toHaveLength(2);
+    expect(container.querySelectorAll('.hud-sheet-background')).toHaveLength(2);
   });
 
-  it('renders engraved portrait level chip with correct level number', () => {
+  it('states the level in the calling line instead of stamping it on the portrait', () => {
     const { container } = render(<PartyHUD onOpenCharacterSheet={jest.fn()} onCreateToken={jest.fn()} />);
 
-    const levelChips = container.querySelectorAll('.portrait-level-chip');
-    expect(levelChips.length).toBe(2);
-    expect(levelChips[0]).toHaveAttribute('title', 'Level 5');
-    expect(levelChips[0]).toHaveTextContent('5');
+    expect(container.querySelector('.portrait-level-chip')).toBeNull();
+    const levels = container.querySelectorAll('.hud-sheet-level');
+    expect(levels).toHaveLength(2);
+    expect(levels[0]).toHaveTextContent('Level 5');
   });
 
   it('opens the portrait lightbox when a HUD portrait is clicked and closes on Escape', () => {
@@ -367,73 +370,78 @@ describe('PartyHUD Component', () => {
     expect(document.querySelector('.portrait-lightbox-overlay')).toBeNull();
   });
 
-  it('signs the name row with the class and keeps the class plate off the portrait', () => {
+  it('reads "Level, class, alignment" under the name and keeps the class plate off the portrait', () => {
     const { container } = render(<PartyHUD onOpenCharacterSheet={jest.fn()} onCreateToken={jest.fn()} />);
 
-    // The under-portrait plaque is gone; the class lives in the name row
     expect(container.querySelector('.portrait-class-banner')).toBeNull();
 
-    const classTexts = container.querySelectorAll('.member-class-text');
+    const classTexts = container.querySelectorAll('.hud-sheet-class');
     expect(classTexts).toHaveLength(2);
     expect(classTexts[0]).toHaveTextContent('Hunter');
     expect(classTexts[0]).toHaveAttribute('title', 'Class: Hunter');
     expect(classTexts[1]).toHaveTextContent('Warrior');
 
-    const topRow = classTexts[0].closest('.member-header-top-row');
-    expect(topRow).not.toBeNull();
-    expect(topRow.querySelector('.member-name-text')).toHaveTextContent('Legolas');
+    const calling = classTexts[0].closest('.hud-sheet-calling');
+    expect(calling).toHaveTextContent('Level 5 Hunter, Neutral Good');
+    const identity = calling.closest('.hud-sheet-identity');
+    expect(identity.querySelector('.hud-sheet-name')).toHaveTextContent('Legolas');
   });
 
-  it('moves the archetype icon from the race line to the background line', () => {
+  it('keeps the archetype icon on the background, not the ancestry', () => {
     const { container } = render(<PartyHUD onOpenCharacterSheet={jest.fn()} onCreateToken={jest.fn()} />);
 
-    const heritageLines = container.querySelectorAll('.member-heritage-line');
-    expect(heritageLines).toHaveLength(2);
-    heritageLines.forEach((line) => {
-      expect(line.querySelector('.archetype-icon')).toBeNull();
+    const ancestries = container.querySelectorAll('.hud-sheet-ancestry');
+    expect(ancestries).toHaveLength(2);
+    ancestries.forEach((item) => {
+      expect(item.querySelector('.archetype-icon')).toBeNull();
     });
     // Human bloodlines read as "<bloodline> (Human)", with legacy regional
-    // suffixes stripped instead of leaking into the heritage line.
-    expect(heritageLines[0].querySelector('.heritage-race')).toHaveTextContent('Tallyn (Human)');
+    // suffixes stripped instead of leaking into the ancestry.
+    expect(ancestries[0]).toHaveTextContent('Tallyn (Human)');
     // Athien bloodlines read as "<bloodline> Athien"
-    expect(heritageLines[1]).toHaveTextContent('Riven');
+    expect(ancestries[1]).toHaveTextContent('Riven');
 
-    const backgroundLines = container.querySelectorAll('.member-background-line');
-    expect(backgroundLines).toHaveLength(2);
-    backgroundLines.forEach((line) => {
-      expect(line.querySelector('.archetype-icon')).toBeInTheDocument();
+    const backgrounds = container.querySelectorAll('.hud-sheet-background');
+    expect(backgrounds).toHaveLength(2);
+    backgrounds.forEach((item) => {
+      expect(item.querySelector('.archetype-icon')).toBeInTheDocument();
     });
   });
 
-  it('renders exhaustion plaque on frame bottom border decoupled from member name header', () => {
+  it('shows exhaustion as a status line inside the card, not a plaque on the border', () => {
     const { container } = render(<PartyHUD onOpenCharacterSheet={jest.fn()} onCreateToken={jest.fn()} />);
 
-    // Exhaustion plaque is mounted on the member frame (bottom border), not in .member-header
     const memberFrames = container.querySelectorAll('.party-member-frame');
     expect(memberFrames.length).toBe(2);
+    expect(container.querySelector('.party-exhaustion-badge')).toBeNull();
 
-    const exhaustionBadge = memberFrames[0].querySelector('.party-exhaustion-badge');
-    expect(exhaustionBadge).toBeInTheDocument();
-    expect(exhaustionBadge.querySelector('.party-exhaustion-select')).toBeInTheDocument();
-    expect(exhaustionBadge.querySelector('.exhaustion-label')).toHaveTextContent('Exhaustion');
-    expect(exhaustionBadge.querySelector('.exhaustion-value')).toHaveTextContent('0');
+    // The owner sees the line even at level 0 (it is the control); another
+    // member at level 0 shows nothing
+    const exhaustion = memberFrames[0].querySelector('.hud-sheet-exhaustion');
+    expect(exhaustion).toBeInTheDocument();
+    expect(exhaustion.closest('.hud-sheet-identity')).not.toBeNull();
+    expect(memberFrames[1].querySelector('.hud-sheet-exhaustion')).toBeNull();
 
-    // No native title attributes on badge or select to prevent unstyled browser tooltip boxes
-    expect(exhaustionBadge).not.toHaveAttribute('title');
-    expect(exhaustionBadge.querySelector('.party-exhaustion-select')).not.toHaveAttribute('title');
-    expect(exhaustionBadge.querySelector('.exhaustion-plate-svg')).toBeInTheDocument();
-    expect(exhaustionBadge.querySelector('.exh-hourglass-glyph')).toBeInTheDocument();
+    expect(exhaustion).toHaveClass('is-rested');
+    expect(exhaustion.querySelector('.party-exhaustion-select')).toBeInTheDocument();
+    expect(exhaustion.querySelector('.hud-sheet-exhaustion-label')).toHaveTextContent('Exhaustion');
+    expect(exhaustion.querySelector('.hud-sheet-exhaustion-value')).toHaveTextContent('0');
+    expect(exhaustion.querySelector('.hud-sheet-hourglass')).toBeInTheDocument();
 
-    // Hovering the exhaustion plaque triggers the calm TTRPG tooltip
-    fireEvent.mouseEnter(exhaustionBadge, { clientX: 100, clientY: 200 });
+    // No native title attributes on the line or select to prevent unstyled browser tooltip boxes
+    expect(exhaustion).not.toHaveAttribute('title');
+    expect(exhaustion.querySelector('.party-exhaustion-select')).not.toHaveAttribute('title');
+
+    // Hovering the exhaustion line triggers the calm TTRPG tooltip
+    fireEvent.mouseEnter(exhaustion, { clientX: 100, clientY: 200 });
     const calmCard = document.querySelector('.calm-exhaustion-card');
     expect(calmCard).toBeInTheDocument();
     expect(calmCard).toHaveTextContent('Cumulative Penalties');
     expect(calmCard).toHaveTextContent('Level 0 • Refreshed');
     expect(calmCard).toHaveTextContent('Disadvantage on all ability checks');
 
-    // Clicking the exhaustion plaque opens the custom calm TTRPG dropdown menu
-    fireEvent.click(exhaustionBadge);
+    // Clicking the exhaustion line opens the custom calm TTRPG dropdown menu
+    fireEvent.click(exhaustion);
     const dropdown = document.querySelector('.calm-exhaustion-dropdown');
     expect(dropdown).toBeInTheDocument();
     expect(dropdown).toHaveTextContent('Adjust Exhaustion');
@@ -444,12 +452,6 @@ describe('PartyHUD Component', () => {
     const stage1Option = dropdown.querySelector('.calm-dropdown-item.level-1');
     fireEvent.click(stage1Option);
     expect(document.querySelector('.calm-exhaustion-dropdown')).toBeNull();
-
-    // Member header top row contains only the name and alignment
-    const topRow = container.querySelector('.member-header-top-row');
-    expect(topRow.querySelector('.party-exhaustion-badge')).toBeNull();
-    expect(topRow.querySelector('.member-level-text')).toBeNull();
-    expect(topRow.querySelector('.member-name-text')).toHaveTextContent('Legolas');
   });
 
   it('falls back to the class icon when no portrait image or icon is chosen', () => {

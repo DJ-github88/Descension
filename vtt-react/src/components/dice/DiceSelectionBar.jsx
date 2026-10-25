@@ -472,14 +472,15 @@ const DiceSelectionBar = () => {
               ←
             </button>
           </div>
-          {/* Card draw component */}
-          <CardDrawSystem />
+          {/* Card draw controls — the hand itself is dealt by DiceRollingSystem,
+              so the panel closes on Draw without clearing the cards. */}
+          <CardDrawSystem onDrawn={() => setIsOpen(false)} />
         </div>
       )}
 
       {/* Coin Dropdown - Show when coin orb is selected */}
       {isOpen && selectedOrb === 'coin' && (
-        <div className="dice-dropdown">
+        <div className="dice-dropdown dice-dropdown-coin">
           <div className="dice-dropdown-header">
             <span className="dice-dropdown-title">Coin Flip</span>
             <button
@@ -490,8 +491,9 @@ const DiceSelectionBar = () => {
               ←
             </button>
           </div>
-          {/* Coin flip component */}
-          <CoinFlipSystem />
+          {/* Coin flip controls — the flip itself runs in DiceRollingSystem, so
+              the panel closes on Flip (like Roll) without cancelling it. */}
+          <CoinFlipSystem onFlipped={() => setIsOpen(false)} />
         </div>
       )}
 

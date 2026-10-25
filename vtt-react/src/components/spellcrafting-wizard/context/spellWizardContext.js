@@ -556,7 +556,11 @@ function validateState(state) {
  }
 
  // Validate duration configuration
- if (!state.durationConfig || Object.keys(state.durationConfig).length === 0) {
+ const conditionTiming = state.effectTypes.length === 1 && state.effectTypes[0] === 'control' &&
+  state.controlConfig?.authoredCondition?.profile === 'authored-condition:v1' &&
+  state.controlConfig.authoredCondition.expiryPolicy === 'gm-manual' &&
+  state.controlConfig.authoredCondition.durationText?.trim() && state.controlConfig.authoredCondition.gmNote?.trim();
+ if ((!state.durationConfig || Object.keys(state.durationConfig).length === 0) && !conditionTiming) {
  errors.durationConfig = 'Duration configuration is required';
  }
 
@@ -801,10 +805,10 @@ function spellWizardReducer(state, action) {
   lastModified: new Date()
   };
 
- case ACTION_TYPES.UPDATE_CONTROL_CONFIG:
+  case ACTION_TYPES.UPDATE_CONTROL_CONFIG:
   return {
   ...state,
-  controlConfig: {
+   controlConfig: action.replace === true ? action.payload : {
    ...state.controlConfig,
    ...action.payload
   },
@@ -1411,7 +1415,8 @@ const actionCreators = {
  updateBuffConfig: (config) => ({ type: ACTION_TYPES.UPDATE_BUFF_CONFIG, payload: config }),
  updateDebuffConfig: (config) => ({ type: ACTION_TYPES.UPDATE_DEBUFF_CONFIG, payload: config }),
  updateUtilityConfig: (config) => ({ type: ACTION_TYPES.UPDATE_UTILITY_CONFIG, payload: config }),
- updateControlConfig: (config) => ({ type: ACTION_TYPES.UPDATE_CONTROL_CONFIG, payload: config }),
+  updateControlConfig: (config) => ({ type: ACTION_TYPES.UPDATE_CONTROL_CONFIG, payload: config }),
+  replaceControlConfig: (config) => ({ type: ACTION_TYPES.UPDATE_CONTROL_CONFIG, payload: config, replace: true }),
  updateSummonConfig: (config) => ({ type: ACTION_TYPES.UPDATE_SUMMONING_CONFIG, payload: config }),
  updateSummoningConfig: (config) => ({ type: ACTION_TYPES.UPDATE_SUMMONING_CONFIG, payload: config }),
  updateTransformConfig: (config) => ({ type: ACTION_TYPES.UPDATE_TRANSFORMATION_CONFIG, payload: config }),

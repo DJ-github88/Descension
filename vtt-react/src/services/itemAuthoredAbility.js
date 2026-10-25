@@ -18,12 +18,19 @@ function newItemAbility(id) {
   return snapshotAbility({ ...clone(draft), authoredDefinitionId: id, authoredDraft: draft });
 }
 function editItemAbility(association, values) {
-  const support = itemAbilitySupport(association);
-  if (!support.ok) throw Error('This whole definition stays manual. Use the advanced Spell Wizard to author a separate supported definition.');
+   const support = itemAbilitySupport(association);
+   if (!support.ok) throw Error('This whole definition stays manual. Use the advanced Spell Wizard to author a separate supported definition.');
+   if (support.definition.effect.kind === 'condition' && values.kind === 'condition' &&
+       values.name === support.definition.name && values.description === support.definition.description &&
+       values.ap === support.definition.resourceCost.actionPoints && values.mana === support.definition.resourceCost.mana &&
+       values.range === support.definition.targeting.rangeFeet && values.restriction === support.definition.targeting.restriction &&
+       JSON.stringify(ordered(values.authoredCondition)) === JSON.stringify(ordered(association.record.authoredDraft.controlConfig.authoredCondition))) return clone(association);
   const next = clone(association), r = next.record, d = r.authoredDraft, kind = values.kind;
-  if (!['damage', 'healing'].includes(kind)) throw Error('Choose direct damage or direct healing.');
+   if (!['damage', 'healing', ...(support.definition.effect.kind === 'condition' ? ['condition'] : [])].includes(kind)) throw Error('Choose a compatible effect.');
   d.name = values.name; d.description = values.description;
-  d.effectTypes = [kind];
+   d.effectTypes = [kind === 'condition' ? 'control' : kind];
+   if (kind === 'condition') d.controlConfig = { authoredCondition: clone(values.authoredCondition) };
+   else {
   const configKey = kind === 'damage' ? 'damageConfig' : 'healingConfig';
   d[configKey] = { ...(d[configKey] || {}), formula: values.formula, resolution: 'DICE' };
   if (d[configKey].globalResolution !== undefined) d[configKey].globalResolution = 'DICE';
@@ -35,12 +42,13 @@ function editItemAbility(association, values) {
     if (r.damageTypes !== undefined) r.damageTypes = [values.damageType];
   } else { d.healingConfig.healingType = 'direct'; delete d.damageConfig; delete r.damageTypes; }
   if (d.effectsMap) d.effectsMap = Object.fromEntries(Object.keys(d.effectsMap).concat(kind).map(k => [k, k === kind]));
-  if (d.effectResolutions) d.effectResolutions = { [kind]: 'DICE' };
+   if (d.effectResolutions) d.effectResolutions = { [kind]: 'DICE' };
+   }
   d.resourceCost = { ...d.resourceCost, actionPoints: values.ap, mana: values.mana };
   if (d.resourceCost.resourceValues) d.resourceCost.resourceValues = { ...d.resourceCost.resourceValues, actionPoints: values.ap, mana: values.mana };
   d.targetingConfig = { ...d.targetingConfig, rangeDistance: values.range, targetRestrictions: [values.restriction] };
   if (d.targetingConfig.targetRestriction) d.targetingConfig.targetRestriction = values.restriction;
-  for (const key of ['name', 'description', 'effectTypes', 'effectsMap', 'effectResolutions', 'damageConfig', 'healingConfig', 'resourceCost', 'targetingConfig', 'typeConfig']) {
+   for (const key of ['name', 'description', 'effectTypes', 'effectsMap', 'effectResolutions', 'damageConfig', 'healingConfig', 'controlConfig', 'resourceCost', 'targetingConfig', 'typeConfig']) {
     if (d[key] === undefined) delete r[key]; else r[key] = clone(d[key]);
   }
   if (r.serializedData !== undefined) r.serializedData = JSON.stringify(d);

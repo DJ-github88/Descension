@@ -18,6 +18,15 @@ only by agreement recorded here.
 
 ## 1. Standing rules
 
+### A9 active shared-file reservation — 2026-10-25
+
+Main HQ authorizes [A9](MYTHRILL_PROJECT_14_A9_CONTRACT.md): A4 creature and A8 primary
+Arcanoneer PC sources → exact primary PC canonical Stunned. Combat narrowly extends
+the dirty accepted installed registry lookup/spellPayments/P7 handler/binder, existing
+spell planner/controller/custody/panel and shared-condition projection/help. Hostile GM
+authority is independent of target acknowledgement; voluntary designation needs exact
+target consent. A1a/W1/cards and concurrent Class/Heritage/Plaguebringer/UI remain protected.
+
 1. **No second engine.** Class resources stay with the existing class-owned owners (`classResourceContracts.js`,
    `classResourceBanks.js`, resourceSlice, ClassResourceBar/ResourceTooltip). Payment, approval and receipt stay
    on the existing P7/P9/P12 paths. P14-A1 uses unchanged `authoredSpellDefinitions.js` (A1a) with the
@@ -120,11 +129,72 @@ device before write-back.
 
 ## 5. Shared-file edits by the 2026-10-17 combat slices
 
+**P14-A8 final handoff (2026-10-25):** [acceptance](MYTHRILL_PROJECT_14_A8_ACCEPTANCE.md),
+same-review repaired bounded ACCEPT/Build4-App10 PASS (qualified). Existing normal PC
+admission→exact owner terms/consent→private GM success/manual timing→atomic temp-first
+payment+C2 Stunned. Final254 server/11 suites73 client; same reviewer executed focused
+server/client/actual-custody prejoin probes and inspected (did not rerun) final build/App.
+Gatecb0bc9a0… names63runtime/51client/protected7/11,383 build inputs; scoped/full/added
+input drift[] at13:07Z. Ten fetch errors/fixtures/live-only/device limits explicit.
+Concurrent Class/Heritage/Plaguebringer/dice/coin/social/App/character/calm UI preserved,
+included where present in build inputs but semantically unaccepted by A8. Next PC-target
+policy is prepared only; no hostile-target acknowledgement veto has been inferred.
+
+**A8 final shared deltas:** private PC timing-note receipt filtering, exact owner
+withdrawal retry and read-only rejoin refresh were repaired under the same review.
+Production initial join registers socket handlers before room selection; registration
+now captures account/generation/socket, while room delivery stays current-room scoped.
+The witness explicitly exercises prejoin registration. ItemAbilityAccess retains its
+association/launcher and identical PC checks; narrow copy now describes canonical
+Stunned/manual duration instead of undefined formula/HP. Item entitlement stays manual.
+All Class/Heritage/Plaguebringer and concurrent dice/coin/social UI edits remain owned
+by their writers. Final A8 identities/build/App/review are in its acceptance record.
+
+**P14-A8 authorized/frozen (2026-10-25), before runtime edits:** [contract](MYTHRILL_PROJECT_14_A8_CONTRACT.md).
+Existing normal library PC admission, installed source eligibility, owner spell consent,
+condition-only GM command/binder/custody and same panels are writable for exact primary
+Arcanoneer owner PC→distinct creature Stunned. A7 validator/registry/C2 primitive reused;
+private GM resolution remains separate from immutable owner terms. Dirty A7 files overlap
+installedAuthoredAbilities/spellPayments/handler/authoredCondition/spellConsequence/service/
+panel/AuthoredAdmission/rules. Fresh patches preserve those accepted bytes and concurrent
+Class/Heritage/Plaguebringer/UI work. No A1a/W1/cards/class-resource/binding migrations.
+
+A8 actual-App producer reconciliation: the live normal library's saved `typeConfig`
+retains optional icon/secondaryElement/tags as `undefined`; JSON transport omits them.
+The shared whole-record adapter's comparison must follow that transport meaning rather
+than JSON.parse(undefined). Narrow canonical comparison repair in authoredAbility.js;
+required prices and all active mechanics still validate/refuse normally. No save schema,
+Wizard serializer/resource owner or protected A1a compiler change.
+
+**P14-A7 final handoff (2026-10-23):** [acceptance](MYTHRILL_PROJECT_14_A7_ACCEPTANCE.md), same-review
+repaired bounded ACCEPT/Build4-App4 PASS. Real Spell Wizard control profile→whole Creature library
+association→exact placed admission→retained GM success/manual timing→one existing P7 authored price+
+canonical C2 Stunned. Separate instances, exact removal, source/target restrictions and silent original
+recovery. Same installed registry companion; A1a/W1 protected. Reviewer independently244 server plus
+recorded overlapping client/probes; final implementer244/12 suites82/Build4/App4 independently appraised.
+Gate6dbbbdb9… binds62 runtime/protected7/11,380 recorded client inputs, drift[] at review. Six fetch errors
+and fixture/cloud/live-only/device limits remain. Concurrent Class/Plaguebringer/RI-8 work preserved and
+not accepted by this slice. New follow-ons remain recommendations; no PC/item condition consent widening.
+
+**P14-A7 authorized/frozen (2026-10-23), before runtime edits:** [A7 contract](MYTHRILL_PROJECT_14_A7_CONTRACT.md).
+Main HQ freezes a separately versioned `authored-condition:v1` control profile in the existing installed
+registry. Narrow Wizard control mapping, shared association inspection, canonical C2 manual-duration
+record, existing spell attempt/binder/panel/feed and P7 guard are writable. One exact admitted creature
+→ distinct creature, current GM, explicit successful outcome, atomic authored AP/mana+Stunned, manual
+expiry only. A1a/W1/Class/Heritage/card bytes protected; existing five dirty docs preserved. No PC/item
+execution, mixed effects or C4 schedule widening. Exact bytes, focused evidence and one review follow.
+
+**A7 actual-App producer reconciliation:** normal Spellbook mounts a nested SpellLibraryProvider under
+the App provider; its saved definition is invisible to the Creature selector consuming the outer
+provider. Before editing that shared context, record the narrow repair: nested providers reuse the
+existing parent state/dispatch rather than creating a stale second same-account library/save owner.
+Standalone providers keep their existing persistence behavior. No W1 serializer/resource changes.
+
 **P14-A6 completion (2026-10-23):** [acceptance](MYTHRILL_PROJECT_14_A6_ACCEPTANCE.md), bounded independent
-PASS/Build2-App4 PASS. Exact Self healing reuses merged one-actor P7 path; narrow pending baseline,
+PASS/Build2-App6 PASS. Exact Self healing reuses merged one-actor P7 path; narrow pending baseline,
 server-verified actual restoration, launcher/panel and public admission lifecycle projection. Final91
 server/4 suites29 client; reviewer independently18 A6+47 A4/A5/A1 and55/protected7/44-client hashes.
-Build/App independently appraised, not reviewer-executed. Gate908450b1… at external HEAD76012be8;
+Build/App independently appraised, not reviewer-executed. Gatea6018f87… at external HEAD76012be8;
 unrelated Class drift and four fetch errors/fixture/live-only/device limits retained. [Next recommendation](MYTHRILL_PROJECT_14_AUTHORED_CONDITION_RECOMMENDATION.md)
 separates authored application/source from canonical mechanics, manual duration, atomic payment,
 independent instances and whole mixed-effect refusal. Class field mapping needs separate coordination;

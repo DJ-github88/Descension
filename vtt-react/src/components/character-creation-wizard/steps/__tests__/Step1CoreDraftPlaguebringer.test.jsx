@@ -29,5 +29,12 @@ describe('Step1CoreDraft Plaguebringer catalogue entry', () => {
         expect(grantedLabel.parentElement.textContent).toContain('Wasting Curse');
         expect(grantedLabel.parentElement.textContent).toContain('Whisper of Decay');
         expect(screen.getByText('0 / 1 selected')).toBeTruthy();
+        expect(screen.getByRole('button', { name: /Confirm Spells/ }).disabled).toBe(true);
+
+        fireEvent.click(screen.getAllByText('Venomous Touch')[0]);
+        fireEvent.click(screen.getByRole('button', { name: /Add to Spells/ }));
+
+        expect(screen.getByText('1 / 1 selected')).toBeTruthy();
+        expect(screen.getByRole('button', { name: 'Confirm Spells' }).disabled).toBe(false);
     });
 });

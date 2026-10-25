@@ -29,26 +29,29 @@ function makeDefendingRecord(target, id, sourceMode = 'manual') {
 function validManagedRecord(record, target) {
   if (record?.effectOrigin === STUNNED.origin) {
     try { return canonical(record) === canonical(makeStunnedRecord(target, record.recordId, {
-      sourceOccurrence: record.sourceEntityId, timing: record.clockBoundary, sourceActor: record.sourceActor
+      sourceOccurrence: record.sourceEntityId, timing: record.clockBoundary, sourceActor: record.sourceActor, authoredDuration: record.authoredDuration
     })); } catch (_) { return false; }
   }
   if (!record || !uuid(record.recordId) || record.effectOrigin !== DEFENDING.origin || record.target?.kind !== 'character' || !sameRef(record.target, target) || !REF_KEYS.every(k => typeof target[k] === 'string' && target[k])) return false;
   const expected = makeDefendingRecord(target, record.recordId, record.source === 'manual-result:universal_defend' ? 'self-defend' : 'manual');
   return canonical(record) === canonical(expected);
 }
-function makeStunnedRecord(target, id, { sourceOccurrence, timing = 'manual', sourceActor } = {}) {
+function makeStunnedRecord(target, id, { sourceOccurrence, timing = 'manual', sourceActor, authoredDuration } = {}) {
   const validRef = ref => ref && ['creature', 'character'].includes(ref.kind) &&
     (ref.kind === 'character' ? REF_KEYS : REF_KEYS.slice(0, 5)).every(k => typeof ref[k] === 'string' && ref[k]) &&
     Object.keys(ref).every(k => (ref.kind === 'character' ? REF_KEYS : REF_KEYS.slice(0, 5)).includes(k));
   if (!validRef(target) || !uuid(id) || typeof sourceOccurrence !== 'string' || !sourceOccurrence.trim() ||
       sourceOccurrence !== sourceOccurrence.trim() || sourceOccurrence.length > 160 || !Object.prototype.hasOwnProperty.call(STUNNED.timings, timing) ||
       (sourceActor && (!validRef(sourceActor) || sourceActor.roomId !== target.roomId))) throw Error('Exact actor, UUID, source occurrence and known timing required.');
+  const authored = sourceOccurrence.startsWith('authored-condition:');
+  // Public PC-target views omit sourceActor; the authored binder still requires the exact full record.
+  if ((authored && (!uuid(sourceOccurrence.slice('authored-condition:'.length)) || timing !== 'manual' || typeof authoredDuration !== 'string' || !authoredDuration.trim() || authoredDuration.length > 700)) || (!authored && authoredDuration !== undefined)) throw Error('Authored occurrence requires manual timing and duration.');
   return Object.assign({ version: 1, id, recordId: id, conditionKey: 'stunned', originalName: STUNNED.name, name: STUNNED.name,
     type: STUNNED.type, kind: 'effect', target: JSON.parse(JSON.stringify(target)), targetId: target.tokenId, targetType: target.kind,
     source: 'manual-resolved:stunned', sourceEntityId: sourceOccurrence, effectOrigin: STUNNED.origin, description: STUNNED.description,
-    effectSummary: STUNNED.timings[timing], icon: STUNNED.icon, color: STUNNED.color, effects: {}, isMagical: false,
+    effectSummary: authored ? `${authoredDuration} — GM removes.` : STUNNED.timings[timing], icon: STUNNED.icon, color: STUNNED.color, effects: {}, isMagical: false,
     stackable: true, hasOverTimeEffect: false, sharedTiming: 'manual', durationType: 'manual', clockBoundary: timing
-  }, sourceActor ? { sourceActor: JSON.parse(JSON.stringify(sourceActor)) } : {});
+  }, sourceActor ? { sourceActor: JSON.parse(JSON.stringify(sourceActor)) } : {}, authored ? { authoredDuration } : {});
 }
 function isStunned(record) { return record?.effectOrigin === STUNNED.origin && validManagedRecord(record, record.target); }
 const stunnedRecordsFor = token => (Array.isArray(token?.state?.conditions) ? token.state.conditions : []).filter(r =>

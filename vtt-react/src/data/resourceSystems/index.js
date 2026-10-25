@@ -24,6 +24,8 @@ import { gamblerResourceGuide } from './gamblerResourceGuide';
 import { fateWeaverResourceGuide } from './fateWeaverResourceGuide';
 import { deathcallerResourceGuide } from './deathcallerResourceGuide';
 import { lichborneResourceGuide } from './lichborneResourceGuide';
+import { doomsayerResourceGuide } from './doomsayerResourceGuide';
+import { oracleResourceGuide } from './oracleResourceGuide';
 
 /**
  * Registry of classes whose Resource System tab uses the v2 layout.
@@ -57,6 +59,8 @@ export const RESOURCE_SYSTEM_GUIDES = {
  'fate-weaver': fateWeaverResourceGuide,
  deathcaller: deathcallerResourceGuide,
  lichborne: lichborneResourceGuide,
+ doomsayer: doomsayerResourceGuide,
+ oracle: oracleResourceGuide,
 };
 
 export const getResourceSystemGuide = (classId) =>

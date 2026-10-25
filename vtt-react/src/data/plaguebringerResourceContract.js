@@ -52,12 +52,20 @@ export function updatePlaguebringerResource(resource, field, value) {
   return normalizePlaguebringerResource({ ...normalized, [field]: value });
 }
 
+const amountOf = value => value && typeof value === 'object'
+  ? value.current ?? value.baseAmount ?? value.amount
+  : value;
+
 export function getPlaguebringerSpellResourcePlan(spell, resource, resourceId) {
   const values = spell.resourceCost?.resourceValues || {};
   const generic = spell.resourceCost?.classResource ?? values.classResource ?? {};
   const genericOwner = resolveClassResourceEngineId(generic.type) === 'virulenceCultivation';
-  const explicitCost = spell.virulenceCost ?? values.virulence_cost;
-  const explicitGain = spell.virulenceGain ?? values.virulence_gain;
+  const typedVirulence = Array.isArray(spell.resourceCost?.resourceTypes) &&
+    spell.resourceCost.resourceTypes.includes('virulence');
+  const typedCost = typedVirulence ? amountOf(values.virulence ?? spell.resourceCost?.virulence) : undefined;
+  const typedGain = typedVirulence ? amountOf(values.virulenceGain ?? values.virulence_gain) : undefined;
+  const explicitCost = spell.virulenceCost ?? values.virulence_cost ?? typedCost;
+  const explicitGain = spell.virulenceGain ?? values.virulence_gain ?? typedGain;
   const handled = explicitCost !== undefined || explicitGain !== undefined ||
     (genericOwner && (generic.cost !== undefined || generic.gain !== undefined));
   if (!handled) return { handled: false };

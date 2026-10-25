@@ -1,605 +1,154 @@
-/* Card Draw System Styles - Pathfinder Beige Theme */
+/* Card draw controls — same calm linen panel as the coin flip.
+   Scoped under .dice-dropdown so these win over the app-wide calm theme. */
 
 .card-draw-system {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  padding: 8px 0;
-  width: fit-content;
-  min-width: 288px; /* Match controls width (320px - 32px padding) */
-  font-family: 'Cinzel', 'Times New Roman', serif;
-  color: var(--my-text-primary);
-}
-
-/* Controls */
-.card-draw-controls {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  width: 100%;
-  min-width: 288px;
-}
-
-.draw-count-control {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.draw-count-control label {
-  font-size: 13px;
-  color: var(--my-text-primary);
-  font-weight: 500;
-  white-space: nowrap;
-}
-
-.draw-count-input {
-  width: 60px;
-  padding: 6px 8px;
-  background: var(--my-parchment);
-  border: 1px solid var(--my-brown-medium);
-  border-radius: 6px;
-  color: var(--my-text-primary);
-  font-size: 14px;
-  font-weight: 600;
-  text-align: center;
-  transition: all 0.2s ease;
+  gap: 14px;
+  padding: 4px 0 0;
+  color: #34251a;
   font-family: 'Cinzel', 'Times New Roman', serif;
 }
 
-.draw-count-input:focus {
-  outline: none;
-  border-color: var(--my-gold);
-  background: var(--my-parchment-light);
-  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
-}
-
-.draw-count-input:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.draw-count-input::-webkit-inner-spin-button,
-.draw-count-input::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-.draw-count-input[type=number] {
-  -moz-appearance: textfield;
-}
-
-.draw-actions {
-  gap: 8px;
-}
-
-.draw-button {
-  flex: 1;
-}
-
-.draw-button:hover:not(:disabled) {
-  transform: translateY(-1px);
-  box-shadow: 
-    0 4px 12px rgba(0, 0, 0, 0.4),
-    0 0 20px rgba(212, 175, 55, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.6);
-  background: linear-gradient(145deg, var(--my-parchment) 0%, var(--my-parchment-dark) 50%, var(--my-parchment-darker) 100%);
-  border-color: var(--my-gold-light);
-}
-
-.draw-button:active:not(:disabled) {
-  transform: translateY(0);
-}
-
-.draw-button:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-/* Card Draw Area */
-.card-draw-area {
-  min-height: 180px;
-  overflow-y: hidden;
-  overflow-x: visible;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  padding: 20px;
-  width: fit-content;
-  min-width: 288px; /* Match controls width */
-}
-
-.card-draw-empty {
+.card-field {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 16px;
-  padding: 20px;
-  color: var(--my-text-muted);
+  gap: 7px;
 }
 
-.card-draw-empty p {
-  font-size: 13px;
-  margin: 0;
-}
-
-/* Drawn Cards Container */
-
-/* Card Wrapper */
-.card-wrapper {
-  width: 90px;
-  height: 126px;
-  perspective: 1000px;
-  cursor: pointer;
-  animation: cardAppear 0.4s ease-out;
-  animation-delay: calc(var(--card-index) * 0.1s);
-  animation-fill-mode: both;
-  transition: transform 0.3s ease;
-  flex-shrink: 0;
-}
-
-@keyframes cardAppear {
-  from {
-    opacity: 0;
-    transform: translateY(20px) scale(0.8) rotateY(-180deg);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1) rotateY(0deg);
-  }
-}
-
-.card-wrapper:hover {
-  transform: translateY(-4px);
-}
-
-.card-wrapper.revealed:hover {
-  transform: translateY(-4px) scale(1.02);
-}
-
-/* Card Flip Container */
-.card-flip-container {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  transform-style: preserve-3d;
-  transition: transform 0.6s cubic-bezier(0.4, 0.0, 0.2, 1);
-}
-
-.card-wrapper.revealed .card-flip-container {
-  transform: rotateY(180deg);
-}
-
-/* Add hover effect for unrevealed cards */
-.card-wrapper:not(.revealed):hover .card-flip-container {
-  transform: rotateY(10deg) scale(1.05);
-}
-
-/* Card Side (Back and Front) */
-.card-side {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-  overflow: hidden;
-  transition: box-shadow 0.3s ease;
-}
-
-/* Card Back */
-.card-back {
-  background: linear-gradient(135deg, var(--my-brown-dark) 0%, var(--my-brown-medium) 50%, var(--my-brown-dark) 100%);
-  border: 2px solid var(--my-gold);
-  transform: rotateY(0deg);
-  box-shadow: 
-    0 4px 12px rgba(0, 0, 0, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.2);
-}
-
-.card-back-pattern {
-  width: 100%;
-  height: 100%;
-  position: relative;
-  background-image: 
-    repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255, 255, 255, 0.05) 10px, rgba(255, 255, 255, 0.05) 20px),
-    repeating-linear-gradient(-45deg, transparent, transparent 10px, rgba(255, 255, 255, 0.05) 10px, rgba(255, 255, 255, 0.05) 20px);
-}
-
-.card-back-pattern::before {
-  content: '🃏';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 32px;
-  opacity: 0.4;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
-}
-
-/* Card Front */
-.card-front {
-  background: #ffffff;
-  border: 2px solid rgba(0, 0, 0, 0.1);
-  transform: rotateY(180deg);
-}
-
-.card-wrapper.revealed .card-front {
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
-}
-
-.card-content {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  padding: 8px;
-}
-
-.card-content.red {
-  color: #dc2626;
-}
-
-.card-content.black {
-  color: #1f2937;
-}
-
-/* Card Corners */
-.card-corner {
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-}
-
-.card-corner-top {
-  top: 4px;
-  left: 4px;
-}
-
-.card-corner-bottom {
-  bottom: 4px;
-  right: 4px;
-  transform: rotate(180deg);
-}
-
-.card-rank {
-  font-size: 18px;
-  line-height: 1;
-  margin-bottom: 2px;
-}
-
-.card-suit {
-  font-size: 16px;
-  line-height: 1;
-}
-
-/* Card Center */
-.card-center {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 54px;
-  line-height: 1;
-  opacity: 0.9;
-}
-
-/* Result Display */
-.card-result-display {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  padding: 12px;
-  background: var(--my-parchment);
-  border-radius: 8px;
-  border: 1px solid var(--my-brown-medium);
-  width: 100%;
-  min-width: 100%;
-  box-shadow: 
-    0 2px 8px rgba(0, 0, 0, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.5);
-}
-
-.card-result {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 10px 16px;
-  background: var(--my-parchment-light);
-  border-radius: 6px;
-  border: 1px solid var(--my-brown-medium);
-  transition: all 0.3s ease;
-  width: 100%;
-  min-width: 100%;
-}
-
-.card-result.blackjack {
-  background: rgba(59, 130, 246, 0.15);
-  border-color: rgba(59, 130, 246, 0.3);
-}
-
-.card-result.blackjack.bust {
-  background: linear-gradient(135deg, rgba(239, 68, 68, 0.2) 0%, rgba(220, 38, 38, 0.2) 100%);
-  border-color: rgba(239, 68, 68, 0.5);
-  box-shadow: 0 0 12px rgba(239, 68, 68, 0.3);
-}
-
-.card-result.poker {
-  background: linear-gradient(135deg, rgba(139, 92, 246, 0.2) 0%, rgba(124, 58, 237, 0.2) 100%);
-  border-color: rgba(139, 92, 246, 0.4);
-}
-
-.card-result.specific {
-  background: linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(37, 99, 235, 0.2) 100%);
-  border-color: rgba(59, 130, 246, 0.4);
-}
-
-.card-result.specific.found {
-  background: linear-gradient(135deg, rgba(34, 197, 94, 0.2) 0%, rgba(22, 163, 74, 0.2) 100%);
-  border-color: rgba(34, 197, 94, 0.5);
-  box-shadow: 0 0 12px rgba(34, 197, 94, 0.3);
-}
-
-@keyframes pulse {
-  0%, 100% {
-    box-shadow: 0 0 12px rgba(34, 197, 94, 0.3);
-  }
-  50% {
-    box-shadow: 0 0 20px rgba(34, 197, 94, 0.5);
-  }
-}
-
-.result-label {
-  font-size: 14px;
-  color: var(--my-text-primary);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  white-space: nowrap;
-}
-
-.result-value {
-  font-size: 18px;
-  color: var(--my-text-primary);
+.card-field-label {
+  font-size: 10.5px;
   font-weight: 700;
-  background: var(--my-parchment);
-  padding: 4px 10px;
-  border-radius: 4px;
-  min-width: 32px;
-  text-align: center;
-  border: 1px solid var(--my-brown-medium);
-}
-
-.card-result.blackjack.bust .result-value {
-  background: rgba(239, 68, 68, 0.3);
-  color: #f87171;
-}
-
-/* Instructions */
-.card-draw-instructions {
-  text-align: center;
-  padding: 8px;
-  color: var(--my-text-muted);
-  font-size: 12px;
-}
-
-.card-draw-instructions p {
-  margin: 0;
-}
-
-/* Responsive adjustments for many cards */
-@media (max-width: 768px) {
-  .card-wrapper {
-    width: 80px;
-    height: 112px;
-  }
-  
-  .card-rank {
-    font-size: 16px;
-  }
-  
-  .card-suit {
-    font-size: 14px;
-  }
-  
-  .card-center {
-    font-size: 48px;
-  }
-}
-
-@media (max-width: 400px) {
-  .card-wrapper {
-    width: 80px;
-    height: 112px;
-  }
-  
-  .card-rank {
-    font-size: 16px;
-  }
-  
-  .card-suit {
-    font-size: 14px;
-  }
-  
-  .card-center {
-    font-size: 48px;
-  }
-}
-
-
-
-/* Card Theme Picker & Draw Button Styles */
-.card-theme-section {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.card-theme-label {
-  font-size: 12px;
-  color: var(--my-text-muted);
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  font-weight: 600;
-  font-family: 'Cinzel', 'Times New Roman', serif;
+  color: #68533e;
 }
 
-.card-theme-grid {
+.dice-dropdown .card-count-picker {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 6px;
-  width: 100%;
+  grid-template-columns: repeat(10, 1fr);
+  border: 1px solid #c4baa6;
+  border-radius: 3px;
+  overflow: hidden;
+  background: #fbf9f4;
 }
 
-.card-theme-btn {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 6px 8px;
-  background: var(--my-parchment);
-  border: 1px solid var(--my-brown-medium);
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  font-family: 'Cinzel', 'Times New Roman', serif;
+.dice-dropdown .card-count-option {
   min-width: 0;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.card-theme-btn:hover {
-  background: var(--my-parchment-light);
-  border-color: var(--my-gold);
-  transform: translateY(-1px);
-}
-
-.card-theme-btn.active {
-  border-color: var(--my-gold);
-  background: linear-gradient(135deg, rgba(65, 48, 22, 0.2) 0%, rgba(28, 20, 10, 0.3) 100%);
-  box-shadow: 0 0 8px rgba(212, 175, 55, 0.4);
-}
-
-.card-theme-swatch {
-  width: 22px;
-  height: 22px;
-  border-radius: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
-  flex-shrink: 0;
-}
-
-.draw-actions {
-  display: flex;
-  justify-content: center;
-  margin-top: 4px;
-}
-
-.draw-button {
-  background: linear-gradient(145deg, var(--my-parchment-light) 0%, var(--my-parchment) 50%, var(--my-parchment-dark) 100%);
-  border: 2px solid var(--my-gold);
-  border-radius: 8px;
-  padding: 10px 20px;
-  color: var(--my-text-primary);
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
+  height: 30px;
+  padding: 0;
+  border: 0;
+  border-left: 1px solid #e2d9c8;
+  background: transparent;
+  color: #34251a;
   font-family: 'Cinzel', 'Times New Roman', serif;
-  box-shadow: 
-    0 2px 8px rgba(0, 0, 0, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.5);
-  width: 100%;
+  font-size: 12.5px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: none;
+  transition: background 0.15s ease, color 0.15s ease;
 }
 
-.draw-button:hover {
-  transform: translateY(-1px);
-  border-color: var(--my-gold-light);
-  box-shadow: 
-    0 4px 12px rgba(0, 0, 0, 0.4),
-    0 0 16px rgba(212, 175, 55, 0.3);
-}
+.dice-dropdown .card-count-option:first-child { border-left: 0; }
+.dice-dropdown .card-count-option:hover { background: #f1ebdf; }
+.dice-dropdown .card-count-option.active { background: #663c32; color: #f8f5ee; }
+.dice-dropdown .card-count-option:focus-visible { outline: 2px solid #663c32; outline-offset: -2px; }
 
-.card-draw-summary {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  padding: 10px;
-  background: var(--my-parchment);
-  border: 1px solid var(--my-brown-medium);
-  border-radius: 8px;
-}
-
-.summary-label {
-  font-size: 11px;
-  color: var(--my-text-muted);
-  text-transform: uppercase;
-}
-
-.summary-cards {
+/* Deck swatches — tiny card backs */
+.card-deck-swatches {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
+  gap: 8px;
 }
 
-.summary-card-badge {
-  font-size: 12px;
-  font-weight: 700;
-  padding: 4px 8px;
-  background: var(--my-parchment-light);
-  border: 1px solid var(--my-gold);
+.dice-dropdown .card-deck-swatch {
+  width: 32px;
+  height: 42px;
+  padding: 3px;
   border-radius: 4px;
+  border: 1px solid transparent;
+  background: transparent;
+  cursor: pointer;
+  box-shadow: none;
+  transition: border-color 0.15s ease;
 }
 
+.dice-dropdown .card-deck-swatch:hover { border-color: #c4baa6; }
+.dice-dropdown .card-deck-swatch.active { border-color: #663c32; }
+.dice-dropdown .card-deck-swatch:focus-visible { outline: 2px solid #663c32; outline-offset: 1px; }
 
-/* Checkbox & Hearthstone Manual Flip Styles */
-.manual-flip-control {
+.card-deck-back {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 2px;
+  background: linear-gradient(150deg, var(--deck-a), var(--deck-b));
+  box-shadow:
+    inset 0 0 0 2px var(--deck-b),
+    inset 0 0 0 3px var(--deck-frame),
+    0 1px 2px rgba(52, 37, 26, 0.35);
+}
+
+.card-deck-name {
+  font-family: 'Crimson Text', Georgia, serif;
+  font-style: italic;
+  font-size: 0.95rem;
+  color: #68533e;
+}
+
+/* Reveal mode */
+.card-reveal-toggle {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 4px 0;
+  font-family: 'Crimson Text', Georgia, serif;
+  font-size: 0.95rem;
+  color: #34251a;
+  cursor: pointer;
 }
 
-.checkbox-label {
+.card-reveal-toggle input {
+  width: 15px;
+  height: 15px;
+  margin: 0;
+  accent-color: #663c32;
+  cursor: pointer;
+}
+
+/* Footer: last result + action */
+.card-draw-footer {
   display: flex;
   align-items: center;
-  gap: 8px;
-  cursor: pointer;
-  user-select: none;
-  font-size: 12px;
-  color: var(--my-text-primary);
-  font-family: 'Cinzel', 'Times New Roman', serif;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #c4baa6;
 }
 
-.manual-flip-checkbox {
-  width: 16px;
-  height: 16px;
-  accent-color: var(--my-gold, #d4af37);
-  cursor: pointer;
+.card-last-result {
+  min-width: 0;
+  font-family: 'Crimson Text', Georgia, serif;
+  font-size: 0.95rem;
+  color: #68533e;
 }
 
-.card-reveal-all-btn {
+.dice-dropdown .draw-button {
+  flex-shrink: 0;
+  padding: 9px 18px;
+  background: #663c32;
+  border: 1px solid #663c32;
+  border-radius: 3px;
+  color: #f8f5ee;
   font-family: 'Cinzel', 'Times New Roman', serif;
-  font-size: 0.72rem;
+  font-size: 12.5px;
   font-weight: 700;
-  letter-spacing: 0.1em;
-  padding: 6px 14px;
-  border-radius: 8px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
   cursor: pointer;
-  border: 1px solid var(--my-gold, #d4af37);
-  background: rgba(212, 175, 55, 0.2);
-  color: #ffd700;
-  transition: all 0.2s ease;
+  box-shadow: none;
+  transition: background 0.15s ease;
 }
 
-.card-reveal-all-btn:hover {
-  background: rgba(212, 175, 55, 0.4);
-  transform: translateY(-1px);
-}
+.dice-dropdown .draw-button:hover:not(:disabled) { background: #7a4a3e; }
+.dice-dropdown .draw-button:focus-visible { outline: 2px solid #663c32; outline-offset: 2px; }
+.dice-dropdown .draw-button:disabled { opacity: 0.55; cursor: default; }

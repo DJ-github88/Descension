@@ -1,5 +1,5 @@
 /** P14-A1 thin A1a lookup. Installation stays with P7's admission owner. */
-const definitions = require('./authoredSpellDefinitions');
+const definitions = require('./installedDefinitionRegistry');
 const actors = require('./actorConsequences');
 const pure = require('../../vtt-react/src/services/authoredAbility');
 function registry(room) {
@@ -117,12 +117,19 @@ function checkCreatureAuthority(room, approval, primaryPc = false) {
 }
 function checkApproval(room, approval, primaryPc = false) {
   const entry = lookup(room, approval.spell), d = entry.canonicalDefinition, desc = entry.descriptor;
-  const wanted = { definitionId: pure.actionId(entry.definitionRef), definitionHash: `${pure.CAPABILITY}/${entry.definitionRef.definitionHash}`, name: d.name, kind: d.effect.kind, damageTypes: desc.effect.damageTypes };
+  const condition = desc.capabilityId === pure.CONDITION_CAPABILITY;
+  const wanted = { definitionId: pure.actionId(entry.definitionRef), definitionHash: `${desc.capabilityId}/${entry.definitionRef.definitionHash}`, name: d.name, kind: d.effect.kind, damageTypes: desc.effect.damageTypes || [] };
   if (actors.hash(approval.spell) !== actors.hash(wanted) || actors.hash(approval.price) !== actors.hash(desc.price) || approval.classPayment !== null) actors.fail('authored_approval_mismatch');
-  const reading = pure.readFormula(d.effect.formula), roll = approval.roll;
-  if (roll.constant !== reading.constant || roll.reading !== reading.reading || roll.dice.length !== 1 || roll.dice[0].sides !== reading.dice[0].sides || roll.dice[0].faces.length !== reading.dice[0].count) actors.fail('authored_roll_mismatch');
+  if (condition) {
+    if (!['character', 'creature'].includes(approval.target.kind) || actors.hash(approval.source) === actors.hash(approval.target) || approval.roll !== null) actors.fail('authored_condition_mismatch');
+    if (approval.source.kind === 'creature' ? approval.resolution?.gmConfirmed !== true || actors.hash(approval.resolution?.timing) !== actors.hash(d.timing)
+      : actors.hash(approval.conditionTerms) !== actors.hash({ conditionKey: 'stunned', timing: d.timing })) actors.fail('authored_condition_mismatch');
+  } else {
+    const reading = pure.readFormula(d.effect.formula), roll = approval.roll;
+    if (roll.constant !== reading.constant || roll.reading !== reading.reading || roll.dice.length !== 1 || roll.dice[0].sides !== reading.dice[0].sides || roll.dice[0].faces.length !== reading.dice[0].count) actors.fail('authored_roll_mismatch');
+  }
   const source = actors.locate(room, approval.source);
-  if (approval.source.kind === 'creature') checkCreatureAuthority(room, approval, primaryPc);
+  if (approval.source.kind === 'creature') checkCreatureAuthority(room, approval, primaryPc || condition && approval.target.kind === 'character');
   else {
     if (entry.creatureOnly) actors.fail('unsupported_source_route');
     const classId = String(source.token.character?.class || '').toLowerCase().replace(/ /g, '_');

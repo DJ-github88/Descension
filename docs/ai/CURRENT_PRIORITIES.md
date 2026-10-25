@@ -1,6 +1,6 @@
 # Current priorities
 
-Updated 2026-10-23 (P14-A5 creature→exact primary PC; qualified independent ACCEPT/Build5-App6 PASS in A5 acceptance; A1–A4/C4 carried forward). Historical A3 evidence-gate HEAD:
+Updated 2026-10-25 (P14-A8 owner PC→creature authored Stunned; repaired bounded independent ACCEPT/Build4-App10 PASS; prior P7–A7 carried forward). Historical A3 evidence-gate HEAD:
 `485c0bbab9171879e2ea47cd83b44ddc0f046deb` (concurrent external commits). Exact scoped bytes and unrelated drift in A3 acceptance. The full ledger,
 with source identities/evidence, is [`docs/ENGINEERING_STATE.md`](../ENGINEERING_STATE.md).
 
@@ -33,7 +33,9 @@ with source identities/evidence, is [`docs/ENGINEERING_STATE.md`](../ENGINEERING
 | P14-A3 Creature Wizard ability producer | Implemented; one repaired bounded independent ACCEPT, Build1/App9 PASS (qualified). Compact/library whole snapshot, Keep/save/reopen, legacy preservation, exact normal A1 admission/v2, detached template/copy/placed isolation; creature casting unavailable |
 | P14-A4 exact creature-source execution | Implemented; one repaired bounded independent ACCEPT, Build4/App10 PASS (qualified). Exact placed source/whole-association/version/current-GM admission, distinct same-map creature, retained roll/GM final and one P7 authored-price payment+HP. Scope/identities/limits in A4 acceptance |
 | P14-A5 admitted creature→primary PC | Implemented; one repaired bounded independent ACCEPT, Build5/App6 PASS (qualified). Existing P12B exact-owner block/Don't block or explicit healing acceptance, A4 source authority and one P7 AP/mana+HP+wear. Source identities, four fetch errors and independent-execution limits in A5 acceptance |
-| P14-A6 exact creature self-healing | Implemented; bounded independent PASS, Build2/App4 PASS (qualified). Explicit self/any including0 range, one combined actor payment+HP/revision/receipt, retained-roll revalidation/recovery, actual capped healing/one float. Exact source/drift/environment limits in A6 acceptance |
+| P14-A6 exact creature self-healing | Implemented; bounded independent PASS, Build2/App6 PASS (qualified). Explicit self/any including0 range, one combined actor payment+HP/revision/receipt, retained-roll revalidation/recovery, actual capped healing/one float and silent recovered narration. Exact source/drift/environment limits in A6 acceptance |
+| P14-A7 Wizard-authored canonical Stunned | Implemented; same-review repaired bounded ACCEPT, Build4/App4 PASS (qualified). Actual Wizard→whole Creature association→exact admission→GM-confirmed success/manual timing→atomic authored AP/mana+canonical C2 Stunned. Independent instances, supported restrictions and original-command silent recovery; no PC/item execution or general expiry |
+| P14-A8 owner primary PC→creature Stunned | Implemented; same-review repaired bounded ACCEPT, Build4/App10 PASS (qualified). Explicit normal PC admission, A1 owner price/target/duration consent without rolls, private GM success/timing and atomic P7 payment+C2 condition; manual expiry, exact independent instances and original-byte recovery |
 
 Source acceptance is not deployment readiness. Current P12B evidence: [`MYTHRILL_PROJECT_12B_IMPLEMENTATION.md`](../MYTHRILL_PROJECT_12B_IMPLEMENTATION.md). P12A/P11 evidence:
 [`MYTHRILL_PROJECT_12A_IMPLEMENTATION.md`](../MYTHRILL_PROJECT_12A_IMPLEMENTATION.md).
@@ -75,6 +77,31 @@ both pre-cutoff correction/withdrawal with history, D13-10 explicit interrupted/
 same-deadline reconnect and no grace/pause/extension. No fee/refund/order/effect rule thereby approved.
 
 ## Next
+
+**Latest delivery: [P14-A8 owner primary PC→creature Stunned](../MYTHRILL_PROJECT_14_A8_ACCEPTANCE.md)**.
+Implemented through normal PC admission, A1 exact owner terms/consent and private GM
+success/manual timing, one existing P7 payment+C2 condition. Final254 server/11 suites73
+client, prejoin-corrected Build4/App10 and same-review repaired ACCEPT.63runtime/51client/
+protected7/11,383 input parity; drift[] at final measurement. Ten fetch errors and
+provider/cloud/live-only/device limits explicit; included concurrent UI semantics separate. No class
+binding migration or new resource/condition engine. [Next PC-target preparation](../MYTHRILL_PROJECT_14_PC_TARGET_CONDITION_PREPARATION.md)
+identifies explicit hostile-effect acknowledgement versus veto decision; no implementation.
+
+**Latest delivery: [P14-A7 Wizard-authored Stunned](../MYTHRILL_PROJECT_14_A7_ACCEPTANCE.md)** — one reusable
+explicit condition profile, not arbitrary buffs/debuffs or automatic timing. Implementer244 server/
+12 suites82 client; same-review repaired ACCEPT; final62 runtime/protected7/11,380 recorded build inputs
+match, drift[] at review. Six fetch errors/provider/ownership/lease/cloud fixtures/live-only/device
+limits remain. Follow-on comparison in acceptance: recommend exact owner PC→distinct creature using
+the existing owner consent route and same manual-timing profile before separate PC-target consent,
+new numeric modifier semantics or general expiry. Recommendation only; no follow-on implementation.
+
+**Latest delivery: [P14-A6 exact creature self-healing](../MYTHRILL_PROJECT_14_A6_ACCEPTANCE.md)** —
+existing placed launcher Self, explicit self/any profiles, one-actor atomic authored AP/mana+capped HP,
+retained faces/revalidation/original-byte silent recovery. Server91/client4/29, Build2/App6 and same-review
+bounded PASS;55 runtime/protected7/44 client parity. Four fetch errors and unrelated Class build drift
+qualified. [Next smallest reusable capability](../MYTHRILL_PROJECT_14_AUTHORED_CONDITION_RECOMMENDATION.md):
+single Wizard-authored canonical Stunned, GM-resolved outcome/manual timing, existing P7 atomic payment+
+application. Recommendation only; no general buffs/durations/stacking/timers implemented.
 
 **Latest delivered integration:** [P14-A5 contract](../MYTHRILL_PROJECT_14_A5_CONTRACT.md) and
 [acceptance](../MYTHRILL_PROJECT_14_A5_ACCEPTANCE.md), admitted

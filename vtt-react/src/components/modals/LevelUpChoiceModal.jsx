@@ -162,6 +162,8 @@ import { CRUSADER_DATA } from '../../data/classes/crusaderData';
 import { CHAOS_WEAVER_DATA } from '../../data/classes/chaosWeaverIntegration';
 import { GAMBLER_DATA } from '../../data/classes/gamblerData';
 import { FATE_WEAVER_DATA } from '../../data/classes/fateWeaverData';
+import { DOOMSAYER_DATA } from '../../data/classes/doomsayerData';
+import { ORACLE_DATA } from '../../data/classes/oracleData';
 
 
 
@@ -284,7 +286,11 @@ const CLASS_DATA_MAP = {
 
     'Chaos Weaver': CHAOS_WEAVER_DATA,
 
-    'Fate Weaver': FATE_WEAVER_DATA
+    'Fate Weaver': FATE_WEAVER_DATA,
+
+    'Doomsayer': DOOMSAYER_DATA,
+
+    'Oracle': ORACLE_DATA
 
 };
 

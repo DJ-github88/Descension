@@ -10,6 +10,7 @@ import { canonical, depleteTempFirst, exactActor, sameExactRef } from './feather
 import { authoredSupport } from './authoredAbilityRegistry';
 import { CAPABILITY as AUTHORED, isAuthored } from './authoredAbility';
 import { getStore } from '../store/storeRegistry';
+import * as authoredCondition from './authoredCondition';
 
 /** Rollback switch (contract F9 rollback): false returns every producer to manual. */
 export const P9_SPELL_EXECUTION = true;
@@ -334,13 +335,30 @@ export function buildApproval({ support, tokens, sourceRef, targetRef, roomId, m
   if (sourceRef.kind !== 'character') throw Error('The caster must be your exact primary character attachment.');
   if (!support?.supported || !support.payment?.affordable) throw Error(support?.payment?.reason || 'This spell cannot be paid right now.');
   if (!affordable(sourcePools(source), support.price)) throw Error('Insufficient AP or mana (temporary pools count first); nothing submitted.');
-  if (!roll || roll.reading !== support.reading.reading) throw Error('Record one roll for this exact formula first.');
+  const condition = support.kind === 'condition';
+  if (condition ? sameExactRef(sourceRef, targetRef) : !roll || roll.reading !== support.reading.reading) throw Error(condition ? 'Choose one distinct exact bound creature or primary PC target.' : 'Record one roll for this exact formula first.');
   if (!Number.isSafeInteger(baseCommitSequence) || baseCommitSequence < 0) throw Error('Current room snapshot required (commit sequence).');
   return Object.freeze(JSON.parse(JSON.stringify({ version: 1, roomId, approvalId, actionEpoch, baseCommitSequence, source: sourceRef, target: targetRef,
     spell: { definitionId: support.definitionId, definitionHash: support.definitionHash, name: support.name, kind: support.kind, damageTypes: support.damageTypes },
-    roll, price: support.price, classPayment: support.payment.classPayment })));
+    roll: condition ? null : roll, price: support.price, classPayment: support.payment.classPayment,
+    ...(condition ? { conditionTerms: { conditionKey: 'stunned', timing: support.timing } } : {}) })));
 }
-export function planSpellCommand({ approval, contentHash, tokens, roomId, mapId, finalAmount, reason = '', adjudicated }) {
+export function planSpellCommand({ approval, contentHash, tokens, roomId, mapId, finalAmount, reason = '', adjudicated, resolution }) {
+  if (authoredCondition.isCondition(approval)) {
+    if (approval.source.kind === 'character') {
+      if (canonical(resolution?.timing) !== canonical(approval.conditionTerms.timing) || !resolution?.timingNote?.trim() || resolution.timingNote.length > 300 || typeof resolution.evidence !== 'string' || resolution.evidence.length > 2000) throw Error('Required GM timing clarification must retain the owner-approved duration. Changed terms need new approval.');
+      approval = { ...approval, resolution };
+    }
+    if (adjudicated !== true || approval.resolution?.gmConfirmed !== true) throw Error('Explicit GM-confirmed successful outcome required.');
+    const source = exactActor(tokens, approval.source, roomId, mapId), target = exactActor(tokens, approval.target, roomId, mapId);
+    const pools = sourcePools(source), payment = {};
+    for (const pool of ['ap', 'mana']) if (approval.price[pool] > 0) payment[pool] = depleteTempFirst(pools[pool].current, pools[pool].temp, approval.price[pool], true);
+    if (!Object.keys(payment).length) payment.ap = depleteTempFirst(pools.ap.current, pools.ap.temp, 0, true);
+    return { entries: [{ ref: approval.source, expectedRevision: source.state.actorContract.revision, finalResources: payment },
+      { ref: approval.target, expectedRevision: target.state.actorContract.revision, conditions: [{ op: 'add', recordId: approval.approvalId, record: authoredCondition.recordFor(approval) }] }],
+      extra: { source: approval.source, target: approval.target, approval: { approvalId: approval.approvalId, contentHash }, adjudication: {
+        definitionId: approval.spell.definitionId, definitionVersionOrHash: approval.spell.definitionHash, chosenResult: JSON.stringify(authoredCondition.resultFor(approval)), finalAmount: 0, adjustmentReason: '' } } };
+  }
   if (adjudicated !== true) throw Error('GM must explicitly adjudicate legality, range, defense and mitigation.');
   if (!integer(finalAmount, 0, 100000)) throw Error('Enter a whole, nonnegative final amount.');
   if (typeof reason !== 'string' || reason.length > 2000 || (finalAmount !== approval.roll.total && !reason.trim())) throw Error('Explain the adjustment from the recorded total.');
@@ -368,12 +386,12 @@ export function planSpellCommand({ approval, contentHash, tokens, roomId, mapId,
 /** Parses an accepted P9 receipt for presentation; null for anything else. */
 export function spellReceipt(result) {
   const receipt = result?.receipt, adjudication = receipt?.adjudication;
-  if (!result?.success || receipt?.version !== 1 || !['owner-approval-gm', 'gm-creature-ability'].includes(receipt.authorization?.kind) || ![P9_CAPABILITY, AUTHORED].some(cap => String(adjudication?.definitionVersionOrHash || '').startsWith(`${cap}/`))) return null;
+  if (!result?.success || receipt?.version !== 1 || !['owner-approval-gm', 'gm-creature-ability'].includes(receipt.authorization?.kind) || ![P9_CAPABILITY, AUTHORED, authoredCondition.CAPABILITY].some(cap => String(adjudication?.definitionVersionOrHash || '').startsWith(`${cap}/`))) return null;
   try {
     const recorded = JSON.parse(adjudication.chosenResult);
-    if (![P9_CAPABILITY, AUTHORED].includes(recorded.capability) || recorded.approvalId !== receipt.authorization.proposalId || !integer(adjudication.finalAmount, 0, 100000)) return null;
+    if (![P9_CAPABILITY, AUTHORED, authoredCondition.CAPABILITY].includes(recorded.capability) || recorded.approvalId !== receipt.authorization.proposalId || !integer(adjudication.finalAmount, 0, 100000)) return null;
     const source = receipt.actors.find(actor => sameExactRef(actor.ref, receipt.source)), target = receipt.actors.find(actor => sameExactRef(actor.ref, receipt.target));
-    if (!source || !target) return null;
+    if ((!source && recorded.kind !== 'condition') || !target) return null;
     return { receipt, recorded, source, target, approvalId: receipt.authorization.proposalId,
       status: receipt.checkpointRevision === null ? 'live-only' : result.status === 'checkpoint-confirmed' ? 'checkpoint-confirmed' : 'accepted-live / checkpoint pending' };
   } catch (_) { return null; }

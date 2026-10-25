@@ -76,6 +76,7 @@ export function capabilityOf(receipt) {
   if (hashId === RIPOSTE) return { kind: 'riposte', label: 'Riposte', outcome: chosen.rollOutcome, damage: chosen.rollOutcome !== 'miss' };
   if (hashId === BLOCK) return { kind: 'block', label: chosen.attack?.ability?.name, blockName: chosen.block?.name, reduction: chosen.block?.reduction, damage: (chosen.attack?.authored?.kind || chosen.attack?.authored?.attempt?.spell?.kind) !== 'healing' };
   if (hashId === FEATHER) return { kind: 'feather', label: 'Feather Slash', damage: true };
+  if (hashId.startsWith('authored-condition:v1/')) return { kind: 'condition', label: chosen.spellName, damage: false };
   if (hashId.startsWith(SPELL_PREFIX) || hashId.startsWith('authored-immediate:v1/')) return { kind: 'spell', label: chosen.spellName, damage: chosen.kind === 'damage' };
   return { kind: 'none' };
 }
@@ -137,6 +138,7 @@ export function buildFeed({ result, before = {}, viewer, live }) {
     const lead = capability.kind === 'strike' ? `${src} ${capability.outcome === 'miss' ? 'misses' : 'strikes'} ${tgt} with ${label}${capability.outcome === 'critical' ? ' (critical)' : ''}`
       : capability.kind === 'riposte' ? `${src} ${capability.outcome === 'miss' ? 'misses' : 'counter-attacks'} ${tgt} with Riposte`
         : capability.kind === 'block' ? `${src}’s ${label} ${capability.damage ? 'hits' : 'heals'} ${tgt}${capability.blockName ? `; ${capability.blockName} blocks ${capability.reduction}` : ''}`
+         : capability.kind === 'condition' ? `${src} applies Stunned to ${tgt} with ${label}`
          : capability.kind === 'spell' ? `${src} casts ${label} on ${sameRef(receipt.source, receipt.target) ? 'Self' : tgt}`
           : `${src}’s ${label} hits ${tgt}`;
     text = `${lead}. ${body}.`;

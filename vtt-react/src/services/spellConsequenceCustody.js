@@ -13,8 +13,10 @@ export function spellContext() {
   const uid = getStore('authStore')?.getState().user?.uid;
   const game = getStore('gameStore')?.getState(), roomId = game?.multiplayerRoom?.id;
   const guard = captureOwnerGuard(uid), scope = resolveActiveScope();
-  return { uid, roomId, guard, current: () => !!uid && scope?.scopeKind === 'user' && guard.ok && guard.isCurrent() &&
-    getStore('authStore').getState().user?.uid === uid && getStore('gameStore').getState().isInMultiplayer && getStore('gameStore').getState().multiplayerRoom?.id === roomId };
+  const characterId = getStore('characterStore')?.getState().currentCharacterId;
+  const accountCurrent = () => !!uid && scope?.scopeKind === 'user' && guard.ok && guard.isCurrent() && getStore('authStore').getState().user?.uid === uid;
+  const principalCurrent = () => accountCurrent() && getStore('gameStore').getState().isInMultiplayer && getStore('gameStore').getState().multiplayerRoom?.id === roomId;
+  return { uid, roomId, guard, accountCurrent, principalCurrent, current: () => principalCurrent() && getStore('characterStore')?.getState().currentCharacterId === characterId };
 }
 export function loadLatestSpell(context = spellContext()) {
   if (!context.current()) return null;
@@ -35,6 +37,13 @@ export function retainLatestSpell(context, value) {
   }
   if (!memory.has(id) && memory.size >= 8) throw Error('Latest-spell memory capacity reached; preserve existing custody before continuing.');
   const { supersedes, ...rest } = value;
+  // Condition-only approvals have no roll draft to carry their prior consent evidence.
+  if (previous?.approval?.spell?.kind === 'condition' && previous.approval.approvalId !== rest.approval?.approvalId) {
+    const history = previous.attemptHistory || [];
+    if (history.length >= 64) throw Error('Condition consent history full; preserve/reconcile existing evidence first.');
+    const { attemptHistory, custody, ...evidence } = previous; // eslint-disable-line no-unused-vars
+    rest.attemptHistory = [...history, evidence];
+  } else if (previous?.attemptHistory && !rest.attemptHistory) rest.attemptHistory = previous.attemptHistory;
   const record = { ...rest, version: 1, capability: P9_CAPABILITY, uid: context.uid, roomId: context.roomId,
     ...(rest.result ? { result: Object.fromEntries(['success', 'code', 'error', 'receipt', 'status', 'durability', 'approvalId', 'contentHash'].filter(field => rest.result[field] !== undefined).map(field => [field, rest.result[field]])) } : {}) };
   let saved;

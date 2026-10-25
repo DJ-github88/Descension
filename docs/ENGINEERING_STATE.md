@@ -1,6 +1,6 @@
 # Mythrill / Prism — engineering state
 
-Updated: 2026-10-23 (bounded P14-A6 exact creature self-healing). Checkout: `D:/VTT` (the old `D:/Mythrill/Descension`
+Updated: 2026-10-25 (bounded P14-A8 owner PC→creature authored Stunned). Checkout: `D:/VTT` (the old `D:/Mythrill/Descension`
 path in CLAUDE.md is historical). Roadmap authority: [MYTHRILL_NEXT_PHASE.md](MYTHRILL_NEXT_PHASE.md).
 
 ## Accepted baseline
@@ -85,7 +85,40 @@ does not authorize deployment or satisfy roadmap §20 release gates.
 
 ## Current work
 
-### P14-A6 exact creature self-healing — bounded independent PASS, Build2/App4 PASS (qualified)
+### P14-A8 owner primary PC → creature authored Stunned — repaired bounded ACCEPT, Build4/App10 PASS (qualified)
+
+[Contract](MYTHRILL_PROJECT_14_A8_CONTRACT.md) · [implementation/evidence](MYTHRILL_PROJECT_14_A8_ACCEPTANCE.md).
+Normal Wizard/library explicit Arcanoneer PC admission → exact primary owner consent
+to price/target/canonical Stunned/authored duration → private GM success/timing → one
+P7 temp-first payment+canonical condition. Same A7 registry/C2 primitive and A1 custody;
+no dice/HP result, PC targets or general expiry. Prior acceptance carries forward.
+Final254 server and11 suites73 client PASS. Same reviewer independently verified
+privacy/withdrawal/prejoin repairs and appraised final Build4/App10 (not relaunched).
+Gatecb0bc9a0… binds63 runtime/51client/protected7/11,383 recorded build inputs;
+scoped/full-client/added-input drift[] at13:07Z. Included concurrent Class/Heritage/
+Plaguebringer/dice/coin/social/character/calm UI semantics are not A8-accepted.
+Ten fetch errors/provider/ownership/lease/cloud fixtures/live-only/device limits remain.
+Exact identities and reviewer execution qualifications are in A8 acceptance. Next
+[PC-target policy](MYTHRILL_PROJECT_14_PC_TARGET_CONDITION_PREPARATION.md) is prepared
+only; hostile acknowledgement is not silently a target-player veto.
+
+### P14-A7 Wizard-authored Stunned — repaired bounded independent ACCEPT, Build4/App4 PASS (qualified)
+
+[Contract](MYTHRILL_PROJECT_14_A7_CONTRACT.md) · [implementation/acceptance](MYTHRILL_PROJECT_14_A7_ACCEPTANCE.md).
+Actual Spell Wizard explicit condition profile → whole Creature library association → save/place/exact
+admission → retained GM success/timing/evidence → existing P7 atomic authored AP/mana+canonical C2 Stunned.
+One current-GM creature→distinct creature, paid/free, independent instances/exact removals and supported
+action/voluntary movement enforcement. GM resolves eligibility/range/saves/success/advantage and expiry.
+No die/HP float, automatic timing, mixed execution or PC/item route. Same installed registry companion
+keeps A1a/W1 protected. Same-review R1 closed via bounded evidence history; actual-App nested library
+ownership/no-op Keep/manual-duration validation repairs verified. Implementer244 server/12 suites82 client;
+reviewer independently244 server plus qualified overlapping client/probes; final build/App independently
+appraised. Gate6dbbbdb9… binds62 runtime/protected7/11,380 recorded client inputs; parity/drift[] at review.
+Six fetch errors, fixture auth/ownership/lease/cloud, live-only/device limits explicit. Concurrent RI-8/
+Plaguebringer/Class and prior5 dirty docs preserved; no Git writes/deploy/migration. Recommend next one
+exact owner PC→creature condition route through existing owner consent, manual timing; not implemented.
+
+### P14-A6 exact creature self-healing — bounded independent PASS, Build2/App6 PASS (qualified)
 
 [Contract](MYTHRILL_PROJECT_14_A6_CONTRACT.md) · [acceptance/identities](MYTHRILL_PROJECT_14_A6_ACCEPTANCE.md).
 Creature Wizard direct healing → exact placed admission → existing launcher **Self — name** → retained
@@ -95,8 +128,9 @@ prices/zeros, capped HP, approved versus actual healing, no owner/equipment offe
 canonical Stunned/bounds/conditions recheck; explicit same-face state revalidation. Public admission
 lifecycle projection closes observer beforeRevision gap; one actual healing float, silent original-byte
 lost-ACK/reload recovery. Final server91 PASS, client4/29 PASS. Same reviewer independently18 A6+47 A4/A5/A1,
-55 runtime/protected7/44 client identities; Build2/App4 implementer-executed, independently appraised.
-Final gate908450b1… at master76012be8 (external commits; no agent Git writes). Scoped parity[], unrelated
+55 runtime/protected7/44 client identities; Build2/App6 implementer-executed, independently appraised.
+App6 strengthens App4 with explicit one-history/active-live versus silent recovered-GM narration proof;
+no runtime change/rebuild. Final gatea6018f87… at master76012be8 (external commits; no agent Git writes). Scoped parity[], unrelated
 Step1CoreDraft/talent test drift prevents identical-current-full-tree build claim. Four fetch errors,
 provider/cloud fixtures/live-only/device limits explicit. [Next reusable condition recommendation](MYTHRILL_PROJECT_14_AUTHORED_CONDITION_RECOMMENDATION.md)
 is manual-timing single Stunned application through existing canonical engine, not implemented.

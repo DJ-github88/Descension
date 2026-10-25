@@ -24,7 +24,7 @@ describe('classIconUtils', () => {
     });
 
     it('exposes all classes as portrait options', () => {
-        expect(CLASS_PORTRAIT_ICONS).toHaveLength(26);
+        expect(CLASS_PORTRAIT_ICONS).toHaveLength(28);
         CLASS_PORTRAIT_ICONS.forEach(icon => {
             expect(icon.id.startsWith('classes/')).toBe(true);
             expect(icon.folder).toBe('Classes');

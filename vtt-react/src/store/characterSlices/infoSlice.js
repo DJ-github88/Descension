@@ -960,6 +960,8 @@ export const createInfoSlice = (set, get) => ({
             get().reconcileDeathcallerTalents?.();
             get().reconcileLichborneTalents?.();
             get().reconcilePlaguebringerTalents?.();
+            get().reconcileDoomsayerTalents?.();
+            get().reconcileOracleTalents?.();
         }
 
         // Sync with multiplayer
@@ -972,7 +974,7 @@ export const createInfoSlice = (set, get) => ({
         const className = state.class || state.characterClass;
         const removed = new Set(options.grantIds || []);
 
-        if (['Fate Weaver', 'Deathcaller', 'Lichborne', 'Plaguebringer'].includes(className)) {
+        if (['Fate Weaver', 'Deathcaller', 'Lichborne', 'Plaguebringer', 'Doomsayer', 'Oracle'].includes(className)) {
             removedTalentGrantIds(previousTalents, newTalents || {}, className)
                 .forEach(id => removed.add(id));
         }
@@ -1009,6 +1011,12 @@ export const createInfoSlice = (set, get) => ({
         }
         if ((get().class || get().characterClass) === 'Plaguebringer') {
             get().reconcilePlaguebringerTalents?.();
+        }
+        if ((get().class || get().characterClass) === 'Doomsayer') {
+            get().reconcileDoomsayerTalents?.();
+        }
+        if ((get().class || get().characterClass) === 'Oracle') {
+            get().reconcileOracleTalents?.();
         }
 
         get().syncWithMultiplayer();
@@ -1099,12 +1107,17 @@ export const createInfoSlice = (set, get) => ({
 
     // Update lore information
     updateLore: (field, value) => {
-        set(state => ({
-            lore: {
+        set(state => {
+            const nextLore = {
                 ...state.lore,
                 [field]: value
+            };
+            const updates = { lore: nextLore };
+            if (field === 'iconBackgroundImage') {
+                updates.iconBackgroundImage = value;
             }
-        }));
+            return updates;
+        });
 
         // Persist to the canonical character document (debounced). Lore lives on
         // characters/{id}, not the runtime characterStates doc, so it must flow
@@ -1121,7 +1134,11 @@ export const createInfoSlice = (set, get) => ({
     updateBackground: (backgroundId, backgroundDisplayName) => {
         set(state => ({
             background: backgroundId || '',
-            backgroundDisplayName: backgroundDisplayName || ''
+            backgroundDisplayName: backgroundDisplayName || '',
+            lore: {
+                ...state.lore,
+                background: backgroundDisplayName || ''
+            }
         }));
 
         // Sync with multiplayer

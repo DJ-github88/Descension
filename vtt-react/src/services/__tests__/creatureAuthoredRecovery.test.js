@@ -1,4 +1,4 @@
-import { prepareCreatureAbility, cancelCreatureAbility, revalidateCreatureContext, saveCreatureRoll, useSpellConsequenceStore, gmCheckSpellCommand, refreshSpellApprovals } from '../spellConsequenceService';
+import { prepareCreatureAbility, cancelCreatureAbility, revalidateCreatureContext, saveCreatureRoll, useSpellConsequenceStore, gmCheckSpellCommand, refreshSpellApprovals, openCreatureAbility } from '../spellConsequenceService';
 import { requestActorEvent, refreshActorSnapshot, submitPreparedActorCommand } from '../actorConsequenceService';
 import { newItemAbility } from '../itemAuthoredAbility';
 import { definitionFromWizard, actionId } from '../authoredAbility';
@@ -88,4 +88,22 @@ test('A5 pre-emission failure restores same-face draft, but retained unknown off
   blocking.gmOfferAuthoredAbility.mockImplementation(async a => { blocking.__box.gm[a.approvalId] = { phase: 'unknown' }; throw Error('lost offer ACK'); });
   await expect(prepareCreatureAbility({ proposedAmount: 4, ruling: 'GM ruling' })).rejects.toThrow(/lost/);
   await expect(revalidateCreatureContext()).rejects.toThrow(/cannot be replaced/); expect(box.latest.creature.roll).toEqual(roll);
+});
+test.each([false, true])('A7 closed condition evidence/history survives the next launch and custody reload (prepared=%s)', async prepared => {
+  const d = association.record.authoredDraft;
+  delete d.damageConfig; delete association.record.damageConfig;
+  d.effectTypes = ['control']; d.controlConfig = { authoredCondition: { profile: 'authored-condition:v1', conditionKey: 'stunned', expiryPolicy: 'gm-manual', durationText: 'Authored boundary', gmNote: 'Manual resolution' } };
+  association.record.effectTypes = d.effectTypes; association.record.controlConfig = d.controlConfig;
+  entry.canonicalDefinition = definitionFromWizard(association.record, { roomId: 'r', definitionVersion: 1, classId: 'arcanoneer' }).definition;
+  entry.descriptor.capabilityId = 'authored-condition:v1';
+  box.latest.creature.entry = entry; box.latest.creature.roll = null; box.latest.draft = null;
+  const resolution = { gmConfirmed: true, timing: entry.canonicalDefinition.timing, timingNote: 'GM manual boundary', evidence: 'Physical save failed, software did not roll it' };
+  box.latest.creature.resolution = resolution; box.latest.attemptHistory = [{ phase: 'refused', creature: { resolution: { evidence: 'Earlier ruling' } } }];
+  if (prepared) await prepareCreatureAbility();
+  await cancelCreatureAbility(); expect(box.latest.phase).toBe('reconciled');
+  await openCreatureAbility(source);
+  const reloaded = JSON.parse(JSON.stringify(box.latest));
+  expect(reloaded.attemptHistory).toHaveLength(2); expect(reloaded.attemptHistory[1].creature.resolution).toEqual(resolution); expect(reloaded.attemptHistory[0].creature.resolution.evidence).toBe('Earlier ruling');
+  if (prepared) expect(reloaded.attemptHistory[1].approval.resolution).toEqual(resolution);
+  expect(reloaded.creature.resolution).toBeUndefined(); expect(reloaded.phase).toBe('draft');
 });

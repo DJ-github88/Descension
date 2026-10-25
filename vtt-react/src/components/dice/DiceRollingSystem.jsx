@@ -1,6 +1,8 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import DiceSelectionBar from './DiceSelectionBar';
 import PhysicsDiceScene from './PhysicsDiceScene';
+import PhysicsCoinScene, { COIN_THEMES } from './PhysicsCoinScene';
+import PhysicsCardScene, { CARD_THEMES, cardLabel } from './PhysicsCardScene';
 import useDiceStore from '../../store/diceStore';
 import useChatStore from '../../store/chatStore';
 import useCharacterStore from '../../store/characterStore';
@@ -11,18 +13,30 @@ import { ROLLABLE_TABLES } from '../../constants/rollableTables';
 import { WEAPON_FACE_TEXT } from '../character-sheet/Skills';
 import './DiceRollingSystem.css';
 
-const DiceRollingSystem = ({ hideSelectionBar = false }) => {
-  const {
-    selectedDice,
-    isRolling,
-    diceColor,
-    activePreset,
-    startRoll,
-    finishRoll,
-    getFormattedRollString
-  } = useDiceStore();
+// Faces on one die of the given type ("dpercent" is the 00–90 tens die).
+const dieSides = (type) => {
+  if (type === 'dpercent') return 10;
+  return parseInt(String(type).replace('d', ''), 10) || 20;
+};
 
-  const { addNotification, addCombatNotification } = useChatStore();
+// Software roll matching what the physical die would report.
+const softRollValue = (type) => {
+  if (type === 'dpercent') return Math.floor(Math.random() * 10) * 10;
+  return Math.floor(Math.random() * dieSides(type)) + 1;
+};
+
+const DiceRollingSystem = ({ hideSelectionBar = false }) => {
+  const isRolling = useDiceStore((s) => s.isRolling);
+  const rollId = useDiceStore((s) => s.rollId);
+  const diceColor = useDiceStore((s) => s.diceColor);
+  const activePreset = useDiceStore((s) => s.activePreset);
+  const startRoll = useDiceStore((s) => s.startRoll);
+  const finishRoll = useDiceStore((s) => s.finishRoll);
+  const getFormattedRollString = useDiceStore((s) => s.getFormattedRollString);
+  const coinFlip = useDiceStore((s) => s.coinFlip);
+  const cardDraw = useDiceStore((s) => s.cardDraw);
+
+  const addCombatNotification = useChatStore((s) => s.addCombatNotification);
   const characterName = useCharacterStore((state) => state.name);
   const currentCharacterId = useCharacterStore((state) => state.currentCharacterId);
   const currentRoomId = useGameStore((state) => state.multiplayerRoom?.id);
@@ -30,6 +44,10 @@ const DiceRollingSystem = ({ hideSelectionBar = false }) => {
 
   const [show3DScene, setShow3DScene] = useState(false);
   const [diceToRoll, setDiceToRoll] = useState([]);
+  // The dice + context of the roll on the table, so Reroll repeats it exactly
+  // (finishRoll clears rollContext, and a skill roll's dice may differ from
+  // whatever the dice panel has selected by then).
+  const lastRollRef = useRef(null);
 
   const handleDismiss = useCallback(() => {
     setShow3DScene(false);
@@ -163,8 +181,9 @@ const DiceRollingSystem = ({ hideSelectionBar = false }) => {
           }
         });
 
-        // Add to combat chat log with custom message
-        addNotification('combat', {
+        // Add to the shared combat log (table rolls already did; simple skill
+        // rolls used to stay local, so the rest of the table never saw them).
+        addCombatNotification({
           id: `skill_roll_${Date.now()}`,
           type: 'combat_resource',
           attacker: characterName || 'Player',
@@ -266,10 +285,21 @@ const DiceRollingSystem = ({ hideSelectionBar = false }) => {
         console.error('Failed to save dice roll to Firebase:', error);
       }
     }
-  }, [finishRoll, getFormattedRollString, addNotification, addCombatNotification, characterName, user, currentCharacterId, currentRoomId, handleDismiss]);
+  }, [finishRoll, getFormattedRollString, addCombatNotification, characterName, user, currentCharacterId, currentRoomId]);
+
+  // The roll effect below must only fire for a NEW roll. It used to depend on
+  // finishAllRolls, whose identity changes with the character name / user /
+  // room — any of those changing mid-roll re-threw the dice.
+  const finishAllRollsRef = useRef(finishAllRolls);
+  finishAllRollsRef.current = finishAllRolls;
 
   useEffect(() => {
+    const selectedDice = useDiceStore.getState().selectedDice;
     if (isRolling && selectedDice.length > 0) {
+      lastRollRef.current = {
+        dice: selectedDice.map((d) => ({ ...d })),
+        context: useDiceStore.getState().rollContext,
+      };
       const expandedDice = selectedDice.flatMap(die => {
         const diceArray = [];
         for (let i = 0; i < die.quantity; i++) {
@@ -312,41 +342,120 @@ const DiceRollingSystem = ({ hideSelectionBar = false }) => {
         if (useDiceStore.getState().isRolling) {
           console.warn('[DiceRollingSystem] Fallback timeout: physics scene did not resolve. Generating software roll.');
           const softResults = rollSnapshot.flatMap(die => {
-            const sides = parseInt(String(die.type).replace('d', ''), 10) || 20;
             const results = [];
             for (let i = 0; i < die.quantity; i++) {
               results.push({
                 id: `${die.id}_fallback_${i}`,
                 type: die.type,
-                value: Math.floor(Math.random() * sides) + 1,
+                value: softRollValue(die.type),
               });
             }
             return results;
           });
           setShow3DScene(false);
           setDiceToRoll([]);
-          finishAllRolls(softResults);
+          finishAllRollsRef.current(softResults);
         }
       }, 12000);
 
       // Clean up the timer the moment the 3D scene reports completion first.
       return () => clearTimeout(fallbackTimer);
     }
-  }, [isRolling, selectedDice, finishAllRolls]);
+    return undefined;
+  }, [isRolling, rollId]);
 
   const handleRollComplete = useCallback((results) => {
-    finishAllRolls(results);
-  }, [finishAllRolls]);
+    finishAllRollsRef.current(results);
+  }, []);
+
+  // Reroll: put the same dice back and roll again with the same context.
+  const handleReroll = useCallback(() => {
+    const last = lastRollRef.current;
+    if (!last || useDiceStore.getState().isRolling) return;
+    useDiceStore.setState({ selectedDice: last.dice.map((d) => ({ ...d })) });
+    startRoll(last.context ? { ...last.context } : null);
+  }, [startRoll]);
+
+  // ── Coin flips ───────────────────────────────────────────────────────────
+  // The flip runs here (always mounted) rather than inside the dice panel, so
+  // closing the panel or clicking the map mid-flip no longer cancels it.
+  const handleFlipComplete = useCallback((results) => {
+    const flip = useDiceStore.getState().coinFlip;
+    const headsCount = results.filter((c) => c.result === 'heads').length;
+    const tailsCount = results.length - headsCount;
+    useDiceStore.getState().finishCoinFlip(results);
+    addCombatNotification({
+      type: 'coin_flip',
+      sender: characterName || 'Player',
+      flipCount: results.length,
+      headsCount,
+      tailsCount,
+      results: results.map((c) => (c.result === 'heads' ? 'Heads' : 'Tails')).join(', '),
+      theme: COIN_THEMES[flip?.theme]?.name || flip?.theme || '',
+      timestamp: new Date().toISOString(),
+    });
+  }, [addCombatNotification, characterName]);
+
+  const handleCoinDismiss = useCallback(() => {
+    useDiceStore.getState().clearCoinFlip();
+  }, []);
+
+  // ── Card draws ───────────────────────────────────────────────────────────
+  // Posted to the shared combat log once every card is face up (immediately
+  // after the deal, or when the last face-down card is turned).
+  const cardPostedRef = useRef(null);
+  const postCardDraw = useCallback((draw, revealedFlags) => {
+    if (!draw || cardPostedRef.current === draw.id) return;
+    cardPostedRef.current = draw.id;
+    const summary = draw.cards
+      .map((c, i) => (revealedFlags[i] ? cardLabel(c) : 'face down'))
+      .join(', ');
+    useDiceStore.getState().finishCardDraw(summary);
+    addCombatNotification({
+      type: 'card_draw',
+      sender: characterName || 'Player',
+      drawCount: draw.cards.length,
+      cards: summary,
+      theme: CARD_THEMES[draw.theme]?.name || draw.theme || '',
+      timestamp: new Date().toISOString(),
+    });
+  }, [addCombatNotification, characterName]);
+
+  const handleCardsRevealed = useCallback(() => {
+    const draw = useDiceStore.getState().cardDraw;
+    if (draw) postCardDraw(draw, draw.cards.map(() => true));
+  }, [postCardDraw]);
+
+  const handleCardDismiss = useCallback((revealedFlags) => {
+    // Clearing a hand that still has face-down cards records the draw with
+    // the unturned cards kept secret.
+    const draw = useDiceStore.getState().cardDraw;
+    if (draw && cardPostedRef.current !== draw.id) {
+      const flags = Array.isArray(revealedFlags) ? revealedFlags : draw.cards.map(() => !draw.manual);
+      postCardDraw(draw, flags);
+    }
+    useDiceStore.getState().clearCardDraw();
+  }, [postCardDraw]);
 
 
   useEffect(() => {
     const handleKeyPress = (event) => {
-      if (event.key === 'Escape' && show3DScene) {
+      if (event.key !== 'Escape') return;
+      if (show3DScene) {
         setShow3DScene(false);
         setDiceToRoll([]);
         if (isRolling) {
           finishRoll([]);
         }
+      }
+      // Coins and cards clear on Esc once they're down (a flip in the air or a
+      // hand still being dealt finishes first).
+      const { coinFlip: flip, lastCoinFlip, cardDraw: hand, lastCardDraw } = useDiceStore.getState();
+      if (flip && lastCoinFlip?.id === flip.id) {
+        useDiceStore.getState().clearCoinFlip();
+      }
+      if (hand && lastCardDraw?.id === hand.id) {
+        useDiceStore.getState().clearCardDraw();
       }
     };
 
@@ -364,8 +473,25 @@ const DiceRollingSystem = ({ hideSelectionBar = false }) => {
         activePreset={activePreset}
         onRollComplete={handleRollComplete}
         onDismiss={handleDismiss}
+        onReroll={handleReroll}
         isVisible={show3DScene && diceToRoll.length > 0}
       />
+
+      {coinFlip && (
+        <PhysicsCoinScene
+          flip={coinFlip}
+          onFlipComplete={handleFlipComplete}
+          onDismiss={handleCoinDismiss}
+        />
+      )}
+
+      {cardDraw && (
+        <PhysicsCardScene
+          draw={cardDraw}
+          onAllRevealed={handleCardsRevealed}
+          onDismiss={handleCardDismiss}
+        />
+      )}
     </div>
   );
 };

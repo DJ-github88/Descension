@@ -241,3 +241,16 @@ node tests/integration-test.js
 
 ### 1.4 Class Resource Bar
 - Fixed classResource inclusion in character sync data
+
+## UI Design Rules (calm TTRPG)
+
+The whole app should read as a calm, detailed, hand-bound tabletop book. Watch for generated-UI tropes. Reference implementation: `vtt-react/src/styles/calm-refine.css` (tokens `--cr-*`).
+
+- **Radius**: 3px on buttons/inputs/chips, 4px on panels. No pill buttons (`border-radius: 999px`/12-20px). Round only things that are physically round (seals, avatars).
+- **No coloured left/top edge stripes** on cards, quotes, callouts or chips. Use a full hairline box or plain typography (italic text, hanging quote mark).
+- **Flat paper**: no gradient washes, no lift-on-hover (`translateY`), no stacked soft shadows. Hover = border darkens.
+- **Labels**: sentence case in the body serif. Cinzel is for titles only. No ALL-CAPS tracked labels, no eyebrow label above every heading.
+- **Status is text colour + icon**, not a filled traffic-light pill.
+- **Structure must mean something**: ledgers, margins, folder tabs, hairline rules. No dot-and-line timelines, no identical card for everything.
+- **Give fields room**: nothing truncates a label; toolbars wrap, never clip; grids use `auto-fit` so a lone card stretches.
+- Component sheets use `!important` heavily and lazy-load late: win with selector specificity (`html body .scope ...`), not source order.

@@ -11,7 +11,7 @@ const evidence = { startedAt: new Date().toISOString(), command: process.argv, k
   limits: ['Production App/router/components/styles and compiled library bodies execute intact. Test-only webpack runtime access seeds users, exact actors and room socket; identity/provider login is simulated.',
     'Real browser Socket.IO and registered backend stack execute; provider verification/canonical ownership/lease/cloud persistence are in-memory fixture boundaries.',
     'Third-party network requests are refused deliberately by this witness; no live Firebase/rules, human players, physical second device or deployment claim.'], errors: [], networkRefusals: [], witnesses: {} };
-async function setup(page, url, uid) {
+async function setup(page, url, uid, prejoinSpellHandlers = false) {
   page.on('pageerror', e => evidence.errors.push({ uid, message: e.message, stack: e.stack }));
   await page.route('**/*', route => { const u = new URL(route.request().url()); if (!/(googleapis\.com|firebaseio\.com|firebaseapp\.com)$/.test(u.hostname) || u.hostname === 'fonts.googleapis.com') return route.continue(); evidence.networkRefusals.push({ uid, origin: u.origin, resourceType: route.request().resourceType() }); return route.abort('blockedbyclient'); });
   await page.goto(url + '/game');
@@ -19,7 +19,7 @@ async function setup(page, url, uid) {
   const consent = page.getByRole('dialog', { name: /Analytics.*Privacy Consent/ });
   if (await consent.count()) await consent.getByRole('button', { name: /Decline/i }).click();
   await page.addScriptTag({ url: url + '/integration-io.js' });
-  return page.evaluate(async uid => {
+  return page.evaluate(async ({ uid, prejoinSpellHandlers }) => {
     const fixture = await fetch('/integration-fixture.json').then(r => r.json());
     const key = Object.keys(window).find(k => k.startsWith('webpackChunk')); window[key].push([[99119], {}, r => window.__req = r]);
     const moduleWith = text => { const pair = Object.entries(__req.m).find(([, f]) => f.toString().includes(text)); if (!pair) throw Error('Missing compiled module ' + text); return __req(pair[0]); };
@@ -33,13 +33,17 @@ async function setup(page, url, uid) {
     await new Promise(r => setTimeout(r, 1000));
     window.__socket = io(fixture.backendUrl, { transports: ['websocket'], forceNew: true, auth: { token: uid } });
     await new Promise((resolve, reject) => { __socket.once('connect', resolve); __socket.once('connect_error', reject); });
+    if (prejoinSpellHandlers) {
+      S('gameStore').setState({ isInMultiplayer: false, multiplayerRoom: null, multiplayerSocket: __socket });
+      __registerSpells({ socket: __socket });
+    }
     const joined = new Promise((resolve, reject) => { __socket.once('room_joined', resolve); __socket.once('room_error', e => reject(Error(JSON.stringify(e)))); });
     __socket.emit('join_room', { roomId: fixture.roomId, playerName: uid, password: '' }); await joined;
     window.__outbound = []; const emit = __socket.emit.bind(__socket); __socket.emit = (event, ...args) => { __outbound.push({ event, payload: args[0] }); return emit(event, ...args); };
     S('gameStore').setState({ isInMultiplayer: true, isGMMode: uid === 'app-gm', multiplayerRoom: { id: fixture.roomId }, multiplayerSocket: __socket,
       cameraX: 0, cameraY: 0, zoomLevel: 1, playerZoom: 1, dynamicFogEnabled: false, gridSize: 50, feetPerTile: 5 });
     S('mapStore').setState({ currentMapId: fixture.mapId });
-    __actors.registerActorHandlers({ socket: __socket }); __registerSpells({ socket: __socket });
+    __actors.registerActorHandlers({ socket: __socket }); if (!prejoinSpellHandlers) __registerSpells({ socket: __socket });
     const result = await __actors.refreshActorSnapshot(); if (!result.success) throw Error(JSON.stringify(result));
     S('mapStore').setState({ currentMapId: fixture.mapId });
     if (uid === 'app-owner') {
@@ -49,7 +53,7 @@ async function setup(page, url, uid) {
       const selected = __actors.selectOwnerAttachment(fixture.refs.pc); if (!selected.success) throw Error(JSON.stringify(selected));
     }
     return { fixture, modules: { actors: Object.keys(__actors), spell: Object.keys(__spell) }, creatureCount: S('creatureStore').getState().creatures.length };
-  }, uid);
+  }, { uid, prejoinSpellHandlers });
 }
 async function main() {
   const host = await require('./app-server.cjs').start();

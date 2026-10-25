@@ -45,6 +45,37 @@ describe('StatVial', () => {
         expect(container.querySelector('img')).toBeNull();
     });
 
+    it('shows one wing feather per action point, spent ones as outlines', () => {
+        const { container, rerender } = render(<StatVial kind="ap" current={1} max={3} memberName="Mira" />);
+        expect(container.querySelectorAll('.rg-feather')).toHaveLength(3);
+        expect(container.querySelectorAll('.rg-feather.is-lit')).toHaveLength(1);
+        expect(container.querySelectorAll('.rg-feather.is-spent')).toHaveLength(2);
+
+        rerender(<StatVial kind="ap" current={4} max={6} memberName="Mira" />);
+        expect(container.querySelectorAll('.rg-feather')).toHaveLength(6);
+        expect(container.querySelectorAll('.rg-feather.is-lit')).toHaveLength(4);
+
+        // Pools above six keep six feathers and light them by ratio
+        rerender(<StatVial kind="ap" current={5} max={10} memberName="Mira" />);
+        expect(container.querySelectorAll('.rg-feather')).toHaveLength(6);
+        expect(container.querySelectorAll('.rg-feather.is-lit')).toHaveLength(3);
+
+        rerender(<StatVial kind="ap" current={0} max={3} memberName="Mira" />);
+        expect(glyph(container)).toHaveAttribute('data-phase', 'empty');
+        expect(container.querySelectorAll('.rg-feather.is-lit')).toHaveLength(0);
+    });
+
+    it('draws mana as a corked phial that shares the heart flask stopper', () => {
+        const { container, rerender } = render(<StatVial kind="mana" current={20} max={50} memberName="Mira" />);
+        expect(container.querySelector('.rg-stopper')).toBeInTheDocument();
+        expect(container.querySelector('.rg-fill')).toBeInTheDocument();
+
+        rerender(<StatVial kind="mana" current={0} max={50} memberName="Mira" />);
+        expect(glyph(container)).toHaveAttribute('data-phase', 'empty');
+        expect(container.querySelector('.rg-fill')).toBeNull();
+        expect(container.querySelectorAll('.rg-shards').length).toBe(1);
+    });
+
     it('pops a big-number readout on hover instead of a tooltip', () => {
         const { container } = render(<StatVial kind="health" current={45} max={50} temp={5} memberName="Mira" />);
         expect(container.querySelector('.party-vial-readout')).toBeNull();

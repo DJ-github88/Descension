@@ -23,6 +23,7 @@ import ConditionDurationModal from '../modals/ConditionDurationModal';
 import { showPlayerLeaveNotification } from '../../utils/playerNotifications';
 import { getRaceHeritageLabel } from '../../utils/raceDisplayNames';
 import { getBackgroundData } from '../../data/backgroundData';
+import { getOriginIllustration } from '../../data/backgroundAssets';
 import Button from '../common/Button';
 import ResourceOverflowModal from '../common/ResourceOverflowModal';
 import { getCustomBackgroundData, getEnhancedPathData } from '../../data/legacyDisciplineData';
@@ -254,7 +255,8 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
     const currentPlayerIconSettings = useCharacterStore(state => ({
         iconBackgroundColor: state.lore?.iconBackgroundColor || null,
         iconBorderColor: state.lore?.iconBorderColor || null,
-        iconBackgroundImage: state.lore?.iconBackgroundImage || null,
+        iconBackgroundImage: state.lore?.iconBackgroundImage || state.iconBackgroundImage || null,
+        background: state.background || state.lore?.background || null,
         iconScale: state.lore?.iconScale ?? 1,
         iconOffsetX: state.lore?.iconOffsetX ?? 0,
         iconOffsetY: state.lore?.iconOffsetY ?? 0,
@@ -441,11 +443,17 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
             ? currentPlayerIconSettings
             : {
                 iconBackgroundColor: member.character?.lore?.iconBackgroundColor || null,
-                iconBackgroundImage: member.character?.lore?.iconBackgroundImage || null
+                iconBackgroundImage: member.character?.lore?.iconBackgroundImage || member.character?.iconBackgroundImage || null,
+                background: member.character?.background || member.character?.lore?.background || null,
             };
-        if (settings.iconBackgroundImage) {
+        const memberBg = settings.background;
+        const originIll = !settings.iconBackgroundImage && memberBg ? getOriginIllustration(memberBg) : null;
+        const effectiveBgUrl = settings.iconBackgroundImage
+            ? `/assets/Backgrounds/${encodeURIComponent(settings.iconBackgroundImage)}`
+            : (originIll?.src || null);
+        if (effectiveBgUrl) {
             return {
-                image: `/assets/Backgrounds/${encodeURIComponent(settings.iconBackgroundImage)}`,
+                image: effectiveBgUrl,
                 color: '#1a140e'
             };
         }
@@ -1218,155 +1226,160 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
         : alignmentStr.toLowerCase().includes('evil') ? 'evil'
         : 'neutral';
 
+    const iconSettings = isCurrentPlayer
+        ? currentPlayerIconSettings
+        : {
+            iconBackgroundColor: member.character?.lore?.iconBackgroundColor || null,
+            iconBorderColor: member.character?.lore?.iconBorderColor || null,
+            iconBackgroundImage: member.character?.lore?.iconBackgroundImage || member.character?.iconBackgroundImage || null,
+            background: member.character?.background || member.character?.lore?.background || null,
+            iconScale: member.character?.lore?.iconScale ?? 1,
+            iconOffsetX: member.character?.lore?.iconOffsetX ?? 0,
+            iconOffsetY: member.character?.lore?.iconOffsetY ?? 0,
+            iconBackgroundScale: member.character?.lore?.iconBackgroundScale ?? 2.5,
+            iconBackgroundOffsetX: member.character?.lore?.iconBackgroundOffsetX ?? 0,
+            iconBackgroundOffsetY: member.character?.lore?.iconBackgroundOffsetY ?? 0,
+        };
+
+    const memberBg = iconSettings.background;
+    const originIll = !iconSettings.iconBackgroundImage && memberBg ? getOriginIllustration(memberBg) : null;
+    const effectiveBgUrl = iconSettings.iconBackgroundImage
+        ? `/assets/Backgrounds/${encodeURIComponent(iconSettings.iconBackgroundImage)}`
+        : (originIll?.src || null);
+
     return (
         <>
             <div
                 ref={frameRef}
                 data-player-id={member.id}
-                className={`party-member-frame ${isCurrentPlayer ? 'current-player' : ''} ${isTargeted ? 'targeted' : ''} ${hasClassResource ? 'has-class-resource' : ''} ${hasClassResource ? `class-${classResourceType}` : ''}`}
+                className={`party-member-frame hud-sheet ${isCurrentPlayer ? 'current-player' : ''} ${isTargeted ? 'targeted' : ''} ${hasClassResource ? 'has-class-resource' : ''} ${hasClassResource ? `class-${classResourceType}` : ''} ${effectiveBgUrl ? 'has-custom-backdrop' : ''}`}
+                style={effectiveBgUrl ? { '--hud-card-backdrop': `url(${effectiveBgUrl})`, '--sheet-backdrop': `url(${effectiveBgUrl})` } : undefined}
                 onContextMenu={handleRightClick}
             >
-                {/* Alignment Plaque Mounted in Middle of Top Frame Border */}
-                {alignmentStr && (
-                    <div className={`member-alignment-tag ${alignmentTone}`} title={`Alignment: ${alignmentStr}`}>
-                        {alignmentStr}
-                    </div>
-                )}
-
-                {/* Portrait: absolutely positioned by CSS into the frame's portrait cutout */}
-                <div
-                    className="party-portrait"
-                    onClick={(e) => {
-                        e.stopPropagation();
-                        setShowPortraitZoom(true);
-                    }}
-                    title={`Enlarge portrait of ${member.name || 'character'} (click to zoom)`}
-                    role="button"
-                    tabIndex={0}
-                    onKeyDown={(e) => {
-                        if (e.key === 'Enter' || e.key === ' ') {
-                            e.preventDefault();
-                            setShowPortraitZoom(true);
-                        }
-                    }}
-                >
-                    {(() => {
-                        // For current player, use direct store subscriptions (always up to date)
-                        // For party members, fall back to member.character.lore
-                        const charImage = isCurrentPlayer
-                            ? currentPlayerCharImage
-                            : (member.character?.lore?.characterImage || null);
-                        const charIcon = isCurrentPlayer
-                            ? currentPlayerCharIcon
-                            : (member.character?.lore?.characterIcon || null);
-                        const transforms = isCurrentPlayer
-                            ? currentPlayerImgTransforms
-                            : (member.character?.lore?.imageTransformations || null);
-                        const iconSettings = isCurrentPlayer
-                            ? currentPlayerIconSettings
-                            : {
-                                iconBackgroundColor: member.character?.lore?.iconBackgroundColor || null,
-                                iconBorderColor: member.character?.lore?.iconBorderColor || null,
-                                iconBackgroundImage: member.character?.lore?.iconBackgroundImage || null,
-                                iconScale: member.character?.lore?.iconScale ?? 1,
-                                iconOffsetX: member.character?.lore?.iconOffsetX ?? 0,
-                                iconOffsetY: member.character?.lore?.iconOffsetY ?? 0,
-                                iconBackgroundScale: member.character?.lore?.iconBackgroundScale ?? 2.5,
-                                iconBackgroundOffsetX: member.character?.lore?.iconBackgroundOffsetX ?? 0,
-                                iconBackgroundOffsetY: member.character?.lore?.iconBackgroundOffsetY ?? 0,
-                            };
-
-                        // Resolve the portrait: uploaded image → chosen icon → class icon placeholder
-                        const classFallback = (!charImage && !charIcon && frameClassName && frameClassName.toLowerCase() !== 'unknown class')
-                            ? (getClassIconUrl(frameClassName, { variant: 'transparent' }) || getClassIconUrl(frameClassName))
-                            : null;
-                        const resolvedImage = charImage || (charIcon ? getCustomIconUrl(charIcon, 'creatures') : classFallback);
-
-                        if (resolvedImage) {
-                            // For icons: show scene background behind the icon, matching character sheet style
-                            const isIcon = !charImage && (charIcon || classFallback);
-                            const containerStyle = {
-                                width: '100%',
-                                height: '100%',
-                                backgroundRepeat: 'no-repeat',
-                            };
-
-                            if (isIcon) {
-                                // Scene background behind the icon
-                                containerStyle.backgroundColor = iconSettings.iconBackgroundImage
-                                    ? '#1a140e'
-                                    : (iconSettings.iconBackgroundColor || '#f8f5eb');
-                                if (iconSettings.iconBackgroundImage) {
-                                    containerStyle.backgroundImage = `url(/assets/Backgrounds/${encodeURIComponent(iconSettings.iconBackgroundImage)})`;
-                                    containerStyle.backgroundSize = 'cover';
-                                    containerStyle.backgroundPosition = `calc(50% + ${iconSettings.iconBackgroundOffsetX || 0}px) center`;
+                {/* Sheet head: portrait on the left, the identity block beside it.
+                    Only the three corner vials break the card's edge; level,
+                    alignment and exhaustion read as plain text inside. */}
+                <div className="hud-sheet-head">
+                    <div className="hud-sheet-portrait">
+                        <div
+                            className="party-portrait"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                setShowPortraitZoom(true);
+                            }}
+                            title={`Enlarge portrait of ${member.name || 'character'} (click to zoom)`}
+                            role="button"
+                            tabIndex={0}
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter' || e.key === ' ') {
+                                    e.preventDefault();
+                                    setShowPortraitZoom(true);
                                 }
-                                containerStyle.display = 'flex';
-                                containerStyle.alignItems = 'center';
-                                containerStyle.justifyContent = 'center';
-                            }
+                            }}
+                        >
+                            {(() => {
+                                // For current player, use direct store subscriptions (always up to date)
+                                // For party members, fall back to member.character.lore
+                                const charImage = isCurrentPlayer
+                                    ? currentPlayerCharImage
+                                    : (member.character?.lore?.characterImage || null);
+                                const charIcon = isCurrentPlayer
+                                    ? currentPlayerCharIcon
+                                    : (member.character?.lore?.characterIcon || null);
+                                const transforms = isCurrentPlayer
+                                    ? currentPlayerImgTransforms
+                                    : (member.character?.lore?.imageTransformations || null);
 
-                            return (
-                                <div style={containerStyle}>
-                                    {isIcon ? (
-                                        <img
-                                            src={resolvedImage}
-                                            style={{
-                                                display: 'block',
-                                                width: '100%',
-                                                height: '100%',
-                                                objectFit: 'cover',
-                                                objectPosition: 'center',
-                                                transformOrigin: 'center center',
-                                                transform: `scale(${(iconSettings.iconScale || 1) * 1.1}) translate(${iconSettings.iconOffsetX || 0}px, ${iconSettings.iconOffsetY || 0}px)`,
-                                            }}
-                                            draggable={false}
-                                        />
-                                    ) : (
-                                        <div style={{
-                                            width: '100%',
-                                            height: '100%',
-                                            backgroundImage: `url(${resolvedImage})`,
-                                            backgroundSize: transforms ? `${(transforms.scale || 1) * 130}%` : '140%',
-                                            backgroundPosition: transforms
-                                                ? `${50 + (transforms.positionX || 0) / 2}% ${50 - (transforms.positionY || 0) / 2}%`
-                                                : 'center 10%',
-                                            backgroundRepeat: 'no-repeat',
-                                            transform: transforms ? `rotate(${transforms.rotation || 0}deg)` : 'none',
-                                        }} />
-                                    )}
-                                </div>
-                            );
-                        }
-                        // Fallback: initial letter
-                        return (
-                            <div style={{
-                                width: '100%',
-                                height: '100%',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                fontSize: '13px',
-                                fontWeight: 'bold',
-                                color: '#c8a96b',
-                                background: 'linear-gradient(135deg, #2a1b0e, #3d2a1d)',
-                                fontFamily: "'Cinzel', serif",
-                            }}>
-                                {(member.name || '?').charAt(0).toUpperCase()}
-                            </div>
-                        );
-                    })()}
-                </div>
+                                // Resolve the portrait: uploaded image → chosen icon → class icon placeholder
+                                const classFallback = (!charImage && !charIcon && frameClassName && frameClassName.toLowerCase() !== 'unknown class')
+                                    ? (getClassIconUrl(frameClassName, { variant: 'transparent' }) || getClassIconUrl(frameClassName))
+                                    : null;
+                                const resolvedImage = charImage || (charIcon ? getCustomIconUrl(charIcon, 'creatures') : classFallback);
 
-                {/* Level chip stamped on the portrait's top-left corner (matte engraved disc) */}
-                {characterLevel && (
-                    <div className="portrait-level-chip" title={`Level ${characterLevel}`}>
-                        {characterLevel}
+                                if (resolvedImage) {
+                                    // For icons: show scene background behind the icon, matching character sheet style
+                                    const isIcon = !charImage && (charIcon || classFallback);
+                                    const containerStyle = {
+                                        width: '100%',
+                                        height: '100%',
+                                        backgroundRepeat: 'no-repeat',
+                                    };
+
+                                    if (effectiveBgUrl) {
+                                        containerStyle.backgroundImage = `url(${effectiveBgUrl})`;
+                                        containerStyle.backgroundSize = 'cover';
+                                        containerStyle.backgroundPosition = `calc(50% + ${iconSettings.iconBackgroundOffsetX || 0}px) center`;
+                                        containerStyle.backgroundColor = '#1a140e';
+                                    } else if (iconSettings.iconBackgroundColor) {
+                                        containerStyle.backgroundColor = iconSettings.iconBackgroundColor;
+                                    } else if (isIcon) {
+                                        containerStyle.backgroundColor = '#f8f5eb';
+                                    }
+
+                                    if (isIcon) {
+                                        containerStyle.display = 'flex';
+                                        containerStyle.alignItems = 'center';
+                                        containerStyle.justifyContent = 'center';
+                                    }
+
+                                    return (
+                                        <div style={containerStyle}>
+                                            {isIcon ? (
+                                                <img
+                                                    src={resolvedImage}
+                                                    style={{
+                                                        display: 'block',
+                                                        width: '100%',
+                                                        height: '100%',
+                                                        objectFit: 'cover',
+                                                        objectPosition: 'center',
+                                                        transformOrigin: 'center center',
+                                                        transform: `scale(${(iconSettings.iconScale || 1) * 1.1}) translate(${iconSettings.iconOffsetX || 0}px, ${iconSettings.iconOffsetY || 0}px)`,
+                                                    }}
+                                                    draggable={false}
+                                                />
+                                            ) : (
+                                                <div style={{
+                                                    width: '100%',
+                                                    height: '100%',
+                                                    backgroundImage: `url(${resolvedImage})`,
+                                                    backgroundSize: transforms ? `${(transforms.scale || 1) * 130}%` : '140%',
+                                                    backgroundPosition: transforms
+                                                        ? `${50 + (transforms.positionX || 0) / 2}% ${50 - (transforms.positionY || 0) / 2}%`
+                                                        : 'center 10%',
+                                                    backgroundRepeat: 'no-repeat',
+                                                    transform: transforms ? `rotate(${transforms.rotation || 0}deg)` : 'none',
+                                                }} />
+                                            )}
+                                        </div>
+                                    );
+                                }
+                                // Fallback: initial letter
+                                return (
+                                    <div className="party-portrait-initial" style={{
+                                        width: '100%',
+                                        height: '100%',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        fontSize: '13px',
+                                        fontWeight: 'bold',
+                                        color: '#c8a96b',
+                                        background: 'linear-gradient(135deg, #2a1b0e, #3d2a1d)',
+                                        fontFamily: "'Cinzel', serif",
+                                    }}>
+                                        {(member.name || '?').charAt(0).toUpperCase()}
+                                    </div>
+                                );
+                            })()}
+                        </div>
+
+                        {/* Online status, tucked into the portrait's corner */}
+                        <div className="member-status-indicators">
+                            <div className={`status-dot ${member.status || 'online'}`} title={`Status: ${member.status || 'online'}`}></div>
+                        </div>
                     </div>
-                )}
 
-                {/* Info Section */}
-                <div className="party-member-info">
                     {(() => {
                         // For current player, use character store directly (more reliable)
                         // For other members, use member.character
@@ -1392,195 +1405,140 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                         // "Lumian (Astril)" -> "Lumian",
                         // "Tallyn (Frostwood Reach)" -> "Tallyn (Human)".
                         const cleanRace = getRaceHeritageLabel(race) || '';
-
-                        // Title block: name / "of the <bloodline>" / background script.
-                        // The class signs the top row next to the name so long
-                        // class names always fit, and the background keeps its icon.
-                        const raceLabel = cleanRace;
-                        const racePart = raceLabel && cleanRace.toLowerCase() !== 'unknown race'
-                            ? { label: raceLabel }
-                            : null;
+                        const ancestry = cleanRace && cleanRace.toLowerCase() !== 'unknown race' ? cleanRace : '';
                         const backgroundIcon = background ? getBackgroundArchetypeIcon(background) : null;
 
-                        const fullArchetypeTitle = [frameClassLabel, racePart?.label, background, alignmentStr]
-                            .filter(Boolean)
-                            .join(' • ');
+                        // Exhaustion is a status line: hourglass + words, coloured
+                        // by severity (ink at rest, then ochre, rust, oxblood).
+                        const exhaustionSeverity = exhaustionLevel >= 5 ? 'grave'
+                            : exhaustionLevel >= 3 ? 'serious'
+                            : exhaustionLevel >= 1 ? 'mild'
+                            : 'rested';
 
                         return (
-                            <div className="member-header">
-                                {/* Nameplate: class as the calling above the name, a rule beneath */}
-                                <div className="member-header-top-row">
+                            <div className="hud-sheet-identity">
+                                <div ref={nameRef} className="hud-sheet-name" title={member.name}>{member.name}</div>
+
+                                {/* Calling, stat-block style: "Level 5 Hunter, Neutral Good" */}
+                                <div className="hud-sheet-calling">
+                                    <span className="hud-sheet-level">Level {characterLevel}</span>
                                     {frameClassLabel && (
-                                        <span className="member-class-text" title={`Class: ${frameClassLabel}`}>
-                                            {frameClassName}
-                                        </span>
+                                        <>
+                                            {' '}
+                                            <span className="hud-sheet-class" title={`Class: ${frameClassLabel}`}>{frameClassName}</span>
+                                        </>
                                     )}
-                                    <span ref={nameRef} className="member-name-text" title={member.name}>{member.name}</span>
-                                    <span className="member-nameplate-rule" aria-hidden="true"><i></i></span>
-                                </div>
-                                {/* Sheet fields: captioned value pairs, like a paper character sheet */}
-                                <div className="member-details">
-                                    {racePart && (
-                                        <div className="member-heritage-line" title={fullArchetypeTitle}>
-                                            <span className="sheet-caption">Ancestry</span>
-                                            <span className="heritage-race">{racePart.label}</span>
-                                        </div>
-                                    )}
-                                    {background && (
-                                        <div className="member-background-line" title={fullArchetypeTitle}>
-                                            <span className="sheet-caption">Background</span>
-                                            <span className="sheet-value">
-                                                {backgroundIcon && (
-                                                    <i className={`fas fa-${backgroundIcon} archetype-icon lead`} aria-hidden="true"></i>
-                                                )}
-                                                {background}
-                                            </span>
-                                        </div>
+                                    {alignmentStr && (
+                                        <>
+                                            {', '}
+                                            <span className={`hud-sheet-alignment ${alignmentTone}`} title={`Alignment: ${alignmentStr}`}>{alignmentStr}</span>
+                                        </>
                                     )}
                                 </div>
+
+                                {/* Origin: "Ancestry · Background". A separator that lands at the
+                                    start of a wrapped line is clipped by .hud-sheet-origin. */}
+                                {(ancestry || background) && (
+                                    <div className="hud-sheet-origin">
+                                        <div className="hud-sheet-origin-list">
+                                            {ancestry && (
+                                                <span className="hud-sheet-origin-item hud-sheet-ancestry" title={`Ancestry: ${ancestry}`}>{ancestry}</span>
+                                            )}
+                                            {background && (
+                                                <span className="hud-sheet-origin-item hud-sheet-background" title={`Background: ${background}`}>
+                                                    {backgroundIcon && (
+                                                        <i className={`fas fa-${backgroundIcon} archetype-icon`} aria-hidden="true"></i>
+                                                    )}
+                                                    {background}
+                                                </span>
+                                            )}
+                                        </div>
+                                    </div>
+                                )}
+
+                                {(exhaustionLevel > 0 || isExhaustionEditable) && (
+                                    <div
+                                        className={`hud-sheet-exhaustion level-${exhaustionLevel} is-${exhaustionSeverity}${isExhaustionEditable ? ' editable' : ''}`}
+                                        onMouseEnter={(e) => handleExhaustionMouseEnter(e, exhaustionLevel)}
+                                        onMouseMove={handleBuffMouseMove}
+                                        onMouseLeave={handleBuffMouseLeave}
+                                        onClick={openExhaustionMenu}
+                                        aria-label={`Exhaustion Level ${exhaustionLevel}${isExhaustionEditable ? ' (Click to adjust)' : ''}`}
+                                        role={isExhaustionEditable ? 'button' : undefined}
+                                        tabIndex={isExhaustionEditable ? 0 : undefined}
+                                        onKeyDown={(e) => {
+                                            if (e.key === 'Enter' || e.key === ' ') {
+                                                e.preventDefault();
+                                                openExhaustionMenu(e);
+                                            }
+                                        }}
+                                    >
+                                        {/* Hourglass: sand runs to the bottom bulb as exhaustion builds */}
+                                        <svg className="hud-sheet-hourglass" viewBox="0 0 10 14" aria-hidden="true">
+                                            {exhaustionLevel < 3 && (
+                                                <path className="hud-sheet-sand" d="M2.4 2.2 C2.7 4.6 4 5.7 5 6.4 C6 5.7 7.3 4.6 7.6 2.2 Z" opacity={exhaustionLevel === 0 ? 1 : 0.55} />
+                                            )}
+                                            {exhaustionLevel > 0 && (
+                                                <path className="hud-sheet-sand" d="M2.4 12.4 C2.8 10.4 4 9.6 5 9.2 C6 9.6 7.2 10.4 7.6 12.4 Z" />
+                                            )}
+                                            <path
+                                                d="M1.6 1.2 C1.6 4.6 3.4 6 5 7 C6.6 6 8.4 4.6 8.4 1.2 M1.6 12.8 C1.6 9.4 3.4 8 5 7 C6.6 8 8.4 9.4 8.4 12.8"
+                                                fill="none" stroke="currentColor" strokeWidth="1" strokeLinejoin="round"
+                                            />
+                                            <path d="M0.4 0.9 H9.6 M0.4 13.1 H9.6" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+                                        </svg>
+                                        <span className="hud-sheet-exhaustion-label">Exhaustion</span>
+                                        <span className="hud-sheet-exhaustion-value">{exhaustionLevel}</span>
+
+                                        {/* Hidden native select preserved for headless/unit test queries */}
+                                        {isExhaustionEditable && (
+                                            <select
+                                                value={exhaustionLevel}
+                                                onChange={(e) => handleSelectExhaustionLevel(e.target.value)}
+                                                className="party-exhaustion-select"
+                                                style={{ display: 'none' }}
+                                                tabIndex={-1}
+                                                aria-hidden="true"
+                                            >
+                                                <option value="0">0 (Normal)</option>
+                                                <option value="1">1 (Disadv. Checks)</option>
+                                                <option value="2">2 (Speed Halved)</option>
+                                                <option value="3">3 (Disadv. Attacks/Saves)</option>
+                                                <option value="4">4 (HP Max Halved)</option>
+                                                <option value="5">5 (Speed 0)</option>
+                                                <option value="6">6 (Death)</option>
+                                            </select>
+                                        )}
+                                    </div>
+                                )}
                             </div>
                         );
                     })()}
-
-                    {/* Resource Bars Container (class resource lives here;
-                        HP/mana/AP ride as corner mounts below) */}
-                    <div className="resource-bars-container">
-
-                        {/* Class Resource Bar */}
-                        {member.character?.class && member.character?.class !== 'Unknown' && member.character?.classResource && (
-                            <ClassResourceBar
-                                key={`classResource-${member.id}`}
-                                characterClass={member.character.class}
-                                classResource={member.character.classResource}
-                                isGMMode={isGMMode}
-                                isOwner={isCurrentPlayer}
-                                onResourceClick={isCurrentPlayer ? ((resourceType) => onResourceAdjust(member.id, resourceType)) : null}
-                                onClassResourceUpdate={isCurrentPlayer && onClassResourceUpdate ? (field, value) => {
-                                    onClassResourceUpdate(member.id, field, value);
-                                } : null}
-                                size="small"
-                                context="party"
-                            />
-                        )}
-                    </div>
                 </div>
 
-                {/* Exhaustion plaque: parchment tab on the bottom frame border */}
-                {(exhaustionLevel > 0 || isExhaustionEditable) && (
-                    <div
-                        className={`party-exhaustion-badge level-${exhaustionLevel} ${isExhaustionEditable ? 'editable' : ''}`}
-                        onMouseEnter={(e) => handleExhaustionMouseEnter(e, exhaustionLevel)}
-                        onMouseMove={handleBuffMouseMove}
-                        onMouseLeave={handleBuffMouseLeave}
-                        onClick={openExhaustionMenu}
-                        aria-label={`Exhaustion Level ${exhaustionLevel}${isExhaustionEditable ? ' (Click to adjust)' : ''}`}
-                        role="button"
-                        tabIndex={0}
-                        onKeyDown={(e) => {
-                            if (e.key === 'Enter' || e.key === ' ') {
-                                e.preventDefault();
-                                openExhaustionMenu(e);
-                            }
-                        }}
-                    >
-                        {(() => {
-                            // Severity lives in the numeral disc and the sand only:
-                            // ink brown at rest, then ochre → rust → oxblood.
-                            const exhTone = exhaustionLevel >= 5 ? '#7e2a2c'
-                                : exhaustionLevel >= 3 ? '#a45a32'
-                                : exhaustionLevel >= 1 ? '#b0863a'
-                                : '#8c7353';
-                            const sandTone = exhaustionLevel === 0 ? '#c99a4e' : exhTone;
-                            return (
-                                <svg className="exhaustion-plate-svg" viewBox="0 0 128 24" aria-hidden="true">
-                                    {/* Parchment tab with a printed inner rule */}
-                                    <rect x="0.75" y="0.75" width="126.5" height="22.5" rx="11.25" fill="#f8f4ea" stroke="#8c7353" strokeWidth="1" />
-                                    <rect x="3.25" y="3.25" width="121.5" height="17.5" rx="8.75" fill="none" stroke="#cdbfa5" strokeWidth="0.7" />
-
-                                    {/* Hourglass: sand runs to the bottom bulb as exhaustion builds */}
-                                    <g className="exh-hourglass-glyph" transform="translate(10.5, 5)">
-                                        {exhaustionLevel < 3 && (
-                                            <path d="M2.4 2.2 C2.7 4.6 4 5.7 5 6.4 C6 5.7 7.3 4.6 7.6 2.2 Z" fill={sandTone} opacity={exhaustionLevel === 0 ? 1 : 0.55} />
-                                        )}
-                                        {exhaustionLevel > 0 && (
-                                            <path d="M2.4 12.4 C2.8 10.4 4 9.6 5 9.2 C6 9.6 7.2 10.4 7.6 12.4 Z" fill={sandTone} />
-                                        )}
-                                        <path
-                                            d="M1.6 1.2 C1.6 4.6 3.4 6 5 7 C6.6 6 8.4 4.6 8.4 1.2 M1.6 12.8 C1.6 9.4 3.4 8 5 7 C6.6 8 8.4 9.4 8.4 12.8"
-                                            fill="none" stroke="#34251a" strokeWidth="1" strokeLinejoin="round"
-                                        />
-                                        <path d="M0.4 0.9 H9.6 M0.4 13.1 H9.6" stroke="#34251a" strokeWidth="1.6" strokeLinecap="round" />
-                                    </g>
-
-                                    <text
-                                        x="62"
-                                        y="15.2"
-                                        textAnchor="middle"
-                                        fontFamily="'Cinzel', Georgia, serif"
-                                        fontSize="7.6px"
-                                        fontWeight="700"
-                                        letterSpacing="1.2px"
-                                        fill="#5a4632"
-                                        className="exhaustion-label"
-                                        style={{ userSelect: 'none' }}
-                                    >
-                                        Exhaustion
-                                    </text>
-
-                                    {/* Numeral disc */}
-                                    <g className="exh-medallion-group" transform="translate(114, 12)">
-                                        <circle
-                                            cx="0" cy="0" r="7.25"
-                                            fill={exhaustionLevel === 0 ? '#f8f4ea' : exhTone}
-                                            stroke={exhaustionLevel === 0 ? '#8c7353' : '#34251a'}
-                                            strokeWidth={exhaustionLevel === 0 ? 0.9 : 0.6}
-                                        />
-                                        <text
-                                            x="0"
-                                            y="3.2"
-                                            textAnchor="middle"
-                                            fontFamily="'Cinzel', Georgia, serif"
-                                            fontSize="9px"
-                                            fontWeight="700"
-                                            fill={exhaustionLevel === 0 ? '#5a4632' : '#fbf6ea'}
-                                            className="exhaustion-value"
-                                            style={{ userSelect: 'none' }}
-                                        >
-                                            {exhaustionLevel}
-                                        </text>
-                                    </g>
-                                </svg>
-                            );
-                        })()}
-
-                        {/* Hidden native select preserved for headless/unit test queries */}
-                        {isExhaustionEditable && (
-                            <select
-                                value={exhaustionLevel}
-                                onChange={(e) => handleSelectExhaustionLevel(e.target.value)}
-                                className="party-exhaustion-select"
-                                style={{ display: 'none' }}
-                                tabIndex={-1}
-                                aria-hidden="true"
-                            >
-                                <option value="0">0 (Normal)</option>
-                                <option value="1">1 (Disadv. Checks)</option>
-                                <option value="2">2 (Speed Halved)</option>
-                                <option value="3">3 (Disadv. Attacks/Saves)</option>
-                                <option value="4">4 (HP Max Halved)</option>
-                                <option value="5">5 (Speed 0)</option>
-                                <option value="6">6 (Death)</option>
-                            </select>
-                        )}
+                {/* Class resource: the width of the card under a hairline rule,
+                    sitting between the two bottom vials */}
+                {member.character?.class && member.character?.class !== 'Unknown' && member.character?.classResource && (
+                    <div className="resource-bars-container hud-sheet-resource">
+                        <ClassResourceBar
+                            key={`classResource-${member.id}`}
+                            characterClass={member.character.class}
+                            classResource={member.character.classResource}
+                            isGMMode={isGMMode}
+                            isOwner={isCurrentPlayer}
+                            onResourceClick={isCurrentPlayer ? ((resourceType) => onResourceAdjust(member.id, resourceType)) : null}
+                            onClassResourceUpdate={isCurrentPlayer && onClassResourceUpdate ? (field, value) => {
+                                onClassResourceUpdate(member.id, field, value);
+                            } : null}
+                            size="small"
+                            context="party"
+                        />
                     </div>
                 )}
 
-                {/* Online Status Indicator */}
-                <div className="member-status-indicators">
-                    <div className={`status-dot ${member.status || 'online'}`} title={`Status: ${member.status || 'online'}`}></div>
-                </div>
-                {/* Corner mounts: HP bottle + mana crystal (bottom corners, tilted),
-                    AP boot (top-left). Hover any mount for exact values. */}
+                {/* Corner mounts, one stat per corner: AP boot top-right, HP flask
+                    bottom-left, mana crystal bottom-right (mirrored tilt). Hover any
+                    mount for exact values; click to adjust. */}
                 <div ref={healthBarRef} className={`party-corner-mount mount-health${canAdjustMounts ? ' adjustable' : ''}`} onClick={openMountMenu('health')}>
                     <StatVial
                         kind="health"

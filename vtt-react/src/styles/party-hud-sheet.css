@@ -1,0 +1,259 @@
+/* ==========================================================================
+   party-hud-sheet.css — the party HUD card as the head of a character sheet
+   --------------------------------------------------------------------------
+   Layout
+       [portrait]  Character Name
+                   Level 5 Hunter, Neutral Good        <- italic calling line
+                   Tallyn (Human) · Urchin             <- origin
+                   ⧗ Exhaustion 0                      <- owner/GM, or when > 0
+       ─────────────────────────────────────────────
+             class resource, between the bottom vials
+
+   Only the three stat vials break the card's edge, one per corner, as a
+   matched set: AP boot top-right, health flask bottom-left, mana crystal
+   bottom-right. Same size, same overhang, mirrored tilt. Nothing else sits
+   on the border (alignment, level and exhaustion are plain text inside), so
+   the corners stay the one ornament and read at a glance.
+
+   Rules followed: see calm-refine.css (3px/4px radius, no edge stripes, flat
+   paper, sentence-case body-serif labels with Cinzel for the name only,
+   status as text colour + icon, nothing truncates).
+
+   Specificity: party-hud.css and calm-shared.css still style the target HUD
+   with the same base classes and lean on !important, so every rule here is
+   scoped to .hud-sheet behind `html body` and a doubled class, and wins by
+   specificity rather than source order.
+   ========================================================================== */
+
+html body .party-member-frame.party-member-frame.hud-sheet {
+  --hs-portrait: 80px;
+  --hs-vial-w: 36px;
+  --hs-vial-h: 45px;
+  --hs-vial-overhang: 11px;
+  --hs-ink: var(--cr-ink, #34251a);
+  --hs-ink-soft: #4a3826;
+  --hs-ink-faint: #8a7356;
+  --hs-accent: #663c32;
+  --hs-rule: var(--cr-rule, #d3c8ae);
+
+  width: 310px !important;
+  min-height: 0 !important;
+  height: auto !important;
+  padding: 14px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 8px;
+  box-sizing: border-box;
+}
+
+/* ---- head: portrait + identity ---------------------------------------- */
+html body .party-member-frame.party-member-frame.hud-sheet .hud-sheet-head {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  /* keeps the name clear of the AP boot on the top-right corner */
+  padding-right: 18px;
+}
+
+html body .party-member-frame.party-member-frame.hud-sheet .hud-sheet-portrait {
+  position: relative;
+  flex: 0 0 var(--hs-portrait);
+  width: var(--hs-portrait);
+  height: var(--hs-portrait);
+}
+html body .party-member-frame.party-member-frame.hud-sheet .hud-sheet-portrait .party-portrait {
+  position: relative !important;
+  inset: auto !important;
+  left: auto !important;
+  top: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  width: 100% !important;
+  height: 100% !important;
+  margin: 0 !important;
+  /* the global tablet/touch [role=button] padding would shrink the art */
+  padding: 0 !important;
+  box-sizing: border-box;
+}
+html body .party-member-frame.party-member-frame.hud-sheet .hud-sheet-portrait .member-status-indicators {
+  position: absolute !important;
+  left: 5px !important;
+  top: 5px !important;
+  right: auto !important;
+  bottom: auto !important;
+  z-index: 5 !important;
+}
+
+html body .party-member-frame.party-member-frame.hud-sheet .hud-sheet-identity {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding-top: 1px;
+}
+
+/* The name is the one title on the card */
+html body .party-member-frame.party-member-frame.hud-sheet .hud-sheet-name {
+  font-family: var(--cr-display, 'Cinzel', serif);
+  font-size: 16.5px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  line-height: 1.15;
+  color: #241307;
+  text-shadow: none;
+  overflow-wrap: break-word;
+  margin-bottom: 1px;
+}
+/* a single word too long even at the fitted minimum may break */
+html body .party-member-frame.party-member-frame.hud-sheet .hud-sheet-name[data-fit-overflow='true'] {
+  overflow-wrap: anywhere;
+}
+
+/* "Level 5 Hunter, Neutral Good" — italic, like a stat-block subtitle */
+html body .party-member-frame.party-member-frame.hud-sheet .hud-sheet-calling {
+  font-family: var(--cr-body, 'Crimson Text', Georgia, serif);
+  font-style: italic;
+  font-size: 14px;
+  line-height: 1.25;
+  color: var(--hs-accent);
+}
+html body .party-member-frame.party-member-frame.hud-sheet .hud-sheet-alignment.good { color: #2f5a3a; }
+html body .party-member-frame.party-member-frame.hud-sheet .hud-sheet-alignment.evil { color: #7a2f27; }
+
+/* "Ancestry · Background". The list is pulled 13px left inside a clipping
+   box, so the separator of whichever item starts a line is hidden: wrapped
+   lines never begin with a stray dot, and nothing is ellipsised. */
+html body .party-member-frame.party-member-frame.hud-sheet .hud-sheet-origin {
+  overflow: hidden;
+}
+html body .party-member-frame.party-member-frame.hud-sheet .hud-sheet-origin-list {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: -13px;
+  font-family: var(--cr-body, 'Crimson Text', Georgia, serif);
+  font-size: 14px;
+  line-height: 1.25;
+  color: var(--hs-ink-soft);
+}
+html body .party-member-frame.party-member-frame.hud-sheet .hud-sheet-origin-item {
+  min-width: 0;
+}
+html body .party-member-frame.party-member-frame.hud-sheet .hud-sheet-origin-item::before {
+  content: '\00b7';
+  display: inline-block;
+  width: 13px;
+  text-align: center;
+  color: #9a8669;
+}
+html body .party-member-frame.party-member-frame.hud-sheet .hud-sheet-origin .archetype-icon {
+  font-size: 10px;
+  color: var(--hs-accent);
+  margin-right: 4px;
+  opacity: 1;
+}
+
+/* ---- exhaustion: a quiet status line, coloured only when it matters ---- */
+html body .party-member-frame.party-member-frame.hud-sheet .hud-sheet-exhaustion {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 2px;
+  padding: 0;
+  /* a text line, not a touch tile: opt out of the global [role=button] minimums */
+  min-height: 0;
+  min-width: 0;
+  font-family: var(--cr-body, 'Crimson Text', Georgia, serif);
+  font-size: 13px;
+  line-height: 1.25;
+  color: var(--hs-ink-faint);
+  background: none;
+  border: 0;
+  border-radius: 3px;
+  cursor: default;
+  user-select: none;
+}
+html body .party-member-frame.party-member-frame.hud-sheet .hud-sheet-exhaustion.editable { cursor: pointer; }
+html body .party-member-frame.party-member-frame.hud-sheet .hud-sheet-exhaustion.editable:hover .hud-sheet-exhaustion-label {
+  text-decoration: underline dotted;
+  text-underline-offset: 2px;
+}
+html body .party-member-frame.party-member-frame.hud-sheet .hud-sheet-exhaustion:focus-visible {
+  outline: 2px solid var(--hs-accent);
+  outline-offset: 2px;
+}
+html body .party-member-frame.party-member-frame.hud-sheet .hud-sheet-hourglass {
+  display: block;
+  width: 9px;
+  height: 12.6px;
+  flex: 0 0 auto;
+  overflow: visible;
+}
+html body .party-member-frame.party-member-frame.hud-sheet .hud-sheet-hourglass .hud-sheet-sand { fill: currentColor; }
+html body .party-member-frame.party-member-frame.hud-sheet .hud-sheet-exhaustion.is-rested .hud-sheet-sand { fill: #c99a4e; }
+html body .party-member-frame.party-member-frame.hud-sheet .hud-sheet-exhaustion-value {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+html body .party-member-frame.party-member-frame.hud-sheet .hud-sheet-exhaustion.is-mild { color: #8a6420; }
+html body .party-member-frame.party-member-frame.hud-sheet .hud-sheet-exhaustion.is-serious { color: #94502c; }
+html body .party-member-frame.party-member-frame.hud-sheet .hud-sheet-exhaustion.is-grave { color: #7e2a2c; font-weight: 600; }
+
+/* ---- class resource: full width under a hairline, between the bottom vials */
+html body .party-member-frame.party-member-frame.hud-sheet .hud-sheet-resource {
+  position: relative;
+  z-index: 3;
+  flex: 0 0 auto !important;
+  width: auto !important;
+  margin: 0 !important;
+  padding: 6px 14px 0 !important;
+  border-top: 1px solid var(--hs-rule) !important;
+  justify-content: center;
+}
+html body .party-member-frame.party-member-frame.hud-sheet .hud-sheet-resource > .class-resource-wrapper {
+  margin: 0 !important;
+}
+
+/* ---- corner vials: one matched set ------------------------------------- */
+html body .party-member-frame.party-member-frame.hud-sheet .party-corner-mount {
+  width: var(--hs-vial-w) !important;
+  height: var(--hs-vial-h) !important;
+}
+html body .party-member-frame.party-member-frame.hud-sheet .party-corner-mount.mount-ap {
+  top: calc(var(--hs-vial-overhang) * -1) !important;
+  right: calc(var(--hs-vial-overhang) * -1) !important;
+  left: auto !important;
+  bottom: auto !important;
+}
+html body .party-member-frame.party-member-frame.hud-sheet .party-corner-mount.mount-health {
+  bottom: calc(var(--hs-vial-overhang) * -1) !important;
+  left: calc(var(--hs-vial-overhang) * -1) !important;
+  top: auto !important;
+  right: auto !important;
+}
+html body .party-member-frame.party-member-frame.hud-sheet .party-corner-mount.mount-mana {
+  bottom: calc(var(--hs-vial-overhang) * -1) !important;
+  right: calc(var(--hs-vial-overhang) * -1) !important;
+  top: auto !important;
+  left: auto !important;
+}
+/* full AP stays quiet: no gold glow on the least urgent state */
+html body .party-member-frame.party-member-frame.hud-sheet .vial-ap.vial-state-max .party-vial-icon {
+  filter: drop-shadow(0 1px 1px rgba(52, 37, 26, 0.3));
+}
+/* hover brightens the glass a touch; the vial itself stays put */
+html body .party-member-frame.party-member-frame.hud-sheet .party-corner-mount:hover .party-vial {
+  transform: rotate(var(--vial-tilt, 0deg));
+}
+
+/* ---- small screens: the card takes the row, the portrait steps down ---- */
+@media (max-width: 768px) {
+  html body .party-member-frame.party-member-frame.hud-sheet {
+    --hs-portrait: 64px;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}

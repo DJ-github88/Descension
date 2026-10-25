@@ -141,7 +141,7 @@ function registerActorConsequenceHandlers(ctx) {
       if (actors.bytes(input) > 128 * 1024) {actors.fail('authored_record_capacity');}
       const data = actors.clone(input), captured = context(data.roomId);
       if (!captured.isGM) {actors.fail('forbidden');}
-      const installed = require('../services/installedAuthoredAbilities'), definitions = require('../services/authoredSpellDefinitions');
+      const installed = require('../services/installedAuthoredAbilities'), definitions = require('../services/installedDefinitionRegistry');
       if (operation === 'admit' && data.source) {
         if (data.record !== undefined || data.classId !== undefined) actors.fail('invalid_consequence');
         const staged = await installed.planCreatureAdmission(captured.room, captured.uid, data, async() => {
@@ -360,6 +360,7 @@ function registerActorConsequenceHandlers(ctx) {
     payments.close(room, approvalId, code);
     const payload = { roomId: room.id, approvalId, contentHash: entry.contentHash, code };
     toUid(room, entry.approval.source.ownerUid, 'actor_spell_closed', payload); toGm(room, 'actor_spell_closed', payload);
+    if (entry.targetPolicy) toUid(room, entry.approval.target.ownerUid, 'actor_spell_closed', payload);
     return true;
   };
   // P9 owner approval: the owner authorizes their own price/typed result; the GM
@@ -428,6 +429,12 @@ function registerActorConsequenceHandlers(ctx) {
     const entry = payments.get(room, data.approvalId);
     if (!entry) {
       const closed = payments.closedEntry(room, data.approvalId);
+      if (data.approval?.source?.kind === 'character' && closed?.code === 'withdrawn') {
+        payments.validateApproval(data.approval);
+        if (closed.ownerUid !== uid || data.approval.source.ownerUid !== uid || data.approval.approvalId !== data.approvalId || data.approval.roomId !== room.id) actors.fail('forbidden');
+        if (closed.contentHash !== actors.hash(data.approval)) actors.fail('command_id_conflict');
+        respond(ack, { success: true, code: 'withdrawn', approvalId: data.approvalId, contentHash: closed.contentHash }); return;
+      }
       if (data.approval && closed?.code === 'withdrawn') {
         payments.validateCreatureApproval(data.approval);
         if (!isGM || closed.ownerUid !== uid || data.approval.sourceAuthority.gmUid !== uid || data.approval.approvalId !== data.approvalId || data.approval.roomId !== room.id) actors.fail('forbidden');
@@ -464,9 +471,53 @@ function registerActorConsequenceHandlers(ctx) {
     const pending = [];
     for (const entry of [...(payments.pendingFor(room, uid) ? [payments.pendingFor(room, uid)] : [])]) {pending.push({ approval: actors.clone(entry.approval), contentHash: entry.contentHash, own: true });}
     if (player.isGM) {
-      for (const entry of payments.listAll(room)) {pending.push({ approval: payments.gmProjection(entry), contentHash: entry.contentHash, submitterUid: entry.ownerUid });}
+      for (const entry of payments.listAll(room)) {pending.push({ approval: payments.gmProjection(entry), contentHash: entry.contentHash, submitterUid: entry.ownerUid, targetProposal: payments.targetProposal(entry) });}
     }
-    respond(ack, { success: true, roomId: room.id, pending });
+    const targetProposals = payments.listAll(room).filter(e => e.approval.target.ownerUid === uid && e.approval.target.characterId === player.character?.id && e.targetPolicy?.mode === 'voluntary').map(payments.targetProposal);
+    respond(ack, { success: true, roomId: room.id, pending, targetProposals });
+  });
+  run('actor_spell_target_designate', async(data, ack) => {
+    actors.keys(data, ['roomId', 'approvalId', 'contentHash']);
+    const captured = context(data.roomId), { room } = captured;
+    if (!captured.isGM) actors.fail('forbidden');
+    const entry = payments.get(room, data.approvalId);
+    if (!entry || entry.contentHash !== data.contentHash || entry.approval.target.kind !== 'character' || !require('../../vtt-react/src/services/authoredCondition').isCondition(entry.approval)) actors.fail('target_proposal_changed');
+    await confirm(captured);
+    if (payments.get(room, data.approvalId) !== entry) actors.fail('outcome_unknown');
+    payments.checkAgainstRoom(room, entry.approval);
+    if (entry.targetPolicy && entry.targetPolicy.gmUid !== room.gmId) actors.fail('target_proposal_changed');
+    if (!entry.targetPolicy) entry.targetPolicy = { mode: 'voluntary', gmUid: captured.uid, proposalId: require('crypto').randomUUID(),
+      sourceHandle: require('crypto').randomUUID(), termsHash: require('crypto').randomBytes(32).toString('hex'), bindingHash: actors.hash(payments.targetTerms(entry)) };
+    const proposal = payments.targetProposal(entry);
+    toUid(room, entry.approval.target.ownerUid, 'actor_spell_target_pending', { roomId: room.id, proposal });
+    respond(ack, { success: true, proposal });
+  });
+  run('actor_spell_target_respond', async(data, ack) => {
+    actors.keys(data, ['roomId', 'approvalId', 'proposalId', 'termsHash', 'target', 'accept']);
+    if (typeof data.accept !== 'boolean') actors.fail('invalid_target_response');
+    const captured = context(data.roomId), { room, uid, player } = captured;
+    const consumed = payments.consumedReceipt(room, data.approvalId);
+    if (consumed) {
+      const p = consumed.targetAcceptance;
+      if (consumed.target?.ownerUid !== uid || consumed.target?.characterId !== player.character?.id || actors.hash(consumed.target) !== actors.hash(data.target)) actors.fail('forbidden');
+      if (!p || p.proposalId !== data.proposalId || p.termsHash !== data.termsHash) actors.fail('target_proposal_changed');
+      respondInstalled(ack, resultFor(room, consumed)); return;
+    }
+    const entry = payments.get(room, data.approvalId), p = entry?.targetPolicy;
+    if (!entry && payments.closedCode(room, data.approvalId) === 'consumed') actors.fail('retry_window_expired');
+    if (!p || p.mode !== 'voluntary' || p.gmUid !== room.gmId || p.proposalId !== data.proposalId || p.termsHash !== data.termsHash) actors.fail('target_proposal_changed');
+    const exactOwner = () => {
+      const t = entry.approval.target;
+      if (t.ownerUid !== uid || player.character?.id !== t.characterId || actors.hash(t) !== actors.hash(data.target) || actors.locate(room, t).token.ownerUserId !== uid) actors.fail('forbidden');
+    };
+    exactOwner(); await confirm(captured); exactOwner();
+    if (payments.get(room, data.approvalId) !== entry || entry.targetPolicy !== p || p.gmUid !== room.gmId || p.bindingHash !== actors.hash(payments.targetTerms(entry))) actors.fail('target_proposal_changed');
+    if (entry.approval.actionEpoch !== actors.epoch(room)) actors.fail('outcome_unknown');
+    if (data.accept && p.withdrawn) actors.fail('target_acceptance_withdrawn');
+    if (data.accept) p.acceptedUid = uid;
+    else { delete p.acceptedUid; p.withdrawn = true; }
+    toGm(room, 'actor_spell_pending', { roomId: room.id, approval: payments.gmProjection(entry), contentHash: entry.contentHash, targetProposal: payments.targetProposal(entry) });
+    respond(ack, { success: true, proposal: payments.targetProposal(entry) });
   });
   run('actor_propose', async(command, ack) => {
     actors.validateCommand(command);
@@ -544,7 +595,14 @@ function registerActorConsequenceHandlers(ctx) {
     if (token.ownerUserId ? token.ownerUserId !== uid : !player.isGM) {actors.fail('forbidden');}
     const validated = require('../services/roomCheckpoint').canonicalize(token, 'recovery');
     if (validated.error) {actors.fail('unsupported_actor_contract', validated.error);}
-    respond(ack, { success: true, recovery: actors.clone({ actorRecovery: token.state?.actorRecovery || null, conditions: token.state?.conditions || [], rawToken: token }) });
+    const recovery = actors.clone({ actorRecovery: token.state?.actorRecovery || null, conditions: token.state?.conditions || [], rawToken: token });
+    // Owner-private recovery is not permission to disclose a concealed attacker.
+    const redact = value => {
+      if (!value || typeof value !== 'object') return value;
+      if (value.target?.kind === 'character' && require('../../vtt-react/src/services/authoredCondition').namedRecord(value)) return actors.publicCondition(value);
+      return Array.isArray(value) ? value.map(redact) : Object.fromEntries(Object.entries(value).map(([k, v]) => [k, redact(v)]));
+    };
+    respond(ack, { success: true, recovery: redact(recovery) });
   });
   // P12A owner strike approvals (contract revision 3a §2.6): the same owner-approval flow as P9
   // over the strike registry. Only the GM's direct actor_consequence consumes an entry.
