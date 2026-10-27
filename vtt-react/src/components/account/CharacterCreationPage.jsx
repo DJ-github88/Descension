@@ -5,6 +5,7 @@ import CharacterCreationWizard from '../character-creation-wizard/CharacterCreat
 import useCharacterStore from '../../store/characterStore';
 import useAuthStore from '../../store/authStore';
 import subscriptionService from '../../services/subscriptionService';
+import { subscribeBootstrapGate } from '../../persistence/bootstrapPrivacyGate';
 import { createEmptyEquipment } from '../../utils/equipmentUtils';
 import './styles/CharacterCreationPage.css';
 import './styles/AdventurerWorkspace.css';
@@ -19,31 +20,68 @@ const CharacterCreationPage = ({ user, isEditing = false }) => {
   const [existingCharacter, setExistingCharacter] = useState(null);
   const [isLoading, setIsLoading] = useState(isEditing);
 
-  // Load existing character data when editing
+  // Load existing character data when editing. A cold page load can reach
+  // this effect before the private scope hydrates the roster, so retry until
+  // the owner's characters arrive instead of declaring "not found" early.
   useEffect(() => {
-    const loadExistingCharacter = async () => {
-      if (isEditing && characterId) {
-        setIsLoading(true);
-        try {
-          await loadCharacters();
-          // Get fresh characters from the store after loading
-          const freshCharacters = useCharacterStore.getState().characters;
-          const character = freshCharacters.find(c => c.id === characterId);
-          if (character) {
-            setExistingCharacter(character);
-          } else {
-            setError('Character not found');
-          }
-        } catch (error) {
-          console.error('Error loading character:', error);
+    if (!isEditing || !characterId) return undefined;
+
+    let cancelled = false;
+    let pollTimer = null;
+    let running = false;
+    let unsubscribe = () => {};
+    const deadline = Date.now() + 10000;
+
+    const attempt = async () => {
+      if (cancelled || running) return false;
+      running = true;
+      try {
+        await loadCharacters();
+        if (cancelled) return true;
+        const freshCharacters = useCharacterStore.getState().characters;
+        const character = freshCharacters.find(c => c.id === characterId);
+        if (character) {
+          setExistingCharacter(character);
+          setError(null);
+          setIsLoading(false);
+          return true;
+        }
+        return false;
+      } catch (error) {
+        console.error('Error loading character:', error);
+        if (!cancelled) {
           setError('Failed to load character data');
-        } finally {
           setIsLoading(false);
         }
+        return true;
+      } finally {
+        running = false;
       }
     };
 
-    loadExistingCharacter();
+    const poll = async () => {
+      if (cancelled) return;
+      const settled = await attempt();
+      if (settled || cancelled) return;
+      if (Date.now() >= deadline) {
+        setError('Character not found');
+        setIsLoading(false);
+        return;
+      }
+      pollTimer = setTimeout(poll, 400);
+    };
+
+    setIsLoading(true);
+    poll();
+    unsubscribe = subscribeBootstrapGate(() => {
+      if (!cancelled) attempt();
+    });
+
+    return () => {
+      cancelled = true;
+      if (pollTimer) clearTimeout(pollTimer);
+      unsubscribe();
+    };
   }, [isEditing, characterId, loadCharacters]);
 
   const handleCharacterCreationComplete = async (characterData) => {

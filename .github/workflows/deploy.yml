@@ -37,7 +37,8 @@ jobs:
 
       - name: Lint Code
         working-directory: ./vtt-react
-        run: npm run lint --if-present
+        # Scoped error gate (milestone + combat surfaces); see docs/ENGINEERING_STATE.md.
+        run: npm run lint
 
       - name: Run Tests
         working-directory: ./vtt-react

@@ -4,6 +4,7 @@ import { updateCharacterData } from '../services/offlineService';
 import { isDemoMode } from '../config/firebase';
 import { captureConsumerContext } from '../persistence/scopedConsumer';
 import { stageCharacterDraft } from '../persistence/characterSaveOutcome';
+import { deriveScopeFromAuthUser } from '../persistence/scopeModel';
 
 export const getEncumbranceState = () => {
     try {
@@ -38,7 +39,14 @@ export const isGuestUser = () => {
     try {
         const authStore = getStore('authStore');
         const state = authStore.getState();
-        return state.user?.isGuest || false;
+        // Derive from the same mapping as the P5 bootstrap gate so an anonymous
+        // Firebase principal (whose isGuest wrapper may have been replaced by a
+        // later auth-state callback) always reads and writes the guest roster.
+        return deriveScopeFromAuthUser({
+            user: state.user,
+            isDevelopmentBypass: state.isDevelopmentBypass,
+            isAdminBypass: state.isAdminBypass
+        })?.scopeKind === 'guest';
     } catch (error) {
         return false;
     }

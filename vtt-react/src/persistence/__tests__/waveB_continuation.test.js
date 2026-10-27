@@ -294,6 +294,19 @@ describe('Wave B continuation — scoped character roster and pointer', () => {
     expect(loadRoster(false).map((c) => c.id)).toEqual(['char-a']);
   });
 
+  it('recovers a guest roster written under the user family in the same guest scope', async () => {
+    activatePrivateScope(guestScope());
+    // Simulate an anonymous principal that lost its isGuest wrapper: the
+    // creation path recorded the roster in the user family of the guest scope.
+    await saveRoster(false, [{ id: 'char-anon', name: 'Anon Hero' }]);
+
+    expect(loadRoster(true).map((c) => c.id)).toEqual(['char-anon']);
+
+    // The canonical guest family always wins once it exists.
+    await saveRoster(true, [{ id: 'char-guest', name: 'Guest Hero' }]);
+    expect(loadRoster(true).map((c) => c.id)).toEqual(['char-guest']);
+  });
+
   it('legacy global roster is quarantined, never adopted', async () => {
     const legacyRaw = JSON.stringify([{ id: 'legacy-char', name: 'Legacy Hero' }]);
     localStorage.setItem('mythrill-characters', legacyRaw);

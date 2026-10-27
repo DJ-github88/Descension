@@ -1,6 +1,6 @@
 # Mythrill / Prism — engineering state
 
-Updated: 2026-10-25 (bounded P14-A8 owner PC→creature authored Stunned). Checkout: `D:/VTT` (the old `D:/Mythrill/Descension`
+Updated: 2026-10-25 (bounded P14-A9 authored Stunned targeting primary PCs). Checkout: `D:/VTT` (the old `D:/Mythrill/Descension`
 path in CLAUDE.md is historical). Roadmap authority: [MYTHRILL_NEXT_PHASE.md](MYTHRILL_NEXT_PHASE.md).
 
 ## Accepted baseline
@@ -84,6 +84,73 @@ P5-05/07/09/10/11/12/13/31/32 remain environment-blocked. Source acceptance
 does not authorize deployment or satisfy roadmap §20 release gates.
 
 ## Current work
+
+### Integrated playable foundation (character round-trip + connected gameplay) — IN PROGRESS, 2026-10-27
+
+HQ milestone brief 2026-10-26; coordination decision 2026-10-27. Entry HEAD `562d958d` (dirty tree; no Git writes).
+A10 duration/expiry has **not started** (no contract/evidence/code); it waits behind this milestone.
+
+| Role | Owner | Scope |
+|---|---|---|
+| Round-trip implementation (sole writer) | Concurrent local implementation session (first write 07:12Z; exact agent id not recorded in-tree) | `CharacterWizardContext.js`(+test), `CharacterCreationWizard.jsx`, `account/CharacterCreationPage.jsx`, `CharacterViewPage.jsx`, `CharacterManagement.jsx`, `AccountDashboard.jsx`, `store/characterHelpers.js`, `characterSlices/coreSlice.js`, `characterSlices/resourceSlice.js`, `persistence/characterScopedStorage.js`, `persistence/__tests__/waveB_continuation.test.js`, `store/__tests__/characterHelpersGuestScope.test.js` |
+| Independent review, scoped lint gate, connected gameplay witness, status/backlog | Main HQ integration session (Claude) | Review probes and lint script/workflow only; no edits to the files above |
+| Class registration (Doomsayer label, finding E) | Class HQ | Smallest registration fix only |
+| Production build | Native Windows shell (detached launcher, AGENTS.md); the review VM cannot run it | — |
+
+Open findings (corrections required of the implementer, 2026-10-27): **A** no guessed legacy stat conversion
+(current delta subtracts today's racial modifiers from records merely containing skills/lore/spells);
+**B** authored origin `statModifiers` shown in wizard/Summary but never applied in play; **C** edit-save writes
+point-buy base into `stats`, risking loss of level-up gains; **D** one shared stat/provenance calculation across
+creation/Summary/payload/roster/view/play; **E** Summary labels Doomsayer "Custom or unregistered calling".
+Reproduced with a disposable guest fixture (`Fixture Corali Doom`, guest-local only, not cloud).
+
+Status 08:30Z: implementer reported its delta complete in the
+[RI-5 carry-forward](plans/mythrill-class-reconstruction/implementation/evidence/RI-5-doomsayer-oracle/CARRY-FORWARD-shared-wizard-view.md)
+(spells/selectedAbility restore, base/final split, guest scope derivation, deep-link retry, roster derived stats), before
+HQ corrections A–E. Reviewer probes (8 cases, production reducer/store, run from scratch outside Git) against that delta:
+5 PASS (new-model load, preserved spells/skills/ranks/languages/sealed ancestry/acquisition, no overspend, stable repeated
+reopen); **3 FAIL reproducing A, B, C**. Confirmed sound: roster `calculateDerivedStats(race, subrace)` adds heritage base
+HP/MP/speed only (no attribute double count); same-scope guest recovery read stays inside the active guest scope.
+Minor: `persistence/characterScopedStorage.js` now has mixed CRLF/LF endings (whole-file diff churn).
+E traced: `CLASS_PROVENANCE` (`data/classHeritageRegistry.js`) has no Doomsayer/Oracle entry → `unknown-class`, selectable
+without the recorded acquisition their class data requires (`nativeAccess: []`). Class HQ owns the registration.
+
+Lint gate (2026-10-27): CI `npm run lint --if-present` was a silent no-op (no script) and craco strips ESLintWebpackPlugin.
+Added `vtt-react` `lint` = existing `react-app` config, errors only (`--quiet`), `import/first` off (ordering style, mostly
+Jest test files), scoped to wizard/account/combat/multiplayer/store/persistence/services/utils/hooks/data: **exit 0**;
+negative control (hooks violation + undefined reference in scope) exits 1. CI step now runs `npm run lint`.
+`lint:all` reports the full tree: 85 errors = 62 `import/first`, 20 `rules-of-hooks` (`rules/RaceEpicLore.jsx`,
+`tooltips/CharacterTooltip.jsx`, `tooltips/CreatureTooltip.jsx`), 3 `no-undef` latent crashes (`windows/MapLibraryWindow.jsx`
+`deleteMap`, `windows/CampaignManagerWindow.jsx` `getAbilityIconUrl`, `landing/MapMakingSection.jsx` `loreDictionary`) —
+outside this milestone; owners UI/Rules/Map.
+
+Witness environment (08:40Z): backend `server/` already serving :3001 since 07:04Z (pid 18596, dev, started outside
+this review); Socket.IO handshake verified from the built-in browser. A duplicate launch via
+`scratch/start-backend-3001.bat` (backend-only mirror of `START_ALL.bat`) exited without binding. Frontend dev server :3000.
+Connected witness waits for the implementer's corrected A–D handoff so probes, round-trips, build and gameplay share one candidate.
+
+
+### P14-A9 authored Stunned → exact primary PC — repaired bounded ACCEPT, Build6/App6 PASS (qualified)
+
+[Contract](MYTHRILL_PROJECT_14_A9_CONTRACT.md) · [implementation/evidence](MYTHRILL_PROJECT_14_A9_ACCEPTANCE.md).
+Exact A4 admitted creature or A8 primary owner Arcanoneer PC → distinct primary PC on the same map.
+Hostile default: authenticated GM manually resolves successful application; no target ACK, permission
+or online device required. Voluntary requires server-recorded GM designation and separate exact target
+acceptance; silence/timeout/proxy never accepts. PC-source exact payment/action consent remains mandatory.
+One P7 temp-first payment+canonical C2 instance+consumption+receipt. Same sheet/token/GM UUID, independent
+exact removal, supported source action/reaction/voluntary-movement gates, manual source duration/expiry.
+Private full attribution/evidence, privacy-safe public views, GM-only authored PC correction, original
+response/command custody and silent recovery. No save/immunity/PvP/expiry automation or new bindings.
+Final focused88 server /8 suites52 client PASS; final R8 role/room projection repair2 UI checks PASS.
+Final R8 Build6/App6 PASS15 groups and same-review bounded ACCEPT. Reviewer independently executed
+static/hash/probe checks and inspected production evidence; it did not rerun production tests/build/App.
+Final gate7127ad55… binds64runtime/52client/protected7 with scoped drift[];43 unrelated live inputs drift.
+Build1 full-live failure is unrelated concurrent Doomsayer export work; scoped builds use verified A8
+production inputs+current scoped A9 and current fixed Lore collateral. Not full-current-tree acceptance.
+Nine fetch errors/provider/ownership/lease/cloud fixtures, device-draft-only save and live-only/device
+limits remain explicit. Entry77c110db→external562d958d; no this-agent Git writes. Concurrent Class/
+Heritage/Plaguebringer/Doomsayer/Oracle/UI preserved. Next: separately frozen authenticated authored
+condition duration/expiry using C4's existing owner; no invented timing or implemented follow-on.
 
 ### P14-A8 owner primary PC → creature authored Stunned — repaired bounded ACCEPT, Build4/App10 PASS (qualified)
 

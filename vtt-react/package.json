@@ -55,6 +55,8 @@
     "monitor:deployment": "node ../scripts/monitor-deployment.js",
     "monitor:once": "node ../scripts/monitor-deployment.js --once",
     "test": "react-scripts test",
+    "lint": "eslint --quiet --ext .js,.jsx --rule \"import/first: off\" src/components/character-creation-wizard src/components/account src/components/combat src/components/multiplayer src/store src/persistence src/services src/utils src/hooks src/data",
+    "lint:all": "eslint --quiet --ext .js,.jsx src",
     "analyze": "source-map-explorer 'build/static/js/*.js'",
     "eject": "react-scripts eject"
   },

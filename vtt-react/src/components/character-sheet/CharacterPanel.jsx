@@ -1755,8 +1755,9 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
                         <div className="character-center-section">
                             {(() => {
                                 const bgImage = lore?.iconBackgroundImage;
-                                const originIll = !bgImage && (character?.background || characterData?.background)
-                                    ? getOriginIllustration(character?.background || characterData?.background)
+                                const charBg = background || dataSource?.background;
+                                const originIll = !bgImage && charBg
+                                    ? getOriginIllustration(charBg)
                                     : null;
                                 const effectiveBgUrl = bgImage
                                     ? `/assets/Backgrounds/${encodeURIComponent(bgImage)}`

@@ -173,6 +173,10 @@ import { DOOMSAYER_TREES } from './talentTrees/doomsayer';
 import { DOOMSAYER_PROJECTED_SPELLS_BY_ID, DOOMSAYER_ICON } from './classes/doomsayerData';
 import { ORACLE_TREES } from './talentTrees/oracle';
 import { ORACLE_PROJECTED_SPELLS_BY_ID, ORACLE_ICON } from './classes/oracleData';
+import { DRUID_TREES } from './talentTrees/druid';
+import { DRUID_PROJECTED_SPELLS_BY_ID, DRUID_ICON } from './classes/druidData';
+import { HUNTER_TREES } from './talentTrees/hunter';
+import { HUNTER_PROJECTED_SPELLS_BY_ID, HUNTER_ICON } from './classes/hunterData';
 
 export const getTreeBackdrop = (className, specId) => {
   // Map class and specialization to high-res thematic background images from /assets/Backgrounds/
@@ -371,6 +375,8 @@ export const TALENT_TREES = {
   'Lichborne': buildCr1TalentTrees(LICHBORNE_TREES, LICHBORNE_PROJECTED_SPELLS_BY_ID, LICHBORNE_ICON),
   'Doomsayer': buildCr1TalentTrees(DOOMSAYER_TREES, DOOMSAYER_PROJECTED_SPELLS_BY_ID, DOOMSAYER_ICON),
   'Oracle': buildCr1TalentTrees(ORACLE_TREES, ORACLE_PROJECTED_SPELLS_BY_ID, ORACLE_ICON),
+  'Druid': buildCr1TalentTrees(DRUID_TREES, DRUID_PROJECTED_SPELLS_BY_ID, DRUID_ICON),
+  'Hunter': buildCr1TalentTrees(HUNTER_TREES, HUNTER_PROJECTED_SPELLS_BY_ID, HUNTER_ICON),
   'Toxicologist': {
     'venomancer': TOXICOLOGIST_VENOMANCER,
     'gadgeteer': TOXICOLOGIST_GADGETEER,

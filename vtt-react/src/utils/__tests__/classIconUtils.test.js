@@ -12,7 +12,7 @@ describe('classIconUtils', () => {
     });
 
     it('returns null for unknown or missing class names', () => {
-        expect(getClassIconUrl('Hunter')).toBeNull();
+        expect(getClassIconUrl('UnknownClass')).toBeNull();
         expect(getClassIconUrl('')).toBeNull();
         expect(getClassIconUrl(null)).toBeNull();
     });
@@ -20,11 +20,11 @@ describe('classIconUtils', () => {
     it('builds portrait option ids under the classes/ namespace', () => {
         expect(getClassPortraitId('Crusader')).toBe('classes/crusader');
         expect(getClassPortraitId('False Prophet')).toBe('classes/false_prophet');
-        expect(getClassPortraitId('Hunter')).toBeNull();
+        expect(getClassPortraitId('UnknownClass')).toBeNull();
     });
 
     it('exposes all classes as portrait options', () => {
-        expect(CLASS_PORTRAIT_ICONS).toHaveLength(28);
+        expect(CLASS_PORTRAIT_ICONS).toHaveLength(30);
         CLASS_PORTRAIT_ICONS.forEach(icon => {
             expect(icon.id.startsWith('classes/')).toBe(true);
             expect(icon.folder).toBe('Classes');

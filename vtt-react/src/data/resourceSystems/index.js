@@ -26,6 +26,8 @@ import { deathcallerResourceGuide } from './deathcallerResourceGuide';
 import { lichborneResourceGuide } from './lichborneResourceGuide';
 import { doomsayerResourceGuide } from './doomsayerResourceGuide';
 import { oracleResourceGuide } from './oracleResourceGuide';
+import { druidResourceGuide } from './druidResourceGuide';
+import { hunterResourceGuide } from './hunterResourceGuide';
 
 /**
  * Registry of classes whose Resource System tab uses the v2 layout.
@@ -61,6 +63,8 @@ export const RESOURCE_SYSTEM_GUIDES = {
  lichborne: lichborneResourceGuide,
  doomsayer: doomsayerResourceGuide,
  oracle: oracleResourceGuide,
+ druid: druidResourceGuide,
+ hunter: hunterResourceGuide,
 };
 
 export const getResourceSystemGuide = (classId) =>

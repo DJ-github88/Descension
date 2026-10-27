@@ -5,15 +5,25 @@ roadmap ([MYTHRILL_NEXT_PHASE.md](MYTHRILL_NEXT_PHASE.md) §26) ends at P10 and 
 This document adds four bounded phases. **At creation only P11 was authorized.** Later bounded
 authorizations/status are recorded below; each further slice still needs its own contract/go-ahead.
 
-> **Latest bounded delivery:** [P14-A8](MYTHRILL_PROJECT_14_A8_ACCEPTANCE.md), exact primary owner
+> **Latest bounded extension:** [P14-A9](MYTHRILL_PROJECT_14_A9_ACCEPTANCE.md), admitted exact creature
+> or supported owner Arcanoneer PC → distinct primary PC canonical Stunned. Hostile current-GM success
+> authority needs no target acknowledgement or online device; explicit GM voluntary designation needs
+> independent exact target acceptance. Source-owner payment consent remains mandatory. Same P7 atomic
+> payment/condition, C2 enforcement/instances, private projections and silent original recovery; source
+> duration/manual expiry. Final same-review bounded ACCEPT, Build6/App6 PASS15 groups,88 server/
+> eight suites52 client plus two UI privacy checks. Exact source gate in acceptance. Scoped normal
+> production build is qualified against concurrent Class integration drift; no full-live-tree claim.
+> Next recommendation: authenticated authored-condition duration/expiry reusing C4, separately frozen.
+>
+> **Preserved bounded delivery:** [P14-A8](MYTHRILL_PROJECT_14_A8_ACCEPTANCE.md), exact primary owner
 > Arcanoneer PC→distinct creature using the same authored-condition:v1 registry/C2 primitive,
 > normal explicit PC admission, immutable owner terms and private GM success/manual timing,
 > one P7 temp-first payment+condition. Same-review repaired bounded ACCEPT; prejoin-corrected
 > Build4/App10 PASS (qualified),254 server/11 suites73 client.63runtime/51client/protected7/
 > 11,383 frozen inputs; drift[] at final measurement. Ten fetch errors/provider/cloud/live-only/
 > device limits retained; concurrent Class/Heritage/UI semantics are not accepted by this slice.
-> [PC-target contract preparation](MYTHRILL_PROJECT_14_PC_TARGET_CONDITION_PREPARATION.md) remains
-> unimplemented; hostile target acknowledgement versus GM authority is an explicit creator decision.
+> [PC-target preparation](MYTHRILL_PROJECT_14_PC_TARGET_CONDITION_PREPARATION.md) is superseded by
+> A9's creator-authorized hostile/voluntary policy and implemented exact-PC routes above.
 >
 > **Preserved bounded delivery:** [P14-A7](MYTHRILL_PROJECT_14_A7_ACCEPTANCE.md), Wizard-authored canonical Stunned:
 > repaired bounded independent ACCEPT, Build4/App4 PASS (qualified). One explicit versioned condition

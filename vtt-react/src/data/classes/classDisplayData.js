@@ -62,6 +62,28 @@ const CLASS_DISPLAY_ENTRIES = [
         }
     },
     {
+        name: 'Druid', imageIcon: '/assets/icons/classes/shaper.png', icon: faSeedling,
+        role: 'Adaptive Hybrid / Explorer', resource: 'Anatomical Loadout', complexityRating: 4,
+        cognitiveTags: ['Two Active Slots', 'Three Transitions', 'Manual Tabletop'],
+        playstyle: 'Prepare three bodies, occupy at most two anatomical slots and pay for every change with a transition. Plating, bracing and mimicry are real anatomy with explicit losses, never borrowed creature abilities or free forms. Development - manual tabletop.',
+        roleColor: '#4d5b4a', damageTypes: ['slicing', 'stabbing', 'primal'], developmentStatus: 'development',
+        quickStartPresets: {
+            predator: { name: 'The First Body', description: 'Choose exactly one level-1 optional; Adopt Loadout and Recover the Self are separate core grants.', spells: ['cr1_druid_rending_claw'] },
+            bastion: { name: 'The First Plate', description: 'Trade reach for defense and prevention, then recover by suspending one real trait.', spells: ['cr1_druid_chitin_plate'] }
+        }
+    },
+    {
+        name: 'Hunter', imageIcon: '/assets/icons/classes/huntress.png', icon: faWind,
+        role: 'Pursuit / Precision', resource: 'Quarry & Evidence', complexityRating: 3,
+        cognitiveTags: ['One Quarry', 'Three Evidence Tags', 'Manual Tabletop'],
+        playstyle: 'Designate one exact quarry, record Read, Angle and Pressure from real events and spend them on a prepared strike. The companion is a real optional path, never a required pet, and a miss or duplicate grants nothing. Development - manual tabletop.',
+        roleColor: '#76542b', damageTypes: ['stabbing', 'slicing', 'primal'], developmentStatus: 'development',
+        quickStartPresets: {
+            stalker: { name: 'The First Quarry', description: 'Choose exactly one level-1 optional; Mark Quarry, Take an Angle and Press the Quarry are separate core grants.', spells: ['cr1_hunter_hunters_snare'] },
+            trailblade: { name: 'The First Route', description: 'Prepare a route and hold the opening until the quarry commits.', spells: ['cr1_hunter_steady_aim'] }
+        }
+    },
+    {
         name: 'Arcanoneer',
         imageIcon: '/assets/icons/classes/arcanoneer.png',
         icon: faAtom,

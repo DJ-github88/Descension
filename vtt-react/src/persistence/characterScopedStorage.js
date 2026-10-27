@@ -70,9 +70,25 @@ export function loadRoster(isGuest) {
     isGuest ? 'mythrill-guest-characters' : 'mythrill-characters'
   );
   const read = loadScopedDraft({ familyId });
-  if (read.status !== 'OK') return null;
-  baselines.set(baselineKey(familyId), { revision: read.localRevision, draftId: read.draftId });
-  return Array.isArray(read.payload) ? read.payload : null;
+  if (read.status === 'OK') {
+    baselines.set(baselineKey(familyId), { revision: read.localRevision, draftId: read.draftId });
+    return Array.isArray(read.payload) ? read.payload : null;
+  }
+  // Guest records written while an anonymous Firebase principal had lost its
+  // isGuest wrapper landed in the user family inside the same guest scope. Read
+  // that owner-scoped record as a recovery source; the next save writes the
+  // canonical guest family and never modifies or deletes this one.
+  if (isGuest) {
+    const recovered = loadScopedDraft({ familyId: ROSTER_FAMILY_USER });
+    if (recovered.status === 'OK') {
+      baselines.set(baselineKey(ROSTER_FAMILY_USER), { revision: recovered.localRevision, draftId: recovered.draftId });
+      if (Array.isArray(recovered.payload) && recovered.payload.length > 0) {
+        console.warn('Guest roster recovered from same-scope user family record.');
+        return recovered.payload;
+      }
+    }
+  }
+  return null;
 }
 
 /**

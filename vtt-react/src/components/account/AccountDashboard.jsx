@@ -445,7 +445,7 @@ const AccountDashboard = ({ user }) => {
 
     // Calculate derived stats
     const exhaustionLevel = character.exhaustionLevel || 0;
-    const derivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, encumbranceState, exhaustionLevel);
+    const derivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, encumbranceState, exhaustionLevel, null, character.race, character.subrace);
 
     // Calculate correct max values
     const maxHealth = Math.round(derivedStats.maxHealth);

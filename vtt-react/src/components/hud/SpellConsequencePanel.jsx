@@ -151,8 +151,9 @@ function OwnerPanel() {
 }
 
 /** GM: explicit adjudication and one consequence; observers never execute. */
-function GmPanel() {
+export function GmPanel() {
   const isGM = useGameStore(value => value.isGMMode);
+  const roomId = useGameStore(value => value.multiplayerRoom?.id);
   const pending = useSpellConsequenceStore(value => value.gmPending);
   const status = useSpellConsequenceStore(value => value.gmStatus);
   const characters = useCharacterTokenStore(value => value.characterTokens);
@@ -163,9 +164,9 @@ function GmPanel() {
   const [busy, setBusy] = useState(false);
   useSpellConsequenceStore(s => s.draftVersion);
   useEffect(() => { if (isGM) refreshSpellApprovals(); }, [isGM]);
-   const entries = Object.values(pending).filter(e => e.approval.source.kind !== 'creature');
+   const entries = Object.values(pending).filter(e => e.approval.roomId === roomId && e.approval.source.kind !== 'creature');
   const extra = Object.entries(status).filter(([id, value]) => !pending[id] && ['unknown', 'unresolved', 'reapproval', 'accepted', 'declined', 'refused', 'retry'].includes(value.phase));
-  if (!entries.length && !extra.length) return null;
+  if (!isGM || (!entries.length && !extra.length)) return null;
   const all = [...characters, ...creatures];
   const find = value => all.find(token => sameExactRef(refOf(token), value));
   const perform = async action => { setBusy(true); try { await action(); } finally { setBusy(false); } };

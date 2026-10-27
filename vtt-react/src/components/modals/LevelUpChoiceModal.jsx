@@ -164,6 +164,8 @@ import { GAMBLER_DATA } from '../../data/classes/gamblerData';
 import { FATE_WEAVER_DATA } from '../../data/classes/fateWeaverData';
 import { DOOMSAYER_DATA } from '../../data/classes/doomsayerData';
 import { ORACLE_DATA } from '../../data/classes/oracleData';
+import { DRUID_DATA } from '../../data/classes/druidData';
+import { HUNTER_DATA } from '../../data/classes/hunterData';
 
 
 
@@ -290,7 +292,11 @@ const CLASS_DATA_MAP = {
 
     'Doomsayer': DOOMSAYER_DATA,
 
-    'Oracle': ORACLE_DATA
+    'Oracle': ORACLE_DATA,
+
+    'Druid': DRUID_DATA,
+
+    'Hunter': HUNTER_DATA
 
 };
 

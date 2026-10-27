@@ -8,6 +8,9 @@ import {
 import { CLASS_PROVENANCE } from '../../../data/classHeritageRegistry';
 import { buildAncestry } from '../../../data/ancestryLoadouts';
 import { PLAGUEBRINGER_CORE_SPELL_IDS } from '../../../data/classes/plaguebringerData';
+import { applyRacialModifiers } from '../../../data/raceData';
+import { getBackgroundStatModifiers } from '../../../data/backgroundData';
+import { calculateFinalStats } from '../../../utils/pointBuySystem';
 
 const baseCharacter = {
     ...initialState.characterData,
@@ -80,8 +83,113 @@ test('CORE_DRAFT validation accepts a fully sourced exceptional calling', () => 
     expect(validateCurrentStep(state).class).toBeUndefined();
 });
 
-describe('Ancestral Gifts in CharacterWizardContext', () => {
-    const grovenState = {
+describe('Edit-load character round-trip', () => {
+    const baseStats = {
+        strength: 8, agility: 8, constitution: 8,
+        intelligence: 8, spirit: 8, charisma: 8
+    };
+    const heritage = { race: 'vreken', subrace: 'clean_vreken' };
+    const background = 'sanctuarySeneschal';
+    const racialModifiers = applyRacialModifiers({}, heritage.race, heritage.subrace);
+    const backgroundModifiers = getBackgroundStatModifiers(background);
+    const legacyFinalStats = applyRacialModifiers({ ...baseStats }, heritage.race, heritage.subrace);
+
+    test('restores class_spells and selectedAbility so edit validation keeps known picks', () => {
+        const loaded = characterWizardReducer(initialState, {
+            type: ACTION_TYPES.LOAD_CHARACTER,
+            payload: {
+                name: 'Vesper Gloomwell',
+                ...heritage,
+                class: 'Plaguebringer',
+                background,
+                class_spells: { known_spells: [...PLAGUEBRINGER_CORE_SPELL_IDS, 'pb_venomous_touch'] },
+                selectedAbility: 'pb_venomous_touch',
+                stats: baseStats,
+                baseStats
+            }
+        });
+
+        expect(loaded.characterData.class_spells).toEqual({
+            known_spells: [...PLAGUEBRINGER_CORE_SPELL_IDS, 'pb_venomous_touch']
+        });
+        expect(loaded.characterData.selectedAbility).toBe('pb_venomous_touch');
+    });
+
+    test('uses persisted baseStats and derives final stats exactly once', () => {
+        const loaded = characterWizardReducer(initialState, {
+            type: ACTION_TYPES.LOAD_CHARACTER,
+            payload: {
+                name: 'Vesper Gloomwell',
+                ...heritage,
+                class: 'Plaguebringer',
+                background,
+                selectedSkills: ['arcana'],
+                stats: baseStats,
+                baseStats
+            }
+        });
+
+        expect(loaded.characterData.baseStats).toEqual(baseStats);
+        expect(loaded.characterData.finalStats).toEqual(
+            calculateFinalStats(baseStats, racialModifiers, backgroundModifiers)
+        );
+        const statError = validateCurrentStep({ ...loaded, currentStep: 1 }).stats || '';
+        expect(statError).not.toMatch(/below|too many/i);
+    });
+
+    test('reads a legacy wizard payload once without re-applying heritage modifiers', () => {
+        const loaded = characterWizardReducer(initialState, {
+            type: ACTION_TYPES.LOAD_CHARACTER,
+            payload: {
+                name: 'Vesper Gloomwell',
+                ...heritage,
+                class: 'Plaguebringer',
+                background,
+                selectedSkills: ['arcana'],
+                lore: { backstory: 'Keeper of the crypt-lights.' },
+                stats: legacyFinalStats
+            }
+        });
+
+        expect(loaded.characterData.baseStats).toEqual(baseStats);
+        expect(loaded.characterData.finalStats).toEqual(
+            calculateFinalStats(baseStats, racialModifiers, backgroundModifiers)
+        );
+    });
+
+    test('treats stats as base for non-wizard records without an explicit base field', () => {
+        const loaded = characterWizardReducer(initialState, {
+            type: ACTION_TYPES.LOAD_CHARACTER,
+            payload: {
+                name: 'Rook',
+                ...heritage,
+                class: 'Berserker',
+                stats: baseStats
+            }
+        });
+
+        expect(loaded.characterData.baseStats).toEqual(baseStats);
+    });
+
+    test('RECALCULATE_FINAL_STATS includes origin/background modifiers', () => {
+        const state = {
+            ...initialState,
+            characterData: {
+                ...initialState.characterData,
+                ...heritage,
+                background,
+                baseStats
+            }
+        };
+
+        const recalculated = characterWizardReducer(state, { type: ACTION_TYPES.RECALCULATE_FINAL_STATS });
+        expect(recalculated.characterData.finalStats).toEqual(
+            calculateFinalStats(baseStats, racialModifiers, backgroundModifiers)
+        );
+    });
+});
+
+describe('Ancestral Gifts in CharacterWizardContext', () => {    const grovenState = {
         ...initialState,
         characterData: {
             ...baseCharacter,

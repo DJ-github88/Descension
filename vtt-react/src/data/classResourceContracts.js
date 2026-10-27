@@ -24,6 +24,8 @@ import { validateDeathcallerState } from './classes/deathcallerData';
 import { validateLichborneState } from './classes/lichborneData';
 import { validateDoomsayerState } from './classes/doomsayerData';
 import { validateOracleState } from './classes/oracleData';
+import { validateDruidState } from './classes/druidData';
+import { validateHunterState } from './classes/hunterData';
 
 export const CHAOS_WEAVER_TILE_RESOURCE_ID = 'chaos-weaver-tiles';
 
@@ -48,6 +50,8 @@ export function getManagedResourceId(resource, className) {
     if (name === 'lichborne') return 'lich-anchor';
     if (name === 'doomsayer') return 'doom-calamities';
     if (name === 'oracle') return 'oracle-forecasts';
+    if (name === 'druid') return 'druid-body';
+    if (name === 'hunter') return 'hunter-evidence';
     if (name === 'martyr') return 'devotionGauge';
     if (name === 'apex') return 'quarryMarksCompanion';
     if (name === 'pyrofiend') return 'infernoVeil';
@@ -75,8 +79,10 @@ export function getManagedResourceId(resource, className) {
   if (resource?.type === 'lich-anchor' || resource?.type === 'lich_anchor') return 'lich-anchor';
   if (resource?.type === 'doom-calamities' || resource?.type === 'doom_calamities') return 'doom-calamities';
   if (resource?.type === 'oracle-forecasts' || resource?.type === 'oracle_forecasts') return 'oracle-forecasts';
+  if (resource?.type === 'druid-body' || resource?.type === 'druid_body' || resource?.type === 'metamorph-body' || resource?.type === 'metamorph_body') return 'druid-body';
+  if (resource?.type === 'hunter-evidence' || resource?.type === 'hunter_evidence') return 'hunter-evidence';
   const id = resolveClassResourceEngineId(resource?.type);
-  return ['fortunePoints', 'devotionGauge', 'quarryMarksCompanion', 'infernoVeil', 'kineticFluxBodyToll', 'arcaneEnergyPoints', 'authority', 'bloodHeat', 'mayhemGauge', 'radiantFervor', 'benediction-malediction', 'revenant-toll', 'ancestralResonance', 'madnessPoints', 'virulenceCultivation', 'timeShardsStrain', 'lunarPhases', 'toxinVialsContraptions', 'vengeance-points', 'fate-links', 'dead-muster', 'lich-anchor', 'doom-calamities', 'oracle-forecasts', CHAOS_WEAVER_TILE_RESOURCE_ID].includes(id) ? id : getBankResourceId(resource);
+  return ['fortunePoints', 'devotionGauge', 'quarryMarksCompanion', 'infernoVeil', 'kineticFluxBodyToll', 'arcaneEnergyPoints', 'authority', 'bloodHeat', 'mayhemGauge', 'radiantFervor', 'benediction-malediction', 'revenant-toll', 'ancestralResonance', 'madnessPoints', 'virulenceCultivation', 'timeShardsStrain', 'lunarPhases', 'toxinVialsContraptions', 'vengeance-points', 'fate-links', 'dead-muster', 'lich-anchor', 'doom-calamities', 'oracle-forecasts', 'druid-body', 'hunter-evidence', CHAOS_WEAVER_TILE_RESOURCE_ID].includes(id) ? id : getBankResourceId(resource);
 }
 
 export function getMartyrLevelForDamage(damage) {
@@ -185,6 +191,25 @@ export function normalizeManagedClassResource(resource, className) {
     return { ...resource, type: id, state, initialized: state !== null,
       current: prepared, max: 2, stateValid: check.valid, validationErrors: check.errors };
   }
+  if (id === 'druid-body') {
+    if (resource.type && !['druid-body', 'druid_body', 'metamorph-body', 'metamorph_body'].includes(resource.type)) return resource;
+    const state = resource.state ?? null;
+    const check = state ? validateDruidState(state) : { valid: true, errors: [] };
+    const active = check.valid && Array.isArray(state?.activeTraits) ? state.activeTraits.length : 0;
+    return { ...resource, type: id, state, initialized: state !== null,
+      current: active, max: 2,
+      transitions: check.valid && Number.isInteger(state?.unrecoveredTransitions) ? state.unrecoveredTransitions : 0,
+      transitionMax: 3, stateValid: check.valid, validationErrors: check.errors };
+  }
+  if (id === 'hunter-evidence') {
+    if (resource.type && !['hunter-evidence', 'hunter_evidence'].includes(resource.type)) return resource;
+    const state = resource.state ?? null;
+    const check = state ? validateHunterState(state) : { valid: true, errors: [] };
+    const evidence = check.valid && Array.isArray(state?.evidence) ? state.evidence.length : 0;
+    return { ...resource, type: id, state, initialized: state !== null,
+      current: evidence, max: 3, quarryMax: 1, evidenceMax: 3,
+      stateValid: check.valid, validationErrors: check.errors };
+  }
   if (id === CHAOS_WEAVER_TILE_RESOURCE_ID) return normalizeChaosWeaverResource(resource);
   if (id === 'quarryMarksCompanion') return normalizeApexResource(resource);
   if (id === 'infernoVeil') return normalizePyroResource(resource);
@@ -244,7 +269,7 @@ export function updateManagedClassResource(resource, className, field, value) {
   const id = getManagedResourceId(normalized, className);
   if (id === 'gambler-hand') return normalized; // Read-only: no generic scalar mutation or partial-state repair.
   if (id === 'fate-links') return normalized; // Read-only: links change only through authored manual operations.
-  if (['dead-muster', 'lich-anchor', 'doom-calamities', 'oracle-forecasts'].includes(id)) return normalized; // Manual records change only through authored table events.
+  if (['dead-muster', 'lich-anchor', 'doom-calamities', 'oracle-forecasts', 'druid-body', 'hunter-evidence'].includes(id)) return normalized; // Manual records change only through authored table events.
   if (id === 'infernoVeil') return updatePyroResource(normalized, field, value);
   if (id === 'kineticFluxBodyToll') return updateShaperResource(normalized, field, value);
   if (id === 'arcaneEnergyPoints') return updateSpellguardResource(normalized, field, value);
@@ -301,6 +326,11 @@ export function getClassResourceValue(resource, className, resourceKey) {
     return finite(normalized?.current);
   }
   if (getManagedResourceId(normalized, className) === 'oracle-forecasts') return finite(normalized?.current);
+  if (getManagedResourceId(normalized, className) === 'druid-body') {
+    if (String(resourceKey || '').toLowerCase() === 'transitions') return finite(normalized?.transitions);
+    return finite(normalized?.current);
+  }
+  if (getManagedResourceId(normalized, className) === 'hunter-evidence') return finite(normalized?.current);
   if (getManagedResourceId(normalized, className) === 'benediction-malediction') return getAugurPoolValue(normalized, resourceKey);
   if (getManagedResourceId(normalized, className) === 'revenant-toll') return getRevenantPoolValue(normalized, resourceKey);
   if (getManagedResourceId(normalized, className) === 'virulenceCultivation' &&
@@ -326,7 +356,7 @@ export function changeManagedClassResource(resource, className, amount, resource
   // +/- amount never mutates the six-ID record.
   if (getManagedResourceId(normalized, className) === CHAOS_WEAVER_TILE_RESOURCE_ID) return normalized;
   if (getManagedResourceId(normalized, className) === 'fate-links') return normalized;
-  if (['dead-muster', 'lich-anchor', 'doom-calamities', 'oracle-forecasts'].includes(getManagedResourceId(normalized, className))) return normalized;
+  if (['dead-muster', 'lich-anchor', 'doom-calamities', 'oracle-forecasts', 'druid-body', 'hunter-evidence'].includes(getManagedResourceId(normalized, className))) return normalized;
   if (getManagedResourceId(normalized, className) === 'benediction-malediction') {
     const pool = resourceKey === 'malediction' ? 'malediction' : 'benediction';
     return updateAugurResource(normalized, pool, getAugurPoolValue(normalized, pool) + amount);

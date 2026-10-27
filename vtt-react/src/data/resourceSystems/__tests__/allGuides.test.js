@@ -33,6 +33,8 @@ import { DEATHCALLER_DATA } from '../../classes/deathcallerData';
 import { LICHBORNE_DATA } from '../../classes/lichborneData';
 import { DOOMSAYER_DATA } from '../../classes/doomsayerData';
 import { ORACLE_DATA } from '../../classes/oracleData';
+import { DRUID_DATA } from '../../classes/druidData';
+import { HUNTER_DATA } from '../../classes/hunterData';
 
 
 const CLASS_DATA = {
@@ -42,6 +44,8 @@ const CLASS_DATA = {
  lichborne: LICHBORNE_DATA,
  doomsayer: DOOMSAYER_DATA,
  oracle: ORACLE_DATA,
+ druid: DRUID_DATA,
+ hunter: HUNTER_DATA,
  warden: WARDEN_DATA,
  augur: AUGUR_DATA,
  chronarch: CHRONARCH_DATA,

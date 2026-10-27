@@ -28,7 +28,7 @@ import {
     readCharacterDeferredPublication,
     clearCharacterDeferredPublication
 } from '../../persistence/characterHandoffPreservation';
-import { isPrivateProjectionIsolated } from '../../persistence/bootstrapPrivacyGate';
+import { isPrivateProjectionIsolated, getBootstrapGateState } from '../../persistence/bootstrapPrivacyGate';
 import { normalizeEquipment, createEmptyEquipment, createEquipmentItem } from '../../utils/equipmentUtils';
 import { normalizeRaceDisplayName } from '../../utils/raceDisplayNames';
 import { normalizeManagedClassResource } from '../../data/classResourceContracts';
@@ -46,6 +46,17 @@ const TEST_CLASSES = [
 const workingCharacterFingerprint = (state) => {
     const { updatedAt, ...authored } = assembleCharacterWorkingData(state);
     return JSON.stringify(authored);
+};
+
+// A roster read during boot must not mistake "no active destination scope yet"
+// for "the owner has no characters": wait briefly for the auth gate to settle.
+const waitForBootstrapScope = async (attempts = 20, delayMs = 100) => {
+    let gate = getBootstrapGateState();
+    for (let check = 0; !gate.scope && gate.phase !== 'signed-out' && check < attempts; check += 1) {
+        await new Promise((resolve) => setTimeout(resolve, delayMs));
+        gate = getBootstrapGateState();
+    }
+    return gate;
 };
 
 function getRandomRaceAndSubrace() {
@@ -281,6 +292,14 @@ export const createCoreSlice = (set, get) => ({
         // activation hook reloads the destination owner's roster once its
         // scope is active.
         if (isPrivateProjectionIsolated()) {
+            set({ isLoading: false });
+            return get().characters || [];
+        }
+        // Boot happens before the auth principal is mapped to a private scope.
+        // Reading the scoped roster in that window would look like an empty
+        // owner roster and could spawn a placeholder over the real characters.
+        const gate = await waitForBootstrapScope();
+        if (!gate.scope && gate.phase !== 'signed-out') {
             set({ isLoading: false });
             return get().characters || [];
         }
@@ -678,18 +697,21 @@ export const createCoreSlice = (set, get) => ({
             if (isGuest || !useFirebase || !userId) {
                 // CRITICAL FIX: For guest users, try to save but don't fail if quota exceeded
                 // The character is still created in memory and will be available in the session
-                saveRoster(isGuest, compressedCharacters).then((result) => {
+                try {
+                    const result = await saveRoster(isGuest, compressedCharacters);
                     if (result && result.status !== 'OK' && result.status !== 'FORKED') {
                         console.warn('⚠️ Scoped character save not persisted:', result.status, result.reason || '');
                     }
-                }).catch((error) => {
+                } catch (error) {
                     console.warn('⚠️ Scoped character save failed (character remains in memory):', error);
-                });
+                }
             } else {
                 // For authenticated users with Firebase, scoped storage is a backup
-                saveRoster(isGuest, compressedCharacters).catch((error) => {
+                try {
+                    await saveRoster(isGuest, compressedCharacters);
+                } catch (error) {
                     console.warn('⚠️ Failed to save character backup to scoped storage (Firebase is primary):', error);
-                });
+                }
             }
 
             // CRITICAL FIX: Ensure character is in the store even if localStorage save failed
@@ -1420,6 +1442,12 @@ export const createCoreSlice = (set, get) => ({
             // Load characters first
             const characters = await get().loadCharacters();
             set({ characters }); // Ensure they are in state
+
+            // No placeholder may be authored before a verified scope is active:
+            // the empty list is "not loaded yet", not "this owner has none".
+            if (characters.length === 0 && !getBootstrapGateState().scope) {
+                return { charactersCount: 0, activeCharacter: null, isReady: false };
+            }
 
             // AUTO-CREATE PLACEHOLDER: If no characters exist, create one automatically
             if (characters.length === 0) {

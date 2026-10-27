@@ -31,6 +31,14 @@ import {
     pruneOracleTalents, ORACLE_PROJECTED_SPELLS_BY_ID,
     ORACLE_OPTIONAL_RECORDS, ORACLE_SPELL_POOLS
 } from '../../data/classes/oracleData';
+import {
+    pruneDruidTalents, DRUID_PROJECTED_SPELLS_BY_ID,
+    DRUID_OPTIONAL_RECORDS, DRUID_SPELL_POOLS
+} from '../../data/classes/druidData';
+import {
+    pruneHunterTalents, HUNTER_PROJECTED_SPELLS_BY_ID,
+    HUNTER_OPTIONAL_RECORDS, HUNTER_SPELL_POOLS
+} from '../../data/classes/hunterData';
 import useSpellbookStore from '../spellbookStore';
 import { loadLibraryFromStorage, saveLibraryToStorage } from '../../components/spellcrafting-wizard/core/utils/libraryManager';
 
@@ -78,6 +86,18 @@ const CR1_POLICY_CLASSES = {
         projectedById: ORACLE_PROJECTED_SPELLS_BY_ID,
         optionalRecords: ORACLE_OPTIONAL_RECORDS,
         spellPools: ORACLE_SPELL_POOLS
+    },
+    Druid: {
+        prune: pruneDruidTalents,
+        projectedById: DRUID_PROJECTED_SPELLS_BY_ID,
+        optionalRecords: DRUID_OPTIONAL_RECORDS,
+        spellPools: DRUID_SPELL_POOLS
+    },
+    Hunter: {
+        prune: pruneHunterTalents,
+        projectedById: HUNTER_PROJECTED_SPELLS_BY_ID,
+        optionalRecords: HUNTER_OPTIONAL_RECORDS,
+        spellPools: HUNTER_SPELL_POOLS
     }
 };
 
@@ -520,6 +540,8 @@ export const createProgressionSlice = (set, get) => ({
             get().reconcilePlaguebringerTalents();
             get().reconcileDoomsayerTalents();
             get().reconcileOracleTalents();
+            get().reconcileDruidTalents();
+            get().reconcileHunterTalents();
         }
 
         // Only trigger updateExperience if leveling up (to avoid triggering modal when manually adjusting)
@@ -777,11 +799,13 @@ export const createProgressionSlice = (set, get) => ({
     reconcilePlaguebringerTalents: () => get().reconcileCr1PolicyTalents('Plaguebringer'),
     reconcileDoomsayerTalents: () => get().reconcileCr1PolicyTalents('Doomsayer'),
     reconcileOracleTalents: () => get().reconcileCr1PolicyTalents('Oracle'),
+    reconcileDruidTalents: () => get().reconcileCr1PolicyTalents('Druid'),
+    reconcileHunterTalents: () => get().reconcileCr1PolicyTalents('Hunter'),
 
     updateLevel: (newLevel) => {
         const before = get();
         const beforeClass = before.class || before.characterClass;
-        if (['Gambler', 'Fate Weaver', 'Deathcaller', 'Lichborne', 'Plaguebringer', 'Doomsayer', 'Oracle'].includes(beforeClass) && newLevel < before.level) {
+        if (['Gambler', 'Fate Weaver', 'Deathcaller', 'Lichborne', 'Plaguebringer', 'Doomsayer', 'Oracle', 'Druid', 'Hunter'].includes(beforeClass) && newLevel < before.level) {
             for (let lostLevel = before.level; lostLevel > newLevel; lostLevel--) get().reverseLevelUpBonus(lostLevel);
         }
         let removedGrantIds = [];
@@ -826,6 +850,8 @@ export const createProgressionSlice = (set, get) => ({
         get().reconcilePlaguebringerTalents();
         get().reconcileDoomsayerTalents();
         get().reconcileOracleTalents();
+        get().reconcileDruidTalents();
+        get().reconcileHunterTalents();
 
         // Auto-assign spells based on new level
         const state = get();

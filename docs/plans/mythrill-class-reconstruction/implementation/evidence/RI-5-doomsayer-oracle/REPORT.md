@@ -1,8 +1,9 @@
 # RI-5 Doomsayer + Oracle — consolidated implementation report
 
 **Date:** 2026-10-25  
-**HEAD:** `77c110db` (worktree dirty; unrelated Plaguebringer and P14-A7 changes preserved)  
-**Status:** implementation and focused verification complete. No commit, push or deploy. Not Sol acceptance; broad review remains for the completed class batch.
+**Entry HEAD:** `77c110db`  
+**HEAD observed during verification:** `562d958d` — a concurrent process committed P14 A7-A9 plus this RI-5 work while the session was active. This session did not run commit, push or deploy. Uncommitted concurrent P14 changes remain in the worktree and were preserved.  
+**Status:** implementation and focused verification complete. Not Sol acceptance; broad review remains for the completed class batch.
 
 ## Scope
 
@@ -124,7 +125,7 @@ Recommendation-only; no `CLASS_PROVENANCE` entry, no native edge, no heritage ef
 | Heritage/icon count suites | 17/17 |
 | Resource/rest/resource-slice suites | 28/28 |
 | Scoped ESLint | 0 errors, 79 existing warnings |
-| Production build | exit `0`; build log ends with successful static build |
+| Production build | exit `0`; log reports `Compiled successfully.` (`D:\AppData\Temp\opencode\ri5-build-final.log`) |
 | `git diff --check` | no whitespace errors in RI-5 files; two unrelated pre-existing trailing-space warnings in `CharacterSheetWindow.jsx` and `Lore.jsx` |
 | `check-class-structure` | `doomsayerData.js` and `oracleData.js` `[OK]`; full command still fails on pre-existing Fate Weaver/Gambler/Deathcaller/Lichborne/Chaos Weaver schema issues |
 | `audit-classes --class Doomsayer` | 0 integrity errors, 0 pool-floor gaps; 3 expected warnings for core/talent records omitted from optional pools |
@@ -209,4 +210,4 @@ Hashes are after the final edits. `REPORT.md` is omitted because it is this docu
 - `check-class-structure` still fails on pre-existing Fate Weaver, Gambler, Deathcaller, Lichborne and Chaos Weaver files; the two new data files pass the same check.
 - `validate:talent-trees` cannot validate the CR1 wrapper export shape and reports it as legacy for several accepted classes; the actual node/rank/gate behavior is covered by the integration and consumer suites.
 - Sol acceptance is not claimed. Broad review remains deferred until the implementation batch is complete.
-- No commit, push or deploy was performed.
+- No commit, push or deploy was performed by this session. A concurrent process created `562d958d` while the session was active; that external commit is not claimed as RI-5 session output.

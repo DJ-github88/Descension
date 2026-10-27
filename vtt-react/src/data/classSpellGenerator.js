@@ -37,6 +37,8 @@ import { GAMBLER_DATA } from './classes/gamblerData';
 import { FATE_WEAVER_DATA } from './classes/fateWeaverData';
 import { DOOMSAYER_DATA } from './classes/doomsayerData';
 import { ORACLE_DATA } from './classes/oracleData';
+import { DRUID_DATA } from './classes/druidData';
+import { HUNTER_DATA } from './classes/hunterData';
 import { UNIVERSAL_COMBAT_SPELLS } from './universalCombatSpells';
 
 // ===== CLASS DATA MAP =====
@@ -71,6 +73,8 @@ export const CLASS_DATA_MAP = {
   'Fate Weaver': FATE_WEAVER_DATA,
   'Doomsayer': DOOMSAYER_DATA,
   'Oracle': ORACLE_DATA,
+  'Druid': DRUID_DATA,
+  'Hunter': HUNTER_DATA,
   'Nereid Myrathil Apex': DEEPLING_MYRATHIL_APEX_DATA,
   'Nereid Myrathil Animist': DEEPLING_MYRATHIL_ANIMIST_DATA,
   'Nereid Myrathil Augur': DEEPLING_MYRATHIL_AUGUR_DATA
@@ -564,7 +568,9 @@ generatedSpells.Deathcaller = DEATHCALLER_DATA.spells.map(spell => normalizeClas
 generatedSpells.Lichborne = LICHBORNE_DATA.spells.map(spell => normalizeClassSpell(spell, 'Lichborne', entry => entry.specialization));
 generatedSpells.Doomsayer = DOOMSAYER_DATA.spells.map(spell => normalizeClassSpell(spell, 'Doomsayer', entry => entry.specialization));
 generatedSpells.Oracle = ORACLE_DATA.spells.map(spell => normalizeClassSpell(spell, 'Oracle', entry => entry.specialization));
-const processedClasses = ['Arcanoneer', 'Pyrofiend', 'Minstrel', 'Chronarch', 'Martyr', 'Gambit', 'Harbinger', 'Chaos Weaver', 'Gambler', 'Fate Weaver', 'Deathcaller', 'Lichborne', 'Doomsayer', 'Oracle'];
+generatedSpells.Druid = DRUID_DATA.spells.map(spell => normalizeClassSpell(spell, 'Druid', entry => entry.specialization));
+generatedSpells.Hunter = HUNTER_DATA.spells.map(spell => normalizeClassSpell(spell, 'Hunter', entry => entry.specialization));
+const processedClasses = ['Arcanoneer', 'Pyrofiend', 'Minstrel', 'Chronarch', 'Martyr', 'Gambit', 'Harbinger', 'Chaos Weaver', 'Gambler', 'Fate Weaver', 'Deathcaller', 'Lichborne', 'Doomsayer', 'Oracle', 'Druid', 'Hunter'];
 const remainingClasses = Object.keys(CLASS_DATA_MAP).filter(className => !processedClasses.includes(className));
 
 // Generic spell processor for classes without special processing

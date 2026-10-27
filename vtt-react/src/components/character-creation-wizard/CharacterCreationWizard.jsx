@@ -115,7 +115,11 @@ const CharacterCreationWizardContent = ({ onComplete, onCancel, isLoading, exist
                 selectedLanguages: state.characterData.selectedLanguages,
                 skillRanks: state.characterData.skillRanks,
                 selectedAbility: state.characterData.selectedAbility,
-                stats: state.characterData.finalStats,
+                // `stats` is the canonical base point-buy allocation used by the
+                // store, roster and character sheet; `baseStats` records that
+                // model explicitly for the edit loader and future saves.
+                baseStats: state.characterData.baseStats,
+                stats: state.characterData.baseStats,
                 lore: state.characterData.lore,
                 characterImage: state.characterData.characterImage,
                 imageTransformations: state.characterData.imageTransformations,

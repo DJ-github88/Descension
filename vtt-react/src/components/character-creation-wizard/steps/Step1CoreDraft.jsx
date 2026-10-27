@@ -127,6 +127,8 @@ import { DEATHCALLER_DATA } from '../../../data/classes/deathcallerData';
 import { LICHBORNE_DATA } from '../../../data/classes/lichborneData';
 import { DOOMSAYER_DATA } from '../../../data/classes/doomsayerData';
 import { ORACLE_DATA } from '../../../data/classes/oracleData';
+import { DRUID_DATA } from '../../../data/classes/druidData';
+import { HUNTER_DATA } from '../../../data/classes/hunterData';
 import { DEEPLING_MYRATHIL_APEX_DATA, DEEPLING_MYRATHIL_ANIMIST_DATA, DEEPLING_MYRATHIL_AUGUR_DATA } from '../../../data/classes/index';
 import { withClassHeritageMetadata } from '../../../data/classHeritageRegistry';
 
@@ -410,6 +412,10 @@ const CLASS_DATA_MAP = Object.fromEntries(Object.entries({
 
     'Oracle': ORACLE_DATA,
 
+    'Druid': DRUID_DATA,
+
+    'Hunter': HUNTER_DATA,
+
     'Nereid Myrathil Apex': DEEPLING_MYRATHIL_APEX_DATA,
 
     'Nereid Myrathil Animist': DEEPLING_MYRATHIL_ANIMIST_DATA,
@@ -431,7 +437,7 @@ const CLASS_GROUPS = {
 
     ZEALOTS: ['Inquisitor', 'False Prophet', 'Lunarch', 'Martyr', 'Crusader'],
 
-    SPECIALISTS: ['Minstrel', 'Plaguebringer', 'Pyrofiend', 'Animist', 'Augur', 'Gambit', 'Chaos Weaver', 'Gambler', 'Fate Weaver', 'Deathcaller', 'Doomsayer', 'Oracle']
+    SPECIALISTS: ['Minstrel', 'Plaguebringer', 'Pyrofiend', 'Animist', 'Augur', 'Gambit', 'Chaos Weaver', 'Gambler', 'Fate Weaver', 'Deathcaller', 'Doomsayer', 'Oracle', 'Druid', 'Hunter']
 
 };
 

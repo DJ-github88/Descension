@@ -7,6 +7,7 @@ import useConditionStore from '../../store/conditionStore';
 import { getIconUrl, getCustomIconUrl } from '../../utils/assetManager';
 import { getSubraceData } from '../../data/raceData';
 import { getRaceHeritageLabel } from '../../utils/raceDisplayNames';
+import { subscribeBootstrapGate } from '../../persistence/bootstrapPrivacyGate';
 import { SKILL_DEFINITIONS, SKILL_CATEGORIES } from '../../constants/skillDefinitions';
 import { initializeClassResource } from '../../data/classResources';
 import CharacterPanel from '../character-sheet/CharacterPanel';
@@ -160,38 +161,72 @@ const CharacterViewPage = () => {
     updateClassResource
   } = useCharacterStore();
 
-  // Load character data on mount
+  // Load character data on mount. Authentication/bootstrap may still be
+  // settling on a direct page load, so retry until the owner scope has
+  // hydrated the roster instead of reporting a false "not found".
   useEffect(() => {
-    const loadCharacterData = async () => {
-      setIsLoading(true);
-      setError(null);
+    let cancelled = false;
+    let pollTimer = null;
+    let running = false;
+    let unsubscribe = () => {};
+    const deadline = Date.now() + 10000;
 
+    const attempt = async () => {
+      if (cancelled || running) return false;
+      running = true;
       try {
-        // Ensure characters are loaded
         const loadedCharacters = await loadCharacters();
-
-        // Load the specific character
-        const character = loadedCharacters.find(char => char.id === characterId);
-
-        if (!character) {
-          setError('Character not found');
+        if (cancelled) return true;
+        const characters = Array.isArray(loadedCharacters) ? loadedCharacters : [];
+        const character = characters.find(char => char.id === characterId);
+        if (character) {
+          loadCharacter(characterId);
           setIsLoading(false);
-          return;
+          setError(null);
+          return true;
         }
-
-        // Load character into store
-        loadCharacter(characterId);
-        setIsLoading(false);
+        return false;
       } catch (err) {
         console.error('Error loading character:', err);
-        setError('Failed to load character');
-        setIsLoading(false);
+        if (!cancelled) {
+          setError('Failed to load character');
+          setIsLoading(false);
+        }
+        return true;
+      } finally {
+        running = false;
       }
     };
 
-    loadCharacterData();
+    const poll = async () => {
+      if (cancelled) return;
+      const settled = await attempt();
+      if (settled || cancelled) return;
+      if (Date.now() >= deadline) {
+        setError('Character not found');
+        setIsLoading(false);
+        return;
+      }
+      pollTimer = setTimeout(poll, 400);
+    };
+
+    setIsLoading(true);
+    setError(null);
+    poll();
+
+    // A later auth/bootstrap activation usually delivers the roster; retry
+    // immediately rather than waiting for the next poll tick.
+    unsubscribe = subscribeBootstrapGate(() => {
+      if (!cancelled) attempt();
+    });
+
+    return () => {
+      cancelled = true;
+      if (pollTimer) clearTimeout(pollTimer);
+      unsubscribe();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [characterId]); // Only re-run when characterId changes
+  }, [characterId, loadCharacters, loadCharacter]);
 
   const handleBack = () => {
     navigate('/account', { state: { activeTab: 'characters' } });

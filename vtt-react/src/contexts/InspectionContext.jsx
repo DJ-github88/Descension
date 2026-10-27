@@ -110,7 +110,7 @@ export const InspectionProvider = ({ character, children }) => {
 
         // Calculate derived stats
         const exhaustionLevel = charData.exhaustionLevel || 0;
-        const derivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, encumbranceState, exhaustionLevel);
+        const derivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, encumbranceState, exhaustionLevel, null, charData.race, charData.subrace);
 
         // Calculate correct max values
         const maxHealth = Math.round(derivedStats.maxHealth);

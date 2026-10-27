@@ -8,13 +8,15 @@ import useCharacterStore from '../../store/characterStore';
 
 import subscriptionService from '../../services/subscriptionService';
 
-import { RACE_DATA } from '../../data/raceData';
+import { RACE_DATA, applyRacialModifiers } from '../../data/raceData';
 
 import { normalizeRaceDisplayName } from '../../utils/raceDisplayNames';
 
 import { getIconUrl } from '../../utils/assetManager';
 
 import { getClassIconUrl } from '../../utils/classIconUtils';
+
+import { calculateDerivedStats, calculateEquipmentBonuses } from '../../utils/characterUtils';
 
 import './styles/CharacterManagement.css';
 import UnifiedTransitionOverlay from '../multiplayer/UnifiedTransitionOverlay';
@@ -42,6 +44,47 @@ const CharacterManagement = ({ user }) => {
  const [characterLimitInfo, setCharacterLimitInfo] = useState(null);
 
 
+
+ // Roster cards must agree with the persisted canonical `stats` (base point-buy)
+ // and the store's derived-resource math instead of placeholder display fields.
+ const getCharacterDisplayResources = (character) => {
+  const baseStats = character.stats || {
+   strength: 10, agility: 10, constitution: 10,
+   intelligence: 10, spirit: 10, charisma: 10
+  };
+  const effectiveStats = character.race && character.subrace
+   ? applyRacialModifiers(baseStats, character.race, character.subrace)
+   : baseStats;
+  const equipmentBonuses = calculateEquipmentBonuses(character.equipment || {});
+  const totalStats = { ...effectiveStats };
+  const statMapping = {
+   str: 'strength', con: 'constitution', agi: 'agility',
+   int: 'intelligence', spir: 'spirit', cha: 'charisma'
+  };
+  Object.entries(statMapping).forEach(([shortName, fullName]) => {
+   if (equipmentBonuses[shortName]) {
+    totalStats[fullName] = (totalStats[fullName] || 0) + equipmentBonuses[shortName];
+   }
+  });
+  const derivedStats = calculateDerivedStats(
+   totalStats,
+   equipmentBonuses,
+   {},
+   character.inventory?.encumbranceState || 'normal',
+   character.exhaustionLevel || 0,
+   null,
+   character.race,
+   character.subrace
+  );
+  const maxHealth = Math.round(derivedStats.maxHealth) || character.maxHitPoints || 0;
+  const maxMana = Math.round(derivedStats.maxMana) || 0;
+  const storedHealth = character.health || character.resources?.health || { current: maxHealth, max: maxHealth };
+  const storedMana = character.mana || character.resources?.mana || { current: maxMana, max: maxMana };
+  return {
+   health: { current: Math.min(storedHealth.current ?? maxHealth, maxHealth), max: maxHealth },
+   mana: { current: Math.min(storedMana.current ?? maxMana, maxMana), max: maxMana }
+  };
+ };
 
  // Helper functions for icons
 
@@ -433,7 +476,19 @@ const CharacterManagement = ({ user }) => {
 
      <div className="characters-grid">
 
-      {filteredAndSortedCharacters.map((character) => (
+      {filteredAndSortedCharacters.map((character) => {
+
+       const { health, mana } = getCharacterDisplayResources(character);
+
+       const knownSpells = (character.spells && character.spells.length > 0)
+        ? character.spells
+        : (character.class_spells?.known_spells || []);
+
+       const knownSkillCount = character.skills
+        ? Object.keys(character.skills).length
+        : Object.values(character.skillRanks || {}).filter((rank) => rank && rank !== 'UNTRAINED').length;
+
+       return (
 
        <div key={character.id} className={`character-card ${currentCharacterId === character.id ? 'active-character' : ''}`}>
 
@@ -623,7 +678,7 @@ const CharacterManagement = ({ user }) => {
 
             </div>
 
-            <div className="resource-value">{typeof character.hitPoints === 'object' ? `${character.hitPoints.current}/${character.hitPoints.max}` : (character.hitPoints || 100)}/{typeof character.maxHitPoints === 'object' ? character.maxHitPoints.max : (character.maxHitPoints || 100)}</div>
+            <div className="resource-value">{health.current}/{health.max}</div>
 
            </div>
 
@@ -637,7 +692,7 @@ const CharacterManagement = ({ user }) => {
 
             </div>
 
-            <div className="resource-value">{typeof character.mana === 'object' ? `${character.mana.current}/${character.mana.max}` : (character.mana || 50)}/{typeof character.maxMana === 'object' ? character.maxMana.max : (character.maxMana || 50)}</div>
+            <div className="resource-value">{mana.current}/{mana.max}</div>
 
            </div>
 
@@ -765,7 +820,7 @@ const CharacterManagement = ({ user }) => {
 
             <span className="stat-label">Speed</span>
 
-            <span className="stat-value">{character.speed || 30}ft</span>
+            <span className="stat-value">{character.movementSpeed || character.speed || 30}ft</span>
 
            </div>
 
@@ -945,7 +1000,7 @@ const CharacterManagement = ({ user }) => {
 
            {/* Spells & Skills Summary */}
 
-           {(character.spells || character.skills) && (
+           {(knownSpells.length > 0 || knownSkillCount > 0) && (
 
             <div className="capability-section">
 
@@ -953,25 +1008,25 @@ const CharacterManagement = ({ user }) => {
 
              <div className="abilities-summary">
 
-              {character.spells && character.spells.length > 0 && (
+              {knownSpells.length > 0 && (
 
                <div className="spells-count">
 
                 <i className="fas fa-magic"></i>
 
-                <span>{character.spells.length} spells</span>
+                <span>{knownSpells.length} spells</span>
 
                </div>
 
               )}
 
-              {character.skills && Object.keys(character.skills).length > 0 && (
+              {knownSkillCount > 0 && (
 
                <div className="skills-count">
 
                 <i className="fas fa-tools"></i>
 
-                <span>{Object.keys(character.skills).length} skills</span>
+                <span>{knownSkillCount} skills</span>
 
                </div>
 
@@ -1111,7 +1166,7 @@ const CharacterManagement = ({ user }) => {
 
        </div>
 
-      ))}
+      );})}
 
      </div>
 

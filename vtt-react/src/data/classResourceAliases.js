@@ -76,6 +76,14 @@ export const SPELL_RESOURCE_KEY_TO_ENGINE_ID = {
   oracle_forecasts: 'oracle-forecasts',
   forecasts: 'oracle-forecasts',
   forecast: 'oracle-forecasts',
+  // Druid
+  druid_body: 'druid-body',
+  metamorph_body: 'druid-body',
+  body_slots: 'druid-body',
+  // Hunter
+  hunter_evidence: 'hunter-evidence',
+  quarry_evidence: 'hunter-evidence',
+  evidence: 'hunter-evidence',
   // Revenant
   toll: 'revenant-toll',
   deathToll: 'revenant-toll',

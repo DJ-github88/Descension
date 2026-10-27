@@ -952,6 +952,64 @@ export const CLASS_RESOURCE_TYPES = {
   }
  },
 
+ 'Druid': {
+  id: 'druid-body',
+  name: 'Anatomical Loadout',
+  shortName: 'Body',
+  type: 'druid-body',
+  description: 'Four anatomical slots, at most two active traits, three prepared loadouts and a 0-3 transition track. Plating 2; Living Brace 4 once. Manual tabletop only.',
+  visual: {
+   type: 'druid-body',
+   baseColor: '#3c4a35',
+   activeColor: '#8fa06a',
+   glowColor: '#c3cf9a',
+   icon: 'fas fa-paw'
+  },
+  mechanics: {
+   max: 2,
+   current: 0,
+   transitionMax: 3,
+   preparedLoadoutMax: 3,
+   initialized: false,
+   state: null,
+   consumeVerb: 'adopt',
+   gainVerb: 'recover'
+  },
+  tooltip: {
+   title: 'Anatomical Loadout - manual tabletop',
+   description: 'No transformation, slot, transition, recovery, suspension, prevention, movement or expiry is applied automatically. A rejected adoption leaves the prior anatomy unchanged.'
+  }
+ },
+
+ 'Hunter': {
+  id: 'hunter-evidence',
+  name: 'Quarry & Evidence',
+  shortName: 'Evidence',
+  type: 'hunter-evidence',
+  description: 'One exact quarry, three distinct evidence tags (Read/Angle/Pressure), one new tag per own turn and a committed glaive path. Manual tabletop only.',
+  visual: {
+   type: 'hunter-evidence',
+   baseColor: '#4a3d2c',
+   activeColor: '#b08a4f',
+   glowColor: '#d6b97f',
+   icon: 'fas fa-crosshairs'
+  },
+  mechanics: {
+   max: 3,
+   current: 0,
+   quarryMax: 1,
+   evidenceMax: 3,
+   initialized: false,
+   state: null,
+   consumeVerb: 'spend',
+   gainVerb: 'record'
+  },
+  tooltip: {
+   title: 'Quarry & Evidence - manual tabletop',
+   description: 'No quarry, evidence tag, source event, companion action, committed path, damage or movement is applied automatically. A miss or duplicate grants nothing.'
+  }
+ },
+
  // REMOVED: legacy Lichborne phylactery bar merged into Revenant as Phase 1.10 consolidation.
  // The CR-1 Lichborne Anchor above is a separate manual resource record.
 };
@@ -1094,13 +1152,27 @@ export const initializeClassResource = (className, characterStats) => {
    baseResource.max = 2;
    baseResource.havoc = 0;
    baseResource.havocMax = 15;
-  } else if (className === 'Oracle') {
-   baseResource.initialized = false;
-   baseResource.state = null;
-   baseResource.current = 0;
-   baseResource.max = 2;
-   baseResource.slots = [];
-  }
+   } else if (className === 'Oracle') {
+    baseResource.initialized = false;
+    baseResource.state = null;
+    baseResource.current = 0;
+    baseResource.max = 2;
+    baseResource.slots = [];
+   } else if (className === 'Druid') {
+    baseResource.initialized = false;
+    baseResource.state = null;
+    baseResource.current = 0;
+    baseResource.max = 2;
+    baseResource.transitionMax = 3;
+    baseResource.preparedLoadoutMax = 3;
+   } else if (className === 'Hunter') {
+    baseResource.initialized = false;
+    baseResource.state = null;
+    baseResource.current = 0;
+    baseResource.max = 3;
+    baseResource.quarryMax = 1;
+    baseResource.evidenceMax = 3;
+   }
 
  // Initialize custom fields for Revenant, Apex, and Arcanoneer
  if (className === 'Revenant') {

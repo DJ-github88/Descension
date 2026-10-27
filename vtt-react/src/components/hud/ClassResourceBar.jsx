@@ -27,6 +27,8 @@ import DeathcallerResourceDisplay from './DeathcallerResourceDisplay';
 import LichborneResourceDisplay from './LichborneResourceDisplay';
 import DoomsayerResourceDisplay from './DoomsayerResourceDisplay';
 import OracleResourceDisplay from './OracleResourceDisplay';
+import DruidResourceDisplay from './DruidResourceDisplay';
+import HunterResourceDisplay from './HunterResourceDisplay';
 import { BRICK, INK, PAPER } from './calmBarPalette';
 import PropheticVisionsResourceBar from './PropheticVisionsResourceBar';
 import DominanceDieResourceBar from './DominanceDieResourceBar';
@@ -1271,6 +1273,10 @@ const ClassResourceBar = ({
                 return <DoomsayerResourceDisplay resource={finalClassResource} isOwner={isOwner} />;
             case 'oracle-forecasts':
                 return <OracleResourceDisplay resource={finalClassResource} isOwner={isOwner} />;
+            case 'druid-body':
+                return <DruidResourceDisplay resource={finalClassResource} isOwner={isOwner} />;
+            case 'hunter-evidence':
+                return <HunterResourceDisplay resource={finalClassResource} isOwner={isOwner} />;
             case 'chaos-weaver-tiles':
                 return renderChaosWeaverTiles();
             case 'orbs':
@@ -1966,7 +1972,9 @@ const ClassResourceBar = ({
         'dead_muster',          // Deathcaller: manual prepared muster
         'lich_anchor',          // Lichborne: manual anchor record
         'doom-calamities',      // Doomsayer: public calamities and Havoc
-        'oracle-forecasts'      // Oracle: two prepared forecast slots
+        'oracle-forecasts',     // Oracle: two prepared forecast slots
+        'druid-body',           // Druid: two active anatomical slots and transitions
+        'hunter-evidence'       // Hunter: one quarry and three evidence tags
     ]);
     const hasDedicatedBar = DEDICATED_BAR_TYPES.has(finalConfig.visual?.type);
 
@@ -1976,7 +1984,7 @@ const ClassResourceBar = ({
     // "no rehearsal session set up" notice while uninitialized (max === 0).
     if (
         (!finalClassResource.max || finalClassResource.max === 0) &&
-        !['chaos-weaver-tiles', 'gambler-hand', 'dead_muster', 'lich_anchor', 'doom-calamities', 'oracle-forecasts'].includes(finalConfig.visual?.type)
+        !['chaos-weaver-tiles', 'gambler-hand', 'dead_muster', 'lich_anchor', 'doom-calamities', 'oracle-forecasts', 'druid-body', 'hunter-evidence'].includes(finalConfig.visual?.type)
     ) {
         return null;
     }

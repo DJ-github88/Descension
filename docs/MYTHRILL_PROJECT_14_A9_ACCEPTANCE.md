@@ -1,7 +1,7 @@
 # P14-A9 — authored canonical Stunned targeting exact primary PCs
 
 2026-10-25 · [Frozen contract](MYTHRILL_PROJECT_14_A9_CONTRACT.md).
-Implementation and focused regressions complete; production-App and final same-review evidence pending.
+**Implemented; same-review repaired bounded ACCEPT; final optimized Build6/App6 PASS (qualified).**
 Prior P7–A8 acceptance is carried forward, including accepted uncommitted bytes.
 
 ## Player / GM workflow
@@ -79,14 +79,16 @@ checkpoint/epoch/replay-floor recovery remains the existing P7 contract. No new 
 
 ## Focused verification and review
 
-- Registered handler group: **67 PASS / one incumbent skipped negative witness** covering A9/A8/A7,
-  A5, C2/C3/C4 and installed codec. Separate corrected A4+A9 run **30 PASS** (21 A4 and nine overlapping
-  A9 cases); these totals are not summed. Initial command used an incorrect A4 filename, corrected in
-  the separate run. A9's nine cases include both sources, offline/no-ack hostile policy, explicit
+- Final registered handler group: **88 PASS**, covering A9/A8/A7/A5/A4, C2/C3/C4 and installed codec.
+  Earlier 54/67/30 groups overlap and are not summed. An earlier command used an incorrect A4 filename,
+  corrected before the final run; one incumbent skipped historical negative witness was not included
+  in the final focused command. A9's nine cases include both sources, offline/no-ack hostile policy, explicit
   voluntary acceptance/withdrawal/separate source consent, exact authority/identity, forged flags,
   post-await source Stunned, writer/resources, GM-only correction and private recovery.
-- Client focused groups: four suites14 and four suites37 PASS before final recovery repair;
-  final changed recovery group two suites8 PASS. Overlapping runs are not summed.
+- Final service client group: **eight suites /52 PASS**. Final R8 panel privacy checks: **two PASS**;
+  their two-suite/six-test run also repeats four target-recovery tests, not added to the prior total.
+  Earlier client groups overlap and are not summed. Demo-mode and existing combat-handler console logs
+  remain visible; no global clean-console claim.
 - Scoped client lint0 after final recovery edits; server lint0 with incumbent `curly:off` override.
   Mechanical UI detector `[]`. No repository-wide lint/clean-console claim.
 - One independent **review1**, continued for concrete repairs. Original R1–R5: owner removal bypass,
@@ -94,7 +96,15 @@ checkpoint/epoch/replay-floor recovery remains the existing P7 contract. No new 
   proposal display. Repairs inspected; continuation identified R6 enumerable source fingerprint and
   R7 missing silent reconciliation on consumed target-response recovery. Both repaired with random
   public handles/private binding hash and existing P7 historical reconciliation/custody controls.
-  Final verdict and actual independent execution qualification will be recorded below.
+  Final review found R8 stale GM pending details after account/room handoff: repaired with a GM-only
+  render gate and exact-current-room pending filter, preserving command custody; two focused real-React
+  rendering checks pass for non-GM and wrong-room retained A9 work.
+  Same-review final verdict is **bounded ACCEPT**, R1–R8 closed with no remaining bounded blocker.
+  Reviewer independently executed static/source/hash assertions and a disposable source-fingerprint
+  enumeration counterexample, inspected source/runtime invariants and measured exact artifacts.
+  **Production tests, build and App were implementer-executed and reviewer-inspected, not independently
+  rerun:** the review's OS-enforced application-code sandbox was unavailable. Final continuation ran
+  ten static/hash assertions and verified only R8 differed from its prior inspected runtime.
 
 ## Production build / App and exact identities
 
@@ -109,6 +119,76 @@ using unchanged normal production CRACO/config/dependencies. Build3 includes sub
 This is a **scoped production build**, not a full-current-tree build claim. Exact input inventory,
 overlaid paths, live differences and newly added live inputs remain in each external build record.
 
+Build3 caught an incorrect `captureActorDelivery` import; it was corrected to its existing
+`actorProjectionOrder` owner. Build4 compiled. Intermediate App2 then opened the real sheet and exposed
+undefined `backgroundDisplayName` in the old accepted A8 Lore input. Current concurrent Lore already
+repairs that defect: Build5 records/uses those current collateral bytes without A9 editing Lore.
+App4 passed13 groups; App5 passed15 including the additional lost-target-response/broadcast and actual
+restored-action/movement checks. App1's HTML-for-JS failure was an environment path-separator fixture
+error, fixed by supplying native Windows build paths. App3 was interrupted while awaiting a provider-
+blocked cloud-save promise; the final witness invokes the normal save and verifies its retained device
+draft before reloading, without claiming cloud completion. Intermediate failures remain external.
+Final R8 **Build6 exit0 / App6 PASS15 groups** and same-review closure are bound by the final gate below.
+
+### Final normal production-App proof
+
+GM/source-owner/target-owner/observer roles use real optimized App controls and registered handlers.
+Disposable **A9 Bell Fixture**,1 AP/0 mana, is authored in the actual Wizard, saved/reopened and
+normally admitted for PCs, then associated/Kept/saved/placed/admitted for the exact creature.
+No canonical balance edits or class binding additions.
+
+- Creature→PC successful hostile application installs while the target is disconnected, with no
+  target acknowledgement. Reconnect yields the exact authoritative instance on token, owner condition
+  store, actual Character Sheet→Stats→shared condition controls and target notice. GM controls show
+  that same UUID. Private GM evidence/clarification and source attribution are absent from owner notice.
+- Normal owner save retains a newly authored device draft; reload preserves accepted Stunned. Cloud
+  save completion is **not** claimed. Supported source approval and actual voluntary movement refuse.
+- Primary owner Arcanoneer PC→another primary PC: exact owner approval spends nothing; current GM
+  success authorizes one temp-first payment+independent Stunned. Lost GM ACK and accepted delivery,
+  reload and original-byte command check recover the original receipt without duplicate debit,
+  application, narration or HP float. Observer gets one live history/narration result.
+- GM removes one exact instance; movement still refuses with the other active. Final exact removal
+  restores actual supported source approval (then positively withdrawn) and actual movement. Reload
+  does not resurrect either removed instance.
+- Voluntary disposable fixture: current GM designation first, attempted installation refuses while
+  no target acceptance exists, then exact target accepts with keyboard Enter and GM installs once.
+  Target acceptance ACK and accepted broadcast are deliberately lost. After the pending list closes,
+  **Check original target response** recovers its consumed receipt/snapshot silently into token/sheet;
+  receipt count stays unchanged and no live recovered narration appears.
+- Foreign-owner/secondary-token registered-client refusals; target notice widths1440/1024 without
+  horizontal overflow; exact rejoin has one room_joined listener and no automatic action/approval
+  emission. Existing viewport/parent-column scrolling remains. No physical-device certification.
+
+App6 retains **nine `Failed to fetch` pageerrors**. Provider requests are deliberately refused by
+the fixture, but per-error stack/network attribution is not retained; this is a qualified pass,
+not a clean-console claim or attribution of every error to a single cause.
+
+### Exact final gate and unrelated drift
+
+Final branch/HEAD `master/562d958d2b150c48779e7198987c1ae9f8df7f56` reflects a concurrent external
+commit; this agent issued no Git write. The accepted identities are the measured working bytes:
+**64 runtime /52 scoped client /seven protected** files. App6 before/after/current equality and
+scoped client/build parity are `[]` mismatches. Current `Lore.jsx` is recorded collateral used by
+the sheet proof, not an A9 source edit or acceptance of unrelated UI semantics.
+
+| Artifact | SHA-256 |
+|---|---|
+| `p14a9-final-evidence-v2.json` | `7127ad55a943fe295a4036dc4783ded959989bebebab4212331c03b980db6d1e` |
+| `p14a9-build6/build.json` | `aba8b91cbc6dccce8bf4da12200f2f43b312957f54f94cb6023e9ed665cb8771` |
+| Build6 asset manifest | `dd9bbae51b9665dde185acff7969e9550c6bf7638e001b130fdd9f9c2e639119` |
+| `p14a9-app6/result.json` | `7f079bbb40f8a832dddd6c343e1c1eba9fb1e7ca6c123887cdb3a71b120e7ed4` |
+| Final App witness | `611870bd8308036886009a2819a254ac6ceaac51576f35d1a3cb8251f83456c7` |
+| Same-review final `p14a9-review1/REPORT.md` | `2559eb51cc4ea11e495ce548a267d09b8c9a52a4be4fad700d5780c17d8d8f84` |
+
+All paths above are under `D:/AppData/Temp/opencode/` except the reusable witness in Git.
+The final gate lists **43 unrelated current input differences**; the build record also lists
+newly added live inputs. Class/Doomsayer/Oracle/Heritage/Plaguebringer and App/character/card/dice/
+social/calm UI inputs are not a full-current-tree build or semantic acceptance. Build6 uses the
+coherent verified A8 input base plus exact current scoped overlays and the recorded current Lore.
+No untouched historical phase is reaccepted by these focused runs. Interrupted redirected final-test
+logs are partial and not used as completed evidence; complete terminal runs produced88 PASS and
+eight suites52 PASS, with the additional focused two-case R8 rendering check described above.
+
 Concurrent Class/Heritage/Plaguebringer/Doomsayer/Oracle/App/character/dice/coin/card/social/calm UI
 changes are separately owned and are not accepted by A9. Protected compiler/fixtures/W1 resource
 editor/manager/serializer/universal-card identities remain unchanged. No commit/push/deploy/reset,
@@ -121,7 +201,8 @@ Server: `services/{installedAuthoredAbilities,spellPayments,actorConsequences}.j
 Client: `services/{authoredCondition,sharedConditionProfile,spellConsequence,spellConsequenceService}.js`,
 `components/hud/SpellConsequencePanel.jsx`; additive Laws in `public/data/rules.json`.
 New focused tests: `server/tests/p14a9PcTargetCondition.production.test.js` and
-`src/services/__tests__/pcTargetConditionRecovery.test.js`.
+`src/services/__tests__/pcTargetConditionRecovery.test.js`, plus
+`src/components/hud/__tests__/SpellConsequencePrivacy.test.jsx`.
 Witnesses: `verification/p14/{pc-target-condition-app-browser,pc-target-condition-build,
 record-pc-target-condition-evidence}.cjs`; existing A7 witness exports reused helpers.
 Contract/this record, engineering/priorities/coordination/roadmap and preparation status updated.

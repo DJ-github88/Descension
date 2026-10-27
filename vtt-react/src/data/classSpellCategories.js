@@ -365,6 +365,24 @@ export const CLASS_SPECIALIZATIONS = {
     ]
   },
 
+  'Druid': {
+    path: 'Body Discipline',
+    specializations: [
+      { id: 'predator', name: 'Predator', description: 'Spend locomotion and offense on a body that reaches and strikes.', color: '#6b3a3a', icon: 'Nature/Leaf' },
+      { id: 'adaptive-bastion', name: 'Adaptive Bastion', description: 'Hold adapted anatomy still and choose the impact to resist.', color: '#4d5b4a', icon: 'Nature/Leaf' },
+      { id: 'mimic', name: 'Mimic', description: 'Wear a studied outline without stealing a life.', color: '#4f5d75', icon: 'Nature/Leaf' }
+    ]
+  },
+
+  'Hunter': {
+    path: 'Pursuit Discipline',
+    specializations: [
+      { id: 'stalker', name: 'Stalker', description: 'Study and approach alone, then choose when to reveal the strike.', color: '#4d5b4a', icon: 'Nature/Trap' },
+      { id: 'beastmaster', name: 'Beastmaster', description: 'Coordinate a real bonded companion without stealing its turn.', color: '#76542b', icon: 'Nature/Trap' },
+      { id: 'trailblade', name: 'Trailblade', description: 'Commit a weapon to a route the quarry can see, avoid or cross.', color: '#76544a', icon: 'Nature/Trap' }
+    ]
+  },
+
   'Arcanoneer': {
 
     path: 'Arcane Path',
@@ -1316,7 +1334,7 @@ export const createSpellLibraryCategoriesForClass = (className) => {
   // G1 and the Fate Weaver package have real records at every level 1–10.
   // Preserve legacy category IDs while giving level 3/signatures and
   // level 10/capstones a home.
-  if (['Gambler', 'Fate Weaver', 'Deathcaller', 'Lichborne', 'Doomsayer', 'Oracle'].includes(className)) {
+  if (['Gambler', 'Fate Weaver', 'Deathcaller', 'Lichborne', 'Doomsayer', 'Oracle', 'Druid', 'Hunter'].includes(className)) {
     const prefix = className.toLowerCase();
     [3, 5, 7, 8, 9, 10].forEach(level => categories.push({
       ...categories[0], id: `${prefix}_level_${level}`, name: `Level ${level}`,

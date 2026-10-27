@@ -23,7 +23,7 @@ import {
   faWind, faScroll, faBiohazard, faFlask, faMusic, faSun, faFire,
 
 
-    faDove, faBolt, faHourglassHalf
+    faDove, faBolt, faHourglassHalf, faSeedling
 
 
 
@@ -277,6 +277,8 @@ const CLASS_DATA_LOADERS = {
   'Fate Weaver': () => import('../../data/classes/fateWeaverData').then(m => m.FATE_WEAVER_DATA),
   'Doomsayer': () => import('../../data/classes/doomsayerData').then(m => m.DOOMSAYER_DATA),
   'Oracle': () => import('../../data/classes/oracleData').then(m => m.ORACLE_DATA),
+  'Druid': () => import('../../data/classes/druidData').then(m => m.DRUID_DATA),
+  'Hunter': () => import('../../data/classes/hunterData').then(m => m.HUNTER_DATA),
 
   'Lunarch': () => import('../../data/classes/lunarchData').then(m => m.LUNARCH_DATA),
   'Nereid Myrathil Apex': () => import('../../data/classes/index').then(m => m.DEEPLING_MYRATHIL_APEX_DATA),
@@ -357,6 +359,14 @@ const CLASS_ICON_MAP = {
 
 
   'Oracle': faEye,
+
+
+
+  'Druid': faSeedling,
+
+
+
+  'Hunter': faCrosshairs,
 
 
 

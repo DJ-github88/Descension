@@ -27,6 +27,22 @@ spell planner/controller/custody/panel and shared-condition projection/help. Hos
 authority is independent of target acknowledgement; voluntary designation needs exact
 target consent. A1a/W1/cards and concurrent Class/Heritage/Plaguebringer/UI remain protected.
 
+Implementation/evidence: [A9 acceptance](MYTHRILL_PROJECT_14_A9_ACCEPTANCE.md). Same spell/P7
+owners now serve both exact-primary-PC target routes, independent voluntary target consent and
+private/public condition views. One review's concrete repairs preserve GM-only authored-PC correction,
+concealed-source recovery and original-response silent reconciliation. Final source/build/App/review
+gate and exact concurrent drift are centralized there. Full-current compilation encountered concurrent
+Doomsayer missing export; coherent scoped production builds use verified A8 inputs plus current scoped
+A9 and current already-fixed Lore collateral. No A9 edits to Class/Lore/UI work or protected foundations.
+External HEAD advanced77c110db→562d958d; this agent made no Git write. Duration/expiry is recommended
+next via existing C4 authority, pending a separate source timing contract; no follow-on implementation.
+
+Final A9 same-review bounded **ACCEPT**, R1–R8 closed. Build6/App6 PASS15 groups qualified;
+88 focused server and8 suites52 service-client tests plus2 real-React privacy checks PASS.
+Reviewer independently ran source/static/hash probes and verified64runtime/52client/protected7,
+inspecting rather than rerunning production tests/build/App. Gate7127ad55… names exact final bytes;
+43 unrelated current input differences and added live inputs remain recorded, not A9-accepted.
+
 1. **No second engine.** Class resources stay with the existing class-owned owners (`classResourceContracts.js`,
    `classResourceBanks.js`, resourceSlice, ClassResourceBar/ResourceTooltip). Payment, approval and receipt stay
    on the existing P7/P9/P12 paths. P14-A1 uses unchanged `authoredSpellDefinitions.js` (A1a) with the

@@ -1,5 +1,11 @@
 # Next bounded PC-target condition contract — preparation only
 
+**Superseded 2026-10-25:** Main HQ resolved D-PC-1 and authorized
+[A9](MYTHRILL_PROJECT_14_A9_CONTRACT.md), now [implemented](MYTHRILL_PROJECT_14_A9_ACCEPTANCE.md).
+Hostile current-GM success authority has no target ACK/online veto; voluntary application needs
+explicit GM designation and independent affirmative target acceptance. PC-source payment consent
+remains mandatory. The preparation below is retained as historical rationale, not the current gate.
+
 2026-10-25. Follows [A8](MYTHRILL_PROJECT_14_A8_CONTRACT.md). No PC-target
 implementation or policy is authorized by this preparation.
 

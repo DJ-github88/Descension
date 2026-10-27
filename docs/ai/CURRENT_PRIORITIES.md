@@ -1,10 +1,18 @@
 # Current priorities
 
-Updated 2026-10-25 (P14-A8 owner PC→creature authored Stunned; repaired bounded independent ACCEPT/Build4-App10 PASS; prior P7–A7 carried forward). Historical A3 evidence-gate HEAD:
+Updated 2026-10-25 (P14-A9 authored Stunned targeting exact primary PCs: repaired bounded ACCEPT/Build6-App6 PASS qualified; prior P7–A8 carried forward). Historical A3 evidence-gate HEAD:
 `485c0bbab9171879e2ea47cd83b44ddc0f046deb` (concurrent external commits). Exact scoped bytes and unrelated drift in A3 acceptance. The full ledger,
 with source identities/evidence, is [`docs/ENGINEERING_STATE.md`](../ENGINEERING_STATE.md).
 
 ## Delivered projects
+
+Latest bounded extension: [P14-A9](../MYTHRILL_PROJECT_14_A9_ACCEPTANCE.md), exact admitted creature
+or primary owner Arcanoneer PC → distinct primary PC. Hostile current-GM application has no target
+ACK/online veto; voluntary needs explicit GM designation and independent target acceptance. Source
+owner payment consent always remains separate. Atomic P7 payment+canonical Stunned, same sheet/token/
+GM instance, manual expiry and original-command/target-response silent recovery. Final source/build/
+App/reviewer qualifications and concurrent Class/UI drift are centralized in that acceptance record.
+Next recommendation: structured authenticated authored-condition expiry through C4; no timing invented.
 
 | Project | Status |
 |---|---|
@@ -36,6 +44,7 @@ with source identities/evidence, is [`docs/ENGINEERING_STATE.md`](../ENGINEERING
 | P14-A6 exact creature self-healing | Implemented; bounded independent PASS, Build2/App6 PASS (qualified). Explicit self/any including0 range, one combined actor payment+HP/revision/receipt, retained-roll revalidation/recovery, actual capped healing/one float and silent recovered narration. Exact source/drift/environment limits in A6 acceptance |
 | P14-A7 Wizard-authored canonical Stunned | Implemented; same-review repaired bounded ACCEPT, Build4/App4 PASS (qualified). Actual Wizard→whole Creature association→exact admission→GM-confirmed success/manual timing→atomic authored AP/mana+canonical C2 Stunned. Independent instances, supported restrictions and original-command silent recovery; no PC/item execution or general expiry |
 | P14-A8 owner primary PC→creature Stunned | Implemented; same-review repaired bounded ACCEPT, Build4/App10 PASS (qualified). Explicit normal PC admission, A1 owner price/target/duration consent without rolls, private GM success/timing and atomic P7 payment+C2 condition; manual expiry, exact independent instances and original-byte recovery |
+| P14-A9 authored Stunned→primary PC | Implemented; same-review repaired bounded ACCEPT, Build6/App6 PASS (qualified). Exact creature or primary owner Arcanoneer source, hostile no-ACK/online veto versus independent voluntary target acceptance, one P7 payment+C2 condition, private projections and original-response silent recovery. Exact source/drift and scoped-build limitations in A9 acceptance |
 
 Source acceptance is not deployment readiness. Current P12B evidence: [`MYTHRILL_PROJECT_12B_IMPLEMENTATION.md`](../MYTHRILL_PROJECT_12B_IMPLEMENTATION.md). P12A/P11 evidence:
 [`MYTHRILL_PROJECT_12A_IMPLEMENTATION.md`](../MYTHRILL_PROJECT_12A_IMPLEMENTATION.md).
@@ -78,16 +87,24 @@ same-deadline reconnect and no grace/pause/extension. No fee/refund/order/effect
 
 ## Next
 
-**Latest delivery: [P14-A8 owner primary PC→creature Stunned](../MYTHRILL_PROJECT_14_A8_ACCEPTANCE.md)**.
+**Current extension: [P14-A9 exact primary PC targets](../MYTHRILL_PROJECT_14_A9_ACCEPTANCE.md)**.
+Both admitted creature and primary owner Arcanoneer sources use the same P7 condition path. Creator
+resolved hostile authority/no target ACK veto versus affirmative voluntary acceptance. Final same-review
+bounded ACCEPT, Build6/App6 PASS15 groups,88 server/8 suites52 client plus two UI privacy checks,
+and exact scoped identities/qualified production evidence are centralized in A9. Recommend next
+a separately frozen structured authored-condition duration/expiry integration using C4's existing
+authenticated occurrences/instance-removal owner, without interpreting prose or inventing timing.
+
+**Preserved delivery: [P14-A8 owner primary PC→creature Stunned](../MYTHRILL_PROJECT_14_A8_ACCEPTANCE.md)**.
 Implemented through normal PC admission, A1 exact owner terms/consent and private GM
 success/manual timing, one existing P7 payment+C2 condition. Final254 server/11 suites73
 client, prejoin-corrected Build4/App10 and same-review repaired ACCEPT.63runtime/51client/
 protected7/11,383 input parity; drift[] at final measurement. Ten fetch errors and
 provider/cloud/live-only/device limits explicit; included concurrent UI semantics separate. No class
-binding migration or new resource/condition engine. [Next PC-target preparation](../MYTHRILL_PROJECT_14_PC_TARGET_CONDITION_PREPARATION.md)
-identifies explicit hostile-effect acknowledgement versus veto decision; no implementation.
+binding migration or new resource/condition engine. Its [PC-target preparation](../MYTHRILL_PROJECT_14_PC_TARGET_CONDITION_PREPARATION.md)
+is superseded by the creator-authorized A9 policy and implementation.
 
-**Latest delivery: [P14-A7 Wizard-authored Stunned](../MYTHRILL_PROJECT_14_A7_ACCEPTANCE.md)** — one reusable
+**Preserved delivery: [P14-A7 Wizard-authored Stunned](../MYTHRILL_PROJECT_14_A7_ACCEPTANCE.md)** — one reusable
 explicit condition profile, not arbitrary buffs/debuffs or automatic timing. Implementer244 server/
 12 suites82 client; same-review repaired ACCEPT; final62 runtime/protected7/11,380 recorded build inputs
 match, drift[] at review. Six fetch errors/provider/ownership/lease/cloud fixtures/live-only/device

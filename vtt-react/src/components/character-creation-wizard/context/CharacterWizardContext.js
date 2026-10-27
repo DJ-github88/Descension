@@ -9,6 +9,7 @@ import React, { createContext, useContext, useReducer, useEffect } from 'react';
 import { getDefaultStats, validateStats, calculateFinalStats, getTotalBonusPoints, calculateAvailablePoints } from '../../../utils/pointBuySystem';
 // import { getPathStartingPoints, getPathStatModifiers } from '../../../data/pathData'; // Disciplines removed
 import { applyRacialModifiers } from '../../../data/raceData';
+import { getBackgroundStatModifiers } from '../../../data/backgroundData';
 import { validateCharacterClassAccess } from '../../../utils/characterClassAccess';
 import { CLASS_DATA_MAP } from '../../../data/classSpellGenerator';
 import { calculatePointsSpent, calculateTotalSkillPoints } from '../../../constants/skillPointSystem';
@@ -172,6 +173,34 @@ export const ACTION_TYPES = {
 
     // Edit mode
     LOAD_CHARACTER: 'LOAD_CHARACTER'
+};
+
+// Rosters created before the base-stat save model persisted final stats inside
+// `stats`. They are never rewritten on load; the wizard interprets a legacy
+// wizard-authored payload once so reopening does not reapply modifiers.
+const isLegacyWizardStatPayload = (character) =>
+    !character.baseStats &&
+    (Array.isArray(character.selectedSkills) ||
+        (character.lore && typeof character.lore === 'object') ||
+        !!character.class_spells);
+
+const resolveLoadedBaseStats = (character) => {
+    if (character.baseStats && typeof character.baseStats === 'object') {
+        return { ...getDefaultStats(), ...character.baseStats };
+    }
+    const persisted = character.stats;
+    if (!persisted || typeof persisted !== 'object') return getDefaultStats();
+    if (!isLegacyWizardStatPayload(character)) {
+        return { ...getDefaultStats(), ...persisted };
+    }
+    const racialModifiers = character.race && character.subrace
+        ? applyRacialModifiers({}, character.race, character.subrace)
+        : {};
+    const recovered = { ...persisted };
+    Object.keys(racialModifiers).forEach((statId) => {
+        if (recovered[statId] !== undefined) recovered[statId] -= racialModifiers[statId];
+    });
+    return { ...getDefaultStats(), ...recovered };
 };
 
 // Reducer function
@@ -342,11 +371,15 @@ export const characterWizardReducer = (state, action) => {
                 ? applyRacialModifiers({}, characterData.race, characterData.subrace)
                 : {};
 
+            const backgroundModifiers = characterData.background
+                ? getBackgroundStatModifiers(characterData.background)
+                : {};
+
             // Calculate final stats
             const finalStats = calculateFinalStats(
                 characterData.baseStats,
                 racialModifiers,
-                {}
+                backgroundModifiers
             );
 
             return {
@@ -401,9 +434,16 @@ export const characterWizardReducer = (state, action) => {
                 error: action.payload
             };
 
-        case ACTION_TYPES.LOAD_CHARACTER:
+        case ACTION_TYPES.LOAD_CHARACTER: {
             // Load existing character data for editing
             const existingChar = action.payload;
+            const loadedBaseStats = resolveLoadedBaseStats(existingChar);
+            const loadedRacialModifiers = existingChar.race && existingChar.subrace
+                ? applyRacialModifiers({}, existingChar.race, existingChar.subrace)
+                : {};
+            const loadedBackgroundModifiers = existingChar.background
+                ? getBackgroundStatModifiers(existingChar.background)
+                : {};
             return {
                 ...state,
                 originalCalling: { class: existingChar.class, race: existingChar.race, subrace: existingChar.subrace },
@@ -426,6 +466,8 @@ export const characterWizardReducer = (state, action) => {
                     class: existingChar.class || '',
                     classAcquisition: existingChar.classAcquisition || {},
                     bodyStates: existingChar.bodyStates || [],
+                    selectedAbility: existingChar.selectedAbility || '',
+                    class_spells: existingChar.class_spells,
 
                     // Background
                     background: existingChar.background || '',
@@ -435,9 +477,14 @@ export const characterWizardReducer = (state, action) => {
                     selectedLanguages: existingChar.selectedLanguages || [],
                     skillRanks: existingChar.skillRanks || {},
 
-                    // Stats - use existing stats or defaults
-                    baseStats: existingChar.stats || getDefaultStats(),
-                    finalStats: existingChar.stats || getDefaultStats(),
+                    // Stats: persisted `stats` is the base point-buy allocation;
+                    // `finalStats` is derived from base + heritage + origin.
+                    baseStats: loadedBaseStats,
+                    finalStats: calculateFinalStats(
+                        loadedBaseStats,
+                        loadedRacialModifiers,
+                        loadedBackgroundModifiers
+                    ),
 
                     // Lore
                     lore: existingChar.lore || {
@@ -472,6 +519,7 @@ export const characterWizardReducer = (state, action) => {
                 // Mark all steps as completed for existing character
                 completedSteps: Object.values(WIZARD_STEPS)
             };
+        }
 
         default:
             throw new Error(`Unhandled action type: ${action.type}`);
@@ -599,7 +647,8 @@ export function CharacterWizardProvider({ children }) {
     }, [
         state.characterData.baseStats,
         state.characterData.race,
-        state.characterData.subrace
+        state.characterData.subrace,
+        state.characterData.background
     ]);
 
     // Auto-validate current step when data changes

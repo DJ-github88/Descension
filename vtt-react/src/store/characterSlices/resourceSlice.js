@@ -427,7 +427,18 @@ export const createResourceSlice = (set, get) => ({
         const encumbranceState = state.inventory?.encumbranceState || 'normal';
 
         // Calculate derived stats
-        const derivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, encumbranceState, state.exhaustionLevel || 0);
+        const derivedStats = calculateDerivedStats(
+            totalStats,
+            equipmentBonuses,
+            {},
+            encumbranceState,
+            state.exhaustionLevel || 0,
+            state.health,
+            state.race,
+            state.subrace,
+            {},
+            state.ancestry
+        );
 
         // Calculate correct max values
         const newMaxHealth = Math.round(derivedStats.maxHealth);

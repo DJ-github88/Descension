@@ -67,6 +67,12 @@ const buildDemoClassResource = (className) => {
   if (className === 'Oracle') {
    return { type: 'oracle-forecasts', initialized: false, state: null, current: 0, max: 2 };
   }
+  if (className === 'Druid') {
+   return { type: 'druid-body', initialized: false, state: null, current: 0, max: 2, transitions: 0, transitionMax: 3 };
+  }
+  if (className === 'Hunter') {
+   return { type: 'hunter-evidence', initialized: false, state: null, current: 0, max: 3, quarryMax: 1, evidenceMax: 3 };
+  }
   if (className === 'Chaos Weaver') {
   // RI-1: the demo preview must never fabricate a filled six-tile hand.
   // A fresh character's tiles are uninitialized until a manual rehearsal
@@ -412,6 +418,24 @@ const CLASS_REGIONS = {
    borderColor: '#4f5d75',
    glowColor: 'rgba(79, 93, 117, 0.15)',
    icon: 'fas fa-eye'
+  },
+  druid: {
+   regionId: 'bryngloom-forest',
+   regionName: 'Bryngloom Forest',
+   accentColor: '#4d5b4a',
+   bgGradient: 'linear-gradient(135deg, rgba(77, 91, 74, 0.06) 0%, rgba(60, 74, 53, 0.02) 100%)',
+   borderColor: '#4d5b4a',
+   glowColor: 'rgba(77, 91, 74, 0.15)',
+   icon: 'fas fa-paw'
+  },
+  hunter: {
+   regionId: 'sundrift-vale',
+   regionName: 'Sundrift Vale',
+   accentColor: '#76542b',
+   bgGradient: 'linear-gradient(135deg, rgba(118, 84, 43, 0.06) 0%, rgba(74, 61, 44, 0.02) 100%)',
+   borderColor: '#76542b',
+   glowColor: 'rgba(118, 84, 43, 0.15)',
+   icon: 'fas fa-crosshairs'
   }
 };
 
