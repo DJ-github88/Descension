@@ -8,6 +8,8 @@
     "dev": "nodemon server.js",
     "lint": "eslint *.js services/*.js handlers/*.js",
     "lint:fix": "eslint *.js services/*.js handlers/*.js --fix",
+    "sync:shared": "node scripts/sync-shared.js",
+    "check:shared": "node scripts/sync-shared.js --check",
     "test": "mocha tests/**/*.test.js --timeout 10000 --exit",
     "test:socket": "mocha tests/socketHandlers.test.js --timeout 10000",
     "test:room": "mocha tests/roomHandlers.test.js --timeout 10000",

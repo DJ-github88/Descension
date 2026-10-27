@@ -47,7 +47,7 @@ function kindOf(item) {
 }
 function stepDown(die) { const index = LADDER.indexOf(die); return index > 0 ? LADDER[index - 1] : null; }
 function holdsDefending(token) {
-  return require('../../vtt-react/src/services/sharedConditionProfile').holdsDefending(token);
+  return require('../shared/services/sharedConditionProfile').holdsDefending(token);
 }
 /** The shared equipment record (character_updated projection) must still show this piece. */
 function sharedMatch(token, piece) {
@@ -64,7 +64,7 @@ function firstAvailable(token) {
 }
 /** Pure wear rule (published Laws + approved Defend): armor 1–2, shield 1, never while Defending. */
 function deriveWear(kind, beforeDie, face, defending) {
-  const wears = !require('../../vtt-react/src/services/sharedConditionProfile').preventsBlockingWear(defending) && (kind === 'armor' ? face <= 2 : face === 1);
+  const wears = !require('../shared/services/sharedConditionProfile').preventsBlockingWear(defending) && (kind === 'armor' ? face <= 2 : face === 1);
   const afterDie = wears ? stepDown(beforeDie) : beforeDie;
   return { afterDie, broken: afterDie === 'broken' };
 }
@@ -340,7 +340,7 @@ function validateChosen(chosenText, approval, target) {
   const block = chosen.block, face = approval.roll.faces[0], defending = holdsDefending(target.token);
   exact(block, ['slot', 'name', 'kind', 'die', 'face', 'defending', 'reduction'], bad);
   if (block.slot !== piece.slot || block.name !== piece.name || block.kind !== piece.kind || block.die !== piece.currentDie || block.face !== face ||
-    block.defending !== defending || block.reduction !== require('../../vtt-react/src/services/sharedConditionProfile').blockingReduction(face, defending)) {fail('approval_mismatch');}
+    block.defending !== defending || block.reduction !== require('../shared/services/sharedConditionProfile').blockingReduction(face, defending)) {fail('approval_mismatch');}
   // Approved: criticals go around armor (no roll, no wear). Shields on a critical are D-D: GM ruling.
   if (chosen.attack.outcome === 'critical' && piece.kind === 'armor') {fail('critical_bypasses_armor');}
   if (!Array.isArray(chosen.manual) || chosen.manual.length > MANUAL.length) {fail(bad);}

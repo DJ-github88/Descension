@@ -13,7 +13,7 @@ const DOMAINS = Object.freeze(['elementalSpheres', 'musicalNotes', 'devotionGaug
 const CAPABILITY = 'p9-spell:v1';
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 const approvals = new WeakMap();
-const condition = require('../../vtt-react/src/services/authoredCondition');
+const condition = require('../shared/services/authoredCondition');
 // Closed (withdrawn/declined/re-approval) IDs are never silently re-registered.
 const closedApprovals = new WeakMap();
 const int = (value, min = 0, max = Number.MAX_SAFE_INTEGER) => Number.isSafeInteger(value) && value >= min && value <= max;
@@ -182,7 +182,7 @@ function selfState(room, approval) {
 }
 /** Checks an approval against current authoritative room state. */
 function checkAgainstRoom(room, approval) {
-  const authored = require('../../vtt-react/src/services/authoredAbility');
+  const authored = require('../shared/services/authoredAbility');
   if (authored.isAuthored(approval.spell) || approval.spell.definitionHash.startsWith(`${authored.CAPABILITY}/`)) {
     require('./installedAuthoredAbilities').checkApproval(room, approval);
   }
@@ -267,7 +267,7 @@ function bindCommand(room, player, command, authorization) {
   if (entry.contentHash !== command.approval.contentHash) {fail('command_id_conflict');}
   const { approval } = entry;
   if (condition.isCondition(approval)) return bindCondition(room, player, command, authorization, entry);
-  const authored = require('../../vtt-react/src/services/authoredAbility');
+  const authored = require('../shared/services/authoredAbility');
   const capability = authored.isAuthored(approval.spell) ? authored.CAPABILITY : CAPABILITY;
   if (capability === authored.CAPABILITY) {
     checkAgainstRoom(room, approval);

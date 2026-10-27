@@ -1,9 +1,9 @@
 /** Bounded C4: one authenticated next-roster transition, using P7's receipt/admission owner. */
 const crypto = require('crypto');
 const actors = require('./actorConsequences');
-const profile = require('../../vtt-react/src/services/sharedConditionProfile');
-const timing = require('../../vtt-react/src/services/sharedEffectTiming');
-const bash = require('../../vtt-react/src/services/shieldBashResult');
+const profile = require('../shared/services/sharedConditionProfile');
+const timing = require('../shared/services/sharedEffectTiming');
+const bash = require('../shared/services/shieldBashResult');
 const uuid = value => typeof value === 'string' && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(value);
 function roster(room) {
   const combat = room.gameState.combat, order = combat?.turnOrder;

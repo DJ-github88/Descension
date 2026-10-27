@@ -3,7 +3,7 @@
  * limits, decision hashes, sequential versions and current-GM authority. No execution flag grants use. */
 const legacy = require('./authoredSpellDefinitions');
 const checkpoint = require('./roomCheckpoint');
-const { CONDITION_CAPABILITY } = require('../../vtt-react/src/services/authoredAbility');
+const { CONDITION_CAPABILITY } = require('../shared/services/authoredAbility');
 const VERSION = 'p14-a7-condition-1';
 const clone = v => JSON.parse(JSON.stringify(v));
 const hash = checkpoint.canonicalHash;

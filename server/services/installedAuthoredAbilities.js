@@ -1,7 +1,7 @@
 /** P14-A1 thin A1a lookup. Installation stays with P7's admission owner. */
 const definitions = require('./installedDefinitionRegistry');
 const actors = require('./actorConsequences');
-const pure = require('../../vtt-react/src/services/authoredAbility');
+const pure = require('../shared/services/authoredAbility');
 function registry(room) {
   if (room.gameState.authoredSpellRegistry === undefined) return definitions.emptyRegistry(room.id);
   const result = definitions.decodeRegistry(JSON.stringify(room.gameState.authoredSpellRegistry));

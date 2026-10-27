@@ -86,12 +86,12 @@ function resources(token, kind) {
   return out;
 }
 function assertCanAct(room, ref) {
-  if (require('../../vtt-react/src/services/sharedConditionProfile').holdsStunned(locate(room, ref).token)) {
+  if (require('../shared/services/sharedConditionProfile').holdsStunned(locate(room, ref).token)) {
     fail('actor_stunned', 'Stunned: no actions or reactions. Retain this command and roll; GM removes each source instance before revalidation.');
   }
 }
 function assertCanMove(token, player, updates) {
-  if (!player?.isGM && require('../../vtt-react/src/services/sharedConditionProfile').holdsStunned(token) &&
+  if (!player?.isGM && require('../shared/services/sharedConditionProfile').holdsStunned(token) &&
       (!updates || ['position', 'gridPosition', 'x', 'y'].some(k => own(updates, k)))) {
     fail('actor_stunned', 'Stunned: no voluntary movement. Forced movement, teleportation and corrections require GM adjudication/repositioning.');
   }
@@ -330,10 +330,10 @@ function stage(room, player, uid, command, authorization, confirmedRevision) {
     if (collision) {fail('command_id_conflict');}
   }
   const approved = binder ? binder.bindCommand(room, player, command, authorization) : null;
-  const conditionProfile = require('../../vtt-react/src/services/sharedConditionProfile');
-  const authoredCondition = require('../../vtt-react/src/services/authoredCondition');
+  const conditionProfile = require('../shared/services/sharedConditionProfile');
+  const authoredCondition = require('../shared/services/authoredCondition');
   const authoredApplication = !!approved && binder === require('./spellPayments') && authoredCondition.isCondition(approved.approval);
-  const shieldBash = require('../../vtt-react/src/services/shieldBashResult');
+  const shieldBash = require('../shared/services/shieldBashResult');
   const shieldResult = shieldBash.readResult(command);
   const shieldAdd = command.actors.some(actor => actor.conditions?.some(op => op.op === 'add' && shieldBash.namedRecord(op.record)));
   if (shieldAdd || shieldResult) {

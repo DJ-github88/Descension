@@ -164,7 +164,7 @@ function registerActorConsequenceHandlers(ctx) {
       if ((actors.ledger(captured.room).authoredSourceAdmissions || []).some(e => e.requestId === data.requestId)) actors.fail('REQUEST_ID_CONFLICT');
       const request = { roomId: data.roomId, requestId: data.requestId, expectedRegistryRevision: data.expectedRegistryRevision };
       if (operation === 'admit') {
-        const mapped = require('../../vtt-react/src/services/authoredAbility').definitionFromWizard(data.record, { roomId: data.roomId, definitionVersion: data.definitionVersion, classId: data.classId });
+        const mapped = require('../shared/services/authoredAbility').definitionFromWizard(data.record, { roomId: data.roomId, definitionVersion: data.definitionVersion, classId: data.classId });
         if (!mapped.ok) {actors.fail(mapped.code, mapped.reason);}
         const compiled = definitions.compileDefinition(mapped.definition);
         if (!compiled.ok) {actors.fail(compiled.code, compiled.path);}
@@ -481,7 +481,7 @@ function registerActorConsequenceHandlers(ctx) {
     const captured = context(data.roomId), { room } = captured;
     if (!captured.isGM) actors.fail('forbidden');
     const entry = payments.get(room, data.approvalId);
-    if (!entry || entry.contentHash !== data.contentHash || entry.approval.target.kind !== 'character' || !require('../../vtt-react/src/services/authoredCondition').isCondition(entry.approval)) actors.fail('target_proposal_changed');
+    if (!entry || entry.contentHash !== data.contentHash || entry.approval.target.kind !== 'character' || !require('../shared/services/authoredCondition').isCondition(entry.approval)) actors.fail('target_proposal_changed');
     await confirm(captured);
     if (payments.get(room, data.approvalId) !== entry) actors.fail('outcome_unknown');
     payments.checkAgainstRoom(room, entry.approval);
@@ -599,7 +599,7 @@ function registerActorConsequenceHandlers(ctx) {
     // Owner-private recovery is not permission to disclose a concealed attacker.
     const redact = value => {
       if (!value || typeof value !== 'object') return value;
-      if (value.target?.kind === 'character' && require('../../vtt-react/src/services/authoredCondition').namedRecord(value)) return actors.publicCondition(value);
+      if (value.target?.kind === 'character' && require('../shared/services/authoredCondition').namedRecord(value)) return actors.publicCondition(value);
       return Array.isArray(value) ? value.map(redact) : Object.fromEntries(Object.entries(value).map(([k, v]) => [k, redact(v)]));
     };
     respond(ack, { success: true, recovery: redact(recovery) });
