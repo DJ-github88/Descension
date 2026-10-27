@@ -295,14 +295,6 @@ export const createCoreSlice = (set, get) => ({
             set({ isLoading: false });
             return get().characters || [];
         }
-        // Boot happens before the auth principal is mapped to a private scope.
-        // Reading the scoped roster in that window would look like an empty
-        // owner roster and could spawn a placeholder over the real characters.
-        const gate = await waitForBootstrapScope();
-        if (!gate.scope && gate.phase !== 'signed-out') {
-            set({ isLoading: false });
-            return get().characters || [];
-        }
         // A deferred publication/read is not permission to replace an authored
         // working edit whose debounce has not persisted it yet. Keep selection
         // on that edit; the existing autosave will preserve/publish it.
@@ -1439,6 +1431,10 @@ export const createCoreSlice = (set, get) => ({
     // System health check and initialization
     initializeCharacterSystem: async () => {
         try {
+            // A roster read during boot must not mistake "no active destination scope yet"
+            // for "the owner has no characters": wait briefly for the auth gate to settle.
+            await waitForBootstrapScope();
+
             // Load characters first
             const characters = await get().loadCharacters();
             set({ characters }); // Ensure they are in state

@@ -27,9 +27,10 @@ test('registry matches the independently authored blueprint inverse and all 102 
   expect(Object.keys(CLASS_PROVENANCE)).toHaveLength(24);
   expect(Object.keys(HERITAGE_TRADITIONS)).toHaveLength(25);
   expect(specRows.reduce((total, row) => total + row.classes.length, 0)).toBe(102);
-  // Chaos Weaver (RI-1) is a deliberate registry extension beyond the
-  // blueprint's 21 dossiers; filter it only for the blueprint parity checks.
-  const blueprintClasses = classes => classes.filter(name => !['Chaos Weaver', 'Gambler', 'Fate Weaver'].includes(name));
+  // Chaos Weaver (RI-1) and Gambler (RI-2) are deliberate registry extensions beyond the
+  // blueprint's 21 dossiers; filter them only for the blueprint parity checks.
+  const nonNativeDevClasses = ['Fate Weaver', 'Deathcaller', 'Lichborne', 'Doomsayer', 'Oracle', 'Druid', 'Hunter'];
+  const blueprintClasses = classes => classes.filter(name => !['Chaos Weaver', 'Gambler', ...nonNativeDevClasses].includes(name));
   specRows.forEach(row => {
     expect(blueprintClasses(HERITAGE_TRADITIONS[row.id].classes).slice().sort()).toEqual(row.classes.slice().sort());
     expect(new Set(HERITAGE_TRADITIONS[row.id].classes).size).toBe(HERITAGE_TRADITIONS[row.id].classes.length);
@@ -39,12 +40,14 @@ test('registry matches the independently authored blueprint inverse and all 102 
   });
   Object.keys(CLASS_PROVENANCE).forEach(name => {
     const expected = name === 'Gambler' ? ['merryn_human', 'drall_fexric'] : name === 'Chaos Weaver'
-      ? ['drall_fexric'] : name === 'Fate Weaver' ? []
+      ? ['drall_fexric'] : nonNativeDevClasses.includes(name) ? []
       : specRows.filter(row => row.classes.includes(name)).map(row => row.id);
     expect(getClassNativeHeritageIds(name).sort()).toEqual(expected.sort());
   });
   expect(getClassNativeHeritageIds('Chaos Weaver')).toEqual(['drall_fexric']);
-  expect(getClassNativeHeritageIds('Fate Weaver')).toEqual([]);
+  nonNativeDevClasses.forEach(name => {
+    expect(getClassNativeHeritageIds(name)).toEqual([]);
+  });
 });
 
 test('registry also matches the separate forward dossier tables rather than only its inverse', () => {

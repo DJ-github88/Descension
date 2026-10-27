@@ -1,0 +1,57 @@
+{
+  "schema": "mythrill.browser-evidence/v1",
+  "date": "2026-10-27",
+  "cohort": "RI-4",
+  "routes": {
+    "druidDetail": "http://localhost:3000/rules/classes/Druid",
+    "hunterDetail": "http://localhost:3000/rules/classes/Hunter",
+    "druidView": "http://localhost:3000/account/characters/view/char_1793091281455_gpzllxro3",
+    "hunterView": "http://localhost:3000/account/characters/view/char_1793091383367_w4g3vnycd",
+    "roster": "http://localhost:3000/account/characters",
+    "druidEdit": "http://localhost:3000/account/characters/edit/char_1793091281455_gpzllxro3"
+  },
+  "desktop": {
+    "viewport": "1280x800",
+    "druidDetail": { "loaded": true, "resource": "Anatomical Loadout", "tabs": ["Overview", "Tradition", "Resource System", "Specializations", "Spells"], "specializations": ["Predator", "Adaptive Bastion", "Mimic"], "overflow": false },
+    "hunterDetail": { "loaded": true, "resource": "Quarry & Evidence", "role": "Pursuit / Precision", "overflow": false },
+    "roster": {
+      "druid": { "name": "Verdant Proof", "class": "Druid", "hp": "50/58", "mp": "19/19", "speed": "30ft", "abilities": "3 spells / 2 skills" },
+      "hunter": { "name": "Gray Proof", "class": "Hunter", "hp": "50/58", "mp": "19/19", "speed": "30ft", "abilities": "4 spells / 2 skills" }
+    }
+  },
+  "narrow": {
+    "viewport": "390x844",
+    "druidDetail": { "loaded": true, "overflow": false },
+    "hunterDetail": { "loaded": true, "overflow": false },
+    "druidView": { "loaded": true, "resourceNotice": true, "overflow": false },
+    "hunterView": { "loaded": true, "resourceNotice": true, "overflow": false },
+    "roster": { "loaded": true, "overflow": false },
+    "druidEdit": { "loaded": true, "notFound": false, "overflow": false }
+  },
+  "roundTrip": {
+    "druid": {
+      "created": true, "saved": true, "reopened": true, "edited": true, "savedAgain": true,
+      "id": "char_1793091281455_gpzllxro3",
+      "knownSpells": ["cr1_druid_adopt_loadout", "cr1_druid_recover_self", "cr1_druid_rending_claw"],
+      "baseStats": { "strength": 15, "agility": 6, "constitution": 6, "intelligence": 5, "spirit": 5, "charisma": 5 },
+      "resource": "druid-body", "resourceInitialized": false
+    },
+    "hunter": {
+      "created": true, "saved": true, "reopened": true, "edited": true, "savedAgain": true,
+      "id": "char_1793091383367_w4g3vnycd",
+      "knownSpells": ["cr1_hunter_mark_quarry", "cr1_hunter_take_angle", "cr1_hunter_press_quarry", "cr1_hunter_hunters_snare"],
+      "baseStats": { "strength": 15, "agility": 6, "constitution": 6, "intelligence": 5, "spirit": 5, "charisma": 5 },
+      "resource": "hunter-evidence", "resourceInitialized": false
+    }
+  },
+  "console": {
+    "classRuntimeErrors": 0,
+    "knownUnrelatedError": "Error loading user maps: FirebaseError: Missing or insufficient permissions.",
+    "knownWarnings": ["inventory capacity/size warnings while loading saved background items"]
+  },
+  "limits": [
+    "Guest/local persistence only; no account/cloud persistence claim.",
+    "Manual tabletop resources remain uninitialized until the table records real state.",
+    "No automated combat, balance or Sol acceptance claim."
+  ]
+}

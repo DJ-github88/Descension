@@ -13,12 +13,24 @@ All four defects are fixed in the shared paths. No class-local workaround, dupli
 3. **Guest identity and roster family agree.** `isGuestUser()` now derives from the same P5 scope mapping as the bootstrap gate, so an anonymous Firebase principal reads and writes the guest roster family even if a later auth callback drops the `isGuest` wrapper. `loadRoster(true)` recovers a guest character previously mis-filed under the same-scope user family as a read-only source; the next save writes the canonical guest family.
 4. **Deep links and roster surfaces agree.** `loadCharacters` waits briefly for the private scope, and placeholder creation is suppressed until a verified scope exists. `/account/characters/view/:id` and `/account/characters/edit/:id` retry roster hydration on bootstrap-gate changes instead of reporting a false `Character not found`. Roster surfaces (`CharacterManagement`, `AccountDashboard`, `InspectionContext`, `recalculateResources`) pass race/subrace into `calculateDerivedStats` and count known class spells/trained skills, so HP/MP max, speed and ability counts agree with the character view.
 
-### Evidence (2026-10-27)
+### Four-fix evidence (2026-10-27)
 
 - Focused automated verification: **18 suites / 85 tests passed**.
 - Scoped ESLint: **0 errors** (pre-existing unrelated warnings only).
 - Production build: **exit 0**, compiled successfully.
 - Live browser round-trip on saved guest `char_1792754680486_r3rj9hueb`: view opens; edit opens with `Starting Spells 1 of 1 chosen` and `Ability Scores — All points spent`; update succeeds; saved payload has base `stats`/`baseStats`; roster and view both report HP 50/72, MP 25/79, speed 25 ft, 3 spells / 3 skills.
+
+## Additional shared reliability fix (2026-10-27, RI-4 verification)
+
+The first Druid create/save flow exposed a shared persistence race: `createCharacter` started the scoped roster write without awaiting it, while the creation page immediately reloaded the roster. The reload could read the previous roster and overwrite the just-created character. `createCharacter` now awaits the scoped roster write before returning, so create → save → reopen is stable. Verified with both the Druid and Hunter create flows. This is a shared persistence fix, not a class package.
+
+### RI-4 batch evidence (2026-10-27)
+
+- Focused automated verification: **39 suites / 334 tests passed** for the RI-4 batch.
+- Scoped ESLint: **0 errors** (pre-existing unrelated warnings only).
+- Production build: **Compiled successfully**, static output generated.
+- Live browser round-trips: Druid `char_1793091281455_gpzllxro3` and Hunter `char_1793091383367_w4g3vnycd` both created, saved, viewed, reopened in the editor and updated again; base/final stats and class-spell lists survived; roster and view agreed.
+- Desktop 1280×800 and narrow 390×844 class-detail/view checks showed no horizontal overflow.
 
 ### Limits
 

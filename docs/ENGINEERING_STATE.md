@@ -85,6 +85,22 @@ does not authorize deployment or satisfy roadmap §20 release gates.
 
 ## Current work
 
+### Obstruction-aware single-target aiming — Sol, 2026-10-27
+
+User-authorized advisory milestone; exact boundary and evidence:
+[B2 §16](MYTHRILL_PROJECT_12C_B2_CONTRACT.md#16-obstruction-aware-single-target-advisory-milestone--2026-10-27).
+Existing picker now previews configured **2D sight** obstruction with clear/blocked/unknown text and
+line styles, native keyboard/touch preview and explicit confirmation. Source/target movement and
+geometry/state edits recompute; range remains independent. Partial cover and attack passage remain
+unknown/manual: no approved delivery/physical-hull model exists. Players/restricted GM-token views
+receive invariant unknown because no certified viewer-entitled geometry projection exists.
+
+Owned: `services/aimObstruction.js`, `components/grid/TargetPickOverlay.{jsx,css}`, focused tests and
+`verification/p12/obstruction-app-browser.cjs` (under `vtt-react`). Character/persistence (Sonnet) and
+authored effects/lifecycle (Opus's concurrent A10) remain independently owned. No executor/server/
+payment changes.2 suites/10 tests and scoped lint PASS. Initial optimized build1/App3 PASS;
+final build2/App verification pending. External evidence only; final results will replace this status.
+
 ### Integrated playable foundation (character round-trip + connected gameplay) — IN PROGRESS, 2026-10-27
 
 HQ milestone brief 2026-10-26; coordination decision 2026-10-27. Entry HEAD `562d958d` (dirty tree; no Git writes).
@@ -128,6 +144,10 @@ Witness environment (08:40Z): backend `server/` already serving :3001 since 07:0
 this review); Socket.IO handshake verified from the built-in browser. A duplicate launch via
 `scratch/start-backend-3001.bat` (backend-only mirror of `START_ALL.bat`) exited without binding. Frontend dev server :3000.
 Connected witness waits for the implementer's corrected A–D handoff so probes, round-trips, build and gameplay share one candidate.
+
+Status 18:35Z: no corrected A-D handoff yet; no implementer-scope file changed after 08:19Z except `coreSlice.js` (08:51Z, boot-scope wait / placeholder guard, not A-D).
+Gates re-run on the current tree: scoped lint of the 10 implementer-scope files exit 0 (full `npm run lint` cannot finish inside the review shell's 180 s limit on the mounted tree; last full pass remains the 08:40Z exit 0);
+`CharacterWizardContext.test` 13/13, `characterHelpersGuestScope` + `waveB_continuation` 14/14. A, B, C remain open (unchanged source), so the connected witness, build and A-E closure stay blocked on the implementer's handoff.
 
 
 ### P14-A9 authored Stunned → exact primary PC — repaired bounded ACCEPT, Build6/App6 PASS (qualified)

@@ -623,6 +623,10 @@ authorized UI work. No application source, authoring data or published rules wer
 
 ## 14. Obstruction-aware aiming — conditional technical boundary
 
+**2026-10-27 implementation update:** the user separately authorized the bounded single-target
+advisory milestone. See §16 for its exact sight-only subset, privacy fallback and verification.
+The conditional trajectory/cover/server-authority proposals below remain conditional.
+
 **Prepared at the same HEAD on 2026-10-18; not implemented or a new gameplay default.** The creator's
 direction is that ordinary aiming must respect real walls/objects. B1 currently offers only an advisory
 aim line; B2 is a drawing. Neither establishes authoritative sight, trajectory, cover or area propagation.
@@ -804,3 +808,85 @@ are not closed. The retained App fixture seeds hidden flags in the viewer projec
 server hide-control propagation is not established by that witness. The incumbent App gates the tactical
 grid off at phone widths;820px is the supported narrow verification surface. A1b remains parked; Class
 HeadQ keeps all zero-range/count/export semantics and preservation work. No commit, push or deployment.
+
+## 16. Obstruction-aware single-target advisory milestone — 2026-10-27
+
+**User-authorized implementation; advisory only.** This is a bounded extension of B1, not a restart
+of §§9–14's inventory or a new executor. Production verification status is recorded below when complete.
+
+### Working behavior and exact supported semantics
+
+- Existing P8/P9/P12A map entry opens the same picker. Hover previews; tapping/clicking a token pins
+  its exact ref. A native **Preview target** selector supports keyboard and touch inspection. **Use
+  target** returns the ref to the existing controller; Cancel/Esc/right-click return without a pick.
+  The status remains available before confirmation on touch. No roll/payment/consequence path is added.
+- `services/aimObstruction.js` exports the reusable read-only query and analytic segment narrow phase.
+  Its diagnostic is **planar-centre-sight**, not trajectory. Same-map exact refs and finite world
+  coordinates are required. `WallGeometry.parseWallKey/getWallWorldEndpoints` supplies square offset-aware
+  and stored/legacy hex endpoints. Pan/zoom only reprojects. Token position, wall/object replacement,
+  door state, grid/offset and GM/token-view changes recompute; no geometry result is persisted or cached.
+- **Clear:** no intersection in known modeled 2D sight geometry. **Blocked:** a strict crossing of a
+  wall with explicit `WALL_TYPES.blocksLineOfSight:true`, or interior overlap with an object explicitly
+  configured `blocksLineOfSight:true`. The object shape is precisely the existing visibility model:
+  width/height in grid units (default1), scale(default1), world centre or grid-cell centre, rotation
+  in degrees(default0),85%-inset rectangle. This is never a physical attack hull.
+- Sight-false walls/objects are ignored for **sight only**. Glass/force walls do not thereby allow a
+  projectile. No asset/type fallback marks trees, crates or images as attack blockers. Object type
+  definitions are consulted only to detect interactive/manual objects, not to invent sight flags.
+- Editor wall doors accept only explicit `state:'open'|'closed'|'locked'`. Open removes that segment's
+  sight obstruction, not neighboring walls/objects. Legacy `isOpen`, missing/conflicting state,
+  intersected overlay-window mappings, unknown wall IDs/types/geometry, unconfigured/interactive
+  objects and malformed dimensions stay **unknown**. Tangency, endpoint contact, collinear overlap
+  and coincident source/target stay unknown; no boundary contact is promoted to a hit.
+- **Partial:** no settled partial obstruction/cover model exists. Such cases remain **unknown — GM
+  decides**, never a sampled percentage or fabricated bonus. All attack passage, cover, height,
+  footprint-edge origins and propagation remain unknown/manual. Large tokens use the explicitly
+  labelled centre diagnostic; area occupied-cell inclusion rules do not become attack origin rules.
+- Existing `planarFeet/rangeText` remains separate and unchanged. A sight finding never disables
+  selection. “Advisory only; not enforced” is always visible. This does not certify a legal attack.
+
+### Privacy delta and authority boundary
+
+The existing B1 rendered-token registry plus current explicit hidden flags gate token output.
+Hidden targets are excluded from selector/rings/hit testing; pinned state contains only an exact-ref
+key, not a captured name or position. Missing/deleted/rebound/invisible selections cannot be confirmed.
+
+Wall/object renderers use FOV/exploration/fog and door/attachment-specific rendering; the replicated
+editor collections are **not** a certified player-entitled geometry set. No complete per-viewer
+geometry projection is currently supplied to B1. Therefore players and the GM's restricted token
+view receive one identical unknown message regardless of wall/object contents. The query returns
+before inspecting geometry; the picker does not subscribe those viewers to geometry. There are no
+obstacle IDs, counts, stop markers, hidden reasons or result caches. Unrestricted existing GM mode
+uses the authorized full-map view; it is a local advisory diagnostic, not a new authority claim.
+
+### One focused creator proposal / future staging boundary
+
+Approve **one versioned named-delivery spatial profile and its viewer-safe geometry projection** as
+the next freeze: explicit projectile/sight/other delivery distinction, certified geometry completeness,
+door/interactive-object identity-state parity, attack hull/height/contact/footprint meaning and
+per-viewer disclosure policy. This single contract must precede player clear/blocked trajectory
+feedback or authoritative validation. No trajectory property has been silently added to saves.
+
+Delivery-order B's prerequisite is **not met**: current authored single-target/LoS/range fields and
+approved decisions do not establish an authoritative obstruction profile. Consequently no exact
+enforcement DTO or automatic refusal policy is invented here. The smallest later server contract
+remains §14.4: original known-receipt recovery first; existing P7 stage/binder after authority awaits,
+before synchronous admission/payment/approval consumption; server-owned exact refs/settled positions,
+map/geometry revision or canonical relevant-state identity, selected admitted definition/effect/profile;
+recheck after any await; authenticated GM ruling bound to that exact evidence and reason, invalidated
+on change; private geometry kept out of public receipts/refusals. The client diagnostic is never proof.
+Actor resource revision alone does not version movement. No server/payment/consequence file is edited.
+
+### Owned paths and verification
+
+Runtime: `src/services/aimObstruction.js`, `src/components/grid/TargetPickOverlay.jsx` and `.css`.
+Checks: `src/services/__tests__/aimObstruction.test.js`, existing `targetPick.test.js`;
+production witness `verification/p12/obstruction-app-browser.cjs`. Paths are relative to `vtt-react`.
+Coordination reservation preceded edits; implementation was prepared/tested in an external isolated
+worktree snapshot at86996e8d, then transferred only after the live overlay baseline was rechecked.
+The worktree checkout timed out copying historical bulky evidence; its Git index is not a delivery
+artifact and was not reset. Live unrelated A10/Class/character work is preserved.
+
+Focused checks:2 suites/10 tests PASS; scoped ESLint PASS; UI mechanical detector `[]`.
+Production build/App evidence is pending completion; no independent review or historical combat
+reacceptance is claimed by these implementer-run checks.

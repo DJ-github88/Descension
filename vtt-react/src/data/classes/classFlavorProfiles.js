@@ -324,12 +324,111 @@ export const CLASS_FLAVOR_PROFILES = {
     keyFeatures: ['Two Forecast Slots', 'No Omen Debt', 'Bounded Readings'],
     loreSnippet: 'The Oracle reads observable signs and bounded visions from the star-watching and route-reading traditions, never claiming hidden omniscience.',
     playstyle: 'Prepare a personal certainty or an ally protection before the named event, apply each benefit once and record failure or expiry honestly.'
+  },
+
+  chaos_weaver: {
+    id: 'chaos_weaver',
+    name: 'Chaos Weaver',
+    role: 'Variance Caster & Anomaly Controller',
+    roleIcon: 'fa-dice-d20',
+    tradition: 'Variance Discipline',
+    resourceName: 'Possibility Tiles',
+    resourceIcon: 'fa-dice-d20',
+    tagline: 'Maintain six fixed Possibility Tiles across four zones, resolving one bounded draw and one placed anomaly at a time through manual tabletop accounting.',
+    keyFeatures: ['Six Fixed Tile IDs', 'Four Tile Zones', 'Bounded Anomaly Control'],
+    loreSnippet: 'Trained in the Alchemite Sump workshops and Variance Circle, Chaos Weavers stabilize real anomaly exposure with finite stabilizing interfaces.',
+    playstyle: 'Commit available tiles to bounded draws or place one visible anomaly, then recover spent tiles through paid Fold or completed long rest.'
+  },
+
+  gambler: {
+    id: 'gambler',
+    name: 'Gambler',
+    role: 'Risk Dealer & Wager Tactician',
+    roleIcon: 'fa-dice',
+    tradition: 'Wager Discipline',
+    resourceName: 'Hand & Fortune',
+    resourceIcon: 'fa-dice',
+    tagline: 'Play from a twenty-card personal deck with a five-card hand, a 0-7 Fortune ledger, and one public wager at a time without fabricated draws.',
+    keyFeatures: ['Twenty-Card Personal Deck', 'Fortune 0-7 Ledger', 'Single Public Wager'],
+    loreSnippet: 'Grounded in Merrowport House settlement discipline and Alchemite wagering apprenticeships, Gamblers back every play with an actual stake.',
+    playstyle: 'Declare one visible wager, commit real cards from hand, and settle wins or losses honestly through manual tabletop tracking.'
+  },
+
+  fate_weaver: {
+    id: 'fate_weaver',
+    name: 'Fate Weaver',
+    role: 'Link Binder & Obligation Support',
+    roleIcon: 'fa-scroll',
+    tradition: 'Thread Discipline',
+    resourceName: 'Fate Links',
+    resourceIcon: 'fa-link',
+    tagline: 'Bind up to three consented links backed by three thread tokens across free, reserved, and recovering states with explicit public obligations.',
+    keyFeatures: ['Three Thread Tokens', 'Consented Fate Links', 'Own-Turn Link Recovery'],
+    loreSnippet: 'Reconstructed as a bounded link-binding discipline, Fate Weavers maintain explicit obligations between linked subjects without divination banks.',
+    playstyle: 'Reserve thread tokens to open consented links, share or redirect bounded burdens, and recover closed threads at your next own turn.'
+  },
+
+  deathcaller: {
+    id: 'deathcaller',
+    name: 'Deathcaller',
+    role: 'Remnant Commander & Vitality Broker',
+    roleIcon: 'fa-skull',
+    tradition: 'Grave-Order Discipline',
+    resourceName: 'Dead Muster & Vitality',
+    resourceIcon: 'fa-skull',
+    tagline: 'Command at most two raised remnants backed by a 0-10 Vitality ledger, distinct from Revenant soul anchors and Plaguebringer symbiosis.',
+    keyFeatures: ['Two-Remnant Muster Cap', 'Vitality 0-10 Ledger', 'Paid Grave Orders'],
+    loreSnippet: 'Separating remnant command from threshold transition, Deathcallers direct finite grave-order manifestations through strict vitality accounting.',
+    playstyle: 'Raise up to two remnants, issue bounded grave orders on your turn, and track Vitality expenditure and rest recovery manually.'
+  },
+
+  lichborne: {
+    id: 'lichborne',
+    name: 'Lichborne',
+    role: 'Frost-Anchor Caster & Ward Controller',
+    roleIcon: 'fa-skull',
+    tradition: 'Phylactery Discipline',
+    resourceName: 'Anchor Integrity & Frost Stage',
+    resourceIcon: 'fa-snowflake',
+    tagline: 'Channel cold-warded spellwork through an externalized phylactery vessel with 0-12 Anchor Integrity and four voluntary frost-preservation stages.',
+    keyFeatures: ['Anchor Integrity 0-12', 'Four Frost Stages', 'Externalized Vessel'],
+    loreSnippet: 'Distinct from Revenant threshold rites, Lichborne bind their endurance to a physical vessel and regulate frost-stage preservation deliberately.',
+    playstyle: 'Manage Anchor Integrity and frost stages across encounters, spending vessel stability on cold wards and recovering only through rest discipline.'
+  },
+
+  druid: {
+    id: 'druid',
+    name: 'Druid',
+    role: 'Ecological Form-Holder & Habitat Shaper',
+    roleIcon: 'fa-seedling',
+    tradition: 'Ecological Discipline',
+    resourceName: 'Active Body, Traits & Transitions',
+    resourceIcon: 'fa-leaf',
+    tagline: 'Hold one active ecological body with two trait slots and a three-transition budget, distinct from Shaper kinetic stance-flow.',
+    keyFeatures: ['One Active Body', 'Two Trait Slots', 'Three-Transition Budget'],
+    loreSnippet: 'Drawing on Verdant Circle and Florae ecological traditions, Druids adapt to living habitats while preserving continuous self-reference.',
+    playstyle: 'Assume an ecological form, slot two bounded traits, and pace your three form transitions across the session.'
+  },
+
+  hunter: {
+    id: 'hunter',
+    name: 'Hunter',
+    role: 'Quarry Tracker & Field Tactician',
+    roleIcon: 'fa-crosshairs',
+    tradition: 'Field Discipline',
+    resourceName: 'Quarry Ledger, Evidence & Tools',
+    resourceIcon: 'fa-paw',
+    tagline: 'Maintain one active Quarry Ledger with three observed Evidence marks, one Companion Role, and two prepared Field Tools.',
+    keyFeatures: ['Single Quarry Ledger', 'Three Evidence Marks', 'Companion Role & Field Tools'],
+    loreSnippet: 'Rooted in frontier ranging lodges and Silent Hunt field craft, Hunters read trail, habit, and opening without magical omniscience.',
+    playstyle: 'Log observed Evidence on one named quarry, coordinate your companion role, and deploy two prepared field tools.'
+  
   }
 };
 
 export const getClassFlavorProfile = (classId) => {
   if (!classId) return null;
-  const normalized = classId.toLowerCase().replace(/\s+/g, '_');
+  const normalized = classId.toLowerCase().replace(/[-\s]+/g, '_');
   return CLASS_FLAVOR_PROFILES[normalized] || null;
 };
 

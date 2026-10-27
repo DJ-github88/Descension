@@ -18,6 +18,17 @@ only by agreement recorded here.
 
 ## 1. Standing rules
 
+### A10 active shared-file reservation — 2026-10-27
+
+Main HQ milestone: [composable combat effects](MYTHRILL_PROJECT_14_A10_MILESTONE.md). Combat writes a new
+versioned `authored-effect:v1` companion (structured C4 expiry, one movement-speed modifier family, atomic
+direct damage/healing + condition bundle) through the existing installed registry, spell binder/P7 stage,
+C4 lifecycle, shared condition profile/timing mirrors, spell planner/service/panel, Wizard authored-condition
+fields (narrow), Step3 effect selection (narrow) and `utils/conditionUtils.js`. A7–A9 `authored-condition:v1`
+meaning, A1a/W1, Class/Heritage content and the character-reliability session's files (ledger table) are
+protected: A10 edits none of them and adds no character effective-stat calculation.
+
+
 ### A9 active shared-file reservation — 2026-10-25
 
 Main HQ authorizes [A9](MYTHRILL_PROJECT_14_A9_CONTRACT.md): A4 creature and A8 primary
@@ -63,6 +74,23 @@ inspecting rather than rerunning production tests/build/App. Gate7127ad55… nam
    scheduled future capability.
 
 ## 2. File ownership
+
+### Obstruction-aware targeting reservation — Sol, 2026-10-27
+
+User-assigned bounded milestone: Sol owns new `vtt-react/src/services/aimObstruction.js`,
+its focused tests, `components/grid/TargetPickOverlay.jsx` and `.css`, and a new
+`verification/p12/obstruction-app-browser.cjs` witness. Shared targeting overlay edits are
+reserved here before editing; `targetingStore.js` and `targetPick.js` remain read-only dependencies.
+Sonnet retains character/attributes/persistence; Opus retains authored effects/modifiers/lifecycle.
+No payment/consequence/server or authored-profile writes. Work uses detached isolated worktree
+`D:/AppData/Temp/opencode/mythrill-obstruction`; final owned-path transfer requires fresh byte comparison.
+Sol reserves one detached production build for this milestone after focused checks; other tracks
+should serialize builds against this reservation (status/evidence to be appended here).
+Build1 is active via the existing P12 snapshot runner, output
+`D:/AppData/Temp/opencode/obstruction-build1`; runtime snapshot includes only bytes present at capture.
+Opus's concurrent A10 milestone/source work remains separately owned and unaccepted by this check.
+Existing sight geometry can support a separately labelled advisory sight diagnostic, not projectile
+permission. Player geometry entitlement and completeness must be traced before exposing findings.
 
 | Area | Files | Owner | Notes |
 |---|---|---|---|

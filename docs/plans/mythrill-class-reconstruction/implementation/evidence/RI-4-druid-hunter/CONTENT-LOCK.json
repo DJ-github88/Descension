@@ -1,0 +1,2788 @@
+{
+  "schema": "mythrill.class-content-lock/v1",
+  "cohort": "RI-4",
+  "title": "Druid + Hunter complete content lock",
+  "rulesetVersion": "cr-review-r1",
+  "created": "2026-10-27",
+  "status": "implemented-manual-tabletop",
+  "classes": {
+    "druid": {
+      "identity": {
+        "id": "druid",
+        "name": "Druid",
+        "variantName": "Druid",
+        "role": "Adaptive Hybrid / Explorer",
+        "resource": "Anatomical Loadout",
+        "resourceSystemId": "druid-body",
+        "rulesetVersion": "cr-review-r1",
+        "developmentStatus": "development",
+        "manualNotice": "Manual tabletop only. No automatic transformation, slot, transition, recovery, suspension, damage, prevention, movement or expiry.",
+        "heritageEffectsImplemented": false,
+        "nativeAccess": [],
+        "heritageRecommendation": [
+          "morgh_groven",
+          "ithran_groven",
+          "veiled_mimir",
+          "tethered_mimir"
+        ]
+      },
+      "counts": {
+        "core": 2,
+        "optional": 40,
+        "talentActives": 6,
+        "passives": 48,
+        "uniqueRecords": 96,
+        "activeRecords": 48,
+        "passiveRecords": 48,
+        "trees": 3,
+        "nodes": 54,
+        "ranks": 150
+      },
+      "core": [
+        {
+          "id": "cr1_druid_adopt_loadout",
+          "name": "Adopt Loadout",
+          "ap": 1,
+          "source": "core"
+        },
+        {
+          "id": "cr1_druid_recover_self",
+          "name": "Recover the Self",
+          "ap": 1,
+          "source": "core"
+        }
+      ],
+      "optionalByLevel": {
+        "1": [
+          {
+            "id": "cr1_druid_rending_claw",
+            "name": "Rending Claw",
+            "ap": 1,
+            "effectTypes": [
+              "damage"
+            ],
+            "source": "optional"
+          },
+          {
+            "id": "cr1_druid_chitin_plate",
+            "name": "Chitin Plate",
+            "ap": 1,
+            "effectTypes": [
+              "buff"
+            ],
+            "source": "optional"
+          },
+          {
+            "id": "cr1_druid_soft_step",
+            "name": "Soft-Step",
+            "ap": 1,
+            "effectTypes": [
+              "utility"
+            ],
+            "source": "optional"
+          },
+          {
+            "id": "cr1_druid_taste_the_air",
+            "name": "Taste the Air",
+            "ap": 1,
+            "effectTypes": [
+              "utility"
+            ],
+            "source": "optional"
+          }
+        ],
+        "2": [
+          {
+            "id": "cr1_druid_shed_the_snare",
+            "name": "Shed the Snare",
+            "ap": 1,
+            "effectTypes": [
+              "utility"
+            ],
+            "source": "optional"
+          },
+          {
+            "id": "cr1_druid_lashing_tail",
+            "name": "Lashing Tail",
+            "ap": 1,
+            "effectTypes": [
+              "damage",
+              "control"
+            ],
+            "source": "optional"
+          },
+          {
+            "id": "cr1_druid_stonehide_stance",
+            "name": "Stonehide Stance",
+            "ap": 1,
+            "effectTypes": [
+              "buff"
+            ],
+            "source": "optional"
+          },
+          {
+            "id": "cr1_druid_predators_leap",
+            "name": "Predator's Leap",
+            "ap": 1,
+            "effectTypes": [
+              "utility"
+            ],
+            "source": "optional"
+          }
+        ],
+        "3": [
+          {
+            "id": "cr1_druid_crushing_pounce",
+            "name": "Crushing Pounce",
+            "ap": 2,
+            "effectTypes": [
+              "damage"
+            ],
+            "source": "optional"
+          },
+          {
+            "id": "cr1_druid_vibration_sense",
+            "name": "Vibration Sense",
+            "ap": 1,
+            "effectTypes": [
+              "utility"
+            ],
+            "source": "optional"
+          },
+          {
+            "id": "cr1_druid_mending_molt",
+            "name": "Mending Molt",
+            "ap": 2,
+            "effectTypes": [
+              "heal"
+            ],
+            "source": "optional"
+          },
+          {
+            "id": "cr1_druid_ambush_instinct",
+            "name": "Ambush Instinct",
+            "ap": 2,
+            "effectTypes": [
+              "buff"
+            ],
+            "source": "optional"
+          }
+        ],
+        "4": [
+          {
+            "id": "cr1_druid_guardian_carapace",
+            "name": "Guardian Carapace",
+            "ap": 2,
+            "effectTypes": [
+              "buff"
+            ],
+            "source": "optional"
+          },
+          {
+            "id": "cr1_druid_hooked_tendril",
+            "name": "Hooked Tendril",
+            "ap": 2,
+            "effectTypes": [
+              "control"
+            ],
+            "source": "optional"
+          },
+          {
+            "id": "cr1_druid_burrowing_retreat",
+            "name": "Burrowing Retreat",
+            "ap": 2,
+            "effectTypes": [
+              "utility"
+            ],
+            "source": "optional"
+          },
+          {
+            "id": "cr1_druid_venom_spur",
+            "name": "Venom Spur",
+            "ap": 2,
+            "effectTypes": [
+              "damage"
+            ],
+            "source": "optional"
+          }
+        ],
+        "5": [
+          {
+            "id": "cr1_druid_twin_talons",
+            "name": "Twin Talons",
+            "ap": 2,
+            "effectTypes": [
+              "damage"
+            ],
+            "source": "optional"
+          },
+          {
+            "id": "cr1_druid_camouflage_skin",
+            "name": "Camouflage Skin",
+            "ap": 2,
+            "effectTypes": [
+              "utility"
+            ],
+            "source": "optional"
+          },
+          {
+            "id": "cr1_druid_reinforced_joints",
+            "name": "Reinforced Joints",
+            "ap": 2,
+            "effectTypes": [
+              "buff"
+            ],
+            "source": "optional"
+          },
+          {
+            "id": "cr1_druid_chameleon_gait",
+            "name": "Chameleon Gait",
+            "ap": 1,
+            "effectTypes": [
+              "utility"
+            ],
+            "source": "optional"
+          }
+        ],
+        "6": [
+          {
+            "id": "cr1_druid_spined_back",
+            "name": "Spined Back",
+            "ap": 2,
+            "effectTypes": [
+              "damage",
+              "control"
+            ],
+            "source": "optional"
+          },
+          {
+            "id": "cr1_druid_anchoring_root",
+            "name": "Anchoring Root",
+            "ap": 2,
+            "effectTypes": [
+              "control"
+            ],
+            "source": "optional"
+          },
+          {
+            "id": "cr1_druid_regenerative_bloom",
+            "name": "Regenerative Bloom",
+            "ap": 2,
+            "effectTypes": [
+              "heal"
+            ],
+            "source": "optional"
+          },
+          {
+            "id": "cr1_druid_scent_map",
+            "name": "Scent Map",
+            "ap": 2,
+            "effectTypes": [
+              "utility"
+            ],
+            "source": "optional"
+          }
+        ],
+        "7": [
+          {
+            "id": "cr1_druid_apex_lunge",
+            "name": "Apex Lunge",
+            "ap": 3,
+            "effectTypes": [
+              "damage"
+            ],
+            "source": "optional"
+          },
+          {
+            "id": "cr1_druid_mimic_voice",
+            "name": "Mimic Voice",
+            "ap": 1,
+            "effectTypes": [
+              "utility"
+            ],
+            "source": "optional"
+          },
+          {
+            "id": "cr1_druid_warding_shell",
+            "name": "Warding Shell",
+            "ap": 2,
+            "effectTypes": [
+              "buff"
+            ],
+            "source": "optional"
+          },
+          {
+            "id": "cr1_druid_slip_the_coil",
+            "name": "Slip the Coil",
+            "ap": 1,
+            "effectTypes": [
+              "utility"
+            ],
+            "source": "optional"
+          }
+        ],
+        "8": [
+          {
+            "id": "cr1_druid_bonebreaker_bite",
+            "name": "Bonebreaker Bite",
+            "ap": 3,
+            "effectTypes": [
+              "damage"
+            ],
+            "source": "optional"
+          },
+          {
+            "id": "cr1_druid_living_wall",
+            "name": "Living Wall",
+            "ap": 2,
+            "effectTypes": [
+              "control"
+            ],
+            "source": "optional"
+          },
+          {
+            "id": "cr1_druid_adaptive_hide",
+            "name": "Adaptive Hide",
+            "ap": 2,
+            "effectTypes": [
+              "buff"
+            ],
+            "source": "optional"
+          },
+          {
+            "id": "cr1_druid_echo_location",
+            "name": "Echo Location",
+            "ap": 2,
+            "effectTypes": [
+              "utility"
+            ],
+            "source": "optional"
+          }
+        ],
+        "9": [
+          {
+            "id": "cr1_druid_rending_frenzy",
+            "name": "Rending Frenzy",
+            "ap": 3,
+            "effectTypes": [
+              "damage"
+            ],
+            "source": "optional"
+          },
+          {
+            "id": "cr1_druid_perfect_disguise",
+            "name": "Perfect Disguise",
+            "ap": 2,
+            "effectTypes": [
+              "utility"
+            ],
+            "source": "optional"
+          },
+          {
+            "id": "cr1_druid_unbreakable_plating",
+            "name": "Unbreakable Plating",
+            "ap": 3,
+            "effectTypes": [
+              "buff"
+            ],
+            "source": "optional"
+          },
+          {
+            "id": "cr1_druid_earthmeld",
+            "name": "Earthmeld",
+            "ap": 2,
+            "effectTypes": [
+              "utility"
+            ],
+            "source": "optional"
+          }
+        ],
+        "10": [
+          {
+            "id": "cr1_druid_world_serpent_strike",
+            "name": "World-Serpent Strike",
+            "ap": 3,
+            "effectTypes": [
+              "damage"
+            ],
+            "source": "optional"
+          },
+          {
+            "id": "cr1_druid_chimeric_form",
+            "name": "Chimeric Form",
+            "ap": 3,
+            "effectTypes": [
+              "buff"
+            ],
+            "source": "optional"
+          },
+          {
+            "id": "cr1_druid_crown_of_horns",
+            "name": "Crown of Horns",
+            "ap": 3,
+            "effectTypes": [
+              "control"
+            ],
+            "source": "optional"
+          },
+          {
+            "id": "cr1_druid_return_to_self",
+            "name": "Return to Self",
+            "ap": 2,
+            "effectTypes": [
+              "heal",
+              "utility"
+            ],
+            "source": "optional"
+          }
+        ]
+      },
+      "talentActives": [
+        {
+          "id": "cr1_druid_pursuit_morph",
+          "name": "Pursuit Morph",
+          "treeId": "predator",
+          "source": "talent-signature",
+          "ap": 2
+        },
+        {
+          "id": "cr1_druid_living_brace",
+          "name": "Living Brace",
+          "treeId": "adaptive-bastion",
+          "source": "talent-signature",
+          "ap": 1
+        },
+        {
+          "id": "cr1_druid_borrowed_outline",
+          "name": "Borrowed Outline",
+          "treeId": "mimic",
+          "source": "talent-signature",
+          "ap": 1
+        },
+        {
+          "id": "cr1_druid_apex_of_the_hunt",
+          "name": "Apex of the Hunt",
+          "treeId": "predator",
+          "source": "talent-capstone",
+          "ap": 3
+        },
+        {
+          "id": "cr1_druid_unbroken_bastion",
+          "name": "Unbroken Bastion",
+          "treeId": "adaptive-bastion",
+          "source": "talent-capstone",
+          "ap": 3
+        },
+        {
+          "id": "cr1_druid_perfect_outline",
+          "name": "Perfect Outline",
+          "treeId": "mimic",
+          "source": "talent-capstone",
+          "ap": 3
+        }
+      ],
+      "trees": [
+        {
+          "id": "predator",
+          "name": "Predator",
+          "tagline": "Spend locomotion and offense on a body that reaches and strikes.",
+          "signature": "pursuit_morph",
+          "capstone": "apex_of_the_hunt",
+          "nodes": [
+            {
+              "id": "cr1_druid_predator_p01",
+              "name": "First Blood",
+              "treeId": "predator",
+              "maxRanks": 3,
+              "minLevel": 1,
+              "requiresPoints": 0,
+              "requires": [],
+              "grantId": null,
+              "passiveSpellId": "cr1_druid_pd_first_blood",
+              "effectText": "Add 1 / 2 / 3 slicing to the first natural-weapon hit each round."
+            },
+            {
+              "id": "cr1_druid_predator_p02",
+              "name": "Climbing Pads",
+              "treeId": "predator",
+              "maxRanks": 3,
+              "minLevel": 1,
+              "requiresPoints": 0,
+              "requires": [],
+              "grantId": null,
+              "passiveSpellId": "cr1_druid_pd_climbing_pads",
+              "effectText": "Add 5 / 10 / 15 ft to climbing movement while Predator is active."
+            },
+            {
+              "id": "cr1_druid_predator_p03",
+              "name": "Pouncing Gait",
+              "treeId": "predator",
+              "maxRanks": 3,
+              "minLevel": 1,
+              "requiresPoints": 0,
+              "requires": [],
+              "grantId": null,
+              "passiveSpellId": "cr1_druid_pd_pouncing_gait",
+              "effectText": "Add 1 / 2 / 3 ft to one leap while Predator is active."
+            },
+            {
+              "id": "cr1_druid_predator_p04",
+              "name": "Blood Scent",
+              "treeId": "predator",
+              "maxRanks": 3,
+              "minLevel": 2,
+              "requiresPoints": 5,
+              "requires": [
+                "cr1_druid_predator_p01"
+              ],
+              "grantId": null,
+              "passiveSpellId": "cr1_druid_pd_blood_scent",
+              "effectText": "Add 1 / 2 / 3 to one tracking check against a wounded quarry."
+            },
+            {
+              "id": "cr1_druid_predator_p05",
+              "name": "Savage Focus",
+              "treeId": "predator",
+              "maxRanks": 3,
+              "minLevel": 3,
+              "requiresPoints": 10,
+              "requires": [
+                "cr1_druid_predator_p03"
+              ],
+              "grantId": null,
+              "passiveSpellId": "cr1_druid_pd_savage_focus",
+              "effectText": "Add 1 / 2 / 3 to one concentration check to keep a Predator trait."
+            },
+            {
+              "id": "cr1_druid_predator_p06",
+              "name": "Rending Claws",
+              "treeId": "predator",
+              "maxRanks": 3,
+              "minLevel": 3,
+              "requiresPoints": 10,
+              "requires": [
+                "cr1_druid_predator_p04"
+              ],
+              "grantId": null,
+              "passiveSpellId": "cr1_druid_pd_rending_claws",
+              "effectText": "Add 1 / 2 / 3 slicing when both Predator slots are active."
+            },
+            {
+              "id": "cr1_druid_predator_p07",
+              "name": "Pack Instinct",
+              "treeId": "predator",
+              "maxRanks": 3,
+              "minLevel": 4,
+              "requiresPoints": 15,
+              "requires": [
+                "cr1_druid_predator_p05",
+                "cr1_druid_predator_signature"
+              ],
+              "grantId": null,
+              "passiveSpellId": "cr1_druid_pd_pack_instinct",
+              "effectText": "Add 1 / 2 / 3 to one ally attack against a target you struck this round."
+            },
+            {
+              "id": "cr1_druid_predator_p08",
+              "name": "Territorial Roar",
+              "treeId": "predator",
+              "maxRanks": 3,
+              "minLevel": 4,
+              "requiresPoints": 15,
+              "requires": [
+                "cr1_druid_predator_p06"
+              ],
+              "grantId": null,
+              "passiveSpellId": "cr1_druid_pd_territorial_roar",
+              "effectText": "Add 1 / 2 / 3 to one Intimidation check while visibly transformed."
+            },
+            {
+              "id": "cr1_druid_predator_p09",
+              "name": "Springing Charge",
+              "treeId": "predator",
+              "maxRanks": 3,
+              "minLevel": 5,
+              "requiresPoints": 20,
+              "requires": [
+                "cr1_druid_predator_p07"
+              ],
+              "grantId": null,
+              "passiveSpellId": "cr1_druid_pd_springing_charge",
+              "effectText": "Add 5 / 10 / 15 ft to one charge before a natural strike."
+            },
+            {
+              "id": "cr1_druid_predator_p10",
+              "name": "Predator Patience",
+              "treeId": "predator",
+              "maxRanks": 3,
+              "minLevel": 5,
+              "requiresPoints": 20,
+              "requires": [
+                "cr1_druid_predator_p08"
+              ],
+              "grantId": null,
+              "passiveSpellId": "cr1_druid_pd_predator_patience",
+              "effectText": "Add 1 / 2 / 3 to one initiative check while Predator is prepared."
+            },
+            {
+              "id": "cr1_druid_predator_p11",
+              "name": "Culling Strike",
+              "treeId": "predator",
+              "maxRanks": 3,
+              "minLevel": 6,
+              "requiresPoints": 25,
+              "requires": [
+                "cr1_druid_predator_p09"
+              ],
+              "grantId": null,
+              "passiveSpellId": "cr1_druid_pd_culling_strike",
+              "effectText": "Add 1 / 2 / 3 slicing against a target below half health."
+            },
+            {
+              "id": "cr1_druid_predator_p12",
+              "name": "Sinew Snap",
+              "treeId": "predator",
+              "maxRanks": 3,
+              "minLevel": 6,
+              "requiresPoints": 25,
+              "requires": [
+                "cr1_druid_predator_p10"
+              ],
+              "grantId": null,
+              "passiveSpellId": "cr1_druid_pd_sinew_snap",
+              "effectText": "Impose -1 / 2 / 3 on one save against a Predator strike; declared before the roll."
+            },
+            {
+              "id": "cr1_druid_predator_p13",
+              "name": "Uncanny Dodge",
+              "treeId": "predator",
+              "maxRanks": 3,
+              "minLevel": 7,
+              "requiresPoints": 30,
+              "requires": [
+                "cr1_druid_predator_p11"
+              ],
+              "grantId": null,
+              "passiveSpellId": "cr1_druid_pd_uncanny_dodge",
+              "effectText": "Add 1 / 2 / 3 to one Agility save while Predator is active."
+            },
+            {
+              "id": "cr1_druid_predator_p14",
+              "name": "Relentless Chase",
+              "treeId": "predator",
+              "maxRanks": 3,
+              "minLevel": 8,
+              "requiresPoints": 35,
+              "requires": [
+                "cr1_druid_predator_p12"
+              ],
+              "grantId": null,
+              "passiveSpellId": "cr1_druid_pd_relentless_chase",
+              "effectText": "Add 5 / 10 / 15 ft to one move toward a fleeing target."
+            },
+            {
+              "id": "cr1_druid_predator_p15",
+              "name": "Apex Senses",
+              "treeId": "predator",
+              "maxRanks": 3,
+              "minLevel": 9,
+              "requiresPoints": 40,
+              "requires": [
+                "cr1_druid_predator_p13"
+              ],
+              "grantId": null,
+              "passiveSpellId": "cr1_druid_pd_apex_senses",
+              "effectText": "Add 1 / 2 / 3 to one Perception check while Predator is active."
+            },
+            {
+              "id": "cr1_druid_predator_p16",
+              "name": "Predator Mastery",
+              "treeId": "predator",
+              "maxRanks": 3,
+              "minLevel": 10,
+              "requiresPoints": 45,
+              "requires": [
+                "cr1_druid_predator_p14"
+              ],
+              "grantId": null,
+              "passiveSpellId": "cr1_druid_pd_predator_mastery",
+              "effectText": "Add 1 / 2 / 3 slicing to one natural-weapon damage event each round."
+            },
+            {
+              "id": "cr1_druid_predator_signature",
+              "name": "Pursuit Morph",
+              "treeId": "predator",
+              "maxRanks": 1,
+              "minLevel": 3,
+              "requiresPoints": 10,
+              "requires": [
+                "cr1_druid_predator_p01",
+                "cr1_druid_predator_p02"
+              ],
+              "grantId": "cr1_druid_pursuit_morph",
+              "passiveSpellId": null,
+              "effectText": "Grant cr1_druid_pursuit_morph; manual ACTION, no optional pick consumed."
+            },
+            {
+              "id": "cr1_druid_predator_capstone",
+              "name": "Apex of the Hunt",
+              "treeId": "predator",
+              "maxRanks": 1,
+              "minLevel": 10,
+              "requiresPoints": 45,
+              "requires": [
+                "cr1_druid_predator_p15",
+                "cr1_druid_predator_signature"
+              ],
+              "grantId": "cr1_druid_apex_of_the_hunt",
+              "passiveSpellId": null,
+              "effectText": "Grant cr1_druid_apex_of_the_hunt; manual ACTION, no optional pick consumed."
+            }
+          ]
+        },
+        {
+          "id": "adaptive-bastion",
+          "name": "Adaptive Bastion",
+          "tagline": "Hold adapted anatomy still and choose the impact to resist.",
+          "signature": "living_brace",
+          "capstone": "unbroken_bastion",
+          "nodes": [
+            {
+              "id": "cr1_druid_adaptive_bastion_p01",
+              "name": "Layered Plate",
+              "treeId": "adaptive-bastion",
+              "maxRanks": 3,
+              "minLevel": 1,
+              "requiresPoints": 0,
+              "requires": [],
+              "grantId": null,
+              "passiveSpellId": "cr1_druid_ab_layered_plate",
+              "effectText": "Increase one layered plating prevention by 1 / 2 / 3."
+            },
+            {
+              "id": "cr1_druid_adaptive_bastion_p02",
+              "name": "Braced Stance",
+              "treeId": "adaptive-bastion",
+              "maxRanks": 3,
+              "minLevel": 1,
+              "requiresPoints": 0,
+              "requires": [],
+              "grantId": null,
+              "passiveSpellId": "cr1_druid_ab_braced_stance",
+              "effectText": "Increase one Living Brace prevention by 1 / 2 / 3."
+            },
+            {
+              "id": "cr1_druid_adaptive_bastion_p03",
+              "name": "Rooted",
+              "treeId": "adaptive-bastion",
+              "maxRanks": 3,
+              "minLevel": 1,
+              "requiresPoints": 0,
+              "requires": [],
+              "grantId": null,
+              "passiveSpellId": "cr1_druid_ab_rooted",
+              "effectText": "Add 1 / 2 / 3 to one check to resist forced movement while braced."
+            },
+            {
+              "id": "cr1_druid_adaptive_bastion_p04",
+              "name": "Impact Reading",
+              "treeId": "adaptive-bastion",
+              "maxRanks": 3,
+              "minLevel": 2,
+              "requiresPoints": 5,
+              "requires": [
+                "cr1_druid_adaptive_bastion_p01"
+              ],
+              "grantId": null,
+              "passiveSpellId": "cr1_druid_ab_impact_reading",
+              "effectText": "Add 1 / 2 / 3 to one check to read an incoming impact."
+            },
+            {
+              "id": "cr1_druid_adaptive_bastion_p05",
+              "name": "Shield Scales",
+              "treeId": "adaptive-bastion",
+              "maxRanks": 3,
+              "minLevel": 3,
+              "requiresPoints": 10,
+              "requires": [
+                "cr1_druid_adaptive_bastion_p03"
+              ],
+              "grantId": null,
+              "passiveSpellId": "cr1_druid_ab_shield_scales",
+              "effectText": "Add 1 / 2 / 3 to one save while Bastion is active."
+            },
+            {
+              "id": "cr1_druid_adaptive_bastion_p06",
+              "name": "Guardian Reach",
+              "treeId": "adaptive-bastion",
+              "maxRanks": 3,
+              "minLevel": 3,
+              "requiresPoints": 10,
+              "requires": [
+                "cr1_druid_adaptive_bastion_p04"
+              ],
+              "grantId": null,
+              "passiveSpellId": "cr1_druid_ab_guardian_reach",
+              "effectText": "Add 5 / 10 / 15 ft to the distance at which you can interpose."
+            },
+            {
+              "id": "cr1_druid_adaptive_bastion_p07",
+              "name": "Stone Skin",
+              "treeId": "adaptive-bastion",
+              "maxRanks": 3,
+              "minLevel": 4,
+              "requiresPoints": 15,
+              "requires": [
+                "cr1_druid_adaptive_bastion_p05",
+                "cr1_druid_adaptive_bastion_signature"
+              ],
+              "grantId": null,
+              "passiveSpellId": "cr1_druid_ab_stone_skin",
+              "effectText": "Reduce one nonmagical damage event by 1 / 2 / 3 while Bastion is active."
+            },
+            {
+              "id": "cr1_druid_adaptive_bastion_p08",
+              "name": "Unyielding",
+              "treeId": "adaptive-bastion",
+              "maxRanks": 3,
+              "minLevel": 4,
+              "requiresPoints": 15,
+              "requires": [
+                "cr1_druid_adaptive_bastion_p06"
+              ],
+              "grantId": null,
+              "passiveSpellId": "cr1_druid_ab_unyielding",
+              "effectText": "Add 1 / 2 / 3 to one check while below half health and braced."
+            },
+            {
+              "id": "cr1_druid_adaptive_bastion_p09",
+              "name": "Brace Recovery",
+              "treeId": "adaptive-bastion",
+              "maxRanks": 3,
+              "minLevel": 5,
+              "requiresPoints": 20,
+              "requires": [
+                "cr1_druid_adaptive_bastion_p07"
+              ],
+              "grantId": null,
+              "passiveSpellId": "cr1_druid_ab_brace_recovery",
+              "effectText": "Reduce one recovery cost by 1 / 2 / 3 AP once per long rest; never below 0."
+            },
+            {
+              "id": "cr1_druid_adaptive_bastion_p10",
+              "name": "Bulwark Aura",
+              "treeId": "adaptive-bastion",
+              "maxRanks": 3,
+              "minLevel": 5,
+              "requiresPoints": 20,
+              "requires": [
+                "cr1_druid_adaptive_bastion_p08"
+              ],
+              "grantId": null,
+              "passiveSpellId": "cr1_druid_ab_bulwark_aura",
+              "effectText": "Extend one ally cover benefit by 5 / 10 / 15 ft while you are braced."
+            },
+            {
+              "id": "cr1_druid_adaptive_bastion_p11",
+              "name": "Ground Anchor",
+              "treeId": "adaptive-bastion",
+              "maxRanks": 3,
+              "minLevel": 6,
+              "requiresPoints": 25,
+              "requires": [
+                "cr1_druid_adaptive_bastion_p09"
+              ],
+              "grantId": null,
+              "passiveSpellId": "cr1_druid_ab_ground_anchor",
+              "effectText": "Impose -1 / 2 / 3 on one attempt to move you while braced."
+            },
+            {
+              "id": "cr1_druid_adaptive_bastion_p12",
+              "name": "Plated Counter",
+              "treeId": "adaptive-bastion",
+              "maxRanks": 3,
+              "minLevel": 6,
+              "requiresPoints": 25,
+              "requires": [
+                "cr1_druid_adaptive_bastion_p10"
+              ],
+              "grantId": null,
+              "passiveSpellId": "cr1_druid_ab_plated_counter",
+              "effectText": "Deal 1 / 2 / 3 smashing after preventing damage with plating; once per round."
+            },
+            {
+              "id": "cr1_druid_adaptive_bastion_p13",
+              "name": "Endurance",
+              "treeId": "adaptive-bastion",
+              "maxRanks": 3,
+              "minLevel": 7,
+              "requiresPoints": 30,
+              "requires": [
+                "cr1_druid_adaptive_bastion_p11"
+              ],
+              "grantId": null,
+              "passiveSpellId": "cr1_druid_ab_endurance",
+              "effectText": "Add 1 / 2 / 3 to one Constitution save."
+            },
+            {
+              "id": "cr1_druid_adaptive_bastion_p14",
+              "name": "Shelter Other",
+              "treeId": "adaptive-bastion",
+              "maxRanks": 3,
+              "minLevel": 8,
+              "requiresPoints": 35,
+              "requires": [
+                "cr1_druid_adaptive_bastion_p12"
+              ],
+              "grantId": null,
+              "passiveSpellId": "cr1_druid_ab_shelter_other",
+              "effectText": "Prevent 1 / 2 / 3 damage for one adjacent ally; uses your plate window."
+            },
+            {
+              "id": "cr1_druid_adaptive_bastion_p15",
+              "name": "Last Plate",
+              "treeId": "adaptive-bastion",
+              "maxRanks": 3,
+              "minLevel": 9,
+              "requiresPoints": 40,
+              "requires": [
+                "cr1_druid_adaptive_bastion_p13"
+              ],
+              "grantId": null,
+              "passiveSpellId": "cr1_druid_ab_last_plate",
+              "effectText": "Increase one prevention when at or below one-quarter health by 1 / 2 / 3."
+            },
+            {
+              "id": "cr1_druid_adaptive_bastion_p16",
+              "name": "Bastion Mastery",
+              "treeId": "adaptive-bastion",
+              "maxRanks": 3,
+              "minLevel": 10,
+              "requiresPoints": 45,
+              "requires": [
+                "cr1_druid_adaptive_bastion_p14"
+              ],
+              "grantId": null,
+              "passiveSpellId": "cr1_druid_ab_bastion_mastery",
+              "effectText": "Increase one prevention each round by 1 / 2 / 3."
+            },
+            {
+              "id": "cr1_druid_adaptive_bastion_signature",
+              "name": "Living Brace",
+              "treeId": "adaptive-bastion",
+              "maxRanks": 1,
+              "minLevel": 3,
+              "requiresPoints": 10,
+              "requires": [
+                "cr1_druid_adaptive_bastion_p01",
+                "cr1_druid_adaptive_bastion_p02"
+              ],
+              "grantId": "cr1_druid_living_brace",
+              "passiveSpellId": null,
+              "effectText": "Grant cr1_druid_living_brace; manual ACTION, no optional pick consumed."
+            },
+            {
+              "id": "cr1_druid_adaptive_bastion_capstone",
+              "name": "Unbroken Bastion",
+              "treeId": "adaptive-bastion",
+              "maxRanks": 1,
+              "minLevel": 10,
+              "requiresPoints": 45,
+              "requires": [
+                "cr1_druid_adaptive_bastion_p15",
+                "cr1_druid_adaptive_bastion_signature"
+              ],
+              "grantId": "cr1_druid_unbroken_bastion",
+              "passiveSpellId": null,
+              "effectText": "Grant cr1_druid_unbroken_bastion; manual ACTION, no optional pick consumed."
+            }
+          ]
+        },
+        {
+          "id": "mimic",
+          "name": "Mimic",
+          "tagline": "Wear a studied outline without stealing a life.",
+          "signature": "borrowed_outline",
+          "capstone": "perfect_outline",
+          "nodes": [
+            {
+              "id": "cr1_druid_mimic_p01",
+              "name": "Studied Detail",
+              "treeId": "mimic",
+              "maxRanks": 3,
+              "minLevel": 1,
+              "requiresPoints": 0,
+              "requires": [],
+              "grantId": null,
+              "passiveSpellId": "cr1_druid_mc_studied_detail",
+              "effectText": "Reduce one study time by 1 / 2 / 3 minutes; minimum 1."
+            },
+            {
+              "id": "cr1_druid_mimic_p02",
+              "name": "Borrowed Voice",
+              "treeId": "mimic",
+              "maxRanks": 3,
+              "minLevel": 1,
+              "requiresPoints": 0,
+              "requires": [],
+              "grantId": null,
+              "passiveSpellId": "cr1_druid_mc_borrowed_voice",
+              "effectText": "Add 1 / 2 / 3 to one Deception check while using Borrowed Outline."
+            },
+            {
+              "id": "cr1_druid_mimic_p03",
+              "name": "Soft Gait",
+              "treeId": "mimic",
+              "maxRanks": 3,
+              "minLevel": 1,
+              "requiresPoints": 0,
+              "requires": [],
+              "grantId": null,
+              "passiveSpellId": "cr1_druid_mc_soft_gait",
+              "effectText": "Add 5 / 10 / 15 ft to one stealth approach; no invisibility."
+            },
+            {
+              "id": "cr1_druid_mimic_p04",
+              "name": "Surface Read",
+              "treeId": "mimic",
+              "maxRanks": 3,
+              "minLevel": 2,
+              "requiresPoints": 5,
+              "requires": [
+                "cr1_druid_mimic_p01"
+              ],
+              "grantId": null,
+              "passiveSpellId": "cr1_druid_mc_surface_read",
+              "effectText": "Add 1 / 2 / 3 to one check to read a studied outline."
+            },
+            {
+              "id": "cr1_druid_mimic_p05",
+              "name": "Patient Observer",
+              "treeId": "mimic",
+              "maxRanks": 3,
+              "minLevel": 3,
+              "requiresPoints": 10,
+              "requires": [
+                "cr1_druid_mimic_p03"
+              ],
+              "grantId": null,
+              "passiveSpellId": "cr1_druid_mc_patient_observer",
+              "effectText": "Add 1 / 2 / 3 to one Perception check during study."
+            },
+            {
+              "id": "cr1_druid_mimic_p06",
+              "name": "Size Tolerance",
+              "treeId": "mimic",
+              "maxRanks": 3,
+              "minLevel": 3,
+              "requiresPoints": 10,
+              "requires": [
+                "cr1_druid_mimic_p04"
+              ],
+              "grantId": null,
+              "passiveSpellId": "cr1_druid_mc_size_tolerance",
+              "effectText": "Increase the allowed height difference by 5 / 10 / 15% for one outline."
+            },
+            {
+              "id": "cr1_druid_mimic_p07",
+              "name": "False Scar",
+              "treeId": "mimic",
+              "maxRanks": 3,
+              "minLevel": 4,
+              "requiresPoints": 15,
+              "requires": [
+                "cr1_druid_mimic_p05",
+                "cr1_druid_mimic_signature"
+              ],
+              "grantId": null,
+              "passiveSpellId": "cr1_druid_mc_false_scar",
+              "effectText": "Add 1 / 2 / 3 to one check to pass a superficial inspection."
+            },
+            {
+              "id": "cr1_druid_mimic_p08",
+              "name": "Quiet Change",
+              "treeId": "mimic",
+              "maxRanks": 3,
+              "minLevel": 4,
+              "requiresPoints": 15,
+              "requires": [
+                "cr1_druid_mimic_p06"
+              ],
+              "grantId": null,
+              "passiveSpellId": "cr1_druid_mc_quiet_change",
+              "effectText": "Add 1 / 2 / 3 to one Stealth check made immediately after adopting Mimic."
+            },
+            {
+              "id": "cr1_druid_mimic_p09",
+              "name": "Recognized Self",
+              "treeId": "mimic",
+              "maxRanks": 3,
+              "minLevel": 5,
+              "requiresPoints": 20,
+              "requires": [
+                "cr1_druid_mimic_p07"
+              ],
+              "grantId": null,
+              "passiveSpellId": "cr1_druid_mc_recognized_self",
+              "effectText": "Add 1 / 2 / 3 to one check to be recognized as yourself after mimicry."
+            },
+            {
+              "id": "cr1_druid_mimic_p10",
+              "name": "Mimic Escape",
+              "treeId": "mimic",
+              "maxRanks": 3,
+              "minLevel": 5,
+              "requiresPoints": 20,
+              "requires": [
+                "cr1_druid_mimic_p08"
+              ],
+              "grantId": null,
+              "passiveSpellId": "cr1_druid_mc_mimic_escape",
+              "effectText": "Add 1 / 2 / 3 to one check to slip away while disguised."
+            },
+            {
+              "id": "cr1_druid_mimic_p11",
+              "name": "Borrowed Manner",
+              "treeId": "mimic",
+              "maxRanks": 3,
+              "minLevel": 6,
+              "requiresPoints": 25,
+              "requires": [
+                "cr1_druid_mimic_p09"
+              ],
+              "grantId": null,
+              "passiveSpellId": "cr1_druid_mc_borrowed_manner",
+              "effectText": "Add 1 / 2 / 3 to one Performance check while using an outline."
+            },
+            {
+              "id": "cr1_druid_mimic_p12",
+              "name": "Close Study",
+              "treeId": "mimic",
+              "maxRanks": 3,
+              "minLevel": 6,
+              "requiresPoints": 25,
+              "requires": [
+                "cr1_druid_mimic_p10"
+              ],
+              "grantId": null,
+              "passiveSpellId": "cr1_druid_mc_close_study",
+              "effectText": "Add 1 / 2 / 3 to one check to notice a flaw in another disguise."
+            },
+            {
+              "id": "cr1_druid_mimic_p13",
+              "name": "Familiar Face",
+              "treeId": "mimic",
+              "maxRanks": 3,
+              "minLevel": 7,
+              "requiresPoints": 30,
+              "requires": [
+                "cr1_druid_mimic_p11"
+              ],
+              "grantId": null,
+              "passiveSpellId": "cr1_druid_mc_familiar_face",
+              "effectText": "Add 1 / 2 / 3 to one social check with a creature that knows the studied outline."
+            },
+            {
+              "id": "cr1_druid_mimic_p14",
+              "name": "Vanishing Act",
+              "treeId": "mimic",
+              "maxRanks": 3,
+              "minLevel": 8,
+              "requiresPoints": 35,
+              "requires": [
+                "cr1_druid_mimic_p12"
+              ],
+              "grantId": null,
+              "passiveSpellId": "cr1_druid_mc_vanishing_act",
+              "effectText": "Add 1 / 2 / 3 to one Hide check after a public transformation."
+            },
+            {
+              "id": "cr1_druid_mimic_p15",
+              "name": "Perfect Recall",
+              "treeId": "mimic",
+              "maxRanks": 3,
+              "minLevel": 9,
+              "requiresPoints": 40,
+              "requires": [
+                "cr1_druid_mimic_p13"
+              ],
+              "grantId": null,
+              "passiveSpellId": "cr1_druid_mc_perfect_recall",
+              "effectText": "Retain up to 1 / 2 / 3 studied outlines; no stolen memories."
+            },
+            {
+              "id": "cr1_druid_mimic_p16",
+              "name": "Mimic Mastery",
+              "treeId": "mimic",
+              "maxRanks": 3,
+              "minLevel": 10,
+              "requiresPoints": 45,
+              "requires": [
+                "cr1_druid_mimic_p14"
+              ],
+              "grantId": null,
+              "passiveSpellId": "cr1_druid_mc_mimic_mastery",
+              "effectText": "Add 1 / 2 / 3 to one disguise-related check each round."
+            },
+            {
+              "id": "cr1_druid_mimic_signature",
+              "name": "Borrowed Outline",
+              "treeId": "mimic",
+              "maxRanks": 1,
+              "minLevel": 3,
+              "requiresPoints": 10,
+              "requires": [
+                "cr1_druid_mimic_p01",
+                "cr1_druid_mimic_p02"
+              ],
+              "grantId": "cr1_druid_borrowed_outline",
+              "passiveSpellId": null,
+              "effectText": "Grant cr1_druid_borrowed_outline; manual ACTION, no optional pick consumed."
+            },
+            {
+              "id": "cr1_druid_mimic_capstone",
+              "name": "Perfect Outline",
+              "treeId": "mimic",
+              "maxRanks": 1,
+              "minLevel": 10,
+              "requiresPoints": 45,
+              "requires": [
+                "cr1_druid_mimic_p15",
+                "cr1_druid_mimic_signature"
+              ],
+              "grantId": "cr1_druid_perfect_outline",
+              "passiveSpellId": null,
+              "effectText": "Grant cr1_druid_perfect_outline; manual ACTION, no optional pick consumed."
+            }
+          ]
+        }
+      ],
+      "resourceRules": {
+        "activeTraitMax": 2,
+        "slotIds": [
+          "locomotion",
+          "offense",
+          "defense",
+          "senses"
+        ],
+        "preparedLoadoutMax": 3,
+        "loadouts": [
+          "predator",
+          "bastion",
+          "mimic"
+        ],
+        "transitionMin": 0,
+        "transitionMax": 3,
+        "platePrevention": 2,
+        "bracePrevention": 4,
+        "mimicStudiedMinutes": 10,
+        "mimicSizePercent": 10,
+        "mimicMinutes": 1,
+        "refreshOnLongRest": true,
+        "refreshOnReconnect": false,
+        "refreshOnInitiative": false,
+        "automaticTransformation": false,
+        "automaticRecovery": false,
+        "automaticPrevention": false,
+        "manualOnly": true
+      },
+      "resourceSystem": {
+        "id": "druid-body",
+        "title": "Anatomical Loadout",
+        "description": "Prepare three two-slot loadouts at a completed long rest. At most two anatomical slots are active at once. Adopting costs 1 AP and adds one unrecovered transition; at three transitions it is refused until you recover by suspending a real trait. Plating prevents 2 per own-turn window; Living Brace prevents 4 once.",
+        "cards": [
+          {
+            "title": "Slots (0-2)",
+            "stats": "Four possible, two active",
+            "details": "Locomotion, offense, defense and senses. Never two traits in the same slot. A suspended trait grants nothing."
+          },
+          {
+            "title": "Transitions (0-3)",
+            "stats": "The cost of changing",
+            "details": "Each adoption adds one transition. At three, adoption is refused until recovery. Reconnect or rest cannot erase recorded transitions except a completed long rest."
+          },
+          {
+            "title": "Prepared Bodies",
+            "stats": "Three loadouts",
+            "details": "Predator (locomotion/offense), Bastion (defense/senses) and Mimic (locomotion/senses). Preparation does not grant optional spells."
+          }
+        ],
+        "generationTable": {
+          "headers": [
+            "Outcome",
+            "Transition",
+            "Record treatment"
+          ],
+          "rows": [
+            [
+              "Adopt a prepared loadout",
+              "+1",
+              "Replace the active two slots; record the new traits"
+            ],
+            [
+              "Recover the Self",
+              "-1",
+              "Suspend one active trait until your next own turn"
+            ],
+            [
+              "Rejected adoption at three transitions",
+              "+0",
+              "Leave the prior anatomy unchanged; no AP or trait is lost"
+            ],
+            [
+              "Completed long rest",
+              "reset to 0",
+              "Return to the default body and clear suspensions"
+            ]
+          ]
+        },
+        "overheatRules": {
+          "title": "Anatomy Overflow",
+          "content": "A third active trait or a second trait in the same slot is rejected without changing the existing body. At three unrecovered transitions, adoption is refused; the prior anatomy, AP and traits remain unchanged. A completed long rest returns the default body and clears suspensions, but never invents a new prepared loadout."
+        }
+      },
+      "manifest": {
+        "contentLock": "RI-4 Druid complete content lock",
+        "uniqueRecords": 96,
+        "activeRecords": 48,
+        "passiveRecords": 48,
+        "talentNodes": 54,
+        "automaticConversion": false
+      },
+      "authoredRecordCount": 96
+    },
+    "hunter": {
+      "identity": {
+        "id": "hunter",
+        "name": "Hunter",
+        "variantName": "Hunter",
+        "role": "Pursuit / Precision",
+        "resource": "Quarry & Evidence",
+        "resourceSystemId": "hunter-evidence",
+        "rulesetVersion": "cr-review-r1",
+        "developmentStatus": "development",
+        "manualNotice": "Manual tabletop only. No automatic quarry, evidence, tag generation, companion action, path, damage, movement or expiry.",
+        "heritageEffectsImplemented": false,
+        "nativeAccess": [],
+        "heritageRecommendation": [
+          "skald_human",
+          "ordan_human",
+          "veiled_mimir",
+          "tethered_mimir",
+          "marked_vreken",
+          "thrask_solari",
+          "deepling_myrathil"
+        ]
+      },
+      "counts": {
+        "core": 3,
+        "optional": 40,
+        "talentActives": 6,
+        "passives": 48,
+        "uniqueRecords": 97,
+        "activeRecords": 49,
+        "passiveRecords": 48,
+        "trees": 3,
+        "nodes": 54,
+        "ranks": 150
+      },
+      "core": [
+        {
+          "id": "cr1_hunter_mark_quarry",
+          "name": "Mark Quarry",
+          "ap": 1,
+          "source": "core"
+        },
+        {
+          "id": "cr1_hunter_take_angle",
+          "name": "Take an Angle",
+          "ap": 1,
+          "source": "core"
+        },
+        {
+          "id": "cr1_hunter_press_quarry",
+          "name": "Press the Quarry",
+          "ap": 2,
+          "source": "core"
+        }
+      ],
+      "optionalByLevel": {
+        "1": [
+          {
+            "id": "cr1_hunter_hunters_snare",
+            "name": "Hunter's Snare",
+            "ap": 1,
+            "effectTypes": [
+              "control"
+            ],
+            "source": "optional"
+          },
+          {
+            "id": "cr1_hunter_steady_aim",
+            "name": "Steady Aim",
+            "ap": 1,
+            "effectTypes": [
+              "buff"
+            ],
+            "source": "optional"
+          },
+          {
+            "id": "cr1_hunter_trailcraft",
+            "name": "Trailcraft",
+            "ap": 1,
+            "effectTypes": [
+              "utility"
+            ],
+            "source": "optional"
+          },
+          {
+            "id": "cr1_hunter_quick_draw",
+            "name": "Quick Draw",
+            "ap": 1,
+            "effectTypes": [
+              "damage"
+            ],
+            "source": "optional"
+          }
+        ],
+        "2": [
+          {
+            "id": "cr1_hunter_crippling_shot",
+            "name": "Crippling Shot",
+            "ap": 2,
+            "effectTypes": [
+              "damage",
+              "control"
+            ],
+            "source": "optional"
+          },
+          {
+            "id": "cr1_hunter_read_the_spoor",
+            "name": "Read the Spoor",
+            "ap": 1,
+            "effectTypes": [
+              "utility"
+            ],
+            "source": "optional"
+          },
+          {
+            "id": "cr1_hunter_evasive_step",
+            "name": "Evasive Step",
+            "ap": 1,
+            "effectTypes": [
+              "utility"
+            ],
+            "source": "optional"
+          },
+          {
+            "id": "cr1_hunter_companion_whistle",
+            "name": "Companion Whistle",
+            "ap": 1,
+            "effectTypes": [
+              "utility"
+            ],
+            "source": "optional"
+          }
+        ],
+        "3": [
+          {
+            "id": "cr1_hunter_piercing_volley",
+            "name": "Piercing Volley",
+            "ap": 2,
+            "effectTypes": [
+              "damage"
+            ],
+            "source": "optional"
+          },
+          {
+            "id": "cr1_hunter_camouflage",
+            "name": "Camouflage",
+            "ap": 1,
+            "effectTypes": [
+              "utility"
+            ],
+            "source": "optional"
+          },
+          {
+            "id": "cr1_hunter_long_stride",
+            "name": "Long Stride",
+            "ap": 1,
+            "effectTypes": [
+              "utility"
+            ],
+            "source": "optional"
+          },
+          {
+            "id": "cr1_hunter_beast_bond",
+            "name": "Beast Bond",
+            "ap": 1,
+            "effectTypes": [
+              "buff"
+            ],
+            "source": "optional"
+          }
+        ],
+        "4": [
+          {
+            "id": "cr1_hunter_hamstring_shot",
+            "name": "Hamstring Shot",
+            "ap": 2,
+            "effectTypes": [
+              "damage",
+              "control"
+            ],
+            "source": "optional"
+          },
+          {
+            "id": "cr1_hunter_trackless_step",
+            "name": "Trackless Step",
+            "ap": 1,
+            "effectTypes": [
+              "utility"
+            ],
+            "source": "optional"
+          },
+          {
+            "id": "cr1_hunter_snare_line",
+            "name": "Snare Line",
+            "ap": 2,
+            "effectTypes": [
+              "control"
+            ],
+            "source": "optional"
+          },
+          {
+            "id": "cr1_hunter_focused_draw",
+            "name": "Focused Draw",
+            "ap": 2,
+            "effectTypes": [
+              "damage"
+            ],
+            "source": "optional"
+          }
+        ],
+        "5": [
+          {
+            "id": "cr1_hunter_twin_shot",
+            "name": "Twin Shot",
+            "ap": 2,
+            "effectTypes": [
+              "damage"
+            ],
+            "source": "optional"
+          },
+          {
+            "id": "cr1_hunter_hunters_mark",
+            "name": "Hunter's Mark",
+            "ap": 1,
+            "effectTypes": [
+              "buff"
+            ],
+            "source": "optional"
+          },
+          {
+            "id": "cr1_hunter_field_dressing",
+            "name": "Field Dressing",
+            "ap": 2,
+            "effectTypes": [
+              "heal"
+            ],
+            "source": "optional"
+          },
+          {
+            "id": "cr1_hunter_silent_prowl",
+            "name": "Silent Prowl",
+            "ap": 1,
+            "effectTypes": [
+              "utility"
+            ],
+            "source": "optional"
+          }
+        ],
+        "6": [
+          {
+            "id": "cr1_hunter_barbed_arrow",
+            "name": "Barbed Arrow",
+            "ap": 2,
+            "effectTypes": [
+              "damage"
+            ],
+            "source": "optional"
+          },
+          {
+            "id": "cr1_hunter_herding_call",
+            "name": "Herding Call",
+            "ap": 2,
+            "effectTypes": [
+              "control"
+            ],
+            "source": "optional"
+          },
+          {
+            "id": "cr1_hunter_forage",
+            "name": "Forage",
+            "ap": 1,
+            "effectTypes": [
+              "utility"
+            ],
+            "source": "optional"
+          },
+          {
+            "id": "cr1_hunter_coordinated_strike",
+            "name": "Coordinated Strike",
+            "ap": 2,
+            "effectTypes": [
+              "damage"
+            ],
+            "source": "optional"
+          }
+        ],
+        "7": [
+          {
+            "id": "cr1_hunter_skewering_shot",
+            "name": "Skewering Shot",
+            "ap": 3,
+            "effectTypes": [
+              "damage"
+            ],
+            "source": "optional"
+          },
+          {
+            "id": "cr1_hunter_trailblaze",
+            "name": "Trailblaze",
+            "ap": 1,
+            "effectTypes": [
+              "utility"
+            ],
+            "source": "optional"
+          },
+          {
+            "id": "cr1_hunter_beast_guard",
+            "name": "Beast Guard",
+            "ap": 1,
+            "effectTypes": [
+              "buff"
+            ],
+            "source": "optional"
+          },
+          {
+            "id": "cr1_hunter_vantage_point",
+            "name": "Vantage Point",
+            "ap": 1,
+            "effectTypes": [
+              "buff"
+            ],
+            "source": "optional"
+          }
+        ],
+        "8": [
+          {
+            "id": "cr1_hunter_pinning_shot",
+            "name": "Pinning Shot",
+            "ap": 2,
+            "effectTypes": [
+              "control"
+            ],
+            "source": "optional"
+          },
+          {
+            "id": "cr1_hunter_ghost_step",
+            "name": "Ghost Step",
+            "ap": 1,
+            "effectTypes": [
+              "utility"
+            ],
+            "source": "optional"
+          },
+          {
+            "id": "cr1_hunter_beast_frenzy",
+            "name": "Beast Frenzy",
+            "ap": 3,
+            "effectTypes": [
+              "damage"
+            ],
+            "source": "optional"
+          },
+          {
+            "id": "cr1_hunter_wilderness_ward",
+            "name": "Wilderness Ward",
+            "ap": 2,
+            "effectTypes": [
+              "buff"
+            ],
+            "source": "optional"
+          }
+        ],
+        "9": [
+          {
+            "id": "cr1_hunter_heartseeker",
+            "name": "Heartseeker",
+            "ap": 3,
+            "effectTypes": [
+              "damage"
+            ],
+            "source": "optional"
+          },
+          {
+            "id": "cr1_hunter_perfect_camouflage",
+            "name": "Perfect Camouflage",
+            "ap": 2,
+            "effectTypes": [
+              "utility"
+            ],
+            "source": "optional"
+          },
+          {
+            "id": "cr1_hunter_relentless_pursuit",
+            "name": "Relentless Pursuit",
+            "ap": 2,
+            "effectTypes": [
+              "utility"
+            ],
+            "source": "optional"
+          },
+          {
+            "id": "cr1_hunter_pack_tactics",
+            "name": "Pack Tactics",
+            "ap": 1,
+            "effectTypes": [
+              "buff"
+            ],
+            "source": "optional"
+          }
+        ],
+        "10": [
+          {
+            "id": "cr1_hunter_final_quarry",
+            "name": "Final Quarry",
+            "ap": 3,
+            "effectTypes": [
+              "damage"
+            ],
+            "source": "optional"
+          },
+          {
+            "id": "cr1_hunter_master_tracker",
+            "name": "Master Tracker",
+            "ap": 2,
+            "effectTypes": [
+              "utility"
+            ],
+            "source": "optional"
+          },
+          {
+            "id": "cr1_hunter_unerring_path",
+            "name": "Unerring Path",
+            "ap": 2,
+            "effectTypes": [
+              "buff"
+            ],
+            "source": "optional"
+          },
+          {
+            "id": "cr1_hunter_alphas_call",
+            "name": "Alpha's Call",
+            "ap": 2,
+            "effectTypes": [
+              "buff"
+            ],
+            "source": "optional"
+          }
+        ]
+      },
+      "talentActives": [
+        {
+          "id": "cr1_hunter_patient_ambush",
+          "name": "Patient Ambush",
+          "treeId": "stalker",
+          "source": "talent-signature",
+          "ap": 2
+        },
+        {
+          "id": "cr1_hunter_cross_the_scent",
+          "name": "Cross the Scent",
+          "treeId": "beastmaster",
+          "source": "talent-signature",
+          "ap": 2
+        },
+        {
+          "id": "cr1_hunter_returning_path",
+          "name": "Returning Path",
+          "treeId": "trailblade",
+          "source": "talent-signature",
+          "ap": 2
+        },
+        {
+          "id": "cr1_hunter_death_from_the_blind",
+          "name": "Death from the Blind",
+          "treeId": "stalker",
+          "source": "talent-capstone",
+          "ap": 3
+        },
+        {
+          "id": "cr1_hunter_the_perfect_pack",
+          "name": "The Perfect Pack",
+          "treeId": "beastmaster",
+          "source": "talent-capstone",
+          "ap": 3
+        },
+        {
+          "id": "cr1_hunter_the_long_way_home",
+          "name": "The Long Way Home",
+          "treeId": "trailblade",
+          "source": "talent-capstone",
+          "ap": 3
+        }
+      ],
+      "trees": [
+        {
+          "id": "stalker",
+          "name": "Stalker",
+          "tagline": "Study and approach alone, then choose when to reveal the strike.",
+          "signature": "patient_ambush",
+          "capstone": "death_from_the_blind",
+          "nodes": [
+            {
+              "id": "cr1_hunter_stalker_p01",
+              "name": "Patient Eye",
+              "treeId": "stalker",
+              "maxRanks": 3,
+              "minLevel": 1,
+              "requiresPoints": 0,
+              "requires": [],
+              "grantId": null,
+              "passiveSpellId": "cr1_hunter_st_patient_eye",
+              "effectText": "Add 1 / 2 / 3 to one Read check."
+            },
+            {
+              "id": "cr1_hunter_stalker_p02",
+              "name": "Quiet Approach",
+              "treeId": "stalker",
+              "maxRanks": 3,
+              "minLevel": 1,
+              "requiresPoints": 0,
+              "requires": [],
+              "grantId": null,
+              "passiveSpellId": "cr1_hunter_st_quiet_approach",
+              "effectText": "Add 5 / 10 / 15 ft to one approach while unseen."
+            },
+            {
+              "id": "cr1_hunter_stalker_p03",
+              "name": "First Blood",
+              "treeId": "stalker",
+              "maxRanks": 3,
+              "minLevel": 1,
+              "requiresPoints": 0,
+              "requires": [],
+              "grantId": null,
+              "passiveSpellId": "cr1_hunter_st_first_blood",
+              "effectText": "Add 1 / 2 / 3 to one ambush damage event."
+            },
+            {
+              "id": "cr1_hunter_stalker_p04",
+              "name": "Trail Craft",
+              "treeId": "stalker",
+              "maxRanks": 3,
+              "minLevel": 2,
+              "requiresPoints": 5,
+              "requires": [
+                "cr1_hunter_stalker_p01"
+              ],
+              "grantId": null,
+              "passiveSpellId": "cr1_hunter_st_trail_craft",
+              "effectText": "Add 1 / 2 / 3 to one tracking check."
+            },
+            {
+              "id": "cr1_hunter_stalker_p05",
+              "name": "Steady Breath",
+              "treeId": "stalker",
+              "maxRanks": 3,
+              "minLevel": 3,
+              "requiresPoints": 10,
+              "requires": [
+                "cr1_hunter_stalker_p03"
+              ],
+              "grantId": null,
+              "passiveSpellId": "cr1_hunter_st_steady_breath",
+              "effectText": "Add 1 / 2 / 3 to one ranged attack after a full round of aim."
+            },
+            {
+              "id": "cr1_hunter_stalker_p06",
+              "name": "Kill Zone",
+              "treeId": "stalker",
+              "maxRanks": 3,
+              "minLevel": 3,
+              "requiresPoints": 10,
+              "requires": [
+                "cr1_hunter_stalker_p04"
+              ],
+              "grantId": null,
+              "passiveSpellId": "cr1_hunter_st_kill_zone",
+              "effectText": "Add 5 / 10 / 15 ft to one ambush range."
+            },
+            {
+              "id": "cr1_hunter_stalker_p07",
+              "name": "No Witness",
+              "treeId": "stalker",
+              "maxRanks": 3,
+              "minLevel": 4,
+              "requiresPoints": 15,
+              "requires": [
+                "cr1_hunter_stalker_p05",
+                "cr1_hunter_stalker_signature"
+              ],
+              "grantId": null,
+              "passiveSpellId": "cr1_hunter_st_no_witness",
+              "effectText": "Add 1 / 2 / 3 to one Stealth check after an ambush."
+            },
+            {
+              "id": "cr1_hunter_stalker_p08",
+              "name": "Cold Patience",
+              "treeId": "stalker",
+              "maxRanks": 3,
+              "minLevel": 4,
+              "requiresPoints": 15,
+              "requires": [
+                "cr1_hunter_stalker_p06"
+              ],
+              "grantId": null,
+              "passiveSpellId": "cr1_hunter_st_cold_patience",
+              "effectText": "Add 1 / 2 / 3 to one initiative check while unseen."
+            },
+            {
+              "id": "cr1_hunter_stalker_p09",
+              "name": "Hamstring",
+              "treeId": "stalker",
+              "maxRanks": 3,
+              "minLevel": 5,
+              "requiresPoints": 20,
+              "requires": [
+                "cr1_hunter_stalker_p07"
+              ],
+              "grantId": null,
+              "passiveSpellId": "cr1_hunter_st_hamstring",
+              "effectText": "Reduce one target movement by 1 / 2 / 3 ft after a hit."
+            },
+            {
+              "id": "cr1_hunter_stalker_p10",
+              "name": "Marked Prey",
+              "treeId": "stalker",
+              "maxRanks": 3,
+              "minLevel": 5,
+              "requiresPoints": 20,
+              "requires": [
+                "cr1_hunter_stalker_p08"
+              ],
+              "grantId": null,
+              "passiveSpellId": "cr1_hunter_st_marked_prey",
+              "effectText": "Add 1 / 2 / 3 to one check against your quarry."
+            },
+            {
+              "id": "cr1_hunter_stalker_p11",
+              "name": "Vantage",
+              "treeId": "stalker",
+              "maxRanks": 3,
+              "minLevel": 6,
+              "requiresPoints": 25,
+              "requires": [
+                "cr1_hunter_stalker_p09"
+              ],
+              "grantId": null,
+              "passiveSpellId": "cr1_hunter_st_vantage",
+              "effectText": "Extend one high-ground benefit by 5 / 10 / 15 ft."
+            },
+            {
+              "id": "cr1_hunter_stalker_p12",
+              "name": "Finishing Shot",
+              "treeId": "stalker",
+              "maxRanks": 3,
+              "minLevel": 6,
+              "requiresPoints": 25,
+              "requires": [
+                "cr1_hunter_stalker_p10"
+              ],
+              "grantId": null,
+              "passiveSpellId": "cr1_hunter_st_finishing_shot",
+              "effectText": "Add 1 / 2 / 3 damage against a wounded quarry."
+            },
+            {
+              "id": "cr1_hunter_stalker_p13",
+              "name": "Silent Retreat",
+              "treeId": "stalker",
+              "maxRanks": 3,
+              "minLevel": 7,
+              "requiresPoints": 30,
+              "requires": [
+                "cr1_hunter_stalker_p11"
+              ],
+              "grantId": null,
+              "passiveSpellId": "cr1_hunter_st_silent_retreat",
+              "effectText": "Add 1 / 2 / 3 ft to one retreat after an ambush."
+            },
+            {
+              "id": "cr1_hunter_stalker_p14",
+              "name": "Unbroken Focus",
+              "treeId": "stalker",
+              "maxRanks": 3,
+              "minLevel": 8,
+              "requiresPoints": 35,
+              "requires": [
+                "cr1_hunter_stalker_p12"
+              ],
+              "grantId": null,
+              "passiveSpellId": "cr1_hunter_st_unbroken_focus",
+              "effectText": "Add 1 / 2 / 3 to one concentration check while tracking."
+            },
+            {
+              "id": "cr1_hunter_stalker_p15",
+              "name": "True Aim",
+              "treeId": "stalker",
+              "maxRanks": 3,
+              "minLevel": 9,
+              "requiresPoints": 40,
+              "requires": [
+                "cr1_hunter_stalker_p13"
+              ],
+              "grantId": null,
+              "passiveSpellId": "cr1_hunter_st_true_aim",
+              "effectText": "Expand one critical threat range by 1 / 2 / 3; declared before the roll."
+            },
+            {
+              "id": "cr1_hunter_stalker_p16",
+              "name": "Stalker Mastery",
+              "treeId": "stalker",
+              "maxRanks": 3,
+              "minLevel": 10,
+              "requiresPoints": 45,
+              "requires": [
+                "cr1_hunter_stalker_p14"
+              ],
+              "grantId": null,
+              "passiveSpellId": "cr1_hunter_st_stalker_mastery",
+              "effectText": "Add 1 / 2 / 3 to one ambush or quarry damage event each round."
+            },
+            {
+              "id": "cr1_hunter_stalker_signature",
+              "name": "Patient Ambush",
+              "treeId": "stalker",
+              "maxRanks": 1,
+              "minLevel": 3,
+              "requiresPoints": 10,
+              "requires": [
+                "cr1_hunter_stalker_p01",
+                "cr1_hunter_stalker_p02"
+              ],
+              "grantId": "cr1_hunter_patient_ambush",
+              "passiveSpellId": null,
+              "effectText": "Grant cr1_hunter_patient_ambush; manual ACTION, no optional pick consumed."
+            },
+            {
+              "id": "cr1_hunter_stalker_capstone",
+              "name": "Death from the Blind",
+              "treeId": "stalker",
+              "maxRanks": 1,
+              "minLevel": 10,
+              "requiresPoints": 45,
+              "requires": [
+                "cr1_hunter_stalker_p15",
+                "cr1_hunter_stalker_signature"
+              ],
+              "grantId": "cr1_hunter_death_from_the_blind",
+              "passiveSpellId": null,
+              "effectText": "Grant cr1_hunter_death_from_the_blind; manual ACTION, no optional pick consumed."
+            }
+          ]
+        },
+        {
+          "id": "beastmaster",
+          "name": "Beastmaster",
+          "tagline": "Coordinate a real bonded companion without stealing its turn.",
+          "signature": "cross_the_scent",
+          "capstone": "the_perfect_pack",
+          "nodes": [
+            {
+              "id": "cr1_hunter_beastmaster_p01",
+              "name": "Bonded Command",
+              "treeId": "beastmaster",
+              "maxRanks": 3,
+              "minLevel": 1,
+              "requiresPoints": 0,
+              "requires": [],
+              "grantId": null,
+              "passiveSpellId": "cr1_hunter_bm_bonded_command",
+              "effectText": "Add 1 / 2 / 3 to one companion command check."
+            },
+            {
+              "id": "cr1_hunter_beastmaster_p02",
+              "name": "Pack Sense",
+              "treeId": "beastmaster",
+              "maxRanks": 3,
+              "minLevel": 1,
+              "requiresPoints": 0,
+              "requires": [],
+              "grantId": null,
+              "passiveSpellId": "cr1_hunter_bm_pack_sense",
+              "effectText": "Add 1 / 2 / 3 to one Read check made by you or your companion."
+            },
+            {
+              "id": "cr1_hunter_beastmaster_p03",
+              "name": "Flanking Pair",
+              "treeId": "beastmaster",
+              "maxRanks": 3,
+              "minLevel": 1,
+              "requiresPoints": 0,
+              "requires": [],
+              "grantId": null,
+              "passiveSpellId": "cr1_hunter_bm_flanking_pair",
+              "effectText": "Add 1 / 2 / 3 to one attack when your companion is adjacent to the quarry."
+            },
+            {
+              "id": "cr1_hunter_beastmaster_p04",
+              "name": "Beast Guard",
+              "treeId": "beastmaster",
+              "maxRanks": 3,
+              "minLevel": 2,
+              "requiresPoints": 5,
+              "requires": [
+                "cr1_hunter_beastmaster_p01"
+              ],
+              "grantId": null,
+              "passiveSpellId": "cr1_hunter_bm_beast_guard",
+              "effectText": "Add 1 / 2 / 3 to one companion save."
+            },
+            {
+              "id": "cr1_hunter_beastmaster_p05",
+              "name": "Coordinated Step",
+              "treeId": "beastmaster",
+              "maxRanks": 3,
+              "minLevel": 3,
+              "requiresPoints": 10,
+              "requires": [
+                "cr1_hunter_beastmaster_p03"
+              ],
+              "grantId": null,
+              "passiveSpellId": "cr1_hunter_bm_coordinated_step",
+              "effectText": "Add 5 / 10 / 15 ft to one companion move."
+            },
+            {
+              "id": "cr1_hunter_beastmaster_p06",
+              "name": "Shared Quarry",
+              "treeId": "beastmaster",
+              "maxRanks": 3,
+              "minLevel": 3,
+              "requiresPoints": 10,
+              "requires": [
+                "cr1_hunter_beastmaster_p04"
+              ],
+              "grantId": null,
+              "passiveSpellId": "cr1_hunter_bm_shared_quarry",
+              "effectText": "Add 1 / 2 / 3 to one Pressure-generating companion hit."
+            },
+            {
+              "id": "cr1_hunter_beastmaster_p07",
+              "name": "Howl",
+              "treeId": "beastmaster",
+              "maxRanks": 3,
+              "minLevel": 4,
+              "requiresPoints": 15,
+              "requires": [
+                "cr1_hunter_beastmaster_p05",
+                "cr1_hunter_beastmaster_signature"
+              ],
+              "grantId": null,
+              "passiveSpellId": "cr1_hunter_bm_howl",
+              "effectText": "Add 1 / 2 / 3 to one Intimidation check while your companion is present."
+            },
+            {
+              "id": "cr1_hunter_beastmaster_p08",
+              "name": "Beast Recovery",
+              "treeId": "beastmaster",
+              "maxRanks": 3,
+              "minLevel": 4,
+              "requiresPoints": 15,
+              "requires": [
+                "cr1_hunter_beastmaster_p06"
+              ],
+              "grantId": null,
+              "passiveSpellId": "cr1_hunter_bm_beast_recovery",
+              "effectText": "Restore 1 / 2 / 3 additional HP to your companion once per rest."
+            },
+            {
+              "id": "cr1_hunter_beastmaster_p09",
+              "name": "Loyal Charge",
+              "treeId": "beastmaster",
+              "maxRanks": 3,
+              "minLevel": 5,
+              "requiresPoints": 20,
+              "requires": [
+                "cr1_hunter_beastmaster_p07"
+              ],
+              "grantId": null,
+              "passiveSpellId": "cr1_hunter_bm_loyal_charge",
+              "effectText": "Add 5 / 10 / 15 ft to one companion charge."
+            },
+            {
+              "id": "cr1_hunter_beastmaster_p10",
+              "name": "Pack Tactics",
+              "treeId": "beastmaster",
+              "maxRanks": 3,
+              "minLevel": 5,
+              "requiresPoints": 20,
+              "requires": [
+                "cr1_hunter_beastmaster_p08"
+              ],
+              "grantId": null,
+              "passiveSpellId": "cr1_hunter_bm_pack_tactics",
+              "effectText": "Add 1 / 2 / 3 to one ally attack against your quarry."
+            },
+            {
+              "id": "cr1_hunter_beastmaster_p11",
+              "name": "Scent Share",
+              "treeId": "beastmaster",
+              "maxRanks": 3,
+              "minLevel": 6,
+              "requiresPoints": 25,
+              "requires": [
+                "cr1_hunter_beastmaster_p09"
+              ],
+              "grantId": null,
+              "passiveSpellId": "cr1_hunter_bm_scent_share",
+              "effectText": "Add 1 / 2 / 3 to one tracking check using your companion senses."
+            },
+            {
+              "id": "cr1_hunter_beastmaster_p12",
+              "name": "Beast Ward",
+              "treeId": "beastmaster",
+              "maxRanks": 3,
+              "minLevel": 6,
+              "requiresPoints": 25,
+              "requires": [
+                "cr1_hunter_beastmaster_p10"
+              ],
+              "grantId": null,
+              "passiveSpellId": "cr1_hunter_bm_beast_ward",
+              "effectText": "Reduce one companion damage event by 1 / 2 / 3."
+            },
+            {
+              "id": "cr1_hunter_beastmaster_p13",
+              "name": "Call Back",
+              "treeId": "beastmaster",
+              "maxRanks": 3,
+              "minLevel": 7,
+              "requiresPoints": 30,
+              "requires": [
+                "cr1_hunter_beastmaster_p11"
+              ],
+              "grantId": null,
+              "passiveSpellId": "cr1_hunter_bm_call_back",
+              "effectText": "Add 1 / 2 / 3 to one check to call your companion back."
+            },
+            {
+              "id": "cr1_hunter_beastmaster_p14",
+              "name": "Feral Bond",
+              "treeId": "beastmaster",
+              "maxRanks": 3,
+              "minLevel": 8,
+              "requiresPoints": 35,
+              "requires": [
+                "cr1_hunter_beastmaster_p12"
+              ],
+              "grantId": null,
+              "passiveSpellId": "cr1_hunter_bm_feral_bond",
+              "effectText": "Add 1 / 2 / 3 to one bond or command check."
+            },
+            {
+              "id": "cr1_hunter_beastmaster_p15",
+              "name": "Alpha Presence",
+              "treeId": "beastmaster",
+              "maxRanks": 3,
+              "minLevel": 9,
+              "requiresPoints": 40,
+              "requires": [
+                "cr1_hunter_beastmaster_p13"
+              ],
+              "grantId": null,
+              "passiveSpellId": "cr1_hunter_bm_alpha_presence",
+              "effectText": "Add 1 / 2 / 3 to one ally save near your companion."
+            },
+            {
+              "id": "cr1_hunter_beastmaster_p16",
+              "name": "Beastmaster Mastery",
+              "treeId": "beastmaster",
+              "maxRanks": 3,
+              "minLevel": 10,
+              "requiresPoints": 45,
+              "requires": [
+                "cr1_hunter_beastmaster_p14"
+              ],
+              "grantId": null,
+              "passiveSpellId": "cr1_hunter_bm_beastmaster_mastery",
+              "effectText": "Add 1 / 2 / 3 to one pack action each round."
+            },
+            {
+              "id": "cr1_hunter_beastmaster_signature",
+              "name": "Cross the Scent",
+              "treeId": "beastmaster",
+              "maxRanks": 1,
+              "minLevel": 3,
+              "requiresPoints": 10,
+              "requires": [
+                "cr1_hunter_beastmaster_p01",
+                "cr1_hunter_beastmaster_p02"
+              ],
+              "grantId": "cr1_hunter_cross_the_scent",
+              "passiveSpellId": null,
+              "effectText": "Grant cr1_hunter_cross_the_scent; manual ACTION, no optional pick consumed."
+            },
+            {
+              "id": "cr1_hunter_beastmaster_capstone",
+              "name": "The Perfect Pack",
+              "treeId": "beastmaster",
+              "maxRanks": 1,
+              "minLevel": 10,
+              "requiresPoints": 45,
+              "requires": [
+                "cr1_hunter_beastmaster_p15",
+                "cr1_hunter_beastmaster_signature"
+              ],
+              "grantId": "cr1_hunter_the_perfect_pack",
+              "passiveSpellId": null,
+              "effectText": "Grant cr1_hunter_the_perfect_pack; manual ACTION, no optional pick consumed."
+            }
+          ]
+        },
+        {
+          "id": "trailblade",
+          "name": "Trailblade",
+          "tagline": "Commit a weapon to a route the quarry can see, avoid or cross.",
+          "signature": "returning_path",
+          "capstone": "the_long_way_home",
+          "nodes": [
+            {
+              "id": "cr1_hunter_trailblade_p01",
+              "name": "Line of Sight",
+              "treeId": "trailblade",
+              "maxRanks": 3,
+              "minLevel": 1,
+              "requiresPoints": 0,
+              "requires": [],
+              "grantId": null,
+              "passiveSpellId": "cr1_hunter_tb_line_of_sight",
+              "effectText": "Add 5 / 10 / 15 ft to one committed path."
+            },
+            {
+              "id": "cr1_hunter_trailblade_p02",
+              "name": "Glaive Recall",
+              "treeId": "trailblade",
+              "maxRanks": 3,
+              "minLevel": 1,
+              "requiresPoints": 0,
+              "requires": [],
+              "grantId": null,
+              "passiveSpellId": "cr1_hunter_tb_glaive_recall",
+              "effectText": "Add 1 / 2 / 3 to one check to recover a committed glaive."
+            },
+            {
+              "id": "cr1_hunter_trailblade_p03",
+              "name": "Route Reading",
+              "treeId": "trailblade",
+              "maxRanks": 3,
+              "minLevel": 1,
+              "requiresPoints": 0,
+              "requires": [],
+              "grantId": null,
+              "passiveSpellId": "cr1_hunter_tb_route_reading",
+              "effectText": "Add 1 / 2 / 3 to one check to read a route."
+            },
+            {
+              "id": "cr1_hunter_trailblade_p04",
+              "name": "Crossing Shot",
+              "treeId": "trailblade",
+              "maxRanks": 3,
+              "minLevel": 2,
+              "requiresPoints": 5,
+              "requires": [
+                "cr1_hunter_trailblade_p01"
+              ],
+              "grantId": null,
+              "passiveSpellId": "cr1_hunter_tb_crossing_shot",
+              "effectText": "Add 1 / 2 / 3 to one path strike."
+            },
+            {
+              "id": "cr1_hunter_trailblade_p05",
+              "name": "Narrow Passage",
+              "treeId": "trailblade",
+              "maxRanks": 3,
+              "minLevel": 3,
+              "requiresPoints": 10,
+              "requires": [
+                "cr1_hunter_trailblade_p03"
+              ],
+              "grantId": null,
+              "passiveSpellId": "cr1_hunter_tb_narrow_passage",
+              "effectText": "Add 1 / 2 / 3 to one check to hold a choke point."
+            },
+            {
+              "id": "cr1_hunter_trailblade_p06",
+              "name": "Delayed Blade",
+              "treeId": "trailblade",
+              "maxRanks": 3,
+              "minLevel": 3,
+              "requiresPoints": 10,
+              "requires": [
+                "cr1_hunter_trailblade_p04"
+              ],
+              "grantId": null,
+              "passiveSpellId": "cr1_hunter_tb_delayed_blade",
+              "effectText": "Extend one path expiry by 1 / 2 / 3 own turn; maximum one."
+            },
+            {
+              "id": "cr1_hunter_trailblade_p07",
+              "name": "Feint Route",
+              "treeId": "trailblade",
+              "maxRanks": 3,
+              "minLevel": 4,
+              "requiresPoints": 15,
+              "requires": [
+                "cr1_hunter_trailblade_p05",
+                "cr1_hunter_trailblade_signature"
+              ],
+              "grantId": null,
+              "passiveSpellId": "cr1_hunter_tb_feint_route",
+              "effectText": "Add 1 / 2 / 3 to one Deception check about a route."
+            },
+            {
+              "id": "cr1_hunter_trailblade_p08",
+              "name": "Terrain Memory",
+              "treeId": "trailblade",
+              "maxRanks": 3,
+              "minLevel": 4,
+              "requiresPoints": 15,
+              "requires": [
+                "cr1_hunter_trailblade_p06"
+              ],
+              "grantId": null,
+              "passiveSpellId": "cr1_hunter_tb_terrain_memory",
+              "effectText": "Retain up to 1 / 2 / 3 prepared routes."
+            },
+            {
+              "id": "cr1_hunter_trailblade_p09",
+              "name": "Safe Return",
+              "treeId": "trailblade",
+              "maxRanks": 3,
+              "minLevel": 5,
+              "requiresPoints": 20,
+              "requires": [
+                "cr1_hunter_trailblade_p07"
+              ],
+              "grantId": null,
+              "passiveSpellId": "cr1_hunter_tb_safe_return",
+              "effectText": "Add 1 / 2 / 3 ft to one retreat along a prepared route."
+            },
+            {
+              "id": "cr1_hunter_trailblade_p10",
+              "name": "Glaive Wall",
+              "treeId": "trailblade",
+              "maxRanks": 3,
+              "minLevel": 5,
+              "requiresPoints": 20,
+              "requires": [
+                "cr1_hunter_trailblade_p08"
+              ],
+              "grantId": null,
+              "passiveSpellId": "cr1_hunter_tb_glaive_wall",
+              "effectText": "Add 1 / 2 / 3 to one defense while the glaive is committed."
+            },
+            {
+              "id": "cr1_hunter_trailblade_p11",
+              "name": "Path Denial",
+              "treeId": "trailblade",
+              "maxRanks": 3,
+              "minLevel": 6,
+              "requiresPoints": 25,
+              "requires": [
+                "cr1_hunter_trailblade_p09"
+              ],
+              "grantId": null,
+              "passiveSpellId": "cr1_hunter_tb_path_denial",
+              "effectText": "Extend one difficult route by 5 / 10 / 15 ft."
+            },
+            {
+              "id": "cr1_hunter_trailblade_p12",
+              "name": "First Crossing",
+              "treeId": "trailblade",
+              "maxRanks": 3,
+              "minLevel": 6,
+              "requiresPoints": 25,
+              "requires": [
+                "cr1_hunter_trailblade_p10"
+              ],
+              "grantId": null,
+              "passiveSpellId": "cr1_hunter_tb_first_crossing",
+              "effectText": "Add 1 / 2 / 3 to the first path strike."
+            },
+            {
+              "id": "cr1_hunter_trailblade_p13",
+              "name": "Weapon Return",
+              "treeId": "trailblade",
+              "maxRanks": 3,
+              "minLevel": 7,
+              "requiresPoints": 30,
+              "requires": [
+                "cr1_hunter_trailblade_p11"
+              ],
+              "grantId": null,
+              "passiveSpellId": "cr1_hunter_tb_weapon_return",
+              "effectText": "Add 1 / 2 / 3 to one check to dismiss and return the glaive."
+            },
+            {
+              "id": "cr1_hunter_trailblade_p14",
+              "name": "Hunter of Paths",
+              "treeId": "trailblade",
+              "maxRanks": 3,
+              "minLevel": 8,
+              "requiresPoints": 35,
+              "requires": [
+                "cr1_hunter_trailblade_p12"
+              ],
+              "grantId": null,
+              "passiveSpellId": "cr1_hunter_tb_hunter_of_paths",
+              "effectText": "Add 1 / 2 / 3 to one check against a quarry on your prepared route."
+            },
+            {
+              "id": "cr1_hunter_trailblade_p15",
+              "name": "Final Segment",
+              "treeId": "trailblade",
+              "maxRanks": 3,
+              "minLevel": 9,
+              "requiresPoints": 40,
+              "requires": [
+                "cr1_hunter_trailblade_p13"
+              ],
+              "grantId": null,
+              "passiveSpellId": "cr1_hunter_tb_final_segment",
+              "effectText": "Add 1 / 2 / 3 to one path strike on its final segment."
+            },
+            {
+              "id": "cr1_hunter_trailblade_p16",
+              "name": "Trailblade Mastery",
+              "treeId": "trailblade",
+              "maxRanks": 3,
+              "minLevel": 10,
+              "requiresPoints": 45,
+              "requires": [
+                "cr1_hunter_trailblade_p14"
+              ],
+              "grantId": null,
+              "passiveSpellId": "cr1_hunter_tb_trailblade_mastery",
+              "effectText": "Add 1 / 2 / 3 to one path or glaive event each round."
+            },
+            {
+              "id": "cr1_hunter_trailblade_signature",
+              "name": "Returning Path",
+              "treeId": "trailblade",
+              "maxRanks": 1,
+              "minLevel": 3,
+              "requiresPoints": 10,
+              "requires": [
+                "cr1_hunter_trailblade_p01",
+                "cr1_hunter_trailblade_p02"
+              ],
+              "grantId": "cr1_hunter_returning_path",
+              "passiveSpellId": null,
+              "effectText": "Grant cr1_hunter_returning_path; manual ACTION, no optional pick consumed."
+            },
+            {
+              "id": "cr1_hunter_trailblade_capstone",
+              "name": "The Long Way Home",
+              "treeId": "trailblade",
+              "maxRanks": 1,
+              "minLevel": 10,
+              "requiresPoints": 45,
+              "requires": [
+                "cr1_hunter_trailblade_p15",
+                "cr1_hunter_trailblade_signature"
+              ],
+              "grantId": "cr1_hunter_the_long_way_home",
+              "passiveSpellId": null,
+              "effectText": "Grant cr1_hunter_the_long_way_home; manual ACTION, no optional pick consumed."
+            }
+          ]
+        }
+      ],
+      "resourceRules": {
+        "quarryMax": 1,
+        "evidenceDistinctMax": 3,
+        "tags": [
+          "read",
+          "angle",
+          "pressure"
+        ],
+        "newTagsPerOwnTurn": 1,
+        "lostContactExpiryOwnTurns": 2,
+        "companionOptional": true,
+        "companionActionMaxPerOwnTurn": 1,
+        "committedPathMaxFeet": 20,
+        "committedPathExpiryOwnTurns": 2,
+        "refreshOnLongRest": false,
+        "refreshOnReconnect": false,
+        "refreshOnInitiative": false,
+        "automaticTagGeneration": false,
+        "automaticContact": false,
+        "automaticCompanionAction": false,
+        "manualOnly": true
+      },
+      "resourceSystem": {
+        "id": "hunter-evidence",
+        "title": "Quarry & Evidence",
+        "description": "Designate one exact quarry. Read, Angle and Pressure are distinct evidence tags with recorded sources; at most one new tag is generated per own turn. Spend listed tags on tactics. Evidence expires after two own turns without contact.",
+        "cards": [
+          {
+            "title": "Quarry (0-1)",
+            "stats": "One exact reference",
+            "details": "Changing quarry clears all evidence. Investigating an unknown trail never invents an exact combat identity."
+          },
+          {
+            "title": "Evidence (0-3)",
+            "stats": "Read, Angle, Pressure",
+            "details": "Each tag records its source event and own turn. A duplicate tag does nothing and spending a tag never refreshes generation."
+          },
+          {
+            "title": "Companion",
+            "stats": "Optional, one action",
+            "details": "A real bonded and trained companion shares the one-tag cap and spends its own action. No fabricated pet or free creature turn."
+          }
+        ],
+        "generationTable": {
+          "headers": [
+            "Source",
+            "Tag",
+            "Budget treatment"
+          ],
+          "rows": [
+            [
+              "Mark Quarry or Study",
+              "Read",
+              "Requires the own-turn generation budget"
+            ],
+            [
+              "Take an Angle with 10 ft legal movement",
+              "Angle",
+              "Requires the own-turn generation budget"
+            ],
+            [
+              "Press the Quarry with an accepted non-miss hit",
+              "Pressure",
+              "Requires the own-turn generation budget"
+            ],
+            [
+              "Companion study or accepted pack hit",
+              "Read or Pressure",
+              "Shares the same own-turn budget"
+            ],
+            [
+              "Duplicate tag, miss or ordinary movement",
+              "None",
+              "No tag; AP is still spent when the action was paid"
+            ]
+          ]
+        },
+        "overheatRules": {
+          "title": "Quarry Overflow",
+          "content": "A second quarry is rejected without changing the first; changing quarry is always deliberate and clears all evidence. A fourth evidence tag or duplicate tag is rejected. A third own-turn tag is impossible because generation is capped at one. A missing companion disables companion actions only, never the solo economy."
+        }
+      },
+      "manifest": {
+        "contentLock": "RI-4 Hunter complete content lock",
+        "uniqueRecords": 97,
+        "activeRecords": 49,
+        "passiveRecords": 48,
+        "talentNodes": 54,
+        "automaticConversion": false
+      },
+      "authoredRecordCount": 97
+    }
+  },
+  "compatibility": {
+    "shaper": {
+      "relationship": "successor-name",
+      "legacyResolutionRetained": true,
+      "automaticConversion": false,
+      "successors": [
+        {
+          "id": "druid",
+          "name": "Druid",
+          "relationship": "successor-name"
+        }
+      ],
+      "notes": "Druid is the transformation name. Keep prior martial/body state and IDs resolvable; no Flux/stance -> anatomical-slot conversion. Bladedancer/Monk are separate reviews.",
+      "recordDispositions": []
+    },
+    "formbender": {
+      "relationship": "merged-design",
+      "legacyResolutionRetained": true,
+      "automaticConversion": false,
+      "successors": [
+        {
+          "id": "druid",
+          "name": "Druid",
+          "relationship": "merged-design"
+        }
+      ],
+      "notes": "Historical Formbender identity merged into the Druid design; raw IDs remain resolvable.",
+      "recordDispositions": []
+    },
+    "apex": {
+      "relationship": "successor-name",
+      "legacyResolutionRetained": true,
+      "automaticConversion": false,
+      "successors": [
+        {
+          "id": "hunter",
+          "name": "Hunter",
+          "relationship": "successor-name"
+        }
+      ],
+      "notes": "Preserve old marks/companion/spec/save IDs, including Nereid variants; never conjure a new actor from an old counter.",
+      "recordDispositions": []
+    }
+  },
+  "sourceHashes": {
+    "vtt-react/src/data/classes/druidData.js": "4ad2d6d6ba199b234712fed0538e43ff5e3e2ff8e6c7016fe4cd28ecb377744d",
+    "vtt-react/src/data/classes/hunterData.js": "22a520dc748c54c528b6e6db589d61cd1a0d576fe22a2d9bf403daa03c089cd3",
+    "vtt-react/src/data/talentTrees/druid.js": "66a81e9697b76e5be85d2e34ab4dabaafadd9b31731131d4c211d3feb123c2e9",
+    "vtt-react/src/data/talentTrees/hunter.js": "50a961e777f39aa5b439c10f3c6470fa94079d9caa00718499c763b9462cd2c8",
+    "vtt-react/src/data/resourceSystems/druidResourceGuide.js": "c0747d0f0a6ee0c2c1ce8cf1bc0b37921d741e4a69c211fb6b62b7979865bf95",
+    "vtt-react/src/data/resourceSystems/hunterResourceGuide.js": "6417eb2a8bb9cb232b461c41ee3b8e7e122afed7f917b81900ee2e066aa9c57c",
+    "vtt-react/src/components/hud/DruidResourceDisplay.jsx": "50cd9eebaa176d8d4a0e86f44d15504cd03b34ff3ff896dfe47d47e75e57d0bd",
+    "vtt-react/src/components/hud/HunterResourceDisplay.jsx": "24afba88888c9582b54e62ef6578a02cb39fa8906776227e49f9e80b9763f701",
+    "vtt-react/src/data/classes/index.js": "d6a5a6d6c554a116bcea9580f78839f40ae486b36636d05e6501e83826c43aaf",
+    "vtt-react/src/data/classes/classDisplayData.js": "8fa321ff698b1ad4a076ce316ae477e61981b9c41da4289b793fe7b97b3c6fe3",
+    "vtt-react/src/data/classSpellGenerator.js": "59f03bbfc8c4995eccfae3ddd502ca085a1e6106781dedd9b4a9f6f6ed76d156",
+    "vtt-react/src/data/classSpellCategories.js": "d38258f620937b1d9c3eea90e742ec30d1e030bfdd39f48210f9d14d9b032962",
+    "vtt-react/src/data/talentTreeData.js": "85ccfc296ecede859e6aaecbb0a2554c9e1e06559a2fb33fd625e4e3b213f077",
+    "vtt-react/src/data/classResources.js": "8367465897fc6afdf06bc289285b7e0708d898b8d4374377d2bfa241fa1b2583",
+    "vtt-react/src/data/classResourceContracts.js": "72248235863ebcd6447f61fd0608b78c52eeb9394adcedc9bcd47db1c11bd93b",
+    "vtt-react/src/data/classResourceAliases.js": "bb9f07e4f7ad09d760e7f08381dc33e4cabcefd0efded63c6b0d6c6181ca9874",
+    "vtt-react/src/data/resourceSystems/index.js": "f6afa5400c8353f58482f39277c36f828528748154fed0d38ab250b888b6d71b",
+    "vtt-react/src/components/character-creation-wizard/steps/Step1CoreDraft.jsx": "fa712950d60b4aa068c23e728c232972616476fa7ca52e51b2f03cf61b86a7ee",
+    "vtt-react/src/components/modals/LevelUpChoiceModal.jsx": "aec9715ebd2048550d2011b5f17318ec0a034db10c8de5137cf8ca1d5075cafb",
+    "vtt-react/src/components/rules/RulesPage.jsx": "3ea4443b428650ae772f25b3214bfc39b6579669353d0a1a506d3a66f855c77a",
+    "vtt-react/src/components/rules/ClassDetailDisplay.jsx": "390842d93b13d76210e2680121b30c22528bbb8591dd844304109fabc32e0ffe",
+    "vtt-react/src/components/hud/ClassResourceBar.jsx": "2fdd0ac64e6ac65ef38f74a49c7ae342d4e431c4c18ba3fc3668f392828a6ae1",
+    "vtt-react/src/components/talent-tree/TalentTreeContent.jsx": "1016999db13eb091ac542695096af33da221d86a841919e5bc597a17f573b76c",
+    "vtt-react/src/store/characterSlices/progressionSlice.js": "1cfe5b474765b30888f0daae9d22c61873464e007974a3aafc7bfc219cfea82d",
+    "vtt-react/src/store/characterSlices/infoSlice.js": "945fdd5c0d373f296b51b53443cd20bb0f7aa497145243a0eac823de3bbce03e",
+    "vtt-react/src/store/characterSlices/coreSlice.js": "6731902c9d55d69054b1c4d96ff5b92db8ccbbf8dc3523280a4d0e0cf7e0ddc4",
+    "vtt-react/src/data/classes/__tests__/druidIntegration.test.js": "8da455f4e84c07d3a3e20f038f1af03f39a84b97967c6d4e112378227d34cd19",
+    "vtt-react/src/data/classes/__tests__/hunterIntegration.test.js": "af5d815bf509a1b15ef1aed580c5f848bae032cea84d3bde7d57257412d43aec",
+    "vtt-react/src/data/classes/__tests__/druidHunterStoreIntegration.test.jsx": "b891c5cbb24ffc448586f5eacf2dd97eb333629c3bcf481caeba500e15383094"
+  },
+  "limits": [
+    "Manual tabletop only; no automatic transformation, slots, transitions, recovery, evidence generation, companion action, damage, movement or expiry.",
+    "No registered native heritage edge; dossier native pairings remain recommendations only.",
+    "Guest/local persistence verified; account/cloud persistence not tested or claimed.",
+    "Legacy Shaper/Apex data, IDs, resources and saves are preserved; no automatic conversion.",
+    "No combat automation, balance validation or Sol acceptance is claimed."
+  ]
+}
