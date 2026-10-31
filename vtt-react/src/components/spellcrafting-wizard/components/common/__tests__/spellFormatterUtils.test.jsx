@@ -8,6 +8,10 @@ import {
   extractSpellStatline,
   formatSpellRomanCategory
 } from '../spellFormatterUtils';
+import { resolveOriginalSpell } from '../../../../../services/spellConsequence';
+import React from 'react';
+import { renderToStaticMarkup } from 'react-dom/server';
+import useResourceFormatters from '../useResourceFormatters';
 
 describe('spellFormatterUtils - Authentic Grimoire Formatting', () => {
   describe('formatSpellTitleCase', () => {
@@ -31,6 +35,15 @@ describe('spellFormatterUtils - Authentic Grimoire Formatting', () => {
   });
 
   describe('extractSpellResourceCosts (All resources used)', () => {
+    it('Resolving Strike displays the two-pitch recipe without changing the locked redundant cost', () => {
+      const spell = resolveOriginalSpell('Minstrel', 'minstrel_resolving_strike');
+      expect(extractSpellResourceCosts(spell)).toEqual(['4 Mana', '2 Musical Notes (I×1, V×1)']);
+      expect(spell.resourceCost.resourceValues.classResource.cost).toBe(3);
+      const badges = renderToStaticMarkup(useResourceFormatters({ spell }).formatResourceCosts());
+      expect(badges).toContain('-Tonic (I)');
+      expect(badges).toContain('-Dominant (V)');
+      expect(badges).not.toContain('Costs 3');
+    });
     it('extracts single mana cost', () => {
       const spell = { resourceCost: { resourceValues: { mana: 4 } } };
       expect(extractSpellResourceCosts(spell)).toEqual(['4 Mana']);

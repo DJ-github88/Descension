@@ -2215,6 +2215,9 @@ const ActionBar = () => {
                         <div
                             key={index}
                             data-slot-index={index}
+                            role="button"
+                            tabIndex={0}
+                            aria-label={item?.name || `Empty action slot ${index + 1}`}
                             className={`action-slot ${item ? 'filled' : 'empty'} ${
                                 item && item.cooldown > 0 ? 'on-cooldown' : ''
                             } ${isOutOfStock ? 'out-of-stock' : ''} ${
@@ -2232,7 +2235,12 @@ const ActionBar = () => {
                             onDragOver={(e) => handleDragOver(e, index)}
                             onDragLeave={handleDragLeave}
                             onDrop={(e) => handleDrop(e, index)}
-                            onClick={(e) => handleSlotClick(index, e)}
+                            onClick={(e) => { e.currentTarget.focus(); handleSlotClick(index, e); }}
+                            onKeyDown={(e) => {
+                                if (e.target === e.currentTarget && (e.key === 'Enter' || e.key === ' ')) {
+                                    e.preventDefault(); e.stopPropagation(); handleSlotClick(index, e);
+                                }
+                            }}
                             onContextMenu={(e) => handleRightClick(e, index)}
                             onMouseEnter={(e) => {
                                 if (item && item.type === 'consumable') {

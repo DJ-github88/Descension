@@ -2,7 +2,8 @@ import {
     faSkull, faMagic, faAtom, faClock,
     faGavel, faEye, faShieldAlt, faMoon, faCross, faYinYang,
     faWind, faBiohazard, faFlask, faMusic, faFire,
-    faDove, faHourglassHalf, faSeedling, faDiceD6, faSnowflake, faBolt
+    faDove, faHourglassHalf, faSeedling, faDiceD6, faSnowflake, faBolt, faCrosshairs,
+    faScroll, faMonument
 } from '@fortawesome/free-solid-svg-icons';
 import { CLASS_COMPATIBILITY_ALIASES } from '../classHeritageRegistry';
 
@@ -437,7 +438,147 @@ const CLASS_DISPLAY_ENTRIES = [
             control: { name: 'Cascade Weaver', description: 'Retain one continuation for a willing ally and read the seams around you.', spells: ['cw1_03', 'cr1_chaos_weaver_read_instability'] }
         }
     },
+        {
+        name: 'Covenbane',
+        imageIcon: '/assets/icons/classes/covenbane.png',
+        icon: faCrosshairs,
+        role: 'Occult Hunter / Spellbreaker',
+        resource: 'Hexbreaker Charges',
+        complexityRating: 3,
+        cognitiveTags: ['Spell Interception', 'Kinetic Dispels', 'Manual Tabletop'],
+        playstyle: 'Witness hostile spellcasting and parry magical strikes to build Hexbreaker Charges (0-6). Spend charges to disrupt leylines, shatter wards, and execute rogue casters. Development - manual tabletop.',
+        roleColor: '#4b5563',
+        damageTypes: ['slashing', 'radiant', 'force', 'piercing'],
+        developmentStatus: 'development',
+        quickStartPresets: {
+            hunter: {
+                name: 'The First Break',
+                description: 'Choose exactly one level-1 optional; Null Strike and Draw Null Salt are separate core grants.',
+                spells: ['cov_shadow_hunt']
+            }
+        }
+    },
     {
+        name: 'Exorcist',
+        imageIcon: '/assets/icons/classes/exorcist.png',
+        icon: faCross,
+        role: 'Sacred Expeller / Host Protector',
+        resource: 'Purification Sanctity',
+        complexityRating: 3,
+        cognitiveTags: ['Salt Boundaries', 'Host Protection', 'Sin-Eating', 'Manual Tabletop'],
+        playstyle: 'Sanctify ground with consecrated salt thresholds, protect vulnerable vessels, and absorb afflictions through ritual sin-eating. Maintain Purification Sanctity (0-10) to fuel litanies of purging and expulsion. Development - manual tabletop.',
+        roleColor: '#4f46e5',
+        damageTypes: ['radiant', 'slashing', 'bludgeoning', 'force'],
+        developmentStatus: 'development',
+        quickStartPresets: {
+            purifier: {
+                name: 'The Sacred Threshold',
+                description: 'Choose exactly one level-1 optional; Consecrate Threshold and Litany of Purging are separate core grants.',
+                spells: ['exo_salt_brand']
+            }
+        }
+    },
+    {
+        name: 'Dreadnaught',
+        imageIcon: '/assets/icons/classes/dreadnaught.png',
+        icon: faShieldAlt,
+        role: 'Juggernaut / Heavy Tank',
+        resource: 'Furnace Pressure',
+        complexityRating: 3,
+        cognitiveTags: ['Boiler Combustion', 'Bedrock Cleats', 'Steam Venting', 'Manual Tabletop'],
+        playstyle: 'Stoke the spinal boiler and absorb incoming attacks to build Furnace Pressure (0-100 PSI). Vent scalding steam to obscure vision and unleash bone-shattering hydraulic charges. Development - manual tabletop.',
+        roleColor: '#b45309',
+        damageTypes: ['fire', 'bludgeoning', 'physical'],
+        developmentStatus: 'development',
+        quickStartPresets: {
+            juggernaut: {
+                name: 'The Iron Engine',
+                description: 'Choose exactly one level-1 optional; Stoke Furnace and Vent Steam are separate core grants.',
+                spells: ['dread_iron_trample']
+            }
+        }
+    },
+    {
+        name: 'Bladedancer',
+        imageIcon: '/assets/icons/classes/bladedancer.png',
+        icon: faWind,
+        role: 'Kinetic Duelist / Melee Striker',
+        resource: 'Kinetic Momentum',
+        complexityRating: 3,
+        cognitiveTags: ['Momentum Economy', 'Combo Chaining', 'Manual Tabletop'],
+        playstyle: 'Flow between kinetic tempos, chain fluid strikes, parry incoming blows, and spend built momentum on devastating finishers. No automatic momentum building or automated combat scripting. Development — manual tabletop.',
+        roleColor: '#e11d48',
+        damageTypes: ['slashing', 'piercing', 'force'],
+        developmentStatus: 'development',
+        quickStartPresets: {
+            duelist: {
+                name: 'The Flow State',
+                description: 'Choose exactly one level-1 optional; Kinetic Strike and Fluid Pivot are separate core grants.',
+                spells: ['bd_whirling_parry']
+            }
+        }
+    },
+    {
+        name: 'Inscriptor',
+        imageIcon: '/assets/icons/classes/inscriptor.png',
+        icon: faScroll,
+        role: 'Tactical Zone Architect / Support',
+        resource: 'Runic Resonance',
+        complexityRating: 4,
+        cognitiveTags: ['Tactical Runes', 'Zone Architecture', 'Manual Tabletop'],
+        playstyle: 'Carve living runes into physical surfaces and equipment, link rune matrices into detonating or warding lattices, and manipulate battlefield space through pure runic syntax. No automatic rune placement or automated damage scripting. Development — manual tabletop.',
+        roleColor: '#1d4ed8',
+        damageTypes: ['force', 'arcane', 'piercing'],
+        developmentStatus: 'development',
+        quickStartPresets: {
+            architect: {
+                name: 'The Living Syntax',
+                description: 'Choose exactly one level-1 optional; Etch Glyph and Discharge Rune are separate core grants.',
+                spells: ['insc_warding_script']
+            }
+        }
+    },
+    {
+        name: 'Totemist',
+        imageIcon: '/assets/icons/classes/totemist.png',
+        icon: faMonument,
+        role: 'Zone Engineer / Bulwark',
+        resource: 'Conduit Attunement',
+        complexityRating: 4,
+        cognitiveTags: ['Standing Conduits', 'Attunement Matrices', 'Manual Tabletop'],
+        playstyle: 'Anchor primal elemental currents into physical standing conduit pylons, establish resonant geometric vectors across the grid, and shatter conduits in seismic shockwaves. No automatic totem placement or damage execution. Development — manual tabletop.',
+        roleColor: '#d97706',
+        damageTypes: ['smashing', 'storm', 'primal'],
+        developmentStatus: 'development',
+        quickStartPresets: {
+            conduit: {
+                name: 'The Standing Pylon',
+                description: 'Choose exactly one level-1 optional; Place Conduit and Reclaim Conduit are separate core grants.',
+                spells: ['tot_hearth_ember']
+            }
+        }
+    },
+    {
+        name: 'Witch Doctor',
+        imageIcon: '/assets/icons/classes/witchdoctor.png',
+        icon: faSkull,
+        role: 'Hexer / Fetish Crafter',
+        resource: 'Bog Tallow',
+        complexityRating: 4,
+        cognitiveTags: ['Bog Witchcraft', 'Sympathetic Effigies', 'Manual Tabletop'],
+        playstyle: 'Brew noxious bog cauldrons, harvest tallow from suffering foes, sculpt sympathetic wax poppets to bind targets from afar, and spread suffocating miasmas. No automatic tallow spending, poppet binding, or damage scripting. Development — manual tabletop.',
+        roleColor: '#15803d',
+        damageTypes: ['blight', 'necrotic', 'poison'],
+        developmentStatus: 'development',
+        quickStartPresets: {
+            hexer: {
+                name: 'The Sympathetic Needle',
+                description: 'Choose exactly one level-1 optional; Bog Hex and Render Tallow are separate core grants.',
+                spells: ['wd_effigy_of_clay']
+            }
+        }
+    },
+{
         name: 'Nereid Myrathil Apex',
         imageIcon: '/assets/icons/classes/apex.png',
         icon: faMoon,
@@ -499,12 +640,36 @@ export const getClassRoleFilter = (role = '') => {
 };
 
 // Keep the existing alias descriptions for legacy lookup/import, while the
-// catalog and next/previous navigation enumerate the 21 base classes only.
+// catalog and next/previous navigation enumerate the 30 registered base classes only.
 export const CLASS_DISPLAY_ALIASES = CLASS_DISPLAY_ENTRIES.filter(entry =>
     Object.prototype.hasOwnProperty.call(CLASS_COMPATIBILITY_ALIASES, entry.name)
 );
 export const CLASS_DISPLAY_DATA = CLASS_DISPLAY_ENTRIES.filter(entry =>
     !Object.prototype.hasOwnProperty.call(CLASS_COMPATIBILITY_ALIASES, entry.name)
 );
+
+// Legacy-compatible class identities that are retired or superseded by approved successors.
+// Preserved for loading, inspecting, and editing legacy characters without silent conversion.
+// Excluded from the player-facing roster for new character creation and class selectors.
+export const RETIRED_OR_SUPERSEDED_CLASS_NAMES = [
+    'Gambit',    // -> Gambler
+    'Augur',     // -> Fate Weaver
+    'Harbinger', // -> Doomsayer
+    'Apex',      // -> Hunter
+    'Shaper',    // -> Druid
+    'Revenant',  // retired; no successor
+    'Inquisitor' // retired in favor of Covenbane / Exorcist (split)
+];
+
+// Approved player-facing canonical roster (23 classes).
+export const CANONICAL_ROSTER_DATA = CLASS_DISPLAY_DATA.filter(
+    entry => !RETIRED_OR_SUPERSEDED_CLASS_NAMES.includes(entry.name)
+);
+
+export const getCanonicalClassNames = () => CANONICAL_ROSTER_DATA.map(entry => entry.name);
+
+// Canonical player-facing roster source for new character creation and class selectors.
+// Excludes legacy identities (Gambit, Augur, Harbinger, Apex, Shaper, Revenant, Inquisitor) and Nereid aliases.
+export const getSelectableClassNames = () => getCanonicalClassNames();
 
 export default CLASS_DISPLAY_DATA;

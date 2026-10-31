@@ -6,14 +6,20 @@
  */
 
 import React, { createContext, useContext, useReducer, useEffect } from 'react';
-import { getDefaultStats, validateStats, calculateFinalStats, getTotalBonusPoints, calculateAvailablePoints } from '../../../utils/pointBuySystem';
+import { getDefaultStats, validateStats, getTotalBonusPoints, calculateAvailablePoints } from '../../../utils/pointBuySystem';
 // import { getPathStartingPoints, getPathStatModifiers } from '../../../data/pathData'; // Disciplines removed
-import { applyRacialModifiers } from '../../../data/raceData';
-import { getBackgroundStatModifiers } from '../../../data/backgroundData';
+import {
+    getEffectiveAttributes,
+    planAttributeSave,
+    resolveAttributeProfile,
+    describeAttributeCorrection,
+    isLegacyAttributesUntouched
+} from '../../../utils/attributeProfile';
 import { validateCharacterClassAccess } from '../../../utils/characterClassAccess';
 import { CLASS_DATA_MAP } from '../../../data/classSpellGenerator';
 import { calculatePointsSpent, calculateTotalSkillPoints } from '../../../constants/skillPointSystem';
 import { buildAncestry, getAncestryLoadout, validateAncestry } from '../../../data/ancestryLoadouts';
+import { getStartingSpellIds } from '../../../utils/classSpellProgression';
 
 // Wizard steps configuration
 export const WIZARD_STEPS = {
@@ -61,6 +67,9 @@ export const initialState = {
     originalCalling: null,
     // Ancestral Gifts sealed on the character being edited (read-only for that heritage)
     sealedAncestry: null,
+    // How the edited character's attributes were recorded when it loaded:
+    // { status: 'explicit' | 'legacy', base, needsCorrection, notice }. Null for new characters.
+    loadedAttributes: null,
 
     // Character data
     characterData: {
@@ -92,6 +101,7 @@ export const initialState = {
         class: '',
         classAcquisition: {},
         bodyStates: [],
+        levelUpHistory: {},
 
         // Background (standard D&D backgrounds)
         background: '',
@@ -175,32 +185,44 @@ export const ACTION_TYPES = {
     LOAD_CHARACTER: 'LOAD_CHARACTER'
 };
 
-// Rosters created before the base-stat save model persisted final stats inside
-// `stats`. They are never rewritten on load; the wizard interprets a legacy
-// wizard-authored payload once so reopening does not reapply modifiers.
-const isLegacyWizardStatPayload = (character) =>
-    !character.baseStats &&
-    (Array.isArray(character.selectedSkills) ||
-        (character.lore && typeof character.lore === 'object') ||
-        !!character.class_spells);
-
-const resolveLoadedBaseStats = (character) => {
-    if (character.baseStats && typeof character.baseStats === 'object') {
-        return { ...getDefaultStats(), ...character.baseStats };
+// Attribute provenance on load (utils/attributeProfile.js). A record with an explicit base
+// restores that base. A legacy record has no recorded base: its stored values are kept
+// exactly as they are (never reverse-engineered), flagged for an explicit correction, and
+// left untouched on save unless the player sets the base allocation themselves.
+const resolveLoadedAttributes = (character) => {
+    const profile = resolveAttributeProfile(character);
+    if (profile.explicit && profile.base) {
+        return { status: 'explicit', base: { ...getDefaultStats(), ...profile.base }, needsCorrection: false, notice: null };
     }
     const persisted = character.stats;
-    if (!persisted || typeof persisted !== 'object') return getDefaultStats();
-    if (!isLegacyWizardStatPayload(character)) {
-        return { ...getDefaultStats(), ...persisted };
+    if (!persisted || typeof persisted !== 'object') {
+        return { status: 'explicit', base: getDefaultStats(), needsCorrection: false, notice: null };
     }
-    const racialModifiers = character.race && character.subrace
-        ? applyRacialModifiers({}, character.race, character.subrace)
-        : {};
-    const recovered = { ...persisted };
-    Object.keys(racialModifiers).forEach((statId) => {
-        if (recovered[statId] !== undefined) recovered[statId] -= racialModifiers[statId];
+    return {
+        status: 'legacy',
+        base: { ...getDefaultStats(), ...persisted },
+        needsCorrection: profile.needsCorrection,
+        notice: describeAttributeCorrection(profile)
+    };
+};
+
+/** Plain-language note for the Ability Scores UI while a legacy record's attributes are uncorrected. */
+export const getAttributeCorrectionNotice = (state) => {
+    const loaded = state?.loadedAttributes;
+    if (!loaded || loaded.status !== 'legacy' || !loaded.needsCorrection) return null;
+    return isLegacyAttributesUntouched(loaded, state.characterData?.baseStats) ? loaded.notice : null;
+};
+
+// Preview the exact save interpretation; earned gains and manual adjustments already
+// live in current stats. Untouched legacy records keep their saved interpretation.
+export const getWizardAttributePreview = (state) => {
+    const data = state.characterData;
+    const original = state.loadedAttributes?.source || null;
+    return getEffectiveAttributes({
+        ...original,
+        ...planAttributeSave(original, data.baseStats, state.loadedAttributes),
+        race: data.race, subrace: data.subrace, background: data.background
     });
-    return { ...getDefaultStats(), ...recovered };
 };
 
 // Reducer function
@@ -366,21 +388,7 @@ export const characterWizardReducer = (state, action) => {
         case ACTION_TYPES.RECALCULATE_FINAL_STATS:
             const { characterData } = state;
 
-            // Get racial modifiers
-            const racialModifiers = characterData.race && characterData.subrace
-                ? applyRacialModifiers({}, characterData.race, characterData.subrace)
-                : {};
-
-            const backgroundModifiers = characterData.background
-                ? getBackgroundStatModifiers(characterData.background)
-                : {};
-
-            // Calculate final stats
-            const finalStats = calculateFinalStats(
-                characterData.baseStats,
-                racialModifiers,
-                backgroundModifiers
-            );
+            const finalStats = getWizardAttributePreview(state);
 
             return {
                 ...state,
@@ -437,15 +445,12 @@ export const characterWizardReducer = (state, action) => {
         case ACTION_TYPES.LOAD_CHARACTER: {
             // Load existing character data for editing
             const existingChar = action.payload;
-            const loadedBaseStats = resolveLoadedBaseStats(existingChar);
-            const loadedRacialModifiers = existingChar.race && existingChar.subrace
-                ? applyRacialModifiers({}, existingChar.race, existingChar.subrace)
-                : {};
-            const loadedBackgroundModifiers = existingChar.background
-                ? getBackgroundStatModifiers(existingChar.background)
-                : {};
+            const loadedAttributes = resolveLoadedAttributes(existingChar);
+            loadedAttributes.source = existingChar;
+            const loadedBaseStats = loadedAttributes.base;
             return {
                 ...state,
+                loadedAttributes,
                 originalCalling: { class: existingChar.class, race: existingChar.race, subrace: existingChar.subrace },
                 sealedAncestry: existingChar.ancestry?.finalizedAt ? existingChar.ancestry : null,
                 characterData: {
@@ -468,6 +473,7 @@ export const characterWizardReducer = (state, action) => {
                     bodyStates: existingChar.bodyStates || [],
                     selectedAbility: existingChar.selectedAbility || '',
                     class_spells: existingChar.class_spells,
+                    levelUpHistory: existingChar.levelUpHistory || {},
 
                     // Background
                     background: existingChar.background || '',
@@ -477,14 +483,9 @@ export const characterWizardReducer = (state, action) => {
                     selectedLanguages: existingChar.selectedLanguages || [],
                     skillRanks: existingChar.skillRanks || {},
 
-                    // Stats: persisted `stats` is the base point-buy allocation;
-                    // `finalStats` is derived from base + heritage + origin.
+                    // Keep current earned-inclusive attributes distinct from point-buy base.
                     baseStats: loadedBaseStats,
-                    finalStats: calculateFinalStats(
-                        loadedBaseStats,
-                        loadedRacialModifiers,
-                        loadedBackgroundModifiers
-                    ),
+                    finalStats: getEffectiveAttributes(existingChar),
 
                     // Lore
                     lore: existingChar.lore || {
@@ -563,13 +564,16 @@ export const validateCurrentStep = (state) => {
             }
 
             // Stats validation (must spend all available points)
+            // A legacy record's untouched stored attributes are preserved as-is, not point-buy checked.
             const bonusPoints = getTotalBonusPoints(characterData);
             const availablePoints = calculateAvailablePoints(characterData.baseStats, bonusPoints);
             const statValidation = validateStats(characterData.baseStats, bonusPoints);
-            if (!statValidation.isValid) {
-                errors.stats = statValidation.errors.join(', ');
-            } else if (availablePoints !== 0) {
-                errors.stats = `You have ${availablePoints} unspent ability points. Please allocate all points.`;
+            if (!isLegacyAttributesUntouched(state.loadedAttributes, characterData.baseStats)) {
+                if (!statValidation.isValid) {
+                    errors.stats = statValidation.errors.join(', ');
+                } else if (availablePoints !== 0) {
+                    errors.stats = `You have ${availablePoints} unspent ability points. Please allocate all points.`;
+                }
             }
 
             // Spells validation. Classes may declare a progression policy
@@ -580,10 +584,18 @@ export const validateCurrentStep = (state) => {
             const policyClassData = CLASS_DATA_MAP[characterData.class] || null;
             const policy = policyClassData?.progression?.policy || null;
             const expectedStartingSpells = policy?.startingSpellPicks ?? 3;
-            const pickPoolIds = new Set(policyClassData?.spellPools?.[1] || []);
-            const knownPickCount = policy
-                ? knownSpells.filter(id => pickPoolIds.has(id)).length
-                : knownSpells.length;
+            const poolArray = policyClassData?.spellPools?.[1];
+            const pickPoolIds = Array.isArray(poolArray) && poolArray.length > 0
+                ? new Set(poolArray)
+                : (policy ? new Set() : null);
+            // Earned level-up spells may come from an earlier-level pool. They
+            // remain known, but they are not starting selections and never
+            // consume the creation quota when the character is reopened for edit.
+            const knownPickCount = getStartingSpellIds(
+                knownSpells,
+                characterData.levelUpHistory,
+                pickPoolIds
+            ).length;
             if (knownPickCount !== expectedStartingSpells) {
                 errors.spells = expectedStartingSpells === 3
                     ? `Please select exactly 3 starting spells (currently ${knownPickCount} selected).`

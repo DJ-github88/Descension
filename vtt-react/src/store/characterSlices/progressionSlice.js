@@ -1,11 +1,13 @@
 import { calculateEquipmentBonuses, calculateDerivedStats } from '../../utils/characterUtils';
-import { applyRacialModifiers } from '../../data/raceData';
+import { getEffectiveAttributes } from '../../utils/attributeProfile';
+import { getLevelUpResourceBonuses } from '../../utils/characterResourceSnapshot';
 import { getEncumbranceState } from '../characterHelpers';
 import { ALL_CLASSES_DATA } from '../../data/classes';
 import { ALL_CLASS_SPELLS } from '../../data/classSpellGenerator';
 import { checkLevelUp, getXPForLevel } from '../../utils/experienceUtils';
 import { TALENT_TREES } from '../../data/talentTreeData';
 import { pruneAllocationForLevel } from '../../data/classes/chaosWeaverRules';
+import { pruneCr1Talents } from '../../data/classes/cr1ClassBuilder';
 import { pruneGamblerTalents, GAMBLER_PROJECTED_SPELLS_BY_ID } from '../../data/classes/gamblerData';
 import {
     pruneFateWeaverTalents, FATE_WEAVER_PROJECTED_SPELLS_BY_ID,
@@ -39,6 +41,34 @@ import {
     pruneHunterTalents, HUNTER_PROJECTED_SPELLS_BY_ID,
     HUNTER_OPTIONAL_RECORDS, HUNTER_SPELL_POOLS
 } from '../../data/classes/hunterData';
+import {
+    pruneCovenbaneTalents, COVENBANE_PROJECTED_SPELLS_BY_ID,
+    COVENBANE_OPTIONAL_RECORDS, COVENBANE_SPELL_POOLS
+} from '../../data/classes/covenbaneData';
+import {
+    pruneExorcistTalents, EXORCIST_PROJECTED_SPELLS_BY_ID,
+    EXORCIST_OPTIONAL_RECORDS, EXORCIST_SPELL_POOLS
+} from '../../data/classes/exorcistData';
+import {
+    pruneDreadnaughtTalents, DREADNAUGHT_PROJECTED_SPELLS_BY_ID,
+    DREADNAUGHT_OPTIONAL_RECORDS, DREADNAUGHT_SPELL_POOLS
+} from '../../data/classes/dreadnaughtData';
+import {
+    pruneBladedancerTalents, BLADEDANCER_PROJECTED_SPELLS_BY_ID,
+    BLADEDANCER_OPTIONAL_RECORDS, BLADEDANCER_SPELL_POOLS
+} from '../../data/classes/bladedancerData';
+import {
+    pruneInscriptorTalents, INSCRIPTOR_PROJECTED_SPELLS_BY_ID,
+    INSCRIPTOR_OPTIONAL_RECORDS, INSCRIPTOR_SPELL_POOLS
+} from '../../data/classes/inscriptorData';
+import {
+    pruneTotemistTalents, TOTEMIST_PROJECTED_SPELLS_BY_ID,
+    TOTEMIST_OPTIONAL_RECORDS, TOTEMIST_SPELL_POOLS
+} from '../../data/classes/totemistData';
+import {
+    pruneWitchDoctorTalents, WITCH_DOCTOR_PROJECTED_SPELLS_BY_ID,
+    WITCH_DOCTOR_OPTIONAL_RECORDS, WITCH_DOCTOR_SPELL_POOLS
+} from '../../data/classes/witchDoctorData';
 import useSpellbookStore from '../spellbookStore';
 import { loadLibraryFromStorage, saveLibraryToStorage } from '../../components/spellcrafting-wizard/core/utils/libraryManager';
 
@@ -98,6 +128,54 @@ const CR1_POLICY_CLASSES = {
         projectedById: HUNTER_PROJECTED_SPELLS_BY_ID,
         optionalRecords: HUNTER_OPTIONAL_RECORDS,
         spellPools: HUNTER_SPELL_POOLS
+    },
+    Covenbane: {
+        prune: pruneCovenbaneTalents,
+        projectedById: COVENBANE_PROJECTED_SPELLS_BY_ID,
+        optionalRecords: COVENBANE_OPTIONAL_RECORDS,
+        spellPools: COVENBANE_SPELL_POOLS
+    },
+    Exorcist: {
+        prune: pruneExorcistTalents,
+        projectedById: EXORCIST_PROJECTED_SPELLS_BY_ID,
+        optionalRecords: EXORCIST_OPTIONAL_RECORDS,
+        spellPools: EXORCIST_SPELL_POOLS
+    },
+    Dreadnaught: {
+        prune: pruneDreadnaughtTalents,
+        projectedById: DREADNAUGHT_PROJECTED_SPELLS_BY_ID,
+        optionalRecords: DREADNAUGHT_OPTIONAL_RECORDS,
+        spellPools: DREADNAUGHT_SPELL_POOLS
+    },
+    Bladedancer: {
+        prune: pruneBladedancerTalents,
+        projectedById: BLADEDANCER_PROJECTED_SPELLS_BY_ID,
+        optionalRecords: BLADEDANCER_OPTIONAL_RECORDS,
+        spellPools: BLADEDANCER_SPELL_POOLS
+    },
+    Inscriptor: {
+        prune: pruneInscriptorTalents,
+        projectedById: INSCRIPTOR_PROJECTED_SPELLS_BY_ID,
+        optionalRecords: INSCRIPTOR_OPTIONAL_RECORDS,
+        spellPools: INSCRIPTOR_SPELL_POOLS
+    },
+    Totemist: {
+        prune: pruneTotemistTalents,
+        projectedById: TOTEMIST_PROJECTED_SPELLS_BY_ID,
+        optionalRecords: TOTEMIST_OPTIONAL_RECORDS,
+        spellPools: TOTEMIST_SPELL_POOLS
+    },
+    'Witch Doctor': {
+        prune: pruneWitchDoctorTalents,
+        projectedById: WITCH_DOCTOR_PROJECTED_SPELLS_BY_ID,
+        optionalRecords: WITCH_DOCTOR_OPTIONAL_RECORDS,
+        spellPools: WITCH_DOCTOR_SPELL_POOLS
+    },
+    WitchDoctor: {
+        prune: pruneWitchDoctorTalents,
+        projectedById: WITCH_DOCTOR_PROJECTED_SPELLS_BY_ID,
+        optionalRecords: WITCH_DOCTOR_OPTIONAL_RECORDS,
+        spellPools: WITCH_DOCTOR_SPELL_POOLS
     }
 };
 
@@ -106,9 +184,34 @@ const cr1OptionalById = Object.fromEntries(
         config.optionalRecords.map(record => [record.id, record]))
 );
 
+// Normalize a class's authored nodes for the shared CR1 pruner. Retained
+// trees identify their tree by map key and may use a single string prerequisite.
+const classTalentNodesForPruning = (className) =>
+    Object.entries(TALENT_TREES[className] || {}).flatMap(([treeId, nodes]) =>
+        (nodes || []).map(node => {
+            const requires = node.requires == null
+                ? []
+                : (Array.isArray(node.requires) ? node.requires : [node.requires]);
+            const tierMatch = String(node.id || '').match(/_t([1-7])(?=_)/);
+            const tier = tierMatch
+                ? Number(tierMatch[1])
+                : (Number.isFinite(node.position?.y) ? Number(node.position.y) + 1 : 1);
+            return {
+                ...node,
+                treeId: node.treeId || treeId,
+                requires,
+                requiresPoints: Number.isFinite(node.requiresPoints)
+                    ? node.requiresPoints
+                    : Math.max(0, (tier - 1) * 5),
+                minLevel: Number.isFinite(node.minLevel) ? node.minLevel : 1
+            };
+        })
+    );
+
 // Reconcile a stored flat talent allocation after a level reduction or class
 // switch. Policy classes have level-gated authored caps; legacy classes keep
-// their previous behaviour.
+// their previous behaviour. Retained RI-6/RI-7/RI-8 classes use their own nodes
+// and never the Chaos Weaver allocation order.
 export const pruneTalentsForChange = (talents, { previousClass, nextClass, level }) => {
     const current = talents && typeof talents === 'object' ? { ...talents } : {};
     if (previousClass && nextClass && previousClass !== nextClass) {
@@ -118,15 +221,29 @@ export const pruneTalentsForChange = (talents, { previousClass, nextClass, level
         if (nextClass === 'Gambler') return pruneGamblerTalents(current, level);
         if (nextClass === 'Fate Weaver') return pruneFateWeaverTalents(current, level);
         if (CR1_POLICY_CLASSES[nextClass]) return CR1_POLICY_CLASSES[nextClass].prune(current, level);
-        return pruneAllocationForLevel({ ranks: current, order: [] }, level).allocation.ranks;
+        if (nextClass === 'Chaos Weaver') {
+            return pruneAllocationForLevel({ ranks: current, order: [] }, level).allocation.ranks;
+        }
+        const classLevel = Math.max(1, Math.min(10, level));
+        const nodes = classTalentNodesForPruning(nextClass);
+        if (nodes.length > 0) return pruneCr1Talents(current, classLevel, nodes);
+        // A different calling never inherits ranks that its own authored tree
+        // cannot validate. Unknown/alias callings therefore start empty.
+        return {};
     }
     return current;
 };
 
+// Retained trees embed a projected `spell` instead of an explicit grantId.
+// That copy uses the same `talent-spell-*` identity as the single-node refund,
+// so bulk level-down/class-switch must report it too.
+export const talentGrantIdForNode = (node) =>
+    node?.grantId || node?.passiveSpellId || (node?.spell ? `talent-spell-${node.id}` : null);
+
 export const derivedTalentGrantIds = (talents, className) =>
     classTalentNodes(className)
-        .filter(node => (node.grantId || node.passiveSpellId) && (talents?.[node.id] || 0) > 0)
-        .map(node => node.grantId || node.passiveSpellId);
+        .filter(node => talentGrantIdForNode(node) && (talents?.[node.id] || 0) > 0)
+        .map(talentGrantIdForNode);
 
 export const removedTalentGrantIds = (before, after, className) => {
     const remaining = new Set(derivedTalentGrantIds(after, className));
@@ -160,9 +277,7 @@ export const createProgressionSlice = (set, get) => ({
 
         const equipmentBonuses = calculateEquipmentBonuses(state.equipment);
         // Apply racial modifiers to get effective stats for calculations
-        const effectiveStats = state.race && state.subrace
-            ? applyRacialModifiers(state.stats, state.race, state.subrace)
-            : state.stats;
+        const effectiveStats = getEffectiveAttributes(state);
 
         // Apply equipment bonuses to stats before calculating derived stats
         const totalStats = { ...effectiveStats };
@@ -542,6 +657,13 @@ export const createProgressionSlice = (set, get) => ({
             get().reconcileOracleTalents();
             get().reconcileDruidTalents();
             get().reconcileHunterTalents();
+            get().reconcileCovenbaneTalents();
+            get().reconcileExorcistTalents();
+            get().reconcileDreadnaughtTalents();
+        get().reconcileBladedancerTalents();
+        get().reconcileInscriptorTalents();
+        get().reconcileTotemistTalents();
+        get().reconcileWitchDoctorTalents();
         }
 
         // Only trigger updateExperience if leveling up (to avoid triggering modal when manually adjusting)
@@ -585,38 +707,77 @@ export const createProgressionSlice = (set, get) => ({
     // character, authored spells, and unrelated library records stay intact.
     removeTalentGrantSpells: (grantIds, options = {}) => {
         const ids = Array.isArray(grantIds) ? [...new Set(grantIds)] : [];
+        const state = get();
+        // Omitting characterId keeps the established active-character path.
+        // The wizard edit path names the saved roster character explicitly so
+        // an inactive character's class change can still release shared copies.
+        const hasExplicitTarget = options.characterId !== undefined;
+        const targetCharacterId = hasExplicitTarget ? options.characterId : state.currentCharacterId;
+        const isActive = !hasExplicitTarget || targetCharacterId === state.currentCharacterId;
+        const rosterCharacter = hasExplicitTarget && !isActive
+            ? (state.characters || []).find(char => char.id === targetCharacterId) || null
+            : null;
+        const className = options.className
+            ?? (isActive
+                ? (state.class || state.characterClass)
+                : (rosterCharacter?.class || rosterCharacter?.characterClass));
+        const nextTalents = options.talents !== undefined
+            ? options.talents
+            : (isActive ? state.talents : rosterCharacter?.talents);
+        const storedKnown = isActive
+            ? (state.class_spells?.known_spells || [])
+            : (rosterCharacter?.class_spells?.known_spells || []);
+        const currentKnown = options.knownSpells !== undefined
+            ? options.knownSpells
+            : storedKnown;
+        const applyTargetPatch = (patch) => {
+            if (Object.keys(patch).length === 0) return;
+            if (isActive) {
+                set(current => ({
+                    ...patch,
+                    characters: targetCharacterId && Array.isArray(current.characters)
+                        ? current.characters.map(char =>
+                            char.id === targetCharacterId ? { ...char, ...patch } : char)
+                        : current.characters
+                }));
+            } else if (rosterCharacter) {
+                set(current => ({
+                    characters: (current.characters || []).map(char =>
+                        char.id === targetCharacterId ? { ...char, ...patch } : char)
+                }));
+            }
+        };
         if (ids.length === 0) {
-            if (options.talents !== undefined) set({ talents: options.talents });
+            applyTargetPatch(options.talents !== undefined ? { talents: options.talents } : {});
             return;
         }
-        const state = get();
-        const className = state.class || state.characterClass;
-        const nextTalents = options.talents !== undefined ? options.talents : state.talents;
         const stillGrantedHere = new Set(derivedTalentGrantIds(nextTalents || {}, className));
         const stillNeeded = new Set();
         (state.characters || []).forEach(char => {
-            if (char.id === state.currentCharacterId) return;
+            if (char.id === targetCharacterId) return;
             derivedTalentGrantIds(char.talents || {}, char.class || char.characterClass)
                 .forEach(id => stillNeeded.add(id));
             (char.class_spells?.known_spells || [])
                 .filter(id => ids.includes(id))
                 .forEach(id => stillNeeded.add(id));
         });
-        // The active character loses every removed talent grant from stored
+        // The target character loses every removed talent grant from stored
         // known spells even when another roster character also uses that spell.
         const removableKnown = ids.filter(id => !stillGrantedHere.has(id));
         // Shared derived copies may only be pruned when no other roster
         // character still owns or needs the same grant.
         const removableShared = ids.filter(id => !stillNeeded.has(id));
 
-        const currentKnown = state.class_spells?.known_spells || [];
         const known = currentKnown.filter(spellId => !removableKnown.includes(spellId));
         const patch = {};
         if (options.talents !== undefined) patch.talents = options.talents;
-        if (known.length !== currentKnown.length) {
-            patch.class_spells = { ...(state.class_spells || {}), known_spells: known };
+        if (options.knownSpells !== undefined || known.length !== storedKnown.length) {
+            const targetClassSpells = isActive
+                ? (state.class_spells || {})
+                : (rosterCharacter?.class_spells || {});
+            patch.class_spells = { ...targetClassSpells, known_spells: known };
         }
-        if (Object.keys(patch).length > 0) set(patch);
+        applyTargetPatch(patch);
         if (removableShared.length === 0) return;
 
         const nodeByGrantId = Object.fromEntries(
@@ -801,11 +962,21 @@ export const createProgressionSlice = (set, get) => ({
     reconcileOracleTalents: () => get().reconcileCr1PolicyTalents('Oracle'),
     reconcileDruidTalents: () => get().reconcileCr1PolicyTalents('Druid'),
     reconcileHunterTalents: () => get().reconcileCr1PolicyTalents('Hunter'),
+    reconcileCovenbaneTalents: () => get().reconcileCr1PolicyTalents('Covenbane'),
+    reconcileExorcistTalents: () => get().reconcileCr1PolicyTalents('Exorcist'),
+    reconcileDreadnaughtTalents: () => get().reconcileCr1PolicyTalents('Dreadnaught'),
+    reconcileBladedancerTalents: () => get().reconcileCr1PolicyTalents('Bladedancer'),
+    reconcileInscriptorTalents: () => get().reconcileCr1PolicyTalents('Inscriptor'),
+    reconcileTotemistTalents: () => get().reconcileCr1PolicyTalents('Totemist'),
+    reconcileWitchDoctorTalents: () => {
+        get().reconcileCr1PolicyTalents('Witch Doctor');
+        get().reconcileCr1PolicyTalents('WitchDoctor');
+    },
 
     updateLevel: (newLevel) => {
         const before = get();
         const beforeClass = before.class || before.characterClass;
-        if (['Gambler', 'Fate Weaver', 'Deathcaller', 'Lichborne', 'Plaguebringer', 'Doomsayer', 'Oracle', 'Druid', 'Hunter'].includes(beforeClass) && newLevel < before.level) {
+        if (['Gambler', 'Fate Weaver', 'Deathcaller', 'Lichborne', 'Plaguebringer', 'Doomsayer', 'Oracle', 'Druid', 'Hunter', 'Covenbane', 'Exorcist', 'Dreadnaught', 'Bladedancer', 'Inscriptor', 'Totemist', 'Witch Doctor', 'WitchDoctor'].includes(beforeClass) && newLevel < before.level) {
             for (let lostLevel = before.level; lostLevel > newLevel; lostLevel--) get().reverseLevelUpBonus(lostLevel);
         }
         let removedGrantIds = [];
@@ -852,6 +1023,9 @@ export const createProgressionSlice = (set, get) => ({
         get().reconcileOracleTalents();
         get().reconcileDruidTalents();
         get().reconcileHunterTalents();
+        get().reconcileCovenbaneTalents();
+        get().reconcileExorcistTalents();
+        get().reconcileDreadnaughtTalents();
 
         // Auto-assign spells based on new level
         const state = get();
@@ -874,9 +1048,7 @@ export const createProgressionSlice = (set, get) => ({
             }
 
             // Recalculate derived stats with new exhaustion level
-            const effectiveStats = state.race && state.subrace
-                ? applyRacialModifiers(state.stats, state.race, state.subrace)
-                : state.stats;
+            const effectiveStats = getEffectiveAttributes(state);
             const equipmentBonuses = calculateEquipmentBonuses(state.equipment);
 
             // Apply equipment bonuses to stats before calculating derived stats
@@ -900,8 +1072,9 @@ export const createProgressionSlice = (set, get) => ({
             const derivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, encumbranceState, newExhaustionLevel, state.health, state.race, state.subrace, undefined, state.ancestry);
 
             // Update health and mana max values based on new derived stats
-            const newMaxHealth = Math.round(derivedStats.maxHealth);
-            const newMaxMana = Math.round(derivedStats.maxMana);
+            const levelUpBonuses = getLevelUpResourceBonuses(state.levelUpHistory);
+            const newMaxHealth = Math.round(derivedStats.maxHealth) + levelUpBonuses.health;
+            const newMaxMana = Math.round(derivedStats.maxMana) + levelUpBonuses.mana;
 
             let newHealth = { ...state.health };
             let newMana = { ...state.mana };

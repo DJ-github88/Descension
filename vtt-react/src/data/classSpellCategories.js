@@ -1215,6 +1215,220 @@ export const CLASS_SPECIALIZATIONS = {
 
 
 
+
+  'Covenbane': {
+    path: 'Occult Hunting Path',
+    specializations: [
+      {
+        id: 'shadowbane',
+        name: 'Shadowbane',
+        description: 'Infiltrating dark covens, null-salt surveillance, and striking rogue occultists from concealment.',
+        color: '#4b5563',
+        icon: 'Utility/All Seeing Eye'
+      },
+      {
+        id: 'spellbreaker',
+        name: 'Spellbreaker',
+        description: 'Direct arcane disruption, dispelling magical friction, and neutralizing hostile rituals.',
+        color: '#6b7280',
+        icon: 'Slashing/Bloody Slash'
+      },
+      {
+        id: 'demonhunter',
+        name: 'Demonhunter',
+        description: 'Banishment rites, binding fiendish entities, and executing supernatural predators.',
+        color: '#374151',
+        icon: 'Radiant/Angelic Sword'
+      }
+    ]
+  },
+
+  'Exorcist': {
+    path: 'Sacred Purification Path',
+    specializations: [
+      {
+        id: 'liturgist',
+        name: 'Liturgist',
+        description: 'Consecrated ground rites, holy prayers, and threshold sanctity maintenance.',
+        color: '#fbbf24',
+        icon: 'Utility/Deflecting Shield'
+      },
+      {
+        id: 'sineater',
+        name: 'Sin-Eater',
+        description: 'Absorbing suffering and curses from afflicted hosts, converting spiritual toxins into holy vigor.',
+        color: '#d97706',
+        icon: 'Healing/Golden Heart'
+      },
+      {
+        id: 'purger',
+        name: 'Purger',
+        description: 'Righteous radiant expulsion, scourging demonic taints, and banishing unholy spirits.',
+        color: '#b45309',
+        icon: 'Radiant/Divine Halo'
+      }
+    ]
+  },
+
+  'Dreadnaught': {
+    path: 'Hydraulic Juggernaut Path',
+    specializations: [
+      {
+        id: 'siegebastion',
+        name: 'Siege Bastion',
+        description: 'Hydraulic anchoring, kinetic deflection, and immovable frontline wall.',
+        color: '#64748b',
+        icon: 'Utility/Barred Shield'
+      },
+      {
+        id: 'furnaceengine',
+        name: 'Furnace Engine',
+        description: 'Boiling steam pressure, thermal venting, and continuous combustion.',
+        color: '#ea580c',
+        icon: 'Fire/Burning Forge'
+      },
+      {
+        id: 'juggernaut',
+        name: 'Juggernaut',
+        description: 'Momentum charges, crushing iron tramples, and catastrophic impacts.',
+        color: '#475569',
+        icon: 'Bludgeoning/Hammer Crush'
+      }
+    ]
+  },
+  'Bladedancer': {
+    path: 'Kinetic Swordplay Path',
+    specializations: [
+      {
+        id: 'flowmaster',
+        name: 'Flow Master',
+        description: 'Continuous momentum chaining, conserving kinetic energy, and flowing seamlessly through combative tempos.',
+        color: '#e11d48',
+        icon: 'Slashing/Whirlwind Slash'
+      },
+      {
+        id: 'duelist',
+        name: 'Duelist',
+        description: 'Single-target parry-ripostes, posture breaking, blade-locking, and lethal arterial precision.',
+        color: '#be123c',
+        icon: 'Utility/Parry'
+      },
+      {
+        id: 'shadowdancer',
+        name: 'Shadow Dancer',
+        description: 'Acrobatic repositioning, blurred footwork, striking from blind spots, and elusive evasive maneuvers.',
+        color: '#9f1239',
+        icon: 'Utility/Footprints'
+      }
+    ]
+  },
+
+  'Inscriptor': {
+    path: 'Living Syntax Path',
+    specializations: [
+      {
+        id: 'runebinder',
+        name: 'Runebinder',
+        description: 'Carving persistent ground runes, spatial zone denial, trigger traps, and geometric lattice explosions.',
+        color: '#1d4ed8',
+        icon: 'Arcane/Arcane Explosion'
+      },
+      {
+        id: 'enchanter',
+        name: 'Enchanter',
+        description: 'Engraving equipment with living syntax, reinforcing armor plates, and creating reactive barrier enchantments.',
+        color: '#2563eb',
+        icon: 'Utility/Deflecting Shield'
+      },
+      {
+        id: 'glyphweaver',
+        name: 'Glyphweaver',
+        description: 'Floating runic scripts, projectile redirection, spell interception lattices, and rapid syntax discharges.',
+        color: '#3b82f6',
+        icon: 'Arcane/Arcane Blast'
+      }
+    ]
+  },
+
+  'Totemist': {
+    path: 'Territorial Lithic Path',
+    specializations: [
+      {
+        id: 'hearthkeeper',
+        name: 'Hearthkeeper',
+        description: 'Defensive anchoring, restorative hearth auras, ally damage redirection, and threshold sanctuaries.',
+        color: '#d97706',
+        icon: 'Healing/Golden Heart'
+      },
+      {
+        id: 'earthshaper',
+        name: 'Earthshaper',
+        description: 'Lithic disruption, seismic faultlines between pylons, terrain deformation, and crushing stone shrapnel.',
+        color: '#b45309',
+        icon: 'General/Combat Downward Strike'
+      },
+      {
+        id: 'skybinder',
+        name: 'Skybinder',
+        description: 'Storm conduction, arcing static discharges between conduits, gale vortices, and orbital lightning strikes.',
+        color: '#f59e0b',
+        icon: 'Lightning/Thunderstrike'
+      }
+    ]
+  },
+
+  'Witch Doctor': {
+    path: 'Mire Witchcraft Path',
+    specializations: [
+      {
+        id: 'hexbinder',
+        name: 'Hexbinder',
+        description: 'Withering curses, sympathetic wax poppets, soul drain, and channeling agonizing blight through effigies.',
+        color: '#15803d',
+        icon: 'Utility/Curse'
+      },
+      {
+        id: 'miasmist',
+        name: 'Miasmist',
+        description: 'Brewing noxious bog cauldrons, releasing choking pestilential fogs, and alchemical venom hazards.',
+        color: '#166534',
+        icon: 'Nature/Poison Spray'
+      },
+      {
+        id: 'fetish_crafter',
+        name: 'Fetish Crafter',
+        description: 'Sculpting protective bone-and-peat effigies, soothing restorative salves, and sympathetic damage diversion.',
+        color: '#14532d',
+        icon: 'Healing/Golden Heart'
+      }
+    ]
+  },
+  'WitchDoctor': {
+    path: 'Mire Witchcraft Path',
+    specializations: [
+      {
+        id: 'hexbinder',
+        name: 'Hexbinder',
+        description: 'Withering curses, sympathetic wax poppets, soul drain, and channeling agonizing blight through effigies.',
+        color: '#15803d',
+        icon: 'Utility/Curse'
+      },
+      {
+        id: 'miasmist',
+        name: 'Miasmist',
+        description: 'Brewing noxious bog cauldrons, releasing choking pestilential fogs, and alchemical venom hazards.',
+        color: '#166534',
+        icon: 'Nature/Poison Spray'
+      },
+      {
+        id: 'fetish_crafter',
+        name: 'Fetish Crafter',
+        description: 'Sculpting protective bone-and-peat effigies, soothing restorative salves, and sympathetic damage diversion.',
+        color: '#14532d',
+        icon: 'Healing/Golden Heart'
+      }
+    ]
+  },
 };
 
 

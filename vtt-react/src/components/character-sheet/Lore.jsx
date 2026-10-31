@@ -11,6 +11,9 @@ import CharacterAppearanceModal from '../character-creation-wizard/components/Ch
 import useAuthStore from '../../store/authStore';
 import { uploadAsset } from '../../services/firebase/uploadService';
 import useFitText from '../hud/useFitText';
+import { getSelectableClassNames } from '../../data/classes/classDisplayData';
+
+const SELECTABLE_CLASS_NAMES = getSelectableClassNames();
 
 // Helper function to format ability icon paths correctly
 // Folders are capitalized (Utility, Social, etc.) and files use proper names
@@ -511,14 +514,7 @@ export default function Lore({ initialSection }) {
                 </div>
             );
         } else if (field.type === 'classSelect') {
-            const classesList = [
-                "Pyrofiend", "Minstrel", "Chronarch", "Harbinger", "Gambit",
-                "Martyr", "False Prophet", "Augur",
-                "Plaguebringer", "Revenant", "Spellguard", "Animist",
-                "Arcanoneer", "Shaper", "Berserker",
-                "Toxicologist", "Inquisitor",
-                "Lunarch", "Apex", "Warden", "Crusader"
-            ];
+            const classesList = SELECTABLE_CLASS_NAMES;
             return (
                 <div key={field.key} className="lore-field">
                     {renderFieldLabel(field)}
@@ -529,6 +525,9 @@ export default function Lore({ initialSection }) {
                         disabled={!!inspectionData}
                     >
                         <option value="">Select a class</option>
+                        {characterClass && !SELECTABLE_CLASS_NAMES.includes(characterClass) && (
+                            <option key={characterClass} value={characterClass}>{characterClass}</option>
+                        )}
                         {classesList.map(cls => (
                             <option key={cls} value={cls}>{cls}</option>
                         ))}

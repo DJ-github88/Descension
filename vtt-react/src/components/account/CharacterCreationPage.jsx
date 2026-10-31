@@ -7,6 +7,8 @@ import useAuthStore from '../../store/authStore';
 import subscriptionService from '../../services/subscriptionService';
 import { subscribeBootstrapGate } from '../../persistence/bootstrapPrivacyGate';
 import { createEmptyEquipment } from '../../utils/equipmentUtils';
+import { planAttributeSave } from '../../utils/attributeProfile';
+import { buildClassSwitchPatch } from '../../store/characterClassSwitch';
 import './styles/CharacterCreationPage.css';
 import './styles/AdventurerWorkspace.css';
 
@@ -84,16 +86,28 @@ const CharacterCreationPage = ({ user, isEditing = false }) => {
     };
   }, [isEditing, characterId, loadCharacters]);
 
-  const handleCharacterCreationComplete = async (characterData) => {
+  const handleCharacterCreationComplete = async (characterData, completion = {}) => {
     setIsCreating(true);
     setError(null);
 
     try {
       if (isEditing && existingCharacter) {
-        // Update existing character
+        // Update existing character. The wizard's `stats`/`baseStats` are the base allocation;
+        // the shared planner applies only that change to the stored attributes so earned
+        // level-up gains are neither lost nor counted twice, and untouched legacy records
+        // keep their stored values.
+        const { stats: wizardStats, baseStats: wizardBaseStats, statsModel: wizardStatsModel, ...editedFields } = characterData;
+        const attributePatch = planAttributeSave(existingCharacter, wizardBaseStats, completion.loadedAttributes);
+        const classSwitch = buildClassSwitchPatch(existingCharacter, characterData.class, {
+          classSpells: characterData.class_spells?.known_spells,
+          stats: attributePatch.stats || characterData.stats || existingCharacter.stats,
+          level: existingCharacter.level
+        });
         const updatedCharacterData = {
           ...existingCharacter,
-          ...characterData,
+          ...editedFields,
+          ...(classSwitch?.patch || {}),
+          ...attributePatch,
           lore: {
             ...(existingCharacter.lore || {}),
             ...(characterData.lore || {}),
@@ -115,6 +129,19 @@ const CharacterCreationPage = ({ user, isEditing = false }) => {
 
         const savedCharacter = await updateCharacter(characterId, updatedCharacterData);
         console.log('Character updated successfully:', savedCharacter);
+
+        // Class change cleanup uses the saved roster record, so it also works
+        // when the edited character is not the currently open sheet character.
+        if (savedCharacter && classSwitch?.removedGrantIds?.length > 0) {
+          const saved = useCharacterStore.getState().characters.find(char => char.id === characterId);
+          if (saved && saved.class === updatedCharacterData.class) {
+            useCharacterStore.getState().removeTalentGrantSpells(classSwitch.removedGrantIds, {
+              characterId,
+              className: saved.class,
+              knownSpells: saved.class_spells?.known_spells || []
+            });
+          }
+        }
 
         navigate('/account', {
           state: {

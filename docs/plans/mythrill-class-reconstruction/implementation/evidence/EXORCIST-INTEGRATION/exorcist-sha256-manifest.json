@@ -1,0 +1,213 @@
+{
+  "generatedAt": "2026-10-30T20:55:57.906Z",
+  "targetClass": "Exorcist (exorcist)",
+  "rosterNumber": 25,
+  "filesCount": 41,
+  "entries": {
+    "docs/plans/mythrill-class-reconstruction/implementation/evidence/EXORCIST-INTEGRATION/EXORCIST-CONTENT-LOCK.md": {
+      "sha256": "70e15c4dcd4a4604cd9a5268a17ddb7f9a305390e7ca013316784f927226775f",
+      "bytes": 12110,
+      "mtime": "2026-10-30T20:35:55.897Z"
+    },
+    "docs/plans/mythrill-class-reconstruction/implementation/evidence/EXORCIST-INTEGRATION/exorcist-content-lock.json": {
+      "sha256": "e1aa94ebb111d42cbf5c0ae32f24f980624a389e93d93303d30a1cf69fe20542",
+      "bytes": 7977,
+      "mtime": "2026-10-30T20:36:05.687Z"
+    },
+    "vtt-react/src/data/classes/exorcistData.js": {
+      "sha256": "adc36b7a04593462e2ccef8932fd8184094a67b4f4c05ff217fc0533b3d8f576",
+      "bytes": 52920,
+      "mtime": "2026-10-30T20:39:27.532Z"
+    },
+    "vtt-react/src/data/talentTrees/exorcist.js": {
+      "sha256": "1ea68766b35a184a220f4da595eb33b2020dcd1a1969ec6830ab6e61e845ec7a",
+      "bytes": 13851,
+      "mtime": "2026-10-30T20:36:22.568Z"
+    },
+    "vtt-react/src/data/resourceSystems/exorcistResourceGuide.js": {
+      "sha256": "15e572fca6ce8ead4afa9bde5e8ce0e4182a015d908cce91dfadcc94ae07daad",
+      "bytes": 4538,
+      "mtime": "2026-10-30T20:36:33.423Z"
+    },
+    "vtt-react/src/components/hud/ExorcistResourceDisplay.jsx": {
+      "sha256": "2ce0232731c4cfaedc691be3a0b2c21ccf296e247e2039c433103d58e3ae0931",
+      "bytes": 3543,
+      "mtime": "2026-10-30T20:39:32.643Z"
+    },
+    "vtt-react/src/data/classes/__tests__/exorcistIntegration.test.js": {
+      "sha256": "ce5645ce64f7a3ef82c5253ffe7e5564e5f824cc52dd509406f5669856087064",
+      "bytes": 5211,
+      "mtime": "2026-10-30T20:52:58.651Z"
+    },
+    "vtt-react/src/data/classes/__tests__/exorcistRoundTripAndProgression.test.js": {
+      "sha256": "acf63aded72be9b28e220f2909ea93e91324cfe9c2f091d86c7f223c8b9ea8b7",
+      "bytes": 17593,
+      "mtime": "2026-10-30T20:53:04.915Z"
+    },
+    "vtt-react/src/data/classes/index.js": {
+      "sha256": "83c7d1735cee2037ac700a51034076bb282042f9f6ffa7ba2ef6c27b41cb3e57",
+      "bytes": 4177,
+      "mtime": "2026-10-30T20:40:35.599Z"
+    },
+    "vtt-react/src/data/classes/classDisplayData.js": {
+      "sha256": "06919137192317b06cd73eb5401a0c26d4dd3345371b9bbfa1d68520834e3276",
+      "bytes": 38086,
+      "mtime": "2026-10-30T20:40:19.183Z"
+    },
+    "vtt-react/src/data/classes/classFlavorProfiles.js": {
+      "sha256": "80b4e18b24ddd09413554bae2e85922ad15c71206b052642bf564d6503433469",
+      "bytes": 26121,
+      "mtime": "2026-10-30T20:40:24.003Z"
+    },
+    "vtt-react/src/data/classSpellGenerator.js": {
+      "sha256": "e1071565cc368e522dcc27271e52c521f37bd3bfa61729c87406fbefe2e465a9",
+      "bytes": 30812,
+      "mtime": "2026-10-30T20:41:05.007Z"
+    },
+    "vtt-react/src/store/characterSlices/progressionSlice.js": {
+      "sha256": "b9d448011c612dda31ac783e1b669df82499f7e5862403d77df1a7ebfe30ec2d",
+      "bytes": 54541,
+      "mtime": "2026-10-30T20:43:31.875Z"
+    },
+    "vtt-react/src/data/classHeritageRegistry.js": {
+      "sha256": "cd14628adcaee97540dbdc850b12f46f73b939a26b0d8942e21dd4861379896f",
+      "bytes": 29457,
+      "mtime": "2026-10-30T20:39:50.725Z"
+    },
+    "vtt-react/src/data/classSpellCategories.js": {
+      "sha256": "2ba8b883bd9e22e86deb6fe9a721cf2510988b8d133b49ab5b6a749e925e1abb",
+      "bytes": 34161,
+      "mtime": "2026-10-30T20:39:54.955Z"
+    },
+    "vtt-react/src/data/classResources.js": {
+      "sha256": "c4ac2ada6bd9949b6431ad5fa7ca3e43d87778fbd1337f4a410e9691c8b58044",
+      "bytes": 80297,
+      "mtime": "2026-10-30T20:40:14.620Z"
+    },
+    "vtt-react/src/data/talentTreeData.js": {
+      "sha256": "c82d22383d230f7c8cf746ce3d1d678cf858c3f093be9828da398b1534c29b83",
+      "bytes": 19655,
+      "mtime": "2026-10-30T20:43:49.528Z"
+    },
+    "vtt-react/src/data/talentTrees/index.js": {
+      "sha256": "42915f95546e84d12f51ebb82945171d5934e9cef8102f7a0e0dd751426883cd",
+      "bytes": 3279,
+      "mtime": "2026-10-30T20:43:36.921Z"
+    },
+    "vtt-react/src/data/resourceSystems/index.js": {
+      "sha256": "cda8de0d0a622fb4c5ef0591fcc9fa7dde3a0fc9f9d8027bf39c679afee9c476",
+      "bytes": 3902,
+      "mtime": "2026-10-30T20:43:56.205Z"
+    },
+    "vtt-react/src/components/hud/ClassResourceBar.jsx": {
+      "sha256": "a3682ec3ecbe0b335d94dfe340f16456f73b9050c02a7470f4304c1b2eb4f730",
+      "bytes": 94328,
+      "mtime": "2026-10-30T20:44:11.620Z"
+    },
+    "vtt-react/src/components/character-creation-wizard/steps/Step1CoreDraft.jsx": {
+      "sha256": "2348c2fa32d34b62da9c39f5deb12e6098b1ad9bcdc7a7f0289b73c34a731f77",
+      "bytes": 202482,
+      "mtime": "2026-10-30T20:44:21.426Z"
+    },
+    "vtt-react/src/components/account/CharacterManagement.jsx": {
+      "sha256": "28e8e84a9276863b7b60b68787f9592555c0d0c3aedffe8b983016f086288ddf",
+      "bytes": 26030,
+      "mtime": "2026-10-30T20:44:26.293Z"
+    },
+    "vtt-react/src/components/rules/ClassDetailDisplay.jsx": {
+      "sha256": "7f1cf2f5fd8de7b0876891137e80cbc58f2a39f6b3524a866b5b20087bc147c9",
+      "bytes": 145784,
+      "mtime": "2026-10-30T20:44:36.300Z"
+    },
+    "vtt-react/src/components/rules/RulesPage.jsx": {
+      "sha256": "f667ac2a7d5c699c850c15c85523a1bdeeea9b9d228ba30802ceb35f418b86b6",
+      "bytes": 102892,
+      "mtime": "2026-10-30T20:44:46.560Z"
+    },
+    "vtt-react/src/data/classes/levelOneSpellIcons.js": {
+      "sha256": "0aa1ec0d6c228ab396a2e9a6bf959eb40c60c945d775b7eccb2c8e0228e8fd00",
+      "bytes": 5204,
+      "mtime": "2026-10-30T20:39:41.934Z"
+    },
+    "vtt-react/verification/exorcist/exorcist-browser-witness.cjs": {
+      "sha256": "7f272c22b36995627fe7fe41a1e0eef29686e20df2764dab07d8f66cd5f6724b",
+      "bytes": 19248,
+      "mtime": "2026-10-30T20:55:00.440Z"
+    },
+    "docs/plans/mythrill-class-reconstruction/implementation/evidence/EXORCIST-INTEGRATION/exorcist-browser-evidence.json": {
+      "sha256": "583967f26b9d43901f036118ff670ae89ffd498cf392ec8735a2816eade0d7ab",
+      "bytes": 2308,
+      "mtime": "2026-10-30T20:55:39.965Z"
+    },
+    "vtt-react/build/asset-manifest.json": {
+      "sha256": "bd4918778ed16dde2550223a5d0f74965e75edc2b8eeb614e4710493b6a94236",
+      "bytes": 8126,
+      "mtime": "2026-10-30T20:55:20.665Z"
+    },
+    "docs/plans/mythrill-class-reconstruction/implementation/evidence/EXORCIST-INTEGRATION/screenshots/01-exorcist-hud-desktop-empty.png": {
+      "sha256": "182935de9aaf2ec5a2e62f5ee398a1740efb291ddf66fa2770774267bd1d942e",
+      "bytes": 12828,
+      "mtime": "2026-10-30T20:55:30.666Z"
+    },
+    "docs/plans/mythrill-class-reconstruction/implementation/evidence/EXORCIST-INTEGRATION/screenshots/02-exorcist-hud-desktop-base.png": {
+      "sha256": "2e86edbc095c5d18d97efdd8ff4c52408abf7855c34518951dbcbe516191b7f9",
+      "bytes": 9962,
+      "mtime": "2026-10-30T20:55:30.751Z"
+    },
+    "docs/plans/mythrill-class-reconstruction/implementation/evidence/EXORCIST-INTEGRATION/screenshots/03-exorcist-hud-desktop-partial.png": {
+      "sha256": "afc0000da70f71745da5d6d3b7929f8f259561724cffe357427cbfe042d54fdf",
+      "bytes": 9553,
+      "mtime": "2026-10-30T20:55:30.842Z"
+    },
+    "docs/plans/mythrill-class-reconstruction/implementation/evidence/EXORCIST-INTEGRATION/screenshots/04-exorcist-hud-desktop-full.png": {
+      "sha256": "6e475439ec5c99493a6b16981331e9f012508d2bee776fe6da07bc8fa138045b",
+      "bytes": 11281,
+      "mtime": "2026-10-30T20:55:30.919Z"
+    },
+    "docs/plans/mythrill-class-reconstruction/implementation/evidence/EXORCIST-INTEGRATION/screenshots/05-exorcist-hud-desktop-malformed.png": {
+      "sha256": "70b90120981023191d6055b690aefccca1ab1cb93f5238619adf26cd6a43c9b3",
+      "bytes": 35204,
+      "mtime": "2026-10-30T20:55:31.027Z"
+    },
+    "docs/plans/mythrill-class-reconstruction/implementation/evidence/EXORCIST-INTEGRATION/screenshots/06-exorcist-hud-desktop-multi-instance.png": {
+      "sha256": "02452f185d60a21d79171e79e17b26abf58e984a800ea3072a3372073bd9dbd0",
+      "bytes": 27176,
+      "mtime": "2026-10-30T20:55:31.095Z"
+    },
+    "docs/plans/mythrill-class-reconstruction/implementation/evidence/EXORCIST-INTEGRATION/screenshots/07-exorcist-hud-mobile-partial.png": {
+      "sha256": "8cc2e02d7a773a4c9770033b4ad6e79a061edec3aa81ff41359928be821780ca",
+      "bytes": 8999,
+      "mtime": "2026-10-30T20:55:31.197Z"
+    },
+    "docs/plans/mythrill-class-reconstruction/implementation/evidence/EXORCIST-INTEGRATION/screenshots/08-exorcist-hud-mobile-multi-instance.png": {
+      "sha256": "6ef2489020c483feb9c4f283608d4aeec1db23d53fc113318c55718ed82bbec6",
+      "bytes": 124262,
+      "mtime": "2026-10-30T20:55:31.274Z"
+    },
+    "docs/plans/mythrill-class-reconstruction/implementation/evidence/EXORCIST-INTEGRATION/screenshots/09-rules-exorcist-overview-desktop.png": {
+      "sha256": "994dc564eda511945897544c6ad49b1108e976ea87e5c46666e0a921a1d0e6d0",
+      "bytes": 477094,
+      "mtime": "2026-10-30T20:55:35.768Z"
+    },
+    "docs/plans/mythrill-class-reconstruction/implementation/evidence/EXORCIST-INTEGRATION/screenshots/10-rules-exorcist-overview-mobile.png": {
+      "sha256": "405abcf85811a50d8e4527480d9d104b12e8a383d90a6c97f068a92a5bd624db",
+      "bytes": 143717,
+      "mtime": "2026-10-30T20:55:35.899Z"
+    },
+    "docs/plans/mythrill-class-reconstruction/implementation/evidence/EXORCIST-INTEGRATION/screenshots/11-rules-exorcist-spells-desktop.png": {
+      "sha256": "382655ba202ad242e4194098e068d1678e09c914d072447dfc5bcc8efb893091",
+      "bytes": 489744,
+      "mtime": "2026-10-30T20:55:37.221Z"
+    },
+    "docs/plans/mythrill-class-reconstruction/implementation/evidence/EXORCIST-INTEGRATION/screenshots/12-rules-exorcist-specializations-desktop.png": {
+      "sha256": "d85b74732164479cd77018c4d9629827d44956ba84d452a14b2fb3dc941c13c9",
+      "bytes": 449371,
+      "mtime": "2026-10-30T20:55:38.417Z"
+    },
+    "docs/plans/mythrill-class-reconstruction/implementation/evidence/EXORCIST-INTEGRATION/screenshots/13-rules-exorcist-resource-guide-desktop.png": {
+      "sha256": "93fc81903f58de4b406eced7581fe12a94c87c58f9097192d630c1573d3f9abf",
+      "bytes": 473438,
+      "mtime": "2026-10-30T20:55:39.716Z"
+    }
+  }
+}

@@ -8,15 +8,14 @@ import useCharacterStore from '../../store/characterStore';
 
 import subscriptionService from '../../services/subscriptionService';
 
-import { RACE_DATA, applyRacialModifiers } from '../../data/raceData';
+import { RACE_DATA } from '../../data/raceData';
+import { buildCharacterResourceSnapshot } from '../../utils/characterResourceSnapshot';
 
 import { normalizeRaceDisplayName } from '../../utils/raceDisplayNames';
 
 import { getIconUrl } from '../../utils/assetManager';
 
 import { getClassIconUrl } from '../../utils/classIconUtils';
-
-import { calculateDerivedStats, calculateEquipmentBonuses } from '../../utils/characterUtils';
 
 import './styles/CharacterManagement.css';
 import UnifiedTransitionOverlay from '../multiplayer/UnifiedTransitionOverlay';
@@ -48,42 +47,8 @@ const CharacterManagement = ({ user }) => {
  // Roster cards must agree with the persisted canonical `stats` (base point-buy)
  // and the store's derived-resource math instead of placeholder display fields.
  const getCharacterDisplayResources = (character) => {
-  const baseStats = character.stats || {
-   strength: 10, agility: 10, constitution: 10,
-   intelligence: 10, spirit: 10, charisma: 10
-  };
-  const effectiveStats = character.race && character.subrace
-   ? applyRacialModifiers(baseStats, character.race, character.subrace)
-   : baseStats;
-  const equipmentBonuses = calculateEquipmentBonuses(character.equipment || {});
-  const totalStats = { ...effectiveStats };
-  const statMapping = {
-   str: 'strength', con: 'constitution', agi: 'agility',
-   int: 'intelligence', spir: 'spirit', cha: 'charisma'
-  };
-  Object.entries(statMapping).forEach(([shortName, fullName]) => {
-   if (equipmentBonuses[shortName]) {
-    totalStats[fullName] = (totalStats[fullName] || 0) + equipmentBonuses[shortName];
-   }
-  });
-  const derivedStats = calculateDerivedStats(
-   totalStats,
-   equipmentBonuses,
-   {},
-   character.inventory?.encumbranceState || 'normal',
-   character.exhaustionLevel || 0,
-   null,
-   character.race,
-   character.subrace
-  );
-  const maxHealth = Math.round(derivedStats.maxHealth) || character.maxHitPoints || 0;
-  const maxMana = Math.round(derivedStats.maxMana) || 0;
-  const storedHealth = character.health || character.resources?.health || { current: maxHealth, max: maxHealth };
-  const storedMana = character.mana || character.resources?.mana || { current: maxMana, max: maxMana };
-  return {
-   health: { current: Math.min(storedHealth.current ?? maxHealth, maxHealth), max: maxHealth },
-   mana: { current: Math.min(storedMana.current ?? maxMana, maxMana), max: maxMana }
-  };
+  const snapshot = buildCharacterResourceSnapshot(character);
+  return { health: snapshot.health, mana: snapshot.mana };
  };
 
  // Helper functions for icons
@@ -140,7 +105,7 @@ const CharacterManagement = ({ user }) => {
 
    'Toxicologist': 'To', 'Warden': 'Ga', 'Augur': 'Au',
 
-   'Crusader': 'Cr'
+   'Crusader': 'Cr', 'Covenbane': 'Cb', 'Exorcist': 'Ex', 'Dreadnaught': 'Dr'
 
   };
 

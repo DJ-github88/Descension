@@ -12,8 +12,27 @@
     "timings": {
       "manual": "GM-adjudicated duration — GM removes.",
       "critical-one-round": "One round (bludgeoning critical) — GM tracks the round and removes.",
-      "shield-bash-target-end": "Until end of target's next turn (Shield Bash) — GM removes."
+      "shield-bash-target-end": "Until end of target's next turn (Shield Bash) — GM removes.",
+      "authored-target-next-start": "Until the start of the target's next turn — expires at the authenticated turn boundary.",
+      "authored-target-next-end": "Until the end of the target's next turn — expires at the authenticated turn boundary.",
+      "authored-target-start-count": "Until the start of a counted upcoming turn of the target — expires at the authenticated turn boundary.",
+      "authored-target-end-count": "Until the end of a counted upcoming turn of the target — expires at the authenticated turn boundary."
     }
+  },
+  "movementModifier": {
+    "conditionKey": "movement-modifier",
+    "origin": "shared-condition:movement-modifier:v1",
+    "definitionId": "authored-movement-modifier",
+    "description": "Flat change to movement speed: the distance each movement AP buys. Applied after other speed conditions; the result never goes below 0 ft. Stunned still allows no voluntary movement.",
+    "buffColor": "#3c7a4a",
+    "debuffColor": "#7a4a3c",
+    "buffIcon": "/assets/icons/Status/movement/upward-arrow-haste.png",
+    "debuffIcon": "/assets/icons/Status/movement/anchor-slow-root.png",
+    "minFeet": -60,
+    "maxFeet": 60,
+    "stepFeet": 5,
+    "maxActivePerTarget": 8,
+    "combinationPolicy": "Different named effects add together. Reapplying the same effect from the same exact source refreshes its duration instead of stacking its value. The result never goes below 0 ft."
   },
   "defending": {
     "conditionKey": "defending",

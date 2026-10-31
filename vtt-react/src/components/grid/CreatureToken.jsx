@@ -1705,6 +1705,11 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
   // Movement confirmation handlers
   const handleConfirmMovement = () => {
     if (pendingMovementConfirmation) {
+      const review = useCombatStore.getState().reviewMovementConfirmation([creature]);
+      if (!review.ready) {
+        if (!review.repriced) setLocalPosition(pendingMovementConfirmation.startPosition);
+        return;
+      }
       const {
         tokenId: pendingTokenId,
         finalPosition,
@@ -1713,11 +1718,10 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
       } = pendingMovementConfirmation;
 
 
-      // Update token position to final position (should already be there, but ensure it)
-      updateTokenPositionWithSync(pendingTokenId, finalPosition);
-
-      // Track the movement and spend the required AP - use total distance, not current movement
-      confirmMovement(pendingTokenId, requiredAP, totalDistance);
+      // No position write precedes the current-state review and successful AP/tracking update.
+      if (confirmMovement(pendingTokenId, requiredAP, totalDistance)) {
+        updateTokenPositionWithSync(pendingTokenId, finalPosition);
+      }
     }
   };
 

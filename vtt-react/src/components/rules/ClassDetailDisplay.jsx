@@ -13,9 +13,10 @@ import { getClassResourceConfig } from '../../data/classResources';
 import SphereComboFinder from '../../data/classes/arcanoneer/components/SphereComboFinder';
 import TalentTreeContent from '../talent-tree/TalentTreeContent';
 import ClassIcon from '../common/ClassIcon';
-import { getClassIconUrl } from '../../utils/classIconUtils';
+import { getClassIconUrl, hasClassPixelArt } from '../../utils/classIconUtils';
 import ResourceSystemTab from './resource-system/ResourceSystemTab';
 import { hasResourceSystemGuide } from '../../data/resourceSystems';
+import { getLevelOneSpellIcon } from '../../data/classes/levelOneSpellIcons';
 import './ClassDetailDisplay.css';
 import './ClassCodex.css';
 import { parseTextWithLoreLinks } from './contentFormatting';
@@ -29,11 +30,8 @@ import { summarizeHeritageEdgesForClass } from '../../data/heritageEdgeAdapter';
  * Build a sensible demo classResource prop for the rules page preview.
  * Reads directly from classResources.js so every class automatically works.
  */
-const buildDemoClassResource = (className) => {
- const cfg = getClassResourceConfig(className);
- if (!cfg) return { current: 0, max: 10, spheres: [] };
-
- // Custom consolidated class overrides:
+export const buildDemoClassResource = (className) => {
+ // Custom consolidated and manual-tabletop class overrides:
  if (className === 'Gambit') {
   return { current: 5, max: 7, risk: 3, spheres: [] };
  }
@@ -73,6 +71,27 @@ const buildDemoClassResource = (className) => {
   if (className === 'Hunter') {
    return { type: 'hunter-evidence', initialized: false, state: null, current: 0, max: 3, quarryMax: 1, evidenceMax: 3 };
   }
+  if (className === 'Exorcist') {
+   return { type: 'purification_sanctity', initialized: false, state: null, current: 3, max: 10, sanctity: 3 };
+  }
+  if (className === 'Covenbane') {
+   return { type: 'covenbane-charges', initialized: false, state: null, current: 0, max: 6, charges: 0 };
+  }
+  if (className === 'Dreadnaught') {
+   return { type: 'furnace_pressure', initialized: false, state: null, current: 20, max: 100, pressure: 20 };
+  }
+  if (className === 'Bladedancer') {
+   return { type: 'momentum', initialized: false, state: null, current: 0, max: 10, momentum: 0 };
+  }
+  if (className === 'Inscriptor') {
+   return { type: 'runic_resonance', initialized: false, state: null, current: 0, max: 10, resonance: 0 };
+  }
+  if (className === 'Totemist') {
+   return { type: 'totemic_attunement', initialized: false, state: null, current: 0, max: 10, attunement: 0, activePylons: 0, maxPylons: 3 };
+  }
+  if (className === 'Witch Doctor' || className === 'WitchDoctor') {
+   return { type: 'bog_tallow', initialized: false, state: null, current: 50, max: 100, tallow: 50 };
+  }
   if (className === 'Chaos Weaver') {
   // RI-1: the demo preview must never fabricate a filled six-tile hand.
   // A fresh character's tiles are uninitialized until a manual rehearsal
@@ -87,6 +106,9 @@ const buildDemoClassResource = (className) => {
    spheres: []
   };
  }
+
+ const cfg = getClassResourceConfig(className);
+ if (!cfg) return { current: 0, max: 10, spheres: [] };
 
  const m = cfg.mechanics;
 
@@ -372,6 +394,51 @@ const CLASS_REGIONS = {
    borderColor: '#154360',
    glowColor: 'rgba(21, 67, 96, 0.15)',
    icon: 'fas fa-music'
+  },
+  gambler: {
+   regionId: 'iceheart-sea',
+   regionName: 'Iceheart Sea',
+   accentColor: '#76542b',
+   bgGradient: 'linear-gradient(135deg, rgba(118, 84, 43, 0.06) 0%, rgba(52, 73, 94, 0.02) 100%)',
+   borderColor: '#76542b',
+   glowColor: 'rgba(118, 84, 43, 0.15)',
+   icon: 'fas fa-dice'
+  },
+  'fate-weaver': {
+   regionId: 'sundrift-vale',
+   regionName: 'Sundrift Vale',
+   accentColor: '#4f5d75',
+   bgGradient: 'linear-gradient(135deg, rgba(79, 93, 117, 0.06) 0%, rgba(47, 58, 68, 0.02) 100%)',
+   borderColor: '#4f5d75',
+   glowColor: 'rgba(79, 93, 117, 0.15)',
+   icon: 'fas fa-scroll'
+  },
+  fate_weaver: {
+   regionId: 'sundrift-vale',
+   regionName: 'Sundrift Vale',
+   accentColor: '#4f5d75',
+   bgGradient: 'linear-gradient(135deg, rgba(79, 93, 117, 0.06) 0%, rgba(47, 58, 68, 0.02) 100%)',
+   borderColor: '#4f5d75',
+   glowColor: 'rgba(79, 93, 117, 0.15)',
+   icon: 'fas fa-scroll'
+  },
+  chaos_weaver: {
+   regionId: 'cragjaw-peaks',
+   regionName: 'Cragjaw Peaks',
+   accentColor: '#7A2040',
+   bgGradient: 'linear-gradient(135deg, rgba(122, 32, 64, 0.06) 0%, rgba(95, 75, 139, 0.02) 100%)',
+   borderColor: '#7A2040',
+   glowColor: 'rgba(122, 32, 64, 0.15)',
+   icon: 'fas fa-dice-d6'
+  },
+  'false-prophet': {
+   regionId: 'sundrift-vale',
+   regionName: 'Sundrift Vale',
+   accentColor: '#a569bd',
+   bgGradient: 'linear-gradient(135deg, rgba(165, 105, 189, 0.06) 0%, rgba(190, 140, 208, 0.02) 100%)',
+   borderColor: '#a569bd',
+   glowColor: 'rgba(165, 105, 189, 0.15)',
+   icon: 'fas fa-exclamation-triangle'
   },
   // oracle config removed (absorbed into Augur)
   harbinger: {
@@ -796,7 +863,7 @@ const mapSpellIcon = (wowIconId) => {
 
 // Helper function to get spell icon URL (matching UnifiedSpellCard logic exactly)
 const getSpellIconUrl = (spell) => {
- const iconId = spell?.icon || spell?.typeConfig?.icon;
+ const iconId = getLevelOneSpellIcon(spell) || spell?.typeConfig?.icon;
  
  // If no icon is set, use default
  if (!iconId) {
@@ -1571,15 +1638,19 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
          <h4>Taking up the calling</h4>
          <p>{profile.acquisition}</p>
          <h4>Trained heritage paths</h4>
-         <ul className="class-heritage-paths">{summarizeHeritageEdgesForClass(classData.variantName || classData.name).map(row => (
-          <li key={row.heritageId}>
-           <h5>{row.heritageName}{heritageClass === 'Martyr' && row.heritageId === 'skald_human' ? ' — Ironclad method' : ''}</h5>
-           {row.implemented && <dl>
-            <div><dt>Edge</dt><dd>{row.edge}</dd></div>
-            <div><dt>Cost</dt><dd>{row.cost}</dd></div>
-           </dl>}
-          </li>
-         ))}</ul>
+         {summarizeHeritageEdgesForClass(classData.variantName || classData.name).length > 0 ? (
+          <ul className="class-heritage-paths">{summarizeHeritageEdgesForClass(classData.variantName || classData.name).map(row => (
+           <li key={row.heritageId}>
+            <h5>{row.heritageName}{heritageClass === 'Martyr' && row.heritageId === 'skald_human' ? ' — Ironclad method' : ''}</h5>
+            {row.implemented && <dl>
+             <div><dt>Edge</dt><dd>{row.edge}</dd></div>
+             <div><dt>Cost</dt><dd>{row.cost}</dd></div>
+            </dl>}
+           </li>
+          ))}</ul>
+         ) : (
+          <p className="class-no-native-heritage-note">No native heritage path is registered for this calling; selection requires recorded acquisition training.</p>
+         )}
         </section>
         <aside className="class-tradition-record" aria-label="Origins and institution">
          <h4>Origins &amp; institution</h4>
@@ -1594,9 +1665,11 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
        <details className="class-training-notes">
         <summary>Training requirements &amp; heritage rules</summary>
          <p>Other heritages require the actual acquisition and training above. Current incompatible body or interface states still apply.</p>
-         {['Gambler', 'Fate Weaver'].includes(heritageClass) && <ul>{(classData.restrictions?.acquisition?.records || []).map(record => (
-          <li key={record.id}><strong>{record.label}</strong> ({record.id}): {record.text}</li>
-         ))}</ul>}
+         {Array.isArray(classData.restrictions?.acquisition?.records) && classData.restrictions.acquisition.records.length > 0 && (
+          <ul>{classData.restrictions.acquisition.records.map(record => (
+           <li key={record.id}><strong>{record.label || record.id}</strong> ({record.id}): {record.text || record.description}</li>
+          ))}</ul>
+         )}
         {profile.heritageEffectsImplemented
          ? <p>These paths share the class chassis. Each native heritage has one bounded edge and one paired cost shown above; the edge applies only while its declared condition is met, and the class caps, collapse and other risks still apply.</p>
          : <p>These paths share the class chassis. Heritage-specific numerical edges and costs are pending implementation.</p>}
@@ -3025,7 +3098,22 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
    'apex': 'fas fa-crosshairs',
    'Warden': 'fas fa-gavel',
    'augur': 'fas fa-skull-crossbones',
-   'crusader': 'fas fa-cross'
+   'crusader': 'fas fa-cross',
+   'warden': 'fas fa-gavel',
+   'harbinger': 'fas fa-bolt',
+   'gambler': 'fas fa-dice',
+   'doomsayer': 'fas fa-bolt',
+   'oracle': 'fas fa-eye',
+   'druid': 'fas fa-seedling',
+   'hunter': 'fas fa-crosshairs',
+   'bladedancer': 'fas fa-wind',
+   'inscriptor': 'fas fa-scroll',
+   'totemist': 'fas fa-monument',
+   'witch-doctor': 'fas fa-skull',
+   'witchDoctor': 'fas fa-skull',
+   'covenbane': 'fas fa-shield-virus',
+   'exorcist': 'fas fa-cross',
+   'dreadnaught': 'fas fa-shield-halved'
   };
   
   let categoryIcon = classIcons[classData.id] || 'fas fa-magic';
@@ -3259,6 +3347,20 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
         showTags={true}
          rollableTableData={getSpellRollableTable(selectedSpell)}
         />
+        {['doomsayer', 'oracle', 'druid', 'hunter'].map(key => selectedSpell.specialMechanics?.[key] && (
+         <details key={key} style={{ padding: 12, overflowWrap: 'anywhere' }}>
+          <summary style={{ minHeight: 44, cursor: 'pointer' }}>Manual resource price and tabletop rules</summary>
+          <p>{selectedSpell.specialMechanics[key].priceSummary}</p>
+          <p>Manual tabletop only. These authored terms do not admit or execute new opcodes.</p>
+          <pre style={{ whiteSpace: 'pre-wrap', maxWidth: '100%', fontSize: '0.85rem' }}>{JSON.stringify(
+           selectedSpell.specialMechanics[key].authoredSpell?.classResourceProgram ||
+           selectedSpell.specialMechanics[key].authoredSpell?.manualMechanics, null, 2
+          )}</pre>
+          {selectedSpell.specialMechanics[key].commonRules && (
+           <ul>{Object.entries(selectedSpell.specialMechanics[key].commonRules).map(([ruleKey, text]) => <li key={ruleKey}>{text}</li>)}</ul>
+          )}
+         </details>
+        ))}
         {selectedSpell.specialMechanics?.gambler && (
          <details style={{ padding: 12, overflowWrap: 'anywhere' }}>
           <summary style={{ minHeight: 44, cursor: 'pointer' }}>Manual prices, branches and rank rules</summary>
@@ -3309,8 +3411,8 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
     <div className="class-header-left">
      <div className="class-header-icon-container">
       <ClassIcon 
-       src={['gambler', 'fate-weaver'].includes(classData.id) ? classData.imageIcon : getClassIconUrl(classData.name, { variant: 'transparent' }) || `/assets/icons/classes/transparent/${(classData.name || '').toLowerCase().replace(/ /g, '_')}.png`}
-       variant={['gambler', 'fate-weaver'].includes(classData.id) ? 'framed' : 'transparent'}
+       src={!hasClassPixelArt(classData.name) ? (classData.imageIcon || getClassIconUrl(classData.name)) : (getClassIconUrl(classData.name, { variant: 'transparent' }) || `/assets/icons/classes/transparent/${(classData.name || '').toLowerCase().replace(/ /g, '_')}.png`)}
+       variant={!hasClassPixelArt(classData.name) ? 'framed' : 'transparent'}
        alt={classData.name} 
        size="large"
        className="header-pixel-icon" 

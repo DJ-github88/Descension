@@ -161,7 +161,7 @@ describe('Doomsayer complete content lock', () => {
 
   test('keeps heritage recommendation-only and preserves legacy Harbinger exactly', () => {
     expect(getClassNativeHeritageIds('Doomsayer')).toEqual([]);
-    expect(CLASS_PROVENANCE.Doomsayer).toBeUndefined();
+    expect(CLASS_PROVENANCE.Doomsayer?.heritageEffectsImplemented).toBe(false);
     expect(DOOMSAYER_DATA.heritageRecommendation).toEqual(['skald_human', 'thrask_solari', 'tessen_human']);
     expect(DOOMSAYER_DATA.heritageEffectsImplemented).toBe(false);
     expect(DOOMSAYER_DATA.nativeAccess).toEqual([]);

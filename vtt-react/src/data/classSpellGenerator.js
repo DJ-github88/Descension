@@ -39,7 +39,15 @@ import { DOOMSAYER_DATA } from './classes/doomsayerData';
 import { ORACLE_DATA } from './classes/oracleData';
 import { DRUID_DATA } from './classes/druidData';
 import { HUNTER_DATA } from './classes/hunterData';
+import { COVENBANE_DATA } from './classes/covenbaneData';
+import { EXORCIST_DATA } from './classes/exorcistData';
+import { DREADNAUGHT_DATA } from './classes/dreadnaughtData';
+import { BLADEDANCER_DATA } from './classes/bladedancerData';
+import { INSCRIPTOR_DATA } from './classes/inscriptorData';
+import { TOTEMIST_DATA } from './classes/totemistData';
+import { WITCH_DOCTOR_DATA } from './classes/witchDoctorData';
 import { UNIVERSAL_COMBAT_SPELLS } from './universalCombatSpells';
+import { getLevelOneSpellIcon } from './classes/levelOneSpellIcons';
 
 // ===== CLASS DATA MAP =====
 // Maps class names to their data files for shifting loading
@@ -75,6 +83,14 @@ export const CLASS_DATA_MAP = {
   'Oracle': ORACLE_DATA,
   'Druid': DRUID_DATA,
   'Hunter': HUNTER_DATA,
+  'Covenbane': COVENBANE_DATA,
+  'Exorcist': EXORCIST_DATA,
+  'Dreadnaught': DREADNAUGHT_DATA,
+  'Bladedancer': BLADEDANCER_DATA,
+  'Inscriptor': INSCRIPTOR_DATA,
+  'Totemist': TOTEMIST_DATA,
+  'Witch Doctor': WITCH_DOCTOR_DATA,
+  'WitchDoctor': WITCH_DOCTOR_DATA,
   'Nereid Myrathil Apex': DEEPLING_MYRATHIL_APEX_DATA,
   'Nereid Myrathil Animist': DEEPLING_MYRATHIL_ANIMIST_DATA,
   'Nereid Myrathil Augur': DEEPLING_MYRATHIL_AUGUR_DATA
@@ -101,7 +117,7 @@ function normalizeClassSpell(spell, className, determineSpecialization) {
   description: spell.description || '',
   level: spell.level || 1,
   spellType: spell.spellType || 'ACTION',
-  icon: spell.icon || 'inv_misc_questionmark',
+  icon: getLevelOneSpellIcon(spell) || 'inv_misc_questionmark',
   effectTypes: spell.effectTypes || [],
   tags: spell.tags || [],
  };
@@ -570,7 +586,16 @@ generatedSpells.Doomsayer = DOOMSAYER_DATA.spells.map(spell => normalizeClassSpe
 generatedSpells.Oracle = ORACLE_DATA.spells.map(spell => normalizeClassSpell(spell, 'Oracle', entry => entry.specialization));
 generatedSpells.Druid = DRUID_DATA.spells.map(spell => normalizeClassSpell(spell, 'Druid', entry => entry.specialization));
 generatedSpells.Hunter = HUNTER_DATA.spells.map(spell => normalizeClassSpell(spell, 'Hunter', entry => entry.specialization));
-const processedClasses = ['Arcanoneer', 'Pyrofiend', 'Minstrel', 'Chronarch', 'Martyr', 'Gambit', 'Harbinger', 'Chaos Weaver', 'Gambler', 'Fate Weaver', 'Deathcaller', 'Lichborne', 'Doomsayer', 'Oracle', 'Druid', 'Hunter'];
+generatedSpells.Covenbane = COVENBANE_DATA.spells.map(spell => normalizeClassSpell(spell, 'Covenbane', entry => entry.specialization));
+generatedSpells.Exorcist = EXORCIST_DATA.spells.map(spell => normalizeClassSpell(spell, 'Exorcist', entry => entry.specialization));
+generatedSpells.Dreadnaught = DREADNAUGHT_DATA.spells.map(spell => normalizeClassSpell(spell, 'Dreadnaught', entry => entry.specialization));
+
+generatedSpells.Bladedancer = BLADEDANCER_DATA.spells.map(spell => normalizeClassSpell(spell, 'Bladedancer', entry => entry.specialization));
+generatedSpells.Inscriptor = INSCRIPTOR_DATA.spells.map(spell => normalizeClassSpell(spell, 'Inscriptor', entry => entry.specialization));
+generatedSpells.Totemist = TOTEMIST_DATA.spells.map(spell => normalizeClassSpell(spell, 'Totemist', entry => entry.specialization));
+generatedSpells['Witch Doctor'] = WITCH_DOCTOR_DATA.spells.map(spell => normalizeClassSpell(spell, 'Witch Doctor', entry => entry.specialization));
+generatedSpells.WitchDoctor = generatedSpells['Witch Doctor'];
+const processedClasses = ['Arcanoneer', 'Pyrofiend', 'Minstrel', 'Chronarch', 'Martyr', 'Gambit', 'Harbinger', 'Chaos Weaver', 'Gambler', 'Fate Weaver', 'Deathcaller', 'Lichborne', 'Doomsayer', 'Oracle', 'Druid', 'Hunter', 'Covenbane', 'Exorcist', 'Dreadnaught', 'Bladedancer', 'Inscriptor', 'Totemist', 'Witch Doctor', 'WitchDoctor'];
 const remainingClasses = Object.keys(CLASS_DATA_MAP).filter(className => !processedClasses.includes(className));
 
 // Generic spell processor for classes without special processing

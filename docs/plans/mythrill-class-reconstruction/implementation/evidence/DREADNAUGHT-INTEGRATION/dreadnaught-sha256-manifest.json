@@ -1,0 +1,137 @@
+{
+  "generatedAt": "2026-10-30T21:25:27.269Z",
+  "targetClass": "dreadnaught",
+  "canonicalRosterCount": 26,
+  "files": {
+    "vtt-react/src/data/classes/dreadnaughtData.js": {
+      "size": 44824,
+      "mtime": "2026-10-30T21:20:09.229Z",
+      "sha256": "0cf962c98a4604407c6a8084aad3bf5becffa79bd15e4907853a2883643ae7dd"
+    },
+    "vtt-react/src/data/talentTrees/dreadnaught.js": {
+      "size": 13772,
+      "mtime": "2026-10-30T21:15:00.257Z",
+      "sha256": "f2d2dc242e1d572dd3035333451df74781508ed44e33f42aea843d7ecaf9bb18"
+    },
+    "vtt-react/src/data/resourceSystems/dreadnaughtResourceGuide.js": {
+      "size": 4033,
+      "mtime": "2026-10-30T21:01:40.406Z",
+      "sha256": "dd19df2b6239a68dc0b365fbf67d91213f9cad87cd027ae5f60b647520fe329b"
+    },
+    "vtt-react/src/components/hud/DreadnaughtResourceDisplay.jsx": {
+      "size": 3863,
+      "mtime": "2026-10-30T19:04:52.183Z",
+      "sha256": "c8647a154fd4ad6f4d37a302b0f36d42db4128dcb118db1e8c541f2535d575a5"
+    },
+    "vtt-react/src/data/classes/__tests__/dreadnaughtIntegration.test.js": {
+      "size": 5558,
+      "mtime": "2026-10-30T21:08:01.100Z",
+      "sha256": "6674f4fcb5698d3eca8c81e725337b10ef6a19b8041a9f72d5ee193b5de428c2"
+    },
+    "vtt-react/src/data/classes/__tests__/dreadnaughtRoundTripAndProgression.test.js": {
+      "size": 15850,
+      "mtime": "2026-10-30T21:13:14.381Z",
+      "sha256": "867c3ac2d58b532bdbeef314b0659b8a77988ee7ddbb9f76cf22c7ff3fa6f317"
+    },
+    "vtt-react/verification/dreadnaught/dreadnaught-browser-witness.cjs": {
+      "size": 17961,
+      "mtime": "2026-10-30T21:25:01.945Z",
+      "sha256": "d594955139e415a71617e3bb5d0104b87c1e8bbf26cfead912cbff69ebe9fc41"
+    },
+    "docs/plans/mythrill-class-reconstruction/implementation/evidence/DREADNAUGHT-INTEGRATION/DREADNAUGHT-CONTENT-LOCK.md": {
+      "size": 3761,
+      "mtime": "2026-10-30T21:00:56.391Z",
+      "sha256": "ab71571848b5b2ec09ba7d683bbaeb4cef9e5fe2096cc8c65a784275ab538152"
+    },
+    "docs/plans/mythrill-class-reconstruction/implementation/evidence/DREADNAUGHT-INTEGRATION/dreadnaught-content-lock.json": {
+      "size": 1597,
+      "mtime": "2026-10-30T21:01:00.279Z",
+      "sha256": "7c8a160ee40a27ed3ffec6bd69ebeb83920316e37029473ab5e0f0b65fd85288"
+    },
+    "docs/plans/mythrill-class-reconstruction/implementation/evidence/DREADNAUGHT-INTEGRATION/dreadnaught-browser-evidence.json": {
+      "size": 1826,
+      "mtime": "2026-10-30T21:25:15.017Z",
+      "sha256": "41a41a5b0188b4ed58e9a4b7848d45d962a8b44d2df462d9f5dd2172afb99f31"
+    },
+    "vtt-react/src/data/classes/classDisplayData.js": {
+      "size": 39073,
+      "mtime": "2026-10-30T21:04:46.734Z",
+      "sha256": "d15399603bb92ee5abbb8d8ee29b24a964099205574570c41e913ee287ca7942"
+    },
+    "vtt-react/src/data/classes/classFlavorProfiles.js": {
+      "size": 26966,
+      "mtime": "2026-10-30T21:04:57.025Z",
+      "sha256": "6ff70dbf0c1278f9823a457f601c5a3ff69807e10919ba5b4f9004adb2aa1c47"
+    },
+    "vtt-react/src/data/classes/index.js": {
+      "size": 4264,
+      "mtime": "2026-10-30T21:05:14.786Z",
+      "sha256": "f9d3829195006b23cfb82077b80bb99f493b699ef0453bf5f2a06c1694d73ae7"
+    },
+    "vtt-react/src/data/classSpellGenerator.js": {
+      "size": 31066,
+      "mtime": "2026-10-30T21:05:42.021Z",
+      "sha256": "836c6a415c0b70e4d6d2151e267374bd4fd1b647fcd20f35313aa39bffb7a66f"
+    },
+    "vtt-react/src/data/talentTrees/index.js": {
+      "size": 3451,
+      "mtime": "2026-10-30T21:02:35.767Z",
+      "sha256": "b24fa38ae37d7073d0721d0ac7ddf2d218a95b3ea4758e60620798207a8acb70"
+    },
+    "vtt-react/src/data/talentTreeData.js": {
+      "size": 20147,
+      "mtime": "2026-10-30T21:02:52.758Z",
+      "sha256": "71357411e7959d32ce921abfcdacba087be2bf27f4c19984ee8364fa5da9b18d"
+    },
+    "vtt-react/src/data/resourceSystems/index.js": {
+      "size": 4013,
+      "mtime": "2026-10-30T21:03:14.489Z",
+      "sha256": "6ce6a1028a3c5e6540ab70907a39b2e2cdc6fe1c01b6f9396657d671bd3def5e"
+    },
+    "vtt-react/src/data/classResources.js": {
+      "size": 81628,
+      "mtime": "2026-10-30T21:04:32.856Z",
+      "sha256": "fd4116b62db3b5a85bdaacb3ee57a23850fc3d9252d9ee2442d225dfee50bb73"
+    },
+    "vtt-react/src/components/hud/ClassResourceBar.jsx": {
+      "size": 94882,
+      "mtime": "2026-10-30T21:04:03.527Z",
+      "sha256": "d755d0e2650185b28c9322397d9e0b4fbd7f90a9fac520fb3647fac38beb3dff"
+    },
+    "vtt-react/src/components/rules/RulesPage.jsx": {
+      "size": 103021,
+      "mtime": "2026-10-30T21:15:28.285Z",
+      "sha256": "4a3374d3814102a9963b56ec7207973b9f3812f531aa7537ea2077f89e0e8940"
+    },
+    "vtt-react/src/components/rules/ClassDetailDisplay.jsx": {
+      "size": 145938,
+      "mtime": "2026-10-30T21:16:23.061Z",
+      "sha256": "3dbb6200619441057617a202fb2097419d0340faef2b643e12395ea98d683664"
+    },
+    "vtt-react/src/store/characterSlices/progressionSlice.js": {
+      "size": 55138,
+      "mtime": "2026-10-30T21:06:10.375Z",
+      "sha256": "af13534c72471600ae18d8f39eab9bc937ce533e0d7c54338b4e987745011ded"
+    },
+    "vtt-react/src/data/classHeritageRegistry.js": {
+      "size": 29807,
+      "mtime": "2026-10-30T21:06:20.427Z",
+      "sha256": "d25b763ca2f78658479f8cfb3450e6376dab7a7c293cca2f3782ea5b1976e177"
+    },
+    "vtt-react/src/data/classSpellCategories.js": {
+      "size": 35043,
+      "mtime": "2026-10-30T21:06:30.154Z",
+      "sha256": "c091281e8b5e3caf3086b0f6b3ca8d581c9c99569bdb81256de2a48cd059d3f9"
+    },
+    "vtt-react/src/components/account/CharacterManagement.jsx": {
+      "size": 26051,
+      "mtime": "2026-10-30T21:06:54.815Z",
+      "sha256": "984d942dc912a53255f407f52d7d7d94d086d52f8f5732c0e057afa3673bd388"
+    },
+    "vtt-react/src/components/character-creation-wizard/steps/Step1CoreDraft.jsx": {
+      "size": 202594,
+      "mtime": "2026-10-30T21:06:46.241Z",
+      "sha256": "6fe3034463c091e1e4351cfc096af8a6adf875ab30622a9741a079c381d7f060"
+    }
+  }
+}

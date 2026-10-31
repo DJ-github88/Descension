@@ -14,7 +14,7 @@ const pcToken = (extra = {}) => ({ id: 'pc', mapId: map, ownerUserId: 'owner', c
 const foeToken = () => ({ id: 'foe', mapId: map, creatureId: 'grimmstalk', state: { currentHp: 30, tempHealth: 4, maxHp: 250, actorContract: { version: 1, ...foeRef, revision: 7 } } });
 
 describe('P9 S1 support adapter over authored class spells', () => {
-  test('exactly the four positively validated spells are supported; everything else has a diagnostic', () => {
+  test('exactly the five positively validated spells are supported; everything else has a diagnostic', () => {
     const supported = [];
     for (const [cls, data] of Object.entries(CLASS_DATA_MAP)) {
       for (const spell of data.spells || []) {
@@ -25,7 +25,7 @@ describe('P9 S1 support adapter over authored class spells', () => {
         else expect(typeof result.reason).toBe('string');
       }
     }
-    expect(supported.sort()).toEqual(['arc_spark_bolt', 'martyr_restorative_prayer', 'minstrel_harmonic_strike', 'minstrel_opening_chord']);
+    expect(supported.sort()).toEqual(['arc_spark_bolt', 'martyr_restorative_prayer', 'minstrel_harmonic_strike', 'minstrel_opening_chord', 'minstrel_resolving_strike']);
   });
   test('original definition only: slot copies resolve by ID; formulations, weapon and library actions stay manual', () => {
     expect(resolveOriginalSpell('Arcanoneer', 'arc_spark_bolt').name).toBe('Marrow-Piercing Slug');
@@ -46,11 +46,33 @@ describe('P9 S1 support adapter over authored class spells', () => {
     expect(supportShape(arc('arc_fire_bolt')).reason).toMatch(/propagation/);
     expect(supportShape(resolveOriginalSpell('Martyr', 'martyr_penitent_rebuke')).reason).toMatch(/savingThrow/);
     expect(supportShape(resolveOriginalSpell('Minstrel', 'minstrel_resolving_strike')).supported).toBe(true);
-    expect(planClassPayment(resolveOriginalSpell('Minstrel', 'minstrel_resolving_strike'), { type: 'musicalNotes', notes: [2, 0, 0, 0, 2, 0, 0] }, 'Minstrel').reason).toMatch(/resolvesCadence/);
+    const resolving = resolveOriginalSpell('Minstrel', 'minstrel_resolving_strike');
+    expect(planClassPayment(resolving, { type: 'musicalNotes', notes: [2, 0, 0, 0, 2, 0, 0] }, 'Minstrel').classPayment.price).toEqual({ costs: ['I', 'V'], gains: [] });
+    // Only the approved resolver recipe executes; altered recipes and other cadences stay manual.
+    expect(planClassPayment({ ...resolving, musicalCombo: { ...resolving.musicalCombo, requires: [{ note: 'I', count: 2 }] } }, { type: 'musicalNotes', notes: [2, 0, 0, 0, 2, 0, 0] }, 'Minstrel').reason).toMatch(/approved recipe/);
+    expect(planClassPayment({ ...resolving, id: 'minstrel_other_resolver' }, { type: 'musicalNotes', notes: [2, 0, 0, 0, 2, 0, 0] }, 'Minstrel').reason).toMatch(/outside the approved P9 pair/);
   });
 });
 
 describe('P9 S2 approved formula vocabulary', () => {
+  test('resolver exception accepts only the executable recipe; unsupported metadata, secondary effects and non-recipe encodings refuse', () => {
+    const resolving = resolveOriginalSpell('Minstrel', 'minstrel_resolving_strike');
+    const bank = { type: 'musicalNotes', notes: [2, 0, 0, 0, 1, 0, 0] };
+    expect(resolving.resourceCost.resourceValues.classResource.cost).toBe(3);
+    expect(planClassPayment(resolving, bank, 'Minstrel').classPayment.price.costs).toEqual(['I', 'V']);
+    for (const changed of [
+      { ...resolving, unknownMetadata: true },
+      { ...resolving, effectTypes: ['damage', 'debuff'] },
+      { ...resolving, damageConfig: { ...resolving.damageConfig, secondaryEffect: 'stunned' } },
+    ]) expect(supportShape(changed).supported).toBe(false);
+    for (const changed of [
+      { ...resolving, musicalCombo: { ...resolving.musicalCombo, generates: [{ note: 'I', count: 1 }] } },
+      { ...resolving, resourceCost: { ...resolving.resourceCost, notes: [{ note: 'I', count: 1 }] } },
+      { ...resolving, resourceCost: { ...resolving.resourceCost, classResource: { type: 'musical_notes', cost: 2, resolvesCadence: true } } },
+      ...[{ note_I: -1 }, { devotion_cost: 1 }, { ember_sphere: 1 }].map(extra => ({ ...resolving, resourceCost: { ...resolving.resourceCost, resourceValues: { ...resolving.resourceCost.resourceValues, ...extra } } })),
+      ...[{ resolvesCadence: false }, { bonus: true }, { gain: 1 }].map(extra => ({ ...resolving, resourceCost: { ...resolving.resourceCost, resourceValues: { ...resolving.resourceCost.resourceValues, classResource: { ...resolving.resourceCost.resourceValues.classResource, ...extra } } } })),
+    ]) expect(planClassPayment(changed, bank, 'Minstrel').supported).toBe(false);
+  });
   test('bare attribute is the score; division rounds down; never the dynamic evaluator reading', () => {
     expect(readFormula('1d8 + intelligence/4', { intelligence: 16 })).toMatchObject({ supported: true, dice: [{ count: 1, sides: 8 }], constant: 4 });
     expect(readFormula('1d8 + intelligence/4', { intelligence: 15 }).constant).toBe(3);
@@ -80,6 +102,15 @@ describe('P9 S4 class-owned payment (unchanged planners, typed results)', () => 
     const payment = planClassPayment(resolveOriginalSpell('Minstrel', 'minstrel_opening_chord'), { type: 'musicalNotes', notes: [0, 0, 0, 0, 5, 0, 0] }, 'Minstrel');
     expect(payment.classPayment.price).toEqual({ costs: [], gains: ['I', 'I', 'V'] });
     expect(payment.classPayment.after.notes).toEqual([2, 0, 0, 0, 5, 0, 0]);
+  });
+  test('Minstrel pair: empty → Opening Chord I2/V1 → Resolving Strike I1; wrong pitches refuse; effective Spirit score', () => {
+    const minstrel = notes => ({ class: 'Minstrel', classResource: { type: 'musicalNotes', notes }, stats, baseStats: { ...stats, spirit: 11 } });
+    const opening = supportSpell({ id: 'minstrel_opening_chord' }, minstrel([0, 0, 0, 0, 0, 0, 0]));
+    expect(opening).toMatchObject({ supported: true, price: { ap: 1, mana: 4 }, payment: { affordable: true, classPayment: { after: { notes: [2, 0, 0, 0, 1, 0, 0] }, price: { costs: [], gains: ['I', 'I', 'V'] } } } });
+    const resolving = supportSpell({ id: 'minstrel_resolving_strike' }, minstrel(opening.payment.classPayment.after.notes));
+    expect(resolving).toMatchObject({ supported: true, price: { ap: 1, mana: 4 }, payment: { affordable: true, classPayment: { after: { notes: [1, 0, 0, 0, 0, 0, 0] }, price: { costs: ['I', 'V'], gains: [] } } } });
+    expect(resolving.reading.dice).toEqual([{ count: 1, sides: 8 }]);
+    for (const notes of [[2, 1, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0]]) expect(supportSpell({ id: 'minstrel_resolving_strike' }, minstrel(notes)).payment.affordable).toBe(false);
   });
   test('Martyr spent ledger: spending records spent levels; Restorative Prayer gain restores spent first, once', () => {
     const ledger = normalizeManagedClassResource({ type: 'devotionGauge', damage: 62, spentLevels: 2 }, 'Martyr');

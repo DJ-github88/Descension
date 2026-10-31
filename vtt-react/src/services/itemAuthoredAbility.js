@@ -20,6 +20,8 @@ function newItemAbility(id) {
 function editItemAbility(association, values) {
    const support = itemAbilitySupport(association);
    if (!support.ok) throw Error('This whole definition stays manual. Use the advanced Spell Wizard to author a separate supported definition.');
+   // A10 bundles are authored in the full Spell Wizard; compact editors keep the whole record unchanged.
+   if (support.definition.capability === 'authored-effect:v1') throw Error('Composed effects are edited in the Spell Wizard. Keep retains the whole saved record unchanged.');
    if (support.definition.effect.kind === 'condition' && values.kind === 'condition' &&
        values.name === support.definition.name && values.description === support.definition.description &&
        values.ap === support.definition.resourceCost.actionPoints && values.mana === support.definition.resourceCost.mana &&

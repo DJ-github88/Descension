@@ -17,12 +17,16 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { sanitizeHtml } from '../../../utils/sanitizeHtml';
 
-import { useCharacterWizardState, useCharacterWizardDispatch, wizardActionCreators } from '../context/CharacterWizardContext';
+import { useCharacterWizardState, useCharacterWizardDispatch, wizardActionCreators, getAttributeCorrectionNotice } from '../context/CharacterWizardContext';
 import ClassAcquisitionEditor from '../components/ClassAcquisitionEditor';
 import { getCharacterHeritageOptions, getCharacterClassAccess, validateCharacterClassAccess } from '../../../utils/characterClassAccess';
 import { getClassNativeHeritageIds, HERITAGE_TRADITIONS } from '../../../data/classHeritageRegistry';
+import { getSelectableClassNames } from '../../../data/classes/classDisplayData';
+import { getEarnedSpellIds } from '../../../utils/classSpellProgression';
+import { getLevelOneSpellIcon } from '../../../data/classes/levelOneSpellIcons';
 
-import { RACE_DATA, applyRacialModifiers, getRaceData, getHeritageIllustrations, getHeritageImage, getHeritageCrest } from '../../../data/raceData';
+import { getHeritageModifiers, getOriginModifiers } from '../../../utils/attributeProfile';
+import { RACE_DATA, getRaceData, getHeritageIllustrations, getHeritageImage, getHeritageCrest } from '../../../data/raceData';
 import { BACKGROUND_DATA, BACKGROUND_FLAVOR_TEXT } from '../../../data/backgroundData';
 import { getOriginIllustration } from '../../../data/backgroundAssets';
 
@@ -129,6 +133,9 @@ import { DOOMSAYER_DATA } from '../../../data/classes/doomsayerData';
 import { ORACLE_DATA } from '../../../data/classes/oracleData';
 import { DRUID_DATA } from '../../../data/classes/druidData';
 import { HUNTER_DATA } from '../../../data/classes/hunterData';
+import { COVENBANE_DATA } from '../../../data/classes/covenbaneData';
+import { EXORCIST_DATA } from '../../../data/classes/exorcistData';
+import { DREADNAUGHT_DATA } from '../../../data/classes/dreadnaughtData';
 import { DEEPLING_MYRATHIL_APEX_DATA, DEEPLING_MYRATHIL_ANIMIST_DATA, DEEPLING_MYRATHIL_AUGUR_DATA } from '../../../data/classes/index';
 import { withClassHeritageMetadata } from '../../../data/classHeritageRegistry';
 
@@ -416,6 +423,12 @@ const CLASS_DATA_MAP = Object.fromEntries(Object.entries({
 
     'Hunter': HUNTER_DATA,
 
+    'Covenbane': COVENBANE_DATA,
+
+    'Exorcist': EXORCIST_DATA,
+
+    'Dreadnaught': DREADNAUGHT_DATA,
+
     'Nereid Myrathil Apex': DEEPLING_MYRATHIL_APEX_DATA,
 
     'Nereid Myrathil Animist': DEEPLING_MYRATHIL_ANIMIST_DATA,
@@ -426,18 +439,19 @@ const CLASS_DATA_MAP = Object.fromEntries(Object.entries({
 
 
 
-// Subgroup classifications for the 21 base classes. Legacy heritage aliases
-// remain in the lookup map above, not as extra class-selection choices.
+// Subgroup classifications for the approved canonical roster (22 classes). Legacy identities
+// and compatibility aliases remain in CLASS_DATA_MAP for loading and resolution,
+// not as extra new-character choices.
 
 const CLASS_GROUPS = {
 
-    MARTIALS: ['Berserker', 'Shaper', 'Spellguard', 'Warden', 'Apex', 'Animist'],
+    MARTIALS: ['Berserker', 'Druid', 'Hunter', 'Spellguard', 'Warden'],
 
-    CASTERS: ['Arcanoneer', 'Harbinger', 'Chronarch', 'Revenant', 'Animist', 'Toxicologist', 'Lichborne'],
+    CASTERS: ['Arcanoneer', 'Chronarch', 'Deathcaller', 'Doomsayer', 'Lichborne', 'Oracle', 'Toxicologist'],
 
-    ZEALOTS: ['Inquisitor', 'False Prophet', 'Lunarch', 'Martyr', 'Crusader'],
+    ZEALOTS: ['Crusader', 'False Prophet', 'Lunarch', 'Martyr'],
 
-    SPECIALISTS: ['Minstrel', 'Plaguebringer', 'Pyrofiend', 'Animist', 'Augur', 'Gambit', 'Chaos Weaver', 'Gambler', 'Fate Weaver', 'Deathcaller', 'Doomsayer', 'Oracle', 'Druid', 'Hunter']
+    SPECIALISTS: ['Chaos Weaver', 'Fate Weaver', 'Gambler', 'Minstrel', 'Plaguebringer', 'Pyrofiend']
 
 };
 
@@ -1377,13 +1391,13 @@ const Step1CoreDraft = () => {
 
     const bonusPoints = getTotalBonusPoints(characterData);
 
-    const racialModifiers = race && subrace ? applyRacialModifiers({}, race, subrace) : {};
+    const racialModifiers = getHeritageModifiers(race, subrace);
 
     const availablePoints = calculateAvailablePoints(baseStats, bonusPoints);
 
     const totalPoints = POINT_BUY_CONFIG.BASE_POINT_POOL + bonusPoints.total;
 
-    const statBreakdown = getStatBreakdown(baseStats, racialModifiers, {});
+    const statBreakdown = getStatBreakdown(baseStats, racialModifiers, getOriginModifiers(characterData.background));
 
 
 
@@ -1393,19 +1407,25 @@ const Step1CoreDraft = () => {
 
     const startingSpellPicks = getStartingSpellPickCount(CLASS_DATA_MAP[characterData.class]);
 
-    // Classes with an explicit progression policy count only their authored
-    // optional-level pool toward the starting picks; granted core spells live
+    const earnedSpellIds = useMemo(
+        () => getEarnedSpellIds(characterData.levelUpHistory),
+        [characterData.levelUpHistory]
+    );
+
+    // Classes with an authored level-1 spell pool count only their level-1
+    // optional pool toward starting picks; granted core spells live
     // in known_spells but are never "chosen" and never consume a pick.
+    // Spells recorded in levelUpHistory were learned after creation and stay
+    // known without consuming the starting quota.
     const optionalPickPool = useMemo(() => {
-        const policy = CLASS_DATA_MAP[characterData.class]?.progression?.policy;
         const pool = CLASS_DATA_MAP[characterData.class]?.spellPools?.[1];
-        if (!policy || !Array.isArray(pool)) return null;
+        if (!Array.isArray(pool) || pool.length === 0) return null;
         return new Set(pool);
     }, [characterData.class]);
 
     const selectedOptionalPicks = optionalPickPool
-        ? selectedSpells.filter(id => optionalPickPool.has(id))
-        : selectedSpells;
+        ? selectedSpells.filter(id => optionalPickPool.has(id) && !earnedSpellIds.has(id))
+        : selectedSpells.filter(id => !earnedSpellIds.has(id));
 
     const level1SpellPool = useMemo(() => {
 
@@ -1436,6 +1456,7 @@ const Step1CoreDraft = () => {
 
         return uniqueSpells.map(spell => ({
             ...spell,
+            icon: getLevelOneSpellIcon(spell),
             infernoRequired: spell.specialMechanics?.infernoLevel?.required,
             infernoAscend: spell.specialMechanics?.infernoLevel?.ascendBy,
             infernoDescend: spell.specialMechanics?.infernoLevel?.descendBy,
@@ -1837,6 +1858,9 @@ const Step1CoreDraft = () => {
     // Spell Selection Handlers
 
     const handleSpellToggle = (spellId) => {
+
+        // Earned level-up spells are retained but are not starting selections.
+        if (earnedSpellIds.has(spellId)) return;
 
         let newSelection;
 
@@ -2385,7 +2409,7 @@ const Step1CoreDraft = () => {
                                     if (classInfo?.restrictions?.narrativeUnlock !== false) return false;
                                     return !isCharacterClassCompatible(clsName);
                                 };
-                                const allClassNames = Array.from(new Set(Object.values(CLASS_GROUPS).flat()))
+                                const allClassNames = getSelectableClassNames()
                                     .filter((clsName) => !isExclusiveClassMismatch(clsName));
                                 const isClassThematic = (clsName) => {
                                     if (race) {
@@ -2460,7 +2484,7 @@ const Step1CoreDraft = () => {
 
                                 const isLockedCalling = Boolean(characterData.class && !isEditingCalling);
                                 const classesToShow = isLockedCalling
-                                    ? compatibleClasses.filter(c => c === characterData.class)
+                                    ? (characterData.class ? [characterData.class] : compatibleClasses)
                                     : compatibleClasses;
                                 const chosenClassInfo = characterData.class ? CLASS_DATA_MAP[characterData.class] : null;
 
@@ -2956,7 +2980,7 @@ const Step1CoreDraft = () => {
                                 >
                                     <i className="fas fa-chart-bar" aria-hidden="true"></i>
                                     <span className="launcher-label">Ability Scores</span>
-                                    <span className="launcher-value">{availablePoints === 0 ? 'All points spent' : `${availablePoints} points to spend`}</span>
+                                    <span className="launcher-value">{getAttributeCorrectionNotice(state) ? 'Stored values kept' : (availablePoints === 0 ? 'All points spent' : `${availablePoints} points to spend`)}</span>
                                     <i className="fas fa-chevron-right launcher-chevron" aria-hidden="true"></i>
                                 </button>
 
@@ -3867,6 +3891,16 @@ const Step1CoreDraft = () => {
 
                         <div className="drawer-content scroll-themed">
 
+                            {getAttributeCorrectionNotice(state) && (
+                                <p
+                                    className="attribute-correction-note"
+                                    role="note"
+                                    style={{ border: '1px solid currentColor', borderRadius: 3, padding: '8px 10px', margin: '0 0 12px', fontStyle: 'italic', fontSize: '0.92em', lineHeight: 1.4 }}
+                                >
+                                    {getAttributeCorrectionNotice(state)}
+                                </p>
+                            )}
+
                             <div className="point-pool-status-panel">
 
                                 <div className="remaining-points-counter">
@@ -4182,11 +4216,15 @@ const Step1CoreDraft = () => {
 
                                                 onClick={() => handleSpellToggle(currentSpell.id)}
 
-                                                disabled={!selectedSpells.includes(currentSpell.id) && selectedOptionalPicks.length >= startingSpellPicks}
+                                                disabled={earnedSpellIds.has(currentSpell.id) || (!selectedSpells.includes(currentSpell.id) && selectedOptionalPicks.length >= startingSpellPicks)}
 
                                             >
 
-                                                {selectedSpells.includes(currentSpell.id) ? (
+                                                {earnedSpellIds.has(currentSpell.id) ? (
+
+                                                    <><i className="fas fa-graduation-cap"></i> Learned</>
+
+                                                ) : selectedSpells.includes(currentSpell.id) ? (
 
                                                     <><i className="fas fa-check-circle"></i> Selected</>
 

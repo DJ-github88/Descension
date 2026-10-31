@@ -8,9 +8,11 @@ import {
 import { CLASS_PROVENANCE } from '../../../data/classHeritageRegistry';
 import { buildAncestry } from '../../../data/ancestryLoadouts';
 import { PLAGUEBRINGER_CORE_SPELL_IDS } from '../../../data/classes/plaguebringerData';
+import { CLASS_DATA_MAP } from '../../../data/classSpellGenerator';
 import { applyRacialModifiers } from '../../../data/raceData';
 import { getBackgroundStatModifiers } from '../../../data/backgroundData';
 import { calculateFinalStats } from '../../../utils/pointBuySystem';
+import { getSelectableClassNames } from '../../../data/classes/classDisplayData';
 
 const baseCharacter = {
     ...initialState.characterData,
@@ -83,6 +85,144 @@ test('CORE_DRAFT validation accepts a fully sourced exceptional calling', () => 
     expect(validateCurrentStep(state).class).toBeUndefined();
 });
 
+test('edit validation excludes earned earlier-pool picks from a three-pick starting quota', () => {
+    const inquisitor = {
+        ...baseCharacter,
+        class: 'Inquisitor',
+        subrace: 'thalren_human',
+        class_spells: {
+            known_spells: [
+                'inq_iron_interrogation',
+                'inq_detect_corruption',
+                'inq_null_salt_ward',
+                'inq_scent_of_ash'
+            ]
+        },
+        levelUpHistory: {
+            2: { spellId: 'inq_scent_of_ash', attributes: [] }
+        }
+    };
+    const state = { ...initialState, characterData: inquisitor, currentStep: 1, originalCalling: null };
+    expect(validateCurrentStep(state).spells).toBeUndefined();
+
+    const missingStartingPick = {
+        ...state,
+        characterData: {
+            ...inquisitor,
+            class_spells: {
+                known_spells: ['inq_iron_interrogation', 'inq_scent_of_ash']
+            }
+        }
+    };
+    expect(validateCurrentStep(missingStartingPick).spells).toMatch(/exactly 3 starting spells/i);
+});
+
+test('edit validation excludes earned earlier-pool picks from a one-pick starting quota', () => {
+    const gambler = {
+        ...baseCharacter,
+        class: 'Gambler',
+        subrace: 'merryn_human',
+        class_spells: {
+            known_spells: [
+                'cr1_gambler_wager_strike',
+                'cr1_gambler_recut',
+                'cr1_gambler_lucky_toss',
+                'cr1_gambler_beginners_cover'
+            ]
+        },
+        levelUpHistory: {
+            2: { spellId: 'cr1_gambler_beginners_cover', attributes: [] }
+        }
+    };
+    const state = { ...initialState, characterData: gambler, currentStep: 1, originalCalling: null };
+    expect(validateCurrentStep(state).spells).toBeUndefined();
+
+    const missingStartingPick = {
+        ...state,
+        characterData: {
+            ...gambler,
+            class_spells: {
+                known_spells: [
+                    'cr1_gambler_wager_strike',
+                    'cr1_gambler_recut',
+                    'cr1_gambler_beginners_cover'
+                ]
+            }
+        }
+    };
+    expect(validateCurrentStep(missingStartingPick).spells).toMatch(/exactly 1 starting spell/i);
+});
+
+describe('All canonical classes distinguish starting picks from earned spells', () => {
+    const CANONICAL_CLASSES = getSelectableClassNames();
+
+    test('canonical roster exposes approved classes (26 classes)', () => {
+        expect(CANONICAL_CLASSES).toHaveLength(26);
+    });
+
+    test.each(CANONICAL_CLASSES)(
+        '%s retains an earned earlier-pool spell without consuming a starting pick',
+        (className) => {
+            const classData = CLASS_DATA_MAP[className];
+            const policy = classData?.progression?.policy;
+            const startingPicks = policy?.startingSpellPicks ?? 3;
+            const levelOnePool = classData.spellPools?.[1] || [];
+            const startingSelections = levelOnePool.slice(0, startingPicks);
+            expect(startingSelections).toHaveLength(startingPicks);
+
+            // Prefer an extra level-1 option (the reported earlier-pool case);
+            // otherwise any later-legal spell still proves the same separation.
+            const earnedSpell = levelOnePool.find(id => !startingSelections.includes(id))
+                || Object.entries(classData.spellPools || {})
+                    .filter(([level]) => Number(level) > 1)
+                    .flatMap(([, ids]) => ids)
+                    .find(id => !startingSelections.includes(id));
+            expect(earnedSpell).toBeTruthy();
+
+            const laterPoolSpell = Object.entries(classData.spellPools || {})
+                .filter(([level]) => Number(level) > 1)
+                .flatMap(([, ids]) => ids)
+                .find(id => id !== earnedSpell && !startingSelections.includes(id));
+
+            const known = [...new Set([
+                ...(policy?.grantedCoreSpellIds || []),
+                ...startingSelections,
+                earnedSpell,
+                ...(laterPoolSpell ? [laterPoolSpell] : [])
+            ])];
+            const characterData = {
+                ...baseCharacter,
+                class: className,
+                class_spells: { known_spells: known },
+                levelUpHistory: {
+                    2: { spellId: earnedSpell, attributes: [] },
+                    ...(laterPoolSpell ? { 3: { spellId: laterPoolSpell, attributes: [] } } : {})
+                }
+            };
+            const state = {
+                ...initialState,
+                characterData,
+                currentStep: 1,
+                originalCalling: { class: className, race: 'human', subrace: 'thalren_human' }
+            };
+
+            expect(validateCurrentStep(state).spells).toBeUndefined();
+
+            const missingStartingPick = known.filter(id => id !== startingSelections[0]);
+            const errors = validateCurrentStep({
+                ...state,
+                characterData: {
+                    ...characterData,
+                    class_spells: { known_spells: missingStartingPick }
+                }
+            });
+            expect(errors.spells).toMatch(
+                new RegExp(`exactly ${startingPicks} starting spell`, 'i')
+            );
+        }
+    );
+});
+
 describe('Edit-load character round-trip', () => {
     const baseStats = {
         strength: 8, agility: 8, constitution: 8,
@@ -115,6 +255,37 @@ describe('Edit-load character round-trip', () => {
         expect(loaded.characterData.selectedAbility).toBe('pb_venomous_touch');
     });
 
+    test('loads levelUpHistory so earned earlier-pool picks are not treated as starting picks', () => {
+        const loaded = characterWizardReducer(initialState, {
+            type: ACTION_TYPES.LOAD_CHARACTER,
+            payload: {
+                name: 'Earned Pick',
+                race: 'human',
+                subrace: 'thalren_human',
+                class: 'Inquisitor',
+                background: 'sage',
+                class_spells: {
+                    known_spells: [
+                        'inq_iron_interrogation',
+                        'inq_detect_corruption',
+                        'inq_null_salt_ward',
+                        'inq_scent_of_ash'
+                    ]
+                },
+                levelUpHistory: {
+                    2: { spellId: 'inq_scent_of_ash', attributes: [] }
+                },
+                stats: { strength: 5, agility: 5, constitution: 5, intelligence: 5, spirit: 5, charisma: 5 },
+                baseStats: { strength: 5, agility: 5, constitution: 5, intelligence: 5, spirit: 5, charisma: 5 }
+            }
+        });
+
+        expect(loaded.characterData.levelUpHistory).toEqual({
+            2: { spellId: 'inq_scent_of_ash', attributes: [] }
+        });
+        expect(validateCurrentStep({ ...loaded, currentStep: 1 }).spells).toBeUndefined();
+    });
+
     test('uses persisted baseStats and derives final stats exactly once', () => {
         const loaded = characterWizardReducer(initialState, {
             type: ACTION_TYPES.LOAD_CHARACTER,
@@ -137,7 +308,7 @@ describe('Edit-load character round-trip', () => {
         expect(statError).not.toMatch(/below|too many/i);
     });
 
-    test('reads a legacy wizard payload once without re-applying heritage modifiers', () => {
+    test('keeps a legacy wizard payload\'s stored attributes unchanged and flags an explicit correction (no guessed base)', () => {
         const loaded = characterWizardReducer(initialState, {
             type: ACTION_TYPES.LOAD_CHARACTER,
             payload: {
@@ -151,10 +322,10 @@ describe('Edit-load character round-trip', () => {
             }
         });
 
-        expect(loaded.characterData.baseStats).toEqual(baseStats);
-        expect(loaded.characterData.finalStats).toEqual(
-            calculateFinalStats(baseStats, racialModifiers, backgroundModifiers)
-        );
+        // Values are preserved exactly; the wizard no longer subtracts heritage to invent a base.
+        expect(loaded.characterData.baseStats).toEqual(legacyFinalStats);
+        expect(loaded.loadedAttributes.status).toBe('legacy');
+        expect(loaded.loadedAttributes.needsCorrection).toBe(true);
     });
 
     test('treats stats as base for non-wizard records without an explicit base field', () => {

@@ -2,7 +2,7 @@ import { getStore } from '../storeRegistry';
 import { calculateEquipmentBonuses, calculateDerivedStats, flattenEffects } from '../../utils/characterUtils';
 import { isTwoHandedWeapon, getSlotsToCleanForTwoHanded } from '../../utils/equipmentUtils';
 import { updateClassResourceMax } from '../../data/classResources';
-import { applyRacialModifiers } from '../../data/raceData';
+import { getEffectiveAttributes } from '../../utils/attributeProfile';
 import { getRacialStatModifiers } from '../../utils/raceDisciplineSpellUtils';
 import useGameStore from '../gameStore';
 import { getEncumbranceState } from '../characterHelpers';
@@ -11,6 +11,9 @@ import { getEncumbranceState } from '../characterHelpers';
 // State properties and action bodies are copied verbatim from characterStore.js.
 
 export const createStatsSlice = (set, get) => ({
+    // Attribute provenance marker (see utils/attributeProfile.js); null = legacy record
+    statsModel: null,
+
     // Base Stats
     stats: {
         constitution: 10,
@@ -157,23 +160,15 @@ export const createStatsSlice = (set, get) => ({
         visionRange: 0
     },
 
-    // Helper function to get effective stats (base + racial modifiers)
-    getEffectiveStats: () => {
-        const state = get();
-        if (!state.race || !state.subrace) {
-            return state.stats;
-        }
-        return applyRacialModifiers(state.stats, state.race, state.subrace);
-    },
+    // Helper function to get effective stats (base + heritage + origin, shared helper)
+    getEffectiveStats: () => getEffectiveAttributes(get()),
 
     // Actions
     updateStat: (statName, value) => {
         set(state => {
             const newStats = { ...state.stats, [statName]: value };
             // Apply racial modifiers to get effective stats for calculations
-            const effectiveStats = state.race && state.subrace
-                ? applyRacialModifiers(newStats, state.race, state.subrace)
-                : newStats;
+            const effectiveStats = getEffectiveAttributes({ ...state, stats: newStats });
             const equipmentBonuses = calculateEquipmentBonuses(state.equipment);
 
             // Fetch buff/debuff effects for derived stats
@@ -296,9 +291,7 @@ export const createStatsSlice = (set, get) => ({
                 combinedModifiers[stat] = (combinedModifiers[stat] || 0) + value;
             });
             // Apply racial modifiers to get effective stats for calculations
-            const effectiveStats = state.race && state.subrace
-                ? applyRacialModifiers(state.stats, state.race, state.subrace)
-                : state.stats;
+            const effectiveStats = getEffectiveAttributes(state);
 
             // Apply equipment bonuses to stats before calculating derived stats
             const totalStats = { ...effectiveStats };
@@ -626,9 +619,7 @@ export const createStatsSlice = (set, get) => ({
         const state = get();
         const equipmentBonuses = calculateEquipmentBonuses(state.equipment);
         // Start with effective stats (base + racial modifiers)
-        const totalStats = state.race && state.subrace
-            ? applyRacialModifiers(state.stats, state.race, state.subrace)
-            : { ...state.stats };
+        const totalStats = { ...getEffectiveAttributes(state) };
 
         // Apply equipment bonuses
         if (equipmentBonuses) {
@@ -743,9 +734,7 @@ export const createStatsSlice = (set, get) => ({
         const equipmentBonuses = calculateEquipmentBonuses(state.equipment);
         const encumbranceState = getEncumbranceState();
         // Apply racial modifiers to get effective stats for calculations
-        const effectiveStats = state.race && state.subrace
-            ? applyRacialModifiers(state.stats, state.race, state.subrace)
-            : state.stats;
+        const effectiveStats = getEffectiveAttributes(state);
 
         // Apply equipment bonuses to stats before calculating derived stats
         const totalStats = { ...effectiveStats };

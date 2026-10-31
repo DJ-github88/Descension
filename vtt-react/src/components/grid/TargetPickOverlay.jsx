@@ -127,7 +127,7 @@ const TargetPickOverlay = ({ gridSystem, feetPerTile = 5, gridSize = 50, current
       </svg>
       <div className="tpo-bar" role="region" aria-label="Target aiming advisory">
         <label className="tpo-picker">Preview target
-          <select ref={targetControl} value={chosen ? selected : ''} onChange={event => { setSelected(event.target.value); setCursor(null); setNotice(''); }}>
+          <select ref={targetControl} value={chosen ? selected : ''} onKeyDown={event => event.stopPropagation()} onChange={event => { setSelected(event.target.value); setCursor(null); setNotice(''); }}>
             <option value="">Choose a target or tap its token</option>
             {candidateEntries.map(entry => <option key={pickKey(entry.ref)} value={pickKey(entry.ref)}>{entry.name}</option>)}
           </select>

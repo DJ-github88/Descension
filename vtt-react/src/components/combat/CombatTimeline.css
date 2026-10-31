@@ -1,0 +1,10 @@
+.combat-timeline-window-compact .timeline-header { flex-wrap: wrap; flex-shrink: 0; justify-content: space-between; gap: 8px; }
+.combat-timeline-window-compact .timeline-controls { position: static; flex-wrap: wrap; }
+.combat-timeline-window-compact .timeline-button { min-height: 32px; }
+.combat-timeline-window-compact .timeline-button:focus-visible { outline: 2px solid var(--adventure-ink, #34251a); outline-offset: 2px; }
+.combat-timeline-window-compact.timeline-collapsed .timeline-combatants,
+.combat-timeline-window-compact.timeline-collapsed .timeline-controls > :not(.timeline-toggle),
+.combat-timeline-window-compact.timeline-collapsed > .react-resizable-handle { display: none; }
+@media (pointer: coarse) {
+  .combat-timeline-window-compact .timeline-button { min-height: 44px; min-width: 44px; }
+}

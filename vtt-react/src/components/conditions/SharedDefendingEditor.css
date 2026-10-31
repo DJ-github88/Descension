@@ -12,3 +12,6 @@
 .sc-editor section { margin-top: 20px; }
 .sc-editor .sc-confirm { display: flex; gap: 8px; align-items: flex-start; margin-top: 12px; }
 .sc-editor .sc-confirm input { width: 20px; height: 20px; min-height: 20px; flex-shrink: 0; margin-top: 2px; }
+/* A11: active movement effects — plain grouped section, no accents. */
+.sc-movement { margin-top: 10px; padding-top: 6px; border-top: 1px solid #c9b48f; }
+.sc-movement h4 { color: #2b2116; font-size: 16px; margin: 4px 0 6px; }

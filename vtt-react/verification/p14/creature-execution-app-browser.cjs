@@ -31,7 +31,7 @@ async function tokenLocator(page, id) {
 }
 async function inspectPlaced(page, id) {
   const token = await tokenLocator(page, id); await token.click({ button: 'right' }); await page.getByRole('button', { name: /Token Actions/ }).hover(); await page.getByText('Inspect', { exact: true }).last().click();
-  await page.getByRole('button', { name: 'Abilities & Spells', exact: true }).last().click(); return page.getByRole('region', { name: 'Creature activated ability', exact: true });
+  const abilities=page.getByRole('button', { name: 'Abilities & Spells', exact: true }).last(); await abilities.focus(); await abilities.press('Enter'); return page.getByRole('region', { name: 'Creature activated ability', exact: true });
 }
 async function closeInspect(page) { await page.locator('.wow-window').filter({ has: page.locator('.creature-inspect-container') }).getByRole('button', { name: 'Close', exact: true }).click(); }
 async function admitAndOpen(page, id) {
@@ -140,4 +140,4 @@ async function main() {
   finally { report.sourceAfter = require('./record-creature-execution-evidence.cjs').snapshot(); save('result.json', report); await browser.close(); await host.stop(); }
 }
 if (require.main === module) main().then(() => process.exit(0), e => { console.error(e); process.exit(1); });
-module.exports = { author, openBestiary, closeLibrary, admitAndOpen, closeInspect };
+module.exports = { author, openBestiary, closeLibrary, admitAndOpen, closeInspect, inspectPlaced, tokenLocator };

@@ -4401,4 +4401,42 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
 
 TOXICOLOGIST_DATA.spells = TOXICOLOGIST_DATA.exampleSpells;
 
+// RI-8 legacy-roster integration: explicit progression policy. Existing
+// Toxicologist characters keep their known spells; new characters choose three
+// level-1 options and one optional per level. No random/automatic top-up.
+export const TOXICOLOGIST_PROGRESSION_POLICY = {
+  classId: 'toxicologist', rulesetVersion: 'legacy-roster-integrated', levelCap: 10,
+  startingSpellPicks: 3, optionalPicksPerLevel: 1, allowEarlierUnchosen: true,
+  grantedCoreSpellIds: [], randomizeStartingSpells: false, autoTopUpOnLoad: false,
+  talentActivesAreGrants: false, manualOnly: true
+};
+
+TOXICOLOGIST_DATA.progression = {
+  levelCap: 10,
+  policy: TOXICOLOGIST_PROGRESSION_POLICY,
+  levels: Array.from({ length: 10 }, (_, index) => {
+    const level = index + 1;
+    return {
+      level,
+      newChoiceIds: Array.isArray(TOXICOLOGIST_DATA.spellPools?.[level]) ? [...TOXICOLOGIST_DATA.spellPools[level]] : [],
+      optionalPicks: 1,
+      talentBudget: level * 5
+    };
+  })
+};
+
+export const TOXICOLOGIST_MANIFEST = {
+  contentLock: 'RI-8 Toxicologist legacy-roster content lock',
+  classId: 'toxicologist', displayName: 'Toxicologist',
+  authoredSpells: TOXICOLOGIST_DATA.spells.length,
+  spellPoolCounts: Object.fromEntries(Array.from({ length: 10 }, (_, index) => {
+    const level = index + 1;
+    return [level, Array.isArray(TOXICOLOGIST_DATA.spellPools?.[level]) ? TOXICOLOGIST_DATA.spellPools[level].length : 0];
+  })),
+  treeIds: ['venomancer', 'gadgeteer', 'saboteur'],
+  resource: TOXICOLOGIST_DATA.classResource.type, progression: TOXICOLOGIST_PROGRESSION_POLICY,
+  nativeAccess: TOXICOLOGIST_DATA.restrictions?.allowedSubraces || [],
+  legacyIdsPreserved: true, automaticConversion: false, manualOnly: true
+};
+
 export default TOXICOLOGIST_DATA;

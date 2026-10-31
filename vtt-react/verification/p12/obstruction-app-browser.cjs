@@ -1,12 +1,14 @@
 // Actual optimized App/picker/controllers. Only principals, room transport and geometry inputs are fixtures.
-const fs = require('fs'), path = require('path'), assert = require('assert/strict');
+const fs = require('fs'), path = require('path'), assert = require('assert/strict'), crypto = require('crypto');
 const { chromium } = require('playwright');
 const out = process.env.OBSTRUCTION_OUTPUT;
 if (!out || !path.isAbsolute(out) || !process.env.APP_BUILD_DIR || out.startsWith(path.resolve(__dirname, '../..'))) throw Error('External OBSTRUCTION_OUTPUT and APP_BUILD_DIR required');
 fs.mkdirSync(out, { recursive: true });
 process.env.APP_OUTPUT = path.join(out, 'fixture');
 const { setup } = require('../p9/integration/app-browser.cjs');
-const record = { checks: {}, errors: [], limits: ['Unmodified optimized production App and real picker/controllers; webpack access seeds fixture principals/stores.',
+const record = { startedAt: new Date().toISOString(), build: process.env.APP_BUILD_DIR,
+  assetManifestSha256: crypto.createHash('sha256').update(fs.readFileSync(path.join(process.env.APP_BUILD_DIR, 'asset-manifest.json'))).digest('hex'),
+  checks: {}, errors: [], limits: ['Unmodified optimized production App and real picker/controllers; webpack access seeds fixture principals/stores.',
   'Registered Socket.IO backend fixture; provider/canonical owner/lease/cloud transport simulated.',
   'GM geometry edits and movement are local projection fixtures, not multiplayer geometry-writer parity acceptance.',
   'Player feedback deliberately remains unknown: there is no certified viewer-safe geometry projection. No trajectory, partial-cover or enforcement support.'] };
@@ -56,6 +58,7 @@ async function main() {
     await gm.evaluate(() => S('levelEditorStore').setState({ wallData: { '9,5,9,7': { type: 'stone_wall' } } }));
     await status(gm, 'Sight blocked in modeled 2D geometry');
     assert.equal(await gm.locator('.tpo-aim-blocked').count(), 1); record.checks.wall = true; await snapshot(gm, 'wall');
+    await gm.screenshot({ path: path.join(out, 'wall-desktop.png') });
     const rayBefore = await gm.locator('.tpo-aim').getAttribute('x1');
     await gm.evaluate(() => S('gameStore').setState({ cameraX: 500, zoomLevel: 1.25, playerZoom: 1.25 }));
     await status(gm, 'Sight blocked in modeled 2D geometry');
@@ -93,6 +96,7 @@ async function main() {
     await feather.getByRole('button', { name: 'Pick on map', exact: true }).click();
     await choose(gm, 'Ilse'); await panel(gm).getByRole('button', { name: 'Use target', exact: true }).click();
     await feather.getByText(/recorded faces \[2, 4\]/).waitFor();
+    assert.equal(await feather.getByRole('combobox', { name: 'Feather Slash target' }).inputValue(), 'character:pc');
     assert.equal(await feather.getByRole('button', { name: 'Roll two d8 once', exact: true }).count(), 0);
     record.checks.cancelAndRetargetRetainRoll = [2, 4];
     await feather.getByRole('button', { name: 'Pick on map', exact: true }).click();

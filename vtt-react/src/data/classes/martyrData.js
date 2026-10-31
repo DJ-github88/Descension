@@ -3785,3 +3785,41 @@ Born from the Dreadnaught tradition of the Cragjaw's troll-kin and adopted by Bl
   }
  ],
 };
+
+// RI-7 legacy-roster integration: explicit progression policy. Existing
+// Martyr characters keep their known spells; new characters choose three
+// level-1 options and one optional per level. No random/automatic top-up.
+export const MARTYR_PROGRESSION_POLICY = {
+  classId: 'martyr', rulesetVersion: 'legacy-roster-integrated', levelCap: 10,
+  startingSpellPicks: 3, optionalPicksPerLevel: 1, allowEarlierUnchosen: true,
+  grantedCoreSpellIds: [], randomizeStartingSpells: false, autoTopUpOnLoad: false,
+  talentActivesAreGrants: false, manualOnly: true
+};
+
+MARTYR_DATA.progression = {
+  levelCap: 10,
+  policy: MARTYR_PROGRESSION_POLICY,
+  levels: Array.from({ length: 10 }, (_, index) => {
+    const level = index + 1;
+    return {
+      level,
+      newChoiceIds: Array.isArray(MARTYR_DATA.spellPools?.[level]) ? [...MARTYR_DATA.spellPools[level]] : [],
+      optionalPicks: 1,
+      talentBudget: level * 5
+    };
+  })
+};
+
+export const MARTYR_MANIFEST = {
+  contentLock: 'RI-7 Martyr legacy-roster content lock',
+  classId: 'martyr', displayName: 'Martyr',
+  authoredSpells: MARTYR_DATA.spells.length,
+  spellPoolCounts: Object.fromEntries(Array.from({ length: 10 }, (_, index) => {
+    const level = index + 1;
+    return [level, Array.isArray(MARTYR_DATA.spellPools?.[level]) ? MARTYR_DATA.spellPools[level].length : 0];
+  })),
+  treeIds: ['redemption', 'zealot', 'ascetic', 'ironclad'],
+  resource: 'devotion', progression: MARTYR_PROGRESSION_POLICY,
+  nativeAccess: MARTYR_DATA.restrictions?.allowedSubraces || [],
+  legacyIdsPreserved: true, automaticConversion: false, manualOnly: true
+};

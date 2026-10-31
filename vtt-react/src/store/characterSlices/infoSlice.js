@@ -250,6 +250,7 @@ export const createInfoSlice = (set, get) => ({
                 });
                 removedGrantIds = removedTalentGrantIds(currentTalents, prunedTalents, previousClass);
                 newState.talents = prunedTalents;
+                newState.primarySpecialization = '';
 
                 const classResource = initializeClassResource(value, {
                     ...state.stats,
@@ -411,6 +412,15 @@ export const createInfoSlice = (set, get) => ({
                         // If class_spells was updated, sync that too
                         if (newState.class_spells) {
                             updatedChar.class_spells = newState.class_spells;
+                        }
+                        if (newState.talents !== undefined) {
+                            updatedChar.talents = newState.talents;
+                        }
+                        if (newState.classResource !== undefined) {
+                            updatedChar.classResource = newState.classResource;
+                        }
+                        if (newState.primarySpecialization !== undefined) {
+                            updatedChar.primarySpecialization = newState.primarySpecialization;
                         }
                         return updatedChar;
                     }
@@ -976,7 +986,7 @@ export const createInfoSlice = (set, get) => ({
         const className = state.class || state.characterClass;
         const removed = new Set(options.grantIds || []);
 
-        if (['Fate Weaver', 'Deathcaller', 'Lichborne', 'Plaguebringer', 'Doomsayer', 'Oracle', 'Druid', 'Hunter'].includes(className)) {
+        if (className) {
             removedTalentGrantIds(previousTalents, newTalents || {}, className)
                 .forEach(id => removed.add(id));
         }
@@ -1019,7 +1029,11 @@ export const createInfoSlice = (set, get) => ({
         }
         if ((get().class || get().characterClass) === 'Oracle') {
             get().reconcileOracleTalents?.();
+        }
+        if ((get().class || get().characterClass) === 'Druid') {
             get().reconcileDruidTalents?.();
+        }
+        if ((get().class || get().characterClass) === 'Hunter') {
             get().reconcileHunterTalents?.();
         }
 

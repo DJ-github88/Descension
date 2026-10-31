@@ -16,6 +16,7 @@ import Step3EquipmentSelection from './steps/Step10EquipmentSelection';
 import Step4LoreDetails from './steps/Step8LoreDetails';
 import Step5CharacterSummary from './steps/Step9CharacterSummary';
 import { validateAncestry } from '../../data/ancestryLoadouts';
+import { STATS_MODEL } from '../../utils/attributeProfile';
 
 
 // Import styles
@@ -120,6 +121,7 @@ const CharacterCreationWizardContent = ({ onComplete, onCancel, isLoading, exist
                 // model explicitly for the edit loader and future saves.
                 baseStats: state.characterData.baseStats,
                 stats: state.characterData.baseStats,
+                statsModel: STATS_MODEL,
                 lore: state.characterData.lore,
                 characterImage: state.characterData.characterImage,
                 imageTransformations: state.characterData.imageTransformations,
@@ -152,7 +154,9 @@ const CharacterCreationWizardContent = ({ onComplete, onCancel, isLoading, exist
                 isEditing: isEditing
             });
 
-            onComplete(characterData);
+            // Second argument carries how the edited character's attributes were recorded when
+            // it loaded, so the page can reconcile edits with earned gains (utils/attributeProfile.js).
+            onComplete(characterData, { loadedAttributes: state.loadedAttributes });
         }
     };
 

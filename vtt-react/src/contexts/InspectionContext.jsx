@@ -2,8 +2,8 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import useCharacterStore from '../store/characterStore';
 import usePartyStore from '../store/partyStore';
 import useGameStore from '../store/gameStore';
-import { calculateDerivedStats, calculateEquipmentBonuses } from '../utils/characterUtils';
-import { applyRacialModifiers } from '../data/raceData';
+import { calculateEquipmentBonuses } from '../utils/characterUtils';
+import { buildCharacterResourceSnapshot } from '../utils/characterResourceSnapshot';
 import { normalizeEquipment } from '../utils/equipmentUtils';
 import { WEAPON_MASTERY_SKILL_ID, withWeaponRank } from '../utils/weaponProficiency';
 
@@ -71,7 +71,8 @@ export const InspectionProvider = ({ character, children }) => {
     // Only allow edits for: 1) own character, or 2) GM inspecting any character
     const canEdit = isCurrentPlayer || isGMMode;
 
-    // Calculate proper HP/MP values for the inspected character
+    // Calculate proper HP/MP values for the inspected character through the
+    // same shared snapshot used by the roster and the persisted store.
     const calculateInspectedCharacterResources = (charData) => {
         if (!charData || !charData.stats) {
             return {
@@ -80,56 +81,12 @@ export const InspectionProvider = ({ character, children }) => {
             };
         }
 
-        // Apply racial modifiers to get effective stats
-        const effectiveStats = charData.race && charData.subrace
-            ? applyRacialModifiers(charData.stats, charData.race, charData.subrace)
-            : charData.stats;
-
-        // Calculate equipment bonuses
-        const equipmentBonuses = calculateEquipmentBonuses(charData.equipment || {});
-
-        // Apply equipment bonuses to stats
-        const totalStats = { ...effectiveStats };
-        const statMapping = {
-            str: 'strength',
-            con: 'constitution',
-            agi: 'agility',
-            int: 'intelligence',
-            spir: 'spirit',
-            cha: 'charisma'
-        };
-
-        Object.entries(statMapping).forEach(([shortName, fullName]) => {
-            if (equipmentBonuses[shortName]) {
-                totalStats[fullName] = (totalStats[fullName] || 0) + equipmentBonuses[shortName];
-            }
-        });
-
-        // Get encumbrance state
-        const encumbranceState = charData.inventory?.encumbranceState || 'normal';
-
-        // Calculate derived stats
-        const exhaustionLevel = charData.exhaustionLevel || 0;
-        const derivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, encumbranceState, exhaustionLevel, null, charData.race, charData.subrace);
-
-        // Calculate correct max values
-        const maxHealth = Math.round(derivedStats.maxHealth);
-        const maxMana = Math.round(derivedStats.maxMana);
-
-        // Use stored current values but ensure they don't exceed new max values
-        const storedHealth = charData.health || { current: maxHealth, max: maxHealth };
-        const storedMana = charData.mana || { current: maxMana, max: maxMana };
-
+        const snapshot = buildCharacterResourceSnapshot(charData);
         return {
-            health: {
-                current: Math.min(storedHealth.current || maxHealth, maxHealth),
-                max: maxHealth
-            },
-            mana: {
-                current: Math.min(storedMana.current || maxMana, maxMana),
-                max: maxMana
-            },
-            derivedStats
+            health: snapshot.health,
+            mana: snapshot.mana,
+            derivedStats: snapshot.derivedStats,
+            equipmentBonuses: snapshot.equipmentBonuses
         };
     };
 
@@ -166,6 +123,7 @@ export const InspectionProvider = ({ character, children }) => {
         selectedAbility: characterData?.selectedAbility || '',
         talents: characterData?.talents || [],
         levelUpHistory: characterData?.levelUpHistory || {},
+        statsModel: characterData?.statsModel || null,
         activeEffects: characterData?.activeEffects || [],
         characterIcon: characterData?.lore?.characterIcon || null,
 

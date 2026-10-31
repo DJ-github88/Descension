@@ -282,7 +282,7 @@ const LibraryBrowserModal = ({
                 });
               };
 
-              // 1. Iterate over all 21 classes
+              // 1. Iterate over all authored class definitions
               Object.entries(ALL_CLASSES_DATA || {}).forEach(([clsName, clsData]) => {
                 const spellList = clsData?.spells || clsData?.abilities || clsData?.exampleSpells || [];
                 if (Array.isArray(spellList)) {

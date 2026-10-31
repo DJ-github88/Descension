@@ -165,7 +165,7 @@ describe('Hunter complete content lock', () => {
 
   test('keeps heritage recommendation-only and preserves legacy Apex exactly', () => {
     expect(getClassNativeHeritageIds('Hunter')).toEqual([]);
-    expect(CLASS_PROVENANCE.Hunter).toBeUndefined();
+    expect(CLASS_PROVENANCE.Hunter?.heritageEffectsImplemented).toBe(false);
     expect(HUNTER_DATA.heritageRecommendation).toEqual([
       'skald_human', 'ordan_human', 'veiled_mimir', 'tethered_mimir', 'marked_vreken', 'thrask_solari', 'deepling_myrathil'
     ]);

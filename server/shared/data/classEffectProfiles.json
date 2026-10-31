@@ -1,0 +1,151 @@
+{
+  "version": 1,
+  "profiles": [
+    {
+      "capability": "class-effect:v1",
+      "compiler": "class-effect-1",
+      "classId": "arcanoneer",
+      "spellId": "arc_frost_touch",
+      "name": "Rime-Iron Clasp",
+      "recordHash": "ff1b91e10d21655d5dcbf16660b66a81330c8d1fc3f8570d9b62856b1d7e1649",
+      "source": "vtt-react/src/data/classes/arcanoneerData.js (RI-6 locked; read, never edited)",
+      "price": {
+        "ap": 1,
+        "mana": 4
+      },
+      "payment": {
+        "domain": "elementalSpheres",
+        "price": {
+          "costs": [
+            "rime",
+            "rime"
+          ],
+          "gains": []
+        }
+      },
+      "terms": {
+        "capability": "class-effect:v1",
+        "compiler": "class-effect-1",
+        "direct": {
+          "kind": "damage",
+          "formula": "1d8 + intelligence/4",
+          "damageTypes": [
+            "rime"
+          ]
+        },
+        "rider": {
+          "kind": "movement",
+          "feet": -10,
+          "label": "Frozen Limbs"
+        },
+        "save": {
+          "ability": "constitution",
+          "dc": 12,
+          "outcome": "negates",
+          "scope": "debuffConfig"
+        },
+        "timing": {
+          "expiryPolicy": "gm-manual",
+          "durationText": "Movement speed reduced by 10 feet for 1 round",
+          "authored": {
+            "durationValue": 1,
+            "durationType": "rounds",
+            "durationUnit": "rounds"
+          }
+        }
+      },
+      "disclosure": {
+        "automated": [
+          "Payment: 1 AP, 4 mana and two rime spheres (Elemental Spheres), in one command with the result.",
+          "Damage: 1d8 + floor(effective Intelligence ÷ 4) rime; the GM confirms the final amount.",
+          "On a GM-recorded failed Constitution DC 12 save: Frozen Limbs, movement −10 ft."
+        ],
+        "gmManaged": [
+          "The save: the table rolls it; the GM records saved or failed. The VTT does no save maths.",
+          "Duration \"for 1 round\": shown as authored; the GM removes the exact Frozen Limbs instance."
+        ],
+        "notAutomated": [
+          "\"Frozen targets take +1d4 bonus damage from the next physical attack against them.\" — the GM applies it."
+        ],
+        "preserved": [
+          {
+            "path": "description",
+            "note": "Authored card text, shown verbatim. Its \"+1d4 bonus damage from the next physical attack\" sentence is not automated (see Not automated)."
+          },
+          {
+            "path": "tags",
+            "note": "Catalogue tags; display only."
+          },
+          {
+            "path": "typeConfig.school",
+            "note": "School \"rime\"; display only."
+          },
+          {
+            "path": "typeConfig.tags",
+            "note": "Catalogue tags; display only."
+          },
+          {
+            "path": "enhancesCombo",
+            "note": "Links the Frost Spike sphere combination (ice_ice: rime + rime); the payment uses the same two rime spheres. No combo enhancement is executed."
+          },
+          {
+            "path": "resourceCost.components",
+            "note": "Verbal/somatic components; table flavour, not checked."
+          },
+          {
+            "path": "resourceCost.verbalText",
+            "note": "Incantation text; display only."
+          },
+          {
+            "path": "resourceCost.somaticText",
+            "note": "Gesture text; display only."
+          },
+          {
+            "path": "debuffConfig.debuffType",
+            "note": "statusEffect: the single rider below."
+          },
+          {
+            "path": "debuffConfig.durationValue",
+            "note": "Authored 1 — \"one round\" is not mapped to a turn boundary; GM removes."
+          },
+          {
+            "path": "debuffConfig.durationType",
+            "note": "Authored rounds — GM-managed."
+          },
+          {
+            "path": "debuffConfig.durationUnit",
+            "note": "Authored rounds — GM-managed."
+          },
+          {
+            "path": "debuffConfig.effects[0].id",
+            "note": "Authored status id \"slowed\"; the installed record is the canonical movement change named Frozen Limbs."
+          },
+          {
+            "path": "debuffConfig.effects[0].description",
+            "note": "Rider text, shown verbatim."
+          },
+          {
+            "path": "debuffConfig.effects[0].statusType",
+            "note": "\"slow\"; no separate slowed condition or other mechanic is applied."
+          },
+          {
+            "path": "debuffConfig.effects[0].level",
+            "note": "\"minor\"; descriptive, not executed."
+          },
+          {
+            "path": "debuffConfig.effects[0].mechanicsText",
+            "note": "Shown verbatim as the authored duration."
+          },
+          {
+            "path": "damageConfig.description",
+            "note": "Damage flavour text; display only."
+          }
+        ]
+      },
+      "review": {
+        "classHq": null,
+        "request": "docs/MYTHRILL_CROSS_TRACK_COORDINATION.md — M1 class-effect:v1 entry, 2026-10-30"
+      }
+    }
+  ]
+}

@@ -28,6 +28,13 @@ import { doomsayerResourceGuide } from './doomsayerResourceGuide';
 import { oracleResourceGuide } from './oracleResourceGuide';
 import { druidResourceGuide } from './druidResourceGuide';
 import { hunterResourceGuide } from './hunterResourceGuide';
+import { covenbaneResourceGuide } from './covenbaneResourceGuide';
+import { exorcistResourceGuide } from './exorcistResourceGuide';
+import { dreadnaughtResourceGuide } from './dreadnaughtResourceGuide';
+import { bladedancerResourceGuide } from './bladedancerResourceGuide';
+import { inscriptorResourceGuide } from './inscriptorResourceGuide';
+import { totemistResourceGuide } from './totemistResourceGuide';
+import { witchDoctorResourceGuide } from './witchDoctorResourceGuide';
 
 /**
  * Registry of classes whose Resource System tab uses the v2 layout.
@@ -65,10 +72,24 @@ export const RESOURCE_SYSTEM_GUIDES = {
  oracle: oracleResourceGuide,
  druid: druidResourceGuide,
  hunter: hunterResourceGuide,
+ covenbane: covenbaneResourceGuide,
+ exorcist: exorcistResourceGuide,
+ dreadnaught: dreadnaughtResourceGuide,
+ bladedancer: bladedancerResourceGuide,
+ inscriptor: inscriptorResourceGuide,
+ totemist: totemistResourceGuide,
+ 'witch-doctor': witchDoctorResourceGuide,
+ witch_doctor: witchDoctorResourceGuide,
+ witchdoctor: witchDoctorResourceGuide,
 };
 
-export const getResourceSystemGuide = (classId) =>
- RESOURCE_SYSTEM_GUIDES[classId] || null;
+export const getResourceSystemGuide = (classId) => {
+ if (!classId) return null;
+ const raw = String(classId);
+ const underscored = raw.toLowerCase().replace(/[-\s]+/g, '_');
+ const hyphenated = raw.toLowerCase().replace(/[_\s]+/g, '-');
+ return RESOURCE_SYSTEM_GUIDES[raw] || RESOURCE_SYSTEM_GUIDES[underscored] || RESOURCE_SYSTEM_GUIDES[hyphenated] || null;
+};
 
 export const hasResourceSystemGuide = (classId) =>
- Boolean(RESOURCE_SYSTEM_GUIDES[classId]);
+ Boolean(getResourceSystemGuide(classId));

@@ -103,6 +103,49 @@ describe('Talent Tree System Tests', () => {
     expect(useSpellbookStore.getState().spells.length).toBe(0);
   });
 
+  test('single-node refund preserves a shared copy still needed by another roster character', () => {
+    const talent = GAMBIT_PROBABILITY_SAVANT[0];
+    const grantId = `talent-spell-${talent.id}`;
+    const active = {
+      id: 'char-123',
+      class: 'Gambit',
+      talents: { [talent.id]: 1 },
+      class_spells: { known_spells: [grantId] }
+    };
+    const other = {
+      id: 'char-456',
+      class: 'Gambit',
+      talents: { [talent.id]: 1 },
+      class_spells: { known_spells: [grantId] }
+    };
+
+    useCharacterStore.setState({
+      class: 'Gambit',
+      level: 2,
+      currentCharacterId: active.id,
+      characters: [active, other],
+      talents: { [talent.id]: 1 },
+      class_spells: { known_spells: [grantId] }
+    });
+    useSpellbookStore.setState({
+      spells: [{ id: grantId, name: talent.name, source: 'talent', talentId: talent.id }]
+    });
+
+    const { container } = render(<TalentTreeContent />);
+    const nodeButton = [...container.querySelectorAll('.talent-node-button')]
+      .find(button => button.title.startsWith(`${talent.name} (`));
+    expect(nodeButton).toBeTruthy();
+
+    fireEvent.contextMenu(nodeButton);
+
+    const state = useCharacterStore.getState();
+    expect(state.talents[talent.id]).toBeUndefined();
+    expect(state.class_spells.known_spells).not.toContain(grantId);
+    expect(state.characters.find(character => character.id === other.id).class_spells.known_spells)
+      .toContain(grantId);
+    expect(useSpellbookStore.getState().spells.map(spell => spell.id)).toContain(grantId);
+  });
+
   test('5-point tier gatekeeping: Tier 2 requires 5 points spent in tree', () => {
     const { getNodeTier, getRequiredPointsForTier } = require('../TalentTreeContent');
     expect(getRequiredPointsForTier(1)).toBe(0);

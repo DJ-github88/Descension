@@ -6,6 +6,7 @@
 
 import { getFullRaceData, getRacialBaseStats } from '../data/raceData';
 import { calculateEquipmentBonuses } from './characterUtils';
+import { resolveAttributeProfile } from './attributeProfile';
 
 const STAT_MAPPING = {
     str: 'strength',
@@ -60,38 +61,39 @@ export function getAttributeBreakdown(statKey, character = {}) {
         talents = []
     } = character;
 
-    // 1. Racial Modifiers
-    let racialBonus = 0;
+    // One shared composition (utils/attributeProfile.js): heritage and origin are applied
+    // once, and earned level-up gains - already inside `stats` - are shown, not re-added.
+    const profile = resolveAttributeProfile(character);
+
+    // 1. Racial (heritage) modifiers
+    const racialBonus = profile.heritage[fullName] || 0;
     let racialName = '';
     if (race && subrace) {
         try {
             const raceData = getFullRaceData(race, subrace);
             if (raceData) {
                 racialName = raceData.subrace?.name || raceData.race?.name || 'Racial';
-                const modifiers = raceData.combinedTraits?.statModifiers || {};
-                racialBonus = modifiers[fullName] || modifiers[shortName] || 0;
             }
         } catch (e) {
             console.warn('Error fetching racial modifiers for', race, subrace, e);
         }
     }
 
-    // 2. Level-Up Increases from History
-    let levelUpBonus = 0;
+    // 1b. Origin (background) modifiers - applied for explicit-base records only
+    const originBonus = profile.origin[fullName] || 0;
+
+    // 2. Level-up gains. `earnedInStats` is already part of `stats` (display split only);
+    // the older statChoice form was never folded into `stats`, so it stays additive.
+    const earnedInStats = profile.earned[fullName] || 0;
+    let legacyChoiceBonus = 0;
     if (levelUpHistory && typeof levelUpHistory === 'object') {
         Object.values(levelUpHistory).forEach(entry => {
-            if (entry?.attributes && Array.isArray(entry.attributes)) {
-                entry.attributes.forEach(attr => {
-                    if (attr === fullName || attr === shortName) {
-                        levelUpBonus += 1;
-                    }
-                });
-            }
             if (entry?.statChoice === fullName || entry?.statChoice === shortName) {
-                levelUpBonus += (entry.statIncrease || 1);
+                legacyChoiceBonus += (entry.statIncrease || 1);
             }
         });
     }
+    const levelUpBonus = earnedInStats + legacyChoiceBonus;
 
     // 3. Equipment Bonuses
     const eqBonuses = calculateEquipmentBonuses(equipment);
@@ -131,7 +133,7 @@ export function getAttributeBreakdown(statKey, character = {}) {
 
     // 6. Base creation stat
     const rawStoredStat = stats[fullName] ?? stats[shortName] ?? 10;
-    const computedBase = Math.max(1, rawStoredStat);
+    const computedBase = Math.max(1, rawStoredStat - earnedInStats);
 
     // 7. Encumbrance Effect
     let encumbranceMultiplier = 1.0;
@@ -154,7 +156,7 @@ export function getAttributeBreakdown(statKey, character = {}) {
         }
     }
 
-    const preEncumbrance = computedBase + racialBonus + levelUpBonus + equipmentBonus + talentBonus + buffBonus - debuffBonus;
+    const preEncumbrance = computedBase + racialBonus + originBonus + levelUpBonus + equipmentBonus + talentBonus + buffBonus - debuffBonus;
     const encumbranceEffect = Math.round(preEncumbrance * encumbranceMultiplier) - preEncumbrance;
 
     const finalValue = Math.max(1, preEncumbrance + encumbranceEffect);
@@ -165,6 +167,7 @@ export function getAttributeBreakdown(statKey, character = {}) {
         base: computedBase,
         racial: racialBonus,
         racialName: racialName,
+        origin: originBonus,
         levelUp: levelUpBonus,
         equipment: equipmentBonus,
         talents: talentBonus,

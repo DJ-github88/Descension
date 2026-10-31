@@ -26,8 +26,10 @@ import {
   ensureLegacySourceQuarantine
 } from './scopedConsumer';
 import { forkScopedRecord } from './localCoordination';
+import { readDurable } from './protectedStorage';
 import { registerHandoffParticipant } from './handoff/accountHandoffCoordinator';
 import { bumpLocalRevision, confirmRevision } from './draftEnvelope';
+import { installStorageRecoveryHook } from './storageRecoveryHook';
 
 const baselineKey = (scope, familyId) => `${scope.scopeKind}:${scope.scopeId}:${familyId}`;
 
@@ -63,6 +65,13 @@ export function getScopedStoreEngine(familyId) {
   return engineRegistry.get(familyId) || null;
 }
 
+/** Families persisted through this engine (the only ones lossless recovery may compact). */
+export function listScopedStoreEngineFamilies() {
+  return [...engineRegistry.keys()];
+}
+
+installStorageRecoveryHook(listScopedStoreEngineFamilies);
+
 /**
  * Create a zustand-persist compatible storage object for one scoped family.
  *
@@ -77,12 +86,33 @@ export function createScopedStoreStorage({ familyId, sanitize = null } = {}) {
   const pendingByFamily = new Map();
   const refusedByFamily = new Map();
   const legacyQuarantined = new Set();
+  const retainedForks = new Map();
   let pendingWriteCount = 0;
   // Room-projection suspension: while set for a scope, writes stay in memory
   // only (server room projections must never become authored personal drafts).
   // A scope change clears the suspension so a later account is never silently
   // left unsaved.
   let suspendedScopeKey = null;
+
+  function preserveStaleCandidate(key, scope, payload, context) {
+    // A stale engine may receive identical projection updates every frame.
+    // Reuse only this engine's exact, still-durable recovery copy; never prune
+    // old evidence or let a stale candidate replace the shared winner.
+    const serialized = JSON.stringify(payload);
+    const previous = retainedForks.get(key);
+    if (previous?.serialized === serialized) {
+      const read = readDurable(previous.key);
+      if (read.ok && read.raw === previous.raw) return previous.result;
+    }
+    const result = forkScopedRecord({ familyId, scope, context, payload });
+    if (result.status === 'FORKED') {
+      const read = readDurable(result.key);
+      if (read.ok && read.raw !== null) {
+        retainedForks.set(key, { serialized, key: result.key, raw: read.raw, result });
+      }
+    }
+    return result;
+  }
 
   /**
    * Queue a captured scoped write. The operation context is captured before
@@ -100,10 +130,16 @@ export function createScopedStoreStorage({ familyId, sanitize = null } = {}) {
         // as a fork and leave the winner untouched until a fresh rehydration.
         let forkedId = null;
         try {
-          const forked = forkScopedRecord({ familyId, scope, context: operationContext, payload });
+          const forked = preserveStaleCandidate(key, scope, payload, operationContext);
+          if (forked.status !== 'FORKED') {
+            refusedByFamily.set(familyId, { payload, operationContext });
+            return forked;
+          }
+          refusedByFamily.delete(familyId);
           if (forked && forked.status === 'FORKED') forkedId = forked.draftId;
-        } catch (_error) {
-          // best-effort; the winner is never overwritten either way
+        } catch (error) {
+          refusedByFamily.set(familyId, { payload, operationContext });
+          return { status: 'STORAGE_ERROR', reason: error?.message || 'recovery-copy-failed' };
         }
         return {
           status: 'STALE_REVISION',
@@ -127,15 +163,16 @@ export function createScopedStoreStorage({ familyId, sanitize = null } = {}) {
         // stale cohort cannot overwrite it either.
         let forkedId = null;
         try {
-          const forked = forkScopedRecord({
-            familyId,
-            scope,
-            context: operationContext,
-            payload
-          });
+          const forked = preserveStaleCandidate(key, scope, payload, operationContext);
+          if (forked.status !== 'FORKED') {
+            refusedByFamily.set(familyId, { payload, operationContext });
+            return forked;
+          }
+          refusedByFamily.delete(familyId);
           if (forked && forked.status === 'FORKED') forkedId = forked.draftId;
-        } catch (_error) {
-          // best-effort; the winner is never overwritten either way
+        } catch (error) {
+          refusedByFamily.set(familyId, { payload, operationContext });
+          return { status: 'STORAGE_ERROR', reason: error?.message || 'recovery-copy-failed' };
         }
         baselines.set(key, {
           revision: result.currentRevision ?? null,

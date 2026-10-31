@@ -177,10 +177,64 @@ import { DRUID_TREES } from './talentTrees/druid';
 import { DRUID_PROJECTED_SPELLS_BY_ID, DRUID_ICON } from './classes/druidData';
 import { HUNTER_TREES } from './talentTrees/hunter';
 import { HUNTER_PROJECTED_SPELLS_BY_ID, HUNTER_ICON } from './classes/hunterData';
+import { COVENBANE_TREES } from './talentTrees/covenbane';
+import { COVENBANE_PROJECTED_SPELLS_BY_ID, COVENBANE_ICON } from './classes/covenbaneData';
+import { EXORCIST_TREES } from './talentTrees/exorcist';
+import { EXORCIST_PROJECTED_SPELLS_BY_ID, EXORCIST_ICON } from './classes/exorcistData';
+import { DREADNAUGHT_TREES } from './talentTrees/dreadnaught';
+import { DREADNAUGHT_PROJECTED_SPELLS_BY_ID, DREADNAUGHT_ICON } from './classes/dreadnaughtData';
+import { BLADEDANCER_TREES } from './talentTrees/bladedancer';
+import { BLADEDANCER_PROJECTED_SPELLS_BY_ID, BLADEDANCER_ICON } from './classes/bladedancerData';
+import { INSCRIPTOR_TREES } from './talentTrees/inscriptor';
+import { INSCRIPTOR_PROJECTED_SPELLS_BY_ID, INSCRIPTOR_ICON } from './classes/inscriptorData';
+import { TOTEMIST_TREES } from './talentTrees/totemist';
+import { TOTEMIST_PROJECTED_SPELLS_BY_ID, TOTEMIST_ICON } from './classes/totemistData';
+import { WITCH_DOCTOR_TREES } from './talentTrees/witchdoctor';
+import { WITCH_DOCTOR_PROJECTED_SPELLS_BY_ID, WITCH_DOCTOR_ICON } from './classes/witchDoctorData';
 
 export const getTreeBackdrop = (className, specId) => {
   // Map class and specialization to high-res thematic background images from /assets/Backgrounds/
   const backdropMap = {
+    'Covenbane': {
+      'shadowbane': 'url(/assets/Backgrounds/GloomyCave.png)',
+      'spellbreaker': 'url(/assets/Backgrounds/NightFrost.png)',
+      'demonhunter': 'url(/assets/Backgrounds/Spikey%20Cave.png)'
+    },
+    'Exorcist': {
+      'liturgist': 'url(/assets/Backgrounds/Temple.png)',
+      'sineater': 'url(/assets/Backgrounds/GloomyCave.png)',
+      'purger': 'url(/assets/Backgrounds/NightFrost.png)'
+    },
+    'Dreadnaught': {
+      'siegebastion': 'url(/assets/Backgrounds/GloomyCave.png)',
+      'furnaceengine': 'url(/assets/Backgrounds/Embers.png)',
+      'juggernaut': 'url(/assets/Backgrounds/Spikey%20Cave.png)'
+    },
+    'Bladedancer': {
+      'flowmaster': 'url(/assets/Backgrounds/NightFrost.png)',
+      'duelist': 'url(/assets/Backgrounds/Temple.png)',
+      'shadowdancer': 'url(/assets/Backgrounds/GloomyCave.png)'
+    },
+    'Inscriptor': {
+      'runebinder': 'url(/assets/Backgrounds/Temple.png)',
+      'enchanter': 'url(/assets/Backgrounds/GloomyCave.png)',
+      'glyphweaver': 'url(/assets/Backgrounds/NightFrost.png)'
+    },
+    'Totemist': {
+      'hearthkeeper': 'url(/assets/Backgrounds/Embers.png)',
+      'earthshaper': 'url(/assets/Backgrounds/GloomyCave.png)',
+      'skybinder': 'url(/assets/Backgrounds/NightFrost.png)'
+    },
+    'Witch Doctor': {
+      'hexbinder': 'url(/assets/Backgrounds/GloomyCave.png)',
+      'miasmist': 'url(/assets/Backgrounds/GloomyCave.png)',
+      'fetish_crafter': 'url(/assets/Backgrounds/Spikey%20Cave.png)'
+    },
+    'WitchDoctor': {
+      'hexbinder': 'url(/assets/Backgrounds/GloomyCave.png)',
+      'miasmist': 'url(/assets/Backgrounds/GloomyCave.png)',
+      'fetish_crafter': 'url(/assets/Backgrounds/Spikey%20Cave.png)'
+    },
     'Pyrofiend': {
       'inferno': 'url(/assets/Backgrounds/Volcano.png)',
       'wildfire': 'url(/assets/Backgrounds/Embers.png)',
@@ -377,6 +431,14 @@ export const TALENT_TREES = {
   'Oracle': buildCr1TalentTrees(ORACLE_TREES, ORACLE_PROJECTED_SPELLS_BY_ID, ORACLE_ICON),
   'Druid': buildCr1TalentTrees(DRUID_TREES, DRUID_PROJECTED_SPELLS_BY_ID, DRUID_ICON),
   'Hunter': buildCr1TalentTrees(HUNTER_TREES, HUNTER_PROJECTED_SPELLS_BY_ID, HUNTER_ICON),
+  'Covenbane': buildCr1TalentTrees(COVENBANE_TREES, COVENBANE_PROJECTED_SPELLS_BY_ID, COVENBANE_ICON),
+  'Exorcist': buildCr1TalentTrees(EXORCIST_TREES, EXORCIST_PROJECTED_SPELLS_BY_ID, EXORCIST_ICON),
+  'Dreadnaught': buildCr1TalentTrees(DREADNAUGHT_TREES, DREADNAUGHT_PROJECTED_SPELLS_BY_ID, DREADNAUGHT_ICON),
+  'Bladedancer': buildCr1TalentTrees(BLADEDANCER_TREES, BLADEDANCER_PROJECTED_SPELLS_BY_ID, BLADEDANCER_ICON),
+  'Inscriptor': buildCr1TalentTrees(INSCRIPTOR_TREES, INSCRIPTOR_PROJECTED_SPELLS_BY_ID, INSCRIPTOR_ICON),
+  'Totemist': buildCr1TalentTrees(TOTEMIST_TREES, TOTEMIST_PROJECTED_SPELLS_BY_ID, TOTEMIST_ICON),
+  'Witch Doctor': buildCr1TalentTrees(WITCH_DOCTOR_TREES, WITCH_DOCTOR_PROJECTED_SPELLS_BY_ID, WITCH_DOCTOR_ICON),
+  'WitchDoctor': buildCr1TalentTrees(WITCH_DOCTOR_TREES, WITCH_DOCTOR_PROJECTED_SPELLS_BY_ID, WITCH_DOCTOR_ICON),
   'Toxicologist': {
     'venomancer': TOXICOLOGIST_VENOMANCER,
     'gadgeteer': TOXICOLOGIST_GADGETEER,

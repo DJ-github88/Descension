@@ -17,18 +17,34 @@ const narration = (p, commandId) => p.evaluate(id => {
   const store = Object.values(__req(pair[0])).find(v => typeof v === 'function' && v.getState && 'floats' in v.getState());
   const n = store.getState().narration; return { history: n.history.filter(e => e.id.endsWith(id)).length, active: [n.current, ...n.waiting].filter(e => e?.id.endsWith(id)).length };
 }, commandId);
-async function authorSpell(p, name, ap, mana) {
-  await p.getByRole('button', { name: 'Character', exact: true }).click(); await p.getByRole('button', { name: 'Spellbook S', exact: true }).click();
+async function authorSpell(p, name, ap, mana, effect = null, inspectFields = null) {
+  await p.getByRole('button', { name: /^Character(?: \(\d+\))?$/ }).click(); const openBook=p.getByRole('button', { name: 'Spellbook S', exact: true }); await openBook.focus(); await openBook.press('Enter');
   await book(p).getByRole('textbox', { name: 'Spell Name * *', exact: true }).fill(name); await book(p).getByRole('textbox', { name: 'Description * *', exact: true }).fill('Disposable A7 manually resolved condition witness.'); await book(p).getByText('Arcane', { exact: true }).click();
   const nav = book(p).getByRole('navigation', { name: 'Spell wizard steps' }); await nav.getByRole('button', { name: /Spell Type$/ }).click(); await book(p).getByRole('heading', { name: 'ACTION', exact: true }).click(); await book(p).getByLabel('Action timing', { exact: true }).selectOption('IMMEDIATE');
-  await nav.getByRole('button', { name: /^3 Effects$/ }).click(); await book(p).getByRole('heading', { name: 'Control', exact: true }).click(); await book(p).getByRole('button', { name: 'Use canonical Stunned profile (replace control configuration)', exact: true }).click();
-  await book(p).getByLabel('Source-authored duration', { exact: true }).fill('Until the witness bell falls silent'); await book(p).getByLabel('Required GM adjudication note', { exact: true }).fill('Resolve eligibility, range and the source save manually. GM chooses the precise boundary.');
+  await nav.getByRole('button', { name: /^3 Effects$/ }).click(); await book(p).getByRole('heading', { name: 'Control', exact: true }).click();
+  await book(p).getByRole('button', { name: effect ? /^Use composed effect profile/ : 'Use canonical Stunned profile (replace control configuration)', exact: !effect }).click();
+  if (effect) {
+    await book(p).getByRole('combobox', { name: 'Canonical effect', exact: true }).selectOption(effect.kind || 'movement');
+    if ((effect.kind || 'movement') === 'movement') {
+      await book(p).getByLabel('Effect name shown on the target', { exact: true }).fill('HQ Mired');
+      await book(p).getByLabel('Movement change (ft, multiples of 5, −60 to +60)', { exact: true }).fill(String(effect.feet ?? -10));
+    }
+    await book(p).getByRole('combobox', { name: 'Expiry', exact: true }).selectOption(effect.policy || 'target-next-start');
+  }
+  await book(p).getByLabel(effect ? 'Source-authored duration text' : 'Source-authored duration', { exact: true }).fill('Until the witness bell falls silent'); await book(p).getByLabel('Required GM adjudication note', { exact: true }).fill('Resolve eligibility, range and the source save manually. GM chooses the precise boundary.');
+  if (inspectFields) await inspectFields(p, book(p), effect);
+  if (effect?.direct) {
+    await book(p).getByRole('heading', { name: 'Damage', exact: true }).click();
+    await book(p).getByPlaceholder('Enter dice formula', { exact: true }).fill('1d6+2');
+  }
   await nav.getByRole('button', { name: /Targeting & Propagation$/ }).click(); await book(p).getByText('Single Target', { exact: true }).click(); await book(p).getByText('Ranged', { exact: true }).click(); const slider = book(p).getByRole('slider').first(); await slider.focus(); await slider.press('Home'); for (let i = 0; i < 6; i++) await slider.press('ArrowRight'); await book(p).getByText('Enemies', { exact: true }).click(); await book(p).getByText('Any Target', { exact: true }).click();
   await nav.getByRole('button', { name: /Resources$/ }).click(); await book(p).getByTitle('Standard magical energy', { exact: true }).click(); await book(p).getByTitle('Basic action economy', { exact: true }).click(); const inputs = book(p).getByRole('spinbutton'); await inputs.nth(0).fill('1'); await inputs.nth(0).fill(String(mana)); await inputs.nth(1).fill('1'); await inputs.nth(1).fill(String(ap));
   await p.getByRole('button', { name: '✓ Complete Spell', exact: true }).click();
   await p.waitForFunction(name => Object.values(localStorage).some(v => v.includes('"authoredDefinitionId"') && v.includes(name)), name);
   const r = await p.evaluate(name => { const k = Object.keys(localStorage).find(k => k.endsWith(':library.spellData')); return JSON.parse(localStorage.getItem(k)).payload.data.spells.find(s => s.name === name); }, name);
-  save(`${name}-saved.json`, r); const mapped = pure.definitionFromWizard(r, { roomId: 'diagnostic', definitionVersion: 1, classId: 'arcanoneer' }); assert.equal(mapped.ok, true, JSON.stringify(mapped)); assert.equal(mapped.definition.effect.kind, 'condition'); assert.equal(r.authoredDraft.errors?.durationConfig, undefined);
+  save(`${name}-saved.json`, r); const mapped = pure.definitionFromWizard(r, { roomId: 'diagnostic', definitionVersion: 1, classId: 'arcanoneer' }); assert.equal(mapped.ok, true, JSON.stringify(mapped));
+  if (effect) assert.equal(mapped.definition.capability, 'authored-effect:v1'); else assert.equal(mapped.definition.effect.kind, 'condition');
+  assert.equal(r.authoredDraft.errors?.durationConfig, undefined);
   const close = book(p).getByRole('button', { name: 'Close', exact: true }); await close.focus(); await close.press('Enter'); return r;
 }
 async function associateCreature(p, name, spellName) {

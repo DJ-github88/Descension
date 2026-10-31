@@ -6,12 +6,13 @@
 
 import React, { useState, useRef } from 'react';
 import { sanitizeHtml } from '../../../utils/sanitizeHtml';
-import { useCharacterWizardState } from '../context/CharacterWizardContext';
+import { useCharacterWizardState, getWizardAttributePreview } from '../context/CharacterWizardContext';
 import { ABILITY_SCORES, getStatBreakdown, getTotalBonusPoints, calculateAvailablePoints } from '../../../utils/pointBuySystem';
 import {  getIconUrl, getCustomIconUrl, getAbilityIconUrl } from '../../../utils/assetManager';
-import { getBackgroundData, getBackgroundStatModifiers } from '../../../data/backgroundData';
+import { getBackgroundData } from '../../../data/backgroundData';
+import { getHeritageModifiers, getOriginModifiers } from '../../../utils/attributeProfile';
 import { getBackgroundAbilities } from '../../../data/backgroundAbilities';
-import { applyRacialModifiers, RACE_DATA, getFullRaceData, getRaceData } from '../../../data/raceData';
+import { RACE_DATA, getFullRaceData, getRaceData } from '../../../data/raceData';
 import {  STARTING_EQUIPMENT_LIBRARY } from '../../../data/startingEquipmentData';
 import { ALL_BACKGROUND_EQUIPMENT } from '../../../data/equipment/backgroundEquipment';
 import ItemTooltip from '../../item-generation/ItemTooltip';
@@ -21,6 +22,7 @@ import { ALL_CLASS_SPELLS, CLASS_DATA_MAP } from '../../../data/classSpellGenera
 import { CLASS_ACCESS_LABELS, getCharacterHeritageOptions, validateCharacterClassAccess } from '../../../utils/characterClassAccess';
 import { getHeritageImage, getHeritageIllustrations } from '../../../data/raceData';
 import { validateAncestry, getResolvedAncestryLoadout } from '../../../data/ancestryLoadouts';
+import { getStartingSpellIds } from '../../../utils/classSpellProgression';
 
 import '../styles/Step9CharacterSummary.css';
 
@@ -170,9 +172,14 @@ const formatDescriptionText = (text) => {
 
   // Get modifiers for stat breakdown
   const pathModifiers = {};
-  const racialModifiers = characterData.race && characterData.subrace ? applyRacialModifiers({}, characterData.race, characterData.subrace) : {};
-  const backgroundModifiers = characterData.background ? getBackgroundStatModifiers(characterData.background) : {};
+  const racialModifiers = getHeritageModifiers(characterData.race, characterData.subrace);
+  const backgroundModifiers = getOriginModifiers(characterData.background);
   const statBreakdown = getStatBreakdown(characterData.baseStats, racialModifiers, backgroundModifiers, pathModifiers);
+  const preview = getWizardAttributePreview(state);
+  ABILITY_SCORES.forEach(({ id }) => {
+    statBreakdown[id].final = preview[id];
+    statBreakdown[id].modifier = Math.floor((preview[id] - 10) / 2);
+  });
 
   // Helper functions for extended equipment preview
   const getFullItemObjects = (itemNames) => {
@@ -359,13 +366,17 @@ const formatDescriptionText = (text) => {
   // Build completion checklist: kept in sync with the wizard's validation gate
   // (validateCurrentStep) so the UI never claims "ready" while Create is disabled.
   const validationErrors = state.validationErrors || {};
-  const knownSpellCount = characterData.class_spells?.known_spells?.length || 0;
   const summaryClassData = CLASS_DATA_MAP[characterData.class];
   const summaryPolicy = summaryClassData?.progression?.policy || null;
-  const summaryPickPool = new Set(summaryPolicy ? (summaryClassData?.spellPools?.[1] || []) : []);
-  const knownPickCount = summaryPolicy
-    ? (characterData.class_spells?.known_spells || []).filter(id => summaryPickPool.has(id)).length
-    : knownSpellCount;
+  const summaryPoolArray = summaryClassData?.spellPools?.[1];
+  const summaryPickPool = Array.isArray(summaryPoolArray) && summaryPoolArray.length > 0
+    ? new Set(summaryPoolArray)
+    : (summaryPolicy ? new Set() : null);
+  const knownPickCount = getStartingSpellIds(
+    characterData.class_spells?.known_spells || [],
+    characterData.levelUpHistory,
+    summaryPickPool
+  ).length;
   const requiredSpellPicks = summaryPolicy?.startingSpellPicks ?? 3;
   const bonusPoints = getTotalBonusPoints(characterData);
   const unspentPoints = calculateAvailablePoints(characterData.baseStats, bonusPoints);
@@ -910,7 +921,7 @@ const formatDescriptionText = (text) => {
               {ABILITY_SCORES.map((ability) => {
                 const breakdown = statBreakdown[ability.id];
                 return (
-                  <div key={ability.id} className="ability-compact-box" title={`${ability.name} Breakdown: Base ${breakdown.base} + Racial ${breakdown.racial >= 0 ? '+' : ''}${breakdown.racial} + Background ${breakdown.background >= 0 ? '+' : ''}${breakdown.background}`}>
+                  <div key={ability.id} className="ability-compact-box" title={`${ability.name}: Base ${breakdown.base}; saved gains, adjustments and applicable modifiers included in ${breakdown.final}`}>
                     <i className={`ability-compact-icon ${ability.icon}`}></i>
                     <span className="ability-compact-name">{ability.name.substring(0, 3)}</span>
                     <div className="ability-compact-vals">
@@ -918,7 +929,7 @@ const formatDescriptionText = (text) => {
                       <span className="ability-compact-mod">({breakdown.modifier >= 0 ? '+' : ''}{breakdown.modifier})</span>
                     </div>
                     <span className="ability-compact-breakdown">
-                      Base: {breakdown.base} ({(breakdown.racial + breakdown.background) >= 0 ? '+' : ''}{breakdown.racial + breakdown.background} Mod)
+                      Base: {breakdown.base} ({breakdown.final - breakdown.base >= 0 ? '+' : ''}{breakdown.final - breakdown.base} total)
                     </span>
                   </div>
                 );

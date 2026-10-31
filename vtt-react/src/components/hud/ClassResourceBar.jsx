@@ -29,6 +29,13 @@ import DoomsayerResourceDisplay from './DoomsayerResourceDisplay';
 import OracleResourceDisplay from './OracleResourceDisplay';
 import DruidResourceDisplay from './DruidResourceDisplay';
 import HunterResourceDisplay from './HunterResourceDisplay';
+import CovenbaneResourceDisplay from './CovenbaneResourceDisplay';
+import ExorcistResourceDisplay from './ExorcistResourceDisplay';
+import DreadnaughtResourceDisplay from './DreadnaughtResourceDisplay';
+import BladedancerResourceDisplay from './BladedancerResourceDisplay';
+import InscriptorResourceDisplay from './InscriptorResourceDisplay';
+import TotemistResourceDisplay from './TotemistResourceDisplay';
+import WitchDoctorResourceDisplay from './WitchDoctorResourceDisplay';
 import { BRICK, INK, PAPER } from './calmBarPalette';
 import PropheticVisionsResourceBar from './PropheticVisionsResourceBar';
 import DominanceDieResourceBar from './DominanceDieResourceBar';
@@ -1277,6 +1284,27 @@ const ClassResourceBar = ({
                 return <DruidResourceDisplay resource={finalClassResource} isOwner={isOwner} />;
             case 'hunter-evidence':
                 return <HunterResourceDisplay resource={finalClassResource} isOwner={isOwner} />;
+
+            case 'covenbane-charges':
+                return <CovenbaneResourceDisplay resource={finalClassResource} isOwner={isOwner} />;
+            case 'purification_sanctity':
+            case 'exorcist-sanctity':
+                return <ExorcistResourceDisplay resource={finalClassResource} isOwner={isOwner} />;
+            case 'furnace_pressure':
+            case 'dreadnaught-pressure':
+                return <DreadnaughtResourceDisplay resource={finalClassResource} isOwner={isOwner} />;
+            case 'momentum':
+            case 'bladedancer-momentum':
+                return <BladedancerResourceDisplay resource={finalClassResource} isOwner={isOwner} />;
+            case 'runic_resonance':
+            case 'inscriptor-resonance':
+                return <InscriptorResourceDisplay resource={finalClassResource} isOwner={isOwner} />;
+            case 'totemic_attunement':
+            case 'totemist-attunement':
+                return <TotemistResourceDisplay resource={finalClassResource} isOwner={isOwner} />;
+            case 'bog_tallow':
+            case 'witch-doctor-tallow':
+                return <WitchDoctorResourceDisplay resource={finalClassResource} isOwner={isOwner} />;
             case 'chaos-weaver-tiles':
                 return renderChaosWeaverTiles();
             case 'orbs':
@@ -1974,7 +2002,20 @@ const ClassResourceBar = ({
         'doom-calamities',      // Doomsayer: public calamities and Havoc
         'oracle-forecasts',     // Oracle: two prepared forecast slots
         'druid-body',           // Druid: two active anatomical slots and transitions
-        'hunter-evidence'       // Hunter: one quarry and three evidence tags
+        'hunter-evidence',      // Hunter: one quarry and three evidence tags
+        'covenbane-charges',    // Covenbane: hexbreaker charges
+        'purification_sanctity', // Exorcist: purification sanctity
+        'exorcist-sanctity',
+        'furnace_pressure',     // Dreadnaught: furnace pressure
+        'dreadnaught-pressure',
+        'momentum',             // Bladedancer: kinetic momentum
+        'bladedancer-momentum',
+        'runic_resonance',      // Inscriptor: runic resonance
+        'inscriptor-resonance',
+        'totemic_attunement',   // Totemist: totemic attunement
+        'totemist-attunement',
+        'bog_tallow',           // Witch Doctor: bog tallow
+        'witch-doctor-tallow'
     ]);
     const hasDedicatedBar = DEDICATED_BAR_TYPES.has(finalConfig.visual?.type);
 
@@ -1984,7 +2025,7 @@ const ClassResourceBar = ({
     // "no rehearsal session set up" notice while uninitialized (max === 0).
     if (
         (!finalClassResource.max || finalClassResource.max === 0) &&
-        !['chaos-weaver-tiles', 'gambler-hand', 'dead_muster', 'lich_anchor', 'doom-calamities', 'oracle-forecasts', 'druid-body', 'hunter-evidence'].includes(finalConfig.visual?.type)
+        !['chaos-weaver-tiles', 'gambler-hand', 'dead_muster', 'lich_anchor', 'doom-calamities', 'oracle-forecasts', 'druid-body', 'hunter-evidence', 'covenbane-charges', 'purification_sanctity', 'exorcist-sanctity', 'furnace_pressure', 'dreadnaught-pressure', 'momentum', 'bladedancer-momentum', 'runic_resonance', 'inscriptor-resonance', 'totemic_attunement', 'totemist-attunement', 'bog_tallow', 'witch-doctor-tallow'].includes(finalConfig.visual?.type)
     ) {
         return null;
     }

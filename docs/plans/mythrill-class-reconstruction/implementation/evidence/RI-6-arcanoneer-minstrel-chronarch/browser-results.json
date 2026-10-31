@@ -1,0 +1,84 @@
+{
+  "schema": "mythrill.browser-evidence/v1",
+  "date": "2026-10-27",
+  "cohort": "RI-6",
+  "guestTestRoster": {
+    "resetReason": "Adventurer membership limit is 3 characters; the disposable guest test roster was backed up and cleared to make room for the three RI-6 witnesses.",
+    "backup": "previous-guest-roster.json"
+  },
+  "routes": {
+    "arcanoneerDetail": "http://localhost:3000/rules/classes/Arcanoneer",
+    "minstrelDetail": "http://localhost:3000/rules/classes/Minstrel",
+    "chronarchDetail": "http://localhost:3000/rules/classes/Chronarch",
+    "roster": "http://localhost:3000/account/characters",
+    "arcanoneerView": "http://localhost:3000/account/characters/view/char_1793129543370_wm1przddl",
+    "minstrelView": "http://localhost:3000/account/characters/view/char_1793129648624_zoknsvz2p",
+    "chronarchView": "http://localhost:3000/account/characters/view/char_1793129687431_ww44530m0"
+  },
+  "desktop": {
+    "viewport": "1280x800",
+    "details": {
+      "Arcanoneer": { "loaded": true, "resourceGuide": true, "overflow": false },
+      "Minstrel": { "loaded": true, "resourceGuide": true, "overflow": false },
+      "Chronarch": { "loaded": true, "specializations": ["Stasis", "Displacement", "Rewinding"], "overflow": false }
+    },
+    "roster": {
+      "Arcanoneer": { "hp": "41/41", "mp": "25/80", "speed": "30ft", "abilities": "3 spells / 2 skills" },
+      "Minstrel": { "hp": "48/48", "mp": "25/35", "speed": "30ft", "abilities": "3 spells / 2 skills" },
+      "Chronarch": { "hp": "50/50", "mp": "25/50", "speed": "30ft", "abilities": "3 spells / 2 skills" }
+    }
+  },
+  "narrow": {
+    "viewport": "390x844",
+    "details": { "Arcanoneer": { "overflow": false }, "Minstrel": { "overflow": false }, "Chronarch": { "overflow": false } },
+    "views": { "Arcanoneer": { "overflow": false }, "Minstrel": { "overflow": false }, "Chronarch": { "overflow": false } },
+    "roster": { "overflow": false }
+  },
+  "roundTrip": {
+    "Arcanoneer": {
+      "id": "char_1793129543370_wm1przddl",
+      "created": true, "saved": true, "viewed": true, "reopenedEdit": true, "savedAgain": true,
+      "startingPicks": "3 of 3 chosen",
+      "knownSpells": ["arc_aetheric_lantern", "arc_spark_bolt", "arc_frost_touch"],
+      "baseStats": { "strength": 15, "agility": 5, "constitution": 5, "intelligence": 5, "spirit": 5, "charisma": 5 },
+      "resource": "elementalSpheres",
+      "viewStatTab": { "maxHealth": "41/41", "maxMana": "25/80" },
+      "roster": { "hp": "41/41", "mp": "25/80" },
+      "agrees": true
+    },
+    "Minstrel": {
+      "id": "char_1793129648624_zoknsvz2p",
+      "created": true, "saved": true, "viewed": true, "reopenedEdit": true, "savedAgain": true,
+      "startingPicks": "3 of 3 chosen",
+      "knownSpells": ["minstrel_opening_chord", "minstrel_harmonic_strike", "minstrel_inspiring_rhythm"],
+      "baseStats": { "strength": 15, "agility": 6, "constitution": 6, "intelligence": 5, "spirit": 5, "charisma": 5 },
+      "resource": "musicalNotes",
+      "viewStatTab": { "maxHealth": "48/54", "maxMana": "25/40" },
+      "roster": { "hp": "48/48", "mp": "25/35" },
+      "agrees": false,
+      "mismatch": "+6 HP / +5 MP in the view stat tab versus persisted roster resources; shared ancestry/derived-stat issue"
+    },
+    "Chronarch": {
+      "id": "char_1793129687431_ww44530m0",
+      "created": true, "saved": true, "viewed": true, "reopenedEdit": true, "savedAgain": true,
+      "startingPicks": "3 of 3 chosen",
+      "knownSpells": ["chrono_slow_fall", "chrono_bolt", "temporal_mend"],
+      "baseStats": { "strength": 15, "agility": 6, "constitution": 6, "intelligence": 5, "spirit": 5, "charisma": 5 },
+      "resource": "timeShardsStrain",
+      "viewStatTab": { "maxHealth": "50/56", "maxMana": "25/55" },
+      "roster": { "hp": "50/50", "mp": "25/50" },
+      "agrees": false,
+      "mismatch": "+6 HP / +5 MP in the view stat tab versus persisted roster resources; shared ancestry/derived-stat issue"
+    }
+  },
+  "console": {
+    "classRuntimeErrors": 0,
+    "knownUnrelatedError": "Error loading user maps: FirebaseError: Missing or insufficient permissions.",
+    "knownWarnings": ["guest character-limit toast after the disposable roster reached 3; resolved by backup/clear"]
+  },
+  "limits": [
+    "Guest/local persistence only; no account/cloud persistence claim.",
+    "No combat automation, balance validation, migration or deployment claim.",
+    "Minstrel/Chronarch roster/view max HP/MP mismatch remains a shared derived-stat issue."
+  ]
+}

@@ -8,7 +8,7 @@ import { refOf, bindActor } from '../../../../services/actorConsequenceService';
 import { openCreatureAbility, refreshAuthoredAbilities, useSpellConsequenceStore } from '../../../../services/spellConsequenceService';
 import useGameStore from '../../../../store/gameStore';
 import useCreatureStore from '../../../../store/creatureStore';
-import { creatureSelfHealing } from '../../../../services/authoredAbility';
+import { creatureSelfHealing, definitionSummary } from '../../../../services/authoredAbility';
 
 export function CreatureAbilityDetails({ association: suppliedAssociation, saved = false, token }) {
   const gm = useGameStore(s => s.isGMMode), shared = useGameStore(s => s.isInMultiplayer);
@@ -25,7 +25,7 @@ export function CreatureAbilityDetails({ association: suppliedAssociation, saved
    const selfAllowed = creatureSelfHealing(d, association?.record);
   return <section className="item-ability" aria-label="Creature activated ability">
     <h3>{association?.record?.name || 'Preserved activated ability'}</h3>
-    <p role="status">{support.ok ? `Supported immediate ACTION · ${d.effect.kind === 'condition' ? `canonical Stunned · ${d.timing.durationText} — GM removes` : `${d.effect.kind} · ${d.effect.formula} ${d.effect.damageTypes?.join(', ') || 'healing'}`} · ${d.resourceCost.actionPoints} AP / ${d.resourceCost.mana} mana · ${d.targeting.rangeFeet} ft · one ${d.targeting.restriction} target` : `Unsupported/manual — ${support.reason}`}</p>
+    <p role="status">{support.ok ? `Supported immediate ACTION · ${definitionSummary(d)} · ${d.resourceCost.actionPoints} AP / ${d.resourceCost.mana} mana · ${d.targeting.rangeFeet} ft · one ${d.targeting.restriction} target` : `Unsupported/manual — ${support.reason}`}</p>
     {d?.description && <p>{d.description}</p>}
     <p>{token ? 'GM creature action: one exact target on the same map, including Self for compatible direct healing. Preparation spends nothing; confirmation installs authored payment and the supported effect together. Condition success and expiry are GM-managed.' : 'Library admission alone does not authorize a creature source. Place this creature, then Inspect its saved ability and admit that exact placed source.'}</p>
     {d && (d.targeting.rangeFeet === 0 || d.targeting.restriction === 'self') && <p role="status">Authored range {d.targeting.rangeFeet} ft / {d.targeting.restriction}. {selfAllowed ? 'Choose Self for direct capped healing.' : 'No compatible self route; keep this definition manual.'} Distinct range-zero targets remain unsupported.</p>}

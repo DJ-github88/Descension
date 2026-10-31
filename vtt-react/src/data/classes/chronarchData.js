@@ -3526,4 +3526,53 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
   }
 };
 
+// RI-6 legacy-roster integration: explicit progression policy. Existing
+// Chronarch characters keep their known spells; new characters choose three
+// level-1 options and one optional per level. No random/automatic top-up.
+export const CHRONARCH_PROGRESSION_POLICY = {
+  classId: 'chronarch',
+  rulesetVersion: 'legacy-roster-integrated',
+  levelCap: 10,
+  startingSpellPicks: 3,
+  optionalPicksPerLevel: 1,
+  allowEarlierUnchosen: true,
+  grantedCoreSpellIds: [],
+  randomizeStartingSpells: false,
+  autoTopUpOnLoad: false,
+  talentActivesAreGrants: false,
+  manualOnly: true
+};
+
+CHRONARCH_DATA.progression = {
+  levelCap: 10,
+  policy: CHRONARCH_PROGRESSION_POLICY,
+  levels: Array.from({ length: 10 }, (_, index) => {
+    const level = index + 1;
+    return {
+      level,
+      newChoiceIds: Array.isArray(CHRONARCH_DATA.spellPools?.[level]) ? [...CHRONARCH_DATA.spellPools[level]] : [],
+      optionalPicks: 1,
+      talentBudget: level * 5
+    };
+  })
+};
+
+export const CHRONARCH_MANIFEST = {
+  contentLock: 'RI-6 Chronarch legacy-roster content lock',
+  classId: 'chronarch',
+  displayName: 'Chronarch',
+  authoredSpells: CHRONARCH_DATA.spells.length,
+  spellPoolCounts: Object.fromEntries(Array.from({ length: 10 }, (_, index) => {
+    const level = index + 1;
+    return [level, Array.isArray(CHRONARCH_DATA.spellPools?.[level]) ? CHRONARCH_DATA.spellPools[level].length : 0];
+  })),
+  treeIds: ['displacement', 'rewinding', 'stasis'],
+  resource: 'time_shards',
+  progression: CHRONARCH_PROGRESSION_POLICY,
+  nativeAccess: CHRONARCH_DATA.restrictions.allowedSubraces,
+  legacyIdsPreserved: true,
+  automaticConversion: false,
+  manualOnly: true
+};
+
 export default CHRONARCH_DATA;

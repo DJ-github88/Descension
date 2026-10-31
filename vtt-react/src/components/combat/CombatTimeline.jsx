@@ -8,6 +8,8 @@ import { getCreatureTokenIconUrl, getIconUrl } from '../../utils/assetManager';
 import { createPortal } from 'react-dom';
 import TurnTimer from './TurnTimer';
 import CombatConfigModal from './CombatConfigModal';
+import useWindowManagerStore from '../../store/windowManagerStore';
+import './CombatTimeline.css';
 
 const CombatTimeline = () => {
     const {
@@ -41,6 +43,22 @@ const CombatTimeline = () => {
         height: timelineSize.height || 350
     });
     const nodeRef = useRef(null);
+    const toggleRef = useRef(null);
+    const [collapsed, setCollapsed] = useState(false);
+    const [viewport, setViewport] = useState(() => ({ width: window.innerWidth, height: window.innerHeight }));
+    const zIndex = useWindowManagerStore(s => s.windows.get('combat-timeline')?.zIndex || 1000);
+    const collapse = useCallback(() => { setCollapsed(true); toggleRef.current?.focus(); }, []);
+    useEffect(() => {
+        if (!isInCombat) return;
+        const manager = useWindowManagerStore.getState();
+        manager.registerWindow('combat-timeline', 'window', collapse);
+        return () => manager.unregisterWindow('combat-timeline');
+    }, [isInCombat, collapse]);
+    useEffect(() => {
+        const resize = () => setViewport({ width: window.innerWidth, height: window.innerHeight });
+        window.addEventListener('resize', resize);
+        return () => window.removeEventListener('resize', resize);
+    }, []);
 
     // Auto-adjust timeline size only when combat starts or combatants change drastically
     useEffect(() => {
@@ -228,26 +246,36 @@ const CombatTimeline = () => {
     }
 
     // Use local size for rendering (synced with store, but updated locally during resize)
-    const effectiveWidth = localSize.width;
-    const effectiveHeight = localSize.height;
+    const effectiveWidth = Math.min(localSize.width, viewport.width - 24);
+    const effectiveHeight = collapsed ? 60 : Math.min(localSize.height, viewport.height - 24);
+    const position = {
+        x: Math.max(12, Math.min(timelinePosition.x, viewport.width - effectiveWidth - 12)),
+        y: Math.max(12, Math.min(timelinePosition.y, viewport.height - effectiveHeight - 12))
+    };
 
     return (
         <>
             {createPortal(
                 <Draggable
                     handle=".timeline-header"
-                    position={timelinePosition}
+                    cancel="button, input, select, textarea"
+                    position={position}
                     onStop={(e, data) => updateTimelinePosition({ x: data.x, y: data.y })}
                     nodeRef={nodeRef}
                     scale={1}
                 >
                     <div
                         ref={nodeRef}
+                        role="region"
+                        aria-label="Combat tracker"
+                        onPointerDown={() => useWindowManagerStore.getState().bringToFront('combat-timeline')}
+                        onFocus={() => useWindowManagerStore.getState().bringToFront('combat-timeline')}
+                        onKeyDown={e => { if (e.key === 'Escape') { e.preventDefault(); e.stopPropagation(); collapse(); } }}
                         style={{
                             position: 'fixed',
                             left: 0,
                             top: 0,
-                            zIndex: 9500,
+                            zIndex,
                             transform: `scale(${windowScale})`,
                             transformOrigin: 'top left'
                         }}
@@ -264,7 +292,7 @@ const CombatTimeline = () => {
                             transformScale={1}
                         >
                             <div
-                                className={`combat-timeline-window-compact ${isResizing ? 'resizing' : ''}`}
+                                className={`combat-timeline-window-compact ${isResizing ? 'resizing' : ''}${collapsed ? ' timeline-collapsed' : ''}`}
                                 style={{
                                     width: effectiveWidth,
                                     height: effectiveHeight
@@ -274,7 +302,12 @@ const CombatTimeline = () => {
                                     <div className="timeline-title">
                                         Round {round}
                                     </div>
-                                    <div className="timeline-controls">
+                                     <div className="timeline-controls">
+                                        <button ref={toggleRef} type="button" className="timeline-button timeline-toggle"
+                                            aria-label={collapsed ? 'Expand combat tracker' : 'Collapse combat tracker'}
+                                            aria-expanded={!collapsed} onClick={() => setCollapsed(value => !value)}>
+                                            {collapsed ? 'Expand' : 'Collapse'}
+                                        </button>
                                         <button
                                             className="timeline-button next-turn"
                                             onClick={handleNextTurn}

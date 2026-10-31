@@ -258,6 +258,9 @@ function validateConsumedTypes(payload, lane) {
     optional(payload, ['level', 'experience', 'durability', 'damageReduction'], numeric);
     optional(payload, ['classAcquisition', 'class_spells', 'levelUpHistory', 'talents', 'resistances', 'spellPower', 'tokenSettings'], isRecord);
     optional(payload, ['pathPassives', 'immunities'], Array.isArray);
+    // Attribute provenance (utils/attributeProfile.js): baseStats is an attribute map, statsModel a marker string.
+    optional(payload, ['baseStats'], value => value === null || isRecord(value));
+    optional(payload, ['statsModel'], value => value === null || typeof value === 'string');
     // Ancestral Gifts: null (none / legacy) or { heritageId, core, picks: { rowId: giftId|null } }.
     optional(payload, ['ancestry'], value => value === null || (isRecord(value) && typeof value.heritageId === 'string'
       && typeof value.core === 'string' && isRecord(value.picks)

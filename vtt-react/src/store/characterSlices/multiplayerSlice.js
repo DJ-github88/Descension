@@ -55,6 +55,7 @@ export const createMultiplayerSlice = (set, get) => ({
                     experience: state.experience,
                     alignment: state.alignment,
                     stats: state.stats,
+                    statsModel: state.statsModel || null,
                     health: state.health,
                     mana: state.mana,
                     actionPoints: state.actionPoints,

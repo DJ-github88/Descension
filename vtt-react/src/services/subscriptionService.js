@@ -121,7 +121,7 @@ export const SUBSCRIPTION_TIERS = {
 			'3 character slots with cloud save',
 			'1 permanent room (up to 3 players)',
 			'25 MB cloud storage',
-			'Full character creation (21 classes, 10 primary races)',
+			'Full character creation (24 classes, 10 primary races)',
 			'Spell crafting, creature & item creation',
 			'Full map editor with shifting fog & lighting',
 			'Combat system & 3D physics dice',

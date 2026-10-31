@@ -3928,3 +3928,41 @@ Rage (0–100+) is thermal battle-fury coursing through your veins. As you deal 
   10: ["berserk_cataclysmic_fury", "berserk_battle_incarnate", "berserk_primal_apex", "berserk_avatar_of_slaughter"],
   },
 };
+
+// RI-7 legacy-roster integration: explicit progression policy. Existing
+// Berserker characters keep their known spells; new characters choose three
+// level-1 options and one optional per level. No random/automatic top-up.
+export const BERSERKER_PROGRESSION_POLICY = {
+  classId: 'berserker', rulesetVersion: 'legacy-roster-integrated', levelCap: 10,
+  startingSpellPicks: 3, optionalPicksPerLevel: 1, allowEarlierUnchosen: true,
+  grantedCoreSpellIds: [], randomizeStartingSpells: false, autoTopUpOnLoad: false,
+  talentActivesAreGrants: false, manualOnly: true
+};
+
+BERSERKER_DATA.progression = {
+  levelCap: 10,
+  policy: BERSERKER_PROGRESSION_POLICY,
+  levels: Array.from({ length: 10 }, (_, index) => {
+    const level = index + 1;
+    return {
+      level,
+      newChoiceIds: Array.isArray(BERSERKER_DATA.spellPools?.[level]) ? [...BERSERKER_DATA.spellPools[level]] : [],
+      optionalPicks: 1,
+      talentBudget: level * 5
+    };
+  })
+};
+
+export const BERSERKER_MANIFEST = {
+  contentLock: 'RI-7 Berserker legacy-roster content lock',
+  classId: 'berserker', displayName: 'Berserker',
+  authoredSpells: BERSERKER_DATA.spells.length,
+  spellPoolCounts: Object.fromEntries(Array.from({ length: 10 }, (_, index) => {
+    const level = index + 1;
+    return [level, Array.isArray(BERSERKER_DATA.spellPools?.[level]) ? BERSERKER_DATA.spellPools[level].length : 0];
+  })),
+  treeIds: ['savage', 'juggernaut', 'warlord'],
+  resource: 'rage', progression: BERSERKER_PROGRESSION_POLICY,
+  nativeAccess: BERSERKER_DATA.restrictions?.allowedSubraces || [],
+  legacyIdsPreserved: true, automaticConversion: false, manualOnly: true
+};

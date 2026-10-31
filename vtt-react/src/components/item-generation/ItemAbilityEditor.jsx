@@ -1,11 +1,26 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useSpellLibrary } from '../spellcrafting-wizard/context/SpellLibraryContext';
-import { newItemAbility, snapshotAbility, itemAbilitySupport, editItemAbility } from '../../services/itemAuthoredAbility';
+import { newItemAbility, snapshotAbility, itemAbilitySupport, editItemAbility, clone } from '../../services/itemAuthoredAbility';
+import { definitionSummary } from '../../services/authoredAbility';
 import './ItemAbility.css';
 import AuthoredConditionFields from '../spellcrafting-wizard/components/common/AuthoredConditionFields';
 
 const types = ['arcane', 'sacred', 'blight', 'ember', 'rime', 'primal', 'storm', 'wyrd', 'slicing', 'stabbing', 'smashing'];
-export function CompactForm({ association, onKeep, onCancel, subject = 'item', initialValues, onValuesChange }) {
+export function CompactForm(props) {
+  // A10 composed effects are authored in the full Spell Wizard; compact editors inspect and keep the whole record.
+  if (itemAbilitySupport(props.association).definition?.effects) return <ComposedEffectKeep {...props} />;
+  return <SimpleCompactForm {...props} />;
+}
+function ComposedEffectKeep({ association, onKeep, onCancel, subject = 'item' }) {
+  const d = itemAbilitySupport(association).definition;
+  return <div className="item-ability-fields">
+    <p>{d.name} · {definitionSummary(d)} · {d.resourceCost.actionPoints} AP / {d.resourceCost.mana} mana · {d.targeting.rangeFeet} ft</p>
+    <p>Composed effects are edited in Spellbook → Spell Wizard. Keeping retains this whole saved record unchanged.</p>
+    <button type="button" onClick={() => onKeep(clone(association))}>Keep ability on {subject}</button>
+    <button type="button" onClick={onCancel}>Cancel ability edit</button>
+  </div>;
+}
+function SimpleCompactForm({ association, onKeep, onCancel, subject = 'item', initialValues, onValuesChange }) {
   const d = itemAbilitySupport(association).definition;
   const [values, setLocalValues] = useState(initialValues || { name: d.name, description: d.description, kind: d.effect.kind, formula: d.effect.formula, authoredCondition: association.record.authoredDraft.controlConfig?.authoredCondition, damageType: d.effect.damageTypes?.[0] || 'arcane', ap: d.resourceCost.actionPoints, mana: d.resourceCost.mana, range: d.targeting.rangeFeet, restriction: d.targeting.restriction });
   const setValues = change => { const next = change(values); setLocalValues(next); onValuesChange?.(next); };
@@ -41,7 +56,7 @@ export default function ItemAbilityEditor({ itemData, updateItemData, onEditingC
   return <section className="item-ability" aria-label="Activated item ability">
     <h3>Activated ability</h3>
     <p>A separate immediate ACTION, using the shared Spell Wizard definition. Saving the item does not admit it. Existing item effects and requirements stay GM-managed.</p>
-    {association && <p role="status">{support.ok ? `${support.definition.name} · ${support.definition.resourceCost.actionPoints} AP / ${support.definition.resourceCost.mana} mana · ${support.definition.effect.formula} ${support.definition.effect.kind} · ${support.definition.targeting.rangeFeet} ft · ${support.definition.targeting.restriction}` : `Unsupported/manual — ${support.reason}`}</p>}
+    {association && <p role="status">{support.ok ? `${support.definition.name} · ${support.definition.resourceCost.actionPoints} AP / ${support.definition.resourceCost.mana} mana · ${definitionSummary(support.definition)} · ${support.definition.targeting.rangeFeet} ft · ${support.definition.targeting.restriction}` : `Unsupported/manual — ${support.reason}`}</p>}
     {editing ? <CompactForm association={editing} onKeep={a => { updateItemData({ authoredAbility: a }); edit(null); }} onCancel={() => edit(null)} /> : <>
       {!association && <button ref={launcher} type="button" onClick={() => edit(newItemAbility(crypto.randomUUID()))}>Add activated ability</button>}
       {support.ok && <button ref={launcher} type="button" onClick={() => edit(association)}>Edit activated ability</button>}

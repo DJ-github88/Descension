@@ -160,7 +160,7 @@ describe('Oracle complete content lock', () => {
 
   test('keeps heritage recommendation-only and preserves historical Oracle as legacy evidence', () => {
     expect(getClassNativeHeritageIds('Oracle')).toEqual([]);
-    expect(CLASS_PROVENANCE.Oracle).toBeUndefined();
+    expect(CLASS_PROVENANCE.Oracle?.heritageEffectsImplemented).toBe(false);
     expect(ORACLE_DATA.heritageRecommendation).toEqual(['vashir_astril', 'ordan_human']);
     expect(ORACLE_DATA.heritageEffectsImplemented).toBe(false);
     expect(ORACLE_DATA.nativeAccess).toEqual([]);

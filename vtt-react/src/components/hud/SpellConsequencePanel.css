@@ -44,3 +44,17 @@
 @media (max-width: 1100px) {
   .party-hud-frames > .actor-consequence-layer { max-width: min(340px, calc(100vw - 32px)); max-height: min(calc(100vh - 340px), 40vh); font-size: 12px; }
 }
+/* A11: movement combination preview (add / refresh / refused) — plain text block. */
+.p9-combination { margin: 8px 0; padding: 6px 8px; border: 1px solid #c9b48f; border-radius: 3px; background: #fbf6ea; color: #2b2116; }
+.p9-combination p { margin: 3px 0; }
+
+/* M1 class-effect disclosure: a plain hairline box, sentence-case labels, no stripes or fills. */
+.p9-disclosure { margin: 8px 0; padding: 6px 8px; border: 1px solid #c9b48f; border-radius: 3px; background: #fbf6ea; color: #2b2116; }
+.p9-disclosure-status { margin: 0 0 4px; font-style: italic; }
+.p9-disclosure dl { display: grid; grid-template-columns: auto 1fr; gap: 2px 10px; margin: 0; }
+.p9-disclosure dt { font-weight: 600; }
+.p9-disclosure dd { margin: 0; }
+.p9-disclosure ul, .p9-branches { margin: 0; padding-left: 18px; }
+.p9-disclosure details { margin-top: 4px; font-size: 12px; color: #5d4b33; }
+.p9-disclosure code { font-size: 11px; overflow-wrap: anywhere; }
+.p9-branch { display: block; margin: 4px 0; }

@@ -5,7 +5,7 @@ import { captureActorDelivery, currentActorDelivery } from './actorProjectionOrd
 import { getBootstrapGateState, isPrivateProjectionIsolated } from '../persistence/bootstrapPrivacyGate';
 import { conditionContext, loadConditionCustody, retainConditionCommand } from './sharedConditionCustody';
 import { refreshActorSnapshot, prepareActorCommand, submitPreparedActorCommand, requestActorEvent, findActor, refOf } from './actorConsequenceService';
-import { DEFENDING, STUNNED, canonical, sameRef, recordsFor, makeDefendingRecord, makeStunnedRecord, stunnedRecordsFor, sameStunnedSource } from './sharedConditionProfile';
+import { DEFENDING, STUNNED, MOVEMENT, canonical, sameRef, recordsFor, makeDefendingRecord, makeStunnedRecord, stunnedRecordsFor, sameStunnedSource, movementRecordsFor } from './sharedConditionProfile';
 import { onRoomRejoined } from './roomRejoinBus';
 import * as shieldBash from './shieldBashResult';
 import * as timing from './sharedEffectTiming';
@@ -87,7 +87,7 @@ export async function checkConditionCommand(ref) {
   if (loadConditionCustody(s.context)?.entries?.[key]?.command?.commandId !== entry.command.commandId) return result;
   if (result.success && result.receipt) accepted(result, s);
   else if (loadConditionCustody(s.context)?.entries?.[key]?.phase !== 'accepted') {
-    const definitive = ['stale_turn_state', 'stale_turn_occurrence', 'turn_state_unavailable', 'turn_roster_unbound', 'turn_clock_already_active', 'turn_gm_required', 'invalid_turn_boundary', 'stale_effect_schedule', 'turn_expiry_capacity', 'condition_operation_limit', 'shield_bash_gm_required', 'invalid_shield_bash_result', 'shield_bash_already_recorded', 'stale_actor_revision', 'condition_already_active', 'condition_not_found', 'invalid_condition', 'invalid_shared_condition', 'invalid_consequence', 'invalid_resources', 'actor_binding_conflict', 'secondary_attachment'].includes(result.code);
+    const definitive = ['authored_effect_correction_is_removal', 'authored_effect_gm_removal_required', 'authored_effect_approval_required', 'stale_turn_state', 'stale_turn_occurrence', 'turn_state_unavailable', 'turn_roster_unbound', 'turn_clock_already_active', 'turn_gm_required', 'invalid_turn_boundary', 'stale_effect_schedule', 'turn_expiry_capacity', 'condition_operation_limit', 'shield_bash_gm_required', 'invalid_shield_bash_result', 'shield_bash_already_recorded', 'stale_actor_revision', 'condition_already_active', 'condition_not_found', 'invalid_condition', 'invalid_shared_condition', 'invalid_consequence', 'invalid_resources', 'actor_binding_conflict', 'secondary_attachment'].includes(result.code);
     const unknown = !definitive;
     retainConditionCommand(s.context, key, { ...entry, phase: unknown ? 'unknown' : 'failed', result: { success: false, code: result.code } }); restore(s.context);
     message(key, { outcome: unknown ? `Current request unavailable/refused (${result.code}); original outcome unconfirmed. Check the same retained command; no replacement/replay.` : `Not applied: ${result.code}. Current permissions/state are unchanged.` });
@@ -137,9 +137,11 @@ export async function editSharedCondition(ref, operation, { recordId, sourceMode
       if (!resolveConditionActor({ targetRef: sourceActor })) throw Error('Exact Shield Bash source unavailable; no replacement incarnation or sheet fallback.');
       if (shieldBashResults().some(r => !['accepted', 'failed'].includes(r.phase))) throw Error('Check the retained unknown Shield Bash result before another result.');
     }
-    if (!['stunned', 'defending'].includes(profile) || (profile === 'defending' && ref.kind !== 'character')) throw Error('Unsupported condition profile/actor.');
-    const definition = profile === 'stunned' ? STUNNED : DEFENDING;
-    const token = findActor(ref), active = profile === 'stunned' ? stunnedRecordsFor(token) : recordsFor(token);
+    if (!['stunned', 'defending', 'movement'].includes(profile) || (profile === 'defending' && ref.kind !== 'character')) throw Error('Unsupported condition profile/actor.');
+    // A10 review finding 2: an accepted authored movement change has exactly one correction — exact GM removal.
+    if (profile === 'movement' && (operation !== 'remove' || !game().isGMMode)) throw Error('Authored movement changes are removed by the current GM only (exact instance).');
+    const definition = profile === 'stunned' ? STUNNED : profile === 'movement' ? MOVEMENT : DEFENDING;
+    const token = findActor(ref), active = profile === 'stunned' ? stunnedRecordsFor(token) : profile === 'movement' ? movementRecordsFor(token) : recordsFor(token);
     const candidate = shieldBashResult ? shieldBash.makeRecord(sourceActor, ref, crypto.randomUUID()) : profile === 'stunned' && operation === 'add' ? makeStunnedRecord(ref, crypto.randomUUID(), { sourceOccurrence, timing, sourceActor }) : null;
     if (operation === 'add' && (profile === 'defending' ? active.length : active.some(r => sameStunnedSource(r, candidate)))) { message(key, { outcome: 'Already active in accepted room state — no new instance, refresh or payment.' }); return { success: true, code: 'already_active' }; }
     const old = active.find(r => (r.recordId || r.id) === recordId);
@@ -147,9 +149,9 @@ export async function editSharedCondition(ref, operation, { recordId, sourceMode
     if (!['add', 'remove', ...(profile === 'stunned' ? ['update'] : [])].includes(operation)) throw Error('Unsupported condition operation.');
     if (operation === 'update' && !old) throw Error('Exact condition instance unavailable. Refresh before correcting timing.');
     const id = operation === 'add' ? candidate?.recordId || crypto.randomUUID() : recordId;
-    const record = profile === 'stunned' ? operation === 'remove' ? null : candidate || makeStunnedRecord(ref, id, {
+    const record = operation === 'remove' ? null : profile === 'stunned' ? candidate || makeStunnedRecord(ref, id, {
       sourceOccurrence: old.sourceEntityId, sourceActor: old.sourceActor, timing, authoredDuration: old.authoredDuration
-    }) : makeDefendingRecord(ref, id, sourceMode);
+    }) : makeDefendingRecord(ref, id, sourceMode); // remove (any profile, incl. A10 movement) carries no record
     const op = operation === 'remove' ? { op: 'remove', recordId: id } : { op: operation, recordId: id, record };
     const command = prepareActorCommand([{ ref, expectedRevision: token.state.actorContract.revision, conditions: [op] }], {
       target: ref, adjudication: { definitionId: definition.definitionId, definitionVersionOrHash: definition.origin,

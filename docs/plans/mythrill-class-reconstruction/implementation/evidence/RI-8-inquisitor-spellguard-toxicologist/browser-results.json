@@ -1,0 +1,268 @@
+{
+  "schema": "mythrill.browser-evidence/v1",
+  "date": "2026-10-28",
+  "cohort": "RI-8 Inquisitor + Spellguard + Toxicologist",
+  "guestRoster": {
+    "preserved": [
+      "Kira Goldmane"
+    ],
+    "backup": "guest-roster-before.json",
+    "note": "Kira Goldmane was present before the run. Each witness was created and verified sequentially; after the run the original guestRoster and activeId were restored from the backup. The restored roster contains only Kira Goldmane."
+  },
+  "routes": {
+    "details": [
+      "/rules/classes/Inquisitor",
+      "/rules/classes/Spellguard",
+      "/rules/classes/Toxicologist"
+    ],
+    "roster": "/account/characters",
+    "views": [
+      "/account/characters/view/char_1793174941451_78tjufucd",
+      "/account/characters/view/char_1793176070451_mr6g9pda3",
+      "/account/characters/view/char_1793176319033_svawfh6cw"
+    ]
+  },
+  "desktop": {
+    "viewport": "1280x800",
+    "details": {
+      "Inquisitor": {
+        "loaded": true,
+        "resourceTab": true,
+        "specs": [
+          "Witch Hammer",
+          "Iron Verdict",
+          "Hollow Saint"
+        ],
+        "overflow": false
+      },
+      "Spellguard": {
+        "loaded": true,
+        "resourceTab": true,
+        "overflow": false
+      },
+      "Toxicologist": {
+        "loaded": true,
+        "resourceTab": true,
+        "specs": [
+          "Venomancer",
+          "Gadgeteer",
+          "Saboteur"
+        ],
+        "overflow": false
+      }
+    }
+  },
+  "narrow": {
+    "viewport": "390x844",
+    "details": {
+      "Inquisitor": {
+        "loaded": true,
+        "overflow": false
+      },
+      "Spellguard": {
+        "loaded": true,
+        "overflow": false
+      },
+      "Toxicologist": {
+        "loaded": true,
+        "overflow": false
+      }
+    },
+    "view": {
+      "Toxicologist": {
+        "viewport": "390x844",
+        "overflow": false
+      }
+    },
+    "roster": {
+      "viewport": "390x844",
+      "overflow": false,
+      "preservedKira": true
+    }
+  },
+  "roundTrip": {
+    "Inquisitor": {
+      "id": "char_1793174941451_78tjufucd",
+      "created": true,
+      "saved": true,
+      "viewed": true,
+      "reopenedEdit": true,
+      "savedAgain": true,
+      "startingPicks": "3 of 3 chosen",
+      "abilityScores": "All points spent",
+      "knownSpells": [
+        "inq_iron_interrogation",
+        "inq_detect_corruption",
+        "inq_null_salt_ward"
+      ],
+      "baseStats": {
+        "strength": 15,
+        "agility": 7,
+        "constitution": 5,
+        "intelligence": 5,
+        "spirit": 5,
+        "charisma": 5
+      },
+      "heritage": "thalren_human",
+      "origin": "fogReader",
+      "ancestry": {
+        "core": "desperate_will_human",
+        "picks": {
+          "mind": "lineage_recall_thalren",
+          "fog": "fog_sense_thalren",
+          "quill": "thalren_ink_stained_hand"
+        }
+      },
+      "classResource": {
+        "type": "authority",
+        "current": 0,
+        "max": 8
+      },
+      "persistedResources": {
+        "health": "37/37",
+        "mana": "25/37",
+        "actionPoints": "3/3"
+      },
+      "view": {
+        "maxHealth": "37/37",
+        "maxMana": "25/37"
+      },
+      "roster": {
+        "hp": "37/37",
+        "mp": "25/37",
+        "ap": "3/3"
+      },
+      "agrees": true,
+      "note": "The final persisted resources use the live encumbered inventory state, matching roster and view. The witness was deleted after verification to stay inside the three-character limit."
+    },
+    "Spellguard": {
+      "id": "char_1793176070451_mr6g9pda3",
+      "created": true,
+      "saved": true,
+      "viewed": true,
+      "reopenedEdit": true,
+      "savedAgain": true,
+      "startingPicks": "3 of 3 chosen",
+      "abilityScores": "All points spent",
+      "knownSpells": [
+        "spg_aegis_ward",
+        "sg_void_siphon",
+        "sg_entropic_aegis"
+      ],
+      "baseStats": {
+        "strength": 15,
+        "agility": 5,
+        "constitution": 5,
+        "intelligence": 5,
+        "spirit": 5,
+        "charisma": 5
+      },
+      "heritage": "korr_solari",
+      "origin": "emberspirePilgrim",
+      "ancestry": {
+        "core": "vault_breath_solari",
+        "picks": {
+          "breath": "ash_lung_solari",
+          "senses": "listening_dark_korr",
+          "pulse": "sols_breath_pulse_korr"
+        }
+      },
+      "classResource": {
+        "type": "arcaneEnergyPoints",
+        "current": 0,
+        "max": 100,
+        "receipts": 0
+      },
+      "persistedResources": {
+        "health": "50/64",
+        "mana": "25/47",
+        "actionPoints": "3/3"
+      },
+      "view": {
+        "maxHealth": "50/64",
+        "maxMana": "25/47"
+      },
+      "roster": {
+        "hp": "50/64",
+        "mp": "25/47",
+        "ap": "3/3"
+      },
+      "agrees": true,
+      "note": "The witness was deleted after verification to stay inside the three-character limit."
+    },
+    "Toxicologist": {
+      "id": "char_1793176319033_svawfh6cw",
+      "created": true,
+      "saved": true,
+      "viewed": true,
+      "reopenedEdit": true,
+      "savedAgain": true,
+      "startingPicks": "3 of 3 chosen",
+      "abilityScores": "All points spent",
+      "knownSpells": [
+        "tox_acid_unlocking",
+        "tox_apply_poison",
+        "tox_antidote"
+      ],
+      "baseStats": {
+        "strength": 15,
+        "agility": 5,
+        "constitution": 5,
+        "intelligence": 5,
+        "spirit": 5,
+        "charisma": 5
+      },
+      "heritage": "viridian_florae",
+      "origin": "groveWarden",
+      "ancestry": {
+        "core": "branch_arm_brawn_florae",
+        "picks": {
+          "body": "thorn_barb_bristle_viridian",
+          "sense": "unwritten_word_viridian",
+          "will": "fog_compact_refusal_viridian"
+        }
+      },
+      "classResource": {
+        "type": "toxinVialsContraptions",
+        "current": 4,
+        "toxinVials": 4,
+        "toxinVialsMax": 4,
+        "contraptionParts": 5,
+        "contraptionPartsMax": 5
+      },
+      "persistedResources": {
+        "health": "22/22",
+        "mana": "25/29",
+        "actionPoints": "3/3"
+      },
+      "view": {
+        "maxHealth": "22/22",
+        "maxMana": "25/29"
+      },
+      "roster": {
+        "hp": "22/22",
+        "mp": "25/29",
+        "ap": "3/3"
+      },
+      "agrees": true,
+      "note": "The witness was deleted after verification; the original guest roster was then restored."
+    }
+  },
+  "sharedResourceFix": {
+    "verified": true,
+    "detail": "Creation now persists buildCharacterResourceSnapshot maxima instead of placeholder 50/50 and 25/25. CharacterPanel dependencies include ancestry/base provenance so a late ancestry hydrate cannot leave a stale maximum, and CharacterStats uses the shared snapshot maxima. After inventory hydration, persisted resources, roster cards and the character view agreed for all three witnesses."
+  },
+  "console": {
+    "classRuntimeErrors": 0,
+    "knownUnrelatedErrors": [
+      "Error loading user maps: FirebaseError: Missing or insufficient permissions.",
+      "socket.io XHR polling to http://localhost:3001 refused; fallback socket connected."
+    ],
+    "knownWarnings": 1
+  },
+  "limits": [
+    "Guest/local persistence only; no authenticated cloud persistence claim.",
+    "No combat automation, migration, balance validation, deployment, commit, push or Sol acceptance claim.",
+    "The view/roster/persisted maxima agree after the live inventory state is hydrated; the inventory encumbrance state changes the maxima from the unencumbered creation snapshot."
+  ]
+}

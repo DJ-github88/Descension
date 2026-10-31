@@ -7,10 +7,11 @@ import useGameStore from '../../store/gameStore';
 import useCreatureStore from '../../store/creatureStore';
 import { getBootstrapGateState, isPrivateProjectionIsolated, subscribeBootstrapGate } from '../../persistence/bootstrapPrivacyGate';
 import { findActor, refOf } from '../../services/actorConsequenceService';
-import { DEFENDING, STUNNED, canonical, recordsFor, stunnedRecordsFor, expiryLabel } from '../../services/sharedConditionProfile';
+import { DEFENDING, STUNNED, STRUCTURED_TIMINGS, EFFECT_PREFIX, canonical, recordsFor, stunnedRecordsFor, movementRecordsFor, expiryLabel } from '../../services/sharedConditionProfile';
 import { useSharedConditionStore, conditionPrincipal, conditionKey, resolveConditionActor, refreshConditionActor,
   editDefending, editSharedCondition, checkConditionCommand, bindSharedConditions, refreshEffectLifecycle, submitTurnBoundary, checkTurnBoundary } from '../../services/sharedConditionService';
 import { clock as effectClock } from '../../services/sharedEffectTiming';
+import { movementSpeedBreakdown, movementBreakdownText, movementBaseSpeed } from '../../utils/conditionUtils';
 import './SharedDefendingEditor.css';
 import ShieldBashResultForm from './ShieldBashResultForm';
 
@@ -18,6 +19,8 @@ export function SharedDefendingEditor({ targetRef, identity }) {
   const pcTokens = useCharacterTokenStore(s => s.characterTokens);
   const creatureTokens = useCreatureStore(s => s.creatureTokens);
   const state = useSharedConditionStore(), [busy, setBusy] = useState(false), [error, setError] = useState(''), [sourceMode, setSourceMode] = useState('manual');
+  const gm = useGameStore(s => s.isGMMode) === true;
+  const library = useCreatureStore(s => s.creatures);
   const [sourceOccurrence, setSourceOccurrence] = useState(''), [timing, setTiming] = useState('manual'), [sourceRefText, setSourceRefText] = useState('');
   const ref = resolveConditionActor({ targetRef, identity }), key = ref && conditionKey(ref);
   const identityKey = canonical([targetRef || null, identity || null]);
@@ -26,7 +29,7 @@ export function SharedDefendingEditor({ targetRef, identity }) {
   if (isPrivateProjectionIsolated() || state.principal !== conditionPrincipal()) return <p role="status">Shared conditions unavailable while the room/account is reconciling.</p>;
   if (!ref) return <p role="status">No exact primary room PC for this view. Bind/select that actor; no open-character or first-token fallback.</p>;
   const view = state.views[key], ready = view?.phase === 'ready';
-  const records = ready ? recordsFor(findActor(ref)) : [], stuns = ready ? stunnedRecordsFor(findActor(ref)) : [];
+  const records = ready ? recordsFor(findActor(ref)) : [], stuns = ready ? stunnedRecordsFor(findActor(ref)) : [], moves = ready ? movementRecordsFor(findActor(ref)) : [];
   const entry = state.saved?.entries?.[key], unknown = entry?.command && !['accepted', 'failed'].includes(entry.phase);
   const perform = async fn => { setBusy(true); setError(''); try { await fn(); } catch (e) { setError(e.message); } finally { setBusy(false); } };
   return <section className="sc-editor" aria-label="Shared PC Defending">
@@ -59,15 +62,23 @@ export function SharedDefendingEditor({ targetRef, identity }) {
         })}
       </select></label>
       <label>Source-specific duration<select value={timing} onChange={e => setTiming(e.target.value)} disabled={busy || unknown}>
-        {Object.entries(STUNNED.timings).map(([key, label]) => <option key={key} value={key}>{label}</option>)}
+        {Object.entries(STUNNED.timings).filter(([key]) => !STRUCTURED_TIMINGS.includes(key)).map(([key, label]) => <option key={key} value={key}>{label}</option>)}
       </select></label>
       <button type="button" disabled={busy || unknown || !ready || !sourceOccurrence.trim()} onClick={() => perform(() => editSharedCondition(ref, 'add', {
         sourceOccurrence: sourceOccurrence.trim(), timing, ...(sourceRefText.trim() ? { sourceActor: JSON.parse(sourceRefText) } : {})
       }))}>Apply Stunned source</button>
       {stuns.map(record => <div key={record.recordId}><p>Stunned instance: {record.recordId}</p><p>Source occurrence: {record.sourceEntityId}. Source actor: {record.sourceActor ? `${record.sourceActor.mapId}/${record.sourceActor.tokenId} (${record.sourceActor.instanceId})` : 'Unknown — GM-adjudicated attribution'}</p><p className="sc-expiry">{expiryLabel(record, state.combat)}</p>
         <button type="button" disabled={busy || unknown || !ready} onClick={() => perform(() => editSharedCondition(ref, 'remove', { recordId: record.recordId }))}>Remove Stunned instance {record.recordId}</button>
-        <button type="button" disabled={busy || unknown || !ready} onClick={() => perform(() => editSharedCondition(ref, 'update', { recordId: record.recordId, timing }))}>Set selected duration for Stunned instance {record.recordId}</button>
+        {!String(record.sourceEntityId).startsWith(EFFECT_PREFIX) && <button type="button" disabled={busy || unknown || !ready} onClick={() => perform(() => editSharedCondition(ref, 'update', { recordId: record.recordId, timing }))}>Set selected duration for Stunned instance {record.recordId}</button>}
       </div>)}
+      {ready && moves.length > 0 && <section aria-label="Active movement effects" className="sc-movement">
+        <h4>Movement effects</h4>
+        <p>Different named effects add together; the same effect again from the same source refreshes its duration instead of stacking. Speed never goes below 0 ft.</p>
+        <p role="status">Resulting speed: {movementBreakdownText(movementSpeedBreakdown(movementBaseSpeed(findActor(ref), library), findActor(ref)?.state?.conditions || []))}</p>
+        {moves.map(record => <div key={record.recordId}><p>{record.name} · movement {record.effects.movementSpeed > 0 ? '+' : '−'}{Math.abs(record.effects.movementSpeed)} ft · instance {record.recordId}{record.effectDefinition ? '' : ' · applied before effect identity: never combined; GM removes'}</p><p className="sc-expiry">{expiryLabel(record, state.combat)}</p>
+          {gm && <button type="button" disabled={busy || unknown || !ready} onClick={() => perform(() => editSharedCondition(ref, 'remove', { recordId: record.recordId, profile: 'movement' }))}>Remove {record.name} instance {record.recordId}</button>}
+        </div>)}
+      </section>}
       <p>Other legacy/custom Stunned records remain manual markers; names alone do not activate these restrictions.</p>
     </section>
     <button type="button" disabled={busy} onClick={() => perform(() => refreshConditionActor(ref))}>Refresh accepted condition state</button>
@@ -85,6 +96,7 @@ function SharedTurnExpiryControls() {
   return <section className="sc-editor" aria-label="Authenticated turn expiry">
     <h3>Shared turn-boundary expiry</h3><p>GM validates the server's exact roster and advances one occurrence at a time. No AP restoration, regeneration, payment, recurring tick or wall-clock expiry.</p>
     <p>New canonical PC Defending during its own turn: next turn start. New named Shield Bash: end of target's strictly next turn. Existing instances, one-round criticals and other durations stay GM-managed.</p>
+    <p>Authored counted durations (the 2nd to 10th upcoming start or end of one target's turn) are counted once per accepted advance here; each effect lists what is left in the shared condition editor.</p>
     <p role="status">Server view: {state.clockPhase}. {clock ? `Authenticated combat ${clock.id} · turn occurrence ${clock.sequence}` : 'Automatic expiry not enabled for this current roster/occurrence.'}</p>
     {actor && <p>Current exact actor: {actor.kind} {actor.mapId}/{actor.tokenId} · {actor.instanceId}</p>}
     {entry && <p role="status">Turn command: {entry.phase} · {entry.command.commandId}{entry.result?.code ? ` · ${entry.result.code}` : ''}</p>}

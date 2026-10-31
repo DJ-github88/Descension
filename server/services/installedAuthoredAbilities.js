@@ -117,10 +117,21 @@ function checkCreatureAuthority(room, approval, primaryPc = false) {
 }
 function checkApproval(room, approval, primaryPc = false) {
   const entry = lookup(room, approval.spell), d = entry.canonicalDefinition, desc = entry.descriptor;
-  const condition = desc.capabilityId === pure.CONDITION_CAPABILITY;
-  const wanted = { definitionId: pure.actionId(entry.definitionRef), definitionHash: `${desc.capabilityId}/${entry.definitionRef.definitionHash}`, name: d.name, kind: d.effect.kind, damageTypes: desc.effect.damageTypes || [] };
+  const condition = desc.capabilityId === pure.CONDITION_CAPABILITY, effect = desc.capabilityId === pure.EFFECT_CAPABILITY;
+  const wanted = { definitionId: pure.actionId(entry.definitionRef), definitionHash: `${desc.capabilityId}/${entry.definitionRef.definitionHash}`, name: d.name,
+    kind: effect ? 'effect' : d.effect.kind, damageTypes: effect ? desc.effects.direct?.damageTypes || [] : desc.effect.damageTypes || [] };
   if (actors.hash(approval.spell) !== actors.hash(wanted) || actors.hash(approval.price) !== actors.hash(desc.price) || approval.classPayment !== null) actors.fail('authored_approval_mismatch');
-  if (condition) {
+  if (effect) {
+    // A10: the whole admitted bundle (direct part, canonical effect, timing) is bound; no subset executes.
+    if (approval.target.kind !== 'creature' || actors.hash(approval.source) === actors.hash(approval.target)) actors.fail('unsupported_effect_target');
+    if (actors.hash(approval.effectTerms) !== actors.hash(require('../shared/services/authoredEffect').termsFor(d))) actors.fail('authored_effect_mismatch');
+    if (approval.source.kind === 'creature' && (approval.resolution?.gmConfirmed !== true || actors.hash(approval.resolution.timing) !== actors.hash(d.timing))) actors.fail('authored_effect_mismatch');
+    if (!d.effects.direct) { if (approval.roll !== null) actors.fail('authored_roll_mismatch'); }
+    else {
+      const reading = pure.readFormula(d.effects.direct.formula), roll = approval.roll;
+      if (!roll || roll.constant !== reading.constant || roll.reading !== reading.reading || roll.dice.length !== 1 || roll.dice[0].sides !== reading.dice[0].sides || roll.dice[0].faces.length !== reading.dice[0].count) actors.fail('authored_roll_mismatch');
+    }
+  } else if (condition) {
     if (!['character', 'creature'].includes(approval.target.kind) || actors.hash(approval.source) === actors.hash(approval.target) || approval.roll !== null) actors.fail('authored_condition_mismatch');
     if (approval.source.kind === 'creature' ? approval.resolution?.gmConfirmed !== true || actors.hash(approval.resolution?.timing) !== actors.hash(d.timing)
       : actors.hash(approval.conditionTerms) !== actors.hash({ conditionKey: 'stunned', timing: d.timing })) actors.fail('authored_condition_mismatch');

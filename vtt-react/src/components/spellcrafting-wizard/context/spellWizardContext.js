@@ -556,10 +556,14 @@ function validateState(state) {
  }
 
  // Validate duration configuration
- const conditionTiming = state.effectTypes.length === 1 && state.effectTypes[0] === 'control' &&
+ const conditionTiming = (state.effectTypes.length === 1 && state.effectTypes[0] === 'control' &&
   state.controlConfig?.authoredCondition?.profile === 'authored-condition:v1' &&
   state.controlConfig.authoredCondition.expiryPolicy === 'gm-manual' &&
-  state.controlConfig.authoredCondition.durationText?.trim() && state.controlConfig.authoredCondition.gmNote?.trim();
+  state.controlConfig.authoredCondition.durationText?.trim() && state.controlConfig.authoredCondition.gmNote?.trim()) ||
+  // A10 composed effect: its explicit expiry policy and duration text are the timing (no separate duration editor).
+  (state.effectTypes.includes('control') && state.effectTypes.every(type => ['control', 'damage', 'healing'].includes(type)) &&
+  state.controlConfig?.authoredCondition?.profile === 'authored-effect:v1' &&
+  state.controlConfig.authoredCondition.durationText?.trim() && state.controlConfig.authoredCondition.gmNote?.trim());
  if ((!state.durationConfig || Object.keys(state.durationConfig).length === 0) && !conditionTiming) {
  errors.durationConfig = 'Duration configuration is required';
  }

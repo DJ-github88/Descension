@@ -1,0 +1,76 @@
+{
+  "startedAt": "2026-10-30T20:55:30.033Z",
+  "testSuite": "Exorcist Browser Verification & Visual Evidence",
+  "checks": {
+    "hudDisplays": "PASS",
+    "rulesCodex": "PASS"
+  },
+  "screenshots": [
+    {
+      "name": "01-exorcist-hud-desktop-empty.png",
+      "desc": "Purification Sanctity 0/10 depleted warning state"
+    },
+    {
+      "name": "02-exorcist-hud-desktop-base.png",
+      "desc": "Purification Sanctity 3/10 base prepared state"
+    },
+    {
+      "name": "03-exorcist-hud-desktop-partial.png",
+      "desc": "Purification Sanctity 7/10 partial state"
+    },
+    {
+      "name": "04-exorcist-hud-desktop-full.png",
+      "desc": "Purification Sanctity 10/10 full state"
+    },
+    {
+      "name": "05-exorcist-hud-desktop-malformed.png",
+      "desc": "Missing / malformed state graceful fallback (null, NaN, overflow, negative)"
+    },
+    {
+      "name": "06-exorcist-hud-desktop-multi-instance.png",
+      "desc": "Desktop multi-instance party token HUDs without ID collision"
+    },
+    {
+      "name": "07-exorcist-hud-mobile-partial.png",
+      "desc": "Mobile 390px viewport partial state"
+    },
+    {
+      "name": "08-exorcist-hud-mobile-multi-instance.png",
+      "desc": "Mobile full page multi-instance rendering"
+    },
+    {
+      "name": "09-rules-exorcist-overview-desktop.png",
+      "desc": "Rules Page Exorcist Overview (Desktop 1280px)"
+    },
+    {
+      "name": "10-rules-exorcist-overview-mobile.png",
+      "desc": "Rules Page Exorcist Overview (Mobile 390px)"
+    },
+    {
+      "name": "11-rules-exorcist-spells-desktop.png",
+      "desc": "Rules Page Exorcist Spells Tab (40 Optionals + 2 Core Grants)"
+    },
+    {
+      "name": "12-rules-exorcist-specializations-desktop.png",
+      "desc": "Rules Page Exorcist Specializations (Liturgist, Sin-Eater, Purger)"
+    },
+    {
+      "name": "13-rules-exorcist-resource-guide-desktop.png",
+      "desc": "Rules Page Exorcist Resource System Guide (Purification Sanctity)"
+    }
+  ],
+  "assertions": [
+    {
+      "name": "zero-duplicate-dom-ids",
+      "status": "PASS",
+      "details": "All mounted SVGs and containers have distinct/no IDs"
+    },
+    {
+      "name": "svg-accessibility-labels",
+      "status": "PASS",
+      "count": 12
+    }
+  ],
+  "errors": [],
+  "completedAt": "2026-10-30T20:55:39.964Z"
+}

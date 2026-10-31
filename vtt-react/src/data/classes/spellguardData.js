@@ -2048,3 +2048,41 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
 
 SPELLGUARD_DATA.spells = SPELLGUARD_DATA.exampleSpells;
 export const SPELLGUARD_SPELLS = SPELLGUARD_DATA.spells;
+
+// RI-8 legacy-roster integration: explicit progression policy. Existing
+// Spellguard characters keep their known spells; new characters choose three
+// level-1 options and one optional per level. No random/automatic top-up.
+export const SPELLGUARD_PROGRESSION_POLICY = {
+  classId: 'spellguard', rulesetVersion: 'legacy-roster-integrated', levelCap: 10,
+  startingSpellPicks: 3, optionalPicksPerLevel: 1, allowEarlierUnchosen: true,
+  grantedCoreSpellIds: [], randomizeStartingSpells: false, autoTopUpOnLoad: false,
+  talentActivesAreGrants: false, manualOnly: true
+};
+
+SPELLGUARD_DATA.progression = {
+  levelCap: 10,
+  policy: SPELLGUARD_PROGRESSION_POLICY,
+  levels: Array.from({ length: 10 }, (_, index) => {
+    const level = index + 1;
+    return {
+      level,
+      newChoiceIds: Array.isArray(SPELLGUARD_DATA.spellPools?.[level]) ? [...SPELLGUARD_DATA.spellPools[level]] : [],
+      optionalPicks: 1,
+      talentBudget: level * 5
+    };
+  })
+};
+
+export const SPELLGUARD_MANIFEST = {
+  contentLock: 'RI-8 Spellguard legacy-roster content lock',
+  classId: 'spellguard', displayName: 'Spellguard',
+  authoredSpells: SPELLGUARD_DATA.spells.length,
+  spellPoolCounts: Object.fromEntries(Array.from({ length: 10 }, (_, index) => {
+    const level = index + 1;
+    return [level, Array.isArray(SPELLGUARD_DATA.spellPools?.[level]) ? SPELLGUARD_DATA.spellPools[level].length : 0];
+  })),
+  treeIds: ['arcane_warden', 'spell_breaker', 'mana_reaver'],
+  resource: SPELLGUARD_DATA.classResource.type, progression: SPELLGUARD_PROGRESSION_POLICY,
+  nativeAccess: SPELLGUARD_DATA.restrictions?.allowedSubraces || [],
+  legacyIdsPreserved: true, automaticConversion: false, manualOnly: true
+};

@@ -186,3 +186,31 @@ test('disconnected checks preserve unknown custody; accepted history cannot be e
   expect(() => retainConditionCommand(conditionContext(), canonical(ref), { command: { commandId: 'second' }, phase: 'unknown', history: [] })).toThrow(/immutable/);
   activatePrivateScope({ scopeKind: 'user', scopeId: 'other' }); expect(loadConditionCustody()).toBeNull();
 });
+test('A10 review: current GM removes one exact authored movement change on a creature; no record is rebuilt; non-GM and edits refuse', async() => {
+  const { makeMovementRecord } = require('../sharedConditionProfile');
+  const beast = { kind: 'creature', roomId: 'r', mapId: 'm', tokenId: 'beast', instanceId: 'beast-i' };
+  const id = crypto.randomUUID(), mired = makeMovementRecord(beast, id, { sourceActor: ref, sourceOccurrence: `authored-effect:${id}`, timing: 'authored-target-next-start', authoredDuration: 'Until the mud dries', feet: -10, label: 'Mired' });
+  tokens.getState().characterTokens.push({ id: 'beast', state: { actorContract: { version: 1, revision: 4, ...beast }, conditions: [mired] } });
+  await expect(editSharedCondition(beast, 'remove', { recordId: id, profile: 'movement' })).rejects.toThrow(/current GM/);
+  game.setState({ isGMMode: true });
+  await expect(editSharedCondition(beast, 'update', { recordId: id, profile: 'movement' })).rejects.toThrow(/removed by the current GM only/);
+  await editSharedCondition(beast, 'remove', { recordId: id, profile: 'movement' });
+  const command = prepareActorCommand.mock.results.at(-1).value;
+  expect(command.actors).toEqual([{ ref: beast, expectedRevision: 4, conditions: [{ op: 'remove', recordId: id }] }]);
+});
+
+test.each(['authored_effect_correction_is_removal', 'authored_effect_gm_removal_required', 'authored_effect_approval_required'])('A10 explicit %s closes failed custody without poisoning the next condition edit', async code => {
+  const beast = { kind: 'creature', roomId: 'r', mapId: 'm', tokenId: 'beast', instanceId: 'beast-i' };
+  const id = crypto.randomUUID(), record = makeStunnedRecord(beast, id, { sourceActor: ref, sourceOccurrence: `authored-effect:${id}`, timing: 'manual', authoredDuration: 'Until the bell' });
+  tokens.getState().characterTokens.push({ id: 'beast', state: { actorContract: { version: 1, revision: 4, ...beast }, conditions: [record] } });
+  submitPreparedActorCommand.mockResolvedValueOnce({ success: false, code });
+  await editSharedCondition(beast, 'remove', { recordId: id });
+  const failed = loadConditionCustody().entries[canonical(beast)];
+  expect(failed.phase).toBe('failed'); expect(failed.result.code).toBe(code);
+  expect(tokens.getState().characterTokens.at(-1).state.conditions).toEqual([record]);
+  submitPreparedActorCommand.mockImplementation(async command => ({ success: true, receipt: { commandId: command.commandId, roomId: 'r', submitterUid: 'u', actors: [{ ref: beast }] } }));
+  await editSharedCondition(beast, 'add', { sourceOccurrence: 'later-table-ruling' });
+  const accepted = loadConditionCustody().entries[canonical(beast)];
+  expect(accepted.phase).toBe('accepted'); expect(accepted.command.commandId).not.toBe(failed.command.commandId);
+  expect(submitPreparedActorCommand).toHaveBeenCalledTimes(2);
+});

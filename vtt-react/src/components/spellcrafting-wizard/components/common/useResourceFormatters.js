@@ -50,7 +50,7 @@ const useResourceFormatters = ({ spell, variant, className, library }) => {
       'sacred-power': faSun,
       'astralpower': faMoon,
       'astral-power': faMoon,
-      // 21 Classes unique resources
+      // Registered class unique resources
       'fortune': faCoins,
       'fortunepoints': faCoins,
       'fortune-points': faCoins,
@@ -123,7 +123,7 @@ const useResourceFormatters = ({ spell, variant, className, library }) => {
       'sacred-power': '#F1C40F',
       'astralpower': '#9B59B6',
       'astral-power': '#9B59B6',
-      // 21 Classes unique resources
+      // Registered class unique resources
       'fortune': '#FFD700',
       'fortunepoints': '#FFD700',
       'fortune-points': '#FFD700',
@@ -352,13 +352,13 @@ const useResourceFormatters = ({ spell, variant, className, library }) => {
 
     }
 
-    // Universal class resource processor (handles builders/spenders across all 21 classes)
+    // Universal class resource processor (handles builders/spenders across all registered classes)
     const rawClassResource = 
       spell.resourceCost?.classResource || 
       spell.resourceCost?.resourceValues?.classResource || 
       spell.classResource;
 
-    if (rawClassResource && rawClassResource.type) {
+    if (rawClassResource && rawClassResource.type && !(spell.id === 'minstrel_resolving_strike' && spell.musicalCombo?.requires)) {
       const classResourceType = rawClassResource.type;
       const classResourceKey = classResourceType.toLowerCase().replace(/[\s_]+/g, '-');
 
@@ -1211,9 +1211,9 @@ const useResourceFormatters = ({ spell, variant, className, library }) => {
             isGenerate: true
           });
         });
-      } else if (musicalCombo.type === 'resolver' && musicalCombo.consumes) {
+      } else if (musicalCombo.type === 'resolver' && (musicalCombo.consumes || (spell.id === 'minstrel_resolving_strike' && musicalCombo.requires))) {
         // Resolver spell - shows bass clef "𝄢 -X Note (I)" format
-        musicalCombo.consumes.forEach(noteReq => {
+        (spell.id === 'minstrel_resolving_strike' ? musicalCombo.requires : musicalCombo.consumes).forEach(noteReq => {
           const functionName = noteFunctionMap[noteReq.note] || noteReq.note;
           const displayText = noteReq.count > 1
             ? `-${noteReq.count} ${functionName} (${noteReq.note})`

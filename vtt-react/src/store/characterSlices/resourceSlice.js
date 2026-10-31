@@ -1,6 +1,7 @@
 import { calculateEquipmentBonuses, calculateDerivedStats } from '../../utils/characterUtils';
 import { initializeClassResource, updateClassResourceMax } from '../../data/classResources';
-import { applyRacialModifiers } from '../../data/raceData';
+import { getEffectiveAttributes } from '../../utils/attributeProfile';
+import { buildCharacterResourceSnapshot } from '../../utils/characterResourceSnapshot';
 import { getEncumbranceState, triggerCharacterAutoSave } from '../characterHelpers';
 import { normalizeManagedClassResource, updateManagedClassResource, getManagedResourceId, getClassResourceValue, changeManagedClassResource } from '../../data/classResourceContracts';
 import { applyApexPackEvent, beginApexOwnTurn, getApexCompanionStatus } from '../../data/apexResourceContract';
@@ -77,9 +78,7 @@ export const createResourceSlice = (set, get) => ({
             let newDerivedStats = state.derivedStats;
             if (resource === 'health') {
                 // Apply racial modifiers to get effective stats for calculations
-                const effectiveStats = state.race && state.subrace
-                    ? applyRacialModifiers(state.stats, state.race, state.subrace)
-                    : state.stats;
+                const effectiveStats = getEffectiveAttributes(state);
                 const equipmentBonuses = calculateEquipmentBonuses(state.equipment);
 
                 // Apply equipment bonuses to stats before calculating derived stats
@@ -397,70 +396,13 @@ export const createResourceSlice = (set, get) => ({
     // Force recalculation of health and mana based on current stats
     recalculateResources: () => {
         const state = get();
-
-        // Apply racial modifiers to get effective stats
-        const effectiveStats = state.race && state.subrace
-            ? applyRacialModifiers(state.stats, state.race, state.subrace)
-            : state.stats;
-
-        // Calculate equipment bonuses
-        const equipmentBonuses = calculateEquipmentBonuses(state.equipment || {});
-
-        // Apply equipment bonuses to stats
-        const totalStats = { ...effectiveStats };
-        const statMapping = {
-            str: 'strength',
-            con: 'constitution',
-            agi: 'agility',
-            int: 'intelligence',
-            spir: 'spirit',
-            cha: 'charisma'
-        };
-
-        Object.entries(statMapping).forEach(([shortName, fullName]) => {
-            if (equipmentBonuses[shortName]) {
-                totalStats[fullName] = (totalStats[fullName] || 0) + equipmentBonuses[shortName];
-            }
-        });
-
-        // Get encumbrance state
-        const encumbranceState = state.inventory?.encumbranceState || 'normal';
-
-        // Calculate derived stats
-        const derivedStats = calculateDerivedStats(
-            totalStats,
-            equipmentBonuses,
-            {},
-            encumbranceState,
-            state.exhaustionLevel || 0,
-            state.health,
-            state.race,
-            state.subrace,
-            {},
-            state.ancestry
-        );
-
-        // Calculate correct max values
-        const newMaxHealth = Math.round(derivedStats.maxHealth);
-        const newMaxMana = Math.round(derivedStats.maxMana);
-
-        // Update health and mana with recalculated max values
-        const newHealth = {
-            current: Math.min(state.health.current, newMaxHealth),
-            max: newMaxHealth
-        };
-
-        const newMana = {
-            current: Math.min(state.mana.current, newMaxMana),
-            max: newMaxMana
-        };
-
+        const snapshot = buildCharacterResourceSnapshot(state);
 
         set({
-            equipmentBonuses,
-            derivedStats,
-            health: newHealth,
-            mana: newMana
+            equipmentBonuses: snapshot.equipmentBonuses,
+            derivedStats: snapshot.derivedStats,
+            health: snapshot.health,
+            mana: snapshot.mana
         });
     },
 

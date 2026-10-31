@@ -1,0 +1,319 @@
+{
+  "capturedScreenshots": [
+    {
+      "state": "empty",
+      "viewport": "desktop-1280x800",
+      "path": "D:\\VTT\\docs\\plans\\mythrill-class-reconstruction\\implementation\\evidence\\HEADQ-30-ROSTER-20261030\\screenshots\\resource-displays-empty-desktop.png",
+      "bytes": 92794
+    },
+    {
+      "state": "empty",
+      "viewport": "mobile-390x844",
+      "path": "D:\\VTT\\docs\\plans\\mythrill-class-reconstruction\\implementation\\evidence\\HEADQ-30-ROSTER-20261030\\screenshots\\resource-displays-empty-mobile-390px.png",
+      "bytes": 99413
+    },
+    {
+      "state": "partial",
+      "viewport": "desktop-1280x800",
+      "path": "D:\\VTT\\docs\\plans\\mythrill-class-reconstruction\\implementation\\evidence\\HEADQ-30-ROSTER-20261030\\screenshots\\resource-displays-partial-desktop.png",
+      "bytes": 98160
+    },
+    {
+      "state": "partial",
+      "viewport": "mobile-390x844",
+      "path": "D:\\VTT\\docs\\plans\\mythrill-class-reconstruction\\implementation\\evidence\\HEADQ-30-ROSTER-20261030\\screenshots\\resource-displays-partial-mobile-390px.png",
+      "bytes": 105622
+    },
+    {
+      "state": "full",
+      "viewport": "desktop-1280x800",
+      "path": "D:\\VTT\\docs\\plans\\mythrill-class-reconstruction\\implementation\\evidence\\HEADQ-30-ROSTER-20261030\\screenshots\\resource-displays-full-desktop.png",
+      "bytes": 98278
+    },
+    {
+      "state": "full",
+      "viewport": "mobile-390x844",
+      "path": "D:\\VTT\\docs\\plans\\mythrill-class-reconstruction\\implementation\\evidence\\HEADQ-30-ROSTER-20261030\\screenshots\\resource-displays-full-mobile-390px.png",
+      "bytes": 106645
+    },
+    {
+      "state": "warning",
+      "viewport": "desktop-1280x800",
+      "path": "D:\\VTT\\docs\\plans\\mythrill-class-reconstruction\\implementation\\evidence\\HEADQ-30-ROSTER-20261030\\screenshots\\resource-displays-warning-desktop.png",
+      "bytes": 73498
+    },
+    {
+      "state": "warning",
+      "viewport": "mobile-390x844",
+      "path": "D:\\VTT\\docs\\plans\\mythrill-class-reconstruction\\implementation\\evidence\\HEADQ-30-ROSTER-20261030\\screenshots\\resource-displays-warning-mobile-390px.png",
+      "bytes": 74759
+    },
+    {
+      "state": "multi",
+      "viewport": "desktop-1280x800",
+      "path": "D:\\VTT\\docs\\plans\\mythrill-class-reconstruction\\implementation\\evidence\\HEADQ-30-ROSTER-20261030\\screenshots\\resource-displays-multi-desktop.png",
+      "bytes": 54367
+    },
+    {
+      "state": "multi",
+      "viewport": "mobile-390x844",
+      "path": "D:\\VTT\\docs\\plans\\mythrill-class-reconstruction\\implementation\\evidence\\HEADQ-30-ROSTER-20261030\\screenshots\\resource-displays-multi-mobile-390px.png",
+      "bytes": 67584
+    },
+    {
+      "state": "all",
+      "viewport": "desktop-1280x800",
+      "path": "D:\\VTT\\docs\\plans\\mythrill-class-reconstruction\\implementation\\evidence\\HEADQ-30-ROSTER-20261030\\screenshots\\resource-displays-all-desktop.png",
+      "bytes": 368987
+    },
+    {
+      "state": "all",
+      "viewport": "mobile-390x844",
+      "path": "D:\\VTT\\docs\\plans\\mythrill-class-reconstruction\\implementation\\evidence\\HEADQ-30-ROSTER-20261030\\screenshots\\resource-displays-all-mobile-390px.png",
+      "bytes": 407812
+    }
+  ],
+  "svgIdCollisions": [],
+  "accessibilityAudit": [
+    {
+      "index": 0,
+      "role": "img",
+      "ariaLabel": "Hexbreaker Charges: 0/6",
+      "title": "Hexbreaker Charges: 0/6",
+      "desc": "0 of 6 cold bog-iron null charges ready for spell ..."
+    },
+    {
+      "index": 1,
+      "role": "img",
+      "ariaLabel": "Purification Sanctity: 3/10",
+      "title": "Purification Sanctity: 3/10",
+      "desc": "3 of 10 purification sanctity points available for..."
+    },
+    {
+      "index": 2,
+      "role": "img",
+      "ariaLabel": "Furnace Pressure: 20 PSI (IDLE)",
+      "title": "Furnace Pressure: 20 PSI (IDLE)",
+      "desc": "20 PSI boiler pressure: IDLE. Safe venting range 0..."
+    },
+    {
+      "index": 3,
+      "role": "img",
+      "ariaLabel": "Runic Resonance: 0/10",
+      "title": "Runic Resonance: 0/10",
+      "desc": "0 of 10 active runic resonance nodes available for..."
+    },
+    {
+      "index": 4,
+      "role": "img",
+      "ariaLabel": "Bog Tallow: 50/100",
+      "title": "Bog Tallow: 50/100",
+      "desc": "50 of 100 bog tallow units available for sympathet..."
+    },
+    {
+      "index": 5,
+      "role": "img",
+      "ariaLabel": "Kinetic Momentum: 0/10 (ADAGIO)",
+      "title": "Kinetic Momentum: 0/10 (ADAGIO)",
+      "desc": "0 of 10 momentum points. Current flow tempo: ADAGI..."
+    },
+    {
+      "index": 6,
+      "role": "img",
+      "ariaLabel": "Conduit Attunement: 0/10, Pylons: 0/3",
+      "title": "Conduit Attunement: 0/10, Pylons: 0/3",
+      "desc": "0 of 10 conduit attunement. 0 of 3 active standing..."
+    },
+    {
+      "index": 7,
+      "role": null,
+      "ariaLabel": null,
+      "title": "Six tiles: 6 available, 0 committed, 0 bound, 0 spent; no anomaly; no unresolved draw.",
+      "desc": null
+    },
+    {
+      "index": 8,
+      "role": "img",
+      "ariaLabel": "Hexbreaker Charges: 0/6",
+      "title": "Hexbreaker Charges: 0/6",
+      "desc": "0 of 6 cold bog-iron null charges ready for spell ..."
+    },
+    {
+      "index": 9,
+      "role": "img",
+      "ariaLabel": "Purification Sanctity: 3/10",
+      "title": "Purification Sanctity: 3/10",
+      "desc": "3 of 10 purification sanctity points available for..."
+    },
+    {
+      "index": 10,
+      "role": "img",
+      "ariaLabel": "Furnace Pressure: 20 PSI (IDLE)",
+      "title": "Furnace Pressure: 20 PSI (IDLE)",
+      "desc": "20 PSI boiler pressure: IDLE. Safe venting range 0..."
+    },
+    {
+      "index": 11,
+      "role": "img",
+      "ariaLabel": "Runic Resonance: 0/10",
+      "title": "Runic Resonance: 0/10",
+      "desc": "0 of 10 active runic resonance nodes available for..."
+    },
+    {
+      "index": 12,
+      "role": "img",
+      "ariaLabel": "Bog Tallow: 50/100",
+      "title": "Bog Tallow: 50/100",
+      "desc": "50 of 100 bog tallow units available for sympathet..."
+    },
+    {
+      "index": 13,
+      "role": "img",
+      "ariaLabel": "Kinetic Momentum: 0/10 (ADAGIO)",
+      "title": "Kinetic Momentum: 0/10 (ADAGIO)",
+      "desc": "0 of 10 momentum points. Current flow tempo: ADAGI..."
+    },
+    {
+      "index": 14,
+      "role": "img",
+      "ariaLabel": "Conduit Attunement: 0/10, Pylons: 0/3",
+      "title": "Conduit Attunement: 0/10, Pylons: 0/3",
+      "desc": "0 of 10 conduit attunement. 0 of 3 active standing..."
+    },
+    {
+      "index": 15,
+      "role": null,
+      "ariaLabel": null,
+      "title": "Six tiles: 6 available, 0 committed, 0 bound, 0 spent; no anomaly; no unresolved draw.",
+      "desc": null
+    },
+    {
+      "index": 16,
+      "role": "img",
+      "ariaLabel": "Hexbreaker Charges: 0/6",
+      "title": "Hexbreaker Charges: 0/6",
+      "desc": "0 of 6 cold bog-iron null charges ready for spell ..."
+    },
+    {
+      "index": 17,
+      "role": "img",
+      "ariaLabel": "Purification Sanctity: 3/10",
+      "title": "Purification Sanctity: 3/10",
+      "desc": "3 of 10 purification sanctity points available for..."
+    },
+    {
+      "index": 18,
+      "role": "img",
+      "ariaLabel": "Furnace Pressure: 20 PSI (IDLE)",
+      "title": "Furnace Pressure: 20 PSI (IDLE)",
+      "desc": "20 PSI boiler pressure: IDLE. Safe venting range 0..."
+    },
+    {
+      "index": 19,
+      "role": "img",
+      "ariaLabel": "Runic Resonance: 0/10",
+      "title": "Runic Resonance: 0/10",
+      "desc": "0 of 10 active runic resonance nodes available for..."
+    },
+    {
+      "index": 20,
+      "role": "img",
+      "ariaLabel": "Bog Tallow: 50/100",
+      "title": "Bog Tallow: 50/100",
+      "desc": "50 of 100 bog tallow units available for sympathet..."
+    },
+    {
+      "index": 21,
+      "role": "img",
+      "ariaLabel": "Kinetic Momentum: 0/10 (ADAGIO)",
+      "title": "Kinetic Momentum: 0/10 (ADAGIO)",
+      "desc": "0 of 10 momentum points. Current flow tempo: ADAGI..."
+    },
+    {
+      "index": 22,
+      "role": "img",
+      "ariaLabel": "Conduit Attunement: 0/10, Pylons: 0/3",
+      "title": "Conduit Attunement: 0/10, Pylons: 0/3",
+      "desc": "0 of 10 conduit attunement. 0 of 3 active standing..."
+    },
+    {
+      "index": 23,
+      "role": null,
+      "ariaLabel": null,
+      "title": "Six tiles: 6 available, 0 committed, 0 bound, 0 spent; no anomaly; no unresolved draw.",
+      "desc": null
+    },
+    {
+      "index": 24,
+      "role": "img",
+      "ariaLabel": "Furnace Pressure: 20 PSI (IDLE)",
+      "title": "Furnace Pressure: 20 PSI (IDLE)",
+      "desc": "20 PSI boiler pressure: IDLE. Safe venting range 0..."
+    },
+    {
+      "index": 25,
+      "role": "img",
+      "ariaLabel": "Purification Sanctity: 3/10",
+      "title": "Purification Sanctity: 3/10",
+      "desc": "3 of 10 purification sanctity points available for..."
+    },
+    {
+      "index": 26,
+      "role": "img",
+      "ariaLabel": "Bog Tallow: 50/100",
+      "title": "Bog Tallow: 50/100",
+      "desc": "50 of 100 bog tallow units available for sympathet..."
+    },
+    {
+      "index": 27,
+      "role": null,
+      "ariaLabel": null,
+      "title": "Six tiles: 6 available, 0 committed, 0 bound, 0 spent; no anomaly; no unresolved draw.",
+      "desc": null
+    },
+    {
+      "index": 28,
+      "role": "img",
+      "ariaLabel": "Furnace Pressure: 20 PSI (IDLE)",
+      "title": "Furnace Pressure: 20 PSI (IDLE)",
+      "desc": "20 PSI boiler pressure: IDLE. Safe venting range 0..."
+    },
+    {
+      "index": 29,
+      "role": "img",
+      "ariaLabel": "Furnace Pressure: 20 PSI (IDLE)",
+      "title": "Furnace Pressure: 20 PSI (IDLE)",
+      "desc": "20 PSI boiler pressure: IDLE. Safe venting range 0..."
+    },
+    {
+      "index": 30,
+      "role": "img",
+      "ariaLabel": "Bog Tallow: 50/100",
+      "title": "Bog Tallow: 50/100",
+      "desc": "50 of 100 bog tallow units available for sympathet..."
+    },
+    {
+      "index": 31,
+      "role": "img",
+      "ariaLabel": "Bog Tallow: 50/100",
+      "title": "Bog Tallow: 50/100",
+      "desc": "50 of 100 bog tallow units available for sympathet..."
+    },
+    {
+      "index": 32,
+      "role": "img",
+      "ariaLabel": "Kinetic Momentum: 0/10 (ADAGIO)",
+      "title": "Kinetic Momentum: 0/10 (ADAGIO)",
+      "desc": "0 of 10 momentum points. Current flow tempo: ADAGI..."
+    },
+    {
+      "index": 33,
+      "role": "img",
+      "ariaLabel": "Kinetic Momentum: 0/10 (ADAGIO)",
+      "title": "Kinetic Momentum: 0/10 (ADAGIO)",
+      "desc": "0 of 10 momentum points. Current flow tempo: ADAGI..."
+    }
+  ],
+  "contrastAndPaletteAudit": [],
+  "clippingIssues": []
+}

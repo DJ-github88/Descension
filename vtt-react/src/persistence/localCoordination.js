@@ -14,6 +14,7 @@
  */
 
 import { scopesEqual, validateScope } from './scopeModel';
+import { buildScopedKey, encodeSegment, isP5ScopedKey } from './keyFormat';
 import {
   captureAccountContext,
   validateAccountContext,
@@ -333,6 +334,103 @@ function lockedCompareWrite({
   };
 }
 
+/** Key-order independent serialization so equal payloads compare equal. */
+export function stableStringify(value) {
+  if (value === null || typeof value !== 'object') return JSON.stringify(value) ?? 'null';
+  if (Array.isArray(value)) return `[${value.map((item) => stableStringify(item)).join(',')}]`;
+  return `{${Object.keys(value).filter((k) => value[k] !== undefined).sort()
+    .map((k) => `${JSON.stringify(k)}:${stableStringify(value[k])}`).join(',')}}`;
+}
+
+/**
+ * An untouched, still-unresolved recovery fork written by the stale-writer path:
+ * a first-revision fork envelope that is dirty, unconfirmed and carries no
+ * source. Only such records can ever stand in for an identical later candidate.
+ */
+export function isPlainRetainedFork(envelope) {
+  return !!envelope && envelope.localRevision === 1 && envelope.dirty === true
+    && (envelope.confirmedRevision === null || envelope.confirmedRevision === undefined)
+    && envelope.sourceProvenance?.kind === 'fork'
+    && !envelope.sourceProvenance.sourceKey && !envelope.sourceProvenance.sourceId
+    && !envelope.sourceProvenance.importedFromDraftId && !envelope.sourceProvenance.sourceFingerprint
+    && !envelope.cloudBinding;
+}
+
+/** Durable storage handle, or null when unavailable. */
+function durableStorage(storage = null) {
+  if (storage) return storage;
+  try {
+    return typeof window !== 'undefined' && window.localStorage ? window.localStorage : null;
+  } catch (_error) {
+    return null;
+  }
+}
+
+/**
+ * Every durable single-segment fork record of one family/locator in `scope`,
+ * parsed and validated. Malformed, foreign-scope, resolved or altered records
+ * are not returned: they can never absorb a candidate and are never touched.
+ */
+export function listRetainedForks({ familyId, scope, locatorPrefix = '', storage = null }) {
+  const target = durableStorage(storage);
+  if (!target) return [];
+  let prefix;
+  try {
+    prefix = `${buildScopedKey({ scope, familyId, locator: locatorPrefix ? [locatorPrefix] : [] })}:`;
+  } catch (_error) {
+    return [];
+  }
+  const out = [];
+  let length = 0;
+  try { length = target.length; } catch (_error) { return []; }
+  for (let i = 0; i < length; i += 1) {
+    let key;
+    try { key = target.key(i); } catch (_error) { continue; }
+    if (typeof key !== 'string' || !key.startsWith(prefix) || !isP5ScopedKey(key)) continue;
+    const segment = key.slice(prefix.length);
+    if (!segment || segment.includes(':')) continue;
+    let raw;
+    try { raw = target.getItem(key); } catch (_error) { continue; }
+    if (typeof raw !== 'string') continue;
+    let envelope;
+    try { envelope = JSON.parse(raw); } catch (_error) { continue; }
+    if (!validateDraftEnvelope(envelope).ok) continue;
+    if (!scopesEqual({ scopeKind: envelope.scopeKind, scopeId: envelope.scopeId }, scope)) continue;
+    let expected;
+    try { expected = encodeSegment(envelope.draftId); } catch (_error) { continue; }
+    if (expected !== segment || !isPlainRetainedFork(envelope)) continue;
+    out.push({ key, raw, envelope });
+  }
+  return out;
+}
+
+/**
+ * An identical, still-unresolved recovery fork already durable for this exact
+ * candidate (same family, scope, locator, provenance and payload) — so a
+ * repeated stale projection never allocates another copy. Distinct payloads
+ * never match; the shared winner is not a match (only retained evidence is).
+ */
+export function findRetainedEquivalentFork({ familyId, scope, locatorPrefix = '', payload, provenance, storage = null }) {
+  let wanted;
+  let wantedProvenance;
+  try {
+    // Compare what would actually be stored: the envelope holds the JSON form, so
+    // functions (store actions), undefined, Dates etc. must be normalized away
+    // exactly as writing the record would.
+    wanted = stableStringify(JSON.parse(JSON.stringify(payload)));
+    wantedProvenance = stableStringify(JSON.parse(JSON.stringify(provenance)));
+  } catch (_error) {
+    return null;
+  }
+  for (const entry of listRetainedForks({ familyId, scope, locatorPrefix, storage })) {
+    if (stableStringify(entry.envelope.sourceProvenance) !== wantedProvenance) continue;
+    if (stableStringify(entry.envelope.payload) === wanted) {
+      return { key: entry.key, draftId: entry.envelope.draftId, envelope: entry.envelope };
+    }
+  }
+  return null;
+}
+
 /**
  * Fork the pending edit into a fresh draft lineage in the SAME authorized
  * scope. The source record is never modified and gains no overwrite authority.
@@ -392,6 +490,20 @@ export function forkScopedRecord({
     sourceScopeKind: sourceEnvelope?.scopeKind ?? null,
     sourceScopeId: sourceEnvelope?.scopeId ?? null
   };
+
+  // Reuse an identical retained recovery fork instead of allocating another
+  // copy: repeated stale projections must not grow storage without bound.
+  const retained = findRetainedEquivalentFork({ familyId, scope, locatorPrefix, payload, provenance });
+  if (retained) {
+    return {
+      status: COORDINATION_STATUS.FORKED,
+      draftId: retained.draftId,
+      key: retained.key,
+      sourcePreserved: true,
+      reused: true,
+      provenance
+    };
+  }
 
   for (let attempt = 0; attempt < Math.max(1, maxForkAttempts); attempt += 1) {
     const baseId = draftIdFactory(attempt);

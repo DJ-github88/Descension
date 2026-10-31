@@ -1,0 +1,55 @@
+{
+  "classId": "dreadnaught",
+  "className": "Dreadnaught",
+  "version": "cr-review-r1",
+  "rosterCount": 26,
+  "resourceSystem": {
+    "name": "Furnace Pressure",
+    "range": [0, 100],
+    "startingValue": 20,
+    "shortRest": 10,
+    "longRest": 0,
+    "tiers": [
+      { "name": "Idle", "range": [0, 30], "effects": "Baseline operation" },
+      { "name": "Working", "range": [31, 60], "effects": "+2 Damage Reduction vs physical attacks" },
+      { "name": "Supercharged", "range": [61, 90], "effects": "+10 ft speed, +1d6 fire/steam on melee strikes" },
+      { "name": "Overheat", "range": [91, 100], "effects": "Overheat hazard: must vent within 1 round or suffer 2d6 self fire damage" }
+    ]
+  },
+  "counts": {
+    "coreGrants": 2,
+    "optionalPicks": 40,
+    "talentActives": 6,
+    "talentPassives": 48,
+    "totalRecords": 96,
+    "talentTrees": 3,
+    "nodesPerTree": 18,
+    "totalNodes": 54,
+    "rankCapacityPerTree": 50,
+    "totalRankCapacity": 150
+  },
+  "coreGrants": [
+    "cr1_dreadnaught_stoke_furnace",
+    "cr1_dreadnaught_vent_steam"
+  ],
+  "talentTrees": [
+    {
+      "id": "siegebastion",
+      "name": "Siege Bastion",
+      "signature": "dread_sig_bedrock_lock",
+      "capstone": "dread_cap_unbreakable_colossus"
+    },
+    {
+      "id": "furnaceengine",
+      "name": "Furnace Engine",
+      "signature": "dread_sig_boiler_burst",
+      "capstone": "dread_cap_superheated_engine"
+    },
+    {
+      "id": "juggernaut",
+      "name": "Juggernaut Momentum",
+      "signature": "dread_sig_piston_trample",
+      "capstone": "dread_cap_avalanche_of_iron"
+    }
+  ]
+}

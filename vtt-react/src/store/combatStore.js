@@ -926,6 +926,11 @@ const useCombatStore = create((set, get) => ({
         const creatureSpeed = calculateEffectiveMovementSpeed(baseSpeed, conditions);
         const currentAP = combatant.currentActionPoints || 0;
 
+        if (creatureSpeed <= 0) {
+            return { isValid: false, needsConfirmation: false, additionalAPNeeded: 0,
+                creatureSpeed: 0, currentAP, reason: 'Effective movement speed is zero' };
+        }
+
         // Movement AP calculation logic
         let additionalAPNeeded = 0;
         let needsConfirmation = false;
@@ -939,7 +944,10 @@ const useCombatStore = create((set, get) => ({
             additionalAPNeeded = 1;
             needsConfirmation = true;
             return {
+                isValid: currentAP >= additionalAPNeeded,
                 currentMoveFeet: Math.round(currentMoveFeet),
+                currentMovementFeet: Math.round(currentMoveFeet),
+                movementUsedThisTurn,
                 totalMovementAfterThis: Math.round(totalMovementAfterThis),
                 creatureSpeed,
                 currentAP,
@@ -1001,6 +1009,25 @@ const useCombatStore = create((set, get) => ({
             pendingMovementConfirmation: null,
             activeMovement: null
         });
+    },
+
+    // A retained dialog is a quote, not permission to move after speed/AP changes.
+    reviewMovementConfirmation: (creatures) => {
+        const pending = get().pendingMovementConfirmation;
+        if (!pending) return { ready: false };
+        const current = get().validateMovement(pending.tokenId, pending.startPosition, pending.finalPosition, creatures, pending.feetPerTile);
+        if (!current?.isValid) {
+            get().clearPendingMovementConfirmation();
+            return { ready: false };
+        }
+        if (current.additionalAPNeeded !== pending.requiredAP || current.creatureSpeed !== pending.baseMovement || current.totalMovementAfterThis !== pending.totalDistance || current.currentAP !== pending.currentAP) {
+            get().setPendingMovementConfirmation({ ...pending, requiredAP: current.additionalAPNeeded,
+                baseMovement: current.creatureSpeed, totalDistance: current.totalMovementAfterThis,
+                currentAP: current.currentAP, distance: current.currentMovementFeet,
+                currentMovementDistance: current.currentMovementFeet, movementUsedThisTurn: current.movementUsedThisTurn });
+            return { ready: false, repriced: true };
+        }
+        return { ready: true };
     },
 
     // Confirm movement and spend AP
@@ -1073,7 +1100,11 @@ const useCombatStore = create((set, get) => ({
 
         if (!creature) return 0;
 
-        const creatureSpeed = creature.stats?.speed || 30;
+        const tokens = getStore('creatureStore').getState().tokens;
+        const token = tokens.find(t => t.id === tokenId) || (combatant.isCharacterToken
+            ? getStore('characterTokenStore').getState().characterTokens.find(t => t.id === tokenId) : null);
+        const creatureSpeed = calculateEffectiveMovementSpeed(creature.stats?.speed || 30, token?.state?.conditions || []);
+        if (creatureSpeed <= 0) return 0;
         const currentAP = combatant.currentActionPoints || 0;
         const movementUsed = state.turnMovementUsed.get(tokenId) || 0;
         const hasUnlockedMovement = state.movementUnlocked.has(tokenId);
@@ -1135,6 +1166,7 @@ const useCombatStore = create((set, get) => ({
             return 0; // No movement unlocked yet
         } else {
             // Calculate total unlocked movement based on AP spent
+            if (creatureSpeed <= 0) return 0;
             const movementSegmentsAlreadyPaid = Math.ceil(movementUsed / creatureSpeed);
             return movementSegmentsAlreadyPaid * creatureSpeed; // Each AP spent unlocks one movement segment
         }

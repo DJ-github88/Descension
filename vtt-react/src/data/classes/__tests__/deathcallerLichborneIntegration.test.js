@@ -137,8 +137,8 @@ describe('Deathcaller and Lichborne complete content lock', () => {
   test('keeps heritage recommendation-only and coverage unchanged', () => {
     expect(getClassNativeHeritageIds('Deathcaller')).toEqual([]);
     expect(getClassNativeHeritageIds('Lichborne')).toEqual([]);
-    expect(CLASS_PROVENANCE.Deathcaller).toBeUndefined();
-    expect(CLASS_PROVENANCE.Lichborne).toBeUndefined();
+    expect(CLASS_PROVENANCE.Deathcaller?.heritageEffectsImplemented).toBe(false);
+    expect(CLASS_PROVENANCE.Lichborne?.heritageEffectsImplemented).toBe(false);
     expect(DEATHCALLER_DATA.heritageRecommendation).toEqual(['clean_vreken', 'velun_neth']);
     expect(LICHBORNE_DATA.heritageRecommendation).toEqual(['velun_neth', 'tessen_human']);
     expect(DEATHCALLER_DATA.heritageEffectsImplemented).toBe(false);

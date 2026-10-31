@@ -713,6 +713,263 @@ export const CLASS_RESOURCE_TYPES = {
  },
 
  // HARROW PATH
+  'Covenbane': {
+  id: 'hexbreaker_charges',
+  name: 'Hexbreaker Charges',
+  shortName: 'Charges',
+  type: 'covenbane-charges',
+  description: 'Alchemical null-salts and cold bog-iron fuel the Covenbane\'s anti-magic hunting. Built through magical friction and spell disruption (0-6). Spent on dispels, kinetic nullification, and execution strikes.',
+  visual: {
+   type: 'covenbane-charges',
+   arrangement: 'hexbreaker',
+   baseColor: '#1a1f1d',
+   activeColor: '#7a8b7b',
+   glowColor: '#a3b899',
+   warningColor: '#c59b27',
+   dangerColor: '#b22222',
+   criticalColor: '#8b0000',
+   icon: 'fas fa-crosshairs',
+   effects: ['disruption', 'null-zone', 'anti-magic', 'severance']
+  },
+  mechanics: {
+   max: 6,
+   current: 0,
+   regen: 0,
+   consumeVerb: 'spend',
+   gainVerb: 'forge',
+   startingValue: 0
+  },
+  tooltip: {
+   title: 'Hexbreaker Charges',
+   description: 'Cold-iron friction and null-salts. Built through spell disruption (0-6 charges). Spent on anti-magic counters and execution strikes.'
+  }
+ },
+
+ 'Exorcist': {
+  id: 'purification_sanctity',
+  name: 'Purification Sanctity',
+  shortName: 'Sanctity',
+  type: 'purification_sanctity',
+  description: 'Purification Sanctity measures the holy threshold of ritual preparation and spiritual resilience (0-10). Starts at 3. Built through maintaining salt thresholds and ally saving throws. Spent on litanies of purging, sin-eating absorptions, and sacred expulsions.',
+  visual: {
+   type: 'purification_sanctity',
+   arrangement: 'meter',
+   baseColor: '#1e1b4b',
+   activeColor: '#4f46e5',
+   glowColor: '#818cf8',
+   warningColor: '#c59b27',
+   dangerColor: '#b22222',
+   criticalColor: '#8b0000',
+   icon: 'fas fa-cross',
+   effects: ['sanctuary', 'sin-eating', 'purging', 'salt-boundary']
+  },
+  mechanics: {
+   max: 10,
+   current: 3,
+   regen: 0,
+   consumeVerb: 'spend',
+   gainVerb: 'sanctify',
+   startingValue: 3
+  },
+  tooltip: {
+   title: 'Purification Sanctity',
+   description: 'Sacred salt rites and host endurance (0-10 Sanctity). Built through thresholds and ally mental saves. Expended to cleanse conditions and expel entities.'
+  }
+ },
+
+ 'Dreadnaught': {
+  id: 'furnace_pressure',
+  name: 'Furnace Pressure',
+  shortName: 'Pressure',
+  type: 'furnace_pressure',
+  description: 'Furnace Pressure measures the alchemical steam pressure built inside the Dreadnaught’s spinal boiler and hydraulic servos (0-100 PSI). Starts at 20 PSI. Built through suffering attacks, hydraulic locomotion, and active stoking. Spent on concussive steam vents, hydraulic slams, and piston charges. Exceeding 90 PSI enters Overheat.',
+  visual: {
+   type: 'furnace_pressure',
+   arrangement: 'gauge',
+   baseColor: '#1c1917',
+   activeColor: '#d97706',
+   glowColor: '#f59e0b',
+   warningColor: '#dc2626',
+   dangerColor: '#991b1b',
+   criticalColor: '#7f1d1d',
+   icon: 'fas fa-tachometer-alt',
+   effects: ['boiler-vent', 'hydraulic-slam', 'overheat-warning']
+  },
+  mechanics: {
+   max: 100,
+   current: 20,
+   regen: 0,
+   consumeVerb: 'vent',
+   gainVerb: 'stoke',
+   startingValue: 20
+  },
+  tooltip: {
+   title: 'Furnace Pressure',
+   description: 'Steam boiler pressure (0-100 PSI). Built from physical impacts and locomotion; spent on hydraulic strikes and steam vents.'
+  }
+ },
+
+ 'Bladedancer': {
+  id: 'bladedancer_momentum',
+  name: 'Kinetic Momentum',
+  shortName: 'Momentum',
+  type: 'momentum',
+  description: 'Kinetic Momentum measures rhythmic combative velocity built from successful strikes and parries (0-10). Shifts through four distinct tempos (Adagio, Andante, Allegro, Presto). Spent on multi-target flourishes, rapid lunges, and execution finishers.',
+  visual: {
+   type: 'momentum',
+   arrangement: 'stepped',
+   baseColor: '#1f1315',
+   activeColor: '#e11d48',
+   glowColor: '#fb7185',
+   warningColor: '#c59b27',
+   dangerColor: '#b22222',
+   criticalColor: '#8b0000',
+   icon: 'fas fa-wind',
+   effects: ['kinetic-flow', 'parry-riposte', 'tempo-shift']
+  },
+  mechanics: {
+   max: 10,
+   current: 0,
+   regen: 0,
+   consumeVerb: 'spend',
+   gainVerb: 'accelerate',
+   startingValue: 0
+  },
+  tooltip: {
+   title: 'Kinetic Momentum',
+   description: 'Combat velocity and flow state (0-10 Momentum). Built through melee strikes and parries; spent on rapid flourishes and execution strikes.'
+  }
+ },
+
+ 'Inscriptor': {
+  id: 'runic_resonance',
+  name: 'Runic Resonance',
+  shortName: 'Resonance',
+  type: 'runic_resonance',
+  description: 'Runic Resonance measures the ambient linguistic charge connecting your etched runes and equipment inscriptions (0-10). Built from carving glyphs and trigger events. Spent on matrix detonations, gravity pulls, and protective barriers.',
+  visual: {
+   type: 'runic_resonance',
+   arrangement: 'slates',
+   baseColor: '#172554',
+   activeColor: '#1d4ed8',
+   glowColor: '#60a5fa',
+   warningColor: '#c59b27',
+   dangerColor: '#b22222',
+   criticalColor: '#8b0000',
+   icon: 'fas fa-scroll',
+   effects: ['glyph-matrix', 'zone-denial', 'equipment-reinforcement']
+  },
+  mechanics: {
+   max: 10,
+   current: 0,
+   regen: 0,
+   consumeVerb: 'discharge',
+   gainVerb: 'etch',
+   startingValue: 0
+  },
+  tooltip: {
+   title: 'Runic Resonance',
+   description: 'Linguistic syntax energy (0-10 Resonance). Built by carving runes onto tiles and gear; discharged in geometric detonations and wards.'
+  }
+ },
+
+ 'Totemist': {
+  id: 'totemic_attunement',
+  name: 'Conduit Attunement',
+  shortName: 'Attunement',
+  type: 'totemic_attunement',
+  description: 'Conduit Attunement measures harmonic vibrational resonance between the Totemist and their active standing pylons (0-10 Attunement, max 3 Pylons). Built when conduits pulse or absorb attacks. Spent on seismic faultlines and triangular lightning cages.',
+  visual: {
+   type: 'totemic_attunement',
+   arrangement: 'pylons-meter',
+   baseColor: '#271c14',
+   activeColor: '#d97706',
+   glowColor: '#fbbf24',
+   warningColor: '#dc2626',
+   dangerColor: '#991b1b',
+   criticalColor: '#7f1d1d',
+   icon: 'fas fa-monument',
+   effects: ['conduit-aura', 'faultline', 'storm-cage']
+  },
+  mechanics: {
+   max: 10,
+   current: 0,
+   regen: 0,
+   consumeVerb: 'discharge',
+   gainVerb: 'ground',
+   startingValue: 0,
+   maxPylons: 3,
+   activePylons: 0
+  },
+  tooltip: {
+   title: 'Conduit Attunement',
+   description: 'Lithic resonance between deployed pylons (0-10 Attunement, 3 Conduit Slots). Built from grounding currents; spent on seismic lines and lightning bursts.'
+  }
+ },
+
+ 'Witch Doctor': {
+  id: 'bog_tallow',
+  name: 'Bog Tallow',
+  shortName: 'Tallow',
+  type: 'bog_tallow',
+  description: 'Bog Tallow measures the volume of rendered alchemical wax available in your crucible for sculpting sympathetic poppets and brewing miasmas (0-100%). Starts at 50%. Built by rendering herbs and harvesting suffering. Spent on sympathetic bindings and clouds.',
+  visual: {
+   type: 'bog_tallow',
+   arrangement: 'crucible-meter',
+   baseColor: '#052e16',
+   activeColor: '#15803d',
+   glowColor: '#4ade80',
+   warningColor: '#c59b27',
+   dangerColor: '#b22222',
+   criticalColor: '#8b0000',
+   icon: 'fas fa-skull',
+   effects: ['sympathetic-poppet', 'miasma-cauldron', 'bog-curse']
+  },
+  mechanics: {
+   max: 100,
+   current: 50,
+   regen: 0,
+   consumeVerb: 'sculpt',
+   gainVerb: 'render',
+   startingValue: 50
+  },
+  tooltip: {
+   title: 'Bog Tallow',
+   description: 'Rendered bog wax (0-100% Tallow). Rendered from peat and harvested herbs; spent to sculpt sympathetic poppets and brew miasmas.'
+  }
+ },
+ 'WitchDoctor': {
+  id: 'bog_tallow',
+  name: 'Bog Tallow',
+  shortName: 'Tallow',
+  type: 'bog_tallow',
+  description: 'Bog Tallow measures the volume of rendered alchemical wax available in your crucible for sculpting sympathetic poppets and brewing miasmas (0-100%). Starts at 50%. Built by rendering herbs and harvesting suffering. Spent on sympathetic bindings and clouds.',
+  visual: {
+   type: 'bog_tallow',
+   arrangement: 'crucible-meter',
+   baseColor: '#052e16',
+   activeColor: '#15803d',
+   glowColor: '#4ade80',
+   warningColor: '#c59b27',
+   dangerColor: '#b22222',
+   criticalColor: '#8b0000',
+   icon: 'fas fa-skull',
+   effects: ['sympathetic-poppet', 'miasma-cauldron', 'bog-curse']
+  },
+  mechanics: {
+   max: 100,
+   current: 50,
+   regen: 0,
+   consumeVerb: 'sculpt',
+   gainVerb: 'render',
+   startingValue: 50
+  },
+  tooltip: {
+   title: 'Bog Tallow',
+   description: 'Rendered bog wax (0-100% Tallow). Rendered from peat and harvested herbs; spent to sculpt sympathetic poppets and brew miasmas.'
+  }
+ },
+
  'Plaguebringer': {
   id: 'virulenceCultivation',
   name: 'Virulence',
@@ -1172,6 +1429,50 @@ export const initializeClassResource = (className, characterStats) => {
     baseResource.max = 3;
     baseResource.quarryMax = 1;
     baseResource.evidenceMax = 3;
+   } else if (className === 'Covenbane') {
+    baseResource.initialized = false;
+    baseResource.state = null;
+    baseResource.current = 0;
+    baseResource.max = 6;
+    baseResource.charges = 0;
+   } else if (className === 'Exorcist') {
+    baseResource.initialized = false;
+    baseResource.state = null;
+    baseResource.current = 3;
+    baseResource.max = 10;
+    baseResource.sanctity = 3;
+   } else if (className === 'Dreadnaught') {
+    baseResource.initialized = false;
+    baseResource.state = null;
+    baseResource.current = 20;
+    baseResource.max = 100;
+    baseResource.psi = 20;
+   } else if (className === 'Bladedancer') {
+    baseResource.initialized = false;
+    baseResource.state = null;
+    baseResource.current = 0;
+    baseResource.max = 10;
+    baseResource.momentum = 0;
+   } else if (className === 'Inscriptor') {
+    baseResource.initialized = false;
+    baseResource.state = null;
+    baseResource.current = 0;
+    baseResource.max = 10;
+    baseResource.resonance = 0;
+   } else if (className === 'Totemist') {
+    baseResource.initialized = false;
+    baseResource.state = null;
+    baseResource.current = 0;
+    baseResource.max = 10;
+    baseResource.attunement = 0;
+    baseResource.activePylons = 0;
+    baseResource.maxPylons = 3;
+   } else if (className === 'Witch Doctor' || className === 'WitchDoctor') {
+    baseResource.initialized = false;
+    baseResource.state = null;
+    baseResource.current = 50;
+    baseResource.max = 100;
+    baseResource.tallow = 50;
    }
 
  // Initialize custom fields for Revenant, Apex, and Arcanoneer

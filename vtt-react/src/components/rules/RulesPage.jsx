@@ -32,6 +32,7 @@ import {
 
 
 import { RULES_CATEGORIES, getRuleContent, searchRulesIndex } from '../../data/rulesData';
+import { withClassHeritageMetadata } from '../../data/classHeritageRegistry';
 import useGameData from '../../hooks/useGameData';
 
 
@@ -142,7 +143,7 @@ const DramatisPersonaeDisplay = React.lazy(() => import('./DramatisPersonaeDispl
 
 const ClassOriginsDisplay = React.lazy(() => import('./ClassOriginsDisplay'));
 
-// Classes views are heavy (backdrop art + 21 class data sets) — load on demand.
+// Classes views are heavy (backdrop art + registered class data sets) — load on demand.
 const ClassesDisplay = React.lazy(() => import('./ClassesDisplay'));
 
 const ClassDetailDisplay = React.lazy(() => import('./ClassDetailDisplay'));
@@ -192,7 +193,7 @@ const highlightSearchMatch = (text, query) => {
 
 
 
-const CLASS_DATA_LOADERS = {
+export const CLASS_DATA_LOADERS = {
 
 
 
@@ -279,6 +280,14 @@ const CLASS_DATA_LOADERS = {
   'Oracle': () => import('../../data/classes/oracleData').then(m => m.ORACLE_DATA),
   'Druid': () => import('../../data/classes/druidData').then(m => m.DRUID_DATA),
   'Hunter': () => import('../../data/classes/hunterData').then(m => m.HUNTER_DATA),
+  'Covenbane': () => import('../../data/classes/covenbaneData').then(m => m.COVENBANE_DATA),
+  'Exorcist': () => import('../../data/classes/exorcistData').then(m => m.EXORCIST_DATA),
+  'Dreadnaught': () => import('../../data/classes/dreadnaughtData').then(m => m.DREADNAUGHT_DATA),
+  'Bladedancer': () => import('../../data/classes/bladedancerData').then(m => m.BLADEDANCER_DATA),
+  'Inscriptor': () => import('../../data/classes/inscriptorData').then(m => m.INSCRIPTOR_DATA),
+  'Totemist': () => import('../../data/classes/totemistData').then(m => m.TOTEMIST_DATA),
+  'Witch Doctor': () => import('../../data/classes/witchDoctorData').then(m => m.WITCH_DOCTOR_DATA),
+  'WitchDoctor': () => import('../../data/classes/witchDoctorData').then(m => m.WITCH_DOCTOR_DATA),
 
   'Lunarch': () => import('../../data/classes/lunarchData').then(m => m.LUNARCH_DATA),
   'Nereid Myrathil Apex': () => import('../../data/classes/index').then(m => m.DEEPLING_MYRATHIL_APEX_DATA),
@@ -334,7 +343,14 @@ const classDataCache = new Map();
 
 
 
-const CLASS_ICON_MAP = {
+export const CLASS_ICON_MAP = {
+  'Chronarch': faClock,
+  'Gambit': faDice,
+  'Chaos Weaver': faDice,
+  'Gambler': faDice,
+  'Fate Weaver': faScroll,
+  'Deathcaller': faSkull,
+  'Lichborne': faSkull,
 
 
 
@@ -367,6 +383,14 @@ const CLASS_ICON_MAP = {
 
 
   'Hunter': faCrosshairs,
+  'Covenbane': faCrosshairs,
+  'Exorcist': faCross,
+  'Dreadnaught': faShieldAlt,
+  'Bladedancer': faWind,
+  'Inscriptor': faScroll,
+  'Totemist': faMountain,
+  'Witch Doctor': faSkull,
+  'WitchDoctor': faSkull,
 
 
 
@@ -2766,11 +2790,12 @@ const RulesPage = () => {
 
 
 
-        classDataCache.set(selectedClassDetail, data);
+        const enriched = data ? withClassHeritageMetadata(data.variantName || data.name || selectedClassDetail, data) : null;
+        classDataCache.set(selectedClassDetail, enriched);
 
 
 
-        setLoadedClassData(data);
+        setLoadedClassData(enriched);
 
 
 

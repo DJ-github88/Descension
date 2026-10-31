@@ -1,0 +1,353 @@
+{
+  "schema": "mythrill.browser-evidence/v1",
+  "timestamp": "2026-10-31T12:21:50.422Z",
+  "targetCohort": [
+    "Covenbane",
+    "Exorcist",
+    "Dreadnaught"
+  ],
+  "sourceIdentity": {
+    "branch": "master",
+    "head": "89cddc2b43ce80c1af00c73cbfc402c66233f4ff"
+  },
+  "console": {
+    "classRuntimeErrors": 0,
+    "pageErrors": [],
+    "logs": [
+      "✅ Firebase configured with project: mythrill-ff7c6",
+      "✅ Firebase configured with project: mythrill-ff7c6",
+      "✅ Firebase configured with project: mythrill-ff7c6",
+      "✅ Firebase configured with project: mythrill-ff7c6",
+      "✅ Firebase configured with project: mythrill-ff7c6",
+      "✅ Firebase configured with project: mythrill-ff7c6",
+      "✅ Firebase configured with project: mythrill-ff7c6",
+      "✅ Firebase configured with project: mythrill-ff7c6",
+      "✅ Firebase configured with project: mythrill-ff7c6",
+      "✅ Firebase configured with project: mythrill-ff7c6",
+      "✅ Firebase configured with project: mythrill-ff7c6",
+      "✅ Firebase configured with project: mythrill-ff7c6",
+      "✅ Firebase configured with project: mythrill-ff7c6",
+      "✅ Firebase configured with project: mythrill-ff7c6",
+      "✅ Firebase configured with project: mythrill-ff7c6"
+    ],
+    "warnings": []
+  },
+  "catalogueNavigation": {
+    "Covenbane": {
+      "navigated": true,
+      "url": "http://127.0.0.1:4205/rules?category=character-creation&sub=classes&class=Covenbane"
+    },
+    "Exorcist": {
+      "navigated": true,
+      "url": "http://127.0.0.1:4205/rules?category=character-creation&sub=classes&class=Exorcist"
+    },
+    "Dreadnaught": {
+      "navigated": true,
+      "url": "http://127.0.0.1:4205/rules?category=character-creation&sub=classes&class=Dreadnaught"
+    }
+  },
+  "classDetails": {
+    "Covenbane": {
+      "tabs": {
+        "overview": {
+          "title": "Covenbane",
+          "role": "Anti-Magic Hunter",
+          "developmentStatusBadge": true
+        },
+        "tradition": {
+          "loaded": true,
+          "excerpt": "Tradition  Cold bog-iron weapons and alchemical null-salts dampening leyline resonance  Taking up the calling  An actual Barbed Vow or null-salt appre"
+        },
+        "resource": {
+          "loaded": true,
+          "hasSvgPreview": true,
+          "excerpt": "Covenbane Resource  Build Hexbreaker Charges from spell disruption, parries, and null-salts; spend on anti-magic counters and executions.  Hexbreaker "
+        },
+        "specializations": {
+          "loaded": true,
+          "excerpt": "Three Anti-Magic Disciplines Overview Talent trees  First investment chooses a primary tree. Five talent points per level, global cap fifty. Signature"
+        },
+        "spells": {
+          "loaded": true,
+          "spellRowsCount": 0
+        }
+      },
+      "desktop": {
+        "overflow": false
+      },
+      "mobile390": {
+        "overflow": false
+      }
+    },
+    "Exorcist": {
+      "tabs": {
+        "overview": {
+          "title": "Exorcist",
+          "role": "Sacred Expeller / Host Protector",
+          "developmentStatusBadge": true
+        },
+        "tradition": {
+          "loaded": true,
+          "excerpt": "Tradition  Sacred salt boundary rites, litanies of expulsion, and sacrificial sin-eating endurance  Taking up the calling  An actual salt-threshold ap"
+        },
+        "resource": {
+          "loaded": true,
+          "hasSvgPreview": true,
+          "excerpt": "Exorcist Resource  Maintain Purification Sanctity through sacred thresholds, ally protections, and sin-eating; spend on holy litanies and expulsions. "
+        },
+        "specializations": {
+          "loaded": true,
+          "excerpt": "Three Sacred Disciplines Overview Talent trees  First investment chooses a primary tree. Five talent points per level, global cap fifty. Signatures re"
+        },
+        "spells": {
+          "loaded": true,
+          "spellRowsCount": 0
+        }
+      },
+      "desktop": {
+        "overflow": false
+      },
+      "mobile390": {
+        "overflow": false
+      }
+    },
+    "Dreadnaught": {
+      "tabs": {
+        "overview": {
+          "title": "Dreadnaught",
+          "role": "Juggernaut / Heavy Tank",
+          "developmentStatusBadge": true
+        },
+        "tradition": {
+          "loaded": true,
+          "excerpt": "Tradition  Alchemical steam combustion, spinal boiler mechanics, and hydraulic piston servos  Taking up the calling  Boiler apprenticeship, hydraulic "
+        },
+        "resource": {
+          "loaded": true,
+          "hasSvgPreview": true,
+          "excerpt": "Dreadnaught Resource  Stoke the spinal firebox, build Furnace Pressure from physical impacts and kinetic locomotion, and vent superheated steam to dem"
+        },
+        "specializations": {
+          "loaded": true,
+          "excerpt": "Three Industrial Disciplines Overview Talent trees  First investment chooses a primary tree. Five talent points per level, global cap fifty. Signature"
+        },
+        "spells": {
+          "loaded": true,
+          "spellRowsCount": 0
+        }
+      },
+      "desktop": {
+        "overflow": false
+      },
+      "mobile390": {
+        "overflow": false
+      }
+    }
+  },
+  "hudVerification": {
+    "Covenbane": {
+      "svgCount": 2,
+      "hasAriaLabel": true,
+      "ariaLabels": [
+        "Hexbreaker Charges: 0/6"
+      ],
+      "duplicateIds": []
+    },
+    "Exorcist": {
+      "svgCount": 2,
+      "hasAriaLabel": true,
+      "ariaLabels": [
+        "Purification Sanctity: 3/10"
+      ],
+      "duplicateIds": []
+    },
+    "Dreadnaught": {
+      "svgCount": 2,
+      "hasAriaLabel": true,
+      "ariaLabels": [
+        "Furnace Pressure: 20 PSI (IDLE)"
+      ],
+      "duplicateIds": []
+    }
+  },
+  "roundTrip": {
+    "Covenbane": {
+      "characterId": "char_test_covenbane_1793449357212",
+      "survivedSaveViewEditSave": true,
+      "knownSpells": [
+        "cr1_covenbane_null_strike",
+        "cr1_covenbane_draw_null_salt",
+        "cov_tallow_ward"
+      ],
+      "stats": {
+        "strength": 14,
+        "agility": 10,
+        "constitution": 14,
+        "intelligence": 10,
+        "spirit": 10,
+        "charisma": 10
+      },
+      "hp": {
+        "current": 50,
+        "max": 50
+      },
+      "mp": {
+        "current": 20,
+        "max": 20
+      },
+      "classResource": {
+        "initialized": false,
+        "key": "covenbane-charges"
+      }
+    },
+    "Exorcist": {
+      "characterId": "char_test_exorcist_1793449357216",
+      "survivedSaveViewEditSave": true,
+      "knownSpells": [
+        "cr1_exorcist_consecrate_threshold",
+        "cr1_exorcist_litany_of_purging",
+        "exo_salt_brand"
+      ],
+      "stats": {
+        "strength": 14,
+        "agility": 10,
+        "constitution": 14,
+        "intelligence": 10,
+        "spirit": 10,
+        "charisma": 10
+      },
+      "hp": {
+        "current": 50,
+        "max": 50
+      },
+      "mp": {
+        "current": 20,
+        "max": 20
+      },
+      "classResource": {
+        "initialized": false,
+        "key": "sanctity"
+      }
+    },
+    "Dreadnaught": {
+      "characterId": "char_test_dreadnaught_1793449357218",
+      "survivedSaveViewEditSave": true,
+      "knownSpells": [
+        "cr1_dreadnaught_vent_steam",
+        "cr1_dreadnaught_stoke_furnace",
+        "dread_piston_slam"
+      ],
+      "stats": {
+        "strength": 14,
+        "agility": 10,
+        "constitution": 14,
+        "intelligence": 10,
+        "spirit": 10,
+        "charisma": 10
+      },
+      "hp": {
+        "current": 50,
+        "max": 50
+      },
+      "mp": {
+        "current": 20,
+        "max": 20
+      },
+      "classResource": {
+        "initialized": false,
+        "key": "furnace_pressure"
+      }
+    }
+  },
+  "disposableStorageVerification": {
+    "preExistingGuestCharactersPreserved": true,
+    "isolatedStorageUsed": true
+  },
+  "screenshots": [
+    {
+      "name": "catalogue-desktop-1280.png",
+      "desc": "Classes Catalogue Desktop View"
+    },
+    {
+      "name": "covenbane-detail-desktop-overview.png",
+      "desc": "Covenbane Detail Overview (Desktop 1280px)"
+    },
+    {
+      "name": "covenbane-detail-desktop-tradition.png",
+      "desc": "Covenbane Tradition Tab (Desktop 1280px)"
+    },
+    {
+      "name": "covenbane-detail-desktop-resource.png",
+      "desc": "Covenbane Resource System Tab (Desktop 1280px)"
+    },
+    {
+      "name": "covenbane-detail-desktop-specializations.png",
+      "desc": "Covenbane Specializations Tab (Desktop 1280px)"
+    },
+    {
+      "name": "covenbane-detail-desktop-spells.png",
+      "desc": "Covenbane Spells Tab (Desktop 1280px)"
+    },
+    {
+      "name": "covenbane-detail-mobile-390.png",
+      "desc": "Covenbane Mobile 390px View"
+    },
+    {
+      "name": "exorcist-detail-desktop-overview.png",
+      "desc": "Exorcist Detail Overview (Desktop 1280px)"
+    },
+    {
+      "name": "exorcist-detail-desktop-tradition.png",
+      "desc": "Exorcist Tradition Tab (Desktop 1280px)"
+    },
+    {
+      "name": "exorcist-detail-desktop-resource.png",
+      "desc": "Exorcist Resource System Tab (Desktop 1280px)"
+    },
+    {
+      "name": "exorcist-detail-desktop-specializations.png",
+      "desc": "Exorcist Specializations Tab (Desktop 1280px)"
+    },
+    {
+      "name": "exorcist-detail-desktop-spells.png",
+      "desc": "Exorcist Spells Tab (Desktop 1280px)"
+    },
+    {
+      "name": "exorcist-detail-mobile-390.png",
+      "desc": "Exorcist Mobile 390px View"
+    },
+    {
+      "name": "dreadnaught-detail-desktop-overview.png",
+      "desc": "Dreadnaught Detail Overview (Desktop 1280px)"
+    },
+    {
+      "name": "dreadnaught-detail-desktop-tradition.png",
+      "desc": "Dreadnaught Tradition Tab (Desktop 1280px)"
+    },
+    {
+      "name": "dreadnaught-detail-desktop-resource.png",
+      "desc": "Dreadnaught Resource System Tab (Desktop 1280px)"
+    },
+    {
+      "name": "dreadnaught-detail-desktop-specializations.png",
+      "desc": "Dreadnaught Specializations Tab (Desktop 1280px)"
+    },
+    {
+      "name": "dreadnaught-detail-desktop-spells.png",
+      "desc": "Dreadnaught Spells Tab (Desktop 1280px)"
+    },
+    {
+      "name": "dreadnaught-detail-mobile-390.png",
+      "desc": "Dreadnaught Mobile 390px View"
+    },
+    {
+      "name": "roster-with-test-characters.png",
+      "desc": "Character Roster with Round-Trip Test Characters"
+    }
+  ],
+  "remainingGaps": [
+    "Live WebSocket multi-token sync in active multiplayer room was not exercised.",
+    "Combat timeline turn-by-turn action execution is unauthorized and remains manual-tabletop only.",
+    "Playwright browser tests ran against the production build; continuous live Vite hot-reload daemon was not attached."
+  ]
+}

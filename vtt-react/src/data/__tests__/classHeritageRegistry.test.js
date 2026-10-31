@@ -24,12 +24,12 @@ const specRows = inverseSection.split('\n').filter(line => /^\|.*`[^`]+`/.test(l
 
 test('registry matches the independently authored blueprint inverse and all 102 native relationships', () => {
   expect(specRows).toHaveLength(25);
-  expect(Object.keys(CLASS_PROVENANCE)).toHaveLength(24);
+  expect(Object.keys(CLASS_PROVENANCE)).toHaveLength(31);
   expect(Object.keys(HERITAGE_TRADITIONS)).toHaveLength(25);
   expect(specRows.reduce((total, row) => total + row.classes.length, 0)).toBe(102);
   // Chaos Weaver (RI-1) and Gambler (RI-2) are deliberate registry extensions beyond the
   // blueprint's 21 dossiers; filter them only for the blueprint parity checks.
-  const nonNativeDevClasses = ['Fate Weaver', 'Deathcaller', 'Lichborne', 'Doomsayer', 'Oracle', 'Druid', 'Hunter'];
+  const nonNativeDevClasses = ['Fate Weaver', 'Deathcaller', 'Lichborne', 'Doomsayer', 'Oracle', 'Druid', 'Hunter', 'Covenbane'];
   const blueprintClasses = classes => classes.filter(name => !['Chaos Weaver', 'Gambler', ...nonNativeDevClasses].includes(name));
   specRows.forEach(row => {
     expect(blueprintClasses(HERITAGE_TRADITIONS[row.id].classes).slice().sort()).toEqual(row.classes.slice().sort());
@@ -129,9 +129,9 @@ test('Skald Martyr normal method is Ironclad and Witness is extra acquired train
 });
 
 test('Nereid lookup aliases stay compatible without becoming three extra base classes', () => {
-  expect(Object.keys(BASE_CLASSES_DATA)).toHaveLength(30);
-  expect(Object.keys(ALL_CLASSES_DATA)).toHaveLength(33);
-  expect(CLASS_DISPLAY_DATA).toHaveLength(30);
+  expect(Object.keys(BASE_CLASSES_DATA)).toHaveLength(31);
+  expect(Object.keys(ALL_CLASSES_DATA)).toHaveLength(34);
+  expect(CLASS_DISPLAY_DATA).toHaveLength(31);
   expect(CLASS_DISPLAY_ALIASES).toHaveLength(3);
   Object.entries(CLASS_COMPATIBILITY_ALIASES).forEach(([name, alias]) => {
     expect(ALL_CLASSES_DATA[name].name).toBe(alias.className);

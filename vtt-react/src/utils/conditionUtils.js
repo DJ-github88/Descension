@@ -1,6 +1,7 @@
 /**
  * Utility functions for calculating stat modifications based on conditions
  */
+import { movementBreakdown } from '../services/sharedConditionProfile';
 
 /**
  * Calculate effective movement speed based on active conditions
@@ -8,9 +9,22 @@
  * @param {Array} conditions - Array of active conditions from token.state.conditions
  * @returns {number} - The effective movement speed after applying condition modifiers
  */
+/** Sum of accepted authored movement changes on these exact records (A11: different named effects stack). */
+export function authoredMovementFeet(conditions = []) {
+ return movementBreakdown(0, conditions).total;
+}
+
 export function calculateEffectiveMovementSpeed(baseSpeed, conditions = []) {
+ return movementSpeedBreakdown(baseSpeed, conditions).result;
+}
+
+/**
+ * A11: the same calculation as calculateEffectiveMovementSpeed, returned as readable parts:
+ * base → existing condition step (zeroing/multipliers) → each authored movement change → result (≥ 0 ft).
+ */
+export function movementSpeedBreakdown(baseSpeed, conditions = []) {
  if (!conditions || conditions.length === 0) {
-  return baseSpeed;
+  return { base: baseSpeed, zeroedBy: null, before: baseSpeed, effects: [], total: 0, result: baseSpeed, clamped: false };
  }
 
  let effectiveSpeed = baseSpeed;
@@ -18,7 +32,7 @@ export function calculateEffectiveMovementSpeed(baseSpeed, conditions = []) {
 
  // Check for conditions that set speed to 0 (highest priority)
  if (conditionIds.includes('stunned') || conditionIds.includes('paralyzed')) {
-  return 0;
+  return { base: baseSpeed, zeroedBy: conditionIds.includes('stunned') ? 'stunned' : 'paralyzed', before: 0, effects: [], total: 0, result: 0, clamped: false };
  }
 
  // Apply multiplicative modifiers in order
@@ -46,8 +60,27 @@ export function calculateEffectiveMovementSpeed(baseSpeed, conditions = []) {
    effectiveSpeed = effectiveSpeed * 0.5;
  }
 
- // Return the effective speed, ensuring it's at least 0
- return Math.max(0, Math.floor(effectiveSpeed));
+ // A10: authored movement changes (validated canonical records only) are flat feet added after the
+ // multipliers above — the same order the character sheet uses for flat buff/debuff speed effects.
+ // Sandbox/legacy records with arbitrary effects are not counted here, so nothing is applied twice.
+ // A11: the shared breakdown adds each accepted change, floors, and never goes below 0 (unchanged order).
+ return { base: baseSpeed, zeroedBy: null, ...movementBreakdown(effectiveSpeed, conditions) };
+}
+
+/** Base walking speed the creature Inspect view and combat movement use for this token (library first). */
+export function movementBaseSpeed(token, creatures = []) {
+ const library = Array.isArray(creatures) ? creatures.find(creature => creature?.id === token?.creatureId) : null;
+ return library?.stats?.speed || token?.creature?.stats?.speed || token?.stats?.speed || 30;
+}
+
+/** One readable line: "Base 35 ft · Mired −10 ft · Tailwind +15 ft = 40 ft". */
+export function movementBreakdownText(breakdown) {
+ if (!breakdown) return '';
+ if (breakdown.zeroedBy) return `Base ${breakdown.base} ft · ${breakdown.zeroedBy === 'stunned' ? 'Stunned' : 'Paralyzed'}: no movement = 0 ft`;
+ const parts = [`Base ${breakdown.base} ft`];
+ if (breakdown.before !== breakdown.base) parts.push(`other conditions → ${breakdown.before} ft`);
+ for (const effect of breakdown.effects) parts.push(`${effect.name} ${effect.feet > 0 ? '+' : '−'}${Math.abs(effect.feet)} ft`);
+ return `${parts.join(' · ')} = ${breakdown.result} ft${breakdown.clamped ? ' (never below 0 ft)' : ''}`;
 }
 
 /**

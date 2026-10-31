@@ -422,7 +422,118 @@ export const CLASS_FLAVOR_PROFILES = {
     keyFeatures: ['Single Quarry Ledger', 'Three Evidence Marks', 'Companion Role & Field Tools'],
     loreSnippet: 'Rooted in frontier ranging lodges and Silent Hunt field craft, Hunters read trail, habit, and opening without magical omniscience.',
     playstyle: 'Log observed Evidence on one named quarry, coordinate your companion role, and deploy two prepared field tools.'
-  
+  },
+
+  covenbane: {
+    id: 'covenbane',
+    name: 'Covenbane',
+    role: 'Occult Hunter & Spellbreaker',
+    roleIcon: 'fa-crosshairs',
+    tradition: 'Martial Occult',
+    resourceName: 'Hexbreaker Charges',
+    resourceIcon: 'fa-bolt',
+    tagline: 'Track residual magic with cold bog-iron and alchemical null-salts, turning hostile spell friction into shattering dispels.',
+    keyFeatures: ['Spell Interception & Parries', 'Null-Zone Containment', 'Kinetic Buff Dispelling'],
+    loreSnippet: 'Armed with cold bog-iron weapons and alchemical null-salts, Covenbanes walk the shadowed margins where reality is frayed by sorcerous ambition.',
+    playstyle: 'Witness hostile spellcasting and parry strikes to build Hexbreaker Charges (0-6), spending them to disrupt leylines and execute rogue casters.'
+  },
+
+  exorcist: {
+    id: 'exorcist',
+    name: 'Exorcist',
+    role: 'Sacred Expeller & Host Protector',
+    roleIcon: 'fa-cross',
+    tradition: 'Sacred Ministry',
+    resourceName: 'Purification Sanctity',
+    resourceIcon: 'fa-cross',
+    tagline: 'Draw consecrated salt thresholds, protect vulnerable vessels, and cleanse spiritual corruption through ritual sin-eating.',
+    keyFeatures: ['Consecrated Salt Thresholds', 'Sacred Sin-Eating Transference', 'Host Protection & Entity Expulsion'],
+    loreSnippet: 'Sacred tradesmen of purification, Exorcists draw harmful spiritual taints out of afflicted hosts and deny ground to malevolent fiends with rings of consecrated salt.',
+    playstyle: 'Sustain Purification Sanctity (0-10) within salt perimeters and successful ally saves, expending it on litanies of purging and radiant expulsions.'
+  },
+
+  dreadnaught: {
+    id: 'dreadnaught',
+    name: 'Dreadnaught',
+    role: 'Juggernaut & Heavy Tank',
+    roleIcon: 'fa-shield-alt',
+    tradition: 'Martial Engineering',
+    resourceName: 'Furnace Pressure',
+    resourceIcon: 'fa-tachometer-alt',
+    tagline: 'Convert kinetic impacts and hydraulic motion into boiling Furnace Pressure, venting superheated steam to demolish foes.',
+    keyFeatures: ['Spinal Boiler Firebox', 'Hydraulic Grounding Cleats', 'Overheat Steam Venting'],
+    loreSnippet: 'Forged on the freezing bone spans of the Cragjaw Peaks, Groven Dreadnaughts weld superheated heating pipes and alchemical steam-pistons directly to their frames.',
+    playstyle: 'Build Furnace Pressure (0-100 PSI) by stoking the firebox and taking hits, spending it on concussive steam vents, hydraulic slams, and unstoppable charges.'
+  },
+
+  bladedancer: {
+    id: 'bladedancer',
+    name: 'Bladedancer',
+    role: 'Kinetic Dervish & Skirmisher',
+    roleIcon: 'fa-wind',
+    tradition: 'Martial Flow',
+    resourceName: 'Kinetic Momentum',
+    resourceIcon: 'fa-wind',
+    tagline: 'Flow seamlessly through four combative tempos, converting agile footwork and twin-blade parries into lethal kinetic finishers.',
+    keyFeatures: ['Four Combat Tempos', 'Kinetic Momentum Chaining', 'Fluid Parry-Ripostes'],
+    loreSnippet: 'Dating back to the agile skirmishers of the Frostwood Reach, Bladedancers eschew heavy armor to achieve absolute synchronization with the tempo of battle.',
+    playstyle: 'Build Kinetic Momentum (0-10) with strikes and parries, shifting from Adagio to Presto before expending momentum on multi-target flourishes and execute strikes.'
+  },
+
+  inscriptor: {
+    id: 'inscriptor',
+    name: 'Inscriptor',
+    role: 'Linguistic Mage & Runic Anchor',
+    roleIcon: 'fa-scroll',
+    tradition: 'Scholarly Runic',
+    resourceName: 'Runic Resonance',
+    resourceIcon: 'fa-scroll',
+    tagline: 'Carve linguistic glyphs into terrain and equipment, linking runic resonance across the battlefield to detonate devastating spell matrixes.',
+    keyFeatures: ['Linguistic Glyphs & Slates', 'Runic Resonance Detonations', 'Weapon & Armor Inscriptions'],
+    loreSnippet: 'Masters of the First Script, Inscriptors preserve the primordial grammar that stabilized reality during the Shattering, carving living words into slate and stone.',
+    playstyle: 'Carve glyphs and trigger resonance events to build Runic Resonance (0-10), spending it on gravity wells, barrier wards, and matrix detonations.'
+  },
+
+  totemist: {
+    id: 'totemist',
+    name: 'Totemist',
+    role: 'Conduit Shaper & Lithic Anchor',
+    roleIcon: 'fa-monument',
+    tradition: 'Primal Conduit',
+    resourceName: 'Conduit Attunement',
+    resourceIcon: 'fa-monument',
+    tagline: 'Erect standing lithic pylons and channel vibrational attunement across conduit networks to shape the earth and cage enemies in lightning.',
+    keyFeatures: ['Standing Conduit Pylons', 'Triangular Storm Cages', 'Seismic Faultline Shifting'],
+    loreSnippet: 'Heirs to the crag-masons of the high valleys, Totemists align carved stone pillars with telluric lay currents to channel elemental storms and anchor the earth.',
+    playstyle: 'Deploy up to 3 standing conduits and build Conduit Attunement (0-10) as they pulse, discharging energy into triangular lightning cages and faultline fissures.'
+  },
+
+  witch_doctor: {
+    id: 'witch_doctor',
+    name: 'Witch Doctor',
+    role: 'Bog Occultist & Effigy Binder',
+    roleIcon: 'fa-skull',
+    tradition: 'Mire Occult',
+    resourceName: 'Bog Tallow',
+    resourceIcon: 'fa-flask',
+    tagline: 'Distill rendered bog tallow in bubbling crucibles to sculpt sympathetic poppets, inflict distant retribution, and blanket foes in caustic miasmas.',
+    keyFeatures: ['Rendered Bog Tallow Crucible', 'Sympathetic Poppet Binding', 'Caustic Miasma Clouds'],
+    loreSnippet: 'Stewards of the sunken peat fens, Witch Doctors practice the patient, sympathetic art of the bog, shaping rendered tallow effigies to bind the fates of their foes.',
+    playstyle: 'Harvest and render Bog Tallow (0-100%) in your crucible, spending it on sympathetic needle strikes, protective wax coatings, and suffocating miasma clouds.'
+  },
+
+  witchdoctor: {
+    id: 'witchdoctor',
+    name: 'Witch Doctor',
+    role: 'Bog Occultist & Effigy Binder',
+    roleIcon: 'fa-skull',
+    tradition: 'Mire Occult',
+    resourceName: 'Bog Tallow',
+    resourceIcon: 'fa-flask',
+    tagline: 'Distill rendered bog tallow in bubbling crucibles to sculpt sympathetic poppets, inflict distant retribution, and blanket foes in caustic miasmas.',
+    keyFeatures: ['Rendered Bog Tallow Crucible', 'Sympathetic Poppet Binding', 'Caustic Miasma Clouds'],
+    loreSnippet: 'Stewards of the sunken peat fens, Witch Doctors practice the patient, sympathetic art of the bog, shaping rendered tallow effigies to bind the fates of their foes.',
+    playstyle: 'Harvest and render Bog Tallow (0-100%) in your crucible, spending it on sympathetic needle strikes, protective wax coatings, and suffocating miasma clouds.'
   }
 };
 
@@ -430,6 +541,7 @@ export const getClassFlavorProfile = (classId) => {
   if (!classId) return null;
   const normalized = classId.toLowerCase().replace(/[-\s]+/g, '_');
   return CLASS_FLAVOR_PROFILES[normalized] || null;
+
 };
 
 export default CLASS_FLAVOR_PROFILES;

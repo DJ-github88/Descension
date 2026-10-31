@@ -2002,8 +2002,9 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
       }
 
       if (targetToken?.state?.conditions) {
+        // A10 review finding 5: an exact v1 instance removes only itself, never same-named sibling instances.
         const updatedConditions = targetToken.state.conditions.filter(c =>
-          !(c.id === condition.id || c.name === condition.name)
+          condition.recordId ? c.recordId !== condition.recordId : !(c.id === condition.id || c.name === condition.name)
         );
 
         if (isCharacterToken) {

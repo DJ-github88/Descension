@@ -3,8 +3,16 @@
  * limits, decision hashes, sequential versions and current-GM authority. No execution flag grants use. */
 const legacy = require('./authoredSpellDefinitions');
 const checkpoint = require('./roomCheckpoint');
-const { CONDITION_CAPABILITY } = require('../shared/services/authoredAbility');
+const { CONDITION_CAPABILITY, EFFECT_CAPABILITY, EFFECT_EXPIRY_POLICIES, COUNTED_EXPIRY_POLICIES, CLASS_IDS, readFormula } = require('../shared/services/authoredAbility');
+const { validMovementFeet, validOccurrences } = require('../shared/services/sharedConditionProfile');
+// M2A: counted expiry policies (explicit target-turn boundary count 2…10) add exactly one key; every other policy keeps the exact A10 key set.
+const validEffectTiming = t => !!t && typeof t === 'object' && EFFECT_EXPIRY_POLICIES.includes(t.expiryPolicy) &&
+  (COUNTED_EXPIRY_POLICIES.includes(t.expiryPolicy) ? exact(t, ['expiryPolicy', 'durationText', 'authoredDuration', 'gmNote', 'occurrences']) && validOccurrences(t.occurrences)
+    : exact(t, ['expiryPolicy', 'durationText', 'authoredDuration', 'gmNote']));
 const VERSION = 'p14-a7-condition-1';
+const EFFECT_VERSION = 'p14-a10-effect-1';
+// Same damage vocabulary as the protected A1a compiler (not exported there; kept in parity here).
+const DAMAGE_TYPES = ['arcane', 'sacred', 'blight', 'ember', 'rime', 'primal', 'storm', 'wyrd', 'slicing', 'stabbing', 'smashing'];
 const clone = v => JSON.parse(JSON.stringify(v));
 const hash = checkpoint.canonicalHash;
 const equal = (a, b) => hash(a) === hash(b);
@@ -32,8 +40,41 @@ function snapshot(value, depth = 0) {
   if (array && out.length !== value.length) throw Error('sparse');
   return out;
 }
+// A10 companion: one exact bundle. Unknown/partial vocabulary refuses; it never executes a subset.
+function validDirect(direct) {
+  if (direct === null) return true;
+  try { readFormula(direct?.formula); } catch (_) { return false; }
+  if (direct.kind === 'healing') return exact(direct, ['kind', 'formula']);
+  return direct.kind === 'damage' && exact(direct, ['kind', 'formula', 'damageTypes']) && Array.isArray(direct.damageTypes) && direct.damageTypes.length >= 1 &&
+    direct.damageTypes.length <= 8 && direct.damageTypes.every(t => DAMAGE_TYPES.includes(t));
+}
+function validEffectCondition(c) {
+  if (c?.kind === 'stunned') return exact(c, ['kind']);
+  return c?.kind === 'movement' && exact(c, ['kind', 'feet', 'label']) && validMovementFeet(c.feet) && text(c.label, 60) && c.label === c.label.trim();
+}
+function compileEffect(d) {
+  const canonical = checkpoint.canonicalize(d, 'definition');
+  if (canonical.error || Buffer.byteLength(JSON.stringify(d)) > 16384 || !equal(d, canonical.value)) return no('INVALID_DEFINITION');
+  if (!exact(d, ['schemaVersion', 'capability', 'scope', 'definitionId', 'definitionVersion', 'name', 'description', 'binding', 'spellType', 'castTimeType', 'targeting', 'resourceCost', 'effects', 'timing']) ||
+      d.schemaVersion !== 3 || !exact(d.scope, ['roomId']) || !text(d.scope.roomId, 200) || !uuid(d.definitionId) || !int(d.definitionVersion, 1, 1000000) ||
+      !text(d.name, 120) || typeof d.description !== 'string' || d.description.length > 4000 ||
+      !exact(d.binding, ['rulesetId', 'rulesetVersion', 'classId']) || d.binding.rulesetId !== 'prism' || d.binding.rulesetVersion !== 'cr-a1a-pilot-1' || !CLASS_IDS.includes(d.binding.classId) ||
+      d.spellType !== 'ACTION' || d.castTimeType !== 'IMMEDIATE' ||
+      !exact(d.targeting, ['kind', 'maxTargets', 'rangeFeet', 'restriction']) || d.targeting.kind !== 'single' || d.targeting.maxTargets !== 1 || !int(d.targeting.rangeFeet, 1, 300) || !['any', 'ally', 'enemy'].includes(d.targeting.restriction) ||
+      !exact(d.resourceCost, ['actionPoints', 'mana']) || !int(d.resourceCost.actionPoints, 0, 20) || !int(d.resourceCost.mana, 0, 10000) ||
+      !exact(d.effects, ['direct', 'condition']) || !validDirect(d.effects.direct) || !validEffectCondition(d.effects.condition) ||
+      !validEffectTiming(d.timing) ||
+      !text(d.timing.durationText, 300) || !text(d.timing.gmNote, 1000) ||
+      ![null, '{}', '{"durationType":"instant"}'].includes(d.timing.authoredDuration === null ? null : JSON.stringify(d.timing.authoredDuration))) return no('INVALID_DEFINITION');
+  const canonicalDefinition = canonical.value;
+  const definitionHash = checkpoint.sha256Hex('mythrill:authored-effect:v1\n' + checkpoint.stableStringify(canonicalDefinition));
+  const definitionRef = { roomId: d.scope.roomId, definitionId: d.definitionId, definitionVersion: d.definitionVersion, definitionHash };
+  return { ok: true, canonicalDefinition, definitionHash, descriptor: { schemaVersion: 3, capabilityId: EFFECT_CAPABILITY, compilerVersion: EFFECT_VERSION,
+    definitionRef, binding: clone(d.binding), price: { ap: d.resourceCost.actionPoints, mana: d.resourceCost.mana }, targeting: clone(d.targeting), effects: clone(d.effects), timing: clone(d.timing), executionEnabled: false } };
+}
 function compileDefinition(d) {
   try { d = snapshot(d); } catch (_) { return no('INVALID_DEFINITION'); }
+  if (d?.capability === EFFECT_CAPABILITY) return compileEffect(d);
   if (d?.capability !== CONDITION_CAPABILITY) return legacy.compileDefinition(d);
   const canonical = checkpoint.canonicalize(d, 'definition');
   if (canonical.error || Buffer.byteLength(JSON.stringify(d)) > 16384 || !equal(d, canonical.value)) return no('INVALID_DEFINITION');
@@ -84,7 +125,7 @@ function decodeRegistry(json) { try { return validateRegistrySnapshot(JSON.parse
 function createDefinitionRegistry({ authorize }) {
   async function plan(operation, input, request) {
     try { input = snapshot(input); request = snapshot(request); } catch (_) { return no('INVALID_DEFINITION'); }
-    if (input.schemaVersion !== 2 && request.definition?.capability !== CONDITION_CAPABILITY) return legacy.createDefinitionRegistry({ authorize })[operation === 'admit' ? 'planAdmit' : 'planRevoke'](input, request);
+    if (input.schemaVersion !== 2 && ![CONDITION_CAPABILITY, EFFECT_CAPABILITY].includes(request.definition?.capability)) return legacy.createDefinitionRegistry({ authorize })[operation === 'admit' ? 'planAdmit' : 'planRevoke'](input, request);
     const valid = validateRegistrySnapshot(input);
     if (!valid.ok) return valid;
     const r = clone(valid.registry);

@@ -11,6 +11,10 @@ import { authoredSupport } from './authoredAbilityRegistry';
 import { CAPABILITY as AUTHORED, isAuthored } from './authoredAbility';
 import { getStore } from '../store/storeRegistry';
 import * as authoredCondition from './authoredCondition';
+import * as authoredEffect from './authoredEffect';
+import * as classEffect from './classEffect';
+import { movementCombination } from './sharedConditionProfile';
+import { combatAttributes } from './combatAttributes';
 
 /** Rollback switch (contract F9 rollback): false returns every producer to manual. */
 export const P9_SPELL_EXECUTION = true;
@@ -193,9 +197,30 @@ function classComponent(raw) {
     raw.sphereCost !== undefined || raw.musicalCombo !== undefined || raw.devotionCost !== undefined || raw.devotionGain !== undefined || raw.devotionRequired !== undefined ||
     Object.keys(values).some(key => /_sphere$/i.test(key) || /^note_/i.test(key) || /^devotion_/.test(key));
 }
+/** Approved cadence resolver pair only (Opening Chord → Resolving Strike). The class-owned
+ * planner pays from `musicalCombo.requires`; every other resolver/cadence stays manual. */
+const APPROVED_MINSTREL_RESOLVERS = Object.freeze({ minstrel_resolving_strike: [{ note: 'I', count: 1 }, { note: 'V', count: 1 }] });
+function resolverConflict(raw, generic) {
+  const combo = raw.musicalCombo, approved = APPROVED_MINSTREL_RESOLVERS[raw.id];
+  if (!approved) return 'This cadence resolver is outside the approved P9 pair (manual).';
+  if (!onlyKeys(generic, ['type', 'cost', 'resolvesCadence']) || generic.type !== 'musical_notes' || generic.resolvesCadence !== true || !integer(generic.cost, 0, 35) ||
+    !onlyKeys(combo, ['type', 'requires', 'cadenceName']) || combo.type !== 'resolver' || typeof combo.cadenceName !== 'string' ||
+    canonical(combo.requires) !== canonical(approved)) return 'Cadence resolver encoding differs from the approved recipe (manual).';
+  return null;
+}
 function encodingConflict(raw, domain) {
   const cost = raw.resourceCost || {}, values = cost.resourceValues || {};
   const generic = cost.classResource ?? values.classResource;
+  if (domain === 'musicalNotes' && (generic?.resolvesCadence !== undefined || raw.musicalCombo?.type === 'resolver')) {
+    // The legacy generic count is not a payer; the exact pitch recipe above is.
+    const conflict = resolverConflict(raw, generic);
+    if (conflict) return conflict;
+    if (cost.notes !== undefined || cost.spheres !== undefined || raw.sphereCost !== undefined ||
+      raw.devotionCost !== undefined || raw.devotionGain !== undefined || raw.devotionRequired !== undefined ||
+      Object.keys(values).some(key => /_sphere$/i.test(key) || /^devotion_/.test(key))) return 'Conflicting non-recipe class resource encodings stay manual.';
+    if (cost.classResource !== undefined && values.classResource !== undefined && canonical(cost.classResource) !== canonical(values.classResource)) return 'Duplicate class resource encodings disagree.';
+    return Object.keys(values).some(key => /^note_/i.test(key)) ? 'Note recipe encodings disagree (musical combo vs typed note values).' : null;
+  }
   if (generic !== undefined && (!onlyKeys(generic, ['type', 'cost', 'gain']) || [generic.cost, generic.gain].some(value => value !== undefined && !integer(value, 0, 35)))) {
     return `Class resource fields ${JSON.stringify(generic)} need a mechanic P9 does not execute (manual).`;
   }
@@ -275,13 +300,46 @@ function supportSpellUnchecked(spellLike, character) {
   const mechanics = ['spellType', 'typeConfig', 'targetingConfig', 'resourceCost', 'effectTypes', 'damageConfig', 'healingConfig'];
   const altered = mechanics.filter(key => spellLike[key] !== undefined && canonical(spellLike[key]) !== canonical(raw[key]));
   if (altered.length) return manual(`This copy's ${altered.join(', ')} differ from the authored original; edited or library versions stay manual.`);
+  // M1: a class record with one debuff block is executable only as an admitted class-effect:v1 profile.
+  if (raw.debuffConfig !== undefined) return classEffectSupport(raw, character);
   const shape = supportShape(raw);
   if (!shape.supported) return shape;
   const payment = planClassPayment(raw, character.classResource, character.class);
   if (!payment.supported) return payment;
-  const reading = readFormula(shape.formula, character.stats);
+  const reading = readFormula(shape.formula, combatAttributes(character));
   if (!reading.supported) return reading;
   return { ...shape, raw, payment, reading, definitionId: raw.id, definitionHash: definitionHash(raw), name: raw.name };
+}
+
+/**
+ * M1 class-effect:v1: the composed effect comes from the reviewed, hash-pinned profile; price, targeting,
+ * cooldown and the direct block are validated by the unchanged P9 support helpers on the direct projection,
+ * the class payment by the unchanged owning planner and the roll by the approved formula vocabulary with
+ * effective attributes. Anything that does not match the profile stays manual with its reason.
+ */
+function classEffectSupport(raw, character) {
+  const recordHash = sha256Hex(canonical(raw));
+  const admitted = classEffect.admit(raw, recordHash);
+  if (!admitted.ok) return manual(admitted.reason);
+  const { entry, terms, kind } = admitted;
+  const projection = JSON.parse(JSON.stringify(raw));
+  delete projection.debuffConfig; projection.effectTypes = [kind];
+  const shape = supportShape(projection);
+  if (!shape.supported) return shape;
+  if (canonical(shape.price) !== canonical(entry.price)) return manual('Authored AP/mana price differs from the admitted profile (manual).');
+  const payment = planClassPayment(raw, character.classResource, character.class);
+  if (!payment.supported) return payment;
+  if (entry.payment ? payment.domain !== entry.payment.domain || (payment.classPayment && canonical(payment.classPayment.price) !== canonical(entry.payment.price)) : payment.domain !== 'none') {
+    return manual('Class payment differs from the admitted profile (manual).');
+  }
+  const stats = combatAttributes(character), reading = readFormula(shape.formula, stats);
+  if (!reading.supported) return reading;
+  // The server re-reads the pinned formula with exactly these owner-attested effective scores (review M-1).
+  const rollAttributes = Object.fromEntries(classEffect.formulaAttributes(shape.formula).map(name => [name, stats?.[name]]));
+  const bound = classEffect.readFormula(shape.formula, rollAttributes);
+  if (!bound.supported || bound.reading !== reading.reading || bound.constant !== reading.constant) return manual('The formula reading cannot be bound for the server (manual).');
+  return { ...shape, kind: 'class-effect', directKind: kind, raw, payment, reading, rollAttributes, effectTerms: terms, disclosure: classEffect.disclosure(entry),
+    branchLines: classEffect.branchLines(terms), damageTypes: terms.direct.damageTypes || [], definitionId: raw.id, definitionHash: classEffect.definitionHash(recordHash), name: raw.name };
 }
 
 // ── Rolls ───────────────────────────────────────────────────────────────────
@@ -321,7 +379,10 @@ export function ownerRefusal(firstSubmission, code) {
   if (firstSubmission && code !== 'retry_window_expired') return { phase: 'refused', message: `Not registered (${codeLabel(code)}) — no payment was recorded.` };
   return { phase: 'unresolved', message: `The server can no longer confirm this approval (${codeLabel(code)}). A payment may have been recorded; reconcile with the GM. It is never re-sent automatically.` };
 }
-export function gmRefusal(isRetry, code) {
+export function gmRefusal(isRetry, code, detail = '') {
+  // A11: movement combinations — say why, and whether reviewing again can help.
+  if (!isRetry && code === 'modifier_combination_changed') return { phase: 'retry', message: 'The target’s movement effects changed since this outcome was shown. Nothing was applied; review the add/refresh outcome and accept again.' };
+  if (!isRetry && ['modifier_combination_unresolved', 'movement_modifier_capacity', 'modifier_identity_required'].includes(code)) return { phase: 'refused', message: `${typeof detail === 'string' && detail && detail !== code ? detail : 'This movement combination is not decided by the recorded policy.'} Nothing was applied or charged; the GM resolves it manually.` };
   if (code === 'creature_revalidation_required') return { phase: 'retry', message: 'Creature state changed. Nothing applied. Review current HP, bounds and conditions, then explicitly revalidate the original attempt with the same faces.' };
   if (code === 'actor_stunned') return { phase: 'retry', message: 'Stunned: no actions or reactions. Nothing applied. Retain the command and roll; remove all source instances, then review and accept again.' };
   if (isRetry || code === 'retry_window_expired') return { phase: 'unresolved', message: `The server can no longer confirm this command (${codeLabel(code)}). It may have been applied; reconcile before acting again. It was not resubmitted.` };
@@ -335,15 +396,19 @@ export function buildApproval({ support, tokens, sourceRef, targetRef, roomId, m
   if (sourceRef.kind !== 'character') throw Error('The caster must be your exact primary character attachment.');
   if (!support?.supported || !support.payment?.affordable) throw Error(support?.payment?.reason || 'This spell cannot be paid right now.');
   if (!affordable(sourcePools(source), support.price)) throw Error('Insufficient AP or mana (temporary pools count first); nothing submitted.');
-  const condition = support.kind === 'condition';
-  if (condition ? sameExactRef(sourceRef, targetRef) : !roll || roll.reading !== support.reading.reading) throw Error(condition ? 'Choose one distinct exact bound creature or primary PC target.' : 'Record one roll for this exact formula first.');
+  const condition = support.kind === 'condition', composed = support.kind === 'class-effect', bundle = support.kind === 'effect', direct = bundle && !!support.effectTerms.direct;
+  if ((bundle || composed) && (sameExactRef(sourceRef, targetRef) || targetRef.kind !== 'creature')) throw Error('Choose one distinct exact bound creature target.');
+  if (condition ? sameExactRef(sourceRef, targetRef) : (!bundle || direct) && (!roll || roll.reading !== support.reading.reading)) throw Error(condition ? 'Choose one distinct exact bound creature or primary PC target.' : 'Record one roll for this exact formula first.');
   if (!Number.isSafeInteger(baseCommitSequence) || baseCommitSequence < 0) throw Error('Current room snapshot required (commit sequence).');
   return Object.freeze(JSON.parse(JSON.stringify({ version: 1, roomId, approvalId, actionEpoch, baseCommitSequence, source: sourceRef, target: targetRef,
     spell: { definitionId: support.definitionId, definitionHash: support.definitionHash, name: support.name, kind: support.kind, damageTypes: support.damageTypes },
-    roll: condition ? null : roll, price: support.price, classPayment: support.payment.classPayment,
-    ...(condition ? { conditionTerms: { conditionKey: 'stunned', timing: support.timing } } : {}) })));
+    roll: condition || (bundle && !direct) ? null : roll, price: support.price, classPayment: support.payment.classPayment,
+    ...(condition ? { conditionTerms: { conditionKey: 'stunned', timing: support.timing } } : {}), ...(bundle ? { effectTerms: support.effectTerms } : {}),
+    ...(composed ? { effectTerms: support.effectTerms, disclosure: support.disclosure, rollAttributes: support.rollAttributes } : {}) })));
 }
-export function planSpellCommand({ approval, contentHash, tokens, roomId, mapId, finalAmount, reason = '', adjudicated, resolution }) {
+export function planSpellCommand({ approval, contentHash, tokens, roomId, mapId, finalAmount, reason = '', adjudicated, resolution, branch }) {
+  if (classEffect.isClassEffect(approval)) return planClassEffectCommand({ approval, contentHash, tokens, roomId, mapId, finalAmount, reason, adjudicated, branch });
+  if (authoredEffect.isEffect(approval)) return planEffectCommand({ approval, contentHash, tokens, roomId, mapId, finalAmount, reason, adjudicated, resolution });
   if (authoredCondition.isCondition(approval)) {
     if (approval.source.kind === 'character') {
       if (canonical(resolution?.timing) !== canonical(approval.conditionTerms.timing) || !resolution?.timingNote?.trim() || resolution.timingNote.length > 300 || typeof resolution.evidence !== 'string' || resolution.evidence.length > 2000) throw Error('Required GM timing clarification must retain the owner-approved duration. Changed terms need new approval.');
@@ -383,13 +448,76 @@ export function planSpellCommand({ approval, contentHash, tokens, roomId, mapId,
         damageTypes: approval.spell.damageTypes, spellName: approval.spell.name, ...names, gmConfirmed: true }),
       finalAmount, adjustmentReason: reason.trim() } } };
 }
+/** A10: one command for the whole bundle — payment, optional direct HP change and the canonical effect. */
+function planEffectCommand({ approval, contentHash, tokens, roomId, mapId, finalAmount, reason, adjudicated, resolution }) {
+  const pc = approval.source.kind === 'character', terms = approval.effectTerms, res = pc ? resolution : approval.resolution;
+  if (pc && (canonical(res?.timing) !== canonical(terms.timing) || !res?.timingNote?.trim() || res.timingNote.length > 300 || typeof res.evidence !== 'string' || res.evidence.length > 2000)) throw Error('Required GM ruling must keep the owner-approved duration. Changed terms need new approval.');
+  if (adjudicated !== true || res?.gmConfirmed !== true) throw Error('Explicit GM-confirmed successful outcome required.');
+  const direct = terms.direct;
+  if (direct && !integer(finalAmount, 0, 100000)) throw Error('Enter a whole, nonnegative final amount.');
+  if (direct && (typeof reason !== 'string' || reason.length > 2000 || (finalAmount !== approval.roll.total && !reason.trim()))) throw Error('Explain the adjustment from the recorded total.');
+  const source = exactActor(tokens, approval.source, roomId, mapId), target = exactActor(tokens, approval.target, roomId, mapId);
+  const pools = sourcePools(source), payment = {};
+  for (const pool of ['ap', 'mana']) if (approval.price[pool] > 0) payment[pool] = depleteTempFirst(pools[pool].current, pools[pool].temp, approval.price[pool], true);
+  if (!Object.keys(payment).length) payment.ap = depleteTempFirst(pools.ap.current, pools.ap.temp, 0, true);
+  // A11: the same pure plan the server binder and P7 stage derive — add, refresh (replace the one matching
+  // instance) or an explicit refusal for combinations the recorded policy does not define.
+  const plan = authoredEffect.conditionPlan(approval, target.state?.conditions || []);
+  if (plan.refused) throw Object.assign(Error(plan.refused.message), { code: plan.refused.code });
+  const targetEntry = { ref: approval.target, expectedRevision: target.state.actorContract.revision, conditions: plan.ops };
+  if (direct) {
+    const values = { current: target.state?.currentHp, temp: target.state?.tempHealth || 0, max: target.state?.maxHp ?? target.stats?.maxHp };
+    const hp = direct.kind === 'damage' ? depleteTempFirst(values.current, values.temp, finalAmount) : { current: Math.min(values.max, values.current + finalAmount), temp: values.temp };
+    if (![hp.current, hp.temp].every(Number.isFinite)) throw Error('Target resources are unavailable; refresh the room snapshot.');
+    targetEntry.finalResources = { hp };
+  }
+  return { entries: [{ ref: approval.source, expectedRevision: source.state.actorContract.revision, finalResources: payment }, targetEntry],
+    extra: { source: approval.source, target: approval.target, approval: { approvalId: approval.approvalId, contentHash }, adjudication: {
+      definitionId: approval.spell.definitionId, definitionVersionOrHash: approval.spell.definitionHash, chosenResult: JSON.stringify(authoredEffect.resultFor(approval, res, plan.combination)),
+      finalAmount: direct ? finalAmount : 0, adjustmentReason: direct ? reason.trim() : '' } } };
+}
+/** M1: one command for one recorded outcome branch — payment, direct HP change and (if that branch applies it) the rider. */
+export function classRiderPlan(approval, conditions) {
+  const found = classEffect.profileFor(classEffect.recordHashOf(approval), { requireConfirmation: false });
+  if (!found.ok) return { refused: { code: 'class_effect_profile_unavailable', message: found.reason } };
+  const record = classEffect.recordFor(approval, found.entry), plan = movementCombination(conditions, record);
+  if (!plan.ok) return { refused: { code: plan.code, message: plan.message }, record };
+  const add = { op: 'add', recordId: approval.approvalId, record };
+  return { record, ops: plan.replaces ? [{ op: 'remove', recordId: plan.replaces }, add] : [add], combination: { outcome: plan.outcome, replacesInstanceId: plan.replaces } };
+}
+function planClassEffectCommand({ approval, contentHash, tokens, roomId, mapId, finalAmount, reason, adjudicated, branch }) {
+  const terms = approval.effectTerms;
+  if (adjudicated !== true) throw Error('GM must explicitly confirm the recorded outcome, legality and range.');
+  if (!classEffect.branches(terms).includes(branch)) throw Error(terms.save ? 'Record whether the target saved or failed first.' : 'Confirm the outcome first.');
+  if (!integer(finalAmount, 0, 100000)) throw Error('Enter a whole, nonnegative final amount.');
+  if (typeof reason !== 'string' || reason.length > 2000 || (finalAmount !== approval.roll.total && !reason.trim())) throw Error('Explain the adjustment from the recorded total.');
+  const source = exactActor(tokens, approval.source, roomId, mapId), target = exactActor(tokens, approval.target, roomId, mapId);
+  const pools = sourcePools(source), payment = {};
+  for (const pool of ['ap', 'mana']) if (approval.price[pool] > 0) payment[pool] = depleteTempFirst(pools[pool].current, pools[pool].temp, approval.price[pool], true);
+  if (!Object.keys(payment).length) payment.ap = depleteTempFirst(pools.ap.current, pools.ap.temp, 0, true);
+  let ops = null, combination = null;
+  if (classEffect.riderApplies(terms, branch)) {
+    const plan = classRiderPlan(approval, target.state?.conditions || []);
+    if (plan.refused) throw Object.assign(Error(plan.refused.message), { code: plan.refused.code });
+    ({ ops, combination } = plan);
+  }
+  const values = { current: target.state?.currentHp, temp: target.state?.tempHealth || 0, max: target.state?.maxHp ?? target.stats?.maxHp };
+  const hp = terms.direct.kind === 'damage' ? depleteTempFirst(values.current, values.temp, finalAmount) : { current: Math.min(values.max, values.current + finalAmount), temp: values.temp };
+  if (![hp.current, hp.temp].every(Number.isFinite)) throw Error('Target resources are unavailable; refresh the room snapshot.');
+  const classPayment = approval.classPayment ? { classPayment: { mode: 'spell', domain: approval.classPayment.domain, approvalHash: contentHash } } : {};
+  return { entries: [{ ref: approval.source, expectedRevision: source.state.actorContract.revision, finalResources: payment, ...classPayment },
+    { ref: approval.target, expectedRevision: target.state.actorContract.revision, finalResources: { hp }, ...(ops ? { conditions: ops } : {}) }],
+  extra: { source: approval.source, target: approval.target, approval: { approvalId: approval.approvalId, contentHash }, adjudication: {
+    definitionId: approval.spell.definitionId, definitionVersionOrHash: approval.spell.definitionHash, chosenResult: JSON.stringify(classEffect.resultFor(approval, branch, combination)),
+    finalAmount, adjustmentReason: reason.trim() } } };
+}
 /** Parses an accepted P9 receipt for presentation; null for anything else. */
 export function spellReceipt(result) {
   const receipt = result?.receipt, adjudication = receipt?.adjudication;
-  if (!result?.success || receipt?.version !== 1 || !['owner-approval-gm', 'gm-creature-ability'].includes(receipt.authorization?.kind) || ![P9_CAPABILITY, AUTHORED, authoredCondition.CAPABILITY].some(cap => String(adjudication?.definitionVersionOrHash || '').startsWith(`${cap}/`))) return null;
+  if (!result?.success || receipt?.version !== 1 || !['owner-approval-gm', 'gm-creature-ability'].includes(receipt.authorization?.kind) || ![P9_CAPABILITY, AUTHORED, authoredCondition.CAPABILITY, authoredEffect.CAPABILITY, classEffect.CAPABILITY].some(cap => String(adjudication?.definitionVersionOrHash || '').startsWith(`${cap}/`))) return null;
   try {
     const recorded = JSON.parse(adjudication.chosenResult);
-    if (![P9_CAPABILITY, AUTHORED, authoredCondition.CAPABILITY].includes(recorded.capability) || recorded.approvalId !== receipt.authorization.proposalId || !integer(adjudication.finalAmount, 0, 100000)) return null;
+    if (![P9_CAPABILITY, AUTHORED, authoredCondition.CAPABILITY, authoredEffect.CAPABILITY, classEffect.CAPABILITY].includes(recorded.capability) || recorded.approvalId !== receipt.authorization.proposalId || !integer(adjudication.finalAmount, 0, 100000)) return null;
     const source = receipt.actors.find(actor => sameExactRef(actor.ref, receipt.source)), target = receipt.actors.find(actor => sameExactRef(actor.ref, receipt.target));
     if ((!source && recorded.kind !== 'condition') || !target) return null;
     return { receipt, recorded, source, target, approvalId: receipt.authorization.proposalId,

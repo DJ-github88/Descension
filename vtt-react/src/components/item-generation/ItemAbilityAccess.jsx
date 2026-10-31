@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import useGameStore from '../../store/gameStore';
 import { itemAbilitySupport, matchingItemVersions } from '../../services/itemAuthoredAbility';
-import { actionId } from '../../services/authoredAbility';
+import { actionId, definitionSummary } from '../../services/authoredAbility';
 import { refreshAuthoredAbilities, routeSpellCast, useSpellConsequenceStore } from '../../services/spellConsequenceService';
 import AuthoredAdmission from '../spellcrafting-wizard/components/library/AuthoredAdmission';
 import './ItemAbility.css';
@@ -16,7 +16,7 @@ export default function ItemAbilityAccess({ item }) {
   const support = itemAbilitySupport(association), matches = matchingItemVersions(association, entries, roomId);
   return <details className="item-ability"><summary>{item.customName || item.name} — {association.record?.name || 'preserved ability'}</summary>
     <section aria-label={`Item ability for ${item.name}`}>
-      <p>{support.ok ? `Supported immediate ${support.definition.effect.kind === 'condition' ? `canonical Stunned · ${support.definition.timing.durationText} — GM removes` : `${support.definition.effect.kind} · ${support.definition.effect.formula}`} · ${support.definition.resourceCost.actionPoints} AP / ${support.definition.resourceCost.mana} mana · ${support.definition.targeting.rangeFeet} ft · ${support.definition.targeting.restriction}` : `Unsupported/manual — ${support.reason}`}</p>
+      <p>{support.ok ? `Supported immediate ${definitionSummary(support.definition)} · ${support.definition.resourceCost.actionPoints} AP / ${support.definition.resourceCost.mana} mana · ${support.definition.targeting.rangeFeet} ft · ${support.definition.targeting.restriction}` : `Unsupported/manual — ${support.reason}`}</p>
       <p>Item association only. The GM checks requirements, range and legality. No equipment, charges, consumption or automatic item effects are applied. Admission and owner approval spend nothing; accepted execution pays and applies the admitted result once.</p>
       {association.librarySpellId && <p>Preserved library snapshot; later library edits or deletion do not replace this content.</p>}
       {support.ok && <AuthoredAdmission spell={association.record} />}

@@ -1,0 +1,56 @@
+/* Authored condition / composed effect fields (Spell Wizard + compact editors).
+   Calm TTRPG rules: hairline box, 3px controls, sentence-case body-serif labels, fields get room. */
+html body .authored-effect-fields {
+  border: 1px solid var(--cr-rule, #d3c8ae);
+  border-radius: var(--cr-r-md, 4px);
+  background: var(--cr-paper, #f7f2e7);
+  color: var(--cr-ink, #34251a);
+  padding: 12px 14px;
+  margin: 12px 0;
+  min-width: 0;
+  font-family: var(--cr-body, Georgia, serif);
+  line-height: 1.45;
+}
+html body .authored-effect-fields legend {
+  padding: 0 6px;
+  font-family: var(--cr-body, Georgia, serif);
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: normal;
+  text-transform: none;
+  color: var(--cr-ink, #34251a);
+}
+html body .authored-effect-fields p {
+  margin: 6px 0 10px;
+  max-width: 72ch;
+  color: var(--cr-ink-soft, #5a4733);
+  font-size: 0.95rem;
+}
+html body .authored-effect-fields label {
+  display: grid;
+  gap: 4px;
+  margin: 10px 0;
+  font-weight: 600;
+  color: var(--cr-ink, #34251a);
+}
+html body .authored-effect-fields input,
+html body .authored-effect-fields select,
+html body .authored-effect-fields textarea {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  font: inherit;
+  font-weight: 400;
+  color: var(--cr-ink, #34251a);
+  background: var(--cr-field, #fdfbf5);
+  border: 1px solid var(--cr-rule-strong, #b3a27d);
+  border-radius: var(--cr-r-sm, 3px);
+  padding: 6px 9px;
+  min-height: 36px;
+  box-shadow: none;
+}
+html body .authored-effect-fields textarea { min-height: 72px; resize: vertical; }
+html body .authored-effect-fields input:hover,
+html body .authored-effect-fields select:hover,
+html body .authored-effect-fields textarea:hover { border-color: var(--cr-accent, #7b5a2a); }
+html body .authored-effect-fields :focus-visible { outline: 2px solid var(--cr-accent, #7b5a2a); outline-offset: 1px; }

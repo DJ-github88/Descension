@@ -1,0 +1,73 @@
+{
+  "startedAt": "2026-10-30T20:31:49.097Z",
+  "testSuite": "Covenbane Browser Verification & Visual Evidence",
+  "checks": {
+    "hudDisplays": "PASS",
+    "rulesPage": "PASS"
+  },
+  "screenshots": [
+    {
+      "name": "01-covenbane-hud-desktop-empty.png",
+      "desc": "Hexbreaker Charges 0/6 empty state"
+    },
+    {
+      "name": "02-covenbane-hud-desktop-partial.png",
+      "desc": "Hexbreaker Charges 3/6 partial state"
+    },
+    {
+      "name": "03-covenbane-hud-desktop-full.png",
+      "desc": "Hexbreaker Charges 6/6 full state"
+    },
+    {
+      "name": "04-covenbane-hud-desktop-malformed.png",
+      "desc": "Missing / malformed state graceful fallback (null, NaN, overflow)"
+    },
+    {
+      "name": "05-covenbane-hud-desktop-multi-instance.png",
+      "desc": "Desktop multi-instance party token HUDs without ID collision"
+    },
+    {
+      "name": "06-covenbane-hud-mobile-partial.png",
+      "desc": "Mobile 390px viewport partial state"
+    },
+    {
+      "name": "07-covenbane-hud-mobile-multi-instance.png",
+      "desc": "Mobile full page multi-instance rendering"
+    },
+    {
+      "name": "08-rules-covenbane-overview-desktop.png",
+      "desc": "Rules Page Covenbane Overview (Desktop 1280px)"
+    },
+    {
+      "name": "09-rules-covenbane-overview-mobile.png",
+      "desc": "Rules Page Covenbane Overview (Mobile 390px)"
+    },
+    {
+      "name": "10-rules-covenbane-spells-desktop.png",
+      "desc": "Rules Page Covenbane Spells Tab"
+    },
+    {
+      "name": "11-rules-covenbane-specializations-desktop.png",
+      "desc": "Rules Page Covenbane 3 Specializations / Trees"
+    },
+    {
+      "name": "12-rules-covenbane-resource-guide-desktop.png",
+      "desc": "Rules Page Covenbane Hexbreaker Resource Guide"
+    }
+  ],
+  "assertions": [
+    {
+      "name": "zero-duplicate-dom-ids",
+      "status": "PASS",
+      "details": "All mounted SVGs and containers have distinct/no IDs"
+    },
+    {
+      "name": "svg-accessibility-labels",
+      "status": "PASS",
+      "count": 9
+    }
+  ],
+  "errors": [],
+  "completedAt": "2026-10-30T20:31:59.432Z",
+  "status": "SUCCESS"
+}

@@ -5413,3 +5413,56 @@ MAX BANKED SPHERES: 12
   },
  ],
 };
+
+// RI-6 legacy-roster integration: explicit progression policy. Existing
+// Arcanoneer characters keep their known spells; new characters choose three
+// level-1 options and one optional per level. No random/automatic top-up.
+export const ARCANONEER_PROGRESSION_POLICY = {
+  classId: 'arcanoneer',
+  rulesetVersion: 'legacy-roster-integrated',
+  levelCap: 10,
+  startingSpellPicks: 3,
+  optionalPicksPerLevel: 1,
+  allowEarlierUnchosen: true,
+  grantedCoreSpellIds: [],
+  randomizeStartingSpells: false,
+  autoTopUpOnLoad: false,
+  talentActivesAreGrants: false,
+  manualOnly: true
+};
+
+ARCANONEER_DATA.progression = {
+  levelCap: 10,
+  policy: ARCANONEER_PROGRESSION_POLICY,
+  levels: Array.from({ length: 10 }, (_, index) => {
+    const level = index + 1;
+    return {
+      level,
+      newChoiceIds: ARCANONEER_POOL_IDS(level),
+      optionalPicks: 1,
+      talentBudget: level * 5
+    };
+  })
+};
+
+function ARCANONEER_POOL_IDS(level) {
+  return Array.isArray(ARCANONEER_DATA.spellPools?.[level]) ? [...ARCANONEER_DATA.spellPools[level]] : [];
+}
+
+export const ARCANONEER_MANIFEST = {
+  contentLock: 'RI-6 Arcanoneer legacy-roster content lock',
+  classId: 'arcanoneer',
+  displayName: 'Arcanoneer',
+  authoredSpells: ARCANONEER_DATA.spells.length,
+  spellPoolCounts: Object.fromEntries(Array.from({ length: 10 }, (_, index) => {
+    const level = index + 1;
+    return [level, Array.isArray(ARCANONEER_DATA.spellPools?.[level]) ? ARCANONEER_DATA.spellPools[level].length : 0];
+  })),
+  treeIds: ['prism_mage', 'entropy_weaver', 'sphere_architect'],
+  resource: 'elemental_spheres',
+  progression: ARCANONEER_PROGRESSION_POLICY,
+  nativeAccess: ARCANONEER_DATA.restrictions.allowedSubraces,
+  legacyIdsPreserved: true,
+  automaticConversion: false,
+  manualOnly: true
+};

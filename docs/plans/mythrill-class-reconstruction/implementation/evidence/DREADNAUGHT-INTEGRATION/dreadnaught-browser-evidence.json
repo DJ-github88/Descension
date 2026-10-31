@@ -1,0 +1,59 @@
+{
+  "startedAt": "2026-10-30T21:25:05.104Z",
+  "testSuite": "Dreadnaught Browser Verification & Visual Evidence",
+  "checks": {
+    "hudDisplays": "PASS",
+    "rulesCodex": "PASS"
+  },
+  "screenshots": [
+    {
+      "name": "dreadnaught-hud-0psi.png",
+      "desc": "Dreadnaught 0 PSI Idle State (Cold Boiler)"
+    },
+    {
+      "name": "dreadnaught-hud-20psi-default.png",
+      "desc": "Dreadnaught 20 PSI Default Starting State"
+    },
+    {
+      "name": "dreadnaught-hud-45psi-working.png",
+      "desc": "Dreadnaught 45 PSI Working Tier (+1 DR)"
+    },
+    {
+      "name": "dreadnaught-hud-75psi-supercharged.png",
+      "desc": "Dreadnaught 75 PSI Supercharged Tier (+2 DR & Fire Boost)"
+    },
+    {
+      "name": "dreadnaught-hud-95psi-overheat.png",
+      "desc": "Dreadnaught 95 PSI Critical Overheat Tier (Vent Required)"
+    },
+    {
+      "name": "dreadnaught-hud-multi-instance.png",
+      "desc": "Dreadnaught Multi-Instance Token HUDs without ID collision"
+    },
+    {
+      "name": "dreadnaught-hud-mobile.png",
+      "desc": "Dreadnaught Mobile 390px Viewport Rendering"
+    },
+    {
+      "name": "dreadnaught-rules-overview.png",
+      "desc": "Rules Page Dreadnaught Overview (Desktop 1280px)"
+    },
+    {
+      "name": "dreadnaught-rules-spells.png",
+      "desc": "Rules Page Dreadnaught Spells Tab (40 Optionals + 2 Core Grants)"
+    },
+    {
+      "name": "dreadnaught-rules-specializations.png",
+      "desc": "Rules Page Dreadnaught Specializations (Siege Bastion, Furnace Engine, Juggernaut)"
+    },
+    {
+      "name": "dreadnaught-rules-resource-guide.png",
+      "desc": "Rules Page Dreadnaught Resource System Guide (Furnace Pressure)"
+    }
+  ],
+  "assertions": [
+    "No duplicate DOM IDs in multi-instance HUD rendering"
+  ],
+  "errors": [],
+  "completedAt": "2026-10-30T21:25:15.015Z"
+}

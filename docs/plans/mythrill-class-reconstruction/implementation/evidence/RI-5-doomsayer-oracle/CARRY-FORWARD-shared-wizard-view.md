@@ -32,6 +32,16 @@ The first Druid create/save flow exposed a shared persistence race: `createChara
 - Live browser round-trips: Druid `char_1793091281455_gpzllxro3` and Hunter `char_1793091383367_w4g3vnycd` both created, saved, viewed, reopened in the editor and updated again; base/final stats and class-spell lists survived; roster and view agreed.
 - Desktop 1280×800 and narrow 390×844 class-detail/view checks showed no horizontal overflow.
 
+### RI-6 shared notes (2026-10-27)
+
+- Restored `hasClassPixelArt` in `vtt-react/src/utils/classIconUtils.js`; concurrent class-detail/catalogue work imported it but the helper was missing, breaking detail rendering and tests.
+- Roster and inspection derived-resource calculations now pass `ancestry` to `calculateDerivedStats` alongside race/subrace.
+- **Max HP/MP mismatch closed (RI-7 follow-up):** `utils/characterResourceSnapshot.js` is now the shared source of truth for effective attributes and maximum resources. Store recalc, roster cards, inspection and the character panel consume it; the panel display uses the snapshot maxima instead of its own breakdown. Regression coverage: `src/utils/__tests__/characterResourceAgreement.test.js` covers Minstrel Merryn, Chronarch Tessic and an already-agreeing Arcanoneer Nethien control, comparing persisted, roster snapshot and store/view source.
+- Concurrent CharacterPanel edits had lost `current`, `healingBreakdown` and `manaRegenBreakdown` locals; restored them while preserving the concurrent layout changes.
+- Prior cohort tests (Doomsayer/Oracle/Druid/Hunter/Deathcaller/Lichborne) now accept the concurrent registry provenance records while still asserting `heritageEffectsImplemented === false` and no native access.
+- RI-6 focused evidence: **28 suites / 195 tests passed**, scoped ESLint 0 errors, production build compiled successfully. Evidence at `implementation/evidence/RI-6-arcanoneer-minstrel-chronarch/`.
+- RI-7 focused evidence: **34 suites / 230 tests passed**, scoped ESLint 0 errors, production build compiled successfully. Evidence at `implementation/evidence/RI-7-berserker-martyr-warden-crusader/`.
+
 ### Limits
 
 - Guest/local persistence only. Account/cloud persistence, sync conflict handling and multi-device behavior were **not** tested or claimed.

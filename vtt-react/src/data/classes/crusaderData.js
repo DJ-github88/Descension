@@ -2238,3 +2238,41 @@ Fervor (0–100) is celestial starlight generated through martial vanguard comba
 
 CRUSADER_DATA.spells = CRUSADER_ABILITIES;
 export const CRUSADER_SPELLS = CRUSADER_ABILITIES;
+
+// RI-7 legacy-roster integration: explicit progression policy. Existing
+// Crusader characters keep their known spells; new characters choose three
+// level-1 options and one optional per level. No random/automatic top-up.
+export const CRUSADER_PROGRESSION_POLICY = {
+  classId: 'crusader', rulesetVersion: 'legacy-roster-integrated', levelCap: 10,
+  startingSpellPicks: 3, optionalPicksPerLevel: 1, allowEarlierUnchosen: true,
+  grantedCoreSpellIds: [], randomizeStartingSpells: false, autoTopUpOnLoad: false,
+  talentActivesAreGrants: false, manualOnly: true
+};
+
+CRUSADER_DATA.progression = {
+  levelCap: 10,
+  policy: CRUSADER_PROGRESSION_POLICY,
+  levels: Array.from({ length: 10 }, (_, index) => {
+    const level = index + 1;
+    return {
+      level,
+      newChoiceIds: Array.isArray(CRUSADER_DATA.spellPools?.[level]) ? [...CRUSADER_DATA.spellPools[level]] : [],
+      optionalPicks: 1,
+      talentBudget: level * 5
+    };
+  })
+};
+
+export const CRUSADER_MANIFEST = {
+  contentLock: 'RI-7 Crusader legacy-roster content lock',
+  classId: 'crusader', displayName: 'Crusader',
+  authoredSpells: CRUSADER_DATA.spells.length,
+  spellPoolCounts: Object.fromEntries(Array.from({ length: 10 }, (_, index) => {
+    const level = index + 1;
+    return [level, Array.isArray(CRUSADER_DATA.spellPools?.[level]) ? CRUSADER_DATA.spellPools[level].length : 0];
+  })),
+  treeIds: ['solar_justiciar', 'dawn_bastion', 'harmonic_inquisitor'],
+  resource: 'fervor', progression: CRUSADER_PROGRESSION_POLICY,
+  nativeAccess: CRUSADER_DATA.restrictions?.allowedSubraces || [],
+  legacyIdsPreserved: true, automaticConversion: false, manualOnly: true
+};

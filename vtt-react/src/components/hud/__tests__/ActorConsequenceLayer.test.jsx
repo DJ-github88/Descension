@@ -1,18 +1,26 @@
-import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import React, { useState } from 'react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import ActorConsequenceLayer from '../ActorConsequenceLayer';
 
-test('collapses to a chip and back without unmounting its panels; the choice is remembered per device', () => {
-  window.localStorage.removeItem('mythrill.actorConsequenceLayer.collapsed');
-  const { container, unmount } = render(<ActorConsequenceLayer><section aria-label="Pending block roll">card</section></ActorConsequenceLayer>);
-  const layer = container.querySelector('.actor-consequence-layer');
-  expect(layer.classList.contains('acl-collapsed')).toBe(false);
-  fireEvent.click(screen.getByRole('button', { name: 'Hide combat adjudication' }));
-  expect(layer.classList.contains('acl-collapsed')).toBe(true);
-  expect(screen.getByRole('button', { name: 'Show combat adjudication' })).toHaveAttribute('aria-expanded', 'false');
-  expect(container.querySelector('section')).not.toBeNull(); // hidden by CSS only; pending work stays mounted
-  unmount();
-  render(<ActorConsequenceLayer><section>card</section></ActorConsequenceLayer>);
-  expect(screen.getByRole('button', { name: 'Show combat adjudication' })).toBeInTheDocument();
-  window.localStorage.removeItem('mythrill.actorConsequenceLayer.collapsed');
+test('Escape hides presentation, keeps the retained draft mounted and returns focus to reopen', () => {
+  localStorage.removeItem('mythrill.actorConsequenceLayer.collapsed');
+  const unhandled = jest.fn();
+  document.addEventListener('keydown', unhandled);
+  function Pending() {
+    const [face, setFace] = useState('6');
+    return <input aria-label="Retained physical face" value={face} onChange={e => setFace(e.target.value)} />;
+  }
+  const { unmount } = render(<ActorConsequenceLayer><Pending /></ActorConsequenceLayer>);
+  const face = screen.getByLabelText('Retained physical face');
+  fireEvent.change(face, { target: { value: '4' } });
+  face.focus(); fireEvent.keyDown(face, { key: 'Escape' });
+  expect(unhandled).not.toHaveBeenCalled();
+  const reopen = screen.getByRole('button', { name: 'Show combat adjudication' });
+  expect(document.activeElement).toBe(reopen);
+  expect(face.isConnected).toBe(true);
+  expect(face.value).toBe('4');
+  fireEvent.click(reopen);
+  expect(screen.getByRole('button', { name: 'Hide combat adjudication' }).getAttribute('aria-expanded')).toBe('true');
+  expect(screen.getByLabelText('Retained physical face')).toBe(face);
+  unmount(); document.removeEventListener('keydown', unhandled);
 });

@@ -1,0 +1,142 @@
+[
+  {
+    "file": "vtt-react/src/data/classes/covenbaneData.js",
+    "size": 46409,
+    "sha256": "2b26b623fcdd3c3fd09c4fbde19527dce83a0734781f28a0e8322126f3099518"
+  },
+  {
+    "file": "vtt-react/src/data/talentTrees/covenbane.js",
+    "size": 13617,
+    "sha256": "b0b9cbe693c2402a4453f51b72ba12ca4c5c69c544d329fa9d112dc2ce6878a3"
+  },
+  {
+    "file": "vtt-react/src/data/resourceSystems/covenbaneResourceGuide.js",
+    "size": 4057,
+    "sha256": "237e929e769df3039a93b16811344a61a4eb36a598dd1923907f2aa4ee91358a"
+  },
+  {
+    "file": "vtt-react/src/components/hud/CovenbaneResourceDisplay.jsx",
+    "size": 2936,
+    "sha256": "5f1afd904172c03cbc04cdf74f059bd6d4e7a9f0e4dd0dcfcf27ea36f530e5f7"
+  },
+  {
+    "file": "vtt-react/src/data/classes/__tests__/covenbaneIntegration.test.js",
+    "size": 5498,
+    "sha256": "2f54e9f77abdf7967a39cf222736e38c89d68b29e00d3682ec3b644ea82f9e54"
+  },
+  {
+    "file": "vtt-react/src/data/classes/__tests__/covenbaneRoundTripAndProgression.test.js",
+    "size": 16616,
+    "sha256": "79cc952f60510455ac8c46acc23b65963d0e1b7b6ad6d5470f9e25ba95cd8e0a"
+  },
+  {
+    "file": "vtt-react/verification/covenbane/covenbane-browser-witness.cjs",
+    "size": 16908,
+    "sha256": "85941e6dfcde38f3bbfb3b7c46d9de0990be696832a901f916a30ccd23dd7a5f"
+  },
+  {
+    "file": "vtt-react/src/data/classes/classDisplayData.js",
+    "size": 37041,
+    "sha256": "1a86fd2c89774040840dd5e4858e7356864dbf62f76f90805fe9aa0e5e499afb"
+  },
+  {
+    "file": "vtt-react/src/data/classes/classFlavorProfiles.js",
+    "size": 25270,
+    "sha256": "8a4badad579588bf5d5a91c4f8b5ff9cf1c899f59cc89ebfa8ccdcbb8a982355"
+  },
+  {
+    "file": "vtt-react/src/data/classes/index.js",
+    "size": 4102,
+    "sha256": "787054d602cf57d6e55436473d7b981dde358f8b3e0d3557352012e7fa00ef41"
+  },
+  {
+    "file": "vtt-react/src/data/classSpellGenerator.js",
+    "size": 30582,
+    "sha256": "ab99959df24ebd4285c36a27faea64fd947dd9e3d56c3319a6df725a18380f1a"
+  },
+  {
+    "file": "vtt-react/src/store/characterSlices/progressionSlice.js",
+    "size": 53985,
+    "sha256": "34b6f40bee0e2034a9caac70fe31eeeac7a4811a32206e8bbb7038224fab3c56"
+  },
+  {
+    "file": "vtt-react/src/data/classHeritageRegistry.js",
+    "size": 28811,
+    "sha256": "cf0682c716c94a470cd053b9dc000f9443f5f3a7e306f36fe42b812e1f85e7c0"
+  },
+  {
+    "file": "vtt-react/src/data/classSpellCategories.js",
+    "size": 33275,
+    "sha256": "d1ea538a9677ee1d0b1930ae6c6a94dd5d6a291b4da312fa1eb16b0159ebbc8c"
+  },
+  {
+    "file": "vtt-react/src/components/rules/RulesPage.jsx",
+    "size": 102779,
+    "sha256": "f3de1d1f7bf43e3cf08652296dd81cf31388d9f1a70e3df3b3939bf78f93e939"
+  },
+  {
+    "file": "vtt-react/src/components/rules/ClassDetailDisplay.jsx",
+    "size": 145634,
+    "sha256": "61b353d2c93c07cd915013e7e122700b91d903f1e14f95848d9a3110b3e7e7d1"
+  },
+  {
+    "file": "vtt-react/src/components/hud/ClassResourceBar.jsx",
+    "size": 94036,
+    "sha256": "ade4a081dae8c010a852408872c579f900d3ad2db6ae5e1a10658da9819aa9a5"
+  },
+  {
+    "file": "vtt-react/src/data/classes/levelOneSpellIcons.js",
+    "size": 4877,
+    "sha256": "26f60d98babec393cdf35303423fcf4d9999c5957ade3f0b3964162c652d526b"
+  },
+  {
+    "file": "vtt-react/src/data/resourceSystems/index.js",
+    "size": 3803,
+    "sha256": "472a6771471a55f00df8816292ca44fabcc231d5353a646bc1fe8d4415059249"
+  },
+  {
+    "file": "vtt-react/src/data/classResources.js",
+    "size": 78994,
+    "sha256": "3d5d8979c85f4dc35a1a88224daec269c666806e25dd15adc87552c531458b89"
+  },
+  {
+    "file": "vtt-react/src/data/talentTreeData.js",
+    "size": 19208,
+    "sha256": "26c3d64016a0da6ce0e4393e120f5f3d475f9c74267fadac44d50c4ff4aabd85"
+  },
+  {
+    "file": "vtt-react/src/data/talentTrees/index.js",
+    "size": 3085,
+    "sha256": "d6f6f9fc42053f1067d75170cb5da081ecc8c577bb38de64e7db4382e0978e3c"
+  },
+  {
+    "file": "vtt-react/src/components/character-creation-wizard/steps/Step1CoreDraft.jsx",
+    "size": 202382,
+    "sha256": "89c156a0143e7e1a2d0697f22023d9a564ce50c5cc97a85675423d194a9bf967"
+  },
+  {
+    "file": "vtt-react/src/components/account/CharacterManagement.jsx",
+    "size": 26012,
+    "sha256": "ec520d139a072e9a573f7f3dd42c4aef381a3ee1854a093312aa35d9a85dfb9a"
+  },
+  {
+    "file": "docs/plans/mythrill-class-reconstruction/35_30_CLASS_IMPLEMENTATION_LEDGER.md",
+    "size": 19047,
+    "sha256": "b9ac2e7f7b5210b8f4a63acd6253e123a28e29e05d04ff16265001cf147d1655"
+  },
+  {
+    "file": "docs/plans/mythrill-class-reconstruction/implementation/evidence/COVENBANE-INTEGRATION/covenbane-content-lock.json",
+    "size": 32235,
+    "sha256": "00d45426937e41b818a25c424c0789c608adeae41903b0b311dd5017e1c62608"
+  },
+  {
+    "file": "docs/plans/mythrill-class-reconstruction/implementation/evidence/COVENBANE-INTEGRATION/COVENBANE-CONTENT-LOCK.md",
+    "size": 19412,
+    "sha256": "48f1f848cace04211420ebe39872a0143a047a2e6b64e3fd1c72aa83d99cc14d"
+  },
+  {
+    "file": "docs/plans/mythrill-class-reconstruction/implementation/evidence/COVENBANE-INTEGRATION/REPORT.md",
+    "size": 13402,
+    "sha256": "be6bfb03cf8bca217db4264090eebe8d56cafc1e145d06b27850af7255920f71"
+  }
+]

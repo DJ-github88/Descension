@@ -3339,3 +3339,41 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
 };
 
 INQUISITOR_DATA.spells = INQUISITOR_DATA.exampleSpells;
+
+// RI-8 legacy-roster integration: explicit progression policy. Existing
+// Inquisitor characters keep their known spells; new characters choose three
+// level-1 options and one optional per level. No random/automatic top-up.
+export const INQUISITOR_PROGRESSION_POLICY = {
+  classId: 'inquisitor', rulesetVersion: 'legacy-roster-integrated', levelCap: 10,
+  startingSpellPicks: 3, optionalPicksPerLevel: 1, allowEarlierUnchosen: true,
+  grantedCoreSpellIds: [], randomizeStartingSpells: false, autoTopUpOnLoad: false,
+  talentActivesAreGrants: false, manualOnly: true
+};
+
+INQUISITOR_DATA.progression = {
+  levelCap: 10,
+  policy: INQUISITOR_PROGRESSION_POLICY,
+  levels: Array.from({ length: 10 }, (_, index) => {
+    const level = index + 1;
+    return {
+      level,
+      newChoiceIds: Array.isArray(INQUISITOR_DATA.spellPools?.[level]) ? [...INQUISITOR_DATA.spellPools[level]] : [],
+      optionalPicks: 1,
+      talentBudget: level * 5
+    };
+  })
+};
+
+export const INQUISITOR_MANIFEST = {
+  contentLock: 'RI-8 Inquisitor legacy-roster content lock',
+  classId: 'inquisitor', displayName: 'Inquisitor',
+  authoredSpells: INQUISITOR_DATA.spells.length,
+  spellPoolCounts: Object.fromEntries(Array.from({ length: 10 }, (_, index) => {
+    const level = index + 1;
+    return [level, Array.isArray(INQUISITOR_DATA.spellPools?.[level]) ? INQUISITOR_DATA.spellPools[level].length : 0];
+  })),
+  treeIds: ['witch_hammer', 'iron_verdict', 'hollow_saint'],
+  resource: INQUISITOR_DATA.classResource.type, progression: INQUISITOR_PROGRESSION_POLICY,
+  nativeAccess: INQUISITOR_DATA.restrictions?.allowedSubraces || [],
+  legacyIdsPreserved: true, automaticConversion: false, manualOnly: true
+};

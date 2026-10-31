@@ -1,0 +1,1093 @@
+{
+  "classId": "covenbane",
+  "className": "Covenbane",
+  "status": "locked",
+  "rulesetVersion": "cr-review-r1",
+  "rosterPosition": 24,
+  "contractCounts": {
+    "coreGrants": 2,
+    "optionalPicks": 40,
+    "talentSignatures": 3,
+    "talentCapstones": 3,
+    "talentPassives": 48,
+    "totalRecords": 96,
+    "talentNodes": 54,
+    "pointsPerTree": 50,
+    "totalRankCapacity": 150
+  },
+  "resourceSystem": {
+    "name": "Hexbreaker Charges",
+    "capacity": 6,
+    "start": 0,
+    "decay": "1 charge every 2 rounds out of combat; 0 on long rest",
+    "generation": [
+      "+1 when enemy within 30ft casts a spell",
+      "+2 on magical parry or dispel",
+      "+1 on Draw Null Salt or turn start in null-zone"
+    ],
+    "spending": "Fuels anti-magic strikes, kinetic dispels, null-zones, and execution strikes"
+  },
+  "coreFeatures": [
+    {
+      "id": "cr1_covenbane_null_strike",
+      "name": "Null Strike",
+      "level": 1,
+      "ap": 1,
+      "cost": "1 AP, 0 Mana, 0 Charges",
+      "targeting": "Melee",
+      "type": "Core Class Feature",
+      "description": "Strike with cold bog-iron. Deal weapon damage (slashing/bludgeoning). If target is concentrating on a spell, they make their concentration check with disadvantage."
+    },
+    {
+      "id": "cr1_covenbane_draw_null_salt",
+      "name": "Draw Null Salt",
+      "level": 1,
+      "ap": 1,
+      "cost": "1 AP, 0 Mana, Generates +1 Charge",
+      "targeting": "Self",
+      "type": "Core Class Feature",
+      "description": "Scatter a handful of alchemical null-salts across weapon or boots. Gain +1 Hexbreaker Charge and +2 to saving throws against hexes until the end of your next turn."
+    }
+  ],
+  "optionalSpells": [
+    {
+      "id": "cov_shadow_hunt",
+      "name": "Shadow Hunt",
+      "level": 1,
+      "ap": 1,
+      "charges": 0,
+      "type": "Utility",
+      "targeting": "Self",
+      "isDamage": false,
+      "description": "Trace residual magical footprints and heat leaks within 60 ft. Reveals invisible magical trails for 10 minutes."
+    },
+    {
+      "id": "cov_salt_ward",
+      "name": "Salt Ward",
+      "level": 1,
+      "ap": 1,
+      "charges": 1,
+      "type": "Buff/Ward",
+      "targeting": "Self / Ally 15 ft",
+      "isDamage": false,
+      "description": "Sprinkle null-salt barrier. Absorbs 4 points of incoming magical/elemental damage. Lasts 1 round."
+    },
+    {
+      "id": "cov_hex_strike",
+      "name": "Hex Strike",
+      "level": 1,
+      "ap": 2,
+      "charges": 1,
+      "type": "Damage",
+      "targeting": "Melee",
+      "isDamage": true,
+      "description": "2d8 slashing + 1d6 force damage. If target has active magical buffs, dispel one minor buff."
+    },
+    {
+      "id": "cov_silver_blade",
+      "name": "Silver Blade",
+      "level": 1,
+      "ap": 1,
+      "charges": 0,
+      "type": "Damage",
+      "targeting": "Melee",
+      "isDamage": true,
+      "description": "1d8 slashing + 1d4 radiant damage. Deals maximum damage against unholy, necrotic, or shapeshifted targets."
+    },
+    {
+      "id": "cov_dark_pursuit",
+      "name": "Dark Pursuit",
+      "level": 2,
+      "ap": 1,
+      "charges": 0,
+      "type": "Utility/Move",
+      "targeting": "Self",
+      "isDamage": false,
+      "description": "Leap up to 25 ft toward a creature that cast a spell since your last turn."
+    },
+    {
+      "id": "cov_bog_iron_parry",
+      "name": "Bog-Iron Parry",
+      "level": 2,
+      "ap": 1,
+      "charges": 1,
+      "type": "Reaction/Defend",
+      "targeting": "Self",
+      "isDamage": false,
+      "description": "Deflect incoming spell attack, reducing damage by 1d10 + Agility and gaining +1 Charge."
+    },
+    {
+      "id": "cov_severing_slash",
+      "name": "Severing Slash",
+      "level": 2,
+      "ap": 2,
+      "charges": 1,
+      "type": "Damage",
+      "targeting": "Melee",
+      "isDamage": true,
+      "description": "2d10 slashing damage; target cannot teleport or use planar movement for 1 round."
+    },
+    {
+      "id": "cov_disruptive_shout",
+      "name": "Disruptive Shout",
+      "level": 2,
+      "ap": 1,
+      "charges": 1,
+      "type": "Control/Debuff",
+      "targeting": "20 ft cone",
+      "isDamage": false,
+      "description": "Force all casting enemies to make a Will save or suffer 1 round of Silence."
+    },
+    {
+      "id": "cov_null_salts_flask",
+      "name": "Null-Salts Flask",
+      "level": 3,
+      "ap": 1,
+      "charges": 2,
+      "type": "Utility/Zone",
+      "targeting": "20 ft range",
+      "isDamage": false,
+      "description": "Throw a flask creating a 10 ft radius null-zone. Magic cannot be cast inside for 2 rounds."
+    },
+    {
+      "id": "cov_witch_scent",
+      "name": "Witch Scent",
+      "level": 3,
+      "ap": 1,
+      "charges": 0,
+      "type": "Utility",
+      "targeting": "Self",
+      "isDamage": false,
+      "description": "Discern the exact school and tier of any active enchantment within 100 ft."
+    },
+    {
+      "id": "cov_chain_shatter",
+      "name": "Chain Shatter",
+      "level": 3,
+      "ap": 2,
+      "charges": 2,
+      "type": "Damage",
+      "targeting": "Melee",
+      "isDamage": true,
+      "description": "3d8 slashing damage; shatters physical and magical shields (+2d8 bonus damage to ward pools)."
+    },
+    {
+      "id": "cov_cold_iron_gouge",
+      "name": "Cold-Iron Gouge",
+      "level": 3,
+      "ap": 2,
+      "charges": 1,
+      "type": "Damage/Debuff",
+      "targeting": "Melee",
+      "isDamage": true,
+      "description": "2d8 piercing damage; target bleeds for 1d6 physical damage per turn whenever they spend mana."
+    },
+    {
+      "id": "cov_leaden_veil",
+      "name": "Leaden Veil",
+      "level": 4,
+      "ap": 1,
+      "charges": 1,
+      "type": "Buff",
+      "targeting": "Self",
+      "isDamage": false,
+      "description": "Gain advantage on all saves against charm, fear, and psychic influence for 1 minute."
+    },
+    {
+      "id": "cov_grounding_spike",
+      "name": "Grounding Spike",
+      "level": 4,
+      "ap": 1,
+      "charges": 2,
+      "type": "Utility",
+      "targeting": "Melee",
+      "isDamage": false,
+      "description": "Drive a cold-iron spike into the terrain. Lightning, fire, and storm spells within 20 ft are redirected to the spike."
+    },
+    {
+      "id": "cov_punishing_counter",
+      "name": "Punishing Counter",
+      "level": 4,
+      "ap": 1,
+      "charges": 2,
+      "type": "Damage/Reaction",
+      "targeting": "Melee",
+      "isDamage": true,
+      "description": "Triggered when an enemy casts within 5 ft; make an immediate weapon strike dealing 2d10 damage."
+    },
+    {
+      "id": "cov_abyssal_sever",
+      "name": "Abyssal Sever",
+      "level": 4,
+      "ap": 2,
+      "charges": 2,
+      "type": "Damage",
+      "targeting": "Melee",
+      "isDamage": true,
+      "description": "3d10 force/slashing damage; banishes summoned minions with HP <= 15 instantly."
+    },
+    {
+      "id": "cov_veil_breaker",
+      "name": "Veil Breaker",
+      "level": 5,
+      "ap": 2,
+      "charges": 3,
+      "type": "Utility/Dispel",
+      "targeting": "30 ft",
+      "isDamage": false,
+      "description": "Cleanse all illusion, invisibility, and shapeshift effects within a 20 ft radius."
+    },
+    {
+      "id": "cov_shackles_of_bog_iron",
+      "name": "Shackles of Bog-Iron",
+      "level": 5,
+      "ap": 2,
+      "charges": 2,
+      "type": "Control",
+      "targeting": "25 ft",
+      "isDamage": false,
+      "description": "Cold-iron chains erupt; target speed reduced to 0 and cannot cast spells requiring somatic components for 2 rounds."
+    },
+    {
+      "id": "cov_hexbreaker_execution",
+      "name": "Hexbreaker Execution",
+      "level": 5,
+      "ap": 2,
+      "charges": 3,
+      "type": "Damage",
+      "targeting": "Melee",
+      "isDamage": true,
+      "description": "4d8 slashing damage; deals +2d8 bonus damage if target has cast a spell this encounter."
+    },
+    {
+      "id": "cov_radiant_purge",
+      "name": "Radiant Purge",
+      "level": 5,
+      "ap": 2,
+      "charges": 3,
+      "type": "Damage/AoE",
+      "targeting": "15 ft radius",
+      "isDamage": true,
+      "description": "3d8 radiant damage to all nearby foes; destroys all magical traps/hazards in the radius."
+    },
+    {
+      "id": "cov_ward_inversion",
+      "name": "Ward Inversion",
+      "level": 6,
+      "ap": 1,
+      "charges": 3,
+      "type": "Utility/Dispel",
+      "targeting": "30 ft",
+      "isDamage": false,
+      "description": "Target enemy magical ward inverts, dealing its remaining shield capacity as pure damage to its bearer."
+    },
+    {
+      "id": "cov_occult_dampener",
+      "name": "Occult Dampener",
+      "level": 6,
+      "ap": 2,
+      "charges": 3,
+      "type": "Buff/Aura",
+      "targeting": "Self 15 ft aura",
+      "isDamage": false,
+      "description": "All allies within 15 ft gain +3 to saves against arcane and necrotic spells for 3 rounds."
+    },
+    {
+      "id": "cov_bog_iron_whirlwind",
+      "name": "Bog-Iron Whirlwind",
+      "level": 6,
+      "ap": 2,
+      "charges": 3,
+      "type": "Damage/AoE",
+      "targeting": "Melee 10 ft",
+      "isDamage": true,
+      "description": "Spin with iron blade; 3d10 slashing to all surrounding enemies and push them back 5 ft."
+    },
+    {
+      "id": "cov_mind_flint_strike",
+      "name": "Mind-Flint Strike",
+      "level": 6,
+      "ap": 2,
+      "charges": 2,
+      "type": "Damage/Debuff",
+      "targeting": "Melee",
+      "isDamage": true,
+      "description": "2d10 psychic/slashing damage; burns 5 points of enemy mana or removes 1 resource charge."
+    },
+    {
+      "id": "cov_leyline_anchor",
+      "name": "Leyline Anchor",
+      "level": 7,
+      "ap": 2,
+      "charges": 4,
+      "type": "Utility/Zone",
+      "targeting": "30 ft",
+      "isDamage": false,
+      "description": "Plants a heavy anchor that suppresses all teleportation, planar travel, and summoning within 40 ft for 1 minute."
+    },
+    {
+      "id": "cov_null_salts_barrage",
+      "name": "Null-Salts Barrage",
+      "level": 7,
+      "ap": 2,
+      "charges": 3,
+      "type": "Debuff/Zone",
+      "targeting": "30 ft cone",
+      "isDamage": false,
+      "description": "Cone of dense null-salts; all spells passing through the cone suffer a 50% miscast chance for 2 rounds."
+    },
+    {
+      "id": "cov_hexbreaker_storm",
+      "name": "Hexbreaker Storm",
+      "level": 7,
+      "ap": 3,
+      "charges": 4,
+      "type": "Damage/AoE",
+      "targeting": "20 ft radius",
+      "isDamage": true,
+      "description": "4d10 force damage to all spellcasters in range; interrupts all active concentration immediately."
+    },
+    {
+      "id": "cov_apex_predator",
+      "name": "Apex Predator",
+      "level": 7,
+      "ap": 2,
+      "charges": 3,
+      "type": "Damage/Stance",
+      "targeting": "Self",
+      "isDamage": true,
+      "description": "For 3 rounds, your weapon strikes deal +2d8 radiant damage against creatures with innate spellcasting."
+    },
+    {
+      "id": "cov_silence_shroud",
+      "name": "Silence Shroud",
+      "level": 8,
+      "ap": 2,
+      "charges": 4,
+      "type": "Utility/Stealth",
+      "targeting": "Self",
+      "isDamage": false,
+      "description": "Wrap in total sonic and magical silence; immune to detection by magical scrying, tremorsense, or truesight for 10 minutes."
+    },
+    {
+      "id": "cov_sanctuary_of_iron",
+      "name": "Sanctuary of Iron",
+      "level": 8,
+      "ap": 2,
+      "charges": 4,
+      "type": "Buff/Ward",
+      "targeting": "15 ft radius",
+      "isDamage": false,
+      "description": "Create a dome of cold-iron runes; completely blocks incoming ranged spell projectiles for 2 rounds."
+    },
+    {
+      "id": "cov_judgment_day",
+      "name": "Judgment Day",
+      "level": 8,
+      "ap": 3,
+      "charges": 5,
+      "type": "Damage",
+      "targeting": "Melee",
+      "isDamage": true,
+      "description": "5d10 radiant/slashing damage; if target has cast a spell of tier 4+, target is stunned for 1 round."
+    },
+    {
+      "id": "cov_anti_magic_storm",
+      "name": "Anti-Magic Storm",
+      "level": 8,
+      "ap": 3,
+      "charges": 5,
+      "type": "Damage/AoE",
+      "targeting": "30 ft radius",
+      "isDamage": true,
+      "description": "5d8 force damage and cleanses all magical effects (friendly and hostile) from all targets in the area."
+    },
+    {
+      "id": "cov_sever_ley_threads",
+      "name": "Sever Ley Threads",
+      "level": 9,
+      "ap": 2,
+      "charges": 5,
+      "type": "Utility/Dispel",
+      "targeting": "40 ft",
+      "isDamage": false,
+      "description": "Completely severs target creature's connection to magical leylines for 2 rounds; target cannot cast spells."
+    },
+    {
+      "id": "cov_null_salts_apotheosis",
+      "name": "Null-Salts Apotheosis",
+      "level": 9,
+      "ap": 2,
+      "charges": 3,
+      "type": "Buff",
+      "targeting": "Self",
+      "isDamage": false,
+      "description": "Gain temporary HP equal to 5 * your Covenbane level for 3 rounds."
+    },
+    {
+      "id": "cov_lethal_anathema",
+      "name": "Lethal Anathema",
+      "level": 9,
+      "ap": 3,
+      "charges": 5,
+      "type": "Damage",
+      "targeting": "Melee",
+      "isDamage": true,
+      "description": "6d10 radiant/slashing damage; permanently disables the target's highest-tier spell slot for 24 hours."
+    },
+    {
+      "id": "cov_rupture_leyline",
+      "name": "Rupture Leyline",
+      "level": 9,
+      "ap": 3,
+      "charges": 5,
+      "type": "Damage/AoE",
+      "targeting": "40 ft line",
+      "isDamage": true,
+      "description": "Rupture the ground in a 40 ft furrow; deals 5d8 force damage and knocks all targets prone."
+    },
+    {
+      "id": "cov_orvens_legacy",
+      "name": "Orven's Legacy",
+      "level": 10,
+      "ap": 3,
+      "charges": 6,
+      "type": "Buff/Aura",
+      "targeting": "30 ft aura",
+      "isDamage": false,
+      "description": "For 3 rounds, allies within 30 ft gain spell resistance +4 and cannot be charmed or dominated."
+    },
+    {
+      "id": "cov_bog_iron_immuration",
+      "name": "Bog-Iron Immuration",
+      "level": 10,
+      "ap": 2,
+      "charges": 4,
+      "type": "Utility",
+      "targeting": "Self",
+      "isDamage": false,
+      "description": "Encase yourself in impenetrable null-iron for 1 round; immune to all damage, cannot take actions."
+    },
+    {
+      "id": "cov_barbed_vow_fulfillment",
+      "name": "Barbed Vow Fulfillment",
+      "level": 10,
+      "ap": 3,
+      "charges": 6,
+      "type": "Damage",
+      "targeting": "Melee",
+      "isDamage": true,
+      "description": "8d10 pure damage against a primary spellcaster boss. Cannot be mitigated or reflected."
+    },
+    {
+      "id": "cov_extinguish_spark",
+      "name": "Extinguish Spark",
+      "level": 10,
+      "ap": 3,
+      "charges": 6,
+      "type": "Damage/Control",
+      "targeting": "Melee",
+      "isDamage": true,
+      "description": "6d12 force damage; target is permanently silenced until a completed long rest."
+    }
+  ],
+  "talentTrees": [
+    {
+      "id": "shadowbane",
+      "name": "Shadowbane",
+      "stem": "shadowbane",
+      "short": "sb",
+      "tagline": "Track residual occult spoor, stalk unseen through leylines, and strike from absolute silence.",
+      "signature": {
+        "id": "cov_sig_null_shroud",
+        "name": "Null Shroud",
+        "ap": 1,
+        "charges": 2,
+        "description": "Cloak in cold mist; gain invisibility against magical detection for 3 rounds."
+      },
+      "capstone": {
+        "id": "cov_cap_aegis_of_bog_iron",
+        "name": "Aegis of Bog-Iron",
+        "ap": 2,
+        "charges": 4,
+        "description": "Project an impenetrable dampening field for 2 rounds."
+      },
+      "passives": [
+        {
+          "suffix": "hex_focus",
+          "name": "Hex Focus",
+          "values": [
+            1,
+            2,
+            3
+          ],
+          "key": "shadowbane.chargeBuildRate",
+          "text": "Gain +{v} additional Hexbreaker Charge upon observing or entering combat with an enemy spellcaster."
+        },
+        {
+          "suffix": "quiet_tread",
+          "name": "Quiet Tread",
+          "values": [
+            5,
+            10,
+            15
+          ],
+          "key": "shadowbane.stealthSpeed",
+          "text": "Add {v} ft to Stealth movement while stalking a creature with magical capabilities."
+        },
+        {
+          "suffix": "residual_trail",
+          "name": "Residual Trail",
+          "values": [
+            1,
+            2,
+            3
+          ],
+          "key": "shadowbane.trackBonus",
+          "text": "Add +{v} to Survival/Tracking checks against magical trails and residue."
+        },
+        {
+          "suffix": "shadow_strike",
+          "name": "Shadow Strike",
+          "values": [
+            1,
+            2,
+            3
+          ],
+          "key": "shadowbane.stealthDamage",
+          "text": "Weapon attacks from stealth deal +{v}d6 physical damage."
+        },
+        {
+          "suffix": "mist_veil",
+          "name": "Mist Veil",
+          "values": [
+            1,
+            2,
+            3
+          ],
+          "key": "shadowbane.mistStealth",
+          "text": "Gain +{v} to Stealth checks in fog, rain, or low-light terrain."
+        },
+        {
+          "suffix": "curse_resistance",
+          "name": "Curse Resistance",
+          "values": [
+            1,
+            2,
+            3
+          ],
+          "key": "shadowbane.curseSave",
+          "text": "Add +{v} to saving throws against curses, hexes, and necromancy."
+        },
+        {
+          "suffix": "silent_pursuit",
+          "name": "Silent Pursuit",
+          "values": [
+            1,
+            2,
+            3
+          ],
+          "key": "shadowbane.moveDiscount",
+          "text": "Moving within 30 ft of a concentrating enemy costs -{v} less movement."
+        },
+        {
+          "suffix": "cold_patience",
+          "name": "Cold Patience",
+          "values": [
+            1,
+            2,
+            3
+          ],
+          "key": "shadowbane.initiativeBonus",
+          "text": "Add +{v} to Initiative when an enemy spellcaster is detected."
+        },
+        {
+          "suffix": "iron_cowl",
+          "name": "Iron Cowl",
+          "values": [
+            2,
+            4,
+            6
+          ],
+          "key": "shadowbane.psychicMitigation",
+          "text": "Reduce psychic and illusion damage taken by {v}."
+        },
+        {
+          "suffix": "barbed_snares",
+          "name": "Barbed Snares",
+          "values": [
+            1,
+            2,
+            3
+          ],
+          "key": "shadowbane.trapDc",
+          "text": "When setting physical traps or wards, increase save DC by +{v}."
+        },
+        {
+          "suffix": "whispering_salt",
+          "name": "Whispering Salt",
+          "values": [
+            5,
+            10,
+            15
+          ],
+          "key": "shadowbane.saltReveal",
+          "text": "Salt wards reveal hidden creatures within {v} ft of the boundary."
+        },
+        {
+          "suffix": "ambush_precision",
+          "name": "Ambush Precision",
+          "values": [
+            1,
+            2,
+            3
+          ],
+          "key": "shadowbane.armorShred",
+          "text": "Weapon attacks from stealth reduce target armor by {v} for 1 round."
+        },
+        {
+          "suffix": "unseen_step",
+          "name": "Unseen Step",
+          "values": [
+            1,
+            2,
+            3
+          ],
+          "key": "shadowbane.agilitySave",
+          "text": "Add +{v} to Agility saves while unseen or in concealment."
+        },
+        {
+          "suffix": "dampened_stride",
+          "name": "Dampened Stride",
+          "values": [
+            33,
+            66,
+            100
+          ],
+          "key": "shadowbane.noiseReduction",
+          "text": "Footsteps and armor clinking produce {v}% less noise."
+        },
+        {
+          "suffix": "shadow_execution",
+          "name": "Shadow Execution",
+          "values": [
+            1,
+            2,
+            3
+          ],
+          "key": "shadowbane.critReduction",
+          "text": "Attacks against unaware enemies have critical hit threshold reduced by {v}."
+        },
+        {
+          "suffix": "shadowbane_mastery",
+          "name": "Shadowbane Mastery",
+          "values": [
+            1,
+            2,
+            3
+          ],
+          "key": "shadowbane.allStealth",
+          "text": "Gain +{v} to all Stealth and tracking checks, and +1 max Hexbreaker charge capacity."
+        }
+      ]
+    },
+    {
+      "id": "spellbreaker",
+      "name": "Spellbreaker",
+      "stem": "spellbreaker",
+      "short": "sp",
+      "tagline": "Parrying magical forces, shattering wards into pure shrapnel, and draining leyline reserves.",
+      "signature": {
+        "id": "cov_sig_leyline_cleaver",
+        "name": "Leyline Cleaver",
+        "ap": 2,
+        "charges": 2,
+        "description": "3d10 force damage; immediately dispels 2 highest-tier enemy buffs."
+      },
+      "capstone": {
+        "id": "cov_cap_absolute_severance",
+        "name": "Absolute Severance",
+        "ap": 3,
+        "charges": 5,
+        "description": "6d10 damage; severs all spell connections and drains 20 enemy mana."
+      },
+      "passives": [
+        {
+          "suffix": "ward_breaker",
+          "name": "Ward Breaker",
+          "values": [
+            1,
+            2,
+            3
+          ],
+          "key": "spellbreaker.wardDamage",
+          "text": "Deal +{v}d8 bonus damage against magical shields and ward pools."
+        },
+        {
+          "suffix": "iron_parry",
+          "name": "Iron Parry",
+          "values": [
+            2,
+            4,
+            6
+          ],
+          "key": "spellbreaker.parryMitigation",
+          "text": "Deflecting a spell attack reduces damage by an additional +{v}."
+        },
+        {
+          "suffix": "kinetic_feedback",
+          "name": "Kinetic Feedback",
+          "values": [
+            2,
+            4,
+            6
+          ],
+          "key": "spellbreaker.disruptDamage",
+          "text": "When you disrupt an enemy spell, the caster takes {v} force damage."
+        },
+        {
+          "suffix": "spell_attrition",
+          "name": "Spell Attrition",
+          "values": [
+            1,
+            2,
+            3
+          ],
+          "key": "spellbreaker.manaBurn",
+          "text": "Your weapon attacks burn {v} mana from enemies on hit."
+        },
+        {
+          "suffix": "dense_iron",
+          "name": "Dense Iron",
+          "values": [
+            10,
+            20,
+            30
+          ],
+          "key": "spellbreaker.penetration",
+          "text": "Weapons crafted with cold iron ignore {v}% of magical damage resistances."
+        },
+        {
+          "suffix": "counter_poise",
+          "name": "Counter Poise",
+          "values": [
+            1,
+            2,
+            3
+          ],
+          "key": "spellbreaker.willSave",
+          "text": "Gain +{v} to Will saves against enchantment and mental domination."
+        },
+        {
+          "suffix": "rupture_ward",
+          "name": "Rupture Ward",
+          "values": [
+            1,
+            2,
+            3
+          ],
+          "key": "spellbreaker.shatterBurst",
+          "text": "Dispelling an active effect creates a 5 ft burst dealing {v}d6 force damage to enemies."
+        },
+        {
+          "suffix": "disruption_tempo",
+          "name": "Disruption Tempo",
+          "values": [
+            1,
+            2,
+            3
+          ],
+          "key": "spellbreaker.attackVsCaster",
+          "text": "Gain +{v} to weapon attack rolls against enemies that cast a spell this round."
+        },
+        {
+          "suffix": "grounding_frame",
+          "name": "Grounding Frame",
+          "values": [
+            2,
+            4,
+            6
+          ],
+          "key": "spellbreaker.stormMitigation",
+          "text": "Reduce incoming lightning, storm, and force damage by {v}."
+        },
+        {
+          "suffix": "shatter_thrust",
+          "name": "Shatter Thrust",
+          "values": [
+            2,
+            4,
+            6
+          ],
+          "key": "spellbreaker.concentrationPenalty",
+          "text": "Critical hits on spellcasters force an immediate concentration check with -{v} penalty."
+        },
+        {
+          "suffix": "resonant_parry",
+          "name": "Resonant Parry",
+          "values": [
+            1,
+            2,
+            2
+          ],
+          "key": "spellbreaker.chargeOnParry",
+          "text": "Successfully parrying a magical strike generates +{v} Hexbreaker Charge (once per round)."
+        },
+        {
+          "suffix": "arcane_fracture",
+          "name": "Arcane Fracture",
+          "values": [
+            1,
+            2,
+            3
+          ],
+          "key": "spellbreaker.spellAttackPenalty",
+          "text": "Enemies whose spells you parry suffer -{v} to spell attack rolls until end of their turn."
+        },
+        {
+          "suffix": "firm_footing",
+          "name": "Firm Footing",
+          "values": [
+            1,
+            2,
+            3
+          ],
+          "key": "spellbreaker.knockbackResist",
+          "text": "Add +{v} to checks against forced movement or knockback caused by spells."
+        },
+        {
+          "suffix": "severing_momentum",
+          "name": "Severing Momentum",
+          "values": [
+            1,
+            2,
+            3
+          ],
+          "key": "spellbreaker.apRefund",
+          "text": "Killing an enemy or breaking a ward refunds {v} AP once per encounter."
+        },
+        {
+          "suffix": "null_barrier",
+          "name": "Null Barrier",
+          "values": [
+            1,
+            2,
+            3
+          ],
+          "key": "spellbreaker.nullAc",
+          "text": "Standing inside a null-zone grants +{v} AC against ranged attacks."
+        },
+        {
+          "suffix": "spellbreaker_mastery",
+          "name": "Spellbreaker Mastery",
+          "values": [
+            1,
+            2,
+            3
+          ],
+          "key": "spellbreaker.masteryBoost",
+          "text": "Ward Breaker bonus increases by +{v}d8 and dispels remove 1 additional minor buff."
+        }
+      ]
+    },
+    {
+      "id": "demonhunter",
+      "name": "Demonhunter",
+      "stem": "demonhunter",
+      "short": "dh",
+      "tagline": "Relentless execution of abominations, bleeding tainted veins, and purging planar corruption.",
+      "signature": {
+        "id": "cov_sig_barbed_execution",
+        "name": "Barbed Execution",
+        "ap": 2,
+        "charges": 3,
+        "description": "4d10 damage; deals double damage to targets below 30% HP."
+      },
+      "capstone": {
+        "id": "cov_cap_void_strata_judgment",
+        "name": "Void-Strata Judgment",
+        "ap": 3,
+        "charges": 6,
+        "description": "7d10 pure damage; target must make a DC 18 save or be banished to the void."
+      },
+      "passives": [
+        {
+          "suffix": "unholy_scourge",
+          "name": "Unholy Scourge",
+          "values": [
+            1,
+            2,
+            3
+          ],
+          "key": "demonhunter.radiantDamage",
+          "text": "Weapon attacks deal +{v}d4 radiant damage against aberrations, fiends, and undead."
+        },
+        {
+          "suffix": "blood_scent",
+          "name": "Blood Scent",
+          "values": [
+            1,
+            2,
+            3
+          ],
+          "key": "demonhunter.attackVsWounded",
+          "text": "Gain +{v} to attack rolls against wounded magical targets (below 50% HP)."
+        },
+        {
+          "suffix": "barbed_vow",
+          "name": "Barbed Vow",
+          "values": [
+            1,
+            2,
+            3
+          ],
+          "key": "demonhunter.critReduction",
+          "text": "Critical hit threshold against unholy and corrupted creatures reduced by {v}."
+        },
+        {
+          "suffix": "fearless_gaze",
+          "name": "Fearless Gaze",
+          "values": [
+            2,
+            4,
+            6
+          ],
+          "key": "demonhunter.fearSave",
+          "text": "Gain +{v} to saves against fear and horror; immune to supernatural terror at rank 3."
+        },
+        {
+          "suffix": "rending_strike",
+          "name": "Rending Strike",
+          "values": [
+            4,
+            6,
+            8
+          ],
+          "key": "demonhunter.bleedDamage",
+          "text": "Weapon hits cause bleeding for 1d{v} physical damage per turn for 2 turns."
+        },
+        {
+          "suffix": "corpse_burn",
+          "name": "Corpse Burn",
+          "values": [
+            2,
+            4,
+            6
+          ],
+          "key": "demonhunter.tempHpOnKill",
+          "text": "Slain foes cannot be reanimated; gain {v} temp HP upon slaying an unholy foe."
+        },
+        {
+          "suffix": "vow_of_silence",
+          "name": "Vow of Silence",
+          "values": [
+            1,
+            2,
+            3
+          ],
+          "key": "demonhunter.verbalSave",
+          "text": "Gain advantage and +{v} bonus on saving throws against verbal spells and command words."
+        },
+        {
+          "suffix": "barbed_chains",
+          "name": "Barbed Chains",
+          "values": [
+            1,
+            2,
+            3
+          ],
+          "key": "demonhunter.chainDamage",
+          "text": "Enemies you slow or root suffer {v}d6 piercing damage when attempting to move."
+        },
+        {
+          "suffix": "silver_marrow",
+          "name": "Silver Marrow",
+          "values": [
+            25,
+            50,
+            75
+          ],
+          "key": "demonhunter.drPenetration",
+          "text": "Weapon strikes ignore necrotic and unholy damage reduction by {v}%."
+        },
+        {
+          "suffix": "ruthless_execution",
+          "name": "Ruthless Execution",
+          "values": [
+            2,
+            4,
+            6
+          ],
+          "key": "demonhunter.execBonusDamage",
+          "text": "When target is below 25% HP, weapon attacks deal +{v}d6 bonus damage."
+        },
+        {
+          "suffix": "vital_severance",
+          "name": "Vital Severance",
+          "values": [
+            1,
+            2,
+            3
+          ],
+          "key": "demonhunter.bleedAmp",
+          "text": "Bleeding enemies take +{v} additional damage from your Hexbreaker abilities."
+        },
+        {
+          "suffix": "relentless_hunt",
+          "name": "Relentless Hunt",
+          "values": [
+            5,
+            10,
+            15
+          ],
+          "key": "demonhunter.pursuitSpeed",
+          "text": "If quarry flees, movement speed increases by +{v} ft toward them."
+        },
+        {
+          "suffix": "iron_constitution",
+          "name": "Iron Constitution",
+          "values": [
+            1,
+            2,
+            3
+          ],
+          "key": "demonhunter.conSave",
+          "text": "Add +{v} to Constitution saves against poison and supernatural diseases."
+        },
+        {
+          "suffix": "purifying_burst",
+          "name": "Purifying Burst",
+          "values": [
+            2,
+            3,
+            4
+          ],
+          "key": "demonhunter.purifyAoE",
+          "text": "Slaying an enemy with Hexbreaker charges active deals {v}d6 radiant damage to adjacent foes."
+        },
+        {
+          "suffix": "apex_vow",
+          "name": "Apex Vow",
+          "values": [
+            3,
+            4,
+            5
+          ],
+          "key": "demonhunter.damageFloor",
+          "text": "Against boss/elite casters, weapon damage rolls treat 1s and 2s as {v}."
+        },
+        {
+          "suffix": "demonhunter_mastery",
+          "name": "Demonhunter Mastery",
+          "values": [
+            10,
+            20,
+            30
+          ],
+          "key": "demonhunter.masteryPercent",
+          "text": "All radiant and execution damage dealt by Covenbane abilities increases by +{v}%."
+        }
+      ]
+    }
+  ]
+}

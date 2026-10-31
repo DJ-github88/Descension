@@ -9,6 +9,8 @@ import characterSessionService from '../../services/firebase/characterSessionSer
 import { storeCharacterOffline } from '../../services/offlineService';
 import { getCustomBackgroundData } from '../../data/legacyDisciplineData';
 import { getBackgroundData } from '../../data/backgroundData';
+import { resolveStatsModel } from '../../utils/attributeProfile';
+import { buildCharacterResourceSnapshot } from '../../utils/characterResourceSnapshot';
 import { getCurrentUserId, isGuestUser, shouldUseFirebase, triggerCharacterAutoSave, consumeCharacterAutoSaveOriginContext, characterAutoSavePending, discardCharacterAutoSave, readInventoryWorkingData, assembleCharacterWorkingData } from '../characterHelpers';
 import {
     loadRoster,
@@ -33,6 +35,14 @@ import { normalizeEquipment, createEmptyEquipment, createEquipmentItem } from '.
 import { normalizeRaceDisplayName } from '../../utils/raceDisplayNames';
 import { normalizeManagedClassResource } from '../../data/classResourceContracts';
 import { stageCharacterDraft, saveCharacterDraft, setCharacterSaveOutcome, recoverCharacterRoster } from '../../persistence/characterSaveOutcome';
+
+const savedCurrentResource = (...values) => {
+    for (const value of values) {
+        if (value === null || value === undefined || value === '') continue;
+        if (Number.isFinite(Number(value))) return Number(value);
+    }
+    return 45;
+};
 
 const TEST_CLASSES = [
     'Berserker', 'Shaper', 'Arcanoneer', 'Harbinger', 'Inquisitor',
@@ -618,6 +628,23 @@ export const createCoreSlice = (set, get) => ({
                 }
             }
 
+            // Persist the same effective maxima the roster and character view
+            // derive, so creation does not store placeholder health/mana.
+            const resourceSnapshot = buildCharacterResourceSnapshot(newCharacter);
+            const actionPoints = newCharacter.resources?.actionPoints
+                || characterData.actionPoints
+                || { current: 3, max: 3 };
+            newCharacter.resources = {
+                ...newCharacter.resources,
+                health: { ...resourceSnapshot.health },
+                mana: { ...resourceSnapshot.mana },
+                actionPoints: { ...actionPoints }
+            };
+            newCharacter.health = { ...resourceSnapshot.health };
+            newCharacter.mana = { ...resourceSnapshot.mana };
+            newCharacter.hitPoints = resourceSnapshot.health.max;
+            newCharacter.maxHitPoints = resourceSnapshot.health.max;
+
             const useFirebase = shouldUseFirebase();
             const isGuest = isGuestUser();
 
@@ -910,13 +937,15 @@ export const createCoreSlice = (set, get) => ({
                     spirit: 10,
                     charisma: 10
                 },
+                // Attribute provenance: explicit base model, or null for legacy records.
+                statsModel: resolveStatsModel(character),
                 // Store the current values from the character data, but max values will be recalculated
                 health: {
-                    current: (character.health?.current || character.resources?.health?.current || 45),
+                    current: savedCurrentResource(character.health?.current, character.resources?.health?.current),
                     max: 50 // Temporary value, will be recalculated
                 },
                 mana: {
-                    current: (character.mana?.current || character.resources?.mana?.current || 45),
+                    current: savedCurrentResource(character.mana?.current, character.resources?.mana?.current),
                     max: 50 // Temporary value, will be recalculated
                 },
                 actionPoints: character.actionPoints || character.resources?.actionPoints || { current: 1, max: 3 },

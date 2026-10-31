@@ -35,6 +35,6 @@ export function retainConditionResolution(context, approvalId, resolution) {
   if (Object.keys(resolutions).length > 64) throw Error('Condition resolution custody full; preserve existing evidence.');
   const record = { ...previous, version: 1, origin: DEFENDING.origin, uid: context.uid, roomId: context.roomId, entries: previous?.entries || {}, resolutions };
   const saved = storage.save(record, [context.roomId]);
-  if (saved.status !== 'OK') throw Error('Condition resolution device custody unavailable.');
+  if (saved.status !== 'OK') throw Error(`Condition resolution device custody unavailable (${saved.reason || saved.status}); nothing emitted.`);
   return resolution;
 }

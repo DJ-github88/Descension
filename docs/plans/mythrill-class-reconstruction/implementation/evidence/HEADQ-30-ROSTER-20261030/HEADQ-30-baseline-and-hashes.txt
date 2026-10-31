@@ -1,0 +1,48 @@
+Mythrill VTT — HeadQ 30-Class Roster Evidence Baseline
+Captured: 2026-10-30
+
+== Git baseline ==
+HEAD: 89cddc2b43ce80c1af00c73cbfc402c66233f4ff
+Branch: master (upstream in sync +0 -0)
+Worktree: Concurrent dirty modifications preserved untouched
+
+== Protected concurrent files (baseline = final) ==
+a9bd2e2941f78a3a65ecf0ad6184928ebbc61b0b6e9207df240c6d2f70acb9db  vtt-react/src/persistence/scopedStoreStorage.js
+5bfe461e20994562c8c5553f834d218e23b9baec3d410c27fa2ab7a7f885e7e4  vtt-react/src/persistence/__tests__/waveB_b1b5Corrections.test.js
+
+== Files modified in this roster task ==
+324ec70d9054da03c25396ad65a12eef699755b7b3ae64eff76cac5069cd61a5  vtt-react/src/data/classes/classDisplayData.js
+13b6334bd75378dc216cae6778751910f20599324443e5bfc163e506063deada  vtt-react/src/data/classes/classReconstructionCompatibility.js
+09b74d22a19b10a0ecd11c74f890f918b78c2437ee6bfb917b7545da37f9dc5d  vtt-react/src/data/classes/__tests__/characterClassSelectors.test.js
+90a5a849ba2ec3da9eb3ed7e26faa7285b5408591a786a9fedbe2507b1f95e10  vtt-react/src/data/classes/__tests__/classCatalogueConsistency.test.js
+59a5dc3318e88371cb142e57df573e8411acd248e237a0570098c1981cbe7992  vtt-react/src/data/classes/__tests__/levelOneSpellIcons.test.js
+a0346383f95b9e696e322f4fbf3f94dbca0cebcee609382e68321ce1b412459a  vtt-react/src/components/character-creation-wizard/context/CharacterWizardContext.test.js
+
+== Artifacts & Evidence created ==
+b8dd4cfb200658a64ef7a85d2bb1e79240876d9128bb36e058ead90ba620eef6  docs/plans/mythrill-class-reconstruction/35_30_CLASS_IMPLEMENTATION_LEDGER.md
+f056aa3c454b6ae28a1e9055cd88630255f9b5330fa754613d237c295884156f  docs/plans/mythrill-class-reconstruction/36_30_CLASS_IDENTITY_AND_CONTENT_DOSSIER.md
+1efdb59b8bf24d1738d656ccb6b58dccf7a9bf3693a2c823447395721a9d843b  docs/plans/mythrill-class-reconstruction/37_UNRESOLVED_HEADQ_DECISION_BRIEFS.md
+7bd060fd4820ee431f0cb2dd125eccf63cc448328e1dcc332a1dc9bc3b772b2f  docs/plans/mythrill-class-reconstruction/38_TARGET_CLASSES_PRODUCTION_PACKAGES.md
+8d1a5943bb48c31ac0dbd000ad2c036b58f25a1d8f892275e029b1bfddd5d145  docs/plans/mythrill-class-reconstruction/39_TARGET_CLASSES_MACHINE_READABLE_INVENTORY.json
+acec47417937c0cc1d0372ab2eed3930dc58edd9ee5e1bed3d01b4ca3a1bfcbc  docs/plans/mythrill-class-reconstruction/implementation/evidence/HEADQ-30-ROSTER-20261030/CONTENT-LOCK-RETURNING-CLASSES.md
+b480f972c2b61832802b8d0b93fa87299d486a57619811650823c4ec5b0c53b6  docs/plans/mythrill-class-reconstruction/implementation/evidence/HEADQ-30-ROSTER-20261030/TOTEMIST-PROPOSED-CONTENT-LOCK.md
+e087530e442b6b3e3f9801e367325893ac3dabc1c8081c2f5f88e3fc1cbae92e  docs/plans/mythrill-class-reconstruction/implementation/evidence/HEADQ-30-ROSTER-20261030/SVG-RESOURCE-SPECIFICATIONS.md
+c3e8a5960a1d6d87319c64367518d3e3fe216fb71641ffa0410e6de77a3dd81c  docs/plans/mythrill-class-reconstruction/implementation/evidence/HEADQ-30-ROSTER-20261030/HEADQ-30-verify-build-20261030-2025.log
+13bf7b3039c63bf5a50491fa3cfd8eb4e699d1ba1436315aef9cbe5711530354  docs/plans/mythrill-class-reconstruction/implementation/evidence/HEADQ-30-ROSTER-20261030/HEADQ-30-verify-build-20261030-2025.exit
+f9907e2323e0088cdf5dd774dca86d5938cc90d50f34a72a97afa1c011cfb923  docs/plans/mythrill-class-reconstruction/implementation/evidence/HEADQ-30-ROSTER-20261030/screenshots/screenshot-audit.json
+
+== React SVG Resource Displays & Component Tests ==
+df0758c188f7f6da504f55dcd63f6c3ac1a05cdbdae8f9d8af08e34764a7f55e  vtt-react/src/components/hud/BladedancerResourceDisplay.jsx
+5cf3cdcfe55336d107e39a0655d906b025503ea139e6d6ae6ff5dde57fd31bea  vtt-react/src/components/hud/CovenbaneResourceDisplay.jsx
+c8647a154fd4ad6f4d37a302b0f36d42db4128dcb118db1e8c541f2535d575a5  vtt-react/src/components/hud/DreadnaughtResourceDisplay.jsx
+c9c75fa6b2abc6cc98dad25e761971216fb1dab07c5a74a1d03aabb0edb0de05  vtt-react/src/components/hud/ExorcistResourceDisplay.jsx
+09d059214140c5fa8dabae0103f9473c33d927575fc5aa52ccf233b9c2f91e60  vtt-react/src/components/hud/InscriptorResourceDisplay.jsx
+bc1df4ae0bb213f937c4957f42e3f1991383f651472185c38cf6239f0dc97b86  vtt-react/src/components/hud/TotemistResourceDisplay.jsx
+52b150ae6a8a82d8f08402cc745faeb82d05762743b4b783b00da5e536277400  vtt-react/src/components/hud/WitchDoctorResourceDisplay.jsx
+bf34ee2e5e861acfe68042ce4ae046bc2a52a555b072c1a87d7bb739eb4c4755  vtt-react/src/components/hud/__tests__/targetClassesResourceDisplays.test.jsx
+
+== Personally Run Verifications ==
+- Target HUD unit test suite (1 suite, 10 tests): 10/10 passed (targetClassesResourceDisplays.test.jsx)
+- Scoped ESLint (npm run lint including all 7 HUDs + tests): exit 0
+- Playwright Chromium visual verification: 12 screenshots (Desktop 1280x800 + Mobile 390x844 across empty, partial, full, warning, multi-instance, all), 0 SVG ID collisions, 0 clipping cards, verified calmBarPalette.js compliance
+- Fresh detached production build (npx craco build): compiled successfully, exit 0 (headq-30-verify-build-20261030-2025.log, asset-manifest.json verified fresh)

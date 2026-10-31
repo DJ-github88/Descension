@@ -4932,3 +4932,52 @@ Before combat, decide which cadences you want to prioritize:
 
  ],
 };
+
+// RI-6 legacy-roster integration: explicit progression policy. Existing
+// Minstrel characters keep their known spells; new characters choose three
+// level-1 options and one optional per level. No random/automatic top-up.
+export const MINSTREL_PROGRESSION_POLICY = {
+  classId: 'minstrel',
+  rulesetVersion: 'legacy-roster-integrated',
+  levelCap: 10,
+  startingSpellPicks: 3,
+  optionalPicksPerLevel: 1,
+  allowEarlierUnchosen: true,
+  grantedCoreSpellIds: [],
+  randomizeStartingSpells: false,
+  autoTopUpOnLoad: false,
+  talentActivesAreGrants: false,
+  manualOnly: true
+};
+
+MINSTREL_DATA.progression = {
+  levelCap: 10,
+  policy: MINSTREL_PROGRESSION_POLICY,
+  levels: Array.from({ length: 10 }, (_, index) => {
+    const level = index + 1;
+    return {
+      level,
+      newChoiceIds: Array.isArray(MINSTREL_DATA.spellPools?.[level]) ? [...MINSTREL_DATA.spellPools[level]] : [],
+      optionalPicks: 1,
+      talentBudget: level * 5
+    };
+  })
+};
+
+export const MINSTREL_MANIFEST = {
+  contentLock: 'RI-6 Minstrel legacy-roster content lock',
+  classId: 'minstrel',
+  displayName: 'Minstrel',
+  authoredSpells: MINSTREL_DATA.spells.length,
+  spellPoolCounts: Object.fromEntries(Array.from({ length: 10 }, (_, index) => {
+    const level = index + 1;
+    return [level, Array.isArray(MINSTREL_DATA.spellPools?.[level]) ? MINSTREL_DATA.spellPools[level].length : 0];
+  })),
+  treeIds: ['harmonic_weaving', 'chord_combinations', 'musical_magic'],
+  resource: 'musical_notes',
+  progression: MINSTREL_PROGRESSION_POLICY,
+  nativeAccess: MINSTREL_DATA.restrictions.allowedSubraces,
+  legacyIdsPreserved: true,
+  automaticConversion: false,
+  manualOnly: true
+};

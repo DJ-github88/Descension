@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 
 const KEY = 'mythrill.actorConsequenceLayer.collapsed';
 const readCollapsed = () => { try { return window.localStorage.getItem(KEY) === '1'; } catch (_) { return false; } };
@@ -12,9 +12,11 @@ const writeCollapsed = value => { try { window.localStorage.setItem(KEY, value ?
  */
 export default function ActorConsequenceLayer({ children }) {
   const [collapsed, setCollapsed] = useState(readCollapsed);
+  const toggleRef = useRef(null);
   const toggle = () => setCollapsed(value => { writeCollapsed(!value); return !value; });
-  return <div className={`actor-consequence-layer${collapsed ? ' acl-collapsed' : ''}`}>
-    <button type="button" className="acl-toggle" aria-expanded={!collapsed} onClick={toggle}
+  return <div className={`actor-consequence-layer${collapsed ? ' acl-collapsed' : ''}`}
+    onKeyDown={e => { if (e.key === 'Escape') { e.preventDefault(); e.stopPropagation(); writeCollapsed(true); setCollapsed(true); toggleRef.current?.focus(); } }}>
+    <button ref={toggleRef} type="button" className="acl-toggle" aria-expanded={!collapsed} onClick={toggle}
       aria-label={collapsed ? 'Show combat adjudication' : 'Hide combat adjudication'}>
       {collapsed ? 'Combat adjudication ▸' : 'Hide ▾'}
     </button>

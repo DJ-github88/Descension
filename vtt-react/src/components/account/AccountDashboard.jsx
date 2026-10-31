@@ -4,8 +4,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import useAuthStore from '../../store/authStore';
 import useCharacterStore from '../../store/characterStore';
 import subscriptionService, { SUBSCRIPTION_TIERS, TIER_ORDER, isCampaignManagerTier } from '../../services/subscriptionService';
-import { calculateDerivedStats, calculateEquipmentBonuses } from '../../utils/characterUtils';
-import { applyRacialModifiers } from '../../data/raceData';
+import { buildCharacterResourceSnapshot } from '../../utils/characterResourceSnapshot';
 import { normalizeRaceDisplayName } from '../../utils/raceDisplayNames';
 import { getWowIconUrl, getCustomIconUrl } from '../../utils/assetManager';
 import { getClassIconUrl } from '../../utils/classIconUtils';
@@ -395,76 +394,8 @@ const AccountDashboard = ({ user }) => {
       };
     }
 
-    // If this is the current character, use the character store's calculated values
-    if (character.id === currentCharacterId) {
-      const { health, mana, derivedStats } = useCharacterStore.getState();
-
-      // Use the character store's values if they exist and are properly calculated
-      if (derivedStats && derivedStats.maxHealth && derivedStats.maxMana) {
-        return {
-          health: {
-            current: health.current,
-            max: Math.round(derivedStats.maxHealth)
-          },
-          mana: {
-            current: mana.current,
-            max: Math.round(derivedStats.maxMana)
-          }
-        };
-      }
-    }
-
-    // For non-current characters or if store values aren't available, calculate manually
-    // Apply racial modifiers to get effective stats
-    const effectiveStats = character.race && character.subrace
-      ? applyRacialModifiers(character.stats, character.race, character.subrace)
-      : character.stats;
-
-    // Calculate equipment bonuses
-    const equipmentBonuses = calculateEquipmentBonuses(character.equipment || {});
-
-    // Apply equipment bonuses to stats
-    const totalStats = { ...effectiveStats };
-    const statMapping = {
-      str: 'strength',
-      con: 'constitution',
-      agi: 'agility',
-      int: 'intelligence',
-      spir: 'spirit',
-      cha: 'charisma'
-    };
-
-    Object.entries(statMapping).forEach(([shortName, fullName]) => {
-      if (equipmentBonuses[shortName]) {
-        totalStats[fullName] = (totalStats[fullName] || 0) + equipmentBonuses[shortName];
-      }
-    });
-
-    // Get encumbrance state
-    const encumbranceState = character.inventory?.encumbranceState || 'normal';
-
-    // Calculate derived stats
-    const exhaustionLevel = character.exhaustionLevel || 0;
-    const derivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, encumbranceState, exhaustionLevel, null, character.race, character.subrace);
-
-    // Calculate correct max values
-    const maxHealth = Math.round(derivedStats.maxHealth);
-    const maxMana = Math.round(derivedStats.maxMana);
-
-    // Use stored current values but ensure they don't exceed new max values
-    const storedHealth = character.health || character.resources?.health || { current: maxHealth, max: maxHealth };
-    const storedMana = character.mana || character.resources?.mana || { current: maxMana, max: maxMana };
-
-    return {
-      health: {
-        current: Math.min(storedHealth.current || maxHealth, maxHealth),
-        max: maxHealth
-      },
-      mana: {
-        current: Math.min(storedMana.current || maxMana, maxMana),
-        max: maxMana
-      }
-    };
+    const snapshot = buildCharacterResourceSnapshot(character);
+    return { health: snapshot.health, mana: snapshot.mana };
   };
 
   if (isLoading) {

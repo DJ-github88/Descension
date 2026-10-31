@@ -15,7 +15,9 @@ import { replaceAuthoredRegistry } from './authoredAbilityRegistry';
 import { isAuthored, actionId, creatureSelfHealing } from './authoredAbility';
 import { matchingItemVersions } from './itemAuthoredAbility';
 import { conditionContext, loadConditionCustody, retainConditionCommand, retainConditionResolution } from './sharedConditionCustody';
-import { CONDITION_CAPABILITY } from './authoredAbility';
+import { CONDITION_CAPABILITY, EFFECT_CAPABILITY } from './authoredAbility';
+import * as authoredEffect from './authoredEffect';
+import * as classEffect from './classEffect';
 import { onRoomRejoined } from './roomRejoinBus';
 
 export const useSpellConsequenceStore = create(() => ({ owner: null, ownerStatus: null, gmPending: {}, gmStatus: {} }));
@@ -140,24 +142,28 @@ export function saveCreatureRoll(roll, target) {
 }
 export function saveCreatureResolution(resolution, target) {
   const context = spellContext(), latest = creatureAttempt();
-  if (!latest || latest.approval || latest.creature.entry.descriptor.capabilityId !== CONDITION_CAPABILITY) throw Error('Prepared evidence is immutable. Explicitly revalidate its context first.');
+  if (!latest || latest.approval || ![CONDITION_CAPABILITY, EFFECT_CAPABILITY].includes(latest.creature.entry.descriptor.capabilityId)) throw Error('Prepared evidence is immutable. Explicitly revalidate its context first.');
   const kept = retainLatestSpell(context, { ...latest, creature: { ...latest.creature, resolution, target } }); bumpDraft();
   if (!String(kept.custody).startsWith('Device')) throw Error('Device custody unavailable. Nothing emitted.');
 }
 export async function prepareCreatureAbility(proposal) {
   const context = spellContext(), latest = creatureAttempt(), c = latest?.creature;
-  const condition = c?.entry.descriptor.capabilityId === CONDITION_CAPABILITY;
-  if ((!c?.roll && !condition) || !c.target || (condition && c.resolution?.gmConfirmed !== true)) throw Error('Choose an exact target and retain the roll or confirmed condition outcome first.');
+  const condition = c?.entry.descriptor.capabilityId === CONDITION_CAPABILITY, bundle = c?.entry.descriptor.capabilityId === EFFECT_CAPABILITY;
+  const direct = bundle && !!c.entry.canonicalDefinition.effects.direct;
+  if ((!c?.roll && !condition && (!bundle || direct)) || !c.target || ((condition || bundle) && c.resolution?.gmConfirmed !== true)) throw Error('Choose an exact target and retain the roll or confirmed condition outcome first.');
+  if (bundle && c.target.kind !== 'creature') throw Error('Composed effects support one distinct placed creature target.');
   if (latest.phase === 'accepted') return;
-  if (!condition && c.target.kind === 'character' && (!Number.isSafeInteger(Number(proposal?.proposedAmount)) || Number(proposal?.proposedAmount) < 0 || !proposal?.ruling?.trim())) throw Error('Enter the proposal amount and explicit targeting/block-applicability ruling first.');
+  if (!condition && !bundle && c.target.kind === 'character' && (!Number.isSafeInteger(Number(proposal?.proposedAmount)) || Number(proposal?.proposedAmount) < 0 || !proposal?.ruling?.trim())) throw Error('Enter the proposal amount and explicit targeting/block-applicability ruling first.');
   const d = c.entry.canonicalDefinition;
   const approval = latest.approval || { version: 1, roomId: context.roomId, approvalId: c.attemptId, actionEpoch: c.actionEpoch, baseCommitSequence: c.baseCommitSequence,
     source: c.source, target: c.target, sourceAuthority: { admissionId: c.grant.requestId, gmUid: c.grant.gmUid, associationHash: c.grant.associationHash },
-    spell: { definitionId: actionId(c.entry.definitionRef), definitionHash: `${c.entry.descriptor.capabilityId}/${c.entry.definitionRef.definitionHash}`, name: d.name, kind: d.effect.kind, damageTypes: c.entry.descriptor.effect.damageTypes || [] },
-    price: c.entry.descriptor.price, classPayment: null, roll: c.roll, ...(condition ? { resolution: c.resolution } : {}) };
+    spell: { definitionId: actionId(c.entry.definitionRef), definitionHash: `${c.entry.descriptor.capabilityId}/${c.entry.definitionRef.definitionHash}`, name: d.name,
+      kind: bundle ? 'effect' : d.effect.kind, damageTypes: bundle ? d.effects.direct?.damageTypes || [] : c.entry.descriptor.effect.damageTypes || [] },
+    price: c.entry.descriptor.price, classPayment: null, roll: bundle && !direct ? null : c.roll, ...(condition || bundle ? { resolution: c.resolution } : {}),
+    ...(bundle ? { effectTerms: authoredEffect.termsFor(d) } : {}) };
   const retained = retainLatestSpell(context, { ...latest, approval, phase: 'prepared' });
   if (!String(retained.custody).startsWith('Device')) throw Error('Device custody unavailable; nothing emitted.');
-  if (!condition && c.target.kind === 'character') {
+  if (!condition && !bundle && c.target.kind === 'character') {
     const blocks = require('./blockingService');
     const kept = retainLatestSpell(context, { ...retained, pcOffer: true });
     let offered;
@@ -224,7 +230,8 @@ export async function revalidateCreatureContext() {
   if (!result.success || !snapshot.success || !context.current()) throw Error('Current room context unavailable. Original evidence retained.');
   const source = findActor(c.source), savedSource = result.creatureSources?.find(e => sameExactRef(e.source, c.source)), grant = savedSource?.admission;
   const entry = result.entries.find(e => grant && actionId(e.definitionRef) === actionId(grant.definitionRef));
-  if (!source || !entry || entry.revoked || grant.gmUid !== context.uid || !matchingItemVersions(savedSource.association, [entry], context.roomId).length || (c.roll && entry.canonicalDefinition.effect.formula !== c.roll.reading) || entry.canonicalDefinition.effect.kind !== c.entry.canonicalDefinition.effect.kind)
+  const shape = def => def.effects ? { kind: 'effect', formula: def.effects.direct?.formula ?? null } : { kind: def.effect.kind, formula: def.effect.formula ?? null };
+  if (!source || !entry || entry.revoked || grant.gmUid !== context.uid || !matchingItemVersions(savedSource.association, [entry], context.roomId).length || (c.roll && shape(entry.canonicalDefinition).formula !== c.roll.reading) || shape(entry.canonicalDefinition).kind !== shape(c.entry.canonicalDefinition).kind)
     throw Error('Exact source, effect or formula is incompatible. Original evidence remains retained for manual reconciliation.');
   if (latest.approval && !latest.pcOffer) {
     const closed = await requestActorEvent('actor_spell_withdraw', { roomId: context.roomId, approvalId: latest.approval.approvalId, approval: latest.approval });
@@ -334,7 +341,7 @@ export async function sendSpellApproval({ spellId, targetRef, roll, origin }) {
   return submitApproval(context, retained);
 }
 async function submitApproval(context, current) {
-  if (current.approval.spell.kind === 'condition' && current.approval.source.characterId !== characterState().currentCharacterId) return setOwnerStatus({ phase: 'refused', message: 'This approval belongs to another character. Return to that character to recover it; it cannot be adopted here.' });
+  if (['condition', 'effect', 'class-effect'].includes(current.approval.spell.kind) && current.approval.source.characterId !== characterState().currentCharacterId) return setOwnerStatus({ phase: 'refused', message: 'This approval belongs to another character. Return to that character to recover it; it cannot be adopted here.' });
   if (isAuthored(current.approval?.spell) && !String(current.custody).startsWith('Device')) return setOwnerStatus({ phase: 'prepared', latest: current, message: 'Device custody unavailable; nothing emitted.' });
   // Mark the bytes as sent before the first emission: afterwards no refusal may say "no payment".
   const firstSubmission = !current.sent;
@@ -374,7 +381,7 @@ export async function checkSpellApproval() {
 export async function withdrawSpellApproval() {
   const context = spellContext(), latest = loadLatestSpell(context);
   if (!latest?.approval) return null;
-  if (latest.approval.spell.kind === 'condition' && latest.approval.source.characterId !== characterState().currentCharacterId) throw Error('Return to the original character to withdraw this approval.');
+  if (['condition', 'effect'].includes(latest.approval.spell.kind) && latest.approval.source.characterId !== characterState().currentCharacterId) throw Error('Return to the original character to withdraw this approval.');
   const result = await requestActorEvent('actor_spell_withdraw', { roomId: latest.approval.roomId, approvalId: latest.approval.approvalId, approval: latest.approval });
   if (!context.current()) return null;
   if (result.success && result.receipt) { consumeSpellReceipt(result); return result; }
@@ -395,7 +402,7 @@ export async function withdrawSpellApproval() {
 export async function reapproveSpell() {
   const context = spellContext(), latest = loadLatestSpell(context);
   if (latest?.phase !== 'reapproval') return null;
-  if (latest.approval.spell.kind === 'condition') {
+  if (['condition', 'effect'].includes(latest.approval.spell.kind)) {
     if (latest.approval.source.characterId !== characterState().currentCharacterId) throw Error('Return to the original character to review this consent.');
     const kept = retainLatestSpell(context, { ...latest, phase: 'withdrawn' });
     return setOwnerStatus({ phase: 'withdrawn', latest: kept, message: 'Old consent closed by the server. Refresh admitted abilities, select the intended version and target, then explicitly approve its displayed terms. Prior evidence is retained.' });
@@ -468,6 +475,16 @@ function startCooldown(origin, cooldown, spellId) {
   if (origin?.producer !== 'hud' || !Number.isInteger(origin.slotIndex) || !cooldown || cooldown.type === 'none' || !(cooldown.value > 0)) return;
   try { window.dispatchEvent(new CustomEvent('mythrill:p9-spell-accepted', { detail: { slotIndex: origin.slotIndex, spellId, cooldown } })); } catch (_) { /* no window */ }
 }
+/** M1 outcome wording from the recorded branch (never from the client's own expectations). */
+export function classOutcomeText(recorded) {
+  const rider = recorded.rider ? `${recorded.rider.label} (movement −${Math.abs(recorded.rider.feet)} ft)` : 'the rider';
+  const saved = recorded.branch === 'saved' ? 'target saved (GM recorded): no new rider' : `${recorded.branch === 'failed' ? 'target failed the save (GM recorded): ' : ''}${rider} ${recorded.combination?.outcome === 'refreshed' ? `refreshed — replaced instance ${recorded.combination.replacesInstanceId}, value not stacked` : 'applied'} (instance ${recorded.conditionInstanceId}; GM removes)`;
+  return saved;
+}
+export function classEffectNotAutomated(definitionHash) {
+  const found = classEffect.profileFor(String(definitionHash || '').slice(classEffect.CAPABILITY.length + 1), { requireConfirmation: false });
+  return found.ok ? classEffect.disclosure(found.entry).notAutomated : ['This record’s disclosure is unavailable on this device; treat any unlisted text as GM-applied.'];
+}
 /** Every client derives results from the accepted receipt only (deduplicated). */
 export function consumeSpellReceipt(result, { historical = false } = {}) {
   const view = spellReceipt(result);
@@ -476,7 +493,14 @@ export function consumeSpellReceipt(result, { historical = false } = {}) {
   const chat = getStore('chatStore');
   const { recorded, receipt } = view, adjudication = receipt.adjudication;
   const self = sameExactRef(receipt.source, receipt.target);
-  const fullLine = recorded.kind === 'condition' ? `${recorded.spellName}: canonical Stunned applied. Instance ${recorded.conditionInstanceId}. ${recorded.resolution.timing.durationText} — GM removes. Accepted receipt ${receipt.commandId}.` : `${self ? `${recorded.sourceName} (Self)` : `${recorded.sourceName} → ${recorded.targetName}`}: ${recorded.spellName} · ${recorded.roll.mode} [${recorded.roll.dice.map(group => group.faces.join(', ')).join(' | ')}] ${recorded.roll.constant >= 0 ? '+' : '-'} ${Math.abs(recorded.roll.constant)} = ${recorded.roll.total}; GM final ${adjudication.finalAmount} ${recorded.kind === 'healing' ? 'healing' : (recorded.damageTypes || []).join('/')}${self && Number.isFinite(recorded.actualHealing) ? `; actual HP restored ${recorded.actualHealing}` : ''}${adjudication.adjustmentReason ? ` (${adjudication.adjustmentReason})` : ''}. Accepted receipt ${receipt.commandId}.`;
+  const names = () => { const name = ref => { const t = ref && findActor(ref); return t?.character?.name || t?.state?.customName || t?.name || (ref?.kind === 'character' ? 'A character' : 'A creature'); };
+    return { source: name(receipt.source), target: name(receipt.target) }; };
+  const effectLine = () => { const n = names(), roll = recorded.roll;
+    return `${n.source} → ${n.target}: ${recorded.spellName}${roll ? ` · ${roll.mode} [${roll.dice.map(group => group.faces.join(', ')).join(' | ')}] ${roll.constant >= 0 ? '+' : '-'} ${Math.abs(roll.constant)} = ${roll.total}; GM final ${adjudication.finalAmount} ${recorded.direct.kind === 'healing' ? 'healing' : (recorded.direct.damageTypes || []).join('/')}${adjudication.adjustmentReason ? ` (${adjudication.adjustmentReason})` : ''}` : ''}; ${authoredEffect.conditionLabel(recorded.condition)} ${recorded.combination?.outcome === 'refreshed' ? `refreshed — replaced instance ${recorded.combination.replacesInstanceId}, value not stacked` : 'applied'} (instance ${recorded.conditionInstanceId}) · ${recorded.resolution.timing.durationText} — ${authoredEffect.policyText(recorded.expiryPolicy, recorded.occurrences)}. Accepted receipt ${receipt.commandId}.`; };
+  // M1: the recorded branch, the rider and the partial-automation disclosure (from the public pinned profile).
+  const classLine = () => { const n = names(), roll = recorded.roll, notAutomated = classEffectNotAutomated(adjudication.definitionVersionOrHash);
+    return `${n.source} → ${n.target}: ${recorded.spellName} · ${roll.mode} [${roll.dice.map(group => group.faces.join(', ')).join(' | ')}] ${roll.constant >= 0 ? '+' : '-'} ${Math.abs(roll.constant)} = ${roll.total}; GM final ${adjudication.finalAmount} ${recorded.direct.kind === 'healing' ? 'healing' : (recorded.direct.damageTypes || []).join('/')}${adjudication.adjustmentReason ? ` (${adjudication.adjustmentReason})` : ''}; ${classOutcomeText(recorded)}. Partially automated${notAutomated.length ? ` — not automated (GM applies): ${notAutomated.join(' ')}` : ''} Accepted receipt ${receipt.commandId}.`; };
+  const fullLine = recorded.kind === 'class-effect' ? classLine() : recorded.kind === 'effect' ? effectLine() : recorded.kind === 'condition' ? `${recorded.spellName}: canonical Stunned applied. Instance ${recorded.conditionInstanceId}. ${recorded.resolution.timing.durationText} — GM removes. Accepted receipt ${receipt.commandId}.` : `${self ? `${recorded.sourceName} (Self)` : `${recorded.sourceName} → ${recorded.targetName}`}: ${recorded.spellName} · ${recorded.roll.mode} [${recorded.roll.dice.map(group => group.faces.join(', ')).join(' | ')}] ${recorded.roll.constant >= 0 ? '+' : '-'} ${Math.abs(recorded.roll.constant)} = ${recorded.roll.total}; GM final ${adjudication.finalAmount} ${recorded.kind === 'healing' ? 'healing' : (recorded.damageTypes || []).join('/')}${self && Number.isFinite(recorded.actualHealing) ? `; actual HP restored ${recorded.actualHealing}` : ''}${adjudication.adjustmentReason ? ` (${adjudication.adjustmentReason})` : ''}. Accepted receipt ${receipt.commandId}.`;
   let line = fullLine; try {line = chatLineFor(result, fullLine);} catch (_) { line = null; } // P13A §4: never name actors this viewer cannot see
   if (!historical && line && chat && !chat.getState().notifications.combat.some(note => note.id === id)) chat.getState().addNotification('combat', {
     id, type: 'combat', receiptId: id, timestamp: new Date(receipt.acceptedAt).toISOString(),
@@ -501,7 +525,7 @@ export function consumeSpellReceipt(result, { historical = false } = {}) {
         startCooldown(latest.origin, latest.cooldown, view.receipt.adjudication.definitionId);
       }
       const kept = retainLatestSpell(context, { ...latest, phase: 'accepted', result });
-      setOwnerStatus({ phase: 'accepted', message: `Accepted · ${durabilityLabel(view.receipt, view.status)}. ${recorded.kind === 'condition' ? `Canonical Stunned instance ${recorded.conditionInstanceId}. ${recorded.resolution.timing.durationText} — GM removes.` : `GM final ${adjudication.finalAmount}.`}`, latest: kept });
+      setOwnerStatus({ phase: 'accepted', message: `Accepted · ${durabilityLabel(view.receipt, view.status)}. ${recorded.kind === 'class-effect' ? `${classOutcomeText(recorded)}. GM final ${adjudication.finalAmount}. Partially automated: see the not-automated items.` : recorded.kind === 'effect' ? `${authoredEffect.conditionLabel(recorded.condition)} ${recorded.combination?.outcome === 'refreshed' ? 'refreshed (duration restarts; value not stacked), ' : ''}instance ${recorded.conditionInstanceId} · ${recorded.resolution.timing.durationText} — ${authoredEffect.policyText(recorded.expiryPolicy, recorded.occurrences)}.${recorded.direct ? ` GM final ${adjudication.finalAmount}.` : ''}` : recorded.kind === 'condition' ? `Canonical Stunned instance ${recorded.conditionInstanceId}. ${recorded.resolution.timing.durationText} — GM removes.` : `GM final ${adjudication.finalAmount}.`}`, latest: kept });
     } else if (view.receipt.source?.characterId === characterState().currentCharacterId) {
       applyOwnerClassFromHome(view);
     }
@@ -562,10 +586,11 @@ export function saveGmConditionResolution(approvalId, resolution) {
   retainConditionResolution(conditionContext(), approvalId, resolution);
   bumpDraft();
 }
-export async function gmAcceptSpell(approvalId, { finalAmount, reason, adjudicated }) {
+export async function gmAcceptSpell(approvalId, { finalAmount, reason, adjudicated, branch }) {
   const entry = useSpellConsequenceStore.getState().gmPending[approvalId];
   if (!entry) return setGm(approvalId, { phase: 'refused', message: 'Approval no longer pending.' });
-  const authored = isAuthored(entry.approval.spell), context = conditionContext();
+  // M1: class-effect commands are retained in the same custody as authored commands (original-command recovery).
+  const authored = isAuthored(entry.approval.spell) || classEffect.isClassEffect(entry.approval), context = conditionContext();
   const prior = loadConditionCustody(context)?.entries?.[`authored-spell:${approvalId}`];
   if (authored && (['preparing', 'submitting', 'unknown', 'accepted'].includes(useSpellConsequenceStore.getState().gmStatus[approvalId]?.phase) || (prior && !['failed'].includes(prior.phase)))) return;
   setGm(approvalId, { phase: 'preparing', message: 'Preparing the exact result…' });
@@ -574,7 +599,7 @@ export async function gmAcceptSpell(approvalId, { finalAmount, reason, adjudicat
   let command;
   try {
     const plan = planSpellCommand({ approval: entry.approval, contentHash: entry.contentHash, tokens: tokens(), roomId: snapshot.roomId, mapId: entry.approval.source.mapId,
-      finalAmount, reason, adjudicated, resolution: gmConditionResolution(approvalId) });
+      finalAmount, reason, adjudicated, resolution: gmConditionResolution(approvalId), branch });
     command = prepareActorCommand(plan.entries, plan.extra);
     if (authored) retainConditionCommand(context, `authored-spell:${approvalId}`, { kind: 'authored-execution', phase: 'prepared', command });
   } catch (error) { return setGm(approvalId, { phase: 'refused', message: `${error.message} Nothing submitted.` }); }
@@ -589,7 +614,7 @@ function settleGm(approvalId, commandId, result, isRetry) {
     return setGm(approvalId, { phase: 'accepted', checkpointRevision: result.receipt?.checkpointRevision, message: `Accepted · ${durabilityLabel(result.receipt, result.status)}` });
   }
   if (UNKNOWN.includes(result.code)) return setGm(approvalId, { phase: 'unknown', commandId, message: 'Outcome unknown. Check this same command; it will not be rebuilt or resubmitted with new values.' });
-  return setGm(approvalId, gmRefusal(isRetry, result.code));
+  return setGm(approvalId, gmRefusal(isRetry, result.code, result.error));
 }
 export async function gmCheckSpellCommand(approvalId) {
   const status = useSpellConsequenceStore.getState().gmStatus[approvalId];

@@ -97,7 +97,7 @@ function assertCanMove(token, player, updates) {
   }
 }
 function validateRecord(record, ref) {
-  keys(record, [...CONDITION_FIELDS, 'authoredDuration']);
+  keys(record, [...CONDITION_FIELDS, 'authoredDuration', 'effectDefinition', 'clockOccurrences']);
   if (record.version !== 1 || !string(record.id) || record.id !== record.recordId || !string(record.name) ||
     typeof record.originalName !== 'string' || !record.originalName.trim() || typeof record.source !== 'string' || !record.source.trim() ||
      !['buff', 'debuff', 'marker'].includes(record.type) || !['effect', 'marker', 'legacy-manual'].includes(record.kind) ||
@@ -111,6 +111,12 @@ function validateRecord(record, ref) {
   for (const key of ['isMagical', 'stackable', 'hasOverTimeEffect']) {
     if (own(record, key) && typeof record[key] !== 'boolean') {fail('invalid_condition');}
   }
+  // A11 review note 1: the effect identity exists only on validated authored movement records.
+  if (own(record, 'effectDefinition') && (record.effectOrigin !== require('../shared/services/sharedConditionProfile').MOVEMENT.origin ||
+      !require('../shared/services/sharedConditionProfile').isMovementModifier(record))) {fail('invalid_condition');}
+  // M2A: the explicit occurrence count exists only on validated authored records with a counted structured boundary.
+  if (own(record, 'clockOccurrences') && (!require('../shared/services/sharedConditionProfile').validOccurrences(record.clockOccurrences) ||
+      !require('../shared/services/sharedConditionProfile').isCountedTiming(record.clockBoundary) || !require('../shared/services/sharedConditionProfile').structuredBoundary(record))) {fail('invalid_condition');}
   for (const key of ['duration', 'durationValue', 'remainingRounds', 'startTime', 'endTime', 'tickFrequencyValue']) {
     if (own(record, key) && (typeof record[key] !== 'number' || !Number.isFinite(record[key]))) {fail('invalid_condition');}
   }
@@ -197,7 +203,7 @@ function knownReceipt(room, uid, command) {
 function publicCondition(record) {
   if (!record || typeof record !== 'object') {return null;}
   const out = {};
-  for (const key of [...CONDITION_FIELDS, 'authoredDuration']) {
+  for (const key of [...CONDITION_FIELDS, 'authoredDuration', 'effectDefinition', 'clockOccurrences']) {
     if (!own(record, key)) {continue;}
     const value = record[key];
     if (key === 'target' || key === 'sourceActor') {
@@ -243,6 +249,25 @@ function publicReceipt(receipt) {
         out.adjudication.definitionId = 'authored-condition:undisclosed';
         out.adjudication.definitionVersionOrHash = 'authored-condition:v1/undisclosed';
       }
+      out.adjudication.chosenResult = JSON.stringify(c);
+    } catch (_) { out.readOnly = true; delete out.adjudication.chosenResult; }
+    delete out.contentHash; delete out.authorization.approvalHash;
+  }
+  if (String(receipt.adjudication?.definitionVersionOrHash || '').startsWith('class-effect:v1/') && out.adjudication) {
+    // M1: public narration facts only (branch, rider, automation status); fingerprinting hashes stay server-side.
+    try {
+      const c = JSON.parse(out.adjudication.chosenResult);
+      out.adjudication.chosenResult = JSON.stringify(Object.fromEntries(['capability', 'approvalId', 'kind', 'gmConfirmed', 'roll', 'direct', 'branch', 'riderApplied',
+        'conditionInstanceId', 'rider', 'automation', 'spellName', 'combination'].filter(k => own(c, k)).map(k => [k, c[k]])));
+    } catch (_) { out.readOnly = true; delete out.adjudication.chosenResult; }
+    delete out.contentHash; delete out.authorization.approvalHash;
+  }
+  if (String(receipt.adjudication?.definitionVersionOrHash || '').startsWith('authored-effect:v1/') && out.adjudication) {
+    // A10: public narration facts only; the GM's private resolution evidence and fingerprinting hashes stay server-side.
+    try {
+      const c = JSON.parse(out.adjudication.chosenResult), r = c.resolution;
+      // Same privacy as A7: the GM's timing note is public only on the creature-source route.
+      c.resolution = { gmConfirmed: r.gmConfirmed, ...(receipt.source?.kind === 'creature' && receipt.target?.kind !== 'character' ? { timingNote: r.timingNote } : {}), timing: Object.assign({ durationText: r.timing.durationText, expiryPolicy: r.timing.expiryPolicy }, r.timing.occurrences !== undefined ? { occurrences: r.timing.occurrences } : {}) };
       out.adjudication.chosenResult = JSON.stringify(c);
     } catch (_) { out.readOnly = true; delete out.adjudication.chosenResult; }
     delete out.contentHash; delete out.authorization.approvalHash;
@@ -332,7 +357,11 @@ function stage(room, player, uid, command, authorization, confirmedRevision) {
   const approved = binder ? binder.bindCommand(room, player, command, authorization) : null;
   const conditionProfile = require('../shared/services/sharedConditionProfile');
   const authoredCondition = require('../shared/services/authoredCondition');
-  const authoredApplication = !!approved && binder === require('./spellPayments') && authoredCondition.isCondition(approved.approval);
+  const authoredEffect = require('../shared/services/authoredEffect');
+  const classEffect = require('../shared/services/classEffect');
+  const authoredApplication = !!approved && binder === require('./spellPayments') && (authoredCondition.isCondition(approved.approval) || authoredEffect.isEffect(approved.approval) || classEffect.isClassEffect(approved.approval));
+  // M1: class-effect instances carry the same paid-provenance protections as A10 authored effects.
+  const paidEffect = record => authoredEffect.namedRecord(record) || classEffect.namedRecord(record);
   const shieldBash = require('../shared/services/shieldBashResult');
   const shieldResult = shieldBash.readResult(command);
   const shieldAdd = command.actors.some(actor => actor.conditions?.some(op => op.op === 'add' && shieldBash.namedRecord(op.record)));
@@ -371,6 +400,18 @@ function stage(room, player, uid, command, authorization, confirmedRevision) {
     }
     const records = token.state.conditions || [];
     if (!Array.isArray(records)) {fail('legacy_reconciliation_required');}
+    // A11: the stage re-derives the movement combination from this actor's current records, independently of
+    // the binder. A refresh is exactly [remove the one matching instance, add the new one]; anything else refuses.
+    let refreshRemoval = null;
+    const movementAdds = (actor.conditions || []).filter(op => op?.op === 'add' && op.record?.effectOrigin === conditionProfile.MOVEMENT.origin);
+    if (movementAdds.length && authoredApplication) {
+      if (movementAdds.length !== 1) {fail('modifier_combination_changed');}
+      const plan = conditionProfile.movementCombination(records, movementAdds[0].record);
+      if (!plan.ok) {fail(plan.code, plan.message);}
+      const expectedOps = plan.replaces ? [{ op: 'remove', recordId: plan.replaces }, movementAdds[0]] : [movementAdds[0]];
+      if (hash(actor.conditions) !== hash(expectedOps)) {fail('modifier_combination_changed', 'The target\'s movement effects changed since this action was planned. Nothing was applied; review and confirm again.');}
+      refreshRemoval = plan.replaces;
+    }
     for (let operation of actor.conditions || []) {
       const index = records.findIndex(record => (record.recordId || record.id) === operation.recordId);
       if (actor.ref.kind === 'character' && authoredCondition.namedRecord(records[index])) {
@@ -384,10 +425,17 @@ function stage(room, player, uid, command, authorization, confirmedRevision) {
         if (operation.op === 'add' && !authoredApplication || operation.op === 'update' &&
             (!conditionProfile.isStunned(records[index]) || !authoredCondition.namedRecord(records[index]) || !conditionProfile.sameStunnedSource(records[index], operation.record))) fail('authored_condition_approval_required');
       }
+      // A10: a generic add cannot manufacture authored-effect provenance. An accepted instance is never rewritten
+      // (its paid content and C4 schedule are what the receipt vouches for); the only correction is exact GM removal.
+      if ((paidEffect(operation.record) || operation.record?.effectOrigin === conditionProfile.MOVEMENT.origin) && operation.op === 'add' && !authoredApplication) fail('authored_effect_approval_required');
+      if (operation.op === 'update' && (paidEffect(operation.record) || paidEffect(records[index]) || operation.record?.effectOrigin === conditionProfile.MOVEMENT.origin)) fail('authored_effect_correction_is_removal', 'Accepted authored effects are not edited. The GM removes the exact instance (and re-applies through a new approved action if needed).');
+      // A11: the one instance a binder-vouched refresh replaces is the only non-GM-correction removal.
+      if (operation.op === 'remove' && paidEffect(records[index]) && (!player.isGM || authorization?.kind !== 'gm') &&
+          !(authoredApplication && refreshRemoval && operation.recordId === refreshRemoval)) fail('authored_effect_gm_removal_required');
       // C3 correction may retain a named identity, never introduce it by updating a generic marker.
       if (operation.op === 'update' && shieldBash.namedRecord(operation.record) &&
           (!conditionProfile.isStunned(records[index]) || !shieldBash.namedRecord(records[index]))) {fail('invalid_shield_bash_result');}
-      if (operation.record && [conditionProfile.DEFENDING.origin, conditionProfile.STUNNED.origin].includes(operation.record.effectOrigin) && !conditionProfile.validManagedRecord(operation.record, actor.ref)) {fail('invalid_shared_condition');}
+      if (operation.record && [conditionProfile.DEFENDING.origin, conditionProfile.STUNNED.origin, conditionProfile.MOVEMENT.origin].includes(operation.record.effectOrigin) && !conditionProfile.validManagedRecord(operation.record, actor.ref)) {fail('invalid_shared_condition');}
       if (namedCondition && (actor.conditions.length !== 1 || !['add', 'remove', ...(namedProfile === conditionProfile.STUNNED ? ['update'] : [])].includes(operation.op) ||
           operation.op !== 'remove' && operation.record?.effectOrigin !== namedProfile.origin ||
           operation.op === 'remove' && index !== -1 && !(namedProfile === conditionProfile.DEFENDING ? conditionProfile.isDefending(records[index]) : conditionProfile.isStunned(records[index])))) {fail('invalid_shared_condition');}
@@ -406,7 +454,9 @@ function stage(room, player, uid, command, authorization, confirmedRevision) {
         if (operation.op === 'remove') {records.splice(index, 1);}
         else {records[index] = validateRecord(operation.record, actor.ref);}
       }
-      require('./sharedEffectLifecycle').application(room, next, actor.ref, operation);
+      const scheduled = require('./sharedEffectLifecycle').application(room, next, actor.ref, operation);
+      // A10: a structured duration is part of the bundle. Without its authenticated schedule, nothing installs.
+      if (operation.op === 'add' && conditionProfile.structuredBoundary(operation.record) && !scheduled) {fail('effect_schedule_unavailable', 'Structured expiry needs active authenticated turn tracking with this target in the exact roster (and schedule capacity). Nothing was applied or charged.');}
     }
     token.state.conditions = records;
     let classPayment = null;

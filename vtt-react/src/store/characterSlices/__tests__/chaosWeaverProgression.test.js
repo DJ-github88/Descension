@@ -51,12 +51,12 @@ describe('Chaos Weaver progression policy', () => {
   it('keeps automatic assignment for legacy classes without a policy', async () => {
     useCharacterStore.setState({
       level: 1,
-      characterClass: 'Minstrel',
+      characterClass: 'Pyrofiend',
       currentCharacterId: null,
       class_spells: { known_spells: [] }
     });
 
-    const result = await useCharacterStore.getState().ensureClassStarterSpells('Minstrel');
+    const result = await useCharacterStore.getState().ensureClassStarterSpells('Pyrofiend');
 
     expect(result).toBe(true);
     expect(useCharacterStore.getState().class_spells.known_spells.length).toBe(3);
@@ -132,7 +132,7 @@ describe('Chaos Weaver progression policy', () => {
       ]
     });
 
-    useCharacterStore.getState().updateCharacterInfo('class', 'Berserker');
+    useCharacterStore.getState().updateCharacterInfo('class', 'Pyrofiend');
 
     expect(useCharacterStore.getState().talents).toEqual({});
     const spellIds = useSpellbookStore.getState().spells.map(spell => spell.id);

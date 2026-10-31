@@ -18,10 +18,13 @@ const SHARED = path.resolve(__dirname, '../shared');
 const FILES = [
   'services/authoredAbility.js',
   'services/authoredCondition.js',
+  'services/authoredEffect.js',
+  'services/classEffect.js',
   'services/sharedConditionProfile.js',
   'services/sharedEffectTiming.js',
   'services/shieldBashResult.js',
   'data/sharedConditionProfiles.json',
+  'data/classEffectProfiles.json',
 ];
 
 function sync({ check = false } = {}) {

@@ -31,7 +31,7 @@ import BuffEffects from '../../data/effects/BuffEffects';
 import DebuffEffects from '../../data/effects/DebuffEffects';
 import UtilityEffects from '../../data/effects/UtilityEffects';
 import ControlEffects from '../../data/effects/ControlEffects';
-import AuthoredConditionFields, { newAuthoredCondition } from '../common/AuthoredConditionFields';
+import AuthoredConditionFields, { newAuthoredCondition, newAuthoredEffect } from '../common/AuthoredConditionFields';
 import SummoningEffects from '../../data/effects/SummoningEffects';
 import TransformationEffects from '../../data/effects/TransformationEffects';
 import PurificationEffects from '../../data/effects/PurificationEffects';
@@ -578,6 +578,7 @@ const Step3Effects = memo(({ onNext, onPrevious, stepNumber, totalSteps, isActiv
     <p className="effect-description">{getEffectTypeDescription(selectedEffectType)}</p>
 
      {selectedEffectType === 'control' && !state.controlConfig?.authoredCondition && <button type="button" onClick={() => dispatch(actionCreators.replaceControlConfig({ authoredCondition: newAuthoredCondition() }))}>Use canonical Stunned profile (replace control configuration)</button>}
+     {selectedEffectType === 'control' && !state.controlConfig?.authoredCondition && <button type="button" onClick={() => dispatch(actionCreators.replaceControlConfig({ authoredCondition: newAuthoredEffect() }))}>Use composed effect profile — Stunned or movement change, structured expiry (replace control configuration)</button>}
      {selectedEffectType === 'control' && state.controlConfig?.authoredCondition ? <AuthoredConditionFields value={state.controlConfig.authoredCondition} onChange={authoredCondition => dispatch(actionCreators.updateControlConfig({ authoredCondition }))} /> : selectedEffectType === 'damage' ? (
      <DamageEffects
       currentEffect={{ id: effectId, type: selectedEffectType }}

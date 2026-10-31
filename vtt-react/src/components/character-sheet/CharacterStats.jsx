@@ -18,6 +18,7 @@ import GeneralStatTooltip from '../tooltips/GeneralStatTooltip';
 import ResistanceTooltip from '../tooltips/ResistanceTooltip';
 import ConditionTooltip from '../tooltips/ConditionTooltip';
 import { getAttributeBreakdown, getDerivedStatBreakdown } from '../../utils/statCalculationBreakdown';
+import { buildCharacterResourceSnapshot } from '../../utils/characterResourceSnapshot';
 import TooltipPortal from '../tooltips/TooltipPortal';
 import { useTooltipPosition } from '../common/useTooltipPosition';
 import { getCustomIconUrl } from '../../utils/assetManager';
@@ -342,6 +343,8 @@ export default function CharacterStats({ selectedStatGroup: propGroup, setSelect
             subrace,
             level,
             levelUpHistory: dataSource?.levelUpHistory || {},
+            background: dataSource?.background,
+            statsModel: dataSource?.statsModel,
             activeEffects: dataSource?.activeEffects || {},
             encumbranceState: currentEncumbranceState,
             exhaustionLevel: exhaustionLevel ?? storeExhaustionLevel ?? 0,
@@ -374,8 +377,15 @@ export default function CharacterStats({ selectedStatGroup: propGroup, setSelect
         totalStats.slashingDamage = calculatedDerivedStats.slashingDamage || 0;
         totalStats.bludgeoningDamage = calculatedDerivedStats.bludgeoningDamage || 0;
         totalStats.piercingDamage = calculatedDerivedStats.piercingDamage || 0;
-        totalStats.maxHealth = calculatedDerivedStats.maxHealth || getDerivedStatBreakdown('maxHealth', charContext).finalValue;
-        totalStats.maxMana = calculatedDerivedStats.maxMana || getDerivedStatBreakdown('maxMana', charContext).finalValue;
+        const resourceSnapshot = buildCharacterResourceSnapshot({
+            ...charContext,
+            baseStats: dataSource?.baseStats,
+            inventory: dataSource?.inventory || { encumbranceState: currentEncumbranceState },
+            health,
+            mana
+        });
+        totalStats.maxHealth = resourceSnapshot.health.max;
+        totalStats.maxMana = resourceSnapshot.mana.max;
         totalStats.initiative = calculatedDerivedStats.initiative !== undefined ? calculatedDerivedStats.initiative : (Math.floor(((calculatedAttributes.agility || 10) - 10) / 2));
         
         // Always use calculated values for movement speeds to ensure they reflect exhaustion effects
@@ -505,6 +515,8 @@ export default function CharacterStats({ selectedStatGroup: propGroup, setSelect
             subrace,
             level,
             levelUpHistory: dataSource?.levelUpHistory || {},
+            background: dataSource?.background,
+            statsModel: dataSource?.statsModel,
             activeEffects: dataSource?.activeEffects || {},
             encumbranceState: encumbranceState || 'normal',
             exhaustionLevel: exhaustionLevel ?? storeExhaustionLevel ?? 0,
@@ -2450,7 +2462,10 @@ export default function CharacterStats({ selectedStatGroup: propGroup, setSelect
                                                 subrace,
                                                 level,
                                                 levelUpHistory: dataSource?.levelUpHistory || {},
-                                                activeEffects: dataSource?.activeEffects || {},
+            background: dataSource?.background,
+            statsModel: dataSource?.statsModel,
+            ancestry,
+            activeEffects: dataSource?.activeEffects || {},
                                                 encumbranceState: encumbranceState || 'normal',
                                                 exhaustionLevel: exhaustionLevel ?? storeExhaustionLevel ?? 0,
                                                 health,

@@ -3,6 +3,7 @@ import { getWeaponAttackAttribute } from '../utils/weaponIntegration';
 import { isKnownWeaponType, resolveWeaponRank } from '../utils/weaponProficiency';
 import { getWeaponArchetype, getWeaponSimpleTable, WEAPON_TYPE_TIERS } from '../constants/weaponTypeSimpleTables';
 import { canonical, depleteTempFirst, exactActor } from './featherSlash';
+import { combatAttributes } from './combatAttributes';
 
 export const CAPABILITY = 'p12a-strike:v1';
 export const STRIKE_AP = 2;
@@ -34,7 +35,7 @@ export function supportStrike(action, character, ownerType) {
   const itemType = strictWeaponType(item), weaponType = itemType || (isKnownWeaponType(ownerType) ? ownerType : null);
   if (['thrown', 'boomerang', 'chakram', 'shuriken', 'dart'].includes(weaponType) || normalizeType(item?.subtype) === 'thrown' || item?.properties?.thrown === true) return manual('thrown weapons require table resolution.');
   const attribute = slot === 'ranged' ? 'agility' : getWeaponAttackAttribute(item);
-  const score = character.stats?.[attribute];
+  const score = combatAttributes(character)[attribute];
   const damageType = item ? damage.damageType : 'smashing';
   if (!Number.isInteger(score) || score < 0 || score > 100 || !/^[a-z]{2,20}$/.test(damageType || '')) return manual('weapon damage type or sheet attribute needs reconciliation.');
   if (item && (typeof item.id !== 'string' || !item.id || item.id.length > 120)) return manual('weapon needs an exact item ID.');

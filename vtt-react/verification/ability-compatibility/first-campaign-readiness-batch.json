@@ -1,0 +1,2060 @@
+{
+  "schemaVersion": "first-campaign-readiness-batch:v1",
+  "batchName": "first-campaign-ability-readiness-batch",
+  "cohortClasses": [
+    {
+      "className": "Arcanoneer",
+      "status": "confirmed-first-campaign",
+      "p9ResourceDomain": "elementalSpheres"
+    },
+    {
+      "className": "Minstrel",
+      "status": "confirmed-first-campaign",
+      "p9ResourceDomain": "musicalNotes"
+    },
+    {
+      "className": "Martyr",
+      "status": "provisional-reference",
+      "note": "Clearly labelled provisional reference: third first-campaign class is not separately locked in current phase docs, while Martyr owns the third accepted P9 resource domain (devotionGauge).",
+      "p9ResourceDomain": "devotionGauge"
+    }
+  ],
+  "validatorIdentity": {
+    "validatorBundleHash": "5a078909ebe383042f954af563aaf8c0a55248948e6b37b0725b899c6fa1cab8",
+    "supportedProfiles": [
+      "p9-spell:v1",
+      "authored-immediate:v1",
+      "authored-condition:v1",
+      "authored-effect:v1"
+    ],
+    "acceptedProfiles": [
+      "p9-spell:v1",
+      "authored-immediate:v1",
+      "authored-condition:v1"
+    ],
+    "provisionalSourceProfiles": [
+      "authored-effect:v1"
+    ],
+    "profileAcceptanceStatus": {
+      "p9-spell:v1": {
+        "profile": "p9-spell:v1",
+        "capabilityStatus": "accepted",
+        "productionReady": true,
+        "owner": "Combat / Sol",
+        "governanceNote": "Accepted in P9 cycle2 baseline for immediate single-target DICE damage/healing with Elemental Spheres, Musical Notes, and Devotion Gauge."
+      },
+      "authored-immediate:v1": {
+        "profile": "authored-immediate:v1",
+        "capabilityStatus": "accepted",
+        "productionReady": true,
+        "owner": "Opus / Sol",
+        "governanceNote": "Accepted in P14-A1..A6 baselines for room-admitted Wizard single-target immediate damage/healing (plus creature self-healing in A6)."
+      },
+      "authored-condition:v1": {
+        "profile": "authored-condition:v1",
+        "capabilityStatus": "accepted",
+        "productionReady": true,
+        "owner": "Opus / Sol",
+        "governanceNote": "Accepted in P14-A7..A9 baselines for room-admitted Wizard single-target canonical Stunned with gm-manual expiry."
+      },
+      "authored-effect:v1": {
+        "profile": "authored-effect:v1",
+        "capabilityStatus": "provisional_unaccepted_source",
+        "productionReady": false,
+        "owner": "Opus",
+        "governanceNote": "Unaccepted active source work (Opus P14-A10). Present in working-tree source files, but has NO completed increment/App/review acceptance handoff (Cross-Track Finding I4). Must not be marked production-ready."
+      }
+    },
+    "p9SupportedResourceDomains": [
+      "none",
+      "elementalSpheres",
+      "musicalNotes",
+      "devotionGauge"
+    ],
+    "a10ExpiryPolicies": [
+      "gm-manual",
+      "target-next-start",
+      "target-next-end"
+    ],
+    "modules": [
+      {
+        "file": "vtt-react/src/services/spellConsequence.js",
+        "sha256": "8cf997dd974ad64c18f1102e01af5b13d294489c746fa65980c01a0dff5f3b26",
+        "bytes": 38977
+      },
+      {
+        "file": "vtt-react/src/data/classResourceContracts.js",
+        "sha256": "72248235863ebcd6447f61fd0608b78c52eeb9394adcedc9bcd47db1c11bd93b",
+        "bytes": 33374
+      },
+      {
+        "file": "vtt-react/src/data/classResourceBanks.js",
+        "sha256": "82c506571a21c910b62471b7e9413afe195d1b524a309a37508a39cb0af52cf6",
+        "bytes": 10721
+      },
+      {
+        "file": "server/shared/services/authoredAbility.js",
+        "sha256": "35a45406c84224db3fec1585f51996523af1897638afa218bba0914ca1870e82",
+        "bytes": 21240
+      },
+      {
+        "file": "server/shared/services/authoredEffect.js",
+        "sha256": "ecbc205e209b6b6cdaa6bc93935895f939a0b74eced2e798fc1af069108e5b93",
+        "bytes": 3158
+      },
+      {
+        "file": "server/services/installedDefinitionRegistry.js",
+        "sha256": "b90052c74c4d9b8d02221ecc8bec59b53e54446dca1a0627098160968af76bce",
+        "bytes": 14695
+      },
+      {
+        "file": "server/services/authoredSpellDefinitions.js",
+        "sha256": "48b69255b8958ae75a7aa17ed7aa67c95b6d4c2bada63f4dcd24a305e20f0003",
+        "bytes": 35744
+      },
+      {
+        "file": "server/shared/services/sharedConditionProfile.js",
+        "sha256": "7a3b662d739f29ac053c512485c639100b669a7c1a443285b9f3baac3e435a63",
+        "bytes": 11321
+      }
+    ]
+  },
+  "boundaryExaminationSummary": {
+    "totalCatalogueRecords": 1992,
+    "countsByClassification": {
+      "compatible": 4,
+      "unsupported_capability": 1472,
+      "ambiguous_or_conflicting": 85,
+      "invalid_for_profile": 0,
+      "descriptive_or_passive_outside_profiles": 431
+    },
+    "countsByPrimaryExclusionReason": {
+      "missing_engine_capability": 1040,
+      "runtime_prerequisites_offline_unknown": 4,
+      "conflicting_data": 83,
+      "passive_or_descriptive": 431,
+      "intentional_manual_only": 434
+    },
+    "specificBoundaryFindings": {
+      "structuredInstantDurationEnvelopesSeparatedFromLifecycle": {
+        "count": 281,
+        "explanation": "265 catalogue records use {\"durationType\":\"instant\",\"durationValue\":0,\"durationUnit\":\"instant\"} (plus 13 zero-round instant records). These have instant semantics and are now classified under incompatible_authored_schema (schema-instant-duration-envelope) rather than turn-and-duration-lifecycle."
+      },
+      "singleActorSelfTargetingSeparatedFromAreaMultiTarget": {
+        "count": 365,
+        "explanation": "799 of 801 targetingType: \"self\" catalogue records are single-actor self-targets with no AoE geometry. They are now separated into self-target-schema-or-route (incompatible_authored_schema) rather than area-chain-and-multi-target-routing."
+      },
+      "singleTargetMetadataKeysSeparatedFromAreaMultiTarget": {
+        "count": 75,
+        "explanation": "Single-target records carrying non-AoE metadata keys such as targetingConfig.requiresLineOfSight: true (e.g. minstrel_harmony_strike) are now classified under schema-single-target-metadata-keys (incompatible_authored_schema) rather than area-chain-and-multi-target-routing."
+      },
+      "resourceNameVsPaymentSupportDistinction": {
+        "minstrelCadenceSchemaBlockedCount": 34,
+        "clientPlannedButUnHomedDomainCount": 688,
+        "explanation": "The checker now evaluates classResourceContracts.getManagedSpellResourcePlan alongside spellConsequence.planClassPayment using both empty and funded probe banks. It distinguishes (1) supported P9 payment domains where empty-bank failure is merely an offline runtime prerequisite, (2) Minstrel cadence spells (19 records) where getBankSpellResourcePlan already plans musicalCombo.requires note deduction but resourceValues.classResource carries { cost: 3, resolvesCadence: true }, (3) conflicting sphere/devotion encodings, and (4) the 27 other classes whose resources ARE planned on the client by classResourceContracts.js but lack a server P9 room home."
+      },
+      "authoredEffectV1ProvisionalStatusEnforced": {
+        "profile": "authored-effect:v1",
+        "capabilityStatus": "provisional_unaccepted_source",
+        "productionReady": false,
+        "explanation": "Per docs/ENGINEERING_STATE.md and docs/MYTHRILL_CROSS_TRACK_COORDINATION.md (Finding I4), Opus P14-A10 (authored-effect:v1) is present in working-tree source but has NO completed increment/App/review acceptance handoff. The checker reports sourceObservedCompatible: true, acceptedCompatible: false, capabilityStatus: \"provisional_unaccepted_source\", productionReady: false, and refuses to mark it compatible/production-ready."
+      },
+      "intentionalManualOnlyRecords": {
+        "count": 434,
+        "explanation": "818 records across the 9 reconstructed CR-1 classes carry explicit manualOnly: true / executionEnabled: false / applicationMode: \"manual-tabletop\" designations by design."
+      },
+      "conflictingAuthoredDataRecords": {
+        "count": 85,
+        "explanation": "Includes 13 Arcanoneer spells with explicit sphere list vs typed sphere count disagreements, 12 Martyr spells with base classResource.cost vs top-level devotionCost disagreements, 19 Minstrel cadence spells where generic classResource.cost: 3 disagrees with musicalCombo.requires note counts, and records whose effectTypes omit a populated damageConfig/healingConfig."
+      },
+      "recordsBlockedSolelyByAuthoredSchema": {
+        "count": 0,
+        "explanation": "Active non-manual records that require zero new engine capabilities or conflict resolutions and are blocked solely by strict P9 schema key whitelists."
+      }
+    }
+  },
+  "groupedWork": {
+    "A": {
+      "group": "A",
+      "title": "A. Existing accepted behavior; runtime admission/integration still required",
+      "abilityIds": [
+        "arc_spark_bolt",
+        "minstrel_opening_chord",
+        "minstrel_harmonic_strike",
+        "martyr_restorative_prayer"
+      ],
+      "summary": "Already compatible with accepted p9-spell:v1. Require runtime admission/integration prerequisites (bound primary PC, placed map tokens, live resource bank balance, owner approval, GM confirmation) and Cross-Track Finding I2 alignment (effective vs raw character attributes in spellConsequence.js)."
+    },
+    "B": {
+      "group": "B",
+      "title": "B. Potential schema-only adaptation, pending Class HQ confirmation",
+      "abilityIds": [
+        "minstrel_resolving_strike",
+        "minstrel_harmony_strike"
+      ],
+      "summary": "Single-target immediate storm damage spells in Minstrel whose mechanics (DICE damage + musicalCombo note payment) already exist in p9-spell:v1 and classResourceBanks.js, but are excluded by resourceValues.classResource: { type: \"musical_notes\", cost: 3, resolvesCadence: true } and targetingConfig.requiresLineOfSight: true (plus Class HQ confirmation of minstrel_harmony_strike resolver vs generator role)."
+    },
+    "C": {
+      "group": "C",
+      "title": "C. Genuine shared-engine extension",
+      "abilityIds": [
+        "arc_frost_touch",
+        "arc_fire_bolt",
+        "martyr_penitent_rebuke",
+        "martyr_penance_of_pain"
+      ],
+      "summary": "Require genuine shared-engine extensions: compound damage + debuff rider on class spells (arc_frost_touch), chain propagation (arc_fire_bolt), savingThrow metadata in P9 damage adjudication (martyr_penitent_rebuke), or caster missing-HP deterministic formula scaling (martyr_penance_of_pain)."
+    },
+    "D": {
+      "group": "D",
+      "title": "D. Authored semantic conflict requiring a decision",
+      "abilityIds": [
+        "arc_arcane_missile",
+        "martyr_redemption_strike"
+      ],
+      "summary": "Blocked by internal authored data contradictions requiring a Class HQ design decision before any schema or engine work: arc_arcane_missile (spheres [\"Arcane\", \"ember\"] vs resourceValues { arcane_sphere: 1, holy_sphere: 1 } + autoHit: true) and martyr_redemption_strike (classResource.cost: 3 vs devotionCost: 5, and flat missing_hp_percentage formula vs +1d8 per 20% missing HP in specialMechanics)."
+    }
+  },
+  "recommendedSmallestWorthwhileBatch": {
+    "batchTitle": "Minstrel Cadence Note-Spend & Single-Target Schema Alignment + Arcanoneer/Martyr Recipe Reconciliation",
+    "targetOwners": [
+      "Class HQ",
+      "Combat"
+    ],
+    "primaryTargetAbilitiesInBatch": [
+      "minstrel_resolving_strike",
+      "minstrel_harmony_strike",
+      "arc_arcane_missile"
+    ],
+    "broaderCatalogueImpact": {
+      "immediatelyExecutableInP9AfterChange": [
+        "minstrel_resolving_strike (completes Minstrel builder -> resolver loop in P9)",
+        "minstrel_harmony_strike (once Class HQ confirms II+IV resolver role)",
+        "arc_arcane_missile (once Class HQ selects canonical [\"arcane\", \"sacred\"] or [\"arcane\", \"ember\"] recipe)"
+      ],
+      "paymentOrSchemaLayerUnblockedForFutureIncrements": [
+        "All 19 Minstrel cadence spells in minstrelData.js currently failing planClassPayment due to resourceValues.classResource: { cost: 3, resolvesCadence: true }",
+        "13 Arcanoneer spells with sphere recipe list vs resourceValues mismatches (once reconciled by Class HQ)",
+        "12 Martyr spells with base classResource.cost vs amplified devotionCost mismatches (once reconciled by Class HQ)",
+        "73 catalogue spells carrying targetingConfig.requiresLineOfSight: true and 265 spells carrying structured instant duration {\"durationType\":\"instant\",\"durationValue\":0,\"durationUnit\":\"instant\"}"
+      ]
+    },
+    "whatTheChangeIs": [
+      "1. Class HQ / Combat alignment on Minstrel cadence cost schema: classResourceBanks.getBankSpellResourcePlan ALREADY computes exact pitch deduction from musicalCombo.requires (e.g. [\"I\", \"V\"] for minstrel_resolving_strike). Either align resourceCost.resourceValues.classResource in minstrelData.js to omit the non-standard resolvesCadence: true flag and match musicalCombo.requires count, or allow resolvesCadence: true in spellConsequence.encodingConflict when musicalCombo.requires is present.",
+      "2. Permit or normalize non-AoE single-target schema metadata in spellConsequence.supportShape: targetingConfig.requiresLineOfSight (boolean), structured instant duration {\"durationType\":\"instant\",\"durationValue\":0,\"durationUnit\":\"instant\"}, and descriptive damageConfig.autoHit: true (since P9 has no automated attack roll and requires GM confirmation on every execution).",
+      "3. Class HQ one-line recipe decision on arc_arcane_missile: align resourceCost.spheres with resourceCost.resourceValues ({ arcane_sphere: 1, holy_sphere: 1 } -> [\"arcane\", \"sacred\"])."
+    ],
+    "whatItCovers": [
+      "Unlocks Minstrel cadence note spending in P9 so Minstrel can both build notes (minstrel_opening_chord, minstrel_harmonic_strike) and spend them on single-target immediate damage cadences (minstrel_resolving_strike, minstrel_harmony_strike) using the existing revisioned musicalNotes room home.",
+      "Unlocks arc_arcane_missile as a second Level 1 Arcanoneer immediate single-target spell alongside arc_spark_bolt.",
+      "Requires zero new server room state fields, zero new socket handlers, and zero changes to P9 owner-approval or GM-confirmation flow."
+    ],
+    "whatItExplicitlyDoesNotCover": [
+      "Does NOT execute multi-round buffs, debuffs, or conditions on class spells (arc_frost_touch, arc_concussive_resonance, minstrel_perfect_cadence stay manual until compound class-spell effects are accepted).",
+      "Does NOT execute AoE, cones, lines, or chain propagation (arc_fire_bolt, minstrel_minor_cadence stay manual).",
+      "Does NOT execute simultaneous damage + healing (martyr_devoted_strike, minstrel_mending_cadence stay manual).",
+      "Does NOT execute reactions or event triggers (martyr_intervene stays manual).",
+      "Does NOT execute saving throw half-damage/negation rules or caster missing-HP formulas (martyr_penitent_rebuke, martyr_penance_of_pain, martyr_redemption_strike stay manual).",
+      "Does NOT promote unfinished Opus A10 (authored-effect:v1) to accepted production status."
+    ]
+  },
+  "abilities": [
+    {
+      "id": "arc_spark_bolt",
+      "name": "Marrow-Piercing Slug",
+      "level": 1,
+      "className": "Arcanoneer",
+      "classRole": "confirmed-first-campaign",
+      "readinessGroup": "A",
+      "readinessGroupLabel": "A. Existing accepted behavior; runtime admission/integration still required",
+      "source": {
+        "file": "vtt-react/src/data/classes/arcanoneerData.js",
+        "line": 2150,
+        "collectionPath": "Arcanoneer.spells[2]",
+        "recordSha256": "p9-spell:v1/599898d64f316c34af68f1e94fa0aa4aa5c8c6f30ad1483eaf16eda444f243ca"
+      },
+      "authoredEffectAndFormula": {
+        "spellType": "ACTION",
+        "castTimeType": "IMMEDIATE",
+        "effectTypes": [
+          "damage"
+        ],
+        "resolution": "DICE",
+        "formula": "1d8 + intelligence/4",
+        "formulaSupportedByP9": true,
+        "formulaReadingOrReason": "1d8 + intelligence/4 → 1d8 + 3 (INT 12 ÷ 4, rounded down)",
+        "damageTypes": [
+          "arcane"
+        ],
+        "healingType": null,
+        "durationConfig": null
+      },
+      "fullPrice": {
+        "actionPoints": 1,
+        "mana": 4,
+        "cooldown": {
+          "cooldownType": "turn_based",
+          "cooldownValue": 0
+        },
+        "rawResourceTypes": [
+          "mana",
+          "arcane_sphere"
+        ],
+        "rawResourceValues": {
+          "mana": 4,
+          "arcane_sphere": 2
+        },
+        "rawClassResource": null,
+        "spheres": [
+          "Arcane",
+          "Arcane"
+        ],
+        "musicalCombo": null,
+        "devotionRequired": null,
+        "devotionCost": null,
+        "devotionGain": null
+      },
+      "existingExecutionProfile": {
+        "matchedAcceptedProfile": "p9-spell:v1",
+        "sourceObservedProfile": "p9-spell:v1",
+        "capabilityStatus": "accepted",
+        "productionReady": true,
+        "checkerClassification": "compatible"
+      },
+      "sourceTargetRoute": {
+        "sourceActorKind": "pc (bound primary character)",
+        "targetingType": "single",
+        "rangeType": "ranged",
+        "rangeDistance": 60,
+        "targetRestrictions": [],
+        "maxTargets": null,
+        "extraTargetingKeys": [],
+        "routeSupportedInProfile": true,
+        "allowedRoutes": [
+          "pc -> placed token (matching targetRestrictions)"
+        ]
+      },
+      "requiredClassResourceOperations": {
+        "domain": "elementalSpheres",
+        "domainSupportedInP9": true,
+        "clientPlannerHandled": true,
+        "paymentStatus": "supported_p9_payment",
+        "plannedCosts": [
+          "arcane",
+          "arcane"
+        ],
+        "plannedGains": [],
+        "plannedRequired": 0,
+        "p9FundedClassPayment": {
+          "domain": "elementalSpheres",
+          "before": {
+            "type": "elementalSpheres",
+            "spheres": [
+              "arcane",
+              "arcane"
+            ]
+          },
+          "after": {
+            "type": "elementalSpheres",
+            "spheres": []
+          },
+          "price": {
+            "costs": [
+              "arcane",
+              "arcane"
+            ],
+            "gains": []
+          }
+        },
+        "p9PaymentRejectionReason": null
+      },
+      "secondaryEffectsAndPrerequisites": {
+        "secondaryEffectBlocks": [],
+        "incompatibilities": [],
+        "conflicts": [],
+        "runtimePrerequisites": [
+          "Primary PC actor bound to the player in an active multiplayer room (binding.actorId).",
+          "Ability known/equipped by the PC and matching canonical CLASS_DATA_MAP definitionHash.",
+          "Placed source and target tokens on the active map with matching boardId and roomRevision.",
+          "Owner roll and resource payment approval (spell_execute_approve) with affordable runtime AP, Mana, and class resource state.",
+          "GM final confirmation (spell_execute_confirm) before any room HP/resource mutation occurs.",
+          "Cross-Track Finding I2 note: spellConsequence.js currently reads combatAttributes(character) from raw character.stats rather than effective attributes (baseStats + equipment/buffs)."
+        ]
+      },
+      "readinessAssessment": {
+        "group": "A",
+        "groupLabel": "A. Existing accepted behavior; runtime admission/integration still required",
+        "primaryExclusionReason": "runtime_prerequisites_offline_unknown",
+        "exclusionCategoriesPresent": [
+          "runtime_prerequisites_offline_unknown"
+        ],
+        "exactReason": "Accepted in p9-spell:v1 (shape, 1d8 + intelligence/4 formula, and 2x Arcane Sphere payment all supported). Still requires runtime PC binding, map token placement, live 2x Arcane sphere balance at cast time, owner roll/payment approval, GM final confirmation ( including manual GM adjudication of prose \"ignores 2 points of enemy Durability\"), and resolution of Cross-Track Finding I2 (spellConsequence.js reads raw character.stats.intelligence instead of effective attributes).",
+        "ownerToAct": "Sol (Integration) + Sonnet/Combat (Cross-Track Finding I2)",
+        "requiredOwnerAction": "Sol: keep in playable candidate smoke suite. Sonnet + Combat: align spellConsequence.js combatAttributes(character) with effective attribute totals (Finding I2). Class HQ: confirm prose \"ignores 2 points of enemy Durability\" remains a GM final-amount ruling in P9."
+      }
+    },
+    {
+      "id": "minstrel_opening_chord",
+      "name": "Opening Chord",
+      "level": 1,
+      "className": "Minstrel",
+      "classRole": "confirmed-first-campaign",
+      "readinessGroup": "A",
+      "readinessGroupLabel": "A. Existing accepted behavior; runtime admission/integration still required",
+      "source": {
+        "file": "vtt-react/src/data/classes/minstrelData.js",
+        "line": 1346,
+        "collectionPath": "Minstrel.spells[0]",
+        "recordSha256": "p9-spell:v1/c50d2e41042e81d6988e65daa8843d4c4d83a700064141b02cdc0bd92f189695"
+      },
+      "authoredEffectAndFormula": {
+        "spellType": "ACTION",
+        "castTimeType": "IMMEDIATE",
+        "effectTypes": [
+          "damage"
+        ],
+        "resolution": "DICE",
+        "formula": "1d6",
+        "formulaSupportedByP9": true,
+        "formulaReadingOrReason": "1d6 → 1d6",
+        "damageTypes": [
+          "storm"
+        ],
+        "healingType": null,
+        "durationConfig": null
+      },
+      "fullPrice": {
+        "actionPoints": 1,
+        "mana": 4,
+        "cooldown": {
+          "cooldownType": "turn_based",
+          "cooldownValue": 0
+        },
+        "rawResourceTypes": [
+          "mana"
+        ],
+        "rawResourceValues": {
+          "mana": 4,
+          "classResource": {
+            "type": "musical_notes",
+            "gain": 3
+          }
+        },
+        "rawClassResource": {
+          "type": "musical_notes",
+          "gain": 3
+        },
+        "spheres": null,
+        "musicalCombo": {
+          "type": "builder",
+          "generates": [
+            {
+              "note": "I",
+              "count": 2
+            },
+            {
+              "note": "V",
+              "count": 1
+            }
+          ]
+        },
+        "devotionRequired": null,
+        "devotionCost": null,
+        "devotionGain": null
+      },
+      "existingExecutionProfile": {
+        "matchedAcceptedProfile": "p9-spell:v1",
+        "sourceObservedProfile": "p9-spell:v1",
+        "capabilityStatus": "accepted",
+        "productionReady": true,
+        "checkerClassification": "compatible"
+      },
+      "sourceTargetRoute": {
+        "sourceActorKind": "pc (bound primary character)",
+        "targetingType": "single",
+        "rangeType": "ranged",
+        "rangeDistance": 60,
+        "targetRestrictions": [],
+        "maxTargets": null,
+        "extraTargetingKeys": [],
+        "routeSupportedInProfile": true,
+        "allowedRoutes": [
+          "pc -> placed token (matching targetRestrictions)"
+        ]
+      },
+      "requiredClassResourceOperations": {
+        "domain": "musicalNotes",
+        "domainSupportedInP9": true,
+        "clientPlannerHandled": true,
+        "paymentStatus": "supported_p9_payment",
+        "plannedCosts": [],
+        "plannedGains": [
+          "I",
+          "I",
+          "V"
+        ],
+        "plannedRequired": 0,
+        "p9FundedClassPayment": {
+          "domain": "musicalNotes",
+          "before": {
+            "type": "musicalNotes",
+            "notes": [
+              5,
+              5,
+              5,
+              5,
+              5,
+              5,
+              5
+            ]
+          },
+          "after": {
+            "type": "musicalNotes",
+            "notes": [
+              5,
+              5,
+              5,
+              5,
+              5,
+              5,
+              5
+            ]
+          },
+          "price": {
+            "costs": [],
+            "gains": [
+              "I",
+              "I",
+              "V"
+            ]
+          }
+        },
+        "p9PaymentRejectionReason": null
+      },
+      "secondaryEffectsAndPrerequisites": {
+        "secondaryEffectBlocks": [],
+        "incompatibilities": [],
+        "conflicts": [],
+        "runtimePrerequisites": [
+          "Primary PC actor bound to the player in an active multiplayer room (binding.actorId).",
+          "Ability known/equipped by the PC and matching canonical CLASS_DATA_MAP definitionHash.",
+          "Placed source and target tokens on the active map with matching boardId and roomRevision.",
+          "Owner roll and resource payment approval (spell_execute_approve) with affordable runtime AP, Mana, and class resource state.",
+          "GM final confirmation (spell_execute_confirm) before any room HP/resource mutation occurs.",
+          "Cross-Track Finding I2 note: spellConsequence.js currently reads combatAttributes(character) from raw character.stats rather than effective attributes (baseStats + equipment/buffs)."
+        ]
+      },
+      "readinessAssessment": {
+        "group": "A",
+        "groupLabel": "A. Existing accepted behavior; runtime admission/integration still required",
+        "primaryExclusionReason": "runtime_prerequisites_offline_unknown",
+        "exclusionCategoriesPresent": [
+          "runtime_prerequisites_offline_unknown"
+        ],
+        "exactReason": "Accepted in p9-spell:v1 (immediate single-target 1d6 storm damage, 1 AP, 4 Mana, and musicalCombo note generation of I×2, V×1 into musicalNotes bank). Executable from an empty note bank; still requires runtime PC binding, placed source/target tokens, owner roll/payment approval, and GM confirmation.",
+        "ownerToAct": "Sol (Integration)",
+        "requiredOwnerAction": "Sol: include as Minstrel builder control in first-campaign playable candidate."
+      }
+    },
+    {
+      "id": "minstrel_harmonic_strike",
+      "name": "Harmonic Strike",
+      "level": 1,
+      "className": "Minstrel",
+      "classRole": "confirmed-first-campaign",
+      "readinessGroup": "A",
+      "readinessGroupLabel": "A. Existing accepted behavior; runtime admission/integration still required",
+      "source": {
+        "file": "vtt-react/src/data/classes/minstrelData.js",
+        "line": 1402,
+        "collectionPath": "Minstrel.spells[1]",
+        "recordSha256": "p9-spell:v1/baca878b4f8bd1133cfe5496ab716520007c50694817d10412765a52dd5b2521"
+      },
+      "authoredEffectAndFormula": {
+        "spellType": "ACTION",
+        "castTimeType": "IMMEDIATE",
+        "effectTypes": [
+          "damage"
+        ],
+        "resolution": "DICE",
+        "formula": "1d8",
+        "formulaSupportedByP9": true,
+        "formulaReadingOrReason": "1d8 → 1d8",
+        "damageTypes": [
+          "smashing",
+          "stabbing",
+          "slicing"
+        ],
+        "healingType": null,
+        "durationConfig": null
+      },
+      "fullPrice": {
+        "actionPoints": 1,
+        "mana": 4,
+        "cooldown": {
+          "cooldownType": "turn_based",
+          "cooldownValue": 0
+        },
+        "rawResourceTypes": [
+          "mana"
+        ],
+        "rawResourceValues": {
+          "mana": 4,
+          "classResource": {
+            "type": "musical_notes",
+            "gain": 3
+          }
+        },
+        "rawClassResource": {
+          "type": "musical_notes",
+          "gain": 3
+        },
+        "spheres": null,
+        "musicalCombo": {
+          "type": "builder",
+          "generates": [
+            {
+              "note": "III",
+              "count": 2
+            },
+            {
+              "note": "I",
+              "count": 1
+            }
+          ]
+        },
+        "devotionRequired": null,
+        "devotionCost": null,
+        "devotionGain": null
+      },
+      "existingExecutionProfile": {
+        "matchedAcceptedProfile": "p9-spell:v1",
+        "sourceObservedProfile": "p9-spell:v1",
+        "capabilityStatus": "accepted",
+        "productionReady": true,
+        "checkerClassification": "compatible"
+      },
+      "sourceTargetRoute": {
+        "sourceActorKind": "pc (bound primary character)",
+        "targetingType": "single",
+        "rangeType": "melee",
+        "rangeDistance": 5,
+        "targetRestrictions": [],
+        "maxTargets": null,
+        "extraTargetingKeys": [],
+        "routeSupportedInProfile": true,
+        "allowedRoutes": [
+          "pc -> placed token (matching targetRestrictions)"
+        ]
+      },
+      "requiredClassResourceOperations": {
+        "domain": "musicalNotes",
+        "domainSupportedInP9": true,
+        "clientPlannerHandled": true,
+        "paymentStatus": "supported_p9_payment",
+        "plannedCosts": [],
+        "plannedGains": [
+          "III",
+          "III",
+          "I"
+        ],
+        "plannedRequired": 0,
+        "p9FundedClassPayment": {
+          "domain": "musicalNotes",
+          "before": {
+            "type": "musicalNotes",
+            "notes": [
+              5,
+              5,
+              5,
+              5,
+              5,
+              5,
+              5
+            ]
+          },
+          "after": {
+            "type": "musicalNotes",
+            "notes": [
+              5,
+              5,
+              5,
+              5,
+              5,
+              5,
+              5
+            ]
+          },
+          "price": {
+            "costs": [],
+            "gains": [
+              "III",
+              "III",
+              "I"
+            ]
+          }
+        },
+        "p9PaymentRejectionReason": null
+      },
+      "secondaryEffectsAndPrerequisites": {
+        "secondaryEffectBlocks": [],
+        "incompatibilities": [],
+        "conflicts": [],
+        "runtimePrerequisites": [
+          "Primary PC actor bound to the player in an active multiplayer room (binding.actorId).",
+          "Ability known/equipped by the PC and matching canonical CLASS_DATA_MAP definitionHash.",
+          "Placed source and target tokens on the active map with matching boardId and roomRevision.",
+          "Owner roll and resource payment approval (spell_execute_approve) with affordable runtime AP, Mana, and class resource state.",
+          "GM final confirmation (spell_execute_confirm) before any room HP/resource mutation occurs.",
+          "Cross-Track Finding I2 note: spellConsequence.js currently reads combatAttributes(character) from raw character.stats rather than effective attributes (baseStats + equipment/buffs)."
+        ]
+      },
+      "readinessAssessment": {
+        "group": "A",
+        "groupLabel": "A. Existing accepted behavior; runtime admission/integration still required",
+        "primaryExclusionReason": "runtime_prerequisites_offline_unknown",
+        "exclusionCategoriesPresent": [
+          "runtime_prerequisites_offline_unknown"
+        ],
+        "exactReason": "Accepted in p9-spell:v1 (immediate single-target melee 1d8 physical damage, 1 AP, 4 Mana, and musicalCombo note generation of III×2, I×1 into musicalNotes bank). Executable from an empty note bank; still requires runtime PC binding, placed tokens within 5 ft, owner approval, and GM confirmation.",
+        "ownerToAct": "Sol (Integration)",
+        "requiredOwnerAction": "Sol: include as Minstrel melee builder control in first-campaign playable candidate."
+      }
+    },
+    {
+      "id": "martyr_restorative_prayer",
+      "name": "Restorative Prayer",
+      "level": 1,
+      "className": "Martyr",
+      "classRole": "provisional-reference-third-p9-class",
+      "readinessGroup": "A",
+      "readinessGroupLabel": "A. Existing accepted behavior; runtime admission/integration still required",
+      "source": {
+        "file": "vtt-react/src/data/classes/martyrData.js",
+        "line": 926,
+        "collectionPath": "Martyr.spells[0]",
+        "recordSha256": "p9-spell:v1/0fe639382e73950b550440b9609c7e9d349cb1396b4d19432b6a868525c664ed"
+      },
+      "authoredEffectAndFormula": {
+        "spellType": "ACTION",
+        "castTimeType": "IMMEDIATE",
+        "effectTypes": [
+          "healing"
+        ],
+        "resolution": "DICE",
+        "formula": "1d4 + spirit",
+        "formulaSupportedByP9": true,
+        "formulaReadingOrReason": "1d4 + spirit → 1d4 + 12 (SPI score)",
+        "damageTypes": null,
+        "healingType": "direct",
+        "durationConfig": null
+      },
+      "fullPrice": {
+        "actionPoints": 1,
+        "mana": 5,
+        "cooldown": {
+          "cooldownType": "turn_based",
+          "cooldownValue": 0
+        },
+        "rawResourceTypes": [
+          "mana"
+        ],
+        "rawResourceValues": {
+          "mana": 5,
+          "classResource": {
+            "type": "devotion",
+            "gain": 1
+          }
+        },
+        "rawClassResource": {
+          "type": "devotion",
+          "gain": 1
+        },
+        "spheres": null,
+        "musicalCombo": null,
+        "devotionRequired": 0,
+        "devotionCost": null,
+        "devotionGain": 1
+      },
+      "existingExecutionProfile": {
+        "matchedAcceptedProfile": "p9-spell:v1",
+        "sourceObservedProfile": "p9-spell:v1",
+        "capabilityStatus": "accepted",
+        "productionReady": true,
+        "checkerClassification": "compatible"
+      },
+      "sourceTargetRoute": {
+        "sourceActorKind": "pc (bound primary character)",
+        "targetingType": "single",
+        "rangeType": "ranged",
+        "rangeDistance": 30,
+        "targetRestrictions": [
+          "ally"
+        ],
+        "maxTargets": null,
+        "extraTargetingKeys": [],
+        "routeSupportedInProfile": true,
+        "allowedRoutes": [
+          "pc -> placed token (matching targetRestrictions)"
+        ]
+      },
+      "requiredClassResourceOperations": {
+        "domain": "devotionGauge",
+        "domainSupportedInP9": true,
+        "clientPlannerHandled": true,
+        "paymentStatus": "supported_p9_payment",
+        "plannedCosts": 0,
+        "plannedGains": 1,
+        "plannedRequired": 0,
+        "p9FundedClassPayment": {
+          "domain": "devotionGauge",
+          "before": {
+            "type": "devotionGauge",
+            "current": 6,
+            "max": 6,
+            "damage": 100,
+            "earnedLevels": 6,
+            "spentLevels": 0,
+            "bonusLevels": 0
+          },
+          "after": {
+            "type": "devotionGauge",
+            "current": 6,
+            "max": 6,
+            "damage": 100,
+            "earnedLevels": 6,
+            "spentLevels": 0,
+            "bonusLevels": 0
+          },
+          "price": {
+            "cost": 0,
+            "gain": 1,
+            "required": 0
+          }
+        },
+        "p9PaymentRejectionReason": null
+      },
+      "secondaryEffectsAndPrerequisites": {
+        "secondaryEffectBlocks": [],
+        "incompatibilities": [],
+        "conflicts": [],
+        "runtimePrerequisites": [
+          "Primary PC actor bound to the player in an active multiplayer room (binding.actorId).",
+          "Ability known/equipped by the PC and matching canonical CLASS_DATA_MAP definitionHash.",
+          "Placed source and target tokens on the active map with matching boardId and roomRevision.",
+          "Owner roll and resource payment approval (spell_execute_approve) with affordable runtime AP, Mana, and class resource state.",
+          "GM final confirmation (spell_execute_confirm) before any room HP/resource mutation occurs.",
+          "Cross-Track Finding I2 note: spellConsequence.js currently reads combatAttributes(character) from raw character.stats rather than effective attributes (baseStats + equipment/buffs)."
+        ]
+      },
+      "readinessAssessment": {
+        "group": "A",
+        "groupLabel": "A. Existing accepted behavior; runtime admission/integration still required",
+        "primaryExclusionReason": "runtime_prerequisites_offline_unknown",
+        "exclusionCategoriesPresent": [
+          "runtime_prerequisites_offline_unknown"
+        ],
+        "exactReason": "Accepted in p9-spell:v1 (immediate single-target 1d4 + spirit direct ally healing, 1 AP, 5 Mana, devotionRequired: 0, devotionGain: +1). Executable at 0 Devotion; requires runtime PC binding, placed ally token within 30 ft, owner approval, GM confirmation, and Finding I2 raw-vs-effective spirit alignment.",
+        "ownerToAct": "Sol (Integration) + Sonnet/Combat (Cross-Track Finding I2)",
+        "requiredOwnerAction": "Sol: retain as Martyr (Provisional Reference) healing control. Sonnet + Combat: align effective Spirit consumption (Finding I2)."
+      }
+    },
+    {
+      "id": "minstrel_resolving_strike",
+      "name": "Resolving Strike",
+      "level": 3,
+      "className": "Minstrel",
+      "classRole": "confirmed-first-campaign",
+      "readinessGroup": "B",
+      "readinessGroupLabel": "B. Potential schema-only adaptation, pending Class HQ confirmation",
+      "source": {
+        "file": "vtt-react/src/data/classes/minstrelData.js",
+        "line": 1730,
+        "collectionPath": "Minstrel.spells[6]",
+        "recordSha256": "p9-spell:v1/e6a1b7a12865b3db2d0a8d6e623ef55af20609d82b62338c9c4b898972c1985d"
+      },
+      "authoredEffectAndFormula": {
+        "spellType": "ACTION",
+        "castTimeType": "IMMEDIATE",
+        "effectTypes": [
+          "damage"
+        ],
+        "resolution": "DICE",
+        "formula": "1d8 + spirit",
+        "formulaSupportedByP9": true,
+        "formulaReadingOrReason": "1d8 + spirit → 1d8 + 12 (SPI score)",
+        "damageTypes": [
+          "storm"
+        ],
+        "healingType": null,
+        "durationConfig": {
+          "durationType": "instant"
+        }
+      },
+      "fullPrice": {
+        "actionPoints": 1,
+        "mana": 4,
+        "cooldown": {
+          "cooldownType": "turn_based",
+          "cooldownValue": 0
+        },
+        "rawResourceTypes": [
+          "mana"
+        ],
+        "rawResourceValues": {
+          "mana": 4,
+          "classResource": {
+            "type": "musical_notes",
+            "cost": 3,
+            "resolvesCadence": true
+          }
+        },
+        "rawClassResource": {
+          "type": "musical_notes",
+          "cost": 3,
+          "resolvesCadence": true
+        },
+        "spheres": null,
+        "musicalCombo": {
+          "type": "resolver",
+          "requires": [
+            {
+              "note": "I",
+              "count": 1
+            },
+            {
+              "note": "V",
+              "count": 1
+            }
+          ],
+          "cadenceName": "Resolving Strike"
+        },
+        "devotionRequired": null,
+        "devotionCost": null,
+        "devotionGain": null
+      },
+      "existingExecutionProfile": {
+        "matchedAcceptedProfile": null,
+        "sourceObservedProfile": null,
+        "capabilityStatus": "none",
+        "productionReady": false,
+        "checkerClassification": "ambiguous_or_conflicting"
+      },
+      "sourceTargetRoute": {
+        "sourceActorKind": "pc (bound primary character)",
+        "targetingType": "single",
+        "rangeType": "ranged",
+        "rangeDistance": 40,
+        "targetRestrictions": [],
+        "maxTargets": null,
+        "extraTargetingKeys": [],
+        "routeSupportedInProfile": true,
+        "allowedRoutes": [
+          "pc -> placed token (matching targetRestrictions)"
+        ]
+      },
+      "requiredClassResourceOperations": {
+        "domain": "musicalNotes",
+        "domainSupportedInP9": true,
+        "clientPlannerHandled": true,
+        "paymentStatus": "supported_domain_schema_extra_keys",
+        "plannedCosts": [
+          "I",
+          "V"
+        ],
+        "plannedGains": [],
+        "plannedRequired": 0,
+        "p9FundedClassPayment": null,
+        "p9PaymentRejectionReason": "Class resource fields {\"type\":\"musical_notes\",\"cost\":3,\"resolvesCadence\":true} need a mechanic P9 does not execute (manual)."
+      },
+      "secondaryEffectsAndPrerequisites": {
+        "secondaryEffectBlocks": [],
+        "incompatibilities": [
+          {
+            "code": "CLASS_RESOURCE_SCHEMA_EXTRA_KEYS",
+            "message": "Class resource domain \"musicalNotes\" is supported and planned ([\"I\",\"V\"]), but resourceCost.classResource contains extra schema keys (resolvesCadence) rejected by spellConsequence.encodingConflict.",
+            "field": "resourceCost.resourceValues.classResource",
+            "capabilityGroup": "schema-class-resource-cadence-or-metadata-keys",
+            "exclusionCategory": "incompatible_authored_schema"
+          }
+        ],
+        "conflicts": [
+          "Generic classResource.cost (3) disagrees with explicit musicalCombo.requires note count (2: I, V); Class HQ confirmation required."
+        ],
+        "runtimePrerequisites": [
+          "Primary PC actor bound to the player in an active multiplayer room (binding.actorId).",
+          "Ability known/equipped by the PC and matching canonical CLASS_DATA_MAP definitionHash.",
+          "Placed source and target tokens on the active map with matching boardId and roomRevision.",
+          "Owner roll and resource payment approval (spell_execute_approve) with affordable runtime AP, Mana, and class resource state.",
+          "GM final confirmation (spell_execute_confirm) before any room HP/resource mutation occurs.",
+          "Cross-Track Finding I2 note: spellConsequence.js currently reads combatAttributes(character) from raw character.stats rather than effective attributes (baseStats + equipment/buffs)."
+        ]
+      },
+      "readinessAssessment": {
+        "group": "B",
+        "groupLabel": "B. Potential schema-only adaptation, pending Class HQ confirmation",
+        "primaryExclusionReason": "conflicting_data",
+        "exclusionCategoriesPresent": [
+          "conflicting_data",
+          "incompatible_authored_schema",
+          "runtime_prerequisites_offline_unknown"
+        ],
+        "exactReason": "Existing engine capability (p9-spell:v1) already supports its shape (supportShape: true), formula (1d8 + spirit: true), and pitch-specific note deduction via classResourceBanks.getBankSpellResourcePlan (musicalCombo.requires -> costs: [\"I\", \"V\"]). Excluded ONLY because resourceCost.resourceValues.classResource is authored as { type: \"musical_notes\", cost: 3, resolvesCadence: true }, where extra key \"resolvesCadence\" is rejected by spellConsequence.encodingConflict and summary cost: 3 disagrees with the 2 required notes (I + V).",
+        "ownerToAct": "Class HQ (confirm cadence cost) + Combat (optional encodingConflict allowance)",
+        "requiredOwnerAction": "Class HQ: confirm that Resolving Strike has no secondary effect beyond 1d8 + spirit storm damage and that its note price is 1× Pitch I + 1× Pitch V (cost: 2), removing or normalizing { cost: 3, resolvesCadence: true }. Combat: optionally allow resolvesCadence: true in encodingConflict when musicalCombo.requires is present."
+      }
+    },
+    {
+      "id": "minstrel_harmony_strike",
+      "name": "Harmony Strike",
+      "level": 4,
+      "className": "Minstrel",
+      "classRole": "confirmed-first-campaign",
+      "readinessGroup": "B",
+      "readinessGroupLabel": "B. Potential schema-only adaptation, pending Class HQ confirmation",
+      "source": {
+        "file": "vtt-react/src/data/classes/minstrelData.js",
+        "line": 4378,
+        "collectionPath": "Minstrel.spells[36]",
+        "recordSha256": "p9-spell:v1/c200adbeb6c90a0a5a1a325f7ac92cd548ec7cce0a9702cee3290db60bd6ad1c"
+      },
+      "authoredEffectAndFormula": {
+        "spellType": "ACTION",
+        "castTimeType": "IMMEDIATE",
+        "effectTypes": [
+          "damage"
+        ],
+        "resolution": "DICE",
+        "formula": "5d6 + spirit",
+        "formulaSupportedByP9": true,
+        "formulaReadingOrReason": "5d6 + spirit → 5d6 + 12 (SPI score)",
+        "damageTypes": [
+          "storm"
+        ],
+        "healingType": null,
+        "durationConfig": null
+      },
+      "fullPrice": {
+        "actionPoints": 1,
+        "mana": 16,
+        "cooldown": {
+          "cooldownType": "turn_based",
+          "cooldownValue": 2
+        },
+        "rawResourceTypes": [
+          "mana"
+        ],
+        "rawResourceValues": {
+          "mana": 16,
+          "classResource": {
+            "type": "musical_notes",
+            "cost": 3,
+            "resolvesCadence": true
+          }
+        },
+        "rawClassResource": {
+          "type": "musical_notes",
+          "cost": 3,
+          "resolvesCadence": true
+        },
+        "spheres": null,
+        "musicalCombo": {
+          "type": "resolver",
+          "requires": [
+            {
+              "note": "II",
+              "count": 1
+            },
+            {
+              "note": "IV",
+              "count": 1
+            }
+          ]
+        },
+        "devotionRequired": null,
+        "devotionCost": null,
+        "devotionGain": null
+      },
+      "existingExecutionProfile": {
+        "matchedAcceptedProfile": null,
+        "sourceObservedProfile": null,
+        "capabilityStatus": "none",
+        "productionReady": false,
+        "checkerClassification": "ambiguous_or_conflicting"
+      },
+      "sourceTargetRoute": {
+        "sourceActorKind": "pc (bound primary character)",
+        "targetingType": "single",
+        "rangeType": "ranged",
+        "rangeDistance": 40,
+        "targetRestrictions": [
+          "enemy"
+        ],
+        "maxTargets": 1,
+        "extraTargetingKeys": [
+          "requiresLineOfSight"
+        ],
+        "routeSupportedInProfile": true,
+        "allowedRoutes": [
+          "pc -> placed token (matching targetRestrictions)"
+        ]
+      },
+      "requiredClassResourceOperations": {
+        "domain": "musicalNotes",
+        "domainSupportedInP9": true,
+        "clientPlannerHandled": true,
+        "paymentStatus": "supported_domain_schema_extra_keys",
+        "plannedCosts": [
+          "II",
+          "IV"
+        ],
+        "plannedGains": [],
+        "plannedRequired": 0,
+        "p9FundedClassPayment": null,
+        "p9PaymentRejectionReason": "Class resource fields {\"type\":\"musical_notes\",\"cost\":3,\"resolvesCadence\":true} need a mechanic P9 does not execute (manual)."
+      },
+      "secondaryEffectsAndPrerequisites": {
+        "secondaryEffectBlocks": [],
+        "incompatibilities": [
+          {
+            "code": "SINGLE_TARGET_SCHEMA_EXTRA_KEYS",
+            "message": "targetingConfig includes non-AoE metadata keys (requiresLineOfSight) rejected by P9 supportShape's key whitelist.",
+            "field": "targetingConfig",
+            "capabilityGroup": "schema-single-target-metadata-keys",
+            "exclusionCategory": "incompatible_authored_schema"
+          },
+          {
+            "code": "CLASS_RESOURCE_SCHEMA_EXTRA_KEYS",
+            "message": "Class resource domain \"musicalNotes\" is supported and planned ([\"II\",\"IV\"]), but resourceCost.classResource contains extra schema keys (resolvesCadence) rejected by spellConsequence.encodingConflict.",
+            "field": "resourceCost.resourceValues.classResource",
+            "capabilityGroup": "schema-class-resource-cadence-or-metadata-keys",
+            "exclusionCategory": "incompatible_authored_schema"
+          }
+        ],
+        "conflicts": [
+          "Generic classResource.cost (3) disagrees with explicit musicalCombo.requires note count (2: II, IV); Class HQ confirmation required.",
+          "Authored role conflict: tags/description declare \"note generation\", but musicalCombo is authored as type \"resolver\" spending [{\"note\":\"II\",\"count\":1},{\"note\":\"IV\",\"count\":1}] with no note generation spec."
+        ],
+        "runtimePrerequisites": [
+          "Primary PC actor bound to the player in an active multiplayer room (binding.actorId).",
+          "Ability known/equipped by the PC and matching canonical CLASS_DATA_MAP definitionHash.",
+          "Placed source and target tokens on the active map with matching boardId and roomRevision.",
+          "Owner roll and resource payment approval (spell_execute_approve) with affordable runtime AP, Mana, and class resource state.",
+          "GM final confirmation (spell_execute_confirm) before any room HP/resource mutation occurs.",
+          "Cross-Track Finding I2 note: spellConsequence.js currently reads combatAttributes(character) from raw character.stats rather than effective attributes (baseStats + equipment/buffs)."
+        ]
+      },
+      "readinessAssessment": {
+        "group": "B",
+        "groupLabel": "B. Potential schema-only adaptation, pending Class HQ confirmation",
+        "primaryExclusionReason": "conflicting_data",
+        "exclusionCategoriesPresent": [
+          "conflicting_data",
+          "incompatible_authored_schema",
+          "runtime_prerequisites_offline_unknown"
+        ],
+        "exactReason": "Authored as immediate single-target storm damage (5d6 + spirit, 1 AP, 16 Mana, 2-turn cooldown) with no buff/debuff/control/save config. Excluded by two schema flags—targetingConfig.requiresLineOfSight: true and resourceValues.classResource.resolvesCadence: true—plus an authored role question: musicalCombo defines type: \"resolver\" requiring II×1 + IV×1 ( while classResource.cost says 3), whereas description and tags (\"note generation\") describe shaking loose musical notes.",
+        "ownerToAct": "Class HQ (confirm resolver vs generator role & schema) + Combat",
+        "requiredOwnerAction": "Class HQ: confirm whether Harmony Strike is a II+IV cadence resolver or a note generator, and confirm removing/normalizing requiresLineOfSight: true (already enforced by GM adjudication) and resolvesCadence: true."
+      }
+    },
+    {
+      "id": "arc_frost_touch",
+      "name": "Rime-Iron Clasp",
+      "level": 1,
+      "className": "Arcanoneer",
+      "classRole": "confirmed-first-campaign",
+      "readinessGroup": "C",
+      "readinessGroupLabel": "C. Genuine shared-engine extension",
+      "source": {
+        "file": "vtt-react/src/data/classes/arcanoneerData.js",
+        "line": 2205,
+        "collectionPath": "Arcanoneer.spells[3]",
+        "recordSha256": "p9-spell:v1/ff1b91e10d21655d5dcbf16660b66a81330c8d1fc3f8570d9b62856b1d7e1649"
+      },
+      "authoredEffectAndFormula": {
+        "spellType": "ACTION",
+        "castTimeType": "IMMEDIATE",
+        "effectTypes": [
+          "damage",
+          "debuff"
+        ],
+        "resolution": "DICE",
+        "formula": "1d8 + intelligence/4",
+        "formulaSupportedByP9": true,
+        "formulaReadingOrReason": "1d8 + intelligence/4 → 1d8 + 3 (INT 12 ÷ 4, rounded down)",
+        "damageTypes": [
+          "rime"
+        ],
+        "healingType": null,
+        "durationConfig": null
+      },
+      "fullPrice": {
+        "actionPoints": 1,
+        "mana": 4,
+        "cooldown": {
+          "cooldownType": "turn_based",
+          "cooldownValue": 0
+        },
+        "rawResourceTypes": [
+          "mana",
+          "ice_sphere"
+        ],
+        "rawResourceValues": {
+          "mana": 4,
+          "ice_sphere": 2,
+          "classResource": {
+            "type": "elemental_spheres",
+            "cost": 2
+          }
+        },
+        "rawClassResource": {
+          "type": "elemental_spheres",
+          "cost": 2
+        },
+        "spheres": [
+          "rime",
+          "rime"
+        ],
+        "musicalCombo": null,
+        "devotionRequired": null,
+        "devotionCost": null,
+        "devotionGain": null
+      },
+      "existingExecutionProfile": {
+        "matchedAcceptedProfile": null,
+        "sourceObservedProfile": null,
+        "capabilityStatus": "none",
+        "productionReady": false,
+        "checkerClassification": "unsupported_capability"
+      },
+      "sourceTargetRoute": {
+        "sourceActorKind": "pc (bound primary character)",
+        "targetingType": "single",
+        "rangeType": "touch",
+        "rangeDistance": null,
+        "targetRestrictions": [],
+        "maxTargets": null,
+        "extraTargetingKeys": [],
+        "routeSupportedInProfile": true,
+        "allowedRoutes": [
+          "pc -> placed token (matching targetRestrictions)"
+        ]
+      },
+      "requiredClassResourceOperations": {
+        "domain": "elementalSpheres",
+        "domainSupportedInP9": true,
+        "clientPlannerHandled": true,
+        "paymentStatus": "supported_p9_payment",
+        "plannedCosts": [
+          "rime",
+          "rime"
+        ],
+        "plannedGains": [],
+        "plannedRequired": 0,
+        "p9FundedClassPayment": {
+          "domain": "elementalSpheres",
+          "before": {
+            "type": "elementalSpheres",
+            "spheres": [
+              "rime",
+              "rime"
+            ]
+          },
+          "after": {
+            "type": "elementalSpheres",
+            "spheres": []
+          },
+          "price": {
+            "costs": [
+              "rime",
+              "rime"
+            ],
+            "gains": []
+          }
+        },
+        "p9PaymentRejectionReason": null
+      },
+      "secondaryEffectsAndPrerequisites": {
+        "secondaryEffectBlocks": [
+          {
+            "field": "debuffConfig",
+            "summary": "{\"debuffType\":\"statusEffect\",\"effects\":[{\"id\":\"slowed\",\"name\":\"Frozen Limbs\",\"description\":\"Movement speed reduced by 10 feet for 1 round as muscles stiffen from the cold.\",\"statusType\":\"slow\",\"level\":\"minor\",\"statPenalty\":{\"stat\":\"movement"
+          }
+        ],
+        "incompatibilities": [
+          {
+            "code": "EFFECT_TYPE_DEBUFF",
+            "message": "effectTypes includes \"debuff\", requiring stat/status buff or debuff execution.",
+            "field": "effectTypes",
+            "capabilityGroup": "stat-buff-debuff-and-status-effects",
+            "exclusionCategory": "missing_engine_capability"
+          },
+          {
+            "code": "DEBUFF_CONFIG_PRESENT",
+            "message": "Record includes debuffConfig (status debuffs / stat penalties / self-recoil).",
+            "field": "debuffConfig",
+            "capabilityGroup": "stat-buff-debuff-and-status-effects",
+            "exclusionCategory": "missing_engine_capability"
+          }
+        ],
+        "conflicts": [],
+        "runtimePrerequisites": [
+          "Primary PC actor bound to the player in an active multiplayer room (binding.actorId).",
+          "Ability known/equipped by the PC and matching canonical CLASS_DATA_MAP definitionHash.",
+          "Placed source and target tokens on the active map with matching boardId and roomRevision.",
+          "Owner roll and resource payment approval (spell_execute_approve) with affordable runtime AP, Mana, and class resource state.",
+          "GM final confirmation (spell_execute_confirm) before any room HP/resource mutation occurs.",
+          "Cross-Track Finding I2 note: spellConsequence.js currently reads combatAttributes(character) from raw character.stats rather than effective attributes (baseStats + equipment/buffs)."
+        ]
+      },
+      "readinessAssessment": {
+        "group": "C",
+        "groupLabel": "C. Genuine shared-engine extension",
+        "primaryExclusionReason": "missing_engine_capability",
+        "exclusionCategoriesPresent": [
+          "missing_engine_capability",
+          "runtime_prerequisites_offline_unknown"
+        ],
+        "exactReason": "Immediate single-target rime damage (1d8 + intelligence/4) and 2× Rime Sphere payment ([\"rime\", \"rime\"]) are supported by P9, but the record also requires debuffConfig (\"Frozen Limbs\": -10 ft movement speed for 1 round, Constitution DC 12 save negates) plus prose next-physical-attack +1d4 vulnerability. Cannot be executed as damage-only without stripping authored debuff.",
+        "ownerToAct": "Combat (Opus / Sol) + Class HQ",
+        "requiredOwnerAction": "Combat: requires an accepted compound damage + movement-debuff execution profile on class spells with Elemental Sphere payment and GM save adjudication (Note: Opus A10 authored-effect:v1 is still unaccepted source work and currently only supports Wizard definitions without class-resource payment)."
+      }
+    },
+    {
+      "id": "arc_fire_bolt",
+      "name": "Flame Burst Shell",
+      "level": 3,
+      "className": "Arcanoneer",
+      "classRole": "confirmed-first-campaign",
+      "readinessGroup": "C",
+      "readinessGroupLabel": "C. Genuine shared-engine extension",
+      "source": {
+        "file": "vtt-react/src/data/classes/arcanoneerData.js",
+        "line": 2750,
+        "collectionPath": "Arcanoneer.spells[10]",
+        "recordSha256": "p9-spell:v1/066303d0c21c6e22b3482983dcfe6df98a120dcf914b1386f19e8530f6c2f0df"
+      },
+      "authoredEffectAndFormula": {
+        "spellType": "ACTION",
+        "castTimeType": "IMMEDIATE",
+        "effectTypes": [
+          "damage"
+        ],
+        "resolution": "DICE",
+        "formula": "2d8 + intelligence/3",
+        "formulaSupportedByP9": true,
+        "formulaReadingOrReason": "2d8 + intelligence/3 → 2d8 + 4 (INT 12 ÷ 3, rounded down)",
+        "damageTypes": [
+          "ember"
+        ],
+        "healingType": null,
+        "durationConfig": null
+      },
+      "fullPrice": {
+        "actionPoints": 1,
+        "mana": 10,
+        "cooldown": {
+          "cooldownType": "turn_based",
+          "cooldownValue": 0
+        },
+        "rawResourceTypes": [
+          "mana",
+          "fire_sphere",
+          "fire_sphere"
+        ],
+        "rawResourceValues": {
+          "mana": 10,
+          "fire_sphere": 2,
+          "classResource": {
+            "type": "elemental_spheres",
+            "cost": 2
+          }
+        },
+        "rawClassResource": {
+          "type": "elemental_spheres",
+          "cost": 2
+        },
+        "spheres": [
+          "ember",
+          "ember"
+        ],
+        "musicalCombo": null,
+        "devotionRequired": null,
+        "devotionCost": null,
+        "devotionGain": null
+      },
+      "existingExecutionProfile": {
+        "matchedAcceptedProfile": null,
+        "sourceObservedProfile": null,
+        "capabilityStatus": "none",
+        "productionReady": false,
+        "checkerClassification": "unsupported_capability"
+      },
+      "sourceTargetRoute": {
+        "sourceActorKind": "pc (bound primary character)",
+        "targetingType": "single",
+        "rangeType": "ranged",
+        "rangeDistance": 90,
+        "targetRestrictions": [],
+        "maxTargets": null,
+        "extraTargetingKeys": [],
+        "routeSupportedInProfile": true,
+        "allowedRoutes": [
+          "pc -> placed token (matching targetRestrictions)"
+        ]
+      },
+      "requiredClassResourceOperations": {
+        "domain": "elementalSpheres",
+        "domainSupportedInP9": true,
+        "clientPlannerHandled": true,
+        "paymentStatus": "supported_p9_payment",
+        "plannedCosts": [
+          "ember",
+          "ember"
+        ],
+        "plannedGains": [],
+        "plannedRequired": 0,
+        "p9FundedClassPayment": {
+          "domain": "elementalSpheres",
+          "before": {
+            "type": "elementalSpheres",
+            "spheres": [
+              "ember",
+              "ember"
+            ]
+          },
+          "after": {
+            "type": "elementalSpheres",
+            "spheres": []
+          },
+          "price": {
+            "costs": [
+              "ember",
+              "ember"
+            ],
+            "gains": []
+          }
+        },
+        "p9PaymentRejectionReason": null
+      },
+      "secondaryEffectsAndPrerequisites": {
+        "secondaryEffectBlocks": [
+          {
+            "field": "propagation",
+            "summary": "{\"method\":\"explosion\",\"behavior\":\"aoe\",\"parameters\":{\"secondaryRadius\":10}}"
+          }
+        ],
+        "incompatibilities": [
+          {
+            "code": "PROPAGATION_OR_AREA_SPEC",
+            "message": "Record defines propagation routing outside single-target execution.",
+            "field": "propagation",
+            "capabilityGroup": "area-chain-and-multi-target-routing",
+            "exclusionCategory": "missing_engine_capability"
+          }
+        ],
+        "conflicts": [],
+        "runtimePrerequisites": [
+          "Primary PC actor bound to the player in an active multiplayer room (binding.actorId).",
+          "Ability known/equipped by the PC and matching canonical CLASS_DATA_MAP definitionHash.",
+          "Placed source and target tokens on the active map with matching boardId and roomRevision.",
+          "Owner roll and resource payment approval (spell_execute_approve) with affordable runtime AP, Mana, and class resource state.",
+          "GM final confirmation (spell_execute_confirm) before any room HP/resource mutation occurs.",
+          "Cross-Track Finding I2 note: spellConsequence.js currently reads combatAttributes(character) from raw character.stats rather than effective attributes (baseStats + equipment/buffs)."
+        ]
+      },
+      "readinessAssessment": {
+        "group": "C",
+        "groupLabel": "C. Genuine shared-engine extension",
+        "primaryExclusionReason": "missing_engine_capability",
+        "exclusionCategoriesPresent": [
+          "missing_engine_capability",
+          "runtime_prerequisites_offline_unknown"
+        ],
+        "exactReason": "Primary single-target ember damage (2d8 + intelligence/3, 1 AP, 10 Mana, 90 ft) and 2× Ember Sphere payment ([\"ember\", \"ember\"]) pass P9 formula and payment checks, but top-level propagation ({ method: \"explosion\", behavior: \"aoe\", parameters: { secondaryRadius: 10 } }) requires secondary AoE explosion / multi-target consequence resolution.",
+        "ownerToAct": "Combat",
+        "requiredOwnerAction": "Combat: requires shared multi-target / secondary AoE propagation consequence planning and GM per-target confirmation."
+      }
+    },
+    {
+      "id": "martyr_penitent_rebuke",
+      "name": "Penitent Rebuke",
+      "level": 3,
+      "className": "Martyr",
+      "classRole": "provisional-reference-third-p9-class",
+      "readinessGroup": "C",
+      "readinessGroupLabel": "C. Genuine shared-engine extension",
+      "source": {
+        "file": "vtt-react/src/data/classes/martyrData.js",
+        "line": 3269,
+        "collectionPath": "Martyr.spells[38]",
+        "recordSha256": "p9-spell:v1/b8f5bb0e4600499a836c6ca4243335d44f636f9c370f19b4fe3172c8568526f9"
+      },
+      "authoredEffectAndFormula": {
+        "spellType": "ACTION",
+        "castTimeType": "IMMEDIATE",
+        "effectTypes": [
+          "damage"
+        ],
+        "resolution": "DICE",
+        "formula": "3d8",
+        "formulaSupportedByP9": true,
+        "formulaReadingOrReason": "3d8 → 3d8",
+        "damageTypes": [
+          "ember"
+        ],
+        "healingType": null,
+        "durationConfig": null
+      },
+      "fullPrice": {
+        "actionPoints": 1,
+        "mana": 8,
+        "cooldown": {
+          "cooldownType": "turn_based",
+          "cooldownValue": 2
+        },
+        "rawResourceTypes": [
+          "mana"
+        ],
+        "rawResourceValues": {
+          "mana": 8
+        },
+        "rawClassResource": {
+          "type": "devotion",
+          "cost": 1
+        },
+        "spheres": null,
+        "musicalCombo": null,
+        "devotionRequired": null,
+        "devotionCost": null,
+        "devotionGain": null
+      },
+      "existingExecutionProfile": {
+        "matchedAcceptedProfile": null,
+        "sourceObservedProfile": null,
+        "capabilityStatus": "none",
+        "productionReady": false,
+        "checkerClassification": "unsupported_capability"
+      },
+      "sourceTargetRoute": {
+        "sourceActorKind": "pc (bound primary character)",
+        "targetingType": "single",
+        "rangeType": "ranged",
+        "rangeDistance": 25,
+        "targetRestrictions": [
+          "enemy"
+        ],
+        "maxTargets": 1,
+        "extraTargetingKeys": [],
+        "routeSupportedInProfile": true,
+        "allowedRoutes": [
+          "pc -> placed token (matching targetRestrictions)"
+        ]
+      },
+      "requiredClassResourceOperations": {
+        "domain": "devotionGauge",
+        "domainSupportedInP9": true,
+        "clientPlannerHandled": true,
+        "paymentStatus": "supported_p9_payment",
+        "plannedCosts": 1,
+        "plannedGains": 0,
+        "plannedRequired": 0,
+        "p9FundedClassPayment": {
+          "domain": "devotionGauge",
+          "before": {
+            "type": "devotionGauge",
+            "current": 6,
+            "max": 6,
+            "damage": 100,
+            "earnedLevels": 6,
+            "spentLevels": 0,
+            "bonusLevels": 0
+          },
+          "after": {
+            "type": "devotionGauge",
+            "current": 5,
+            "max": 6,
+            "damage": 100,
+            "earnedLevels": 6,
+            "spentLevels": 1,
+            "bonusLevels": 0
+          },
+          "price": {
+            "cost": 1,
+            "gain": 0,
+            "required": 0
+          }
+        },
+        "p9PaymentRejectionReason": null
+      },
+      "secondaryEffectsAndPrerequisites": {
+        "secondaryEffectBlocks": [
+          {
+            "field": "damageConfig.savingThrow",
+            "summary": "{\"ability\":\"agility\",\"difficultyClass\":15,\"saveOutcome\":\"half_damage\"}"
+          }
+        ],
+        "incompatibilities": [
+          {
+            "code": "DAMAGE_SAVING_THROW",
+            "message": "damageConfig includes savingThrow / savingThrowConfig mitigation.",
+            "field": "damageConfig.savingThrow",
+            "capabilityGroup": "saving-throw-and-partial-mitigation",
+            "exclusionCategory": "missing_engine_capability"
+          }
+        ],
+        "conflicts": [],
+        "runtimePrerequisites": [
+          "Primary PC actor bound to the player in an active multiplayer room (binding.actorId).",
+          "Ability known/equipped by the PC and matching canonical CLASS_DATA_MAP definitionHash.",
+          "Placed source and target tokens on the active map with matching boardId and roomRevision.",
+          "Owner roll and resource payment approval (spell_execute_approve) with affordable runtime AP, Mana, and class resource state.",
+          "GM final confirmation (spell_execute_confirm) before any room HP/resource mutation occurs.",
+          "Cross-Track Finding I2 note: spellConsequence.js currently reads combatAttributes(character) from raw character.stats rather than effective attributes (baseStats + equipment/buffs)."
+        ]
+      },
+      "readinessAssessment": {
+        "group": "C",
+        "groupLabel": "C. Genuine shared-engine extension",
+        "primaryExclusionReason": "missing_engine_capability",
+        "exclusionCategoriesPresent": [
+          "missing_engine_capability",
+          "runtime_prerequisites_offline_unknown"
+        ],
+        "exactReason": "Single-target immediate ember damage (3d8), 1 AP, 8 Mana, and 1 Devotion level spend (devotionGauge cost: 1) all pass P9 formula, targeting, cooldown, and payment validators. Excluded ONLY by damageConfig.savingThrow ({ ability: \"agility\", difficultyClass: 15, saveOutcome: \"half_damage\" }) and prose conditional bonus (+2d8 if Martyr absorbed ally damage this round).",
+        "ownerToAct": "Combat + Class HQ",
+        "requiredOwnerAction": "Combat: extend immediate damage consequence contract to surface structured savingThrow metadata (DC, ability, half_damage outcome) in the GM adjudication panel. Class HQ: confirm whether the +2d8 absorbed-damage bonus stays a manual GM finalAmount adjustment or requires a tracked round state."
+      }
+    },
+    {
+      "id": "martyr_penance_of_pain",
+      "name": "Penance of Pain",
+      "level": 1,
+      "className": "Martyr",
+      "classRole": "provisional-reference-third-p9-class",
+      "readinessGroup": "C",
+      "readinessGroupLabel": "C. Genuine shared-engine extension",
+      "source": {
+        "file": "vtt-react/src/data/classes/martyrData.js",
+        "line": 1041,
+        "collectionPath": "Martyr.spells[2]",
+        "recordSha256": "p9-spell:v1/0283a0e0ee30f93e9dd2affcea1c65b15064dc3f39e408911c588ee57986cd7b"
+      },
+      "authoredEffectAndFormula": {
+        "spellType": "ACTION",
+        "castTimeType": "IMMEDIATE",
+        "effectTypes": [
+          "healing"
+        ],
+        "resolution": "DICE",
+        "formula": "(maxHealth - currentHealth) / 4",
+        "formulaSupportedByP9": false,
+        "formulaReadingOrReason": "Term \"(maxhealth\" is outside the approved vocabulary (no multiplication, parentheses or percentages).",
+        "damageTypes": null,
+        "healingType": "direct",
+        "durationConfig": null
+      },
+      "fullPrice": {
+        "actionPoints": 1,
+        "mana": 6,
+        "cooldown": {
+          "cooldownType": "turn_based",
+          "cooldownValue": 0
+        },
+        "rawResourceTypes": [
+          "mana"
+        ],
+        "rawResourceValues": {
+          "mana": 6,
+          "classResource": {
+            "type": "devotion",
+            "cost": 1,
+            "gain": 1
+          }
+        },
+        "rawClassResource": {
+          "type": "devotion",
+          "cost": 1,
+          "gain": 1
+        },
+        "spheres": null,
+        "musicalCombo": null,
+        "devotionRequired": 1,
+        "devotionCost": null,
+        "devotionGain": 1
+      },
+      "existingExecutionProfile": {
+        "matchedAcceptedProfile": null,
+        "sourceObservedProfile": null,
+        "capabilityStatus": "none",
+        "productionReady": false,
+        "checkerClassification": "unsupported_capability"
+      },
+      "sourceTargetRoute": {
+        "sourceActorKind": "pc (bound primary character)",
+        "targetingType": "single",
+        "rangeType": "ranged",
+        "rangeDistance": 30,
+        "targetRestrictions": [
+          "ally"
+        ],
+        "maxTargets": null,
+        "extraTargetingKeys": [],
+        "routeSupportedInProfile": true,
+        "allowedRoutes": [
+          "pc -> placed token (matching targetRestrictions)"
+        ]
+      },
+      "requiredClassResourceOperations": {
+        "domain": "devotionGauge",
+        "domainSupportedInP9": true,
+        "clientPlannerHandled": true,
+        "paymentStatus": "supported_p9_payment",
+        "plannedCosts": 1,
+        "plannedGains": 1,
+        "plannedRequired": 1,
+        "p9FundedClassPayment": {
+          "domain": "devotionGauge",
+          "before": {
+            "type": "devotionGauge",
+            "current": 6,
+            "max": 6,
+            "damage": 100,
+            "earnedLevels": 6,
+            "spentLevels": 0,
+            "bonusLevels": 0
+          },
+          "after": {
+            "type": "devotionGauge",
+            "current": 6,
+            "max": 6,
+            "damage": 100,
+            "earnedLevels": 6,
+            "spentLevels": 0,
+            "bonusLevels": 0
+          },
+          "price": {
+            "cost": 1,
+            "gain": 1,
+            "required": 1
+          }
+        },
+        "p9PaymentRejectionReason": null
+      },
+      "secondaryEffectsAndPrerequisites": {
+        "secondaryEffectBlocks": [],
+        "incompatibilities": [
+          {
+            "code": "UNSUPPORTED_FORMULA_SYNTAX",
+            "message": "Formula \"(maxHealth - currentHealth) / 4\" rejected by spellConsequence.readFormula: Term \"(maxhealth\" is outside the approved vocabulary (no multiplication, parentheses or percentages).",
+            "field": "healingConfig.formula",
+            "capabilityGroup": "formula-and-scaling-vocabulary",
+            "exclusionCategory": "missing_engine_capability"
+          }
+        ],
+        "conflicts": [],
+        "runtimePrerequisites": [
+          "Primary PC actor bound to the player in an active multiplayer room (binding.actorId).",
+          "Ability known/equipped by the PC and matching canonical CLASS_DATA_MAP definitionHash.",
+          "Placed source and target tokens on the active map with matching boardId and roomRevision.",
+          "Owner roll and resource payment approval (spell_execute_approve) with affordable runtime AP, Mana, and class resource state.",
+          "GM final confirmation (spell_execute_confirm) before any room HP/resource mutation occurs.",
+          "Cross-Track Finding I2 note: spellConsequence.js currently reads combatAttributes(character) from raw character.stats rather than effective attributes (baseStats + equipment/buffs)."
+        ]
+      },
+      "readinessAssessment": {
+        "group": "C",
+        "groupLabel": "C. Genuine shared-engine extension",
+        "primaryExclusionReason": "missing_engine_capability",
+        "exclusionCategoriesPresent": [
+          "missing_engine_capability",
+          "runtime_prerequisites_offline_unknown"
+        ],
+        "exactReason": "Passes P9 supportShape (immediate single-target direct ally healing, 1 AP, 6 Mana) and planClassPayment (devotionGauge: requires 1, cost 1, gain 1). Excluded ONLY because healingConfig.formula is \"(maxHealth - currentHealth) / 4\" under resolution: \"DICE\", which uses parentheses, caster missing-HP state variables (maxHealth, currentHealth), and rolls zero dice.",
+        "ownerToAct": "Class HQ + Combat",
+        "requiredOwnerAction": "Class HQ: decide whether Penance of Pain should use a dice+spirit formula or deterministic caster missing-HP scaling. Combat: if missing-HP formulas are retained, add caster-health state terms and deterministic/die-less formula evaluation."
+      }
+    },
+    {
+      "id": "arc_arcane_missile",
+      "name": "Storm-Shard Barrage",
+      "level": 1,
+      "className": "Arcanoneer",
+      "classRole": "confirmed-first-campaign",
+      "readinessGroup": "D",
+      "readinessGroupLabel": "D. Authored semantic conflict requiring a decision",
+      "source": {
+        "file": "vtt-react/src/data/classes/arcanoneerData.js",
+        "line": 2350,
+        "collectionPath": "Arcanoneer.spells[5]",
+        "recordSha256": "p9-spell:v1/8d06e4420aabacf00e0b39e687bc4de322c44de5b572b3eccf6a4e17dd7e4c80"
+      },
+      "authoredEffectAndFormula": {
+        "spellType": "ACTION",
+        "castTimeType": "IMMEDIATE",
+        "effectTypes": [
+          "damage"
+        ],
+        "resolution": "DICE",
+        "formula": "1d8 + intelligence/4",
+        "formulaSupportedByP9": true,
+        "formulaReadingOrReason": "1d8 + intelligence/4 → 1d8 + 3 (INT 12 ÷ 4, rounded down)",
+        "damageTypes": [
+          "storm"
+        ],
+        "healingType": null,
+        "durationConfig": null
+      },
+      "fullPrice": {
+        "actionPoints": 1,
+        "mana": 4,
+        "cooldown": {
+          "cooldownType": "turn_based",
+          "cooldownValue": 0
+        },
+        "rawResourceTypes": [
+          "mana",
+          "arcane_sphere",
+          "holy_sphere"
+        ],
+        "rawResourceValues": {
+          "mana": 4,
+          "arcane_sphere": 1,
+          "holy_sphere": 1,
+          "classResource": {
+            "type": "elemental_spheres",
+            "cost": 2
+          }
+        },
+        "rawClassResource": {
+          "type": "elemental_spheres",
+          "cost": 2
+        },
+        "spheres": [
+          "Arcane",
+          "ember"
+        ],
+        "musicalCombo": null,
+        "devotionRequired": null,
+        "devotionCost": null,
+        "devotionGain": null
+      },
+      "existingExecutionProfile": {
+        "matchedAcceptedProfile": null,
+        "sourceObservedProfile": null,
+        "capabilityStatus": "none",
+        "productionReady": false,
+        "checkerClassification": "ambiguous_or_conflicting"
+      },
+      "sourceTargetRoute": {
+        "sourceActorKind": "pc (bound primary character)",
+        "targetingType": "single",
+        "rangeType": "ranged",
+        "rangeDistance": 60,
+        "targetRestrictions": [],
+        "maxTargets": null,
+        "extraTargetingKeys": [],
+        "routeSupportedInProfile": true,
+        "allowedRoutes": [
+          "pc -> placed token (matching targetRestrictions)"
+        ]
+      },
+      "requiredClassResourceOperations": {
+        "domain": "elementalSpheres",
+        "domainSupportedInP9": true,
+        "clientPlannerHandled": true,
+        "paymentStatus": "conflicting_resource_encoding",
+        "plannedCosts": [
+          "arcane",
+          "ember"
+        ],
+        "plannedGains": [],
+        "plannedRequired": 0,
+        "p9FundedClassPayment": null,
+        "p9PaymentRejectionReason": "Sphere recipe encodings disagree (explicit list vs typed sphere counts); creator resolution required."
+      },
+      "secondaryEffectsAndPrerequisites": {
+        "secondaryEffectBlocks": [
+          {
+            "field": "damageConfig.autoHit",
+            "summary": "autoHit: true"
+          }
+        ],
+        "incompatibilities": [
+          {
+            "code": "DAMAGE_AUTOHIT_FLAG",
+            "message": "damageConfig includes autoHit flag (rejected by P9 supportShape damageConfig key whitelist).",
+            "field": "damageConfig.autoHit",
+            "capabilityGroup": "schema-damage-or-healing-extra-keys",
+            "exclusionCategory": "incompatible_authored_schema"
+          }
+        ],
+        "conflicts": [
+          "Sphere recipe encodings disagree (explicit list vs typed sphere counts); creator resolution required."
+        ],
+        "runtimePrerequisites": [
+          "Primary PC actor bound to the player in an active multiplayer room (binding.actorId).",
+          "Ability known/equipped by the PC and matching canonical CLASS_DATA_MAP definitionHash.",
+          "Placed source and target tokens on the active map with matching boardId and roomRevision.",
+          "Owner roll and resource payment approval (spell_execute_approve) with affordable runtime AP, Mana, and class resource state.",
+          "GM final confirmation (spell_execute_confirm) before any room HP/resource mutation occurs.",
+          "Cross-Track Finding I2 note: spellConsequence.js currently reads combatAttributes(character) from raw character.stats rather than effective attributes (baseStats + equipment/buffs)."
+        ]
+      },
+      "readinessAssessment": {
+        "group": "D",
+        "groupLabel": "D. Authored semantic conflict requiring a decision",
+        "primaryExclusionReason": "conflicting_data",
+        "exclusionCategoriesPresent": [
+          "conflicting_data",
+          "incompatible_authored_schema",
+          "runtime_prerequisites_offline_unknown"
+        ],
+        "exactReason": "Immediate single-target storm damage (1d8 + intelligence/4, 1 AP, 4 Mana) is blocked by a direct sphere recipe contradiction: resourceCost.spheres specifies [\"Arcane\", \"ember\"], whereas resourceCost.resourceValues specifies { arcane_sphere: 1, holy_sphere: 1 } (matching resourceTypes [\"mana\", \"arcane_sphere\", \"holy_sphere\"], enhancesCombo \"arcane_holy\", and prose \"sacred and arcane aether-shards\"). Also carries damageConfig.autoHit: true.",
+        "ownerToAct": "Class HQ",
+        "requiredOwnerAction": "Class HQ: resolve canonical sphere recipe ([\"arcane\", \"sacred\"] vs [\"arcane\", \"ember\"]) so explicit list and resourceValues agree, and confirm whether damageConfig.autoHit: true can be omitted/treated as descriptive under P9 GM-confirmed rolls."
+      }
+    },
+    {
+      "id": "martyr_redemption_strike",
+      "name": "Redemption Strike",
+      "level": 6,
+      "className": "Martyr",
+      "classRole": "provisional-reference-third-p9-class",
+      "readinessGroup": "D",
+      "readinessGroupLabel": "D. Authored semantic conflict requiring a decision",
+      "source": {
+        "file": "vtt-react/src/data/classes/martyrData.js",
+        "line": 2351,
+        "collectionPath": "Martyr.spells[20]",
+        "recordSha256": "p9-spell:v1/df45e976de5349942635b6cf6efc49f72583cf8d57766a176314f24a262e793e"
+      },
+      "authoredEffectAndFormula": {
+        "spellType": "ACTION",
+        "castTimeType": "IMMEDIATE",
+        "effectTypes": [
+          "damage"
+        ],
+        "resolution": "DICE",
+        "formula": "5d10 + spirit + missing_hp_percentage",
+        "formulaSupportedByP9": false,
+        "formulaReadingOrReason": "Term \"missing_hp_percentage\" is outside the approved vocabulary (no multiplication, parentheses or percentages).",
+        "damageTypes": [
+          "ember"
+        ],
+        "healingType": null,
+        "durationConfig": null
+      },
+      "fullPrice": {
+        "actionPoints": 1,
+        "mana": 25,
+        "cooldown": {
+          "cooldownType": "turn_based",
+          "cooldownValue": 3
+        },
+        "rawResourceTypes": [
+          "mana"
+        ],
+        "rawResourceValues": {
+          "mana": 25,
+          "classResource": {
+            "type": "devotion",
+            "cost": 3
+          }
+        },
+        "rawClassResource": {
+          "type": "devotion",
+          "cost": 3
+        },
+        "spheres": null,
+        "musicalCombo": null,
+        "devotionRequired": 3,
+        "devotionCost": 5,
+        "devotionGain": 0
+      },
+      "existingExecutionProfile": {
+        "matchedAcceptedProfile": null,
+        "sourceObservedProfile": null,
+        "capabilityStatus": "none",
+        "productionReady": false,
+        "checkerClassification": "ambiguous_or_conflicting"
+      },
+      "sourceTargetRoute": {
+        "sourceActorKind": "pc (bound primary character)",
+        "targetingType": "single",
+        "rangeType": "melee",
+        "rangeDistance": 5,
+        "targetRestrictions": [
+          "enemy"
+        ],
+        "maxTargets": null,
+        "extraTargetingKeys": [],
+        "routeSupportedInProfile": true,
+        "allowedRoutes": [
+          "pc -> placed token (matching targetRestrictions)"
+        ]
+      },
+      "requiredClassResourceOperations": {
+        "domain": "devotionGauge",
+        "domainSupportedInP9": true,
+        "clientPlannerHandled": true,
+        "paymentStatus": "conflicting_resource_encoding",
+        "plannedCosts": 5,
+        "plannedGains": 0,
+        "plannedRequired": 3,
+        "p9FundedClassPayment": null,
+        "p9PaymentRejectionReason": "Devotion encodings disagree."
+      },
+      "secondaryEffectsAndPrerequisites": {
+        "secondaryEffectBlocks": [
+          {
+            "field": "specialMechanics",
+            "summary": "{\"scalingDamage\":{\"description\":\"Damage scales with missing health percentage\",\"maxBonus\":\"5d8\",\"formula\":\"+1d8 per 20% missing health\"}}"
+          }
+        ],
+        "incompatibilities": [
+          {
+            "code": "CUSTOM_CLASS_MECHANICS_BLOCK",
+            "message": "Record includes specialMechanics bespoke class state-machine/threshold mechanics.",
+            "field": "specialMechanics",
+            "capabilityGroup": "class-resource-room-payment-home",
+            "exclusionCategory": "missing_engine_capability"
+          },
+          {
+            "code": "UNSUPPORTED_FORMULA_SYNTAX",
+            "message": "Formula \"5d10 + spirit + missing_hp_percentage\" rejected by spellConsequence.readFormula: Term \"missing_hp_percentage\" is outside the approved vocabulary (no multiplication, parentheses or percentages).",
+            "field": "damageConfig.formula",
+            "capabilityGroup": "formula-and-scaling-vocabulary",
+            "exclusionCategory": "missing_engine_capability"
+          }
+        ],
+        "conflicts": [
+          "Scaling formula conflict: damageConfig.formula (\"5d10 + spirit + missing_hp_percentage\") encodes flat missing_hp_percentage while specialMechanics.scalingDamage.formula specifies \"+1d8 per 20% missing health\" (maxBonus: 5d8).",
+          "Devotion encodings disagree."
+        ],
+        "runtimePrerequisites": [
+          "Primary PC actor bound to the player in an active multiplayer room (binding.actorId).",
+          "Ability known/equipped by the PC and matching canonical CLASS_DATA_MAP definitionHash.",
+          "Placed source and target tokens on the active map with matching boardId and roomRevision.",
+          "Owner roll and resource payment approval (spell_execute_approve) with affordable runtime AP, Mana, and class resource state.",
+          "GM final confirmation (spell_execute_confirm) before any room HP/resource mutation occurs.",
+          "Cross-Track Finding I2 note: spellConsequence.js currently reads combatAttributes(character) from raw character.stats rather than effective attributes (baseStats + equipment/buffs)."
+        ]
+      },
+      "readinessAssessment": {
+        "group": "D",
+        "groupLabel": "D. Authored semantic conflict requiring a decision",
+        "primaryExclusionReason": "conflicting_data",
+        "exclusionCategoriesPresent": [
+          "conflicting_data",
+          "missing_engine_capability",
+          "runtime_prerequisites_offline_unknown"
+        ],
+        "exactReason": "Single-target melee ember damage (Level 6, 1 AP, 25 Mana) has two authored semantic conflicts: (1) resourceCost.resourceValues.classResource specifies { type: \"devotion\", cost: 3 } (matching devotionRequired: 3) while top-level devotionCost specifies 5; (2) damageConfig.formula specifies \"5d10 + spirit + missing_hp_percentage\" (flat percentage addition) while specialMechanics.scalingDamage specifies \"+1d8 per 20% missing health\" (maxBonus: \"5d8\").",
+        "ownerToAct": "Class HQ + Combat",
+        "requiredOwnerAction": "Class HQ: resolve whether Devotion cost is 3 or 5 (and whether 5 is an optional amplified cost across the 12 Martyr spells with this pattern), and choose one canonical missing-HP scaling formula. Combat: missing-HP scaling requires engine formula extension once Class HQ decides."
+      }
+    }
+  ]
+}

@@ -32,8 +32,11 @@ import Languages from './Languages';
 import StatTooltip from '../tooltips/StatTooltip';
 import GeneralStatTooltip from '../tooltips/GeneralStatTooltip';
 import { getAttributeBreakdown, getDerivedStatBreakdown } from '../../utils/statCalculationBreakdown';
+import { buildCharacterResourceSnapshot } from '../../utils/characterResourceSnapshot';
+import { getSelectableClassNames } from '../../data/classes/classDisplayData';
 
 const ClassResourceBar = React.lazy(() => import('../hud/ClassResourceBar'));
+const SELECTABLE_CLASS_NAMES = getSelectableClassNames();
 
 const SECTIONS = {
     equipment: {
@@ -635,6 +638,7 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
     const characterStore = useCharacterStore((state) => ({
         equipment: state.equipment,
         stats: state.stats,
+        statsModel: state.statsModel,
         equipmentBonuses: state.equipmentBonuses,
         derivedStats: state.derivedStats,
         resistances: state.resistances,
@@ -778,13 +782,16 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
         subrace,
         level,
         levelUpHistory: dataSource.levelUpHistory || {},
+        background: dataSource.background,
+        statsModel: dataSource.statsModel,
         activeEffects: dataSource.activeEffects || {},
         encumbranceState: dataSource.encumbranceState || 'normal',
         exhaustionLevel: exhaustionLevel || 0,
         health,
         mana,
+        ancestry,
         talents: dataSource.talents || []
-    }), [stats, equipment, race, subrace, level, dataSource.levelUpHistory, dataSource.activeEffects, dataSource.encumbranceState, exhaustionLevel, health, mana, dataSource.talents]);
+    }), [stats, equipment, race, subrace, level, dataSource.levelUpHistory, dataSource.background, dataSource.statsModel, dataSource.activeEffects, dataSource.encumbranceState, exhaustionLevel, health, mana, ancestry, dataSource.talents]);
 
     // Class resource config (shared across render functions)
     const classResourceConfig = characterClass ? getClassResourceConfig(characterClass) : null;
@@ -1131,31 +1138,12 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
                                     className="character-field-input"
                                 >
                                     <option value="">Select a class</option>
-                                    <option value="Pyrofiend">Pyrofiend</option>
-                                    <option value="Minstrel">Minstrel</option>
-                                    <option value="Chronarch">Chronarch</option>
-                                     <option value="Harbinger">Harbinger</option>
-                                    <option value="Gambit">Gambit</option>
-                                    <option value="Martyr">Martyr</option>
-                                    <option value="False Prophet">False Prophet</option>
-                                     <option value="Inquisitor">Inquisitor</option>
-
-                                    <option value="Augur">Augur</option>
-                                    <option value="Plaguebringer">Plaguebringer</option>
-                                    <option value="Revenant">Revenant</option>
-                                    <option value="Spellguard">Spellguard</option>
-                                    <option value="Animist">Animist</option>
-                                    <option value="Arcanoneer">Arcanoneer</option>
-                                    <option value="Shaper">Shaper</option>
-                                    <option value="Berserker">Berserker</option>
-                                    {/* 'Dreadnaught' removed (absorbed into Martyr as Ironclad specialization) */}
-                                    {/* Titan removed (absorbed into Warden) */}
-                                    <option value="Toxicologist">Toxicologist</option>
-
-                                    <option value="Lunarch">Lunarch</option>
-                                    <option value="Apex">Apex</option>
-                                    <option value="Warden">Warden</option>
-                                    <option value="Crusader">Crusader</option>
+                                    {characterClass && !SELECTABLE_CLASS_NAMES.includes(characterClass) && (
+                                        <option key={characterClass} value={characterClass}>{characterClass}</option>
+                                    )}
+                                    {SELECTABLE_CLASS_NAMES.map(className => (
+                                        <option key={className} value={className}>{className}</option>
+                                    ))}
                                  </select>
                             </div>
 
@@ -1423,7 +1411,7 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
                         setHoveredStat({
                             type: 'derived',
                             key: 'maxHealth',
-                            breakdown: maxHealthBreakdown
+                            breakdown: { ...maxHealthBreakdown, finalValue: totalStats.maxHealth }
                         });
                         setMousePosition({ x: e.clientX, y: e.clientY });
                     }}
@@ -1432,7 +1420,7 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
                 >
                     <span className="vitals-stat-label">Max Health</span>
                     <span className="vitals-stat-value">
-                        {health.current}/{maxHealthBreakdown.finalValue}
+                        {health.current}/{totalStats.maxHealth}
                     </span>
                 </div>
                 <div
@@ -1457,15 +1445,14 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
         );
     };
 
-    // Render the spell/magic derived stats panel (below the base stats on the right).
+    // Render the spell & magic stats panel (below equipment on the right).
     const renderSpellStatsPanel = () => {
-        const current = SPELL_POWER_TYPES[((spellPowerTypeIndex % SPELL_POWER_TYPES.length) + SPELL_POWER_TYPES.length) % SPELL_POWER_TYPES.length] || SPELL_POWER_TYPES[0];
-        const typeNameColor = current.color || '#ffffff';
-        const currentValue = getSpellPowerForType(current.id);
-
+        const current = SPELL_POWER_TYPES[spellPowerTypeIndex] || SPELL_POWER_TYPES[0];
+        const typeNameColor = current.color;
+        const currentValue = Math.round(Number(spellPower?.[current.id] ?? 0) || 0);
+        const maxManaBreakdown = getDerivedStatBreakdown('maxMana', characterContext);
         const healingBreakdown = getDerivedStatBreakdown('healingPower', characterContext);
         const manaRegenBreakdown = getDerivedStatBreakdown('manaRegen', characterContext);
-        const maxManaBreakdown = getDerivedStatBreakdown('maxMana', characterContext);
         const perceptionBreakdown = getDerivedStatBreakdown('passivePerception', characterContext);
 
         return (
@@ -1569,7 +1556,7 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
                         setHoveredStat({
                             type: 'derived',
                             key: 'maxMana',
-                            breakdown: maxManaBreakdown
+                            breakdown: { ...maxManaBreakdown, finalValue: totalStats.maxMana }
                         });
                         setMousePosition({ x: e.clientX, y: e.clientY });
                     }}
@@ -1578,7 +1565,7 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
                 >
                     <span className="vitals-stat-label">Max Mana</span>
                     <span className="vitals-stat-value">
-                        {mana.current}/{maxManaBreakdown.finalValue}
+                        {mana.current}/{totalStats.maxMana}
                     </span>
                 </div>
                 <div
@@ -2499,8 +2486,20 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
             : (useInventoryStore.getState().encumbranceState || 'normal');
         const freshDerivedStats = calculateDerivedStats(totalStats, equipmentBonuses || {}, {}, encumbranceState, exhaustionLevel || 0, health, race, subrace, undefined, ancestry);
 
-        totalStats.maxHealth = Math.round(freshDerivedStats.maxHealth || getDerivedStatBreakdown('maxHealth', characterContext).finalValue);
-        totalStats.maxMana = Math.round(freshDerivedStats.maxMana || getDerivedStatBreakdown('maxMana', characterContext).finalValue);
+        const resourceSnapshot = buildCharacterResourceSnapshot({
+            ...dataSource,
+            stats,
+            equipment,
+            race,
+            subrace,
+            ancestry,
+            health,
+            mana,
+            inventory: { ...(dataSource.inventory || {}), encumbranceState }
+        });
+
+        totalStats.maxHealth = resourceSnapshot.health.max;
+        totalStats.maxMana = resourceSnapshot.mana.max;
         totalStats.healthRegen = Math.round(freshDerivedStats.healthRegen || 0);
         totalStats.manaRegen = Math.round(freshDerivedStats.manaRegen || 0);
         totalStats.movementSpeed = Math.round(freshDerivedStats.moveSpeed ?? 30);
@@ -2574,7 +2573,7 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
         }
 
         return totalStats;
-    }, [stats, equipmentBonuses, exhaustionLevel, health, mana, race, subrace, resistances, characterContext, inspectionData]);
+    }, [stats, equipmentBonuses, exhaustionLevel, health, mana, race, subrace, resistances, characterContext, inspectionData, ancestry, dataSource.baseStats, dataSource.background, dataSource.statsModel]);
 
 
 

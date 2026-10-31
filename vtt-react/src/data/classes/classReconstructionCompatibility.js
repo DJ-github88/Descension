@@ -180,8 +180,27 @@ export const RECONSTRUCTION_COMPATIBILITY_ROWS = [
       automaticConversion: false,
       successors: [],
       notes:
-        'Retained under review: keep the actual class and existing content available. Do not silently replace ' +
-        'resonance/spirits with a proposed network/seat economy.',
+        'Animist is a distinct player-facing class and remains selectable. ' +
+        'Totemist is a separate creator-approved class direction, not a rename, replacement, or successor. ' +
+        'Existing Animist characters, records, IDs, data, and compatibility are fully preserved.',
+      recordDispositions: []
+    }
+  },
+  {
+    legacyKey: 'inquisitor',
+    legacyNames: ['Inquisitor'],
+    row: {
+      relationship: 'split',
+      legacyResolutionRetained: true,
+      automaticConversion: false,
+      noAutomaticDestination: true,
+      successors: [
+        { id: 'covenbane', name: 'Covenbane', relationship: 'split' },
+        { id: 'exorcist', name: 'Exorcist', relationship: 'split' }
+      ],
+      notes:
+        'Inquisitor is retired from the new-character roster in favor of separate Covenbane and Exorcist identities. ' +
+        'Existing characters and data remain fully loadable and editable without conversion.',
       recordDispositions: []
     }
   }

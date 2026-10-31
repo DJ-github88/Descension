@@ -699,7 +699,16 @@ export const TalentTreeContent = ({
         }
 
         setTalents(newTalents);
-        useCharacterStore.getState().setTalents(newTalents);
+        const nextRank = currentRanks - 1;
+        const grantId = talent.grantId || talent.passiveSpellId || `talent-spell-${talent.id}`;
+        // A single-node refund must use the same ownership-aware cleanup as
+        // Reset All: the active character loses the grant, but a shared
+        // spellbook/library copy survives while another roster character
+        // still needs it.
+        useCharacterStore.getState().setTalents(
+            newTalents,
+            nextRank === 0 ? { grantIds: [grantId] } : undefined
+        );
 
         // If no talent points are invested anywhere, reset primary specialization
         const totalPointsAfter = Object.values(newTalents).reduce((sum, v) => sum + (v || 0), 0);
@@ -707,7 +716,7 @@ export const TalentTreeContent = ({
             useCharacterStore.getState().setPrimarySpecialization?.('');
         }
 
-        syncTalentSpell(talent, currentRanks - 1);
+        if (nextRank > 0) syncTalentSpell(talent, nextRank);
     };
 
     const resetTalents = () => {

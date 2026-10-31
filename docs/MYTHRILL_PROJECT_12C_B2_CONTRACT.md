@@ -811,8 +811,9 @@ HeadQ keeps all zero-range/count/export semantics and preservation work. No comm
 
 ## 16. Obstruction-aware single-target advisory milestone — 2026-10-27
 
-**User-authorized implementation; advisory only.** This is a bounded extension of B1, not a restart
-of §§9–14's inventory or a new executor. Production verification status is recorded below when complete.
+**User-authorized implementation; advisory only. Scoped Build5 / production-App8 PASS.** This is a
+bounded extension of B1, not a restart of §§9–14's inventory or a new executor. Full-current build
+parity is not claimed; the exact concurrent-input boundary is recorded below.
 
 ### Working behavior and exact supported semantics
 
@@ -820,6 +821,9 @@ of §§9–14's inventory or a new executor. Production verification status is r
   its exact ref. A native **Preview target** selector supports keyboard and touch inspection. **Use
   target** returns the ref to the existing controller; Cancel/Esc/right-click return without a pick.
   The status remains available before confirmation on touch. No roll/payment/consequence path is added.
+  The selector consumes its keydown propagation so the map's global arrow-panning shortcut cannot
+  steal native option navigation; capture-phase Esc still cancels. Account/room/map changes and the
+  existing bootstrap privacy isolation retire the pick rather than displaying a prior viewer's preview.
 - `services/aimObstruction.js` exports the reusable read-only query and analytic segment narrow phase.
   Its diagnostic is **planar-centre-sight**, not trajectory. Same-map exact refs and finite world
   coordinates are required. `WallGeometry.parseWallKey/getWallWorldEndpoints` supplies square offset-aware
@@ -888,5 +892,67 @@ The worktree checkout timed out copying historical bulky evidence; its Git index
 artifact and was not reset. Live unrelated A10/Class/character work is preserved.
 
 Focused checks:2 suites/10 tests PASS; scoped ESLint PASS; UI mechanical detector `[]`.
-Production build/App evidence is pending completion; no independent review or historical combat
+Production build1/2/App3 and expanded App6 passed their recorded subsets. The actual ArrowDown check
+exposed the map shortcut conflict; App6 used the selector API only to finish the other checks on old
+build2 and is **not keyboard acceptance**. Build3 was cancelled after this finding. Full-current
+Build4 failed on then-concurrent `ClassDetailDisplay.jsx` importing an unavailable `hasClassPixelArt`;
+the other owner's files were preserved. No independent review or historical combat
 reacceptance is claimed by these implementer-run checks.
+
+**Final production gate, 19:26Z:** scoped **Build5 exit0**, `mirrorDrift:[]`, scoped-source drift `[]`;
+**App8 PASS** on the actual optimized App/picker/controllers, not a replacement component bundle.
+Build5 uses successful frozen Build2 inputs plus only the four final owned runtime/test files. It
+retains production CRACO/config/dependencies; the existing P12 snapshot runner's frontend location
+alone is redirected to the coherent external source. `scope.json` and the final seal verify all four
+live owned files equal the built inputs. Other concurrent character/Class/A10 inputs are enumerated
+in the seal's `currentInputDrift/currentAddedInputs`, not silently accepted or overwritten.
+External HEAD advanced `86996e8d`→`89cddc2b` during concurrent work, including some intermediate owned
+bytes. This session made no commit/index staging/push/reset. Final delivery identity is the live/built
+hash set in the seal, not HEAD alone; final selector/witness deltas remain in the working tree.
+
+| Focused production-App witness | Final result |
+|---|---|
+| Clear modeled sight; supported stone wall; explicit configured rotated object | PASS; independent advisory sight text and line style |
+| Source and target movement; wall replacement; object sight-property edit | PASS; same pinned exact target, current geometry |
+| Pan/zoom | PASS; line reprojects, sight result unchanged |
+| Editor door open→closed; legacy `isOpen`; interactive object without settled state | PASS clear→blocked→unknown/manual as applicable |
+| Actual native ArrowDown/Tab; touch-token pin and touch Use target | PASS on1440px desktop /820px tablet; no map shortcut theft |
+| Player hidden-wall/object/overlay additions; explicit hidden token; GM-view downgrade | PASS; identical player status/ray/markup for geometry changes, no secret token label; no prior GM result retained |
+| Esc/right-click cancellation and exact retarget to primary PC | PASS; original physical `[2,4]` remains; no reroll control |
+| Preview consequence, payment and HP | PASS; no outbound consequence/proposal/adjudication/approval/payment, canonical AP/mana/HP/receipts unchanged |
+
+External evidence (not Git):
+
+- `D:/AppData/Temp/opencode/obstruction-build5/{scope.json,build.json,build.log}`;
+  scoped source launcher `obstruction-scoped-build.cjs`, final source `obstruction-final-source/`.
+- `D:/AppData/Temp/opencode/obstruction-app8/result.json`, `clear/wall/unknown/player-neutral.aria.yml`,
+  `wall-desktop.png`, `tablet.png`; witness SHA256
+  `ab73c2e467617b565702e37384bbebcfb5bd8c627846a3864dd8aa4748bffda3`.
+- `D:/AppData/Temp/opencode/obstruction-final-seal.json` and `obstruction-seal.cjs` verify final
+  source/test/witness/build identity and enumerate concurrent input drift. Asset manifest SHA256
+  `98626c86901767a0e7251c52d7e46548071d375474e43027d229321bb3653a98`.
+
+The source/privacy delta review is bounded to this query, picker, visibility consumers and focused
+witness: the player gate precedes geometry reads; no new geometry/result storage or outbound route;
+only visible current refs can reach selection; attack/cover/partial semantics are not inferred.
+The analytic rectangle check also covers vertex-to-vertex crossings (initial endpoint-only contact
+classification was corrected to interval/interior testing). Tangent/collinear/offset/hex/malformed
+cases and no-read player Proxy check are in the focused helper tests.
+
+Fixture limits: provider login, owner documents, lease/cloud transport are simulated; two retained
+`Failed to fetch` browser errors arise under the fixture's blocked provider requests. GM geometry edits
+and movement are local production-store projection fixtures, not acceptance of every multiplayer
+geometry writer. Background App inventory/window/list/snapshot events are recorded; the preview emits
+no consequence or payment and changes no canonical resources. Live Firebase/rules, physical devices,
+human-table and deployment are not certified. Phone-width grid access remains the incumbent App's
+separate limitation. No commit, push, deployment, migration or other-owner production edits.
+
+Re-run the focused checks from `vtt-react`:
+
+```powershell
+node node_modules/react-scripts/scripts/test.js --watchAll=false --runInBand --runTestsByPath src/services/__tests__/aimObstruction.test.js src/services/__tests__/targetPick.test.js
+# Use the existing detached production-build runner, then point these at external paths:
+$env:APP_BUILD_DIR = 'D:\AppData\Temp\opencode\obstruction-build5\build'
+$env:OBSTRUCTION_OUTPUT = 'D:\AppData\Temp\opencode\obstruction-app-replay'
+node verification/p12/obstruction-app-browser.cjs
+```

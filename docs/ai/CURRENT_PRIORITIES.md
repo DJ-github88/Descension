@@ -1,18 +1,26 @@
 # Current priorities
 
-Updated 2026-10-25 (P14-A9 authored Stunned targeting exact primary PCs: repaired bounded ACCEPT/Build6-App6 PASS qualified; prior P7–A8 carried forward). Historical A3 evidence-gate HEAD:
+Updated 2026-10-31 (M2A counted durations installed/integration-verified, qualified; combat-base acceptance carried; Clasp disabled and live-service gates open). Historical A3 evidence-gate HEAD:
 `485c0bbab9171879e2ea47cd83b44ddc0f046deb` (concurrent external commits). Exact scoped bytes and unrelated drift in A3 acceptance. The full ledger,
 with source identities/evidence, is [`docs/ENGINEERING_STATE.md`](../ENGINEERING_STATE.md).
 
 ## Delivered projects
 
-Latest bounded extension: [P14-A9](../MYTHRILL_PROJECT_14_A9_ACCEPTANCE.md), exact admitted creature
+Latest bounded integration: [M2A counted durations](../../handoff/m2a-integration/HANDOFF.md),
+22-path source installation preserving UI/Class work,229 server/134 client/mirrors pass,
+one integrated build and targeted ordinary clock App proof (qualified). End/start counts,
+reload, same-command replay and full-count refresh verified; strictly-next timing and
+manual “one round” unchanged. Fixture-login personal-library restoration remains
+unestablished; source confirmation for Clasp remains null. Isolated evidence is
+carried separately; no live-service, deployment or broader periodic-effects completion.
+
+Preserved bounded extension: [P14-A9](../MYTHRILL_PROJECT_14_A9_ACCEPTANCE.md), exact admitted creature
 or primary owner Arcanoneer PC → distinct primary PC. Hostile current-GM application has no target
 ACK/online veto; voluntary needs explicit GM designation and independent target acceptance. Source
 owner payment consent always remains separate. Atomic P7 payment+canonical Stunned, same sheet/token/
 GM instance, manual expiry and original-command/target-response silent recovery. Final source/build/
 App/reviewer qualifications and concurrent Class/UI drift are centralized in that acceptance record.
-Next recommendation: structured authenticated authored-condition expiry through C4; no timing invented.
+That duration recommendation is addressed by A10 and bounded M2A; no round mapping or periodic execution is inferred.
 
 | Project | Status |
 |---|---|
@@ -45,6 +53,9 @@ Next recommendation: structured authenticated authored-condition expiry through 
 | P14-A7 Wizard-authored canonical Stunned | Implemented; same-review repaired bounded ACCEPT, Build4/App4 PASS (qualified). Actual Wizard→whole Creature association→exact admission→GM-confirmed success/manual timing→atomic authored AP/mana+canonical C2 Stunned. Independent instances, supported restrictions and original-command silent recovery; no PC/item execution or general expiry |
 | P14-A8 owner primary PC→creature Stunned | Implemented; same-review repaired bounded ACCEPT, Build4/App10 PASS (qualified). Explicit normal PC admission, A1 owner price/target/duration consent without rolls, private GM success/timing and atomic P7 payment+C2 condition; manual expiry, exact independent instances and original-byte recovery |
 | P14-A9 authored Stunned→primary PC | Implemented; same-review repaired bounded ACCEPT, Build6/App6 PASS (qualified). Exact creature or primary owner Arcanoneer source, hostile no-ACK/online veto versus independent voluntary target acceptance, one P7 payment+C2 condition, private projections and original-response silent recovery. Exact source/drift and scoped-build limitations in A9 acceptance |
+| P14-A10 composable combat effects | Implemented; bounded independent ACCEPT after repairs, Build4/App4 PASS (qualified). C4 structured expiry (manual/start/end of target's next turn), named flat authored movement change consumed by effective speed, atomic damage-or-healing + Stunned/movement bundle (creature→creature, owner PC→creature), exact GM removal. See [A10](../MYTHRILL_PROJECT_14_A10_MILESTONE.md) |
+| A11 / Minstrel / storage-r2 / M1 engine / combat UI | Installed and bounded integration verified; [combat-base handoff](../../handoff/combat-base-verification/HANDOFF.md). M1 Clasp content remains disabled pending exact confirmation |
+| M2A explicit counted target-turn start/end expiry | Installed/integration verified, qualified; [handoff](../../handoff/m2a-integration/HANDOFF.md). Counts2…10, existing strictly-next semantics, full-count refresh, original-command recovery and projections; no live-service or personal-library restart claim |
 
 Source acceptance is not deployment readiness. Current P12B evidence: [`MYTHRILL_PROJECT_12B_IMPLEMENTATION.md`](../MYTHRILL_PROJECT_12B_IMPLEMENTATION.md). P12A/P11 evidence:
 [`MYTHRILL_PROJECT_12A_IMPLEMENTATION.md`](../MYTHRILL_PROJECT_12A_IMPLEMENTATION.md).
@@ -85,9 +96,19 @@ Reaction collection **approved and delivered 2026-10-19:** D13-6b full8s/no norm
 both pre-cutoff correction/withdrawal with history, D13-10 explicit interrupted/manual takeover,
 same-deadline reconnect and no grace/pause/extension. No fee/refund/order/effect rule thereby approved.
 
+Movement modifiers **decided by HQ 2026-10-28:** different named effects stack additively; reapplying the
+same named effect from the same source refreshes its duration rather than stacking its value; movement
+speed never falls below 0 ft. Not yet implemented — A10 keeps refusing a second authored movement change.
+
 ## Next
 
-**Current extension: [P14-A9 exact primary PC targets](../MYTHRILL_PROJECT_14_A9_ACCEPTANCE.md)**.
+<!-- a10-closeout-2026-10-28 -->
+**Carried extension: [P14-A10 composable combat effects](../MYTHRILL_PROJECT_14_A10_MILESTONE.md)** — delivered 2026-10-28 (bounded
+ACCEPT, Build4/App4 PASS qualified). Next, separately scoped: implement and test the HQ movement-modifier
+stacking policy below (until then a second authored movement change is refused); then periodic
+damage/healing ticks on the C4 clock or a second numeric family.
+
+**Preserved delivery: [P14-A9 exact primary PC targets](../MYTHRILL_PROJECT_14_A9_ACCEPTANCE.md)**.
 Both admitted creature and primary owner Arcanoneer sources use the same P7 condition path. Creator
 resolved hostile authority/no target ACK veto versus affirmative voluntary acceptance. Final same-review
 bounded ACCEPT, Build6/App6 PASS15 groups,88 server/8 suites52 client plus two UI privacy checks,

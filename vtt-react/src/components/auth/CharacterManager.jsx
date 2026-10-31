@@ -15,6 +15,7 @@ import useCharacterStore from '../../store/characterStore';
 
 
 import { RACE_DATA } from '../../data/raceData';
+import { getSelectableClassNames } from '../../data/classes/classDisplayData';
 import { createEmptyEquipment } from '../../utils/equipmentUtils';
 import { showConfirm } from '../../utils/dialogService';
 import './styles/CharacterManager.css';
@@ -1694,97 +1695,9 @@ const CharacterManager = ({ isOpen, onClose, onCreateCharacter }) => {
 
 
 
-                    <option value="Arcanoneer">Arcanoneer</option>
-
-
-
-                    <option value="Berserker">Berserker</option>
-
-
-
-                    <option value="Shaper">Shaper</option>
-
-
-
-                    <option value="Harbinger">Harbinger</option>
-
-
-
-                    <option value="Augur">Augur</option>
-
-
-
-                    <option value="Chronarch">Chronarch</option>
-
-
-
-                    <option value="Inquisitor">Inquisitor</option>
-                    <option value="Revenant">Revenant</option>
-
-
-
-                    {/* 'Dreadnaught' removed (absorbed into Martyr as Ironclad specialization) */}
-
-
-
-
-
-
-                    <option value="False Prophet">False Prophet</option>
-                    <option value="Gambit">Gambit</option>
-                    <option value="Apex">Apex</option>
-
-
-
-                    <option value="Animist">Animist</option>
-                    <option value="Lunarch">Lunarch</option>
-
-
-
-                    <option value="Martyr">Martyr</option>
-
-
-
-                    <option value="Minstrel">Minstrel</option>
-
-
-
-                    
-
-
-
-                    <option value="Plaguebringer">Plaguebringer</option>
-
-
-
-                    <option value="Pyrofiend">Pyrofiend</option>
-
-
-
-                    <option value="Spellguard">Spellguard</option>
-
-
-
-                    {/* Titan removed (absorbed into Warden) */}
-
-
-
-                    <option value="Toxicologist">Toxicologist</option>
-
-
-
-                    <option value="Warden">Warden</option>
-
-
-
-                    <option value="Crusader">Crusader</option>
-
-
-
-
-
-
-
+                    {getSelectableClassNames().map(className => (
+                      <option key={className} value={className}>{className}</option>
+                    ))}
                   </select>
 
 

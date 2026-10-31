@@ -5,7 +5,15 @@ roadmap ([MYTHRILL_NEXT_PHASE.md](MYTHRILL_NEXT_PHASE.md) §26) ends at P10 and 
 This document adds four bounded phases. **At creation only P11 was authorized.** Later bounded
 authorizations/status are recorded below; each further slice still needs its own contract/go-ahead.
 
-> **Latest bounded extension:** [P14-A9](MYTHRILL_PROJECT_14_A9_ACCEPTANCE.md), admitted exact creature
+> **Latest installed extension, 2026-10-31:** [M2A counted durations](../handoff/m2a-integration/HANDOFF.md),
+> source integrated against M1 without the later UI, preserving that UI and concurrent Class work.
+> Affected229 server/134 client/mirrors, one integrated build and targeted ordinary clock App proof
+> pass (qualified). Counted starts/ends2…10, independent expiry, reload, original-command replay and
+> full-count refresh; strictly-next semantics unchanged, “one round” manual. Clasp still disabled.
+> Isolated acceptance is separate from installed proof; fixture-login library restoration and all
+> live-service gates remain open. Prior combat milestones are carried, not re-accepted wholesale.
+>
+> **Preserved bounded extension:** [P14-A9](MYTHRILL_PROJECT_14_A9_ACCEPTANCE.md), admitted exact creature
 > or supported owner Arcanoneer PC → distinct primary PC canonical Stunned. Hostile current-GM success
 > authority needs no target acknowledgement or online device; explicit GM voluntary designation needs
 > independent exact target acceptance. Source-owner payment consent remains mandatory. Same P7 atomic
@@ -635,3 +643,44 @@ preparation only. Exact GM-controlled placed ref/incarnation, independent source
 common-pool payment/P7 atomic HP and P8/A1 retained-command custody. Proposed creature→creature first;
 PC target-owner blocking/consent bridge requires its own freeze. No new engine/generic endpoint,
 creature execution, class-binding widening or general P14 completion follows from A3.
+
+## 17. P14-A10 — composable combat effects
+<!-- a10-closeout-2026-10-28 -->
+
+[Milestone plan/implementation/evidence](MYTHRILL_PROJECT_14_A10_MILESTONE.md). Structured C4 expiry, one numeric family (named flat
+movement change with an identified consumer) and atomic direct damage/healing + canonical condition
+bundles from an admitted creature or owner primary PC to a creature. Bounded review ACCEPT after
+repairs; Build4/App4 PASS (qualified). Next bounded milestone: HQ movement-stacking policy (additive
+across named effects, same-source refresh, 0 ft floor); later periodic ticks on the same clock.
+
+## 18. Combat capability plan (pointer)
+<!-- combat-capability-plan-2026-10-30 -->
+
+The capability matrix, proven limits, dependency-ordered milestones (M0–M10) and consolidated creator
+decision list live in [MYTHRILL_COMBAT_CAPABILITY_PLAN.md](MYTHRILL_COMBAT_CAPABILITY_PLAN.md). Its initial
+M1-next/candidate-only snapshot is historical; current installation status tables stay
+in `ENGINEERING_STATE.md` / `CURRENT_PRIORITIES.md` (Sol) and the cross-track coordination file; nothing is
+duplicated here. Planning only: no implementation is authorized by this pointer. Supersedes the A10 §17 "next
+bounded milestone" suggestion of periodic ticks (see the plan's comparison).
+
+M1 (`class-effect:v1`) engine and later combat UI are installed and bounded integration-verified;
+Rime-Iron Clasp remains runtime-disabled pending its exact Class HQ profile confirmation.
+
+## 19. M2A — explicit counted target-turn expiry (installed, qualified)
+
+[Installed integration/evidence](../handoff/m2a-integration/HANDOFF.md) ·
+[Original isolated milestone](../handoff/m2a-delivery/MYTHRILL_PROJECT_14_M2A_MILESTONE.md).
+New `target-start-count` / `target-end-count` policies apply only to supported authored
+composed effects,2…10 strictly-upcoming target-turn occurrences. Existing manual and
+next-turn meanings remain unchanged; a turn already in progress is not counted for
+an end boundary. No round inference, periodic tick or AP restoration is implemented.
+
+Installed22-path scope`cd0c2c43…`, capture`ed604808…`, integrated assets`28c38bc0…`.
+Independent isolated review/build/App is carried (assets`0e75b82e…`), not substituted
+for installed execution. Targeted native proof shows expiry4/5, reload2, original
+advance checks3 twice without double count, refresh8/new final12 surviving old10,
+and preserved modal focus/Escape. Exact saved authoring records were fixture-admitted
+for continuation after an unestablished personal-library reload/login restoration;
+normal Wizard/save/reopen/admission evidence is carried from the first native run.
+Private profile archives remain restricted/unpublished; live-service and wider M2
+gates remain open. No further capability is authorized by this status update.

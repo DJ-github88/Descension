@@ -743,7 +743,10 @@ const extractSpellResourceCosts = (spell) => {
   // 4. Primary Class Resource (cost or gain)
   // Check rc.classResource OR rc.resourceValues.classResource (e.g. Pyrofiend, Harbinger, etc.)
   const rawClassRes = rc?.classResource || (typeof rc?.resourceValues?.classResource === 'object' ? rc.resourceValues.classResource : null);
-  if (rawClassRes && typeof rawClassRes === 'object') {
+  if (spell.id === 'minstrel_resolving_strike' && Array.isArray(spell.musicalCombo?.requires)) {
+    const recipe = spell.musicalCombo.requires;
+    costs.push(`${recipe.reduce((sum, entry) => sum + entry.count, 0)} Musical Notes (${recipe.map(entry => `${entry.note}×${entry.count}`).join(', ')})`);
+  } else if (rawClassRes && typeof rawClassRes === 'object') {
     const rawType = rawClassRes.name || rawClassRes.type;
     if (rawType && typeof rawType === 'string') {
       const resName = formatResourceName(rawType);

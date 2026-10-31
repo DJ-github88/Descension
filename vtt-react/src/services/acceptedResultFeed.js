@@ -7,6 +7,7 @@ import { emptyNarration, narrationReducer } from '../components/combat-narration
 import { acceptedText } from './weaponStrike';
 import { acceptedBlockText } from './equipmentBlocking';
 import { DEFINITION_HASH as RIPOSTE, riposteAcceptedText } from './riposteExecution';
+import { conditionLabel, POLICY_TEXT, policyText } from './authoredEffect';
 
 const REF_KEYS = ['kind', 'roomId', 'mapId', 'tokenId', 'instanceId', 'ownerUid', 'characterId'];
 const POOLS = { hp: ['currentHp', 'health', 'tempHealth'], mana: ['currentMana', 'mana', 'tempMana'], ap: ['currentActionPoints', 'actionPoints', 'tempActionPoints'] };
@@ -77,6 +78,12 @@ export function capabilityOf(receipt) {
   if (hashId === BLOCK) return { kind: 'block', label: chosen.attack?.ability?.name, blockName: chosen.block?.name, reduction: chosen.block?.reduction, damage: (chosen.attack?.authored?.kind || chosen.attack?.authored?.attempt?.spell?.kind) !== 'healing' };
   if (hashId === FEATHER) return { kind: 'feather', label: 'Feather Slash', damage: true };
   if (hashId.startsWith('authored-condition:v1/')) return { kind: 'condition', label: chosen.spellName, damage: false };
+  // A10: one line for the whole bundle (direct part, canonical effect and its expiry policy).
+  // M1: one line naming the recorded branch and that the record is only partially automated.
+  if (hashId.startsWith('class-effect:v1/')) return { kind: 'class-effect', label: chosen.spellName, damage: chosen.direct?.kind === 'damage', branch: chosen.branch,
+    effect: chosen.rider ? `${chosen.rider.label} (movement −${Math.abs(chosen.rider.feet)} ft)` : 'its rider', riderApplied: chosen.riderApplied === true, refreshed: chosen.combination?.outcome === 'refreshed' };
+  if (hashId.startsWith('authored-effect:v1/')) return { kind: 'effect', label: chosen.spellName, damage: chosen.direct?.kind === 'damage',
+    effect: conditionLabel(chosen.condition), expiry: (POLICY_TEXT[chosen.expiryPolicy] && policyText(chosen.expiryPolicy, chosen.occurrences)) || 'GM removes', refreshed: chosen.combination?.outcome === 'refreshed' };
   if (hashId.startsWith(SPELL_PREFIX) || hashId.startsWith('authored-immediate:v1/')) return { kind: 'spell', label: chosen.spellName, damage: chosen.kind === 'damage' };
   return { kind: 'none' };
 }
@@ -139,6 +146,10 @@ export function buildFeed({ result, before = {}, viewer, live }) {
       : capability.kind === 'riposte' ? `${src} ${capability.outcome === 'miss' ? 'misses' : 'counter-attacks'} ${tgt} with Riposte`
         : capability.kind === 'block' ? `${src}’s ${label} ${capability.damage ? 'hits' : 'heals'} ${tgt}${capability.blockName ? `; ${capability.blockName} blocks ${capability.reduction}` : ''}`
          : capability.kind === 'condition' ? `${src} applies Stunned to ${tgt} with ${label}`
+         : capability.kind === 'class-effect' ? `${src} uses ${label} on ${tgt}; ${capability.branch === 'saved' ? `${tgt} saves (GM recorded): no new ${capability.effect}`
+           : `${capability.branch === 'failed' ? `${tgt} fails the save (GM recorded): ` : ''}${capability.refreshed ? `refreshing ${capability.effect}, value not stacked` : `applying ${capability.effect}`} (GM removes)`}. Partially automated — the GM applies the rest`
+         : capability.kind === 'effect' ? (capability.refreshed ? `${src} uses ${label} on ${tgt}, refreshing ${capability.effect}: duration restarts, value not stacked (${capability.expiry})`
+           : `${src} uses ${label} on ${tgt}, applying ${capability.effect} (${capability.expiry})`)
          : capability.kind === 'spell' ? `${src} casts ${label} on ${sameRef(receipt.source, receipt.target) ? 'Self' : tgt}`
           : `${src}’s ${label} hits ${tgt}`;
     text = `${lead}. ${body}.`;

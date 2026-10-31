@@ -19,25 +19,32 @@ function roster(room) {
 }
 function application(room, next, ref, operation) {
   const lifecycle = next.combat?.effectLifecycle;
-  if (!lifecycle?.schedules) return;
+  if (!lifecycle?.schedules) return false;
   const key = timing.instanceKey(ref, operation.recordId);
   // An explicit correction cancels timing, even when a newer GM writes identical record fields.
   delete lifecycle.schedules[key];
-  if (operation.op !== 'add' || !timing.clock(room.gameState.combat)) return;
-  try { roster(room); } catch (_) { return; } // unsupported combat never prevents manual result entry
+  if (operation.op !== 'add' || !timing.clock(room.gameState.combat)) return false;
+  try { roster(room); } catch (_) { return false; } // unsupported combat never prevents manual result entry
   const record = operation.record, order = next.combat.turnOrder, index = next.combat.currentTurnIndex;
-  if (!profile.validManagedRecord(record, ref)) return;
+  if (!profile.validManagedRecord(record, ref)) return false;
   const targetIndex = order.findIndex(entry => profile.sameRef(entry.actorRef, ref));
-  if (targetIndex < 0) return;
+  if (targetIndex < 0) return false;
   const defending = ref.kind === 'character' && profile.isDefending(record) && targetIndex === index;
   const shieldBash = profile.isStunned(record) && bash.namedRecord(record) && record.clockBoundary === bash.TIMING;
-  if (!defending && !shieldBash) return;
+  // A10: authored-effect records name their own structured boundary (start/end of the target's strictly next turn).
+  const authored = profile.structuredBoundary(record);
+  if (!defending && !shieldBash && !authored) return false;
+  const endBoundary = shieldBash || authored === 'end';
   const distance = (targetIndex - index + order.length) % order.length || order.length;
-  const dueSequence = lifecycle.sequence + distance + (shieldBash ? 1 : 0);
+  // M2A: the first occurrence is the existing strictly-next boundary; each further counted occurrence is one roster cycle later.
+  const occurrences = profile.structuredOccurrences(record) || 1;
+  const dueSequence = lifecycle.sequence + distance + (endBoundary ? 1 : 0) + (occurrences - 1) * order.length;
   if (!Number.isSafeInteger(dueSequence) || Object.keys(lifecycle.schedules).length >= 256 ||
-      Object.values(lifecycle.schedules).filter(item => item.dueSequence === dueSequence).length >= 32) return; // P7 atomic capacity; extra instances remain visible/manual
+      Object.values(lifecycle.schedules).filter(item => item.dueSequence === dueSequence).length >= 32) return false; // P7 atomic capacity; extra instances remain visible/manual
   lifecycle.schedules[key] = { combatId: lifecycle.id, ref: actors.clone(ref), recordId: record.recordId,
-    recordHash: actors.hash(record), recordKey: profile.canonical(record), dueSequence, boundary: shieldBash ? 'end' : 'start' };
+    recordHash: actors.hash(record), recordKey: profile.canonical(record), dueSequence, boundary: endBoundary ? 'end' : 'start' };
+  if (occurrences > 1) Object.assign(lifecycle.schedules[key], { occurrences, period: order.length });
+  return true;
 }
 function validate(request) {
   actors.keys(request, ['version', 'roomId', 'commandId', 'actionEpoch', 'baseCommitSequence', 'mode', 'combatHash', 'expectedClock']);
@@ -59,7 +66,8 @@ function stage(room, player, uid, request, confirmedRevision) {
   const combat = roster(room);
   if (actors.hash(combat) !== request.combatHash) actors.fail('stale_turn_state');
   const current = timing.clock(combat), nextIndex = (combat.currentTurnIndex + 1) % combat.turnOrder.length;
-  let staged, expired = [];
+  let staged;
+  const expired = [], counted = [];
   if (request.mode === 'adopt') {
     if (current) actors.fail('turn_clock_already_active');
     const next = actors.clone(room.gameState);
@@ -71,11 +79,16 @@ function stage(room, player, uid, request, confirmedRevision) {
     if (!Number.isSafeInteger(sequence)) actors.fail('turn_clock_exhausted');
     const entries = new Map();
     for (const item of Object.values(current.schedules || {})) {
-      if (item.combatId !== current.id || item.dueSequence !== sequence) continue;
+      const hit = item.combatId === current.id ? timing.occurrenceAt(item, sequence) : null;
+      if (!hit) continue;
+      // M2A: a counted schedule is bound to the roster it was made for; any other length means the clock should already have retired.
+      if (item.occurrences > 1 && item.period !== combat.turnOrder.length) { actors.fail('stale_effect_schedule'); }
       const resolved = actors.locate(room, item.ref), record = resolved.token.state.conditions?.find(r => r.recordId === item.recordId);
       if (!record || actors.hash(record) !== item.recordHash) actors.fail('stale_effect_schedule');
+      if ((profile.structuredOccurrences(record) || 1) !== (item.occurrences || 1)) { actors.fail('stale_effect_schedule'); } // review note C: the schedule must match the record's own count
       const boundaryRef = combat.turnOrder[item.boundary === 'start' ? nextIndex : combat.currentTurnIndex].actorRef;
       if (!profile.sameRef(boundaryRef, item.ref)) actors.fail('stale_turn_occurrence');
+      if (!hit.final) { counted.push({ recordId: item.recordId, occurrence: hit.occurrence, of: hit.of }); continue; } // counted, still active
       const key = actors.hash(item.ref);
       if (!entries.has(key)) entries.set(key, { ref: item.ref, expectedRevision: resolved.contract.revision, conditions: [] });
       entries.get(key).conditions.push({ op: 'remove', recordId: item.recordId }); expired.push(item.recordId);
@@ -97,7 +110,7 @@ function stage(room, player, uid, request, confirmedRevision) {
     next.effectLifecycle.positionKey = timing.positionKey(next);
   }
   staged.receipt.adjudication = { definitionId: timing.DEFINITION_ID, definitionVersionOrHash: timing.DEFINITION_ID,
-    chosenResult: JSON.stringify({ mode: request.mode, combatId: staged.next.combat.effectLifecycle.id, sequence: staged.next.combat.effectLifecycle.sequence, expired }),
+    chosenResult: JSON.stringify(Object.assign({ mode: request.mode, combatId: staged.next.combat.effectLifecycle.id, sequence: staged.next.combat.effectLifecycle.sequence, expired }, counted.length ? { counted } : {})),
     adjustmentReason: 'Authenticated turn boundary and exact-instance expiry only; no AP restoration, regeneration, payment or recurring effects.' };
   return staged;
 }

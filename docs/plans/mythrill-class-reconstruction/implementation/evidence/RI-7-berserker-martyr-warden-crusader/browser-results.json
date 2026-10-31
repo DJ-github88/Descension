@@ -1,0 +1,89 @@
+{
+  "schema": "mythrill.browser-evidence/v1",
+  "date": "2026-10-27",
+  "cohort": "RI-7",
+  "guestRoster": {
+    "preserved": ["Kira Goldmane"],
+    "note": "The user's existing guest character was preserved. Each RI-7 witness was created, verified and deleted sequentially to stay inside the three-character limit."
+  },
+  "routes": {
+    "details": ["/rules/classes/Berserker", "/rules/classes/Martyr", "/rules/classes/Warden", "/rules/classes/Crusader"],
+    "roster": "/account/characters"
+  },
+  "desktop": {
+    "viewport": "1280x800",
+    "details": {
+      "Berserker": { "loaded": true, "overflow": false, "resourceGuide": true },
+      "Martyr": { "loaded": true, "overflow": false, "resourceGuide": true },
+      "Warden": { "loaded": true, "overflow": false, "resourceGuide": true },
+      "Crusader": { "loaded": true, "overflow": false, "resourceGuide": true }
+    }
+  },
+  "narrow": {
+    "viewport": "390x844",
+    "details": {
+      "Berserker": { "loaded": true, "overflow": false },
+      "Martyr": { "loaded": true, "overflow": false },
+      "Warden": { "loaded": true, "overflow": false },
+      "Crusader": { "loaded": true, "overflow": false }
+    }
+  },
+  "roundTrip": {
+    "Berserker": {
+      "id": "char_1793132685328_zju7hrv5f",
+      "created": true, "saved": true, "viewed": true, "reopenedEdit": true, "savedAgain": true,
+      "startingPicks": "3 of 3 chosen",
+      "knownSpells": ["bsk_hunger_scent", "bsk_caldera_warmth", "berserk_hemorrhagic_strike"],
+      "baseStats": { "strength": 15, "agility": 6, "constitution": 6, "intelligence": 5, "spirit": 5, "charisma": 5 },
+      "resource": "bloodHeat",
+      "view": { "maxHealth": "50/58", "maxMana": "25/34" },
+      "roster": { "hp": "50/58", "mp": "25/34", "speed": "30ft", "abilities": "3 spells / 2 skills" },
+      "agrees": true
+    },
+    "Martyr": {
+      "id": "char_1793134193930_gx08a2kjg",
+      "created": true, "saved": true, "viewed": true, "reopenedEdit": true, "savedAgain": true,
+      "startingPicks": "3 of 3 chosen",
+      "knownSpells": ["martyr_restorative_prayer", "martyr_intervene", "martyr_penance_of_pain"],
+      "baseStats": { "strength": 15, "agility": 6, "constitution": 6, "intelligence": 5, "spirit": 5, "charisma": 5 },
+      "resource": "devotionGauge",
+      "view": { "maxHealth": "50/58", "maxMana": "25/34" },
+      "roster": { "hp": "50/58", "mp": "25/34", "speed": "30ft", "abilities": "3 spells / 2 skills" },
+      "agrees": true
+    },
+    "Warden": {
+      "id": "char_1793134347515_0vb4gcn01",
+      "created": true, "saved": true, "viewed": true, "reopenedEdit": true, "savedAgain": true,
+      "startingPicks": "3 of 3 chosen",
+      "knownSpells": ["warden_chain_drag", "warden_evasive_maneuvers", "vengeance-grove_golem"],
+      "baseStats": { "strength": 15, "agility": 6, "constitution": 6, "intelligence": 5, "spirit": 5, "charisma": 5 },
+      "resource": "vengeance-points",
+      "view": { "maxHealth": "50/58", "maxMana": "25/34" },
+      "roster": { "hp": "50/58", "mp": "25/34", "speed": "30ft", "abilities": "3 spells / 2 skills" },
+      "agrees": true
+    },
+    "Crusader": {
+      "id": "char_1793134566689_kow8ztapo",
+      "created": true, "saved": true, "viewed": true, "reopenedEdit": true, "savedAgain": true,
+      "startingPicks": "3 of 3 chosen",
+      "knownSpells": ["crusader_sanctified_hearth", "crusader_beacon_of_truth", "starlight_cleave"],
+      "baseStats": { "strength": 15, "agility": 5, "constitution": 5, "intelligence": 5, "spirit": 5, "charisma": 5 },
+      "resource": "radiantFervor",
+      "view": { "maxHealth": "50/56", "maxMana": "25/46" },
+      "roster": { "hp": "50/56", "mp": "25/46", "speed": "25ft", "abilities": "3 spells / 2 skills" },
+      "agrees": true
+    }
+  },
+  "sharedResourceFix": {
+    "verified": true,
+    "detail": "Berserker view/roster/persisted max HP/MP agreed at 58/34 after characterResourceSnapshot and CharacterPanel display correction; the RI-6 Minstrel/Chronarch fixtures are covered by the regression test."
+  },
+  "console": {
+    "classRuntimeErrors": 0,
+    "knownUnrelatedError": "Error loading user maps: FirebaseError: Missing or insufficient permissions."
+  },
+  "limits": [
+    "Guest/local persistence only; no account/cloud persistence claim.",
+    "No combat automation, balance validation, migration, deployment, commit, push or Sol acceptance claim."
+  ]
+}

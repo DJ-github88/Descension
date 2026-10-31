@@ -342,6 +342,48 @@ describe('B3 — stale writers must not overwrite concurrent winners', () => {
     expect(forkPayloads.some((items) => items.some((i) => i.id === 'stale-tab'))).toBe(true);
   });
 
+  it('B3 repeated stale projections reuse durable evidence, preserve changed candidates and expose quota refusal', async () => {
+    const { A } = harness();
+    const { createScopedStoreStorage } = require(`${ROOT}/persistence/scopedStoreStorage`);
+    const first = createScopedStoreStorage({ familyId: 'core.inventory' });
+    first.setItem('inventory-storage', { state: { items: ['baseline'] }, version: 0 });
+    await first.__flush();
+    const stale = createScopedStoreStorage({ familyId: 'core.inventory' });
+    stale.getItem('inventory-storage');
+    first.setItem('inventory-storage', { state: { items: ['winner'] }, version: 0 });
+    await first.__flush();
+    const candidate = { state: { items: ['retained-roll-and-command'] }, version: 0 };
+    stale.setItem('inventory-storage', candidate);
+    await stale.__flush();
+    const evidence = Object.fromEntries(Object.keys(localStorage).map(k => [k, localStorage.getItem(k)]));
+    for (let i = 0; i < 100; i++) stale.setItem('inventory-storage', candidate);
+    await stale.__flush();
+    expect(Object.fromEntries(Object.keys(localStorage).map(k => [k, localStorage.getItem(k)]))).toEqual(evidence);
+    stale.setItem('inventory-storage', { state: { items: ['different-retained-roll'] }, version: 0 });
+    await stale.__flush();
+    expect(localStorage.length).toBe(Object.keys(evidence).length + 1);
+    const lastForkKey = Object.keys(localStorage).find(k => !(k in evidence));
+    localStorage.setItem(lastForkKey, 'externally-altered-recovery-copy');
+    stale.setItem('inventory-storage', { state: { items: ['different-retained-roll'] }, version: 0 });
+    await stale.__flush();
+    expect(localStorage.length).toBe(Object.keys(evidence).length + 2);
+    expect(localStorage.getItem(lastForkKey)).toBe('externally-altered-recovery-copy');
+    const beforeRefusal = Object.fromEntries(Object.keys(localStorage).map(k => [k, localStorage.getItem(k)]));
+    const write = jest.spyOn(Storage.prototype, 'setItem').mockImplementation(() => { throw new Error('QuotaExceededError'); });
+    try {
+      stale.setItem('inventory-storage', { state: { items: ['unresolved-new-command'] }, version: 0 });
+      const results = await stale.__flush();
+      expect(results[0].status).toBe('STORAGE_ERROR');
+      expect(stale.__hasRefusedCandidate()).toBe(true);
+      expect(Object.fromEntries(Object.keys(localStorage).map(k => [k, localStorage.getItem(k)]))).toEqual(beforeRefusal);
+    } finally { write.mockRestore(); }
+    stale.__retryRefused();
+    await stale.__flush();
+    expect(stale.__hasRefusedCandidate()).toBe(false);
+    expect(localStorage.length).toBe(Object.keys(beforeRefusal).length + 1);
+    expect(readRecord('core.inventory', A).value.payload.state.items).toEqual(['winner']);
+  });
+
   it('B3-2 character roster keeps the winner and preserves the stale candidate', async () => {
     const { A } = harness();
     const roster = require(`${ROOT}/persistence/characterScopedStorage`);

@@ -172,7 +172,7 @@ describe('Druid complete content lock', () => {
 
   test('keeps heritage recommendation-only and preserves legacy Shaper exactly', () => {
     expect(getClassNativeHeritageIds('Druid')).toEqual([]);
-    expect(CLASS_PROVENANCE.Druid).toBeUndefined();
+    expect(CLASS_PROVENANCE.Druid?.heritageEffectsImplemented).toBe(false);
     expect(DRUID_DATA.heritageRecommendation).toEqual(['morgh_groven', 'ithran_groven', 'veiled_mimir', 'tethered_mimir']);
     expect(DRUID_DATA.heritageEffectsImplemented).toBe(false);
     expect(DRUID_DATA.nativeAccess).toEqual([]);

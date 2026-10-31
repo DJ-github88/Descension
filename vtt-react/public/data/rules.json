@@ -929,7 +929,7 @@
         "theme": "narrative",
         "summary": [
           "Mythrill is a premium VTT platform purpose-built for immersive, tactile TTRPG play — a full rules system and a digital tabletop in one.",
-          "21 classes, 10+ races, a custom spellcrafting wizard, and a world where the sun has been buried in volcanic stone for nearly five centuries.",
+          "24 classes, 10+ races, a custom spellcrafting wizard, and a world where the sun has been buried in volcanic stone for nearly five centuries.",
           "New player? Start here for the four-step onboarding path: quick-start primer, character creation, interface tour, and core rules."
         ],
         "content": {
@@ -2200,7 +2200,7 @@
         "theme": "combat",
         "content": {
           "title": "Classes",
-          "description": "21 classes organized by thematic paths with unique resource systems. Click on a class name to view detailed information.",
+          "description": "24 classes organized by thematic paths with unique resource systems. Click on a class name to view detailed information.",
           "sections": [
             {
               "title": "Class System",
@@ -5044,7 +5044,7 @@
         "summary": [
           "Spellcasting uses mana as the primary resource. Spells are crafted through the Spellcrafting Wizard — no fixed spell lists, every spell is custom-built.",
           "Each class has unique magical abilities and resource mechanics beyond mana. The Arcanoneer juggles elemental spheres. The False Prophet harvests Madness. The Chronarch bends time itself.",
-          "This overview maps the full magic system: mana economy, spell tiers, casting AP costs, concentration rules, and how each of the 21 classes interacts with the magic system differently."
+          "This overview maps the full magic system: mana economy, spell tiers, casting AP costs, concentration rules, and how each of the 24 classes interacts with the magic system differently."
         ],
         "content": {
           "title": "Magic System Overview",
@@ -5076,7 +5076,7 @@
         "theme": "arcane",
         "content": {
           "title": "Magic Resources",
-          "description": "Action economy and class-specific resource systems used across all 21 classes",
+          "description": "Action economy and class-specific resource systems used across all 24 classes",
           "tables": [
             {
               "title": "Core Resources",
@@ -5299,7 +5299,7 @@
           "sections": [
             {
               "title": "The Magic of Creation (Custom Spellcrafting)",
-              "content": "Magic in Mythrill is not a static list of predefined incantations copied from dusty spellbooks. Instead, spellcasters manipulate raw magical forces directly through our state-of-the-art **Custom Spellcrafting Wizard**. This interactive VTT engine allows you to step into the role of an arcane pioneer, combining customizable damage, direct healing, protective wards, and tactical utilities into personalized spells. \n\nEvery custom spell you weave is calculated and budgeted according to its tier level and effect weight, ensuring that customized spells remain balanced. To learn more about how resources are drawn and spent by the 21 classes, see [Magic Resources](magic-system/magic-resources)."
+              "content": "Magic in Mythrill is not a static list of predefined incantations copied from dusty spellbooks. Instead, spellcasters manipulate raw magical forces directly through our state-of-the-art **Custom Spellcrafting Wizard**. This interactive VTT engine allows you to step into the role of an arcane pioneer, combining customizable damage, direct healing, protective wards, and tactical utilities into personalized spells. \n\nEvery custom spell you weave is calculated and budgeted according to its tier level and effect weight, ensuring that customized spells remain balanced. To learn more about how resources are drawn and spent by the 24 classes, see [Magic Resources](magic-system/magic-resources)."
             },
             {
               "title": "The 9-Step Custom Spellcrafting Workflow",

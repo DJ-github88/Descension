@@ -448,7 +448,7 @@ export function routeTokenState(tokenId, updates) {
 export function roomCondition(raw, ref) {
   const id = raw.recordId || raw.id || crypto.randomUUID();
   const aliases = { slow: 'slowed', slowed: 'slowed', haste: 'hastened', hasted: 'hastened', hastened: 'hastened', defend: 'defending', defending: 'defending' };
-  const fields = ['icon', 'color', 'description', 'effectSummary', 'effects', 'source', 'sourceActor', 'sourceEntityId', 'effectOrigin', 'isMagical', 'duration', 'durationType', 'durationValue', 'remainingRounds', 'startTime', 'endTime', 'stackable', 'hasOverTimeEffect', 'overTimeType', 'overTimeFormula', 'overTimeElement', 'tickFrequency', 'tickFrequencyValue', 'tickFrequencyUnit', 'clockBoundary'];
+  const fields = ['icon', 'color', 'description', 'effectSummary', 'effects', 'source', 'sourceActor', 'sourceEntityId', 'effectOrigin', 'isMagical', 'duration', 'durationType', 'durationValue', 'remainingRounds', 'startTime', 'endTime', 'stackable', 'hasOverTimeEffect', 'overTimeType', 'overTimeFormula', 'overTimeElement', 'tickFrequency', 'tickFrequencyValue', 'tickFrequencyUnit', 'clockBoundary', 'clockOccurrences'];
   const nameKey = aliases[raw.name?.toLowerCase()] || raw.name?.toLowerCase();
   const conditionKey = raw.conditionKey || (nameKey === 'defending' ? `manual-marker:${id}` : nameKey);
   return { ...Object.fromEntries(fields.filter(key => raw[key] !== undefined).map(key => [key, raw[key]])), version: 1, id, recordId: id,

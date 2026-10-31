@@ -1,0 +1,35 @@
+﻿Mythrill VTT — HeadQ corrections evidence baseline
+Captured: 2026-10-30 08:54:43 +01:00
+
+== Git baseline ==
+HEAD: 89cddc2b43ce80c1af00c73cbfc402c66233f4ff
+# branch.oid 89cddc2b43ce80c1af00c73cbfc402c66233f4ff
+# branch.head master
+# branch.upstream origin/master
+# branch.ab +0 -0
+Dirty entries: 146
+
+== Protected concurrent files (baseline = final) ==
+a9bd2e2941f78a3a65ecf0ad6184928ebbc61b0b6e9207df240c6d2f70acb9db  vtt-react/src/persistence/scopedStoreStorage.js
+5bfe461e20994562c8c5553f834d218e23b9baec3d410c27fa2ab7a7f885e7e4  vtt-react/src/persistence/__tests__/waveB_b1b5Corrections.test.js
+
+== Files changed by this correction pass ==
+1fe30f9cad0089d56c22471dbb12bd904f7b88708c09321ab0e9acab74a570a7  vtt-react/src/utils/characterResourceSnapshot.js
+6787e91ff31a0055ed5a4096af4ea8189f806c2382311b78090a46f86a3aff48  vtt-react/src/store/characterSlices/progressionSlice.js
+570361da0fa876fb1ea1c449633fbf01b51f10dc6c0681bfd720b7248c55465d  vtt-react/src/store/characterClassSwitch.js
+636302009afc3af51558338c0af830d8916af800efbcf215fceb6b6b79bdcfab  vtt-react/src/components/account/CharacterCreationPage.jsx
+949f25ce33afefbe48d9a1f72ee712a42d4b0548a22c3e4024f7f97f7bc75ccb  vtt-react/src/store/characterSlices/__tests__/classLevelDownPruning.test.js
+ce684fddaad2988fe3bc07711dbc19c13f012b61fa0dab1b2654f473c3380c00  vtt-react/src/store/__tests__/characterClassSwitch.test.js
+4b061c230a7ddfbe986182b7d05ddd110d3d250c7a2c28a8f9fa20eb158532b1  vtt-react/src/utils/__tests__/characterResourceAgreement.test.js
+42960999e4f010c4b3b840454ee925f8e89420bceede9e9d4a7df2e047f073aa  vtt-react/src/data/classes/__tests__/characterClassSelectors.test.js
+
+== Content-lock source-hash drift (locks not rewritten) ==
+docs/plans/mythrill-class-reconstruction/implementation/evidence/RI-6-arcanoneer-minstrel-chronarch/CONTENT-LOCK.json: drift 6/18
+docs/plans/mythrill-class-reconstruction/implementation/evidence/RI-7-berserker-martyr-warden-crusader/CONTENT-LOCK.json: drift 5/21
+docs/plans/mythrill-class-reconstruction/implementation/evidence/RI-8-inquisitor-spellguard-toxicologist/CONTENT-LOCK.json: drift 0/24
+
+== Checks personally run (see logs) ==
+HEADQ-focused-tests.log: 27 suites / 336 tests passed
+HEADQ-directory-tests.log: 54 suites / 493 tests passed
+HEADQ-eslint.log: exit 0
+HEADQ-build.log: compiled successfully (exit 0)

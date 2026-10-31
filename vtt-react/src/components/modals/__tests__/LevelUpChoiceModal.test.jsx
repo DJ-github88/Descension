@@ -53,10 +53,10 @@ test('Chaos Weaver level 2 keeps every authored legal pick instead of three rand
   });
 });
 
-test('legacy level 2 selection still presents exactly three random options', () => {
+test('legacy level 2 selection without an explicit policy presents exactly three random options', () => {
   const { container } = renderModal({
     isOpen: true,
-    characterClass: 'Minstrel',
+    characterClass: 'Pyrofiend',
     currentLevel: 2,
     knownSpells: [],
     onClose: jest.fn(),

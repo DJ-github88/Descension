@@ -32,7 +32,7 @@ import { findLootDropTiles } from '../../../../utils/lootDropPlacement';
 import { getStore } from '../../../../store/storeRegistry';
 import useChatStore from '../../../../store/chatStore';
 import { processCreatureLoot } from '../../../../utils/lootItemUtils';
-import { calculateEffectiveMovementSpeed } from '../../../../utils/conditionUtils';
+import { calculateEffectiveMovementSpeed, movementSpeedBreakdown, movementBreakdownText } from '../../../../utils/conditionUtils';
 import '../../../spellcrafting-wizard/styles/pathfinder/main.css';
 import '../../../../styles/skills.css';
 import '../../../../styles/character-sheet.css';
@@ -1145,8 +1145,8 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
             value: `${effectiveSpeed} ft${effectiveSpeed !== baseSpeed ? ` (base: ${baseSpeed} ft)` : ''}`,
             tooltip: true,
             icon: getCustomIconUrl('Utility/Speed Dash', 'abilities'),
-            description: effectiveSpeed !== baseSpeed 
-              ? `Effective walking speed in feet per turn (modified by conditions from base ${baseSpeed} ft)`
+            description: effectiveSpeed !== baseSpeed || movementSpeedBreakdown(baseSpeed, conditions).effects.length
+              ? `Effective walking speed in feet per turn: ${movementBreakdownText(movementSpeedBreakdown(baseSpeed, conditions))}`
               : 'Base walking speed in feet per turn'
           },
           {

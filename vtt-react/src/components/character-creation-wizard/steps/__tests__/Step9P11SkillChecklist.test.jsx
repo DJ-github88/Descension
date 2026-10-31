@@ -8,7 +8,8 @@ import Step9CharacterSummary from '../Step9CharacterSummary';
 
 let mockState;
 jest.mock('../../context/CharacterWizardContext', () => ({
-    useCharacterWizardState: () => mockState
+    useCharacterWizardState: () => mockState,
+    getWizardAttributePreview: () => mockState.characterData.finalStats
 }));
 
 const characterData = {

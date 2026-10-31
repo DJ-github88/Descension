@@ -1,0 +1,89 @@
+{
+  "classId": "exorcist",
+  "className": "Exorcist",
+  "rosterNumber": 25,
+  "cohort": "Cohort A (Sacred Ward & Cleansing)",
+  "rulesetVersion": "cr-review-r1",
+  "status": "LOCKED_FOR_INTEGRATION",
+  "resource": {
+    "id": "purification_sanctity",
+    "name": "Purification Sanctity",
+    "min": 0,
+    "max": 10,
+    "starting": 3,
+    "depletionPenalty": "-2 to Will saves at 0 Sanctity",
+    "shortRestReset": 3,
+    "longRestReset": 5
+  },
+  "totals": {
+    "records": 96,
+    "core": 2,
+    "optional": 40,
+    "talentActives": 6,
+    "talentPassives": 48,
+    "trees": 3,
+    "nodes": 54,
+    "rankCapacity": 150
+  },
+  "records": {
+    "core": [
+      { "id": "cr1_exorcist_consecrate_threshold", "name": "Consecrate Threshold", "level": 1, "type": "ACTION", "ap": 1, "sanctity": -1, "targeting": "15 ft radius" },
+      { "id": "cr1_exorcist_litany_of_purging", "name": "Litany of Purging", "level": 1, "type": "ACTION", "ap": 1, "sanctity": 1, "targeting": "30 ft" }
+    ],
+    "optional": [
+      { "id": "exo_salt_brand", "level": 1, "name": "Salt Brand", "type": "ACTION", "ap": 1, "sanctity": 1, "damage": "1d8 radiant" },
+      { "id": "exo_scourge_of_submission", "level": 1, "name": "Scourge of Submission", "type": "ACTION", "ap": 1, "sanctity": 0, "damage": "1d8 slashing + 1d4 radiant" },
+      { "id": "exo_discern_impurity", "level": 1, "name": "Discern Impurity", "type": "ACTION", "ap": 1, "sanctity": 0, "damage": null },
+      { "id": "exo_sanctified_barrier", "level": 1, "name": "Sanctified Barrier", "type": "ACTION", "ap": 1, "sanctity": 1, "damage": null },
+      { "id": "exo_cinder_leash", "level": 2, "name": "Cinder Leash", "type": "ACTION", "ap": 2, "sanctity": 1, "damage": "2d6 radiant" },
+      { "id": "exo_iron_barrier", "level": 2, "name": "Iron Barrier", "type": "ACTION", "ap": 1, "sanctity": 1, "damage": null },
+      { "id": "exo_anointing_oil", "level": 2, "name": "Anointing Oil", "type": "ACTION", "ap": 1, "sanctity": 1, "damage": null },
+      { "id": "exo_litany_of_courage", "level": 2, "name": "Litany of Courage", "type": "ACTION", "ap": 1, "sanctity": 0, "damage": null },
+      { "id": "exo_purge_the_defiled", "level": 3, "name": "Purge the Defiled", "type": "ACTION", "ap": 2, "sanctity": 2, "damage": "3d8 radiant" },
+      { "id": "exo_sever_possession", "level": 3, "name": "Sever Possession", "type": "ACTION", "ap": 2, "sanctity": 2, "damage": null },
+      { "id": "exo_salt_perimeter", "level": 3, "name": "Salt Perimeter", "type": "ACTION", "ap": 2, "sanctity": 2, "damage": null },
+      { "id": "exo_sin_eater_burden", "level": 3, "name": "Sin-Eater Burden", "type": "ACTION", "ap": 1, "sanctity": 1, "damage": null },
+      { "id": "exo_radiant_censer", "level": 4, "name": "Radiant Censer", "type": "ACTION", "ap": 2, "sanctity": 2, "damage": "2d6 radiant" },
+      { "id": "exo_lead_reliquary_trap", "level": 4, "name": "Lead Reliquary Trap", "type": "ACTION", "ap": 2, "sanctity": 2, "damage": null },
+      { "id": "exo_sacred_fasting", "level": 4, "name": "Sacred Fasting", "type": "ACTION", "ap": 1, "sanctity": 0, "damage": null },
+      { "id": "exo_rebuke_intruder", "level": 4, "name": "Rebuke Intruder", "type": "ACTION", "ap": 1, "sanctity": 2, "damage": "2d10 radiant" },
+      { "id": "exo_wrath_of_aethil", "level": 5, "name": "Wrath of Aethil", "type": "ACTION", "ap": 3, "sanctity": 3, "damage": "4d10 radiant" },
+      { "id": "exo_mass_anointing", "level": 5, "name": "Mass Anointing", "type": "ACTION", "ap": 2, "sanctity": 3, "damage": null },
+      { "id": "exo_ward_of_the_immovable", "level": 5, "name": "Ward of the Immovable", "type": "ACTION", "ap": 2, "sanctity": 2, "damage": null },
+      { "id": "exo_penitents_mantle", "level": 5, "name": "Penitent's Mantle", "type": "ACTION", "ap": 1, "sanctity": 2, "damage": null },
+      { "id": "exo_chains_of_chastisement", "level": 6, "name": "Chains of Chastisement", "type": "ACTION", "ap": 2, "sanctity": 3, "damage": "3d10 radiant" },
+      { "id": "exo_hallowed_sanctuary", "level": 6, "name": "Hallowed Sanctuary", "type": "ACTION", "ap": 2, "sanctity": 3, "damage": null },
+      { "id": "exo_extract_corruption", "level": 6, "name": "Extract Corruption", "type": "ACTION", "ap": 2, "sanctity": 3, "damage": null },
+      { "id": "exo_sacrificial_aegis", "level": 6, "name": "Sacrificial Aegis", "type": "ACTION", "ap": 1, "sanctity": 3, "damage": null },
+      { "id": "exo_shattering_anathema", "level": 7, "name": "Shattering Anathema", "type": "ACTION", "ap": 3, "sanctity": 4, "damage": "5d10 radiant" },
+      { "id": "exo_circle_of_absolute_salt", "level": 7, "name": "Circle of Absolute Salt", "type": "ACTION", "ap": 3, "sanctity": 4, "damage": null },
+      { "id": "exo_purify_ground", "level": 7, "name": "Purify Ground", "type": "ACTION", "ap": 2, "sanctity": 3, "damage": null },
+      { "id": "exo_transfigured_vessel", "level": 7, "name": "Transfigured Vessel", "type": "ACTION", "ap": 2, "sanctity": 4, "damage": null },
+      { "id": "exo_pillars_of_consecration", "level": 8, "name": "Pillars of Consecration", "type": "ACTION", "ap": 3, "sanctity": 5, "damage": "4d10 radiant" },
+      { "id": "exo_cleanse_the_bloodline", "level": 8, "name": "Cleanse the Bloodline", "type": "ACTION", "ap": 3, "sanctity": 4, "damage": null },
+      { "id": "exo_immaculate_presence", "level": 8, "name": "Immaculate Presence", "type": "ACTION", "ap": 2, "sanctity": 4, "damage": null },
+      { "id": "exo_smite_the_unclean", "level": 8, "name": "Smite the Unclean", "type": "ACTION", "ap": 3, "sanctity": 5, "damage": "6d10 radiant" },
+      { "id": "exo_cataclysmic_exorcism", "level": 9, "name": "Cataclysmic Exorcism", "type": "ACTION", "ap": 3, "sanctity": 6, "damage": "7d10 radiant" },
+      { "id": "exo_resurrection_of_the_cleansed", "level": 9, "name": "Resurrection of the Cleansed", "type": "ACTION", "ap": 3, "sanctity": 6, "damage": null },
+      { "id": "exo_celestial_shield", "level": 9, "name": "Celestial Shield", "type": "ACTION", "ap": 3, "sanctity": 5, "damage": null },
+      { "id": "exo_scourge_of_judgment", "level": 9, "name": "Scourge of Judgment", "type": "ACTION", "ap": 3, "sanctity": 5, "damage": "6d8 radiant" },
+      { "id": "exo_absolute_exile", "level": 10, "name": "Absolute Exile", "type": "ACTION", "ap": 3, "sanctity": 8, "damage": "8d10 radiant" },
+      { "id": "exo_the_great_cleansing", "level": 10, "name": "The Great Cleansing", "type": "ACTION", "ap": 3, "sanctity": 8, "damage": null },
+      { "id": "exo_monument_of_salt", "level": 10, "name": "Monument of Salt", "type": "ACTION", "ap": 3, "sanctity": 8, "damage": null },
+      { "id": "exo_sins_of_the_world", "level": 10, "name": "Sins of the World", "type": "ACTION", "ap": 3, "sanctity": 10, "damage": null }
+    ],
+    "talentActives": [
+      { "id": "exo_sig_salt_sanctuary", "treeId": "liturgist", "name": "Salt Sanctuary", "level": 3, "type": "ACTION", "ap": 2, "sanctity": 2 },
+      { "id": "exo_cap_immovable_bastion", "treeId": "liturgist", "name": "Immovable Bastion", "level": 10, "type": "ACTION", "ap": 3, "sanctity": 5 },
+      { "id": "exo_sig_sympathetic_transference", "treeId": "sineater", "name": "Sympathetic Transference", "level": 3, "type": "ACTION", "ap": 1, "sanctity": 2 },
+      { "id": "exo_cap_vessel_of_pure_cleansing", "treeId": "sineater", "name": "Vessel of Pure Cleansing", "level": 10, "type": "ACTION", "ap": 2, "sanctity": 4 },
+      { "id": "exo_sig_lead_seal_rite", "treeId": "purger", "name": "Lead Seal Rite", "level": 3, "type": "ACTION", "ap": 2, "sanctity": 3 },
+      { "id": "exo_cap_total_anathema", "treeId": "purger", "name": "Total Anathema", "level": 10, "type": "ACTION", "ap": 3, "sanctity": 6 }
+    ],
+    "talentTrees": [
+      { "id": "liturgist", "name": "Liturgist", "nodes": 18, "points": 50 },
+      { "id": "sineater", "name": "Sin-Eater", "nodes": 18, "points": 50 },
+      { "id": "purger", "name": "Purger", "nodes": 18, "points": 50 }
+    ]
+  }
+}

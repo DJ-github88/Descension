@@ -31,6 +31,13 @@ import { DOOMSAYER_DATA } from "./doomsayerData";
 import { ORACLE_DATA } from "./oracleData";
 import { DRUID_DATA } from "./druidData";
 import { HUNTER_DATA } from "./hunterData";
+import { COVENBANE_DATA } from "./covenbaneData";
+import { EXORCIST_DATA } from "./exorcistData";
+import { DREADNAUGHT_DATA } from "./dreadnaughtData";
+import { BLADEDANCER_DATA } from "./bladedancerData";
+import { INSCRIPTOR_DATA } from "./inscriptorData";
+import { TOTEMIST_DATA } from "./totemistData";
+import { WITCH_DOCTOR_DATA } from "./witchDoctorData";
 import { withClassHeritageMetadata } from '../classHeritageRegistry';
 
 const createNereidClass = (baseData) => {
@@ -88,6 +95,13 @@ const CLASS_TEMPLATES = {
   Oracle: ORACLE_DATA,
   Druid: DRUID_DATA,
   Hunter: HUNTER_DATA,
+  Covenbane: COVENBANE_DATA,
+  Exorcist: EXORCIST_DATA,
+  Dreadnaught: DREADNAUGHT_DATA,
+  Bladedancer: BLADEDANCER_DATA,
+  Inscriptor: INSCRIPTOR_DATA,
+  Totemist: TOTEMIST_DATA,
+  "Witch Doctor": WITCH_DOCTOR_DATA,
   "Nereid Myrathil Apex": DEEPLING_MYRATHIL_APEX_DATA,
   "Nereid Myrathil Animist": DEEPLING_MYRATHIL_ANIMIST_DATA,
   "Nereid Myrathil Augur": DEEPLING_MYRATHIL_AUGUR_DATA,

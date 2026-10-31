@@ -3317,3 +3317,41 @@ WARDEN_DATA.spellPools = {
     "warden_grand_inquisition_iron_maiden"
   ]
 };
+
+// RI-7 legacy-roster integration: explicit progression policy. Existing
+// Warden characters keep their known spells; new characters choose three
+// level-1 options and one optional per level. No random/automatic top-up.
+export const WARDEN_PROGRESSION_POLICY = {
+  classId: 'warden', rulesetVersion: 'legacy-roster-integrated', levelCap: 10,
+  startingSpellPicks: 3, optionalPicksPerLevel: 1, allowEarlierUnchosen: true,
+  grantedCoreSpellIds: [], randomizeStartingSpells: false, autoTopUpOnLoad: false,
+  talentActivesAreGrants: false, manualOnly: true
+};
+
+WARDEN_DATA.progression = {
+  levelCap: 10,
+  policy: WARDEN_PROGRESSION_POLICY,
+  levels: Array.from({ length: 10 }, (_, index) => {
+    const level = index + 1;
+    return {
+      level,
+      newChoiceIds: Array.isArray(WARDEN_DATA.spellPools?.[level]) ? [...WARDEN_DATA.spellPools[level]] : [],
+      optionalPicks: 1,
+      talentBudget: level * 5
+    };
+  })
+};
+
+export const WARDEN_MANIFEST = {
+  contentLock: 'RI-7 Warden legacy-roster content lock',
+  classId: 'warden', displayName: 'Warden',
+  authoredSpells: WARDEN_DATA.spells.length,
+  spellPoolCounts: Object.fromEntries(Array.from({ length: 10 }, (_, index) => {
+    const level = index + 1;
+    return [level, Array.isArray(WARDEN_DATA.spellPools?.[level]) ? WARDEN_DATA.spellPools[level].length : 0];
+  })),
+  treeIds: ['shadowblade', 'jailer', 'vengeance-seeker', 'monolith'],
+  resource: 'tension', progression: WARDEN_PROGRESSION_POLICY,
+  nativeAccess: WARDEN_DATA.restrictions?.allowedSubraces || [],
+  legacyIdsPreserved: true, automaticConversion: false, manualOnly: true
+};
