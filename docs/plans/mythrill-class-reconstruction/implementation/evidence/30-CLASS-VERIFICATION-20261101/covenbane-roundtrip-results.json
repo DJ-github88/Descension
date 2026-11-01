@@ -1,0 +1,13 @@
+{
+  "startedAt": "2026-11-01T19:12:12.206Z",
+  "testSuite": "Real Production Browser UI Round-Trip for Covenbane",
+  "classTested": "Covenbane",
+  "guestIntegrity": "PENDING",
+  "steps": [],
+  "assertions": [],
+  "screenshots": [],
+  "errors": [
+    "page.reload: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for navigation until \"networkidle\"\u001b[22m\n\u001b[2m    - navigated to \"http://127.0.0.1:4202/account/characters\"\u001b[22m\n\n    at run (D:\\VTT\\vtt-react\\verification\\30-class-delivery-20261101\\covenbane-ui-roundtrip.cjs:128:16)"
+  ],
+  "status": "FAILED"
+}
