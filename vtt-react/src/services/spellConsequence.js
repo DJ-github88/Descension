@@ -197,9 +197,30 @@ function classComponent(raw) {
     raw.sphereCost !== undefined || raw.musicalCombo !== undefined || raw.devotionCost !== undefined || raw.devotionGain !== undefined || raw.devotionRequired !== undefined ||
     Object.keys(values).some(key => /_sphere$/i.test(key) || /^note_/i.test(key) || /^devotion_/.test(key));
 }
+/** Approved cadence resolver pair only (Opening Chord → Resolving Strike). The class-owned
+ * planner pays from `musicalCombo.requires`; every other resolver/cadence stays manual. */
+const APPROVED_MINSTREL_RESOLVERS = Object.freeze({ minstrel_resolving_strike: [{ note: 'I', count: 1 }, { note: 'V', count: 1 }] });
+function resolverConflict(raw, generic) {
+  const combo = raw.musicalCombo, approved = APPROVED_MINSTREL_RESOLVERS[raw.id];
+  if (!approved) return 'This cadence resolver is outside the approved P9 pair (manual).';
+  if (!onlyKeys(generic, ['type', 'cost', 'resolvesCadence']) || generic.type !== 'musical_notes' || generic.resolvesCadence !== true || !integer(generic.cost, 0, 35) ||
+    !onlyKeys(combo, ['type', 'requires', 'cadenceName']) || combo.type !== 'resolver' || typeof combo.cadenceName !== 'string' ||
+    canonical(combo.requires) !== canonical(approved)) return 'Cadence resolver encoding differs from the approved recipe (manual).';
+  return null;
+}
 function encodingConflict(raw, domain) {
   const cost = raw.resourceCost || {}, values = cost.resourceValues || {};
   const generic = cost.classResource ?? values.classResource;
+  if (domain === 'musicalNotes' && (generic?.resolvesCadence !== undefined || raw.musicalCombo?.type === 'resolver')) {
+    // The legacy generic count is not a payer; the exact pitch recipe above is.
+    const conflict = resolverConflict(raw, generic);
+    if (conflict) return conflict;
+    if (cost.notes !== undefined || cost.spheres !== undefined || raw.sphereCost !== undefined ||
+      raw.devotionCost !== undefined || raw.devotionGain !== undefined || raw.devotionRequired !== undefined ||
+      Object.keys(values).some(key => /_sphere$/i.test(key) || /^devotion_/.test(key))) return 'Conflicting non-recipe class resource encodings stay manual.';
+    if (cost.classResource !== undefined && values.classResource !== undefined && canonical(cost.classResource) !== canonical(values.classResource)) return 'Duplicate class resource encodings disagree.';
+    return Object.keys(values).some(key => /^note_/i.test(key)) ? 'Note recipe encodings disagree (musical combo vs typed note values).' : null;
+  }
   if (generic !== undefined && (!onlyKeys(generic, ['type', 'cost', 'gain']) || [generic.cost, generic.gain].some(value => value !== undefined && !integer(value, 0, 35)))) {
     return `Class resource fields ${JSON.stringify(generic)} need a mechanic P9 does not execute (manual).`;
   }

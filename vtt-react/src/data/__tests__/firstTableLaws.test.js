@@ -157,7 +157,7 @@ describe('P10 support matrix matches the executed P8/P9 sets', () => {
       const result = supportSpell(spell, { class: cls, classResource, stats });
       if (result.supported) supported.push(result.name);
     }));
-    const listed = ['Marrow-Piercing Slug', 'Restorative Prayer', 'Opening Chord', 'Harmonic Strike'];
+    const listed = ['Marrow-Piercing Slug', 'Restorative Prayer', 'Opening Chord', 'Harmonic Strike', 'Resolving Strike'];
     expect([...new Set(supported)].sort()).toEqual([...listed].sort());
     const tracker = text(page('combat-system', 'combat-tracker'));
     listed.forEach(name => expect(tracker).toContain(name));

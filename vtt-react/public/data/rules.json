@@ -4380,7 +4380,7 @@
             },
             {
               "title": "What the VTT Resolves Today",
-              "content": "Everything below plays the same at a physical table. The VTT automates two kinds of action end to end; the rest is played by hand, with the GM entering the final result.\n\n**Automated (one roll, a GM-confirmed final amount, one recorded result):**\n- **Branvig's Feather Slash.** The GM picks the target and records one roll, judges defense by hand and confirms the final amount. One commit pays the AP and changes the target's HP; a retry or rejoin never applies it twice.\n- **Supported spells: Marrow-Piercing Slug (Arcanoneer), Restorative Prayer (Martyr), Opening Chord and Harmonic Strike (Minstrel).** The caster approves the price and one roll; the GM confirms the final amount. One commit pays (temporary pools first) and applies the damage or healing, and the cooldown starts when the result is recorded.\n\n**By hand:** every other spell and creature ability (its card says why it is not automated), defense (blocking piece, DR roll, Defend, wear, Evasion), reactions, elixirs, and per-turn condition effects in a shared room. The VTT has no reaction timer yet: call your reaction before the GM moves on."
+              "content": "Everything below plays the same at a physical table. The VTT automates two kinds of action end to end; the rest is played by hand, with the GM entering the final result.\n\n**Automated (one roll, a GM-confirmed final amount, one recorded result):**\n- **Branvig's Feather Slash.** The GM picks the target and records one roll, judges defense by hand and confirms the final amount. One commit pays the AP and changes the target's HP; a retry or rejoin never applies it twice.\n- **Supported spells: Marrow-Piercing Slug (Arcanoneer), Restorative Prayer (Martyr), Opening Chord, Harmonic Strike, and Resolving Strike (Minstrel).** The caster approves the price and one roll; the GM confirms the final amount. One commit pays (temporary pools first) and applies the damage or healing, and the cooldown starts when the result is recorded.\n\n**By hand:** every other spell and creature ability (its card says why it is not automated), defense (blocking piece, DR roll, Defend, wear, Evasion), reactions, elixirs, and per-turn condition effects in a shared room. The VTT has no reaction timer yet: call your reaction before the GM moves on."
             }
           ],
           "tables": [
@@ -4434,7 +4434,7 @@
                   "Read the card, roll 2d8 + 5, the GM rules on defense and marks HP"
                 ],
                 [
-                  "Marrow-Piercing Slug, Restorative Prayer, Opening Chord, Harmonic Strike",
+                  "Marrow-Piercing Slug, Restorative Prayer, Opening Chord, Harmonic Strike, Resolving Strike",
                   "Automated: caster approves price and roll, GM confirms the final amount",
                   "Pay the card price, roll, the GM confirms the result"
                 ],

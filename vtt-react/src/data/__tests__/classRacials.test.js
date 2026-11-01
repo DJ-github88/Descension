@@ -25,7 +25,7 @@ describe('native class-heritage abilities (class racials)', () => {
 
   test('class-racial tables exist only for classes with authored payloads', () => {
     const missing = Object.keys(CLASS_PROVENANCE).filter((className) => !CLASS_RACIALS[className]);
-    expect(missing.sort()).toEqual(['Fate Weaver', 'Gambler']);
+    expect(missing.sort()).toEqual(['Bladedancer', 'Covenbane', 'Deathcaller', 'Doomsayer', 'Dreadnaught', 'Druid', 'Exorcist', 'Fate Weaver', 'Gambler', 'Hunter', 'Inscriptor', 'Lichborne', 'Oracle', 'Totemist', 'Witch Doctor'].sort());
   });
 
   test('non-native combinations grant nothing', () => {
