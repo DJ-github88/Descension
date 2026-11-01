@@ -49,6 +49,18 @@ export const dreadnaughtResourceGuide = {
       ['Short Rest / Long Rest', 'Rest', 'Drops to 10 PSI (short rest) or 0 PSI (long rest)']
     ],
     proTip: 'Keep your boiler hovering in the Supercharged tier (61–90 PSI) for maximum speed and fire damage, but keep Vent Steam (0 AP) ready in case incoming hits threaten to push you into catastrophic Overheat.'
+  },
+  trackerHint: 'The Furnace Pressure HUD displays 0 to 100 PSI across 4 boiler states (Cold, Working, Supercharged, Overheat). All pressure changes and venting are tracked manually at the tabletop.',
+  extraSections: [{
+    kind: 'prose',
+    id: 'dreadnaughtBoilerLedger',
+    title: 'Boiler Pressure & Venting Cycle',
+    icon: 'fa-gauge-high',
+    content: 'Track Furnace Pressure (0 to 100 PSI) on the pressure gauge. Build pressure through stoking the firebox, kinetic friction, and absorbing incoming physical blows. Vent superheated steam to control temperature and devastate surrounding foes.'
+  }],
+  playingInPerson: {
+    materials: ['A 0-100 dial, percentile dice, or slider tracker', 'A 10 ft scalding cloud area template', '4 boiler state markers'],
+    keepSections: ['furnace pressure', 'boiler states', 'venting reactions']
   }
 };
 

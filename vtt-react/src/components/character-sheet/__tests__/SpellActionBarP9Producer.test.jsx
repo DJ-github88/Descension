@@ -22,7 +22,7 @@ jest.mock('../../../hooks/useCharacterSpells', () => ({ useCharacterSpells: () =
 jest.mock('../../spellcrafting-wizard/components/common/UnifiedSpellCard', () => ({ __esModule: true, default: () => null }));
 
 const chord = MINSTREL_DATA.spells.find(entry => entry.id === 'minstrel_opening_chord');
-const resolving = MINSTREL_DATA.spells.find(entry => entry.id === 'minstrel_resolving_strike');
+const minorCadence = MINSTREL_DATA.spells.find(entry => entry.id === 'minstrel_minor_cadence');
 const gameHook = () => { const hook = s => (s ? s(mockGame) : mockGame); hook.getState = () => mockGame; hook.setState = () => {}; return hook; };
 const setup = (inRoom = true) => {
   localStorage.clear();
@@ -56,9 +56,9 @@ test('supported Opening Chord in a shared room opens owner approval and spends n
 
 test('unsupported spells keep the sheet manual confirmation and say why', () => {
   setup(true);
-  cast(resolving);
+  cast(minorCadence);
   expect(useSpellConsequenceStore.getState().owner).toBeNull();
-  expect(screen.getByRole('note').textContent).toMatch(/Manual — the VTT applies nothing in this room.*Reason: .*resolvesCadence/);
+  expect(screen.getByRole('note').textContent).toMatch(/Manual — the VTT applies nothing in this room.*Reason: .*single-target/i);
   // P12C-B1 §3: confirming a manual action in a shared room posts a notice and spends nothing.
   fireEvent.click(screen.getByRole('button', { name: /Post manual notice/ }));
   expect(mockState.updateResource).not.toHaveBeenCalled();

@@ -156,8 +156,8 @@ test('edit validation excludes earned earlier-pool picks from a one-pick startin
 describe('All canonical classes distinguish starting picks from earned spells', () => {
     const CANONICAL_CLASSES = getSelectableClassNames();
 
-    test('canonical roster exposes approved classes (26 classes)', () => {
-        expect(CANONICAL_CLASSES).toHaveLength(26);
+    test('canonical roster exposes approved classes (30 classes)', () => {
+        expect(CANONICAL_CLASSES).toHaveLength(30);
     });
 
     test.each(CANONICAL_CLASSES)(

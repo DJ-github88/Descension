@@ -79,8 +79,6 @@ export const RESOURCE_SYSTEM_GUIDES = {
  inscriptor: inscriptorResourceGuide,
  totemist: totemistResourceGuide,
  'witch-doctor': witchDoctorResourceGuide,
- witch_doctor: witchDoctorResourceGuide,
- witchdoctor: witchDoctorResourceGuide,
 };
 
 export const getResourceSystemGuide = (classId) => {
@@ -88,7 +86,14 @@ export const getResourceSystemGuide = (classId) => {
  const raw = String(classId);
  const underscored = raw.toLowerCase().replace(/[-\s]+/g, '_');
  const hyphenated = raw.toLowerCase().replace(/[_\s]+/g, '-');
- return RESOURCE_SYSTEM_GUIDES[raw] || RESOURCE_SYSTEM_GUIDES[underscored] || RESOURCE_SYSTEM_GUIDES[hyphenated] || null;
+ const collapsed = raw.toLowerCase().replace(/[-_\s]+/g, '');
+ return (
+  RESOURCE_SYSTEM_GUIDES[raw] ||
+  RESOURCE_SYSTEM_GUIDES[underscored] ||
+  RESOURCE_SYSTEM_GUIDES[hyphenated] ||
+  (collapsed === 'witchdoctor' ? RESOURCE_SYSTEM_GUIDES['witch-doctor'] : null) ||
+  null
+ );
 };
 
 export const hasResourceSystemGuide = (classId) =>
