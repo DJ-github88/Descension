@@ -346,3 +346,22 @@ it('WA-AUTH-5: transition from guest to registered account increments generation
   expect(userGate.generation).toBeGreaterThan(guestGen);
 });
 ```
+
+
+---
+
+## 8. Correction Status (auth/persistence owner, 2026-11-01) — SOURCE CORRECTED, NOT YET INSTALLED
+
+**Verdict on section 6 patch:** directionally right, incomplete. Both defects reproduced from source and from the real store (13 of 25 new tests failed on unpatched code). The `explicit-login` flag was written nowhere in the codebase, so guest restore was dead code; making it live required lifecycle handling the diff omitted.
+
+**Applied to `vtt-react/src/store/authStore.js` (uncommitted, CRLF preserved):**
+1. Removed nonexistent `setIsAuthenticated`; restore only when no principal is active.
+2. Listener ignores `isAnonymous`/`isGuest` users; null callbacks preserve an active guest (and admin bypass).
+3. `signInAsGuest` writes `mythrill-guest-explicit-login` last, after the intent check; storage failure rolls back the half-written identity.
+4. Registered principal adoption retires guest session markers via `clearGuestSessionState` (authored drafts retained); resets a stranded `isLoading`.
+5. `loadUserData` skips guests and drops results for a superseded uid (cross-identity guard).
+6. `refreshAuthState` (App.jsx, 1.5s after init) gets the same anonymous/guest guards (found by independent review).
+
+**Tests:** new `src/persistence/__tests__/waveA_guestLoginCorrection.test.js` (28 tests, real authStore/guestRetention/P5 gate; only authService mocked). Existing suites run green: waveA_* (incl. blockerCorrections, run before change 6), waveB_b1b5/b6b11/r1r4/b6b11ProductionClosure, waveC_s8, characterHandoff/ProjectionIsolation, p6/p7 production, store guest-scope + roster isolation. waveB_b6b11 needs `--testTimeout=60000` on the slow device mount.
+
+**Known limitations (not changed, no policy invented):** admin/dev-bypass login does not retire guest markers (dev-only); a failed second guest attempt rolls back markers of an already-active guest; guest sign-out does not sign out the Firebase anonymous session; interleaving is simulated, not real Firebase. **Pending:** guarded build/install and UI witness (Login > Continue as Guest > create > save > reload > edit).

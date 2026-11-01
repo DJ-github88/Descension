@@ -94,6 +94,7 @@ beforeEach(async () => {
   sessionStorage.clear();
   jest.clearAllMocks();
   authService.isConfigured = true;
+  authService.getCurrentUser.mockReturnValue(null);
   authService.getUserData.mockImplementation(async () => null);
   authService.signOut.mockImplementation(async () => ({ success: true }));
   resetBootstrapGateForTests();
@@ -272,6 +273,7 @@ describe('supersession of a pending guest login', () => {
   it('a registered provider callback alone (no explicit action) supersedes it', async () => {
     const { d, pending } = startPendingGuest();
     listener(rawRegistered('acct-B'));
+    expect(useAuthStore.getState().isLoading).toBe(false);
     d.resolve({ success: true, user: rawAnon('anon-late') });
     expect((await pending).superseded).toBe(true);
     await flush();
@@ -497,5 +499,106 @@ describe('failure cleanup', () => {
     await p1;
     expect(useAuthStore.getState().error).toBeNull();
     expect(useAuthStore.getState().user.uid).toBe('anon-second');
+  });
+});
+
+describe('refreshAuthState (App.jsx calls it after init)', () => {
+  const guestActive = async () => {
+    authService.signInAsAnonymous.mockResolvedValue({ success: true, user: rawAnon('anon-1') });
+    await useAuthStore.getState().signInAsGuest();
+  };
+
+  it('does not replace an active guest with the raw anonymous Firebase user', async () => {
+    await guestActive();
+    authService.getCurrentUser.mockReturnValue(rawAnon('anon-1'));
+    await useAuthStore.getState().refreshAuthState();
+    await flush();
+    expect(useAuthStore.getState().user).toMatchObject({ uid: 'anon-1', isGuest: true });
+    expect(useAuthStore.getState().userData).toMatchObject({ isGuest: true });
+    expect(authService.getUserData).not.toHaveBeenCalled();
+  });
+
+  it('does not wipe an active guest when Firebase reports no current user', async () => {
+    await guestActive();
+    authService.getCurrentUser.mockReturnValue(null);
+    await useAuthStore.getState().refreshAuthState();
+    expect(useAuthStore.getState().user).toMatchObject({ isGuest: true });
+    expect(localStorage.getItem(EXPLICIT)).toBe('true');
+  });
+
+  it('ignores an anonymous user when signed out, but still adopts a registered one', async () => {
+    authService.getCurrentUser.mockReturnValue(rawAnon('anon-x'));
+    await useAuthStore.getState().refreshAuthState();
+    expect(useAuthStore.getState().user).toBeNull();
+    authService.getCurrentUser.mockReturnValue(rawRegistered('acct-A'));
+    await useAuthStore.getState().refreshAuthState();
+    expect(useAuthStore.getState().user.uid).toBe('acct-A');
+  });
+});
+
+describe('a failed second guest attempt vs an already-active guest', () => {
+  const failWriteOf = (target) => {
+    const realSetItem = Storage.prototype.setItem;
+    let failed = false; // fail only the attempt's own write; the rollback restore must succeed
+    return jest.spyOn(Storage.prototype, 'setItem').mockImplementation(function (key, value) {
+      if (key === target && !failed) { failed = true; throw new Error('QuotaExceededError'); }
+      return realSetItem.call(this, key, value);
+    });
+  };
+  const KEYS = ['mythrill-guest-user', 'mythrill-guest-user-data', 'mythrill-guest-initialized', EXPLICIT];
+
+  it('storage failure restores the active guest markers byte-for-byte and keeps its scope', async () => {
+    seedAuthored();
+    authService.signInAsAnonymous.mockResolvedValueOnce({ success: true, user: rawAnon('anon-A') });
+    await useAuthStore.getState().signInAsGuest();
+    await flush();
+    const before = Object.fromEntries(KEYS.map((k) => [k, localStorage.getItem(k)]));
+    const gateBefore = getBootstrapGateState();
+
+    authService.signInAsAnonymous.mockResolvedValueOnce({ success: true, user: rawAnon('anon-B') });
+    const spy = failWriteOf(EXPLICIT);
+    const result = await useAuthStore.getState().signInAsGuest();
+    spy.mockRestore();
+    await flush();
+
+    expect(result).toMatchObject({ success: false, error: 'QuotaExceededError' });
+    expect(Object.fromEntries(KEYS.map((k) => [k, localStorage.getItem(k)]))).toEqual(before);
+    expect(useAuthStore.getState().user).toMatchObject({ uid: 'anon-A', isGuest: true });
+    expect(useAuthStore.getState().isLoading).toBe(false);
+    expect(getBootstrapGateState().scope).toEqual(gateBefore.scope);
+    expect(getBootstrapGateState().accountGeneration).toBe(gateBefore.accountGeneration);
+    expectAuthoredIntact();
+    // and a reload still restores guest A
+    resetStore();
+    useAuthStore.getState().initializeAuth();
+    await flush();
+    expect(useAuthStore.getState().user.uid).toBe('anon-A');
+  });
+
+  it('service failure of the second attempt never touches the active guest markers', async () => {
+    authService.signInAsAnonymous.mockResolvedValueOnce({ success: true, user: rawAnon('anon-A') });
+    await useAuthStore.getState().signInAsGuest();
+    const before = Object.fromEntries(KEYS.map((k) => [k, localStorage.getItem(k)]));
+    authService.signInAsAnonymous.mockResolvedValueOnce({ success: false, error: 'down' });
+    await useAuthStore.getState().signInAsGuest();
+    expect(Object.fromEntries(KEYS.map((k) => [k, localStorage.getItem(k)]))).toEqual(before);
+    expect(useAuthStore.getState().user.uid).toBe('anon-A');
+  });
+});
+
+describe('admin bypass taking over from a guest', () => {
+  it('retires guest markers, keeps authored drafts, and a reload after admin logout does not resurrect the guest', async () => {
+    seedAuthored();
+    authService.signInAsAnonymous.mockResolvedValueOnce({ success: true, user: rawAnon('anon-A') });
+    await useAuthStore.getState().signInAsGuest();
+    const result = await useAuthStore.getState().signInAsAdmin();
+    if (!result.success) return; // admin login disabled in production builds
+    expectNoGuestIdentity();
+    expectAuthoredIntact();
+    useAuthStore.getState().disableAdminBypass();
+    resetStore();
+    useAuthStore.getState().initializeAuth();
+    await flush();
+    expect(useAuthStore.getState().user).toBeNull();
   });
 });

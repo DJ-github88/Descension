@@ -40,6 +40,25 @@ const beginAuthIntent = () => {
 };
 const isCurrentAuthIntent = (intent) => authIntentSeq === intent;
 
+/**
+ * A different principal taking over from a local guest retires the guest's
+ * session identity markers (authored guest drafts are retained). No-op when
+ * there is no guest identity, so registered/admin reloads keep transient keys.
+ */
+const retireGuestSessionIdentity = (currentUser) => {
+  try {
+    const hadGuestIdentity = currentUser?.isGuest ||
+      localStorage.getItem('mythrill-guest-explicit-login') !== null ||
+      localStorage.getItem('mythrill-guest-user') !== null;
+    if (hadGuestIdentity) {
+      const { clearGuestSessionState } = require('../persistence/guestRetention');
+      clearGuestSessionState();
+    }
+  } catch (_guestRetentionError) {
+    // Helper unavailable: leave storage untouched.
+  }
+};
+
 const ADMIN_EMAIL = 'admin';
 const ADMIN_PASSWORD = 'admin';
 const ADMIN_LOCALSTORAGE_KEY = 'mythrill-admin-user';
@@ -163,6 +182,9 @@ const useAuthStore = create(
         try {
           // Force a re-evaluation of the current auth state
           const currentUser = authService.getCurrentUser();
+          // Anonymous credentials back the local guest / dev-bypass session and are
+          // never registered identities (same rule as the auth-state listener).
+          if (currentUser && (currentUser.isAnonymous || currentUser.isGuest)) return;
           if (currentUser) {
             // User is authenticated, ensure state is consistent
             set({
@@ -173,8 +195,8 @@ const useAuthStore = create(
             // Reload user data to ensure it's current
             get().loadUserData();
           } else {
-            // Don't clobber an active admin dev-login session
-            if (get().isAdminBypass) return;
+            // Don't clobber an active admin dev-login or local guest session
+            if (get().isAdminBypass || get().user?.isGuest) return;
             // No authenticated user, clear state
             set({
               user: null,
@@ -302,7 +324,10 @@ const useAuthStore = create(
       // Sign in as Guest
       signInAsGuest: async () => {
         const intent = beginAuthIntent();
-        let guestIdentityWritten = false;
+        // Markers of an already-active guest, captured before this attempt touches
+        // them, so a failed attempt can restore exactly what it did not own.
+        let guestIdentitySnapshot = null;
+        let guestIdentityTouched = false;
         set({ isLoading: true, error: null });
 
         try {
@@ -324,7 +349,11 @@ const useAuthStore = create(
 
           // Post-auth: clear only ephemeral session state; authored drafts stay.
           try {
-            const { clearGuestSessionState } = require('../persistence/guestRetention');
+            const { clearGuestSessionState, GUEST_SESSION_IDENTITY_KEYS } = require('../persistence/guestRetention');
+            const snapshot = {};
+            for (const key of GUEST_SESSION_IDENTITY_KEYS) snapshot[key] = localStorage.getItem(key);
+            guestIdentitySnapshot = snapshot;
+            guestIdentityTouched = true;
             clearGuestSessionState();
           } catch (_guestRetentionError) {
             // Guest retention helper unavailable: leave storage untouched.
@@ -368,7 +397,6 @@ const useAuthStore = create(
           // Store guest data in localStorage (not Firebase). Everything from the
           // intent check above to the final set() is synchronous, so no newer auth
           // intent can interleave with these writes.
-          guestIdentityWritten = true;
           localStorage.setItem('mythrill-guest-user', JSON.stringify(guestUser));
           localStorage.setItem('mythrill-guest-user-data', JSON.stringify(guestUserData));
 
@@ -391,12 +419,18 @@ const useAuthStore = create(
 
           return { success: true };
         } catch (error) {
-          if (guestIdentityWritten) {
-            // A storage write failed part-way: do not leave half a guest identity
-            // (authored drafts are retained by clearGuestSessionState).
+          if (guestIdentityTouched) {
+            // The attempt failed after touching guest identity markers: remove what
+            // it wrote (authored drafts are retained by clearGuestSessionState), then
+            // give a still-active previous guest back exactly the markers it had.
             try {
               const { clearGuestSessionState } = require('../persistence/guestRetention');
               clearGuestSessionState();
+              if (get().user?.isGuest && guestIdentitySnapshot) {
+                for (const [key, value] of Object.entries(guestIdentitySnapshot)) {
+                  if (value !== null) localStorage.setItem(key, value);
+                }
+              }
             } catch (_guestRetentionError) {
               // Helper unavailable: leave storage untouched.
             }
@@ -710,6 +744,9 @@ const useAuthStore = create(
             isAdmin: true
           };
 
+          // Admin takes over from any local guest: retire its session markers.
+          retireGuestSessionIdentity(get().user);
+
           // Persist to localStorage so the admin session survives refresh
           adminStorageSet(ADMIN_LOCALSTORAGE_KEY, JSON.stringify(adminUser));
           adminStorageSet(ADMIN_LOCALSTORAGE_DATA_KEY, JSON.stringify(adminUserData));
@@ -852,18 +889,11 @@ const useAuthStore = create(
                 // A registered principal supersedes any local guest session
                 // identity. Retire the markers (authored guest drafts are kept) so a
                 // later reload cannot resurrect the guest.
-                try {
-                  const hadGuestIdentity = get().user?.isGuest ||
-                    localStorage.getItem('mythrill-guest-explicit-login') !== null ||
-                    localStorage.getItem('mythrill-guest-user') !== null;
-                  if (hadGuestIdentity) {
-                    const { clearGuestSessionState } = require('../persistence/guestRetention');
-                    clearGuestSessionState();
-                  }
-                } catch (_guestRetentionError) {
-                  // Helper unavailable: leave storage untouched.
-                }
+                retireGuestSessionIdentity(get().user);
                 get().setUser(user);
+                // A guest sign-in superseded by this principal skips its own
+                // loading reset; do not leave the login UI disabled.
+                if (get().isLoading) set({ isLoading: false });
               } else if (!user) {
                 // Don't clobber an active admin dev-login session, or an active
                 // local guest session, when Firebase reports no current user.
