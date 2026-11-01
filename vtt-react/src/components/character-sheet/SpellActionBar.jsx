@@ -21,6 +21,7 @@ import { routeWeaponStrike, strikeDiagnostic } from '../../services/weaponStrike
 import { postManualNotice, MANUAL_NOTE } from '../../services/manualActionGate';
 import { createScopedNativeFamily } from '../../persistence/scopedNativeFamily';
 import EquipmentActionSlot from '../ui/EquipmentActionSlot';
+import WeaponSkillTable from './WeaponSkillTable';
 import { getActionsForSlot } from '../../data/weaponActionSpells';
 import { normalizeEquipment, isOffHandDisabled as checkOffHandDisabled } from '../../utils/equipmentUtils';
 import useTooltipPosition from '../common/useTooltipPosition';
@@ -303,7 +304,71 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
     { estimateHeight: 450, estimateWidth: 380, offsetX: 16, anchor: 'above' }
   );
 
+  const skillRanks = useCharacterStore(state => state.skillRanks) || {};
+  const skillProgress = useCharacterStore(state => state.skillProgress) || {};
+  const [fanCompanion, setFanCompanion] = useState(null);
+  const [fanCompanionPos, setFanCompanionPos] = useState({ x: 0, y: 0 });
+  const fanCloseTimerRef = useRef(null);
+
+  const { adjustedPosition: fanCompanionAdjPos, tooltipRef: fanCompanionRef } = useTooltipPosition(
+    fanCompanionPos,
+    !!fanCompanion,
+    { estimateHeight: 520, estimateWidth: 720, offsetX: 16, anchor: 'above' }
+  );
+
+  const handleFanActionMouseEnter = (e, action, slotName) => {
+    if (fanCloseTimerRef.current) {
+      clearTimeout(fanCloseTimerRef.current);
+      fanCloseTimerRef.current = null;
+    }
+    const rect = e?.currentTarget?.getBoundingClientRect?.() || {
+      left: (e?.clientX || 100) - 24,
+      width: 48,
+      top: (e?.clientY || window.innerHeight - 80) - 24
+    };
+    const posX = (e?.clientX && e.clientX > 0) ? e.clientX : (rect.left + rect.width / 2);
+    const posY = rect.top;
+    const targetItem = equipment?.[slotName] || null;
+    setFanCompanionPos({ x: posX, y: posY });
+    setFanCompanion(prev => {
+      if (prev?.isPinned && prev?.action?.id === action?.id) return prev;
+      return {
+        action,
+        slotName,
+        item: targetItem,
+        isPinned: false
+      };
+    });
+  };
+
+  const scheduleCloseFanCompanion = () => {
+    if (fanCloseTimerRef.current) {
+      clearTimeout(fanCloseTimerRef.current);
+    }
+    fanCloseTimerRef.current = setTimeout(() => {
+      setFanCompanion(prev => (prev?.isPinned ? prev : null));
+    }, 220);
+  };
+
+  const cancelCloseFanCompanion = () => {
+    if (fanCloseTimerRef.current) {
+      clearTimeout(fanCloseTimerRef.current);
+      fanCloseTimerRef.current = null;
+    }
+  };
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        setFanCompanion(null);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
   const handleEquipmentActionClick = (action) => {
+    setFanCompanion(null);
     setOpenEquipmentSlot(null);
     // P9: weapon actions resolve no original class definition and stay manual,
     // but every sheet producer routes through the same supported-spell gate.
@@ -1357,8 +1422,15 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
           actions={mhActions}
           isOpen={openEquipmentSlot === 'mainHand'}
           isDisabled={false}
-          onToggleOpen={(slot) => setOpenEquipmentSlot(prev => prev === slot ? null : slot)}
+          onToggleOpen={(slot) => {
+            setFanCompanion(null);
+            setOpenEquipmentSlot(prev => prev === slot ? null : slot);
+          }}
           onActionClick={handleEquipmentActionClick}
+          onActionMouseEnter={(e, action) => handleFanActionMouseEnter(e, action, 'mainHand')}
+          onActionMouseLeave={scheduleCloseFanCompanion}
+          onActionFocus={(e, action) => handleFanActionMouseEnter(e, action, 'mainHand')}
+          onActionBlur={scheduleCloseFanCompanion}
           onSlotMouseEnter={handleEquipmentSlotMouseEnter}
           onSlotMouseMove={handleEquipmentSlotMouseMove}
           onSlotMouseLeave={handleEquipmentSlotMouseLeave}
@@ -1464,8 +1536,15 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
           actions={ohActions}
           isOpen={openEquipmentSlot === 'offHand'}
           isDisabled={isOffHandDisabled}
-          onToggleOpen={(slot) => setOpenEquipmentSlot(prev => prev === slot ? null : slot)}
+          onToggleOpen={(slot) => {
+            setFanCompanion(null);
+            setOpenEquipmentSlot(prev => prev === slot ? null : slot);
+          }}
           onActionClick={handleEquipmentActionClick}
+          onActionMouseEnter={(e, action) => handleFanActionMouseEnter(e, action, 'offHand')}
+          onActionMouseLeave={scheduleCloseFanCompanion}
+          onActionFocus={(e, action) => handleFanActionMouseEnter(e, action, 'offHand')}
+          onActionBlur={scheduleCloseFanCompanion}
           onSlotMouseEnter={handleEquipmentSlotMouseEnter}
           onSlotMouseMove={handleEquipmentSlotMouseMove}
           onSlotMouseLeave={handleEquipmentSlotMouseLeave}
@@ -1476,8 +1555,15 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
           actions={rangedActions}
           isOpen={openEquipmentSlot === 'ranged'}
           isDisabled={false}
-          onToggleOpen={(slot) => setOpenEquipmentSlot(prev => prev === slot ? null : slot)}
+          onToggleOpen={(slot) => {
+            setFanCompanion(null);
+            setOpenEquipmentSlot(prev => prev === slot ? null : slot);
+          }}
           onActionClick={handleEquipmentActionClick}
+          onActionMouseEnter={(e, action) => handleFanActionMouseEnter(e, action, 'ranged')}
+          onActionMouseLeave={scheduleCloseFanCompanion}
+          onActionFocus={(e, action) => handleFanActionMouseEnter(e, action, 'ranged')}
+          onActionBlur={scheduleCloseFanCompanion}
           onSlotMouseEnter={handleEquipmentSlotMouseEnter}
           onSlotMouseMove={handleEquipmentSlotMouseMove}
           onSlotMouseLeave={handleEquipmentSlotMouseLeave}
@@ -1563,6 +1649,52 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
               showStats={true}
               showTags={true}
             />
+          </div>
+        </TooltipPortal>
+      )}
+
+      {/* Floating companion spellcard + weapon table shown when hovering/focusing fanned equipment actions */}
+      {fanCompanion && (
+        <TooltipPortal>
+          <div
+            ref={fanCompanionRef}
+            className="action-bar-fan-companion-overlay"
+            style={{
+              position: 'fixed',
+              left: `${fanCompanionAdjPos.x}px`,
+              top: `${fanCompanionAdjPos.y}px`,
+              maxHeight: 'calc(100vh - 36px)',
+              overflowY: 'auto',
+              pointerEvents: 'auto',
+              zIndex: 2147483647
+            }}
+            onMouseEnter={cancelCloseFanCompanion}
+            onMouseLeave={scheduleCloseFanCompanion}
+            data-testid="fan-action-companion"
+          >
+            <div className="fan-companion-layout">
+              <div className="fan-companion-spellcard">
+                <UnifiedSpellCard
+                  spell={fanCompanion.action}
+                  variant="wizard"
+                  showActions={false}
+                  showDescription={true}
+                  showStats={true}
+                  showTags={true}
+                />
+              </div>
+              <div className="fan-companion-weapontable">
+                <WeaponSkillTable
+                  item={fanCompanion.item}
+                  slotName={fanCompanion.slotName}
+                  skillRanks={skillRanks}
+                  skillProgress={skillProgress}
+                  isPinned={fanCompanion.isPinned}
+                  onTogglePin={() => setFanCompanion(prev => prev ? ({ ...prev, isPinned: !prev.isPinned }) : null)}
+                  onClose={() => setFanCompanion(null)}
+                />
+              </div>
+            </div>
           </div>
         </TooltipPortal>
       )}

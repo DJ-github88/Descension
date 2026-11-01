@@ -1771,3 +1771,48 @@
     font-size: 10px;
   }
 }
+
+
+/* Companion spellcard + weapon table popout beside fanned-out actions */
+.action-bar-fan-companion-overlay {
+  max-width: 95vw;
+  max-height: calc(100vh - 36px);
+  overflow-y: auto;
+  box-sizing: border-box;
+  filter: drop-shadow(0 12px 32px rgba(0, 0, 0, 0.85));
+  pointer-events: auto !important;
+  z-index: 2147483647;
+}
+
+.fan-companion-layout {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.fan-companion-spellcard {
+  width: 320px;
+  max-width: 90vw;
+  flex-shrink: 0;
+}
+
+.fan-companion-weapontable {
+  width: 380px;
+  max-width: 90vw;
+  flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+  .fan-companion-layout {
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .fan-companion-spellcard,
+  .fan-companion-weapontable {
+    width: 100%;
+    max-width: 100%;
+  }
+}

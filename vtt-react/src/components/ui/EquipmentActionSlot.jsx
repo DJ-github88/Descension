@@ -28,6 +28,8 @@ export default function EquipmentActionSlot({
     onActionMouseEnter,
     onActionMouseLeave,
     onActionMouseMove,
+    onActionFocus,
+    onActionBlur,
     onSlotMouseEnter,
     onSlotMouseLeave,
     onSlotMouseMove
@@ -99,6 +101,9 @@ export default function EquipmentActionSlot({
                     />
                 </div>
 
+                {/* Slot Identifier Pill */}
+                <div className="equipment-slot-tag">{slotLabel}</div>
+
                 {/* Disabled Overlay (e.g. 2-Handed weapon equipped in MH) */}
                 {isDisabled && (
                     <div className="disabled-cross-overlay">
@@ -131,6 +136,8 @@ export default function EquipmentActionSlot({
                 onActionMouseEnter={onActionMouseEnter}
                 onActionMouseLeave={onActionMouseLeave}
                 onActionMouseMove={onActionMouseMove}
+                onActionFocus={onActionFocus}
+                onActionBlur={onActionBlur}
             />
         </div>
     );
@@ -147,8 +154,9 @@ EquipmentActionSlot.propTypes = {
     onActionMouseEnter: PropTypes.func,
     onActionMouseLeave: PropTypes.func,
     onActionMouseMove: PropTypes.func,
+    onActionFocus: PropTypes.func,
+    onActionBlur: PropTypes.func,
     onSlotMouseEnter: PropTypes.func,
     onSlotMouseLeave: PropTypes.func,
     onSlotMouseMove: PropTypes.func
 };
-

@@ -1,5 +1,5 @@
 import ResourceOverflowModal from '../common/ResourceOverflowModal';
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import useCharacterStore from '../../store/characterStore';
 import useInventoryStore from '../../store/inventoryStore';
@@ -10,6 +10,8 @@ import { useInspectionCharacter } from '../../contexts/InspectionContext';
 import TooltipPortal from '../tooltips/TooltipPortal';
 import { useTooltipPosition } from '../common/useTooltipPosition';
 import ItemTooltip from '../item-generation/ItemTooltip';
+import WeaponSkillTable from './WeaponSkillTable';
+import { resolveWeaponSkillInfo } from '../../utils/weaponSkillLookup';
 import UnequipContextMenu from '../equipment/UnequipContextMenu';
 import DurabilityAdjustModal from '../item-generation/DurabilityAdjustModal';
 import { isOffHandDisabled, normalizeEquipment } from '../../utils/equipmentUtils';
@@ -641,6 +643,8 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
         statsModel: state.statsModel,
         equipmentBonuses: state.equipmentBonuses,
         derivedStats: state.derivedStats,
+        skillRanks: state.skillRanks,
+        skillProgress: state.skillProgress,
         resistances: state.resistances,
         spellPower: state.spellPower,
         health: state.health,
@@ -679,6 +683,8 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
     const {
         equipment: rawEquipment,
         stats,
+        skillRanks = {},
+        skillProgress = {},
         equipmentBonuses,
         derivedStats,
         resistances = {},
@@ -740,6 +746,8 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
     // Get current player name for actor name in logs
     const currentPlayerName = useCharacterStore(state => state.name || 'Player');
     const [hoveredSlot, setHoveredSlot] = useState(null);
+    const [expandedWeaponSlotTable, setExpandedWeaponSlotTable] = useState(null);
+    const weaponTooltipCloseTimerRef = useRef(null);
     const [hoveredStat, setHoveredStat] = useState(null);
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
     const { adjustedPosition, tooltipRef } = useTooltipPosition(mousePosition, !!hoveredSlot || !!hoveredStat);
@@ -879,7 +887,7 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
         const hasChanges = current.race !== last.race || current.subrace !== last.subrace || current.path !== last.path || current.class !== last.class;
 
         // Also check if character changed (if lastRaceSubracePath was reset, we need to add spells)
-        const characterChanged = last.race === '' && last.subrace === '' && last.path === '' &&
+        const characterChanged = last.race === '' && last.subrace === '' && last.path === '' && last.class === '' &&
             (current.race !== '' || current.subrace !== '' || current.path !== '' || current.class !== '');
 
         if (!hasChanges && !characterChanged) {
@@ -1853,11 +1861,19 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
                                             className={`weapon-slot ${isEmpty ? 'empty' : ''} ${isDisabled ? 'disabled' : ''}`}
                                             onClick={(e) => handleSlotTap(e, slotName)}
                                             onMouseEnter={(e) => {
+                                                if (weaponTooltipCloseTimerRef.current) {
+                                                    clearTimeout(weaponTooltipCloseTimerRef.current);
+                                                    weaponTooltipCloseTimerRef.current = null;
+                                                }
                                                 setHoveredSlot(slotName);
                                                 updateTooltipPosition(e);
                                             }}
                                             onMouseMove={updateTooltipPosition}
-                                            onMouseLeave={() => setHoveredSlot(null)}
+                                            onMouseLeave={() => {
+                                                weaponTooltipCloseTimerRef.current = setTimeout(() => {
+                                                    setHoveredSlot(null);
+                                                }, 200);
+                                            }}
                                             onContextMenu={(e) => {
                                                 if (item && !isDisabled) {
                                                     handleUnequipContextMenu(e, item, slotName);
@@ -1881,7 +1897,7 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
                                                     </div>
                                                 </div>
                                             )}
-                                        {hoveredSlot === slotName && item && !isDisabled && renderTooltip(item)}
+                                        {hoveredSlot === slotName && item && !isDisabled && renderTooltip(item, slotName)}
                                         {hoveredSlot === slotName && (isEmpty || isDisabled) && (
                                             <TooltipPortal>
                                                 <div
@@ -2666,24 +2682,106 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
         );
     };
 
-    const renderTooltip = (item) => {
+    const renderTooltip = (item, slotName) => {
         if (!item) return null;
+
+        const isWeaponSlot = ['mainHand', 'offHand', 'ranged'].includes(slotName);
+        const weaponInfo = isWeaponSlot
+            ? resolveWeaponSkillInfo(item, { skillRanks, skillProgress, slotName })
+            : null;
 
         return (
             <TooltipPortal>
                 <div
                     ref={tooltipRef}
+                    className={`equipment-slot-tooltip-mount ${isWeaponSlot ? 'weapon-slot-interactive-tooltip' : ''}`}
                     style={{
                         position: 'fixed',
                         left: adjustedPosition.x,
                         top: adjustedPosition.y,
                         maxHeight: 'calc(100vh - 36px)',
                         overflowY: 'auto',
-                        pointerEvents: 'none',
+                        pointerEvents: isWeaponSlot ? 'auto' : 'none',
                         zIndex: 2147483647
+                    }}
+                    onMouseEnter={() => {
+                        if (weaponTooltipCloseTimerRef.current) {
+                            clearTimeout(weaponTooltipCloseTimerRef.current);
+                            weaponTooltipCloseTimerRef.current = null;
+                        }
+                    }}
+                    onMouseLeave={() => {
+                        if (isWeaponSlot) {
+                            weaponTooltipCloseTimerRef.current = setTimeout(() => {
+                                setHoveredSlot(null);
+                            }, 200);
+                        }
                     }}
                 >
                     <ItemTooltip item={item} />
+                    {isWeaponSlot && weaponInfo && (
+                        <div className="sheet-weapon-tooltip-extension" data-testid="sheet-weapon-tooltip-extension">
+                            <div className="sheet-wte-header">
+                                <div className="sheet-wte-title-row">
+                                    <span className="sheet-wte-title">
+                                        {weaponInfo.canonicalSkill || 'Weapon Mastery'}
+                                    </span>
+                                    {weaponInfo.rank && (
+                                        <span className="sheet-wte-rank-badge" style={{ background: weaponInfo.rank.color }}>
+                                            {weaponInfo.rank.name} ({weaponInfo.skillDie})
+                                        </span>
+                                    )}
+                                </div>
+                                <div className="sheet-wte-dice-row">
+                                    <span className="sheet-wte-dice-chip skill" title="Weapon Skill / Proficiency Die rolled on the stunt table">
+                                        🎲 Skill Die: <strong>{weaponInfo.skillDie || 'd4'}</strong>
+                                    </span>
+                                    <span className="sheet-wte-dice-chip damage" title="Base weapon damage dealt on hit">
+                                        ⚔️ Damage: <strong>{weaponInfo.damageDice || '1d4'}</strong>
+                                    </span>
+                                    {weaponInfo.blockingDice && (
+                                        <span className="sheet-wte-dice-chip block" title="Equipment blocking / DR mitigation">
+                                            🛡️ Block: <strong>{weaponInfo.blockingDice}</strong>
+                                        </span>
+                                    )}
+                                </div>
+                            </div>
+
+                            {/* Access to corresponding existing weapon table */}
+                            {weaponInfo.status === 'available' ? (
+                                <div className="sheet-wte-actions">
+                                    <button
+                                        type="button"
+                                        className="sheet-wte-table-toggle-btn"
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            setExpandedWeaponSlotTable(prev => prev === slotName ? null : slotName);
+                                        }}
+                                        data-testid="toggle-weapon-table-btn"
+                                    >
+                                        <i className={`fas ${expandedWeaponSlotTable === slotName ? 'fa-chevron-up' : 'fa-table-cells'}`}></i>
+                                        <span>{expandedWeaponSlotTable === slotName ? 'Hide Weapon Table' : 'View Weapon Table (1–20)'}</span>
+                                    </button>
+                                </div>
+                            ) : (
+                                <div className="sheet-wte-unavailable-note" data-testid="sheet-wte-unavailable-note">
+                                    {weaponInfo.reason}
+                                </div>
+                            )}
+
+                            {expandedWeaponSlotTable === slotName && weaponInfo.status === 'available' && (
+                                <div className="sheet-wte-expanded-table" data-testid="sheet-expanded-weapon-table">
+                                    <WeaponSkillTable
+                                        item={item}
+                                        slotName={slotName}
+                                        skillRanks={skillRanks}
+                                        skillProgress={skillProgress}
+                                        embedded={true}
+                                    />
+                                </div>
+                            )}
+                        </div>
+                    )}
                 </div>
             </TooltipPortal>
         );
@@ -2691,7 +2789,7 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
 
     return (
         <div className="character-container" onClick={(e) => {
-            if (!e.target.closest('.gear-slot') && !e.target.closest('.weapon-slot') && !e.target.closest('.equipment-slot-tooltip') && !e.target.closest('.tooltip')) {
+            if (!e.target.closest('.gear-slot') && !e.target.closest('.weapon-slot') && !e.target.closest('.equipment-slot-tooltip') && !e.target.closest('.tooltip') && !e.target.closest('.weapon-slot-interactive-tooltip')) {
                 setHoveredSlot(null);
             }
         }}>

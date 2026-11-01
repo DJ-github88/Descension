@@ -14,7 +14,9 @@ export default function ActionFanOutMenu({
     onActionClick,
     onActionMouseEnter,
     onActionMouseLeave,
-    onActionMouseMove
+    onActionMouseMove,
+    onActionFocus,
+    onActionBlur
 }) {
     if (!isOpen || !actions || actions.length === 0) return null;
 
@@ -89,6 +91,9 @@ export default function ActionFanOutMenu({
                 return (
                     <div
                         key={action.id || index}
+                        role="button"
+                        tabIndex={0}
+                        aria-label={`${action.name} (${apCost} AP)`}
                         className={`action-fan-bubble ${isSpecial ? 'special-action' : 'baseline-action'}`}
                         style={{
                             '--tx': `${x}px`,
@@ -101,19 +106,42 @@ export default function ActionFanOutMenu({
                                 onActionClick(action, e);
                             }
                         }}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter' || e.key === ' ') {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                if (onActionClick) {
+                                    onActionClick(action, e);
+                                }
+                            }
+                        }}
                         onMouseEnter={(e) => {
                             if (onActionMouseEnter) {
-                                onActionMouseEnter(e, action);
+                                onActionMouseEnter(e, action, slotType);
                             }
                         }}
                         onMouseMove={(e) => {
                             if (onActionMouseMove) {
-                                onActionMouseMove(e, action);
+                                onActionMouseMove(e, action, slotType);
                             }
                         }}
                         onMouseLeave={(e) => {
                             if (onActionMouseLeave) {
-                                onActionMouseLeave(e, action);
+                                onActionMouseLeave(e, action, slotType);
+                            }
+                        }}
+                        onFocus={(e) => {
+                            if (onActionFocus) {
+                                onActionFocus(e, action, slotType);
+                            } else if (onActionMouseEnter) {
+                                onActionMouseEnter(e, action, slotType);
+                            }
+                        }}
+                        onBlur={(e) => {
+                            if (onActionBlur) {
+                                onActionBlur(e, action, slotType);
+                            } else if (onActionMouseLeave) {
+                                onActionMouseLeave(e, action, slotType);
                             }
                         }}
                     >
@@ -148,6 +176,7 @@ ActionFanOutMenu.propTypes = {
     onActionClick: PropTypes.func,
     onActionMouseEnter: PropTypes.func,
     onActionMouseLeave: PropTypes.func,
-    onActionMouseMove: PropTypes.func
+    onActionMouseMove: PropTypes.func,
+    onActionFocus: PropTypes.func,
+    onActionBlur: PropTypes.func
 };
-

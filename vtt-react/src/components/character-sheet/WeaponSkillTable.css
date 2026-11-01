@@ -1,0 +1,507 @@
+/* WeaponSkillTable.css - Mythrill Dark Fantasy Parchment & Bronze Theme */
+
+.weapon-skill-table-container {
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(145deg, #1c1511 0%, #120e0b 100%);
+    border: 1.5px solid #8b7355;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.75), 0 0 15px rgba(139, 115, 85, 0.2);
+    color: #f0e6d2;
+    font-family: 'Crimson Text', serif;
+    width: 380px;
+    max-width: 95vw;
+    max-height: 520px;
+    overflow: hidden;
+    position: relative;
+    user-select: text;
+}
+
+.weapon-skill-table-container.embedded {
+    width: 100%;
+    max-width: 100%;
+    box-shadow: none;
+    border-color: #5a4530;
+}
+
+/* Header */
+.wst-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    background: rgba(30, 22, 17, 0.95);
+    border-bottom: 1.5px solid #5a4530;
+    gap: 10px;
+}
+
+.wst-header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+}
+
+.wst-item-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
+    border: 1px solid #8b7355;
+    background: #0d0a08;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.wst-title-block {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.wst-item-name {
+    font-size: 15px;
+    font-weight: 700;
+    color: #ffd700;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.wst-pills-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 2px;
+    flex-wrap: wrap;
+}
+
+.wst-pill {
+    font-size: 11px;
+    font-family: 'Cinzel', serif;
+    padding: 2px 6px;
+    border-radius: 4px;
+    line-height: 1.2;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.wst-pill.slot-pill {
+    background: rgba(139, 115, 85, 0.25);
+    border: 1px solid #8b7355;
+    color: #e0d0b8;
+}
+
+.wst-pill.skill-pill {
+    background: rgba(198, 160, 45, 0.2);
+    border: 1px solid #c6a02d;
+    color: #ffd700;
+}
+
+.wst-pill.rank-pill {
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.wst-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+}
+
+.wst-action-btn {
+    background: transparent;
+    border: 1px solid #5a4530;
+    border-radius: 4px;
+    color: #c6a02d;
+    cursor: pointer;
+    font-size: 12px;
+    width: 26px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s ease;
+}
+
+.wst-action-btn:hover {
+    background: rgba(198, 160, 45, 0.2);
+    border-color: #ffd700;
+    color: #fff;
+}
+
+.wst-action-btn.pinned {
+    background: #8b7355;
+    color: #ffd700;
+    border-color: #ffd700;
+}
+
+/* Dice Breakdown Bar */
+.wst-dice-bar {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+    padding: 8px 12px;
+    background: rgba(15, 12, 10, 0.85);
+    border-bottom: 1px solid #3d2f22;
+}
+
+.wst-die-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 4px 6px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(139, 115, 85, 0.3);
+    border-radius: 4px;
+}
+
+.wst-die-card.skill-die-card {
+    border-color: #c6a02d;
+    background: rgba(198, 160, 45, 0.08);
+}
+
+.wst-die-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #a09080;
+    margin-bottom: 2px;
+}
+
+.wst-die-value {
+    font-size: 13px;
+    font-weight: 700;
+    color: #ffd700;
+}
+
+.wst-die-card.damage-die-card .wst-die-value {
+    color: #ff8566;
+}
+
+.wst-die-card.blocking-die-card .wst-die-value {
+    color: #85b8ff;
+}
+
+/* Reach summary notice */
+.wst-reach-notice {
+    padding: 6px 12px;
+    font-size: 12px;
+    color: #c8b8a0;
+    background: rgba(40, 30, 22, 0.7);
+    border-bottom: 1px solid #3d2f22;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.wst-reach-badge {
+    padding: 1px 6px;
+    border-radius: 3px;
+    background: rgba(74, 124, 89, 0.3);
+    border: 1px solid #4a7c59;
+    color: #7dd39c;
+    font-weight: 600;
+    font-size: 11px;
+}
+
+/* Filter pills */
+.wst-filters {
+    display: flex;
+    gap: 4px;
+    padding: 6px 12px;
+    background: rgba(20, 16, 13, 0.9);
+    border-bottom: 1px solid #3d2f22;
+}
+
+.wst-filter-btn {
+    background: transparent;
+    border: 1px solid #4a3a2a;
+    border-radius: 3px;
+    color: #b0a090;
+    font-size: 11px;
+    padding: 2px 8px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.wst-filter-btn:hover {
+    border-color: #8b7355;
+    color: #ffd700;
+}
+
+.wst-filter-btn.active {
+    background: rgba(198, 160, 45, 0.25);
+    border-color: #c6a02d;
+    color: #ffd700;
+    font-weight: 600;
+}
+
+/* Table Body */
+.wst-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 4px 0;
+    max-height: 340px;
+}
+
+.wst-body::-webkit-scrollbar {
+    width: 6px;
+}
+
+.wst-body::-webkit-scrollbar-thumb {
+    background: #5a4530;
+    border-radius: 3px;
+}
+
+.wst-row {
+    padding: 6px 12px;
+    border-bottom: 1px solid rgba(139, 115, 85, 0.12);
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    transition: background 0.1s ease;
+}
+
+.wst-row:hover {
+    background: rgba(198, 160, 45, 0.08);
+}
+
+.wst-row.in-base-range {
+    border-left: 3px solid #4a7c59;
+    background: rgba(74, 124, 89, 0.06);
+}
+
+.wst-row.in-base-range:hover {
+    background: rgba(74, 124, 89, 0.14);
+}
+
+.wst-row-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+}
+
+.wst-row-title-group {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.wst-face-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 22px;
+    height: 18px;
+    padding: 0 4px;
+    font-size: 11px;
+    font-weight: 700;
+    border-radius: 3px;
+}
+
+/* Tone styles */
+.wst-face-badge.tone-bad { background: rgba(180, 40, 40, 0.3); border: 1px solid #b42828; color: #ff8888; }
+.wst-face-badge.tone-weak { background: rgba(160, 100, 40, 0.3); border: 1px solid #a06428; color: #ffaa66; }
+.wst-face-badge.tone-base { background: rgba(100, 100, 100, 0.3); border: 1px solid #777; color: #ddd; }
+.wst-face-badge.tone-ok { background: rgba(70, 120, 80, 0.3); border: 1px solid #467850; color: #99eeaa; }
+.wst-face-badge.tone-good { background: rgba(40, 120, 160, 0.3); border: 1px solid #2878a0; color: #77ccff; }
+.wst-face-badge.tone-great { background: rgba(120, 60, 160, 0.3); border: 1px solid #783ca0; color: #ddaaff; }
+.wst-face-badge.tone-crit { background: rgba(180, 140, 20, 0.35); border: 1px solid #ffd700; color: #fff077; }
+
+.wst-row-tier-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: #e8dac5;
+}
+
+.wst-row-delta {
+    font-size: 11px;
+    padding: 1px 5px;
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.05);
+    color: #ffd700;
+    border: 1px solid rgba(198, 160, 45, 0.3);
+}
+
+.wst-row-reach-tag {
+    font-size: 10px;
+    padding: 1px 4px;
+    border-radius: 2px;
+}
+
+.wst-row-reach-tag.base-tag {
+    background: rgba(74, 124, 89, 0.25);
+    color: #88e0a8;
+    border: 1px solid rgba(74, 124, 89, 0.5);
+}
+
+.wst-row-reach-tag.surge-tag {
+    background: rgba(140, 100, 40, 0.2);
+    color: #d8a860;
+    border: 1px solid rgba(140, 100, 40, 0.4);
+}
+
+.wst-row-text {
+    font-size: 12px;
+    line-height: 1.35;
+    color: #cfbeaa;
+    margin-top: 1px;
+}
+
+/* Unavailable State Card */
+.wst-unavailable-card {
+    padding: 16px 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 8px;
+}
+
+.wst-unavailable-icon {
+    font-size: 26px;
+    color: #8b7355;
+    margin-bottom: 4px;
+}
+
+.wst-unavailable-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #e0d0b8;
+}
+
+.wst-unavailable-desc {
+    font-size: 12px;
+    color: #a09080;
+    line-height: 1.4;
+    max-width: 320px;
+}
+
+.wst-unavailable-stats {
+    margin-top: 8px;
+    padding: 6px 12px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid #5a4530;
+    border-radius: 4px;
+    font-size: 12px;
+    color: #85b8ff;
+    font-weight: 600;
+}
+
+
+/* Character Sheet Equipment Tooltip Extension */
+.weapon-slot-interactive-tooltip {
+    pointer-events: auto !important;
+}
+
+.sheet-weapon-tooltip-extension {
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1.5px solid #8b7355;
+    font-family: 'Crimson Text', serif;
+    color: #f0e6d2;
+}
+
+.sheet-wte-header {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.sheet-wte-title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 6px;
+}
+
+.sheet-wte-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #ffd700;
+}
+
+.sheet-wte-rank-badge {
+    font-size: 11px;
+    padding: 2px 6px;
+    border-radius: 3px;
+    color: #fff;
+    font-weight: 600;
+}
+
+.sheet-wte-dice-row {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: 2px;
+}
+
+.sheet-wte-dice-chip {
+    font-size: 11px;
+    padding: 2px 6px;
+    border-radius: 3px;
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(139, 115, 85, 0.4);
+    color: #d0c0a8;
+}
+
+.sheet-wte-dice-chip.skill {
+    border-color: #c6a02d;
+    color: #ffd700;
+    background: rgba(198, 160, 45, 0.15);
+}
+
+.sheet-wte-dice-chip.damage {
+    border-color: #a04030;
+    color: #ff9980;
+}
+
+.sheet-wte-dice-chip.block {
+    border-color: #4070a0;
+    color: #99ccff;
+}
+
+.sheet-wte-actions {
+    margin-top: 6px;
+}
+
+.sheet-wte-table-toggle-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 5px 8px;
+    background: rgba(198, 160, 45, 0.18);
+    border: 1px solid #8b7355;
+    border-radius: 4px;
+    color: #ffd700;
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.sheet-wte-table-toggle-btn:hover {
+    background: rgba(198, 160, 45, 0.35);
+    border-color: #ffd700;
+    color: #fff;
+}
+
+.sheet-wte-expanded-table {
+    margin-top: 8px;
+    max-height: 380px;
+    overflow-y: auto;
+}
+
+.sheet-wte-unavailable-note {
+    font-size: 11px;
+    color: #a09080;
+    font-style: italic;
+    margin-top: 4px;
+}
