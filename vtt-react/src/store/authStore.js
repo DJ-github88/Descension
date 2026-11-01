@@ -186,6 +186,9 @@ const useAuthStore = create(
           // never registered identities (same rule as the auth-state listener).
           if (currentUser && (currentUser.isAnonymous || currentUser.isGuest)) return;
           if (currentUser) {
+            // A registered principal taking over from a local guest retires the
+            // guest's session markers (authored drafts are retained).
+            retireGuestSessionIdentity(get().user);
             // User is authenticated, ensure state is consistent
             set({
               user: currentUser,

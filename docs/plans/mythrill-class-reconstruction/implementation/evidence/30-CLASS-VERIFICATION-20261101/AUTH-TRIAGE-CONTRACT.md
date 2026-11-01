@@ -365,3 +365,15 @@ it('WA-AUTH-5: transition from guest to registered account increments generation
 **Tests:** new `src/persistence/__tests__/waveA_guestLoginCorrection.test.js` (28 tests, real authStore/guestRetention/P5 gate; only authService mocked). Existing suites run green: waveA_* (incl. blockerCorrections, run before change 6), waveB_b1b5/b6b11/r1r4/b6b11ProductionClosure, waveC_s8, characterHandoff/ProjectionIsolation, p6/p7 production, store guest-scope + roster isolation. waveB_b6b11 needs `--testTimeout=60000` on the slow device mount.
 
 **Known limitations (not changed, no policy invented):** admin/dev-bypass login does not retire guest markers (dev-only); a failed second guest attempt rolls back markers of an already-active guest; guest sign-out does not sign out the Firebase anonymous session; interleaving is simulated, not real Firebase. **Pending:** guarded build/install and UI witness (Login > Continue as Guest > create > save > reload > edit).
+
+### 8.1 Final repairs and integration identities (2026-11-01, second pass)
+
+- **Failed second guest attempt:** `signInAsGuest` snapshots the guest identity markers before its post-auth clear. On failure it removes what the attempt wrote and, only if the store still holds an active guest, restores the snapshot. Scope and generation are unchanged; reload still restores the prior guest.
+- **Admin bypass:** `signInAsAdmin` (reachable from AuthModal) now retires guest markers through the shared `retireGuestSessionIdentity` helper. `refreshAuthState` does the same when it adopts a registered user over a guest.
+- **Remaining limitation:** `enableDevelopmentBypass` has no UI caller and still does not retire guest markers. A failed second attempt leaves Firebase's anonymous user on the new uid while the store and markers stay on the prior guest (the same single guest scope).
+- **Independent review (2 passes):** no blockers. The reviewer's findings were fixed except the dev-bypass note, which is documented here. Final re-check items (the `refreshAuthState` adoption path and the admin test's early return) were applied afterward, and the targeted suites were re-run.
+- **Tests (final):** `waveA_guestLoginCorrection` + `waveA_blockerCorrections` + `waveA_guestAndSocket` = 54 passed. Earlier in this pass: `waveA_rCorrections`, `waveA_handoff`, `waveB_b1b5`, `characterHandoffPreservation` and `characterHelpersGuestScope` passed. `waveB_b6b11` needs `--testTimeout=60000`.
+- **Source identities (SHA-256):**
+  - `vtt-react/src/store/authStore.js` = `6591022a3c028a179029c0dfcfd0b6b4df3950b65621e8b7db86160d5d22f3ef`
+  - `vtt-react/src/persistence/__tests__/waveA_guestLoginCorrection.test.js` = `6791ca083098a1024a6061b1250a47880270a1390b6928d99658bfb1a2010fb3`
+- **Still required:** production build from this tree, then the guest walkthrough in an isolated browser profile. Not run: no build was started while M3A's rebuild is in progress.

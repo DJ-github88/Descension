@@ -526,6 +526,15 @@ describe('refreshAuthState (App.jsx calls it after init)', () => {
     expect(localStorage.getItem(EXPLICIT)).toBe('true');
   });
 
+  it('adopting a registered user over a guest retires the guest markers', async () => {
+    await guestActive();
+    authService.getCurrentUser.mockReturnValue(rawRegistered('acct-A'));
+    await useAuthStore.getState().refreshAuthState();
+    await flush();
+    expect(useAuthStore.getState().user.uid).toBe('acct-A');
+    expectNoGuestIdentity();
+  });
+
   it('ignores an anonymous user when signed out, but still adopts a registered one', async () => {
     authService.getCurrentUser.mockReturnValue(rawAnon('anon-x'));
     await useAuthStore.getState().refreshAuthState();
@@ -592,7 +601,7 @@ describe('admin bypass taking over from a guest', () => {
     authService.signInAsAnonymous.mockResolvedValueOnce({ success: true, user: rawAnon('anon-A') });
     await useAuthStore.getState().signInAsGuest();
     const result = await useAuthStore.getState().signInAsAdmin();
-    if (!result.success) return; // admin login disabled in production builds
+    expect(result.success).toBe(true);
     expectNoGuestIdentity();
     expectAuthoredIntact();
     useAuthStore.getState().disableAdminBypass();
