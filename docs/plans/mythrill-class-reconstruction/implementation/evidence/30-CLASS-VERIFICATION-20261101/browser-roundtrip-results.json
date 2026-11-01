@@ -1,0 +1,12 @@
+{
+  "startedAt": "2026-11-01T19:03:18.394Z",
+  "testSuite": "Production Browser Character Creation, View, and Re-edit Round-Trip",
+  "guestCharacterIntegrity": "PENDING",
+  "classesTested": [],
+  "assertions": [],
+  "screenshots": [],
+  "errors": [
+    "AssertionError [ERR_ASSERTION]: Pre-existing guest character must appear on Account page\n    at run (D:\\VTT\\vtt-react\\verification\\30-class-delivery-20261101\\roundtrip-browser-witness.cjs:101:5)"
+  ],
+  "status": "FAILED"
+}

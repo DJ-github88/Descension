@@ -108,7 +108,7 @@ function normalizeClassSpell(spell, className, determineSpecialization) {
  const normalized = {
   ...spell,
   // Ensure specialization is set
-  specialization: determineSpecialization ? determineSpecialization(spell) : spell.specialization || 'protector',
+  specialization: (determineSpecialization ? determineSpecialization(spell) : null) || spell.specialization || spell.treeId || 'core',
   // Ensure categoryIds exists
   categoryIds: spell.categoryIds || [],
   // Ensure basic fields exist
@@ -590,10 +590,10 @@ generatedSpells.Covenbane = COVENBANE_DATA.spells.map(spell => normalizeClassSpe
 generatedSpells.Exorcist = EXORCIST_DATA.spells.map(spell => normalizeClassSpell(spell, 'Exorcist', entry => entry.specialization));
 generatedSpells.Dreadnaught = DREADNAUGHT_DATA.spells.map(spell => normalizeClassSpell(spell, 'Dreadnaught', entry => entry.specialization));
 
-generatedSpells.Bladedancer = BLADEDANCER_DATA.spells.map(spell => normalizeClassSpell(spell, 'Bladedancer', entry => entry.specialization));
-generatedSpells.Inscriptor = INSCRIPTOR_DATA.spells.map(spell => normalizeClassSpell(spell, 'Inscriptor', entry => entry.specialization));
-generatedSpells.Totemist = TOTEMIST_DATA.spells.map(spell => normalizeClassSpell(spell, 'Totemist', entry => entry.specialization));
-generatedSpells['Witch Doctor'] = WITCH_DOCTOR_DATA.spells.map(spell => normalizeClassSpell(spell, 'Witch Doctor', entry => entry.specialization));
+generatedSpells.Bladedancer = BLADEDANCER_DATA.spells.map(spell => normalizeClassSpell(spell, 'Bladedancer', entry => entry.specialization || entry.treeId || 'core'));
+generatedSpells.Inscriptor = INSCRIPTOR_DATA.spells.map(spell => normalizeClassSpell(spell, 'Inscriptor', entry => entry.specialization || entry.treeId || 'core'));
+generatedSpells.Totemist = TOTEMIST_DATA.spells.map(spell => normalizeClassSpell(spell, 'Totemist', entry => entry.specialization || entry.treeId || 'core'));
+generatedSpells['Witch Doctor'] = WITCH_DOCTOR_DATA.spells.map(spell => normalizeClassSpell(spell, 'Witch Doctor', entry => entry.specialization || entry.treeId || 'core'));
 generatedSpells.WitchDoctor = generatedSpells['Witch Doctor'];
 const processedClasses = ['Arcanoneer', 'Pyrofiend', 'Minstrel', 'Chronarch', 'Martyr', 'Gambit', 'Harbinger', 'Chaos Weaver', 'Gambler', 'Fate Weaver', 'Deathcaller', 'Lichborne', 'Doomsayer', 'Oracle', 'Druid', 'Hunter', 'Covenbane', 'Exorcist', 'Dreadnaught', 'Bladedancer', 'Inscriptor', 'Totemist', 'Witch Doctor', 'WitchDoctor'];
 const remainingClasses = Object.keys(CLASS_DATA_MAP).filter(className => !processedClasses.includes(className));

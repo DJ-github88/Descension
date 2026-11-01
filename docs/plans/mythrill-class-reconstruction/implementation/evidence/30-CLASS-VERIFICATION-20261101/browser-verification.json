@@ -1,0 +1,334 @@
+{
+  "startedAt": "2026-11-01T19:00:27.527Z",
+  "testSuite": "30-Class Delivery Verification: 7 Target Classes Real Browser Witness",
+  "viewportChecks": {},
+  "svgAccessibility": {
+    "totalMountedSvgs": 60,
+    "allHaveRoleImg": true,
+    "allHaveAriaLabel": true,
+    "allHaveTitle": true,
+    "allHaveDesc": true
+  },
+  "duplicateDomIds": [],
+  "consoleErrors": [
+    "? Bladedancer: 50/96 invalid spells {invalidSpells: Array(50), missingFields: Object}",
+    "? Inscriptor: 50/96 invalid spells {invalidSpells: Array(50), missingFields: Object}",
+    "? Totemist: 50/96 invalid spells {invalidSpells: Array(50), missingFields: Object}",
+    "? Witch Doctor: 50/96 invalid spells {invalidSpells: Array(50), missingFields: Object}",
+    "? WitchDoctor: 50/96 invalid spells {invalidSpells: Array(50), missingFields: Object}",
+    "? Bladedancer: 50/96 invalid spells {invalidSpells: Array(50), missingFields: Object}",
+    "? Inscriptor: 50/96 invalid spells {invalidSpells: Array(50), missingFields: Object}",
+    "? Totemist: 50/96 invalid spells {invalidSpells: Array(50), missingFields: Object}",
+    "? Witch Doctor: 50/96 invalid spells {invalidSpells: Array(50), missingFields: Object}",
+    "? WitchDoctor: 50/96 invalid spells {invalidSpells: Array(50), missingFields: Object}",
+    "? Bladedancer: 50/96 invalid spells {invalidSpells: Array(50), missingFields: Object}",
+    "? Inscriptor: 50/96 invalid spells {invalidSpells: Array(50), missingFields: Object}",
+    "? Totemist: 50/96 invalid spells {invalidSpells: Array(50), missingFields: Object}",
+    "? Witch Doctor: 50/96 invalid spells {invalidSpells: Array(50), missingFields: Object}",
+    "? WitchDoctor: 50/96 invalid spells {invalidSpells: Array(50), missingFields: Object}",
+    "? Bladedancer: 50/96 invalid spells {invalidSpells: Array(50), missingFields: Object}",
+    "? Inscriptor: 50/96 invalid spells {invalidSpells: Array(50), missingFields: Object}",
+    "? Totemist: 50/96 invalid spells {invalidSpells: Array(50), missingFields: Object}",
+    "? Witch Doctor: 50/96 invalid spells {invalidSpells: Array(50), missingFields: Object}",
+    "? WitchDoctor: 50/96 invalid spells {invalidSpells: Array(50), missingFields: Object}",
+    "? Bladedancer: 50/96 invalid spells {invalidSpells: Array(50), missingFields: Object}",
+    "? Inscriptor: 50/96 invalid spells {invalidSpells: Array(50), missingFields: Object}",
+    "? Totemist: 50/96 invalid spells {invalidSpells: Array(50), missingFields: Object}",
+    "? Witch Doctor: 50/96 invalid spells {invalidSpells: Array(50), missingFields: Object}",
+    "? WitchDoctor: 50/96 invalid spells {invalidSpells: Array(50), missingFields: Object}",
+    "? Bladedancer: 50/96 invalid spells {invalidSpells: Array(50), missingFields: Object}",
+    "? Inscriptor: 50/96 invalid spells {invalidSpells: Array(50), missingFields: Object}",
+    "? Totemist: 50/96 invalid spells {invalidSpells: Array(50), missingFields: Object}",
+    "? Witch Doctor: 50/96 invalid spells {invalidSpells: Array(50), missingFields: Object}",
+    "? WitchDoctor: 50/96 invalid spells {invalidSpells: Array(50), missingFields: Object}",
+    "? Bladedancer: 50/96 invalid spells {invalidSpells: Array(50), missingFields: Object}",
+    "? Inscriptor: 50/96 invalid spells {invalidSpells: Array(50), missingFields: Object}",
+    "? Totemist: 50/96 invalid spells {invalidSpells: Array(50), missingFields: Object}",
+    "? Witch Doctor: 50/96 invalid spells {invalidSpells: Array(50), missingFields: Object}",
+    "? WitchDoctor: 50/96 invalid spells {invalidSpells: Array(50), missingFields: Object}",
+    "? Bladedancer: 50/96 invalid spells {invalidSpells: Array(50), missingFields: Object}",
+    "? Inscriptor: 50/96 invalid spells {invalidSpells: Array(50), missingFields: Object}",
+    "? Totemist: 50/96 invalid spells {invalidSpells: Array(50), missingFields: Object}",
+    "? Witch Doctor: 50/96 invalid spells {invalidSpells: Array(50), missingFields: Object}",
+    "? WitchDoctor: 50/96 invalid spells {invalidSpells: Array(50), missingFields: Object}",
+    "? Bladedancer: 50/96 invalid spells {invalidSpells: Array(50), missingFields: Object}",
+    "? Inscriptor: 50/96 invalid spells {invalidSpells: Array(50), missingFields: Object}",
+    "? Totemist: 50/96 invalid spells {invalidSpells: Array(50), missingFields: Object}",
+    "? Witch Doctor: 50/96 invalid spells {invalidSpells: Array(50), missingFields: Object}",
+    "? WitchDoctor: 50/96 invalid spells {invalidSpells: Array(50), missingFields: Object}",
+    "? Bladedancer: 50/96 invalid spells {invalidSpells: Array(50), missingFields: Object}",
+    "? Inscriptor: 50/96 invalid spells {invalidSpells: Array(50), missingFields: Object}",
+    "? Totemist: 50/96 invalid spells {invalidSpells: Array(50), missingFields: Object}",
+    "? Witch Doctor: 50/96 invalid spells {invalidSpells: Array(50), missingFields: Object}",
+    "? WitchDoctor: 50/96 invalid spells {invalidSpells: Array(50), missingFields: Object}"
+  ],
+  "screenshots": [
+    {
+      "filename": "hud-mounted-desktop-bladedancer.png",
+      "class": "Bladedancer",
+      "viewport": "1280px Desktop",
+      "description": "Mounted Production React Bladedancer Resource Display (Empty, Partial, Full, Malformed, Multi-Instance)"
+    },
+    {
+      "filename": "hud-mounted-desktop-inscriptor.png",
+      "class": "Inscriptor",
+      "viewport": "1280px Desktop",
+      "description": "Mounted Production React Inscriptor Resource Display (Empty, Partial, Full, Malformed, Multi-Instance)"
+    },
+    {
+      "filename": "hud-mounted-desktop-totemist.png",
+      "class": "Totemist",
+      "viewport": "1280px Desktop",
+      "description": "Mounted Production React Totemist Resource Display (Empty, Partial, Full, Malformed, Multi-Instance)"
+    },
+    {
+      "filename": "hud-mounted-desktop-witchdoctor.png",
+      "class": "Witch Doctor",
+      "viewport": "1280px Desktop",
+      "description": "Mounted Production React Witch Doctor Resource Display (Empty, Partial, Full, Malformed, Multi-Instance)"
+    },
+    {
+      "filename": "hud-mounted-desktop-covenbane.png",
+      "class": "Covenbane",
+      "viewport": "1280px Desktop",
+      "description": "Mounted Production React Covenbane Resource Display (Empty, Partial, Full, Malformed, Multi-Instance)"
+    },
+    {
+      "filename": "hud-mounted-desktop-exorcist.png",
+      "class": "Exorcist",
+      "viewport": "1280px Desktop",
+      "description": "Mounted Production React Exorcist Resource Display (Empty, Partial, Full, Malformed, Multi-Instance)"
+    },
+    {
+      "filename": "hud-mounted-desktop-dreadnaught.png",
+      "class": "Dreadnaught",
+      "viewport": "1280px Desktop",
+      "description": "Mounted Production React Dreadnaught Resource Display (Empty, Partial, Full, Malformed, Multi-Instance)"
+    },
+    {
+      "filename": "hud-mounted-mobile-bladedancer.png",
+      "class": "Bladedancer",
+      "viewport": "390px Mobile",
+      "description": "Mounted Production React Bladedancer Resource Display at narrow 390px width"
+    },
+    {
+      "filename": "hud-mounted-mobile-inscriptor.png",
+      "class": "Inscriptor",
+      "viewport": "390px Mobile",
+      "description": "Mounted Production React Inscriptor Resource Display at narrow 390px width"
+    },
+    {
+      "filename": "hud-mounted-mobile-totemist.png",
+      "class": "Totemist",
+      "viewport": "390px Mobile",
+      "description": "Mounted Production React Totemist Resource Display at narrow 390px width"
+    },
+    {
+      "filename": "hud-mounted-mobile-witchdoctor.png",
+      "class": "Witch Doctor",
+      "viewport": "390px Mobile",
+      "description": "Mounted Production React Witch Doctor Resource Display at narrow 390px width"
+    },
+    {
+      "filename": "hud-mounted-mobile-covenbane.png",
+      "class": "Covenbane",
+      "viewport": "390px Mobile",
+      "description": "Mounted Production React Covenbane Resource Display at narrow 390px width"
+    },
+    {
+      "filename": "hud-mounted-mobile-exorcist.png",
+      "class": "Exorcist",
+      "viewport": "390px Mobile",
+      "description": "Mounted Production React Exorcist Resource Display at narrow 390px width"
+    },
+    {
+      "filename": "hud-mounted-mobile-dreadnaught.png",
+      "class": "Dreadnaught",
+      "viewport": "390px Mobile",
+      "description": "Mounted Production React Dreadnaught Resource Display at narrow 390px width"
+    },
+    {
+      "filename": "rules-bladedancer-overview-desktop.png",
+      "class": "Bladedancer",
+      "viewport": "1280px Desktop",
+      "description": "Rules Codex Overview Tab for Bladedancer"
+    },
+    {
+      "filename": "rules-bladedancer-resource-system-desktop.png",
+      "class": "Bladedancer",
+      "viewport": "1280px Desktop",
+      "description": "Rules Codex Resource System Tab for Bladedancer showing ClassResourceBar showcase"
+    },
+    {
+      "filename": "rules-bladedancer-spells-desktop.png",
+      "class": "Bladedancer",
+      "viewport": "1280px Desktop",
+      "description": "Rules Codex Spells Tab for Bladedancer (40 optional + 2 core)"
+    },
+    {
+      "filename": "rules-bladedancer-specs-desktop.png",
+      "class": "Bladedancer",
+      "viewport": "1280px Desktop",
+      "description": "Rules Codex 3 Specialization Trees for Bladedancer"
+    },
+    {
+      "filename": "rules-inscriptor-overview-desktop.png",
+      "class": "Inscriptor",
+      "viewport": "1280px Desktop",
+      "description": "Rules Codex Overview Tab for Inscriptor"
+    },
+    {
+      "filename": "rules-inscriptor-resource-system-desktop.png",
+      "class": "Inscriptor",
+      "viewport": "1280px Desktop",
+      "description": "Rules Codex Resource System Tab for Inscriptor showing ClassResourceBar showcase"
+    },
+    {
+      "filename": "rules-inscriptor-spells-desktop.png",
+      "class": "Inscriptor",
+      "viewport": "1280px Desktop",
+      "description": "Rules Codex Spells Tab for Inscriptor (40 optional + 2 core)"
+    },
+    {
+      "filename": "rules-inscriptor-specs-desktop.png",
+      "class": "Inscriptor",
+      "viewport": "1280px Desktop",
+      "description": "Rules Codex 3 Specialization Trees for Inscriptor"
+    },
+    {
+      "filename": "rules-totemist-overview-desktop.png",
+      "class": "Totemist",
+      "viewport": "1280px Desktop",
+      "description": "Rules Codex Overview Tab for Totemist"
+    },
+    {
+      "filename": "rules-totemist-resource-system-desktop.png",
+      "class": "Totemist",
+      "viewport": "1280px Desktop",
+      "description": "Rules Codex Resource System Tab for Totemist showing ClassResourceBar showcase"
+    },
+    {
+      "filename": "rules-totemist-spells-desktop.png",
+      "class": "Totemist",
+      "viewport": "1280px Desktop",
+      "description": "Rules Codex Spells Tab for Totemist (40 optional + 2 core)"
+    },
+    {
+      "filename": "rules-totemist-specs-desktop.png",
+      "class": "Totemist",
+      "viewport": "1280px Desktop",
+      "description": "Rules Codex 3 Specialization Trees for Totemist"
+    },
+    {
+      "filename": "rules-witch_doctor-overview-desktop.png",
+      "class": "Witch Doctor",
+      "viewport": "1280px Desktop",
+      "description": "Rules Codex Overview Tab for Witch Doctor"
+    },
+    {
+      "filename": "rules-witch_doctor-resource-system-desktop.png",
+      "class": "Witch Doctor",
+      "viewport": "1280px Desktop",
+      "description": "Rules Codex Resource System Tab for Witch Doctor showing ClassResourceBar showcase"
+    },
+    {
+      "filename": "rules-witch_doctor-spells-desktop.png",
+      "class": "Witch Doctor",
+      "viewport": "1280px Desktop",
+      "description": "Rules Codex Spells Tab for Witch Doctor (40 optional + 2 core)"
+    },
+    {
+      "filename": "rules-witch_doctor-specs-desktop.png",
+      "class": "Witch Doctor",
+      "viewport": "1280px Desktop",
+      "description": "Rules Codex 3 Specialization Trees for Witch Doctor"
+    },
+    {
+      "filename": "rules-covenbane-overview-desktop.png",
+      "class": "Covenbane",
+      "viewport": "1280px Desktop",
+      "description": "Rules Codex Overview Tab for Covenbane"
+    },
+    {
+      "filename": "rules-covenbane-resource-system-desktop.png",
+      "class": "Covenbane",
+      "viewport": "1280px Desktop",
+      "description": "Rules Codex Resource System Tab for Covenbane showing ClassResourceBar showcase"
+    },
+    {
+      "filename": "rules-covenbane-spells-desktop.png",
+      "class": "Covenbane",
+      "viewport": "1280px Desktop",
+      "description": "Rules Codex Spells Tab for Covenbane (40 optional + 2 core)"
+    },
+    {
+      "filename": "rules-covenbane-specs-desktop.png",
+      "class": "Covenbane",
+      "viewport": "1280px Desktop",
+      "description": "Rules Codex 3 Specialization Trees for Covenbane"
+    },
+    {
+      "filename": "rules-exorcist-overview-desktop.png",
+      "class": "Exorcist",
+      "viewport": "1280px Desktop",
+      "description": "Rules Codex Overview Tab for Exorcist"
+    },
+    {
+      "filename": "rules-exorcist-resource-system-desktop.png",
+      "class": "Exorcist",
+      "viewport": "1280px Desktop",
+      "description": "Rules Codex Resource System Tab for Exorcist showing ClassResourceBar showcase"
+    },
+    {
+      "filename": "rules-exorcist-spells-desktop.png",
+      "class": "Exorcist",
+      "viewport": "1280px Desktop",
+      "description": "Rules Codex Spells Tab for Exorcist (40 optional + 2 core)"
+    },
+    {
+      "filename": "rules-exorcist-specs-desktop.png",
+      "class": "Exorcist",
+      "viewport": "1280px Desktop",
+      "description": "Rules Codex 3 Specialization Trees for Exorcist"
+    },
+    {
+      "filename": "rules-dreadnaught-overview-desktop.png",
+      "class": "Dreadnaught",
+      "viewport": "1280px Desktop",
+      "description": "Rules Codex Overview Tab for Dreadnaught"
+    },
+    {
+      "filename": "rules-dreadnaught-resource-system-desktop.png",
+      "class": "Dreadnaught",
+      "viewport": "1280px Desktop",
+      "description": "Rules Codex Resource System Tab for Dreadnaught showing ClassResourceBar showcase"
+    },
+    {
+      "filename": "rules-dreadnaught-spells-desktop.png",
+      "class": "Dreadnaught",
+      "viewport": "1280px Desktop",
+      "description": "Rules Codex Spells Tab for Dreadnaught (40 optional + 2 core)"
+    },
+    {
+      "filename": "rules-dreadnaught-specs-desktop.png",
+      "class": "Dreadnaught",
+      "viewport": "1280px Desktop",
+      "description": "Rules Codex 3 Specialization Trees for Dreadnaught"
+    },
+    {
+      "filename": "account-characters-roster-with-guest.png",
+      "class": "System",
+      "viewport": "1280px Desktop",
+      "description": "Account Character Management showing pre-existing guest character intact"
+    },
+    {
+      "filename": "wizard-step1-initial.png",
+      "class": "System",
+      "viewport": "1280px Desktop",
+      "description": "Character Creation Wizard Step 1 Core Draft"
+    }
+  ],
+  "uiRoundTripResults": {},
+  "status": "SUCCESS",
+  "completedAt": "2026-11-01T19:01:20.925Z"
+}

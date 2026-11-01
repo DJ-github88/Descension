@@ -22,6 +22,7 @@ const APPROVED_CANONICAL_CLASSES = [
     'Animist',
     'Arcanoneer',
     'Berserker',
+    'Bladedancer',
     'Chaos Weaver',
     'Chronarch',
     'Covenbane',
@@ -35,6 +36,7 @@ const APPROVED_CANONICAL_CLASSES = [
     'Fate Weaver',
     'Gambler',
     'Hunter',
+    'Inscriptor',
     'Lichborne',
     'Lunarch',
     'Martyr',
@@ -43,8 +45,10 @@ const APPROVED_CANONICAL_CLASSES = [
     'Plaguebringer',
     'Pyrofiend',
     'Spellguard',
+    'Totemist',
     'Toxicologist',
-    'Warden'
+    'Warden',
+    'Witch Doctor'
 ];
 
 const LEGACY_IDENTITIES = [
@@ -62,8 +66,8 @@ describe('canonical class roster and selector separation', () => {
         test('new-character choices contain each approved canonical class once', () => {
             const selectableNames = getSelectableClassNames();
 
-            // Roster count is exactly 26 approved canonical classes
-            expect(selectableNames).toHaveLength(26);
+            // Roster count is exactly 30 approved canonical classes
+            expect(selectableNames).toHaveLength(30);
             expect(selectableNames).toHaveLength(APPROVED_CANONICAL_CLASSES.length);
 
             // No duplicates
@@ -155,9 +159,9 @@ describe('canonical class roster and selector separation', () => {
         });
 
         test('all 7 legacy identities remain registered base classes in the catalog', () => {
-            // Catalogue retains 33 base classes (26 canonical + 7 legacy-compatible)
-            expect(Object.keys(BASE_CLASSES_DATA)).toHaveLength(33);
-            expect(CLASS_DISPLAY_DATA).toHaveLength(33);
+            // Catalogue retains 37 base classes (30 canonical + 7 legacy-compatible)
+            expect(Object.keys(BASE_CLASSES_DATA)).toHaveLength(37);
+            expect(CLASS_DISPLAY_DATA).toHaveLength(37);
 
             LEGACY_IDENTITIES.forEach((legacyName) => {
                 expect(BASE_CLASSES_DATA[legacyName]).toBeDefined();
@@ -283,8 +287,8 @@ describe('canonical class roster and selector separation', () => {
             expect(legacyOptions).toContain('Fate Weaver');
             expect(legacyOptions).toContain('Oracle');
             expect(legacyOptions).toContain('Animist');
-            // Total options count is 26 + 1 = 27
-            expect(legacyOptions).toHaveLength(27);
+            // Total options count is 30 + 1 = 31
+            expect(legacyOptions).toHaveLength(31);
 
             // Legacy Inquisitor is preserved when selected
             const legacyInquisitor = 'Inquisitor';
@@ -293,7 +297,7 @@ describe('canonical class roster and selector separation', () => {
                 ...canonicalNames
             ];
             expect(inquisitorOptions).toContain('Inquisitor');
-            expect(inquisitorOptions).toHaveLength(27);
+            expect(inquisitorOptions).toHaveLength(31);
 
             // Animist is a canonical class, so selecting it does not duplicate
             const canonicalAnimist = 'Animist';
@@ -302,7 +306,7 @@ describe('canonical class roster and selector separation', () => {
                 ...canonicalNames
             ];
             expect(animistOptions).toContain('Animist');
-            expect(animistOptions).toHaveLength(26);
+            expect(animistOptions).toHaveLength(30);
 
             // For a new character or canonical character, no legacy class is injected
             const canonicalCurrent = 'Gambler';
@@ -310,7 +314,7 @@ describe('canonical class roster and selector separation', () => {
                 ...(canonicalCurrent && !canonicalNames.includes(canonicalCurrent) ? [canonicalCurrent] : []),
                 ...canonicalNames
             ];
-            expect(canonicalOptions).toHaveLength(26);
+            expect(canonicalOptions).toHaveLength(30);
             expect(canonicalOptions).not.toContain('Gambit');
             expect(canonicalOptions).not.toContain('Augur');
             expect(canonicalOptions).not.toContain('Shaper');

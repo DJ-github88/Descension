@@ -184,6 +184,7 @@ export const WITCH_DOCTOR_PASSIVE_RECORDS = WITCH_DOCTOR_TALENT_NODES
     name: node.name,
     level: node.minLevel,
     treeId: node.treeId,
+    specialization: node.treeId,
     source: 'talent-passive',
     spellType: 'PASSIVE',
     description: `${node.effectText} Highest learned rank only; an unlearned optional spell stays unlearned. ${identity.manualNotice}`,
