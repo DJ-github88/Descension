@@ -488,7 +488,7 @@ const NPC_DATA = {
     "hooks": [
       "Hark knows the Unbound settlement's location but has not yet struck; a party could be hired by either side of the schism",
       "He alone can lift Grum's hammer; if he dies or defects, the line's claim to legitimacy dies with him",
-      "A Anhur Berserker in Hark's confidence is feeding the Unbound forge-fragments: Hark suspects but will not investigate"
+      "An Ashen Berserker in Hark's confidence is feeding the Unbound forge-fragments: Hark suspects but will not investigate"
     ]
   },
   "sera-three-scars": {
@@ -791,7 +791,7 @@ const NPC_DATA = {
     "status": "Active: on a known countdown",
     "appearance": "More char-vessel than flesh: bones visible through translucent magma-skin, heat radiating from him in visible waves. He marks the estimated day of his final collection on a calendar of scar-tissue renewed each morning.",
     "personality": "Serene, terrifying, and entirely resigned. Sol-Vareths leads only by virtue of having survived the longest, and he leads nothing so much as the countdown. He considers the Apostate's Path mercy.",
-    "backstory": "Last-Ember of the Ashen Communion, Sol-Vareths is the eldest living Pyrofiend: more basalt than flesh. He leads precisely when Scathrach has called in all debts simultaneously. He has organized the younger Pyrofiends into the Apostate's Path, accelerating their own conversion to fight harder before the end, which he considers mercy and the Anhur consider a death sentence.",
+    "backstory": "Last-Ember of the Ashen Communion, Sol-Vareths is the eldest living Pyrofiend: more basalt than flesh. He leads precisely when Scathrach has called in all debts simultaneously. He has organized the younger Pyrofiends into the Apostate's Path, accelerating their own conversion to fight harder before the end, which he considers mercy and the Ashen consider a death sentence.",
     "hooks": [
       "Sol-Vareths knows the precise terms of every Pyrofiend's pact with Scathrach and can negotiate extensions: for a price",
       "He is searching for a way to die before Scathrach can claim him whole; he would trade all his knowledge for it",
@@ -848,7 +848,7 @@ const NPC_DATA = {
     "id": "thrak-damos",
     "name": "Thrak-Damos",
     "title": "Warden of the Silence-Scars (Bulwark-Captain of the Aegis)",
-    "race": "Anhur - Thyrm",
+    "race": "Ashen - Thyrm",
     "gender": "Male",
     "factionIds": [
       "aegis"
@@ -858,7 +858,7 @@ const NPC_DATA = {
     ],
     "age": "51",
     "status": "Active",
-    "appearance": "A Anhur veteran whose forearms are latticed with absorbed-magic scars that glow blue through his sleeves. His dark brown-beige skin is cracked with the radiation-stress of decades of Spellguard service, and he cannot enter a dark room unnoticed.",
+    "appearance": "An Ashen veteran whose forearms are latticed with absorbed-magic scars that glow blue through his sleeves. His dark brown-beige skin is cracked with the radiation-stress of decades of Spellguard service, and he cannot enter a dark room unnoticed.",
     "personality": "A pragmatist drill-sergeant watching his engineering discipline fail against a threat it was never built for. Thrak-Damos is precise, blunt, and deeply frustrated.",
     "backstory": "Bulwark-Captain of the Aegis, Thrak-Damos leads from the Emberspire forge-keeps and enforces Damon's method with drill-sergeant discipline. The rising ambient magic has no structure to dismantle and no vector to redirect; he has begun ordering Spellguards to absorb (Damon's forbidden technique) because there is nothing left to dismantle.",
     "hooks": [

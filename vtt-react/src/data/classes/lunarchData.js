@@ -168,7 +168,7 @@ export const LUNARCH_DATA = {
     { region: 'frostwood-reach', status: 'persecuted', consequence: 'The Scribe-Cartel identifies Lunarchs by their tell-tale glow and strikes them from the Sovereign Ledger, the same legal erasure applied to the Forgotten. An unrecorded Lunarch cannot prove citizenship, own property, or cross the Ironwood Palisade checkpoints.', workaround: 'The Oaken Florae variant survives by passing as human; the Broken Mimir variant is already unrecorded. The openly lunar have no workaround, only flight into the deep groves.' },
     { region: 'bryngloom-forest', status: 'banned', consequence: 'The Athien consider the lunar parasite an unbound entity outside the First Contract. A Lunarch in Atropolis is treated as a walking contract-breach and detained for resolution of the unfiled attachment.', workaround: 'Obtain a temporary diplomatic containment bond from the Ledger-Keepers.' },
     { region: 'sundale', status: 'distrusted', consequence: 'Sundale forge-masters consider lunar starlight an unstable, cold aberration that weakens sacred solar metallurgy.', workaround: 'Confine casting to non-forge districts and wear lead-lined wraps over phase-scars.' },
-    { region: 'emberspire', status: 'hunted', consequence: 'Anhur zealots view the lunar parasite as a cosmic blight that threatens to extinguish the caldera flames.', workaround: 'Travel only through subterranean venting tunnels or under heavy escort.' }
+    { region: 'emberspire', status: 'hunted', consequence: 'Ashen zealots view the lunar parasite as a cosmic blight that threatens to extinguish the caldera flames.', workaround: 'Travel only through subterranean venting tunnels or under heavy escort.' }
   ],
 
   overview: {

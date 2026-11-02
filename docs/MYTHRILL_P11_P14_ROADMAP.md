@@ -5,7 +5,27 @@ roadmap ([MYTHRILL_NEXT_PHASE.md](MYTHRILL_NEXT_PHASE.md) §26) ends at P10 and 
 This document adds four bounded phases. **At creation only P11 was authorized.** Later bounded
 authorizations/status are recorded below; each further slice still needs its own contract/go-ahead.
 
-> **Latest installed extension, 2026-10-31:** [M2A counted durations](../handoff/m2a-integration/HANDOFF.md),
+> **Current continuation, 2026-11-02:** M3A is installed with its
+> [reconciled qualifications](../handoff/m3a-delivery/reconciled/M3A_MILESTONE_RECONCILED.md).
+> M3A/auth build/browser evidence stays separate; live auth hashes and absence of a served native
+> artifact at handoff are recorded in the reconciliation note §6. No real Firebase verification.
+> M4A's settled integer caster-attribute formula connection is frozen, implemented, reviewed and
+> **App-verified** on one optimized artifact in
+> [capability plan §C](MYTHRILL_COMBAT_CAPABILITY_PLAN.md#c-dependency-ordered-roadmap):
+> real Wizard save/reopen/admission/cast, retained face, temp-first payment, dropped-ACK same-command
+> recovery and healing cap. The first compiler attempt failed packaging and is preserved; the
+> successful artifact is the second attempt. Missing-HP/half-save/fractional rules remain isolated
+> creator questions. Unsupported deterministic mechanics are interim manual boundaries, not
+> completed automation.
+>
+> **M4B continuation, 2026-11-02:** reusable v2 formula execution now composes with the three existing
+> P9 typed class-payment domains and existing primary-PC healing consent; whole catalogue records are
+> hash-bound and the real Martyr Restorative Prayer is the first calculation cohort. Server/client
+> checks pass and one optimized artifact was built, but the normal-App Wizard/class-card witness is
+> not established; no App PASS is claimed. Minstrel Resolving Strike remains on its accepted P9 route;
+> M4A's independent App evidence is carried. Prior accepted work remains carried.
+>
+> **Preserved installed extension, 2026-10-31:** [M2A counted durations](../handoff/m2a-integration/HANDOFF.md),
 > source integrated against M1 without the later UI, preserving that UI and concurrent Class work.
 > Affected229 server/134 client/mirrors, one integrated build and targeted ordinary clock App proof
 > pass (qualified). Counted starts/ends2…10, independent expiry, reload, original-command replay and

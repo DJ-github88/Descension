@@ -313,7 +313,7 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
   const { adjustedPosition: fanCompanionAdjPos, tooltipRef: fanCompanionRef } = useTooltipPosition(
     fanCompanionPos,
     !!fanCompanion,
-    { estimateHeight: 520, estimateWidth: 720, offsetX: 16, anchor: 'above' }
+    { estimateHeight: 520, estimateWidth: fanCompanion?.item ? 780 : 380, offsetX: 16, anchor: 'above' }
   );
 
   const handleFanActionMouseEnter = (e, action, slotName) => {
@@ -1683,17 +1683,19 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
                   showTags={true}
                 />
               </div>
-              <div className="fan-companion-weapontable">
-                <WeaponSkillTable
-                  item={fanCompanion.item}
-                  slotName={fanCompanion.slotName}
-                  skillRanks={skillRanks}
-                  skillProgress={skillProgress}
-                  isPinned={fanCompanion.isPinned}
-                  onTogglePin={() => setFanCompanion(prev => prev ? ({ ...prev, isPinned: !prev.isPinned }) : null)}
-                  onClose={() => setFanCompanion(null)}
-                />
-              </div>
+              {Boolean(fanCompanion.item) && (
+                <div className="fan-companion-weapontable">
+                  <WeaponSkillTable
+                    item={fanCompanion.item}
+                    slotName={fanCompanion.slotName}
+                    skillRanks={skillRanks}
+                    skillProgress={skillProgress}
+                    isPinned={fanCompanion.isPinned}
+                    onTogglePin={() => setFanCompanion(prev => prev ? ({ ...prev, isPinned: !prev.isPinned }) : null)}
+                    onClose={() => setFanCompanion(null)}
+                  />
+                </div>
+              )}
             </div>
           </div>
         </TooltipPortal>

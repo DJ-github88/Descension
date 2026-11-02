@@ -6,6 +6,7 @@ import useCharacterTokenStore from '../../store/characterTokenStore';
 import useCreatureStore from '../../store/creatureStore';
 import { refOf } from '../../services/actorConsequenceService';
 import { ownerSource } from '../../services/spellConsequenceService';
+import { isEffect, directKindOf, describe as describeBundle, pcConsent, consentText } from '../../services/authoredEffect';
 import { DAMAGE_TYPES, MANUAL, MANUAL_LABELS, requiredManual, firstAvailable, SIZES } from '../../services/equipmentBlocking';
 import { findEntry, pendingUnequips } from '../../services/blockingCustody';
 import { useBlockingStore, refreshOwnBlocking, refreshBlockLists, ownEligiblePieces, submitDeclaration, checkDeclaration, resolveOwnConflict, settleUnequip,
@@ -54,7 +55,7 @@ function OfferCard({ offer, piece }) {
   const [mode, setMode] = useState('physical'), [face, setFace] = useState('');
   const { busy, error, perform } = usePerform();
   const a = offer.attack;
-  const authored = a.authored, healing = authored?.attempt.spell.kind === 'healing';
+  const authored = a.authored, healing = !!authored && directKindOf(authored.attempt) === 'healing', bundle = !!authored && isEffect(authored.attempt), terms = bundle ? authored.attempt.effectTerms : null;
   const retained = loadBlockingCustody()?.owner;
   const pending = retained?.approval && ['prepared', 'awaiting', 'unknown'].includes(retained.phase);
   const canBlock = !authored || (!healing && authored.blockApplicable);
@@ -64,7 +65,9 @@ function OfferCard({ offer, piece }) {
     {authored && <><p>Source {a.source.tokenId} → {a.target.tokenId} · exact primary PC owner {a.target.ownerUid}. {authored.attempt.price.ap} AP / {authored.attempt.price.mana} mana paid by creature only on acceptance.</p>
       <p>{authored.ruling} · {healing ? 'Explicit healing acceptance; no equipment involved.' : authored.blockApplicable ? 'GM rules equipment blocking applicable; nonphysical/critical branches still require a ruling.' : 'GM rules equipment blocking not applicable.'}</p>
       <p>Authored targeting: {authored.targeting.rangeFeet} ft · {authored.targeting.restriction}. Retained result {authored.attempt.roll.total}.</p>
-      <button type="button" disabled={busy || pending} onClick={() => perform(() => approveBlock(offer.commandId, { noBlock: true }))}>{healing ? 'Accept this healing proposal' : 'Don’t block — accept damage proposal'}</button>
+      {bundle && <section aria-label="Full effect bundle" className="p12-bundle"><p><strong>This action also applies:</strong> {describeBundle(terms)}.</p>
+        <p>{terms.condition.kind === 'movement' ? `Your movement speed changes by ${terms.condition.feet > 0 ? '+' : '−'}${Math.abs(terms.condition.feet)} ft per movement AP (combined with other movement effects, never below 0 ft).` : 'Canonical Stunned: you cannot act while it lasts.'} {consentText(pcConsent(terms, 'creature'))} The GM confirms eligibility, range, saves and success by hand.</p></section>}
+      <button type="button" disabled={busy || pending} onClick={() => perform(() => approveBlock(offer.commandId, { noBlock: true }))}>{healing ? (bundle ? 'Accept this healing and effect' : 'Accept this healing proposal') : (bundle ? 'Don’t block — accept damage and effect' : 'Don’t block — accept damage proposal')}</button>
       <button type="button" disabled={busy || pending} onClick={() => perform(() => rejectCreatureOffer(offer.commandId))}>Reject proposal (nothing applied)</button></>}
     {canBlock && (piece && a.outcome === 'critical' && piece.kind === 'armor' ? <p>Criticals go around armor: no block roll. The GM resolves this hit without a block.</p> : piece ? <>
       <p>Blocks with <strong>{piece.name}</strong> · {piece.kind} · {piece.currentDie}</p>
@@ -183,7 +186,7 @@ function GmPendingCard({ entry }) {
       {MANUAL.map(category => <div key={category}><label><input type="checkbox" checked={!!manual[category]?.on || false} onChange={e => setManual(m => ({ ...m, [category]: { ...m[category], on: e.target.checked } }))} />
         {MANUAL_LABELS[category]}{required.includes(category) ? ' — required' : ''}</label>
         {manual[category]?.on && <input aria-label={`${category} note`} maxLength={300} value={manual[category].note || ''} onChange={e => setManual(m => ({ ...m, [category]: { ...m[category], note: e.target.value } }))} />}</div>)}
-      <label>Final HP {offer?.attack.authored?.attempt.spell.kind === 'healing' ? 'healing (must match accepted proposal)' : 'damage'} {plan ? `(after block ${plan.afterBlock})` : ''} <input inputMode="numeric" value={final} onChange={e => setFinal(e.target.value)} placeholder="defaults to accepted proposal after block" /></label>
+      <label>Final HP {(offer?.attack.authored && directKindOf(offer.attack.authored.attempt) === 'healing') ? 'healing (must match accepted proposal)' : 'damage'} {plan ? `(after block ${plan.afterBlock})` : ''} <input inputMode="numeric" value={final} onChange={e => setFinal(e.target.value)} placeholder="defaults to accepted proposal after block" /></label>
       <label>Adjustment reason (public; required if different) <input maxLength={2000} value={reason} onChange={e => setReason(e.target.value)} /></label>
     </fieldset>
     <div className="p12-actions">

@@ -9,13 +9,17 @@ import {
   pageFrame,
   washed
 } from './calmBarPalette';
+import { resolveCanonicalResourceValue } from '../../utils/classResourceUtils';
 
 const EXORCIST_ACCENT = '#4f46e5';
 
 export default function ExorcistResourceDisplay({ resource = null, isOwner = false }) {
-  const sanctity = typeof resource === 'number'
-    ? Math.max(0, Math.min(10, resource))
-    : Math.max(0, Math.min(10, Number(resource?.sanctity ?? resource?.value ?? 3)));
+  const sanctity = resolveCanonicalResourceValue(resource, {
+    min: 0,
+    max: 10,
+    fallback: 3,
+    aliases: ['sanctity', 'value']
+  });
 
   const frame = pageFrame(240, 48);
   const titleText = `Purification Sanctity: ${sanctity}/10`;

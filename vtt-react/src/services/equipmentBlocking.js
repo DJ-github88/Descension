@@ -116,7 +116,8 @@ export function planBlockCommand({ offer, entry, sourceToken, targetToken, decla
   const face = approval.roll?.faces[0] ?? null, defending = holdsDefending(targetToken), reduction = piece ? require('./sharedConditionProfile').blockingReduction(face, defending) : 0;
   const afterBlock = Math.max(0, offer.attack.proposedDamage - reduction);
   const amount = finalAmount === undefined || finalAmount === '' ? afterBlock : Number(finalAmount);
-  const healing = offer.attack.authored?.attempt.spell.kind === 'healing';
+  const authoredEffect = require('./authoredEffect'), attempt = offer.attack.authored?.attempt, bundle = !!attempt && authoredEffect.isEffect(attempt);
+  const healing = !!attempt && authoredEffect.directKindOf(attempt) === 'healing';
   if (healing && amount !== offer.attack.proposedDamage) throw Error('Healing amount changed: close this offer and request owner acceptance again with the retained source roll.');
   if (!Number.isSafeInteger(amount) || amount < 0 || amount > 100000) throw Error('Final HP damage must be a whole number.');
   if (amount !== afterBlock && !String(reason).trim()) throw Error(`Explain the change from ${afterBlock}.`);
@@ -130,6 +131,9 @@ export function planBlockCommand({ offer, entry, sourceToken, targetToken, decla
   if (price.ap > 0) payment.ap = tempFirst(sourceAp.current, sourceAp.temp, price.ap);
   if (price.mana > 0) payment.mana = tempFirst(sourceToken.state.currentMana, sourceToken.state.tempMana || 0, price.mana);
   if (!Object.keys(payment).length) payment.ap = tempFirst(sourceAp.current, sourceAp.temp, 0);
+  // M3A: a composed bundle's rider is derived from the target's current conditions (A11 add/refresh), never typed by the GM.
+  const riderPlan = bundle ? authoredEffect.conditionPlan(attempt, targetToken.state.conditions || []) : null;
+  if (riderPlan?.refused) { const error = Error(riderPlan.refused.message); error.code = riderPlan.refused.code; throw error; }
   const currentRevision = sourceToken.state.actorContract.revision;
   const targetRevision = targetToken.state.actorContract.revision;
   if (offer.attack.authored && targetRevision !== offer.attack.authored.targetRevision && !targetRevalidation) {
@@ -137,7 +141,7 @@ export function planBlockCommand({ offer, entry, sourceToken, targetToken, decla
   }
   const chosen = { capability: CAPABILITY, approvalId: approval.approvalId, gmConfirmed: true, names: { source: String(names.source).slice(0, 60), target: String(names.target).slice(0, 60) },
     attack: offer.attack, block: piece ? { slot: piece.slot, name: piece.name, kind: piece.kind, die: piece.currentDie, face, defending, reduction } : null, afterBlock,
-    manual: piece ? manual.map(item => ({ category: item.category, note: String(item.note || '').slice(0, 300) })) : [] };
+    manual: piece ? manual.map(item => ({ category: item.category, note: String(item.note || '').slice(0, 300) })) : [], ...(bundle ? { combination: riderPlan.combination } : {}) };
   if (revalidation && (!offer.attack.authored || currentRevision !== offer.attack.sourceRevision)) {
     // §3.9 R2: the GM states why the recorded rolls still stand after the creature changed.
     const why = String(revalidation.reason || '').trim();
@@ -155,7 +159,7 @@ export function planBlockCommand({ offer, entry, sourceToken, targetToken, decla
     entries: [
       // §3.9 R1: the creature's current revision; AP from its current pools (temp first).
       { ref: approval.source, expectedRevision: currentRevision, finalResources: payment },
-      { ref: approval.target, expectedRevision: targetToken.state.actorContract.revision, finalResources: { hp },
+      { ref: approval.target, expectedRevision: targetToken.state.actorContract.revision, finalResources: { hp }, ...(bundle ? { conditions: riderPlan.ops } : {}),
         ...(piece ? { equipmentWear: { slot: piece.slot, itemId: piece.itemId, blockingRevision: declaration.revision, beforeDie: piece.currentDie, afterDie, broken } } : {}) }],
     extra: { source: approval.source, target: approval.target, approval: { approvalId: approval.approvalId, contentHash },
       adjudication: { definitionId: DEFINITION_ID, definitionVersionOrHash: DEFINITION_HASH, chosenResult: JSON.stringify(chosen), finalAmount: amount, adjustmentReason: String(reason).trim() } },
@@ -184,6 +188,8 @@ export function acceptedBlockText(result) {
   const rulings = chosen.manual.length ? ` GM rulings: ${chosen.manual.map(item => item.category).join(', ')}.` : '';
   // P12B-r1 (§3.9 R2, review finding 3): the GM's revalidation is part of the public result.
   const revalidated = chosen.revalidation ? ` GM confirmed the recorded rolls after the attacker changed: ${chosen.revalidation.reason}.` : '';
-   const healing = (chosen.attack.authored?.kind || chosen.attack.authored?.attempt?.spell.kind) === 'healing';
-   return `Accepted: ${chosen.names.target} ${healing ? 'receives' : 'takes'} ${receipt.adjudication.finalAmount} ${healing ? 'healing' : 'HP'} from ${chosen.names.source}'s ${chosen.attack.ability.name}${source && chosen.attack.apCost ? ` (AP −${chosen.attack.apCost})` : ''}. ${wearText}.${rulings}${revalidated}`;
+   const healing = (chosen.attack.authored?.direct || chosen.attack.authored?.kind || (chosen.attack.authored?.attempt && require('./authoredEffect').directKindOf(chosen.attack.authored.attempt))) === 'healing';
+   const bundle = chosen.attack.authored?.bundle, effects = require('./authoredEffect');
+   const rider = bundle ? ` Also applied: ${effects.conditionLabel(bundle.condition)} · ${bundle.timing.durationText} — ${effects.policyText(bundle.timing.expiryPolicy, bundle.timing.occurrences)}.${chosen.combination ? ` ${effects.combinationText(chosen.combination, bundle.condition)}.` : ''}` : '';
+   return `Accepted: ${chosen.names.target} ${healing ? 'receives' : 'takes'} ${receipt.adjudication.finalAmount} ${healing ? 'healing' : 'HP'} from ${chosen.names.source}'s ${chosen.attack.ability.name}${source && chosen.attack.apCost ? ` (AP −${chosen.attack.apCost})` : ''}. ${wearText}.${rider}${rulings}${revalidated}`;
 }

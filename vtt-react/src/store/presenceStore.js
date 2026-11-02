@@ -11,6 +11,9 @@ import { io } from 'socket.io-client';
 import presenceService from '../services/firebase/presenceService';
 import { v4 as uuidv4 } from 'uuid';
 import { tryAcquireCooldown } from '../utils/writeThrottle';
+import { isProduction as isProductionBuild } from '../config/env';
+import { getBootstrapGateState } from '../persistence/bootstrapPrivacyGate';
+import { principalKeyOfAuthState } from '../persistence/handoff/socketPrincipalRetirement';
 
 // Minimum gap between chat sends from one client. Mirrors the server-side
 // cooldown documented in firestore.rules.
@@ -874,20 +877,43 @@ const usePresenceStore = create((set, get) => ({
     let [primarySocketUrl, ...fallbackSocketUrls] = socketUrlCandidates;
     let fallbackAttempted = false;
 
-    // Get auth token
+    // Wave A (P5/S4): capture the exact principal and account generation before
+    // any await. A token that resolves after logout / account switch belongs to
+    // the OLD principal and must never open a socket for the new one.
+    const readAuthState = () => getStore('authStore')?.getState?.() || {};
+    // Fail closed: without a registered auth store there is no principal to bind
+    // a socket to, so never open one (and never fall back to a tokenless guest).
+    if (typeof getStore('authStore')?.getState !== 'function') {
+      console.warn('🔐 [Auth] Auth store unavailable - not opening global socket');
+      return null;
+    }
+    const principalAtStart = principalKeyOfAuthState(readAuthState());
+    const generationAtStart = getBootstrapGateState().accountGeneration;
+    const setupValid = () =>
+      principalKeyOfAuthState(readAuthState()) === principalAtStart &&
+      getBootstrapGateState().accountGeneration === generationAtStart;
+
+    // Get auth token. Unverified dev tokens exist for local development only
+    // (the server rejects them in production). A production guest has no
+    // verifiable token and connects tokenless, which the server admits as a guest.
     let authToken = null;
+    const allowDevToken = !isProductionBuild();
     try {
-      const authStore = getStore('authStore');
-      const authState = authStore.getState();
+      const authState = readAuthState();
       if (authState.user && !authState.isDevelopmentBypass && !authState.user.isGuest && typeof authState.user.getIdToken === 'function') {
         authToken = await authState.user.getIdToken();
-      } else if (authState.user && !authState.user?.isGuest) {
+      } else if (allowDevToken && authState.user && !authState.user?.isGuest) {
         authToken = `dev-token-${authState.user.uid || 'admin-dev-user'}`;
-      } else if (authState.isDevelopmentBypass || authState.isAdminBypass || authState.isAuthenticated) {
+      } else if (allowDevToken && !authState.user?.isGuest && (authState.isDevelopmentBypass || authState.isAdminBypass || authState.isAuthenticated)) {
         authToken = `dev-token-${authState.user?.uid || 'admin-dev-user'}`;
       }
     } catch (error) {
       console.warn('Could not get auth token for global socket:', error);
+    }
+
+    if (!setupValid()) {
+      console.warn('🔐 [Auth] Principal/generation changed during global socket setup - aborting connection');
+      return null;
     }
 
     const socketOptions = {
@@ -952,6 +978,8 @@ const usePresenceStore = create((set, get) => ({
           }
 
           set({ socket: null, isConnected: false });
+          // The captured token belongs to the principal at setup time; never reuse it for another.
+          if (!setupValid()) return;
           createSocket(fallbackUrl);
         }
       });

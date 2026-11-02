@@ -18,14 +18,14 @@ const SLUG = /^[a-z][a-z0-9_]{0,63}$/;
 const ABBREVIATION = { strength: 'STR', agility: 'AGI', constitution: 'CON', intelligence: 'INT', spirit: 'SPI', charisma: 'CHA' };
 const REFUSED_TOKENS = ['int', 'str', 'agi', 'con', 'spi', 'cha', 'wis', 'dex', 'intellect'];
 const whole = (value, min, max) => Number.isSafeInteger(value) && value >= min && value <= max;
-function readFormula(formula, stats = {}) {
+function readFormula(formula, stats = {}, { integerScaling = false } = {}) {
   const manual = reason => ({ supported: false, reason });
   if (typeof formula !== 'string' || !formula.trim() || formula.length > 120) return manual('Formula is missing or too long.');
   const clean = formula.replace(/\s+/g, '').toLowerCase(), parts = clean.match(/[+-]?[^+-]+/g) || [];
   if (parts.join('') !== clean) return manual('Formula is outside the approved vocabulary.');
   const dice = [], terms = [], attributes = [];
   let constant = 0;
-  const score = name => { attributes.push(name); const v = stats?.[name]; return Number.isInteger(v) ? v : null; };
+  const score = name => { attributes.push(name); const v = stats?.[name]; return (integerScaling ? whole(v, 0, 1000) : Number.isInteger(v)) ? v : null; };
   for (const part of parts) {
     const sign = part.startsWith('-') ? -1 : 1, body = part.replace(/^[+-]/, '');
     let m;
@@ -36,6 +36,12 @@ function readFormula(formula, stats = {}) {
     } else if ((m = body.match(/^(\d+)$/))) {
       const value = Number(m[1]); if (!whole(value, 0, 10000)) return manual('Constant is outside the supported bounds.');
       constant += sign * value; terms.push(`${sign < 0 ? '-' : '+'} ${value}`);
+    } else if (integerScaling && (m = body.match(/^(?:([a-z]+)\*(\d+)|\(([a-z]+)\*(\d+)\))$/))) {
+      const name = m[1] || m[3], multiplier = Number(m[2] || m[4]);
+      if (!ATTRIBUTES.includes(name) || !whole(multiplier, 1, 10)) return manual('Use a full caster attribute score multiplied by a whole number from 1 to 10.');
+      const value = score(name); if (value === null) return manual(`${ABBREVIATION[name]} score is unavailable or outside 0…1000.`);
+      const product = value * multiplier;
+      constant += sign * product; terms.push(`${sign < 0 ? '-' : '+'} ${product} (${ABBREVIATION[name]} score ${value} × ${multiplier})`);
     } else if ((m = body.match(/^([a-z]+)\/(\d+)$/))) {
       const name = m[1], divisor = Number(m[2]);
       if (REFUSED_TOKENS.includes(name) || !ATTRIBUTES.includes(name) || !whole(divisor, 1, 100)) return manual('Term is outside the approved vocabulary.');
@@ -54,6 +60,7 @@ function readFormula(formula, stats = {}) {
     } else return manual('Term is outside the approved vocabulary.');
   }
   if (!dice.length) return manual('At least one die is required.');
+  if (integerScaling && (dice.length > 8 || dice.reduce((n, g) => n + g.count, 0) > 50 || !whole(Math.abs(constant), 0, 10000))) return manual('Formula exceeds 8 dice groups, 50 total faces or an absolute constant of 10000.');
   return { supported: true, dice, constant, attributes: [...new Set(attributes)].sort(), reading: `${formula.trim()} → ${terms.join(' ')}`.slice(0, 300) };
 }
 /** Attributes a formula reads (for the owner-attested `rollAttributes` map). */
@@ -217,5 +224,5 @@ function disclosure(entry) {
     preserved: clone((d.preserved || []).map(item => ({ path: item.path, note: item.note }))), status: 'Partially automated' };
 }
 
-module.exports = { CAPABILITY, COMPILER, OCCURRENCE_PREFIX, PRESERVED_PATHS, compile, profileFor, admit, definitionHash, isClassEffect, recordHashOf,
+module.exports = { CAPABILITY, COMPILER, ATTRIBUTES, OCCURRENCE_PREFIX, PRESERVED_PATHS, compile, profileFor, admit, definitionHash, isClassEffect, recordHashOf,
   effectDefinition, branches, riderApplies, occurrence, namedRecord, classIdOf, readFormula, formulaAttributes, rollMatches, recordFor, resultFor, branchLines, disclosure, riderText };

@@ -67,7 +67,15 @@ const translateErrorToFantasy = (errorMessage) => {
 const PERSISTENCE_UNAVAILABLE_FANTASY_MESSAGE =
   'The Chronicle Vault is temporarily sealed. Permanent Halls cannot be created or resumed until the vault reopens. Temporary halls are still available.';
 
-const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt }) => {
+// Online campaign rooms require a signed-in account (current enforced policy; future guest joining is an
+// unresolved product decision, not rejected here). Local guest characters and drafts are never touched.
+export const ACCOUNT_REQUIRED_TITLE = 'Online campaigns need a signed-in account';
+export const ACCOUNT_REQUIRED_BODY =
+  'Creating or joining an online campaign room requires you to sign in or register. ' +
+  'Your local guest characters and drafts stay on this device; signing in does not delete them.';
+
+const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt, onShowLogin }) => {
+  const isLocalGuest = useAuthStore((state) => !!state.user?.isGuest);
   // CRITICAL FIX: Get navigate function for room code URL routing
   const navigate = useNavigate();
 
@@ -640,6 +648,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt }) => 
   };
 
   const handleCreatePersistentRoom = async () => {
+    if (isLocalGuest) { setError(ACCOUNT_REQUIRED_TITLE + '.'); return; }
     if (!isAuthenticated) {
       setError('You must first swear an oath to the realm before creating halls that stand the test of time.');
       return;
@@ -899,6 +908,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt }) => 
   };
 
   const handleCreateRoom = () => {
+    if (isLocalGuest) { setError(ACCOUNT_REQUIRED_TITLE + '.'); return; }
     const conversion = captureConversionTransfer();
     if (!conversion.ok) {
       setError('Your account is still loading. Please wait a moment and try again.');
@@ -989,6 +999,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt }) => 
   };
 
   const handleJoinRoom = async (targetRoomId = null, targetPassword = null) => {
+    if (isLocalGuest) { setError(ACCOUNT_REQUIRED_TITLE + '.'); return; }
     const finalRoomId = targetRoomId || roomId;
     const finalPassword = targetPassword || joinPassword;
 
@@ -1318,6 +1329,18 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt }) => 
             <i className="fas fa-times"></i>
           </button>
         </div>
+
+        {isLocalGuest && (
+          <section className="lobby-account-required" role="region" aria-label="Account required for online campaigns">
+            <h2 className="lobby-account-required-title">{ACCOUNT_REQUIRED_TITLE}</h2>
+            <p className="lobby-account-required-body">{ACCOUNT_REQUIRED_BODY}</p>
+            {typeof onShowLogin === 'function' && (
+              <button type="button" className="lobby-account-required-action" onClick={onShowLogin}>
+                Sign in or register
+              </button>
+            )}
+          </section>
+        )}
 
         {error && (
           <div className="error-message">

@@ -43,7 +43,7 @@ export const PYROFIEND_DATA = {
  * Subrace Variants. The furnace is a cosmic wound, not a gift, and what a Pyrofiend believes
  * they are carrying it for differs by heritage. The Solari were standing in the cloisters when
  * Emberspire blew: the Vault-Keepers hold the Banked Hearth in glacial stillness, and the
- * Anhur forge-clans race their own conversion. The Brasskin survived the
+ * Ashen forge-clans race their own conversion. The Brasskin survived the
  * shockwave in sealed geothermal refineries and treat the fire as a chemical hazard with
  * valves, chalk, and thermal thresholds.
   */
@@ -65,18 +65,18 @@ export const PYROFIEND_DATA = {
  },
 
  thrask_solari: {
-   subraceName: 'Anhur',
+   subraceName: 'Ashen',
   title: 'The Forge-Damned',
-  reframe: `The <LoreLink termId="solari">Anhur</LoreLink>, badland rangers and forge-clans, know fire as a *tool*, and a Pyrofiend among them treats the furnace in their blood as the dark mirror of their craft. Where the forge-clans tame heat to shape metal, the Anhur Pyrofiend lets the fire *reshape them*, the body itself as the workpiece, the breach-fire as the forge. The pact is, to the Anhur, a perverted apprenticeship that no one signed for and everyone must serve.`,
+  reframe: `The <LoreLink termId="solari">Ashen</LoreLink>, badland rangers and forge-clans, know fire as a *tool*, and a Pyrofiend among them treats the furnace in their blood as the dark mirror of their craft. Where the forge-clans tame heat to shape metal, the Ashen Pyrofiend lets the fire *reshape them*, the body itself as the workpiece, the breach-fire as the forge. The pact is, to the Ashen, a perverted apprenticeship that no one signed for and everyone must serve.`,
   signatureAbility: {
   name: 'Forge-Conversion',
-  description: `The char-vessel conversion (flesh becoming volcanic material) is, for the Anhur, partially *directable*, they can guide which parts of their body calcify into heat-resistant forge-plate, trading organs for natural Durability. The most veteran Anhur Pyrofiends are more basalt than flesh, and fight accordingly.`
+  description: `The char-vessel conversion (flesh becoming volcanic material) is, for the Ashen, partially *directable*, they can guide which parts of their body calcify into heat-resistant forge-plate, trading organs for natural Durability. The most veteran Ashen Pyrofiends are more basalt than flesh, and fight accordingly.`
   },
-  currentCrisisAngle: `The mass debt-collection hits the Anhur as a *deadline on their own conversion*: those who have not finished forging themselves into survivable char-vessels will be claimed raw. A race has begun in the deep caldera, Anhur Pyrofiends desperately completing their self-forging before Scathrach arrives to collect the unfinished work. Some are choosing to forge their *hearts* last, knowing it will kill them, just to deny the Ashen Sovereign a complete tool.`,
+  currentCrisisAngle: `The mass debt-collection hits the Ashen as a *deadline on their own conversion*: those who have not finished forging themselves into survivable char-vessels will be claimed raw. A race has begun in the deep caldera, Ashen Pyrofiends desperately completing their self-forging before Scathrach arrives to collect the unfinished work. Some are choosing to forge their *hearts* last, knowing it will kill them, just to deny the Ashen Sovereign a complete tool.`,
   signatureQuote: {
   text: '"My ancestors tamed the forge. I let the forge tame me. When Scathrach comes to collect, it will find a finished blade, not ore. I will not be taken unfinished."',
   speaker: 'Forge-Damned Thrak-Vess',
-  context: 'A Anhur Pyrofiend, forging the last plate over his own ribs'
+  context: 'An Ashen Pyrofiend, forging the last plate over his own ribs'
   }
  },
 
@@ -133,21 +133,21 @@ export const PYROFIEND_DATA = {
   characterization: `The oldest living Pyrofiend, more char-vessel than flesh, his bones visible through translucent magma-skin. He leads only by virtue of having survived the longest, and he leads nothing so much as the countdown. He has calculated the exact day Scathrach will finish converting him, and he marks it on a calendar of scar-tissue. He is serene, terrifying, and entirely resigned.`
  },
  headquarters: { name: 'The Obsidian Cavern, beneath Emberspire', locationId: 'emberspire' },
- crisisConnection: `<LoreLink termId="sol-vareths">Sol-Vareths</LoreLink> is the Communion's de facto leader precisely when Scathrach has called in *all* debts simultaneously, meaning his leadership is a countdown to everyone's collection. He has not told the younger Pyrofiends the full terms; he has instead organized them into the Apostate's Path, a discipline of accelerating one's own conversion to fight harder before the end. He considers this mercy. The Anhur Pyrofiends racing to finish their self-forging consider it a death sentence with extra steps.`
+ crisisConnection: `<LoreLink termId="sol-vareths">Sol-Vareths</LoreLink> is the Communion's de facto leader precisely when Scathrach has called in *all* debts simultaneously, meaning his leadership is a countdown to everyone's collection. He has not told the younger Pyrofiends the full terms; he has instead organized them into the Apostate's Path, a discipline of accelerating one's own conversion to fight harder before the end. He considers this mercy. The Ashen Pyrofiends racing to finish their self-forging consider it a death sentence with extra steps.`
  },
 
  worldFriction: [
     { region: 'frostwood-reach', status: 'banned', consequence: 'Tallyn town elders ban Pyrofiends from entering wooden settlements; the uncontained heat melts protective frost-wards.', workaround: 'Wear enchanted cooling mantles and sleep outside town walls.' },
     { region: 'bryngloom-forest', status: 'hunted', consequence: 'Athien peat-harvesters execute Pyrofiends on sight to prevent catastrophic subterranean peat fires.', workaround: 'Extinguish all open flames and mask thermal auras with bog mud.' },
     { region: 'sundale', status: 'restricted', consequence: 'Great Forge smiths welcome Pyrofiend heat for extreme smelting, but require iron collars to prevent spontaneous combustion.', workaround: 'Submit to forge-guild supervision.' },
-    { region: 'emberspire', status: 'revered', consequence: 'Anhur calderas treat Pyrofiends as living crucibles of the Emberspire breach, holy survivors walking the fire that made them.', workaround: 'None needed in the caldera heart.' }
+    { region: 'emberspire', status: 'revered', consequence: 'Ashen calderas treat Pyrofiends as living crucibles of the Emberspire breach, holy survivors walking the fire that made them.', workaround: 'None needed in the caldera heart.' }
   ],
 
   illustration: "/assets/images/classes/pyrofiend_hollow_solari.jpg",
   illustrationCaption: "Korr Pyrofiend — The Banked Hearth, ascetic monastic glass cannon in ragged wraps and cracked sun-gorget channeling cooling energy into a scorched basalt staff while an erupting chest-kiln and left hand conjure a vortex of fused starfire and void-rot.",
   illustrations: [
     { url: "/assets/images/classes/pyrofiend_hollow_solari.jpg", subraceId: "korr_solari", caption: "Korr Pyrofiend — The Banked Hearth, ascetic monastic glass cannon in ragged wraps and cracked sun-gorget channeling cooling energy into a scorched basalt staff while an erupting chest-kiln and left hand conjure a vortex of fused starfire and void-rot." },
-    { url: "/assets/images/classes/pyrofiend_waste_solari.jpg", subraceId: "thrask_solari", caption: "Anhur Pyrofiend — The Forge-Damned, predatory badland scout in mid-ascension with basalt-calcified arm, demonic horns piercing linen wraps, and jagged obsidian breach-scythe blasting a storm of volcanic molten crimson." },
+    { url: "/assets/images/classes/pyrofiend_waste_solari.jpg", subraceId: "thrask_solari", caption: "Ashen Pyrofiend — The Forge-Damned, predatory badland scout in mid-ascension with basalt-calcified arm, demonic horns piercing linen wraps, and jagged obsidian breach-scythe blasting a storm of volcanic molten crimson." },
     { url: "/assets/images/classes/pyrofiend_clockwork_fexric.jpg", subraceId: "kethrin_fexric", caption: "Brasskin Pyrofiend — The Sealed Alembic, stocky refinery engineer managing a volatile chemical glass cannon with back-mounted quartz magma-boiler, copper heat-sink coils, and valve-regulated combustion lance venting pressurized brass-amber flame." }
   ],
 
@@ -164,13 +164,13 @@ The First Cabal were seven Solari keepers of the Emberspire cloisters, standing 
 
 The Inferno Veil measures how much of the breaching fire runs through the host at any moment. The tradition maps it as a descent through the Rings: Ring 0 is Veil 0, the Banked Hearth; the Malice of Rings I and II spans 1–3 and 4–6; Ring III, the Crucible, spans 7–9. Each level adds ember damage and cost. The Wyrd-touched Whisper and outside-healing restrictions belong to their authored effect rules. Reaching nine latches the Debt Call for three own turns. Ordinary cooling or rest cannot cancel it, and returning to nine cannot restart it. Expiry marks the terminal consequence due: detonation in a thirty-foot radius and collection of the soul require their separate resolution.
 
-Two heritages were positioned to survive the collision. The Solari were the monastic core of the Dawn Vigil, sworn to keep the chains on the buried star, and they were inside the cloisters when those chains failed: the Korr hold the Banked Hearth in absolute stillness, while the Anhur forge-clans race their own conversion, more basalt than flesh. The Brasskin were continents away in sealed geothermal refineries when the shockwave ruptured their vaults; they drank reactive mineral salts, embedded cooling heat-sinks along their spines, and stabilized the fire by hand, and they treat the furnace as a manageable engineering hazard rather than a curse.
+Two heritages were positioned to survive the collision. The Solari were the monastic core of the Dawn Vigil, sworn to keep the chains on the buried star, and they were inside the cloisters when those chains failed: the Korr hold the Banked Hearth in absolute stillness, while the Ashen forge-clans race their own conversion, more basalt than flesh. The Brasskin were continents away in sealed geothermal refineries when the shockwave ruptured their vaults; they drank reactive mineral salts, embedded cooling heat-sinks along their spines, and stabilized the fire by hand, and they treat the furnace as a manageable engineering hazard rather than a curse.
 
 Because dwelling in the deeper Rings is inherently fatal, an experienced Pyrofiend is defined less by how much fire they can raise than by how well they can put it back out. They purge soot in blinding black clouds, cauterize their own wounds with forced hellfire, and siphon raw thermal excess into an enemy's blood or blade. In a world shivering in the grip of permafrost and divine silence, the Pyrofiend walks a knife's edge between freezing to death like the rest of mortal kind and becoming the spark that burns down what little remains.
 
 Scathrach is calling in all debts simultaneously. The Final Convocation at Emberspire is imminent. The current leader, Last-Ember Sol-Vareths, more char-vessel than flesh, has calculated the exact day Scathrach will finish converting him. He has not shared the date.
 
-Native only to Korr, Anhur, Brasskin. Any other people named or implied above walk this path only as a rare, individually qualified exception, not a native tradition.`,
+Native only to Korr, Ashen, Brasskin. Any other people named or implied above walk this path only as a rare, individually qualified exception, not a native tradition.`,
 
  quickOverview: {
     title: "Class Overview",
@@ -208,7 +208,7 @@ Pyrofiends are revered yet deeply feared in the <LoreLink termId="harath_vault">
 **RACES & CULTURAL AFFILIATION**
 The Emberspire collision claimed two peoples: the Solari in the cloisters and the Brasskin in the refineries.
 
-Native to: Korr, Anhur, Brasskin. Any other people may walk this path only as a rare, individually qualified exception.
+Native to: Korr, Ashen, Brasskin. Any other people may walk this path only as a rare, individually qualified exception.
 **NOTABLE FIGURES**
 * **Ignis the First-Singed** (not to be confused with Ignis the Watcher, the Korr forge-priest who catalogued Sol's Breath's patterns  -  the Solari name Ignis is given to forge-born children whose first breath was taken in volcanic air, and there have been many): One of the seven Solari keepers of the First Cabal who swallowed the breaching starfire in the flooded vaults beneath Emberspire.
 * **Aethelgard the Seared**: A Solari keeper of the First Cabal, who first named the Ninth Flame in the Cabal's records before the fire took her.`

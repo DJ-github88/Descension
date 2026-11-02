@@ -4,6 +4,7 @@ import { useSpellWizardState, useSpellWizardDispatch, actionCreators, ACTION_TYP
 import { IconSelectionCard, SpellLibraryButton, MechanicsPopup, MathHelpModal } from '../../components/common';
 import CriticalHitConfig from '../../components/mechanics/CriticalHitConfig';
 import ChanceOnHitConfig from '../../components/mechanics/ChanceOnHitConfig';
+import FormulaExecutionHelp from '../../components/common/FormulaExecutionHelp';
 
 import { useUnifiedTooltip } from '../../../common/useUnifiedTooltip';
 import UnifiedTooltip from '../../../common/UnifiedTooltip';
@@ -1484,6 +1485,7 @@ const HealingEffects = (props) => {
       <div className="formula-input-section">
        <h4>Formula</h4>
        <textarea
+        aria-label="Healing formula"
         value={
          healingConfig.healingType === 'hot' ? (
           currentResolution === 'CARDS'
@@ -1505,12 +1507,13 @@ const HealingEffects = (props) => {
            : (healingConfig.formula || '1d8 + HEA')
          )
         }
-        onChange={(e) => handleFormulaChange(e.target.value)}
+         onChange={(e) => handleFormulaChange(e.target.value)}
         placeholder={`Enter ${currentResolution.toLowerCase()} formula`}
         className="main-formula-input"
-        rows="2"
-       />
-      </div>
+         rows="2"
+        />
+        {currentResolution === 'DICE' && healingConfig.healingType === 'direct' && <FormulaExecutionHelp formula={healingConfig.formula} />}
+       </div>
      )}
 
      {/* Shield Properties Configuration - Show for shield healing type */}

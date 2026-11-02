@@ -1916,7 +1916,7 @@ export const CRUSADER_DATA = {
     { region: 'sundale', location: 'harath_vault', status: 'revered', consequence: 'Crusaders lead the vanguard against Wyrd incursions from the Ashen Escarpment; forge-masters prioritize their plating maintenance above all others.', workaround: 'None needed; treated as holy liberators.' },
     { region: 'bryngloom-forest', location: 'atropolis', status: 'distrusted', consequence: 'Atropolis contract-archivists view Crusader zeal as dangerous fanaticism that threatens fragile legal covenants with bog entities.', workaround: 'Sheathe greatswords in leaded peace-wraps and register with city bailiffs.' },
     { region: 'frostwood-reach', status: 'tolerated', consequence: 'Tallyn settlers welcome Crusader heavy swords against wandering Wyrd-beasts, but fear their strict intolerance of pagan fog rites.', workaround: 'Confine purges to confirmed abominations and respect village elders.' },
-    { region: 'emberspire', status: 'allied', consequence: 'Anhur forge-knights share the Crusader\'s martial philosophy, welcoming their holy starlight to supplement geothermal defenses.', workaround: 'Participate in the ritual caldera-kindling.' }
+    { region: 'emberspire', status: 'allied', consequence: 'Ashen forge-knights share the Crusader\'s martial philosophy, welcoming their holy starlight to supplement geothermal defenses.', workaround: 'Participate in the ritual caldera-kindling.' }
   ],
 
   overview: {
@@ -1926,7 +1926,7 @@ export const CRUSADER_DATA = {
     illustrationCaption: "Skald Human Crusader — The Frost-Hearth Zealot, Nordic vanguard juggernaut planted in deep alpine snow with a glowing runic starlight hearth-blade.",
     illustrations: [
       { url: "/assets/images/classes/crusader_skald_human.jpg", subraceId: "skald_human", caption: "Skald Human Crusader — The Frost-Hearth Zealot, Nordic vanguard juggernaut planted in deep alpine snow with a glowing runic starlight hearth-blade." },
-      { url: "/assets/images/classes/crusader_anhur_solari.jpg", subraceId: "thrask_solari", caption: "Anhur Solari Crusader — The Magma Crusader, volcanic vanguard knight in tectonic iron plate wielding an obsidian flameblade greatsword and embossed sun-crest tower shield." },
+      { url: "/assets/images/classes/crusader_anhur_solari.jpg", subraceId: "thrask_solari", caption: "Ashen Solari Crusader — The Magma Crusader, volcanic vanguard knight in tectonic iron plate wielding an obsidian flameblade greatsword and embossed sun-crest tower shield." },
       { url: "/assets/images/classes/crusader_kordak_astril.jpg", subraceId: "silath_astril", caption: "Kordak Astril Crusader — The Crystal Judgment, colossal crystalline titan with forward-curving horns locked behind a glowing amber starlight tower shield and quartz executioner greatsword." },
       { url: "/assets/images/classes/crusader_lumian_astril.jpg", subraceId: "vashir_astril", caption: "Lumian Astril Crusader — The Starlight Vanguard, celestial paladin in sculpted silver and starlight glass raising an armillary-ringed celestial greatsword." },
       { url: "/assets/images/classes/crusader_korr_solari.jpg", subraceId: "korr_solari", caption: "Korr Solari Crusader — The Vault-Templar, Deep-Vault holy monk with ash-branding tattoos and sun-crest gorget, resting upon a colossal basalt great-maul." }
@@ -1939,7 +1939,7 @@ To channel Aex's Willing Sacrifice is an ordeal of agonizing physical friction. 
 
 The cost of this zeal is complete, exhausting physical devotion. A Crusader cannot cast spells from a safe distance; you must be close enough to smell the enemy's breath to build Fervor. If you push your zeal too far without releasing a smite, the blinding starlight bleeds into your own optic nerves, causing peripheral Starlight Burnout. Today, the Dawn Vigil stands at a terrifying ideological crossroads: Hierophant Aethelgard commands all Crusaders to reforge the 7 Sundered Monoliths, unaware that the 7th Monolith is tainted by Keth Amar. You march into the dark with a greatsword on your shoulder, knowing that if your faith falters for even a second, the light you carry will burn you alive from the inside out.
 
-Native only to Anhur. Any other people named or implied above walk this path only as a rare, individually qualified exception, not a native tradition.`,
+Native only to Ashen. Any other people named or implied above walk this path only as a rare, individually qualified exception, not a native tradition.`,
 
     quickOverview: {
       title: "Class Overview",
@@ -1961,7 +1961,7 @@ Forged during the Freezing Era when Solvan knights bound Aex's starlight song to
 Highly revered in Sundale and Emberspire; viewed with caution by Atropolis archivists who fear religious zeal.
 
 **RACES & CULTURAL AFFILIATION**
-Smelting a dead god into battle-plate is a Anhur forge tradition. The Kordak refract Aex's song through their crystalline lattice. Any other people walk this path only as a rare, individually qualified exception.
+Smelting a dead god into battle-plate is an Ashen forge tradition. The Kordak refract Aex's song through their crystalline lattice. Any other people walk this path only as a rare, individually qualified exception.
 **NOTABLE FIGURES**
 * **Lord-Captain Vane Solvan**: The first to forge starlight steel into heavy battle-plates.
 * **Hierophant Aethelgard**: Leader of the Dawn Vigil.`
@@ -2040,14 +2040,14 @@ Smelting a dead god into battle-plate is a Anhur forge tradition. The Kordak ref
     },
 
     thrask_solari: {
-      subraceName: 'Anhur',
+      subraceName: 'Ashen',
       title: 'The Magma Crusader',
-      reframe: `The <LoreLink termId="solari">Anhur</LoreLink> Crusaders channel <LoreLink termId="scathrach">Scathrach's</LoreLink> uncorrupted ember to infuse heavy bulwark plate with geothermal heat. They view Aex's song as the magma-hum of <LoreLink termId="emberspire">Emberspire</LoreLink>. Their zeal is tectonic, welding heavy iron plate directly to their shoulders.`,
+      reframe: `The <LoreLink termId="solari">Ashen</LoreLink> Crusaders channel <LoreLink termId="scathrach">Scathrach's</LoreLink> uncorrupted ember to infuse heavy bulwark plate with geothermal heat. They view Aex's song as the magma-hum of <LoreLink termId="emberspire">Emberspire</LoreLink>. Their zeal is tectonic, welding heavy iron plate directly to their shoulders.`,
       signatureAbility: {
         name: 'Caldera-Cleave',
         description: `Spending Fervor converts 50% of your sacred damage into ember damage, setting the ground on fire and dealing continuous ember ticks to enemies.`
       },
-      currentCrisisAngle: `As Emberspire's calderas cool, Anhur Crusaders are forced deeper into Scathrach's subterranean vents, risking exposure to Wyrd-taint to keep their plating heated.`,
+      currentCrisisAngle: `As Emberspire's calderas cool, Ashen Crusaders are forced deeper into Scathrach's subterranean vents, risking exposure to Wyrd-taint to keep their plating heated.`,
       signatureQuote: {
         text: '"You pray to a sun you never saw. I pray to the boiling mud under my boots. Let us see whose god hits harder."',
         speaker: 'Korr Vulcan-Shield',

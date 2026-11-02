@@ -79,7 +79,7 @@ const cursorDebug = (...args) => {
 
 
 
-const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
+const MultiplayerApp = ({ onReturnToSinglePlayer, onShowLogin }) => {
   // CRITICAL FIX: Set enteringMultiplayer flag IMMEDIATELY on mount
   // This must happen BEFORE any socket initialization to prevent the old
   // social socket from being disconnected (which would disband the party)
@@ -1258,6 +1258,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         socket={socket}
         onJoinRoom={handleJoinRoom}
         onReturnToLanding={onReturnToSinglePlayer}
+        onShowLogin={onShowLogin}
         onJoinAttempt={(roomId) => {
           sessionStorage.setItem('enteringMultiplayer', 'true');
           isAutoJoinSequenceRef.current = true;

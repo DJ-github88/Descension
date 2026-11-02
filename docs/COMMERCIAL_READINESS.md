@@ -177,7 +177,10 @@ Caveats / gaps:
 
 - The admin dev login (`admin`/`admin`) is compiled only outside production (`authStore.js:21–46`), which is correct, but the sentinel is build-time only. Verified no production exposure in code; runtime verification of the deployed bundle is **UNKNOWN**.
 - Firebase Auth email verification is sent (`authService.js:69`) but not enforced anywhere for gameplay/persistence.
-- Guests can join password-protected rooms and receive live room state (intended cooperative design; see 3.6).
+- **Guest campaign access (corrected 2026-11-02; supersedes the earlier statement that guests can join password-protected rooms).**
+  - *Current enforced behavior:* online campaign rooms require a signed-in account. A tokenless guest socket may connect and use social presence, but `create_room` and `join_room` are refused by `requireAuth` (`socketHandlers.js`, `roomLifecycleHandlers.js`); guests are tier-denied room creation (`tierService.js`). Permanent rooms additionally exclude Firebase anonymous identities (P4 H2, historical freeze unchanged). Local guest play, characters and drafts remain supported on-device. Outside production a local guest no longer receives a `dev-token`, so development behaves like production.
+  - *Intended future (not enforced):* guests joining temporary rooms is a candidate feature, not rejected, and needs an explicit policy plus a separate change (send the live Firebase token only when its uid is the current `auth.currentUser`; resolve provider `anonymous` as the guest tier so creation stays denied; keep permanent rooms refused; add tests).
+  - *Unresolved policy:* whether guests may join (and under what limits) remains a human product decision (`MYTHRILL_NEXT_PHASE.md`, "Guest product policy remains a human choice").
 
 ### 3.2 AUTHORIZATION — MIXED: server socket layer mostly strong; Firestore layer weak on `rooms`
 

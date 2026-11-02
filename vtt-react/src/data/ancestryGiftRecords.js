@@ -70,7 +70,7 @@ const RECORDS = [
         'Biological · ash-hardened skin', 'Ember damage or hot vapor.', 'Never reduces a hit below 1 damage.', 'Rime damage cracks the ward; it grants nothing against rime.'],
     ['thrask_smoke_veil', 'Smoke-Veil', 'Utility/Hide', 'A', 1, 'short_rest', 'shadow', 'utility', ['area', 10],
         'Exhale a cloud of ash in a 10 ft radius around you. It lightly obscures the area until the start of your next turn, and you see through it.',
-        'Trained · Anhur ash-runners', 'Open space around you.', 'Once per short rest; lasts until the start of your next turn.', 'Strong wind; creatures that leave the cloud.'],
+        'Trained · Ashen ash-runners', 'Open space around you.', 'Once per short rest; lasts until the start of your next turn.', 'Strong wind; creatures that leave the cloud.'],
 
     // ── Vreken ─────────────────────────────────────────────────────────────────
     ['clean_mourners_bloom', 'Mourner\'s Bloom', 'Healing/Golden Heart', 'A', 1, 'short_rest', 'primal', 'buff', ['single', 5],

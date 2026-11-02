@@ -40,7 +40,7 @@ export const LEATHERWORKING_RECIPES = [
     id: 'leather-straps-recipe',
     name: 'Leather Straps',
     profession: 'leatherworking',
-    description: 'Cut for Anhur border-ranger cloaks and gear. Cut leather into straps for binding and securing.',
+    description: 'Cut for Ashen border-ranger cloaks and gear. Cut leather into straps for binding and securing.',
     requiredLevel: 0,
     resultItemId: 'leather-straps',
     resultQuantity: 5,

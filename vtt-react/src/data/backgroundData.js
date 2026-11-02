@@ -145,7 +145,7 @@ export const BACKGROUND_DATA = {
     },
     feature: {
       name: 'Shyr-Sense',
-      description: 'You can predict when basalt pillars will shift or Huskvar-rifts will open. You and your companions gain advantage on Survival checks to navigate volcanic or geothermally-active terrain. You know the unspoken toll-rates of Anhur ranger-stations.'
+      description: 'You can predict when basalt pillars will shift or Huskvar-rifts will open. You and your companions gain advantage on Survival checks to navigate volcanic or geothermally-active terrain. You know the unspoken toll-rates of Ashen ranger-stations.'
     },
     statModifiers: {
       agility: 2,
@@ -500,7 +500,7 @@ export const BACKGROUND_DATA = {
     classHooks: [
       { classId: 'spellguard', bridge: 'The Damon tradition treats magical defense as forge-engineering; a Smith is already half-trained.' },
       { classId: 'warden', bridge: 'Chain-craft and gear-work are the mechanical backbone of the chain-graft surgical tradition.' },
-      { classId: 'berserker', bridge: 'Skald and Anhur forge-workers who absorbed enough forge-heat sometimes find the Rage igniting on its own.' }
+      { classId: 'berserker', bridge: 'Skald and Ashen forge-workers who absorbed enough forge-heat sometimes find the Rage igniting on its own.' }
     ],
     tensionPairings: [
       { classId: 'pyrofiend', tension: 'A smith who has spent a life feeding fire may stop banking it and let the furnace in.' }
@@ -2534,7 +2534,7 @@ export const BACKGROUND_DATA = {
         "thrask_solari"
       ],
       "narrativeUnlock": true,
-      "justification": "The cinder-flats and toxic dust storms of the Ashen Escarpment are Anhur surface ground."
+      "justification": "The cinder-flats and toxic dust storms of the Ashen Escarpment are Ashen surface ground."
     },
     "classHooks": [
       {
@@ -2547,7 +2547,7 @@ export const BACKGROUND_DATA = {
       },
       {
         "classId": "martyr",
-        "bridge": "Bearing the blistering winds without complaint is the daily liturgy of the Anhur."
+        "bridge": "Bearing the blistering winds without complaint is the daily liturgy of the Ashen."
       }
     ],
     "tensionPairings": [
@@ -2560,7 +2560,7 @@ export const BACKGROUND_DATA = {
       "thrask_solari": "You strapped obsidian goggles across your brow and outran the pyroclastic storm across the cinder wastes."
     },
     "name": "Skimmer",
-    "description": "Above ground in Sundale, where the volcanic soil is barren and blistering ash-squalls tear skin from flesh, the Anhur thrive. Bound in cured cinder-hide and wearing goggles carved from smoked volcanic glass, you skimmed the shifting grey sand-dunes on sled-skis, scouting merchant caravan tracks and salvaging the abandoned wagons of those who choked on sulfur vents. You know how to dig an emergency trench into cooling volcanic sand, how to filter potable moisture from toxic alkali pans, and how to read the wind when the mountain threatens to cough.",
+    "description": "Above ground in Sundale, where the volcanic soil is barren and blistering ash-squalls tear skin from flesh, the Ashen thrive. Bound in cured cinder-hide and wearing goggles carved from smoked volcanic glass, you skimmed the shifting grey sand-dunes on sled-skis, scouting merchant caravan tracks and salvaging the abandoned wagons of those who choked on sulfur vents. You know how to dig an emergency trench into cooling volcanic sand, how to filter potable moisture from toxic alkali pans, and how to read the wind when the mountain threatens to cough.",
     "skillProficiencies": [
       "Survival",
       "Perception"

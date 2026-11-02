@@ -141,18 +141,18 @@ subraceVariants: {
   },
 
   thrask_solari: {
-    subraceName: 'Anhur - Thyrm',
+    subraceName: 'Ashen - Thyrm',
    title: 'The Forge-Shield',
-   reframe: `The <LoreLink termId="solari">Anhur</LoreLink>, badland rangers, intercept magic the way they intercept forge-ruptures in the field: practically, violently, on the move. The Anhur are the tradition's *mobile* variant, deflecting and redirecting rather than absorbing, treating incoming magic as a thermal hazard to be angled away from the party rather than caught.`,
+   reframe: `The <LoreLink termId="solari">Ashen</LoreLink>, badland rangers, intercept magic the way they intercept forge-ruptures in the field: practically, violently, on the move. The Ashen are the tradition's *mobile* variant, deflecting and redirecting rather than absorbing, treating incoming magic as a thermal hazard to be angled away from the party rather than caught.`,
    signatureAbility: {
     name: 'Rupture-Deflection',
      description: `A trained deflection interface angles magic away using alchemical shield-surfaces. It retains a positive captured residual in the same finite AEP bank and records where redirected or dissipated energy went. Lower capture does not remove saturation or venting obligations, and redirection is not unconditional neutralization or free collateral avoidance. No automatic yield percentage is applied by the resource tracker.`
    },
-   currentCrisisAngle: `The rising ambient magic cannot be *deflected*, it is everywhere, ambient, with no vector to angle away. The Anhur Forge-Shields, masters of redirection, are helpless against a hazard that has no direction. Several have begun abandoning deflection for desperate absorption, a technique they were never trained for, and the radiation sickness is spreading through the badland garrisons.`,
+   currentCrisisAngle: `The rising ambient magic cannot be *deflected*, it is everywhere, ambient, with no vector to angle away. The Ashen Forge-Shields, masters of redirection, are helpless against a hazard that has no direction. Several have begun abandoning deflection for desperate absorption, a technique they were never trained for, and the radiation sickness is spreading through the badland garrisons.`,
    signatureQuote: {
     text: '"I redirect what has a direction. This has no direction. I am a shield-wall against the weather. You cannot parry the sky."',
     speaker: 'Ranger Thrak-Vess',
-    context: 'A Anhur Spellguard, abandoning his shield-surface to absorb his first spell'
+    context: 'An Ashen Spellguard, abandoning his shield-surface to absorb his first spell'
    }
   }
  },
@@ -195,7 +195,7 @@ subraceVariants: {
   currentLeader: {
    name: '<LoreLink termId="thrak-damos">Bulwark-Captain Thrak-Damos</LoreLink>',
     title: 'Warden of the Silence-Scars',
-   characterization: `A Anhur veteran whose forearms are latticed with absorbed-magic scars that glow through his sleeves. He leads the Aegis from the forge-keeps and enforces <LoreLink termId="damon">Damon</LoreLink>'s method with drill-sergeant discipline. He is a pragmatist who is watching his entire engineering discipline fail against a threat, ambient magic with no structure, that <LoreLink termId="damon">Damon</LoreLink> never imagined.`
+   characterization: `An Ashen veteran whose forearms are latticed with absorbed-magic scars that glow through his sleeves. He leads the Aegis from the forge-keeps and enforces <LoreLink termId="damon">Damon</LoreLink>'s method with drill-sergeant discipline. He is a pragmatist who is watching his entire engineering discipline fail against a threat, ambient magic with no structure, that <LoreLink termId="damon">Damon</LoreLink> never imagined.`
   },
   headquarters: { name: 'The Shield-Forge Keeps, Emberspire', locationId: 'emberspire' },
   crisisConnection: `<LoreLink termId="thrak-damos">Thrak-Damos</LoreLink> is watching the Aegis's foundational method collapse: ambient magic has no structure to dismantle, no vector to redirect. The Spellguards' Arcane Energy Points (AEP) are filling faster than they can purge, and the Arcane Saturation radiation-bursts are striking their own lines. He has begun ordering his Spellguards to *absorb*, <LoreLink termId="damon">Damon</LoreLink>'s forbidden technique, because there is nothing left to dismantle. The order that defined itself by precision is being reduced to a wall of sponges, and <LoreLink termId="thrak-damos">Thrak-Damos</LoreLink> considers this the death of his craft even if his Spellguards survive.`
@@ -212,7 +212,7 @@ subraceVariants: {
   illustrationCaption: "Korr Spellguard — The Silent-Guard, immovable monastic guardian anchored behind a colossal basalt slab shield with solar bronze crest, drawing raw intercepted magic directly into glowing vascular branding scars.",
   illustrations: [
     { url: "/assets/images/classes/spellguard_hollow_solari.jpg", subraceId: "korr_solari", caption: "Korr Spellguard — The Silent-Guard, immovable monastic guardian anchored behind a colossal basalt slab shield with solar bronze crest, drawing raw intercepted magic directly into glowing vascular branding scars." },
-    { url: "/assets/images/classes/spellguard_waste_solari.jpg", subraceId: "thrask_solari", caption: "Anhur Spellguard — The Forge-Shield, athletic badland scout in dynamic stride violently deflecting a blast of magical fire off an angled obsidian-beveled tower shield with notched forge-blade in hand." },
+    { url: "/assets/images/classes/spellguard_waste_solari.jpg", subraceId: "thrask_solari", caption: "Ashen Spellguard — The Forge-Shield, athletic badland scout in dynamic stride violently deflecting a blast of magical fire off an angled obsidian-beveled tower shield with notched forge-blade in hand." },
     { url: "/assets/images/classes/spellguard_high_nethien.jpg", subraceId: "velun_neth", caption: "High Athien Spellguard — The Clause-Canceller, aristocratic pact-lord in gothic plate and ghost-silk mantle planting a silver-alloy clause tower shield that dissolves an incoming spell into golden contract script." },
     { url: "/assets/images/classes/spellguard_thalren_human.jpg", subraceId: "thalren_human", caption: "Tallyn Human Spellguard — The Wyrd-Defuser, frontier sapper in wire-rimmed spectacles and Greymark garrison plate grounding an intercepted wild-magic strike through copper coils into frozen earth." }
   ],
@@ -224,11 +224,11 @@ The first was Damon, a Solari blacksmith working the forge-keeps during the Grea
 
 The solar energy permanently scarred his flesh and left his veins humming with volatile trapped mana. His hands froze in rigid shielding posture. He spent the rest of his life refining the principle: identify the structure of incoming magic, dismantle what can be dismantled, absorb what cannot, and redirect the rest. His unbreakable rule: "A spellguard who absorbs what they cannot dismantle is a weapon pointed at their own line."
 
-Each subrace absorbs differently. The Athien cancel spells through legal inversion, a fireball is an aggressively-worded offer, the response is rejection on procedural grounds. Lowest radiation intake, but fails against wild Wyrd with no structure. The Tallyn defuse magic like a sapper defuses a trap, identifying trigger, payload, and failsafe, neutralizing each in sequence. Only method that reliably catches layered spells. The Solari absorb raw into flesh, practice-tested against Sol's Breath-scale eruptions. Most Resonance intake but can absorb the largest single bursts. The Korr intercept from Vault-Breath stillness, becoming a silence that magic falls into. Steadiest but cannot move while intercepting. The Anhur deflect and redirect, treating magic as thermal hazard to be angled away. Lowest Resonance but cannot fully neutralize.
+Each subrace absorbs differently. The Athien cancel spells through legal inversion, a fireball is an aggressively-worded offer, the response is rejection on procedural grounds. Lowest radiation intake, but fails against wild Wyrd with no structure. The Tallyn defuse magic like a sapper defuses a trap, identifying trigger, payload, and failsafe, neutralizing each in sequence. Only method that reliably catches layered spells. The Solari absorb raw into flesh, practice-tested against Sol's Breath-scale eruptions. Most Resonance intake but can absorb the largest single bursts. The Korr intercept from Vault-Breath stillness, becoming a silence that magic falls into. Steadiest but cannot move while intercepting. The Ashen deflect and redirect, treating magic as thermal hazard to be angled away. Lowest Resonance but cannot fully neutralize.
 
 Ambient magic levels are rising as the Wyrd bleeds faster. Spellguards fill with Arcane Energy Points (AEP) faster than they can purge. Some enter Arcane Saturation, spontaneous Radiation Bursts harming everyone nearby. The current leader, Bulwark-Captain Thrak-Damos, is ordering absorption, Damon's forbidden technique, because there is nothing left to dismantle.
 
-Native only to Korr, Anhur. Any other people named or implied above walk this path only as a rare, individually qualified exception, not a native tradition.`,
+Native only to Korr, Ashen. Any other people named or implied above walk this path only as a rare, individually qualified exception, not a native tradition.`,
   title: "The Spellguard",
   subtitle: "The Silence-Scarred Aegis",
 
@@ -266,7 +266,7 @@ The spellguard's aetheric aegis was forged during the entombment of Sol in the v
 Spellguards are given places of honor as elite guards in the Canopy-Ledger of Atropolis and the keep of <LoreLink termId="greymark_keep">Greymark Keep</LoreLink>.
 
 **RACES & CULTURAL AFFILIATION**
-Catching magic in living flesh was born in the Solari forge-vaults: the Korr intercept from stillness, the Anhur angle the blast away. The Tessic ground intercepted magic through prepared gates and chambers, the Alchemite retune salvaged vent profiles, the Tallyn defuse layered triggers like sappers, the Brasskin run certified shield-regulators, and the Athien annul spells by contract law. Any other people walk this path only as a rare, individually qualified exception.
+Catching magic in living flesh was born in the Solari forge-vaults: the Korr intercept from stillness, the Ashen angle the blast away. The Tessic ground intercepted magic through prepared gates and chambers, the Alchemite retune salvaged vent profiles, the Tallyn defuse layered triggers like sappers, the Brasskin run certified shield-regulators, and the Athien annul spells by contract law. Any other people walk this path only as a rare, individually qualified exception.
 **NOTABLE FIGURES**
 * **Damon the Iron-Handed**: The legendary blacksmith whose shield absorbed the first flares of the dying sun.
 * **Elysia Silver-Vein**: A Athien sentinel who stabilized the barrier chambers during the first Breach.`

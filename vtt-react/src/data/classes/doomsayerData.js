@@ -69,7 +69,7 @@ export const DOOMSAYER_COMMON_MECHANICS = {
   havoc: 'Havoc runs 0-15. It persists between encounters and resets to 0 only on a completed long rest. Havoc beyond 15 is lost, never converted into free damage or another resource.',
   information: 'Every declaration is public. Reading a calamity reveals only its published terms; it never reveals hidden plans, unrolled outcomes or private intentions.',
   expiry: 'Expiry is counted in the caster own turns. No long rest, reconnect, initiative, class change or scene change refreshes, extends or resolves a calamity.',
-  native: 'Doomsayer has no registered native heritage edge. Skald, Anhur and Tessic are recommendations only; acquisition must be recorded.'
+  native: 'Doomsayer has no registered native heritage edge. Skald, Ashen and Tessic are recommendations only; acquisition must be recorded.'
 };
 
 export const DOOMSAYER_CORE_RECORDS = [
@@ -632,7 +632,7 @@ export const DOOMSAYER_RESOURCE_SYSTEM = {
     subtitle: 'Two visible clocks and a Havoc bowl',
     content: 'Use two calamity cards and a Havoc bowl of fifteen tokens. Write the subject, trigger, clock, effect and disruption method on each card. Turn the card face down only when it closes, never to hide its terms. Move one Havoc token only when the table confirms a resolution; reset the bowl only after a completed long rest.'
   },
-  nativeNote: 'No native heritage edge is registered. Skald, Anhur and Tessic are recommendations only.'
+  nativeNote: 'No native heritage edge is registered. Skald, Ashen and Tessic are recommendations only.'
 };
 
 export const DOOMSAYER_DATA = {
@@ -678,7 +678,7 @@ export const DOOMSAYER_DATA = {
       title: 'A public ending, not a secret debt',
       content: 'Doomsayer is the approved successor name for Harbinger. It does not inherit Fate Weaver links, Augur omens or Oracle forecasts. Legacy Harbinger characters keep their exact Mayhem and known IDs.'
     },
-    currentCrisis: 'Development class; no native heritage access is registered. The Frozen Archive, Anhur vent-readings and Tessic rehearsal traditions are recommendations pending approval.'
+    currentCrisis: 'Development class; no native heritage access is registered. The Frozen Archive, Ashen vent-readings and Tessic rehearsal traditions are recommendations pending approval.'
   },
   characterCreation: {
     title: 'Doomsayer',

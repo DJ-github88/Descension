@@ -53,12 +53,12 @@ export default function EquipmentActionSlot({
 
     const getItemImageSrc = () => {
         if (!item) {
-            return DEFAULT_SLOT_ICONS[slotName] || getItemFallbackIcon(null, slotName);
+            return DEFAULT_SLOT_ICONS[slotName] || (typeof getItemFallbackIcon === 'function' ? getItemFallbackIcon(null, slotName) : null);
         }
         if (item.imageUrl) return item.imageUrl;
         if (item.icon) return getIconUrl(item.icon, 'items');
         if (item.iconId) return getIconUrl(item.iconId, 'items');
-        return getItemFallbackIcon(item, slotName) || DEFAULT_SLOT_ICONS[slotName];
+        return (typeof getItemFallbackIcon === 'function' ? getItemFallbackIcon(item, slotName) : null) || DEFAULT_SLOT_ICONS[slotName];
     };
 
     return (
@@ -67,6 +67,8 @@ export default function EquipmentActionSlot({
             <div
                 className={`equipment-action-slot ${isEmpty ? 'empty' : 'equipped'} ${isDisabled ? 'disabled' : ''} ${isOpen ? 'active-open' : ''}`}
                 style={rarityBorderColor && !isEmpty ? { borderColor: rarityBorderColor } : undefined}
+                title={item?.name || slotLabel}
+                aria-label={item?.name || slotLabel}
                 onClick={(e) => {
                     e.stopPropagation();
                     if (!isDisabled && onToggleOpen) {
@@ -96,13 +98,10 @@ export default function EquipmentActionSlot({
                         style={{ opacity: isEmpty ? 0.45 : isDisabled ? 0.3 : 1 }}
                         onError={(e) => {
                             e.target.onerror = null;
-                            e.target.src = getItemFallbackIcon(item, slotName) || DEFAULT_SLOT_ICONS[slotName];
+                            e.target.src = (typeof getItemFallbackIcon === 'function' ? getItemFallbackIcon(item, slotName) : null) || DEFAULT_SLOT_ICONS[slotName];
                         }}
                     />
                 </div>
-
-                {/* Slot Identifier Pill */}
-                <div className="equipment-slot-tag">{slotLabel}</div>
 
                 {/* Disabled Overlay (e.g. 2-Handed weapon equipped in MH) */}
                 {isDisabled && (

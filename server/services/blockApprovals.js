@@ -5,6 +5,9 @@
  */
 const actors = require('./actorConsequences');
 const spellPayments = require('./spellPayments');
+const effect = require('../shared/services/authoredEffect');
+/** M3A: the direct part ('damage' | 'healing') of an authored attempt, whether a plain A4/A5 spell or an authored-effect bundle. */
+const directKind = attempt => effect.directKindOf(attempt);
 
 const { fail, keys, own, hash } = actors;
 const CAPABILITY = 'p12b-block:v1';
@@ -128,16 +131,19 @@ function validateAttack(attack, code = 'invalid_block_offer') {
   exact(attack.roll, ['mode', 'dice', 'faces'], code);
   if (!['digital', 'physical'].includes(attack.roll.mode) || !text(attack.roll.dice, 40) || !/^[0-9dD+\- ]+$/.test(attack.roll.dice) ||
     !Array.isArray(attack.roll.faces) || !attack.roll.faces.length || attack.roll.faces.length > (attack.authored ? 50 : 20) || attack.roll.faces.some(face => !int(face, 1, 1000))) {fail(code);}
-  if (!['hit', 'critical'].includes(attack.outcome) || !(DAMAGE_TYPES.includes(attack.damageType) || attack.authored?.attempt?.spell?.kind === 'healing' && attack.damageType === 'healing') || !int(attack.proposedDamage, 0, 100000) || !int(attack.apCost, 0, attack.authored ? 100 : 20)) {fail(code);}
+  if (!['hit', 'critical'].includes(attack.outcome) || !(DAMAGE_TYPES.includes(attack.damageType) || attack.authored && directKind(attack.authored.attempt) === 'healing' && attack.damageType === 'healing') || !int(attack.proposedDamage, 0, 100000) || !int(attack.apCost, 0, attack.authored ? 100 : 20)) {fail(code);}
   if (attack.authored) {
     const a = attack.authored;
     exact(a, ['attempt', 'targetRevision', 'blockApplicable', 'ruling', 'targeting'], code);
     spellPayments.validateCreatureApproval(a.attempt, true);
+    // M3A: a bundle rides this route only for a direct part; the rider-only form uses the condition route.
+    if (effect.isEffect(a.attempt) && !directKind(a.attempt)) fail('pc_target_route_mismatch');
+    bundleGate(a, { blocking: null, block: null, amounts: [attack.proposedDamage] });
     if (!int(a.targetRevision) || typeof a.blockApplicable !== 'boolean' || !text(a.ruling, 300) || !a.ruling.trim() ||
       hash(a.attempt.source) !== hash(attack.source) || hash(a.attempt.target) !== hash(attack.target) ||
       attack.ability.id !== a.attempt.spell.definitionId || attack.ability.name !== a.attempt.spell.name || attack.apCost !== a.attempt.price.ap ||
       hash(attack.roll) !== hash({ mode: a.attempt.roll.mode, dice: a.attempt.roll.reading, faces: a.attempt.roll.dice.flatMap(g => g.faces) }) ||
-      (a.attempt.spell.kind === 'healing' ? a.blockApplicable || attack.damageType !== 'healing' : attack.damageType !== a.attempt.spell.damageTypes[0])) fail(code);
+      (directKind(a.attempt) === 'healing' ? a.blockApplicable || attack.damageType !== 'healing' : attack.damageType !== a.attempt.spell.damageTypes[0])) fail(code);
   }
   if (actors.bytes(attack) > (attack.authored ? 32768 : 4096)) {fail(code);}
   return attack;
@@ -161,6 +167,29 @@ function checkAuthored(room, attack) {
   }
   const hp = actors.resources(target.token, 'character').hp;
   if (![hp.current, hp.temp, hp.max].every(v => Number.isFinite(v) && v >= 0) || hp.current > hp.max) fail('invalid_resources');
+  // M3A: a combination the target already makes impossible (A11) is known at offer time; the command re-derives it independently.
+  if (effect.isEffect(a)) { const plan = effect.conditionPlan(a, target.token.state?.conditions || []); if (plan.refused) fail(plan.refused.code, plan.refused.message); }
+}
+/** M3A temporary gates (pending creator decisions). Neither silently converts an attack: both refuse atomically, keep every record and name manual adjudication. */
+const BLOCK_GATE = 'Equipment blocking against an authored-effect bundle awaits a creator decision. The attack is not converted into unblocked damage; the GM adjudicates it manually.';
+const ZERO_GATE = 'Unsupported automation case: a bundle with zero direct damage is not automated. This does not mean the damage was fully blocked, and no rule is set that a rider needs positive damage. Nothing is charged or applied; the evidence is kept for manual adjudication.';
+const bundleOf = authored => !!authored && effect.isEffect(authored.attempt);
+function bundleGate(authored, { blocking, block, amounts }) {
+  if (!bundleOf(authored) || directKind(authored.attempt) === 'healing') return;
+  if (authored.blockApplicable || blocking || block) fail('bundle_block_manual_adjudication', BLOCK_GATE);
+  if (amounts.some(n => n === 0)) fail('bundle_zero_damage_unsupported', ZERO_GATE);
+}
+/** The bundle attempt an offer carries, or null: the P7 stage uses it to treat a block command as an authored application. */
+/** M3A: the target owner's copy of an offer. A bundle's attempt carries the GM's private resolution evidence and authoring notes; they stay GM-side. */
+function ownerAttack(attack) {
+  const out = JSON.parse(JSON.stringify(attack)), a = out.authored?.attempt;
+  if (a?.resolution) { delete a.resolution.timingNote; delete a.resolution.evidence; if (a.resolution.timing) delete a.resolution.timing.gmNote; }
+  if (a?.effectTerms?.timing) delete a.effectTerms.timing.gmNote;
+  return out;
+}
+function bundleAttempt(room, approval) {
+  const attempt = getOffer(room, approval?.attack?.commandId)?.attack?.authored?.attempt;
+  return attempt && effect.isEffect(attempt) ? attempt : null;
 }
 function offerRegistry(room) {
   let entries = offers.get(room);
@@ -259,8 +288,9 @@ function checkAgainstRoom(room, approval) {
   if (hash(offer.attack.source) !== hash(approval.source) || hash(offer.attack.target) !== hash(approval.target)) {fail('approval_mismatch');}
   checkAuthored(room, offer.attack);
   if (offer.attack.authored) {
+    bundleGate(offer.attack.authored, { blocking: approval.blocking, block: null, amounts: [] });
     if (!approval.blocking) return { source, target, offer };
-    if (!offer.attack.authored.blockApplicable || offer.attack.authored.attempt.spell.kind !== 'damage') fail('block_not_applicable');
+    if (!offer.attack.authored.blockApplicable || directKind(offer.attack.authored.attempt) !== 'damage') fail('block_not_applicable');
   } else if (!approval.blocking) fail('invalid_block_approval');
   const { piece } = checkPiece(target.token, approval.blocking);
   if (offer.attack.outcome === 'critical' && piece.kind === 'armor') {fail('critical_bypasses_armor');}
@@ -317,7 +347,7 @@ function validateChosen(chosenText, approval, target) {
   let chosen;
   try {chosen = JSON.parse(chosenText);} catch (_) {fail(bad);}
   const required = ['capability', 'approvalId', 'gmConfirmed', 'names', 'attack', 'block', 'afterBlock', 'manual'];
-  exact(chosen, [...required, ...(own(chosen || {}, 'revalidation') ? ['revalidation'] : []), ...(own(chosen || {}, 'targetRevalidation') ? ['targetRevalidation'] : [])], bad);
+  exact(chosen, [...required, ...(own(chosen || {}, 'revalidation') ? ['revalidation'] : []), ...(own(chosen || {}, 'targetRevalidation') ? ['targetRevalidation'] : []), ...(own(chosen || {}, 'combination') ? ['combination'] : [])], bad);
   if (own(chosen, 'targetRevalidation')) {
     exact(chosen.targetRevalidation, ['fromRevision', 'toRevision', 'reason'], bad);
     if (!int(chosen.targetRevalidation.fromRevision) || !int(chosen.targetRevalidation.toRevision) || !text(chosen.targetRevalidation.reason, 300) || !chosen.targetRevalidation.reason.trim()) fail(bad);
@@ -449,7 +479,8 @@ function bindCommand(room, player, command, authorization) {
   }
   const amount = adjudication.finalAmount;
   if (!int(amount, 0, 100000)) {fail('invalid_final_amount');}
-  if (chosen.attack.authored?.attempt.spell.kind === 'healing' && amount !== chosen.attack.proposedDamage) fail('owner_reapproval_required');
+  bundleGate(chosen.attack.authored, { blocking: approval.blocking, block: chosen.block, amounts: [amount, afterBlock] });
+  if (chosen.attack.authored && directKind(chosen.attack.authored.attempt) === 'healing' && amount !== chosen.attack.proposedDamage) fail('owner_reapproval_required');
   if (typeof adjudication.adjustmentReason !== 'string' || adjudication.adjustmentReason.length > 2000 ||
     (amount !== afterBlock && !adjudication.adjustmentReason.trim())) {fail('adjustment_reason_required');}
   if (command.actors.length !== 2) {fail('approval_mismatch');}
@@ -478,14 +509,23 @@ function bindCommand(room, player, command, authorization) {
   if (!Object.keys(payment).length) payment.ap = spellPayments.tempFirst(sourcePools.ap.current, sourcePools.ap.temp, 0);
   const hpPool = actors.resources(target.token, 'character').hp;
   const fromTemp = Math.min(hpPool.temp, amount);
-  const hp = chosen.attack.authored?.attempt.spell.kind === 'healing' ? { current: Math.min(hpPool.max, hpPool.current + amount), temp: hpPool.temp }
+  const hp = chosen.attack.authored && directKind(chosen.attack.authored.attempt) === 'healing' ? { current: Math.min(hpPool.max, hpPool.current + amount), temp: hpPool.temp }
     : { current: Math.max(0, hpPool.current - (amount - fromTemp)), temp: hpPool.temp - fromTemp };
   const wear = approval.blocking ? expectedWear(target.token, approval).entry : undefined;
+  // M3A: the bundle's rider is installed in this same command; the plan is derived here from the target's current records and again by the P7 stage.
+  const attempt = chosen.attack.authored?.attempt, bundle = attempt && effect.isEffect(attempt);
+  let plan = null;
+  if (bundle) {
+    plan = effect.conditionPlan(attempt, target.token.state?.conditions || []);
+    if (plan.refused) fail(plan.refused.code, plan.refused.message);
+    if (hash(chosen.combination ?? null) !== hash(plan.combination ?? null)) fail('modifier_combination_changed');
+  } else if (own(chosen, 'combination')) fail('approval_mismatch');
   const [first, second] = command.actors;
   if (hash(first.ref) !== hash(approval.source) || Object.keys(first).some(key => !['ref', 'expectedRevision', 'finalResources'].includes(key)) ||
     hash(first.finalResources || {}) !== hash(payment)) {fail('approval_mismatch');}
-  if (hash(second.ref) !== hash(approval.target) || Object.keys(second).some(key => !['ref', 'expectedRevision', 'finalResources', 'equipmentWear'].includes(key)) ||
+  if (hash(second.ref) !== hash(approval.target) || Object.keys(second).some(key => !['ref', 'expectedRevision', 'finalResources', 'equipmentWear', ...(bundle ? ['conditions'] : [])].includes(key)) ||
     hash(second.finalResources || {}) !== hash({ hp })) {fail('approval_mismatch');}
+  if (hash(second.conditions ?? null) !== hash(plan ? plan.ops : null)) fail('approval_mismatch');
   if (hash(second.equipmentWear || null) !== hash(wear || null)) {fail('invalid_equipment_wear');}
   return entry;
 }
@@ -519,5 +559,5 @@ const isBlockCommand = command => typeof command?.adjudication?.definitionVersio
   command.adjudication.definitionVersionOrHash.startsWith(`${CAPABILITY}/`);
 module.exports = { CAPABILITY, ATTACK_CAPABILITY, DEFINITION_ID, DEFINITION_HASH, HOME, LADDER, SIZES, SLOTS, DAMAGE_TYPES, PHYSICAL, MANUAL,
   kindOf, stepDown, holdsDefending, firstAvailable, deriveWear, selectionWindow, validateDeclarationEntry, applyDeclaration, validateAttack,
-  checkAuthored, checkOfferTarget, addOffer, getOffer, removeOffer, listOffers, sourceBaseline, closeOffer, closedOffer, listClosedOffers, checkRecordedPiece, explainSourceChange, validateApproval, checkAgainstRoom, checkWindow, get, add, listAll, close, closedCode, pendingFor,
-  consumedReceipt, foreignId, validateChosen, expectedWear, validateWearEntry, bindCommand, applyWear, publicWear, scopedView, isBlockCommand };
+  ownerAttack, checkAuthored, checkOfferTarget, addOffer, getOffer, removeOffer, listOffers, sourceBaseline, closeOffer, closedOffer, listClosedOffers, checkRecordedPiece, explainSourceChange, validateApproval, checkAgainstRoom, checkWindow, get, add, listAll, close, closedCode, pendingFor,
+  consumedReceipt, foreignId, validateChosen, expectedWear, validateWearEntry, bindCommand, applyWear, publicWear, scopedView, isBlockCommand, bundleAttempt };

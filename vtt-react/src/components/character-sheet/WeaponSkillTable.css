@@ -1,37 +1,50 @@
-/* WeaponSkillTable.css - Mythrill Dark Fantasy Parchment & Bronze Theme */
+/* WeaponSkillTable.css - Calm TTRPG / Manuscript & Bookbinder Theme */
+
+:root {
+  --wst-ink: var(--adventure-ink, #34251a);
+  --wst-muted: var(--adventure-muted, #68533e);
+  --wst-page: var(--adventure-page, #f8f5ee);
+  --wst-paper: var(--adventure-paper, #faf6ee);
+  --wst-panel: var(--adventure-panel, #e8e2d4);
+  --wst-rule: var(--adventure-rule, #c4baa6);
+  --wst-seal: var(--adventure-seal, #663c32);
+  --wst-leather: var(--adventure-leather, #302419);
+  --wst-header: #5c3a2e;
+}
 
 .weapon-skill-table-container {
     display: flex;
     flex-direction: column;
-    background: linear-gradient(145deg, #1c1511 0%, #120e0b 100%);
-    border: 1.5px solid #8b7355;
-    border-radius: 8px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.75), 0 0 15px rgba(139, 115, 85, 0.2);
-    color: #f0e6d2;
-    font-family: 'Crimson Text', serif;
+    background: var(--adventure-page, #f8f5ee);
+    border: 1px solid var(--adventure-rule, #c4baa6);
+    border-radius: 4px;
+    box-shadow: 0 8px 24px rgba(52, 37, 26, 0.22);
+    color: var(--adventure-ink, #34251a);
+    font-family: 'Crimson Text', Georgia, serif;
     width: 380px;
     max-width: 95vw;
     max-height: 520px;
     overflow: hidden;
     position: relative;
     user-select: text;
+    box-sizing: border-box;
 }
 
 .weapon-skill-table-container.embedded {
     width: 100%;
     max-width: 100%;
     box-shadow: none;
-    border-color: #5a4530;
+    border-color: var(--adventure-rule, #c4baa6);
 }
 
-/* Header */
+/* Header: Dark manuscript header matching UnifiedSpellCard */
 .wst-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 10px 14px;
-    background: rgba(30, 22, 17, 0.95);
-    border-bottom: 1.5px solid #5a4530;
+    padding: 8px 12px;
+    background: #5c3a2e;
+    border-bottom: 1px solid var(--adventure-rule, #c4baa6);
     gap: 10px;
 }
 
@@ -43,11 +56,11 @@
 }
 
 .wst-item-icon {
-    width: 36px;
-    height: 36px;
-    border-radius: 6px;
-    border: 1px solid #8b7355;
-    background: #0d0a08;
+    width: 34px;
+    height: 34px;
+    border-radius: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    background: rgba(0, 0, 0, 0.22);
     object-fit: contain;
     flex-shrink: 0;
 }
@@ -59,48 +72,51 @@
 }
 
 .wst-item-name {
-    font-size: 15px;
+    font-family: 'Cinzel', Georgia, serif;
+    font-size: 13.5px;
     font-weight: 700;
-    color: #ffd700;
+    color: #faf5ee;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
 }
 
 .wst-pills-row {
     display: flex;
     align-items: center;
-    gap: 6px;
-    margin-top: 2px;
+    gap: 5px;
+    margin-top: 3px;
     flex-wrap: wrap;
 }
 
 .wst-pill {
-    font-size: 11px;
-    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    font-family: 'Cinzel', Georgia, serif;
     padding: 2px 6px;
-    border-radius: 4px;
+    border-radius: 3px;
     line-height: 1.2;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.4px;
+    font-weight: 600;
 }
 
 .wst-pill.slot-pill {
-    background: rgba(139, 115, 85, 0.25);
-    border: 1px solid #8b7355;
-    color: #e0d0b8;
+    background: rgba(255, 255, 255, 0.16);
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    color: #faf5ee;
 }
 
 .wst-pill.skill-pill {
-    background: rgba(198, 160, 45, 0.2);
-    border: 1px solid #c6a02d;
-    color: #ffd700;
+    background: rgba(255, 255, 255, 0.22);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    color: #faf5ee;
 }
 
 .wst-pill.rank-pill {
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.35);
     color: #ffffff;
-    font-weight: 600;
 }
 
 .wst-header-actions {
@@ -111,14 +127,14 @@
 }
 
 .wst-action-btn {
-    background: transparent;
-    border: 1px solid #5a4530;
-    border-radius: 4px;
-    color: #c6a02d;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    border-radius: 3px;
+    color: #faf5ee;
     cursor: pointer;
-    font-size: 12px;
-    width: 26px;
-    height: 26px;
+    font-size: 11px;
+    width: 24px;
+    height: 24px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -126,15 +142,15 @@
 }
 
 .wst-action-btn:hover {
-    background: rgba(198, 160, 45, 0.2);
-    border-color: #ffd700;
-    color: #fff;
+    background: rgba(255, 255, 255, 0.25);
+    border-color: #ffffff;
+    color: #ffffff;
 }
 
 .wst-action-btn.pinned {
-    background: #8b7355;
-    color: #ffd700;
-    border-color: #ffd700;
+    background: rgba(255, 255, 255, 0.35);
+    color: #ffffff;
+    border-color: #ffffff;
 }
 
 /* Dice Breakdown Bar */
@@ -143,8 +159,8 @@
     grid-template-columns: repeat(3, 1fr);
     gap: 6px;
     padding: 8px 12px;
-    background: rgba(15, 12, 10, 0.85);
-    border-bottom: 1px solid #3d2f22;
+    background: var(--adventure-panel, #e8e2d4);
+    border-bottom: 1px solid var(--adventure-rule, #c4baa6);
 }
 
 .wst-die-card {
@@ -152,91 +168,99 @@
     flex-direction: column;
     align-items: center;
     text-align: center;
-    padding: 4px 6px;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(139, 115, 85, 0.3);
-    border-radius: 4px;
+    padding: 5px 6px;
+    background: var(--adventure-paper, #faf6ee);
+    border: 1px solid var(--adventure-rule, #c4baa6);
+    border-radius: 3px;
 }
 
 .wst-die-card.skill-die-card {
-    border-color: #c6a02d;
-    background: rgba(198, 160, 45, 0.08);
+    border-color: var(--adventure-seal, #663c32);
+    background: rgba(102, 60, 50, 0.06);
 }
 
 .wst-die-label {
-    font-size: 10px;
+    font-family: 'Cinzel', Georgia, serif;
+    font-size: 9.5px;
+    font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    color: #a09080;
+    color: var(--adventure-muted, #68533e);
     margin-bottom: 2px;
 }
 
 .wst-die-value {
-    font-size: 13px;
+    font-family: 'Cinzel', Georgia, serif;
+    font-size: 13.5px;
     font-weight: 700;
-    color: #ffd700;
+    color: var(--adventure-ink, #34251a);
 }
 
 .wst-die-card.damage-die-card .wst-die-value {
-    color: #ff8566;
+    color: var(--adventure-seal, #663c32);
 }
 
 .wst-die-card.blocking-die-card .wst-die-value {
-    color: #85b8ff;
+    color: #2b557a;
 }
 
 /* Reach summary notice */
 .wst-reach-notice {
     padding: 6px 12px;
     font-size: 12px;
-    color: #c8b8a0;
-    background: rgba(40, 30, 22, 0.7);
-    border-bottom: 1px solid #3d2f22;
+    color: var(--adventure-ink, #34251a);
+    background: var(--adventure-paper, #faf6ee);
+    border-bottom: 1px solid var(--adventure-rule, #c4baa6);
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
 
 .wst-reach-badge {
-    padding: 1px 6px;
+    padding: 2px 7px;
     border-radius: 3px;
-    background: rgba(74, 124, 89, 0.3);
-    border: 1px solid #4a7c59;
-    color: #7dd39c;
-    font-weight: 600;
-    font-size: 11px;
+    background: var(--adventure-panel, #e8e2d4);
+    border: 1px solid var(--adventure-rule, #c4baa6);
+    color: var(--adventure-seal, #663c32);
+    font-family: 'Cinzel', Georgia, serif;
+    font-weight: 700;
+    font-size: 10px;
+    letter-spacing: 0.03em;
 }
 
 /* Filter pills */
 .wst-filters {
     display: flex;
-    gap: 4px;
+    gap: 6px;
     padding: 6px 12px;
-    background: rgba(20, 16, 13, 0.9);
-    border-bottom: 1px solid #3d2f22;
+    background: var(--adventure-panel, #e8e2d4);
+    border-bottom: 1px solid var(--adventure-rule, #c4baa6);
 }
 
 .wst-filter-btn {
-    background: transparent;
-    border: 1px solid #4a3a2a;
+    background: var(--adventure-paper, #faf6ee);
+    border: 1px solid var(--adventure-rule, #c4baa6);
     border-radius: 3px;
-    color: #b0a090;
-    font-size: 11px;
-    padding: 2px 8px;
+    color: var(--adventure-ink, #34251a);
+    font-family: 'Cinzel', Georgia, serif;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 3px 8px;
     cursor: pointer;
     transition: all 0.15s ease;
+    line-height: 1.3;
 }
 
 .wst-filter-btn:hover {
-    border-color: #8b7355;
-    color: #ffd700;
+    border-color: var(--adventure-seal, #663c32);
+    color: var(--adventure-seal, #663c32);
 }
 
 .wst-filter-btn.active {
-    background: rgba(198, 160, 45, 0.25);
-    border-color: #c6a02d;
-    color: #ffd700;
-    font-weight: 600;
+    background: var(--adventure-leather, #302419);
+    border-color: var(--adventure-leather, #302419);
+    color: #faf5ee;
+    font-weight: 700;
 }
 
 /* Table Body */
@@ -245,37 +269,56 @@
     overflow-y: auto;
     padding: 4px 0;
     max-height: 340px;
+    background: var(--adventure-page, #f8f5ee);
+    scrollbar-width: thin;
+    scrollbar-color: var(--adventure-rule, #c4baa6) var(--adventure-paper, #faf6ee);
 }
 
 .wst-body::-webkit-scrollbar {
     width: 6px;
 }
 
+.wst-body::-webkit-scrollbar-track {
+    background: var(--adventure-paper, #faf6ee);
+}
+
 .wst-body::-webkit-scrollbar-thumb {
-    background: #5a4530;
+    background: var(--adventure-rule, #c4baa6);
     border-radius: 3px;
+}
+
+.wst-body::-webkit-scrollbar-thumb:hover {
+    background: var(--adventure-muted, #68533e);
 }
 
 .wst-row {
     padding: 6px 12px;
-    border-bottom: 1px solid rgba(139, 115, 85, 0.12);
+    border-bottom: 1px solid rgba(196, 186, 166, 0.4);
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    gap: 3px;
     transition: background 0.1s ease;
 }
 
 .wst-row:hover {
-    background: rgba(198, 160, 45, 0.08);
+    background: rgba(196, 186, 166, 0.18);
 }
 
 .wst-row.in-base-range {
-    border-left: 3px solid #4a7c59;
-    background: rgba(74, 124, 89, 0.06);
+    border-left: 3px solid var(--adventure-seal, #663c32);
+    background: rgba(102, 60, 50, 0.04);
 }
 
 .wst-row.in-base-range:hover {
-    background: rgba(74, 124, 89, 0.14);
+    background: rgba(102, 60, 50, 0.09);
+}
+
+.wst-row.out-of-base-range {
+    opacity: 0.72;
+}
+
+.wst-row.out-of-base-range:hover {
+    opacity: 1;
 }
 
 .wst-row-top {
@@ -298,100 +341,111 @@
     min-width: 22px;
     height: 18px;
     padding: 0 4px;
+    font-family: 'Cinzel', Georgia, serif;
     font-size: 11px;
     font-weight: 700;
     border-radius: 3px;
 }
 
-/* Tone styles */
-.wst-face-badge.tone-bad { background: rgba(180, 40, 40, 0.3); border: 1px solid #b42828; color: #ff8888; }
-.wst-face-badge.tone-weak { background: rgba(160, 100, 40, 0.3); border: 1px solid #a06428; color: #ffaa66; }
-.wst-face-badge.tone-base { background: rgba(100, 100, 100, 0.3); border: 1px solid #777; color: #ddd; }
-.wst-face-badge.tone-ok { background: rgba(70, 120, 80, 0.3); border: 1px solid #467850; color: #99eeaa; }
-.wst-face-badge.tone-good { background: rgba(40, 120, 160, 0.3); border: 1px solid #2878a0; color: #77ccff; }
-.wst-face-badge.tone-great { background: rgba(120, 60, 160, 0.3); border: 1px solid #783ca0; color: #ddaaff; }
-.wst-face-badge.tone-crit { background: rgba(180, 140, 20, 0.35); border: 1px solid #ffd700; color: #fff077; }
+/* Tone styles - calm manuscript pigment tones */
+.wst-face-badge.tone-bad   { background: #fde8e5; border: 1px solid #dca098; color: #8b2518; }
+.wst-face-badge.tone-weak  { background: #fdf0e0; border: 1px solid #e5bd8e; color: #8b5518; }
+.wst-face-badge.tone-base  { background: var(--adventure-paper, #faf6ee); border: 1px solid var(--adventure-rule, #c4baa6); color: var(--adventure-ink, #34251a); }
+.wst-face-badge.tone-ok    { background: #edf6eb; border: 1px solid #b5d9b0; color: #2d6b24; }
+.wst-face-badge.tone-good  { background: #e9f2fa; border: 1px solid #a8cce8; color: #1e5a88; }
+.wst-face-badge.tone-great { background: #f3ebfa; border: 1px solid #cfb2ea; color: #5a268a; }
+.wst-face-badge.tone-crit  { background: #fcf4db; border: 1px solid #dfc26a; color: #7a5c0d; }
 
 .wst-row-tier-name {
-    font-size: 13px;
-    font-weight: 600;
-    color: #e8dac5;
+    font-family: 'Cinzel', Georgia, serif;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--adventure-ink, #34251a);
 }
 
 .wst-row-delta {
-    font-size: 11px;
+    font-family: 'Cinzel', Georgia, serif;
+    font-size: 10px;
+    font-weight: 700;
     padding: 1px 5px;
     border-radius: 3px;
-    background: rgba(255, 255, 255, 0.05);
-    color: #ffd700;
-    border: 1px solid rgba(198, 160, 45, 0.3);
+    background: var(--adventure-paper, #faf6ee);
+    color: var(--adventure-seal, #663c32);
+    border: 1px solid var(--adventure-rule, #c4baa6);
 }
 
 .wst-row-reach-tag {
-    font-size: 10px;
-    padding: 1px 4px;
+    font-family: 'Cinzel', Georgia, serif;
+    font-size: 9px;
+    font-weight: 600;
+    padding: 1px 5px;
     border-radius: 2px;
+    text-transform: uppercase;
 }
 
 .wst-row-reach-tag.base-tag {
-    background: rgba(74, 124, 89, 0.25);
-    color: #88e0a8;
-    border: 1px solid rgba(74, 124, 89, 0.5);
+    background: #edf6eb;
+    color: #2d6b24;
+    border: 1px solid #b5d9b0;
 }
 
 .wst-row-reach-tag.surge-tag {
-    background: rgba(140, 100, 40, 0.2);
-    color: #d8a860;
-    border: 1px solid rgba(140, 100, 40, 0.4);
+    background: #fcf4db;
+    color: #7a5c0d;
+    border: 1px solid #dfc26a;
 }
 
 .wst-row-text {
-    font-size: 12px;
-    line-height: 1.35;
-    color: #cfbeaa;
+    font-family: 'Crimson Text', Georgia, serif;
+    font-size: 12.5px;
+    line-height: 1.4;
+    color: var(--adventure-muted, #68533e);
     margin-top: 1px;
 }
 
 /* Unavailable State Card */
 .wst-unavailable-card {
-    padding: 16px 14px;
+    padding: 20px 16px;
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
     gap: 8px;
+    background: var(--adventure-page, #f8f5ee);
 }
 
 .wst-unavailable-icon {
     font-size: 26px;
-    color: #8b7355;
+    color: var(--adventure-seal, #663c32);
     margin-bottom: 4px;
 }
 
 .wst-unavailable-title {
-    font-size: 15px;
+    font-family: 'Cinzel', Georgia, serif;
+    font-size: 14px;
     font-weight: 700;
-    color: #e0d0b8;
+    color: var(--adventure-ink, #34251a);
 }
 
 .wst-unavailable-desc {
-    font-size: 12px;
-    color: #a09080;
-    line-height: 1.4;
+    font-family: 'Crimson Text', Georgia, serif;
+    font-size: 13px;
+    color: var(--adventure-muted, #68533e);
+    line-height: 1.45;
     max-width: 320px;
 }
 
 .wst-unavailable-stats {
     margin-top: 8px;
     padding: 6px 12px;
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid #5a4530;
-    border-radius: 4px;
-    font-size: 12px;
-    color: #85b8ff;
-    font-weight: 600;
+    background: var(--adventure-panel, #e8e2d4);
+    border: 1px solid var(--adventure-rule, #c4baa6);
+    border-radius: 3px;
+    font-family: 'Cinzel', Georgia, serif;
+    font-size: 11px;
+    color: var(--adventure-seal, #663c32);
+    font-weight: 700;
 }
-
 
 /* Character Sheet Equipment Tooltip Extension */
 .weapon-slot-interactive-tooltip {
@@ -401,9 +455,9 @@
 .sheet-weapon-tooltip-extension {
     margin-top: 8px;
     padding-top: 8px;
-    border-top: 1.5px solid #8b7355;
-    font-family: 'Crimson Text', serif;
-    color: #f0e6d2;
+    border-top: 1px solid var(--adventure-rule, #c4baa6);
+    font-family: 'Crimson Text', Georgia, serif;
+    color: var(--adventure-ink, #34251a);
 }
 
 .sheet-wte-header {
@@ -420,13 +474,15 @@
 }
 
 .sheet-wte-title {
+    font-family: 'Cinzel', Georgia, serif;
     font-size: 13px;
     font-weight: 700;
-    color: #ffd700;
+    color: var(--adventure-seal, #663c32);
 }
 
 .sheet-wte-rank-badge {
-    font-size: 11px;
+    font-family: 'Cinzel', Georgia, serif;
+    font-size: 10px;
     padding: 2px 6px;
     border-radius: 3px;
     color: #fff;
@@ -441,28 +497,29 @@
 }
 
 .sheet-wte-dice-chip {
-    font-size: 11px;
+    font-family: 'Cinzel', Georgia, serif;
+    font-size: 10px;
     padding: 2px 6px;
     border-radius: 3px;
-    background: rgba(0, 0, 0, 0.35);
-    border: 1px solid rgba(139, 115, 85, 0.4);
-    color: #d0c0a8;
+    background: var(--adventure-panel, #e8e2d4);
+    border: 1px solid var(--adventure-rule, #c4baa6);
+    color: var(--adventure-ink, #34251a);
 }
 
 .sheet-wte-dice-chip.skill {
-    border-color: #c6a02d;
-    color: #ffd700;
-    background: rgba(198, 160, 45, 0.15);
+    border-color: var(--adventure-seal, #663c32);
+    color: var(--adventure-seal, #663c32);
+    background: rgba(102, 60, 50, 0.08);
 }
 
 .sheet-wte-dice-chip.damage {
-    border-color: #a04030;
-    color: #ff9980;
+    border-color: #8b3a2a;
+    color: #8b3a2a;
 }
 
 .sheet-wte-dice-chip.block {
-    border-color: #4070a0;
-    color: #99ccff;
+    border-color: #2b557a;
+    color: #2b557a;
 }
 
 .sheet-wte-actions {
@@ -476,11 +533,11 @@
     justify-content: center;
     gap: 6px;
     padding: 5px 8px;
-    background: rgba(198, 160, 45, 0.18);
-    border: 1px solid #8b7355;
-    border-radius: 4px;
-    color: #ffd700;
-    font-family: 'Cinzel', serif;
+    background: var(--adventure-paper, #faf6ee);
+    border: 1px solid var(--adventure-rule, #c4baa6);
+    border-radius: 3px;
+    color: var(--adventure-ink, #34251a);
+    font-family: 'Cinzel', Georgia, serif;
     font-size: 11px;
     font-weight: 600;
     cursor: pointer;
@@ -488,9 +545,9 @@
 }
 
 .sheet-wte-table-toggle-btn:hover {
-    background: rgba(198, 160, 45, 0.35);
-    border-color: #ffd700;
-    color: #fff;
+    background: var(--adventure-panel, #e8e2d4);
+    border-color: var(--adventure-seal, #663c32);
+    color: var(--adventure-seal, #663c32);
 }
 
 .sheet-wte-expanded-table {
@@ -500,8 +557,9 @@
 }
 
 .sheet-wte-unavailable-note {
-    font-size: 11px;
-    color: #a09080;
+    font-family: 'Crimson Text', Georgia, serif;
+    font-size: 12px;
+    color: var(--adventure-muted, #68533e);
     font-style: italic;
     margin-top: 4px;
 }

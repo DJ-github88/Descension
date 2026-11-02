@@ -65,7 +65,7 @@ export const MARTYR_DATA = {
   },
 
   thrask_solari: {
-   subraceName: 'Anhur',
+   subraceName: 'Ashen',
    title: 'The Ash-Witness',
    reframe: `The Ash-Ranger Solari came up out of the deep when the caldera blew, and they are the ones who walked *into* the burning debris rather than away from it. When the Solari order fractured at <LoreLink termId="emberspire">Emberspire</LoreLink>, these were the brothers and sisters who planted their feet in the sulfur and took the fire onto their shields and their skin, the ones who refused to break. They keep the Loyal Vigil now: raw unpolished iron and bleached linen, linear brands cut along the arms to mark the tears of <LoreLink termId="aex">Aex</LoreLink>, and a quiet, sorrowful focus on the siblings they lost to the flame. To an Ash-Witness, every wound taken in the open, with no cover and no flinch, is an act of spiritual weight-lifting to balance the cosmic scales against the Pyrofiends' infernal rot.`,
    signatureAbility: {
@@ -169,18 +169,18 @@ The first Witness of the modern era was Sera Solvan, a Solvarn mother whose chil
 
 The noble houses noticed. What Sera had done out of grief, they saw as a military asset. A battalion with a martyr cadre fights three times as long. A martyr at a siege absorbs the artillery. The houses began drafting children, training them from birth to associate pain with duty, conditioning their bodies to accept the scar before they were old enough to understand what they were accepting. The free Martyrs chose their suffering. The conscripted ones had it chosen for them.
 
-Three peoples carry the path. The Solari keep the Mother's Shield in its oldest form, either as Korr Vault-Witnesses who endure in absolute stillness before the Sol's Breath, or as Anhur Ash-Witnesses who step into the open and take the burning debris, sorrowing for the brothers and sisters they lost to the flame. The Groven carry the Transmuted Burden: a people bred in Fex vats as labor-vessels who took the endurance forced on them and made it a sacred art, Morgh anchors holding the line and Amordjin span-keepers tallying every crossing that did not fall. And the Skald, who never knelt to Aex, walk the path anyway as Ironclads: the old Dreadnaught furnace-plating over Hunger-Pact blood, absorbing wounds as coal and answering the theology of the Witness with a boiler's worth of steam. The Aexan orders call them irregulars. The Ironclads call themselves the ones who skipped the sermon and kept the scars.
+Three peoples carry the path. The Solari keep the Mother's Shield in its oldest form, either as Korr Vault-Witnesses who endure in absolute stillness before the Sol's Breath, or as Ashen Ash-Witnesses who step into the open and take the burning debris, sorrowing for the brothers and sisters they lost to the flame. The Groven carry the Transmuted Burden: a people bred in Fex vats as labor-vessels who took the endurance forced on them and made it a sacred art, Morgh anchors holding the line and Amordjin span-keepers tallying every crossing that did not fall. And the Skald, who never knelt to Aex, walk the path anyway as Ironclads: the old Dreadnaught furnace-plating over Hunger-Pact blood, absorbing wounds as coal and answering the theology of the Witness with a boiler's worth of steam. The Aexan orders call them irregulars. The Ironclads call themselves the ones who skipped the sermon and kept the scars.
 
 Sera has been dead these many ages. Her scarred forearm is preserved beneath Emberspire, still faintly warm. Her private grief has been industrialized so long that most conscripts do not know her name. The ones who do tend to become free Martyrs. The ones who do not tend to die.
 
-Native only to Korr, Anhur, Morgh Groven, Amordjin Groven, Skald. Any other people named or implied above walk this path only as a rare, individually qualified exception, not a native tradition.`,
+Native only to Korr, Ashen, Morgh Groven, Amordjin Groven, Skald. Any other people named or implied above walk this path only as a rare, individually qualified exception, not a native tradition.`,
   title: "The Martyr",
   subtitle: "The Mother's Shield, Witness of Aex",
   illustration: "/assets/images/classes/martyr_hollow_solari.jpg",
   illustrationCaption: "Korr Martyr — The Vault-Witness, monastic guardian standing in unmoving stillness with an obsidian kite shield, jagged chest scars spilling radiant golden sunlight of Aex.",
   illustrations: [
     { url: "/assets/images/classes/martyr_hollow_solari.jpg", subraceId: "korr_solari", caption: "Korr Martyr — The Vault-Witness, monastic guardian standing in unmoving stillness with an obsidian kite shield, jagged chest scars spilling radiant golden sunlight of Aex." },
-    { url: "/assets/images/classes/martyr_waste_solari.jpg", subraceId: "thrask_solari", caption: "Anhur Martyr — The Ash-Witness, frontline crusader taking a blast of volcanic fire onto her notched iron tower shield, linear arm scars blazing with orange cinder-light." },
+    { url: "/assets/images/classes/martyr_waste_solari.jpg", subraceId: "thrask_solari", caption: "Ashen Martyr — The Ash-Witness, frontline crusader taking a blast of volcanic fire onto her notched iron tower shield, linear arm scars blazing with orange cinder-light." },
     { url: "/assets/images/classes/martyr_morgh_groven.jpg", subraceId: "morgh_groven", caption: "Morgh Groven Martyr — The Living Megalith, colossal guardian bracing a shattered stone slab against a barrage of harpoons, glowing amber veins welding the fracture." },
     { url: "/assets/images/classes/martyr_ithran_groven.jpg", subraceId: "ithran_groven", caption: "Amordjin Groven Martyr — The Living Span, alpine anchor gripping severed iron suspension bridge cables with bare hands and silver wire, amber-gold devotion lighting his strained arms." },
     { url: "/assets/images/classes/martyr_skald_human.jpg", subraceId: "skald_human", caption: "Skald Human Martyr — The Oath-Frozen, colossal Nordic warrior holding a blizzard pass alone with a massive iron-banded whalebone clan Great-Shield, wounds freezing into radiant cyan rime-vein scars." }
@@ -222,7 +222,7 @@ Martyrs are highly respected as sacred guardians in the frontier keeps and the g
 **RACES & CULTURAL AFFILIATION**
 Aex's Witness is carried by the Solari, the Groven, and the Skald Ironclads.
 
-Native to: Korr, Anhur, Morgh Groven, Amordjin Groven, Skald. Any other people may walk this path only as a rare, individually qualified exception.
+Native to: Korr, Ashen, Morgh Groven, Amordjin Groven, Skald. Any other people may walk this path only as a rare, individually qualified exception.
 **NOTABLE FIGURES**
 * **Sera the Devoted**: The founding mother of the Martyr's Vow who carved the history of the sacrificed children.
 * **Orak the Scarred**: A Korr monk who bore the sympathetic heat of thirty miners during a geothermal rupture.`

@@ -1,0 +1,56 @@
+{
+  "startedAt": "2026-11-02T20:17:26.660Z",
+  "testSuite": "Production Ordinary App Lifecycle (Create -> Save -> View -> Edit -> Save)",
+  "steps": [
+    {
+      "at": "2026-11-02T20:17:27.142Z",
+      "step": "1. Navigate to landing page"
+    },
+    {
+      "at": "2026-11-02T20:17:30.468Z",
+      "step": "2. Login -> Continue as Guest"
+    },
+    {
+      "at": "2026-11-02T20:17:32.553Z",
+      "step": "3. Open Character Roster and remove sample character if present (guest 1-char limit)"
+    },
+    {
+      "at": "2026-11-02T20:17:38.153Z",
+      "step": "4. Open Character Creation Wizard"
+    },
+    {
+      "at": "2026-11-02T20:17:54.704Z",
+      "step": "5. Save Character"
+    },
+    {
+      "at": "2026-11-02T20:17:58.904Z",
+      "step": "6. View in Roster and verify saved character"
+    },
+    {
+      "at": "2026-11-02T20:18:02.459Z",
+      "step": "7. Reload Page and verify character preservation"
+    },
+    {
+      "at": "2026-11-02T20:18:06.029Z",
+      "step": "8. Edit Character (open editor, update name)"
+    },
+    {
+      "at": "2026-11-02T20:18:16.914Z",
+      "step": "9. Verify updated character survives second reload"
+    }
+  ],
+  "checks": {
+    "urlBeforeCreate": "http://127.0.0.1:4199/account/characters/create",
+    "urlAfterCreate": "http://127.0.0.1:4199/account",
+    "savedInRoster": true,
+    "survivesReload": true,
+    "editSurvivesReload": true
+  },
+  "qualifications": [
+    "Uses mockFirebase network-layer interception per auth handoff (RECONCILIATION_NOTE.md / auth-harness-lib.cjs) for anonymous guest authentication.",
+    "Disposable browser context (clean profile, isolated localStorage/cookies).",
+    "Real Firebase backend is unestablished/separate."
+  ],
+  "errors": [],
+  "passed": true
+}

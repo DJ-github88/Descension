@@ -1,8 +1,8 @@
-# Mythrill — Prism combat capability plan (canonical)
+﻿# Mythrill â€” Prism combat capability plan (canonical)
 
-Combat architecture lead · 2026-10-30 · **planning only.** No production code, commit, push, deployment,
+Combat architecture lead Â· 2026-10-30 Â· **planning only.** No production code, commit, push, deployment,
 migration or dependency change was made. Nothing here approves new gameplay rules; every rule question is
-listed once in §F.
+listed once in Â§F.
 
 **HQ corrections (2026-10-30), binding on this plan:**
 1. A11 combination applies only to compatible movement modifiers.
@@ -14,7 +14,7 @@ listed once in §F.
 
 ## 0. Ownership, identity and evidence
 
-**Documentation ownership.** This file and roadmap §18 (a pointer to this file) belong to the combat
+**Documentation ownership.** This file and roadmap Â§18 (a pointer to this file) belong to the combat
 architecture lead. They hold the capability matrix and the milestone order **only**; status tables stay where
 they live. Sol owns `ENGINEERING_STATE.md`, `CURRENT_PRIORITIES.md` and the candidate/integration status in
 the coordination file. Sonnet owns storage reliability. Class HQ owns class design, resource schemas and
@@ -25,8 +25,8 @@ coordination file, any A10/A11 milestone, any code.
 HEAD `89cddc2b`, dirty working tree (concurrent work preserved). This is not Tower of Mythrill. The old
 `D:/Mythrill/Descension` path in `CLAUDE.md` is historical (ledger says so).
 
-**Read.** Repo `CLAUDE.md`; `AGENTS.md` (scanned for documentation rules; none restrict this file). Roadmap (`MYTHRILL_P11_P14_ROADMAP.md` §1–§17), A10 and A11 milestones, `ENGINEERING_STATE.md`
-(head, "Current work"), cross-track coordination (standing rules, entries 2026-10-27 → 2026-10-29 21:08Z),
+**Read.** Repo `CLAUDE.md`; `AGENTS.md` (scanned for documentation rules; none restrict this file). Roadmap (`MYTHRILL_P11_P14_ROADMAP.md` Â§1â€“Â§17), A10 and A11 milestones, `ENGINEERING_STATE.md`
+(head, "Current work"), cross-track coordination (standing rules, entries 2026-10-27 â†’ 2026-10-29 21:08Z),
 `CURRENT_PRIORITIES.md` (head), ability-compatibility checker reports and handoffs. **Inspected selectively:**
 `server/services/{actorConsequences,spellPayments,sharedEffectLifecycle,reactionWindows,riposteExecution}.js`,
 `server/shared/services/{authoredAbility,authoredEffect,sharedConditionProfile,sharedEffectTiming}.js`,
@@ -44,17 +44,17 @@ repo) to size families; **its classifications and counts are static-analysis sco
   has one bounded independent ACCEPT. Sol's targeted checks on the combined candidate are own checks.
 - **Live-service verification: none for anything.** All connected-App evidence uses fixture auth, provider,
   ownership, lease and cloud boundaries; the nine P5 environment gates remain open.
-- The rev3 consolidated combat proposal was never accessible (roadmap §2). The repo's checker reports are dated
+- The rev3 consolidated combat proposal was never accessible (roadmap Â§2). The repo's checker reports are dated
   2026-10-27, before A10/A11 acceptance, and still label `authored-effect:v1` provisional.
 
 **Contradictions reconciled.** `ENGINEERING_STATE.md` (last edited 19:48Z) still shows the A11 candidate as
 `integrationReady:false` / storage defect open. The coordination file (21:08Z) is later: sealed candidate
 `integrationReady:true`, `storageRepairAccepted:true`, persistent-profile App10 PASS. **Coordination is newer;
-the ledger is stale** — Sol should update it. Roadmap §17 ends at A10 and does not mention A11 or Minstrel.
+the ledger is stale** â€” Sol should update it. Roadmap Â§17 ends at A10 and does not mention A11 or Minstrel.
 
 ---
 
-## A. Current state — what can actually be executed
+## A. Current state â€” what can actually be executed
 
 **Players and GMs can, today (accepted baseline):** create, save and reload characters; run a connected
 GM-led fight; make a basic weapon strike against a creature; take a creature hit with owner block, HP and
@@ -70,13 +70,13 @@ single-target damage/healing.
 **Everything else is played by hand** with a visible reason; GM manual entry and physical dice always work.
 
 **Not yet in the live checkout (candidate only):** A11 stacking/refresh of movement effects; the Minstrel
-Opening Chord → Resolving Strike pair; storage-r2 duplicate prevention.
+Opening Chord â†’ Resolving Strike pair; storage-r2 duplicate prevention.
 
 | Item | Implemented | Tested | Integrated | Live-service verified |
 |---|---|---|---|---|
 | P7 consequence/receipts, P8, P9, P10 | yes | independently source-accepted | yes (accepted baseline) | no |
-| P11–P13 (proficiency, strike, wear, narration, B1/B2, W, E1a) | yes | bounded reviews + App witnesses | yes | no |
-| P14 C1–C4, A1–A9 | yes | repaired bounded ACCEPT + App PASS (qualified) | yes (App14 journey) | no |
+| P11â€“P13 (proficiency, strike, wear, narration, B1/B2, W, E1a) | yes | bounded reviews + App witnesses | yes | no |
+| P14 C1â€“C4, A1â€“A9 | yes | repaired bounded ACCEPT + App PASS (qualified) | yes (App14 journey) | no |
 | A10 composable effects | yes | review ACCEPT, handlers 11/11, App4 PASS (qualified) | yes (final A10 accepted) | no |
 | A11 movement stacking/refresh | yes | review ACCEPT, handlers 9/9, App10 PASS (qualified) | **sealed candidate only** | no |
 | Minstrel pair | yes (Argon) | handlers 9/9 reported; Sol 41 handlers, 40 client | **sealed candidate only** | no |
@@ -89,35 +89,35 @@ Opening Chord → Resolving Strike pair; storage-r2 duplicate prevention.
 Scoping counts are from the catalogue checker (1,992 records, multi-label; **not acceptance**). 434 records are
 intentionally manual-only (CR-1) and 431 are passive/descriptive; they are not "missing engine".
 
-| Family | Existing implementation and evidence | Missing infrastructure vs adapter/content | Unsupported / unresolved | Owner · depends on |
+| Family | Existing implementation and evidence | Missing infrastructure vs adapter/content | Unsupported / unresolved | Owner Â· depends on |
 |---|---|---|---|---|
-| **Direct, mixed** | A1–A6 single direct; A10 direct + Stunned/movement, one P7 command (`spellPayments.bindEffect`) | Adapter: let class-paid PC sources use the bundle (M1) | More than one effect block; crit/alt (136) | Combat · M1 |
-| **Delayed** | None | Infrastructure: C4 only knows "target's next turn start/end" | Delayed damage/"at end of round" | Combat · M2 |
-| **Periodic** (56) | Legacy client-local `processOverTimeEffectsForTarget` from `combatStore`; not authoritative, no receipts. P7 record fields exist | Infrastructure: tick roll custody, C4 boundary command that may pay/damage | Tick roll vs fixed, start/end, death at tick, stacking | Combat · M2, creator |
-| **Explicit timing** | C4: authenticated clock, exact-instance schedules (≤256, ≤32 per boundary) | Infrastructure: N-round counters (`dueSequence` arithmetic is local) | Roster change mid-effect; "per round" vs per-turn | Combat · M2 |
-| **Stat buffs/debuffs** (617) | Flat movement only (A10) with identity/stack/refresh (A11). P7 validates 17 modifier keys as data. Integrated client consumers (sheet `getTotalStatsWithEffects`, `getCreatureEffectiveStats`) read client effects; **authoritative** authored support is movement only | Infrastructure: stat→consumer registry (not an engine). Content: normalize vocabulary | Vocabulary is fragmented (`spirit` 25, `movement_speed` 18, `health` 14, `attack`/`all_rolls`/`attack_rolls`/`spell_attack`… ~40, `damage_reduction`/`damageReduction`) | Combat + Class HQ + Sonnet (attribute helper) · M3 |
-| **Stacking/refresh/suppression/immunity/removal** | A11: different names add, same definition+source refreshes, ≥0 floor; GM exact-instance removal | A11 is movement-only (HQ); other families need their own policy; suppression/immunity none | Source leaves/dies; different source same effect (refused) | Combat · creator |
-| **Saves, conditional, scaling** (130 / 72) | Nothing executes saves; Wizard lane refuses them | Adapter: GM-attested branch in approval (M1); formula grammar extensions | Who rolls, DC modifiers, half-damage rounding, `attr/K` rounding (D14-4) | Combat + creator · M1, M4 |
-| **Damage/healing, temp HP, defenses, equipment** | P7 HP/temp pools; P12 strike/DR/wear; Defending | Adapter work per source | Mitigation order (D12-1…6) | Combat |
-| **Targeting, obstruction, areas, multi-target, propagation** (532) | B1 single pick; obstruction-aware aim (Sol); B2 §8.1 preview only | Infrastructure decision: P7 is source+≤1 target (§C-limits) | D14-3 atomic? Chain-as-link vs travel; geometry G-series | Combat · M6 |
-| **Triggered effects, reactions, chains** (210) | W private collector (no execution); E1a Riposte binder with parent/opportunity ids | Adapter: per-card binders; no generic evaluator | D13-1…8; loop budget not frozen | Combat + creator · M7 |
-| **Class resources** (1,319 payment-home gap) | P9: 3 domains with typed `classPayment{domain,before,after,price}` | Adapter per domain (descriptor + Class HQ-approved schema). 29 named domains in the catalogue; 3 have P9 room homes | Domain rules are Class HQ's; 13 Arcanoneer + 12 Martyr data conflicts | Class HQ + Combat · R-track |
-| **Passives, summons, zones, transformations** (567) | None (class-local/manual) | Infrastructure: entity lifecycle FO-B/E/N | All of it | Class HQ + Combat · M9 |
-| **Character/creature/item/Wizard authoring** | Wizard→registry→admission (`installedDefinitionRegistry`), library, item, creature producers (A1–A3) | Adapter: class-record admission by profile (M1) | Wizard refuses saves, crit, partial, class payment | Combat/Opus + Class HQ |
+| **Direct, mixed** | A1â€“A6 single direct; A10 direct + Stunned/movement, one P7 command (`spellPayments.bindEffect`) | Adapter: let class-paid PC sources use the bundle (M1) | More than one effect block; crit/alt (136) | Combat Â· M1 |
+| **Delayed** | None | Infrastructure: C4 only knows "target's next turn start/end" | Delayed damage/"at end of round" | Combat Â· M2 |
+| **Periodic** (56) | Legacy client-local `processOverTimeEffectsForTarget` from `combatStore`; not authoritative, no receipts. P7 record fields exist | Infrastructure: tick roll custody, C4 boundary command that may pay/damage | Tick roll vs fixed, start/end, death at tick, stacking | Combat Â· M2, creator |
+| **Explicit timing** | C4: authenticated clock, exact-instance schedules (â‰¤256, â‰¤32 per boundary) | Infrastructure: N-round counters (`dueSequence` arithmetic is local) | Roster change mid-effect; "per round" vs per-turn | Combat Â· M2 |
+| **Stat buffs/debuffs** (617) | Flat movement only (A10) with identity/stack/refresh (A11). P7 validates 17 modifier keys as data. Integrated client consumers (sheet `getTotalStatsWithEffects`, `getCreatureEffectiveStats`) read client effects; **authoritative** authored support is movement only | Infrastructure: statâ†’consumer registry (not an engine). Content: normalize vocabulary | Vocabulary is fragmented (`spirit` 25, `movement_speed` 18, `health` 14, `attack`/`all_rolls`/`attack_rolls`/`spell_attack`â€¦ ~40, `damage_reduction`/`damageReduction`) | Combat + Class HQ + Sonnet (attribute helper) Â· M3 |
+| **Stacking/refresh/suppression/immunity/removal** | A11: different names add, same definition+source refreshes, â‰¥0 floor; GM exact-instance removal | A11 is movement-only (HQ); other families need their own policy; suppression/immunity none | Source leaves/dies; different source same effect (refused) | Combat Â· creator |
+| **Saves, conditional, scaling** (130 / 72) | Nothing executes saves; Wizard lane refuses them | Adapter: GM-attested branch in approval (M1); formula grammar extensions | Who rolls, DC modifiers, half-damage rounding, `attr/K` rounding (D14-4) | Combat + creator Â· M1, M4 |
+| **Damage/healing, temp HP, defenses, equipment** | P7 HP/temp pools; P12 strike/DR/wear; Defending | Adapter work per source | Mitigation order (D12-1â€¦6) | Combat |
+| **Targeting, obstruction, areas, multi-target, propagation** (532) | B1 single pick; obstruction-aware aim (Sol); B2 Â§8.1 preview only | Infrastructure decision: P7 is source+â‰¤1 target (Â§C-limits) | D14-3 atomic? Chain-as-link vs travel; geometry G-series | Combat Â· M6 |
+| **Triggered effects, reactions, chains** (210) | W private collector (no execution); E1a Riposte binder with parent/opportunity ids | Adapter: per-card binders; no generic evaluator | D13-1â€¦8; loop budget not frozen | Combat + creator Â· M7 |
+| **Class resources** (1,319 payment-home gap) | P9: 3 domains with typed `classPayment{domain,before,after,price}` | Adapter per domain (descriptor + Class HQ-approved schema). 29 named domains in the catalogue; 3 have P9 room homes | Domain rules are Class HQ's; 13 Arcanoneer + 12 Martyr data conflicts | Class HQ + Combat Â· R-track |
+| **Passives, summons, zones, transformations** (567) | None (class-local/manual) | Infrastructure: entity lifecycle FO-B/E/N | All of it | Class HQ + Combat Â· M9 |
+| **Character/creature/item/Wizard authoring** | Wizardâ†’registryâ†’admission (`installedDefinitionRegistry`), library, item, creature producers (A1â€“A3) | Adapter: class-record admission by profile (M1) | Wizard refuses saves, crit, partial, class payment | Combat/Opus + Class HQ |
 | **Persistence, reconnect, once-only, GM correction** | P7 receipts, `commandId` replay, "Check same command", retained rolls/approvals, GM exact removal | Storage growth is Sonnet's; live-service unproven | Server restart of WeakMap/lease state not shown | Sonnet, Sol |
 
 ### Proven limits (read in code)
 
-1. **P7 command:** 1–2 actors, ≤32 condition operations, ≤64 KB, `classPayment` mode `sync` single-actor, mode
+1. **P7 command:** 1â€“2 actors, â‰¤32 condition operations, â‰¤64 KB, `classPayment` mode `sync` single-actor, mode
    `spell` needs an approval (`actorConsequences.js:129-190`).
-2. **C4 boundary:** one transition expires at most 2 actors (`turn_expiry_capacity`), roster ≤64, schedules ≤256,
-   ≤32 per boundary; the receipt text says "no payment, regeneration or recurring effects"
+2. **C4 boundary:** one transition expires at most 2 actors (`turn_expiry_capacity`), roster â‰¤64, schedules â‰¤256,
+   â‰¤32 per boundary; the receipt text says "no payment, regeneration or recurring effects"
    (`sharedEffectLifecycle.js:40-41,86-88,104`). A boundary touches only the ending and starting actors, so 2 is
    enough for expiry **and** for ticks on those two.
 3. **Bundles refuse class payment:** `authored-effect:v1` approvals require `classPayment === null`
    (`spellPayments.js:137`); the Wizard lane prices AP + mana only, one target, DICE only, no save/crit/partial
    (`authoredAbility.js:80-83,150`). P9 pays classes but has no rider. **The two lanes cannot compose.**
-4. **Formula grammar:** authored lane `NdM(±K)`, ≤50 dice, sides 2–100 (`authoredAbility.js:8,16-19`).
+4. **Formula grammar:** authored lane `NdM(Â±K)`, â‰¤50 dice, sides 2â€“100 (`authoredAbility.js:8,16-19`).
 5. **Per-ability allowlists do not scale:** per the coordination record, the Minstrel pair added
    `APPROVED_MINSTREL_SPELLS`/`APPROVED_MINSTREL_RESOLVERS` to shared execution files. Fine for one pair; not a pattern.
 6. **Stat modifiers from shared records:** `combatAttributes` reads the client condition store; whether
@@ -132,9 +132,9 @@ long fights; source-removal cost at scale; checker counts overstating breadth (r
 
 | Question | Position |
 |---|---|
-| P7 limits vs multi-target | Keep P7. First ship sequential per-target commands under one exchange id (payment once, per-target receipts, "partial" shown). Extend P7 to N actors only if the creator requires all-or-nothing (D14-3) — then a bounded contract freeze (suggest ≤8), not before. |
+| P7 limits vs multi-target | Keep P7. First ship sequential per-target commands under one exchange id (payment once, per-target receipts, "partial" shown). Extend P7 to N actors only if the creator requires all-or-nothing (D14-3) â€” then a bounded contract freeze (suggest â‰¤8), not before. |
 | Atomic install vs reactions/triggers | One command for payment + HP + install (proven). A triggered consequence is **its own command and receipt** (E1a precedent). No transaction across a chain. |
-| Causality, frequency, loops | Reuse E1a identities (`opportunityId`, `parentKeys`): every triggered command records its cause and depth; a technical budget hands control to the GM ("continue/close"). Budgets are safety limits, never tabletop rules (roadmap §13). |
+| Causality, frequency, loops | Reuse E1a identities (`opportunityId`, `parentKeys`): every triggered command records its cause and depth; a technical budget hands control to the GM ("continue/close"). Budgets are safety limits, never tabletop rules (roadmap Â§13). |
 | Refresh/expiry identity, source removal | Identity = definition action id + exact source + version/terms (A11). Schedules keyed by `[target ref, recordId]`. **Source removal has no path except GM per-instance removal;** default stays "persists until expiry" until the creator decides. |
 | Many class resources, no executor each | Keep one executor: `classPayment` is already domain-typed. Each domain = a descriptor (value/price validation, conservation, public view, home) approved by Class HQ. Unhomed domains stay manual. Retire per-ability allowlists into profile-driven admission (M1). |
 | Formula safety, recorded rolls | Closed grammar only; never evaluate arbitrary text. Extend the grammar by named, tested forms (`attr/K`, missing-HP) after creator rounding decisions. The owner's roll is bound into the approval hash; GM final amount is adjudicated once; replay returns the original receipt. |
@@ -144,57 +144,158 @@ long fights; source-removal cost at scale; checker counts overstating breadth (r
 
 ## C. Dependency-ordered roadmap
 
+### M4A â€” integer attribute formula connection: frozen, implemented, App-verified (2026-11-02)
+
+Creator direction: one pipeline, **Spell Wizard â†’ structured definition â†’ Prism execution â†’
+persistence/recovery**. Authoring must preserve creative mechanics. Manual adjudication is an interim
+boundary for unsupported deterministic mechanics, not completed implementation. M3A is installed;
+its prior acceptance is carried with the qualifications in `handoff/m3a-delivery/reconciled/`.
+
+The smallest settled formula increment extends the existing shared M1/P9 calculation contract:
+one direct damage OR healing, a positive dice term plus signed integer/attribute terms. Full caster
+attribute names (`strength`, `agility`, `constitution`, `intelligence`, `spirit`, `charisma`) mean
+effective **scores**, not modifiers. Explicit `_modifier`/`mod` retains floor((scoreâˆ’10)/2);
+`attribute/K` retains the accepted P9 floor. Add `attribute * K` and `(attribute * K)`, whole K=1â€¦10.
+No general expression evaluation, fractional multiplier, target/state/resource variable, save or
+resistance-order inference. Dice sides2â€¦100, total facesâ‰¤50, groupsâ‰¤8, formulaâ‰¤120 characters,
+literalâ‰¤10000, attested scores0â€¦1000, aggregate constant absoluteâ‰¤10000. Invalid/missing/nonfinite
+inputs refuse the whole operation, with no payment/outcome.
+
+New immediate definitions use `authored-immediate:v2` (schema4, compiler `p14-m4-formula-1`);
+v1 definitions and hashes retain their exact grammar/meaning. Existing registry/version/admission,
+P7 writer, owner approval, GM final amount/reason and original-command recovery remain the pipeline.
+Effective scores remain owner-attested through the existing sheet path (M3B authoritative attribute
+consumers are not installed). The server independently verifies formula arithmetic against those
+bounded inputs, not their derivation. Approval also captures exact source revision and the server's
+public character/conditions projection hash (not hidden raw token fields); a source revision or
+represented-state change requires explicit owner reapproval with retained faces. Target HP/revision changes require a
+fresh exact GM command; target data is never a formula input. Private sheet edits require refreshed
+owner consent and are not advertised as server-derived attributes. Formula totals remain signed;
+the GM's final nonnegative amount/reason and existing HP floor/cap are unchanged, never an inferred
+rounding or mitigation rule. This v2 increment's gameplay route is primary owner PC â†’ one creature;
+creature sources, PC/self targets and composed-effect v2 formulas remain outside this increment.
+
+Real catalogue calculation cohort: `bsk_unstoppable_onslaught` (`6d8 + strength * 2`),
+`martyr_shield_of_faith` (`3d8 + spirit * 2`), `lunarch_apogee_cataclysm`
+(`6d8 + intelligence * 2`). These full records remain intact: line/AoE, self-health or unhomed
+resource prices, absorption shield, cooldowns and authored secondary prose are still unsupported.
+They are calculation/refusal examples, never rewritten as direct single-target spells. Newly
+Wizard-authored supported direct definitions exercise gameplay execution independently of spell name.
+
+Actual creator questions isolated from settled work: `(maxHealth-currentHealth)/4` rounding and
+overheal behavior; odd half-damage rounding; automated save rolling and resistance order.
+No default is invented. Fractional scaling (e.g. agility*1.5) remains affected by rounding decisions.
+
+**Acceptance (qualified).** Bounded calculation/authority review **ACCEPT** after repairs: a
+crafted v2 hash with a non-authored definition ID could bypass installed checks; v2 now requires the
+namespace plus unconditional installed verification at registration and consumption, and a raw
+consequence without `approval` refuses. Verification compares the authoritative public token
+projection, so hidden raw fields cannot false-refuse while represented changes still revalidate.
+Six new registered-handler cases pass (constant/reading/attribute forgery, array/null inputs,
+same-revision and authority-await source change, target CAS, writer refusal, once-only original
+command). Affected server 53/mirrors and client 5 suites/37 pass; client lint clean; UI detector `[]`.
+
+One coordinated App witness **PASS** on the exact optimized artifact (second compiler attempt;
+first failed packaging on an object-spread/Babel export issue, preserved): capture
+`30c7e4adâ€¦e783c`, assets `bb48de7fâ€¦154ad`, `frozenDrift:[]`. Real Wizard controls saved and
+reopened both definitions, showed the unsupported fractional formula as manual, admitted and cast
+them. `1d8 + intelligence * 2` face4 + INT16Ã—2 = 36; temp-first payment; dropped GM ACK recovered
+by the same original command after reload (one receipt, faces retained). `1d8 + intelligence/4`
+face4 + floor(16/4) = 8 healed to the existing cap behavior. No page errors.
+
+Qualifications: provider/ownership/lease/cloud and player identity are fixtures (no real Firebase,
+second device or live service). The witness ran headless Chrome with persisted private profiles
+under an ACL-restricted external folder; one nav-selector derivative and test-only edits are
+recorded. Eight unrelated Class/UI/Wave-A source paths arrived after the capture and are preserved;
+every M4 runtime input and the server match the frozen capture. Not covered: creature sources,
+PC/self targets, formula composed with class payment/effects, and healing/benefit consent UI.
+This completes **this increment**, not full M4 (missing-HP, fractional and half-save forms remain).
+
+### M4B â€” real-spell formula + existing class payment + PC healing consent (2026-11-02)
+
+Authorized narrow extension: `authored-immediate:v2` may compose with the **three existing P9 typed
+payment domains** (`elementalSpheres`, `musicalNotes`, `devotionGauge`) and with **existing primary-PC
+healing target consent**. No new domain, parallel payer or consent system is introduced; the existing
+bank planners, typed conservation, target policy/P7 writer, approval and recovery remain the route.
+`classPayment` is admitted only on a catalogue-backed definition and pins the exact typed operation;
+the approval still carries the source home's exact before/after and the existing `conserve` check.
+New `targetRoute: primary-pc-healing` binds one **distinct** primary PC target; target owner acceptance
+is required, source payment consent remains separate, and a changed final healing amount needs fresh
+consent. Source and target state are rechecked before installation; refusals install nothing.
+
+Whole-record eligibility is enforced by the shared catalogue adapter: the complete source record is
+preserved in the saved library record and hashed (`spellId`/`classId`/`recordHash`); only a clean
+single-target direct DICE formula with the record's explicit AP/mana and one supported class operation
+is executable. Editing an executable field invalidates the source binding rather than rewriting the
+catalogue record. The real cohort is **Martyr `martyr_restorative_prayer`** (whole record: 1 AP, 5
+mana, Devotion +1, ranged 30 ft ally, `1d4 + spirit`, no cooldown/save/rider). `minstrel_resolving_strike`
+remains on its accepted P9 route and is not migrated. `arc_spark_bolt` is not selected: its
+Durability-ignore/combo requirements are not supported or covered by an approved contract.
+
+Coverage matrix update (actual new routes, not broad catalogue admission): source primary owner PC â†’
+one distinct primary PC, direct healing only, with AP/mana + exactly one of the three typed class
+operations; catalogue v2 formula definitions may carry that payment; target owner sees and accepts the
+exact proposed amount. Allocate **devotion, sphere and note encoding tests** to shared adapter/source
+code; only the devotion route has an end-to-end production-handler example. Browser witnessing of the
+new route is **not established**: the final optimized artifact loads and normal class cards are
+reachable, but the Spellbook class-card detail did not expose the prepare control in the harness, so no
+App PASS is claimed. Targeted handler tests: six M4A + three M4B production cases and 34 client checks
+(including all three typing adapters) pass; affected server 56; lint 0 errors. Build artifact capture
+`3673a581â€¦115aa`, assets `19b7903eâ€¦20da`, `frozenDrift:[]`; two test/concurrent paths were live drift
+after capture (retained). The final artifact is the **third successful compiler attempt** (prior
+attempts failed ESM packaging; all preserved). Unchanged M4A App evidence remains carried, not re-run.
+
 Each milestone unlocks a family, has one observable workflow and a completion boundary (focused tests, one
-normal-App persistent-profile proof, one bounded review). Scoping counts are from §B.
+normal-App persistent-profile proof, one bounded review). Scoping counts are from Â§B.
 
 **First mini-campaign needs**
 
-- **M0 — Land and verify the sealed candidate** (Sol). Install A11 + Minstrel + storage-r2 into `D:\VTT`; one
+- **M0 â€” Land and verify the sealed candidate** (Sol). Install A11 + Minstrel + storage-r2 into `D:\VTT`; one
   independent bounded review of the post-A11 deltas; re-run affected checks from the installed tree; update the
   ledger. *Workflow:* ordinary GM + owner run the Minstrel pair and a movement refresh in the live checkout.
   *Boundary:* installed bytes match the sealed identity; review recorded. Live-service gates stay separate.
-- **M1 — Class-paid composed effect with GM-attested save branch** (§D). Next implementation.
-- **M2 — Round-counted expiry (N rounds)** on C4, plus the periodic-tick decision record. *Workflow:* a 2-round
+- **M1 â€” Class-paid composed effect with GM-attested save branch** (Â§D). Next implementation.
+- **M2 â€” Round-counted expiry (N rounds)** on C4, plus the periodic-tick decision record. *Workflow:* a 2-round
   slow expires at the exact boundary; roster change refuses to a labelled manual state. *Boundary:* schedules
   survive reconnect; no browser timers. Unlocks the duration family (454 static) for single targets.
-- **M3 — PC-target composed effects + attribute-modifier consumers.** Reuse A5/A9 consent for the target owner;
-  one stat→consumer table for attribute modifiers (via Sonnet's helper); normalized vocabulary from Class HQ.
+- **M3 â€” PC-target composed effects + attribute-modifier consumers.** Reuse A5/A9 consent for the target owner;
+  one statâ†’consumer table for attribute modifiers (via Sonnet's helper); normalized vocabulary from Class HQ.
   *Workflow:* an ally buff (Minstrel rhythm) and a creature rider on a PC change real effective stats and expire.
   Unlocks ally/self buffs and creature riders on players.
 
 **Wider automation**
 
-- **M4 — Conditional outcomes and formulas:** half-damage/partial saves, selected crit/alt forms, `attr/K` and
+- **M4 â€” Conditional outcomes and formulas:** half-damage/partial saves, selected crit/alt forms, `attr/K` and
   missing-HP grammar. Needs rounding decisions.
-- **M5 — Periodic ticks** (damage/heal over time, absorb shields) on C4 v2: boundary commands may pay/damage; a tick
-  roll rule. Small breadth (56 static) — after M2/M4, not before.
-- **M6 — Multi-target and area execution:** sequential per-target exchange; B2 selection; N-actor P7 only on D14-3.
-- **M7 — Triggered/reaction consequences**, one card family at a time through P13B binders.
+- **M5 â€” Periodic ticks** (damage/heal over time, absorb shields) on C4 v2: boundary commands may pay/damage; a tick
+  roll rule. Small breadth (56 static) â€” after M2/M4, not before.
+- **M6 â€” Multi-target and area execution:** sequential per-target exchange; B2 selection; N-actor P7 only on D14-3.
+- **M7 â€” Triggered/reaction consequences**, one card family at a time through P13B binders.
 
 **Long-term class/ancestry breadth (parallel tracks)**
 
-- **R-track — class-resource domains, one at a time** (29 named, 3 homed): contract, Class HQ approval,
+- **R-track â€” class-resource domains, one at a time** (29 named, 3 homed): contract, Class HQ approval,
   descriptor, tests. Highest breadth, but only after Class HQ freezes each domain's rules.
-- **M9 — Entity lifecycle:** summons, zones, transformations, links, source removal (FO-B/E/N).
-- **M10 — Passives/ancestry/items** as installed profiles with the same registry and refusal discipline.
+- **M9 â€” Entity lifecycle:** summons, zones, transformations, links, source removal (FO-B/E/N).
+- **M10 â€” Passives/ancestry/items** as installed profiles with the same registry and refusal discipline.
 
-None of M4–M10 blocks a first mini-campaign; manual fallbacks remain.
+None of M4â€“M10 blocks a first mini-campaign; manual fallbacks remain.
 
 ---
 
-## D. Next implementation milestone — M1
+## D. Next implementation milestone â€” M1
 
 ### Comparison (why not the others first)
 
 | Candidate | Value (evidence) | Dependencies / open decisions | Verdict |
 |---|---|---|---|
-| **Class-paid composed effect + save branch** | Removes the one structural seam (§B limit 3); 67 records are payable in the three homed classes, only 4 are fully compatible; 13 are single-target with a buff/debuff gap (6 with no other gap); first-campaign group C | Payment, identity, consent, refresh all accepted; timing GM-managed; Class HQ confirms one profile entry (§F) | **Next** |
+| **Class-paid composed effect + save branch** | Removes the one structural seam (Â§B limit 3); 67 records are payable in the three homed classes, only 4 are fully compatible; 13 are single-target with a buff/debuff gap (6 with no other gap); first-campaign group C | Payment, identity, consent, refresh all accepted; timing GM-managed; Class HQ confirms one profile entry (Â§F) | **Next** |
 | Periodic effects | 56 records (~3%); legacy ticker is client-local | Tick roll custody, changes C4's accepted "no recurring" contract, needs M2 and rules | Later (M5) |
-| Numeric modifiers (more stats) | Biggest effect family (617) | Consumers per stat, fragmented vocabulary, mostly ally/self targets → needs PC consent (M3) and Sonnet's attribute contract | After M1/M2 |
+| Numeric modifiers (more stats) | Biggest effect family (617) | Consumers per stat, fragmented vocabulary, mostly ally/self targets â†’ needs PC consent (M3) and Sonnet's attribute contract | After M1/M2 |
 | PC-target bundles | Valuable for creature riders on players | Needs consumer evidence on the PC side and bundle consent text | M3 |
-| Targeting / reactions | 532 / 210 records | Blocked on D14-3 and D13-1…8 plus an N-actor choice | M6/M7 |
+| Targeting / reactions | 532 / 210 records | Blocked on D14-3 and D13-1â€¦8 plus an N-actor choice | M6/M7 |
 
-### M1 — Class-paid composed effect with GM-attested save branch
+### M1 â€” Class-paid composed effect with GM-attested save branch
 
 **Why now.** It composes two accepted lanes (P9 class payment; A10/A11 bundles) for one composed effect,
 without another per-spell allowlist, engine, clock or consent surface.
@@ -204,8 +305,8 @@ after fixes; build/App PASS on the verified base. Runtime-disabled until Class H
 
 ### M1 frozen scope (HQ-accepted direction, 2026-10-30)
 
-**Base.** The latest coherent combined candidate `hq-minstrel-storage-a11-20261029-r1` (working-byte `4829cc5a…`,
-assets `e12aba1c…`), which Sol now treats as the accepted base (coordination, 2026-10-30). No shared runtime
+**Base.** The latest coherent combined candidate `hq-minstrel-storage-a11-20261029-r1` (working-byte `4829cc5aâ€¦`,
+assets `e12aba1câ€¦`), which Sol now treats as the accepted base (coordination, 2026-10-30). No shared runtime
 file is edited while Sol lands it. Implementation starts on the landed bytes, re-hashed at entry.
 
 **One supported composed effect: new capability `class-effect:v1`.** `p9-spell:v1` and `authored-effect:v1`
@@ -215,12 +316,12 @@ is refused with a reason and stays manual:
   one exact placed creature. No PC targets.
 - **Price.** Authored AP + mana + the existing typed `classPayment` for the three homed domains, planned by the
   existing client planners and conserved by `spellPayments`. No new domain.
-- **Direct.** One DICE damage OR healing, in the existing P9 formula vocabulary (`NdM±K`, attribute score,
+- **Direct.** One DICE damage OR healing, in the existing P9 formula vocabulary (`NdMÂ±K`, attribute score,
   `attr/K` floored, attribute modifier), read from `combatAttributes(character)`. These effective attributes
   come from the *integrated* sheet path (equipment plus client-side buff/debuff effects). That is not
   authoritative modifier support: the only authoritative authored modifier remains A10/A11 movement.
 - **Rider.** Exactly one `debuffConfig` effect that is a flat movement change expressible as the canonical A10
-  movement record (whole 5 ft, −60…+60), with consistent encodings (`statPenalty.movement_speed` = `movementPenalty`).
+  movement record (whole 5 ft, âˆ’60â€¦+60), with consistent encodings (`statPenalty.movement_speed` = `movementPenalty`).
 - **Branches.** Derived from each definition's own structure, never from a general rule. M1 supports two
   shapes: no save, or a save located in the rider block with that block's `saveOutcome: "negates"`. Anything
   else is refused: a save on the damage, `halves_effects`/`half_damage`, saves in several blocks, or
@@ -240,9 +341,9 @@ is refused with a reason and stays manual:
 
 | Authored part | M1 treatment |
 |---|---|
-| 1 AP, 4 mana, rime ×2 (Elemental Spheres; `enhancesCombo: "ice_ice"` = the Frost Spike recipe, existing P9 metadata) | Automated payment |
+| 1 AP, 4 mana, rime Ã—2 (Elemental Spheres; `enhancesCombo: "ice_ice"` = the Frost Spike recipe, existing P9 metadata) | Automated payment |
 | 1d8 + intelligence/4 rime damage | Automated: owner roll and floored effective INT bound in the approval; GM final amount + reason |
-| Frozen Limbs: movement −10 ft | Automated, *failed* branch only |
+| Frozen Limbs: movement âˆ’10 ft | Automated, *failed* branch only |
 | Constitution DC 12, negates, inside `debuffConfig` | Branch: the GM records the table's result. *Saved*: damage only. *Failed*: damage + Frozen Limbs. Damage applies in both branches (`damageConfig` has no save). The VTT does no save math |
 | "for 1 round" | GM-managed: shown verbatim; the GM removes the exact instance |
 | "Frozen targets take +1d4 bonus damage from the next physical attack against them" (description prose) | **Not automated.** Listed on every surface; GM applies |
@@ -257,10 +358,10 @@ inside the debuff configuration (`DebuffEffects.jsx:1274-1290`). The card render
 before/after; the retained roll and attribute reading; both branches' complete consequences; the GM-managed
 timing text; and the not-automated list. It spends nothing. GM confirmation picks one bound branch and the
 final amount. Refusals:
-- any unbound branch or changed timing → refused;
-- a changed bank or attributes → `owner_reapproval_required`, keeping the retained roll.
+- any unbound branch or changed timing â†’ refused;
+- a changed bank or attributes â†’ `owner_reapproval_required`, keeping the retained roll.
 
-**Atomic payment and recovery.** One P7 command, 2 actors, ≤3 operations (inside proven limits):
+**Atomic payment and recovery.** One P7 command, 2 actors, â‰¤3 operations (inside proven limits):
 - source: AP, mana and spell-mode `classPayment`;
 - target: HP, plus on *failed* the movement record (with A11's remove when refreshing).
 
@@ -294,8 +395,8 @@ only through a reviewed profile entry, with no code change.
   - a lost ACK yields one receipt;
   - privacy sentinel;
   - P9/A10/A11/Minstrel regressions.
-- Normal App, one persistent GM profile: the Arcanoneer casts twice (*saved*; then *failed*, speed 35 → 25 ft).
-  The not-automated line is visible to owner, GM and observer. The GM removes the instance → 35 ft. A dropped
+- Normal App, one persistent GM profile: the Arcanoneer casts twice (*saved*; then *failed*, speed 35 â†’ 25 ft).
+  The not-automated line is visible to owner, GM and observer. The GM removes the instance â†’ 35 ft. A dropped
   ACK is recovered. Narration appears once.
 - One bounded independent review: payment atomicity, branch binding, disclosure completeness, privacy.
 
@@ -311,9 +412,9 @@ consent + GM final; condition profile with identities; C4 authenticated clock; d
 accepted-result narration; recovery pattern ("Check same command").
 
 **Extend (adapters/consumers, no rewrite):** bundle lane accepts class payment (M1); C4 N-round counters (M2);
-a stat→consumer table (M3); per-card reaction binders (M7); resource-domain descriptors (R-track).
+a statâ†’consumer table (M3); per-card reaction binders (M7); resource-domain descriptors (R-track).
 
-**Demonstrated limitations needing a changed contract:** (1) C4 boundary commands may not pay or damage —
+**Demonstrated limitations needing a changed contract:** (1) C4 boundary commands may not pay or damage â€”
 periodic ticks need a separately frozen C4 v2 (M5). (2) P7's 2-actor bound is real for multi-target; a contract
 change is required **only if** the creator demands all-or-nothing (D14-3). (3) Per-ability allowlists must give
 way to profile-driven admission. **No speculative rewrite is warranted**; nothing observed argues against P7,
@@ -362,6 +463,7 @@ whole vision: class-resource economies are the widest gap (1,319 catalogue recor
 one needs Class HQ's frozen rules before engineering can help.
 
 **What we build next.** First land and independently verify the sealed A11 + Minstrel + storage-r2 candidate (M0).
-Then build **M1 — class-paid composed effect with a GM-attested save branch**, proving it on Rime-Iron Clasp.
+Then build **M1 â€” class-paid composed effect with a GM-attested save branch**, proving it on Rime-Iron Clasp.
 Not periodic effects first: they touch only ~3% of the catalogue and need decisions the other milestones
 produce. M1 needs no creator decision; Class HQ confirms one profile entry.
+

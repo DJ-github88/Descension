@@ -1,6 +1,15 @@
-/** P14-A1 pure whole-Wizard adapter. Shared by server admission and authoring diagnostics.
+﻿/** P14-A1 pure whole-Wizard adapter. Shared by server admission and authoring diagnostics.
  * No RNG, storage, authority or execution. Unknown mechanics refuse instead of being stripped. */
+const { canonical, sha256Hex } = require('./canonicalHash');
+const { catalogueExecutable } = require('./catalogueAbility.cjs');
 const CAPABILITY = 'authored-immediate:v1';
+const FORMULA_CAPABILITY = 'authored-immediate:v2';
+const FORMULA_COMPILER = 'p14-m4-formula-1';
+// M4 extends the existing shared calculation contract; no arbitrary expression evaluator.
+const formulaContract = require('./classEffect');
+const readScaledFormula = (formula, stats) => formulaContract.readFormula(formula, stats, { integerScaling: true });
+const formulaAttributes = formulaContract.formulaAttributes;
+const isFormula = approval => approval?.spell?.definitionHash?.startsWith(`${FORMULA_CAPABILITY}/`) === true;
 const ADAPTER_VERSION = 'p14-a1-wizard-1';
 const CONDITION_CAPABILITY = 'authored-condition:v1';
 const EFFECT_CAPABILITY = 'authored-effect:v1';
@@ -10,8 +19,6 @@ const EFFECT_EXPIRY_POLICIES = Object.freeze(['gm-manual', 'target-next-start', 
 const CLASS_IDS = ['arcanoneer', 'berserker', 'shaper', 'harbinger', 'chronarch', 'inquisitor', 'revenant', 'false_prophet', 'gambit', 'apex', 'animist', 'lunarch', 'martyr', 'minstrel', 'plaguebringer', 'pyrofiend', 'spellguard', 'toxicologist', 'warden', 'augur', 'crusader'];
 const FORMULA = /^([1-9][0-9]?)d([1-9][0-9]{0,2})(?:([+-])([1-9][0-9]{0,4}))?$/;
 // Match the actual JSON transport: absent optional properties stay absent, never parse undefined.
-const canonical = value => JSON.stringify(value, (_key, child) => child && typeof child === 'object' && !Array.isArray(child)
-  ? Object.fromEntries(Object.keys(child).sort().map(k => [k, child[k]])) : child);
 const int = (v, max) => Number.isSafeInteger(v) && v >= 0 && v <= max;
 const empty = v => v === undefined || v === null || (typeof v === 'object' && Object.keys(v).length === 0);
 const refuse = path => { throw Error(`${path}: unsupported or conflicting mechanics; keep this ability manual.`); };
@@ -31,7 +38,7 @@ function definitionFromWizard(record, { roomId, definitionVersion, classId }) {
   try {
     const d = record?.authoredDraft;
     if (!d || typeof d !== 'object') refuse('Whole Wizard draft unavailable; reopen, review and save it in the Wizard');
-    const fields = ['name', 'description', 'level', 'school', 'icon', 'spellType', 'typeConfig', 'effectTypes', 'effectsMap', 'damageConfig', 'healingConfig', 'buffConfig', 'debuffConfig', 'utilityConfig', 'controlConfig', 'summoningConfig', 'transformationConfig', 'purificationConfig', 'restorationConfig', 'rollableTable', 'effectResolutions', 'effectMechanicsConfigs', 'mechanicsAvailableEffects', 'combinedEffects', 'mechanicsAvailableCombinedEffects', 'targetingConfig', 'targetingMode', 'targetingTags', 'effectTargeting', 'durationConfig', 'persistentConfig', 'propagation', 'resourceCost', 'mechanicsConfig', 'prophecyOptions', 'cooldownConfig', 'triggerConfig', 'trapConfig', 'channelingConfig', 'errors', 'warnings', 'currentStep', 'completedSteps', 'wizardFlow', 'lastModified', 'isValid', 'validation', 'tags', 'id', 'dateCreated', 'serializedData', 'humanReadable', 'gameCode', 'authoredDraft', 'authoredDefinitionId', 'effectType', 'damageTypes', 'statusEffectsConfig'];
+    const fields = ['name', 'description', 'level', 'school', 'icon', 'spellType', 'typeConfig', 'effectTypes', 'effectsMap', 'damageConfig', 'healingConfig', 'buffConfig', 'debuffConfig', 'utilityConfig', 'controlConfig', 'summoningConfig', 'transformationConfig', 'purificationConfig', 'restorationConfig', 'rollableTable', 'effectResolutions', 'effectMechanicsConfigs', 'mechanicsAvailableEffects', 'combinedEffects', 'mechanicsAvailableCombinedEffects', 'targetingConfig', 'targetingMode', 'targetingTags', 'effectTargeting', 'durationConfig', 'persistentConfig', 'propagation', 'resourceCost', 'resolution', 'mechanicsConfig', 'prophecyOptions', 'cooldownConfig', 'triggerConfig', 'trapConfig', 'channelingConfig', 'errors', 'warnings', 'currentStep', 'completedSteps', 'wizardFlow', 'lastModified', 'isValid', 'validation', 'tags', 'id', 'dateCreated', 'serializedData', 'humanReadable', 'gameCode', 'authoredDraft', 'authoredDefinitionId', 'effectType', 'damageTypes', 'statusEffectsConfig', 'catalogueSource'];
     only(d, fields, 'draft fields');
     only(record, [...fields, 'categoryIds', 'categories', 'source', 'isCustom', 'isUserCreated', 'createdAt', 'updatedAt', 'userId', 'lastSaved'], 'library fields');
     for (const key of new Set([...Object.keys(d), ...Object.keys(record)])) {
@@ -42,6 +49,45 @@ function definitionFromWizard(record, { roomId, definitionVersion, classId }) {
       const serialized = JSON.parse(record.serializedData);
       delete serialized.authoredDraft;
       if (canonical(serialized) !== canonical(d)) refuse('serializedData/draft');
+    }
+    // M4B: a catalogue-backed record is pinned to its whole source record and only its
+    // supported executable projection is admitted. The Wizard may preserve/reopen it;
+    // editing an executable field invalidates the source binding.
+    if (record.catalogueSource !== undefined) {
+      const source = record.catalogueSource;
+      if (!source || typeof source !== 'object' || Array.isArray(source) || !source.record || typeof source.record !== 'object' ||
+        typeof source.spellId !== 'string' || typeof source.classId !== 'string' || !/^[0-9a-f]{64}$/.test(source.recordHash || '') ||
+        (d.catalogueSource !== undefined && canonical(d.catalogueSource) !== canonical(source)) || source.spellId !== source.record.id ||
+        source.classId !== classId) refuse('The catalogue source binding is incomplete or changed.');
+      if (sha256Hex(canonical(source.record)) !== source.recordHash) refuse('The catalogue source record changed after preparation.');
+      if (!record.authoredDefinitionId) refuse('The prepared catalogue record has no definition id; save it in the Wizard first.');
+      const executable = catalogueExecutable(source.record, source.classId, { roomId, definitionId: record.authoredDefinitionId, definitionVersion });
+      if (!executable.ok) refuse(`Catalogue record: ${executable.reason}`);
+      const def = executable.definition, kind = def.effect.kind;
+      const config = d[kind === 'damage' ? 'damageConfig' : 'healingConfig'] || {};
+      const other = d[kind === 'damage' ? 'healingConfig' : 'damageConfig'];
+      const target = d.targetingConfig || {};
+      const price = d.resourceCost || {};
+      const draftMana = price.mana ?? price.resourceValues?.mana;
+      if (d.spellType !== 'ACTION' || d.typeConfig?.castTimeType !== 'IMMEDIATE' || canonical(d.effectTypes) !== canonical(source.record.effectTypes) ||
+        canonical(d.typeConfig?.school) !== canonical(source.record.typeConfig?.school) ||
+        !empty(other) || !empty(d.buffConfig) || !empty(d.debuffConfig) || !empty(d.utilityConfig) || !empty(d.controlConfig) ||
+        !empty(d.summoningConfig) || !empty(d.transformationConfig) || !empty(d.purificationConfig) || !empty(d.restorationConfig) ||
+        !empty(d.rollableTable) || !empty(d.propagation) || !empty(d.triggerConfig) || !empty(d.trapConfig) || !empty(d.channelingConfig) ||
+        !empty(d.mechanicsConfig) || !empty(d.prophecyOptions) || !empty(d.effectMechanicsConfigs) || !empty(d.mechanicsAvailableEffects) ||
+        !empty(d.combinedEffects) || !empty(d.mechanicsAvailableCombinedEffects) || !empty(d.statusEffectsConfig) ||
+        canonical(config.formula) !== canonical(def.effect.formula) || (!empty(d.durationConfig) && canonical(d.durationConfig) !== canonical({ durationType: 'instant' })) ||
+        (d.cooldownConfig && (d.cooldownConfig.cooldownType !== 'none' || d.cooldownConfig.cooldownValue !== 0)) ||
+        target.targetingType !== 'single' || (target.maxTargets !== undefined && target.maxTargets !== 1) ||
+        target.rangeDistance !== source.record.targetingConfig.rangeDistance || target.rangeType !== source.record.targetingConfig.rangeType ||
+        canonical(target.targetRestrictions) !== canonical(source.record.targetingConfig.targetRestrictions) ||
+        d.name !== def.name || d.description !== def.description ||
+        price.actionPoints !== def.resourceCost.actionPoints || draftMana !== def.resourceCost.mana) {
+        refuse('Catalogue draft fields differ from the pinned whole record; edit it only as a new, unbound spell.');
+      }
+      return { ok: true, definition: Object.assign({}, def, {
+        definitionId: record.authoredDefinitionId, definitionVersion, scope: { roomId }, name: d.name, description: d.description
+      }) };
     }
     if (d.spellType !== 'ACTION' || d.typeConfig?.castTimeType !== 'IMMEDIATE') refuse('Immediate ACTION required');
     only(d.typeConfig, ['school', 'secondaryElement', 'icon', 'tags', 'castTime', 'castTimeType', 'element'], 'typeConfig');
@@ -104,7 +150,7 @@ function definitionFromWizard(record, { roomId, definitionVersion, classId }) {
       const c = d.controlConfig.authoredCondition;
       only(c, ['profile', 'effect', 'movementFeet', 'label', 'expiryPolicy', 'durationText', 'gmNote', 'occurrences'], 'authoredEffect');
       if (!EFFECT_EXPIRY_POLICIES.includes(c.expiryPolicy)) refuse('Expiry: manual removal, start or end of the target\'s next turn, or a counted start/end of the target\'s upcoming turns');
-      // M2A: an explicit occurrence count belongs to the counted policies only (whole number 2…10); the existing policies carry none.
+      // M2A: an explicit occurrence count belongs to the counted policies only (whole number 2â€¦10); the existing policies carry none.
       if (COUNTED_EXPIRY_POLICIES.includes(c.expiryPolicy) ? !conditionProfile.validOccurrences(c.occurrences) : c.occurrences !== undefined)
         refuse(`Occurrences: counted expiry needs a whole number of target-turn boundaries from 2 to ${conditionProfile.MAX_OCCURRENCES}; other expiry policies carry no count`);
       if (typeof c.durationText !== 'string' || !c.durationText.trim() || c.durationText.length > 300 || typeof c.gmNote !== 'string' || !c.gmNote.trim() || c.gmNote.length > 1000) refuse('Authored duration and GM note required');
@@ -113,8 +159,8 @@ function definitionFromWizard(record, { roomId, definitionVersion, classId }) {
         if (c.movementFeet !== undefined || c.label !== undefined) refuse('Stunned has no movement amount or custom label');
         conditionEffect = { kind: 'stunned' };
       } else if (c.effect === 'movement') {
-        if (!Number.isSafeInteger(c.movementFeet) || c.movementFeet === 0 || c.movementFeet < -60 || c.movementFeet > 60 || c.movementFeet % 5 !== 0) refuse('Movement change must be a nonzero multiple of 5 ft from −60 to +60');
-        if (typeof c.label !== 'string' || !c.label.trim() || c.label !== c.label.trim() || c.label.length > 60) refuse('Movement effect label (1–60 characters, no outer spaces) required');
+        if (!Number.isSafeInteger(c.movementFeet) || c.movementFeet === 0 || c.movementFeet < -60 || c.movementFeet > 60 || c.movementFeet % 5 !== 0) refuse('Movement change must be a nonzero multiple of 5 ft from âˆ’60 to +60');
+        if (typeof c.label !== 'string' || !c.label.trim() || c.label !== c.label.trim() || c.label.length > 60) refuse('Movement effect label (1â€“60 characters, no outer spaces) required');
         conditionEffect = { kind: 'movement', feet: c.movementFeet, label: c.label };
       } else refuse('Effect: canonical Stunned or one movement-speed change');
       // Review finding 1: a second, structured Wizard duration would contradict the explicit expiry policy.
@@ -141,15 +187,18 @@ function definitionFromWizard(record, { roomId, definitionVersion, classId }) {
         effect: { kind: 'condition', conditionKey: c.conditionKey }, timing: { expiryPolicy: c.expiryPolicy, durationText: c.durationText, authoredDuration: d.durationConfig ?? null, gmNote: c.gmNote } } };
     }
     if (!empty(d.effectResolutions) && canonical(d.effectResolutions) !== canonical({ [kind]: 'DICE' })) refuse('effectResolutions');
-    const directEffect = readDirect(d, record, kind);
-    return { ok: true, definition: { schemaVersion: 1, scope: { roomId }, definitionId: record.authoredDefinitionId, definitionVersion,
+    const directEffect = readDirect(d, record, kind, true);
+    let scaled = false;
+    try { readFormula(directEffect.formula); } catch (_) { scaled = true; }
+    // Keep the shared CommonJS module free of object-spread helper imports (CRA marks those as ESM).
+    return { ok: true, definition: Object.assign({ schemaVersion: scaled ? 4 : 1, scope: { roomId }, definitionId: record.authoredDefinitionId, definitionVersion,
       name: d.name, description: d.description, binding: { rulesetId: 'prism', rulesetVersion: 'cr-a1a-pilot-1', classId }, spellType: 'ACTION', castTimeType: 'IMMEDIATE',
       targeting: { kind: 'single', maxTargets: 1, rangeFeet: t.rangeDistance, restriction: restrictions[0] }, resourceCost: { actionPoints: cost.actionPoints, mana: manaValues[0] },
-      effect: kind === 'damage' ? { kind, formula: directEffect.formula, damageTypes: directEffect.damageTypes } : { kind, formula: directEffect.formula } } };
+      effect: kind === 'damage' ? { kind, formula: directEffect.formula, damageTypes: directEffect.damageTypes } : { kind, formula: directEffect.formula } }, scaled ? { capability: FORMULA_CAPABILITY } : {}) };
   } catch (error) { return { ok: false, code: 'unsupported_wizard_record', reason: error.message }; }
 }
 // One direct DICE damage or healing configuration (A1 rules, shared by the A10 bundle). Throws to refuse.
-function readDirect(d, record, kind) {
+function readDirect(d, record, kind, allowScaling = false) {
     const e = d[kind === 'damage' ? 'damageConfig' : 'healingConfig'];
     const allowed = ['formula', 'resolution', 'globalResolution', 'description', 'criticalConfig', 'canCrit', 'critMultiplier', 'critDiceOnly', 'chanceOnHitConfig', 'savingThrowConfig', 'savingThrow', 'difficultyClass', 'partialEffect', 'partialEffectFormula'];
     only(e, [...allowed, ...(kind === 'damage' ? ['damageType', 'elementType', 'secondaryElementType', 'damageTypes', 'hasDotEffect', 'dotConfig'] : ['healingType', 'targetType', 'shieldType', 'shieldDuration', 'duration', 'tickFrequency', 'scalingType', 'specialEffects', 'hasHotEffect', 'hasShieldEffect', 'hotFormula', 'shieldFormula'])], `${kind}Config`);
@@ -157,7 +206,10 @@ function readDirect(d, record, kind) {
     for (const k of ['canCrit', 'partialEffect', 'hasDotEffect', 'hasHotEffect', 'hasShieldEffect']) if (e[k] !== undefined && e[k] !== false) refuse(k);
     for (const k of ['criticalConfig', 'chanceOnHitConfig', 'savingThrowConfig']) disabled(e[k], k);
     if (kind === 'damage' ? e.damageType !== 'direct' || e.hasDotEffect || e.secondaryElementType : e.healingType !== 'direct' || e.hasHotEffect || e.hasShieldEffect || !empty(e.specialEffects)) refuse('direct effect required');
-    readFormula(e.formula);
+    if (allowScaling) {
+      const result = readScaledFormula(e.formula, Object.fromEntries(formulaContract.ATTRIBUTES.map(name => [name, 10])));
+      if (!result.supported) refuse(`effect.formula (${result.reason})`);
+    } else readFormula(e.formula);
     const damageTypes = kind === 'damage' ? e.damageTypes || [e.elementType] : [];
     if (kind === 'damage' && e.elementType && canonical(damageTypes) !== canonical([e.elementType])) refuse('damageTypes');
     if (kind === 'damage' && d.typeConfig.school && canonical(damageTypes) !== canonical([d.typeConfig.school])) refuse('school / damage type conflict');
@@ -176,7 +228,9 @@ function creatureSelfHealing(definition, record) {
 function definitionSummary(d) {
   if (!d) return '';
   if (d.capability === EFFECT_CAPABILITY) return require('./authoredEffect').describe({ direct: d.effects.direct, condition: d.effects.condition, timing: d.timing });
-  if (d.effect?.kind === 'condition') return `canonical Stunned · ${d.timing.durationText} — GM removes`;
-  return `${d.effect?.kind} · ${d.effect?.formula}${d.effect?.damageTypes?.length ? ` ${d.effect.damageTypes.join('/')}` : ''}`;
+  if (d.effect?.kind === 'condition') return `canonical Stunned Â· ${d.timing.durationText} â€” GM removes`;
+  return `${d.effect?.kind} Â· ${d.effect?.formula}${d.effect?.damageTypes?.length ? ` ${d.effect.damageTypes.join('/')}` : ''}`;
 }
-module.exports = { definitionSummary, CAPABILITY, CONDITION_CAPABILITY, EFFECT_CAPABILITY, EFFECT_EXPIRY_POLICIES, COUNTED_EXPIRY_POLICIES, ADAPTER_VERSION, CLASS_IDS, readFormula, definitionFromWizard, actionId, isAuthored, creatureSelfHealing };
+module.exports = { definitionSummary, CAPABILITY, FORMULA_CAPABILITY, FORMULA_COMPILER, readScaledFormula, formulaAttributes, isFormula, CONDITION_CAPABILITY, EFFECT_CAPABILITY, EFFECT_EXPIRY_POLICIES, COUNTED_EXPIRY_POLICIES, ADAPTER_VERSION, CLASS_IDS, readFormula, definitionFromWizard, actionId, isAuthored, creatureSelfHealing };
+
+

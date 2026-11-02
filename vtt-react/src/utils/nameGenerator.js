@@ -270,7 +270,7 @@ export const SUBRACE_NAME_DATA = {
 
     thrask_solari: {
         id: 'thrask_solari',
-        canonicalName: 'Anhur Solari',
+        canonicalName: 'Ashen Solari',
         raceId: 'solari',
         firstNames: {
             male: ['Vane', 'Helian', 'Zenith', 'Ignacius', 'Lucan', 'Solaris', 'Phaeton', 'Dorian'],
@@ -638,7 +638,7 @@ const SUBRACE_ALIAS_MAP = {
     morgh: 'morgh_groven', morgh_groven: 'morgh_groven',
     ithran: 'ithran_groven', amordjin: 'ithran_groven', ithran_groven: 'ithran_groven',
     korr: 'korr_solari', korr_solari: 'korr_solari',
-    thrask: 'thrask_solari', anhur: 'thrask_solari', thrask_solari: 'thrask_solari',
+    thrask: 'thrask_solari', ashen: 'thrask_solari', anhur: 'thrask_solari', ajan: 'thrask_solari', thrask_solari: 'thrask_solari',
     clean: 'clean_vreken', bedel: 'clean_vreken', clean_vreken: 'clean_vreken',
     marked: 'marked_vreken', cromyx: 'marked_vreken', marked_vreken: 'marked_vreken',
     velun: 'velun_neth', nethien: 'velun_neth', velun_neth: 'velun_neth',

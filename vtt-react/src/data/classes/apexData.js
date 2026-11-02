@@ -26,7 +26,7 @@ export const APEX_DATA = {
   "tessen_human"
   ],
   "narrativeUnlock": true,
-  "justification": "Requires cultures with predator-tracking traditions and a willingness to trade a sense for the art. Mimir track Wyrd through the mist (Arch masks hold identity steady, Broken sentinels read the perimeter). Skald hunt the Hunger Glaciers, reading permanent frost like a ledger. Anhur Ash-Rangers stalk the Sundale ashfields, reading footfalls in scoria and heat left in lava-glass. Ordu steppe nomads track prey across open tundra by scent and kinetic vibration. Bedel follow bioluminescent spoor; Cromyx feel movement through the Root-Veil. Lumian read heat across the open steppe. Other cultures lack the sensory training, or the nerve for the Trade."
+  "justification": "Requires cultures with predator-tracking traditions and a willingness to trade a sense for the art. Mimir track Wyrd through the mist (Arch masks hold identity steady, Broken sentinels read the perimeter). Skald hunt the Hunger Glaciers, reading permanent frost like a ledger. Ashen Ash-Rangers stalk the Sundale ashfields, reading footfalls in scoria and heat left in lava-glass. Ordu steppe nomads track prey across open tundra by scent and kinetic vibration. Bedel follow bioluminescent spoor; Cromyx feel movement through the Root-Veil. Lumian read heat across the open steppe. Other cultures lack the sensory training, or the nerve for the Trade."
   },
 
  /**
@@ -160,9 +160,9 @@ subraceVariants: {
   },
 
   thrask_solari: {
-   subraceName: 'Anhur',
+   subraceName: 'Ashen',
    title: 'The Ash-Stalker',
-   reframe: `The <LoreLink termId="solari">Anhur</LoreLink> Ash-Rangers hunt the volcanic badlands of <LoreLink termId="sundale">Sundale</LoreLink>, where the ground itself keeps the record: every footfall prints in scoria, every living thing leaves heat in the lava-glass long after it has passed, and a dark-adapted hunter can follow a trail at night by warmth alone. A Anhur Apex runs with an ash-hound, a cinder-jackal bred to the calderas, and reads the ashfields the way the Skald read the glacier, except the glacier never erupted under a hunter's feet. They take contracts from the Dawn Vigil because refusing a Vigil contract in Sundale is a slower kind of death. They have begun to hate the contracts.`,
+   reframe: `The <LoreLink termId="solari">Ashen</LoreLink> Ash-Rangers hunt the volcanic badlands of <LoreLink termId="sundale">Sundale</LoreLink>, where the ground itself keeps the record: every footfall prints in scoria, every living thing leaves heat in the lava-glass long after it has passed, and a dark-adapted hunter can follow a trail at night by warmth alone. An Ashen Apex runs with an ash-hound, a cinder-jackal bred to the calderas, and reads the ashfields the way the Skald read the glacier, except the glacier never erupted under a hunter's feet. They take contracts from the Dawn Vigil because refusing a Vigil contract in Sundale is a slower kind of death. They have begun to hate the contracts.`,
    signatureAbility: {
     name: 'Cinder-Track',
     description: `Tracking-acuity is amplified on ash, scoria, and lava-glass, where every step prints and heat lingers for days. The Ash-Stalker can read a track by its residual warmth even after the print is gone. On cold, wet, or grown ground, the craft collapses, the ash keeps no memory there.`
@@ -171,7 +171,7 @@ subraceVariants: {
    signatureQuote: {
     text: '"I can read a man\'s path by the heat he left in the scoria. The last three trails I followed went into a vent sealed since before my grandmother\'s forge was lit. The ash remembers them going in. It does not remember them coming out."',
     speaker: 'Ash-Stalker Serev Cinder-Bound',
-    context: 'A Anhur Apex, declining a fourth Vigil contract in the same season'
+    context: 'An Ashen Apex, declining a fourth Vigil contract in the same season'
    }
   },
 
@@ -243,7 +243,7 @@ The art spread from the Mimir outward. Skald glacier-hunters learned it when nor
 
 The mist is learning to hide deliberately. Something large has moved through the Frostwood Reach for months without leaving any trace, and it is teaching the fog to evade the Hunt itself. The Broken Mimir trackers who dissolve into the fog to find it are not coming back. Sylas has concluded he has become the hunted and is preparing to dissolve into the fog himself.
 
-Native to Arch Mimir, Broken Mimir, Skald, Anhur, Cromyx, Ordu, and Nereid Myrathil. Any other people walk this path only as an individually qualified exception.`,
+Native to Arch Mimir, Broken Mimir, Skald, Ashen, Cromyx, Ordu, and Nereid Myrathil. Any other people walk this path only as an individually qualified exception.`,
 
  title: "The Apex",
  subtitle: "Shadow Glaive Wielder & Beast Companion",
@@ -253,7 +253,7 @@ Native to Arch Mimir, Broken Mimir, Skald, Anhur, Cromyx, Ordu, and Nereid Myrat
    { url: "/assets/images/classes/apex_arch_mimir.jpg", subraceId: "veiled_mimir", caption: "Arch Mimir Apex — The Mask-Hunter, stalking in a low crouch along an ironwood log with a Shadow Glaive and bonded Frostwood mist-wolf." },
    { url: "/assets/images/classes/apex_skald_human.jpg", subraceId: "skald_human", caption: "Skald Human Apex — The Glacier-Stalker, striding across a frozen ridge in polar bear furs with a frost-etched Ice-Glaive and a shaggy white tundra war-mastiff." },
    { url: "/assets/images/classes/apex_marked_vreken.jpg", subraceId: "marked_vreken", caption: "Cromyx Apex — The Root-Stalker, drawing a bone-horned recurve bow atop gnarled roots alongside a subterranean armored burrower beast." },
-   { url: "/assets/images/classes/apex_waste_solari.jpg", subraceId: "thrask_solari", caption: "Anhur Apex — The Ash-Stalker, leaping across volcanic scoria while drawing an ember-tipped recurve bow alongside a bounding cinder-jackal." },
+   { url: "/assets/images/classes/apex_waste_solari.jpg", subraceId: "thrask_solari", caption: "Ashen Apex — The Ash-Stalker, leaping across volcanic scoria while drawing an ember-tipped recurve bow alongside a bounding cinder-jackal." },
    { url: "/assets/images/classes/apex_ordan_human.jpg", subraceId: "ordan_human", caption: "Ordu Human Apex — The Steppe-Pursuer, nomadic hunter in windblown furs drawing a recurve horn-bow alongside his bonded steppe lynx." },
    { url: "/assets/images/classes/apex_broken_mimir.jpg", subraceId: "tethered_mimir", caption: "Broken Mimir Apex — The Bramble-Stalker, unmasked wild fae tracker with a bone-tipped hunting spear stalking through the brush with his bonded briar-hound." },
    { url: "/assets/images/classes/apex_deepling_myrathil.jpg", subraceId: "deepling_myrathil", caption: "Nereid Myrathil Apex — The Trench-Stalker, amphibious deep-sea hunter swimming with a three-pronged whalebone harpoon-glaive alongside an armored abyssal companion beast." }

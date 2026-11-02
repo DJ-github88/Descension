@@ -549,7 +549,7 @@ const LanguagesDisplay = () => {
               )}
               {selectedLanguage.name === 'Sundari' && (
                 <>
-                  <li><i className="fas fa-check"></i> Solari of Sundale: both Korr and Anhur</li>
+                  <li><i className="fas fa-check"></i> Solari of Sundale: both Korr and Ashen</li>
                   <li><i className="fas fa-check"></i> Solari who tend Emberspire's wound</li>
                   <li><i className="fas fa-check"></i> Pilgrims who have witnessed Sol's Breath's fading</li>
                   <li><i className="fas fa-check"></i> Forge-priests of the Harath-Vault</li>

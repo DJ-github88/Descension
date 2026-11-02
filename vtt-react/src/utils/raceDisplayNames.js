@@ -16,7 +16,7 @@
  *   Groven: Morgh · Amordjin
  *   Mimir: Arch Mimir · Broken Mimir
  *   Athien: Nethien · Weft · Riven
- *   Solari: Korr · Anhur
+ *   Solari: Korr · Ashen
  *   Mycellan: Bedel · Cromyx
  */
 
@@ -59,13 +59,16 @@ const LEGACY_RACE_DISPLAY_MAP = {
     oken: 'Oaken',
     // Groven (once Ithran)
     ithran: 'Amordjin',
-    // Solari (once Hollow-Solari / Waste-Solari)
+    // Solari (once Hollow-Solari / Waste-Solari / Ragnohl / Anhur)
     'hollow-solari': 'Korr',
     'hollow solari': 'Korr',
     sonn: 'Korr',
-    'waste-solari': 'Anhur',
-    'waste solari': 'Anhur',
-    ragnohl: 'Anhur',
+    'waste-solari': 'Ashen',
+    'waste solari': 'Ashen',
+    ragnohl: 'Ashen',
+    anhur: 'Ashen',
+    'anhur solari': 'Ashen',
+    ajan: 'Ashen',
     // Mycellan (once Clean / Marked)
     clean: 'Bedel',
     'clean vreken': 'Bedel',

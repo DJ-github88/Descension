@@ -122,7 +122,8 @@ jest.mock('../../spellcrafting-wizard/context/SpellLibraryContext', () => ({
 jest.mock('../../../utils/assetManager', () => ({
   getIconUrl: (icon) => `http://mock-icons/${icon}.png`,
   getCustomIconUrl: (icon) => `http://mock-icons/${icon}.png`,
-  getAbilityIconUrl: (icon) => `http://mock-icons/${icon}.png`
+  getAbilityIconUrl: (icon) => `http://mock-icons/${icon}.png`,
+  getItemFallbackIcon: (item, slot) => `http://mock-icons/fallback.png`
 }));
 
 // Mock subcomponents
@@ -202,7 +203,48 @@ describe('ActionBar Component', () => {
 
     const spellTooltip = document.querySelector('.spell-tooltip-overlay');
     expect(spellTooltip).toBeTruthy();
+    const companion = document.querySelector('[data-testid="fan-action-companion"]');
+    expect(companion).toBeTruthy();
+    expect(companion.querySelector('.fan-companion-spellcard')).toBeTruthy();
+    // When no item is equipped, empty weapon table is NOT rendered
+    expect(companion.querySelector('.fan-companion-weapontable')).toBeNull();
     jest.useRealTimers();
+  });
+
+  it('shows companion weapon skill table next to spellcard when weapon is equipped', () => {
+    const state = useCharacterStore.getState();
+    state.equipment = {
+      mainHand: {
+        id: 'iron-mace',
+        name: 'Iron Mace',
+        type: 'weapon',
+        subtype: 'MACE',
+        slots: ['mainHand']
+      }
+    };
+    try {
+      const { container } = render(<ActionBar />);
+      const mhSlot = container.querySelector('.slot-mainHand .equipment-action-slot');
+      const { fireEvent, act } = require('@testing-library/react');
+
+      act(() => {
+        fireEvent.click(mhSlot);
+      });
+
+      const bubble = container.querySelector('.action-fan-bubble');
+      expect(bubble).toBeTruthy();
+
+      act(() => {
+        fireEvent.mouseEnter(bubble);
+      });
+
+      const companion = document.querySelector('[data-testid="fan-action-companion"]');
+      expect(companion).toBeTruthy();
+      expect(companion.querySelector('.fan-companion-spellcard')).toBeTruthy();
+      expect(companion.querySelector('.fan-companion-weapontable')).toBeTruthy();
+    } finally {
+      delete state.equipment;
+    }
   });
 
   it('confirmed HUD casting pays the dedicated/generic Devotion cost once', () => {

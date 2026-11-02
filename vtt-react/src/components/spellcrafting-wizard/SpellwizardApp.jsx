@@ -490,6 +490,7 @@ const AppContent = ({ hideHeader = false }) => {
       const formattedSpellData = {
         ...spellCopy.authoredDraft,
         authoredDefinitionId: spellCopy.authoredDefinitionId,
+        catalogueSource: spellCopy.catalogueSource,
         // Create a default state with all required fields
         // Basic information
         name: spellCopy.name || '',

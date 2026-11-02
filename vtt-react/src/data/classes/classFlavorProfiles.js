@@ -308,7 +308,7 @@ export const CLASS_FLAVOR_PROFILES = {
     resourceIcon: 'fa-hourglass-half',
     tagline: 'Declare a finite public ending with an exact trigger, clock and disruption method, then collect Havoc only when the doom actually arrives.',
     keyFeatures: ['Two Public Calamities', 'Havoc 0-15', 'Forewarning Wards'],
-    loreSnippet: 'The Doomsayer inherits the Frozen Archive doom-arithmetic, Anhur vent-readings and Tessic rehearsal traditions without restoring the old Mayhem pressure engine.',
+    loreSnippet: 'The Doomsayer inherits the Frozen Archive doom-arithmetic, Ashen vent-readings and Tessic rehearsal traditions without restoring the old Mayhem pressure engine.',
     playstyle: 'Plant one or two visible calamities, let the table see the clock, resolve each once and spend Havoc on bounded finishers or ally warnings.'
   },
 

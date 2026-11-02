@@ -471,7 +471,7 @@ export const ZONE_DATA = [
     "description": "A vast, windswept desert of black obsidian sands and jagged glass spires. The wind here carries a toxic soot, and travelers must wear heavy leather wraps to protect their eyes from flying glass-shards and sudden volcanic fire-hazards.",
     "dangerLevel": "high",
     "factions": [
-      "Anhur Badland Rangers"
+      "Ashen Badland Rangers"
     ],
     "connections": [
       "emberspire-caldera",

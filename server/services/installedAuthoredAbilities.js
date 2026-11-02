@@ -67,6 +67,7 @@ async function planCreatureAdmission(room, uid, data, authorize) {
   if (!/^[0-9a-f-]{36}$/i.test(data.requestId || '')) actors.fail('invalid_consequence');
   const mapped = pure.definitionFromWizard(source.association.record, { roomId: room.id, classId: 'arcanoneer', definitionVersion: data.definitionVersion });
   if (!mapped.ok) actors.fail(mapped.code, mapped.reason);
+  if (mapped.definition.capability === pure.FORMULA_CAPABILITY) actors.fail('unsupported_source_route', 'This formula version currently requires a primary owner PC source; the whole creature ability remains manual.');
   const compiled = definitions.compileDefinition(mapped.definition);
   if (!compiled.ok) actors.fail(compiled.code, compiled.path);
   const matching = before.definitions.find(e => actors.hash(e.canonicalDefinition) === actors.hash(compiled.canonicalDefinition));
@@ -118,13 +119,33 @@ function checkCreatureAuthority(room, approval, primaryPc = false) {
 function checkApproval(room, approval, primaryPc = false) {
   const entry = lookup(room, approval.spell), d = entry.canonicalDefinition, desc = entry.descriptor;
   const condition = desc.capabilityId === pure.CONDITION_CAPABILITY, effect = desc.capabilityId === pure.EFFECT_CAPABILITY;
+  const formula = desc.capabilityId === pure.FORMULA_CAPABILITY;
   const wanted = { definitionId: pure.actionId(entry.definitionRef), definitionHash: `${desc.capabilityId}/${entry.definitionRef.definitionHash}`, name: d.name,
     kind: effect ? 'effect' : d.effect.kind, damageTypes: effect ? desc.effects.direct?.damageTypes || [] : desc.effect.damageTypes || [] };
-  if (actors.hash(approval.spell) !== actors.hash(wanted) || actors.hash(approval.price) !== actors.hash(desc.price) || approval.classPayment !== null) actors.fail('authored_approval_mismatch');
+  if (actors.hash(approval.spell) !== actors.hash(wanted) || actors.hash(approval.price) !== actors.hash(desc.price)) actors.fail('authored_approval_mismatch');
+  if (formula) {
+    // M4B: the typed class price is pinned by the admitted definition and revalidated
+    // against the existing bank/home; no client price can replace it.
+    const payment = desc.classPayment || null;
+    if (payment ? (!approval.classPayment || approval.classPayment.domain !== payment.domain ||
+      actors.hash(approval.classPayment.price) !== actors.hash(payment.price)) : approval.classPayment !== null) actors.fail('authored_approval_mismatch');
+    const targetRoute = desc.targetRoute || 'creature';
+    if (targetRoute === 'primary-pc-healing') {
+      if (approval.target.kind !== 'character' || actors.hash(approval.source) === actors.hash(approval.target) ||
+        d.effect.kind !== 'healing' || d.targeting.restriction !== 'ally') actors.fail('unsupported_formula_target');
+    } else if (approval.target.kind !== 'creature') actors.fail('unsupported_formula_target');
+  } else if (approval.classPayment !== null) actors.fail('authored_approval_mismatch');
   if (effect) {
     // A10: the whole admitted bundle (direct part, canonical effect, timing) is bound; no subset executes.
-    if (approval.target.kind !== 'creature' || actors.hash(approval.source) === actors.hash(approval.target)) actors.fail('unsupported_effect_target');
+    if (!['creature', 'character'].includes(approval.target.kind) || actors.hash(approval.source) === actors.hash(approval.target)) actors.fail('unsupported_effect_target');
     if (actors.hash(approval.effectTerms) !== actors.hash(require('../shared/services/authoredEffect').termsFor(d))) actors.fail('authored_effect_mismatch');
+    if (approval.target.kind === 'character') {
+      // M3A: the existing consent boundary is chosen from the admitted terms; a combination with conflicting semantics refuses whole.
+      const consent = require('../shared/services/authoredEffect').pcConsent(approval.effectTerms, approval.source.kind);
+      if (!consent.ok) actors.fail(consent.code, consent.message);
+      // A creature's direct part reaches a PC only through A5's owner response (primaryPc); its rider-only form only through A9-style acceptance.
+      if (approval.source.kind === 'creature' && consent.a5 !== primaryPc) actors.fail('pc_target_route_mismatch', consent.a5 ? 'A creature\'s direct damage or healing on a player character needs the owner\'s response; use the offer route.' : 'A rider-only effect uses the condition route, not the attack-offer route.');
+    }
     if (approval.source.kind === 'creature' && (approval.resolution?.gmConfirmed !== true || actors.hash(approval.resolution.timing) !== actors.hash(d.timing))) actors.fail('authored_effect_mismatch');
     if (!d.effects.direct) { if (approval.roll !== null) actors.fail('authored_roll_mismatch'); }
     else {
@@ -135,12 +156,24 @@ function checkApproval(room, approval, primaryPc = false) {
     if (!['character', 'creature'].includes(approval.target.kind) || actors.hash(approval.source) === actors.hash(approval.target) || approval.roll !== null) actors.fail('authored_condition_mismatch');
     if (approval.source.kind === 'creature' ? approval.resolution?.gmConfirmed !== true || actors.hash(approval.resolution?.timing) !== actors.hash(d.timing)
       : actors.hash(approval.conditionTerms) !== actors.hash({ conditionKey: 'stunned', timing: d.timing })) actors.fail('authored_condition_mismatch');
+  } else if (formula) {
+    if (approval.source.kind !== 'character') actors.fail('unsupported_source_route');
+    const reading = pure.readScaledFormula(d.effect.formula, approval.rollAttributes), roll = approval.roll;
+    const names = pure.formulaAttributes(d.effect.formula);
+    if (!approval.rollAttributes || typeof approval.rollAttributes !== 'object' || Array.isArray(approval.rollAttributes) || Object.keys(approval.rollAttributes).sort().join() !== names.join() || !reading.supported || !roll ||
+      roll.constant !== reading.constant || roll.reading !== reading.reading || roll.dice.length !== reading.dice.length ||
+      reading.dice.some((group, i) => roll.dice[i].sides !== group.sides || roll.dice[i].faces.length !== group.count)) actors.fail('authored_roll_mismatch');
+    const source = actors.locate(room, approval.source);
+    // Match the authoritative PUBLIC snapshot the owner actually receives, not hidden raw token fields.
+    const projected = require('./roomAccessService').projectTokenForClient(source.token);
+    if (source.contract.revision !== approval.formulaSourceRevision || actors.hash({ character: projected.character, conditions: projected.state?.conditions || [] }) !== approval.formulaSourceHash)
+      actors.fail('owner_reapproval_required', 'The caster snapshot changed. Review the formula inputs and approve again with the retained die faces; nothing was applied.');
   } else {
     const reading = pure.readFormula(d.effect.formula), roll = approval.roll;
     if (roll.constant !== reading.constant || roll.reading !== reading.reading || roll.dice.length !== 1 || roll.dice[0].sides !== reading.dice[0].sides || roll.dice[0].faces.length !== reading.dice[0].count) actors.fail('authored_roll_mismatch');
   }
   const source = actors.locate(room, approval.source);
-  if (approval.source.kind === 'creature') checkCreatureAuthority(room, approval, primaryPc || condition && approval.target.kind === 'character');
+  if (approval.source.kind === 'creature') checkCreatureAuthority(room, approval, primaryPc || (condition || effect) && approval.target.kind === 'character');
   else {
     if (entry.creatureOnly) actors.fail('unsupported_source_route');
     const classId = String(source.token.character?.class || '').toLowerCase().replace(/ /g, '_');

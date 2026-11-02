@@ -259,7 +259,67 @@ function Harness() {
           </div>
         </div>
       </section>
+
+      {/* 8. INTERACTIVE LIVE RESOURCE DISPATCH & STORE ADAPTATION */}
+      <InteractiveResourceSection />
     </div>
+  );
+}
+
+function InteractiveResourceSection() {
+  const [covRes, setCovRes] = React.useState({ current: 0, max: 6, charges: 0 });
+  const [exoRes, setExoRes] = React.useState({ current: 3, max: 10, sanctity: 3 });
+  const [dreadRes, setDreadRes] = React.useState({ current: 20, max: 100, psi: 20 });
+
+  return (
+    <section id="section-interactive-live" style={{ marginTop: 24, padding: 16, background: '#181e1b', borderRadius: 8, border: '2px solid #3b82f6' }}>
+      <h2 style={{ color: '#60a5fa' }}>8. Interactive Live Resource Reaction Harness (Canonical Contract)</h2>
+      <p style={{ color: '#9ca3af', marginBottom: 16 }}>
+        Verifies live gain/consume actions updating canonical <code>current</code>, explicit zero preservation, and rejection of stale conflicting aliases in a mounted browser React context.
+      </p>
+
+      {/* Covenbane Interactive */}
+      <div id="interactive-covenbane" className="test-card" style={{ marginTop: 16, padding: 16, background: '#111413', borderRadius: 6, border: '1px solid #374151' }}>
+        <h3>Covenbane Live Controls (Current: {covRes.current}, Stale Alias: {covRes.charges})</h3>
+        <div style={{ display: 'flex', gap: 8, marginBottom: 12, flexWrap: 'wrap' }}>
+          <button id="btn-cov-gain" onClick={() => setCovRes(r => ({ ...r, current: Math.min(6, r.current + 1) }))}>Gain 1 Charge</button>
+          <button id="btn-cov-max" onClick={() => setCovRes(r => ({ ...r, current: 6 }))}>Gain to Max (6)</button>
+          <button id="btn-cov-consume" onClick={() => setCovRes(r => ({ ...r, current: Math.max(0, r.current - 2) }))}>Consume 2 Charges</button>
+          <button id="btn-cov-zero-conflict" onClick={() => setCovRes({ current: 0, max: 6, charges: 5 })}>Set Canonical Zero with Stale charges: 5</button>
+        </div>
+        <div id="cov-live-display">
+          <CovenbaneResourceDisplay resource={covRes} />
+        </div>
+      </div>
+
+      {/* Exorcist Interactive */}
+      <div id="interactive-exorcist" className="test-card" style={{ marginTop: 16, padding: 16, background: '#111413', borderRadius: 6, border: '1px solid #374151' }}>
+        <h3>Exorcist Live Controls (Current: {exoRes.current}, Stale Alias: {exoRes.sanctity})</h3>
+        <div style={{ display: 'flex', gap: 8, marginBottom: 12, flexWrap: 'wrap' }}>
+          <button id="btn-exo-gain" onClick={() => setExoRes(r => ({ ...r, current: Math.min(10, r.current + 2) }))}>Gain 2 Sanctity</button>
+          <button id="btn-exo-consume" onClick={() => setExoRes(r => ({ ...r, current: 0 }))}>Consume to 0 (Depleted)</button>
+          <button id="btn-exo-zero-conflict" onClick={() => setExoRes({ current: 0, max: 10, sanctity: 7 })}>Set Canonical Zero with Stale sanctity: 7</button>
+        </div>
+        <div id="exo-live-display">
+          <ExorcistResourceDisplay resource={exoRes} />
+        </div>
+      </div>
+
+      {/* Dreadnaught Interactive */}
+      <div id="interactive-dreadnaught" className="test-card" style={{ marginTop: 16, padding: 16, background: '#111413', borderRadius: 6, border: '1px solid #374151' }}>
+        <h3>Dreadnaught Live Controls (Current: {dreadRes.current}, Stale Alias: {dreadRes.psi})</h3>
+        <div style={{ display: 'flex', gap: 8, marginBottom: 12, flexWrap: 'wrap' }}>
+          <button id="btn-dread-gain-working" onClick={() => setDreadRes(r => ({ ...r, current: 55 }))}>Gain to Working (55 PSI)</button>
+          <button id="btn-dread-gain-supercharged" onClick={() => setDreadRes(r => ({ ...r, current: 75 }))}>Gain to Supercharged (75 PSI)</button>
+          <button id="btn-dread-gain-overheat" onClick={() => setDreadRes(r => ({ ...r, current: 95 }))}>Gain to Overheat (95 PSI)</button>
+          <button id="btn-dread-vent-zero" onClick={() => setDreadRes(r => ({ ...r, current: 0 }))}>Vent to 0 PSI (Idle)</button>
+          <button id="btn-dread-zero-conflict" onClick={() => setDreadRes({ current: 0, max: 100, psi: 80 })}>Set Canonical Zero with Stale psi: 80</button>
+        </div>
+        <div id="dread-live-display">
+          <DreadnaughtResourceDisplay resource={dreadRes} />
+        </div>
+      </div>
+    </section>
   );
 }
 

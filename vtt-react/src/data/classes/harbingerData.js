@@ -89,18 +89,18 @@ export const HARBINGER_DATA = {
   },
 
   thrask_solari: {
-   subraceName: 'Anhur',
+   subraceName: 'Ashen',
    title: 'The Dying-Light Doomsayer',
-   reframe: `The <LoreLink termId="solari">Anhur</LoreLink> forge-clans read Sol's Breath the way other cultures read a sky, and the reading has been getting worse for three generations. A Anhur Harbinger does not need star-arithmetic or a dead world's memory; they have a forge that breathes less every decade and a caldera that gives a little less heat every winter. They take the vent-readings, run the arithmetic, and publish numbers the Dawn Vigil calls heresy and the Scoured read too closely. The countdown is not prophecy to them. It is bookkeeping.`,
+   reframe: `The <LoreLink termId="solari">Ashen</LoreLink> forge-clans read Sol's Breath the way other cultures read a sky, and the reading has been getting worse for three generations. An Ashen Harbinger does not need star-arithmetic or a dead world's memory; they have a forge that breathes less every decade and a caldera that gives a little less heat every winter. They take the vent-readings, run the arithmetic, and publish numbers the Dawn Vigil calls heresy and the Scoured read too closely. The countdown is not prophecy to them. It is bookkeeping.`,
    signatureAbility: {
    name: 'Caldera-Countdown',
-   description: `Mayhem scales with ambient heat-loss: the cooling vents, the dying forges, the dusk of a winter day. The colder the surroundings, the faster the arithmetic runs, an inversion of every forge-clan instinct, because the Anhur measure the end in degrees the way a smith measures steel in degrees.`
+   description: `Mayhem scales with ambient heat-loss: the cooling vents, the dying forges, the dusk of a winter day. The colder the surroundings, the faster the arithmetic runs, an inversion of every forge-clan instinct, because the Ashen measure the end in degrees the way a smith measures steel in degrees.`
    },
-   currentCrisisAngle: `The caldera is cooling, and the Doomsayers' published vent-readings keep matching the Choir's own models, which is exactly what the Dawn Vigil cannot forgive: a heresy that agrees with the math. Some Anhur forge-clans have begun keeping two sets of readings, one for the Vigil and one for themselves, and the difference between the sets is growing.`,
+   currentCrisisAngle: `The caldera is cooling, and the Doomsayers' published vent-readings keep matching the Choir's own models, which is exactly what the Dawn Vigil cannot forgive: a heresy that agrees with the math. Some Ashen forge-clans have begun keeping two sets of readings, one for the Vigil and one for themselves, and the difference between the sets is growing.`,
    signatureQuote: {
    text: '"The forge used to breathe. Now it counts. I am only writing down what it says."',
    speaker: 'Vent-Reader Thass Cinder-Quill',
-   context: 'A Anhur Harbinger, publishing vent-readings the Vigil has ordered suppressed'
+   context: 'An Ashen Harbinger, publishing vent-readings the Vigil has ordered suppressed'
    }
   }
  },
@@ -138,7 +138,7 @@ export const HARBINGER_DATA = {
     { region: 'frostwood-reach', status: 'hunted', consequence: 'Tallyn militias view Harbingers as living curses whose countdown prophecies invite immediate Wyrd incursions.', workaround: 'Keep prophecies silent until weapons are drawn.' },
     { region: 'bryngloom-forest', status: 'monitored', consequence: 'Atropolis contract-scholars constantly audit Harbinger Mayhem meters to ensure no uncontained Wild Surges shatter civil wards.', workaround: 'Submit to weekly probability containment dampeners.' },
     { region: 'sundale', status: 'banned', consequence: 'Forge-masters refuse entry to Harbingers, fearing entropic friction will shatter starlight cooling crucibles.', workaround: 'Travel cloaked in the outer slums.' },
-    { region: 'emberspire', status: 'tolerated', consequence: 'Anhur cultists respect entropic catastrophe as a sibling to volcanic fire, employing Harbingers as perimeter doom-callers.', workaround: 'Participate in the ritual ember-chants.' }
+    { region: 'emberspire', status: 'tolerated', consequence: 'Ashen cultists respect entropic catastrophe as a sibling to volcanic fire, employing Harbingers as perimeter doom-callers.', workaround: 'Participate in the ritual ember-chants.' }
   ],
 
   overview: {
@@ -160,7 +160,7 @@ Native only to Skald, Kordak. Any other people named or implied above walk this 
    illustrations: [
      { url: "/assets/images/classes/harbinger_stargazer_astril.jpg", subraceId: "vashir_astril", caption: "Lumian Harbinger — The Entropy-Symphony, drawing glowing star-alignments and dying planetary orbits with a sleek brass telescope." },
      { url: "/assets/images/classes/harbinger_skald_human.jpg", subraceId: "skald_human", caption: "Skald Human Harbinger — The Doom-Scribe, carving differential equations of solar extinction onto an alpine stone slab with an ivory stylus." },
-     { url: "/assets/images/classes/harbinger_waste_solari.jpg", subraceId: "thrask_solari", caption: "Anhur Harbinger — The Dying-Light Doomsayer, driving a brass thermal probe into a cooling basalt fissure to tally heat loss on an obsidian slate." },
+     { url: "/assets/images/classes/harbinger_waste_solari.jpg", subraceId: "thrask_solari", caption: "Ashen Harbinger — The Dying-Light Doomsayer, driving a brass thermal probe into a cooling basalt fissure to tally heat loss on an obsidian slate." },
      { url: "/assets/images/classes/harbinger_brutish_astril.jpg", subraceId: "silath_astril", caption: "Kordak Harbinger — The Geomantic Void-Seer, crushing obsidian shards in his fist and drawing geometric doom alignments in the earth." },
      { url: "/assets/images/classes/harbinger_tessen_human.jpg", subraceId: "tessen_human", caption: "Tessic Human Harbinger — The Doomsayer, holding aloft the iron hourglass of extinction and heralding the end of days." }
    ],

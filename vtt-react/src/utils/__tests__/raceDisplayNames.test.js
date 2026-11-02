@@ -29,8 +29,10 @@ describe('raceDisplayNames', () => {
             expect(normalizeRaceDisplayName('Oken')).toBe('Oaken');
             expect(normalizeRaceDisplayName('Ithran')).toBe('Amordjin');
             expect(normalizeRaceDisplayName('Hollow-Solari')).toBe('Korr');
-            expect(normalizeRaceDisplayName('Waste-Solari')).toBe('Anhur');
-            expect(normalizeRaceDisplayName('Ragnohl')).toBe('Anhur');
+            expect(normalizeRaceDisplayName('Waste-Solari')).toBe('Ashen');
+            expect(normalizeRaceDisplayName('Ragnohl')).toBe('Ashen');
+            expect(normalizeRaceDisplayName('Anhur')).toBe('Ashen');
+            expect(normalizeRaceDisplayName('Ajan')).toBe('Ashen');
             expect(normalizeRaceDisplayName('Clean Vreken')).toBe('Bedel');
             expect(normalizeRaceDisplayName('Clean Mycellan')).toBe('Bedel');
             expect(normalizeRaceDisplayName('Marked')).toBe('Cromyx');
@@ -41,6 +43,8 @@ describe('raceDisplayNames', () => {
         it('passes current canon and unknown names through unchanged', () => {
             expect(normalizeRaceDisplayName('Tallyn')).toBe('Tallyn');
             expect(normalizeRaceDisplayName('Lumian')).toBe('Lumian');
+            expect(normalizeRaceDisplayName('Ashen')).toBe('Ashen');
+            expect(normalizeRaceDisplayName('Korr')).toBe('Korr');
             expect(normalizeRaceDisplayName('')).toBe('');
             expect(normalizeRaceDisplayName(null)).toBeNull();
         });

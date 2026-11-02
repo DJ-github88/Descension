@@ -3,6 +3,72 @@
 import { getClassResourceConfig, initializeClassResource, getAllClassNames } from '../data/classResources';
 import { normalizeManagedClassResource } from '../data/classResourceContracts';
 
+/**
+ * Validates whether a value is a legitimate finite number or numeric string.
+ * Excludes booleans, null, undefined, empty strings, arrays, objects, NaN.
+ */
+function isValidNumericValue(val) {
+    if (val === null || val === undefined || typeof val === 'boolean') return false;
+    if (typeof val === 'number') return Number.isFinite(val);
+    if (typeof val === 'string') {
+        const trimmed = val.trim();
+        if (trimmed === '') return false;
+        const num = Number(trimmed);
+        return Number.isFinite(num);
+    }
+    return false;
+}
+
+/**
+ * Resolves a class resource value according to the canonical precedence contract:
+ * 1. Primitive number input: used directly if finite, clamped to [min, max].
+ * 2. Missing/null input: falls back to class default starting value.
+ * 3. Canonical `current` field: takes precedence over any class alias.
+ *    - Valid numeric: clamped to [min, max].
+ *    - Malformed: falls back to 0 (never silently masked by a stale alias).
+ * 4. Legacy-only alias fallback: only evaluated if `current` is genuinely absent.
+ * 5. Default starting value fallback if no valid/legacy fields are present.
+ */
+export function resolveCanonicalResourceValue(resource, { min = 0, max = Infinity, fallback = 0, aliases = [], round = null } = {}) {
+    const applyRound = typeof round === 'function' ? round : (val) => val;
+
+    // 1. Primitive number input (legacy / direct prop)
+    if (typeof resource === 'number') {
+        return Number.isFinite(resource)
+            ? Math.max(min, Math.min(max, applyRound(resource)))
+            : fallback;
+    }
+
+    // 2. Missing / null input
+    if (!resource || typeof resource !== 'object') {
+        return fallback;
+    }
+
+    // 3. Canonical `current` field takes precedence
+    if ('current' in resource && resource.current !== undefined) {
+        if (isValidNumericValue(resource.current)) {
+            return Math.max(min, Math.min(max, applyRound(Number(resource.current))));
+        }
+        // Malformed canonical value: follow validation policy (0), do not silently mask with alias
+        return 0;
+    }
+
+    // 4. Legacy-only alias fallback (when canonical current is absent)
+    for (const aliasKey of aliases) {
+        const aliasVal = resource[aliasKey];
+        if (aliasVal !== undefined) {
+            if (isValidNumericValue(aliasVal)) {
+                return Math.max(min, Math.min(max, applyRound(Number(aliasVal))));
+            }
+            // Malformed alias value: fallback to 0
+            return 0;
+        }
+    }
+
+    // 5. Default when no known property is present
+    return fallback;
+}
+
 // Test function to verify all class configurations are valid
 export const validateAllClassConfigurations = () => {
     const allClasses = getAllClassNames();
@@ -156,6 +222,7 @@ const classResourceUtils = {
     validateAllClassConfigurations,
     testClassResourceUpdates,
     getClassResourceSummary,
-    simulateClassResourceEffect
+    simulateClassResourceEffect,
+    resolveCanonicalResourceValue
 };
 export default classResourceUtils;

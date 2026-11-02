@@ -14,6 +14,7 @@ import { createInventoryItem } from '../utils/equipmentUtils';
 import { CAPABILITY, eligiblePieces, declarationEntry, firstAvailable, buildAttack, planBlockCommand, blockReceipt, acceptedBlockText, recordBlockFace } from './equipmentBlocking';
 import { normalizeCustody, findEntry, sameRef, canDeclare, recordDeclaration, applyWearReceipt, reconcileHome, resolveConflict, completeUnequip, pendingUnequips, pruneForCapacity, hasCapacityFor } from './blockingCustody';
 import { chatLineFor } from './acceptedResultFeed';
+import { directKindOf } from './authoredEffect';
 import { onRoomRejoined } from './roomRejoinBus';
 
 export const useBlockingStore = create(() => ({ ownView: null, offers: {}, ownerStatus: null, ownerOpen: false, gmOffers: {}, gmPending: {}, gmStatus: {}, gmViews: {}, notice: null, closedOffers: [] }));
@@ -267,6 +268,7 @@ export async function withdrawBlock() {
 }
 
 // ── GM: attack offer and approval-bound command ────────────────────────────
+const GATE_CODES = ['bundle_block_manual_adjudication', 'bundle_zero_damage_unsupported'];
 export async function gmOfferBlock(form) {
   const context = blockingContext(), delivery = captureActorDelivery();
   if (!game().isGMMode || !context.current()) throw Error('Current GM required.');
@@ -300,9 +302,14 @@ export async function gmCheckOffer(commandId) {
   }
   const result = await requestActorEvent('actor_block_offer', { roomId: context.roomId, commandId, attack });
   if (!context.current()) return null;
+  if (!result.success && GATE_CODES.includes(result.code)) {
+    // M3A temporary gates refuse atomically and the server stores no offer: drop the empty 'offering' placeholder so the GM keeps the exact attempt and faces and can adjudicate manually or change the proposal.
+    const gm = { ...(loadBlockingCustody(context)?.gm || {}) }; delete gm[commandId]; retain(context, { gm });
+    const error = Error(`Offer refused (${result.code}). ${result.error}`); error.code = result.code; throw error;
+  }
   if (!result.success) {
-    keepGm(context, commandId, { phase: ['outcome_unknown', 'room_connection_unavailable'].includes(result.code) ? 'unknown' : 'refused', attack, code: result.code, message: `Original offer unresolved/refused (${result.code}); retain its identity.` });
-    throw Error(`Offer refused (${result.code}).`);
+    keepGm(context, commandId, { phase: ['outcome_unknown', 'room_connection_unavailable'].includes(result.code) ? 'unknown' : 'refused', attack, code: result.code, message: `Original offer unresolved/refused (${result.code})${result.error && result.error !== result.code ? `: ${result.error}` : ''}; retain its identity.` });
+    throw Error(`Offer refused (${result.code}).${result.error && result.error !== result.code ? ` ${result.error}` : ''}`);
   }
   const offer = { commandId, attack: result.attack, attackHash: result.attackHash };
   retain(context, { gm: { ...(loadBlockingCustody(context)?.gm || {}), [commandId]: { phase: 'offered', attack, offer } } });
@@ -314,8 +321,8 @@ export async function gmOfferAuthoredAbility(attempt, { proposedAmount, blockApp
   if (!source || !target?.state?.actorContract?.primary) throw Error('Exact primary target required.');
   const attack = { capability: 'p12b-attack:v1', source: attempt.source, target: attempt.target, sourceRevision: source.state.actorContract.revision,
     ability: { id: attempt.spell.definitionId, name: attempt.spell.name }, roll: { mode: attempt.roll.mode, dice: attempt.roll.reading, faces: attempt.roll.dice.flatMap(g => g.faces) },
-    outcome: 'hit', damageType: attempt.spell.kind === 'healing' ? 'healing' : attempt.spell.damageTypes[0], proposedDamage: Number(proposedAmount), apCost: attempt.price.ap,
-    authored: { attempt, targetRevision: target.state.actorContract.revision, blockApplicable: attempt.spell.kind === 'damage' && blockApplicable === true, ruling: String(ruling).trim(), targeting } };
+    outcome: 'hit', damageType: directKindOf(attempt) === 'healing' ? 'healing' : attempt.spell.damageTypes[0], proposedDamage: Number(proposedAmount), apCost: attempt.price.ap,
+    authored: { attempt, targetRevision: target.state.actorContract.revision, blockApplicable: directKindOf(attempt) === 'damage' && blockApplicable === true, ruling: String(ruling).trim(), targeting } };
   return gmOfferBlock({ source: attempt.source, target: attempt.target, authoredAttack: attack });
 }
 export async function gmReadDeclaration(ref) {

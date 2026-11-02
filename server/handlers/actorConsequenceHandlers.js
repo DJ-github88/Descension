@@ -415,7 +415,12 @@ function registerActorConsequenceHandlers(ctx) {
     if (approval.actionEpoch !== actors.epoch(room)) {actors.fail('outcome_unknown');}
     payments.checkWindow(room, approval);
     const entry = payments.add(room, { approval: actors.clone(approval), contentHash, ownerUid: uid, ...(selfState ? { selfState } : {}) });
-    toGm(room, 'actor_spell_pending', { roomId: room.id, approval: payments.gmProjection(entry), contentHash, submitterUid: uid });
+    // M3A: beneficial content aimed at a player character always asks that character's owner. The record is server-derived, never an owner/client flag.
+    if (payments.targetConsent(entry.approval) === 'required') {
+      payments.ensureTargetPolicy(entry, room.gmId);
+      toUid(room, entry.approval.target.ownerUid, 'actor_spell_target_pending', { roomId: room.id, proposal: payments.targetProposal(entry) });
+    }
+    toGm(room, 'actor_spell_pending', { roomId: room.id, approval: payments.gmProjection(entry), contentHash, submitterUid: uid, ...(entry.targetPolicy ? { targetProposal: payments.targetProposal(entry) } : {}) });
     respond(ack, { success: false, code: 'awaiting_gm', approvalId: approval.approvalId, contentHash });
   });
   run('actor_spell_withdraw', async(data, ack) => {
@@ -481,13 +486,12 @@ function registerActorConsequenceHandlers(ctx) {
     const captured = context(data.roomId), { room } = captured;
     if (!captured.isGM) actors.fail('forbidden');
     const entry = payments.get(room, data.approvalId);
-    if (!entry || entry.contentHash !== data.contentHash || entry.approval.target.kind !== 'character' || !require('../shared/services/authoredCondition').isCondition(entry.approval)) actors.fail('target_proposal_changed');
+    if (!entry || entry.contentHash !== data.contentHash || payments.targetConsent(entry.approval) === 'none') actors.fail('target_proposal_changed');
     await confirm(captured);
     if (payments.get(room, data.approvalId) !== entry) actors.fail('outcome_unknown');
     payments.checkAgainstRoom(room, entry.approval);
     if (entry.targetPolicy && entry.targetPolicy.gmUid !== room.gmId) actors.fail('target_proposal_changed');
-    if (!entry.targetPolicy) entry.targetPolicy = { mode: 'voluntary', gmUid: captured.uid, proposalId: require('crypto').randomUUID(),
-      sourceHandle: require('crypto').randomUUID(), termsHash: require('crypto').randomBytes(32).toString('hex'), bindingHash: actors.hash(payments.targetTerms(entry)) };
+    payments.ensureTargetPolicy(entry, captured.uid);
     const proposal = payments.targetProposal(entry);
     toUid(room, entry.approval.target.ownerUid, 'actor_spell_target_pending', { roomId: room.id, proposal });
     respond(ack, { success: true, proposal });
@@ -809,7 +813,7 @@ function registerActorConsequenceHandlers(ctx) {
     check();
     const offer = blocks.addOffer(room, data.commandId, data.attack, blocks.sourceBaseline(room, data.attack.source));
     const payload = { roomId: room.id, commandId: offer.commandId, attack: actors.clone(offer.attack), attackHash: offer.attackHash };
-    toUid(room, data.attack.target.ownerUid, 'actor_block_offered', payload);
+    toUid(room, data.attack.target.ownerUid, 'actor_block_offered', { ...payload, attack: blocks.ownerAttack(offer.attack) });
     respond(ack, { success: true, ...payload });
   });
   run('actor_block_approve', async(approval, ack) => {
@@ -917,7 +921,7 @@ function registerActorConsequenceHandlers(ctx) {
     const own = blocks.pendingFor(room, uid);
     if (own) {pending.push({ approval: actors.clone(own.approval), contentHash: own.contentHash, own: true });}
     for (const offer of blocks.listOffers(room)) {
-      if (player.isGM || offer.attack.target.ownerUid === uid) {offered.push({ commandId: offer.commandId, attack: actors.clone(offer.attack), attackHash: offer.attackHash });}
+      if (player.isGM || offer.attack.target.ownerUid === uid) {offered.push({ commandId: offer.commandId, attack: player.isGM ? actors.clone(offer.attack) : blocks.ownerAttack(offer.attack), attackHash: offer.attackHash });}
     }
     if (player.isGM) {
       for (const entry of blocks.listAll(room)) {pending.push({ approval: actors.clone(entry.approval), contentHash: entry.contentHash, submitterUid: entry.ownerUid });}

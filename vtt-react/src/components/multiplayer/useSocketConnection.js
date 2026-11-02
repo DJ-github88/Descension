@@ -116,13 +116,13 @@ export function setupSocketConnection({
         authToken = await authState.user.getIdToken();
       } else if (allowDevToken && authState.user && !authState.user.isGuest) {
         authToken = `dev-token-${authState.user.uid || 'admin-dev-user'}`;
-      } else if (allowDevToken && (authState.isDevelopmentBypass || authState.isAdminBypass || authState.isAuthenticated)) {
+      } else if (allowDevToken && !authState.user?.isGuest && (authState.isDevelopmentBypass || authState.isAdminBypass || authState.isAuthenticated)) {
         authToken = `dev-token-${authState.user?.uid || 'admin-dev-user'}`;
       }
     } catch (error) {
       console.warn('Could not get auth token for socket:', error);
       const authState = useAuthStore.getState();
-      if (allowDevToken && authState.user?.uid) {
+      if (allowDevToken && authState.user?.uid && !authState.user?.isGuest) {
         authToken = `dev-token-${authState.user.uid}`;
       }
     }
@@ -497,7 +497,7 @@ export function setupAuthChangeHandler({
         authToken = await authState.user.getIdToken(true);
       } else if (allowDevToken && authState.user && !authState.user?.isGuest) {
         authToken = `dev-token-${authState.user.uid || 'admin-dev-user'}`;
-      } else if (allowDevToken && (authState.isDevelopmentBypass || authState.isAdminBypass || authState.isAuthenticated)) {
+      } else if (allowDevToken && !authState.user?.isGuest && (authState.isDevelopmentBypass || authState.isAdminBypass || authState.isAuthenticated)) {
         authToken = `dev-token-${authState.user?.uid || 'admin-dev-user'}`;
       }
 

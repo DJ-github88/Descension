@@ -9,17 +9,18 @@ import {
   pageFrame,
   washed
 } from './calmBarPalette';
+import { resolveCanonicalResourceValue } from '../../utils/classResourceUtils';
 
 const COVENBANE_ACCENT = '#4b5563';
 
 export default function CovenbaneResourceDisplay({ resource = null, isOwner = false }) {
-  const rawValue = typeof resource === 'number'
-    ? resource
-    : (resource?.charges ?? resource?.current ?? resource?.value ?? 0);
-  const parsedNum = Number(rawValue);
-  const charges = Number.isFinite(parsedNum)
-    ? Math.max(0, Math.min(6, Math.floor(parsedNum)))
-    : 0;
+  const charges = resolveCanonicalResourceValue(resource, {
+    min: 0,
+    max: 6,
+    fallback: 0,
+    aliases: ['charges', 'value'],
+    round: Math.floor
+  });
 
   const frame = pageFrame(240, 48);
   const titleText = `Hexbreaker Charges: ${charges}/6`;

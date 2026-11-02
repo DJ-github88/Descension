@@ -10,7 +10,8 @@ export default function AuthoredAdmission({ spell, sourceRef }) {
   const roomId = useGameStore(s => s.multiplayerRoom?.id);
   const entries = useSpellConsequenceStore(s => s.authoredRoomId === roomId ? s.authoredEntries : null) || [];
   const sources = useSpellConsequenceStore(s => s.creatureSources) || [];
-  const [classId, setClassId] = useState('arcanoneer'), [busy, setBusy] = useState(false), [message, setMessage] = useState('');
+  const catalogue = spell.catalogueSource;
+  const [classId, setClassId] = useState(catalogue?.classId || 'arcanoneer'), [busy, setBusy] = useState(false), [message, setMessage] = useState('');
   if (!spell.authoredDraft) return null;
   const support = definitionFromWizard(spell, { roomId, classId, definitionVersion: 1 });
   const grant = sourceRef && sources.find(e => canonical(e.source) === canonical(sourceRef))?.admission;
@@ -32,7 +33,8 @@ export default function AuthoredAdmission({ spell, sourceRef }) {
     {sourceRef && <p>Exact creature-source admission · {sourceRef.mapId} / {sourceRef.tokenId} · incarnation {sourceRef.instanceId}. No PC owner approval.</p>}
     {support.definition?.effects && <p>{definitionSummary(support.definition)}. {!sourceRef ? 'Explicit PC admission: one primary owner PC → one distinct creature; the owner approves the exact price, target, effects and duration; the GM confirms success and any final amount.' : 'Exact creature source → one distinct creature; the GM confirms success and any final amount.'} Structured expiry needs active authenticated turn tracking.</p>}
     {support.definition?.effect?.kind === 'condition' && !sourceRef && <p>Explicit PC admission for this existing binding: one primary owner PC → distinct creature, owner-approved price/duration, GM-confirmed success, manual removal. Creature Inspect admission alone does not authorize PC use.</p>}
-    {shared && gm && <>{!sourceRef && <label>Existing class binding <select value={classId} disabled={busy} onChange={e => setClassId(e.target.value)}>{CLASS_IDS.map(id => <option key={id}>{id}</option>)}</select></label>}
+    {catalogue && <p>Catalogue source <strong>{catalogue.spellId}</strong> ({catalogue.classId}); the whole record is preserved. {support.definition?.targetRoute === 'primary-pc-healing' ? 'The target owner must accept the exact healing amount; source payment consent remains separate.' : ''}</p>}
+    {shared && gm && <>{!sourceRef && !catalogue && <label>Existing class binding <select value={classId} disabled={busy} onChange={e => setClassId(e.target.value)}>{CLASS_IDS.map(id => <option key={id}>{id}</option>)}</select></label>}
       <button type="button" disabled={busy || !support.ok} onClick={() => perform(false)}>{sourceRef ? 'Admit for this creature' : 'Admit this saved version'}</button>
       <button type="button" disabled={busy} onClick={() => perform(true)}>Check original admission</button></>}
     {sourceRef && shared && gm && installed && !installed.revoked && <button type="button" disabled={busy} onClick={async () => { setBusy(true); try { await changeAuthoredAdmission('revoke', installed.definitionRef); } finally { setBusy(false); } }}>Revoke this version</button>}

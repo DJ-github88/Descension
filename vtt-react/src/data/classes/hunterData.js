@@ -667,7 +667,7 @@ export const HUNTER_DATA = {
       title: 'A prepared opening, not a magical mark',
       content: 'Hunter is the proposed successor direction for Apex. It does not inherit Apex marks, companion powers or sensory loss. Legacy Apex characters keep their exact IDs and state.'
     },
-    currentCrisis: 'Development class; no native heritage access is registered. Skald, Ordu, Arch Mimir, Broken Mimir, Cromyx, Anhur and Nereid field traditions are recommendations pending approval.'
+    currentCrisis: 'Development class; no native heritage access is registered. Skald, Ordu, Arch Mimir, Broken Mimir, Cromyx, Ashen and Nereid field traditions are recommendations pending approval.'
   },
   characterCreation: {
     title: 'Hunter',

@@ -10,11 +10,15 @@ import {
   GOOD,
   pageFrame
 } from './calmBarPalette';
+import { resolveCanonicalResourceValue } from '../../utils/classResourceUtils';
 
 export default function DreadnaughtResourceDisplay({ resource = null, isOwner = false }) {
-  const psi = typeof resource === 'number'
-    ? Math.max(0, Math.min(100, resource))
-    : Math.max(0, Math.min(100, Number(resource?.psi ?? resource?.pressure ?? resource?.value ?? 20)));
+  const psi = resolveCanonicalResourceValue(resource, {
+    min: 0,
+    max: 100,
+    fallback: 20,
+    aliases: ['psi', 'pressure', 'value']
+  });
 
   const frame = pageFrame(240, 48);
   const isOverheat = psi >= 90;

@@ -83,3 +83,29 @@ test('narration explains the bundle once; floats are HP-only from exact deltas',
   expect(describeEffect(approval.effectTerms)).toMatch(/ember damage 1d6\+2 \+ canonical Stunned/);
   expect(isStunned(recordFor(approval))).toBe(true);
 });
+
+describe('M3A pcConsent: each composition has exactly one governing consent rule', () => {
+  const { pcConsent, consentText } = require('../authoredEffect');
+  const t = (direct, condition) => ({ direct, condition, timing: { expiryPolicy: 'gm-manual', durationText: 'x' } });
+  const dmg = { kind: 'damage', formula: '1d6', damageTypes: ['ember'] }, heal = { kind: 'healing', formula: '1d4' };
+  const stun = { kind: 'stunned' }, slow = { kind: 'movement', feet: -10, label: 'Slow' }, fast = { kind: 'movement', feet: 10, label: 'Fast' };
+  test('route and acceptance classification', () => {
+    expect(pcConsent(t(null, stun), 'creature')).toMatchObject({ ok: true, a5: false, designatable: true, acceptanceRequired: false });
+    expect(pcConsent(t(null, fast), 'character')).toMatchObject({ ok: true, a5: false, acceptanceRequired: true, designatable: false });
+    expect(pcConsent(t(dmg, stun), 'creature')).toMatchObject({ ok: true, a5: true }); expect(pcConsent(t(dmg, slow), 'character')).toMatchObject({ ok: true, a5: false, designatable: true });
+    expect(pcConsent(t(heal, fast), 'creature')).toMatchObject({ ok: true, a5: true }); expect(pcConsent(t(heal, fast), 'character')).toMatchObject({ ok: true, acceptanceRequired: true });
+  });
+  test('conflicting and undefined combinations refuse whole with a plain reason', () => {
+    for (const source of ['creature', 'character']) {
+      expect(pcConsent(t(dmg, fast), source).code).toBe('pc_target_consent_conflict'); expect(pcConsent(t(heal, stun), source).code).toBe('pc_target_consent_conflict_heal'); expect(pcConsent(t(heal, slow), source).code).toBe('pc_target_consent_conflict_heal');
+    }
+    expect(pcConsent(t(null, { kind: 'x' }), 'creature').code).toBe('pc_target_effect_unsupported'); expect(pcConsent(t(null, stun), 'item').code).toBe('pc_target_effect_unsupported');
+    expect(consentText(pcConsent(t(dmg, fast), 'creature'))).toMatch(/Refused whole/);
+  });
+  test('owner-facing text names the governing rule', () => {
+    expect(consentText(pcConsent(t(dmg, stun), 'creature'))).toMatch(/block with a declared piece or take it without blocking/);
+    expect(consentText(pcConsent(t(heal, fast), 'creature'))).toMatch(/explicitly accept this healing/);
+    expect(consentText(pcConsent(t(null, fast), 'character'))).toMatch(/silence or a GM proxy never accepts/);
+    expect(consentText(pcConsent(t(null, stun), 'character'))).toMatch(/Hostile by default/);
+  });
+});

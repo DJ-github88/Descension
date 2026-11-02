@@ -18,7 +18,7 @@ export const doomsayerResourceGuide = {
   weaveIn: [
     { text: 'Two core grants and forty optional records keep declarations public, clocked and finite.', tab: 'spells', tabLabel: 'browse the spellbook' },
     { text: 'Requiem, Endbringer and Forewarner each have a signature and capstone with same-tree gates.', tab: 'specializations', tabLabel: 'compare the three paths' },
-    { text: 'Doomsayer has no registered native heritage edge. Skald, Anhur and Tessic are recommendations only; the four acquisition requirements must be recorded.' }
+    { text: 'Doomsayer has no registered native heritage edge. Skald, Ashen and Tessic are recommendations only; the four acquisition requirements must be recorded.' }
   ],
   quickStart: {
     title: 'The First Calamity',

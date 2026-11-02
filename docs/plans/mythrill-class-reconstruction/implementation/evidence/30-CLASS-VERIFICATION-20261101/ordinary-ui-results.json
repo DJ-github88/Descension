@@ -1,0 +1,43 @@
+{
+  "startedAt": "2026-11-02T19:08:45.919Z",
+  "testSuite": "Three-Class Canonical Resource Contract — Ordinary UI & Live Gain/Consume Witness",
+  "authTriage": {
+    "status": "BLOCKED_BY_PRODUCTION_AUTH_DEFECT",
+    "exactGap": "Guest sign-in fails due to two independent unpatched bugs in authStore.js: (1) initializeAuth calls non-existent actions.setIsAuthenticated at line 782; (2) signInAsGuest self-rejects with superseded-by-newer-auth at line 349 when Firebase onAuthStateChanged triggers setUser and increments authIntentSeq.",
+    "routeGuardPreserved": true,
+    "protectedRouteRedirectObserved": true,
+    "userProfilesPreserved": true,
+    "redirectUrl": "http://127.0.0.1:4199/"
+  },
+  "liveGainConsumeWitness": {
+    "covenbane": {
+      "initial": "Hexbreaker Charges: 0/6",
+      "afterGain1": "Hexbreaker Charges: 1/6",
+      "afterGainMax": "Hexbreaker Charges: 6/6",
+      "afterConsume2": "Hexbreaker Charges: 4/6",
+      "explicitZeroPreserved": "Hexbreaker Charges: 0/6"
+    },
+    "exorcist": {
+      "initial": "Purification Sanctity: 3/10",
+      "afterGain2": "Purification Sanctity: 5/10",
+      "depleted": "Purification Sanctity: 0/10",
+      "explicitZeroPreserved": "Purification Sanctity: 0/10"
+    },
+    "dreadnaught": {
+      "initial": "Furnace Pressure: 20 PSI (IDLE)",
+      "working55": "Furnace Pressure: 55 PSI (WORKING)",
+      "supercharged75": "Furnace Pressure: 75 PSI (SUPERCHARGED)",
+      "overheat95": "Furnace Pressure: 95 PSI (OVERHEAT)",
+      "vent0": "Furnace Pressure: 0 PSI (IDLE)",
+      "explicitZeroPreserved": "Furnace Pressure: 0 PSI (IDLE)"
+    }
+  },
+  "screenshots": [
+    {
+      "filename": "ordinary-ui-auth-blocked.png",
+      "description": "Landing page showing guest login redirect / unauthenticated route protection"
+    }
+  ],
+  "status": "SUCCESS",
+  "completedAt": "2026-11-02T19:08:54.839Z"
+}

@@ -220,7 +220,7 @@ export const WARDEN_DATA = {
     { region: 'bryngloom-forest', status: 'employed', consequence: 'Atropolis bailiffs contract Wardens to chain and drag dangerous fugitives and rogue entities into subterranean vaults.', workaround: 'Show bounty warrants to gate-sentinels.' },
     { region: 'frostwood-reach', status: 'distrusted', consequence: 'Tallyn hunters consider chain-tethering cruel and dangerous, fearing dragged monsters will destroy civilian livestock.', workaround: 'Avoid civilian pathways while escorting bound quarries.' },
     { region: 'sundale', status: 'revered', consequence: 'Forge-masters supply Wardens with hardened starlight-steel links to anchor caldera breach-monsters.', workaround: 'None needed in garrison districts.' },
-    { region: 'emberspire', status: 'allied', consequence: 'Anhur guards fight alongside Wardens, using iron chains to anchor giant magma-beasts in place.', workaround: 'Share captured quarry meat with local outposts.' }
+    { region: 'emberspire', status: 'allied', consequence: 'Ashen guards fight alongside Wardens, using iron chains to anchor giant magma-beasts in place.', workaround: 'Share captured quarry meat with local outposts.' }
   ],
 
   overview: {

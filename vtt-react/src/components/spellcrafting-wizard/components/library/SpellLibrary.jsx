@@ -27,6 +27,7 @@ import {
 
 import SpellContextMenu from './SpellContextMenu';
 import AuthoredAdmission from './AuthoredAdmission';
+import CataloguePreparation from './CataloguePreparation';
 import ConfirmationDialog from '../../../item-generation/ConfirmationDialog';
 import ShareToCommunityDialog from './ShareToCommunityDialog';
 import useSpellbookStore from '../../../../store/spellbookStore';
@@ -897,7 +898,9 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
    debuffConfig: spell.debuffConfig || null,
    controlConfig: spell.controlConfig || null,
    utilityConfig: spell.utilityConfig || null,
-   summonConfig: spell.summonConfig || spell.summoningConfig || null,
+   // Same precedence as Wizard reopen, spellNormalizer and UnifiedSpellCard: summoningConfig first, legacy summonConfig as fallback.
+   // Display-only: the stored record keeps both names exactly as saved.
+   summonConfig: spell.summoningConfig || spell.summonConfig || null,
    transformationConfig: spell.transformationConfig || null,
    purificationConfig: spell.purificationConfig || null,
    restorationConfig: spell.restorationConfig || null,
@@ -2709,7 +2712,8 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
        showTags={true}
        rollableTableData={getSpellRollableTable(selectedSpell)}
        />
-       <AuthoredAdmission spell={selectedSpell} />
+      <CataloguePreparation spell={selectedSpell} onLoadSpell={onLoadSpell} />
+      <AuthoredAdmission spell={selectedSpell} />
       <div className="spell-detail-actions" style={{
         display: 'flex',
         gap: '10px',

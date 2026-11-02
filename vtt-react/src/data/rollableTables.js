@@ -161,7 +161,7 @@ const ROLLABLE_TABLES = {
     icon: '🍺',
     die: 'd12',
     entries: [
-      { min: 1, max: 1, result: 'Anhur rotgut, 5 cp, burns going down, warms a border-ranger\'s night' },
+      { min: 1, max: 1, result: 'Ashen rotgut, 5 cp, burns going down, warms a border-ranger\'s night' },
       { min: 2, max: 2, result: 'Skald glacier-mead, 1 sp, served near-freezing, bloodline-bitter' },
       { min: 3, max: 3, result: 'Merrowport salt-ale, 3 cp, tastes of the Iceheart, never the same barrel twice' },
       { min: 4, max: 4, result: 'Sundari ash-wine, 2 sp, dark as the caldera, traded by Solari caravans' },

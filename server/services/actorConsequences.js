@@ -216,6 +216,9 @@ function publicCondition(record) {
     } else if (value === null || ['string', 'boolean'].includes(typeof value) || (typeof value === 'number' && Number.isFinite(value))) {out[key] = value;}
   }
   if (record.target?.kind === 'character' && String(record.sourceEntityId || '').startsWith('authored-condition:')) delete out.sourceActor;
+  // M3A: an authored effect on a player character hides its concealed source and ability identity exactly as A9 does.
+  // The public record stays a valid canonical record (the browser rebuilds it without either field to read the speed).
+  if (record.target?.kind === 'character' && String(record.sourceEntityId || '').startsWith('authored-effect:')) { delete out.sourceActor; delete out.effectDefinition; }
   return out;
 }
 function publicContract(contract) {
@@ -269,6 +272,14 @@ function publicReceipt(receipt) {
       // Same privacy as A7: the GM's timing note is public only on the creature-source route.
       c.resolution = { gmConfirmed: r.gmConfirmed, ...(receipt.source?.kind === 'creature' && receipt.target?.kind !== 'character' ? { timingNote: r.timingNote } : {}), timing: Object.assign({ durationText: r.timing.durationText, expiryPolicy: r.timing.expiryPolicy }, r.timing.occurrences !== undefined ? { occurrences: r.timing.occurrences } : {}) };
       out.adjudication.chosenResult = JSON.stringify(c);
+      if (receipt.target?.kind === 'character') {
+        // M3A: same concealment as A9 — no source, no ability identity, no private timing note, only the target's own result.
+        c.spellName = 'GM-resolved effect'; delete c.roll; delete c.resolution.timingNote;
+        delete out.source;
+        out.adjudication.definitionId = 'authored-effect:undisclosed';
+        out.adjudication.definitionVersionOrHash = 'authored-effect:v1/undisclosed';
+        out.adjudication.chosenResult = JSON.stringify(c);
+      }
     } catch (_) { out.readOnly = true; delete out.adjudication.chosenResult; }
     delete out.contentHash; delete out.authorization.approvalHash;
   }
@@ -277,7 +288,9 @@ function publicReceipt(receipt) {
       const chosen = JSON.parse(out.adjudication.chosenResult);
       if (chosen.attack?.authored) {
         const a = chosen.attack.authored;
-        chosen.attack.authored = { kind: a.attempt.spell.kind, price: a.attempt.price, blockApplicable: a.blockApplicable, ruling: a.ruling };
+        chosen.attack.authored = { kind: a.attempt.spell.kind, price: a.attempt.price, blockApplicable: a.blockApplicable, ruling: a.ruling,
+          ...(a.attempt.spell.kind === 'effect' ? { direct: a.attempt.effectTerms.direct?.kind || null, bundle: { condition: a.attempt.effectTerms.condition, timing: { durationText: a.attempt.effectTerms.timing.durationText, expiryPolicy: a.attempt.effectTerms.timing.expiryPolicy,
+            ...(a.attempt.effectTerms.timing.occurrences !== undefined ? { occurrences: a.attempt.effectTerms.timing.occurrences } : {}) } } } : {}) };
         out.adjudication.chosenResult = JSON.stringify(chosen);
         delete out.contentHash; delete out.authorization.approvalHash;
       }
@@ -305,6 +318,7 @@ function publicReceipt(receipt) {
       ...(Number.isSafeInteger(actor.blocking?.revision) ? { blocking: { revision: actor.blocking.revision } } : {}),
       ...(actor.equipmentWear ? { equipmentWear: require('./blockApprovals').publicWear(actor.equipmentWear) } : {}) };
   });
+  if (out.adjudication?.definitionVersionOrHash === 'authored-effect:v1/undisclosed') out.actors = out.actors.filter(a => hash(a.ref) === hash(receipt.target));
   if (out.adjudication?.definitionVersionOrHash === 'authored-condition:v1/undisclosed') out.actors = out.actors.filter(a => hash(a.ref) === hash(receipt.target));
   return out;
 }
@@ -322,7 +336,7 @@ function publicClassPayment(payment) {
 }
 function stage(room, player, uid, command, authorization, confirmedRevision) {
   validateCommand(command);
-  if ((String(command.adjudication?.definitionId || '').startsWith('authored:') || String(command.adjudication?.definitionVersionOrHash || '').startsWith('authored-immediate:v1/')) && !command.approval) {fail('approval_required');}
+  if ((String(command.adjudication?.definitionId || '').startsWith('authored:') || /^authored-immediate:v[12]\//.test(String(command.adjudication?.definitionVersionOrHash || ''))) && !command.approval) {fail('approval_required');}
   const riposte = require('./riposteExecution');
   if (riposte.isCommand(command)) {
     if (command.adjudication?.definitionId !== riposte.DEFINITION_ID || command.adjudication?.definitionVersionOrHash !== riposte.DEFINITION_HASH) {fail('riposte_definition_mismatch');}
@@ -359,7 +373,9 @@ function stage(room, player, uid, command, authorization, confirmedRevision) {
   const authoredCondition = require('../shared/services/authoredCondition');
   const authoredEffect = require('../shared/services/authoredEffect');
   const classEffect = require('../shared/services/classEffect');
-  const authoredApplication = !!approved && binder === require('./spellPayments') && (authoredCondition.isCondition(approved.approval) || authoredEffect.isEffect(approved.approval) || classEffect.isClassEffect(approved.approval));
+  // M3A: an owner-answered A5 offer whose attempt is an authored-effect bundle installs its rider through the same vouched path.
+  const authoredApplication = (!!approved && binder === require('./spellPayments') && (authoredCondition.isCondition(approved.approval) || authoredEffect.isEffect(approved.approval) || classEffect.isClassEffect(approved.approval))) ||
+    (!!approved && binder === blocks && !!blocks.bundleAttempt(room, approved.approval));
   // M1: class-effect instances carry the same paid-provenance protections as A10 authored effects.
   const paidEffect = record => authoredEffect.namedRecord(record) || classEffect.namedRecord(record);
   const shieldBash = require('../shared/services/shieldBashResult');

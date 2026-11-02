@@ -185,14 +185,18 @@ function validateRoll(roll) {
 }
 function validateApprovalShape(approval, creature = false) {
   const bundle = effect.isEffect(approval), composed = classEffect.isClassEffect(approval);
-  keys(approval, ['version', 'roomId', 'approvalId', 'actionEpoch', 'baseCommitSequence', 'source', 'target', 'spell', 'roll', 'price', 'classPayment', ...(creature ? ['sourceAuthority', ...(condition.isCondition(approval) || bundle ? ['resolution'] : [])] : condition.isCondition(approval) ? ['conditionTerms'] : []), ...(bundle ? ['effectTerms'] : []), ...(composed ? ['effectTerms', 'disclosure', 'rollAttributes'] : [])]);
+  const formula = require('../shared/services/authoredAbility').isFormula(approval);
+  keys(approval, ['version', 'roomId', 'approvalId', 'actionEpoch', 'baseCommitSequence', 'source', 'target', 'spell', 'roll', 'price', 'classPayment', ...(creature ? ['sourceAuthority', ...(condition.isCondition(approval) || bundle ? ['resolution'] : [])] : condition.isCondition(approval) ? ['conditionTerms'] : []), ...(bundle ? ['effectTerms'] : []), ...(composed ? ['effectTerms', 'disclosure', 'rollAttributes'] : []), ...(formula ? ['rollAttributes', 'formulaSourceRevision', 'formulaSourceHash'] : [])]);
+  if (formula && (creature || !require('../shared/services/authoredAbility').isAuthored(approval.spell) ||
+    !['creature', 'character'].includes(approval.target?.kind) || (approval.target.kind === 'character' && approval.spell.kind !== 'healing') ||
+    !int(approval.formulaSourceRevision) || !/^[0-9a-f]{64}$/.test(approval.formulaSourceHash || ''))) fail('invalid_spell_approval');
   if (approval.version !== 1 || !text(approval.roomId) || !UUID.test(approval.approvalId || '') || !text(approval.actionEpoch) || !int(approval.baseCommitSequence) ||
     actors.bytes(approval) > 32768) {fail('invalid_spell_approval');}
   actors.validateRef(approval.source); actors.validateRef(approval.target);
   if (approval.source.kind !== (creature ? 'creature' : 'character') || approval.source.roomId !== approval.roomId || approval.target.roomId !== approval.roomId ||
     approval.target.mapId !== approval.source.mapId) {fail('invalid_spell_approval');}
   keys(approval.spell, ['definitionId', 'definitionHash', 'name', 'kind', 'damageTypes']);
-  if (!text(approval.spell.definitionId) || !/^(p9-spell:v1|authored-immediate:v1|authored-condition:v1|authored-effect:v1|class-effect:v1)\/[0-9a-f]{64}$/.test(approval.spell.definitionHash || '') || !text(approval.spell.name) ||
+  if (!text(approval.spell.definitionId) || !/^(p9-spell:v1|authored-immediate:v[12]|authored-condition:v1|authored-effect:v1|class-effect:v1)\/[0-9a-f]{64}$/.test(approval.spell.definitionHash || '') || !text(approval.spell.name) ||
     !(condition.isCondition(approval) ? approval.spell.kind === 'condition' && approval.spell.damageTypes?.length === 0 : bundle ? approval.spell.kind === 'effect' : composed ? approval.spell.kind === 'class-effect' : ['damage', 'healing'].includes(approval.spell.kind)) || !Array.isArray(approval.spell.damageTypes) || approval.spell.damageTypes.length > 8 ||
     approval.spell.damageTypes.some(type => !text(type, 40)) || (approval.spell.kind === 'damage' && !approval.spell.damageTypes.length)) {fail('invalid_spell_approval');}
   if (composed) {
@@ -253,7 +257,7 @@ function validateCreatureApproval(approval, primaryPc = false) {
   validateApprovalShape(approval, true);
   keys(approval.sourceAuthority, ['admissionId', 'associationHash', 'gmUid']);
   if (!UUID.test(approval.sourceAuthority.admissionId || '') || !/^[0-9a-f]{64}$/.test(approval.sourceAuthority.associationHash || '') || !text(approval.sourceAuthority.gmUid) ||
-    (!condition.isCondition(approval) && approval.target.kind !== (primaryPc && !effect.isEffect(approval) ? 'character' : 'creature')) || (hash(approval.source) === hash(approval.target) && (primaryPc || approval.spell.kind !== 'healing')) || approval.classPayment !== null ||
+    (!condition.isCondition(approval) && !(effect.isEffect(approval) ? ['character', 'creature'].includes(approval.target.kind) : approval.target.kind === (primaryPc ? 'character' : 'creature'))) || (hash(approval.source) === hash(approval.target) && (primaryPc || approval.spell.kind !== 'healing')) || approval.classPayment !== null ||
     !(approval.spell.definitionHash.startsWith('authored-immediate:v1/') || condition.isCondition(approval) || effect.isEffect(approval))) fail('unsupported_creature_target');
   return approval;
 }
@@ -282,7 +286,7 @@ function selfState(room, approval) {
 /** Checks an approval against current authoritative room state. */
 function checkAgainstRoom(room, approval) {
   const authored = require('../shared/services/authoredAbility');
-  if (authored.isAuthored(approval.spell) || approval.spell.definitionHash.startsWith(`${authored.CAPABILITY}/`)) {
+  if (authored.isAuthored(approval.spell) || authored.isFormula(approval) || approval.spell.definitionHash.startsWith(`${authored.CAPABILITY}/`)) {
     require('./installedAuthoredAbilities').checkApproval(room, approval);
   }
   actors.assertCanAct(room, approval.source);
@@ -294,7 +298,7 @@ function checkAgainstRoom(room, approval) {
   for (const [pool, key] of [['ap', 'ap'], ['mana', 'mana']]) {
     if (approval.price[key] > 0) {if (approval.source.kind === 'creature') validPool(pools[pool]); tempFirst(pools[pool].current, pools[pool].temp, approval.price[key]);}
   }
-  if (approval.source.kind === 'creature') { validPool(pools.ap); if (!condition.isCondition(approval)) validPool(actors.resources(target.token, 'creature').hp); }
+  if (approval.source.kind === 'creature') { validPool(pools.ap); if (!condition.isCondition(approval)) validPool(actors.resources(target.token, approval.target.kind).hp); }
   if (approval.source.kind === 'character' && source.token?.character?.class === 'Minstrel' && approval.spell.definitionHash.startsWith(`${CAPABILITY}/`)) {
     validateMinstrelSpellApproval(approval);
   }
@@ -374,8 +378,9 @@ function bindCommand(room, player, command, authorization) {
   if (effect.isEffect(approval)) return bindEffect(room, player, command, authorization, entry);
   if (classEffect.isClassEffect(approval)) return bindClassEffect(room, player, command, authorization, entry);
   const authored = require('../shared/services/authoredAbility');
-  const capability = authored.isAuthored(approval.spell) ? authored.CAPABILITY : CAPABILITY;
-  if (capability === authored.CAPABILITY) {
+  const authoredImmediate = authored.isAuthored(approval.spell) || authored.isFormula(approval);
+  const capability = authored.isFormula(approval) ? authored.FORMULA_CAPABILITY : authoredImmediate ? authored.CAPABILITY : CAPABILITY;
+  if (authoredImmediate) {
     checkAgainstRoom(room, approval);
     if (selfState(room, approval) !== (entry.selfState ?? null)) fail('creature_revalidation_required');
     if (approval.source.kind === 'character' && actors.locate(room, approval.source).token.ownerUserId !== approval.source.ownerUid) {fail('forbidden');}
@@ -401,6 +406,11 @@ function bindCommand(room, player, command, authorization) {
     if (actors.locate(room, actor.ref).contract.revision !== actor.expectedRevision) {fail('stale_actor_revision');}
   }
   if (approval.classPayment && hash(home(source.token)) !== hash({ domain: approval.classPayment.domain, value: approval.classPayment.before })) {fail('owner_reapproval_required');}
+  if (require('../shared/services/authoredAbility').isFormula(approval)) require('./installedAuthoredAbilities').checkApproval(room, approval);
+  if (require('../shared/services/authoredAbility').isFormula(approval) && approval.target.kind === 'character') {
+    checkTargetAcceptance(room, entry);
+    if (amount !== approval.roll.total) fail('owner_reapproval_required', 'The accepted healing amount changed; the target owner must accept the exact amount again. Nothing was applied.');
+  }
   const self = hash(approval.source) === hash(approval.target);
   const pools = sourcePools(source.token, approval.source.kind);
   const expectedSource = {};
@@ -409,20 +419,21 @@ function bindCommand(room, player, command, authorization) {
   }
   // P7 requires an explicit operation on every participating actor. For a free remote action,
   // compare-and-set the unchanged AP projection; this is not an inferred price or a debit.
-  if (capability === authored.CAPABILITY && !self && !Object.keys(expectedSource).length) {expectedSource.ap = tempFirst(pools.ap.current, pools.ap.temp, 0);}
+  if (authoredImmediate && !self && !Object.keys(expectedSource).length) {expectedSource.ap = tempFirst(pools.ap.current, pools.ap.temp, 0);}
   const targetPools = actors.resources(target.token, approval.target.kind);
   const hp = approval.spell.kind === 'damage' ? (() => {
     const fromTemp = Math.min(targetPools.hp.temp, amount);
     return { current: Math.max(0, targetPools.hp.current - (amount - fromTemp)), temp: targetPools.hp.temp - fromTemp };
   })() : { current: Math.min(targetPools.hp.max, targetPools.hp.current + amount), temp: targetPools.hp.temp };
-  if (self && approval.source.kind === 'creature' && chosen.actualHealing !== hp.current - targetPools.hp.current) fail('approval_mismatch');
+  if (((self && approval.source.kind === 'creature') || (require('../shared/services/authoredAbility').isFormula(approval) && approval.target.kind === 'character')) &&
+    approval.spell.kind === 'healing' && chosen.actualHealing !== hp.current - targetPools.hp.current) fail('approval_mismatch');
   const expected = [{ ref: approval.source, finalResources: self ? { ...expectedSource, hp } : expectedSource,
     ...(approval.classPayment ? { classPayment: { mode: 'spell', domain: approval.classPayment.domain, approvalHash: entry.contentHash } } : {}) }];
   if (!self) {expected.push({ ref: approval.target, finalResources: { hp } });}
   if (command.actors.length !== expected.length) {fail('approval_mismatch');}
   expected.forEach((value, index) => {
     const actual = command.actors[index];
-    if (capability === authored.CAPABILITY && (actual.equipmentWear !== undefined || actual.blockingDeclaration !== undefined)) {fail('approval_mismatch');}
+    if (authoredImmediate && (actual.equipmentWear !== undefined || actual.blockingDeclaration !== undefined)) {fail('approval_mismatch');}
     if (hash(actual.ref) !== hash(value.ref) || actual.conditions !== undefined ||
       hash(actual.finalResources || {}) !== hash(value.finalResources) || hash(actual.classPayment || null) !== hash(value.classPayment || null)) {fail('approval_mismatch');}
   });
@@ -480,10 +491,21 @@ function bindEffect(room, player, command, authorization, entry) {
   // never taken from the client; the P7 stage re-derives it independently before installing anything.
   const target = actors.locate(room, a.target), plan = effect.conditionPlan(a, target.token.state?.conditions || []);
   if (plan.refused) fail(plan.refused.code, plan.refused.message);
+  if (a.target.kind === 'character') {
+    // M3A: the consent boundary is derived from the admitted terms here, never from the client. A creature's direct part uses A5's offer route instead.
+    const consent = effect.pcConsent(a.effectTerms, a.source.kind);
+    if (!consent.ok) fail(consent.code, consent.message);
+    if (consent.a5) fail('pc_target_route_mismatch', 'A creature\'s direct damage or healing on a player character needs the owner\'s response; this command cannot apply it.');
+    if (consent.acceptanceRequired && !entry.targetPolicy) fail('target_acceptance_required', 'The target\'s owner must explicitly accept this beneficial effect first.');
+    checkTargetAcceptance(room, entry);
+    // An accepted healing amount is the amount the owner was shown; any other amount needs a fresh acceptance (A5's rule).
+    if (a.effectTerms.direct?.kind === 'healing' && adj.finalAmount !== a.roll.total) fail('owner_reapproval_required', 'The healing amount differs from the accepted proposal; the target\'s owner must accept again.');
+  }
   if (hash(chosen) !== hash(effect.resultFor(a, resolution, plan.combination))) fail(plan.combination ? 'modifier_combination_changed' : 'approval_mismatch');
   const direct = a.effectTerms.direct, amount = adj.finalAmount;
   if (direct) {
     if (!int(amount, 0, 100000)) fail('invalid_final_amount');
+    if (a.target.kind === 'character' && direct.kind === 'damage' && (amount === 0 || a.roll?.total === 0)) fail('bundle_zero_damage_unsupported', 'Unsupported automation case: a bundle with zero direct damage is not automated. This does not mean the damage was fully blocked, and no rule is set that a rider needs positive damage. Nothing is charged or applied; the evidence is kept for manual adjudication.');
     if (typeof adj.adjustmentReason !== 'string' || adj.adjustmentReason.length > 2000 || (amount !== a.roll.total && !adj.adjustmentReason.trim())) fail('adjustment_reason_required');
   } else if (amount !== 0 || adj.adjustmentReason !== '') fail('approval_mismatch');
   const source = actors.locate(room, a.source);
@@ -550,8 +572,23 @@ function bindClassEffect(room, player, command, authorization, entry) {
 }
 // A9: GM designation and exact target consent live with the original A8 approval.
 // No owner/client mode flag is accepted in the approval or command DTO.
+// M3A: an authored-effect bundle uses the same record. Its exact terms (direct part, rider, timing, proposed amount) are bound too.
+function bundleParts(a) {
+  const t = a.effectTerms, c = t.condition;
+  return { direct: t.direct ? { kind: t.direct.kind, damageTypes: t.direct.damageTypes || [], formula: t.direct.formula, proposedAmount: a.roll ? a.roll.total : null } : null,
+    condition: clone(c), timing: clone(t.timing) };
+}
 function targetTerms(entry) {
   const a = entry.approval;
+  if (effect.isEffect(a)) {
+    return { approvalId: a.approvalId, contentHash: entry.contentHash, source: clone(a.source), target: clone(a.target),
+      spell: clone(a.spell), price: clone(a.price), bundle: bundleParts(a) };
+  }
+  if (require('../shared/services/authoredAbility').isFormula(a) && a.target.kind === 'character') {
+    return { approvalId: a.approvalId, contentHash: entry.contentHash, source: clone(a.source), target: clone(a.target),
+      spell: clone(a.spell), price: clone(a.price), classPayment: clone(a.classPayment),
+      healing: { formula: a.roll?.reading || '', proposedAmount: a.roll?.total ?? null } };
+  }
   return { approvalId: a.approvalId, contentHash: entry.contentHash, source: clone(a.source), target: clone(a.target),
     spell: clone(a.spell), price: clone(a.price), conditionKey: 'stunned', timing: clone(a.conditionTerms?.timing || a.resolution.timing) };
 }
@@ -559,12 +596,38 @@ function targetProposal(entry) {
   const p = entry.targetPolicy;
   if (!p) return null;
   const t = targetTerms(entry);
-  // Exact terms hash binds the concealed source/definition without disclosing either.
-  return { proposalId: p.proposalId, approvalId: t.approvalId, termsHash: p.termsHash, target: t.target,
+  const base = { proposalId: p.proposalId, approvalId: t.approvalId, termsHash: p.termsHash, target: t.target,
     price: t.price, definitionId: t.spell.definitionId, definitionVersionOrHash: t.spell.definitionHash,
-    sourceHandle: p.sourceHandle,
-    conditionKey: 'stunned', durationText: t.timing.durationText, expiryPolicy: 'gm-manual', source: 'GM-designated source (identity withheld)',
+    sourceHandle: p.sourceHandle, source: 'GM-designated source (identity withheld)',
     mode: p.mode, accepted: !!p.acceptedUid, withdrawn: p.withdrawn === true };
+  // Exact terms hash binds the concealed source/definition without disclosing either.
+  if (t.healing) return { ...base, healing: clone(t.healing), consent: 'required' };
+  if (t.bundle) {
+    const c = t.bundle.condition;
+    return { ...base, conditionKey: c.kind === 'stunned' ? 'stunned' : 'movement', durationText: t.bundle.timing.durationText, expiryPolicy: t.bundle.timing.expiryPolicy,
+      ...(t.bundle.timing.occurrences !== undefined ? { occurrences: t.bundle.timing.occurrences } : {}),
+      bundle: { ...t.bundle, timing: { durationText: t.bundle.timing.durationText, expiryPolicy: t.bundle.timing.expiryPolicy, ...(t.bundle.timing.occurrences !== undefined ? { occurrences: t.bundle.timing.occurrences } : {}) } },
+      consent: effect.pcConsent(entry.approval.effectTerms, entry.approval.source.kind) };
+  }
+  return { ...base, conditionKey: 'stunned', durationText: t.timing.durationText, expiryPolicy: 'gm-manual' };
+}
+/** What target consent an approval aimed at a PC needs: 'none' (hostile default), 'designatable' (GM may ask), 'required' (always asked). */
+function targetConsent(approval) {
+  if (approval.target.kind !== 'character') return 'none';
+  if (condition.isCondition(approval)) return 'designatable';
+  if (!effect.isEffect(approval)) {
+    // M4B: direct formula healing aimed at a primary PC always needs that owner's
+    // affirmative acceptance. Hostile formula damage keeps the creature-only route.
+    return require('../shared/services/authoredAbility').isFormula(approval) && approval.spell.kind === 'healing' ? 'required' : 'none';
+  }
+  const consent = effect.pcConsent(approval.effectTerms, approval.source.kind);
+  return !consent.ok || consent.a5 ? 'none' : consent.acceptanceRequired ? 'required' : 'designatable';
+}
+/** One server-derived record: the GM designates it, or beneficial content makes it mandatory. Never an owner/client flag. */
+function ensureTargetPolicy(entry, gmUid) {
+  if (!entry.targetPolicy) entry.targetPolicy = { mode: 'voluntary', gmUid, proposalId: require('crypto').randomUUID(),
+    sourceHandle: require('crypto').randomUUID(), termsHash: require('crypto').randomBytes(32).toString('hex'), bindingHash: hash(targetTerms(entry)) };
+  return entry.targetPolicy;
 }
 function checkTargetAcceptance(room, entry) {
   if (entry.approval.target.kind !== 'character') return;
@@ -576,4 +639,4 @@ function checkTargetAcceptance(room, entry) {
 const conditionProfile = require('../shared/services/sharedConditionProfile');
 module.exports = { CAPABILITY, DOMAINS, ELEMENTS, PITCHES, APPROVED_MINSTREL_SPELLS, validateValue, validatePrice, validateMinstrelSpellApproval, conserve, publicValue, home, validateEntry, validateApproval, validateCreatureApproval,
   validateRoll, tempFirst, selfState, checkAgainstRoom, checkWindow, get, add, remove, listAll, close, closedCode, closedEntry, pendingFor, consumedReceipt, gmProjection, bindCommand, ownerMember,
-  targetTerms, targetProposal, checkTargetAcceptance };
+  targetTerms, targetProposal, checkTargetAcceptance, targetConsent, ensureTargetPolicy };

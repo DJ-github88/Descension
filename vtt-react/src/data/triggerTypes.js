@@ -10,7 +10,7 @@ export const TRIGGER_TYPES = {
         on_crit: {
             name: 'On Critical Hit',
             icon: 'ability_rogue_ambush',
-            description: 'A Anhur killing-strike that splits helm and oath both. Triggers when landing a critical hit',
+            description: 'An Ashen killing-strike that splits helm and oath both. Triggers when landing a critical hit',
             validTargets: ['attacker', 'target'],
             defaultChance: 100
         },

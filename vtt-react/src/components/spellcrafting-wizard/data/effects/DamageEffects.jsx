@@ -4,6 +4,7 @@ import { IconSelectionCard, MechanicsPopup, MathHelpModal } from '../../componen
 import CriticalHitConfig from '../../components/mechanics/CriticalHitConfig';
 import ChanceOnHitConfig from '../../components/mechanics/ChanceOnHitConfig';
 import SavingThrowConfig from '../../components/mechanics/SavingThrowConfig';
+import FormulaExecutionHelp from '../../components/common/FormulaExecutionHelp';
 
 import { FaDiceD20, FaClone, FaCoins, FaCog } from 'react-icons/fa';
 
@@ -697,12 +698,14 @@ const DamageEffects = () => {
          ? (damageConfig.coinConfig?.formula || 'HEADS_COUNT * 6 + LONGEST_STREAK * 2')
          : (damageConfig.formula || '2d6 + intelligence')
        }
+        aria-label="Damage formula"
        onChange={(e) => handleFormulaChange(e.target.value)}
        placeholder={`Enter ${currentResolution.toLowerCase()} formula`}
        className="main-formula-input"
-       rows="2"
-      />
-     </div>
+        rows="2"
+       />
+       {currentResolution === 'DICE' && <FormulaExecutionHelp formula={damageConfig.formula} />}
+      </div>
 
      {/* Character Variables Section */}
      <div className="character-variables-section">

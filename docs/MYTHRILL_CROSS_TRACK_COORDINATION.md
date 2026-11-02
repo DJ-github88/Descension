@@ -18,6 +18,66 @@ only by agreement recorded here.
 
 ## 1. Standing rules
 
+**Sol — installed M3A continuation / bounded M4A formula work, 2026-11-02:** M3A's reconciled
+18-path installation and its separate cloud build/App qualifications are carried from
+`handoff/m3a-delivery/reconciled/`, not reaccepted. Auth live/source and served-build inspection
+is recorded in its reconciliation note §6; no combined acceptance or real Firebase claim.
+M4A frozen in capability plan §C: reusable integer caster-attribute scaling through Wizard and
+versioned immediate definitions, existing approval/P7/recovery. Missing-HP/half-save rounding
+questions isolated; no rules invented. Prospective write scope: shared authoredAbility/classEffect
+(and mirrors), installedDefinitionRegistry/installedAuthoredAbilities/spellPayments, client
+authoredAbilityRegistry/spellConsequence/spellConsequenceService, existing Wizard formula controls,
+targeted checks/witness and current roadmap/ledger records. Preserve installed M3A and concurrent
+Class/UI changes; no class data, auth edits, migration, dependencies, commit/push/deployment.
+One bounded calculation/authority review **ACCEPT after repair**: crafted v2 capability/non-authored
+ID could bypass registry checks; v2 now requires the namespace and unconditional installed checks at
+registration and consumption, with a refusal regression. Six new production tests and affected
+A1/A10/M3A/M1/mirror regressions pass (52 before the added await-race case); client M4/A1/M1 23,
+custody/M3A/auth 43 pass. Lint0 errors/63 inherited editor warnings; UI detector[].
+**One native build/App slot reserved** for guarded M4A capture at
+`D:/AppData/Temp/opencode/m4a-20261102/`; no competing compiler/4180 listener observed.
+Detached compiler only, then normal-App Wizard save/reopen/admission and owner/GM formula/recovery
+proof on that exact artifact. Private persistent profiles stay external/restricted. No current
+build or App PASS is claimed at reservation time. First capture refused live drift before compilation
+(including the final feed/v2-guard delta); no compiler ran. Failed capture retained, guarded retry
+is `D:/AppData/Temp/opencode/m4a-20261102-r1/`. Concurrent Class/UI edits remain preserved.
+Installed M3A and final auth source are included
+but this is affected M4 verification, not a new combined M3A/auth acceptance.
+
+**M4A coordinated build repair:** r1 capture `7f877e29…` was stable (`frozenDrift:[]`),
+but compiler exit1: Babel's object-spread helper made the shared CommonJS authoredAbility module
+look like ESM (`creatureSelfHealing` export unavailable). Replaced the added object spread with
+Object.assign and synced the mirror; M4 client/server checks pass. The server source fingerprint
+also now compares the authoritative **public projection** actually delivered to the owner, with
+exact revision; hidden raw fields must not cause a mismatch. The same bounded review ACCEPTs
+this fix; six tests include private-field, same-revision stat-change and authority-await evidence.
+Failed capture/build records are retained. Repaired guarded build reservation is
+`D:/AppData/Temp/opencode/m4a-20261102-r2/` (second compiler attempt, first intended usable artifact).
+No failed compile is counted as successful, and no second acceptance campaign is being launched.
+
+**M4A App-verified receipt:** guarded capture `30c7e4ad…e783c`, build exit0, assets
+`bb48de7f…154ad`, `frozenDrift:[]`. Normal App real controls: both v2 formulas saved, reopened,
+admitted and cast; unsupported `* 1.5` visibly manual. Damage face4 + INT16×2 = 36 with temp-first
+payment; dropped GM ACK + same-profile reload recovered by the identical original command (one
+receipt, retained face); healing face4 + floor(16/4) = 8. Evidence
+`D:/AppData/Temp/opencode/m4a-app-20261102-r2/` (private profiles, ACL-restricted); failed witness
+r1 and failed compiler r1 retained. Final affected server 53/mirrors + client5 suites/37; scoped
+lint clean; UI detector[]. Qualifications: fixture auth/provider/ownership/lease/cloud; eight
+unrelated concurrent Class/UI/Wave-A source paths preserved (all M4 runtime/server match capture);
+test-only witness edits; not covered: creature sources, PC/self targets, class-payment/composed
+formulas, healing-consent UI. Full M4 remains open for missing-HP/fractional/half-save rules.
+No commit/push/deploy/migration/dependencies.
+
+**M4B real-spell integration receipt (qualified):** whole-record catalogue adapter plus
+`authored-immediate:v2` optional typed payment for the existing three P9 domains and primary-PC
+healing consent. First cohort Martyr Restorative Prayer; Minstrel Resolving Strike stays P9.
+Three new production-handler cases and four client checks (all three typing adapters) pass; affected
+server56/mirrors + client5 suites/34; lint0 errors. One optimized artifact from guarded capture
+`3673a581…`, assets `19b7903e…20da`, `frozenDrift:[]`; two test/concurrent paths live-drift after
+capture preserved. Normal-App witness **not established**: artifact and class cards load, but the
+Spellbook class-card detail did not expose the prepare control in the harness; no App PASS claimed.
+Earlier failed/void compiler attempts preserved. No commit/push/deploy/migration/dependency change.
+
 **Sol — M2A installed integration verified (qualified); native slots released, 2026-10-31:**
 [`handoff/m2a-integration/HANDOFF.md`](../handoff/m2a-integration/HANDOFF.md) records
 guarded22-path scope`cd0c2c43…`, integrated capture`ed604808…` and one build exit0,
@@ -1724,3 +1784,57 @@ Recorded at Opus's explicit confirmation. Text as confirmed:
 > M2A releases its PC build/App reservation. M2A used no PC build, App, port or browser-profile resources; its builds and persistent-profile App witness run only in an isolated cloud container, which stays reserved to M2A until it reports a final result. The PC build slot, App ports and profiles are free for Sol. M2A touches D:\VTT\handoff\m2a-delivery\ only and will not touch Sol's candidate or shared runtime files.
 
 M2A remains unfinished and is excluded from Sol's integrated build/App acceptance. No M2A acceptance is claimed.
+
+## M3A installed; auth excluded from M3A build; build slot released (2026-11-01)
+
+M3A (composed effects on player characters) is installed in D:\VTT through guarded reconciliation: 18 paths, live hashes checked against capture before writing, installed hashes re-read and matching the candidate manifest. Records: `handoff/m3a-delivery/reconciled/` (RECONCILIATION_NOTE.md, M3A_MILESTONE_RECONCILED.md, RECONCILED_CANDIDATE_MANIFEST.json, SHA256SUMS.txt, evidence/). The original `m3a-delivery` archive and manifests are unchanged.
+
+- Comparable final identity of the original delivery: `d69413d11bdc610bb7bb0ddddf758146957aae02bd692c9ae0d9c828ff47feb8`; `3de8fc69…` was a superseded hashing method; the stale `server/logs` entry is runtime-log, separate from source verification (patch reproduces 17/17).
+- Temporary policy gates (pending creator decisions): equipment-blocking-applicable bundles and zero-damage PC-target bundles are refused atomically with diagnostics; ordinary A5 blocking unchanged. Verified at offer, approval and final acceptance; UI-verified with retained custody and a following supported offer with no duplicate effects.
+- Evidence: M3A used throwaway browser sessions; no persistent-profile or resumability claim.
+- M2A: original installation snapshot preserved; later checksummed artifacts in `handoff/m2a-integration/` carry verification (229 server, 134 client, build 0, app5 pass, 133 checksums verified). Not rerun.
+- Auth: the M3A-verified build (files-hash `2f2195b3…`) EXCLUDED auth (authStore `745fa66f…`). A separate build (`4b14d748…`) contained final `authStore.js` `6591022a…` and `waveA_guestLoginCorrection.test.js` `6791ca08…` plus the M3A candidate; the guest walkthrough (Login → Guest → create → save → reload → edit) passed there with Firebase mocked at the network layer (not real Firebase). Private-scope isolation, race safety and the failed-second-attempt path are not established; uid-divergence recorded as a qualification. Live auth files were not modified by M3A.
+- Class HeadQ notice: no reachable peer session; this entry is the notice.
+- Build slot: RELEASED by M3A (cloud-only scratch builds; no PC build, ports or profiles used).
+
+## Guest identity / multiplayer auth closure (2026-11-02, updated)
+
+Status: **client correction implemented and handler-tested; ordinary-UI verification of the production build ran only against a mocked-Firebase fixture backend (below). Real-Firebase and campaign-room guest verification are NOT done.**
+
+- authStore `6591022a…` unchanged. Guest user is a plain object (no `getIdToken`): production guests connect tokenless (server admits as guest; presence id `guest-<socketId>`; client uids ignored). `dev-token-<store uid>` is non-production only; the production middleware rejects it.
+- Defects fixed (only `vtt-react/src/store/presenceStore.js`, sha `0927dd4a…`): production dev-token send; no principal/generation check after `await getIdToken()`; connect_error fallback reused a captured token; unregistered auth store now fails closed (no socket).
+- Tests: `persistence/__tests__/waveA_guestPresenceSocketIdentity.test.js` (13: token, delayed token, fallback after logout / generation-only / guest A->B, unregistered store, retirement on logout), `server/tests/guestPresenceIdentity.test.js` (7, real socket.io + real middleware + real handlers; only token verification faked). One bounded reviewer pass over the first fix and one over the fallback/fail-closed repair.
+- Build/browser witness: identities and scripts in `handoff/guest-presence-witness/` (BUILD_IDENTITY.json, witness*.cjs, witness-evidence.json). Build made in an isolated cloud container (no PC build slot, ports or profiles used; no active reservation was recorded after M3A's 11-01 release). Real: production bundle (NODE_ENV=production), real socket.io + real production middleware/handlers (token verification stub only). Mocked: Firebase Auth/Installations/Firestore at the network layer (dummy config), unsigned structural JWT never sent to the backend.
+- Evidence: guest login -> tokenless socket; restored guest presence `guest-<socketId>`; transport drop -> old identity leaves presence, reconnect registers a fresh `guest-<newSocketId>`; reload -> single presence; logout -> presence gone and still gone 9 s later; local rooms/characters byte-identical; markers cleared. Guest create_room/join_room refused ("Authentication required") and `dev-token-*` handshake rejected — that is the campaign-room boundary, separate from social presence.
+- Limits: first-login presence registration waits on a Firestore write ack not emulated here (witness reloads to exercise the restored-guest path); real Firebase, campaign-room guest play, failed-second-guest-attempt through the UI, and a build with the project's real env remain unverified. Multiplayer guest verification is therefore still pending (ordinary-UI, real services).
+
+### Guest campaign-access contract comparison and correction (2026-11-02)
+
+- Comparison: guest room **creation** is intentionally denied (`tierService.js` guest roomLimit 0; `requireAuth`). Guest **join** is undecided: `tierService.canJoinRoom` and `COMMERCIAL_READINESS` implied it, `requireAuth` + `roomAccessBoundary.test.js` refuse tokenless guests, P4 H2 creates no guest/temporary-room policy, `MYTHRILL_NEXT_PHASE.md` calls it a human choice. No authorized guest-room path is disconnected. Verified Firebase anonymous tokens are not a safe substitute without policy (no Firestore user doc -> `free` tier would allow temporary-room creation; Firebase uid can differ from store uid).
+- Adopted: the existing account-required campaign boundary. Future guest joining is not permanently rejected.
+- Client change only: local guests no longer get `dev-token-*` outside production (`useSocketConnection.js` x2 + catch, `presenceStore.js`); non-guest dev users, admin/dev bypass without a guest user, and verified registered tokens unchanged. `RoomLobby.jsx` (+`MultiplayerApp.jsx` pass-through of `onShowLogin`, `RoomLobby.css`) shows "Online campaigns need a signed-in account" with a "Sign in or register" action and refuses create/join client-side for local guests. Guest drafts/characters untouched. Docs: `COMMERCIAL_READINESS.md` guest bullet now separates current / intended future / unresolved; H2 freeze not edited.
+- Tests: `guestDevTokenParity.test.js`, `RoomLobby.accountRequired.test.jsx`, updated `waveA_guestPresenceSocketIdentity.test.js`. No server, ownership, tier or retention change.
+- Browser check (cloud rebuild of the 5 changed files onto the witnessed tree; build JS hash 4a505cb5…; presenceStore 0dda5896…; RoomLobby ef9c9c48…; mocked Firebase, real production middleware): guest -> /multiplayer shows the notice, Create Temporary Room shows the account-required banner, "Sign in or register" opens the existing auth modal, local rooms/characters byte-identical, all handshakes tokenless. Evidence: `handoff/guest-presence-witness/lobby-witness.cjs`, `lobby-notice.png`, `lobby-signin.png`. A pre-existing generic banner ("A shadow falls across your path") can also appear from a server refusal; not changed.
+- Still open: real Firebase; first-login presence registration without reload (Firestore write ack not emulated); guest-join policy decision.
+
+### Guest identity / account-required closure: final identities and release (2026-11-02)
+
+- Refresh-path regression added to `guestDevTokenParity.test.js` (11 tests): with the old condition on the `setupAuthChangeHandler` refresh path the two guest assertions fail (`Received "dev-token-anon-1"`); with the correction all 11 pass. Old condition was applied temporarily and the file restored byte-exact (`useSocketConnection.js` `00ce6461…`). No production change was needed.
+- Final live source (sha256 prefixes): presenceStore `0dda5896…`, authStore `6591022a…` (unchanged), useSocketConnection `00ce6461…`, RoomLobby.jsx `ef9c9c48…`, MultiplayerApp.jsx `1d350654…`, RoomLobby.css `92ced84a…`; tests: guestDevTokenParity `c8789ed0…`, RoomLobby.accountRequired `f992f59a…`, waveA_guestPresenceSocketIdentity `05cf46d5…`.
+- Witnessed builds (cloud container, mocked Firebase, real production middleware): (1) presence witness: presenceStore `0927dd4a…`, build JS `d04fce25…` — predates the dev-token guest guard and the lobby change; (2) lobby witness: the live files above except the later test-only edits, build JS `4a505cb5…`. The refresh-path correction in useSocketConnection was already in build (2) (same hash `00ce6461…`); the refresh test itself was added after and is jest-only. The presence witness (reconnect/reload/logout) was not rerun on build (2).
+- Limits kept: Firebase Auth/Installations/Firestore mocked; first-login presence registration without reload not verified (Firestore write ack not emulated); real Firebase unverified; guest-join policy undecided.
+- UX follow-up (not changed): the lobby can show the older generic banner ("A shadow falls across your path") alongside the account-required notice after a server refusal; unify it with the notice.
+- Ownership: guest identity / multiplayer auth closure owner released. No commit, push, deployment or migration. Cloud scratch (build, witness server) is disposable and holds no PC build slot, ports or profiles.
+
+## Spell Wizard summon-definition preservation (2026-11-02, owner released)
+
+Scope: suspected `summonConfig` / `summoningConfig` consumer incompatibility (Wizard state -> save -> library -> reopen -> save -> card). No summons, spawning, payment, duration execution or combat capability added; no migration; unsupported summon execution stays manual.
+
+- **No data loss found.** Through the production path (real library->Wizard `wizardEditRequest` handoff, real `SpellwizardApp.handleLoadSpell` / `handleSaveSpell`, real library reducer + `libraryManager`), a rich disposable definition survived unchanged for modern (`summoningConfig`), legacy (`summonConfig` only) and both-names/different-payload records. Ids, unrelated fields and the alternate-name payload were preserved exactly; three consecutive saves were stable (after the first save normalises unrelated Wizard defaults such as `targetingConfig`, outside this task). The production `SummoningEffects` control re-emits the saved payload identically on mount. Legacy records are not migrated (`summonConfig` stays as stored).
+- **One defect reproduced (display only):** the library card projection (`SpellLibrary.jsx` `mapSpellToUnifiedFormat`) used `summonConfig || summoningConfig`, the reverse of Wizard reopen, `spellNormalizer.normalizeSummoningConfig` and `UnifiedSpellCard` (`summoningConfig` first). When both names exist (e.g. a legacy record edited and saved in the Wizard) the library card showed the stale pre-edit summon while edit/reopen used the new one. RED before, GREEN after.
+- **Fix (one hunk, `SpellLibrary.jsx` only):** `summonConfig: spell.summoningConfig || spell.summonConfig || null` plus a 2-line comment. Stored records untouched; no field renamed or duplicated; alternate payload never merged.
+- **Ownership:** no M4B claim on `SpellLibrary.jsx` / `SpellwizardApp.jsx` is recorded here and neither was modified since 19:27Z. Because M4B is active in `components/library/` (`CataloguePreparation.jsx` 20:27Z), the edit was a guarded exact-string hunk (live sha checked first), not a file overwrite. `SpellwizardApp.jsx` and the Wizard context were not touched. M4B: if you hold an unsaved copy of `SpellLibrary.jsx`, re-apply this one hunk (search `summonConfig: spell.`).
+- **Identities (sha256):** `SpellLibrary.jsx` before `e3d38b03…ee5a44d`, after `29183381…c3609fe` (CRLF preserved); new test `__tests__/summonDefinitionPreservation.test.jsx` `a6cf9901…2b54`; `SpellwizardApp.jsx` unchanged `9a2e0aad…b921`.
+- **Tests:** new file 7/7; `SharedSpellLibrary`, `SpellLibraryGrimoire`, `UnifiedSpellCard` suites still pass. Fixtures are in-memory disposable records; persistence stand-in replaces scoped storage only (plus Firebase/assets mocks); no user library read or written.
+- **Not done:** no identified-build browser check of Wizard controls/card (no coordinated slot claimed); no focused review (display-precedence alignment only, serialization unchanged). Observed but not reproduced or changed: `utils/creatureAbilityUtils.js` `transformAbilityToSpell` reads only `summonConfig` while `creatureAbilityBuilders.summon` writes `summoningConfig` (creature-ability workflow, outside this task).
+- Ownership of this task released. No commit, push, deployment, migration or dependency change.

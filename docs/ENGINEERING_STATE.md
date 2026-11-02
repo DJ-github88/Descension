@@ -1,7 +1,75 @@
 # Mythrill / Prism — engineering state
 
-Updated: 2026-10-31 (M2A counted durations installed/integration-verified, qualified; prior combat acceptance carried; live-service gates open). Checkout: `D:/VTT` (the old `D:/Mythrill/Descension`
+Updated: 2026-11-02 (M3A installed with separate auth evidence; bounded M4A implementation/review complete, repaired build/App proof in progress; live-service gates open). Checkout: `D:/VTT` (the old `D:/Mythrill/Descension`
 path in CLAUDE.md is historical). Roadmap authority: [MYTHRILL_NEXT_PHASE.md](MYTHRILL_NEXT_PHASE.md).
+
+### Installed M3A and bounded auth handoff — carried separately, 2026-11-02
+
+M3A is installed; its [reconciled milestone](../handoff/m3a-delivery/reconciled/M3A_MILESTONE_RECONCILED.md)
+and [reconciliation note](../handoff/m3a-delivery/reconciled/RECONCILIATION_NOTE.md) carry the exact
+18-path manifest, supported unblocked PC-target routes and temporary atomic blocking/zero-damage gates.
+Prior M3A acceptance was not repeated. Its cloud build `2f2195b3…` excluded the auth correction;
+its supported-route/gate browser witnesses used disposable sessions and a socket combat-start setup
+qualification. PC-source→PC/healing-consent browser coverage remains unestablished.
+
+Auth's separate cloud build `4b14d748…` contains final auth plus M3A source; its guest creation/edit/
+reload walkthrough mocks Firebase network responses. It is not combined combat/auth acceptance or
+real Firebase verification. Live hashes rechecked: `authStore.js` `6591022a…2f3ef`; guest regression
+at `src/persistence/__tests__/waveA_guestLoginCorrection.test.js` `6791ca08…10fb3`.
+At handoff inspection no native App process/listener or attached App page was running; native
+`vtt-react/build` lacked index.html/asset manifest. No currently served native build was established.
+
+### M4A integer attribute formulas — implemented and App-verified, qualified, 2026-11-02
+
+Frozen scope: [capability plan §C](MYTHRILL_COMBAT_CAPABILITY_PLAN.md#c-dependency-ordered-roadmap).
+One unified Wizard→immutable `authored-immediate:v2`→existing Prism approval/P7→recovery path;
+bounded integer caster-score scaling shares the M1 formula reader. Server verifies arithmetic and
+exact revision/public-source snapshot, not the owner-attested effective score derivation. Reapproval
+retains faces. PC→one creature direct damage/healing only; v1 semantics preserved. Missing-HP and
+half-save rounding remain creator questions, isolated from settled work. Whole catalogue examples
+are preserved/refused where shield/AoE/unhomed-resource/cooldown mechanics remain unsupported.
+Six registered-handler cases pass, including authority-await invalidation, no partial writer refusal,
+target CAS, public-projection distinction and once-only receipt recovery. Final affected server 53 +
+mirrors and client 5 suites/37 pass; scoped lint clean; UI detector[]. Bounded review ACCEPT after
+repairs (v2/non-authored-ID admission bypass; raw no-approval command; public projection binding).
+
+One coordinated optimized build and App witness **PASS** on the exact artifact: capture
+`30c7e4ad…e783c`, exit0, assets `bb48de7f…154ad`, `frozenDrift:[]`. A prior compiler attempt failed
+packaging (CommonJS spread → Babel ESM) and is preserved; the successful run is the second attempt.
+Real Wizard authored/saved/reopened/admitted `1d8 + intelligence * 2` and `1d8 + intelligence/4`,
+with the unsupported `* 1.5` form visibly manual. Owner face4 retained; damage 36 (INT16×2) applied
+temp-first; dropped GM ACK recovered after reload by the same command with one receipt; healing 8.
+Evidence `D:/AppData/Temp/opencode/m4a-app-20261102-r2/` (private profiles ACL-restricted).
+Qualifications: auth/provider/ownership/lease/cloud fixtures (no real Firebase/live service);
+unrelated concurrent Class/UI/Wave-A paths preserved; M4 runtime/server match capture. Not covered:
+creature sources, PC/self targets, composed class-payment formulas, healing-consent UI. This is
+this increment, not full M4 (missing-HP/fractional/half-save rules remain open).
+No commit/push/deploy/migration/dependencies.
+
+### M4B real-spell formula + typed payment + PC healing consent - implemented/reviewed, App witness open, 2026-11-02
+
+Authorized bounded extension of `authored-immediate:v2`: optional typed class payment using only the
+three existing P9 domains, plus optional primary-PC healing target consent. The source record remains
+whole and hash-bound; executable definitions pin one direct DICE formula, explicit AP/mana and exactly
+one supported class operation. Source payment consent and target healing acceptance stay separate;
+target acceptance binds the exact proposed amount; final amount changes require fresh approval.
+Existing bank planners, `conserve`, target policy, P7 atomic writer and original-command recovery are
+reused; no parallel payer/consent or new resource domain. Catalogue eligibility refuses mixed,
+rider-bearing, multi-target, cooldown or unsupported records rather than stripping them.
+
+First real cohort: **Martyr Restorative Prayer** (`1 AP`, `5 mana`, Devotion `+1`, ranged 30 ft ally,
+`1d4 + spirit`) admitted as a whole catalogue-backed v2 definition. `minstrel_resolving_strike` remains
+on its accepted P9 behavior. `arc_spark_bolt` stays excluded (Durability-ignore/combo not supported).
+
+Checks: three new M4B production-handler cases (atomic payment/Devotion/HP, target refusal and stale
+source, forged price/definition refusal, writer refusal, recovery) and four client checks (all three
+typed adapters, whole-record roundtrip, class-card support, immutable source binding) pass. Final
+affected server 56/mirrors; client 5 suites/34; lint 0 errors. One optimized artifact built from a
+guarded capture (`3673a581…`, assets `19b7903e…20da`, `frozenDrift:[]`); two test/concurrent paths
+arrived after capture and are preserved. Browser App witness is **not established**: the artifact
+loads the normal App and class cards are reachable, but the Spellbook class-card detail did not expose
+the prepare control in the harness; no App PASS is claimed. Earlier failed/void compiler attempts are
+preserved. No commit/push/deployment/migration/dependency change.
 
 ### M2A counted durations — installed / integration verified, qualified, 2026-10-31
 

@@ -1432,3 +1432,40 @@
     display: none;
   }
 }
+
+/* Account-required notice for local guests: flat paper, full hairline box, sentence case (calm TTRPG rules). */
+html body .lobby-container .lobby-account-required {
+  border: 1px solid #8a6f4a;
+  border-radius: 4px;
+  background: transparent;
+  padding: 12px 16px;
+  margin-bottom: 14px;
+  font-family: 'Crimson Text', Georgia, serif;
+  color: #3b2a1a;
+  flex-shrink: 0;
+}
+html body .lobby-container .lobby-account-required .lobby-account-required-title {
+  margin: 0 0 4px;
+  font-family: 'Crimson Text', Georgia, serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-transform: none;
+  letter-spacing: normal;
+}
+html body .lobby-container .lobby-account-required .lobby-account-required-body {
+  margin: 0 0 10px;
+  font-size: 1rem;
+}
+html body .lobby-container .lobby-account-required .lobby-account-required-action {
+  border: 1px solid #8a6f4a;
+  border-radius: 3px;
+  background: transparent;
+  color: #3b2a1a;
+  padding: 6px 14px;
+  font-family: 'Crimson Text', Georgia, serif;
+  font-size: 1rem;
+  cursor: pointer;
+}
+html body .lobby-container .lobby-account-required .lobby-account-required-action:hover {
+  border-color: #3b2a1a;
+}

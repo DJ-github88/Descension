@@ -199,7 +199,7 @@ export const BIOMES = [
       { range: [1, 6], type: 'none', label: 'No Encounter', note: 'Endless basalt plains, shimmering heat, distant ash-devils.' },
       { range: [7, 7], type: 'discovery', label: 'Ancient Tracks', note: 'Survival vs moderate die (d8) to identify.' },
       { range: [8, 8], type: 'combat', label: 'Cinder-Beast Hatchlings', note: 'Ember damage. Fire or area effects disperse.' },
-      { range: [9, 9], type: 'social', label: 'Solari Anhur Rangers', note: 'Will trade volcanic goods for water and obsidian.' },
+      { range: [9, 9], type: 'social', label: 'Solari Ashen Rangers', note: 'Will trade volcanic goods for water and obsidian.' },
       { range: [10, 10], type: 'social', label: 'Solari Pilgrims', note: 'Dehydrated, desperate. Medicine vs moderate die (d8) to help.' },
       { range: [11, 11], type: 'combat', label: 'Sun-Husk', note: 'Tremorsense. Survival vs challenging die (d10) to detect.' },
       { range: [12, 12], type: 'combat', label: 'Vezan', note: 'Rises from ash. Fire and radiant vulnerability.' },
@@ -208,7 +208,7 @@ export const BIOMES = [
       { range: [15, 15], type: 'combat', label: 'Cinder-Fiend', note: 'Persuasion vs difficult die (d12) to bargain.' },
       { range: [16, 16], type: 'combat', label: 'Ash-Vent Drake', note: 'Ember breath, ash camouflage.' },
       { range: [17, 17], type: 'discovery', label: 'Buried Monolith Fragment', note: 'Perception vs challenging die (d10) to spot.' },
-      { range: [18, 18], type: 'social', label: 'Anhur Badland Rangers', note: 'Water dispute.' },
+      { range: [18, 18], type: 'social', label: 'Ashen Badland Rangers', note: 'Water dispute.' },
       { range: [19, 19], type: 'combat', label: 'Scrab Swarm', note: 'Armoured carapace, venomous pincers.' },
       { range: [20, 20], type: 'combat', label: 'Huskvar', note: 'Legendary volcanic predator. Controls ember flow itself.' }
     ],

@@ -446,3 +446,63 @@
     color: var(--adventure-muted, #68533e);
     font-family: 'Crimson Text', Georgia, serif;
 }
+
+
+/* Companion spellcard + weapon table popout beside fanned-out actions */
+.action-bar-fan-companion-overlay {
+  max-width: 95vw;
+  max-height: calc(100vh - 36px);
+  overflow-y: auto;
+  box-sizing: border-box;
+  filter: drop-shadow(0 10px 28px rgba(0, 0, 0, 0.65));
+  pointer-events: auto !important;
+  z-index: 2147483647;
+}
+
+.fan-companion-layout {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.fan-companion-spellcard {
+  width: 380px;
+  max-width: 90vw;
+  flex-shrink: 0;
+}
+
+.fan-companion-spellcard .pf-spell-card,
+.fan-companion-spellcard .wow-spell-card {
+  min-width: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  box-sizing: border-box !important;
+}
+
+.fan-companion-weapontable {
+  width: 380px;
+  max-width: 90vw;
+  flex-shrink: 0;
+}
+
+.fan-companion-weapontable .weapon-skill-table-container {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+}
+
+@media (max-width: 820px) {
+  .fan-companion-layout {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .fan-companion-spellcard,
+  .fan-companion-weapontable {
+    width: 100%;
+    max-width: 100%;
+  }
+}

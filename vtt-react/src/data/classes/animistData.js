@@ -196,9 +196,9 @@ export const ANIMIST_DATA = {
     },
 
     thrask_solari: {
-      subraceName: 'Anhur',
+      subraceName: 'Ashen',
       title: 'The Ash-Choir',
-      reframe: `The <LoreLink termId="solari">Anhur</LoreLink> burn their dead on the caldera slopes, and the ash is not disposal, it is a *congregation*. An Ash-Choir Animist reads the funeral ash-fall: soot-patterns in the wind, ember-crack in the cooling vents, and the voices that rise when the ridge exhales. The ancestors speak in ash, and the Anhur have spent four centuries learning to read a language that falls from the sky.`,
+      reframe: `The <LoreLink termId="solari">Ashen</LoreLink> burn their dead on the caldera slopes, and the ash is not disposal, it is a *congregation*. An Ash-Choir Animist reads the funeral ash-fall: soot-patterns in the wind, ember-crack in the cooling vents, and the voices that rise when the ridge exhales. The ancestors speak in ash, and the Ashen have spent four centuries learning to read a language that falls from the sky.`,
       signatureAbility: {
         name: 'Ash-Fall Reading',
         description: `Resonance builds from proximity to funeral ash and active caldera vents; the ancestors answer in ember-crack and soot-pattern, loudest in the open badlands where the wind carries them. Indoors, in clean air, the ash has nothing to say.`
@@ -207,7 +207,7 @@ export const ANIMIST_DATA = {
       signatureQuote: {
         text: '"The ash remembers every Solari who ever burned. Lately it forgets names. Ours is a tradition of being remembered. We are being forgotten first, and no one will tell me by whom."',
         speaker: 'Ash-Choir Suun Ember-Lung',
-        context: 'A Anhur Animist, singing a missing matriarch\'s name into a ridge-vent at first light'
+        context: 'An Ashen Animist, singing a missing matriarch\'s name into a ridge-vent at first light'
       }
     },
 
@@ -321,7 +321,7 @@ The Lumian adapted the practice through their Lumia heritage, the fragment of a 
 
 The Morgh Groven carry the most literal version of the art. The Still-Claiming already turns Groven dead into calcified stone, the ancestors literally become the bridges their descendants walk. A Morgh channels the dead not as spirits but as mineral memory, drawing on the same alchemical residues the Deep Alchemists used to reshape the Groven from Thrumm stock. The race that was sculpted against its will now sculpts itself.
 
-The Anhur adapted the art through forge-memory. The volcanic forges of Sundale have been burning since before humans walked the world, and the Anhur believe that every hammer-strike carries the echo of every smith who struck that anvil before. A Anhur does not sing ancestors or carve them into skin. They work the forge. The dead are in the metal, answering through the ring of hot iron, the oldest continuous craft tradition on Mythril preserved in the muscle memory of hands that learned from hands.
+The Ashen adapted the art through forge-memory. The volcanic forges of Sundale have been burning since before humans walked the world, and the Ashen believe that every hammer-strike carries the echo of every smith who struck that anvil before. An Ashen does not sing ancestors or carve them into skin. They work the forge. The dead are in the metal, answering through the ring of hot iron, the oldest continuous craft tradition on Mythril preserved in the muscle memory of hands that learned from hands.
 
 The Briaren Florae adapted the tradition through their fae-touched blood. The bloodline carries the memory of House Viridane's refusal, the one house that said no to the dark bargains, that fled south into the moonlit groves. A Briaren channels not individual ancestors but the collective memory of that refusal, the thorn-scars on their skin blooming into living records of every Florae who died before their debt was paid.
 

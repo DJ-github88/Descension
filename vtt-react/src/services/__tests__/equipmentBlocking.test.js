@@ -121,3 +121,43 @@ test('P12B-r1: the public result names a GM revalidation', () => {
   const result = { success: true, receipt: { version: 1, adjudication: plan.extra.adjudication, actors: [{ ref: foeRef }, { ref: pcRef, equipmentWear: { name: 'Weathered Hide', beforeDie: 'd8', afterDie: 'd8', broken: false } }] } };
   expect(acceptedBlockText(result)).toMatch(/GM confirmed the recorded rolls after the attacker changed: Already swinging\./);
 });
+
+// ---- M3A: a placed creature's composed bundle on a primary PC rides the same owner response and one atomic command ----
+describe('M3A composed bundle on a PC (planBlockCommand)', () => {
+  const { isEffect, conditionPlan } = require('../authoredEffect'), { isStunned, isMovementModifier } = require('../sharedConditionProfile');
+  const bundleAttempt = (condition, direct = { kind: 'damage', formula: '1d6+2', damageTypes: ['slicing'] }) => ({ version: 1, approvalId: '33333333-3333-4333-8333-333333333333', source: foeRef, target: pcRef,
+    spell: { definitionId: `authored:55555555-5555-4555-8555-555555555555:1:${'e'.repeat(64)}`, definitionHash: `authored-effect:v1/${'d'.repeat(64)}`, name: 'Bog Lash', kind: 'effect', damageTypes: direct.kind === 'damage' ? ['slicing'] : [] }, price: { ap: 1, mana: 0 },
+    roll: { mode: 'physical', dice: [{ sides: 6, faces: [5] }], constant: 2, total: 7, reading: '1d6+2' },
+    effectTerms: { direct, condition, timing: { expiryPolicy: 'target-next-end', durationText: 'Until the bog drains', gmNote: 'x' } } });
+  const plan = (attempt, conditions = [], extra = {}) => {
+    const a = attack(); a.authored = { attempt, targetRevision: 9 }; if (attempt.effectTerms.direct.kind === 'healing') a.damageType = 'healing';
+    const offer = offerOf(a), entry = entryOf(offer, 2); entry.approval.blocking = null; entry.approval.roll = null;
+    const target = targetToken(conditions); target.character.health.max = 40;
+    return planBlockCommand({ offer, entry, sourceToken, targetToken: target, declaration: null, names: { source: 'Creature', target: 'PC' }, ...extra });
+  };
+  test('Stunned rider is derived into the target actor entry with the temp-first damage; the GM cannot type it', () => {
+    const attempt = bundleAttempt({ kind: 'stunned' }); expect(isEffect(attempt)).toBe(true);
+    const p = plan(attempt), chosen = JSON.parse(p.extra.adjudication.chosenResult);
+    expect(p.entries[1].finalResources.hp).toEqual({ current: 25, temp: 0 }); expect(p.entries[1].conditions).toHaveLength(1);
+    expect(p.entries[1].conditions[0].op).toBe('add'); expect(isStunned(p.entries[1].conditions[0].record)).toBe(true); expect(chosen.combination).toBeNull();
+  });
+  test('movement rider adds, then refreshes (one remove + one add) when the same exact source repeats; the combination is bound in the chosen result', () => {
+    const attempt = bundleAttempt({ kind: 'movement', feet: -10, label: 'Bogged' });
+    const first = plan(attempt), record = first.entries[1].conditions[0].record; expect(isMovementModifier(record)).toBe(true); expect(JSON.parse(first.extra.adjudication.chosenResult).combination.outcome).toBe('added');
+    const again = { ...attempt, approvalId: '44444444-4444-4444-8444-444444444444' }, second = plan(again, [record]);
+    expect(second.entries[1].conditions.map(op => op.op)).toEqual(['remove', 'add']); expect(JSON.parse(second.extra.adjudication.chosenResult).combination.outcome).toBe('refreshed');
+    expect(conditionPlan(again, [record]).combination).toEqual(JSON.parse(second.extra.adjudication.chosenResult).combination);
+  });
+  test('healing + beneficial movement still binds the accepted amount and states the rider in the public text', () => {
+    const attempt = bundleAttempt({ kind: 'movement', feet: 10, label: 'Sprightly' }, { kind: 'healing', formula: '2d4' }); attempt.spell.damageTypes = [];
+    const a = attack(); a.authored = { attempt, targetRevision: 9 }; a.damageType = 'healing'; a.proposedDamage = 100;
+    const offer = offerOf(a), entry = entryOf(offer, 2); entry.approval.blocking = null; entry.approval.roll = null; const target = targetToken(); target.character.health.max = 40;
+    const input = { offer, entry, sourceToken, targetToken: target, declaration: null, names: { source: 'Creature', target: 'PC' } };
+    expect(() => planBlockCommand({ ...input, finalAmount: 99 })).toThrow(/acceptance again/);
+    const p = planBlockCommand(input); expect(p.entries[1].finalResources.hp).toEqual({ current: 40, temp: 2 }); expect(p.entries[1].equipmentWear).toBeUndefined();
+    const receipt = { version: 1, adjudication: { definitionId: 'creature-attack-block', definitionVersionOrHash: DEFINITION_HASH, finalAmount: 10, chosenResult: JSON.stringify({ ...JSON.parse(p.extra.adjudication.chosenResult),
+      attack: { ability: { name: 'Sprite Tonic' }, apCost: 1, authored: { kind: 'effect', direct: 'healing', bundle: { condition: attempt.effectTerms.condition, timing: attempt.effectTerms.timing } } } }) },
+      actors: [{ ref: foeRef }, { ref: pcRef }] };
+    expect(acceptedBlockText({ success: true, receipt })).toMatch(/receives 10 healing[\s\S]*Also applied: Sprightly \(movement \+10 ft\)/);
+  });
+});

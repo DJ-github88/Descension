@@ -75,7 +75,7 @@ export function capabilityOf(receipt) {
   if (!chosen || typeof hashId !== 'string') return { kind: 'none' };
   if (hashId === STRIKE) return { kind: 'strike', label: chosen.weapon?.name, outcome: chosen.rollOutcome, damage: chosen.rollOutcome !== 'miss' };
   if (hashId === RIPOSTE) return { kind: 'riposte', label: 'Riposte', outcome: chosen.rollOutcome, damage: chosen.rollOutcome !== 'miss' };
-  if (hashId === BLOCK) return { kind: 'block', label: chosen.attack?.ability?.name, blockName: chosen.block?.name, reduction: chosen.block?.reduction, damage: (chosen.attack?.authored?.kind || chosen.attack?.authored?.attempt?.spell?.kind) !== 'healing' };
+  if (hashId === BLOCK) return { kind: 'block', label: chosen.attack?.ability?.name, blockName: chosen.block?.name, reduction: chosen.block?.reduction, damage: (chosen.attack?.authored?.direct || chosen.attack?.authored?.kind || chosen.attack?.authored?.attempt?.spell?.kind) !== 'healing' };
   if (hashId === FEATHER) return { kind: 'feather', label: 'Feather Slash', damage: true };
   if (hashId.startsWith('authored-condition:v1/')) return { kind: 'condition', label: chosen.spellName, damage: false };
   // A10: one line for the whole bundle (direct part, canonical effect and its expiry policy).
@@ -84,7 +84,7 @@ export function capabilityOf(receipt) {
     effect: chosen.rider ? `${chosen.rider.label} (movement −${Math.abs(chosen.rider.feet)} ft)` : 'its rider', riderApplied: chosen.riderApplied === true, refreshed: chosen.combination?.outcome === 'refreshed' };
   if (hashId.startsWith('authored-effect:v1/')) return { kind: 'effect', label: chosen.spellName, damage: chosen.direct?.kind === 'damage',
     effect: conditionLabel(chosen.condition), expiry: (POLICY_TEXT[chosen.expiryPolicy] && policyText(chosen.expiryPolicy, chosen.occurrences)) || 'GM removes', refreshed: chosen.combination?.outcome === 'refreshed' };
-  if (hashId.startsWith(SPELL_PREFIX) || hashId.startsWith('authored-immediate:v1/')) return { kind: 'spell', label: chosen.spellName, damage: chosen.kind === 'damage' };
+  if (hashId.startsWith(SPELL_PREFIX) || /^authored-immediate:v[12]\//.test(hashId)) return { kind: 'spell', label: chosen.spellName, damage: chosen.kind === 'damage' };
   return { kind: 'none' };
 }
 /** HP float parts. "absorbed" only when the accepted consequence establishes damage absorption (§2). */

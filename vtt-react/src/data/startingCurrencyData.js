@@ -57,7 +57,7 @@ export const BACKGROUND_STARTING_CURRENCY = {
         gold: 12,
         silver: 0,
         copper: 0,
-        description: 'Anhur border-ranger pay-pouches, ledger-stamped at the Greymark garrison. Military pay and saved wages'
+        description: 'Ashen border-ranger pay-pouches, ledger-stamped at the Greymark garrison. Military pay and saved wages'
     },
     
     outlander: {
@@ -254,7 +254,7 @@ export const PATH_CURRENCY_MODIFIERS = {
         gold: 6,
         silver: 0,
         copper: 0,
-        description: 'Anhur battlefield-scavenged coin-pouches from the fallen. Spoils from past battles'
+        description: 'Ashen battlefield-scavenged coin-pouches from the fallen. Spoils from past battles'
     },
     
     mercenary: {

@@ -192,7 +192,7 @@ export const SUBREGIONS = {
      description: 'The wide ring of ashen flatland and volcanic rock that surrounds the Ash-Heart. The bulk of Sundale\'s population lives here, the Ash-Dwellers who work the sulfur mines, the Solari refugees clinging to their ancient capital, the Solari forge-clans whose forges burn on the residual heat. The Dawn Vigil\'s Obsidian Citadels ring the Ashen Escarpment that separates the fringe from the green lands beyond.',
     climate: 'Hot, dry, ash-fall, cool at night',
     dominantTerrain: 'Volcanic ash plains, geothermal vents, sulfur sumps, basalt formations',
-     primaryRaces: ['Solari (Korr and Anhur)', 'conscripted Martyrs'],
+     primaryRaces: ['Solari (Korr and Ashen)', 'conscripted Martyrs'],
     primaryFactions: ['Dawn Vigil', 'House Solvan', 'Sulfur Cartel', 'Martyr Brigades'],
     zoneIds: ['harath-vault', 'great-forge', 'the-ashen-escarpment', 'vulkars-karst', 'slag-gulch', 'solvans-stand', 'thornshire-colony']
   },

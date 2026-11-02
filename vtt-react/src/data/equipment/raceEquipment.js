@@ -846,7 +846,7 @@ export const SOLARI_SUBRACE_ITEMS = [
         type: 'armor',
         subtype: 'CLOTH',
         quality: 'uncommon',
-        description: 'An ash-cloth cloak from the Anhur forges. The caldera-wind taught the weave to shed cinder and ember alike.',
+        description: 'An ash-cloth cloak from the Ashen forges. The caldera-wind taught the weave to shed cinder and ember alike.',
         iconId: 'inv_misc_cape_18',
         value: { platinum: 0, gold: 8, silver: 50, copper: 75 },
         weight: 3,

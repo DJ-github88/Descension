@@ -15,13 +15,13 @@ import { spellDraftContext, loadSpellDraft, loadDiscardedSpellDrafts, saveSpellD
 import { describeDraft, sameDraftContext } from '../../services/targetPick';
 import useTargetingStore from '../../store/targetingStore';
 import './SpellConsequencePanel.css';
-import { actionId, readFormula as readAuthoredFormula, definitionSummary } from '../../services/authoredAbility';
-import { describe as describeEffect, conditionLabel, policyText, conditionPlan, combinationText } from '../../services/authoredEffect';
+import { actionId, readFormula as readAuthoredFormula, definitionSummary, FORMULA_CAPABILITY, isFormula } from '../../services/authoredAbility';
+import { describe as describeEffect, conditionLabel, policyText, conditionPlan, combinationText, pcConsent, consentText } from '../../services/authoredEffect';
 import { movementSpeedBreakdown, movementBreakdownText, movementBaseSpeed } from '../../utils/conditionUtils';
 import { refreshAuthoredAbilities, changeAuthoredAdmission, routeSpellCast } from '../../services/spellConsequenceService';
 import { creatureAttempt, saveCreatureRoll, prepareCreatureAbility, cancelCreatureAbility, revalidateCreatureContext } from '../../services/spellConsequenceService';
 import { saveCreatureResolution } from '../../services/spellConsequenceService';
-import { STUNNED, stunnedRecordsFor } from '../../services/sharedConditionProfile';
+import { STUNNED, isStunned, isMovementModifier, expiryLabel } from '../../services/sharedConditionProfile';
 import { designateVoluntaryCondition, respondToVoluntaryCondition, retainedTargetResponses } from '../../services/spellConsequenceService';
 import { gmConditionResolution, saveGmConditionResolution } from '../../services/spellConsequenceService';
 import { gmCheckOffer, useBlockingStore, gmCheckBlockCommand } from '../../services/blockingService';
@@ -135,7 +135,14 @@ function OwnerPanel() {
   const source = ownerSource();
   const all = [...characters, ...creatures];
   const condition = support?.kind === 'condition', composed = support?.kind === 'class-effect', bundle = support?.kind === 'effect', needsRoll = bundle ? !!support.effectTerms.direct : !condition;
-  const candidates = source.token ? all.filter(token => refOf(token) && token.mapId === source.mapId && (!(condition || bundle || composed) || !sameExactRef(refOf(token), source.ref)) && (bundle || composed ? refOf(token).kind === 'creature' : refOf(token).kind === 'creature' || token.state.actorContract.primary)) : [];
+  const formula = support?.definitionHash?.startsWith(`${FORMULA_CAPABILITY}/`);
+  const pcHealing = formula && support?.targetRoute === 'primary-pc-healing';
+  const candidates = source.token ? all.filter(token => refOf(token) && token.mapId === source.mapId &&
+    (!(condition || bundle || composed || pcHealing) || !sameExactRef(refOf(token), source.ref)) &&
+    (pcHealing ? refOf(token).kind === 'character' && token.state.actorContract.primary
+      : composed || formula ? refOf(token).kind === 'creature'
+        : bundle ? refOf(token).kind === 'creature' || (token.state.actorContract.primary && pcConsent(support.effectTerms, 'character').ok)
+          : refOf(token).kind === 'creature' || token.state.actorContract.primary)) : [];
   const target = candidates.find(token => ref(refOf(token)) === targetKey);
   const latest = loadLatestSpell();
   const pending = unresolvedSpell(latest);
@@ -186,6 +193,7 @@ function OwnerPanel() {
           {support.cooldown.value > 0 && <><dt>Cooldown</dt><dd>{support.cooldown.value} ({support.cooldown.type}) — starts when the GM accepts</dd></>}
         </dl>
         {composed && <ClassDisclosure disclosure={support.disclosure} />}
+        {formula && <p className="p9-note">Caster effective scores are owner-attested: {Object.entries(support.rollAttributes).map(([name, value]) => `${name} ${value}`).join(', ') || 'no attributes'}. The server verifies the calculation, not the sheet-derived scores. Caster changes require approval again with these same faces; the GM adjudicates range, saves and mitigation.</p>}
         {!support.payment.affordable && <p className="p9-diagnostic">{support.payment.reason}</p>}
         {source.error ? <div className="p9-diagnostic"><p>{source.error}</p>
            {ownerCandidates.length === 1 && <button type="button" onClick={() => selectOwnerAttachment(refOf(ownerCandidates[0]))}>Use this owner attachment</button>}</div> : <>
@@ -198,7 +206,9 @@ function OwnerPanel() {
             {candidates.map(token => <option key={ref(refOf(token))} value={ref(refOf(token))}>{nameOf(token)} · {refOf(token).kind} · {token.id}{sameExactRef(refOf(token), source.ref) ? ' (you)' : ''}</option>)}
           </select></label>
           {target && <p className="p9-advisory">{advisoryRange(source.token, target, game, `${support.raw.targetingConfig?.rangeType || ''} ${support.raw.targetingConfig?.rangeDistance ?? '?'} ft`)} {resistanceText(target)}</p>}
+          {target && pcHealing && <p className="p9-consent">Player character target. You approve your source price and this formula roll; the target's owner must separately accept the exact healing amount before the GM can install it.</p>}
            {target && condition && <p>Target: {nameOf(target)} · {refOf(target).tokenId} / {refOf(target).instanceId}. You approve the action and spending, not the target’s consent. Stunned is hostile by default: the GM can install successful Stunned without target acknowledgement, including offline. Voluntary applications require separate GM designation and target acceptance. The GM resolves eligibility, range, saves, immunity and success manually. Changed terms require fresh approval. Failed/unexecuted attempt costs remain manual.</p>}
+          {target && bundle && refOf(target).kind === 'character' && <p className="p9-consent">Player character target. {consentText(pcConsent(support.effectTerms, 'character'))}</p>}
           {target && bundle && <p>Target: {nameOf(target)} · {refOf(target).tokenId} / {refOf(target).instanceId}. You approve the action, price, exact target, effect bundle and duration; changed terms need fresh approval. {bundleNote}</p>}
           {target && bundle && <MovementOutcome terms={support.effectTerms} definitionId={owner.spellId} sourceRef={source.ref} targetToken={target} />}
           {target && composed && <p>Target: {nameOf(target)} · {refOf(target).tokenId} / {refOf(target).instanceId}. You approve the price, exact target, roll and every listed outcome, including what is not automated. Changed terms need fresh approval.</p>}
@@ -210,7 +220,9 @@ function OwnerPanel() {
               value={physical[`${i}:${j}`] || ''} onChange={event => setPhysical({ ...physical, [`${i}:${j}`]: event.target.value })} />))}
             <button type="button" disabled={busy} onClick={() => record('physical')}>Record physical roll</button>
           </div>}
-          {roll && <p className="p9-roll-result">Recorded {roll.mode} roll: [{roll.dice.map(group => group.faces.join(', ')).join(' | ')}] {roll.constant >= 0 ? '+' : '-'} {Math.abs(roll.constant)} = <strong>{roll.total}</strong>. The GM confirms the final amount. Kept on this device for this spell through target changes and reloads.</p>}
+           {roll && <p className="p9-roll-result">Recorded {roll.mode} roll: [{roll.dice.map(group => group.faces.join(', ')).join(' | ')}] {roll.constant >= 0 ? '+' : '-'} {Math.abs(roll.constant)} = <strong>{roll.total}</strong>. The GM confirms the final amount. Kept on this device for this spell through target changes and reloads.</p>}
+           {formula && roll && !pending && roll.reading !== support.reading.reading && <button type="button" disabled={busy} onClick={() => perform(() => saveSpellDraft({ context: ctx, label: support.name,
+             roll: recordRoll(roll.mode, support.reading, roll.dice.map(group => group.faces)), targetKey }))}>Review changed scores with retained faces</button>}
           {!pending && <button type="button" className="p9-primary" disabled={busy || !target || (needsRoll && !roll) || !support.payment.affordable || !affordable(pools, support.price)}
             onClick={() => perform(() => sendSpellApproval({ spellId: owner.spellId, targetRef: refOf(target), roll: needsRoll ? roll : null, origin: owner.origin }))}>{composed ? 'Approve price, target, roll and listed outcomes' : bundle ? 'Approve exact price, target, effects and duration' : condition ? 'Approve exact price, target and Stunned duration' : 'Approve price and send to GM'}</button>}
         </>}
@@ -222,7 +234,7 @@ function OwnerPanel() {
         {status.latest?.approval?.conditionTerms && <p>Retained owner-approved terms: {status.latest.approval.spell.name} · source {status.latest.approval.source.tokenId}/{status.latest.approval.source.instanceId} → target {status.latest.approval.target.tokenId}/{status.latest.approval.target.instanceId} · {status.latest.approval.price.ap} AP / {status.latest.approval.price.mana} mana · canonical Stunned · {status.latest.approval.conditionTerms.timing.durationText} — GM removes.</p>}
         {['awaiting', 'unknown', 'prepared'].includes(status.phase) && <button type="button" disabled={busy} onClick={() => perform(checkSpellApproval)}>Check this same approval</button>}
         {['awaiting', 'unknown'].includes(status.phase) && <button type="button" disabled={busy} onClick={() => perform(withdrawSpellApproval)}>Withdraw before acceptance</button>}
-        {status.phase === 'reapproval' && <button type="button" disabled={busy} onClick={() => perform(reapproveSpell)}>{condition || bundle ? 'Review changed terms before fresh approval' : 'Review and approve again (same roll)'}</button>}
+         {status.phase === 'reapproval' && <button type="button" disabled={busy} onClick={() => perform(reapproveSpell)}>{condition || bundle ? 'Review changed terms before fresh approval' : formula ? 'Approve displayed scores again (retained faces)' : 'Review and approve again (same roll)'}</button>}
         {status.phase === 'unresolved' && <button type="button" disabled={busy} onClick={() => markSpellReconciled()}>Reconciled with the GM — clear this approval</button>}
       </div>}
       {error && <p className="p9-diagnostic">{error}</p>}
@@ -256,6 +268,7 @@ export function GmPanel() {
       const source = find(approval.source), target = find(approval.target), state = status[approval.approvalId];
       if (approval.spell.kind === 'class-effect') return <ClassEffectCard key={approval.approvalId} approval={approval} source={source} target={target} state={state} draft={draft} update={update} busy={busy} perform={perform} game={game} />;
       const condition = approval.spell.kind === 'condition', bundle = approval.spell.kind === 'effect', direct = bundle && !!approval.effectTerms.direct;
+      const formula = isFormula(approval);
       const resolved = condition || bundle, timingTerms = bundle ? approval.effectTerms.timing : approval.conditionTerms?.timing;
       const resolution = resolved ? gmConditionResolution(approval.approvalId) || { gmConfirmed: false, timing: timingTerms, timingNote: '', evidence: '' } : null;
       const updateResolution = values => { try { saveGmConditionResolution(approval.approvalId, { ...resolution, ...values }); } catch (e) { update({ error: e.message }); } };
@@ -267,7 +280,8 @@ export function GmPanel() {
           {direct && <><p>{approval.roll.mode} [{approval.roll.dice.map(group => group.faces.join(', ')).join(' | ')}] {approval.roll.constant >= 0 ? '+' : '-'} {Math.abs(approval.roll.constant)} = <strong>{approval.roll.total}</strong></p><p className="p9-meta">{approval.roll.reading}</p></>}</>}
         {bundle ? null : condition ? <><p>Canonical Stunned · {STUNNED.description}</p><p>{approval.conditionTerms.timing.durationText} — GM removes. {approval.conditionTerms.timing.gmNote}</p>
           <p>Exact source {approval.source.tokenId}/{approval.source.instanceId} → target {approval.target.tokenId}/{approval.target.instanceId}. Duration is owner-approved; a clarification cannot replace it. Changed terms require a newly admitted version and fresh approval.</p></> : <><p>{approval.spell.kind === 'damage' ? `${approval.spell.damageTypes.join('/')} damage` : 'direct healing'} · {approval.roll.mode} [{approval.roll.dice.map(group => group.faces.join(', ')).join(' | ')}] {approval.roll.constant >= 0 ? '+' : '-'} {Math.abs(approval.roll.constant)} = <strong>{approval.roll.total}</strong></p>
-        <p className="p9-meta">{approval.roll.reading}</p></>}
+         <p className="p9-meta">{approval.roll.reading}</p></>}
+        {isFormula(approval) && <p className="p9-note">Owner-attested caster scores: {Object.entries(approval.rollAttributes).map(([name, value]) => `${name} ${value}`).join(', ') || 'none'}. Calculation verified against these inputs; sheet derivation is not server-authoritative. Changed caster state needs fresh owner consent with retained faces.</p>}
         <p>Owner-approved price: {approval.price.ap} AP · {approval.price.mana} mana (temporary first){notePrice(approval.classPayment)}{approval.classPayment ? ` · class ${describeClassPublic(approval.classPayment.beforePublic)} → ${describeClassPublic(approval.classPayment.afterPublic)}` : ''}</p>
         <p className="p9-advisory">{advisoryRange(source, target, game, 'authored range')} {resistanceText(target)}</p>
          {resolved ? <fieldset disabled={busy || ['preparing', 'submitting', 'unknown', 'accepted', 'unresolved'].includes(state?.phase)}><legend>Private GM resolution</legend>
@@ -281,7 +295,9 @@ export function GmPanel() {
         <label>Final {approval.spell.kind === 'damage' ? 'damage' : 'healing'} <input type="number" min="0" value={draft.final ?? ''} onChange={event => update({ final: event.target.value })} /></label>
         <label>Reason (required if different from {approval.roll.total}) <input type="text" value={draft.reason || ''} onChange={event => update({ reason: event.target.value })} /></label></>}
          {draft.error && <p role="alert">{draft.error}</p>}
-         {condition && approval.target.kind === 'character' && <TargetPolicy approvalId={approval.approvalId} disabled={busy || ['preparing', 'submitting', 'unknown', 'accepted', 'unresolved'].includes(state?.phase)} />}
+         {(condition || bundle) && approval.target.kind === 'character' && <TargetPolicy approvalId={approval.approvalId} bundle={bundle ? approval.effectTerms : null} disabled={busy || ['preparing', 'submitting', 'unknown', 'accepted', 'unresolved'].includes(state?.phase)} />}
+         {formula && approval.target.kind === 'character' && <TargetPolicy approvalId={approval.approvalId} formula disabled={busy || ['preparing', 'submitting', 'unknown', 'accepted', 'unresolved'].includes(state?.phase)} />}
+         {formula && approval.target.kind === 'character' && <p className="p9-note">A different final healing amount needs a fresh owner approval and target acceptance; the accepted proposal is {approval.roll.total}.</p>}
         <div className="p9-actions">
           <button type="button" className="p9-primary" disabled={busy || ['preparing', 'submitting', 'unknown', 'accepted', 'unresolved'].includes(state?.phase) || (resolved && (!resolution.gmConfirmed || !resolution.timingNote.trim())) || (direct && (draft.final === '' || draft.final === undefined))} onClick={() => perform(() => gmAcceptSpell(approval.approvalId, { finalAmount: resolved && !direct ? 0 : draft.final === '' || draft.final === undefined ? NaN : Number(draft.final), reason: resolved && !direct ? '' : draft.reason || '', adjudicated: resolved ? resolution.gmConfirmed : draft.adjudicated === true }))}>{bundle ? 'Confirm payment, result and effect together' : condition ? 'Confirm PC payment and Stunned together' : 'Accept one consequence'}</button>
           <button type="button" disabled={busy || ['submitting', 'unknown'].includes(state?.phase)} onClick={() => perform(() => gmDeclineSpell(approval.approvalId))}>Decline</button>
@@ -360,7 +376,7 @@ function CreaturePanel() {
   const directPart = bundle ? d.effects.direct : condition ? null : d.effect, needsRoll = !!directPart, resolved = condition || bundle;
   const reading = needsRoll ? readAuthoredFormula(directPart.formula) : null;
    const candidates = [...creatures, ...characters].filter(t => refOf(t) && refOf(t).mapId === c.source.mapId &&
-      (sameExactRef(refOf(t), c.source) ? c.selfAllowed && !bundle : d.targeting.rangeFeet > 0 && d.targeting.restriction !== 'self' && (refOf(t).kind === 'creature' || (!bundle && t.state.actorContract.primary))));
+      (sameExactRef(refOf(t), c.source) ? c.selfAllowed && !bundle : d.targeting.rangeFeet > 0 && d.targeting.restriction !== 'self' && (refOf(t).kind === 'creature' || (t.state.actorContract.primary && (!bundle || pcConsent(d.effects, 'creature').ok)))));
    const target = candidates.find(t => ref(refOf(t)) === targetKey), roll = c.roll, id = latest.approval?.approvalId, status = gmStatus[id];
    const selected = [...creatures, ...characters].find(t => sameExactRef(refOf(t), c.target)) || target;
    const hp = selected && (refOf(selected)?.kind === 'creature' ? { current: selected.state?.currentHp, max: selected.state?.maxHp ?? selected.stats?.maxHp } : selected.character?.health);
@@ -377,7 +393,8 @@ function CreaturePanel() {
       <p>Source: {nameOf(source)} · {c.source.mapId} / {c.source.tokenId} · incarnation {c.source.instanceId}</p>
       <p>Admitted version {c.entry.definitionRef.definitionVersion} · {bundle ? describeEffect({ direct: d.effects.direct, condition: d.effects.condition, timing: d.timing }) : condition ? 'canonical Stunned' : `${d.effect.kind} · ${d.effect.formula} · ${d.effect.damageTypes?.join('/') || 'healing'}`}</p>
       <p>Exact price: {c.entry.descriptor.price.ap} AP / {c.entry.descriptor.price.mana} mana · temporary first. Nothing spent before confirmation.</p>
-        <p>Authored range {d.targeting.rangeFeet} ft · one {d.targeting.restriction} target. {bundle ? `One distinct placed creature. ${bundleNote}` : condition ? 'One distinct bound creature or primary PC. The GM resolves eligibility, range, saves, immunity and success. Hostile Stunned needs no target acknowledgement; disconnected targets do not veto installation.' : c.selfAllowed ? 'Self healing uses this exact creature; no owner offer or equipment.' : 'Self is unavailable for this targeting/effect profile. Primary PCs require the exact owner’s acceptance.'}</p>
+        <p>Authored range {d.targeting.rangeFeet} ft · one {d.targeting.restriction} target. {bundle ? `One distinct placed creature or primary PC. ${bundleNote}` : condition ? 'One distinct bound creature or primary PC. The GM resolves eligibility, range, saves, immunity and success. Hostile Stunned needs no target acknowledgement; disconnected targets do not veto installation.' : c.selfAllowed ? 'Self healing uses this exact creature; no owner offer or equipment.' : 'Self is unavailable for this targeting/effect profile. Primary PCs require the exact owner’s acceptance.'}</p>
+      {bundle && (target || c.target)?.kind !== 'creature' && (target || selected) && refOf(target || selected)?.kind === 'character' && <p className="p9-consent">Player character target. {consentText(pcConsent(d.effects, 'creature'))}</p>}
       {resolved && <>{bundle ? <><p>{d.effects.condition.kind === 'stunned' ? STUNNED.description : `${conditionLabel(d.effects.condition)}: flat change to movement speed (feet per movement AP), applied after other speed conditions; never below 0 ft.`}</p>
         <p>{d.timing.durationText}. {automationText(d.timing)} {d.timing.gmNote}</p>
         {latest.phase !== 'accepted' && <MovementOutcome terms={{ direct: d.effects.direct, condition: d.effects.condition, timing: d.timing }} definitionId={actionId(c.entry.definitionRef)} sourceRef={c.source}
@@ -404,18 +421,18 @@ function CreaturePanel() {
         {c.target && <p>Target: {nameOf([...creatures, ...characters].find(t => sameExactRef(refOf(t), c.target)))} · {c.target.mapId} / {c.target.tokenId} · incarnation {c.target.instanceId}</p>}
        {hp && needsRoll && <p>Current HP: {hp.current} / {hp.max}{directPart.kind === 'healing' && capped !== null && latest.phase !== 'accepted' ? ` · Proposed healing ${amount} · Actual HP to restore after cap: ${capped}` : ''}</p>}
       {defenses && <details><summary>Target's authored defenses and abilities (GM adjudication)</summary><p>Flat DR: {defenses.flatDR ?? 'not declared'}. Resistances/vulnerabilities and specific defensive effects remain manual.</p><pre className="creature-ability-json">{JSON.stringify(defenses, null, 2)}</pre></details>}
-       {roll && !bundle && c.target?.kind === 'character' && !latest.approval && <fieldset disabled={busy}><legend>Exact owner proposal</legend>
-         <label>Proposed {d.effect.kind === 'healing' ? 'healing' : 'damage before equipment block'}<input type="number" min="0" value={amount} onChange={e => setAmount(e.target.value)} /></label>
-         {d.effect.kind === 'damage' && <label><input type="checkbox" checked={blockApplicable} onChange={e => setBlockApplicable(e.target.checked)} /> I rule that equipment blocking applies to this ability</label>}
-         <label>Targeting and {d.effect.kind === 'healing' ? 'healing' : 'blocking applicability'} ruling (required)<input maxLength={300} value={reason} onChange={e => setReason(e.target.value)} /></label>
+       {roll && (!bundle || (c.target?.kind === 'character' && pcConsent(d.effects, 'creature').a5)) && c.target?.kind === 'character' && !latest.approval && <fieldset disabled={busy}><legend>Exact owner proposal</legend>
+         <label>Proposed {directPart.kind === 'healing' ? 'healing' : 'damage before equipment block'}<input type="number" min="0" value={amount} onChange={e => setAmount(e.target.value)} /></label>
+         {directPart.kind === 'damage' && <label><input type="checkbox" checked={blockApplicable} onChange={e => setBlockApplicable(e.target.checked)} /> I rule that equipment blocking applies to this ability</label>}
+         <label>Targeting and {directPart.kind === 'healing' ? 'healing' : 'blocking applicability'} ruling (required)<input maxLength={300} value={reason} onChange={e => setReason(e.target.value)} /></label>
          <p>Healing requires explicit owner acceptance of this amount, with no equipment. Changing it requires a new acceptance with these retained source faces.</p>
        </fieldset>}
-        {((needsRoll ? !!roll : true) && (!resolved || (resolution.gmConfirmed && resolution.timingNote.trim()))) && !['accepted', 'reconciled', 'unresolved'].includes(latest.phase) && !latest.pcOffer && <button type="button" disabled={busy || ['preparing', 'submitting', 'unknown', 'unresolved'].includes(status?.phase)} onClick={() => perform(() => prepareCreatureAbility({ proposedAmount: amount === '' ? NaN : Number(amount), blockApplicable, ruling: reason }))}>{bundle ? latest.approval ? 'Revalidate original effect attempt' : 'Validate successful effect application' : condition ? latest.approval ? 'Revalidate original condition attempt' : 'Validate successful condition application' : latest.approval ? 'Revalidate original attempt (same roll)' : c.target?.kind === 'character' ? 'Offer exact proposal to PC owner' : 'Validate source, target and retained roll'}</button>}
+        {((needsRoll ? !!roll : true) && (!resolved || (resolution.gmConfirmed && resolution.timingNote.trim()))) && !['accepted', 'reconciled', 'unresolved'].includes(latest.phase) && !latest.pcOffer && <button type="button" disabled={busy || ['preparing', 'submitting', 'unknown', 'unresolved'].includes(status?.phase)} onClick={() => perform(() => prepareCreatureAbility({ proposedAmount: amount === '' ? NaN : Number(amount), blockApplicable, ruling: reason }))}>{bundle ? latest.approval ? 'Revalidate original effect attempt' : c.target?.kind === 'character' && pcConsent(d.effects, 'creature').a5 ? 'Offer exact proposal to PC owner' : 'Validate successful effect application' : condition ? latest.approval ? 'Revalidate original condition attempt' : 'Validate successful condition application' : latest.approval ? 'Revalidate original attempt (same roll)' : c.target?.kind === 'character' ? 'Offer exact proposal to PC owner' : 'Validate source, target and retained roll'}</button>}
        {latest.pcOffer && <p role="status">Continue in block/consent adjudication below. {blockStatuses[c.attemptId]?.message || 'Original owner offer retained.'}
          <button type="button" disabled={busy} onClick={() => perform(() => blockStatuses[c.attemptId]?.command ? gmCheckBlockCommand(c.attemptId) : gmCheckOffer(c.attemptId))}>Check original PC offer or command</button></p>}
       {(roll || resolved) && latest.approval && !['accepted', 'reconciled', 'unknown', 'unresolved'].includes(latest.phase) && !['preparing', 'submitting', 'unknown', 'unresolved'].includes(status?.phase) && <button type="button" disabled={busy} onClick={() => perform(revalidateCreatureContext)}>{needsRoll ? 'Refresh admission or change target (keep faces)' : 'Refresh admission or change target (keep evidence)'}</button>}
         {canAccept && !latest.pcOffer && <>
-         {condition && c.target?.kind === 'character' && <TargetPolicy approvalId={id} disabled={busy} />}
+         {(condition || bundle) && c.target?.kind === 'character' && <TargetPolicy approvalId={id} bundle={bundle ? d.effects : null} disabled={busy} />}
         <label><input type="checkbox" checked={adjudicated} onChange={e => setAdjudicated(e.target.checked)} /> {bundle ? 'I reviewed the retained successful outcome, timing, effects, exact price and (if any) mitigation' : condition ? 'I reviewed the retained successful outcome, timing and exact authored price' : 'I adjudicated legality, range, target restrictions, defense and mitigation'}</label>
         {needsRoll && <>
         <label>Final {directPart.kind === 'damage' ? 'damage' : 'healing'}<input type="number" min="0" value={amount} onChange={e => setAmount(e.target.value)} /></label>
@@ -461,11 +478,14 @@ function AdmittedAbilities() {
   </section></details>;
 }
 
-function TargetPolicy({ approvalId, disabled }) {
+function TargetPolicy({ approvalId, disabled, bundle = null, formula = false }) {
   const proposal = useSpellConsequenceStore(s => s.gmPending[approvalId]?.targetProposal);
   const [error, setError] = useState(''), [busy, setBusy] = useState(false);
-  return <div className="p9-note"><p>{proposal ? `Voluntary Stunned — ${proposal.withdrawn ? 'target acceptance withdrawn; close this attempt' : proposal.accepted ? 'exact target accepted' : 'waiting for explicit target acceptance; silence never accepts'}. Source payment consent remains separate.` : 'Hostile Stunned — current GM success authority. Target notification is informational, not permission. No target acknowledgement is required.'}</p>
-    {!proposal && <button type="button" disabled={disabled || busy} onClick={async() => { setBusy(true); setError(''); try { await designateVoluntaryCondition(approvalId); } catch (e) { setError(e.message); } finally { setBusy(false); } }}>GM: designate voluntary application</button>}
+  const what = bundle ? 'effect bundle' : formula ? 'healing' : 'Stunned', consent = bundle ? pcConsent(bundle, 'character') : null;
+  return <div className="p9-note">{bundle && consent?.ok && <p>{consentText(consent)}</p>}
+    {formula && <p>Direct formula healing: the target's owner must explicitly accept the exact proposed amount. Source payment consent is separate.</p>}
+    <p>{proposal ? `Voluntary ${what} - ${proposal.withdrawn ? 'target acceptance withdrawn; close this attempt' : proposal.accepted ? 'exact target accepted' : 'waiting for explicit target acceptance; silence never accepts'}. Source payment consent remains separate.` : `Hostile ${what} - current GM success authority. Target notification is informational, not permission.`}</p>
+    {!proposal && !formula && <button type="button" disabled={disabled || busy} onClick={async() => { setBusy(true); setError(''); try { await designateVoluntaryCondition(approvalId); } catch (e) { setError(e.message); } finally { setBusy(false); } }}>GM: designate voluntary application</button>}
     {error && <p role="alert">{error}</p>}</div>;
 }
 
@@ -476,19 +496,19 @@ function TargetConditions() {
   const proposals = useSpellConsequenceStore(s => s.targetProposals) || [];
   const [error, setError] = useState(''), [busy, setBusy] = useState(false);
   useEffect(() => { refreshSpellApprovals(); }, [characterId]);
-  const source = ownerSource(), records = source.token ? stunnedRecordsFor(source.token).filter(r => r.sourceEntityId.startsWith('authored-condition:')) : [];
+  const source = ownerSource(), records = source.token ? (source.token.state?.conditions || []).filter(r => (isStunned(r) || isMovementModifier(r)) && /^authored-(condition|effect):/.test(String(r.sourceEntityId || ''))) : [];
   const retained = retainedTargetResponses();
   // Reading/acknowledging/reporting never emits an action or changes a condition.
   if (!records.length && !proposals.length && !retained.length) return null;
   const respond = async(p, accept) => { setBusy(true); setError(''); try { await respondToVoluntaryCondition(p, accept); } catch (e) { setError(e.message); } finally { setBusy(false); } };
   return <details className="p9-admitted"><summary>Stunned notices and voluntary proposals ({records.length + proposals.length})</summary>
     <section aria-label="Target Stunned notices"><button type="button" disabled={busy} onClick={() => refreshSpellApprovals()}>Refresh original target proposals</button>
-      <p>Accepted hostile Stunned does not require your permission or acknowledgement. To request correction, message the GM with the exact instance below; the GM uses shared condition controls to correct/remove that instance. Reporting does not undo, duplicate or refund it.</p>
-      {records.map(r => <p key={r.id} role="status">Accepted canonical Stunned · instance {r.id} · {r.authoredDuration} — GM removes. Source identity is withheld on this notice. View the same instance on your sheet/token.</p>)}
+      <p>An accepted hostile effect (Stunned or a movement penalty) does not require your permission or acknowledgement. To request correction, message the GM with the exact instance below; the GM uses shared condition controls to correct/remove that instance. Reporting does not undo, duplicate or refund it.</p>
+      {records.map(r => <p key={r.id} role="status">{isStunned(r) ? 'Accepted canonical Stunned' : `Active ${r.label || 'movement effect'} (${(r.effects?.movementSpeed || 0) > 0 ? '+' : '−'}${Math.abs(r.effects?.movementSpeed || 0)} ft per movement AP; added to other movement effects, never below 0 ft — your sheet and movement validation use the combined speed)`} · instance {r.id} · {expiryLabel(r)}. Source identity is withheld on this notice. View the same instance on your sheet/token.</p>)}
       {retained.map(e => <p key={e.command.commandId} role="status">Original target response {e.command.proposalId}: outcome unavailable. No replacement consent is created. <button type="button" disabled={busy} onClick={() => respond(e.proposal || e.command, e.command.accept)}>Check original target response</button></p>)}
-      {proposals.filter(p => p.target.characterId === characterId).map(p => <div key={p.proposalId}><h4>GM-designated voluntary Stunned</h4><p>{p.source} (exact opaque source handle {p.sourceHandle}) → exact target {p.target.tokenId}/{p.target.instanceId}. Canonical Stunned: {STUNNED.description} {p.durationText} — GM removes. Source price {p.price.ap} AP / {p.price.mana} mana. Admitted definition {p.definitionId} · version/hash {p.definitionVersionOrHash}. Exact proposal {p.proposalId} · server-bound terms handle {p.termsHash}. No source resources are authorized by your acceptance.</p>
+      {proposals.filter(p => p.target.characterId === characterId).map(p => <div key={p.proposalId}><h4>{p.healing ? 'Direct healing proposal' : p.bundle ? 'Voluntary effect bundle' : 'GM-designated voluntary Stunned'}</h4>{p.healing && <p className="p9-bundle">Direct healing {p.healing.formula} — proposed amount {p.healing.proposedAmount}. A different amount needs your fresh acceptance. Your affirmative acceptance is required before the GM can install it.</p>}{p.bundle && <p className="p9-bundle">{p.bundle.direct ? `${p.bundle.direct.kind === 'damage' ? `${(p.bundle.direct.damageTypes || []).join('/')} damage` : 'Direct healing'} ${p.bundle.direct.formula} (the GM finalizes the amount${p.bundle.direct.kind === 'healing' ? '; a different amount needs your fresh acceptance' : ''}) + ` : ''}{conditionLabel(p.bundle.condition)} · {p.bundle.timing.durationText} — {policyText(p.bundle.timing.expiryPolicy, p.bundle.timing.occurrences)}. {p.bundle.condition.kind === 'movement' ? `Your movement speed changes by ${p.bundle.condition.feet > 0 ? '+' : '−'}${Math.abs(p.bundle.condition.feet)} ft per movement AP, combined with other effects and never below 0 ft.` : STUNNED.description}</p>}<p>{p.source} (exact opaque source handle {p.sourceHandle}) → exact target {p.target.tokenId}/{p.target.instanceId}. {p.healing ? 'The exact proposed healing amount is bound to this acceptance.' : p.bundle ? '' : `Canonical Stunned: ${STUNNED.description} ${p.durationText} — GM removes.`} Source price {p.price.ap} AP / {p.price.mana} mana. Admitted definition {p.definitionId} · version/hash {p.definitionVersionOrHash}. Exact proposal {p.proposalId} · server-bound terms handle {p.termsHash}. No source resources are authorized by your acceptance.</p>
         <p>{p.withdrawn ? 'Withdrawn. A fresh proposal is required.' : p.accepted ? 'Your exact acceptance is recorded; installation still requires the GM.' : 'Waiting for your affirmative acceptance. Silence, timeout and disconnection never accept.'}</p>
-        {!p.withdrawn && <><button type="button" disabled={busy || p.accepted} onClick={() => respond(p, true)}>Accept this exact voluntary Stunned</button><button type="button" disabled={busy} onClick={() => respond(p, false)}>Withdraw target acceptance before installation</button></>}
+        {!p.withdrawn && <><button type="button" disabled={busy || p.accepted} onClick={() => respond(p, true)}>{p.healing ? 'Accept this exact healing proposal' : p.bundle ? 'Accept this exact effect bundle' : 'Accept this exact voluntary Stunned'}</button><button type="button" disabled={busy} onClick={() => respond(p, false)}>Withdraw target acceptance before installation</button></>}
       </div>)}{error && <p role="alert">{error}</p>}
     </section></details>;
 }

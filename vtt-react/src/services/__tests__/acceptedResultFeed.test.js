@@ -27,6 +27,13 @@ test('A4 unavailable unused creature pools retain exact healing feedback, visibi
   expect(hidden.floats).toEqual([]); expect(hidden.narration.text).not.toContain('Visible creature');
 });
 
+test('M4 v2 direct damage retains spell narration and exact accepted feedback', () => {
+  const result = strikeReceipt(20, 0);
+  result.receipt.adjudication = { definitionVersionOrHash: `authored-immediate:v2/${'a'.repeat(64)}`, chosenResult: JSON.stringify({ kind: 'damage', spellName: 'Authored scaling' }) };
+  const live = buildFeed({ result, before: { [actorKey(foe)]: before(7, 30), [actorKey(pc)]: before(3, 30) }, viewer: allVisible, live: true });
+  expect(live.narration.text).toContain('Authored scaling'); expect(live.floats).toHaveLength(1);
+});
+
 test('exact numbers only at beforeRevision; overkill floats the actual drop', () => {
   const result = strikeReceipt(0, 0);
   const feed = buildFeed({ result, before: { [actorKey(pc)]: before(3, 30, 0, 4, 'Ilsa'), [actorKey(foe)]: before(7, 5, 0, 4, 'Branvig') }, viewer: allVisible, live: true });

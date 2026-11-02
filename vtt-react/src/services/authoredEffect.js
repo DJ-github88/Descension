@@ -62,4 +62,44 @@ function combinationText(combination, condition) {
   if (!combination || condition?.kind !== 'movement') return '';
   return combination.outcome === 'refreshed' ? `refreshed ${condition.label}: its duration restarts; the value is not stacked` : `added ${condition.label}: it stacks with other movement effects`;
 }
-module.exports = { CAPABILITY, TIMINGS, POLICY_TEXT, policyText, isEffect, namedRecord, occurrence, termsFor, conditionLabel, describe, recordFor, conditionPlan, resultFor, combinationText };
+/**
+ * M3A: which existing consent rule governs a bundle aimed at one exact primary PC. Pure classification of already-admitted
+ * terms; it adds no rule and no new record. Existing boundaries are reused unchanged:
+ *   - A5: a placed-creature direct damage/healing part needs the target owner's own response (block choice, or explicit acceptance of healing);
+ *   - A9: Stunned and movement penalties are hostile by default (current GM authority; the GM may designate them voluntary);
+ *   - voluntary: a beneficial movement effect, and a healing + beneficial bundle, always need the target owner's affirmative acceptance.
+ * Combinations whose consent semantics would conflict are refused here, whole, and are never silently downgraded to a subset.
+ */
+const PC_REFUSALS = Object.freeze({
+  pc_target_consent_conflict: 'Damage needs the target owner\'s block response while a beneficial effect is voluntary, so one acceptance cannot cover both. Refused whole; run the parts as separate actions or by hand.',
+  pc_target_consent_conflict_heal: 'Healing needs the target owner\'s explicit acceptance while a hostile effect is applied under GM authority, so one acceptance cannot cover both. Refused whole; run the parts as separate actions or by hand.',
+  pc_target_effect_unsupported: 'Only Stunned or one flat movement change can accompany a direct part on a player character. Refused whole.'
+});
+const hostileRider = condition => condition?.kind === 'stunned' || (condition?.kind === 'movement' && condition.feet < 0);
+const beneficialRider = condition => condition?.kind === 'movement' && condition.feet > 0;
+function pcConsent(terms, sourceKind) {
+  const refuse = code => ({ ok: false, code, message: PC_REFUSALS[code] });
+  const direct = terms?.direct || null, condition = terms?.condition;
+  if (!['character', 'creature'].includes(sourceKind)) return refuse('pc_target_effect_unsupported');
+  const hostile = hostileRider(condition), beneficial = beneficialRider(condition);
+  if (hostile === beneficial) return refuse('pc_target_effect_unsupported');
+  if (direct?.kind === 'damage' && beneficial) return refuse('pc_target_consent_conflict');
+  if (direct?.kind === 'healing' && hostile) return refuse('pc_target_consent_conflict_heal');
+  if (direct && !['damage', 'healing'].includes(direct.kind)) return refuse('pc_target_effect_unsupported');
+  // A5 owns the owner response whenever a placed creature adds a direct part; otherwise A9's target-acceptance record is the only mechanism.
+  const a5 = sourceKind === 'creature' && !!direct;
+  return { ok: true, rider: hostile ? 'hostile' : 'beneficial', directKind: direct?.kind || null, a5,
+    acceptanceRequired: beneficial && !a5, designatable: hostile && !a5 };
+}
+/** The direct kind of an approval-like value ('damage' | 'healing' | null) for plain and bundle spells alike. */
+const directKindOf = approval => approval?.spell?.kind === 'effect' ? approval.effectTerms?.direct?.kind || null : ['damage', 'healing'].includes(approval?.spell?.kind) ? approval.spell.kind : null;
+function consentText(consent) {
+  if (!consent?.ok) return consent?.message || '';
+  const part = consent.directKind ? `${consent.directKind === 'damage' ? 'damage' : 'healing'} and ` : '';
+  if (consent.a5) return consent.directKind === 'damage'
+    ? 'The target\'s owner answers first: block with a declared piece or take it without blocking. The effect that follows is hostile and applied under GM authority.'
+    : 'The target\'s owner must explicitly accept this healing and its beneficial effect before anything is applied.';
+  if (consent.acceptanceRequired) return `The target's owner must explicitly accept ${part}this beneficial effect; silence or a GM proxy never accepts.`;
+  return 'Hostile by default: the GM\'s confirmation applies it. The GM may instead ask the target\'s owner for explicit acceptance.';
+}
+module.exports = { CAPABILITY, TIMINGS, POLICY_TEXT, policyText, isEffect, namedRecord, occurrence, termsFor, conditionLabel, describe, recordFor, conditionPlan, resultFor, combinationText, pcConsent, directKindOf, consentText, PC_REFUSALS };
