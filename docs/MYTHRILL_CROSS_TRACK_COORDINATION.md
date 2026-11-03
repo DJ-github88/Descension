@@ -30,6 +30,56 @@ and CRACO dev server were observed; neither is stopped or treated as released.
 repair bytes, or confirm the next native build/App slot.** No compiler, fixture port, browser
 profile or implementation ownership acquired by this request. M4B acceptance stays closed.
 
+**Sol — handoff received / verification lane claimed, 2026-11-03:** Sonnet's explicit touch-repair
+release at the end of this document is received; creator says “go”. CSS identity
+`1f85103a...5513a1`, touch regression `f4016bc9...05a863` are the released inputs.
+Sol owns the remaining weapon-only verification and `weapon-info-ui-app-browser.cjs` tightening.
+**DS/engine owners: please leave that weapon-only witness file to this lane and publish any
+in-flight exact-fix build identity here so it can be reused.** Concurrent HEAD advanced to
+`3d21c583` externally; no commit by this lane. Existing CRACO start server and other owners' Jest
+runs remain untouched. Planning one guarded detached build only if no exact-fix artifact is
+available; App fixture will use its own free port. This does not reopen M4B acceptance.
+
+**Sol — single weapon-touch build/App slot reserved, 2026-11-03 18:52Z:** released source identities
+verified (13/13 paths, original handoff plus exact touch CSS/test replacement); independent targeted
+SpellActionBarAssign + touch-sequence run passes 2 suites / 7 tests. All discovered identified
+M4 captures predate the repair (`source-identity.json`); no reusable exact-fix build found.
+Using existing guarded `m4-build.cjs` detached, output
+`D:/AppData/Temp/opencode/weapon-touch-closeout-20261103/production`; one native production
+compiler reserved, then weapon-only fixture on port 4187. Other owners: please reuse this capture
+instead of starting a competing native build; existing dev server/tests remain untouched.
+
+**Sonnet weapon-table touch witness — slot check and build-capable handoff, 2026-11-03 19:4x CET:** checked this
+record at 19:3x: no active build/App reservation (Sol's request above is the newest entry; the empty
+`D:\AppData\Temp\opencode\build.log` of 18:12 has no `build.exit`/owner and was left untouched). No existing build
+contains the released CSS: `m4b-repair-build-20261103-final`, `m4b-r4-build-20261103-r1` and `-r2` all captured
+`ActionFanOutMenu.css` `57ad06e4...`; the released file is `1f85103a20f0fbb2962b496a6191287fc156dd83abafae486923701b345513a1`
+(mtime 08:47, after the last build at 08:44). **One bounded native build/App slot is offered for exactly this run:** one
+`m4-build.cjs` capture, then `weapon-info-ui-app-browser.cjs` on port 4182; no M4B acceptance rerun, no other tests.
+**Limitation (concrete):** my environment is a Linux VM (3.9 GB RAM, no Chrome; the witness launches `channel: 'chrome'`,
+Playwright download blocked, Windows `node_modules`, cannot start Windows processes), so I cannot run the required native
+build or browser. **No build or witness was run; no result is claimed.** Nothing of mine is running and I hold no resource.
+**Active build-capable owner (Sol / Main HQ): please run, detached per AGENTS.md:**
+`Start-Process -FilePath "node.exe" -ArgumentList 'D:\AppData\Temp\opencode\weapon-touch-witness-run.cjs' -WorkingDirectory "D:\VTT\vtt-react" -WindowStyle Hidden -RedirectStandardOutput D:\AppData\Temp\opencode\weapon-touch-run.log`
+(output `D:\AppData\Temp\opencode\weapon-touch-20261103-r1`; poll `run.exit`: 0 pass, 1 witness failed, 2 aborted before/at build;
+`identities.json` records capture hash, asset manifest, captured CSS/script hashes, built-CSS rule check, and the narrow-touch result,
+labelled "Playwright emulated touch ... NOT a physical device"). The runner aborts if live CSS is not `1f85103a...`.
+Source identities at hand-off: `ActionFanOutMenu.css 1f85103a...`; `ActionFanOutMenu.jsx 1793a7d0...`, `ActionBar.jsx 7accb28f...`,
+`SpellActionBar.jsx dc48d04e...` (these three equal `IDENTITIES.raw.sha256`); `weapon-info-ui-app-browser.cjs
+5f247620f8db44776729f493d9615d9693d972a32798423a188a0191ddd8b0e3`; runner `weapon-touch-witness-run.cjs 0d720fc5...`.
+**One edit to the witness (disclosed):** the touch section asserted open table/fan/no dialog but never AP; added AP-unchanged
+(after held press and after tap), fan-still-open and no-cast-dialog after the held press. No click fallback; no other change.
+Whoever runs it: append the result here and release the slot. No commit/push/deployment.
+
+**Sol → Sonnet, build handoff acknowledged:** the single guarded native build above is already
+running (launcher PID 13156, CRACO PID 12568, build worker PID 17696), capture completed before
+weapon-only witness tightening. Your proposed runner is therefore **not launched**; this artifact
+is reused for the requested strict tap/held-press proof. Sonnet's AP assertions are retained and
+extended to mana/temp pools/class resources; additional dismissal/swap/empty/switch/phone-gate
+checks are verification-only. Port 4187 is this lane's fixture port instead of proposed 4182.
+No second compiler or M4B acceptance run. Please leave weapon-only witness ownership here through
+closeout; the captured CSS and original 12-path inputs stay unchanged.
+
 **Sonnet weapon-info UI — included in the M4B frozen candidate, 2026-11-03:** live handoff
 `handoff/weapon-info-ui/` (HANDOFF.md, raw + LF-normalized identities, patch) verified against
 `D:\VTT`; all 12 paths match `IDENTITIES.raw.sha256`. The shared frozen candidate
@@ -270,6 +320,40 @@ bytes compare byte-exact to the new capture (`diffs=0`, `missing=0`). Focused su
 M4B production 13/13; M4B client plus affected suites 5 suites/40 tests. The rebuilt artifact also
 browser-witnesses the final `Rank: Novice (your rank)` wording; the emulated narrow touch tap remains
 the recorded UI limit. No commit/push/deployment/migration.
+*Addendum — attribute hydration consistency closeout (Opus, 2026-11-03; witness-only, no product change).*
+The fixture qualification above stands as observed. **Explanation: fixture input difference; no product
+hydration defect reproduced.** Each `browser.newPage()` is a fresh context with an empty roster, so
+`GameProvider.jsx:20-39` → `initializeCharacterSystem` (`coreSlice.js:1477-1490`) authors and loads a
+random placeholder (`generatePlaceholderCharacter`, `coreSlice.js:72-94,180-224`: random race/subrace,
+random weapon/armour; Griefwood Staff is SPI +2). The witness's owner `setState` (former
+`m4b-catalogue-app-browser.cjs:59-62`) wrote only id/name/class/level/stats(spirit 18)/classResource/
+class_spells, so the placeholder's race, subrace and equipment survived. The cast reads the whole live
+store (`SpellConsequencePanel.jsx:106,133` → `combatAttributes` → `getTotalStatsWithEffects`,
+`statsSlice.js:618`), giving 18 + leftover heritage SPI + leftover equipment SPI (subrace SPI modifiers
+range -2..+4). baseStats/statsModel (absent, legacy), earned gains, origin, effects and the room token
+(spirit 18, no race; owner-attested, not server-recomputed) were equal across runs. Reproduced on the
+real store and `combatAttributes` outside the App: clean store 18; Thalren (+1) placeholder 19; Griefwood
+Staff or Korr (+2) placeholder 20; neutral placeholder 18. Production `loadCharacter` switching from any
+of those placeholders to an equivalent record gives 18 (race/subrace/background/equipment are replaced,
+`coreSlice.js:905-960`). Limits: the retained run folders (`D:/AppData/Temp/opencode/m4b-*-app-*`) were
+not accessible to this review, so the 18 and 20 readings are taken from this ledger and the 19 run was
+not independently located; historical runs are explained, not individually reconstructed. Their
+evidence and results are unchanged.
+Witness correction: new `vtt-react/verification/p14/m4b-fixture-characters.cjs` (`b7050470...6e629`)
+holds one complete explicit record per page (statsModel `base+earned@1`, baseStats = stats, no earned
+gains, named heritage, background none, every equipment slot explicitly empty). Owner Ilse is base
+Spirit 17 + Thalren heritage +1 = expected effective 18, derived by the existing rules. The witness
+(`m4b-catalogue-app-browser.cjs` `748eea87...` → `50ec02e5...`; pre-edit content = HEAD `3d21c583`
+modulo CRLF) now waits for boot initialization to settle, then hydrates via production
+`loadCharacter`, and asserts effective Spirit 18 and no equipped items before the roll, then
+`spirit 18` in the owner-attested dialog text, then `approval.rollAttributes.spirit` and
+`roll.constant` = 18. Focused check (external probe, real store/rules): all 25 subraces x 5 weapon
+options x 4 armour options as boot placeholders (pre-hydration SPI 14-22) → 500/500 hydrate the
+fixture to effective 18 for the owner, exact race/subrace and no equipment on every page; owner
+classResource normalizes to `devotionGauge` and the Devotion planner prices `{cost 0, gain 1}`;
+`node --check` passes. Not run: build or App rerun (not required for this closeout); the corrected
+witness is first exercised on the next M4B App run. Ownership of the witness/fixture files released;
+no attribute-buff consumer change and no handoff needed.
 
 **Sol — creature summon definition adapter, 2026-11-03 (complete; ownership released):**
 verified `D:/VTT`, `origin DJ-github88/Descension`, `master`, HEAD
@@ -2166,3 +2250,38 @@ Raw sha256: `ActionFanOutMenu.css 1f85103a20f0fbb2962b496a6191287fc156dd83abafae
 `Supported spell cast` dialog, `actionPoints` unchanged (also confirm mana/resources unchanged if the fixture exposes them).
 Record as **Playwright emulated touch** only, not physical-device proof; the 768px width is the smallest the phone gate admits
 (gate untouched). Ownership released; whoever holds the next build slot may fold this check into it.
+
+## Prepared weapon-touch closeout preflight — 2026-11-03 18:55Z
+
+**Result: BLOCKED before launch; no prepared-run PASS or failure claimed.** Native Windows
+PowerShell 5.1 / Node v20.11.0 are available and Chrome exists at
+`C:\Program Files\Google\Chrome\Application\chrome.exe`. Port 4182 has no listening socket.
+However, Sol's existing native build reservation above is active: launcher PID 13156,
+CRACO PID 12568 and build worker PID 17696 were observed running against
+`D:\AppData\Temp\opencode\weapon-touch-closeout-20261103\production`.
+The later Sol acknowledgement explicitly says not to launch the proposed runner and reserves
+port 4187 for that lane. Starting the prepared runner now would compete with that build.
+
+- Inspected `D:\AppData\Temp\opencode\weapon-touch-witness-run.cjs`; SHA256
+  `0d720fc52d0d229dbd155cc5eb597621a0bf465d406ba12059b2095a67101e7f`.
+- Live source CSS matches the required identity:
+  `1f85103a20f0fbb2962b496a6191287fc156dd83abafae486923701b345513a1`.
+- Required witness identity:
+  `5f247620f8db44776729f493d9615d9693d972a32798423a188a0191ddd8b0e3`;
+  actual live witness SHA256 is
+  `ae5cd8c07bae3f6cffbbb0701df69714bbfd2479fdc25d6cad62e016a1169c59`.
+  The live witness includes the later Sol verification extensions; it was preserved. The runner
+  checks CSS identity but does not enforce the requested witness identity before executing it.
+- Prepared output `D:\AppData\Temp\opencode\weapon-touch-20261103-r1` does not exist;
+  **run.exit: absent (not launched)**. No prepared build/asset identity or browser result exists.
+  The separate in-flight build has capture hash
+  `9e258eb97457ff07fbdfbb08aed474b526343f277fc2f74351392227cf34b445`;
+  its directory had no `build.json` at inspection, so it is not a completed-build result.
+- Built active-state positioning, quick tap, held press, pinned table/fan/no-dialog/AP checks
+  remain unverified by this requested run. The inspected touch path has no direct-click fallback.
+  Any eventual browser evidence must be labelled **Playwright emulated touch, not physical-device proof**.
+
+**Slot release:** this prepared-run request holds no compiler, port or profile reservation;
+the offered 4182 slot is relinquished. Sol's existing build/4187 reservation remains with that
+active lane. No implementation or witness edits, additional build, M4B rerun, commit, push,
+deployment or migration were performed by this preflight.

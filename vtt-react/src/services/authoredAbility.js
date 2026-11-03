@@ -1,4 +1,4 @@
-﻿/** P14-A1 pure whole-Wizard adapter. Shared by server admission and authoring diagnostics.
+/** P14-A1 pure whole-Wizard adapter. Shared by server admission and authoring diagnostics.
  * No RNG, storage, authority or execution. Unknown mechanics refuse instead of being stripped. */
 const { canonical, sha256Hex } = require('./canonicalHash');
 const { catalogueExecutable } = require('./catalogueAbility.cjs');
@@ -153,7 +153,7 @@ function definitionFromWizard(record, { roomId, definitionVersion, classId }) {
       const c = d.controlConfig.authoredCondition;
       only(c, ['profile', 'effect', 'movementFeet', 'label', 'expiryPolicy', 'durationText', 'gmNote', 'occurrences'], 'authoredEffect');
       if (!EFFECT_EXPIRY_POLICIES.includes(c.expiryPolicy)) refuse('Expiry: manual removal, start or end of the target\'s next turn, or a counted start/end of the target\'s upcoming turns');
-      // M2A: an explicit occurrence count belongs to the counted policies only (whole number 2â€¦10); the existing policies carry none.
+      // M2A: an explicit occurrence count belongs to the counted policies only (whole number 2…10); the existing policies carry none.
       if (COUNTED_EXPIRY_POLICIES.includes(c.expiryPolicy) ? !conditionProfile.validOccurrences(c.occurrences) : c.occurrences !== undefined)
         refuse(`Occurrences: counted expiry needs a whole number of target-turn boundaries from 2 to ${conditionProfile.MAX_OCCURRENCES}; other expiry policies carry no count`);
       if (typeof c.durationText !== 'string' || !c.durationText.trim() || c.durationText.length > 300 || typeof c.gmNote !== 'string' || !c.gmNote.trim() || c.gmNote.length > 1000) refuse('Authored duration and GM note required');
@@ -162,8 +162,8 @@ function definitionFromWizard(record, { roomId, definitionVersion, classId }) {
         if (c.movementFeet !== undefined || c.label !== undefined) refuse('Stunned has no movement amount or custom label');
         conditionEffect = { kind: 'stunned' };
       } else if (c.effect === 'movement') {
-        if (!Number.isSafeInteger(c.movementFeet) || c.movementFeet === 0 || c.movementFeet < -60 || c.movementFeet > 60 || c.movementFeet % 5 !== 0) refuse('Movement change must be a nonzero multiple of 5 ft from âˆ’60 to +60');
-        if (typeof c.label !== 'string' || !c.label.trim() || c.label !== c.label.trim() || c.label.length > 60) refuse('Movement effect label (1â€“60 characters, no outer spaces) required');
+        if (!Number.isSafeInteger(c.movementFeet) || c.movementFeet === 0 || c.movementFeet < -60 || c.movementFeet > 60 || c.movementFeet % 5 !== 0) refuse('Movement change must be a nonzero multiple of 5 ft from −60 to +60');
+        if (typeof c.label !== 'string' || !c.label.trim() || c.label !== c.label.trim() || c.label.length > 60) refuse('Movement effect label (1–60 characters, no outer spaces) required');
         conditionEffect = { kind: 'movement', feet: c.movementFeet, label: c.label };
       } else refuse('Effect: canonical Stunned or one movement-speed change');
       // Review finding 1: a second, structured Wizard duration would contradict the explicit expiry policy.
@@ -231,8 +231,8 @@ function creatureSelfHealing(definition, record) {
 function definitionSummary(d) {
   if (!d) return '';
   if (d.capability === EFFECT_CAPABILITY) return require('./authoredEffect').describe({ direct: d.effects.direct, condition: d.effects.condition, timing: d.timing });
-  if (d.effect?.kind === 'condition') return `canonical Stunned Â· ${d.timing.durationText} â€” GM removes`;
-  return `${d.effect?.kind} Â· ${d.effect?.formula}${d.effect?.damageTypes?.length ? ` ${d.effect.damageTypes.join('/')}` : ''}`;
+  if (d.effect?.kind === 'condition') return `canonical Stunned · ${d.timing.durationText} — GM removes`;
+  return `${d.effect?.kind} · ${d.effect?.formula}${d.effect?.damageTypes?.length ? ` ${d.effect.damageTypes.join('/')}` : ''}`;
 }
 module.exports = { definitionSummary, CAPABILITY, FORMULA_CAPABILITY, FORMULA_COMPILER, readScaledFormula, formulaAttributes, isFormula, CONDITION_CAPABILITY, EFFECT_CAPABILITY, EFFECT_EXPIRY_POLICIES, COUNTED_EXPIRY_POLICIES, ADAPTER_VERSION, CLASS_IDS, readFormula, definitionFromWizard, actionId, isAuthored, creatureSelfHealing };
 

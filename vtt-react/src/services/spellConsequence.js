@@ -29,7 +29,7 @@ const extraKeys = (value, allowed) => isObject(value) ? Object.keys(value).filte
 const manual = reason => ({ supported: false, reason });
 const integer = (value, min = 0, max = Number.MAX_SAFE_INTEGER) => Number.isSafeInteger(value) && value >= min && value <= max;
 
-// â”€â”€ SHA-256 (synchronous, for the pinned definition identity) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── SHA-256 (synchronous, for the pinned definition identity) ───────────────
 const K = [0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 0x3956c25b, 0x59f111f1, 0x923f82a4, 0xab1c5ed5, 0xd807aa98, 0x12835b01, 0x243185be, 0x550c7dc3,
   0x72be5d74, 0x80deb1fe, 0x9bdc06a7, 0xc19bf174, 0xe49b69c1, 0xefbe4786, 0x0fc19dc6, 0x240ca1cc, 0x2de92c6f, 0x4a7484aa, 0x5cb0a9dc, 0x76f988da,
   0x983e5152, 0xa831c66d, 0xb00327c8, 0xbf597fc7, 0xc6e00bf3, 0xd5a79147, 0x06ca6351, 0x14292967, 0x27b70a85, 0x2e1b2138, 0x4d2c6dfc, 0x53380d13,
@@ -72,7 +72,7 @@ export function sha256Hex(input) {
 }
 export const definitionHash = raw => `${P9_CAPABILITY}/${sha256Hex(canonical(raw))}`;
 
-// â”€â”€ Original definition â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Original definition ─────────────────────────────────────────────────────
 export const baseClassName = className => String(className || '').replace(/\s*\([^)]*\)\s*$/, '').trim();
 /** Raw authored class entry only: never a slot copy, alias card or formulation. */
 export function resolveOriginalSpell(className, spellId) {
@@ -81,7 +81,7 @@ export function resolveOriginalSpell(className, spellId) {
   return matches.length === 1 ? matches[0] : null;
 }
 
-// â”€â”€ Approved formula vocabulary â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Approved formula vocabulary ─────────────────────────────────────────────
 export function readFormula(formula, stats = {}) {
   if (typeof formula !== 'string' || !formula.trim() || formula.length > 120) return manual('Formula is missing or too long.');
   const clean = formula.replace(/\s+/g, '').toLowerCase();
@@ -131,10 +131,10 @@ export function readFormula(formula, stats = {}) {
     } else return manual(`Term "${body}" is outside the approved vocabulary (no multiplication, parentheses or percentages).`);
   }
   if (!dice.length) return manual('Supported spells must roll at least one die (DICE resolution).');
-  return { supported: true, dice, constant, reading: `${formula.trim()} â†’ ${terms.join(' ')}`.slice(0, 300) };
+  return { supported: true, dice, constant, reading: `${formula.trim()} → ${terms.join(' ')}`.slice(0, 300) };
 }
 
-// â”€â”€ Spell shape â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Spell shape ─────────────────────────────────────────────────────────────
 const TOP_KEYS = ['id', 'name', 'description', 'level', 'spellType', 'icon', 'typeConfig', 'targetingConfig', 'resourceCost', 'effectTypes', 'damageConfig', 'healingConfig',
   'cooldownConfig', 'tags', 'specialization', 'categoryIds', 'resolution', 'enhancesCombo', 'flavorText', 'devotionRequired', 'devotionGain', 'devotionCost', 'musicalCombo', 'sphereCost', 'durationConfig',
   'verbalText', 'somaticText', 'materialText'];
@@ -162,7 +162,7 @@ function cooldownOf(raw) {
 }
 /** Positive validation of the authored spell itself (independent of the caster). */
 export function supportShape(raw) {
-  if (!isObject(raw)) return manual('Original authored definition unavailable â€” library, custom, formulation and weapon actions stay manual.');
+  if (!isObject(raw)) return manual('Original authored definition unavailable — library, custom, formulation and weapon actions stay manual.');
   const extra = extraKeys(raw, TOP_KEYS);
   if (extra.length) return manual(`Authored fields ${extra.join(', ')} are not executed by P9 (manual).`);
   if (raw.spellType !== 'ACTION') return manual(`${raw.spellType || 'Untyped'} spells stay manual; P9 executes immediate actions only.`);
@@ -178,7 +178,7 @@ export function supportShape(raw) {
   if (raw[kind === 'damage' ? 'healingConfig' : 'damageConfig'] !== undefined) return manual('Damage and healing configurations are mixed.');
   const allowed = kind === 'damage' ? ['formula', 'damageTypes', 'resolution', 'description', 'elementType'] : ['formula', 'healingType', 'hasHotEffect', 'description', 'resolution'];
   const configExtra = extraKeys(config, allowed);
-  if (!isObject(config) || configExtra.length) return manual(`${kind} fields ${configExtra.join(', ') || 'missing'} (critical, save, over-time, chain, auto-hit â€¦) stay manual.`);
+  if (!isObject(config) || configExtra.length) return manual(`${kind} fields ${configExtra.join(', ') || 'missing'} (critical, save, over-time, chain, auto-hit …) stay manual.`);
   if ((config.resolution ?? raw.resolution) !== 'DICE' || (config.resolution && raw.resolution && config.resolution !== raw.resolution)) return manual('Only DICE resolution is supported.');
   if (kind === 'damage' && (!Array.isArray(config.damageTypes) || !config.damageTypes.length || config.damageTypes.some(type => typeof type !== 'string' || !type))) return manual('Damage spells need a declared damage type.');
   if (kind === 'healing' && (config.healingType !== 'direct' || config.hasHotEffect === true)) return manual('Only direct healing is supported (healing over time stays manual).');
@@ -189,7 +189,7 @@ export function supportShape(raw) {
   return { supported: true, kind, formula: config.formula, damageTypes: kind === 'damage' ? [...config.damageTypes] : [], price: { ap: price.ap, mana: price.mana }, cooldown };
 }
 
-// â”€â”€ Class-owned payment (existing planners, typed results) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Class-owned payment (existing planners, typed results) ──────────────────
 const countMap = list => list.reduce((map, item) => ({ ...map, [item]: (map[item] || 0) + 1 }), {});
 function classComponent(raw) {
   const cost = raw.resourceCost || {}, values = cost.resourceValues || {};
@@ -197,7 +197,7 @@ function classComponent(raw) {
     raw.sphereCost !== undefined || raw.musicalCombo !== undefined || raw.devotionCost !== undefined || raw.devotionGain !== undefined || raw.devotionRequired !== undefined ||
     Object.keys(values).some(key => /_sphere$/i.test(key) || /^note_/i.test(key) || /^devotion_/.test(key));
 }
-/** Approved cadence resolver pair only (Opening Chord â†’ Resolving Strike). The class-owned
+/** Approved cadence resolver pair only (Opening Chord → Resolving Strike). The class-owned
  * planner pays from `musicalCombo.requires`; every other resolver/cadence stays manual. */
 const APPROVED_MINSTREL_RESOLVERS = Object.freeze({ minstrel_resolving_strike: [{ note: 'I', count: 1 }, { note: 'V', count: 1 }] });
 function resolverConflict(raw, generic) {
@@ -377,7 +377,7 @@ function classEffectSupport(raw, character) {
     branchLines: classEffect.branchLines(terms), damageTypes: terms.direct.damageTypes || [], definitionId: raw.id, definitionHash: classEffect.definitionHash(recordHash), name: raw.name };
 }
 
-// â”€â”€ Rolls â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Rolls ───────────────────────────────────────────────────────────────────
 export function recordRoll(mode, reading, faces) {
   if (!['digital', 'physical'].includes(mode) || !Array.isArray(faces) || faces.length !== reading.dice.length) throw Error('Enter every die face for this formula.');
   const dice = reading.dice.map((group, index) => {
@@ -394,7 +394,7 @@ export function digitalRoll(reading, random = Math.random) {
   return recordRoll('digital', reading, reading.dice.map(group => Array.from({ length: group.count }, () => Math.floor(random() * group.sides) + 1)));
 }
 
-// â”€â”€ Owner approval and GM command â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Owner approval and GM command ───────────────────────────────────────────
 export function sourcePools(token) {
   if (token?.state?.actorContract?.kind === 'creature') return {
     ap: { current: token.state.currentActionPoints, temp: token.state.tempActionPoints ?? 0 },
@@ -411,12 +411,12 @@ export function affordable(pools, price) {
 const codeLabel = code => String(code || 'refused').replace(/_/g, ' ');
 export function ownerRefusal(firstSubmission, code) {
   if (code === 'approval_consumed') return { phase: 'unresolved', message: 'This approval was already used; the payment was recorded (its receipt is no longer retained). Reconcile with the GM.' };
-  if (firstSubmission && code !== 'retry_window_expired') return { phase: 'refused', message: `Not registered (${codeLabel(code)}) â€” no payment was recorded.` };
+  if (firstSubmission && code !== 'retry_window_expired') return { phase: 'refused', message: `Not registered (${codeLabel(code)}) — no payment was recorded.` };
   return { phase: 'unresolved', message: `The server can no longer confirm this approval (${codeLabel(code)}). A payment may have been recorded; reconcile with the GM. It is never re-sent automatically.` };
 }
 export function gmRefusal(isRetry, code, detail = '') {
-  // A11: movement combinations â€” say why, and whether reviewing again can help.
-  if (!isRetry && code === 'modifier_combination_changed') return { phase: 'retry', message: 'The targetâ€™s movement effects changed since this outcome was shown. Nothing was applied; review the add/refresh outcome and accept again.' };
+  // A11: movement combinations — say why, and whether reviewing again can help.
+  if (!isRetry && code === 'modifier_combination_changed') return { phase: 'retry', message: 'The target’s movement effects changed since this outcome was shown. Nothing was applied; review the add/refresh outcome and accept again.' };
   if (!isRetry && ['modifier_combination_unresolved', 'movement_modifier_capacity', 'modifier_identity_required'].includes(code)) return { phase: 'refused', message: `${typeof detail === 'string' && detail && detail !== code ? detail : 'This movement combination is not decided by the recorded policy.'} Nothing was applied or charged; the GM resolves it manually.` };
   if (code === 'creature_revalidation_required') return { phase: 'retry', message: 'Creature state changed. Nothing applied. Review current HP, bounds and conditions, then explicitly revalidate the original attempt with the same faces.' };
   if (code === 'actor_stunned') return { phase: 'retry', message: 'Stunned: no actions or reactions. Nothing applied. Retain the command and roll; remove all source instances, then review and accept again.' };
@@ -489,7 +489,7 @@ export function planSpellCommand({ approval, contentHash, tokens, roomId, mapId,
         damageTypes: approval.spell.damageTypes, spellName: approval.spell.name, ...names, gmConfirmed: true }),
       finalAmount, adjustmentReason: reason.trim() } } };
 }
-/** A10: one command for the whole bundle â€” payment, optional direct HP change and the canonical effect. */
+/** A10: one command for the whole bundle — payment, optional direct HP change and the canonical effect. */
 function planEffectCommand({ approval, contentHash, tokens, roomId, mapId, finalAmount, reason, adjudicated, resolution }) {
   const pc = approval.source.kind === 'character', terms = approval.effectTerms, res = pc ? resolution : approval.resolution;
   if (pc && (canonical(res?.timing) !== canonical(terms.timing) || !res?.timingNote?.trim() || res.timingNote.length > 300 || typeof res.evidence !== 'string' || res.evidence.length > 2000)) throw Error('Required GM ruling must keep the owner-approved duration. Changed terms need new approval.');
@@ -501,7 +501,7 @@ function planEffectCommand({ approval, contentHash, tokens, roomId, mapId, final
   const pools = sourcePools(source), payment = {};
   for (const pool of ['ap', 'mana']) if (approval.price[pool] > 0) payment[pool] = depleteTempFirst(pools[pool].current, pools[pool].temp, approval.price[pool], true);
   if (!Object.keys(payment).length) payment.ap = depleteTempFirst(pools.ap.current, pools.ap.temp, 0, true);
-  // A11: the same pure plan the server binder and P7 stage derive â€” add, refresh (replace the one matching
+  // A11: the same pure plan the server binder and P7 stage derive — add, refresh (replace the one matching
   // instance) or an explicit refusal for combinations the recorded policy does not define.
   const plan = authoredEffect.conditionPlan(approval, target.state?.conditions || []);
   if (plan.refused) throw Object.assign(Error(plan.refused.message), { code: plan.refused.code });
@@ -517,7 +517,7 @@ function planEffectCommand({ approval, contentHash, tokens, roomId, mapId, final
       definitionId: approval.spell.definitionId, definitionVersionOrHash: approval.spell.definitionHash, chosenResult: JSON.stringify(authoredEffect.resultFor(approval, res, plan.combination)),
       finalAmount: direct ? finalAmount : 0, adjustmentReason: direct ? reason.trim() : '' } } };
 }
-/** M1: one command for one recorded outcome branch â€” payment, direct HP change and (if that branch applies it) the rider. */
+/** M1: one command for one recorded outcome branch — payment, direct HP change and (if that branch applies it) the rider. */
 export function classRiderPlan(approval, conditions) {
   const found = classEffect.profileFor(classEffect.recordHashOf(approval), { requireConfirmation: false });
   if (!found.ok) return { refused: { code: 'class_effect_profile_unavailable', message: found.reason } };

@@ -23,7 +23,7 @@ test('unsupported whole records/missing references stay intact/manual; editing n
   expect(a).toEqual(before); expect(matchingItemVersions(a, [], 'room')).toEqual([]);
   expect(itemAbilitySupport({ schemaVersion: 1, librarySpellId: 'deleted' }).ok).toBe(false);
   expect(itemAbilitySupport({ ...newItemAbility(id), librarySpellId: 'deleted' }).ok).toBe(true);
-  for (const change of [{ ap: '' }, { ap: -1 }, { mana: 0.5 }, { range: null }, { formula: '1d6+1d4' }]) expect(() => editItemAbility(newItemAbility(id), { ...values, ...change })).toThrow();
+  for (const change of [{ ap: '' }, { ap: -1 }, { mana: 0.5 }, { range: null }, { formula: '1d6++1' }]) expect(() => editItemAbility(newItemAbility(id), { ...values, ...change })).toThrow();
 });
 test('standard library copies and explicit stacks never overwrite another instance association, even with identical names', () => {
   useInventoryStore.setState({ items: [] });

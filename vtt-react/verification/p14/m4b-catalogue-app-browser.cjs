@@ -6,6 +6,7 @@ const { chromium } = require('playwright');
 const actors = require('../../../server/services/actorConsequences');
 const installed = require('../../../server/services/installedAuthoredAbilities');
 const payments = require('../../../server/services/spellPayments');
+const fixtureCharacters = require('./m4b-fixture-characters.cjs');
 const out = process.env.M4B_APP_OUTPUT;
 assert.ok(out && path.isAbsolute(out) && process.env.APP_BUILD_DIR);
 fs.mkdirSync(out, { recursive: true });
@@ -24,7 +25,7 @@ async function setup(page, url, uid) {
   await page.locator('.action-slot').first().waitFor({ timeout: 60000 });
   await page.waitForFunction(() => Object.keys(window).some(k => k.startsWith('webpackChunk')), null, { timeout: 60000 });
   await page.addScriptTag({ url: url + '/integration-io.js' });
-  return page.evaluate(async ({ uid }) => {
+  return page.evaluate(async ({ uid, fixtureCharacter }) => {
     const fixture = await fetch('/integration-fixture.json').then(r => r.json());
     const key = Object.keys(window).find(k => k.startsWith('webpackChunk')); window[key].push([[99119], {}, r => window.__req = r]);
     const moduleWith = text => { const pair = Object.entries(__req.m).find(([, f]) => f.toString().includes(text)); if (!pair) throw Error('Missing compiled module ' + text); return __req(pair[0]); };
@@ -54,18 +55,31 @@ async function setup(page, url, uid) {
       throw Error(JSON.stringify({ result, roomSame: roomBefore === roomAfter, roomBefore: roomBefore?.id || null, roomAfter: roomAfter?.id || null,
         uidBefore, uidAfter: S('authStore').getState().user?.uid, socketSame: S('gameStore').getState().multiplayerSocket === __socket }));
     }
-    const known = { class_spells: { known_spells: ['martyr_restorative_prayer'] } };
-    if (uid === 'app-gm') S('characterStore').setState({ characters: [{ id: 'gm', name: 'GM', class: 'Martyr', level: 1, class_spells: { known_spells: ['martyr_restorative_prayer'] } }], currentCharacterId: 'gm', id: 'gm', name: 'GM', class: 'Martyr', level: 1, stats: { strength: 10, agility: 10, constitution: 10, intelligence: 10, spirit: 18, charisma: 10 }, classResource: { type: 'devotion', current: 0, max: 6, damage: 0, earnedLevels: 0, spentLevels: 0, bonusLevels: 0 }, ...known });
+    // Hydrate one complete explicit fixture character through production loadCharacter, only
+    // after boot initialization settles. GameProvider's initializeCharacterSystem authors a random
+    // placeholder (random heritage/equipment) for an empty roster; a partial store write over it
+    // left heritage/equipment behind and made effective Spirit vary (18/19/20) between runs.
+    const store = S('characterStore');
+    const sleep = ms => new Promise(r => setTimeout(r, ms));
+    let waited = 0;
+    for (; waited < 15000 && !(store.getState().currentCharacterId && !store.getState().isLoading); waited += 100) await sleep(100);
+    for (let stable = 0, last = null; stable < 5; ) { const s = store.getState(), key = `${s.currentCharacterId}|${s.characters.length}|${!!s.isLoading}`; stable = key === last ? stable + 1 : 0; last = key; await sleep(100); }
+    const boot = { currentCharacterId: store.getState().currentCharacterId || null, rosterSize: store.getState().characters.length, waitedMs: waited };
+    store.setState({ characters: [JSON.parse(JSON.stringify(fixtureCharacter))] });
+    store.getState().loadCharacter(fixtureCharacter.id);
+    const hydrated = store.getState();
+    if (hydrated.currentCharacterId !== fixtureCharacter.id) throw Error('Fixture character did not load: ' + hydrated.currentCharacterId);
+    const hydration = { boot, currentCharacterId: hydrated.currentCharacterId, race: hydrated.race, subrace: hydrated.subrace, background: hydrated.background,
+      statsModel: hydrated.statsModel, stats: hydrated.stats, equipped: Object.entries(hydrated.equipment || {}).filter(([, item]) => item).map(([slot]) => slot),
+      effective: hydrated.getTotalStatsWithEffects() };
     if (uid === 'app-owner') {
-      S('characterStore').setState({ characters: [{ id: 'ilse', name: 'Ilse', class: 'Martyr', level: 1, class_spells: { known_spells: ['martyr_restorative_prayer'] } }], currentCharacterId: 'ilse', id: 'ilse', name: 'Ilse', class: 'Martyr', level: 1, stats: { strength: 10, agility: 10, constitution: 10, intelligence: 10, spirit: 18, charisma: 10 }, classResource: { type: 'devotion', current: 0, max: 6, damage: 0, earnedLevels: 0, spentLevels: 0, bonusLevels: 0 }, ...known });
       const selected = __actors.selectOwnerAttachment(fixture.refs.pc); if (!selected.success) throw Error(JSON.stringify(selected));
     }
     if (uid === 'app-target') {
-      S('characterStore').setState({ characters: [{ id: 'ally', name: 'Ally', class: 'Arcanoneer', level: 3 }], currentCharacterId: 'ally', id: 'ally', name: 'Ally', class: 'Arcanoneer', level: 3, stats: { strength: 10, agility: 10, constitution: 10, intelligence: 16, spirit: 10, charisma: 10 }, health: { current: 20, max: 30 }, tempHealth: 3 });
       const selected = __actors.selectOwnerAttachment(fixture.refs.ally); if (!selected.success) throw Error(JSON.stringify(selected));
     }
-    return { fixture, classes: Object.keys(window.S('characterStore').getState()) };
-  }, { uid });
+    return { fixture, hydration, classes: Object.keys(window.S('characterStore').getState()) };
+  }, { uid, fixtureCharacter: fixtureCharacters.characters[uid] });
 }
 
 const book = page => page.getByRole('dialog', { name: 'Spellbook', exact: true });
@@ -176,7 +190,11 @@ async function main() {
     await closeBook(gm);
 
     const owner = await browser.newPage({ viewport: { width: 1440, height: 1000 } }); pages.push(owner);
-    await setup(owner, host.url, 'app-owner'); host.setPlayerCharacter('app-owner', { id: 'ilse', class: 'Martyr' });
+    report.checks.ownerHydration = (await setup(owner, host.url, 'app-owner')).hydration;
+    // Expected effective Spirit from the explicit fixture record (see m4b-fixture-characters.cjs), asserted before any roll.
+    assert.equal(report.checks.ownerHydration.effective.spirit, fixtureCharacters.EXPECTED_OWNER_EFFECTIVE_SPIRIT, JSON.stringify(report.checks.ownerHydration));
+    assert.deepEqual(report.checks.ownerHydration.equipped, []);
+    host.setPlayerCharacter('app-owner', { id: 'ilse', class: 'Martyr' });
     await owner.getByText('Admitted abilities', { exact: true }).click();
     await owner.getByRole('button', { name: 'Refresh admitted abilities', exact: true }).click();
     await owner.getByText(/Room admission refreshed/).waitFor({ timeout: 10000 });
@@ -189,6 +207,8 @@ async function main() {
     await slot.click();
     const dialog = owner.getByRole('dialog', { name: 'Supported spell cast', exact: true }); await dialog.waitFor();
     await dialog.getByRole('combobox').selectOption('character:app-hall:ally');
+    report.checks.ownerAttestedScores = await dialog.getByText(/Caster effective scores are owner-attested/).textContent();
+    assert.match(report.checks.ownerAttestedScores, new RegExp(`spirit ${fixtureCharacters.EXPECTED_OWNER_EFFECTIVE_SPIRIT}\\b`));
     await dialog.getByLabel('d4 face 1', { exact: true }).fill('4');
     await dialog.getByRole('button', { name: 'Record physical roll', exact: true }).click();
     report.checks.ownerReading = await dialog.getByText(/Recorded physical roll/).textContent();
@@ -220,6 +240,8 @@ async function main() {
     assert.deepEqual(approvalEntry.approval.price, { ap: 1, mana: 5 });
     assert.deepEqual(approvalEntry.approval.classPayment.price, { cost: 0, gain: 1, required: 0 });
     const amount = approvalEntry.approval.roll.total;
+    assert.equal(approvalEntry.approval.rollAttributes?.spirit, fixtureCharacters.EXPECTED_OWNER_EFFECTIVE_SPIRIT);
+    assert.equal(approvalEntry.approval.roll.constant, fixtureCharacters.EXPECTED_OWNER_EFFECTIVE_SPIRIT);
     report.checks.approval = { price: approvalEntry.approval.price, classPayment: approvalEntry.approval.classPayment, roll: approvalEntry.approval.roll };
 
     const sourceBefore = actors.clone(host.room.gameState.maps['app-hall'].characterTokens.pc.character);

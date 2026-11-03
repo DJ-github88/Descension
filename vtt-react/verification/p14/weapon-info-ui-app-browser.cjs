@@ -1,7 +1,7 @@
 // Weapon-information UI witness on the same frozen production artifact as M4B.
 // Covers the ActionBar fan companion, the explicit Table button, the sheet tooltip/table,
 // keyboard entry, and a narrow emulated-touch layout. No physical-device claim.
-const fs = require('fs'), path = require('path'), assert = require('assert/strict');
+const fs = require('fs'), path = require('path'), assert = require('assert/strict'), crypto = require('crypto');
 const { chromium } = require('playwright');
 const out = process.env.WEAPON_UI_OUTPUT;
 assert.ok(out && path.isAbsolute(out) && process.env.APP_BUILD_DIR);
@@ -11,8 +11,30 @@ const report = { checks: {}, errors: [], limits: [
   'Normal production App and registered handlers; auth/provider/ownership/lease/cloud are fixtures.',
   'Keyboard input is real Playwright keyboard input. Touch is browser touch emulation (hasTouch), not a physical device.',
   'The App gates /game to the phone landing page at widths <= 767px; narrow layout is witnessed at 768x900, the smallest width that still serves the tactical UI.',
-  'UI/read-only witness only; M4B authority, payment, consent and combat acceptance are not repeated here.'
+  'UI/read-only witness only; M4B authority, payment, consent and combat acceptance are not repeated here.',
+  'Equipment and active-character changes are disposable store fixtures; persistence and the character-picker workflow are not claimed.'
 ] };
+const sha = file => crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex');
+report.identity = { build: process.env.APP_BUILD_DIR, witnessSha256: sha(__filename),
+  assetManifestSha256: sha(path.join(process.env.APP_BUILD_DIR, 'asset-manifest.json')) };
+const buildRecord = path.join(process.env.APP_BUILD_DIR, '..', 'build.json');
+if (fs.existsSync(buildRecord)) report.identity.buildRecord = JSON.parse(fs.readFileSync(buildRecord));
+async function resources(page) {
+  return page.evaluate(() => {
+    const s = window.S('characterStore').getState();
+    return Object.fromEntries(['actionPoints', 'tempActionPoints', 'mana', 'tempMana', 'health', 'tempHealth', 'classResource'].map(k => [k, s[k] ?? null]));
+  });
+}
+async function assertTableOnly(page, fan, before) {
+  const companion = page.getByTestId('fan-action-companion');
+  await companion.locator('.fan-companion-weapontable').waitFor();
+  assert.equal(await companion.locator('.wst-row').count(), 20);
+  assert.equal(await companion.locator('.fan-companion-spellcard').count(), 0);
+  assert.equal(await companion.getByTestId('weapon-pin-btn').evaluate(el => el.classList.contains('pinned')), true);
+  assert.ok(await fan.locator('.action-fan-bubble').count());
+  assert.equal(await page.getByRole('dialog', { name: 'Supported spell cast' }).count(), 0);
+  assert.deepEqual(await resources(page), before, 'Table access spent or changed resources');
+}
 
 const MACE = {
   id: 'ui-iron-mace', name: 'Iron Mace', type: 'weapon', subtype: 'MACE', slots: ['mainHand'],
@@ -118,7 +140,9 @@ async function main() {
     await desktop.keyboard.press('Escape');
     await companion.waitFor({ state: 'detached' });
     const apBefore = await desktop.evaluate(() => window.S('characterStore').getState().actionPoints);
+    const desktopResources = await resources(desktop);
     await fan.getByTestId('fan-weapon-table-btn').click();
+    await assertTableOnly(desktop, fan, desktopResources);
     await companion.locator('.fan-companion-weapontable').waitFor();
     assert.equal(await companion.locator('.fan-companion-spellcard').count(), 0);
     assert.equal(await companion.getByTestId('weapon-pin-btn').evaluate(el => el.classList.contains('pinned')), true);
@@ -127,6 +151,34 @@ async function main() {
     const apAfter = await desktop.evaluate(() => window.S('characterStore').getState().actionPoints);
     assert.deepEqual(apAfter, apBefore);
     report.checks.desktopTableButton = { pinnedTable: true, spellcardAbsent: true, fanStillOpen: true, castDialog: false, actionPointsUnchanged: true };
+    // Mouse close, native keyboard button activation, and outside fan dismissal.
+    await companion.getByTestId('weapon-close-btn').click();
+    await companion.waitFor({ state: 'detached' });
+    await fan.getByTestId('fan-weapon-table-btn').focus();
+    await desktop.keyboard.press('Enter');
+    await assertTableOnly(desktop, fan, desktopResources);
+    await desktop.mouse.click(12, 300);
+    await fan.waitFor({ state: 'detached' });
+    assert.equal(await companion.getByTestId('weapon-pin-btn').count(), 1, 'Pinned table should survive outside fan dismissal');
+    report.checks.dismissal = { mouseClose: true, keyboardEnterOpens: true, outsideClosesFan: true, pinnedTableRetained: true };
+
+    // Live equipment projection, then active-character transition. No persistence calls.
+    await desktop.evaluate(mace => {
+      const s = S('characterStore').getState();
+      S('characterStore').setState({ equipment: { ...s.equipment, mainHand: { ...mace, id: 'ui-war-mace', name: 'War Mace', subtype: 'WAR MACE' } },
+        skillRanks: { ...s.skillRanks, 'weaponMastery_war mace': 'NOVICE' } });
+    }, MACE);
+    await companion.getByText('War Mace', { exact: true }).waitFor();
+    assert.match(await companion.getByTestId('weapon-skill-pill').innerText(), /Mace/);
+    assert.match(await companion.getByTestId('weapon-rank-pill').innerText(), /Novice/);
+    await desktop.evaluate(() => { const s = S('characterStore').getState(); S('characterStore').setState({ equipment: { ...s.equipment, mainHand: null } }); });
+    await companion.locator('.fan-companion-weapontable').waitFor({ state: 'detached' });
+    await equipMace(desktop);
+    await companion.locator('.fan-companion-weapontable').waitFor();
+    await desktop.evaluate(() => S('characterStore').setState({ currentCharacterId: 'ui-second', id: 'ui-second', name: 'UI Second' }));
+    await companion.waitFor({ state: 'detached' });
+    await desktop.evaluate(() => S('characterStore').setState({ currentCharacterId: 'gm', id: 'gm', name: 'GM' }));
+    report.checks.equipmentAndCharacter = { warMaceUsesMaceTable: true, emptyHandDropsTable: true, reequipmentUpdates: true, characterSwitchCloses: true, fixtureDriven: true };
     await desktop.keyboard.press('Escape');
 
     // Sheet tooltip/table: focus shows the extension, Enter opens the 1-20 table, Escape closes.
@@ -152,8 +204,14 @@ async function main() {
     activePage = touch;
     await setup(touch, host.url, 'app-owner');
     await equipMace(touch);
+    report.checks.touchMedia = await touch.evaluate(() => ({ coarse: matchMedia('(pointer: coarse)').matches, noHover: matchMedia('(hover: none)').matches, maxTouchPoints: navigator.maxTouchPoints }));
+    assert.equal(report.checks.touchMedia.coarse && report.checks.touchMedia.noHover, true, 'Original touch-only active rule must apply');
+    const readAp = () => touch.evaluate(() => window.S('characterStore').getState().actionPoints);
+    const touchApBefore = await readAp();
+    const touchResources = await resources(touch);
+    assert.ok(touchResources.actionPoints && touchResources.mana, 'Fixture must expose AP and mana pools');
     const touchHud = touch.locator('.action-bar-assembly:not(.spell-action-bar-assembly)');
-    await touchHud.locator('.slot-mainHand .equipment-action-slot').click();
+    await touchHud.locator('.slot-mainHand .equipment-action-slot').tap();
     const touchFan = touchHud.locator('.slot-mainHand .action-fanout-overlay');
     await touchFan.locator('.action-fan-bubble').first().waitFor();
     const tableBtn = touchFan.getByTestId('fan-weapon-table-btn');
@@ -185,12 +243,20 @@ async function main() {
     const heldOpened = await touch.evaluate(() => !!document.querySelector('[data-testid="fan-action-companion"]'));
     assert.deepEqual(btnBoxPressed, btnBoxBefore, 'Table button moved while pressed');
     assert.equal(heldOpened, true, 'held touch press on the Table button did not open the pinned table');
+    await assertTableOnly(touch, touchFan, touchResources);
+    report.checks.heldTouchTrace = await touch.evaluate(() => window.__weaponUiEvents.slice());
+    assert.ok(report.checks.heldTouchTrace.some(e => e.type === 'touchstart'));
+    assert.ok(report.checks.heldTouchTrace.some(e => e.type === 'click'));
+    assert.equal(report.checks.heldTouchTrace.some(e => e.type === 'click' && e.target.startsWith('DIV#root')), false);
+    assert.equal(await touchFan.locator('.action-fan-bubble').count() > 0, true, 'held press closed the fan');
+    assert.equal(await touch.getByRole('dialog', { name: 'Supported spell cast' }).count(), 0, 'held press opened a cast dialog');
+    assert.deepEqual(await readAp(), touchApBefore, 'held press changed AP');
     // Reset to the closed-table state, then run the plain emulated tap that the trace below records.
     await touch.keyboard.press('Escape');
     await touch.locator('[data-testid="fan-action-companion"]').waitFor({ state: 'detached' });
     await touch.evaluate(() => { window.__weaponUiEvents.length = 0; });
     if (!(await touchFan.locator('.action-fan-bubble').count())) {
-      await touchHud.locator('.slot-mainHand .equipment-action-slot').click();
+      await touchHud.locator('.slot-mainHand .equipment-action-slot').tap();
       await touchFan.locator('.action-fan-bubble').first().waitFor();
     }
     await tableBtn.tap();
@@ -201,16 +267,19 @@ async function main() {
       companion: !!document.querySelector('[data-testid="fan-action-companion"]')
     }));
     report.checks.narrowTouchTapTrace = tapDebug;
+    assert.ok(tapDebug.events.some(e => e.type === 'touchstart'), 'Tap must produce touch input');
     // No fallback click: the emulated tap itself must open the pinned table with the fan still open.
     assert.equal(tapDebug.companion, true, 'emulated tap did not open the pinned table: ' + JSON.stringify(tapDebug.events));
     assert.equal(tapDebug.fanOpen, true, 'emulated tap closed the fan');
     assert.equal(tapDebug.events.find(e => e.type === 'click')?.target.startsWith('DIV#root'), false, 'click retargeted to #root');
     const touchCompanion = touch.locator('[data-testid="fan-action-companion"]');
     await touchCompanion.waitFor();
+    await assertTableOnly(touch, touchFan, touchResources);
     await touchCompanion.locator('.fan-companion-weapontable').waitFor();
     assert.equal(await touchCompanion.locator('.fan-companion-spellcard').count(), 0);
     assert.ok(await touchFan.locator('.action-fan-bubble').count());
     assert.equal(await touch.getByRole('dialog', { name: 'Supported spell cast' }).count(), 0);
+    assert.deepEqual(await readAp(), touchApBefore, 'emulated tap changed AP');
     const btnBox = await tableBtn.boundingBox();
     assert.ok(btnBox && btnBox.x >= 0 && btnBox.x + btnBox.width <= 768, JSON.stringify(btnBox));
     const companionBox = await touchCompanion.boundingBox();
@@ -218,10 +287,18 @@ async function main() {
     report.checks.narrowTouch = {
       viewport: '768x900', emulatedTouch: true, openedByEmulatedTouch: tapDebug.companion,
       openedByHeldEmulatedPress: heldOpened, buttonBoxPressedEqualsRest: true, tableButtonReachable: true, pinnedTable: true,
-      castDialog: false, buttonBox: btnBox, companionBox
+      castDialog: false, allResourcesUnchanged: true, actionPointsUnchanged: true, buttonBox: btnBox, companionBox,
+      resourcesBefore: touchResources, resourcesAfter: await resources(touch)
     };
     save('narrow-touch.aria.yml', await touch.locator('body').ariaSnapshot());
 
+    // Exercise the real phone gate rather than bypassing it to claim a 375px tactical UI.
+    const phone = await browser.newPage({ viewport: { width: 375, height: 812 }, hasTouch: true });
+    await phone.goto(host.url + '/game');
+    await phone.waitForURL(host.url + '/');
+    assert.equal(await phone.locator('.action-slot').count(), 0);
+    save('phone-gate.aria.yml', await phone.locator('body').ariaSnapshot());
+    report.checks.phoneGate = { viewport: '375x812', redirectedToLanding: true, tacticalUiAbsent: true };
     report.passed = Boolean(tapDebug.companion);
     save('result.json', report);
   } catch (error) {
