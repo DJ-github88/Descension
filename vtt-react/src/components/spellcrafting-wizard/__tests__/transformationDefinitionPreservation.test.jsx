@@ -14,6 +14,15 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import SpellWizardWrapper from '../SpellWizardWrapper';
+import { SpellLibraryProvider } from '../context/SpellLibraryContext';
+import {
+  SpellWizardProvider, useSpellWizardState, useSpellWizardDispatch, actionCreators
+} from '../context/spellWizardContext';
+import useSpellbookStore from '../../../store/spellbookStore';
+import useCreatureStore from '../../../store/creatureStore';
+import { CreatureLibraryProvider } from '../../creature-wizard/context/CreatureLibraryContext.js';
+import TransformationEffects from '../data/effects/TransformationEffects';
 
 if (typeof global.crypto === 'undefined' || !global.crypto.randomUUID) {
   Object.defineProperty(global, 'crypto', { value: require('crypto').webcrypto, configurable: true });
@@ -37,16 +46,6 @@ jest.mock('../../../utils/assetManager', () => ({
   getCustomIconUrl: () => 'fallback-icon.png',
   getCreatureTokenIconUrl: () => 'test-icon.png'
 }));
-
-import SpellWizardWrapper from '../SpellWizardWrapper';
-import { SpellLibraryProvider } from '../context/SpellLibraryContext';
-import {
-  SpellWizardProvider, useSpellWizardState, useSpellWizardDispatch, actionCreators
-} from '../context/spellWizardContext';
-import useSpellbookStore from '../../../store/spellbookStore';
-import useCreatureStore from '../../../store/creatureStore';
-import { CreatureLibraryProvider } from '../../creature-wizard/context/CreatureLibraryContext.js';
-import TransformationEffects from '../data/effects/TransformationEffects';
 
 const clone = (v) => JSON.parse(JSON.stringify(v));
 
