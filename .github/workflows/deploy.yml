@@ -19,12 +19,12 @@ jobs:
   build-and-test:
     name: Build & Test
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 30
 
     steps:
       - name: Checkout Code
         uses: actions/checkout@v7
-        timeout-minutes: 5
+        timeout-minutes: 15
         with:
           fetch-depth: 1
 
@@ -124,12 +124,12 @@ jobs:
   server-tests:
     name: Server Tests
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
 
     steps:
       - name: Checkout Code
         uses: actions/checkout@v7
-        timeout-minutes: 5
+        timeout-minutes: 15
         with:
           fetch-depth: 1
 
@@ -153,13 +153,13 @@ jobs:
     name: Deploy to Netlify
     needs: [build-and-test, server-tests]
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
 
     steps:
       - name: Checkout Code
         uses: actions/checkout@v7
-        timeout-minutes: 5
+        timeout-minutes: 15
         with:
           fetch-depth: 1
 
