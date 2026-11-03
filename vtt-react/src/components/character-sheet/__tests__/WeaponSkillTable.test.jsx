@@ -25,6 +25,30 @@ describe('WeaponSkillTable Component', () => {
         blockingDice: '1d4'
     };
 
+    test('floating table consumes Escape before global exit shortcuts and removes its listener on close', () => {
+        const globalShortcut = jest.fn();
+        const onClose = jest.fn();
+        window.addEventListener('keydown', globalShortcut);
+        try {
+            const { unmount } = render(<WeaponSkillTable item={swordItem} onClose={onClose} />);
+            fireEvent.keyDown(document.body, { key: 'Escape' });
+            expect(onClose).toHaveBeenCalledTimes(1);
+            expect(globalShortcut).not.toHaveBeenCalled();
+            unmount();
+            fireEvent.keyDown(document.body, { key: 'Escape' });
+            expect(globalShortcut).toHaveBeenCalledTimes(1);
+        } finally {
+            window.removeEventListener('keydown', globalShortcut);
+        }
+    });
+
+    test('embedded sheet table leaves Escape to the sheet dismissal handler', () => {
+        const onClose = jest.fn();
+        render(<WeaponSkillTable item={swordItem} onClose={onClose} embedded />);
+        fireEvent.keyDown(document.body, { key: 'Escape' });
+        expect(onClose).not.toHaveBeenCalled();
+    });
+
     test('renders sword with Novice rank, skill die d6, and distinctions', () => {
         render(
             <WeaponSkillTable

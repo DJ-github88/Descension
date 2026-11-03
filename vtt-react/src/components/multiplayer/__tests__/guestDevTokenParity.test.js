@@ -33,6 +33,11 @@ jest.mock('../../../config/env', () => {
 });
 
 const fakeSocket = () => ({ on: jest.fn(), off: jest.fn(), emit: jest.fn(), connect: jest.fn(), disconnect: jest.fn(), connected: false, io: { on: jest.fn() } });
+// socket.io-client's handshake rule: a function is called per attempt, an object reused.
+const resolveHandshake = (auth) => new Promise((resolve) => {
+  if (typeof auth === 'function') auth((payload) => resolve(payload ? payload.token : undefined));
+  else resolve(auth ? auth.token : undefined);
+});
 const flush = async () => { for (let i = 0; i < 10; i += 1) await Promise.resolve(); };
 
 async function handshakeToken(authPatch) {
@@ -48,7 +53,7 @@ async function handshakeToken(authPatch) {
   await flush();
   const call = io.mock.calls[0];
   cleanup();
-  return call ? call[1].auth.token : 'NO-SOCKET';
+  return call ? resolveHandshake(call[1].auth) : 'NO-SOCKET';
 }
 
 const guest = { uid: 'anon-1', isGuest: true };
@@ -103,7 +108,7 @@ describe('same-principal refresh path (setupAuthChangeHandler)', () => {
     useAuthStore.setState({ userData: { touched: Date.now() } }); // same principal: triggers the token-refresh branch
     await flush();
     unsubscribe();
-    return socket.auth === undefined ? 'NO-REFRESH' : socket.auth.token;
+    return socket.auth === undefined ? 'NO-REFRESH' : resolveHandshake(socket.auth);
   }
 
   it('development: a local guest is never given a dev token on refresh', async () => {

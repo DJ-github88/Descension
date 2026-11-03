@@ -116,6 +116,12 @@ const { setupSocketConnection } = jest.requireMock('../useSocketConnection');
 
 const ownerA = { scopeKind: 'user', scopeId: 'owner-a' };
 
+// socket.io-client's handshake rule: a function is called per attempt, an object reused.
+const handshakeToken = (auth) => new Promise((resolve) => {
+  if (typeof auth === 'function') auth((payload) => resolve(payload ? payload.token : undefined));
+  else resolve(auth ? auth.token : undefined);
+});
+
 function transport(_url, options) {
   const listeners = new Map();
   const socket = {
@@ -332,7 +338,7 @@ test('P5-38 real mounted lifecycle retires A, automatically connects B and admit
   await waitFor(() => expect(window.__P5MountedLobby?.socket?.connected).toBe(true));
   const b = window.__P5MountedLobby.socket;
   expect(b).not.toBe(a);
-  expect(b.auth.token).toBe('id-token-owner-b');
+  expect(await handshakeToken(b.auth)).toBe('id-token-owner-b');
   expect(io).toHaveBeenCalledTimes(2);
   expect(b.listenerCount('room_joined')).toBe(1);
   expect(b.listenerCount('character_updated')).toBe(1);
@@ -375,7 +381,7 @@ test('P5-38 delayed A token refresh cannot reconnect its retired transport under
     await whenHandoffIdle();
     releaseToken('late-a-token');
   });
-  await waitFor(() => expect(window.__P5MountedLobby?.socket?.auth.token).toBe('id-token-owner-b'));
+  await waitFor(async () => expect(await handshakeToken(window.__P5MountedLobby?.socket?.auth)).toBe('id-token-owner-b'));
   expect(a.connected).toBe(false);
   expect(a.totalListeners()).toBe(0);
   expect(io).toHaveBeenCalledTimes(2);

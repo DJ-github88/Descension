@@ -139,6 +139,7 @@ async function main() {
     // Explicit Table button opens the pinned table only; the fan stays open and no cast starts.
     await desktop.keyboard.press('Escape');
     await companion.waitFor({ state: 'detached' });
+    assert.equal(await desktop.locator('.exit-game-dialog-overlay').count(), 0, 'Table Escape must not open global exit confirmation');
     const apBefore = await desktop.evaluate(() => window.S('characterStore').getState().actionPoints);
     const desktopResources = await resources(desktop);
     await fan.getByTestId('fan-weapon-table-btn').click();
@@ -154,6 +155,7 @@ async function main() {
     // Mouse close, native keyboard button activation, and outside fan dismissal.
     await companion.getByTestId('weapon-close-btn').click();
     await companion.waitFor({ state: 'detached' });
+    if (!(await fan.count())) await hud.locator('.slot-mainHand .equipment-action-slot').click();
     await fan.getByTestId('fan-weapon-table-btn').focus();
     await desktop.keyboard.press('Enter');
     await assertTableOnly(desktop, fan, desktopResources);
@@ -179,7 +181,6 @@ async function main() {
     await companion.waitFor({ state: 'detached' });
     await desktop.evaluate(() => S('characterStore').setState({ currentCharacterId: 'gm', id: 'gm', name: 'GM' }));
     report.checks.equipmentAndCharacter = { warMaceUsesMaceTable: true, emptyHandDropsTable: true, reequipmentUpdates: true, characterSwitchCloses: true, fixtureDriven: true };
-    await desktop.keyboard.press('Escape');
 
     // Sheet tooltip/table: focus shows the extension, Enter opens the 1-20 table, Escape closes.
     await openCharacterSheet(desktop);
@@ -226,6 +227,8 @@ async function main() {
       ['pointerdown', 'pointerup', 'touchstart', 'touchend', 'mousedown', 'mouseup', 'click'].forEach(type =>
         window.addEventListener(type, e => window.__weaponUiEvents.push({
           type,
+          at: e.timeStamp,
+          pointerType: e.pointerType || null,
           target: e.target?.tagName + (e.target?.id ? '#' + e.target.id : '') + (e.target?.className ? '.' + String(e.target.className).split(' ')[0] : ''),
           fan: !!document.querySelector('.action-fanout-overlay'),
           companion: !!document.querySelector('[data-testid="fan-action-companion"]')
@@ -251,14 +254,16 @@ async function main() {
     assert.equal(await touchFan.locator('.action-fan-bubble').count() > 0, true, 'held press closed the fan');
     assert.equal(await touch.getByRole('dialog', { name: 'Supported spell cast' }).count(), 0, 'held press opened a cast dialog');
     assert.deepEqual(await readAp(), touchApBefore, 'held press changed AP');
-    // Reset to the closed-table state, then run the plain emulated tap that the trace below records.
+    // The replacement artifact consumes Escape locally; verify it before the quick tap.
     await touch.keyboard.press('Escape');
     await touch.locator('[data-testid="fan-action-companion"]').waitFor({ state: 'detached' });
+    assert.equal(await touch.locator('.exit-game-dialog-overlay').count(), 0, 'Touch-table reset must not open exit confirmation');
     await touch.evaluate(() => { window.__weaponUiEvents.length = 0; });
     if (!(await touchFan.locator('.action-fan-bubble').count())) {
       await touchHud.locator('.slot-mainHand .equipment-action-slot').tap();
       await touchFan.locator('.action-fan-bubble').first().waitFor();
     }
+    await touch.evaluate(() => { window.__weaponUiEvents.length = 0; });
     await tableBtn.tap();
     await touch.waitForTimeout(600);
     const tapDebug = await touch.evaluate(() => ({
@@ -268,6 +273,10 @@ async function main() {
     }));
     report.checks.narrowTouchTapTrace = tapDebug;
     assert.ok(tapDebug.events.some(e => e.type === 'touchstart'), 'Tap must produce touch input');
+    const quickStart = tapDebug.events.find(e => e.type === 'touchstart');
+    const quickEnd = tapDebug.events.find(e => e.type === 'touchend');
+    assert.ok(quickEnd && quickEnd.at >= quickStart.at && quickEnd.at - quickStart.at < 250, 'Quick tap must be shorter than the held-press case');
+    report.checks.quickTapDurationMs = quickEnd.at - quickStart.at;
     // No fallback click: the emulated tap itself must open the pinned table with the fan still open.
     assert.equal(tapDebug.companion, true, 'emulated tap did not open the pinned table: ' + JSON.stringify(tapDebug.events));
     assert.equal(tapDebug.fanOpen, true, 'emulated tap closed the fan');

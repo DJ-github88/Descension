@@ -28,6 +28,20 @@ export default function WeaponSkillTable({
     const [filter, setFilter] = useState('all'); // 'all' | 'base' | 'stunts'
     const bodyRef = useRef(null);
 
+    // Floating companions dismiss locally before Navigation's global Escape-to-exit shortcut.
+    // Embedded tables leave dismissal to their character sheet.
+    useEffect(() => {
+        if (embedded || !onClose) return undefined;
+        const handleEscape = (event) => {
+            if (event.key !== 'Escape') return;
+            event.preventDefault();
+            event.stopImmediatePropagation();
+            onClose();
+        };
+        window.addEventListener('keydown', handleEscape, true);
+        return () => window.removeEventListener('keydown', handleEscape, true);
+    }, [embedded, onClose]);
+
     const info = useMemo(() => {
         return resolveWeaponSkillInfo(item, { skillRanks, skillProgress, slotName });
     }, [item, skillRanks, skillProgress, slotName]);

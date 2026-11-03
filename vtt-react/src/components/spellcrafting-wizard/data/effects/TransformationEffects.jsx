@@ -186,16 +186,16 @@ const TransformationEffects = ({ state, dispatch, actionCreators, getDefaultForm
 
   // Effect to update state when transform type changes
   useEffect(() => {
-    // If transform type changed, update in config
-    if (activeTransformType !== transformConfig.transformType) {
-      handleTransformConfigChange('transformType', activeTransformType);
-
-      // Reset selected form for the new type
-      handleTransformConfigChange('formId', null);
+    // If transform type changed, update in config.
+    // A saved definition without a transformType key (older records) is not a type change:
+    // resetting here would wipe its authored form and granted abilities on mere mount.
+    if (transformConfig.transformType && activeTransformType !== transformConfig.transformType) {
+      handleTransformConfigChange({
+        transformType: activeTransformType,
+        formId: null,
+        grantedAbilities: []
+      });
       setSelectedForm(null);
-
-      // Reset selected abilities
-      handleTransformConfigChange('grantedAbilities', []);
       setSelectedAbilities([]);
     }
   }, [activeTransformType]);
@@ -208,16 +208,20 @@ const TransformationEffects = ({ state, dispatch, actionCreators, getDefaultForm
   }, []);
 
   // Handle transform configuration changes
-  const handleTransformConfigChange = (field, value) => {
+  const handleTransformConfigChange = (fieldOrUpdates, value) => {
+    const updates = typeof fieldOrUpdates === 'string'
+      ? { [fieldOrUpdates]: value }
+      : fieldOrUpdates;
+
     const newConfig = {
       ...transformConfig,
-      [field]: value
+      ...updates
     };
 
     // Special handling for difficulty level changes
-    if (field === 'difficultyCr') {
+    if (updates.difficultyCr) {
       const dcMap = { easy: 10, moderate: 15, hard: 20, very_hard: 25 };
-      newConfig.difficultyClass = dcMap[value] || 15;
+      newConfig.difficultyClass = dcMap[updates.difficultyCr] || 15;
     }
 
     dispatch(actionCreators.updateTransformConfig(newConfig));
@@ -358,8 +362,10 @@ const TransformationEffects = ({ state, dispatch, actionCreators, getDefaultForm
     if (selectedCreatures.length > 0) {
       const creature = selectedCreatures[0]; // Single selection for transformation
       setSelectedForm(creature);
-      handleTransformConfigChange('formId', creature.id);
-      handleTransformConfigChange('selectedCreature', creature);
+      handleTransformConfigChange({
+        formId: creature.id,
+        selectedCreature: creature
+      });
     }
   };
 
@@ -782,8 +788,10 @@ const TransformationEffects = ({ state, dispatch, actionCreators, getDefaultForm
                     className="remove-creature-btn"
                     onClick={() => {
                       setSelectedForm(null);
-                      handleTransformConfigChange('formId', null);
-                      handleTransformConfigChange('selectedCreature', null);
+                      handleTransformConfigChange({
+                        formId: null,
+                        selectedCreature: null
+                      });
                     }}
                     title="Remove transformation target"
                   >

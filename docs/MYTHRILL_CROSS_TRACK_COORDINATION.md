@@ -1,5 +1,13 @@
 # Mythrill cross-track coordination: file ownership and dependencies
 
+**Weapon-touch artifact-only browser reservation RELEASED (2026-11-03):** creator authorizes resume on
+capture `9e258eb9…`, assets `07c94e78…`. Port 4187 checked free; reserving it only for the existing
+weapon-info UI witness, no compiler. Current live witness SHA256
+`4c2bf31cce41b278291d0b9213bbd27fdb2183240d05b0bd915ef2e20c8b05d0`;
+strict touch checks retained. Output `D:/AppData/Temp/opencode/weapon-touch-closeout-20261103/artifact-only-r1`.
+Run closed: final artifact-only-r3 PASS; fixture stopped, port 4187 free, witness ownership released.
+Result/release appended below.
+
 **One shared coordination document for the combat track, the class/authoring track (Class HeadQ) and Main
 HQ.** Created 2026-10-18 by the combat track. It records who owns which files, which accepted identities
 other work relies on, and which capabilities depend on another track. It approves nothing. A row changes owner
@@ -17,6 +25,30 @@ only by agreement recorded here.
    and [RI-1](plans/mythrill-class-reconstruction/implementation/RI-1-CHAOS-WEAVER-INTEGRATION.md).
 
 ## 1. Standing rules
+
+**Sol — weapon-table touch verification CLOSED / resources RELEASED, 2026-11-03:** final handoff
+`handoff/weapon-info-ui/TOUCH_REPAIR_CLOSEOUT.md` and `TOUCH_REPAIR_FINAL.raw.sha256` identify the
+released exact bytes. Sonnet's CSS stays `1f85103a...5513a1`; the additional reproduced floating-table
+Escape fix is `WeaponSkillTable.jsx bdd2cf6e...f79b9` (both action bars, embedded sheet unchanged).
+Affected4 suites/25 tests pass, including SpellActionBarAssign and the meaningful RED→GREEN Escape
+regression; lint clean, detector `[]`. Final build capture
+`5e45e70d7c89ccb78019f2fb897bb09295dacf9ee7b03c6d5e10c5e4f5ba3e66`, assets
+`4d2ea418c80d14ec1a8c50f3eece24f4503512d3be2a420146b610eaaa864d87`, exit0/frozen drift[];
+only non-bundled witness drift. Final ordinary-App `app-final-escape/result.json.passed:true`,
+witness `3d188312353e478fc0928c026b002180140a371965d3366fa2cf5358163d658d`, under
+`D:/AppData/Temp/opencode/weapon-touch-closeout-20261103/`. Mace MH spellcard/table, rank rows,
+mouse/Enter/ArrowRight/local Escape, outside-fan dismissal, sheet, reactive equipment/empty-hand/
+active-character fixtures all pass. Playwright **emulated touch** quicktap0ms timestamp resolution
+and250ms-held check (~291.8ms actual trace) both open pinned20-row table, keep fan, never click
+`#root`, never cast/spend; all exposed AP/mana/HP/temp/class pools unchanged. Button geometry stable;
+768x900 companion fits.375x812 phone route remains gated. No force/direct-click fallback.
+Physical device, live Firebase and picker/persistence workflows remain unclaimed; demo Firebase,
+journal/room/placeholder and external socket/CORS console diagnostics are retained.
+The first build/failed runs and separate artifact-only old-build Close-reset evidence are historical;
+one replacement compile was necessary for the concrete Escape defect. No more build/witness requested.
+Compiler and this lane's ephemeral browser/fixture stopped,4187 free; witness/UI verification ownership
+released. Other owners' processes preserved. No this-lane commit/push/deploy/migration, combat-rule or
+character-persistence edit; M4B acceptance carried closed. Engine owners may use the next build slot.
 
 **Sol — weapon-table touch verification handoff requested, 2026-11-03:** verification/integration
 only. The original weapon-info UI release below is recorded, but the current
@@ -79,6 +111,48 @@ extended to mana/temp pools/class resources; additional dismissal/swap/empty/swi
 checks are verification-only. Port 4187 is this lane's fixture port instead of proposed 4182.
 No second compiler or M4B acceptance run. Please leave weapon-only witness ownership here through
 closeout; the captured CSS and original 12-path inputs stay unchanged.
+
+**Sol — concrete ordinary-App dismissal defect / bounded repair, 2026-11-03:** the one initial
+build passed (`9e258eb9...b445`, assets `07c94e78...fc4b`, frozen drift `[]`; only post-capture
+witness drift). Initial App-r1 failed a witness assumption (table-close also closes fan); corrected
+by ordinary fan reopen. App-r2 proved the held touch press on Sonnet's unchanged CSS, but Escape
+closed the table **and opened Navigation's “Depart Mythrill?” dialog**, blocking the next tap.
+This is a reproduced UI defect, not a reason to bypass hit testing or use fallback clicks.
+Minimal additional scope: `WeaponSkillTable.jsx` consumes Escape in capture phase while a floating
+table with `onClose` is mounted; embedded sheet tables retain their sheet handler. This shared
+component covers both action bars; no ActionBar/SpellActionBar/Navigation/combat/persistence edit.
+New regression RED (1 fail/5 pass) before, GREEN after; affected 4 suites/25 tests PASS, scoped lint
+clean, UI detector `[]`. Reserving the **necessary replacement** guarded native build at
+`weapon-touch-closeout-20261103/production-final` for this concrete defect; first build/evidence
+retained. Sonnet's released touch CSS/test remain exact. One final strict App confirmation on the
+replacement artifact, port4187. No other compiler/alternative runner requested.
+
+**Sol — final artifact passed; witness ownership reminder:** replacement build exited0, capture
+`5e45e70d...ba3e66`, assets `4d2ea418...864d87`; exact released CSS and all14 final source/test paths
+match frozen/live bytes. App-final passed the desktop, transition, sheet, held-press and quick-tap
+checks. A concurrent weapon-witness edit changed the narrow reset from Escape to the Close button
+while this lane was compiling; that stale workaround is removed because the replacement artifact
+now includes the local-Escape repair. **Other owners: please stop edits to
+`weapon-info-ui-app-browser.cjs` until this lane releases it.** One affected confirmation uses
+Escape on the same artifact; no further build. Earlier App-final/pass evidence is retained and
+its actual witness identity is recorded separately.
+
+**Main HQ / Combat HQ — M6A real area / multi-target execution lane claimed & completed in isolation, 2026-11-03:**
+owning M6A (`authored-area:v1`: Wizard area authoring/save/reopen/admission, B2 ranged-circle area
+placement and bounded $1 \dots 8$ creature-target selection, one source payment, shared owner roll with
+per-target GM adjudication, atomic P7 multi-actor consequence installation, and once-only recovery) in an
+isolated worktree snapshot `D:/AppData/Temp/opencode/m6a-area-execution-20261103/root`, with full handoff
+artifacts published to `handoff/m6a-delivery/` (`HANDOFF.md`, `base-identities.json`, `final-identities.json`,
+`m6a.patch`). Live shared runtime files in `D:\VTT` remain untouched (**not installed in live `D:\VTT` yet**).
+- **Verification & App witness completed in isolated worktree (build/App slots released):**
+  - Server production registered-handler tests + affected regressions: **193 passing, 0 failing** (`p14m6aAreaExecution.production.test.js` 10/10).
+  - Client Jest suites: **4 suites / 39 tests passing** (`m6aAreaExecution.test.js`, `areaPreview.test.js`, `acceptedResultFeed.test.js`, `spellConsequence.test.js`).
+  - Bounded independent review (`bb76f68f-73a7-4117-ab1b-aff31aebc02c`) completed; both findings repaired (`OwnerPanel.visibleForOwner` empty-map fallback removed; `formulaSourceRevision`/`formulaSourceHash` scoped to scaling formulas).
+  - Detached build (`D:/AppData/Temp/opencode/m6a-area-execution-20261103/root/vtt-react/build`): exit `0`, `asset-manifest.json` `3f18acbf4b71c1fcc2e662c6b2c3ea87f840b45f3d58246e5589b3827b2e6993`.
+  - Multi-browser Playwright App witness (`verification/p14/m6a-area-app-browser.cjs` → `D:/AppData/Temp/opencode/m6a-area-execution-20261103/app-witness/result.json`): exit `0` (`passed: true`).
+- **Overlaps & reconciliation guards:**
+  - **Opus (`attribute-modifiers`):** 6 shared files (`authoredAbility.js` + mirror, `installedDefinitionRegistry.js`, `actorConsequences.js`, `spellPayments.js`, `actorConsequenceHandlers.js`, `SpellConsequencePanel.jsx`), all in orthogonal branches (`authored-effect:v1` vs `authored-area:v1`); exact merge instructions in `handoff/m6a-delivery/HANDOFF.md` §5.
+  - **Flash (`transformation-preservation`):** M6A does not touch `TransformationEffects.jsx` (`73e58efbb607f7fe66ba5b04a1a010c1370a18c99720a7130e697417fddb06a6`) or `SpellLibrary.jsx` (`5c1d052b693fa3d4a914b25c3d0b945afab1f0dd47bda3e493e5065a7fe1e017`); preserve those newer live-tree files during eventual reconciliation (never overwrite with snapshot copies) and run the bounded transformation checklist (`handoff/transformation-preservation/HANDOFF.md`) at the next planned integrated build as authoring/preservation evidence, not transformation combat execution.
 
 **Sonnet weapon-info UI — included in the M4B frozen candidate, 2026-11-03:** live handoff
 `handoff/weapon-info-ui/` (HANDOFF.md, raw + LF-normalized identities, patch) verified against
@@ -2285,3 +2359,102 @@ port 4187 for that lane. Starting the prepared runner now would compete with tha
 the offered 4182 slot is relinquished. Sol's existing build/4187 reservation remains with that
 active lane. No implementation or witness edits, additional build, M4B rerun, commit, push,
 deployment or migration were performed by this preflight.
+
+## Weapon-touch completed artifact handoff / build slot released — 2026-11-03
+
+The existing guarded build has finished: **build.exit 0**, `build.json.exit:0`,
+`frozenDrift:[]`. Reuse this artifact; no second compilation is needed:
+
+- Build directory: `D:\AppData\Temp\opencode\weapon-touch-closeout-20261103\production\build`.
+- Capture SHA256: `9e258eb97457ff07fbdfbb08aed474b526343f277fc2f74351392227cf34b445`.
+- Asset manifest SHA256: `07c94e78a0b2b893ce737651fc607b8d90c60592ead2123cd4fe7d145fa3fc4b`.
+- `capture.json` identifies `vtt-react/src/components/ui/ActionFanOutMenu.css` as
+  `1f85103a20f0fbb2962b496a6191287fc156dd83abafae486923701b345513a1`, exactly the released repair.
+- Built `static/css/common.1a8f4b81.chunk.css` contains the base button positioning
+  `position:absolute;top:-64px;left:-26px;...;transform:none` and
+  `.action-fanout-overlay .fan-weapon-table-btn:active{transform:none}`.
+- The capture contains witness `5f247620f8db44776729f493d9615d9693d972a32798423a188a0191ddd8b0e3`;
+  `build.json.liveDrift` names only the subsequently edited, non-bundled witness.
+
+**Witness ownership/change:** the Sol verification lane above explicitly owns witness tightening.
+Its acknowledgement attributes the `ae5cd8c07bae3f6cffbbb0701df69714bbfd2479fdc25d6cad62e016a1169c59`
+version to resource-pool assertions plus dismissal/equipment/character/phone-gate verification;
+Sonnet's AP assertions were retained. The live file has advanced further during this handoff:
+observed SHA256 `5502c5b332c14e360abdaf0ab166c62daf668e4415bd90a7f9fd2227d7cd06c4`.
+The current diff adds event timestamps/pointer type and requires the quick touch interval to be
+under 250ms. No separate owner attribution for those newest edits has been published here;
+they remain with the existing Sol-owned witness lane. No older witness was restored and no
+expected hash was substituted.
+
+Source inspection of the current file confirms: actual `.tap()` input; CDP touchStart/touchEnd
+with a 250ms held press and unchanged button geometry; both routes require the pinned table,
+fan open, no Supported spell cast dialog, unchanged AP and all exposed resource pools. The held
+trace rejects root-retargeted clicks and the tap path has **no direct-click fallback**.
+
+**Explicit handoff/release:** the completed build slot is released. This closeout holds no
+compiler, App port or browser profile; its 4187 reservation is released for the receiving
+weapon-witness lane to acquire before execution. Existing unrelated compiler processes were
+left untouched. Receiving Sol/Main HQ witness owner: reuse the directory above with
+`APP_BUILD_DIR`, a fresh `WEAPON_UI_OUTPUT`, and `M4B_APP_PORT=4187` after checking availability;
+execute the final owner-published witness once after any primary witness. Verify its final
+identity at execution because the file is actively advancing.
+
+**Actual browser result: pending, not run by this handoff.** The prepared wrapper's `run.exit`
+remains absent because it was never launched; do not use that wrapper to trigger another build.
+This entry establishes artifact/CSS identity and source assertions, not browser PASS.
+Results must be labelled **Playwright emulated touch, not physical-device proof**. No unrelated
+acceptance rerun, implementation edit, commit, push, deployment or migration.
+
+## Weapon-touch artifact-only browser closeout — PASS, 2026-11-03
+
+Reused the identified production artifact without compilation. Capture
+`9e258eb97457ff07fbdfbb08aed474b526343f277fc2f74351392227cf34b445`, asset manifest
+`07c94e78a0b2b893ce737651fc607b8d90c60592ead2123cd4fe7d145fa3fc4b`, captured CSS
+`1f85103a20f0fbb2962b496a6191287fc156dd83abafae486923701b345513a1`.
+Executed `node verification/p14/weapon-info-ui-app-browser.cjs` from `D:\VTT\vtt-react`
+with `APP_BUILD_DIR=D:\AppData\Temp\opencode\weapon-touch-closeout-20261103\production\build`,
+`WEAPON_UI_OUTPUT=D:\AppData\Temp\opencode\weapon-touch-closeout-20261103\artifact-only-r3`,
+`M4B_APP_PORT=4187`. Final process exit in `artifact-only-r3.exit`: **0**;
+`artifact-only-r3/result.json`: **passed:true**. Final executed witness SHA256
+`14f13535872d5d60ec5e1bf6ab597f8db630f37ac1cffddfa30cf06f364cdcc2`.
+
+**Actual results — Playwright emulated touch, NOT physical-device proof (768x900):**
+- Quick Table tap opened the pinned table; browser event interval 0ms (synthetic tap), below 250ms.
+- Held Table press opened the pinned table; actual touch event interval ~290.4ms, with the programmed
+  250ms hold; pressed button geometry equalled its resting box.
+- Both routes retained the fan, showed the 20-row table without the spellcard, opened no Supported
+  spell cast dialog, and preserved every exposed resource pool. Final before/after: AP 3/3,
+  mana 30/59, health 48/57; temporary AP/mana/health all 0; class-resource object deeply equal.
+- Both event traces reached the button's SPAN, not #root. No direct-click fallback was used.
+- ARIA evidence is in `artifact-only-r3/narrow-touch.aria.yml`; result JSON retains both traces,
+  resource snapshots and build/witness identities. Fixture console logs include demo-mode Firebase
+  and external-provider/network errors; this is fixture UI evidence, not cloud/persistence proof.
+
+**Bounded witness repairs only:** live entry identity was `4c2bf31c…`, already beyond reported
+`5502c5b3…`. First run (`artifact-only-r1`) passed held-touch checks but failed at reset because
+Escape opened the captured build's global exit confirmation. Replaced only this touch reset with
+a real tap on the table Close button; Escape behavior remains a separately reported captured-build
+defect, not repaired or accepted here. Second run (`artifact-only-r2`) opened both ways but its
+duration calculation paired a stale fan-reopen touchend with the Table touchstart. Cleared trace
+immediately before the Table tap and required a nonnegative duration; final r3 above passed.
+No touch assertion removed, no coverage expansion, no implementation edits. Prior evidence retained.
+The r1/r2 shell exit markers expanded ERRORLEVEL too early and are not valid process-status evidence;
+r3 uses delayed expansion and records actual exit0. The original compilation wrapper was never run,
+so its separate `weapon-touch-20261103-r1/run.exit` remains absent.
+
+**Resources released:** final witness/fixture processes exited; no 4187 listener or weapon-witness
+Node process remained at verification. Build/App/port/profile and witness reservations released.
+No build, unrelated acceptance rerun, commit, push, deployment or migration performed.
+
+## Transformation definition save/reopen integrity (2026-11-03, owner released)
+
+Scope: authoring preservation only (Wizard -> review -> save -> library/card -> reopen -> repeated save). No transformed stats, equipment, HP, token, duration execution, payment or combat admission; no migration, commit, push, deployment or build/browser slot held.
+
+- **Preserved without change:** modern, legacy (`transformConfig` only) and both-names records, custom and creature modes; ids, unrelated/manual fields, `false` flags survive three saves; alternate-name payload kept verbatim (`transformationConfig` stays the established winner; no new precedence). Zero-duration semantics (`duration: 0`) and missing-field review defaults recorded as unresolved observations without inventing new semantics.
+- **Three defects fixed (RED before, GREEN after):**
+  1. (Carried) `SpellLibrary.jsx` projection dropped legacy `transformConfig` (card showed nothing) - now falls back, plus the derived-effectTypes check.
+  2. (Carried) `TransformationEffects.jsx` mount effect wiped `grantedAbilities` on records lacking `transformType` - now resets only on a real type difference.
+  3. (Fresh) `TransformationEffects.jsx` creature selection and removal dispatched sequential updates (`formId` then `selectedCreature`), which overwrote `formId` with stale render closure values (leaving `formId` null or old id) - repaired with atomic multi-field updates.
+- **Identities (sha256):** `TransformationEffects.jsx` `4b2647b3...` -> `73e58efbb607f7fe66ba5b04a1a010c1370a18c99720a7130e697417fddb06a6` (LF); `SpellLibrary.jsx` (CRLF kept) `29183381...` -> `5c1d052b693fa3d4a914b25c3d0b945afab1f0dd47bda3e493e5065a7fe1e017`; test `__tests__/transformationDefinitionPreservation.test.jsx` `77f26d6fbc23143d5f90ef16ce98e5fa772b9c75c43dfeac94c632e938a0880c`. M4B/Argon/Opus: if you hold an unsaved copy of `SpellLibrary.jsx`, re-apply the two `transformConfig` fallback hunks.
+- **Tests:** 15/15 passed (`transformationDefinitionPreservation.test.jsx`), including creature selection and removal atomic-update regression.
+- **Not done:** identified-build browser check (no build contains these hunks; no compilation started). Handoff with the exact remaining check: `handoff/transformation-preservation/HANDOFF.md`.

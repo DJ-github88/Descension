@@ -79,6 +79,59 @@ export function useEligibleSocketPrincipal() {
   return eligiblePrincipal;
 }
 
+/**
+ * Token for one multiplayer handshake. Same selection as the initial
+ * connection: the verified Firebase ID token for a registered account; an
+ * unverified dev token only outside production and never for a local guest;
+ * otherwise tokenless. Errors propagate to the caller.
+ */
+async function selectSocketAuthToken(authState) {
+  const allowDevToken = !isProduction();
+  if (authState.user && typeof authState.user.getIdToken === 'function') {
+    return authState.user.getIdToken();
+  }
+  if (allowDevToken && authState.user && !authState.user.isGuest) {
+    return `dev-token-${authState.user.uid || 'admin-dev-user'}`;
+  }
+  if (allowDevToken && !authState.user?.isGuest && (authState.isDevelopmentBypass || authState.isAdminBypass || authState.isAuthenticated)) {
+    return `dev-token-${authState.user?.uid || 'admin-dev-user'}`;
+  }
+  return null;
+}
+
+/**
+ * socket.io-client re-sends `auth` on every (re)connection handshake; a plain
+ * object is reused verbatim. A Firebase ID token expires after ~1 hour, and
+ * the production middleware refuses an expired token with a middleware error,
+ * after which socket.io stops reconnecting. So the handshake payload is a
+ * callback: while this socket's principal/generation is still current, each
+ * attempt asks that SAME principal for a current token (Firebase returns its
+ * cached token until it nears expiry). Otherwise, or if the refresh fails, the
+ * attempt carries this socket's own last token (the previous behaviour) and
+ * never another account's token; the connect guard then drops a stale socket.
+ */
+export function createReconnectAuth({ initialToken, isCurrent }) {
+  let lastToken = initialToken;
+  return (cb) => {
+    if (!isCurrent()) {
+      cb({ token: lastToken });
+      return;
+    }
+    // Capture the verified principal synchronously, in the same turn as the
+    // currency check, so a later account switch cannot supply the token.
+    const authState = useAuthStore.getState();
+    Promise.resolve()
+      .then(() => selectSocketAuthToken(authState))
+      .then((token) => {
+        if (isCurrent()) lastToken = token;
+        cb({ token: lastToken });
+      }, (error) => {
+        console.warn('Could not refresh auth token for socket reconnect:', error);
+        cb({ token: lastToken });
+      });
+  };
+}
+
 export function setupSocketConnection({
   SOCKET_URL,
   setSocket,
@@ -132,14 +185,16 @@ export function setupSocketConnection({
       return;
     }
 
+    let socketLifetime = null;
     newSocket = io(SOCKET_URL, {
       autoConnect: false,
-      auth: {
-        token: authToken
-      }
+      auth: createReconnectAuth({
+        initialToken: authToken,
+        isCurrent: () => setupValid() && (socketLifetime === null || socketLifetime.isValid())
+      })
     });
 
-    const socketLifetime = createSocketLifetimeGuard({
+    socketLifetime = createSocketLifetimeGuard({
       socket: newSocket,
       principalKey: principalAtStart,
       accountGeneration: generationAtStart,
@@ -508,7 +563,7 @@ export function setupAuthChangeHandler({
         return;
       }
 
-      socket.auth = { token: authToken };
+      socket.auth = createReconnectAuth({ initialToken: authToken, isCurrent: () => lifetime.isValid() });
 
       if (authState.isAuthenticated || authState.user?.isGuest) {
         socket.connect();

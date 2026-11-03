@@ -1,4 +1,4 @@
-﻿# Mythrill â€” Prism combat capability plan (canonical)
+# Mythrill â€” Prism combat capability plan (canonical)
 
 Combat architecture lead Â· 2026-10-30 Â· **planning only.** No production code, commit, push, deployment,
 migration or dependency change was made. Nothing here approves new gameplay rules; every rule question is
@@ -273,6 +273,16 @@ identity, a removed pin preserving registry/list/revoke/unrelated execution, pen
 retirement before commit, conflicting resource fields, missing target consent atomically and the
 genuine pinned Prayer. Client scoped lint is clean; server files retain their existing brace/style
 baseline.
+
+### M6A — bounded ranged-circle area / multi-target execution (`authored-area:v1`): implemented & App-witnessed in isolated worktree (staged for guarded integration, 2026-11-03)
+
+First bounded M6 increment implemented, independently reviewed, built, and App-witnessed in isolated worktree
+`D:/AppData/Temp/opencode/m6a-area-execution-20261103/root` (handoff: [`handoff/m6a-delivery/HANDOFF.md`](../handoff/m6a-delivery/HANDOFF.md);
+**not yet installed into live `D:\VTT` bytes**):
+- **Capability & route:** `authored-area:v1` (compiler `p14-m6a-area-1`, schema `1`) for primary owner PC source → $1 \dots 8$ distinct placed creature targets on the same map (`MAX_AREA_TARGETS = 8`, `MAX_AREA_ACTORS = 9` including source; technical engine/receipt limits, not game rules; $>8$ refuses `area_target_capacity_exceeded` before payment, never truncates).
+- **Geometry & privacy:** reuses B2 ranged-circle helpers (`circleCellOverlap`, `occupiedPreviewCells`, `visibleAreaCandidates`) for radii $5 \dots 60$ ft and ranges $0 \dots 120$ ft while distinguishing accepted B2 preview (`martyr_radiant_burst` 10-ft radius / 20-ft range) from newly tested M6A radii/grid cases. Advisory client preview only; eligibility/range/LoE remain GM-adjudicated. Hidden/unrendered tokens never leak through candidate counts, `actor_not_found` refusal details, or observer feed/chat.
+- **Roll scope, formulas & payment:** `AREA_ROLL_PROCEDURE = 'shared-area-roll-proposed'` (one owner roll proposes `roll.total` per target; GM adjudicates per-target `finalAmount` and `adjustmentReason`; never duplicates shared dice faces onto per-target objects; explicitly flagged as a proposed first-profile rule requiring creator confirmation). Supports M4A formulas including integer divisors (`attr/2`, `attr/3`, `attr/K` floored) and M4B typed class payments (`elementalSpheres`, `musicalNotes`, `devotionGauge`). Catalogue AoE candidates are rejected only on their true non-formula whole-record blockers; proven via real Spell Wizard authoring (`Prism Arcane Pulse`, `2d6 + intelligence/2`).
+- **Verification:** server production tests + regressions `193/193` (`p14m6aAreaExecution.production.test.js` 10/10); client `4 suites / 39 tests`; independent review (`bb76f68f-73a7-4117-ab1b-aff31aebc02c`) findings repaired; detached build exit `0` (assets `3f18acbf...`); multi-browser App witness `m6a-area-app-browser.cjs` PASS (`result.json.passed: true`).
 
 Each milestone unlocks a family, has one observable workflow and a completion boundary (focused tests, one
 normal-App persistent-profile proof, one bounded review). Scoping counts are from Â§B.

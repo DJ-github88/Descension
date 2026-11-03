@@ -797,7 +797,7 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
   if (!derivedEffectTypes.includes('control') && (spell.controlConfig || spell.effects?.control)) derivedEffectTypes.push('control');
   if (!derivedEffectTypes.includes('utility') && (spell.utilityConfig || spell.effects?.utility)) derivedEffectTypes.push('utility');
   if (!derivedEffectTypes.includes('summoning') && (spell.summonConfig || spell.summoningConfig || spell.effects?.summoning)) derivedEffectTypes.push('summoning');
-  if (!derivedEffectTypes.includes('transformation') && (spell.transformationConfig || spell.effects?.transformation)) derivedEffectTypes.push('transformation');
+  if (!derivedEffectTypes.includes('transformation') && (spell.transformationConfig || spell.transformConfig || spell.effects?.transformation)) derivedEffectTypes.push('transformation');
   if (!derivedEffectTypes.includes('purification') && (spell.purificationConfig)) derivedEffectTypes.push('purification');
   if (!derivedEffectTypes.includes('restoration') && (spell.restorationConfig)) derivedEffectTypes.push('restoration');
 
@@ -901,7 +901,8 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
    // Same precedence as Wizard reopen, spellNormalizer and UnifiedSpellCard: summoningConfig first, legacy summonConfig as fallback.
    // Display-only: the stored record keeps both names exactly as saved.
    summonConfig: spell.summoningConfig || spell.summonConfig || null,
-   transformationConfig: spell.transformationConfig || null,
+   // Same precedence as Wizard reopen, spellNormalizer and UnifiedSpellCard: transformationConfig first, legacy transformConfig as fallback.
+   transformationConfig: spell.transformationConfig || spell.transformConfig || null,
    purificationConfig: spell.purificationConfig || null,
    restorationConfig: spell.restorationConfig || null,
    healingConfig: spell.healingConfig || null,
