@@ -18,12 +18,26 @@ authorizations/status are recorded below; each further slice still needs its own
 > creator questions. Unsupported deterministic mechanics are interim manual boundaries, not
 > completed automation.
 >
-> **M4B continuation, 2026-11-02:** reusable v2 formula execution now composes with the three existing
-> P9 typed class-payment domains and existing primary-PC healing consent; whole catalogue records are
-> hash-bound and the real Martyr Restorative Prayer is the first calculation cohort. Server/client
-> checks pass and one optimized artifact was built, but the normal-App Wizard/class-card witness is
-> not established; no App PASS is claimed. Minstrel Resolving Strike remains on its accepted P9 route;
-> M4A's independent App evidence is carried. Prior accepted work remains carried.
+> **M4B continuation, 2026-11-03:** reusable v2 formula execution composes with one reviewed,
+> server-pinned catalogue-backed typed class payment and existing primary-PC healing consent. The shared
+> adapter recognizes the three P9 domains, but only the Martyr Restorative Prayer Devotion route is
+> pinned and production-tested end to end; nested sphere/note `resourceValues` forms remain refused.
+> Whole catalogue records now require an exact reviewed `{classId, spellId, recordHash}` pin at
+> admission and cast; conflicting resource encodings and missing target consent refuse atomically.
+> A retired/replaced pin now keeps the stored definition listable and exactly revocable with an
+> explicit unavailable reason, refuses at approval/commit without mutation, and leaves unrelated
+> definitions usable; no latest-version substitution or client-hash trust was added.
+> Server/client checks pass, and the normal-App Wizard save/reopen -> admit -> cast -> target
+> consent -> GM receipt workflow passes on build `m4b-r4-build-20261103-r1` (capture `3ffc6e17...`,
+> exit 0, no capture/live drift). Payment is reconciled as 3 temporary mana + 2 base mana (total
+> pool 13->8); the App's base display 10->8 is not a 2-mana debit. The final r4 build also
+> browser-witnessed the "Rank:" weapon wording; r2/r13 "Opens at" evidence remains historical. M4B
+> is accepted/closed for this bounded scope; full M4 remains open. Only the Martyr/Devotion route was
+> browser-witnessed; the Arcanoneer/Minstrel adapters remain unit/shared-adapter coverage, and
+> M4B-specific dropped-ACK/reload was not separately re-run in the App (shared M4A recovery and M4B
+> production replay are carried). Minstrel Resolving Strike
+> remains on its accepted P9 route; M4A's independent App evidence is carried. Prior accepted work
+> remains carried.
 >
 > **Preserved installed extension, 2026-10-31:** [M2A counted durations](../handoff/m2a-integration/HANDOFF.md),
 > source integrated against M1 without the later UI, preserving that UI and concurrent Class work.

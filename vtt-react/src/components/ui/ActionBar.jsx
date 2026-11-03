@@ -90,7 +90,7 @@ const ActionBar = () => {
     const { adjustedPosition: fanCompanionAdjPos, tooltipRef: fanCompanionRef } = useTooltipPosition(
         fanCompanionPos,
         !!fanCompanion,
-        { estimateHeight: 520, estimateWidth: fanCompanion?.item ? 780 : 380, offsetX: 16, anchor: 'above' }
+        { estimateHeight: 520, estimateWidth: fanCompanion ? 780 : 380, offsetX: 16, anchor: 'above' }
     );
 
     // Hotkey assignment state
@@ -1539,17 +1539,28 @@ const ActionBar = () => {
         };
         const posX = (e?.clientX && e.clientX > 0) ? e.clientX : (rect.left + rect.width / 2);
         const posY = rect.top;
-        const targetItem = equipment?.[slotName] || null;
         setFanCompanionPos({ x: posX, y: posY });
         setFanCompanion(prev => {
             if (prev?.isPinned && prev?.action?.id === action?.id) return prev;
             return {
                 action,
                 slotName,
-                item: targetItem,
                 isPinned: false
             };
         });
+    };
+
+    // Explicit touch/keyboard access to the weapon table; never activates an ability.
+    const handleViewWeaponTable = (e, slotName) => {
+      const rect = e?.currentTarget?.getBoundingClientRect?.();
+      if (fanCloseTimerRef.current) {
+        clearTimeout(fanCloseTimerRef.current);
+        fanCloseTimerRef.current = null;
+      }
+      if (rect) setFanCompanionPos({ x: rect.left + rect.width / 2, y: rect.top });
+      setFanCompanion(prev => (prev && !prev.action && prev.slotName === slotName && prev.isPinned)
+        ? null
+        : { action: null, slotName, isPinned: true });
     };
 
     const scheduleCloseFanCompanion = () => {
@@ -1568,10 +1579,28 @@ const ActionBar = () => {
         }
     };
 
+    // The table always reflects what is equipped in the chosen hand right now (never a hover-time copy).
+    const fanCompanionItem = fanCompanion ? (equipment?.[fanCompanion.slotName] || null) : null;
+
+    // A different character must not inherit the previous character's open companion.
+    useEffect(() => {
+        setFanCompanion(null);
+    }, [currentCharacterId]);
+
     useEffect(() => {
         const handleKeyDown = (e) => {
             if (e.key === 'Escape') {
                 setFanCompanion(null);
+                return;
+            }
+            // Keyboard route into the table: from a focused fan bubble, ArrowRight pins the companion and focuses the table.
+            if (e.key === 'ArrowRight' && e.target?.closest?.('.action-fan-bubble')) {
+                const table = document.querySelector('.fan-companion-weapontable .wst-body');
+                if (table) {
+                    e.preventDefault();
+                    setFanCompanion(prev => prev ? ({ ...prev, isPinned: true }) : prev);
+                    table.focus();
+                }
             }
         };
         window.addEventListener('keydown', handleKeyDown);
@@ -2267,6 +2296,7 @@ const ActionBar = () => {
                         onActionMouseLeave={scheduleCloseFanCompanion}
                         onActionFocus={(e, action) => handleFanActionMouseEnter(e, action, 'mainHand')}
                         onActionBlur={scheduleCloseFanCompanion}
+                        onViewWeaponTable={handleViewWeaponTable}
                         onSlotMouseEnter={(e, item, slotName) => handleEquipmentSlotMouseEnter(e, item, slotName)}
                         onSlotMouseLeave={handleEquipmentSlotMouseLeave}
                         onSlotMouseMove={handleEquipmentSlotMouseMove}
@@ -2416,6 +2446,7 @@ const ActionBar = () => {
                     onActionMouseLeave={scheduleCloseFanCompanion}
                     onActionFocus={(e, action) => handleFanActionMouseEnter(e, action, 'offHand')}
                     onActionBlur={scheduleCloseFanCompanion}
+                    onViewWeaponTable={handleViewWeaponTable}
                     onSlotMouseEnter={(e, item, slotName) => handleEquipmentSlotMouseEnter(e, item, slotName)}
                     onSlotMouseLeave={handleEquipmentSlotMouseLeave}
                     onSlotMouseMove={handleEquipmentSlotMouseMove}
@@ -2435,6 +2466,7 @@ const ActionBar = () => {
                     onActionMouseLeave={scheduleCloseFanCompanion}
                     onActionFocus={(e, action) => handleFanActionMouseEnter(e, action, 'ranged')}
                     onActionBlur={scheduleCloseFanCompanion}
+                    onViewWeaponTable={handleViewWeaponTable}
                     onSlotMouseEnter={(e, item, slotName) => handleEquipmentSlotMouseEnter(e, item, slotName)}
                     onSlotMouseLeave={handleEquipmentSlotMouseLeave}
                     onSlotMouseMove={handleEquipmentSlotMouseMove}
@@ -2549,9 +2581,14 @@ const ActionBar = () => {
                         }}
                         onMouseEnter={cancelCloseFanCompanion}
                         onMouseLeave={scheduleCloseFanCompanion}
+                        onFocus={cancelCloseFanCompanion}
+                        onBlur={(e) => {
+                            if (!e.currentTarget.contains(e.relatedTarget)) scheduleCloseFanCompanion();
+                        }}
                         data-testid="fan-action-companion"
                     >
                         <div className="fan-companion-layout">
+                            {fanCompanion.action && (
                             <div className="fan-companion-spellcard">
                                 <UnifiedSpellCard
                                     spell={fanCompanion.action}
@@ -2562,10 +2599,11 @@ const ActionBar = () => {
                                     showTags={true}
                                 />
                             </div>
-                            {Boolean(fanCompanion.item) && (
+                            )}
+                            {Boolean(fanCompanionItem) && (
                                 <div className="fan-companion-weapontable">
                                     <WeaponSkillTable
-                                        item={fanCompanion.item}
+                                        item={fanCompanionItem}
                                         slotName={fanCompanion.slotName}
                                         skillRanks={skillRanks}
                                         skillProgress={skillProgress}

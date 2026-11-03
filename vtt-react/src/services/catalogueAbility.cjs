@@ -2,7 +2,9 @@
  * The source record is preserved by value; only its supported direct calculation is executable. */
 const { canonical, sha256Hex } = require('./canonicalHash');
 const { readFormula, formulaAttributes, ATTRIBUTES } = require('./classEffect');
+const profileData = require('../data/catalogueAbilityProfiles.json');
 
+const CAPABILITY = 'authored-immediate:v2';
 const CLASS_DOMAIN = Object.freeze({ arcanoneer: 'elementalSpheres', minstrel: 'musicalNotes', martyr: 'devotionGauge' });
 const DOMAINS = Object.freeze(['elementalSpheres', 'musicalNotes', 'devotionGauge']);
 const PITCHES = Object.freeze(['I', 'II', 'III', 'IV', 'V', 'VI', 'VII']);
@@ -22,6 +24,61 @@ const int = (value, min = 0, max = Number.MAX_SAFE_INTEGER) => Number.isSafeInte
 const text = (value, max = 4000) => typeof value === 'string' && value.length > 0 && value.length <= max;
 const keysOnly = (value, allowed) => value && typeof value === 'object' && !Array.isArray(value) && Object.keys(value).every(key => allowed.includes(key));
 const refuse = reason => ({ ok: false, reason });
+
+/** Reviewed server/shared catalogue pins. A record and its self-computed hash are never
+ * authority on their own: the exact class, spell and whole-record hash must be pinned here. */
+function profileFor(source) {
+  if (!source || typeof source !== 'object' || Array.isArray(source)) return refuse('The catalogue source identity is missing.');
+  const { classId, spellId, recordHash } = source;
+  if (typeof classId !== 'string' || typeof spellId !== 'string' || !/^[0-9a-f]{64}$/.test(recordHash || '')) {
+    return refuse('The catalogue source identity is incomplete.');
+  }
+  const matches = (Array.isArray(profileData.profiles) ? profileData.profiles : [])
+    .filter(entry => entry.recordHash === recordHash && entry.classId === classId && entry.spellId === spellId);
+  if (matches.length !== 1) return refuse('No reviewed catalogue profile pins this exact class/spell record (it may have changed); manual play only.');
+  const entry = matches[0];
+  if (entry.capability !== CAPABILITY) return refuse('Catalogue profile capability mismatch.');
+  return { ok: true, entry };
+}
+
+/** The executable projection a pin authorises. Identity and scope are added per admission. */
+function definitionProjection(definition) {
+  if (!definition || typeof definition !== 'object' || Array.isArray(definition)) return null;
+  const projection = JSON.parse(JSON.stringify(definition));
+  delete projection.scope;
+  delete projection.definitionId;
+  delete projection.definitionVersion;
+  delete projection.catalogueSource;
+  return projection;
+}
+
+/** Admission and cast share this exact check; an unknown or changed pin refuses the definition. */
+function verifyDefinition(definition, entry) {
+  if (!entry) {
+    const found = profileFor(definition?.catalogueSource);
+    if (!found.ok) return found;
+    entry = found.entry;
+  }
+  const source = definition?.catalogueSource;
+  if (definition?.binding?.classId !== entry.classId || source?.classId !== entry.classId ||
+    source?.spellId !== entry.spellId || source?.recordHash !== entry.recordHash) {
+    return refuse('The catalogue definition identity does not match its trusted profile.');
+  }
+  if (canonical(definitionProjection(definition)) !== canonical(entry.executable)) {
+    return refuse('The catalogue definition projection does not match its reviewed profile; manual play only.');
+  }
+  return { ok: true, entry };
+}
+
+/** The whole record must hash to a pinned identity before any projection is executable. */
+function verifyRecord(record, classId) {
+  if (!record || typeof record !== 'object' || Array.isArray(record)) return refuse('A whole catalogue record is required.');
+  if (typeof record.id !== 'string') return refuse('The catalogue record has no spell id.');
+  const recordHash = sha256Hex(canonical(record));
+  const found = profileFor({ classId, spellId: record.id, recordHash });
+  if (!found.ok) return found;
+  return { ok: true, entry: found.entry, recordHash };
+}
 const sphere = value => {
   if (typeof value !== 'string') return null;
   const clean = value.trim().toLowerCase().replace(/_sphere$/, '');
@@ -39,7 +96,9 @@ const listCounts = list => (Array.isArray(list) ? list : []).flatMap(entry => {
   return Number.isSafeInteger(count) && count > 0 ? Array(count).fill(key) : [];
 });
 
-/** Typed price from the record's existing class-resource encodings, or null for AP/mana only. */
+/** Typed price from the record's existing class-resource encodings, or null for AP/mana only.
+ * Only the top-level encodings consumed here are supported. Nested resourceValues
+ * devotion_* / *_sphere / note_* fields stay outside the catalogue route. */
 function classPaymentFor(record, classId) {
   const cost = record.resourceCost || {}, values = cost.resourceValues || {};
   const generic = cost.classResource ?? values.classResource;
@@ -62,24 +121,40 @@ function classPaymentFor(record, classId) {
   if (hasDevotion) {
     if (classId !== 'martyr') return refuse('Devotion is the Martyr class domain.');
     if (values.devotion === 'all') return refuse('Spend-all Devotion is outside the typed price contract.');
-    const pick = (...candidates) => candidates.find(value => value !== undefined);
-    const spent = pick(record.devotionCost, values.devotion_cost, genericType.includes('devotion') ? generic?.cost : undefined) ?? 0;
-    const gain = pick(record.devotionGain, values.devotion_gain, genericType.includes('devotion') ? generic?.gain : undefined) ?? 0;
-    const required = pick(record.devotionRequired, values.devotion_required, genericType.includes('devotion') ? generic?.required : undefined) ?? 0;
-    if (![spent, gain, required].every(value => Number.isSafeInteger(Number(value)) && Number(value) >= 0 && Number(value) <= 6)) {
-      return refuse('Devotion price is outside the existing 0Ã¢â‚¬Â¦6 contract.');
+    const agree = (label, candidates) => {
+      const present = candidates.filter(value => value !== undefined);
+      if (!present.length) return { ok: true, value: 0 };
+      const numbers = present.map(Number);
+      if (numbers.some(value => !Number.isSafeInteger(value)) || new Set(numbers).size !== 1) {
+        return refuse(`Conflicting ${label} encodings.`);
+      }
+      return { ok: true, value: numbers[0] };
+    };
+    const spent = agree('Devotion cost', [record.devotionCost, values.devotion_cost, genericType.includes('devotion') ? generic?.cost : undefined]);
+    const gain = agree('Devotion gain', [record.devotionGain, values.devotion_gain, genericType.includes('devotion') ? generic?.gain : undefined]);
+    const required = agree('Devotion requirement', [record.devotionRequired, values.devotion_required, genericType.includes('devotion') ? generic?.required : undefined]);
+    for (const result of [spent, gain, required]) if (!result.ok) return result;
+    if (![spent.value, gain.value, required.value].every(value => value >= 0 && value <= 6)) {
+      return refuse('Devotion price is outside the existing 0-6 contract.');
     }
-    return { ok: true, payment: { domain: 'devotionGauge', price: { cost: Number(spent), gain: Number(gain), required: Number(required) } } };
+    return { ok: true, payment: { domain: 'devotionGauge', price: { cost: spent.value, gain: gain.value, required: required.value } } };
   }
   if (hasSpheres) {
     if (classId !== 'arcanoneer') return refuse('Elemental Spheres are the Arcanoneer class domain.');
-    const rawCosts = sphereExplicit !== undefined ? listCounts(Array.isArray(sphereExplicit) ? sphereExplicit : [sphereExplicit])
-      : sphereCostKeys.flatMap(([key, amount]) => Array(Math.max(0, Number(amount) || 0)).fill(key));
-    const rawGains = sphereGainExplicit !== undefined ? listCounts(Array.isArray(sphereGainExplicit) ? sphereGainExplicit : [sphereGainExplicit])
-      : sphereGainKeys.flatMap(([key, amount]) => Array(Math.max(0, Number(amount) || 0)).fill(key));
-    const costs = rawCosts.map(sphere), gains = rawGains.map(sphere);
-    if (costs.some(value => !value) || gains.some(value => !value)) return refuse('Sphere price names are outside the existing vocabulary.');
-    return { ok: true, payment: { domain: 'elementalSpheres', price: { costs, gains } } };
+    const agreeSpheres = (label, candidates) => {
+      const lists = candidates.filter(value => value !== undefined)
+        .map(value => listCounts(Array.isArray(value) ? value : [value]).map(sphere));
+      if (!lists.length) return { ok: true, value: [] };
+      if (lists.some(list => canonical(list) !== canonical(lists[0]))) return refuse(`Conflicting ${label} encodings.`);
+      return { ok: true, value: lists[0] };
+    };
+    const costs = agreeSpheres('Elemental Sphere cost', [record._arcanoneerElements, record.elements, cost.spheres, record.sphereCost,
+      ...(sphereCostKeys.length ? [sphereCostKeys.flatMap(([key, amount]) => Array(Math.max(0, Number(amount) || 0)).fill(key))] : [])]);
+    const gains = agreeSpheres('Elemental Sphere gain', [record.sphereGenerate, record.sphereGain, record.resourceGain?.spheres,
+      ...(sphereGainKeys.length ? [sphereGainKeys.flatMap(([key, amount]) => Array(Math.max(0, Number(amount) || 0)).fill(key))] : [])]);
+    for (const result of [costs, gains]) if (!result.ok) return result;
+    if (costs.value.some(value => !value) || gains.value.some(value => !value)) return refuse('Sphere price names are outside the existing vocabulary.');
+    return { ok: true, payment: { domain: 'elementalSpheres', price: { costs: costs.value, gains: gains.value } } };
   }
   if (hasNotes) {
     if (classId !== 'minstrel') return refuse('Musical Notes are the Minstrel class domain.');
@@ -154,8 +229,10 @@ function catalogueExecutable(record, classId, { roomId, definitionId, definition
   if (paymentResult && !paymentResult.ok) return paymentResult;
   const payment = paymentResult?.payment || null;
   const catalogueSource = { spellId: record.id, classId, recordHash: sha256Hex(canonical(record)) };
+  const pinned = profileFor(catalogueSource);
+  if (!pinned.ok) return pinned;
   const definition = {
-    schemaVersion: 4, capability: 'authored-immediate:v2', scope: { roomId }, definitionId, definitionVersion,
+    schemaVersion: 4, capability: CAPABILITY, scope: { roomId }, definitionId, definitionVersion,
     name: record.name, description: record.description,
     binding: { rulesetId: 'prism', rulesetVersion: 'cr-a1a-pilot-1', classId },
     spellType: 'ACTION', castTimeType: 'IMMEDIATE',
@@ -166,6 +243,8 @@ function catalogueExecutable(record, classId, { roomId, definitionId, definition
     ...(payment ? { classPayment: payment } : {}),
     catalogueSource
   };
+  const verified = verifyDefinition(definition, pinned.entry);
+  if (!verified.ok) return verified;
   return { ok: true, definition, classPayment: payment, targetRoute: kind === 'healing' ? 'primary-pc-healing' : 'creature' };
 }
 
@@ -200,7 +279,8 @@ function catalogueDraft(record, classId, { authoredDefinitionId, id } = {}) {
   return { ok: true, draft, definition: executable.definition, classPayment: executable.classPayment, targetRoute: executable.targetRoute };
 }
 
-module.exports = { CLASS_DOMAIN, DOMAINS, catalogueExecutable, catalogueDraft, classPaymentFor };
+module.exports = { CAPABILITY, CLASS_DOMAIN, DOMAINS, catalogueExecutable, catalogueDraft, classPaymentFor,
+  profileFor, verifyRecord, verifyDefinition, definitionProjection };
 
 
 

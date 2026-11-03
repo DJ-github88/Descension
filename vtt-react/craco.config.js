@@ -47,6 +47,12 @@ module.exports = {
         { module: /node_modules/ },
       ];
 
+      const oneOf = webpackConfig.module.rules.find(rule => Array.isArray(rule.oneOf))?.oneOf;
+      if (oneOf) {
+        const fallbackIndex = oneOf.findIndex(rule => rule.type === 'asset/resource');
+        oneOf.splice(fallbackIndex < 0 ? oneOf.length : fallbackIndex, 0, { test: /\.cjs$/, type: 'javascript/auto' });
+      }
+
       // Fix chunk loading issues by ensuring correct public path
       if (env === 'development') {
         // Ensure correct public path for chunk loading

@@ -27,6 +27,7 @@ const FILES = [
   'services/shieldBashResult.js',
   'data/sharedConditionProfiles.json',
   'data/classEffectProfiles.json',
+  'data/catalogueAbilityProfiles.json'
 ];
 
 function sync({ check = false } = {}) {

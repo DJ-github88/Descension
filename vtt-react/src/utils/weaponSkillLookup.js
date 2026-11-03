@@ -221,7 +221,10 @@ export function resolveWeaponSkillInfo(item, { skillRanks = {}, skillProgress = 
             text,
             isBaseDieReachable,
             rankReq: tier.rankReq,
-            dieReq: tier.dieReq
+            dieReq: tier.dieReq,
+            // Existing tier data (WEAPON_TYPE_TIERS.rankReq) names the rank each face belongs to.
+            rankReqName: SKILL_RANKS[tier.rankReq]?.name || null,
+            isCurrentRank: tier.rankReq === rankKey
         });
     }
 

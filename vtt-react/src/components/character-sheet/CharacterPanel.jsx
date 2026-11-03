@@ -748,6 +748,7 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
     const [hoveredSlot, setHoveredSlot] = useState(null);
     const [expandedWeaponSlotTable, setExpandedWeaponSlotTable] = useState(null);
     const weaponTooltipCloseTimerRef = useRef(null);
+    const weaponTooltipPointerInsideRef = useRef(false);
     const [hoveredStat, setHoveredStat] = useState(null);
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
     const { adjustedPosition, tooltipRef } = useTooltipPosition(mousePosition, !!hoveredSlot || !!hoveredStat);
@@ -806,6 +807,13 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
 
     // Get current character ID from store
     const currentCharacterId = characterStore?.currentCharacterId || null;
+
+    // A different character must never inherit another character's open weapon tooltip/table.
+    useEffect(() => {
+        setHoveredSlot(null);
+        setExpandedWeaponSlotTable(null);
+        weaponTooltipPointerInsideRef.current = false;
+    }, [currentCharacterId]);
 
     useEffect(() => {
         return () => {
@@ -1859,6 +1867,47 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
                                         <div
                                             key={slotName}
                                             className={`weapon-slot ${isEmpty ? 'empty' : ''} ${isDisabled ? 'disabled' : ''}`}
+                                            tabIndex={isDisabled ? -1 : 0}
+                                            role="button"
+                                            aria-label={item
+                                                ? `${config?.info || slotName}: ${item.name}. Enter shows weapon skill table.`
+                                                : `${config?.info || slotName}: empty`}
+                                            onFocus={(e) => {
+                                                if (e.target !== e.currentTarget) return;
+                                                if (weaponTooltipCloseTimerRef.current) {
+                                                    clearTimeout(weaponTooltipCloseTimerRef.current);
+                                                    weaponTooltipCloseTimerRef.current = null;
+                                                }
+                                                const r = e.currentTarget.getBoundingClientRect();
+                                                setMousePosition({ x: r.right, y: r.top });
+                                                setHoveredSlot(slotName);
+                                            }}
+                                            onBlur={(e) => {
+                                                if (e.target !== e.currentTarget || weaponTooltipPointerInsideRef.current) return;
+                                                weaponTooltipCloseTimerRef.current = setTimeout(() => {
+                                                    setHoveredSlot(null);
+                                                }, 200);
+                                            }}
+                                            onKeyDown={(e) => {
+                                                if (e.target !== e.currentTarget) return;
+                                                if (e.key === 'Escape') {
+                                                    setHoveredSlot(null);
+                                                    setExpandedWeaponSlotTable(null);
+                                                    return;
+                                                }
+                                                if ((e.key === 'Enter' || e.key === ' ') && item && !isDisabled) {
+                                                    e.preventDefault();
+                                                    e.stopPropagation();
+                                                    if (weaponTooltipCloseTimerRef.current) {
+                                                        clearTimeout(weaponTooltipCloseTimerRef.current);
+                                                        weaponTooltipCloseTimerRef.current = null;
+                                                    }
+                                                    const r = e.currentTarget.getBoundingClientRect();
+                                                    setMousePosition({ x: r.right, y: r.top });
+                                                    setHoveredSlot(slotName);
+                                                    setExpandedWeaponSlotTable(prev => prev === slotName ? null : slotName);
+                                                }
+                                            }}
                                             onClick={(e) => handleSlotTap(e, slotName)}
                                             onMouseEnter={(e) => {
                                                 if (weaponTooltipCloseTimerRef.current) {
@@ -2704,13 +2753,16 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
                         pointerEvents: isWeaponSlot ? 'auto' : 'none',
                         zIndex: 2147483647
                     }}
+                    onClick={isWeaponSlot ? (e) => e.stopPropagation() : undefined}
                     onMouseEnter={() => {
+                        weaponTooltipPointerInsideRef.current = true;
                         if (weaponTooltipCloseTimerRef.current) {
                             clearTimeout(weaponTooltipCloseTimerRef.current);
                             weaponTooltipCloseTimerRef.current = null;
                         }
                     }}
                     onMouseLeave={() => {
+                        weaponTooltipPointerInsideRef.current = false;
                         if (isWeaponSlot) {
                             weaponTooltipCloseTimerRef.current = setTimeout(() => {
                                 setHoveredSlot(null);
@@ -2727,21 +2779,21 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
                                         {weaponInfo.canonicalSkill || 'Weapon Mastery'}
                                     </span>
                                     {weaponInfo.rank && (
-                                        <span className="sheet-wte-rank-badge" style={{ background: weaponInfo.rank.color }}>
+                                        <span className="sheet-wte-rank-badge">
                                             {weaponInfo.rank.name} ({weaponInfo.skillDie})
                                         </span>
                                     )}
                                 </div>
                                 <div className="sheet-wte-dice-row">
                                     <span className="sheet-wte-dice-chip skill" title="Weapon Skill / Proficiency Die rolled on the stunt table">
-                                        🎲 Skill Die: <strong>{weaponInfo.skillDie || 'd4'}</strong>
+                                        Skill die: <strong>{weaponInfo.skillDie || 'd4'}</strong>
                                     </span>
                                     <span className="sheet-wte-dice-chip damage" title="Base weapon damage dealt on hit">
-                                        ⚔️ Damage: <strong>{weaponInfo.damageDice || '1d4'}</strong>
+                                        Damage: <strong>{weaponInfo.damageDice || '1d4'}</strong>
                                     </span>
                                     {weaponInfo.blockingDice && (
                                         <span className="sheet-wte-dice-chip block" title="Equipment blocking / DR mitigation">
-                                            🛡️ Block: <strong>{weaponInfo.blockingDice}</strong>
+                                            Block: <strong>{weaponInfo.blockingDice}</strong>
                                         </span>
                                     )}
                                 </div>
@@ -2935,6 +2987,16 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
                     slotName={unequipContextMenu.slotName}
                     onClose={() => setUnequipContextMenu({ visible: false })}
                     onUnequip={handleUnequipItem}
+                    onViewWeaponTable={['mainHand', 'offHand', 'ranged'].includes(unequipContextMenu.slotName)
+                        && resolveWeaponSkillInfo(unequipContextMenu.item, { skillRanks, skillProgress, slotName: unequipContextMenu.slotName }).status === 'available'
+                        ? () => {
+                            const slot = unequipContextMenu.slotName;
+                            setMousePosition({ x: unequipContextMenu.x, y: unequipContextMenu.y });
+                            setUnequipContextMenu({ visible: false });
+                            setHoveredSlot(slot);
+                            setExpandedWeaponSlotTable(slot);
+                        }
+                        : undefined}
                     onOpenDurability={(item) => {
                         setUnequipContextMenu({ visible: false });
                         setDurabilityModalItem(item);

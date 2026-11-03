@@ -632,7 +632,11 @@ function ensureTargetPolicy(entry, gmUid) {
 function checkTargetAcceptance(room, entry) {
   if (entry.approval.target.kind !== 'character') return;
   const p = entry.targetPolicy;
-  if (!p) return; // Hostile default; authenticated current-GM command authorizes installation.
+  if (!p) {
+    // M4B repair R3: beneficial PC healing always needs the exact target-owner record.
+    if (targetConsent(entry.approval) === 'required') fail('target_acceptance_required', 'The target owner must accept this exact proposal first; nothing was paid or applied.');
+    return; // Hostile default; authenticated current-GM command authorizes installation.
+  }
   if (p.gmUid !== room.gmId || p.bindingHash !== hash(targetTerms(entry))) fail('target_proposal_changed');
   if (p.mode === 'voluntary' && (p.withdrawn || p.acceptedUid !== entry.approval.target.ownerUid)) fail('target_acceptance_required');
 }

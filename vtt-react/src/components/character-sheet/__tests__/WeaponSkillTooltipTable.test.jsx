@@ -254,6 +254,84 @@ describe('Weapon Skill Tooltip and Action-Bar Companion Table Integration', () =
       expect(within(companion).getByTestId('wst-damage-die')).toHaveTextContent('1d8 Slashing');
     });
 
+    test('companion follows live equipment: swapping or emptying the hand updates the table, spellcard stays', () => {
+      mockCharacterState.equipment = {
+        mainHand: { id: 'd1', name: 'Bog-Iron Shank', subtype: 'DAGGER', type: 'weapon', slots: ['mainHand'],
+          weaponStats: { baseDamage: { diceCount: 1, diceType: 4, damageType: 'Piercing' } } }
+      };
+      const makeUi = () => <SpellLibraryProvider><SpellActionBar characterId="char-test-1" /></SpellLibraryProvider>;
+      const { container, rerender } = render(makeUi());
+      fireEvent.click(container.querySelector('.slot-mainHand .equipment-action-slot'));
+      fireEvent.mouseEnter(container.querySelector('.slot-mainHand .action-fan-bubble'));
+      let companion = document.querySelector('[data-testid="fan-action-companion"]');
+      expect(within(companion).getByTestId('weapon-skill-pill')).toHaveTextContent('Weapon Mastery: Dagger');
+
+      // Equipment change while the companion is open
+      mockCharacterState.equipment = {
+        mainHand: { id: 's1', name: 'Silver Rapier', subtype: 'SWORD', type: 'weapon', slots: ['mainHand'],
+          weaponStats: { baseDamage: { diceCount: 1, diceType: 8, damageType: 'Slashing' } } }
+      };
+      rerender(makeUi());
+      companion = document.querySelector('[data-testid="fan-action-companion"]');
+      expect(within(companion).getByTestId('weapon-skill-pill')).toHaveTextContent('Weapon Mastery: Sword');
+      expect(within(companion).getByTestId('weapon-rank-pill')).toHaveTextContent('Adept (d12)');
+
+      // Hand emptied: no stale table
+      mockCharacterState.equipment = {};
+      rerender(makeUi());
+      companion = document.querySelector('[data-testid="fan-action-companion"]');
+      if (companion) {
+        expect(within(companion).queryByTestId('weapon-skill-table')).not.toBeInTheDocument();
+      }
+    });
+
+    test('companion closes when the active character changes', () => {
+      const { container, rerender } = renderWithProvider(<SpellActionBar characterId="char-test-1" />);
+      fireEvent.click(container.querySelector('.slot-mainHand .equipment-action-slot'));
+      fireEvent.mouseEnter(container.querySelector('.slot-mainHand .action-fan-bubble'));
+      expect(document.querySelector('[data-testid="fan-action-companion"]')).toBeInTheDocument();
+      rerender(<SpellLibraryProvider><SpellActionBar characterId="char-test-2" /></SpellLibraryProvider>);
+      expect(document.querySelector('[data-testid="fan-action-companion"]')).not.toBeInTheDocument();
+    });
+
+    test('highlights the character rank rows from existing tier data (Novice dagger: faces 5-6)', () => {
+      const { container } = renderWithProvider(<SpellActionBar characterId="char-test-1" />);
+      fireEvent.click(container.querySelector('.slot-mainHand .equipment-action-slot'));
+      fireEvent.mouseEnter(container.querySelector('.slot-mainHand .action-fan-bubble'));
+      const companion = document.querySelector('[data-testid="fan-action-companion"]');
+      const current = [...companion.querySelectorAll('[data-current-rank="true"]')].map(n => n.getAttribute('data-testid'));
+      expect(current).toEqual(['wst-row-5', 'wst-row-6']);
+      expect(within(companion).getByTestId('wst-row-rank-5')).toHaveTextContent('Rank: Novice (your rank)');
+      expect(within(companion).getByTestId('wst-row-rank-7')).toHaveTextContent('Rank: Trained');
+      expect(companion.querySelector('[data-testid="wst-row-4"]')).not.toHaveAttribute('aria-current');
+    });
+
+    test('explicit Table control opens the pinned weapon table without casting; bubble click still activates', () => {
+      const { container } = renderWithProvider(<SpellActionBar characterId="char-test-1" />);
+      fireEvent.click(container.querySelector('.slot-mainHand .equipment-action-slot'));
+      const btn = container.querySelector('.slot-mainHand [data-testid="fan-weapon-table-btn"]');
+      expect(btn).toBeInTheDocument();
+
+      fireEvent.click(btn);
+      const companion = document.querySelector('[data-testid="fan-action-companion"]');
+      expect(within(companion).getByTestId('weapon-skill-table')).toBeInTheDocument();
+      expect(within(companion).getByTestId('weapon-pin-btn')).toHaveClass('pinned');
+      expect(companion.querySelector('.fan-companion-spellcard')).not.toBeInTheDocument();
+      // Ability was not activated: the fan is still open
+      expect(container.querySelector('.slot-mainHand .action-fanout-overlay')).toBeInTheDocument();
+
+      // Ordinary bubble click still activates the ability (closes the fan and companion)
+      fireEvent.click(container.querySelector('.slot-mainHand .action-fan-bubble'));
+      expect(container.querySelector('.slot-mainHand .action-fanout-overlay')).not.toBeInTheDocument();
+      expect(document.querySelector('[data-testid="fan-action-companion"]')).not.toBeInTheDocument();
+    });
+
+    test('no Table control for a shield in the off-hand', () => {
+      const { container } = renderWithProvider(<SpellActionBar characterId="char-test-1" />);
+      fireEvent.click(container.querySelector('.slot-offHand .equipment-action-slot'));
+      expect(container.querySelector('.slot-offHand [data-testid="fan-weapon-table-btn"]')).not.toBeInTheDocument();
+    });
+
     test('supports keyboard focus and pinning on action bubbles', () => {
       const { container } = renderWithProvider(<SpellActionBar characterId="char-test-1" />);
 
@@ -291,7 +369,7 @@ describe('Weapon Skill Tooltip and Action-Bar Companion Table Integration', () =
 
       expect(within(extension).getByText('Weapon Mastery: Dagger')).toBeInTheDocument();
       expect(within(extension).getByText('Novice (d6)')).toBeInTheDocument();
-      expect(within(extension).getByText('🎲 Skill Die:')).toBeInTheDocument();
+      expect(within(extension).getByText('Skill die:')).toBeInTheDocument();
 
       // Toggle button to view 1-20 table
       const toggleBtn = within(extension).getByTestId('toggle-weapon-table-btn');
@@ -314,6 +392,23 @@ describe('Weapon Skill Tooltip and Action-Bar Companion Table Integration', () =
       expect(document.querySelector('[data-testid="sheet-expanded-weapon-table"]')).not.toBeInTheDocument();
     });
 
+    test('weapon slots are keyboard reachable: focus shows rank/dice, Enter opens the table, Escape closes', () => {
+      const { container } = renderWithProvider(<CharacterPanel activeSubSection="equipment" />);
+      const mhSlot = container.querySelector('.weapon-slot');
+      expect(mhSlot).toHaveAttribute('tabindex', '0');
+
+      fireEvent.focus(mhSlot);
+      let extension = document.querySelector('[data-testid="sheet-weapon-tooltip-extension"]');
+      expect(extension).toBeInTheDocument();
+      expect(within(extension).getByText('Novice (d6)')).toBeInTheDocument();
+
+      fireEvent.keyDown(mhSlot, { key: 'Enter' });
+      expect(document.querySelector('[data-testid="sheet-expanded-weapon-table"]')).toBeInTheDocument();
+
+      fireEvent.keyDown(mhSlot, { key: 'Escape' });
+      expect(document.querySelector('[data-testid="sheet-weapon-tooltip-extension"]')).not.toBeInTheDocument();
+    });
+
     test('renders OH shield slot with defensive blocking and honest unavailable table message', () => {
       const { container } = renderWithProvider(<CharacterPanel activeSubSection="equipment" />);
 
@@ -327,7 +422,7 @@ describe('Weapon Skill Tooltip and Action-Bar Companion Table Integration', () =
       expect(extension).toBeInTheDocument();
 
       // Shield blocking shown
-      expect(within(extension).getByText('🛡️ Block:')).toBeInTheDocument();
+      expect(within(extension).getByText('Block:')).toBeInTheDocument();
       expect(within(extension).getAllByText('1d4').length).toBeGreaterThanOrEqual(1);
 
       // Honest unavailable note shown

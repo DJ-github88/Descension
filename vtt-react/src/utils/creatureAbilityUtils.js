@@ -235,11 +235,14 @@ export const transformAbilityToSpell = (ability) => {
   const hasSpellWizardFormat = ability.damageConfig || ability.healingConfig || 
                                 ability.buffConfig || ability.debuffConfig || 
                                 ability.controlConfig || ability.utilityConfig ||
-                                ability.summonConfig || ability.transformationConfig;
+                                ability.summoningConfig || ability.summonConfig || ability.transformationConfig;
   
   if (hasSpellWizardFormat) {
     // Ability is already in spell wizard format - pass it through with minimal transformation
     return {
+      // Keep both summon payloads and unknown/manual fields. The card already
+      // prefers summoningConfig, with summonConfig only as a legacy fallback.
+      ...ability,
       id: ability.id || `ability-${ability.name}`,
       name: ability.name,
       description: ability.description || '',
@@ -311,6 +314,7 @@ export const transformAbilityToSpell = (ability) => {
   }
 
   return {
+    ...ability,
     id: ability.id || `ability-${ability.name}`,
     name: ability.name,
     spellType: ability.spellType || 'ACTION',

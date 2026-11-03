@@ -79,8 +79,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
+    letter-spacing: 0.01em;
 }
 
 .wst-pills-row {
@@ -97,8 +96,6 @@
     padding: 2px 6px;
     border-radius: 3px;
     line-height: 1.2;
-    text-transform: uppercase;
-    letter-spacing: 0.4px;
     font-weight: 600;
 }
 
@@ -183,8 +180,6 @@
     font-family: 'Cinzel', Georgia, serif;
     font-size: 9.5px;
     font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
     color: var(--adventure-muted, #68533e);
     margin-bottom: 2px;
 }
@@ -305,8 +300,43 @@
 }
 
 .wst-row.in-base-range {
-    border-left: 3px solid var(--adventure-seal, #663c32);
     background: rgba(102, 60, 50, 0.04);
+}
+
+/* The character's own rank (faces whose existing tier rankReq matches): full hairline box, no edge stripe. */
+.wst-row.current-rank {
+    outline: 1px solid var(--adventure-seal, #663c32);
+    outline-offset: -1px;
+    border-radius: 3px;
+    background: rgba(102, 60, 50, 0.10);
+}
+
+.wst-rank-note {
+    padding: 4px 12px;
+    font-family: 'Crimson Text', Georgia, serif;
+    font-size: 12px;
+    font-style: italic;
+    color: var(--adventure-muted, #68533e);
+}
+
+.wst-row-rank {
+    font-family: 'Crimson Text', Georgia, serif;
+    font-size: 11.5px;
+    font-style: italic;
+    color: var(--adventure-muted, #68533e);
+}
+
+.wst-row.current-rank .wst-row-rank {
+    font-style: normal;
+    font-weight: 700;
+    color: var(--adventure-seal, #663c32);
+}
+
+.wst-body:focus-visible,
+.wst-action-btn:focus-visible,
+.wst-filter-btn:focus-visible {
+    outline: 2px solid var(--adventure-seal, #663c32);
+    outline-offset: -2px;
 }
 
 .wst-row.in-base-range:hover {
@@ -379,8 +409,7 @@
     font-size: 9px;
     font-weight: 600;
     padding: 1px 5px;
-    border-radius: 2px;
-    text-transform: uppercase;
+    border-radius: 3px;
 }
 
 .wst-row-reach-tag.base-tag {
@@ -481,12 +510,13 @@
 }
 
 .sheet-wte-rank-badge {
-    font-family: 'Cinzel', Georgia, serif;
-    font-size: 10px;
-    padding: 2px 6px;
+    font-family: 'Crimson Text', Georgia, serif;
+    font-size: 12px;
+    padding: 1px 6px;
     border-radius: 3px;
-    color: #fff;
-    font-weight: 600;
+    border: 1px solid var(--adventure-seal, #663c32);
+    color: var(--adventure-seal, #663c32);
+    font-weight: 700;
 }
 
 .sheet-wte-dice-row {
@@ -497,8 +527,8 @@
 }
 
 .sheet-wte-dice-chip {
-    font-family: 'Cinzel', Georgia, serif;
-    font-size: 10px;
+    font-family: 'Crimson Text', Georgia, serif;
+    font-size: 12px;
     padding: 2px 6px;
     border-radius: 3px;
     background: var(--adventure-panel, #e8e2d4);

@@ -33,7 +33,10 @@ function disabled(config, path) {
   if (!empty(config) && config.enabled !== false) refuse(path);
 }
 const defaultTriggers = { global: { logicType: 'AND', compoundTriggers: [] }, effectTriggers: {}, conditionalEffects: {}, buffDebuffTriggers: {}, requiredConditions: { enabled: false, logicType: 'AND', conditions: [] }, triggerRole: { mode: 'CONDITIONAL' } };
+const loadedDefaultTriggers = { global: { logicType: 'AND', compoundTriggers: [] }, effectTriggers: {}, conditionalEffects: {} };
+const loadedDefaultMechanics = { cards: null, combos: null, coins: null, stateRequirements: [], stateOptions: { thresholds: [] } };
 const effective = (key, value) => empty(value) || (key === 'triggerConfig' && canonical(value) === canonical(defaultTriggers)) ? null : value;
+const inactiveDefault = (value, fallback) => empty(value) || canonical(value) === canonical(fallback);
 function definitionFromWizard(record, { roomId, definitionVersion, classId }) {
   try {
     const d = record?.authoredDraft;
@@ -73,8 +76,8 @@ function definitionFromWizard(record, { roomId, definitionVersion, classId }) {
         canonical(d.typeConfig?.school) !== canonical(source.record.typeConfig?.school) ||
         !empty(other) || !empty(d.buffConfig) || !empty(d.debuffConfig) || !empty(d.utilityConfig) || !empty(d.controlConfig) ||
         !empty(d.summoningConfig) || !empty(d.transformationConfig) || !empty(d.purificationConfig) || !empty(d.restorationConfig) ||
-        !empty(d.rollableTable) || !empty(d.propagation) || !empty(d.triggerConfig) || !empty(d.trapConfig) || !empty(d.channelingConfig) ||
-        !empty(d.mechanicsConfig) || !empty(d.prophecyOptions) || !empty(d.effectMechanicsConfigs) || !empty(d.mechanicsAvailableEffects) ||
+        !empty(d.rollableTable) || !empty(d.propagation) || !inactiveDefault(d.triggerConfig, loadedDefaultTriggers) || !empty(d.trapConfig) || !empty(d.channelingConfig) ||
+        !inactiveDefault(d.mechanicsConfig, loadedDefaultMechanics) || !empty(d.prophecyOptions) || !empty(d.effectMechanicsConfigs) || !empty(d.mechanicsAvailableEffects) ||
         !empty(d.combinedEffects) || !empty(d.mechanicsAvailableCombinedEffects) || !empty(d.statusEffectsConfig) ||
         canonical(config.formula) !== canonical(def.effect.formula) || (!empty(d.durationConfig) && canonical(d.durationConfig) !== canonical({ durationType: 'instant' })) ||
         (d.cooldownConfig && (d.cooldownConfig.cooldownType !== 'none' || d.cooldownConfig.cooldownValue !== 0)) ||

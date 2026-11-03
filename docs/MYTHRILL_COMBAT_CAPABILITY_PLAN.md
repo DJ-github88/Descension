@@ -211,39 +211,68 @@ every M4 runtime input and the server match the frozen capture. Not covered: cre
 PC/self targets, formula composed with class payment/effects, and healing/benefit consent UI.
 This completes **this increment**, not full M4 (missing-HP, fractional and half-save forms remain).
 
-### M4B â€” real-spell formula + existing class payment + PC healing consent (2026-11-02)
+### M4B - real-spell formula + pinned class payment + PC healing consent (R1/R2/R3/R4 repaired, accepted/closed, 2026-11-03)
 
-Authorized narrow extension: `authored-immediate:v2` may compose with the **three existing P9 typed
-payment domains** (`elementalSpheres`, `musicalNotes`, `devotionGauge`) and with **existing primary-PC
-healing target consent**. No new domain, parallel payer or consent system is introduced; the existing
-bank planners, typed conservation, target policy/P7 writer, approval and recovery remain the route.
-`classPayment` is admitted only on a catalogue-backed definition and pins the exact typed operation;
-the approval still carries the source home's exact before/after and the existing `conserve` check.
-New `targetRoute: primary-pc-healing` binds one **distinct** primary PC target; target owner acceptance
-is required, source payment consent remains separate, and a changed final healing amount needs fresh
-consent. Source and target state are rechecked before installation; refusals install nothing.
+Authorized narrow extension: `authored-immediate:v2` may compose with one reviewed catalogue-backed
+typed class payment and with existing primary-PC healing target consent. The shared adapter recognizes
+the three P9 domains from top-level record encodings (`elementalSpheres`, `musicalNotes`,
+`devotionGauge`), but only the Martyr `devotionGauge` route is pinned, reviewed and production-tested
+end to end. Nested `resourceValues` `devotion_*` / `*_sphere` / `note_*` forms remain refused and are
+not claimed. No new domain, parallel payer or consent system is introduced; the existing bank planners,
+typed conservation, target policy/P7 writer, approval and recovery remain the route. `classPayment` is
+admitted only when the whole record matches a reviewed server/shared pin; the approval still carries
+the source home's exact before/after and the existing `conserve` check.
+
+Catalogue authority (R1 repair): `vtt-react/src/data/catalogueAbilityProfiles.json` (byte-equal server
+mirror) pins the exact `{classId, spellId, recordHash}` and reviewed executable projection. The adapter,
+`definitionFromWizard`/`compileDefinition` and cast-time `checkApproval` all require that pin. A
+client-supplied record and its own matching hash are not authority. R2 refuses conflicting supported
+resource encodings rather than choosing one. R3 requires the exact target-consent record at final
+formula PC-healing acceptance; a missing record refuses before any payment, gain or healing. Admitted
+versions stay immutable and revocation stays explicit; catalogue edits need a new reviewed pin and a
+new explicit admission, never a silent rewrite.
+
+Catalogue availability (R4 repair): stored-registry validation verifies immutable structure, canonical
+bytes, definition hash, compiler version and descriptor without requiring a historical pin to remain
+executable. Admission and cast still require the exact current pin. A retired/replaced pin leaves the
+whole definition listed and exactly revocable with an explicit `catalogueEligibility` unavailable
+reason, and refuses at approval/commit as `catalogue_provenance_untrusted`; unrelated definitions in
+the room remain usable. No latest-version substitution or client-supplied-hash trust was added, and a
+structurally tampered record still fails registry validation. N3: catalogue drafts accept exact
+loaded-default `triggerConfig`/`mechanicsConfig` only; non-default executable settings remain refused.
 
 Whole-record eligibility is enforced by the shared catalogue adapter: the complete source record is
 preserved in the saved library record and hashed (`spellId`/`classId`/`recordHash`); only a clean
 single-target direct DICE formula with the record's explicit AP/mana and one supported class operation
 is executable. Editing an executable field invalidates the source binding rather than rewriting the
-catalogue record. The real cohort is **Martyr `martyr_restorative_prayer`** (whole record: 1 AP, 5
+catalogue record. The reviewed cohort is **Martyr `martyr_restorative_prayer`** (whole record: 1 AP, 5
 mana, Devotion +1, ranged 30 ft ally, `1d4 + spirit`, no cooldown/save/rider). `minstrel_resolving_strike`
 remains on its accepted P9 route and is not migrated. `arc_spark_bolt` is not selected: its
 Durability-ignore/combo requirements are not supported or covered by an approved contract.
 
-Coverage matrix update (actual new routes, not broad catalogue admission): source primary owner PC â†’
-one distinct primary PC, direct healing only, with AP/mana + exactly one of the three typed class
-operations; catalogue v2 formula definitions may carry that payment; target owner sees and accepts the
-exact proposed amount. Allocate **devotion, sphere and note encoding tests** to shared adapter/source
-code; only the devotion route has an end-to-end production-handler example. Browser witnessing of the
-new route is **not established**: the final optimized artifact loads and normal class cards are
-reachable, but the Spellbook class-card detail did not expose the prepare control in the harness, so no
-App PASS is claimed. Targeted handler tests: six M4A + three M4B production cases and 34 client checks
-(including all three typing adapters) pass; affected server 56; lint 0 errors. Build artifact capture
-`3673a581â€¦115aa`, assets `19b7903eâ€¦20da`, `frozenDrift:[]`; two test/concurrent paths were live drift
-after capture (retained). The final artifact is the **third successful compiler attempt** (prior
-attempts failed ESM packaging; all preserved). Unchanged M4A App evidence remains carried, not re-run.
+Coverage matrix update (actual new routes, not broad catalogue admission): source primary owner PC ->
+one distinct primary PC, direct healing only, with AP/mana + the reviewed Martyr Devotion operation;
+target owner sees and accepts the exact proposed amount. The sphere/note adapter branches have unit
+coverage only and no reviewed catalogue pin; they are not advertised as end-to-end routes. Browser
+witnessing of the new route is **established on build identity** `m4b-r4-build-20261103-r1`
+(capture `3ffc6e17...`, exit 0, no capture/live drift; asset manifest `219d60ef...`): normal App
+prepare/save/reopen -> admit -> class-card cast -> owner `[4] + 18 = 22` -> target acceptance -> GM
+final healing 22 -> receipt (`actualHealing 10`, AP 2->1 including temporary AP 1->0, mana base
+10->8 plus temporary 3->0 = total 13->8, so the 5-mana price was paid as 3 temporary + 2 base,
+Devotion 0->1, ally HP 20->30, temp HP 3 preserved). Payment conservation is asserted in the
+witness; the App's "10->8" is the base-pool display only. Only this Martyr/Devotion route was browser-witnessed; sphere/note adapters
+remain unit/shared-adapter coverage. M4B-specific dropped-ACK/reload was not separately re-run in the
+App; the shared M4A App recovery and M4B production original-command replay cover the identical-command
+path. Auth/provider/ownership/lease/cloud and player identity are fixtures; no live
+Firebase or second physical device. The same script's auxiliary weapon-info UI sub-check passed its
+desktop/keyboard/sheet/direct-click paths but its emulated touch tap did not open the pinned table
+(recorded limit, not a Prayer failure). Targeted checks: M4A 6/6, M4B production 13/13, M4B client
+10/10 and shared-mirror sync pass.
+Regressions cover the doctored self-consistent record with its pin reason asserted, wrong or missing
+identity, a removed pin preserving registry/list/revoke/unrelated execution, pending approval
+retirement before commit, conflicting resource fields, missing target consent atomically and the
+genuine pinned Prayer. Client scoped lint is clean; server files retain their existing brace/style
+baseline.
 
 Each milestone unlocks a family, has one observable workflow and a completion boundary (focused tests, one
 normal-App persistent-profile proof, one bounded review). Scoping counts are from Â§B.

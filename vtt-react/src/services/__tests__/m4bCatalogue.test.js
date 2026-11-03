@@ -1,11 +1,19 @@
-﻿import { CLASS_DATA_MAP } from '../../data/classSpellGenerator';
-import { catalogueDraft, classPaymentFor } from '../catalogueAbility.cjs';
+﻿import React from 'react';
+import { render, screen, fireEvent } from '@testing-library/react';
+import { CLASS_DATA_MAP, ALL_CLASS_SPELLS } from '../../data/classSpellGenerator';
+import useCharacterStore from '../../store/characterStore';
+import useSpellbookStore from '../../store/spellbookStore';
+import CataloguePreparation from '../../components/spellcrafting-wizard/components/library/CataloguePreparation';
+import { catalogueDraft, classPaymentFor, verifyDefinition } from '../catalogueAbility.cjs';
+import { canonical, sha256Hex } from '../canonicalHash';
 import { definitionFromWizard, actionId } from '../authoredAbility';
 import { replaceAuthoredRegistry } from '../authoredAbilityRegistry';
 import { registerStore } from '../../store/storeRegistry';
 import { supportSpell, recordRoll, buildApproval } from '../spellConsequence';
 import { serializeSpell, deserializeSpell } from '../../components/spellcrafting-wizard/core/utils/spellSerializer';
 import useGameStore from '../../store/gameStore';
+
+jest.mock('../../persistence/scopedConsumer', () => ({ ...jest.requireActual('../../persistence/scopedConsumer'), captureOwnerGuard: () => ({ ok: true, isCurrent: () => true }) }));
 
 const record = () => CLASS_DATA_MAP.Martyr.spells.find(spell => spell.id === 'martyr_restorative_prayer');
 const definitionId = '11111111-1111-4111-8111-111111111111';
@@ -54,12 +62,97 @@ test('the class card uses the admitted formula version, attaches the existing ba
   expect(approval.formulaSourceHash).toMatch(/^[a-f0-9]{64}$/);
 });
 
+test('the normal Spellbook library hands the prepared draft to the Wizard tab', () => {
+  const card = ALL_CLASS_SPELLS.Martyr.find(spell => spell.id === 'martyr_restorative_prayer');
+  const original = CLASS_DATA_MAP.Martyr.spells.find(spell => spell.id === 'martyr_restorative_prayer');
+  useCharacterStore.setState({ class: 'Martyr' });
+  useSpellbookStore.setState({ wizardEditRequest: null, activeTab: 'library' });
+  render(<CataloguePreparation spell={card} />);
+  fireEvent.click(screen.getByRole('button', { name: 'Prepare this catalogue ability in the Wizard', exact: true }));
+  const request = useSpellbookStore.getState().wizardEditRequest;
+  expect(request.editMode).toBe(false);
+  expect(request.spell.catalogueSource.record).toEqual(original);
+  expect(useSpellbookStore.getState().activeTab).toBe('wizard');
+});
+
+test('inactive Wizard load defaults do not break the pinned catalogue binding', () => {
+  const prepared = catalogueDraft(record(), 'martyr', { authoredDefinitionId: definitionId, id: 'catalogue-martyr' });
+  const triggerConfig = { global: { logicType: 'AND', compoundTriggers: [] }, effectTriggers: {}, conditionalEffects: {} };
+  const mechanicsConfig = { cards: null, combos: null, coins: null, stateRequirements: [], stateOptions: { thresholds: [] } };
+  const saved = {
+    ...prepared.draft, triggerConfig, mechanicsConfig,
+    authoredDraft: { ...prepared.draft.authoredDraft, triggerConfig, mechanicsConfig }
+  };
+  expect(definitionFromWizard(saved, options).ok).toBe(true);
+  const changedMechanics = { ...mechanicsConfig, cards: { count: 1 } };
+  expect(definitionFromWizard({ ...saved, mechanicsConfig: changedMechanics, authoredDraft: { ...saved.authoredDraft, mechanicsConfig: changedMechanics } }, options).ok).toBe(false);
+  const changedTriggers = { ...triggerConfig, effectTriggers: { onCast: { enabled: true } } };
+  expect(definitionFromWizard({ ...saved, triggerConfig: changedTriggers, authoredDraft: { ...saved.authoredDraft, triggerConfig: changedTriggers } }, options).ok).toBe(false);
+});
+
+test('the normal class-card projection prepares the unmodified whole catalogue record', () => {
+  const card = ALL_CLASS_SPELLS.Martyr.find(spell => spell.id === 'martyr_restorative_prayer');
+  const original = CLASS_DATA_MAP.Martyr.spells.find(spell => spell.id === 'martyr_restorative_prayer');
+  expect(card.specialization).toBeDefined();
+  expect(original.specialization).toBeUndefined();
+  useCharacterStore.setState({ class: 'Martyr' });
+  const onLoadSpell = jest.fn();
+  render(<CataloguePreparation spell={card} onLoadSpell={onLoadSpell} />);
+  fireEvent.click(screen.getByRole('button', { name: 'Prepare this catalogue ability in the Wizard', exact: true }));
+  const prepared = onLoadSpell.mock.calls[0][0];
+  expect(prepared.catalogueSource.record).toEqual(original);
+  expect(prepared.catalogueSource.recordHash).toBe(catalogueDraft(original, 'martyr', { authoredDefinitionId: prepared.authoredDefinitionId }).definition.catalogueSource.recordHash);
+});
+
 test('editing an executable catalogue field refuses the source binding and names the whole record', () => {
   const prepared = catalogueDraft(record(), 'martyr', { authoredDefinitionId: definitionId, id: 'catalogue-martyr' });
   const changed = deserializeSpell(serializeSpell(prepared.draft));
   changed.healingConfig.formula = '1d6 + spirit';
   expect(definitionFromWizard(changed, options).ok).toBe(false);
   expect(definitionFromWizard({ ...prepared.draft, catalogueSource: { ...prepared.draft.catalogueSource, recordHash: 'a'.repeat(64) } }, options).ok).toBe(false);
+});
+
+test('a doctored self-consistent catalogue record is refused by the reviewed pin', () => {
+  const doctored = JSON.parse(JSON.stringify(record()));
+  doctored.healingConfig.formula = '4d4 + spirit';
+  doctored.resourceCost.mana = 0;
+  doctored.resourceCost.resourceValues.mana = 0;
+  doctored.devotionGain = 6;
+  doctored.resourceCost.resourceValues.classResource.gain = 6;
+  expect(catalogueDraft(doctored, 'martyr', { authoredDefinitionId: definitionId }).ok).toBe(false);
+  const prepared = catalogueDraft(record(), 'martyr', { authoredDefinitionId: definitionId, id: 'catalogue-martyr' });
+  const forged = deserializeSpell(serializeSpell(prepared.draft));
+  const source = { spellId: doctored.id, classId: 'martyr', recordHash: sha256Hex(canonical(doctored)), record: doctored };
+  forged.catalogueSource = source;
+  forged.authoredDraft.catalogueSource = source;
+  for (const draft of [forged, forged.authoredDraft]) {
+    draft.healingConfig.formula = doctored.healingConfig.formula;
+    draft.resourceCost.mana = doctored.resourceCost.mana;
+    draft.resourceCost.resourceValues.mana = doctored.resourceCost.resourceValues.mana;
+  }
+  expect(definitionFromWizard(forged, options).ok).toBe(false);
+});
+
+test('wrong or missing trusted catalogue identity refuses admission and cast', () => {
+  const prepared = catalogueDraft(record(), 'martyr', { authoredDefinitionId: definitionId, id: 'catalogue-martyr' });
+  const mapped = definitionFromWizard(prepared.draft, options);
+  expect(mapped.ok).toBe(true);
+  expect(verifyDefinition(mapped.definition).ok).toBe(true);
+  const wrongClass = { ...prepared.draft, catalogueSource: { ...prepared.draft.catalogueSource, classId: 'minstrel' },
+    authoredDraft: { ...prepared.draft.authoredDraft, catalogueSource: { ...prepared.draft.authoredDraft.catalogueSource, classId: 'minstrel' } } };
+  expect(definitionFromWizard(wrongClass, options).ok).toBe(false);
+  const unknownHash = JSON.parse(JSON.stringify(mapped.definition));
+  unknownHash.catalogueSource.recordHash = 'a'.repeat(64);
+  expect(verifyDefinition(unknownHash).ok).toBe(false);
+  const missing = JSON.parse(JSON.stringify(mapped.definition));
+  delete missing.catalogueSource;
+  expect(verifyDefinition(missing).ok).toBe(false);
+});
+
+test('conflicting supported resource encodings refuse instead of choosing one', () => {
+  expect(classPaymentFor({ devotionGain: 1, resourceCost: { resourceValues: { classResource: { type: 'devotion', gain: 3 } } } }, 'martyr').ok).toBe(false);
+  expect(classPaymentFor({ devotionCost: 2, resourceCost: { resourceValues: { devotion_cost: 3 } } }, 'martyr').ok).toBe(false);
+  expect(classPaymentFor({ devotionGain: 1, resourceCost: { resourceValues: { classResource: { type: 'devotion', gain: 1 } } } }, 'martyr').ok).toBe(true);
 });
 
 

@@ -1,4 +1,4 @@
-﻿/** Original P9 only: supported immediate single-target DICE damage/healing.
+/** Original P9 only: supported immediate single-target DICE damage/healing.
  * Pure support adapter, approved formula reading, class-owned payment typing and
  * strict command preparation. No mitigation, defense, reactions or rules engine:
  * unsupported data stays manual with a precise diagnostic.
@@ -112,7 +112,7 @@ export function readFormula(formula, stats = {}) {
       const value = score(name);
       if (value === null) return manual(`${ABBREVIATION[name]} score is unavailable on the selected character.`);
       const quotient = Math.floor(value / divisor);
-      constant += sign * quotient; terms.push(`${sign < 0 ? '-' : '+'} ${quotient} (${ABBREVIATION[name]} ${value} Ã· ${divisor}, rounded down)`);
+      constant += sign * quotient; terms.push(`${sign < 0 ? '-' : '+'} ${quotient} (${ABBREVIATION[name]} ${value} ÷ ${divisor}, rounded down)`);
     } else if ((match = body.match(/^([a-z]+?)(_modifier|mod)$/))) {
       const name = match[1];
       if (REFUSED_TOKENS.includes(name)) return manual(`"${name}" is not an approved attribute token; use the full attribute name.`);
@@ -568,7 +568,7 @@ export function spellReceipt(result) {
 export function describeClassPublic(value) {
   if (!value) return '';
   if (value.type === 'elementalSpheres') return `${(value.spheres || []).join(', ') || 'no spheres'} (${value.current ?? value.spheres?.length}/12)`;
-  if (value.type === 'musicalNotes' && Array.isArray(value.notes)) return MINSTREL_PITCHES.map((pitch, index) => `${pitch}Ã—${value.notes[index]}`).join(' ');
+  if (value.type === 'musicalNotes' && Array.isArray(value.notes)) return MINSTREL_PITCHES.map((pitch, index) => `${pitch}×${value.notes[index]}`).join(' ');
   if (value.type === 'devotionGauge') return `Devotion ${value.current}/6${value.spentLevels !== undefined ? ` (spent ${value.spentLevels}, damage bank ${value.damage})` : ''}`;
   return `${value.current ?? '?'}/${value.max ?? '?'}`;
 }

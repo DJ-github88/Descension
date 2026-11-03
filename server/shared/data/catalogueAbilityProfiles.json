@@ -1,0 +1,49 @@
+{
+  "version": 1,
+  "profiles": [
+    {
+      "capability": "authored-immediate:v2",
+      "classId": "martyr",
+      "spellId": "martyr_restorative_prayer",
+      "name": "Restorative Prayer",
+      "recordHash": "0fe639382e73950b550440b9609c7e9d349cb1396b4d19432b6a868525c664ed",
+      "source": "vtt-react/src/data/classes/martyrData.js (whole record; read, never edited)",
+      "executable": {
+        "schemaVersion": 4,
+        "capability": "authored-immediate:v2",
+        "name": "Restorative Prayer",
+        "description": "Channel sacred energy through prayer to heal an ally. Scales with Spirit and can be amplified with Devotion.",
+        "binding": {
+          "rulesetId": "prism",
+          "rulesetVersion": "cr-a1a-pilot-1",
+          "classId": "martyr"
+        },
+        "spellType": "ACTION",
+        "castTimeType": "IMMEDIATE",
+        "targeting": {
+          "kind": "single",
+          "maxTargets": 1,
+          "rangeFeet": 30,
+          "restriction": "ally"
+        },
+        "resourceCost": {
+          "actionPoints": 1,
+          "mana": 5
+        },
+        "effect": {
+          "kind": "healing",
+          "formula": "1d4 + spirit"
+        },
+        "targetRoute": "primary-pc-healing",
+        "classPayment": {
+          "domain": "devotionGauge",
+          "price": {
+            "cost": 0,
+            "gain": 1,
+            "required": 0
+          }
+        }
+      }
+    }
+  ]
+}

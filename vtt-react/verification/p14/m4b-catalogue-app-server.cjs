@@ -37,8 +37,9 @@ async function start() {
     if (!file.startsWith(build + path.sep) || !fs.existsSync(file) || fs.statSync(file).isDirectory()) file = path.join(build, 'index.html');
     res.setHeader('Content-Type', mime[path.extname(file)] || 'application/octet-stream'); fs.createReadStream(file).pipe(res);
   });
-  await new Promise(r => server.listen(4180, '127.0.0.1', r));
-  return { backend, server, room, refs, seed, url: 'http://127.0.0.1:4180', setPlayerCharacter: (uid, character) => { for (const player of (backend.players?.values?.() || [])) if (player.userId === uid) player.character = { ...(player.character || {}), ...character }; for (const player of (room.players?.values?.() || [])) if (player.userId === uid) player.character = { ...(player.character || {}), ...character }; }, stop: async() => { seed.disconnect(); await new Promise(r => server.close(r)); await backend.stop(); } };
+  const port = Number(process.env.M4B_APP_PORT || 4180);
+  await new Promise(r => server.listen(port, '127.0.0.1', r));
+  return { backend, server, room, refs, seed, url: `http://127.0.0.1:${port}`, setPlayerCharacter: (uid, character) => { for (const player of (backend.players?.values?.() || [])) if (player.userId === uid) player.character = { ...(player.character || {}), ...character }; for (const player of (room.players?.values?.() || [])) if (player.userId === uid) player.character = { ...(player.character || {}), ...character }; }, stop: async() => { seed.disconnect(); await new Promise(r => server.close(r)); await backend.stop(); } };
 }
 exports.start = start;
 if (require.main === module) start().then(({ url }) => console.log(url), e => { console.error(e); process.exit(1); });

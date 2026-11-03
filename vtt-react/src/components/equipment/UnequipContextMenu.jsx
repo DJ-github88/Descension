@@ -4,7 +4,7 @@ import useItemStore from '../../store/itemStore';
 import DurabilityAdjustModal from '../item-generation/DurabilityAdjustModal';
 import '../../styles/unified-context-menu.css';
 
-const UnequipContextMenu = ({ x, y, item, slotName, onClose, onUnequip, onOpenDurability }) => {
+const UnequipContextMenu = ({ x, y, item, slotName, onClose, onUnequip, onOpenDurability, onViewWeaponTable }) => {
     const menuRef = useRef(null);
     const [showDurabilityModal, setShowDurabilityModal] = useState(false);
     const updateItemDurability = useItemStore(state => state.updateItemDurability);
@@ -80,6 +80,17 @@ const UnequipContextMenu = ({ x, y, item, slotName, onClose, onUnequip, onOpenDu
                                     <i className="fas fa-arrow-left"></i>
                                     Unequip to Inventory
                                 </button>
+                                {onViewWeaponTable && (
+                                    <button
+                                        type="button"
+                                        className="context-menu-button"
+                                        onClick={onViewWeaponTable}
+                                        data-testid="view-weapon-table-menu-item"
+                                    >
+                                        <i className="fas fa-table-cells"></i>
+                                        Weapon skill table
+                                    </button>
+                                )}
                                 {hasDurability && (
                                     <button
                                         type="button"

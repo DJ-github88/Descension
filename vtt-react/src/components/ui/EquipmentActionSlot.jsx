@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { getIconUrl, getItemFallbackIcon } from '../../utils/assetManager';
 import { RARITY_COLORS } from '../../constants/itemConstants';
 import ActionFanOutMenu from './ActionFanOutMenu';
+import { resolveWeaponSkillInfo } from '../../utils/weaponSkillLookup';
 import './EquipmentActionSlot.css';
 
 const DEFAULT_SLOT_ICONS = {
@@ -30,6 +31,7 @@ export default function EquipmentActionSlot({
     onActionMouseMove,
     onActionFocus,
     onActionBlur,
+    onViewWeaponTable,
     onSlotMouseEnter,
     onSlotMouseLeave,
     onSlotMouseMove
@@ -137,6 +139,12 @@ export default function EquipmentActionSlot({
                 onActionMouseMove={onActionMouseMove}
                 onActionFocus={onActionFocus}
                 onActionBlur={onActionBlur}
+                onViewWeaponTable={
+                    onViewWeaponTable && item && !isDisabled
+                    && resolveWeaponSkillInfo(item, { slotName }).status === 'available'
+                        ? onViewWeaponTable
+                        : undefined
+                }
             />
         </div>
     );
@@ -155,6 +163,7 @@ EquipmentActionSlot.propTypes = {
     onActionMouseMove: PropTypes.func,
     onActionFocus: PropTypes.func,
     onActionBlur: PropTypes.func,
+    onViewWeaponTable: PropTypes.func,
     onSlotMouseEnter: PropTypes.func,
     onSlotMouseLeave: PropTypes.func,
     onSlotMouseMove: PropTypes.func

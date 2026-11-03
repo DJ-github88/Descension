@@ -189,7 +189,7 @@ const AppContent = ({ hideHeader = false }) => {
     const edit = useSpellbookStore.getState().wizardEditRequest;
     if (edit) {
       useSpellbookStore.setState({ wizardEditRequest: null });
-      if (edit.guard?.isCurrent()) handleLoadSpell(edit.spell, true);
+      if (edit.guard?.isCurrent()) handleLoadSpell(edit.spell, edit.editMode !== false);
     }
 
     // Clean up

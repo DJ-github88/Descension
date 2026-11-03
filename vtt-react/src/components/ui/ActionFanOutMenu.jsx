@@ -16,7 +16,8 @@ export default function ActionFanOutMenu({
     onActionMouseLeave,
     onActionMouseMove,
     onActionFocus,
-    onActionBlur
+    onActionBlur,
+    onViewWeaponTable
 }) {
     if (!isOpen || !actions || actions.length === 0) return null;
 
@@ -77,6 +78,22 @@ export default function ActionFanOutMenu({
 
     return (
         <div className={`action-fanout-overlay slot-${slotType}`} onClick={(e) => e.stopPropagation()}>
+            {onViewWeaponTable && (
+                <button
+                    type="button"
+                    className="fan-weapon-table-btn"
+                    data-testid="fan-weapon-table-btn"
+                    aria-label="Show weapon skill table"
+                    title="Weapon skill table (does not use the ability)"
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        onViewWeaponTable(e, slotType);
+                    }}
+                >
+                    <i className="fas fa-table-cells" aria-hidden="true"></i>
+                    <span>Table</span>
+                </button>
+            )}
             {actions.map((action, index) => {
                 const angleDeg = angles[index] || 0;
                 const angleRad = (angleDeg * Math.PI) / 180;
@@ -178,5 +195,6 @@ ActionFanOutMenu.propTypes = {
     onActionMouseLeave: PropTypes.func,
     onActionMouseMove: PropTypes.func,
     onActionFocus: PropTypes.func,
-    onActionBlur: PropTypes.func
+    onActionBlur: PropTypes.func,
+    onViewWeaponTable: PropTypes.func
 };

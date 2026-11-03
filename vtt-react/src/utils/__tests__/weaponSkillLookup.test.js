@@ -131,4 +131,32 @@ describe('weaponSkillLookup utility', () => {
         expect(info.skillDie).toBe('d12'); // ADEPT
         expect(info.blockingDice).toBe('1d4');
     });
+    test('mace: canonical mapping exists for Mace and War Mace; face text comes from the mace table', () => {
+        for (const name of ['Spiked Club', 'War Mace']) {
+            const info = resolveWeaponSkillInfo(
+                { name, subtype: name === 'War Mace' ? 'WAR MACE' : 'MACE', type: 'weapon' },
+                { skillRanks: { weaponMastery_mace: 'NOVICE', 'weaponMastery_war mace': 'NOVICE' } }
+            );
+            expect(info.status).toBe('available');
+            expect(info.tableEntries[7].text).toContain('Skull-Rattler');
+        }
+    });
+
+    test('flags only the faces whose existing tier rankReq equals the character rank; no invented entries', () => {
+        const sword = { name: 'Iron Longsword', subtype: 'SWORD', type: 'weapon' };
+        const faces = (rank) => resolveWeaponSkillInfo(sword, {
+            skillRanks: { weaponMastery_sword: rank }, slotName: 'offHand'
+        }).tableEntries.filter(e => e.isCurrentRank).map(e => e.face);
+        expect(faces('UNTRAINED')).toEqual([1, 2, 3, 4]);
+        expect(faces('NOVICE')).toEqual([5, 6]);
+        expect(faces('TRAINED')).toEqual([7, 8]);
+        expect(faces('APPRENTICE')).toEqual([9, 10]);
+        expect(faces('ADEPT')).toEqual([11, 12]);
+        expect(faces('EXPERT')).toEqual([13, 14, 15]);
+        expect(faces('MASTER')).toEqual([16, 17, 18, 19, 20]);
+        // Off-hand slot resolves the same canonical skill; no rank -> Untrained default
+        const info = resolveWeaponSkillInfo(sword, { slotName: 'offHand' });
+        expect(info.slotLabel).toBe('Off Hand');
+        expect(info.rank.key).toBe('UNTRAINED');
+    });
 });

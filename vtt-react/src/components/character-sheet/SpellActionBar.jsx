@@ -313,7 +313,7 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
   const { adjustedPosition: fanCompanionAdjPos, tooltipRef: fanCompanionRef } = useTooltipPosition(
     fanCompanionPos,
     !!fanCompanion,
-    { estimateHeight: 520, estimateWidth: fanCompanion?.item ? 780 : 380, offsetX: 16, anchor: 'above' }
+    { estimateHeight: 520, estimateWidth: fanCompanion ? 780 : 380, offsetX: 16, anchor: 'above' }
   );
 
   const handleFanActionMouseEnter = (e, action, slotName) => {
@@ -328,17 +328,28 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
     };
     const posX = (e?.clientX && e.clientX > 0) ? e.clientX : (rect.left + rect.width / 2);
     const posY = rect.top;
-    const targetItem = equipment?.[slotName] || null;
     setFanCompanionPos({ x: posX, y: posY });
     setFanCompanion(prev => {
       if (prev?.isPinned && prev?.action?.id === action?.id) return prev;
       return {
         action,
         slotName,
-        item: targetItem,
         isPinned: false
       };
     });
+  };
+
+  // Explicit touch/keyboard access to the weapon table; never activates an ability.
+  const handleViewWeaponTable = (e, slotName) => {
+    const rect = e?.currentTarget?.getBoundingClientRect?.();
+    if (fanCloseTimerRef.current) {
+      clearTimeout(fanCloseTimerRef.current);
+      fanCloseTimerRef.current = null;
+    }
+    if (rect) setFanCompanionPos({ x: rect.left + rect.width / 2, y: rect.top });
+    setFanCompanion(prev => (prev && !prev.action && prev.slotName === slotName && prev.isPinned)
+      ? null
+      : { action: null, slotName, isPinned: true });
   };
 
   const scheduleCloseFanCompanion = () => {
@@ -357,10 +368,28 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
     }
   };
 
+  // The table always reflects what is equipped in the chosen hand right now (never a hover-time copy).
+  const fanCompanionItem = fanCompanion ? (equipment?.[fanCompanion.slotName] || null) : null;
+
+  // A different character must not inherit the previous character's open companion.
+  useEffect(() => {
+    setFanCompanion(null);
+  }, [activeCharId]);
+
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === 'Escape') {
         setFanCompanion(null);
+        return;
+      }
+      // Keyboard route into the table: from a focused fan bubble, ArrowRight pins the companion and focuses the table.
+      if (e.key === 'ArrowRight' && e.target?.closest?.('.action-fan-bubble')) {
+        const table = document.querySelector('.fan-companion-weapontable .wst-body');
+        if (table) {
+          e.preventDefault();
+          setFanCompanion(prev => prev ? ({ ...prev, isPinned: true }) : prev);
+          table.focus();
+        }
       }
     };
     window.addEventListener('keydown', handleKeyDown);
@@ -1431,6 +1460,7 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
           onActionMouseLeave={scheduleCloseFanCompanion}
           onActionFocus={(e, action) => handleFanActionMouseEnter(e, action, 'mainHand')}
           onActionBlur={scheduleCloseFanCompanion}
+          onViewWeaponTable={handleViewWeaponTable}
           onSlotMouseEnter={handleEquipmentSlotMouseEnter}
           onSlotMouseMove={handleEquipmentSlotMouseMove}
           onSlotMouseLeave={handleEquipmentSlotMouseLeave}
@@ -1545,6 +1575,7 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
           onActionMouseLeave={scheduleCloseFanCompanion}
           onActionFocus={(e, action) => handleFanActionMouseEnter(e, action, 'offHand')}
           onActionBlur={scheduleCloseFanCompanion}
+          onViewWeaponTable={handleViewWeaponTable}
           onSlotMouseEnter={handleEquipmentSlotMouseEnter}
           onSlotMouseMove={handleEquipmentSlotMouseMove}
           onSlotMouseLeave={handleEquipmentSlotMouseLeave}
@@ -1564,6 +1595,7 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
           onActionMouseLeave={scheduleCloseFanCompanion}
           onActionFocus={(e, action) => handleFanActionMouseEnter(e, action, 'ranged')}
           onActionBlur={scheduleCloseFanCompanion}
+          onViewWeaponTable={handleViewWeaponTable}
           onSlotMouseEnter={handleEquipmentSlotMouseEnter}
           onSlotMouseMove={handleEquipmentSlotMouseMove}
           onSlotMouseLeave={handleEquipmentSlotMouseLeave}
@@ -1670,9 +1702,14 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
             }}
             onMouseEnter={cancelCloseFanCompanion}
             onMouseLeave={scheduleCloseFanCompanion}
+            onFocus={cancelCloseFanCompanion}
+            onBlur={(e) => {
+              if (!e.currentTarget.contains(e.relatedTarget)) scheduleCloseFanCompanion();
+            }}
             data-testid="fan-action-companion"
           >
             <div className="fan-companion-layout">
+              {fanCompanion.action && (
               <div className="fan-companion-spellcard">
                 <UnifiedSpellCard
                   spell={fanCompanion.action}
@@ -1683,10 +1720,11 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
                   showTags={true}
                 />
               </div>
-              {Boolean(fanCompanion.item) && (
+              )}
+              {Boolean(fanCompanionItem) && (
                 <div className="fan-companion-weapontable">
                   <WeaponSkillTable
-                    item={fanCompanion.item}
+                    item={fanCompanionItem}
                     slotName={fanCompanion.slotName}
                     skillRanks={skillRanks}
                     skillProgress={skillProgress}

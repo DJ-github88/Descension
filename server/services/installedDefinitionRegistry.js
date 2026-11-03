@@ -5,6 +5,7 @@ const legacy = require('./authoredSpellDefinitions');
 const checkpoint = require('./roomCheckpoint');
 const { CONDITION_CAPABILITY, EFFECT_CAPABILITY, EFFECT_EXPIRY_POLICIES, COUNTED_EXPIRY_POLICIES, CLASS_IDS, readFormula } = require('../shared/services/authoredAbility');
 const { FORMULA_CAPABILITY, FORMULA_COMPILER, readScaledFormula } = require('../shared/services/authoredAbility');
+const catalogueAbility = require('../shared/services/catalogueAbility.cjs');
 const { validMovementFeet, validOccurrences } = require('../shared/services/sharedConditionProfile');
 // M2A: counted expiry policies (explicit target-turn boundary count 2…10) add exactly one key; every other policy keeps the exact A10 key set.
 const validEffectTiming = t => !!t && typeof t === 'object' && EFFECT_EXPIRY_POLICIES.includes(t.expiryPolicy) &&
@@ -93,13 +94,22 @@ function validCatalogueSource(source, classId) {
   return exact(source, ['spellId', 'classId', 'recordHash']) && text(source.spellId, 120) &&
     source.classId === classId && /^[0-9a-f]{64}$/.test(source.recordHash || '');
 }
-function compileFormula(d) {
+function compileFormula(d, { verifyCatalogue = true } = {}) {
   if (d.schemaVersion !== 4 || d.capability !== FORMULA_CAPABILITY) return no('INVALID_DEFINITION');
   const extended = d.classPayment !== undefined || d.targetRoute !== undefined || d.catalogueSource !== undefined;
   if (extended) {
     if (d.classPayment !== undefined && (d.catalogueSource === undefined || !validClassPayment(d.classPayment, d.binding?.classId))) return no('UNSUPPORTED_SHAPE');
     if (d.catalogueSource !== undefined && !validCatalogueSource(d.catalogueSource, d.binding?.classId)) return no('UNSUPPORTED_SHAPE');
     if (d.targetRoute !== undefined && (d.targetRoute !== 'primary-pc-healing' || d.effect?.kind !== 'healing' || d.targeting?.restriction !== 'ally')) return no('UNSUPPORTED_SHAPE');
+  }
+  // M4B repair R1: a self-computed record hash is not catalogue authority. The exact
+  // class/spell/record pin and its reviewed executable projection are required.
+  // M4B repair R4: stored-registry validation checks immutable structure/hashes only.
+  // A retired pin must leave the well-formed record decodable; admission and cast still
+  // require current eligibility, and no other catalogue version is substituted.
+  if (verifyCatalogue && d.catalogueSource !== undefined) {
+    const verified = catalogueAbility.verifyDefinition(d);
+    if (!verified.ok) return no('CATALOGUE_PROVENANCE_UNTRUSTED');
   }
   // Reuse A1's whole-definition fences; only formula syntax and capability/version differ.
   const projection = clone(d); delete projection.capability;
@@ -122,9 +132,9 @@ function compileFormula(d) {
   return { ok: true, canonicalDefinition, definitionHash, descriptor };
 }
 const CLASS_ATTRIBUTES = require('../shared/services/classEffect').ATTRIBUTES;
-function compileDefinition(d) {
+function compileDefinition(d, options) {
   try { d = snapshot(d); } catch (_) { return no('INVALID_DEFINITION'); }
-  if (d?.capability === FORMULA_CAPABILITY) return compileFormula(d);
+  if (d?.capability === FORMULA_CAPABILITY) return compileFormula(d, options);
   if (d?.capability === EFFECT_CAPABILITY) return compileEffect(d);
   if (d?.capability !== CONDITION_CAPABILITY) return legacy.compileDefinition(d);
   const canonical = checkpoint.canonicalize(d, 'definition');
@@ -150,7 +160,7 @@ function validateRegistrySnapshot(r) {
   const entries = new Map(), requests = new Set(), admitted = new Set(), revoked = new Set(), versions = new Map();
   for (const e of r.definitions) {
     if (!exact(e, ['definitionRef', 'canonicalDefinition', 'compilerVersion', 'descriptor'])) return no();
-    const c = compileDefinition(e.canonicalDefinition), ref = c.descriptor?.definitionRef;
+    const c = compileDefinition(e.canonicalDefinition, { verifyCatalogue: false }), ref = c.descriptor?.definitionRef;
     if (!c.ok || ref.roomId !== r.roomId || !equal(e.definitionRef, ref) || e.compilerVersion !== c.descriptor.compilerVersion || !equal(e.descriptor, c.descriptor)) return no();
     const key = `${ref.definitionId}:${ref.definitionVersion}`;
     if (entries.has(key)) return no();

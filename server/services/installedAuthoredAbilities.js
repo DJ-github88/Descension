@@ -2,18 +2,28 @@
 const definitions = require('./installedDefinitionRegistry');
 const actors = require('./actorConsequences');
 const pure = require('../shared/services/authoredAbility');
+const catalogueAbility = require('../shared/services/catalogueAbility.cjs');
 function registry(room) {
   if (room.gameState.authoredSpellRegistry === undefined) return definitions.emptyRegistry(room.id);
   const result = definitions.decodeRegistry(JSON.stringify(room.gameState.authoredSpellRegistry));
   if (!result.ok || result.registry.roomId !== room.id) actors.fail('invalid_authored_registry');
   return result.registry;
 }
+function catalogueEligibility(entry) {
+  if (entry.descriptor.catalogueSource === undefined) return null;
+  const verified = catalogueAbility.verifyDefinition(entry.canonicalDefinition);
+  return verified.ok ? { eligible: true } : { eligible: false, reason: verified.reason };
+}
 function list(room) {
   const r = registry(room);
   const sourceRequests = new Set((actors.ledger(room).authoredSourceAdmissions || []).map(e => e.requestId));
-  return { revision: r.revision, entries: r.definitions.map(entry => ({ ...actors.clone(entry),
-    creatureOnly: r.decisions.some(d => d.action === 'admit' && sourceRequests.has(d.requestId) && pure.actionId(d.definitionRef) === pure.actionId(entry.definitionRef)),
-    revoked: r.decisions.some(d => d.action === 'revoke' && pure.actionId(d.definitionRef) === pure.actionId(entry.definitionRef)) })) };
+  return { revision: r.revision, entries: r.definitions.map(entry => {
+    const eligibility = catalogueEligibility(entry);
+    return { ...actors.clone(entry),
+      creatureOnly: r.decisions.some(d => d.action === 'admit' && sourceRequests.has(d.requestId) && pure.actionId(d.definitionRef) === pure.actionId(entry.definitionRef)),
+      revoked: r.decisions.some(d => d.action === 'revoke' && pure.actionId(d.definitionRef) === pure.actionId(entry.definitionRef)),
+      ...(eligibility ? { catalogueEligibility: eligibility } : {}) };
+  }) };
 }
 function lookup(room, spell) {
   const entry = list(room).entries.find(e => pure.actionId(e.definitionRef) === spell.definitionId);
@@ -124,6 +134,15 @@ function checkApproval(room, approval, primaryPc = false) {
     kind: effect ? 'effect' : d.effect.kind, damageTypes: effect ? desc.effects.direct?.damageTypes || [] : desc.effect.damageTypes || [] };
   if (actors.hash(approval.spell) !== actors.hash(wanted) || actors.hash(approval.price) !== actors.hash(desc.price)) actors.fail('authored_approval_mismatch');
   if (formula) {
+    // M4B repair R1: the admitted definition's catalogue identity and executable projection
+    // must still match a reviewed server pin at consumption. A changed/removed pin refuses.
+    if (desc.catalogueSource !== undefined) {
+      if (actors.hash(desc.catalogueSource) !== actors.hash(d.catalogueSource)) actors.fail('catalogue_provenance_untrusted', 'The admitted descriptor and definition disagree on the catalogue source.');
+      const verified = catalogueAbility.verifyDefinition(d);
+      if (!verified.ok) actors.fail('catalogue_provenance_untrusted', verified.reason);
+    } else if (desc.classPayment) {
+      actors.fail('catalogue_provenance_untrusted', 'A typed class payment requires a pinned catalogue source.');
+    }
     // M4B: the typed class price is pinned by the admitted definition and revalidated
     // against the existing bank/home; no client price can replace it.
     const payment = desc.classPayment || null;

@@ -1,6 +1,6 @@
 # Mythrill / Prism — engineering state
 
-Updated: 2026-11-02 (M3A installed with separate auth evidence; bounded M4A implementation/review complete, repaired build/App proof in progress; live-service gates open). Checkout: `D:/VTT` (the old `D:/Mythrill/Descension`
+Updated: 2026-11-03 (M4B bounded milestone accepted/closed with payment and artifact lineage reconciled; full M4 remains open; live-service gates open). Checkout: `D:/VTT` (the old `D:/Mythrill/Descension`
 path in CLAUDE.md is historical). Roadmap authority: [MYTHRILL_NEXT_PHASE.md](MYTHRILL_NEXT_PHASE.md).
 
 ### Installed M3A and bounded auth handoff — carried separately, 2026-11-02
@@ -46,30 +46,66 @@ creature sources, PC/self targets, composed class-payment formulas, healing-cons
 this increment, not full M4 (missing-HP/fractional/half-save rules remain open).
 No commit/push/deploy/migration/dependencies.
 
-### M4B real-spell formula + typed payment + PC healing consent - implemented/reviewed, App witness open, 2026-11-02
+### M4B real-spell formula + typed payment + PC healing consent - R1/R2/R3/R4 repaired, App witness PASS, accepted/closed, 2026-11-03
 
-Authorized bounded extension of `authored-immediate:v2`: optional typed class payment using only the
-three existing P9 domains, plus optional primary-PC healing target consent. The source record remains
-whole and hash-bound; executable definitions pin one direct DICE formula, explicit AP/mana and exactly
-one supported class operation. Source payment consent and target healing acceptance stay separate;
-target acceptance binds the exact proposed amount; final amount changes require fresh approval.
-Existing bank planners, `conserve`, target policy, P7 atomic writer and original-command recovery are
-reused; no parallel payer/consent or new resource domain. Catalogue eligibility refuses mixed,
-rider-bearing, multi-target, cooldown or unsupported records rather than stripping them.
+Authorized bounded extension of `authored-immediate:v2`: optional typed class payment and optional
+primary-PC healing target consent. The shared adapter still recognizes the three existing P9 domains
+from top-level record encodings, but only the Martyr `devotionGauge` route is reviewed, pinned and
+production-tested end to end. Nested `resourceValues` `devotion_*` / `*_sphere` / `note_*` forms remain
+refused and are not claimed. The source record remains whole and hash-bound; executable definitions pin
+one direct DICE formula, explicit AP/mana and exactly one supported class operation. Source payment
+consent and target healing acceptance stay separate; target acceptance binds the exact proposed amount;
+final amount changes require fresh approval. Existing bank planners, `conserve`, target policy, P7
+atomic writer and original-command recovery are reused; no parallel payer/consent or new resource
+domain. Catalogue eligibility refuses mixed, rider-bearing, multi-target, cooldown or unsupported
+records rather than stripping them.
+
+Catalogue authority repair (R1): `vtt-react/src/data/catalogueAbilityProfiles.json` (byte-equal server
+mirror `server/shared/data/catalogueAbilityProfiles.json`) pins the exact
+`{classId, spellId, recordHash}` and reviewed executable projection for the whole Martyr record.
+`catalogueExecutable`, `definitionFromWizard`/`compileDefinition` and
+`installedAuthoredAbilities.checkApproval` all require that pin; a client-supplied record plus its own
+matching hash is not proof of catalogue authority. R2 refuses conflicting supported encodings of one
+resource quantity instead of choosing one. R3 requires the exact target-consent record at final
+formula PC-healing acceptance; a missing record refuses before any AP, mana, class-resource or HP
+change. Admitted versions remain immutable and revocation stays explicit: a catalogue edit needs a new
+reviewed pin and an explicit new admission, never a silent rewrite or re-admission. No creator or
+Class HQ approval metadata was invented.
+
+Catalogue-availability repair (R4): stored-registry validation now verifies the immutable record
+(structure, canonical bytes, hash, compiler version and descriptor) without requiring the historical
+catalogue pin to remain executable. Admission and cast still require the exact current pin; a retired
+or replaced pin leaves the definition listable and exactly revocable, with an explicit
+`catalogueEligibility` unavailable reason, and refuses at approval/commit as
+`catalogue_provenance_untrusted`. Other definitions in the room remain usable. No latest-version
+fallback or client-hash trust was added, and a structurally tampered stored record still fails
+registry validation. N3: catalogue drafts accept only exact loaded-default
+`triggerConfig`/`mechanicsConfig`; non-default executable settings remain refused.
 
 First real cohort: **Martyr Restorative Prayer** (`1 AP`, `5 mana`, Devotion `+1`, ranged 30 ft ally,
 `1d4 + spirit`) admitted as a whole catalogue-backed v2 definition. `minstrel_resolving_strike` remains
 on its accepted P9 behavior. `arc_spark_bolt` stays excluded (Durability-ignore/combo not supported).
 
-Checks: three new M4B production-handler cases (atomic payment/Devotion/HP, target refusal and stale
-source, forged price/definition refusal, writer refusal, recovery) and four client checks (all three
-typed adapters, whole-record roundtrip, class-card support, immutable source binding) pass. Final
-affected server 56/mirrors; client 5 suites/34; lint 0 errors. One optimized artifact built from a
-guarded capture (`3673a581…`, assets `19b7903e…20da`, `frozenDrift:[]`); two test/concurrent paths
-arrived after capture and are preserved. Browser App witness is **not established**: the artifact
-loads the normal App and class cards are reachable, but the Spellbook class-card detail did not expose
-the prepare control in the harness; no App PASS is claimed. Earlier failed/void compiler attempts are
-preserved. No commit/push/deployment/migration/dependency change.
+Checks: M4B production handler 13/13 and client M4B 10/10 pass; M4A 6/6 and shared-mirror sync pass.
+Regressions cover a doctored self-consistent catalogue record with the pin reason asserted, wrong or
+missing trusted identity, a removed pin with registry/list/revoke/unrelated-execution preservation,
+pending approval retirement before commit, conflicting resource fields, missing target consent
+atomically, and the genuine pinned Prayer. Client scoped lint is clean; server files retain their
+existing brace/style baseline. Normal-App Prayer witness is **established on build identity**
+`m4b-r4-build-20261103-r1` (capture `3ffc6e17...`, exit 0, no capture/live drift; asset manifest
+`219d60ef...`): Wizard prepare/save/reopen -> admit -> class-card cast -> owner `[4] + 18 = 22` ->
+target acceptance -> GM final healing 22 -> receipt (`actualHealing 10`, AP 2->1 including temporary
+AP 1->0, mana base 10->8 plus temporary 3->0 = total 13->8, so the 5-mana price was paid as
+3 temporary + 2 base, Devotion 0->1, ally HP 20->30, temp HP 3 preserved). Payment conservation is
+asserted in the witness; the App's "10->8" is the base-pool display only. Only this Martyr/Devotion route was
+browser-witnessed; the Arcanoneer/Minstrel adapter branches remain unit/shared-adapter coverage.
+M4B-specific dropped-ACK/reload was not separately re-run in the App; the shared M4A App recovery
+and M4B production original-command replay cover the identical-command path. Auth/provider/
+ownership/lease/cloud and player identity remain fixtures; no live Firebase or second physical
+device. The same script's
+auxiliary weapon-info UI sub-check passed its desktop/keyboard/sheet/direct-click paths but its
+emulated touch tap did not open the pinned table (recorded limit, not a Prayer failure). No
+commit/push/deployment/migration/dependency change.
 
 ### M2A counted durations — installed / integration verified, qualified, 2026-10-31
 

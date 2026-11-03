@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { resolveWeaponSkillInfo } from '../../utils/weaponSkillLookup';
 import { getIconUrl } from '../../utils/assetManager';
@@ -26,6 +26,7 @@ export default function WeaponSkillTable({
     className = ''
 }) {
     const [filter, setFilter] = useState('all'); // 'all' | 'base' | 'stunts'
+    const bodyRef = useRef(null);
 
     const info = useMemo(() => {
         return resolveWeaponSkillInfo(item, { skillRanks, skillProgress, slotName });
@@ -43,6 +44,16 @@ export default function WeaponSkillTable({
         return info.tableEntries;
     }, [info.tableEntries, filter]);
 
+    // Bring the character's own rank rows into view when the table opens or the weapon changes.
+    const currentRankKey = info.rank?.key;
+    useEffect(() => {
+        const body = bodyRef.current;
+        const row = body && body.querySelector('[data-current-rank="true"]');
+        if (row && typeof row.scrollIntoView === 'function') {
+            row.scrollIntoView({ block: 'nearest' });
+        }
+    }, [currentRankKey, info.weaponType, filter]);
+
     // Handle unavailable state honestly (shield, focus, unmapped, empty)
     if (info.status !== 'available') {
         const isShield = info.status === 'shield';
@@ -57,9 +68,9 @@ export default function WeaponSkillTable({
                             <span className="wst-item-name">{info.itemName || info.slotLabel}</span>
                             <div className="wst-pills-row">
                                 <span className="wst-pill slot-pill">{info.slotLabel}</span>
-                                {isShield && <span className="wst-pill" style={{ background: '#3d4f66', color: '#85b8ff' }}>Shield</span>}
-                                {isFocus && <span className="wst-pill" style={{ background: '#4a3060', color: '#ddaaff' }}>Focus</span>}
-                                {isEmpty && <span className="wst-pill" style={{ background: '#33261e', color: '#a09080' }}>Empty</span>}
+                                {isShield && <span className="wst-pill">Shield</span>}
+                                {isFocus && <span className="wst-pill">Focus</span>}
+                                {isEmpty && <span className="wst-pill">Empty</span>}
                             </div>
                         </div>
                     </div>
@@ -101,7 +112,7 @@ export default function WeaponSkillTable({
                     </div>
                     {info.blockingDice && (
                         <div className="wst-unavailable-stats" data-testid="equipment-blocking-dice">
-                            🛡️ Equipment Blocking: {info.blockingDice}
+                            Equipment Blocking: {info.blockingDice}
                         </div>
                     )}
                 </div>
@@ -138,7 +149,6 @@ export default function WeaponSkillTable({
                             <span className="wst-pill skill-pill" data-testid="weapon-skill-pill">{canonicalSkill}</span>
                             <span
                                 className="wst-pill rank-pill"
-                                style={{ background: rank?.color || '#8b7355' }}
                                 data-testid="weapon-rank-pill"
                             >
                                 {rank?.name} ({skillDie})
@@ -203,6 +213,11 @@ export default function WeaponSkillTable({
                 </span>
             </div>
 
+            <div className="wst-rank-note" data-testid="wst-rank-note">
+                Each row lists the rank it is filed under; highlighted rows are filed under your rank.
+                The faces you can roll follow your skill die ({skillDie}), shown on each row.
+            </div>
+
             {/* Filter Pills */}
             <div className="wst-filters">
                 <button
@@ -229,14 +244,23 @@ export default function WeaponSkillTable({
             </div>
 
             {/* Table Rows */}
-            <div className="wst-body" role="table" aria-label={`${weaponMeta?.label || 'Weapon'} Stunt Table`}>
+            <div
+                className="wst-body"
+                ref={bodyRef}
+                role="list"
+                tabIndex={0}
+                aria-label={`${weaponMeta?.label || 'Weapon'} stunt table, ${rank?.name} rank highlighted`}
+            >
                 {filteredEntries.map(entry => {
                     const isBase = entry.isBaseDieReachable;
 
                     return (
                         <div
                             key={entry.face}
-                            className={`wst-row ${isBase ? 'in-base-range' : 'out-of-base-range'}`}
+                            className={`wst-row ${isBase ? 'in-base-range' : 'out-of-base-range'} ${entry.isCurrentRank ? 'current-rank' : ''}`}
+                            role="listitem"
+                            aria-current={entry.isCurrentRank ? 'true' : undefined}
+                            data-current-rank={entry.isCurrentRank ? 'true' : undefined}
                             data-testid={`wst-row-${entry.face}`}
                         >
                             <div className="wst-row-top">
@@ -246,6 +270,11 @@ export default function WeaponSkillTable({
                                     </span>
                                     <span className="wst-row-tier-name">{entry.name}</span>
                                     <span className="wst-row-delta">{entry.delta}</span>
+                                    {entry.rankReqName && (
+                                        <span className="wst-row-rank" data-testid={`wst-row-rank-${entry.face}`}>
+                                            {entry.isCurrentRank ? `Rank: ${entry.rankReqName} (your rank)` : `Rank: ${entry.rankReqName}`}
+                                        </span>
+                                    )}
                                 </div>
                                 <span className={`wst-row-reach-tag ${isBase ? 'base-tag' : 'surge-tag'}`}>
                                     {isBase ? `Base ${skillDie}` : 'Surge / Mod'}
