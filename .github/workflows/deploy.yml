@@ -7,6 +7,10 @@ on:
     branches: [ master, main ]
   workflow_dispatch: # Allow manual triggers
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 env:
   NODE_VERSION: '18'
 
@@ -15,13 +19,17 @@ jobs:
   build-and-test:
     name: Build & Test
     runs-on: ubuntu-latest
+    timeout-minutes: 25
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
+        timeout-minutes: 5
+        with:
+          fetch-depth: 1
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
@@ -106,7 +114,7 @@ jobs:
           "
 
       - name: Upload Build Artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: build-files-${{ github.sha }}
           path: vtt-react/build/
@@ -116,13 +124,17 @@ jobs:
   server-tests:
     name: Server Tests
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
+        timeout-minutes: 5
+        with:
+          fetch-depth: 1
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: '20'
           cache: 'npm'
@@ -141,21 +153,25 @@ jobs:
     name: Deploy to Netlify
     needs: [build-and-test, server-tests]
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
+        timeout-minutes: 5
+        with:
+          fetch-depth: 1
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
           cache-dependency-path: 'vtt-react/package-lock.json'
 
       - name: Download Build Artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           name: build-files-${{ github.sha }}
           path: vtt-react/build/
@@ -180,6 +196,7 @@ jobs:
     name: Verify Deployment
     needs: deploy-to-netlify
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
 
     steps:
