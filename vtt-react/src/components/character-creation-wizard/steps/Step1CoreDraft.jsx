@@ -83,61 +83,7 @@ import {
 
 // Spell Selection utilities
 
-import { ARCANONEER_DATA } from '../../../data/classes/arcanoneerData';
-
-import { BERSERKER_DATA } from '../../../data/classes/berserkerData';
-
-import { SHAPER_DATA } from '../../../data/classes/shaperData';
-
-import { HARBINGER_DATA } from '../../../data/classes/harbingerData';
-
-import { CHRONARCH_DATA } from '../../../data/classes/chronarchData';
-
-import { INQUISITOR_DATA } from '../../../data/classes/inquisitorData';
-
-import { FALSE_PROPHET_DATA } from '../../../data/classes/falseProphetData';
-
-import { GAMBIT_DATA } from '../../../data/classes/gambitData';
-
-import { APEX_DATA } from '../../../data/classes/apexData';
-
-import { ANIMIST_DATA } from '../../../data/classes/animistData';
-
-// 'Deathcaller' and 'Lichborne' merged into Revenant as Phase 1.10 consolidation
-import { REVENANT_DATA } from '../../../data/classes/revenantData';
-
-import { LUNARCH_DATA } from '../../../data/classes/lunarchData';
-
-import { MARTYR_DATA } from '../../../data/classes/martyrData';
-
-import { MINSTREL_DATA } from '../../../data/classes/minstrelData';
-
-import { PLAGUEBRINGER_DATA } from '../../../data/classes/plaguebringerData';
-
-import { PYROFIEND_DATA } from '../../../data/classes/pyrofiendData';
-
-import { SPELLGUARD_DATA } from '../../../data/classes/spellguardData';
-
-import { TOXICOLOGIST_DATA } from '../../../data/classes/toxicologistData';
-
-import { WARDEN_DATA } from '../../../data/classes/wardenData';
-
-import { AUGUR_DATA } from '../../../data/classes/augurData';
-import { CRUSADER_DATA } from '../../../data/classes/crusaderData';
-import { CHAOS_WEAVER_DATA } from '../../../data/classes/chaosWeaverIntegration';
-import { GAMBLER_DATA } from '../../../data/classes/gamblerData';
-import { FATE_WEAVER_DATA } from '../../../data/classes/fateWeaverData';
-import { DEATHCALLER_DATA } from '../../../data/classes/deathcallerData';
-import { LICHBORNE_DATA } from '../../../data/classes/lichborneData';
-import { DOOMSAYER_DATA } from '../../../data/classes/doomsayerData';
-import { ORACLE_DATA } from '../../../data/classes/oracleData';
-import { DRUID_DATA } from '../../../data/classes/druidData';
-import { HUNTER_DATA } from '../../../data/classes/hunterData';
-import { COVENBANE_DATA } from '../../../data/classes/covenbaneData';
-import { EXORCIST_DATA } from '../../../data/classes/exorcistData';
-import { DREADNAUGHT_DATA } from '../../../data/classes/dreadnaughtData';
-import { DEEPLING_MYRATHIL_APEX_DATA, DEEPLING_MYRATHIL_ANIMIST_DATA, DEEPLING_MYRATHIL_AUGUR_DATA } from '../../../data/classes/index';
-import { withClassHeritageMetadata } from '../../../data/classHeritageRegistry';
+import { ALL_CLASSES_DATA as CLASS_DATA_MAP } from '../../../data/classes';
 
 
 
@@ -357,89 +303,7 @@ const getSpellIconUrl = (iconId) => {
 
 
 
-const CLASS_DATA_MAP = Object.fromEntries(Object.entries({
-
-    'Arcanoneer': ARCANONEER_DATA,
-
-    'Berserker': BERSERKER_DATA,
-
-    'Shaper': SHAPER_DATA,
-
-    'Harbinger': HARBINGER_DATA,
-
-    'Chronarch': CHRONARCH_DATA,
-
-    'Inquisitor': INQUISITOR_DATA,
-
-    'Deathcaller': DEATHCALLER_DATA,
-
-    'Lichborne': LICHBORNE_DATA,
-
-    'Revenant': REVENANT_DATA,
-
-    // 'Exorcist' removed (merged into Inquisitor with Covenbane)
-
-    'False Prophet': FALSE_PROPHET_DATA,
-
-    'Gambit': GAMBIT_DATA,
-
-    // 'Formbender' removed (merged into Shaper)
-
-    'Apex': APEX_DATA,
-
-    'Animist': ANIMIST_DATA,
-
-    'Lunarch': LUNARCH_DATA,
-
-    'Martyr': MARTYR_DATA,
-
-    'Minstrel': MINSTREL_DATA,
-
-    'Plaguebringer': PLAGUEBRINGER_DATA,
-
-    'Pyrofiend': PYROFIEND_DATA,
-
-    'Spellguard': SPELLGUARD_DATA,
-
-    'Toxicologist': TOXICOLOGIST_DATA,
-
-    'Warden': WARDEN_DATA,
-
-    'Augur': AUGUR_DATA,
-
-    'Crusader': CRUSADER_DATA,
-
-    'Chaos Weaver': CHAOS_WEAVER_DATA,
-
-    'Gambler': GAMBLER_DATA,
-
-    'Fate Weaver': FATE_WEAVER_DATA,
-
-    'Doomsayer': DOOMSAYER_DATA,
-
-    'Oracle': ORACLE_DATA,
-
-    'Druid': DRUID_DATA,
-
-    'Hunter': HUNTER_DATA,
-
-    'Covenbane': COVENBANE_DATA,
-
-    'Exorcist': EXORCIST_DATA,
-
-    'Dreadnaught': DREADNAUGHT_DATA,
-
-    'Nereid Myrathil Apex': DEEPLING_MYRATHIL_APEX_DATA,
-
-    'Nereid Myrathil Animist': DEEPLING_MYRATHIL_ANIMIST_DATA,
-
-    'Nereid Myrathil Augur': DEEPLING_MYRATHIL_AUGUR_DATA
-
-}).map(([name, data]) => [name, withClassHeritageMetadata(name, data)]));
-
-
-
-// Subgroup classifications for the approved canonical roster (22 classes). Legacy identities
+// Subgroup classifications for the canonical roster. Legacy identities
 // and compatibility aliases remain in CLASS_DATA_MAP for loading and resolution,
 // not as extra new-character choices.
 

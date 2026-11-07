@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useMemo, useCallback, memo, Suspense, lazy } from 'react';
+import React, { useState, useRef, useEffect, useLayoutEffect, useMemo, useCallback, memo, Suspense, lazy } from 'react';
 import { createPortal } from 'react-dom';
 import useItemStore, { BASE_CATEGORY } from '../../store/itemStore';
 import useInventoryStore from '../../store/inventoryStore';
@@ -26,6 +26,7 @@ import { showConfirm } from '../../utils/dialogService';
 import { WEAPON_SUBTYPES } from './weaponTypes';
 import { RARITY_COLORS } from '../../constants/itemConstants';
 import { getIconUrl } from '../../utils/assetManager';
+import { setOrbDragImage } from '../../utils/itemDragUtils';
 
 const LazyItemTooltip = lazy(() => import('./ItemTooltip'));
 
@@ -219,6 +220,7 @@ const CategoryTree = memo(({ categories, selectedCategory, onSelect, onAddSubcat
 
 const ListItemRow = memo(({ item, isSelected, onClick, onContextMenu, onDragOver, onDrop }) => {
     const rowRef = useRef(null);
+    const tooltipRef = useRef(null);
     const [showTooltip, setShowTooltip] = useState(false);
     const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
     const tooltipDelayRef = useRef(null);
@@ -239,7 +241,11 @@ const ListItemRow = memo(({ item, isSelected, onClick, onContextMenu, onDragOver
     const computeTooltipPosition = () => {
         if (!rowRef.current) return;
         const rect = rowRef.current.getBoundingClientRect();
-        const TOOLTIP_WIDTH = 290;
+        const tooltip = tooltipRef.current;
+        const targetEl = tooltip?.firstElementChild || tooltip;
+        const tooltipRect = targetEl ? targetEl.getBoundingClientRect() : null;
+        const TOOLTIP_WIDTH = (tooltipRect && tooltipRect.width > 0) ? tooltipRect.width : 320;
+        const tooltipHeight = (tooltipRect && tooltipRect.height > 0) ? tooltipRect.height : 460;
         const GAP = 10;
 
         let x = rect.right + GAP;
@@ -249,13 +255,20 @@ const ListItemRow = memo(({ item, isSelected, onClick, onContextMenu, onDragOver
             x = rect.left - TOOLTIP_WIDTH - GAP;
         }
         if (x < 10) x = 10;
-        if (y + 400 > window.innerHeight - 10) {
-            y = window.innerHeight - 410;
+        if (y + tooltipHeight > window.innerHeight - 10) {
+            y = Math.max(10, window.innerHeight - tooltipHeight - 10);
         }
         if (y < 10) y = 10;
 
         setTooltipPos({ x, y });
     };
+
+    useLayoutEffect(() => {
+        if (!showTooltip) return;
+        computeTooltipPosition();
+        const raf = requestAnimationFrame(computeTooltipPosition);
+        return () => cancelAnimationFrame(raf);
+    }, [showTooltip]);
 
     const handleMouseEnter = () => {
         if (window.isDraggingItem) return;
@@ -301,6 +314,11 @@ const ListItemRow = memo(({ item, isSelected, onClick, onContextMenu, onDragOver
                 onDragStart={(e) => {
                     e.stopPropagation();
                     document.body.classList.add('dragging');
+                    setShowTooltip(false);
+                    if (tooltipDelayRef.current) {
+                        clearTimeout(tooltipDelayRef.current);
+                        tooltipDelayRef.current = null;
+                    }
                     try {
                         const dragData = {
                             type: 'item',
@@ -316,6 +334,11 @@ const ListItemRow = memo(({ item, isSelected, onClick, onContextMenu, onDragOver
                             rotation: item.rotation || 0
                         };
                         e.dataTransfer.effectAllowed = 'copy';
+
+                        // Immediately become an orb in the drag seamlessly
+                        setOrbDragImage(e, item, {
+                            sourceElement: rowRef.current
+                        });
                     } catch (error) {
                         console.error('Error in drag start:', error);
                     }
@@ -370,10 +393,13 @@ const ListItemRow = memo(({ item, isSelected, onClick, onContextMenu, onDragOver
             </div>
             {showTooltip && createPortal(
                 <div
+                    ref={tooltipRef}
                     style={{
                         position: 'fixed',
                         left: tooltipPos.x,
                         top: tooltipPos.y,
+                        maxHeight: 'calc(100vh - 24px)',
+                        overflowY: 'auto',
                         pointerEvents: 'none',
                         zIndex: 999999999
                     }}

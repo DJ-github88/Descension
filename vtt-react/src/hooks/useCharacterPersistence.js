@@ -7,7 +7,7 @@ import { subscribeBootstrapGate, getBootstrapGateState } from '../persistence/bo
 import { characterContextCurrent, stageCharacterDraft, getCharacterCandidate, saveCharacterDraft, isLatestCharacterDraft, importCharacterDraft, preservePersonalConditionRecovery } from '../persistence/characterSaveOutcome';
 import { decodeCharacterShapes } from '../utils/characterShapeCodec';
 import { discardCharacterAutoSave } from '../store/characterHelpers';
-import { projectPersonalRuntime, roomResourceProjection } from '../services/actorConsequenceService';
+import { projectPersonalRuntime, roomResourceProjection, inSharedRoom, hydrateActorConditions } from '../services/actorConsequenceService';
 
 export const useCharacterPersistence = () => {
   const persistenceService = require('../services/firebase/persistenceService').default;
@@ -92,9 +92,15 @@ export const useCharacterPersistence = () => {
       useCharacterStore.setState(patch);
       if (data.inventory) useInventoryStore.setState(Object.fromEntries(
         ['items', 'currency', 'encumbranceState', 'containers'].filter(key => data.inventory[key] !== undefined).map(key => [key, data.inventory[key]])));
-      if (data.buffs || data.debuffs) useConditionStore.setState({
-        ...(data.buffs ? { activeBuffs: data.buffs } : {}), ...(data.debuffs ? { activeDebuffs: data.debuffs } : {})
-      });
+      if (data.buffs || data.debuffs) {
+        useConditionStore.setState({
+          ...(data.buffs ? { activeBuffs: data.buffs } : {}), ...(data.debuffs ? { activeDebuffs: data.debuffs } : {})
+        });
+        // F7: a personal runtime draft never decides the room's authoritative records. Whatever order the runtime load and the
+        // room snapshot arrive in (and whether the owner attachment is selected yet), the room records are re-derived from the
+        // current room tokens: kept exactly once, removed ones stay removed, and the sheet applies only its own attachment's.
+        if (inSharedRoom()) hydrateActorConditions();
+      }
       if (data.quests) useQuestStore.setState(Object.fromEntries(
         ['quests', 'categories', 'questCategories'].filter(key => data.quests[key] !== undefined).map(key => [key, data.quests[key]])));
       lastSaved.current = JSON.stringify(collectCharacterState());

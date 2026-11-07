@@ -2615,36 +2615,35 @@ function ItemTooltip({ item }) {
 
             {/* Shop Price - Show if this is a shop item */}
             {item.isShopItem && item.shopPrice && (
-                <div style={{
+                <div className="item-tooltip-currency-value" style={{
                     marginTop: '8px',
-                    color: '#ffd100',
-                    textShadow: '1px 1px 1px rgba(0, 0, 0, 0.5)',
-                    borderTop: '1px solid rgba(255, 255, 255, 0.2)',
+                    color: '#34251a',
+                    borderTop: '1px solid rgba(138, 112, 80, 0.3)',
                     paddingTop: '8px'
                 }}>
                     Price: {' '}
                     {(parseInt(item.shopPrice.gold) || 0) > 0 && (
-                        <span>
-                            <span style={{ color: '#ffffff' }}>{parseInt(item.shopPrice.gold) || 0}</span>
-                            <span style={{ color: '#ffd700' }}>g </span>
+                        <span className="currency-token currency-gold">
+                            <span className="currency-number">{parseInt(item.shopPrice.gold) || 0}</span>
+                            <span className="currency-label currency-label-gold" style={{ color: '#855b0a' }}>g </span>
                         </span>
                     )}
                     {(parseInt(item.shopPrice.silver) || 0) > 0 && (
-                        <span>
-                            <span style={{ color: '#ffffff' }}>{parseInt(item.shopPrice.silver) || 0}</span>
-                            <span style={{ color: '#c0c0c0' }}>s </span>
+                        <span className="currency-token currency-silver">
+                            <span className="currency-number">{parseInt(item.shopPrice.silver) || 0}</span>
+                            <span className="currency-label currency-label-silver" style={{ color: '#4a5568' }}>s </span>
                         </span>
                     )}
                     {(parseInt(item.shopPrice.copper) || 0) > 0 && (
-                        <span>
-                            <span style={{ color: '#ffffff' }}>{parseInt(item.shopPrice.copper) || 0}</span>
-                            <span style={{ color: '#cd7f32' }}>c</span>
+                        <span className="currency-token currency-copper">
+                            <span className="currency-number">{parseInt(item.shopPrice.copper) || 0}</span>
+                            <span className="currency-label currency-label-copper" style={{ color: '#8c4418' }}>c</span>
                         </span>
                     )}
                     {(!(parseInt(item.shopPrice.gold) || 0) && !(parseInt(item.shopPrice.silver) || 0) && !(parseInt(item.shopPrice.copper) || 0)) && (
-                        <span>
-                            <span style={{ color: '#ffffff' }}>0</span>
-                            <span style={{ color: '#cd7f32' }}>c</span>
+                        <span className="currency-token currency-copper">
+                            <span className="currency-number">0</span>
+                            <span className="currency-label currency-label-copper" style={{ color: '#8c4418' }}>c</span>
                         </span>
                     )}
                 </div>
@@ -2652,7 +2651,7 @@ function ItemTooltip({ item }) {
 
             {/* Value - Don't show for containers or shop items */}
             {item.value && item.type !== 'container' && !item.isShopItem && (
-                <div style={{
+                <div className="item-tooltip-currency-value" style={{
                     marginTop: '8px',
                     fontSize: '14px',
                     fontFamily: 'Bookman Old Style, Garamond, serif'
@@ -2660,59 +2659,56 @@ function ItemTooltip({ item }) {
                     {typeof item.value === 'object' ? (
                         <>
                             {(parseInt(item.value.platinum) || 0) > 0 && (
-                                <span style={{ marginRight: '4px' }}>
+                                <span className="currency-token currency-platinum" style={{ marginRight: '6px' }}>
                                     <span className="currency-number">{parseInt(item.value.platinum) || 0}</span>
-                                    <span style={{
-                                        color: '#d4d4d4',
-                                        textShadow: '0 1px 2px rgba(0, 0, 0, 0.6)',
-                                        fontWeight: '600'
+                                    <span className="currency-label currency-label-platinum" style={{
+                                        color: '#3b5a75',
+                                        fontWeight: '700'
                                     }}> Platinum</span>
                                 </span>
                             )}
                             {(parseInt(item.value.gold) || 0) > 0 && (
-                                <span style={{ marginRight: '4px' }}>
+                                <span className="currency-token currency-gold" style={{ marginRight: '6px' }}>
                                     <span className="currency-number">{parseInt(item.value.gold) || 0}</span>
-                                    <span style={{
-                                        color: '#ffed4e',
-                                        textShadow: '0 0 4px rgba(255, 237, 78, 0.5), 0 1px 2px rgba(0, 0, 0, 0.6)',
-                                        fontWeight: '600'
+                                    <span className="currency-label currency-label-gold" style={{
+                                        color: '#855b0a',
+                                        fontWeight: '700'
                                     }}> Gold</span>
                                 </span>
                             )}
                             {(parseInt(item.value.silver) || 0) > 0 && (
-                                <span style={{ marginRight: '4px' }}>
+                                <span className="currency-token currency-silver" style={{ marginRight: '6px' }}>
                                     <span className="currency-number">{parseInt(item.value.silver) || 0}</span>
-                                    <span style={{
-                                        color: '#e8e8e8',
-                                        textShadow: '0 1px 2px rgba(0, 0, 0, 0.6)',
-                                        fontWeight: '600'
+                                    <span className="currency-label currency-label-silver" style={{
+                                        color: '#4a5568',
+                                        fontWeight: '700'
                                     }}> Silver</span>
                                 </span>
                             )}
                             {(parseInt(item.value.copper) || 0) > 0 && (
-                                <span style={{ marginRight: '4px' }}>
+                                <span className="currency-token currency-copper" style={{ marginRight: '6px' }}>
                                     <span className="currency-number">{parseInt(item.value.copper) || 0}</span>
-                                    <span style={{
-                                        color: '#d4a574',
-                                        textShadow: '0 1px 2px rgba(0, 0, 0, 0.6)',
-                                        fontWeight: '600'
+                                    <span className="currency-label currency-label-copper" style={{
+                                        color: '#8c4418',
+                                        fontWeight: '700'
                                     }}> Copper</span>
                                 </span>
                             )}
                             {(!(parseInt(item.value.platinum) || 0) && !(parseInt(item.value.gold) || 0) && !(parseInt(item.value.silver) || 0) && !(parseInt(item.value.copper) || 0)) && (
-                                <span>
+                                <span className="currency-token currency-copper">
                                     <span className="currency-number">0</span>
-                                    <span style={{
-                                        color: '#d4a574',
-                                        textShadow: '0 1px 2px rgba(0, 0, 0, 0.6)',
-                                        fontWeight: '600'
+                                    <span className="currency-label currency-label-copper" style={{
+                                        color: '#8c4418',
+                                        fontWeight: '700'
                                     }}> Copper</span>
                                 </span>
                             )}
                         </>
                     ) : (
                         // Handle case where value is a string or number
-                        typeof item.value === 'string' || typeof item.value === 'number' ? item.value : '0c'
+                        typeof item.value === 'string' || typeof item.value === 'number' ? (
+                            <span className="currency-token"><span className="currency-number">{item.value}</span></span>
+                        ) : '0c'
                     )}
                 </div>
             )}

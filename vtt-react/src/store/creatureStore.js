@@ -79,7 +79,7 @@ const useCreatureStore = create((set, get) => ({
     set(state => ({
       creatures: [...(state.creatures || []), {
         ...creature,
-        ...(Object.prototype.hasOwnProperty.call(creature, 'authoredAbility') ? { authoredAbility: JSON.parse(JSON.stringify(creature.authoredAbility)) } : {}),
+        ...(creature.authoredAbility !== undefined ? { authoredAbility: JSON.parse(JSON.stringify(creature.authoredAbility)) } : {}),
         id: creature.id || `creature_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
         dateCreated: new Date().toISOString(),
         lastModified: new Date().toISOString()
@@ -144,7 +144,8 @@ const useCreatureStore = create((set, get) => ({
     // This ensures all tokens have proper state structure
     // MUST be computed BEFORE sync block (line 136) to avoid ReferenceError
     const normalizedCreature = normalizeTokenData(creatureData, 'creature');
-    if (Object.prototype.hasOwnProperty.call(creatureData, 'authoredAbility')) {
+    // An explicit undefined means the association was removed from the template; it is not clonable, so skip it.
+    if (creatureData.authoredAbility !== undefined) {
       normalizedCreature.authoredAbility = JSON.parse(JSON.stringify(creatureData.authoredAbility));
     }
 
@@ -428,11 +429,14 @@ const useCreatureStore = create((set, get) => ({
     // A template save must never replace an existing instance's detached ability or identity.
     const { authoredAbility, id, ...instanceUpdates } = updates;
     // Update library creatures array
-    const updatedLibrary = (state.creatures || []).map(c =>
-      c.id === creatureId
-        ? { ...c, ...updates, lastModified: new Date().toISOString() }
-        : c
-    );
+    const updatedLibrary = (state.creatures || []).map(c => {
+      if (c.id !== creatureId) return c;
+      const next = { ...c, ...updates, lastModified: new Date().toISOString() };
+      // The Creature Wizard sends an explicit undefined when the GM removed the template's ability association.
+      // Drop the key so it cannot linger; placed instances keep their own detached copy (excluded above).
+      if (Object.prototype.hasOwnProperty.call(updates, 'authoredAbility') && updates.authoredAbility === undefined) delete next.authoredAbility;
+      return next;
+    });
 
     // Update all grid tokens that reference this creature (by creatureId OR token id)
     const updatedTokens = (state.creatureTokens || []).map(token =>

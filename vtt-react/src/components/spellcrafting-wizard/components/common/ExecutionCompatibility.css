@@ -1,0 +1,16 @@
+/* Calm paper box: hairline border, 4px radius, no edge stripe, no gradient, no lift. Scoped; wins by specificity. */
+html body .exec-compat { box-sizing: border-box; margin: 6px 0; padding: 8px 10px; color: #2b2116; background: #f6efe1; border: 1px solid #8a6d45; border-radius: 4px; font-size: 13px; line-height: 1.4; text-align: left; overflow-wrap: anywhere; }
+html body .exec-compat p { margin: 4px 0; }
+html body .exec-compat ul { margin: 2px 0 6px; padding-left: 18px; }
+html body .exec-compat-title { font-weight: 600; }
+html body .exec-compat-head { margin-top: 8px; font-style: italic; }
+html body .exec-compat-note { font-size: 12px; opacity: .85; }
+html body .exec-compat-reasons { margin: 4px 0; }
+html body .exec-compat-reasons dt { font-style: italic; }
+html body .exec-compat-reasons dd { margin: 0 0 4px; }
+html body .exec-compat-preserved summary { cursor: pointer; padding: 4px 0; }
+html body .exec-compat-executable .exec-compat-title { color: #2f5a34; }
+html body .exec-compat-partial .exec-compat-title { color: #7a5313; }
+html body .exec-compat-blocked .exec-compat-title { color: #5a4a7a; }
+html body .exec-compat-unsupported .exec-compat-title { color: #8a2f25; }
+html body .exec-compat :focus-visible { outline: 2px solid #34588f; outline-offset: 2px; }

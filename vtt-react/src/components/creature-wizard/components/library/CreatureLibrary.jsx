@@ -222,7 +222,9 @@ const CreatureLibrary = ({ onEdit, onCreateNew }) => {
       try {
         if (user?.uid && !user?.isGuest) {
           const { deleteUserCreature } = await import('../../../../services/firebase/userCreaturesService');
-          await deleteUserCreature(user.uid, creatureToDelete.id);
+          const deleted = await deleteUserCreature(user.uid, creatureToDelete.id);
+          // Only a confirmed cloud delete retires a pending ability removal (a failed delete leaves the creature in the cloud).
+          if (deleted?.success !== false) (await import('../../../../services/creatureAbilityRemoval')).pruneCreature(user.uid, creatureToDelete.id);
         }
       } catch (err) {
         console.warn('⚠️ Could not delete creature from Firebase:', err);

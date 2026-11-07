@@ -5,6 +5,17 @@ roadmap ([MYTHRILL_NEXT_PHASE.md](MYTHRILL_NEXT_PHASE.md) §26) ends at P10 and 
 This document adds four bounded phases. **At creation only P11 was authorized.** Later bounded
 authorizations/status are recorded below; each further slice still needs its own contract/go-ahead.
 
+> **M4D continuation, 2026-11-05:** bounded deterministic/no-dice Wizard formulas are installed
+> after guarded reconciliation: `authored-immediate:v4`, primary owner PC → one distinct creature,
+> immediate damage OR healing, AP/mana only. Existing approved arithmetic/input authority,
+> explicit owner approval, GM final amount/reason, P7 atomic writer and exact-command recovery reused.
+> Independent runtime review + delta ACCEPT; server71/client77, one identified production build
+> and ordinary-App author/save/reopen/admit/no-roll/approve/confirm/pay/HP/dropped-ACK-reload PASS.
+> [Handoff and exact identities](../handoff/m4-deterministic/HANDOFF.md). Fixture services are mocked;
+> no live-service verification. Complete Penance of Pain and Radiant Transfusion remain blocked by
+> their preserved whole costs/mechanics/authorization. No catalogue pin or target/payment/periodic/
+> composed expansion. **Full M4 remains open**; earlier no-dice-manual statements are historical.
+
 > **Current continuation, 2026-11-02:** M3A is installed with its
 > [reconciled qualifications](../handoff/m3a-delivery/reconciled/M3A_MILESTONE_RECONCILED.md).
 > M3A/auth build/browser evidence stays separate; live auth hashes and absence of a served native
@@ -718,3 +729,16 @@ for continuation after an unestablished personal-library reload/login restoratio
 normal Wizard/save/reopen/admission evidence is carried from the first native run.
 Private profile archives remain restricted/unpublished; live-service and wider M2
 gates remain open. No further capability is authorized by this status update.
+
+## 20. Wizard-authored combat cooldowns (installed, qualified)
+
+[Installed handoff and evidence](../handoff/wizard-cooldowns/HANDOFF.md) ·
+[Creator approval](../handoff/wizard-cooldowns/APPROVAL.md).
+Explicit Wizard `authenticated_caster_start` (1–10 strictly upcoming caster-turn starts, compiler
+`p14-wizard-cooldown-1`) on the primary owner PC → one placed creature immediate damage/healing route
+with AP/mana payment and existing M4A/M4C/M4D formulas. Starts only in the atomic P7 cast commit;
+releases only on the accepted C4 boundary advance; shares identity by exact actor + `authoredDefinitionId`
+across copies/versions; remains blocked/manual without reset if the clock retires. Installed 22-file
+manifest, source-review delta ACCEPT, handlers 83/83, client 52/52, identified build `84f1584e…` and
+ordinary-App witness `app-r7` PASS (fixture auth/ownership/lease/cloud and `combat_started` roster seed
+disclosed). Legacy `turn_based`/`rounds`/rest/charge and catalogue cooldowns remain manual.

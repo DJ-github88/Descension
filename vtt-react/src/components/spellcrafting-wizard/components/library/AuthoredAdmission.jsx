@@ -3,6 +3,7 @@ import useGameStore from '../../../../store/gameStore';
 import { CLASS_IDS, definitionFromWizard, definitionSummary } from '../../../../services/authoredAbility';
 import { changeAuthoredAdmission, checkAuthoredAdmission, authoredRegistryWork, refreshAuthoredAbilities, useSpellConsequenceStore } from '../../../../services/spellConsequenceService';
 import { canonical } from '../../../../services/featherSlash';
+import ExecutionCompatibility from '../common/ExecutionCompatibility';
 
 /** Normal saved-library action. Saving alone never installs executable mechanics. */
 export default function AuthoredAdmission({ spell, sourceRef }) {
@@ -28,11 +29,13 @@ export default function AuthoredAdmission({ spell, sourceRef }) {
     } catch (error) { setMessage(error.message); } finally { setBusy(false); }
   };
   return <section className="p9-admission" aria-label={`Room admission for ${spell.name}`} onClick={e => e.stopPropagation()} onMouseDown={e => e.stopPropagation()} draggable={false}>
-    <p role="status">{support.ok ? admissionLabel : `Unsupported/manual — ${support.reason}`}</p>
+    <ExecutionCompatibility record={spell} context={{ roomId, classId, shared, gm }} />
+    {(support.ok || (!installed && message)) && <p role="status">{admissionLabel}</p>}
     {installed && message && <p role="status">{message}</p>}
     {sourceRef && <p>Exact creature-source admission · {sourceRef.mapId} / {sourceRef.tokenId} · incarnation {sourceRef.instanceId}. No PC owner approval.</p>}
     {support.definition?.effects && <p>{definitionSummary(support.definition)}. {!sourceRef ? 'Explicit PC admission: one primary owner PC → one distinct creature; the owner approves the exact price, target, effects and duration; the GM confirms success and any final amount.' : 'Exact creature source → one distinct creature; the GM confirms success and any final amount.'} Structured expiry needs active authenticated turn tracking.</p>}
     {support.definition?.effect?.kind === 'condition' && !sourceRef && <p>Explicit PC admission for this existing binding: one primary owner PC → distinct creature, owner-approved price/duration, GM-confirmed success, manual removal. Creature Inspect admission alone does not authorize PC use.</p>}
+    {support.definition?.capability === 'authored-area:v1' && !sourceRef && <p>{definitionSummary(support.definition)}. Explicit PC admission: one primary owner PC → 1..{support.definition.targeting.maxTargets} creature targets in placed circle (technical limit: 8 creature targets / 9 actors); proposed shared roll per area; GM adjudicates per-target final amounts.</p>}
     {catalogue && <p>Catalogue source <strong>{catalogue.spellId}</strong> ({catalogue.classId}); the whole record is preserved. {support.definition?.targetRoute === 'primary-pc-healing' ? 'The target owner must accept the exact healing amount; source payment consent remains separate.' : ''}</p>}
     {shared && gm && <>{!sourceRef && !catalogue && <label>Existing class binding <select value={classId} disabled={busy} onChange={e => setClassId(e.target.value)}>{CLASS_IDS.map(id => <option key={id}>{id}</option>)}</select></label>}
       <button type="button" disabled={busy || !support.ok} onClick={() => perform(false)}>{sourceRef ? 'Admit for this creature' : 'Admit this saved version'}</button>

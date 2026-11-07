@@ -1,13 +1,16 @@
 /** Frozen P12C-B2 §8.1: one read-only Radiant Burst drawing, never casting/admission. */
 import { MARTYR_DATA } from '../data/classes/martyrData';
 import { getFootprintTiles } from '../utils/GridPathfinder';
-import { refOfToken, pickKey } from './targetPick';
+import { refOfToken, pickKey, sameRef } from './targetPick';
 
 export const RADIANT_BURST_ID = 'martyr_radiant_burst';
 const original = MARTYR_DATA.spells.find(spell => spell.id === RADIANT_BURST_ID);
 const canonical = value => JSON.stringify(value, (key, child) => child && typeof child === 'object' && !Array.isArray(child)
   ? Object.fromEntries(Object.keys(child).sort().map(k => [k, child[k]])) : child);
 export const previewFingerprint = action => {
+  if (action?.capability === 'authored-area:v1') {
+    return canonical({ id: action.id, capability: action.capability, definitionHash: action.definitionHash, effect: action.kind, areaTerms: action.areaTerms });
+  }
   // Pin every original authored field, plus added effect/geometry/lifecycle encodings. UI slot metadata
   // may differ, but a nested chain/area/trigger addition must never be mistaken for this static profile.
   const fields = [...new Set([...Object.keys(original), ...Object.keys(action || {}).filter(key =>
@@ -16,6 +19,17 @@ export const previewFingerprint = action => {
 };
 
 export function radiantPreviewProfile(action, effect) {
+  if (action?.capability === 'authored-area:v1') {
+    if (!['damage', 'healing'].includes(effect)) return { error: 'Manual geometry — select one effect channel.' };
+    const terms = action.areaTerms;
+    if (terms?.aoeShape !== 'circle' || !Number.isFinite(terms?.radiusFeet) || terms.radiusFeet <= 0 ||
+        !Number.isFinite(terms?.rangeFeet) || terms.rangeFeet <= 0)
+      return { error: 'Manual geometry — missing or malformed circle radius / placement range.' };
+    return { actionId: action.id, name: action.name || action.id, effect, isAreaCast: true,
+      radiusFeet: terms.radiusFeet, rangeFeet: terms.rangeFeet,
+      maxTargets: terms.maxTargets || 8, restriction: terms.restriction || 'enemy',
+      fingerprint: previewFingerprint(action) };
+  }
   if (action?.id !== RADIANT_BURST_ID) return { error: 'Manual geometry — only original Radiant Burst is supported.' };
   if (!['damage', 'healing'].includes(effect)) return { error: 'Manual geometry — select one effect channel.' };
   const config = action.effectTargeting?.[effect];
@@ -62,6 +76,38 @@ export function visibleAreaCandidates(entries, { visible, origin, radius, gridSi
     const states = cells?.map(cell => circleCellOverlap(origin, radius, cell, gridSize, offsetX, offsetY));
     const status = !states ? 'manual' : states.includes('candidate') ? 'candidate' : states.includes('edge') ? 'edge' : 'outside';
     if (status !== 'outside') result.push({ ref, key, position: entry.token.position, name: entry.name(), status });
+  }
+  return result;
+}
+
+/** M6A: Classify visible tokens on mapId (excluding sourceRef) for area cast inspection.
+ * Visibility is checked strictly BEFORE reading names, footprints, or geometry so hidden/concealed
+ * tokens never leak into counts, lists, or selection state. */
+export function classifyAreaTokens(entries, { visible, origin, radius, gridSize, offsetX = 0, offsetY = 0, mapId, sourceRef }) {
+  const seen = new Set(), result = [];
+  for (const entry of entries) {
+    const token = entry?.token;
+    const ref = refOfToken(token);
+    if (!ref || ref.mapId !== mapId || (sourceRef && sameRef(ref, sourceRef))) continue;
+    if (token?.state?.hiddenFromPlayers === true || token?.hiddenFromPlayers === true || !visible(ref, token)) continue;
+    const key = pickKey(ref);
+    if (seen.has(key)) continue;
+    seen.add(key);
+    let status = 'manual';
+    if (origin && Number.isFinite(radius) && radius > 0) {
+      const cells = occupiedPreviewCells(entry.token.position, entry.footprint(), gridSize, offsetX, offsetY);
+      const states = cells?.map(cell => circleCellOverlap(origin, radius, cell, gridSize, offsetX, offsetY));
+      status = !states ? 'manual' : states.includes('candidate') ? 'candidate' : states.includes('edge') ? 'edge' : 'outside';
+    }
+    result.push({
+      ref,
+      key,
+      position: entry.token.position,
+      name: entry.name(),
+      status,
+      eligibleCreature: ref.kind === 'creature',
+      excludedReason: ref.kind !== 'creature' ? 'PC target excluded in M6A (creature targets only)' : null
+    });
   }
   return result;
 }

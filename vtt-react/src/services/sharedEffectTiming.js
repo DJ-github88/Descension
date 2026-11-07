@@ -43,6 +43,13 @@ function progress(record, combat) {
 function label(record, combat) {
   const item = scheduleFor(record, combat);
   if (!item) return null;
+  if (profile.isPeriodicTick(record)) {
+    // M5: every scheduled boundary (the last included) records one due tick; none changes HP until the GM resolves it.
+    const info = progress(record, combat), unit = item.boundary === 'start' ? 'start' : 'end';
+    return `Ticks recorded automatically at the ${unit} of the target's turns — ${info.counted} of ${info.total} recorded, ${info.remaining} still to come` +
+      `${info.nextSequence !== null ? `; next at authenticated boundary ${info.nextSequence}` : ''}; the last tick (boundary ${info.finalSequence}) ends the effect (combat ${item.combatId}). ` +
+      'Each tick changes HP only when the GM resolves it with its roll. GM removal of this exact instance remains available.';
+  }
   const authored = profile.structuredBoundary(record), total = profile.structuredOccurrences(record) || 1;
   if (total > 1) {
     const info = progress(record, combat), unit = item.boundary === 'start' ? 'starts' : 'ends';
@@ -52,6 +59,26 @@ function label(record, combat) {
     : item.boundary === 'start' ? 'start of your next turn' : "end of target's next turn";
   return `Automatic at ${when} — authenticated combat ${item.combatId}, boundary ${item.dueSequence}. ${authored ? 'GM removal of this exact instance remains available.' : 'GM correction/removal remains available.'}`;
 }
+/**
+ * M5 due-tick obligations recorded by the authenticated boundary (`effectLifecycle.dueTicks`, keyed by tickId).
+ * Read-only view: an obligation is resolvable only on the live clock that recorded it; anything from a retired clock
+ * (combat ended, roster changed, reset) stays visible for the GM to resolve by hand or dismiss.
+ */
+const PERIODIC_DEFINITION_ID = 'shared-periodic-tick:v1';
+const tickKey = (item, sequence) => profile.canonical([item.combatId, sequence, instanceKey(item.ref, item.recordId), item.recordHash]);
+function dueTicks(combat) {
+  // Retired ticks (carried over a combat end/restart/reset or re-adoption) are listed too; they are never live.
+  const pick = v => v && typeof v === 'object' && !Array.isArray(v) ? v : {};
+  const all = Object.assign({}, pick(combat?.retiredPeriodicTicks), pick(combat?.effectLifecycle?.dueTicks));
+  const live = clock(combat);
+  return Object.values(all).filter(t => t && typeof t.tickId === 'string').map(t => Object.assign({}, t, { live: !!live && t.combatId === live.id }))
+    .sort((a, b) => a.sequence - b.sequence || a.occurrence - b.occurrence || (a.tickId < b.tickId ? -1 : 1));
+}
+const tickLabel = t => `${t.label}: tick ${t.occurrence} of ${t.of} — ${t.tick.kind === 'damage' ? `${t.tick.damageType} damage` : 'healing'} ${t.tick.formula}, due at authenticated boundary ${t.sequence}${t.final ? ' (last tick; the effect has ended)' : ''}`;
+exports.PERIODIC_DEFINITION_ID = PERIODIC_DEFINITION_ID;
+exports.tickKey = tickKey;
+exports.dueTicks = dueTicks;
+exports.tickLabel = tickLabel;
 exports.DEFINITION_ID = DEFINITION_ID;
 exports.positionKey = positionKey;
 exports.instanceKey = instanceKey;

@@ -18,7 +18,10 @@ const POOLS = { hp: ['currentHp', 'health', 'tempHealth', 'maxHp'], mana: ['curr
 const MODIFIERS = ['strength', 'agility', 'constitution', 'intelligence', 'spirit', 'charisma', 'armor', 'damageReduction', 'movementSpeed', 'healthRegen', 'manaRegen', 'maxHp', 'maxMana', 'maxAP', 'attackBonus', 'damageBonus', 'saveBonus'];
 const CONDITION_FIELDS = ['version', 'id', 'recordId', 'conditionKey', 'originalName', 'name', 'type', 'kind', 'target', 'targetId', 'targetType', 'source', 'sourceActor', 'sourceEntityId', 'effectOrigin', 'isMagical', 'icon', 'color', 'description', 'effectSummary', 'effects', 'duration', 'durationType', 'durationValue', 'remainingRounds', 'startTime', 'endTime', 'stackable', 'hasOverTimeEffect', 'overTimeType', 'overTimeFormula', 'overTimeElement', 'tickFrequency', 'tickFrequencyValue', 'tickFrequencyUnit', 'clockBoundary', 'sharedTiming'];
 const REF_KEYS = ['kind', 'roomId', 'mapId', 'tokenId', 'instanceId', 'ownerUid', 'characterId'];
-const PROTECTED = new Set(['authoredSpellRegistry', 'effectLifecycle', 'actorContract', 'actorConsequences', 'classPayment', 'equipmentBlocking','health', 'mana', 'actionPoints', 'currentHp', 'currentMana', 'currentActionPoints', 'tempHealth', 'tempMana', 'tempActionPoints', 'hp', 'maxHp', 'maxMana', 'maxAP', 'maxActionPoints', 'conditions', 'buffs', 'debuffs', 'finalResources', 'expectedRevision']);
+const MAX_STANDARD_ACTORS = 2;
+const MAX_AREA_TARGETS = 8;
+const MAX_AREA_ACTORS = 9;
+const PROTECTED = new Set(['authoredCooldowns', 'authoredSpellRegistry', 'effectLifecycle', 'actorContract', 'actorConsequences', 'classPayment', 'equipmentBlocking','health', 'mana', 'actionPoints', 'currentHp', 'currentMana', 'currentActionPoints', 'tempHealth', 'tempMana', 'tempActionPoints', 'hp', 'maxHp', 'maxMana', 'maxAP', 'maxActionPoints', 'conditions', 'buffs', 'debuffs', 'finalResources', 'expectedRevision']);
 const runtimeEpochs = new WeakMap();
 
 function epoch(room) {
@@ -111,9 +114,11 @@ function validateRecord(record, ref) {
   for (const key of ['isMagical', 'stackable', 'hasOverTimeEffect']) {
     if (own(record, key) && typeof record[key] !== 'boolean') {fail('invalid_condition');}
   }
-  // A11 review note 1: the effect identity exists only on validated authored movement records.
-  if (own(record, 'effectDefinition') && (record.effectOrigin !== require('../shared/services/sharedConditionProfile').MOVEMENT.origin ||
-      !require('../shared/services/sharedConditionProfile').isMovementModifier(record))) {fail('invalid_condition');}
+  // A11 review note 1: the effect identity exists only on validated authored movement (or attribute-family) records.
+  if (own(record, 'effectDefinition') && !(record.effectOrigin === require('../shared/services/sharedConditionProfile').MOVEMENT.origin &&
+      require('../shared/services/sharedConditionProfile').isMovementModifier(record)) && !(record.effectOrigin === require('../shared/services/sharedConditionProfile').ATTRIBUTE.origin &&
+      require('../shared/services/sharedConditionProfile').isAttributeModifier(record)) && !(record.effectOrigin === require('../shared/services/sharedConditionProfile').PERIODIC.origin &&
+      require('../shared/services/sharedConditionProfile').isPeriodicTick(record))) {fail('invalid_condition');}
   // M2A: the explicit occurrence count exists only on validated authored records with a counted structured boundary.
   if (own(record, 'clockOccurrences') && (!require('../shared/services/sharedConditionProfile').validOccurrences(record.clockOccurrences) ||
       !require('../shared/services/sharedConditionProfile').isCountedTiming(record.clockBoundary) || !require('../shared/services/sharedConditionProfile').structuredBoundary(record))) {fail('invalid_condition');}
@@ -133,9 +138,31 @@ function validateRecord(record, ref) {
   return clone(record);
 }
 function validateCommand(command) {
-  keys(command, ['version', 'roomId', 'commandId', 'actionEpoch', 'baseCommitSequence', 'source', 'target', 'actors', 'adjudication', 'approval']);
+  keys(command, ['version', 'roomId', 'commandId', 'actionEpoch', 'baseCommitSequence', 'source', 'target', 'targets', 'actors', 'adjudication', 'approval']);
   if (command.version !== 1 || !string(command.roomId) || !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(command.commandId || '') || !string(command.actionEpoch) || !integer(command.baseCommitSequence) ||
-    !Array.isArray(command.actors) || command.actors.length < 1 || command.actors.length > 2 || bytes(command) > 65536 || !hash(command)) {fail('invalid_consequence');}
+    !Array.isArray(command.actors) || command.actors.length < 1 || bytes(command) > 65536 || !hash(command)) {fail('invalid_consequence');}
+  const hasAreaTargets = command.targets !== undefined;
+  if (hasAreaTargets) {
+    if (command.target !== undefined || !command.source || !command.approval || !command.adjudication || !Array.isArray(command.targets) || command.targets.length < 1) {fail('invalid_consequence');}
+    if (command.targets.length > MAX_AREA_TARGETS || command.actors.length > MAX_AREA_ACTORS) {
+      fail('area_target_capacity_exceeded', 'Technical limit of 8 creature targets (9 actors including source) exceeded; do not truncate.');
+    }
+    validateRef(command.source);
+    if (command.source.roomId !== command.roomId) {fail('invalid_consequence');}
+    const seenTargets = new Set();
+    for (const targetRef of command.targets) {
+      validateRef(targetRef);
+      if (hash(targetRef) === hash(command.source)) {fail('source_in_targets');}
+      if (targetRef.kind !== 'creature') {fail('unsupported_area_target_kind');}
+      if (targetRef.roomId !== command.roomId || targetRef.mapId !== command.source.mapId) {fail('cross_map_area_target');}
+      const th = hash(targetRef);
+      if (seenTargets.has(th)) {fail('duplicate_target_actor');}
+      seenTargets.add(th);
+    }
+    if (command.actors.length !== 1 + command.targets.length) {fail('invalid_consequence');}
+  } else if (command.actors.length > MAX_STANDARD_ACTORS) {
+    fail('invalid_consequence');
+  }
   const seen = new Set();
   let operations = 0;
   for (const actor of command.actors) {
@@ -179,18 +206,27 @@ function validateCommand(command) {
     if (!Object.keys(actor.finalResources || {}).length && !actor.conditions?.length && !actor.classPayment && !actor.blockingDeclaration && !actor.equipmentWear) {fail('invalid_consequence');}
   }
   if (operations > 32) {fail('condition_operation_limit');}
-  for (const role of ['source', 'target']) {
-    if (command[role] && (!seen.has(hash(command[role])) || !validateRefOrTrue(command[role]))) {fail('invalid_consequence');}
+  if (hasAreaTargets) {
+    if (hash(command.actors[0].ref) !== hash(command.source)) {fail('approval_mismatch');}
+    for (let i = 0; i < command.targets.length; i++) {
+      if (hash(command.actors[i + 1].ref) !== hash(command.targets[i])) {fail('approval_mismatch');}
+    }
+  } else {
+    for (const role of ['source', 'target']) {
+      if (command[role] && (!seen.has(hash(command[role])) || !validateRefOrTrue(command[role]))) {fail('invalid_consequence');}
+    }
+    if (command.actors.length === 2 && (!command.source || !command.target)) {fail('invalid_consequence');}
   }
-  if (command.actors.length === 2 && (!command.source || !command.target)) {fail('invalid_consequence');}
   if (command.adjudication) {
     keys(command.adjudication, ['definitionId', 'definitionVersionOrHash', 'chosenResult', 'finalAmount', 'adjustmentReason']);
     if (Object.values(command.adjudication).some(value => !['string', 'number'].includes(typeof value) || (typeof value === 'number' && !Number.isFinite(value)))) {fail('invalid_consequence');}
+    if ((typeof command.adjudication.chosenResult === 'string' && command.adjudication.chosenResult.length > 8192) ||
+      (typeof command.adjudication.adjustmentReason === 'string' && command.adjudication.adjustmentReason.length > 2000)) {fail('invalid_adjudication');}
   }
   if (command.approval !== undefined) {
     keys(command.approval, ['approvalId', 'contentHash']);
     if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(command.approval.approvalId || '') || !/^[0-9a-f]{64}$/.test(command.approval.contentHash || '') ||
-      !command.source || !command.target || !command.adjudication) {fail('invalid_consequence');}
+      !command.source || (!command.target && !hasAreaTargets) || !command.adjudication) {fail('invalid_consequence');}
   }
   return command;
 }
@@ -238,6 +274,9 @@ function publicReceipt(receipt) {
   out.authorization = Object.fromEntries(['kind', 'authorizerUid', 'proposalId', 'approvalHash'].filter(key => typeof receipt.authorization?.[key] === 'string').map(key => [key, receipt.authorization[key]]));
   for (const role of ['source', 'target']) {
     if (receipt[role]) {try {validateRef(receipt[role]); out[role] = clone(receipt[role]);} catch (_) {out.readOnly = true;}}
+  }
+  if (Array.isArray(receipt.targets)) {
+    try {out.targets = receipt.targets.map(t => {validateRef(t); return clone(t);});} catch (_) {out.readOnly = true;}
   }
   if (receipt.adjudication) {out.adjudication = Object.fromEntries(['definitionId', 'definitionVersionOrHash', 'chosenResult', 'finalAmount', 'adjustmentReason']
     .filter(key => typeof receipt.adjudication[key] === 'string' || (typeof receipt.adjudication[key] === 'number' && Number.isFinite(receipt.adjudication[key])))
@@ -334,9 +373,14 @@ function publicClassPayment(payment) {
     return out;
   } catch (_) {return null;}
 }
-function stage(room, player, uid, command, authorization, confirmedRevision) {
+// M5 review F2: the periodic-tick result id is reserved for the lifecycle service; a generic command cannot forge one.
+const PERIODIC_STAGE = Symbol('m5-periodic-stage');
+function stage(room, player, uid, command, authorization, confirmedRevision, route = null) {
   validateCommand(command);
-  if ((String(command.adjudication?.definitionId || '').startsWith('authored:') || /^authored-immediate:v[12]\//.test(String(command.adjudication?.definitionVersionOrHash || ''))) && !command.approval) {fail('approval_required');}
+  if (command.adjudication?.definitionId === 'shared-periodic-tick:v1' || command.adjudication?.definitionVersionOrHash === 'shared-periodic-tick:v1') {
+    if (route !== PERIODIC_STAGE) {fail('periodic_tick_route_required', 'Periodic ticks are resolved only through the due-tick controls. Nothing changed.');}
+  }
+  if ((String(command.adjudication?.definitionId || '').startsWith('authored:') || /^(authored-immediate:v[1234]|authored-area:v1)\//.test(String(command.adjudication?.definitionVersionOrHash || ''))) && !command.approval) {fail('approval_required');}
   const riposte = require('./riposteExecution');
   if (riposte.isCommand(command)) {
     if (command.adjudication?.definitionId !== riposte.DEFINITION_ID || command.adjudication?.definitionVersionOrHash !== riposte.DEFINITION_HASH) {fail('riposte_definition_mismatch');}
@@ -428,6 +472,39 @@ function stage(room, player, uid, command, authorization, confirmedRevision) {
       if (hash(actor.conditions) !== hash(expectedOps)) {fail('modifier_combination_changed', 'The target\'s movement effects changed since this action was planned. Nothing was applied; review and confirm again.');}
       refreshRemoval = plan.replaces;
     }
+    // Attribute family: the stage re-derives the one-change-per-attribute rule from this actor's current records
+    // (D-ATTR-1 open: no stacking/refresh). A generic add can never introduce a second change to an attribute that an
+    // authored modifier already changes, nor an authored modifier on an attribute a manual record already changes.
+    const attributeAdds = (actor.conditions || []).filter(op => op?.op === 'add' && op.record?.effectOrigin === conditionProfile.ATTRIBUTE.origin);
+    if (attributeAdds.length) {
+      if (!authoredApplication) {fail('authored_effect_approval_required');}
+      if (attributeAdds.length !== 1 || (actor.conditions || []).length !== 1) {fail('modifier_combination_changed');}
+      if (!attributeAdds[0].record.sourceActor || !attributeAdds[0].record.effectDefinition) {fail('modifier_identity_required');}
+      const plan = conditionProfile.attributeCombination(records, attributeAdds[0].record);
+      if (!plan.ok) {fail(plan.code, plan.message);}
+    }
+    // M5: one periodic instance per creature target, re-derived here from current records (refresh/stacking undecided).
+    const periodicAdds = (actor.conditions || []).filter(op => op?.op === 'add' && op.record?.effectOrigin === conditionProfile.PERIODIC.origin);
+    if (periodicAdds.length) {
+      if (!authoredApplication) {fail('authored_effect_approval_required');}
+      if (periodicAdds.length !== 1 || (actor.conditions || []).length !== 1) {fail('modifier_combination_changed');}
+      if (actor.ref.kind !== 'creature') {fail('periodic_target_unsupported');}
+      const plan = conditionProfile.periodicCombination(records, periodicAdds[0].record);
+      if (!plan.ok) {fail(plan.code, plan.message);}
+    }
+    for (const operation of actor.conditions || []) {
+      if (operation?.op !== 'add' && operation?.op !== 'update') {continue;}
+      if (operation.record?.effectOrigin === conditionProfile.ATTRIBUTE.origin) {continue;}
+      const changed = operation.record?.effects && typeof operation.record.effects === 'object' ? Object.keys(operation.record.effects) : [];
+      // Review F3: a manual change to a supported-family attribute is a GM correction only; an actor's controller cannot
+      // add one (it would also block every later authored change to that attribute under the one-change rule).
+      if (changed.some(key => conditionProfile.supportedAttribute(key) && operation.record.effects[key] !== 0) && (!player.isGM || authorization?.kind !== 'gm')) {
+        fail('attribute_change_gm_only', 'Only the GM can record a manual change to this attribute; authored changes go through an approved action. Nothing was applied.');
+      }
+      const held = conditionProfile.attributeModifierTotals(records);
+      const overlap = changed.find(key => Object.prototype.hasOwnProperty.call(held, key) && operation.record.effects[key] !== 0);
+      if (overlap) {fail('attribute_combination_unresolved', `An authored change to ${conditionProfile.attributeName(overlap)} is already active on this actor. How two changes to the same attribute combine is not decided; the GM removes one first. Nothing was applied.`);}
+    }
     for (let operation of actor.conditions || []) {
       const index = records.findIndex(record => (record.recordId || record.id) === operation.recordId);
       if (actor.ref.kind === 'character' && authoredCondition.namedRecord(records[index])) {
@@ -443,15 +520,15 @@ function stage(room, player, uid, command, authorization, confirmedRevision) {
       }
       // A10: a generic add cannot manufacture authored-effect provenance. An accepted instance is never rewritten
       // (its paid content and C4 schedule are what the receipt vouches for); the only correction is exact GM removal.
-      if ((paidEffect(operation.record) || operation.record?.effectOrigin === conditionProfile.MOVEMENT.origin) && operation.op === 'add' && !authoredApplication) fail('authored_effect_approval_required');
-      if (operation.op === 'update' && (paidEffect(operation.record) || paidEffect(records[index]) || operation.record?.effectOrigin === conditionProfile.MOVEMENT.origin)) fail('authored_effect_correction_is_removal', 'Accepted authored effects are not edited. The GM removes the exact instance (and re-applies through a new approved action if needed).');
+      if ((paidEffect(operation.record) || [conditionProfile.MOVEMENT.origin, conditionProfile.ATTRIBUTE.origin, conditionProfile.PERIODIC.origin].includes(operation.record?.effectOrigin)) && operation.op === 'add' && !authoredApplication) fail('authored_effect_approval_required');
+      if (operation.op === 'update' && (paidEffect(operation.record) || paidEffect(records[index]) || [conditionProfile.MOVEMENT.origin, conditionProfile.ATTRIBUTE.origin, conditionProfile.PERIODIC.origin].includes(operation.record?.effectOrigin) || conditionProfile.isAttributeModifier(records[index]) || conditionProfile.isPeriodicTick(records[index]))) fail('authored_effect_correction_is_removal', 'Accepted authored effects are not edited. The GM removes the exact instance (and re-applies through a new approved action if needed).');
       // A11: the one instance a binder-vouched refresh replaces is the only non-GM-correction removal.
       if (operation.op === 'remove' && paidEffect(records[index]) && (!player.isGM || authorization?.kind !== 'gm') &&
           !(authoredApplication && refreshRemoval && operation.recordId === refreshRemoval)) fail('authored_effect_gm_removal_required');
       // C3 correction may retain a named identity, never introduce it by updating a generic marker.
       if (operation.op === 'update' && shieldBash.namedRecord(operation.record) &&
           (!conditionProfile.isStunned(records[index]) || !shieldBash.namedRecord(records[index]))) {fail('invalid_shield_bash_result');}
-      if (operation.record && [conditionProfile.DEFENDING.origin, conditionProfile.STUNNED.origin, conditionProfile.MOVEMENT.origin].includes(operation.record.effectOrigin) && !conditionProfile.validManagedRecord(operation.record, actor.ref)) {fail('invalid_shared_condition');}
+      if (operation.record && [conditionProfile.DEFENDING.origin, conditionProfile.STUNNED.origin, conditionProfile.MOVEMENT.origin, conditionProfile.ATTRIBUTE.origin, conditionProfile.PERIODIC.origin].includes(operation.record.effectOrigin) && !conditionProfile.validManagedRecord(operation.record, actor.ref)) {fail('invalid_shared_condition');}
       if (namedCondition && (actor.conditions.length !== 1 || !['add', 'remove', ...(namedProfile === conditionProfile.STUNNED ? ['update'] : [])].includes(operation.op) ||
           operation.op !== 'remove' && operation.record?.effectOrigin !== namedProfile.origin ||
           operation.op === 'remove' && index !== -1 && !(namedProfile === conditionProfile.DEFENDING ? conditionProfile.isDefending(records[index]) : conditionProfile.isStunned(records[index])))) {fail('invalid_shared_condition');}
@@ -512,6 +589,8 @@ function stage(room, player, uid, command, authorization, confirmedRevision) {
 }
 // Same ledger/pruning/projection finalizer for actor effects and bounded administrative turn state.
 function finishStage(room, uid, command, authorization, confirmedRevision, next, entries, approved = null, binder = null) {
+  if (approved && binder === require('./spellPayments') && require('../shared/services/authoredAbility').isAuthored(approved.approval.spell))
+    require('./authoredCooldowns').start(room, next, approved.approval, command.commandId);
   const prior = ledger(room);
   const receipt = { version: 1, roomId: room.id, commandId: command.commandId, submitterUid: uid, contentHash: hash(command), admissionEpoch: epoch(room),
     commitSequence: prior.commitSequence + 1, checkpointRevision: 0, actors: entries,
@@ -519,6 +598,7 @@ function finishStage(room, uid, command, authorization, confirmedRevision, next,
     acceptedAt: Date.now() };
   if (command.source) {receipt.source = clone(command.source);}
   if (command.target) {receipt.target = clone(command.target);}
+  if (command.targets) {receipt.targets = command.targets.map(clone);}
   if (command.adjudication) {receipt.adjudication = clone(command.adjudication);}
   if (approved?.targetPolicy) receipt.targetAcceptance = clone(approved.targetPolicy);
   if (!Number.isSafeInteger(receipt.commitSequence)) {fail('revision_exhausted');}
@@ -689,7 +769,7 @@ function authorityMetadataPath(value, depth = 0) {
   if (!value || typeof value !== 'object') {return null;}
   if (depth > 20) {return 'depth_limit';}
   for (const [key, child] of Object.entries(value)) {
-    if (['authoredSpellRegistry', 'effectLifecycle', 'actorContract', 'actorConsequences'].includes(key)) {return key;}
+    if (['authoredCooldowns', 'authoredSpellRegistry', 'effectLifecycle', 'actorContract', 'actorConsequences'].includes(key)) {return key;}
     const found = authorityMetadataPath(child, depth + 1);
     if (found) {return `${key}.${found}`;}
   }
@@ -699,6 +779,10 @@ function preserveImportedActorMetadata(gameState) {
   if (own(gameState, 'authoredSpellRegistry')) {
     gameState.actorConsequenceRecovery = { ...gameState.actorConsequenceRecovery, importedAuthoredSpellRegistry: gameState.authoredSpellRegistry, reason: 'untrusted-local-import' };
     delete gameState.authoredSpellRegistry;
+  }
+  if (gameState.combat?.retiredPeriodicTicks) {
+    gameState.actorConsequenceRecovery = { ...gameState.actorConsequenceRecovery, importedRetiredPeriodicTicks: gameState.combat.retiredPeriodicTicks, reason: 'untrusted-local-import' };
+    delete gameState.combat.retiredPeriodicTicks;
   }
   if (gameState.combat?.effectLifecycle) {
     gameState.actorConsequenceRecovery = { ...gameState.actorConsequenceRecovery, importedEffectLifecycle: gameState.combat.effectLifecycle, reason: 'untrusted-local-import' };
@@ -715,7 +799,7 @@ function preserveImportedActorMetadata(gameState) {
     }
     for (const field of ['tokens', 'characterTokens', 'creatures']) {
       for (const token of Object.values(map[field] || {})) {
-        for (const [key, retained] of [['actorContract', 'importedActorContract'], ['actorLifecycle', 'importedActorLifecycle'], ['classPayment', 'importedClassPayment'], ['equipmentBlocking', 'importedEquipmentBlocking']]) {
+        for (const [key, retained] of [['authoredCooldowns', 'importedAuthoredCooldowns'], ['actorContract', 'importedActorContract'], ['actorLifecycle', 'importedActorLifecycle'], ['classPayment', 'importedClassPayment'], ['equipmentBlocking', 'importedEquipmentBlocking']]) {
           if (!own(token.state, key)) {continue;}
           token.state.actorRecovery = { ...token.state.actorRecovery, [retained]: token.state[key] };
           delete token.state[key];
@@ -729,4 +813,4 @@ function preserveImportedActorMetadata(gameState) {
   }
   return gameState;
 }
-module.exports = { finishStage, assertCanAct, assertCanMove, epoch, ledger, locate, permitted, resources, stage, knownReceipt, validateCommand, validateRef, refFor, hash, bytes, clone, fail, keys, own, publicCondition, publicContract, publicReceipt, protectedPath, authorityMetadataPath, preserveImportedActorMetadata, buildPaths, validateBuildEnvelope, prepareBuildUpdate, installBuildUpdate, CONDITION_FIELDS, POOLS };
+module.exports = { PERIODIC_STAGE, finishStage, assertCanAct, assertCanMove, epoch, ledger, locate, permitted, resources, stage, knownReceipt, validateCommand, validateRef, refFor, hash, bytes, clone, fail, keys, own, publicCondition, publicContract, publicReceipt, protectedPath, authorityMetadataPath, preserveImportedActorMetadata, buildPaths, validateBuildEnvelope, prepareBuildUpdate, installBuildUpdate, CONDITION_FIELDS, POOLS, MAX_STANDARD_ACTORS, MAX_AREA_TARGETS, MAX_AREA_ACTORS };

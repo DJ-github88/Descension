@@ -53,6 +53,8 @@ const ownerMessage = value => {
   if (value?.phase === 'awaiting') return 'Awaiting GM adjudication. Approval spends nothing.';
   if (value?.phase === 'refused') return `Registration refused (${value.result?.code}); this first submission was not accepted.`;
   if (value?.phase === 'reconciled') return 'Explicitly reconciled with the GM. Retained as history.';
+  // Attribute revalidation: the server closed this approval because the striker's attribute changes on the table changed.
+  if (value?.phase === 'reapproval') return 'Closed before acceptance: your attribute changes on the table changed after you approved, so nothing was applied or spent. Your recorded rolls are back as a draft; review the current score and approve again.';
   return `Outcome unresolved${value?.result?.code ? ` (${value.result.code})` : ''}. Check this same strike; no reroll or second payment. Reconcile with the GM if it cannot be recovered.`;
 };
 export function restoreStrikeCustody() {
@@ -249,6 +251,8 @@ export function registerWeaponStrikeHandlers({ socket }) {
     useWeaponStrikeStore.setState(s => { const gmPending = { ...s.gmPending }; delete gmPending[value.approvalId]; return { gmPending }; });
     const ownerContext = strikeContext(), latest = loadStrikeCustody(ownerContext)?.owner;
     if (latest?.approval?.approvalId === value.approvalId && latest.phase !== 'accepted' && ['withdrawn', 'declined'].includes(value.code)) keepOwner(ownerContext, { ...latest, phase: value.code });
+    // Explicit owner reapproval: the same recorded faces return as a draft (never rerolled, never resubmitted automatically).
+    if (latest?.approval?.approvalId === value.approvalId && latest.phase !== 'accepted' && value.code === 'owner_reapproval_required') { keepOwner(ownerContext, { ...latest, phase: 'reapproval' }); returnRolls(ownerContext, latest); }
   };
   // Authorized same-room rejoin (single room_joined listener → roomRejoinBus): re-read the server's pending list.
   const rejoined = event => { if (event?.socket === socket && live(event.roomId)) refreshStrikeApprovals(); };

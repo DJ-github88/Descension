@@ -1368,13 +1368,13 @@ function cacheCharacterOwner(characterId, result) {
  * @param {string} characterId
  * @returns {Promise<{ok: boolean, userId?: string, reason?: string}>}
  */
-const getCharacterOwner = async(characterId) => {
+const getCharacterOwner = async(characterId, { fresh = false } = {}) => {
   if (!db) {return { ok: false, reason: 'unavailable' };}
   if (typeof characterId !== 'string' || characterId.length === 0) {
     return { ok: false, reason: 'character_id_required' };
   }
   const cached = characterOwnerCache.get(characterId);
-  if (cached && Date.now() - cached.cachedAt < CHARACTER_OWNER_CACHE_TTL_MS) {
+  if (!fresh && cached && Date.now() - cached.cachedAt < CHARACTER_OWNER_CACHE_TTL_MS) {
     return cached.result;
   }
   try {

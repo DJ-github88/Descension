@@ -30,6 +30,6 @@ exports.characters = {
   'app-gm': record({ id: 'gm', name: 'GM', cls: 'Martyr', level: 1, race: 'human', subrace: 'skald_human', stats: attrs({ spirit: 18 }), extra: { ...devotion, ...known } }),
   'app-owner': record({ id: 'ilse', name: 'Ilse', cls: 'Martyr', level: 1, race: 'human', subrace: 'thalren_human', stats: attrs({ spirit: 17 }),
     extra: { health: { current: 20, max: 40 }, mana: { current: 10, max: 30 }, actionPoints: { current: 2, max: 5 }, ...devotion, ...known } }),
-  'app-target': record({ id: 'ally', name: 'Ally', cls: 'Arcanoneer', level: 3, race: 'human', subrace: 'skald_human', stats: attrs({ intelligence: 16 }),
+  'app-target': record({ id: 'ally', name: 'Ally', cls: 'Arcanoneer', level: 3, race: 'human', subrace: 'skald_human', stats: attrs({ intelligence: 16, constitution: 5 }),
     extra: { health: { current: 20, max: 30 }, tempHealth: 3, mana: { current: 10, max: 30 }, actionPoints: { current: 2, max: 5 } } })
 };

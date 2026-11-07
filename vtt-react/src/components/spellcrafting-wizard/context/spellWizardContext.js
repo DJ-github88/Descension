@@ -185,7 +185,7 @@ const initialState = {
  },
  prophecyOptions: null,
 
- // Cooldown configuration
+  // Cooldown configuration
  cooldownConfig: {},
 
  // Trigger configuration (for REACTION, PASSIVE, or TRAP types)
@@ -1082,7 +1082,7 @@ function spellWizardReducer(state, action) {
   return {
   ...state,
   cooldownConfig: {
-   ...state.cooldownConfig,
+    ...(action.replace ? {} : state.cooldownConfig),
    ...action.payload
   },
   lastModified: new Date()

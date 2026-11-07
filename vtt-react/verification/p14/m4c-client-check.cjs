@@ -1,0 +1,10 @@
+const fs = require('fs'), path = require('path'), cp = require('child_process');
+const out = process.env.M4C_CHECK_OUTPUT;
+if (!out || !path.isAbsolute(out)) throw Error('M4C_CHECK_OUTPUT required');
+fs.mkdirSync(out, { recursive: true });
+const tests = ['m4cMissingHealth', 'm4cConsentRefresh', 'm4Formula', 'm4bCatalogue', 'm6aAreaExecution', 'attributeModifiers', 'spellConsequence', 'acceptedResultFeed', 'spellRollDrafts'].map(name => `src/services/__tests__/${name}.test.js`);
+const args = ['node_modules/react-scripts/bin/react-scripts.js', 'test', '--watchAll=false', '--runInBand', '--runTestsByPath', ...tests, '--silent'];
+const result = cp.spawnSync(process.execPath, args, { cwd: path.resolve(__dirname, '../..'), env: { ...process.env, CI: 'true' }, encoding: 'utf8', timeout: 120000 });
+fs.writeFileSync(path.join(out, 'client-check.log'), (result.stdout || '') + (result.stderr || ''));
+fs.writeFileSync(path.join(out, 'client-check.json'), JSON.stringify({ at: new Date().toISOString(), command: `node ${args.join(' ')}`, exit: result.status }, null, 2));
+console.log(result.stdout, result.stderr); process.exitCode = result.status === 0 ? 0 : 1;

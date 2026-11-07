@@ -1,7 +1,7 @@
 import { useState, useLayoutEffect, useEffect, useRef, useCallback } from 'react';
 
 export const useTooltipPosition = (position, isVisible, options = {}) => {
-  const { offsetX = 16, offsetY = null, estimateHeight = 380, estimateWidth = 360, anchor = 'auto' } = options;
+  const { offsetX = 16, offsetY = null, estimateHeight = 450, estimateWidth = 340, anchor = 'auto' } = options;
   const [adjustedPosition, setAdjustedPosition] = useState({ x: 0, y: 0 });
   const tooltipRef = useRef(null);
 
@@ -12,7 +12,9 @@ export const useTooltipPosition = (position, isVisible, options = {}) => {
     const viewportHeight = window.innerHeight || document.documentElement.clientHeight || 1080;
 
     const tooltip = tooltipRef.current;
-    const rect = tooltip ? tooltip.getBoundingClientRect() : null;
+    // Measure content element if tooltipRef is on a fixed wrapper
+    const targetEl = tooltip?.firstElementChild || tooltip;
+    const rect = targetEl ? targetEl.getBoundingClientRect() : null;
 
     const tooltipWidth = (rect && rect.width > 0) ? rect.width : estimateWidth;
     const tooltipHeight = (rect && rect.height > 0) ? rect.height : estimateHeight;
@@ -38,18 +40,28 @@ export const useTooltipPosition = (position, isVisible, options = {}) => {
     // If offsetY is explicitly specified, use it.
     // If anchor === 'above', position strictly above the anchor.
     // If anchor === 'below', position strictly below.
-    // In 'auto' mode, default to downward/adjacent, flipping above only when
-    // downward placement would overflow the viewport and there is more room above.
+    // In 'auto' mode, default to downward/adjacent, clamping within viewport bounds so the tooltip
+    // stays immediately beside the cursor and never extends beyond screen.
     let targetY;
     if (offsetY !== null && offsetY !== undefined) {
       targetY = position.y + offsetY;
     } else if (anchor === 'above') {
       targetY = position.y - tooltipHeight - 12;
       if (targetY < paddingY) {
-        targetY = paddingY;
+        // If overflowing top, check if placing below fits
+        if (position.y + 12 + tooltipHeight <= viewportHeight - paddingY) {
+          targetY = position.y + 12;
+        } else {
+          targetY = paddingY;
+        }
       }
     } else if (anchor === 'below') {
       targetY = position.y + 12;
+      if (targetY + tooltipHeight > viewportHeight - paddingY) {
+        if (position.y - tooltipHeight - 12 >= paddingY) {
+          targetY = position.y - tooltipHeight - 12;
+        }
+      }
     } else {
       // In 'auto' mode: for cursor/pointer tooltips that are horizontally adjacent,
       // default adjacent to the cursor and clamp within viewport bounds so the tooltip
@@ -57,7 +69,7 @@ export const useTooltipPosition = (position, isVisible, options = {}) => {
       targetY = position.y + 12;
     }
 
-    // Clamp within viewport boundaries with safety padding
+    // Clamp within viewport boundaries with safety padding so it never extends beyond screen
     const maxY = Math.max(paddingY, viewportHeight - tooltipHeight - paddingY);
     const y = Math.max(paddingY, Math.min(targetY, maxY));
 
@@ -76,20 +88,6 @@ export const useTooltipPosition = (position, isVisible, options = {}) => {
 
     calculatePosition();
 
-    const rafId = requestAnimationFrame(() => {
-      calculatePosition();
-      if (observer && tooltipRef.current) {
-        observer.observe(tooltipRef.current);
-      }
-    });
-
-    const timerId = setTimeout(() => {
-      calculatePosition();
-      if (observer && tooltipRef.current) {
-        observer.observe(tooltipRef.current);
-      }
-    }, 50);
-
     let observer = null;
     if (typeof ResizeObserver !== 'undefined') {
       observer = new ResizeObserver(() => {
@@ -97,8 +95,31 @@ export const useTooltipPosition = (position, isVisible, options = {}) => {
       });
       if (tooltipRef.current) {
         observer.observe(tooltipRef.current);
+        if (tooltipRef.current.firstElementChild) {
+          observer.observe(tooltipRef.current.firstElementChild);
+        }
       }
     }
+
+    const rafId = requestAnimationFrame(() => {
+      calculatePosition();
+      if (observer && tooltipRef.current) {
+        observer.observe(tooltipRef.current);
+        if (tooltipRef.current.firstElementChild) {
+          observer.observe(tooltipRef.current.firstElementChild);
+        }
+      }
+    });
+
+    const timerId = setTimeout(() => {
+      calculatePosition();
+      if (observer && tooltipRef.current) {
+        observer.observe(tooltipRef.current);
+        if (tooltipRef.current.firstElementChild) {
+          observer.observe(tooltipRef.current.firstElementChild);
+        }
+      }
+    }, 50);
 
     const handleWinChange = () => calculatePosition();
     window.addEventListener('resize', handleWinChange, { passive: true });

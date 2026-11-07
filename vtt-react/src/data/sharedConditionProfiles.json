@@ -34,6 +34,25 @@
     "maxActivePerTarget": 8,
     "combinationPolicy": "Different named effects add together. Reapplying the same effect from the same exact source refreshes its duration instead of stacking its value. The result never goes below 0 ft."
   },
+  "attributeModifier": {
+    "conditionKey": "attribute-modifier",
+    "origin": "shared-condition:attribute-modifier:v1",
+    "definitionId": "authored-attribute-modifier",
+    "attributes": [
+      "agility",
+      "intelligence",
+      "spirit"
+    ],
+    "minAmount": -5,
+    "maxAmount": 5,
+    "description": "Temporary flat change to one attribute score. It is added once on top of the character's sheet attributes (base, earned gains, heritage, origin and equipment) and never rewrites them.",
+    "buffColor": "#3c6a7a",
+    "debuffColor": "#7a5a3c",
+    "buffIcon": "/assets/icons/Status/buff/upward-arrow-dagger-buff.png",
+    "debuffIcon": "/assets/icons/Status/debuff/downward-arrow.png",
+    "combinationPolicy": "At most one active change to the same attribute on one target. How two changes to the same attribute combine (add, highest only, or refresh) is not decided, so a second one is refused for the GM to resolve. Changes to different attributes are independent.",
+    "notAutomated": "Supported consumers: the owner's supported spell formulas that name this attribute; a basic weapon strike only when its weapon uses this attribute. Initiative, derived damage figures and encumbrance on the owner's sheet may show the change but are display only; turn order is not recomputed and no HP, mana or AP is restored or refilled."
+  },
   "defending": {
     "conditionKey": "defending",
     "origin": "shared-condition:defending:v1",

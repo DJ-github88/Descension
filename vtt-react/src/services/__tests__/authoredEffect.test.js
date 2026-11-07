@@ -30,7 +30,7 @@ test('Wizard bundle maps whole; two names share one primitive; compact editors k
   expect(() => editItemAbility(association, { name: 'x', kind: 'damage' })).toThrow(/Spell Wizard/);
 });
 
-test('owner approval binds exact bundle terms and refuses PC targets; planner installs payment, HP and the effect in one command', () => {
+test('owner approval binds exact bundle terms and refuses self; planner installs payment, HP and the effect in one command', () => {
   const d = definitionFromWizard(saved(), { roomId: 'r', definitionVersion: 1, classId: 'arcanoneer' }).definition;
   replaceAuthoredRegistry('r', [{ definitionRef: { roomId: 'r', definitionId: uuid(1), definitionVersion: 1, definitionHash: 'b'.repeat(64) }, canonicalDefinition: d,
     descriptor: { capabilityId: CAPABILITY, price: { ap: 2, mana: 1 }, effects: d.effects, timing: d.timing } }]);

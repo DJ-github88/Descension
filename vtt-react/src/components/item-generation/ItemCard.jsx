@@ -1,8 +1,9 @@
-import React, { useState, useRef, useEffect, memo, Suspense, lazy } from 'react';
+import React, { useState, useRef, useEffect, useLayoutEffect, memo, Suspense, lazy } from 'react';
 import { createPortal } from 'react-dom';
 import QuantitySelector from '../common/QuantitySelector';
 import { RARITY_COLORS } from '../../constants/itemConstants';
 import { getIconUrl } from '../../utils/assetManager';
+import { setOrbDragImage } from '../../utils/itemDragUtils';
 
 
 const LazyItemTooltip = lazy(() => import('./ItemTooltip'));
@@ -38,27 +39,39 @@ const ItemCard = ({ item, onClick, onContextMenu, isSelected, onDragOver, onDrop
     const computeTooltipPosition = () => {
         if (!cardRef.current) return;
         const rect = cardRef.current.getBoundingClientRect();
-        const TOOLTIP_WIDTH = 290;
+        const tooltip = tooltipRef.current;
+        const targetEl = tooltip?.firstElementChild || tooltip;
+        const tooltipRect = targetEl ? targetEl.getBoundingClientRect() : null;
+        const tooltipWidth = (tooltipRect && tooltipRect.width > 0) ? tooltipRect.width : 320;
+        const tooltipHeight = (tooltipRect && tooltipRect.height > 0) ? tooltipRect.height : 460;
         const GAP = 10;
+        const pad = 12;
 
         let x = rect.right + GAP;
-        let y = rect.top;
+        if (x + tooltipWidth > window.innerWidth - pad) {
+            x = rect.left - tooltipWidth - GAP;
+        }
+        if (x < pad) {
+            x = pad;
+        }
 
-        if (x + TOOLTIP_WIDTH > window.innerWidth - 10) {
-            x = rect.left - TOOLTIP_WIDTH - GAP;
+        let y = rect.top;
+        if (y + tooltipHeight > window.innerHeight - pad) {
+            y = Math.max(pad, window.innerHeight - tooltipHeight - pad);
         }
-        if (x < 10) {
-            x = 10;
-        }
-        if (y + 400 > window.innerHeight - 10) {
-            y = window.innerHeight - 410;
-        }
-        if (y < 10) {
-            y = 10;
+        if (y < pad) {
+            y = pad;
         }
 
         setTooltipPos({ x, y });
     };
+
+    useLayoutEffect(() => {
+        if (!showTooltip) return;
+        computeTooltipPosition();
+        const raf = requestAnimationFrame(computeTooltipPosition);
+        return () => cancelAnimationFrame(raf);
+    }, [showTooltip]);
 
     const handleMouseEnter = () => {
         if (window.isDraggingItem) return;
@@ -119,15 +132,11 @@ const ItemCard = ({ item, onClick, onContextMenu, isSelected, onDragOver, onDrop
                 rotation: item.rotation || 0
             };
 
-            // Use the live card as drag image — avoids building DOM + loading images mid-drag
-            if (e.dataTransfer.setDragImage && cardRef.current) {
-                const rect = cardRef.current.getBoundingClientRect();
-                e.dataTransfer.setDragImage(
-                    cardRef.current,
-                    Math.min(e.clientX - rect.left, rect.width / 2),
-                    Math.min(e.clientY - rect.top, 24)
-                );
-            }
+            // Immediately become an orb in the drag seamlessly
+            setOrbDragImage(e, item, {
+                sourceElement: cardRef.current,
+                quantity: quantity
+            });
         } catch (error) {
             console.error('Error in handleDragStart:', error);
         }
@@ -251,6 +260,8 @@ const ItemCard = ({ item, onClick, onContextMenu, isSelected, onDragOver, onDrop
                         position: 'fixed',
                         left: tooltipPos.x,
                         top: tooltipPos.y,
+                        maxHeight: 'calc(100vh - 24px)',
+                        overflowY: 'auto',
                         pointerEvents: 'none',
                         zIndex: 999999999
                     }}

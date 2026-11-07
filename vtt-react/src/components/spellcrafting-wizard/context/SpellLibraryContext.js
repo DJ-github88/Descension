@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useReducer, useEffect } from 'react';
+import React, { createContext, useContext, useReducer, useEffect, useSyncExternalStore } from 'react';
+import { getBootstrapGateState, subscribeBootstrapGate } from '../../../persistence/bootstrapPrivacyGate';
 import {
   saveLibraryToStorage,
   loadLibraryFromStorage,
@@ -379,10 +380,18 @@ function SpellLibraryProvider({ children }) {
   // App already owns this account's library. Nested book/item windows must share its state and
   // dispatch, otherwise a newly saved Wizard definition is invisible to the Creature selector.
   const parent = useContext(SpellLibraryStateContext);
-  return parent === undefined ? <OwnedSpellLibraryProvider>{children}</OwnedSpellLibraryProvider> : <>{children}</>;
+  // The library is verified-owner scoped. The owned provider reads storage once at mount, so it is re-created whenever the active
+  // principal changes (signed-out -> sign-in, A -> B, sign-out). Without this an instance mounted before auth initialised keeps its
+  // empty state and the next edit overwrites the principal's saved library, and A's in-memory library could be saved into B.
+  // The same principal re-activating (token refresh) keeps the key and therefore its in-memory edits.
+  const gate = useSyncExternalStore(subscribeBootstrapGate, getBootstrapGateState, getBootstrapGateState);
+  const principalKey = principalKeyOf(gate);
+  return parent === undefined ? <OwnedSpellLibraryProvider key={principalKey} principalKey={principalKey}>{children}</OwnedSpellLibraryProvider> : <>{children}</>;
 }
 
-function OwnedSpellLibraryProvider({ children }) {
+const principalKeyOf = (gate) => (gate && gate.scope ? `${gate.scope.scopeKind}:${gate.scope.scopeId}` : 'signed-out');
+
+function OwnedSpellLibraryProvider({ children, principalKey }) {
   // Initialize state from local storage, falling back to initialState
   const [state, dispatch] = useReducer(
     spellLibraryReducer,
@@ -400,11 +409,14 @@ function OwnedSpellLibraryProvider({ children }) {
 
   // Save to local storage whenever state changes
   useEffect(() => {
+    // This instance hydrated for `principalKey`. If the active principal has since changed (or activated after this instance
+    // read an empty signed-out library) its state is not that principal's library and must never be written into the new scope.
+    if (principalKeyOf(getBootstrapGateState()) !== principalKey) return;
     const saved = saveLibraryToStorage(state);
     if (!saved) {
       console.error('Failed to save library to storage');
     }
-  }, [state]);
+  }, [state, principalKey]);
 
   return (
     <SpellLibraryStateContext.Provider value={state}>

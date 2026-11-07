@@ -964,6 +964,8 @@ function projectStateUpdates(updates) {
     const binding = require('./actorConsequences').publicContract(updates.actorContract);
     if (binding) {out.actorContract = binding;}
   }
+  // Public availability metadata uses opaque identity keys, never private spell definitions.
+  if (updates.authoredCooldowns && typeof updates.authoredCooldowns === 'object') out.authoredCooldowns = JSON.parse(JSON.stringify(updates.authoredCooldowns));
   if (updates.actorLifecycle?.version === 1) {
     const { version, roomId, epoch, cut } = updates.actorLifecycle;
     if (typeof roomId === 'string' && typeof epoch === 'string' && Number.isSafeInteger(cut) && cut >= 0) {out.actorLifecycle = { version, roomId, epoch, cut };}

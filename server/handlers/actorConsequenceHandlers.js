@@ -32,6 +32,26 @@ function registerActorConsequenceHandlers(ctx) {
     if (!check.ok) {actors.fail(check.code || 'room_authority_lost');}
     current(captured);
   };
+  // PC bundles must not carry either owner's authority across a canonical ownership change.
+  // Reuse binding's resolver; room token ownership alone can lag the character record.
+  const confirmPcBundleOwners = async(captured, approval) => {
+    if (!require('../shared/services/authoredEffect').isEffect(approval) || approval.source.kind !== 'character' || approval.target.kind !== 'character') return;
+    try {
+      for (const ref of [approval.source, approval.target]) {
+        actors.locate(captured.room, ref);
+        const owner = await firebaseService.getCharacterOwner(ref.characterId, { fresh: true });
+        current(captured);
+        if (!owner?.ok || owner.userId !== ref.ownerUid) actors.fail('actor_binding_conflict');
+      }
+      // Recheck both exact room bindings after the asynchronous resolver calls.
+      actors.locate(captured.room, approval.source); actors.locate(captured.room, approval.target);
+    } catch (error) {
+      current(captured);
+      // Concurrent consumption wins over later ownership/binding failures. Callers still
+      // verify the original receipt's requester and exact bytes before returning it.
+      if (!payments.consumedReceipt(captured.room, approval.approvalId)) throw error;
+    }
+  };
   const confirmed = room => Math.max(room.checkpointRevision || 0, writer?.getStatus?.(room.id)?.confirmedRevision || 0);
   const liveOnly = room => room.isPermanent !== true && !room.persistentRoomId;
   const resultFor = (room, receipt) => ({ success: true, receipt: actors.publicReceipt(receipt), actorSnapshot: require('../services/actorProjection').snapshot(room),
@@ -119,7 +139,26 @@ function registerActorConsequenceHandlers(ctx) {
     const old = actors.knownReceipt(captured.room, captured.uid, data);
     if (old) {respondInstalled(ack, resultFor(captured.room, old)); return;}
     await confirm(captured);
+    // A racing identical request may have committed while authority was checked.
+    const afterConfirm = actors.knownReceipt(captured.room, captured.uid, data);
+    if (afterConfirm) {respondInstalled(ack, resultFor(captured.room, afterConfirm)); return;}
     const staged = lifecycle.stage(captured.room, captured.player, captured.uid, data, confirmed(captured.room));
+    current(captured);
+    admit(captured.room, staged);
+    const result = resultFor(captured.room, staged.receipt);
+    publishInstalled(captured.room, 'actor_consequence_accepted', result, ack);
+    deliver(captured.room, 'combat_state_sync', { combat: result.combat });
+  });
+  // M5: GM resolution of one due periodic tick (apply with retained roll, or dismiss). Same custody as the boundary.
+  run('actor_periodic_resolve', async(data, ack) => {
+    const lifecycle = require('../services/sharedEffectLifecycle');
+    lifecycle.validateResolve(data);
+    const captured = context(data.roomId);
+    if (!captured.isGM) {actors.fail('turn_gm_required');}
+    const old = actors.knownReceipt(captured.room, captured.uid, data);
+    if (old) {respondInstalled(ack, resultFor(captured.room, old)); return;}
+    await confirm(captured);
+    const staged = lifecycle.resolveTick(captured.room, captured.player, captured.uid, data, confirmed(captured.room));
     current(captured);
     admit(captured.room, staged);
     const result = resultFor(captured.room, staged.receipt);
@@ -309,12 +348,16 @@ function registerActorConsequenceHandlers(ctx) {
     await confirm(captured);
     let staged;
     try {
+      const approved = command.approval && payments.get(captured.room, command.approval.approvalId)?.approval;
+      if (approved) await confirmPcBundleOwners(captured, approved);
       staged = actors.stage(captured.room, captured.player, captured.uid, command,
         { kind: captured.player.isGM ? 'gm' : 'controller', authorizerUid: captured.uid }, confirmed(captured.room));
     } catch (error) {
       if (captured.player.isGM && require('../services/riposteExecution').isCommand(command)) {require('../services/riposteExecution').refused(captured.room, command);}
       // P9: a changed class home invalidates the owner's approved price/typed result.
       if (error.code === 'owner_reapproval_required' && command.approval) {closeApproval(captured.room, command.approval.approvalId, 'owner_reapproval_required');}
+      // Attribute revalidation: a strike whose striker attribute records changed is closed for explicit owner reapproval.
+      if (error.code === 'owner_reapproval_required' && command.approval && strikes.get(captured.room, command.approval.approvalId)) {closeStrike(captured.room, command.approval.approvalId, 'owner_reapproval_required');}
       // P12B: a changed declaration invalidates the owner's approved piece/roll.
       // Review note 8: an approval that can never be consumed is closed instead of blocking re-declaration.
       if (command.approval && blocks.get(captured.room, command.approval.approvalId) && UNCONSUMABLE.includes(error.code)) {
@@ -395,6 +438,7 @@ function registerActorConsequenceHandlers(ctx) {
     payments.checkAgainstRoom(room, approval);
     const selfState = payments.selfState(room, approval);
     await confirm(captured);
+    await confirmPcBundleOwners(captured, approval);
     const afterReceipt = payments.consumedReceipt(room, approval.approvalId);
     if (afterReceipt) {
       if (afterReceipt.authorization.approvalHash !== contentHash || (creature ? afterReceipt.submitterUid !== uid : afterReceipt.source?.ownerUid !== uid)) {actors.fail('command_id_conflict');}
@@ -478,7 +522,7 @@ function registerActorConsequenceHandlers(ctx) {
     if (player.isGM) {
       for (const entry of payments.listAll(room)) {pending.push({ approval: payments.gmProjection(entry), contentHash: entry.contentHash, submitterUid: entry.ownerUid, targetProposal: payments.targetProposal(entry) });}
     }
-    const targetProposals = payments.listAll(room).filter(e => e.approval.target.ownerUid === uid && e.approval.target.characterId === player.character?.id && e.targetPolicy?.mode === 'voluntary').map(payments.targetProposal);
+    const targetProposals = payments.listAll(room).filter(e => e.approval.target?.ownerUid === uid && e.approval.target?.characterId === player.character?.id && e.targetPolicy?.mode === 'voluntary').map(payments.targetProposal);
     respond(ack, { success: true, roomId: room.id, pending, targetProposals });
   });
   run('actor_spell_target_designate', async(data, ack) => {
@@ -514,7 +558,15 @@ function registerActorConsequenceHandlers(ctx) {
       const t = entry.approval.target;
       if (t.ownerUid !== uid || player.character?.id !== t.characterId || actors.hash(t) !== actors.hash(data.target) || actors.locate(room, t).token.ownerUserId !== uid) actors.fail('forbidden');
     };
-    exactOwner(); await confirm(captured); exactOwner();
+    exactOwner(); await confirm(captured); await confirmPcBundleOwners(captured, entry.approval);
+    const afterReceipt = payments.consumedReceipt(room, data.approvalId);
+    if (afterReceipt) {
+      const accepted = afterReceipt.targetAcceptance;
+      if (afterReceipt.target?.ownerUid !== uid || afterReceipt.target?.characterId !== player.character?.id || actors.hash(afterReceipt.target) !== actors.hash(data.target)) actors.fail('forbidden');
+      if (!accepted || accepted.proposalId !== data.proposalId || accepted.termsHash !== data.termsHash) actors.fail('target_proposal_changed');
+      respondInstalled(ack, resultFor(room, afterReceipt)); return;
+    }
+    exactOwner();
     if (payments.get(room, data.approvalId) !== entry || entry.targetPolicy !== p || p.gmUid !== room.gmId || p.bindingHash !== actors.hash(payments.targetTerms(entry))) actors.fail('target_proposal_changed');
     if (entry.approval.actionEpoch !== actors.epoch(room)) actors.fail('outcome_unknown');
     if (data.accept && p.withdrawn) actors.fail('target_acceptance_withdrawn');

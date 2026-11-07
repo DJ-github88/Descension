@@ -105,10 +105,9 @@
     cursor: -moz-grabbing; /* Firefox fallback */
 }
 
-/* Disable transitions during drag for better performance */
-.item-card[draggable="true"]:active,
+/* Suppress pointer interactions on cards during drag */
 body.dragging .item-card {
-    transition: none !important;
+    pointer-events: none;
 }
 
 /* Quality colors - maintain WoW style for item quality */

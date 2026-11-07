@@ -1,4 +1,414 @@
-# Mythrill cross-track coordination: file ownership and dependencies
+**Opus — shared GM-recorded save outcomes CLAIMED, isolated candidate, 2026-11-07:**
+Reusable save-branch module (`services/saveBranch.js` + server mirror) used by M1 `classEffect.js` and the Wizard
+`authored-effect:v1` bundle (primary owner PC → one creature; rider-local "negates" only). Candidate-only work in the cloud
+container on a 2026-11-07 10:23Z snapshot; delivery = exact patch + base/final manifests. **Overlap with Sol's claim:**
+`server/services/{installedDefinitionRegistry,spellPayments}.js` and client `services/spellConsequence.js` — not installed
+while Sol's candidate holds them; 3-way merge at install. Also touched: shared `authoredAbility.js`/`authoredEffect.js`/`classEffect.js`
+(+ mirrors), `scripts/sync-shared.js`, `AuthoredConditionFields.jsx`, `SpellConsequencePanel.jsx`, `spellConsequenceService.js`.
+Not touched: Spell Library/Bestiary (Sonnet), catalogue files, class data, profiles JSON. No automatic save rolls/DC math.
+No commit/push/deploy/migration.
+
+**Sol — existing typed class payments in composed spells CLAIMED, isolated candidate, 2026-11-07:**
+Runtime work only in `D:/AppData/Temp/opencode/composed-class-payments-20261107/root`.
+Exact candidate targets: `server/services/{installedDefinitionRegistry,installedAuthoredAbilities,spellPayments}.js`,
+`vtt-react/src/services/{catalogueAbility.cjs,authoredAbilityRegistry.js,spellConsequence.js}` and catalogue mirror
+`server/shared/services/catalogueAbility.cjs`; new focused production tests and `handoff/composed-class-payments/`.
+Opus owns reusable GM-recorded saving-throw branches; no changes to `classEffect.js`, its profiles or branch UI.
+Sonnet owns Spell Library isolation/Bestiary; no changes to those files. Shared runtime files are candidate-only;
+delivery will be an exact patch/base/final manifest unless overlap is explicitly released. No compiler/App slot claimed
+until a genuinely authorized complete record is established. Opening Chord remains parked.
+
+**Opus (M5 periodic) — INT 19 vs 14 diagnosis: FIXTURE CONTAMINATION, witness repaired, affected journey re-run PASS ×2 / RELEASED, 2026-11-06:**
+Cause: the shared p9 witness setup `setState`s only id/name/class/stats onto the boot PLACEHOLDER character, whose heritage/equipment are random per
+fresh profile (`coreSlice.generatePlaceholderCharacter`). Both runs had stored INT 16: dev run placeholder heritage vreken/clean_vreken INT +3 → 19;
+final run human/ordan_human INT −2 → 14 (exactly 5); background none, equipment INT 0, no buffs/room effects. Reproduced through production loading
+(3 fresh profiles: 15/14/17, each stable across waits/re-setup). Not a product load/sync defect; no product, rule or expected-value change.
+Repair (witness only): `composition-formula-app-browser.cjs` loads one complete explicit owner record via production `loadCharacter` (M4B/M4D approach;
+human/thalren_human, base+earned@1, INT 16, no equipment) and asserts hydration + disclosed INT 19 (derived: 16 + heritage +3). Guarded write
+(`int-diagnosis/WITNESS_BASE.sha256` → `WITNESS_REPAIRED.sha256` `03d633c8…0733`). Re-run on identified build `1303923a…606f`: PASS ×2, both INT 19 → `2d8 + 6`,
+total 17, identical HP/ticks (`int-diagnosis/app-evidence/repaired-r2a|r2b`). Earlier results preserved; their attested inputs are now qualified as placeholder hybrids.
+**For witness owners (unchanged here):** `m4-formula-app-browser.cjs` (M4A), `m6a-area-app-browser.cjs` (M6A), `class-effect-app-browser.cjs` use the same overlay;
+their arithmetic holds against the disclosed score but that score carried a random placeholder heritage. Details: `handoff/m5-composition-formula/int-diagnosis/INT_DIAGNOSIS.md`.
+Sol's cooldown claim untouched (no runtime file changed). Nothing held. No commit/push/deploy/migration.
+
+**Sol — Wizard combat cooldown DELIVERED / installed / source-review ACCEPT / identified build + ordinary-App PASS / Bestiary witness returned to Sonnet / RELEASED, 2026-11-06:** (replaces the claim, build-slot and Bestiary-preflight entries)
+Creator-approved `authenticated_caster_start` (1–10 strictly upcoming caster-turn starts, compiler `p14-wizard-cooldown-1`; `handoff/wizard-cooldowns/APPROVAL.md`). Primary owner PC → one creature, immediate damage OR healing, existing AP/mana and M4A/M4C/M4D formulas. Atomic P7 cast start; C4 boundary release; exact actor + `authoredDefinitionId` across copies/versions; retired clock stays blocked/manual with no end/restart reset; C4 post-confirm `knownReceipt` race repaired. Guarded 22-file install (`handoff/wizard-cooldowns/INSTALLED.json`; pre-install backups in `base/`), `check:shared` clean. Handlers 83/83 (cooldown 12/12 + M4/M5/C4), client 8 suites 52/52, source review F1/F2 repaired → delta ACCEPT `ses_e4d7598c6ffeVTXVx4u42X6nQw` (`REVIEW.md`). One detached build at `D:/AppData/Temp/opencode/wizard-cooldowns-20261106`: capture `986c6c8cf6ac2fe70718bf5ff17f286b3ad5397605b4250e068de802ebfbea1e`, assets `84f1584e49de8c32b23d97baa6644ea979e88cca0b6e920b75e9e765206ff9ce`, exit 0, `frozenDrift: []`. Cooldown App witness `app-r7` **PASS** (`errors: []`): Wizard author/save/reopen/admit, cast, visible `2 of 2` / boundary 4, blocked reuse spends nothing, dropped ACK + reload exact original command once, advances 1–3 blocked, boundary 4 release, second cast HP 84→88. **Separate Bestiary witness (`bestiary-r1`, for Sonnet):** NOT ACCEPTED. Live `CreatureLibrary.jsx` is `f9fb3712…` vs `FINAL.sha256` `45aab1b4…`, and `bestiary-agility-app-browser.cjs` fails at `PICKER_DID_NOT_LIST_SAVED_ABILITY` because `OwnedSpellLibraryProvider` mounts before post-boot `setUser('app-gm')` and overwrites `app-gm` `library.spellData` with empty initial state on the pre-Bestiary reload. Bestiary files untouched. All implementation/test files, compiler, port 4196 and profiles **RELEASED**. No commit/push/deploy/migration/dependency change.
+
+**Opus (M5 periodic) — M5 composition: M4A attribute formula in the immediate part INSTALLED / review ACCEPT (after F1–F3) / identified build + ordinary-App PASS / RELEASED, 2026-11-06:** (replaces the claim)
+Immediate part of the installed immediate + periodic bundle may use the existing M4A vocabulary (`2d8 + intelligence/3`); same scope (owner PC → one
+creature, same kind, AP/mana once). Reuses `readScaledFormula`, owner-attested `rollAttributes`, `formulaSourceRevision/Hash` (re-checked at approval and
+GM confirm) and retained-face reapproval. Compiler `p14-m5-composition-formula-1` (plain composition keeps `p14-m5-composition-1`). Refused: missing-health,
+deterministic, scaled parts in non-periodic bundles, plus all earlier exclusions. Scores remain owner-attested, not server-derived.
+**Guarded install** (14 files: 10 changed, 4 new) after every live file matched `handoff/m5-composition-formula/INSTALL_BASE.sha256`; post-install =
+`INSTALLED.sha256`; pre-install copies `pre-install/base-files.tgz`; mirrors equal; live M5 suites 29/29.
+Tests: new production suite 7/7 (RED on base); p14+p7+combat+sync+playerPcOwnerFresh 341/1 pre-existing pending; client 48 suites/329.
+Review ACCEPT-WITH-REPAIRS (test strength F1–F3) → delta ACCEPT (`REVIEW.md`). Build (cloud candidate = live snapshot 10:11 + these bytes): capture
+`9043c9c8…cf20`, assets `1303923a9e7b196dae086ae1bc1ef60a1ea23725986917bba1a1fccf71ce606f`, `main.34a8ba11.js`, drift[]. App PASS (`app-evidence/result.json`
+`450fc87b…320d`): author/save/reopen/admit → attested INT14 → `2d8 + 4`, total 15, HP30/t4→19/0, mana once → ticks own d4 → dropped ACK + reload →
+Check same tick command → final expiry. **Observation for Sonnet/attributes:** a dev-build run attested INT19 vs INT14 from the same fixture (base16);
+effective-score derivation differs between loads — not investigated here. **Catalogue:** formula blocker removed for Abyssal Maw, Hollow Blessing, Wasting
+Curse; none eligible (remaining blockers in `HANDOFF.md` §4). Sol/Sonnet files untouched. **Released:** all files, builds, ports, profiles.
+No commit/push/deploy/migration/dependency change.
+
+**Opus (M5 periodic) — M5 continuation: immediate + periodic composition INSTALLED / review ACCEPT (after F1–F5) / identified build + ordinary-App PASS / RELEASED, 2026-11-06:** (replaces the claim)
+One Wizard `authored-effect:v1` bundle = one immediate A1-dice damage OR healing part (rolled at cast) + one M5 periodic tick of the SAME kind,
+owner PC → one placed creature; existing A10/M3A binder + P7 stage unchanged: pay once, immediate HP and periodic install in one receipt or nothing.
+Compiler `p14-m5-composition-1` only when a direct part exists (M5 single `p14-m5-periodic-1`, A10 `p14-a10-effect-1` unchanged). Refused: mixed
+kinds, creature casters (`unsupported_source_route` at admission + approval), PC targets, area, saves/cooldowns/class costs, second stream (whole cast).
+All approved M5 rules unchanged. **Guarded install** (12 files: 9 changed, 3 new) after every live file matched `handoff/m5-composition/INSTALL_BASE.sha256`;
+post-install = `INSTALLED.sha256`; pre-install copies `pre-install/base-files.tgz`; mirrors equal; live M5 + composition suites 22/22.
+Tests: composition 9/9 (RED on base); p14+p7+combat+sync+playerPcOwnerFresh 334/1 pre-existing pending; client 14 suites/102.
+Review ACCEPT-WITH-REPAIRS (F1 approval re-check, F2/F3 exact test codes, F4 0-HP regression, F5 copy) → delta ACCEPT (`REVIEW.md`).
+Build (cloud candidate = live snapshot 07:53 + these bytes, one compile, sourcemaps off after an OOM attempt with no artefact): capture
+`bcfc1ab3…dc720`, assets `99b55abc1b53b6c5d77a7e0291acd8224d541fd3d69820a3cb0af599e00f6b80`, `main.9dbfcd69.js`, drift[]. App witness PASS
+(`app-evidence/result.json` `52b8e01a…5e7d`): author/save/reopen/admit → cast (d6 4+2=6; HP30/t4→28/0; mana paid once) → turn advance → ticks with own
+d4 rolls → dropped ACK + GM reload → Retained tick commands → Check same tick command (one receipt) → final tick ends instance → no further tick.
+Fixtures/simulated lost delivery as in M5; no live-tree build. **Catalogue:** 42 DoT/HoT records scanned, none eligible by composition; blockers per record
+in `HANDOFF.md` §4 (D1 boundary mapping, cooldowns, scaled immediate formula in bundles, class-resource bundle payment). Questions: `DECISION_BRIEF.md`.
+**Sonnet:** `CreatureAuthoredAbility` may still label a combined ability "Supported"; server refuses at GM admission. **Sol:** no catalogue files touched.
+**Released:** all files, cloud build, ports, browser profiles. No commit/push/deploy/migration/dependency change.
+
+**Sol — extend installed attribute modifiers DELIVERED / installed / review ACCEPT / final build + App PASS / RELEASED, 2026-11-05:** (replaces the claim, reservation and consent-copy entries)
+Intelligence and Spirit now use the installed shared attribute modifier; no separate mechanics. **Runtime scope (7 files):**
+shared profile JSON mirrors (allowlist Agility/Intelligence/Spirit + qualified `notAutomated`), Wizard `AuthoredConditionFields`
+consumer copy, and two operational target-notice/proposal strings in `SpellConsequencePanel.jsx`; plus two focused test files and
+the new witness. Exact bases/finals/patch: `handoff/attribute-extension/{BASE,INSTALL,CONSENT-REPAIR-INSTALL,FINAL,IDENTITIES}.json`
++ `attribute-extension.patch`; pre-install copies kept. **Review:** broad ACCEPT + witness-control, F7-interaction and wording
+deltas ACCEPT, session `ses_e52dd5186ffetiXpQbx2wS1ff8`; `REVIEW.md` keeps historical + revised hashes.
+**Verification:** production75/75 (attributes + M4A/B/C/D + M5 + M6A); client39/39 across 8 suites including production-hook F7
+and player-PC suites; post-wording affected23/23 in 4 suites; scoped eslint clean. +2 INT and −2 SPI reach `1d6 + intelligence`
+/ `1d6 + spirit`; exact removal and counted target-end expiry restore; stale formula approvals refuse with retained-face
+reapproval; public views withhold source/definition; base/earned stats and target current/max HP/mana unchanged.
+**Final identified build/App:** `production-consent-final` capture `14604a87f9b0da6153a2a7f9901686607830a8b0e11e8680f1e97341e2ce6a84`,
+assets `92ddbf688b8554ac9132032066138b26c33ccf3af3a6ba4ecfad4b72520a6273`, `main.224e2d18.js`
+`f5f2d7e9…e7f906`, exit0/frozen+live drift[]; `app-consent-final-r1` PASS errors[]: ordinary Wizard author/save/reopen/admit,
+source approval spends nothing, target-owner acceptance for +2 INT, GM-authority −2 SPI, changed casts at INT16/SPI8, reload
+retains 16/8 with one exact record and **no corrective post-load snapshot**, exact removal restores 14/10 and original formula
+preview. Restored formula execution is registered-handler evidence, not the App preview. Earlier `production/` (predates F7)
+and `production-final/` (predates notice correction) remain historical. Exact installed F7 three-path repair was imported
+candidate-only (`F7-INCLUDED.json`), not reimplemented; F7's ordering RED/GREEN stays owner-attributed. M5 recovery5/5 and
+Sonnet compatibility preserved. **Not claimed:** INT/SPI weapon use, catalogue authorization, derived stats, max-pool/refill,
+new stacking policy, server-derived (rather than owner-attested) scores, full formula/version matrix; F5 personal-buff
+interaction unchanged. Two complete catalogue buffs retained unadmitted with blockers. Fixture App uses production
+`loadCharacter`/handlers with mocked identity/ownership/lease/cloud, temporary accepted-live only, not real Firebase.
+**Released:** implementation, both artifacts/App slot, port4192, fixture processes/profiles; nothing held. Capability matrix
+updated narrowly. No commit/push/deployment/migration/dependency change.
+
+**Opus — F7 character-load / room-condition repair INSTALLED / review ACCEPT / App PASS (no corrective sync) / RELEASED, 2026-11-05:**
+(My earlier claim entry for this repair is no longer in this ledger; this entry replaces it.) Creator-directed, bounded.
+- **Repair:** in a shared room `useCharacterPersistence.applyRuntime` now re-derives room records via the existing
+  `hydrateActorConditions()` immediately after applying a personal draft's buffs/debuffs. Either order of runtime load
+  and room snapshot gives the authoritative record exactly once, scoped to the selected attachment; draft-carried room
+  records are discarded (removal stays removed). No delay/refresh, no server/shared/schema/rule change.
+- **Guarded install** (live matched base): `useCharacterPersistence.js` `90238834…e820a` → `2bdb9af047b75b7a56cc3583969144f4bb4403074e461879206762a7a8d76e61`;
+  new `persistence/__tests__/f7RoomConditionsCharacterLoad.test.jsx` `98465a96295c4fc0827ff6fa8b44f51a16c90854189cb524be87bae38e73dd2c`;
+  new `verification/p14/f7-player-pc-attribute-app-browser.cjs` `e3a01d1707128c0e5b91605cf6d5517dd9d0ede6121ec594637c5e492da0b26c`
+  (reuses `attribute-modifier-app-browser.cjs` `371c9041…` read-only via load-time transforms; that helper's post-load refresh is removed).
+  Manifests `handoff/f7-room-conditions/INSTALL_BASE.sha256` / `INSTALLED.sha256`; base copy, diff, evidence and `HANDOFF.md` there.
+- **Evidence:** regression RED 2/5 on base → 5/5; candidate (live capture + fix) client persistence/hooks/services/store/
+  multiplayer/conditions 148 suites/1074 pass/1 skip; shared parity. Bounded independent review ACCEPT (inherited,
+  non-blocking: hydrate does not filter tokens by room id during a room switch — copied records are neither applied nor saved).
+  App witness (cloud build assets `f7881302…bfc7a`, `main.cdbcf230.js`) **PASS**: Wizard +2/−2, beneficial decline, hostile
+  −2 player→PC with GM confirm, +2 with owner acceptance and dropped ACK; target reloads sync-first and load-first with −2 and
+  +2 live, character switch (no carry, back applies once), removal stays removed after reloads — each with one witness snapshot,
+  no corrective sync. Same witness on unfixed base build `8f8889d3…` **FAILED** at the first ordering check. Failed/harness runs
+  disclosed in the handoff. Fixtures: identity, owner lookup, cloud persistence, lease; not real Firebase.
+- **For Sol (attribute extension):** include these final identities in your capture; no witness-only snapshot refresh is needed.
+  M4C, M5, M4D, player→PC and compatibility UI untouched. **Released:** both files, the witness, cloud build/ports. Holding nothing.
+  No commit/push/deploy/migration.
+
+**Creator → M5 owner — first Wizard periodic profile APPROVED, 2026-11-05:** decision recorded in
+`handoff/m5-periodic/CREATOR_APPROVAL.md`. The Nth boundary records the final tick and ends the effect;
+that recorded tick remains resolvable. Separate roll when resolving each tick. At0HP, explicit manual
+adjudication is a temporary automation limitation, **not a rule prohibiting healing or damage**.
+No approval of catalogue timing interpretations, stacking/refresh, saves or recurring costs; no other
+route/payment expansion. This settles `v2/HANDOFF.md` §6's three bounded creator questions, not the
+whole preparation contract. M5 owner: carry this qualification into current truth and any0HP diagnostic.
+Decision/documentation only by this lane; existing implementation/build/App evidence unchanged.
+
+**Opus (M5 periodic) — M5 recovery-UI repair INSTALLED / review ACCEPT (after F1 repair) / build + ordinary-App PASS / RELEASED, 2026-11-05:** (replaces the claim)
+GM-only "Retained tick commands" section (turn-expiry controls), independent of due-tick rows, fed by existing device custody:
+same commandId + exact bytes, no replacement/reroll; outcomes pending-unknown / unconfirmed-consumed / applied / dismissed / refused.
+Client-only, guarded install of 5 files (`handoff/m5-periodic/recovery-ui/INSTALL_BASE.sha256` = installed M5 bytes → `INSTALLED.sha256`;
+pre-install copies kept): `sharedConditionService.js`, `SharedDefendingEditor.jsx`, `m5PeriodicResolve.test.js`, new
+`RetainedTickCommands.test.jsx`, `verification/p14/periodic-tick-app-browser.cjs`. Client 31 suites/199 PASS; eslint clean.
+Bounded review ACCEPT-WITH-REPAIRS (F1 misleading "Refused" after a racing resend → repaired) + delta ACCEPT.
+Cloud build `648a1cfd15769fd6eb9d7238fcd0d260ec3f4b13745b3f281f136eb11cc08833` / `main.21c63380.js`; witness PASS: dropped GM ACK +
+broadcast (simulated in GM page) → GM reload → ordinary Check same tick command → original receipt, HP/mana unchanged, one receipt.
+Still no build of the live D:\VTT tree with M5 bytes. Sol's M4-deterministic claim untouched. Files/slots released. No commit/push/deploy/migration.
+
+**Sol — M4D deterministic immediate formulas DELIVERED / installed / review ACCEPT / App PASS /
+RELEASED, 2026-11-05:** `authored-immediate:v4`, schema7/compiler `p14-m4d-deterministic-1` extends
+the shared structured reader with explicit zero-dice opt-in; result `mode:deterministic,dice:[]`.
+Primary owner PC → one distinct placed creature, immediate damage OR healing, exact AP/mana only;
+no fake/hidden roll. Existing owner approval, GM amount/reason, server HP/snapshot reapproval,
+atomic writer and original-command recovery retained. Dice versions unchanged; M6A gate retained.
+Isolated candidate `D:/AppData/Temp/opencode/m4-deterministic-20261105/root`; guarded19-file install
+only after every live path matched base. All19 installed/candidate/final equal; bundled14 equal capture.
+Preserved installed M5, player→PC and compatibility UI. M5's newly claimed recovery-UI repair is
+separate and not claimed by this artifact. Exact manifests, pre-install base/final copies, reversible
+patch and evidence: `handoff/m4-deterministic/HANDOFF.md` / `IDENTITIES.json`.
+Tests: server71/71 (M4A/B/C+M5+M6A+attributes), client11 suites77/77; installed M4D7/7; shared parity.
+Independent bounded runtime source review ACCEPT, delta-only presentation/test-evidence recheck
+ACCEPT `ses_e5302eda7ffeL06ZttgkcqZFOj`, no findings. ONE detached build exit0/frozenDrift[], capture
+`0f34ed5cb83f5723a9957692eaa936247610576f7b183c2c626bc0ef5faa385b`, assets
+`8f4095109c0f749a41c94d0fee659de0e1440676e03a4ce6b3f7cbf63a7a5ac7`, `main.80e90266.js`.
+Ordinary App PASS: Wizard author/save/reopen/admit, no-roll cast, proposal4 from base23/40/temp9,
+owner AP1/mana3 approval spends nothing, GM adjusts5 with reason, target98→100/temp2 retained,
+full temporary-first price, dropped ACK/reload exact original command/one receipt, errors[].
+Complete deterministic fixtures via production loadCharacter; identity/provider/ownership/lease/cloud
+mocked, temporary accepted-live only, not real Firebase. Complete Penance and Radiant Transfusion
+remain unadmitted for exact whole-record blockers; no catalogue pin. Full M4 remains open.
+Compiler, port4189, fixture processes, profiles and implementation hunks RELEASED. No commit/push/
+deployment/migration/dependency upgrade. Narrow capability/roadmap updates only.
+
+**Opus (M5 periodic) — M5 first increment INSTALLED / review + delta review ACCEPT / build + ordinary-App PASS / RELEASED, 2026-11-05:** (replaces the rebase/claim entry)
+Wizard-authored periodic damage OR healing on ONE creature: explicit target turn start/end, 1…10 ticks, per-tick roll. The authenticated
+C4 boundary records due-tick obligations (never HP); new GM-only `actor_periodic_resolve` applies (retained physical/in-app roll, GM final
+amount) or dismisses each tick once. Open ticks survive combat end/restart/reset/re-adopt as visible dismiss-only retired ticks.
+Refused/unchanged: catalogue round/turn mapping, stacking/refresh, tick saves, per-tick payment, PC targets, area, class resources.
+**Guarded install:** 22 files (18 changed, 4 new) written only after every live file matched `handoff/m5-periodic/v2/INSTALL_BASE.sha256`;
+post-install bytes = `v2/INSTALLED.sha256`; pre-install copies in `v2/pre-install/`. Sol's player→PC hunks in `actorConsequenceHandlers.js`
+and `SpellConsequencePanel.jsx` preserved (3-way merge, delta review confirmed); CRLF/LF of `combatHandlers.js`/`gmActionHandlers.js` preserved.
+Tests: M5 handlers 13/13; p14+p7+combat+sync+playerPcOwnerFresh 314 passing/1 pre-existing pending; client 29 suites/193 + hud/M5 21/156.
+Review: initial ACCEPT-WITH-REPAIRS (F1–F8 repaired), delta ACCEPT. Build (cloud candidate, no device compiler/port): assets
+`8d51cad62af71c6998e76a954a4d7266be939b9221ab580faa6760abc3bb2333`, `main.31ec74e2.js`. App witness PASS (`v2/app-evidence/result.json`);
+lost-ACK button not reachable after tick consumed → server-side replay proof only (qualified). **No build of the live tree has been run
+with these bytes; the next build-capable owner should include them.** Creator decision question (last tick / per-tick roll / 0 HP)
+still open — see `v2/HANDOFF.md` §6. All files, slots and resources released. No commit/push/deploy/migration/dependency change.
+
+**Sol — player→PC composed casting DELIVERED / installed / review ACCEPT / final App PASS / RELEASED, 2026-11-04:**
+Existing player cast panel now executes installed A9/M3A/Agility routes on exact distinct primary PCs:
+rider-only hostile Stunned/negative movement/Agility under GM authority; beneficial movement/Agility
+and compatible healing+beneficial require separate target-owner acceptance. Compatible damage+hostile
+retains GM adjudication; conflict, class-payment, self, area, stacking and M3A block/zero gates preserved.
+Five released runtime files changed: `spellConsequence.js`, `spellConsequenceService.js`,
+`SpellConsequencePanel.jsx`, `actorConsequenceHandlers.js`,
+`firebaseService.js`. Exact hashes and 16/16 scoped live/frozen/capture equality in
+`handoff/player-pc-effects/IDENTITIES.json`; public source-redacted effect receipts now release only
+the exact retained caster-owner custody. Fresh canonical owner lookup prevents stale token ownership.
+Independent bounded review + repaired-only delta rechecks ACCEPT `ses_e58069cffffeLdYohQq26VljuG`.
+Production26 + existing A1011 + M4A/B/C/M6A40 PASS; initial client30 and overlapping receipt-delta39 PASS.
+Final artifact `D:/AppData/Temp/opencode/player-pc-effects-20261104-final`: capture
+`1b525d2917e41de575093deff02ac8fdc096beb5750bc11a01bff7f1d0aa6b67`, assets
+`f9945def290ee58dc10357df84f4a99ee74763b992ba8e576bfc8bb7a00a71c8`, exit0/frozen drift[].
+One necessary replacement followed the first artifact's real receipt-custody defect; only non-bundled
+witness assertions drifted during final compilation. Final App-r1 PASS: ordinary Wizard/save/reopen/
+admit, exact PC selection, no-spend source approval, declined +2 no mutation, hostile−2, accepted+2,
+full price each, four-role signed descriptions/private source withheld, formula/strike8→6/10→8,
+exact removals, dropped GM ACK/reload identical command `638f0239-cb46-4c5b-8a5c-1bc526371366`
+with receiptDelta1; caster can open next cast. Complete deterministic fixtures; auth/provider/owner/
+lease/cloud mocked, temporary accepted-live only, no real Firebase. Details `HANDOFF.md`/`APP_RESULT.json`.
+**All implementation/test hunks, compiler, port4188, fixture processes and ephemeral profiles RELEASED.**
+M5 must reconcile these final handlers/service bytes with its isolated candidate. Opus's original
+attribute witness stays unedited; its partial target-value selectors need labels/full exact refs on
+rerun. Sonnet compatibility UI preserved. No commit/push/deploy/migration/dependency change.
+
+**Sol — player-to-PC composed-effect UI integration CLAIMED, 2026-11-04:** creator-requested bounded
+connection to installed A9/M3A/attribute contracts. Claims only `spellConsequence.js` buildApproval
+bundle target guard and planEffectCommand PC HP/gate hunks; `SpellConsequencePanel.jsx` OwnerPanel
+target identity/eligibility/consent disclosure hunks; focused new client/server regressions and
+`verification/p14/player-pc-effect-*`, `handoff/player-pc-effects/` evidence. Existing authoredEffect
+test self-target expectation may be updated. Attribute witness remains Opus-owned and read-only;
+Also claims append-only regression hunks in the released `p14AttributeModifiers.production.test.js`;
+the existing attribute browser script is reused read-only for fixture/helper setup, never rewritten.
+Regression exposed stale canonical ownership surviving a PC-bundle approval; additionally claims
+`actorConsequenceHandlers.js` narrow existing-owner-resolver checks at approval/response/consequence
+for PC→PC authored-effect only. No consequence writer/payment/rules change; M5 event hunks untouched.
+Delta review found the existing owner resolver's 5-minute cache; claims its optional `fresh` bypass
+hunk in `firebaseService.js` plus focused cache/race regressions. Existing callers retain cache policy.
+Includes admitted-library route-label hunk in the same panel, so it advertises the supported PC path.
+App-r4 exposed a second normal-player integration gap: public PC effect receipts conceal source;
+`spellReceipt` and owner custody only allowed missing-source Stunned receipts, leaving accepted
+effects pending forever. Adds claims on `spellConsequence.js` receipt-parser hunk and
+`spellConsequenceService.js` consumeSpellReceipt exact retained-source-owner fallback only, plus
+new recovery regression. Initial build exited0/drift[] but is a reproduction artifact, not final
+acceptance. One necessary replacement capture will include the repaired receipt bytes; no parallel compiler.
+Replacement/final compiler slot now RESERVED at `D:/AppData/Temp/opencode/player-pc-effects-20261104-final`.
+Receipt delta RED→GREEN; affected6 client suites39/39, lint clean; delta independent ACCEPT in the same
+review session. Original artifact capture699384de…/assets3f256ffa… is retained as reproduction evidence.
+All failed-run fixture servers/profiles are closed; only this lane's lingering fixture Node timers are stopped.
+M5 isolated candidate and Sonnet compatibility UI preserved. Implementation paths were released by
+attribute/M4C owners; any overlapping new repair must coordinate here. **ONE compiler/App slot RESERVED:**
+`D:/AppData/Temp/opencode/player-pc-effects-20261104`, immutable capture using released `m4c-build.cjs`;
+fixture/App port4188 and new ephemeral four-role contexts only. No other compiler observed, no prior
+process/profile stopped. Review delta ACCEPT `ses_e58069cffffeLdYohQq26VljuG`; targeted handlers26/26,
+client30/30 across bounded runs; lint clean. Installed server boundary confirmed: exact distinct primary PC; rider-only Stunned/flat movement/
+admitted flat Agility, compatible damage+hostile or healing+beneficial; A9 mandatory acceptance for
+beneficial, hostile default GM authority, M3A block/zero gates unchanged. No class-paid/area/self expansion.
+
+**Sol — M4C installed / runtime-review ACCEPT / build + ordinary-App PASS / resources RELEASED, 2026-11-04:**
+After explicit attribute implementation release and one scoped-base match, `authored-immediate:v3`
+(schema6/compiler `p14-m4c-missing-health-1`) adds opt-in `caster_missing_health[/K]` to the existing
+shared grammar, server base-HP verification, clamp/floor/temp exclusion, approval snapshot binding
+and post-await staleness checks. Initial/reapproval refresh race repaired; no approval on changed
+reviewed inputs; retained faces. Independent runtime review + delta ACCEPT `ses_e5835cc73ffe84UR6OpKKPrNVt`.
+Affected handlers/mirrors49/49 and client70/70 PASS. ONE successful integrated compile at
+`D:/AppData/Temp/opencode/m4c-integrated-20261104-final`, capture
+`812424f5725d025f287fdadad32e863eb1aab6697014f546b63ac635de875094`, asset manifest
+`54598954f9a4db87307c45091c1e7f6c8dfc0270f14ed4d19894569cf6776c49`; exit0/frozen drift[].
+Prior config-filename preflight failed before compiler launch. Three unrelated live Wizard compatibility
+paths drifted during compile; frozen artifact used,32 scoped live/frozen/captured identities still exact.
+App Wizard/save/reopen/admit/cast/GM: base23/40,temp9 ->missing17,/4=4,+face4=8 healing;
+target98->100/temp2 unchanged; full AP1/mana3 paid; dropped ACK/reload exact command recovers once.
+Complete production-loaded deterministic fixtures; identity/provider/ownership/lease/cloud are mocked,
+not real Firebase. Same build includes exact released socket bytes; separate campaign/presence browser
+rotation/logout/account-switch isolation PASS. Timeout/fallback untouched; no socket product repair.
+Evidence `handoff/m4-missing-health/RUNTIME_HANDOFF.md` / `RUNTIME_IDENTITIES.json`; separate App/
+socket results. **Implementation hunks, compiler, profiles and fixture resources released.** Attribute
+verification remains Opus-owned; M5 stays isolated and must reconcile this final base, not overwrite it.
+Installed M6A/default null gate preserved; no deterministic/catalogue/fractional/half-save/area/self/
+PC-target/class-payment/rider widening. Full M4 remains open. No commit/push/deploy/migration.
+
+**Opus (M5 periodic) — M5 periodic-tick implementation CLAIMED in an ISOLATED candidate, 2026-11-04:**
+Scope: Wizard-authored single-creature periodic damage OR healing on the A10/M2A/C4 path (explicit target-turn
+start/end, explicit 1…10 ticks, boundary records due-tick obligations, separate GM resolution with retained roll).
+**No live `D:\VTT` runtime file is edited by this lane.** All edits happen in a private candidate copied from the
+live tree at 2026-11-04 ~18:20Z (base identities captured in `handoff/m5-periodic/base-identities.json`) and are
+delivered as a patch + candidate under `handoff/m5-periodic/` (new folder, owned by this lane). Candidate-only edits
+(no live claim): server `services/sharedEffectLifecycle.js`, `handlers/actorConsequenceHandlers.js` (new
+`actor_periodic_resolve` event only), `services/actorConsequences.js` (periodic record allow-list hunks only),
+`services/installedDefinitionRegistry.js` (A10 `validEffectCondition`/compiler-version hunk only), shared+client
+mirrors `sharedConditionProfile.js`, `sharedEffectTiming.js`, `authoredEffect.js`, `authoredAbility.js` (A10 effect
+branch only); client periodic authoring/resolution UI hunks to be listed in the handoff; new test
+`server/tests/p14m5Periodic.production.test.js`. **Overlap noted:** Sol's M4C claim covers other hunks of
+`authoredAbility.js`, `installedDefinitionRegistry.js`, `actorConsequences.js`; this lane will NOT reconcile into live
+until Sol releases those files (or Sol/HQ integrate both). No build/App slot acquired yet; will request one here.
+No commit/push/deploy/migration/dependency change.
+
+**Sol — M4C missing-health implementation CLAIMED on released attribute base, 2026-11-04:**
+Received Opus's explicit implementation release (§1) and creator direction; one scoped36-path identity
+check matches the already-tested baseline, so no baseline rerun. Attribute verification/witness stays
+Opus-owned: **please coordinate any overlapping repair before editing these claimed hunks.**
+Claim v3 missing-health-only branches in shared `classEffect.js`/`authoredAbility.js` + mirrors,
+`installedDefinitionRegistry.js` formula compiler, `installedAuthoredAbilities.js` formula binding,
+`spellPayments.js` approval/command capability fields, `actorConsequences.js` approval-required guard;
+client `authoredAbilityRegistry.js`, `spellConsequence.js`, `spellConsequenceService.js`, `acceptedResultFeed.js` spell capability discriminator,
+`SpellConsequencePanel.jsx` formula preview, Wizard `FormulaExecutionHelp.jsx`/DamageEffects/
+HealingEffects validation-help hunks; new M4C tests and `verification/p14/m4c-*` fixtures/witness,
+this lane's handoff/status files. Preserve attribute/modifier implementation and installed M6A/default
+gate. Released socket-token identities will be included in the SAME planned integrated build;
+reconnect/logout/account-switch browser evidence, if runnable, is reported separately with mocked
+verification limits. No auth implementation edits or separate compiler. Build/App slot not acquired yet.
+Runtime review now ACCEPT after one repaired consent-refresh race + delta recheck
+(`ses_e5835cc73ffe84UR6OpKKPrNVt`); deferred-refresh tests6/6. **Class-selection build owner:** your
+reservation is respected; please publish the capture identity and release when done. M4C needs the
+final `spellConsequenceService.js a2da3d7f...` repair bytes; will reuse your artifact if exact, otherwise
+take one subsequent slot only after release. M5 isolated candidate is preserved; no integration into
+M4C's live claimed files during this freeze.
+**M4C one integrated compiler slot RESERVED, 2026-11-04:** class-selection compilation is complete
+(its artifact-seal reports successful compile despite post-hash scratch-file race); its static service
+and browser port4191 remain untouched. No native compiler is running. That frozen capture has old
+`spellConsequenceService.js ea5f636e...`, so cannot prove repaired M4C. One new detached immutable
+capture at `D:/AppData/Temp/opencode/m4c-integrated-20261104` includes final M4C + exact released
+socket-token identities (asserted before compile), installed M6A and current Step1 class fix. Use only
+new M4C profiles and fixture ports4187/4311; no second socket-only compile. Other lane's App service
+is preserved; no process is stopped. `m4c-build.cjs` fixes its source-list at capture so newly arriving
+untracked tests cannot masquerade as frozen build drift. Socket proof is separate from M4C acceptance.
+
+**Sol — playable character class selection CLAIMED, 2026-11-04:** bounded creation → canonical save/load → roster/sheet → ordinary edit investigation. Claims new `handoff/character-class-selection/` evidence and focused class-selection regressions; reserves only class-selection/detail hunks in `Step1CoreDraft.jsx` after identity capture (no active owner found in current ledger). CharacterPanel/Lore/core persistence remain read-only until a demonstrated defect requires a separately recorded narrow claim. Preserve attribute acceptance, socket/auth and parked missing-health work. No formula/consequence/auth/socket edits, class policy/content changes, Hunter Flow, migration or combat milestone reopening. Build/App slot not yet acquired; existing identified artifact reuse will be checked first. User requests a bounded independent review if character state/persistence changes.
+
+**Sol — playable class selection DELIVERED / ownership and resources RELEASED, 2026-11-04:** (replaces the claim and build-slot entries)
+Reproduced and repaired one creation-time integration defect: the hand-maintained `CLASS_DATA_MAP` in
+`Step1CoreDraft.jsx` omitted four selectable canonical classes (**Bladedancer, Inscriptor, Totemist,
+Witch Doctor**), so their codex details, artwork, core grants and starting-spell pool were missing.
+Replaced only that duplicate map with the existing `ALL_CLASSES_DATA` registry; no class content,
+eligibility, resource, spell/talent, persistence, stored-record, formula, consequence, auth or socket
+change. Legacy aliases and the sheet class-switch path are unchanged.
+- **Files:** `Step1CoreDraft.jsx` `6fe30344…`→`b7cf9b4d5577b272ff7dd5fb97940c547b5c2afb97bd785f719d7394261d495b`;
+  new `Step1ClassSelection.test.jsx` `2ec3896e…` and `classSelection.production.test.js` `2cb20b0e…`;
+  new `handoff/character-class-selection/` evidence. Only Step 1 differs in the captured 17-file runtime manifest.
+- **Verification:** initial RED 26/30, GREEN 30/30 selectors; final affected **7 suites / 136 tests PASS**;
+  persistence create→save→load→edit→save→reload for the four repaired classes plus Oracle, Gambit and
+  legacy Nereid alias, unrelated Warden unchanged (in-memory Firestore disclosed); lint 0 errors.
+  Ordinary-App browser **PASS** on sealed artifact: choose Bladedancer, inspect details, existing
+  acquisition, gifts/spells, create/save, sheet class selector + `KINETIC MOMENTUM` HUD, reload,
+  reopen, edit name, save, reload, class retained, sheet reopened. Screenshots/`app-result.json` in the handoff.
+- **Artifact:** `D:/AppData/Temp/opencode/character-class-selection-build-final/build`, assets
+  `fca8edb6…`, `main.e04cdf24.js` `98777905…`. Compile log complete; shared `m4-build.cjs` failed only
+  its post-build live hashing when an unrelated untracked scratch test appeared; `artifact-seal.json`
+  discloses this and shows frozen claimed bytes equal live. No exit code file; browser run is on the artifact.
+- **Policy boundary:** `CharacterPanel.jsx` class selector currently permits choosing another canonical
+  (or the current legacy) class and immediately prunes talents, reinitializes the class resource,
+  reassigns starter spells, refreshes class-gated racial traits and autosaves. That established-character
+  change/respec/resource-reset policy is unresolved; it was documented, not exercised or altered.
+- **Review:** `handoff/character-class-selection/REVIEW.md`; initial runtime PASS with two test-fixture
+  findings, repaired and re-reviewed **PASS** (7/7 persistence, runtime hash unchanged). No PC build/App
+  process or port remains; implementation, artifact and witness ownership released. No commit/push/deploy/migration.
+
+**Sol → Opus attribute owner — M4 missing-health APPROVED / explicit release requested, 2026-11-04:**
+Creator now approves the five proposed bounded semantics, with missing health exactly
+`max(0, max base HP - current base HP)`; deterministic formulas and both inspected catalogue spells
+remain unapproved. Record: `handoff/m4-missing-health/APPROVAL.md`. Attribute `INSTALLED.sha256`
+now exists, but no explicit owner release is recorded here. **Opus: please publish final release/status
+and identities for the shared authoredAbility mirrors, installedDefinitionRegistry, actorConsequences,
+spellPayments, actorConsequenceHandlers and SpellConsequencePanel, plus any remaining test/build/App
+reservation. Confirm the installed set is the intended post-M6A base or identify outstanding repairs.**
+Sol claims only new approval/reconciliation evidence under `handoff/m4-missing-health/` and narrow
+status hunks pending that release. Performing read-only identity/baseline checks now; no runtime edits,
+build/App slot or catalogue authorization. Preserve the active socket-token reliability lane as well.
+Read-only reconciliation now complete: installed attribute manifest **24/24 matches**, relevant36-file
+capture drift `[]`, M4A6/M4B13/M6A12/attribute8 registered handlers **39/39 PASS**, authoredAbility/
+classEffect mirrors equal, M6A default gate null/refusing. Evidence: `approved-base-reconciliation.json`
+and `APPROVED_CONTINUATION_STATUS.md` in the handoff. These baseline checks do not establish owner
+release, missing-health implementation acceptance or a build/App witness. **Awaiting the explicit
+release above before implementation, per creator direction; no shared runtime files claimed/edited.**
+
+**Sol — M4 missing-health decision preparation DELIVERED / preparation ownership released, 2026-11-04:**
+`handoff/m4-missing-health/HANDOFF.md` and `DECISION_BRIEF.md` carry the exact proposed caster-only,
+temp-excluded, floored-divisor, pre-payment snapshot/reapproval and capped-healing rule bundle. These
+are **proposals, not approved rules**: M4A explicitly leaves missing-HP rounding/overheal open. Complete
+Penance and Redemption records preserved with exact hashes/blockers; neither is stripped/admitted.
+No executable patch or installed extension. Existing M4A/M4B handlers19/19 PASS;32 source/candidate
+identities captured without drift; independent brief-only review ACCEPT after two repaired findings
+(`ses_e58534737ffe8SSrmfKWMmPu8X`), not runtime acceptance. `source-identities.json` and sealed
+`handoff-identities.json` identify evidence. No new-feature tests/build/App claim or slot acquired.
+Only new handoff files, this entry and a narrow capability-plan pointer changed. Opus candidate and
+registered-player work preserved. Future parser/approval/consumer/SpellConsequencePanel integration
+requires creator decision, attribute owner's final release, and guarded reconciliation with installed
+M6A first. Final guard detected seven shared runtime paths changed externally after the stable capture;
+both hashes are retained in `handoff-identities.json.sourceDrift`. No reconciliation attempted, and tests/
+review do not claim those later bytes. M6A default gate was null/refusing at capture. Full M4 remains open.
+No commit/push/deploy/migration.
+
+**Opus — socket-token reliability closeout DELIVERED / ownership RELEASED, 2026-11-04:** (replaces the claim entry)
+Reproduced RED→GREEN: (1) campaign handshake callback failures (sync throw escaped / hung fetch never settled) and
+(2) presence socket's static `auth:{token}` re-sent after ID-token expiry. New shared `services/socketReconnectAuth.js`
+`282297226f…`; `useSocketConnection.js` `f39e58bd…`→`e7a0efee…`; `presenceStore.js` `0dda5896…`→`4a94399f…`; tests
+`useSocketConnection.authFailure` `f4a34d92…`, `presenceReconnectAuth` `d25c074a…`, `waveA_guestPresenceSocketIdentity`
+async read-back only `eea6dbac…`. Jest 11 suites/103 PASS; eslint clean; real-transport repro (mocked verification) PASS;
+bounded delta review ACCEPT (notes only). **No build or browser evidence for these bytes** (20:44Z build `3c12f0c5…` predates
+them; this lane cannot run the native build). **Next build-capable owner: please include these identities; an ordinary-App
+reconnect check is still outstanding.** Real-service journey unverified; minimum secure setup in
+`handoff/registered-player-journey/HANDOFF.md`. No server/rules/entitlement/guest-policy/combat/Wizard edit; no
+commit/push/deploy/migration. Both files and all resources released; nothing held.
+
+**Opus — registered-player campaign journey: reconnect token-expiry fix delivered; lane released, 2026-11-04:**
+Shared socket lifecycle only (`useSocketConnection.js` `00ce6461…` → `f39e58bd…`; tests
+`useSocketConnection.tokenRefresh.test.js` new `73b1ccda…`, read-back helpers in `guestDevTokenParity.test.js`
+`bfd1326a…` and `useSocketConnection.eligibility.test.js` `62c31d86…`). Defect: the static `auth:{token}` was re-sent
+on every reconnect; after Firebase ID-token expiry the production middleware refuses and socket.io stops retrying,
+stranding a registered player. Now a principal/generation-bound callback supplies a current token for the same
+account, never another's. RED→GREEN; affected Jest 61 tests PASS; eslint clean; bounded review ACCEPT (minor
+sync-throw hardening deferred). Main HQ's 20:44Z build `3c12f0c5…` already compiles it (chunk `214.43148fd9`). No
+browser, build slot, server, rules, entitlement, guest-policy, combat/effect/Wizard or presenceStore edit; no
+commit/push/deploy. Real-service sign-in journey unverified pending a creator-authorized disposable account. Details:
+`handoff/registered-player-journey/HANDOFF.md`. Nothing held.
+
+**Main HQ / Combat HQ — M6A + Transformation Preservation + M4B integrated build/App slot COMPLETED & RELEASED, 2026-11-03:**
+Guarded reconciliation into live `D:\VTT` (21 files) completed after independent review PASS (`bb76f68f-73a7-4117-ab1b-aff31aebc02c`).
+Preserved Flash's transformation files (`TransformationEffects.jsx 73e58efb...`, `SpellLibrary.jsx 5c1d052b...`), Sol's
+weapon-touch files (`WeaponSkillTable.jsx bdd2cf6e...`, `ActionFanOutMenu.css 1f85103a...`), M4B files,
+and Opus's owner-held `handoff/attribute-modifiers/` (excluded from live integration because unfinished).
+One detached production build from live `D:\VTT\vtt-react` completed cleanly (exit code `0`, `build/asset-manifest.json`
+SHA-256 `3c12f0c5a08da2eb8c8eb9eff5f2ac95241a86326cb1196429e9b54ab61561e3`, `main.6b37935b.js` `1ee27611c42312d04a7141ec7f3f51e37f8115c5646a48f8a8e5a4c8276f67f3`).
+Verified on that exact artifact:
+1. `m6a-area-app-browser.cjs` PASSED (`passed: true`): ordinary-use roll-gate refusal verified; Flash's 5-step
+   transformation preservation UI checklist verified; M6A circle placement, draft persistence, 1 PC payment, 2 creature
+   damage updates, dropped-ACK recovery verified.
+2. `m4b-catalogue-app-browser.cjs` PASSED (`passed: true`): Restorative Prayer PC healing, payment, and receipt regression verified;
+   weapon-info UI checks run on same artifact.
+All test fixtures and browser contexts stopped; ports free; build and App lock RELEASED.
 
 **Weapon-touch artifact-only browser reservation RELEASED (2026-11-03):** creator authorizes resume on
 capture `9e258eb9…`, assets `07c94e78…`. Port 4187 checked free; reserving it only for the existing
@@ -25,6 +435,76 @@ only by agreement recorded here.
    and [RI-1](plans/mythrill-class-reconstruction/implementation/RI-1-CHAOS-WEAVER-INTEGRATION.md).
 
 ## 1. Standing rules
+
+**Opus — attribute buff/debuff: bounded creature→PC debuff App witness PASS (verification only), 2026-11-05:**
+Result closes **only the demonstrated debuff journey**, not the complete buff/debuff workflow.
+- **Artifact:** one coordinated build of the installed attribute capture `ba827136…b254e` (the INSTALLED.sha256 bytes on the
+  post-M6A base), isolated cloud container, exit 0, assets `88907f9640ea4bce8ad14976f3d548b24863b94ff4c4594915e99e02ef21bc7a`,
+  `main.1ff7ffda.js`. Later live edits to the released files (Sol's missing-health lane; 9 paths now differ from INSTALLED.sha256)
+  are **not** in this artifact and are not covered by this witness.
+- **Witness:** `vtt-react/verification/p14/attribute-modifier-app-browser.cjs` `371c9041d82e685f047507d018ecf0bf1d60c060f767276a98959724e8eb3eb7`
+  (my witness file only; no released shared runtime file was edited). Run `witness6`: exit 0, `result.json.passed:true`, page errors `[]`,
+  result `a2d9eb4e…82071d`. Evidence: `handoff/attribute-modifiers/app-witness/attribute-app-witness-evidence.tgz`
+  `79aa8ab5721d4a6de770a096b2e13fee32f67b0a90db438beef968dc3936e706` (runs 4–6 + logs + build log).
+- **Demonstrated through ordinary controls (GM, source owner, target owner, observer):** Spell Wizard authoring/save of +2 and −2 Agility
+  and a `1d6 + agility` bolt; library reopen and room admission of each; target owner baseline Agility 8 (fixture sheet 10 with heritage),
+  bolt `1d6 + 8`, bow strike `agility 8 (−1)`; creature A applies Leaden Hex (−2) to the target PC under GM authority (price AP 2→1,
+  mana 10→8); GM confirm ACK dropped once, reload + "Check same command" → exactly one receipt, same command id; target owner Agility 6,
+  base stats unchanged, one sheet debuff; observer sees the public record without source; a bolt approved at 8 before the change is
+  closed `owner_reapproval_required`, the owner reapproves with the retained face [3] at Agility 6 (total 9); strike now `agility 6 (−2)`;
+  target-owner reload rehydrates exactly one record and the same value; GM removes the exact instance in the shared condition editor
+  (attribute section) → Agility 8 restored; observer has no remove control.
+- **Disclosed fixtures/qualifications:** fixture characters via production `loadCharacter` (M4B harness); **creature A's ability is assigned by a
+  fixture write of the saved Leaden Hex record to the room token's `authoredAbility` (not the Bestiary association UI)**; creature A's mana set
+  to 10 (shared fixture creature has 0 mana; run 2 refused `insufficient_resources`); setup refreshes the room snapshot after the fixture
+  character loads. Teardown forced-exit after 20 s (verdict saved first; run 5 passed its journey but hung in teardown, rc 124).
+  Auth/provider/ownership/lease/cloud are fixtures; no live Firebase, deployment or second physical device.
+- **Finding F7 (not repaired; outside my released files' remit):** run 4 failed at the reload step: loading a character **after** the room snapshot
+  (`loadCharacter` replaces the condition store) dropped the room Agility record from the sheet aggregation (record on the token, sheet Agility 8
+  instead of 6) until the next hydration. The App normally activates the character before joining, so the witness now refreshes once more;
+  a character switch/load inside a room is an open risk for owners of `loadCharacter`/`hydrateActorConditions`.
+- **Open integration gaps (retained, not closed by this pass):** (1) the **+2 beneficial journey with target-owner acceptance** is not App-witnessed
+  (registered-handler tests only); (2) **player→PC bundle targeting**: the owner-PC cast builder (`spellConsequence.js`) refuses non-creature
+  targets for composed bundles ("Choose one distinct exact bound creature target"), so PC→PC attribute changes are server-supported but not
+  reachable from the player's App. Not widened during this verification. Also still open: counted expiry in the App (server-tested), F5 local
+  personal buffs, owner-attested scores, Agility only, D-ATTR-1.
+No build/App slot, port, profile or process held on the PC. No commit, push, deployment or migration.
+
+**Opus — attribute buff/debuff (flat Agility) — implementation files RELEASED; verification retained, 2026-11-04:**
+Implementation of the shared attribute-modifier increment is complete and installed in `D:\VTT` (guarded
+3-way merge onto the installed M6A bytes; base for the merge = commit `383e5c11`, every live file checked
+byte-equal to its pre-merge snapshot immediately before writing). **No further edits are active or planned.**
+I release implementation ownership of all installed paths below, including the six Sol asked about. The
+installed identities ARE the intended post-M6A base (M6A hunks preserved; `sync-shared --check` up to date).
+- **Requested six (final SHA256):** `authoredAbility.js` client + `server/shared` mirror `b9220bb95b5709ac547dfe08dfa041e5068571c07e5efd42d9e176f59f97db24` (byte-equal);
+  `installedDefinitionRegistry.js` `0613a47581d0b4c7885ff97380ceae870fa33f1c2672a0f86d4d951dcba5eeca`; `actorConsequences.js` `36e016bad30baa18e8605db7bb246614502ea8cd23b567c033c85857c067fbd2`; `spellPayments.js`
+  `130b299e796e29e9d7c1d9516b616380daf9b4449b2a934e517f46ffb16d6046`; `actorConsequenceHandlers.js` `8e0ed8f4c1328bd4ac1ff57165b945df7e363fca1412763f8a11eb43637ef83a`; `SpellConsequencePanel.jsx` `05ce84baa5f6ee03d459043d23e4baa15ea1a81b91a47a8fc1f4fc649d665f79`.
+- **All 24 installed paths with full hashes:** `handoff/attribute-modifiers/INSTALLED.sha256` (pre-install bytes:
+  `PRE_INSTALL.sha256`). Other runtime paths: `sharedConditionProfile.js` + mirror, `sharedConditionProfiles.json` + mirror,
+  `authoredEffect.js` + mirror, `strikeApprovals.js`, `sharedConditionService.js`, `weaponStrikeService.js`,
+  `weaponStrikeCustody.js`, `BlockingPanel.jsx`, `SharedDefendingEditor.jsx`, `AuthoredConditionFields.jsx`. New:
+  `server/tests/p14AttributeModifiers.production.test.js`, `src/services/__tests__/attributeModifiers.test.js`,
+  `attributeStrikeReapproval.test.js`, `verification/p14/attribute-modifier-app-browser.cjs` (witness script, still mine).
+- **What it adds:** `authored-effect:v1` condition kind `attribute` (`{attribute:'agility', amount −5…+5 ≠0, label}`), exact
+  record (`effects:{agility:n}`, required source/definition identity, public PC view withholds both), one change per attribute
+  per target (D-ATTR-1 open, second change refused whole), A9 polarity consent (bonus needs target-owner acceptance, penalty
+  hostile under GM), GM-only manual changes to the supported attribute, GM exact removal, existing C4 counted/next-turn expiry.
+  Consumers: owner sheet aggregation (`combatAttributes`) → v2 formula and basic strike; formula approvals revalidate through the
+  existing source projection hash; strikes/ripostes now bind an attribute basis and refuse at registration/bind with
+  `owner_reapproval_required` (rolls return as a draft; nothing resubmitted).
+- **Evidence (fixture-backed production stack):** server full suite on the merged candidate 1,033 passing / 0 failing
+  (attribute 8/8; M6A, M4A/B, M3A, A10/A11, P12A included); client on live bytes 93 tests / 12 suites passing. One bounded
+  independent review: ACCEPT-WITH-NOTES, F1 (stale strike race + riposte), F2 (consent text), F3 (owner-blocking manual buff)
+  repaired with RED→GREEN regressions; delta re-review ACCEPT. Disclosed limits: scores stay owner-attested (not
+  server-derived); personal local buffs on the owner client can still add on top (F5); initiative/saves/derived figures/
+  encumbrance not recomputed; only Agility admitted; no live service.
+- **Remaining (verification only, no shared-file edits):** one coordinated build of the installed live capture
+  (`handoff/attribute-modifiers/transfer/live-capture.sha256`, capture `ba827136…b254e`) **exit 0** in an isolated cloud
+  container, assets `88907f96…21bc7a`, `main.1ff7ffda.js`; the GM/source-owner/target-owner/observer App witness on that artifact
+  is **in progress** (earlier runs on a pre-M6A candidate passed Wizard author/save/reopen/admit and baseline formula/strike
+  readings; no App PASS is claimed yet). **No PC build slot, App port, browser profile or process is held.** If the witness
+  exposes a defect, I will publish the exact hunk here and coordinate with Sol before touching any released file.
+No commit, push, deployment, migration or dependency change.
 
 **Sol — weapon-table touch verification CLOSED / resources RELEASED, 2026-11-03:** final handoff
 `handoff/weapon-info-ui/TOUCH_REPAIR_CLOSEOUT.md` and `TOUCH_REPAIR_FINAL.raw.sha256` identify the
@@ -2458,3 +2938,74 @@ Scope: authoring preservation only (Wizard -> review -> save -> library/card -> 
 - **Identities (sha256):** `TransformationEffects.jsx` `4b2647b3...` -> `73e58efbb607f7fe66ba5b04a1a010c1370a18c99720a7130e697417fddb06a6` (LF); `SpellLibrary.jsx` (CRLF kept) `29183381...` -> `5c1d052b693fa3d4a914b25c3d0b945afab1f0dd47bda3e493e5065a7fe1e017`; test `__tests__/transformationDefinitionPreservation.test.jsx` `77f26d6fbc23143d5f90ef16ce98e5fa772b9c75c43dfeac94c632e938a0880c`. M4B/Argon/Opus: if you hold an unsaved copy of `SpellLibrary.jsx`, re-apply the two `transformConfig` fallback hunks.
 - **Tests:** 15/15 passed (`transformationDefinitionPreservation.test.jsx`), including creature selection and removal atomic-update regression.
 - **Not done:** identified-build browser check (no build contains these hunks; no compilation started). Handoff with the exact remaining check: `handoff/transformation-preservation/HANDOFF.md`.
+
+
+## Spell Wizard execution-compatibility UI: implementation released, App check requested (2026-11-04)
+
+Scope: presentation only. One read-only component explains a saved ability's Prism compatibility in the Wizard review step and on the library card, using the existing `definitionFromWizard` result. No shared validator, admission, registry, payment, class-rule or catalogue change; no `collectAll`; no commit, push, deploy, migration, dependency change, build, port or browser profile.
+
+- **Files (new):** `components/spellcrafting-wizard/utils/executionCompatibility.js` `edd0cf48…8414`; `components/common/ExecutionCompatibility.jsx` `adb58ada…2cea4`; `.css` `eb337a6c…8ee`; `__tests__/ExecutionCompatibility.test.jsx` `cda79ba5…d5050`.
+- **Narrow hunks:** `library/AuthoredAdmission.jsx` (one import, old "Unsupported/manual" line replaced) `bec943ef…` -> `b9cd48a6…f897f277`; `steps/Step10Review.jsx` (one import, one JSX line) `84bc7335…` -> `ebd7e106…65608`. If you hold an unsaved copy of either, re-apply those hunks.
+- **Automated evidence:** 26 new tests plus the existing SharedSpellLibrary and SpellLibraryGrimoire suites pass (29 total). Wording asserted: never claims full automation or current cast eligibility; people-confirmations stay visible on supported routes; unsupported results are labelled "first detected blocker, not a full diagnosis". Fixture screenshots (stubbed store, outside the app) are in `handoff/exec-compat/` and are not App evidence.
+- **Manual cast verified in source:** in a shared room an unrouted action posts a chat notice and applies nothing (`manualActionGate`); an admitted supported action opens the existing P9 owner-approval panel; outside a shared room the existing local cast is unchanged and may spend local AP and mana. The new UI has no handlers or writes.
+- **Request to build owners (Sol / Main HQ):** please include these hashes in the next planned identified build and run one App witness: Wizard review -> save -> reopen -> library explanation -> existing admission/manual route. Cover a supported spell (GM Admit vs player "ask the GM"), a periodic and a summon spell (kept unchanged on reopen, Admit disabled, first detected blocker shown), and a shared-room cast of an unsupported and of an unadmitted supported spell with AP, mana, HP and class resource unchanged. Record the result as App evidence and label fixtures.
+- **Possible follow-up for the validator owners (Opus, Sol):** an opt-in `definitionFromWizard(record, { collectAll: true })` returning `blockers: [{ path, reason }]`. Not requested for now and not added.
+- **Released:** implementation ownership of the six files above. The next build owner may take them as they stand; this lane holds no build, port, profile or file reservation.
+- Handoff: `handoff/exec-compat/HANDOFF.md`.
+
+## Bestiary ability authoring → combat (2026-11-06, implementation released; identified-build App witness NOT run)
+
+Scope: the ordinary Spell Wizard/library → Creature Wizard association → save → reopen → place → placed Inspect → existing exact-source admit/Use route. Opus (immediate-plus-periodic) and Sol (catalogue activation) lanes, execution semantics, payment planners and admission rules untouched.
+- **Existing design preserved:** `creature.authoredAbility = {schemaVersion:1, record, librarySpellId}` is a **detached copy** (no reference, no version pin on the template, no automatic update). Placement deep-copies it to the token; template edits never add/replace/remove it on placed tokens; placed Inspect shows the instance (or the GM-only server snapshot); execution needs exact placed-source admission by the GM. No copy-vs-reference decision was needed or changed.
+- **Gaps found and repaired (3 runtime files + 1 comment):** (1) no way to remove an assigned ability — explicit two-step "Remove activated ability" in `CreatureAuthoredAbility.jsx` (template only; keyboard focus managed); (2) `creatureStore.addCreature/addCreatureToken` threw on `JSON.parse(JSON.stringify(undefined))` once a key existed with value undefined, and `updateCreature` now drops the library key on explicit undefined (instances still excluded); (3) `updateUserCreature` uses `deleteField()` for an explicit undefined `authoredAbility`, because `updateDoc` merges and the sanitizer strips undefined. Invariant comment in `CreatureWizardApp.handleSave`. Not found broken: picker, adapter, legacy `abilities`, save/reopen, placement, placed Inspect/Use gating.
+- **Tests:** new `CreatureAbilityAuthoringToCombat.test.jsx` (15) + existing CreatureAuthoredAbility (6) = 21/21; neighbours creatureSummonDefinition/CreatureAbilityFanOut/EnhancedCreatureInspectView/DamageResistanceDisplay 68/68; scoped eslint clean. Fixtures disclosed in the file header (in-memory Spell Library records in Wizard shape; room authority = mocked spellConsequenceService calls and a fixture `actorContract` binding; Library persistence stand-in). Base-bytes RED not run (the store crash is shown by `JSON.parse(JSON.stringify(undefined))`).
+- **Bounded review:** ACCEPT-WITH-REPAIRS, no blocker. Repaired: focus handling, template-update guard test, unsaved-removal test, invariant comment. Open (Medium, PLAUSIBLE): if the cloud `updateUserCreature` fails offline, `useUserCreaturesPersistence` merges cloud over local and a removed association can return until the next full save; not changed (persistence merge owner). Unsaved removal is discarded when the window closes (nothing persists before Save) — documented by test.
+- **Identities:** `handoff/bestiary-ability-authoring/{BASE,FINAL}.sha256`, patch, base copies. No commit/push/deploy/migration/dependency change.
+- **Not done / disclosed:** no identified build and no ordinary-App witness (build needs the 8 GB-heap detached build and a coordinated slot; not available to this session). Prior A10 note that the Creature Wizard list rendered empty in a sandbox is unreproduced here (nested-provider sharing and picker verified in jest). Still witnessed only by earlier runs: Bestiary route for damage/healing (A3/A4), Stunned (A7), composed (A10, fixture fallback); Agility-effect via the Bestiary UI has **no** App witness yet. Nothing held.
+
+## Bestiary ability authoring → combat, follow-up: removal resurrection repaired; App witness PREPARED, NOT RUN (2026-11-06, ownership released)
+
+**1. Removal resurrection (source + tests; no App run).**
+- **Reproduced** with the real `useUserCreaturesPersistence` + real `creatureStore` (mocked cloud service, in-memory cloud): assign → save → remove → cloud delete fails → merge. On the original hook 2 of 5 new tests fail (cloud copy silently restores the association; the failed removal is never retried). Base copy: `handoff/bestiary-ability-authoring/base/useUserCreaturesPersistence.js`.
+- **Repair (existing sync mechanism only):** `removalPending(local)` = local has no `authoredAbility` while the last synced snapshot did. While pending, the cloud-wins merge drops the cloud `authoredAbility`, and `syncedCreaturesRef` keeps the OLD snapshot, so the existing autosync sees the creature as changed and retries the full `setDoc`. No new store, no retention-rule change, other fields still cloud-wins. `CreatureWizardApp.handleSave` shows a warning when the cloud removal fails (that warning is **not covered by a test** and was **not reviewed**).
+- **Tests:** `src/hooks/__tests__/userCreaturesRemovalMerge.test.jsx` (5): failed delete not restored then retried; retry also failing still not restored; unrelated-field save keeps the association; never-had-association still merges the cloud one in; documented last-writer-wins. Detached-copy guards live in `CreatureAbilityAuthoringToCombat.test.jsx` (template removal/edit leaves placed tokens untouched).
+- **Delta review:** ACCEPT (existing reviewer, repair only).
+- **Known limitation / required contract (NOT built):** the pending marker lives in memory (`syncedCreaturesRef`). If the page is reloaded after a failed cloud delete and before autosync succeeds, the cloud copy still has the association and is restored. Closing that needs a persisted pending-removal marker (a per-creature tombstone, e.g. `{creatureId, field:'authoredAbility', removedAt}` in local storage, cleared only on confirmed cloud success and consulted by the merge). That is a new persistence contract and was not invented here. Also open: last-writer-wins between two devices that edit the same creature.
+
+**2. Acceptance witness (PREPARATION ONLY — it has not been run; no pass is claimed).**
+- Script: `vtt-react/verification/p14/bestiary-agility-app-browser.cjs` (sha256 `e282880114c11f8bbfa827219effed016930a8ae2498fc5e45a29b7e8d4a759e`). Syntax-checked and its module requires resolve; selectors were taken from existing witnesses and source, not exercised.
+- Journey, ordinary controls only: Spell Wizard authors and saves a −2 Agility ability → Bestiary Create New → 3 Abilities → real "Compatible Spell Library definition" picker → Keep → Save → reload and reopen → real HTML5 drag from the library card's drag handle to `#grid-overlay` (no store write) → placed Inspect → Abilities & Spells → Bind → Admit for this creature → Use for this creature → GM confirm → asserts the Agility −2 condition (`gm-manual`) on Ally, 1 AP and 2 mana paid. Then a separate check: remove the ability from the template, save, reopen (none), reload (still none), and confirm the placed token keeps its detached copy in the client store, in the room, and in placed Inspect.
+- **Empty picker:** if the real provider lists nothing the run FAILS with `PICKER_DID_NOT_LIST_SAVED_ABILITY` plus option text and library storage keys (`creature-wizard-picker-options.json`, `picker-empty.png`). There is no fallback. The earlier A10 "empty list in sandbox" is unreproduced in jest and remains to be checked here.
+- **Fixtures to disclose:** m4b catalogue fixture host (room `app-hall`, registered backend, fixture auth/ownership/lease/cloud); Ally as target; if the placed creature's mana is under 2 it is set to 10 on the room token (recorded in `checks.manaFixture`).
+- **Build requirements for the next build-capable owner (claim a build slot first; this session started none):** identified production build via the `m4-build.cjs` pattern (detached source capture, craco build, `NODE_OPTIONS=--max-old-space-size=8192`, `BUILD_PATH` outside the repo); env `APP_BUILD_DIR` (absolute, that build) and `BESTIARY_OUTPUT` (absolute, outside the repo); optional `BESTIARY_CHANNEL=chrome`; Playwright installed; run from `vtt-react/verification/p14` with `node bestiary-agility-app-browser.cjs`. The build must contain the files in `handoff/bestiary-ability-authoring/FINAL.sha256`. Result lands in `$BESTIARY_OUTPUT/result.json`; report the build identity, fixtures above and any `qualifications`.
+- **Not claimed:** no identified build, no App pass, no cloud-failure-then-reload coverage, no Agility-effect Bestiary App witness until that run happens.
+
+**Identities:** `handoff/bestiary-ability-authoring/{BASE,FINAL}.sha256`, `bestiary-ability-authoring.patch` (store, authoring UI, cloud service, wizard save), `useUserCreaturesPersistence.patch`. No commit, push, deployment, migration or dependency change. Opus and Sol lanes untouched. Ownership released; nothing held.
+
+## Bestiary ability authoring → combat, third pass: durable removal + creature-source feedback implemented; App witness STILL NOT RUN (2026-11-06, ownership released)
+
+**1. Pending removal now survives reload (source + tests; no App run).**
+- New owner-scoped storage family `library.creatureAbilityRemovals` (registered beside `library.deletedSpells`; same scoped-family mechanism) via `services/creatureAbilityRemoval.js`. One record per account + creature + removalId, written BEFORE the cloud write in `CreatureWizardApp.handleSave`; cleared only by a confirmed save/cloud state for the same removalId; a newer assignment supersedes it; per-creature cloud writes are serialized so a late old response cannot land after a newer assignment. No timer, no expiry, no global marker.
+- Both cloud-load paths honour it: `useUserCreaturesPersistence.loadCreatures` (also drops a response served before a removal was confirmed) and `CreatureLibraryContext` (now reads the live store, which also fixes a stale-snapshot overwrite of a just-saved removal). Retry uses the existing autosync full save. Deleting a creature prunes its record.
+- Failure warning is now tested: "…stays pending and is retried, including after a reload."
+- Tests: `CreatureAbilityRemovalDurability.test.jsx` (12): failed delete → reload → stale merge → retry (twice reloaded), warning text, successful retry clears, cloud-lacks-field confirmation, account isolation, remove → reassign → late old response (fails/succeeds) with call order, reassignment wins after reload, both provider-load paths, failed storage clear/supersede override, late stale load after confirmation, prune. Against the previous in-memory-only behavior 4 of the 5 selected tests fail (`handoff/bestiary-ability-authoring/delta2/RED-original-behavior.txt`). Neighbours pass: userCreaturesRemovalMerge, registry, storageContracts, CreatureAuthoredAbility, CreatureAbilityAuthoringToCombat.
+- Review (existing reviewer): ACCEPT-WITH-REPAIRS; findings 1-5 repaired (failed supersede/confirm write, live-store read after await, stale load vs confirmation, stale sync snapshot, orphaned record). Finding 6 (durable flag wording on a forked draft) left as is.
+- **Boundaries kept/disclosed:** two devices stay last-writer-wins (a pending removal overwrites an association another device added); "reload" in tests = empty store + fresh hook with the stored record kept; a record for a creature deleted elsewhere stays inert; no migration.
+
+**2. Creature-source eligibility feedback.**
+- One shared check `creatureSourceRefusal(definition)` in `server/shared/services/authoredAbility.js` (client mirror identical) returns the exact refusal the room server applies (formula/health/deterministic/area, and immediate + periodic = primary owner PC source only). `installedAuthoredAbilities.js` admission and the approval re-check now CALL it instead of two inline conditions (same code and messages; no rule, payment or execution change; Opus/Sol semantics untouched). The server refusal remains the authority.
+- Bestiary: the picker still offers definition-compatible records; the editor says "compatible with the Spell Library adapter, but a creature source cannot execute it"; the saved/placed card says "Compatible definition, not executable by a creature source…" and offers no Admit/Use. Eligible definitions (damage, Agility) unchanged. Route not enabled.
+- Tests: 4 new in `CreatureAbilityAuthoringToCombat.test.jsx` (19 total); server mocha p14m5Composition/CompositionFormula/Periodic/a1/a4/a5/a6/a10 = 105 passing; client m5Composition 3.
+
+**3. Identified-build witness: NOT RUN — blocked, build request posted.**
+- No other session or build owner was reachable (ListAgents empty) and no build slot is recorded. This session could not run it: the linked machine has 3.9 GB RAM (the craco build needs the 8 GB heap), and the cloud container (8 GB, no swap) cannot receive the 1.6 GB `public/` tree plus uncommitted working-tree changes. I started no compilation.
+- **Request to the next build-capable owner:** build once from a guarded capture (`m4-build.cjs`) that includes every hash in `handoff/bestiary-ability-authoring/FINAL.sha256` (this lane's files), keeping other owners' runtime changes as they stand, then run `vtt-react/verification/p14/bestiary-agility-app-browser.cjs` (env `BESTIARY_OUTPUT`, `APP_BUILD_DIR`; optional `BESTIARY_CHANNEL`). The script itself is unchanged since the previous entry. Known untested script assumptions to verify first: the library-card drag-handle drag onto `#grid-overlay`, the `Edit`/`Add activated ability`/`Remove activated ability` selectors, the placed token appearing in `hall.tokens`, and mana (fixture top-up recorded in `checks.manaFixture`). Template removal across reload while the placed copy stays intact is in the script's last step; the removal-across-reload-after-failed-cloud-write case is covered by jest only.
+- If the Creature Wizard picker is empty in the real App, the script fails with `PICKER_DID_NOT_LIST_SAVED_ABILITY` and diagnostics; that failure must be diagnosed in the real provider path (no bypass).
+
+**Identities:** `handoff/bestiary-ability-authoring/{BASE,FINAL}.sha256`, `bestiary-ability-authoring.patch`, `useUserCreaturesPersistence.patch`, `delta2/`. No commit, push, deployment, migration or dependency change. Ownership released; nothing held.
+
+## Bestiary ability authoring → combat: FINAL HANDOFF (2026-11-06, implementation ownership released)
+- Full handoff for the build-capable owner: `handoff/bestiary-ability-authoring/HANDOFF.md` (exact sha256 table, witness command, fixtures, 8-point acceptance checklist, build requirement). Identities: `handoff/bestiary-ability-authoring/FINAL.sha256` — this supersedes any hash quoted in the earlier Bestiary entries above.
+- **Server files changed (refactor):** `server/shared/services/authoredAbility.js` (+ byte-identical client mirror) gained `creatureSourceRefusal`; `server/services/installedAuthoredAbilities.js` admission and approval re-check call it in place of two inline conditions. Purpose: the Bestiary card and the server share one creature-source eligibility check. Tests: server mocha p14m5Composition/CompositionFormula/Periodic, p14a1/a4/a5/a6/a7/a10, authoredSpellDefinitions pass; client m5Composition and 4 new card tests pass. **Reviewer assessment ≠ proof:** the reviewer found it consistent with no counter-example but reported equivalence as not proven (no pre-refactor copy, no differential run).
+- **Limitation, still open:** multi-device cloud merge remains last-writer-wins; the single-device durable-removal tests do not close it.
+- **Status:** identified-build App witness NOT run. Ownership released; this lane re-opens only for demonstrated witness failures. No further refactoring.

@@ -102,12 +102,53 @@ function pendingFor(room, ownerUid, characterId) {
   return Array.from(approvals.get(room)?.values() || []).find(entry => !riposte.isApproval(entry.approval) && entry.approval.source.ownerUid === ownerUid &&
     (characterId === undefined || entry.approval.source.characterId === characterId)) || null;
 }
+/**
+ * Attribute revalidation (established contract: a represented change after approval needs explicit owner reapproval).
+ * The score itself stays owner-attested; what the server can see is the room's own records on the striker that change
+ * the strike attribute (authored attribute modifiers and any manual record with that key). Their exact identities and
+ * amounts at approval time are bound to the entry; a different set at GM command time refuses and closes the approval.
+ */
+function attributeBasis(room, approval) {
+  const token = actors.locate(room, approval.source).token;
+  const attribute = approval.weapon?.attribute;
+  const records = (Array.isArray(token.state?.conditions) ? token.state.conditions : [])
+    .filter(record => record?.effects && typeof record.effects === 'object' && typeof record.effects[attribute] === 'number' && record.effects[attribute] !== 0)
+    .map(record => ({ recordId: record.recordId || record.id || null, amount: record.effects[attribute] }))
+    .sort((a, b) => String(a.recordId).localeCompare(String(b.recordId)));
+  return hash({ attribute, records });
+}
+/**
+ * Review F1: the owner built this approval from the snapshot at `baseCommitSequence`. If any accepted receipt after that
+ * snapshot changed the striker's records for the strike attribute, the attested score may predate the change, so the
+ * approval needs explicit owner review before it can even register. Uses the retained receipts (all receipts after the
+ * replay floor are retained and `checkWindow` requires baseCommitSequence >= replayFloor). With no earlier entry for the
+ * striker, an after-state that carries such records is treated as changed (conservative).
+ */
+function attributeChangedSince(room, approval) {
+  const attribute = approval.weapon?.attribute, source = hash(approval.source);
+  const basisOf = records => hash((Array.isArray(records) ? records : []).filter(record => record?.effects && typeof record.effects === 'object' &&
+    typeof record.effects[attribute] === 'number' && record.effects[attribute] !== 0).map(record => ({ recordId: record.recordId || record.id || null, amount: record.effects[attribute] }))
+    .sort((a, b) => String(a.recordId).localeCompare(String(b.recordId))));
+  let previous;
+  for (const receipt of [...actors.ledger(room).receipts].sort((a, b) => a.commitSequence - b.commitSequence)) {
+    const entry = (receipt.actors || []).find(value => value?.ref && hash(value.ref) === source);
+    if (!entry || !Array.isArray(entry.conditions)) {continue;}
+    const basis = basisOf(entry.conditions);
+    if (receipt.commitSequence > approval.baseCommitSequence && basis !== (previous === undefined ? basisOf([]) : previous)) {return true;}
+    previous = basis;
+  }
+  return false;
+}
 function add(room, entry) {
   const entries = registry(room);
+  if (entry.approval.weapon?.attribute && attributeChangedSince(room, entry.approval)) {
+    fail('owner_reapproval_required', `The striker's ${entry.approval.weapon.attribute} changes on the table changed after this strike was prepared. Nothing was registered; refresh, review the score and approve again.`);
+  }
   if (!riposte.isApproval(entry.approval) && pendingFor(room, entry.approval.source.ownerUid, entry.approval.source.characterId)) {fail('approval_pending');}
   // Reserve one never-evicted tombstone for every pending approval.
   if ((closedApprovals.get(room)?.size || 0) + entries.size >= CLOSED_LIMIT) {fail('approval_capacity');}
   if (entries.size >= 32 || actors.bytes(Array.from(entries.values()).map(value => value.approval).concat(entry.approval)) > 512 * 1024) {fail('approval_capacity');}
+  entry.attributeBasis = attributeBasis(room, entry.approval); // strikes and ripostes alike (both attest a weapon attribute score)
   if (riposte.isApproval(entry.approval)) {riposte.attach(room, entry.approval);}
   entries.set(entry.approval.approvalId, entry);
   return entry;
@@ -210,6 +251,9 @@ function bindCommand(room, player, command, authorization) {
   if (riposte.isCommand(command)) {
     const entry = get(room, command.approval?.approvalId);
     if (!riposte.isApproval(entry?.approval)) {fail('approval_mismatch');}
+    if (player.isGM && authorization?.kind === 'gm' && entry.attributeBasis !== undefined && entry.attributeBasis !== attributeBasis(room, entry.approval)) {
+      fail('owner_reapproval_required', `The riposting character's ${entry.approval.weapon.attribute} changes on the table changed after this riposte was approved. Nothing was applied; the owner approves again.`);
+    }
     return riposte.bind(room, player, command, authorization, entry);
   }
   if (!player.isGM) {fail('forbidden');}
@@ -224,6 +268,9 @@ function bindCommand(room, player, command, authorization) {
   const { approval } = entry;
   if (!spellPayments.ownerMember(room, approval.source.ownerUid)) {fail('owner_unavailable');}
   if (hash(command.source) !== hash(approval.source) || hash(command.target) !== hash(approval.target)) {fail('approval_mismatch');}
+  if (entry.attributeBasis !== attributeBasis(room, approval)) {
+    fail('owner_reapproval_required', `The striker's ${approval.weapon.attribute} changes on the table changed after this strike was approved. Nothing was applied; the owner reviews the score and approves again.`);
+  }
   const adjudication = command.adjudication || {};
   if (adjudication.definitionId !== DEFINITION_ID || adjudication.definitionVersionOrHash !== DEFINITION_HASH) {fail('approval_mismatch');}
   const source = actors.locate(room, approval.source), target = actors.locate(room, approval.target);
@@ -254,4 +301,4 @@ const isStrikeCommand = command => riposte.isCommand(command) || (typeof command
   command.adjudication.definitionVersionOrHash.startsWith(`${CAPABILITY}/`));
 module.exports = { CAPABILITY, DEFINITION_ID, DEFINITION_HASH, STRIKE_AP, RANK_DIE, DAMAGE_TYPES, FIXED_TEXT, NOT_APPLIED_ORDER, MANUAL_SOURCES,
   derive, validChain, validateApproval, validateChosen, checkAgainstRoom, checkWindow, get, add, listAll, close, closedCode, pendingFor, consumedReceipt,
-  foreignId, bindCommand, isStrikeCommand, afterTier, damageReductionConditions };
+  foreignId, bindCommand, isStrikeCommand, afterTier, damageReductionConditions, attributeBasis, attributeChangedSince };

@@ -268,7 +268,9 @@ const CreatureWizardApp = ({
     setIsSubmitting(true);
 
     try {
-      // Prepare creature data
+      // Prepare creature data. Invariant: `authoredAbility` is an own key of wizardState only when an association is
+      // set, or as an explicit undefined after the GM confirmed its removal (creatureStore/userCreaturesService treat
+      // that as "remove"). Never add the key with an undefined value anywhere else.
       const creatureData = {
         ...Object.fromEntries(Object.entries(wizardState).filter(([key]) => !['currentStep', 'totalSteps', 'isValid', 'validationErrors', 'editMode', 'originalCreatureId', 'abilityEdit', '_authoringKey'].includes(key))),
         name: wizardState.name,
@@ -328,7 +330,23 @@ const CreatureWizardApp = ({
           const { user } = useAuthStore.getState();
           if (user?.uid && !user?.isGuest) {
             const { updateUserCreature } = await import('../../services/firebase/userCreaturesService');
-            await updateUserCreature(user.uid, targetId, finalSavedCreature);
+            const removal = await import('../../services/creatureAbilityRemoval');
+            const removing = Object.prototype.hasOwnProperty.call(finalSavedCreature, 'authoredAbility') && finalSavedCreature.authoredAbility === undefined;
+            // Durable intent first (survives a reload after a failed cloud write); a newer assignment supersedes it.
+            const pending = removing ? removal.recordRemoval(user.uid, targetId) : null;
+            if (!removing && finalSavedCreature.authoredAbility !== undefined) removal.supersedeRemoval(user.uid, targetId);
+            let cloud;
+            try { cloud = await removal.serializeCloudWrite(user.uid, targetId, () => updateUserCreature(user.uid, targetId, finalSavedCreature)); }
+            catch (_) { cloud = { success: false }; }
+            if (removing) {
+              if (cloud?.success === true) removal.confirmRemoval(user.uid, targetId, pending.removalId);
+              else if (removal.isRemovalCurrent(user.uid, targetId, pending.removalId) || !pending.durable) {
+                // Visible and retryable. Skipped when a newer assignment already superseded this removal.
+                (await import('../../store/notificationStore')).default.getState().showWarning(pending.durable
+                  ? 'Saved on this device, but the ability removal has not reached your cloud copy yet. It stays pending and is retried, including after a reload.'
+                  : 'Saved on this device, but the ability removal has not reached your cloud copy and could not be kept for a retry. Reloading may bring the ability back.');
+              }
+            }
             console.log('✅ Creature updated in Firebase:', targetId);
           }
         } catch (fbErr) {

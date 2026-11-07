@@ -1,4 +1,5 @@
-﻿import React, { useState, useEffect } from 'react';
+﻿import React, { useState } from 'react';
+import { TYPE, procedure } from '../../../../services/authoredCooldown';
 import { useSpellWizardState, useSpellWizardDispatch, ACTION_TYPES, validateStepCompletion } from '../../context/spellWizardContext';
 import WizardStep from '../common/WizardStep';
 
@@ -12,33 +13,19 @@ const Step6Cooldown = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
  const isActive = state.currentStep === 6;
  
  // Local cooldown configuration (supports both old and new key names)
- const [cooldownConfig, setCooldownConfig] = useState(state.cooldownConfig || {
-  cooldownType: '',
-  cooldownValue: 1,
-  charges: 1,
-  recovery: 1
- });
- 
- // Effect to update context when configuration changes
- useEffect(() => {
-  // Support both old (type/value) and new (cooldownType/cooldownValue) key names
-  const cdType = cooldownConfig.cooldownType || cooldownConfig.type;
-  if (cdType) {
-   // Dispatch with spec-compliant key names
-   dispatch({
-    type: ACTION_TYPES.UPDATE_COOLDOWN_CONFIG,
-    payload: {
-     ...cooldownConfig,
-     cooldownType: cdType,
-     cooldownValue: cooldownConfig.cooldownValue || cooldownConfig.value || 1
-    }
-   });
-  }
- }, [cooldownConfig, dispatch]);
+  const [cooldownConfig, setCooldownConfig] = useState(() => ({ ...state.cooldownConfig,
+   type: state.cooldownConfig?.cooldownType ?? state.cooldownConfig?.type ?? '',
+   value: state.cooldownConfig?.cooldownValue ?? state.cooldownConfig?.value ?? 1
+  }));
  
  // Handle configuration changes from the CooldownConfig component
- const handleCooldownConfigChange = (newConfig) => {
-  setCooldownConfig(newConfig);
+  const handleCooldownConfigChange = (newConfig) => {
+   setCooldownConfig(newConfig);
+   const { type, value, ...rest } = newConfig;
+   const explicit = [TYPE, 'none'].includes(type);
+   dispatch({ type: ACTION_TYPES.UPDATE_COOLDOWN_CONFIG, replace: true,
+    payload: explicit ? { cooldownType: type, cooldownValue: type === 'none' ? 0 : value }
+     : { ...rest, cooldownType: type, cooldownValue: value } });
   
   // Validate the configuration
   const validationErrors = validateCooldownConfig(newConfig);
@@ -48,8 +35,9 @@ const Step6Cooldown = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
  // Validate the cooldown configuration
  const validateCooldownConfig = (config) => {
   const errors = [];
-  const cdType = config.cooldownType || config.type;
-  const cdValue = config.cooldownValue || config.value;
+   const cdType = config.type;
+   const cdValue = config.value;
+   if (cdType === TYPE && (!Number.isSafeInteger(cdValue) || cdValue < 1 || cdValue > 10)) errors.push('Choose 1 to 10 caster-turn starts.');
   
   if (!cdType) {
    errors.push('Please select a cooldown type');
@@ -144,6 +132,10 @@ const Step6Cooldown = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
     <div className="effect-config-group">
      <h4 className="effect-config-label">Cooldown Type</h4>
      <div className="effect-options tabs mb-md">
+       <button type="button" className={`pf-button ${cooldownConfig.type === 'none' ? 'selected' : ''}`}
+        onClick={() => handleCooldownConfigChange({type: 'none', value: 0})}>No Cooldown</button>
+       <button type="button" className={`pf-button ${cooldownConfig.type === TYPE ? 'selected' : ''}`}
+        onClick={() => handleCooldownConfigChange({type: TYPE, value: 1})}>Authenticated Caster Starts</button>
       <button
        className={`pf-button ${cooldownConfig.type === 'turn_based' ? 'selected' : ''}`}
        onClick={() => handleCooldownConfigChange({...cooldownConfig, type: 'turn_based'})}>
@@ -171,6 +163,14 @@ const Step6Cooldown = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
       </button>
      </div>
 
+     {cooldownConfig.type === TYPE && <div className="config-option">
+      <label htmlFor="authored-cooldown-starts">Caster-turn starts to count (1–10)</label>
+      <input id="authored-cooldown-starts" type="number" min="1" max="10" step="1" value={cooldownConfig.value}
+       onChange={e => handleCooldownConfigChange({...cooldownConfig, value: Number(e.target.value)})} />
+      <p>{procedure(cooldownConfig.value)}</p>
+      <p>One primary owner PC → one placed creature; immediate damage OR healing, AP/mana only. Requires authenticated combat tracking. This controls reuse, not effect duration, acquisition or resource price. A retired clock leaves an unreleased cooldown blocked for manual adjudication.</p>
+     </div>}
+     {cooldownConfig.type && ![TYPE, 'none'].includes(cooldownConfig.type) && <p role="note">Legacy/manual timing preserved. Prism does not interpret these turns, rounds, rests or charges as authenticated caster-turn starts. Choose the explicit procedure only when authoring a new ability with that meaning.</p>}
      {cooldownConfig.type && (
       <div className="effect-config-group">
        {cooldownConfig.type === 'turn_based' && (

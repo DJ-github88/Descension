@@ -71,12 +71,15 @@ function registerCombatHandlers(ctx) {
         ? Math.min(Math.max(0, requestedIndex), turnOrder.length - 1)
         : 0;
 
+      // M5 review F1: unresolved periodic ticks survive a restart as dismiss-only retired ticks.
+      const retiredTicks = require('../services/sharedEffectLifecycle').retainOpenTicks(room.gameState.combat);
       room.gameState.combat = {
         isActive: true,
         currentTurnIndex: safeIndex,
         turnOrder,
         round: Number.isInteger(data.round) && data.round > 0 ? data.round : 1,
-        currentTurnStartTime: Date.now()
+        currentTurnStartTime: Date.now(),
+        ...(retiredTicks ? { retiredPeriodicTicks: retiredTicks } : {})
       };
 
       io.to(room.id).emit('combat_started', {
@@ -118,11 +121,13 @@ function registerCombatHandlers(ctx) {
         return;
       }
 
+      const retiredTicks = require('../services/sharedEffectLifecycle').retainOpenTicks(room.gameState.combat);
       room.gameState.combat = {
         isActive: false,
         currentTurnIndex: null,
         turnOrder: [],
-        round: 0
+        round: 0,
+        ...(retiredTicks ? { retiredPeriodicTicks: retiredTicks } : {})
       };
 
       io.to(room.id).emit('combat_ended');

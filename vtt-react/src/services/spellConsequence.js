@@ -8,13 +8,15 @@ import { getManagedSpellResourcePlan, normalizeManagedClassResource, getManagedR
 import { toCanonicalSphere, MINSTREL_PITCHES } from '../data/classResourceBanks';
 import { canonical, depleteTempFirst, exactActor, sameExactRef } from './featherSlash';
 import { authoredSupport, catalogueEntry } from './authoredAbilityRegistry';
-import { CAPABILITY as AUTHORED, FORMULA_CAPABILITY, actionId, isAuthored, isFormula } from './authoredAbility';
+import { CAPABILITY as AUTHORED, FORMULA_CAPABILITY, AREA_CAPABILITY, AREA_ROLL_PROCEDURE, AREA_ROLL_UNAPPROVED_REASON, isAreaRollProcedureApproved, MAX_AREA_TARGETS, actionId, isAuthored, isFormula, isArea } from './authoredAbility';
 import { getStore } from '../store/storeRegistry';
 import * as authoredCondition from './authoredCondition';
 import * as authoredEffect from './authoredEffect';
 import * as classEffect from './classEffect';
 import { movementCombination } from './sharedConditionProfile';
 import { combatAttributes } from './combatAttributes';
+import { HEALTH_CAPABILITY, isHealth, DETERMINISTIC_CAPABILITY, isDeterministic } from './authoredAbility';
+import { roomResourceProjection } from './actorConsequenceService';
 
 /** Rollback switch (contract F9 rollback): false returns every producer to manual. */
 export const P9_SPELL_EXECUTION = true;
@@ -316,7 +318,8 @@ export function supportSpell(spellLike, character) {
 function supportSpellUnchecked(spellLike, character) {
   if (!P9_SPELL_EXECUTION) return manual('P9 execution is disabled (rollback); manual play only.');
   if (isAuthored(spellLike)) {
-    const support = authoredSupport(spellLike.id, getStore('gameStore')?.getState().multiplayerRoom?.id, character?.class, combatAttributes(character));
+    const hp = roomResourceProjection()?.health;
+    const support = authoredSupport(spellLike.id, getStore('gameStore')?.getState().multiplayerRoom?.id, character?.class, combatAttributes(character), hp ? { current: hp.current, max: hp.max } : undefined);
     return support.supported ? authoredPayment(support, character) : support;
   }
   const raw = resolveOriginalSpell(character?.class, spellLike?.id);
@@ -379,7 +382,7 @@ function classEffectSupport(raw, character) {
 
 // ── Rolls ───────────────────────────────────────────────────────────────────
 export function recordRoll(mode, reading, faces) {
-  if (!['digital', 'physical'].includes(mode) || !Array.isArray(faces) || faces.length !== reading.dice.length) throw Error('Enter every die face for this formula.');
+  if (!(reading.dice.length === 0 ? mode === 'deterministic' : ['digital', 'physical'].includes(mode)) || !Array.isArray(faces) || faces.length !== reading.dice.length) throw Error('Enter every die face for this formula, or calculate a zero-dice proposal.');
   const dice = reading.dice.map((group, index) => {
     const values = faces[index];
     if (!Array.isArray(values) || values.length !== group.count || values.some(face => !Number.isInteger(face) || face < 1 || face > group.sides)) {
@@ -425,18 +428,62 @@ export function gmRefusal(isRetry, code, detail = '') {
   if (['stale_actor_revision', 'insufficient_resources'].includes(code)) return { phase: 'retry', message: `Actors changed (${codeLabel(code)}). Nothing was applied; review and accept again.` };
   return { phase: 'refused', message: `Refused (${codeLabel(code)}); nothing was applied.` };
 }
-export function buildApproval({ support, tokens, sourceRef, targetRef, roomId, mapId, actionEpoch, baseCommitSequence, roll, approvalId }) {
+export function buildApproval({ support, tokens, sourceRef, targetRef, targetRefs, areaOrigin, roomId, mapId, actionEpoch, baseCommitSequence, roll, approvalId }) {
   const source = exactActor(tokens, sourceRef, roomId, mapId);
-  exactActor(tokens, targetRef, roomId, mapId);
   if (sourceRef.kind !== 'character') throw Error('The caster must be your exact primary character attachment.');
-  const formula = support?.definitionHash?.startsWith(`${FORMULA_CAPABILITY}/`);
+  if (support?.isArea || String(support?.definitionHash || '').startsWith(`${AREA_CAPABILITY}/`)) {
+    if (!isAreaRollProcedureApproved()) throw Error(AREA_ROLL_UNAPPROVED_REASON);
+    if (!support?.supported || !support.payment?.affordable) throw Error(support?.payment?.reason || 'This spell cannot be paid right now.');
+    if (!affordable(sourcePools(source), support.price)) throw Error('Insufficient AP or mana (temporary pools count first); nothing submitted.');
+    if (!Array.isArray(targetRefs) || targetRefs.length < 1) throw Error('Select at least one creature target in the placed area first.');
+    const cap = Math.min(MAX_AREA_TARGETS, support.areaTerms?.maxTargets || MAX_AREA_TARGETS);
+    if (targetRefs.length > MAX_AREA_TARGETS || targetRefs.length > cap) {
+      throw Error(`area_target_capacity_exceeded: Technical limit of ${cap} creature targets (up to 9 actors including source) exceeded; deselect targets before approving.`);
+    }
+    targetRefs.forEach((tRef, idx) => {
+      if (!tRef || typeof tRef !== 'object') throw Error('Choose exact bound creature targets.');
+      if (sameExactRef(sourceRef, tRef)) throw Error('source_in_targets: Caster cannot be included in area targets.');
+      if (tRef.kind !== 'creature') throw Error('unsupported_area_target_kind: M6A area execution supports creature targets only; PC targets are excluded.');
+      if (tRef.mapId !== mapId) throw Error('cross_map_area_target: Every area target must be on the caster’s map.');
+      const targetToken = exactActor(tokens, tRef, roomId, mapId);
+      if (targetToken?.state?.hiddenFromPlayers === true || targetToken?.hiddenFromPlayers === true) {
+        throw Error('Choose an exact bound room actor on the current map.');
+      }
+      if (targetRefs.slice(0, idx).some(other => sameExactRef(other, tRef))) throw Error('duplicate_target_actor: Duplicate area target actor refused.');
+    });
+    if (!roll || roll.reading !== support.reading.reading) throw Error('Record one roll for this exact formula first.');
+    if (!Number.isSafeInteger(baseCommitSequence) || baseCommitSequence < 0) throw Error('Current room snapshot required (commit sequence).');
+    return Object.freeze(JSON.parse(JSON.stringify({
+      version: 1, roomId, approvalId, actionEpoch, baseCommitSequence, source: sourceRef, targets: targetRefs,
+      spell: { definitionId: support.definitionId, definitionHash: support.definitionHash, name: support.name, kind: support.kind, damageTypes: support.damageTypes },
+      areaTerms: support.areaTerms, areaRollProcedure: AREA_ROLL_PROCEDURE,
+      ...(areaOrigin && Number.isFinite(areaOrigin.x) && Number.isFinite(areaOrigin.y) ? { areaOrigin: { x: areaOrigin.x, y: areaOrigin.y } } : {}),
+      roll, price: support.price, classPayment: support.payment.classPayment,
+      ...(support.rollAttributes && Object.keys(support.rollAttributes).length ? {
+        rollAttributes: support.rollAttributes,
+        formulaSourceRevision: source.state.actorContract.revision,
+        formulaSourceHash: sha256Hex(canonical({ character: source.character, conditions: source.state?.conditions || [] }))
+      } : {})
+    })));
+  }
+  exactActor(tokens, targetRef, roomId, mapId);
+  const health = !!support?.rollHealth;
+  const formula = isFormula({ spell: support });
   const pcHealing = formula && support?.targetRoute === 'primary-pc-healing';
   if (formula && (pcHealing ? (targetRef.kind !== 'character' || sameExactRef(sourceRef, targetRef) || support.kind !== 'healing')
     : targetRef.kind !== 'creature')) throw Error(pcHealing ? 'This formula version requires one distinct primary player character target.' : 'This formula version supports one distinct creature target; PC/self routes need separate admission support.');
   if (!support?.supported || !support.payment?.affordable) throw Error(support?.payment?.reason || 'This spell cannot be paid right now.');
   if (!affordable(sourcePools(source), support.price)) throw Error('Insufficient AP or mana (temporary pools count first); nothing submitted.');
   const condition = support.kind === 'condition', composed = support.kind === 'class-effect', bundle = support.kind === 'effect', direct = bundle && !!support.effectTerms.direct;
-  if ((bundle || composed) && (sameExactRef(sourceRef, targetRef) || targetRef.kind !== 'creature')) throw Error('Choose one distinct exact bound creature target.');
+  if (composed && (sameExactRef(sourceRef, targetRef) || targetRef.kind !== 'creature')) throw Error('Choose one distinct exact bound creature target.');
+  if (bundle) {
+    if (sameExactRef(sourceRef, targetRef)) throw Error('Choose one distinct exact bound creature or primary PC target.');
+    if (targetRef.kind === 'character') {
+      const consent = authoredEffect.pcConsent(support.effectTerms, 'character');
+      if (!consent.ok) throw Error(consent.message);
+      if (support.effectTerms.direct?.kind === 'damage' && roll?.total === 0) throw Error('bundle_zero_damage_unsupported: Nothing is charged or applied; resolve this whole bundle manually.');
+    }
+  }
   if (condition ? sameExactRef(sourceRef, targetRef) : (!bundle || direct) && (!roll || roll.reading !== support.reading.reading)) throw Error(condition ? 'Choose one distinct exact bound creature or primary PC target.' : 'Record one roll for this exact formula first.');
   if (!Number.isSafeInteger(baseCommitSequence) || baseCommitSequence < 0) throw Error('Current room snapshot required (commit sequence).');
   return Object.freeze(JSON.parse(JSON.stringify({ version: 1, roomId, approvalId, actionEpoch, baseCommitSequence, source: sourceRef, target: targetRef,
@@ -444,10 +491,18 @@ export function buildApproval({ support, tokens, sourceRef, targetRef, roomId, m
     roll: condition || (bundle && !direct) ? null : roll, price: support.price, classPayment: support.payment.classPayment,
     ...(condition ? { conditionTerms: { conditionKey: 'stunned', timing: support.timing } } : {}), ...(bundle ? { effectTerms: support.effectTerms } : {}),
     ...(composed ? { effectTerms: support.effectTerms, disclosure: support.disclosure, rollAttributes: support.rollAttributes } : {}),
+    ...(health ? { rollHealth: support.rollHealth } : {}),
+    // M5 composition + M4A: the same owner-attested inputs and caster-snapshot binding as a formula action.
+    ...(bundle && direct && support.rollAttributes ? { rollAttributes: support.rollAttributes, formulaSourceRevision: source.state.actorContract.revision,
+      formulaSourceHash: sha256Hex(canonical({ character: source.character, conditions: source.state?.conditions || [] })) } : {}),
     ...(formula ? { rollAttributes: support.rollAttributes, formulaSourceRevision: source.state.actorContract.revision,
       formulaSourceHash: sha256Hex(canonical({ character: source.character, conditions: source.state?.conditions || [] })) } : {}) })));
 }
-export function planSpellCommand({ approval, contentHash, tokens, roomId, mapId, finalAmount, reason = '', adjudicated, resolution, branch }) {
+export function planSpellCommand({ approval, contentHash, tokens, roomId, mapId, finalAmount, reason = '', adjudicated, resolution, branch, targetOutcomes }) {
+  if (isArea(approval)) {
+    if (!isAreaRollProcedureApproved()) throw Error(AREA_ROLL_UNAPPROVED_REASON);
+    return planAreaSpellCommand({ approval, contentHash, tokens, roomId, mapId, adjudicated, targetOutcomes });
+  }
   if (classEffect.isClassEffect(approval)) return planClassEffectCommand({ approval, contentHash, tokens, roomId, mapId, finalAmount, reason, adjudicated, branch });
   if (authoredEffect.isEffect(approval)) return planEffectCommand({ approval, contentHash, tokens, roomId, mapId, finalAmount, reason, adjudicated, resolution });
   if (authoredCondition.isCondition(approval)) {
@@ -484,7 +539,8 @@ export function planSpellCommand({ approval, contentHash, tokens, roomId, mapId,
   const names = { sourceName: source.character?.name || source.name || source.id, targetName: target.character?.name || target.state?.customName || target.name || target.id };
   return { entries, extra: { source: approval.source, target: approval.target, approval: { approvalId: approval.approvalId, contentHash },
     adjudication: { definitionId: approval.spell.definitionId, definitionVersionOrHash: approval.spell.definitionHash,
-      chosenResult: JSON.stringify({ capability: isFormula(approval) ? FORMULA_CAPABILITY : isAuthored(approval.spell) ? AUTHORED : P9_CAPABILITY, approvalId: approval.approvalId, roll: approval.roll, kind: approval.spell.kind,
+      chosenResult: JSON.stringify({ capability: isDeterministic(approval) ? DETERMINISTIC_CAPABILITY : isHealth(approval) ? HEALTH_CAPABILITY : isFormula(approval) ? FORMULA_CAPABILITY : isAuthored(approval.spell) ? AUTHORED : P9_CAPABILITY, approvalId: approval.approvalId, roll: approval.roll, kind: approval.spell.kind,
+        ...(isHealth(approval) ? { rollHealth: approval.rollHealth, actualHealing: approval.spell.kind === 'healing' ? hp.current - targetValues.current : undefined } : {}),
         ...(((self && approval.source.kind === 'creature') || approval.target.kind === 'character') && approval.spell.kind === 'healing' ? { actualHealing: hp.current - targetValues.current } : {}),
         damageTypes: approval.spell.damageTypes, spellName: approval.spell.name, ...names, gmConfirmed: true }),
       finalAmount, adjustmentReason: reason.trim() } } };
@@ -496,6 +552,13 @@ function planEffectCommand({ approval, contentHash, tokens, roomId, mapId, final
   if (adjudicated !== true || res?.gmConfirmed !== true) throw Error('Explicit GM-confirmed successful outcome required.');
   const direct = terms.direct;
   if (direct && !integer(finalAmount, 0, 100000)) throw Error('Enter a whole, nonnegative final amount.');
+  if (approval.target.kind === 'character') {
+    const consent = authoredEffect.pcConsent(terms, approval.source.kind);
+    if (!consent.ok || consent.a5) throw Error(consent.message || 'Use the existing target-owner attack offer route.');
+    if (direct?.kind === 'damage' && (finalAmount === 0 || approval.roll?.total === 0)) throw Error('bundle_zero_damage_unsupported: Nothing is charged or applied; resolve this whole bundle manually.');
+    // Changed healing amounts reach the existing server refusal/closure path so both owners
+    // receive reapproval state. A repeated same-face proposal never authorizes a different amount.
+  }
   if (direct && (typeof reason !== 'string' || reason.length > 2000 || (finalAmount !== approval.roll.total && !reason.trim()))) throw Error('Explain the adjustment from the recorded total.');
   const source = exactActor(tokens, approval.source, roomId, mapId), target = exactActor(tokens, approval.target, roomId, mapId);
   const pools = sourcePools(source), payment = {};
@@ -507,7 +570,9 @@ function planEffectCommand({ approval, contentHash, tokens, roomId, mapId, final
   if (plan.refused) throw Object.assign(Error(plan.refused.message), { code: plan.refused.code });
   const targetEntry = { ref: approval.target, expectedRevision: target.state.actorContract.revision, conditions: plan.ops };
   if (direct) {
-    const values = { current: target.state?.currentHp, temp: target.state?.tempHealth || 0, max: target.state?.maxHp ?? target.stats?.maxHp };
+    const values = approval.target.kind === 'character'
+      ? { current: target.character?.health?.current, temp: target.character?.tempHealth || 0, max: target.character?.health?.max }
+      : { current: target.state?.currentHp, temp: target.state?.tempHealth || 0, max: target.state?.maxHp ?? target.stats?.maxHp };
     const hp = direct.kind === 'damage' ? depleteTempFirst(values.current, values.temp, finalAmount) : { current: Math.min(values.max, values.current + finalAmount), temp: values.temp };
     if (![hp.current, hp.temp].every(Number.isFinite)) throw Error('Target resources are unavailable; refresh the room snapshot.');
     targetEntry.finalResources = { hp };
@@ -552,15 +617,59 @@ function planClassEffectCommand({ approval, contentHash, tokens, roomId, mapId, 
     definitionId: approval.spell.definitionId, definitionVersionOrHash: approval.spell.definitionHash, chosenResult: JSON.stringify(classEffect.resultFor(approval, branch, combination)),
     finalAmount, adjustmentReason: reason.trim() } } };
 }
+function planAreaSpellCommand({ approval, contentHash, tokens, roomId, mapId, adjudicated, targetOutcomes }) {
+  if (adjudicated !== true) throw Error('GM must explicitly adjudicate legality, range, eligibility and per-target outcomes.');
+  if (!Array.isArray(targetOutcomes) || targetOutcomes.length !== approval.targets.length) throw Error('Enter the adjudicated outcome for every selected creature target.');
+  const source = exactActor(tokens, approval.source, roomId, mapId);
+  const pools = sourcePools(source), payment = {};
+  for (const pool of ['ap', 'mana']) if (approval.price[pool] > 0) payment[pool] = depleteTempFirst(pools[pool].current, pools[pool].temp, approval.price[pool], true);
+  if (!Object.keys(payment).length) payment.ap = depleteTempFirst(pools.ap.current, pools.ap.temp, 0, true);
+  const classPayment = approval.classPayment ? { classPayment: { mode: 'spell', domain: approval.classPayment.domain, approvalHash: contentHash } } : {};
+  const entries = [{ ref: approval.source, expectedRevision: source.state.actorContract.revision, finalResources: payment, ...classPayment }];
+  const recordedTargets = [], reasons = [];
+  let totalFinalAmount = 0;
+  for (let i = 0; i < approval.targets.length; i++) {
+    const tRef = approval.targets[i], outcome = targetOutcomes[i];
+    if (!outcome || !sameExactRef(outcome.ref || tRef, tRef)) throw Error('Per-target outcomes must match the approved target list in order.');
+    const amt = outcome.finalAmount, rsn = typeof outcome.adjustmentReason === 'string' ? outcome.adjustmentReason : '';
+    if (!integer(amt, 0, 100000)) throw Error('Enter a whole, nonnegative final amount for each target.');
+    if (rsn.length > 500 || (amt !== approval.roll.total && !rsn.trim())) throw Error('Explain any per-target adjustment from the recorded roll total.');
+    const target = exactActor(tokens, tRef, roomId, mapId);
+    const values = { current: target.state?.currentHp, temp: target.state?.tempHealth || 0, max: target.state?.maxHp ?? target.stats?.maxHp };
+    const hp = approval.spell.kind === 'damage' ? depleteTempFirst(values.current, values.temp, amt)
+      : { current: Math.min(values.max, values.current + amt), temp: values.temp };
+    if (![hp.current, hp.temp].every(Number.isFinite)) throw Error('Target resources are unavailable; refresh the room snapshot.');
+    entries.push({ ref: tRef, expectedRevision: target.state.actorContract.revision, finalResources: { hp } });
+    recordedTargets.push({ ref: tRef, finalAmount: amt, adjustmentReason: rsn.trim() });
+    totalFinalAmount += amt;
+    if (rsn.trim()) reasons.push(rsn.trim());
+  }
+  return { entries, extra: { source: approval.source, targets: approval.targets, approval: { approvalId: approval.approvalId, contentHash },
+    adjudication: { definitionId: approval.spell.definitionId, definitionVersionOrHash: approval.spell.definitionHash,
+      chosenResult: JSON.stringify({ capability: AREA_CAPABILITY, approvalId: approval.approvalId, kind: approval.spell.kind,
+        areaRollProcedure: AREA_ROLL_PROCEDURE, roll: approval.roll, damageTypes: approval.spell.damageTypes,
+        spellName: approval.spell.name, sourceName: source.character?.name || source.name || source.id,
+        areaTerms: approval.areaTerms, targets: recordedTargets, gmConfirmed: true }),
+      finalAmount: totalFinalAmount, adjustmentReason: reasons.join('; ').slice(0, 2000) } } };
+}
 /** Parses an accepted P9 receipt for presentation; null for anything else. */
 export function spellReceipt(result) {
   const receipt = result?.receipt, adjudication = receipt?.adjudication;
-  if (!result?.success || receipt?.version !== 1 || !['owner-approval-gm', 'gm-creature-ability'].includes(receipt.authorization?.kind) || ![P9_CAPABILITY, AUTHORED, FORMULA_CAPABILITY, authoredCondition.CAPABILITY, authoredEffect.CAPABILITY, classEffect.CAPABILITY].some(cap => String(adjudication?.definitionVersionOrHash || '').startsWith(`${cap}/`))) return null;
+  if (!result?.success || receipt?.version !== 1 || !['owner-approval-gm', 'gm-creature-ability'].includes(receipt.authorization?.kind) || ![P9_CAPABILITY, AUTHORED, FORMULA_CAPABILITY, HEALTH_CAPABILITY, DETERMINISTIC_CAPABILITY, AREA_CAPABILITY, authoredCondition.CAPABILITY, authoredEffect.CAPABILITY, classEffect.CAPABILITY].some(cap => String(adjudication?.definitionVersionOrHash || '').startsWith(`${cap}/`))) return null;
   try {
     const recorded = JSON.parse(adjudication.chosenResult);
-    if (![P9_CAPABILITY, AUTHORED, FORMULA_CAPABILITY, authoredCondition.CAPABILITY, authoredEffect.CAPABILITY, classEffect.CAPABILITY].includes(recorded.capability) || recorded.approvalId !== receipt.authorization.proposalId || !integer(adjudication.finalAmount, 0, 100000)) return null;
-    const source = receipt.actors.find(actor => sameExactRef(actor.ref, receipt.source)), target = receipt.actors.find(actor => sameExactRef(actor.ref, receipt.target));
-    if ((!source && recorded.kind !== 'condition') || !target) return null;
+    if (![P9_CAPABILITY, AUTHORED, FORMULA_CAPABILITY, HEALTH_CAPABILITY, DETERMINISTIC_CAPABILITY, AREA_CAPABILITY, authoredCondition.CAPABILITY, authoredEffect.CAPABILITY, classEffect.CAPABILITY].includes(recorded.capability) || recorded.approvalId !== receipt.authorization.proposalId || !integer(adjudication.finalAmount, 0, 800000)) return null;
+    const source = receipt.actors.find(actor => sameExactRef(actor.ref, receipt.source));
+    if (recorded.capability === AREA_CAPABILITY) {
+      if (!source || !Array.isArray(receipt.targets) || !receipt.targets.length) return null;
+      const targets = receipt.targets.map(t => receipt.actors.find(actor => sameExactRef(actor.ref, t)));
+      if (targets.some(t => !t)) return null;
+      return { receipt, recorded, source, target: targets[0], targets, approvalId: receipt.authorization.proposalId,
+        status: receipt.checkpointRevision === null ? 'live-only' : result.status === 'checkpoint-confirmed' ? 'checkpoint-confirmed' : 'accepted-live / checkpoint pending' };
+    }
+    const target = receipt.actors.find(actor => sameExactRef(actor.ref, receipt.target));
+    const concealedEffect = recorded.capability === authoredEffect.CAPABILITY && recorded.kind === 'effect' && receipt.target?.kind === 'character';
+    if ((!source && recorded.kind !== 'condition' && !concealedEffect) || !target) return null;
     return { receipt, recorded, source, target, approvalId: receipt.authorization.proposalId,
       status: receipt.checkpointRevision === null ? 'live-only' : result.status === 'checkpoint-confirmed' ? 'checkpoint-confirmed' : 'accepted-live / checkpoint pending' };
   } catch (_) { return null; }

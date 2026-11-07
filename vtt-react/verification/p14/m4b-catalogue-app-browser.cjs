@@ -20,9 +20,11 @@ async function setup(page, url, uid) {
   page.on('pageerror', e => report.errors.push({ uid, message: e.message, stack: e.stack }));
   page.on('console', message => { if (message.type() === 'error') report.errors.push({ uid, console: message.text() }); });
   await page.goto(url + '/game');
-  const consent = page.getByRole('dialog', { name: /Analytics.*Privacy Consent/ });
-  if (await consent.count()) await consent.getByRole('button', { name: /Decline/i }).click();
   await page.locator('.action-slot').first().waitFor({ timeout: 60000 });
+  // Dismiss the consent banner after the App renders (checking right after goto raced its mount).
+  const consent = page.getByRole('dialog', { name: /Analytics.*Privacy Consent/ });
+  await consent.waitFor({ timeout: 5000 }).catch(() => {});
+  if (await consent.count()) await consent.getByRole('button', { name: /Decline/i }).click();
   await page.waitForFunction(() => Object.keys(window).some(k => k.startsWith('webpackChunk')), null, { timeout: 60000 });
   await page.addScriptTag({ url: url + '/integration-io.js' });
   return page.evaluate(async ({ uid, fixtureCharacter }) => {
@@ -66,7 +68,12 @@ async function setup(page, url, uid) {
     for (let stable = 0, last = null; stable < 5; ) { const s = store.getState(), key = `${s.currentCharacterId}|${s.characters.length}|${!!s.isLoading}`; stable = key === last ? stable + 1 : 0; last = key; await sleep(100); }
     const boot = { currentCharacterId: store.getState().currentCharacterId || null, rosterSize: store.getState().characters.length, waitedMs: waited };
     store.setState({ characters: [JSON.parse(JSON.stringify(fixtureCharacter))] });
+    const game = S('gameStore');
+    game.setState({ isInMultiplayer: false });
     store.getState().loadCharacter(fixtureCharacter.id);
+    if (fixtureCharacter.health) store.setState({ health: { ...fixtureCharacter.health } });
+    game.setState({ isInMultiplayer: true });
+    store.getState().syncWithMultiplayer();
     const hydrated = store.getState();
     if (hydrated.currentCharacterId !== fixtureCharacter.id) throw Error('Fixture character did not load: ' + hydrated.currentCharacterId);
     const hydration = { boot, currentCharacterId: hydrated.currentCharacterId, race: hydrated.race, subrace: hydrated.subrace, background: hydrated.background,

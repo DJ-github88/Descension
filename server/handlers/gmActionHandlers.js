@@ -407,12 +407,16 @@ function registerGmActionHandlers(ctx) {
 
       case 'reset_combat':
         if (room.gameState.combat?.effectLifecycle && (!socket.data?.authenticated || socket.data.userId !== room.gmId || room.gm?.socketId !== socket.id)) {return;}
-        room.gameState.combat = {
-          isActive: false,
-          currentTurn: null,
-          turnOrder: [],
-          round: 0
-        };
+        {
+          const retiredTicks = require('../services/sharedEffectLifecycle').retainOpenTicks(room.gameState.combat);
+          room.gameState.combat = {
+            isActive: false,
+            currentTurn: null,
+            turnOrder: [],
+            round: 0,
+            ...(retiredTicks ? { retiredPeriodicTicks: retiredTicks } : {})
+          };
+        }
         break;
 
       case 'heal_all':

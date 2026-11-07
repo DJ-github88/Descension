@@ -545,10 +545,8 @@
 
 body.dragging .item-grid-inner .item-card,
 body.dragging .item-grid .item-card,
-body.dragging .item-grid-inner .item-card:hover,
-body.dragging .item-grid .item-card:hover {
-    transition: none !important;
-    transform: none !important;
+body.dragging .item-list-row {
+    pointer-events: none;
 }
 
 .item-grid-inner .item-card:hover,

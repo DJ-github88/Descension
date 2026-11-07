@@ -3,6 +3,7 @@ import { useSpellWizardState, useSpellWizardDispatch, actionCreators } from '../
 import { LIBRARY_ACTION_TYPES, useSpellLibraryDispatch, libraryActionCreators } from '../../context/SpellLibraryContext';
 import UnifiedSpellCard from '../common/UnifiedSpellCard';
 import WizardStep from '../common/WizardStep';
+import ExecutionCompatibility from '../common/ExecutionCompatibility';
 import { LIBRARY_SPELLS } from '../../../../data/spellLibraryData';
 // Pathfinder styles imported via main.css
 import {
@@ -2997,6 +2998,8 @@ const Step10Review = ({
                 </div>
               </div>
             </div>
+
+            <ExecutionCompatibility draft={spellState} variant="draft" />
 
             {/* Action Buttons */}
             <div className="review-actions">

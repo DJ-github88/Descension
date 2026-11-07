@@ -232,6 +232,42 @@ const NAVIGATION_BUTTONS = [
         </>,
     },
     {
+        id: 'armory',
+        title: 'Armory (Item Library)',
+        shortcut: 'I',
+        gmOnly: true,
+        svg: <>
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+            <path d="M12 6v12" />
+            <path d="M9 10h6" />
+        </>,
+    },
+    {
+        id: 'bestiary',
+        title: 'Bestiary (Creatures)',
+        shortcut: 'N',
+        gmOnly: true,
+        svg: <>
+            <path d="M12 11c1.5 0 3 1 3 3 0 1.5-1.5 3-3 3s-3-1.5-3-3c0-2 1.5-3 3-3z" />
+            <circle cx="8" cy="8" r="1.5" />
+            <circle cx="12" cy="6" r="1.5" />
+            <circle cx="16" cy="8" r="1.5" />
+            <circle cx="6" cy="11" r="1" />
+            <circle cx="18" cy="11" r="1" />
+        </>,
+    },
+    {
+        id: 'atlas',
+        title: 'Atlas (Map Library)',
+        shortcut: 'A',
+        gmOnly: true,
+        svg: <>
+            <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6" />
+            <line x1="8" y1="2" x2="8" y2="18" />
+            <line x1="16" y1="6" x2="16" y2="22" />
+        </>,
+    },
+    {
         id: 'quests',
         title: 'Quest Log',
         shortcut: 'Q',
@@ -339,7 +375,7 @@ const NAVIGATION_BUTTONS = [
 const BUTTON_CATEGORY = {
     character: 'character', inventory: 'character', spellbook: 'character', journal: 'character',
     quests: 'adventure', combat: 'adventure', travel: 'adventure', campaign: 'adventure', locationscene: 'adventure',
-    crafting: 'tools', library: 'tools', leveleditor: 'tools', toolkit: 'tools', community: 'tools',
+    crafting: 'tools', library: 'tools', armory: 'tools', bestiary: 'tools', atlas: 'tools', leveleditor: 'tools', toolkit: 'tools', community: 'tools',
     settings: 'system',
 };
 
@@ -500,6 +536,7 @@ const InventoryHeaderButton = () => {
 
 export default function Navigation({ onReturnToLanding }) {
     const [openWindows, setOpenWindows] = useState(new Set());
+    const [librarySection, setLibrarySection] = useState(null);
     const [showExitConfirm, setShowExitConfirm] = useState(false);
     const [isNavCollapsed, setIsNavCollapsed] = useState(false);
     const [isNavHovered, setIsNavHovered] = useState(false);
@@ -603,6 +640,9 @@ export default function Navigation({ onReturnToLanding }) {
     const playerRestrictedButtonsSet = useMemo(() => new Set([
         'leveleditor',
         'library',
+        'armory',
+        'bestiary',
+        'atlas',
         'campaign',
         'combat',
         'encounters'
@@ -737,12 +777,18 @@ export default function Navigation({ onReturnToLanding }) {
         };
     }, [openCategory]);
 
+    const isButtonActive = useCallback((buttonId) => {
+        if (buttonId === 'leveleditor') return isEditorMode;
+        if (buttonId === 'combat') return isSelectionMode || isInCombat;
+        if (buttonId === 'library') return openWindows.has('library') && librarySection === null;
+        if (buttonId === 'armory') return openWindows.has('library') && librarySection === 'items';
+        if (buttonId === 'bestiary') return openWindows.has('library') && librarySection === 'creatures';
+        if (buttonId === 'atlas') return openWindows.has('library') && librarySection === 'maps';
+        return openWindows.has(buttonId);
+    }, [isEditorMode, isSelectionMode, isInCombat, openWindows, librarySection]);
+
     const renderWowNavButton = (button) => {
-        const isActive = button.id === 'leveleditor'
-            ? isEditorMode
-            : button.id === 'combat'
-                ? (isSelectionMode || isInCombat)
-                : openWindows.has(button.id);
+        const isActive = isButtonActive(button.id);
         return (
             <button
                 key={button.id}
@@ -780,6 +826,82 @@ export default function Navigation({ onReturnToLanding }) {
     };
 
     const handleButtonClick = useCallback((windowId) => {
+        // Special handling for library and its direct book shortcuts (armory, bestiary, atlas)
+        if (windowId === 'library') {
+            if (openWindows.has('library')) {
+                if (librarySection !== null) {
+                    setLibrarySection(null);
+                } else {
+                    setOpenWindows(prev => {
+                        const next = new Set(prev);
+                        next.delete('library');
+                        return next;
+                    });
+                }
+            } else {
+                setLibrarySection(null);
+                setOpenWindows(prev => new Set(prev).add('library'));
+            }
+            return;
+        }
+
+        if (windowId === 'armory') {
+            if (openWindows.has('library')) {
+                if (librarySection === 'items') {
+                    setOpenWindows(prev => {
+                        const next = new Set(prev);
+                        next.delete('library');
+                        return next;
+                    });
+                    setLibrarySection(null);
+                } else {
+                    setLibrarySection('items');
+                }
+            } else {
+                setLibrarySection('items');
+                setOpenWindows(prev => new Set(prev).add('library'));
+            }
+            return;
+        }
+
+        if (windowId === 'bestiary') {
+            if (openWindows.has('library')) {
+                if (librarySection === 'creatures') {
+                    setOpenWindows(prev => {
+                        const next = new Set(prev);
+                        next.delete('library');
+                        return next;
+                    });
+                    setLibrarySection(null);
+                } else {
+                    setLibrarySection('creatures');
+                }
+            } else {
+                setLibrarySection('creatures');
+                setOpenWindows(prev => new Set(prev).add('library'));
+            }
+            return;
+        }
+
+        if (windowId === 'atlas') {
+            if (openWindows.has('library')) {
+                if (librarySection === 'maps') {
+                    setOpenWindows(prev => {
+                        const next = new Set(prev);
+                        next.delete('library');
+                        return next;
+                    });
+                    setLibrarySection(null);
+                } else {
+                    setLibrarySection('maps');
+                }
+            } else {
+                setLibrarySection('maps');
+                setOpenWindows(prev => new Set(prev).add('library'));
+            }
+            return;
+        }
+
         // Special handling for level editor
         if (windowId === 'leveleditor') {
             const currentGameStore = useGameStore.getState();
@@ -797,7 +919,7 @@ export default function Navigation({ onReturnToLanding }) {
                 setEditorMode(true);
                 return;
             }
-            setEditorMode(!isEditorMode);
+            setEditorMode(!useLevelEditorStore.getState().isEditorMode);
             return;
         }
 
@@ -848,7 +970,7 @@ export default function Navigation({ onReturnToLanding }) {
             newOpenWindows.add(windowId);
         }
         setOpenWindows(newOpenWindows);
-    }, [openWindows, isEditorMode, setEditorMode, isGMMode, isSelectionMode, isInCombat, startSelectionMode, cancelSelectionMode, isCommunityWindowOpen, setCommunityWindowOpen]);
+    }, [openWindows, librarySection, isEditorMode, setEditorMode, isGMMode, isSelectionMode, isInCombat, startSelectionMode, cancelSelectionMode, isCommunityWindowOpen, setCommunityWindowOpen]);
 
     const handleKeyPress = useCallback((e) => {
         if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.isContentEditable) return;
@@ -897,6 +1019,7 @@ export default function Navigation({ onReturnToLanding }) {
                 // Close all Navigation windows
                 e.preventDefault();
                 setOpenWindows(new Set());
+                setLibrarySection(null);
 
                 // Dispatch custom event to close all registered windows/modals
                 // Modals/wizards can listen to this event and close themselves
@@ -926,14 +1049,12 @@ export default function Navigation({ onReturnToLanding }) {
         // Ignore single-key shortcuts if any modifier key (Shift, Alt, Ctrl, Meta) is held
         if (e.shiftKey || e.altKey || e.ctrlKey || e.metaKey) return;
 
-        // Don't hijack 'E' to toggle editor when editor is already open and active
-        if (isEditorMode && (key === 'E' || e.code === 'KeyE')) return;
 
         if (button) {
             e.preventDefault();
             handleButtonClick(button.id);
         }
-    }, [handleButtonClick, onReturnToLanding, handleToggleCollapse, isEditorMode]);
+    }, [handleButtonClick, onReturnToLanding, handleToggleCollapse]);
 
     useEffect(() => {
         window.addEventListener('keydown', handleKeyPress);
@@ -953,6 +1074,22 @@ export default function Navigation({ onReturnToLanding }) {
         };
         window.addEventListener('mythrill_open_character_sheet', handleOpenCharacterSheet);
         return () => window.removeEventListener('mythrill_open_character_sheet', handleOpenCharacterSheet);
+    }, []);
+
+    // Listen for external requests to open library directly to a book/section
+    useEffect(() => {
+        const handleOpenLibrary = (e) => {
+            const section = e.detail?.section || null;
+            setLibrarySection(section);
+            setOpenWindows(prev => {
+                if (prev.has('library')) return prev;
+                const next = new Set(prev);
+                next.add('library');
+                return next;
+            });
+        };
+        window.addEventListener('mythrill_open_library', handleOpenLibrary);
+        return () => window.removeEventListener('mythrill_open_library', handleOpenLibrary);
     }, []);
 
     // Listen for browser back interception or external exit requests to display confirmation dialog
@@ -1142,11 +1279,25 @@ export default function Navigation({ onReturnToLanding }) {
                             <LibraryWindow
                                 key={button.id}
                                 isOpen={true}
-                                onClose={() => handleButtonClick(button.id)}
+                                targetSection={librarySection}
+                                onSectionChange={setLibrarySection}
+                                onClose={() => {
+                                    setOpenWindows(prev => {
+                                        const next = new Set(prev);
+                                        next.delete('library');
+                                        return next;
+                                    });
+                                    setLibrarySection(null);
+                                }}
                             />
                         </Suspense>
                     </ErrorBoundary>
                 );
+
+            case 'armory':
+            case 'bestiary':
+            case 'atlas':
+                return null;
             case 'leveleditor':
                 // Level editor is handled directly in the Grid component, not as a window
                 return null;
@@ -1334,11 +1485,7 @@ export default function Navigation({ onReturnToLanding }) {
                             </button>
                             <div className="mobile-nav-buttons">
                                 {getMobileVisibleButtons().map(button => {
-                                    const isActive = button.id === 'leveleditor'
-                                        ? isEditorMode
-                                        : button.id === 'combat'
-                                            ? isSelectionMode || isInCombat
-                                            : openWindows.has(button.id);
+                                    const isActive = isButtonActive(button.id);
 
                                     return (
                                         <button
@@ -1556,11 +1703,7 @@ export default function Navigation({ onReturnToLanding }) {
                                                         <div className="wow-nav-flyout" onClick={(e) => e.stopPropagation()}>
                                                             <div className="wow-nav-flyout-title">{cat.label}</div>
                                                             {members.map(b => {
-                                                                const bActive = b.id === 'leveleditor'
-                                                                    ? isEditorMode
-                                                                    : b.id === 'combat'
-                                                                        ? (isSelectionMode || isInCombat)
-                                                                        : openWindows.has(b.id);
+                                                                const bActive = isButtonActive(b.id);
                                                                 return (
                                                                     <button
                                                                         key={b.id}

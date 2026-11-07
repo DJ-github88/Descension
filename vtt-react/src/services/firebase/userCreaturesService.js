@@ -19,7 +19,8 @@ import {
   orderBy,
   serverTimestamp,
   arrayUnion,
-  arrayRemove
+  arrayRemove,
+  deleteField
 } from 'firebase/firestore';
 import { db, isFirebaseConfigured, isDemoMode, isMockOrDevUser, auth } from '../../config/firebase';
 import { sanitizeForFirestore } from '../../utils/firebaseUtils';
@@ -200,6 +201,11 @@ export async function updateUserCreature(userId, creatureId, updates) {
     // Update the creature
     // Sanitize updates to remove undefined values
     const sanitizedUpdates = sanitizeForFirestore(updates);
+    // updateDoc merges top-level fields, so a stripped undefined would leave a removed ability association in the
+    // cloud copy to reappear on the next load. An explicit undefined (Creature Wizard "remove") deletes the field.
+    if (Object.prototype.hasOwnProperty.call(updates, 'authoredAbility') && updates.authoredAbility === undefined) {
+      sanitizedUpdates.authoredAbility = deleteField();
+    }
 
     await updateDoc(creatureRef, {
       ...sanitizedUpdates,

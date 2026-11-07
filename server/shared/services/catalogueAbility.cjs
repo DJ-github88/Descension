@@ -1,10 +1,12 @@
-﻿/** M4B catalogue adapter: whole-record eligibility, one injected definition, no execution.
+/** M4B catalogue adapter: whole-record eligibility, one injected definition, no execution.
  * The source record is preserved by value; only its supported direct calculation is executable. */
 const { canonical, sha256Hex } = require('./canonicalHash');
 const { readFormula, formulaAttributes, ATTRIBUTES } = require('./classEffect');
 const profileData = require('../data/catalogueAbilityProfiles.json');
 
 const CAPABILITY = 'authored-immediate:v2';
+const AREA_CAPABILITY = 'authored-area:v1';
+const MAX_AREA_TARGETS = 8;
 const CLASS_DOMAIN = Object.freeze({ arcanoneer: 'elementalSpheres', minstrel: 'musicalNotes', martyr: 'devotionGauge' });
 const DOMAINS = Object.freeze(['elementalSpheres', 'musicalNotes', 'devotionGauge']);
 const PITCHES = Object.freeze(['I', 'II', 'III', 'IV', 'V', 'VI', 'VII']);
@@ -27,7 +29,7 @@ const refuse = reason => ({ ok: false, reason });
 
 /** Reviewed server/shared catalogue pins. A record and its self-computed hash are never
  * authority on their own: the exact class, spell and whole-record hash must be pinned here. */
-function profileFor(source) {
+function profileFor(source, expectedCapability = null) {
   if (!source || typeof source !== 'object' || Array.isArray(source)) return refuse('The catalogue source identity is missing.');
   const { classId, spellId, recordHash } = source;
   if (typeof classId !== 'string' || typeof spellId !== 'string' || !/^[0-9a-f]{64}$/.test(recordHash || '')) {
@@ -37,7 +39,8 @@ function profileFor(source) {
     .filter(entry => entry.recordHash === recordHash && entry.classId === classId && entry.spellId === spellId);
   if (matches.length !== 1) return refuse('No reviewed catalogue profile pins this exact class/spell record (it may have changed); manual play only.');
   const entry = matches[0];
-  if (entry.capability !== CAPABILITY) return refuse('Catalogue profile capability mismatch.');
+  if (![CAPABILITY, AREA_CAPABILITY].includes(entry.capability)) return refuse('Catalogue profile capability mismatch.');
+  if (expectedCapability && entry.capability !== expectedCapability) return refuse('Catalogue profile capability mismatch.');
   return { ok: true, entry };
 }
 
@@ -55,13 +58,13 @@ function definitionProjection(definition) {
 /** Admission and cast share this exact check; an unknown or changed pin refuses the definition. */
 function verifyDefinition(definition, entry) {
   if (!entry) {
-    const found = profileFor(definition?.catalogueSource);
+    const found = profileFor(definition?.catalogueSource, definition?.capability);
     if (!found.ok) return found;
     entry = found.entry;
   }
   const source = definition?.catalogueSource;
-  if (definition?.binding?.classId !== entry.classId || source?.classId !== entry.classId ||
-    source?.spellId !== entry.spellId || source?.recordHash !== entry.recordHash) {
+  if (definition?.capability !== entry.capability || definition?.binding?.classId !== entry.classId ||
+    source?.classId !== entry.classId || source?.spellId !== entry.spellId || source?.recordHash !== entry.recordHash) {
     return refuse('The catalogue definition identity does not match its trusted profile.');
   }
   if (canonical(definitionProjection(definition)) !== canonical(entry.executable)) {
@@ -186,7 +189,24 @@ function catalogueExecutable(record, classId, { roomId, definitionId, definition
   if (record.spellType !== 'ACTION' || record.typeConfig?.castTimeType !== 'IMMEDIATE' || !keysOnly(record.typeConfig, TYPE_KEYS)) return refuse('An immediate ACTION is required.');
   if (record.typeConfig.castTime !== undefined && !int(record.typeConfig.castTime, 0, 10)) return refuse('Cast-time metadata is outside the supported integer range.');
   const targeting = record.targetingConfig;
-  if (!keysOnly(targeting, TARGET_KEYS) || targeting.targetingType !== 'single' || (targeting.maxTargets !== undefined && targeting.maxTargets !== 1) ||
+  const isArea = targeting?.targetingType === 'area';
+  if (isArea) {
+    if (!keysOnly(targeting, TARGET_KEYS) || targeting.aoeShape !== 'circle' ||
+      (targeting.aoeType !== undefined && !['', 'sphere', 'circle'].includes(targeting.aoeType)) ||
+      targeting.rangeType !== 'ranged' || !int(targeting.rangeDistance, 1, 300) ||
+      !keysOnly(targeting.aoeParameters, ['radius', 'size', 'range', 'angle', 'length', 'width', 'height']) ||
+      !int(targeting.aoeParameters.radius, 5, 60) || targeting.aoeParameters.radius % 5 !== 0 ||
+      Object.entries(targeting.aoeParameters).some(([k, v]) => k !== 'radius' && !int(v, 0, 10000)) ||
+      (targeting.maxTargets !== undefined && !int(targeting.maxTargets, 1, MAX_AREA_TARGETS)) ||
+      !Array.isArray(targeting.targetRestrictions) || targeting.targetRestrictions.length !== 1 ||
+      !['ally', 'enemy', 'any'].includes(targeting.targetRestrictions[0]) ||
+      (targeting.targetRestriction && targeting.targetRestriction !== targeting.targetRestrictions[0]) ||
+      (targeting.selectionMethod !== undefined && targeting.selectionMethod !== 'manual') ||
+      (targeting.targetSelectionMethod !== undefined && targeting.targetSelectionMethod !== 'manual') ||
+      (targeting.movementBehavior !== undefined && targeting.movementBehavior !== 'static')) {
+      return refuse('Only a ranged circle area action within the bounded 8-target technical limit is supported.');
+    }
+  } else if (!keysOnly(targeting, TARGET_KEYS) || targeting.targetingType !== 'single' || (targeting.maxTargets !== undefined && targeting.maxTargets !== 1) ||
     !int(targeting.rangeDistance, 1, 300) || !['ranged', 'melee', 'touch'].includes(targeting.rangeType) ||
     !Array.isArray(targeting.targetRestrictions) || targeting.targetRestrictions.length !== 1 ||
     !['ally', 'enemy', 'any'].includes(targeting.targetRestrictions[0]) ||
@@ -221,17 +241,29 @@ function catalogueExecutable(record, classId, { roomId, definitionId, definition
   if (kind === 'damage' && (!Array.isArray(config.damageTypes) || !config.damageTypes.length || config.damageTypes.length > 8 ||
     config.damageTypes.some(type => !text(type, 40)))) return refuse('A declared damage type is required.');
   if (kind === 'healing' && (config.healingType !== 'direct' || config.hasHotEffect === true)) return refuse('Only direct healing is supported.');
-  if (kind === 'healing' && targeting.targetRestrictions[0] !== 'ally') return refuse('M4B catalogue healing requires an ally target.');
-  if (kind === 'damage' && targeting.targetRestrictions[0] === 'ally') return refuse('Damage cannot use the healing ally route.');
+  if (!isArea && kind === 'healing' && targeting.targetRestrictions[0] !== 'ally') return refuse('M4B catalogue healing requires an ally target.');
+  if (!isArea && kind === 'damage' && targeting.targetRestrictions[0] === 'ally') return refuse('Damage cannot use the healing ally route.');
   const reading = readFormula(config.formula, Object.fromEntries(ATTRIBUTES.map(name => [name, 10])), { integerScaling: true });
-  if (!reading.supported || !formulaAttributes(config.formula).length) return refuse(reading.reason || 'The formula must use at least one caster score.');
+  if (!reading.supported || (!isArea && !formulaAttributes(config.formula).length)) return refuse(reading.reason || 'The formula must use at least one caster score.');
   const paymentResult = classPaymentFor(record, classId);
   if (paymentResult && !paymentResult.ok) return paymentResult;
   const payment = paymentResult?.payment || null;
   const catalogueSource = { spellId: record.id, classId, recordHash: sha256Hex(canonical(record)) };
-  const pinned = profileFor(catalogueSource);
+  const targetCapability = isArea ? AREA_CAPABILITY : CAPABILITY;
+  const pinned = profileFor(catalogueSource, targetCapability);
   if (!pinned.ok) return pinned;
-  const definition = {
+  const maxTargets = isArea ? (targeting.maxTargets !== undefined && targeting.maxTargets > 1 ? targeting.maxTargets : MAX_AREA_TARGETS) : 1;
+  const definition = isArea ? {
+    schemaVersion: 5, capability: AREA_CAPABILITY, scope: { roomId }, definitionId, definitionVersion,
+    name: record.name, description: record.description,
+    binding: { rulesetId: 'prism', rulesetVersion: 'cr-a1a-pilot-1', classId },
+    spellType: 'ACTION', castTimeType: 'IMMEDIATE',
+    targeting: { kind: 'area', aoeShape: 'circle', radiusFeet: targeting.aoeParameters.radius, rangeFeet: targeting.rangeDistance, maxTargets, restriction: targeting.targetRestrictions[0] },
+    resourceCost: { actionPoints: cost.actionPoints, mana },
+    effect: kind === 'damage' ? { kind, formula: config.formula, damageTypes: [...config.damageTypes] } : { kind, formula: config.formula },
+    ...(payment ? { classPayment: payment } : {}),
+    catalogueSource
+  } : {
     schemaVersion: 4, capability: CAPABILITY, scope: { roomId }, definitionId, definitionVersion,
     name: record.name, description: record.description,
     binding: { rulesetId: 'prism', rulesetVersion: 'cr-a1a-pilot-1', classId },
@@ -245,7 +277,7 @@ function catalogueExecutable(record, classId, { roomId, definitionId, definition
   };
   const verified = verifyDefinition(definition, pinned.entry);
   if (!verified.ok) return verified;
-  return { ok: true, definition, classPayment: payment, targetRoute: kind === 'healing' ? 'primary-pc-healing' : 'creature' };
+  return { ok: true, definition, classPayment: payment, targetRoute: isArea ? 'creature' : (kind === 'healing' ? 'primary-pc-healing' : 'creature') };
 }
 
 /** Wizard record that preserves the whole catalogue source and carries only the supported projection. */
@@ -255,6 +287,7 @@ function catalogueDraft(record, classId, { authoredDefinitionId, id } = {}) {
   });
   if (!executable.ok) return executable;
   const definition = executable.definition;
+  const isArea = definition.capability === AREA_CAPABILITY;
   const draft = {
     id: id || `catalogue-${record.id}`,
     name: record.name, description: record.description, level: record.level || 1, icon: record.icon || 'inv_misc_questionmark',
@@ -262,7 +295,12 @@ function catalogueDraft(record, classId, { authoredDefinitionId, id } = {}) {
     effectTypes: [...record.effectTypes], effectsMap: { [definition.effect.kind]: true },
     damageConfig: definition.effect.kind === 'damage' ? { ...record.damageConfig, formula: definition.effect.formula } : null,
     healingConfig: definition.effect.kind === 'healing' ? { ...record.healingConfig, formula: definition.effect.formula, healingType: 'direct' } : null,
-    targetingConfig: {
+    targetingConfig: isArea ? {
+      ...JSON.parse(JSON.stringify(record.targetingConfig)),
+      targetingType: 'area', aoeShape: 'circle', rangeType: 'ranged',
+      rangeDistance: definition.targeting.rangeFeet, aoeParameters: { radius: definition.targeting.radiusFeet },
+      maxTargets: definition.targeting.maxTargets, targetRestrictions: [definition.targeting.restriction]
+    } : {
       ...JSON.parse(JSON.stringify(record.targetingConfig)),
       maxTargets: 1, targetingType: 'single', rangeType: record.targetingConfig.rangeType,
       rangeDistance: record.targetingConfig.rangeDistance, targetRestrictions: [...record.targetingConfig.targetRestrictions]
@@ -279,8 +317,5 @@ function catalogueDraft(record, classId, { authoredDefinitionId, id } = {}) {
   return { ok: true, draft, definition: executable.definition, classPayment: executable.classPayment, targetRoute: executable.targetRoute };
 }
 
-module.exports = { CAPABILITY, CLASS_DOMAIN, DOMAINS, catalogueExecutable, catalogueDraft, classPaymentFor,
+module.exports = { CAPABILITY, AREA_CAPABILITY, MAX_AREA_TARGETS, CLASS_DOMAIN, DOMAINS, catalogueExecutable, catalogueDraft, classPaymentFor,
   profileFor, verifyRecord, verifyDefinition, definitionProjection };
-
-
-

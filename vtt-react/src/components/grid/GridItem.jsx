@@ -12,6 +12,7 @@ import TooltipPortal from '../tooltips/TooltipPortal';
 import { useTooltipPosition } from '../common/useTooltipPosition';
 import { RARITY_COLORS } from '../../constants/itemConstants';
 import { getIconUrl } from '../../utils/assetManager';
+import { setOrbDragImage } from '../../utils/itemDragUtils';
 import { isPointInPolygon, getPolygonBBox } from '../../utils/VisibilityCalculations';
 import '../../styles/grid-container.css'; // Re-use grid-container styles for now or basic styles
 import '../loot/LootRollManager.css'; // rolling / reserved loot orb styles
@@ -19,7 +20,7 @@ import '../loot/LootRollManager.css'; // rolling / reserved loot orb styles
 const GridItem = ({ gridItem }) => {
   const [showTooltip, setShowTooltip] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const { adjustedPosition, tooltipRef } = useTooltipPosition(mousePosition, showTooltip);
+  const { adjustedPosition, tooltipRef } = useTooltipPosition(mousePosition, showTooltip, { estimateHeight: 460, estimateWidth: 340 });
   const isDraggingRef = useRef(false);
   const dragStartTimeRef = useRef(0);
   const dragStartPositionRef = useRef({ x: 0, y: 0 });
@@ -292,43 +293,13 @@ const GridItem = ({ gridItem }) => {
     e.dataTransfer.setData('text/plain', JSON.stringify(dragData));
     e.dataTransfer.effectAllowed = 'move';
 
-    // Create custom drag image...
+    // Immediately set custom orb drag image
     try {
-      const dragImage = document.createElement('div');
-      dragImage.style.width = `${itemSize}px`;
-      dragImage.style.height = `${itemSize}px`;
-      dragImage.style.borderRadius = '50%';
-      dragImage.style.border = `2px solid ${RARITY_COLORS[item.quality?.toLowerCase()]?.border || RARITY_COLORS.common.border}`;
-      dragImage.style.boxShadow = `0 0 10px ${RARITY_COLORS[item.quality?.toLowerCase()]?.border || RARITY_COLORS.common.border}80`;
-      dragImage.style.backgroundColor = 'rgba(34, 34, 34, 0.9)';
-      dragImage.style.position = 'absolute';
-      dragImage.style.top = '-9999px';
-      dragImage.style.display = 'flex';
-      dragImage.style.alignItems = 'center';
-      dragImage.style.justifyContent = 'center';
-      dragImage.style.overflow = 'hidden';
-
-      if (item.iconId) {
-        const img = document.createElement('img');
-        img.src = getIconUrl(item.iconId, 'items');
-        img.style.width = '80%';
-        img.style.height = '80%';
-        img.style.objectFit = 'contain';
-        dragImage.appendChild(img);
-      } else {
-        dragImage.style.color = 'white';
-        dragImage.style.fontSize = `${itemSize * 0.5}px`;
-        dragImage.textContent = '?';
-      }
-
-      document.body.appendChild(dragImage);
-      e.dataTransfer.setDragImage(dragImage, itemSize / 2, itemSize / 2);
-
-      setTimeout(() => {
-        if (document.body.contains(dragImage)) {
-          document.body.removeChild(dragImage);
-        }
-      }, 0);
+      setOrbDragImage(e, item, {
+        orbSize: Math.max(36, Math.round(itemSize)),
+        sourceElement: e.currentTarget,
+        quantity: gridItem.quantity
+      });
     } catch (error) {
       console.warn('Could not set custom drag image:', error);
     }
@@ -451,6 +422,8 @@ const GridItem = ({ gridItem }) => {
             position: 'fixed',
             left: adjustedPosition.x,
             top: adjustedPosition.y,
+            maxHeight: 'calc(100vh - 24px)',
+            overflowY: 'auto',
             zIndex: 9999,
             pointerEvents: 'none'
           }}>

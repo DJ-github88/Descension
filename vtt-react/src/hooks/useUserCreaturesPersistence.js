@@ -8,6 +8,7 @@
 import { useEffect, useCallback, useRef } from 'react';
 import { saveUserCreature, loadUserCreatures } from '../services/firebase/userCreaturesService';
 import { useShallow } from 'zustand/react/shallow';
+import { pendingRemovals, confirmRemoval, serializeCloudWrite, removalGeneration, confirmedSince } from '../services/creatureAbilityRemoval';
 
 const AUTO_SAVE_DELAY = 3000; // 3 seconds debounce
 
@@ -57,6 +58,16 @@ export const useUserCreaturesPersistence = () => {
     }
   }, [user]);
 
+  // A removed ability association whose cloud delete is not confirmed. Durable: a pending-removal record (account + creature,
+  // services/creatureAbilityRemoval) survives reload. Also true within a session when the last synced snapshot had the
+  // association and the local creature no longer does.
+  const removalPending = (local, synced = syncedCreaturesRef.current, pendingIds = new Map()) => {
+    if (!local || (Object.prototype.hasOwnProperty.call(local, 'authoredAbility') && local.authoredAbility !== undefined)) return false; // a newer assignment wins
+    if (pendingIds.has(local.id)) return true;
+    try { return JSON.parse(synced.get(local.id) || 'null')?.authoredAbility !== undefined; } catch (_) { return false; }
+  };
+  const withoutAbility = (c) => { if (!c || !Object.prototype.hasOwnProperty.call(c, 'authoredAbility')) return c; const { authoredAbility, ...rest } = c; return rest; };
+
   /**
    * Load user-created creatures from Firebase and merge with local creatures
    */
@@ -67,9 +78,15 @@ export const useUserCreaturesPersistence = () => {
     }
 
     try {
+      const generationAtRequest = removalGeneration();
       const firebaseCreatures = await loadUserCreatures(user.uid);
 
       if (firebaseCreatures.length > 0) {
+        const pendingIds = pendingRemovals(user.uid);
+        // A removal confirmed while this request was in flight: a response served before the delete must not restore it.
+        for (const id of confirmedSince(user.uid, generationAtRequest)) if (!pendingIds.has(id)) pendingIds.set(id, null);
+        // Cloud copy already lacks the association: the removal is confirmed by the cloud state itself.
+        for (const c of firebaseCreatures) if (pendingIds.has(c.id) && c.authoredAbility === undefined) { confirmRemoval(user.uid, c.id, pendingIds.get(c.id)); pendingIds.delete(c.id); }
         // Get current creatures from store
         const creatureStore = useCreatureStore?.getState();
         if (!creatureStore || !creatureStore.creatures) return;
@@ -91,14 +108,21 @@ export const useUserCreaturesPersistence = () => {
           const localCreature = existingUserCreaturesMap.get(firebaseCreature.id);
           if (localCreature) {
             // Merge, with Firebase data taking precedence for conflicts
-            return {
+            const merged = {
               ...localCreature,
               ...firebaseCreature,
               // Keep local data that Firebase doesn't have
               categories: firebaseCreature.categories || localCreature.categories
             };
+            // A removed ability association whose cloud delete has not been confirmed must not be restored by the
+            // cloud copy. "Pending" = the last synced snapshot of this session had the association and the local
+            // creature no longer does; the periodic full save (setDoc, no merge) then retries the deletion.
+            // Last-writer-wins by design: an association another device adds while this removal is still unconfirmed is
+            // overwritten by that retry. Once a save succeeds the snapshot clears and cloud associations merge normally.
+            if (removalPending(localCreature, syncedCreaturesRef.current, pendingIds)) delete merged.authoredAbility;
+            return merged;
           }
-          return firebaseCreature;
+          return pendingIds.has(firebaseCreature.id) ? withoutAbility(firebaseCreature) : firebaseCreature;
         });
 
         // Add any local creatures that aren't in Firebase yet
@@ -114,7 +138,11 @@ export const useUserCreaturesPersistence = () => {
 
         // Mark loaded creatures as already-synced so they are not immediately
         // re-written (and so their local edits are detected afterwards).
-        syncedCreaturesRef.current = new Map(allUserCreatures.map(c => [c.id, JSON.stringify(c)]));
+        const previouslySynced = syncedCreaturesRef.current;
+        const cloudById = new Map(firebaseCreatures.map(c => [c.id, c]));
+        syncedCreaturesRef.current = new Map(allUserCreatures.map(c => [c.id,
+          removalPending(existingUserCreaturesMap.get(c.id) || c, previouslySynced, pendingIds)
+            ? (previouslySynced.get(c.id) ?? JSON.stringify(cloudById.get(c.id) || c)) : JSON.stringify(c)]));
 
         console.log(`📂 Loaded ${firebaseCreatures.length} user creatures from Firebase, merged with ${missingLocalCreatures.length} local creatures`);
       }
@@ -143,14 +171,22 @@ export const useUserCreaturesPersistence = () => {
 
       for (const creature of pending) {
         try {
-          const result = await saveCreature({
-            ...creature,
-            userId: user.uid,
-            createdAt: creature.createdAt || new Date().toISOString(),
-            updatedAt: new Date().toISOString()
+          // Re-read inside the ordered write so a queued save never carries an older copy than a wizard write just made.
+          let sent = creature, removalId;
+          const result = await serializeCloudWrite(user.uid, creature.id, () => {
+            sent = getUserCreatures().find(c => c.id === creature.id) || creature;
+            removalId = sent.authoredAbility === undefined ? pendingRemovals(user.uid).get(sent.id) : undefined;
+            return saveCreature({
+              ...sent,
+              userId: user.uid,
+              createdAt: sent.createdAt || new Date().toISOString(),
+              updatedAt: new Date().toISOString()
+            });
           });
           if (result?.success) {
-            syncedCreaturesRef.current.set(creature.id, JSON.stringify(creature));
+            syncedCreaturesRef.current.set(creature.id, JSON.stringify(sent));
+            // Confirmed full save of the creature WITHOUT the association: clears only the removal it was started for.
+            if (removalId) confirmRemoval(user.uid, creature.id, removalId);
           }
         } catch (error) {
           console.error(`Failed to sync creature ${creature.id}:`, error);

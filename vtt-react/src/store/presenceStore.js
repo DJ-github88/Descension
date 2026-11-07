@@ -12,6 +12,7 @@ import presenceService from '../services/firebase/presenceService';
 import { v4 as uuidv4 } from 'uuid';
 import { tryAcquireCooldown } from '../utils/writeThrottle';
 import { isProduction as isProductionBuild } from '../config/env';
+import { createSocketReconnectAuth } from '../services/socketReconnectAuth';
 import { getBootstrapGateState } from '../persistence/bootstrapPrivacyGate';
 import { principalKeyOfAuthState } from '../persistence/handoff/socketPrincipalRetirement';
 
@@ -898,15 +899,19 @@ const usePresenceStore = create((set, get) => ({
     // verifiable token and connects tokenless, which the server admits as a guest.
     let authToken = null;
     const allowDevToken = !isProductionBuild();
-    try {
-      const authState = readAuthState();
+    // One token selection for the first handshake and every reconnect.
+    const selectPresenceToken = async (authState) => {
       if (authState.user && !authState.isDevelopmentBypass && !authState.user.isGuest && typeof authState.user.getIdToken === 'function') {
-        authToken = await authState.user.getIdToken();
+        return authState.user.getIdToken();
       } else if (allowDevToken && authState.user && !authState.user?.isGuest) {
-        authToken = `dev-token-${authState.user.uid || 'admin-dev-user'}`;
+        return `dev-token-${authState.user.uid || 'admin-dev-user'}`;
       } else if (allowDevToken && !authState.user?.isGuest && (authState.isDevelopmentBypass || authState.isAdminBypass || authState.isAuthenticated)) {
-        authToken = `dev-token-${authState.user?.uid || 'admin-dev-user'}`;
+        return `dev-token-${authState.user?.uid || 'admin-dev-user'}`;
       }
+      return null;
+    };
+    try {
+      authToken = await selectPresenceToken(readAuthState());
     } catch (error) {
       console.warn('Could not get auth token for global socket:', error);
     }
@@ -917,9 +922,14 @@ const usePresenceStore = create((set, get) => ({
     }
 
     const socketOptions = {
-      auth: {
-        token: authToken
-      },
+      // Per-attempt handshake: a reconnect after ID-token expiry asks this same
+      // principal/generation for a current token; otherwise, or on failure, it
+      // settles once with this setup's own last token (see socketReconnectAuth).
+      auth: createSocketReconnectAuth({
+        initialToken: authToken,
+        isCurrent: setupValid,
+        resolveToken: () => selectPresenceToken(readAuthState())
+      }),
       reconnection: true,
       reconnectionAttempts: 5,
       reconnectionDelay: 1000,

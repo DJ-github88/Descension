@@ -734,12 +734,8 @@ body .item-tooltip :is(.item-tooltip-header, .tooltip-header, .item-description,
 body .item-card { box-shadow: none; border-radius: 3px; border-color: var(--adventure-rule, #c4baa6); background: var(--adventure-page, #f8f5ee); }
 body .item-card:hover { border-color: #663c32; box-shadow: none; transform: none; }
 body .item-tooltip.item-tooltip.item-tooltip,
-body .item-tooltip.item-tooltip.item-tooltip[style],
-body .item-tooltip.item-tooltip.item-tooltip[data-quality],
-body .item-tooltip.item-tooltip.item-tooltip[data-quality][style] {
-  background: var(--adventure-page, #f8f5ee) !important;
-  background-image: none !important;
-  box-shadow: none !important;
+body .item-tooltip.item-tooltip.item-tooltip[style] {
+  background: var(--adventure-page, #f8f5ee);
   border-width: 2px !important;
   border-radius: 3px !important;
 }
@@ -1991,69 +1987,246 @@ html body .library-page-marker .active { color: #8c2f20; }
 html body .library-book-page-footer { color: #6a4e30; }
 
 /* ============================================================
-   ITEM TOOLTIP v2 — readable rarity. Raw WoW-style rarity colours
-   (#f0e6d2 / #1eff00 / #ff8000) vanish on paper, so each quality gets
-   a deep "ink" for the name plus a soft tinted header plate, a
-   rarity rule and a small-caps rarity line. Border keeps the hue.
+   ITEM TOOLTIP v3 — Calm TTRPG illuminated folio rarity system.
+   Distinct chromatic identity per quality tier while honoring
+   the warm, scholarly vellum parchment aesthetic. No floating
+   boxes or duplicate underlines; crisp, slim-outlined currency.
    ============================================================ */
-body .item-tooltip.item-tooltip { --q-ink: #34251a; --q-edge: #8a7a5c; --q-tint: rgba(138, 122, 92, .10); --q-label: 'Common'; }
-body .item-tooltip.item-tooltip[data-quality="poor"]      { --q-ink: #5e5a55; --q-edge: #8d8a85; --q-tint: rgba(120, 116, 110, .12); }
-body .item-tooltip.item-tooltip[data-quality="uncommon"]  { --q-ink: #2b6418; --q-edge: #4f8f37; --q-tint: rgba(79, 143, 55, .13); }
-body .item-tooltip.item-tooltip[data-quality="rare"]      { --q-ink: #1d4b8f; --q-edge: #3a6fb8; --q-tint: rgba(58, 111, 184, .13); }
-body .item-tooltip.item-tooltip[data-quality="epic"]      { --q-ink: #5f2593; --q-edge: #8a4fc0; --q-tint: rgba(138, 79, 192, .13); }
-body .item-tooltip.item-tooltip[data-quality="legendary"] { --q-ink: #9a4a06; --q-edge: #c9771f; --q-tint: rgba(201, 119, 31, .15); }
-body .item-tooltip.item-tooltip[data-quality="artifact"]  { --q-ink: #7a5b12; --q-edge: #b8923a; --q-tint: rgba(184, 146, 58, .17); }
-body .item-tooltip.item-tooltip[data-quality] { border-color: var(--q-edge) !important; box-shadow: inset 0 0 0 2px var(--adventure-paper, #f1ece1), inset 0 0 0 3px var(--q-tint), 0 6px 14px rgba(52, 37, 26, .28) !important; }
+body .item-tooltip.item-tooltip {
+  --q-ink: #382314;
+  --q-edge: #8a7050;
+  --q-edge-subtle: rgba(138, 112, 80, 0.35);
+  --q-wash: rgba(140, 115, 80, 0.09);
+  --q-badge-bg: rgba(140, 115, 80, 0.12);
+  --q-glow: rgba(140, 115, 80, 0.18);
+  --q-label: 'Common';
+}
+body .item-tooltip.item-tooltip[data-quality="poor"] {
+  --q-ink: #4a4744;
+  --q-edge: #7d7a75;
+  --q-edge-subtle: rgba(125, 122, 117, 0.35);
+  --q-wash: rgba(110, 105, 100, 0.08);
+  --q-badge-bg: rgba(110, 105, 100, 0.12);
+  --q-glow: rgba(110, 105, 100, 0.16);
+  --q-label: 'Poor';
+}
+body .item-tooltip.item-tooltip[data-quality="common"] {
+  --q-ink: #382314;
+  --q-edge: #8a7050;
+  --q-edge-subtle: rgba(138, 112, 80, 0.35);
+  --q-wash: rgba(140, 115, 80, 0.09);
+  --q-badge-bg: rgba(140, 115, 80, 0.12);
+  --q-glow: rgba(140, 115, 80, 0.18);
+  --q-label: 'Common';
+}
+body .item-tooltip.item-tooltip[data-quality="uncommon"] {
+  --q-ink: #194313;
+  --q-edge: #3e7d30;
+  --q-edge-subtle: rgba(62, 125, 48, 0.38);
+  --q-wash: rgba(45, 120, 35, 0.11);
+  --q-badge-bg: rgba(45, 120, 35, 0.14);
+  --q-glow: rgba(55, 135, 45, 0.24);
+  --q-label: 'Uncommon';
+}
+body .item-tooltip.item-tooltip[data-quality="rare"] {
+  --q-ink: #103160;
+  --q-edge: #2864b5;
+  --q-edge-subtle: rgba(40, 100, 181, 0.40);
+  --q-wash: rgba(25, 95, 185, 0.12);
+  --q-badge-bg: rgba(25, 95, 185, 0.15);
+  --q-glow: rgba(35, 105, 195, 0.26);
+  --q-label: 'Rare';
+}
+body .item-tooltip.item-tooltip[data-quality="epic"] {
+  --q-ink: #3d1460;
+  --q-edge: #7c37b8;
+  --q-edge-subtle: rgba(124, 55, 184, 0.40);
+  --q-wash: rgba(125, 45, 190, 0.12);
+  --q-badge-bg: rgba(125, 45, 190, 0.15);
+  --q-glow: rgba(135, 55, 200, 0.28);
+  --q-label: 'Epic';
+}
+body .item-tooltip.item-tooltip[data-quality="legendary"] {
+  --q-ink: #632d00;
+  --q-edge: #c2670e;
+  --q-edge-subtle: rgba(194, 103, 14, 0.42);
+  --q-wash: rgba(215, 115, 15, 0.14);
+  --q-badge-bg: rgba(215, 115, 15, 0.18);
+  --q-glow: rgba(220, 120, 20, 0.30);
+  --q-label: 'Legendary';
+}
+body .item-tooltip.item-tooltip[data-quality="artifact"] {
+  --q-ink: #593e03;
+  --q-edge: #b88618;
+  --q-edge-subtle: rgba(184, 134, 24, 0.42);
+  --q-wash: rgba(200, 150, 25, 0.15);
+  --q-badge-bg: rgba(200, 150, 25, 0.18);
+  --q-glow: rgba(205, 155, 30, 0.32);
+  --q-label: 'Artifact';
+}
 
-/* header plate */
+/* Tooltip Card: seamless atmospheric watercolor wash & double-border illuminated framing */
+body .item-tooltip.item-tooltip.item-tooltip[data-quality],
+body .item-tooltip.item-tooltip.item-tooltip[data-quality][style] {
+  background:
+    radial-gradient(ellipse 110% 55% at 50% -10%, var(--q-wash) 0%, transparent 80%),
+    var(--adventure-page, #f8f5ee) !important;
+  background-image:
+    radial-gradient(ellipse 110% 55% at 50% -10%, var(--q-wash) 0%, transparent 80%) !important;
+  border-color: var(--q-edge) !important;
+  border-width: 2px !important;
+  border-top-width: 3px !important;
+  border-top-color: var(--q-edge) !important;
+  border-radius: 3px !important;
+  box-shadow:
+    inset 0 0 0 1px var(--q-edge-subtle),
+    0 4px 18px rgba(45, 30, 20, 0.22),
+    0 0 14px var(--q-glow) !important;
+}
+
+/* Header container: NO floating box or visible corners, clean layout with ornamental divider */
 body .item-tooltip.item-tooltip > div:first-child:has(> .item-name) {
   position: relative;
-  margin: -4px -6px 10px !important;
-  padding: 8px 10px 9px;
-  background: linear-gradient(180deg, var(--q-tint), rgba(255, 255, 255, 0) 120%);
-  border-radius: 2px;
-  border-bottom: 1px solid var(--q-edge);
-  box-shadow: 0 2px 0 -1px var(--adventure-paper, #f1ece1), 0 3px 0 -1px var(--q-tint);
+  margin: 0 0 10px 0 !important;
+  padding: 0 0 9px 0 !important;
+  background: transparent !important;
+  background-image: none !important;
+  border-radius: 0 !important;
+  border-bottom: 1px solid var(--q-edge) !important;
+  box-shadow: none !important;
 }
 body .item-tooltip.item-tooltip > div:first-child:has(> .item-name)::after {
   content: '';
-  position: absolute; left: 50%; bottom: -4px;
-  width: 7px; height: 7px;
+  position: absolute;
+  left: 50%;
+  bottom: -4px;
+  width: 7px;
+  height: 7px;
   transform: translateX(-50%) rotate(45deg);
   background: var(--q-edge);
   box-shadow: 0 0 0 2px var(--adventure-paper, #f1ece1);
 }
+
+/* Item Icon: framed in a refined metallic/jeweled bezel */
 body .item-tooltip.item-tooltip .item-icon-magical-bg[data-quality] {
-  border: 1px solid var(--q-edge) !important;
-  box-shadow: 0 0 0 2px var(--adventure-paper, #f1ece1), 0 0 0 3px var(--q-tint) !important;
+  border: 1.5px solid var(--q-edge) !important;
+  box-shadow: 0 0 0 1px var(--adventure-paper, #f1ece1), 0 0 8px var(--q-glow), inset 0 0 6px var(--q-wash) !important;
   border-radius: 3px !important;
+  background: radial-gradient(circle, var(--q-wash) 0%, rgba(248, 245, 238, 0.7) 100%) !important;
+}
+
+/* Item Title: elegant typography, no awkward underline */
+body .item-tooltip.item-tooltip .item-name {
+  border-bottom: none !important;
+  padding-bottom: 0 !important;
+  margin-bottom: 0 !important;
+  text-align: center;
 }
 body .item-tooltip.item-tooltip .item-name.item-name[class*="quality-"] {
   color: var(--q-ink) !important;
   text-shadow: 0 1px 0 rgba(255, 255, 255, .6) !important;
   font-family: 'Cinzel', Georgia, serif !important;
   font-weight: 700 !important;
-  letter-spacing: .3px !important;
+  letter-spacing: .5px !important;
+  line-height: 1.25;
 }
-/* rarity line under the name (main tooltip only — recipe tooltip already prints its quality) */
-body .item-tooltip.item-tooltip .item-name:not([style*="font-family"])::after {
-  display: block;
-  margin-top: 3px;
-  font-family: 'Cinzel', Georgia, serif;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--q-edge);
-  text-shadow: none;
-  content: '◆ Common';
+
+/* No text rarity tag under the name — rarity is communicated cleanly via color traits (border, wash, crown, bezel, ink) without clutter */
+body .item-tooltip.item-tooltip .item-name::after {
+  display: none !important;
+  content: none !important;
 }
-body .item-tooltip[data-quality="poor"] .item-name:not([style*="font-family"])::after      { content: '◆ Poor'; }
-body .item-tooltip[data-quality="uncommon"] .item-name:not([style*="font-family"])::after  { content: '◆ Uncommon'; }
-body .item-tooltip[data-quality="rare"] .item-name:not([style*="font-family"])::after      { content: '◆ Rare'; }
-body .item-tooltip[data-quality="epic"] .item-name:not([style*="font-family"])::after      { content: '◆ Epic'; }
-body .item-tooltip[data-quality="legendary"] .item-name:not([style*="font-family"])::after { content: '◆ Legendary'; }
-body .item-tooltip[data-quality="artifact"] .item-name:not([style*="font-family"])::after  { content: '◆ Artifact'; }
+
+/* Viewport visibility & bounding: ensure tooltip always fits on screen on hover */
+body .item-tooltip.item-tooltip {
+  box-sizing: border-box !important;
+  max-width: min(340px, calc(100vw - 32px)) !important;
+  max-height: calc(100vh - 48px) !important;
+  max-height: calc(100dvh - 48px) !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+}
+
+/* Calm parchment scrollbar for tall tooltips */
+body .item-tooltip.item-tooltip::-webkit-scrollbar {
+  width: 5px;
+}
+body .item-tooltip.item-tooltip::-webkit-scrollbar-track {
+  background: rgba(138, 112, 80, 0.08);
+  border-radius: 3px;
+}
+body .item-tooltip.item-tooltip::-webkit-scrollbar-thumb {
+  background: rgba(138, 112, 80, 0.35);
+  border-radius: 3px;
+}
+body .item-tooltip.item-tooltip::-webkit-scrollbar-thumb:hover {
+  background: rgba(138, 112, 80, 0.55);
+}
+
+/* Currency section in item tooltip: calm TTRPG manuscript ink styling (no thick outlines) */
+body .item-tooltip.item-tooltip .currency-number,
+body .item-tooltip.item-tooltip span.currency-number {
+  color: #2b1d14 !important;
+  font-family: 'Cinzel', Georgia, serif !important;
+  font-weight: 700 !important;
+  font-size: 13.5px !important;
+  letter-spacing: 0.3px;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7) !important;
+  -webkit-text-stroke: 0 !important;
+  display: inline-block;
+  margin-right: 3px;
+}
+
+body .item-tooltip.item-tooltip .currency-label,
+body .item-tooltip.item-tooltip .currency-token > span:last-child {
+  font-family: 'Cinzel', Georgia, serif !important;
+  font-weight: 700 !important;
+  font-size: 12.5px !important;
+  letter-spacing: 0.3px;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6) !important;
+  -webkit-text-stroke: 0 !important;
+  display: inline-block;
+}
+
+body .item-tooltip.item-tooltip .currency-silver,
+body .item-tooltip.item-tooltip .currency-label-silver,
+body .item-tooltip.item-tooltip span[style*="#e8e8e8"],
+body .item-tooltip.item-tooltip span[style*="#c0c0c0"],
+body .item-tooltip.item-tooltip span[style*="#dbe4ee"] {
+  color: #4a5568 !important;
+}
+
+body .item-tooltip.item-tooltip .currency-gold,
+body .item-tooltip.item-tooltip .currency-label-gold,
+body .item-tooltip.item-tooltip span[style*="#ffed4e"],
+body .item-tooltip.item-tooltip span[style*="#ffd700"],
+body .item-tooltip.item-tooltip span[style*="#f7ca38"] {
+  color: #855b0a !important;
+}
+
+body .item-tooltip.item-tooltip .currency-copper,
+body .item-tooltip.item-tooltip .currency-label-copper,
+body .item-tooltip.item-tooltip span[style*="#d4a574"],
+body .item-tooltip.item-tooltip span[style*="#cd7f32"],
+body .item-tooltip.item-tooltip span[style*="#e59352"] {
+  color: #8c4418 !important;
+}
+
+body .item-tooltip.item-tooltip .currency-platinum,
+body .item-tooltip.item-tooltip .currency-label-platinum,
+body .item-tooltip.item-tooltip span[style*="#d4d4d4"],
+body .item-tooltip.item-tooltip span[style*="#e2f0fb"] {
+  color: #3b5a75 !important;
+}
+
+/* Shop price currency tokens in tooltip */
+body .item-tooltip.item-tooltip div[style*="Price:"] span,
+body .item-tooltip.item-tooltip :is(span[style*="color: #ffd700"], span[style*="color: #c0c0c0"], span[style*="color: #cd7f32"]) {
+  font-family: 'Cinzel', Georgia, serif !important;
+  font-weight: 700 !important;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6) !important;
+  -webkit-text-stroke: 0 !important;
+}
 
 /* neon inline colours from the old dark tooltip → inks that read on paper */
 body .item-tooltip.item-tooltip :is(div,span)[style*="color: rgb(255, 209, 0)"],

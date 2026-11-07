@@ -7,10 +7,12 @@ import useGameStore from '../../store/gameStore';
 import useCreatureStore from '../../store/creatureStore';
 import { getBootstrapGateState, isPrivateProjectionIsolated, subscribeBootstrapGate } from '../../persistence/bootstrapPrivacyGate';
 import { findActor, refOf } from '../../services/actorConsequenceService';
-import { DEFENDING, STUNNED, STRUCTURED_TIMINGS, EFFECT_PREFIX, canonical, recordsFor, stunnedRecordsFor, movementRecordsFor, expiryLabel } from '../../services/sharedConditionProfile';
+import { DEFENDING, STUNNED, ATTRIBUTE, STRUCTURED_TIMINGS, EFFECT_PREFIX, isPeriodicTick, periodicOf, canonical, recordsFor, stunnedRecordsFor, movementRecordsFor, attributeRecordsFor, attributeModifierOf, attributeName, attributeModifierTotals, expiryLabel } from '../../services/sharedConditionProfile';
 import { useSharedConditionStore, conditionPrincipal, conditionKey, resolveConditionActor, refreshConditionActor,
-  editDefending, editSharedCondition, checkConditionCommand, bindSharedConditions, refreshEffectLifecycle, submitTurnBoundary, checkTurnBoundary } from '../../services/sharedConditionService';
-import { clock as effectClock } from '../../services/sharedEffectTiming';
+  editDefending, editSharedCondition, checkConditionCommand, bindSharedConditions, refreshEffectLifecycle, submitTurnBoundary, checkTurnBoundary,
+  resolvePeriodicTick, checkPeriodicTick, tickRef, retainedTickCommands } from '../../services/sharedConditionService';
+import { clock as effectClock, dueTicks, tickLabel } from '../../services/sharedEffectTiming';
+import { readFormula } from '../../services/authoredAbility';
 import { movementSpeedBreakdown, movementBreakdownText, movementBaseSpeed } from '../../utils/conditionUtils';
 import './SharedDefendingEditor.css';
 import ShieldBashResultForm from './ShieldBashResultForm';
@@ -29,7 +31,8 @@ export function SharedDefendingEditor({ targetRef, identity }) {
   if (isPrivateProjectionIsolated() || state.principal !== conditionPrincipal()) return <p role="status">Shared conditions unavailable while the room/account is reconciling.</p>;
   if (!ref) return <p role="status">No exact primary room PC for this view. Bind/select that actor; no open-character or first-token fallback.</p>;
   const view = state.views[key], ready = view?.phase === 'ready';
-  const records = ready ? recordsFor(findActor(ref)) : [], stuns = ready ? stunnedRecordsFor(findActor(ref)) : [], moves = ready ? movementRecordsFor(findActor(ref)) : [];
+  const records = ready ? recordsFor(findActor(ref)) : [], stuns = ready ? stunnedRecordsFor(findActor(ref)) : [], moves = ready ? movementRecordsFor(findActor(ref)) : [], attrs = ready ? attributeRecordsFor(findActor(ref)) : [];
+  const ticking = ready ? (findActor(ref)?.state?.conditions || []).filter(r => isPeriodicTick(r) && r.targetId === ref.tokenId) : [];
   const entry = state.saved?.entries?.[key], unknown = entry?.command && !['accepted', 'failed'].includes(entry.phase);
   const perform = async fn => { setBusy(true); setError(''); try { await fn(); } catch (e) { setError(e.message); } finally { setBusy(false); } };
   return <section className="sc-editor" aria-label="Shared PC Defending">
@@ -79,10 +82,83 @@ export function SharedDefendingEditor({ targetRef, identity }) {
           {gm && <button type="button" disabled={busy || unknown || !ready} onClick={() => perform(() => editSharedCondition(ref, 'remove', { recordId: record.recordId, profile: 'movement' }))}>Remove {record.name} instance {record.recordId}</button>}
         </div>)}
       </section>}
+      {ready && attrs.length > 0 && <section aria-label="Active attribute changes" className="sc-movement">
+        <h4>Attribute changes</h4>
+        <p>{ATTRIBUTE.combinationPolicy} Each change is added once on top of the character's own sheet score; base, level-up, heritage, origin and equipment values are not edited.</p>
+        <p role="status">Total authored change: {Object.entries(attributeModifierTotals(findActor(ref)?.state?.conditions || [])).map(([id, n]) => `${attributeName(id)} ${n > 0 ? '+' : '−'}${Math.abs(n)}`).join(', ')}</p>
+        {attrs.map(record => { const value = attributeModifierOf(record); return <div key={record.recordId}><p>{record.name} · {attributeName(value.attribute)} {value.amount > 0 ? '+' : '−'}{Math.abs(value.amount)} · instance {record.recordId}</p><p className="sc-expiry">{expiryLabel(record, state.combat)}</p>
+          {gm && <button type="button" disabled={busy || unknown || !ready} onClick={() => perform(() => editSharedCondition(ref, 'remove', { recordId: record.recordId, profile: 'attribute' }))}>Remove {record.name} instance {record.recordId}</button>}
+        </div>; })}
+        <p>{ATTRIBUTE.notAutomated}</p>
+      </section>}
+      {ready && ticking.length > 0 && <section aria-label="Active periodic effects" className="sc-movement">
+        <h4>Periodic effects</h4>
+        <p>Each listed boundary records one due tick on the GM's turn controls; HP changes only when the GM resolves it. Removing the effect stops later ticks; a tick already recorded then has to be resolved by hand.</p>
+        {ticking.map(record => { const p = periodicOf(record); return <div key={record.recordId}><p>{record.name} · {p.kind === 'damage' ? `${p.damageType} damage` : 'healing'} {p.formula} per tick · instance {record.recordId}</p><p className="sc-expiry">{expiryLabel(record, state.combat)}</p>
+          {gm && <button type="button" disabled={busy || unknown || !ready} onClick={() => perform(() => editSharedCondition(ref, 'remove', { recordId: record.recordId, profile: 'periodic' }))}>Remove {record.name} instance {record.recordId}</button>}
+        </div>; })}
+      </section>}
       <p>Other legacy/custom Stunned records remain manual markers; names alone do not activate these restrictions.</p>
     </section>
     <button type="button" disabled={busy} onClick={() => perform(() => refreshConditionActor(ref))}>Refresh accepted condition state</button>
     {entry?.command && <button type="button" disabled={busy} onClick={() => perform(() => checkConditionCommand(ref))}>Check same condition command</button>}
+  </section>;
+}
+const randomFace = sides => { const a = new Uint32Array(1); crypto.getRandomValues(a); return 1 + (a[0] % sides); };
+/** M5: one due tick — the GM enters (or rolls in the app) the dice for this tick, sets the final amount and resolves or dismisses it. */
+function PeriodicTickRow({ tick, saved, busy, perform }) {
+  const reading = (() => { try { return readFormula(tick.tick.formula); } catch (_) { return null; } })();
+  const sides = reading?.dice[0].sides, count = reading?.dice[0].count || 0;
+  const [mode, setMode] = useState('physical'), [faces, setFaces] = useState(() => Array(count).fill('')), [amount, setAmount] = useState(''), [reason, setReason] = useState('');
+  const entry = saved?.entries?.[conditionKey(tickRef(tick.tickId))], unknown = entry?.command && !['accepted', 'failed'].includes(entry.phase);
+  const numbers = faces.map(Number), complete = reading && faces.every(f => Number.isInteger(Number(f)) && Number(f) >= 1 && Number(f) <= sides && f !== '');
+  const total = complete ? numbers.reduce((a, b) => a + b, reading.constant) : null;
+  const final = amount === '' ? total : Number(amount);
+  const roll = complete ? { mode, dice: [{ sides, faces: numbers }], constant: reading.constant, reading: reading.reading, total } : null;
+  return <div className="sc-tick" role="group" aria-label={`Due tick ${tick.occurrence} of ${tick.of} — ${tick.label}`}>
+    <p>{tickLabel(tick)} · target {tick.ref.mapId}/{tick.ref.tokenId}</p>
+    {!tick.live && <p role="status">Recorded by a turn clock that is no longer active: it cannot be applied automatically. Resolve it by hand, then dismiss it.</p>}
+    {entry && <p role="status">Tick command: {entry.phase}{entry.result?.code ? ` · ${entry.result.code}` : ''}{unknown ? ' — outcome unknown; check the same command, do not resolve again.' : ''}</p>}
+    {tick.live && <>
+      <label>Roll<select value={mode} onChange={e => setMode(e.target.value)} disabled={busy || unknown}><option value="physical">Physical dice — enter the faces</option><option value="digital">Digital — rolled in this GM's app (not a server roll)</option></select></label>
+      <div>{faces.map((f, i) => <label key={i}>d{sides} #{i + 1}<input type="number" min={1} max={sides} value={f} disabled={busy || unknown || mode === 'digital'}
+        onChange={e => setFaces(faces.map((x, j) => j === i ? e.target.value : x))} /></label>)}</div>
+      {mode === 'digital' && <button type="button" disabled={busy || unknown} onClick={() => setFaces(faces.map(() => String(randomFace(sides))))}>Roll {tick.tick.formula} in the app</button>}
+      <p>Roll total: {total ?? '—'}{reading?.constant ? ` (includes ${reading.constant > 0 ? '+' : ''}${reading.constant})` : ''}</p>
+      <label>Final {tick.tick.kind === 'damage' ? 'damage' : 'healing'} (GM)<input type="number" min={0} value={amount} placeholder={total ?? ''} disabled={busy || unknown} onChange={e => setAmount(e.target.value)} /></label>
+      <label>Reason (required when the final amount differs from the roll)<input maxLength={2000} value={reason} disabled={busy || unknown} onChange={e => setReason(e.target.value)} /></label>
+      <button type="button" disabled={busy || unknown || !roll || !Number.isInteger(final) || final < 0 || (final !== total && !reason.trim())}
+        onClick={() => perform(() => resolvePeriodicTick(tick, { mode: 'apply', roll, finalAmount: final, adjustmentReason: reason }))}>Apply tick {tick.occurrence} of {tick.of}</button>
+    </>}
+    <button type="button" disabled={busy || unknown} onClick={() => perform(() => resolvePeriodicTick(tick, { mode: 'dismiss', adjustmentReason: reason.trim() || 'GM resolved this tick by hand' }))}>Dismiss tick (resolved by hand, no HP change)</button>
+    {entry?.command && <button type="button" disabled={busy} onClick={() => perform(() => checkPeriodicTick(tick.tickId))}>Check same tick command</button>}
+  </div>;
+}
+const OUTCOME_TEXT = {
+  unknown: 'Pending or unknown — the server may already have applied it. Check the same command; do not resolve this tick again.',
+  consumed: 'Unconfirmed — the server no longer has this tick open; it may have been resolved by this very command. Do not resolve it again; check the same command again or compare the target\'s HP with the receipt log.',
+  applied: 'Accepted: the tick was applied once by this command (original receipt).',
+  dismissed: 'Accepted: the tick was dismissed by this command; no HP change.',
+  refused: 'Refused: nothing was applied by this command.'
+};
+/**
+ * M5 recovery: this GM's retained tick commands, kept on this device independently of the due-tick rows. Checking resends the
+ * exact original command (same commandId and bytes); it never creates a replacement command or a new roll.
+ */
+export function RetainedTickCommands({ saved, busy, perform }) {
+  const items = retainedTickCommands(saved);
+  return <section aria-label="Retained tick commands">
+    <h4>Retained tick commands ({items.length})</h4>
+    {!items.length && <p>No tick command is retained on this device.</p>}
+    {items.map(item => {
+      const name = item.tick ? `tick ${item.tick.occurrence} of ${item.tick.of} — ${item.tick.label}` : `tick ${item.tickId}`;
+      return <div key={item.tickId} className="sc-tick" role="group" aria-label={`Retained tick command — ${name}`}>
+        <p>{item.tick ? `${item.tick.label}: ${name.split(' — ')[0]} · ${item.tick.kind} ${item.tick.formula} · target ${item.tick.target?.mapId}/${item.tick.target?.tokenId}` : name}</p>
+        <p>Command {item.commandId} · {item.mode === 'dismiss' ? 'dismiss (no HP change)' : `apply ${item.finalAmount}${item.roll ? ` · ${item.roll.mode} roll ${item.roll.dice?.map(d => d.faces.join('+')).join(' ')} = ${item.roll.total}` : ''}`}</p>
+        <p role="status" data-outcome={item.outcome}>{OUTCOME_TEXT[item.outcome]}{item.code ? ` (${item.code})` : ''}</p>
+        <button type="button" disabled={busy} onClick={() => perform(() => checkPeriodicTick(item.tickId))}>Check same tick command</button>
+      </div>;
+    })}
   </section>;
 }
 function SharedTurnExpiryControls() {
@@ -94,7 +170,7 @@ function SharedTurnExpiryControls() {
   const unknown = entry?.command && !['accepted', 'failed'].includes(entry.phase);
   const perform = async fn => { setBusy(true); setError(''); try { await fn(); } catch (e) { setError(e.message); } finally { setBusy(false); } };
   return <section className="sc-editor" aria-label="Authenticated turn expiry">
-    <h3>Shared turn-boundary expiry</h3><p>GM validates the server's exact roster and advances one occurrence at a time. No AP restoration, regeneration, payment, recurring tick or wall-clock expiry.</p>
+    <h3>Shared turn-boundary expiry</h3><p>GM validates the server's exact roster and advances one occurrence at a time. No AP restoration, regeneration, payment or wall-clock expiry. Periodic effects record their due ticks here; HP changes only when you resolve each tick.</p>
     <p>New canonical PC Defending during its own turn: next turn start. New named Shield Bash: end of target's strictly next turn. Existing instances, one-round criticals and other durations stay GM-managed.</p>
     <p>Authored counted durations (the 2nd to 10th upcoming start or end of one target's turn) are counted once per accepted advance here; each effect lists what is left in the shared condition editor.</p>
     <p role="status">Server view: {state.clockPhase}. {clock ? `Authenticated combat ${clock.id} · turn occurrence ${clock.sequence}` : 'Automatic expiry not enabled for this current roster/occurrence.'}</p>
@@ -106,6 +182,12 @@ function SharedTurnExpiryControls() {
     <button type="button" disabled={busy || unknown || !clock || state.clockPhase !== 'ready'} onClick={() => perform(() => submitTurnBoundary('advance'))}>Advance authenticated turn</button>
     {entry && <button type="button" disabled={busy} onClick={() => perform(checkTurnBoundary)}>Check original turn command</button>}
     <button type="button" disabled={busy} onClick={() => perform(refreshEffectLifecycle)}>Refresh server turn state</button>
+    <section aria-label="Due periodic ticks">
+      <h4>Due periodic ticks ({dueTicks(state.combat).length})</h4>
+      {!dueTicks(state.combat).length && <p>No tick is waiting.</p>}
+      {dueTicks(state.combat).map(tick => <PeriodicTickRow key={tick.tickId} tick={tick} saved={state.saved} busy={busy} perform={perform} />)}
+    </section>
+    <RetainedTickCommands saved={state.saved} busy={busy} perform={perform} />
     <p>Roster edit, end/reset/restart or actor recreation retires or blocks the old schedule; effects are retained for GM correction/removal. Re-adoption never retroactively arms existing effects.</p>
   </section>;
 }

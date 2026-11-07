@@ -84,7 +84,8 @@ export function capabilityOf(receipt) {
     effect: chosen.rider ? `${chosen.rider.label} (movement −${Math.abs(chosen.rider.feet)} ft)` : 'its rider', riderApplied: chosen.riderApplied === true, refreshed: chosen.combination?.outcome === 'refreshed' };
   if (hashId.startsWith('authored-effect:v1/')) return { kind: 'effect', label: chosen.spellName, damage: chosen.direct?.kind === 'damage',
     effect: conditionLabel(chosen.condition), expiry: (POLICY_TEXT[chosen.expiryPolicy] && policyText(chosen.expiryPolicy, chosen.occurrences)) || 'GM removes', refreshed: chosen.combination?.outcome === 'refreshed' };
-  if (hashId.startsWith(SPELL_PREFIX) || /^authored-immediate:v[12]\//.test(hashId)) return { kind: 'spell', label: chosen.spellName, damage: chosen.kind === 'damage' };
+  if (hashId.startsWith('authored-area:v1/')) return { kind: 'area-spell', label: chosen.spellName, damage: chosen.kind === 'damage' };
+  if (hashId.startsWith(SPELL_PREFIX) || /^authored-immediate:v[1234]\//.test(hashId)) return { kind: 'spell', label: chosen.spellName, damage: chosen.kind === 'damage' };
   return { kind: 'none' };
 }
 /** HP float parts. "absorbed" only when the accepted consequence establishes damage absorption (§2). */
@@ -122,7 +123,8 @@ export function buildFeed({ result, before = {}, viewer, live }) {
   for (const actor of actors) {
     const key = actorKey(actor.ref), prior = before[key];
     const delta = exactDeltas(prior, actor);
-    const isTarget = receipt.target && sameRef(actor.ref, receipt.target);
+    const isTarget = (receipt.target && sameRef(actor.ref, receipt.target)) ||
+      (Array.isArray(receipt.targets) && receipt.targets.some(t => sameRef(actor.ref, t)));
     const absorbs = !!(capability.damage && isTarget);
     const missTarget = ['strike', 'riposte'].includes(capability.kind) && capability.outcome === 'miss' && isTarget;
     if (!viewer.reportable(actor.ref)) continue;
@@ -132,9 +134,10 @@ export function buildFeed({ result, before = {}, viewer, live }) {
     if (live && parts.length && viewer.rendered(actor.ref)) floats.push({ key, parts });
   }
   if (!reportableCount) return { floats: [], narration: null };
-  // Review 10: read-only or ref-less actors count as not reportable; source/target must be shown actors.
+  // Review 10: read-only or ref-less actors count as not reportable; source/target(s) must be shown actors.
   const allReportable = reportableCount === receipt.actors.length && (!receipt.source || lines.some(l => sameRef(l.ref, receipt.source))) &&
-    (!receipt.target || lines.some(l => sameRef(l.ref, receipt.target)));
+    (!receipt.target || lines.some(l => sameRef(l.ref, receipt.target))) &&
+    (!Array.isArray(receipt.targets) || receipt.targets.every(t => lines.some(l => sameRef(l.ref, t))));
   // Review 5: the outcome word belongs to the capability; it is shown only when every actor is reportable.
   for (const line of lines) line.words = actorWords(line.delta, line.absorbs, line.wear, allReportable && line.missTarget);
   const nameOf = ref => lines.find(line => sameRef(line.ref, ref))?.name;
@@ -150,6 +153,7 @@ export function buildFeed({ result, before = {}, viewer, live }) {
            : `${capability.branch === 'failed' ? `${tgt} fails the save (GM recorded): ` : ''}${capability.refreshed ? `refreshing ${capability.effect}, value not stacked` : `applying ${capability.effect}`} (GM removes)`}. Partially automated — the GM applies the rest`
          : capability.kind === 'effect' ? (capability.refreshed ? `${src} uses ${label} on ${tgt}, refreshing ${capability.effect}: duration restarts, value not stacked (${capability.expiry})`
            : `${src} uses ${label} on ${tgt}, applying ${capability.effect} (${capability.expiry})`)
+         : capability.kind === 'area-spell' ? `${src} casts ${label} on ${(receipt.targets || []).map(t => nameOf(t) || 'a creature').join(', ')}`
          : capability.kind === 'spell' ? `${src} casts ${label} on ${sameRef(receipt.source, receipt.target) ? 'Self' : tgt}`
           : `${src}’s ${label} hits ${tgt}`;
     text = `${lead}. ${body}.`;

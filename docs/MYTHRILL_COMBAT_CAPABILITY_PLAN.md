@@ -14,6 +14,21 @@ listed once in Â§F.
 
 ## 0. Ownership, identity and evidence
 
+**2026-11-04 bounded capability update — normal-player→PC composed casting installed/App PASS:**
+The existing player cast panel now reaches the already-installed A9/M3A/flat-Agility engine for one
+distinct exact primary PC. Rider-only Stunned/negative movement/negative admitted Agility is hostile
+under GM authority by default; positive movement/Agility and compatible healing+beneficial require
+separate exact target-owner acceptance. Compatible direct damage+hostile retains the existing GM
+route; conflicting combinations refuse whole. No new class-resource, stacking, self, area or effect
+authority; M3A blocking-applicable/zero-damage bundle gates and M6A default area gate remain closed.
+Canonical ownership is freshly rechecked; public source-redacted effect receipts settle only the
+matching retained source-owner approval. Final four-role fixture-App PASS demonstrates legal Wizard
+±2 Agility (each1AP/2mana), decline/no spending, formula/strike shifts/removal and identical-command
+lost-ACK recovery with one receipt. Final capture `1b525d29…`, assets `f9945def…`; independent review
+ACCEPT,77 production cases and bounded client suites pass. This supersedes older creature-only UI
+statements for these routes only. Full supported-route table, source/build identities, first-artifact
+defect and fixture/live-service qualifications: [`handoff/player-pc-effects/HANDOFF.md`](../handoff/player-pc-effects/HANDOFF.md).
+
 **Documentation ownership.** This file and roadmap Â§18 (a pointer to this file) belong to the combat
 architecture lead. They hold the capability matrix and the milestone order **only**; status tables stay where
 they live. Sol owns `ENGINEERING_STATE.md`, `CURRENT_PRIORITIES.md` and the candidate/integration status in
@@ -94,11 +109,12 @@ intentionally manual-only (CR-1) and 431 are passive/descriptive; they are not "
 | **Direct, mixed** | A1â€“A6 single direct; A10 direct + Stunned/movement, one P7 command (`spellPayments.bindEffect`) | Adapter: let class-paid PC sources use the bundle (M1) | More than one effect block; crit/alt (136) | Combat Â· M1 |
 | **Delayed** | None | Infrastructure: C4 only knows "target's next turn start/end" | Delayed damage/"at end of round" | Combat Â· M2 |
 | **Periodic** (56) | Legacy client-local `processOverTimeEffectsForTarget` from `combatStore`; not authoritative, no receipts. P7 record fields exist | Infrastructure: tick roll custody, C4 boundary command that may pay/damage | Tick roll vs fixed, start/end, death at tick, stacking | Combat Â· M2, creator |
-| **Explicit timing** | C4: authenticated clock, exact-instance schedules (â‰¤256, â‰¤32 per boundary) | Infrastructure: N-round counters (`dueSequence` arithmetic is local) | Roster change mid-effect; "per round" vs per-turn | Combat Â· M2 |
-| **Stat buffs/debuffs** (617) | Flat movement only (A10) with identity/stack/refresh (A11). P7 validates 17 modifier keys as data. Integrated client consumers (sheet `getTotalStatsWithEffects`, `getCreatureEffectiveStats`) read client effects; **authoritative** authored support is movement only | Infrastructure: statâ†’consumer registry (not an engine). Content: normalize vocabulary | Vocabulary is fragmented (`spirit` 25, `movement_speed` 18, `health` 14, `attack`/`all_rolls`/`attack_rolls`/`spell_attack`â€¦ ~40, `damage_reduction`/`damageReduction`) | Combat + Class HQ + Sonnet (attribute helper) Â· M3 |
+| **Explicit timing** | C4: authenticated clock, exact-instance schedules (â‰¤256, â‰¤32 per boundary); Wizard opt-in `authenticated_caster_start` cooldowns (1â€“10 strictly upcoming caster-turn starts, primary owner PC â†’ one creature immediate damage/healing, atomic P7 start + C4 release, installed/reviewed/App PASS: [handoff](../handoff/wizard-cooldowns/HANDOFF.md)) | Infrastructure: N-round counters (`dueSequence` arithmetic is local); catalogue cooldown mapping | Roster change/combat end leaves unreleased cooldowns blocked/manual; "per round" vs per-turn; legacy `turn_based`/rest/charge manual | Combat Â· M2 |
+| **Stat buffs/debuffs** (617) | Flat movement (A10/A11); flat Agility, Intelligence and Spirit (shared attribute family; Intelligence/Spirit extension installed/reviewed, App acceptance pending). P7 modifier-key validation alone does not confer execution. Verified new consumers: `1d6 + intelligence` / `1d6 + spirit`; Agility formula/basic-strike regression retained. See §C *Attribute buff/debuff*. | Extend only demonstrated consumers; normalize vocabulary | Same-attribute combination remains refused; F5 local-buff interaction unchanged; F7 repair separately owned; no derived-stat/max-pool/refill claim | Combat + Class HQ; Sonnet owns compatibility explanations |
 | **Stacking/refresh/suppression/immunity/removal** | A11: different names add, same definition+source refreshes, â‰¥0 floor; GM exact-instance removal | A11 is movement-only (HQ); other families need their own policy; suppression/immunity none | Source leaves/dies; different source same effect (refused) | Combat Â· creator |
 | **Saves, conditional, scaling** (130 / 72) | Nothing executes saves; Wizard lane refuses them | Adapter: GM-attested branch in approval (M1); formula grammar extensions | Who rolls, DC modifiers, half-damage rounding, `attr/K` rounding (D14-4) | Combat + creator Â· M1, M4 |
 | **Damage/healing, temp HP, defenses, equipment** | P7 HP/temp pools; P12 strike/DR/wear; Defending | Adapter work per source | Mitigation order (D12-1â€¦6) | Combat |
+| **M4D deterministic immediate formulas** | Installed 2026-11-05: Wizard zero-dice v4, primary owner PC → distinct creature; exact AP/mana, explicit owner approval + GM amount/reason. Runtime review ACCEPT; server71/client77; identified build/App PASS ([handoff](../handoff/m4-deterministic/HANDOFF.md)) | Reuses shared grammar, server HP snapshot, P7 writer and exact-command recovery | Catalogue whole records, PC/self/area/periodic/composed/class-payment widening remain outside this increment; full M4 open | Combat + Class HQ |
 | **Targeting, obstruction, areas, multi-target, propagation** (532) | B1 single pick; obstruction-aware aim (Sol); B2 Â§8.1 preview only | Infrastructure decision: P7 is source+â‰¤1 target (Â§C-limits) | D14-3 atomic? Chain-as-link vs travel; geometry G-series | Combat Â· M6 |
 | **Triggered effects, reactions, chains** (210) | W private collector (no execution); E1a Riposte binder with parent/opportunity ids | Adapter: per-card binders; no generic evaluator | D13-1â€¦8; loop budget not frozen | Combat + creator Â· M7 |
 | **Class resources** (1,319 payment-home gap) | P9: 3 domains with typed `classPayment{domain,before,after,price}` | Adapter per domain (descriptor + Class HQ-approved schema). 29 named domains in the catalogue; 3 have P9 room homes | Domain rules are Class HQ's; 13 Arcanoneer + 12 Martyr data conflicts | Class HQ + Combat Â· R-track |
@@ -250,7 +266,33 @@ mana, Devotion +1, ranged 30 ft ally, `1d4 + spirit`, no cooldown/save/rider). `
 remains on its accepted P9 route and is not migrated. `arc_spark_bolt` is not selected: its
 Durability-ignore/combo requirements are not supported or covered by an approved contract.
 
-Coverage matrix update (actual new routes, not broad catalogue admission): source primary owner PC ->
+### Real catalogue execution coverage — 2026-11-06 bounded batch
+
+Content approval and execution review are separate columns. Candidate tests are not production-App
+acceptance. Full source, exact hashes/base/final patch and evidence:
+[`handoff/catalogue-note-builders/HANDOFF.md`](../handoff/catalogue-note-builders/HANDOFF.md).
+
+| Real spell ID | Complete-record boundary | Catalogue content/pin authority | Execution evidence | Installed / App status |
+|---|---|---|---|---|
+| `martyr_restorative_prayer` | Existing M4B 1AP/5mana, Devotion+1, ally30ft `1d4+spirit`, primary-PC healing consent | Existing reviewed exact pin retained | Existing accepted route; additional candidate regression13/13 PASS | Existing historical M4B App acceptance retained; no new App claim |
+| `minstrel_opening_chord` | Whole hash `c50d2e41042e81d6988e65daa8843d4c4d83a700064141b02cdc0bd92f189695`; 1AP/4mana, I×2+V×1, `1d6` storm, ranged60ft, verbal/somatic, CD0; source restrictions remain `[]` | **Existing P9 authority retained.** Gate applies only to new catalogue→authored `[]` mapping: proposed `any` unapproved; request CQ-OPENING-CHORD-TARGET-1. No new runtime pin | **Existing P9/App accepted** on same hash. Candidate adds preparation/save-reopen/admission/version binding using existing engine. Carried conditional review/handler41/client15; fresh reconciliation22 handlers/6 client PASS. Lint0 introduced/296 inherited; syntax3PASS | **P9 remains usable with retained App10 evidence** (assets e12aba1c…/Opening receipt87eb6567…). New catalogue workflow isolated/uninstalled; its production-build/App journey awaits mapping and final pin/authority delta review |
+| `minstrel_harmonic_strike` | Whole hash `baca878b4f8bd1133cfe5496ab716520007c50694817d10412765a52dd5b2521`; 1AP/4mana, III×2+I×1, melee5ft `1d8`, three physical damage types, CD0 | Empty-list target gate also open; no new pin | Excluded after actual compiler `UNSUPPORTED_SHAPE`: authored direct compiler accepts exactly one damage type. Full three-type record was not simplified | No new route, build or App claim |
+
+Reconciliation: current catalogue, retained accepted P9 tree, profile and App receipt all identify the
+same60ft/[] record; the historical Markdown enemy/30ft cell contradicts its own machine JSON and is
+incorrect reporting, not evidenced data drift. No shared empty-list canonical mapping is established:
+P9 exact actor binding/GM legality does not define `[]`. The precise Class HQ request and carried versus
+fresh evidence are in `handoff/catalogue-note-builders/{CLASS_HQ_REQUEST.md,P9_RECONCILIATION.md}`.
+Existing M4B class-card admitted-version priority is part of the final changed-authority delta; preserve
+accessible P9 functionality on new admission/retirement rather than assuming the new route replaces it.
+
+The candidate fixes catalogue dice-only mapping, note-summary agreement, components preservation,
+authored-versus-P9 musicalNotes dispatch and executable-draft edit refusal using existing `readDirect`.
+Default profiles remain unchanged and refuse the new record. Test-only profile injection is not approval;
+auth/ownership/lease/writer/cloud are fixture seams, not verified Firebase. Opus composition and Sonnet
+Bestiary work remain separate. No new resource/area/save/cooldown engine.
+
+Historical M4B coverage matrix update (actual new routes, not broad catalogue admission): source primary owner PC ->
 one distinct primary PC, direct healing only, with AP/mana + the reviewed Martyr Devotion operation;
 target owner sees and accepts the exact proposed amount. The sphere/note adapter branches have unit
 coverage only and no reviewed catalogue pin; they are not advertised as end-to-end routes. Browser
@@ -274,15 +316,122 @@ retirement before commit, conflicting resource fields, missing target consent at
 genuine pinned Prayer. Client scoped lint is clean; server files retain their existing brace/style
 baseline.
 
-### M6A — bounded ranged-circle area / multi-target execution (`authored-area:v1`): implemented & App-witnessed in isolated worktree (staged for guarded integration, 2026-11-03)
+### M5 first Wizard periodic profile — bounded creator approval (2026-11-05)
 
-First bounded M6 increment implemented, independently reviewed, built, and App-witnessed in isolated worktree
-`D:/AppData/Temp/opencode/m6a-area-execution-20261103/root` (handoff: [`handoff/m6a-delivery/HANDOFF.md`](../handoff/m6a-delivery/HANDOFF.md);
-**not yet installed into live `D:\VTT` bytes**):
-- **Capability & route:** `authored-area:v1` (compiler `p14-m6a-area-1`, schema `1`) for primary owner PC source → $1 \dots 8$ distinct placed creature targets on the same map (`MAX_AREA_TARGETS = 8`, `MAX_AREA_ACTORS = 9` including source; technical engine/receipt limits, not game rules; $>8$ refuses `area_target_capacity_exceeded` before payment, never truncates).
+[`CREATOR_APPROVAL.md`](../handoff/m5-periodic/CREATOR_APPROVAL.md) settles the first Wizard-authored
+profile: the Nth boundary records the final tick and ends the effect, while that tick remains resolvable;
+roll separately when resolving each tick. At0HP, retain explicit manual adjudication as a temporary
+automation limitation, **not a rule prohibiting healing or damage**. Catalogue timing interpretations,
+stacking/refresh, saves and recurring costs remain unapproved. This records the rule decision only;
+implementation/build/App evidence stays in the M5 handoffs and coordination ledger.
+
+### M5 composition — M4A attribute formula in the immediate part (installed, reviewed, App PASS, 2026-11-06)
+
+The immediate part of an immediate + periodic bundle may use the M4A attribute vocabulary through the existing reader and
+owner-attested binding (reapproval with retained faces on a score change). Missing-health/deterministic immediate parts, attribute-scaled ticks
+and catalogue records stay manual. See [`HANDOFF.md`](../handoff/m5-composition-formula/HANDOFF.md).
+
+### M5 continuation — immediate + periodic composition (installed, reviewed, App PASS, 2026-11-06)
+
+One Wizard bundle may pair one immediate A1-dice part with one same-kind periodic tick (owner PC → one creature; one receipt for
+payment, immediate HP and the periodic instance). Mixed kinds, creature casters and catalogue records stay manual. No catalogue record becomes
+eligible; see [`HANDOFF.md`](../handoff/m5-composition/HANDOFF.md) and [`DECISION_BRIEF.md`](../handoff/m5-composition/DECISION_BRIEF.md).
+
+### M4D deterministic immediate formulas — installed, runtime-reviewed & ordinary-App PASS (2026-11-05)
+
+[`HANDOFF.md`](../handoff/m4-deterministic/HANDOFF.md) and `IDENTITIES.json` identify the guarded
+19-file installation and single production artifact. v4/schema7/compiler `p14-m4d-deterministic-1`
+opts the existing structured grammar into zero dice: fixed integer, effective attribute, approved
+integer operations/divisor floor and named `caster_missing_health[/K]`. Explicit result mode
+`deterministic`, empty dice; no physical, fabricated or hidden random roll. Historical Wizard
+`DICE` editor metadata is preserved; execution uses the explicit no-roll result mode.
+
+Primary owner PC → one distinct placed creature, direct damage OR healing, AP/mana only. Formula,
+bound inputs, proposal, price and GM adjustment/reason are shown; owner approval and GM confirmation
+remain mandatory. Server derives HP, verifies arithmetic and strict inputs, retains attested-score
+disclosure and revision/hash reapproval, and rechecks after authority awaits. Zero/signed proposals
+retain existing nonnegative GM-final/adjustment rules; existing capped healing/temp preservation,
+atomic payment/writer and exact original-command replay reused. No new arithmetic or combat rules.
+
+Server71/71 including M4A/B/C/M5/M6A/attribute regressions; client11 suites77/77; installed M4D7/7.
+Independent runtime review and bounded presentation/test-evidence delta ACCEPT. One detached build
+exit0/frozenDrift[], assets `8f409510…a5ac7`, `main.80e90266.js`; ordinary App PASS on exact artifact:
+author→save/reopen→admit→cast with no roll control→owner approval→GM adjustment4→5 with reason→
+AP1/mana3 once→healing98→100/temp2 unchanged→dropped-ACK/reload identical command and one receipt.
+Complete deterministic production-loaded character fixtures; identity/provider/ownership/lease/cloud
+mocked, temporary accepted-live, no real Firebase. Penance and Radiant Transfusion complete records
+preserved with exact blockers; neither admitted, no pin manufactured. **Full M4 stays open.** M4A/B/C
+dice contracts and M6A default gate preserved; M5 recovery-UI follow-up is separate from this artifact.
+
+### M4C missing-health — installed, runtime-reviewed & ordinary-App PASS (2026-11-04)
+
+[`RUNTIME_HANDOFF.md`](../handoff/m4-missing-health/RUNTIME_HANDOFF.md) carries exact source/test/
+build/review/witness identities. Creator-approved missing health is `max(0,max base HP-current base HP)`,
+temp excluded, divisor floored, pre-payment snapshot/reapproval, capped healing. `authored-immediate:v3`,
+schema6/compiler `p14-m4c-missing-health-1` admits only Wizard-authored dice+named missing-health terms,
+primary owner PC ->one distinct creature, direct damage OR healing, explicit AP/mana only. Reuses shared
+grammar/registry/owner-GM approval/P7 atomic writer/receipts/exact recovery; server verifies HP rather
+than trusting client values. Consent-refresh race repaired; independent runtime review + delta ACCEPT.
+Attribute release respected; matching baseline not redundantly retested before runtime changes.
+Affected server49/49/client70/70 PASS; identified detached integrated build exit0/frozen drift[].
+Ordinary-App new `Prism Wound Measure`: Wizard/save/reopen/admit/cast ->base23/40,missing17,/4=4,
++face4=8 ->GM confirm ->target98->100/temp2 unchanged, AP1/mana3 paid, lost-ACK/reload exact recovery
+once. Complete production-loaded fixtures; auth/provider/ownership/lease/cloud mocked, not real Firebase.
+Released socket changes included in same build; separate bounded reconnect/logout/account-switch PASS,
+not part of M4C acceptance. Neither inspected catalogue spell admitted. No deterministic/fractional/
+half-save/self/PC-target/area/class-payment/rider widening. M4A/B carried; M6A null/default-refusing gate
+preserved. **Full M4 remains open.**
+
+### Attribute buff/debuff — Agility, Intelligence and Spirit installed / review ACCEPT / App PASS (2026-11-05)
+
+**Narrow extension:** `handoff/attribute-extension/HANDOFF.md`, `CONTRACT.md`, `REVIEW.md`, `IDENTITIES.json`
+identify the guarded seven-file extension. Same shared profile/records/authoring/consent, now admitting flat
+nonzero −5…+5 **Intelligence and Spirit** alongside Agility. Production75/75 includes +2 Intelligence and −2
+Spirit reaching `1d6 + intelligence` / `1d6 + spirit`, stale approval refusal/retained-face reapproval, exact
+removal and counted expiry; client39/39 (8 suites, incl. F7 production-hook tests) includes actual
+sheet→formula aggregation with earned/heritage/origin/equipment counted once. Independent source review and
+bounded deltas ACCEPT. Final text-corrected build capture `14604a87…`, assets `92ddbf68…`, `main.224e2d18.js`,
+exit0/drift[]; ordinary-App `app-consent-final-r1` PASS — Wizard author/save/reopen/admit, target-owner
+acceptance for +2 INT, GM-authority −2 SPI, changed casts at 16/8, reload retains 16/8 with no corrective
+post-load snapshot, exact removal restores 14/10 and the original formula preview. No new
+Intelligence/Spirit weapon consumer, catalogue authorization, stacking policy, derived-stat or
+resource-max/refill capability. Local personal-buff F5 remains unchanged.
+
+Coordination entries (Opus, 2026-11-04/05) carry exact identities. `authored-effect:v1` condition kind `attribute`: one flat
+change (−5…+5, ≠0) to **Agility in the original increment**, Wizard-authored, exact record added once over the owner's sheet composition
+(base/earned/heritage/origin/equipment unedited), one change per attribute per target (D-ATTR-1 open), A9 polarity consent,
+GM exact removal, existing C4 expiry. Consumers: owner sheet aggregation → v2 formula and basic strike; strikes/ripostes and
+formulas revalidate (`owner_reapproval_required`). Scores stay owner-attested, not server-derived. Registered handlers 8/8,
+one bounded review ACCEPT after F1–F3 repairs.
+- **App PASS — qualified, debuff journey only:** build of installed capture `ba827136…` (assets `88907f96…`); witness
+  `attribute-modifier-app-browser.cjs` `371c9041…` run 6 exit0/`passed:true`. Creature A → target PC −2 under GM authority,
+  payment, dropped-ACK single receipt, Agility 8→6, formula reapproval with retained face, strike −1→−2, reload one record,
+  GM removal restores 8. Disclosed: creature ability assigned by a **fixture write to the room token** (not Bestiary UI); creature
+  mana set by fixture after run 2 refused `insufficient_resources`; run 5 hung in teardown (rc124, verdict saved);
+  **run 4 FAILED** at reload (defect below) and the passing run adds one **corrective room-snapshot refresh after character
+  load** — so the passing run does not prove the load-after-sync ordering. Evidence `handoff/attribute-modifiers/app-witness/`.
+- **F7 (load/sync) — REPAIRED, installed, App PASS without corrective sync (2026-11-05):** a personal runtime load after the
+  room snapshot used to drop the room record from the sheet until another sync. `useCharacterPersistence.js` `2bdb9af0…` now re-derives
+  room records right after applying a draft; either order gives exactly one application to the selected attachment, no carry on
+  character switch, removal stays removed. Regression `f7RoomConditionsCharacterLoad.test.jsx` (RED 2/5 on base → 5/5); witness
+  `f7-player-pc-attribute-app-browser.cjs` PASS on build `f7881302…` (player→PC −2 hostile and +2 accepted, reloads in both orders,
+  switch, removal), same witness FAILED on unfixed base. Fixture-qualified; evidence `handoff/f7-room-conditions/`. The historical
+  run-6 debuff PASS above still carries its corrective refresh and is not re-labelled.
+- **Not verified by this witness:** the +2 beneficial journey with target-owner acceptance (registered handlers only here);
+  **player→PC targeting** was absent from this artifact (owner-PC cast builder offered creature targets only). Sol's later
+  released player→PC delivery (2026-11-04, `handoff/player-pc-effects/`) reports its own accepted +2 / hostile −2 App PASS on a
+  different artifact; that evidence is Sol's and is not re-witnessed here.
+- Not automated: initiative/turn order, saves, derived/sheet-only figures, encumbrance, HP/mana/AP refills; other attributes;
+  local personal buffs can still stack on the owner client (F5).
+
+### M6A — bounded ranged-circle area / multi-target execution (`authored-area:v1`): integrated, reviewed (PASS) & App-witnessed in live `D:\VTT` (2026-11-03)
+
+First bounded M6 increment implemented, independently reviewed (PASS), reconciled into live `D:\VTT` (21 files), production-built, and App-witnessed (handoff: [`handoff/m6a-delivery/HANDOFF.md`](../handoff/m6a-delivery/HANDOFF.md)):
+- **Capability & route:** `authored-area:v1` (compiler `p14-m6a-area-1`, schema `5`) for primary owner PC source → $1 \dots 8$ distinct placed creature targets on the same map (`MAX_AREA_TARGETS = 8`, `MAX_AREA_ACTORS = 9` including source; technical engine/receipt limits, not game rules; $>8$ refuses `area_target_capacity_exceeded` before payment, never truncates).
 - **Geometry & privacy:** reuses B2 ranged-circle helpers (`circleCellOverlap`, `occupiedPreviewCells`, `visibleAreaCandidates`) for radii $5 \dots 60$ ft and ranges $0 \dots 120$ ft while distinguishing accepted B2 preview (`martyr_radiant_burst` 10-ft radius / 20-ft range) from newly tested M6A radii/grid cases. Advisory client preview only; eligibility/range/LoE remain GM-adjudicated. Hidden/unrendered tokens never leak through candidate counts, `actor_not_found` refusal details, or observer feed/chat.
-- **Roll scope, formulas & payment:** `AREA_ROLL_PROCEDURE = 'shared-area-roll-proposed'` (one owner roll proposes `roll.total` per target; GM adjudicates per-target `finalAmount` and `adjustmentReason`; never duplicates shared dice faces onto per-target objects; explicitly flagged as a proposed first-profile rule requiring creator confirmation). Supports M4A formulas including integer divisors (`attr/2`, `attr/3`, `attr/K` floored) and M4B typed class payments (`elementalSpheres`, `musicalNotes`, `devotionGauge`). Catalogue AoE candidates are rejected only on their true non-formula whole-record blockers; proven via real Spell Wizard authoring (`Prism Arcane Pulse`, `2d6 + intelligence/2`).
-- **Verification:** server production tests + regressions `193/193` (`p14m6aAreaExecution.production.test.js` 10/10); client `4 suites / 39 tests`; independent review (`bb76f68f-73a7-4117-ab1b-aff31aebc02c`) findings repaired; detached build exit `0` (assets `3f18acbf...`); multi-browser App witness `m6a-area-app-browser.cjs` PASS (`result.json.passed: true`).
+- **Roll scope, formulas & payment:** `AREA_ROLL_PROCEDURE = 'shared-area-roll-proposed'` with default gate enforced (`creatorApproval: null`; ordinary use refuses clearly before payment or consequences; test-only fixture enablement permitted). Supports M4A formulas including integer divisors (`attr/2`, `attr/3`, `attr/K` floored) and M4B typed class payments (`elementalSpheres`, `musicalNotes`, `devotionGauge`). Adversarial tests confirm area class payments cannot be self-authorized, doctored, or reused from single-target pins. Catalogue AoE candidates are rejected only on their true non-formula whole-record blockers; proven via real Spell Wizard authoring (`Prism Arcane Pulse`, `2d6 + intelligence/2`).
+- **Parallel ownership preserved:** Opus's unfinished `handoff/attribute-modifiers/` paths preserved untouched; Flash's transformation files (`TransformationEffects.jsx` `73e58efb...` / `SpellLibrary.jsx` `5c1d052b...`) and Sol's weapon UI files preserved byte-identical.
+- **Verification:** server production tests + regressions `196/196` (`p14m6aAreaExecution.production.test.js` 12/12); client `4 suites / 64 tests`; independent review (`bb76f68f-73a7-4117-ab1b-aff31aebc02c`) verdict **PASS** tied to all runtime SHA-256 identities; detached CRACO production build exit `0` (`build/asset-manifest.json` `3c12f0c5a08da2eb8c8eb9eff5f2ac95241a86326cb1196429e9b54ab61561e3`, `main.6b37935b.js` `1ee27611c42312d04a7141ec7f3f51e37f8115c5646a48f8a8e5a4c8276f67f3`); multi-browser Playwright App witness `m6a-area-app-browser.cjs` PASS (`result.json.passed: true`), verifying ordinary-use default roll-gate refusal, Flash's 5-step Transformation Preservation UI checklist, and M6A multi-target execution with test-enabled proposal; plus M4B catalogue regression `m4b-catalogue-app-browser.cjs` PASS (`result.json.passed: true`). Build/App lock released.
 
 Each milestone unlocks a family, has one observable workflow and a completion boundary (focused tests, one
 normal-App persistent-profile proof, one bounded review). Scoping counts are from Â§B.

@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+﻿import React, { useState, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import Draggable from 'react-draggable';
 import useItemStore from '../../store/itemStore';
@@ -14,6 +14,7 @@ import { useTooltipPosition } from '../common/useTooltipPosition';
 import { RARITY_COLORS } from '../../constants/itemConstants';
 import UnifiedContextMenu from '../level-editor/UnifiedContextMenu';
 import { getIconUrl } from '../../utils/assetManager';
+import { setOrbDragImage } from '../../utils/itemDragUtils';
 import { isContainerCellFloor } from '../../utils/containerShapeUtils';
 
 
@@ -38,7 +39,7 @@ const ContainerWindow = ({ container, onClose }) => {
     const [isInitialized, setIsInitialized] = useState(false);
     const [showItemTooltip, setShowItemTooltip] = useState({ visible: false, itemId: null });
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-    const { adjustedPosition, tooltipRef } = useTooltipPosition(mousePosition, showItemTooltip.visible);
+    const { adjustedPosition, tooltipRef } = useTooltipPosition(mousePosition, showItemTooltip.visible, { estimateHeight: 460, estimateWidth: 340 });
     const [draggedItem, setDraggedItem] = useState(null);
     const [itemContextMenu, setItemContextMenu] = useState({ visible: false, x: 0, y: 0, itemId: null });
     const [unlockItemId, setUnlockItemId] = useState(null);
@@ -252,29 +253,12 @@ const ContainerWindow = ({ container, onClose }) => {
         }));
         e.dataTransfer.effectAllowed = 'move';
 
-        // Set a drag image to improve the drag visual
+        // Immediately set custom orb drag image
         try {
-            // Create a temporary element for the drag image
-            const dragImage = document.createElement('div');
-            dragImage.className = 'drag-image';
-            dragImage.style.width = '40px';
-            dragImage.style.height = '40px';
-            dragImage.style.background = `url(${getIconUrl(item.iconId || 'Misc/Books/book-brown-teal-question-mark', 'items')})`;
-            dragImage.style.backgroundSize = 'cover';
-            dragImage.style.position = 'absolute';
-            dragImage.style.top = '-1000px';
-            dragImage.style.opacity = '0.8';
-
-            // Add to document temporarily
-            document.body.appendChild(dragImage);
-
-            // Set as drag image
-            e.dataTransfer.setDragImage(dragImage, 20, 20);
-
-            // Remove after a short delay
-            setTimeout(() => {
-                document.body.removeChild(dragImage);
-            }, 100);
+            setOrbDragImage(e, item, {
+                sourceElement: e.currentTarget,
+                quantity: item.quantity
+            });
         } catch (error) {
             console.error('Error setting drag image:', error);
         }
@@ -1336,6 +1320,8 @@ const ContainerWindow = ({ container, onClose }) => {
                             position: 'fixed',
                             left: adjustedPosition.x,
                             top: adjustedPosition.y,
+                            maxHeight: 'calc(100vh - 24px)',
+                            overflowY: 'auto',
                             pointerEvents: 'none',
                             zIndex: 2147483647 // Maximum z-index value to ensure tooltips always appear above windows
                         }}

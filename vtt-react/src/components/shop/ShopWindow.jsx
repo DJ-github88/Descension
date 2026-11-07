@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+﻿import React, { useState, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import useItemStore from '../../store/itemStore';
 import useInventoryStore from '../../store/inventoryStore';
@@ -27,7 +27,7 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
  const [playerQuantities, setPlayerQuantities] = useState({}); // Track quantities for player items
  const [tooltip, setTooltip] = useState({ show: false, item: null });
  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
- const { adjustedPosition, tooltipRef } = useTooltipPosition(mousePosition, tooltip.show);
+ const { adjustedPosition, tooltipRef } = useTooltipPosition(mousePosition, tooltip.show, { estimateHeight: 460, estimateWidth: 340 });
  const [notification, setNotification] = useState({ show: false, message: '', type: 'success' });
 
  // Unified filter state for both inventories
@@ -1465,6 +1465,8 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
         position: 'fixed',
         left: adjustedPosition.x,
         top: adjustedPosition.y,
+        maxHeight: 'calc(100vh - 24px)',
+        overflowY: 'auto',
         pointerEvents: 'none',
         zIndex: 999999999
        }}

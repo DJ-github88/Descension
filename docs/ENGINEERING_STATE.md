@@ -1,35 +1,57 @@
 # Mythrill / Prism — engineering state
 
-Updated: 2026-11-03 (M6A bounded area/multi-target execution implemented & App-witnessed in isolated worktree, staged for guarded integration; M4B bounded milestone accepted/closed; full M4 remains open; live-service gates open). Checkout: `D:/VTT` (the old `D:/Mythrill/Descension`
+### Player→PC composed-effect casting — installed, review ACCEPT, final ordinary-App PASS (2026-11-04)
+
+Existing cast interface connects the installed A9/M3A/flat-Agility PC routes with exact primary-PC
+selection, separate beneficial target-owner consent, hostile GM authority, atomic payment/install and
+source-redacted receipt recovery. Fresh canonical ownership checks refuse stale ownership; existing
+M3A blocking/zero gates and M6A default null gate preserved. No arbitrary composition/class-payment/
+self/area expansion. Final four-role fixture-App: Wizard save/reopen/admit, ±2 Agility each1AP/2mana,
+decline/no mutation, formula/strike8→6/10→8, exact removal, one lost-ACK/reload receipt and usable next
+cast. Build exit0, frozen drift[]; final capture `1b525d2917e41de575093deff02ac8fdc096beb5750bc11a01bff7f1d0aa6b67`,
+assets `f9945def290ee58dc10357df84f4a99ee74763b992ba8e576bfc8bb7a00a71c8`. A first build reproduced
+the repaired receipt/caster-custody defect; final build is the replacement. Independent bounded review
++ delta ACCEPT;77 production cases pass; client30 initial and39 overlapping receipt-delta cases pass.
+Fixture auth/provider/ownership/lease/cloud only; no live-service acceptance. Exact scope, identities,
+lint qualifications and App evidence: [`handoff/player-pc-effects/HANDOFF.md`](../handoff/player-pc-effects/HANDOFF.md),
+[`IDENTITIES.json`](../handoff/player-pc-effects/IDENTITIES.json), [`APP_RESULT.json`](../handoff/player-pc-effects/APP_RESULT.json).
+Implementation/build/App ownership released; concurrent M5/attribute-verification/compatibility work
+preserved. No commit/push/deploy/migration/dependency change.
+
+Updated: 2026-11-03 (M6A bounded area/multi-target execution integrated & App-witnessed in live D:/VTT; M4B bounded milestone accepted/closed; full M4 remains open; live-service gates open). Checkout: `D:/VTT` (the old `D:/Mythrill/Descension`
 path in CLAUDE.md is historical). Roadmap authority: [MYTHRILL_NEXT_PHASE.md](MYTHRILL_NEXT_PHASE.md).
 
-### M6A real area / multi-target execution (`authored-area:v1`) — implemented, reviewed & App-witnessed in isolated worktree (staged for guarded integration, not yet installed in live `D:/VTT`), 2026-11-03
+### M6A real area / multi-target execution (`authored-area:v1`) — integrated, independently reviewed (PASS), built & App-witnessed in live `D:/VTT`, 2026-11-03
 
 Handoff & reversible patch: [`handoff/m6a-delivery/HANDOFF.md`](../handoff/m6a-delivery/HANDOFF.md),
 [`base-identities.json`](../handoff/m6a-delivery/base-identities.json),
 [`final-identities.json`](../handoff/m6a-delivery/final-identities.json),
-[`m6a.patch`](../handoff/m6a-delivery/m6a.patch). Isolated worktree:
-`D:/AppData/Temp/opencode/m6a-area-execution-20261103/root`. **Not yet installed into live `D:/VTT`**;
-live shared runtime files (including Opus's `attribute-modifiers` paths and Flash's `TransformationEffects.jsx`
-`73e58efb...` / `SpellLibrary.jsx` `5c1d052b...`) remain untouched.
-- **Boundary & mechanics:** `authored-area:v1` (`p14-m6a-area-1`) extends P7 (`actorConsequences.js`),
+[`m6a.patch`](../handoff/m6a-delivery/m6a.patch).
+**Installed into live `D:/VTT` runtime files** via guarded 3-way reconciliation (21 files).
+Parallel ownership respected: Opus's unfinished `handoff/attribute-modifiers/` paths preserved untouched; Flash's transformation files (`TransformationEffects.jsx` `73e58efb...` / `SpellLibrary.jsx` `5c1d052b...`) and Sol's weapon UI files preserved byte-identical.
+- **Boundary & mechanics:** `authored-area:v1` (`p14-m6a-area-1`, schema `5`) extends P7 (`actorConsequences.js`),
   `spellPayments.js`, and the HUD/preview pipeline from 1 target to $1 \dots 8$ distinct placed creature
   targets (`MAX_AREA_TARGETS = 8`, `MAX_AREA_ACTORS = 9` technical engine/receipt limits; $>8$ refuses
   `area_target_capacity_exceeded` before payment). Reuses B2 ranged-circle preview helpers without
   claiming server-enforced geometry; retains explicit GM eligibility/range/LoE and per-target
   `finalAmount`/`adjustmentReason` adjudication. Uses `AREA_ROLL_PROCEDURE = 'shared-area-roll-proposed'`
-  (flagged as a proposed first-profile rule requiring creator confirmation; never duplicates shared dice
-  faces onto per-target records). Supports M4A formulas (including `attr/2`, `attr/3`, `attr/K` integer
-  divisors with floor) and M4B typed class payments (`elementalSpheres`, `musicalNotes`, `devotionGauge`).
+  with default gate enforced (`creatorApproval: null`; ordinary use refuses clearly before payment or consequences).
+  Supports M4A formulas (including `attr/2`, `attr/3`, `attr/K` integer divisors with floor) and M4B typed
+  class payments (`elementalSpheres`, `musicalNotes`, `devotionGauge`). Adversarial tests confirm area class payments
+  cannot be self-authorized, doctored, or reused from single-target pins.
   Preserves hidden-target/observer privacy (`actor_not_found`, visibility-filtered preview/owner/feed).
-- **Evidence:** server production tests + regressions `193/193` (`p14m6aAreaExecution.production.test.js`
-  10/10); client `4 suites / 39 tests`; independent review (`bb76f68f-73a7-4117-ab1b-aff31aebc02c`)
-  findings repaired; detached build exit `0` (assets `3f18acbf4b71c1fcc2e662c6b2c3ea87f840b45f3d58246e5589b3827b2e6993`);
+- **Evidence:** server production tests + regressions `196/196` (`p14m6aAreaExecution.production.test.js`
+  12/12); client `4 suites / 64 tests`; independent review (`bb76f68f-73a7-4117-ab1b-aff31aebc02c`)
+  verdict **PASS** tied to all runtime SHA-256 identities; detached CRACO production build exit `0`
+  (asset manifest `3c12f0c5a08da2eb8c8eb9eff5f2ac95241a86326cb1196429e9b54ab61561e3`, `main.6b37935b.js`
+  `1ee27611c42312d04a7141ec7f3f51e37f8115c5646a48f8a8e5a4c8276f67f3`);
   multi-browser Playwright App witness (`verification/p14/m6a-area-app-browser.cjs` →
-  `D:/AppData/Temp/opencode/m6a-area-execution-20261103/app-witness/result.json`) exit `0` (`passed: true`),
-  proving real Spell Wizard authoring (`Prism Arcane Pulse`, `2d6 + intelligence/2`), reopen/admission,
-  B2 circle area placement, single source payment, per-target GM adjudication (`17` and `8`), dropped-ACK +
-  reload `Check same command` recovery (`receipts.length === 1`), and observer/hidden-target privacy.
+  `D:/AppData/Temp/opencode/m6a-integrated-20261103/m6a-app-witness/result.json`) exit `0` (`passed: true`),
+  verifying ordinary-use refusal under shipped default gate, Flash's 5-step Transformation Preservation UI checklist,
+  and M6A full workflow (real Spell Wizard authoring `Prism Arcane Pulse` `2d6 + intelligence/2`, reopen/admission,
+  circle area placement, single source payment, per-target GM adjudication, dropped-ACK + reload `Check same command`
+  recovery `receipts.length === 1`, and observer/hidden-target privacy); plus M4B catalogue regression
+  (`m4b-catalogue-app-browser.cjs` → `m4b-app-witness/result.json`) exit `0` (`passed: true`).
   Auth/ownership/lease/cloud remain fixtures; build/App slots released. No commit/push/deploy/migration.
 
 ### Installed M3A and bounded auth handoff — carried separately, 2026-11-02

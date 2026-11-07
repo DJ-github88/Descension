@@ -18,13 +18,13 @@ const SLUG = /^[a-z][a-z0-9_]{0,63}$/;
 const ABBREVIATION = { strength: 'STR', agility: 'AGI', constitution: 'CON', intelligence: 'INT', spirit: 'SPI', charisma: 'CHA' };
 const REFUSED_TOKENS = ['int', 'str', 'agi', 'con', 'spi', 'cha', 'wis', 'dex', 'intellect'];
 const whole = (value, min, max) => Number.isSafeInteger(value) && value >= min && value <= max;
-function readFormula(formula, stats = {}, { integerScaling = false } = {}) {
+function readFormula(formula, stats = {}, { integerScaling = false, missingHealth, allowZeroDice = false } = {}) {
   const manual = reason => ({ supported: false, reason });
   if (typeof formula !== 'string' || !formula.trim() || formula.length > 120) return manual('Formula is missing or too long.');
   const clean = formula.replace(/\s+/g, '').toLowerCase(), parts = clean.match(/[+-]?[^+-]+/g) || [];
   if (parts.join('') !== clean) return manual('Formula is outside the approved vocabulary.');
   const dice = [], terms = [], attributes = [];
-  let constant = 0;
+  let constant = 0, readsHealth = false;
   const score = name => { attributes.push(name); const v = stats?.[name]; return (integerScaling ? whole(v, 0, 1000) : Number.isInteger(v)) ? v : null; };
   for (const part of parts) {
     const sign = part.startsWith('-') ? -1 : 1, body = part.replace(/^[+-]/, '');
@@ -36,6 +36,15 @@ function readFormula(formula, stats = {}, { integerScaling = false } = {}) {
     } else if ((m = body.match(/^(\d+)$/))) {
       const value = Number(m[1]); if (!whole(value, 0, 10000)) return manual('Constant is outside the supported bounds.');
       constant += sign * value; terms.push(`${sign < 0 ? '-' : '+'} ${value}`);
+    } else if (integerScaling && missingHealth !== undefined && (m = body.match(/^caster_missing_health(?:\/(\d+))?$/))) {
+      const divisor = Number(m[1] || 1);
+      if (!whole(divisor, 1, 100) || !missingHealth || Array.isArray(missingHealth) ||
+          Object.keys(missingHealth).sort().join() !== 'current,max' ||
+          ![missingHealth.current, missingHealth.max].every(v => whole(v, 0, 100000))) return manual('Caster base HP inputs or divisor are unavailable or outside the supported bounds.');
+      const missing = Math.max(0, missingHealth.max - missingHealth.current), quotient = Math.floor(missing / divisor);
+      readsHealth = true;
+      constant += sign * quotient;
+      terms.push(`${sign < 0 ? '-' : '+'} ${quotient} (caster base HP ${missingHealth.current}/${missingHealth.max}; missing ${missing} ÷ ${divisor}, rounded down; temp HP excluded)`);
     } else if (integerScaling && (m = body.match(/^(?:([a-z]+)\*(\d+)|\(([a-z]+)\*(\d+)\))$/))) {
       const name = m[1] || m[3], multiplier = Number(m[2] || m[4]);
       if (!ATTRIBUTES.includes(name) || !whole(multiplier, 1, 10)) return manual('Use a full caster attribute score multiplied by a whole number from 1 to 10.');
@@ -59,9 +68,9 @@ function readFormula(formula, stats = {}, { integerScaling = false } = {}) {
       constant += sign * value; terms.push(`${sign < 0 ? '-' : '+'} ${value} (${ABBREVIATION[name]} score)`);
     } else return manual('Term is outside the approved vocabulary.');
   }
-  if (!dice.length) return manual('At least one die is required.');
+  if (!dice.length && !(integerScaling && allowZeroDice && parts.length)) return manual('At least one die is required.');
   if (integerScaling && (dice.length > 8 || dice.reduce((n, g) => n + g.count, 0) > 50 || !whole(Math.abs(constant), 0, 10000))) return manual('Formula exceeds 8 dice groups, 50 total faces or an absolute constant of 10000.');
-  return { supported: true, dice, constant, attributes: [...new Set(attributes)].sort(), reading: `${formula.trim()} → ${terms.join(' ')}`.slice(0, 300) };
+  return Object.assign({ supported: true, dice, constant, attributes: [...new Set(attributes)].sort(), reading: `${formula.trim()} → ${terms.join(' ')}`.slice(0, 300) }, readsHealth ? { readsHealth: true } : {});
 }
 /** Attributes a formula reads (for the owner-attested `rollAttributes` map). */
 const formulaAttributes = formula => (String(formula || '').toLowerCase().match(/[a-z]+/g) || []).map(t => t.replace(/(_modifier|mod)$/, '')).filter(t => ATTRIBUTES.includes(t)).filter((t, i, a) => a.indexOf(t) === i).sort();

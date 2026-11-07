@@ -1512,7 +1512,7 @@ const HealingEffects = (props) => {
         className="main-formula-input"
          rows="2"
         />
-        {currentResolution === 'DICE' && healingConfig.healingType === 'direct' && <FormulaExecutionHelp formula={healingConfig.formula} />}
+         {currentResolution === 'DICE' && healingConfig.healingType === 'direct' && <FormulaExecutionHelp formula={healingConfig.formula} onUseMissingHealth={handleFormulaChange} />}
        </div>
      )}
 

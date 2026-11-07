@@ -28,7 +28,7 @@ export default function ActionAreaPreview({ gridSystem, gridSize, feetPerTile, g
   const source = ownerSource();
   const profile = radiantPreviewProfile(session?.action, session?.profile.effect);
   const gridType = gridSystem?.getGridState().gridType;
-  const visible = (ref, token) => game.isGMMode === true ||
+  const visible = (ref, token) => (!profile.isAreaCast && game.isGMMode === true) ||
     (!token?.state?.hiddenFromPlayers && !token?.hiddenFromPlayers && (useCombatFeedStore.getState().rendered[actorKey(ref)] || 0) > 0);
   const valid = !!session && currentActorDelivery(session.context, session.context.roomId) && game.multiplayerSocket?.connected === true &&
     !isPrivateProjectionIsolated() && !game.actorRecoverySnapshot && uid === session.context.uid && characterId === session.sourceRef.characterId &&
@@ -94,6 +94,14 @@ export default function ActionAreaPreview({ gridSystem, gridSize, feetPerTile, g
   const keep = () => {
     if (!scale || !inRange) return;
     update({ placing: false, confirmed: true });
+    session.onConfirmArea?.({ origin, distance });
+    session.onReturn?.();
+  };
+  const applyToCastPanel = () => {
+    if (!scale || !inRange || !origin) return;
+    const cb = session.onConfirmArea;
+    end();
+    cb?.({ origin, distance });
     session.onReturn?.();
   };
   const keyboard = event => {
@@ -119,22 +127,23 @@ export default function ActionAreaPreview({ gridSystem, gridSize, feetPerTile, g
         <path className="b2-origin" d={`M${toScreen(origin).x - 10},${toScreen(origin).y}h20 M${toScreen(origin).x},${toScreen(origin).y - 10}v20`} />
       </>}
     </svg>}
-    <section className="b2-panel" aria-label="Radiant Burst area preview">
-      <strong>Radiant Burst · {profile.effect} channel · geometry only</strong>
-      <span>10-ft radius · 20-ft origin range · free point</span>
+    <section className="b2-panel" aria-label={profile.isAreaCast ? `${profile.name} area placement` : 'Radiant Burst area preview'}>
+      <strong>{profile.isAreaCast ? `${profile.name} · ${profile.effect} · area placement` : `Radiant Burst · ${profile.effect} channel · geometry only`}</strong>
+      <span>{profile.radiusFeet}-ft radius · {profile.rangeFeet}-ft origin range · free point{profile.isAreaCast ? ` · technical cap ${profile.maxTargets} creature targets (9 actors max)` : ''}</span>
       <p role="status">{!scale ? 'Manual geometry — square grid and a known positive map scale required.' :
         !origin ? 'Choose an origin on the map, or use the arrow keys.' :
-        `${formatFeet(distance)} ft to origin — ${inRange ? 'within' : 'outside'} 20-ft placement range.`}
+        `${formatFeet(distance)} ft to origin — ${inRange ? 'within' : 'outside'} ${profile.rangeFeet}-ft placement range.`}
         {!session.placing && (session.confirmed ? ' Preview kept locally.' : ' Changed since confirmation — review and keep again.')}</p>
       <p>Overlap is not recipient eligibility or an applied effect. Walls, line of effect and elevation: GM decides.</p>
-      <details><summary>Recipient conflict — GM decides</summary>
+      {!profile.isAreaCast && <details><summary>Recipient conflict — GM decides</summary>
         <p>Card prose: damages undead and heals the living. Authored {profile.effect} channel: {profile.effect === 'damage' ? 'enemies' : 'allies'}. No eligibility is inferred.</p>
-      </details>
+      </details>}
       <p>Visible map tokens carry geometric-only markers. Unknown footprints stay GM-decided. No affected count.</p>
-      <p>Nothing rolled, reserved, spent, posted or applied.</p>
+      <p>{profile.isAreaCast ? 'Confirm placement to inspect and select eligible creature targets in the cast panel.' : 'Nothing rolled, reserved, spent, posted or applied.'}</p>
       <div className="b2-controls">
-        {session.placing ? <button type="button" disabled={!scale || !inRange} onClick={keep}>Keep preview — GM decides effects</button> :
+        {session.placing ? <button type="button" disabled={!scale || !inRange} onClick={keep}>{profile.isAreaCast ? 'Keep area placement' : 'Keep preview — GM decides effects'}</button> :
           <button type="button" onClick={() => update({ placing: true })}>Review placement</button>}
+        {profile.isAreaCast && origin && inRange && <button type="button" onClick={applyToCastPanel}>Use placed area in cast panel</button>}
         <button type="button" onClick={end}>{session.placing ? 'Cancel area preview' : 'Clear area preview'}</button>
       </div>
     </section>

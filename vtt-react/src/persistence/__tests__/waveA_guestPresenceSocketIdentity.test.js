@@ -84,7 +84,12 @@ const ROOMS_RAW = '[{"id":"room_local_1","name":"Guest Keep"}]';
 const CHARS_RAW = '[{"id":"char_1","name":"Guest Hero"}]';
 const EXPLICIT = 'mythrill-guest-explicit-login';
 const fbAnon = (uid) => ({ uid, isAnonymous: true });
-const handshakeTokens = () => io.mock.calls.map((c) => c[1]?.auth?.token);
+// socket.io-client's handshake rule: a function is called per attempt, an object reused.
+const resolveHandshake = (auth) => new Promise((resolve) => {
+  if (typeof auth === 'function') auth((payload) => resolve(payload ? payload.token : undefined));
+  else resolve(auth ? auth.token : undefined);
+});
+const handshakeTokens = () => Promise.all(io.mock.calls.map((c) => resolveHandshake(c[1]?.auth)));
 
 beforeEach(async () => {
   localStorage.clear();
@@ -122,20 +127,20 @@ describe('presence socket token — guest', () => {
     await guestLogin('anon-1');
     await usePresenceStore.getState().initializeGlobalSocket();
     expect(io).toHaveBeenCalledTimes(1);
-    expect(handshakeTokens()).toEqual([null]);
+    expect(await handshakeTokens()).toEqual([null]);
   });
 
   it('DEVELOPMENT: a local guest is tokenless too (dev/prod parity; no dev-token impersonation), whatever Firebase holds', async () => {
     await guestLogin('anon-1');
     authService.getCurrentUser.mockReturnValue(fbAnon('firebase-other'));
     await usePresenceStore.getState().initializeGlobalSocket();
-    expect(handshakeTokens()).toEqual([null]);
+    expect(await handshakeTokens()).toEqual([null]);
   });
 
   it('DEVELOPMENT: a non-guest dev user keeps its dev token (legitimate developer path preserved)', async () => {
     useAuthStore.setState({ user: { uid: 'dev-7', email: 'dev@test.local', isAnonymous: false }, isAuthenticated: true });
     await usePresenceStore.getState().initializeGlobalSocket();
-    expect(handshakeTokens()).toEqual(['dev-token-dev-7']);
+    expect(await handshakeTokens()).toEqual(['dev-token-dev-7']);
   });
 
   it('failed second guest attempt: store identity, token and local data stay with the first guest (Firebase holds a different uid)', async () => {
@@ -165,7 +170,7 @@ describe('presence socket token — guest', () => {
     expect(localStorage.getItem('mythrill-guest-characters')).toBe(CHARS_RAW);
 
     await usePresenceStore.getState().initializeGlobalSocket();
-    expect(handshakeTokens()).toEqual([null]); // production: tokenless guest, no uid on the wire
+    expect(await handshakeTokens()).toEqual([null]); // production: tokenless guest, no uid on the wire
   });
 });
 
@@ -189,7 +194,7 @@ describe('presence socket token — delayed callbacks and superseding work', () 
     await pending;
     await flush();
 
-    expect(handshakeTokens()).not.toContain('verified-token-A');
+    expect(await handshakeTokens()).not.toContain('verified-token-A');
     expect(usePresenceStore.getState().socket).toBeNull();
   });
 
@@ -207,7 +212,7 @@ describe('presence socket token — delayed callbacks and superseding work', () 
     await pending;
     await flush();
 
-    expect(handshakeTokens()).not.toContain('verified-token-A');
+    expect(await handshakeTokens()).not.toContain('verified-token-A');
     expect(useAuthStore.getState().user).toMatchObject({ uid: 'anon-9', isGuest: true });
   });
 
@@ -216,7 +221,7 @@ describe('presence socket token — delayed callbacks and superseding work', () 
     useAuthStore.getState().setUser(acct('acct-A', Promise.resolve('verified-token-A')));
     await flush();
     await usePresenceStore.getState().initializeGlobalSocket();
-    expect(handshakeTokens()).toEqual(['verified-token-A']);
+    expect(await handshakeTokens()).toEqual(['verified-token-A']);
   });
 
   it('a pending guest sign-in superseded by logout never applies, and drafts stay', async () => {
@@ -246,7 +251,7 @@ describe('connect_error fallback and ineligible principal', () => {
     await usePresenceStore.getState().initializeGlobalSocket();
     failFirstSocket();
     expect(io).toHaveBeenCalledTimes(2);
-    expect(handshakeTokens()).toEqual([null, null]);
+    expect(await handshakeTokens()).toEqual([null, null]);
   });
 
   it('logout before connect_error: no fallback socket is created and no socket is left installed', async () => {

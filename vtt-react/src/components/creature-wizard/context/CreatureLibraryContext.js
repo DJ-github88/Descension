@@ -1,3 +1,4 @@
+import { pendingRemovals } from '../../../services/creatureAbilityRemoval';
 import React, { createContext, useContext, useReducer, useEffect } from 'react';
 import { v4 as generateUniqueId } from 'uuid';
 import useCreatureStore from '../../../store/creatureStore';
@@ -283,12 +284,19 @@ export function CreatureLibraryProvider({ children }) {
           if (!cancelled && firebaseCreatures && firebaseCreatures.length > 0) {
             console.log(`📚 Loaded ${firebaseCreatures.length} creatures from Firebase for user ${user.uid}`);
             // Merge with any existing local creatures (prefer Firebase versions)
-            const existingIds = new Set((creatureStore.creatures || []).map(c => c.id));
-            const newCreatures = firebaseCreatures.filter(c => !existingIds.has(c.id));
-            const mergedCreatures = [...(creatureStore.creatures || []), ...newCreatures];
+            // Read the live store (this async result can arrive after a template save; the render-time snapshot would
+            // overwrite it) and keep a pending ability removal from being restored by the cloud copy.
+            const pendingIds = pendingRemovals(user.uid);
+            const liveCreatures = useCreatureStore.getState().creatures || [];   // read last: nothing awaited between here and setCreatures
+            const existingIds = new Set(liveCreatures.map(c => c.id));
+            const newCreatures = firebaseCreatures.filter(c => !existingIds.has(c.id)).map(c => {
+              if (!pendingIds.has(c.id) || !Object.prototype.hasOwnProperty.call(c, 'authoredAbility')) return c;
+              const { authoredAbility, ...rest } = c; return rest;
+            });
+            const mergedCreatures = [...liveCreatures, ...newCreatures];
 
             // Update the store with merged creatures (legacy bestiary names migrated)
-            creatureStore.setCreatures(syncBestiaryCreatureNames(mergedCreatures));
+            useCreatureStore.getState().setCreatures(syncBestiaryCreatureNames(mergedCreatures));
           }
         }
       } catch (err) {

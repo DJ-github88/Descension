@@ -18,6 +18,7 @@ import useCreatureStore from '../../store/creatureStore';
 import useCharacterTokenStore from '../../store/characterTokenStore';
 import { getGridSystem } from '../../utils/InfiniteGridSystem';
 import { isProduction } from '../../config/env';
+import { createSocketReconnectAuth } from '../../services/socketReconnectAuth';
 
 const CURSOR_DEBUG = process.env.REACT_APP_CURSOR_DEBUG === 'true';
 const cursorDebug = (...args) => {
@@ -106,30 +107,19 @@ async function selectSocketAuthToken(authState) {
  * after which socket.io stops reconnecting. So the handshake payload is a
  * callback: while this socket's principal/generation is still current, each
  * attempt asks that SAME principal for a current token (Firebase returns its
- * cached token until it nears expiry). Otherwise, or if the refresh fails, the
- * attempt carries this socket's own last token (the previous behaviour) and
- * never another account's token; the connect guard then drops a stale socket.
+ * cached token until it nears expiry). Otherwise, or if the refresh fails,
+ * throws or does not answer in time, the attempt settles once with this
+ * socket's own last token (the previous behaviour) and never another account's
+ * token; the connect guard then drops a stale socket. See socketReconnectAuth.
  */
 export function createReconnectAuth({ initialToken, isCurrent }) {
-  let lastToken = initialToken;
-  return (cb) => {
-    if (!isCurrent()) {
-      cb({ token: lastToken });
-      return;
-    }
-    // Capture the verified principal synchronously, in the same turn as the
-    // currency check, so a later account switch cannot supply the token.
-    const authState = useAuthStore.getState();
-    Promise.resolve()
-      .then(() => selectSocketAuthToken(authState))
-      .then((token) => {
-        if (isCurrent()) lastToken = token;
-        cb({ token: lastToken });
-      }, (error) => {
-        console.warn('Could not refresh auth token for socket reconnect:', error);
-        cb({ token: lastToken });
-      });
-  };
+  return createSocketReconnectAuth({
+    initialToken,
+    isCurrent,
+    // Called synchronously right after the currency check, so the verified
+    // principal is read in the same turn; a later switch cannot supply it.
+    resolveToken: () => selectSocketAuthToken(useAuthStore.getState())
+  });
 }
 
 export function setupSocketConnection({

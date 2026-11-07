@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import MythrillWindow from '../windows/MythrillWindow';
 import TabDropdownButton from '../common/TabDropdownButton';
@@ -946,14 +946,31 @@ const buildShelf = () => shuffle([
   ...SECTION_IDS.map(id => ({ type: 'section', id })),
 ]);
 
-const LibraryWindow = ({ isOpen, onClose }) => {
+const LibraryWindow = ({
+  isOpen,
+  onClose,
+  targetSection = null,
+  onSectionChange = null,
+}) => {
   const [shelf] = useState(buildShelf);
-  const [activeSection, setActiveSection] = useState(null);
+  const [activeSection, setActiveSection] = useState(targetSection);
   const [activeBook, setActiveBook] = useState(null);
   const [bookPage, setBookPage] = useState(0);
   const [hoverNote, setHoverNote] = useState(null);
-  const [subTabs, setSubTabs] = useState({});
+  const [subTabs, setSubTabs] = useState(() => (targetSection ? { [targetSection]: 'library' } : {}));
   const bookPageRef = useRef(null);
+
+  // Sync with targetSection prop updates (e.g. from hotkeys or external navigation)
+  useEffect(() => {
+    setActiveSection(targetSection);
+    if (targetSection) {
+      setActiveBook(null);
+      setSubTabs(prev => ({
+        ...prev,
+        [targetSection]: prev[targetSection] || 'library',
+      }));
+    }
+  }, [targetSection]);
   // Select the (stable) actions individually. A bare useWindowStore() subscribes to the whole store,
   // so every window drag start/stop re-rendered this component and everything under it.
   // layoutVersion is subscribed on purpose so a layout reset still re-reads saved positions.
@@ -978,13 +995,23 @@ const LibraryWindow = ({ isOpen, onClose }) => {
   const handleBack = useCallback(() => {
     setHoverNote(null);
     setActiveSection(null);
-  }, []);
+    onSectionChange?.(null);
+  }, [onSectionChange]);
 
   const handleBackFromBook = useCallback(() => {
     setHoverNote(null);
     setBookPage(0);
     setActiveBook(null);
   }, []);
+
+  const handleWindowClose = useCallback(() => {
+    setHoverNote(null);
+    setActiveSection(null);
+    setActiveBook(null);
+    setBookPage(0);
+    onSectionChange?.(null);
+    onClose?.();
+  }, [onClose, onSectionChange]);
 
   const handleSectionClick = useCallback((sectionId) => {
     setHoverNote(null);
@@ -993,7 +1020,8 @@ const LibraryWindow = ({ isOpen, onClose }) => {
       ...prev,
       [sectionId]: prev[sectionId] || 'library',
     }));
-  }, []);
+    onSectionChange?.(sectionId);
+  }, [onSectionChange]);
 
   const handleGemClick = useCallback((gemId) => {
     setHoverNote(null);
@@ -1198,7 +1226,7 @@ const LibraryWindow = ({ isOpen, onClose }) => {
     <>
       <MythrillWindow
       isOpen={isOpen}
-      onClose={activeSection ? handleBack : activeBook ? handleBackFromBook : onClose}
+      onClose={handleWindowClose}
       title={title}
       privateProjection
       defaultPosition={savedPos}
@@ -1291,13 +1319,13 @@ const LibraryWindow = ({ isOpen, onClose }) => {
           {activeSection === 'items' && (
             <ItemLibrary
               key={`items-${currentSubTab}`}
-              onClose={onClose}
+              onClose={handleWindowClose}
               contentOnly={true}
               initialTab={currentSubTab}
             />
           )}
           {activeSection === 'maps' && (
-            <MapLibraryWindow isOpen={true} onClose={onClose} contentOnly={true} />
+            <MapLibraryWindow isOpen={true} onClose={handleWindowClose} contentOnly={true} />
           )}
         </div>
       )}

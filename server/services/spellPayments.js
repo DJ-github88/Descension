@@ -170,9 +170,9 @@ function validateEntry(payment) {
   } else {fail('invalid_class_payment');}
   return payment;
 }
-function validateRoll(roll) {
+function validateRoll(roll, deterministic = false) {
   keys(roll, ['mode', 'dice', 'constant', 'total', 'reading']);
-  if (!['digital', 'physical'].includes(roll.mode) || !Array.isArray(roll.dice) || !roll.dice.length || roll.dice.length > 8 ||
+  if (!(deterministic ? roll.mode === 'deterministic' : ['digital', 'physical'].includes(roll.mode)) || !Array.isArray(roll.dice) || (deterministic ? roll.dice.length !== 0 : !roll.dice.length) || roll.dice.length > 8 ||
     !Number.isSafeInteger(roll.constant) || Math.abs(roll.constant) > 10000 || !text(roll.reading, 300)) {fail('invalid_spell_approval');}
   let total = roll.constant;
   for (const group of roll.dice) {
@@ -185,18 +185,56 @@ function validateRoll(roll) {
 }
 function validateApprovalShape(approval, creature = false) {
   const bundle = effect.isEffect(approval), composed = classEffect.isClassEffect(approval);
-  const formula = require('../shared/services/authoredAbility').isFormula(approval);
-  keys(approval, ['version', 'roomId', 'approvalId', 'actionEpoch', 'baseCommitSequence', 'source', 'target', 'spell', 'roll', 'price', 'classPayment', ...(creature ? ['sourceAuthority', ...(condition.isCondition(approval) || bundle ? ['resolution'] : [])] : condition.isCondition(approval) ? ['conditionTerms'] : []), ...(bundle ? ['effectTerms'] : []), ...(composed ? ['effectTerms', 'disclosure', 'rollAttributes'] : []), ...(formula ? ['rollAttributes', 'formulaSourceRevision', 'formulaSourceHash'] : [])]);
-  if (formula && (creature || !require('../shared/services/authoredAbility').isAuthored(approval.spell) ||
-    !['creature', 'character'].includes(approval.target?.kind) || (approval.target.kind === 'character' && approval.spell.kind !== 'healing') ||
-    !int(approval.formulaSourceRevision) || !/^[0-9a-f]{64}$/.test(approval.formulaSourceHash || ''))) fail('invalid_spell_approval');
-  if (approval.version !== 1 || !text(approval.roomId) || !UUID.test(approval.approvalId || '') || !text(approval.actionEpoch) || !int(approval.baseCommitSequence) ||
-    actors.bytes(approval) > 32768) {fail('invalid_spell_approval');}
-  actors.validateRef(approval.source); actors.validateRef(approval.target);
-  if (approval.source.kind !== (creature ? 'creature' : 'character') || approval.source.roomId !== approval.roomId || approval.target.roomId !== approval.roomId ||
-    approval.target.mapId !== approval.source.mapId) {fail('invalid_spell_approval');}
+  const authored = require('../shared/services/authoredAbility');
+  const formula = authored.isFormula(approval), area = authored.isArea(approval);
+  if (area) {
+    if (creature) fail('unsupported_source_route');
+    if (!authored.isAreaRollProcedureApproved()) fail('area_roll_procedure_unapproved', authored.AREA_ROLL_UNAPPROVED_REASON);
+    keys(approval, ['version', 'roomId', 'approvalId', 'actionEpoch', 'baseCommitSequence', 'source', 'targets', 'areaTerms', 'areaOrigin', 'areaRollProcedure', 'spell', 'roll', 'rollAttributes', 'formulaSourceRevision', 'formulaSourceHash', 'price', 'classPayment']);
+    if (approval.version !== 1 || !text(approval.roomId) || !UUID.test(approval.approvalId || '') || !text(approval.actionEpoch) || !int(approval.baseCommitSequence) ||
+      actors.bytes(approval) > 32768 || !authored.isAuthored(approval.spell) || approval.areaRollProcedure !== authored.AREA_ROLL_PROCEDURE) fail('invalid_spell_approval');
+    keys(approval.areaTerms, ['kind', 'aoeShape', 'radiusFeet', 'rangeFeet', 'maxTargets', 'restriction']);
+    if (approval.areaTerms.kind !== 'area' || approval.areaTerms.aoeShape !== 'circle' || !int(approval.areaTerms.radiusFeet, 5, 60) || approval.areaTerms.radiusFeet % 5 !== 0 ||
+      !int(approval.areaTerms.rangeFeet, 1, 300) || !int(approval.areaTerms.maxTargets, 1, authored.MAX_AREA_TARGETS) || !['any', 'ally', 'enemy'].includes(approval.areaTerms.restriction)) fail('invalid_spell_approval');
+    if (approval.areaOrigin !== undefined && approval.areaOrigin !== null) {
+      keys(approval.areaOrigin, ['x', 'y']);
+      if (typeof approval.areaOrigin.x !== 'number' || !Number.isFinite(approval.areaOrigin.x) || typeof approval.areaOrigin.y !== 'number' || !Number.isFinite(approval.areaOrigin.y)) fail('invalid_spell_approval');
+    }
+    actors.validateRef(approval.source);
+    if (approval.source.kind !== 'character' || approval.source.roomId !== approval.roomId) fail('invalid_spell_approval');
+    if (!Array.isArray(approval.targets) || approval.targets.length < 1) fail('invalid_spell_approval');
+    if (approval.targets.length > authored.MAX_AREA_TARGETS || approval.targets.length > approval.areaTerms.maxTargets) {
+      fail('area_target_capacity_exceeded', 'Technical limit of 8 creature targets (9 actors including source) exceeded; do not truncate.');
+    }
+    const seenTargets = new Set();
+    for (const targetRef of approval.targets) {
+      actors.validateRef(targetRef);
+      if (hash(targetRef) === hash(approval.source)) fail('source_in_targets');
+      if (targetRef.kind !== 'creature') fail('unsupported_area_target_kind');
+      if (targetRef.roomId !== approval.roomId || targetRef.mapId !== approval.source.mapId) fail('cross_map_area_target');
+      const th = hash(targetRef);
+      if (seenTargets.has(th)) fail('duplicate_target_actor');
+      seenTargets.add(th);
+    }
+    if (approval.formulaSourceRevision !== undefined && !int(approval.formulaSourceRevision)) fail('invalid_spell_approval');
+    if (approval.formulaSourceHash !== undefined && !/^[0-9a-f]{64}$/.test(approval.formulaSourceHash || '')) fail('invalid_spell_approval');
+  } else {
+    keys(approval, ['version', 'roomId', 'approvalId', 'actionEpoch', 'baseCommitSequence', 'source', 'target', 'spell', 'roll', 'price', 'classPayment', ...(creature ? ['sourceAuthority', ...(condition.isCondition(approval) || bundle ? ['resolution'] : [])] : condition.isCondition(approval) ? ['conditionTerms'] : []), ...(bundle ? ['effectTerms'] : []), ...(authored.isFormulaBundle(approval) ? ['rollAttributes', 'formulaSourceRevision', 'formulaSourceHash'] : []), ...(composed ? ['effectTerms', 'disclosure', 'rollAttributes'] : []), ...(formula ? ['rollAttributes', 'formulaSourceRevision', 'formulaSourceHash'] : []), ...(authored.isHealth(approval) ? ['rollHealth'] : [])]);
+    if (authored.isHealth(approval)) {
+      keys(approval.rollHealth, ['current', 'max']);
+      if (!int(approval.rollHealth.current, 0, 100000) || !int(approval.rollHealth.max, 0, 100000) || approval.target?.kind !== 'creature' || approval.classPayment !== null) fail('invalid_spell_approval');
+    }
+    if (formula && (creature || !authored.isAuthored(approval.spell) ||
+      !['creature', 'character'].includes(approval.target?.kind) || (approval.target.kind === 'character' && approval.spell.kind !== 'healing') ||
+      !int(approval.formulaSourceRevision) || !/^[0-9a-f]{64}$/.test(approval.formulaSourceHash || ''))) fail('invalid_spell_approval');
+    if (approval.version !== 1 || !text(approval.roomId) || !UUID.test(approval.approvalId || '') || !text(approval.actionEpoch) || !int(approval.baseCommitSequence) ||
+      actors.bytes(approval) > 32768) {fail('invalid_spell_approval');}
+    actors.validateRef(approval.source); actors.validateRef(approval.target);
+    if (approval.source.kind !== (creature ? 'creature' : 'character') || approval.source.roomId !== approval.roomId || approval.target.roomId !== approval.roomId ||
+      approval.target.mapId !== approval.source.mapId) {fail('invalid_spell_approval');}
+  }
   keys(approval.spell, ['definitionId', 'definitionHash', 'name', 'kind', 'damageTypes']);
-  if (!text(approval.spell.definitionId) || !/^(p9-spell:v1|authored-immediate:v[12]|authored-condition:v1|authored-effect:v1|class-effect:v1)\/[0-9a-f]{64}$/.test(approval.spell.definitionHash || '') || !text(approval.spell.name) ||
+  if (!text(approval.spell.definitionId) || !/^(p9-spell:v1|authored-immediate:v[1234]|authored-area:v1|authored-condition:v1|authored-effect:v1|class-effect:v1)\/[0-9a-f]{64}$/.test(approval.spell.definitionHash || '') || !text(approval.spell.name) ||
     !(condition.isCondition(approval) ? approval.spell.kind === 'condition' && approval.spell.damageTypes?.length === 0 : bundle ? approval.spell.kind === 'effect' : composed ? approval.spell.kind === 'class-effect' : ['damage', 'healing'].includes(approval.spell.kind)) || !Array.isArray(approval.spell.damageTypes) || approval.spell.damageTypes.length > 8 ||
     approval.spell.damageTypes.some(type => !text(type, 40)) || (approval.spell.kind === 'damage' && !approval.spell.damageTypes.length)) {fail('invalid_spell_approval');}
   if (composed) {
@@ -209,6 +247,9 @@ function validateApprovalShape(approval, creature = false) {
     keys(approval.effectTerms, ['direct', 'condition', 'timing']);
     if (approval.classPayment !== null || (approval.effectTerms.direct === null) !== (approval.roll === null) || !approval.effectTerms.condition || !approval.effectTerms.timing) fail('invalid_spell_approval');
     if (approval.roll !== null) validateRoll(approval.roll);
+    // M5 composition + M4A: an attribute-reading immediate part carries the M4A input disclosure and caster-snapshot binding (owner PC only).
+    if (authored.isFormulaBundle(approval) && (creature || !int(approval.formulaSourceRevision) || !/^[0-9a-f]{64}$/.test(approval.formulaSourceHash || '') ||
+      !approval.rollAttributes || typeof approval.rollAttributes !== 'object' || Array.isArray(approval.rollAttributes))) fail('invalid_spell_approval');
     if (creature) validateConditionResolution(approval.resolution);
   } else if (condition.isCondition(approval)) {
     if (approval.roll !== null || approval.classPayment !== null) fail('invalid_spell_approval');
@@ -217,14 +258,14 @@ function validateApprovalShape(approval, creature = false) {
       keys(approval.conditionTerms, ['conditionKey', 'timing']);
       if (approval.conditionTerms.conditionKey !== 'stunned' || !approval.conditionTerms.timing) fail('invalid_spell_approval');
     }
-  } else validateRoll(approval.roll);
+  } else validateRoll(approval.roll, authored.isDeterministic(approval));
   keys(approval.price, ['ap', 'mana']);
   if (!int(approval.price.ap, 0, 100) || !int(approval.price.mana, 0, 10000)) {fail('invalid_spell_approval');}
   if (approval.classPayment !== null) {
     keys(approval.classPayment, ['domain', 'before', 'after', 'price']);
     conserve(approval.classPayment.domain, approval.classPayment.before, approval.classPayment.after, approval.classPayment.price);
   }
-  if (!creature && !condition.isCondition(approval) && !bundle && !composed &&
+  if (!creature && !condition.isCondition(approval) && !bundle && !composed && !area &&
       (approval.classPayment?.domain === 'musicalNotes' || approval.spell.definitionId.startsWith('minstrel_'))) {
     validateMinstrelSpellApproval(approval);
   }
@@ -279,18 +320,34 @@ function validPool(pool) {
 // A6 validation evidence belongs to the existing pending attempt, not a second actor/store.
 function selfState(room, approval) {
   if ((condition.isCondition(approval) || effect.isEffect(approval)) && approval.source.kind === 'creature') return hash([approval.source, approval.target].map(ref => { const a = actors.locate(room, ref); return { contract: a.contract, resources: actors.resources(a.token, ref.kind), conditions: a.token.state?.conditions || [] }; }));
-  if (approval.source.kind !== 'creature' || hash(approval.source) !== hash(approval.target)) return null;
+  if (approval.source.kind !== 'creature' || !approval.target || hash(approval.source) !== hash(approval.target)) return null;
   const source = actors.locate(room, approval.source);
   return hash({ contract: source.contract, resources: actors.resources(source.token, 'creature'), conditions: source.token.state?.conditions || [] });
 }
 /** Checks an approval against current authoritative room state. */
 function checkAgainstRoom(room, approval) {
   const authored = require('../shared/services/authoredAbility');
-  if (authored.isAuthored(approval.spell) || authored.isFormula(approval) || approval.spell.definitionHash.startsWith(`${authored.CAPABILITY}/`)) {
+  if (authored.isAuthored(approval.spell) || authored.isFormula(approval) || authored.isArea(approval) || approval.spell.definitionHash.startsWith(`${authored.CAPABILITY}/`)) {
     require('./installedAuthoredAbilities').checkApproval(room, approval);
   }
   actors.assertCanAct(room, approval.source);
   const source = actors.locate(room, approval.source);
+  if (authored.isArea(approval)) {
+    const targets = approval.targets.map(tRef => {
+      const t = actors.locate(room, tRef);
+      if (t.token?.state?.hiddenFromPlayers === true || t.token?.hiddenFromPlayers === true) fail('actor_not_found');
+      validPool(actors.resources(t.token, 'creature').hp);
+      return t;
+    });
+    const pools = sourcePools(source.token, approval.source.kind);
+    for (const [pool, key] of [['ap', 'ap'], ['mana', 'mana']]) {
+      if (approval.price[key] > 0) tempFirst(pools[pool].current, pools[pool].temp, approval.price[key]);
+    }
+    if (approval.classPayment) {
+      if (hash(home(source.token)) !== hash({ domain: approval.classPayment.domain, value: approval.classPayment.before })) {fail('class_home_required');}
+    }
+    return { source, targets };
+  }
   const target = actors.locate(room, approval.target);
   // Review m-3: a class effect is cast only by a character of the admitted entry's class.
   if (classEffect.isClassEffect(approval) && classEffect.classIdOf(source.token.character?.class) !== classEffectEntry(approval).classId) fail('class_effect_class_mismatch');
@@ -378,8 +435,9 @@ function bindCommand(room, player, command, authorization) {
   if (effect.isEffect(approval)) return bindEffect(room, player, command, authorization, entry);
   if (classEffect.isClassEffect(approval)) return bindClassEffect(room, player, command, authorization, entry);
   const authored = require('../shared/services/authoredAbility');
+  if (authored.isArea(approval)) return bindArea(room, player, command, authorization, entry);
   const authoredImmediate = authored.isAuthored(approval.spell) || authored.isFormula(approval);
-  const capability = authored.isFormula(approval) ? authored.FORMULA_CAPABILITY : authoredImmediate ? authored.CAPABILITY : CAPABILITY;
+  const capability = authored.isDeterministic(approval) ? authored.DETERMINISTIC_CAPABILITY : authored.isHealth(approval) ? authored.HEALTH_CAPABILITY : authored.isFormula(approval) ? authored.FORMULA_CAPABILITY : authoredImmediate ? authored.CAPABILITY : CAPABILITY;
   if (authoredImmediate) {
     checkAgainstRoom(room, approval);
     if (selfState(room, approval) !== (entry.selfState ?? null)) fail('creature_revalidation_required');
@@ -396,6 +454,7 @@ function bindCommand(room, player, command, authorization) {
   try {chosen = JSON.parse(adjudication.chosenResult);} catch (_) {fail('approval_mismatch');}
   if (!chosen || chosen.capability !== capability || chosen.approvalId !== approval.approvalId || chosen.kind !== approval.spell.kind ||
     chosen.gmConfirmed !== true || hash(chosen.roll) !== hash(approval.roll)) {fail('approval_mismatch');}
+  if (authored.isHealth(approval) && hash(chosen.rollHealth) !== hash(approval.rollHealth)) fail('approval_mismatch');
   const amount = adjudication.finalAmount;
   if (!int(amount, 0, 100000)) {fail('invalid_final_amount');}
   if (typeof adjudication.adjustmentReason !== 'string' || adjudication.adjustmentReason.length > 2000 ||
@@ -436,6 +495,61 @@ function bindCommand(room, player, command, authorization) {
     if (authoredImmediate && (actual.equipmentWear !== undefined || actual.blockingDeclaration !== undefined)) {fail('approval_mismatch');}
     if (hash(actual.ref) !== hash(value.ref) || actual.conditions !== undefined ||
       hash(actual.finalResources || {}) !== hash(value.finalResources) || hash(actual.classPayment || null) !== hash(value.classPayment || null)) {fail('approval_mismatch');}
+  });
+  return entry;
+}
+function bindArea(room, player, command, authorization, entry) {
+  const { approval } = entry;
+  const authored = require('../shared/services/authoredAbility');
+  validateApproval(approval);
+  const { source, targets } = checkAgainstRoom(room, approval);
+  if (authorization.authorizerUid !== room.gmId) fail('forbidden');
+  if (entry.ownerUid !== approval.source.ownerUid || source.token.ownerUserId !== approval.source.ownerUid) fail('forbidden');
+  if (!ownerMember(room, approval.source.ownerUid)) fail('owner_unavailable');
+  if (hash(command.source) !== hash(approval.source) || !Array.isArray(command.targets) || hash(command.targets) !== hash(approval.targets)) fail('approval_mismatch');
+  const adj = command.adjudication || {};
+  if (adj.definitionId !== approval.spell.definitionId || adj.definitionVersionOrHash !== approval.spell.definitionHash) fail('approval_mismatch');
+  let chosen;
+  try { chosen = JSON.parse(adj.chosenResult); } catch (_) { fail('approval_mismatch'); }
+  if (!chosen || chosen.capability !== authored.AREA_CAPABILITY || chosen.approvalId !== approval.approvalId || chosen.kind !== approval.spell.kind ||
+    chosen.areaRollProcedure !== authored.AREA_ROLL_PROCEDURE || chosen.gmConfirmed !== true || hash(chosen.roll) !== hash(approval.roll) ||
+    !Array.isArray(chosen.targets) || chosen.targets.length !== approval.targets.length) fail('approval_mismatch');
+  for (const actor of command.actors) {
+    if (actors.locate(room, actor.ref).contract.revision !== actor.expectedRevision) fail('stale_actor_revision');
+  }
+  if (approval.classPayment && hash(home(source.token)) !== hash({ domain: approval.classPayment.domain, value: approval.classPayment.before })) fail('owner_reapproval_required');
+  require('./installedAuthoredAbilities').checkApproval(room, approval);
+  const pools = sourcePools(source.token, 'character');
+  const expectedSource = {};
+  for (const pool of ['ap', 'mana']) {
+    if (approval.price[pool] > 0) expectedSource[pool] = tempFirst(pools[pool].current, pools[pool].temp, approval.price[pool]);
+  }
+  if (!Object.keys(expectedSource).length) expectedSource.ap = tempFirst(pools.ap.current, pools.ap.temp, 0);
+  const expected = [{ ref: approval.source, finalResources: expectedSource,
+    ...(approval.classPayment ? { classPayment: { mode: 'spell', domain: approval.classPayment.domain, approvalHash: entry.contentHash } } : {}) }];
+  let totalFinalAmount = 0;
+  for (let i = 0; i < approval.targets.length; i++) {
+    const tRef = approval.targets[i], tOutcome = chosen.targets[i], targetLocated = targets[i];
+    if (!tOutcome || typeof tOutcome !== 'object' || hash(tOutcome.ref) !== hash(tRef)) fail('approval_mismatch');
+    const amount = tOutcome.finalAmount;
+    if (!int(amount, 0, 100000)) fail('invalid_final_amount');
+    if (typeof tOutcome.adjustmentReason !== 'string' || tOutcome.adjustmentReason.length > 2000 ||
+      (amount !== approval.roll.total && !tOutcome.adjustmentReason.trim())) fail('adjustment_reason_required');
+    totalFinalAmount += amount;
+    const targetPools = actors.resources(targetLocated.token, 'creature');
+    const hp = approval.spell.kind === 'damage' ? (() => {
+      const fromTemp = Math.min(targetPools.hp.temp, amount);
+      return { current: Math.max(0, targetPools.hp.current - (amount - fromTemp)), temp: targetPools.hp.temp - fromTemp };
+    })() : { current: Math.min(targetPools.hp.max, targetPools.hp.current + amount), temp: targetPools.hp.temp };
+    expected.push({ ref: tRef, finalResources: { hp } });
+  }
+  if (adj.finalAmount !== totalFinalAmount || typeof adj.adjustmentReason !== 'string' || adj.adjustmentReason.length > 2000) fail('approval_mismatch');
+  if (command.actors.length !== expected.length) fail('approval_mismatch');
+  expected.forEach((value, index) => {
+    const actual = command.actors[index];
+    if (actual.equipmentWear !== undefined || actual.blockingDeclaration !== undefined || actual.conditions !== undefined) fail('approval_mismatch');
+    if (hash(actual.ref) !== hash(value.ref) || hash(actual.finalResources || {}) !== hash(value.finalResources) ||
+      hash(actual.classPayment || null) !== hash(value.classPayment || null)) fail('approval_mismatch');
   });
   return entry;
 }
@@ -604,7 +718,7 @@ function targetProposal(entry) {
   if (t.healing) return { ...base, healing: clone(t.healing), consent: 'required' };
   if (t.bundle) {
     const c = t.bundle.condition;
-    return { ...base, conditionKey: c.kind === 'stunned' ? 'stunned' : 'movement', durationText: t.bundle.timing.durationText, expiryPolicy: t.bundle.timing.expiryPolicy,
+    return { ...base, conditionKey: c.kind === 'stunned' ? 'stunned' : c.kind === 'attribute' ? 'attribute' : 'movement', durationText: t.bundle.timing.durationText, expiryPolicy: t.bundle.timing.expiryPolicy,
       ...(t.bundle.timing.occurrences !== undefined ? { occurrences: t.bundle.timing.occurrences } : {}),
       bundle: { ...t.bundle, timing: { durationText: t.bundle.timing.durationText, expiryPolicy: t.bundle.timing.expiryPolicy, ...(t.bundle.timing.occurrences !== undefined ? { occurrences: t.bundle.timing.occurrences } : {}) } },
       consent: effect.pcConsent(entry.approval.effectTerms, entry.approval.source.kind) };
@@ -613,7 +727,7 @@ function targetProposal(entry) {
 }
 /** What target consent an approval aimed at a PC needs: 'none' (hostile default), 'designatable' (GM may ask), 'required' (always asked). */
 function targetConsent(approval) {
-  if (approval.target.kind !== 'character') return 'none';
+  if (approval.target?.kind !== 'character') return 'none';
   if (condition.isCondition(approval)) return 'designatable';
   if (!effect.isEffect(approval)) {
     // M4B: direct formula healing aimed at a primary PC always needs that owner's
@@ -630,7 +744,7 @@ function ensureTargetPolicy(entry, gmUid) {
   return entry.targetPolicy;
 }
 function checkTargetAcceptance(room, entry) {
-  if (entry.approval.target.kind !== 'character') return;
+  if (entry.approval.target?.kind !== 'character') return;
   const p = entry.targetPolicy;
   if (!p) {
     // M4B repair R3: beneficial PC healing always needs the exact target-owner record.

@@ -704,7 +704,7 @@ const DamageEffects = () => {
        className="main-formula-input"
         rows="2"
        />
-       {currentResolution === 'DICE' && <FormulaExecutionHelp formula={damageConfig.formula} />}
+        {currentResolution === 'DICE' && <FormulaExecutionHelp formula={damageConfig.formula} onUseMissingHealth={handleFormulaChange} />}
       </div>
 
      {/* Character Variables Section */}

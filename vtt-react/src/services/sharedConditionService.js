@@ -5,7 +5,7 @@ import { captureActorDelivery, currentActorDelivery } from './actorProjectionOrd
 import { getBootstrapGateState, isPrivateProjectionIsolated } from '../persistence/bootstrapPrivacyGate';
 import { conditionContext, loadConditionCustody, retainConditionCommand } from './sharedConditionCustody';
 import { refreshActorSnapshot, prepareActorCommand, submitPreparedActorCommand, requestActorEvent, findActor, refOf } from './actorConsequenceService';
-import { DEFENDING, STUNNED, MOVEMENT, canonical, sameRef, recordsFor, makeDefendingRecord, makeStunnedRecord, stunnedRecordsFor, sameStunnedSource, movementRecordsFor } from './sharedConditionProfile';
+import { DEFENDING, STUNNED, MOVEMENT, ATTRIBUTE, PERIODIC, isPeriodicTick, canonical, sameRef, recordsFor, makeDefendingRecord, makeStunnedRecord, stunnedRecordsFor, sameStunnedSource, movementRecordsFor, attributeRecordsFor } from './sharedConditionProfile';
 import { onRoomRejoined } from './roomRejoinBus';
 import * as shieldBash from './shieldBashResult';
 import * as timing from './sharedEffectTiming';
@@ -71,7 +71,7 @@ function accepted(result, s = scope()) {
   if (result.receipt.submitterUid !== s.context.uid) return;
   const saved = loadConditionCustody(s.context), receipt = result.receipt;
   for (const [key, entry] of Object.entries(saved?.entries || {})) {
-    if (entry.command.commandId !== receipt.commandId || (entry.kind !== 'turn-boundary' && !receipt.actors.some(actor => sameRef(actor.ref, entry.ref)))) continue;
+    if (entry.command.commandId !== receipt.commandId || (!['turn-boundary', 'periodic-tick'].includes(entry.kind) && !receipt.actors.some(actor => sameRef(actor.ref, entry.ref)))) continue;
     const summary = Object.fromEntries(['success', 'receipt', 'status', 'durability'].filter(k => result[k] !== undefined).map(k => [k, result[k]]));
     retainConditionCommand(s.context, key, { ...entry, phase: 'accepted', result: summary }); restore(s.context);
     message(key, { outcome: 'Accepted condition command. Current state below comes from the room, not this historical receipt.' });
@@ -80,21 +80,81 @@ function accepted(result, s = scope()) {
 export async function checkConditionCommand(ref) {
   const s = scope(), key = conditionKey(ref), entry = loadConditionCustody(s.context)?.entries?.[key];
   if (!live(s)) throw Error('Current connected condition principal/room unavailable. Retained command unchanged.');
-  const turn = Array.isArray(ref) && ref[0] === 'turn-lifecycle';
+  const turn = Array.isArray(ref) && ['turn-lifecycle', 'periodic-tick'].includes(ref[0]);
   if (!entry?.command) return turn ? refreshEffectLifecycle() : refreshConditionActor(ref);
-  const result = entry.kind === 'turn-boundary' ? await requestActorEvent('actor_turn_boundary', entry.command) : await submitPreparedActorCommand(entry.command);
+  const result = entry.kind === 'turn-boundary' ? await requestActorEvent('actor_turn_boundary', entry.command)
+    : entry.kind === 'periodic-tick' ? await requestActorEvent('actor_periodic_resolve', entry.command) : await submitPreparedActorCommand(entry.command);
   if (!live(s)) return;
   if (loadConditionCustody(s.context)?.entries?.[key]?.command?.commandId !== entry.command.commandId) return result;
   if (result.success && result.receipt) accepted(result, s);
   else if (loadConditionCustody(s.context)?.entries?.[key]?.phase !== 'accepted') {
-    const definitive = ['authored_effect_correction_is_removal', 'authored_effect_gm_removal_required', 'authored_effect_approval_required', 'stale_turn_state', 'stale_turn_occurrence', 'turn_state_unavailable', 'turn_roster_unbound', 'turn_clock_already_active', 'turn_gm_required', 'invalid_turn_boundary', 'stale_effect_schedule', 'turn_expiry_capacity', 'condition_operation_limit', 'shield_bash_gm_required', 'invalid_shield_bash_result', 'shield_bash_already_recorded', 'stale_actor_revision', 'condition_already_active', 'condition_not_found', 'invalid_condition', 'invalid_shared_condition', 'invalid_consequence', 'invalid_resources', 'actor_binding_conflict', 'secondary_attachment'].includes(result.code);
-    const unknown = !definitive;
+    const definitive = ['authored_effect_correction_is_removal', 'authored_effect_gm_removal_required', 'authored_effect_approval_required', 'stale_turn_state', 'stale_turn_occurrence', 'turn_state_unavailable', 'turn_roster_unbound', 'turn_clock_already_active', 'turn_gm_required', 'invalid_turn_boundary', 'stale_effect_schedule', 'turn_expiry_capacity', 'condition_operation_limit', 'shield_bash_gm_required', 'invalid_shield_bash_result', 'shield_bash_already_recorded', 'stale_actor_revision', 'condition_already_active', 'condition_not_found', 'invalid_condition', 'invalid_shared_condition', 'invalid_consequence', 'invalid_resources', 'actor_binding_conflict', 'secondary_attachment',
+      'tick_already_resolved', 'tick_not_found', 'periodic_tick_stale', 'periodic_tick_retired', 'periodic_roll_mismatch', 'periodic_target_down', 'periodic_tick_capacity', 'invalid_periodic_resolution', 'adjustment_reason_required', 'invalid_spell_approval'].includes(result.code);
+    // M5 recovery review F1: for a tick command whose outcome was already uncertain, "already resolved"/"not found" can mean this
+    // very command was admitted (its first copy still in flight or its ACK lost). That is never shown as a refusal.
+    const consumed = entry.kind === 'periodic-tick' && entry.phase === 'unknown' && ['tick_already_resolved', 'tick_not_found'].includes(result.code);
+    const unknown = !definitive || consumed;
     retainConditionCommand(s.context, key, { ...entry, phase: unknown ? 'unknown' : 'failed', result: { success: false, code: result.code } }); restore(s.context);
     message(key, { outcome: unknown ? `Current request unavailable/refused (${result.code}); original outcome unconfirmed. Check the same retained command; no replacement/replay.` : `Not applied: ${result.code}. Current permissions/state are unchanged.` });
   }
   if (turn) await refreshEffectLifecycle(); else await refreshConditionActor(ref); return result;
 }
 export const checkTurnBoundary = () => checkConditionCommand(turnRef());
+// M5: one retained GM command per due tick (apply with its retained roll, or dismiss). Same custody/recovery as the turn boundary.
+export const tickRef = tickId => ['periodic-tick', game().multiplayerRoom?.id, tickId];
+/**
+ * M5 recovery: every retained tick command in this GM's device custody for the current room, independent of the live due-tick
+ * row (which disappears once the server consumes the tick). Read-only view; checking resends the exact retained bytes.
+ * outcome: 'unknown' (sent, outcome unconfirmed) | 'consumed' (tick gone on the server, possibly by this command; unconfirmed) |
+ * 'applied' | 'dismissed' (accepted receipt) | 'refused' (definitive refusal).
+ */
+export function retainedTickOutcome(entry) {
+  if (!entry?.command) return null;
+  if (entry.phase === 'accepted') return entry.command.mode === 'dismiss' ? 'dismissed' : 'applied';
+  if (entry.phase === 'failed') return 'refused';
+  if (['tick_already_resolved', 'tick_not_found'].includes(entry.result?.code)) return 'consumed';
+  return 'unknown';
+}
+export function retainedTickCommands(saved) {
+  const roomId = game().multiplayerRoom?.id;
+  return Object.values(saved?.entries || {}).filter(entry => entry?.kind === 'periodic-tick' && entry.command?.roomId === roomId && Array.isArray(entry.ref) && entry.ref[1] === roomId)
+    .map(entry => ({ tickId: entry.ref[2], commandId: entry.command.commandId, mode: entry.command.mode, finalAmount: entry.command.finalAmount, roll: entry.command.roll || null,
+      adjustmentReason: entry.command.adjustmentReason, outcome: retainedTickOutcome(entry), code: entry.result?.code || null,
+      receiptCommandId: entry.result?.receipt?.commandId || null, tick: entry.tick || null }))
+    .sort((a, b) => (['unknown', 'consumed'].includes(a.outcome) ? 0 : 1) - (['unknown', 'consumed'].includes(b.outcome) ? 0 : 1) || String(a.tickId).localeCompare(String(b.tickId)));
+}
+export const checkPeriodicTick = tickId => checkConditionCommand(tickRef(tickId));
+export async function resolvePeriodicTick(tick, { mode = 'apply', roll, finalAmount, adjustmentReason = '' } = {}) {
+  const s = scope(), ref = tickRef(tick.tickId), key = conditionKey(ref), lock = `${s.principal}:${key}`;
+  if (locks.has(lock)) throw Error('This tick is already being resolved. Check the original command.');
+  locks.add(lock);
+  try {
+    const prior = loadConditionCustody(s.context)?.entries?.[key];
+    if (prior?.command && !['failed'].includes(prior.phase)) throw Error(prior.phase === 'accepted' ? 'This tick was already resolved.' : 'Tick outcome unknown. Check the original command; no replacement.');
+    const snapshot = await refreshEffectLifecycle();
+    if (!live(s)) return;
+    if (!game().isGMMode || !snapshot?.success) throw Error('Current GM and hydrated shared room required.');
+    const open = snapshot.combat?.effectLifecycle?.dueTicks?.[tick.tickId], retired = snapshot.combat?.retiredPeriodicTicks?.[tick.tickId];
+    if (!open && !retired) throw Error('This tick is no longer waiting for resolution. Refresh the server turn state.');
+    if (retired && mode !== 'dismiss') throw Error('This tick was recorded before combat ended, restarted or its clock was replaced. Resolve it by hand and dismiss it.');
+    const command = { version: 1, roomId: s.context.roomId, commandId: crypto.randomUUID(), actionEpoch: snapshot.actionEpoch, baseCommitSequence: snapshot.commitSequence,
+      tickId: tick.tickId, mode, adjustmentReason: String(adjustmentReason || '') };
+    if (mode === 'apply') {
+      // M5 review F5: read the target revision from a fresh authoritative snapshot, not a possibly lagging local store.
+      const fresh = await refreshConditionActor(tick.ref);
+      if (!live(s)) return;
+      if (!fresh?.success) throw Error('The exact target of this tick could not be refreshed. Nothing was sent; try again.');
+      const token = findActor(tick.ref);
+      if (!token?.state?.actorContract) throw Error('The exact target of this tick is unavailable. Resolve it by hand and dismiss it.');
+      Object.assign(command, { expectedRevision: token.state.actorContract.revision, roll, finalAmount });
+    }
+    // Recovery summary (GM device custody only): lets the retained command be found and checked after the due-tick row is gone.
+    const summary = { tickId: tick.tickId, occurrence: tick.occurrence, of: tick.of, label: tick.label, kind: tick.tick?.kind, formula: tick.tick?.formula, target: tick.ref };
+    retainConditionCommand(s.context, key, { kind: 'periodic-tick', ref, command, operation: mode, recordId: tick.recordId, phase: 'unknown', tick: summary }); restore(s.context);
+    message(key, { outcome: 'Pending tick resolution — no optimistic HP change.' });
+    return checkPeriodicTick(tick.tickId);
+  } finally { locks.delete(lock); }
+}
 export async function submitTurnBoundary(mode = 'advance') {
   const s = scope(), ref = turnRef(), key = conditionKey(ref), lock = `${s.principal}:${key}`;
   if (locks.has(lock)) throw Error('Turn boundary preparation already pending. Check the original command.');
@@ -137,11 +197,16 @@ export async function editSharedCondition(ref, operation, { recordId, sourceMode
       if (!resolveConditionActor({ targetRef: sourceActor })) throw Error('Exact Shield Bash source unavailable; no replacement incarnation or sheet fallback.');
       if (shieldBashResults().some(r => !['accepted', 'failed'].includes(r.phase))) throw Error('Check the retained unknown Shield Bash result before another result.');
     }
-    if (!['stunned', 'defending', 'movement'].includes(profile) || (profile === 'defending' && ref.kind !== 'character')) throw Error('Unsupported condition profile/actor.');
+    if (!['stunned', 'defending', 'movement', 'attribute', 'periodic'].includes(profile) || (profile === 'defending' && ref.kind !== 'character')) throw Error('Unsupported condition profile/actor.');
+    // M5: an accepted periodic instance has exactly one correction — exact GM removal (later ticks are then never recorded).
+    if (profile === 'periodic' && (operation !== 'remove' || !game().isGMMode)) throw Error('Periodic effects are removed by the current GM only (exact instance).');
     // A10 review finding 2: an accepted authored movement change has exactly one correction — exact GM removal.
     if (profile === 'movement' && (operation !== 'remove' || !game().isGMMode)) throw Error('Authored movement changes are removed by the current GM only (exact instance).');
-    const definition = profile === 'stunned' ? STUNNED : profile === 'movement' ? MOVEMENT : DEFENDING;
-    const token = findActor(ref), active = profile === 'stunned' ? stunnedRecordsFor(token) : profile === 'movement' ? movementRecordsFor(token) : recordsFor(token);
+    // Attribute family: the same single correction — exact GM removal; base attributes are never edited here.
+    if (profile === 'attribute' && (operation !== 'remove' || !game().isGMMode)) throw Error('Authored attribute changes are removed by the current GM only (exact instance).');
+    const definition = profile === 'stunned' ? STUNNED : profile === 'movement' ? MOVEMENT : profile === 'attribute' ? ATTRIBUTE : profile === 'periodic' ? PERIODIC : DEFENDING;
+    const token = findActor(ref), active = profile === 'stunned' ? stunnedRecordsFor(token) : profile === 'movement' ? movementRecordsFor(token) : profile === 'attribute' ? attributeRecordsFor(token)
+      : profile === 'periodic' ? (token?.state?.conditions || []).filter(r => isPeriodicTick(r) && sameRef(r.target, token.state?.actorContract)) : recordsFor(token);
     const candidate = shieldBashResult ? shieldBash.makeRecord(sourceActor, ref, crypto.randomUUID()) : profile === 'stunned' && operation === 'add' ? makeStunnedRecord(ref, crypto.randomUUID(), { sourceOccurrence, timing, sourceActor }) : null;
     if (operation === 'add' && (profile === 'defending' ? active.length : active.some(r => sameStunnedSource(r, candidate)))) { message(key, { outcome: 'Already active in accepted room state — no new instance, refresh or payment.' }); return { success: true, code: 'already_active' }; }
     const old = active.find(r => (r.recordId || r.id) === recordId);

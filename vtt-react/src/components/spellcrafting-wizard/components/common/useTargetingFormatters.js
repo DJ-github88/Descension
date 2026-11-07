@@ -713,6 +713,8 @@ const useTargetingFormatters = ({ spell }) => {
     const cooldownValue = config.cooldownValue ?? config.value;
 
     switch (cooldownType) {
+      case 'authenticated_caster_start':
+        return `${cooldownValue} upcoming caster-turn starts (authenticated combat; no end/restart reset)`;
       case 'turn_based':
         if (!cooldownValue || cooldownValue === 0) return 'No cooldown';
         return `${cooldownValue} turn${cooldownValue > 1 ? 's' : ''}`;

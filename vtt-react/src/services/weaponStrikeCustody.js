@@ -4,7 +4,7 @@ import { spellContext } from './spellConsequenceCustody';
 import { CAPABILITY } from './weaponStrike';
 const storage = createScopedNativeFamily({ familyId: 'room.strikeConsequenceLatest' });
 export const strikeContext = spellContext;
-export const unresolvedStrike = value => !!value?.approval && !['accepted', 'withdrawn', 'declined', 'reconciled', 'refused'].includes(value.phase);
+export const unresolvedStrike = value => !!value?.approval && !['accepted', 'withdrawn', 'declined', 'reconciled', 'refused', 'reapproval'].includes(value.phase);
 export function loadStrikeCustody(context = strikeContext()) {
   if (!context.current()) return null;
   const saved = storage.load([context.roomId]);

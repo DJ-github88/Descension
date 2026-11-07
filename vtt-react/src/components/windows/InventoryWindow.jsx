@@ -25,6 +25,7 @@ import InventoryShareToggle from './InventoryShareToggle';
 import UnifiedContextMenu from '../level-editor/UnifiedContextMenu';
 import ItemAbilityAccess from '../item-generation/ItemAbilityAccess';
 import { getIconUrl } from '../../utils/assetManager';
+import { setOrbDragImage } from '../../utils/itemDragUtils';
 import {
     collectBuffEffects,
     collectDebuffEffects,
@@ -230,7 +231,7 @@ const InventoryWindow = memo(() => {
     const [showItemTooltip, setShowItemTooltip] = useState({ visible: false, itemId: null });
     const [itemActionPanel, setItemActionPanel] = useState({ visible: false, itemId: null, anchorRect: null });
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-    const { adjustedPosition, tooltipRef } = useTooltipPosition(mousePosition, showItemTooltip.visible);
+    const { adjustedPosition, tooltipRef } = useTooltipPosition(mousePosition, showItemTooltip.visible, { estimateHeight: 460, estimateWidth: 340 });
     
     // Encumbrance section header tooltip state
     const [sectionHeaderTooltip, setSectionHeaderTooltip] = useState({ visible: false, type: null });
@@ -1388,87 +1389,13 @@ const InventoryWindow = memo(() => {
             rotation: item.rotation || 0
         };
 
-        // Create a custom drag image that shows the actual ItemCard (orb)
+        // Immediately set custom orb drag image
         if (e.dataTransfer.setDragImage) {
             try {
-                // Get the quality colors
-                const qualityLower = (item.quality || item.rarity || 'common').toLowerCase();
-                const borderColor = RARITY_COLORS[qualityLower]?.border || RARITY_COLORS.common.border;
-                const textColor = RARITY_COLORS[qualityLower]?.text || RARITY_COLORS.common.text;
-
-                // Create a temporary div that mimics the ItemCard appearance
-                const dragImage = document.createElement('div');
-                dragImage.style.cssText = `
-                    position: absolute;
-                    top: -1000px;
-                    left: -1000px;
-                    width: 60px;
-                    height: 80px;
-                    background-color: rgba(255, 255, 255, 0.9);
-                    border: 2px solid ${borderColor};
-                    border-radius: 6px;
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    padding: 5px;
-                    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-                    font-family: 'Bookman Old Style', 'Garamond', serif;
-                    z-index: -1;
-                `;
-
-                // Add the icon
-                const iconDiv = document.createElement('div');
-                iconDiv.style.cssText = `
-                    width: 40px;
-                    height: 40px;
-                    border-radius: 4px;
-                    overflow: hidden;
-                    margin-bottom: 5px;
-                    border: 1px solid #d5cbb0;
-                    background-color: #fff;
-                `;
-
-                const iconImg = document.createElement('img');
-                iconImg.src = item.iconId ? getIconUrl(item.iconId, 'items') : getIconUrl('Misc/Books/book-brown-teal-question-mark', 'items');
-                iconImg.style.cssText = `
-                    width: 100%;
-                    height: 100%;
-                    object-fit: cover;
-                `;
-                iconImg.onerror = () => {
-                    iconImg.src = getIconUrl('inv_misc_questionmark', 'items');
-                };
-
-                iconDiv.appendChild(iconImg);
-                dragImage.appendChild(iconDiv);
-
-                // Add the item name
-                const nameDiv = document.createElement('div');
-                nameDiv.style.cssText = `
-                    font-size: 10px;
-                    text-align: center;
-                    width: 100%;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    white-space: nowrap;
-                    color: ${textColor};
-                    font-family: 'Bookman Old Style', 'Garamond', serif;
-                `;
-                nameDiv.textContent = getDisplayName(item);
-                dragImage.appendChild(nameDiv);
-
-                // Add to DOM temporarily
-                document.body.appendChild(dragImage);
-
-                // Use as drag image (centered)
-                e.dataTransfer.setDragImage(dragImage, 30, 40);
-
-                // Clean up after drag starts (slight delay to ensure it's used)
-                setTimeout(() => {
-                    if (document.body.contains(dragImage)) {
-                        document.body.removeChild(dragImage);
-                    }
-                }, 0);
+                setOrbDragImage(e, item, {
+                    sourceElement: e.currentTarget,
+                    quantity: item.quantity
+                });
             } catch (imgError) {
                 console.warn('Failed to set custom drag image:', imgError);
             }
@@ -2841,6 +2768,8 @@ const InventoryWindow = memo(() => {
                             position: 'fixed',
                             left: adjustedPosition.x,
                             top: adjustedPosition.y,
+                            maxHeight: 'calc(100vh - 24px)',
+                            overflowY: 'auto',
                             pointerEvents: 'none',
                             zIndex: 999999999
                         }}

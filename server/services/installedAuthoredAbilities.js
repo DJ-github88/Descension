@@ -19,10 +19,14 @@ function list(room) {
   const sourceRequests = new Set((actors.ledger(room).authoredSourceAdmissions || []).map(e => e.requestId));
   return { revision: r.revision, entries: r.definitions.map(entry => {
     const eligibility = catalogueEligibility(entry);
+    const rollEligibility = entry.descriptor.capabilityId === pure.AREA_CAPABILITY
+      ? (pure.isAreaRollProcedureApproved() ? { eligible: true, procedure: pure.AREA_ROLL_PROCEDURE } : { eligible: false, procedure: pure.AREA_ROLL_PROCEDURE, reason: pure.AREA_ROLL_UNAPPROVED_REASON })
+      : null;
     return { ...actors.clone(entry),
       creatureOnly: r.decisions.some(d => d.action === 'admit' && sourceRequests.has(d.requestId) && pure.actionId(d.definitionRef) === pure.actionId(entry.definitionRef)),
       revoked: r.decisions.some(d => d.action === 'revoke' && pure.actionId(d.definitionRef) === pure.actionId(entry.definitionRef)),
-      ...(eligibility ? { catalogueEligibility: eligibility } : {}) };
+      ...(eligibility ? { catalogueEligibility: eligibility } : {}),
+      ...(rollEligibility ? { areaRollEligibility: rollEligibility } : {}) };
   }) };
 }
 function lookup(room, spell) {
@@ -77,7 +81,8 @@ async function planCreatureAdmission(room, uid, data, authorize) {
   if (!/^[0-9a-f-]{36}$/i.test(data.requestId || '')) actors.fail('invalid_consequence');
   const mapped = pure.definitionFromWizard(source.association.record, { roomId: room.id, classId: 'arcanoneer', definitionVersion: data.definitionVersion });
   if (!mapped.ok) actors.fail(mapped.code, mapped.reason);
-  if (mapped.definition.capability === pure.FORMULA_CAPABILITY) actors.fail('unsupported_source_route', 'This formula version currently requires a primary owner PC source; the whole creature ability remains manual.');
+  // Creature-source eligibility (formula/health/deterministic/area, and immediate + periodic) is one shared check, also shown on the Bestiary card.
+  const sourceRefusal = pure.creatureSourceRefusal(mapped.definition); if (sourceRefusal) actors.fail(sourceRefusal.code, sourceRefusal.reason);
   const compiled = definitions.compileDefinition(mapped.definition);
   if (!compiled.ok) actors.fail(compiled.code, compiled.path);
   const matching = before.definitions.find(e => actors.hash(e.canonicalDefinition) === actors.hash(compiled.canonicalDefinition));
@@ -128,12 +133,61 @@ function checkCreatureAuthority(room, approval, primaryPc = false) {
 }
 function checkApproval(room, approval, primaryPc = false) {
   const entry = lookup(room, approval.spell), d = entry.canonicalDefinition, desc = entry.descriptor;
+  require('./authoredCooldowns').check(room, approval, d);
   const condition = desc.capabilityId === pure.CONDITION_CAPABILITY, effect = desc.capabilityId === pure.EFFECT_CAPABILITY;
-  const formula = desc.capabilityId === pure.FORMULA_CAPABILITY;
+  const deterministic = desc.capabilityId === pure.DETERMINISTIC_CAPABILITY;
+  const health = desc.capabilityId === pure.HEALTH_CAPABILITY || (deterministic && pure.readDeterministicFormula(d.effect.formula, Object.fromEntries(require('../shared/services/classEffect').ATTRIBUTES.map(n => [n, 10])), { current: 0, max: 0 }).readsHealth === true);
+  const formula = desc.capabilityId === pure.FORMULA_CAPABILITY || health || deterministic, area = desc.capabilityId === pure.AREA_CAPABILITY;
   const wanted = { definitionId: pure.actionId(entry.definitionRef), definitionHash: `${desc.capabilityId}/${entry.definitionRef.definitionHash}`, name: d.name,
     kind: effect ? 'effect' : d.effect.kind, damageTypes: effect ? desc.effects.direct?.damageTypes || [] : desc.effect.damageTypes || [] };
   if (actors.hash(approval.spell) !== actors.hash(wanted) || actors.hash(approval.price) !== actors.hash(desc.price)) actors.fail('authored_approval_mismatch');
-  if (formula) {
+  if (area) {
+    if (!pure.isAreaRollProcedureApproved()) {
+      actors.fail('area_roll_procedure_unapproved', pure.AREA_ROLL_UNAPPROVED_REASON);
+    }
+    if (desc.catalogueSource !== undefined || d.catalogueSource !== undefined) {
+      if (!desc.catalogueSource || !d.catalogueSource || actors.hash(desc.catalogueSource) !== actors.hash(d.catalogueSource)) {
+        actors.fail('catalogue_provenance_untrusted', 'The admitted descriptor and definition disagree on the catalogue source.');
+      }
+      const verified = catalogueAbility.verifyDefinition(d);
+      if (!verified.ok) actors.fail('catalogue_provenance_untrusted', verified.reason);
+    } else if (desc.classPayment || d.classPayment) {
+      actors.fail('catalogue_provenance_untrusted', 'A typed class payment requires a pinned catalogue source.');
+    }
+    const payment = desc.classPayment || null;
+    if (payment ? (!approval.classPayment || approval.classPayment.domain !== payment.domain ||
+      actors.hash(approval.classPayment.price) !== actors.hash(payment.price)) : approval.classPayment !== null) actors.fail('authored_approval_mismatch');
+    if (approval.source.kind !== 'character') actors.fail('unsupported_source_route');
+    if (approval.areaRollProcedure !== pure.AREA_ROLL_PROCEDURE || actors.hash(approval.areaTerms) !== actors.hash(d.targeting)) actors.fail('authored_approval_mismatch');
+    if (!Array.isArray(approval.targets) || approval.targets.length < 1) actors.fail('authored_target_mismatch');
+    if (approval.targets.length > d.targeting.maxTargets || approval.targets.length > pure.MAX_AREA_TARGETS) {
+      actors.fail('area_target_capacity_exceeded', 'Technical limit of 8 creature targets (9 actors including source) exceeded; do not truncate.');
+    }
+    const seen = new Set();
+    for (const t of approval.targets) {
+      if (actors.hash(t) === actors.hash(approval.source)) actors.fail('source_in_targets');
+      if (t?.kind !== 'creature') actors.fail('unsupported_area_target_kind');
+      if (t?.roomId !== room.id || t?.mapId !== approval.source.mapId) actors.fail('cross_map_area_target');
+      const th = actors.hash(t);
+      if (seen.has(th)) actors.fail('duplicate_target_actor');
+      seen.add(th);
+      const located = actors.locate(room, t);
+      if (located.token?.state?.hiddenFromPlayers === true || located.token?.hiddenFromPlayers === true) actors.fail('actor_not_found');
+    }
+    const names = pure.formulaAttributes(d.effect.formula);
+    const attrs = names.length ? approval.rollAttributes : (approval.rollAttributes || {});
+    const reading = pure.readScaledFormula(d.effect.formula, attrs), roll = approval.roll;
+    if (!attrs || typeof attrs !== 'object' || Array.isArray(attrs) || Object.keys(attrs).sort().join() !== names.join() || !reading.supported || !roll ||
+      roll.constant !== reading.constant || roll.reading !== reading.reading || roll.dice.length !== reading.dice.length ||
+      reading.dice.some((group, i) => roll.dice[i].sides !== group.sides || roll.dice[i].faces.length !== group.count)) actors.fail('authored_roll_mismatch');
+    if (names.length > 0 || approval.formulaSourceRevision !== undefined || approval.formulaSourceHash !== undefined) {
+      const source = actors.locate(room, approval.source);
+      const projected = require('./roomAccessService').projectTokenForClient(source.token);
+      if (source.contract.revision !== approval.formulaSourceRevision || actors.hash({ character: projected.character, conditions: projected.state?.conditions || [] }) !== approval.formulaSourceHash)
+        actors.fail('owner_reapproval_required', 'The caster snapshot changed. Review the formula inputs and approve again with the retained die faces; nothing was applied.');
+    }
+  } else if (formula) {
+    if ((health || deterministic) && (approval.target.kind !== 'creature' || approval.classPayment !== null || actors.hash(approval.source) === actors.hash(approval.target))) actors.fail('unsupported_formula_target');
     // M4B repair R1: the admitted definition's catalogue identity and executable projection
     // must still match a reviewed server pin at consumption. A changed/removed pin refuses.
     if (desc.catalogueSource !== undefined) {
@@ -158,6 +212,8 @@ function checkApproval(room, approval, primaryPc = false) {
     // A10: the whole admitted bundle (direct part, canonical effect, timing) is bound; no subset executes.
     if (!['creature', 'character'].includes(approval.target.kind) || actors.hash(approval.source) === actors.hash(approval.target)) actors.fail('unsupported_effect_target');
     if (actors.hash(approval.effectTerms) !== actors.hash(require('../shared/services/authoredEffect').termsFor(d))) actors.fail('authored_effect_mismatch');
+    // M5 composition (review F1): the owner-PC-only bound is re-checked at every approval, not only at creature admission.
+    if (approval.source.kind !== 'character') { const sourceRefusal = pure.creatureSourceRefusal(d); if (sourceRefusal) actors.fail(sourceRefusal.code, sourceRefusal.reason); }
     if (approval.target.kind === 'character') {
       // M3A: the existing consent boundary is chosen from the admitted terms; a combination with conflicting semantics refuses whole.
       const consent = require('../shared/services/authoredEffect').pcConsent(approval.effectTerms, approval.source.kind);
@@ -167,7 +223,21 @@ function checkApproval(room, approval, primaryPc = false) {
     }
     if (approval.source.kind === 'creature' && (approval.resolution?.gmConfirmed !== true || actors.hash(approval.resolution.timing) !== actors.hash(d.timing))) actors.fail('authored_effect_mismatch');
     if (!d.effects.direct) { if (approval.roll !== null) actors.fail('authored_roll_mismatch'); }
-    else {
+    else if (pure.formulaAttributes(d.effects.direct.formula).length) {
+      // M5 composition + M4A: the same scaled reader, owner-attested inputs and caster-snapshot binding as an M4A formula action.
+      // Re-run at approval and again at GM confirmation (checkAgainstRoom), so a caster change after approval needs reapproval.
+      if (approval.source.kind !== 'character' || d.effects.condition.kind !== 'periodic') actors.fail('unsupported_source_route');
+      const names = pure.formulaAttributes(d.effects.direct.formula), attrs = approval.rollAttributes;
+      const reading = attrs && typeof attrs === 'object' && !Array.isArray(attrs) ? pure.readScaledFormula(d.effects.direct.formula, attrs) : { supported: false }, roll = approval.roll;
+      if (!attrs || typeof attrs !== 'object' || Array.isArray(attrs) || Object.keys(attrs).sort().join() !== names.join() || !reading.supported || !roll ||
+        roll.constant !== reading.constant || roll.reading !== reading.reading || roll.dice.length !== reading.dice.length ||
+        reading.dice.some((group, i) => roll.dice[i].sides !== group.sides || roll.dice[i].faces.length !== group.count)) actors.fail('authored_roll_mismatch');
+      const source = actors.locate(room, approval.source);
+      const projected = require('./roomAccessService').projectTokenForClient(source.token);
+      if (source.contract.revision !== approval.formulaSourceRevision || actors.hash({ character: projected.character, conditions: projected.state?.conditions || [] }) !== approval.formulaSourceHash)
+        actors.fail('owner_reapproval_required', 'The caster snapshot changed. Review the formula inputs and approve again with the retained die faces; nothing was applied.');
+    } else {
+      if (approval.rollAttributes !== undefined || approval.formulaSourceRevision !== undefined || approval.formulaSourceHash !== undefined) actors.fail('authored_roll_mismatch');
       const reading = pure.readFormula(d.effects.direct.formula), roll = approval.roll;
       if (!roll || roll.constant !== reading.constant || roll.reading !== reading.reading || roll.dice.length !== 1 || roll.dice[0].sides !== reading.dice[0].sides || roll.dice[0].faces.length !== reading.dice[0].count) actors.fail('authored_roll_mismatch');
     }
@@ -177,17 +247,20 @@ function checkApproval(room, approval, primaryPc = false) {
       : actors.hash(approval.conditionTerms) !== actors.hash({ conditionKey: 'stunned', timing: d.timing })) actors.fail('authored_condition_mismatch');
   } else if (formula) {
     if (approval.source.kind !== 'character') actors.fail('unsupported_source_route');
-    const reading = pure.readScaledFormula(d.effect.formula, approval.rollAttributes), roll = approval.roll;
+    const source = actors.locate(room, approval.source);
+    const projected = require('./roomAccessService').projectTokenForClient(source.token);
+    if (source.contract.revision !== approval.formulaSourceRevision || actors.hash({ character: projected.character, conditions: projected.state?.conditions || [] }) !== approval.formulaSourceHash)
+      actors.fail('owner_reapproval_required', 'The caster snapshot changed. Review the formula inputs and approve again with the retained die faces; nothing was applied.');
+    const hp = health ? actors.resources(source.token, 'character').hp : null;
+    const inputs = health ? { current: hp.current, max: hp.max } : null;
+    if (health && actors.hash(approval.rollHealth) !== actors.hash(inputs)) actors.fail('health_input_mismatch', 'Caster base HP must match the authoritative actor snapshot.');
+    if (deterministic && !health && approval.rollHealth !== undefined) actors.fail('health_input_mismatch');
+    const reading = deterministic ? pure.readDeterministicFormula(d.effect.formula, approval.rollAttributes, inputs || undefined) : health ? pure.readHealthFormula(d.effect.formula, approval.rollAttributes, inputs) : pure.readScaledFormula(d.effect.formula, approval.rollAttributes), roll = approval.roll;
     const names = pure.formulaAttributes(d.effect.formula);
     if (!approval.rollAttributes || typeof approval.rollAttributes !== 'object' || Array.isArray(approval.rollAttributes) || Object.keys(approval.rollAttributes).sort().join() !== names.join() || !reading.supported || !roll ||
       roll.constant !== reading.constant || roll.reading !== reading.reading || roll.dice.length !== reading.dice.length ||
       reading.dice.some((group, i) => roll.dice[i].sides !== group.sides || roll.dice[i].faces.length !== group.count)) actors.fail('authored_roll_mismatch');
-    const source = actors.locate(room, approval.source);
-    // Match the authoritative PUBLIC snapshot the owner actually receives, not hidden raw token fields.
-    const projected = require('./roomAccessService').projectTokenForClient(source.token);
-    if (source.contract.revision !== approval.formulaSourceRevision || actors.hash({ character: projected.character, conditions: projected.state?.conditions || [] }) !== approval.formulaSourceHash)
-      actors.fail('owner_reapproval_required', 'The caster snapshot changed. Review the formula inputs and approve again with the retained die faces; nothing was applied.');
-  } else {
+  } else if (!area) {
     const reading = pure.readFormula(d.effect.formula), roll = approval.roll;
     if (roll.constant !== reading.constant || roll.reading !== reading.reading || roll.dice.length !== 1 || roll.dice[0].sides !== reading.dice[0].sides || roll.dice[0].faces.length !== reading.dice[0].count) actors.fail('authored_roll_mismatch');
   }
@@ -198,7 +271,7 @@ function checkApproval(room, approval, primaryPc = false) {
     const classId = String(source.token.character?.class || '').toLowerCase().replace(/ /g, '_');
     if (classId !== d.binding.classId) actors.fail('unsupported_binding');
   }
-  if (d.targeting.restriction === 'self' && actors.hash(approval.source) !== actors.hash(approval.target)) actors.fail('authored_target_mismatch');
+  if (!area && d.targeting.restriction === 'self' && actors.hash(approval.source) !== actors.hash(approval.target)) actors.fail('authored_target_mismatch');
   return entry;
 }
 module.exports = { registry, list, lookup, checkApproval, creatureSource, creatureSources, planCreatureAdmission, checkCreatureAuthority };

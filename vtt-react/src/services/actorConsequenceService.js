@@ -381,7 +381,7 @@ export async function submitActorEntries(entries, extra = {}) {
  * then submit/adopt them under the current principal. No rebase or new UUID. */
 export function prepareActorCommand(entries, extra = {}, options = {}) {
   if (!admission || admission.roomId !== state().multiplayerRoom?.id) throw new Error('Current actor snapshot required');
-  if (Object.keys(extra).some(key => !['source', 'target', 'adjudication', 'approval'].includes(key))) throw new Error('Unsupported prepared command fields');
+  if (Object.keys(extra).some(key => !['source', 'target', 'targets', 'adjudication', 'approval'].includes(key))) throw new Error('Unsupported prepared command fields');
   // P12B: an attack offer reserves the GM command ID before the owner rolls; it is used exactly once.
   if (options.commandId !== undefined && !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(options.commandId)) throw new Error('Invalid reserved command ID');
   const command = clone({ version: 1, roomId: admission.roomId, commandId: options.commandId || crypto.randomUUID(), actionEpoch: admission.actionEpoch,

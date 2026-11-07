@@ -17,6 +17,7 @@ const SHARED = path.resolve(__dirname, '../shared');
 // requires between these files (./x, ../data/x.json) keep working.
 const FILES = [
   'services/authoredAbility.js',
+  'services/authoredCooldown.js',
   'services/catalogueAbility.cjs',
   'services/canonicalHash.js',
   'services/authoredCondition.js',

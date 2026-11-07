@@ -1,3 +1,4 @@
+/* global globalThis */
 /** P14-A1 pure whole-Wizard adapter. Shared by server admission and authoring diagnostics.
  * No RNG, storage, authority or execution. Unknown mechanics refuse instead of being stripped. */
 const { canonical, sha256Hex } = require('./canonicalHash');
@@ -5,11 +6,42 @@ const { catalogueExecutable } = require('./catalogueAbility.cjs');
 const CAPABILITY = 'authored-immediate:v1';
 const FORMULA_CAPABILITY = 'authored-immediate:v2';
 const FORMULA_COMPILER = 'p14-m4-formula-1';
+const HEALTH_CAPABILITY = 'authored-immediate:v3';
+const HEALTH_COMPILER = 'p14-m4c-missing-health-1';
+const DETERMINISTIC_CAPABILITY = 'authored-immediate:v4';
+const DETERMINISTIC_COMPILER = 'p14-m4d-deterministic-1';
+const readDeterministicFormula = (formula, stats, health) => {
+  const result = formulaContract.readFormula(formula, stats, { integerScaling: true, missingHealth: health, allowZeroDice: true });
+  return result.supported && result.dice.length ? { supported: false, reason: 'A deterministic formula must contain no dice.' } : result;
+};
+const isDeterministic = approval => approval?.spell?.definitionHash?.startsWith(`${DETERMINISTIC_CAPABILITY}/`) === true;
+const AREA_CAPABILITY = 'authored-area:v1';
+const AREA_COMPILER = 'p14-m6a-area-1';
+const MAX_AREA_TARGETS = 8;
+const MAX_AREA_ACTORS = 9;
+const AREA_ROLL_PROCEDURE = 'shared-area-roll-proposed';
+const AREA_ROLL_POLICY = Object.freeze({
+  procedure: AREA_ROLL_PROCEDURE,
+  creatorApproval: null,
+  request: 'docs/MYTHRILL_COMBAT_CAPABILITY_PLAN.md — M6A area roll procedure (shared roll vs per-target roll)'
+});
+const AREA_ROLL_UNAPPROVED_REASON = 'Area roll procedure (shared-area-roll-proposed vs independent per-target rolls) awaits creator confirmation; keep this area ability manual until approved.';
+let testAreaRollProposalEnabled = false;
+function setAreaRollProposalForTest(enabled) { testAreaRollProposalEnabled = enabled === true; }
+function isAreaRollProcedureApproved(options = {}) {
+  if (options && options.allowProposedAreaRoll === true) return true;
+  if (AREA_ROLL_POLICY.creatorApproval && typeof AREA_ROLL_POLICY.creatorApproval.reference === 'string' && AREA_ROLL_POLICY.creatorApproval.reference.trim()) return true;
+  if (typeof globalThis !== 'undefined' && globalThis.__MYTHRILL_ENABLE_PROPOSED_AREA_ROLL__ === true) return true;
+  return testAreaRollProposalEnabled === true;
+}
 // M4 extends the existing shared calculation contract; no arbitrary expression evaluator.
 const formulaContract = require('./classEffect');
 const readScaledFormula = (formula, stats) => formulaContract.readFormula(formula, stats, { integerScaling: true });
+const readHealthFormula = (formula, stats, health) => formulaContract.readFormula(formula, stats, { integerScaling: true, missingHealth: health });
 const formulaAttributes = formulaContract.formulaAttributes;
-const isFormula = approval => approval?.spell?.definitionHash?.startsWith(`${FORMULA_CAPABILITY}/`) === true;
+const isHealth = approval => approval?.spell?.definitionHash?.startsWith(`${HEALTH_CAPABILITY}/`) === true || (isDeterministic(approval) && approval.rollHealth !== undefined);
+const isFormula = approval => approval?.spell?.definitionHash?.startsWith(`${FORMULA_CAPABILITY}/`) === true || isHealth(approval) || isDeterministic(approval);
+const isArea = approval => approval?.spell?.definitionHash?.startsWith(`${AREA_CAPABILITY}/`) === true;
 const ADAPTER_VERSION = 'p14-a1-wizard-1';
 const CONDITION_CAPABILITY = 'authored-condition:v1';
 const EFFECT_CAPABILITY = 'authored-effect:v1';
@@ -37,7 +69,7 @@ const loadedDefaultTriggers = { global: { logicType: 'AND', compoundTriggers: []
 const loadedDefaultMechanics = { cards: null, combos: null, coins: null, stateRequirements: [], stateOptions: { thresholds: [] } };
 const effective = (key, value) => empty(value) || (key === 'triggerConfig' && canonical(value) === canonical(defaultTriggers)) ? null : value;
 const inactiveDefault = (value, fallback) => empty(value) || canonical(value) === canonical(fallback);
-function definitionFromWizard(record, { roomId, definitionVersion, classId }) {
+function definitionFromWizard(record, { roomId, definitionVersion, classId, allowProposedAreaRoll } = {}) {
   try {
     const d = record?.authoredDraft;
     if (!d || typeof d !== 'object') refuse('Whole Wizard draft unavailable; reopen, review and save it in the Wizard');
@@ -67,11 +99,20 @@ function definitionFromWizard(record, { roomId, definitionVersion, classId }) {
       const executable = catalogueExecutable(source.record, source.classId, { roomId, definitionId: record.authoredDefinitionId, definitionVersion });
       if (!executable.ok) refuse(`Catalogue record: ${executable.reason}`);
       const def = executable.definition, kind = def.effect.kind;
+      const isCatalogueArea = def.capability === AREA_CAPABILITY;
+      if (isCatalogueArea && !isAreaRollProcedureApproved({ allowProposedAreaRoll })) refuse(AREA_ROLL_UNAPPROVED_REASON);
       const config = d[kind === 'damage' ? 'damageConfig' : 'healingConfig'] || {};
       const other = d[kind === 'damage' ? 'healingConfig' : 'damageConfig'];
       const target = d.targetingConfig || {};
       const price = d.resourceCost || {};
       const draftMana = price.mana ?? price.resourceValues?.mana;
+      const validCatalogueTargeting = isCatalogueArea
+        ? (target.targetingType === 'area' && target.aoeShape === 'circle' && target.aoeParameters?.radius === def.targeting.radiusFeet &&
+           target.rangeDistance === def.targeting.rangeFeet && target.rangeType === 'ranged' &&
+           canonical(target.targetRestrictions) === canonical([def.targeting.restriction]))
+        : (target.targetingType === 'single' && (target.maxTargets === undefined || target.maxTargets === 1) &&
+           target.rangeDistance === source.record.targetingConfig.rangeDistance && target.rangeType === source.record.targetingConfig.rangeType &&
+           canonical(target.targetRestrictions) === canonical(source.record.targetingConfig.targetRestrictions));
       if (d.spellType !== 'ACTION' || d.typeConfig?.castTimeType !== 'IMMEDIATE' || canonical(d.effectTypes) !== canonical(source.record.effectTypes) ||
         canonical(d.typeConfig?.school) !== canonical(source.record.typeConfig?.school) ||
         !empty(other) || !empty(d.buffConfig) || !empty(d.debuffConfig) || !empty(d.utilityConfig) || !empty(d.controlConfig) ||
@@ -81,9 +122,7 @@ function definitionFromWizard(record, { roomId, definitionVersion, classId }) {
         !empty(d.combinedEffects) || !empty(d.mechanicsAvailableCombinedEffects) || !empty(d.statusEffectsConfig) ||
         canonical(config.formula) !== canonical(def.effect.formula) || (!empty(d.durationConfig) && canonical(d.durationConfig) !== canonical({ durationType: 'instant' })) ||
         (d.cooldownConfig && (d.cooldownConfig.cooldownType !== 'none' || d.cooldownConfig.cooldownValue !== 0)) ||
-        target.targetingType !== 'single' || (target.maxTargets !== undefined && target.maxTargets !== 1) ||
-        target.rangeDistance !== source.record.targetingConfig.rangeDistance || target.rangeType !== source.record.targetingConfig.rangeType ||
-        canonical(target.targetRestrictions) !== canonical(source.record.targetingConfig.targetRestrictions) ||
+        !validCatalogueTargeting ||
         d.name !== def.name || d.description !== def.description ||
         price.actionPoints !== def.resourceCost.actionPoints || draftMana !== def.resourceCost.mana) {
         refuse('Catalogue draft fields differ from the pinned whole record; edit it only as a new, unbound spell.');
@@ -124,13 +163,19 @@ function definitionFromWizard(record, { roomId, definitionVersion, classId }) {
       if (canonical(t.global) !== canonical({ logicType: 'AND', compoundTriggers: [] }) || !empty(t.effectTriggers) || !empty(t.conditionalEffects) || !empty(t.buffDebuffTriggers) || canonical(t.requiredConditions) !== canonical({ enabled: false, logicType: 'AND', conditions: [] }) || canonical(t.triggerRole) !== canonical({ mode: 'CONDITIONAL' })) refuse('triggers');
     }
     const cd = d.cooldownConfig;
+    const combatCooldown = require('./authoredCooldown').valid(cd);
     if (!empty(cd)) {
       only(cd, ['cooldownType', 'cooldownValue'], 'cooldownConfig');
-      if (cd.cooldownType !== 'none' || cd.cooldownValue !== 0) refuse('cooldownConfig');
+      if (!combatCooldown && (cd.cooldownType !== 'none' || cd.cooldownValue !== 0)) refuse('cooldownConfig: legacy turns/rounds/rests/charges have no authenticated release procedure; explicitly choose caster-turn starts for a new Wizard ability');
     }
+    if (combatCooldown && (condition || effect || d.targetingConfig?.targetingType !== 'single')) refuse('Cooldowns currently require one immediate damage OR healing effect on one creature');
+    const isAreaTarget = !condition && !effect && d.targetingConfig?.targetingType === 'area';
     const cost = d.resourceCost;
+    // Arbitrary Wizard-authored definitions (single-target or area) cannot grant themselves class payments or class-resource gains;
+    // typed class payments require a reviewed, hash-pinned catalogue profile via record.catalogueSource.
     only(cost, ['actionPoints', 'actionPointsSelected', 'mana', 'components', 'materialComponents', 'resourceTypes', 'resourceValues', 'resourceFormulas', 'useFormulas', 'primaryResourceType'], 'resourceCost');
-    for (const k of ['resourceValues', 'useFormulas']) if (cost[k] !== undefined) only(cost[k], ['mana', 'actionPoints'], `resourceCost.${k}`);
+    if (cost.useFormulas !== undefined) only(cost.useFormulas, ['mana', 'actionPoints'], 'resourceCost.useFormulas');
+    if (cost.resourceValues !== undefined) only(cost.resourceValues, ['mana', 'actionPoints'], 'resourceCost.resourceValues');
     if (!int(cost.actionPoints, 20) || !empty(cost.components) || (cost.materialComponents !== undefined && cost.materialComponents !== '') || !empty(cost.resourceFormulas) || Object.values(cost.useFormulas || {}).some(v => v !== false)) refuse('Explicit AP price / components / formulas');
     if ((cost.resourceTypes || []).some(t => !['mana', 'actionPoints'].includes(t)) || Object.keys(cost.resourceValues || {}).some(k => !['mana', 'actionPoints'].includes(k)) || (cost.primaryResourceType !== undefined && !['mana', 'actionPoints'].includes(cost.primaryResourceType))) refuse('resource types');
     if (cost.resourceValues?.actionPoints !== undefined && cost.resourceValues.actionPoints !== cost.actionPoints) refuse('conflicting AP encodings');
@@ -138,6 +183,34 @@ function definitionFromWizard(record, { roomId, definitionVersion, classId }) {
     if (!manaValues.length || manaValues.some(v => !int(v, 10000)) || new Set(manaValues).size !== 1) refuse('Explicit mana price');
     const t = d.targetingConfig;
     only(t, ['targetingType', 'rangeType', 'rangeDistance', 'maxTargets', 'targetRestrictions', 'targetRestriction', 'selectionMethod', 'targetSelectionMethod', 'movementBehavior', 'aoeShape', 'aoeType', 'aoeParameters'], 'targetingConfig');
+    if (isAreaTarget) {
+      if (t.aoeShape !== 'circle' || (t.aoeType !== undefined && !['', 'sphere', 'circle'].includes(t.aoeType))) refuse('area shape (circle required)');
+      if (t.rangeType !== 'ranged' || !int(t.rangeDistance, 300) || t.rangeDistance < 1 || (t.movementBehavior !== undefined && t.movementBehavior !== 'static')) refuse('area range (ranged 1..300 ft static required)');
+      only(t.aoeParameters, ['radius', 'size', 'range', 'angle', 'length', 'width', 'height'], 'aoeParameters');
+      if (!int(t.aoeParameters.radius, 60) || t.aoeParameters.radius < 5 || t.aoeParameters.radius % 5 !== 0) refuse('aoeParameters.radius (5..60 ft multiple of 5 required)');
+      for (const [k, v] of Object.entries(t.aoeParameters)) if (k !== 'radius' && !int(v, 10000)) refuse(`aoeParameters.${k}`);
+      if (t.maxTargets !== undefined && (!Number.isSafeInteger(t.maxTargets) || t.maxTargets < 1)) refuse('maxTargets');
+      if (t.maxTargets !== undefined && t.maxTargets > MAX_AREA_TARGETS) refuse('area_target_capacity_exceeded: technical limit is 8 creature targets (9 actors including source); do not truncate');
+      if (record.targetingConfig?.rangeDistance !== t.rangeDistance || record.targetingConfig?.maxTargets !== t.maxTargets) refuse('library/draft targeting');
+      only(record.targetingConfig, Object.keys(t).concat(['aoeType', 'aoeShape', 'aoeParameters', 'selectionMethod', 'targetSelectionMethod', 'movementBehavior']), 'outer targeting');
+      for (const k of Object.keys(t)) if (canonical(record.targetingConfig[k]) !== canonical(t[k]) && !(['aoeShape', 'aoeType'].includes(k) && t[k] === '')) refuse(`library/draft targeting.${k}`);
+      for (const k of ['selectionMethod', 'targetSelectionMethod']) if ((t[k] !== undefined && t[k] !== 'manual') || (record.targetingConfig[k] !== undefined && record.targetingConfig[k] !== 'manual')) refuse(k);
+      const restrictions = t.targetRestrictions;
+      if (!Array.isArray(restrictions) || restrictions.length !== 1 || !['ally', 'enemy', 'any'].includes(restrictions[0]) || (t.targetRestriction && t.targetRestriction !== restrictions[0])) refuse('targetRestrictions');
+      if (!empty(d.effectResolutions) && canonical(d.effectResolutions) !== canonical({ [kind]: 'DICE' })) refuse('effectResolutions');
+      const directEffect = readDirect(d, record, kind, true);
+      if (!isAreaRollProcedureApproved({ allowProposedAreaRoll })) {
+        throw Error(AREA_ROLL_UNAPPROVED_REASON);
+      }
+      const maxTargets = t.maxTargets !== undefined && t.maxTargets > 1 ? t.maxTargets : MAX_AREA_TARGETS;
+      return { ok: true, definition: {
+        schemaVersion: 5, capability: AREA_CAPABILITY, scope: { roomId }, definitionId: record.authoredDefinitionId, definitionVersion,
+        name: d.name, description: d.description, binding: { rulesetId: 'prism', rulesetVersion: 'cr-a1a-pilot-1', classId }, spellType: 'ACTION', castTimeType: 'IMMEDIATE',
+        targeting: { kind: 'area', aoeShape: 'circle', radiusFeet: t.aoeParameters.radius, rangeFeet: t.rangeDistance, maxTargets, restriction: restrictions[0] },
+        resourceCost: { actionPoints: cost.actionPoints, mana: manaValues[0] },
+        effect: kind === 'damage' ? { kind, formula: directEffect.formula, damageTypes: directEffect.damageTypes } : { kind, formula: directEffect.formula }
+      } };
+    }
     if (t.targetingType !== 'single' || t.maxTargets !== 1 || !int(t.rangeDistance, 300) || !['ranged', 'melee', 'self', 'touch'].includes(t.rangeType) || !empty(t.aoeParameters) || (t.movementBehavior && t.movementBehavior !== 'static')) refuse('single target / explicit range / count');
     if (record.targetingConfig?.rangeDistance !== t.rangeDistance || record.targetingConfig?.maxTargets !== t.maxTargets) refuse('library/draft targeting');
     only(record.targetingConfig, Object.keys(t).concat(['aoeType', 'aoeShape', 'aoeParameters', 'selectionMethod', 'targetSelectionMethod', 'movementBehavior']), 'outer targeting');
@@ -151,7 +224,9 @@ function definitionFromWizard(record, { roomId, definitionVersion, classId }) {
     if (effect) {
       only(d.controlConfig, ['authoredCondition'], 'controlConfig (use the explicit authored effect profile)');
       const c = d.controlConfig.authoredCondition;
-      only(c, ['profile', 'effect', 'movementFeet', 'label', 'expiryPolicy', 'durationText', 'gmNote', 'occurrences'], 'authoredEffect');
+      only(c, ['profile', 'effect', 'movementFeet', 'attribute', 'attributeAmount', 'label', 'expiryPolicy', 'durationText', 'gmNote', 'occurrences', 'periodicKind', 'periodicFormula', 'periodicDamageType', 'tickRoll'], 'authoredEffect');
+      // M5: the periodic fields belong to the periodic effect only.
+      if (c.effect !== 'periodic' && ['periodicKind', 'periodicFormula', 'periodicDamageType', 'tickRoll'].some(k => c[k] !== undefined)) refuse('Periodic tick fields belong to a periodic effect only');
       if (!EFFECT_EXPIRY_POLICIES.includes(c.expiryPolicy)) refuse('Expiry: manual removal, start or end of the target\'s next turn, or a counted start/end of the target\'s upcoming turns');
       // M2A: an explicit occurrence count belongs to the counted policies only (whole number 2…10); the existing policies carry none.
       if (COUNTED_EXPIRY_POLICIES.includes(c.expiryPolicy) ? !conditionProfile.validOccurrences(c.occurrences) : c.occurrences !== undefined)
@@ -159,13 +234,43 @@ function definitionFromWizard(record, { roomId, definitionVersion, classId }) {
       if (typeof c.durationText !== 'string' || !c.durationText.trim() || c.durationText.length > 300 || typeof c.gmNote !== 'string' || !c.gmNote.trim() || c.gmNote.length > 1000) refuse('Authored duration and GM note required');
       let conditionEffect;
       if (c.effect === 'stunned') {
-        if (c.movementFeet !== undefined || c.label !== undefined) refuse('Stunned has no movement amount or custom label');
+        if (c.movementFeet !== undefined || c.label !== undefined || c.attribute !== undefined || c.attributeAmount !== undefined) refuse('Stunned has no movement or attribute amount or custom label');
         conditionEffect = { kind: 'stunned' };
       } else if (c.effect === 'movement') {
         if (!Number.isSafeInteger(c.movementFeet) || c.movementFeet === 0 || c.movementFeet < -60 || c.movementFeet > 60 || c.movementFeet % 5 !== 0) refuse('Movement change must be a nonzero multiple of 5 ft from −60 to +60');
         if (typeof c.label !== 'string' || !c.label.trim() || c.label !== c.label.trim() || c.label.length > 60) refuse('Movement effect label (1–60 characters, no outer spaces) required');
+        if (c.attribute !== undefined || c.attributeAmount !== undefined) refuse('A movement change carries no attribute amount');
         conditionEffect = { kind: 'movement', feet: c.movementFeet, label: c.label };
-      } else refuse('Effect: canonical Stunned or one movement-speed change');
+      } else if (c.effect === 'attribute') {
+        // Attribute family: one flat signed change to one supported attribute score (shared profile list).
+        if (c.movementFeet !== undefined) refuse('An attribute change carries no movement amount');
+        if (!conditionProfile.supportedAttribute(c.attribute)) refuse(`Attribute change: supported attribute (${conditionProfile.ATTRIBUTE.attributes.join(', ')}) required`);
+        if (!conditionProfile.validAttributeAmount(c.attributeAmount)) refuse(`Attribute change must be a nonzero whole number from ${conditionProfile.ATTRIBUTE.minAmount} to +${conditionProfile.ATTRIBUTE.maxAmount}`);
+        if (typeof c.label !== 'string' || !c.label.trim() || c.label !== c.label.trim() || c.label.length > 60) refuse('Attribute effect label (1-60 characters, no outer spaces) required');
+        conditionEffect = { kind: 'attribute', attribute: c.attribute, amount: c.attributeAmount, label: c.label };
+      } else if (c.effect === 'periodic') {
+        // M5 first route: one periodic damage OR healing component. Its explicit target-turn boundary and tick
+        // count are the expiry policy (1 tick: next start/end; 2…10: counted). The roll is made when each tick is resolved.
+        // M5 composition: an optional immediate A10 direct part (rolled at cast) of the SAME kind; a mixed hostile/beneficial pair stays manual.
+        if (c.movementFeet !== undefined || c.attribute !== undefined || c.attributeAmount !== undefined) refuse('A periodic effect carries no movement or attribute amount');
+        if (c.expiryPolicy === 'gm-manual') refuse('Periodic ticks need an explicit target-turn boundary and tick count (start or end of the target\'s turns)');
+        if (!['damage', 'healing'].includes(c.periodicKind)) refuse('Periodic effect: choose damage or healing per tick');
+        if (direct && direct !== c.periodicKind) refuse('Immediate and periodic parts: both damage or both healing (an immediate part of the other kind is not supported)');
+        readFormula(c.periodicFormula);
+        let tick;
+        if (c.periodicKind === 'damage') {
+          if (!conditionProfile.PERIODIC.damageTypes.includes(c.periodicDamageType)) refuse('Periodic damage type required');
+          if (d.typeConfig.school && d.typeConfig.school !== c.periodicDamageType) refuse('school / periodic damage type conflict');
+          tick = { kind: 'damage', formula: c.periodicFormula, damageTypes: [c.periodicDamageType] };
+        } else {
+          if (c.periodicDamageType !== undefined) refuse('Periodic healing has no damage type');
+          tick = { kind: 'healing', formula: c.periodicFormula };
+        }
+        if (c.tickRoll !== 'each-tick') refuse('Tick roll: choose "roll when each tick is resolved" (rolling once at cast is not supported)');
+        if (typeof c.label !== 'string' || !c.label.trim() || c.label !== c.label.trim() || c.label.length > 60) refuse('Periodic effect label (1–60 characters, no outer spaces) required');
+        if (!['enemy', 'ally', 'any'].includes(restrictions[0])) refuse('Periodic effects target one other creature');
+        conditionEffect = { kind: 'periodic', tick, label: c.label, tickRoll: 'each-tick' };
+      } else refuse('Effect: canonical Stunned, one movement-speed change, one attribute change or one periodic damage/healing tick');
       // Review finding 1: a second, structured Wizard duration would contradict the explicit expiry policy.
       if (!empty(d.durationConfig) && canonical(d.durationConfig) !== '{"durationType":"instant"}') refuse('durationConfig (the explicit expiry policy is the only executed duration)');
       const wantResolutions = direct ? { control: 'MANUAL', [direct]: 'DICE' } : { control: 'MANUAL' };
@@ -174,7 +279,7 @@ function definitionFromWizard(record, { roomId, definitionVersion, classId }) {
       return { ok: true, definition: { schemaVersion: 3, capability: EFFECT_CAPABILITY, scope: { roomId }, definitionId: record.authoredDefinitionId, definitionVersion,
         name: d.name, description: d.description, binding: { rulesetId: 'prism', rulesetVersion: 'cr-a1a-pilot-1', classId }, spellType: 'ACTION', castTimeType: 'IMMEDIATE',
         targeting: { kind: 'single', maxTargets: 1, rangeFeet: t.rangeDistance, restriction: restrictions[0] }, resourceCost: { actionPoints: cost.actionPoints, mana: manaValues[0] },
-        effects: { direct: direct ? readDirect(d, record, direct) : null, condition: conditionEffect },
+        effects: { direct: direct ? readBundleDirect(d, record, direct, c.effect === 'periodic') : null, condition: conditionEffect },
         timing: Object.assign({ expiryPolicy: c.expiryPolicy, durationText: c.durationText, authoredDuration: d.durationConfig ?? null, gmNote: c.gmNote }, COUNTED_EXPIRY_POLICIES.includes(c.expiryPolicy) ? { occurrences: c.occurrences } : {}) } };
     }
     if (condition) {
@@ -190,18 +295,33 @@ function definitionFromWizard(record, { roomId, definitionVersion, classId }) {
         effect: { kind: 'condition', conditionKey: c.conditionKey }, timing: { expiryPolicy: c.expiryPolicy, durationText: c.durationText, authoredDuration: d.durationConfig ?? null, gmNote: c.gmNote } } };
     }
     if (!empty(d.effectResolutions) && canonical(d.effectResolutions) !== canonical({ [kind]: 'DICE' })) refuse('effectResolutions');
-    const directEffect = readDirect(d, record, kind, true);
+    const directEffect = readDirect(d, record, kind, true, true, true);
+    const stats = Object.fromEntries(formulaContract.ATTRIBUTES.map(name => [name, 10]));
+    const deterministic = readDeterministicFormula(directEffect.formula, stats, { current: 0, max: 0 }).supported;
+    const health = readHealthFormula(directEffect.formula, stats, { current: 0, max: 0 }).readsHealth === true;
+    if ((health || deterministic) && (restrictions[0] === 'self' || t.rangeDistance === 0)) refuse('This formula requires a distinct creature target');
     let scaled = false;
     try { readFormula(directEffect.formula); } catch (_) { scaled = true; }
     // Keep the shared CommonJS module free of object-spread helper imports (CRA marks those as ESM).
-    return { ok: true, definition: Object.assign({ schemaVersion: scaled ? 4 : 1, scope: { roomId }, definitionId: record.authoredDefinitionId, definitionVersion,
+    return { ok: true, definition: Object.assign({ schemaVersion: deterministic ? 7 : health ? 6 : scaled || combatCooldown ? 4 : 1, scope: { roomId }, definitionId: record.authoredDefinitionId, definitionVersion,
       name: d.name, description: d.description, binding: { rulesetId: 'prism', rulesetVersion: 'cr-a1a-pilot-1', classId }, spellType: 'ACTION', castTimeType: 'IMMEDIATE',
       targeting: { kind: 'single', maxTargets: 1, rangeFeet: t.rangeDistance, restriction: restrictions[0] }, resourceCost: { actionPoints: cost.actionPoints, mana: manaValues[0] },
-      effect: kind === 'damage' ? { kind, formula: directEffect.formula, damageTypes: directEffect.damageTypes } : { kind, formula: directEffect.formula } }, scaled ? { capability: FORMULA_CAPABILITY } : {}) };
+       effect: kind === 'damage' ? { kind, formula: directEffect.formula, damageTypes: directEffect.damageTypes } : { kind, formula: directEffect.formula } }, deterministic ? { capability: DETERMINISTIC_CAPABILITY } : health ? { capability: HEALTH_CAPABILITY } : scaled || combatCooldown ? { capability: FORMULA_CAPABILITY } : {}, combatCooldown ? { cooldown: cd } : {}) };
   } catch (error) { return { ok: false, code: 'unsupported_wizard_record', reason: error.message }; }
 }
+// M5 composition: an immediate part next to a periodic tick may use the existing M4A attribute vocabulary (readScaledFormula).
+// Missing-health and deterministic (zero-dice) immediate parts are not admitted here; other bundles keep plain A1 dice.
+function readBundleDirect(d, record, kind, periodic) {
+  if (!periodic) return readDirect(d, record, kind);
+  const e = readDirect(d, record, kind, true);
+  try { readFormula(e.formula); } catch (_) { if (!formulaAttributes(e.formula).length) refuse('effect.formula (plain NdM±K, or the M4A attribute vocabulary naming at least one attribute)'); }
+  return e;
+}
+/** M5 composition: an immediate + periodic bundle whose immediate part reads owner-attested attribute scores (M4A binding applies). */
+const isFormulaBundle = approval => approval?.spell?.definitionHash?.startsWith(`${EFFECT_CAPABILITY}/`) === true && approval?.effectTerms?.condition?.kind === 'periodic' &&
+  typeof approval?.effectTerms?.direct?.formula === 'string' && formulaAttributes(approval.effectTerms.direct.formula).length > 0;
 // One direct DICE damage or healing configuration (A1 rules, shared by the A10 bundle). Throws to refuse.
-function readDirect(d, record, kind, allowScaling = false) {
+function readDirect(d, record, kind, allowScaling = false, allowHealth = false, allowDeterministic = false) {
     const e = d[kind === 'damage' ? 'damageConfig' : 'healingConfig'];
     const allowed = ['formula', 'resolution', 'globalResolution', 'description', 'criticalConfig', 'canCrit', 'critMultiplier', 'critDiceOnly', 'chanceOnHitConfig', 'savingThrowConfig', 'savingThrow', 'difficultyClass', 'partialEffect', 'partialEffectFormula'];
     only(e, [...allowed, ...(kind === 'damage' ? ['damageType', 'elementType', 'secondaryElementType', 'damageTypes', 'hasDotEffect', 'dotConfig'] : ['healingType', 'targetType', 'shieldType', 'shieldDuration', 'duration', 'tickFrequency', 'scalingType', 'specialEffects', 'hasHotEffect', 'hasShieldEffect', 'hotFormula', 'shieldFormula'])], `${kind}Config`);
@@ -210,7 +330,8 @@ function readDirect(d, record, kind, allowScaling = false) {
     for (const k of ['criticalConfig', 'chanceOnHitConfig', 'savingThrowConfig']) disabled(e[k], k);
     if (kind === 'damage' ? e.damageType !== 'direct' || e.hasDotEffect || e.secondaryElementType : e.healingType !== 'direct' || e.hasHotEffect || e.hasShieldEffect || !empty(e.specialEffects)) refuse('direct effect required');
     if (allowScaling) {
-      const result = readScaledFormula(e.formula, Object.fromEntries(formulaContract.ATTRIBUTES.map(name => [name, 10])));
+      const stats = Object.fromEntries(formulaContract.ATTRIBUTES.map(name => [name, 10]));
+      const result = allowDeterministic ? formulaContract.readFormula(e.formula, stats, { integerScaling: true, missingHealth: { current: 0, max: 0 }, allowZeroDice: true }) : allowHealth ? readHealthFormula(e.formula, stats, { current: 0, max: 0 }) : readScaledFormula(e.formula, stats);
       if (!result.supported) refuse(`effect.formula (${result.reason})`);
     } else readFormula(e.formula);
     const damageTypes = kind === 'damage' ? e.damageTypes || [e.elementType] : [];
@@ -227,13 +348,22 @@ function creatureSelfHealing(definition, record) {
   return definition?.effect?.kind === 'healing' && ['self', 'any'].includes(definition?.targeting?.restriction) &&
     (targetType === undefined || ['self', 'any'].includes(targetType));
 }
-// One display summary for every installed/mapped definition shape (immediate, A7 condition, A10 bundle).
+// One display summary for every installed/mapped definition shape (immediate, A7 condition, A10 bundle, M6A area).
 function definitionSummary(d) {
   if (!d) return '';
   if (d.capability === EFFECT_CAPABILITY) return require('./authoredEffect').describe({ direct: d.effects.direct, condition: d.effects.condition, timing: d.timing });
   if (d.effect?.kind === 'condition') return `canonical Stunned · ${d.timing.durationText} — GM removes`;
+  if (d.capability === AREA_CAPABILITY) return `${d.effect?.kind} · ${d.effect?.formula}${d.effect?.damageTypes?.length ? ` ${d.effect.damageTypes.join('/')}` : ''} · circle ${d.targeting?.radiusFeet} ft (up to ${d.targeting?.maxTargets} creatures)`;
   return `${d.effect?.kind} · ${d.effect?.formula}${d.effect?.damageTypes?.length ? ` ${d.effect.damageTypes.join('/')}` : ''}`;
 }
-module.exports = { definitionSummary, CAPABILITY, FORMULA_CAPABILITY, FORMULA_COMPILER, readScaledFormula, formulaAttributes, isFormula, CONDITION_CAPABILITY, EFFECT_CAPABILITY, EFFECT_EXPIRY_POLICIES, COUNTED_EXPIRY_POLICIES, ADAPTER_VERSION, CLASS_IDS, readFormula, definitionFromWizard, actionId, isAuthored, creatureSelfHealing };
+module.exports = { HEALTH_CAPABILITY, HEALTH_COMPILER, readHealthFormula, isHealth, definitionSummary, CAPABILITY, FORMULA_CAPABILITY, FORMULA_COMPILER, AREA_CAPABILITY, AREA_COMPILER, MAX_AREA_TARGETS, MAX_AREA_ACTORS, AREA_ROLL_PROCEDURE, AREA_ROLL_POLICY, AREA_ROLL_UNAPPROVED_REASON, isAreaRollProcedureApproved, setAreaRollProposalForTest, readScaledFormula, formulaAttributes, isFormula, isArea, CONDITION_CAPABILITY, EFFECT_CAPABILITY, EFFECT_EXPIRY_POLICIES, COUNTED_EXPIRY_POLICIES, ADAPTER_VERSION, CLASS_IDS, readFormula, definitionFromWizard, actionId, isAuthored, creatureSelfHealing };
+/** Creature-source eligibility of an already definition-compatible ability: null, or the exact refusal the room server applies at
+ * creature admission and at every approval. Single source for server admission and the Bestiary card; the server stays the authority. */
+function creatureSourceRefusal(d) {
+  if (!d) return null;
+  if ([FORMULA_CAPABILITY, HEALTH_CAPABILITY, DETERMINISTIC_CAPABILITY, AREA_CAPABILITY].includes(d.capability)) return { code: 'unsupported_source_route', reason: 'This formula version currently requires a primary owner PC source; the whole creature ability remains manual.' };
+  if (d.capability === EFFECT_CAPABILITY && d.effects && d.effects.direct && d.effects.condition && d.effects.condition.kind === 'periodic') return { code: 'unsupported_source_route', reason: 'An immediate + periodic ability currently requires a primary owner PC source; the whole creature ability remains manual.' };
+  return null;
+}
 
-
+Object.assign(module.exports, { DETERMINISTIC_CAPABILITY, DETERMINISTIC_COMPILER, readDeterministicFormula, isDeterministic, isFormulaBundle, creatureSourceRefusal });

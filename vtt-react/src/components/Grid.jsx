@@ -2115,12 +2115,17 @@ function GridComponent({
    e.dataTransfer.dropEffect = 'copy';
   }
 
-  setHoveredTile(tile);
+  // Only update hoveredTile if canvas is NOT used AND tile actually changed (prevents re-renders of Grid)
+  if (!shouldUseCanvas && tile) {
+   setHoveredTile(prev => (prev?.gridX === tile?.gridX && prev?.gridY === tile?.gridY ? prev : tile));
+  }
  };
 
  // Handle drag leave for grid tiles
  const handleDragLeave = () => {
-  setHoveredTile(null);
+  if (!shouldUseCanvas) {
+   setHoveredTile(null);
+  }
  };
 
  // Handle mouse enter for grid tile tooltips

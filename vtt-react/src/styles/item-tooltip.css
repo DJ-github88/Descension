@@ -150,15 +150,15 @@
 .item-tooltip .item-name {
     font-size: 20px;
     font-weight: 600;
-    margin-bottom: 10px;
+    margin-bottom: 4px;
     line-height: 1.2;
     max-width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
     font-family: 'Bookman Old Style', 'Garamond', serif;
-    border-bottom: 1px solid rgba(139, 69, 19, 0.4);
-    padding-bottom: 8px;
+    border-bottom: none;
+    padding-bottom: 0;
 }
 
 /* Scrolling animation for long item names */
@@ -1097,18 +1097,21 @@
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
-/* Currency number styling - ensure white with strong contrast */
+/* Currency number styling - calm TTRPG calligraphic ink on parchment */
 .currency-number {
-    color: #ffffff !important;
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 1), 0 0 6px rgba(0, 0, 0, 0.8) !important;
-    font-weight: 600 !important;
+    color: #2b1d14 !important;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7) !important;
+    -webkit-text-stroke: 0 !important;
+    font-weight: 700 !important;
 }
 
-/* Force white on any number spans in value section */
+/* Force dark ink on any number spans in value section */
 .item-tooltip span.currency-number,
 .item-tooltip .currency-number {
-    color: #ffffff !important;
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 1), 0 0 6px rgba(0, 0, 0, 0.8) !important;
+    color: #2b1d14 !important;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7) !important;
+    -webkit-text-stroke: 0 !important;
+    font-weight: 700 !important;
 }
 
 /* Override inline white text colors throughout tooltip - use more specific selectors */
