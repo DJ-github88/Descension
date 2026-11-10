@@ -56,7 +56,7 @@ test('save and scaled direct stay refused; structured expiry and 1/10 starts ret
 });
 test('no-cooldown definition and descriptor bytes equal the frozen base compiler output', () => {
   // Generated once from frozen pre-change modules (BASE_NO_COOLDOWN.json); guards stale hashes as well as shape.
-  const pinned = require('./support/attributeCooldownBase.json');
+  const pinned = require('../__test_support__/attributeCooldownBase.json');
   const d = wizard(); delete d.cooldownConfig;
   const mapped = definitionFromWizard(record(d), opts); const compiled = registry().compileDefinition(mapped.definition);
   expect(mapped.definition).toEqual(pinned.definition); expect(compiled.definitionHash).toBe(pinned.definitionHash); expect(compiled.descriptor).toEqual(pinned.descriptor);

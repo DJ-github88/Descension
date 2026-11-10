@@ -258,19 +258,24 @@ describe('M6A client authoring, geometry, multi-target command planning & observ
 
     // When proposed-roll gate is off, buildApproval refuses before creating any approval
     setAreaRollProposalForTest(false);
-    expect(() => buildApproval({
-      support,
-      tokens,
-      sourceRef,
-      targetRefs: [foe1Ref, foe2Ref],
-      roomId,
-      mapId,
-      actionEpoch: 'ep-1',
-      baseCommitSequence: 1,
-      roll,
-      approvalId: '11111111-2222-4333-8444-555555555555'
-    })).toThrow(/awaits creator confirmation/);
-    setAreaRollProposalForTest(true);
+    setAreaRollApprovalForTest(null);
+    try {
+      expect(() => buildApproval({
+        support,
+        tokens,
+        sourceRef,
+        targetRefs: [foe1Ref, foe2Ref],
+        roomId,
+        mapId,
+        actionEpoch: 'ep-1',
+        baseCommitSequence: 1,
+        roll,
+        approvalId: '11111111-2222-4333-8444-555555555555'
+      })).toThrow(/awaits creator confirmation/);
+    } finally {
+      setAreaRollApprovalForTest(undefined);
+      setAreaRollProposalForTest(true);
+    }
 
     // Hidden target in targetRefs refuses with generic actor-not-found message
     expect(() => buildApproval({

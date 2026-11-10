@@ -28,7 +28,7 @@ import useMapStore from '../../../store/mapStore';
 import { registerStore } from '../../../store/storeRegistry';
 import { resetUnresolvedForTests, hasUnresolved, isHeld, preserveAcceptedForReconciliation } from '../../../services/consumableCondition';
 import { selectOwnerAttachment } from '../../../services/actorConsequenceService';
-import { createRoom, REFUSAL } from '../../../services/__tests__/support/sharedRoomFixture';
+import { createRoom, REFUSAL } from '../../../services/__test_support__/sharedRoomFixture';
 
 let mockActionSlots = Array(12).fill(null);
 jest.mock('../../../contexts/RoomContext', () => ({ useRoomContext: () => ({ currentRoomId: 'r' }) }));

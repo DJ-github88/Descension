@@ -12,7 +12,7 @@ import usePartyStore from '../../store/partyStore';
 import useMapStore from '../../store/mapStore';
 import { registerStore } from '../../store/storeRegistry';
 import { selectOwnerAttachment, routeTokenState, refreshActorSnapshot } from '../actorConsequenceService';
-import { createRoom, REFUSAL } from './support/sharedRoomFixture';
+import { createRoom, REFUSAL } from '../__test_support__/sharedRoomFixture';
 
 const room = createRoom();
 const flush = async () => { for (let i = 0; i < 6; i++) await new Promise(r => setTimeout(r, 0)); };

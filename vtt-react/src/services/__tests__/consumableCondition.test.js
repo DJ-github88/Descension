@@ -5,31 +5,33 @@ import { applyConsumableCondition, reconcileUnresolved, settleEarlierUse, markUs
 import { retryActorCommand, roomCondition } from '../actorConsequenceService';
 import { registerStore } from '../../store/storeRegistry';
 
+const defaultRoomCondition = (raw, ref) => ({
+  version: 1,
+  id: raw.recordId || raw.id || 'cond-1',
+  recordId: raw.recordId || raw.id || 'cond-1',
+  name: raw.name,
+  originalName: raw.originalName || raw.name,
+  conditionKey: raw.conditionKey || raw.name?.toLowerCase(),
+  type: raw.type || 'buff',
+  kind: raw.kind || 'effect',
+  target: ref,
+  targetId: ref?.tokenId || 'pc2',
+  targetType: ref?.kind || 'character',
+  source: raw.source || 'item',
+  sharedTiming: 'manual',
+  durationType: raw.durationType || 'seconds',
+  ...(raw.duration !== undefined ? { duration: raw.duration } : {}),
+  ...(raw.durationValue !== undefined ? { durationValue: raw.durationValue } : {}),
+  ...(raw.remainingRounds !== undefined ? { remainingRounds: raw.remainingRounds } : {}),
+  ...(raw.startTime !== undefined ? { startTime: raw.startTime } : {}),
+  ...(raw.endTime !== undefined ? { endTime: raw.endTime } : {}),
+  ...(raw.effects ? { effects: raw.effects } : {})
+});
+
 jest.mock('../actorConsequenceService', () => ({
   __esModule: true,
   retryActorCommand: jest.fn(),
-  roomCondition: jest.fn((raw, ref) => ({
-    version: 1,
-    id: raw.id || 'cond-1',
-    recordId: raw.recordId || raw.id || 'cond-1',
-    name: raw.name,
-    originalName: raw.originalName || raw.name,
-    conditionKey: raw.conditionKey || raw.name?.toLowerCase(),
-    type: raw.type || 'buff',
-    kind: raw.kind || 'effect',
-    target: ref,
-    targetId: ref?.tokenId || 'pc2',
-    targetType: ref?.kind || 'character',
-    source: raw.source || 'item',
-    sharedTiming: 'manual',
-    durationType: raw.durationType || 'seconds',
-    ...(raw.duration !== undefined ? { duration: raw.duration } : {}),
-    ...(raw.durationValue !== undefined ? { durationValue: raw.durationValue } : {}),
-    ...(raw.remainingRounds !== undefined ? { remainingRounds: raw.remainingRounds } : {}),
-    ...(raw.startTime !== undefined ? { startTime: raw.startTime } : {}),
-    ...(raw.endTime !== undefined ? { endTime: raw.endTime } : {}),
-    ...(raw.effects ? { effects: raw.effects } : {})
-  }))
+  roomCondition: jest.fn()
 }));
 const unknown = (commandId = 'c1') => ({ success: false, code: 'outcome_unknown', commandId });
 const add = (...answers) => { const fn = jest.fn(); answers.forEach(a => fn.mockReturnValueOnce(Promise.resolve(a))); return fn; };
@@ -41,7 +43,7 @@ const registerActor = (instanceId = 'inst-1', characterId = 'charA') => {
   registerStore('creatureStore', { getState: () => ({ creatureTokens: [] }) });
 };
 beforeEach(() => {
-  resetUnresolvedForTests(); retryActorCommand.mockReset(); notices = [];
+  resetUnresolvedForTests(); retryActorCommand.mockReset(); roomCondition.mockImplementation(defaultRoomCondition); notices = [];
   registerStore('chatStore', { getState: () => ({ addCombatNotification: n => notices.push(n.content) }) });
   registerStore('gameStore', { getState: () => ({ multiplayerRoom: { id: 'r1' }, currentPlayer: { id: 'player-1' } }) });
   registerStore('authStore', { getState: () => ({ user: { uid: 'u2' } }) });

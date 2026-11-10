@@ -10,17 +10,37 @@ const save = (f, v) => fs.writeFileSync(path.join(out, f), typeof v === 'string'
 const evidence = { startedAt: new Date().toISOString(), command: process.argv, kind: 'production-App / optimized CRACO build',
   limits: ['Production App/router/components/styles and compiled library bodies execute intact. Test-only webpack runtime access seeds users, exact actors and room socket; identity/provider login is simulated.',
     'Real browser Socket.IO and registered backend stack execute; provider verification/canonical ownership/lease/cloud persistence are in-memory fixture boundaries.',
-    'Third-party network requests are refused deliberately by this witness; no live Firebase/rules, human players, physical second device or deployment claim.'], errors: [], networkRefusals: [], witnesses: {} };
+    'Third-party external network requests (Firebase/Google APIs) are fulfilled by mock fixtures or refused with structured disclosures; no live Firebase/rules, human players, physical second device or deployment claim.'], errors: [], networkRefusals: [], witnesses: {} };
 async function setup(page, url, uid, prejoinSpellHandlers = false) {
   page.on('pageerror', e => evidence.errors.push({ uid, message: e.message, stack: e.stack }));
-  await page.addInitScript(() => {
-    window.addEventListener('unhandledrejection', e => {
-      if (e.reason && /Failed to fetch|blockedbyclient/i.test(e.reason.message || String(e.reason))) {
-        e.preventDefault();
-      }
-    });
+  await page.route('**/*', route => {
+    const u = new URL(route.request().url());
+    if (u.hostname === 'fonts.googleapis.com' || u.hostname === 'fonts.gstatic.com') {
+      return route.continue();
+    }
+    if (u.hostname === 'firebaseinstallations.googleapis.com') {
+      evidence.networkRefusals.push({ uid, origin: u.origin, url: u.href, resourceType: route.request().resourceType(), fixture: 'firebase-installations' });
+      return route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify({
+          name: 'projects/mythrill-ff7c6/installations/fixture-fid',
+          fid: 'fixture-fid',
+          refreshToken: 'fixture-refresh-token',
+          authToken: { token: 'fixture-token', expiresIn: '604800s' }
+        })
+      });
+    }
+    if (/(googleapis\.com|firebaseio\.com|firebaseapp\.com)$/.test(u.hostname)) {
+      evidence.networkRefusals.push({ uid, origin: u.origin, url: u.href, resourceType: route.request().resourceType(), fixture: 'mock-200' });
+      return route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify({})
+      });
+    }
+    return route.continue();
   });
-  await page.route('**/*', route => { const u = new URL(route.request().url()); if (!/(googleapis\.com|firebaseio\.com|firebaseapp\.com)$/.test(u.hostname) || u.hostname === 'fonts.googleapis.com') return route.continue(); evidence.networkRefusals.push({ uid, origin: u.origin, resourceType: route.request().resourceType() }); return route.abort('blockedbyclient'); });
   await page.goto(url + '/game');
   await page.locator('.action-slot').first().waitFor({ timeout: 60000 });
   const consent = page.getByRole('dialog', { name: /Analytics.*Privacy Consent/ });
@@ -136,4 +156,5 @@ async function main() {
   }
 }
 exports.setup = setup;
+exports.evidence = evidence;
 if (require.main === module) main().then(() => process.exit(0), e => { console.error(e); process.exit(1); });

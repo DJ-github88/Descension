@@ -16,7 +16,7 @@ import useMapStore from '../../../store/mapStore';
 import { registerStore } from '../../../store/storeRegistry';
 import { selectOwnerAttachment } from '../../../services/actorConsequenceService';
 import { resetUnresolvedForTests } from '../../../services/consumableCondition';
-import { createRoom, REFUSAL } from '../../../services/__tests__/support/sharedRoomFixture';
+import { createRoom, REFUSAL } from '../../../services/__test_support__/sharedRoomFixture';
 
 const mockInventory = { items: [], removeItem: jest.fn() };
 const mockChat = { notifications: { combat: [] }, addNotification: jest.fn(), addCombatNotification: jest.fn() };

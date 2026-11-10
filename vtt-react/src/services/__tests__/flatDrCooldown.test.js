@@ -49,7 +49,7 @@ test('bounds, save, nonplain direct and legacy timing stay refused; structured e
   expect(explainExecution(record(legacy), { shared: true }).state).toBe(STATES.UNSUPPORTED);
 });
 test('no-cooldown standalone/damage/healing definition and descriptor equal actual frozen-base compiler outputs', () => {
-  const pinned = require('./support/flatDrCooldownBase.json');
+  const pinned = require('../__test_support__/flatDrCooldownBase.json');
   for (const direct of [null, 'damage', 'healing']) {
     const d = wizard(direct); delete d.cooldownConfig;
     const mapped = definitionFromWizard(record(d), opts), compiled = registry().compileDefinition(mapped.definition), base = pinned[String(direct)];

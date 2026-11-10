@@ -535,7 +535,7 @@ export function buildApproval({ support, tokens, sourceRef, targetRef, targetRef
   if (selfHealing && (!sameExactRef(sourceRef, targetRef) || targetRef.kind !== 'character' || support.kind !== 'healing')) {
     throw Error('This self-targeted healing ability applies only to your own exact primary character.');
   }
-  if (!selfHealing && isAuthored(support) && sameExactRef(sourceRef, targetRef)) {
+  if (!selfHealing && isAuthored(support) && support.kind === 'healing' && sameExactRef(sourceRef, targetRef)) {
     throw Error('This authored ability does not permit self targeting.');
   }
   if (formula && !selfHealing && (pcHealing ? (targetRef.kind !== 'character' || sameExactRef(sourceRef, targetRef) || support.kind !== 'healing')

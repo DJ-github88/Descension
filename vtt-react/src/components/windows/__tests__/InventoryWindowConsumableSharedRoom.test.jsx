@@ -16,7 +16,7 @@ import usePartyStore from '../../../store/partyStore';
 import useMapStore from '../../../store/mapStore';
 import { registerStore } from '../../../store/storeRegistry';
 import { resetUnresolvedForTests, isHeld } from '../../../services/consumableCondition';
-import { createRoom, REFUSAL } from '../../../services/__tests__/support/sharedRoomFixture';
+import { createRoom, REFUSAL } from '../../../services/__test_support__/sharedRoomFixture';
 
 jest.mock('../../spellcrafting-wizard/components/library/AuthoredAdmission', () => () => <div data-testid="admission" />);
 
