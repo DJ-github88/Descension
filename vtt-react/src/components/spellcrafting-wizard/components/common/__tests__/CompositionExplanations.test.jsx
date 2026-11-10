@@ -99,7 +99,7 @@ describe('Wizard Review explains the installed classes from the real Wizard stat
     expect(box(periodicSave).dataset.state).toBe(STATES.UNSUPPORTED);
     expect(box(periodicSave).textContent).toMatch(/A save on a periodic effect stays manual/);
     const attributeCooldown = spell({ kind: 'movement', cd: 2 });
-    attributeCooldown.controlConfig.authoredCondition = { profile: 'authored-effect:v1', effect: 'attribute', attribute: 'agility', attributeAmount: -2, label: 'Leaden', expiryPolicy: 'gm-manual', durationText: 'x', gmNote: 'y' };
+    attributeCooldown.controlConfig.authoredCondition = { profile: 'authored-effect:v1', effect: 'attribute', attribute: 'agility', attributeAmount: -2, label: 'Leaden', expiryPolicy: 'gm-manual', durationText: 'x', gmNote: 'y', save: SAVE };
     const refused = renderReview(attributeCooldown).container;
     expect(box(refused).dataset.state).toBe(STATES.UNSUPPORTED);
     expect(box(refused).textContent).toMatch(/Cooldowns currently require/);

@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen, within } from '@testing-library/react';
 import { CLASS_DATA_MAP } from '../../../../../data/classSpellGenerator';
 import { catalogueDraft } from '../../../../../services/catalogueAbility.cjs';
-import { setAreaRollProposalForTest, EFFECT_CAPABILITY } from '../../../../../services/authoredAbility';
+import { setAreaRollProposalForTest, setAreaRollApprovalForTest, EFFECT_CAPABILITY } from '../../../../../services/authoredAbility';
 import { serializeSpell, deserializeSpell } from '../../../core/utils/spellSerializer';
 import { explainExecution, authoredInventory, readableReason, isCreatureRef, STATES } from '../../../utils/executionCompatibility';
 import ExecutionCompatibility from '../ExecutionCompatibility';
@@ -32,7 +32,7 @@ const transform = () => base({ name: 'Wolf Shape', effectTypes: ['transformation
 const area = () => base({ name: 'Arcane Pulse', typeConfig: { castTimeType: 'IMMEDIATE', school: 'arcane' }, damageConfig: { damageType: 'direct', elementType: 'arcane', formula: '2d6', resolution: 'DICE' },
   targetingConfig: { targetingType: 'area', aoeShape: 'circle', aoeParameters: { radius: 15 }, rangeType: 'ranged', rangeDistance: 30, targetRestrictions: ['enemy'], maxTargets: 8 } });
 
-afterEach(() => { setAreaRollProposalForTest(false); useGameStore.setState({ isInMultiplayer: false, isGMMode: false }); });
+afterEach(() => { setAreaRollProposalForTest(false); setAreaRollApprovalForTest(undefined); useGameStore.setState({ isInMultiplayer: false, isGMMode: false }); });
 
 describe('states come only from the existing validator', () => {
   test('supported immediate ability: executable, no manual parts, price and target shown', () => {
@@ -59,10 +59,12 @@ describe('states come only from the existing validator', () => {
     expect(explainExecution(prepared.draft, { ...ctx, classId: 'minstrel' }).state).toBe(STATES.UNSUPPORTED);
   });
   test('gated M6A area spell is blocked pending the recorded decision; once approved it is partial with per-target adjudication', () => {
+    setAreaRollApprovalForTest(null);
     const blocked = explainExecution(wrap(area()), ctx);
     expect(blocked.state).toBe(STATES.BLOCKED);
     expect(blocked.reasons[0].text).toMatch(/awaits creator confirmation/);
     expect(blocked.reasons[0].label).toBe('First detected blocker');
+    setAreaRollApprovalForTest(undefined);
     setAreaRollProposalForTest(true);
     const open = explainExecution(wrap(area()), ctx);
     expect(open.state).toBe(STATES.PARTIAL);
@@ -129,6 +131,7 @@ describe('wording never overclaims', () => {
     expect(text).not.toMatch(/fully automat|can run this ability|(?<!not say )you can cast|ready to cast|will execute/i);
   });
   test('every unsupported or blocked result is labelled the first detected blocker and not a full diagnosis', () => {
+    setAreaRollApprovalForTest(null);
     for (const make of [periodic, summon, transform, area]) {
       const view = explainExecution(wrap(make()), ctx);
       expect(view.reasons[0].label).toBe('First detected blocker');
